@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::9c2b9abd4591874af39a2bded9b8dab6, core\Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 306
-    '    Code Lines: 185 (60.46%)
-    ' Comment Lines: 85 (27.78%)
-    '    - Xml Docs: 92.94%
-    ' 
-    '   Blank Lines: 36 (11.76%)
-    '     File Size: 13.96 KB
+' Summaries:
 
 
-    '     Module NucleicAcidStaticsProperty
-    ' 
-    '         Function: __circular, __contentCommon, __liner, ATPercent, basePercent
-    '                   Count, GC_Content, (+3 Overloads) GCContent, GCData, (+2 Overloads) GetCompositionVector
-    '                   Tm
-    '         Delegate Function
-    ' 
-    '             Function: GCSkew, removesNA
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 306
+'    Code Lines: 185 (60.46%)
+' Comment Lines: 85 (27.78%)
+'    - Xml Docs: 92.94%
+' 
+'   Blank Lines: 36 (11.76%)
+'     File Size: 13.96 KB
+
+
+'     Module NucleicAcidStaticsProperty
+' 
+'         Function: __circular, __contentCommon, __liner, ATPercent, basePercent
+'                   Count, GC_Content, (+3 Overloads) GCContent, GCData, (+2 Overloads) GetCompositionVector
+'                   Tm
+'         Delegate Function
+' 
+'             Function: GCSkew, removesNA
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -75,7 +75,7 @@ Namespace SequenceModel.NucleotideModels
     <Package("NucleicAcid.Property", Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module NucleicAcidStaticsProperty
 
-        ReadOnly defaultProperty As New [Default](Of  NtProperty)(AddressOf GCSkew)
+        ReadOnly defaultProperty As New [Default](Of NtProperty)(AddressOf GCSkew)
 
         ''' <summary>
         ''' 批量计算出GCSkew或者GC%
@@ -102,7 +102,7 @@ Namespace SequenceModel.NucleotideModels
             End With
 
             Return LinqAPI.Exec(Of NamedValue(Of Double())) _
- _
+                                                            _
                 () <= From g
                       In LQuery
                       Select New NamedValue(Of Double()) With {
@@ -154,14 +154,18 @@ Namespace SequenceModel.NucleotideModels
         ''' <returns>A, T, G, C</returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("CompositionVector")>
         Public Function GetCompositionVector(Sequence As Char()) As Integer()
-            Dim A As Integer = (From ch In Sequence Where ch = "A"c Select 1).Count
-            Dim T As Integer = (From ch In Sequence Where ch = "T"c Select 1).Count
-            Dim G As Integer = (From ch In Sequence Where ch = "G"c Select 1).Count
-            Dim C As Integer = (From ch In Sequence Where ch = "C"c Select 1).Count
+            Dim A As Integer = Aggregate ch As Char In Sequence Where ch = "A"c Into Count
+            Dim T As Integer = Aggregate ch As Char In Sequence Where ch = "T"c Into Count
+            Dim G As Integer = Aggregate ch As Char In Sequence Where ch = "G"c Into Count
+            Dim C As Integer = Aggregate ch As Char In Sequence Where ch = "C"c Into Count
 
             Return New Integer() {A, T, G, C}
+        End Function
+
+        <Extension>
+        Public Function NucleotideFrequencies(nt As String) As Dictionary(Of Char, Double)
+            Return nt.GroupBy(Function(c) c).ToDictionary(Function(c) c.Key, Function(c) c.Count / nt.Length)
         End Function
 
         ''' <summary>
@@ -221,7 +225,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GCContent(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
-            Return __contentCommon(SequenceModel, SlideWindowSize, Steps, Circular, {"G", "C"})
+            Return ContentCommon(SequenceModel, SlideWindowSize, Steps, Circular, {"G", "C"})
         End Function
 
         ''' <summary>
@@ -233,11 +237,11 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="Circular"></param>
         ''' <param name="base">必须是大写的字符</param>
         ''' <returns></returns>
-        Private Function __contentCommon(SequenceModel As IPolymerSequenceModel,
-                                         SlideWindowSize As Integer,
-                                         Steps As Integer,
-                                         Circular As Boolean,
-                                         base As Char()) As Double()
+        Private Function ContentCommon(SequenceModel As IPolymerSequenceModel,
+                                       SlideWindowSize As Integer,
+                                       Steps As Integer,
+                                       Circular As Boolean,
+                                       base As Char()) As Double()
             If Circular Then
                 Return __circular(SequenceModel, SlideWindowSize, Steps, base)
             Else
@@ -302,7 +306,7 @@ Namespace SequenceModel.NucleotideModels
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("AT%")>
         Public Function ATPercent(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
-            Return __contentCommon(SequenceModel, SlideWindowSize, Steps, Circular, {"A", "T"})
+            Return ContentCommon(SequenceModel, SlideWindowSize, Steps, Circular, {"A", "T"})
         End Function
 
         Public Delegate Function NtProperty(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()

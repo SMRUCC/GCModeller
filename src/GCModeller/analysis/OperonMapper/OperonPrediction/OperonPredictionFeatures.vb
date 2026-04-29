@@ -351,11 +351,11 @@ Namespace ContextModel
             Dim maxSimilarity As Integer = 0
 
             ' 遍历两个基因的GO术语对，寻找最大路径交集
-            For Each term1 In gene1.GO_Terms
+            For Each term1 As String In gene1.GO_Terms
                 Dim ancestors1 As New HashSet(Of String) From {term1}
                 AddAncestorTerms(term1, ancestors1)
 
-                For Each term2 In gene2.GO_Terms
+                For Each term2 As String In gene2.GO_Terms
                     Dim ancestors2 As New HashSet(Of String) From {term2}
                     AddAncestorTerms(term2, ancestors2)
 
