@@ -27,7 +27,7 @@
   <Project Path="SequenceAlignment.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="test/test.vbproj">
+  <Project Path="test/test.vbproj" Id="bf631ba9-f32f-4445-9e06-dad57452e826">
     <BuildType Solution="gcmodeller_desktop|*" Project="Release" />
     <BuildType Solution="mzkit_win32|*" Project="Release" />
     <BuildType Solution="Rsharp_app_release|*" Project="Release" />
