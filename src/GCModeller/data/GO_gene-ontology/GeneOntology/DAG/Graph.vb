@@ -87,7 +87,7 @@ Namespace DAG
         ''' <summary>
         ''' Creates GO DAG graph from ``go.obo`` file.
         ''' </summary>
-        ''' <param name="path$">File path of the GO database: ``go.obo``</param>
+        ''' <param name="path">File path of the GO database: ``go.obo``</param>
         Sub New(path$)
             Call Me.New(GO_OBO.LoadDocument(path$).terms, trace:=path)
         End Sub
@@ -107,6 +107,11 @@ Namespace DAG
                               End Function)
             file = trace
         End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetDAG() As Dictionary(Of String, TermNode)
+            Return New Dictionary(Of String, TermNode)(DAG)
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String

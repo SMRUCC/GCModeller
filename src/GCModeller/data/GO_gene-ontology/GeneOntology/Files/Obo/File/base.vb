@@ -60,8 +60,7 @@ Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection
 
 Namespace OBO
 
-    Public MustInherit Class base
-        Implements INamedValue
+    Public MustInherit Class base : Implements INamedValue
 
         ''' <summary>
         ''' Every term has a term name—e.g. mitochondrion, glucose transport, amino acid binding—and a unique zero-padded seven digit 

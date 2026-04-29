@@ -64,6 +64,10 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Data.GeneOntology
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
+Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Namespace ContextModel
 
@@ -95,7 +99,7 @@ Namespace ContextModel
         ''' <summary>
         ''' GO层次结构字典：GO术语 -> 父术语列表
         ''' </summary>
-        ReadOnly goHierarchy As Dictionary(Of String, List(Of String))
+        ReadOnly goHierarchy As Dictionary(Of String, TermNode)
         ReadOnly motifs As String() = {"TTT", "ATA", "TTTT", "TATA", "TTTTT", "TTTTC"}
         ''' <summary>
         ''' 基因存在概率字典
@@ -112,9 +116,10 @@ Namespace ContextModel
         ''' </remarks>
         ReadOnly nucleotideFrequencies As Dictionary(Of Char, Double)
 
-        Sub New(referenceGenomes As IEnumerable(Of GenomeInfo), goHierarchy As Dictionary(Of String, List(Of String)))
+        Sub New(referenceGenomes As IEnumerable(Of GenomeInfo), goHierarchy As GO_OBO, phylumProbabilities As Dictionary(Of String, Dictionary(Of String, Double)))
             Me.referenceGenomes = referenceGenomes.ToArray
-            Me.goHierarchy = goHierarchy
+            Me.goHierarchy = New DAG.Graph(goHierarchy.AsEnumerable).GetDAG
+            Me.phylumProbabilities = phylumProbabilities
         End Sub
 
         ''' <summary>
@@ -146,7 +151,7 @@ Namespace ContextModel
 
             ' 5. DNA基序频率 (使用论文中提到的关键基序)
             For Each motif As String In motifs
-                features.Motifs($"Motif_{motif}") = CalculateMotifFrequency(intergenicSequence, motif)
+                features.Motifs(motif) = CalculateMotifFrequency(intergenicSequence, motif)
             Next
 
             Return features
@@ -373,9 +378,9 @@ Namespace ContextModel
         ''' <param name="termSet">用于收集祖先术语的HashSet</param>
         Private Sub AddAncestorTerms(term As String, termSet As HashSet(Of String))
             If goHierarchy.ContainsKey(term) Then
-                For Each parentTerm In goHierarchy(term)
-                    If termSet.Add(parentTerm) Then
-                        AddAncestorTerms(parentTerm, termSet)
+                For Each parentTerm As is_a In goHierarchy(term).is_a
+                    If termSet.Add(parentTerm.term_id) Then
+                        AddAncestorTerms(parentTerm.term_id, termSet)
                     End If
                 Next
             End If
