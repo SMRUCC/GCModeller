@@ -92,7 +92,9 @@ Namespace ContextModel
         ''' <param name="downstreamGene"></param>
         ''' <returns></returns>
         Public Shared Function CalculateIntergenicDistance(upstreamGene As GeneInfo, downstreamGene As GeneInfo) As Integer
-            Return downstreamGene.Start - (upstreamGene.[End] + 1)
+            Dim rawDistance As Integer = downstreamGene.Start - (upstreamGene.[End] + 1)
+            ' 根据论文，应用 -50 和 250 的截断值
+            Return Math.Max(-50, Math.Min(250, rawDistance))
         End Function
 
         ''' <summary>
@@ -119,7 +121,7 @@ Namespace ContextModel
         Public Shared Function CalculateNeighborhoodConservation(gene1 As GeneInfo, gene2 As GeneInfo, referenceGenomes As List(Of GenomeInfo), phylumProbabilities As Dictionary(Of String, Dictionary(Of String, Double))) As Double
             Dim totalScore As Double = 0.0
 
-            For Each genome In referenceGenomes
+            For Each genome As GenomeInfo In referenceGenomes
                 Dim p1 As Double = If(phylumProbabilities.ContainsKey(gene1.GeneID) AndAlso
                                  phylumProbabilities(gene1.GeneID).ContainsKey(genome.Phylum),
                                  phylumProbabilities(gene1.GeneID)(genome.Phylum), 0.0)
@@ -140,8 +142,14 @@ Namespace ContextModel
                 ElseIf gene1Present AndAlso Not gene2Present Then
                     Pij = p1 * (1 - p2)
                 Else
-                    Dim dk As Integer = Math.Abs(genome.GenePositions(gene1.GeneID) - genome.GenePositions(gene2.GeneID)) - 1
-                    Pij = (p1 * p2 * dk * (2 * genome.GeneCount - dk - 1)) / (genome.GeneCount * (genome.GeneCount - 1))
+                    ' 基因均存在的情况，需确保位置索引可用
+                    If genome.GenePositions.ContainsKey(gene1.GeneID) AndAlso genome.GenePositions.ContainsKey(gene2.GeneID) Then
+                        Dim dk As Integer = Math.Abs(genome.GenePositions(gene1.GeneID) - genome.GenePositions(gene2.GeneID)) - 1
+                        Pij = (p1 * p2 * dk * (2 * genome.GeneCount - dk - 1)) / (genome.GeneCount * (genome.GeneCount - 1))
+                    Else
+                        ' 如果位置数据缺失，退化为仅考虑存在概率的乘积
+                        Pij = p1 * p2
+                    End If
                 End If
 
                 totalScore += Math.Log(If(Pij > 0, Pij, 0.0000000001)) ' 避免log(0)
@@ -175,6 +183,39 @@ Namespace ContextModel
                 End If
             Next
             Return distance
+        End Function
+
+        ''' <summary>
+        ''' 3. 计算系统发育距离 (Shannon Entropy Distance)
+        ''' DE = n - (n - DH) * Sqrt(E(p) / p)
+        ''' </summary>
+        ''' <param name="DH">
+        ''' distance result of <see cref="CalculatePhylogeneticDistanceHamming"/>
+        ''' </param>
+        Public Shared Function CalculatePhylogeneticDistanceShannon(gene1 As GeneInfo, gene2 As GeneInfo, genomeIDs As List(Of String), DH As Integer) As Double
+            Dim n As Integer = genomeIDs.Count
+
+            ' 计算 p: 0 identities 的比例
+            Dim zeroCount As Integer = 0
+            For Each genomeID In genomeIDs
+                Dim g1Present As Boolean = gene1.PhylogeneticProfile.ContainsKey(genomeID) AndAlso gene1.PhylogeneticProfile(genomeID)
+                Dim g2Present As Boolean = gene2.PhylogeneticProfile.ContainsKey(genomeID) AndAlso gene2.PhylogeneticProfile(genomeID)
+                ' 两者均不存在则为 0 identity
+                If Not g1Present AndAlso Not g2Present Then
+                    zeroCount += 1
+                End If
+            Next
+
+            Dim p As Double = zeroCount / n
+            If p = 0 OrElse p = 1 Then Return n - (n - DH) ' 边界情况处理
+
+            ' E(p) = -p*log(p) - (1-p)*log(1-p)
+            Dim Ep As Double = -p * Math.Log(p) - (1 - p) * Math.Log(1 - p)
+
+            ' DE = n - (n - DH) * Sqrt(E(p) / p)
+            Dim DE As Double = n - (n - DH) * Math.Sqrt(Ep / p)
+
+            Return DE
         End Function
 
         ''' <summary>
@@ -228,29 +269,30 @@ Namespace ContextModel
         ''' <param name="goHierarchy">GO术语 -> 父术语列表</param>
         ''' <returns></returns>
         Public Shared Function CalculateGOSimilarity(gene1 As GeneInfo, gene2 As GeneInfo, goHierarchy As Dictionary(Of String, List(Of String))) As Integer
-            If gene1.GO_Terms Is Nothing OrElse gene2.GO_Terms Is Nothing OrElse
-           gene1.GO_Terms.Count = 0 OrElse gene2.GO_Terms.Count = 0 Then
+            If gene1.GO_Terms Is Nothing OrElse gene2.GO_Terms Is Nothing OrElse gene1.GO_Terms.Count = 0 OrElse gene2.GO_Terms.Count = 0 Then
                 Return 0
             End If
 
             Dim maxSimilarity As Integer = 0
 
-            ' 获取两个基因的所有GO术语（包括祖先术语）
-            Dim allTerms1 As New HashSet(Of String)(gene1.GO_Terms)
-            Dim allTerms2 As New HashSet(Of String)(gene2.GO_Terms)
+            ' 遍历两个基因的GO术语对，寻找最大路径交集
+            For Each term1 In gene1.GO_Terms
+                Dim ancestors1 As New HashSet(Of String) From {term1}
+                AddAncestorTerms(term1, goHierarchy, ancestors1)
 
-            ' 添加祖先术语
-            For Each term In gene1.GO_Terms
-                AddAncestorTerms(term, goHierarchy, allTerms1)
+                For Each term2 In gene2.GO_Terms
+                    Dim ancestors2 As New HashSet(Of String) From {term2}
+                    AddAncestorTerms(term2, goHierarchy, ancestors2)
+
+                    ' 计算当前两条路径的共同祖先数
+                    Dim commonTerms As Integer = ancestors1.Intersect(ancestors2).Count()
+                    If commonTerms > maxSimilarity Then
+                        maxSimilarity = commonTerms
+                    End If
+                Next
             Next
 
-            For Each term In gene2.GO_Terms
-                AddAncestorTerms(term, goHierarchy, allTerms2)
-            Next
-
-            ' 计算共同术语数量
-            Dim commonTerms As Integer = allTerms1.Intersect(allTerms2).Count()
-            Return commonTerms
+            Return maxSimilarity
         End Function
 
         ''' <summary>
@@ -268,6 +310,22 @@ Namespace ContextModel
                 Next
             End If
         End Sub
+
+        ''' <summary>
+        ''' 判断基因对属于哪个距离分组 (用于选择特定的分类器)
+        ''' </summary>
+        Public Shared Function GetDistanceGroup(upstreamGene As GeneInfo, downstreamGene As GeneInfo) As IntergenicDistanceGroup?
+            ' 1. 必须在同一条链上才可能是Operon
+            If upstreamGene.Strand <> downstreamGene.Strand Then
+                Return Nothing
+            End If
+
+            Dim dist As Integer = CalculateIntergenicDistance(upstreamGene, downstreamGene)
+
+            If dist < 40 Then Return IntergenicDistanceGroup.U40
+            If dist > 200 Then Return IntergenicDistanceGroup.O200
+            Return IntergenicDistanceGroup.U200
+        End Function
 
         ''' <summary>
         ''' 计算所有特征的综合函数
@@ -288,6 +346,10 @@ Namespace ContextModel
                                                     genomeIDs As List(Of String),
                                                     nucleotideFrequencies As Dictionary(Of Char, Double),
                                                     goHierarchy As Dictionary(Of String, List(Of String))) As FeatureScores
+            ' 验证链方向
+            If upstreamGene.Strand <> downstreamGene.Strand Then
+                Return Nothing ' 或者抛出异常
+            End If
 
             Dim features As New FeatureScores With {
                 .Motifs = New Dictionary(Of String, Double),
@@ -295,7 +357,8 @@ Namespace ContextModel
                 .NeighborhoodConservation = CalculateNeighborhoodConservation(upstreamGene, downstreamGene, referenceGenomes, phylumProbabilities), ' 2. 基因邻域保守性
                 .PhylogeneticDistance = CalculatePhylogeneticDistanceHamming(upstreamGene, downstreamGene, genomeIDs), ' 3. 系统发育距离 (Hamming)
                 .LengthRatio = CalculateLengthRatio(upstreamGene, downstreamGene),' 4. 基因长度比
-                .GOSimilarity = CalculateGOSimilarity(upstreamGene, downstreamGene, goHierarchy) ' 6. GO功能相似性
+                .GOSimilarity = CalculateGOSimilarity(upstreamGene, downstreamGene, goHierarchy),' 6. GO功能相似性
+                .PhylogeneticDistanceShannon = CalculatePhylogeneticDistanceShannon(upstreamGene, downstreamGene, genomeIDs, .PhylogeneticDistance)
             }
 
             ' 5. DNA基序频率 (使用论文中提到的关键基序)

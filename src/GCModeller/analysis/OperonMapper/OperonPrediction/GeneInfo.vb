@@ -22,4 +22,13 @@
         Public GeneCount As Integer
         Public GenePositions As Dictionary(Of String, Integer) ' 基因ID -> 位置索引
     End Structure
+
+    ''' <summary>
+    ''' 基因间距离分组枚举 (论文核心策略)
+    ''' </summary>
+    Public Enum IntergenicDistanceGroup
+        U40   ' < 40 nt
+        U200  ' 40 - 200 nt
+        O200  ' > 200 nt
+    End Enum
 End Namespace
