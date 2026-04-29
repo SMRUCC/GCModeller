@@ -57,7 +57,7 @@ Namespace MSA.Tabular
                     End Select
                 Else
                     ' msa data
-                    msa_seqs.Add(line.GetTagValue(" ", trim:=True))
+                    Call msa_seqs.Add(line.GetTagValue(" ", trim:=True))
                 End If
             Next
 
