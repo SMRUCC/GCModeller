@@ -1,11 +1,20 @@
 ﻿
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace MSA.Tabular
 
     Public Module Reader
+
+        Public Iterator Function Read(filepath As String) As IEnumerable(Of Stockholm)
+            Using file As Stream = filepath.OpenReadonly
+                For Each motif As Stockholm In file.Read
+                    Yield motif
+                Next
+            End Using
+        End Function
 
         <Extension>
         Public Iterator Function Read(s As Stream) As IEnumerable(Of Stockholm)
@@ -65,8 +74,8 @@ Namespace MSA.Tabular
                 .comment = comments.JoinBy(" "),
                 .seq_cons = seq_cons,
                 .msa = New MSAOutput With {
-                    .names = msa_seqs.Select(Function(seq) seq.Name).ToArray,
-                    .MSA = msa_seqs.Select(Function(seq) seq.Value).ToArray
+                    .names = msa_seqs.Keys.ToArray,
+                    .MSA = msa_seqs.Values
                 },
                 .metadata = metadata _
                     .ToDictionary(Function(a) a.Key,
