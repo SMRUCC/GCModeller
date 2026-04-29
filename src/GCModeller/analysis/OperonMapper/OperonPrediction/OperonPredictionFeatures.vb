@@ -1,75 +1,68 @@
 ﻿#Region "Microsoft.VisualBasic::d17f01ddafe1b58f291fed5707766f53, analysis\OperonMapper\FeatureScores.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 252
-    '    Code Lines: 135 (53.57%)
-    ' Comment Lines: 84 (33.33%)
-    '    - Xml Docs: 73.81%
-    ' 
-    '   Blank Lines: 33 (13.10%)
-    '     File Size: 12.76 KB
+' Summaries:
 
 
-    '     Class OperonPredictionFeatures
-    ' 
-    '         Function: CalculateAllFeatures, CalculateGOSimilarity, CalculateIntergenicDistance, CalculateLengthRatio, CalculateMotifFrequency
-    '                   CalculateNeighborhoodConservation, CalculatePhylogeneticDistanceHamming
-    ' 
-    '         Sub: AddAncestorTerms
-    '         Structure GeneInfo
-    ' 
-    ' 
-    ' 
-    '         Structure GenomeInfo
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 252
+'    Code Lines: 135 (53.57%)
+' Comment Lines: 84 (33.33%)
+'    - Xml Docs: 73.81%
+' 
+'   Blank Lines: 33 (13.10%)
+'     File Size: 12.76 KB
+
+
+'     Class OperonPredictionFeatures
+' 
+'         Function: CalculateAllFeatures, CalculateGOSimilarity, CalculateIntergenicDistance, CalculateLengthRatio, CalculateMotifFrequency
+'                   CalculateNeighborhoodConservation, CalculatePhylogeneticDistanceHamming
+' 
+'         Sub: AddAncestorTerms
+'         Structure GeneInfo
+' 
+' 
+' 
+'         Structure GenomeInfo
+' 
+' 
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
-
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.ComponentModel.Annotation
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.ContextModel
-Imports std = System.Math
 
 Namespace ContextModel
 
@@ -92,7 +85,12 @@ Namespace ContextModel
     ''' 
     Public Class OperonPredictionFeatures
 
-        ' 1. 计算基因间距离 (Intergenic Distance)
+        ''' <summary>
+        ''' 1. 计算基因间距离 (Intergenic Distance)
+        ''' </summary>
+        ''' <param name="upstreamGene"></param>
+        ''' <param name="downstreamGene"></param>
+        ''' <returns></returns>
         Public Shared Function CalculateIntergenicDistance(upstreamGene As GeneInfo, downstreamGene As GeneInfo) As Integer
             Return downstreamGene.Start - (upstreamGene.[End] + 1)
         End Function
@@ -193,7 +191,13 @@ Namespace ContextModel
             Return Math.Log(upstreamGene.Length / downstreamGene.Length)
         End Function
 
-        ' 5. 计算DNA基序频率 (Motif Frequency)
+        ''' <summary>
+        ''' 5. 计算DNA基序频率 (Motif Frequency)
+        ''' </summary>
+        ''' <param name="intergenicSequence"></param>
+        ''' <param name="motif"></param>
+        ''' <param name="nucleotideFrequencies"></param>
+        ''' <returns></returns>
         Public Shared Function CalculateMotifFrequency(intergenicSequence As String, motif As String, nucleotideFrequencies As Dictionary(Of Char, Double)) As Double
             Dim observedCount As Integer = 0
             Dim motifLength As Integer = motif.Length
@@ -249,7 +253,12 @@ Namespace ContextModel
             Return commonTerms
         End Function
 
-        ' 递归添加祖先GO术语
+        ''' <summary>
+        ''' 递归添加祖先GO术语
+        ''' </summary>
+        ''' <param name="term"></param>
+        ''' <param name="goHierarchy"></param>
+        ''' <param name="termSet"></param>
         Private Shared Sub AddAncestorTerms(term As String, goHierarchy As Dictionary(Of String, List(Of String)), termSet As HashSet(Of String))
             If goHierarchy.ContainsKey(term) Then
                 For Each parentTerm In goHierarchy(term)
@@ -260,39 +269,50 @@ Namespace ContextModel
             End If
         End Sub
 
-        ' 计算所有特征的综合函数
+        ''' <summary>
+        ''' 计算所有特征的综合函数
+        ''' </summary>
+        ''' <param name="upstreamGene"></param>
+        ''' <param name="downstreamGene"></param>
+        ''' <param name="intergenicSequence"></param>
+        ''' <param name="referenceGenomes"></param>
+        ''' <param name="phylumProbabilities"></param>
+        ''' <param name="genomeIDs"></param>
+        ''' <param name="nucleotideFrequencies"></param>
+        ''' <param name="goHierarchy"></param>
+        ''' <returns></returns>
         Public Shared Function CalculateAllFeatures(upstreamGene As GeneInfo, downstreamGene As GeneInfo,
                                                     intergenicSequence As String,
                                                     referenceGenomes As List(Of GenomeInfo),
                                                     phylumProbabilities As Dictionary(Of String, Dictionary(Of String, Double)),
                                                     genomeIDs As List(Of String),
                                                     nucleotideFrequencies As Dictionary(Of Char, Double),
-                                                    goHierarchy As Dictionary(Of String, List(Of String))) As Dictionary(Of String, Double)
+                                                    goHierarchy As Dictionary(Of String, List(Of String))) As FeatureScores
 
-            Dim features As New Dictionary(Of String, Double)
+            Dim features As New FeatureScores With {.Motifs = New Dictionary(Of String, Double)}
 
             ' 1. 基因间距离
-            features("IntergenicDistance") = CalculateIntergenicDistance(upstreamGene, downstreamGene)
+            features.IntergenicDistance = CalculateIntergenicDistance(upstreamGene, downstreamGene)
 
             ' 2. 基因邻域保守性
-            features("NeighborhoodConservation") = CalculateNeighborhoodConservation(
+            features.NeighborhoodConservation = CalculateNeighborhoodConservation(
             upstreamGene, downstreamGene, referenceGenomes, phylumProbabilities)
 
             ' 3. 系统发育距离 (Hamming)
-            features("PhylogeneticDistance") = CalculatePhylogeneticDistanceHamming(
+            features.PhylogeneticDistance = CalculatePhylogeneticDistanceHamming(
             upstreamGene, downstreamGene, genomeIDs)
 
             ' 4. 基因长度比
-            features("LengthRatio") = CalculateLengthRatio(upstreamGene, downstreamGene)
+            features.LengthRatio = CalculateLengthRatio(upstreamGene, downstreamGene)
 
             ' 5. DNA基序频率 (使用论文中提到的关键基序)
             Dim motifs As String() = {"TTT", "ATA", "TTTT", "TATA", "TTTTT", "TTTTC"}
             For Each motif As String In motifs
-                features($"Motif_{motif}") = CalculateMotifFrequency(intergenicSequence, motif, nucleotideFrequencies)
+                features.Motifs($"Motif_{motif}") = CalculateMotifFrequency(intergenicSequence, motif, nucleotideFrequencies)
             Next
 
             ' 6. GO功能相似性
-            features("GOSimilarity") = CalculateGOSimilarity(upstreamGene, downstreamGene, goHierarchy)
+            features.GOSimilarity = CalculateGOSimilarity(upstreamGene, downstreamGene, goHierarchy)
 
             Return features
         End Function
