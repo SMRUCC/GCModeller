@@ -16,7 +16,10 @@ Public Module PhylumProbabilityGenerator
     ''' <returns>嵌套字典：基因ID -> (门 -> 存在概率pik)</returns>
     ''' 
     <Extension>
-    Public Function GeneratePhylumProbabilities(hits As IEnumerable(Of BiDirectionalBesthit), gene_source As Dictionary(Of String, String), genome_phylum As Dictionary(Of String, String), Optional identityThreshold As Double = 0.0) As Dictionary(Of String, Dictionary(Of String, Double))
+    Public Function GeneratePhylumProbabilities(hits As IEnumerable(Of BiDirectionalBesthit),
+                                                gene_source As Dictionary(Of String, String),
+                                                genome_phylum As Dictionary(Of String, String),
+                                                Optional identityThreshold As Double = 0.0) As Dictionary(Of String, Dictionary(Of String, Double))
         ' 1. 初始化并查集，进行基因家族聚类
         Dim uf As New UnionFind()
 
@@ -42,7 +45,11 @@ Public Module PhylumProbabilityGenerator
     ''' <returns>嵌套字典：基因ID -> (门 -> 存在概率pik)</returns>
     ''' 
     <Extension>
-    Public Function GeneratePhylumProbabilities(orthologGroup As UnionFind, gene_source As Dictionary(Of String, String), genome_phylum As Dictionary(Of String, String), Optional identityThreshold As Double = 0.0) As Dictionary(Of String, Dictionary(Of String, Double))
+    Public Function GeneratePhylumProbabilities(orthologGroup As UnionFind,
+                                                gene_source As Dictionary(Of String, String),
+                                                genome_phylum As Dictionary(Of String, String),
+                                                Optional identityThreshold As Double = 0.0) As Dictionary(Of String, Dictionary(Of String, Double))
+
         ' 获取聚类结果：Key为家族代表基因ID，Value为该家族所有基因的列表
         Dim clusters As Dictionary(Of String, List(Of String)) = orthologGroup.GetClusters()
 
