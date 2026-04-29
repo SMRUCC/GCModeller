@@ -37,7 +37,7 @@ Namespace MSA.Tabular
                     Dim tuple As NamedValue(Of String) = line.GetTagValue(" ")
 
                     Select Case tuple.Name
-                        Case "GF"
+                        Case "#=GF"
                             tuple = tuple.Value.GetTagValue(" ", trim:=True)
 
                             If tuple.Name = "CC" Then
@@ -49,18 +49,20 @@ Namespace MSA.Tabular
 
                                 Call metadata(tuple.Name).Add(tuple.Value)
                             End If
-                        Case "GS"
+                        Case "#=GS"
                             Dim cols As String() = tuple.Value.StringSplit("\s+")
                             Dim name As String = cols(0)
                             Dim acc As String = cols.Last
 
                             source_names(name) = acc
-                        Case "GC"
+                        Case "#=GC"
                             tuple = tuple.Value.GetTagValue(" ", trim:=True)
 
                             If tuple.Name = "seq_cons" Then
                                 seq_cons = tuple.Value
                             End If
+                        Case "#=GR"
+                            ' do nothing, skip
                         Case Else
                             Throw New NotImplementedException(line)
                     End Select

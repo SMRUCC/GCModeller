@@ -1,6 +1,10 @@
-﻿Module Module4
+﻿Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA.Tabular
 
-    Sub Main()
+Module Module4
 
+    Public Sub Main()
+        Dim motifs = Reader.Read("C:\Users\Administrator\Downloads\Pfam-A.seed").ToArray
+
+        Pause()
     End Sub
 End Module

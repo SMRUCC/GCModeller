@@ -4,6 +4,10 @@
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;CellaLAB-Desktop</Configurations>
     <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
+    <UseApplicationFramework>True</UseApplicationFramework>
+    <OutputType>Exe</OutputType>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <StartupObject>test.Module4</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

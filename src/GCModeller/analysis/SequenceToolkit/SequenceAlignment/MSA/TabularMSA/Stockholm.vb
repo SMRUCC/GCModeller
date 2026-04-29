@@ -74,5 +74,9 @@ Namespace MSA.Tabular
                 Return msa.PopulateAlignment
             End If
         End Function
+
+        Public Overrides Function ToString() As String
+            Return seq_cons
+        End Function
     End Class
 End Namespace
