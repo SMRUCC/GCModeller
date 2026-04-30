@@ -57,6 +57,7 @@
                 If IonicStrength < 0 Then Return False
                 If SubstrateConc < 0 Or ProductConc < 0 Or CofactorConc < 0 Then Return False
                 If CrowdingFactor <= 0 Then Return False
+                If Viscosity <= 0 Then Return False
                 Return True
             End Function
         End Class
@@ -89,8 +90,17 @@
             Public Property Ki_sub As Double = 0.01            ' 底物抑制常数 (M)
             Public Property Ki_prod_comp As Double = 0.005     ' 产物竞争抑制常数 (M)
             Public Property Ki_prod_uncomp As Double = 0.005   ' 产物非竞争抑制常数 (M)
+            ''' <summary>
+            ''' 是否需要辅因子
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property RequiresCofactor As Boolean = False
             Public Property Ka_cofactor As Double = 0.001      ' 辅因子激活常数 (M)
             Public Property n_cofactor As Double = 1.0         ' 辅因子结合协同性 (Hill系数)
+
+            ' 环境依赖度参数 
+            Public Property crowding_sensitivity As Double = 0.2 ' 拥挤敏感度 (0~1)
+            Public Property viscosity_sensitivity As Double = 0.1 ' 粘度敏感度 (0~1), 1为纯扩散控制
 
             ' 交互作用参数
             Public Property alpha_temp_pH As Double = 0.1      ' 温度-pH交互作用系数
@@ -108,7 +118,7 @@
                 If Ea <= 0 Or Ea > 200000 Then Return False ' 合理活化能范围
                 If pKa1 >= pKa2 Then Return False
                 If Ki_sub <= 0 Or Ki_prod_comp <= 0 Or Ki_prod_uncomp <= 0 Then Return False
-                If Ka_cofactor <= 0 Then Return False
+                If RequiresCofactor AndAlso Ka_cofactor <= 0 Then Return False
                 Return True
             End Function
         End Class
@@ -117,12 +127,7 @@
         ''' 计算修正后的 Km 值
         ''' Km_corrected = Km_ref × F_total
         ''' </summary>
-        Public Shared Function CalculateCorrectedKm(
-        Km_ref As Double,
-        env As EnvironmentState,
-        enzyme As EnzymeCharacteristics
-    ) As Double
-
+        Public Shared Function CalculateCorrectedKm(Km_ref As Double, env As EnvironmentState, enzyme As EnzymeCharacteristics) As Double
             ' 参数验证
             If Not env.Validate() Or Not enzyme.Validate() Then
                 Throw New ArgumentException("环境参数或酶特征参数无效")
@@ -151,15 +156,20 @@
             Dim F_crowding As Double = CalculateCrowdingEffect(env.CrowdingFactor)
 
             ' 7. 温度-pH交互作用
-            Dim F_temp_pH_interaction As Double = CalculateTemperaturepHInteraction(
-            env.Temperature, env.pH, enzyme)
+            Dim F_temp_pH_interaction As Double = CalculateTemperaturepHInteraction(env.Temperature, env.pH, enzyme)
 
             ' 8. 动态适应效应
             Dim F_dynamic As Double = CalculateDynamicAdaptationEffect(env, enzyme)
 
             ' 合成总修正因子
-            Dim F_total As Double = F_temp * F_pH * F_ion * F_sub_inh *
-                               F_prod_comp * F_crowding * F_temp_pH_interaction * F_dynamic
+            Dim F_total As Double = F_temp _
+                * F_pH _
+                * F_ion _
+                * F_sub_inh _
+                * F_prod_comp _
+                * F_crowding _
+                * F_temp_pH_interaction _
+                * F_dynamic
 
             ' 边界检查
             F_total = Math.Max(0.01, Math.Min(100.0, F_total))
@@ -171,12 +181,7 @@
         ''' 计算修正后的 kcat 值
         ''' kcat_corrected = kcat_ref × F_total
         ''' </summary>
-        Public Shared Function CalculateCorrectedKcat(
-        kcat_ref As Double,
-        env As EnvironmentState,
-        enzyme As EnzymeCharacteristics
-    ) As Double
-
+        Public Shared Function CalculateCorrectedKcat(kcat_ref As Double, env As EnvironmentState, enzyme As EnzymeCharacteristics) As Double
             ' 参数验证
             If Not env.Validate() Or Not enzyme.Validate() Then
                 Throw New ArgumentException("环境参数或酶特征参数无效")
