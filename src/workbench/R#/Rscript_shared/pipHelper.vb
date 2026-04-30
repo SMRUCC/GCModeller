@@ -43,6 +43,7 @@ Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA.Tabular
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
@@ -106,6 +107,10 @@ Module pipHelper
                 Return DirectCast(x, FastaFile)
             Case GetType(FastaSeq())
                 Return x
+            Case GetType(Stockholm)
+                Return DirectCast(x, Stockholm).PopulateAlignment
+            Case GetType(Stockholm())
+                Return DirectCast(x, Stockholm()).SelectMany(Function(msa) msa.PopulateAlignment)
             Case Else
                 Return GetFastaSeqs(x, type, env, allowString)
         End Select
