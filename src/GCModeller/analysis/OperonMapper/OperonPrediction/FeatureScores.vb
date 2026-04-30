@@ -35,6 +35,9 @@
         ''' 论文定义: SGO(gi,gj) = max s(Vi,Vj)，即诱导路径中共同术语数的最大值
         ''' </summary>
         Public Property GOSimilarity As Double
+
+        Public Property MetabolicScore As Double
+
         ''' <summary>
         ''' 获取或设置特定DNA基序在基因间区域的归一化频率字典
         ''' 键为基序名称 (如 "Motif_TTTTT")，值为观测次数与期望次数的比值

@@ -64,10 +64,12 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.MetabolicModel
 
 Namespace ContextModel
 
@@ -151,6 +153,78 @@ Namespace ContextModel
             Next
 
             Return features
+        End Function
+
+        ''' <summary>
+        ''' 基于KEGG通路和代谢反应连接性的功能相似性打分
+        ''' 替代原有的GO功能相似性
+        ''' </summary>
+        ''' <param name="gene1">上游基因</param>
+        ''' <param name="gene2">下游基因</param>
+        ''' <param name="ecMaps">EC编号到KEGG Pathway的映射字典 [ec_number => map_id array]</param>
+        ''' <param name="reactions">全局代谢反应集合</param>
+        ''' <returns>综合功能相似性得分</returns>
+        Public Shared Function CalculateKEGGSimilarity(gene1 As GeneInfo, gene2 As GeneInfo, ecMaps As Dictionary(Of String, String()), reactions As MetabolicReaction()) As Double
+            ' 边界条件检查：如果任一基因没有EC注释，则无法计算代谢相似性
+            If gene1.EC_numbers Is Nothing OrElse gene2.EC_numbers Is Nothing OrElse gene1.EC_numbers.Count = 0 OrElse gene2.EC_numbers.Count = 0 Then
+                Return 0.0
+            End If
+
+            ' ---------------------------------------------------------
+            ' Level 2: 计算共享KEGG Pathway得分 (同通路)
+            ' ---------------------------------------------------------
+            Dim pathways1 As New HashSet(Of String)()
+            Dim pathways2 As New HashSet(Of String)()
+
+            ' 收集基因1的所有Pathway
+            For Each ec In gene1.EC_numbers
+                If ecMaps.ContainsKey(ec) Then
+                    For Each mapId In ecMaps(ec)
+                        pathways1.Add(mapId)
+                    Next
+                End If
+            Next
+
+            ' 收集基因2的所有Pathway
+            For Each ec In gene2.EC_numbers
+                If ecMaps.ContainsKey(ec) Then
+                    For Each mapId In ecMaps(ec)
+                        pathways2.Add(mapId)
+                    Next
+                End If
+            Next
+
+            ' 计算交集数量作为Level 2得分
+            Dim pathwayScore As Double = pathways1.Intersect(pathways2).Count()
+
+            ' ---------------------------------------------------------
+            ' Level 1: 计算代谢反应连接性得分 (上下游连续反应)
+            ' ---------------------------------------------------------
+            Dim reactionConnectivityScore As Double = 0.0
+
+            ' 筛选出基因1和基因2分别参与的反应
+            ' 注意：如果reactions列表很大，建议在程序初始化时预构建 Dictionary(Of String, List(Of MetabolicReaction)) 索引以提高性能
+            Dim gene1Reactions = reactions.Where(Function(r) r.ECNumbers IsNot Nothing AndAlso r.ECNumbers.Any(Function(ec) gene1.EC_numbers.Contains(ec))).ToList()
+            Dim gene2Reactions = reactions.Where(Function(r) r.ECNumbers IsNot Nothing AndAlso r.ECNumbers.Any(Function(ec) gene2.EC_numbers.Contains(ec))).ToList()
+
+            ' 遍历所有反应对，检查是否存在代谢流连接
+            For Each r1 In gene1Reactions
+                For Each r2 In gene2Reactions
+                    ' 利用您提供的 CheckConnectivity 方法判断是否连接
+                    If r1.CheckConnectivity(r2) Then
+                        reactionConnectivityScore += 1.0
+                    End If
+                Next
+            Next
+
+            ' ---------------------------------------------------------
+            ' 综合打分
+            ' 权重策略：Level 1 (上下游连接) 是操纵子最强烈的证据，赋予更高权重(2.0)
+            '          Level 2 (同通路) 是较弱的功能关联证据，赋予基础权重(1.0)
+            ' ---------------------------------------------------------
+            Dim finalScore As Double = pathwayScore + (reactionConnectivityScore * 2.0)
+
+            Return finalScore
         End Function
 
         ''' <summary>
