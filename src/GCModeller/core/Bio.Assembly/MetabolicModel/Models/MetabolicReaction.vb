@@ -90,5 +90,12 @@ Namespace MetabolicModel
             Return $"[{id}] {name}"
         End Function
 
+        Public Function CheckConnectivity(another As MetabolicReaction) As Boolean
+            ' this is upstream of another, 
+            ' or another is upstream of this
+            Return right.Select(Function(c) c.ID).Intersect(another.left.Select(Function(c) c.ID)).Any OrElse
+                another.right.Select(Function(c) c.ID).Intersect(left.Select(Function(c) c.ID)).Any
+        End Function
+
     End Class
 End Namespace

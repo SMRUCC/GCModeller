@@ -30,6 +30,7 @@ Namespace ContextModel
         ''' 基因关联的 Gene Ontology 术语列表
         ''' </summary>
         Public Property GO_Terms As List(Of String)
+        Public Property KO_Terms As List(Of String)
         ''' <summary>
         ''' 基因的系统发育谱，键为参考基因组ID，值为该基因是否在该基因组中存在
         ''' </summary>
