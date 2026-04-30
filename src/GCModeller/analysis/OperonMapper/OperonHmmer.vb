@@ -1,5 +1,4 @@
-﻿Imports System.Security.Cryptography
-Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
+﻿Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
 Imports SMRUCC.genomics.Model.OperonMapper.ContextModel
 
