@@ -1,21 +1,15 @@
 ﻿Namespace Scripting.Runtime
 
     ''' <summary>
-    ''' 脚本运行环境（支持作用域嵌套）
+    ''' 脚本运行环境
     ''' </summary>
-    Public Class ScriptEnvironment
+    Public Class ScriptEnvironment : Implements IDisposable
 
         ''' <summary>
         ''' 当前作用域的变量字典
         ''' </summary>
-        ReadOnly _slots As New Dictionary(Of String, ScriptSlot)
-
-        ' 父级作用域（用于实现闭包或块级作用域）
-        Private ReadOnly _parent As ScriptEnvironment
-
-        Public Sub New(Optional parent As ScriptEnvironment = Nothing)
-            _parent = parent
-        End Sub
+        Protected ReadOnly _slots As New Dictionary(Of String, ScriptSlot)
+        Private disposedValue As Boolean
 
         ' ========================================================
         ' 核心优化：强类型读写接口 (脚本引擎内部执行时优先使用)
@@ -90,7 +84,70 @@
         ''' <summary>
         ''' 查找变量槽位，支持向父级作用域查找
         ''' </summary>
-        Private Function FindSlot(name As String, throwIfNotFound As Boolean) As ScriptSlot
+        Public Overridable Function FindSlot(name As String, throwIfNotFound As Boolean) As ScriptSlot
+            Dim slot As ScriptSlot = Nothing
+
+            If _slots.TryGetValue(name, slot) Then
+                Return slot
+            ElseIf throwIfNotFound Then
+                Throw New Exception($"未定义的变量: '{name}'")
+            Else
+                Return Nothing
+            End If
+        End Function
+
+        Private Sub CheckReadOnly(slot As ScriptSlot, name As String)
+            If slot.IsReadOnly OrElse slot.IsConst Then
+                Throw New Exception($"无法修改只读变量: '{name}'")
+            End If
+        End Sub
+
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: dispose managed state (managed objects)
+                    For Each slot As ScriptSlot In _slots.Values
+                        Call slot.Dispose()
+                    Next
+
+                    Call _slots.Clear()
+                End If
+
+                ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                ' TODO: set large fields to null
+                disposedValue = True
+            End If
+        End Sub
+
+        ' ' TODO: override finalizer only if 'Dispose(disposing As Boolean)' has code to free unmanaged resources
+        ' Protected Overrides Sub Finalize()
+        '     ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+        '     Dispose(disposing:=False)
+        '     MyBase.Finalize()
+        ' End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
+        End Sub
+    End Class
+
+    ''' <summary>
+    ''' 脚本运行环境（支持作用域嵌套）
+    ''' </summary>
+    Public Class NestedScriptEnvironment : Inherits ScriptEnvironment
+
+        ''' <summary>
+        ''' 父级作用域（用于实现闭包或块级作用域）
+        ''' </summary>
+        ReadOnly _parent As ScriptEnvironment
+
+        Public Sub New(Optional parent As ScriptEnvironment = Nothing)
+            _parent = parent
+        End Sub
+
+        Public Overrides Function FindSlot(name As String, throwIfNotFound As Boolean) As ScriptSlot
             Dim currentEnv = Me
             While currentEnv IsNot Nothing
                 Dim slot As ScriptSlot = Nothing
@@ -100,14 +157,11 @@
                 currentEnv = currentEnv._parent
             End While
 
-            If throwIfNotFound Then Throw New Exception($"未定义的变量: '{name}'")
-            Return Nothing
-        End Function
-
-        Private Sub CheckReadOnly(slot As ScriptSlot, name As String)
-            If slot.IsReadOnly OrElse slot.IsConst Then
-                Throw New Exception($"无法修改只读变量: '{name}'")
+            If throwIfNotFound Then
+                Throw New Exception($"未定义的变量: '{name}'")
+            Else
+                Return Nothing
             End If
-        End Sub
+        End Function
     End Class
 End Namespace
