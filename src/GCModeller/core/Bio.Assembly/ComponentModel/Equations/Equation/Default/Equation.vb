@@ -62,8 +62,6 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.EquaionModel.DefaultTypes
