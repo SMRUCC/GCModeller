@@ -6,8 +6,12 @@
 #' 
 #' @param S_df should be a stoichiometric matrix dataframe of the reaction network, table should be in format of row is the metabolic data and the columns is the reaction flux stoichiometric data
 #' @param obj_rxns a character vector of the reaction flux id(subset of the column names of the `S_df` dataframe) to be max
+#' @param outputdir a directory path for export FBA result files
+#' @param default_lb default lower bound value for every metabolic reaction flux 
+#' @param default_ub default upper bound value for every metabolic reaction flux
+#' @param flux_bounds a key-value tuple list for tweaks of some specific metabolic reaction flux bound value. value in list should be a numeric vector that contains two elements: flux lower bound and upper bound: [flux_id => c(lb, ub)]
 #'  
-const FBA_solver = function(S_df, obj_rxns, outputdir = "./") {
+const FBA_solver = function(S_df, obj_rxns, outputdir = "./", default_lb = -1000, default_ub = 1000, flux_bounds = list()) {
     library(lpSolve);
     library(dplyr);
     library(jsonlite);
@@ -62,8 +66,8 @@ const FBA_solver = function(S_df, obj_rxns, outputdir = "./") {
     # 约束2: 反应流量边界约束 lb <= v <= ub
     # 【重要说明】CSV中通常不包含边界信息，这里设置默认边界：
     # 默认所有反应可逆: 下限 -1000, 上限 1000
-    let default_lb <- -1000;
-    let default_ub <- 1000;
+    # let default_lb <- -1000;
+    # let default_ub <- 1000;
 
     let lower_bounds <- rep(default_lb, n_rxns);
     let upper_bounds <- rep(default_ub, n_rxns);
@@ -73,6 +77,13 @@ const FBA_solver = function(S_df, obj_rxns, outputdir = "./") {
     # 例如：限制葡萄糖摄入反应(EX_glc)最大摄入量为10：
     # ex_glc_idx <- which(rxn_ids == "EX_glc__D_e")
     # lower_bounds[ex_glc_idx] <- -10  # 摄入通常用负数表示
+    for(let id in names(flux_bounds)) {
+      let idx = which(rxn_ids == id);
+      let bound_vals = flux_bounds[[id]];
+
+      lower_bounds[idx] <- bound_vals[1];
+      upper_bounds[idx] <- bound_vals[2];
+    }
 
     # =========================================================================
     # 5. 求解 FBA 线性规划问题
