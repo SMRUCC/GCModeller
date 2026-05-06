@@ -386,7 +386,9 @@ Namespace CollectionSet
             labelFont = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
             g.DrawLine(pen, a, b)
 
-            For Each tick As Double In New DoubleRange(0.Join(setSize.Values)).CreateAxisTicks(ticks:=3, decimalDigits:=0)
+            Dim ticks As Double() = New DoubleRange(vector:=0.Join(setSize.Values)).CreateAxisTicks(ticks:=3, decimalDigits:=0)
+
+            For Each tick As Double In ticks
                 If std.Abs(tick) < 0.01 Then
                     tick = 0
                 End If
