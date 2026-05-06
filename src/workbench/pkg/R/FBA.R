@@ -7,9 +7,10 @@
 #' @param S_df should be a stoichiometric matrix dataframe of the reaction network, table should be in format of row is the metabolic data and the columns is the reaction flux stoichiometric data
 #' @param obj_rxns a character vector of the reaction flux id(subset of the column names of the `S_df` dataframe) to be max
 #'  
-const FBA_solver = function(S_df, obj_rxns) {
+const FBA_solver = function(S_df, obj_rxns, outputdir = "./") {
     library(lpSolve);
     library(dplyr);
+    library(jsonlite);
 
     if (!is.data.frame(S_df)) {
       # 读取化学计量矩阵 CSV 文件
@@ -117,16 +118,20 @@ const FBA_solver = function(S_df, obj_rxns) {
       let active_flux_df <- result_df %>% filter(abs(Flux) > 1e-6);
       
       # 保存完整结果和活跃反应结果
-      write.csv(result_df, "FBA_Full_Flux_Distribution.csv", row.names = FALSE)
-      write.csv(active_flux_df, "FBA_Active_Flux_Distribution.csv", row.names = FALSE)
-      
-      cat("结果已保存至 'FBA_Full_Flux_Distribution.csv' 和 'FBA_Active_Flux_Distribution.csv'\n")
+      write.csv(result_df, file.path(outputdir, "FBA_Full_Flux_Distribution.csv"), row.names = FALSE);
+      write.csv(active_flux_df, file.path(outputdir, "FBA_Active_Flux_Distribution.csv"), row.names = FALSE);
+      writeLines(as.character(opt_obj_val), con = file.path(outputdir, "ObjectiveFlux.txt"));
+      writeLines(jsonlite::toJSON(fba_result), con = file.path(outputdir, "FBA_Result.json"));
+
+      cat("结果已保存至 'FBA_Full_Flux_Distribution.csv' 和 'FBA_Active_Flux_Distribution.csv'\n");
       
     } else {
-      cat("FBA 求解失败！\n")
-      cat("状态码:", fba_result$status, "\n")
-      cat("可能原因: \n")
-      cat("  1. 模型不可行 - 检查边界约束是否允许底物摄入和产物排出\n")
-      cat("  2. 模型无界 - 检查是否遗漏了必要的不可逆反应约束(lower_bound=0)\n")
+      cat("FBA 求解失败！\n");
+      cat("状态码:", fba_result$status, "\n");
+      cat("可能原因: \n");
+      cat("  1. 模型不可行 - 检查边界约束是否允许底物摄入和产物排出\n");
+      cat("  2. 模型无界 - 检查是否遗漏了必要的不可逆反应约束(lower_bound=0)\n");
     }
+
+    invisible(NULL);
 }
