@@ -1,0 +1,38 @@
+﻿.TH VIRTUALCELLFBA 1 2026-5月 "" "VirtualCellFBA"
+.SH NAME
+VirtualCellFBA \- VirtualCellFBA(models, obj.rxns,
+    <i>default.lb</i> = <span style='color: green;'>-1000</span>,
+    <i>default.ub</i> = <span style='color: green;'>1000</span>,
+    <i>flux.bounds</i> = 'list'(),
+    <i>temp</i> = <span style='color: brown;'><strong>'./.tmp/'</strong></span>)
+.SH SYNOPSIS
+\fIVirtualCellFBA(models, obj.rxns,
+    <i>default.lb</i> = <span style='color: green;'>-1000</span>,
+    <i>default.ub</i> = <span style='color: green;'>1000</span>,
+    <i>flux.bounds</i> = 'list'(),
+    <i>temp</i> = <span style='color: brown;'><strong>'./.tmp/'</strong></span>)\fR
+.SH OPTIONS
+.PP
+\fBmodels\fB \fR\- . a set of the virtual cell model CLR object to modelling of the FBA stoichiometric matrix
+.PP
+.PP
+\fBobj.rxns\fB \fR\- . 
+.PP
+.PP
+\fBdefault.lb\fB \fR\- -1000. 
+.PP
+.PP
+\fBdefault.ub\fB \fR\- 1000. 
+.PP
+.PP
+\fBflux.bounds\fB \fR\- 'list'(). 
+.PP
+.PP
+\fBtemp\fB \fR\- './.tmp/'. temp dir for save the temp workspace files.
+.PP
+.SH FILES
+.PP
+SMRUCC/R#.declare_function.VirtualCellFBA at VirtualCellFBA.R:line 15
+.PP
+.SH COPYRIGHT
+Copyright © xieguigang, GPL3 Licensed 2026

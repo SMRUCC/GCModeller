@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>VirtualCellFBA</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>VirtualCellFBA {GCModeller}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>VirtualCellFBA</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>VirtualCellFBA</strong>(<i>models</i>, <i>obj.rxns</i>,
+    <i>default.lb</i> = <span style='color: green;'>-1000</span>,
+    <i>default.ub</i> = <span style='color: green;'>1000</span>,
+    <i>flux.bounds</i> = 'list'(),
+    <i>temp</i> = <span style='color: brown;'><strong>'./.tmp/'</strong></span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>models</dt>
+<dd><p><p>a set of the virtual cell model CLR object to modelling of the FBA stoichiometric matrix</p></p></dd>
+
+
+<dt>obj.rxns</dt>
+<dd><p><p>a character vector of the reaction flux id set.</p></p></dd>
+
+
+<dt>temp</dt>
+<dd><p><p>temp dir for save the temp workspace files.</p></p></dd>
+
+
+<dt>default.lb</dt>
+<dd><p><p>A numeric value specifying the default lower bound for every
+metabolic reaction flux. Defaults to \code{-1000} (assumes reversible
+reactions by default).</p></p></dd>
+
+
+<dt>default.ub</dt>
+<dd><p><p>A numeric value specifying the default upper bound for every
+metabolic reaction flux. Defaults to \code{1000}.</p></p></dd>
+
+
+<dt>flux.bounds</dt>
+<dd><p><p>A named list used to tweak specific reaction flux bounds. The
+name of each element should be the reaction ID, and the value should be a
+numeric vector of length 2 containing the lower and upper bounds:
+\code{list("flux_id" = c(lb, ub))}.</p></p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        xieguigang
+
+        <h3>Value</h3>
+
+        This function has no value returns.
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>GCModeller</em> version 1.1.0-beta <a
+                href="../GCModeller.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

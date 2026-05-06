@@ -233,4 +233,11 @@ declare namespace GCModeller {
       */
       function search_taxonomy(name: any): object;
    }
+   /**
+     * @param default_lb default value Is ``-1000``.
+     * @param default_ub default value Is ``1000``.
+     * @param flux_bounds default value Is ``Call "list"()``.
+     * @param temp default value Is ``./.tmp/``.
+   */
+   function VirtualCellFBA(models: any, obj_rxns: any, default_lb?: any, default_ub?: any, flux_bounds?: any, temp?: any): object;
 }
