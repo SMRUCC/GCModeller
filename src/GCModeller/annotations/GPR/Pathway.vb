@@ -60,7 +60,10 @@ Public Class Pathway : Inherits MetabolicPathway
         Call "processing on build reference pathway map from kegg database...".info
 
         For Each map As Map In TqdmWrapper.WrapIterator(pathways, bar:=bar)
-            Dim rxnIDs As String() = map.GetMembers.Where(Function(id) reactionIndex.ContainsKey(id)).ToArray
+            Dim rxnIDs As String() = (From id As String
+                                      In map.GetMembers
+                                      Distinct
+                                      Where reactionIndex.ContainsKey(id)).ToArray
             Dim network As MetabolicReaction() = rxnIDs.Select(Function(id) reactionIndex(id)).ToArray
 
             Call bar.SetLabel(map.name)
