@@ -258,31 +258,39 @@ Public Class MetabolicAssociator
     ''' 邻居基因关联
     ''' </summary>
     Private Sub AddNeighborAssociations(neighbor As GeneTable, ByRef geneScores As Dictionary(Of String, Double), baseWeight As Double, isOperon As Boolean)
+        If neighbor.EC_Number.IsNullOrEmpty Then
+            Return
+        End If
+
         For Each ec As String In neighbor.EC_Number
-            If context.ECtoReactions.ContainsKey(ec) Then
-                For Each reaction In context.ECtoReactions(ec)
-                    ' 获取反应所在的所有通路
-                    If context.ReactionToPathways.ContainsKey(reaction.id) Then
-                        For Each pathway In context.ReactionToPathways(reaction.id)
-                            ' 通路内所有反应都获得分数
-                            For Each pathwayReaction In pathway.metabolicNetwork
-                                Dim score = opt.BaseContextScore * baseWeight
-
-                                ' 操纵子内额外奖励
-                                If isOperon Then
-                                    score *= (1.0 + opt.SameOperonBonus)
-                                End If
-
-                                ' 更新最高分
-                                If Not geneScores.ContainsKey(pathwayReaction.id) OrElse
-                                   geneScores(pathwayReaction.id) < score Then
-                                    geneScores(pathwayReaction.id) = score
-                                End If
-                            Next
-                        Next
-                    End If
-                Next
+            If Not context.ECtoReactions.ContainsKey(ec) Then
+                Continue For
             End If
+
+            For Each reaction As MetabolicReaction In context.ECtoReactions(ec)
+                ' 获取反应所在的所有通路
+                If Not context.ReactionToPathways.ContainsKey(reaction.id) Then
+                    Continue For
+                End If
+
+                For Each pathway As Pathway In context.ReactionToPathways(reaction.id)
+                    ' 通路内所有反应都获得分数
+                    For Each pathwayReaction In pathway.metabolicNetwork
+                        Dim score = opt.BaseContextScore * baseWeight
+
+                        ' 操纵子内额外奖励
+                        If isOperon Then
+                            score *= (1.0 + opt.SameOperonBonus)
+                        End If
+
+                        ' 更新最高分
+                        If Not geneScores.ContainsKey(pathwayReaction.id) OrElse
+                                   geneScores(pathwayReaction.id) < score Then
+                            geneScores(pathwayReaction.id) = score
+                        End If
+                    Next
+                Next
+            Next
         Next
     End Sub
 
