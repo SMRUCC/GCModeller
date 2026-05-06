@@ -49,7 +49,7 @@ Public Class GeneAssociation : Implements INamedValue
 
     Public ReadOnly Property TopGPRLinks As String()
         Get
-            Dim cutoff As Double = MedianScore
+            Dim cutoff As Double = MeanScore
             Dim mapped As IEnumerable(Of ScoredReaction) = From r As ScoredReaction
                                                            In Reactions.Values
                                                            Where Not r.Unmapped
