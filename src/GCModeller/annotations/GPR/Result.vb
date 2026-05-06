@@ -11,7 +11,7 @@ End Class
 Public Class GeneAssociation : Implements INamedValue
 
     Public Property GeneId As String Implements INamedValue.Key
-    Public Property Reactions As List(Of ScoredReaction)
+    Public Property Reactions As Dictionary(Of String, ScoredReaction)
 
 End Class
 
@@ -40,8 +40,8 @@ Public Class Genome : Inherits GenomeContext(Of GeneTable)
     End Function
 
     Public Iterator Function GetGenesForReaction(id As String) As IEnumerable(Of GeneTable)
-        For Each gene In MetabolicNetwork.Values
-            If gene.Reactions.Any(Function(r) r.Id = id) Then
+        For Each gene As GeneAssociation In MetabolicNetwork.Values
+            If gene.Reactions.ContainsKey(id) Then
                 Yield Me(gene.GeneId)
             End If
         Next

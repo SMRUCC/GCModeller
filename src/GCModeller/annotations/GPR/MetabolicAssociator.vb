@@ -1,4 +1,5 @@
 ﻿
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.MetabolicModel
@@ -51,7 +52,9 @@ Public Class MetabolicAssociator
         ' ==========================================
         ' 阶段 1 & 2: 基因级打分 (直接证据 + 上下文)
         ' ==========================================
-        For i As Integer = 0 To genome.N - 1
+        Call "phase 1&2: gene level scoring, scanning genome contex...".info
+
+        For Each i As Integer In TqdmWrapper.Range(0, genome.N)
             Dim gene As GeneTable = genome(i)
             Dim geneScores As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
 
@@ -87,12 +90,12 @@ Public Class MetabolicAssociator
         UpdateGenomeNetwork(globalGeneScores)
 
         ' 3.1 通路完整度推断
-        For Each gene As GeneTable In genome.AsEnumerable
+        For Each gene As GeneTable In TqdmWrapper.Wrap(genome.AsEnumerable.ToList)
             AddPathwayCompletenessInferences(gene, globalGeneScores(gene.locus_id))
         Next
 
         ' 3.2 反应连续性推断
-        For Each pathway As Pathway In context.Pathways
+        For Each pathway As Pathway In TqdmWrapper.Wrap(context.Pathways)
             ' 这里的CheckContinuity需要重写，基于globalGeneScores增强分数
             EnhanceNetworkContinuity(pathway, globalGeneScores)
         Next
@@ -155,11 +158,22 @@ Public Class MetabolicAssociator
     End Sub
 
     Private Sub UpdateGenomeNetwork(globalScores As Dictionary(Of String, Dictionary(Of String, Double)))
-        genome.MetabolicNetwork.Clear()
-        For Each kvp In globalScores
+        Call "phase 3: update genome metabolic network...".info
+        Call genome.MetabolicNetwork.Clear()
+
+        For Each kvp In TqdmWrapper.Wrap(globalScores)
             Dim assoc As New GeneAssociation With {
                 .GeneId = kvp.Key,
-                .Reactions = kvp.Value.Select(Function(r) New ScoredReaction With {.Id = r.Key, .Score = r.Value}).ToList()
+                .Reactions = kvp.Value _
+                    .Select(Function(r)
+                                Return New ScoredReaction With {
+                                    .Id = r.Key,
+                                    .Score = r.Value
+                                }
+                            End Function) _
+                    .ToDictionary(Function(a)
+                                      Return a.Id
+                                  End Function)
             }
             genome.MetabolicNetwork(kvp.Key) = assoc
         Next
@@ -370,7 +384,7 @@ Public Class MetabolicAssociator
     Private Function CreateFilteredAssociation(gene As GeneTable, geneScores As Dictionary(Of String, Double)) As GeneAssociation
         Dim association = New GeneAssociation With {
             .GeneId = gene.locus_id,
-            .Reactions = New List(Of ScoredReaction)()
+            .Reactions = New Dictionary(Of String, ScoredReaction)
         }
 
         ' 应用阈值过滤
@@ -380,21 +394,29 @@ Public Class MetabolicAssociator
             If kvp.Value >= ConfidenceThreshold Then
                 association.Reactions.Add(New ScoredReaction With {
                     .Id = kvp.Key,
-                    .Score = Math.Round(kvp.Value, 4)
+                    .Score = kvp.Value
                 })
             End If
         Next
 
         ' 按分数降序排列
-        association.Reactions = association.Reactions.OrderByDescending(Function(r) r.Score).ToList()
+        association.Reactions = association.Reactions _
+            .OrderByDescending(Function(r) r.Value.Score) _
+            .ToDictionary()
 
         ' 如果没有任何关联，但基因有EC号，添加一个低置信度的注释
         If association.Reactions.Count = 0 AndAlso gene.EC_Number.Any() Then
-            For Each ec In gene.EC_Number
-                association.Reactions.Add(New ScoredReaction With {
-                    .Id = $"EC:{ec} (unmapped)",
-                    .Score = 0.2
-                })
+            For Each ec As String In gene.EC_Number
+                Dim umapKey As String = $"EC:{ec} (unmapped)"
+
+                If association.Reactions.ContainsKey(umapKey) Then
+                    association.Reactions(umapKey).Score += 0.2
+                Else
+                    association.Reactions.Add(New ScoredReaction With {
+                        .Id = umapKey,
+                        .Score = 0.2
+                    })
+                End If
             Next
         End If
 
