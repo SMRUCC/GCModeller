@@ -45,6 +45,10 @@ Public Class Pathway : Inherits MetabolicPathway
 
     Public Shared Iterator Function FromKEGGPathways(pathways As IEnumerable(Of Map), reactions As IEnumerable(Of Reaction)) As IEnumerable(Of Pathway)
         Dim reactionIndex As Dictionary(Of String, MetabolicReaction) = reactions _
+            .Where(Function(r)
+                       ' 20260506 filter out the possible empty equation
+                       Return r IsNot Nothing AndAlso r.ID <> "" AndAlso r.Equation <> ""
+                   End Function) _
             .GroupBy(Function(r) r.ID) _
             .ToDictionary(Function(r) r.Key,
                           Function(r)
