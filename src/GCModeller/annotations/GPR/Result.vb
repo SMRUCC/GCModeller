@@ -1,17 +1,27 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.MetabolicModel
 
 Public Class ScoredReaction : Implements INamedValue
+
     Public Property Id As String Implements INamedValue.Key
     Public Property Score As Double
+
+    Public Overrides Function ToString() As String
+        Return $"{Id}: {Score}"
+    End Function
 End Class
 
 Public Class GeneAssociation : Implements INamedValue
 
     Public Property GeneId As String Implements INamedValue.Key
     Public Property Reactions As Dictionary(Of String, ScoredReaction)
+
+    Public Overrides Function ToString() As String
+        Return $"{GeneId} - [{Reactions.Count}]{Reactions.Keys.GetJson}"
+    End Function
 
 End Class
 
