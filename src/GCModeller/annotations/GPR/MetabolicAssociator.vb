@@ -111,11 +111,11 @@ Public Class MetabolicAssociator
         If targetComplex Is Nothing Then Return
 
         ' 收集复合体所有EC号
-        Dim allECs = targetComplex.SelectMany(Function(g) g.EC_Number).Distinct()
+        Dim allECs As String() = targetComplex.SelectMany(Function(g) g.EC_Number).Distinct().ToArray
         ' 找到这些EC号共同参与的通路
         Dim commonPathways = context.FindCommonPathways(allECs)
 
-        For Each pathway In commonPathways
+        For Each pathway As Pathway In commonPathways
             For Each reaction In pathway.metabolicNetwork
                 Dim complexScore = opt.BaseComplexScore
                 If Not geneScores.ContainsKey(reaction.id) OrElse geneScores(reaction.id) < complexScore Then

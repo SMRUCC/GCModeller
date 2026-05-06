@@ -40,7 +40,12 @@ Public Class EnzymeComplexDetector
 
     Private Function AreGenesFunctionallyRelated(gene1 As GeneTable, gene2 As GeneTable) As Boolean
         ' 1. 同链检测
-        If gene1.strand <> gene2.strand Then Return False
+        If gene1.strand <> gene2.strand Then
+            Return False
+        End If
+        If gene1.EC_Number.IsNullOrEmpty OrElse gene2.EC_Number.IsNullOrEmpty Then
+            Return False
+        End If
 
         ' 2. EC号相似性（同一大类）
         If gene1.EC_Number.Any() AndAlso gene2.EC_Number.Any() Then
