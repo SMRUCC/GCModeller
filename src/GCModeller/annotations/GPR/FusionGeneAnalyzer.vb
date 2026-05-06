@@ -68,10 +68,14 @@ Public Class FusionGeneAnalyzer
                     End If
 
                     ' has a direct reaction edge means no gap
-                    If pathway.ReactionNetwork.GetEdge(
-                        pathway.ReactionNetwork.GetElementByID(u.id),
-                        pathway.ReactionNetwork.GetElementByID(v.id)) IsNot Nothing Then
+                    Dim upstream = pathway.ReactionNetwork.GetElementByID(u.id)
+                    Dim downstream = pathway.ReactionNetwork.GetElementByID(v.id)
 
+                    If upstream Is Nothing OrElse downstream Is Nothing Then
+                        Continue For
+                    End If
+
+                    If pathway.ReactionNetwork.GetEdge(upstream, downstream) IsNot Nothing Then
                         joint += 1
                     End If
                 Next
