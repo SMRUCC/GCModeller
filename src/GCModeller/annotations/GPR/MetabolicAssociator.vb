@@ -21,7 +21,8 @@ Public Class MetabolicAssociator
     Private operonGroups As List(Of List(Of Integer))
     Private geneComplexes As List(Of List(Of GeneTable))
 
-    Sub New(opt As GPRParameters, genome As IEnumerable(Of GeneTable), pathways As Pathway(),
+    Sub New(opt As GPRParameters, genome As IEnumerable(Of GeneTable),
+            Optional pathways As Pathway() = Nothing,
             Optional coexpData As CoexpressionAnalyzer = Nothing,
             Optional syntenyData As ConservedSyntenyAnalyzer = Nothing)
 

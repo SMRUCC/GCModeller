@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.MetabolicModel
+﻿Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.MetabolicModel
 
 Public Class ContextIndices
 
@@ -16,7 +17,7 @@ Public Class ContextIndices
     End Sub
 
     Private Iterator Function BuildIndices(pathways As IEnumerable(Of Pathway)) As IEnumerable(Of Pathway)
-        For Each pathway As Pathway In pathways
+        For Each pathway As Pathway In pathways.SafeQuery
             PathwayReactions(pathway.ID) = pathway.metabolicNetwork.ToList()
 
             For Each rxn In pathway.metabolicNetwork
