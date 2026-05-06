@@ -156,13 +156,17 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Get
                 Dim rxnStr As String = r.Replace(Equation, polymers, "", RegexICSng)
 
+                If rxnStr = "" Then
+                    Return Nothing
+                End If
+
                 Try
                     Dim eq = EquationBuilder.CreateObject(Of DefaultTypes.CompoundSpecieReference, DefaultTypes.Equation)(rxnStr)
                     eq.Id = ID
+                    eq.name = Definition
                     Return eq
                 Catch ex As Exception
-                    ex = New Exception(rxnStr, ex)
-                    Throw ex
+                    Throw New InvalidExpressionException("kegg reaction equation parser error: " & rxnStr, ex)
                 End Try
             End Get
         End Property
