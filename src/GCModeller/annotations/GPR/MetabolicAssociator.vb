@@ -33,7 +33,7 @@ Public Class MetabolicAssociator
         Me.coexpressionAnalyzer = coexpData
         Me.syntenyAnalyzer = syntenyData
         Me.fusionAnalyzer = New FusionGeneAnalyzer(Me.context)
-        Me.continuityChecker = New ReactionContinuityChecker(Me.context.ECtoReactions.Values.SelectMany(Function(v) v).ToDictionary(Function(r) r.id))
+        Me.continuityChecker = ReactionContinuityChecker.LoadFromContext(context)
         Me.complexDetector = New EnzymeComplexDetector()
 
         ' 预计算不依赖动态打分的结构

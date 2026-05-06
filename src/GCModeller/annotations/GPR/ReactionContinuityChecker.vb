@@ -46,4 +46,17 @@ Public Class ReactionContinuityChecker
             End If
         Next
     End Sub
+
+    Public Shared Function LoadFromContext(context As ContextIndices) As ReactionContinuityChecker
+        Dim rxnIndex = context.ECtoReactions.Values _
+            .SelectMany(Function(v) v) _
+            .GroupBy(Function(r) r.id) _
+            .ToDictionary(Function(r) r.Key,
+                          Function(r)
+                              Return r.First
+                          End Function)
+
+        Return New ReactionContinuityChecker(rxnIndex)
+    End Function
+
 End Class
