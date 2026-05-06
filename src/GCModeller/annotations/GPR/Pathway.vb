@@ -1,3 +1,4 @@
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
@@ -54,10 +55,15 @@ Public Class Pathway : Inherits MetabolicPathway
                           Function(r)
                               Return KEGGConvertor.ConvertReaction(r.First)
                           End Function)
+        Dim bar As ProgressBar = Nothing
 
-        For Each map As Map In pathways
+        Call "processing on build reference pathway map from kegg database...".info
+
+        For Each map As Map In TqdmWrapper.WrapIterator(pathways, bar:=bar)
             Dim rxnIDs As String() = map.GetMembers.Where(Function(id) reactionIndex.ContainsKey(id)).ToArray
             Dim network As MetabolicReaction() = rxnIDs.Select(Function(id) reactionIndex(id)).ToArray
+
+            Call bar.SetLabel(map.name)
 
             Yield New Pathway(network) With {
                 .ID = map.EntryId,
