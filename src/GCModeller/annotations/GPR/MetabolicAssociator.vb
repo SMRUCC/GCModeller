@@ -200,7 +200,11 @@ Public Class MetabolicAssociator
     ''' 直接EC匹配
     ''' </summary>
     Private Sub AddDirectECMatches(gene As GeneTable, ByRef geneScores As Dictionary(Of String, Double))
-        For Each ec In gene.EC_Number
+        If gene.EC_Number.IsNullOrEmpty Then
+            Return
+        End If
+
+        For Each ec As String In gene.EC_Number
             If context.ECtoReactions.ContainsKey(ec) Then
                 For Each reaction As MetabolicReaction In context.ECtoReactions(ec)
                     ' 直接匹配给满分
