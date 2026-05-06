@@ -103,6 +103,8 @@ Public Class MetabolicAssociator
         ' ==========================================
         ' 整理输出
         ' ==========================================
+        Call "export gene reaction GPR association links...".info
+
         For Each gene As GeneTable In genome.AsEnumerable
             Yield CreateFilteredAssociation(gene, globalGeneScores(gene.locus_id))
         Next
