@@ -1,0 +1,90 @@
+﻿.TH FBA_SOLVER 1 2026-5月 "" "Flux Balance Analysis (FBA) Solver in Native R"
+.SH NAME
+FBA_solver \- FBA_solver(S.df, obj.rxns,
+    <i>outputdir</i> = <span style='color: brown;'><strong>'./'</strong></span>,
+    <i>default.lb</i> = <span style='color: green;'>-1000</span>,
+    <i>default.ub</i> = <span style='color: green;'>1000</span>,
+    <i>flux.bounds</i> = 'list'())
+.SH SYNOPSIS
+\fIFBA_solver(S.df, obj.rxns,
+    <i>outputdir</i> = <span style='color: brown;'><strong>'./'</strong></span>,
+    <i>default.lb</i> = <span style='color: green;'>-1000</span>,
+    <i>default.ub</i> = <span style='color: green;'>1000</span>,
+    <i>flux.bounds</i> = 'list'())\fR
+.SH DESCRIPTION
+.PP
+Solves a Flux Balance Analysis (FBA) problem by formulating it as a linear
+programming problem using the stoichiometric matrix and solving it with
+the \code{lpSolve} package. Results, including full and active flux
+distributions, are exported to the specified output directory.
+.PP
+.SH OPTIONS
+.PP
+\fBS.df\fB \fR\- . 
+.PP
+.PP
+\fBobj.rxns\fB \fR\- . 
+.PP
+.PP
+\fBoutputdir\fB \fR\- './'. A character string specifying the directory path for exporting
+FBA result files. Defaults to the current directory (\code{"./"}).
+.PP
+.PP
+\fBdefault.lb\fB \fR\- -1000. 
+.PP
+.PP
+\fBdefault.ub\fB \fR\- 1000. 
+.PP
+.PP
+\fBflux.bounds\fB \fR\- 'list'(). 
+.PP
+.SH VALUE
+.PP
+Invisible \code{NULL}. The function is called for its side effects
+(console output and file generation).
+.PP
+.SH DETAILS
+.PP
+The function formulates the standard FBA problem:
+\itemize{
+\item Maximize: \code{sum(obj_rxns fluxes)}
+\item Subject to: \code{S * v = 0} (Steady-state constraint)
+\item And: \code{lb <= v <= ub} (Flux bounds)
+}
+If the solver succeeds, it writes the following files to \code{outputdir}:
+\itemize{
+\item \code{FBA_Full_Flux_Distribution.csv}: All reactions and their calculated fluxes.
+\item \code{FBA_Active_Flux_Distribution.csv}: Reactions with flux absolute value > 1e-6.
+\item \code{ObjectiveFlux.txt}: The maximum objective value.
+\item \code{FBA_Result.json}: The raw result object from \code{lpSolve} in JSON format.
+}
+If the solver fails, it prints the status code and common troubleshooting tips to the console.
+.PP
+.SH EXAMPLES
+.PP
+#\dontrun{
+
+# Assuming you have a stoichiometric matrix data frame 'S_mat'
+# where colnames are reaction IDs and rownames are metabolites
+# Define objective reactions
+objectives <- c("BIOMASS_Ecoli_core_w_GAM")
+# Define specific bounds for glucose uptake (e.g., max uptake = 10)
+my_bounds <- list("EX_glc__D_e" = c(-10, 1000))
+# Run FBA
+FBA_solver(
+S_df = S_mat,
+obj_rxns = objectives,
+outputdir = "./fba_results",
+default_lb = -1000,
+default_ub = 1000,
+flux_bounds = my_bounds
+)
+
+#}
+.PP
+.SH FILES
+.PP
+SMRUCC/R#.declare_function.FBA_solver at FBA.R:line 75
+.PP
+.SH COPYRIGHT
+Copyright © xieguigang, GPL3 Licensed 2026

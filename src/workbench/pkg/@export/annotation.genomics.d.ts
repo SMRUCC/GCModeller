@@ -72,6 +72,9 @@ declare namespace annotation.genomics {
       function nucmer(file: string): object;
    }
    /**
+   */
+   function source_features(gff: object, source: string): object;
+   /**
     * Create the upstream location
     * 
     * 

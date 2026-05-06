@@ -100,6 +100,13 @@ declare namespace GCModeller {
    */
    function extract_reactions(): object;
    /**
+     * @param outputdir default value Is ``./``.
+     * @param default_lb default value Is ``-1000``.
+     * @param default_ub default value Is ``1000``.
+     * @param flux_bounds default value Is ``Call "list"()``.
+   */
+   function FBA_solver(S_df: any, obj_rxns: any, outputdir?: any, default_lb?: any, default_ub?: any, flux_bounds?: any): object;
+   /**
      * @param annotations default value Is ``["GENOME_GBFF", "GENOME_FASTA", "GENOME_GFF", "RNA_FASTA", "CDS_FASTA", "PROT_FASTA", "SEQUENCE_REPORT"]``.
    */
    function fetch_genbank(accession_id: any, annotations?: any): object;

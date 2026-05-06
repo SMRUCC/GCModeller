@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.IDynamicsTable</title>
+    <title>SMRUCC.genomics.Analysis.SequenceAlignment.MSA.Tabular.Stockholm</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,27 +13,32 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>IDynamicsTable {Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic}</td>
+                <td>Stockholm {SMRUCC.genomics.Analysis.SequenceAlignment.MSA.Tabular}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>IDynamicsTable</h2>
+        <h2>Stockholm</h2>
 
         <h3>Description</h3>
 
-        <p>The network graph object contains the dynamics property for contains the extra information of the object.</p>
-
-<p>contains a string value dictionary object</p>
+        <p>Tabular MSA file
+ 
+ Stockholm format is a Multiple sequence alignment format used by Pfam and Rfam to disseminate protein and RNA sequence alignments. 
+ The alignment editors Ralee and Belvu support Stockholm format as do the probabilistic database search tools, 
+ Infernal and HMMER, and the phylogenetic analysis tool Xrate.</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
-# namespace Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
-export class IDynamicsTable extends <a href="/vignettes/clr/System/String.html">iterates(String)</a> {
-   # The dynamics property table of this network component
-   Properties: list;
+# namespace SMRUCC.genomics.Analysis.SequenceAlignment.MSA.Tabular
+export class Stockholm {
+   comment: string;
+   metadata: list;
+   msa: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/MSA/MSAOutput.html">MSAOutput</a>;
+   seq_cons: string;
+   seq_source: list;
 }
 </code>
         </pre>
@@ -41,8 +46,9 @@ export class IDynamicsTable extends <a href="/vignettes/clr/System/String.html">
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>this class extends from <a href="/vignettes/clr/System/String.html">iterates(String)</a> class: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
-<li>use by <i>property</i> member <code>Properties</code>: list</li>
+<li>use by <i>property</i> member <code>metadata</code>: list</li>
+<li>use by <i>property</i> member <code>msa</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/MSA/MSAOutput.html">MSAOutput</a></li>
+<li>use by <i>property</i> member <code>seq_source</code>: list</li>
 </ol>
 
 

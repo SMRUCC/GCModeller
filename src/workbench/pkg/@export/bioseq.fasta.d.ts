@@ -181,6 +181,13 @@ declare namespace bioseq.fasta {
    */
    function read_assembly(file: any, env?: object): object;
    /**
+    * read stockholm MSA file.
+    * 
+    * 
+     * @param file -
+   */
+   function read_stockholm(file: string): object;
+   /**
      * @param type default value Is ``null``.
      * @param env default value Is ``null``.
    */

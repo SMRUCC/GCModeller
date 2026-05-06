@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Flux Balance Analysis (FBA) Solver in Native R</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FBA_solver {GCModeller}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Flux Balance Analysis (FBA) Solver in Native R</h2>
+
+        <h3>Description</h3>
+
+        <p>Solves a Flux Balance Analysis (FBA) problem by formulating it as a linear
+programming problem using the stoichiometric matrix and solving it with
+the \code{lpSolve} package. Results, including full and active flux
+distributions, are exported to the specified output directory.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>FBA_solver</strong>(<i>S.df</i>, <i>obj.rxns</i>,
+    <i>outputdir</i> = <span style='color: brown;'><strong>'./'</strong></span>,
+    <i>default.lb</i> = <span style='color: green;'>-1000</span>,
+    <i>default.ub</i> = <span style='color: green;'>1000</span>,
+    <i>flux.bounds</i> = 'list'());</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>S.df</dt>
+<dd><p><p>A stoichiometric matrix of the reaction network. It can be either
+a data.frame (where rows are metabolites and columns are reactions) or a
+file path to a CSV file. If a file path is provided, the first column is
+assumed to contain metabolite names (rownames) and the first row to contain
+reaction IDs (colnames).</p></p></dd>
+
+
+<dt>obj.rxns</dt>
+<dd><p><p>A character vector specifying the reaction flux IDs (a subset
+of the column names of \code{S_df}) to be maximized. If multiple reactions
+are provided, their combined flux is maximized.</p></p></dd>
+
+
+<dt>outputdir</dt>
+<dd><p><p>A character string specifying the directory path for exporting
+FBA result files. Defaults to the current directory (\code{"./"}).</p></p></dd>
+
+
+<dt>default.lb</dt>
+<dd><p><p>A numeric value specifying the default lower bound for every
+metabolic reaction flux. Defaults to \code{-1000} (assumes reversible
+reactions by default).</p></p></dd>
+
+
+<dt>default.ub</dt>
+<dd><p><p>A numeric value specifying the default upper bound for every
+metabolic reaction flux. Defaults to \code{1000}.</p></p></dd>
+
+
+<dt>flux.bounds</dt>
+<dd><p><p>A named list used to tweak specific reaction flux bounds. The
+name of each element should be the reaction ID, and the value should be a
+numeric vector of length 2 containing the lower and upper bounds:
+\code{list("flux_id" = c(lb, ub))}.</p></p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>The function formulates the standard FBA problem:
+\itemize{
+\item Maximize: \code{sum(obj_rxns fluxes)}
+\item Subject to: \code{S * v = 0} (Steady-state constraint)
+\item And: \code{lb <= v <= ub} (Flux bounds)
+}
+If the solver succeeds, it writes the following files to \code{outputdir}:
+\itemize{
+\item \code{FBA<em>Full</em>Flux_Distribution.csv}: All reactions and their calculated fluxes.
+\item \code{FBA<em>Active</em>Flux_Distribution.csv}: Reactions with flux absolute value > 1e-6.
+\item \code{ObjectiveFlux.txt}: The maximum objective value.
+\item \code{FBA_Result.json}: The raw result object from \code{lpSolve} in JSON format.
+}
+If the solver fails, it prints the status code and common troubleshooting tips to the console.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        xieguigang
+
+        <h3>Value</h3>
+
+        <p>Invisible \code{NULL}. The function is called for its side effects
+(console output and file generation).</p>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r">#\dontrun{
+
+# Assuming you have a stoichiometric matrix data frame 'S_mat'
+# where colnames are reaction IDs and rownames are metabolites
+# Define objective reactions
+objectives <- c("BIOMASS_Ecoli_core_w_GAM")
+# Define specific bounds for glucose uptake (e.g., max uptake = 10)
+my_bounds <- list("EX_glc__D_e" = c(-10, 1000))
+# Run FBA
+FBA_solver(
+S_df = S_mat,
+obj_rxns = objectives,
+outputdir = "./fba_results",
+default_lb = -1000,
+default_ub = 1000,
+flux_bounds = my_bounds
+)
+
+#}</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>GCModeller</em> version 1.1.0-beta <a
+                href="../GCModeller.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>
