@@ -2,15 +2,76 @@
 # 基于化学计量矩阵的 FBA (通量平衡分析) R脚本
 # =========================================================================
 
-#' FBA solver in native R runtime
-#' 
-#' @param S_df should be a stoichiometric matrix dataframe of the reaction network, table should be in format of row is the metabolic data and the columns is the reaction flux stoichiometric data
-#' @param obj_rxns a character vector of the reaction flux id(subset of the column names of the `S_df` dataframe) to be max
-#' @param outputdir a directory path for export FBA result files
-#' @param default_lb default lower bound value for every metabolic reaction flux 
-#' @param default_ub default upper bound value for every metabolic reaction flux
-#' @param flux_bounds a key-value tuple list for tweaks of some specific metabolic reaction flux bound value. value in list should be a numeric vector that contains two elements: flux lower bound and upper bound: [flux_id => c(lb, ub)]
-#'  
+#' Flux Balance Analysis (FBA) Solver in Native R
+#'
+#' Solves a Flux Balance Analysis (FBA) problem by formulating it as a linear
+#' programming problem using the stoichiometric matrix and solving it with
+#' the \code{lpSolve} package. Results, including full and active flux
+#' distributions, are exported to the specified output directory.
+#'
+#' @param S_df A stoichiometric matrix of the reaction network. It can be either
+#'   a data.frame (where rows are metabolites and columns are reactions) or a
+#'   file path to a CSV file. If a file path is provided, the first column is
+#'   assumed to contain metabolite names (rownames) and the first row to contain
+#'   reaction IDs (colnames).
+#' @param obj_rxns A character vector specifying the reaction flux IDs (a subset
+#'   of the column names of \code{S_df}) to be maximized. If multiple reactions
+#'   are provided, their combined flux is maximized.
+#' @param outputdir A character string specifying the directory path for exporting
+#'   FBA result files. Defaults to the current directory (\code{"./"}).
+#' @param default_lb A numeric value specifying the default lower bound for every
+#'   metabolic reaction flux. Defaults to \code{-1000} (assumes reversible
+#'   reactions by default).
+#' @param default_ub A numeric value specifying the default upper bound for every
+#'   metabolic reaction flux. Defaults to \code{1000}.
+#' @param flux_bounds A named list used to tweak specific reaction flux bounds. The
+#'   name of each element should be the reaction ID, and the value should be a
+#'   numeric vector of length 2 containing the lower and upper bounds:
+#'   \code{list("flux_id" = c(lb, ub))}.
+#'
+#' @details The function formulates the standard FBA problem:
+#'   \itemize{
+#'     \item Maximize: \code{sum(obj_rxns fluxes)}
+#'     \item Subject to: \code{S * v = 0} (Steady-state constraint)
+#'     \item And: \code{lb <= v <= ub} (Flux bounds)
+#'   }
+#'
+#'   If the solver succeeds, it writes the following files to \code{outputdir}:
+#'   \itemize{
+#'     \item \code{FBA_Full_Flux_Distribution.csv}: All reactions and their calculated fluxes.
+#'     \item \code{FBA_Active_Flux_Distribution.csv}: Reactions with flux absolute value > 1e-6.
+#'     \item \code{ObjectiveFlux.txt}: The maximum objective value.
+#'     \item \code{FBA_Result.json}: The raw result object from \code{lpSolve} in JSON format.
+#'   }
+#'   If the solver fails, it prints the status code and common troubleshooting tips to the console.
+#'
+#' @return Invisible \code{NULL}. The function is called for its side effects
+#'   (console output and file generation).
+#'
+#' @examples
+#' \dontrun{
+#' # Assuming you have a stoichiometric matrix data frame 'S_mat'
+#' # where colnames are reaction IDs and rownames are metabolites
+#'
+#' # Define objective reactions
+#' objectives <- c("BIOMASS_Ecoli_core_w_GAM")
+#'
+#' # Define specific bounds for glucose uptake (e.g., max uptake = 10)
+#' my_bounds <- list("EX_glc__D_e" = c(-10, 1000))
+#'
+#' # Run FBA
+#' FBA_solver(
+#'   S_df = S_mat,
+#'   obj_rxns = objectives,
+#'   outputdir = "./fba_results",
+#'   default_lb = -1000,
+#'   default_ub = 1000,
+#'   flux_bounds = my_bounds
+#' )
+#' }
+#'
+#' @import lpSolve dplyr jsonlite
+#' @export
 const FBA_solver = function(S_df, obj_rxns, outputdir = "./", default_lb = -1000, default_ub = 1000, flux_bounds = list()) {
     library(lpSolve);
     library(dplyr);
