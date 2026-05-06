@@ -187,7 +187,7 @@ const FBA_solver = function(S_df, obj_rxns, outputdir = "./", default_lb = -1000
       );
       
       # 筛选出有实际流量的反应（绝对值 > 1e-6），方便查看
-      let active_flux_df <- result_df %>% filter(abs(Flux) > 1e-6);
+      let active_flux_df <- filter(result_df, abs(Flux) > 1e-6);
       
       # 保存完整结果和活跃反应结果
       write.csv(result_df, file.path(outputdir, "FBA_Full_Flux_Distribution.csv"), row.names = FALSE);
