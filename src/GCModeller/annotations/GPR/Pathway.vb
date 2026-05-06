@@ -1,4 +1,6 @@
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.MetabolicModel
 
 Public Class Pathway : Inherits MetabolicPathway
@@ -7,7 +9,7 @@ Public Class Pathway : Inherits MetabolicPathway
     ''' 反应网络
     ''' </summary>
     ''' <returns></returns>
-    Public Property ReactionNetwork As NetworkGraph
+    Public ReadOnly Property ReactionNetwork As NetworkGraph
 
     Sub New(network As IReadOnlyCollection(Of MetabolicReaction))
         Dim g As New NetworkGraph
@@ -40,5 +42,31 @@ Public Class Pathway : Inherits MetabolicPathway
         metabolicNetwork = network.ToArray
         ReactionNetwork = g
     End Sub
+
+    Public Shared Iterator Function FromKEGGPathways(pathways As IEnumerable(Of Map), reactions As IEnumerable(Of Reaction)) As IEnumerable(Of Pathway)
+        Dim reactionIndex As Dictionary(Of String, MetabolicReaction) = reactions _
+            .GroupBy(Function(r) r.ID) _
+            .ToDictionary(Function(r) r.Key,
+                          Function(r)
+                              Return KEGGConvertor.ConvertReaction(r.First)
+                          End Function)
+
+        For Each map As Map In pathways
+            Dim rxnIDs As String() = map.GetMembers.Where(Function(id) reactionIndex.ContainsKey(id)).ToArray
+            Dim network As MetabolicReaction() = rxnIDs.Select(Function(id) reactionIndex(id)).ToArray
+
+            Yield New Pathway(network) With {
+                .ID = map.EntryId,
+                .metabolicNetwork = network,
+                .metabolites = map _
+                    .GetCompoundSet _
+                    .Select(Function(c)
+                                Return New MetabolicCompound With {.id = c.Name, .name = c.Value}
+                            End Function) _
+                    .ToArray,
+                .name = map.name
+            }
+        Next
+    End Function
 
 End Class
