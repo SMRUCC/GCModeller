@@ -409,14 +409,15 @@ Public Class MetabolicAssociator
         ' 如果没有任何关联，但基因有EC号，添加一个低置信度的注释
         If association.Reactions.Count = 0 AndAlso Not gene.EC_Number.IsNullOrEmpty Then
             For Each ec As String In gene.EC_Number
-                Dim umapKey As String = $"EC:{ec} (unmapped)"
+                Dim unmapKey As String = $"EC:{ec} (unmapped)"
 
-                If association.Reactions.ContainsKey(umapKey) Then
-                    association.Reactions(umapKey).Score += 0.2
+                If association.Reactions.ContainsKey(unmapKey) Then
+                    association.Reactions(unmapKey).Score += 0.2
                 Else
                     association.Reactions.Add(New ScoredReaction With {
-                        .Id = umapKey,
-                        .Score = 0.2
+                        .Id = unmapKey,
+                        .Score = 0.2,
+                        .Unmapped = True
                     })
                 End If
             Next

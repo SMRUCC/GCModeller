@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ContextModel
@@ -8,6 +9,7 @@ Public Class ScoredReaction : Implements INamedValue
 
     Public Property Id As String Implements INamedValue.Key
     Public Property Score As Double
+    Public Property Unmapped As Boolean = False
 
     Public Overrides Function ToString() As String
         Return $"{Id}: {Score}"
@@ -18,6 +20,32 @@ Public Class GeneAssociation : Implements INamedValue
 
     Public Property GeneId As String Implements INamedValue.Key
     Public Property Reactions As Dictionary(Of String, ScoredReaction)
+
+    Public ReadOnly Property GPRLinks As Integer
+        Get
+            Return Reactions.Count
+        End Get
+    End Property
+
+    Public ReadOnly Property MeanScore As Double
+        Get
+            If Reactions.Count = 0 Then
+                Return 0
+            Else
+                Return Reactions.Values.Average(Function(a) a.Score)
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property MedianScore As Double
+        Get
+            If Reactions.Count = 0 Then
+                Return 0
+            Else
+                Return Reactions.Values.Select(Function(a) a.Score).Median
+            End If
+        End Get
+    End Property
 
     Public Overrides Function ToString() As String
         Return $"{GeneId} - [{Reactions.Count}]{Reactions.Keys.GetJson}"
