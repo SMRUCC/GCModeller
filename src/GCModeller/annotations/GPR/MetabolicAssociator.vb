@@ -58,6 +58,8 @@ Public Class MetabolicAssociator
             Dim gene As GeneTable = genome(i)
             Dim geneScores As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
 
+            globalGeneScores(gene.locus_id) = geneScores
+
             ' 1. 直接EC匹配
             AddDirectECMatches(gene, geneScores)
 
@@ -79,8 +81,6 @@ Public Class MetabolicAssociator
             If syntenyAnalyzer IsNot Nothing Then
                 syntenyAnalyzer.ApplyConservationRules(gene, genome.AsEnumerable.ToArray(), i, geneScores)
             End If
-
-            globalGeneScores(gene.locus_id) = geneScores
         Next
 
         ' ==========================================
