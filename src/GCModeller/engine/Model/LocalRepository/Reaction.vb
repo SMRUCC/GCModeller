@@ -80,6 +80,7 @@ Namespace WebJSON
     Public Class Reaction : Implements IEnzymeSet
 
         Public Property guid As String
+        Public Property db_xrefs As String()
         Public Property name As String
         Public Property reaction As String
         Public Property left As Substrate()
