@@ -47,6 +47,19 @@ Public Class GeneAssociation : Implements INamedValue
         End Get
     End Property
 
+    Public ReadOnly Property TopGPRLinks As String()
+        Get
+            Dim cutoff As Double = MedianScore
+            Dim mapped As IEnumerable(Of ScoredReaction) = From r As ScoredReaction
+                                                           In Reactions.Values
+                                                           Where Not r.Unmapped
+            Return mapped _
+                .Where(Function(r) r.Score >= cutoff) _
+                .Select(Function(r) r.Id) _
+                .ToArray
+        End Get
+    End Property
+
     Public Overrides Function ToString() As String
         Return $"{GeneId} - [{Reactions.Count}]{Reactions.Keys.GetJson}"
     End Function
