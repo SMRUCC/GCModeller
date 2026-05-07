@@ -4,8 +4,8 @@
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit;gcmodeller_desktop;nuget_release</Configurations>
     <OutputType>Library</OutputType>
-    <RootNamespace>Darwinism.IPC.OpenApi3</RootNamespace>
-    <AssemblyName>Darwinism.IPC.OpenApi3.0</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.Data.NCBI</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Data.Repository.ncbi_datasets</AssemblyName>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <AssemblyTitle>OpenApi3.0 Source Generator</AssemblyTitle>
     <UseApplicationFramework>True</UseApplicationFramework>
@@ -16,8 +16,9 @@
     <None Remove="Generator\**" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\..\..\..\sciBASIC#\mime\text%yaml\text.yaml.vbproj" />
+    <ProjectReference Include="..\..\runtime\Darwinism\src\message\OpenApi3.0\OpenApi3.0.vbproj" />
+    <ProjectReference Include="..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\runtime\sciBASIC#\mime\text%yaml\text.yaml.vbproj" />
   </ItemGroup>
 
 </Project>
