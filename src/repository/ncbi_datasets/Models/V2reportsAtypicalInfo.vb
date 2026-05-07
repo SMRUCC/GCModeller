@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,13 +15,13 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' is_atypical 属性
         ''' </summary>
-        <JsonProperty("is_atypical")>
+        <Field("is_atypical")>
         Public Property IsAtypical As Boolean?
 
         ''' <summary>
         ''' warnings 属性
         ''' </summary>
-        <JsonProperty("warnings")>
+        <Field("warnings")>
         Public Property Warnings As List(Of String)
 
     End Class

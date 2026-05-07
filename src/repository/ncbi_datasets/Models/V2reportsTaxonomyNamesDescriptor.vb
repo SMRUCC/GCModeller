@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,61 +15,61 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' tax_id 属性
         ''' </summary>
-        <JsonProperty("tax_id")>
+        <Field("tax_id")>
         Public Property TaxId As String
 
         ''' <summary>
         ''' rank 属性
         ''' </summary>
-        <JsonProperty("rank")>
+        <Field("rank")>
         Public Property Rank As Object
 
         ''' <summary>
         ''' current_scientific_name 属性
         ''' </summary>
-        <JsonProperty("current_scientific_name")>
+        <Field("current_scientific_name")>
         Public Property CurrentScientificName As Object
 
         ''' <summary>
         ''' group_name 属性
         ''' </summary>
-        <JsonProperty("group_name")>
+        <Field("group_name")>
         Public Property GroupName As String
 
         ''' <summary>
         ''' curator_common_name 属性
         ''' </summary>
-        <JsonProperty("curator_common_name")>
+        <Field("curator_common_name")>
         Public Property CuratorCommonName As String
 
         ''' <summary>
         ''' other_common_names 属性
         ''' </summary>
-        <JsonProperty("other_common_names")>
+        <Field("other_common_names")>
         Public Property OtherCommonNames As List(Of String)
 
         ''' <summary>
         ''' general_notes 属性
         ''' </summary>
-        <JsonProperty("general_notes")>
+        <Field("general_notes")>
         Public Property GeneralNotes As List(Of String)
 
         ''' <summary>
         ''' links_from_type 属性
         ''' </summary>
-        <JsonProperty("links_from_type")>
+        <Field("links_from_type")>
         Public Property LinksFromType As String
 
         ''' <summary>
         ''' citations 属性
         ''' </summary>
-        <JsonProperty("citations")>
+        <Field("citations")>
         Public Property Citations As List(Of Object)
 
         ''' <summary>
         ''' current_scientific_name_is_formal 属性
         ''' </summary>
-        <JsonProperty("current_scientific_name_is_formal")>
+        <Field("current_scientific_name_is_formal")>
         Public Property CurrentScientificNameIsFormal As Boolean?
 
     End Class

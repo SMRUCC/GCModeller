@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,13 +15,13 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' sleep_msec 属性
         ''' </summary>
-        <JsonProperty("sleep_msec")>
+        <Field("sleep_msec")>
         Public Property SleepMsec As Integer?
 
         ''' <summary>
         ''' error_rate 属性
         ''' </summary>
-        <JsonProperty("error_rate")>
+        <Field("error_rate")>
         Public Property ErrorRate As Single?
 
     End Class

@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,7 +15,7 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' reply 属性
         ''' </summary>
-        <JsonProperty("reply")>
+        <Field("reply")>
         Public Property Reply As String
 
     End Class

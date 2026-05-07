@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,97 +15,97 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' returned_content 属性
         ''' </summary>
-        <JsonProperty("returned_content")>
+        <Field("returned_content")>
         Public Property ReturnedContent As Object
 
         ''' <summary>
         ''' gene_ids 属性
         ''' </summary>
-        <JsonProperty("gene_ids")>
+        <Field("gene_ids")>
         Public Property GeneIds As List(Of Integer)
 
         ''' <summary>
         ''' accessions 属性
         ''' </summary>
-        <JsonProperty("accessions")>
+        <Field("accessions")>
         Public Property Accessions As List(Of String)
 
         ''' <summary>
         ''' symbols_for_taxon 属性
         ''' </summary>
-        <JsonProperty("symbols_for_taxon")>
+        <Field("symbols_for_taxon")>
         Public Property SymbolsForTaxon As Object
 
         ''' <summary>
         ''' taxon 属性
         ''' </summary>
-        <JsonProperty("taxon")>
+        <Field("taxon")>
         Public Property Taxon As String
 
         ''' <summary>
         ''' locus_tags 属性
         ''' </summary>
-        <JsonProperty("locus_tags")>
+        <Field("locus_tags")>
         Public Property LocusTags As List(Of String)
 
         ''' <summary>
         ''' table_fields 属性
         ''' </summary>
-        <JsonProperty("table_fields")>
+        <Field("table_fields")>
         Public Property TableFields As List(Of String)
 
         ''' <summary>
         ''' table_format 属性
         ''' </summary>
-        <JsonProperty("table_format")>
+        <Field("table_format")>
         Public Property TableFormat As String
 
         ''' <summary>
         ''' include_tabular_header 属性
         ''' </summary>
-        <JsonProperty("include_tabular_header")>
+        <Field("include_tabular_header")>
         Public Property IncludeTabularHeader As Object
 
         ''' <summary>
         ''' page_size 属性
         ''' </summary>
-        <JsonProperty("page_size")>
+        <Field("page_size")>
         Public Property PageSize As Integer?
 
         ''' <summary>
         ''' page_token 属性
         ''' </summary>
-        <JsonProperty("page_token")>
+        <Field("page_token")>
         Public Property PageToken As String
 
         ''' <summary>
         ''' query 属性
         ''' </summary>
-        <JsonProperty("query")>
+        <Field("query")>
         Public Property Query As String
 
         ''' <summary>
         ''' types 属性
         ''' </summary>
-        <JsonProperty("types")>
+        <Field("types")>
         Public Property Types As List(Of Object)
 
         ''' <summary>
         ''' accession_filter 属性
         ''' </summary>
-        <JsonProperty("accession_filter")>
+        <Field("accession_filter")>
         Public Property AccessionFilter As List(Of String)
 
         ''' <summary>
         ''' tax_search_subtree 属性
         ''' </summary>
-        <JsonProperty("tax_search_subtree")>
+        <Field("tax_search_subtree")>
         Public Property TaxSearchSubtree As Boolean?
 
         ''' <summary>
         ''' sort 属性
         ''' </summary>
-        <JsonProperty("sort")>
+        <Field("sort")>
         Public Property Sort As List(Of Object)
 
     End Class

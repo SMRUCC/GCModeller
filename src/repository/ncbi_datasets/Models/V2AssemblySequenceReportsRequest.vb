@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,55 +15,55 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' accession 属性
         ''' </summary>
-        <JsonProperty("accession")>
+        <Field("accession")>
         Public Property Accession As String
 
         ''' <summary>
         ''' chromosomes 属性
         ''' </summary>
-        <JsonProperty("chromosomes")>
+        <Field("chromosomes")>
         Public Property Chromosomes As List(Of String)
 
         ''' <summary>
         ''' role_filters 属性
         ''' </summary>
-        <JsonProperty("role_filters")>
+        <Field("role_filters")>
         Public Property RoleFilters As List(Of String)
 
         ''' <summary>
         ''' table_fields 属性
         ''' </summary>
-        <JsonProperty("table_fields")>
+        <Field("table_fields")>
         Public Property TableFields As List(Of String)
 
         ''' <summary>
         ''' count_assembly_unplaced 属性
         ''' </summary>
-        <JsonProperty("count_assembly_unplaced")>
+        <Field("count_assembly_unplaced")>
         Public Property CountAssemblyUnplaced As Boolean?
 
         ''' <summary>
         ''' page_size 属性
         ''' </summary>
-        <JsonProperty("page_size")>
+        <Field("page_size")>
         Public Property PageSize As Integer?
 
         ''' <summary>
         ''' page_token 属性
         ''' </summary>
-        <JsonProperty("page_token")>
+        <Field("page_token")>
         Public Property PageToken As String
 
         ''' <summary>
         ''' include_tabular_header 属性
         ''' </summary>
-        <JsonProperty("include_tabular_header")>
+        <Field("include_tabular_header")>
         Public Property IncludeTabularHeader As Object
 
         ''' <summary>
         ''' table_format 属性
         ''' </summary>
-        <JsonProperty("table_format")>
+        <Field("table_format")>
         Public Property TableFormat As String
 
     End Class

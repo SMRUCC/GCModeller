@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,19 +15,19 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' opaque_solr_query 属性
         ''' </summary>
-        <JsonProperty("opaque_solr_query")>
+        <Field("opaque_solr_query")>
         Public Property OpaqueSolrQuery As String
 
         ''' <summary>
         ''' files 属性
         ''' </summary>
-        <JsonProperty("files")>
+        <Field("files")>
         Public Property Files As List(Of Object)
 
         ''' <summary>
         ''' element_flank_config 属性
         ''' </summary>
-        <JsonProperty("element_flank_config")>
+        <Field("element_flank_config")>
         Public Property ElementFlankConfig As Object
 
     End Class

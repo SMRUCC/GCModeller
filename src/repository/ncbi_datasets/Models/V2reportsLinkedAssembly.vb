@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,13 +15,13 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' linked_assembly 属性
         ''' </summary>
-        <JsonProperty("linked_assembly")>
+        <Field("linked_assembly")>
         Public Property LinkedAssembly As String
 
         ''' <summary>
         ''' assembly_type 属性
         ''' </summary>
-        <JsonProperty("assembly_type")>
+        <Field("assembly_type")>
         Public Property AssemblyType As Object
 
     End Class

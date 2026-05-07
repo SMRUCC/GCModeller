@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,73 +15,73 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' pdb_id 属性
         ''' </summary>
-        <JsonProperty("pdb_id")>
+        <Field("pdb_id")>
         Public Property PdbId As String
 
         ''' <summary>
         ''' mmdb_id 属性
         ''' </summary>
-        <JsonProperty("mmdb_id")>
+        <Field("mmdb_id")>
         Public Property MmdbId As Integer?
 
         ''' <summary>
         ''' is_obsolete 属性
         ''' </summary>
-        <JsonProperty("is_obsolete")>
+        <Field("is_obsolete")>
         Public Property IsObsolete As Boolean?
 
         ''' <summary>
         ''' publication_pmid 属性
         ''' </summary>
-        <JsonProperty("publication_pmid")>
+        <Field("publication_pmid")>
         Public Property PublicationPmid As List(Of Integer)
 
         ''' <summary>
         ''' deposition_date 属性
         ''' </summary>
-        <JsonProperty("deposition_date")>
+        <Field("deposition_date")>
         Public Property DepositionDate As String
 
         ''' <summary>
         ''' update_date 属性
         ''' </summary>
-        <JsonProperty("update_date")>
+        <Field("update_date")>
         Public Property UpdateDate As String
 
         ''' <summary>
         ''' experiment 属性
         ''' </summary>
-        <JsonProperty("experiment")>
+        <Field("experiment")>
         Public Property Experiment As Object
 
         ''' <summary>
         ''' chains 属性
         ''' </summary>
-        <JsonProperty("chains")>
+        <Field("chains")>
         Public Property Chains As List(Of Object)
 
         ''' <summary>
         ''' ligand_chains 属性
         ''' </summary>
-        <JsonProperty("ligand_chains")>
+        <Field("ligand_chains")>
         Public Property LigandChains As List(Of Object)
 
         ''' <summary>
         ''' asymmetric_chains 属性
         ''' </summary>
-        <JsonProperty("asymmetric_chains")>
+        <Field("asymmetric_chains")>
         Public Property AsymmetricChains As List(Of Object)
 
         ''' <summary>
         ''' asymmetric_ligands 属性
         ''' </summary>
-        <JsonProperty("asymmetric_ligands")>
+        <Field("asymmetric_ligands")>
         Public Property AsymmetricLigands As List(Of Object)
 
         ''' <summary>
         ''' title 属性
         ''' </summary>
-        <JsonProperty("title")>
+        <Field("title")>
         Public Property Title As String
 
     End Class

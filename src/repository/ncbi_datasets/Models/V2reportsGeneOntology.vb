@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,25 +15,25 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' assigned_by 属性
         ''' </summary>
-        <JsonProperty("assigned_by")>
+        <Field("assigned_by")>
         Public Property AssignedBy As String
 
         ''' <summary>
         ''' molecular_functions 属性
         ''' </summary>
-        <JsonProperty("molecular_functions")>
+        <Field("molecular_functions")>
         Public Property MolecularFunctions As List(Of Object)
 
         ''' <summary>
         ''' biological_processes 属性
         ''' </summary>
-        <JsonProperty("biological_processes")>
+        <Field("biological_processes")>
         Public Property BiologicalProcesses As List(Of Object)
 
         ''' <summary>
         ''' cellular_components 属性
         ''' </summary>
-        <JsonProperty("cellular_components")>
+        <Field("cellular_components")>
         Public Property CellularComponents As List(Of Object)
 
     End Class

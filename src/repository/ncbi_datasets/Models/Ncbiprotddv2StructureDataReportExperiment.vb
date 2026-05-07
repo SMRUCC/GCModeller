@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,13 +15,13 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' experimental_method 属性
         ''' </summary>
-        <JsonProperty("experimental_method")>
+        <Field("experimental_method")>
         Public Property ExperimentalMethod As String
 
         ''' <summary>
         ''' resolution 属性
         ''' </summary>
-        <JsonProperty("resolution")>
+        <Field("resolution")>
         Public Property Resolution As Single?
 
     End Class

@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,49 +15,49 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' taxonomy_check_status 属性
         ''' </summary>
-        <JsonProperty("taxonomy_check_status")>
+        <Field("taxonomy_check_status")>
         Public Property TaxonomyCheckStatus As Object
 
         ''' <summary>
         ''' match_status 属性
         ''' </summary>
-        <JsonProperty("match_status")>
+        <Field("match_status")>
         Public Property MatchStatus As Object
 
         ''' <summary>
         ''' submitted_organism 属性
         ''' </summary>
-        <JsonProperty("submitted_organism")>
+        <Field("submitted_organism")>
         Public Property SubmittedOrganism As String
 
         ''' <summary>
         ''' submitted_species 属性
         ''' </summary>
-        <JsonProperty("submitted_species")>
+        <Field("submitted_species")>
         Public Property SubmittedSpecies As String
 
         ''' <summary>
         ''' category 属性
         ''' </summary>
-        <JsonProperty("category")>
+        <Field("category")>
         Public Property Category As Object
 
         ''' <summary>
         ''' submitted_ani_match 属性
         ''' </summary>
-        <JsonProperty("submitted_ani_match")>
+        <Field("submitted_ani_match")>
         Public Property SubmittedAniMatch As Object
 
         ''' <summary>
         ''' best_ani_match 属性
         ''' </summary>
-        <JsonProperty("best_ani_match")>
+        <Field("best_ani_match")>
         Public Property BestAniMatch As Object
 
         ''' <summary>
         ''' comment 属性
         ''' </summary>
-        <JsonProperty("comment")>
+        <Field("comment")>
         Public Property Comment As String
 
     End Class

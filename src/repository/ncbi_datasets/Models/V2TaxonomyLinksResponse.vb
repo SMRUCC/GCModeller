@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,43 +15,43 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' tax_id 属性
         ''' </summary>
-        <JsonProperty("tax_id")>
+        <Field("tax_id")>
         Public Property TaxId As String
 
         ''' <summary>
         ''' encyclopedia_of_life 属性
         ''' </summary>
-        <JsonProperty("encyclopedia_of_life")>
+        <Field("encyclopedia_of_life")>
         Public Property EncyclopediaOfLife As String
 
         ''' <summary>
         ''' global_biodiversity_information_facility 属性
         ''' </summary>
-        <JsonProperty("global_biodiversity_information_facility")>
+        <Field("global_biodiversity_information_facility")>
         Public Property GlobalBiodiversityInformationFacility As String
 
         ''' <summary>
         ''' inaturalist 属性
         ''' </summary>
-        <JsonProperty("inaturalist")>
+        <Field("inaturalist")>
         Public Property Inaturalist As String
 
         ''' <summary>
         ''' viralzone 属性
         ''' </summary>
-        <JsonProperty("viralzone")>
+        <Field("viralzone")>
         Public Property Viralzone As String
 
         ''' <summary>
         ''' wikipedia 属性
         ''' </summary>
-        <JsonProperty("wikipedia")>
+        <Field("wikipedia")>
         Public Property Wikipedia As String
 
         ''' <summary>
         ''' generic_links 属性
         ''' </summary>
-        <JsonProperty("generic_links")>
+        <Field("generic_links")>
         Public Property GenericLinks As List(Of Object)
 
     End Class

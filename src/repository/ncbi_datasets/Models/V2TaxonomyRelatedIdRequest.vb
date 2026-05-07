@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,37 +15,37 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' tax_id 属性
         ''' </summary>
-        <JsonProperty("tax_id")>
+        <Field("tax_id")>
         Public Property TaxId As Integer?
 
         ''' <summary>
         ''' include_lineage 属性
         ''' </summary>
-        <JsonProperty("include_lineage")>
+        <Field("include_lineage")>
         Public Property IncludeLineage As Boolean?
 
         ''' <summary>
         ''' include_subtree 属性
         ''' </summary>
-        <JsonProperty("include_subtree")>
+        <Field("include_subtree")>
         Public Property IncludeSubtree As Boolean?
 
         ''' <summary>
         ''' ranks 属性
         ''' </summary>
-        <JsonProperty("ranks")>
+        <Field("ranks")>
         Public Property Ranks As List(Of Object)
 
         ''' <summary>
         ''' page_size 属性
         ''' </summary>
-        <JsonProperty("page_size")>
+        <Field("page_size")>
         Public Property PageSize As Integer?
 
         ''' <summary>
         ''' page_token 属性
         ''' </summary>
-        <JsonProperty("page_token")>
+        <Field("page_token")>
         Public Property PageToken As String
 
     End Class

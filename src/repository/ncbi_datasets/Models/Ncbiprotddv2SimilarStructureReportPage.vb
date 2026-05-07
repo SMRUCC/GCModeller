@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,19 +15,19 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' similar_structures 属性
         ''' </summary>
-        <JsonProperty("similar_structures")>
+        <Field("similar_structures")>
         Public Property SimilarStructures As List(Of Object)
 
         ''' <summary>
         ''' next_page_token 属性
         ''' </summary>
-        <JsonProperty("next_page_token")>
+        <Field("next_page_token")>
         Public Property NextPageToken As String
 
         ''' <summary>
         ''' total_count 属性
         ''' </summary>
-        <JsonProperty("total_count")>
+        <Field("total_count")>
         Public Property TotalCount As Integer?
 
     End Class

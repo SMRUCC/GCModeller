@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,13 +15,13 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' file_count 属性
         ''' </summary>
-        <JsonProperty("file_count")>
+        <Field("file_count")>
         Public Property FileCount As Integer?
 
         ''' <summary>
         ''' size_mb 属性
         ''' </summary>
-        <JsonProperty("size_mb")>
+        <Field("size_mb")>
         Public Property SizeMb As Single?
 
     End Class

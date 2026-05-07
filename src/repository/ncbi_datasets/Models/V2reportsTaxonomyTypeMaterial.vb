@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,37 +15,37 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' type_strain_name 属性
         ''' </summary>
-        <JsonProperty("type_strain_name")>
+        <Field("type_strain_name")>
         Public Property TypeStrainName As String
 
         ''' <summary>
         ''' type_strain_id 属性
         ''' </summary>
-        <JsonProperty("type_strain_id")>
+        <Field("type_strain_id")>
         Public Property TypeStrainId As String
 
         ''' <summary>
         ''' bio_collection_id 属性
         ''' </summary>
-        <JsonProperty("bio_collection_id")>
+        <Field("bio_collection_id")>
         Public Property BioCollectionId As String
 
         ''' <summary>
         ''' bio_collection_name 属性
         ''' </summary>
-        <JsonProperty("bio_collection_name")>
+        <Field("bio_collection_name")>
         Public Property BioCollectionName As String
 
         ''' <summary>
         ''' collection_type 属性
         ''' </summary>
-        <JsonProperty("collection_type")>
+        <Field("collection_type")>
         Public Property CollectionType As List(Of Object)
 
         ''' <summary>
         ''' type_class 属性
         ''' </summary>
-        <JsonProperty("type_class")>
+        <Field("type_class")>
         Public Property TypeClass As String
 
     End Class

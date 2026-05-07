@@ -11,10 +11,9 @@ Imports System.Net
 Imports System.Net.Http
 Imports System.Text
 Imports System.Threading.Tasks
-Imports Newtonsoft.Json
+Imports Darwinism.IPC.OpenApi3.Infrastructure
 Imports ncbi_datasets.Models
 Imports ncbi_datasets.Infrastructure
-
 
 Namespace ncbi_datasets.Clients
 

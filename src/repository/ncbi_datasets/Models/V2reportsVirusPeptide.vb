@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,61 +15,61 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' accession 属性
         ''' </summary>
-        <JsonProperty("accession")>
+        <Field("accession")>
         Public Property Accession As String
 
         ''' <summary>
         ''' name 属性
         ''' </summary>
-        <JsonProperty("name")>
+        <Field("name")>
         Public Property Name As String
 
         ''' <summary>
         ''' other_names 属性
         ''' </summary>
-        <JsonProperty("other_names")>
+        <Field("other_names")>
         Public Property OtherNames As List(Of String)
 
         ''' <summary>
         ''' nucleotide 属性
         ''' </summary>
-        <JsonProperty("nucleotide")>
+        <Field("nucleotide")>
         Public Property Nucleotide As Object
 
         ''' <summary>
         ''' protein 属性
         ''' </summary>
-        <JsonProperty("protein")>
+        <Field("protein")>
         Public Property Protein As Object
 
         ''' <summary>
         ''' pdb_ids 属性
         ''' </summary>
-        <JsonProperty("pdb_ids")>
+        <Field("pdb_ids")>
         Public Property PdbIds As List(Of String)
 
         ''' <summary>
         ''' cdd 属性
         ''' </summary>
-        <JsonProperty("cdd")>
+        <Field("cdd")>
         Public Property Cdd As List(Of Object)
 
         ''' <summary>
         ''' uni_prot_kb 属性
         ''' </summary>
-        <JsonProperty("uni_prot_kb")>
+        <Field("uni_prot_kb")>
         Public Property UniProtKb As Object
 
         ''' <summary>
         ''' mature_peptide 属性
         ''' </summary>
-        <JsonProperty("mature_peptide")>
+        <Field("mature_peptide")>
         Public Property MaturePeptide As List(Of Object)
 
         ''' <summary>
         ''' protein_completeness 属性
         ''' </summary>
-        <JsonProperty("protein_completeness")>
+        <Field("protein_completeness")>
         Public Property ProteinCompleteness As Object
 
     End Class

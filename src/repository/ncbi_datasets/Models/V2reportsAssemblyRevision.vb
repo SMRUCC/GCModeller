@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,49 +15,49 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' genbank_accession 属性
         ''' </summary>
-        <JsonProperty("genbank_accession")>
+        <Field("genbank_accession")>
         Public Property GenbankAccession As String
 
         ''' <summary>
         ''' refseq_accession 属性
         ''' </summary>
-        <JsonProperty("refseq_accession")>
+        <Field("refseq_accession")>
         Public Property RefseqAccession As String
 
         ''' <summary>
         ''' assembly_name 属性
         ''' </summary>
-        <JsonProperty("assembly_name")>
+        <Field("assembly_name")>
         Public Property AssemblyName As String
 
         ''' <summary>
         ''' assembly_level 属性
         ''' </summary>
-        <JsonProperty("assembly_level")>
+        <Field("assembly_level")>
         Public Property AssemblyLevel As Object
 
         ''' <summary>
         ''' release_date 属性
         ''' </summary>
-        <JsonProperty("release_date")>
+        <Field("release_date")>
         Public Property ReleaseDate As String
 
         ''' <summary>
         ''' submission_date 属性
         ''' </summary>
-        <JsonProperty("submission_date")>
+        <Field("submission_date")>
         Public Property SubmissionDate As String
 
         ''' <summary>
         ''' sequencing_technology 属性
         ''' </summary>
-        <JsonProperty("sequencing_technology")>
+        <Field("sequencing_technology")>
         Public Property SequencingTechnology As String
 
         ''' <summary>
         ''' identical 属性
         ''' </summary>
-        <JsonProperty("identical")>
+        <Field("identical")>
         Public Property Identical As Boolean?
 
     End Class

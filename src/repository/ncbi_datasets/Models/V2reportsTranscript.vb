@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,55 +15,55 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' accession_version 属性
         ''' </summary>
-        <JsonProperty("accession_version")>
+        <Field("accession_version")>
         Public Property AccessionVersion As String
 
         ''' <summary>
         ''' name 属性
         ''' </summary>
-        <JsonProperty("name")>
+        <Field("name")>
         Public Property Name As String
 
         ''' <summary>
         ''' length 属性
         ''' </summary>
-        <JsonProperty("length")>
+        <Field("length")>
         Public Property Length As Integer?
 
         ''' <summary>
         ''' cds 属性
         ''' </summary>
-        <JsonProperty("cds")>
+        <Field("cds")>
         Public Property Cds As Object
 
         ''' <summary>
         ''' genomic_locations 属性
         ''' </summary>
-        <JsonProperty("genomic_locations")>
+        <Field("genomic_locations")>
         Public Property GenomicLocations As List(Of Object)
 
         ''' <summary>
         ''' ensembl_transcript 属性
         ''' </summary>
-        <JsonProperty("ensembl_transcript")>
+        <Field("ensembl_transcript")>
         Public Property EnsemblTranscript As String
 
         ''' <summary>
         ''' protein 属性
         ''' </summary>
-        <JsonProperty("protein")>
+        <Field("protein")>
         Public Property Protein As Object
 
         ''' <summary>
         ''' type 属性
         ''' </summary>
-        <JsonProperty("type")>
+        <Field("type")>
         Public Property Type As Object
 
         ''' <summary>
         ''' select_category 属性
         ''' </summary>
-        <JsonProperty("select_category")>
+        <Field("select_category")>
         Public Property SelectCategory As Object
 
     End Class

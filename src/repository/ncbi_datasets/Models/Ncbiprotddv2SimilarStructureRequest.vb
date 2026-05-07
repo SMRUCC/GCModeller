@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,31 +15,31 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' sdid 属性
         ''' </summary>
-        <JsonProperty("sdid")>
+        <Field("sdid")>
         Public Property Sdid As String
 
         ''' <summary>
         ''' page_token 属性
         ''' </summary>
-        <JsonProperty("page_token")>
+        <Field("page_token")>
         Public Property PageToken As String
 
         ''' <summary>
         ''' redundancy_level 属性
         ''' </summary>
-        <JsonProperty("redundancy_level")>
+        <Field("redundancy_level")>
         Public Property RedundancyLevel As Object
 
         ''' <summary>
         ''' sort_by 属性
         ''' </summary>
-        <JsonProperty("sort_by")>
+        <Field("sort_by")>
         Public Property SortBy As Object
 
         ''' <summary>
         ''' hits_per_page 属性
         ''' </summary>
-        <JsonProperty("hits_per_page")>
+        <Field("hits_per_page")>
         Public Property HitsPerPage As Integer?
 
     End Class

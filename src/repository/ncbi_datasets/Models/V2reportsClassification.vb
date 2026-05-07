@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,67 +15,67 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' superkingdom 属性
         ''' </summary>
-        <JsonProperty("superkingdom")>
+        <Field("superkingdom")>
         Public Property Superkingdom As Object
 
         ''' <summary>
         ''' kingdom 属性
         ''' </summary>
-        <JsonProperty("kingdom")>
+        <Field("kingdom")>
         Public Property Kingdom As Object
 
         ''' <summary>
         ''' phylum 属性
         ''' </summary>
-        <JsonProperty("phylum")>
+        <Field("phylum")>
         Public Property Phylum As Object
 
         ''' <summary>
         ''' class 属性
         ''' </summary>
-        <JsonProperty("class")>
+        <Field("class")>
         Public Property Class As Object
 
         ''' <summary>
         ''' order 属性
         ''' </summary>
-        <JsonProperty("order")>
+        <Field("order")>
         Public Property Order As Object
 
         ''' <summary>
         ''' family 属性
         ''' </summary>
-        <JsonProperty("family")>
+        <Field("family")>
         Public Property Family As Object
 
         ''' <summary>
         ''' genus 属性
         ''' </summary>
-        <JsonProperty("genus")>
+        <Field("genus")>
         Public Property Genus As Object
 
         ''' <summary>
         ''' species 属性
         ''' </summary>
-        <JsonProperty("species")>
+        <Field("species")>
         Public Property Species As Object
 
         ''' <summary>
         ''' domain 属性
         ''' </summary>
-        <JsonProperty("domain")>
+        <Field("domain")>
         Public Property Domain As Object
 
         ''' <summary>
         ''' realm 属性
         ''' </summary>
-        <JsonProperty("realm")>
+        <Field("realm")>
         Public Property Realm As Object
 
         ''' <summary>
         ''' acellular_root 属性
         ''' </summary>
-        <JsonProperty("acellular_root")>
+        <Field("acellular_root")>
         Public Property AcellularRoot As Object
 
     End Class

@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,49 +15,49 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' busco_lineage 属性
         ''' </summary>
-        <JsonProperty("busco_lineage")>
+        <Field("busco_lineage")>
         Public Property BuscoLineage As String
 
         ''' <summary>
         ''' busco_ver 属性
         ''' </summary>
-        <JsonProperty("busco_ver")>
+        <Field("busco_ver")>
         Public Property BuscoVer As String
 
         ''' <summary>
         ''' complete 属性
         ''' </summary>
-        <JsonProperty("complete")>
+        <Field("complete")>
         Public Property Complete As Single?
 
         ''' <summary>
         ''' single_copy 属性
         ''' </summary>
-        <JsonProperty("single_copy")>
+        <Field("single_copy")>
         Public Property SingleCopy As Single?
 
         ''' <summary>
         ''' duplicated 属性
         ''' </summary>
-        <JsonProperty("duplicated")>
+        <Field("duplicated")>
         Public Property Duplicated As Single?
 
         ''' <summary>
         ''' fragmented 属性
         ''' </summary>
-        <JsonProperty("fragmented")>
+        <Field("fragmented")>
         Public Property Fragmented As Single?
 
         ''' <summary>
         ''' missing 属性
         ''' </summary>
-        <JsonProperty("missing")>
+        <Field("missing")>
         Public Property Missing As Single?
 
         ''' <summary>
         ''' total_count 属性
         ''' </summary>
-        <JsonProperty("total_count")>
+        <Field("total_count")>
         Public Property TotalCount As String
 
     End Class

@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,13 +15,13 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' error 属性
         ''' </summary>
-        <JsonProperty("error")>
+        <Field("error")>
         Public Property Error As Object
 
         ''' <summary>
         ''' warning 属性
         ''' </summary>
-        <JsonProperty("warning")>
+        <Field("warning")>
         Public Property Warning As Object
 
     End Class

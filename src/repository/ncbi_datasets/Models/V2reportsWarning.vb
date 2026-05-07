@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,31 +15,31 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' gene_warning_code 属性
         ''' </summary>
-        <JsonProperty("gene_warning_code")>
+        <Field("gene_warning_code")>
         Public Property GeneWarningCode As Object
 
         ''' <summary>
         ''' reason 属性
         ''' </summary>
-        <JsonProperty("reason")>
+        <Field("reason")>
         Public Property Reason As String
 
         ''' <summary>
         ''' message 属性
         ''' </summary>
-        <JsonProperty("message")>
+        <Field("message")>
         Public Property Message As String
 
         ''' <summary>
         ''' replaced_id 属性
         ''' </summary>
-        <JsonProperty("replaced_id")>
+        <Field("replaced_id")>
         Public Property ReplacedId As Object
 
         ''' <summary>
         ''' unrecognized_identifier 属性
         ''' </summary>
-        <JsonProperty("unrecognized_identifier")>
+        <Field("unrecognized_identifier")>
         Public Property UnrecognizedIdentifier As String
 
     End Class

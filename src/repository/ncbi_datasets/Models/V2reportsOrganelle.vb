@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,61 +15,61 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' description 属性
         ''' </summary>
-        <JsonProperty("description")>
+        <Field("description")>
         Public Property Description As Object
 
         ''' <summary>
         ''' genbank 属性
         ''' </summary>
-        <JsonProperty("genbank")>
+        <Field("genbank")>
         Public Property Genbank As Object
 
         ''' <summary>
         ''' refseq 属性
         ''' </summary>
-        <JsonProperty("refseq")>
+        <Field("refseq")>
         Public Property Refseq As Object
 
         ''' <summary>
         ''' organism 属性
         ''' </summary>
-        <JsonProperty("organism")>
+        <Field("organism")>
         Public Property Organism As Object
 
         ''' <summary>
         ''' bioprojects 属性
         ''' </summary>
-        <JsonProperty("bioprojects")>
+        <Field("bioprojects")>
         Public Property Bioprojects As List(Of Object)
 
         ''' <summary>
         ''' biosample 属性
         ''' </summary>
-        <JsonProperty("biosample")>
+        <Field("biosample")>
         Public Property Biosample As Object
 
         ''' <summary>
         ''' gene_counts 属性
         ''' </summary>
-        <JsonProperty("gene_counts")>
+        <Field("gene_counts")>
         Public Property GeneCounts As Object
 
         ''' <summary>
         ''' length 属性
         ''' </summary>
-        <JsonProperty("length")>
+        <Field("length")>
         Public Property Length As Integer?
 
         ''' <summary>
         ''' topology 属性
         ''' </summary>
-        <JsonProperty("topology")>
+        <Field("topology")>
         Public Property Topology As Object
 
         ''' <summary>
         ''' gene_count 属性
         ''' </summary>
-        <JsonProperty("gene_count")>
+        <Field("gene_count")>
         Public Property GeneCount As Integer?
 
     End Class

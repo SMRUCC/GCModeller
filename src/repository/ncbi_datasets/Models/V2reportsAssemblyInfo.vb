@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,157 +15,157 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' assembly_level 属性
         ''' </summary>
-        <JsonProperty("assembly_level")>
+        <Field("assembly_level")>
         Public Property AssemblyLevel As String
 
         ''' <summary>
         ''' assembly_status 属性
         ''' </summary>
-        <JsonProperty("assembly_status")>
+        <Field("assembly_status")>
         Public Property AssemblyStatus As Object
 
         ''' <summary>
         ''' paired_assembly 属性
         ''' </summary>
-        <JsonProperty("paired_assembly")>
+        <Field("paired_assembly")>
         Public Property PairedAssembly As Object
 
         ''' <summary>
         ''' assembly_name 属性
         ''' </summary>
-        <JsonProperty("assembly_name")>
+        <Field("assembly_name")>
         Public Property AssemblyName As String
 
         ''' <summary>
         ''' assembly_long_name 属性
         ''' </summary>
-        <JsonProperty("assembly_long_name")>
+        <Field("assembly_long_name")>
         Public Property AssemblyLongName As String
 
         ''' <summary>
         ''' assembly_type 属性
         ''' </summary>
-        <JsonProperty("assembly_type")>
+        <Field("assembly_type")>
         Public Property AssemblyType As String
 
         ''' <summary>
         ''' bioproject_lineage 属性
         ''' </summary>
-        <JsonProperty("bioproject_lineage")>
+        <Field("bioproject_lineage")>
         Public Property BioprojectLineage As List(Of Object)
 
         ''' <summary>
         ''' bioproject_accession 属性
         ''' </summary>
-        <JsonProperty("bioproject_accession")>
+        <Field("bioproject_accession")>
         Public Property BioprojectAccession As String
 
         ''' <summary>
         ''' submission_date 属性
         ''' </summary>
-        <JsonProperty("submission_date")>
+        <Field("submission_date")>
         Public Property SubmissionDate As String
 
         ''' <summary>
         ''' release_date 属性
         ''' </summary>
-        <JsonProperty("release_date")>
+        <Field("release_date")>
         Public Property ReleaseDate As String
 
         ''' <summary>
         ''' description 属性
         ''' </summary>
-        <JsonProperty("description")>
+        <Field("description")>
         Public Property Description As String
 
         ''' <summary>
         ''' submitter 属性
         ''' </summary>
-        <JsonProperty("submitter")>
+        <Field("submitter")>
         Public Property Submitter As String
 
         ''' <summary>
         ''' refseq_category 属性
         ''' </summary>
-        <JsonProperty("refseq_category")>
+        <Field("refseq_category")>
         Public Property RefseqCategory As String
 
         ''' <summary>
         ''' synonym 属性
         ''' </summary>
-        <JsonProperty("synonym")>
+        <Field("synonym")>
         Public Property Synonym As String
 
         ''' <summary>
         ''' linked_assembly 属性
         ''' </summary>
-        <JsonProperty("linked_assembly")>
+        <Field("linked_assembly")>
         Public Property LinkedAssembly As String
 
         ''' <summary>
         ''' linked_assemblies 属性
         ''' </summary>
-        <JsonProperty("linked_assemblies")>
+        <Field("linked_assemblies")>
         Public Property LinkedAssemblies As List(Of Object)
 
         ''' <summary>
         ''' atypical 属性
         ''' </summary>
-        <JsonProperty("atypical")>
+        <Field("atypical")>
         Public Property Atypical As Object
 
         ''' <summary>
         ''' genome_notes 属性
         ''' </summary>
-        <JsonProperty("genome_notes")>
+        <Field("genome_notes")>
         Public Property GenomeNotes As List(Of String)
 
         ''' <summary>
         ''' sequencing_tech 属性
         ''' </summary>
-        <JsonProperty("sequencing_tech")>
+        <Field("sequencing_tech")>
         Public Property SequencingTech As String
 
         ''' <summary>
         ''' assembly_method 属性
         ''' </summary>
-        <JsonProperty("assembly_method")>
+        <Field("assembly_method")>
         Public Property AssemblyMethod As String
 
         ''' <summary>
         ''' grouping_method 属性
         ''' </summary>
-        <JsonProperty("grouping_method")>
+        <Field("grouping_method")>
         Public Property GroupingMethod As String
 
         ''' <summary>
         ''' biosample 属性
         ''' </summary>
-        <JsonProperty("biosample")>
+        <Field("biosample")>
         Public Property Biosample As Object
 
         ''' <summary>
         ''' blast_url 属性
         ''' </summary>
-        <JsonProperty("blast_url")>
+        <Field("blast_url")>
         Public Property BlastUrl As String
 
         ''' <summary>
         ''' comments 属性
         ''' </summary>
-        <JsonProperty("comments")>
+        <Field("comments")>
         Public Property Comments As String
 
         ''' <summary>
         ''' suppression_reason 属性
         ''' </summary>
-        <JsonProperty("suppression_reason")>
+        <Field("suppression_reason")>
         Public Property SuppressionReason As String
 
         ''' <summary>
         ''' diploid_role 属性
         ''' </summary>
-        <JsonProperty("diploid_role")>
+        <Field("diploid_role")>
         Public Property DiploidRole As Object
 
     End Class

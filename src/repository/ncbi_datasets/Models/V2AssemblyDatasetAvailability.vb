@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,19 +15,19 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' valid_assemblies 属性
         ''' </summary>
-        <JsonProperty("valid_assemblies")>
+        <Field("valid_assemblies")>
         Public Property ValidAssemblies As List(Of String)
 
         ''' <summary>
         ''' invalid_assemblies 属性
         ''' </summary>
-        <JsonProperty("invalid_assemblies")>
+        <Field("invalid_assemblies")>
         Public Property InvalidAssemblies As List(Of String)
 
         ''' <summary>
         ''' reason 属性
         ''' </summary>
-        <JsonProperty("reason")>
+        <Field("reason")>
         Public Property Reason As String
 
     End Class

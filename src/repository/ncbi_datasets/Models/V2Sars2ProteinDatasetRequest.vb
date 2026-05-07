@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,85 +15,85 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' proteins 属性
         ''' </summary>
-        <JsonProperty("proteins")>
+        <Field("proteins")>
         Public Property Proteins As List(Of String)
 
         ''' <summary>
         ''' refseq_only 属性
         ''' </summary>
-        <JsonProperty("refseq_only")>
+        <Field("refseq_only")>
         Public Property RefseqOnly As Boolean?
 
         ''' <summary>
         ''' annotated_only 属性
         ''' </summary>
-        <JsonProperty("annotated_only")>
+        <Field("annotated_only")>
         Public Property AnnotatedOnly As Boolean?
 
         ''' <summary>
         ''' released_since 属性
         ''' </summary>
-        <JsonProperty("released_since")>
+        <Field("released_since")>
         Public Property ReleasedSince As DateTime?
 
         ''' <summary>
         ''' updated_since 属性
         ''' </summary>
-        <JsonProperty("updated_since")>
+        <Field("updated_since")>
         Public Property UpdatedSince As DateTime?
 
         ''' <summary>
         ''' host 属性
         ''' </summary>
-        <JsonProperty("host")>
+        <Field("host")>
         Public Property Host As String
 
         ''' <summary>
         ''' pangolin_classification 属性
         ''' </summary>
-        <JsonProperty("pangolin_classification")>
+        <Field("pangolin_classification")>
         Public Property PangolinClassification As String
 
         ''' <summary>
         ''' geo_location 属性
         ''' </summary>
-        <JsonProperty("geo_location")>
+        <Field("geo_location")>
         Public Property GeoLocation As String
 
         ''' <summary>
         ''' usa_state 属性
         ''' </summary>
-        <JsonProperty("usa_state")>
+        <Field("usa_state")>
         Public Property UsaState As String
 
         ''' <summary>
         ''' complete_only 属性
         ''' </summary>
-        <JsonProperty("complete_only")>
+        <Field("complete_only")>
         Public Property CompleteOnly As Boolean?
 
         ''' <summary>
         ''' table_fields 属性
         ''' </summary>
-        <JsonProperty("table_fields")>
+        <Field("table_fields")>
         Public Property TableFields As List(Of Object)
 
         ''' <summary>
         ''' include_sequence 属性
         ''' </summary>
-        <JsonProperty("include_sequence")>
+        <Field("include_sequence")>
         Public Property IncludeSequence As List(Of Object)
 
         ''' <summary>
         ''' aux_report 属性
         ''' </summary>
-        <JsonProperty("aux_report")>
+        <Field("aux_report")>
         Public Property AuxReport As List(Of Object)
 
         ''' <summary>
         ''' format 属性
         ''' </summary>
-        <JsonProperty("format")>
+        <Field("format")>
         Public Property Format As Object
 
     End Class

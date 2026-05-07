@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,31 +15,31 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' vast_score 属性
         ''' </summary>
-        <JsonProperty("vast_score")>
+        <Field("vast_score")>
         Public Property VastScore As Single?
 
         ''' <summary>
         ''' align_length 属性
         ''' </summary>
-        <JsonProperty("align_length")>
+        <Field("align_length")>
         Public Property AlignLength As Integer?
 
         ''' <summary>
         ''' pct_identity 属性
         ''' </summary>
-        <JsonProperty("pct_identity")>
+        <Field("pct_identity")>
         Public Property PctIdentity As Single?
 
         ''' <summary>
         ''' rmsd 属性
         ''' </summary>
-        <JsonProperty("rmsd")>
+        <Field("rmsd")>
         Public Property Rmsd As Single?
 
         ''' <summary>
         ''' p_value 属性
         ''' </summary>
-        <JsonProperty("p_value")>
+        <Field("p_value")>
         Public Property PValue As Single?
 
     End Class

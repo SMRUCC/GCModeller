@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,229 +15,229 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' accession 属性
         ''' </summary>
-        <JsonProperty("accession")>
+        <Field("accession")>
         Public Property Accession As String
 
         ''' <summary>
         ''' last_updated 属性
         ''' </summary>
-        <JsonProperty("last_updated")>
+        <Field("last_updated")>
         Public Property LastUpdated As String
 
         ''' <summary>
         ''' publication_date 属性
         ''' </summary>
-        <JsonProperty("publication_date")>
+        <Field("publication_date")>
         Public Property PublicationDate As String
 
         ''' <summary>
         ''' submission_date 属性
         ''' </summary>
-        <JsonProperty("submission_date")>
+        <Field("submission_date")>
         Public Property SubmissionDate As String
 
         ''' <summary>
         ''' sample_ids 属性
         ''' </summary>
-        <JsonProperty("sample_ids")>
+        <Field("sample_ids")>
         Public Property SampleIds As List(Of Object)
 
         ''' <summary>
         ''' description 属性
         ''' </summary>
-        <JsonProperty("description")>
+        <Field("description")>
         Public Property Description As Object
 
         ''' <summary>
         ''' owner 属性
         ''' </summary>
-        <JsonProperty("owner")>
+        <Field("owner")>
         Public Property Owner As Object
 
         ''' <summary>
         ''' models 属性
         ''' </summary>
-        <JsonProperty("models")>
+        <Field("models")>
         Public Property Models As List(Of String)
 
         ''' <summary>
         ''' bioprojects 属性
         ''' </summary>
-        <JsonProperty("bioprojects")>
+        <Field("bioprojects")>
         Public Property Bioprojects As List(Of Object)
 
         ''' <summary>
         ''' package 属性
         ''' </summary>
-        <JsonProperty("package")>
+        <Field("package")>
         Public Property Package As String
 
         ''' <summary>
         ''' attributes 属性
         ''' </summary>
-        <JsonProperty("attributes")>
+        <Field("attributes")>
         Public Property Attributes As List(Of Object)
 
         ''' <summary>
         ''' status 属性
         ''' </summary>
-        <JsonProperty("status")>
+        <Field("status")>
         Public Property Status As Object
 
         ''' <summary>
         ''' age 属性
         ''' </summary>
-        <JsonProperty("age")>
+        <Field("age")>
         Public Property Age As String
 
         ''' <summary>
         ''' biomaterial_provider 属性
         ''' </summary>
-        <JsonProperty("biomaterial_provider")>
+        <Field("biomaterial_provider")>
         Public Property BiomaterialProvider As String
 
         ''' <summary>
         ''' breed 属性
         ''' </summary>
-        <JsonProperty("breed")>
+        <Field("breed")>
         Public Property Breed As String
 
         ''' <summary>
         ''' collected_by 属性
         ''' </summary>
-        <JsonProperty("collected_by")>
+        <Field("collected_by")>
         Public Property CollectedBy As String
 
         ''' <summary>
         ''' collection_date 属性
         ''' </summary>
-        <JsonProperty("collection_date")>
+        <Field("collection_date")>
         Public Property CollectionDate As String
 
         ''' <summary>
         ''' cultivar 属性
         ''' </summary>
-        <JsonProperty("cultivar")>
+        <Field("cultivar")>
         Public Property Cultivar As String
 
         ''' <summary>
         ''' dev_stage 属性
         ''' </summary>
-        <JsonProperty("dev_stage")>
+        <Field("dev_stage")>
         Public Property DevStage As String
 
         ''' <summary>
         ''' ecotype 属性
         ''' </summary>
-        <JsonProperty("ecotype")>
+        <Field("ecotype")>
         Public Property Ecotype As String
 
         ''' <summary>
         ''' geo_loc_name 属性
         ''' </summary>
-        <JsonProperty("geo_loc_name")>
+        <Field("geo_loc_name")>
         Public Property GeoLocName As String
 
         ''' <summary>
         ''' host 属性
         ''' </summary>
-        <JsonProperty("host")>
+        <Field("host")>
         Public Property Host As String
 
         ''' <summary>
         ''' host_disease 属性
         ''' </summary>
-        <JsonProperty("host_disease")>
+        <Field("host_disease")>
         Public Property HostDisease As String
 
         ''' <summary>
         ''' identified_by 属性
         ''' </summary>
-        <JsonProperty("identified_by")>
+        <Field("identified_by")>
         Public Property IdentifiedBy As String
 
         ''' <summary>
         ''' ifsac_category 属性
         ''' </summary>
-        <JsonProperty("ifsac_category")>
+        <Field("ifsac_category")>
         Public Property IfsacCategory As String
 
         ''' <summary>
         ''' isolate 属性
         ''' </summary>
-        <JsonProperty("isolate")>
+        <Field("isolate")>
         Public Property Isolate As String
 
         ''' <summary>
         ''' isolate_name_alias 属性
         ''' </summary>
-        <JsonProperty("isolate_name_alias")>
+        <Field("isolate_name_alias")>
         Public Property IsolateNameAlias As String
 
         ''' <summary>
         ''' isolation_source 属性
         ''' </summary>
-        <JsonProperty("isolation_source")>
+        <Field("isolation_source")>
         Public Property IsolationSource As String
 
         ''' <summary>
         ''' lat_lon 属性
         ''' </summary>
-        <JsonProperty("lat_lon")>
+        <Field("lat_lon")>
         Public Property LatLon As String
 
         ''' <summary>
         ''' project_name 属性
         ''' </summary>
-        <JsonProperty("project_name")>
+        <Field("project_name")>
         Public Property ProjectName As String
 
         ''' <summary>
         ''' sample_name 属性
         ''' </summary>
-        <JsonProperty("sample_name")>
+        <Field("sample_name")>
         Public Property SampleName As String
 
         ''' <summary>
         ''' serovar 属性
         ''' </summary>
-        <JsonProperty("serovar")>
+        <Field("serovar")>
         Public Property Serovar As String
 
         ''' <summary>
         ''' sex 属性
         ''' </summary>
-        <JsonProperty("sex")>
+        <Field("sex")>
         Public Property Sex As String
 
         ''' <summary>
         ''' source_type 属性
         ''' </summary>
-        <JsonProperty("source_type")>
+        <Field("source_type")>
         Public Property SourceType As String
 
         ''' <summary>
         ''' strain 属性
         ''' </summary>
-        <JsonProperty("strain")>
+        <Field("strain")>
         Public Property Strain As String
 
         ''' <summary>
         ''' sub_species 属性
         ''' </summary>
-        <JsonProperty("sub_species")>
+        <Field("sub_species")>
         Public Property SubSpecies As String
 
         ''' <summary>
         ''' tissue 属性
         ''' </summary>
-        <JsonProperty("tissue")>
+        <Field("tissue")>
         Public Property Tissue As String
 
         ''' <summary>
         ''' serotype 属性
         ''' </summary>
-        <JsonProperty("serotype")>
+        <Field("serotype")>
         Public Property Serotype As String
 
     End Class

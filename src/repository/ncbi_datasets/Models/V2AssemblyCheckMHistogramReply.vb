@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,13 +15,13 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' species_taxid 属性
         ''' </summary>
-        <JsonProperty("species_taxid")>
+        <Field("species_taxid")>
         Public Property SpeciesTaxid As Integer?
 
         ''' <summary>
         ''' histogram_intervals 属性
         ''' </summary>
-        <JsonProperty("histogram_intervals")>
+        <Field("histogram_intervals")>
         Public Property HistogramIntervals As List(Of Object)
 
     End Class

@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,19 +15,19 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' geographic_location 属性
         ''' </summary>
-        <JsonProperty("geographic_location")>
+        <Field("geographic_location")>
         Public Property GeographicLocation As String
 
         ''' <summary>
         ''' geographic_region 属性
         ''' </summary>
-        <JsonProperty("geographic_region")>
+        <Field("geographic_region")>
         Public Property GeographicRegion As String
 
         ''' <summary>
         ''' usa_state 属性
         ''' </summary>
-        <JsonProperty("usa_state")>
+        <Field("usa_state")>
         Public Property UsaState As String
 
     End Class

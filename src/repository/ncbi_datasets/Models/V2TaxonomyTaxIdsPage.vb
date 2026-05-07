@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,13 +15,13 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' tax_ids 属性
         ''' </summary>
-        <JsonProperty("tax_ids")>
+        <Field("tax_ids")>
         Public Property TaxIds As List(Of Integer)
 
         ''' <summary>
         ''' next_page_token 属性
         ''' </summary>
-        <JsonProperty("next_page_token")>
+        <Field("next_page_token")>
         Public Property NextPageToken As String
 
     End Class

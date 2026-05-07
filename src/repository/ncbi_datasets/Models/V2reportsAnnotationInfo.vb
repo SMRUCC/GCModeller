@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,67 +15,67 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' name 属性
         ''' </summary>
-        <JsonProperty("name")>
+        <Field("name")>
         Public Property Name As String
 
         ''' <summary>
         ''' provider 属性
         ''' </summary>
-        <JsonProperty("provider")>
+        <Field("provider")>
         Public Property Provider As String
 
         ''' <summary>
         ''' release_date 属性
         ''' </summary>
-        <JsonProperty("release_date")>
+        <Field("release_date")>
         Public Property ReleaseDate As String
 
         ''' <summary>
         ''' report_url 属性
         ''' </summary>
-        <JsonProperty("report_url")>
+        <Field("report_url")>
         Public Property ReportUrl As String
 
         ''' <summary>
         ''' stats 属性
         ''' </summary>
-        <JsonProperty("stats")>
+        <Field("stats")>
         Public Property Stats As Object
 
         ''' <summary>
         ''' busco 属性
         ''' </summary>
-        <JsonProperty("busco")>
+        <Field("busco")>
         Public Property Busco As Object
 
         ''' <summary>
         ''' method 属性
         ''' </summary>
-        <JsonProperty("method")>
+        <Field("method")>
         Public Property Method As String
 
         ''' <summary>
         ''' pipeline 属性
         ''' </summary>
-        <JsonProperty("pipeline")>
+        <Field("pipeline")>
         Public Property Pipeline As String
 
         ''' <summary>
         ''' software_version 属性
         ''' </summary>
-        <JsonProperty("software_version")>
+        <Field("software_version")>
         Public Property SoftwareVersion As String
 
         ''' <summary>
         ''' status 属性
         ''' </summary>
-        <JsonProperty("status")>
+        <Field("status")>
         Public Property Status As String
 
         ''' <summary>
         ''' release_version 属性
         ''' </summary>
-        <JsonProperty("release_version")>
+        <Field("release_version")>
         Public Property ReleaseVersion As String
 
     End Class

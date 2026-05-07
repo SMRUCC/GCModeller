@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,43 +15,43 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' checkm_marker_set 属性
         ''' </summary>
-        <JsonProperty("checkm_marker_set")>
+        <Field("checkm_marker_set")>
         Public Property CheckmMarkerSet As String
 
         ''' <summary>
         ''' checkm_species_tax_id 属性
         ''' </summary>
-        <JsonProperty("checkm_species_tax_id")>
+        <Field("checkm_species_tax_id")>
         Public Property CheckmSpeciesTaxId As Integer?
 
         ''' <summary>
         ''' checkm_marker_set_rank 属性
         ''' </summary>
-        <JsonProperty("checkm_marker_set_rank")>
+        <Field("checkm_marker_set_rank")>
         Public Property CheckmMarkerSetRank As String
 
         ''' <summary>
         ''' checkm_version 属性
         ''' </summary>
-        <JsonProperty("checkm_version")>
+        <Field("checkm_version")>
         Public Property CheckmVersion As String
 
         ''' <summary>
         ''' completeness 属性
         ''' </summary>
-        <JsonProperty("completeness")>
+        <Field("completeness")>
         Public Property Completeness As Single?
 
         ''' <summary>
         ''' contamination 属性
         ''' </summary>
-        <JsonProperty("contamination")>
+        <Field("contamination")>
         Public Property Contamination As Single?
 
         ''' <summary>
         ''' completeness_percentile 属性
         ''' </summary>
-        <JsonProperty("completeness_percentile")>
+        <Field("completeness_percentile")>
         Public Property CompletenessPercentile As Single?
 
     End Class

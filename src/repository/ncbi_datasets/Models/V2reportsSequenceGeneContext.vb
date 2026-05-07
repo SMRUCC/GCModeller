@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,37 +15,37 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' gene_symbol 属性
         ''' </summary>
-        <JsonProperty("gene_symbol")>
+        <Field("gene_symbol")>
         Public Property GeneSymbol As String
 
         ''' <summary>
         ''' gene_id 属性
         ''' </summary>
-        <JsonProperty("gene_id")>
+        <Field("gene_id")>
         Public Property GeneId As String
 
         ''' <summary>
         ''' genomic_location 属性
         ''' </summary>
-        <JsonProperty("genomic_location")>
+        <Field("genomic_location")>
         Public Property GenomicLocation As Object
 
         ''' <summary>
         ''' exons 属性
         ''' </summary>
-        <JsonProperty("exons")>
+        <Field("exons")>
         Public Property Exons As Object
 
         ''' <summary>
         ''' select_category 属性
         ''' </summary>
-        <JsonProperty("select_category")>
+        <Field("select_category")>
         Public Property SelectCategory As String
 
         ''' <summary>
         ''' refseq_select_category 属性
         ''' </summary>
-        <JsonProperty("refseq_select_category")>
+        <Field("refseq_select_category")>
         Public Property RefseqSelectCategory As String
 
     End Class

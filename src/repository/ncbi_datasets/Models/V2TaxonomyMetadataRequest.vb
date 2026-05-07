@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,49 +15,49 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' taxons 属性
         ''' </summary>
-        <JsonProperty("taxons")>
+        <Field("taxons")>
         Public Property Taxons As List(Of String)
 
         ''' <summary>
         ''' returned_content 属性
         ''' </summary>
-        <JsonProperty("returned_content")>
+        <Field("returned_content")>
         Public Property ReturnedContent As Object
 
         ''' <summary>
         ''' page_size 属性
         ''' </summary>
-        <JsonProperty("page_size")>
+        <Field("page_size")>
         Public Property PageSize As Integer?
 
         ''' <summary>
         ''' include_tabular_header 属性
         ''' </summary>
-        <JsonProperty("include_tabular_header")>
+        <Field("include_tabular_header")>
         Public Property IncludeTabularHeader As Object
 
         ''' <summary>
         ''' page_token 属性
         ''' </summary>
-        <JsonProperty("page_token")>
+        <Field("page_token")>
         Public Property PageToken As String
 
         ''' <summary>
         ''' table_format 属性
         ''' </summary>
-        <JsonProperty("table_format")>
+        <Field("table_format")>
         Public Property TableFormat As Object
 
         ''' <summary>
         ''' children 属性
         ''' </summary>
-        <JsonProperty("children")>
+        <Field("children")>
         Public Property Children As Boolean?
 
         ''' <summary>
         ''' ranks 属性
         ''' </summary>
-        <JsonProperty("ranks")>
+        <Field("ranks")>
         Public Property Ranks As List(Of Object)
 
     End Class

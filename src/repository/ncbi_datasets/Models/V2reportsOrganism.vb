@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,49 +15,49 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' tax_id 属性
         ''' </summary>
-        <JsonProperty("tax_id")>
+        <Field("tax_id")>
         Public Property TaxId As Integer?
 
         ''' <summary>
         ''' sci_name 属性
         ''' </summary>
-        <JsonProperty("sci_name")>
+        <Field("sci_name")>
         Public Property SciName As String
 
         ''' <summary>
         ''' organism_name 属性
         ''' </summary>
-        <JsonProperty("organism_name")>
+        <Field("organism_name")>
         Public Property OrganismName As String
 
         ''' <summary>
         ''' common_name 属性
         ''' </summary>
-        <JsonProperty("common_name")>
+        <Field("common_name")>
         Public Property CommonName As String
 
         ''' <summary>
         ''' lineage 属性
         ''' </summary>
-        <JsonProperty("lineage")>
+        <Field("lineage")>
         Public Property Lineage As List(Of Object)
 
         ''' <summary>
         ''' strain 属性
         ''' </summary>
-        <JsonProperty("strain")>
+        <Field("strain")>
         Public Property Strain As String
 
         ''' <summary>
         ''' pangolin_classification 属性
         ''' </summary>
-        <JsonProperty("pangolin_classification")>
+        <Field("pangolin_classification")>
         Public Property PangolinClassification As String
 
         ''' <summary>
         ''' infraspecific_names 属性
         ''' </summary>
-        <JsonProperty("infraspecific_names")>
+        <Field("infraspecific_names")>
         Public Property InfraspecificNames As Object
 
     End Class

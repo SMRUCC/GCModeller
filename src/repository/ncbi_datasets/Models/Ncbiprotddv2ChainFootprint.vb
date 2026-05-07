@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,25 +15,25 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' query_from 属性
         ''' </summary>
-        <JsonProperty("query_from")>
+        <Field("query_from")>
         Public Property QueryFrom As Integer?
 
         ''' <summary>
         ''' query_to 属性
         ''' </summary>
-        <JsonProperty("query_to")>
+        <Field("query_to")>
         Public Property QueryTo As Integer?
 
         ''' <summary>
         ''' dependent_from 属性
         ''' </summary>
-        <JsonProperty("dependent_from")>
+        <Field("dependent_from")>
         Public Property DependentFrom As Integer?
 
         ''' <summary>
         ''' dependent_to 属性
         ''' </summary>
-        <JsonProperty("dependent_to")>
+        <Field("dependent_to")>
         Public Property DependentTo As Integer?
 
     End Class

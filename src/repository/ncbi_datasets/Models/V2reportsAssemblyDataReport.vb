@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,85 +15,85 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' accession 属性
         ''' </summary>
-        <JsonProperty("accession")>
+        <Field("accession")>
         Public Property Accession As String
 
         ''' <summary>
         ''' current_accession 属性
         ''' </summary>
-        <JsonProperty("current_accession")>
+        <Field("current_accession")>
         Public Property CurrentAccession As String
 
         ''' <summary>
         ''' paired_accession 属性
         ''' </summary>
-        <JsonProperty("paired_accession")>
+        <Field("paired_accession")>
         Public Property PairedAccession As String
 
         ''' <summary>
         ''' source_database 属性
         ''' </summary>
-        <JsonProperty("source_database")>
+        <Field("source_database")>
         Public Property SourceDatabase As Object
 
         ''' <summary>
         ''' organism 属性
         ''' </summary>
-        <JsonProperty("organism")>
+        <Field("organism")>
         Public Property Organism As Object
 
         ''' <summary>
         ''' assembly_info 属性
         ''' </summary>
-        <JsonProperty("assembly_info")>
+        <Field("assembly_info")>
         Public Property AssemblyInfo As Object
 
         ''' <summary>
         ''' assembly_stats 属性
         ''' </summary>
-        <JsonProperty("assembly_stats")>
+        <Field("assembly_stats")>
         Public Property AssemblyStats As Object
 
         ''' <summary>
         ''' organelle_info 属性
         ''' </summary>
-        <JsonProperty("organelle_info")>
+        <Field("organelle_info")>
         Public Property OrganelleInfo As List(Of Object)
 
         ''' <summary>
         ''' additional_submitters 属性
         ''' </summary>
-        <JsonProperty("additional_submitters")>
+        <Field("additional_submitters")>
         Public Property AdditionalSubmitters As List(Of Object)
 
         ''' <summary>
         ''' annotation_info 属性
         ''' </summary>
-        <JsonProperty("annotation_info")>
+        <Field("annotation_info")>
         Public Property AnnotationInfo As Object
 
         ''' <summary>
         ''' wgs_info 属性
         ''' </summary>
-        <JsonProperty("wgs_info")>
+        <Field("wgs_info")>
         Public Property WgsInfo As Object
 
         ''' <summary>
         ''' type_material 属性
         ''' </summary>
-        <JsonProperty("type_material")>
+        <Field("type_material")>
         Public Property TypeMaterial As Object
 
         ''' <summary>
         ''' checkm_info 属性
         ''' </summary>
-        <JsonProperty("checkm_info")>
+        <Field("checkm_info")>
         Public Property CheckmInfo As Object
 
         ''' <summary>
         ''' average_nucleotide_identity 属性
         ''' </summary>
-        <JsonProperty("average_nucleotide_identity")>
+        <Field("average_nucleotide_identity")>
         Public Property AverageNucleotideIdentity As Object
 
     End Class

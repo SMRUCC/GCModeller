@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,13 +15,13 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' pdb_id 属性
         ''' </summary>
-        <JsonProperty("pdb_id")>
+        <Field("pdb_id")>
         Public Property PdbId As String
 
         ''' <summary>
         ''' mmdb_id 属性
         ''' </summary>
-        <JsonProperty("mmdb_id")>
+        <Field("mmdb_id")>
         Public Property MmdbId As Integer?
 
     End Class

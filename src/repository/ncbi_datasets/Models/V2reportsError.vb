@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,49 +15,49 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' assembly_error_code 属性
         ''' </summary>
-        <JsonProperty("assembly_error_code")>
+        <Field("assembly_error_code")>
         Public Property AssemblyErrorCode As Object
 
         ''' <summary>
         ''' gene_error_code 属性
         ''' </summary>
-        <JsonProperty("gene_error_code")>
+        <Field("gene_error_code")>
         Public Property GeneErrorCode As Object
 
         ''' <summary>
         ''' organelle_error_code 属性
         ''' </summary>
-        <JsonProperty("organelle_error_code")>
+        <Field("organelle_error_code")>
         Public Property OrganelleErrorCode As Object
 
         ''' <summary>
         ''' virus_error_code 属性
         ''' </summary>
-        <JsonProperty("virus_error_code")>
+        <Field("virus_error_code")>
         Public Property VirusErrorCode As Object
 
         ''' <summary>
         ''' taxonomy_error_code 属性
         ''' </summary>
-        <JsonProperty("taxonomy_error_code")>
+        <Field("taxonomy_error_code")>
         Public Property TaxonomyErrorCode As Object
 
         ''' <summary>
         ''' reason 属性
         ''' </summary>
-        <JsonProperty("reason")>
+        <Field("reason")>
         Public Property Reason As String
 
         ''' <summary>
         ''' message 属性
         ''' </summary>
-        <JsonProperty("message")>
+        <Field("message")>
         Public Property Message As String
 
         ''' <summary>
         ''' invalid_identifiers 属性
         ''' </summary>
-        <JsonProperty("invalid_identifiers")>
+        <Field("invalid_identifiers")>
         Public Property InvalidIdentifiers As List(Of String)
 
     End Class

@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,49 +15,49 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' record_count 属性
         ''' </summary>
-        <JsonProperty("record_count")>
+        <Field("record_count")>
         Public Property RecordCount As Integer?
 
         ''' <summary>
         ''' assembly_count 属性
         ''' </summary>
-        <JsonProperty("assembly_count")>
+        <Field("assembly_count")>
         Public Property AssemblyCount As Integer?
 
         ''' <summary>
         ''' resource_updated_on 属性
         ''' </summary>
-        <JsonProperty("resource_updated_on")>
+        <Field("resource_updated_on")>
         Public Property ResourceUpdatedOn As DateTime?
 
         ''' <summary>
         ''' hydrated 属性
         ''' </summary>
-        <JsonProperty("hydrated")>
+        <Field("hydrated")>
         Public Property Hydrated As Object
 
         ''' <summary>
         ''' dehydrated 属性
         ''' </summary>
-        <JsonProperty("dehydrated")>
+        <Field("dehydrated")>
         Public Property Dehydrated As Object
 
         ''' <summary>
         ''' errors 属性
         ''' </summary>
-        <JsonProperty("errors")>
+        <Field("errors")>
         Public Property Errors As List(Of Object)
 
         ''' <summary>
         ''' messages 属性
         ''' </summary>
-        <JsonProperty("messages")>
+        <Field("messages")>
         Public Property Messages As List(Of Object)
 
         ''' <summary>
         ''' available_files 属性
         ''' </summary>
-        <JsonProperty("available_files")>
+        <Field("available_files")>
         Public Property AvailableFiles As Object
 
     End Class

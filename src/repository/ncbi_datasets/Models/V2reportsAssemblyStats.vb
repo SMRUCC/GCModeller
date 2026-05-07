@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,97 +15,97 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' total_number_of_chromosomes 属性
         ''' </summary>
-        <JsonProperty("total_number_of_chromosomes")>
+        <Field("total_number_of_chromosomes")>
         Public Property TotalNumberOfChromosomes As Integer?
 
         ''' <summary>
         ''' total_sequence_length 属性
         ''' </summary>
-        <JsonProperty("total_sequence_length")>
+        <Field("total_sequence_length")>
         Public Property TotalSequenceLength As String
 
         ''' <summary>
         ''' total_ungapped_length 属性
         ''' </summary>
-        <JsonProperty("total_ungapped_length")>
+        <Field("total_ungapped_length")>
         Public Property TotalUngappedLength As String
 
         ''' <summary>
         ''' number_of_contigs 属性
         ''' </summary>
-        <JsonProperty("number_of_contigs")>
+        <Field("number_of_contigs")>
         Public Property NumberOfContigs As Integer?
 
         ''' <summary>
         ''' contig_n50 属性
         ''' </summary>
-        <JsonProperty("contig_n50")>
+        <Field("contig_n50")>
         Public Property ContigN50 As Integer?
 
         ''' <summary>
         ''' contig_l50 属性
         ''' </summary>
-        <JsonProperty("contig_l50")>
+        <Field("contig_l50")>
         Public Property ContigL50 As Integer?
 
         ''' <summary>
         ''' number_of_scaffolds 属性
         ''' </summary>
-        <JsonProperty("number_of_scaffolds")>
+        <Field("number_of_scaffolds")>
         Public Property NumberOfScaffolds As Integer?
 
         ''' <summary>
         ''' scaffold_n50 属性
         ''' </summary>
-        <JsonProperty("scaffold_n50")>
+        <Field("scaffold_n50")>
         Public Property ScaffoldN50 As Integer?
 
         ''' <summary>
         ''' scaffold_l50 属性
         ''' </summary>
-        <JsonProperty("scaffold_l50")>
+        <Field("scaffold_l50")>
         Public Property ScaffoldL50 As Integer?
 
         ''' <summary>
         ''' gaps_between_scaffolds_count 属性
         ''' </summary>
-        <JsonProperty("gaps_between_scaffolds_count")>
+        <Field("gaps_between_scaffolds_count")>
         Public Property GapsBetweenScaffoldsCount As Integer?
 
         ''' <summary>
         ''' number_of_component_sequences 属性
         ''' </summary>
-        <JsonProperty("number_of_component_sequences")>
+        <Field("number_of_component_sequences")>
         Public Property NumberOfComponentSequences As Integer?
 
         ''' <summary>
         ''' atgc_count 属性
         ''' </summary>
-        <JsonProperty("atgc_count")>
+        <Field("atgc_count")>
         Public Property AtgcCount As String
 
         ''' <summary>
         ''' gc_count 属性
         ''' </summary>
-        <JsonProperty("gc_count")>
+        <Field("gc_count")>
         Public Property GcCount As String
 
         ''' <summary>
         ''' gc_percent 属性
         ''' </summary>
-        <JsonProperty("gc_percent")>
+        <Field("gc_percent")>
         Public Property GcPercent As Single?
 
         ''' <summary>
         ''' genome_coverage 属性
         ''' </summary>
-        <JsonProperty("genome_coverage")>
+        <Field("genome_coverage")>
         Public Property GenomeCoverage As String
 
         ''' <summary>
         ''' number_of_organelles 属性
         ''' </summary>
-        <JsonProperty("number_of_organelles")>
+        <Field("number_of_organelles")>
         Public Property NumberOfOrganelles As Integer?
 
     End Class

@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,91 +15,91 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' assembly_accession 属性
         ''' </summary>
-        <JsonProperty("assembly_accession")>
+        <Field("assembly_accession")>
         Public Property AssemblyAccession As String
 
         ''' <summary>
         ''' chr_name 属性
         ''' </summary>
-        <JsonProperty("chr_name")>
+        <Field("chr_name")>
         Public Property ChrName As String
 
         ''' <summary>
         ''' ucsc_style_name 属性
         ''' </summary>
-        <JsonProperty("ucsc_style_name")>
+        <Field("ucsc_style_name")>
         Public Property UcscStyleName As String
 
         ''' <summary>
         ''' sort_order 属性
         ''' </summary>
-        <JsonProperty("sort_order")>
+        <Field("sort_order")>
         Public Property SortOrder As Integer?
 
         ''' <summary>
         ''' assigned_molecule_location_type 属性
         ''' </summary>
-        <JsonProperty("assigned_molecule_location_type")>
+        <Field("assigned_molecule_location_type")>
         Public Property AssignedMoleculeLocationType As String
 
         ''' <summary>
         ''' refseq_accession 属性
         ''' </summary>
-        <JsonProperty("refseq_accession")>
+        <Field("refseq_accession")>
         Public Property RefseqAccession As String
 
         ''' <summary>
         ''' assembly_unit 属性
         ''' </summary>
-        <JsonProperty("assembly_unit")>
+        <Field("assembly_unit")>
         Public Property AssemblyUnit As String
 
         ''' <summary>
         ''' length 属性
         ''' </summary>
-        <JsonProperty("length")>
+        <Field("length")>
         Public Property Length As Integer?
 
         ''' <summary>
         ''' genbank_accession 属性
         ''' </summary>
-        <JsonProperty("genbank_accession")>
+        <Field("genbank_accession")>
         Public Property GenbankAccession As String
 
         ''' <summary>
         ''' gc_count 属性
         ''' </summary>
-        <JsonProperty("gc_count")>
+        <Field("gc_count")>
         Public Property GcCount As String
 
         ''' <summary>
         ''' gc_percent 属性
         ''' </summary>
-        <JsonProperty("gc_percent")>
+        <Field("gc_percent")>
         Public Property GcPercent As Single?
 
         ''' <summary>
         ''' unlocalized_count 属性
         ''' </summary>
-        <JsonProperty("unlocalized_count")>
+        <Field("unlocalized_count")>
         Public Property UnlocalizedCount As Integer?
 
         ''' <summary>
         ''' assembly_unplaced_count 属性
         ''' </summary>
-        <JsonProperty("assembly_unplaced_count")>
+        <Field("assembly_unplaced_count")>
         Public Property AssemblyUnplacedCount As Integer?
 
         ''' <summary>
         ''' role 属性
         ''' </summary>
-        <JsonProperty("role")>
+        <Field("role")>
         Public Property Role As String
 
         ''' <summary>
         ''' sequence_name 属性
         ''' </summary>
-        <JsonProperty("sequence_name")>
+        <Field("sequence_name")>
         Public Property SequenceName As String
 
     End Class

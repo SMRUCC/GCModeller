@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,55 +15,55 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' accession 属性
         ''' </summary>
-        <JsonProperty("accession")>
+        <Field("accession")>
         Public Property Accession As String
 
         ''' <summary>
         ''' name 属性
         ''' </summary>
-        <JsonProperty("name")>
+        <Field("name")>
         Public Property Name As String
 
         ''' <summary>
         ''' description 属性
         ''' </summary>
-        <JsonProperty("description")>
+        <Field("description")>
         Public Property Description As String
 
         ''' <summary>
         ''' start 属性
         ''' </summary>
-        <JsonProperty("start")>
+        <Field("start")>
         Public Property Start As Integer?
 
         ''' <summary>
         ''' stop 属性
         ''' </summary>
-        <JsonProperty("stop")>
+        <Field("stop")>
         Public Property Stop As Integer?
 
         ''' <summary>
         ''' specific 属性
         ''' </summary>
-        <JsonProperty("specific")>
+        <Field("specific")>
         Public Property Specific As Boolean?
 
         ''' <summary>
         ''' partial 属性
         ''' </summary>
-        <JsonProperty("partial")>
+        <Field("partial")>
         Public Property Partial As Boolean?
 
         ''' <summary>
         ''' evalue 属性
         ''' </summary>
-        <JsonProperty("evalue")>
+        <Field("evalue")>
         Public Property Evalue As Single?
 
         ''' <summary>
         ''' bit_score 属性
         ''' </summary>
-        <JsonProperty("bit_score")>
+        <Field("bit_score")>
         Public Property BitScore As Single?
 
     End Class

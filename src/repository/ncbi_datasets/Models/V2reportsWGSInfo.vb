@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,19 +15,19 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' wgs_project_accession 属性
         ''' </summary>
-        <JsonProperty("wgs_project_accession")>
+        <Field("wgs_project_accession")>
         Public Property WgsProjectAccession As String
 
         ''' <summary>
         ''' master_wgs_url 属性
         ''' </summary>
-        <JsonProperty("master_wgs_url")>
+        <Field("master_wgs_url")>
         Public Property MasterWgsUrl As String
 
         ''' <summary>
         ''' wgs_contigs_url 属性
         ''' </summary>
-        <JsonProperty("wgs_contigs_url")>
+        <Field("wgs_contigs_url")>
         Public Property WgsContigsUrl As String
 
     End Class

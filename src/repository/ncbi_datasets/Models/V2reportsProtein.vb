@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,37 +15,37 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' accession_version 属性
         ''' </summary>
-        <JsonProperty("accession_version")>
+        <Field("accession_version")>
         Public Property AccessionVersion As String
 
         ''' <summary>
         ''' name 属性
         ''' </summary>
-        <JsonProperty("name")>
+        <Field("name")>
         Public Property Name As String
 
         ''' <summary>
         ''' length 属性
         ''' </summary>
-        <JsonProperty("length")>
+        <Field("length")>
         Public Property Length As Integer?
 
         ''' <summary>
         ''' isoform_name 属性
         ''' </summary>
-        <JsonProperty("isoform_name")>
+        <Field("isoform_name")>
         Public Property IsoformName As String
 
         ''' <summary>
         ''' ensembl_protein 属性
         ''' </summary>
-        <JsonProperty("ensembl_protein")>
+        <Field("ensembl_protein")>
         Public Property EnsemblProtein As String
 
         ''' <summary>
         ''' mature_peptides 属性
         ''' </summary>
-        <JsonProperty("mature_peptides")>
+        <Field("mature_peptides")>
         Public Property MaturePeptides As List(Of Object)
 
     End Class

@@ -6,7 +6,7 @@
 
 Imports System
 Imports System.Collections.Generic
-Imports Newtonsoft.Json
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace ncbi_datasets.Models
 
@@ -15,19 +15,19 @@ Namespace ncbi_datasets.Models
         ''' <summary>
         ''' source 属性
         ''' </summary>
-        <JsonProperty("source")>
+        <Field("source")>
         Public Property Source As String
 
         ''' <summary>
         ''' description 属性
         ''' </summary>
-        <JsonProperty("description")>
+        <Field("description")>
         Public Property Description As String
 
         ''' <summary>
         ''' date 属性
         ''' </summary>
-        <JsonProperty("date")>
+        <Field("date")>
         Public Property Date As String
 
     End Class
