@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit;gcmodeller_desktop;nuget_release</Configurations>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Darwinism.IPC.OpenApi3</RootNamespace>
+    <AssemblyName>Darwinism.IPC.OpenApi3.0</AssemblyName>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <AssemblyTitle>OpenApi3.0 Source Generator</AssemblyTitle>
+    <UseApplicationFramework>True</UseApplicationFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Generator\**" />
+    <EmbeddedResource Remove="Generator\**" />
+    <None Remove="Generator\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\sciBASIC#\mime\text%yaml\text.yaml.vbproj" />
+  </ItemGroup>
+
+</Project>
