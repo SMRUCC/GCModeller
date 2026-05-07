@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\repository\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{395D4C1F-017F-3153-1AF6-2DF7442AE505}|ncbi_datasets\\ncbi_datasets.vbproj|g:\\gcmodeller\\src\\repository\\ncbi_datasets\\models\\ncbiprotddv2vastscore.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{395D4C1F-017F-3153-1AF6-2DF7442AE505}|ncbi_datasets\\ncbi_datasets.vbproj|solutionrelative:ncbi_datasets\\models\\ncbiprotddv2vastscore.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{395D4C1F-017F-3153-1AF6-2DF7442AE505}|ncbi_datasets\\ncbi_datasets.vbproj|g:\\gcmodeller\\src\\repository\\ncbi_datasets\\models\\ncbiprotddv2redundancylevel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{395D4C1F-017F-3153-1AF6-2DF7442AE505}|ncbi_datasets\\ncbi_datasets.vbproj|solutionrelative:ncbi_datasets\\models\\ncbiprotddv2redundancylevel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{395D4C1F-017F-3153-1AF6-2DF7442AE505}|ncbi_datasets\\ncbi_datasets.vbproj|g:\\gcmodeller\\src\\repository\\ncbi_datasets\\clients\\defaultclient.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{395D4C1F-017F-3153-1AF6-2DF7442AE505}|ncbi_datasets\\ncbi_datasets.vbproj|solutionrelative:ncbi_datasets\\clients\\defaultclient.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -43,19 +51,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Ncbiprotddv2VastScore.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\ncbi_datasets\\Models\\Ncbiprotddv2VastScore.vb",
+              "RelativeDocumentMoniker": "ncbi_datasets\\Models\\Ncbiprotddv2VastScore.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\ncbi_datasets\\Models\\Ncbiprotddv2VastScore.vb",
+              "RelativeToolTip": "ncbi_datasets\\Models\\Ncbiprotddv2VastScore.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-05-07T16:36:39.85Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Ncbiprotddv2RedundancyLevel.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\ncbi_datasets\\Models\\Ncbiprotddv2RedundancyLevel.vb",
+              "RelativeDocumentMoniker": "ncbi_datasets\\Models\\Ncbiprotddv2RedundancyLevel.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\ncbi_datasets\\Models\\Ncbiprotddv2RedundancyLevel.vb",
+              "RelativeToolTip": "ncbi_datasets\\Models\\Ncbiprotddv2RedundancyLevel.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-05-07T16:36:37.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "DefaultClient.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\ncbi_datasets\\Clients\\DefaultClient.vb",
               "RelativeDocumentMoniker": "ncbi_datasets\\Clients\\DefaultClient.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\ncbi_datasets\\Clients\\DefaultClient.vb",
               "RelativeToolTip": "ncbi_datasets\\Clients\\DefaultClient.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAEcDAAAAAAAAAAAAAGQDAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-05-07T16:23:13.517Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Ncbigsupgcolv2AssemblyDataReportsRequest.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\ncbi_datasets\\Models\\Ncbigsupgcolv2AssemblyDataReportsRequest.vb",
               "RelativeDocumentMoniker": "ncbi_datasets\\Models\\Ncbigsupgcolv2AssemblyDataReportsRequest.vb",
@@ -68,7 +102,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Ncbigsupgcolv2ChromosomeType.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\ncbi_datasets\\Models\\Ncbigsupgcolv2ChromosomeType.vb",
               "RelativeDocumentMoniker": "ncbi_datasets\\Models\\Ncbigsupgcolv2ChromosomeType.vb",
