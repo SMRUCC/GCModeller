@@ -646,6 +646,8 @@ Module visualPlot
             .gridFill = "white",
             .padding = padding,
             .legendLabelCSS = env.FontCss(12, Imaging.FontStyle.Regular),
+            .legendTickCSS = env.FontCss(12, Imaging.FontStyle.Regular),
+            .legendTitleCSS = env.FontCss(16, Imaging.FontStyle.Bold),
             .axisLabelCSS = env.FontCss(16, Imaging.FontStyle.Regular),
             .axisTickCSS = env.FontCss(12, Imaging.FontStyle.Regular),
             .colorSet = themeColors,
