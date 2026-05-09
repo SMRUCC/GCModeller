@@ -863,12 +863,11 @@ Module visualPlot
     End Function
 
     Public Function CategoryProfilePlots(profiles As CatalogProfiles, args As list, env As Environment) As Object
-        Dim fontName As String = args.getValue({"family", "fontface"}, env, default:=FontFace.BookmanOldStyle)
-        Dim classFontStyle$ = New CSSFont(CSSFont.TryParse(CSSFont.Win7LargerBold), family:=fontName).CSSValue
-        Dim catalogFontStyle$ = New CSSFont(CSSFont.TryParse(CSSFont.Win7Bold), family:=fontName).CSSValue
-        Dim titleFontStyle$ = New CSSFont(CSSFont.TryParse(CSSFont.PlotTitle), family:=fontName).CSSValue
-        Dim valueFontStyle$ = New CSSFont(CSSFont.TryParse(CSSFont.Win7Bold), family:=fontName).CSSValue
-        Dim tickFontStyle$ = New CSSFont(CSSFont.TryParse(CSSFont.Win7LargerBold), family:=fontName).CSSValue
+        Dim classFontStyle$ = env.FontCss(16, Imaging.FontStyle.Bold)
+        Dim catalogFontStyle$ = env.FontCss(12, Imaging.FontStyle.Bold)
+        Dim titleFontStyle$ = env.FontCss(24, Imaging.FontStyle.Bold)
+        Dim valueFontStyle$ = env.FontCss(12, Imaging.FontStyle.Bold)
+        Dim tickFontStyle$ = env.FontCss(16, Imaging.FontStyle.Bold)
 
         Return profiles.ProfilesPlot(
             title:=args.getValue("title", env, "Catalog Profiling"),
