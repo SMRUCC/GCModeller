@@ -863,6 +863,8 @@ Module visualPlot
     End Function
 
     Public Function CategoryProfilePlots(profiles As CatalogProfiles, args As list, env As Environment) As Object
+        Dim fontName As String = args.getValue(Of String)("") FontFace.BookmanOldStyle
+
         Return profiles.ProfilesPlot(
             title:=args.getValue("title", env, "Catalog Profiling"),
             size:=InteropArgumentHelper.getSize(args!size, env, "2300,2000"),
