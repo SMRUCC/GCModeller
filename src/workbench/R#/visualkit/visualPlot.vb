@@ -645,9 +645,9 @@ Module visualPlot
         Dim theme As New Theme With {
             .gridFill = "white",
             .padding = padding,
-            .legendLabelCSS = "font-style: normal; font-size: 12; font-family: " & FontFace.MicrosoftYaHei & ";",
-            .axisLabelCSS = "font-style: normal; font-size: 16; font-family: " & FontFace.MicrosoftYaHei & ";",
-            .axisTickCSS = "font-style: normal; font-size: 12; font-family: " & FontFace.BookmanOldStyle & ";",
+            .legendLabelCSS = env.FontCss(12, Imaging.FontStyle.Regular),
+            .axisLabelCSS = env.FontCss(16, Imaging.FontStyle.Regular),
+            .axisTickCSS = env.FontCss(12, Imaging.FontStyle.Regular),
             .colorSet = themeColors,
             .axisStroke = "stroke: black; stroke-width: 1px; stroke-dash: solid;"
         }
