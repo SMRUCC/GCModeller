@@ -59,12 +59,50 @@ declare namespace OTU_table {
    */
    function batch_combine(batch1: object, batch2: object): object;
    /**
-     * @param cutoff default value Is ``0.01``.
-     * @param k default value Is ``10``.
-     * @param sampleinfo default value Is ``null``.
-     * @param env default value Is ``null``.
+    * evaluate the core microbiome species across all sample data
+    * 
+    * 
+     * @param x -
+     * @param prevalence -
+     * 
+     * + default value Is ``0.8``.
+     * @param abundance -
+     * 
+     * + default value Is ``0.0001``.
+     * @param detectionLimit -
+     * 
+     * + default value Is ``1E-05``.
+     * @param sampleinfo -
+     * 
+     * + default value Is ``null``.
+     * @param top_n -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function dominant_species(x: any, cutoff?: number, k?: object, sampleinfo?: any, env?: object): any;
+   function core_microbiome(x: any, prevalence?: number, abundance?: number, detectionLimit?: number, sampleinfo?: any, top_n?: object, env?: object): object;
+   /**
+    * evaluate top dominant species for each sample data
+    * 
+    * 
+     * @param x a vector of the OTUTable clrr object
+     * @param cutoff -
+     * 
+     * + default value Is ``0.01``.
+     * @param k -
+     * 
+     * + default value Is ``10``.
+     * @param sampleinfo -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return A list of the top dominant species for each sample data
+   */
+   function dominant_species(x: any, cutoff?: number, k?: object, sampleinfo?: any, env?: object): object;
    /**
      * @param args default value Is ``null``.
      * @param env default value Is ``null``.

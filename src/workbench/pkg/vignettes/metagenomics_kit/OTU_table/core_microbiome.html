@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>evaluate top dominant species for each sample data</title>
+    <title>evaluate the core microbiome species across all sample data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>dominant_species {OTU_table}</td>
+                <td>core_microbiome {OTU_table}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>evaluate top dominant species for each sample data</h2>
+        <h2>evaluate the core microbiome species across all sample data</h2>
 
         <h3>Description</h3>
 
@@ -27,10 +27,12 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>dominant_species</strong>(<i>x</i>,
-    <i>cutoff</i> = <span style='color: green;'>0.01</span>,
-    <i>k</i> = <span style='color: green;'>10</span>,
-    <i>sampleinfo</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>core_microbiome</strong>(<i>x</i>,
+    <i>prevalence</i> = <span style='color: green;'>0.8</span>,
+    <i>abundance</i> = <span style='color: green;'>0.0001</span>,
+    <i>detectionLimit</i> = <span style='color: green;'>1E-05</span>,
+    <i>sampleinfo</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>top.n</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -38,19 +40,27 @@
         <table>
             
 <dt>x</dt>
-<dd><p>a vector of the OTUTable clrr object</p></dd>
+<dd><p>-</p></dd>
 
 
-<dt>cutoff</dt>
+<dt>prevalence</dt>
 <dd><p>[as double]</p></dd>
 
 
-<dt>k</dt>
-<dd><p>[as integer]</p></dd>
+<dt>abundance</dt>
+<dd><p>[as double]</p></dd>
+
+
+<dt>detectionLimit</dt>
+<dd><p>[as double]</p></dd>
 
 
 <dt>sampleinfo</dt>
 <dd><p>-</p></dd>
+
+
+<dt>top.n</dt>
+<dd><p>[as integer]</p></dd>
 
 
 <dt>env</dt>
@@ -69,7 +79,7 @@
 
         <h3>Value</h3>
 
-        <p>A list of the top dominant species for each sample data</p><h4>clr value class</h4><ul><li>list</li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/OTUTable.html">OTUTable</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/OTUTable.html">OTUTable</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

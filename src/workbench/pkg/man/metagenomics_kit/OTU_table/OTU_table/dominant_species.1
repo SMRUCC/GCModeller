@@ -1,13 +1,37 @@
 .\" man page create by R# package system.
 .TH OTU_TABLE 1 2000-1月 "dominant_species" "dominant_species"
 .SH NAME
-dominant_species \- 
+dominant_species \- evaluate top dominant species for each sample data
 .SH SYNOPSIS
 \fIdominant_species(\fBx\fR as any, 
 \fBcutoff\fR as double = 0.01, 
 \fBk\fR as integer = 10, 
 \fBsampleinfo\fR as any = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+evaluate top dominant species for each sample data
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a vector of the OTUTable clrr object. 
+.PP
+.PP
+\fBcutoff\fB \fR\- -. 
+.PP
+.PP
+\fBk\fB \fR\- -. 
+.PP
+.PP
+\fBsampleinfo\fB \fR\- -. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+A list of the top dominant species for each sample data
+.PP
 .SH SEE ALSO
 OTU_table
 .SH FILES

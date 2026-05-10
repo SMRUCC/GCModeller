@@ -28,7 +28,8 @@ Tools for handling OTU table data
 + [read.rankdata](OTU_table/read.rankdata.1) 
 + [as.OTU_table](OTU_table/as.OTU_table.1) convert the mothur rank tree as the OTU table
 + [set_taxonomyName](OTU_table/set_taxonomyName.1) 
-+ [dominant_species](OTU_table/dominant_species.1) 
++ [core_microbiome](OTU_table/core_microbiome.1) evaluate the core microbiome species across all sample data
++ [dominant_species](OTU_table/dominant_species.1) evaluate top dominant species for each sample data
 + [make_otu_table](OTU_table/make_otu_table.1) 
 + [makeTreeGraph](OTU_table/makeTreeGraph.1) make OTU tree graph via JSD correlation method
 + [makeUPGMATree](OTU_table/makeUPGMATree.1) 
