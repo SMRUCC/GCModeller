@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 ''' <summary>
-''' 从一个OTU相对丰度表格中筛选出核心微生物群落
+''' 从一个OTU相对丰度表格中筛选出核心微生物群落，**“跨样本/全局维度”的普遍性+丰度筛选，找的是“核心种”**
 ''' </summary>
 Public Class CoreMicrobiomeCalculator
 
@@ -61,7 +61,10 @@ Public Class CoreMicrobiomeCalculator
     ' ========================================================================
     ' 方法1：普遍性 + 丰度 阈值法 (支持多分组)
     ' ========================================================================
-    Public Function FilterCoreByThreshold(prevalenceThreshold As Double, abundanceThreshold As Double, Optional detectionLimit As Double = 0.00001) As IEnumerable(Of OTUTable)
+    Public Function FilterCoreByThreshold(Optional prevalenceThreshold As Double = 0.8,
+                                          Optional abundanceThreshold As Double = 0.0001,
+                                          Optional detectionLimit As Double = 0.00001) As IEnumerable(Of OTUTable)
+
         If data.IsNullOrEmpty OrElse totalSamples = 0 Then
             Return New List(Of OTUTable)()
         End If

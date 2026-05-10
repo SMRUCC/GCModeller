@@ -190,6 +190,13 @@ Public Module RelativeStatics
         Next
     End Function
 
+    ''' <summary>
+    ''' **“单样本维度”的绝对丰度筛选，找的是“优势种”**
+    ''' </summary>
+    ''' <param name="otus"></param>
+    ''' <param name="cutoff"></param>
+    ''' <param name="k"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function DominantSpecies(otus As IEnumerable(Of OTUTable),
                                              Optional cutoff As Double = 0.01,

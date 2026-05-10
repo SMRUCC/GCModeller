@@ -427,7 +427,52 @@ Module OTUTableTools
         Return rename.ToArray
     End Function
 
+    <ExportAPI("core_microbiome")>
+    <RApiReturn(GetType(OTUTable))>
+    Public Function core_microbiome(<RRawVectorArgument> x As Object,
+                                    Optional prevalence As Double = 0.8,
+                                    Optional abundance As Double = 0.0001,
+                                    Optional detectionLimit As Double = 0.00001,
+                                    <RRawVectorArgument>
+                                    Optional sampleinfo As Object = Nothing,
+                                    Optional env As Environment = Nothing) As Object
+
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(x, env)
+        Dim sampleSet As SampleInfo() = Nothing
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        If Not sampleinfo Is Nothing Then
+            Dim samples As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(sampleinfo, env)
+
+            If samples.isError Then
+                Return samples.getError
+            Else
+                sampleSet = samples.populates(Of SampleInfo)(env).ToArray
+            End If
+        End If
+
+        Dim tool As New CoreMicrobiomeCalculator(pull.populates(Of OTUTable)(env).ToArray, sampleSet)
+        Dim core = tool.FilterCoreByThreshold(prevalenceThreshold:=prevalence,
+                                              abundanceThreshold:=abundance,
+                                              detectionLimit:=detectionLimit) _
+                       .ToArray
+        Return core
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x">a vector of the OTUTable clrr object</param>
+    ''' <param name="cutoff"></param>
+    ''' <param name="k"></param>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="env"></param>
+    ''' <returns>A list of the top dominant species for each sample data</returns>
     <ExportAPI("dominant_species")>
+    <RApiReturn(TypeCodes.list)>
     Public Function dominant_species(<RRawVectorArgument>
                                      x As Object,
                                      Optional cutoff As Double = 0.01,
