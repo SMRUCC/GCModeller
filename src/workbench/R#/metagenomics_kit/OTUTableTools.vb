@@ -309,12 +309,22 @@ Module OTUTableTools
     ''' <summary>
     ''' Create expression matrix data from a given otu table
     ''' </summary>
-    ''' <param name="otu_table"></param>
+    ''' <param name="otu_table">a vector of the OTUTable clr object</param>
     ''' <returns></returns>
     <ExportAPI("as.hts_matrix")>
     <RApiReturn(GetType(Matrix))>
-    Public Function cast_matrix(otu_table As OTUTable(), Optional taxon_as_id As Boolean = True) As Object
-        Return otu_table.CastMatrix(taxon_as_id:=True)
+    Public Function cast_matrix(<RRawVectorArgument(GetType(OTUTable))>
+                                otu_table As Object,
+                                Optional taxon_as_id As Boolean = True,
+                                Optional env As Environment = Nothing) As Object
+
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(otu_table, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.populates(Of OTUTable)(env).CastMatrix(taxon_as_id:=True)
     End Function
 
     <ExportAPI("read.rankdata")>
