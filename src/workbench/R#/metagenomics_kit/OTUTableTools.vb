@@ -324,7 +324,7 @@ Module OTUTableTools
             Return pull.getError
         End If
 
-        Return pull.populates(Of OTUTable)(env).CastMatrix(taxon_as_id:=True)
+        Return pull.populates(Of OTUTable)(env).CastMatrix(taxon_as_id:=taxon_as_id)
     End Function
 
     <ExportAPI("read.rankdata")>
