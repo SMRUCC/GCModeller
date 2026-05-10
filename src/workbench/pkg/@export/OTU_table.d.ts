@@ -27,11 +27,13 @@ declare namespace OTU_table {
        * Create expression matrix data from a given otu table
        * 
        * 
-        * @param otu_table -
+        * @param otu_table a vector of the OTUTable clr object
         * @param taxon_as_id 
         * + default value Is ``true``.
+        * @param env 
+        * + default value Is ``null``.
       */
-      function hts_matrix(otu_table: object, taxon_as_id?: boolean): object;
+      function hts_matrix(otu_table: any, taxon_as_id?: boolean, env?: object): object;
       /**
        * convert the mothur rank tree as the OTU table
        * 

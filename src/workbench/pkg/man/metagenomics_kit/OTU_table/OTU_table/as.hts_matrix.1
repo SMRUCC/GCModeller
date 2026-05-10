@@ -3,15 +3,16 @@
 .SH NAME
 as.hts_matrix \- Create expression matrix data from a given otu table
 .SH SYNOPSIS
-\fIas.hts_matrix(\fBotu_table\fR as <generic> OTUTable[], 
-\fBtaxon_as_id\fR as boolean = TRUE);\fR
+\fIas.hts_matrix(\fBotu_table\fR as any, 
+\fBtaxon_as_id\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 Create expression matrix data from a given otu table
 .PP
 .SH OPTIONS
 .PP
-\fBotu_table\fB \fR\- -. 
+\fBotu_table\fB \fR\- a vector of the OTUTable clr object. 
 .PP
 .SH SEE ALSO
 OTU_table
