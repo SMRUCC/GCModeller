@@ -427,6 +427,17 @@ Module OTUTableTools
         Return rename.ToArray
     End Function
 
+    ''' <summary>
+    ''' evaluate the core microbiome species across all sample data
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="prevalence"></param>
+    ''' <param name="abundance"></param>
+    ''' <param name="detectionLimit"></param>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="top_n"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("core_microbiome")>
     <RApiReturn(GetType(OTUTable))>
     Public Function core_microbiome(<RRawVectorArgument> x As Object,
@@ -471,7 +482,7 @@ Module OTUTableTools
     End Function
 
     ''' <summary>
-    ''' 
+    ''' evaluate top dominant species for each sample data
     ''' </summary>
     ''' <param name="x">a vector of the OTUTable clrr object</param>
     ''' <param name="cutoff"></param>
