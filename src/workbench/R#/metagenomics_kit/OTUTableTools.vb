@@ -435,6 +435,7 @@ Module OTUTableTools
                                     Optional detectionLimit As Double = 0.00001,
                                     <RRawVectorArgument>
                                     Optional sampleinfo As Object = Nothing,
+                                    Optional top_n As Integer? = Nothing,
                                     Optional env As Environment = Nothing) As Object
 
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(x, env)
@@ -459,6 +460,13 @@ Module OTUTableTools
                                               abundanceThreshold:=abundance,
                                               detectionLimit:=detectionLimit) _
                        .ToArray
+
+        If top_n IsNot Nothing AndAlso CInt(top_n) > 0 Then
+            core = New CoreMicrobiomeCalculator(core, sampleSet) _
+                .FilterCoreByScoreAndTopN(top_n, detectionLimit) _
+                .ToArray
+        End If
+
         Return core
     End Function
 
