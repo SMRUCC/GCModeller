@@ -53,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.foundation.BIOM.v10
@@ -80,21 +81,49 @@ Public Module BIOMExtensions
         Return matrix.Values
     End Function
 
+    ''' <summary>
+    ''' A helper function for make cast of the microbiom OTU table as the expression matrix for the downstream omics data analysis
+    ''' </summary>
+    ''' <param name="otu_table"></param>
+    ''' <param name="taxon_as_id"></param>
+    ''' <param name="strict"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function CastMatrix(otu_table As IEnumerable(Of OTUTable), Optional taxon_as_id As Boolean = True) As Matrix
+    Public Function CastMatrix(otu_table As IEnumerable(Of OTUTable),
+                               Optional taxon_as_id As Boolean = True,
+                               Optional strict As Boolean = True) As Matrix
+
         Dim pullAll As OTUTable() = otu_table.ToArray
         Dim sampleIds As String() = pullAll.PropertyNames
         Dim otus As DataFrameRow() = New DataFrameRow(pullAll.Length - 1) {}
+        Dim missing As New List(Of String)
 
         For i As Integer = 0 To otus.Length - 1
             Dim otu As OTUTable = pullAll(i)
-            Dim ref_id As String = If(taxon_as_id, pullAll(i).taxonomy.BIOMTaxonomyString, pullAll(i).ID)
+            Dim ref_id As String = Nothing
+
+            If taxon_as_id AndAlso pullAll(i).taxonomy Is Nothing Then
+                If strict Then
+                    Throw New NullReferenceException($"missing taxonomy information data for OTU {pullAll(i).ID}!")
+                Else
+                    missing.Add(pullAll(i).ID)
+                    ref_id = pullAll(i).ID
+                End If
+            ElseIf taxon_as_id Then
+                ref_id = pullAll(i).taxonomy.BIOMTaxonomyString
+            Else
+                ref_id = pullAll(i).ID
+            End If
 
             otus(i) = New DataFrameRow With {
                 .geneID = ref_id,
                 .experiments = otu(sampleIds)
             }
         Next
+
+        If missing.Any Then
+            Call $"there are {missing.Count} OTU data ({missing.Concatenate}) missing taxonomy information for create expression ID when do cast of the OTU table as the expression matrix object!".warning
+        End If
 
         Return New Matrix With {
             .expression = otus,
