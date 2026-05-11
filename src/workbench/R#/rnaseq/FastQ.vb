@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
@@ -145,6 +146,7 @@ Public Module FastQTools
         End If
 
         Dim nameUniques As New MakeUniqueName("_")
+        Dim i As i32 = 1
 
         Using s As New System.IO.StreamWriter(out.TryCast(Of System.IO.Stream))
             For Each filepath As String In CLRVector.asCharacter(file).SafeQuery
@@ -154,7 +156,10 @@ Public Module FastQTools
 
                 For Each reads As FastQ In FastQFile.LoadStream(filepath)
                     ' 20260308 ERROR: Fasta/q sequence header has ‘@’ symbol in file: /mnt/assembly/rawdata.fq, entry 0
-                    Dim name As String = base & "_" & reads.SEQ_ID.Replace("@", "-")
+                    ' 20260512 ERROR: The input contain reads with duplicated IDs. Make sure all reads have unique IDs and restart. The first problematic ID was: w1_3_-NZ_CP033644
+                    ' metaflye will split the sequence id by space, use the first part as the id
+                    ' use a number prefix at here for make the id prefix unique
+                    Dim name As String = base & "_" & (++i).ToString & "_" & reads.SEQ_ID.Replace("@", "-")
 
                     If make_unique Then
                         reads.SEQ_ID = nameUniques.GetUniqueID(name)
