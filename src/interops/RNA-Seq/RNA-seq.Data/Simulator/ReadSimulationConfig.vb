@@ -100,7 +100,7 @@ Public Class ReadSimulationConfig
     ''' <summary>
     ''' 测序错误率 (0.0 - 1.0)。
     ''' </summary>
-    Public Property ErrorRate As Double = 0.0
+    Public Property ErrorRate As Double = 0.01
 
     ''' <summary>
     ''' 模拟的FastQ质量分数范围 (Phred Score)。

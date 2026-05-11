@@ -68,13 +68,7 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 ''' </summary>
 Public Module ReadsFakeSource
 
-    ''' <summary>
-    ''' 基于FASTA序列集合和配置，模拟生成具有指定长度分布和丰度特征的随机测序reads。
-    ''' 此函数可以模拟不同微生物的丰度差异以及基因组内部特定区域的高表达水平。
-    ''' </summary>
-    ''' <param name="config">一个包含所有模拟参数的 <see cref="ReadSimulationConfig"/> 对象。</param>
-    ''' <returns>一个IEnumerable(Of String)，通过迭代器模式逐个返回模拟的read序列。</returns>
-    Public Iterator Function FakeReads(config As ReadSimulationConfig) As IEnumerable(Of FastQ)
+    Private Function ConfigVerify(ByRef config As ReadSimulationConfig) As SimpleSegment()
         ' --- 参数验证 ---
         If config Is Nothing Then
             Throw New ArgumentNullException(NameOf(config))
@@ -83,12 +77,11 @@ Public Module ReadsFakeSource
             Throw New ArgumentException("配置中的基因组数组不能为空。", NameOf(config.Genomes))
         End If
         If config.NumberOfReads <= 0 Then
-            Return
+            Return {}
         End If
         If config.ReadLengthRange Is Nothing OrElse config.ReadLengthRange.Min <= 0 OrElse config.ReadLengthRange.Max < config.ReadLengthRange.Min Then
             Throw New ArgumentException("长度范围无效。min必须大于0，且max必须大于等于min。", NameOf(config.ReadLengthRange))
         End If
-
 
         ' 双端特有验证
         If config.IsPairedEnd Then
@@ -98,9 +91,25 @@ Public Module ReadsFakeSource
         End If
 
         ' 过滤掉长度为0的无效基因组
-        Dim validGenomes = config.Genomes.Where(Function(g) Not String.IsNullOrEmpty(g.SequenceData)).ToArray()
+        Dim validGenomes As SimpleSegment() = config.Genomes.Where(Function(g) Not String.IsNullOrEmpty(g.SequenceData)).ToArray()
         If validGenomes.Length = 0 Then
             Throw New ArgumentException("所有提供的基因组序列都为空，无法生成reads。", NameOf(config.Genomes))
+        End If
+
+        Return validGenomes
+    End Function
+
+    ''' <summary>
+    ''' 基于FASTA序列集合和配置，模拟生成具有指定长度分布和丰度特征的随机测序reads。
+    ''' 此函数可以模拟不同微生物的丰度差异以及基因组内部特定区域的高表达水平。
+    ''' </summary>
+    ''' <param name="config">一个包含所有模拟参数的 <see cref="ReadSimulationConfig"/> 对象。</param>
+    ''' <returns>一个IEnumerable(Of String)，通过迭代器模式逐个返回模拟的read序列。</returns>
+    Public Iterator Function FakeReads(config As ReadSimulationConfig) As IEnumerable(Of FastQ)
+        Dim validGenomes As SimpleSegment() = ConfigVerify(config)
+
+        If validGenomes.IsNullOrEmpty Then
+            Return
         End If
 
         ' --- 预计算：构建加权选择所需的数据结构 ---
@@ -177,7 +186,7 @@ Public Module ReadsFakeSource
                     .SequenceData = seq2,
                     .Quality = qual2,
                     .SEQ_ID = $"{selectedGenome.ID}_FRAG{i}/2 [complement({r2Start + 1}..{r2Start + readLength})]",
-                    .SEQ_Info = $"{selectedGenome.ID}_FRAG{i}/1 [{fragmentStart + 1}..{fragmentStart + readLength}]"
+                    .SEQ_Info = $"+ {selectedGenome.ID}_FRAG{i}/1 [{fragmentStart + 1}..{fragmentStart + readLength}]"
                 }
 
             Else
@@ -189,8 +198,8 @@ Public Module ReadsFakeSource
                 Yield New FastQ With {
                     .SequenceData = seq,
                     .Quality = qual,
-                    .SEQ_ID = $"{selectedGenome.ID}_READ{i}",
-                    .SEQ_Info = $"[{fragmentStart + 1}-{fragmentStart + readLength}, +]"
+                    .SEQ_ID = $"{selectedGenome.ID}_READ{i}_[{fragmentStart + 1}-{fragmentStart + readLength}, +]",
+                    .SEQ_Info = "+"
                 }
             End If
         Next
