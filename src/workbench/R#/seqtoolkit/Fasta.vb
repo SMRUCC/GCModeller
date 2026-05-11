@@ -504,6 +504,7 @@ Module Fasta
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("list_index")>
+    <RApiReturn(GetType(FastaSeq))>
     Public Function list_index(<RRawVectorArgument> x As Object,
                                <RRawVectorArgument>
                                Optional ids As Object = Nothing,

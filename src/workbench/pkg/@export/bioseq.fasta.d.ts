@@ -83,7 +83,7 @@ declare namespace bioseq.fasta {
      * 
      * + default value Is ``null``.
    */
-   function list_index(x: any, ids?: any, env?: object): any;
+   function list_index(x: any, ids?: any, env?: object): object;
    /**
      * @param env default value Is ``null``.
    */
