@@ -73,9 +73,10 @@ declare namespace kmers {
    function bloom_filters(repo: any, ncbi_taxonomy: object, min_supports?: number, coverage?: number, env?: object): object;
    /**
      * @param k default value Is ``35``.
+     * @param hash_index default value Is ``false``.
      * @param env default value Is ``null``.
    */
-   function bloom_vector(x: any, k?: object, env?: object): any;
+   function bloom_vector(x: any, k?: object, hash_index?: boolean, env?: object): any;
    /**
      * @param k default value Is ``12``.
      * @param identities default value Is ``0.8``.
