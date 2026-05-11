@@ -56,6 +56,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
@@ -123,6 +124,14 @@ Public Module FastQTools
         End If
     End Function
 
+    ''' <summary>
+    ''' merge the raw fastq data
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="merge"></param>
+    ''' <param name="make_unique"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("merge_raw")>
     Public Function merge_raw(<RRawVectorArgument> file As Object, merge As Object,
                               Optional make_unique As Boolean = True,
@@ -135,10 +144,9 @@ Public Module FastQTools
             Return out.TryCast(Of Message)
         End If
 
-        Using s As New System.IO.StreamWriter(out.TryCast(Of System.IO.Stream))
-            Dim nameUniques As New Dictionary(Of String, Counter)
-            Dim duplicates As New List(Of String)
+        Dim nameUniques As New MakeUniqueName("_")
 
+        Using s As New System.IO.StreamWriter(out.TryCast(Of System.IO.Stream))
             For Each filepath As String In CLRVector.asCharacter(file).SafeQuery
                 Dim base As String = filepath.BaseName
 
@@ -147,18 +155,14 @@ Public Module FastQTools
                 For Each reads As FastQ In FastQFile.LoadStream(filepath)
                     ' 20260308 ERROR: Fasta/q sequence header has ‘@’ symbol in file: /mnt/assembly/rawdata.fq, entry 0
                     Dim name As String = base & "_" & reads.SEQ_ID.Replace("@", "-")
-RE0:
-                    If nameUniques.ContainsKey(name) Then
-                        nameUniques(name).Hit()
-                        duplicates.Add(name)
-                        name = name & "_" & nameUniques(name).Value
-                        GoTo RE0
+
+                    If make_unique Then
+                        reads.SEQ_ID = nameUniques.GetUniqueID(name)
                     Else
-                        nameUniques.Add(name, Scan0)
+                        reads.SEQ_ID = name
                     End If
 
-                    reads.SEQ_ID = name
-                    s.WriteLine(reads.AsReadsNode)
+                    Call s.WriteLine(reads.AsReadsNode)
                 Next
             Next
 
