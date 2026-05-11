@@ -268,6 +268,15 @@ RE0:
         End If
     End Function
 
+    ''' <summary>
+    ''' Mock a fastq reads file from a given set of the reference sequence.
+    ''' </summary>
+    ''' <param name="genomes">A set of the reference genome fasta sequence.</param>
+    ''' <param name="n">number of total reads of this generated fastq file.</param>
+    ''' <param name="len">the reads length range</param>
+    ''' <param name="genome_weights">abundance reference data</param>
+    ''' <param name="env"></param>
+    ''' <returns>A generated fastq reads file</returns>
     <ExportAPI("simulate_reads")>
     <RApiReturn(GetType(FastQFile))>
     Public Function simulate(<RRawVectorArgument> genomes As Object,
