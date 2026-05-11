@@ -27,38 +27,45 @@ End Class
 
 Public Class MetagenomicsBenchmark
 
-    ''' <summary>
-    ''' 执行所有工具的比较并生成排名
-    ''' </summary>
+    ReadOnly reference As OTUTable(), tool_new As OTUTable(), current_tools As Dictionary(Of String, OTUTable()), groups As Dictionary(Of String, String())
+
     ''' <param name="reference">参考真值数据</param>
     ''' <param name="tool_new">新算法结果</param>
     ''' <param name="current_tools">现有算法字典</param>
     ''' <param name="groups">样本分组信息</param>
+    Sub New(reference As OTUTable(), tool_new As OTUTable(), current_tools As Dictionary(Of String, OTUTable()), groups As Dictionary(Of String, String()))
+        Me.reference = reference
+        Me.tool_new = tool_new
+        Me.current_tools = current_tools
+        Me.groups = groups
+    End Sub
+
+    ''' <summary>
+    ''' 执行所有工具的比较并生成排名
+    ''' </summary>
     ''' <returns>按综合得分降序排列的得分列表</returns>
-    Public Function RunBenchmark(reference As OTUTable(), tool_new As OTUTable(), current_tools As Dictionary(Of String, OTUTable()), groups As Dictionary(Of String, String())) As List(Of ToolScore)
-
+    Public Function RunBenchmark() As IEnumerable(Of ToolScore)
         Dim scores As New List(Of ToolScore)()
-
         ' 1. 评估新工具
-        Dim newToolScore = EvaluateTool("Tool_New", reference, tool_new, groups)
+        Dim newToolScore = EvaluateTool("Tool_New", tool_new)
         scores.Add(newToolScore)
 
         ' 2. 评估现有工具
         For Each kvp In current_tools
-            Dim toolScore = EvaluateTool(kvp.Key, reference, kvp.Value, groups)
+            Dim toolScore = EvaluateTool(kvp.Key, kvp.Value)
             scores.Add(toolScore)
         Next
 
         ' 3. 根据综合得分降序排序 (得分越高越好)
-        Dim rankedScores = scores.OrderByDescending(Function(s) s.OverallScore).ToList()
-
-        Return rankedScores
+        Return From s As ToolScore
+               In scores
+               Order By s.OverallScore Descending
     End Function
 
     ''' <summary>
     ''' 评估单个工具相对于参考数据的表现
     ''' </summary>
-    Private Function EvaluateTool(toolName As String, reference As OTUTable(), tool As OTUTable(), groups As Dictionary(Of String, String())) As ToolScore
+    Private Function EvaluateTool(toolName As String, tool As OTUTable()) As ToolScore
         Dim score As New ToolScore() With {.ToolName = toolName}
 
         ' 将数组转为以 Taxonomy 为键的字典，加速查找
