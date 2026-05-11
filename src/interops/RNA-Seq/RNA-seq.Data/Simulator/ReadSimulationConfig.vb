@@ -54,6 +54,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports _randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
 ''' 用于配置模拟测序reads生成过程的参数。
@@ -107,4 +108,49 @@ Public Class ReadSimulationConfig
     ''' </summary>
     Public Property QualityScoreRange As IntRange = New IntRange(30, 40)
 
+    ''' <summary>
+    ''' 根据基因ID列表生成模拟的表达分布比例
+    ''' </summary>
+    ''' <param name="names">基因ID数组</param>
+    ''' <returns>字典：Key为基因ID，Value为表达量比例(0~1之间，总和为1)</returns>
+    Public Shared Function GenerateRandomExpression(names As String()) As Dictionary(Of String, Double)
+        If names Is Nothing OrElse names.Length = 0 Then
+            Return New Dictionary(Of String, Double)()
+        End If
+
+        Dim result As New Dictionary(Of String, Double)(names.Length)
+        Dim rawValues As Double() = New Double(names.Length - 1) {}
+        Dim sum As Double = 0.0
+
+        ' 1. 生成原始的指数分布随机数（模拟真实转录组的偏态分布：少数高表达，多数低表达）
+        For i As Integer = 0 To names.Length - 1
+            ' -Math.Log(rand) 生成速率为1的指数分布随机变量
+            Dim u As Double = _randf.NextDouble()
+            ' 防止NextDouble()返回0导致Log(0)报错
+            While u = 0.0
+                u = _randf.NextDouble()
+            End While
+
+            Dim expVal As Double = -Math.Log(u)
+            rawValues(i) = expVal
+            sum += expVal
+        Next
+
+        ' 2. 归一化为比例（使所有基因比例总和为1.0）
+        For i As Integer = 0 To names.Length - 1
+            ' 保留小数点后8位，避免浮点数精度误差
+            Dim proportion As Double = Math.Round(rawValues(i) / sum, 8)
+            result(names(i)) = proportion
+        Next
+
+        ' 3. 修正浮点数精度导致的总和微小偏差，将误差累加到表达量最高的基因上
+        Dim currentSum = result.Values.Sum()
+        Dim diff = 1.0 - currentSum
+        If diff <> 0.0 Then
+            Dim maxGene = result.OrderByDescending(Function(x) x.Value).First().Key
+            result(maxGene) = Math.Round(result(maxGene) + diff, 8)
+        End If
+
+        Return result
+    End Function
 End Class
