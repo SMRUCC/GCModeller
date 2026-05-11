@@ -55,6 +55,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace FQ
@@ -91,6 +92,7 @@ Namespace FQ
     Public Class FastQ : Inherits ISequenceModel
         Implements IAbstractFastaToken
         Implements IFastaProvider
+        Implements INamedValue
 
         ''' <summary>
         ''' 第一行的摘要描述信息
@@ -98,7 +100,7 @@ Namespace FQ
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property SEQ_ID As String Implements IAbstractFastaToken.title, IFastaProvider.title
+        Public Property SEQ_ID As String Implements IAbstractFastaToken.title, IFastaProvider.title, INamedValue.Key
         ''' <summary>
         ''' the sequence description information text, but usually be string ``+``.
         ''' </summary>

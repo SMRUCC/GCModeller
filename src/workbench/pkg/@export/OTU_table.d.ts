@@ -119,9 +119,6 @@ declare namespace OTU_table {
    */
    function filter(x: object, relative_abundance: number): object;
    /**
-   */
-   function impute_missing(x: object): any;
-   /**
      * @param filter_missing default value Is ``true``.
      * @param env default value Is ``null``.
    */

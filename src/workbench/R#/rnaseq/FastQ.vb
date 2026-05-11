@@ -312,7 +312,7 @@ RE0:
                 New Dictionary(Of String, Double)
             )
         }
-        Dim reads As New FastQFile(ReadsFakeSource.FakeReads(config))
+        Dim reads As New FastQFile(ReadsFakeSource.FakeReads(config).uniqueNames)
         Return reads
     End Function
 End Module
