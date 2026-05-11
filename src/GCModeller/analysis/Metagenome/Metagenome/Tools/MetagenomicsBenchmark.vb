@@ -2,16 +2,39 @@
 ''' 单个工具的评估得分
 ''' </summary>
 Public Class ToolScore
+
     Public Property ToolName As String
 
     ' 分类评估指标 (0-1之间，越大越好)
-    Public Property Precision As Double ' 准确率：预测存在的物种中，真实存在的比例（抗假阳性）
-    Public Property Recall As Double    ' 召回率：真实存在的物种中，被预测出来的比例（抗假阴性）
-    Public Property F1Score As Double   ' F1分数：Precision和Recall的调和平均
+
+    ''' <summary>
+    ''' 准确率：预测存在的物种中，真实存在的比例（抗假阳性）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Precision As Double
+    ''' <summary>
+    ''' 召回率：真实存在的物种中，被预测出来的比例（抗假阴性）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Recall As Double
+    ''' <summary>
+    ''' F1分数：Precision和Recall的调和平均
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property F1Score As Double
 
     ' 丰度评估指标 (越小越好，表示误差/距离越小)
-    Public Property L1Distance As Double     ' 绝对误差和
-    Public Property BrayCurtis As Double     ' Bray-Curtis 相异度 (0-1之间)
+
+    ''' <summary>
+    ''' 绝对误差和
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property L1Distance As Double
+    ''' <summary>
+    ''' Bray-Curtis 相异度 (0-1之间)
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property BrayCurtis As Double
 
     ' 综合得分 (0-100之间，越大越好)
     Public Property OverallScore As Double
@@ -21,10 +44,9 @@ Public Class ToolScore
     End Function
 End Class
 
-' ==========================================
-' 2. 比较评估模块
-' ==========================================
-
+''' <summary>
+''' 算法比较评估模块 
+''' </summary>
 Public Class MetagenomicsBenchmark
 
     ReadOnly reference As OTUTable(), tool_new As OTUTable(), current_tools As Dictionary(Of String, OTUTable()), groups As Dictionary(Of String, String())
@@ -132,7 +154,8 @@ Public Class MetagenomicsBenchmark
         score.F1Score = If((score.Precision + score.Recall) > 0, 2 * (score.Precision * score.Recall) / (score.Precision + score.Recall), 0.0)
 
         score.L1Distance = totalL1 / sampleCount ' 平均每个样本的 L1
-        score.BrayCurtis = If(totalBC_Denominator > 0, totalBC_Numerator / totalBC_Denominator, 0.0) ' BC 可以整体算，也可以平均算，这里用整体样本累加算更符合生态学定义
+        ' BC 可以整体算，也可以平均算，这里用整体样本累加算更符合生态学定义
+        score.BrayCurtis = If(totalBC_Denominator > 0, totalBC_Numerator / totalBC_Denominator, 0.0)
 
         ' 综合打分 (0-100分)
         ' 思路：F1Score 越大越好 (0-1)；BrayCurtis 越小越好 (0-1)，转化为相似度 1-BC
