@@ -116,6 +116,8 @@ Public Class ReadSimulationConfig
     Public Shared Function GenerateRandomExpression(names As String()) As Dictionary(Of String, Double)
         If names Is Nothing OrElse names.Length = 0 Then
             Return New Dictionary(Of String, Double)()
+        Else
+            names = names.Shuffle.ToArray
         End If
 
         Dim result As New Dictionary(Of String, Double)(names.Length)
