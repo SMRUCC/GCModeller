@@ -281,10 +281,14 @@ Module KmersTool
                                  Optional env As Environment = Nothing) As Object
 
         Dim seqs As FastaSeq() = pipHelper.GetFastaSeq(x, env).ToArray
-        Dim blooms As New List(Of KmerBloomFilter)
+        Dim blooms As New List(Of KmerFilter)
 
         For Each seq As FastaSeq In TqdmWrapper.Wrap(seqs)
-            Call blooms.Add(KmerBloomFilter.Create(seq, 0, k))
+            If hash_index Then
+                Call blooms.Add(KmerHashIndexFilter.Create(seq, 0, k))
+            Else
+                Call blooms.Add(KmerBloomFilter.Create(seq, 0, k))
+            End If
         Next
 
         Return New BloomVectorizer(blooms)

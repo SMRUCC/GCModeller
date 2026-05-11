@@ -69,10 +69,10 @@ Namespace Kmers
 
     Public Class BloomVectorizer
 
-        Protected ReadOnly genomes As KmerBloomFilter()
+        Protected ReadOnly genomes As KmerFilter()
         Protected ReadOnly k As Integer
 
-        Sub New(filters As IReadOnlyCollection(Of KmerBloomFilter))
+        Sub New(filters As IReadOnlyCollection(Of KmerFilter))
             Dim checkKmer = filters.GroupBy(Function(a) a.k).ToArray
 
             If checkKmer.Length = 1 Then
@@ -86,7 +86,7 @@ Namespace Kmers
         Public Function MakeVector(seq As IFastaProvider) As Double()
             ' split reads sequence as kmers
             Dim kmers As String() = KSeq.KmerSpans(seq.GetSequenceData, k).ToArray
-            Dim vec As IEnumerable(Of Double) = From genome As KmerBloomFilter
+            Dim vec As IEnumerable(Of Double) = From genome As KmerFilter
                                                 In genomes
                                                 Select CDbl(genome.KmerHitNumber(kmers))
             Return vec.ToArray
