@@ -32,8 +32,17 @@ declare namespace FastQ {
    */
    function illumina_fastQ_id(fq: object): object;
    /**
-     * @param make_unique default value Is ``true``.
-     * @param env default value Is ``null``.
+    * merge the raw fastq data
+    * 
+    * 
+     * @param file -
+     * @param merge -
+     * @param make_unique -
+     * 
+     * + default value Is ``true``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function merge_raw(file: any, merge: any, make_unique?: boolean, env?: object): any;
    /**
