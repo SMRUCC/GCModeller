@@ -51,6 +51,13 @@ declare namespace FastQ {
    */
    function quality_score(q: any, env?: object): number;
    /**
+    * generates the random expression weights
+    * 
+    * 
+     * @param names -
+   */
+   function random_expression_weights(names: any): number;
+   /**
     * make reads data random sampling
     * 
     * 
@@ -70,10 +77,23 @@ declare namespace FastQ {
       function fastq(file: any): object;
    }
    /**
-     * @param n default value Is ``100000``.
-     * @param len default value Is ``[350,550]``.
-     * @param genome_weights default value Is ``null``.
-     * @param env default value Is ``null``.
+    * Mock a fastq reads file from a given set of the reference sequence.
+    * 
+    * 
+     * @param genomes A set of the reference genome fasta sequence.
+     * @param n number of total reads of this generated fastq file.
+     * 
+     * + default value Is ``100000``.
+     * @param len the reads length range
+     * 
+     * + default value Is ``[350,550]``.
+     * @param genome_weights abundance reference data
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return A generated fastq reads file
    */
    function simulate_reads(genomes: any, n?: object, len?: any, genome_weights?: object, env?: object): object;
    module write {

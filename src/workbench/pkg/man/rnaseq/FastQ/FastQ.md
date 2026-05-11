@@ -17,4 +17,5 @@ FastQ toolkit
 + [random_sampling](FastQ/random_sampling.1) make reads data random sampling
 + [assemble](FastQ/assemble.1) Do short reads assembling
 + [quality_score](FastQ/quality_score.1) In FASTQ files, quality scores are encoded into a compact form, 
-+ [simulate_reads](FastQ/simulate_reads.1) 
++ [random_expression_weights](FastQ/random_expression_weights.1) generates the random expression weights
++ [simulate_reads](FastQ/simulate_reads.1) Mock a fastq reads file from a given set of the reference sequence.

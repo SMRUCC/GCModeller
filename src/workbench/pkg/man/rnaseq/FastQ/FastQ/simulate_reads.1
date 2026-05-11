@@ -1,13 +1,37 @@
 .\" man page create by R# package system.
 .TH FASTQ 1 2000-1月 "simulate_reads" "simulate_reads"
 .SH NAME
-simulate_reads \- 
+simulate_reads \- Mock a fastq reads file from a given set of the reference sequence.
 .SH SYNOPSIS
 \fIsimulate_reads(\fBgenomes\fR as any, 
 \fBn\fR as integer = 100000, 
 \fBlen\fR as any = [350,550], 
 \fBgenome_weights\fR as list = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Mock a fastq reads file from a given set of the reference sequence.
+.PP
+.SH OPTIONS
+.PP
+\fBgenomes\fB \fR\- A set of the reference genome fasta sequence.. 
+.PP
+.PP
+\fBn\fB \fR\- number of total reads of this generated fastq file.. 
+.PP
+.PP
+\fBlen\fB \fR\- the reads length range. 
+.PP
+.PP
+\fBgenome_weights\fB \fR\- abundance reference data. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+A generated fastq reads file
+.PP
 .SH SEE ALSO
 FastQ
 .SH FILES
