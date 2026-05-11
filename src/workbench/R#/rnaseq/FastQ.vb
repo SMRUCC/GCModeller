@@ -269,6 +269,17 @@ RE0:
     End Function
 
     ''' <summary>
+    ''' generates the random expression weights
+    ''' </summary>
+    ''' <param name="names"></param>
+    ''' <returns></returns>
+    <ExportAPI("random_expression_weights")>
+    <RApiReturn(TypeCodes.double)>
+    Public Function random_expression_weights(<RRawVectorArgument(TypeCodes.string)> names As Object) As Object
+        Return New list(ReadSimulationConfig.GenerateRandomExpression(CLRVector.asCharacter(names)))
+    End Function
+
+    ''' <summary>
     ''' Mock a fastq reads file from a given set of the reference sequence.
     ''' </summary>
     ''' <param name="genomes">A set of the reference genome fasta sequence.</param>
