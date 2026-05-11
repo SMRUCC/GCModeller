@@ -277,6 +277,7 @@ Module KmersTool
     <ExportAPI("bloom_vector")>
     Public Function bloom_vector(<RRawVectorArgument> x As Object,
                                  Optional k As Integer = 35,
+                                 Optional hash_index As Boolean = False,
                                  Optional env As Environment = Nothing) As Object
 
         Dim seqs As FastaSeq() = pipHelper.GetFastaSeq(x, env).ToArray

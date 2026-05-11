@@ -65,8 +65,6 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Data.IO
-Imports SMRUCC.genomics.Assembly.NCBI.Entrez
-Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Slicer
 
@@ -75,24 +73,9 @@ Namespace Kmers
     ''' <summary>
     ''' kmer bloom filter of a specific genome
     ''' </summary>
-    Public Class KmerBloomFilter
+    Public Class KmerBloomFilter : Inherits KmerFilter
 
         ReadOnly bloomFilter As BloomFilter
-
-        ''' <summary>
-        ''' the genome name(multiple chromosome name)
-        ''' </summary>
-        ReadOnly names As String()
-
-        ''' <summary>
-        ''' the length of the k-mer
-        ''' </summary>
-        Public ReadOnly Property k As Integer
-        ''' <summary>
-        ''' the genome taxonomy id
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property ncbi_taxid As Integer
 
         Const magicNum As String = "kmer-bloom"
 
@@ -103,15 +86,7 @@ Namespace Kmers
             Me.bloomFilter = bloomFilter
         End Sub
 
-        Public Overrides Function ToString() As String
-            Return $"ncbi_taxid: {ncbi_taxid}; " & names(0)
-        End Function
-
-        Public Function KmerHits(seq As ISequenceProvider) As Dictionary(Of String, Integer)
-            Return KmerHits(KSeq.KmerSpans(seq.GetSequenceData, k))
-        End Function
-
-        Public Function KmerHitNumber(kmers As IEnumerable(Of String)) As Integer
+        Public Overrides Function KmerHitNumber(kmers As IEnumerable(Of String)) As Integer
             Dim hits As Integer = 0
 
             For Each kmer As String In kmers
@@ -123,7 +98,7 @@ Namespace Kmers
             Return hits
         End Function
 
-        Public Function KmerHits(kmers As IEnumerable(Of String)) As Dictionary(Of String, Integer)
+        Public Overrides Function KmerHits(kmers As IEnumerable(Of String)) As Dictionary(Of String, Integer)
             Dim hits As New Dictionary(Of String, Integer)
 
             For Each kmer As String In kmers
