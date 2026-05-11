@@ -219,28 +219,6 @@ Module OTUTableTools
         Return x
     End Function
 
-    <ExportAPI("impute_missing")>
-    Public Function impute_missing(x As OTUTable()) As Object
-        Dim sample_ids As String() = x.PropertyNames
-
-        For Each otu As OTUTable In x.SafeQuery
-            Dim pos As Double() = otu.Vector.Where(Function(a) a > 0).ToArray
-
-            If pos.Length > 0 Then
-                ' not all zero
-                Dim min_pos As Double = pos.Min / 2
-
-                For Each id As String In sample_ids
-                    If otu(id) <= 0 Then
-                        otu(id) = min_pos
-                    End If
-                Next
-            End If
-        Next
-
-        Return x
-    End Function
-
     ''' <summary>
     ''' filter the otu data which has relative abundance greater than the given threshold
     ''' </summary>
