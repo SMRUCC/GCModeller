@@ -172,7 +172,7 @@ declare namespace kmers {
    /**
      * @param env default value Is ``null``.
    */
-   function MAG_classify(mag: any, env?: object): any;
+   function MAG_classify(mag: any, MAG_id: string, tax_tree: object, env?: object): any;
    /**
     * just make reads classify of the fastq reads based on the k-mer distribution
     * 
