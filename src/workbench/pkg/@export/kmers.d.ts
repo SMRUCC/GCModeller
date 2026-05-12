@@ -170,9 +170,10 @@ declare namespace kmers {
    */
    function kraken_seqs(gb: any, geneset?: boolean, env?: object): any;
    /**
+     * @param filter_unclassfied default value Is ``true``.
      * @param env default value Is ``null``.
    */
-   function MAG_classify(mag: any, MAG_id: string, tax_tree: object, env?: object): any;
+   function MAG_classify(mag: any, MAG_id: string, tax_tree: object, filter_unclassfied?: boolean, env?: object): any;
    /**
     * just make reads classify of the fastq reads based on the k-mer distribution
     * 
