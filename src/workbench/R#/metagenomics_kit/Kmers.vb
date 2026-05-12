@@ -476,14 +476,13 @@ Module KmersTool
 
                         Return New TaxonomySort With {
                             .tax_id = a.Key,
-                            .supports = a.Sum(Function(r) r.Value),
-                            .taxonomy = tax,
-                            .sort = .supports
+                            .score = a.Sum(Function(r) r.Value),
+                            .taxonomy = tax
                         }
                     End Function) _
-            .OrderByDescending(Function(a) a.sort) _
+            .OrderByDescending(Function(a) a.score) _
             .ToArray
-        Dim consensusTree = TaxonomyTree.BuildTree(tax_sort.Select(Function(a) a.taxonomy), Nothing, Nothing)
+        Dim consensusTree = TaxonomyTree.BuildTree(tax_sort, Nothing, Nothing)
         Dim consensus = consensusTree _
                 .PopulateTaxonomy(TaxonomyRanks.Species) _
                 .OrderByDescending(Function(node) node.hits) _

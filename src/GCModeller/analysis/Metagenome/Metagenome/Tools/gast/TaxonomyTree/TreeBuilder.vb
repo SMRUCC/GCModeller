@@ -69,10 +69,10 @@ Namespace gast
         ''' </summary>
         ''' <param name="hits"></param>
         ''' <returns></returns>
-        Public Function BuildTree(hits As IEnumerable(Of Metagenomics.Taxonomy), ByRef taxa_counts%(), ByRef minrank$) As TaxonomyTree
+        Public Function BuildTree(hits As IEnumerable(Of TaxonomySort), ByRef taxa_counts%(), ByRef minrank$) As TaxonomyTree
             Dim array As Dictionary(Of String, String)() = hits _
                 .Select(Function(tax)
-                            Return tax.CreateTable.Value
+                            Return tax.taxonomy.CreateTable.Value
                         End Function) _
                 .ToArray
             Dim root As New TaxonomyTree With {

@@ -127,8 +127,17 @@ Namespace gast
             Return $"{lineage} ({rank.ToString}={hits})"
         End Function
 
-        Public Shared Function BuildTree(hits As IEnumerable(Of Metagenomics.Taxonomy), ByRef taxa_counts%(), ByRef minrank$) As TaxonomyTree
+        Public Shared Function BuildTree(hits As IEnumerable(Of TaxonomySort), Optional ByRef taxa_counts%() = Nothing, Optional ByRef minrank$ = Nothing) As TaxonomyTree
             Return TreeBuilder.BuildTree(hits, taxa_counts, minrank)
+        End Function
+
+        Public Shared Function BuildTree(hits As IEnumerable(Of Metagenomics.Taxonomy), Optional ByRef taxa_counts%() = Nothing, Optional ByRef minrank$ = Nothing) As TaxonomyTree
+            Dim scoreOne = From tax As Metagenomics.Taxonomy
+                           In hits
+                           Let hit = New TaxonomySort With {.tax_id = tax.ncbi_taxid, .score = 1, .taxonomy = tax}
+                           Select hit
+
+            Return BuildTree(scoreOne, taxa_counts, minrank)
         End Function
     End Class
 End Namespace
