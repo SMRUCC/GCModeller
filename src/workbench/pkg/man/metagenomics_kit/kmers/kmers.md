@@ -10,10 +10,12 @@
 + [bloom_vector](kmers/bloom_vector.1) 
 + [make_vector](kmers/make_vector.1) make vector embedding
 + [make_classify](kmers/make_classify.1) just make reads classify of the fastq reads based on the k-mer distribution
++ [MAG_classify](kmers/MAG_classify.1) 
 + [bayes_estimate](kmers/bayes_estimate.1) 
 + [bayes_abundance](kmers/bayes_abundance.1) quantify of the metagenome community via kmers and bayes method
 + [as.bloom_filter](kmers/as.bloom_filter.1) cast the genomics sequence as kmer based bloom filter model
 + [parse_kraken_output](kmers/parse_kraken_output.1) Parse the reads annotation result generated from the kraken2
++ [make_seq_groups](kmers/make_seq_groups.1) 
 + [parse_kraken_report](kmers/parse_kraken_report.1) 
 + [read.kraken2](kmers/read.kraken2.1) 
 + [read_brackens](kmers/read_brackens.1) 

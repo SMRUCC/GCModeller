@@ -170,6 +170,10 @@ declare namespace kmers {
    */
    function kraken_seqs(gb: any, geneset?: boolean, env?: object): any;
    /**
+     * @param env default value Is ``null``.
+   */
+   function MAG_classify(mag: any, env?: object): any;
+   /**
     * just make reads classify of the fastq reads based on the k-mer distribution
     * 
     * > apply this method for do host sequence filter
@@ -183,6 +187,10 @@ declare namespace kmers {
      * + default value Is ``null``.
    */
    function make_classify(db: any, reads: any, n_threads?: object, env?: object): object|object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function make_seq_groups(kraken_output: any, env?: object): any;
    /**
     * make vector embedding
     * 
