@@ -68,6 +68,7 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.MIME.application.json.BSON
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
@@ -76,6 +77,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -407,7 +409,7 @@ Module KmersTool
             Dim classifier As New Classifier(DirectCast(db, DatabaseReader))
             Dim labels As SequenceHit() = New SequenceHit(rawdata.Length - 1) {}
 
-            Call Parallel.For(0, labels.Length, opt,
+            Call System.Threading.Tasks.Parallel.For(0, labels.Length, opt,
                 body:=Sub(i)
                           Dim read As FastQ = rawdata(i)
                           Dim hit = classifier.MakeClassify(read.SequenceData)
@@ -428,7 +430,7 @@ Module KmersTool
             Dim classifier As BloomDatabase = DirectCast(db, BloomDatabase)
             Dim labels As KrakenOutputRecord() = New KrakenOutputRecord(rawdata.Length - 1) {}
 
-            Call Parallel.For(0, labels.Length, opt,
+            Call System.Threading.Tasks.Parallel.For(0, labels.Length, opt,
                 body:=Sub(i)
                           Dim read As FastQ = rawdata(i)
                           Dim label As KrakenOutputRecord = classifier.MakeClassify(read)
@@ -445,19 +447,6 @@ Module KmersTool
             Return Message.InCompatibleType(GetType(DatabaseReader), db.GetType, env)
         End If
     End Function
-
-    Private Class TaxonomySort
-
-        Public Property tax_id As String
-        Public Property taxonomy As Metagenomics.Taxonomy
-        Public Property supports As Integer
-        Public Property sort As Double
-
-        Public Overrides Function ToString() As String
-            Return taxonomy.ToString
-        End Function
-
-    End Class
 
     <ExportAPI("MAG_classify")>
     Public Function MAG_classify(<RRawVectorArgument> mag As Object, MAG_id As String, tax_tree As NcbiTaxonomyTree,
@@ -494,6 +483,16 @@ Module KmersTool
                     End Function) _
             .OrderByDescending(Function(a) a.sort) _
             .ToArray
+        Dim consensusTree = TaxonomyTree.BuildTree(tax_sort.Select(Function(a) a.taxonomy), Nothing, Nothing)
+        Dim consensus = consensusTree _
+                .PopulateTaxonomy(TaxonomyRanks.Species) _
+                .OrderByDescending(Function(node) node.hits) _
+                .Take(10) _
+                .ToArray
+
+        Dim taxonomyList = consensus _
+                .Select(Function(tax) tax.PopulateTaxonomy(TaxonomyRanks.Species).First) _
+                .ToArray
 
         If tax_sort.IsNullOrEmpty Then
             Return New OTUTable With {.taxonomy = Metagenomics.Taxonomy.Unclassified, .ID = MAG_id}
