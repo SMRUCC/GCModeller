@@ -446,6 +446,15 @@ Module KmersTool
         End If
     End Function
 
+    Private Class TaxonomySort
+
+        Public Property tax_id As String
+        Public Property taxonomy As Metagenomics.Taxonomy
+        Public Property supports As Integer
+        Public Property sort As Double
+
+    End Class
+
     <ExportAPI("MAG_classify")>
     Public Function MAG_classify(<RRawVectorArgument> mag As Object, MAG_id As String, tax_tree As NcbiTaxonomyTree,
                                  Optional filter_unclassfied As Boolean = True,
@@ -457,7 +466,7 @@ Module KmersTool
             Return pull.getError
         End If
 
-        Dim tax_id As String = pull.populates(Of KrakenOutputRecord)(env) _
+        Dim tax_sort = pull.populates(Of KrakenOutputRecord)(env) _
             .Select(Function(r) r.LcaMappings) _
             .IteratesALL _
             .GroupBy(Function(t) t.Key) _
@@ -468,17 +477,24 @@ Module KmersTool
                            Return True
                        End If
                    End Function) _
-            .OrderByDescending(Function(a) a.Sum(Function(r) r.Value)) _
-            .FirstOrDefault _
-            .Key
+            .Select(Function(a)
+                        Dim lineage = tax_tree.GetAscendantsWithRanksAndNames(CInt(a.Key), only_std_ranks:=True)
+                        Dim tax As New Metagenomics.Taxonomy(lineage)
 
-        If tax_id Is Nothing OrElse tax_id = "0" Then
+                        Return New TaxonomySort With {
+                            .tax_id = a.Key,
+                            .supports = a.Sum(Function(r) r.Value),
+                            .taxonomy = tax,
+                            .sort = .supports * CInt(tax.RankLevel)
+                        }
+                    End Function) _
+            .OrderByDescending(Function(a) a.sort) _
+            .ToArray
+
+        If tax_sort.IsNullOrEmpty Then
             Return New OTUTable With {.taxonomy = Metagenomics.Taxonomy.Unclassified, .ID = MAG_id}
         Else
-            Dim lineage = tax_tree.GetAscendantsWithRanksAndNames(CInt(tax_id), only_std_ranks:=True)
-            Dim tax As New Metagenomics.Taxonomy(lineage)
-
-            Return New OTUTable With {.taxonomy = tax, .ID = MAG_id}
+            Return New OTUTable With {.taxonomy = tax_sort.First.taxonomy, .ID = MAG_id}
         End If
     End Function
 
