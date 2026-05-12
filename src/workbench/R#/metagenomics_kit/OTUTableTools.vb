@@ -381,6 +381,11 @@ Module OTUTableTools
             .ToArray
     End Function
 
+    <ExportAPI("set_MAG_data")>
+    Public Function set_MAG_data(tax As OTUTable, abundance As DataFrame) As OTUTable
+
+    End Function
+
     <ExportAPI("set_taxonomyName")>
     Public Function set_taxonomyName(<RRawVectorArgument> x As Object,
                                      Optional rank As TaxonomyRanks = TaxonomyRanks.Species,
