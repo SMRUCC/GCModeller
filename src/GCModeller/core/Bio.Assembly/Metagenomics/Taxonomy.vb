@@ -113,6 +113,15 @@ Namespace Metagenomics
         Public Property species As String
 #End Region
 
+        Public Shared ReadOnly Property Unclassified As Taxonomy
+            Get
+                Return New Taxonomy With {
+                    .ncbi_taxid = 0,
+                    .scientificName = NameOf(Unclassified)
+                }
+            End Get
+        End Property
+
         ''' <summary>
         ''' 获取当前的这个分类结果值的最小分类单元的等级
         ''' </summary>

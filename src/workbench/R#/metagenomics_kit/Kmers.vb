@@ -1,61 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::66d7fa39709ff8551e59b7fb5fae2a17, R#\metagenomics_kit\Kmers.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 835
-    '    Code Lines: 593 (71.02%)
-    ' Comment Lines: 116 (13.89%)
-    '    - Xml Docs: 83.62%
-    ' 
-    '   Blank Lines: 126 (15.09%)
-    '     File Size: 36.41 KB
+' Summaries:
 
 
-    ' Module KmersTool
-    ' 
-    '     Function: bayes_background, bayes_estimate, bloom_filter, bloom_vector, bracken_table
-    '               filter_classification, filter_hostId, filter_reads, format_kraken_seqs, gene_seqs
-    '               genomics_nt, get_kraken_data, hitTable, kraken2Table, load_background
-    '               make_classify, make_vector, parse_kraken_output, parse_kraken_report, quantify
-    '               read_bracken, read_kraken_reads, read_kraken_report, readKmerBloomFilter, reads_hits_matrix
-    '               readSequenceDb, scanBloomDatabase, seqTable, sequenceInfo, taxonomy_expression
-    '               write_background, writeKmerBloomFilter
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 835
+'    Code Lines: 593 (71.02%)
+' Comment Lines: 116 (13.89%)
+'    - Xml Docs: 83.62%
+' 
+'   Blank Lines: 126 (15.09%)
+'     File Size: 36.41 KB
+
+
+' Module KmersTool
+' 
+'     Function: bayes_background, bayes_estimate, bloom_filter, bloom_vector, bracken_table
+'               filter_classification, filter_hostId, filter_reads, format_kraken_seqs, gene_seqs
+'               genomics_nt, get_kraken_data, hitTable, kraken2Table, load_background
+'               make_classify, make_vector, parse_kraken_output, parse_kraken_report, quantify
+'               read_bracken, read_kraken_reads, read_kraken_report, readKmerBloomFilter, reads_hits_matrix
+'               readSequenceDb, scanBloomDatabase, seqTable, sequenceInfo, taxonomy_expression
+'               write_background, writeKmerBloomFilter
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -73,6 +73,7 @@ Imports Microsoft.VisualBasic.MIME.application.json.BSON
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.MIME.application.xml
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
@@ -446,8 +447,29 @@ Module KmersTool
     End Function
 
     <ExportAPI("MAG_classify")>
-    Public Function MAG_classify(<RRawVectorArgument> mag As Object, Optional env As Environment = Nothing) As Object
+    Public Function MAG_classify(<RRawVectorArgument> mag As Object, MAG_id As String, tax_tree As NcbiTaxonomyTree, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(mag, env)
 
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim tax_id As String = pull.populates(Of KrakenOutputRecord)(env) _
+            .Select(Function(r) r.LcaMappings) _
+            .IteratesALL _
+            .GroupBy(Function(t) t.Key) _
+            .OrderByDescending(Function(a) a.Sum(Function(r) r.Value)) _
+            .FirstOrDefault _
+            .Key
+
+        If tax_id Is Nothing Then
+            Return New OTUTable With {.taxonomy = Metagenomics.Taxonomy.Unclassified, .ID = MAG_id}
+        Else
+            Dim lineage = tax_tree.GetAscendantsWithRanksAndNames(CInt(tax_id), only_std_ranks:=True)
+            Dim tax As New Metagenomics.Taxonomy(lineage)
+
+            Return New OTUTable With {.taxonomy = tax, .ID = MAG_id}
+        End If
     End Function
 
     <ExportAPI("bayes_estimate")>
