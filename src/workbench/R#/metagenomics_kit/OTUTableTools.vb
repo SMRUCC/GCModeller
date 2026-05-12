@@ -382,8 +382,16 @@ Module OTUTableTools
     End Function
 
     <ExportAPI("set_MAG_data")>
-    Public Function set_MAG_data(tax As OTUTable, abundance As DataFrame) As OTUTable
+    Public Function set_MAG_data(tax As OTUTable, abundance As rdataframe) As OTUTable
+        Dim rowSums As Dictionary(Of String, Double) = abundance.columns _
+            .ToDictionary(Function(sample) sample.Key,
+                          Function(sample)
+                              Return CLRVector.asNumeric(sample.Value).Sum
+                          End Function)
 
+        tax.Properties = rowSums
+
+        Return tax
     End Function
 
     <ExportAPI("set_taxonomyName")>
