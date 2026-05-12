@@ -450,6 +450,7 @@ Module KmersTool
     End Function
 
     <ExportAPI("benchmark")>
+    <RApiReturn(GetType(ToolScore))>
     Public Function benchmark(<RRawVectorArgument(GetType(OTUTable))> reference As Object,
                               <RRawVectorArgument(GetType(OTUTable))> test As Object,
                               baseline As list,
