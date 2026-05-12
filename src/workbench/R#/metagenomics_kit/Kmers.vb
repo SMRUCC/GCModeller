@@ -489,7 +489,7 @@ Module KmersTool
                             .tax_id = a.Key,
                             .supports = a.Sum(Function(r) r.Value),
                             .taxonomy = tax,
-                            .sort = .supports * CInt(tax.RankLevel)
+                            .sort = .supports
                         }
                     End Function) _
             .OrderByDescending(Function(a) a.sort) _
