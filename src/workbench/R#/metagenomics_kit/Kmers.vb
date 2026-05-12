@@ -483,10 +483,18 @@ Module KmersTool
             .OrderByDescending(Function(a) a.score) _
             .ToArray
         Dim consensusTree = TaxonomyTree.BuildTree(tax_sort, Nothing, Nothing)
-        Dim consensus As TaxonomyTree = consensusTree _
-            .PopulateTaxonomy(TaxonomyRanks.Species) _
-            .OrderByDescending(Function(node) node.hits) _
-            .FirstOrDefault
+        Dim consensus As TaxonomyTree = Nothing
+
+        For Each level In Enums(Of TaxonomyRanks)().OrderByDescending(Function(l) CInt(l))
+            consensus = consensusTree _
+                .PopulateTaxonomy(level:=level) _
+                .OrderByDescending(Function(node) node.hits) _
+                .FirstOrDefault
+
+            If consensus IsNot Nothing Then
+                Exit For
+            End If
+        Next
 
         If consensus Is Nothing Then
             Return New OTUTable With {.taxonomy = Metagenomics.Taxonomy.Unclassified, .ID = MAG_id}
