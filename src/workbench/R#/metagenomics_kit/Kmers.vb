@@ -547,6 +547,24 @@ Module KmersTool
             .ToArray
     End Function
 
+    <ExportAPI("make_seq_groups")>
+    Public Function make_seq_groups(<RRawVectorArgument> kraken_output As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(kraken_output, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim seq_groups = pull.populates(Of KrakenOutputRecord)(env) _
+            .GroupBy(Function(a) a.ReadName) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.ToArray
+                          End Function)
+
+        Return New list(seq_groups)
+    End Function
+
     <ExportAPI("parse_kraken_report")>
     Public Function parse_kraken_report(<RRawVectorArgument(TypeCodes.string)> filepath As Object) As KrakenReportRecord()
         Return CLRVector.asCharacter(filepath) _
