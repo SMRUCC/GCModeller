@@ -447,7 +447,10 @@ Module KmersTool
     End Function
 
     <ExportAPI("MAG_classify")>
-    Public Function MAG_classify(<RRawVectorArgument> mag As Object, MAG_id As String, tax_tree As NcbiTaxonomyTree, Optional env As Environment = Nothing) As Object
+    Public Function MAG_classify(<RRawVectorArgument> mag As Object, MAG_id As String, tax_tree As NcbiTaxonomyTree,
+                                 Optional filter_unclassfied As Boolean = True,
+                                 Optional env As Environment = Nothing) As Object
+
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(mag, env)
 
         If pull.isError Then
@@ -458,11 +461,18 @@ Module KmersTool
             .Select(Function(r) r.LcaMappings) _
             .IteratesALL _
             .GroupBy(Function(t) t.Key) _
+            .Where(Function(a)
+                       If filter_unclassfied Then
+                           Return a.Key <> "0"
+                       Else
+                           Return True
+                       End If
+                   End Function) _
             .OrderByDescending(Function(a) a.Sum(Function(r) r.Value)) _
             .FirstOrDefault _
             .Key
 
-        If tax_id Is Nothing Then
+        If tax_id Is Nothing OrElse tax_id = "0" Then
             Return New OTUTable With {.taxonomy = Metagenomics.Taxonomy.Unclassified, .ID = MAG_id}
         Else
             Dim lineage = tax_tree.GetAscendantsWithRanksAndNames(CInt(tax_id), only_std_ranks:=True)
