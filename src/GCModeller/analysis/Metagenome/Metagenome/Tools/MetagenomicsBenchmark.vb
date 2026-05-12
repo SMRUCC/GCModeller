@@ -1,4 +1,7 @@
-﻿''' <summary>
+﻿Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Linq
+
+''' <summary>
 ''' 单个工具的评估得分
 ''' </summary>
 Public Class ToolScore
@@ -49,7 +52,9 @@ End Class
 ''' </summary>
 Public Class MetagenomicsBenchmark
 
-    ReadOnly reference As OTUTable(), tool_new As OTUTable(), current_tools As Dictionary(Of String, OTUTable()), groups As Dictionary(Of String, String())
+    ReadOnly reference As OTUTable()
+    ReadOnly tool_new As OTUTable(), current_tools As Dictionary(Of String, OTUTable()), groups As Dictionary(Of String, String())
+    ReadOnly sample_ids As String()
 
     ''' <param name="reference">参考真值数据</param>
     ''' <param name="tool_new">新算法结果</param>
@@ -64,6 +69,7 @@ Public Class MetagenomicsBenchmark
         Me.tool_new = tool_new.ToArray
         Me.current_tools = current_tools
         Me.groups = groups
+        Me.sample_ids = Me.reference.JoinIterates(Me.tool_new).PropertyNames
     End Sub
 
     ''' <summary>
@@ -88,6 +94,20 @@ Public Class MetagenomicsBenchmark
                Order By s.OverallScore Descending
     End Function
 
+    Private Function asList(data As IEnumerable(Of OTUTable)) As Dictionary(Of String, Dictionary(Of String, Double))
+        Return data.GroupBy(Function(a) a.taxonomy.BIOMTaxonomyString) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Dim samples As New Dictionary(Of String, Double)
+
+                              For Each name As String In sample_ids
+                                  samples(name) = a.Sum(Function(i) i(name))
+                              Next
+
+                              Return samples
+                          End Function)
+    End Function
+
     ''' <summary>
     ''' 评估单个工具相对于参考数据的表现
     ''' </summary>
@@ -95,9 +115,8 @@ Public Class MetagenomicsBenchmark
         Dim score As New ToolScore() With {.ToolName = toolName}
 
         ' 将数组转为以 Taxonomy 为键的字典，加速查找
-        Dim refDict = reference.ToDictionary(Function(g) g.taxonomy, Function(g) g.Properties)
-        Dim toolDict = tool.ToDictionary(Function(g) g.taxonomy, Function(g) g.Properties)
-
+        Dim refDict = asList(reference)
+        Dim toolDict = asList(tool)
         ' 所有物种的并集
         Dim allTaxa = refDict.Keys.Union(toolDict.Keys).ToHashSet()
 
