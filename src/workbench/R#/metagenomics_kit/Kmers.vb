@@ -445,6 +445,11 @@ Module KmersTool
         End If
     End Function
 
+    <ExportAPI("MAG_classify")>
+    Public Function MAG_classify(<RRawVectorArgument> mag As Object, Optional env As Environment = Nothing) As Object
+
+    End Function
+
     <ExportAPI("bayes_estimate")>
     Public Function bayes_estimate(background As KmerBackground, taxonomyDB As NcbiTaxonomyTree, seq_ids As SequenceCollection) As AbundanceEstimate
         Return New AbundanceEstimate(taxonomyDB).SetBackground(background).SetSequenceDb(seq_ids)
