@@ -453,6 +453,10 @@ Module KmersTool
         Public Property supports As Integer
         Public Property sort As Double
 
+        Public Overrides Function ToString() As String
+            Return taxonomy.ToString
+        End Function
+
     End Class
 
     <ExportAPI("MAG_classify")>
@@ -494,7 +498,15 @@ Module KmersTool
         If tax_sort.IsNullOrEmpty Then
             Return New OTUTable With {.taxonomy = Metagenomics.Taxonomy.Unclassified, .ID = MAG_id}
         Else
-            Return New OTUTable With {.taxonomy = tax_sort.First.taxonomy, .ID = MAG_id}
+            For Each level In Enums(Of TaxonomyRanks)().OrderByDescending(Function(l) CInt(l))
+                Dim top = tax_sort.Where(Function(t) t.taxonomy.RankLevel = level).FirstOrDefault
+
+                If Not top Is Nothing Then
+                    Return New OTUTable With {.taxonomy = top.taxonomy, .ID = MAG_id}
+                End If
+            Next
+
+            Return New OTUTable With {.taxonomy = Metagenomics.Taxonomy.Unclassified, .ID = MAG_id}
         End If
     End Function
 
