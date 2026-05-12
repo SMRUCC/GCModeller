@@ -70,15 +70,11 @@ Namespace gast
         ''' <param name="hits"></param>
         ''' <returns></returns>
         Public Function BuildTree(hits As IEnumerable(Of TaxonomySort), ByRef taxa_counts%(), ByRef minrank$) As TaxonomyTree
-            Dim array As Dictionary(Of String, String)() = hits _
-                .Select(Function(tax)
-                            Return tax.taxonomy.CreateTable.Value
-                        End Function) _
-                .ToArray
+            Dim array As TaxonomySort() = hits.ToArray
             Dim root As New TaxonomyTree With {
                 .lineage = "*",
                 .childs = New List(Of TaxonomyTree),
-                .hits = array.Length
+                .hits = array.Sum(Function(a) a.score)
             }
 
             Call Split(root, array, i:=0)
@@ -102,14 +98,13 @@ Namespace gast
             Return root
         End Function
 
-        Private Sub Split(root As TaxonomyTree, hits As Dictionary(Of String, String)(), i%)
+        Private Sub Split(root As TaxonomyTree, hits As TaxonomySort(), i%)
             Dim walk As TaxonomyTree = root
 
             For level As Integer = i To DescRanks.Length - 1
                 Dim rank As String = DescRanks(level)
-                Dim g = hits _
-                    .Select(Function(t) t(rank)) _
-                    .GroupBy(Function(s) s) _
+                Dim g As IGrouping(Of String, TaxonomySort)() = hits _
+                    .GroupBy(Function(s) s(rank)) _
                     .Where(Function(t) Not t.Key.TaxonomyRankEmpty) _
                     .ToArray
 
@@ -122,21 +117,21 @@ Namespace gast
                     With g.First
                         append(level) = .Key
                         append.lineage &= ";" & .Key
-                        append.hits = .Count
-                        append.ncbi_taxid = hits.First(Function(a) a(rank) = .Key).TryGetValue(NameOf(Taxonomy.ncbi_taxid))
+                        append.hits = .Sum(Function(a) a.score)
+                        append.ncbi_taxid = .First().tax_id
                     End With
 
                     walk.childs.Add(append)
                     walk = append
                 Else
                     ' 树分叉了，则添加新的节点
-                    For Each subType As IGrouping(Of String, String) In g
+                    For Each subType As IGrouping(Of String, TaxonomySort) In g
                         Dim append As New TaxonomyTree(walk) With {
                             .childs = New List(Of TaxonomyTree)
                         }
                         append(level) = subType.Key
                         append.lineage &= ";" & subType.Key
-                        append.hits = subType.Count
+                        append.hits = subType.Sum(Function(a) a.score)
 
                         walk.childs.Add(append)
 
