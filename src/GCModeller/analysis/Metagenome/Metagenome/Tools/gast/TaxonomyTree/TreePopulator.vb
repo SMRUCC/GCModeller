@@ -68,6 +68,11 @@ Namespace gast
         Private Iterator Function PopulateNodeAtRank(root As TaxonomyTree, level As TaxonomyRanks) As IEnumerable(Of TaxonomyTree)
             Dim current As TaxonomyTree() = root.childs
 
+            If level = root.RankLevel Then
+                Yield root
+                Return
+            End If
+
             For Each node As TaxonomyTree In current
                 If node.depth = level Then
                     Yield node
