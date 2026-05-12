@@ -206,6 +206,9 @@ declare namespace OTU_table {
    */
    function sample_id(x: any, env?: object): any;
    /**
+   */
+   function set_MAG_data(tax: object, abundance: object): object;
+   /**
      * @param rank default value Is ``null``.
      * @param sum_duplicates default value Is ``false``.
      * @param env default value Is ``null``.

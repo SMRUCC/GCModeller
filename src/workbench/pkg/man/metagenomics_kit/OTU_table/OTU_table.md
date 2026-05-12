@@ -26,6 +26,7 @@ Tools for handling OTU table data
 + [as.hts_matrix](OTU_table/as.hts_matrix.1) Create expression matrix data from a given otu table
 + [read.rankdata](OTU_table/read.rankdata.1) 
 + [as.OTU_table](OTU_table/as.OTU_table.1) convert the mothur rank tree as the OTU table
++ [set_MAG_data](OTU_table/set_MAG_data.1) 
 + [set_taxonomyName](OTU_table/set_taxonomyName.1) 
 + [core_microbiome](OTU_table/core_microbiome.1) evaluate the core microbiome species across all sample data
 + [dominant_species](OTU_table/dominant_species.1) evaluate top dominant species for each sample data
