@@ -55,9 +55,13 @@ Public Class MetagenomicsBenchmark
     ''' <param name="tool_new">新算法结果</param>
     ''' <param name="current_tools">现有算法字典</param>
     ''' <param name="groups">样本分组信息</param>
-    Sub New(reference As OTUTable(), tool_new As OTUTable(), current_tools As Dictionary(Of String, OTUTable()), groups As Dictionary(Of String, String()))
-        Me.reference = reference
-        Me.tool_new = tool_new
+    Sub New(reference As IEnumerable(Of OTUTable),
+            tool_new As IEnumerable(Of OTUTable),
+            current_tools As Dictionary(Of String, OTUTable()),
+            groups As Dictionary(Of String, String()))
+
+        Me.reference = reference.ToArray
+        Me.tool_new = tool_new.ToArray
         Me.current_tools = current_tools
         Me.groups = groups
     End Sub

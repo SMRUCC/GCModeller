@@ -83,6 +83,7 @@ Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
@@ -446,6 +447,46 @@ Module KmersTool
         Else
             Return Message.InCompatibleType(GetType(DatabaseReader), db.GetType, env)
         End If
+    End Function
+
+    <ExportAPI("benchmark")>
+    Public Function benchmark(<RRawVectorArgument(GetType(OTUTable))> reference As Object,
+                              <RRawVectorArgument(GetType(OTUTable))> test As Object,
+                              baseline As list,
+                              <RRawVectorArgument(GetType(SampleGroup))> groups As Object,
+                              Optional env As Environment = Nothing) As Object
+
+        Dim refdata As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(reference, env)
+        Dim testdata As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(test, env)
+        Dim samples As pipeline = pipeline.TryCreatePipeline(Of SampleGroup)(groups, env)
+        Dim baselineData As New Dictionary(Of String, OTUTable())
+
+        If refdata.isError Then
+            Return refdata.getError
+        ElseIf testdata.isError Then
+            Return testdata.getError
+        ElseIf samples.isError Then
+            Return samples.getError
+        End If
+
+        For Each name As String In baseline.getNames
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(baseline.getByName(name), env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            Call baselineData.Add(name, pull.populates(Of OTUTable)(env).ToArray)
+        Next
+
+        Dim tool As New MetagenomicsBenchmark(
+            refdata.populates(Of OTUTable)(env),
+            testdata.populates(Of OTUTable)(env),
+            baselineData,
+            SampleGroup.GroupList(samples.populates(Of SampleGroup)(env))
+        )
+
+        Return tool.RunBenchmark.ToArray
     End Function
 
     <ExportAPI("MAG_classify")>
