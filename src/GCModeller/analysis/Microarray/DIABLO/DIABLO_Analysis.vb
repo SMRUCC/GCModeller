@@ -342,21 +342,21 @@ Namespace MixOmics
         ''' <summary>创建 n×n 单位矩阵</summary>
         Public Shared Function Identity(n As Integer) As Matrix
             Dim I As New Matrix(n, n)
-            For i As Integer = 0 To n - 1
-                i(i, i) = 1.0
+            For idx As Integer = 0 To n - 1
+                I(idx, idx) = 1.0
             Next
             Return I
         End Function
 
         ''' <summary>创建 n×m 全1矩阵</summary>
         Public Shared Function Ones(n As Integer, m As Integer) As Matrix
-            Dim M As New Matrix(n, M)
+            Dim Mat As New Matrix(n, m)
             For i As Integer = 0 To n - 1
-                For j As Integer = 0 To M - 1
-                    M(i, j) = 1.0
+                For j As Integer = 0 To m - 1
+                    Mat(i, j) = 1.0
                 Next
             Next
-            Return M
+            Return Mat
         End Function
 
         ''' <summary>创建 n×m 全0矩阵</summary>
@@ -421,14 +421,14 @@ Namespace MixOmics
                                   startCol As Integer, endCol As Integer) As Matrix
             Dim r As Integer = endRow - startRow + 1
             Dim c As Integer = endCol - startCol + 1
-            Dim sub As New Matrix(r, c)
+            Dim [sub] As New Matrix(r, c)
             For i As Integer = 0 To r - 1
                 For j As Integer = 0 To c - 1
-                    Sub(i, j) = _data(startRow + i, startCol + j)
+                    [sub](i, j) = _data(startRow + i, startCol + j)
                 Next
             Next
-            Return Sub()
-                       End Function
+            Return [sub]
+        End Function
 
         ''' <summary>矩阵字符串表示 (调试用)</summary>
         Public Overrides Function ToString() As String
@@ -785,7 +785,7 @@ Namespace MixOmics
     ''' 目标函数 (对于第h个成分):
     '''   max  sum_{k,l} design[k,l] * cov(X_k * u_kh, X_l * u_lh)
     '''        + cov(X_k * u_kh, Y * c_h)
-    '''   s.t. ||u_kh||_2 = 1,  ||u_kh||_1 <= lambda_k
+    '''   s.t. ||u_kh||_2 = 1,  ||u_kh||_1 &lt;= lambda_k
     '''
     ''' 其中 design[k,l] 是块间连接设计矩阵，lambda_k 是稀疏度参数
     ''' </summary>
@@ -1714,8 +1714,8 @@ Namespace MixOmics
                 ' 将组合转为keepX格式
                 Dim keepX As New List(Of Integer())()
                 For k As Integer = 0 To _nBlocks - 1
-                    Dim kx(_ncomp - 1) As Integer
-                    For h As Integer = 0 To _ncomp - 1
+                    Dim kx(ncomp - 1) As Integer
+                    For h As Integer = 0 To ncomp - 1
                         kx(h) = combo(k)
                     Next
                     keepX.Add(kx)
@@ -1867,8 +1867,8 @@ Namespace MixOmics
                 Return
             End If
 
-            For Each Val In keepXGrid(idx)
-                current(idx) = Val()
+            For Each val As Integer In keepXGrid(idx)
+                current(idx) = val
                 GenerateCombinationsRecursive(keepXGrid, idx + 1, current, results)
             Next
         End Sub
@@ -2481,7 +2481,7 @@ Namespace MixOmics
                             Math.Max(1, p \ 10),
                             Math.Max(1, p \ 5),
                             Math.Min(p, Math.Max(1, p \ 2))
-                        }.Distinct().OrderBy(Function(x) x).ToArray()
+                        }.Distinct().OrderBy(Function(xi) xi).ToArray()
                         keepXGrid.Add(grid)
                     Next
 
