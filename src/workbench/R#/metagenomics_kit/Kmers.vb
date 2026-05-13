@@ -455,6 +455,7 @@ Module KmersTool
                               <RRawVectorArgument(GetType(OTUTable))> test As Object,
                               baseline As list,
                               <RRawVectorArgument(GetType(SampleGroup))> groups As Object,
+                              Optional tool_name As String = "Tool_New",
                               Optional env As Environment = Nothing) As Object
 
         Dim refdata As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(reference, env)
@@ -485,7 +486,7 @@ Module KmersTool
             testdata.populates(Of OTUTable)(env),
             baselineData,
             SampleGroup.GroupList(samples.populates(Of SampleGroup)(env))
-        )
+        ) With {.tool_name = tool_name}
 
         Return tool.RunBenchmark.ToArray
     End Function

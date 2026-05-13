@@ -56,6 +56,8 @@ Public Class MetagenomicsBenchmark
     ReadOnly tool_new As OTUTable(), current_tools As Dictionary(Of String, OTUTable()), groups As Dictionary(Of String, String())
     ReadOnly sample_ids As String()
 
+    Public Property tool_name As String = "Tool_New"
+
     ''' <param name="reference">参考真值数据</param>
     ''' <param name="tool_new">新算法结果</param>
     ''' <param name="current_tools">现有算法字典</param>
@@ -79,7 +81,7 @@ Public Class MetagenomicsBenchmark
     Public Function RunBenchmark() As IEnumerable(Of ToolScore)
         Dim scores As New List(Of ToolScore)()
         ' 1. 评估新工具
-        Dim newToolScore = EvaluateTool("Tool_New", tool_new)
+        Dim newToolScore = EvaluateTool(tool_name, tool_new)
         scores.Add(newToolScore)
 
         ' 2. 评估现有工具
