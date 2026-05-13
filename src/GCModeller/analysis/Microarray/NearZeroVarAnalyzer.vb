@@ -7,16 +7,36 @@ Public Module NearZeroVarAnalyzer
     ''' 识别数据集中的近零方差变量（列）。
     ''' 逻辑等同于 R 语言 mixOmics::nearZeroVar 或 caret::nearZeroVar
     ''' </summary>
-    ''' <param name="data">列代表样本，行代表变量</param>
+    ''' <param name="expr_mat">列代表样本，行代表变量</param>
     ''' <param name="freqCut">频数比阈值，默认 19.0</param>
     ''' <param name="uniqueCut">唯一值百分比阈值，默认 10.0</param>
     ''' <returns>包含近零方差的基因ID</returns>
     ''' 
     <Extension>
-    Public Iterator Function FindNearZeroVarColumns(data As Matrix,
+    Public Iterator Function FindNearZeroVarColumns(expr_mat As Matrix,
                                            Optional freqCut As Double = 19.0,
                                            Optional uniqueCut As Double = 10.0) As IEnumerable(Of String)
 
+        Dim geneCount As Integer = expr_mat.size
+        Dim sampleCount As Integer = expr_mat.sampleID.Length
+
+        ' 创建新的二维数组，行列互换
+        Dim transposedData(sampleCount - 1, geneCount - 1) As Double
+
+        ' 遍历赋值
+        For g As Integer = 0 To geneCount - 1
+            Dim gene_expr As Double() = expr_mat(g).experiments
+
+            For s As Integer = 0 To sampleCount - 1
+                transposedData(s, g) = gene_expr(s)
+            Next
+        Next
+
+        Dim geneIndex As IEnumerable(Of String) = FindNearZeroVarColumns(transposedData, freqCut, uniqueCut)
+
+        For Each i As Integer In geneIndex
+            Yield expr_mat(i).geneID
+        Next
     End Function
 
     ''' <summary>
