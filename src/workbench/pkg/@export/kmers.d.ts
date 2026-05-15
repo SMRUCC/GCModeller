@@ -57,9 +57,10 @@ declare namespace kmers {
    */
    function bayes_estimate(background: object, taxonomyDB: object, seq_ids: object): object;
    /**
+     * @param tool_name default value Is ``'Tool_New'``.
      * @param env default value Is ``null``.
    */
-   function benchmark(reference: any, test: any, baseline: object, groups: any, env?: object): object;
+   function benchmark(reference: any, test: any, baseline: object, groups: any, tool_name?: string, env?: object): object;
    /**
     * 
     * 
