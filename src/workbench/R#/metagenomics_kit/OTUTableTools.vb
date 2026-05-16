@@ -257,7 +257,10 @@ Module OTUTableTools
                 .LoadOTUTaxonAnalysis(file, tsv:=checkTable) _
                 .ToArray
         Else
-            otus = DataSet.LoadDataSet(Of OTUTable)(file, mute:=True, isTsv:=checkTable).ToArray
+            otus = DataSet.LoadDataSet(Of OTUTable)(
+                path:=file,
+                mute:=True,
+                isTsv:=checkTable).ToArray
         End If
 
         If sum_duplicated Then
