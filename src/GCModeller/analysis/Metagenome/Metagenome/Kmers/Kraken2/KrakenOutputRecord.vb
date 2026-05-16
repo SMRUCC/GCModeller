@@ -117,6 +117,14 @@ Namespace Kmers.Kraken2
         ''' <returns></returns>
         Public Property LcaMappings As New Dictionary(Of String, Integer)
 
+        Public Function GetKMerMapping(taxid As String) As Integer
+            If LcaMappings.ContainsKey(taxid) Then
+                Return _LcaMappings(taxid)
+            Else
+                Return 0
+            End If
+        End Function
+
         Public Shared Function MakeAnnotationResult(reads As IEnumerable(Of KrakenOutputRecord)) As Dictionary(Of String, Integer)
             Dim readsIndex = reads.GroupBy(Function(r) r.ReadName)
             Dim annotation = readsIndex _
@@ -141,7 +149,7 @@ Namespace Kmers.Kraken2
             Else
                 Dim top = filter _
                    .OrderByDescending(Function(ri)
-                                          Return ri.LcaMappings(ri.TaxID.ToString)
+                                          Return ri.GetKMerMapping(ri.TaxID.ToString)
                                       End Function) _
                    .First
 
