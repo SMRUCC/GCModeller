@@ -337,7 +337,11 @@ Module OTUTableTools
             Return DirectCast(x, MothurRankTree).GetOTUTable
         ElseIf TypeOf x Is rdataframe Then
             Return asOTUTable(DirectCast(x, rdataframe), id, taxonomy)
-        ElseIf TypeOf x Is RankLevelView() Then
+        ElseIf TypeOf x Is RankLevelView() OrElse TypeOf x Is RankLevelView Then
+            If TypeOf x Is RankLevelView Then
+                x = New RankLevelView() {DirectCast(x, RankLevelView)}
+            End If
+
             Return DirectCast(x, RankLevelView()) _
                 .Select(Function(otu) otu.ToOtuTable) _
                 .ToArray
