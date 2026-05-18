@@ -217,12 +217,18 @@ Namespace ContextModel
             sequence = source _
                 .OrderBy(Function(gene) gene.Location.left) _
                 .ToArray
-            ' 修复：预先计算 size，避免每次调用都进行 Linq 遍历
-            size = sequence _
-                .Select(Function(g) g.Location) _
-                .Select(Function(loci) {loci.left, loci.right}) _
-                .IteratesALL _
-                .Max
+
+            ' 20260519 deal with the possible empty genome context data
+            If sequence.Any Then
+                ' 预先计算 size，避免每次调用都进行 Linq 遍历
+                size = sequence _
+                    .Select(Function(g) g.Location) _
+                    .Select(Function(loci) {loci.left, loci.right}) _
+                    .IteratesALL _
+                    .Max
+            Else
+                Call $"empty genomics context information of '{name}'...".warning
+            End If
         End Sub
 
         ''' <summary>
