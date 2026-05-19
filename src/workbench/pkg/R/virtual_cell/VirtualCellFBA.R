@@ -1,6 +1,8 @@
 #'
 #' @param models a set of the virtual cell model CLR object to modelling of the FBA stoichiometric matrix
-#' @param obj_rxns a character vector of the reaction flux id set.
+#' @param obj_rxns A character vector specifying the reaction flux IDs (a subset
+#'   of the column names of \code{S_df}) to be maximized. If multiple reactions
+#'   are provided, their combined flux is maximized.
 #' @param temp temp dir for save the temp workspace files.
 #' @param default_lb A numeric value specifying the default lower bound for every
 #'   metabolic reaction flux. Defaults to \code{-1000} (assumes reversible
@@ -15,4 +17,12 @@
 const VirtualCellFBA = function(models, obj_rxns, default_lb = -1000, default_ub = 1000, flux_bounds = list(), temp = "./.tmp/") {
     dir.create(temp);
 
+    native_r(FBA_solver, list(
+        S_df = , 
+        obj_rxns = obj_rxns, 
+        outputdir = temp, 
+        default_lb = default_lb, 
+        default_ub = default_ub, 
+        flux_bounds = flux_bounds
+    ));
 }
