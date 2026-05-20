@@ -18,7 +18,7 @@ const VirtualCellFBA = function(models, obj_rxns, default_lb = -1000, default_ub
     dir.create(temp);
 
     native_r(FBA_solver, list(
-        S_df = , 
+        S_df = models, 
         obj_rxns = obj_rxns, 
         outputdir = temp, 
         default_lb = default_lb, 
