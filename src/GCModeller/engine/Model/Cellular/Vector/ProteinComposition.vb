@@ -197,6 +197,10 @@ Namespace Cellular.Vector
                 .ToArray
         End Sub
 
+        Public Function IsBlank() As Boolean
+            Return Me.AsEnumerable.All(Function(a) a.Value = 0.0)
+        End Function
+
         Public Shared Function Blank(protId As String) As ProteinComposition
             Return New ProteinComposition With {.proteinID = protId}
         End Function

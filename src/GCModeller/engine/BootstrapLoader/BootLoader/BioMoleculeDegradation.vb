@@ -233,6 +233,12 @@ Namespace ModelLoader
                 End If
 
                 composition = proteinMatrix(gene.polypeptide)
+
+                If composition.IsBlank Then
+                    Call $"missing protein composition vector for {gene.ToString}".warning
+                    Continue For
+                End If
+
                 aaResidue = composition _
                         .Where(Function(i) i.Value > 0) _
                         .Select(Function(aa)
