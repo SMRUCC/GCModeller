@@ -62,8 +62,16 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
 
-<Package("multi_omics")>
-Module multiOmics
+<Package("mixOmics")>
+Module mixOmics
+
+    <ExportAPI("nearZeroVar")>
+    Public Function FindNearZeroVarColumns(expr_mat As Matrix,
+                                           Optional freqCut As Double = 19.0,
+                                           Optional uniqueCut As Double = 10.0) As String()
+
+        Return expr_mat.FindNearZeroVarColumns(freqCut, uniqueCut).ToArray
+    End Function
 
     <ExportAPI("omics.2D_scatter")>
     Public Function omics2DScatterPlot(x As Object, y As Object,
