@@ -58,31 +58,35 @@ Imports Microsoft.VisualBasic.Math.Scripting
 
 Namespace Cellular.Process
 
-    Public Structure Kinetics
+    Public Class Kinetics
+
         ''' <summary>
         ''' body expression of the lambda expression
         ''' </summary>
-        Dim formula As Impl.Expression
+        Public Property formula As Impl.Expression
         ''' <summary>
         ''' parameter names for create lambda expression
         ''' </summary>
-        Dim parameters As String()
+        Public Property parameters As String()
         ''' <summary>
         ''' parameter value list data of the lambda <see cref="parameters"/>. 
         ''' numeric value means constant value and string value means
         ''' id reference of the substrate
         ''' </summary>
-        Dim paramVals As Object()
+        Public Property paramVals As Object()
         ''' <summary>
         ''' enzyme target
         ''' </summary>
-        Dim enzyme As String
+        Public Property enzyme As String
         ''' <summary>
         ''' target reaction id
         ''' </summary>
-        Dim target As String
-        Dim temperature As Double
-        Dim PH As Double
+        Public Property target As String
+
+        ''' <summary>
+        ''' characters
+        ''' </summary>
+        Public Property characters As String
 
         Public Overrides Function ToString() As String
             Return $"[{target}] {formula}"
@@ -125,5 +129,5 @@ Namespace Cellular.Process
                        Return handler.DynamicInvoke(vals)
                    End Function
         End Function
-    End Structure
+    End Class
 End Namespace
