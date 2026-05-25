@@ -9,54 +9,154 @@ Namespace Kinetics
     Public Class EnzymeCharacteristics
 
 #Region "温度相关参数"
-        Public Property T_ref As Double = 298.15           ' 参考温度 (K)
-        Public Property T_opt As Double = 310.15           ' 最适温度 (K)
-        Public Property Ea As Double = 50000.0             ' kcat 活化能 (J/mol)
-        Public Property DeltaH_bind As Double = -30000.0   ' Km 结合焓 (J/mol)
-        Public Property T_melt As Double = 330.0           ' 酶熔化温度 (K)
-        Public Property k_denat As Double = 10.0           ' 失活陡峭度系数
+        ''' <summary>
+        ''' 参考温度 (K)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property T_ref As Double = 298.15
+        ''' <summary>
+        ''' 最适温度 (K)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property T_opt As Double = 310.15
+        ''' <summary>
+        ''' kcat 活化能 (J/mol)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Ea As Double = 50000.0
+        ''' <summary>
+        ''' Km 结合焓 (J/mol)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DeltaH_bind As Double = -30000.0
+        ''' <summary>
+        ''' 酶熔化温度 (K)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property T_melt As Double = 330.0
+        ''' <summary>
+        ''' 失活陡峭度系数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property k_denat As Double = 10.0
 #End Region
 
 #Region "pH 相关参数"
-        Public Property pH_opt As Double = 7.0             ' 最适 pH
-        Public Property pKa1 As Double = 6.5               ' 催化残基质子解离常数
-        Public Property pKa2 As Double = 8.5               ' 催化残基去质子解离常数
-        Public Property pH_width As Double = 1.5           ' pH活性曲线宽度
+        ''' <summary>
+        ''' 最适 pH
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property pH_opt As Double = 7.0
+        ''' <summary>
+        ''' 催化残基质子解离常数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property pKa1 As Double = 6.5
+        ''' <summary>
+        ''' 催化残基去质子解离常数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property pKa2 As Double = 8.5
+        ''' <summary>
+        ''' pH活性曲线宽度
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property pH_width As Double = 1.5
 #End Region
 
 #Region "离子强度参数"
-        Public Property I_opt As Double = 0.15             ' 最适离子强度 (M)
-        Public Property k_ion As Double = 2.0              ' 离子强度影响系数
-        Public Property z_enzyme As Double = -2.0          ' 酶净电荷数
-        Public Property z_substrate As Double = -1.0       ' 底物净电荷数
+        ''' <summary>
+        ''' 最适离子强度 (M)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property I_opt As Double = 0.15
+        ''' <summary>
+        ''' 离子强度影响系数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property k_ion As Double = 2.0
+        ''' <summary>
+        ''' 酶净电荷数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property z_enzyme As Double = -2.0
+        ''' <summary>
+        ''' 底物净电荷数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property z_substrate As Double = -1.0
 #End Region
 
 #Region "抑制与激活参数"
-        Public Property Ki_sub As Double = 0.01            ' 底物抑制常数 (M)
-        Public Property Ki_prod_comp As Double = 0.005     ' 产物竞争抑制常数 (M)
-        Public Property Ki_prod_uncomp As Double = 0.005   ' 产物非竞争抑制常数 (M)
+        ''' <summary>
+        ''' 底物抑制常数 (M)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Ki_sub As Double = 0.01
+        ''' <summary>
+        ''' 产物竞争抑制常数 (M)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Ki_prod_comp As Double = 0.005
+        ''' <summary>
+        ''' 产物非竞争抑制常数 (M)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Ki_prod_uncomp As Double = 0.005
         ''' <summary>
         ''' 是否需要辅因子
         ''' </summary>
         ''' <returns></returns>
         Public Property RequiresCofactor As Boolean = False
-        Public Property Ka_cofactor As Double = 0.001      ' 辅因子激活常数 (M)
-        Public Property n_cofactor As Double = 1.0         ' 辅因子结合协同性 (Hill系数)
+        ''' <summary>
+        ''' 辅因子激活常数 (M)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Ka_cofactor As Double = 0.001
+        ''' <summary>
+        ''' 辅因子结合协同性 (Hill系数)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property n_cofactor As Double = 1.0
 #End Region
 
 #Region "环境依赖度参数"
-        Public Property crowding_sensitivity As Double = 0.2 ' 拥挤敏感度 (0~1)
-        Public Property viscosity_sensitivity As Double = 0.1 ' 粘度敏感度 (0~1), 1为纯扩散控制
+        ''' <summary>
+        ''' 拥挤敏感度 (0~1)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property crowding_sensitivity As Double = 0.2
+        ''' <summary>
+        ''' 粘度敏感度 (0~1), 1为纯扩散控制
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property viscosity_sensitivity As Double = 0.1
 #End Region
 
 #Region "交互作用参数"
-        Public Property alpha_temp_pH As Double = 0.1      ' 温度-pH交互作用系数
-        Public Property beta_ion_pH As Double = 0.05       ' 离子强度-pH交互作用系数
+        ''' <summary>
+        ''' 温度-pH交互作用系数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property alpha_temp_pH As Double = 0.1
+        ''' <summary>
+        ''' 离子强度-pH交互作用系数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property beta_ion_pH As Double = 0.05
 #End Region
 
 #Region "动态效应参数"
-        Public Property tau_temp As Double = 60.0          ' 温度适应时间常数 (秒)
-        Public Property tau_pH As Double = 30.0            ' pH适应时间常数 (秒)
+        ''' <summary>
+        ''' 温度适应时间常数 (秒)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property tau_temp As Double = 60.0
+        ''' <summary>
+        ''' pH适应时间常数 (秒)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property tau_pH As Double = 30.0
 #End Region
 
         Public Function GetVector() As Double()
