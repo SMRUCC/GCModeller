@@ -87,10 +87,16 @@ Namespace WebJSON
         Public Property right As Substrate()
         Public Property law As LawData()
 
-        Public ReadOnly Property ec_numbers As String()
+        Public Property ec_numbers As String()
             Get
                 Return ECNumbers.ToArray
             End Get
+            Private Set(value As String())
+                ' 20260525
+                ' do nothing on setter
+                ' try to avoid the error of:
+                ' SerializationException: Array length '0' provided by the get-only collection of type 'System.String[]' is less than the number of array elements found in the input stream.  Consider increasing the length of the array.
+            End Set
         End Property
 
         <JsonIgnore, IgnoreDataMember, XmlIgnore, SoapIgnore, ContractRuntimeIgnored, ScriptIgnore>
