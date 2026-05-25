@@ -82,11 +82,11 @@
 
 Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 
@@ -128,8 +128,8 @@ Namespace TabularDump
     ''' <remarks></remarks>
     Public Class EnzymeCatalystKineticLaw : Inherits KineticLawData
 
-        Public Property substrates As Dictionary(Of String, NamedCollection(Of String))
-        Public Property products As Dictionary(Of String, NamedCollection(Of String))
+        Public Property substrates As Dictionary(Of String, NamedVector(Of String))
+        Public Property products As Dictionary(Of String, NamedVector(Of String))
 
         Public Overrides Function ToString() As String
             Return String.Format("({0}) {1}", enzyme.Values.GetJson, reaction)
@@ -148,8 +148,8 @@ Namespace TabularDump
                 .Where(Function(li) Strings.InStr(li.resource, "pubmed") > 0) _
                 .Select(Function(li) li.resource) _
                 .ToArray
-            Dim left As Dictionary(Of String, NamedCollection(Of String)) = Nothing
-            Dim right As Dictionary(Of String, NamedCollection(Of String)) = Nothing
+            Dim left As Dictionary(Of String, NamedVector(Of String)) = Nothing
+            Dim right As Dictionary(Of String, NamedVector(Of String)) = Nothing
             Dim equation As String = doc.ToString(rxn, left, right)
             Dim enzymes = doc.getEnzymes(rxn).ToArray
             Dim args As New Dictionary(Of String, String)

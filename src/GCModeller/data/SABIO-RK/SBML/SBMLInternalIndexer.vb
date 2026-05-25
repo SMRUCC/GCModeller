@@ -60,6 +60,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.xml.MathML
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Model.SBML.Level3
 
 Namespace SBML
@@ -137,29 +138,29 @@ Namespace SBML
         End Sub
 
         Public Overloads Function ToString(rxn As SBMLReaction,
-                                           ByRef substrates As Dictionary(Of String, NamedCollection(Of String)),
-                                           ByRef products As Dictionary(Of String, NamedCollection(Of String))) As String
+                                           ByRef substrates As Dictionary(Of String, NamedVector(Of String)),
+                                           ByRef products As Dictionary(Of String, NamedVector(Of String))) As String
 
             Dim left = rxn.listOfReactants.Select(AddressOf factorString).ToArray
             Dim right = rxn.listOfProducts.Select(AddressOf factorString).ToArray
 
             If substrates Is Nothing Then
-                substrates = New Dictionary(Of String, NamedCollection(Of String))
+                substrates = New Dictionary(Of String, NamedVector(Of String))
             End If
             If products Is Nothing Then
-                products = New Dictionary(Of String, NamedCollection(Of String))
+                products = New Dictionary(Of String, NamedVector(Of String))
             End If
 
             For Each factor In left
                 ' 20241223 duplicated compounds maybe existsed
                 If Not substrates.ContainsKey(factor.rawId) Then
-                    Call substrates.Add(factor.rawId, New NamedCollection(Of String)(factor.name, factor.xref))
+                    Call substrates.Add(factor.rawId, New NamedVector(Of String)(factor.name, factor.xref))
                 End If
             Next
 
             For Each factor In right
                 If Not products.ContainsKey(factor.rawId) Then
-                    Call products.Add(factor.rawId, New NamedCollection(Of String)(factor.name, factor.xref))
+                    Call products.Add(factor.rawId, New NamedVector(Of String)(factor.name, factor.xref))
                 End If
             Next
 
