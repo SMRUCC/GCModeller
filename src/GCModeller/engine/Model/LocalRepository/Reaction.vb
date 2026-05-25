@@ -130,6 +130,7 @@ Namespace WebJSON
         Public Property lambda As String
         Public Property metabolite_id As String
         Public Property ec_number As String
+        Public Property character As String
 
         Public Overrides Function ToString() As String
             Return $"{params.GetJson} -> {lambda}"

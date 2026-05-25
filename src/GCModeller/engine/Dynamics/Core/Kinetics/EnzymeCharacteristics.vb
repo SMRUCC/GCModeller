@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 
 Namespace Kinetics
 
@@ -119,6 +120,16 @@ Namespace Kinetics
                 .tau_temp = v(24),              ' 温度适应时间常数 (秒)
                 .tau_pH = v(25)                 ' pH适应时间常数 (秒)    
             }
+        End Function
+
+        Public Function ToBase64String() As String
+            Static net As New NetworkByteOrderBuffer
+            Return net.Base64String(GetVector, gzip:=True)
+        End Function
+
+        Public Shared Function ParseBase64(base64 As String) As EnzymeCharacteristics
+            Static net As New NetworkByteOrderBuffer
+            Return FromVector(net.ParseDouble(base64, NetworkByteOrderBuffer.Compression.gzip))
         End Function
 
         ''' <summary>
