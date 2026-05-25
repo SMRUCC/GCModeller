@@ -87,8 +87,14 @@ Namespace WebJSON
         Public Property right As Substrate()
         Public Property law As LawData()
 
+        Public ReadOnly Property ec_numbers As String()
+            Get
+                Return ECNumbers.ToArray
+            End Get
+        End Property
+
         <JsonIgnore, IgnoreDataMember, XmlIgnore, SoapIgnore, ContractRuntimeIgnored, ScriptIgnore>
-        Public ReadOnly Property ECNumbers As IEnumerable(Of String) Implements IEnzymeSet.ECNumbers
+        Private ReadOnly Property ECNumbers As IEnumerable(Of String) Implements IEnzymeSet.ECNumbers
             Get
                 If law Is Nothing Then
                     Return New String() {}
