@@ -254,5 +254,40 @@ Namespace ComponentModel.Annotation
         Public Shared Function ValidateValue(s$) As Boolean
             Return s.MatchPattern(regex:=PatternECNumber)
         End Function
+
+        ''' <summary>
+        ''' Evaluate of the match score between two EC numbers, the higher the score, the better the match.
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
+        Public Shared Function MatchScore(a As ECNumber, b As ECNumber) As Double
+            Dim score As Double = 0
+
+            If a Is Nothing OrElse b Is Nothing Then
+                Return score
+            End If
+
+            If a.type = b.type Then
+                score += 1
+            Else
+                Return score
+            End If
+            If a.subType = b.subType Then
+                score += 10
+            Else
+                Return score
+            End If
+            If a.subCategory = b.subCategory Then
+                score += 100
+            Else
+                Return score
+            End If
+            If a.serialNumber = b.serialNumber Then
+                Return CDbl(Single.MaxValue)
+            Else
+                Return score
+            End If
+        End Function
     End Class
 End Namespace
