@@ -385,8 +385,7 @@ Namespace v2
                     .parameters = pars,
                     .paramVals = refVals,
                     .target = reaction.ID,
-                    .PH = k.Value.PH,
-                    .temperature = k.Value.temperature
+                    .characters = k.Value.characters
                 }
             Next
         End Function
