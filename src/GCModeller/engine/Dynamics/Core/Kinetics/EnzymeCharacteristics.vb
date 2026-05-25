@@ -243,5 +243,12 @@ Namespace Kinetics
             If RequiresCofactor AndAlso Ka_cofactor <= 0 Then Return False
             Return True
         End Function
+
+        Public Shared Narrowing Operator CType(chrs As EnzymeCharacteristics) As String
+            If chrs Is Nothing Then
+                Return ""
+            End If
+            Return chrs.ToBase64String
+        End Operator
     End Class
 End Namespace

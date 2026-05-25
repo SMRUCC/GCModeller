@@ -70,6 +70,7 @@ Imports SMRUCC.genomics.Data.SABIORK.docuRESTfulWeb
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.CompilerServices
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Kinetics
 
 ''' <summary>
 ''' apply the kinetics parameters from the sabio-rk database.
@@ -173,17 +174,21 @@ Public Class Modeller : Inherits Compiler(Of VirtualCell)
                     .parseKineticsParameters(index, enzyme.KO, compoundId) _
                     .ToArray
 
+                Dim vec As New EnzymeCharacteristics
+
                 If conditions.pHValue Is Nothing Then
-                    react.PH = 7
+                    vec.pH_opt = 7
                 Else
-                    react.PH = conditions.pHValue.startValuepH
+                    vec.pH_opt = conditions.pHValue.startValuepH
                 End If
 
                 If conditions.temperature Is Nothing Then
-                    react.temperature = 37
+                    vec.T_opt = 37
                 Else
-                    react.temperature = conditions.temperature.startValueTemperature
+                    vec.T_opt = conditions.temperature.startValueTemperature
                 End If
+
+                react.characters = vec.ToBase64String
 
                 Exit For
             Next
@@ -200,9 +205,13 @@ Public Class Modeller : Inherits Compiler(Of VirtualCell)
                 Call applyReactionKinetics(enzyme, react, kineticList)
 
                 If react.formula Is Nothing Then
+                    Dim vec As New EnzymeCharacteristics
+
                     ' 采用标准的米氏方程么？
-                    react.PH = 7
-                    react.temperature = 36
+                    vec.pH_opt = 7
+                    vec.T_ref = 36
+
+                    react.characters = vec.ToBase64String
                     react.formula = New FunctionElement With {
                         .name = "Michaelis-Menten equation",
                         .parameters = {"Vmax", "S", "Km"},

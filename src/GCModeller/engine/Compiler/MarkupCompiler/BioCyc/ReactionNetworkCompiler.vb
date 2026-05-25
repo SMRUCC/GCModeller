@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::1919f89f5921b971661ffe4961a55144, engine\Compiler\MarkupCompiler\BioCyc\ReactionNetworkCompiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 201
-    '    Code Lines: 172 (85.57%)
-    ' Comment Lines: 2 (1.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 27 (13.43%)
-    '     File Size: 8.32 KB
+' Summaries:
 
 
-    '     Class ReactionNetworkCompiler
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: BuildModel, CheckEnzymatic, createCompounds, CreateCompounds, createEnzyme
-    '                   createKinetics, CreateMaps, createReactions, enzymaticReaction, nonEnzymaticReaction
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 201
+'    Code Lines: 172 (85.57%)
+' Comment Lines: 2 (1.00%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 27 (13.43%)
+'     File Size: 8.32 KB
+
+
+'     Class ReactionNetworkCompiler
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: BuildModel, CheckEnzymatic, createCompounds, CreateCompounds, createEnzyme
+'                   createKinetics, CreateMaps, createReactions, enzymaticReaction, nonEnzymaticReaction
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Kinetics
 
 Namespace MarkupCompiler.BioCyc
 
@@ -176,8 +177,7 @@ Namespace MarkupCompiler.BioCyc
             End If
 
             Return New Catalysis With {
-                .PH = If(a.PH = 0, 7, a.PH),
-                .temperature = If(a.temperature = 0, 23, a.temperature),
+                .characters = New EnzymeCharacteristics With {.pH_opt = If(a.PH = 0, 7, a.PH), .T_opt = If(a.temperature = 0, 23, a.temperature)},
                 .reaction = a.reaction,
                 .parameter = params,
                 .formula = dynamics
@@ -238,7 +238,7 @@ Namespace MarkupCompiler.BioCyc
             Dim right = CreateCompounds(rxn.right).ToArray
 
             If left.IsNullOrEmpty OrElse right.IsNullOrEmpty Then
-                Call $"Missing reactants or products from the reaction {rxn.uniqueId} ({rxn.commonName})!".Warning
+                Call $"Missing reactants or products from the reaction {rxn.uniqueId} ({rxn.commonName})!".warning
                 Return Nothing
             End If
 
