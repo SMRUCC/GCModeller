@@ -112,12 +112,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property reaction As String
-        <XmlAttribute> Public Property PH As Double
-        ''' <summary>
-        ''' 单位为摄氏度的温度参数值
-        ''' </summary>
-        ''' <returns></returns>
-        <XmlAttribute> Public Property temperature As Double
+        <XmlAttribute> Public Property characters As String
 
         ''' <summary>
         ''' 通过sabio-rk数据库得到的动力学函数方程
