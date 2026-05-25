@@ -29,7 +29,21 @@
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
-export class Kinetics extends <a href="/vignettes/clr/System/ValueType.html">ValueType</a> {
+export class Kinetics {
+   # characters
+   characters: string;
+   # enzyme target
+   enzyme: string;
+   # body expression of the lambda expression
+   formula: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Scripting/MathExpression/Impl/Expression.html">Expression</a>;
+   # parameter names for create lambda expression
+   parameters: string;
+   # parameter value list data of the lambda <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Model/Cellular/Process/Kinetics.html">Kinetics</a>.<a href="#">parameters</a>. 
+   #  numeric value means constant value and string value means
+   #  id reference of the substrate
+   paramVals: <a href="/vignettes/clr/System/Object.html">Object[]</a>;
+   # target reaction id
+   target: string;
 }
 </code>
         </pre>
@@ -37,7 +51,8 @@ export class Kinetics extends <a href="/vignettes/clr/System/ValueType.html">Val
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>this class extends from <a href="/vignettes/clr/System/ValueType.html">ValueType</a> class: <a href="/vignettes/clr/System/ValueType.html">ValueType</a></li>
+<li>use by <i>property</i> member <code>formula</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/Scripting/MathExpression/Impl/Expression.html">Expression</a></li>
+<li>use by <i>property</i> member <code>paramVals</code>: <a href="/vignettes/clr/System/Object.html">Object</a></li>
 </ol>
 
 
