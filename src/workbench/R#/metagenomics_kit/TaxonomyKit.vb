@@ -142,7 +142,9 @@ Module TaxonomyKit
     ''' removes the genus name from the species name?
     ''' </param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' generates a taxonomy string in format liked: "k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"
+    ''' </returns>
     ''' <example>
     ''' # parse the string as taxonomy object
     ''' let tax = biom_string.parse(["k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"]);
@@ -401,11 +403,14 @@ Module TaxonomyKit
         Return tax _
             .Select(Function(ncbi_taxid)
                         If ncbi_taxid.IsPattern("\d+") Then
+                            ' is integer taxonomy id
+                            ' get taxonomy nodes from the ncbi taxonomy tree by given taxonomy id, and then convert to the taxonomy model object
                             Dim path As TaxonomyNode() = tree.GetAscendantsWithRanksAndNames(Integer.Parse(ncbi_taxid), only_std_ranks:=std_rank)
                             Dim taxon As New Taxonomy(path)
 
                             Return taxon
                         Else
+                            ' ncbi_taxid is a string like: "k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"
                             Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(ncbi_taxid))
                         End If
                     End Function) _

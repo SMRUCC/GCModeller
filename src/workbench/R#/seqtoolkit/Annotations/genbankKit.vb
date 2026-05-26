@@ -121,8 +121,9 @@ Module genbankKit
     ''' get ncbi taxonomy id from the given genbank assembly file.
     ''' </summary>
     ''' <param name="gb"></param>
-    ''' <returns></returns>
+    ''' <returns>the ncbi taxonomy id</returns>
     <ExportAPI("taxon_id")>
+    <RApiReturn(TypeCodes.integer)>
     Public Function Taxon_Id(gb As GBFF.File) As Object
         Return gb.Taxon
     End Function
@@ -530,6 +531,7 @@ Module genbankKit
     <RApiReturn(GetType(GBFF.File), GetType(FastaSeq))>
     Public Function getOrAddNtOrigin(gb As GBFF.File, Optional nt As FastaSeq = Nothing, Optional mol_type$ = "genomic DNA") As Object
         If nt Is Nothing Then
+            ' export genomics origin source fasta sequence object
             Return gb.Origin.ToFasta
         Else
             Dim source As New gbffFeature With {
