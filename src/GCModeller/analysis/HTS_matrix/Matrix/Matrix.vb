@@ -1,61 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::d3155beb5184564fa58f3e724a5e3916, analysis\HTS_matrix\Matrix\Matrix.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 525
-    '    Code Lines: 344 (65.52%)
-    ' Comment Lines: 116 (22.10%)
-    '    - Xml Docs: 97.41%
-    ' 
-    '   Blank Lines: 65 (12.38%)
-    '     File Size: 18.52 KB
+' Summaries:
 
 
-    ' Class Matrix
-    ' 
-    '     Properties: expression, rownames, (+2 Overloads) sample, sampleID, size
-    '                 tag
-    ' 
-    '     Function: Add, AggregateAverage, AggregateSum, ArrayPack, CreateGeneDataSet
-    '               Exp, GenericEnumerator, GetIndex, GetLabels, GetSampleArray
-    '               (+3 Overloads) IndexOf, LoadData, MatrixAggregate, MatrixAverage, MatrixSum
-    '               Project, T, TakeSamples, ToString, TrimZeros
-    ' 
-    '     Sub: checkMatrix, eachGene, EnsureGeneIndex, ResetIndex
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 525
+'    Code Lines: 344 (65.52%)
+' Comment Lines: 116 (22.10%)
+'    - Xml Docs: 97.41%
+' 
+'   Blank Lines: 65 (12.38%)
+'     File Size: 18.52 KB
+
+
+' Class Matrix
+' 
+'     Properties: expression, rownames, (+2 Overloads) sample, sampleID, size
+'                 tag
+' 
+'     Function: Add, AggregateAverage, AggregateSum, ArrayPack, CreateGeneDataSet
+'               Exp, GenericEnumerator, GetIndex, GetLabels, GetSampleArray
+'               (+3 Overloads) IndexOf, LoadData, MatrixAggregate, MatrixAverage, MatrixSum
+'               Project, T, TakeSamples, ToString, TrimZeros
+' 
+'     Sub: checkMatrix, eachGene, EnsureGeneIndex, ResetIndex
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -103,6 +103,13 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     Public ReadOnly Property size As Integer
         Get
             Return expression.Length
+        End Get
+    End Property
+
+    ''' <summary>样本数量</summary>
+    Public ReadOnly Property sample_count As Integer
+        Get
+            Return If(sampleID IsNot Nothing, sampleID.Length, 0)
         End Get
     End Property
 
@@ -389,7 +396,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
             .Keys
 
         If zeros.Any Then
-            Call $"removes {zeros.Count} zero gene features: {zeros.Objects.JoinBy(", ")}".Warning
+            Call $"removes {zeros.Count} zero gene features: {zeros.Objects.JoinBy(", ")}".warning
         End If
 
         Dim expr As DataFrameRow()
