@@ -130,9 +130,10 @@ Module mixOmics
                             Optional lam_min_ratio As Double = 0.001,
                             Optional nfold As Integer = 5,
                             Optional n_bootstraps As Integer = 500,
+                            Optional strict As Boolean = True,
                             Optional env As Environment = Nothing)
 
-        Call TRN.ValidateSamples(x, y)
+        Call TRN.ValidateSamples(x, y, strict:=strict)
 
         Dim cclassoResult As CrossOmicsCorrelation = CrossCorrelationCalculator.ComputeCCLasso(
         x, y,
