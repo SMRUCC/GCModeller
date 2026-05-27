@@ -102,7 +102,7 @@ Namespace MSA
             Return New FastaFile(PopulateAlignment)
         End Function
 
-        Public Iterator Function PopulateAlignment() As IEnumerable(Of FastaSeq)
+        Public Overridable Iterator Function PopulateAlignment() As IEnumerable(Of FastaSeq)
             Dim MSA As String() = Me.MSA
 
             For i As Integer = 0 To MSA.Length - 1
