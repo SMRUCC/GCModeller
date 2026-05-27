@@ -67,11 +67,18 @@ Namespace MSA.Tabular
         Public Property seq_source As Dictionary(Of String, String)
         Public Property comment As String
 
-        Public Function PopulateAlignment() As IEnumerable(Of FastaSeq)
-            If msa Is Nothing Then
-                Return {}
-            Else
-                Return msa.PopulateAlignment
+        Public Iterator Function PopulateAlignment() As IEnumerable(Of FastaSeq)
+            If Not msa Is Nothing Then
+                Dim acc_id As String = metadata!AC
+                Dim id As String = metadata!ID
+                Dim def As String = metadata!DE
+
+                For i As Integer = 0 To msa.names.Length - 1
+                    Yield New FastaSeq With {
+                        .Headers = {acc_id, id, msa.names(i), def},
+                        .SequenceData = msa.MSA(i).Replace("."c, "X"c)
+                    }
+                Next
             End If
         End Function
 
