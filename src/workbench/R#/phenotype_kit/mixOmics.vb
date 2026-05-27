@@ -154,8 +154,29 @@ Module mixOmics
     End Function
 
     <ExportAPI("connections")>
-    <RApiReturn(GetType(Connection))>
-    Public Function connections(cor As CrossOmicsCorrelation, Optional pval_cutoff As Double = 0.05, Optional cor_cutoff As Double = 0.6)
-        Return cor.Network(pval_cutoff, cor_cutoff).OrderBy(Function(c) c.pval).ToArray
+    <RApiReturn(GetType(Connection), GetType(SignificantPair))>
+    Public Function connections(cor As Object, Optional pval_cutoff As Double = 0.05, Optional cor_cutoff As Double = 0.6)
+        If TypeOf cor Is CrossOmicsCorrelation Then
+            Return DirectCast(cor, CrossOmicsCorrelation) _
+                .Network(pval_cutoff, cor_cutoff) _
+                .OrderBy(Function(c) c.pval) _
+                .ToArray
+        ElseIf TypeOf cor Is SpearmanMICResult Then
+            Return SpearmanMICCombined.FilterSignificantPairs(DirectCast(cor, SpearmanMICResult), pValueThreshold:=pval_cutoff).ToArray
+        Else
+            Throw New NotImplementedException
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Spearman + MIC
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="y"></param>
+    ''' <returns></returns>
+    <ExportAPI("mine")>
+    <RApiReturn(GetType(SpearmanMICResult))>
+    Public Function mine(x As Matrix, y As Matrix)
+        Return CrossCorrelationCalculator.ComputeSpearmanMIC(x, y)
     End Function
 End Module
