@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.ProteinModel.ChouFasmanRules.ChouFasman</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ChouFasman {SMRUCC.genomics.ProteinModel.ChouFasmanRules}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ChouFasman</h2>
+
+        <h3>Description</h3>
+
+        <p>The Chou-Fasman method is a bioinformatics technique used for predicting the secondary structure of proteins. 
+ It was developed by Peter Y. Chou and Gerald D. Fasman in the 1970s. The method is based on the observation 
+ that certain amino acids have a propensity to form specific types of secondary structures, such as alpha-helices, 
+ beta-sheets, and turns.
+ 
+ Here's a brief overview of how the Chou-Fasman method works:
+ 
+ 1. <strong>Amino Acid Propensities</strong>: Each amino acid is assigned a set of probability values that reflect its 
+    tendency to be found in alpha-helices, beta-sheets, and turns. These values are derived from statistical 
+    analysis of known protein structures.
+ 2. <strong>Sliding Window Technique</strong>: A sliding window of typically 7 to 9 amino acids is moved along the protein 
+    sequence. At each position, the average propensity for each type of secondary structure is calculated 
+    for the amino acids within the window.
+ 3. <strong>Thresholds and Rules</strong>: The method uses predefined thresholds and rules to identify regions of the 
+    protein sequence that are likely to form alpha-helices or beta-sheets based on the calculated propensities. 
+    For example, a region with a high average propensity for alpha-helix and meeting certain criteria 
+    might be predicted to form an alpha-helix.
+ 4. <strong>Secondary Structure Prediction</strong>: The method predicts the secondary structure by identifying contiguous 
+    regions of the sequence that exceed the thresholds for helix or sheet formation. It also takes into 
+    account the likelihood of turns, which are important for the overall folding of the protein.
+ 5. <strong>Refinement</strong>: The initial predictions are often refined using additional rules and considerations, such 
+    as the tendency of certain amino acids to stabilize or destabilize specific structures, and the overall 
+    composition of the protein.
+    
+ The Chou-Fasman method was one of the first widely used techniques for predicting protein secondary structure
+ and played a significant role in the field of structural bioinformatics. However, it has largely been superseded
+ by more accurate methods, such as those based on machine learning and neural networks, which can take into
+ account more complex patterns and interactions within protein sequences.
+ 
+ Despite its limitations, the Chou-Fasman method remains a historical milestone in the understanding of 
+ protein structure and the development of computational methods for predicting it. It also serves as a 
+ foundational concept for those learning about protein structure prediction and bioinformatics.</p>
+
+<p>@ - <a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/SecondaryStructures.html">SecondaryStructures</a>.<a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/SecondaryStructures.html">AlphaHelix</a>;
+ - - <a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/SecondaryStructures.html">SecondaryStructures</a>.<a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/SecondaryStructures.html">BetaSheet</a>;
+ ^ - <a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/SecondaryStructures.html">SecondaryStructures</a>.<a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/SecondaryStructures.html">BetaTurn</a>;
+ & - <a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/SecondaryStructures.html">SecondaryStructures</a>.<a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/SecondaryStructures.html">Coils</a></p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.ProteinModel.ChouFasmanRules
+export class ChouFasman {
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

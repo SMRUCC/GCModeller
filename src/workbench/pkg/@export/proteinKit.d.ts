@@ -27,6 +27,16 @@
 */
 declare namespace proteinKit {
    /**
+    * analysis the functional domain on the protein sequence
+    * 
+    * 
+     * @param blastp -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function analysis_domains(blastp: any, env?: object): object;
+   /**
     * The Chou-Fasman method is a bioinformatics technique used for predicting the secondary structure of proteins. 
     *  It was developed by Peter Y. Chou and Gerald D. Fasman in the 1970s. The method is based on the observation 
     *  that certain amino acids have a propensity to form specific types of secondary structures, such as alpha-helices, 

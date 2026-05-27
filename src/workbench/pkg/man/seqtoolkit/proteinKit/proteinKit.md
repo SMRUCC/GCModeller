@@ -29,3 +29,4 @@ A computational biology toolkit for protein structural analysis and sequence-bas
 + [kmer_fingerprint](proteinKit/kmer_fingerprint.1) Calculate the morgan fingerprint based on the k-mer graph data 
 + [enzyme_builder](proteinKit/enzyme_builder.1) 
 + [predict_sequence](proteinKit/predict_sequence.1) 
++ [analysis_domains](proteinKit/analysis_domains.1) analysis the functional domain on the protein sequence
