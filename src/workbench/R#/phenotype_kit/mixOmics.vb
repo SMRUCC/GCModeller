@@ -144,4 +144,10 @@ Module mixOmics
 
         Return cclassoResult
     End Function
+
+    <ExportAPI("connections")>
+    <RApiReturn(GetType(Connection))>
+    Public Function connections(cor As CrossOmicsCorrelation, Optional pval_cutoff As Double = 0.05, Optional cor_cutoff As Double = 0.6)
+        Return cor.Network(pval_cutoff, cor_cutoff).OrderBy(Function(c) c.pval).ToArray
+    End Function
 End Module

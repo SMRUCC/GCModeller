@@ -54,7 +54,6 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Model.Network.Regulons
 
 ''' <summary>
