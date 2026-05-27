@@ -60,5 +60,6 @@ Public Class zzz
     Public Shared Sub onLoad()
         Call DEGSample.Main()
         Call geneExpression.Main()
+        Call mixOmics.Main()
     End Sub
 End Class

@@ -63,9 +63,31 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("mixOmics")>
 Module mixOmics
+
+    Sub Main()
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SignificantPair()), AddressOf spearmanMIC_table)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function spearmanMIC_table(data As SignificantPair(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call df.add("source", From pair As SignificantPair In data Select pair.OtuId)
+        Call df.add("target", From pair As SignificantPair In data Select pair.MetaboliteId)
+        Call df.add("spearman-rho", From pair As SignificantPair In data Select pair.SpearmanRho)
+        Call df.add("spearman-pval", From pair As SignificantPair In data Select pair.SpearmanPValue)
+        Call df.add("MIC", From pair As SignificantPair In data Select pair.MIC)
+        Call df.add("MIC-pval", From pair As SignificantPair In data Select pair.MICPValue)
+        Call df.add("score", From pair As SignificantPair In data Select pair.CombinedScore)
+        Call df.add("pvalue", From pair As SignificantPair In data Select pair.CombinedPValue)
+        Call df.add("association", From pair As SignificantPair In data Select pair.AssociationType)
+
+        Return df
+    End Function
 
     <ExportAPI("nearZeroVar")>
     Public Function FindNearZeroVarColumns(expr_mat As Matrix,
