@@ -23,7 +23,17 @@
 ''' 包含 Spearman 相关系数、MIC 值、综合得分和显著性判定
 ''' </summary>
 Public Class SpearmanMICResult
-    Inherits CorrelationResult
+
+    ''' <summary>OTU feature ID 列表（行标签）</summary>
+    Public OtuIds As String()
+    ''' <summary>代谢物 feature ID 列表（列标签）</summary>
+    Public MetaboliteIds As String()
+    ''' <summary>相关性系数矩阵 [nOtu, nMet]，取值 [-1, 1]</summary>
+    Public CorrelationMatrix As Double(,)
+    ''' <summary>p 值矩阵 [nOtu, nMet]</summary>
+    Public PValueMatrix As Double(,)
+    ''' <summary>计算方法名称</summary>
+    Public MethodName As String
 
     ''' <summary>Spearman 秩相关系数矩阵 [nOtu, nMet]，取值 [-1, 1]</summary>
     Public SpearmanMatrix As Double(,)

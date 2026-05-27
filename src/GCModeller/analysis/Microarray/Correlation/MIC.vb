@@ -1,4 +1,6 @@
-﻿
+﻿Imports std = System.Math
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+
 ' ============================================================================
 ' 第六部分（续）：MIC 最大信息系数计算
 ' ============================================================================
@@ -77,7 +79,7 @@ Public Module MICComputation
                 Dim p_ij As Double = counts(i, j) / nTotal
                 Dim p_i As Double = rowSums(i) / nTotal
                 Dim p_j As Double = colSums(j) / nTotal
-                mi += p_ij * log(p_ij / (p_i * p_j))
+                mi += p_ij * std.Log(p_ij / (p_i * p_j))
             Next
         Next
 
@@ -92,7 +94,7 @@ Public Module MICComputation
         For Each c As Double In counts
             If c > 0 Then
                 Dim p As Double = c / nTotal
-                h -= p * log(p)
+                h -= p * std.Log(p)
             End If
         Next
         Return h
@@ -190,7 +192,7 @@ Public Module MICComputation
                         Dim count As Integer = prefix(y, i) - prefix(y, j)
                         If count > 0 Then
                             Dim p As Double = count / CDbl(nInSeg)
-                            segEntropy -= (count / CDbl(n)) * log(p)
+                            segEntropy -= (count / CDbl(n)) * std.Log(p)
                         End If
                     Next
 
@@ -231,7 +233,7 @@ Public Module MICComputation
         Dim yBins As Integer() = AssignEquiPopulationBins(y, b)
         Dim counts As Double(,) = BuildContingencyTable(xBins, yBins, n, a, b)
         Dim mi As Double = ComputeMI(counts, a, b, CDbl(n))
-        Dim normalizer As Double = log(Min(a, b))
+        Dim normalizer As Double = std.Log(std.Min(a, b))
 
         If normalizer <= 0 Then Return 0.0
         Return mi / normalizer
@@ -295,17 +297,17 @@ Public Module MICComputation
         Dim equiPopMI As Double = ComputeEquiPopNormalizedMI(x, y, n, a, b)
 
         ' bestMI 尚未归一化
-        Dim normalizer As Double = log(Min(a, b))
+        Dim normalizer As Double = std.Log(std.Min(a, b))
         If normalizer <= 0 Then Return equiPopMI
 
         Dim normalizedBestMI As Double = bestMI / normalizer
-        Return Max(normalizedBestMI, equiPopMI)
+        Return std.Max(normalizedBestMI, equiPopMI)
     End Function
 
     ''' <summary>
     ''' 计算一对变量之间的 MIC 值
     '''
-    ''' MIC = max_{a*b <= B(n)} I*(D; a,b) / log(min(a,b))
+    ''' MIC = max_{a*b &lt;= B(n)} I*(D; a,b) / log(min(a,b))
     '''
     ''' 其中 I*(D; a,b) 是在所有 a*b 网格划分中能获得的最大互信息
     ''' </summary>
@@ -326,18 +328,18 @@ Public Module MICComputation
         Dim n As Integer = x.Length
 
         ' B(n) = n^Alpha，控制最大网格大小
-        Dim B As Integer = CInt(Floor(Power(n, config.Alpha)))
+        Dim B As Integer = CInt(std.Floor(std.Pow(n, config.Alpha)))
         If config.MaxBins > 0 Then
-            B = Min(B, config.MaxBins * config.MaxBins)
+            B = std.Min(B, config.MaxBins * config.MaxBins)
         End If
         If B < 4 Then B = 4  ' 至少 2x2 网格
 
         Dim maxMIC As Double = 0.0
 
         ' 遍历所有满足 a*b <= B(n) 的网格大小
-        Dim maxA As Integer = CInt(Floor(Sqrt(B)))
+        Dim maxA As Integer = CInt(std.Floor(std.Sqrt(B)))
         For a As Integer = 2 To maxA
-            Dim maxB_for_a As Integer = CInt(Floor(CDbl(B) / a))
+            Dim maxB_for_a As Integer = CInt(std.Floor(CDbl(B) / a))
             If maxB_for_a < 2 Then Continue For
             If maxB_for_a > n Then maxB_for_a = n
 
@@ -420,17 +422,17 @@ Public Module MICComputation
         If mic <= 0 Then Return 1.0
 
         ' 将 MIC 转换为等价的相关系数
-        Dim r As Double = direction * Sqrt(mic)
-        r = Max(-1.0, Min(1.0, r))
+        Dim r As Double = direction * std.Sqrt(mic)
+        r = std.Max(-1.0, std.Min(1.0, r))
 
         ' Fisher z 变换
-        Dim z As Double = 0.5 * log((1 + r) / (1 - r))
-        Dim se As Double = 1.0 / Sqrt(CDbl(n) - 3.0)
-        Dim zStat As Double = Abs(z) / se
+        Dim z As Double = 0.5 * std.Log((1 + r) / (1 - r))
+        Dim se As Double = 1.0 / std.Sqrt(CDbl(n) - 3.0)
+        Dim zStat As Double = std.Abs(z) / se
 
         ' 双侧 p 值（正态近似）
         Dim pValue As Double = 2.0 * (1.0 - MathHelpers.NormalCDF(zStat))
-        Return Min(1.0, Max(0.0, pValue))
+        Return std.Min(1.0, std.Max(0.0, pValue))
     End Function
 
     ''' <summary>
@@ -438,8 +440,8 @@ Public Module MICComputation
     ''' 对每一对 OTU-代谢物 计算其 MIC 值
     ''' </summary>
     Public Function ComputeCrossCorrelation(
-        otuMatrix As ExpressionMatrix,
-        metaboliteMatrix As ExpressionMatrix,
+        otuMatrix As Matrix,
+        metaboliteMatrix As Matrix,
         Optional config As MICConfig = Nothing) As CorrelationResult
 
         If config Is Nothing Then config = New MICConfig()
@@ -456,20 +458,20 @@ Public Module MICComputation
         result.MethodName = "MIC"
 
         For i As Integer = 0 To nOtu - 1
-            result.OtuIds(i) = otuMatrix.Expression(i).Id
+            result.OtuIds(i) = otuMatrix.expression(i).Id
         Next
         For j As Integer = 0 To nMet - 1
-            result.MetaboliteIds(j) = metaboliteMatrix.Expression(j).Id
+            result.MetaboliteIds(j) = metaboliteMatrix.expression(j).Id
         Next
 
         ' 逐对计算 MIC
         For i As Integer = 0 To nOtu - 1
-            Dim xData As Double() = otuMatrix.Expression(i).Expression
+            Dim xData As Double() = otuMatrix.expression(i).Expression
             For j As Integer = 0 To nMet - 1
-                Dim yData As Double() = metaboliteMatrix.Expression(j).Expression
+                Dim yData As Double() = metaboliteMatrix.expression(j).Expression
 
                 ' 确保 x 和 y 长度一致
-                Dim minLen As Integer = Min(xData.Length, yData.Length)
+                Dim minLen As Integer = std.Min(xData.Length, yData.Length)
                 Dim x As Double() = New Double(minLen - 1) {}
                 Dim y As Double() = New Double(minLen - 1) {}
                 Array.Copy(xData, x, minLen)
@@ -498,7 +500,7 @@ Public Module MICComputation
     ''' 对单个矩阵计算 MIC 内部相关矩阵（用于同类型 feature 间关联分析）
     ''' </summary>
     Public Function ComputeInternalMatrix(
-        matrix As ExpressionMatrix,
+        matrix As Matrix,
         Optional config As MICConfig = Nothing) As CorrelationResult
 
         If config Is Nothing Then config = New MICConfig()
@@ -512,16 +514,16 @@ Public Module MICComputation
         result.MethodName = "MIC"
 
         For i As Integer = 0 To nF - 1
-            result.OtuIds(i) = matrix.Expression(i).Id
-            result.MetaboliteIds(i) = matrix.Expression(i).Id
+            result.OtuIds(i) = matrix.expression(i).Id
+            result.MetaboliteIds(i) = matrix.expression(i).Id
             result.CorrelationMatrix(i, i) = 1.0
             result.PValueMatrix(i, i) = 0.0
         Next
 
         For i As Integer = 0 To nF - 2
             For j As Integer = i + 1 To nF - 1
-                Dim x As Double() = matrix.Expression(i).Expression
-                Dim y As Double() = matrix.Expression(j).Expression
+                Dim x As Double() = matrix.expression(i).Expression
+                Dim y As Double() = matrix.expression(j).Expression
                 Dim mic As Double = ComputePair(x, y, config)
                 result.CorrelationMatrix(i, j) = mic
                 result.CorrelationMatrix(j, i) = mic
