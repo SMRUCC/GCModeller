@@ -57,9 +57,11 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.genomics.Model.Network.Regulons
 Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
 
@@ -124,30 +126,20 @@ Module mixOmics
     End Function
 
     <ExportAPI("cclasso")>
+    <RApiReturn(GetType(CrossOmicsCorrelation))>
     Public Function cclasso(x As Matrix, y As Matrix,
                             Optional lam_min_ratio As Double = 0.001,
                             Optional nfold As Integer = 5,
                             Optional n_bootstraps As Integer = 500,
                             Optional env As Environment = Nothing)
 
-        Dim cclassoResult As CorrelationResult = CrossCorrelationCalculator.ComputeCCLasso(
+        Dim cclassoResult As CrossOmicsCorrelation = CrossCorrelationCalculator.ComputeCCLasso(
         x, y,
         lambda:=lam_min_ratio,
         maxIterations:=n_bootstraps,
         tolerance:=0.0000001,
         pseudoCount:=0.5)
 
-        Dim cor As New dataframe With {.rownames = cclassoResult.OtuIds, .columns = New Dictionary(Of String, Array)}
-        Dim pval As New dataframe With {.rownames = cclassoResult.OtuIds, .columns = New Dictionary(Of String, Array)}
-        Dim nrows = cclassoResult.OtuIds.Sequence.ToArray
-
-        For i As Integer = 0 To cclassoResult.MetaboliteIds.Length - 1
-            Dim offset As Integer = i
-
-            Call cor.add(cclassoResult.MetaboliteIds(i), From k As Integer In nrows Select cclassoResult.CorrelationMatrix(k, offset))
-            Call pval.add(cclassoResult.MetaboliteIds(i), From k As Integer In nrows Select cclassoResult.PValueMatrix(k, offset))
-        Next
-
-        Return New list(slot("cor") = cor, slot("p_val") = pval)
+        Return cclassoResult
     End Function
 End Module
