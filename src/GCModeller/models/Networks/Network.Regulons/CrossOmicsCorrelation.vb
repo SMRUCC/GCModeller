@@ -52,7 +52,7 @@ Public Class CrossOmicsCorrelation
             .cor = link.cor,
             .gene1 = entity1,
             .gene2 = entity2,
-            .interaction = "",
+            .interaction = methodName,
             .is_directly = True,
             .pval = link.pval
         }
