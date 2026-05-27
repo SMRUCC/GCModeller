@@ -124,6 +124,14 @@ Module mixOmics
         Return PathForceBuilder.CreateForce(x, y, maps)
     End Function
 
+    <ExportAPI("sparcc")>
+    Public Function sparcc(x As Matrix, y As Matrix, Optional strict As Boolean = True)
+        Call TRN.ValidateSamples(x, y, strict:=strict)
+
+        Dim sparccResult As CrossOmicsCorrelation = SparCCComputation.ComputeCrossCorrelation(x, y, New SparCCConfig)
+        Return sparccResult
+    End Function
+
     <ExportAPI("cclasso")>
     <RApiReturn(GetType(CrossOmicsCorrelation))>
     Public Function cclasso(x As Matrix, y As Matrix,

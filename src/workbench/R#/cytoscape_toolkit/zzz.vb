@@ -58,6 +58,6 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Public Class zzz
 
     Public Shared Sub onLoad()
-
+        Call TRN.Main()
     End Sub
 End Class
