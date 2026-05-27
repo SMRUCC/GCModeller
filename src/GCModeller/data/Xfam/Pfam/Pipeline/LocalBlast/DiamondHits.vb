@@ -16,7 +16,13 @@ Namespace Pipeline.LocalBlast
                     .ends = hit.SEnd,
                     .evalue = hit.EValue,
                     .identities = hit.Pident,
-                    .score = hit.BitScore
+                    .score = hit.BitScore,
+                    .hit_length = hit.Length,
+                    .length_hit = hit.Length,
+                    .length_hsp = hit.Length,
+                    .length_query = hit.Length,
+                    .positive = 1,
+                    .query_length = hit.Length
                 }
             Next
         End Function

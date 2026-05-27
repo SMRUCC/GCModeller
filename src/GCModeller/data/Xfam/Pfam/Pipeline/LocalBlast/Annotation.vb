@@ -95,12 +95,16 @@ Namespace Pipeline.LocalBlast
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Iterator Public Function CreateAnnotations(source As IEnumerable(Of NamedCollection(Of PfamHit))) As IEnumerable(Of PfamString.PfamString)
+        Iterator Public Function CreateAnnotations(source As IEnumerable(Of NamedCollection(Of PfamHit)),
+                                                   Optional evalue As Double = Evalue1En5,
+                                                   Optional coverage As Double = 0.85,
+                                                   Optional identities As Double = 0.3,
+                                                   Optional offset As Double = 0.1) As IEnumerable(Of PfamString.PfamString)
             Dim protein As PfamString.PfamString
             Dim padLen% = 80
 
             For Each query As NamedCollection(Of PfamHit) In source
-                protein = query.CreatePfamStringAnnotation
+                protein = query.CreatePfamStringAnnotation(evalue:=evalue, coverage:=coverage, identities:=identities, offset:=offset)
                 VBDebugger.EchoLine(query.name & vbTab & Mid(query.description, 1, padLen) & If(padLen > query.description.Length, New String(" "c, padLen - query.description.Length), "") & vbTab & protein.PfamString.JoinBy("+"))
 
                 Yield protein
@@ -108,8 +112,13 @@ Namespace Pipeline.LocalBlast
         End Function
 
         <Extension>
-        Public Function CreatePfamStringAnnotation(query As NamedCollection(Of PfamHit)) As PfamString.PfamString
-            Dim domains As NamedCollection(Of DomainModel) = query.AnnotatedFromHitsGroup()
+        Public Function CreatePfamStringAnnotation(query As NamedCollection(Of PfamHit),
+                                                   Optional evalue As Double = Evalue1En5,
+                                                   Optional coverage As Double = 0.85,
+                                                   Optional identities As Double = 0.3,
+                                                   Optional offset As Double = 0.1) As PfamString.PfamString
+
+            Dim domains As NamedCollection(Of DomainModel) = query.AnnotatedFromHitsGroup(evalue:=evalue, coverage:=coverage, identities:=identities, offset:=offset)
             Dim idTable As Dictionary(Of String, String) = query _
                 .Select(Function(p) p.Pfam) _
                 .GroupBy(Function(p) p.CommonName) _
