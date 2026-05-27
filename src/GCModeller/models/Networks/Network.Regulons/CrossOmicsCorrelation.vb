@@ -12,6 +12,18 @@ Public Class CrossOmicsCorrelation
     Public Overridable ReadOnly Property omics1 As String()
     Public Overridable ReadOnly Property omics2 As String()
 
+    Public Property methodName As String = "correlation"
+
+    Sub New()
+    End Sub
+
+    Sub New(cor As NamedSparseMatrix, pval As NamedSparseMatrix, omics1 As IEnumerable(Of String), omics2 As IEnumerable(Of String))
+        Me.cor = cor
+        Me.pval = pval
+        Me.omics1 = omics1.ToArray
+        Me.omics2 = omics2.ToArray
+    End Sub
+
     ''' <summary>
     ''' 计算跨组学分子的相关性
     ''' </summary>
