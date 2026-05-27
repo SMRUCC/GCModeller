@@ -56,6 +56,9 @@ Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
+''' <summary>
+''' Correlation between the molecules inside one omics matrix data
+''' </summary>
 Public Class LazyCorrelationMatrix
 
     ''' <summary>

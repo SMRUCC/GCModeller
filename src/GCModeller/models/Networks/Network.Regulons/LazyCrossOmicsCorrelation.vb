@@ -1,9 +1,11 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.Math.Correlations
-Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
-Public Class LazyCrossOmicsCorrelation
+''' <summary>
+''' Correlation between the molecules across two omics matrix data, such as gene expression and protein abundance
+''' </summary>
+Public Class LazyCrossOmicsCorrelation : Inherits CrossOmicsCorrelation
 
     ''' <summary>
     ''' the normalized expression matrix data of Omics 1
@@ -15,14 +17,24 @@ Public Class LazyCrossOmicsCorrelation
     ''' </summary>
     ReadOnly expr2 As Matrix
 
-    ReadOnly cor As New NamedSparseMatrix
-    ReadOnly pval As New NamedSparseMatrix
+    Public Overrides ReadOnly Property omics1 As String()
+        Get
+            Return expr1.rownames
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Property omics2 As String()
+        Get
+            Return expr2.rownames
+        End Get
+    End Property
 
     ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="expr1">组学1的表达矩阵</param>
     ''' <param name="expr2">组学2的表达矩阵</param>
+    ''' <param name="strict">是否严格要求样本对</param>
     Sub New(expr1 As Matrix, expr2 As Matrix, Optional strict As Boolean = True)
         Me.expr1 = expr1
         Me.expr2 = expr2
@@ -52,7 +64,7 @@ Public Class LazyCrossOmicsCorrelation
     ''' <param name="entity1">组学1中的分子名称 (如 Gene ID)</param>
     ''' <param name="entity2">组学2中的分子名称 (如 Protein ID)</param>
     ''' <returns></returns>
-    Public Function Correlation(entity1 As String, entity2 As String) As (cor As Double, pval As Double)
+    Public Overrides Function Correlation(entity1 As String, entity2 As String) As (cor As Double, pval As Double)
         ' 检查缓存中是否已经计算过 (组学1分子在前，组学2分子在后)
         If Not cor.CheckElement(entity1, entity2) Then
             Dim c As Double, p As Double

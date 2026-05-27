@@ -87,12 +87,12 @@ Imports gene = Microsoft.VisualBasic.Data.Framework.IO.EntityObject
 
 Public Module DEGDesigner
 
-    Public Function ParseDEGTypes(str$) As Types
+    Public Function ParseDEGTypes(str$) As DiffRegulationTypes
         Select Case Strings.Trim(str).ToLower
-            Case "up" : Return Types.Up
-            Case "down" : Return Types.Down
+            Case "up" : Return DiffRegulationTypes.Up
+            Case "down" : Return DiffRegulationTypes.Down
             Case Else
-                Return Types.None
+                Return DiffRegulationTypes.None
         End Select
     End Function
 

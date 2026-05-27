@@ -382,15 +382,15 @@ Module visualPlot
 
         If colors Is Nothing Then
             colorList = New Dictionary(Of Integer, Color) From {
-                {Types.Up, Color.Red},
-                {Types.Down, Color.Green},
-                {Types.None, Color.Gray}
+                {DiffRegulationTypes.Up, Color.Red},
+                {DiffRegulationTypes.Down, Color.Green},
+                {DiffRegulationTypes.None, Color.Gray}
             }
         Else
             With DirectCast(colors, list)
-                Call colorList.Add(Types.Up, any.ToString(.slots("up")).TranslateColor)
-                Call colorList.Add(Types.Down, any.ToString(.slots("down")).TranslateColor)
-                Call colorList.Add(Types.None, any.ToString(.slots("other")).TranslateColor)
+                Call colorList.Add(DiffRegulationTypes.Up, any.ToString(.slots("up")).TranslateColor)
+                Call colorList.Add(DiffRegulationTypes.Down, any.ToString(.slots("down")).TranslateColor)
+                Call colorList.Add(DiffRegulationTypes.None, any.ToString(.slots("other")).TranslateColor)
             End With
         End If
 
