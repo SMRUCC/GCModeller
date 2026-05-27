@@ -615,7 +615,11 @@ Module Fasta
                 Return s.TryCast(Of Message)
             End If
 
-            Dim result = fasta.Save(lineBreak, s.TryCast(Of System.IO.Stream), encoding:=encoding.CodePage)
+            Dim result = fasta.Save(lineBreak:=lineBreak,
+                                    s:=s.TryCast(Of System.IO.Stream),
+                                    encoding:=encoding.CodePage,
+                                    deli:=delimiter
+            )
 
             Try
                 If is_filepath Then
