@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::dcd8b858bb0b2ea176c0b60d458982d4, R#\seqtoolkit\proteinKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 343
-    '    Code Lines: 169 (49.27%)
-    ' Comment Lines: 139 (40.52%)
-    '    - Xml Docs: 90.65%
-    ' 
-    '   Blank Lines: 35 (10.20%)
-    '     File Size: 15.26 KB
+' Summaries:
 
 
-    ' Module proteinKit
-    ' 
-    '     Function: (+2 Overloads) ChouFasman, enzymeBuilder, kmer_fingerprint, kmer_graph, ligands
-    '               parsePdb, pdb_centroid, pdbModels, predict_sequence, readPdb
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 343
+'    Code Lines: 169 (49.27%)
+' Comment Lines: 139 (40.52%)
+'    - Xml Docs: 90.65%
+' 
+'   Blank Lines: 35 (10.20%)
+'     File Size: 15.26 KB
+
+
+' Module proteinKit
+' 
+'     Function: (+2 Overloads) ChouFasman, enzymeBuilder, kmer_fingerprint, kmer_graph, ligands
+'               parsePdb, pdb_centroid, pdbModels, predict_sequence, readPdb
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -56,12 +56,17 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.RCSB.PDB
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
+Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.LocalBlast
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer
 Imports SMRUCC.genomics.ProteinModel
@@ -393,5 +398,34 @@ Module proteinKit
     <RApiReturn(GetType(FastaSeq))>
     Public Function predict_sequence(model As TransformerModel, <RRawVectorArgument> ec_number As Object, Optional env As Environment = Nothing) As Object
         Return model.BuildProteinSequence(CLRVector.asCharacter(ec_number)).ToArray
+    End Function
+
+    ''' <summary>
+    ''' analysis the functional domain on the protein sequence
+    ''' </summary>
+    ''' <param name="blastp"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("analysis_domains")>
+    <RApiReturn(GetType(PfamString))>
+    Public Function analysis_domains(<RRawVectorArgument> blastp As Object, Optional env As Environment = Nothing)
+        If TypeOf blastp Is v228 Then
+            Throw New NotImplementedException
+        Else
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of DiamondAnnotation)(blastp, env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            Dim proteins = pull.populates(Of DiamondAnnotation)(env) _
+                .Parse _
+                .GroupBy(Function(a) a.QueryName) _
+                .Select(Function(a) New NamedCollection(Of PfamHit)(a.Key, a)) _
+                .CreateAnnotations _
+                .ToArray
+
+            Return proteins
+        End If
     End Function
 End Module

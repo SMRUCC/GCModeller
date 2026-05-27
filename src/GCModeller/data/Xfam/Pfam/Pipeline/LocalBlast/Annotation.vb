@@ -101,7 +101,7 @@ Namespace Pipeline.LocalBlast
 
             For Each query As NamedCollection(Of PfamHit) In source
                 protein = query.CreatePfamStringAnnotation
-                Console.WriteLine(query.name & vbTab & Mid(query.description, 1, padLen) & If(padLen > query.description.Length, New String(" "c, padLen - query.description.Length), "") & vbTab & protein.PfamString.JoinBy("+"))
+                VBDebugger.EchoLine(query.name & vbTab & Mid(query.description, 1, padLen) & If(padLen > query.description.Length, New String(" "c, padLen - query.description.Length), "") & vbTab & protein.PfamString.JoinBy("+"))
 
                 Yield protein
             Next
