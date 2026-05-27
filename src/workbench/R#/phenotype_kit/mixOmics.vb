@@ -184,7 +184,9 @@ Module mixOmics
                 .OrderBy(Function(c) c.pval) _
                 .ToArray
         ElseIf TypeOf cor Is SpearmanMICResult Then
-            Return SpearmanMICCombined.FilterSignificantPairs(DirectCast(cor, SpearmanMICResult), pValueThreshold:=pval_cutoff).ToArray
+            Return SpearmanMICCombined.FilterSignificantPairs(DirectCast(cor, SpearmanMICResult), pValueThreshold:=pval_cutoff) _
+                .Where(Function(a) a.SpearmanRho <> 0) _
+                .ToArray
         Else
             Throw New NotImplementedException
         End If
