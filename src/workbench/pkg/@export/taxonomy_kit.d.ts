@@ -42,6 +42,7 @@ declare namespace taxonomy_kit {
         * @param env -
         * 
         * + default value Is ``null``.
+        * @return generates a taxonomy string in format liked: "k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"
       */
       function string(taxonomy: any, trim_genusName?: boolean, env?: object): string;
    }

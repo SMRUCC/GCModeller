@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>get ncbi taxonomy id from the given genbank assembly file.</title>
+    <title>cclasso</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,30 +13,31 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>taxon_id {GenBank}</td>
+                <td>cclasso {mixOmics}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>get ncbi taxonomy id from the given genbank assembly file.</h2>
+        <h2>cclasso</h2>
 
         <h3>Description</h3>
 
-        
+        cclasso
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>taxon_id</strong>(<i>gb</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>cclasso</strong>(<i>x</i>, <i>y</i>,
+    <i>lam.min.ratio</i> = <span style='color: green;'>0.001</span>,
+    <i>nfold</i> = <span style='color: green;'>5</span>,
+    <i>n.bootstraps</i> = <span style='color: green;'>500</span>,
+    <i>strict</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>gb</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>]</p></dd>
-
         </table>
 
 
@@ -46,19 +47,19 @@
 
         <h3 style="display: block">Authors</h3>
 
-        seqtoolkit
+        phenotype_kit
 
         <h3>Value</h3>
 
-        <p>the ncbi taxonomy id</p><h4>clr value class</h4><ul><li>integer</li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/CrossOmicsCorrelation.html">CrossOmicsCorrelation</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/CrossOmicsCorrelation.html">CrossOmicsCorrelation</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
         
 
         <hr />
-        <div style="text-align: center;">[Package <em>GenBank</em> version 1.0.0.0 <a
-                href="../GenBank.html">Index</a>]
+        <div style="text-align: center;">[Package <em>mixOmics</em> version 1.0.0.0 <a
+                href="../mixOmics.html">Index</a>]
         </div>
     </div>
 </body>

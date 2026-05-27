@@ -237,8 +237,9 @@ declare namespace GenBank {
     * 
     * 
      * @param gb -
+     * @return the ncbi taxonomy id
    */
-   function taxon_id(gb: object): any;
+   function taxon_id(gb: object): object;
    /**
     * extract the taxonomy lineage information from the genbank file
     * 
