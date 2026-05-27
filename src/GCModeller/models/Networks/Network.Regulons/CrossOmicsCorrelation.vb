@@ -27,6 +27,14 @@ Public Class CrossOmicsCorrelation
     ''' <summary>
     ''' 计算跨组学分子的相关性
     ''' </summary>
+    ''' <returns></returns>
+    Public Function Correlation(i As Integer, j As Integer) As (cor As Double, pval As Double)
+        Return Correlation(omics1(i), omics2(j))
+    End Function
+
+    ''' <summary>
+    ''' 计算跨组学分子的相关性
+    ''' </summary>
     ''' <param name="entity1">组学1中的分子名称 (如 Gene ID)</param>
     ''' <param name="entity2">组学2中的分子名称 (如 Protein ID)</param>
     ''' <returns></returns>

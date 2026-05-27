@@ -14,6 +14,7 @@
 ' ============================================================================
 
 Imports System.Math
+Imports Microsoft.VisualBasic.Math.Correlations.Correlations
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Model.Network.Regulons
@@ -197,6 +198,43 @@ Public Module MathHelpers
         Return col
     End Function
 
+    Friend Function CreateCrossCorrelation(otuMatrix As Matrix, metaboliteMatrix As Matrix, cor As Double(,), name As String) As CrossOmicsCorrelation
+
+    End Function
+
+    Friend Function ComputeCrossCorrelation(otuMatrix As Matrix, metaboliteMatrix As Matrix, compute As ICorrelation, name As String) As CrossOmicsCorrelation
+        Dim nOtu As Integer = otuMatrix.size
+        Dim nMet As Integer = metaboliteMatrix.size
+        Dim nS As Integer = otuMatrix.sample_count
+
+        Dim OtuIds(nOtu) As String
+        Dim MetaboliteIds(nMet) As String
+
+        For i As Integer = 0 To nOtu - 1
+            OtuIds(i) = otuMatrix(i).geneID
+        Next
+        For j As Integer = 0 To nMet - 1
+            MetaboliteIds(j) = metaboliteMatrix(j).geneID
+        Next
+
+        Dim CorrelationMatrix As New NamedSparseMatrix()
+        Dim PValueMatrix As New NamedSparseMatrix()
+
+        For i As Integer = 0 To nOtu - 1
+            Dim otuExpr As Double() = otuMatrix(i).experiments
+            Dim otu_id As String = otuMatrix(i).geneID
+
+            For j As Integer = 0 To nMet - 1
+                Dim metExpr As DataFrameRow = metaboliteMatrix(j)
+                Dim r As Double = compute(otuExpr, metExpr.experiments)
+
+                CorrelationMatrix.SetValue(otu_id, metExpr.geneID, r)
+                PValueMatrix.SetValue(otu_id, metExpr.geneID, CorrelationPValue(r, nS))
+            Next
+        Next
+
+        Return New CrossOmicsCorrelation(CorrelationMatrix, PValueMatrix, OtuIds, MetaboliteIds) With {.methodName = name}
+    End Function
 End Module
 
 ' ============================================================================
@@ -268,37 +306,7 @@ Public Module PearsonCorrelation
     ''' 结果矩阵维度: [nOtu, nMet]
     ''' </summary>
     Public Function ComputeCrossCorrelation(otuMatrix As Matrix, metaboliteMatrix As Matrix) As CrossOmicsCorrelation
-        Dim nOtu As Integer = otuMatrix.size
-        Dim nMet As Integer = metaboliteMatrix.size
-        Dim nS As Integer = otuMatrix.sample_count
-
-        Dim OtuIds(nOtu) As String
-        Dim MetaboliteIds(nMet) As String
-
-        For i As Integer = 0 To nOtu - 1
-            OtuIds(i) = otuMatrix(i).geneID
-        Next
-        For j As Integer = 0 To nMet - 1
-            MetaboliteIds(j) = metaboliteMatrix(j).geneID
-        Next
-
-        Dim CorrelationMatrix As New NamedSparseMatrix()
-        Dim PValueMatrix As New NamedSparseMatrix()
-
-        For i As Integer = 0 To nOtu - 1
-            Dim otuExpr As Double() = otuMatrix(i).experiments
-            Dim otu_id As String = otuMatrix(i).geneID
-
-            For j As Integer = 0 To nMet - 1
-                Dim metExpr As DataFrameRow = metaboliteMatrix(j)
-                Dim r As Double = Compute(otuExpr, metExpr.experiments)
-
-                CorrelationMatrix.SetValue(otu_id, metExpr.geneID, r)
-                PValueMatrix.SetValue(otu_id, metExpr.geneID, MathHelpers.CorrelationPValue(r, nS))
-            Next
-        Next
-
-        Return New CrossOmicsCorrelation(CorrelationMatrix, PValueMatrix, OtuIds, MetaboliteIds)
+        Return MathHelpers.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix, AddressOf Compute, name:="Pearson")
     End Function
 
 End Module
@@ -359,37 +367,8 @@ Public Module SpearmanCorrelation
     ''' <summary>
     ''' 计算 OTU 与代谢物之间的 Spearman 交叉相关矩阵
     ''' </summary>
-    Public Function ComputeCrossCorrelation(otuMatrix As Matrix, metaboliteMatrix As Matrix) As CorrelationResult
-        Dim result As New CorrelationResult()
-        result.MethodName = "Spearman"
-
-        Dim nOtu As Integer = otuMatrix.size
-        Dim nMet As Integer = metaboliteMatrix.size
-        Dim nS As Integer = otuMatrix.sample_count
-
-        ReDim result.OtuIds(nOtu - 1)
-        ReDim result.MetaboliteIds(nMet - 1)
-        For i As Integer = 0 To nOtu - 1
-            result.OtuIds(i) = otuMatrix(i).geneID
-        Next
-        For j As Integer = 0 To nMet - 1
-            result.MetaboliteIds(j) = metaboliteMatrix(j).geneID
-        Next
-
-        result.CorrelationMatrix = New Double(nOtu - 1, nMet - 1) {}
-        result.PValueMatrix = New Double(nOtu - 1, nMet - 1) {}
-
-        For i As Integer = 0 To nOtu - 1
-            Dim otuExpr As Double() = otuMatrix(i).experiments
-            For j As Integer = 0 To nMet - 1
-                Dim metExpr As Double() = metaboliteMatrix(j).experiments
-                Dim r As Double = Compute(otuExpr, metExpr)
-                result.CorrelationMatrix(i, j) = r
-                result.PValueMatrix(i, j) = MathHelpers.CorrelationPValue(r, nS)
-            Next
-        Next
-
-        Return result
+    Public Function ComputeCrossCorrelation(otuMatrix As Matrix, metaboliteMatrix As Matrix) As CrossOmicsCorrelation
+        Return MathHelpers.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix, AddressOf Compute, name:="Spearman")
     End Function
 
 End Module
@@ -704,26 +683,14 @@ Public Module SparCCComputation
     Public Function ComputeCrossCorrelation(
         otuMatrix As Matrix,
         metaboliteMatrix As Matrix,
-        Optional config As SparCCConfig = Nothing) As CorrelationResult
+        Optional config As SparCCConfig = Nothing) As CrossOmicsCorrelation
 
         If config Is Nothing Then config = New SparCCConfig()
-
-        Dim result As New CorrelationResult()
-        result.MethodName = "SparCC"
 
         Dim nOtu As Integer = otuMatrix.size
         Dim nMet As Integer = metaboliteMatrix.size
         Dim nS As Integer = otuMatrix.sample_count
         Dim nTotal As Integer = nOtu + nMet
-
-        ReDim result.OtuIds(nOtu - 1)
-        ReDim result.MetaboliteIds(nMet - 1)
-        For i As Integer = 0 To nOtu - 1
-            result.OtuIds(i) = otuMatrix(i).geneID
-        Next
-        For j As Integer = 0 To nMet - 1
-            result.MetaboliteIds(j) = metaboliteMatrix(j).geneID
-        Next
 
         ' ---- 合并数据：分别比例化后拼接 ----
         Dim combinedData As Double(,) = New Double(nTotal - 1, nS - 1) {}
@@ -766,19 +733,18 @@ Public Module SparCCComputation
         Dim fullCorr As Double(,) = ComputeSparCCCorrelation(combinedData, nTotal, nS, config)
 
         ' ---- 提取交叉相关块 [nOtu, nMet] ----
-        result.CorrelationMatrix = New Double(nOtu - 1, nMet - 1) {}
-        result.PValueMatrix = New Double(nOtu - 1, nMet - 1) {}
+        Dim CorrelationMatrix = New Double(nOtu - 1, nMet - 1) {}
+
 
         For i As Integer = 0 To nOtu - 1
             For j As Integer = 0 To nMet - 1
-                result.CorrelationMatrix(i, j) = fullCorr(i, nOtu + j)
-                ' SparCC 的 p 值通常通过 bootstrap 重采样计算
-                ' 此处使用 Fisher z 近似作为简化方案
-                result.PValueMatrix(i, j) = MathHelpers.CorrelationPValue(fullCorr(i, nOtu + j), nS)
+                CorrelationMatrix(i, j) = fullCorr(i, nOtu + j)
             Next
         Next
 
-        Return result
+        ' SparCC 的 p 值通常通过 bootstrap 重采样计算
+        ' 此处使用 Fisher z 近似作为简化方案
+        Return CreateCrossCorrelation(otuMatrix, metaboliteMatrix, CorrelationMatrix, "SparCC")
     End Function
 
     ''' <summary>
@@ -1033,26 +999,14 @@ Public Module CCLassoComputation
     Public Function ComputeCrossCorrelation(
         otuMatrix As Matrix,
         metaboliteMatrix As Matrix,
-        Optional config As CCLassoConfig = Nothing) As CorrelationResult
+        Optional config As CCLassoConfig = Nothing) As CrossOmicsCorrelation
 
         If config Is Nothing Then config = New CCLassoConfig()
-
-        Dim result As New CorrelationResult()
-        result.MethodName = "CCLasso"
 
         Dim nOtu As Integer = otuMatrix.size
         Dim nMet As Integer = metaboliteMatrix.size
         Dim nS As Integer = otuMatrix.sample_count
         Dim nTotal As Integer = nOtu + nMet
-
-        ReDim result.OtuIds(nOtu - 1)
-        ReDim result.MetaboliteIds(nMet - 1)
-        For i As Integer = 0 To nOtu - 1
-            result.OtuIds(i) = otuMatrix(i).geneID
-        Next
-        For j As Integer = 0 To nMet - 1
-            result.MetaboliteIds(j) = metaboliteMatrix(j).geneID
-        Next
 
         ' ---- 合并数据 ----
         Dim combinedData As Double(,) = New Double(nTotal - 1, nS - 1) {}
@@ -1096,17 +1050,15 @@ Public Module CCLassoComputation
         Dim fullCorr As Double(,) = CovarianceToCorrelation(cov, nTotal)
 
         ' ---- 提取交叉相关块 ----
-        result.CorrelationMatrix = New Double(nOtu - 1, nMet - 1) {}
-        result.PValueMatrix = New Double(nOtu - 1, nMet - 1) {}
+        Dim CorrelationMatrix = New Double(nOtu - 1, nMet - 1) {}
 
         For i As Integer = 0 To nOtu - 1
             For j As Integer = 0 To nMet - 1
-                result.CorrelationMatrix(i, j) = fullCorr(i, nOtu + j)
-                result.PValueMatrix(i, j) = MathHelpers.CorrelationPValue(fullCorr(i, nOtu + j), nS)
+                CorrelationMatrix(i, j) = fullCorr(i, nOtu + j)
             Next
         Next
 
-        Return result
+        Return CreateCrossCorrelation(otuMatrix, metaboliteMatrix, CorrelationMatrix, "CCLasso")
     End Function
 
     ''' <summary>
@@ -1170,7 +1122,7 @@ Public Module CrossCorrelationCalculator
     Public Function Compute(
         otuMatrix As Matrix,
         metaboliteMatrix As Matrix,
-        method As CorrelationMethod) As CorrelationResult
+        method As CorrelationMethod) As CrossOmicsCorrelation
 
         Select Case method
             Case CorrelationMethod.Pearson
@@ -1196,9 +1148,9 @@ Public Module CrossCorrelationCalculator
     ''' <returns>包含 4 个 CorrelationResult 的数组，顺序为 Pearson, Spearman, SparCC, CCLasso</returns>
     Public Function ComputeAll(
         otuMatrix As Matrix,
-        metaboliteMatrix As Matrix) As CorrelationResult()
+        metaboliteMatrix As Matrix) As CrossOmicsCorrelation()
 
-        Dim results As CorrelationResult() = New CorrelationResult(3) {}
+        Dim results As CrossOmicsCorrelation() = New CrossOmicsCorrelation(3) {}
 
         results(0) = PearsonCorrelation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
         results(1) = SpearmanCorrelation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
@@ -1216,7 +1168,7 @@ Public Module CrossCorrelationCalculator
         metaboliteMatrix As Matrix,
         iterations As Integer,
         correlationThreshold As Double,
-        pseudoCount As Double) As CorrelationResult
+        pseudoCount As Double) As CrossOmicsCorrelation
 
         Dim config As New SparCCComputation.SparCCConfig()
         config.Iterations = iterations
@@ -1236,7 +1188,7 @@ Public Module CrossCorrelationCalculator
         lambda As Double,
         maxIterations As Integer,
         tolerance As Double,
-        pseudoCount As Double) As CorrelationResult
+        pseudoCount As Double) As CrossOmicsCorrelation
 
         Dim config As New CCLassoComputation.CCLassoConfig()
         config.Lambda = lambda
@@ -1295,7 +1247,7 @@ Public Module UsageExample
         metMatrix.expression = New DataFrameRow() {met1, met2}
 
         ' ===== 3. 使用统一接口计算单种方法 =====
-        Dim pearsonResult As CorrelationResult =
+        Dim pearsonResult As CrossOmicsCorrelation =
             CrossCorrelationCalculator.Compute(otuMatrix, metMatrix,
                 CrossCorrelationCalculator.CorrelationMethod.Pearson)
 
@@ -1303,17 +1255,17 @@ Public Module UsageExample
         PrintResult(pearsonResult)
 
         ' ===== 4. 使用统一接口计算全部 4 种方法 =====
-        Dim allResults As CorrelationResult() =
+        Dim allResults As CrossOmicsCorrelation() =
             CrossCorrelationCalculator.ComputeAll(otuMatrix, metMatrix)
 
-        For Each r As CorrelationResult In allResults
-            Console.WriteLine("=== " & r.MethodName & " 相关系数 ===")
+        For Each r As CrossOmicsCorrelation In allResults
+            Console.WriteLine("=== " & r.methodName & " 相关系数 ===")
             PrintResult(r)
             Console.WriteLine()
         Next
 
         ' ===== 5. 使用自定义参数计算 SparCC =====
-        Dim sparCCResult As CorrelationResult =
+        Dim sparCCResult As CrossOmicsCorrelation =
             CrossCorrelationCalculator.ComputeSparCC(
                 otuMatrix, metMatrix,
                 iterations:=20,
@@ -1324,12 +1276,12 @@ Public Module UsageExample
         PrintResult(sparCCResult)
 
         ' ===== 6. 使用自定义参数计算 CCLasso =====
-        Dim cclassoResult As CorrelationResult =
+        Dim cclassoResult As CrossOmicsCorrelation =
             CrossCorrelationCalculator.ComputeCCLasso(
                 otuMatrix, metMatrix,
                 lambda:=0.08,
                 maxIterations:=300,
-                tolerance:=1e-7,
+                tolerance:=0.0000001,
                 pseudoCount:=0.5)
 
         Console.WriteLine("=== CCLasso (自定义参数) ===")
@@ -1339,22 +1291,22 @@ Public Module UsageExample
     ''' <summary>
     ''' 打印相关性计算结果
     ''' </summary>
-    Private Sub PrintResult(result As CorrelationResult)
-        Dim nOtu As Integer = result.OtuIds.Length
-        Dim nMet As Integer = result.MetaboliteIds.Length
+    Private Sub PrintResult(result As CrossOmicsCorrelation)
+        Dim nOtu As Integer = result.omics1.Length
+        Dim nMet As Integer = result.omics2.Length
 
         ' 打印表头
         Console.Write(vbTab)
         For j As Integer = 0 To nMet - 1
-            Console.Write(result.MetaboliteIds(j) & vbTab)
+            Console.Write(result.omics2(j) & vbTab)
         Next
         Console.WriteLine()
 
         ' 打印相关系数矩阵
         For i As Integer = 0 To nOtu - 1
-            Console.Write(result.OtuIds(i) & vbTab)
+            Console.Write(result.omics1(i) & vbTab)
             For j As Integer = 0 To nMet - 1
-                Console.Write(result.CorrelationMatrix(i, j).ToString("F4") & vbTab)
+                Console.Write(result.Correlation(i, j).cor.ToString("F4") & vbTab)
             Next
             Console.WriteLine()
         Next
@@ -1362,9 +1314,9 @@ Public Module UsageExample
         ' 打印 p 值矩阵
         Console.WriteLine("p-values:")
         For i As Integer = 0 To nOtu - 1
-            Console.Write(result.OtuIds(i) & vbTab)
+            Console.Write(result.omics1(i) & vbTab)
             For j As Integer = 0 To nMet - 1
-                Console.Write(result.PValueMatrix(i, j).ToString("F4") & vbTab)
+                Console.Write(result.Correlation(i, j).pval.ToString("F4") & vbTab)
             Next
             Console.WriteLine()
         Next
