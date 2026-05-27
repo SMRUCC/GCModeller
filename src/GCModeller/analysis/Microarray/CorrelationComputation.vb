@@ -199,7 +199,36 @@ Public Module MathHelpers
     End Function
 
     Friend Function CreateCrossCorrelation(otuMatrix As Matrix, metaboliteMatrix As Matrix, cor As Double(,), name As String) As CrossOmicsCorrelation
+        Dim nOtu As Integer = otuMatrix.size
+        Dim nMet As Integer = metaboliteMatrix.size
+        Dim nS As Integer = otuMatrix.sample_count
 
+        Dim OtuIds(nOtu) As String
+        Dim MetaboliteIds(nMet) As String
+
+        For i As Integer = 0 To nOtu - 1
+            OtuIds(i) = otuMatrix(i).geneID
+        Next
+        For j As Integer = 0 To nMet - 1
+            MetaboliteIds(j) = metaboliteMatrix(j).geneID
+        Next
+
+        Dim CorrelationMatrix As New NamedSparseMatrix()
+        Dim PValueMatrix As New NamedSparseMatrix()
+
+        For i As Integer = 0 To nOtu - 1
+            Dim otu_id As String = otuMatrix(i).geneID
+
+            For j As Integer = 0 To nMet - 1
+                Dim metExpr As DataFrameRow = metaboliteMatrix(j)
+                Dim r As Double = cor(i, j)
+
+                CorrelationMatrix.SetValue(otu_id, metExpr.geneID, r)
+                PValueMatrix.SetValue(otu_id, metExpr.geneID, CorrelationPValue(r, nS))
+            Next
+        Next
+
+        Return New CrossOmicsCorrelation(CorrelationMatrix, PValueMatrix, OtuIds, MetaboliteIds) With {.methodName = name}
     End Function
 
     Friend Function ComputeCrossCorrelation(otuMatrix As Matrix, metaboliteMatrix As Matrix, compute As ICorrelation, name As String) As CrossOmicsCorrelation

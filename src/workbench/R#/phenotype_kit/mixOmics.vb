@@ -58,7 +58,6 @@ Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Model.Network.Regulons
-Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -132,6 +131,8 @@ Module mixOmics
                             Optional nfold As Integer = 5,
                             Optional n_bootstraps As Integer = 500,
                             Optional env As Environment = Nothing)
+
+        Call TRN.ValidateSamples(x, y)
 
         Dim cclassoResult As CrossOmicsCorrelation = CrossCorrelationCalculator.ComputeCCLasso(
         x, y,
