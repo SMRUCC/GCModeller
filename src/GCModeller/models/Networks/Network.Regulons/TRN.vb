@@ -61,6 +61,41 @@ Imports std = System.Math
 
 Public Module TRN
 
+    ''' <summary>
+    ''' 打印相关性计算结果
+    ''' </summary>
+    <Extension>
+    Public Sub PrintResult(result As CrossOmicsCorrelation)
+        Dim nOtu As Integer = result.omics1.Length
+        Dim nMet As Integer = result.omics2.Length
+
+        ' 打印表头
+        Console.Write(vbTab)
+        For j As Integer = 0 To nMet - 1
+            Console.Write(result.omics2(j) & vbTab)
+        Next
+        Console.WriteLine()
+
+        ' 打印相关系数矩阵
+        For i As Integer = 0 To nOtu - 1
+            Console.Write(result.omics1(i) & vbTab)
+            For j As Integer = 0 To nMet - 1
+                Console.Write(result.Correlation(i, j).cor.ToString("F4") & vbTab)
+            Next
+            Console.WriteLine()
+        Next
+
+        ' 打印 p 值矩阵
+        Console.WriteLine("p-values:")
+        For i As Integer = 0 To nOtu - 1
+            Console.Write(result.omics1(i) & vbTab)
+            For j As Integer = 0 To nMet - 1
+                Console.Write(result.Correlation(i, j).pval.ToString("F4") & vbTab)
+            Next
+            Console.WriteLine()
+        Next
+    End Sub
+
     Public Function ValidateSamples(ByRef expr1 As Matrix, ByRef expr2 As Matrix, Optional strict As Boolean = True) As Boolean
         ' 跨组学计算相关性要求两个矩阵的样本（实验/列）必须是对齐的！
         ' 即 expr1 的第 i 列和 expr2 的第 i 列必须是同一个样本。

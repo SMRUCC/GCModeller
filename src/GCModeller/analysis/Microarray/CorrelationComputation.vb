@@ -1154,18 +1154,10 @@ Public Module CrossCorrelationCalculator
         method As CorrelationMethod) As CrossOmicsCorrelation
 
         Select Case method
-            Case CorrelationMethod.Pearson
-                Return PearsonCorrelation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
-
-            Case CorrelationMethod.Spearman
-                Return SpearmanCorrelation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
-
-            Case CorrelationMethod.SparCC
-                Return SparCCComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
-
-            Case CorrelationMethod.CCLasso
-                Return CCLassoComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
-
+            Case CorrelationMethod.Pearson : Return PearsonCorrelation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
+            Case CorrelationMethod.Spearman : Return SpearmanCorrelation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
+            Case CorrelationMethod.SparCC : Return SparCCComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
+            Case CorrelationMethod.CCLasso : Return CCLassoComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
             Case Else
                 Throw New ArgumentException("不支持的相关性计算方法: " & method.ToString())
         End Select
@@ -1227,128 +1219,5 @@ Public Module CrossCorrelationCalculator
 
         Return CCLassoComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix, config)
     End Function
-
-End Module
-
-' ============================================================================
-' 第八部分：使用示例
-' ============================================================================
-
-''' <summary>
-''' 使用示例模块，展示如何调用四种相关性计算方法
-''' </summary>
-Public Module UsageExample
-
-    ''' <summary>
-    ''' 示例：构建测试数据并计算四种相关性
-    ''' </summary>
-    Public Sub RunExample()
-        ' ===== 1. 构建 OTU 表达矩阵 =====
-        Dim otuMatrix As New Matrix()
-        otuMatrix.SampleId = New String() {"S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"}
-
-        Dim otu1 As New DataFrameRow()
-        otu1.geneID = "OTU_001"
-        otu1.experiments = New Double() {10, 15, 8, 20, 12, 18, 9, 14}
-
-        Dim otu2 As New DataFrameRow()
-        otu2.geneID = "OTU_002"
-        otu2.experiments = New Double() {5, 8, 3, 12, 6, 10, 4, 7}
-
-        Dim otu3 As New DataFrameRow()
-        otu3.geneID = "OTU_003"
-        otu3.experiments = New Double() {25, 30, 20, 35, 28, 32, 22, 27}
-
-        otuMatrix.expression = New DataFrameRow() {otu1, otu2, otu3}
-
-        ' ===== 2. 构建代谢物表达矩阵 =====
-        Dim metMatrix As New Matrix()
-        metMatrix.SampleId = New String() {"S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"}
-
-        Dim met1 As New DataFrameRow()
-        met1.geneID = "Metabolite_A"
-        met1.experiments = New Double() {0.5, 0.8, 0.3, 1.2, 0.6, 1.0, 0.4, 0.7}
-
-        Dim met2 As New DataFrameRow()
-        met2.geneID = "Metabolite_B"
-        met2.experiments = New Double() {2.1, 1.8, 2.5, 1.5, 2.0, 1.6, 2.3, 1.9}
-
-        metMatrix.expression = New DataFrameRow() {met1, met2}
-
-        ' ===== 3. 使用统一接口计算单种方法 =====
-        Dim pearsonResult As CrossOmicsCorrelation =
-            CrossCorrelationCalculator.Compute(otuMatrix, metMatrix,
-                CrossCorrelationCalculator.CorrelationMethod.Pearson)
-
-        Console.WriteLine("=== Pearson 相关系数 ===")
-        PrintResult(pearsonResult)
-
-        ' ===== 4. 使用统一接口计算全部 4 种方法 =====
-        Dim allResults As CrossOmicsCorrelation() =
-            CrossCorrelationCalculator.ComputeAll(otuMatrix, metMatrix)
-
-        For Each r As CrossOmicsCorrelation In allResults
-            Console.WriteLine("=== " & r.methodName & " 相关系数 ===")
-            PrintResult(r)
-            Console.WriteLine()
-        Next
-
-        ' ===== 5. 使用自定义参数计算 SparCC =====
-        Dim sparCCResult As CrossOmicsCorrelation =
-            CrossCorrelationCalculator.ComputeSparCC(
-                otuMatrix, metMatrix,
-                iterations:=20,
-                correlationThreshold:=0.15,
-                pseudoCount:=0.5)
-
-        Console.WriteLine("=== SparCC (自定义参数) ===")
-        PrintResult(sparCCResult)
-
-        ' ===== 6. 使用自定义参数计算 CCLasso =====
-        Dim cclassoResult As CrossOmicsCorrelation =
-            CrossCorrelationCalculator.ComputeCCLasso(
-                otuMatrix, metMatrix,
-                lambda:=0.08,
-                maxIterations:=300,
-                tolerance:=0.0000001,
-                pseudoCount:=0.5)
-
-        Console.WriteLine("=== CCLasso (自定义参数) ===")
-        PrintResult(cclassoResult)
-    End Sub
-
-    ''' <summary>
-    ''' 打印相关性计算结果
-    ''' </summary>
-    Private Sub PrintResult(result As CrossOmicsCorrelation)
-        Dim nOtu As Integer = result.omics1.Length
-        Dim nMet As Integer = result.omics2.Length
-
-        ' 打印表头
-        Console.Write(vbTab)
-        For j As Integer = 0 To nMet - 1
-            Console.Write(result.omics2(j) & vbTab)
-        Next
-        Console.WriteLine()
-
-        ' 打印相关系数矩阵
-        For i As Integer = 0 To nOtu - 1
-            Console.Write(result.omics1(i) & vbTab)
-            For j As Integer = 0 To nMet - 1
-                Console.Write(result.Correlation(i, j).cor.ToString("F4") & vbTab)
-            Next
-            Console.WriteLine()
-        Next
-
-        ' 打印 p 值矩阵
-        Console.WriteLine("p-values:")
-        For i As Integer = 0 To nOtu - 1
-            Console.Write(result.omics1(i) & vbTab)
-            For j As Integer = 0 To nMet - 1
-                Console.Write(result.Correlation(i, j).pval.ToString("F4") & vbTab)
-            Next
-            Console.WriteLine()
-        Next
-    End Sub
 
 End Module
