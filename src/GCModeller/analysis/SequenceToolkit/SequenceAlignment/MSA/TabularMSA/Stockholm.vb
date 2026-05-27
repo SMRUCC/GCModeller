@@ -76,7 +76,7 @@ Namespace MSA.Tabular
                 For i As Integer = 0 To msa.names.Length - 1
                     Yield New FastaSeq With {
                         .Headers = {msa.names(i), seq_source(msa.names(i)), acc_id & ";" & id, def},
-                        .SequenceData = msa.MSA(i).Replace("."c, "X"c)
+                        .SequenceData = msa.MSA(i).Replace("."c, "").Trim
                     }
                 Next
             End If
