@@ -343,17 +343,17 @@ Public Module MICComputation
             If maxB_for_a < 2 Then Continue For
             If maxB_for_a > n Then maxB_for_a = n
 
-            For b As Integer = 2 To maxB_for_a
+            For bi As Integer = 2 To maxB_for_a
                 ' 计算该网格大小下的最大归一化互信息
                 Dim normalizedMI As Double
 
                 If config.UseOptimalPartition Then
                     ' 使用 DP 搜索最优划分
                     normalizedMI = ComputeOptimalNormalizedMI(
-                        x, y, n, a, b, config.OptimalIterations)
+                        x, y, n, a, bi, config.OptimalIterations)
                 Else
                     ' 使用等频划分
-                    normalizedMI = ComputeEquiPopNormalizedMI(x, y, n, a, b)
+                    normalizedMI = ComputeEquiPopNormalizedMI(x, y, n, a, bi)
                 End If
 
                 If normalizedMI > maxMIC Then
@@ -442,15 +442,15 @@ Public Module MICComputation
     Public Function ComputeCrossCorrelation(
         otuMatrix As Matrix,
         metaboliteMatrix As Matrix,
-        Optional config As MICConfig = Nothing) As CorrelationResult
+        Optional config As MICConfig = Nothing) As SpearmanMICResult
 
         If config Is Nothing Then config = New MICConfig()
 
-        Dim nOtu As Integer = otuMatrix.FeatureCount
-        Dim nMet As Integer = metaboliteMatrix.FeatureCount
-        Dim nSamples As Integer = otuMatrix.SampleCount
+        Dim nOtu As Integer = otuMatrix.size
+        Dim nMet As Integer = metaboliteMatrix.size
+        Dim nSamples As Integer = otuMatrix.sample_count
 
-        Dim result As New CorrelationResult()
+        Dim result As New SpearmanMICResult()
         result.OtuIds = New String(nOtu - 1) {}
         result.MetaboliteIds = New String(nMet - 1) {}
         result.CorrelationMatrix = New Double(nOtu - 1, nMet - 1) {}
@@ -458,17 +458,17 @@ Public Module MICComputation
         result.MethodName = "MIC"
 
         For i As Integer = 0 To nOtu - 1
-            result.OtuIds(i) = otuMatrix.expression(i).Id
+            result.OtuIds(i) = otuMatrix(i).geneID
         Next
         For j As Integer = 0 To nMet - 1
-            result.MetaboliteIds(j) = metaboliteMatrix.expression(j).Id
+            result.MetaboliteIds(j) = metaboliteMatrix(j).geneID
         Next
 
         ' 逐对计算 MIC
         For i As Integer = 0 To nOtu - 1
-            Dim xData As Double() = otuMatrix.expression(i).Expression
+            Dim xData As Double() = otuMatrix(i)
             For j As Integer = 0 To nMet - 1
-                Dim yData As Double() = metaboliteMatrix.expression(j).Expression
+                Dim yData As Double() = metaboliteMatrix(j)
 
                 ' 确保 x 和 y 长度一致
                 Dim minLen As Integer = std.Min(xData.Length, yData.Length)
@@ -501,12 +501,12 @@ Public Module MICComputation
     ''' </summary>
     Public Function ComputeInternalMatrix(
         matrix As Matrix,
-        Optional config As MICConfig = Nothing) As CorrelationResult
+        Optional config As MICConfig = Nothing) As SpearmanMICResult
 
         If config Is Nothing Then config = New MICConfig()
 
-        Dim nF As Integer = matrix.FeatureCount
-        Dim result As New CorrelationResult()
+        Dim nF As Integer = matrix.size
+        Dim result As New SpearmanMICResult
         result.OtuIds = New String(nF - 1) {}
         result.MetaboliteIds = New String(nF - 1) {}
         result.CorrelationMatrix = New Double(nF - 1, nF - 1) {}
@@ -514,16 +514,16 @@ Public Module MICComputation
         result.MethodName = "MIC"
 
         For i As Integer = 0 To nF - 1
-            result.OtuIds(i) = matrix.expression(i).Id
-            result.MetaboliteIds(i) = matrix.expression(i).Id
+            result.OtuIds(i) = matrix(i).geneID
+            result.MetaboliteIds(i) = matrix(i).geneID
             result.CorrelationMatrix(i, i) = 1.0
             result.PValueMatrix(i, i) = 0.0
         Next
 
         For i As Integer = 0 To nF - 2
             For j As Integer = i + 1 To nF - 1
-                Dim x As Double() = matrix.expression(i).Expression
-                Dim y As Double() = matrix.expression(j).Expression
+                Dim x As Double() = matrix(i)
+                Dim y As Double() = matrix(j)
                 Dim mic As Double = ComputePair(x, y, config)
                 result.CorrelationMatrix(i, j) = mic
                 result.CorrelationMatrix(j, i) = mic

@@ -40,8 +40,8 @@ Public Module CrossCorrelationCalculator
             Case CorrelationMethod.Spearman : Return SpearmanCorrelation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
             Case CorrelationMethod.SparCC : Return SparCCComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
             Case CorrelationMethod.CCLasso : Return CCLassoComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
-            Case CorrelationMethod.MIC : Return MICComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
-            Case CorrelationMethod.SpearmanMIC : Return SpearmanMICCombined.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
+                ' Case CorrelationMethod.MIC : Return MICComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
+                ' Case CorrelationMethod.SpearmanMIC : Return SpearmanMICCombined.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
 
             Case Else
                 Throw New ArgumentException("不支持的相关性计算方法: " & method.ToString())
@@ -62,7 +62,7 @@ Public Module CrossCorrelationCalculator
         results(1) = SpearmanCorrelation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
         results(2) = SparCCComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
         results(3) = CCLassoComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
-        results(4) = MICComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
+        ' results(4) = MICComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
 
         Return results
     End Function
@@ -115,7 +115,7 @@ Public Module CrossCorrelationCalculator
         Optional alpha As Double = 0.6,
         Optional useOptimalPartition As Boolean = True,
         Optional optimalIterations As Integer = 3,
-        Optional permutationCount As Integer = 0) As CrossOmicsCorrelation
+        Optional permutationCount As Integer = 0) As SpearmanMICResult
 
         Dim config As New MICComputation.MICConfig()
         config.Alpha = alpha

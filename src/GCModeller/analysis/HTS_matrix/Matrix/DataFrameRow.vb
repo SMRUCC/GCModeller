@@ -238,4 +238,11 @@ Public Class DataFrameRow : Implements INamedValue, IVector
     Public Shared Operator -(gene As DataFrameRow, x As Double) As Vector
         Return gene.CreateVector - x
     End Operator
+
+    Public Shared Narrowing Operator CType(gene As DataFrameRow) As Double()
+        If gene Is Nothing Then
+            Return Nothing
+        End If
+        Return gene.experiments
+    End Operator
 End Class

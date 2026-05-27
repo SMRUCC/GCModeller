@@ -1,4 +1,6 @@
-﻿
+﻿Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Model.Network.Regulons
+Imports std = System.Math
 
 ' ============================================================================
 ' 第七部分：Spearman + MIC 联合分析模块
@@ -93,7 +95,7 @@ Public Module SpearmanMICCombined
         Public WeightMIC As Double = 0.5
         ''' <summary>
         ''' 判定非单调关联的阈值：
-        ''' 当 MIC > MICThreshold 且 |Spearman| < SpearmanThreshold 时，
+        ''' 当 MIC > MICThreshold 且 |Spearman| &lt; SpearmanThreshold 时，
         ''' 如果 MIC / (|Spearman| + epsilon) > NonMonotonicRatio，则判定为非单调关联
         ''' </summary>
         Public NonMonotonicRatio As Double = 2.0
@@ -103,21 +105,21 @@ Public Module SpearmanMICCombined
     ''' 计算 Fisher 合并 p 值
     ''' chi2 = -2 * (ln(p1) + ln(p2))
     ''' 对于 2 个 p 值合并，自由度 df = 4
-    ''' P(X <= x) = 1 - (1 + x/2) * exp(-x/2)  (chi-squared CDF with df=4)
+    ''' P(X &lt;= x) = 1 - (1 + x/2) * exp(-x/2)  (chi-squared CDF with df=4)
     ''' </summary>
     Private Function FisherCombinedPValue(p1 As Double, p2 As Double) As Double
         ' 边界保护
-        p1 = Max(1.0E-300, Min(1.0, p1))
-        p2 = Max(1.0E-300, Min(1.0, p2))
+        p1 = std.Max(1.0E-300, std.Min(1.0, p1))
+        p2 = std.Max(1.0E-300, std.Min(1.0, p2))
 
-        Dim chi2 As Double = -2.0 * (log(p1) + log(p2))
+        Dim chi2 As Double = -2.0 * (std.Log(p1) + std.Log(p2))
         If chi2 <= 0 Then Return 1.0
 
         ' chi-squared CDF with df=4: P(X <= x) = 1 - (1 + x/2) * exp(-x/2)
-        Dim cdf As Double = 1.0 - (1.0 + chi2 / 2.0) * Exp(-chi2 / 2.0)
+        Dim cdf As Double = 1.0 - (1.0 + chi2 / 2.0) * std.Exp(-chi2 / 2.0)
         Dim pCombined As Double = 1.0 - cdf
 
-        Return Max(0.0, Min(1.0, pCombined))
+        Return std.Max(0.0, std.Min(1.0, pCombined))
     End Function
 
     ''' <summary>
@@ -133,7 +135,7 @@ Public Module SpearmanMICCombined
         micThreshold As Double,
         nonMonotonicRatio As Double) As String
 
-        Dim absSpearman As Double = Abs(spearman)
+        Dim absSpearman As Double = std.Abs(spearman)
         Dim spearmanSignificant As Boolean = absSpearman >= spearmanThreshold
         Dim micSignificant As Boolean = mic >= micThreshold
 
@@ -165,21 +167,21 @@ Public Module SpearmanMICCombined
     '''   4. 判定每对关联的类型（Monotonic / NonMonotonic / None）
     ''' </summary>
     Public Function ComputeCrossCorrelation(
-        otuMatrix As ExpressionMatrix,
-        metaboliteMatrix As ExpressionMatrix,
+        otuMatrix As Matrix,
+        metaboliteMatrix As Matrix,
         Optional config As SpearmanMICConfig = Nothing) As SpearmanMICResult
 
         If config Is Nothing Then config = New SpearmanMICConfig()
 
-        Dim nOtu As Integer = otuMatrix.FeatureCount
-        Dim nMet As Integer = metaboliteMatrix.FeatureCount
+        Dim nOtu As Integer = otuMatrix.size
+        Dim nMet As Integer = metaboliteMatrix.size
 
         ' === Step 1: 计算 Spearman 相关 ===
-        Dim spearmanResult As CorrelationResult =
+        Dim spearmanResult As CrossOmicsCorrelation =
             SpearmanCorrelation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix)
 
         ' === Step 2: 计算 MIC ===
-        Dim micResult As CorrelationResult =
+        Dim micResult As SpearmanMICResult =
             MICComputation.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix, config.MICConfig)
 
         ' === Step 3: 构建联合分析结果 ===
@@ -199,17 +201,18 @@ Public Module SpearmanMICCombined
         result.AssociationTypeMatrix = New String(nOtu - 1, nMet - 1) {}
 
         For i As Integer = 0 To nOtu - 1
-            result.OtuIds(i) = otuMatrix.Expression(i).Id
+            result.OtuIds(i) = otuMatrix(i).geneID
         Next
         For j As Integer = 0 To nMet - 1
-            result.MetaboliteIds(j) = metaboliteMatrix.Expression(j).Id
+            result.MetaboliteIds(j) = metaboliteMatrix(j).geneID
         Next
 
         ' === Step 4: 逐对合并分析 ===
         For i As Integer = 0 To nOtu - 1
             For j As Integer = 0 To nMet - 1
-                Dim sp As Double = spearmanResult.CorrelationMatrix(i, j)
-                Dim spP As Double = spearmanResult.PValueMatrix(i, j)
+                Dim spspp = spearmanResult.Correlation(i, j)
+                Dim sp As Double = spspp.cor
+                Dim spP As Double = spspp.pval
                 Dim mic As Double = micResult.CorrelationMatrix(i, j)
                 Dim micP As Double = micResult.PValueMatrix(i, j)
 
@@ -231,29 +234,29 @@ Public Module SpearmanMICCombined
                     Case CombinationMethod.Intersection
                         ' 交集法：两者均显著
                         result.IsSignificantMatrix(i, j) =
-                            (Abs(sp) >= config.SpearmanThreshold AndAlso
+                            (std.Abs(sp) >= config.SpearmanThreshold AndAlso
                              mic >= config.MICThreshold AndAlso
                              spP < config.PValueThreshold AndAlso
                              micP < config.PValueThreshold)
                         result.CombinedScoreMatrix(i, j) =
-                            Min(Abs(sp), mic)
+                            std.Min(std.Abs(sp), mic)
                         result.CombinedPValueMatrix(i, j) =
-                            Max(spP, micP)
+                            std.Max(spP, micP)
 
                     Case CombinationMethod.Union
                         ' 并集法：任一显著
                         result.IsSignificantMatrix(i, j) =
-                            (Abs(sp) >= config.SpearmanThreshold AndAlso spP < config.PValueThreshold) OrElse
+                            (std.Abs(sp) >= config.SpearmanThreshold AndAlso spP < config.PValueThreshold) OrElse
                             (mic >= config.MICThreshold AndAlso micP < config.PValueThreshold)
                         result.CombinedScoreMatrix(i, j) =
-                            Max(Abs(sp), mic)
+                             std.Max(std.Abs(sp), mic)
                         result.CombinedPValueMatrix(i, j) =
-                            Min(spP, micP)
+                             std.Min(spP, micP)
 
                     Case CombinationMethod.Weighted
                         ' 加权法：综合得分 = w1*|Spearman| + w2*MIC
                         Dim score As Double =
-                            config.WeightSpearman * Abs(sp) +
+                            config.WeightSpearman * std.Abs(sp) +
                             config.WeightMIC * mic
                         result.CombinedScoreMatrix(i, j) = score
                         result.CombinedPValueMatrix(i, j) =
@@ -268,11 +271,11 @@ Public Module SpearmanMICCombined
                         Dim combinedP As Double = FisherCombinedPValue(spP, micP)
                         result.CombinedPValueMatrix(i, j) = combinedP
                         result.CombinedScoreMatrix(i, j) =
-                            config.WeightSpearman * Abs(sp) +
+                            config.WeightSpearman * std.Abs(sp) +
                             config.WeightMIC * mic
                         result.IsSignificantMatrix(i, j) =
                             (combinedP < config.PValueThreshold AndAlso
-                             (Abs(sp) >= config.SpearmanThreshold OrElse
+                             (std.Abs(sp) >= config.SpearmanThreshold OrElse
                               mic >= config.MICThreshold))
                 End Select
 
@@ -325,7 +328,7 @@ Public Module SpearmanMICCombined
             Case "MIC"
                 pairs.Sort(Function(a, b) b.MIC.CompareTo(a.MIC))
             Case "Spearman"
-                pairs.Sort(Function(a, b) Abs(b.SpearmanRho).CompareTo(Abs(a.SpearmanRho)))
+                pairs.Sort(Function(a, b) std.Abs(b.SpearmanRho).CompareTo(std.Abs(a.SpearmanRho)))
         End Select
 
         Return pairs
