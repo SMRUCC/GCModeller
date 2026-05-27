@@ -139,8 +139,13 @@ Public Class DiamondM8Parser
         End Using
     End Function
 
+    ''' <summary>
+    ''' 按制表符分割列
+    ''' </summary>
+    ''' <param name="line"></param>
+    ''' <param name="lineNum"></param>
+    ''' <returns></returns>
     Private Shared Function ParseLine(line As String, lineNum As Integer) As DiamondAnnotation
-        ' 按制表符分割列
         Dim parts As String() = line.Split(ControlChars.Tab)
 
         ' .m8 标准格式应有 12 列
