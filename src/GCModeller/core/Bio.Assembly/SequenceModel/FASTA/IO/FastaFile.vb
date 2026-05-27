@@ -466,7 +466,14 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
 
         Public Overloads Function Save(lineBreak As Integer, s As Stream, encoding As Encoding, Optional deli As String = "|") As Boolean
             Using writer As New IO.StreamWriter(s, encoding)
-                For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=lineBreak, delimiter:=deli))
+                For Each seq As String In _innerList _
+                    .AsParallel _
+                    .Select(Function(fa)
+                                Return fa.GenerateDocument(lineBreak:=lineBreak,
+                                                           [overrides]:=False,
+                                                           delimiter:=deli)
+                            End Function)
+
                     Call writer.WriteLine(seq)
                 Next
             End Using
