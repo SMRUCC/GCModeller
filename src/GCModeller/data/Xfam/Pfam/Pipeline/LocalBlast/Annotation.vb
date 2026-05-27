@@ -102,10 +102,14 @@ Namespace Pipeline.LocalBlast
                                                    Optional offset As Double = 0.1) As IEnumerable(Of PfamString.PfamString)
             Dim protein As PfamString.PfamString
             Dim padLen% = 80
+            Dim desc As String
 
             For Each query As NamedCollection(Of PfamHit) In source
                 protein = query.CreatePfamStringAnnotation(evalue:=evalue, coverage:=coverage, identities:=identities, offset:=offset)
-                VBDebugger.EchoLine(query.name & vbTab & Mid(query.description, 1, padLen) & If(padLen > query.description.Length, New String(" "c, padLen - query.description.Length), "") & vbTab & protein.PfamString.JoinBy("+"))
+                protein.Description = query.First.description.GetTagValue(";", trim:=True).Value
+                desc = If(query.description, protein.Description)
+
+                VBDebugger.EchoLine(query.name & vbTab & Mid(desc, 1, padLen) & If(padLen > desc.Length, New String(" "c, padLen - desc.Length), "") & vbTab & protein.PfamString.JoinBy("+"))
 
                 Yield protein
             Next
@@ -119,13 +123,6 @@ Namespace Pipeline.LocalBlast
                                                    Optional offset As Double = 0.1) As PfamString.PfamString
 
             Dim domains As NamedCollection(Of DomainModel) = query.AnnotatedFromHitsGroup(evalue:=evalue, coverage:=coverage, identities:=identities, offset:=offset)
-            Dim idTable As Dictionary(Of String, String) = query _
-                .Select(Function(p) p.Pfam) _
-                .GroupBy(Function(p) p.CommonName) _
-                .ToDictionary(Function(p) p.Key,
-                              Function(p)
-                                  Return p.First.PfamId
-                              End Function)
 
             If domains.IsEmpty Then
                 Return New PfamString.PfamString With {
@@ -135,7 +132,7 @@ Namespace Pipeline.LocalBlast
                 }
             End If
 
-            Dim domainIDs$() = (From d As DomainModel In domains Select $"{idTable(d.ID)}:{d.name}" Distinct).ToArray
+            Dim domainIDs$() = (From d As DomainModel In domains Select $"{d.ID}:{d.name}" Distinct).ToArray
             Dim pfamString$() = domains _
                 .OrderBy(Function(d) d.start) _
                 .Select(Function(x)
@@ -206,7 +203,7 @@ Namespace Pipeline.LocalBlast
             Dim hitsGroup = hitsArray _
                 .Select(Function(hit) (hit:=hit, Pfam:=hit.Pfam)) _
                 .GroupBy(Function(g)
-                             Return g.Pfam.CommonName
+                             Return g.Pfam.PfamId & ":" & g.Pfam.CommonName
                          End Function) _
                 .ToArray
             Dim lenOffset As Integer = offset * queryLength
@@ -237,9 +234,10 @@ Namespace Pipeline.LocalBlast
                    .DoCall(Function(locis)
                                Return LociAPI.Group(locis, lenOffset).ToArray
                            End Function)
+                Dim ref = domain.Key.GetTagValue(":")
 
                 For Each loci As Location In locations
-                    Yield New DomainModel(domain.Key, loci)
+                    Yield New DomainModel(ref.Name, loci) With {.name = ref.Value}
                 Next
             Next
         End Function
@@ -326,19 +324,21 @@ Namespace Pipeline.LocalBlast
                          Let locations As DomainModel() = domain _
                              .OrderBy(Function(n) DirectCast(n, IMotifSite).site.left) _
                              .ToArray
-                         Select DomainId = domain.Key, locations).ToArray
+                         Select DomainId = domain.Key, name = domain.First.name, locations).ToArray
             Dim clearOverlap = (From list
                                 In group
                                 Let segments As Location() = list.locations _
                                     .Select(Function(loci) DirectCast(loci, IMotifSite).site) _
                                     .ToArray
-                                Select list.DomainId,
+                                Select list.DomainId, list.name,
                                     cleanLocations = segments.FragmentAssembly(lenOffset)).ToArray
             Dim result As DomainModel()
 
             For Each clear In clearOverlap
                 result = clear.cleanLocations _
-                    .Select(Function(n) New DomainModel(clear.DomainId, n)) _
+                    .Select(Function(n)
+                                Return New DomainModel(clear.DomainId, n) With {.name = clear.name}
+                            End Function) _
                     .ToArray
 
                 Yield result

@@ -422,7 +422,7 @@ Module proteinKit
                 .Parse _
                 .GroupBy(Function(a) a.QueryName) _
                 .Select(Function(a) New NamedCollection(Of PfamHit)(a.Key, a)) _
-                .CreateAnnotations(evalue:=Double.MaxValue, coverage:=0, identities:=0) _
+                .CreateAnnotations(evalue:=1, coverage:=0, identities:=30) _
                 .ToArray
 
             Return proteins
