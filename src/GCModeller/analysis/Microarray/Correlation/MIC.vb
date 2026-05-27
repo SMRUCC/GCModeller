@@ -1,5 +1,6 @@
 ﻿Imports std = System.Math
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 
 ' ============================================================================
 ' 第六部分（续）：MIC 最大信息系数计算
@@ -465,7 +466,7 @@ Public Module MICComputation
         Next
 
         ' 逐对计算 MIC
-        For i As Integer = 0 To nOtu - 1
+        For Each i As Integer In TqdmWrapper.Range(0, nOtu)
             Dim xData As Double() = otuMatrix(i)
             For j As Integer = 0 To nMet - 1
                 Dim yData As Double() = metaboliteMatrix(j)
