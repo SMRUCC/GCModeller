@@ -67,6 +67,13 @@ declare namespace modeller {
       */
       function vcell(path: string): object;
    }
+   /**
+    * get taxonomy information of the virtual cell model, this information will be used for identify the model source, and also for the model annotation in the future.
+    * 
+    * 
+     * @param model -
+   */
+   function taxonomy_info(model: object): object;
    module write {
       /**
        * save the virtual cell model as a large json file
