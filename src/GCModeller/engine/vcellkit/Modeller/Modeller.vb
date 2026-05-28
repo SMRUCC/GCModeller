@@ -68,6 +68,7 @@ Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -126,6 +127,16 @@ Public Module vcellModeller
             Case Else
                 Throw New InvalidProgramException($"Unknown file format with extension suffix name: {path.ExtensionSuffix}!")
         End Select
+    End Function
+
+    ''' <summary>
+    ''' get taxonomy information of the virtual cell model, this information will be used for identify the model source, and also for the model annotation in the future.
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <returns></returns>
+    <ExportAPI("taxonomy_info")>
+    Public Function taxonomy_info(model As VirtualCell) As Taxonomy
+        Return model.taxonomy
     End Function
 
     ''' <summary>
