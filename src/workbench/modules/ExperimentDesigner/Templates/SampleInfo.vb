@@ -73,12 +73,12 @@ Public Class SampleInfo : Inherits SampleGroup
     Public Property ID As String Implements INamedValue.Key
 
     ''' <summary>
-    ''' index编号
+    ''' sample injection order in current batch, example as 1,2,3,4,5
     ''' </summary>
     ''' <returns></returns>
     Public Property injectionOrder As Integer
     ''' <summary>
-    ''' the experiment batch id
+    ''' the experiment batch id, example as 1,2,3,4,5
     ''' </summary>
     ''' <returns></returns>
     Public Property batch As Integer
