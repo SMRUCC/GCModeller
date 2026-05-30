@@ -86,6 +86,12 @@ Public Class SampleInfo : Inherits SampleGroup
     Sub New()
     End Sub
 
+    Sub New(id As String, group As String)
+        Me.ID = id
+        Me.sample_name = id
+        Me.sample_info = group
+    End Sub
+
     Sub New(copy As SampleInfo)
         Me.ID = copy.ID
         Me.injectionOrder = copy.injectionOrder
