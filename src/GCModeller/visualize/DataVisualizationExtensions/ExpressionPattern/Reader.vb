@@ -55,6 +55,7 @@
 Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans

@@ -140,7 +140,7 @@ Public Module MathHelpers
     End Function
 
     ''' <summary>
-    ''' 标准正态分布累积分布函数（Abramowitz & Stegun 近似）
+    ''' 标准正态分布累积分布函数（Abramowitz &amp; Stegun 近似）
     ''' </summary>
     Public Function NormalCDF(x As Double) As Double
         Const a1 As Double = 0.254829592
@@ -409,7 +409,7 @@ End Module
 ''' <summary>
 ''' SparCC (Sparse Correlations for Compositional Data)
 ''' 
-''' 参考文献: Friedman, J. & Alm, E.J. (2012). 
+''' 参考文献: Friedman, J. &amp; Alm, E.J. (2012). 
 '''   Inferring Correlation Networks from Genomic Survey Data. 
 '''   PLoS Computational Biology, 8(9), e1002687.
 ''' 
@@ -813,7 +813,7 @@ End Module
 ''' <summary>
 ''' CCLasso (Composition Corrected Lasso)
 ''' 
-''' 参考文献: Fang, H., Huang, C., Zhao, H. & Deng, M. (2015).
+''' 参考文献: Fang, H., Huang, C., Zhao, H. &amp; Deng, M. (2015).
 '''   CCLasso: correlation inference for compositional data through Lasso.
 '''   Bioinformatics, 31(19), 3171-3179.
 ''' 

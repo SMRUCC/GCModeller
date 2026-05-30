@@ -1,4 +1,5 @@
 ﻿
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
