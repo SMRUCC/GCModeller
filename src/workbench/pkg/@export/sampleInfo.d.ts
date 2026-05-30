@@ -115,10 +115,14 @@ declare namespace sampleInfo {
      * + default value Is ``null``.
      * @param color 
      * + default value Is ``null``.
+     * @param batch 
+     * + default value Is ``null``.
+     * @param inject_order 
+     * + default value Is ``null``.
      * @param env 
      * + default value Is ``null``.
    */
-   function sampleInfo(ID: string, sample_info: string, sample_name?: string, color?: string, env?: object): object;
+   function sampleInfo(ID: string, sample_info: string, sample_name?: string, color?: string, batch?: object, inject_order?: object, env?: object): object;
    /**
      * @param env default value Is ``null``.
    */
