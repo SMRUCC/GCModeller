@@ -413,6 +413,8 @@ Module DEGSample
     Public Function sampleInfoTable(ID As String(), sample_info As String(),
                                     Optional sample_name As String() = Nothing,
                                     Optional color As String() = Nothing,
+                                    Optional batch As Integer() = Nothing,
+                                    Optional inject_order As Integer() = Nothing,
                                     Optional env As Environment = Nothing) As Object
 
         If ID.IsNullOrEmpty OrElse sample_info.IsNullOrEmpty Then
@@ -441,8 +443,8 @@ Module DEGSample
                 .sample_name = sample_name(i),
                 .sample_info = get_group(i),
                 .color = color.ElementAtOrNull(i),
-                .batch = 1,
-                .injectionOrder = i + 1,
+                .batch = batch.ElementAtOrDefault(i, default:=1),
+                .injectionOrder = inject_order.ElementAtOrDefault(i, default:=i + 1),
                 .shape = "circle"
             }
         Next
