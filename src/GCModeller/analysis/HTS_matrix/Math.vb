@@ -57,7 +57,6 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
-Imports std = System.Math
 
 ''' <summary>
 ''' math helper for HTS matrix
@@ -135,22 +134,7 @@ Public Module Math
             .tag = $"log({expr.tag}, base={base})",
             .expression = expr.expression _
                 .Select(Function(exp)
-                            Dim min As Double = exp.experiments _
-                                .Where(Function(v) v > 0 AndAlso Not v.IsNaNImaginary) _
-                                .DefaultIfEmpty(0) _
-                                .Min
-                            Return New DataFrameRow With {
-                                .geneID = exp.geneID,
-                                .experiments = exp.experiments _
-                                    .Select(Function(v)
-                                                If v <= 0 Then
-                                                    Return 0
-                                                Else
-                                                    Return std.Log(v + 1 - min, newBase:=base)
-                                                End If
-                                            End Function) _
-                                    .ToArray
-                            }
+                            Return exp.LogScale(base)
                         End Function) _
                 .ToArray
         }
