@@ -208,7 +208,7 @@ Public Class CodingModel
     ''' <summary>
     ''' 从训练基因构建编码区和非编码区的六聚体频率模型
     ''' </summary>
-    Public Shared Sub BuildModel(model As TrainingModel, sequences As List(Of FastaSeq),
+    Public Shared Sub BuildModel(model As TrainingModel, sequences As IEnumerable(Of FastaSeq),
                                   trainingOrfs As List(Of CandidateOrf))
         ' 重置计数
         Array.Clear(model.CodingHexamerCount, 0, 4096)
@@ -384,7 +384,7 @@ Public Class RbsModel
     ''' 从训练基因构建RBS模型
     ''' 统计起始密码子上游的SD模体频率，更新模体得分
     ''' </summary>
-    Public Shared Sub BuildModel(model As TrainingModel, sequences As List(Of FastaSeq),
+    Public Shared Sub BuildModel(model As TrainingModel, sequences As IEnumerable(Of FastaSeq),
                                   trainingOrfs As List(Of CandidateOrf))
         ' 构建序列索引以便快速查找上游序列
         Dim seqDict As New Dictionary(Of String, String)
@@ -1017,7 +1017,7 @@ Public Class TrainingEngine
     ''' 策略：选择得分在上半部分的基因，且长度>120bp
     ''' </summary>
     Private Shared Function SelectTrainingGenes(genes As List(Of CandidateOrf),
-                                                  sequences As List(Of FastaSeq)) As List(Of CandidateOrf)
+                                                  sequences As IReadOnlyCollection(Of FastaSeq)) As List(Of CandidateOrf)
         ' 按总得分降序排序
         Dim sorted = genes.OrderByDescending(Function(g) g.TotalScore).ToList()
 

@@ -98,7 +98,7 @@ Public Class PredictedGene
     Public Property GeneIndex As Integer
 
     Public Function CreateProteinFasta(seq_id As String) As FastaSeq
-        Dim title As String = $">{seq_id}_{GeneIndex} # {Start} # {[End]} # {Strand} # ID=gene_{GeneIndex};partial={PartialType}"
+        Dim title As String = $"{seq_id}_{GeneIndex} # {Start} # {[End]} # {Strand} # ID=gene_{GeneIndex};partial={PartialType}"
         ' 每行60个氨基酸
         Dim aa = AaSequence
 
@@ -106,7 +106,7 @@ Public Class PredictedGene
     End Function
 
     Public Function CreateGeneFasta(seq_id As String) As FastaSeq
-        Dim title As String = $">{seq_id}_{GeneIndex} # {Start} # {[End]} # {Strand} # ID=gene_{GeneIndex};partial={PartialType}"
+        Dim title As String = $"{seq_id}_{GeneIndex} # {Start} # {[End]} # {Strand} # ID=gene_{GeneIndex};partial={PartialType}"
         ' 每行60个氨基酸
         Dim aa = NtSequence
 
