@@ -1,5 +1,5 @@
 ' ============================================================================
-' MetaEukVB - Eukaryotic Gene Prediction Tool (VB.NET Implementation)
+' MetaEuk - Eukaryotic Gene Prediction Tool (VB.NET Implementation)
 ' Based on MetaEuk algorithm: homology-based exon chain optimization
 '
 ' Algorithm Pipeline:
@@ -15,7 +15,7 @@
 Imports System.IO
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Module Worker
+Public Module MetaEukWorker
 
     Public Function Predict(config As MetaEukConfig) As IEnumerable(Of GenePrediction)
         ' Validate required arguments

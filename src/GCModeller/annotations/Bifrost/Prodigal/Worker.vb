@@ -70,4 +70,11 @@ Public Module Worker
 
         Return results
     End Function
+
+    Public Sub ExportResult(predictions As IReadOnlyCollection(Of PredictionResult), outprefix As String)
+        Call ResultWriter.WriteGff3(predictions, $"{outprefix}.gff3")
+        Call ResultWriter.WriteNucleotideFasta(predictions, $"{outprefix}.fna")
+        Call ResultWriter.WriteProteinFasta(predictions, $"{outprefix}.faa")
+        Call ResultWriter.WriteScoreTable(predictions, $"{outprefix}.tsv")
+    End Sub
 End Module

@@ -1,5 +1,8 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports SMRUCC.genomics.Annotation.MetaEuk
+Imports SMRUCC.genomics.Annotation.Prodigal
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module Program
 
@@ -10,7 +13,7 @@ Module Program
         Console.WriteLine("   - MetaEuk- homology-based exon chain optimization")
         Console.WriteLine()
         Console.WriteLine("USAGE:")
-        Console.WriteLine("  bifrost --contigs <MAGs.fasta> [--reference <proteins.fasta>] [--model <prodigal.model>] [options]")
+        Console.WriteLine("  bifrost <prodigal/metaeuk> --contigs <MAGs.fasta> [--reference <proteins.fasta>] [--model <prodigal.model>] [options]")
         Console.WriteLine()
         Console.WriteLine("REQUIRED ARGUMENTS:")
         Console.WriteLine("  -c, --contigs <file>       Input MAGs contigs in FASTA format")
@@ -51,10 +54,26 @@ Module Program
 
     <ExportAPI("metaeuk")>
     Public Function MetaEuk(args As CommandLine) As Integer
+        Dim config As New MetaEukConfig With {
+            .ReferenceFile = args("--reference"),
+            .ContigsFile = args("--contigs"),
+            .OutputPrefix = args("--output")
+        }
+        Dim predicts As GenePrediction() = MetaEukWorker.Predict(config).ToArray
+
+        Call MetaEukWorker.ExportResult(predicts, config)
+
+        Return 0
     End Function
 
     <ExportAPI("prodigal")>
     Public Function Prodigal(args As CommandLine) As Integer
+        Dim MAGs As String = args("--contigs")
+        Dim outprefix As String = args("--output")
+        Dim predicts = Worker.GenePrediction(FastaFile.Read(MAGs)).ToArray
 
+        Call Worker.ExportResult(predicts, outprefix)
+
+        Return 0
     End Function
 End Module

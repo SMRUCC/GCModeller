@@ -10,7 +10,7 @@ Public Class ResultWriter
     ''' <summary>
     ''' 输出GFF3格式基因预测结果
     ''' </summary>
-    Public Shared Sub WriteGff3(results As List(Of PredictionResult), filePath As String)
+    Public Shared Sub WriteGff3(results As IReadOnlyCollection(Of PredictionResult), filePath As String)
         Dim geneList As New List(Of Feature)
 
         For Each result In results
@@ -20,13 +20,13 @@ Public Class ResultWriter
                 Call geneList.Add(New Feature With {
                     .ID = "gene_" & gene.GeneIndex,
                     .strand = gene.Strand.GetStrands,
-                    .Left = gene.Start,
-                    .Right = gene.End,
+                    .left = gene.Start,
+                    .right = gene.End,
                     .score = gene.TotalScore,
                     .frame = gene.Frame + 1,
                     .seqname = result.SeqId,
                     .feature = "CDS",
-                    .Source = "Prodigal",
+                    .source = "Prodigal",
                     .Product = "-",
                     .comments = "-",
                     .COG = "-",
@@ -52,7 +52,7 @@ Public Class ResultWriter
     ''' <summary>
     ''' 输出蛋白质FASTA文件
     ''' </summary>
-    Public Shared Sub WriteProteinFasta(results As List(Of PredictionResult), filePath As String)
+    Public Shared Sub WriteProteinFasta(results As IReadOnlyCollection(Of PredictionResult), filePath As String)
         Dim seqs As New List(Of FastaSeq)
         For Each result In results
             For Each gene As PredictedGene In result.Genes
@@ -66,7 +66,7 @@ Public Class ResultWriter
     ''' <summary>
     ''' 输出核苷酸FASTA文件
     ''' </summary>
-    Public Shared Sub WriteNucleotideFasta(results As List(Of PredictionResult), filePath As String)
+    Public Shared Sub WriteNucleotideFasta(results As IReadOnlyCollection(Of PredictionResult), filePath As String)
         Dim seqs As New List(Of FastaSeq)
         For Each result In results
             For Each gene As PredictedGene In result.Genes
@@ -80,7 +80,7 @@ Public Class ResultWriter
     ''' <summary>
     ''' 输出详细得分表（制表符分隔）
     ''' </summary>
-    Public Shared Sub WriteScoreTable(results As List(Of PredictionResult), filePath As String)
+    Public Shared Sub WriteScoreTable(results As IReadOnlyCollection(Of PredictionResult), filePath As String)
         Using writer As New System.IO.StreamWriter(filePath, False, Encoding.UTF8)
             writer.WriteLine($"SeqID{vbTab}GeneIndex{vbTab}Start{vbTab}End{vbTab}Strand{vbTab}Length{vbTab}" &
                 $"StartCodon{vbTab}StopCodon{vbTab}TotalScore{vbTab}CodingScore{vbTab}StartScore{vbTab}" &
