@@ -1,28 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{8916F206-7FC3-52FE-2C2D-AEE472C2FEE8}|Bifrost\\Bifrost.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\bifrost\\bifrost\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{8916F206-7FC3-52FE-2C2D-AEE472C2FEE8}|Bifrost\\Bifrost.vbproj|solutionrelative:bifrost\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\bifrost\\prodigal\\worker.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\worker.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E9A604D2-C203-1FD1-AE8C-3181F4950803}|MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\bifrost\\metaeuk\\worker.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{E9A604D2-C203-1FD1-AE8C-3181F4950803}|MetaEuk\\MetaEuk.vbproj|solutionrelative:metaeuk\\worker.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\bifrost\\prodigal\\utils\\resultwriter.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\utils\\resultwriter.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\bifrost\\prodigal\\prodigal.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\prodigal.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -30,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -47,71 +26,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ResultWriter.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\Prodigal\\Utils\\ResultWriter.vb",
-              "RelativeDocumentMoniker": "Prodigal\\Utils\\ResultWriter.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\Prodigal\\Utils\\ResultWriter.vb",
-              "RelativeToolTip": "Prodigal\\Utils\\ResultWriter.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAwAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T16:31:20.101Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Prodigal",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\Prodigal\\Prodigal.vbproj",
-              "RelativeDocumentMoniker": "Prodigal\\Prodigal.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\Prodigal\\Prodigal.vbproj",
-              "RelativeToolTip": "Prodigal\\Prodigal.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABTAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2026-06-03T16:17:00.715Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\Bifrost\\Program.vb",
-              "RelativeDocumentMoniker": "Bifrost\\Program.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\Bifrost\\Program.vb",
-              "RelativeToolTip": "Bifrost\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T16:15:10.449Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Worker.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\Prodigal\\Worker.vb",
-              "RelativeDocumentMoniker": "Prodigal\\Worker.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\Prodigal\\Worker.vb",
-              "RelativeToolTip": "Prodigal\\Worker.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T16:14:57.808Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Worker.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\MetaEuk\\Worker.vb",
-              "RelativeDocumentMoniker": "MetaEuk\\Worker.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\MetaEuk\\Worker.vb",
-              "RelativeToolTip": "MetaEuk\\Worker.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGgAAABrAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T15:56:06.378Z",
-              "EditorCaption": ""
             }
           ]
         },
