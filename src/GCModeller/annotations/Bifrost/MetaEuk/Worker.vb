@@ -12,16 +12,15 @@
 '   7. Output: Protein FASTA, GFF3, TSV summary
 ' ============================================================================
 
+Imports System.IO
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module Worker
 
-    Public Function Predict(config As MetaEukConfig)
+    Public Function Predict(config As MetaEukConfig) As IEnumerable(Of GenePrediction)
         ' Validate required arguments
         If String.IsNullOrEmpty(config.ContigsFile) OrElse String.IsNullOrEmpty(config.ReferenceFile) Then
-            Console.Error.WriteLine("[ERROR] Both --contigs and --reference are required.")
-            Console.Error.WriteLine("        Use --help for usage information.")
-            Return Nothing
+            Throw New InvalidDataException("[ERROR] Both --contigs and --reference are required.")
         End If
 
         Dim startTime = DateTime.Now
@@ -36,12 +35,10 @@ Module Worker
         Console.WriteLine($"  References: {references.Count} protein sequences")
 
         If contigs.Count = 0 Then
-            Console.Error.WriteLine("[ERROR] No contigs found. Check input file.")
-            Return Nothing
+            Throw New InvalidDataException("[ERROR] No contigs found. Check input file.")
         End If
         If references.Count = 0 Then
-            Console.Error.WriteLine("[ERROR] No reference proteins found. Check reference file.")
-            Return Nothing
+            Throw New InvalidDataException("[ERROR] No reference proteins found. Check reference file.")
         End If
 
         ' ----------------------------------------------------------
@@ -68,11 +65,6 @@ Module Worker
         If hits.Count = 0 Then
             Console.WriteLine("[WARN] No significant homology hits found. Try relaxing E-value threshold.")
             Console.WriteLine("       Writing empty output files...")
-
-            ' Write empty output files
-            OutputWriter.WriteProteinFasta(New List(Of GenePrediction), $"{config.OutputPrefix}.faa")
-            OutputWriter.WriteGFF3(New List(Of GenePrediction), $"{config.OutputPrefix}.gff3")
-            OutputWriter.WriteTSV(New List(Of GenePrediction), $"{config.OutputPrefix}.tsv")
             Return Nothing
         End If
 
@@ -107,6 +99,10 @@ Module Worker
         Console.WriteLine("[STEP 8] Reconstructing protein sequences...")
         ProteinReconstructor.ReconstructAll(predictions, contigs)
 
+        Return predictions
+    End Function
+
+    Public Sub ExportResult(predictions As IReadOnlyCollection(Of GenePrediction), config As MetaEukConfig)
         ' ----------------------------------------------------------
         ' STEP 9: Write output files
         ' ----------------------------------------------------------
@@ -118,7 +114,7 @@ Module Worker
         ' ----------------------------------------------------------
         ' Summary
         ' ----------------------------------------------------------
-        Dim elapsed = DateTime.Now - startTime
+
         Console.WriteLine()
         Console.WriteLine("============================================================")
         Console.WriteLine("  PREDICTION SUMMARY")
@@ -127,13 +123,12 @@ Module Worker
         Console.WriteLine($"  Total exons:             {predictions.Sum(Function(p) p.ExonCount)}")
         Console.WriteLine($"  Avg exons per gene:      {If(predictions.Count > 0, predictions.Average(Function(p) p.ExonCount).ToString("F1"), "N/A")}")
         Console.WriteLine($"  Avg protein length:      {If(predictions.Count > 0, predictions.Average(Function(p) If(p.ProteinSequence?.Length, 0)).ToString("F0"), "N/A")} AA")
-        Console.WriteLine($"  Elapsed time:            {elapsed.TotalSeconds:F1} seconds")
+
         Console.WriteLine()
         Console.WriteLine($"  Output files:")
         Console.WriteLine($"    Protein FASTA:  {config.OutputPrefix}.faa")
         Console.WriteLine($"    Gene models:    {config.OutputPrefix}.gff3")
         Console.WriteLine($"    Summary table:  {config.OutputPrefix}.tsv")
         Console.WriteLine("============================================================")
-    End Function
-
+    End Sub
 End Module
