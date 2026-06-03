@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Prodigal": {
+      "commandName": "Project",
+      "commandLineArgs": "-i \"Z:\\test.txt\" -o Z:/mygenome"
+    }
+  }
+}
