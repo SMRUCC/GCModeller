@@ -2,7 +2,7 @@
   "profiles": {
     "Prodigal": {
       "commandName": "Project",
-      "commandLineArgs": "-i \"Z:\\test.txt\" -o Z:/mygenome"
+      "commandLineArgs": "-i \"\\\\192.168.3.15\\sdb\\test\\test1\\test.fna\" -o Z:/mygenome"
     }
   }
 }

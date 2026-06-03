@@ -97,6 +97,7 @@ Namespace SequenceModel.FASTA
         Implements IEnumerable(Of FastaSeq)
         Implements IList(Of FastaSeq)
         Implements ICloneable
+        Implements IReadOnlyCollection(Of FastaSeq)
 
         Public Overloads Shared Widening Operator CType(File As Path) As FastaFile
             Return FastaFile.Read(File)
@@ -252,7 +253,7 @@ Namespace SequenceModel.FASTA
         Public Shared Function LoadNucleotideData(path As String, Optional strict As Boolean = False) As FastaFile
             Dim seqs As FastaFile = FastaFile.Read(path)
 
-            If seqs.IsNullOrEmpty Then
+            If seqs Is Nothing OrElse seqs.Count = 0 Then
 NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
                 Return Nothing
             End If
@@ -605,7 +606,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
         ''' <remarks>
         ''' Count和Item属性可以兼容``R#``脚本的索引语法
         ''' </remarks>
-        Public ReadOnly Property Count As Integer Implements ICollection(Of FastaSeq).Count
+        Public ReadOnly Property Count As Integer Implements ICollection(Of FastaSeq).Count, IReadOnlyCollection(Of FastaSeq).Count
             Get
                 Return _innerList.Count
             End Get
