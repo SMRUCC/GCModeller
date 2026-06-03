@@ -1,26 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Administrator\\Downloads\\download\\",
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7CDE2CAD-3891-CF35-2DE3-BA2D9AAFF6D5}|Prodigal\\Prodigal.vbproj|c:\\users\\administrator\\downloads\\download\\prodigal\\prodigalutils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{7CDE2CAD-3891-CF35-2DE3-BA2D9AAFF6D5}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\prodigalutils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7CDE2CAD-3891-CF35-2DE3-BA2D9AAFF6D5}|Prodigal\\Prodigal.vbproj|c:\\users\\administrator\\downloads\\download\\prodigal\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{7CDE2CAD-3891-CF35-2DE3-BA2D9AAFF6D5}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7CDE2CAD-3891-CF35-2DE3-BA2D9AAFF6D5}|Prodigal\\Prodigal.vbproj|c:\\users\\administrator\\downloads\\download\\prodigal\\prodigal.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{7CDE2CAD-3891-CF35-2DE3-BA2D9AAFF6D5}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\prodigal.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7CDE2CAD-3891-CF35-2DE3-BA2D9AAFF6D5}|Prodigal\\Prodigal.vbproj|c:\\users\\administrator\\downloads\\download\\prodigal\\prodigalcore.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{7CDE2CAD-3891-CF35-2DE3-BA2D9AAFF6D5}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\prodigalcore.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7CDE2CAD-3891-CF35-2DE3-BA2D9AAFF6D5}|Prodigal\\Prodigal.vbproj|c:\\users\\administrator\\downloads\\download\\prodigal\\prodigalmodels.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{7CDE2CAD-3891-CF35-2DE3-BA2D9AAFF6D5}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\prodigalmodels.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\prodigal.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\prodigal.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,21 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ProdigalUtils.vb",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Downloads\\download\\Prodigal\\ProdigalUtils.vb",
-              "RelativeDocumentMoniker": "Prodigal\\ProdigalUtils.vb",
-              "ToolTip": "C:\\Users\\Administrator\\Downloads\\download\\Prodigal\\ProdigalUtils.vb",
-              "RelativeToolTip": "Prodigal\\ProdigalUtils.vb",
-              "ViewState": "AgIAANgBAAAAAAAAAADwv/gBAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T10:21:13.239Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -63,53 +34,14 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ProdigalModels.vb",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Downloads\\download\\Prodigal\\ProdigalModels.vb",
-              "RelativeDocumentMoniker": "Prodigal\\ProdigalModels.vb",
-              "ToolTip": "C:\\Users\\Administrator\\Downloads\\download\\Prodigal\\ProdigalModels.vb",
-              "RelativeToolTip": "Prodigal\\ProdigalModels.vb",
-              "ViewState": "AgIAAEcAAAAAAAAAAAAqwHAAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T10:18:40.162Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ProdigalCore.vb",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Downloads\\download\\Prodigal\\ProdigalCore.vb",
-              "RelativeDocumentMoniker": "Prodigal\\ProdigalCore.vb",
-              "ToolTip": "C:\\Users\\Administrator\\Downloads\\download\\Prodigal\\ProdigalCore.vb",
-              "RelativeToolTip": "Prodigal\\ProdigalCore.vb",
-              "ViewState": "AgIAACQEAAAAAAAAAAAowDsEAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T10:14:36.271Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.vb",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Downloads\\download\\Prodigal\\Program.vb",
-              "RelativeDocumentMoniker": "Prodigal\\Program.vb",
-              "ToolTip": "C:\\Users\\Administrator\\Downloads\\download\\Prodigal\\Program.vb",
-              "RelativeToolTip": "Prodigal\\Program.vb",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAiwB8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T10:11:43.141Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Prodigal",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Downloads\\download\\Prodigal\\Prodigal.vbproj",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Prodigal.vbproj",
               "RelativeDocumentMoniker": "Prodigal\\Prodigal.vbproj",
-              "ToolTip": "C:\\Users\\Administrator\\Downloads\\download\\Prodigal\\Prodigal.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Prodigal.vbproj",
               "RelativeToolTip": "Prodigal\\Prodigal.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2026-06-03T10:11:25.232Z",
+              "WhenOpened": "2026-06-03T10:39:34.408Z",
               "EditorCaption": ""
             }
           ]
