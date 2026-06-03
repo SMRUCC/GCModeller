@@ -60,6 +60,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
 
 Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
@@ -104,8 +105,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             gff.seqname = gb.Accession.AccessionId
             gff.source = "Genebank"
             gff.feature = feature.KeyName
-            gff.Left = feature.Location.Location.left
-            gff.Right = feature.Location.Location.right
+            gff.left = feature.Location.Location.left
+            gff.right = feature.Location.Location.right
             gff.score = "."
             gff.strand = feature.Location.ContiguousRegion.Strand
             gff.frame = "."
@@ -169,7 +170,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                 .Gene = feature.attributes.TryGetValue("locus_tag") Or feature.proteinId.AsDefault,
                 .IsORF = True,
                 .Length = feature.Length,
-                .Location = feature.Location,
+                .Location = DirectCast(feature, IContig).Location,
                 .PID = feature.proteinId,
                 .Product = feature.Product,
                 .Synonym = feature.synonym

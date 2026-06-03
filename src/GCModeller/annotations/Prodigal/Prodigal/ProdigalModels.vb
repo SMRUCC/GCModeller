@@ -3,32 +3,8 @@
 ' 基于 Prodigal (PROkaryotic DYnamic Programming Gene-finding ALgorithm) 算法
 ' ============================================================================
 
-''' <summary>
-''' FASTA 格式序列记录
-''' </summary>
-Public Class FastaSequence
-    ''' <summary>序列头部信息（>后的内容）</summary>
-    Public Property Header As String
-
-    ''' <summary>DNA序列（大写字母）</summary>
-    Public Property Sequence As String
-
-    ''' <summary>序列ID（Header的第一个单词）</summary>
-    Public ReadOnly Property SeqId As String
-        Get
-            If String.IsNullOrEmpty(Header) Then Return "unknown"
-            Dim parts = Header.Split({" "c, ControlChars.Tab}, 2)
-            Return parts(0)
-        End Get
-    End Property
-
-    ''' <summary>序列长度</summary>
-    Public ReadOnly Property Length As Integer
-        Get
-            Return If(Sequence?.Length, 0)
-        End Get
-    End Property
-End Class
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.WebServices
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
 ''' 候选ORF（开放阅读框）
@@ -120,6 +96,23 @@ Public Class PredictedGene
 
     ''' <summary>基因编号（在序列内的顺序号）</summary>
     Public Property GeneIndex As Integer
+
+    Public Function CreateProteinFasta(seq_id As String) As FastaSeq
+        Dim title As String = $">{seq_id}_{GeneIndex} # {Start} # {[End]} # {Strand} # ID=gene_{GeneIndex};partial={PartialType}"
+        ' 每行60个氨基酸
+        Dim aa = AaSequence
+
+        Return New FastaSeq(aa, title:=title)
+    End Function
+
+    Public Function CreateGeneFasta(seq_id As String) As FastaSeq
+        Dim title As String = $">{seq_id}_{GeneIndex} # {Start} # {[End]} # {Strand} # ID=gene_{GeneIndex};partial={PartialType}"
+        ' 每行60个氨基酸
+        Dim aa = NtSequence
+
+        Return New FastaSeq(aa, title:=title)
+    End Function
+
 End Class
 
 ''' <summary>

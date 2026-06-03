@@ -270,7 +270,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         End Property
 
         <IgnoreDataMember>
-        Public Property Location As NucleotideLocation Implements IContig.Location
+        Private Property Location As NucleotideLocation Implements IContig.Location
             Get
                 Return MappingLocation
             End Get

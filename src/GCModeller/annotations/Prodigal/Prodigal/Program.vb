@@ -6,6 +6,7 @@
 ' ============================================================================
 
 Imports System.IO
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module Program
 
@@ -52,7 +53,7 @@ Module Program
 
         ' 读取FASTA文件
         Console.WriteLine("读取输入序列...")
-        Dim sequences = FastaReader.Read(config.InputFile)
+        Dim sequences = FastaFile.Read(config.InputFile)
         Console.WriteLine($"  读取到 {sequences.Count} 条序列，总长度 {sequences.Sum(Function(s) s.Length):N0} bp")
 
         If sequences.Count = 0 Then
@@ -90,7 +91,7 @@ Module Program
 
         ' 读取FASTA文件
         Console.WriteLine("读取输入序列...")
-        Dim sequences = FastaReader.Read(config.InputFile)
+        Dim sequences = FastaFile.Read(config.InputFile)
         Console.WriteLine($"  读取到 {sequences.Count} 条序列，总长度 {sequences.Sum(Function(s) s.Length):N0} bp")
 
         If sequences.Count = 0 Then

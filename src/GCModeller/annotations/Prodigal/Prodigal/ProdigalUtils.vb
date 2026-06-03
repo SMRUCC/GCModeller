@@ -5,93 +5,8 @@
 
 Imports System.IO
 Imports System.Text
-
-''' <summary>
-''' FASTA格式文件读取器
-''' </summary>
-Public Class FastaReader
-
-    ''' <summary>
-    ''' 从文件路径读取FASTA序列
-    ''' </summary>
-    Public Shared Function Read(filePath As String) As List(Of FastaSequence)
-        Dim sequences As New List(Of FastaSequence)()
-        If Not File.Exists(filePath) Then
-            Throw New FileNotFoundException($"FASTA文件未找到: {filePath}")
-        End If
-
-        Dim lines = File.ReadAllLines(filePath)
-        Dim currentHeader As String = ""
-        Dim currentSeq As New StringBuilder()
-
-        For Each line In lines
-            Dim trimmed = line.Trim()
-            If String.IsNullOrEmpty(trimmed) Then Continue For
-
-            If trimmed.StartsWith(">"c) Then
-                ' 保存前一条序列
-                If currentHeader <> "" Then
-                    sequences.Add(New FastaSequence With {
-                        .Header = currentHeader,
-                        .Sequence = currentSeq.ToString().ToUpper()
-                    })
-                End If
-                currentHeader = trimmed.Substring(1).Trim()
-                currentSeq.Clear()
-            Else
-                currentSeq.Append(trimmed)
-            End If
-        Next
-
-        ' 保存最后一条序列
-        If currentHeader <> "" Then
-            sequences.Add(New FastaSequence With {
-                .Header = currentHeader,
-                .Sequence = currentSeq.ToString().ToUpper()
-            })
-        End If
-
-        Return sequences
-    End Function
-
-    ''' <summary>
-    ''' 从字符串内容读取FASTA序列
-    ''' </summary>
-    Public Shared Function ReadFromString(content As String) As List(Of FastaSequence)
-        Dim sequences As New List(Of FastaSequence)()
-        Dim lines = content.Split({vbCr, vbLf}, StringSplitOptions.RemoveEmptyEntries)
-        Dim currentHeader As String = ""
-        Dim currentSeq As New StringBuilder()
-
-        For Each line In lines
-            Dim trimmed = line.Trim()
-            If String.IsNullOrEmpty(trimmed) Then Continue For
-
-            If trimmed.StartsWith(">"c) Then
-                If currentHeader <> "" Then
-                    sequences.Add(New FastaSequence With {
-                        .Header = currentHeader,
-                        .Sequence = currentSeq.ToString().ToUpper()
-                    })
-                End If
-                currentHeader = trimmed.Substring(1).Trim()
-                currentSeq.Clear()
-            Else
-                currentSeq.Append(trimmed)
-            End If
-        Next
-
-        If currentHeader <> "" Then
-            sequences.Add(New FastaSequence With {
-                .Header = currentHeader,
-                .Sequence = currentSeq.ToString().ToUpper()
-            })
-        End If
-
-        Return sequences
-    End Function
-
-End Class
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
 ''' DNA序列操作工具类
@@ -267,7 +182,7 @@ Public Class ModelSerializer
     ''' 将训练模型保存到文件
     ''' </summary>
     Public Shared Sub Save(model As TrainingModel, filePath As String)
-        Using writer As New StreamWriter(filePath, False, Encoding.UTF8)
+        Using writer As New System.IO.StreamWriter(filePath, False, Encoding.UTF8)
             writer.WriteLine($"PRODIGAL_VB_MODEL_v{model.Version}")
             writer.WriteLine($"GC_CONTENT={model.GcContent}")
             writer.WriteLine($"AVG_GENE_LENGTH={model.AvgGeneLength}")
@@ -444,70 +359,82 @@ Public Class ResultWriter
     ''' 输出GFF3格式基因预测结果
     ''' </summary>
     Public Shared Sub WriteGff3(results As List(Of PredictionResult), filePath As String)
-        Using writer As New StreamWriter(filePath, False, Encoding.UTF8)
-            writer.WriteLine("##gff-version 3")
-            writer.WriteLine("# Prodigal VB.NET Gene Prediction")
+        Dim geneList As New List(Of Feature)
 
-            For Each result In results
-                For Each gene In result.Genes
-                    Dim partialTag = If(String.IsNullOrEmpty(gene.PartialType), ".", gene.PartialType)
-                    writer.WriteLine($"{vbTab}{result.SeqId}{vbTab}ProdigalVB{vbTab}CDS{vbTab}" &
-                        $"{gene.Start}{vbTab}{gene.End}{vbTab}{gene.TotalScore:F2}{vbTab}{gene.Strand}{vbTab}{gene.Frame + 1}{vbTab}" &
-                        $"ID=gene_{gene.GeneIndex};start_codon={gene.StartCodon};rbs_motif={gene.RbsMotif};" &
-                        $"cscore={gene.CodingScore:F2};sscore={gene.StartScore:F2};rscore={gene.RbsScore:F2};" &
-                        $"tscore={gene.TypeScore:F2};uscore={gene.UpstreamScore:F2};partial={partialTag}")
-                Next
+        For Each result In results
+            For Each gene As PredictedGene In result.Genes
+                Dim partialTag = If(String.IsNullOrEmpty(gene.PartialType), ".", gene.PartialType)
+
+                Call geneList.Add(New Feature With {
+                    .ID = "gene_" & gene.GeneIndex,
+                    .strand = gene.Strand.GetStrands,
+                    .left = gene.Start,
+                    .right = gene.End,
+                    .score = gene.TotalScore,
+                    .frame = gene.Frame + 1,
+                    .seqname = result.SeqId,
+                    .feature = "CDS",
+                    .source = "Prodigal",
+                    .Product = "-",
+                    .comments = "-",
+                    .COG = "-",
+                    .attributes = New Dictionary(Of String, String) From {
+                        {"start_codon", gene.StartCodon},
+                        {"rbs_motif", gene.RbsMotif},
+                        {"cscore", gene.CodingScore},
+                        {"sscore", gene.StartScore},
+                        {"rscore", gene.RbsScore},
+                        {"tscore", gene.TypeScore},
+                        {"uscore", gene.UpstreamScore},
+                        {"partial", partialTag}
+                    }
+                })
             Next
-        End Using
+        Next
+
+        Dim gff As New GFFTable With {.features = geneList.ToArray, .[date] = Now.ToString, .GffVersion = 3, .processor = "Prodigal"}
+
+        Call gff.Save(filePath)
     End Sub
 
     ''' <summary>
     ''' 输出蛋白质FASTA文件
     ''' </summary>
     Public Shared Sub WriteProteinFasta(results As List(Of PredictionResult), filePath As String)
-        Using writer As New StreamWriter(filePath, False, Encoding.UTF8)
-            For Each result In results
-                For Each gene In result.Genes
-                    writer.WriteLine($">{result.SeqId}_{gene.GeneIndex} # {gene.Start} # {gene.End} # {gene.Strand} # ID=gene_{gene.GeneIndex};partial={gene.PartialType}")
-                    ' 每行60个氨基酸
-                    Dim aa = gene.AaSequence
-                    For i As Integer = 0 To aa.Length - 1 Step 60
-                        Dim len = Math.Min(60, aa.Length - i)
-                        writer.WriteLine(aa.Substring(i, len))
-                    Next
-                Next
+        Dim seqs As New List(Of FastaSeq)
+        For Each result In results
+            For Each gene As PredictedGene In result.Genes
+                Call seqs.Add(gene.CreateProteinFasta(result.SeqId))
             Next
-        End Using
+        Next
+
+        Call New FastaFile(seqs).Save(filePath)
     End Sub
 
     ''' <summary>
     ''' 输出核苷酸FASTA文件
     ''' </summary>
     Public Shared Sub WriteNucleotideFasta(results As List(Of PredictionResult), filePath As String)
-        Using writer As New StreamWriter(filePath, False, Encoding.UTF8)
-            For Each result In results
-                For Each gene In result.Genes
-                    writer.WriteLine($">{result.SeqId}_{gene.GeneIndex} # {gene.Start} # {gene.End} # {gene.Strand} # ID=gene_{gene.GeneIndex};partial={gene.PartialType}")
-                    Dim nt = gene.NtSequence
-                    For i As Integer = 0 To nt.Length - 1 Step 60
-                        Dim len = Math.Min(60, nt.Length - i)
-                        writer.WriteLine(nt.Substring(i, len))
-                    Next
-                Next
+        Dim seqs As New List(Of FastaSeq)
+        For Each result In results
+            For Each gene As PredictedGene In result.Genes
+                Call seqs.Add(gene.CreateGeneFasta(result.SeqId))
             Next
-        End Using
+        Next
+
+        Call New FastaFile(seqs).Save(filePath)
     End Sub
 
     ''' <summary>
     ''' 输出详细得分表（制表符分隔）
     ''' </summary>
     Public Shared Sub WriteScoreTable(results As List(Of PredictionResult), filePath As String)
-        Using writer As New StreamWriter(filePath, False, Encoding.UTF8)
+        Using writer As New System.IO.StreamWriter(filePath, False, Encoding.UTF8)
             writer.WriteLine($"SeqID{vbTab}GeneIndex{vbTab}Start{vbTab}End{vbTab}Strand{vbTab}Length{vbTab}" &
                 $"StartCodon{vbTab}StopCodon{vbTab}TotalScore{vbTab}CodingScore{vbTab}StartScore{vbTab}" &
                 $"RbsScore{vbTab}TypeScore{vbTab}UpstreamScore{vbTab}RbsMotif{vbTab}RbsSpacing{vbTab}Partial")
             For Each result In results
-                For Each gene In result.Genes
+                For Each gene As PredictedGene In result.Genes
                     writer.WriteLine($"{result.SeqId}{vbTab}{gene.GeneIndex}{vbTab}{gene.Start}{vbTab}{gene.End}{vbTab}" &
                         $"{gene.Strand}{vbTab}{gene.Length}{vbTab}{gene.StartCodon}{vbTab}{gene.StopCodon}{vbTab}" &
                         $"{gene.TotalScore:F4}{vbTab}{gene.CodingScore:F4}{vbTab}{gene.StartScore:F4}{vbTab}" &

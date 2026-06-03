@@ -8,6 +8,8 @@
 ' ORF查找器 - 六框翻译找所有候选ORF
 ' ========================================================================
 
+Imports SMRUCC.genomics.SequenceModel.FASTA
+
 ''' <summary>
 ''' 在六框翻译中查找所有候选ORF
 ''' 核心思路：对每个阅读框，先找所有终止密码子位置，再在每个终止-终止区间内
@@ -29,10 +31,10 @@ Public Class OrfFinder
     ''' <summary>
     ''' 在一条序列上查找所有候选ORF
     ''' </summary>
-    Public Function FindOrfs(fastaSeq As FastaSequence) As List(Of CandidateOrf)
+    Public Function FindOrfs(fastaSeq As FastaSeq) As List(Of CandidateOrf)
         Dim orfs As New List(Of CandidateOrf)()
-        Dim seq = fastaSeq.Sequence
-        Dim seqId = fastaSeq.SeqId
+        Dim seq = fastaSeq.SequenceData
+        Dim seqId = fastaSeq.locus_tag
 
         If seq.Length < 6 Then Return orfs
 
@@ -89,13 +91,13 @@ Public Class OrfFinder
                             End If
 
                             Dim orf As New CandidateOrf With {
-                                .seqId = seqId,
+                                .SeqId = seqId,
                                 .RawStart = i,
                                 .RawEnd = stopPos + 2,
                                 .Start = i + 1,  ' 暂用0-based+1，反向链后面会转换
                                 .[End] = stopPos + 3,
-                                .strand = strand,
-                                .frame = frame,
+                                .Strand = strand,
+                                .Frame = frame,
                                 .StartCodon = codon,
                                 .StopCodon = seq.Substring(stopPos, 3),
                                 .Length = orfLen,
@@ -124,13 +126,13 @@ Public Class OrfFinder
                             Dim aaSeq = SequenceUtils.Translate(orfSeq)
 
                             Dim orf As New PredictedGene With {
-                                .seqId = seqId,
+                                .SeqId = seqId,
                                 .RawStart = i,
                                 .RawEnd = seq.Length - 1,
                                 .Start = i + 1,
                                 .[End] = seq.Length,
-                                .strand = strand,
-                                .frame = frame,
+                                .Strand = strand,
+                                .Frame = frame,
                                 .StartCodon = codon,
                                 .StopCodon = "---",
                                 .Length = orfLen,
@@ -154,13 +156,13 @@ Public Class OrfFinder
                     Dim aaSeq = SequenceUtils.Translate(partialOrfSeq)
                     If aaSeq.Length > 10 Then  ' 至少10个氨基酸
                         Dim orf As New PredictedGene With {
-                            .seqId = seqId,
+                            .SeqId = seqId,
                             .RawStart = frame,
                             .RawEnd = firstStop + 2,
                             .Start = frame + 1,
                             .[End] = firstStop + 3,
-                            .strand = strand,
-                            .frame = frame,
+                            .Strand = strand,
+                            .Frame = frame,
                             .StartCodon = ">>>",  ' 边缘标记
                             .StopCodon = seq.Substring(firstStop, 3),
                             .Length = firstStop + 3 - frame,
@@ -206,7 +208,7 @@ Public Class CodingModel
     ''' <summary>
     ''' 从训练基因构建编码区和非编码区的六聚体频率模型
     ''' </summary>
-    Public Shared Sub BuildModel(model As TrainingModel, sequences As List(Of FastaSequence),
+    Public Shared Sub BuildModel(model As TrainingModel, sequences As List(Of FastaSeq),
                                   trainingOrfs As List(Of CandidateOrf))
         ' 重置计数
         Array.Clear(model.CodingHexamerCount, 0, 4096)
@@ -232,7 +234,7 @@ Public Class CodingModel
         ' 第二步：统计非编码区六聚体
         ' 使用所有序列的移框（frame+1和frame+2）作为非编码区样本
         For Each seq In sequences
-            Dim s = seq.Sequence.ToUpper()
+            Dim s = seq.SequenceData.ToUpper()
             ' 移框1
             For i As Integer = 1 To s.Length - 6 Step 3
                 Dim hexamer = s.Substring(i, 6)
@@ -382,12 +384,12 @@ Public Class RbsModel
     ''' 从训练基因构建RBS模型
     ''' 统计起始密码子上游的SD模体频率，更新模体得分
     ''' </summary>
-    Public Shared Sub BuildModel(model As TrainingModel, sequences As List(Of FastaSequence),
+    Public Shared Sub BuildModel(model As TrainingModel, sequences As List(Of FastaSeq),
                                   trainingOrfs As List(Of CandidateOrf))
         ' 构建序列索引以便快速查找上游序列
         Dim seqDict As New Dictionary(Of String, String)
         For Each seq In sequences
-            seqDict(seq.SeqId) = seq.Sequence.ToUpper()
+            seqDict(seq.locus_tag) = seq.SequenceData.ToUpper()
         Next
 
         ' 统计各SD模体在上游出现的次数
@@ -934,7 +936,7 @@ Public Class TrainingEngine
     ''' <summary>
     ''' 执行无监督训练，生成训练模型
     ''' </summary>
-    Public Shared Function Train(sequences As List(Of FastaSequence)) As TrainingModel
+    Public Shared Function Train(sequences As IReadOnlyCollection(Of FastaSeq)) As TrainingModel
         Console.WriteLine("开始无监督训练...")
 
         Dim model As New TrainingModel()
@@ -943,7 +945,7 @@ Public Class TrainingEngine
         Dim totalGc As Double = 0
         Dim totalLen As Integer = 0
         For Each seq In sequences
-            totalGc += SequenceUtils.ComputeGcContent(seq.Sequence) * seq.Length
+            totalGc += SequenceUtils.ComputeGcContent(seq.SequenceData) * seq.Length
             totalLen += seq.Length
         Next
         model.GcContent = If(totalLen > 0, totalGc / totalLen, 0.5)
@@ -964,7 +966,7 @@ Public Class TrainingEngine
             For Each seq In sequences
                 Dim finder As New OrfFinder(90)
                 Dim orfs = finder.FindOrfs(seq)
-                ScoringEngine.ScoreForSequence(orfs, model, seq.Sequence)
+                ScoringEngine.ScoreForSequence(orfs, model, seq.SequenceData)
                 allOrfs.AddRange(orfs)
             Next
 
@@ -1015,7 +1017,7 @@ Public Class TrainingEngine
     ''' 策略：选择得分在上半部分的基因，且长度>120bp
     ''' </summary>
     Private Shared Function SelectTrainingGenes(genes As List(Of CandidateOrf),
-                                                  sequences As List(Of FastaSequence)) As List(Of CandidateOrf)
+                                                  sequences As List(Of FastaSeq)) As List(Of CandidateOrf)
         ' 按总得分降序排序
         Dim sorted = genes.OrderByDescending(Function(g) g.TotalScore).ToList()
 
@@ -1053,11 +1055,11 @@ Public Class PredictionPipeline
     ''' <summary>
     ''' 使用已有模型进行基因预测
     ''' </summary>
-    Public Function Predict(sequences As List(Of FastaSequence), model As TrainingModel) As List(Of PredictionResult)
+    Public Function Predict(sequences As IReadOnlyCollection(Of FastaSeq), model As TrainingModel) As List(Of PredictionResult)
         Dim results As New List(Of PredictionResult)()
 
         For Each seq In sequences
-            Console.WriteLine($"  预测序列: {seq.SeqId} ({seq.Length:N0} bp)")
+            Console.WriteLine($"  预测序列: {seq.locus_tag } ({seq.Length:N0} bp)")
 
             ' 第一步：查找所有候选ORF
             Dim finder As New OrfFinder(_minOrfLength)
@@ -1066,15 +1068,15 @@ Public Class PredictionPipeline
 
             If orfs.Count = 0 Then
                 results.Add(New PredictionResult With {
-                    .SeqId = seq.SeqId,
+                    .SeqId = seq.locus_tag,
                     .SeqLength = seq.Length,
-                    .model = model
+                    .Model = model
                 })
                 Continue For
             End If
 
             ' 第二步：对所有ORF打分
-            ScoringEngine.ScoreForSequence(orfs, model, seq.Sequence)
+            ScoringEngine.ScoreForSequence(orfs, model, seq.SequenceData)
 
             ' 第三步：动态规划选择最优基因组合
             Dim selectedOrfs = DynamicProgramming.SelectGenes(orfs)
@@ -1082,9 +1084,9 @@ Public Class PredictionPipeline
 
             ' 第四步：构建预测结果
             Dim result As New PredictionResult With {
-                .SeqId = seq.SeqId,
+                .SeqId = seq.locus_tag,
                 .SeqLength = seq.Length,
-                .model = model
+                .Model = model
             }
 
             Dim geneIndex = 1
@@ -1108,7 +1110,7 @@ Public Class PredictionPipeline
                     .NtSequence = orf.NtSequence,
                     .RbsMotif = orf.RbsMotif,
                     .RbsSpacing = orf.RbsSpacing,
-                    .geneIndex = geneIndex,
+                    .GeneIndex = geneIndex,
                     .PartialType = orf.PartialType,
                     .RawStart = orf.RawStart,
                     .RawEnd = orf.RawEnd

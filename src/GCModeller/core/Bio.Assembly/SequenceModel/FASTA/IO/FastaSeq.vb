@@ -188,7 +188,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <summary>
         ''' split the first token of the headers inside title as the unique reference id of current sequence object.
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>sequence id</returns>
         Public ReadOnly Property locus_tag As String
             Get
                 Return Headers(Scan0).Trim.Split.First
