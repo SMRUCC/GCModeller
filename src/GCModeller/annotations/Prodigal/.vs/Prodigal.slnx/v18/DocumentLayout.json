@@ -3,25 +3,13 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\outputwriter.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\tcsgrouper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\proteinreconstructor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\conflictresolver.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\redundancyreducer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\tcsgrouper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\smithwatermanaligner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\outputwriter.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\sixframetranslator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -30,13 +18,28 @@
       "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\models.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\componentmodel\\locus\\nucleotide\\segmentrelationships.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\codontable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\homologysearchengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\exonchainoptimizer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\codontable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\conflictresolver.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\redundancyreducer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\smithwatermanaligner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,8 +49,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 15,
+          "SelectedChildIndex": 9,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SegmentRelationships.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Locus\\Nucleotide\\SegmentRelationships.vb",
+              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\ComponentModel\\Locus\\Nucleotide\\SegmentRelationships.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Locus\\Nucleotide\\SegmentRelationships.vb",
+              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\ComponentModel\\Locus\\Nucleotide\\SegmentRelationships.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHkAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-03T14:44:59.243Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -66,33 +82,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "ProteinReconstructor.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\ProteinReconstructor.vb",
               "RelativeDocumentMoniker": "..\\MetaEuk\\ProteinReconstructor.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\ProteinReconstructor.vb",
               "RelativeToolTip": "..\\MetaEuk\\ProteinReconstructor.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAABSAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvyUAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-03T14:40:24.552Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "OutputWriter.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\OutputWriter.vb",
               "RelativeDocumentMoniker": "..\\MetaEuk\\OutputWriter.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\OutputWriter.vb",
               "RelativeToolTip": "..\\MetaEuk\\OutputWriter.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAABEAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-03T14:40:17.847Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "RedundancyReducer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\RedundancyReducer.vb",
               "RelativeDocumentMoniker": "..\\MetaEuk\\RedundancyReducer.vb",
@@ -105,7 +121,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
               "Title": "ConflictResolver.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\ConflictResolver.vb",
               "RelativeDocumentMoniker": "..\\MetaEuk\\ConflictResolver.vb",
@@ -118,20 +134,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "TCSGrouper.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\TCSGrouper.vb",
               "RelativeDocumentMoniker": "..\\MetaEuk\\TCSGrouper.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\TCSGrouper.vb",
               "RelativeToolTip": "..\\MetaEuk\\TCSGrouper.vb",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAswAUAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-03T14:36:46.692Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "HomologySearchEngine.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\HomologySearchEngine.vb",
               "RelativeDocumentMoniker": "..\\MetaEuk\\HomologySearchEngine.vb",
@@ -144,20 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "SmithWatermanAligner.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SmithWatermanAligner.vb",
-              "RelativeDocumentMoniker": "..\\MetaEuk\\SmithWatermanAligner.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SmithWatermanAligner.vb",
-              "RelativeToolTip": "..\\MetaEuk\\SmithWatermanAligner.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T14:36:39.623Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 7,
               "Title": "CodonTable.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\CodonTable.vb",
               "RelativeDocumentMoniker": "..\\MetaEuk\\CodonTable.vb",
@@ -170,7 +173,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 9,
               "Title": "ExonChainOptimizer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\ExonChainOptimizer.vb",
               "RelativeDocumentMoniker": "..\\MetaEuk\\ExonChainOptimizer.vb",
@@ -183,33 +186,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "SixFrameTranslator.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SixFrameTranslator.vb",
-              "RelativeDocumentMoniker": "..\\MetaEuk\\SixFrameTranslator.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SixFrameTranslator.vb",
-              "RelativeToolTip": "..\\MetaEuk\\SixFrameTranslator.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T14:36:28.311Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
               "Title": "Models.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\Models.vb",
               "RelativeDocumentMoniker": "..\\MetaEuk\\Models.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\Models.vb",
               "RelativeToolTip": "..\\MetaEuk\\Models.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEEAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-03T14:36:24.793Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "SixFrameTranslator.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SixFrameTranslator.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\SixFrameTranslator.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SixFrameTranslator.vb",
+              "RelativeToolTip": "..\\MetaEuk\\SixFrameTranslator.vb",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAiwGYAAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-03T14:36:28.311Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "SmithWatermanAligner.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SmithWatermanAligner.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\SmithWatermanAligner.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SmithWatermanAligner.vb",
+              "RelativeToolTip": "..\\MetaEuk\\SmithWatermanAligner.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-03T14:36:39.623Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\Program.vb",
               "RelativeDocumentMoniker": "..\\MetaEuk\\Program.vb",

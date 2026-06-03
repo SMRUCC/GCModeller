@@ -4,6 +4,7 @@
 ' ========================================================================
 
 Imports System.Text
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Class ProteinReconstructor
@@ -34,7 +35,7 @@ Public Class ProteinReconstructor
                     Dim exonDna = dna.Substring(start0, end0 - start0 + 1)
 
                     ' For minus strand, take reverse complement
-                    If exon.Strand = StrandOrientation.Minus Then
+                    If exon.Strand = Strands.Reverse Then
                         exonDna = CodonTable.ReverseComplement(exonDna)
                     End If
 

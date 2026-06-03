@@ -112,14 +112,14 @@ Namespace ComponentModel.Loci
     Public Enum Strands As Integer
 
         ''' <summary>
-        ''' The loci site was on the DNA sequence.(这个片段在DNA链的正义链之上)
+        ''' The loci site was on the DNA sequence.
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>(这个片段在DNA链的正义链之上)</remarks>
         <Description("+")> Forward = 1
         ''' <summary>
-        ''' The loci site was on the DNA complement strand.(这个片段在DNA链的互补链之上) 
+        ''' The loci site was on the DNA complement strand.
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>(这个片段在DNA链的互补链之上)</remarks>
         <Description("-")> Reverse = -1
         ''' <summary>
         ''' I really don't know what the direction of the loci site it is.

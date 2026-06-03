@@ -3,6 +3,8 @@
 ' MODULE 6: TCS GROUPING
 ' ========================================================================
 
+Imports SMRUCC.genomics.ComponentModel.Loci
+
 Public Class TCSGrouper
 
     ''' <summary>
@@ -31,7 +33,7 @@ Public Class TCSGrouper
             Dim pepOffsetStart = hit.AlignStartQuery
             Dim pepOffsetEnd = hit.AlignEndQuery
 
-            If frag.Strand = StrandOrientation.Plus Then
+            If frag.Strand = Strands.Forward Then
                 exon.DnaStart = frag.DnaStart + pepOffsetStart * 3
                 exon.DnaEnd = frag.DnaStart + pepOffsetEnd * 3 + 2
             Else

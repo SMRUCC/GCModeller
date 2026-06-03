@@ -4,6 +4,7 @@
 ' MODULE 3: SIX-FRAME TRANSLATION & CANDIDATE FRAGMENT GENERATION
 ' ========================================================================
 
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Class SixFrameTranslator
@@ -23,7 +24,7 @@ Public Class SixFrameTranslator
         For frame = 0 To 2
             Dim peptide = CodonTable.Translate(dna, frame)
             Dim newFrags = ExtractFragmentsFromPeptide(
-                peptide, contigID, StrandOrientation.Plus, frame, dna.Length, config)
+                peptide, contigID, Strands.Forward, frame, dna.Length, config)
             For Each f In newFrags
                 f.FragmentIndex = fragIdx
                 fragIdx += 1
@@ -36,7 +37,7 @@ Public Class SixFrameTranslator
         For frame = 0 To 2
             Dim peptide = CodonTable.Translate(rcDna, frame)
             Dim newFrags = ExtractFragmentsFromPeptide(
-                peptide, contigID, StrandOrientation.Minus, frame, dna.Length, config)
+                peptide, contigID, Strands.Reverse, frame, dna.Length, config)
             For Each f In newFrags
                 f.FragmentIndex = fragIdx
                 fragIdx += 1
@@ -54,7 +55,7 @@ Public Class SixFrameTranslator
     Private Shared Function ExtractFragmentsFromPeptide(
         peptide As String,
         contigID As String,
-        strand As StrandOrientation,
+        strand As Strands,
         frame As Integer,
         dnaLength As Integer,
         config As MetaEukConfig) As List(Of CandidateFragment)
@@ -103,7 +104,7 @@ Public Class SixFrameTranslator
     ''' </summary>
     Private Shared Function CreateFragment(
         contigID As String,
-        strand As StrandOrientation,
+        strand As Strands,
         frame As Integer,
         dnaLength As Integer,
         pepStart As Integer,
@@ -121,7 +122,7 @@ Public Class SixFrameTranslator
         ' DNA position of codon for pepStart: frame + pepStart * 3
         ' DNA position of codon for pepEnd: frame + pepEnd * 3 + 2
 
-        If strand = StrandOrientation.Plus Then
+        If strand = Strands.Forward Then
             ' Forward strand: DNA coordinates are straightforward
             frag.DnaStart = frame + pepStart * 3 + 1       ' 1-based
             frag.DnaEnd = frame + pepEnd * 3 + 3           ' 1-based, inclusive

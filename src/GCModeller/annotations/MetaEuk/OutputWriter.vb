@@ -3,6 +3,8 @@
 ' MODULE 11: OUTPUT WRITERS
 ' ========================================================================
 
+Imports SMRUCC.genomics.ComponentModel.Loci
+
 Public Class OutputWriter
 
     ''' <summary>Write protein sequences in FASTA format</summary>
@@ -33,7 +35,7 @@ Public Class OutputWriter
             writer.WriteLine("##source metaeuk-vb")
 
             For Each pred In predictions
-                Dim strandChar = If(pred.Strand = StrandOrientation.Plus, "+"c, "-"c)
+                Dim strandChar = If(pred.Strand = Strands.Forward, "+"c, "-"c)
 
                 ' Gene feature
                 writer.WriteLine($"{pred.ContigID}{vbTab}metaeuk-vb{vbTab}gene{vbTab}{pred.DnaStart}{vbTab}{pred.DnaEnd}{vbTab}{pred.TotalScore:F2}{vbTab}{strandChar}{vbTab}.{vbTab}ID={pred.GeneID};target={pred.TargetID};evalue={pred.BestEvalue:E2e}")

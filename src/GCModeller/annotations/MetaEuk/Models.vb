@@ -2,6 +2,8 @@
 ' GLOBAL CONFIGURATION
 ' ========================================================================
 
+Imports SMRUCC.genomics.ComponentModel.Loci
+
 ''' <summary>Algorithm parameters controllable via command-line</summary>
 Public Class MetaEukConfig
     ' --- Input/Output ---
@@ -34,16 +36,10 @@ Public Class MetaEukConfig
     Public NumThreads As Integer = 1
 End Class
 
-''' <summary>Strand orientation</summary>
-Public Enum StrandOrientation
-    Plus = 1
-    Minus = -1
-End Enum
-
 ''' <summary>A candidate coding fragment from six-frame translation</summary>
 Public Class CandidateFragment
     Public ContigID As String
-    Public Strand As StrandOrientation
+    Public Strand As Strands
     Public Frame As Integer             ' 0, 1, or 2 (reading frame offset)
     Public DnaStart As Integer          ' 1-based start on contig (forward strand coordinates)
     Public DnaEnd As Integer            ' 1-based end on contig (forward strand coordinates)
@@ -76,7 +72,7 @@ End Class
 Public Class CandidateExon
     Public Hit As HomologyHit
     Public ContigID As String
-    Public Strand As StrandOrientation
+    Public Strand As Strands
     Public DnaStart As Integer          ' 1-based
     Public DnaEnd As Integer            ' 1-based
     Public Score As Double
@@ -95,7 +91,7 @@ End Class
 Public Class TCSGroup
     Public TargetID As String
     Public ContigID As String
-    Public Strand As StrandOrientation
+    Public Strand As Strands
     Public Exons As New List(Of CandidateExon)
     Public OptimalChain As New List(Of CandidateExon)
     Public ChainScore As Double = Double.NegativeInfinity
@@ -112,7 +108,7 @@ End Class
 Public Class GenePrediction
     Public GeneID As String
     Public ContigID As String
-    Public Strand As StrandOrientation
+    Public Strand As Strands
     Public Exons As New List(Of CandidateExon)   ' sorted by DnaStart
     Public TargetID As String
     Public TotalScore As Double
