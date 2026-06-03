@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MetaEuk": {
+      "commandName": "Project",
+      "commandLineArgs": " --contigs \"G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\test_contigs.fasta\" --reference \"G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\test_reference.fasta\" -o Z:/metaeuk"
+    }
+  }
+}

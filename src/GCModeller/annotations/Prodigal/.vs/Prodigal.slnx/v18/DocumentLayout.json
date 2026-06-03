@@ -3,94 +3,40 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\worker.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\worker.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\nucleicacid.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\outputwriter.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\dna.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\proteinreconstructor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\degeneratebases.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\conflictresolver.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\conversion.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\redundancyreducer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\contig.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\tcsgrouper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\chunkedntfasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\smithwatermanaligner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\translation\\transltable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\sixframetranslator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\translation\\translationtable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\models.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\translation\\nthelper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\homologysearchengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\translation\\geneticcodes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\exonchainoptimizer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\translation\\codon.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\utils\\prodigalutils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\utils\\prodigalutils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\mrna.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\bases.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\utils\\modelserializer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\utils\\modelserializer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\rbsmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\rbsmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\scoringengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\scoringengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\startcodonmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\startcodonmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\codingmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\codingmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\orffinder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\orffinder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\trainingengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\trainingengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\dynamicprogramming.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\dynamicprogramming.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\upstreammodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\upstreammodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\predictionpipeline.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\predictionpipeline.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{38AE22C5-DA36-458E-1564-3316A59CA0C7}|..\\MetaEuk\\MetaEuk.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\metaeuk\\codontable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -100,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 15,
           "Children": [
             {
               "$type": "Bookmark",
@@ -120,340 +66,158 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Worker.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Worker.vb",
-              "RelativeDocumentMoniker": "Prodigal\\Worker.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Worker.vb",
-              "RelativeToolTip": "Prodigal\\Worker.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAARAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "ProteinReconstructor.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\ProteinReconstructor.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\ProteinReconstructor.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\ProteinReconstructor.vb",
+              "RelativeToolTip": "..\\MetaEuk\\ProteinReconstructor.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:44:26.039Z",
+              "WhenOpened": "2026-06-03T14:40:24.552Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "NucleicAcid.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\NucleicAcid.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\NucleicAcid.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\NucleicAcid.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\NucleicAcid.vb",
-              "ViewState": "AgIAAOEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "OutputWriter.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\OutputWriter.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\OutputWriter.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\OutputWriter.vb",
+              "RelativeToolTip": "..\\MetaEuk\\OutputWriter.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:44:16.842Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DNA.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DNA.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DNA.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DNA.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DNA.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:44:12.43Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DegenerateBases.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DegenerateBases.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DegenerateBases.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DegenerateBases.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DegenerateBases.vb",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:44:05.141Z",
+              "WhenOpened": "2026-06-03T14:40:17.847Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Conversion.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Conversion.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Conversion.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Conversion.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Conversion.vb",
-              "ViewState": "AgIAAH0AAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Title": "RedundancyReducer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\RedundancyReducer.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\RedundancyReducer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\RedundancyReducer.vb",
+              "RelativeToolTip": "..\\MetaEuk\\RedundancyReducer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:43:56.007Z",
+              "WhenOpened": "2026-06-03T14:39:38.352Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ConflictResolver.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\ConflictResolver.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\ConflictResolver.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\ConflictResolver.vb",
+              "RelativeToolTip": "..\\MetaEuk\\ConflictResolver.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-03T14:39:34.085Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Contig.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Contig.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Contig.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Contig.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Contig.vb",
-              "ViewState": "AgIAAGgAAAAAAAAAAAA8wAAAAAAAAAAAAAAAAA==",
+              "Title": "TCSGrouper.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\TCSGrouper.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\TCSGrouper.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\TCSGrouper.vb",
+              "RelativeToolTip": "..\\MetaEuk\\TCSGrouper.vb",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAswAUAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:43:52.967Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ChunkedNtFasta.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "ViewState": "AgIAAOEAAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:43:37.987Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "TranslTable.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\TranslTable.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\TranslTable.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\TranslTable.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\TranslTable.vb",
-              "ViewState": "AgIAABABAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:43:22.781Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "TranslationTable.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\TranslationTable.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\TranslationTable.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\TranslationTable.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\TranslationTable.vb",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAowHQAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:42:54.385Z",
+              "WhenOpened": "2026-06-03T14:36:46.692Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "NtHelper.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\NtHelper.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\NtHelper.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\NtHelper.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\NtHelper.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "HomologySearchEngine.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\HomologySearchEngine.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\HomologySearchEngine.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\HomologySearchEngine.vb",
+              "RelativeToolTip": "..\\MetaEuk\\HomologySearchEngine.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:42:31.732Z",
+              "WhenOpened": "2026-06-03T14:36:43.174Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "GeneticCodes.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\GeneticCodes.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\GeneticCodes.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\GeneticCodes.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\GeneticCodes.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "SmithWatermanAligner.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SmithWatermanAligner.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\SmithWatermanAligner.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SmithWatermanAligner.vb",
+              "RelativeToolTip": "..\\MetaEuk\\SmithWatermanAligner.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:42:25.419Z",
+              "WhenOpened": "2026-06-03T14:36:39.623Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "Codon.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\Codon.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\Codon.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\Codon.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Translation\\Codon.vb",
-              "ViewState": "AgIAAIMAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
+              "Title": "CodonTable.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\CodonTable.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\CodonTable.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\CodonTable.vb",
+              "RelativeToolTip": "..\\MetaEuk\\CodonTable.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAABVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:42:14.555Z",
+              "WhenOpened": "2026-06-03T14:36:35.491Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "mRNA.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\mRNA.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\mRNA.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\mRNA.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\mRNA.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "ExonChainOptimizer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\ExonChainOptimizer.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\ExonChainOptimizer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\ExonChainOptimizer.vb",
+              "RelativeToolTip": "..\\MetaEuk\\ExonChainOptimizer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:41:07.946Z",
+              "WhenOpened": "2026-06-03T14:36:32.221Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Extensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Extensions.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Extensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Extensions.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Extensions.vb",
-              "ViewState": "AgIAAAkBAAAAAAAAAAAgwFYAAAB2AAAAAAAAAA==",
+              "DocumentIndex": 7,
+              "Title": "SixFrameTranslator.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SixFrameTranslator.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\SixFrameTranslator.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\SixFrameTranslator.vb",
+              "RelativeToolTip": "..\\MetaEuk\\SixFrameTranslator.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:40:13.54Z",
+              "WhenOpened": "2026-06-03T14:36:28.311Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Bases.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Bases.vb",
-              "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Bases.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Bases.vb",
-              "RelativeToolTip": "..\\..\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Bases.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "Models.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\Models.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\Models.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\Models.vb",
+              "RelativeToolTip": "..\\MetaEuk\\Models.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:40:08.676Z",
+              "WhenOpened": "2026-06-03T14:36:24.793Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ProdigalUtils.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Utils\\ProdigalUtils.vb",
-              "RelativeDocumentMoniker": "Prodigal\\Utils\\ProdigalUtils.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Utils\\ProdigalUtils.vb",
-              "RelativeToolTip": "Prodigal\\Utils\\ProdigalUtils.vb",
-              "ViewState": "AgIAADQAAAAAAAAAAAAYwBIAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\Program.vb",
+              "RelativeDocumentMoniker": "..\\MetaEuk\\Program.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\Program.vb",
+              "RelativeToolTip": "..\\MetaEuk\\Program.vb",
+              "ViewState": "AgIAANgAAAAAAAAAAAAYwBIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:37:11.522Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "ModelSerializer.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Utils\\ModelSerializer.vb",
-              "RelativeDocumentMoniker": "Prodigal\\Utils\\ModelSerializer.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Utils\\ModelSerializer.vb",
-              "RelativeToolTip": "Prodigal\\Utils\\ModelSerializer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:36:57.227Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "UpstreamModel.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\UpstreamModel.vb",
-              "RelativeDocumentMoniker": "Prodigal\\UpstreamModel.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\UpstreamModel.vb",
-              "RelativeToolTip": "Prodigal\\UpstreamModel.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:30:04.778Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "ScoringEngine.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\ScoringEngine.vb",
-              "RelativeDocumentMoniker": "Prodigal\\ScoringEngine.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\ScoringEngine.vb",
-              "RelativeToolTip": "Prodigal\\ScoringEngine.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:30:01.81Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "DynamicProgramming.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\DynamicProgramming.vb",
-              "RelativeDocumentMoniker": "Prodigal\\DynamicProgramming.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\DynamicProgramming.vb",
-              "RelativeToolTip": "Prodigal\\DynamicProgramming.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:29:58.673Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "TrainingEngine.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\TrainingEngine.vb",
-              "RelativeDocumentMoniker": "Prodigal\\TrainingEngine.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\TrainingEngine.vb",
-              "RelativeToolTip": "Prodigal\\TrainingEngine.vb",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAgwBIAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:29:54.719Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "OrfFinder.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\OrfFinder.vb",
-              "RelativeDocumentMoniker": "Prodigal\\OrfFinder.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\OrfFinder.vb",
-              "RelativeToolTip": "Prodigal\\OrfFinder.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:28:44.732Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "CodingModel.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\CodingModel.vb",
-              "RelativeDocumentMoniker": "Prodigal\\CodingModel.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\CodingModel.vb",
-              "RelativeToolTip": "Prodigal\\CodingModel.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:28:41.047Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "RbsModel.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\RbsModel.vb",
-              "RelativeDocumentMoniker": "Prodigal\\RbsModel.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\RbsModel.vb",
-              "RelativeToolTip": "Prodigal\\RbsModel.vb",
-              "ViewState": "AgIAAMgAAAAAAAAAAAAowH0AAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:28:37.42Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "StartCodonModel.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\StartCodonModel.vb",
-              "RelativeDocumentMoniker": "Prodigal\\StartCodonModel.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\StartCodonModel.vb",
-              "RelativeToolTip": "Prodigal\\StartCodonModel.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:28:33.514Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "PredictionPipeline.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\PredictionPipeline.vb",
-              "RelativeDocumentMoniker": "Prodigal\\PredictionPipeline.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\PredictionPipeline.vb",
-              "RelativeToolTip": "Prodigal\\PredictionPipeline.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T11:28:03.387Z",
+              "WhenOpened": "2026-06-03T14:30:22.627Z",
               "EditorCaption": ""
             }
           ]
