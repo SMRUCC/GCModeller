@@ -89,44 +89,7 @@ Module MetaEukVB
             Return config
         End Function
 
-        Public Shared Sub PrintUsage()
-            Console.WriteLine("MetaEukVB - Eukaryotic Gene Prediction Tool (VB.NET)")
-            Console.WriteLine("Based on MetaEuk algorithm: homology-based exon chain optimization")
-            Console.WriteLine()
-            Console.WriteLine("USAGE:")
-            Console.WriteLine("  metaeuk-vb --contigs <contigs.fasta> --reference <proteins.fasta> [options]")
-            Console.WriteLine()
-            Console.WriteLine("REQUIRED ARGUMENTS:")
-            Console.WriteLine("  -c, --contigs <file>       Input contigs in FASTA format")
-            Console.WriteLine("  -r, --reference <file>     Reference protein database in FASTA format")
-            Console.WriteLine()
-            Console.WriteLine("OUTPUT OPTIONS:")
-            Console.WriteLine("  -o, --output <prefix>      Output file prefix (default: metaeuk_out)")
-            Console.WriteLine("                             Generates: <prefix>.faa, <prefix>.gff3, <prefix>.tsv")
-            Console.WriteLine()
-            Console.WriteLine("ALGORITHM PARAMETERS:")
-            Console.WriteLine("  -e, --evalue <float>       E-value threshold (default: 1e-3)")
-            Console.WriteLine("  --min-identity <float>     Minimum sequence identity fraction (default: 0.2)")
-            Console.WriteLine("  --min-fragment-length <int> Minimum candidate fragment length in AA (default: 15)")
-            Console.WriteLine("  --gap-penalty <float>      Gap penalty coefficient lambda (default: 0.5)")
-            Console.WriteLine("  --max-intron <int>         Maximum intron length in bp (default: 50000)")
-            Console.WriteLine("  --min-exon-score <float>   Minimum exon bitscore (default: 20.0)")
-            Console.WriteLine("  --overlap-threshold <int>  Overlap bp for conflict detection (default: 10)")
-            Console.WriteLine("  --exon-overlap-fraction <float> Exon overlap fraction for redundancy (default: 0.3)")
-            Console.WriteLine()
-            Console.WriteLine("OTHER OPTIONS:")
-            Console.WriteLine("  -v, --verbose              Enable verbose output")
-            Console.WriteLine("  -h, --help                 Show this help message")
-            Console.WriteLine()
-            Console.WriteLine("ALGORITHM PIPELINE:")
-            Console.WriteLine("  1. Six-frame translation of contigs -> candidate coding fragments")
-            Console.WriteLine("  2. Smith-Waterman local alignment against reference proteins")
-            Console.WriteLine("  3. Group hits by (Target, Contig, Strand) -> TCS groups")
-            Console.WriteLine("  4. Dynamic programming: optimal exon chain per TCS group")
-            Console.WriteLine("  5. Redundancy removal: cluster overlapping predictions, pick representative")
-            Console.WriteLine("  6. Same-strand conflict resolution: keep best E-value")
-            Console.WriteLine("  7. Output: Protein FASTA (.faa), GFF3 (.gff3), TSV summary (.tsv)")
-        End Sub
+
 
     End Class
 

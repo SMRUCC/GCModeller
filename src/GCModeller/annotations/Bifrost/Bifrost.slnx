@@ -14,8 +14,8 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
-  <Project Path="../Bifrost/Bifrost.vbproj" Id="db71c5c2-6f66-42d7-869f-fea8686501cc" />
-  <Project Path="../MetaEuk/MetaEuk.vbproj">
+  <Project Path="Bifrost/Bifrost.vbproj" />
+  <Project Path="MetaEuk/MetaEuk.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="Prodigal/Prodigal.vbproj">
