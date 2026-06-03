@@ -108,6 +108,11 @@ Public Module BioAssemblyExtensions
     End Function
 
     <Extension>
+    Public Function IsNullOrEmpty(seqs As FastaFile) As Boolean
+        Return seqs Is Nothing OrElse seqs.Count = 0
+    End Function
+
+    <Extension>
     Public Function IsNullOrEmpty(compound As bGetObject.Compound) As Boolean
         If compound Is Nothing Then
             Return True

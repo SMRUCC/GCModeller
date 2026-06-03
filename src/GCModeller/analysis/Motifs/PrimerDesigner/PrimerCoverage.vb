@@ -51,20 +51,20 @@ Public Class PrimerCoverage
         ' 6. 提取序列并输出
         For Each gene As GFF.Feature In extractedGenes
             ' 根据坐标从基因组字符串中截取序列 (注意索引从0开始)
-            Dim seqLength = gene.Location.right - gene.Location.left + 1
-            Dim seq = chrSeq.SliceRegionSite(gene.Location.left, seqLength)
+            Dim seqLength = gene.right - gene.left + 1
+            Dim seq = chrSeq.SliceRegionSite(gene.left, seqLength)
 
             ' 如果是负链，需要取反向互补
-            If gene.Location.Strand = Strands.Reverse Then
+            If gene.strand = Strands.Reverse Then
                 seq = NucleicAcid.GetReverseComplement(seq)
             End If
 
             Yield New PrimerCoverage With {
                 .GeneID = gene.ID,
                 .Chromosome = targetChr,
-                .Start = gene.Location.left,
-                .Ends = gene.Location.right,
-                .Strand = gene.Location.Strand,
+                .Start = gene.left,
+                .Ends = gene.right,
+                .Strand = gene.strand,
                 .Product = gene.Product,
                 .Sequence = seq
             }

@@ -69,6 +69,7 @@ Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
@@ -205,7 +206,7 @@ Module context
 
         For Each site As VirtualFootprint In all_sites
             Dim feature As Feature = index(site.ORF)
-            Dim loc As NucleotideLocation = feature.Location
+            Dim loc As NucleotideLocation = DirectCast(feature, IContig).Location
             Dim locSize As Integer = site.sequence.Length
 
             If loc.Strand = Strands.Forward Then
