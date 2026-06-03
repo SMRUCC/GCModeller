@@ -8,7 +8,7 @@
 Imports System.IO
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Public Module Worker
+Public Module ProdigalWorker
 
     ''' <summary>
     ''' 运行模型训练

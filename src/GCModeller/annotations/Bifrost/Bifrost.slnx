@@ -14,7 +14,9 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
-  <Project Path="Bifrost/Bifrost.vbproj" />
+  <Project Path="Bifrost/Bifrost.vbproj">
+    <Platform Solution="Debug|x64" Project="x64" />
+  </Project>
   <Project Path="MetaEuk/MetaEuk.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>

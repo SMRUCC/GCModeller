@@ -70,9 +70,9 @@ Module Program
     Public Function Prodigal(args As CommandLine) As Integer
         Dim MAGs As String = args("--contigs")
         Dim outprefix As String = args("--output")
-        Dim predicts = Worker.GenePrediction(FastaFile.Read(MAGs)).ToArray
+        Dim predicts = ProdigalWorker.GenePrediction(FastaFile.Read(MAGs)).ToArray
 
-        Call Worker.ExportResult(predicts, outprefix)
+        Call ProdigalWorker.ExportResult(predicts, outprefix)
 
         Return 0
     End Function
