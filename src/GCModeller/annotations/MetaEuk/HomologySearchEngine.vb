@@ -28,6 +28,10 @@ Public Class HomologySearchEngine : Inherits VectorTask
         Me.config = config
     End Sub
 
+    Shared Sub New()
+        VectorTask.n_threads = 12
+    End Sub
+
     Public Sub Search(frag As CandidateFragment)
         Me.frag = frag
         Call Run()

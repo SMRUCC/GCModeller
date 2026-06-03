@@ -2,7 +2,7 @@
   "profiles": {
     "MetaEuk": {
       "commandName": "Project",
-      "commandLineArgs": " --contigs \"F:\\ecoli\\29.0\\data\\ecobase.nt\" --reference \"F:\\ecoli\\29.0\\data\\protseq.fsa\" -o Z:/metaeuk"
+      "commandLineArgs": " --contigs \"\\\\192.168.3.15\\sdb\\test\\test1\\test.fna\" --reference \"\\\\192.168.3.15\\sdb\\test\\test1\\prot.faa\" -o Z:/metaeuk"
     }
   }
 }
