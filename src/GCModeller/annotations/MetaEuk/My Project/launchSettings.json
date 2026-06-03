@@ -2,7 +2,7 @@
   "profiles": {
     "MetaEuk": {
       "commandName": "Project",
-      "commandLineArgs": " --contigs \"G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\test_contigs.fasta\" --reference \"G:\\GCModeller\\src\\GCModeller\\annotations\\MetaEuk\\test_reference.fasta\" -o Z:/metaeuk"
+      "commandLineArgs": " --contigs \"F:\\ecoli\\29.0\\data\\ecobase.nt\" --reference \"F:\\ecoli\\29.0\\data\\protseq.fsa\" -o Z:/metaeuk"
     }
   }
 }
