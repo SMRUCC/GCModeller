@@ -44,7 +44,7 @@ Public Class ResultWriter
             Next
         Next
 
-        Dim gff As New GFFTable With {.features = geneList.ToArray, .[DateTime] = Now.ToString, .GffVersion = 3, .processor = "Prodigal"}
+        Dim gff As New GFFTable With {.features = geneList.ToArray, .[date] = Now.ToString, .GffVersion = 3, .processor = "Prodigal"}
 
         Call gff.Save(filePath)
     End Sub
