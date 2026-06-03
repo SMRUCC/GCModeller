@@ -6,7 +6,6 @@
 ' ============================================================================
 
 Imports System.IO
-Imports Prodigal.ProdigalVB
 
 Module Program
 
