@@ -3,10 +3,7 @@
 ' 包含：FASTA读取、DNA序列操作、密码子表、模型序列化
 ' ============================================================================
 
-Imports System.IO
 Imports System.Text
-Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
 ''' DNA序列操作工具类
@@ -14,13 +11,12 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Class SequenceUtils
 
     ''' <summary>互补碱基映射表</summary>
-    Private Shared ReadOnly ComplementMap As Dictionary(Of Char, Char) =
-        New Dictionary(Of Char, Char) From {
-            {"A"c, "T"c}, {"T"c, "A"c}, {"G"c, "C"c}, {"C"c, "G"c},
-            {"N"c, "N"c}, {"R"c, "Y"c}, {"Y"c, "R"c}, {"M"c, "K"c},
-            {"K"c, "M"c}, {"S"c, "S"c}, {"W"c, "W"c}, {"H"c, "D"c},
-            {"D"c, "H"c}, {"B"c, "V"c}, {"V"c, "B"c}
-        }
+    Private Shared ReadOnly ComplementMap As New Dictionary(Of Char, Char) From {
+        {"A"c, "T"c}, {"T"c, "A"c}, {"G"c, "C"c}, {"C"c, "G"c},
+        {"N"c, "N"c}, {"R"c, "Y"c}, {"Y"c, "R"c}, {"M"c, "K"c},
+        {"K"c, "M"c}, {"S"c, "S"c}, {"W"c, "W"c}, {"H"c, "D"c},
+        {"D"c, "H"c}, {"B"c, "V"c}, {"V"c, "B"c}
+    }
 
     ''' <summary>标准遗传密码表</summary>
     Private Shared ReadOnly CodonTable As Dictionary(Of String, String) = InitCodonTable()

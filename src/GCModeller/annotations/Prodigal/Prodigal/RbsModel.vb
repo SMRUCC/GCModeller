@@ -1,9 +1,8 @@
-﻿
+﻿Imports SMRUCC.genomics.SequenceModel.FASTA
+
 ' ========================================================================
 ' RBS（Shine-Dalgarno）检测模型
 ' ========================================================================
-
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
 ''' RBS检测模型
@@ -19,21 +18,20 @@ Public Class RbsModel
     Private Const MinSpacing As Integer = 4
 
     ''' <summary>预定义的SD模体及其权重</summary>
-    Private Shared ReadOnly SdMotifs As Dictionary(Of String, Double) =
-        New Dictionary(Of String, Double) From {
-            {"AGGAGG", 10.0},
-            {"AGGAG", 7.0},
-            {"GGAGG", 7.0},
-            {"GGAG", 5.0},
-            {"GAGG", 5.0},
-            {"AGGA", 5.0},
-            {"AGG", 3.0},
-            {"GAG", 3.0},
-            {"GGG", 2.0},
-            {"GAAGGAG", 12.0},
-            {"GGAGGT", 8.0},
-            {"AGGAGT", 8.0}
-        }
+    Private Shared ReadOnly SdMotifs As New Dictionary(Of String, Double) From {
+        {"AGGAGG", 10.0},
+        {"AGGAG", 7.0},
+        {"GGAGG", 7.0},
+        {"GGAG", 5.0},
+        {"GAGG", 5.0},
+        {"AGGA", 5.0},
+        {"AGG", 3.0},
+        {"GAG", 3.0},
+        {"GGG", 2.0},
+        {"GAAGGAG", 12.0},
+        {"GGAGGT", 8.0},
+        {"AGGAGT", 8.0}
+    }
 
     ''' <summary>
     ''' 从训练基因构建RBS模型
@@ -43,7 +41,7 @@ Public Class RbsModel
                                   trainingOrfs As List(Of CandidateOrf))
         ' 构建序列索引以便快速查找上游序列
         Dim seqDict As New Dictionary(Of String, String)
-        For Each seq In sequences
+        For Each seq As FastaSeq In sequences
             seqDict(seq.locus_tag) = seq.SequenceData.ToUpper()
         Next
 
