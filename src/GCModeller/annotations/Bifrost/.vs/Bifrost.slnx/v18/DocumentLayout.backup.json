@@ -1,11 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{DB71C5C2-6F66-42D7-869F-FEA8686501CC}|..\\Bifrost\\Bifrost.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\bifrost\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -13,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,19 +26,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\Program.vb",
-              "RelativeDocumentMoniker": "..\\Bifrost\\Program.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Bifrost\\Program.vb",
-              "RelativeToolTip": "..\\Bifrost\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-03T15:36:43.511Z",
-              "EditorCaption": ""
             }
           ]
         },

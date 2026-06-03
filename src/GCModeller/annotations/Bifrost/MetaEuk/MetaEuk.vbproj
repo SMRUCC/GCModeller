@@ -1,19 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>MetaEukVB</RootNamespace>
-    <AssemblyName>metaeuk-vb</AssemblyName>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SMRUCC.genomics.Annotation.MetaEuk</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Annotation.MetaEuk</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
-    <Description>MetaEuk VB.NET - Eukaryotic Gene Prediction Tool</Description>
+    <LangVersion>latest</LangVersion>    
     <Version>1.0.0</Version>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="G:\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Annotation\annotation.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
   </ItemGroup>
 
 </Project>

@@ -12,106 +12,16 @@
 '   7. Output: Protein FASTA, GFF3, TSV summary
 ' ============================================================================
 
-Imports System.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Module MetaEukVB
+Module Worker
 
-    ' ========================================================================
-    ' MODULE 12: COMMAND-LINE PARSER
-    ' ========================================================================
-
-    Public Class CommandLineParser
-
-        Public Shared Function Parse(args As String()) As MetaEukConfig
-            Dim config As New MetaEukConfig()
-
-            Dim i As Integer = 0
-            While i < args.Length
-                Select Case args(i).ToLower()
-                    Case "--contigs", "-c"
-                        i += 1
-                        If i < args.Length Then config.ContigsFile = args(i)
-
-                    Case "--reference", "-r"
-                        i += 1
-                        If i < args.Length Then config.ReferenceFile = args(i)
-
-                    Case "--output", "-o"
-                        i += 1
-                        If i < args.Length Then config.OutputPrefix = args(i)
-
-                    Case "--evalue", "-e"
-                        i += 1
-                        If i < args.Length Then Double.TryParse(args(i), config.EvalueThreshold)
-
-                    Case "--min-identity"
-                        i += 1
-                        If i < args.Length Then Double.TryParse(args(i), config.MinIdentity)
-
-                    Case "--min-fragment-length"
-                        i += 1
-                        If i < args.Length Then Integer.TryParse(args(i), config.MinFragmentLength)
-
-                    Case "--gap-penalty"
-                        i += 1
-                        If i < args.Length Then Double.TryParse(args(i), config.GapPenaltyLambda)
-
-                    Case "--max-intron"
-                        i += 1
-                        If i < args.Length Then Integer.TryParse(args(i), config.MaxIntronLength)
-
-                    Case "--min-exon-score"
-                        i += 1
-                        If i < args.Length Then Double.TryParse(args(i), config.MinExonScore)
-
-                    Case "--overlap-threshold"
-                        i += 1
-                        If i < args.Length Then Integer.TryParse(args(i), config.OverlapBpThreshold)
-
-                    Case "--exon-overlap-fraction"
-                        i += 1
-                        If i < args.Length Then Double.TryParse(args(i), config.MinExonOverlapFraction)
-
-                    Case "--verbose", "-v"
-                        config.Verbose = True
-
-                    Case "--help", "-h"
-                        PrintUsage()
-                        End
-
-                    Case Else
-                        Console.Error.WriteLine($"[WARN] Unknown option: {args(i)}")
-                End Select
-                i += 1
-            End While
-
-            Return config
-        End Function
-
-
-
-    End Class
-
-    ' ========================================================================
-    ' MAIN ENTRY POINT
-    ' ========================================================================
-
-    Sub Main(args As String())
-        Console.WriteLine("============================================================")
-        Console.WriteLine("  MetaEukVB - Eukaryotic Gene Prediction Tool (VB.NET)")
-        Console.WriteLine("  Based on MetaEuk algorithm: homology-based exon chain DP")
-        Console.WriteLine("============================================================")
-        Console.WriteLine()
-
-        ' Parse command line
-        Dim config = CommandLineParser.Parse(args)
-
+    Public Function Predict(config As MetaEukConfig)
         ' Validate required arguments
         If String.IsNullOrEmpty(config.ContigsFile) OrElse String.IsNullOrEmpty(config.ReferenceFile) Then
             Console.Error.WriteLine("[ERROR] Both --contigs and --reference are required.")
             Console.Error.WriteLine("        Use --help for usage information.")
-            End
+            Return Nothing
         End If
 
         Dim startTime = DateTime.Now
@@ -127,11 +37,11 @@ Module MetaEukVB
 
         If contigs.Count = 0 Then
             Console.Error.WriteLine("[ERROR] No contigs found. Check input file.")
-            End
+            Return Nothing
         End If
         If references.Count = 0 Then
             Console.Error.WriteLine("[ERROR] No reference proteins found. Check reference file.")
-            End
+            Return Nothing
         End If
 
         ' ----------------------------------------------------------
@@ -163,7 +73,7 @@ Module MetaEukVB
             OutputWriter.WriteProteinFasta(New List(Of GenePrediction), $"{config.OutputPrefix}.faa")
             OutputWriter.WriteGFF3(New List(Of GenePrediction), $"{config.OutputPrefix}.gff3")
             OutputWriter.WriteTSV(New List(Of GenePrediction), $"{config.OutputPrefix}.tsv")
-            End
+            Return Nothing
         End If
 
         ' ----------------------------------------------------------
@@ -224,6 +134,6 @@ Module MetaEukVB
         Console.WriteLine($"    Gene models:    {config.OutputPrefix}.gff3")
         Console.WriteLine($"    Summary table:  {config.OutputPrefix}.tsv")
         Console.WriteLine("============================================================")
-    End Sub
+    End Function
 
 End Module
