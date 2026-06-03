@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>SMRUCC.genomics.Annotation.Prodigal</RootNamespace>
     <AssemblyName>SMRUCC.genomics.Annotation.Prodigal</AssemblyName>
     <TargetFramework>net10.0</TargetFramework>

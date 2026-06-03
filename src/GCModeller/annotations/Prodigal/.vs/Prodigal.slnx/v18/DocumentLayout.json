@@ -3,23 +3,23 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\prodigalmodels.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\prodigalmodels.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\worker.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\worker.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\prodigal.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\prodigal.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\prodigalcore.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\prodigalcore.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\prodigalmodels.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\prodigalmodels.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}|..\\..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\fasta\\io\\fastafile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\prodigal\\prodigal\\prodigal.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{0C678E14-9E6A-7A25-5559-2F4F33DDA9AC}|Prodigal\\Prodigal.vbproj|solutionrelative:prodigal\\prodigal.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FA26FE1C-8F7D-ED03-2702-1E53F2D818AB}|..\\..\\core\\Bio.Annotation\\annotation.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.annotation\\gff\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -42,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,7 +62,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "FastaFile.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\FastaFile.vb",
               "RelativeDocumentMoniker": "..\\..\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\FastaFile.vb",
@@ -75,7 +75,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Prodigal",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Prodigal.vbproj",
               "RelativeDocumentMoniker": "Prodigal\\Prodigal.vbproj",
@@ -126,26 +126,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ProdigalCore.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\ProdigalCore.vb",
               "RelativeDocumentMoniker": "Prodigal\\ProdigalCore.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\ProdigalCore.vb",
               "RelativeToolTip": "Prodigal\\ProdigalCore.vb",
-              "ViewState": "AgIAAF4BAAAAAAAAAAAiwHYBAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAANQBAAAAAAAAAAAuwHYBAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-03T10:43:14.378Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "ProdigalModels.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\ProdigalModels.vb",
               "RelativeDocumentMoniker": "Prodigal\\ProdigalModels.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\ProdigalModels.vb",
               "RelativeToolTip": "Prodigal\\ProdigalModels.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwFcAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAALAAAAAAAAAAAAAuwFcAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-03T10:43:00.389Z",
               "EditorCaption": ""
@@ -165,13 +165,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Program.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Program.vb",
-              "RelativeDocumentMoniker": "Prodigal\\Program.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Program.vb",
-              "RelativeToolTip": "Prodigal\\Program.vb",
-              "ViewState": "AgIAADsAAAAAAAAAAAAuwF0AAAAdAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Worker.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Worker.vb",
+              "RelativeDocumentMoniker": "Prodigal\\Worker.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Prodigal\\Prodigal\\Worker.vb",
+              "RelativeToolTip": "Prodigal\\Worker.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-03T10:42:32.904Z",
               "EditorCaption": ""

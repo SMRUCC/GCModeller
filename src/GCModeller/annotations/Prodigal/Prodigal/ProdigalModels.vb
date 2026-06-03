@@ -3,7 +3,6 @@
 ' 基于 Prodigal (PROkaryotic DYnamic Programming Gene-finding ALgorithm) 算法
 ' ============================================================================
 
-Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.WebServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
