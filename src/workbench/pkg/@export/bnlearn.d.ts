@@ -25,4 +25,7 @@ declare namespace bnlearn {
    /**
    */
    function overexpress(bnlearn: object, geneNames: any): object;
+   /**
+   */
+   function prior_network(TF: any, target_gene: any, regulation_type: any, confidence: any, evidence: any): object;
 }
