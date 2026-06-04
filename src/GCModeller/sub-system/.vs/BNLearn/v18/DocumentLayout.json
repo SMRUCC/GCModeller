@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\io\\io.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\io\\io.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B1573153-C9BF-46F4-A2A1-9A596EB5DDBC}|BNLearn\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{B1573153-C9BF-46F4-A2A1-9A596EB5DDBC}|BNLearn\\test\\test.vbproj|solutionrelative:bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -11,8 +15,7 @@
       "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\core\\bnlearnworkflow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\io\\io.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\io\\io.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{EF8F3628-D04D-D3A1-2312-BAEE06EBD9F5}|..\\..\\workbench\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\templates\\sampleinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,28 +29,15 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BNLearnWorkflow.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Core\\BNLearnWorkflow.vb",
-              "RelativeDocumentMoniker": "BNLearn\\Core\\BNLearnWorkflow.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Core\\BNLearnWorkflow.vb",
-              "RelativeToolTip": "BNLearn\\Core\\BNLearnWorkflow.vb",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAUwDIAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "SampleInfo.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "RelativeDocumentMoniker": "..\\..\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "RelativeToolTip": "..\\..\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwE8AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-04T10:37:46.134Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "IO.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\IO\\IO.vb",
-              "RelativeDocumentMoniker": "BNLearn\\IO\\IO.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\IO\\IO.vb",
-              "RelativeToolTip": "BNLearn\\IO\\IO.vb",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAIwDkAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-04T10:29:50.209Z",
+              "WhenOpened": "2026-06-04T10:41:56.217Z",
               "EditorCaption": ""
             },
             {
@@ -68,13 +58,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BNLearnWorkflow.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Core\\BNLearnWorkflow.vb",
+              "RelativeDocumentMoniker": "BNLearn\\Core\\BNLearnWorkflow.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Core\\BNLearnWorkflow.vb",
+              "RelativeToolTip": "BNLearn\\Core\\BNLearnWorkflow.vb",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAUwDIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-04T10:37:46.134Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "IO.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\IO\\IO.vb",
+              "RelativeDocumentMoniker": "BNLearn\\IO\\IO.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\IO\\IO.vb",
+              "RelativeToolTip": "BNLearn\\IO\\IO.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwD4AAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-04T10:29:50.209Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\test\\Program.vb",
               "RelativeDocumentMoniker": "BNLearn\\test\\Program.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\test\\Program.vb",
               "RelativeToolTip": "BNLearn\\test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-04T08:30:30.927Z",
               "EditorCaption": ""
