@@ -9,7 +9,20 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("bifrost")>
+<RTypeExport("prodigal", GetType(TrainingModel))>
 Module bifrost
+
+    <ExportAPI("prodigal_training")>
+    <RApiReturn(GetType(TrainingModel))>
+    Public Function training(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        Dim contigs As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+
+        If contigs Is Nothing Then
+            Return RInternal.debug.stop("there is no genome assembly sequence input!", env)
+        Else
+            Return ProdigalWorker.ModelTraining(New FastaFile(contigs))
+        End If
+    End Function
 
     ''' <summary>
     ''' Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)
