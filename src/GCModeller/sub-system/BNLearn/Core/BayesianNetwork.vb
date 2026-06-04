@@ -9,7 +9,6 @@
 '   - 白名单/黑名单约束
 ' ============================================================
 
-Imports System.Collections.Generic
 Imports System.Text
 
 Namespace Core

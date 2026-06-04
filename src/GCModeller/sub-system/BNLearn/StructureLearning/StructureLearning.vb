@@ -14,6 +14,7 @@
 ' ============================================================
 
 Imports System.Collections.Generic
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 
 Namespace StructureLearning
 
@@ -179,7 +180,7 @@ Namespace StructureLearning
                     ss += (_data.Matrix(i, j) - _means(i)) ^ 2
                 Next
                 _sds(i) = Math.Sqrt(ss / (nS - 1))
-                If _sds(i) < 1e-15 Then _sds(i) = 1.0
+                If _sds(i) < 0.000000000000001 Then _sds(i) = 1.0
             Next
 
             ' 相关系数矩阵
@@ -251,7 +252,7 @@ Namespace StructureLearning
                     Dim df As Integer = nS - 2 - CPC.Count
                     If df < 1 Then Exit While
 
-                    Dim tStat As Double = bestAssoc * Math.Sqrt(df / (1.0 - bestAssoc * bestAssoc + 1e-15))
+                    Dim tStat As Double = bestAssoc * Math.Sqrt(df / (1.0 - bestAssoc * bestAssoc + 0.000000000000001))
                     Dim pValue As Double = TDistPValue(Math.Abs(tStat), df)
 
                     If pValue < _params.Alpha Then
@@ -277,7 +278,7 @@ Namespace StructureLearning
                     Dim df As Integer = nG - 2 - conditionSet.Count
                     If df < 1 Then Continue For
 
-                    Dim tStat As Double = Math.Abs(pCorr) * Math.Sqrt(df / (1.0 - pCorr * pCorr + 1e-15))
+                    Dim tStat As Double = Math.Abs(pCorr) * Math.Sqrt(df / (1.0 - pCorr * pCorr + 0.000000000000001))
                     Dim pValue As Double = TDistPValue(tStat, df)
 
                     If pValue >= _params.Alpha Then
@@ -309,7 +310,7 @@ Namespace StructureLearning
                 Dim rxz As Double = _corrMatrix(x, z)
                 Dim ryz As Double = _corrMatrix(y, z)
                 Dim denom As Double = Math.Sqrt((1 - rxz * rxz) * (1 - ryz * ryz))
-                If Math.Abs(denom) < 1e-15 Then Return 0
+                If Math.Abs(denom) < 0.000000000000001 Then Return 0
                 Return (rxy - rxz * ryz) / denom
             End If
 
@@ -347,7 +348,7 @@ Namespace StructureLearning
             Dim currentBIC As Double = ComputeNetworkBIC(net)
             _params.BICPenalty = _params.BICPenalty
 
-            For iter = 0 To _params.MaxIterations - 1
+            For Each iter As Integer In TqdmWrapper.Range(0, _params.MaxIterations)
                 Dim bestOp As String = ""
                 Dim bestDelta As Double = 0
                 Dim bestFrom As Integer = -1
@@ -372,7 +373,10 @@ Namespace StructureLearning
                         ' 检查黑名单
                         Dim inBlacklist As Boolean = False
                         For Each bl In net.Blacklist
-                            If bl.FromIdx = i AndAlso bl.ToIdx = j Then inBlacklist = True : Exit For
+                            If bl.FromIdx = i AndAlso bl.ToIdx = j Then
+                                inBlacklist = True
+                                Exit For
+                            End If
                         Next
                         If inBlacklist Then Continue For
 
@@ -394,7 +398,10 @@ Namespace StructureLearning
                                 ' 检查反转后是否在黑名单
                                 Dim reverseBlacklisted As Boolean = False
                                 For Each bl In net.Blacklist
-                                    If bl.FromIdx = j AndAlso bl.ToIdx = i Then reverseBlacklisted = True : Exit For
+                                    If bl.FromIdx = j AndAlso bl.ToIdx = i Then
+                                        reverseBlacklisted = True
+                                        Exit For
+                                    End If
                                 Next
 
                                 If Not reverseBlacklisted Then
@@ -433,7 +440,7 @@ Namespace StructureLearning
                 Next
 
                 ' 执行最优操作
-                If bestDelta >= -1e-10 Then Exit For  ' 无法改善，停止
+                If bestDelta >= -0.0000000001 Then Exit For  ' 无法改善，停止
 
                 Select Case bestOp
                     Case "add"
