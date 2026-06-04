@@ -44,6 +44,34 @@ Module bnlearn
         Return workflow
     End Function
 
+    <ExportAPI("prior_network")>
+    <RApiReturn(GetType(RegulatoryEdge))>
+    Public Function prior_network(<RRawVectorArgument(TypeCodes.string)> TF As Object,
+                                  <RRawVectorArgument(TypeCodes.string)> target_gene As Object,
+                                  <RRawVectorArgument(TypeCodes.string)> regulation_type As Object,
+                                  <RRawVectorArgument(TypeCodes.string)> confidence As Object,
+                                  <RRawVectorArgument(TypeCodes.string)> evidence As Object) As Object
+
+        Dim tfs As String() = CLRVector.asCharacter(TF)
+        Dim targets As String() = CLRVector.asCharacter(target_gene)
+        Dim reg_types As String() = CLRVector.asCharacter(regulation_type)
+        Dim confs As Double() = CLRVector.asNumeric(confidence)
+        Dim evidences As String() = CLRVector.asCharacter(evidence)
+        Dim priorNet As RegulatoryEdge() = New RegulatoryEdge(tfs.Length - 1) {}
+
+        For i As Integer = 0 To tfs.Length - 1
+            priorNet(i) = New RegulatoryEdge With {
+                .Confidence = confs(i),
+                .Evidence = evidences(i),
+                .RegulationType = reg_types(i),
+                .TargetGene = targets(i),
+                .TF = tfs(i)
+            }
+        Next
+
+        Return priorNet
+    End Function
+
     <ExportAPI("knockouts")>
     <RApiReturn(GetType(InterventionResult))>
     Public Function KnockoutGene(bnlearn As BNLearnWorkflow, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
