@@ -38,7 +38,7 @@ Namespace Intervention
         ''' <summary>
         ''' 从 InterventionResult 数组中提取所有唯一的基因名（排序后）
         ''' </summary>
-        Private Function CollectAllGeneNames(results As InterventionResult()) As String()
+        Private Function CollectAllGeneNames() As String()
             Dim geneSet As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
             For Each r In results
                 If r.GeneNames IsNot Nothing Then
@@ -56,7 +56,7 @@ Namespace Intervention
         ''' 从 InterventionResult 数组中提取所有扰动条件标签
         ''' 格式：GeneName_Mode（如 "TP53_Knockout"、"MYC_Overexpression"）
         ''' </summary>
-        Private Function CollectConditionLabels(results As InterventionResult()) As String()
+        Private Function CollectConditionLabels() As String()
             Dim labels As New List(Of String)()
             For Each r In results
                 If r.Spec IsNot Nothing Then
@@ -126,10 +126,9 @@ Namespace Intervention
         ''' <summary>
         ''' 构建比较矩阵 [nGenes × nConditions]
         ''' </summary>
-        Private Function BuildComparisonMatrix(results As InterventionResult(),
-                                               metric As ComparisonMetric) As ComparisonMatrix
-            Dim allGenes As String() = CollectAllGeneNames(results)
-            Dim conditions As String() = CollectConditionLabels(results)
+        Private Function BuildComparisonMatrix(metric As ComparisonMetric) As ComparisonMatrix
+            Dim allGenes As String() = CollectAllGeneNames()
+            Dim conditions As String() = CollectConditionLabels()
             Dim geneMap As Dictionary(Of String, Integer) = BuildGeneIndexMap(allGenes)
 
             Dim nG As Integer = allGenes.Length
@@ -157,8 +156,8 @@ Namespace Intervention
         ''' 导出 FoldChange 比较矩阵（CSV）
         ''' 行 = 基因，列 = 扰动条件，值 = log2 FoldChange
         ''' </summary>
-        Public Sub ExportFoldChangeMatrix(results As InterventionResult(), filePath As String)
-            Dim cm As ComparisonMatrix = BuildComparisonMatrix(results, ComparisonMetric.FoldChange)
+        Public Sub ExportFoldChangeMatrix(filePath As String)
+            Dim cm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.FoldChange)
             WriteComparisonMatrixCSV(cm, filePath,
                 "FoldChange comparison matrix: rows=genes, columns=intervention conditions")
         End Sub
@@ -167,8 +166,8 @@ Namespace Intervention
         ''' 导出 PercentChange 比较矩阵（CSV）
         ''' 行 = 基因，列 = 扰动条件，值 = 表达变化百分比
         ''' </summary>
-        Public Sub ExportPercentChangeMatrix(results As InterventionResult(), filePath As String)
-            Dim cm As ComparisonMatrix = BuildComparisonMatrix(results, ComparisonMetric.PercentChange)
+        Public Sub ExportPercentChangeMatrix(filePath As String)
+            Dim cm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.PercentChange)
             WriteComparisonMatrixCSV(cm, filePath,
                 "PercentChange comparison matrix: rows=genes, columns=intervention conditions")
         End Sub
@@ -177,8 +176,8 @@ Namespace Intervention
         ''' 导出显著性矩阵（CSV）
         ''' 行 = 基因，列 = 扰动条件，值 = 1(显著) / 0(不显著)
         ''' </summary>
-        Public Sub ExportSignificanceMatrix(results As InterventionResult(), filePath As String)
-            Dim cm As ComparisonMatrix = BuildComparisonMatrix(results, ComparisonMetric.Significance)
+        Public Sub ExportSignificanceMatrix(filePath As String)
+            Dim cm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.Significance)
             WriteComparisonMatrixCSV(cm, filePath,
                 "Significance matrix: 1=significant, 0=not significant", format:="F0")
         End Sub
@@ -187,8 +186,8 @@ Namespace Intervention
         ''' 导出 Z-Score 比较矩阵（CSV）
         ''' 行 = 基因，列 = 扰动条件，值 = Z-score
         ''' </summary>
-        Public Sub ExportZScoreMatrix(results As InterventionResult(), filePath As String)
-            Dim cm As ComparisonMatrix = BuildComparisonMatrix(results, ComparisonMetric.ZScore)
+        Public Sub ExportZScoreMatrix(filePath As String)
+            Dim cm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.ZScore)
             WriteComparisonMatrixCSV(cm, filePath,
                 "Z-Score comparison matrix: rows=genes, columns=intervention conditions")
         End Sub
@@ -197,8 +196,8 @@ Namespace Intervention
         ''' 导出野生型均值矩阵（CSV）
         ''' 行 = 基因，列 = 扰动条件，值 = 野生型表达均值
         ''' </summary>
-        Public Sub ExportWildtypeMatrix(results As InterventionResult(), filePath As String)
-            Dim cm As ComparisonMatrix = BuildComparisonMatrix(results, ComparisonMetric.WildtypeMean)
+        Public Sub ExportWildtypeMatrix(filePath As String)
+            Dim cm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.WildtypeMean)
             WriteComparisonMatrixCSV(cm, filePath,
                 "Wildtype expression means: rows=genes, columns=intervention conditions")
         End Sub
@@ -207,8 +206,8 @@ Namespace Intervention
         ''' 导出突变型均值矩阵（CSV）
         ''' 行 = 基因，列 = 扰动条件，值 = 扰动后表达均值
         ''' </summary>
-        Public Sub ExportMutantMatrix(results As InterventionResult(), filePath As String)
-            Dim cm As ComparisonMatrix = BuildComparisonMatrix(results, ComparisonMetric.MutantMean)
+        Public Sub ExportMutantMatrix(filePath As String)
+            Dim cm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.MutantMean)
             WriteComparisonMatrixCSV(cm, filePath,
                 "Mutant expression means: rows=genes, columns=intervention conditions")
         End Sub
@@ -221,7 +220,7 @@ Namespace Intervention
         ''' 列：Gene, Condition, InterventionGene, InterventionMode,
         '''      WildtypeMean, MutantMean, FoldChange, PercentChange, ZScore, Significant
         ''' </summary>
-        Public Sub ExportComprehensiveTable(results As InterventionResult(), filePath As String)
+        Public Sub ExportComprehensiveTable(filePath As String)
             Dim sb As New StringBuilder()
 
             ' 表头注释
@@ -276,8 +275,8 @@ Namespace Intervention
         ''' 行/列 = 扰动条件，值 = 相关系数
         ''' 用于聚类分析：哪些基因的敲除产生相似的下游效应
         ''' </summary>
-        Public Sub ExportConditionSimilarityMatrix(results As InterventionResult(), filePath As String)
-            Dim cm As ComparisonMatrix = BuildComparisonMatrix(results, ComparisonMetric.FoldChange)
+        Public Sub ExportConditionSimilarityMatrix(filePath As String)
+            Dim cm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.FoldChange)
             Dim nC As Integer = cm.ConditionLabels.Length
             Dim nG As Integer = cm.GeneNames.Length
 
@@ -334,8 +333,8 @@ Namespace Intervention
         ''' 行 = 基因，列 = 扰动条件，值 = |FoldChange|
         ''' 用于识别"脆弱基因"——对多种扰动都敏感的基因
         ''' </summary>
-        Public Sub ExportGeneSensitivityMatrix(results As InterventionResult(), filePath As String)
-            Dim cm As ComparisonMatrix = BuildComparisonMatrix(results, ComparisonMetric.AbsoluteFoldChange)
+        Public Sub ExportGeneSensitivityMatrix(filePath As String)
+            Dim cm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.AbsoluteFoldChange)
 
             ' 附加统计列
             Dim nG As Integer = cm.GeneNames.Length
@@ -392,9 +391,7 @@ Namespace Intervention
         ''' 导出每个扰动条件下受影响最大的基因排名表（CSV）
         ''' 按 |FoldChange| 降序排列
         ''' </summary>
-        Public Sub ExportInterventionRanking(results As InterventionResult(),
-                                             filePath As String,
-                                             Optional topN As Integer = 50)
+        Public Sub ExportInterventionRanking(filePath As String, Optional topN As Integer = 50)
             Dim sb As New StringBuilder()
             sb.AppendLine(String.Format("# Top {0} affected genes per intervention condition", topN))
             sb.AppendLine("# Ranked by |FoldChange| descending")
@@ -447,11 +444,9 @@ Namespace Intervention
         ''' 将基因级别的 FoldChange 按通路聚合（取均值/中位数/显著基因数）
         ''' 行 = 通路，列 = 扰动条件
         ''' </summary>
-        Public Sub ExportPathwaySummaryMatrix(results As InterventionResult(),
-                                               pathwayInfo As Dictionary(Of String, PathwayInfo),
-                                               filePath As String)
-            Dim cm As ComparisonMatrix = BuildComparisonMatrix(results, ComparisonMetric.FoldChange)
-            Dim sigCm As ComparisonMatrix = BuildComparisonMatrix(results, ComparisonMetric.Significance)
+        Public Sub ExportPathwaySummaryMatrix(pathwayInfo As Dictionary(Of String, PathwayInfo), filePath As String)
+            Dim cm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.FoldChange)
+            Dim sigCm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.Significance)
             Dim geneMap As Dictionary(Of String, Integer) = BuildGeneIndexMap(cm.GeneNames)
 
             Dim nC As Integer = cm.ConditionLabels.Length
@@ -517,10 +512,8 @@ Namespace Intervention
         ''' 值 = 该扰动对该通路中显著受影响基因的比例
         ''' 用于热图可视化
         ''' </summary>
-        Public Sub ExportCrossImpactMatrix(results As InterventionResult(),
-                                            pathwayInfo As Dictionary(Of String, PathwayInfo),
-                                            filePath As String)
-            Dim sigCm As ComparisonMatrix = BuildComparisonMatrix(results, ComparisonMetric.Significance)
+        Public Sub ExportCrossImpactMatrix(pathwayInfo As Dictionary(Of String, PathwayInfo), filePath As String)
+            Dim sigCm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.Significance)
             Dim geneMap As Dictionary(Of String, Integer) = BuildGeneIndexMap(sigCm.GeneNames)
 
             Dim nC As Integer = sigCm.ConditionLabels.Length
@@ -576,8 +569,7 @@ Namespace Intervention
         ''' <summary>
         ''' 一键导出所有比较分析矩阵到指定目录
         ''' </summary>
-        Public Sub ExportAll(results As InterventionResult(),
-                              outputDir As String,
+        Public Sub ExportAll(outputDir As String,
                               Optional pathwayInfo As Dictionary(Of String, PathwayInfo) = Nothing,
                               Optional topN As Integer = 50)
 
@@ -586,39 +578,39 @@ Namespace Intervention
             End If
 
             ' 1. FoldChange 矩阵
-            ExportFoldChangeMatrix(results, Path.Combine(outputDir, "foldchange_matrix.csv"))
+            ExportFoldChangeMatrix(Path.Combine(outputDir, "foldchange_matrix.csv"))
 
             ' 2. PercentChange 矩阵
-            ExportPercentChangeMatrix(results, Path.Combine(outputDir, "percentchange_matrix.csv"))
+            ExportPercentChangeMatrix(Path.Combine(outputDir, "percentchange_matrix.csv"))
 
             ' 3. 显著性矩阵
-            ExportSignificanceMatrix(results, Path.Combine(outputDir, "significance_matrix.csv"))
+            ExportSignificanceMatrix(Path.Combine(outputDir, "significance_matrix.csv"))
 
             ' 4. Z-Score 矩阵
-            ExportZScoreMatrix(results, Path.Combine(outputDir, "zscore_matrix.csv"))
+            ExportZScoreMatrix(Path.Combine(outputDir, "zscore_matrix.csv"))
 
             ' 5. 野生型均值矩阵
-            ExportWildtypeMatrix(results, Path.Combine(outputDir, "wildtype_means_matrix.csv"))
+            ExportWildtypeMatrix(Path.Combine(outputDir, "wildtype_means_matrix.csv"))
 
             ' 6. 突变型均值矩阵
-            ExportMutantMatrix(results, Path.Combine(outputDir, "mutant_means_matrix.csv"))
+            ExportMutantMatrix(Path.Combine(outputDir, "mutant_means_matrix.csv"))
 
             ' 7. 综合比较宽表
-            ExportComprehensiveTable(results, Path.Combine(outputDir, "comprehensive_comparison.csv"))
+            ExportComprehensiveTable(Path.Combine(outputDir, "comprehensive_comparison.csv"))
 
             ' 8. 扰动相似性矩阵
-            ExportConditionSimilarityMatrix(results, Path.Combine(outputDir, "condition_similarity.csv"))
+            ExportConditionSimilarityMatrix(Path.Combine(outputDir, "condition_similarity.csv"))
 
             ' 9. 基因敏感性谱
-            ExportGeneSensitivityMatrix(results, Path.Combine(outputDir, "gene_sensitivity.csv"))
+            ExportGeneSensitivityMatrix(Path.Combine(outputDir, "gene_sensitivity.csv"))
 
             ' 10. 扰动影响排名
-            ExportInterventionRanking(results, Path.Combine(outputDir, "intervention_ranking.csv"), topN)
+            ExportInterventionRanking(Path.Combine(outputDir, "intervention_ranking.csv"), topN)
 
             ' 11-12. 通路级别分析（如果提供了通路信息）
             If pathwayInfo IsNot Nothing AndAlso pathwayInfo.Count > 0 Then
-                ExportPathwaySummaryMatrix(results, pathwayInfo, Path.Combine(outputDir, "pathway_summary.csv"))
-                ExportCrossImpactMatrix(results, pathwayInfo, Path.Combine(outputDir, "cross_impact_matrix.csv"))
+                ExportPathwaySummaryMatrix(pathwayInfo, Path.Combine(outputDir, "pathway_summary.csv"))
+                ExportCrossImpactMatrix(pathwayInfo, Path.Combine(outputDir, "cross_impact_matrix.csv"))
             End If
         End Sub
 
