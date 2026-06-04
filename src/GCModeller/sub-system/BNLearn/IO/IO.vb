@@ -1,16 +1,8 @@
-' ============================================================
-' IO.vb - 数据输入输出
-' ============================================================
-' 支持读取/写入：
-'   - 基因表达矩阵（CSV/TSV）
-'   - 先验调控网络（CSV/TSV）
-'   - 网络结构（CSV/TSV）
-'   - 干预分析结果（CSV/TSV）
-' ============================================================
-
-Imports System.Collections.Generic
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports BNLearn.Core
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Namespace IO
 
@@ -25,40 +17,16 @@ Namespace IO
         ''' 从 CSV/TSV 文件读取基因表达矩阵
         ''' 格式：第一列为基因名，第一行为样本名，其余为表达值
         ''' </summary>
-        Public Function ReadGeneExpressionMatrix(filePath As String,
-                                                  Optional hasHeader As Boolean = True,
-                                                  Optional separator As Char = ChrW(9)) As Core.GeneExpressionData
-
-            Dim lines As String() = File.ReadAllLines(filePath, Encoding.UTF8)
-            If lines.Length < 2 Then Throw New Exception("文件行数不足")
-
-            ' 解析表头
-            Dim headerParts As String() = lines(0).Split(separator)
-            Dim nSamples As Integer = headerParts.Length - 1
-            Dim sampleNames As String() = New String(nSamples - 1) {}
-            For j = 0 To nSamples - 1
-                sampleNames(j) = headerParts(j + 1).Trim(""""c)
-            Next
-
-            ' 解析数据
-            Dim nGenes As Integer = lines.Length - 1
-            Dim geneNames As New List(Of String)()
+        ''' 
+        <Extension>
+        Public Function ReadGeneExpressionMatrix(expr As Matrix) As Core.GeneExpressionData
             Dim matrixRows As New List(Of Double())()
+            Dim geneNames As String() = expr.rownames
+            Dim sampleNames As String() = expr.sampleID
+            Dim nSamples As Integer = sampleNames.Length
 
-            For i = 1 To lines.Length - 1
-                If String.IsNullOrWhiteSpace(lines(i)) Then Continue For
-                Dim parts As String() = lines(i).Split(separator)
-                If parts.Length < 2 Then Continue For
-
-                geneNames.Add(parts(0).Trim(""""c))
-
-                Dim row As Double() = New Double(nSamples - 1) {}
-                For j = 0 To nSamples - 1
-                    If j + 1 < parts.Length Then
-                        Double.TryParse(parts(j + 1).Trim(), row(j))
-                    End If
-                Next
-                matrixRows.Add(row)
+            For Each gene As DataFrameRow In expr.expression
+                Call matrixRows.Add(gene.experiments)
             Next
 
             ' 转置为 [gene, sample]
@@ -83,25 +51,11 @@ Namespace IO
         ''' 从 CSV/TSV 读取先验调控网络
         ''' 格式：TF, TargetGene, RegulationType, Confidence, Evidence
         ''' </summary>
-        Public Function ReadPriorNetwork(filePath As String,
-                                          Optional separator As Char = ChrW(9)) As Core.PriorNetwork
-
-            Dim lines As String() = File.ReadAllLines(filePath, Encoding.UTF8)
+        Public Function ReadPriorNetwork(TRN As IEnumerable(Of RegulatoryEdge)) As Core.PriorNetwork
             Dim prior As New Core.PriorNetwork()
 
-            For i = 1 To lines.Length - 1
-                If String.IsNullOrWhiteSpace(lines(i)) Then Continue For
-                Dim parts As String() = lines(i).Split(separator)
-                If parts.Length < 2 Then Continue For
-
-                Dim tf As String = parts(0).Trim(""""c)
-                Dim target As String = parts(1).Trim(""""c)
-                Dim regType As String = If(parts.Length > 2, parts(2).Trim(""""c), "activation")
-                Dim conf As Double = 1.0
-                If parts.Length > 3 Then Double.TryParse(parts(3).Trim(), conf)
-                Dim evidence As String = If(parts.Length > 4, parts(4).Trim(""""c), "")
-
-                prior.AddEdge(tf, target, regType, conf, evidence)
+            For Each edge As RegulatoryEdge In TRN
+                Call prior.AddEdge(edge.TF, edge.TargetGene, edge.RegulationType, edge.Confidence, edge.Evidence)
             Next
 
             Return prior

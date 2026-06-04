@@ -23,6 +23,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "HTS_matrix-netcore5", "..\a
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "linear-netcore5", "..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFittings\linear-netcore5.vbproj", "{E058DBF6-9359-2160-8117-ADBC91C2BCFB}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "dataframework-netcore5", "..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj", "{4EA5D1A3-20AC-5EF2-E8E3-8E8C905D86B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,14 @@ Global
 		{E058DBF6-9359-2160-8117-ADBC91C2BCFB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E058DBF6-9359-2160-8117-ADBC91C2BCFB}.Release|x64.ActiveCfg = Release|x64
 		{E058DBF6-9359-2160-8117-ADBC91C2BCFB}.Release|x64.Build.0 = Release|x64
+		{4EA5D1A3-20AC-5EF2-E8E3-8E8C905D86B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EA5D1A3-20AC-5EF2-E8E3-8E8C905D86B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EA5D1A3-20AC-5EF2-E8E3-8E8C905D86B7}.Debug|x64.ActiveCfg = Debug|x64
+		{4EA5D1A3-20AC-5EF2-E8E3-8E8C905D86B7}.Debug|x64.Build.0 = Debug|x64
+		{4EA5D1A3-20AC-5EF2-E8E3-8E8C905D86B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EA5D1A3-20AC-5EF2-E8E3-8E8C905D86B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EA5D1A3-20AC-5EF2-E8E3-8E8C905D86B7}.Release|x64.ActiveCfg = Release|x64
+		{4EA5D1A3-20AC-5EF2-E8E3-8E8C905D86B7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +116,7 @@ Global
 		{EF8F3628-D04D-D3A1-2312-BAEE06EBD9F5} = {8190F451-FC81-464C-BE5A-0C9260BE6951}
 		{F49B9BD9-E5D3-FB57-ED67-F72A40B78D32} = {8190F451-FC81-464C-BE5A-0C9260BE6951}
 		{E058DBF6-9359-2160-8117-ADBC91C2BCFB} = {1AA48A28-E78F-45E4-9145-8E9D59164EE6}
+		{4EA5D1A3-20AC-5EF2-E8E3-8E8C905D86B7} = {1AA48A28-E78F-45E4-9145-8E9D59164EE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7AA79AC7-0FE8-4644-9232-C47F564E280D}

@@ -1,12 +1,14 @@
 Imports BNLearn.Core
 Imports BNLearn.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Module Program
 
     Sub Main(args As String())
         ' 1. 加载数据
-        Dim exprData = BnIO.ReadGeneExpressionMatrix("expression_matrix.tsv")
-        Dim priorNet = BnIO.ReadPriorNetwork("tf_regulatory_network.tsv")
+        Dim exprData = BnIO.ReadGeneExpressionMatrix(Matrix.LoadData("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\gene_expression_matrix.csv"))
+        Dim priorNet = BnIO.ReadPriorNetwork("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\regulatory_network_prior.csv".LoadCsv(Of RegulatoryEdge))
 
         ' 2. 创建工作流
         Dim workflow As New BNLearnWorkflow()

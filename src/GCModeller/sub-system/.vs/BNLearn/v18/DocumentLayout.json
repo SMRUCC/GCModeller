@@ -5,6 +5,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{B1573153-C9BF-46F4-A2A1-9A596EB5DDBC}|BNLearn\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{B1573153-C9BF-46F4-A2A1-9A596EB5DDBC}|BNLearn\\test\\test.vbproj|solutionrelative:bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\io\\io.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\io\\io.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IO.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\IO\\IO.vb",
+              "RelativeDocumentMoniker": "BNLearn\\IO\\IO.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\IO\\IO.vb",
+              "RelativeToolTip": "BNLearn\\IO\\IO.vb",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAIwDkAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-04T10:29:50.209Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -40,7 +57,7 @@
               "RelativeDocumentMoniker": "BNLearn\\test\\Program.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\test\\Program.vb",
               "RelativeToolTip": "BNLearn\\test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-04T08:30:30.927Z",
               "EditorCaption": ""
