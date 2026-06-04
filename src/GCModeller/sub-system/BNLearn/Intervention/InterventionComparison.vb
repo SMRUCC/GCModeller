@@ -30,7 +30,7 @@ Namespace Intervention
         ReadOnly results As InterventionResult()
 
         Sub New(results As IEnumerable(Of InterventionResult))
-            Me.results = results
+            Me.results = results.ToArray
         End Sub
 
         ''' <summary>
