@@ -95,6 +95,11 @@ Module genomics
         Return GFFTable.LoadDocument(file)
     End Function
 
+    <ExportAPI("write.gff3")>
+    Public Function write_gff3(gff As GFFTable, file As String) As Boolean
+        Return gff.Save(file)
+    End Function
+
     <ExportAPI("source_features")>
     <RApiReturn(GetType(Feature))>
     Public Function SourceFeatures(gff As GFFTable, source As String) As Object
