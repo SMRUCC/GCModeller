@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.Annotation.MetaEuk
 Imports SMRUCC.genomics.Annotation.Prodigal
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
@@ -10,6 +11,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("bifrost")>
 <RTypeExport("prodigal", GetType(TrainingModel))>
+<RTypeExport("metaeuk_config", GetType(MetaEukConfig))>
 Module bifrost
 
     Sub Main()
