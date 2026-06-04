@@ -18,7 +18,28 @@ Module bifrost
 
     <ExportAPI("as.data.frame")>
     Public Function scoreTable(result As PredictionResult(), args As list, env As Environment) As Object
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim table As GeneScore() = GeneScore.ScoreTable(result).ToArray
 
+        Call df.add(NameOf(GeneScore.seq_id), From gene In table Select gene.seq_id)
+        Call df.add(NameOf(GeneScore.gene_index), From gene In table Select gene.gene_index)
+        Call df.add(NameOf(GeneScore.start), From gene In table Select gene.start)
+        Call df.add(NameOf(GeneScore.end), From gene In table Select gene.end)
+        Call df.add(NameOf(GeneScore.strand), From gene In table Select gene.strand)
+        Call df.add(NameOf(GeneScore.frame), From gene In table Select gene.frame)
+        Call df.add(NameOf(GeneScore.start_codon), From gene In table Select gene.start_codon)
+        Call df.add(NameOf(GeneScore.stop_codon), From gene In table Select gene.stop_codon)
+        Call df.add(NameOf(GeneScore.rbs_motif), From gene In table Select gene.rbs_motif)
+        Call df.add(NameOf(GeneScore.total_score), From gene In table Select gene.total_score)
+        Call df.add(NameOf(GeneScore.coding_score), From gene In table Select gene.coding_score)
+        Call df.add(NameOf(GeneScore.start_score), From gene In table Select gene.start_score)
+        Call df.add(NameOf(GeneScore.rbs_score), From gene In table Select gene.rbs_score)
+        Call df.add(NameOf(GeneScore.type_score), From gene In table Select gene.type_score)
+        Call df.add(NameOf(GeneScore.upstream_score), From gene In table Select gene.upstream_score)
+        Call df.add(NameOf(GeneScore.rbs_spacing), From gene In table Select gene.rbs_spacing)
+        Call df.add(NameOf(GeneScore.partial_type), From gene In table Select gene.partial_type)
+
+        Return df
     End Function
 
     <ExportAPI("prodigal_training")>
