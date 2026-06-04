@@ -1,0 +1,9 @@
+﻿# Cross-impact matrix: fraction of significantly affected genes per pathway
+# Rows = intervention conditions, Columns = pathways
+Condition_InterventionGene_Mode,pathway_bcaa_metabolism,pathway_cell_wall,pathway_dna_repair,pathway_iron_metabolism,pathway_nrps,pathway_pks,pathway_quorum_sensing,pathway_sporulation,pathway_stress_response,pathway_tca_cycle
+sigH_Knockout,0.0000,0.0000,0.0000,0.0000,0.0303,0.0000,0.0500,0.0000,0.0000,0.0000
+yceF_Knockout,0.0000,0.0000,0.0000,0.0000,0.0303,0.0000,0.0500,0.0000,0.0000,0.0000
+srfAA_Overexpression,0.0000,0.0000,0.0000,0.0000,0.0303,0.0000,0.0500,0.0000,0.0000,0.0000
+thrC_Overexpression,0.0000,0.0000,0.0000,0.0000,0.0303,0.0000,0.0500,0.0000,0.0000,0.0000
+lutR_Knockdown,0.0000,0.0000,0.0000,0.0000,0.0303,0.0000,0.0500,0.0000,0.0000,0.0000
+ytrJ_Knockdown,0.0000,0.0000,0.0000,0.0000,0.0303,0.0000,0.0500,0.0000,0.0000,0.0000

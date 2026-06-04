@@ -1,0 +1,9 @@
+﻿# Condition similarity matrix (Pearson correlation of FoldChange profiles)
+# Rows and columns = intervention conditions
+Condition,sigH_Knockout,yceF_Knockout,srfAA_Overexpression,thrC_Overexpression,lutR_Knockdown,ytrJ_Knockdown
+sigH_Knockout,1.0000,1.0000,0.0823,0.0823,0.1739,0.1739
+yceF_Knockout,1.0000,1.0000,0.0823,0.0823,0.1739,0.1739
+srfAA_Overexpression,0.0823,0.0823,1.0000,1.0000,-0.9671,-0.9671
+thrC_Overexpression,0.0823,0.0823,1.0000,1.0000,-0.9671,-0.9671
+lutR_Knockdown,0.1739,0.1739,-0.9671,-0.9671,1.0000,1.0000
+ytrJ_Knockdown,0.1739,0.1739,-0.9671,-0.9671,1.0000,1.0000

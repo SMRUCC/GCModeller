@@ -1,0 +1,13 @@
+﻿# Pathway-level intervention effect summary
+# Values: mean|FC| of genes in pathway (significant_gene_count)
+PathwayID,PathwayName,N_Genes,sigH_Knockout,yceF_Knockout,srfAA_Overexpression,thrC_Overexpression,lutR_Knockdown,ytrJ_Knockdown
+pathway_bcaa_metabolism,Branched-Chain Amino Acid Metabolism,16,0.0105(0),0.0105(0),0.0105(0),0.0105(0),0.0105(0),0.0105(0)
+pathway_cell_wall,Cell Wall Biosynthesis,35,0.0098(0),0.0098(0),0.0098(0),0.0098(0),0.0098(0),0.0098(0)
+pathway_dna_repair,DNA Repair and Recombination,22,0.0127(0),0.0127(0),0.0127(0),0.0127(0),0.0127(0),0.0127(0)
+pathway_iron_metabolism,Iron Metabolism and Siderophore Biosynthesis,15,0.0089(0),0.0089(0),0.0089(0),0.0089(0),0.0089(0),0.0089(0)
+pathway_nrps,Nonribosomal Peptide Synthesis (NRPS) Pathway,33,0.0124(1),0.0124(1),0.1031(1),0.1031(1),0.0728(1),0.0728(1)
+pathway_pks,Polyketide Synthase (PKS) Pathway,22,0.0112(0),0.0112(0),0.0112(0),0.0112(0),0.0112(0),0.0112(0)
+pathway_quorum_sensing,Quorum Sensing and Stationary Phase Entry,20,0.0110(1),0.0110(1),0.1606(1),0.1606(1),0.1106(1),0.1106(1)
+pathway_sporulation,Sporulation Pathway,16,0.0099(0),0.0099(0),0.0099(0),0.0099(0),0.0099(0),0.0099(0)
+pathway_stress_response,Oxidative Stress Response Pathway,27,0.0119(0),0.0119(0),0.0119(0),0.0119(0),0.0119(0),0.0119(0)
+pathway_tca_cycle,TCA Cycle and Energy Metabolism,27,0.0106(0),0.0106(0),0.0106(0),0.0106(0),0.0106(0),0.0106(0)
