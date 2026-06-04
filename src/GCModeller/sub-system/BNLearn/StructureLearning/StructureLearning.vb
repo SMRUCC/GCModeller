@@ -346,10 +346,10 @@ Namespace StructureLearning
                                        Optional candidateEdges As HashSet(Of (Integer, Integer)) = Nothing)
 
             Dim currentBIC As Double = ComputeNetworkBIC(net)
-            _params.BICPenalty = _params.BICPenalty
+            Dim bar As ProgressBar = Nothing
 
-            For Each iter As Integer In TqdmWrapper.Range(0, _params.MaxIterations)
-                Dim bestOp As String = ""
+            For Each iter As Integer In TqdmWrapper.Range(0, _params.MaxIterations, bar:=bar)
+                Dim bestOp As EdgeOp = EdgeOp.None
                 Dim bestDelta As Double = 0
                 Dim bestFrom As Integer = -1
                 Dim bestTo As Integer = -1
@@ -386,7 +386,7 @@ Namespace StructureLearning
                             Dim delta As Double = newBIC - currentBIC
                             If delta < bestDelta Then
                                 bestDelta = delta
-                                bestOp = "remove"
+                                bestOp = EdgeOp.Remove
                                 bestFrom = i
                                 bestTo = j
                             End If
@@ -404,7 +404,7 @@ Namespace StructureLearning
                                         Dim revDelta As Double = revBIC - currentBIC
                                         If revDelta < bestDelta Then
                                             bestDelta = revDelta
-                                            bestOp = "reverse"
+                                            bestOp = EdgeOp.Reverse
                                             bestFrom = i
                                             bestTo = j
                                         End If
@@ -421,7 +421,7 @@ Namespace StructureLearning
                                     Dim delta As Double = newBIC - currentBIC
                                     If delta < bestDelta Then
                                         bestDelta = delta
-                                        bestOp = "add"
+                                        bestOp = EdgeOp.Add
                                         bestFrom = i
                                         bestTo = j
                                     End If
@@ -432,15 +432,19 @@ Namespace StructureLearning
                     Next
                 Next
 
+                Call bar.SetLabel($"best-delta={bestDelta}; current-BIC={currentBIC}")
+
                 ' 执行最优操作
-                If bestDelta >= -0.0000000001 Then Exit For  ' 无法改善，停止
+                If bestDelta >= -0.0000000001 Then
+                    Exit For  ' 无法改善，停止
+                End If
 
                 Select Case bestOp
-                    Case "add"
+                    Case EdgeOp.Add
                         net.AddEdge(bestFrom, bestTo)
-                    Case "remove"
+                    Case EdgeOp.Remove
                         net.RemoveEdge(bestFrom, bestTo)
-                    Case "reverse"
+                    Case EdgeOp.Reverse
                         net.RemoveEdge(bestFrom, bestTo)
                         net.AddEdge(bestTo, bestFrom)
                 End Select
@@ -459,7 +463,7 @@ Namespace StructureLearning
             Dim tabuList As New Queue(Of String)()
 
             For iter = 0 To _params.MaxIterations - 1
-                Dim bestOp As String = ""
+                Dim bestOp As EdgeOp = EdgeOp.None
                 Dim bestDelta As Double = Double.MaxValue
                 Dim bestFrom As Integer = -1
                 Dim bestTo As Integer = -1
@@ -480,7 +484,7 @@ Namespace StructureLearning
                             If delta < bestDelta OrElse (tabuList.Contains(opKey) AndAlso newBIC < bestBIC) Then
                                 If Not tabuList.Contains(opKey) OrElse newBIC < bestBIC Then
                                     bestDelta = delta
-                                    bestOp = "remove"
+                                    bestOp = EdgeOp.Remove
                                     bestFrom = i
                                     bestTo = j
                                 End If
@@ -496,7 +500,7 @@ Namespace StructureLearning
                                     If Not tabuList.Contains(opKey) OrElse newBIC < bestBIC Then
                                         If delta < bestDelta Then
                                             bestDelta = delta
-                                            bestOp = "add"
+                                            bestOp = EdgeOp.Add
                                             bestFrom = i
                                             bestTo = j
                                         End If
@@ -508,14 +512,14 @@ Namespace StructureLearning
                     Next
                 Next
 
-                If bestOp = "" Then Exit For
+                If bestOp = EdgeOp.None Then
+                    Exit For
+                End If
 
                 ' 执行操作
                 Select Case bestOp
-                    Case "add"
-                        net.AddEdge(bestFrom, bestTo)
-                    Case "remove"
-                        net.RemoveEdge(bestFrom, bestTo)
+                    Case EdgeOp.Add : net.AddEdge(bestFrom, bestTo)
+                    Case EdgeOp.Remove : net.RemoveEdge(bestFrom, bestTo)
                 End Select
 
                 currentBIC += bestDelta
@@ -535,6 +539,13 @@ Namespace StructureLearning
             ' 恢复最优网络
             ' （简化处理：保留当前网络，因为 Tabu 搜索中当前解通常接近最优）
         End Sub
+
+        Public Enum EdgeOp
+            None
+            Add
+            Remove
+            Reverse
+        End Enum
 
         ' ==================== BIC 评分 ====================
 
