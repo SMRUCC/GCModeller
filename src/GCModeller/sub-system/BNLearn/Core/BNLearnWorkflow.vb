@@ -184,6 +184,27 @@ Namespace Core
         ''' <summary>
         ''' 批量敲除所有基因
         ''' </summary>
+        Public Function BatchKnockout(geneNames As IEnumerable(Of String), Optional nSamples As Integer = 0) As List(Of Intervention.InterventionResult)
+            If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
+                Throw New Exception("请先执行结构学习和参数学习")
+            End If
+
+            If nSamples <= 0 Then nSamples = nSamples
+
+            Dim workData As GeneExpressionData = ExpressionData
+            If NormalizeData Then
+                workData = ExpressionData.Standardize
+            End If
+
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim allIndices As Integer() = geneNames.Select(Function(geneName) FittedNetwork.GetNodeIndex(geneName)).ToArray()
+
+            Return analyzer.BatchIntervention(allIndices, Intervention.InterventionMode.Knockout, nSamples, RandomSeed)
+        End Function
+
+        ''' <summary>
+        ''' 批量敲除所有基因
+        ''' </summary>
         Public Function BatchKnockout(Optional nSamples As Integer = 0) As List(Of Intervention.InterventionResult)
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")

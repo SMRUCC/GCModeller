@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\core\\bayesiannetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\core\\bayesiannetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\core\\bnlearnworkflow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\core\\bnlearnworkflow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BNLearnWorkflow.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Core\\BNLearnWorkflow.vb",
+              "RelativeDocumentMoniker": "BNLearn\\Core\\BNLearnWorkflow.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Core\\BNLearnWorkflow.vb",
+              "RelativeToolTip": "BNLearn\\Core\\BNLearnWorkflow.vb",
+              "ViewState": "AgIAAJYAAAAAAAAAAAAiwLUAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-04T08:26:30.619Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -35,14 +52,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "BayesianNetwork.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Core\\BayesianNetwork.vb",
-              "RelativeDocumentMoniker": "BNLearn\\Core\\BayesianNetwork.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Core\\BayesianNetwork.vb",
-              "RelativeToolTip": "BNLearn\\Core\\BayesianNetwork.vb",
-              "ViewState": "AgIAAB4BAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\test\\Program.vb",
+              "RelativeDocumentMoniker": "BNLearn\\test\\Program.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\test\\Program.vb",
+              "RelativeToolTip": "BNLearn\\test\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-04T08:22:09.841Z",
+              "WhenOpened": "2026-06-04T08:25:20.092Z",
               "EditorCaption": ""
             }
           ]
