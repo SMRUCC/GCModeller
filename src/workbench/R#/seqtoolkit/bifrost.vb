@@ -108,6 +108,21 @@ Module bifrost
             model:=model).ToArray
     End Function
 
+    <ExportAPI("metaeuk")>
+    <RApiReturn(GetType(GenePrediction))>
+    Public Function metaeuk(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        Dim contigs As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+        Dim config As MetaEukConfig = Nothing
+
+        If contigs Is Nothing Then
+            Return RInternal.debug.stop("there is no MAGs contigs assembly sequence input!", env)
+        ElseIf TypeOf x Is MetaEukConfig Then
+            config = x
+        End If
+
+        Return MetaEukWorker.Predict(config).ToArray
+    End Function
+
     ''' <summary>
     ''' cast the gene prediction result as GFF3 table format
     ''' </summary>
