@@ -101,6 +101,13 @@ Namespace Intervention
         ''' <summary>基因名称列表</summary>
         Public Property GeneNames As String()
 
+        ''' <summary>Z-Score（标准化效应量）</summary>
+        Public Property ZScores As Double()
+
+        ''' <summary>野生型标准差（每个基因）</summary>
+        Public Property WildtypeSDs As Double()
+
+
         ''' <summary>受影响的基因数量（显著变化的）</summary>
         Public ReadOnly Property NAffected As Integer
             Get
