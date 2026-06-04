@@ -16,11 +16,11 @@ let priorNet = bnlearn::prior_network(TF = regs$TF,
     confidence = regs$Confidence,
     evidence = regs$Evidence
 );
-let model = bnlearn(exprData, priorNet, max_itrs = 100);
+let model = bnlearn(exprData, priorNet, max_itrs = 10);
 let results = c(
-    model |> knockouts([""]),
-    model |> overexpress([""]),
-    model |> knockdown([""])
+    model |> knockouts(["sigH", "yceF"]),
+    model |> overexpress(["srfAA","thrC"]),
+    model |> knockdown(["lutR","ytrJ"])
 );
 
 make_exports(results, dir = here("bnlearn_results"), pathway_info = bios);
