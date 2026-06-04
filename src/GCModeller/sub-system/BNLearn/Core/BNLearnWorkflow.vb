@@ -109,8 +109,7 @@ Namespace Core
         ''' <summary>
         ''' 步骤4：虚拟基因敲除
         ''' </summary>
-        Public Function KnockoutGene(geneName As String,
-                                     Optional nSamples As Integer = 0) As Intervention.InterventionResult
+        Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
@@ -134,13 +133,12 @@ Namespace Core
         ''' <summary>
         ''' 步骤4：虚拟基因过表达
         ''' </summary>
-        Public Function OverexpressGene(geneName As String,
-                                         Optional nSamples As Integer = 0) As Intervention.InterventionResult
+        Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
 
-            If nSamples <= 0 Then nSamples = nSamples
+            If nSamples <= 0 Then nSamples = Me.NSamples
 
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then
@@ -156,17 +154,36 @@ Namespace Core
             Return analyzer.AnalyzeIntervention(spec, nSamples, RandomSeed)
         End Function
 
-        ''' <summary>
-        ''' 步骤4：动态级联敲除模拟
-        ''' </summary>
-        Public Function DynamicKnockout(geneName As String,
-                                         nTimeSteps As Integer,
-                                         Optional nSamples As Integer = 0) As Intervention.InterventionResult
+        Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
 
-            If nSamples <= 0 Then nSamples = nSamples
+            If nSamples <= 0 Then nSamples = Me.NSamples
+
+            Dim workData As GeneExpressionData = ExpressionData
+            If NormalizeData Then
+                workData = ExpressionData.Standardize
+            End If
+
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim spec As New Intervention.InterventionSpec() With {
+                .GeneName = geneName,
+                .Mode = Intervention.InterventionMode.Knockdown
+            }
+
+            Return analyzer.AnalyzeIntervention(spec, nSamples, RandomSeed)
+        End Function
+
+        ''' <summary>
+        ''' 步骤4：动态级联敲除模拟
+        ''' </summary>
+        Public Function DynamicKnockout(geneName As String, nTimeSteps As Integer, Optional nSamples As Integer = 0) As Intervention.InterventionResult
+            If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
+                Throw New Exception("请先执行结构学习和参数学习")
+            End If
+
+            If nSamples <= 0 Then nSamples = Me.NSamples
 
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then
@@ -190,7 +207,7 @@ Namespace Core
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
 
-            If nSamples <= 0 Then nSamples = nSamples
+            If nSamples <= 0 Then nSamples = Me.NSamples
 
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then
@@ -211,7 +228,7 @@ Namespace Core
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
 
-            If nSamples <= 0 Then nSamples = nSamples
+            If nSamples <= 0 Then nSamples = Me.NSamples
 
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then

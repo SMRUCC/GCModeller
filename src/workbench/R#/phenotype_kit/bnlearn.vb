@@ -86,11 +86,23 @@ Module bnlearn
 
     <ExportAPI("overexpress")>
     <RApiReturn(GetType(InterventionResult))>
-    Public Function overexpress(bnlearn As BNLearnWorkflow, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
+    Public Function overexpress(bnlearn As BNLearnWorkflow, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional env As Environment = Nothing) As Object
         Dim result As New List(Of InterventionResult)
 
         For Each geneName As String In CLRVector.asCharacter(geneNames)
             Call result.Add(bnlearn.OverexpressGene(geneName))
+        Next
+
+        Return result.ToArray
+    End Function
+
+    <ExportAPI("knockdown")>
+    <RApiReturn(GetType(InterventionResult))>
+    Public Function knockdownGene(bnlearn As BNLearnWorkflow, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
+        Dim result As New List(Of InterventionResult)
+
+        For Each geneName As String In CLRVector.asCharacter(geneNames)
+            Call result.Add(bnlearn.KnockDownGene(geneName))
         Next
 
         Return result.ToArray
