@@ -1,10 +1,10 @@
-Imports BNLearn.Core
-Imports BNLearn.Intervention
-Imports BNLearn.Intervention.InterventionComparisonExporter
-Imports BNLearn.IO
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionComparisonExporter
+Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Module Program
