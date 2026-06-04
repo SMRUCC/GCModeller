@@ -14,6 +14,7 @@ Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
 <Package("bnlearn")>
 <RTypeExport("struct_learn_params", GetType(StructureLearningParams))>
+<RTypeExport("knowledges", GetType(Dictionary(Of String, PathwayInfo)))>
 Module bnlearn
 
     <ExportAPI("bnlearn")>
