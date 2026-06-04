@@ -1,3 +1,5 @@
+Imports rng = Microsoft.VisualBasic.Math.RandomExtensions
+
 ' ============================================================
 ' Inference.vb - 概率推断引擎
 ' ============================================================
@@ -28,10 +30,11 @@ Namespace Inference
         ''' 按拓扑排序依次采样：Xi ~ N(β0 + Σβj·Pa_j, σ²)
         ''' </summary>
         Public Function Sample(nSamples As Integer, Optional seed As Integer = 0) As Double(,)
-            Dim rng As New Random(seed)
             Dim nG As Integer = _network.Nodes.Count
             Dim topoOrder As Integer() = _network.TopologicalSort()
             Dim samples As Double(,) = New Double(nG - 1, nSamples - 1) {}
+
+            Call rng.SetSeed(seed)
 
             For s = 0 To nSamples - 1
                 ' 按拓扑序依次采样每个节点
@@ -47,7 +50,7 @@ Namespace Inference
                     Next
 
                     ' 从条件分布采样
-                    samples(nodeIdx, s) = cpd.Sample(parentValues, rng)
+                    samples(nodeIdx, s) = cpd.Sample(parentValues)
                 Next
             Next
 
@@ -279,11 +282,11 @@ Namespace Inference
                                 Optional seed As Integer = 0) As (PredictedMeans As Double(), PredictedSDs As Double())
 
             Dim nG As Integer = _network.Nodes.Count
-            Dim rng As New Random(seed)
             Dim topoOrder As Integer() = _network.TopologicalSort()
-
             ' 记录每个基因的采样值
             Dim sampleValues As New List(Of Double())()
+
+            Call rng.SetSeed(seed)
 
             For s = 0 To nSamples - 1
                 Dim values As Double() = New Double(nG - 1) {}
@@ -308,7 +311,7 @@ Namespace Inference
                         parentValues(p) = values(node.Parents(p))
                     Next
 
-                    values(nodeIdx) = cpd.Sample(parentValues, rng)
+                    values(nodeIdx) = cpd.Sample(parentValues)
                 Next
 
                 sampleValues.Add(values)

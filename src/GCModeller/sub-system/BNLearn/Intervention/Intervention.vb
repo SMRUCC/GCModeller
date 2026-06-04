@@ -257,7 +257,6 @@ Namespace Intervention
 
             ' 动态模拟
             Dim trajectory As Double(,)() = New Double(nTimeSteps - 1, nG - 1)() {}
-            Dim rng As New Random(seed)
             Dim topoOrder As Integer() = _network.TopologicalSort()
 
             ' 初始状态：从训练数据均值开始

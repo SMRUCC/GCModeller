@@ -15,6 +15,7 @@
 
 Imports System.Collections.Generic
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports _rng = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace StructureLearning
 
@@ -93,7 +94,6 @@ Namespace StructureLearning
 
         Private _data As Core.GeneExpressionData
         Private _params As StructureLearningParams
-        Private _rng As Random
 
         ' 缓存统计量
         Private _means As Double()
@@ -111,7 +111,7 @@ Namespace StructureLearning
 
             _data = data
             _params = params
-            _rng = New Random(params.RandomSeed)
+            _rng.SetSeed(params.RandomSeed)
 
             ' 预计算统计量
             PrecomputeStatistics()
@@ -545,14 +545,20 @@ Namespace StructureLearning
         ''' 对于高斯BN：LL_node = -n/2·log(2πσ²) - 1/(2σ²)·RSS
         ''' </summary>
         Public Function ComputeNetworkBIC(net As Core.BayesianNetwork) As Double
-            Dim totalBIC As Double = 0
             Dim nS As Integer = _data.NSample
+            Dim totalBIC As Double() = New Double(net.Nodes.Count - 1) {}
 
-            For i = 0 To net.Nodes.Count - 1
-                totalBIC += ComputeNodeBIC(net, i, nS)
-            Next
+            Call Parallel.For(
+                0, net.Nodes.Count,
+                body:=Sub(i)
+                          totalBIC(i) = ComputeNodeBIC(net, i, nS)
+                      End Sub)
 
-            Return totalBIC
+            'For i = 0 To net.Nodes.Count - 1
+            '    totalBIC += ComputeNodeBIC(net, i, nS)
+            'Next
+
+            Return totalBIC.Sum
         End Function
 
         ''' <summary>

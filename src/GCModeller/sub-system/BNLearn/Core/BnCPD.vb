@@ -1,3 +1,5 @@
+Imports rng = Microsoft.VisualBasic.Math.RandomExtensions
+
 ' ============================================================
 ' BnCPD.vb - 条件概率分布（CPD）参数
 ' ============================================================
@@ -74,7 +76,7 @@ Namespace Core
         ''' 从条件分布中采样
         ''' Xi ~ N(β0 + Σ βj·Pa_j, σ²)
         ''' </summary>
-        Public Overridable Function Sample(parentValues As Double(), rng As Random) As Double
+        Public Overridable Function Sample(parentValues As Double()) As Double
             Dim mean As Double = ConditionalMean(parentValues)
             ' Box-Muller 变换生成正态随机数
             Dim u1 As Double = rng.NextDouble()
@@ -162,7 +164,7 @@ Namespace Core
             Return InterventionValue
         End Function
 
-        Public Overrides Function Sample(parentValues As Double(), rng As Random) As Double
+        Public Overrides Function Sample(parentValues As Double()) As Double
             Return InterventionValue
         End Function
 
