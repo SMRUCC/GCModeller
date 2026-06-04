@@ -24,6 +24,32 @@ Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)
 .PP
 \fBenv\fB \fR\- -. 
 .PP
+.SH EXAMPLES
+.PP
+imports "bioseq.fasta" from "seqtoolkit";
+ imports "bifrost" from "seqtoolkit";
+ imports "annotation.genomics" from "seqtoolkit";
+ 
+ # an example workflow script for run prodigal gene prediction on MAGs contigs assembly sequence, 
+ # and export the result to files. The input contigs assembly sequence is in FASTA format, 
+ # and the output gene prediction result is in PredictionResult format, which can be further 
+ # converted to GFF3 format, or gene/protein FASTA format. The example workflow script is 
+ # as follows:
+ 
+ # read the contigs assembly sequence from a FASTA file
+ let MAGs <- "MAGs_contigs.fasta";
+ let contigs <- read.fasta(MAGs);
+ # predict genes on the contigs assembly sequence 
+ let result <- prodigal(contigs, min.ORF.len = 90);
+ 
+ # export result to files
+ write.csv(as.data.frame(result), file = "gene_predicts.csv");
+ # export the gene prediction result to GFF3 format
+ write.gff3(as.gff3(result), file = "gene_predicts.gff3");
+ # export gene/protein fasta sequence to file
+ write.fasta(as.genes(result), file = "gene_predicts.fna");
+ write.fasta(as.proteins(result), file = "protein_predicts.faa");
+.PP
 .SH SEE ALSO
 bifrost
 .SH FILES

@@ -91,6 +91,9 @@ declare namespace annotation.genomics {
    function upstream(context: object, length?: object, is_relative_offset?: boolean): object;
    module write {
       /**
+      */
+      function gff3(gff: object, file: string): boolean;
+      /**
         * @param file default value Is ``null``.
         * @param encoding default value Is ``null``.
         * @param env default value Is ``null``.
