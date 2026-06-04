@@ -356,6 +356,8 @@ Namespace StructureLearning
 
                 Dim nG As Integer = net.Nodes.Count
 
+                Call net.MakeBlackIndex()
+
                 ' 遍历所有可能的操作
                 For i = 0 To nG - 1
                     For j = 0 To nG - 1
@@ -371,14 +373,11 @@ Namespace StructureLearning
                         End If
 
                         ' 检查黑名单
-                        Dim inBlacklist As Boolean = False
-                        For Each bl In net.Blacklist
-                            If bl.FromIdx = i AndAlso bl.ToIdx = j Then
-                                inBlacklist = True
-                                Exit For
-                            End If
-                        Next
-                        If inBlacklist Then Continue For
+                        Dim inBlacklist As Boolean = net.blackEdges.Contains((i, j))
+
+                        If inBlacklist Then
+                            Continue For
+                        End If
 
                         If net.HasEdge(i, j) Then
                             ' 操作1：删除边 i→j
@@ -396,13 +395,7 @@ Namespace StructureLearning
                             ' 操作2：反转边 i→j 为 j→i
                             If Not net.HasEdge(j, i) Then
                                 ' 检查反转后是否在黑名单
-                                Dim reverseBlacklisted As Boolean = False
-                                For Each bl In net.Blacklist
-                                    If bl.FromIdx = j AndAlso bl.ToIdx = i Then
-                                        reverseBlacklisted = True
-                                        Exit For
-                                    End If
-                                Next
+                                Dim reverseBlacklisted As Boolean = net.blackEdges.Contains((j, i))
 
                                 If Not reverseBlacklisted Then
                                     net.RemoveEdge(i, j)

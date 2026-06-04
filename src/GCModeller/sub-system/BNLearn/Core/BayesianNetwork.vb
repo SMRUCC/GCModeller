@@ -103,6 +103,18 @@ Namespace Core
             Return -1
         End Function
 
+        Friend blackEdges As New HashSet(Of (Integer, Integer))
+
+        Public Function MakeBlackIndex() As BayesianNetwork
+            blackEdges = New HashSet(Of (Integer, Integer))
+
+            For Each bl In Blacklist
+                Call blackEdges.Add(bl)
+            Next
+
+            Return Me
+        End Function
+
         ' ==================== 边操作 ====================
 
         ''' <summary>添加有向边 fromIdx → toIdx</summary>
@@ -113,9 +125,9 @@ Namespace Core
             If Adjacency(fromIdx, toIdx) Then Return False
 
             ' 检查黑名单
-            For Each bl In Blacklist
-                If bl.FromIdx = fromIdx AndAlso bl.ToIdx = toIdx Then Return False
-            Next
+            If blackEdges.Contains((fromIdx, toIdx)) Then
+                Return False
+            End If
 
             ' 检查是否会形成环
             If WouldCreateCycle(fromIdx, toIdx) Then Return False

@@ -7,12 +7,16 @@
       "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\structurelearning\\structurelearning.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B1573153-C9BF-46F4-A2A1-9A596EB5DDBC}|BNLearn\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{B1573153-C9BF-46F4-A2A1-9A596EB5DDBC}|BNLearn\\test\\test.vbproj|solutionrelative:bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\intervention\\intervention.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\intervention\\intervention.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\core\\bayesiannetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\core\\bayesiannetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1573153-C9BF-46F4-A2A1-9A596EB5DDBC}|BNLearn\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{B1573153-C9BF-46F4-A2A1-9A596EB5DDBC}|BNLearn\\test\\test.vbproj|solutionrelative:bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\core\\bnlearnworkflow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -33,7 +37,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -53,13 +57,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Intervention.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Intervention\\Intervention.vb",
+              "RelativeDocumentMoniker": "BNLearn\\Intervention\\Intervention.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Intervention\\Intervention.vb",
+              "RelativeToolTip": "BNLearn\\Intervention\\Intervention.vb",
+              "ViewState": "AgIAAHcBAAAAAAAAAAAAwH0BAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-04T15:55:31.809Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "BayesianNetwork.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Core\\BayesianNetwork.vb",
               "RelativeDocumentMoniker": "BNLearn\\Core\\BayesianNetwork.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Core\\BayesianNetwork.vb",
               "RelativeToolTip": "BNLearn\\Core\\BayesianNetwork.vb",
-              "ViewState": "AgIAAGMAAAAAAAAAAAA2wIcAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAQwG4AAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-04T15:40:15.724Z",
               "EditorCaption": ""
@@ -72,14 +89,14 @@
               "RelativeDocumentMoniker": "BNLearn\\StructureLearning\\StructureLearning.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\StructureLearning\\StructureLearning.vb",
               "RelativeToolTip": "BNLearn\\StructureLearning\\StructureLearning.vb",
-              "ViewState": "AgIAAEQBAAAAAAAAAAAowHcBAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAEgBAAAAAAAAAAAcwFgBAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-04T15:35:15.704Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "SampleInfo.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
               "RelativeDocumentMoniker": "..\\..\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
@@ -92,7 +109,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "BNLearnWorkflow.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Core\\BNLearnWorkflow.vb",
               "RelativeDocumentMoniker": "BNLearn\\Core\\BNLearnWorkflow.vb",
@@ -105,7 +122,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "IO.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\IO\\IO.vb",
               "RelativeDocumentMoniker": "BNLearn\\IO\\IO.vb",
@@ -118,13 +135,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\test\\Program.vb",
               "RelativeDocumentMoniker": "BNLearn\\test\\Program.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\test\\Program.vb",
               "RelativeToolTip": "BNLearn\\test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-04T08:30:30.927Z",
               "EditorCaption": ""
