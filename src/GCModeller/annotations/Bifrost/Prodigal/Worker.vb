@@ -51,22 +51,22 @@ Public Module ProdigalWorker
     ''' <summary>
     ''' 运行基因预测
     ''' </summary>  
-    Public Function GenePrediction(sequences As FastaFile, Optional MinOrfLength As Integer = 90, Optional ByRef model As TrainingModel = Nothing) As IEnumerable(Of PredictionResult)
-        If sequences.Count = 0 Then
+    Public Function GenePrediction(MAGs As FastaFile, Optional MinOrfLength As Integer = 90, Optional ByRef model As TrainingModel = Nothing) As IEnumerable(Of PredictionResult)
+        If MAGs.Count = 0 Then
             Throw New InvalidDataException("错误：输入文件中没有有效序列")
         End If
 
         If model Is Nothing Then
             ' 从输入序列无监督训练
             Console.WriteLine("未指定模型文件，从输入序列进行无监督训练...")
-            model = TrainingEngine.Train(sequences)
+            model = TrainingEngine.Train(MAGs)
         End If
 
         ' 执行基因预测
         Console.WriteLine()
         Console.WriteLine("开始基因预测...")
         Dim pipeline As New PredictionPipeline(MinOrfLength)
-        Dim results = pipeline.Predict(sequences, model)
+        Dim results = pipeline.Predict(MAGs, model)
 
         Return results
     End Function

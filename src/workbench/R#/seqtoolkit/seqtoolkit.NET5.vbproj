@@ -117,6 +117,8 @@
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SNP\SNP.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\annotations\Bifrost\MetaEuk\MetaEuk.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\annotations\Bifrost\Prodigal\Prodigal.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\data\RCSB PDB\RCSB PDB.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\data\Xfam\Pfam\Pfam.vbproj" />

@@ -1,4 +1,5 @@
-﻿Imports System.Text
+﻿Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -7,13 +8,10 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' </summary>
 Public Class ResultWriter
 
-    ''' <summary>
-    ''' 输出GFF3格式基因预测结果
-    ''' </summary>
-    Public Shared Sub WriteGff3(results As IReadOnlyCollection(Of PredictionResult), filePath As String)
+    Public Shared Function CastToGff(results As IReadOnlyCollection(Of PredictionResult)) As GFFTable
         Dim geneList As New List(Of Feature)
 
-        For Each result In results
+        For Each result As PredictionResult In results
             For Each gene As PredictedGene In result.Genes
                 Dim partialTag = If(String.IsNullOrEmpty(gene.PartialType), ".", gene.PartialType)
 
@@ -44,37 +42,51 @@ Public Class ResultWriter
             Next
         Next
 
-        Dim gff As New GFFTable With {.features = geneList.ToArray, .[date] = Now.ToString, .GffVersion = 3, .processor = "Prodigal"}
+        Return New GFFTable With {
+            .features = geneList.ToArray,
+            .[date] = Now.ToString,
+            .GffVersion = 3,
+            .processor = "Prodigal"
+        }
+    End Function
 
-        Call gff.Save(filePath)
+    ''' <summary>
+    ''' 输出GFF3格式基因预测结果
+    ''' </summary>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Sub WriteGff3(results As IReadOnlyCollection(Of PredictionResult), filePath As String)
+        Call CastToGff(results).Save(filePath)
     End Sub
+
+    Public Shared Iterator Function GetProteinSequences(results As IReadOnlyCollection(Of PredictionResult)) As IEnumerable(Of FastaSeq)
+        For Each result As PredictionResult In results
+            For Each gene As PredictedGene In result.Genes
+                Yield gene.CreateProteinFasta(result.SeqId)
+            Next
+        Next
+    End Function
 
     ''' <summary>
     ''' 输出蛋白质FASTA文件
     ''' </summary>
     Public Shared Sub WriteProteinFasta(results As IReadOnlyCollection(Of PredictionResult), filePath As String)
-        Dim seqs As New List(Of FastaSeq)
-        For Each result In results
+        Call New FastaFile(GetProteinSequences(results)).Save(filePath)
+    End Sub
+
+    Public Shared Iterator Function GetGeneSequences(results As IReadOnlyCollection(Of PredictionResult)) As IEnumerable(Of FastaSeq)
+        For Each result As PredictionResult In results
             For Each gene As PredictedGene In result.Genes
-                Call seqs.Add(gene.CreateProteinFasta(result.SeqId))
+                Yield gene.CreateGeneFasta(result.SeqId)
             Next
         Next
-
-        Call New FastaFile(seqs).Save(filePath)
-    End Sub
+    End Function
 
     ''' <summary>
     ''' 输出核苷酸FASTA文件
     ''' </summary>
     Public Shared Sub WriteNucleotideFasta(results As IReadOnlyCollection(Of PredictionResult), filePath As String)
-        Dim seqs As New List(Of FastaSeq)
-        For Each result In results
-            For Each gene As PredictedGene In result.Genes
-                Call seqs.Add(gene.CreateGeneFasta(result.SeqId))
-            Next
-        Next
-
-        Call New FastaFile(seqs).Save(filePath)
+        Call New FastaFile(GetGeneSequences(results)).Save(filePath)
     End Sub
 
     ''' <summary>
@@ -85,7 +97,7 @@ Public Class ResultWriter
             writer.WriteLine($"SeqID{vbTab}GeneIndex{vbTab}Start{vbTab}End{vbTab}Strand{vbTab}Length{vbTab}" &
                 $"StartCodon{vbTab}StopCodon{vbTab}TotalScore{vbTab}CodingScore{vbTab}StartScore{vbTab}" &
                 $"RbsScore{vbTab}TypeScore{vbTab}UpstreamScore{vbTab}RbsMotif{vbTab}RbsSpacing{vbTab}Partial")
-            For Each result In results
+            For Each result As PredictionResult In results
                 For Each gene As PredictedGene In result.Genes
                     writer.WriteLine($"{result.SeqId}{vbTab}{gene.GeneIndex}{vbTab}{gene.Start}{vbTab}{gene.End}{vbTab}" &
                         $"{gene.Strand}{vbTab}{gene.Length}{vbTab}{gene.StartCodon}{vbTab}{gene.StopCodon}{vbTab}" &
@@ -107,7 +119,7 @@ Public Class ResultWriter
         Console.WriteLine("="c, 70)
 
         Dim totalGenes As Integer = 0
-        For Each result In results
+        For Each result As PredictionResult In results
             Console.WriteLine($"  序列: {result.SeqId}  (长度: {result.SeqLength:N0} bp)")
             Console.WriteLine($"    预测基因数: {result.Genes.Count}")
             If result.Genes.Count > 0 Then
