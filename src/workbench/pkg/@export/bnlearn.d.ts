@@ -15,6 +15,9 @@ declare namespace bnlearn {
    function bnlearn(exprData: object, priorNet?: any, max_itrs?: object, env?: object): object;
    /**
    */
+   function knockdown(bnlearn: object, geneNames: any): object;
+   /**
+   */
    function knockouts(bnlearn: object, geneNames: any): object;
    /**
      * @param pathway_info default value Is ``null``.
@@ -23,8 +26,9 @@ declare namespace bnlearn {
    */
    function make_exports(results: any, dir: string, pathway_info?: object, top_n?: object, env?: object): any;
    /**
+     * @param env default value Is ``null``.
    */
-   function overexpress(bnlearn: object, geneNames: any): object;
+   function overexpress(bnlearn: object, geneNames: any, env?: object): object;
    /**
    */
    function prior_network(TF: any, target_gene: any, regulation_type: any, confidence: any, evidence: any): object;
