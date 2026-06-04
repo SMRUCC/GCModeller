@@ -324,12 +324,10 @@ Namespace Intervention
         ''' <summary>
         ''' 批量干扰分析：对多个基因逐一进行敲除/过表达
         ''' </summary>
-        Public Function BatchIntervention(geneIndices As Integer(),
+        Public Iterator Function BatchIntervention(geneIndices As Integer(),
                                           mode As InterventionMode,
                                           Optional nSamples As Integer = 5000,
-                                          Optional seed As Integer = 42) As List(Of InterventionResult)
-
-            Dim results As New List(Of InterventionResult)()
+                                          Optional seed As Integer = 42) As IEnumerable(Of InterventionResult)
 
             For Each geneIdx In geneIndices
                 Dim spec As New InterventionSpec() With {
@@ -338,15 +336,8 @@ Namespace Intervention
                     .Mode = mode
                 }
 
-                Try
-                    Dim result As InterventionResult = AnalyzeIntervention(spec, nSamples, seed)
-                    results.Add(result)
-                Catch ex As Exception
-                    ' 跳过失败的干预
-                End Try
+                Yield AnalyzeIntervention(spec, nSamples, seed)
             Next
-
-            Return results
         End Function
 
         ' ==================== 内部方法 ====================

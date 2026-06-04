@@ -1,4 +1,5 @@
 Imports BNLearn.Core
+Imports BNLearn.Intervention
 Imports BNLearn.IO
 Imports Microsoft.VisualBasic.Data.Framework
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -14,6 +15,7 @@ Module Program
         Dim workflow As New BNLearnWorkflow()
         workflow.ExpressionData = exprData
         workflow.PriorNetwork = priorNet
+        workflow.StructureParams.MaxIterations = 10
 
         ' 3. 结构学习（MMHC + 白名单先验）
         workflow.LearnStructure()
@@ -22,19 +24,19 @@ Module Program
         workflow.LearnParameters()
 
         ' 5. 虚拟敲除
-        Dim koResult = workflow.KnockoutGene("TP53")
+        Dim koResult = workflow.KnockoutGene("codY")
 
         ' 6. 虚拟过表达
-        Dim oeResult = workflow.OverexpressGene("MYC", 3.0)
+        Dim oeResult As InterventionResult = workflow.OverexpressGene("codY", 3.0)
 
         ' 7. 动态级联模拟
-        Dim dynResult = workflow.DynamicKnockout("TP53", nTimeSteps:=10)
+        Dim dynResult As InterventionResult = workflow.DynamicKnockout("codY", nTimeSteps:=10)
 
         ' 8. 批量敲除
-        Dim batchResults = workflow.BatchKnockout({"TP53", "BRCA1", "RB1"})
+        Dim batchResults As InterventionResult() = workflow.BatchKnockout({"codY", "terR", "luxR"}).ToArray
 
         ' 9. 输出结果
-        workflow.SaveResults("output/")
+        workflow.SaveResults(App.HOME & "/output/")
 
     End Sub
 End Module
