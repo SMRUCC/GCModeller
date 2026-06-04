@@ -18,18 +18,21 @@ Module bnlearn
 
     <ExportAPI("bnlearn")>
     <RApiReturn(GetType(BNLearnWorkflow))>
-    Public Function bnlearn(exprData As matrix, <RRawVectorArgument> priorNet As Object,
+    Public Function bnlearn(exprData As matrix,
+                            <RRawVectorArgument(GetType(RegulatoryEdge))>
+                            Optional priorNet As Object = Nothing,
                             Optional max_itrs As Integer = 500,
                             Optional env As Environment = Nothing) As Object
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of RegulatoryEdge)(priorNet, env)
 
-        If pull.isError Then
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of RegulatoryEdge)(priorNet, env, nullPipe:=True)
+
+        If pull IsNot Nothing AndAlso pull.isError Then
             Return pull.getError
         End If
 
         Dim workflow As New BNLearnWorkflow() With {
             .ExpressionData = BnIO.ReadGeneExpressionMatrix(exprData),
-            .PriorNetwork = BnIO.ReadPriorNetwork(pull.populates(Of RegulatoryEdge)(env))
+            .PriorNetwork = BnIO.ReadPriorNetwork(pull?.populates(Of RegulatoryEdge)(env))
         }
 
         workflow.StructureParams.MaxIterations = max_itrs

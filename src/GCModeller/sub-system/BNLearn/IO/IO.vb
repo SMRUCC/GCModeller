@@ -1,6 +1,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
@@ -69,7 +70,7 @@ Namespace IO
         Public Function ReadPriorNetwork(TRN As IEnumerable(Of RegulatoryEdge)) As Core.PriorNetwork
             Dim prior As New Core.PriorNetwork()
 
-            For Each edge As RegulatoryEdge In TRN
+            For Each edge As RegulatoryEdge In TRN.SafeQuery
                 Call prior.AddEdge(edge.TF, edge.TargetGene, edge.RegulationType, edge.Confidence, edge.Evidence)
             Next
 
