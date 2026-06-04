@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>bifrost</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; bifrost; seqtoolkit" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {bifrost}">
+      <tbody>
+        <tr>
+          <td>{bifrost}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>bifrost</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "bifrost"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
+                           </code>
+    </p>
+    <p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: block">
+        <caption>.NET clr type export</caption>
+        <tbody><tr>
+  <td id="prodigal">
+    <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">prodigal: TrainingModel</a>
+  </td>
+  <td><p>训练模型 - 包含编码区模型、RBS模型、起始密码子模型</p></td>
+</tr></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="as.data.frame">
+    <a href="./bifrost/as.data.frame.html">as.data.frame</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="prodigal_training">
+    <a href="./bifrost/prodigal_training.html">prodigal_training</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="prodigal">
+    <a href="./bifrost/prodigal.html">prodigal</a>
+  </td>
+  <td><p>Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)</p></td>
+</tr>
+<tr>
+  <td id="as.gff3">
+    <a href="./bifrost/as.gff3.html">as.gff3</a>
+  </td>
+  <td><p>cast the gene prediction result as GFF3 table format</p></td>
+</tr>
+<tr>
+  <td id="as.proteins">
+    <a href="./bifrost/as.proteins.html">as.proteins</a>
+  </td>
+  <td><p>Extract the protein sequences from the gene prediction result, and return as FASTA format. The sequence ID is in the format of "seqid<em>geneindex". For example, "contig1</em>5" means the 5th predicted gene on contig1. The sequence description is in the format of "start-end(strand)". For example, "100-900(+)" means the gene starts at position 100, ends at position 900, and is on the forward strand.</p></td>
+</tr>
+<tr>
+  <td id="as.genes">
+    <a href="./bifrost/as.genes.html">as.genes</a>
+  </td>
+  <td><p>Extract the gene sequences from the gene prediction result, and return as FASTA format. The sequence ID is in the format of "seqid<em>geneindex". For example, "contig1</em>5" means the 5th predicted gene on contig1. The sequence description is in the format of "start-end(strand)". For example, "100-900(+)" means the gene starts at position 100, ends at position 900, and is on the forward strand.</p></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

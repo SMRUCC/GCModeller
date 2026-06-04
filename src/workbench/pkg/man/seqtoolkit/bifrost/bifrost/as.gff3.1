@@ -1,0 +1,26 @@
+.\" man page create by R# package system.
+.TH BIFROST 1 2000-1月 "as.gff3" "as.gff3"
+.SH NAME
+as.gff3 \- cast the gene prediction result as GFF3 table format
+.SH SYNOPSIS
+\fIas.gff3(\fBx\fR as any, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+cast the gene prediction result as GFF3 table format
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ the gene prediction result, which can be the output of "prodigal" function, or a pipeline that produces PredictionResult objects. The pipeline can be created by using the "pipeline" function in R#, and the final output of the pipeline should be PredictionResult objects. For example, if you have a pipeline that produces PredictionResult objects, you can pass it directly to this function to get the GFF3 table format output.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+bifrost
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
