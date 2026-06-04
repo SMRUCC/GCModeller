@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <RootNamespace>BNLearn</RootNamespace>
-    <AssemblyName>BNLearn</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.Analysis.BNLearn</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Analysis.BNLearn</AssemblyName>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>Off</OptionStrict>
