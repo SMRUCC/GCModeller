@@ -46,6 +46,10 @@ declare namespace bifrost {
       function proteins(x: any, env?: object): object;
    }
    /**
+     * @param env default value Is ``null``.
+   */
+   function metaeuk(x: any, env?: object): object;
+   /**
     * Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)
     * 
     * 
