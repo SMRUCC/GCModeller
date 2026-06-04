@@ -64,5 +64,6 @@ Public Class zzz
         Call workflows.Main()
         Call context.Main()
         Call primers.Main()
+        Call bifrost.Main()
     End Sub
 End Class

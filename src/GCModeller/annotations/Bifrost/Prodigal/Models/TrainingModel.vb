@@ -18,7 +18,7 @@ Public Class TrainingModel
     Public Property RbsPwm As Double(,)
 
     ''' <summary>RBS模体列表</summary>
-    Public Property RbsMotifs As List(Of String)
+    Public Property RbsMotifs As String()
 
     ''' <summary>RBS模体得分表</summary>
     Public Property RbsMotifScores As Dictionary(Of String, Double)
@@ -55,9 +55,7 @@ Public Class TrainingModel
             {"ATG", 0.75}, {"GTG", 0.15}, {"TTG", 0.1}
         }
         RbsPwm = New Double(5, 3) {}
-        RbsMotifs = New List(Of String) From {
-            "AGGAGG", "AGGAG", "GGAGG", "AGGA", "GAGG", "GGAG", "GAG", "AGG", "GGG"
-        }
+        RbsMotifs = New String() {"AGGAGG", "AGGAG", "GGAGG", "AGGA", "GAGG", "GGAG", "GAG", "AGG", "GGG"}
         RbsMotifScores = New Dictionary(Of String, Double)
         GcContent = 0.5
         AvgGeneLength = 900

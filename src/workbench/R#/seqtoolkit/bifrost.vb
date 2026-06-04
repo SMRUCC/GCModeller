@@ -12,6 +12,15 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 <RTypeExport("prodigal", GetType(TrainingModel))>
 Module bifrost
 
+    Sub Main()
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(PredictionResult()), AddressOf scoreTable)
+    End Sub
+
+    <ExportAPI("as.data.frame")>
+    Public Function scoreTable(result As PredictionResult(), args As list, env As Environment) As Object
+
+    End Function
+
     <ExportAPI("prodigal_training")>
     <RApiReturn(GetType(TrainingModel))>
     Public Function training(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
