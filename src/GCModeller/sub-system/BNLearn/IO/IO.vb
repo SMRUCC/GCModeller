@@ -20,7 +20,10 @@ Namespace IO
         ''' </summary>
         ''' 
         <Extension>
-        Public Function ReadGeneExpressionMatrix(expr As Matrix, Optional sampleinfo As SampleInfo() = Nothing) As Core.GeneExpressionData
+        Public Function ReadGeneExpressionMatrix(expr As Matrix,
+                                                 Optional sampleinfo As SampleInfo() = Nothing,
+                                                 Optional time_label As String = "time") As Core.GeneExpressionData
+
             Dim matrixRows As New List(Of Double())()
             Dim geneNames As String() = expr.rownames
             Dim sampleNames As String() = expr.sampleID
@@ -38,11 +41,22 @@ Namespace IO
                 Next
             Next
 
+            Dim t As Double() = Enumerable.Repeat(0.0, nSamples).ToArray()
+
+            If Not sampleinfo.IsNullOrEmpty Then
+                Dim sampleSet = sampleinfo.ToDictionary(Function(a) a.ID)
+                Dim sort = sampleNames.Select(Function(id) sampleSet(id)).ToArray
+
+                t = sort _
+                    .Select(Function(sample) Val(sample(time_label))) _
+                    .ToArray
+            End If
+
             Return New Core.GeneExpressionData() With {
                 .GeneNames = geneNames.ToArray(),
                 .SampleNames = sampleNames,
                 .Matrix = matrix,
-                .TimePoints = Enumerable.Repeat(0.0, nSamples).ToArray()
+                .TimePoints = t
             }
         End Function
 

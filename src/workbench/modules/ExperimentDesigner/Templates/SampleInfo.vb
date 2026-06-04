@@ -89,6 +89,15 @@ Public Class SampleInfo : Inherits SampleGroup
     ''' <returns></returns>
     Public Property metadata As Dictionary(Of String, String)
 
+    Default Public ReadOnly Property Value(name As String) As String
+        Get
+            If metadata Is Nothing OrElse metadata.Count = 0 Then
+                Return Nothing
+            End If
+            Return metadata.TryGetValue(name)
+        End Get
+    End Property
+
     Sub New()
     End Sub
 
