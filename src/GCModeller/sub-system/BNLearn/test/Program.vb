@@ -1,7 +1,10 @@
 Imports BNLearn.Core
 Imports BNLearn.Intervention
+Imports BNLearn.Intervention.InterventionComparisonExporter
 Imports BNLearn.IO
 Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Module Program
@@ -10,6 +13,7 @@ Module Program
         ' 1. 加载数据
         Dim exprData = BnIO.ReadGeneExpressionMatrix(Matrix.LoadData("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\gene_expression_matrix.csv"))
         Dim priorNet = BnIO.ReadPriorNetwork("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\regulatory_network_prior.csv".LoadCsv(Of RegulatoryEdge))
+        Dim pathways As Dictionary(Of String, PathwayInfo) = "G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\pathway_info.json".LoadJsonFile(Of Dictionary(Of String, PathwayInfo))
 
         ' 2. 创建工作流
         Dim workflow As New BNLearnWorkflow()
@@ -37,6 +41,10 @@ Module Program
 
         ' 9. 输出结果
         workflow.SaveResults(App.HOME & "/output/")
+
+        Dim save As New InterventionComparisonExporter(c({koResult, oeResult, dynResult}, batchResults))
+
+        Call save.ExportAll(App.HOME & "/output/", pathways)
 
     End Sub
 End Module

@@ -16,9 +16,7 @@
 '  10. 交叉影响矩阵 —— 哪些扰动影响了哪些通路的基因
 ' ============================================================
 
-Imports System.Collections.Generic
 Imports System.IO
-Imports System.Linq
 Imports System.Text
 
 Namespace Intervention
@@ -470,7 +468,7 @@ Namespace Intervention
                 Dim pathwayGeneIndices As New List(Of Integer)()
 
                 ' 找到属于该通路的基因在矩阵中的行索引
-                For Each gName In pInfo.Genes
+                For Each gName In pInfo.genes
                     Dim idx As Integer = -1
                     If geneMap.TryGetValue(gName, idx) Then
                         pathwayGeneIndices.Add(idx)
@@ -478,7 +476,7 @@ Namespace Intervention
                 Next
 
                 sb.Append(String.Format("{0},{1},{2}",
-                    EscapeCsv(pid), EscapeCsv(pInfo.Name), pathwayGeneIndices.Count))
+                    EscapeCsv(pid), EscapeCsv(pInfo.name), pathwayGeneIndices.Count))
 
                 ' 对每个扰动条件计算通路级别的汇总
                 For c = 0 To nC - 1
@@ -526,7 +524,7 @@ Namespace Intervention
 
             For c = 0 To nC - 1
                 For p = 0 To nP - 1
-                    Dim pGenes As String() = pathwayInfo(pathwayIDs(p)).Genes
+                    Dim pGenes As String() = pathwayInfo(pathwayIDs(p)).genes
                     Dim sigCount As Integer = 0
                     Dim totalCount As Integer = 0
 
@@ -648,9 +646,9 @@ Namespace Intervention
         ''' </summary>
         Public Class PathwayInfo
             ''' <summary>通路名称</summary>
-            Public Property Name As String
+            Public Property name As String
             ''' <summary>通路包含的基因ID列表</summary>
-            Public Property Genes As String()
+            Public Property genes As String()
         End Class
 
         ' ==================== 内部工具方法 ====================
@@ -739,7 +737,7 @@ Namespace Intervention
                 varY += dy * dy
             Next
 
-            If varX < 1e-30 OrElse varY < 1e-30 Then Return Double.NaN
+            If varX < 1.0E-30 OrElse varY < 1.0E-30 Then Return Double.NaN
             Return covXY / Math.Sqrt(varX * varY)
         End Function
 
