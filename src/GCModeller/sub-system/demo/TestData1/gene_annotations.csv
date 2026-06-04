@@ -1,0 +1,368 @@
+GeneID,GeneName,Annotation,PathwayID,IsTF,ExpressionPattern
+bcatA,bcatA,branched-chain amino acid aminotransferase,P01,True,early_peak
+bcatB,bcatB,branched-chain amino acid aminotransferase II,P01,False,early_peak
+bkdA1,bkdA1,branched-chain alpha-keto acid dehydrogenase E1 alpha,P01,False,mid_peak
+bkdA2,bkdA2,branched-chain alpha-keto acid dehydrogenase E1 beta,P01,False,mid_peak
+bkdB,bkdB,branched-chain alpha-keto acid dehydrogenase E2,P01,False,mid_peak
+lpdA,lpdA,dihydrolipoamide dehydrogenase,P01,False,mid_peak
+ilvE,ilvE,branched-chain amino acid transaminase,P01,False,early_peak
+leuA,leuA,2-isopropylmalate synthase,P01,False,early_rise
+leuB,leuB,3-isopropylmalate dehydrogenase,P01,False,early_rise
+leuC,leuC,3-isopropylmalate dehydratase large subunit,P01,False,early_rise
+leuD,leuD,3-isopropylmalate dehydratase small subunit,P01,False,early_rise
+ivdA,ivdA,isovaleryl-CoA dehydrogenase,P01,False,mid_peak
+mmsA,mmsA,methylmalonate-semialdehyde dehydrogenase,P01,False,late_rise
+hmgA,hmgA,hydroxymethylglutaryl-CoA lyase,P01,False,late_rise
+hmgL,hmgL,HMG-CoA synthase,P01,False,mid_peak
+bkdR,bkdR,BCAA degradation transcriptional regulator,P01,True,early_peak
+aroP,aroP,aromatic amino acid permease,P01,False,early_peak
+brnQ,brnQ,branched-chain amino acid transport system II carrier protein,P01,False,early_peak
+fadD,fadD,acyl-CoA synthetase,P02,False,mid_rise
+fadE,fadE,acyl-CoA dehydrogenase,P02,False,mid_rise
+fadA,fadA,3-ketoacyl-CoA thiolase,P02,False,mid_peak
+fadB,fadB,fatty acid oxidation complex alpha subunit,P02,False,mid_peak
+fadI,fadI,3-hydroxyacyl-CoA dehydrogenase,P02,False,mid_peak
+fadJ,fadJ,enoyl-CoA hydratase,P02,False,mid_peak
+fadR,fadR,fatty acid metabolism transcriptional regulator,P02,True,mid_peak
+fadK,fadK,acyl-CoA synthetase (anaerobic),P02,False,late_rise
+echA,echA,enoyl-CoA hydratase/isomerase,P02,False,mid_rise
+acdh,acdh,acyl-CoA dehydrogenase (short-chain specific),P02,False,mid_peak
+atoA,atoA,acetoacetyl-CoA transferase alpha subunit,P02,False,late_rise
+atoB,atoB,acetyl-CoA acetyltransferase,P02,False,late_rise
+atoD,atoD,acetoacetyl-CoA transferase beta subunit,P02,False,late_rise
+yqeA,yqeA,putative acyl-CoA thioesterase,P02,False,mid_peak
+paaF,paaF,enoyl-CoA hydratase (phenylacetate catabolism),P02,False,mid_rise
+paaG,paaG,phenylacetate catabolism ring-cleavage protein,P02,False,late_rise
+paaH,paaH,3-hydroxyadipyl-CoA dehydrogenase,P02,False,late_rise
+paaJ,paaJ,3-oxoadipyl-CoA thiolase,P02,False,late_rise
+eatA,eatA,ethanol acetyltransferase,P03,False,late_peak
+eatB,eatB,alcohol acetyltransferase II,P03,False,late_peak
+estA,estA,carboxylesterase type B,P03,False,late_rise
+estB,estB,arylesterase,P03,False,late_rise
+estC,estC,carboxylesterase family protein,P03,False,late_peak
+atfA,atfA,alcohol O-acetyltransferase,P03,False,late_peak
+atfB,atfB,alcohol O-acetyltransferase homolog,P03,False,late_rise
+eht1,eht1,ethanol hexanoyl transferase,P03,False,late_peak
+eeb1,eeb1,ethanol acyltransferase,P03,False,late_peak
+acsA,acsA,acetyl-CoA synthetase,P03,False,mid_rise
+acsL,acsL,long-chain acyl-CoA synthetase,P03,False,mid_rise
+adhA,adhA,alcohol dehydrogenase (Zn-dependent),P03,False,mid_peak
+adhB,adhB,alcohol dehydrogenase (Fe-dependent),P03,False,mid_peak
+adhE,adhE,bifunctional aldehyde/alcohol dehydrogenase,P03,False,mid_peak
+aldA,aldA,aldehyde dehydrogenase A,P03,False,mid_rise
+aldB,aldB,aldehyde dehydrogenase B,P03,False,mid_rise
+dxs,dxs,1-deoxy-D-xylulose-5-phosphate synthase,P04,False,mid_rise
+dxr,dxr,1-deoxy-D-xylulose-5-phosphate reductoisomerase,P04,False,mid_rise
+ispD,ispD,2-C-methyl-D-erythritol 4-phosphate cytidylyltransferase,P04,False,mid_peak
+ispE,ispE,4-diphosphocytidyl-2-C-methyl-D-erythritol kinase,P04,False,mid_peak
+ispF,ispF,"2-C-methyl-D-erythritol 2,4-cyclodiphosphate synthase",P04,False,mid_peak
+ispG,ispG,(E)-4-hydroxy-3-methylbut-2-enyl-diphosphate synthase,P04,False,mid_peak
+ispH,ispH,4-hydroxy-3-methylbut-2-enyl diphosphate reductase,P04,False,mid_peak
+idi,idi,isopentenyl-diphosphate delta-isomerase,P04,False,mid_rise
+ispA,ispA,geranyltranstransferase (farnesyl diphosphate synthase),P04,False,late_rise
+crtE,crtE,geranylgeranyl pyrophosphate synthase,P04,False,late_rise
+gerA,gerA,geraniol synthase,P04,False,late_peak
+linalS,linalS,linalool synthase,P04,False,late_peak
+pinS,pinS,alpha-pinene synthase,P04,False,late_peak
+limS,limS,limonene synthase,P04,False,late_peak
+terR,terR,terpenoid biosynthesis transcriptional regulator,P04,True,mid_rise
+ispB,ispB,octaprenyl diphosphate synthase,P04,False,mid_peak
+pal,pal,phenylalanine ammonia-lyase,P05,False,mid_peak
+pdcA,pdcA,phenylacetate decarboxylase,P05,False,late_rise
+feaB,feaB,phenylacetaldehyde dehydrogenase,P05,False,mid_peak
+feaD,feaD,phenylacetic acid degradation protein,P05,False,late_rise
+phhA,phhA,phenylalanine 4-hydroxylase,P05,False,mid_rise
+tyrB,tyrB,aromatic amino acid aminotransferase,P05,False,early_peak
+aroA,aroA,3-phosphoshikimate 1-carboxyvinyltransferase,P05,False,early_rise
+aroB,aroB,3-dehydroquinate synthase,P05,False,early_rise
+aroC,aroC,chorismate synthase,P05,False,early_rise
+aroG,aroG,DAHP synthase (Phe-sensitive),P05,True,early_rise
+pheA,pheA,chorismate mutase/prephenate dehydratase,P05,False,early_peak
+paaX,paaX,phenylacetate catabolism transcriptional repressor,P05,True,mid_peak
+hpaB,hpaB,4-hydroxyphenylacetate 3-monooxygenase,P05,False,mid_rise
+hpaC,hpaC,4-hydroxyphenylacetate 3-monooxygenase reductase,P05,False,mid_rise
+metA,metA,homoserine O-succinyltransferase,P06,False,early_rise
+metB,metB,cystathionine gamma-synthase,P06,False,early_peak
+metC,metC,cystathionine beta-lyase,P06,False,mid_peak
+metE,metE,cobalamin-independent methionine synthase,P06,False,mid_rise
+metH,metH,cobalamin-dependent methionine synthase,P06,False,mid_rise
+metK,metK,S-adenosylmethionine synthetase,P06,False,mid_peak
+mgl,mgl,methionine gamma-lyase,P06,False,late_peak
+mdeA,mdeA,L-methionine gamma-lyase (flavor-relevant),P06,False,late_peak
+cysK,cysK,cysteine synthase A,P06,False,early_rise
+cysE,cysE,serine O-acetyltransferase,P06,False,early_rise
+cysD,cysD,sulfate adenylyltransferase subunit 2,P06,False,early_peak
+cysH,cysH,phosphoadenosine phosphosulfate reductase,P06,False,early_peak
+cysI,cysI,sulfite reductase (NADPH) hemoprotein beta,P06,False,early_peak
+tst,tst,thiosulfate sulfurtransferase,P06,False,mid_rise
+mtrA,mtrA,methyltransferase (sulfur metabolism),P06,False,mid_peak
+cysR,cysR,cysteine biosynthesis transcriptional regulator,P06,True,early_peak
+ldhA,ldhA,L-lactate dehydrogenase,P07,False,early_peak
+ldhB,ldhB,D-lactate dehydrogenase,P07,False,early_peak
+lldD,lldD,L-lactate dehydrogenase (FMN-linked),P07,False,mid_rise
+dld,dld,D-lactate dehydrogenase (FAD-linked),P07,False,mid_rise
+lctP,lctP,lactate permease,P07,False,early_peak
+pflB,pflB,pyruvate formate-lyase,P07,False,mid_peak
+pflD,pflD,formate acetyltransferase,P07,False,mid_peak
+ackA,ackA,acetate kinase,P07,False,mid_peak
+pta,pta,phosphotransacetylase,P07,False,mid_peak
+acs,acs,acetyl-CoA synthetase,P07,False,mid_rise
+poxB,poxB,pyruvate oxidase,P07,False,mid_peak
+lldR,lldR,lactate metabolism transcriptional regulator,P07,True,early_peak
+pksA,pksA,polyketide synthase type I module 1,P08,False,late_rise
+pksB,pksB,polyketide synthase type I module 2,P08,False,late_rise
+pksC,pksC,polyketide synthase type I module 3,P08,False,late_peak
+pksD,pksD,polyketide synthase type I module 4,P08,False,late_peak
+pksE,pksE,polyketide synthase type II alpha subunit,P08,False,late_peak
+pksF,pksF,polyketide synthase type II beta subunit,P08,False,late_peak
+pksG,pksG,polyketide cyclase,P08,False,late_peak
+pksH,pksH,polyketide ketoreductase,P08,False,late_rise
+pksI,pksI,polyketide aromatase,P08,False,late_peak
+pksJ,pksJ,polyketide synthase thioesterase,P08,False,late_peak
+pksK,pksK,acyl carrier protein (PKS),P08,False,late_rise
+pksL,pksL,PKS-associated phosphopantetheinyl transferase,P08,False,late_rise
+pksM,pksM,PKS regulatory protein,P08,True,late_rise
+pksN,pksN,PKS transport protein,P08,False,late_peak
+pksR,pksR,PKS resistance protein,P08,False,late_peak
+acpA,acpA,acyl carrier protein,P08,False,mid_rise
+fabD,fabD,malonyl CoA-ACP transacylase,P08,False,mid_rise
+fabH,fabH,3-oxoacyl-ACP synthase III,P08,False,mid_rise
+nrpA,nrpA,non-ribosomal peptide synthetase module 1,P09,False,late_rise
+nrpB,nrpB,non-ribosomal peptide synthetase module 2,P09,False,late_rise
+nrpC,nrpC,non-ribosomal peptide synthetase module 3,P09,False,late_peak
+nrpD,nrpD,NRPS condensation domain,P09,False,late_peak
+nrpE,nrpE,NRPS adenylation domain,P09,False,late_peak
+nrpF,nrpF,NRPS thiolation domain,P09,False,late_rise
+nrpG,nrpG,NRPS thioesterase domain,P09,False,late_peak
+nrpH,nrpH,NRPS epimerase domain,P09,False,late_peak
+nrpI,nrpI,NRPS methyltransferase domain,P09,False,late_rise
+nrpJ,nrpJ,NRPS reductase domain,P09,False,late_rise
+nrpK,nrpK,NRPS transport protein,P09,False,late_peak
+nrpL,nrpL,NRPS regulatory protein,P09,True,late_rise
+nrpM,nrpM,NRPS resistance protein,P09,False,late_peak
+srfAA,srfAA,surfactin synthetase subunit A,P09,False,late_peak
+srfAB,srfAB,surfactin synthetase subunit B,P09,False,late_peak
+comS,comS,competence protein (NRPS-derived),P09,False,late_rise
+nisA,nisA,nisin precursor peptide,P10,False,late_peak
+nisB,nisB,nisin modification enzyme (dehydratase),P10,False,late_rise
+nisC,nisC,nisin modification enzyme (cyclase),P10,False,late_rise
+nisT,nisT,nisin ABC transporter,P10,False,late_peak
+nisI,nisI,nisin immunity protein,P10,False,late_peak
+nisR,nisR,nisin two-component response regulator,P10,True,late_rise
+nisK,nisK,nisin two-component sensor kinase,P10,False,late_rise
+nisP,nisP,nisin extracellular serine protease,P10,False,late_peak
+bacA,bacA,bacteriocin precursor peptide A,P10,False,late_peak
+bacB,bacB,bacteriocin precursor peptide B,P10,False,late_peak
+bacC,bacC,bacteriocin immunity protein,P10,False,late_peak
+bacT,bacT,bacteriocin ABC transporter,P10,False,late_rise
+bacR,bacR,bacteriocin transcriptional regulator,P10,True,late_rise
+bacK,bacK,bacteriocin sensor histidine kinase,P10,False,late_rise
+luxS,luxS,S-ribosylhomocysteine lyase (AI-2 synthase),P11,False,mid_rise
+luxR,luxR,transcriptional regulator LuxR family,P11,True,mid_peak
+luxI,luxI,autoinducer synthase (AHL),P11,False,mid_rise
+phrA,phrA,phr peptide pheromone,P11,False,mid_peak
+rapA,rapA,response regulator aspartate phosphatase,P11,False,mid_peak
+comA,comA,two-component response regulator (competence),P11,True,mid_peak
+comP,comP,two-component sensor kinase (competence),P11,False,mid_rise
+spaK,spaK,two-component sensor kinase (subtilin),P11,False,late_rise
+spaR,spaR,two-component response regulator (subtilin),P11,True,late_rise
+sinI,sinI,sin anti-repressor,P11,False,mid_peak
+sinR,sinR,sin transcriptional regulator,P11,True,mid_peak
+abrB,abrB,transition state regulator AbrB,P11,True,early_peak
+spo0A,spo0A,sporulation transcription factor Spo0A,P11,True,late_rise
+spo0B,spo0B,sporulation phosphotransferase,P11,False,late_rise
+spo0F,spo0F,sporulation response regulator,P11,False,mid_peak
+codY,codY,global transcriptional regulator CodY,P11,True,early_peak
+ccpA,ccpA,catabolite control protein A,P12,True,early_peak
+ccpB,ccpB,catabolite control protein B,P12,True,early_peak
+ccpC,ccpC,catabolite control protein C,P12,True,early_rise
+sigA,sigA,RNA polymerase sigma factor SigA (housekeeping),P12,True,stable
+sigB,sigB,RNA polymerase sigma factor SigB (stress),P12,True,mid_peak
+sigH,sigH,RNA polymerase sigma factor SigH (sporulation),P12,True,late_rise
+sigL,sigL,RNA polymerase sigma factor SigL (ECF),P12,True,mid_rise
+sigM,sigM,RNA polymerase sigma factor SigM (ECF),P12,True,mid_rise
+sigW,sigW,RNA polymerase sigma factor SigW (ECF),P12,True,mid_peak
+glnR,glnR,glutamine synthetase repressor,P12,True,early_peak
+tcrA,tcrA,two-component response regulator,P12,True,mid_peak
+tcrB,tcrB,two-component sensor histidine kinase,P12,False,mid_rise
+resD,resD,two-component response regulator (respiration),P12,True,mid_peak
+resE,resE,two-component sensor kinase (respiration),P12,False,mid_rise
+fur,fur,ferric uptake regulator,P12,True,early_peak
+perR,perR,peroxide stress response regulator,P12,True,mid_peak
+lexA,lexA,SOS response transcriptional repressor,P12,True,stable
+hrcA,hrcA,heat-inducible transcription repressor,P12,True,stable
+purA,purA,adenylosuccinate synthetase,P13,False,early_rise
+purB,purB,adenylosuccinate lyase,P13,False,early_rise
+purC,purC,phosphoribosylaminoimidazole-succinocarboxamide synthase,P13,False,early_peak
+purD,purD,phosphoribosylamine-glycine ligase,P13,False,early_peak
+purF,purF,amidophosphoribosyltransferase,P13,False,early_rise
+purH,purH,phosphoribosylaminoimidazolecarboxamide formyltransferase,P13,False,early_peak
+pyrA,pyrA,carbamoyl-phosphate synthase large subunit,P13,False,early_rise
+pyrB,pyrB,aspartate carbamoyltransferase,P13,False,early_peak
+pyrC,pyrC,dihydroorotase,P13,False,early_peak
+pyrD,pyrD,dihydroorotate dehydrogenase,P13,False,early_rise
+pyrE,pyrE,orotate phosphoribosyltransferase,P13,False,early_peak
+pyrF,pyrF,orotidine-5'-phosphate decarboxylase,P13,False,early_peak
+purR,purR,purine operon repressor,P13,True,early_peak
+pyrR,pyrR,pyrimidine operon attenuator protein,P13,True,early_peak
+sidA,sidA,siderophore biosynthesis monooxygenase,P14,False,mid_rise
+sidB,sidB,siderophore biosynthesis ligase,P14,False,mid_rise
+sidC,sidC,siderophore biosynthesis acetyltransferase,P14,False,mid_peak
+sidD,sidD,siderophore biosynthesis epimerase,P14,False,mid_peak
+sidE,sidE,siderophore biosynthesis decarboxylase,P14,False,mid_rise
+sidF,sidF,siderophore synthetase,P14,False,mid_peak
+sidG,sidG,siderophore export ABC transporter ATP-binding protein,P14,False,mid_peak
+sidH,sidH,siderophore transport permease,P14,False,mid_rise
+sidI,sidI,siderophere-binding protein,P14,False,mid_rise
+sidJ,sidJ,siderophore uptake ABC transporter,P14,False,mid_peak
+sidK,sidK,siderophore-interacting protein,P14,False,mid_rise
+sidL,sidL,siderophore biosynthesis transcriptional regulator,P14,True,mid_peak
+entA,entA,"2,3-dihydro-2,3-dihydroxybenzoate dehydrogenase",P14,False,mid_rise
+entB,entB,enterobactin synthetase component B,P14,False,mid_peak
+katA,katA,catalase (heme-dependent),P15,False,mid_peak
+katE,katE,catalase HPII,P15,False,mid_peak
+sodA,sodA,superoxide dismutase (Mn),P15,False,mid_rise
+sodB,sodB,superoxide dismutase (Fe),P15,False,mid_rise
+sodC,sodC,superoxide dismutase (Cu-Zn),P15,False,mid_rise
+ahpC,ahpC,alkyl hydroperoxide reductase subunit C,P15,False,mid_peak
+ahpD,ahpD,alkyl hydroperoxide reductase subunit D,P15,False,mid_peak
+trxA,trxA,thioredoxin,P15,False,stable
+trxB,trxB,thioredoxin reductase,P15,False,stable
+gor,gor,glutathione reductase,P15,False,stable
+gshA,gshA,glutamate-cysteine ligase,P15,False,early_rise
+gshB,gshB,glutathione synthetase,P15,False,early_rise
+osrR,osrR,oxidative stress response regulator,P15,True,mid_peak
+oxyR,oxyR,hydrogen peroxide response regulator,P15,True,mid_peak
+glyA,glyA,serine hydroxymethyltransferase,P16,False,early_rise
+thrA,thrA,aspartokinase/homoserine dehydrogenase,P16,False,early_peak
+thrB,thrB,homoserine kinase,P16,False,early_peak
+thrC,thrC,threonine synthase,P16,False,early_peak
+ilvA,ilvA,threonine deaminase,P16,False,early_peak
+ilvB,ilvB,acetolactate synthase large subunit,P16,False,early_peak
+ilvC,ilvC,ketol-acid reductoisomerase,P16,False,early_rise
+ilvD,ilvD,dihydroxyacid dehydratase,P16,False,early_rise
+lysC,lysC,aspartokinase III (lysine-sensitive),P16,False,early_peak
+dapA,dapA,dihydrodipicolinate synthase,P16,False,early_rise
+dapB,dapB,dihydrodipicolinate reductase,P16,False,early_rise
+lysA,lysA,diaminopimelate decarboxylase,P16,False,early_peak
+argA,argA,N-acetylglutamate synthase,P16,False,early_rise
+argB,argB,acetylglutamate kinase,P16,False,early_rise
+argC,argC,N-acetyl-gamma-glutamyl-phosphate reductase,P16,False,early_peak
+argG,argG,argininosuccinate synthase,P16,False,early_peak
+argH,argH,argininosuccinate lyase,P16,False,early_peak
+argR,argR,arginine repressor,P16,True,early_peak
+pykA,pykA,pyruvate kinase II,P17,False,early_peak
+pykF,pykF,pyruvate kinase I,P17,False,early_peak
+pdhA,pdhA,pyruvate dehydrogenase E1 alpha,P17,False,early_peak
+pdhB,pdhB,pyruvate dehydrogenase E1 beta,P17,False,early_peak
+pdhC,pdhC,pyruvate dehydrogenase E2,P17,False,early_peak
+pdhD,pdhD,dihydrolipoamide dehydrogenase (PDH),P17,False,early_peak
+alsS,alsS,alpha-acetolactate synthase,P17,False,mid_peak
+alsD,alsD,alpha-acetolactate decarboxylase,P17,False,mid_peak
+budA,budA,alpha-acetolactate decarboxylase (acetoin),P17,False,mid_peak
+budB,budB,acetolactate synthase (acetoin),P17,False,mid_peak
+budC,budC,acetoin reductase/diacetyl reductase,P17,False,late_peak
+ilvN,ilvN,acetolactate synthase small subunit,P17,False,early_peak
+pdhR,pdhR,pyruvate dehydrogenase complex repressor,P17,True,early_peak
+aceE,aceE,pyruvate dehydrogenase E1 component,P17,False,early_peak
+aceF,aceF,dihydrolipoamide acetyltransferase,P17,False,early_peak
+lpd,lpd,dihydrolipoamide dehydrogenase,P17,False,early_peak
+ribA,ribA,GTP cyclohydrolase II (riboflavin),P18,False,early_rise
+ribB,ribB,"3,4-dihydroxy-2-butanone 4-phosphate synthase",P18,False,early_rise
+ribC,ribC,riboflavin synthase alpha chain,P18,False,early_peak
+ribD,ribD,riboflavin biosynthesis protein RibD,P18,False,early_peak
+ribE,ribE,riboflavin synthase beta chain,P18,False,early_peak
+thiA,thiA,thiamine biosynthesis protein ThiA,P18,False,early_rise
+thiB,thiB,thiamine-phosphate pyrophosphorylase,P18,False,early_rise
+thiC,thiC,thiamine biosynthesis protein ThiC,P18,False,early_peak
+bioA,bioA,adenosylmethionine-8-amino-7-oxononanoate aminotransferase,P18,False,early_rise
+bioB,bioB,biotin synthase,P18,False,early_peak
+bioD,bioD,dethiobiotin synthetase,P18,False,early_peak
+bioF,bioF,8-amino-7-oxononanoate synthase,P18,False,early_rise
+panB,panB,3-methyl-2-oxobutanoate hydroxymethyltransferase,P18,False,early_rise
+panC,panC,pantothenate synthetase,P18,False,early_peak
+panD,panD,aspartate 1-decarboxylase,P18,False,early_peak
+ribR,ribR,riboflavin biosynthesis transcriptional regulator,P18,True,early_peak
+cwlO,cwlO,cell wall hydrolase (autolysin),P19,False,late_rise
+lytA,lytA,N-acetylmuramoyl-L-alanine amidase,P19,False,late_peak
+lytB,lytB,glucosaminidase,P19,False,late_peak
+lytC,lytC,N-acetylmuramidase,P19,False,late_rise
+lytD,lytD,L-alanine amidase,P19,False,late_peak
+lytE,lytE,cell wall endopeptidase,P19,False,late_rise
+lytF,lytF,gamma-D-glutamate-meso-diaminopimelate muropeptidase,P19,False,late_peak
+atlA,atlA,major autolysin AtlA,P19,False,late_peak
+atlB,atlB,autolysin AtlB,P19,False,late_rise
+lytR,lytR,autolysin transcriptional regulator,P19,True,late_rise
+lytS,lytS,two-component sensor histidine kinase (autolysis),P19,False,late_rise
+walK,walK,two-component sensor kinase (cell wall),P19,False,mid_peak
+walR,walR,two-component response regulator (cell wall),P19,True,mid_peak
+tagO,tagO,teichoic acid biosynthesis protein,P19,False,mid_rise
+aprE,aprE,subtilisin (alkaline protease),P20,False,mid_peak
+nprE,nprE,neutral metalloprotease,P20,False,mid_peak
+nprB,nprB,neutral protease B,P20,False,mid_rise
+bpr,bpr,bacillopeptidase F,P20,False,mid_peak
+vpr,vpr,minor extracellular serine protease,P20,False,mid_rise
+epr,epr,extracellular serine protease,P20,False,mid_rise
+mpr,mpr,metalloprotease,P20,False,mid_peak
+pepA,pepA,aminopeptidase A/I,P20,False,mid_rise
+pepB,pepB,aminopeptidase B,P20,False,mid_rise
+pepC,pepC,aminopeptidase C,P20,False,mid_peak
+pepF,pepF,oligoendopeptidase F,P20,False,mid_peak
+pepN,pepN,aminopeptidase N,P20,False,mid_rise
+pepQ,pepQ,prolidase (Xaa-Pro dipeptidase),P20,False,mid_rise
+pepX,pepX,X-prolyl dipeptidyl aminopeptidase,P20,False,mid_peak
+oppA,oppA,oligopeptide-binding protein,P20,False,mid_rise
+oppB,oppB,oligopeptide transport system permease,P20,False,mid_rise
+degU,degU,two-component response regulator (degradative enzymes),P20,True,mid_peak
+degS,degS,two-component sensor kinase (degradative enzymes),P20,False,mid_rise
+pfkA,pfkA,phosphofructokinase,P17,False,early_peak
+fbaA,fbaA,fructose-bisphosphate aldolase,P17,False,early_peak
+tpiA,tpiA,triosephosphate isomerase,P17,False,early_peak
+gapA,gapA,glyceraldehyde-3-phosphate dehydrogenase,P17,False,early_peak
+pgk,pgk,phosphoglycerate kinase,P17,False,early_peak
+eno,eno,enolase,P17,False,early_peak
+gltA,gltA,citrate synthase,P02,False,mid_rise
+acnA,acnA,aconitate hydratase,P02,False,mid_rise
+icd,icd,isocitrate dehydrogenase,P02,False,mid_peak
+sucA,sucA,2-oxoglutarate dehydrogenase E1,P02,False,mid_peak
+sdhA,sdhA,succinate dehydrogenase flavoprotein,P02,False,mid_peak
+fumA,fumA,fumarase A,P02,False,mid_rise
+mdh,mdh,malate dehydrogenase,P02,False,mid_rise
+glcP,glcP,glucose/mannose:H+ symporter,P17,False,early_peak
+ptsG,ptsG,glucose-specific PTS enzyme IIBCBA,P17,False,early_peak
+ptsH,ptsH,phosphocarrier protein HPr,P17,False,early_peak
+ptsI,ptsI,phosphoenolpyruvate-protein phosphotransferase,P17,False,early_peak
+dnaK,dnaK,chaperone protein DnaK,P15,False,stable
+groEL,groEL,chaperonin GroEL,P15,False,stable
+groES,groES,chaperonin GroES,P15,False,stable
+clpP,clpP,ATP-dependent Clp protease,P15,False,mid_rise
+clpX,clpX,ATP-dependent Clp protease ATP-binding subunit,P15,False,mid_rise
+recA,recA,recombinase A,P13,False,stable
+rpoA,rpoA,RNA polymerase alpha subunit,P12,False,stable
+rpoB,rpoB,RNA polymerase beta subunit,P12,False,stable
+rpoC,rpoC,RNA polymerase beta prime subunit,P12,False,stable
+pgsA,pgsA,phosphatidylglycerophosphate synthase,P02,False,early_rise
+cls,cls,cardiolipin synthase,P02,False,early_rise
+plsB,plsB,glycerol-3-phosphate acyltransferase,P02,False,early_rise
+atpA,atpA,ATP synthase alpha subunit,P17,False,stable
+atpB,atpB,ATP synthase beta subunit,P17,False,stable
+atpD,atpD,ATP synthase delta subunit,P17,False,stable
+mglB,mglB,methionine ABC transporter substrate-binding protein,P06,False,early_peak
+cysP,cysP,sulfate ABC transporter substrate-binding protein,P06,False,early_peak
+ssuA,ssuA,alkanesulfonate ABC transporter substrate-binding protein,P06,False,mid_rise
+tauA,tauA,taurine ABC transporter substrate-binding protein,P06,False,mid_rise
+dmdA,dmdA,dimethylsulfoniopropionate demethylase,P06,False,late_peak
+bacilysinA,bacilysinA,bacilysin biosynthesis protein BacA,P09,False,late_rise
+bacilysinB,bacilysinB,bacilysin biosynthesis protein BacB,P09,False,late_rise
+bacilysinC,bacilysinC,bacilysin biosynthesis protein BacC,P09,False,late_peak
+dfnA,dfnA,difficidin biosynthesis PKS module 1,P08,False,late_rise
+dfnB,dfnB,difficidin biosynthesis PKS module 2,P08,False,late_rise
+macA,macA,macrolactin biosynthesis PKS,P08,False,late_peak
+baeA,baeA,bacillaene biosynthesis PKS module 1,P08,False,late_rise
+baeB,baeB,bacillaene biosynthesis PKS module 2,P08,False,late_rise
+baeC,baeC,bacillaene biosynthesis PKS module 3,P08,False,late_peak
+rocR,rocR,arginine catabolism transcriptional regulator,P12,True,early_peak
+tenA,tenA,transcriptional regulator TenA family,P12,True,mid_peak
+yvfA,yvfA,putative transcriptional regulator MarR family,P12,True,mid_rise
+ytkD,ytkD,putative transcriptional regulator LysR family,P12,True,early_peak
+yydA,yydA,putative two-component response regulator,P11,True,mid_peak
