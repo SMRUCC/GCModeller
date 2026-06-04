@@ -12,6 +12,8 @@
 ' ============================================================
 
 Imports System.Text
+Imports Microsoft.VisualBasic.Data.Framework
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Namespace Core
 
@@ -58,11 +60,10 @@ Namespace Core
         ''' <summary>
         ''' 步骤1：加载数据
         ''' </summary>
-        Public Sub LoadData(expressionMatrixPath As String, priorNetworkPath As String,
-                            Optional separator As Char = ChrW(9))
-            ExpressionData = IO.BnIO.ReadGeneExpressionMatrix(expressionMatrixPath, True, separator)
+        Public Sub LoadData(expressionMatrixPath As String, priorNetworkPath As String)
+            ExpressionData = IO.BnIO.ReadGeneExpressionMatrix(Matrix.LoadData(expressionMatrixPath))
             If Not String.IsNullOrEmpty(priorNetworkPath) AndAlso System.IO.File.Exists(priorNetworkPath) Then
-                PriorNetwork = IO.BnIO.ReadPriorNetwork(priorNetworkPath, separator)
+                PriorNetwork = IO.BnIO.ReadPriorNetwork(priorNetworkPath.LoadCsv(Of RegulatoryEdge)(mute:=True))
             Else
                 PriorNetwork = New PriorNetwork()
             End If
@@ -114,7 +115,7 @@ Namespace Core
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
 
-            If nSamples <= 0 Then nSamples = NSamples
+            If nSamples <= 0 Then nSamples = nSamples
 
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then
@@ -139,7 +140,7 @@ Namespace Core
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
 
-            If nSamples <= 0 Then nSamples = NSamples
+            If nSamples <= 0 Then nSamples = nSamples
 
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then
@@ -165,7 +166,7 @@ Namespace Core
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
 
-            If nSamples <= 0 Then nSamples = NSamples
+            If nSamples <= 0 Then nSamples = nSamples
 
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then
@@ -210,7 +211,7 @@ Namespace Core
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
 
-            If nSamples <= 0 Then nSamples = NSamples
+            If nSamples <= 0 Then nSamples = nSamples
 
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then
