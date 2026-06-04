@@ -24,3 +24,4 @@ let results = c(
 );
 
 make_exports(results, dir = here("bnlearn_results"), pathway_info = bios);
+bnlearn::save_model(model, dir = here("bnlearn_model"));

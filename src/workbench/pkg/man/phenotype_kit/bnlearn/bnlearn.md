@@ -8,3 +8,4 @@
 + [overexpress](bnlearn/overexpress.1) 
 + [knockdown](bnlearn/knockdown.1) 
 + [make_exports](bnlearn/make_exports.1) 
++ [save_model](bnlearn/save_model.1) save bnlearn model

@@ -5,6 +5,7 @@
 // ref=phenotype_kit.bnlearn@phenotype_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * 
 */
 declare namespace bnlearn {
    /**
@@ -32,4 +33,12 @@ declare namespace bnlearn {
    /**
    */
    function prior_network(TF: any, target_gene: any, regulation_type: any, confidence: any, evidence: any): object;
+   /**
+    * save bnlearn model
+    * 
+    * 
+     * @param bnlearn -
+     * @param dir -
+   */
+   function save_model(bnlearn: object, dir: string): any;
 }

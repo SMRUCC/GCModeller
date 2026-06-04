@@ -131,6 +131,12 @@ Module bnlearn
         Return True
     End Function
 
+    ''' <summary>
+    ''' save bnlearn model
+    ''' </summary>
+    ''' <param name="bnlearn"></param>
+    ''' <param name="dir"></param>
+    ''' <returns></returns>
     <ExportAPI("save_model")>
     Public Function save_model(bnlearn As BNLearnWorkflow, dir As String) As Object
         Call bnlearn.SaveResults(dir)
