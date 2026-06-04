@@ -131,4 +131,9 @@ Module bnlearn
         Return True
     End Function
 
+    <ExportAPI("save_model")>
+    Public Function save_model(bnlearn As BNLearnWorkflow, dir As String) As Object
+        Call bnlearn.SaveResults(dir)
+        Return True
+    End Function
 End Module

@@ -16,7 +16,7 @@ let priorNet = bnlearn::prior_network(TF = regs$TF,
     confidence = regs$Confidence,
     evidence = regs$Evidence
 );
-let model = bnlearn(exprData, priorNet, max_itrs = 10);
+let model = bnlearn(exprData, priorNet, max_itrs = 250);
 let results = c(
     model |> knockouts(["sigH", "yceF"]),
     model |> overexpress(["srfAA","thrC"]),
