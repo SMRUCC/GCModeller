@@ -5,12 +5,12 @@ Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionComparisonExporter
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
 <Package("bnlearn")>
 <RTypeExport("struct_learn_params", GetType(StructureLearningParams))>
@@ -18,7 +18,7 @@ Module bnlearn
 
     <ExportAPI("bnlearn")>
     <RApiReturn(GetType(BNLearnWorkflow))>
-    Public Function bnlearn(exprData As Matrix, <RRawVectorArgument> priorNet As Object,
+    Public Function bnlearn(exprData As matrix, <RRawVectorArgument> priorNet As Object,
                             Optional max_itrs As Integer = 500,
                             Optional env As Environment = Nothing) As Object
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of RegulatoryEdge)(priorNet, env)
