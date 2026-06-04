@@ -1,0 +1,351 @@
+﻿TF,TargetGene,RegulationType,Confidence,Evidence
+lutR,lutP,repression,0.95,ChIP-seq and EMSA confirmed binding to inverted repeat 5-TCATC-N1-GATGA-3
+abrB,tycA,repression,0.9,Binding to A+T-rich region upstream of tycA
+abrB,spoVG,activation,0.85,Regulates transcription initiation via promoter interaction
+spx,msaAB,activation,0.92,Interacts with RNAP alpha-CTD under oxidative stress
+sigH,ctaD,activation,0.88,Drives cytochrome biosynthesis during transition phase
+sigH,yhcN,activation,0.87,Newly identified promoter-driven gene
+comA,srfA,activation,0.93,Quorum sensing-dependent activation of surfactin operon
+spo0A,abrB,repression,0.91,Phosphorylated Spo0A represses abrB during sporulation entry
+degU,alsSD,activation,0.89,Positive regulation of acetoin synthesis pathway
+degU,ichAA,repression,0.9,Negative regulation of iturin biosynthesis genes
+srfAA,srfAB,activation,0.88,Operon co-expression and shared promoter
+srfAB,srfAC,activation,0.88,Operon co-expression and shared promoter
+srfAC,srfAD,activation,0.88,Operon co-expression and shared promoter
+fenA,fenB,activation,0.87,Fengycin operon co-expression
+fenB,fenC,activation,0.87,Fengycin operon co-expression
+dhbA,dhbB,activation,0.86,Bacillibactin operon co-expression
+dhbB,dhbC,activation,0.86,Bacillibactin operon co-expression
+dhbC,dhbD,activation,0.86,Bacillibactin operon co-expression
+sfp,srfAA,activation,0.9,Phosphopantetheinyl transferase activates NRPS
+sfp,fenA,activation,0.89,Phosphopantetheinyl transferase activates NRPS
+comA,srfAA,activation,0.92,Quorum sensing-dependent activation of surfactin operon
+comA,comS,activation,0.91,Positive feedback regulation of competence
+comA,comK,activation,0.88,Competence master regulator activation
+spo0A,srfAA,repression,0.85,Sporulation represses secondary metabolism
+spo0A,spo0F,activation,0.9,Phosphorelay activation
+abrB,srfAA,repression,0.87,Transition state repressor blocks surfactin
+abrB,fenA,repression,0.86,Transition state repressor blocks fengycin
+sigH,spo0A,activation,0.88,Stationary phase sigma factor activates sporulation
+sigH,comA,activation,0.85,Stationary phase sigma factor activates competence
+degU,srfAA,repression,0.84,DegU-P represses surfactin synthesis
+degU,comA,activation,0.86,Two-component system activates competence
+sinR,srfAA,repression,0.83,Biofilm regulator represses surfactin
+spx,katA,activation,0.91,Oxidative stress response activation
+spx,ahpC,activation,0.9,Oxidative stress response activation
+spx,trxB,activation,0.89,Thioredoxin system activation
+perR,katA,repression,0.88,Peroxide stress repressor
+perR,ahpC,repression,0.87,Peroxide stress repressor
+fur,feuA,repression,0.89,Iron uptake regulation
+zur,znuA,repression,0.88,Zinc uptake regulation
+ccpA,alsS,repression,0.87,Carbon catabolite repression
+codY,oppA,repression,0.86,Branched-chain amino acid repression
+codY,dppA,repression,0.85,Branched-chain amino acid repression
+lutR,dnaD,repression,0.91,Microarray co-expression analysis
+sigH,valS,activation,0.86,RNA-seq correlation analysis
+lutP,topB,activation,0.95,Phylogenetic footprinting
+clpP,dh1,activation,0.71,Predicted by network inference
+comP,rplC,repression,0.7,Predicted by network inference
+abrB,sipW,activation,0.92,Phylogenetic footprinting
+spo0E,yvcC,activation,0.73,Predicted by network inference
+spo0F,malonyl,activation,0.84,Literature curated
+abnB,yvfC,repression,0.92,RNA-seq correlation analysis
+sinR,tagC,repression,0.78,RNA-seq correlation analysis
+lutR,dhbA,activation,0.85,Microarray co-expression analysis
+degU,yflD,repression,0.93,Predicted by motif analysis
+ccpa,cysB,repression,0.89,Predicted by network inference
+clpX,topA,repression,0.91,Phylogenetic footprinting
+sigE,metE,repression,0.91,Predicted by motif analysis
+sigF,dhbA,activation,0.73,Predicted by motif analysis
+alsS,yceG,repression,0.76,RNA-seq correlation analysis
+sigB,proV,activation,0.92,Predicted by network inference
+spo0F,uvrA,repression,0.87,Literature curated
+ccpa,fumC,repression,0.88,Phylogenetic footprinting
+comP,ichAA,activation,0.9,Literature curated
+clpX,infB,activation,0.9,Predicted by motif analysis
+sigA,rpoA,activation,0.88,Predicted by motif analysis
+comK,metC,activation,0.85,Predicted by network inference
+comK,acyl,activation,0.95,Microarray co-expression analysis
+degU,atpG,repression,0.9,Predicted by motif analysis
+abrB,gltC,activation,0.92,RNA-seq correlation analysis
+phrC,sipW,activation,0.87,Predicted by motif analysis
+degQ,yjbC,activation,0.72,Predicted by network inference
+glnR,nuoF,repression,0.93,Literature curated
+comA,rpsE,repression,0.91,Predicted by motif analysis
+glnR,dppA,repression,0.82,RNA-seq correlation analysis
+sigH,trpA,activation,0.94,Predicted by network inference
+clpP,argB,repression,0.88,Microarray co-expression analysis
+sigG,yvfB,activation,0.92,RNA-seq correlation analysis
+spo0E,cysB,repression,0.88,Predicted by network inference
+slrA,ctaF,activation,0.77,Microarray co-expression analysis
+rocD,recA,activation,0.91,Phylogenetic footprinting
+phrC,srfAD,activation,0.72,Phylogenetic footprinting
+spo0F,argB,repression,0.95,Microarray co-expression analysis
+rocR,trpD,activation,0.89,Literature curated
+clpP,sucB,repression,0.94,Predicted by network inference
+spx,yvgB,activation,0.75,Predicted by motif analysis
+lutR,citH,repression,0.82,Literature curated
+spo0B,tsf,repression,0.87,Predicted by network inference
+sigA,yxkC,activation,0.89,Predicted by network inference
+clpP,murE,activation,0.88,RNA-seq correlation analysis
+spo0F,dnaD,activation,0.77,RNA-seq correlation analysis
+spo0A,argF,activation,0.86,RNA-seq correlation analysis
+sigG,dnaB,repression,0.92,Microarray co-expression analysis
+ccpa,katE,activation,0.83,Predicted by motif analysis
+sigA,metB,activation,0.87,Predicted by motif analysis
+comA,dnaE,activation,0.76,Microarray co-expression analysis
+sigA,brnQ,activation,0.93,Phylogenetic footprinting
+lutP,ctaF,repression,0.7,Phylogenetic footprinting
+fur,mutH,activation,0.71,RNA-seq correlation analysis
+rocD,fhuD,activation,0.77,Phylogenetic footprinting
+comQ,dhbB,activation,0.91,Microarray co-expression analysis
+sinI,dppF,repression,0.72,Microarray co-expression analysis
+perR,dnaA,activation,0.95,Phylogenetic footprinting
+sigA,lysC,activation,0.85,Literature curated
+spo0E,thrC,repression,0.85,RNA-seq correlation analysis
+sigH,yoaE,activation,0.89,Phylogenetic footprinting
+abrB,ywnE,repression,0.95,Predicted by network inference
+alsS,pksD,activation,0.92,Predicted by network inference
+degU,yxkA,activation,0.74,Predicted by motif analysis
+fur,ytrH,repression,0.75,RNA-seq correlation analysis
+phrC,ytrD,activation,0.86,Phylogenetic footprinting
+fur,acyl,repression,0.93,Predicted by network inference
+alsR,gltA,activation,0.94,RNA-seq correlation analysis
+abrB,mntC,repression,0.94,Literature curated
+abrB,yvdA,repression,0.86,Phylogenetic footprinting
+comA,sipS,repression,0.84,Predicted by network inference
+alsR,polC,repression,0.76,Predicted by network inference
+comP,mntD,activation,0.9,Phylogenetic footprinting
+comA,yceF,activation,0.95,Predicted by motif analysis
+catR,trpE,repression,0.85,Phylogenetic footprinting
+sigG,ywbA,repression,0.94,Predicted by motif analysis
+degQ,at2,repression,0.92,Predicted by network inference
+comP,oppC,repression,0.94,Predicted by network inference
+sigA,ywnE,repression,0.88,Literature curated
+ccpa,sucC,activation,0.88,Predicted by motif analysis
+rocR,dltA,repression,0.88,Predicted by network inference
+degQ,yxkC,repression,0.76,Literature curated
+spo0A,pheA,activation,0.77,Microarray co-expression analysis
+sinR,recF,activation,0.82,Literature curated
+glnR,yceD,activation,0.86,Phylogenetic footprinting
+catR,nuoB,activation,0.83,Predicted by motif analysis
+sinR,znuC,activation,0.88,Predicted by motif analysis
+alsS,pksA,activation,0.86,Predicted by network inference
+comP,yodA,activation,0.93,Microarray co-expression analysis
+degU,hisG,activation,0.89,Microarray co-expression analysis
+catR,dat,activation,0.89,Microarray co-expression analysis
+rocD,rplD,activation,0.9,Literature curated
+degU,metH,repression,0.82,RNA-seq correlation analysis
+clpX,bcp,repression,0.9,Microarray co-expression analysis
+spx,murB,activation,0.89,RNA-seq correlation analysis
+clpP,glmU,repression,0.9,Microarray co-expression analysis
+phrC,recA,activation,0.88,Predicted by motif analysis
+spo0A,ctaA,activation,0.94,Microarray co-expression analysis
+abrB,recF,repression,0.71,Phylogenetic footprinting
+degU,bacB,repression,0.78,Predicted by network inference
+sigE,bacD,activation,0.9,Microarray co-expression analysis
+spo0B,srfAC,repression,0.9,Literature curated
+catR,sdhC,activation,0.86,Predicted by motif analysis
+degU,fumC,activation,0.9,Predicted by motif analysis
+comQ,ytrF,repression,0.9,Literature curated
+spo0E,yvbA,activation,0.86,Literature curated
+rocD,yveE,activation,0.95,Predicted by network inference
+sinR,mreD,activation,0.9,Predicted by network inference
+alsR,dppF,repression,0.86,RNA-seq correlation analysis
+clpX,sucB,repression,0.91,Predicted by network inference
+lutP,yvdB,repression,0.92,Phylogenetic footprinting
+spo0A,ftsA,repression,0.73,RNA-seq correlation analysis
+comA,valU,repression,0.77,Phylogenetic footprinting
+comP,proW,activation,0.9,Literature curated
+sigB,dctP,repression,0.8,Microarray co-expression analysis
+sigF,ywnE,repression,0.71,RNA-seq correlation analysis
+sigE,yxkE,repression,0.94,Predicted by network inference
+lutR,ftsX,repression,0.81,Phylogenetic footprinting
+spo0A,tatA,repression,0.75,Predicted by motif analysis
+degQ,rpoB,activation,0.92,Predicted by motif analysis
+spx,msaB,activation,0.87,Predicted by network inference
+spo0F,cysA,activation,0.92,Phylogenetic footprinting
+rocR,fumC,activation,0.81,Microarray co-expression analysis
+rocR,atpF,activation,0.77,Predicted by network inference
+catR,ytrI,activation,0.93,Phylogenetic footprinting
+spo0E,nuoD,activation,0.89,Microarray co-expression analysis
+fur,ligC,repression,0.82,Predicted by network inference
+spo0F,pbpA,activation,0.79,Predicted by network inference
+degQ,hisF,repression,0.71,Phylogenetic footprinting
+perR,ftsX,repression,0.93,Microarray co-expression analysis
+lutR,rpoB,repression,0.94,Literature curated
+fur,murA,repression,0.88,Phylogenetic footprinting
+abrB,rplE,activation,0.93,RNA-seq correlation analysis
+clpP,valU,repression,0.75,Predicted by motif analysis
+clpX,bacA,activation,0.89,Microarray co-expression analysis
+slrA,brnQ,activation,0.72,Predicted by motif analysis
+sinI,trpF,repression,0.9,Phylogenetic footprinting
+lutP,dltD,activation,0.93,Predicted by motif analysis
+lutR,uvrC,repression,0.74,Literature curated
+comK,trpA,activation,0.91,Phylogenetic footprinting
+comP,mutL,activation,0.77,RNA-seq correlation analysis
+alsS,fhuB,repression,0.89,Microarray co-expression analysis
+spo0E,malonyl,activation,0.91,Literature curated
+glnR,dapA,repression,0.81,RNA-seq correlation analysis
+perR,murA,activation,0.88,Predicted by motif analysis
+spx,leuB,activation,0.87,Literature curated
+comA,rpsD,repression,0.88,RNA-seq correlation analysis
+sinI,nuoD,activation,0.75,Microarray co-expression analysis
+slrA,ytrA,activation,0.77,Predicted by motif analysis
+degU,fgnZ,repression,0.92,Predicted by network inference
+comQ,brnQ,activation,0.87,Literature curated
+sinR,pksS,activation,0.88,Literature curated
+sigA,leuD,activation,0.86,Microarray co-expression analysis
+rocD,dnaA,repression,0.78,Phylogenetic footprinting
+ccpa,ddlB,activation,0.72,Microarray co-expression analysis
+fur,yxkC,activation,0.89,Predicted by motif analysis
+glnR,tufA,activation,0.83,Predicted by motif analysis
+fur,qoxA,activation,0.91,Phylogenetic footprinting
+rocD,pbpB,repression,0.71,Predicted by motif analysis
+clpP,pksM,activation,0.7,Predicted by network inference
+rocD,fenD,activation,0.86,Literature curated
+sigA,groS,repression,0.79,Phylogenetic footprinting
+sigG,mreD,repression,0.94,Predicted by motif analysis
+codY,at2,activation,0.91,Predicted by network inference
+spo0B,dnaC,activation,0.92,Microarray co-expression analysis
+spx,ilvD,repression,0.86,Predicted by motif analysis
+sigE,proP,activation,0.77,Microarray co-expression analysis
+codY,murB,activation,0.91,Predicted by network inference
+clpP,ytrI,repression,0.94,Microarray co-expression analysis
+rocD,yqeA,activation,0.75,Microarray co-expression analysis
+lutR,yvfC,activation,0.85,RNA-seq correlation analysis
+abnB,yqeA,activation,0.89,Microarray co-expression analysis
+sigE,ywbC,activation,0.88,Predicted by motif analysis
+sigF,mntB,activation,0.72,Phylogenetic footprinting
+perR,yvbD,activation,0.95,Predicted by network inference
+sigB,sdhB,activation,0.73,Predicted by network inference
+abnB,hisB,activation,0.73,Predicted by network inference
+spo0A,nuoD,repression,0.87,Predicted by motif analysis
+glnR,fhuB,activation,0.95,Phylogenetic footprinting
+clpP,ftsY,repression,0.94,Microarray co-expression analysis
+ccpa,bacE,repression,0.82,Predicted by motif analysis
+spo0A,ytrG,activation,0.89,Phylogenetic footprinting
+codY,yxiD,activation,0.87,Predicted by motif analysis
+alsS,groS,activation,0.93,Microarray co-expression analysis
+sigB,ctaE,repression,0.9,Microarray co-expression analysis
+sigB,yjbF,activation,0.94,RNA-seq correlation analysis
+spo0B,metH,repression,0.7,Literature curated
+alsS,yjbF,activation,0.94,Phylogenetic footprinting
+lutR,fenD,activation,0.79,Predicted by motif analysis
+alsR,efp2,repression,0.9,Predicted by network inference
+spo0B,mntC,activation,0.93,Phylogenetic footprinting
+lutR,recB,repression,0.92,Predicted by motif analysis
+sigA,ywnC,repression,0.9,Literature curated
+sigE,dat,repression,0.89,RNA-seq correlation analysis
+spo0B,bacE,activation,0.77,Literature curated
+spx,bacB,activation,0.9,Predicted by motif analysis
+sigF,ywbB,repression,0.82,RNA-seq correlation analysis
+slrA,bacC,repression,0.7,Phylogenetic footprinting
+sinI,nuoE,repression,0.89,Predicted by network inference
+sigF,proX,activation,0.85,RNA-seq correlation analysis
+sigG,bacC,repression,0.82,Microarray co-expression analysis
+spo0B,yceF,repression,0.83,RNA-seq correlation analysis
+sigF,bcaP,activation,0.91,Predicted by motif analysis
+catR,yvcD,activation,0.86,Microarray co-expression analysis
+sigB,tagD,activation,0.86,Predicted by network inference
+alsS,fenC,repression,0.94,Predicted by network inference
+clpX,pksR,activation,0.95,Predicted by network inference
+ccpa,dppB,activation,0.93,Predicted by motif analysis
+rocR,ctaA,activation,0.85,Literature curated
+catR,ichAA,activation,0.92,RNA-seq correlation analysis
+sigH,groL,repression,0.85,Predicted by motif analysis
+sigA,gyrA,repression,0.91,Microarray co-expression analysis
+sinI,tagC,activation,0.93,Predicted by motif analysis
+sigE,fenD,activation,0.87,Predicted by network inference
+fur,mntD,activation,0.93,Literature curated
+spo0F,yxiD,repression,0.88,RNA-seq correlation analysis
+abnB,qoxE,repression,0.86,RNA-seq correlation analysis
+lutP,dltB,repression,0.92,RNA-seq correlation analysis
+sinI,yvfA,activation,0.94,Phylogenetic footprinting
+rocD,sdhD,repression,0.94,Microarray co-expression analysis
+sigA,metE,repression,0.91,RNA-seq correlation analysis
+lutP,leuD,repression,0.89,Predicted by network inference
+sigE,fumC,activation,0.91,Predicted by motif analysis
+ccpa,trxC,repression,0.85,RNA-seq correlation analysis
+spx,rpsD,activation,0.94,Phylogenetic footprinting
+abnB,minE,repression,0.89,Predicted by motif analysis
+sinI,uvrA,activation,0.92,Predicted by motif analysis
+ccpa,ytrD,repression,0.87,Literature curated
+abrB,topA,repression,0.85,Phylogenetic footprinting
+spo0A,proW,activation,0.72,Microarray co-expression analysis
+rocD,acnA,repression,0.94,Literature curated
+spx,yvbE,activation,0.86,Literature curated
+spo0E,tatC,activation,0.76,Predicted by network inference
+rocD,glmS,repression,0.94,Predicted by motif analysis
+codY,cysC,repression,0.72,RNA-seq correlation analysis
+rocR,srfAA,activation,0.92,Literature curated
+ccpa,yvgB,repression,0.85,Phylogenetic footprinting
+abrB,cydA,activation,0.92,Predicted by network inference
+comQ,argE,activation,0.94,Phylogenetic footprinting
+sigH,metB,activation,0.9,RNA-seq correlation analysis
+spo0B,oppB,repression,0.89,Predicted by motif analysis
+glnR,yvbE,activation,0.91,Literature curated
+abrB,srfAC,activation,0.82,Phylogenetic footprinting
+codY,bcaP,activation,0.89,Microarray co-expression analysis
+spx,ftsA,repression,0.77,Microarray co-expression analysis
+sigG,rpsD,activation,0.95,RNA-seq correlation analysis
+sinR,cysK,activation,0.86,RNA-seq correlation analysis
+ccpA,glnQ,repression,0.9,Literature curated
+comK,yvcE,repression,0.93,RNA-seq correlation analysis
+abnB,pksM,activation,0.92,Literature curated
+fur,leuA,activation,0.93,Literature curated
+sigB,ywbB,repression,0.78,Literature curated
+clpX,ywbE,activation,0.94,Microarray co-expression analysis
+perR,tpx,activation,0.93,Literature curated
+phrC,gltS,activation,0.89,RNA-seq correlation analysis
+rocD,proW,activation,0.86,RNA-seq correlation analysis
+spo0B,proV,repression,0.88,Predicted by motif analysis
+comK,dnaJ,activation,0.92,Predicted by motif analysis
+sigH,recD,activation,0.86,Phylogenetic footprinting
+fur,mdh,repression,0.91,Predicted by network inference
+comQ,dnaB,activation,0.86,Phylogenetic footprinting
+spo0E,fumB,activation,0.92,Predicted by network inference
+spo0F,metC,repression,0.78,Predicted by network inference
+spo0E,dppD,activation,0.95,Predicted by motif analysis
+sigG,hisA,activation,0.9,RNA-seq correlation analysis
+spo0E,srfAC,repression,0.87,Phylogenetic footprinting
+sinI,yjbC,repression,0.87,Predicted by network inference
+degQ,yvhC,repression,0.82,Literature curated
+sigE,ligC,activation,0.88,Microarray co-expression analysis
+abrB,yvgA,activation,0.89,Predicted by network inference
+glnR,ywnC,activation,0.95,Predicted by motif analysis
+catR,ilvD,repression,0.77,Microarray co-expression analysis
+sigG,ycxC,activation,0.86,Literature curated
+glnR,tagA,repression,0.91,Predicted by network inference
+rocR,gltS,repression,0.83,RNA-seq correlation analysis
+comP,yvbB,repression,0.92,RNA-seq correlation analysis
+clpP,ilvA,repression,0.9,Phylogenetic footprinting
+alsR,secD,repression,0.88,Microarray co-expression analysis
+comK,ahpD,activation,0.89,Predicted by motif analysis
+comK,yodD,repression,0.8,Microarray co-expression analysis
+abrB,argB,activation,0.93,RNA-seq correlation analysis
+rocR,nuoC,repression,0.87,Phylogenetic footprinting
+fur,gltC,repression,0.92,Phylogenetic footprinting
+glnR,ycxC,activation,0.9,Phylogenetic footprinting
+comK,msaAB,activation,0.74,Literature curated
+spo0A,trxB,activation,0.93,Phylogenetic footprinting
+alsS,gltS,activation,0.88,Phylogenetic footprinting
+codY,mreB,repression,0.79,Phylogenetic footprinting
+lutR,yvaD,activation,0.95,Predicted by motif analysis
+comA,metC,activation,0.88,RNA-seq correlation analysis
+sinR,uvrA,repression,0.92,Predicted by motif analysis
+spx,sipU,repression,0.86,Phylogenetic footprinting
+spo0E,leuD,repression,0.86,Phylogenetic footprinting
+sinI,recA,activation,0.84,Microarray co-expression analysis
+spo0B,bacD,activation,0.78,Literature curated
+catR,hisF,activation,0.74,Predicted by motif analysis
+abrB,yvgB,repression,0.85,Predicted by motif analysis
+clpP,ywbE,activation,0.94,Microarray co-expression analysis
+comK,ywbA,activation,0.94,Literature curated
+sigH,fenB,activation,0.94,Microarray co-expression analysis
+sigE,gltC,activation,0.74,RNA-seq correlation analysis
+alsS,yvdB,repression,0.74,Predicted by motif analysis
+sigA,ctaA,activation,0.73,Predicted by network inference
+spo0B,dppE,repression,0.78,Predicted by network inference
+ccpa,uvrB,repression,0.86,Literature curated
+alsR,ywnD,repression,0.92,Microarray co-expression analysis
