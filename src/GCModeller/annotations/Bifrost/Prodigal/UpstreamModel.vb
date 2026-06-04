@@ -13,7 +13,7 @@ Public Class UpstreamModel
     ''' 计算上游序列得分
     ''' 原核生物启动子上游通常有A/T丰富的-10区和-35区
     ''' </summary>
-    Public Shared Function ComputeUpstreamScore(orf As CandidateOrf, fullSequence As String) As Double
+    Public Shared Function ComputeUpstreamScore(orf As CandidateORF, fullSequence As String) As Double
         If String.IsNullOrEmpty(fullSequence) Then Return 0.0
 
         Dim seq = fullSequence.ToUpper()

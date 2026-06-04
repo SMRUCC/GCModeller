@@ -19,7 +19,7 @@ Public Class CodingModel
     ''' 从训练基因构建编码区和非编码区的六聚体频率模型
     ''' </summary>
     Public Shared Sub BuildModel(model As TrainingModel, sequences As IEnumerable(Of FastaSeq),
-                                  trainingOrfs As List(Of CandidateOrf))
+                                  trainingOrfs As List(Of CandidateORF))
         ' 重置计数
         Array.Clear(model.CodingHexamerCount, 0, 4096)
         Array.Clear(model.NoncodingHexamerCount, 0, 4096)
@@ -88,7 +88,7 @@ Public Class CodingModel
     ''' 计算一个ORF的编码区得分（cscore）
     ''' cscore = 所有in-frame六聚体的对数似然比之和 / 六聚体数量
     ''' </summary>
-    Public Shared Function ComputeCodingScore(orf As CandidateOrf, model As TrainingModel) As Double
+    Public Shared Function ComputeCodingScore(orf As CandidateORF, model As TrainingModel) As Double
         If String.IsNullOrEmpty(orf.NtSequence) Then Return -100.0
 
         Dim ntSeq = orf.NtSequence.ToUpper()

@@ -62,7 +62,7 @@ Public Class PredictionPipeline
             }
 
             Dim geneIndex = 1
-            For Each orf As CandidateOrf In selectedOrfs.OrderBy(Function(o) o.Start)
+            For Each orf As CandidateORF In selectedOrfs.OrderBy(Function(o) o.Start)
                 Dim gene As New PredictedGene With {
                     .SeqId = orf.SeqId,
                     .Start = orf.Start,

@@ -26,8 +26,8 @@ Public Class OrfFinder
     ''' <summary>
     ''' 在一条序列上查找所有候选ORF
     ''' </summary>
-    Public Function FindOrfs(fastaSeq As FastaSeq) As List(Of CandidateOrf)
-        Dim orfs As New List(Of CandidateOrf)()
+    Public Function FindOrfs(fastaSeq As FastaSeq) As List(Of CandidateORF)
+        Dim orfs As New List(Of CandidateORF)()
         Dim seq = fastaSeq.SequenceData
         Dim seqId = fastaSeq.locus_tag
 
@@ -55,7 +55,7 @@ Public Class OrfFinder
     ''' 算法：对每个阅读框，先定位所有终止密码子，再在每个终止-终止区间内
     ''' 查找所有起始密码子，为每个起始-终止对生成一个候选ORF
     ''' </summary>
-    Private Sub FindOrfsOnStrand(seq As String, seqId As String, strand As Char, orfs As List(Of CandidateOrf))
+    Private Sub FindOrfsOnStrand(seq As String, seqId As String, strand As Char, orfs As List(Of CandidateORF))
         For frame As Integer = 0 To 2
             ' 第一步：收集该阅读框内所有终止密码子的位置
             Dim stopPositions As New List(Of Integer)
@@ -85,7 +85,7 @@ Public Class OrfFinder
                                 aaSeq = aaSeq.Substring(0, aaSeq.Length - 1)
                             End If
 
-                            Dim orf As New CandidateOrf With {
+                            Dim orf As New CandidateORF With {
                                 .SeqId = seqId,
                                 .RawStart = i,
                                 .RawEnd = stopPos + 2,
@@ -175,7 +175,7 @@ Public Class OrfFinder
     ''' <summary>
     ''' 将反向链ORF的坐标从反向互补链坐标转换为原始序列坐标
     ''' </summary>
-    Private Sub ConvertReverseStrandCoords(orf As CandidateOrf, seqLen As Integer)
+    Private Sub ConvertReverseStrandCoords(orf As CandidateORF, seqLen As Integer)
         ' 反向链上：rawStart在RC序列中的位置 → 原始序列中的位置
         ' 原始序列位置 = seqLen - rcPos - 1
         Dim origStart = seqLen - orf.RawEnd

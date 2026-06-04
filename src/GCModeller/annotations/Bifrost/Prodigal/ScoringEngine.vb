@@ -15,8 +15,8 @@ Public Class ScoringEngine
     ''' <summary>
     ''' 对所有候选ORF进行打分
     ''' </summary>
-    Public Shared Sub ScoreAll(orfs As IEnumerable(Of CandidateOrf), model As TrainingModel, fullSequence As String)
-        For Each orf As CandidateOrf In orfs
+    Public Shared Sub ScoreAll(orfs As IEnumerable(Of CandidateORF), model As TrainingModel, fullSequence As String)
+        For Each orf As CandidateORF In orfs
             ' 编码区得分
             orf.CodingScore = CodingModel.ComputeCodingScore(orf, model)
             ' RBS得分
@@ -35,7 +35,7 @@ Public Class ScoringEngine
     ''' <summary>
     ''' 对单条序列的所有ORF进行打分
     ''' </summary>
-    Public Shared Sub ScoreForSequence(orfs As IEnumerable(Of CandidateOrf), model As TrainingModel, sequence As String)
+    Public Shared Sub ScoreForSequence(orfs As IEnumerable(Of CandidateORF), model As TrainingModel, sequence As String)
         Call ScoreAll(orfs, model, sequence)
     End Sub
 

@@ -3,12 +3,14 @@
 ' 基于 Prodigal (PROkaryotic DYnamic Programming Gene-finding ALgorithm) 算法
 ' ============================================================================
 
+Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
 ''' 候选ORF（开放阅读框）
 ''' </summary>
-Public Class CandidateOrf
+Public Class CandidateORF
     ''' <summary>所属序列ID</summary>
     Public Property SeqId As String
 
@@ -87,8 +89,7 @@ End Class
 ''' <summary>
 ''' 预测基因（从DP选出的最终结果）
 ''' </summary>
-Public Class PredictedGene
-    Inherits CandidateOrf
+Public Class PredictedGene : Inherits CandidateORF
 
     ''' <summary>置信度</summary>
     Public Property Confidence As Double
@@ -96,20 +97,21 @@ Public Class PredictedGene
     ''' <summary>基因编号（在序列内的顺序号）</summary>
     Public Property GeneIndex As Integer
 
-    Public Function CreateProteinFasta(seq_id As String) As FastaSeq
-        Dim title As String = $"{seq_id}_{GeneIndex} # {Start} # {[End]} # {Strand} # ID=gene_{GeneIndex};partial={PartialType}"
-        ' 每行60个氨基酸
-        Dim aa = AaSequence
+    Private Function FastaTitle(seq_id As String) As String
+        Dim loc As New NucleotideLocation(Start, [End], Strand.GetStrands)
+        Dim title As String = $"{seq_id}_{GeneIndex} {loc.ToString} ID=gene_{GeneIndex};partial={PartialType}"
 
-        Return New FastaSeq(aa, title:=title)
+        Return title
     End Function
 
-    Public Function CreateGeneFasta(seq_id As String) As FastaSeq
-        Dim title As String = $"{seq_id}_{GeneIndex} # {Start} # {[End]} # {Strand} # ID=gene_{GeneIndex};partial={PartialType}"
-        ' 每行60个氨基酸
-        Dim aa = NtSequence
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function CreateProteinFasta(seq_id As String) As FastaSeq
+        Return New FastaSeq(AaSequence, title:=FastaTitle(seq_id))
+    End Function
 
-        Return New FastaSeq(aa, title:=title)
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function CreateGeneFasta(seq_id As String) As FastaSeq
+        Return New FastaSeq(NtSequence, title:=FastaTitle(seq_id))
     End Function
 
 End Class

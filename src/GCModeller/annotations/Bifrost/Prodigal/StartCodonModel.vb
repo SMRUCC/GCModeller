@@ -12,7 +12,7 @@ Public Class StartCodonModel
     ''' <summary>
     ''' 从训练基因构建起始密码子频率模型
     ''' </summary>
-    Public Shared Sub BuildModel(model As TrainingModel, trainingOrfs As List(Of CandidateOrf))
+    Public Shared Sub BuildModel(model As TrainingModel, trainingOrfs As List(Of CandidateORF))
         Dim counts As New Dictionary(Of String, Integer) From {
             {"ATG", 0}, {"GTG", 0}, {"TTG", 0}
         }
@@ -37,7 +37,7 @@ Public Class StartCodonModel
     ''' 计算起始密码子类型得分（tscore）
     ''' ATG通常最常见，得分最高；GTG次之；TTG最低
     ''' </summary>
-    Public Shared Function ComputeTypeScore(orf As CandidateOrf, model As TrainingModel) As Double
+    Public Shared Function ComputeTypeScore(orf As CandidateORF, model As TrainingModel) As Double
         Dim codon = orf.StartCodon.ToUpper()
         If model.StartCodonFreq.ContainsKey(codon) Then
             Dim freq = model.StartCodonFreq(codon)

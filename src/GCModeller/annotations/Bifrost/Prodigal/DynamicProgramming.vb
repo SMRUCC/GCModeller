@@ -21,12 +21,12 @@ Public Class DynamicProgramming
     ''' <summary>
     ''' 执行动态规划，选择最优基因组合
     ''' </summary>
-    Public Shared Function SelectGenes(orfs As List(Of CandidateOrf)) As List(Of CandidateOrf)
-        If orfs.Count = 0 Then Return New List(Of CandidateOrf)()
+    Public Shared Function SelectGenes(orfs As List(Of CandidateORF)) As List(Of CandidateORF)
+        If orfs.Count = 0 Then Return New List(Of CandidateORF)()
 
         ' 过滤掉得分过低的ORF
         Dim validOrfs = orfs.Where(Function(o) o.TotalScore > 0 AndAlso o.Length >= 90).ToList()
-        If validOrfs.Count = 0 Then Return New List(Of CandidateOrf)()
+        If validOrfs.Count = 0 Then Return New List(Of CandidateORF)()
 
         ' 按终止位置排序
         validOrfs = validOrfs.OrderBy(Function(o) o.[End]).ThenBy(Function(o) o.Start).ToList()
@@ -50,8 +50,8 @@ Public Class DynamicProgramming
     ''' <summary>
     ''' 对单条链的ORF执行加权区间调度DP
     ''' </summary>
-    Private Shared Function DpSelect(orfs As List(Of CandidateOrf)) As List(Of CandidateOrf)
-        If orfs.Count = 0 Then Return New List(Of CandidateOrf)()
+    Private Shared Function DpSelect(orfs As List(Of CandidateORF)) As List(Of CandidateORF)
+        If orfs.Count = 0 Then Return New List(Of CandidateORF)()
 
         Dim n = orfs.Count
 
@@ -92,7 +92,7 @@ Public Class DynamicProgramming
         Next
 
         ' 回溯
-        Dim result As New List(Of CandidateOrf)()
+        Dim result As New List(Of CandidateORF)()
         Dim idx = n - 1
         While idx >= 0
             If selected(idx) Then
@@ -111,7 +111,7 @@ Public Class DynamicProgramming
     ''' <summary>
     ''' 二分查找：找到不与ORF i重叠的最后一个ORF的索引
     ''' </summary>
-    Private Shared Function FindLastNonOverlapping(orfs As List(Of CandidateOrf), i As Integer) As Integer
+    Private Shared Function FindLastNonOverlapping(orfs As List(Of CandidateORF), i As Integer) As Integer
         Dim targetEnd = orfs(i).Start - MinGeneSpacing
         Dim lo As Integer = 0
         Dim hi As Integer = i - 1

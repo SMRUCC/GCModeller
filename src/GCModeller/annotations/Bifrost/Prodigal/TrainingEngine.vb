@@ -56,7 +56,7 @@ Public Class TrainingEngine
             Console.WriteLine($"  迭代 {iteration}/{MaxIterations}...")
 
             ' 第一步：用当前模型预测基因
-            Dim allOrfs As New List(Of CandidateOrf)()
+            Dim allOrfs As New List(Of CandidateORF)()
             For Each seq In sequences
                 Dim finder As New OrfFinder(90)
                 Dim orfs = finder.FindOrfs(seq)
@@ -110,8 +110,8 @@ Public Class TrainingEngine
     ''' 选择用于训练的高置信度基因
     ''' 策略：选择得分在上半部分的基因，且长度>120bp
     ''' </summary>
-    Private Shared Function SelectTrainingGenes(genes As List(Of CandidateOrf),
-                                                  sequences As IReadOnlyCollection(Of FastaSeq)) As List(Of CandidateOrf)
+    Private Shared Function SelectTrainingGenes(genes As List(Of CandidateORF),
+                                                  sequences As IReadOnlyCollection(Of FastaSeq)) As List(Of CandidateORF)
         ' 按总得分降序排序
         Dim sorted = genes.OrderByDescending(Function(g) g.TotalScore).ToList()
 

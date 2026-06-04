@@ -38,7 +38,7 @@ Public Class RbsModel
     ''' 统计起始密码子上游的SD模体频率，更新模体得分
     ''' </summary>
     Public Shared Sub BuildModel(model As TrainingModel, sequences As IEnumerable(Of FastaSeq),
-                                  trainingOrfs As List(Of CandidateOrf))
+                                  trainingOrfs As List(Of CandidateORF))
         ' 构建序列索引以便快速查找上游序列
         Dim seqDict As New Dictionary(Of String, String)
         For Each seq As FastaSeq In sequences
@@ -123,7 +123,7 @@ Public Class RbsModel
     ''' <summary>
     ''' 构建RBS位置权重矩阵
     ''' </summary>
-    Private Shared Sub BuildRbsPwm(model As TrainingModel, trainingOrfs As List(Of CandidateOrf),
+    Private Shared Sub BuildRbsPwm(model As TrainingModel, trainingOrfs As List(Of CandidateORF),
                                     seqDict As Dictionary(Of String, String))
         ' 初始化PWM计数
         Dim pwmCounts(5, 3) As Double  ' 6个位置，ACGT
@@ -169,7 +169,7 @@ Public Class RbsModel
     ''' 计算一个ORF的RBS得分（rscore）
     ''' 在起始密码子上游搜索SD模体，返回最佳匹配的得分
     ''' </summary>
-    Public Shared Function ComputeRbsScore(orf As CandidateOrf, fullSequence As String,
+    Public Shared Function ComputeRbsScore(orf As CandidateORF, fullSequence As String,
                                            model As TrainingModel) As Double
         If String.IsNullOrEmpty(fullSequence) Then Return 0.0
 
