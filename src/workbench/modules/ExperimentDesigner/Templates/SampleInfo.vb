@@ -83,6 +83,12 @@ Public Class SampleInfo : Inherits SampleGroup
     ''' <returns></returns>
     Public Property batch As Integer
 
+    ''' <summary>
+    ''' additional sample metadata, for example as "treatment", "control", "time point 1h", "time point 2h" etc.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property metadata As Dictionary(Of String, String)
+
     Sub New()
     End Sub
 

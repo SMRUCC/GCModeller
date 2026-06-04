@@ -3,6 +3,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports BNLearn.Core
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Namespace IO
 
@@ -19,7 +20,7 @@ Namespace IO
         ''' </summary>
         ''' 
         <Extension>
-        Public Function ReadGeneExpressionMatrix(expr As Matrix) As Core.GeneExpressionData
+        Public Function ReadGeneExpressionMatrix(expr As Matrix, Optional sampleinfo As SampleInfo() = Nothing) As Core.GeneExpressionData
             Dim matrixRows As New List(Of Double())()
             Dim geneNames As String() = expr.rownames
             Dim sampleNames As String() = expr.sampleID
