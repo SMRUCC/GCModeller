@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\intervention\\interventioncomparison.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\intervention\\interventioncomparison.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\io\\io.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\io\\io.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B1573153-C9BF-46F4-A2A1-9A596EB5DDBC}|BNLearn\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{B1573153-C9BF-46F4-A2A1-9A596EB5DDBC}|BNLearn\\test\\test.vbproj|solutionrelative:bnlearn\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\intervention\\interventioncomparison.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\intervention\\interventioncomparison.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{02C7C9C1-C1A0-D7F0-C620-4C980AD5B0E2}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\intervention\\intervention.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -22,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,20 +46,33 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "IO.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\IO\\IO.vb",
+              "RelativeDocumentMoniker": "BNLearn\\IO\\IO.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\IO\\IO.vb",
+              "RelativeToolTip": "BNLearn\\IO\\IO.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-04T17:27:41.735Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\test\\Program.vb",
               "RelativeDocumentMoniker": "BNLearn\\test\\Program.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\test\\Program.vb",
               "RelativeToolTip": "BNLearn\\test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-04T17:08:09.071Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Intervention.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Intervention\\Intervention.vb",
               "RelativeDocumentMoniker": "BNLearn\\Intervention\\Intervention.vb",
@@ -68,7 +85,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "InterventionComparison.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\Intervention\\InterventionComparison.vb",
               "RelativeDocumentMoniker": "BNLearn\\Intervention\\InterventionComparison.vb",

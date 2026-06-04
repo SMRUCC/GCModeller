@@ -1,7 +1,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports BNLearn.Core
+Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
