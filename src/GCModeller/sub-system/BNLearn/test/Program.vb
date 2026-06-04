@@ -15,7 +15,7 @@ Module Program
         Dim workflow As New BNLearnWorkflow()
         workflow.ExpressionData = exprData
         workflow.PriorNetwork = priorNet
-        workflow.StructureParams.MaxIterations = 10
+        workflow.StructureParams.MaxIterations = 100
 
         ' 3. 结构学习（MMHC + 白名单先验）
         workflow.LearnStructure()
