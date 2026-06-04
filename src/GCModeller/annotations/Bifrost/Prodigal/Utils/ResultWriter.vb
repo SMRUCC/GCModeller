@@ -97,14 +97,13 @@ Public Class ResultWriter
             writer.WriteLine($"SeqID{vbTab}GeneIndex{vbTab}Start{vbTab}End{vbTab}Strand{vbTab}Length{vbTab}" &
                 $"StartCodon{vbTab}StopCodon{vbTab}TotalScore{vbTab}CodingScore{vbTab}StartScore{vbTab}" &
                 $"RbsScore{vbTab}TypeScore{vbTab}UpstreamScore{vbTab}RbsMotif{vbTab}RbsSpacing{vbTab}Partial")
-            For Each result As PredictionResult In results
-                For Each gene As PredictedGene In result.Genes
-                    writer.WriteLine($"{result.SeqId}{vbTab}{gene.GeneIndex}{vbTab}{gene.Start}{vbTab}{gene.End}{vbTab}" &
-                        $"{gene.Strand}{vbTab}{gene.Length}{vbTab}{gene.StartCodon}{vbTab}{gene.StopCodon}{vbTab}" &
-                        $"{gene.TotalScore:F4}{vbTab}{gene.CodingScore:F4}{vbTab}{gene.StartScore:F4}{vbTab}" &
-                        $"{gene.RbsScore:F4}{vbTab}{gene.TypeScore:F4}{vbTab}{gene.UpstreamScore:F4}{vbTab}" &
-                        $"{gene.RbsMotif}{vbTab}{gene.RbsSpacing}{vbTab}{gene.PartialType}")
-                Next
+
+            For Each gene As GeneScore In GeneScore.ScoreTable(results)
+                Call writer.WriteLine($"{gene.seq_id}{vbTab}{gene.gene_index}{vbTab}{gene.start}{vbTab}{gene.end}{vbTab}" &
+                    $"{gene.strand.Description}{vbTab}{gene.length}{vbTab}{gene.start_codon}{vbTab}{gene.stop_codon}{vbTab}" &
+                    $"{gene.total_score:F4}{vbTab}{gene.coding_score:F4}{vbTab}{gene.start_score:F4}{vbTab}" &
+                    $"{gene.rbs_score:F4}{vbTab}{gene.type_score:F4}{vbTab}{gene.upstream_score:F4}{vbTab}" &
+                    $"{gene.rbs_motif}{vbTab}{gene.rbs_spacing}{vbTab}{gene.partial_type}")
             Next
         End Using
     End Sub
