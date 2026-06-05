@@ -869,25 +869,25 @@ message("  Fig 10a: Top-10 lollipop chart ...")
 }
 
 # ── Fig 10b: UpSet Plot of Shared Genes ─────────────────────────────────────
-message("  Fig 10b: UpSet plot ...")
-{
-  if (requireNamespace("ComplexHeatmap", quietly = TRUE)) {
-    # Build a list of top-50 gene sets per condition
-    gene_sets <- lapply(split(int_rank, int_rank$Condition), function(d) {
-      d$Gene[order(d$Rank)][1:min(50, nrow(d))]
-    })
-
-    save_base_fig(function() {
-      m <- ComplexHeatmap::make_comb_mat(gene_sets)
-      ComplexHeatmap::UpSet(m,
-                            set_names = short_cond_vec(names(gene_sets)),
-                            column_title = "Shared Top-50 Affected Genes Across Conditions",
-                            column_title_gp = grid::gpar(fontsize = 13, fontface = "bold"))
-    }, "fig10b_upset_shared_genes", width = 10, height = 7)
-  } else {
-    message("  Skipping UpSet plot (ComplexHeatmap not available)")
-  }
-}
+# message("  Fig 10b: UpSet plot ...")
+# {
+#   if (requireNamespace("ComplexHeatmap", quietly = TRUE)) {
+#     # Build a list of top-50 gene sets per condition
+#     gene_sets <- lapply(split(int_rank, int_rank$Condition), function(d) {
+#       d$Gene[order(d$Rank)][1:min(50, nrow(d))]
+#     })
+# 
+#     save_base_fig(function() {
+#       m <- ComplexHeatmap::make_comb_mat(gene_sets)
+#       ComplexHeatmap::UpSet(m,
+#                             # set_names = short_cond_vec(names(gene_sets)),
+#                             column_title = "Shared Top-50 Affected Genes Across Conditions",
+#                             column_title_gp = grid::gpar(fontsize = 13, fontface = "bold"))
+#     }, "fig10b_upset_shared_genes", width = 10, height = 7)
+#   } else {
+#     message("  Skipping UpSet plot (ComplexHeatmap not available)")
+#   }
+# }
 
 # ── Fig 10c: Bubble Chart ───────────────────────────────────────────────────
 message("  Fig 10c: Bubble chart ...")
@@ -949,7 +949,7 @@ message("  Fig 11a: Pathway heatmap ...")
       color = colorRampPalette(c("#F7F7F7", "#FEE08B", "#D73027"))(100),
       cluster_rows = TRUE,
       cluster_cols = TRUE,
-      display_numbers = TRUE,
+      display_numbers = FALSE,
       number_format = "%.3f",
       fontsize_number = 7,
       fontsize_row = 9,
@@ -959,7 +959,7 @@ message("  Fig 11a: Pathway heatmap ...")
       border_color = "white",
       fontsize = 10
     )
-  }, "fig11a_pathway_heatmap", width = 10, height = 7)
+  }, "fig11a_pathway_heatmap", width = 10, height = 10)
 }
 
 # ── Fig 11b: Pathway Bubble Chart ───────────────────────────────────────────
@@ -1057,7 +1057,7 @@ message("  Fig 12a: Cross-impact heatmap ...")
       breaks = seq(0, max(ci_m, na.rm = TRUE), length.out = 101),
       cluster_rows = TRUE,
       cluster_cols = TRUE,
-      display_numbers = TRUE,
+      display_numbers = FALSE,
       number_format = "%.2f",
       fontsize_number = 7,
       fontsize_row = 9,
@@ -1068,7 +1068,7 @@ message("  Fig 12a: Cross-impact heatmap ...")
       border_color = "white",
       fontsize = 10
     )
-  }, "fig12a_cross_impact_heatmap", width = 11, height = 7)
+  }, "fig12a_cross_impact_heatmap", width = 11, height = 10)
 }
 
 # ── Fig 12b: Biclustering Heatmap ───────────────────────────────────────────
