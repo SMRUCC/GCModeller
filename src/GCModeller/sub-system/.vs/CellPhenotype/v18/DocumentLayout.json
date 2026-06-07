@@ -1,20 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{A13AD299-10AD-44DD-8177-AA9E4A0C50FA}|CellPhenotype\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\cellphenotype\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{A13AD299-10AD-44DD-8177-AA9E4A0C50FA}|CellPhenotype\\test\\test.vbproj|solutionrelative:cellphenotype\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\cellphenotype\\pprsolver.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|solutionrelative:cellphenotype\\pprsolver.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\cellphenotype\\metabolicnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|solutionrelative:cellphenotype\\metabolicnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -22,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -39,45 +26,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PPRSolver.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\PPRSolver.vb",
-              "RelativeDocumentMoniker": "CellPhenotype\\PPRSolver.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\PPRSolver.vb",
-              "RelativeToolTip": "CellPhenotype\\PPRSolver.vb",
-              "ViewState": "AgIAAHAAAAAAAAAAAAAowIkAAABUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T08:10:51.854Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MetabolicNetwork.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\MetabolicNetwork.vb",
-              "RelativeDocumentMoniker": "CellPhenotype\\MetabolicNetwork.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\MetabolicNetwork.vb",
-              "RelativeToolTip": "CellPhenotype\\MetabolicNetwork.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T08:10:59.15Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\test\\Program.vb",
-              "RelativeDocumentMoniker": "CellPhenotype\\test\\Program.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\test\\Program.vb",
-              "RelativeToolTip": "CellPhenotype\\test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T08:07:58.89Z",
-              "EditorCaption": ""
             }
           ]
         },
