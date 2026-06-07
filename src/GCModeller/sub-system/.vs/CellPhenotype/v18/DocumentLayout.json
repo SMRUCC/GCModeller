@@ -3,12 +3,15 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\cellphenotype\\metabolicnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|solutionrelative:cellphenotype\\metabolicnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\cellphenotype\\pprsolver.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|solutionrelative:cellphenotype\\pprsolver.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\cellphenotype\\metabolicnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|solutionrelative:cellphenotype\\metabolicnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\analysis\\model\\adjacencyset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,8 +21,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 6,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdjacencySet.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\AdjacencySet.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\AdjacencySet.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\AdjacencySet.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\AdjacencySet.vb",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAuwHsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-07T09:56:16.739Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -38,26 +54,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "PPRSolver.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\PPRSolver.vb",
               "RelativeDocumentMoniker": "CellPhenotype\\PPRSolver.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\PPRSolver.vb",
               "RelativeToolTip": "CellPhenotype\\PPRSolver.vb",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAiwGUAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGUAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-07T09:42:50.723Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MetabolicNetwork.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\MetabolicNetwork.vb",
               "RelativeDocumentMoniker": "CellPhenotype\\MetabolicNetwork.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\MetabolicNetwork.vb",
               "RelativeToolTip": "CellPhenotype\\MetabolicNetwork.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-07T09:40:39.037Z",
               "EditorCaption": ""
