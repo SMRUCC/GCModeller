@@ -1,6 +1,4 @@
-﻿Imports std = System.Math
-
-''' <summary>
+﻿''' <summary>
 ''' Personalized PageRank（PPR）+ 代谢扩散稳态计算
 ''' </summary>
 Public Module PPRSolver
@@ -32,93 +30,56 @@ Public Module PPRSolver
     End Function
 
     ''' <summary>
-    ''' 计算 Personalized PageRank 稳态分布
+    ''' 计算封闭代谢网络的全局稳态浓度分布（质量守恒）
     ''' </summary>
-    ''' <param name="P">行随机化转移矩阵</param>
-    ''' <param name="seedNode">种子节点索引</param>
-    ''' <param name="alpha">阻尼因子（通常 0.85）</param>
-    ''' <param name="tolerance">收敛阈值</param>
-    Public Function ComputePPR(P As Double(,), seedNode As Integer, Optional alpha As Double = 0.85, Optional tolerance As Double = 0.00000001) As Double()
-        Dim n As Integer = P.GetLength(0)
-        Dim piPrev(n - 1) As Double
-        Dim piCurr(n - 1) As Double
-        Dim s(n - 1) As Double
+    ''' <remarks>
+    ''' 认为物质在 network 中永不消耗，只是不断循环反应，直到完全混合。封闭系统充分混合后的稳态只取决于网络结构。
+    ''' </remarks>
+    Public Function ComputeSteadyStateClosed(net As MetabolicNetwork, totalMass As Double, Optional maxItrs As Integer = 10000) As Double()
+        Dim n As Integer = net.NodeCount
+        Dim P(,) As Double = BuildRowStochasticMatrix(net) ' 复用你原有的矩阵构建函数
+        ' 幂迭代法求左特征向量 (平稳分布 pi^T = pi^T * P)
+        Dim pi(n - 1) As Double
 
-        ' 初始化种子向量
-        s(seedNode) = 1.0
-
-        ' 初始分布
         For i As Integer = 0 To n - 1
-            piPrev(i) = 1.0 / n
+            pi(i) = 1.0 / n ' 初始随机分布
         Next
 
-        ' 幂迭代
+        Dim iter As Integer = 0
+
         Do
-            ' piCurr = alpha * piPrev * P + (1 - alpha) * s
+            Dim piNew(n - 1) As Double
             For j As Integer = 0 To n - 1
-                Dim sum As Double = 0.0
                 For i As Integer = 0 To n - 1
-                    sum += piPrev(i) * P(i, j)
+                    piNew(j) += pi(i) * P(i, j)
                 Next
-                piCurr(j) = alpha * sum + (1 - alpha) * s(j)
             Next
 
-            ' 检查收敛
+            ' 归一化以保证概率总和为1
+            Dim sum As Double = piNew.Sum()
+            For j As Integer = 0 To n - 1
+                piNew(j) /= sum
+            Next
+
+            ' 收敛判断
             Dim diff As Double = 0.0
             For i As Integer = 0 To n - 1
-                diff += Math.Abs(piCurr(i) - piPrev(i))
+                diff += Math.Abs(piNew(i) - pi(i))
             Next
 
-            If diff < tolerance Then Exit Do
-
-            Array.Copy(piCurr, piPrev, n)
+            If diff < 0.00000001 OrElse iter > maxItrs Then
+                Exit Do
+            Else
+                pi = piNew
+            End If
         Loop
 
-        Return piCurr
+        ' 乘以初始总质量
+        For i As Integer = 0 To n - 1
+            pi(i) *= totalMass
+        Next
+
+        Return pi
     End Function
 
-    ''' <summary>
-    ''' 带 Drain 项的稳态解（简单 Jacobi 迭代）
-    ''' </summary>
-    Public Function SolveWithDrain(P As Double(,), seedNode As Integer, drain() As Double, Optional alpha As Double = 0.85) As Double()
-        Dim n As Integer = P.GetLength(0)
-        Dim x(n - 1) As Double
-        Dim b(n - 1) As Double
-
-        ' 右侧向量
-        For i As Integer = 0 To n - 1
-            b(i) = If(i = seedNode, 1.0 - alpha, 0.0)
-        Next
-
-        ' 初始化
-        For i As Integer = 0 To n - 1
-            x(i) = 1.0 / n
-        Next
-
-        ' Jacobi 迭代
-        For iter As Integer = 1 To 10000
-            Dim xNew(n - 1) As Double
-
-            For i As Integer = 0 To n - 1
-                Dim sum As Double = 0.0
-                For j As Integer = 0 To n - 1
-                    If i <> j Then
-                        sum += alpha * P(j, i) * x(j)
-                    End If
-                Next
-                Dim diag = 1.0 + drain(i) - alpha * P(i, i)
-                xNew(i) = (b(i) + sum) / diag
-            Next
-
-            Dim err As Double = 0.0
-            For i As Integer = 0 To n - 1
-                err += std.Abs(xNew(i) - x(i))
-            Next
-
-            x = xNew
-            If err < 0.0000000001 Then Exit For
-        Next
-
-        Return x
-    End Function
 End Module
