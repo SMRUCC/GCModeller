@@ -1,4 +1,6 @@
-﻿''' <summary>
+﻿Imports Microsoft.VisualBasic.Math.LinearAlgebra
+
+''' <summary>
 ''' Personalized PageRank（PPR）+ 代谢扩散稳态计算
 ''' </summary>
 Public Module PPRSolver
@@ -35,7 +37,7 @@ Public Module PPRSolver
     ''' <remarks>
     ''' 认为物质在 network 中永不消耗，只是不断循环反应，直到完全混合。封闭系统充分混合后的稳态只取决于网络结构。
     ''' </remarks>
-    Public Function ComputeSteadyStateClosed(net As MetabolicNetwork, totalMass As Double, Optional maxItrs As Integer = 10000) As Double()
+    Public Function ComputeSteadyStateClosed(net As MetabolicNetwork, Optional totalMass As Double = 999, Optional maxItrs As Integer = 10000) As Double()
         Dim P(,) As Double = BuildRowStochasticMatrix(net) ' 复用你原有的矩阵构建函数
         Dim n As Integer = P.GetLength(0)
         ' 幂迭代法求左特征向量 (平稳分布 pi^T = pi^T * P)
@@ -75,11 +77,7 @@ Public Module PPRSolver
         Loop
 
         ' 乘以初始总质量
-        For i As Integer = 0 To n - 1
-            pi(i) *= totalMass
-        Next
-
-        Return pi
+        Return New Vector(pi) * totalMass
     End Function
 
     ''' <summary>
@@ -173,7 +171,10 @@ Public Module PPRSolver
             Next
 
             x = xNew
-            If err < 0.0000000001 Then Exit For
+
+            If err < 0.0000000001 Then
+                Exit For
+            End If
         Next
 
         Return x

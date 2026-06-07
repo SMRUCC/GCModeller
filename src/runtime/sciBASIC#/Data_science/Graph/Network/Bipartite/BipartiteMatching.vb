@@ -73,77 +73,10 @@ Imports std = System.Math
 
 Public Class BipartiteMatching
 
-    Friend Class Edge : Implements IndexEdge
-
-        ''' <summary>
-        ''' an edge is composed of 2 vertices
-        ''' </summary>
-        Public Property fromVertex As Integer Implements IndexEdge.U
-        Public Property toVertex As Integer Implements IndexEdge.V
-        ''' <summary>
-        ''' edges also have a capacity &amp; a flow
-        ''' </summary>
-        Friend m_capacity As Integer
-        Friend m_flow As Integer
-
-        Public Sub New(fromVertex As Integer, toVertex As Integer, Optional capacity As Integer = 1)
-            Me.fromVertex = fromVertex
-            Me.toVertex = toVertex
-            Me.m_capacity = capacity
-        End Sub
-
-        ''' <summary>
-        ''' Given an end-node, Returns the other end-node (completes the edge)
-        ''' </summary>
-        ''' <param name="vertex"></param>
-        ''' <returns></returns>
-        Public Overridable Function getOtherEndNode(vertex As Integer) As Integer
-            If vertex = fromVertex Then
-                Return toVertex
-            End If
-            Return fromVertex
-        End Function
-
-        Public Overridable ReadOnly Property Capacity As Integer
-            Get
-                Return m_capacity
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property Flow As Integer
-            Get
-                Return m_flow
-            End Get
-        End Property
-
-        Public Overridable Function residualCapacityTo(vertex As Integer) As Integer
-            If vertex = fromVertex Then
-                Return m_flow
-            End If
-            Return m_capacity - m_flow
-        End Function
-
-        Public Overridable Sub increaseFlowTo(vertex As Integer, changeInFlow As Integer)
-            If vertex = fromVertex Then
-                m_flow = m_flow - changeInFlow
-            Else
-                m_flow = m_flow + changeInFlow
-            End If
-        End Sub
-
-        ''' <summary>
-        ''' Prints edge using Array indexes, not human readable ID's like "S" or "T"
-        ''' </summary>
-        ''' <returns></returns>
-        Public Overrides Function ToString() As String
-            Return "(" & fromVertex.ToString() & " --> " & toVertex.ToString() & ")"
-        End Function
-    End Class
-
     ''' <summary>
     ''' Graph is represented as an ArrayList of Edges
     ''' </summary>
-    Private graph As List(Of List(Of Edge))
+    Private graph As List(Of List(Of BipartiteEdge))
 
     ''' <summary>
     ''' convert between array indexes (starting from 0) &amp; human readable vertex names
@@ -157,7 +90,7 @@ Public Class BipartiteMatching
     ''' <summary>
     ''' These fields are updated by fordFulkersonMaxFlow and when finding augmentation paths
     ''' </summary>
-    Private edgeTo As Edge()
+    Private edgeTo As BipartiteEdge()
     ''' <summary>
     ''' array of all vertices, updated each time an augmentation path is found
     ''' </summary>
@@ -178,16 +111,16 @@ Public Class BipartiteMatching
         Me.getStringVertexIdFromArrayIndex = getStringVertexIdFromArrayIndex
 
         ' Populate graph with empty ArrayLists for each vertex
-        graph = New List(Of List(Of Edge))(vertexCount)
+        graph = New List(Of List(Of BipartiteEdge))(vertexCount)
 
         While i < vertexCount
-            graph.Add(New List(Of Edge)())
+            graph.Add(New List(Of BipartiteEdge)())
             i = i + 1
         End While
     End Sub
 
     Public Overridable Sub addEdge(fromVertex As Integer, toVertex As Integer, Optional capacity As Integer = 1)
-        Dim newEdge As Edge = New Edge(fromVertex, toVertex, capacity) 'create new edge between 2 vertices
+        Dim newEdge As BipartiteEdge = New BipartiteEdge(fromVertex, toVertex, capacity) 'create new edge between 2 vertices
         graph(fromVertex).Add(newEdge) 'Undirected bipartie graph, so add edge in both directions
         graph(toVertex).Add(newEdge)
     End Sub
@@ -224,7 +157,7 @@ Public Class BipartiteMatching
     Public Overridable Function fordFulkersonMaxFlow(source As Integer, sink As Integer) As BipartiteMatching
         Dim matches As New List(Of (String, String))
 
-        edgeTo = New Edge(vertexCount - 1) {}
+        edgeTo = New BipartiteEdge(vertexCount - 1) {}
         While existsAugmentingPath(source, sink)
             Dim flowIncrease = 1 'default value is 1 since it's a bipartite matching problem with capacities = 1
             Dim S As String = getStringVertexIdFromArrayIndex(edgeTo(sink).getOtherEndNode(sink))
@@ -281,7 +214,7 @@ Public Class BipartiteMatching
             Return
         End If
 
-        For Each edge As Edge In graph(v) 'loop over all edges in the graph
+        For Each edge As BipartiteEdge In graph(v) 'loop over all edges in the graph
             Dim otherEndNode = edge.getOtherEndNode(v)
             If Not isVertexMarked(otherEndNode) AndAlso edge.residualCapacityTo(otherEndNode) > 0 Then 'if otherEndNode is unvisited AND if the residual capacity exists at the otherEndNode
                 ' System.out.print( getStringVertexIdFromArrayIndex.get(otherEndNode) +" ");
