@@ -14,6 +14,7 @@ Module Program
 
         Dim steadyState = ComputePPR(net, seedNode:=0)
         Dim P2 = PPRSolver.ComputeSteadyStateClosed(net, 999)
+        Dim P3 = PPRSolver.SolveWithDrain(net, seedNode:=0, {0.1, 0.1, 0.1, 0.1, 0.1})
 
         For i = 0 To steadyState.Length - 1
             Console.WriteLine($"Metabolite {i}: {steadyState(i):F6}")
@@ -24,6 +25,14 @@ Module Program
 
         For i = 0 To P2.Length - 1
             Console.WriteLine($"Metabolite {i}: {P2(i):F6}")
+        Next
+
+        Call Console.WriteLine()
+        Call Console.WriteLine()
+
+
+        For i = 0 To P3.Length - 1
+            Console.WriteLine($"Metabolite {i}: {P3(i):F6}")
         Next
     End Sub
 
