@@ -6,7 +6,7 @@ Public Module PPRSolver
     ''' <summary>
     ''' 将代谢网络转换为行随机化转移矩阵 P
     ''' </summary>
-    Public Function BuildRowStochasticMatrix(net As MetabolicNetwork) As Double(,)
+    Friend Function BuildRowStochasticMatrix(net As MetabolicNetwork) As Double(,)
         Dim n As Integer = net.NodeCount
         Dim P(n - 1, n - 1) As Double
 
@@ -82,4 +82,100 @@ Public Module PPRSolver
         Return pi
     End Function
 
+    ''' <summary>
+    ''' 计算 Personalized PageRank 稳态分布
+    ''' </summary>
+    ''' <param name="net">行随机化转移矩阵</param>
+    ''' <param name="seedNode">种子节点索引</param>
+    ''' <param name="alpha">阻尼因子（通常 0.85）</param>
+    ''' <param name="tolerance">收敛阈值</param>
+    ''' <remarks>
+    ''' 用途：同位素示踪 / 碳流 / 模拟 营养注入点
+    ''' </remarks>
+    Public Function ComputePPR(net As MetabolicNetwork, seedNode As Integer, Optional alpha As Double = 0.85, Optional tolerance As Double = 0.00000001) As Double()
+        Dim P(,) As Double = BuildRowStochasticMatrix(net)
+        Dim n As Integer = P.GetLength(0)
+        Dim piPrev(n - 1) As Double
+        Dim piCurr(n - 1) As Double
+        Dim s(n - 1) As Double
+
+        ' 初始化种子向量
+        s(seedNode) = 1.0
+
+        ' 初始分布
+        For i As Integer = 0 To n - 1
+            piPrev(i) = 1.0 / n
+        Next
+
+        ' 幂迭代
+        Do
+            ' piCurr = alpha * piPrev * P + (1 - alpha) * s
+            For j As Integer = 0 To n - 1
+                Dim sum As Double = 0.0
+                For i As Integer = 0 To n - 1
+                    sum += piPrev(i) * P(i, j)
+                Next
+                piCurr(j) = alpha * sum + (1 - alpha) * s(j)
+            Next
+
+            ' 检查收敛
+            Dim diff As Double = 0.0
+            For i As Integer = 0 To n - 1
+                diff += Math.Abs(piCurr(i) - piPrev(i))
+            Next
+
+            If diff < tolerance Then Exit Do
+
+            Array.Copy(piCurr, piPrev, n)
+        Loop
+
+        Return piCurr
+    End Function
+
+    ''' <summary>
+    ''' 带 Drain 项的稳态解（简单 Jacobi 迭代）
+    ''' </summary>
+    Public Function SolveWithDrain(net As MetabolicNetwork, seedNode As Integer, drain() As Double, Optional alpha As Double = 0.85, Optional maxItrs As Integer = 10000) As Double()
+        Dim P(,) As Double = BuildRowStochasticMatrix(net)
+        Dim n As Integer = P.GetLength(0)
+
+        Dim x(n - 1) As Double
+        Dim b(n - 1) As Double
+
+        ' 右侧向量
+        For i As Integer = 0 To n - 1
+            b(i) = If(i = seedNode, 1.0 - alpha, 0.0)
+        Next
+
+        ' 初始化
+        For i As Integer = 0 To n - 1
+            x(i) = 1.0 / n
+        Next
+
+        ' Jacobi 迭代
+        For iter As Integer = 1 To maxItrs
+            Dim xNew(n - 1) As Double
+
+            For i As Integer = 0 To n - 1
+                Dim sum As Double = 0.0
+                For j As Integer = 0 To n - 1
+                    If i <> j Then
+                        sum += alpha * P(j, i) * x(j)
+                    End If
+                Next
+                Dim diag = 1.0 + drain(i) - alpha * P(i, i)
+                xNew(i) = (b(i) + sum) / diag
+            Next
+
+            Dim err As Double = 0.0
+            For i As Integer = 0 To n - 1
+                err += Math.Abs(xNew(i) - x(i))
+            Next
+
+            x = xNew
+            If err < 0.0000000001 Then Exit For
+        Next
+
+        Return x
+    End Function
 End Module
