@@ -3,45 +3,6 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\graph\\selector.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\graph\\model\\edge.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\graph\\graphtree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\graph\\model\\node.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\graph\\abstract.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\graph\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\analysis\\model\\edgetraversalpolicy.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\analysis\\model\\directedvertex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\analysis\\model\\adjacencyset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\analysis\\kosaraju.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\analysis\\statistics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\analysis\\paga.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D74CAF3D-5460-6347-B9EA-350777E8D07D}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\graph\\model\\handle\\waypointvector.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\cellphenotype\\metabolicnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{5393AE75-9243-7C56-BBE3-BC37846CD242}|CellPhenotype\\CellPhenotype.vbproj|solutionrelative:cellphenotype\\metabolicnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -57,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -78,196 +39,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Edge.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Edge.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Edge.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Edge.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Edge.vb",
-              "ViewState": "AgIAAGEAAAAAAAAAAAAcwIMAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:35:36.888Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Node.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Node.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Node.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Node.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Node.vb",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:34:29.305Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Abstract.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Abstract.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Abstract.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Abstract.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Abstract.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:33:39.209Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Extensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Extensions.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Extensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Extensions.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Extensions.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:33:37.475Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GraphTree.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\GraphTree.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\GraphTree.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\GraphTree.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\GraphTree.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:33:34.17Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Selector.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Selector.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Selector.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Selector.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Selector.vb",
-              "ViewState": "AgIAAFQAAAAAAAAAAADwv3gAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:33:33.163Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "EdgeTraversalPolicy.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\EdgeTraversalPolicy.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\EdgeTraversalPolicy.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\EdgeTraversalPolicy.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\EdgeTraversalPolicy.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:33:07.478Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "DirectedVertex.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\DirectedVertex.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\DirectedVertex.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\DirectedVertex.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\DirectedVertex.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:32:04.388Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "AdjacencySet.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\AdjacencySet.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\AdjacencySet.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\AdjacencySet.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Model\\AdjacencySet.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE8AAABAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:31:21.568Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Kosaraju.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Kosaraju.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Kosaraju.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Kosaraju.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Kosaraju.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:31:16.992Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "PAGA.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\PAGA.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\PAGA.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\PAGA.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\PAGA.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:31:13.162Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Statistics.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Statistics.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Statistics.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Statistics.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Analysis\\Statistics.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:31:12.039Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "WayPointVector.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Handle\\WayPointVector.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Handle\\WayPointVector.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Handle\\WayPointVector.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\Graph\\Model\\Handle\\WayPointVector.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:31:00.832Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
               "Title": "PPRSolver.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\PPRSolver.vb",
               "RelativeDocumentMoniker": "CellPhenotype\\PPRSolver.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\PPRSolver.vb",
               "RelativeToolTip": "CellPhenotype\\PPRSolver.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJMAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T09:03:04.236Z",
+              "WhenOpened": "2026-06-07T09:42:50.723Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 0,
               "Title": "MetabolicNetwork.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\MetabolicNetwork.vb",
               "RelativeDocumentMoniker": "CellPhenotype\\MetabolicNetwork.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\CellPhenotype\\MetabolicNetwork.vb",
               "RelativeToolTip": "CellPhenotype\\MetabolicNetwork.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-07T08:57:07.696Z",
+              "WhenOpened": "2026-06-07T09:40:39.037Z",
               "EditorCaption": ""
             }
           ]
