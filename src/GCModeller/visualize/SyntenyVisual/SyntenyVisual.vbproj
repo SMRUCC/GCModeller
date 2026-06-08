@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <AssemblyTitle>SMRUCC.genomics.Visualize.SyntenyVisualize</AssemblyTitle>
     <AssemblyName>SMRUCC.genomics.Visualize.SyntenyVisualize</AssemblyName>
     <RootNamespace>SMRUCC.genomics.Visualize.SyntenyVisualize</RootNamespace>
