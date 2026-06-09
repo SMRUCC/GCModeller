@@ -125,14 +125,16 @@ Public Module TermStreamAssignment
     <Extension>
     Private Iterator Function HitsCollection(query As IGrouping(Of String, DiamondAnnotation)) As IEnumerable(Of Hit)
         For Each hit As DiamondAnnotation In query
+            Dim ref = hit.SseqId.GetTagValue(" ", trim:=True)
+
             Yield New Hit With {
                 .evalue = hit.EValue,
                 .gaps = hit.GapOpen,
-                .hitName = hit.SseqId,
+                .hitName = ref.Name,
                 .identities = hit.Pident,
                 .positive = hit.Pident,
                 .score = hit.BitScore,
-                .tag = hit.SseqId
+                .tag = ref.Value
             }
         Next
     End Function

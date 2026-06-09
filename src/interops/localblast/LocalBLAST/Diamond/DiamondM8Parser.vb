@@ -69,7 +69,7 @@ Public Class DiamondM8Parser
     Public Shared Iterator Function ParseFile(filePath As String) As IEnumerable(Of DiamondAnnotation)
         ' 检查文件是否存在
         If Not File.Exists(filePath) Then
-            Call ("无法找到文件: " & filePath).warning
+            Call ("file not found: " & filePath.GetFullPath).warning
         Else
             Dim lineCounter As Integer = 0
             Dim hit As DiamondAnnotation
