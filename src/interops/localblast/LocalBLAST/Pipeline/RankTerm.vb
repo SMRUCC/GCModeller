@@ -150,7 +150,7 @@ Namespace Pipeline
         End Function
 
         Public Shared Iterator Function RankTopTerm(hits As HitCollection) As IEnumerable(Of RankTerm)
-            For Each group As IGrouping(Of String, Hit) In hits.AsEnumerable.GroupBy(Function(a) a.tag)
+            For Each group As IGrouping(Of String, Hit) In hits.AsEnumerable.GroupBy(Function(a) a.hitName)
                 Dim scoreSet = group.Select(Function(a) New NamedValue(Of Double)(a.hitName, (a.score + 1) * (a.identities + 1))).ToArray
                 Dim termName As String = group.Key
                 Dim sourceNames As String() = scoreSet.Select(Function(a) a.Name).ToArray
