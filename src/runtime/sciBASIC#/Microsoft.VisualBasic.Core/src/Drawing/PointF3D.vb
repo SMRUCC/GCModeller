@@ -117,6 +117,33 @@ Namespace Imaging
         ''' <returns></returns>
         Public Property Z As Integer Implements IPoint3D.Z
 
+        Sub New(x As Integer, y As Integer, z As Integer)
+            _X = x
+            _Y = y
+            _Z = z
+        End Sub
+
+        Sub New(index As SpatialIndex3D)
+            X = index.X
+            Y = index.Y
+            Z = index.Z
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function ToString() As String
+            Return $"[{X}, {Y}, {Z}]"
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator -(a As SpatialIndex3D, b As SpatialIndex3D) As SpatialIndex3D
+            Return New SpatialIndex3D(a.X - b.X, a.Y - b.Y, a.Z - b.Z)
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(xyz As (Integer, Integer, Integer)) As SpatialIndex3D
+            Return New SpatialIndex3D(xyz.Item1, xyz.Item2, xyz.Item3)
+        End Operator
+
     End Structure
 
     ''' <summary>
