@@ -90,7 +90,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
             Dim tax = OrganismHierarchy.ToTaxonomy
             Dim strain = gb.SourceFeature.Query("strain")
 
-            If Not strain.StringEmpty Then
+            strain = Strings.Trim(strain)
+
+            If Not (strain.StringEmpty OrElse tax.scientificName.ToLower.EndsWith(strain.ToLower)) Then
                 tax.scientificName = tax.scientificName & " " & strain
             End If
 

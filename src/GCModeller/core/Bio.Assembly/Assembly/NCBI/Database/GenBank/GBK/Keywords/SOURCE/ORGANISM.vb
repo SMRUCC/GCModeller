@@ -68,7 +68,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
             Dim i As i32 = Scan0
 
             Return New Taxon With {
-                .scientificName = SpeciesName,
+                .scientificName = Strings.Trim(SpeciesName),
                 .kingdom = Lineage.ElementAtOrDefault(++i),
                 .phylum = Lineage.ElementAtOrDefault(++i),
                 .[class] = Lineage.ElementAtOrDefault(++i),
