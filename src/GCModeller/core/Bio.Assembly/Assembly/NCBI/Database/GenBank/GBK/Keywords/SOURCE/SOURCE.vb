@@ -115,7 +115,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
                 Call __trimHeadKey(names)
 
-                source.SpeciesName = names.JoinBy("")
+                source.SpeciesName = names.Select(Function(a) Strings.Trim(a)).JoinBy(" ")
                 source.OrganismHierarchy = ORGANISM.InternalParser(str.Skip(names.Length).ToArray)
             End If
 
