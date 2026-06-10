@@ -107,9 +107,16 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
             Dim source As New SOURCE
 
             If Not str.IsNullOrEmpty Then
-                Call __trimHeadKey(str)
-                source.SpeciesName = str.First
-                source.OrganismHierarchy = ORGANISM.InternalParser(str.Skip(1).ToArray)
+                Dim names As String() = str _
+                    .TakeWhile(Function(a)
+                                   Return Not Strings.Trim(a).StartsWith("ORGANISM")
+                               End Function) _
+                    .ToArray
+
+                Call __trimHeadKey(names)
+
+                source.SpeciesName = names.JoinBy("")
+                source.OrganismHierarchy = ORGANISM.InternalParser(str.Skip(names.Length).ToArray)
             End If
 
             Return source
