@@ -2,13 +2,13 @@
 
 	<PropertyGroup>
 		<RootNamespace>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage</RootNamespace>
-    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
 		<AssemblyName>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage</AssemblyName>
 		<Authors>xie.guigang@live.com</Authors>
 		<Company>sciBASIC.NET</Company>
 		<Version>5.0.1.2389</Version>
 
-		<AssemblyVersion>5.33.*</AssemblyVersion>
+		<AssemblyVersion>5.33.1.25</AssemblyVersion>
 		<Deterministic>false</Deterministic>
 
 		<Copyright>GPL3</Copyright>
