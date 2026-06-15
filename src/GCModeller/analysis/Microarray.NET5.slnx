@@ -1,0 +1,41 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+    <BuildType Name="Rsharp_app_release" />
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/framework/">
+    <Project Path="../../runtime/sciBASIC#/Data/BinaryData/BinaryData/binarydata-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math.Statistics/stats-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/gcmodeller/">
+    <Project Path="../core/Bio.Annotation/annotation.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../core/Bio.Assembly/biocore-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="HTS_matrix/HTS_matrix-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Project Path="Microarray/Microarray.NET5.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="Microarray/test/test.vbproj">
+    <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+    <Platform Solution="Debug|x64" Project="x64" />
+  </Project>
+</Solution>
