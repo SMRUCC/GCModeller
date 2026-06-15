@@ -29,7 +29,7 @@ Namespace Math
         ' ====================================================================
 
         ''' <summary>
-        ''' Standard normal CDF: P(Z <= x) using Abramowitz & Stegun approximation.
+        ''' Standard normal CDF: P(Z &lt;= x) using Abramowitz &amp; Stegun approximation.
         ''' Maximum absolute error: 7.5e-8
         ''' </summary>
         Public Shared Function NormalCDF(x As Double) As Double
@@ -131,7 +131,7 @@ Namespace Math
 
         ''' <summary>
         ''' Student's t-distribution CDF using regularized incomplete beta function.
-        ''' P(T <= t) with df degrees of freedom.
+        ''' P(T &lt;= t) with df degrees of freedom.
         ''' </summary>
         Public Shared Function StudentTCDF(t As Double, df As Double) As Double
             Dim x As Double = df / (df + t * t)
@@ -389,27 +389,27 @@ Namespace Math
         ''' N = number of draws (input compounds)
         ''' k = number of observed successes (input compounds in pathway)
         ''' </summary>
-        Public Shared Function HypergeometricPMF(k As Integer, M As Integer, n As Integer, N As Integer) As Double
-            If k < System.Math.Max(0, N + n - M) OrElse k > System.Math.Min(n, N) Then
+        Public Shared Function HypergeometricPMF(k As Integer, M As Integer, ni As Integer, N As Integer) As Double
+            If k < System.Math.Max(0, N + ni - M) OrElse k > System.Math.Min(ni, N) Then
                 Return 0.0
             End If
-            Dim logP As Double = LogBinomial(n, k) + LogBinomial(M - n, N - k) - LogBinomial(M, N)
+            Dim logP As Double = LogBinomial(ni, k) + LogBinomial(M - ni, N - k) - LogBinomial(M, N)
             Return System.Math.Exp(logP)
         End Function
 
         ''' <summary>
-        ''' Hypergeometric CDF: P(X <= k) where X ~ Hypergeometric(M, n, N)
+        ''' Hypergeometric CDF: P(X &lt;= k) where X ~ Hypergeometric(M, n, N)
         ''' Used for over-representation analysis (one-tailed test).
         ''' </summary>
-        Public Shared Function HypergeometricCDF(k As Integer, M As Integer, n As Integer, N As Integer) As Double
-            Dim kMin As Integer = System.Math.Max(0, N + n - M)
-            Dim kMax As Integer = System.Math.Min(n, N)
+        Public Shared Function HypergeometricCDF(k As Integer, M As Integer, ni As Integer, N As Integer) As Double
+            Dim kMin As Integer = System.Math.Max(0, N + ni - M)
+            Dim kMax As Integer = System.Math.Min(ni, N)
             If k < kMin Then Return 0.0
             If k >= kMax Then Return 1.0
 
             Dim sum As Double = 0.0
             For i = kMin To k
-                sum += HypergeometricPMF(i, M, n, N)
+                sum += HypergeometricPMF(i, M, ni, N)
             Next
             Return sum
         End Function
@@ -418,11 +418,11 @@ Namespace Math
         ''' Hypergeometric test p-value (one-tailed, upper tail).
         ''' Tests whether the overlap between input compounds and a pathway
         ''' is greater than expected by chance.
-        ''' p-value = P(X >= k) = 1 - P(X <= k-1)
+        ''' p-value = P(X >= k) = 1 - P(X &lt;= k-1)
         ''' </summary>
-        Public Shared Function HypergeometricPValue(k As Integer, M As Integer, n As Integer, N As Integer) As Double
+        Public Shared Function HypergeometricPValue(k As Integer, M As Integer, ni As Integer, N As Integer) As Double
             If k = 0 Then Return 1.0
-            Return 1.0 - HypergeometricCDF(k - 1, M, n, N)
+            Return 1.0 - HypergeometricCDF(k - 1, M, ni, N)
         End Function
 
         ' ====================================================================

@@ -17,7 +17,7 @@ Namespace Core
     ''' </summary>
     Public Enum KeggNodeType
         Pathway = 0
-        Module = 1
+        [Module] = 1
         Enzyme = 2
         Reaction = 3
         Compound = 4
@@ -340,7 +340,7 @@ Namespace Core
             sb.AppendLine($"  Total edges: {_edges.Count}")
 
             For Each type As KeggNodeType In [Enum].GetValues(GetType(KeggNodeType))
-                Dim count = _nodes.Count(Function(n) n.NodeType = type)
+                Dim count = _nodes.Where(Function(n) n.NodeType = type).Count
                 sb.AppendLine($"  {type}: {count} nodes")
             Next
 

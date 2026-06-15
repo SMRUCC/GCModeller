@@ -85,7 +85,7 @@ Namespace Core
         ''' sub-network visualization.
         ''' 
         ''' The sub-network includes:
-        ''' 1. All significant nodes (p-score < threshold)
+        ''' 1. All significant nodes (p-score &lt; threshold)
         ''' 2. Input compound nodes
         ''' 3. Connecting nodes on shortest paths between input and significant nodes
         ''' </summary>

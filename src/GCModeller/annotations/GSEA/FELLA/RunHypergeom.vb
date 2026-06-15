@@ -67,14 +67,14 @@ Namespace Core
                 Dim pathway = pathways(pIdx)
 
                 ' Count compounds in this pathway (n) and overlap (k)
-                Dim n As Integer = 0 ' compounds in pathway
+                Dim ni As Integer = 0 ' compounds in pathway
                 Dim k As Integer = 0 ' input compounds in pathway
 
                 For cIdx = 0 To compounds.Count - 1
                     If data.HypergeomMatrix(pIdx, cIdx) > 0 Then
                         ' Check if this compound is in the background
                         If user.BackgroundCompounds.Contains(compounds(cIdx).Id) Then
-                            n += 1
+                            ni += 1
                             ' Check if this compound is in the input
                             If inputIndices.Contains(compounds(cIdx).Index) Then
                                 k += 1
@@ -85,8 +85,8 @@ Namespace Core
 
                 ' Compute hypergeometric p-value
                 Dim pValue As Double = 1.0
-                If n > 0 AndAlso k > 0 Then
-                    pValue = Math.Statistics.HypergeometricPValue(k, M, n, N)
+                If ni > 0 AndAlso k > 0 Then
+                    pValue = Math.Statistics.HypergeometricPValue(k, M, ni, N)
                 End If
 
                 ' Create result entry
@@ -96,7 +96,7 @@ Namespace Core
                     .Name = pathway.Name,
                     .NodeType = KeggNodeType.Pathway,
                     .RawScore = k,
-                    .ZScore = If(n > 0, (k - N * n / CDbl(M)) / System.Math.Sqrt(N * n / CDbl(M) * (1 - n / CDbl(M)) * (M - N) / CDbl(M - 1)), 0.0),
+                    .ZScore = If(ni > 0, (k - N * ni / CDbl(M)) / System.Math.Sqrt(N * ni / CDbl(M) * (1 - ni / CDbl(M)) * (M - N) / CDbl(M - 1)), 0.0),
                     .PScore = pValue,
                     .AdjustedPValue = pValue
                 }
