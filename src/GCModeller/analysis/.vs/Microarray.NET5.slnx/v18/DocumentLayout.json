@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1B005445-D0F6-4486-8BEE-1566EED6566D}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\test.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{1B005445-D0F6-4486-8BEE-1566EED6566D}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\test.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1B005445-D0F6-4486-8BEE-1566EED6566D}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\diablo_analysis_example.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{1B005445-D0F6-4486-8BEE-1566EED6566D}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\diablo_analysis_example.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B005445-D0F6-4486-8BEE-1566EED6566D}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\test.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{1B005445-D0F6-4486-8BEE-1566EED6566D}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\test.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,7 +38,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "test",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\test.vbproj",
               "RelativeDocumentMoniker": "Microarray\\test\\test.vbproj",
@@ -50,7 +50,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "DIABLO_Analysis_Example.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\DIABLO_Analysis_Example.vb",
               "RelativeDocumentMoniker": "Microarray\\test\\DIABLO_Analysis_Example.vb",
