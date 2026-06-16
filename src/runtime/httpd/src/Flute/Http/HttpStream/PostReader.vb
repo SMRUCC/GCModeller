@@ -234,7 +234,9 @@ Namespace Core.HttpStream
                     Dim copy As Byte() = New Byte(data.Length - 1) {}
 
                     input.Position = data.Start
+#Disable Warning CA2022 ' Avoid inexact read with 'Stream.Read'
                     input.Read(copy, 0, CInt(data.Length))
+#Enable Warning CA2022 ' Avoid inexact read with 'Stream.Read'
 
                     str = contentEncoding.GetString(copy)
                     load.form.Add(data.Name, str)
