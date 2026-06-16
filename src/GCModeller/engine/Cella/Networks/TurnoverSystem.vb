@@ -8,6 +8,6 @@ Public Class TurnoverSystem : Inherits SubNetwork
     ReadOnly core As SolverIterator
 
     Public Overrides Sub RunStep(cell As VirtualCella)
-        Throw New NotImplementedException()
+        Call core.Tick()
     End Sub
 End Class
