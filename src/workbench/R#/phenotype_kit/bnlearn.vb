@@ -2,9 +2,9 @@
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionComparisonExporter
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
+Imports SMRUCC.genomics.MetabolicModel
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
@@ -14,7 +14,7 @@ Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
 <Package("bnlearn")>
 <RTypeExport("struct_learn_params", GetType(StructureLearningParams))>
-<RTypeExport("knowledges", GetType(Dictionary(Of String, PathwayInfo)))>
+<RTypeExport("knowledges", GetType(Dictionary(Of String, MetabolicPathway)))>
 Module bnlearn
 
     <ExportAPI("bnlearn")>
@@ -117,13 +117,13 @@ Module bnlearn
                                  Optional env As Environment = Nothing) As Object
 
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of InterventionResult)(results, env)
-        Dim pathways As Dictionary(Of String, PathwayInfo) = Nothing
+        Dim pathways As Dictionary(Of String, MetabolicPathway) = Nothing
 
         If pull.isError Then
             Return pull.getError
         End If
         If pathway_info IsNot Nothing Then
-            pathways = pathway_info.AsGeneric(Of PathwayInfo)(env)
+            pathways = pathway_info.AsGeneric(Of MetabolicPathway)(env)
         End If
 
         Call New InterventionComparisonExporter(pull.populates(Of InterventionResult)(env)).ExportAll(dir, pathways, topN:=top_n)
