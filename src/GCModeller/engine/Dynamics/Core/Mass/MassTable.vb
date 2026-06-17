@@ -189,6 +189,10 @@ Namespace Core
             m_massSet = New CompartTable(cache, compart, hook:=Me)
         End Sub
 
+        Sub New(massEnv As IEnumerable(Of Factor))
+            Throw New NotImplementedException
+        End Sub
+
         ''' <summary>
         ''' set current mass environment its <see cref="defaultCompartment"/> label as given input <paramref name="id"/>.
         ''' </summary>

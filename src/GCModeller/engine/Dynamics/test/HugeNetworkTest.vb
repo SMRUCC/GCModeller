@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::93d833b81877553b1c6f198d29989c78, engine\Dynamics\test\HugeNetworkTest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 72
-    '    Code Lines: 59 (81.94%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 13 (18.06%)
-    '     File Size: 3.04 KB
+' Summaries:
 
 
-    ' Module HugeNetworkTest
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 72
+'    Code Lines: 59 (81.94%)
+' Comment Lines: 0 (0.00%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 13 (18.06%)
+'     File Size: 3.04 KB
+
+
+' Module HugeNetworkTest
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
@@ -73,18 +73,18 @@ Module HugeNetworkTest
         For Each reaction As Reaction In reactions
             For Each name As String In reaction.GetSubstrateCompounds
                 If Not mass.ContainsKey(name) Then
-                    mass(name) = New Factor With {.ID = name, .Value = 3000}
+                    mass(name) = New Factor(name, 3000)
                 End If
             Next
         Next
 
         Dim left, right As Variable()
-        Dim equation As DefaultTypes.Equation
+        Dim equation As Equation
 
         For Each reaction As Reaction In reactions.GroupBy(Function(r) r.ID).Select(Function(rg) rg.First)
             equation = reaction.ReactionModel
-            left = equation.Reactants.Select(Function(c) New Variable(mass(c.ID), c.StoiChiometry)).ToArray
-            right = equation.Products.Select(Function(c) New Variable(mass(c.ID), c.StoiChiometry)).ToArray
+            left = equation.Reactants.Select(Function(c) New Variable(mass(c.ID), c.Stoichiometry)).ToArray
+            right = equation.Products.Select(Function(c) New Variable(mass(c.ID), c.Stoichiometry)).ToArray
 
             channels += New Channel(left, right) With {
                 .bounds = {300, 300},
@@ -113,7 +113,7 @@ Module HugeNetworkTest
                 .Properties = mass.ToDictionary(Function(m) m.Key, Function(m) m.Value.Value)
             }
 
-            Call i.__DEBUG_ECHO
+            Call i.debug
         Next
 
         Call snapshots.SaveTo("./test_mass.csv")

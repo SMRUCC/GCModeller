@@ -81,12 +81,12 @@ Module unitTest
         }
         Dim machine As Vessel = New Vessel()
 
-        Dim a As New Factor With {.ID = "a", .Value = 1000}
-        Dim b As New Factor With {.ID = "b", .Value = 1000}
+        Dim a As New Factor("a", 1000)
+        Dim b As New Factor("b", 1000)
         Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 1)}) With {
             .bounds = {10, 10},
             .ID = "a->b",
-            .forward = New KineticsControls(machine, model.CompileLambda, model.formula) With {.baseline = 0, .inhibition = {}},
+            .forward = New KineticsControls(New MassTable(machine.MassEnvironment), model.CompileLambda(New Dictionary(Of String, Cellular.Process.CentralDogma)), model.formula, "") With {.baseline = 0, .inhibition = {}},
             .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
         }
 
@@ -121,8 +121,8 @@ Module unitTest
 
         ' a <=> b
 
-        Dim a As New Factor With {.ID = "a", .Value = 1000}
-        Dim b As New Factor With {.ID = "b", .Value = 1000}
+        Dim a As New Factor("a", 1000)
+        Dim b As New Factor("b", 1000)
         Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 1)}) With {
             .bounds = {10, 10},
             .ID = "a->b",
@@ -162,9 +162,9 @@ Module unitTest
 
         ' a <=> b <=> c <=> a
 
-        Dim a As New Factor With {.ID = "a", .Value = 1000}
-        Dim b As New Factor With {.ID = "b", .Value = 1000}
-        Dim c As New Factor With {.ID = "c", .Value = 10000}
+        Dim a As New Factor("a", 1000)
+        Dim b As New Factor("b", 1000)
+        Dim c As New Factor("c", 10000)
         Dim reaction As New Channel({New Variable(a, 3)}, {New Variable(b, 2)}) With {
             .bounds = {100, 5},
             .ID = "a->b",

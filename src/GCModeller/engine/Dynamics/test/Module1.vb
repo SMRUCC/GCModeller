@@ -96,16 +96,16 @@ Module Module1
     End Sub
 
     Private Iterator Function mass() As IEnumerable(Of Factor)
-        Yield New Factor With {.ID = "A", .Value = 10}
-        Yield New Factor With {.ID = "B", .Value = 1000}
-        Yield New Factor With {.ID = "C", .Value = 10000}
-        Yield New Factor With {.ID = "D", .Value = 1000}
-        Yield New Factor With {.ID = "E", .Value = 5000}
-        Yield New Factor With {.ID = "F", .Value = 1000}
-        Yield New Factor With {.ID = "G", .Value = 3000}
-        Yield New Factor With {.ID = "H", .Value = 1000}
-        Yield New Factor With {.ID = "I", .Value = 8000}
-        Yield New Factor With {.ID = "J", .Value = 2000}
+        Yield New Factor("A", 10)
+        Yield New Factor("B", 1000)
+        Yield New Factor("C", 10000)
+        Yield New Factor("D", 1000)
+        Yield New Factor("E", 5000)
+        Yield New Factor("F", 1000)
+        Yield New Factor("G", 3000)
+        Yield New Factor("H", 1000)
+        Yield New Factor("I", 8000)
+        Yield New Factor("J", 2000)
     End Function
 
     ''' <summary>
