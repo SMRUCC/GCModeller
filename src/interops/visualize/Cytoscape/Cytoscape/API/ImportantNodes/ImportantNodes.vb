@@ -54,14 +54,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
-Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.InteractionModel
 Imports SMRUCC.genomics.InteractionModel.Regulon
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
@@ -105,9 +102,7 @@ Namespace API.ImportantNodes
         ''' <param name="Regulations"></param>
         ''' <param name="rankCutoff"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        <ExportAPI("Regulator.Significants",
-                   Info:="rank_cutoff = 0 stands for using the default value; -1 stands for using all of the nodes without any cutoff value screening, else 0 - 1 for the selected percentage.")>
+        ''' <remarks>rank_cutoff = 0 stands for using the default value; -1 stands for using all of the nodes without any cutoff value screening, else 0 - 1 for the selected percentage.</remarks>
         <Extension>
         Public Function SignificantRegulator(ImportantNodes As IEnumerable(Of KeyValuePair(Of Integer, Node())),
                                              Regulations As IEnumerable(Of IRegulatorRegulation),
@@ -187,9 +182,7 @@ Namespace API.ImportantNodes
         ''' helpful for a large scale network.
         ''' </param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        <ExportAPI("evaluate.importance",
-                   Info:="If fast parameter is set to true, then a parallel edition of the algorithm will implemented for accelerates the network calculation.")>
+        ''' <remarks>If fast parameter is set to true, then a parallel edition of the algorithm will implemented for accelerates the network calculation.</remarks>
         Public Function EquivalenceClass(S As Node(), Optional Fast As Boolean = False) As KeyValuePair(Of Integer, Node())()
             If Fast Then Return __equivalenceFast(S.AsList, S)
 
