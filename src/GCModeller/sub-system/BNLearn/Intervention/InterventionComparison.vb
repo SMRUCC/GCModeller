@@ -19,6 +19,8 @@
 Imports System.IO
 Imports System.Text
 Imports SMRUCC.genomics.MetabolicModel
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile.RowHelpers
+Imports Microsoft.VisualBasic.Math.Correlations
 
 Namespace Intervention
 
@@ -295,7 +297,7 @@ Namespace Intervention
                         End If
                     Next
 
-                    Dim corr As Double = PearsonCorrelation(vecI.ToArray(), vecJ.ToArray())
+                    Dim corr As Double = Correlations.GetPearson(vecI.ToArray(), vecJ.ToArray())
                     simMatrix(i, j) = corr
                     simMatrix(j, i) = corr
                 Next
@@ -684,54 +686,11 @@ Namespace Intervention
         End Sub
 
         ''' <summary>
-        ''' CSV 字段转义（处理逗号、引号、换行）
-        ''' </summary>
-        Private Function EscapeCsv(field As String) As String
-            If String.IsNullOrEmpty(field) Then Return ""
-            If field.Contains(",") OrElse field.Contains("""") OrElse field.Contains(vbCr) OrElse field.Contains(vbLf) Then
-                Return """" & field.Replace("""", """""") & """"
-            End If
-            Return field
-        End Function
-
-        ''' <summary>
         ''' 格式化数值（NaN → "NA"）
         ''' </summary>
         Private Function FormatVal(val As Double, Optional fmt As String = "F4") As String
             If Double.IsNaN(val) OrElse Double.IsInfinity(val) Then Return "NA"
             Return val.ToString(fmt, System.Globalization.CultureInfo.InvariantCulture)
         End Function
-
-        ''' <summary>
-        ''' 计算 Pearson 相关系数
-        ''' </summary>
-        Private Function PearsonCorrelation(x As Double(), y As Double()) As Double
-            If x Is Nothing OrElse y Is Nothing OrElse x.Length <> y.Length OrElse x.Length < 3 Then
-                Return Double.NaN
-            End If
-
-            Dim n As Integer = x.Length
-            Dim sumX As Double = 0, sumY As Double = 0
-            For i = 0 To n - 1
-                sumX += x(i)
-                sumY += y(i)
-            Next
-            Dim meanX As Double = sumX / n
-            Dim meanY As Double = sumY / n
-
-            Dim covXY As Double = 0, varX As Double = 0, varY As Double = 0
-            For i = 0 To n - 1
-                Dim dx As Double = x(i) - meanX
-                Dim dy As Double = y(i) - meanY
-                covXY += dx * dy
-                varX += dx * dx
-                varY += dy * dy
-            Next
-
-            If varX < 1.0E-30 OrElse varY < 1.0E-30 Then Return Double.NaN
-            Return covXY / Math.Sqrt(varX * varY)
-        End Function
-
     End Class
-
 End Namespace
