@@ -60,10 +60,17 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
 Namespace MetabolicModel
 
+    ''' <summary>
+    ''' 通路信息（用于通路级别汇总）
+    ''' </summary>
     Public Class MetabolicPathway : Implements INamedValue
 
         Public Property ID As String Implements IKeyedEntity(Of String).Key
+
+        ''' <summary>通路名称</summary>
         Public Property name As String
+        ''' <summary>通路包含的基因ID列表</summary>
+        Public Property genes As String()
         Public Property metabolites As MetabolicCompound()
         Public Property metabolicNetwork As MetabolicReaction()
 

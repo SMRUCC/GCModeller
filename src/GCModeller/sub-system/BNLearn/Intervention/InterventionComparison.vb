@@ -18,6 +18,7 @@
 
 Imports System.IO
 Imports System.Text
+Imports SMRUCC.genomics.MetabolicModel
 
 Namespace Intervention
 
@@ -442,7 +443,7 @@ Namespace Intervention
         ''' 将基因级别的 FoldChange 按通路聚合（取均值/中位数/显著基因数）
         ''' 行 = 通路，列 = 扰动条件
         ''' </summary>
-        Public Sub ExportPathwaySummaryMatrix(pathwayInfo As Dictionary(Of String, PathwayInfo), filePath As String)
+        Public Sub ExportPathwaySummaryMatrix(pathwayInfo As Dictionary(Of String, MetabolicPathway), filePath As String)
             Dim cm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.FoldChange)
             Dim sigCm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.Significance)
             Dim geneMap As Dictionary(Of String, Integer) = BuildGeneIndexMap(cm.GeneNames)
@@ -464,7 +465,7 @@ Namespace Intervention
 
             ' 每个通路
             For Each pid As String In pathwayIDs
-                Dim pInfo As PathwayInfo = pathwayInfo(pid)
+                Dim pInfo As MetabolicPathway = pathwayInfo(pid)
                 Dim pathwayGeneIndices As New List(Of Integer)()
 
                 ' 找到属于该通路的基因在矩阵中的行索引
@@ -510,7 +511,7 @@ Namespace Intervention
         ''' 值 = 该扰动对该通路中显著受影响基因的比例
         ''' 用于热图可视化
         ''' </summary>
-        Public Sub ExportCrossImpactMatrix(pathwayInfo As Dictionary(Of String, PathwayInfo), filePath As String)
+        Public Sub ExportCrossImpactMatrix(pathwayInfo As Dictionary(Of String, MetabolicPathway), filePath As String)
             Dim sigCm As ComparisonMatrix = BuildComparisonMatrix(ComparisonMetric.Significance)
             Dim geneMap As Dictionary(Of String, Integer) = BuildGeneIndexMap(sigCm.GeneNames)
 
@@ -568,7 +569,7 @@ Namespace Intervention
         ''' 一键导出所有比较分析矩阵到指定目录
         ''' </summary>
         Public Sub ExportAll(outputDir As String,
-                              Optional pathwayInfo As Dictionary(Of String, PathwayInfo) = Nothing,
+                              Optional pathwayInfo As Dictionary(Of String, MetabolicPathway) = Nothing,
                               Optional topN As Integer = 50)
 
             If Not Directory.Exists(outputDir) Then
@@ -639,16 +640,6 @@ Namespace Intervention
             Public Property Metric As ComparisonMetric
             ''' <summary>矩阵数据 [gene, condition]</summary>
             Public Property Matrix As Double(,)
-        End Class
-
-        ''' <summary>
-        ''' 通路信息（用于通路级别汇总）
-        ''' </summary>
-        Public Class PathwayInfo
-            ''' <summary>通路名称</summary>
-            Public Property name As String
-            ''' <summary>通路包含的基因ID列表</summary>
-            Public Property genes As String()
         End Class
 
         ' ==================== 内部工具方法 ====================

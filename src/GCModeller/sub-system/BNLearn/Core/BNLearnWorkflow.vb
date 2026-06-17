@@ -13,6 +13,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.Framework
+Imports SMRUCC.genomics.Analysis.BNLearn.ParameterLearning
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Namespace Core
@@ -93,15 +94,16 @@ Namespace Core
         ''' 步骤3：参数学习
         ''' </summary>
         Public Function LearnParameters() As ParameterLearning.ParameterLearningResult
-            If FittedNetwork Is Nothing Then Throw New Exception("请先执行结构学习")
+            If FittedNetwork Is Nothing Then
+                Throw New Exception("请先执行结构学习")
+            End If
 
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then
                 workData = ExpressionData.Standardize
             End If
 
-            Dim learner As New ParameterLearning.BnParameterLearner()
-            ParameterResult = learner.Learn(FittedNetwork, workData)
+            ParameterResult = BnParameterLearner.Learn(FittedNetwork, workData)
 
             Return ParameterResult
         End Function
