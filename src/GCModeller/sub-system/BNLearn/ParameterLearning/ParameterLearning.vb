@@ -14,43 +14,15 @@
 Namespace ParameterLearning
 
     ''' <summary>
-    ''' 参数学习结果
-    ''' </summary>
-    Public Class ParameterLearningResult
-
-        ''' <summary>拟合后的网络（含CPD参数）</summary>
-        Public Property Network As Core.BayesianNetwork
-
-        ''' <summary>总对数似然</summary>
-        Public Property TotalLogLikelihood As Double
-
-        ''' <summary>总 BIC</summary>
-        Public Property TotalBIC As Double
-
-        ''' <summary>平均 R²</summary>
-        Public Property AverageRSquared As Double
-
-        ''' <summary>参数学习耗时（毫秒）</summary>
-        Public Property ElapsedMs As Long
-
-    End Class
-
-    ''' <summary>
     ''' 贝叶斯网络参数学习器
     ''' </summary>
-    Public Class BnParameterLearner
-
-        Private _data As Core.GeneExpressionData
+    Public Module BnParameterLearner
 
         ''' <summary>
         ''' 从数据学习网络参数
         ''' </summary>
-        Public Function Learn(network As Core.BayesianNetwork,
-                              data As Core.GeneExpressionData) As ParameterLearningResult
-
+        Public Function Learn(network As Core.BayesianNetwork, data As Core.GeneExpressionData) As ParameterLearningResult
             Dim t0 As Date = Now
-
-            _data = data
             Dim nS As Integer = data.NSample
             Dim totalLL As Double = 0
             Dim totalBIC As Double = 0
@@ -88,7 +60,7 @@ Namespace ParameterLearning
                     cpd.RSquared = 0.0
 
                     ' 对数似然
-                    If cpd.ResidualVariance > 1e-15 Then
+                    If cpd.ResidualVariance > 0.000000000000001 Then
                         totalLL += -nS / 2.0 * Math.Log(2 * Math.PI * cpd.ResidualVariance) - rss / (2 * cpd.ResidualVariance)
                     End If
 
@@ -142,7 +114,7 @@ Namespace ParameterLearning
                     cpd.RSquared = If(tss > 0, 1.0 - rss / tss, 0.0)
 
                     ' 对数似然
-                    If cpd.ResidualVariance > 1e-15 Then
+                    If cpd.ResidualVariance > 0.000000000000001 Then
                         totalLL += -nS / 2.0 * Math.Log(2 * Math.PI * cpd.ResidualVariance) - rss / (2 * cpd.ResidualVariance)
                     End If
 
@@ -212,6 +184,6 @@ Namespace ParameterLearning
             Return beta
         End Function
 
-    End Class
+    End Module
 
 End Namespace

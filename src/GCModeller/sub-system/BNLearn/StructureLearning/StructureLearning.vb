@@ -13,79 +13,11 @@
 '   对数似然 = -n/2·log(2πσ²) - 1/(2σ²)·Σ(xi-μi)²
 ' ============================================================
 
-Imports System.Collections.Generic
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports _rng = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace StructureLearning
 
-    ''' <summary>
-    ''' 结构学习算法类型
-    ''' </summary>
-    Public Enum StructureAlgorithm
-        ''' <summary>Hill-Climbing 贪心搜索</summary>
-        HillClimbing
-        ''' <summary>Tabu 禁忌搜索</summary>
-        Tabu
-        ''' <summary>MMHC 混合算法（推荐）</summary>
-        MMHC
-    End Enum
-
-    ''' <summary>
-    ''' 结构学习参数
-    ''' </summary>
-    Public Class StructureLearningParams
-
-        ''' <summary>算法类型</summary>
-        Public Property Algorithm As StructureAlgorithm = StructureAlgorithm.MMHC
-
-        ''' <summary>显著性水平 alpha（用于独立性检验）</summary>
-        Public Property Alpha As Double = 0.05
-
-        ''' <summary>最大父节点数</summary>
-        Public Property MaxParents As Integer = 5
-
-        ''' <summary>Tabu 搜索的禁忌表长度</summary>
-        Public Property TabuLength As Integer = 20
-
-        ''' <summary>最大迭代次数</summary>
-        Public Property MaxIterations As Integer = 500
-
-        ''' <summary>BIC 惩罚系数（>1 更稀疏）</summary>
-        Public Property BICPenalty As Double = 1.0
-
-        ''' <summary>是否使用白名单先验</summary>
-        Public Property UseWhitelist As Boolean = True
-
-        ''' <summary>是否使用黑名单</summary>
-        Public Property UseBlacklist As Boolean = True
-
-        ''' <summary>随机种子</summary>
-        Public Property RandomSeed As Integer = 42
-
-    End Class
-
-    ''' <summary>
-    ''' 结构学习结果
-    ''' </summary>
-    Public Class StructureLearningResult
-
-        ''' <summary>学习到的网络</summary>
-        Public Property Network As Core.BayesianNetwork
-
-        ''' <summary>最终 BIC 评分</summary>
-        Public Property FinalBIC As Double
-
-        ''' <summary>迭代次数</summary>
-        Public Property Iterations As Integer
-
-        ''' <summary>学习耗时（毫秒）</summary>
-        Public Property ElapsedMs As Long
-
-        ''' <summary>每步 BIC 变化记录</summary>
-        Public Property BICHistory As New List(Of Double)()
-
-    End Class
 
     ''' <summary>
     ''' 贝叶斯网络结构学习器
@@ -540,12 +472,6 @@ Namespace StructureLearning
             ' （简化处理：保留当前网络，因为 Tabu 搜索中当前解通常接近最优）
         End Sub
 
-        Public Enum EdgeOp
-            None
-            Add
-            Remove
-            Reverse
-        End Enum
 
         ' ==================== BIC 评分 ====================
 
