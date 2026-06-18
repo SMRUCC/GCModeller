@@ -64,7 +64,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 
 Module Module1
 
-    Sub Main()
+    Sub Main1()
         Dim massTable = mass.ToDictionary(Function(m) m.ID)
         Dim envir As Vessel = New Vessel().load(massTable.Values).load(reactions(massTable))
         Dim snapshots As New List(Of DataSet)

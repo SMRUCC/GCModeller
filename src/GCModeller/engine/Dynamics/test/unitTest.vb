@@ -63,7 +63,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Module unitTest
-    Sub Main()
+    Sub Main1()
         Call kineticsTest()
         Call singleDirection()
         Call loopTest()
