@@ -29,14 +29,11 @@
 '   - RegulatoryLink and Effector types must be accessible (same project or global namespace)
 '   - .NET Framework 4.0+ or .NET Core/5+ (uses Tuple, LINQ)
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.IO
-Imports System.Linq
 Imports System.Text
 
-Namespace VirtualCell.DBN
+Namespace DBN
 
     ' ==================== Enums ====================
 
@@ -355,7 +352,7 @@ Namespace VirtualCell.DBN
 
         ' Internal state
         Private _nodes As New Dictionary(Of String, DBNNode)
-        Private _topologyLinks As New List(Of RegulatoryLink)
+        Private _topologyLinks As RegulatoryLink()
         Private _operonGenes As New Dictionary(Of String, List(Of String))
         Private _rng As Random
         Private _config As DBNConfig
@@ -404,17 +401,17 @@ Namespace VirtualCell.DBN
         ''' or parameter learning (data-fitting mode).
         ''' </summary>
         ''' <param name="links">List of regulatory links defining the network topology</param>
-        Public Sub BuildFromTopology(links As List(Of RegulatoryLink))
+        Public Sub BuildFromTopology(links As IEnumerable(Of RegulatoryLink))
             If links Is Nothing Then
-                Throw New ArgumentNullException("links")
+                Throw New ArgumentNullException("the gene expression regulator network should not be nothing!")
+            Else
+                _topologyLinks = links.ToArray
+                _nodes.Clear()
+                _operonGenes.Clear()
             End If
 
-            _topologyLinks = links
-            _nodes.Clear()
-            _operonGenes.Clear()
-
             ' --- Step 1: Create nodes for all TFs, effector metabolites, and target operons ---
-            For Each link In links
+            For Each link In _topologyLinks
                 ' Create TF node if not exists
                 If Not _nodes.ContainsKey(link.TF_id) Then
                     _nodes(link.TF_id) = New DBNNode(link.TF_id, DBNNodeType.TranscriptionFactor)
@@ -450,7 +447,7 @@ Namespace VirtualCell.DBN
             Next
 
             ' --- Step 2: Set up parent-child relationships ---
-            For Each link In links
+            For Each link In _topologyLinks
                 Dim geneNode = _nodes(link.target_operon)
 
                 ' Add TF as parent (avoid duplicates for multi-effector TFs)

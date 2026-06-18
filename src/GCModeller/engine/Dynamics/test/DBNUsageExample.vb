@@ -17,8 +17,8 @@
 ' Note: This file assumes RegulatoryLink and Effector are defined in the same project.
 ' If they are in a different namespace, add the appropriate Imports statement.
 
-Imports Cella
-Imports Cella.VirtualCell.DBN
+Imports SMRUCC.genomics.Analysis.BNLearn
+Imports SMRUCC.genomics.Analysis.BNLearn.DBN
 
 ' Note: The RegulatoryLink and Effector types should be defined in your project.
 ' They are assumed to be in the global namespace or an imported namespace.
