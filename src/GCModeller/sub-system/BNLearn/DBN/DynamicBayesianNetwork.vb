@@ -1268,8 +1268,7 @@ Namespace DBN
                         If parts.Length >= 4 Then
                             Dim nodeId = parts(1)
                             Dim key = parts(2)
-                            Dim probs = parts(3).Split(","c).Select(
-                                Function(s) Double.Parse(s, CultureInfo.InvariantCulture)).ToArray()
+                            Dim probs = parts.Last.Split(","c).Select(Function(s) Double.Parse(s, CultureInfo.InvariantCulture)).ToArray()
 
                             If _nodes.ContainsKey(nodeId) Then
                                 _nodes(nodeId).CPT.Table(key) = probs

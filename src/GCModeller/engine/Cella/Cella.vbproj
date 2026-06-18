@@ -17,7 +17,6 @@
     <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\sub-system\BNLearn\BNLearn.vbproj" />
-    <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.NET5.vbproj" />
     <ProjectReference Include="..\Dynamics\Dynamics.NET5.vbproj" />
     <ProjectReference Include="..\Model\Model.Core.NET5.vbproj" />
   </ItemGroup>
