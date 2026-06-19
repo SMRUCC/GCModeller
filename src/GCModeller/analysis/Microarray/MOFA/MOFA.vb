@@ -414,8 +414,9 @@ Namespace MultiOmics.MOFA
             End If
 
             Dim prevElbo As Double = Double.NaN
+            Dim bar As ProgressBar = Nothing
 
-            For Each iter In TqdmWrapper.Range(0, Options.MaxIterations)
+            For Each iter In TqdmWrapper.Range(0, Options.MaxIterations, bar:=bar)
                 ' 1) Update factors Z
                 UpdateFactors()
 
@@ -451,7 +452,7 @@ Namespace MultiOmics.MOFA
                     If relChange < Options.ConvergenceTolerance Then
                         Converged = True
                         If Options.Verbose Then
-                            Console.WriteLine($"[MOFA] Converged at iteration {iter} (ELBO={elbo:F4})")
+                            bar.SetLabel($"[MOFA] Converged at iteration {iter} (ELBO={elbo:F4})")
                         End If
                         Exit For
                     End If
@@ -465,7 +466,7 @@ Namespace MultiOmics.MOFA
 
                 ' Verbose output
                 If Options.Verbose AndAlso iter Mod Options.PrintEvery = 0 Then
-                    Console.WriteLine($"[MOFA] Iter {iter,4} | ELBO={elbo,12:F4} | K_active={CountActiveFactors()}")
+                    bar.SetLabel($"[MOFA] Iter {iter,4} | ELBO={elbo,12:F4} | K_active={CountActiveFactors()}")
                 End If
             Next
 
