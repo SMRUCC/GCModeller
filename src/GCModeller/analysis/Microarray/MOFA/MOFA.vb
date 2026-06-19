@@ -21,8 +21,6 @@
 '  License: GPL3 (consistent with original Tensor.vb)
 ' =====================================================================================
 
-Imports System.Collections.Generic
-Imports System.Linq
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports std = System.Math
 
