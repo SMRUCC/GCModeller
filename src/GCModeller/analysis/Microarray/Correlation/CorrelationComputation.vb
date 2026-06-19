@@ -14,6 +14,7 @@
 ' ============================================================================
 
 Imports System.Math
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Correlations.Correlations
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -113,13 +114,6 @@ Public Module MathHelpers
         If x > lambda Then Return x - lambda
         If x < -lambda Then Return x + lambda
         Return 0.0
-    End Function
-
-    ''' <summary>
-    ''' 将值限制在 [minVal, maxVal] 范围内
-    ''' </summary>
-    Public Function Clamp(value As Double, minVal As Double, maxVal As Double) As Double
-        Return Max(minVal, Min(maxVal, value))
     End Function
 
     ''' <summary>
@@ -281,33 +275,6 @@ End Module
 Public Module PearsonCorrelation
 
     ''' <summary>
-    ''' 计算两个向量之间的 Pearson 相关系数
-    ''' </summary>
-    Public Function Compute(x As Double(), y As Double()) As Double
-        If x Is Nothing OrElse y Is Nothing Then Return 0.0
-        If x.Length <> y.Length OrElse x.Length < 2 Then Return 0.0
-
-        Dim n As Integer = x.Length
-        Dim mx As Double = MathHelpers.Mean(x)
-        Dim my As Double = MathHelpers.Mean(y)
-
-        Dim sumXY As Double = 0.0
-        Dim sumXX As Double = 0.0
-        Dim sumYY As Double = 0.0
-
-        For i As Integer = 0 To n - 1
-            Dim dx As Double = x(i) - mx
-            Dim dy As Double = y(i) - my
-            sumXY += dx * dy
-            sumXX += dx * dx
-            sumYY += dy * dy
-        Next
-
-        If sumXX <= 0.0 OrElse sumYY <= 0.0 Then Return 0.0
-        Return sumXY / Sqrt(sumXX * sumYY)
-    End Function
-
-    ''' <summary>
     ''' 计算单个矩阵内所有 feature 间的 Pearson 相关矩阵 [nFeature, nFeature]
     ''' </summary>
     Public Function ComputeInternalMatrix(matrix As Matrix) As Double(,)
@@ -321,7 +288,7 @@ Public Module PearsonCorrelation
             Dim xi As Double() = MathHelpers.GetFeatureColumn(data, i, nS)
             For j As Integer = i + 1 To nF - 1
                 Dim xj As Double() = MathHelpers.GetFeatureColumn(data, j, nS)
-                Dim r As Double = Compute(xi, xj)
+                Dim r As Double = Correlations.GetPearson(xi, xj)
                 corr(i, j) = r
                 corr(j, i) = r
             Next
@@ -335,7 +302,7 @@ Public Module PearsonCorrelation
     ''' 结果矩阵维度: [nOtu, nMet]
     ''' </summary>
     Public Function ComputeCrossCorrelation(otuMatrix As Matrix, metaboliteMatrix As Matrix) As CrossOmicsCorrelation
-        Return MathHelpers.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix, AddressOf Compute, name:="Pearson")
+        Return MathHelpers.ComputeCrossCorrelation(otuMatrix, metaboliteMatrix, AddressOf Correlations.GetPearson, name:="Pearson")
     End Function
 
 End Module
@@ -367,7 +334,7 @@ Public Module SpearmanCorrelation
         Dim rankY As Double() = MathHelpers.Rank(y)
 
         ' 计算秩的 Pearson 相关系数
-        Return PearsonCorrelation.Compute(rankX, rankY)
+        Return Correlations.GetPearson(rankX, rankY)
     End Function
 
     ''' <summary>
@@ -537,8 +504,8 @@ Public Module SparCCComputation
                     xj(s) = clr(j, s)
                 Next
 
-                Dim r As Double = PearsonCorrelation.Compute(xi, xj)
-                r = MathHelpers.Clamp(r, -1.0, 1.0)
+                Dim r As Double = Correlations.GetPearson(xi, xj)
+                r = Clamp(r, -1.0, 1.0)
                 corr(i, j) = r
                 corr(j, i) = r
             Next
@@ -621,7 +588,7 @@ Public Module SparCCComputation
                 Dim denominator As Double = 2.0 * Sqrt(basisVariance(i) * basisVariance(j))
 
                 If denominator > 0 Then
-                    basisCorr(i, j) = MathHelpers.Clamp(numerator / denominator, -1.0, 1.0)
+                    basisCorr(i, j) = Clamp(numerator / denominator, -1.0, 1.0)
                 Else
                     basisCorr(i, j) = 0.0
                 End If
@@ -684,7 +651,7 @@ Public Module SparCCComputation
                         Dim denominator As Double = 2.0 * Sqrt(basisVariance(i) * basisVariance(j))
 
                         If denominator > 0 Then
-                            basisCorr(i, j) = MathHelpers.Clamp(numerator / denominator, -1.0, 1.0)
+                            basisCorr(i, j) = Clamp(numerator / denominator, -1.0, 1.0)
                         Else
                             basisCorr(i, j) = 0.0
                         End If
@@ -1009,7 +976,7 @@ Public Module CCLassoComputation
             For j As Integer = i + 1 To nFeatures - 1
                 Dim denom As Double = Sqrt(cov(i, i) * cov(j, j))
                 If denom > 0 Then
-                    corr(i, j) = MathHelpers.Clamp(cov(i, j) / denom, -1.0, 1.0)
+                    corr(i, j) = Clamp(cov(i, j) / denom, -1.0, 1.0)
                 Else
                     corr(i, j) = 0.0
                 End If

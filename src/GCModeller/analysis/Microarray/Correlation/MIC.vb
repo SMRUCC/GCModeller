@@ -1,6 +1,6 @@
-﻿Imports std = System.Math
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports std = System.Math
 
 ' ============================================================================
 ' 第六部分（续）：MIC 最大信息系数计算
