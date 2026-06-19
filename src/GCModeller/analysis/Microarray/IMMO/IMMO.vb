@@ -13,6 +13,7 @@
 '   6. DataPrep          - 数据预处理（样本对齐+归一化）
 ' ============================================================================
 
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports std = System.Math
 
 Namespace IMMO
@@ -50,7 +51,7 @@ Namespace IMMO
         Public Property Beta2 As Double = 0.999
 
         ''' <summary>Adam epsilon</summary>
-        Public Property AdamEpsilon As Double = 1e-8
+        Public Property AdamEpsilon As Double = 1E-8
 
         ''' <summary>学习率衰减率</summary>
         Public Property DecayRate As Double = 0.99
@@ -85,7 +86,7 @@ Namespace IMMO
         Public Property Patience As Integer = 20
 
         ''' <summary>早停最小改善阈值</summary>
-        Public Property MinDelta As Double = 1e-6
+        Public Property MinDelta As Double = 1E-6
 
         ' === BatchNorm参数 ===
 
@@ -93,7 +94,7 @@ Namespace IMMO
         Public Property BNMomentum As Double = 0.9
 
         ''' <summary>BatchNorm epsilon</summary>
-        Public Property BNEpsilon As Double = 1e-5
+        Public Property BNEpsilon As Double = 1E-5
 
         ' === 其他 ===
 
@@ -352,9 +353,9 @@ Namespace IMMO
             Dim reconstructions As New List(Of Tensor)
             Dim offset = 0
             For i = 0 To NumOmics - 1
-                Dim dim = _featureDims(i)
-                reconstructions.Add(TensorHelpers.ColumnSlice(_cachedReconstruction, offset, dim))
-                offset += dim
+                Dim [dim] = _featureDims(i)
+                reconstructions.Add(TensorHelpers.ColumnSlice(_cachedReconstruction, offset, [dim]))
+                offset += [dim]
             Next
 
             Return reconstructions
@@ -379,7 +380,7 @@ Namespace IMMO
             For i = 0 To NumOmics - 1
                 Dim ratio = New Tensor(gradFusedLatent.Shape(0), 1)
                 For j = 0 To gradFusedLatent.Shape(0) - 1
-                    ratio(j, 0) = _cachedFusionWeights(i)(j, 0) / (_cachedFusionSumW(j, 0) + 1e-12)
+                    ratio(j, 0) = _cachedFusionWeights(i)(j, 0) / (_cachedFusionSumW(j, 0) + 1E-12)
                 Next
                 Dim gradZ_i = TensorHelpers.MultiplyByColumn(gradFusedLatent, ratio)
                 gradLatents.Add(gradZ_i)
@@ -671,7 +672,7 @@ Namespace IMMO
             For i = 0 To matrices.Count - 1
                 Dim matrix = matrices(i)
                 Dim ids = sampleIDLists(i)
-                Dim n = matrix.GetLength(0)
+                Dim ni = matrix.GetLength(0)
                 Dim d = matrix.GetLength(1)
 
                 ' 创建样本ID到原始行索引的映射
@@ -681,10 +682,10 @@ Namespace IMMO
                 Next
 
                 ' 创建填充数据矩阵和掩码
-                Dim paddedData = New Tensor(N, d)
-                Dim mask = New Tensor(N, d)
+                Dim paddedData = New Tensor(n, d)
+                Dim mask = New Tensor(n, d)
 
-                For j = 0 To N - 1
+                For j = 0 To n - 1
                     If idToRow.ContainsKey(unifiedIDs(j)) Then
                         ' 样本存在：填入真实数据，掩码为1
                         Dim srcRow = idToRow(unifiedIDs(j))
@@ -712,7 +713,7 @@ Namespace IMMO
                     For k = 0 To d - 1
                         Dim sum = 0.0
                         Dim count = 0
-                        For j = 0 To N - 1
+                        For j = 0 To n - 1
                             If mask(j, k) > 0 Then
                                 sum += paddedData(j, k)
                                 count += 1
@@ -723,14 +724,14 @@ Namespace IMMO
                             featureMean(k) = sum / count
                             ' 计算标准差
                             Dim sumSq = 0.0
-                            For j = 0 To N - 1
+                            For j = 0 To n - 1
                                 If mask(j, k) > 0 Then
                                     Dim diff = paddedData(j, k) - featureMean(k)
                                     sumSq += diff * diff
                                 End If
                             Next
                             featureStd(k) = std.Sqrt(sumSq / count)
-                            If featureStd(k) < 1e-8 Then
+                            If featureStd(k) < 1E-8 Then
                                 featureStd(k) = 1.0
                             End If
                         Else
@@ -739,7 +740,7 @@ Namespace IMMO
                         End If
 
                         ' 应用归一化
-                        For j = 0 To N - 1
+                        For j = 0 To n - 1
                             If mask(j, k) > 0 Then
                                 paddedData(j, k) = (paddedData(j, k) - featureMean(k)) / featureStd(k)
                             End If
@@ -756,9 +757,10 @@ Namespace IMMO
                     .FeatureMean = featureMean,
                     .FeatureStd = featureStd
                 }
+                Dim offset As Integer = i
 
                 ' 生成默认特征名
-                omics.FeatureNames = Enumerable.Range(0, d).Select(Function(k) $"{omicsNames(i)}_Feature{k + 1}").ToArray()
+                omics.FeatureNames = Enumerable.Range(0, d).Select(Function(k) $"{omicsNames(offset)}_Feature{k + 1}").ToArray()
 
                 result.OmicsList.Add(omics)
             Next
