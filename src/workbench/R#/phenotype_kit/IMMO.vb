@@ -1,10 +1,12 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.My.FrameworkInternal
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.IMMO
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -141,5 +143,107 @@ Module IMMOTool
         Console.WriteLine()
 
         Return model
+    End Function
+
+    <ExportAPI("latent_data")>
+    Public Function immo_latent(model As IMMOModel, preparedData As PreparedData) As Tensor
+        ' ====================================================================
+        ' 5. 获取潜在空间表示
+        ' ====================================================================
+        Console.WriteLine("[3] 获取统一样本的潜在空间表示...")
+        Console.WriteLine()
+
+        Dim latentReps = model.GetLatentRepresentations(preparedData.OmicsList)
+        Console.WriteLine($"  潜在表示维度: {latentReps.Shape(0)} 样本 × {latentReps.Shape(1)} 维")
+        Console.WriteLine()
+        Console.WriteLine("  潜在表示 (前5个样本, 前5个维度):")
+        Console.WriteLine($"  {"样本ID",-8} | {"维度1",10} {"维度2",10} {"维度3",10} {"维度4",10} {"维度5",10}")
+        Console.WriteLine($"  {"-",-8}-+-{"-",10}-{"-",10}-{"-",10}-{"-",10}-{"-",10}")
+
+        For i = 0 To std.Min(4, latentReps.Shape(0) - 1)
+            Console.Write($"  {preparedData.UnifiedSampleIDs(i),-8} |")
+            For j = 0 To std.Min(4, latentReps.Shape(1) - 1)
+                Console.Write($" {latentReps(i, j),10:F4}")
+            Next
+            Console.WriteLine()
+        Next
+        Console.WriteLine()
+
+        Return latentReps
+    End Function
+
+    <ExportAPI("make_omics_impute")>
+    Public Function immo_impute(model As IMMOModel, preparedData As PreparedData)
+        ' ====================================================================
+        ' 6. 获取插补后的完整数据
+        ' ====================================================================
+        Console.WriteLine("[4] 获取插补后的完整数据（缺失样本已填充）...")
+        Console.WriteLine()
+
+        Dim imputedData = DataPrep.GetImputedData(model, preparedData)
+        Dim imputes As list = list.empty
+
+        For i = 0 To preparedData.NumOmics - 1
+            Dim omics As IMMO.OmicsData = preparedData.OmicsList(i)
+            Dim imputed As Tensor = imputedData(i)
+            Console.WriteLine($"  {omics.Name} (插补后):")
+            Console.WriteLine($"    矩阵维度: {imputed.Shape(0)} × {imputed.Shape(1)}")
+
+            ' 显示缺失样本的插补值（前3个特征）
+            For j = 0 To imputed.Shape(0) - 1
+                Dim sampleID = preparedData.UnifiedSampleIDs(j)
+                Dim wasMissing = False
+                For k = 0 To omics.NumFeatures - 1
+                    If omics.Mask(j, k) = 0 Then
+                        wasMissing = True
+                        Exit For
+                    End If
+                Next
+
+                If wasMissing Then
+                    Console.Write($"      [{sampleID}] 插补值(前3特征): ")
+                    For k = 0 To std.Min(2, imputed.Shape(1) - 1)
+                        Console.Write($"{imputed(j, k):F3} ")
+                    Next
+                    Console.WriteLine("(原为缺失)")
+                End If
+            Next
+            Console.WriteLine()
+        Next
+
+        Return imputes
+    End Function
+
+    <ExportAPI("reconstruct")>
+    Public Function evaluation(model As IMMOModel, preparedData As PreparedData) As Tensor()
+        ' ====================================================================
+        ' 7. 评估插补质量（使用已知观测值的重构误差）
+        ' ====================================================================
+        Console.WriteLine("[7] 评估模型重构质量（基于观测值）...")
+        Console.WriteLine()
+
+        Dim reconstructions = model.GetReconstructions(preparedData.OmicsList).ToArray
+        For i = 0 To preparedData.NumOmics - 1
+            Dim omics = preparedData.OmicsList(i)
+            Dim recon = reconstructions(i)
+
+            Dim totalSqError = 0.0
+            Dim observedCount = 0
+            For j = 0 To omics.Data.Length - 1
+                If omics.Mask(j) > 0 Then
+                    Dim diff = omics.Data(j) - recon(j)
+                    totalSqError += diff * diff
+                    observedCount += 1
+                End If
+            Next
+
+            Dim rmse = std.Sqrt(totalSqError / std.Max(1, observedCount))
+            Console.WriteLine($"  {omics.Name}:")
+            Console.WriteLine($"    观测值数量: {observedCount}")
+            Console.WriteLine($"    重构RMSE (归一化尺度): {rmse:F6}")
+        Next
+        Console.WriteLine()
+
+        Return reconstructions
     End Function
 End Module
