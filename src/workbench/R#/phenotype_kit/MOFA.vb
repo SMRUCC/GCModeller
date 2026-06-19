@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Microarray.MultiOmics.MOFA
@@ -14,12 +15,19 @@ Module MOFATools
     <ExportAPI("create_mofa")>
     Public Function create_mofa(<RListObjectArgument> data As list, Optional opts As MOFAOptions = Nothing, Optional env As Environment = Nothing) As Object
         Dim dataList As New List(Of DataView)
+        Dim i As i32 = 1
+
+        ' ----- Step 2: Build DataView objects -----
+        Console.WriteLine("[Step 2] Building MOFA DataView objects...")
 
         For Each name As String In data.getNames
             Dim val As Matrix = TryCast(data.getByName(name), Matrix)
 
             If Not val Is Nothing Then
                 Call dataList.Add(val.CreateDataView(name))
+
+                Console.WriteLine($"   View {++i} ({name}): {val.sampleID.Length} samples × {val.size} features")
+                Console.WriteLine($"      Samples: {String.Join(", ", val.sampleID)}")
             End If
         Next
 
@@ -28,6 +36,9 @@ Module MOFATools
             .Distinct _
             .OrderBy(Function(id) id) _
             .ToArray
+
+        Console.WriteLine($"   Global sample space:    {unionSampleIDs.Length} samples")
+        Console.WriteLine()
 
         opts = If(opts, New MOFAOptions With {
             .NumFactors = 10,                ' Start with 10, will be pruned
