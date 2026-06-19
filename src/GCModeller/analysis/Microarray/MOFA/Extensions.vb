@@ -7,7 +7,7 @@ Namespace MultiOmics.MOFA
     Public Module Extensions
 
         <Extension>
-        Public Function CreateDataView(mat As Matrix) As DataView
+        Public Function CreateDataView(mat As Matrix, Optional name As String = Nothing) As DataView
             Dim nsamples As Integer = mat.sample_count
             Dim ngenes As Integer = mat.size
             Dim data As New Tensor(nsamples, ngenes)
@@ -18,7 +18,7 @@ Namespace MultiOmics.MOFA
                 Next
             Next
 
-            Return New DataView(mat.tag, data, mat.sampleID, mat.rownames)
+            Return New DataView(If(name, mat.tag), data, mat.sampleID, mat.rownames)
         End Function
     End Module
 End Namespace
