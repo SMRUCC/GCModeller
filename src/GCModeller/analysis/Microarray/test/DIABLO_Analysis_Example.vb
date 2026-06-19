@@ -9,7 +9,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.MixOmics
 
 Module DIABLOExample
 
-    Sub Main()
+    Sub Main1()
         Console.WriteLine("="c, 70)
         Console.WriteLine("DIABLO 多组学数据关联分析 - VB.NET 实现示例")
         Console.WriteLine("="c, 70)

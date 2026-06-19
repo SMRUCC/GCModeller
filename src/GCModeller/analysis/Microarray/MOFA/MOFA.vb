@@ -21,9 +21,10 @@
 '  License: GPL3 (consistent with original Tensor.vb)
 ' =====================================================================================
 
-Imports System
 Imports System.Collections.Generic
 Imports System.Linq
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports std = System.Math
 
 Namespace MultiOmics.MOFA
 
@@ -133,7 +134,7 @@ Namespace MultiOmics.MOFA
         End Sub
 
         ''' <summary>
-        ''' Center & scale each feature to zero mean / unit variance (Z-score).
+        ''' Center &amp; scale each feature to zero mean / unit variance (Z-score).
         ''' This is critical because different omics have vastly different scales
         ''' (e.g. RNA counts vs metabolite peak areas) — without it, high-variance
         ''' views would dominate the factor structure.
@@ -145,30 +146,30 @@ Namespace MultiOmics.MOFA
             FeatureStd = New Double(D - 1) {}
 
             ' 1) Compute per-feature mean
-            For d = 0 To D - 1
+            For D = 0 To D - 1
                 Dim s = 0.0
-                For n = 0 To N - 1
-                    s += Data(n, d)
+                For N = 0 To N - 1
+                    s += Data(N, D)
                 Next
-                FeatureMean(d) = s / N
+                FeatureMean(D) = s / N
             Next
 
             ' 2) Compute per-feature std
-            For d = 0 To D - 1
+            For D = 0 To D - 1
                 Dim s = 0.0
-                For n = 0 To N - 1
-                    Dim diff = Data(n, d) - FeatureMean(d)
+                For N = 0 To N - 1
+                    Dim diff = Data(N, D) - FeatureMean(D)
                     s += diff * diff
                 Next
-                Dim var = s / Math.Max(N - 1, 1)
-                FeatureStd(d) = Math.Sqrt(var)
-                If FeatureStd(d) < 1.0E-8 Then FeatureStd(d) = 1.0 ' guard against zero-variance features
+                Dim var = s / std.Max(N - 1, 1)
+                FeatureStd(D) = std.Sqrt(var)
+                If FeatureStd(D) < 0.00000001 Then FeatureStd(D) = 1.0 ' guard against zero-variance features
             Next
 
             ' 3) Apply Z-score in place
-            For n = 0 To N - 1
-                For d = 0 To D - 1
-                    Data(n, d) = (Data(n, d) - FeatureMean(d)) / FeatureStd(d)
+            For N = 0 To N - 1
+                For D = 0 To D - 1
+                    Data(N, D) = (Data(N, D) - FeatureMean(D)) / FeatureStd(D)
                 Next
             Next
         End Sub
@@ -187,7 +188,7 @@ Namespace MultiOmics.MOFA
         Public Property MaxIterations As Integer = 500
 
         ''' <summary>ELBO convergence tolerance (relative change)</summary>
-        Public Property ConvergenceTolerance As Double = 1.0E-4
+        Public Property ConvergenceTolerance As Double = 0.0001
 
         ''' <summary>
         ''' Minimum fraction of variance explained for a factor to be retained.
@@ -211,7 +212,7 @@ Namespace MultiOmics.MOFA
         ''' Prior precision for the spike distribution (small value → strong sparsity).
         ''' Set to 0 to disable spike-and-slab feature sparsity (use ARD only).
         ''' </summary>
-        Public Property SpikePrecision As Double = 1.0E-2
+        Public Property SpikePrecision As Double = 0.01
 
         ''' <summary>Whether to standardize each view before training (recommended)</summary>
         Public Property StandardizeViews As Boolean = True
@@ -330,15 +331,15 @@ Namespace MultiOmics.MOFA
         Public Sub Initialize()
             K = Options.NumFactors
             ActiveFactors = New Boolean(K - 1) {}
-            For k = 0 To K - 1
-                ActiveFactors(k) = True
+            For K As Integer = 0 To Me.K - 1
+                ActiveFactors(K) = True
             Next
 
             ' --- Initialize Z ~ N(0, 1) (prior is standard normal) ---
             Z = New Tensor(N, K)
-            For n = 0 To N - 1
-                For k = 0 To K - 1
-                    Z(n, k) = SampleNormal(0.0, 1.0)
+            For N As Integer = 0 To Me.N - 1
+                For K As Integer = 0 To Me.K - 1
+                    Z(N, K) = SampleNormal(0.0, 1.0)
                 Next
             Next
 
@@ -346,12 +347,12 @@ Namespace MultiOmics.MOFA
             W = New List(Of Tensor)()
             Tau = New List(Of Double())()
             Pi = New List(Of Double())()
-            For m = 0 To M - 1
-                Dim Dm = Views(m).D
+            For M As Integer = 0 To Me.M - 1
+                Dim Dm = Views(M).D
                 Dim Wm = New Tensor(Dm, K)
                 For d = 0 To Dm - 1
-                    For k = 0 To K - 1
-                        Wm(d, k) = SampleNormal(0.0, 0.1)
+                    For K As Integer = 0 To Me.K - 1
+                        Wm(d, K) = SampleNormal(0.0, 0.1)
                     Next
                 Next
                 W.Add(Wm)
@@ -373,9 +374,9 @@ Namespace MultiOmics.MOFA
 
             ' --- Initialize ARD parameters α^m_k = 1 (uninformative) ---
             Alpha = New Double(M - 1, K - 1) {}
-            For m = 0 To M - 1
-                For k = 0 To K - 1
-                    Alpha(m, k) = 1.0
+            For M As Integer = 0 To Me.M - 1
+                For K As Integer = 0 To Me.K - 1
+                    Alpha(M, K) = 1.0
                 Next
             Next
         End Sub
@@ -403,8 +404,8 @@ Namespace MultiOmics.MOFA
 
             If Options.Verbose Then
                 Console.WriteLine($"[MOFA] Starting training: N={N} samples, M={M} views, K={K} factors")
-                For m = 0 To M - 1
-                    Console.WriteLine($"   View {m} ({Views(m).Name}): N_local={Views(m).NLocal}, D={Views(m).D}")
+                For M As Integer = 0 To Me.M - 1
+                    Console.WriteLine($"   View {M} ({Views(M).Name}): N_local={Views(M).NLocal}, D={Views(M).D}")
                 Next
                 Console.WriteLine()
             End If
@@ -416,24 +417,24 @@ Namespace MultiOmics.MOFA
                 UpdateFactors()
 
                 ' 2) Update weights W^m for each view
-                For m = 0 To M - 1
-                    UpdateWeights(m)
+                For M As Integer = 0 To Me.M - 1
+                    UpdateWeights(M)
                 Next
 
                 ' 3) Update noise precision τ^m for each view
-                For m = 0 To M - 1
-                    UpdateNoisePrecision(m)
+                For M As Integer = 0 To Me.M - 1
+                    UpdateNoisePrecision(M)
                 Next
 
                 ' 4) Update ARD parameters α^m_k
-                For m = 0 To M - 1
-                    UpdateAlpha(m)
+                For M As Integer = 0 To Me.M - 1
+                    UpdateAlpha(M)
                 Next
 
                 ' 5) Update spike-and-slab π^m_d (only after burn-in)
                 If iter > Options.DropIterations Then
-                    For m = 0 To M - 1
-                        UpdatePi(m)
+                    For M As Integer = 0 To Me.M - 1
+                        UpdatePi(M)
                     Next
                 End If
 
@@ -443,7 +444,7 @@ Namespace MultiOmics.MOFA
 
                 ' Convergence check
                 If iter > 1 Then
-                    Dim relChange = Math.Abs((elbo - prevElbo) / Math.Abs(prevElbo))
+                    Dim relChange = std.Abs((elbo - prevElbo) / std.Abs(prevElbo))
                     If relChange < Options.ConvergenceTolerance Then
                         Converged = True
                         If Options.Verbose Then
@@ -489,21 +490,21 @@ Namespace MultiOmics.MOFA
         '  - The GlobalToLocal mapping provides O(1) lookup
         ' =================================================================================
         Private Sub UpdateFactors()
-            For n = 0 To N - 1
-                For k = 0 To K - 1
-                    If Not ActiveFactors(k) Then Continue For
+            For N As Integer = 0 To Me.N - 1
+                For K As Integer = 0 To Me.K - 1
+                    If Not ActiveFactors(K) Then Continue For
 
                     Dim numerator = 0.0
                     Dim denominator = 1.0  ' prior precision (standard normal prior)
 
-                    For m = 0 To M - 1
-                        Dim view = Views(m)
+                    For M As Integer = 0 To Me.M - 1
+                        Dim view = Views(M)
                         ' O(1) lookup: is sample n observed in view m?
-                        Dim localIdx = view.GlobalToLocal(n)
+                        Dim localIdx = view.GlobalToLocal(N)
                         If localIdx < 0 Then Continue For ' sample n not observed in view m
 
-                        Dim Wm = W(m)
-                        Dim tauM = Tau(m)
+                        Dim Wm = W(M)
+                        Dim tauM = Tau(M)
                         Dim Dm = view.D
 
                         ' Σ_d τ_d * W_d,k * Y_n,d  +  Σ_d τ_d * W_d,k² * Z_n,k
@@ -512,21 +513,21 @@ Namespace MultiOmics.MOFA
                         '   num   = Σ_d τ_d * W_d,k * Y_n,d
                         '   denom = 1 (prior) + Σ_m Σ_d τ_d * W_d,k²
                         For d = 0 To Dm - 1
-                            Dim Wdk = Wm(d, k)
+                            Dim Wdk = Wm(d, K)
                             Dim Ynd = view.Data(localIdx, d)
                             numerator += tauM(d) * Wdk * Ynd
                             denominator += tauM(d) * Wdk * Wdk
                         Next
                     Next
 
-                    If denominator < 1.0E-10 Then denominator = 1.0E-10
-                    Z(n, k) = numerator / denominator
+                    If denominator < 0.0000000001 Then denominator = 0.0000000001
+                    Z(N, K) = numerator / denominator
                 Next
             Next
         End Sub
 
-        ' =================================================================================
-        '  Variational update for weights W^m (D_m × K) in view m
+        ''' <summary>
+        '''  Variational update for weights W^m (D_m × K) in view m
         '''  
         '''  Posterior for W^m_d,k is Gaussian with:
         '''    E[W^m_d,k] = ( Σ_n τ_d * Z_n,k * (Y^m_n,d - μ_d) ) / ( α^m_k + τ_d * Σ_n Z_n,k² )
@@ -534,7 +535,8 @@ Namespace MultiOmics.MOFA
         '''  
         '''  Spike-and-slab: if π^m_d is small, the effective precision is dominated by
         '''  the spike (large regularization), pushing W toward 0.
-        ' =================================================================================
+        ''' </summary>
+        ''' <param name="m"></param>
         Private Sub UpdateWeights(m As Integer)
             Dim view = Views(m)
             Dim Dm = view.D
@@ -562,14 +564,14 @@ Namespace MultiOmics.MOFA
 
                 ' Compute Σ_n Z_n,k * Y_n,d over observed samples
                 Dim ZtY(K - 1) As Double
-                For k = 0 To K - 1
+                For K As Integer = 0 To Me.K - 1
                     Dim s = 0.0
                     For i = 0 To view.NLocal - 1
                         Dim n = view.LocalToGlobal(i)
                         If n < 0 Then Continue For
-                        s += Z(n, k) * view.Data(i, d)
+                        s += Z(n, K) * view.Data(i, d)
                     Next
-                    ZtY(k) = s
+                    ZtY(K) = s
                 Next
 
                 ' Spike-and-slab effective precision:
@@ -583,35 +585,33 @@ Namespace MultiOmics.MOFA
                 End If
 
                 ' Update each W_d,k via coordinate ascent (diagonal covariance approximation)
-                For k = 0 To K - 1
-                    If Not ActiveFactors(k) Then
-                        Wm(d, k) = 0.0
+                For K As Integer = 0 To Me.K - 1
+                    If Not ActiveFactors(K) Then
+                        Wm(d, K) = 0.0
                         Continue For
                     End If
 
-                    Dim denom = Alpha(m, k) * spikeEffect + tauD * ZtZ(k, k)
-                    If denom < 1.0E-10 Then denom = 1.0E-10
+                    Dim denom = Alpha(m, K) * spikeEffect + tauD * ZtZ(K, K)
+                    If denom < 0.0000000001 Then denom = 0.0000000001
 
                     ' Subtract contributions from other factors (Gauss-Seidel style)
                     Dim otherContrib = 0.0
                     For kOther = 0 To K - 1
-                        If kOther = k OrElse Not ActiveFactors(kOther) Then Continue For
-                        otherContrib += ZtZ(k, kOther) * Wm(d, kOther)
+                        If kOther = K OrElse Not ActiveFactors(kOther) Then Continue For
+                        otherContrib += ZtZ(K, kOther) * Wm(d, kOther)
                     Next
 
-                    Dim numer = ZtY(k) - tauD * otherContrib
-                    Wm(d, k) = numer / denom
+                    Dim numer = ZtY(K) - tauD * otherContrib
+                    Wm(d, K) = numer / denom
                 Next
             Next
         End Sub
 
-        ' =================================================================================
         '  Update noise precision τ^m_d for view m (Gamma posterior)
         '''  
         '''  τ^m_d ~ Gamma(a0 + N_obs/2, b0 + 0.5 * Σ_n (Y_n,d - Σ_k Z_n,k * W_d,k)²)
         '''  With uninformative prior (a0=b0=0), the posterior mean is:
         '''    τ^m_d = N_obs / Σ_n residual²
-        ' =================================================================================
         Private Sub UpdateNoisePrecision(m As Integer)
             Dim view = Views(m)
             Dim Dm = view.D
@@ -626,61 +626,57 @@ Namespace MultiOmics.MOFA
                     If n < 0 Then Continue For
 
                     Dim pred = 0.0
-                    For k = 0 To K - 1
-                        If Not ActiveFactors(k) Then Continue For
-                        pred += Z(n, k) * Wm(d, k)
+                    For K As Integer = 0 To Me.K - 1
+                        If Not ActiveFactors(K) Then Continue For
+                        pred += Z(n, K) * Wm(d, K)
                     Next
                     Dim resid = view.Data(i, d) - pred
                     ssr += resid * resid
                 Next
 
                 ' Posterior mean of τ (with weak prior a0=1e-2, b0=1e-2 to avoid div-by-zero)
-                Dim a0 = 1.0E-2
-                Dim b0 = 1.0E-2
+                Dim a0 = 0.01
+                Dim b0 = 0.01
                 Dim aPost = a0 + Nobs / 2.0
                 Dim bPost = b0 + ssr / 2.0
                 tauM(d) = aPost / bPost
             Next
         End Sub
 
-        ' =================================================================================
         '  Update ARD parameters α^m_k for view m
         '''  
         '''  α^m_k ~ Gamma(c0 + D_m/2, d0 + 0.5 * Σ_d W^m_d,k²)
         '''  With uninformative prior, posterior mean:
         '''    α^m_k = D_m / Σ_d W^m_d,k²
         '''  Large α → factor k is suppressed in view m.
-        ' =================================================================================
         Private Sub UpdateAlpha(m As Integer)
             Dim view = Views(m)
             Dim Dm = view.D
             Dim Wm = W(m)
 
-            For k = 0 To K - 1
-                If Not ActiveFactors(k) Then Continue For
+            For K As Integer = 0 To Me.K - 1
+                If Not ActiveFactors(K) Then Continue For
 
                 Dim sumSq = 0.0
                 For d = 0 To Dm - 1
-                    sumSq += Wm(d, k) * Wm(d, k)
+                    sumSq += Wm(d, K) * Wm(d, K)
                 Next
 
                 ' Weak Gamma prior (c0=d0=1e-2)
-                Dim c0 = 1.0E-2
-                Dim d0 = 1.0E-2
+                Dim c0 = 0.01
+                Dim d0 = 0.01
                 Dim cPost = c0 + Dm / 2.0
                 Dim dPost = d0 + sumSq / 2.0
-                Alpha(m, k) = cPost / dPost
+                Alpha(m, K) = cPost / dPost
             Next
         End Sub
 
-        ' =================================================================================
         '  Update spike-and-slab mixing π^m_d for view m
         '''  
         '''  π^m_d = sigmoid( log(π_prior/(1-π_prior)) + 0.5*log(τ_d/spikePrecision)
         '''                   + 0.5*τ_d*||W_d||² - 0.5*spikePrecision*||W_d||² )
         '''  Simplified: π_d reflects whether the feature's weights are large enough
         '''  to favor the slab over the spike.
-        ' =================================================================================
         Private Sub UpdatePi(m As Integer)
             Dim view = Views(m)
             Dim Dm = view.D
@@ -691,20 +687,19 @@ Namespace MultiOmics.MOFA
 
             For d = 0 To Dm - 1
                 Dim wNormSq = 0.0
-                For k = 0 To K - 1
-                    If Not ActiveFactors(k) Then Continue For
-                    wNormSq += Wm(d, k) * Wm(d, k)
+                For K As Integer = 0 To Me.K - 1
+                    If Not ActiveFactors(K) Then Continue For
+                    wNormSq += Wm(d, K) * Wm(d, K)
                 Next
 
                 ' Log-odds in favor of slab:
                 ' logit(π) = log(π0/(1-π0)) + 0.5*(τ_d - spike)*||W_d||² + 0.5*log(τ_d/spike)
-                Dim logitPi = Math.Log(0.5 / 0.5) + 0.5 * (tauM(d) - spike) * wNormSq + 0.5 * Math.Log(tauM(d) / spike)
+                Dim logitPi = std.Log(0.5 / 0.5) + 0.5 * (tauM(d) - spike) * wNormSq + 0.5 * std.Log(tauM(d) / spike)
                 ' Sigmoid
-                piM(d) = 1.0 / (1.0 + Math.Exp(-logitPi))
+                piM(d) = 1.0 / (1.0 + std.Exp(-logitPi))
             Next
         End Sub
 
-        ' =================================================================================
         '  Compute the Evidence Lower Bound (ELBO)
         '''  
         '''  ELBO = E[log p(Y|Z,W,τ)] - E[log q(Z,W,τ,α,π)] + E[log p(Z,W,τ,α,π)]
@@ -717,23 +712,22 @@ Namespace MultiOmics.MOFA
         '''           - Σ_m Σ_k log(α_k)                                      (entropy of α)
         '''  
         '''  This is a lower bound; the absolute value is not meaningful, only the trend.
-        ' =================================================================================
         Private Function ComputeELBO() As Double
             Dim elbo = 0.0
 
             ' 1) Reconstruction term: -0.5 * Σ τ * residual²
-            For m = 0 To M - 1
-                Dim view = Views(m)
-                Dim Wm = W(m)
-                Dim tauM = Tau(m)
+            For M As Integer = 0 To Me.M - 1
+                Dim view = Views(M)
+                Dim Wm = W(M)
+                Dim tauM = Tau(M)
                 For i = 0 To view.NLocal - 1
                     Dim n = view.LocalToGlobal(i)
                     If n < 0 Then Continue For
                     For d = 0 To view.D - 1
                         Dim pred = 0.0
-                        For k = 0 To K - 1
-                            If Not ActiveFactors(k) Then Continue For
-                            pred += Z(n, k) * Wm(d, k)
+                        For K As Integer = 0 To Me.K - 1
+                            If Not ActiveFactors(K) Then Continue For
+                            pred += Z(n, K) * Wm(d, K)
                         Next
                         Dim resid = view.Data(i, d) - pred
                         elbo -= 0.5 * tauM(d) * resid * resid
@@ -742,77 +736,75 @@ Namespace MultiOmics.MOFA
             Next
 
             ' 2) Prior on Z: -0.5 * Σ ||Z_n||²
-            For n = 0 To N - 1
-                For k = 0 To K - 1
-                    If Not ActiveFactors(k) Then Continue For
-                    elbo -= 0.5 * Z(n, k) * Z(n, k)
+            For N As Integer = 0 To Me.N - 1
+                For K As Integer = 0 To Me.K - 1
+                    If Not ActiveFactors(K) Then Continue For
+                    elbo -= 0.5 * Z(N, K) * Z(N, K)
                 Next
             Next
 
             ' 3) ARD prior on W: -0.5 * Σ_m Σ_d Σ_k α_k * W_d,k²
-            For m = 0 To M - 1
-                Dim Wm = W(m)
+            For M As Integer = 0 To Me.M - 1
+                Dim Wm = W(M)
                 For d = 0 To Wm.Shape(0) - 1
-                    For k = 0 To K - 1
-                        If Not ActiveFactors(k) Then Continue For
-                        elbo -= 0.5 * Alpha(m, k) * Wm(d, k) * Wm(d, k)
+                    For K As Integer = 0 To Me.K - 1
+                        If Not ActiveFactors(K) Then Continue For
+                        elbo -= 0.5 * Alpha(M, K) * Wm(d, K) * Wm(d, K)
                     Next
                 Next
             Next
 
             ' 4) Entropy of τ (log τ terms)
-            For m = 0 To M - 1
-                Dim tauM = Tau(m)
+            For M As Integer = 0 To Me.M - 1
+                Dim tauM = Tau(M)
                 For d = 0 To tauM.Length - 1
-                    elbo += 0.5 * Math.Log(tauM(d) + 1.0E-10)
+                    elbo += 0.5 * std.Log(tauM(d) + 0.0000000001)
                 Next
             Next
 
             ' 5) Entropy of α (log α terms)
-            For m = 0 To M - 1
-                For k = 0 To K - 1
-                    If Not ActiveFactors(k) Then Continue For
-                    elbo -= 0.5 * Math.Log(Alpha(m, k) + 1.0E-10)
+            For M As Integer = 0 To Me.M - 1
+                For K As Integer = 0 To Me.K - 1
+                    If Not ActiveFactors(K) Then Continue For
+                    elbo -= 0.5 * std.Log(Alpha(M, K) + 0.0000000001)
                 Next
             Next
 
             Return elbo
         End Function
 
-        ' =================================================================================
         '  Factor pruning — deactivate factors with low variance explained
         '''  
         '''  A factor k is pruned if, across ALL views, its variance explained is below
         '''  the threshold (default 2%). This implements the automatic factor selection
         '''  described in the paper (Model training and selection section).
-        ' =================================================================================
         Private Sub PruneFactors()
-            For k = 0 To K - 1
-                If Not ActiveFactors(k) Then Continue For
+            For K As Integer = 0 To Me.K - 1
+                If Not ActiveFactors(K) Then Continue For
 
                 Dim totalVarExplained = 0.0
                 Dim viewCount = 0
-                For m = 0 To M - 1
-                    Dim ve = ComputeVarianceExplained(m, k)
+                For M As Integer = 0 To Me.M - 1
+                    Dim ve = ComputeVarianceExplained(M, K)
                     totalVarExplained += ve
                     viewCount += 1
                 Next
 
-                Dim avgVE = totalVarExplained / Math.Max(viewCount, 1)
+                Dim avgVE = totalVarExplained / std.Max(viewCount, 1)
                 If avgVE < Options.DropFactorThreshold Then
-                    ActiveFactors(k) = False
+                    ActiveFactors(K) = False
                     ' Zero out the corresponding columns of Z and W
-                    For n = 0 To N - 1
-                        Z(n, k) = 0.0
+                    For N As Integer = 0 To Me.N - 1
+                        Z(N, K) = 0.0
                     Next
-                    For m = 0 To M - 1
-                        Dim Wm = W(m)
+                    For M As Integer = 0 To Me.M - 1
+                        Dim Wm = W(M)
                         For d = 0 To Wm.Shape(0) - 1
-                            Wm(d, k) = 0.0
+                            Wm(d, K) = 0.0
                         Next
                     Next
                     If Options.Verbose Then
-                        Console.WriteLine($"[MOFA] Pruned factor {k} (avg VE = {avgVE:P})")
+                        Console.WriteLine($"[MOFA] Pruned factor {K} (avg VE = {avgVE:P})")
                     End If
                 End If
             Next
@@ -821,8 +813,8 @@ Namespace MultiOmics.MOFA
         ''' <summary>Count currently active factors</summary>
         Private Function CountActiveFactors() As Integer
             Dim count = 0
-            For k = 0 To K - 1
-                If ActiveFactors(k) Then count += 1
+            For K As Integer = 0 To Me.K - 1
+                If ActiveFactors(K) Then count += 1
             Next
             Return count
         End Function
@@ -853,7 +845,7 @@ Namespace MultiOmics.MOFA
                 Next
             Next
 
-            If ssTotal < 1.0E-10 Then Return 0.0
+            If ssTotal < 0.0000000001 Then Return 0.0
             Return 1.0 - ssResid / ssTotal
         End Function
 
@@ -871,9 +863,9 @@ Namespace MultiOmics.MOFA
                 If n < 0 Then Continue For
                 For d = 0 To view.D - 1
                     Dim pred = 0.0
-                    For k = 0 To K - 1
-                        If Not ActiveFactors(k) Then Continue For
-                        pred += Z(n, k) * Wm(d, k)
+                    For K As Integer = 0 To Me.K - 1
+                        If Not ActiveFactors(K) Then Continue For
+                        pred += Z(n, K) * Wm(d, K)
                     Next
                     Dim resid = view.Data(i, d) - pred
                     ssResid += resid * resid
@@ -881,7 +873,7 @@ Namespace MultiOmics.MOFA
                 Next
             Next
 
-            If ssTotal < 1.0E-10 Then Return 0.0
+            If ssTotal < 0.0000000001 Then Return 0.0
             Return 1.0 - ssResid / ssTotal
         End Function
 
@@ -896,15 +888,15 @@ Namespace MultiOmics.MOFA
             Dim Dm = view.D
             Dim result = New Tensor(N, Dm)
 
-            For n = 0 To N - 1
+            For N As Integer = 0 To Me.N - 1
                 For d = 0 To Dm - 1
                     Dim pred = 0.0
-                    For k = 0 To K - 1
-                        If Not ActiveFactors(k) Then Continue For
-                        pred += Z(n, k) * Wm(d, k)
+                    For K As Integer = 0 To Me.K - 1
+                        If Not ActiveFactors(K) Then Continue For
+                        pred += Z(N, K) * Wm(d, K)
                     Next
                     ' Un-standardize back to original scale
-                    result(n, d) = pred * view.FeatureStd(d) + view.FeatureMean(d)
+                    result(N, d) = pred * view.FeatureStd(d) + view.FeatureMean(d)
                 Next
             Next
             Return result
@@ -917,10 +909,10 @@ Namespace MultiOmics.MOFA
             Dim kActive = CountActiveFactors()
             Dim result = New Tensor(N, kActive)
             Dim col = 0
-            For k = 0 To K - 1
-                If Not ActiveFactors(k) Then Continue For
-                For n = 0 To N - 1
-                    result(n, col) = Z(n, k)
+            For K As Integer = 0 To Me.K - 1
+                If Not ActiveFactors(K) Then Continue For
+                For N As Integer = 0 To Me.N - 1
+                    result(N, col) = Z(N, K)
                 Next
                 col += 1
             Next
@@ -935,10 +927,10 @@ Namespace MultiOmics.MOFA
             Dim kActive = CountActiveFactors()
             Dim result = New Tensor(view.D, kActive)
             Dim col = 0
-            For k = 0 To K - 1
-                If Not ActiveFactors(k) Then Continue For
+            For K As Integer = 0 To Me.K - 1
+                If Not ActiveFactors(K) Then Continue For
                 For d = 0 To view.D - 1
-                    result(d, col) = W(m)(d, k)
+                    result(d, col) = W(m)(d, K)
                 Next
                 col += 1
             Next
@@ -953,7 +945,7 @@ Namespace MultiOmics.MOFA
             ' Box-Muller transform
             Dim u1 = 1.0 - _rng.NextDouble()
             Dim u2 = 1.0 - _rng.NextDouble()
-            Dim randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2)
+            Dim randStdNormal = std.Sqrt(-2.0 * std.Log(u1)) * std.Sin(2.0 * std.PI * u2)
             Return mean + stdDev * randStdNormal
         End Function
 
@@ -961,8 +953,8 @@ Namespace MultiOmics.MOFA
             If Not _disposed Then
                 If Z IsNot Nothing Then Z.Dispose()
                 If W IsNot Nothing Then
-                    For Each w In W
-                        w.Dispose()
+                    For Each W As Tensor In Me.W
+                        W.Dispose()
                     Next
                 End If
                 _disposed = True

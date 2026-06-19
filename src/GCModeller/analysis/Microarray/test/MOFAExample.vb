@@ -24,7 +24,7 @@ Imports MultiOmics.MOFA
 
 Public Module MOFAExample
 
-    Public Sub Main()
+    Public Sub Main1()
         Console.WriteLine("="c, 80)
         Console.WriteLine("  MOFA Example: Handling 3 vs 6 Biological Replicate Mismatch")
         Console.WriteLine("="c, 80)
@@ -89,7 +89,7 @@ Public Module MOFAExample
         Dim options As New MOFAOptions() With {
             .NumFactors = 10,                ' Start with 10, will be pruned
             .MaxIterations = 300,
-            .ConvergenceTolerance = 1.0E-4,
+            .ConvergenceTolerance = 0.0001,
             .DropFactorThreshold = 0.02,     ' 2% variance explained cutoff
             .DropIterations = 30,
             .StandardizeViews = True,        ' Z-score each view
