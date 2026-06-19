@@ -21,6 +21,7 @@
 '  License: GPL3 (consistent with original Tensor.vb)
 ' =====================================================================================
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports std = System.Math
 
@@ -327,6 +328,8 @@ Namespace MultiOmics.MOFA
         ''' (here we use random init for simplicity, with multiple restarts recommended).
         ''' </summary>
         Public Sub Initialize()
+            Call Console.WriteLine("Initialize all variational parameters.")
+
             K = Options.NumFactors
             ActiveFactors = New Boolean(K - 1) {}
             For K As Integer = 0 To Me.K - 1
@@ -395,7 +398,9 @@ Namespace MultiOmics.MOFA
         '''   7. Prune inactive factors (every DropIterations after burn-in)
         ''' </summary>
         Public Sub Train()
-            If Z Is Nothing Then Initialize()
+            If Z Is Nothing Then
+                Initialize()
+            End If
 
             ElboHistory.Clear()
             Converged = False
@@ -410,7 +415,7 @@ Namespace MultiOmics.MOFA
 
             Dim prevElbo As Double = Double.NaN
 
-            For iter = 1 To Options.MaxIterations
+            For Each iter In TqdmWrapper.Range(0, Options.MaxIterations)
                 ' 1) Update factors Z
                 UpdateFactors()
 
