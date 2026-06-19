@@ -23,8 +23,8 @@ Namespace MultiOmics.MOFA
 
         <Extension>
         Public Function CreateExpressionMatrix(t As Tensor, sampleIDs As String(), featureIDs As String(), Optional ref_tag As String = Nothing) As Matrix
-            Dim nsamples As Integer = sampleIDs.Length - 1
-            Dim ngenes As Integer = featureIDs.Length - 1
+            Dim nsamples As Integer = sampleIDs.Length
+            Dim ngenes As Integer = featureIDs.Length
             Dim data As DataFrameRow() = New DataFrameRow(ngenes - 1) {}
 
             For i As Integer = 0 To ngenes - 1
