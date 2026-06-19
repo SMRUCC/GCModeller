@@ -2,10 +2,8 @@
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
-Imports Microsoft.VisualBasic.My.FrameworkInternal
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.IMMO
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -188,6 +186,8 @@ Module IMMOTool
             Dim imputed As Tensor = imputedData(i)
             Console.WriteLine($"  {omics.Name} (插补后):")
             Console.WriteLine($"    矩阵维度: {imputed.Shape(0)} × {imputed.Shape(1)}")
+
+            Call imputes.add(omics.Name, imputed.CreateExpressionMatrix(preparedData.UnifiedSampleIDs, omics.FeatureNames, omics.Name))
 
             ' 显示缺失样本的插补值（前3个特征）
             For j = 0 To imputed.Shape(0) - 1
