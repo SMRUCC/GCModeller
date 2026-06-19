@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -18,7 +19,7 @@ Module MOFATools
         Dim i As i32 = 1
 
         ' ----- Step 2: Build DataView objects -----
-        Console.WriteLine("[Step 2] Building MOFA DataView objects...")
+        Console.WriteLine("[Step 1] Building MOFA DataView objects...")
 
         For Each name As String In data.getNames
             Dim val As Matrix = TryCast(data.getByName(name), Matrix)
@@ -81,14 +82,21 @@ Module MOFATools
     <ExportAPI("reconstruct")>
     Public Function reconstruct_func(model As MOFA) As list
         Dim reconstruct As New list
+        Dim nsamples As Integer = model.GlobalSampleIds.Length
+
+        Console.WriteLine("[Step 3] Make MOFA Matrix Reconstruction...")
 
         For i As Integer = 0 To model.Views.Count - 1
-            ' 5d) Impute missing samples in View 1 (Transcriptome)
-            Console.WriteLine("[Imputation: Reconstructing View 1 (Transcriptome) for ALL 6 samples]")
-            Console.WriteLine("   (S4, S5, S6 were NOT measured in transcriptome — they are imputed from Z*W)")
-            Dim rnaReconstructed As Tensor = model.ReconstructView(i)
             Dim rnaSamples = model.Views(i).SampleIds
             Dim rnaFeatures = model.Views(i).FeatureNames
+            Dim imputes As String() = model.GlobalSampleIds.Where(Function(id) Array.IndexOf(rnaSamples, id) < 0).ToArray
+            Dim ref_tag As String = model.Views(i).Name
+
+            ' 5d) Impute missing samples in View 1 (Transcriptome)
+            Console.WriteLine($"[Imputation: Reconstructing View {i + 1} ({ref_tag }) for ALL {nsamples} samples]")
+            Console.WriteLine($"   ({imputes.Concatenate} were NOT measured in {ref_tag } — they are imputed from Z*W)")
+            Dim rnaReconstructed As Tensor = model.ReconstructView(i)
+
             Console.WriteLine($"   Reconstructed matrix shape: {rnaReconstructed.Shape(0)} samples × {rnaReconstructed.Shape(1)} features")
             Console.WriteLine($"   First 5 features for each sample:")
             Console.Write($"   {"Sample",8} ")
@@ -107,7 +115,7 @@ Module MOFATools
             Next
             Console.WriteLine()
 
-            Call reconstruct.add(model.Views(i).Name, rnaReconstructed.CreateExpressionMatrix(model.GlobalSampleIds, rnaFeatures))
+            Call reconstruct.add(ref_tag, rnaReconstructed.CreateExpressionMatrix(model.GlobalSampleIds, rnaFeatures, ref_tag))
         Next
 
         Return reconstruct
@@ -117,15 +125,15 @@ Module MOFATools
     Public Function run_mofa(model As MOFA) As MOFA
         ' ----- Step 4: Create and train the MOFA model -----
         Console.WriteLine()
-        Console.WriteLine("[Step 3] Training MOFA model...")
+        Console.WriteLine("[Step 2] Training MOFA model...")
 
         Call model.Train()
 
         ' ----- Step 5: Report results -----
         Console.WriteLine()
-        Console.WriteLine("="c, 80)
+        Console.WriteLine(New String("="c, 80))
         Console.WriteLine("  Results")
-        Console.WriteLine("="c, 80)
+        Console.WriteLine(New String("="c, 80))
         Console.WriteLine()
 
         ' 5a) Variance explained per view

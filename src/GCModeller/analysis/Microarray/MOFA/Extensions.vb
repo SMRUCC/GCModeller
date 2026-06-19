@@ -22,7 +22,7 @@ Namespace MultiOmics.MOFA
         End Function
 
         <Extension>
-        Public Function CreateExpressionMatrix(t As Tensor, sampleIDs As String(), featureIDs As String()) As Matrix
+        Public Function CreateExpressionMatrix(t As Tensor, sampleIDs As String(), featureIDs As String(), Optional ref_tag As String = Nothing) As Matrix
             Dim nsamples As Integer = sampleIDs.Length - 1
             Dim ngenes As Integer = featureIDs.Length - 1
             Dim data As DataFrameRow() = New DataFrameRow(ngenes - 1) {}
@@ -43,7 +43,7 @@ Namespace MultiOmics.MOFA
             Return New Matrix With {
                 .expression = data,
                 .sampleID = sampleIDs,
-                .tag = "MOFA_reconstruct"
+                .tag = If(ref_tag.StringEmpty, "MOFA_reconstruct", $"MOFA_reconstruct({ref_tag})")
             }
         End Function
     End Module
