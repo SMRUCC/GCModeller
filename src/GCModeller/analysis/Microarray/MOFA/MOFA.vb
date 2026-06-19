@@ -221,8 +221,11 @@ Namespace MultiOmics.MOFA
     ' =================================================================================
     '  MOFA : The main Multi-Omics Factor Analysis model
     ' =================================================================================
-    Public Class MOFA
-        Implements IDisposable
+
+    ''' <summary>
+    ''' Multi-Omics Factor Analysis-a framework for unsupervised integration of multi-omics data sets
+    ''' </summary>
+    Public Class MOFA : Implements IDisposable
 
         ' -------- Model parameters (variational posterior expectations) --------
 

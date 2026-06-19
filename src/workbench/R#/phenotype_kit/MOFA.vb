@@ -9,6 +9,9 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports std = System.Math
 
+''' <summary>
+''' Multi-Omics Factor Analysis-a framework for unsupervised integration of multi-omics data sets
+''' </summary>
 <Package("MOFA")>
 <RTypeExport("mofa_opts", GetType(MOFAOptions))>
 Module MOFATools
