@@ -1,4 +1,6 @@
 Imports System
+Imports Microsoft.VisualBasic.Math
+Imports SMRUCC.genomics.Analysis.Microarray
 
 ''' <summary>
 ''' DEMO 数据生成器
@@ -44,7 +46,7 @@ Public Module DataGenerator
         Dim beta_GeneToFlav = 0.85      ' 基因 -> 黄酮 (强)
         Dim beta_FlavToAnti = 0.75      ' 黄酮 -> 抗氧化 (强)
         Dim beta_FlavToStarch = -0.55   ' 黄酮 -> 淀粉品质 (负向，碳源竞争)
-        Dim beta_GeneToAntiDirect = 0.10  ' 基因 -> 抗氧化 (弱直接效应)
+        Dim beta_GeneToAntiDirect = 0.1  ' 基因 -> 抗氧化 (弱直接效应)
         Dim beta_GeneToStarchDirect = -0.05  ' 基因 -> 淀粉品质 (几乎无直接效应)
 
         For i = 0 To n - 1
@@ -53,7 +55,7 @@ Public Module DataGenerator
 
             ' 2. 基因表达 = 调控因子 × 载荷 + 噪声
             ' 4 个基因有不同的载荷，模拟真实生物学差异
-            Dim geneLoadings = {0.85, 0.80, 0.75, 0.70}
+            Dim geneLoadings = {0.85, 0.8, 0.75, 0.7}
             Dim genes(3) As Double
             For g = 0 To 3
                 genes(g) = geneLoadings(g) * regulator + Gaussian(rng, 0, 0.5)
@@ -69,21 +71,21 @@ Public Module DataGenerator
 
             ' 4. 黄酮含量 = 基因 × 0.85 + 噪声
             Dim flavScore = beta_GeneToFlav * geneScore + Gaussian(rng, 0, 0.5)
-            Dim flavLoadings = {0.85, 0.80, 0.75}
+            Dim flavLoadings = {0.85, 0.8, 0.75}
             For f = 0 To 2
                 data(i, 4 + f) = flavLoadings(f) * flavScore + Gaussian(rng, 0, 0.4)
             Next
 
             ' 5. 抗氧化活性 = 黄酮 × 0.75 + 基因 × 0.10 + 噪声
             Dim antiScore = beta_FlavToAnti * flavScore + beta_GeneToAntiDirect * geneScore + Gaussian(rng, 0, 0.4)
-            Dim antiLoadings = {0.85, 0.80}
+            Dim antiLoadings = {0.85, 0.8}
             For a = 0 To 1
                 data(i, 7 + a) = antiLoadings(a) * antiScore + Gaussian(rng, 0, 0.4)
             Next
 
             ' 6. 淀粉品质潜变量 = 黄酮 × (-0.55) + 基因 × (-0.05) + 噪声
             Dim starchScore = beta_FlavToStarch * flavScore + beta_GeneToStarchDirect * geneScore + Gaussian(rng, 0, 0.6)
-            Dim starchLoadings = {0.80, 0.75}
+            Dim starchLoadings = {0.8, 0.75}
             data(i, 9) = starchLoadings(0) * starchScore + Gaussian(rng, 0, 0.4)   ' Starch
             data(i, 10) = starchLoadings(1) * starchScore + Gaussian(rng, 0, 0.4)  ' ParticleSize
         Next
@@ -206,7 +208,7 @@ Public Module DataGenerator
                 col(i) = data(i, j)
             Next
             Dim mean = Statistics.Mean(col)
-            Dim std = Statistics.Std(col)
+            Dim std = col.SD
             Dim min = Double.MaxValue, max = Double.MinValue
             For Each v In col
                 If v < min Then min = v

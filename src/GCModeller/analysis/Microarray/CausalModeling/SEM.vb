@@ -1,5 +1,6 @@
 Imports System
 Imports System.Collections.Generic
+Imports Microsoft.VisualBasic.Math
 
 ''' <summary>
 ''' 结构方程模型 (SEM) 模块 - 基于路径分析 (Path Analysis) 的实现
@@ -156,7 +157,7 @@ Public Module SEM
                     End If
                 Next
 
-                If Math.Abs(ind) > 1e-12 Then
+                If Math.Abs(ind) > 0.000000000001 Then
                     indirect((fromIdx, toIdx)) = ind
                 End If
             Next
@@ -390,8 +391,8 @@ Public Module SEM
 
     Private Function GammaPSeries(a As Double, x As Double) As Double
         Dim MAXIT = 300
-        Dim EPS = 1e-12
-        Dim FPMIN = 1e-300
+        Dim EPS = 0.000000000001
+        Dim FPMIN = 1.0E-300
         Dim gln = Statistics.LogGamma(a)
         Dim ap = a
         Dim sum = 1.0 / a
@@ -407,8 +408,8 @@ Public Module SEM
 
     Private Function GammaQContinuedFraction(a As Double, x As Double) As Double
         Dim MAXIT = 300
-        Dim EPS = 1e-12
-        Dim FPMIN = 1e-300
+        Dim EPS = 0.000000000001
+        Dim FPMIN = 1.0E-300
         Dim gln = Statistics.LogGamma(a)
         Dim b = x + 1.0 - a
         Dim c = 1.0 / FPMIN
@@ -499,7 +500,7 @@ Public Module SEM
         For Each k In pathKeys
             Dim samples = pathBootSamples(k).ToArray()
             If samples.Length > 0 Then
-                result.PathBootSE(k) = Statistics.Std(samples)
+                result.PathBootSE(k) = samples.SD
                 Dim lo = Statistics.Quantile(samples, 0.025)
                 Dim hi = Statistics.Quantile(samples, 0.975)
                 result.PathBootCI(k) = (lo, hi)
@@ -511,7 +512,7 @@ Public Module SEM
         For Each k In indirectKeys
             Dim samples = indirectBootSamples(k).ToArray()
             If samples.Length > 0 Then
-                result.IndirectBootSE(k) = Statistics.Std(samples)
+                result.IndirectBootSE(k) = samples.SD
                 Dim lo = Statistics.Quantile(samples, 0.025)
                 Dim hi = Statistics.Quantile(samples, 0.975)
                 result.IndirectBootCI(k) = (lo, hi)

@@ -1,5 +1,6 @@
 Imports System
 Imports System.IO
+Imports SMRUCC.genomics.Analysis.Microarray
 
 ''' <summary>
 ''' 主程序 - 运行 SEM 和 PLS-PM 因果推断与路径建模 DEMO
