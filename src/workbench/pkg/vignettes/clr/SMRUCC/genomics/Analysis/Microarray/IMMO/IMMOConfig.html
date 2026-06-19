@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Microarray.IMMO.IMMOConfig</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>IMMOConfig {SMRUCC.genomics.Analysis.Microarray.IMMO}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>IMMOConfig</h2>
+
+        <h3>Description</h3>
+
+        <p>IMMO模型超参数配置
+ 默认值参考IMMO论文中的贝叶斯优化结果</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Microarray.IMMO
+export class IMMOConfig {
+   # Adam epsilon
+   AdamEpsilon: double;
+   # Adam beta1
+   Beta1: double;
+   # Adam beta2
+   Beta2: double;
+   # BatchNorm epsilon
+   BNEpsilon: double;
+   # BatchNorm动量
+   BNMomentum: double;
+   # 学习率衰减率
+   DecayRate: double;
+   # 解码器隐藏层维度（从潜在空间到输出）
+   DecoderHiddenDims: integer;
+   # Dropout丢弃率
+   DropoutRate: double;
+   # 编码器隐藏层维度（从输入到潜在空间）
+   EncoderHiddenDims: integer;
+   # 梯度裁剪范数（0表示不裁剪）
+   GradientClipNorm: double;
+   # 初始保留概率 P_0
+   InitialP: double;
+   # 共享潜在空间维度
+   LatentDim: integer;
+   # 初始学习率
+   LearningRate: double;
+   # 日志打印间隔（每N轮打印一次）
+   LogInterval: integer;
+   # 各组学的损失权重（需与组学数量一致）
+   LossWeights: double;
+   # 最大训练轮数
+   MaxEpochs: integer;
+   # 早停最小改善阈值
+   MinDelta: double;
+   # 早停耐心值（连续多少轮无改善则停止）
+   Patience: integer;
+   # 最大保留概率 P_max
+   Pmax: double;
+   # 最小保留概率 P_min（用于公式下界保护）
+   Pmin: double;
+   # 随机种子（Nothing表示不固定）
+   Seed: <a href="/vignettes/clr/System/Nullable`1.html">Nullable`1</a>;
+   # 是否打印训练日志
+   Verbose: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Seed</code>: <a href="/vignettes/clr/System/Nullable`1.html">Nullable`1</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

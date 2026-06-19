@@ -4,13 +4,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>MOFA</title>
+    <title>IMMO</title>
     <meta name="author" content="xie.guigang@gcmodeller.org" />
     <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
-    <meta name="keywords" content="R#; MOFA; phenotype_kit" />
+    <meta name="keywords" content="R#; IMMO; phenotype_kit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="Multi-Omics Factor Analysis-a framework for unsupervised integra..." />
+    <meta name="description" content="IMMO (Integration Model for Incomplete Multi-Omics)..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -50,23 +50,23 @@ table caption {font-size:14px;font-weight:bolder;}
 </style>
   </head>
   <body>
-    <table width="100%" summary="page for {MOFA}">
+    <table width="100%" summary="page for {IMMO}">
       <tbody>
         <tr>
-          <td>{MOFA}</td>
+          <td>{IMMO}</td>
           <td style="text-align: right;">R# Documentation</td>
         </tr>
       </tbody>
     </table>
-    <h1>MOFA</h1>
+    <h1>IMMO</h1>
     <hr />
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">#' Multi-Omics Factor Analysis-a framework for unsupervised integration of multi-omics data sets</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "MOFA"</span><span style="color: blue;"> from</span><span style="color: brown"> "phenotype_kit"</span>;
+                               <br /><br /><span style="color: green;">#' IMMO (Integration Model for Incomplete Multi-Omics)</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "IMMO"</span><span style="color: blue;"> from</span><span style="color: brown"> "phenotype_kit"</span>;
                            </code>
     </p>
-    <p><p>Multi-Omics Factor Analysis-a framework for unsupervised integration of multi-omics data sets</p></p>
+    <p><p>IMMO (Integration Model for Incomplete Multi-Omics)</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
                            
@@ -76,10 +76,11 @@ table caption {font-size:14px;font-weight:bolder;}
       <table class="table-three-line" style="display: block">
         <caption>.NET clr type export</caption>
         <tbody><tr>
-  <td id="mofa_opts">
-    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/MultiOmics/MOFA/MOFAOptions.html">mofa_opts: MOFAOptions</a>
+  <td id="immo_pars">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/IMMO/IMMOConfig.html">immo_pars: IMMOConfig</a>
   </td>
-  <td></td>
+  <td><p>IMMO模型超参数配置
+ 默认值参考IMMO论文中的贝叶斯优化结果</p></td>
 </tr></tbody>
       </table>
       <br />
@@ -87,26 +88,32 @@ table caption {font-size:14px;font-weight:bolder;}
       <table class="table-three-line">
         <caption>.NET clr function exports</caption>
         <tbody><tr>
-  <td id="create_mofa">
-    <a href="./MOFA/create_mofa.html">create_mofa</a>
+  <td id="prepared_data">
+    <a href="./IMMO/prepared_data.html">prepared_data</a>
   </td>
   <td></td>
 </tr>
 <tr>
-  <td id="elbo_trace">
-    <a href="./MOFA/elbo_trace.html">elbo_trace</a>
+  <td id="train">
+    <a href="./IMMO/train.html">train</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="latent_data">
+    <a href="./IMMO/latent_data.html">latent_data</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="make_omics_impute">
+    <a href="./IMMO/make_omics_impute.html">make_omics_impute</a>
   </td>
   <td></td>
 </tr>
 <tr>
   <td id="reconstruct">
-    <a href="./MOFA/reconstruct.html">reconstruct</a>
-  </td>
-  <td></td>
-</tr>
-<tr>
-  <td id="run_mofa">
-    <a href="./MOFA/run_mofa.html">run_mofa</a>
+    <a href="./IMMO/reconstruct.html">reconstruct</a>
   </td>
   <td></td>
 </tr></tbody>

@@ -5,6 +5,8 @@
 // ref=phenotype_kit.MOFATools@phenotype_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * Multi-Omics Factor Analysis-a framework for unsupervised integration of multi-omics data sets
+ * 
 */
 declare namespace MOFA {
    /**
