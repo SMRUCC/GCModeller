@@ -59,6 +59,11 @@ Imports Microsoft.VisualBasic.Linq
 
 Public Module HTSDataFrame
 
+    <Extension>
+    Public Function AsTensorArray(expr As Matrix) As Double(,)
+
+    End Function
+
     ''' <summary>
     ''' Check of the given expression matrix object is nothing or else has no data?
     ''' </summary>

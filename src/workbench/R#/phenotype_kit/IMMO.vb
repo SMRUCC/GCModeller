@@ -1,6 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.Microarray.IMMO
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -16,35 +18,51 @@ Imports std = System.Math
 Module IMMOTool
 
     <ExportAPI("prepared_data")>
+    <RApiReturn(GetType(PreparedData))>
     Public Function preparedDataTool(<RListObjectArgument> data As list, Optional env As Environment = Nothing) As Object
         Dim i As i32 = 1
         Dim matrices As New List(Of Double(,))
+        Dim sampleIDLists As New List(Of String())
+        Dim omicsNames As New List(Of String)
+
+        ' ====================================================================
+        ' 3. 数据预处理（处理样本不匹配）
+        ' ====================================================================
+        Console.WriteLine("[1] 数据预处理（对齐样本、生成掩码、归一化）...")
+        Console.WriteLine()
 
         For Each name As String In data.getNames
             Dim val As Matrix = TryCast(data.getByName(name), Matrix)
 
             If Not val Is Nothing Then
-                matrices.Add(val. )
+                matrices.Add(val.AsTensorArray)
+                sampleIDLists.Add(val.sampleID)
+                omicsNames.Add(name)
+
                 Console.WriteLine($"  组学{++i} ({name}): {val.sample_count} 个样本 × {val.size} 个特征")
             End If
         Next
 
+        Dim unionSampleIDs As String() = sampleIDLists.IteratesALL.Distinct.OrderBy(Function(id) id).ToArray
+        Dim missingIDs As New List(Of String())
 
-        Console.WriteLine($"  组学2 (蛋白质组): {omics2Samples.Length} 个样本 × {omics2Data.GetLength(1)} 个特征")
-        Console.WriteLine($"  组学1样本: {String.Join(", ", omics1Samples)}")
-        Console.WriteLine($"  组学2样本: {String.Join(", ", omics2Samples)}")
-        Console.WriteLine($"  缺失样本: S01, S08 在组学2中缺失")
+        For idx As Integer = 0 To sampleIDLists.Count - 1
+            Dim currentSamples = sampleIDLists(idx)
+            Console.WriteLine($"  组学{idx + 1}样本: {sampleIDLists(i).JoinBy(", ")}")
+            missingIDs.Add(unionSampleIDs.Where(Function(id) Array.IndexOf(currentSamples, id) < 0).ToArray)
+        Next
+
+        i = 1
+
+        For Each row In missingIDs
+            If row.Any Then
+                Console.WriteLine($"  缺失样本: {row.JoinBy(", ")} 在组学{i}中缺失")
+            End If
+
+            i = i + 1
+        Next
+
         Console.WriteLine()
-
-        ' ====================================================================
-        ' 3. 数据预处理（处理样本不匹配）
-        ' ====================================================================
-        Console.WriteLine("[3] 数据预处理（对齐样本、生成掩码、归一化）...")
-        Console.WriteLine()
-
-        Dim matrices As New List(Of Double(,)) From {omics1Data, omics2Data}
-        Dim sampleIDLists As New List(Of String()) From {omics1Samples, omics2Samples}
-        Dim omicsNames As String() = {"Transcriptome", "Proteome"}
 
         Dim preparedData As PreparedData = DataPrep.PrepareData(
             matrices, sampleIDLists, omicsNames, normalize:=True)
@@ -65,5 +83,7 @@ Module IMMOTool
             Console.WriteLine($"    缺失值: {totalEntries - observedCount}/{totalEntries} ({(totalEntries - observedCount) * 100.0 / totalEntries:F1}%)")
         Next
         Console.WriteLine()
+
+        Return preparedData
     End Function
 End Module
