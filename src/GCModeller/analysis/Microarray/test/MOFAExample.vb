@@ -17,10 +17,11 @@
 '    4. Missing samples can be imputed via Z * W^m^T
 ' =====================================================================================
 
-Imports System
 Imports System.IO
 Imports System.Linq
-Imports MultiOmics.MOFA
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports SMRUCC.genomics.Analysis.Microarray.MultiOmics.MOFA
+Imports std = System.Math
 
 Public Module MOFAExample
 
@@ -44,11 +45,11 @@ Public Module MOFAExample
         For i = 0 To rnaSamples.Length - 1
             For d = 0 To rnaFeatures.Length - 1
                 ' Simulated log-expression: 3 latent factors + noise
-                Dim factor1 = Math.Sin((i + 1) * 0.7) * 2.0
-                Dim factor2 = Math.Cos((d + 1) * 0.05) * 1.5
+                Dim factor1 = std.Sin((i + 1) * 0.7) * 2.0
+                Dim factor2 = std.Cos((d + 1) * 0.05) * 1.5
                 Dim factor3 = If(i Mod 2 = 0, 1.0, -1.0) * 0.8
-                rnaData(i, d) = factor1 * Math.Sin(d * 0.1) +
-                                factor2 * Math.Cos(i * 0.5) +
+                rnaData(i, d) = factor1 * std.Sin(d * 0.1) +
+                                factor2 * std.Cos(i * 0.5) +
                                 factor3 * (d / 100.0) +
                                 rng.NextGaussian() * 0.5
             Next
@@ -61,11 +62,11 @@ Public Module MOFAExample
         For i = 0 To metabSamples.Length - 1
             For d = 0 To metabFeatures.Length - 1
                 ' Same latent factors (so MOFA should recover them) + view-specific noise
-                Dim factor1 = Math.Sin((i + 1) * 0.7) * 2.0
-                Dim factor2 = Math.Cos((d + 1) * 0.1) * 1.5
+                Dim factor1 = std.Sin((i + 1) * 0.7) * 2.0
+                Dim factor2 = std.Cos((d + 1) * 0.1) * 1.5
                 Dim factor3 = If(i Mod 2 = 0, 1.0, -1.0) * 0.8
-                metabData(i, d) = factor1 * Math.Cos(d * 0.2) +
-                                  factor2 * Math.Sin(i * 0.3) +
+                metabData(i, d) = factor1 * std.Cos(d * 0.2) +
+                                  factor2 * std.Sin(i * 0.3) +
                                   factor3 * (d / 50.0) +
                                   rng.NextGaussian() * 0.3
             Next
@@ -186,7 +187,7 @@ Public Module MOFAExample
             ' 5e) ELBO convergence trace
             Console.WriteLine("[ELBO Convergence Trace (first 10 and last 10 iterations)]")
             Dim nIters = model.ElboHistory.Count
-            Dim showCount = Math.Min(10, nIters)
+            Dim showCount = std.Min(10, nIters)
             For i = 0 To showCount - 1
                 Console.WriteLine($"   Iter {i + 1,4}: ELBO = {model.ElboHistory(i),12:F4}")
             Next
@@ -201,8 +202,8 @@ Public Module MOFAExample
 
             ' 5f) Save results to file
             Console.WriteLine("[Saving results to file...]")
-            SaveResults(model, views, "/home/z/my-project/download/MOFA_results.txt")
-            Console.WriteLine("   Saved to: /home/z/my-project/download/MOFA_results.txt")
+            SaveResults(model, views, "Z:/home/z/my-project/download/MOFA_results.txt")
+            Console.WriteLine("   Saved to: Z:/home/z/my-project/download/MOFA_results.txt")
         End Using
 
         Console.WriteLine()
@@ -213,6 +214,8 @@ Public Module MOFAExample
 
     ''' <summary>Save MOFA results to a text file for downstream analysis</summary>
     Private Sub SaveResults(model As MOFA, views As List(Of DataView), filePath As String)
+        Call filePath.ParentPath.MakeDir
+
         Using sw As New StreamWriter(filePath)
             sw.WriteLine("MOFA Results")
             sw.WriteLine("============")
@@ -300,7 +303,7 @@ Public Module RandomExtensions
     Public Function NextGaussian(rng As Random, Optional mean As Double = 0.0, Optional stdDev As Double = 1.0) As Double
         Dim u1 = 1.0 - rng.NextDouble()
         Dim u2 = 1.0 - rng.NextDouble()
-        Dim randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2)
+        Dim randStdNormal = std.Sqrt(-2.0 * std.Log(u1)) * std.Sin(2.0 * std.PI * u2)
         Return mean + stdDev * randStdNormal
     End Function
 End Module

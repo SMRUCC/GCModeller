@@ -1,6 +1,6 @@
 ﻿Module Program
 
     Sub Main()
-        Call DIABLOExample.Main1()
+        Call MOFAExample.Main1()
     End Sub
 End Module
