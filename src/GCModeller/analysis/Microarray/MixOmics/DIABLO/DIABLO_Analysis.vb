@@ -11,9 +11,6 @@
 ' 本模块仅实现数学算法计算核心，不包含绘图功能
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
 Imports System.Math
 
 Namespace MixOmics

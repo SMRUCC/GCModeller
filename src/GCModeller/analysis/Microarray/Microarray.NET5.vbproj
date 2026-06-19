@@ -159,7 +159,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IMMO\" />
+    <Folder Include="MixOmics\IMMO\" />
   </ItemGroup>
 
 </Project>
