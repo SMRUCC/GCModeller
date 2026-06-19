@@ -20,5 +20,31 @@ Namespace MultiOmics.MOFA
 
             Return New DataView(If(name, mat.tag), data, mat.sampleID, mat.rownames)
         End Function
+
+        <Extension>
+        Public Function CreateExpressionMatrix(t As Tensor, sampleIDs As String(), featureIDs As String()) As Matrix
+            Dim nsamples As Integer = sampleIDs.Length - 1
+            Dim ngenes As Integer = featureIDs.Length - 1
+            Dim data As DataFrameRow() = New DataFrameRow(ngenes - 1) {}
+
+            For i As Integer = 0 To ngenes - 1
+                data(i) = New DataFrameRow With {
+                    .geneID = featureIDs(i),
+                    .experiments = New Double(nsamples - 1) {}
+                }
+            Next
+
+            For i As Integer = 0 To nsamples - 1
+                For d As Integer = 0 To ngenes - 1
+                    data(d).experiments(i) = t(i, d)
+                Next
+            Next
+
+            Return New Matrix With {
+                .expression = data,
+                .sampleID = sampleIDs,
+                .tag = "MOFA_reconstruct"
+            }
+        End Function
     End Module
 End Namespace
