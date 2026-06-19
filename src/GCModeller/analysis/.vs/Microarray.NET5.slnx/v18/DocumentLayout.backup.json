@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\immodemo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\immodemo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\mofaexample.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\mofaexample.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -34,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,7 +58,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "IMMODemo.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\IMMODemo.vb",
+              "RelativeDocumentMoniker": "Microarray\\test\\IMMODemo.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\IMMODemo.vb",
+              "RelativeToolTip": "Microarray\\test\\IMMODemo.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-19T16:30:32.51Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "DIABLO_Analysis.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\DIABLO\\DIABLO_Analysis.vb",
               "RelativeDocumentMoniker": "Microarray\\DIABLO\\DIABLO_Analysis.vb",
@@ -62,25 +79,23 @@
               "RelativeToolTip": "Microarray\\DIABLO\\DIABLO_Analysis.vb",
               "ViewState": "AgIAACAAAAAAAAAAAAAAAEEAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-19T14:12:13.874Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-19T14:12:13.874Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "MOFA.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\MOFA\\MOFA.vb",
               "RelativeDocumentMoniker": "Microarray\\MOFA\\MOFA.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\MOFA\\MOFA.vb",
               "RelativeToolTip": "Microarray\\MOFA\\MOFA.vb",
-              "ViewState": "AgIAAGwCAAAAAAAAAAAUwIUCAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAGoCAAAAAAAAAAAUwIMCAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-19T14:12:09.889Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-19T14:12:09.889Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\Program.vb",
               "RelativeDocumentMoniker": "Microarray\\test\\Program.vb",
@@ -88,37 +103,35 @@
               "RelativeToolTip": "Microarray\\test\\Program.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAIAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-19T14:11:40.062Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-19T14:11:40.062Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MOFAExample.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\MOFAExample.vb",
               "RelativeDocumentMoniker": "Microarray\\test\\MOFAExample.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\MOFAExample.vb",
               "RelativeToolTip": "Microarray\\test\\MOFAExample.vb",
-              "ViewState": "AgIAAD0AAAAAAAAAAAAowFQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAowEkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-19T14:11:28.569Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "test",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\test.vbproj",
               "RelativeDocumentMoniker": "Microarray\\test\\test.vbproj",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\test.vbproj",
               "RelativeToolTip": "Microarray\\test\\test.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2026-06-15T13:27:02.841Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-15T13:27:02.841Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "DIABLO_Analysis_Example.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\DIABLO_Analysis_Example.vb",
               "RelativeDocumentMoniker": "Microarray\\test\\DIABLO_Analysis_Example.vb",
@@ -126,8 +139,7 @@
               "RelativeToolTip": "Microarray\\test\\DIABLO_Analysis_Example.vb",
               "ViewState": "AgIAAFgAAAAAAAAAAAAcwGEAAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-15T13:26:56.7Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-15T13:26:56.7Z"
             }
           ]
         },

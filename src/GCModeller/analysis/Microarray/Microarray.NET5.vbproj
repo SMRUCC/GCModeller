@@ -158,4 +158,8 @@
     <ProjectReference Include="..\HTS_matrix\HTS_matrix-netcore5.vbproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="IMMO\" />
+  </ItemGroup>
+
 </Project>
