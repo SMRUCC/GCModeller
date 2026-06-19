@@ -1,5 +1,6 @@
 Imports System
 Imports System.Collections.Generic
+Imports Microsoft.VisualBasic.Math
 
 ''' <summary>
 ''' 偏最小二乘路径建模 (PLS-PM) 模块
@@ -32,7 +33,7 @@ Public Module PLSPM
                              latentVars As List(Of (name As String, manifestIndices As List(Of Integer), mode As String)),
                              innerPaths As List(Of (fromIdx As Integer, toIdx As Integer)),
                              Optional maxIter As Integer = 300,
-                             Optional tol As Double = 1e-7) As PLSPMResult
+                             Optional tol As Double = 0.0000001) As PLSPMResult
         Dim result As New PLSPMResult()
         Dim n = manifestData.GetLength(0)
         Dim numLatent = latentVars.Count
@@ -99,7 +100,7 @@ Public Module PLSPM
                 Next
                 var /= (n - 1)
                 Dim std = Math.Sqrt(var)
-                If std < 1e-30 Then std = 1.0
+                If std < 1.0E-30 Then std = 1.0
                 For i = 0 To n - 1
                     latentScores(i, j) = (latentScores(i, j) - mean) / std
                 Next
@@ -134,7 +135,7 @@ Public Module PLSPM
                 Next
                 var /= (n - 1)
                 Dim std = Math.Sqrt(var)
-                If std < 1e-30 Then std = 1.0
+                If std < 1.0E-30 Then std = 1.0
                 For i = 0 To n - 1
                     innerScores(i, j) = (innerScores(i, j) - mean) / std
                 Next
@@ -251,7 +252,7 @@ Public Module PLSPM
                 norm += w(k) ^ 2
             Next
             norm = Math.Sqrt(norm)
-            If norm < 1e-30 Then norm = 1.0
+            If norm < 1.0E-30 Then norm = 1.0
             Dim fw(numMV - 1) As Double
             For k = 0 To numMV - 1
                 fw(k) = w(k) / norm
@@ -347,7 +348,7 @@ Public Module PLSPM
     ''' 对每个内生潜变量：使用其预测潜变量的多元回归系数
     ''' 对每个外生潜变量：使用与其最相关的内生潜变量的相关系数
     ''' </summary>
-    Private Sub ComputeInnerWeights(scores As Double(,), 
+    Private Sub ComputeInnerWeights(scores As Double(,),
                                     innerPaths As List(Of (Integer, Integer)),
                                     innerWeights As Double(,),
                                     numLatent As Integer, n As Integer)
@@ -442,7 +443,7 @@ Public Module PLSPM
                     End If
                 Next
 
-                If Math.Abs(ind) > 1e-12 Then
+                If Math.Abs(ind) > 0.000000000001 Then
                     indirect((fromIdx, toIdx)) = ind
                 End If
             Next
@@ -589,7 +590,7 @@ Public Module PLSPM
         For Each k In pathKeys
             Dim samples = pathSamples(k).ToArray()
             If samples.Length > 0 Then
-                result.PathBootSE(k) = Statistics.Std(samples)
+                result.PathBootSE(k) = samples.SD
                 result.PathBootCI(k) = (Statistics.Quantile(samples, 0.025), Statistics.Quantile(samples, 0.975))
             End If
         Next
@@ -599,7 +600,7 @@ Public Module PLSPM
         For Each k In indirectKeys
             Dim samples = indirectSamples(k).ToArray()
             If samples.Length > 0 Then
-                result.IndirectBootSE(k) = Statistics.Std(samples)
+                result.IndirectBootSE(k) = samples.SD
                 result.IndirectBootCI(k) = (Statistics.Quantile(samples, 0.025), Statistics.Quantile(samples, 0.975))
             End If
         Next
@@ -609,7 +610,7 @@ Public Module PLSPM
         For Each k In loadingsKeys
             Dim samples = loadingsSamples(k).ToArray()
             If samples.Length > 0 Then
-                result.LoadingsBootSE(k) = Statistics.Std(samples)
+                result.LoadingsBootSE(k) = samples.SD
                 result.LoadingsBootCI(k) = (Statistics.Quantile(samples, 0.025), Statistics.Quantile(samples, 0.975))
             End If
         Next

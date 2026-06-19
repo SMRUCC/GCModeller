@@ -341,16 +341,6 @@ Public Module Statistics
         Return sum / x.Length
     End Function
 
-    ''' <summary>计算标准差</summary>
-    Public Function Std(x As Double()) As Double
-        Dim m = Mean(x)
-        Dim sumSq = 0.0
-        For Each v In x
-            sumSq += (v - m) ^ 2
-        Next
-        Return Math.Sqrt(sumSq / (x.Length - 1))
-    End Function
-
     ''' <summary>计算分位数（线性插值法）</summary>
     Public Function Quantile(x As Double(), q As Double) As Double
         Dim sorted(x.Length - 1) As Double
