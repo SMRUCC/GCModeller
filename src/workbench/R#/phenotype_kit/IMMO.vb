@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.My.FrameworkInternal
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
@@ -85,5 +86,60 @@ Module IMMOTool
         Console.WriteLine()
 
         Return preparedData
+    End Function
+
+    <ExportAPI("train")>
+    Public Function train_immo(preparedData As PreparedData, Optional config As IMMOConfig = Nothing) As IMMOModel
+        config = If(config, New IMMOConfig With {
+            .LatentDim = 32,                    ' 潜在空间维度（示例用较小值）
+            .EncoderHiddenDims = {64, 32},      ' 编码器隐藏层
+            .DecoderHiddenDims = {32, 64},      ' 解码器隐藏层
+            .MaxEpochs = 100,                   ' 最大训练轮数
+            .LearningRate = 0.005,              ' 初始学习率
+            .DropoutRate = 0.3,                 ' Dropout率
+            .InitialP = 0.75,                   ' 初始保留概率
+            .DecayRate = 0.99,                  ' 保留概率增长率
+            .Pmax = 0.95,                       ' 最大保留概率
+            .LossWeights = {0.5, 0.5},          ' 两组学等权重
+            .Patience = 15,                     ' 早停耐心值
+            .GradientClipNorm = 5.0,            ' 梯度裁剪
+            .Seed = 42,                         ' 随机种子（可复现）
+            .Verbose = True,
+            .LogInterval = 10
+        })
+
+        Console.WriteLine($"  潜在空间维度: {config.LatentDim}")
+        Console.WriteLine($"  编码器隐藏层: [{String.Join(", ", config.EncoderHiddenDims)}]")
+        Console.WriteLine($"  解码器隐藏层: [{String.Join(", ", config.DecoderHiddenDims)}]")
+        Console.WriteLine($"  最大训练轮数: {config.MaxEpochs}")
+        Console.WriteLine($"  初始学习率: {config.LearningRate}")
+        Console.WriteLine($"  Dropout率: {config.DropoutRate}")
+        Console.WriteLine($"  初始保留概率P₀: {config.InitialP}")
+        Console.WriteLine($"  保留概率增长率: {config.DecayRate}")
+        Console.WriteLine($"  损失权重: [{String.Join(", ", config.LossWeights)}]")
+        Console.WriteLine()
+
+        ' ====================================================================
+        ' 4. 构建并训练IMMO模型
+        ' ====================================================================
+        Console.WriteLine("[2] 构建并训练IMMO模型...")
+        Console.WriteLine()
+
+        Dim featureDims As Integer() = preparedData.OmicsList.Select(Function(o) o.NumFeatures).ToArray()
+        Dim model As New IMMOModel(featureDims, config)
+        Dim trainer As New IMMOTrainer(model, config)
+
+        Console.WriteLine($"  模型结构:")
+        Console.WriteLine($"    编码器数量: {model.NumOmics}")
+        Console.WriteLine($"    各组学特征维度: [{String.Join(", ", featureDims)}]")
+        Console.WriteLine($"    解码器输出维度: {featureDims.Sum()}")
+        Console.WriteLine()
+
+        Dim finalLoss = trainer.Train(preparedData)
+        Console.WriteLine()
+        Console.WriteLine($"  训练完成! 最终损失: {finalLoss:F6}")
+        Console.WriteLine()
+
+        Return model
     End Function
 End Module

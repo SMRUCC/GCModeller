@@ -61,7 +61,15 @@ Public Module HTSDataFrame
 
     <Extension>
     Public Function AsTensorArray(expr As Matrix) As Double(,)
+        Dim data(expr.sample_count, expr.size) As Double
 
+        For i As Integer = 0 To expr.sample_count - 1
+            For j As Integer = 0 To expr.size - 1
+                data(i, j) = expr(j)(i)
+            Next
+        Next
+
+        Return data
     End Function
 
     ''' <summary>
