@@ -7,6 +7,7 @@
 ' 依赖: Tensor类 (用户提供)
 ' ============================================================================
 
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports std = System.Math
 
 Namespace IMMO
@@ -109,7 +110,7 @@ Namespace IMMO
             For i = 0 To rows - 1
                 Dim val = col(i, 0)
                 For j = 0 To cols - 1
-                    result(i, j) = matrix(i, j) / (val + 1e-12)
+                    result(i, j) = matrix(i, j) / (val + 0.000000000001)
                 Next
             Next
             Return result
@@ -223,7 +224,7 @@ Namespace IMMO
             Dim result = New Tensor(rows, cols)
             For i = 0 To rows - 1
                 For j = 0 To cols - 1
-                    result(i, j) = tensor(i, j) / (rowVec(0, j) + 1e-12)
+                    result(i, j) = tensor(i, j) / (rowVec(0, j) + 0.000000000001)
                 Next
             Next
             Return result
@@ -326,7 +327,7 @@ Namespace IMMO
         Public Sub New(learningRate As Double,
                        Optional beta1 As Double = 0.9,
                        Optional beta2 As Double = 0.999,
-                       Optional epsilon As Double = 1e-8)
+                       Optional epsilon As Double = 0.00000001)
             _lr = learningRate
             _beta1 = beta1
             _beta2 = beta2
@@ -363,7 +364,7 @@ Namespace IMMO
                 Next
                 Dim globalNorm = std.Sqrt(globalNormSq)
                 If globalNorm > gradClipNorm Then
-                    Dim scale = gradClipNorm / (globalNorm + 1e-8)
+                    Dim scale = gradClipNorm / (globalNorm + 0.00000001)
                     For Each param In parameters
                         For i = 0 To param.Gradient.Length - 1
                             param.Gradient(i) *= scale
@@ -514,7 +515,7 @@ Namespace IMMO
 
         Public Sub New(numFeatures As Integer,
                        Optional momentum As Double = 0.9,
-                       Optional epsilon As Double = 1e-5)
+                       Optional epsilon As Double = 0.00001)
             Me.NumFeatures = numFeatures
             _momentum = momentum
             _epsilon = epsilon

@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\immo\\immo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|solutionrelative:microarray\\immo\\immo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\diablo_analysis_example.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\diablo_analysis_example.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\immo\\layers.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|solutionrelative:microarray\\immo\\layers.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\immodemo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\immodemo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\immo\\immo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|solutionrelative:microarray\\immo\\immo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\mofaexample.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -21,10 +29,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\diablo\\diablo_analysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|solutionrelative:microarray\\diablo\\diablo_analysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\diablo_analysis_example.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\diablo_analysis_example.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\mofa\\mofa.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -42,17 +46,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "Layers.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\IMMO\\Layers.vb",
+              "RelativeDocumentMoniker": "Microarray\\IMMO\\Layers.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\IMMO\\Layers.vb",
+              "RelativeToolTip": "Microarray\\IMMO\\Layers.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGkAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-19T16:35:11.13Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "IMMO.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\IMMO\\IMMO.vb",
               "RelativeDocumentMoniker": "Microarray\\IMMO\\IMMO.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\IMMO\\IMMO.vb",
               "RelativeToolTip": "Microarray\\IMMO\\IMMO.vb",
-              "ViewState": "AgIAAI0CAAAAAAAAAAAAAKsCAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAI0CAAAAAAAAAAAAALwCAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-19T16:31:22.64Z",
               "EditorCaption": ""
@@ -75,20 +92,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "IMMODemo.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\IMMODemo.vb",
               "RelativeDocumentMoniker": "Microarray\\test\\IMMODemo.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\IMMODemo.vb",
               "RelativeToolTip": "Microarray\\test\\IMMODemo.vb",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAYwGMAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcBAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-19T16:30:32.51Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "DIABLO_Analysis.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\DIABLO\\DIABLO_Analysis.vb",
               "RelativeDocumentMoniker": "Microarray\\DIABLO\\DIABLO_Analysis.vb",
@@ -100,7 +117,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "MOFA.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\MOFA\\MOFA.vb",
               "RelativeDocumentMoniker": "Microarray\\MOFA\\MOFA.vb",
@@ -125,7 +142,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "MOFAExample.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\MOFAExample.vb",
               "RelativeDocumentMoniker": "Microarray\\test\\MOFAExample.vb",
@@ -138,7 +155,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "test",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\test.vbproj",
               "RelativeDocumentMoniker": "Microarray\\test\\test.vbproj",
@@ -149,15 +166,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "DIABLO_Analysis_Example.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\DIABLO_Analysis_Example.vb",
               "RelativeDocumentMoniker": "Microarray\\test\\DIABLO_Analysis_Example.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\DIABLO_Analysis_Example.vb",
               "RelativeToolTip": "Microarray\\test\\DIABLO_Analysis_Example.vb",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAcwGEAAABQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHQAAABwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-15T13:26:56.7Z"
+              "WhenOpened": "2026-06-15T13:26:56.7Z",
+              "EditorCaption": ""
             }
           ]
         },

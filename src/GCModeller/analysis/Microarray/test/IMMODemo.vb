@@ -10,6 +10,7 @@
 '   - 目标: 整合两个组学，获得统一样本的潜在表示和插补后的完整数据
 ' ============================================================================
 
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports SMRUCC.genomics.Analysis.Microarray.IMMO
 Imports std = System.Math
 
