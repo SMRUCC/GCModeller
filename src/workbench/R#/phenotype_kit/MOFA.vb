@@ -153,4 +153,9 @@ Module MOFATools
 
     End Function
 
+    <ExportAPI("run_mofa")>
+    Public Function run_mofa(model As MOFA)
+
+    End Function
+
 End Module
