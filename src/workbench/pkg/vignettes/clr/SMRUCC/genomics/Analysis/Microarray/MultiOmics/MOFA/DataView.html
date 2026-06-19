@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Microarray.MultiOmics.MOFA.DataView</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>DataView {SMRUCC.genomics.Analysis.Microarray.MultiOmics.MOFA}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>DataView</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Microarray.MultiOmics.MOFA
+export class DataView {
+   # Number of features D_m
+   D: integer;
+   # Data matrix Y^m of shape (N<em>local × D</em>m), where N_local is the number of
+   #  samples actually observed in this view, and D_m is the number of features.
+   #  Rows correspond to samples listed in <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/MultiOmics/MOFA/DataView.html">DataView</a>.<a href="#">SampleIds</a>.
+   Data: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a>;
+   # Feature-wise mean (D_m) — subtracted before factorization
+   FeatureMean: double;
+   # Feature names for this view (length = D_m)
+   FeatureNames: string;
+   # Feature-wise variance (D_m) — used for Z-score normalization
+   FeatureStd: double;
+   # Reverse mapping: globalToLocal(n) = local index of global sample n in this view,
+   #  or -1 if sample n is NOT observed in this view. This is the key data structure
+   #  that enables MOFA to handle mismatched sample sets between views.
+   GlobalToLocal: integer;
+   # Local-to-global sample index mapping.
+   #  localToGlobal(i) = global index of the i-th observed sample in this view.
+   #  Built by @<code>M:SMRUCC.genomics.Analysis.Microarray.MultiOmics.MOFA.DataView.BuildIndexMapping(System.String[])</code> using the global sample list.
+   LocalToGlobal: integer;
+   # View name (e.g. "mRNA", "metabolome")
+   Name: string;
+   # Number of locally observed samples
+   NLocal: integer;
+   # Sample IDs that are observed in this view (length = N_local = Data.Shape(0)).
+   #  These IDs map local rows to the global sample index space.
+   SampleIds: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Data</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

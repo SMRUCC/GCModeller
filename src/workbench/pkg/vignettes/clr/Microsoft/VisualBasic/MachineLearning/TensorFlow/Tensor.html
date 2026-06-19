@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.MachineLearning.TensorFlow.Tensor</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Tensor {Microsoft.VisualBasic.MachineLearning.TensorFlow}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Tensor</h2>
+
+        <h3>Description</h3>
+
+        <p>张量类 - GNN中所有数值计算的基础数据结构
+ 支持多维数组的存储和基本数学运算</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.MachineLearning.TensorFlow
+export class Tensor {
+   # 底层数据数组
+   #  Underlying data array
+   Data: double;
+   # 张量的维度数组（兼容旧版本）
+   Dimensions: integer;
+   # 梯度（用于反向传播）
+   #  Gradient for backpropagation
+   Gradient: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a>;
+   # 是否为变量（可训练）
+   #  Whether this is a variable (trainable)
+   IsVariable: boolean;
+   # 张量中元素的总数
+   Length: integer;
+   # 张量的维度数
+   Rank: integer;
+   # 张量的形状（各维度大小）
+   Shape: integer;
+   # 张量中元素的总数（兼容旧版本）
+   TotalLength: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Gradient</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

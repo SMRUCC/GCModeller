@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Microarray.MultiOmics.MOFA.MOFA</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>MOFA {SMRUCC.genomics.Analysis.Microarray.MultiOmics.MOFA}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>MOFA</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Microarray.MultiOmics.MOFA
+export class MOFA {
+   # Active factor indices (after pruning)
+   ActiveFactors: boolean;
+   # ARD precision α^m_k (M × K). Large α → factor k is suppressed in view m.
+   #  Updated during inference; factors with large α across all views are pruned.
+   Alpha: <a href="/vignettes/clr/System/Double.html">Double[,]</a>;
+   # Whether training has converged
+   Converged: boolean;
+   # ELBO history (one entry per iteration)
+   ElboHistory: <a href="/vignettes/clr/System/Double.html">iterates(Double)</a>;
+   GlobalSampleIds: string;
+   # Current number of active factors K (may decrease due to pruning)
+   K: integer;
+   # Number of views M
+   M: integer;
+   # Number of global samples (union of all views' samples)
+   N: integer;
+   Options: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/MultiOmics/MOFA/MOFAOptions.html">MOFAOptions</a>;
+   # Per-feature spike-and-slab mixing probability π^m<em>d ∈ [0,1] (D</em>m × 1 per view).
+   #  π close to 1 → feature d is "active" (drawn from slab);
+   #  π close to 0 → feature d is "inactive" (drawn from spike).
+   Pi: <a href="/vignettes/clr/System/Double.html">iterates(Double[])</a>;
+   # Per-view, per-feature noise precision τ^m<em>d (D</em>m × 1 for each view).
+   #  Gaussian noise model: ε ~ N(0, 1/τ).
+   Tau: <a href="/vignettes/clr/System/Double.html">iterates(Double[])</a>;
+   Views: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/MultiOmics/MOFA/DataView.html">iterates(DataView)</a>;
+   # Weight matrices W^m (one per view), each (D_m × K)
+   W: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">iterates(Tensor)</a>;
+   # Factor matrix Z (N × K) — shared across all views
+   Z: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Alpha</code>: <a href="/vignettes/clr/System/Double.html">Double</a></li>
+<li>use by <i>property</i> member <code>ElboHistory</code>: <a href="/vignettes/clr/System/Double.html">iterates(Double)</a></li>
+<li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/MultiOmics/MOFA/MOFAOptions.html">MOFAOptions</a></li>
+<li>use by <i>property</i> member <code>Pi</code>: <a href="/vignettes/clr/System/Double.html">iterates(Double)</a></li>
+<li>use by <i>property</i> member <code>Tau</code>: <a href="/vignettes/clr/System/Double.html">iterates(Double)</a></li>
+<li>use by <i>property</i> member <code>Views</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/MultiOmics/MOFA/DataView.html">iterates(DataView)</a></li>
+<li>use by <i>property</i> member <code>W</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">iterates(Tensor)</a></li>
+<li>use by <i>property</i> member <code>Z</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
