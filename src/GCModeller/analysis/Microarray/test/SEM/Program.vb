@@ -55,21 +55,21 @@ Module SEMProgram
             Console.WriteLine("  CHS_expr -> Starch (直接路径，预期较弱)")
             Console.WriteLine()
 
-            Dim semData = DataGenerator.GetSEMDataSubset(data)
-            Dim semVarNames = DataGenerator.GetSEMVarNames()
-            Dim semPaths = DataGenerator.GetSEMPathsOnSubset()
-            Dim model As New CausalModel With {
-                .data = semData,
-                .varNames = semVarNames,
-                .paths = semPaths _
-                    .Select(Function(e)
-                                Return New CausalModel.Path With {.U = e.Item1, .V = e.Item2}
-                            End Function) _
-                    .ToArray
-            }
-            Dim semResult = SEM.FitPathAnalysis(semData, semVarNames, semPaths)
-            Dim semBoot = SEM.BootstrapSEM(model, numBoot:=500, seed:=123)
-            SEM.PrintSEMResult(semResult, semBoot)
+            'Dim semData = DataGenerator.GetSEMDataSubset(data)
+            'Dim semVarNames = DataGenerator.GetSEMVarNames()
+            'Dim semPaths = DataGenerator.GetSEMPathsOnSubset()
+            'Dim model As New CausalModel With {
+            '    .data = semData,
+            '    .varNames = semVarNames,
+            '    .paths = semPaths _
+            '        .Select(Function(e)
+            '                    Return New CausalModel.Path With {.U = e.Item1, .V = e.Item2}
+            '                End Function) _
+            '        .ToArray
+            '}
+            'Dim semResult = SEM.FitPathAnalysis(semData, semVarNames, semPaths)
+            'Dim semBoot = SEM.BootstrapSEM(model, numBoot:=500, seed:=123)
+            'SEM.PrintSEMResult(semResult, semBoot)
 
             ' ========================================
             ' 第三步：运行 PLS-PM
@@ -97,7 +97,7 @@ Module SEMProgram
             Console.WriteLine()
             Console.WriteLine("【第四步】综合结论 - 中介效应分析")
             Console.WriteLine()
-            PrintConclusion(semResult, plspmResult)
+            ' PrintConclusion(semResult, plspmResult)
 
         Finally
             Console.SetOut(originalOut)

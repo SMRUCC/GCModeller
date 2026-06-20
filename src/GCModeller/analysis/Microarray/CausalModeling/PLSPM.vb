@@ -29,15 +29,15 @@ Public Module PLSPM
     ''' innerPaths: 内模型路径列表，每项为 (fromLatentIdx, toLatentIdx)
     ''' </summary>
     Public Function FitPLSPM(manifestData As Double(,),
-                             latentVars As List(Of (name As String, manifestIndices As List(Of Integer), mode As String)),
+                             latentVars As LatentDefinition(),
                              innerPaths As List(Of (fromIdx As Integer, toIdx As Integer)),
                              Optional maxIter As Integer = 300,
                              Optional tol As Double = 0.0000001) As PLSPMResult
         Dim result As New PLSPMResult()
         Dim n = manifestData.GetLength(0)
-        Dim numLatent = latentVars.Count
+        Dim numLatent = latentVars.Length
 
-        result.LatentNames = latentVars.Select(Function(lv) lv.name).ToArray()
+        result.LatentNames = latentVars.Select(Function(lv) lv.varName).ToArray()
         result.NumLatents = numLatent
         result.NumManifest = manifestData.GetLength(1)
         result.SampleSize = n
@@ -51,7 +51,7 @@ Public Module PLSPM
         ' 2. 初始化外模型权重
         Dim outerWeights As New List(Of Double())()
         For Each lv In latentVars
-            Dim numMV = lv.manifestIndices.Count
+            Dim numMV = lv.featureIDs.Length
             Dim w(numMV - 1) As Double
             For k = 0 To numMV - 1
                 w(k) = 1.0 / Math.Sqrt(numMV)  ' 均匀初始化
@@ -75,12 +75,12 @@ Public Module PLSPM
             For j = 0 To numLatent - 1
                 Dim lv = latentVars(j)
                 Dim w = outerWeights(j)
-                Dim numMV = lv.manifestIndices.Count
+                Dim numMV = lv.featureIDs.Length
 
                 For i = 0 To n - 1
                     Dim score = 0.0
                     For k = 0 To numMV - 1
-                        score += w(k) * Z(i, lv.manifestIndices(k))
+                        score += w(k) * Z(i, lv.featureIDs(k))
                     Next
                     latentScores(i, j) = score
                 Next
@@ -143,16 +143,16 @@ Public Module PLSPM
             ' Step 4: 更新外模型权重
             For j = 0 To numLatent - 1
                 Dim lv = latentVars(j)
-                Dim numMV = lv.manifestIndices.Count
+                Dim numMV = lv.featureIDs.Length
                 Dim w(numMV - 1) As Double
 
-                If lv.mode = "A" Then
+                If lv.mode = MeasurementModels.A Then
                     ' Mode A (反映型): w_k = corr(x_k, Y_inner)
                     For k = 0 To numMV - 1
                         Dim xCol(n - 1) As Double
                         Dim yCol(n - 1) As Double
                         For i = 0 To n - 1
-                            xCol(i) = Z(i, lv.manifestIndices(k))
+                            xCol(i) = Z(i, lv.featureIDs(k))
                             yCol(i) = innerScores(i, j)
                         Next
                         w(k) = Statistics.Pearson(xCol, yCol)
@@ -162,7 +162,7 @@ Public Module PLSPM
                     Dim XMat(n - 1, numMV - 1) As Double
                     For i = 0 To n - 1
                         For k = 0 To numMV - 1
-                            XMat(i, k) = Z(i, lv.manifestIndices(k))
+                            XMat(i, k) = Z(i, lv.featureIDs(k))
                         Next
                     Next
                     Dim Xt = MatrixOps.Transpose(XMat)
@@ -184,7 +184,7 @@ Public Module PLSPM
                             Dim xCol(n - 1) As Double
                             Dim yCol(n - 1) As Double
                             For i = 0 To n - 1
-                                xCol(i) = Z(i, lv.manifestIndices(k))
+                                xCol(i) = Z(i, lv.featureIDs(k))
                                 yCol(i) = innerScores(i, j)
                             Next
                             w(k) = Statistics.Pearson(xCol, yCol)
@@ -220,14 +220,14 @@ Public Module PLSPM
         Dim communalities As New List(Of Double)()
         For j = 0 To numLatent - 1
             Dim lv = latentVars(j)
-            Dim numMV = lv.manifestIndices.Count
+            Dim numMV = lv.featureIDs.Length
             Dim load(numMV - 1) As Double
             Dim comm = 0.0
             For k = 0 To numMV - 1
                 Dim xCol(n - 1) As Double
                 Dim yCol(n - 1) As Double
                 For i = 0 To n - 1
-                    xCol(i) = Z(i, lv.manifestIndices(k))
+                    xCol(i) = Z(i, lv.featureIDs(k))
                     yCol(i) = latentScores(i, j)
                 Next
                 load(k) = Statistics.Pearson(xCol, yCol)
@@ -243,7 +243,7 @@ Public Module PLSPM
         Dim finalWeights As New List(Of Double())()
         For j = 0 To numLatent - 1
             Dim lv = latentVars(j)
-            Dim numMV = lv.manifestIndices.Count
+            Dim numMV = lv.featureIDs.Length
             Dim w = outerWeights(j)
             ' 归一化权重使潜变量方差为 1
             Dim norm = 0.0
@@ -505,7 +505,7 @@ Public Module PLSPM
     ''' PLS-PM Bootstrap 显著性检验
     ''' </summary>
     Public Function BootstrapPLSPM(manifestData As Double(,),
-                                   latentVars As List(Of (name As String, manifestIndices As List(Of Integer), mode As String)),
+                                   latentVars As LatentDefinition(),
                                    innerPaths As List(Of (fromIdx As Integer, toIdx As Integer)),
                                    numBoot As Integer,
                                    seed As Integer) As PLSPMBootstrapResult
@@ -528,7 +528,7 @@ Public Module PLSPM
 
         Dim loadingsKeys As New List(Of (Integer, Integer))
         For j = 0 To latentVars.Count - 1
-            For k = 0 To latentVars(j).manifestIndices.Count - 1
+            For k = 0 To latentVars(j).featureIDs.Length - 1
                 loadingsKeys.Add((j, k))
             Next
         Next
@@ -633,10 +633,10 @@ Public Module PLSPM
         Console.WriteLine("-"c, 80)
         For j = 0 To result.NumLatents - 1
             Dim lv = result.LatentDefs(j)
-            Console.WriteLine($"潜变量 [{lv.name}] (Mode {lv.mode}):")
+            Console.WriteLine($"潜变量 [{lv.varName}] (Mode {lv.mode.Description}):")
             Console.WriteLine($"  {"显变量",-20}{"载荷",12}{"权重",12}{"共同度",12}")
-            For k = 0 To lv.manifestIndices.Count - 1
-                Dim mvIdx = lv.manifestIndices(k)
+            For k = 0 To lv.featureIDs.Length - 1
+                Dim mvIdx = lv.featureIDs(k)
                 Dim mvName = manifestNames(mvIdx)
                 Dim load = result.Loadings(j)(k)
                 Dim w = result.FinalOuterWeights(j)(k)
@@ -752,7 +752,7 @@ Public Class PLSPMResult
     Public Property NumManifest As Integer
     Public Property NumIterations As Integer
     Public Property LatentNames As String()
-    Public Property LatentDefs As List(Of (name As String, manifestIndices As List(Of Integer), mode As String))
+    Public Property LatentDefs As LatentDefinition()
     Public Property InnerPaths As List(Of (Integer, Integer))
 
     Public Property StandardizedData As Double(,)
