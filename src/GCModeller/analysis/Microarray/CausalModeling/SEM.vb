@@ -1,4 +1,6 @@
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
@@ -673,6 +675,41 @@ Public Class SEMResult
     Public Property GFI As Double
     Public Property NFI As Double
     Public Property SRMR As Double
+
+    ''' <summary>
+    ''' Endogenous variable R² (proportion of variance explained)
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function GetEndogenousVariable() As Dictionary(Of String, Double)
+        Dim R2 As New Dictionary(Of String, Double)
+
+        For Each kv In RSquared
+            R2(_VarNames(kv.Key)) = kv.Value
+        Next
+
+        Return R2
+    End Function
+
+    Public Overrides Function ToString() As String
+        Dim sb As New StringBuilder
+        Dim text As New StringWriter(sb)
+
+        ' 5. 模型拟合指数
+        text.WriteLine($"  χ² (Chi-square) = {ChiSquare:F4}")
+        text.WriteLine($"  df (自由度)     = {DF}")
+        text.WriteLine($"  χ² p-value      = {ChiSquarePValue:F4}")
+        text.WriteLine($"  RMSEA           = {RMSEA:F4}  (优良 < 0.05, 良好 < 0.08)")
+        text.WriteLine($"  CFI             = {CFI:F4}  (优良 > 0.95, 良好 > 0.90)")
+        text.WriteLine($"  GFI             = {GFI:F4}  (优良 > 0.95, 良好 > 0.90)")
+        text.WriteLine($"  NFI             = {NFI:F4}  (优良 > 0.95, 良好 > 0.90)")
+        text.WriteLine($"  SRMR            = {SRMR:F4}  (优良 < 0.05, 良好 < 0.08)")
+        text.WriteLine()
+
+        Call text.Flush()
+
+        Return sb.ToString
+    End Function
+
 End Class
 
 ''' <summary>Bootstrap 结果</summary>

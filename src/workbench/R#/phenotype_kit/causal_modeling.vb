@@ -54,7 +54,7 @@ Module causal_modeling
 
     <ExportAPI("make_path")>
     <RApiReturn(GetType(SparseGraph.Edge))>
-    Public Function make_path(<RRawVectorArgument> from As Object, <RRawVectorArgument> [to] As Object, Optional env As Environment = Nothing) As Object
+    Public Function make_path(<RRawVectorArgument(TypeCodes.string)> from As Object, <RRawVectorArgument(TypeCodes.string)> [to] As Object, Optional env As Environment = Nothing) As Object
         Dim fromNodes As GetVectorElement = GetVectorElement.Create(Of String)(CLRVector.asCharacter(from))
         Dim toNodes As GetVectorElement = GetVectorElement.Create(Of String)(CLRVector.asCharacter([to]))
         Dim edges As New List(Of SparseGraph.Edge)
