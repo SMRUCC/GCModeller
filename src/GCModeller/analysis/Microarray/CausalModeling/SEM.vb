@@ -1,5 +1,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
 ''' <summary>
 ''' 结构方程模型 (SEM) 模块 - 基于路径分析 (Path Analysis) 的实现

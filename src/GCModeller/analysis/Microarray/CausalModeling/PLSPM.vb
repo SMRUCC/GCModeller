@@ -1,6 +1,5 @@
-Imports System
-Imports System.Collections.Generic
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
 ''' <summary>
 ''' 偏最小二乘路径建模 (PLS-PM) 模块

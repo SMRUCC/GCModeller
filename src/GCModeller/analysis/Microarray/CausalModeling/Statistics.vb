@@ -1,4 +1,4 @@
-Imports System
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
 ''' <summary>
 ''' 统计运算模块 - 使用 VB.NET 基础数学函数实现统计分析
@@ -51,7 +51,7 @@ Public Module Statistics
             syy += dy * dy
         Next
 
-        If sxx < 1e-30 OrElse syy < 1e-30 Then Return 0.0
+        If sxx < 1.0E-30 OrElse syy < 1.0E-30 Then Return 0.0
         Return sxy / Math.Sqrt(sxx * syy)
     End Function
 
@@ -114,7 +114,7 @@ Public Module Statistics
         For j = 0 To p - 1
             Dim m = ColMean(data, j)
             Dim s = ColStd(data, j)
-            If s < 1e-30 Then s = 1.0
+            If s < 1.0E-30 Then s = 1.0
             For i = 0 To n - 1
                 result(i, j) = (data(i, j) - m) / s
             Next
@@ -180,7 +180,7 @@ Public Module Statistics
         result.PValues = New Double(k - 1) {}
         For i = 0 To k - 1
             result.StdErrors(i) = Math.Sqrt(Math.Max(varCov(i, i), 0.0))
-            If result.StdErrors(i) > 1e-30 Then
+            If result.StdErrors(i) > 1.0E-30 Then
                 result.TValues(i) = result.Coefficients(i) / result.StdErrors(i)
                 result.PValues(i) = TDistTwoTail(result.TValues(i), n - k)
             Else
@@ -265,8 +265,8 @@ Public Module Statistics
     ''' <summary>不完全贝塔函数的连分数（Numerical Recipes 风格）</summary>
     Private Function BetaCF(x As Double, a As Double, b As Double) As Double
         Dim MAXIT = 300
-        Dim EPS = 1e-12
-        Dim FPMIN = 1e-300
+        Dim EPS = 0.000000000001
+        Dim FPMIN = 1.0E-300
         Dim qab = a + b
         Dim qap = a + 1.0
         Dim qam = a - 1.0
