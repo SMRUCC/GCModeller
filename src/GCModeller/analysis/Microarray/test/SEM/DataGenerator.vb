@@ -101,26 +101,22 @@ Public Module DataGenerator
     End Function
 
     ''' <summary>获取 PLS-PM 潜变量定义</summary>
-    Public Function GetLatentDefinitions() As List(Of (name As String, manifestIndices As List(Of Integer), mode As String))
-        Dim result As New List(Of (String, List(Of Integer), String))()
-
+    Public Iterator Function GetLatentDefinitions() As IEnumerable(Of LatentDefinition)
         ' 潜变量 0: Gene
         Dim geneIdx As New List(Of Integer) From {0, 1, 2, 3}
-        result.Add(("Gene", geneIdx, "A"))
+        Yield New LatentDefinition("Gene", geneIdx.Select(Function(i) ManifestVarNames(i)), MeasurementModels.A)
 
         ' 潜变量 1: Flavonoid
         Dim flavIdx As New List(Of Integer) From {4, 5, 6}
-        result.Add(("Flavonoid", flavIdx, "A"))
+        Yield New LatentDefinition("Flavonoid", flavIdx.Select(Function(i) ManifestVarNames(i)), MeasurementModels.A)
 
         ' 潜变量 2: Antioxidant
         Dim antiIdx As New List(Of Integer) From {7, 8}
-        result.Add(("Antioxidant", antiIdx, "A"))
+        Yield New LatentDefinition("Antioxidant", antiIdx.Select(Function(i) ManifestVarNames(i)), MeasurementModels.A)
 
         ' 潜变量 3: StarchQuality
         Dim starchIdx As New List(Of Integer) From {9, 10}
-        result.Add(("StarchQuality", starchIdx, "A"))
-
-        Return result
+        Yield New LatentDefinition("StarchQuality", starchIdx.Select(Function(i) ManifestVarNames(i)), MeasurementModels.A)
     End Function
 
     ''' <summary>获取 PLS-PM 内模型路径定义</summary>

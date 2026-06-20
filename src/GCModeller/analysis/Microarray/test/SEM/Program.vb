@@ -84,7 +84,7 @@ Module SEMProgram
             Console.WriteLine("  Gene -> StarchQuality (直接路径，预期较弱)")
             Console.WriteLine()
 
-            Dim latentDefs = DataGenerator.GetLatentDefinitions()
+            Dim latentDefs As LatentDefinition() = DataGenerator.GetLatentDefinitions().ToArray
             Dim innerPaths = DataGenerator.GetInnerPaths()
 
             Dim plspmResult = PLSPM.FitPLSPM(data, latentDefs, innerPaths)
