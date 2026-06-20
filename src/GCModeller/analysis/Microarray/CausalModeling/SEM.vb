@@ -1,3 +1,4 @@
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math
 
 ''' <summary>
@@ -14,6 +15,19 @@ Imports Microsoft.VisualBasic.Math
 ''' 显著性检验使用 Bootstrap 重采样方法。
 ''' </summary>
 Public Module SEM
+
+    ''' <summary>
+    ''' 拟合路径分析 SEM 模型
+    ''' 
+    ''' paths: 路径定义列表，每项为 (from, to)，from 是外生/中介变量索引，to 是内生变量索引
+    ''' data: 原始数据矩阵 (n × p)，列为变量
+    ''' varNames: 变量名称
+    ''' </summary>
+    <Extension>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function FitPathAnalysis(model As CausalModel) As SEMResult
+        Return FitPathAnalysis(model.data, model.varNames, New List(Of (fromIdx As Integer, toIdx As Integer))(model.AsPathTuple))
+    End Function
 
     ''' <summary>
     ''' 拟合路径分析 SEM 模型
@@ -432,16 +446,13 @@ Public Module SEM
     ''' Bootstrap 显著性检验
     ''' 对路径系数、间接效应进行 Bootstrap 重采样
     ''' </summary>
-    Public Function BootstrapSEM(data As Double(,),
-                                 varNames As String(),
-                                 paths As List(Of (fromIdx As Integer, toIdx As Integer)),
-                                 numBoot As Integer,
-                                 seed As Integer) As BootstrapResult
+    Public Function BootstrapSEM(model As CausalModel, numBoot As Integer, seed As Integer) As BootstrapResult
         Dim rng As New Random(seed)
         Dim result As New BootstrapResult()
 
         ' 收集所有需要 Bootstrap 的量
         Dim pathKeys As New List(Of (Integer, Integer))
+        Dim paths As New List(Of (Integer, Integer))(model.AsPathTuple)
         For Each p In paths
             If Not pathKeys.Contains(p) Then pathKeys.Add(p)
         Next
@@ -455,7 +466,7 @@ Public Module SEM
         Dim indirectKeys As New List(Of (Integer, Integer))()
 
         ' 先在原数据上跑一次得到间接效应的键
-        Dim baseResult = FitPathAnalysis(data, varNames, paths)
+        Dim baseResult = FitPathAnalysis(model.data, model.varNames, paths)
         For Each k In baseResult.IndirectEffects.Keys
             indirectKeys.Add(k)
         Next
@@ -467,9 +478,9 @@ Public Module SEM
 
         ' Bootstrap 循环
         For b = 1 To numBoot
-            Dim bootData = Statistics.BootstrapSample(data, rng)
+            Dim bootData = Statistics.BootstrapSample(model.data, rng)
             Try
-                Dim bootResult = FitPathAnalysis(bootData, varNames, paths)
+                Dim bootResult = FitPathAnalysis(bootData, model.varNames, paths)
 
                 For Each k In pathKeys
                     If bootResult.PathCoefficients.ContainsKey(k) Then
