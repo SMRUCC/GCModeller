@@ -13,6 +13,14 @@ Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 <Package("causal_modeling")>
 Module causal_modeling
 
+    Sub Main()
+
+    End Sub
+
+    Private Function castGraph()
+
+    End Function
+
     <ExportAPI("as_causalmodel")>
     <RApiReturn(GetType(CausalModel))>
     Public Function as_causalmodel(data As Object, <RRawVectorArgument> path As Object, Optional env As Environment = Nothing) As Object
@@ -35,8 +43,8 @@ Module causal_modeling
     <ExportAPI("sem")>
     <RApiReturn("sem_result", "sem_boot")>
     Public Function sem_tool(model As CausalModel, Optional boot As Integer = 500, Optional env As Environment = Nothing) As Object
-        Dim semResult = SEM.FitPathAnalysis(model)
-        Dim semBoot = SEM.BootstrapSEM(model, numBoot:=boot, seed:=123)
+        Dim semResult As SEMResult = SEM.FitPathAnalysis(model)
+        Dim semBoot As BootstrapResult = SEM.BootstrapSEM(model, numBoot:=boot, seed:=123)
 
         Call SEM.PrintSEMResult(semResult, semBoot)
 

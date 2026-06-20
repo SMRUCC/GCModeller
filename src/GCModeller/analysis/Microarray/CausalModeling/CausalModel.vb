@@ -10,6 +10,14 @@ Public Class CausalModel : Implements IndexGraph(Of Path)
         Public Property U As Integer Implements IndexEdge.U
         Public Property V As Integer Implements IndexEdge.V
 
+        Sub New()
+        End Sub
+
+        Friend Sub New(i As Integer, j As Integer)
+            U = i
+            V = j
+        End Sub
+
     End Class
 
     Public Property data As Double(,)
@@ -23,7 +31,10 @@ Public Class CausalModel : Implements IndexGraph(Of Path)
     End Function
 
     Public Shared Function Create(Of T As SparseGraph.IInteraction)(x As Matrix, paths As IEnumerable(Of T)) As CausalModel
-
+        Dim tensor As Double(,) = x.AsTensorArray
+        Dim model As CausalModel = IndexGraphExtensions.FromNetwork(Of T, Path, CausalModel)(paths, Function(i, j) New Path(i, j))
+        model.data = tensor
+        Return model
     End Function
 
 End Class

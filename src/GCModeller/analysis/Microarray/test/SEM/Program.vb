@@ -51,9 +51,17 @@ Module SEMProgram
             Dim semData = DataGenerator.GetSEMDataSubset(data)
             Dim semVarNames = DataGenerator.GetSEMVarNames()
             Dim semPaths = DataGenerator.GetSEMPathsOnSubset()
-
+            Dim model As New CausalModel With {
+                .data = semData,
+                .varNames = semVarNames,
+                .paths = semPaths _
+                    .Select(Function(e)
+                                Return New CausalModel.Path With {.U = e.Item1, .V = e.Item2}
+                            End Function) _
+                    .ToArray
+            }
             Dim semResult = SEM.FitPathAnalysis(semData, semVarNames, semPaths)
-            Dim semBoot = SEM.BootstrapSEM(semData, semVarNames, semPaths, numBoot:=500, seed:=123)
+            Dim semBoot = SEM.BootstrapSEM(model, numBoot:=500, seed:=123)
             SEM.PrintSEMResult(semResult, semBoot)
 
             ' ========================================

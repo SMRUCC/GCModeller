@@ -61,5 +61,6 @@ Public Class zzz
         Call DEGSample.Main()
         Call geneExpression.Main()
         Call mixOmics.Main()
+        Call causal_modeling.Main()
     End Sub
 End Class
