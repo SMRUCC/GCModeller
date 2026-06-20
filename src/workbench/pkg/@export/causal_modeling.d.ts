@@ -20,9 +20,12 @@ declare namespace causal_modeling {
    */
    function indirect_effect(sem_result: object, boot_result: object, as_dataframe?: boolean): object|object;
    /**
+     * @param paths default value Is ``null``.
+     * @param from default value Is ``null``.
+     * @param to default value Is ``null``.
      * @param env default value Is ``null``.
    */
-   function make_path(from: any, to: any, env?: object): object;
+   function make_path(paths?: object, from?: any, to?: any, env?: object): object;
    /**
      * @param as_dataframe default value Is ``true``.
    */

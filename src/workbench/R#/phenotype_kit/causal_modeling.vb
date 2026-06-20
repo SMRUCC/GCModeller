@@ -128,7 +128,7 @@ Module causal_modeling
         Dim semResult As SEMResult = SEM.FitPathAnalysis(model)
         Dim semBoot As BootstrapResult = SEM.BootstrapSEM(model, numBoot:=boot, seed:=123)
 
-        Call SEM.PrintSEMResult(semResult, semBoot)
+        ' Call SEM.PrintSEMResult(semResult, semBoot)
 
         Return New list(slot("sem_result") = semResult,
                         slot("sem_boot") = semBoot)

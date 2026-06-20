@@ -1,6 +1,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
@@ -480,7 +481,7 @@ Public Module SEM
         Next
 
         ' Bootstrap 循环
-        For b = 1 To numBoot
+        For Each b As Integer In TqdmWrapper.Range(0, numBoot)
             Dim bootData = Statistics.BootstrapSample(model.data, rng)
             Try
                 Dim bootResult = FitPathAnalysis(bootData, model.varNames, paths)
