@@ -1,6 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 
@@ -9,6 +11,12 @@ Module causal_modeling
 
     <ExportAPI("sem")>
     Public Function sem(data As Object, <RRawVectorArgument> path As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of SparseGraph.IInteraction)(path, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
 
     End Function
 
