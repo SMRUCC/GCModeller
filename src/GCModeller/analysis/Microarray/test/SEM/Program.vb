@@ -1,5 +1,6 @@
 Imports System
 Imports System.IO
+Imports Microsoft.VisualBasic.Data.Framework
 Imports SMRUCC.genomics.Analysis.Microarray
 
 ''' <summary>
@@ -34,6 +35,12 @@ Module SEMProgram
             Dim seed = 42
             Dim data = DataGenerator.GenerateDemoData(n, seed)
             DataGenerator.PrintDataSummary(data, DataGenerator.ManifestVarNames)
+
+            Call New CausalModel With {
+                .data = data,
+                .varNames = DataGenerator.ManifestVarNames,
+                .sampleIds = Enumerable.Range(0, n).Select(Function(i) $"sample_{i + 1}").ToArray
+            }.MakeDataFrame.WriteCsv("./causalmodeling.csv")
 
             ' ========================================
             ' 第二步：运行 SEM 路径分析

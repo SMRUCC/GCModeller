@@ -136,17 +136,35 @@ Module causal_modeling
 
     <ExportAPI("make_path")>
     <RApiReturn(GetType(SparseGraph.Edge))>
-    Public Function make_path(<RRawVectorArgument(TypeCodes.string)> from As Object, <RRawVectorArgument(TypeCodes.string)> [to] As Object, Optional env As Environment = Nothing) As Object
-        Dim fromNodes As GetVectorElement = GetVectorElement.Create(Of String)(CLRVector.asCharacter(from))
-        Dim toNodes As GetVectorElement = GetVectorElement.Create(Of String)(CLRVector.asCharacter([to]))
+    Public Function make_path(<RListObjectArgument>
+                              Optional paths As list = Nothing,
+                              <RRawVectorArgument(TypeCodes.string)> Optional from As Object = Nothing,
+                              <RRawVectorArgument(TypeCodes.string)> Optional [to] As Object = Nothing,
+                              Optional env As Environment = Nothing) As Object
+
         Dim edges As New List(Of SparseGraph.Edge)
 
-        For Each itr In GetVectorElement.Zip(fromNodes, toNodes)
-            Call edges.Add(New SparseGraph.Edge With {
-                .u = CStr(itr.Item1),
-                .v = CStr(itr.Item2)
-            })
-        Next
+        If from Is Nothing AndAlso [to] Is Nothing Then
+            For Each name As String In paths.getNames
+                Dim uv As String() = CLRVector.asCharacter(paths.getByName(name))
+                Dim path As New SparseGraph.Edge With {
+                    .u = uv(0),
+                    .v = uv(1)
+                }
+
+                Call edges.Add(path)
+            Next
+        Else
+            Dim fromNodes As GetVectorElement = GetVectorElement.Create(Of String)(CLRVector.asCharacter(from))
+            Dim toNodes As GetVectorElement = GetVectorElement.Create(Of String)(CLRVector.asCharacter([to]))
+
+            For Each itr In GetVectorElement.Zip(fromNodes, toNodes)
+                Call edges.Add(New SparseGraph.Edge With {
+                    .u = CStr(itr.Item1),
+                    .v = CStr(itr.Item2)
+                })
+            Next
+        End If
 
         Return edges.ToArray
     End Function
