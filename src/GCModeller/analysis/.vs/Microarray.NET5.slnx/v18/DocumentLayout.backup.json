@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\causalmodeling\\causaltable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|solutionrelative:microarray\\causalmodeling\\causaltable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\sem\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\sem\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\causalmodeling\\pathcoefficient.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|solutionrelative:microarray\\causalmodeling\\pathcoefficient.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\causalmodeling\\sem.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{FAFE2427-5C68-1411-232E-5078FDA947BC}|Microarray\\Microarray.NET5.vbproj|solutionrelative:microarray\\causalmodeling\\sem.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\test\\sem\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{B691EAA5-C627-EBDA-1D7A-25568DA9670E}|Microarray\\test\\test.vbproj|solutionrelative:microarray\\test\\sem\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,8 +21,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 188,
-          "SelectedChildIndex": 6,
+          "DockedWidth": 171,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,26 +42,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "SEM.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\CausalModeling\\SEM.vb",
               "RelativeDocumentMoniker": "Microarray\\CausalModeling\\SEM.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\CausalModeling\\SEM.vb",
               "RelativeToolTip": "Microarray\\CausalModeling\\SEM.vb",
-              "ViewState": "AgIAAA0CAAAAAAAAAAAQwC4CAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAA8CAAAAAAAAAAAiwCcCAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-20T04:44:13.44Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\SEM\\Program.vb",
               "RelativeDocumentMoniker": "Microarray\\test\\SEM\\Program.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\test\\SEM\\Program.vb",
               "RelativeToolTip": "Microarray\\test\\SEM\\Program.vb",
-              "ViewState": "AgIAACgAAAAAAAAAAAAYwEAAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAYwDIAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-19T19:24:20.488Z",
               "EditorCaption": ""
@@ -69,18 +69,18 @@
           ]
         },
         {
-          "DockedWidth": 212,
+          "DockedWidth": 229,
           "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CausalTable.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\CausalModeling\\CausalTable.vb",
-              "RelativeDocumentMoniker": "Microarray\\CausalModeling\\CausalTable.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\CausalModeling\\CausalTable.vb",
-              "RelativeToolTip": "Microarray\\CausalModeling\\CausalTable.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "PathCoefficient.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\CausalModeling\\PathCoefficient.vb",
+              "RelativeDocumentMoniker": "Microarray\\CausalModeling\\PathCoefficient.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\CausalModeling\\PathCoefficient.vb",
+              "RelativeToolTip": "Microarray\\CausalModeling\\PathCoefficient.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-20T04:56:02.394Z",
               "EditorCaption": ""
