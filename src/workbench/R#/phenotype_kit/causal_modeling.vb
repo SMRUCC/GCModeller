@@ -126,10 +126,14 @@ Module causal_modeling
                                       Optional as_dataframe As Boolean = True,
                                       Optional env As Environment = Nothing) As Object
 
-        Dim bs As BootstrapSignificanceTest() = BootstrapSignificanceTest.FromResult(result, boot_result).ToArray
+        Dim bs As BootstrapSignificanceTest()
 
         If TypeOf result Is SEMResult Then
+            bs = BootstrapSignificanceTest.FromResult(DirectCast(result, SEMResult), boot_result).ToArray
         ElseIf TypeOf result Is PLSPMResult Then
+            bs = BootstrapSignificanceTest.FromResult(
+                DirectCast(result, PLSPMResult),
+                DirectCast(boot_result, PLSPMBootstrapResult)).ToArray
         Else
             Return Message.InCompatibleType(GetType(SEMResult), result.GetType, env)
         End If
@@ -153,8 +157,21 @@ Module causal_modeling
 
     <ExportAPI("indirect_effect")>
     <RApiReturn(GetType(dataframe), GetType(IndirectEffectBootstrap))>
-    Public Function indirect_effect(sem_result As SEMResult, boot_result As BootstrapResult, Optional as_dataframe As Boolean = True) As Object
-        Dim ib As IndirectEffectBootstrap() = IndirectEffectBootstrap.FromResult(sem_result, boot_result).ToArray
+    Public Function indirect_effect(result As Object, boot_result As BootstrapResult,
+                                    Optional as_dataframe As Boolean = True,
+                                    Optional env As Environment = Nothing) As Object
+
+        Dim ib As IndirectEffectBootstrap()
+
+        If TypeOf result Is SEMResult Then
+            ib = IndirectEffectBootstrap.FromResult(DirectCast(result, SEMResult), boot_result).ToArray
+        ElseIf TypeOf result Is PLSPMResult Then
+            ib = IndirectEffectBootstrap.FromResult(
+                DirectCast(result, PLSPMResult),
+                DirectCast(boot_result, PLSPMBootstrapResult)).ToArray
+        Else
+            Return Message.InCompatibleType(GetType(SEMResult), result.GetType, env)
+        End If
 
         If as_dataframe Then
             Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}

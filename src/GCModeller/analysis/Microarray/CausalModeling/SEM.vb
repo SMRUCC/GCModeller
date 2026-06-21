@@ -697,7 +697,7 @@ Public Class SEMResult
 
         ' 5. 模型拟合指数
         text.WriteLine($"  χ² (Chi-square) = {ChiSquare:F4}")
-        text.WriteLine($"  df (自由度)     = {DF}")
+        text.WriteLine($"  df (自由度)      = {DF}")
         text.WriteLine($"  χ² p-value      = {ChiSquarePValue:F4}")
         text.WriteLine($"  RMSEA           = {RMSEA:F4}  (优良 < 0.05, 良好 < 0.08)")
         text.WriteLine($"  CFI             = {CFI:F4}  (优良 > 0.95, 良好 > 0.90)")
