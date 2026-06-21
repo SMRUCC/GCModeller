@@ -2173,13 +2173,12 @@ Module geneExpression
     ''' <returns></returns>
     <ExportAPI("sample_auc")>
     Public Function sample_auc(x As Matrix, <RRawVectorArgument> sampleinfo As Object, Optional time As String = "time", Optional env As Environment = Nothing) As Object
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(sampleinfo, env)
+        Dim samples As PipeIterator(Of SampleInfo) = pipeline.Stream(Of SampleInfo)(sampleinfo, env)
 
-        If pull.isError Then
-            Return pull.getError
+        If samples.isError Then
+            Return samples.getError
         End If
 
-        Dim samples As SampleInfo() = pull.populates(Of SampleInfo)(env).ToArray
 
     End Function
 
