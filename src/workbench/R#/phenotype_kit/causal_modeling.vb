@@ -270,4 +270,9 @@ Module causal_modeling
         Return edges.ToArray
     End Function
 
+    <ExportAPI("make_latent")>
+    Public Function make_latent(latentName As String, <RRawVectorArgument> manifestNames As Object, Optional mode As MeasurementModels = MeasurementModels.A) As LatentDefinition
+        Return New LatentDefinition(latentName, CLRVector.asCharacter(manifestNames), mode)
+    End Function
+
 End Module
