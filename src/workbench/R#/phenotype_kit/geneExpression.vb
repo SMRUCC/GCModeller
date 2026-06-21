@@ -2164,6 +2164,26 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' Calculate the sum of the sample data with time-series information across all time points to obtain the area under the curve (AUC) of the time-series curve.
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="time"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("sample_auc")>
+    Public Function sample_auc(x As Matrix, <RRawVectorArgument> sampleinfo As Object, Optional time As String = "time", Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(sampleinfo, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim samples As SampleInfo() = pull.populates(Of SampleInfo)(env).ToArray
+
+    End Function
+
+    ''' <summary>
     ''' add random gauss noise to the matrix
     ''' </summary>
     ''' <param name="x"></param>
