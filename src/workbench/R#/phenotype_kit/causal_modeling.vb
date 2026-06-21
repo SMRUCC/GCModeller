@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.Rsharp
@@ -132,6 +133,15 @@ Module causal_modeling
 
         Return New list(slot("sem_result") = semResult,
                         slot("sem_boot") = semBoot)
+    End Function
+
+    <ExportAPI("plspm")>
+    Public Function plspm_tool(model As CausalModel, Optional boot As Integer = 500, Optional env As Environment = Nothing) As Object
+        Dim plspmResult = PLSPM.FitPLSPM(model)
+        Dim plspmBoot = PLSPM.BootstrapPLSPM(model, numBoot:=boot, seed:=456)
+
+        Return New list(slot("plspm_result") = plspmResult,
+                       slot("plspm_boot") = plspmBoot)
     End Function
 
     <ExportAPI("make_path")>

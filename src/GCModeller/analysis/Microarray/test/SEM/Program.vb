@@ -87,8 +87,8 @@ Module SEMProgram
             Dim latentDefs As LatentDefinition() = DataGenerator.GetLatentDefinitions().ToArray
             Dim innerPaths = DataGenerator.GetInnerPaths()
 
-            Dim plspmResult = PLSPM.FitPLSPM(data, latentDefs, innerPaths)
-            Dim plspmBoot = PLSPM.BootstrapPLSPM(data, latentDefs, innerPaths, numBoot:=500, seed:=456)
+            Dim plspmResult = PLSPM.FitPLSPM(data, DataGenerator.ManifestVarNames.Indexing, latentDefs, innerPaths)
+            Dim plspmBoot = PLSPM.BootstrapPLSPM(data, DataGenerator.ManifestVarNames, latentDefs, innerPaths, numBoot:=500, seed:=456)
             PLSPM.PrintPLSPMResult(plspmResult, DataGenerator.ManifestVarNames, plspmBoot)
 
             ' ========================================

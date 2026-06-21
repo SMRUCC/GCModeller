@@ -1,3 +1,5 @@
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
@@ -20,6 +22,14 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 ''' </summary>
 Public Module PLSPM
 
+    <Extension>
+    Public Function FitPLSPM(model As CausalModel,
+                             Optional maxIter As Integer = 300,
+                             Optional tol As Double = 0.0000001) As PLSPMResult
+
+        Return FitPLSPM(model.data, model.varNames.Indexing, model.latentDefs, model.AsPathTuple.ToList, maxIter, tol)
+    End Function
+
     ''' <summary>
     ''' 拟合 PLS-PM 模型
     ''' 
@@ -29,10 +39,12 @@ Public Module PLSPM
     ''' innerPaths: 内模型路径列表，每项为 (fromLatentIdx, toLatentIdx)
     ''' </summary>
     Public Function FitPLSPM(manifestData As Double(,),
+                             manifestNames As Index(Of String),
                              latentVars As LatentDefinition(),
                              innerPaths As List(Of (fromIdx As Integer, toIdx As Integer)),
                              Optional maxIter As Integer = 300,
                              Optional tol As Double = 0.0000001) As PLSPMResult
+
         Dim result As New PLSPMResult()
         Dim n = manifestData.GetLength(0)
         Dim numLatent = latentVars.Length
@@ -80,7 +92,7 @@ Public Module PLSPM
                 For i = 0 To n - 1
                     Dim score = 0.0
                     For k = 0 To numMV - 1
-                        score += w(k) * Z(i, lv.featureIDs(k))
+                        score += w(k) * Z(i, manifestNames(lv.featureIDs(k)))
                     Next
                     latentScores(i, j) = score
                 Next
@@ -152,7 +164,7 @@ Public Module PLSPM
                         Dim xCol(n - 1) As Double
                         Dim yCol(n - 1) As Double
                         For i = 0 To n - 1
-                            xCol(i) = Z(i, lv.featureIDs(k))
+                            xCol(i) = Z(i, manifestNames(lv.featureIDs(k)))
                             yCol(i) = innerScores(i, j)
                         Next
                         w(k) = Statistics.Pearson(xCol, yCol)
@@ -184,7 +196,7 @@ Public Module PLSPM
                             Dim xCol(n - 1) As Double
                             Dim yCol(n - 1) As Double
                             For i = 0 To n - 1
-                                xCol(i) = Z(i, lv.featureIDs(k))
+                                xCol(i) = Z(i, manifestNames(lv.featureIDs(k)))
                                 yCol(i) = innerScores(i, j)
                             Next
                             w(k) = Statistics.Pearson(xCol, yCol)
@@ -227,7 +239,7 @@ Public Module PLSPM
                 Dim xCol(n - 1) As Double
                 Dim yCol(n - 1) As Double
                 For i = 0 To n - 1
-                    xCol(i) = Z(i, lv.featureIDs(k))
+                    xCol(i) = Z(i, manifestNames(lv.featureIDs(k)))
                     yCol(i) = latentScores(i, j)
                 Next
                 load(k) = Statistics.Pearson(xCol, yCol)
@@ -504,16 +516,31 @@ Public Module PLSPM
     ''' <summary>
     ''' PLS-PM Bootstrap 显著性检验
     ''' </summary>
+    ''' 
+    <Extension>
+    Public Function BootstrapPLSPM(model As CausalModel,
+                                   numBoot As Integer,
+                                   seed As Integer) As PLSPMBootstrapResult
+
+        Return BootstrapPLSPM(model.data, model.varNames, model.latentDefs, model.AsPathTuple.ToList, numBoot, seed)
+    End Function
+
+    ''' <summary>
+    ''' PLS-PM Bootstrap 显著性检验
+    ''' </summary>
     Public Function BootstrapPLSPM(manifestData As Double(,),
+                                   manifestNames As String(),
                                    latentVars As LatentDefinition(),
                                    innerPaths As List(Of (fromIdx As Integer, toIdx As Integer)),
                                    numBoot As Integer,
                                    seed As Integer) As PLSPMBootstrapResult
+
         Dim rng As New Random(seed)
         Dim result As New PLSPMBootstrapResult()
+        Dim manifestIndex As Index(Of String) = manifestNames.Indexing
 
         ' 基线结果
-        Dim baseResult = FitPLSPM(manifestData, latentVars, innerPaths)
+        Dim baseResult = FitPLSPM(manifestData, manifestIndex, latentVars, innerPaths)
 
         ' 收集键
         Dim pathKeys As New List(Of (Integer, Integer))
@@ -553,7 +580,7 @@ Public Module PLSPM
         For b = 1 To numBoot
             Dim bootData = Statistics.BootstrapSample(manifestData, rng)
             Try
-                Dim bootResult = FitPLSPM(bootData, latentVars, innerPaths)
+                Dim bootResult = FitPLSPM(bootData, manifestIndex, latentVars, innerPaths)
 
                 For Each k In pathKeys
                     If bootResult.PathCoefficients.ContainsKey(k) Then
@@ -636,8 +663,8 @@ Public Module PLSPM
             Console.WriteLine($"潜变量 [{lv.varName}] (Mode {lv.mode.Description}):")
             Console.WriteLine($"  {"显变量",-20}{"载荷",12}{"权重",12}{"共同度",12}")
             For k = 0 To lv.featureIDs.Length - 1
-                Dim mvIdx = lv.featureIDs(k)
-                Dim mvName = manifestNames(mvIdx)
+                Dim mvName = lv.featureIDs(k)
+                ' Dim mvName = manifestNames(mvIdx)
                 Dim load = result.Loadings(j)(k)
                 Dim w = result.FinalOuterWeights(j)(k)
                 Dim comm = load * load

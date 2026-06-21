@@ -25,13 +25,13 @@ Public Class CausalModel : Implements IndexGraph(Of Path)
     Public Property data As Double(,)
     Public Property varNames As String() Implements IndexGraph(Of Path).Nodes
     ''' <summary>
-    ''' 1. for <see cref="latents"/> definition is missing, node index is reference to the <see cref="varNames"/> elements
-    ''' 2. for <see cref="latents"/> definition is presentes, node index is reference to the <see cref="latents"/> elements
+    ''' 1. for <see cref="latentDefs"/> definition is missing, node index is reference to the <see cref="varNames"/> elements
+    ''' 2. for <see cref="latentDefs"/> definition is presentes, node index is reference to the <see cref="latentDefs"/> elements
     ''' </summary>
     ''' <returns></returns>
     Public Property paths As Path() Implements IndexGraph(Of Path).Edges
     Public Property sampleIds As String()
-    Public Property latents As LatentDefinition()
+    Public Property latentDefs As LatentDefinition()
 
     Friend Iterator Function AsPathTuple() As IEnumerable(Of (from As Integer, [to] As Integer))
         For Each node As Path In paths.SafeQuery
