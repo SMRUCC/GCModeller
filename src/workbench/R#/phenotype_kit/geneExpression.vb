@@ -2168,18 +2168,30 @@ Module geneExpression
     ''' </summary>
     ''' <param name="x"></param>
     ''' <param name="sampleinfo"></param>
-    ''' <param name="time"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("sample_auc")>
-    Public Function sample_auc(x As Matrix, <RRawVectorArgument> sampleinfo As Object, Optional time As String = "time", Optional env As Environment = Nothing) As Object
+    Public Function sample_auc(x As Matrix, <RRawVectorArgument> sampleinfo As Object,
+                               Optional sample As String = "sample",
+                               Optional env As Environment = Nothing) As Object
+
         Dim samples As PipeIterator(Of SampleInfo) = pipeline.Stream(Of SampleInfo)(sampleinfo, env)
 
         If samples.isError Then
             Return samples.getError
         End If
 
-
+        Dim sampleList As SampleInfo() = samples _
+            .Select(Function(s)
+                        Return New SampleInfo With {
+                            .ID = s.ID,
+                            .sample_info = s(sample)
+                        }
+                    End Function) _
+            .ToArray
+        Dim AUC As Matrix = Matrix.MatrixSum(x, sampleList)
+        AUC.tag = "AUC(time)"
+        Return AUC
     End Function
 
     ''' <summary>
