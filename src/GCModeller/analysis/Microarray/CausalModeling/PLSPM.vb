@@ -804,12 +804,9 @@ Public Class PLSPMResult
 End Class
 
 ''' <summary>PLS-PM Bootstrap 结果</summary>
-Public Class PLSPMBootstrapResult
-    Public Property NumBootstraps As Integer
-    Public Property PathBootSE As Dictionary(Of (Integer, Integer), Double)
-    Public Property PathBootCI As Dictionary(Of (Integer, Integer), (Double, Double))
-    Public Property IndirectBootSE As Dictionary(Of (Integer, Integer), Double)
-    Public Property IndirectBootCI As Dictionary(Of (Integer, Integer), (Double, Double))
+Public Class PLSPMBootstrapResult : Inherits BootstrapResult
+
     Public Property LoadingsBootSE As Dictionary(Of (Integer, Integer), Double)
     Public Property LoadingsBootCI As Dictionary(Of (Integer, Integer), (Double, Double))
+
 End Class

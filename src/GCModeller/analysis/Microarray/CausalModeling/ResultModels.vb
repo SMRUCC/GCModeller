@@ -12,15 +12,12 @@
         For j = 0 To result.NumLatents - 1
             Dim lv = result.LatentDefs(j)
             Dim block = result.Communalities(j)
-            ' Console.WriteLine($"潜变量 [{lv.varName}] (Mode {lv.mode.Description}):")
-            ' Console.WriteLine($"  {"显变量",-20}{"载荷",12}{"权重",12}{"共同度",12}")
+
             For k = 0 To lv.featureIDs.Length - 1
                 Dim mvName = lv.featureIDs(k)
-                ' Dim mvName = manifestNames(mvIdx)
                 Dim load = result.Loadings(j)(k)
                 Dim w = result.FinalOuterWeights(j)(k)
                 Dim comm = load * load
-                ' Console.WriteLine($"  {mvName,-20}{load,12:F4}{w,12:F4}{comm,12:F4}")
 
                 Yield New MeasurementModel With {
                     .block_communality = block,
@@ -32,8 +29,6 @@
                     .w = w
                 }
             Next
-            ' Console.WriteLine($"  -> 块共同度 = {result.Communalities(j):F4}")
-            ' Console.WriteLine()
         Next
     End Function
 

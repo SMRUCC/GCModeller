@@ -17,10 +17,63 @@ Module causal_modeling
 
     End Sub
 
+    <ExportAPI("measurement_model")>
+    <RApiReturn(GetType(dataframe), GetType(MeasurementModel))>
+    Public Function measurement_model(result As PLSPMResult, Optional as_dataframe As Boolean = True) As Object
+        Dim mm = MeasurementModel.FromResult(result).ToArray
+
+        If as_dataframe Then
+            Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+            Call df.add(NameOf(MeasurementModel.latentName), From i As MeasurementModel In mm Select i.latentName)
+            Call df.add(NameOf(MeasurementModel.mode), From i As MeasurementModel In mm Select i.mode)
+            Call df.add(NameOf(MeasurementModel.manifest_variable), From i As MeasurementModel In mm Select i.manifest_variable)
+            Call df.add(NameOf(MeasurementModel.loading), From i As MeasurementModel In mm Select i.loading)
+            Call df.add(NameOf(MeasurementModel.w), From i As MeasurementModel In mm Select i.w)
+            Call df.add(NameOf(MeasurementModel.communality), From i As MeasurementModel In mm Select i.communality)
+            Call df.add(NameOf(MeasurementModel.block_communality), From i As MeasurementModel In mm Select i.block_communality)
+
+            Return df
+        Else
+            Return mm
+        End If
+    End Function
+
+    <ExportAPI("endogenous_latents")>
+    <RApiReturn(GetType(dataframe), GetType(EndogenousLatentVariable))>
+    Public Function endogenous_latents(result As PLSPMResult, Optional as_dataframe As Boolean = True) As Object
+        Dim el = EndogenousLatentVariable.FromResult(result).ToArray
+
+        If as_dataframe Then
+            Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+            Call df.add(NameOf(EndogenousLatentVariable.latentName), From i As EndogenousLatentVariable In el Select i.latentName)
+            Call df.add(NameOf(EndogenousLatentVariable.r2), From i As EndogenousLatentVariable In el Select i.r2)
+            Call df.add(NameOf(EndogenousLatentVariable.communality), From i As EndogenousLatentVariable In el Select i.communality)
+            Call df.add(NameOf(EndogenousLatentVariable.redundancy), From i As EndogenousLatentVariable In el Select i.redundancy)
+
+            Return df
+        Else
+            Return el
+        End If
+    End Function
+
     <ExportAPI("path_coefficient")>
     <RApiReturn(GetType(dataframe), GetType(PathCoefficient))>
-    Public Function path_coefficient(sem_result As SEMResult, Optional as_dataframe As Boolean = True) As Object
-        Dim pc As PathCoefficient() = PathCoefficient.FromResult(sem_result).ToArray
+    Public Function path_coefficient(result As Object, Optional as_dataframe As Boolean = True, Optional env As Environment = Nothing) As Object
+        Dim pc As PathCoefficient()
+
+        If result Is Nothing Then
+            Return Nothing
+        End If
+
+        If TypeOf result Is SEMResult Then
+            pc = PathCoefficient.FromResult(DirectCast(result, SEMResult)).ToArray
+        ElseIf TypeOf result Is PLSPMResult Then
+            pc = PathCoefficient.FromResult(DirectCast(result, PLSPMResult)).ToArray
+        Else
+            Return Message.InCompatibleType(GetType(SEMResult), result.GetType, env)
+        End If
 
         If as_dataframe Then
             Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
@@ -41,8 +94,16 @@ Module causal_modeling
 
     <ExportAPI("effect_decomposition")>
     <RApiReturn(GetType(dataframe), GetType(EffectDecomposition))>
-    Public Function effect_decomposition(sem_result As SEMResult, Optional as_dataframe As Boolean = True) As Object
-        Dim ed As EffectDecomposition() = EffectDecomposition.FromResult(sem_result).ToArray
+    Public Function effect_decomposition(result As Object, Optional as_dataframe As Boolean = True, Optional env As Environment = Nothing) As Object
+        Dim ed As EffectDecomposition()
+
+        If TypeOf result Is SEMResult Then
+            ed = EffectDecomposition.FromResult(DirectCast(result, SEMResult)).ToArray
+        ElseIf TypeOf result Is PLSPMResult Then
+            ed = EffectDecomposition.FromResult(DirectCast(result, PLSPMResult)).ToArray
+        Else
+            Return Message.InCompatibleType(GetType(SEMResult), result.GetType, env)
+        End If
 
         If as_dataframe Then
             Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
@@ -61,8 +122,17 @@ Module causal_modeling
 
     <ExportAPI("significance_test")>
     <RApiReturn(GetType(dataframe), GetType(BootstrapSignificanceTest))>
-    Public Function significance_test(sem_result As SEMResult, boot_result As BootstrapResult, Optional as_dataframe As Boolean = True) As Object
-        Dim bs As BootstrapSignificanceTest() = BootstrapSignificanceTest.FromResult(sem_result, boot_result).ToArray
+    Public Function significance_test(result As Object, boot_result As BootstrapResult,
+                                      Optional as_dataframe As Boolean = True,
+                                      Optional env As Environment = Nothing) As Object
+
+        Dim bs As BootstrapSignificanceTest() = BootstrapSignificanceTest.FromResult(result, boot_result).ToArray
+
+        If TypeOf result Is SEMResult Then
+        ElseIf TypeOf result Is PLSPMResult Then
+        Else
+            Return Message.InCompatibleType(GetType(SEMResult), result.GetType, env)
+        End If
 
         If as_dataframe Then
             Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
