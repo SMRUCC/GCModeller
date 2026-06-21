@@ -140,6 +140,10 @@ Module causal_modeling
         Dim plspmResult = PLSPM.FitPLSPM(model)
         Dim plspmBoot = PLSPM.BootstrapPLSPM(model, numBoot:=boot, seed:=456)
 
+        Console.WriteLine("模型整体拟合：")
+        Console.WriteLine($"  GoF (Goodness of Fit) = {plspmResult.GoF:F4}  (良好 > 0.36, 中等 > 0.25, 弱 > 0.10)")
+        Console.WriteLine()
+
         Return New list(slot("plspm_result") = plspmResult,
                        slot("plspm_boot") = plspmBoot)
     End Function
