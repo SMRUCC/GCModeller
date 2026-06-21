@@ -13,12 +13,22 @@ declare namespace causal_modeling {
    function as_causalmodel(data: any, path: any, env?: object): object;
    /**
      * @param as_dataframe default value Is ``true``.
+     * @param env default value Is ``null``.
    */
-   function effect_decomposition(sem_result: object, as_dataframe?: boolean): object|object;
+   function effect_decomposition(result: any, as_dataframe?: boolean, env?: object): object|object;
    /**
      * @param as_dataframe default value Is ``true``.
    */
-   function indirect_effect(sem_result: object, boot_result: object, as_dataframe?: boolean): object|object;
+   function endogenous_latents(result: object, as_dataframe?: boolean): object|object;
+   /**
+     * @param as_dataframe default value Is ``true``.
+     * @param env default value Is ``null``.
+   */
+   function indirect_effect(result: any, boot_result: object, as_dataframe?: boolean, env?: object): object|object;
+   /**
+     * @param mode default value Is ``null``.
+   */
+   function make_latent(latentName: string, manifestNames: any, mode?: object): object;
    /**
      * @param paths default value Is ``null``.
      * @param from default value Is ``null``.
@@ -29,7 +39,17 @@ declare namespace causal_modeling {
    /**
      * @param as_dataframe default value Is ``true``.
    */
-   function path_coefficient(sem_result: object, as_dataframe?: boolean): object|object;
+   function measurement_model(result: object, as_dataframe?: boolean): object|object;
+   /**
+     * @param as_dataframe default value Is ``true``.
+     * @param env default value Is ``null``.
+   */
+   function path_coefficient(result: any, as_dataframe?: boolean, env?: object): object|object;
+   /**
+     * @param boot default value Is ``500``.
+     * @param env default value Is ``null``.
+   */
+   function plspm(model: object, boot?: object, env?: object): object;
    /**
      * @param boot default value Is ``500``.
      * @param env default value Is ``null``.
@@ -37,6 +57,7 @@ declare namespace causal_modeling {
    function sem(model: object, boot?: object, env?: object): object;
    /**
      * @param as_dataframe default value Is ``true``.
+     * @param env default value Is ``null``.
    */
-   function significance_test(sem_result: object, boot_result: object, as_dataframe?: boolean): object|object;
+   function significance_test(result: any, boot_result: object, as_dataframe?: boolean, env?: object): object|object;
 }

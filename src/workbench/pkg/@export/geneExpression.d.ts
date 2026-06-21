@@ -593,6 +593,19 @@ declare namespace geneExpression {
    */
    function relative(matrix: object, median?: boolean): object;
    /**
+    * Calculate the sum of the sample data with time-series information across all time points to obtain the area under the curve (AUC) of the time-series curve.
+    * 
+    * 
+     * @param x -
+     * @param sampleinfo -
+     * @param sample 
+     * + default value Is ``'sample'``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function sample_auc(x: object, sampleinfo: any, sample?: string, env?: object): any;
+   /**
     * get/set new sample id list to the matrix columns
     * 
     * > it is kind of ``colnames`` liked function for dataframe object.

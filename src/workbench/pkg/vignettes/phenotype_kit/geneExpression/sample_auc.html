@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>significance_test</title>
+    <title>Calculate the sum of the sample data with time-series information across all time points to obtain the area under the curve (AUC) of the time-series curve.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,28 +13,39 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>significance_test {causal_modeling}</td>
+                <td>sample_auc {geneExpression}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>significance_test</h2>
+        <h2>Calculate the sum of the sample data with time-series information across all time points to obtain the area under the curve (AUC) of the time-series curve.</h2>
 
         <h3>Description</h3>
 
-        significance_test
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>significance_test</strong>(<i>result</i>, <i>boot.result</i>,
-    <i>as.dataframe</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>sample_auc</strong>(<i>x</i>, <i>sampleinfo</i>,
+    <i>sample</i> = <span style='color: brown;'><strong>"sample"</strong></span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>x</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>sampleinfo</dt>
+<dd><p>-</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -48,15 +59,15 @@
 
         <h3>Value</h3>
 
-        this function returns data object in these one of the listed data types: <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>, <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/BootstrapSignificanceTest.html">BootstrapSignificanceTest</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/BootstrapSignificanceTest.html">BootstrapSignificanceTest</a></li></ul>
+        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
         
 
         <hr />
-        <div style="text-align: center;">[Package <em>causal_modeling</em> version 1.0.0.0 <a
-                href="../causal_modeling.html">Index</a>]
+        <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
+                href="../geneExpression.html">Index</a>]
         </div>
     </div>
 </body>

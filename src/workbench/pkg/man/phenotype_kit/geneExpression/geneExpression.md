@@ -57,5 +57,6 @@ the gene expression matrix data toolkit
 + [joinSample](geneExpression/joinSample.1) do matrix join by samples
 + [joinFeatures](geneExpression/joinFeatures.1) merge multiple gene expression matrix by gene features
 + [aggregate](geneExpression/aggregate.1) merge row or column where the tag is identical
++ [sample_auc](geneExpression/sample_auc.1) Calculate the sum of the sample data with time-series information across all time points to obtain the area under the curve (AUC) of the time-series curve.
 + [add_gauss](geneExpression/add_gauss.1) add random gauss noise to the matrix
 + [as.abundance_matrix](geneExpression/as.abundance_matrix.1) 
