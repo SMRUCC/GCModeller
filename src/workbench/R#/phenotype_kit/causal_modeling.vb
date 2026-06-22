@@ -11,6 +11,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
 <Package("causal_modeling")>
+<RTypeExport("latent_var", GetType(LatentSymbol))>
 Module causal_modeling
 
     Sub Main()
