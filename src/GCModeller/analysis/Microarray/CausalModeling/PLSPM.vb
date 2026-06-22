@@ -307,7 +307,7 @@ Public Module PLSPM
             Next
 
             Dim XWithIntercept = Statistics.AddIntercept(X)
-            Dim ols = Statistics.OLSRegression(y, XWithIntercept, strict)
+            Dim ols = Statistics.OLSRegression(y, XWithIntercept, strict, makeWarn:=False)
 
             r2Dict(endoIdx) = ols.R2
             For j = 0 To predictors.Count - 1
@@ -411,7 +411,7 @@ Public Module PLSPM
                 Next
 
                 Dim XWithIntercept = Statistics.AddIntercept(X)
-                Dim ols = Statistics.OLSRegression(y, XWithIntercept, strict)
+                Dim ols = Statistics.OLSRegression(y, XWithIntercept, strict, makeWarn:=False)
 
                 For k = 0 To predictors.Count - 1
                     innerWeights(j, predictors(k)) = ols.Coefficients(k + 1)

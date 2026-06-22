@@ -142,7 +142,7 @@ Public Module Statistics
     ''' 返回回归系数 beta、标准误、t 值、p 值、R²、调整 R²
     ''' X 第一列应为 1（截距项），如不需要截距请预先处理
     ''' </summary>
-    Public Function OLSRegression(y As Double(), X As Double(,), strict As Boolean) As OLSResult
+    Public Function OLSRegression(y As Double(), X As Double(,), strict As Boolean, makeWarn As Boolean) As OLSResult
         Dim n = y.Length
         Dim k = X.GetLength(1)  ' 自变量个数（含截距）
         Dim result As New OLSResult() With {
@@ -154,8 +154,9 @@ Public Module Statistics
 
             If strict Then
                 Throw New ArgumentException(msg)
-            Else
+            ElseIf makeWarn Then
                 ' do nothing
+                Call msg.warning
                 Call App.LogException(msg,)
             End If
         End If
