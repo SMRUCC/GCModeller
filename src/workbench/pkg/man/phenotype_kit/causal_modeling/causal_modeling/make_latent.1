@@ -3,9 +3,22 @@
 .SH NAME
 make_latent \- 
 .SH SYNOPSIS
-\fImake_latent(\fBlatentName\fR as string, 
-\fBmanifestNames\fR as any, 
-\fBmode\fR as <integer> MeasurementModels = [A]);\fR
+\fImake_latent(\fBmanifest_names\fR as any, 
+\fBlatent_name\fR as string = \fB<NULL>\fR, 
+\fBmode\fR as <integer> MeasurementModels = [A], 
+[\fB<Environment>\fR]);\fR
+.SH OPTIONS
+.PP
+\fBmanifest_names\fB \fR\- 
+ a set of the feature id for make the manifest symbol to the latent definition or a vector of the @\fBT:SMRUCC.genomics.Analysis.Microarray.LatentSymbol\fR
+. 
+.PP
+.PP
+\fBlatent_name\fB \fR\- -. 
+.PP
+.PP
+\fBmode\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 causal_modeling
 .SH FILES

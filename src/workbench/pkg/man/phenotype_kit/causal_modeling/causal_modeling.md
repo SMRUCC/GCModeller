@@ -12,4 +12,5 @@
 + [sem](causal_modeling/sem.1) 
 + [plspm](causal_modeling/plspm.1) 
 + [make_path](causal_modeling/make_path.1) 
++ [make_full_path](causal_modeling/make_full_path.1) make full connected path for PLS-PM latent symbols
 + [make_latent](causal_modeling/make_latent.1) 
