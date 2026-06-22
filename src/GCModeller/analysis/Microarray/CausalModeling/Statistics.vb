@@ -122,6 +122,20 @@ Public Module Statistics
         Return result
     End Function
 
+    ''' <summary>构造带截距项的设计矩阵</summary>
+    Public Function AddIntercept(X As Double(,)) As Double(,)
+        Dim n = X.GetLength(0)
+        Dim p = X.GetLength(1)
+        Dim result(n - 1, p) As Double  ' p+1 列
+        For i = 0 To n - 1
+            result(i, 0) = 1.0
+            For j = 0 To p - 1
+                result(i, j + 1) = X(i, j)
+            Next
+        Next
+        Return result
+    End Function
+
     ''' <summary>
     ''' OLS 多元线性回归: y = X * beta + epsilon
     ''' 返回回归系数 beta、标准误、t 值、p 值、R²、调整 R²
@@ -182,7 +196,8 @@ Public Module Statistics
             result.StdErrors(i) = Math.Sqrt(Math.Max(varCov(i, i), 0.0))
             If result.StdErrors(i) > 1.0E-30 Then
                 result.TValues(i) = result.Coefficients(i) / result.StdErrors(i)
-                result.PValues(i) = TDistTwoTail(result.TValues(i), n - k)
+                ' result.PValues(i) = TDistTwoTail(result.TValues(i), n - k)
+                result.PValues(i) = Microsoft.VisualBasic.Math.Statistics.Hypothesis.t.Pvalue(result.TValues(i), n - k)
             Else
                 result.TValues(i) = 0.0
                 result.PValues(i) = 1.0
@@ -192,20 +207,6 @@ Public Module Statistics
         result.SampleSize = n
         result.NumPredictors = k
         result.Residuals = residuals
-        Return result
-    End Function
-
-    ''' <summary>构造带截距项的设计矩阵</summary>
-    Public Function AddIntercept(X As Double(,)) As Double(,)
-        Dim n = X.GetLength(0)
-        Dim p = X.GetLength(1)
-        Dim result(n - 1, p) As Double  ' p+1 列
-        For i = 0 To n - 1
-            result(i, 0) = 1.0
-            For j = 0 To p - 1
-                result(i, j + 1) = X(i, j)
-            Next
-        Next
         Return result
     End Function
 
