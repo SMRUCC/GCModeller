@@ -195,11 +195,13 @@ Public Module Statistics
             ssTot += (y(i) - yMean) ^ 2
         Next
 
+        Dim df As Integer = n - k
+
         result.R2 = 1.0 - ssRes / ssTot
-        result.AdjR2 = 1.0 - (1.0 - result.R2) * (n - 1) / (n - k)
+        result.AdjR2 = 1.0 - (1.0 - result.R2) * (n - 1) / df
 
         ' 残差方差
-        Dim sigma2 = ssRes / (n - k)
+        Dim sigma2 = ssRes / df
 
         ' 系数标准误 = sqrt(diag(sigma2 * (X'X)^{-1}))
         Dim varCov = MatrixOps.Scale(XtXInv, sigma2)
@@ -210,12 +212,15 @@ Public Module Statistics
             result.StdErrors(i) = Math.Sqrt(Math.Max(varCov(i, i), 0.0))
             If result.StdErrors(i) > 1.0E-30 Then
                 result.TValues(i) = result.Coefficients(i) / result.StdErrors(i)
-                result.PValues(i) = TDistTwoTail(result.TValues(i), n - k)
-                ' result.PValues(i) = t.Pvalue(
-                '    t:=result.TValues(i),     ' t value
-                '    df:=n - k,                ' degree of freedom
-                '    hyp:=Hypothesis.TwoSided  ' alternative
-                ' )
+                result.PValues(i) = TDistTwoTail(result.TValues(i), df)
+
+                If result.PValues(i) = 0.0 Then
+                    result.PValues(i) = t.Pvalue(
+                        t:=result.TValues(i),      ' t value
+                        df:=If(df < 0, n - 1, df), ' degree of freedom
+                        hyp:=Hypothesis.TwoSided   ' alternative
+                    )
+                End If
             Else
                 result.TValues(i) = 0.0
                 result.PValues(i) = 1.0
