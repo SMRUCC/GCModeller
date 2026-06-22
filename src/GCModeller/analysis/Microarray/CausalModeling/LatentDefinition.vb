@@ -109,7 +109,14 @@ Public Class LatentDefinition
         ' 此处根据之前的讨论，少于5个也是合理的（保留具有代表性的非冗余变量）。
         ' 如果您在数量不足时必须强行补齐5个，可以在这里添加后备逻辑：
         ' 例如放宽阈值重新筛选，或者直接按MAD顺位补齐。
-        Return finalSelectedRows.Select(Function(r) r.geneID)
+        If finalSelectedRows.Count < targetManifests Then
+            Return From r As DataFrameRow
+                   In candidatePool
+                   Take targetManifests
+                   Select r.geneID
+        Else
+            Return From r As DataFrameRow In finalSelectedRows Select r.geneID
+        End If
     End Function
 
 End Class
