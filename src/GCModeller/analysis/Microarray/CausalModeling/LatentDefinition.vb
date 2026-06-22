@@ -1,4 +1,6 @@
-﻿Public Class LatentDefinition
+﻿Imports Microsoft.VisualBasic.Data.Trinity
+
+Public Class LatentDefinition
 
     Public Property varName As String
 
@@ -14,5 +16,9 @@
         _featureIDs = manifest.ToArray
         _mode = mode
     End Sub
+
+    Public Overrides Function ToString() As String
+        Return $"{varName}({mode.ToString}) - [{featureIDs.Length} x manifest_vars, {featureIDs.Concatenate }]"
+    End Function
 
 End Class
