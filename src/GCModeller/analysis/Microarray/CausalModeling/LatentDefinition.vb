@@ -45,6 +45,19 @@ Public Class LatentDefinition
     ''' 最终需要获取的变量数量
     ''' </param>
     ''' <returns>筛选出的显变量 geneID 字符串数组</returns>
+    ''' <remarks>
+    ''' MAD初筛 + 冗余剔除（MAD + Correlation Filter）
+    ''' 第一步：MAD排序初筛
+    ''' 对 flavone : Flavones (24个) 计算 MAD，按降序排列。
+    ''' *不要直接取前5，而是先截取前 8-10 个作为候选池。*
+    ''' 第二步：去冗余（解决共线性）
+    ''' 计算这前 8-10 个候选变量的相关系数矩阵。
+    ''' 从相关系数最高的一对变量中，剔除MAD值稍小的那个。
+    ''' 重复此过程，直到剩余变量两两之间的相关系数均低于某个阈值（例如 ∣r∣ &lt; 0.7 或 0.8）。
+    ''' 第三步：定稿
+    ''' 如果去冗余后剩余变量多于5个，再按MAD值取Top 5；如果少于5个（比如剩3个），那3个就足够了。
+    ''' 这样做的好处：选出的Top 5不仅自身变异丰富（MAD大），而且彼此之间相对独立，能从不同角度代表该潜变量，使得潜变量得分（LV scores）的估计更加稳健和具有代表性。
+    ''' </remarks>
     Public Shared Function FilterTopManifestVariables(manifest As Matrix, Optional targetManifests As Integer = 5, Optional corrThreshold As Double = 0.8, Optional madPoolSize As Integer = 10) As IEnumerable(Of String)
         ' 边界条件检查
         If manifest Is Nothing OrElse manifest.expression Is Nothing OrElse manifest.expression.Length = 0 Then
