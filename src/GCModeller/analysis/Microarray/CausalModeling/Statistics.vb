@@ -1,4 +1,5 @@
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 
 ''' <summary>
 ''' 统计运算模块 - 使用 VB.NET 基础数学函数实现统计分析
@@ -144,8 +145,9 @@ Public Module Statistics
     Public Function OLSRegression(y As Double(), X As Double(,), strict As Boolean) As OLSResult
         Dim n = y.Length
         Dim k = X.GetLength(1)  ' 自变量个数（含截距）
-        Dim result As New OLSResult()
-        result.Coefficients = New Double(k - 1) {}
+        Dim result As New OLSResult() With {
+            .Coefficients = New Double(k - 1) {}
+        }
 
         ' 计算 beta = (X'X)^{-1} X'y
         Dim Xt = MatrixOps.Transpose(X)
@@ -192,12 +194,16 @@ Public Module Statistics
         result.StdErrors = New Double(k - 1) {}
         result.TValues = New Double(k - 1) {}
         result.PValues = New Double(k - 1) {}
-        For i = 0 To k - 1
+        For i As Integer = 0 To k - 1
             result.StdErrors(i) = Math.Sqrt(Math.Max(varCov(i, i), 0.0))
             If result.StdErrors(i) > 1.0E-30 Then
                 result.TValues(i) = result.Coefficients(i) / result.StdErrors(i)
                 ' result.PValues(i) = TDistTwoTail(result.TValues(i), n - k)
-                result.PValues(i) = Microsoft.VisualBasic.Math.Statistics.Hypothesis.t.Pvalue(result.TValues(i), n - k)
+                result.PValues(i) = t.Pvalue(
+                    t:=result.TValues(i),     ' t value
+                    df:=n - k,                ' degree of freedom
+                    hyp:=Hypothesis.TwoSided  ' alternative
+                )
             Else
                 result.TValues(i) = 0.0
                 result.PValues(i) = 1.0
