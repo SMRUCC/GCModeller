@@ -28,7 +28,10 @@ Public Module PLSPM
                              Optional maxIter As Integer = 300,
                              Optional tol As Double = 0.0000001) As PLSPMResult
 
-        Return FitPLSPM(model.data, model.varNames.Indexing, model.latentDefs, model.AsPathTuple.ToList, maxIter, tol)
+        Dim manifestIndex As Index(Of String) = model.varNames.Indexing
+        Dim paths = model.AsPathTuple.ToList
+
+        Return FitPLSPM(model.data, manifestIndex, model.latentDefs, paths, maxIter, tol)
     End Function
 
     ''' <summary>
