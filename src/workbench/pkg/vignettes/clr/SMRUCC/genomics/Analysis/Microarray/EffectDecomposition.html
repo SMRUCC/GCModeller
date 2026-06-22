@@ -22,7 +22,9 @@
 
         <h3>Description</h3>
 
-        
+        <p>效应分解总表
+ 
+ 本表格展示了PLS-PM模型中任意起始潜变量对目标潜变量的总效应及其分解结果。通过该表格，可以全面了解一个变量对另一个变量的综合影响，包括直接作用和通过中介网络传导的间接作用，有助于厘清复杂的基因-蛋白-代谢-表型多层级网络中的关键调控主线与次要旁路。</p>
 
         <h3>Declare</h3>        
 
@@ -30,10 +32,15 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.Microarray
 export class EffectDecomposition {
+   # direct表示直接效应系数
    direct: double;
+   # fromName和toName分别表示作用路径的起始潜变量和目标潜变量
    fromName: string;
+   # indirect表示间接效应系数（通过中介变量）
    indirect: double;
+   # fromName和toName分别表示作用路径的起始潜变量和目标潜变量
    toName: string;
+   # total表示总效应系数，即直接效应与间接效应的代数和，反映自变量对因变量的整体影响力。
    total: double;
 }
 </code>

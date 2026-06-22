@@ -22,7 +22,9 @@
 
         <h3>Description</h3>
 
-        
+        <p>测量模型载荷与权重表
+ 
+ 本表格展示了PLS-PM测量模型（外模型）中显变量（观测指标）与其所属潜变量之间的从属关系及载荷权重。通过该表格，可以了解到具体的生物学测量指标（如具体的理化指标、基因模块等）是如何聚合映射为高维潜变量的，以及这些显变量对潜变量构建的相对贡献大小。</p>
 
         <h3>Declare</h3>        
 
@@ -30,12 +32,19 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.Microarray
 export class MeasurementModel {
+   # block_communality表示该潜变量模块下所有显变量的平均共同度。
    block_communality: double;
+   # communality表示该显变量的共同度
    communality: double;
+   # latentName表示所属潜变量名称
    latentName: string;
+   # loading表示载荷系数，反映显变量与潜变量之间的相关程度
    loading: double;
+   # manifest_variable表示实际观测的显变量名称
    manifest_variable: string;
+   # mode表示测量模式（A表示反映型模式，即显变量由潜变量反映产生）
    mode: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/MeasurementModels.html">MeasurementModels</a>;
+   # w表示外模型估计中的权重系数
    w: double;
 }
 </code>

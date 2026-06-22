@@ -22,7 +22,9 @@
 
         <h3>Description</h3>
 
-        
+        <p>路径系数与显著性检验表
+ 
+ 本表格展示了PLS-PM结构模型（内模型）中相邻层级潜变量之间的直接路径系数及其统计学显著性检验结果。通过该表格，可以了解到不同的潜变量之间存在的直接作用方向与相对强度，以及这些直接调控关系在统计学上是否达到显著水平。</p>
 
         <h3>Declare</h3>        
 
@@ -30,12 +32,19 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.Microarray
 export class PathCoefficient {
+   # coef表示路径系数，即直接效应的大小，正负值分别代表正负向调控关系
    coef: double;
+   # fromName表示路径的起始潜变量（自变量）
    fromName: string;
+   # p表示P值，用于评估路径系数的显著性水平
    p: double;
+   # se表示标准误
    se: double;
+   # sig表示显著性标记（如<em></em>*表示极显著）
    sig: string;
+   # t表示T检验统计量
    t: double;
+   # toName表示路径的目标潜变量（因变量）
    toName: string;
 }
 </code>

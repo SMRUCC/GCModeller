@@ -22,7 +22,9 @@
 
         <h3>Description</h3>
 
-        
+        <p>内生潜变量模型拟合优度表
+ 
+ 本表格展示了PLS-PM结构模型中所有内生潜变量（即被其他潜变量预测的变量）的模型拟合优度与解释力度指标。通过该表格，可以了解到上游组学变量对下游靶变量（如各类黄酮物质、淀粉表型等）变异的整体解释能力，以及测量模型中显变量对潜变量的代表程度，用于评估整体网络模型的可靠性与解释力。</p>
 
         <h3>Declare</h3>        
 
@@ -30,9 +32,13 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.Microarray
 export class EndogenousLatentVariable {
+   # communality表示共同度，代表该潜变量的显变量能解释该潜变量的方差比例（测量模型的效度）
    communality: double;
+   # latentName表示内生潜变量的名称
    latentName: string;
+   # r2表示决定系数，代表该潜变量的方差能被其上游预测变量解释的比例
    r2: double;
+   # redundancy表示冗余度，代表显变量能被上游潜变量解释的方差比例。
    redundancy: double;
 }
 </code>
