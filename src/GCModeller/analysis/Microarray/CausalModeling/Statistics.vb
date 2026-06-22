@@ -127,7 +127,7 @@ Public Module Statistics
     ''' 返回回归系数 beta、标准误、t 值、p 值、R²、调整 R²
     ''' X 第一列应为 1（截距项），如不需要截距请预先处理
     ''' </summary>
-    Public Function OLSRegression(y As Double(), X As Double(,)) As OLSResult
+    Public Function OLSRegression(y As Double(), X As Double(,), strict As Boolean) As OLSResult
         Dim n = y.Length
         Dim k = X.GetLength(1)  ' 自变量个数（含截距）
         Dim result As New OLSResult()
@@ -136,7 +136,7 @@ Public Module Statistics
         ' 计算 beta = (X'X)^{-1} X'y
         Dim Xt = MatrixOps.Transpose(X)
         Dim XtX = MatrixOps.Multiply(Xt, X)
-        Dim XtXInv = MatrixOps.Inverse(XtX)
+        Dim XtXInv = MatrixOps.Inverse(XtX, strict)
         Dim yMat(n - 1, 0) As Double
         For i = 0 To n - 1
             yMat(i, 0) = y(i)

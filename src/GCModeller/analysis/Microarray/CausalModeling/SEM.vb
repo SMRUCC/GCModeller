@@ -106,7 +106,7 @@ Public Module SEM
             ' 注意：标准化数据上回归不需要截距（截距应为 0）
             ' 但为了使用 OLSRegression 函数，我们仍加上截距列
             Dim XWithIntercept = Statistics.AddIntercept(X)
-            Dim ols = Statistics.OLSRegression(y, XWithIntercept)
+            Dim ols = Statistics.OLSRegression(y, XWithIntercept, strict)
 
             ' 记录 R²
             r2Dict(endoIdx) = ols.R2

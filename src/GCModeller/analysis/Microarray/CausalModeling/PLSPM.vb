@@ -120,7 +120,7 @@ Public Module PLSPM
 
             ' Step 2: 内模型估计 - 计算内模型权重
             Dim innerWeights(numLatent - 1, numLatent - 1) As Double
-            ComputeInnerWeights(latentScores, innerPaths, innerWeights, numLatent, n)
+            ComputeInnerWeights(latentScores, innerPaths, innerWeights, numLatent, n, strict)
 
             ' Step 3: 计算内部潜变量得分（使用内模型权重）
             Dim innerScores(n - 1, numLatent - 1) As Double
@@ -303,7 +303,7 @@ Public Module PLSPM
             Next
 
             Dim XWithIntercept = Statistics.AddIntercept(X)
-            Dim ols = Statistics.OLSRegression(y, XWithIntercept)
+            Dim ols = Statistics.OLSRegression(y, XWithIntercept, strict)
 
             r2Dict(endoIdx) = ols.R2
             For j = 0 To predictors.Count - 1
@@ -363,7 +363,7 @@ Public Module PLSPM
     Private Sub ComputeInnerWeights(scores As Double(,),
                                     innerPaths As List(Of (Integer, Integer)),
                                     innerWeights As Double(,),
-                                    numLatent As Integer, n As Integer)
+                                    numLatent As Integer, n As Integer, strict As Boolean)
         ' 识别内生和外生潜变量
         Dim endogenousSet As New HashSet(Of Integer)
         For Each p In innerPaths
@@ -407,7 +407,7 @@ Public Module PLSPM
                 Next
 
                 Dim XWithIntercept = Statistics.AddIntercept(X)
-                Dim ols = Statistics.OLSRegression(y, XWithIntercept)
+                Dim ols = Statistics.OLSRegression(y, XWithIntercept, strict)
 
                 For k = 0 To predictors.Count - 1
                     innerWeights(j, predictors(k)) = ols.Coefficients(k + 1)
