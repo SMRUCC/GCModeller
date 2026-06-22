@@ -43,7 +43,8 @@ Public Module PLSPM
                              latentVars As LatentDefinition(),
                              innerPaths As List(Of (fromIdx As Integer, toIdx As Integer)),
                              Optional maxIter As Integer = 300,
-                             Optional tol As Double = 0.0000001) As PLSPMResult
+                             Optional tol As Double = 0.0000001,
+                             Optional strict As Boolean = False) As PLSPMResult
 
         Dim result As New PLSPMResult()
         Dim n = manifestData.GetLength(0)
@@ -185,7 +186,7 @@ Public Module PLSPM
                     Next
                     Dim Xty = MatrixOps.Multiply(Xt, yVec)
                     Try
-                        Dim XtXInv = MatrixOps.Inverse(XtX)
+                        Dim XtXInv = MatrixOps.Inverse(XtX, strict)
                         Dim wMat = MatrixOps.Multiply(XtXInv, Xty)
                         For k = 0 To numMV - 1
                             w(k) = wMat(k, 0)

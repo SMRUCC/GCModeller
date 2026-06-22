@@ -29,8 +29,8 @@ Public Module SEM
     ''' </summary>
     <Extension>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function FitPathAnalysis(model As CausalModel) As SEMResult
-        Return FitPathAnalysis(model.data, model.varNames, New List(Of (fromIdx As Integer, toIdx As Integer))(model.AsPathTuple))
+    Public Function FitPathAnalysis(model As CausalModel, Optional strict As Boolean = False) As SEMResult
+        Return FitPathAnalysis(model.data, model.varNames, New List(Of (fromIdx As Integer, toIdx As Integer))(model.AsPathTuple), strict:=strict)
     End Function
 
     ''' <summary>
@@ -42,7 +42,9 @@ Public Module SEM
     ''' </summary>
     Public Function FitPathAnalysis(data As Double(,),
                                     varNames As String(),
-                                    paths As List(Of (fromIdx As Integer, toIdx As Integer))) As SEMResult
+                                    paths As List(Of (fromIdx As Integer, toIdx As Integer)),
+                                    strict As Boolean) As SEMResult
+
         Dim result As New SEMResult()
         result.VarNames = varNames
         result.Paths = paths
@@ -127,9 +129,8 @@ Public Module SEM
 
         ' 5. 计算直接、间接、总效应
         ComputeEffects(result)
-
         ' 6. 计算模型隐含协方差矩阵与拟合指数
-        ComputeModelImpliedCov(result)
+        ComputeModelImpliedCov(result, strict)
         ComputeFitIndices(result)
 
         Return result
@@ -243,7 +244,7 @@ Public Module SEM
     ''' 其中 B 是路径系数矩阵，Ψ 是外生变量协方差矩阵 + 残差方差对角阵
     ''' 简化实现：使用 Wright 的路径追踪规则
     ''' </summary>
-    Private Sub ComputeModelImpliedCov(result As SEMResult)
+    Private Sub ComputeModelImpliedCov(result As SEMResult, strict As Boolean)
         Dim p = result.NumVariables
         Dim B(p - 1, p - 1) As Double  ' 路径系数矩阵（行=效应变量，列=原因变量）
         For Each kv In result.PathCoefficients
@@ -265,7 +266,7 @@ Public Module SEM
         ' (I - B)^{-1}
         Dim IBInv As Double(,)
         Try
-            IBInv = MatrixOps.Inverse(IB)
+            IBInv = MatrixOps.Inverse(IB, strict)
         Catch ex As Exception
             ' 奇异矩阵，使用伪逆近似
             ReDim IBInv(p - 1, p - 1)
@@ -450,7 +451,7 @@ Public Module SEM
     ''' Bootstrap 显著性检验
     ''' 对路径系数、间接效应进行 Bootstrap 重采样
     ''' </summary>
-    Public Function BootstrapSEM(model As CausalModel, numBoot As Integer, seed As Integer) As BootstrapResult
+    Public Function BootstrapSEM(model As CausalModel, numBoot As Integer, seed As Integer, Optional strict As Boolean = False) As BootstrapResult
         Dim rng As New Random(seed)
         Dim result As New BootstrapResult()
 
@@ -470,7 +471,7 @@ Public Module SEM
         Dim indirectKeys As New List(Of (Integer, Integer))()
 
         ' 先在原数据上跑一次得到间接效应的键
-        Dim baseResult = FitPathAnalysis(model.data, model.varNames, paths)
+        Dim baseResult = FitPathAnalysis(model.data, model.varNames, paths, strict)
         For Each k In baseResult.IndirectEffects.Keys
             indirectKeys.Add(k)
         Next
@@ -484,7 +485,7 @@ Public Module SEM
         For Each b As Integer In TqdmWrapper.Range(0, numBoot)
             Dim bootData = Statistics.BootstrapSample(model.data, rng)
             Try
-                Dim bootResult = FitPathAnalysis(bootData, model.varNames, paths)
+                Dim bootResult = FitPathAnalysis(bootData, model.varNames, paths, strict)
 
                 For Each k In pathKeys
                     If bootResult.PathCoefficients.ContainsKey(k) Then
