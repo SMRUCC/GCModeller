@@ -152,7 +152,7 @@ Public Class BootstrapSignificanceTest
             Dim coef = kv.Value
             Dim bse = If(bootResult.PathBootSE.ContainsKey(kv.Key), bootResult.PathBootSE(kv.Key), 0.0)
             Dim ci = If(bootResult.PathBootCI.ContainsKey(kv.Key), bootResult.PathBootCI(kv.Key), (0.0, 0.0))
-            Dim sig = If((ci.Item1 > 0 AndAlso ci.Item2 > 0) OrElse (ci.Item1 < 0 AndAlso ci.Item2 < 0), "Yes", "No")
+            Dim sig = (ci.Item1 > 0 AndAlso ci.Item2 > 0) OrElse (ci.Item1 < 0 AndAlso ci.Item2 < 0)
 
             Yield New BootstrapSignificanceTest With {
                 .bse = bse,
@@ -210,7 +210,7 @@ Public Class IndirectEffectBootstrap
             Dim ind = kv.Value
             Dim bse = If(bootResult.IndirectBootSE.ContainsKey(kv.Key), bootResult.IndirectBootSE(kv.Key), 0.0)
             Dim ci = If(bootResult.IndirectBootCI.ContainsKey(kv.Key), bootResult.IndirectBootCI(kv.Key), (0.0, 0.0))
-            Dim sig = If((ci.Item1 > 0 AndAlso ci.Item2 > 0) OrElse (ci.Item1 < 0 AndAlso ci.Item2 < 0), "Yes", "No")
+            Dim sig = (ci.Item1 > 0 AndAlso ci.Item2 > 0) OrElse (ci.Item1 < 0 AndAlso ci.Item2 < 0)
 
             Yield New IndirectEffectBootstrap With {
                 .fromName = fromName,

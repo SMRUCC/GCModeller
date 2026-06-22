@@ -1,4 +1,5 @@
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
@@ -577,8 +578,10 @@ Public Module PLSPM
             loadingsSamples(k) = New List(Of Double)()
         Next
 
+        Call VBDebugger.EchoLine($"make bootstrap(nboot={numBoot}) of the PLS-PM...")
+
         ' Bootstrap 循环
-        For b = 1 To numBoot
+        For Each b As Integer In TqdmWrapper.Range(0, numBoot)
             Dim bootData = Statistics.BootstrapSample(manifestData, rng)
             Try
                 Dim bootResult = FitPLSPM(bootData, manifestIndex, latentVars, innerPaths)
