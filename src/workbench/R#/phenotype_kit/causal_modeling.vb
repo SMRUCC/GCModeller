@@ -272,8 +272,9 @@ Module causal_modeling
     End Function
 
     <ExportAPI("make_latent")>
-    Public Function make_latent(latentName As String, <RRawVectorArgument> manifestNames As Object, Optional mode As MeasurementModels = MeasurementModels.A) As LatentDefinition
-        Return New LatentDefinition(latentName, CLRVector.asCharacter(manifestNames), mode)
+    <RApiReturn(GetType(LatentDefinition))>
+    Public Function make_latent(<RRawVectorArgument> manifest_names As Object, Optional latentName As String = Nothing, Optional mode As MeasurementModels = MeasurementModels.A) As Object
+        Return New LatentDefinition(latentName, CLRVector.asCharacter(manifest_names), mode)
     End Function
 
 End Module
