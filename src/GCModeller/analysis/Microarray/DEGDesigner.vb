@@ -191,6 +191,8 @@ Public Module DEGDesigner
                            value = Val(FC)
                            Return (value >= DEG OrElse value <= FCdown)
                        End If
+
+                       Throw New NotImplementedException
                    End Function
         Else
             test = Function(gene)
