@@ -9,7 +9,9 @@
             For Each latent As IGrouping(Of String, LatentSymbol) In cls_group.GroupBy(Function(s) s.latent)
                 Yield New LatentDefinition(
                     name:=$"{cls_group.Key}:{latent.Key}",
-                    manifest:=From s As LatentSymbol In latent Select s.manifest_id
+                    manifest:=From s As LatentSymbol
+                              In latent
+                              Select s.manifest_id
                 )
             Next
         Next
