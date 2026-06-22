@@ -149,6 +149,17 @@ Public Module Statistics
             .Coefficients = New Double(k - 1) {}
         }
 
+        If n <= k Then
+            Dim msg As String = $"样本量 必须严格大于自变量个数(含截距) 才能进行 OLS 回归。当前 n={n}, k={k}。"
+
+            If strict Then
+                Throw New ArgumentException(msg)
+            Else
+                ' do nothing
+                Call App.LogException(msg,)
+            End If
+        End If
+
         ' 计算 beta = (X'X)^{-1} X'y
         Dim Xt = MatrixOps.Transpose(X)
         Dim XtX = MatrixOps.Multiply(Xt, X)
