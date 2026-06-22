@@ -313,6 +313,16 @@ Module causal_modeling
         Return network
     End Function
 
+    <ExportAPI("reduce_manifest")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function FilterTopManifestVariables(manifest As Matrix,
+                                               Optional target_manifests As Integer = 5,
+                                               Optional corr_thres As Double = 0.8,
+                                               Optional mad_pool_size As Integer = 10) As Object
+
+        Return LatentDefinition.FilterTopManifestVariables(manifest, target_manifests, corr_thres, mad_pool_size).ToArray
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
