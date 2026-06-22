@@ -75,6 +75,12 @@ declare namespace causal_modeling {
    */
    function plspm(model: object, boot?: object, env?: object): object;
    /**
+     * @param target_manifests default value Is ``5``.
+     * @param corr_thres default value Is ``0.8``.
+     * @param mad_pool_size default value Is ``10``.
+   */
+   function reduce_manifest(manifest: object, target_manifests?: object, corr_thres?: number, mad_pool_size?: object): string;
+   /**
      * @param boot default value Is ``500``.
      * @param env default value Is ``null``.
    */
