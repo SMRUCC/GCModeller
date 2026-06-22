@@ -32,7 +32,18 @@ Public Class LatentSymbol
                               Return LatentSymbols(s)
                           End Function)
 
+        For i As Integer = 0 To from.Length - 1
+            Dim listFrom = class_group(from(i))
+            Dim listTo = class_group([to](i))
 
+            For Each u In listFrom
+                For Each v In listTo
+                    If u <> v Then
+                        Yield New SparseGraph.Edge(u, v)
+                    End If
+                Next
+            Next
+        Next
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
