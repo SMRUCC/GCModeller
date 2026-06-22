@@ -58,7 +58,10 @@ Public Class LatentDefinition
     ''' 如果去冗余后剩余变量多于5个，再按MAD值取Top 5；如果少于5个（比如剩3个），那3个就足够了。
     ''' 这样做的好处：选出的Top 5不仅自身变异丰富（MAD大），而且彼此之间相对独立，能从不同角度代表该潜变量，使得潜变量得分（LV scores）的估计更加稳健和具有代表性。
     ''' </remarks>
-    Public Shared Function FilterTopManifestVariables(manifest As Matrix, Optional targetManifests As Integer = 5, Optional corrThreshold As Double = 0.8, Optional madPoolSize As Integer = 10) As IEnumerable(Of String)
+    Public Shared Function FilterTopManifestVariables(manifest As Matrix,
+                                                      Optional targetManifests As Integer = 5,
+                                                      Optional corrThreshold As Double = 0.8,
+                                                      Optional madPoolSize As Integer = 10) As IEnumerable(Of String)
         ' 边界条件检查
         If manifest Is Nothing OrElse manifest.expression Is Nothing OrElse manifest.expression.Length = 0 Then
             Return New String() {}
