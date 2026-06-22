@@ -29,7 +29,7 @@ Public Module PLSPM
                              Optional tol As Double = 0.0000001) As PLSPMResult
 
         Dim manifestIndex As Index(Of String) = model.varNames.Indexing
-        Dim paths = model.AsPathTuple.ToList
+        Dim paths = model.AsPathTuple.ToArray
 
         Return FitPLSPM(model.data, manifestIndex, model.latentDefs, paths, maxIter, tol)
     End Function
@@ -45,7 +45,7 @@ Public Module PLSPM
     Public Function FitPLSPM(manifestData As Double(,),
                              manifestNames As Index(Of String),
                              latentVars As LatentDefinition(),
-                             innerPaths As List(Of (fromIdx As Integer, toIdx As Integer)),
+                             innerPaths As (fromIdx As Integer, toIdx As Integer)(),
                              Optional maxIter As Integer = 300,
                              Optional tol As Double = 0.0000001,
                              Optional strict As Boolean = False) As PLSPMResult
@@ -365,7 +365,7 @@ Public Module PLSPM
     ''' 对每个外生潜变量：使用与其最相关的内生潜变量的相关系数
     ''' </summary>
     Private Sub ComputeInnerWeights(scores As Double(,),
-                                    innerPaths As List(Of (Integer, Integer)),
+                                    innerPaths As (Integer, Integer)(),
                                     innerWeights As Double(,),
                                     numLatent As Integer, n As Integer, strict As Boolean)
         ' 识别内生和外生潜变量
@@ -527,7 +527,7 @@ Public Module PLSPM
                                    numBoot As Integer,
                                    seed As Integer) As PLSPMBootstrapResult
 
-        Return BootstrapPLSPM(model.data, model.varNames, model.latentDefs, model.AsPathTuple.ToList, numBoot, seed)
+        Return BootstrapPLSPM(model.data, model.varNames, model.latentDefs, model.AsPathTuple.ToArray, numBoot, seed)
     End Function
 
     ''' <summary>
@@ -536,7 +536,7 @@ Public Module PLSPM
     Public Function BootstrapPLSPM(manifestData As Double(,),
                                    manifestNames As String(),
                                    latentVars As LatentDefinition(),
-                                   innerPaths As List(Of (fromIdx As Integer, toIdx As Integer)),
+                                   innerPaths As (fromIdx As Integer, toIdx As Integer)(),
                                    numBoot As Integer,
                                    seed As Integer) As PLSPMBootstrapResult
 
@@ -787,7 +787,7 @@ Public Class PLSPMResult
     Public Property NumIterations As Integer
     Public Property LatentNames As String()
     Public Property LatentDefs As LatentDefinition()
-    Public Property InnerPaths As List(Of (Integer, Integer))
+    Public Property InnerPaths As (from As Integer, [to] As Integer)()
 
     Public Property StandardizedData As Double(,)
     Public Property LatentScores As Double(,)
