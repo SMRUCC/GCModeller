@@ -20,6 +20,10 @@ Public Class CausalModel : Implements IndexGraph(Of Path)
             V = j
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"[U#{U} -> V#{V}]"
+        End Function
+
     End Class
 
     Public Property data As Double(,)
