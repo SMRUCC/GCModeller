@@ -272,6 +272,33 @@ Module causal_modeling
     End Function
 
     ''' <summary>
+    ''' make full connected path for PLS-PM latent symbols
+    ''' </summary>
+    ''' <param name="manifest"></param>
+    ''' <param name="from">class name of the from node</param>
+    ''' <param name="to">class name of the to node</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("make_full_path")>
+    Public Function make_full_path(<RRawVectorArgument(GetType(LatentSymbol))> manifest As Object,
+                                   <RRawVectorArgument(TypeCodes.string)> from As Object,
+                                   <RRawVectorArgument(TypeCodes.string)> [to] As Object,
+                                   Optional env As Environment = Nothing) As Object
+
+        Dim manifest_vars As PipeIterator(Of LatentSymbol) = pipeline.Stream(Of LatentSymbol)(manifest, env)
+
+        If manifest_vars.isError Then
+            Return manifest_vars.getError
+        End If
+
+        Dim cls_from As String() = CLRVector.asCharacter(from)
+        Dim cls_to As String() = CLRVector.asCharacter([to])
+        Dim network = LatentSymbol.MakeFullPath(manifest_vars, cls_from, cls_to).ToArray
+
+        Return network
+    End Function
+
+    ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="manifest_names">

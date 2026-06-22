@@ -1,4 +1,6 @@
-﻿Public Class LatentSymbol
+﻿Imports Microsoft.VisualBasic.Data.GraphTheory
+
+Public Class LatentSymbol
 
     Public Property [class] As String
     Public Property latent As String
@@ -15,6 +17,10 @@
                 )
             Next
         Next
+    End Function
+
+    Public Shared Iterator Function MakeFullPath(symbols As IEnumerable(Of LatentSymbol), from As String(), [to] As String()) As IEnumerable(Of SparseGraph.Edge)
+
     End Function
 
 End Class
