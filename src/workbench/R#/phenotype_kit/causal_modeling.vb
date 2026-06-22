@@ -271,10 +271,33 @@ Module causal_modeling
         Return edges.ToArray
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="manifest_names">
+    ''' a set of the feature id for make the manifest symbol to the latent definition
+    ''' </param>
+    ''' <param name="latent_name"></param>
+    ''' <param name="mode"></param>
+    ''' <returns></returns>
     <ExportAPI("make_latent")>
     <RApiReturn(GetType(LatentDefinition))>
-    Public Function make_latent(<RRawVectorArgument> manifest_names As Object, Optional latentName As String = Nothing, Optional mode As MeasurementModels = MeasurementModels.A) As Object
-        Return New LatentDefinition(latentName, CLRVector.asCharacter(manifest_names), mode)
+    Public Function make_latent(<RRawVectorArgument> manifest_names As Object,
+                                Optional latent_name As String = Nothing,
+                                Optional mode As MeasurementModels = MeasurementModels.A,
+                                Optional env As Environment = Nothing) As Object
+
+        If latent_name.StringEmpty(, True) Then
+            Dim vars As PipeIterator(Of LatentSymbol) = pipeline.Stream(Of LatentSymbol)(manifest_names, env)
+
+            If vars.isError Then
+                Return vars.getError
+            Else
+                Return LatentSymbol.MakeLatents(vars.AsEnumerable).ToArray
+            End If
+        Else
+            Return New LatentDefinition(latent_name, CLRVector.asCharacter(manifest_names), mode)
+        End If
     End Function
 
 End Module
