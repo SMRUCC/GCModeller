@@ -195,8 +195,14 @@ Module causal_modeling
     <RApiReturn(GetType(CausalModel))>
     Public Function as_causalmodel(data As Object, <RRawVectorArgument> path As Object, <RRawVectorArgument> Optional latents As Object = Nothing, Optional env As Environment = Nothing) As Object
         Dim pathList As PipeIterator(Of SparseGraph.IInteraction) = pipeline.Stream(Of SparseGraph.IInteraction)(path, env)
-        Dim expr As Object = geneExpression.loadExpression(data, env:=env)
         Dim latentVars As PipeIterator(Of LatentDefinition) = pipeline.Stream(Of LatentDefinition)(latents, env, nullPipe:=True)
+        Dim expr As Object
+
+        If TypeOf data Is Matrix Then
+            expr = data
+        Else
+            expr = geneExpression.loadExpression(data, env:=env)
+        End If
 
         If TypeOf expr Is Message Then
             Return expr
