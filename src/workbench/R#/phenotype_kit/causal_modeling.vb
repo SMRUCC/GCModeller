@@ -275,7 +275,7 @@ Module causal_modeling
     ''' 
     ''' </summary>
     ''' <param name="manifest_names">
-    ''' a set of the feature id for make the manifest symbol to the latent definition
+    ''' a set of the feature id for make the manifest symbol to the latent definition or a vector of the <see cref="LatentSymbol"/>
     ''' </param>
     ''' <param name="latent_name"></param>
     ''' <param name="mode"></param>
