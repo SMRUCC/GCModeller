@@ -210,12 +210,12 @@ Public Module Statistics
             result.StdErrors(i) = Math.Sqrt(Math.Max(varCov(i, i), 0.0))
             If result.StdErrors(i) > 1.0E-30 Then
                 result.TValues(i) = result.Coefficients(i) / result.StdErrors(i)
-                ' result.PValues(i) = TDistTwoTail(result.TValues(i), n - k)
-                result.PValues(i) = t.Pvalue(
-                    t:=result.TValues(i),     ' t value
-                    df:=n - k,                ' degree of freedom
-                    hyp:=Hypothesis.TwoSided  ' alternative
-                )
+                result.PValues(i) = TDistTwoTail(result.TValues(i), n - k)
+                ' result.PValues(i) = t.Pvalue(
+                '    t:=result.TValues(i),     ' t value
+                '    df:=n - k,                ' degree of freedom
+                '    hyp:=Hypothesis.TwoSided  ' alternative
+                ' )
             Else
                 result.TValues(i) = 0.0
                 result.PValues(i) = 1.0
