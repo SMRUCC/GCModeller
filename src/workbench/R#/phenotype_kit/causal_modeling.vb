@@ -193,19 +193,28 @@ Module causal_modeling
 
     <ExportAPI("as_causalmodel")>
     <RApiReturn(GetType(CausalModel))>
-    Public Function as_causalmodel(data As Object, <RRawVectorArgument> path As Object, Optional env As Environment = Nothing) As Object
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of SparseGraph.IInteraction)(path, env)
+    Public Function as_causalmodel(data As Object, <RRawVectorArgument> path As Object, <RRawVectorArgument> Optional latents As Object = Nothing, Optional env As Environment = Nothing) As Object
+        Dim pathList As PipeIterator(Of SparseGraph.IInteraction) = pipeline.Stream(Of SparseGraph.IInteraction)(path, env)
         Dim expr As Object = geneExpression.loadExpression(data, env:=env)
+        Dim latentVars As PipeIterator(Of LatentDefinition) = pipeline.Stream(Of LatentDefinition)(latents, env, nullPipe:=True)
 
         If TypeOf expr Is Message Then
             Return expr
         End If
-        If pull.isError Then
-            Return pull.getError
+        If pathList.isError Then
+            Return pathList.getError
+        End If
+        If latentVars.isError Then
+            Return latentVars.getError
         End If
 
-        Dim paths = pull.populates(Of SparseGraph.IInteraction)(env)
-        Dim model As CausalModel = CausalModel.Create(x:=DirectCast(expr, Matrix), paths)
+        Dim model As CausalModel
+
+        If latentVars.IsNullOrEmpty Then
+            model = CausalModel.Create(x:=DirectCast(expr, Matrix), pathList)
+        Else
+            model = CausalModel.Create(x:=DirectCast(expr, Matrix), pathList, latentVars)
+        End If
 
         Return model
     End Function
