@@ -88,6 +88,7 @@
     <BuildType Solution="PlantMAT|*" Project="Debug" />
     <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
     <BuildType Solution="Rsharp_app_release|x64" Project="Debug" />
+    <Platform Solution="Debug|x64" Project="x64" />
     <Platform Solution="Rsharp_app_release|x64" Project="x64" />
   </Project>
   <Project Path="Metagenome/Metagenome.NET5.vbproj">
