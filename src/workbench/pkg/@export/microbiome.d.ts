@@ -65,6 +65,12 @@ declare namespace microbiome {
       */
       function entropy(v1: object, v2: object, rank?: object, env?: object): number;
    }
+   module load {
+      /**
+        * @param env default value Is ``null``.
+      */
+      function meta_traits(file: string, env?: object): object;
+   }
    /**
     * make vfdb gsea background model for run enrichment analysis
     * 
