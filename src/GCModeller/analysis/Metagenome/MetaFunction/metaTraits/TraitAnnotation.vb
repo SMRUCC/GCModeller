@@ -58,8 +58,18 @@ Namespace metaTraits
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Function ParseInnerTable(list As IEnumerable(Of String)) As Dictionary(Of String, String)
-            Return list.SafeQuery.Select(Function(s) s.GetTagValue("=")).ToDictionary(Function(a) a.Name, Function(a) a.Value)
+        Private Shared Function ParseInnerTable(list As String()) As Dictionary(Of String, String)
+            If list.TryCount = 1 AndAlso list(0).StringEmpty(, True) Then
+                Return New Dictionary(Of String, String)
+            End If
+
+            Return list _
+                .SafeQuery _
+                .Select(Function(s) s.GetTagValue("=")) _
+                .ToDictionary(Function(a) a.Name,
+                              Function(a)
+                                  Return a.Value
+                              End Function)
         End Function
 
         Public Overrides Function ToString() As String
