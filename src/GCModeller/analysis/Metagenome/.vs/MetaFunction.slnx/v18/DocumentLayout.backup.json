@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}|MetaFunction\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\test\\test.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}|MetaFunction\\test\\test.vbproj|solutionrelative:metafunction\\test\\test.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}|MetaFunction\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}|MetaFunction\\test\\test.vbproj|solutionrelative:metafunction\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E93B2951-B7E6-441C-94E6-5488FD53B4DB}|Metagenome\\Metagenome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\otutable\\otucosinecomparer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E93B2951-B7E6-441C-94E6-5488FD53B4DB}|Metagenome\\Metagenome.NET5.vbproj|solutionrelative:metagenome\\otutable\\otucosinecomparer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,14 +39,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "test",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\test.vbproj",
-              "RelativeDocumentMoniker": "MetaFunction\\test\\test.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\test.vbproj",
-              "RelativeToolTip": "MetaFunction\\test\\test.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2026-06-23T10:00:31.711Z",
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\Program.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\test\\Program.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\Program.vb",
+              "RelativeToolTip": "MetaFunction\\test\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-23T10:11:19.771Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OTUCosineComparer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\OTUTable\\OTUCosineComparer.vb",
+              "RelativeDocumentMoniker": "Metagenome\\OTUTable\\OTUCosineComparer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\OTUTable\\OTUCosineComparer.vb",
+              "RelativeToolTip": "Metagenome\\OTUTable\\OTUCosineComparer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-23T10:10:42.247Z",
               "EditorCaption": ""
             }
           ]

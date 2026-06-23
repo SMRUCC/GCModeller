@@ -71,7 +71,7 @@ Module Program
             Dim data = file.getByOTUId(demotest)
             Dim tax As Taxonomy = file.GetTaxonomy(demotest)
 
-            Dim data2 = file.findByTaxonomy(tax)
+            Dim data2 = file.findByTaxonomy(tax, 0)
 
             Call Console.WriteLine(data2.Keys.All(Function(id) data2(id) = data(id)))
         End Using
@@ -81,7 +81,7 @@ Module Program
         Dim gg = otu_taxonomy.Load("F:\16s\greengenes\taxonomy\gg_13_8_99.gg.tax")
 
         Using file As Stream = dbfile.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False),
-            writer = MetaBinaryWriter.CreateWriter(gg, file)
+            writer = MetaBinaryWriter.CreateWriter(gg, Nothing, file)
 
             Dim raw = "D:\biodeep\bionovogene_health\metacolon\ko_13_5_precalculated.tab".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
 
