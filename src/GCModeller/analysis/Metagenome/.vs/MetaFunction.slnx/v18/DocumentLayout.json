@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A74402C4-6DE4-4823-A577-373FDDB1CE1D}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitannotation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{A74402C4-6DE4-4823-A577-373FDDB1CE1D}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitannotation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}|MetaFunction\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\test\\metatraitstest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}|MetaFunction\\test\\test.vbproj|solutionrelative:metafunction\\test\\metatraitstest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TraitAnnotation.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\TraitAnnotation.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\TraitAnnotation.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\TraitAnnotation.vb",
+              "RelativeToolTip": "MetaFunction\\metaTraits\\TraitAnnotation.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-23T10:17:17.758Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -26,6 +48,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "metaTraitsTest.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\metaTraitsTest.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\test\\metaTraitsTest.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\metaTraitsTest.vb",
+              "RelativeToolTip": "MetaFunction\\test\\metaTraitsTest.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAUAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-23T10:12:42.732Z",
+              "EditorCaption": ""
             }
           ]
         },
