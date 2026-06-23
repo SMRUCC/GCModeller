@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A74402C4-6DE4-4823-A577-373FDDB1CE1D}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\metatraitdata.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{A74402C4-6DE4-4823-A577-373FDDB1CE1D}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\metatraitdata.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A74402C4-6DE4-4823-A577-373FDDB1CE1D}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitannotation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{A74402C4-6DE4-4823-A577-373FDDB1CE1D}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitannotation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}|MetaFunction\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\test\\metatraitstest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{22E45A71-104D-42BD-AE3A-2FE1B2EC7CCA}|MetaFunction\\test\\test.vbproj|solutionrelative:metafunction\\test\\metatraitstest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
@@ -14,8 +22,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "metaTraitData.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\metaTraitData.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\metaTraitData.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\metaTraitData.vb",
+              "RelativeToolTip": "MetaFunction\\metaTraits\\metaTraitData.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-23T10:21:32.841Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TraitAnnotation.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\TraitAnnotation.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\TraitAnnotation.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\TraitAnnotation.vb",
+              "RelativeToolTip": "MetaFunction\\metaTraits\\TraitAnnotation.vb",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAIwCgAAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-23T10:20:29.001Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -34,13 +68,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "metaTraitsTest.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\metaTraitsTest.vb",
               "RelativeDocumentMoniker": "MetaFunction\\test\\metaTraitsTest.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\metaTraitsTest.vb",
               "RelativeToolTip": "MetaFunction\\test\\metaTraitsTest.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAUAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAUAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-23T10:12:42.732Z",
               "EditorCaption": ""

@@ -1,6 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace metaTraits
 
@@ -23,6 +25,32 @@ Namespace metaTraits
         Public Property group_2 As String
         <Collection("ontology_ids", ";")> Public Property ontology_ids As String()
 
+        Sub New()
+        End Sub
+
+        Sub New(trait As TraitData)
+            trait_name = trait.trait_name
+            unit = trait.unit
+            database_count = trait.database_count
+            total_observations = trait.total_observations
+            consensus_count = trait.consensus_count
+            consensus_percentage = trait.consensus_percentage
+            consensus_value = trait.consensus_value
+            minimum = trait.minimum
+            median = trait.median
+            mean = trait.mean
+            maximum = trait.maximum
+            discrete_values = trait.discrete_values
+            databases = trait.databases
+            group_1 = trait.group_1
+            group_2 = trait.group_2
+            ontology_ids = trait.ontology_ids
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{trait_name}({unit}) ~ {ontology_ids.GetJson}"
+        End Function
+
     End Class
 
     ''' <summary>
@@ -44,6 +72,24 @@ Namespace metaTraits
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ParseTable(file As String) As IEnumerable(Of TraitAnnotation)
             Return file.LoadCsv(Of TraitAnnotation)(mute:=True, tsv:=True)
+        End Function
+
+        Public Shared Iterator Function CreateProfiles(annos As IEnumerable(Of TraitAnnotation)) As IEnumerable(Of metaTraitData)
+            For Each tax In annos.GroupBy(Function(a) a.taxon_id)
+                Dim meta As TraitAnnotation = tax.First
+                Dim data As TraitData() = tax _
+                    .Select(Function(t)
+                                Return New TraitData(t)
+                            End Function) _
+                    .ToArray
+
+                Yield New metaTraitData With {
+                    .taxon_id = tax.Key,
+                    .taxon_name = meta.taxon_name,
+                    .taxon_lineage = New Taxonomy(meta.taxon_lineage),
+                    .traits = data
+                }
+            Next
         End Function
 
     End Class
