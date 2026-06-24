@@ -17,6 +17,8 @@
 '     相关性进行排序
 ' ============================================================================
 
+Imports System.IO
+
 Namespace TraitarVB.Modules
 
     ''' <summary>
@@ -24,6 +26,8 @@ Namespace TraitarVB.Modules
     ''' 识别出对表型预测贡献最大的蛋白质家族，提供生物学解释
     ''' </summary>
     Public Class FeatureSelection
+
+        ReadOnly loader As ModelLoader
 
         ''' <summary>
         ''' 关键特征信息
@@ -51,6 +55,10 @@ Namespace TraitarVB.Modules
                 End Get
             End Property
         End Class
+
+        Sub New(loader As ModelLoader)
+            Me.loader = loader
+        End Sub
 
         ''' <summary>
         ''' 从投票委员会中提取关键特征
@@ -181,7 +189,7 @@ Namespace TraitarVB.Modules
                 Next
 
                 Dim denominator As Double = Math.Sqrt(xSumSq * ySumSq)
-                If denominator > 1e-12 Then
+                If denominator > 0.000000000001 Then
                     kf.PearsonCorrelation = numerator / denominator
                 Else
                     kf.PearsonCorrelation = 0.0
@@ -201,9 +209,9 @@ Namespace TraitarVB.Modules
         ''' 文件格式：
         '''   PfamID \t class \t w1 \t w2 \t ... \t w13 \t description \t cor
         ''' </summary>
-        Public Function LoadKeyFeaturesFromFile(ByVal filePath As String) As List(Of KeyFeature)
+        Public Function LoadKeyFeaturesFromFile(phenoId As String) As List(Of KeyFeature)
             Dim keyFeatures As New List(Of KeyFeature)()
-
+            Dim filePath As String = Path.Combine(loader._modelsDir, phenoId & "_non-zero+weights.txt")
             Dim lines As String() = System.IO.File.ReadAllLines(filePath)
             If lines.Length < 2 Then Return keyFeatures
 

@@ -18,7 +18,7 @@ Namespace TraitarVB
     ''' </summary>
     Public Class ModelLoader
 
-        Private _modelsDir As String
+        Friend ReadOnly _modelsDir As String
 
         ''' <summary>表型模型字典（表型ID -> PhenotypeModel）</summary>
         Public Property Phenotypes As New Dictionary(Of String, Models.PhenotypeModel)()

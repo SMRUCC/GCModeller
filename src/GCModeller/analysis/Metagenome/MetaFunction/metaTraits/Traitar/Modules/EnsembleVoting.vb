@@ -33,6 +33,9 @@ Namespace TraitarVB.Modules
         ''' 投票结果
         ''' </summary>
         Public Class VotingResult
+
+            Public Property PhenotypeId As String
+
             ''' <summary>最终预测标签（1=存在，0=不存在）</summary>
             Public Property FinalLabel As Integer
 
@@ -152,17 +155,17 @@ Namespace TraitarVB.Modules
         ''' <param name="allModels">所有模型</param>
         ''' <param name="features">样本特征</param>
         ''' <returns>投票结果</returns>
-        Public Function PredictWithAllModels(ByVal allModels As List(Of SVMClassifier.SVMModel),
+        Public Function PredictWithAllModels(ByVal allModels As SVMClassifier.SVMModel(),
                                              ByVal features As Dictionary(Of String, Integer)) As VotingResult
 
             ' 筛选活跃模型（有非零偏置或非零权重）
             Dim activeModels As New List(Of SVMClassifier.SVMModel)()
             For Each model As SVMClassifier.SVMModel In allModels
-                Dim hasNonZeroBias As Boolean = Math.Abs(model.Bias) > 1e-12
+                Dim hasNonZeroBias As Boolean = Math.Abs(model.Bias) > 0.000000000001
                 Dim hasNonZeroWeights As Boolean = False
                 If model.Weights IsNot Nothing Then
                     For Each w As Double In model.Weights
-                        If Math.Abs(w) > 1e-12 Then
+                        If Math.Abs(w) > 0.000000000001 Then
                             hasNonZeroWeights = True
                             Exit For
                         End If
@@ -175,7 +178,7 @@ Namespace TraitarVB.Modules
 
             ' 如果没有活跃模型，使用全部模型
             If activeModels.Count = 0 Then
-                activeModels = allModels
+                activeModels = New List(Of SVMClassifier.SVMModel)(allModels)
             End If
 
             Dim result As New VotingResult()
@@ -219,30 +222,28 @@ Namespace TraitarVB.Modules
         ''' <param name="phenotypeModels">表型ID -> 模型列表</param>
         ''' <param name="features">样本特征</param>
         ''' <returns>表型ID -> 投票结果</returns>
-        Public Function PredictAllPhenotypes(
-            ByVal phenotypeModels As Dictionary(Of String, List(Of SVMClassifier.SVMModel)),
-            ByVal features As Dictionary(Of String, Integer)) As Dictionary(Of String, VotingResult)
-
-            Dim results As New Dictionary(Of String, VotingResult)()
+        Public Iterator Function PredictAllPhenotypes(
+            ByVal phenotypeModels As Dictionary(Of String, SVMClassifier.SVMModel()),
+            ByVal features As Dictionary(Of String, Integer)) As IEnumerable(Of VotingResult)
 
             Console.WriteLine("[模块6] 开始预测所有表型...")
             Dim positiveCount As Integer = 0
 
-            For Each kvp As KeyValuePair(Of String, List(Of SVMClassifier.SVMModel)) In phenotypeModels
+            For Each kvp As KeyValuePair(Of String, SVMClassifier.SVMModel()) In phenotypeModels
                 Dim phenoId As String = kvp.Key
-                Dim models As List(Of SVMClassifier.SVMModel) = kvp.Value
+                Dim models As SVMClassifier.SVMModel() = kvp.Value
 
                 ' 使用所有模型投票
                 Dim result As VotingResult = PredictWithAllModels(models, features)
-                results(phenoId) = result
+                result.PhenotypeId = phenoId
 
                 If result.IsPositive Then positiveCount += 1
+
+                Yield result
             Next
 
             Console.WriteLine("[模块6] 预测完成: {0}/{1} 个表型预测为阳性",
-                              positiveCount, results.Count)
-
-            Return results
+                              positiveCount, phenotypeModels.Count)
         End Function
 
         ''' <summary>

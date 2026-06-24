@@ -66,7 +66,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 15,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -185,6 +185,19 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TraitarTest.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\TraitarTest.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\test\\TraitarTest.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\TraitarTest.vb",
+              "RelativeToolTip": "MetaFunction\\test\\TraitarTest.vb",
+              "ViewState": "AgIAAFcBAAAAAAAAAAAAwC0BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-24T14:10:17.382Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 13,
               "Title": "CrossValidation.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Modules\\CrossValidation.vb",
@@ -218,19 +231,6 @@
               "ViewState": "AgIAAJAAAAAAAAAAAAAUwJMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-24T14:10:42.227Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TraitarTest.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\TraitarTest.vb",
-              "RelativeDocumentMoniker": "MetaFunction\\test\\TraitarTest.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\TraitarTest.vb",
-              "RelativeToolTip": "MetaFunction\\test\\TraitarTest.vb",
-              "ViewState": "AgIAAKsAAAAAAAAAAAAuwNwAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-06-24T14:10:17.382Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
