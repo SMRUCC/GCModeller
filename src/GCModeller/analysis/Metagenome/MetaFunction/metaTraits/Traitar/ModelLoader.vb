@@ -40,7 +40,7 @@ Namespace TraitarVB
         ''' <summary>
         ''' 加载所有模型文件
         ''' </summary>
-        Public Sub LoadAll()
+        Public Function LoadAll() As ModelLoader
             Console.WriteLine("[ModelLoader] 从目录加载模型: " & _modelsDir)
 
             ' 1. 加载表型描述
@@ -64,7 +64,9 @@ Namespace TraitarVB
 
             Console.WriteLine("[ModelLoader] 加载完成: {0} 个表型, {1} 个Pfam描述",
                               Phenotypes.Count, PfamDescriptions.Count)
-        End Sub
+
+            Return Me
+        End Function
 
         ''' <summary>
         ''' 加载表型描述文件 pt2acc.txt
