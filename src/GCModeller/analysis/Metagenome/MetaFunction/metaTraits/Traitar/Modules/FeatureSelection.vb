@@ -18,10 +18,9 @@
 '  stored in the {pid}_non-zero+weights.txt file (last column "cor"), so
 '  step 2 is a lookup rather than a recomputation.
 ' ============================================================================
-Imports System
-Imports System.Collections.Generic
-Imports TraitarVBNet.Models
-Imports TraitarVBNet.Utils
+
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Models
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Utils
 
 Namespace Modules
 

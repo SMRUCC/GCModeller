@@ -17,9 +17,8 @@
 '  solver and reproduces the sparse weight vectors stored in the
 '  {pid}_feats.txt / {pid}_non-zero+weights.txt model files.
 ' ============================================================================
-Imports System
-Imports System.Collections.Generic
-Imports TraitarVBNet.Utils
+
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Utils
 
 Namespace Modules
 
@@ -43,7 +42,7 @@ Namespace Modules
                          C As Double,
                          ByRef w As Double(), ByRef b As Double,
                          Optional maxIter As Integer = 200,
-                         Optional tol As Double = 1e-6)
+                         Optional tol As Double = 0.000001)
             Dim n As Integer = X.GetLength(0)
             Dim d As Integer = X.GetLength(1)
             w = New Double(d - 1) {}

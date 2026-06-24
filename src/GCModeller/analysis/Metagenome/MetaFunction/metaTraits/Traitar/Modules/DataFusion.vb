@@ -20,9 +20,8 @@
 '  Pfam features and binary phenotype labels, which are appended to the
 '  modern-sample matrix to form the extended classification problem.
 ' ============================================================================
-Imports System
-Imports System.Collections.Generic
-Imports TraitarVBNet.Utils
+
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Utils
 
 Namespace Modules
 
@@ -50,7 +49,7 @@ Namespace Modules
 
         ''' <summary>
         ''' Discretize a posterior probability into a binary label at threshold t.
-        ''' Returns 1 if p >= t, 0 if p <= 1 - t, and Nothing if uncertain
+        ''' Returns 1 if p >= t, 0 if p &lt;= 1 - t, and Nothing if uncertain
         ''' (the caller should drop uncertain samples).
         ''' </summary>
         Public Function Discretize(p As Double, t As Double) As Integer?

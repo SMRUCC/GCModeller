@@ -22,9 +22,6 @@
 '  Life (sTOL); for the demo we accept any Newick tree and any binary
 '  character matrix.
 ' ============================================================================
-Imports System
-Imports System.Collections.Generic
-Imports TraitarVBNet.Utils
 
 Namespace Modules
 
@@ -82,30 +79,30 @@ Namespace Modules
         Public Function DownwardPass(node As PhyloNode,
                                       alpha As Double,
                                       beta As Double) As Double()
-            Dim partial(1) As Double
+            Dim [partial](1) As Double
             If node.IsLeaf Then
                 If node.LeafState = 1 Then
-                    partial(0) = 0.0R : partial(1) = 1.0R
+                    [partial](0) = 0.0R : [partial](1) = 1.0R
                 ElseIf node.LeafState = 0 Then
-                    partial(0) = 1.0R : partial(1) = 0.0R
+                    [partial](0) = 1.0R : [partial](1) = 0.0R
                 Else
                     ' Missing data
-                    partial(0) = 1.0R : partial(1) = 1.0R
+                    [partial](0) = 1.0R : [partial](1) = 1.0R
                 End If
-                Return partial
+                Return [partial]
             End If
 
-            partial(0) = 1.0R : partial(1) = 1.0R
+            [partial](0) = 1.0R : [partial](1) = 1.0R
             For Each child As PhyloNode In node.Children
                 Dim childPartial As Double() = DownwardPass(child, alpha, beta)
                 Dim P(,) As Double = TransitionMatrix(alpha, beta, child.BranchLength)
                 ' Marginalize over child's state
                 Dim c0 As Double = P(0, 0) * childPartial(0) + P(0, 1) * childPartial(1)
                 Dim c1 As Double = P(1, 0) * childPartial(0) + P(1, 1) * childPartial(1)
-                partial(0) *= c0
-                partial(1) *= c1
+                [partial](0) *= c0
+                [partial](1) *= c1
             Next
-            Return partial
+            Return [partial]
         End Function
 
         ''' <summary>

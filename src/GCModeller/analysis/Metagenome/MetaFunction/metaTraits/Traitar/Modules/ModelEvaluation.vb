@@ -12,8 +12,6 @@
 '
 '  We also report per-phenotype recall (sensitivity), precision, and F1.
 ' ============================================================================
-Imports System
-Imports System.Collections.Generic
 
 Namespace Modules
 

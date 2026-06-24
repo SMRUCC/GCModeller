@@ -10,11 +10,9 @@
 '    pt2acc.txt      - phenotype ID -> name + category
 '    pf2acc_desc.txt - Pfam accession -> description
 ' ============================================================================
-Imports System
-Imports System.Collections.Generic
 Imports System.IO
 Imports System.IO.Compression
-Imports TraitarVBNet.Models
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Models
 
 Namespace Modules
 
@@ -111,11 +109,11 @@ Namespace Modules
                         Dim tok As String = parts(j).Trim()
                         If tok.Length = 0 Then Continue For
                         ' Strip the "_0" suffix
-                        Dim cStr As String = tok
+                        Dim [cStr] As String = tok
                         Dim usIdx As Integer = tok.IndexOf("_"c)
-                        If usIdx > 0 Then cStr = tok.Substring(0, usIdx)
+                        If usIdx > 0 Then [cStr] = tok.Substring(0, usIdx)
                         Dim c As Double = 0.0R
-                        If Double.TryParse(cStr, c) Then cHeader.Add(c)
+                        If Double.TryParse([cStr], c) Then cHeader.Add(c)
                     Next
                     Continue For
                 End If
@@ -162,11 +160,11 @@ Namespace Modules
                         ' Stop at "pfam_desc" or "cor" columns
                         If tok.Equals("pfam_desc", StringComparison.OrdinalIgnoreCase) OrElse
                            tok.Equals("cor", StringComparison.OrdinalIgnoreCase) Then Exit For
-                        Dim cStr As String = tok
+                        Dim [cStr] As String = tok
                         Dim usIdx As Integer = tok.IndexOf("_"c)
-                        If usIdx > 0 Then cStr = tok.Substring(0, usIdx)
+                        If usIdx > 0 Then [cStr] = tok.Substring(0, usIdx)
                         Dim c As Double = 0.0R
-                        If Double.TryParse(cStr, c) Then cHeader.Add(c)
+                        If Double.TryParse([cStr], c) Then cHeader.Add(c)
                     Next
                     Continue For
                 End If
@@ -205,8 +203,7 @@ Namespace Modules
         ''' </summary>
         Public Function LoadPhenotypeModel(modelDir As String,
                                             phenotypeId As String,
-                                            Optional pfamDescCatalog As Dictionary(Of String, String) = Nothing) _
-                                            As PhenotypeModel
+                                            Optional pfamDescCatalog As Dictionary(Of String, String) = Nothing) As PhenotypeModel
             Dim model As New PhenotypeModel()
             model.PhenotypeId = phenotypeId
 

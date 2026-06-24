@@ -12,12 +12,7 @@
 '    1e. Binarize: Pfam present (1) if >=1 protein carries a passing hit,
 '        else absent (0). This yields the phyletic profile vector x.
 ' ============================================================================
-Imports System
-Imports System.Collections.Generic
-Imports System.Diagnostics
 Imports System.IO
-Imports TraitarVBNet.Models
-Imports TraitarVBNet.Utils
 
 Namespace Modules
 

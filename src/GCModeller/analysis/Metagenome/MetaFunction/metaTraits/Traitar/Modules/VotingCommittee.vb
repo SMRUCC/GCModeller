@@ -12,10 +12,8 @@
 '  lists sub-models in accuracy order (best first), so the first 5 active
 '  entries form the committee.
 ' ============================================================================
-Imports System
-Imports System.Collections.Generic
-Imports TraitarVBNet.Models
-Imports TraitarVBNet.Utils
+
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Models
 
 Namespace Modules
 

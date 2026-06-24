@@ -16,6 +16,8 @@
 Imports System
 Imports System.Collections.Generic
 Imports System.IO
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Models
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Modules
 Imports TraitarVBNet.Models
 Imports TraitarVBNet.Modules
 Imports TraitarVBNet.Utils

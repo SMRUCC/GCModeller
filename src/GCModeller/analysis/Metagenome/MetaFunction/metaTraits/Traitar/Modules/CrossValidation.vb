@@ -10,9 +10,6 @@
 '  This prevents data leakage: the test fold in the outer loop never
 '  influences the choice of C.
 ' ============================================================================
-Imports System
-Imports System.Collections.Generic
-Imports TraitarVBNet.Utils
 
 Namespace Modules
 
