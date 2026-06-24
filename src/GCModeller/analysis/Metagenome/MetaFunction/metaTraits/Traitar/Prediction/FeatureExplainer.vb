@@ -12,10 +12,8 @@
 '      输出给用户作为后续实验验证的靶点。
 ' ============================================================================
 
-Imports System.Collections.Generic
-Imports System.Linq
-Imports Traitar.Models
-Imports Traitar.GenomeAnnotation
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Traitar.GenomeAnnotation
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Traitar.Models
 
 Namespace Traitar.Prediction
 
@@ -49,7 +47,7 @@ Namespace Traitar.Prediction
 
         Public Overrides Function ToString() As String
             Dim presentStr = If(IsPresent, "[Present]", "[Absent]")
-            Return $"{PfamAcc} {presentStr} class={Class}, PCC={PearsonCorrelation:F3}, selected={SelectedCount}/{TotalModels}, avgW={AverageWeight:F4} | {Description}"
+            Return $"{PfamAcc} {presentStr} class={Me.Class}, PCC={PearsonCorrelation:F3}, selected={SelectedCount}/{TotalModels}, avgW={AverageWeight:F4} | {Description}"
         End Function
     End Class
 
@@ -87,7 +85,7 @@ Namespace Traitar.Prediction
                 Dim positiveCount = 0
                 Dim weightSum = 0.0
                 Dim weightCount = 0
-                For Each mid In committeeModelIds
+                For Each mid As String In committeeModelIds
                     If nzFeat.Weights.ContainsKey(mid) Then
                         Dim w = nzFeat.Weights(mid)
                         If w > 0 Then
@@ -136,19 +134,19 @@ Namespace Traitar.Prediction
                 sb.AppendLine()
                 sb.AppendLine($"  {"Pfam",-12} {"Class",-6} {"PCC",-8} {"Sel",-6} {"AvgW",-10} {"Present",-8} Description")
                 sb.AppendLine($"  " & New String("-"c, 68))
-                For Each f In keyFeats
-                    sb.AppendLine($"  {f.PfamAcc,-12} {f.Class,-6} {f.PearsonCorrelation,-8:F3} " &
-                                  $"{f.SelectedCount & "/" & f.TotalModels,-6} {f.AverageWeight,-10:F4} " &
-                                  $"{If(f.IsPresent, "Yes", "No"),-8} {f.Description}")
+                For Each F As KeyFeature In keyFeats
+                    sb.AppendLine($"  {F.PfamAcc,-12} {F.Class,-6} {F.PearsonCorrelation,-8:F3} " &
+                                  $"{F.SelectedCount & "/" & F.TotalModels,-6} {F.AverageWeight,-10:F4} " &
+                                  $"{If(F.IsPresent, "Yes", "No"),-8} {F.Description}")
                 Next
             End If
 
             sb.AppendLine()
             sb.AppendLine($"所有正权重特征（按 PCC 降序）:")
             sb.AppendLine()
-            For Each f In features
-                Dim marker = If(f.IsKeyFeature, " *", "  ")
-                sb.AppendLine($"{marker} {f.ToString()}")
+            For Each F As KeyFeature In features
+                Dim marker = If(F.IsKeyFeature, " *", "  ")
+                sb.AppendLine($"{marker} {F.ToString()}")
             Next
 
             Return sb.ToString()

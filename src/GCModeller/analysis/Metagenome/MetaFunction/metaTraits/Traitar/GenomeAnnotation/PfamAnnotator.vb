@@ -10,8 +10,6 @@
 ' ============================================================================
 
 Imports System.IO
-Imports System.Collections.Generic
-Imports System.Diagnostics
 
 Namespace Traitar.GenomeAnnotation
 
@@ -62,7 +60,7 @@ Namespace Traitar.GenomeAnnotation
         ''' </summary>
         ''' <param name="proteinFasta">蛋白质 FASTA 文件路径</param>
         ''' <param name="outputTblout">输出 tblout 文件路径</param>
-        Public Function RunHmmer(proteinFasta As String, outputTblout As String) As Boolean
+        Public Function RunHmmer(proteinFasta As String, outputTblout As String) As List(Of PfamHit)
             If String.IsNullOrEmpty(PfamDbPath) Then
                 Throw New InvalidOperationException("PfamDbPath 未设置")
             End If
@@ -81,8 +79,12 @@ Namespace Traitar.GenomeAnnotation
                 proc.StartInfo = psi
                 proc.Start()
                 proc.WaitForExit()
-                Return proc.ExitCode = 0
-            End Function
+
+                If proc.ExitCode = 0 Then
+                    Return ParseTblout(outputTblout)
+                End If
+            End Using
+        End Function
 
         ''' <summary>
         ''' 解析 HMMER --tblout 输出文件

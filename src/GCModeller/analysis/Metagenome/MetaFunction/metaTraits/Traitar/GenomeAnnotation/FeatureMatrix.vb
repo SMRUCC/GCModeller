@@ -8,8 +8,6 @@
 ' 论文发现: 二元表示（presence/absence）能获得较好的分类性能。
 ' ============================================================================
 
-Imports System.Collections.Generic
-
 Namespace Traitar.GenomeAnnotation
 
     ''' <summary>
@@ -81,7 +79,7 @@ Namespace Traitar.GenomeAnnotation
         ''' <param name="hits">所有 Pfam 命中记录</param>
         ''' <returns>(profiles, allPfams) - 每个样本的特征向量 + 所有 Pfam 家族列表</returns>
         Public Shared Function BuildFromHits(hits As List(Of PfamHit)) _
-            As Tuple(Of List(Of PhyleticProfile), List(Of String))
+            As (PresentPfams As List(Of PhyleticProfile), List(Of String))
 
             ' 按蛋白质ID分组（这里假设每个蛋白质属于一个基因组/样本）
             ' 实际使用时可能需要按基因组分组
@@ -112,7 +110,7 @@ Namespace Traitar.GenomeAnnotation
                 profiles.Add(BuildProfile(kv.Key, kv.Value, allPfams))
             Next
 
-            Return Tuple.Create(profiles, allPfams)
+            Return (profiles, allPfams)
         End Function
 
         ''' <summary>

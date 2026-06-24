@@ -14,7 +14,6 @@
 ' ============================================================================
 
 Imports System.IO
-Imports System.Collections.Generic
 
 Namespace Traitar.Models
 
@@ -80,7 +79,7 @@ Namespace Traitar.Models
         Public Property PearsonCorrelation As Double
 
         Public Overrides Function ToString() As String
-            Return $"[{PfamAcc}] class={Class}, PCC={PearsonCorrelation:F3}, {Description}"
+            Return $"[{PfamAcc}] class={Me.Class}, PCC={PearsonCorrelation:F3}, {Description}"
         End Function
     End Class
 
@@ -168,15 +167,15 @@ Namespace Traitar.Models
                 Dim fields = line.Split(ControlChars.Tab)
                 If fields.Length < 2 Then Continue For
 
-                Dim cStr = fields(0).Trim()
+                Dim [cStr] = fields(0).Trim()
                 Dim b As Double
-                If Not Double.TryParse(cStr, b) Then Continue For
+                If Not Double.TryParse([cStr], b) Then Continue For
                 Dim biasStr = fields(1).Trim()
                 Dim bias As Double
                 If Not Double.TryParse(biasStr, bias) Then Continue For
 
                 ' 归一化 C 值字符串，确保与 feats/non-zero+weights 文件一致
-                Dim normalizedC = NormalizeC(cStr)
+                Dim normalizedC = NormalizeC([cStr])
                 Dim modelId = normalizedC & "_0"
                 If Not modelIds.Contains(modelId) Then
                     modelIds.Add(modelId)
@@ -190,9 +189,9 @@ Namespace Traitar.Models
         ''' 归一化 C 值字符串
         ''' 例如: "1.0" -> "1", "0.006999999999999999" -> "0.007"
         ''' </summary>
-        Private Shared Function NormalizeC(cStr As String) As String
+        Private Shared Function NormalizeC([cStr] As String) As String
             Dim c As Double
-            If Not Double.TryParse(cStr, c) Then Return cStr
+            If Not Double.TryParse([cStr], c) Then Return [cStr]
             If c = CInt(c) Then
                 Return CStr(CInt(c))
             Else
@@ -337,11 +336,11 @@ Namespace Traitar.Models
             Dim biasPath = Path.Combine(modelDir, $"{phenotypeId}_bias.txt")
             Dim biasMap = LoadBiasWithModelIds(biasPath, model.ModelIds)
             model.CValues = model.ModelIds.ConvertAll(Function(mid)
-                Dim cStr = mid.Split("_"c)(0)
-                Dim c As Double
-                Double.TryParse(cStr, c)
-                Return c
-            End Function).Distinct().ToList()
+                                                          Dim [cStr] = mid.Split("_"c)(0)
+                                                          Dim c As Double
+                                                          Double.TryParse([cStr], c)
+                                                          Return c
+                                                      End Function).Distinct().ToList()
 
             ' 2. 加载特征权重 (feats.txt)
             Dim featsPath = Path.Combine(modelDir, $"{phenotypeId}_feats.txt")
@@ -349,10 +348,11 @@ Namespace Traitar.Models
             Dim featWeights = LoadFeatureWeights(featsPath, featsModelIds)
 
             ' 构建 SVM 模型（使用 bias 文件中的 modelIds）
-            For Each mid In model.ModelIds
-                Dim cStr = mid.Split("_"c)(0)
+            For Each mid As String In model.ModelIds
+                Dim [cStr] = mid.Split("_"c)(0)
                 Dim c As Double
-                Double.TryParse(cStr, c)
+
+                Call Double.TryParse([cStr], c)
 
                 Dim svm As New SvmModel With {
                     .ModelId = mid,
@@ -389,9 +389,9 @@ Namespace Traitar.Models
                             End If
                         Else
                             ' 若模型不存在则创建
-                            Dim cStr = mid.Split("_"c)(0)
+                            Dim [cStr] = mid.Split("_"c)(0)
                             Dim c As Double
-                            Double.TryParse(cStr, c)
+                            Double.TryParse([cStr], c)
                             Dim svm As New SvmModel With {
                                 .ModelId = mid,
                                 .C = c,

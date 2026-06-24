@@ -11,10 +11,15 @@
     <ProjectReference Include="..\..\..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\..\interops\RNA-Seq\RNA-seq.Data\RNA-seq.Data.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data\BinaryData\HDF5\HDF5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data\BinaryData\netCDF\netCDF.vbproj" />
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\BinaryTree\btree-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\HMM\HMM.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\foundation\OBO_Foundry\obo_foundry-netcore5.vbproj" />

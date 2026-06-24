@@ -12,10 +12,8 @@
 '   4. 投票: 若 ≥3 个模型预测存在，则最终判定表型存在
 ' ============================================================================
 
-Imports System.Collections.Generic
-Imports System.Linq
-Imports Traitar.Models
-Imports Traitar.GenomeAnnotation
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Traitar.GenomeAnnotation
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Traitar.Models
 
 Namespace Traitar.Prediction
 
@@ -61,6 +59,12 @@ Namespace Traitar.Prediction
         Public Property FinalPrediction As Integer
         ''' <summary>平均得分</summary>
         Public Property AverageScore As Double
+
+        Public ReadOnly Property TotalVotes As Integer
+            Get
+                Return PositiveVotes + NegativeVotes
+            End Get
+        End Property
 
         Public Overrides Function ToString() As String
             Dim predStr = If(FinalPrediction = 1, "PRESENT", "ABSENT")
@@ -116,8 +120,8 @@ Namespace Traitar.Prediction
             result.CommitteeModelIds = committee.Select(Function(p) p.ModelId).ToList()
 
             ' 3. 投票
-            result.PositiveVotes = committee.Count(Function(p) p.Prediction = 1)
-            result.NegativeVotes = committee.Count(Function(p) p.Prediction = 0)
+            result.PositiveVotes = committee.Where(Function(p) p.Prediction = 1).Count
+            result.NegativeVotes = committee.Where(Function(p) p.Prediction = 0).Count
 
             ' 4. 最终预测: 多数表决
             result.FinalPrediction = If(result.PositiveVotes >= MajorityThreshold, 1, 0)
@@ -158,10 +162,10 @@ Namespace Traitar.Prediction
             ' 若不足，从偏置为零的模型中补充（按非零权重数排序）
             If committee.Count < CommitteeSize AndAlso zeroBias.Count > 0 Then
                 Dim zeroBiasWithCounts = zeroBias.Select(Function(p)
-                    Dim svm = phenotypeModel.Models(p.ModelId)
-                    Dim nzCount = svm.Weights.Values.Count(Function(w) w <> 0.0)
-                    Return Tuple.Create(p, nzCount)
-                End Function).ToList()
+                                                             Dim svm = phenotypeModel.Models(p.ModelId)
+                                                             Dim nzCount = svm.Weights.Values.Where(Function(w) w <> 0.0).Count
+                                                             Return Tuple.Create(p, nzCount)
+                                                         End Function).ToList()
                 zeroBiasWithCounts.Sort(Function(a, b) b.Item2.CompareTo(a.Item2))
 
                 For Each t In zeroBiasWithCounts

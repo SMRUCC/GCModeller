@@ -23,6 +23,11 @@
     <Project Path="../../../runtime/sciBASIC#/Data/DataFrame/dataframework-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/framework/ML/">
     <Project Path="../../../runtime/sciBASIC#/Data_science/DataMining/BinaryTree/btree-netcore5.vbproj">
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="LipidSearch" />
@@ -41,11 +46,20 @@
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/DataMining/HMM/HMM.NET5.vbproj">
+      <BuildType Solution="LipidSearch|*" Project="nuget_release" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj">
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
-    <Project Path="../../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
+    <Project Path="../../../runtime/sciBASIC#/Data_science/MachineLearning/MachineLearning/machine_learning-netcore5.vbproj">
+      <BuildType Solution="NPSearch|*" Project="LipidSearch" />
+      <BuildType Solution="PlantMAT|*" Project="LipidSearch" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
