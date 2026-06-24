@@ -19,6 +19,7 @@
 ' ============================================================================
 
 Imports System.IO
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.TraitarVB
 
 Namespace TraitarVB
 
@@ -28,7 +29,7 @@ Namespace TraitarVB
         Public Const DEFAULT_BITSCORE_THRESHOLD As Double = 25.0
         Public Const DEFAULT_EVALUE_THRESHOLD As Double = 0.01
 
-        Public Shared Sub Main(ByVal args As String())
+        Public Shared Sub Main2(ByVal args As String())
 
             Console.WriteLine(New String("="c, 70))
             Console.WriteLine("  Traitar VB.NET - 微生物表型预测器")
