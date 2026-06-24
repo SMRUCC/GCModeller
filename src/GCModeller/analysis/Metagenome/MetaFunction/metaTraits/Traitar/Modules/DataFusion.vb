@@ -1,156 +1,210 @@
 ' ============================================================================
-'  Module 3 - DataFusion.vb
-'  Data fusion & extended sample construction
+' DataFusion.vb - 模块3：数据融合与扩展样本构建模块
 '
-'  Combines the modern-sample phyletic profile X with the ancestral
-'  gain/loss events inferred by Module 2 to form an extended training set.
+' 论文对应：
+'   "整合进化历史信息（phypat+PGL分类器）"
 '
-'  For each ancestral branch b and each Pfam family f we have:
-'    g_bf = posterior probability that f was gained on branch b
-'    l_bf = posterior probability that f was lost  on branch b
-'  The joint probability that f changed state on b is:
-'    x_bf = g_bf + l_bf - g_bf * l_bf
+' 核心功能：
+'   1. 概率联合计算：x = g + l - g·l（计算分支上发生Gain或Loss的联合概率）
+'   2. 阈值过滤算法：丢弃概率在阈值t=0.5以下的不确定样本，生成离散标签
+'   3. 构建包含现代样本和祖先虚拟样本的联合分类问题
 '
-'  Similarly for each phenotype p we have gain/loss posteriors on each
-'  branch (g_bp, l_bp) and the joint x_bp.
-'
-'  Discretization at threshold t = 0.5:
-'    x_bf -> 1 if x_bf >= t, 0 if x_bf <= 1 - t, otherwise "uncertain" (drop)
-'  This yields ancestral "virtual samples" (one per branch) with binary
-'  Pfam features and binary phenotype labels, which are appended to the
-'  modern-sample matrix to form the extended classification problem.
+' 算法原理：
+'   - 概率联合计算：x = g + l - g·l
+'   - 阈值过滤算法：丢弃概率在阈值t=0.5以下的不确定样本
 ' ============================================================================
 
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Utils
+Imports System.Runtime.InteropServices
 
-Namespace Modules
+Namespace TraitarVB.Modules
 
     ''' <summary>
-    ''' One ancestral "virtual sample" produced by the data-fusion step.
-    ''' Carries a binary Pfam profile and a binary phenotype label, just like
-    ''' a modern GenomeSample but representing an ancestral branch.
+    ''' 模块3：数据融合与扩展样本构建模块
+    ''' 将现代样本的特征与祖先进化事件特征融合，生成扩展的分类数据集
     ''' </summary>
-    Public Class AncestralSample
-        Public Property BranchId As String = ""
-        Public Property PfamProfile As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
-        Public Property PhenotypeLabel As Integer
-    End Class
+    Public Class DataFusion
 
-    Public Module DataFusion
+        ' 默认阈值
+        Public Const DEFAULT_THRESHOLD As Double = 0.5
 
         ''' <summary>
-        ''' Joint probability that a Pfam (or phenotype) changed state on a
-        ''' branch, given independent gain and loss posteriors:
-        '''   x = g + l - g * l
+        ''' 计算联合概率
+        ''' 论文：x = g + l - g·l
+        ''' 计算分支上发生Gain或Loss的联合概率
+        '''
+        ''' 数学推导：
+        '''   P(Gain ∪ Loss) = P(Gain) + P(Loss) - P(Gain ∩ Loss)
+        '''   由于Gain和Loss互斥（同一分支不可能同时获得和丢失同一特征），
+        '''   P(Gain ∩ Loss) ≈ P(Gain) × P(Loss)（近似独立）
+        '''   因此：x = g + l - g·l
         ''' </summary>
-        Public Function JointChangeProbability(g As Double, l As Double) As Double
-            Return MathUtils.JointGainLoss(g, l)
+        ''' <param name="gainProb">获得概率g</param>
+        ''' <param name="lossProb">丢失概率l</param>
+        ''' <returns>联合概率</returns>
+        Public Function ComputeJointProbability(ByVal gainProb As Double,
+                                                ByVal lossProb As Double) As Double
+            Dim g As Double = gainProb
+            Dim l As Double = lossProb
+            Return g + l - g * l
         End Function
 
         ''' <summary>
-        ''' Discretize a posterior probability into a binary label at threshold t.
-        ''' Returns 1 if p >= t, 0 if p &lt;= 1 - t, and Nothing if uncertain
-        ''' (the caller should drop uncertain samples).
+        ''' 阈值过滤：将概率转换为离散标签
+        ''' 论文：设定阈值t=0.5，只保留高置信度的进化事件。
+        '''       低于该概率的不确定样本会被丢弃
         ''' </summary>
-        Public Function Discretize(p As Double, t As Double) As Integer?
-            Dim d As Double = MathUtils.DiscretizeWithThreshold(p, t)
-            If Double.IsNaN(d) Then Return Nothing
-            Return CInt(d)
+        ''' <param name="prob">概率值</param>
+        ''' <param name="threshold">阈值（默认0.5）</param>
+        ''' <returns>1=事件发生，0=事件未发生，-1=不确定（需丢弃）</returns>
+        Public Function ThresholdFilter(ByVal prob As Double,
+                                        Optional ByVal threshold As Double = DEFAULT_THRESHOLD) As Integer
+            If prob >= threshold Then
+                Return 1  ' 事件发生
+            ElseIf prob <= (1 - threshold) Then
+                Return 0  ' 事件未发生
+            Else
+                Return -1 ' 不确定，丢弃
+            End If
         End Function
 
         ''' <summary>
-        ''' Build the extended training set for one phenotype.
+        ''' 构建扩展数据集
+        ''' 论文：将原来基于现代样本蛋白质家族分布的二元分类问题，
+        '''       扩展为一个包含"祖先蛋白质家族获得/丢失"特征和
+        '''       "表型获得/丢失"标签的联合二元分类问题
         '''
-        ''' Inputs:
-        '''   modernSamples      - list of (Pfam profile, label) for modern genomes
-        '''   branchPfamEvents   - per branch, per Pfam: (gain posterior, loss posterior)
-        '''   branchPhenotypeEvents - per branch: (gain posterior, loss posterior) for this phenotype
-        '''   threshold          - discretization threshold (default 0.5)
-        '''
-        ''' Output:
-        '''   A list of (Pfam profile, label) pairs combining modern samples
-        '''   and ancestral virtual samples (uncertain branches are dropped).
+        ''' 扩展数据集包含：
+        '''   1. 现代样本：特征=phyletic profile，标签=表型有无
+        '''   2. 祖先虚拟样本：特征=Pfam Gain/Loss事件，标签=表型Gain/Loss事件
         ''' </summary>
-        Public Function BuildExtendedDataset(
-                modernSamples As List(Of Tuple(Of Dictionary(Of String, Integer), Integer)),
-                branchPfamEvents As Dictionary(Of String, Dictionary(Of String, Tuple(Of Double, Double))),
-                branchPhenotypeEvents As Dictionary(Of String, Tuple(Of Double, Double)),
-                Optional threshold As Double = 0.5R) _
-            As List(Of Tuple(Of Dictionary(Of String, Integer), Integer))
+        ''' <param name="modernFeatures">现代样本特征矩阵</param>
+        ''' <param name="modernLabels">现代样本标签</param>
+        ''' <param name="ancestralNodes">祖先节点列表</param>
+        ''' <param name="allPfamIds">所有Pfam ID</param>
+        ''' <param name="phenotypeId">表型ID</param>
+        ''' <param name="threshold">阈值</param>
+        ''' <param name="extendedFeatures">输出的扩展特征矩阵</param>
+        ''' <param name="extendedLabels">输出的扩展标签</param>
+        Public Sub BuildExtendedDataset(
+            ByVal modernFeatures As Integer(,),
+            ByVal modernLabels As Integer(),
+            ByVal ancestralNodes As List(Of Models.PhyloTreeNode),
+            ByVal allPfamIds As List(Of String),
+            ByVal phenotypeId As String,
+            ByVal threshold As Double,
+            <Out()> ByRef extendedFeatures As Integer(,),
+            <Out()> ByRef extendedLabels As Integer())
 
-            Dim extended As New List(Of Tuple(Of Dictionary(Of String, Integer), Integer))()
+            Dim nModern As Integer = modernLabels.Length
+            Dim nFeatures As Integer = allPfamIds.Count
 
-            ' 1. Copy modern samples unchanged
-            For Each s As Tuple(Of Dictionary(Of String, Integer), Integer) In modernSamples
-                extended.Add(s)
-            Next
+            ' 收集祖先虚拟样本
+            Dim ancestralFeatureList As New List(Of Integer())()
+            Dim ancestralLabelList As New List(Of Integer)()
 
-            ' 2. For each ancestral branch, build a virtual sample
-            For Each branchKv As KeyValuePair(Of String, Tuple(Of Double, Double)) In branchPhenotypeEvents
-                Dim branchId As String = branchKv.Key
-                Dim phenoG As Double = branchKv.Value.Item1
-                Dim phenoL As Double = branchKv.Value.Item2
-                Dim phenoJoint As Double = JointChangeProbability(phenoG, phenoL)
-                Dim label? As Integer = Discretize(phenoJoint, threshold)
-                If label Is Nothing Then Continue For   ' uncertain -> drop
-                Dim y As Integer = CInt(label)
+            For Each node As Models.PhyloTreeNode In ancestralNodes
+                ' 构建祖先样本特征
+                Dim features As Integer() = New Integer(nFeatures - 1) {}
+                Dim skipSample As Boolean = False
 
-                ' Build the Pfam profile for this branch
-                Dim profile As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
-                If branchPfamEvents.ContainsKey(branchId) Then
-                    For Each pfamKv As KeyValuePair(Of String, Tuple(Of Double, Double)) In branchPfamEvents(branchId)
-                        Dim pfamG As Double = pfamKv.Value.Item1
-                        Dim pfamL As Double = pfamKv.Value.Item2
-                        Dim pfamJoint As Double = JointChangeProbability(pfamG, pfamL)
-                        Dim v? As Integer = Discretize(pfamJoint, threshold)
-                        If v Is Nothing Then Continue For
-                        profile(pfamKv.Key) = CInt(v)
-                    Next
+                For j As Integer = 0 To nFeatures - 1
+                    Dim pfamId As String = allPfamIds(j)
+                    Dim gainProb As Double = 0.0
+                    Dim lossProb As Double = 0.0
+
+                    If node.PfamGainProb.ContainsKey(pfamId) Then
+                        gainProb = node.PfamGainProb(pfamId)
+                    End If
+                    If node.PfamLossProb.ContainsKey(pfamId) Then
+                        lossProb = node.PfamLossProb(pfamId)
+                    End If
+
+                    ' 联合概率
+                    Dim jointProb As Double = ComputeJointProbability(gainProb, lossProb)
+                    Dim label As Integer = ThresholdFilter(jointProb, threshold)
+
+                    If label = -1 Then
+                        ' 不确定，跳过该样本
+                        skipSample = True
+                        Exit For
+                    End If
+                    features(j) = label
+                Next
+
+                If skipSample Then Continue For
+
+                ' 构建祖先样本标签（表型Gain/Loss）
+                Dim phGainProb As Double = 0.0
+                Dim phLossProb As Double = 0.0
+                If node.PhenotypeGainProb.ContainsKey(phenotypeId) Then
+                    phGainProb = node.PhenotypeGainProb(phenotypeId)
+                End If
+                If node.PhenotypeLossProb.ContainsKey(phenotypeId) Then
+                    phLossProb = node.PhenotypeLossProb(phenotypeId)
                 End If
 
-                extended.Add(Tuple.Create(profile, y))
+                Dim phJointProb As Double = ComputeJointProbability(phGainProb, phLossProb)
+                Dim phLabel As Integer = ThresholdFilter(phJointProb, threshold)
+
+                If phLabel = -1 Then Continue For
+
+                ancestralFeatureList.Add(features)
+                ancestralLabelList.Add(phLabel)
             Next
 
-            Return extended
+            ' 合并现代样本和祖先样本
+            Dim nAncestral As Integer = ancestralFeatureList.Count
+            Dim nTotal As Integer = nModern + nAncestral
+
+            extendedFeatures = New Integer(nTotal - 1, nFeatures - 1) {}
+            extendedLabels = New Integer(nTotal - 1) {}
+
+            ' 现代样本
+            For i As Integer = 0 To nModern - 1
+                For j As Integer = 0 To nFeatures - 1
+                    extendedFeatures(i, j) = modernFeatures(i, j)
+                Next
+                extendedLabels(i) = modernLabels(i)
+            Next
+
+            ' 祖先样本
+            For i As Integer = 0 To nAncestral - 1
+                For j As Integer = 0 To nFeatures - 1
+                    extendedFeatures(nModern + i, j) = ancestralFeatureList(i)(j)
+                Next
+                extendedLabels(nModern + i) = ancestralLabelList(i)
+            Next
+
+            Console.WriteLine("[模块3] 扩展数据集构建完成:")
+            Console.WriteLine("       现代样本: {0}", nModern)
+            Console.WriteLine("       祖先虚拟样本: {0}", nAncestral)
+            Console.WriteLine("       总样本数: {0}", nTotal)
+            Console.WriteLine("       特征数: {0}", nFeatures)
+            Console.WriteLine("       阈值: {0}", threshold)
+        End Sub
+
+        ''' <summary>
+        ''' 将标签从{0,1}转换为{-1,+1}（SVM标准格式）
+        ''' </summary>
+        Public Function ConvertLabelsToSVMFormat(ByVal labels As Integer()) As Integer()
+            Dim result As Integer() = New Integer(labels.Length - 1) {}
+            For i As Integer = 0 To labels.Length - 1
+                result(i) = If(labels(i) = 1, 1, -1)
+            Next
+            Return result
         End Function
 
         ''' <summary>
-        ''' Convert a list of (Pfam profile, label) samples into a dense
-        ''' feature matrix X (samples x features) and label vector y.
-        ''' Features are the union of all Pfam accessions seen across samples.
+        ''' 将标签从{-1,+1}转换为{0,1}
         ''' </summary>
-        Public Function ToDenseMatrix(
-                samples As List(Of Tuple(Of Dictionary(Of String, Integer), Integer)),
-                ByRef featureNames As List(Of String)) _
-            As Tuple(Of Double(,), Integer())
-            ' Collect the union of features
-            Dim featSet As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
-            For Each s As Tuple(Of Dictionary(Of String, Integer), Integer) In samples
-                For Each k As String In s.Item1.Keys
-                    featSet.Add(k)
-                Next
+        Public Function ConvertLabelsFromSVMFormat(ByVal labels As Integer()) As Integer()
+            Dim result As Integer() = New Integer(labels.Length - 1) {}
+            For i As Integer = 0 To labels.Length - 1
+                result(i) = If(labels(i) = 1, 1, 0)
             Next
-            featureNames = New List(Of String)(featSet)
-            featureNames.Sort(StringComparer.OrdinalIgnoreCase)
-
-            Dim nSamples As Integer = samples.Count
-            Dim nFeats As Integer = featureNames.Count
-            Dim X(nSamples - 1, nFeats - 1) As Double
-            Dim y(nSamples - 1) As Integer
-            For i As Integer = 0 To nSamples - 1
-                Dim profile As Dictionary(Of String, Integer) = samples(i).Item1
-                For j As Integer = 0 To nFeats - 1
-                    If profile.ContainsKey(featureNames(j)) Then
-                        X(i, j) = CDbl(profile(featureNames(j)))
-                    Else
-                        X(i, j) = 0.0R
-                    End If
-                Next
-                y(i) = samples(i).Item2
-            Next
-            Return Tuple.Create(X, y)
+            Return result
         End Function
 
-    End Module
+    End Class
 
 End Namespace

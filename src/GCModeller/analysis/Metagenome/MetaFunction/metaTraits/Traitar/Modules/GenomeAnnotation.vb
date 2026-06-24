@@ -1,177 +1,325 @@
 ' ============================================================================
-'  Module 1 - GenomeAnnotation.vb
-'  Genome annotation & feature extraction (from DNA / proteins to Pfam profile)
+' GenomeAnnotation.vb - 模块1：基因组注释与特征化模块
 '
-'  Pipeline:
-'    1a. Parse GFF3 -> list of ProteinRecords (locus tags, coordinates).
-'    1b. Parse protein FASTA -> attach sequences to ProteinRecords.
-'    1c. Run HMMER3 hmmsearch against Pfam (command-line) OR read a
-'        pre-computed Pfam annotation TSV. (Per the paper: "在这里只需要
-'        直接通过命令行调用，生成基因的PFAM注释结果即可".)
-'    1d. Apply Traitar's bit-score >= 25 AND E-value <= 1e-2 filter.
-'    1e. Binarize: Pfam present (1) if >=1 protein carries a passing hit,
-'        else absent (0). This yields the phyletic profile vector x.
+' 论文对应：
+'   "基因组注释与特征提取（从DNA到蛋白质家族）"
+'
+' 核心功能：
+'   1. 基因预测：调用Prodigal将DNA序列翻译为氨基酸序列
+'   2. 蛋白质家族注释：调用HMMER3.0的hmmsearch与Pfam数据库比对
+'   3. 过滤与二值化：设定阈值（比特分数≥25，E值≤1e-2），
+'      将Pfam家族计数转化为存在(1)/缺失(0)的二元矩阵X
+'
+' 算法原理：
+'   - 隐马尔可夫模型(HMM)：用于蛋白质家族比对（HMMER）
+'   - 基因预测算法：基于动态规划的Prodigal
+'   - 二值化处理：将Pfam家族计数转化为0/1矩阵
 ' ============================================================================
+
+Imports System.Diagnostics
 Imports System.IO
+Imports System.Runtime.InteropServices
 
-Namespace Modules
+Namespace TraitarVB.Modules
 
-    Public Module GenomeAnnotation
+    ''' <summary>
+    ''' 模块1：基因组注释与特征化模块
+    ''' 将输入的DNA/蛋白质序列转化为机器可读的特征矩阵（系统发育谱）
+    ''' </summary>
+    Public Class GenomeAnnotation
+
+        ' HMMER搜索的默认参数
+        Public Const DEFAULT_BITSCORE_THRESHOLD As Double = 25.0
+        Public Const DEFAULT_EVALUE_THRESHOLD As Double = 0.01
+
+        ' Prodigal 和 HMMER 可执行文件路径
+        Private _prodigalPath As String
+        Private _hmmsearchPath As String
+        Private _pfamDbPath As String
 
         ''' <summary>
-        ''' Build a GenomeSample from a GFF file and a protein FASTA file.
-        ''' Sequences are attached to the GFF-parsed proteins by locus tag.
+        ''' 构造函数
         ''' </summary>
-        Public Function BuildSampleFromGffAndFasta(sampleId As String,
-                                                    gffPath As String,
-                                                    fastaPath As String) As GenomeSample
-            Dim sample As New GenomeSample() With {
-                .SampleId = sampleId,
-                .SourceGff = gffPath,
-                .SourceFasta = fastaPath
-            }
-            sample.Proteins = FileIO.ParseGff(gffPath)
-            FileIO.AttachSequences(sample.Proteins, fastaPath)
+        ''' <param name="prodigalPath">Prodigal可执行文件路径</param>
+        ''' <param name="hmmsearchPath">HMMER hmmsearch可执行文件路径</param>
+        ''' <param name="pfamDbPath">Pfam数据库HMM文件路径</param>
+        Public Sub New(Optional ByVal prodigalPath As String = "prodigal",
+                       Optional ByVal hmmsearchPath As String = "hmmsearch",
+                       Optional ByVal pfamDbPath As String = "Pfam-A.hmm")
+            _prodigalPath = prodigalPath
+            _hmmsearchPath = hmmsearchPath
+            _pfamDbPath = pfamDbPath
+        End Sub
+
+        ' ================================================================
+        ' 步骤1a：基因预测（Prodigal）
+        ' ================================================================
+
+        ''' <summary>
+        ''' 调用Prodigal进行基因预测
+        ''' 论文：如果输入的是核苷酸序列(DNA FASTA)，Traitar会使用Prodigal软件
+        '''       进行基因预测，将其翻译为氨基酸序列
+        ''' </summary>
+        ''' <param name="dnaFastaPath">输入DNA FASTA文件路径</param>
+        ''' <param name="outputProteinPath">输出蛋白质FASTA文件路径</param>
+        ''' <param name="outputGffPath">输出GFF文件路径</param>
+        ''' <returns>是否成功</returns>
+        Public Function RunProdigal(ByVal dnaFastaPath As String,
+                                    ByVal outputProteinPath As String,
+                                    Optional ByVal outputGffPath As String = Nothing) As Boolean
+            Try
+                Dim args As String = String.Format(" -i ""{0}"" -a ""{1}""",
+                                                    dnaFastaPath, outputProteinPath)
+                If outputGffPath IsNot Nothing Then
+                    args &= String.Format(" -f gff -o ""{0}""", outputGffPath)
+                Else
+                    args &= " -f gff -o /dev/null"
+                End If
+
+                Dim psi As New ProcessStartInfo()
+                psi.FileName = _prodigalPath
+                psi.Arguments = args
+                psi.UseShellExecute = False
+                psi.RedirectStandardOutput = True
+                psi.RedirectStandardError = True
+                psi.CreateNoWindow = True
+
+                Using proc As Process = Process.Start(psi)
+                    proc.WaitForExit()
+                    Return proc.ExitCode = 0
+                End Using
+            Catch ex As Exception
+                Console.Error.WriteLine("Prodigal运行失败: " & ex.Message)
+                Return False
+            End Try
+        End Function
+
+        ' ================================================================
+        ' 步骤1b：蛋白质家族注释（HMMER）
+        ' ================================================================
+
+        ''' <summary>
+        ''' 调用HMMER3.0的hmmsearch命令，将氨基酸序列与Pfam数据库比对
+        ''' 论文：使用HMMER3.0的hmmsearch命令，将氨基酸序列与Pfam数据库(版本27.0)
+        '''       进行比对，注释出包含的蛋白质家族
+        ''' </summary>
+        ''' <param name="proteinFastaPath">蛋白质FASTA文件路径</param>
+        ''' <param name="outputDomtbloutPath">输出domtblout文件路径</param>
+        ''' <returns>是否成功</returns>
+        Public Function RunHmmsearch(ByVal proteinFastaPath As String,
+                                     ByVal outputDomtbloutPath As String) As Boolean
+            Try
+                Dim args As String = String.Format(
+                    " --domtblout ""{0}"" --cpu 4 ""{1}"" ""{2}""",
+                    outputDomtbloutPath, _pfamDbPath, proteinFastaPath)
+
+                Dim psi As New ProcessStartInfo()
+                psi.FileName = _hmmsearchPath
+                psi.Arguments = args
+                psi.UseShellExecute = False
+                psi.RedirectStandardOutput = True
+                psi.RedirectStandardError = True
+                psi.CreateNoWindow = True
+
+                Using proc As Process = Process.Start(psi)
+                    proc.WaitForExit()
+                    Return proc.ExitCode = 0
+                End Using
+            Catch ex As Exception
+                Console.Error.WriteLine("hmmsearch运行失败: " & ex.Message)
+                Return False
+            End Try
+        End Function
+
+        ' ================================================================
+        ' 步骤1c：完整注释流程
+        ' ================================================================
+
+        ''' <summary>
+        ''' 完整的基因组注释流程
+        ''' 1. 解析GFF文件获取蛋白信息
+        ''' 2. 解析蛋白质FASTA文件
+        ''' 3. 运行HMMER搜索Pfam家族（或解析已有domtblout）
+        ''' 4. 过滤并构建二值化特征矩阵
+        ''' </summary>
+        ''' <param name="gffPath">GFF文件路径（可为Nothing）</param>
+        ''' <param name="proteinFastaPath">蛋白质FASTA文件路径</param>
+        ''' <param name="domtbloutPath">HMMER domtblout文件路径（可为Nothing，则自动运行hmmsearch）</param>
+        ''' <param name="bitScoreThreshold">比特分数阈值</param>
+        ''' <param name="evalueThreshold">E值阈值</param>
+        ''' <returns>基因组样本（含系统发育谱）</returns>
+        Public Function AnnotateGenome(
+            Optional ByVal gffPath As String = Nothing,
+            Optional ByVal proteinFastaPath As String = Nothing,
+            Optional ByVal domtbloutPath As String = Nothing,
+            Optional ByVal bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
+            Optional ByVal evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+
+            Dim sample As New Models.GenomeSample()
+
+            ' 1. 解析GFF文件
+            If gffPath IsNot Nothing AndAlso File.Exists(gffPath) Then
+                Console.WriteLine("[模块1] 解析GFF文件: " & gffPath)
+                sample.Proteins = Utils.FileParser.ParseGFF(gffPath)
+                sample.SourceFile = gffPath
+
+                ' 尝试从GFF中提取Pfam注释
+                Dim gffPfams As List(Of Models.PfamAnnotation) = Utils.FileParser.ExtractPfamFromGFF(gffPath)
+                If gffPfams.Count > 0 Then
+                    Console.WriteLine("[模块1] 从GFF中提取到 {0} 条Pfam注释", gffPfams.Count)
+                    sample.PfamAnnotations.AddRange(gffPfams)
+                End If
+            End If
+
+            ' 2. 解析蛋白质FASTA文件
+            If proteinFastaPath IsNot Nothing AndAlso File.Exists(proteinFastaPath) Then
+                Console.WriteLine("[模块1] 解析蛋白质FASTA文件: " & proteinFastaPath)
+                Dim proteins As List(Of Models.ProteinSequence) = Utils.FileParser.ParseFasta(proteinFastaPath)
+                If sample.Proteins.Count = 0 Then
+                    sample.Proteins = proteins
+                    sample.SourceFile = proteinFastaPath
+                End If
+
+                ' 设置样本ID
+                If sample.SampleId Is Nothing Then
+                    sample.SampleId = Path.GetFileNameWithoutExtension(proteinFastaPath)
+                End If
+            End If
+
+            ' 3. 运行HMMER或解析已有domtblout
+            If domtbloutPath IsNot Nothing AndAlso File.Exists(domtbloutPath) Then
+                Console.WriteLine("[模块1] 解析HMMER domtblout文件: " & domtbloutPath)
+                Dim anns As List(Of Models.PfamAnnotation) = Utils.FileParser.ParseHmmsearchDomtblout(domtbloutPath)
+                sample.PfamAnnotations.AddRange(anns)
+            ElseIf proteinFastaPath IsNot Nothing AndAlso File.Exists(proteinFastaPath) Then
+                ' 自动运行hmmsearch
+                Console.WriteLine("[模块1] 运行HMMER hmmsearch...")
+                Dim tempOut As String = Path.GetTempFileName()
+                If RunHmmsearch(proteinFastaPath, tempOut) Then
+                    Dim anns As List(Of Models.PfamAnnotation) = Utils.FileParser.ParseHmmsearchDomtblout(tempOut)
+                    sample.PfamAnnotations.AddRange(anns)
+                End If
+                Try
+                    File.Delete(tempOut)
+                Catch
+                End Try
+            End If
+
+            ' 4. 构建二值化特征矩阵（系统发育谱）
+            Console.WriteLine("[模块1] 构建系统发育谱（二值化特征矩阵）...")
+            Console.WriteLine("       比特分数阈值: {0}", bitScoreThreshold)
+            Console.WriteLine("       E值阈值: {0}", evalueThreshold)
+            sample.BuildPhyleticProfile(bitScoreThreshold, evalueThreshold)
+
+            Console.WriteLine("[模块1] 注释完成: {0} 个蛋白, {1} 条Pfam注释, {2} 个Pfam家族",
+                              sample.Proteins.Count, sample.PfamAnnotations.Count, sample.PfamCount)
+
             Return sample
         End Function
 
-        ''' <summary>
-        ''' Build a GenomeSample directly from a protein FASTA file (no GFF).
-        ''' Each FASTA entry becomes one ProteinRecord with its locus tag.
-        ''' </summary>
-        Public Function BuildSampleFromFasta(sampleId As String,
-                                             fastaPath As String) As GenomeSample
-            Dim sample As New GenomeSample() With {
-                .SampleId = sampleId,
-                .SourceFasta = fastaPath
-            }
-            Dim seqs As Dictionary(Of String, String) = FileIO.ParseFasta(fastaPath)
-            For Each kv As KeyValuePair(Of String, String) In seqs
-                sample.Proteins.Add(New ProteinRecord() With {
-                    .LocusTag = kv.Key,
-                    .Sequence = kv.Value
-                })
-            Next
-            Return sample
-        End Function
+        ' ================================================================
+        ' 辅助方法
+        ' ================================================================
 
         ''' <summary>
-        ''' Run HMMER3 hmmsearch against a Pfam database and attach the hits
-        ''' to the sample's proteins. Returns the path to the domtblout file.
-        '''
-        ''' Command line (matches the Traitar paper):
-        '''   hmmsearch --domtblout &lt;out&gt; --cut_tc -E 1e-2 &lt;pfam.hmm&gt; &lt;proteins.faa&gt;
-        '''
-        ''' If hmmsearch is not on PATH, this method throws FileNotFoundException
-        ''' so the caller can fall back to AnnotateFromPrecomputed().
+        ''' 将多个样本的特征矩阵合并为二维矩阵
+        ''' 论文：将每个样本中各Pfam家族的数量转化为存在(1)或缺失(0)的二元矩阵X
         ''' </summary>
-        Public Function AnnotateWithHmmer(sample As GenomeSample,
-                                          pfamHmmDb As String,
-                                          workingDir As String,
-                                          Optional evalueCutoff As Double = 0.01,
-                                          Optional bitscoreCutoff As Double = 25.0) As String
-            ' 1. Write the sample's proteins to a temporary FASTA
-            Dim fastaPath As String = Path.Combine(workingDir, sample.SampleId & "_proteins.faa")
-            Using writer As New StreamWriter(fastaPath)
-                For Each p As ProteinRecord In sample.Proteins
-                    If String.IsNullOrEmpty(p.Sequence) Then Continue For
-                    writer.WriteLine(">" & p.LocusTag)
-                    writer.WriteLine(p.Sequence)
+        Public Function BuildFeatureMatrix(ByVal samples As List(Of Models.GenomeSample),
+                                           <Out()> ByRef allPfamIds As List(Of String)) As Integer(,)
+            ' 收集所有Pfam ID
+            Dim pfamSet As New HashSet(Of String)()
+            For Each s As Models.GenomeSample In samples
+                For Each kvp As KeyValuePair(Of String, Integer) In s.PhyleticProfile
+                    pfamSet.Add(kvp.Key)
                 Next
-            End Using
+            Next
+            allPfamIds = pfamSet.ToList()
+            allPfamIds.Sort()
 
-            ' 2. Run hmmsearch
-            Dim domtbloutPath As String = Path.Combine(workingDir, sample.SampleId & "_pfam.domtblout")
-            Dim args As String = String.Format("--domtblout ""{0}"" -E {1} ""{2}"" ""{3}""",
-                                              domtbloutPath, evalueCutoff, pfamHmmDb, fastaPath)
-            Dim psi As New ProcessStartInfo() With {
-                .FileName = "hmmsearch",
-                .Arguments = args,
-                .UseShellExecute = False,
-                .RedirectStandardOutput = True,
-                .RedirectStandardError = True,
-                .CreateNoWindow = True
-            }
-            Using proc As New Process()
-                proc.StartInfo = psi
-                proc.Start()
-                proc.WaitForExit()
-                If proc.ExitCode <> 0 Then
-                    Dim err As String = proc.StandardError.ReadToEnd()
-                    Throw New Exception("hmmsearch failed: " & err)
-                End If
-            End Using
+            ' 构建矩阵：行=样本，列=Pfam家族
+            Dim nSamples As Integer = samples.Count
+            Dim nFeatures As Integer = allPfamIds.Count
+            Dim matrix As Integer(,) = New Integer(nSamples - 1, nFeatures - 1) {}
 
-            ' 3. Parse the domtblout and attach hits
-            AttachPfamHitsFromDomtblout(sample, domtbloutPath, bitscoreCutoff, evalueCutoff)
-            Return domtbloutPath
+            For i As Integer = 0 To nSamples - 1
+                For j As Integer = 0 To nFeatures - 1
+                    Dim pfamId As String = allPfamIds(j)
+                    If samples(i).PhyleticProfile.ContainsKey(pfamId) AndAlso
+                       samples(i).PhyleticProfile(pfamId) = 1 Then
+                        matrix(i, j) = 1
+                    Else
+                        matrix(i, j) = 0
+                    End If
+                Next
+            Next
+
+            Return matrix
         End Function
 
         ''' <summary>
-        ''' Attach Pfam hits parsed from a HMMER domtblout file to the sample's
-        ''' proteins, applying Traitar's bit-score / E-value thresholds.
+        ''' 打印特征矩阵（用于调试）
         ''' </summary>
-        Public Sub AttachPfamHitsFromDomtblout(sample As GenomeSample,
-                                               domtbloutPath As String,
-                                               Optional bitscoreCutoff As Double = 25.0,
-                                               Optional evalueCutoff As Double = 0.01)
-            Dim hits As List(Of PfamHit) = FileIO.ParseHmmsearchDomtblout(domtbloutPath)
-            AttachPfamHitsInternal(sample, hits, bitscoreCutoff, evalueCutoff)
+        Public Sub PrintFeatureMatrix(ByVal samples As List(Of Models.GenomeSample),
+                                      ByVal allPfamIds As List(Of String),
+                                      ByVal matrix As Integer(,))
+            Console.Write("Sample" & ControlChars.Tab)
+            For Each pid As String In allPfamIds
+                Console.Write(pid & ControlChars.Tab)
+            Next
+            Console.WriteLine()
+
+            For i As Integer = 0 To samples.Count - 1
+                Console.Write(samples(i).SampleId & ControlChars.Tab)
+                For j As Integer = 0 To allPfamIds.Count - 1
+                    Console.Write(matrix(i, j) & ControlChars.Tab)
+                Next
+                Console.WriteLine()
+            Next
         End Sub
 
-        ''' <summary>
-        ''' Attach Pfam hits parsed from a pre-computed TSV file (columns:
-        ''' target_name, pfam_acc, pfam_name, evalue, bitscore). Used by the
-        ''' demo when HMMER is not installed.
-        ''' </summary>
-        Public Sub AttachPfamHitsFromTsv(sample As GenomeSample,
-                                         tsvPath As String,
-                                         Optional bitscoreCutoff As Double = 25.0,
-                                         Optional evalueCutoff As Double = 0.01)
-            Dim hits As List(Of PfamHit) = FileIO.ParsePfamTsv(tsvPath)
-            AttachPfamHitsInternal(sample, hits, bitscoreCutoff, evalueCutoff)
-        End Sub
+        ' ================================================================
+        ' 便捷方法（供Program.vb调用）
+        ' ================================================================
 
         ''' <summary>
-        ''' Internal helper: distribute PfamHit objects to the matching
-        ''' ProteinRecords by target name, after applying the reliability filter.
+        ''' 从HMMER domtblout文件注释基因组
         ''' </summary>
-        Private Sub AttachPfamHitsInternal(sample As GenomeSample,
-                                           hits As List(Of PfamHit),
-                                           bitscoreCutoff As Double,
-                                           evalueCutoff As Double)
-            ' Index proteins by locus tag for O(1) lookup
-            Dim byTag As New Dictionary(Of String, ProteinRecord)(StringComparer.OrdinalIgnoreCase)
-            For Each p As ProteinRecord In sample.Proteins
-                If Not byTag.ContainsKey(p.LocusTag) Then byTag(p.LocusTag) = p
-            Next
-
-            For Each h As PfamHit In hits
-                h.ScoreThreshold = bitscoreCutoff
-                h.EValueThreshold = evalueCutoff
-                If Not h.Passes Then Continue For
-                If byTag.ContainsKey(h.TargetName) Then
-                    byTag(h.TargetName).PfamHits.Add(h)
-                End If
-            Next
-
-            ' Finally build the binary Pfam profile
-            sample.BuildPfamProfile()
-        End Sub
-
-        ''' <summary>
-        ''' Return the binary phyletic profile as a sorted list of
-        ''' (Pfam accession, 1) pairs - useful for inspection / debugging.
-        ''' </summary>
-        Public Function GetPfamProfileList(sample As GenomeSample) As List(Of Tuple(Of String, Integer))
-            Dim result As New List(Of Tuple(Of String, Integer))()
-            For Each kv As KeyValuePair(Of String, Integer) In sample.PfamProfile
-                result.Add(Tuple.Create(kv.Key, kv.Value))
-            Next
-            result.Sort(Function(a, b) String.Compare(a.Item1, b.Item1, StringComparison.Ordinal))
-            Return result
+        Public Function AnnotateFromDomtblout(ByVal domtbloutPath As String,
+                                              Optional ByVal bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
+                                              Optional ByVal evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+            Return AnnotateGenome(Nothing, Nothing, domtbloutPath, bitScoreThreshold, evalueThreshold)
         End Function
 
-    End Module
+        ''' <summary>
+        ''' 从蛋白质FASTA文件注释基因组（自动运行HMMER）
+        ''' </summary>
+        Public Function AnnotateFromFasta(ByVal proteinFastaPath As String,
+                                          Optional ByVal bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
+                                          Optional ByVal evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+            Return AnnotateGenome(Nothing, proteinFastaPath, Nothing, bitScoreThreshold, evalueThreshold)
+        End Function
+
+        ''' <summary>
+        ''' 从GFF文件注释基因组
+        ''' </summary>
+        Public Function AnnotateFromGFF(ByVal gffPath As String,
+                                        Optional ByVal bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
+                                        Optional ByVal evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+            Return AnnotateGenome(gffPath, Nothing, Nothing, bitScoreThreshold, evalueThreshold)
+        End Function
+
+        ''' <summary>
+        ''' 从GFF和蛋白质FASTA文件注释基因组
+        ''' </summary>
+        Public Function AnnotateFromGFFAndFasta(ByVal gffPath As String,
+                                                 ByVal proteinFastaPath As String,
+                                                 Optional ByVal domtbloutPath As String = Nothing,
+                                                 Optional ByVal bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
+                                                 Optional ByVal evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+            Return AnnotateGenome(gffPath, proteinFastaPath, domtbloutPath, bitScoreThreshold, evalueThreshold)
+        End Function
+
+    End Class
 
 End Namespace

@@ -1,0 +1,42 @@
+======================================================================
+  阳性表型详细信息
+======================================================================
+
+表型ID: 8567
+表型名称: Coagulase production
+表型类别: Enzyme
+预测结果: 存在(POSITIVE)
+投票统计: 正票=7, 负票=1, 总票数=8
+置信度: 0.8750
+各模型得分:
+  模型 1: score=1.0761, label=1
+  模型 2: score=1.1609, label=1
+  模型 3: score=0.8828, label=1
+  模型 4: score=1.1077, label=1
+  模型 5: score=0.7557, label=1
+  模型 6: score=0.7140, label=1
+  模型 7: score=-0.3429, label=-1
+  模型 8: score=0.4380, label=1
+
+关键蛋白质家族特征 (从权重提取):
+  PF13014	正权重模型数=7	平均权重=0.2304	
+  PF12732	正权重模型数=7	平均权重=0.1476	
+  PF12911	正权重模型数=6	平均权重=0.2590	
+  PF02797	正权重模型数=5	平均权重=0.3238	
+  PF01138	正权重模型数=5	平均权重=0.2678	
+  PF03726	正权重模型数=5	平均权重=0.2210	
+  PF08353	正权重模型数=5	平均权重=0.1954	
+  PF04020	正权重模型数=4	平均权重=0.2743	
+
+关键蛋白质家族特征 (从non-zero+weights, 按PCC排序):
+  PF08353	class=+	PCC=0.8050	Domain of unknown function (DUF1727)
+  PF02797	class=+	PCC=0.6120	Chalcone and stilbene synthases, C-terminal domain
+  PF12732	class=+	PCC=0.5490	YtxH-like protein
+  PF12911	class=+	PCC=0.3950	N-terminal TM domain of oligopeptide transport permease C
+  PF04020	class=+	PCC=0.3770	Membrane protein of unknown function
+  PF13014	class=+	PCC=0.2620	KH domain
+  PF03726	class=+	PCC=0.1670	Polyribonucleotide nucleotidyltransferase, RNA binding domain
+  PF01138	class=+	PCC=0.1670	3' exoribonuclease family, domain 1
+
+----------------------------------------------------------------------
+

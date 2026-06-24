@@ -1,185 +1,206 @@
 ' ============================================================================
-'  PhenotypeModel.vb - Data model for one trained phenotype classifier
-'  Traitar Microbial Trait Analyzer - VB.NET Implementation
+' PhenotypeModel.vb - 表型预测模型数据结构
 '
-'  A phenotype model is the "voting committee" of L1-L2 linear SVMs trained
-'  at different regularization strengths C. For each C the model stores:
-'    * the bias term b
-'    * the sparse weight vector w (Pfam accession -> weight)
-'    * the per-feature Pearson correlation with the phenotype label
-'
-'  File layout produced by the original Traitar (and consumed here):
-'    {pid}_bias.txt             C<TAB>bias        (one model per line, 13 C values)
-'    {pid}_feats.txt            Pfam<TAB>w_C1<TAB>w_C2 ...   (full weight matrix)
-'    {pid}_non-zero+weights.txt Pfam<TAB>class<TAB>w_C1 ... <TAB>desc<TAB>cor
+' 对应论文中的：
+'   - L1正则化L2损失线性SVM模型
+'   - 投票委员会机制（5个最佳SVM模型）
+'   - 每个表型对应一组不同C参数的SVM模型
 ' ============================================================================
-Imports System.Collections.Generic
 
-Namespace Models
+Namespace TraitarVB.Models
 
     ''' <summary>
-    ''' One SVM sub-model inside the voting committee (one C value).
+    ''' 单个SVM子模型（对应一个C参数值）
     ''' </summary>
-    Public Class SubModel
+    Public Class SVMSubModel
+        ''' <summary>正则化参数C</summary>
         Public Property C As Double
+
+        ''' <summary>偏置项 b</summary>
         Public Property Bias As Double
-        ' Sparse weight vector: Pfam accession -> weight
-        Public Property Weights As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
-        ' Whether this sub-model is "active" (bias != 0 means features were selected)
-        Public ReadOnly Property IsActive As Boolean
-            Get
-                Return Bias <> 0.0R OrElse Weights.Count > 0
-            End Get
-        End Property
+
+        ''' <summary>特征权重字典：PfamID -> 权重值</summary>
+        Public Property Weights As New Dictionary(Of String, Double)()
 
         ''' <summary>
-        ''' SVM decision function: f(x) = w . x + b.
-        ''' Predicts positive (1) when f(x) &gt; 0, negative (0) otherwise.
+        ''' 对样本进行预测，返回原始得分
+        ''' 公式：score = bias + Σ(weight_i × feature_i)
         ''' </summary>
-        Public Function Decision(sample As GenomeSample) As Double
+        Public Function PredictScore(ByVal features As Dictionary(Of String, Integer)) As Double
             Dim score As Double = Bias
-            For Each kv As KeyValuePair(Of String, Double) In Weights
-                If kv.Value <> 0.0R Then
-                    score += kv.Value * sample.FeatureValue(kv.Key)
+            For Each kvp As KeyValuePair(Of String, Double) In Weights
+                Dim featVal As Integer = 0
+                If features.ContainsKey(kvp.Key) Then
+                    featVal = features(kvp.Key)
                 End If
+                score += kvp.Value * CDbl(featVal)
             Next
             Return score
         End Function
 
-        Public Function Predict(sample As GenomeSample) As Integer
-            Return If(Decision(sample) > 0.0R, 1, 0)
+        ''' <summary>
+        ''' 对样本进行预测，返回标签（1=正，-1=负）
+        ''' </summary>
+        Public Function PredictLabel(ByVal features As Dictionary(Of String, Integer)) As Integer
+            Dim score As Double = PredictScore(features)
+            If score > 0 Then
+                Return 1
+            Else
+                Return -1
+            End If
         End Function
-    End Class
 
-    ''' <summary>
-    ''' A Pfam feature that survived feature selection for this phenotype,
-    ''' carrying its description and Pearson correlation with the label.
-    ''' </summary>
-    Public Class PhenotypeFeature
-        Public Property PfamAcc As String = ""
-        Public Property Sign As String = "+"        ' "+" positive class, "-" negative class
-        ''' <summary>Alias for Sign (the +/- class column in non-zero+weights).</summary>
-        Public Property WeightClass As String
+        ''' <summary>
+        ''' 检查该模型是否有效（有非零权重或非零偏置）
+        ''' </summary>
+        Public ReadOnly Property IsActive As Boolean
             Get
-                Return Sign
+                If Math.Abs(Bias) > 1e-12 Then Return True
+                For Each w As Double In Weights.Values
+                    If Math.Abs(w) > 1e-12 Then Return True
+                Next
+                Return False
             End Get
-            Set(value As String)
-                Sign = value
-            End Set
         End Property
-        Public Property Description As String = ""
-        Public Property PearsonCorrelation As Double
-        ' Per-C weights (only stored for the active sub-models)
-        Public Property WeightsByC As New Dictionary(Of Double, Double)()
     End Class
 
     ''' <summary>
-    ''' A complete phenotype model = voting committee of SubModels + feature table.
+    ''' 表型预测模型（包含多个SVM子模型）
     ''' </summary>
     Public Class PhenotypeModel
+        ''' <summary>表型ID</summary>
+        Public Property PhenotypeId As String
 
-        Public Property PhenotypeId As String = ""
-        Public Property PhenotypeName As String = ""
-        Public Property Category As String = ""
+        ''' <summary>表型名称</summary>
+        Public Property PhenotypeName As String
 
-        ' All 13 sub-models keyed by C value (as stored in the bias file)
-        Public Property SubModels As New List(Of SubModel)()
+        ''' <summary>表型类别</summary>
+        Public Property Category As String
 
-        ' Non-zero features with descriptions and Pearson correlations
-        Public Property Features As New List(Of PhenotypeFeature)()
+        ''' <summary>SVM子模型列表（每个对应一个C值）</summary>
+        Public Property SubModels As New List(Of SVMSubModel)()
 
-        ' Voting committee size (Traitar default = 5)
-        Public Property CommitteeSize As Integer = 5
+        ''' <summary>关键特征信息列表</summary>
+        Public Property KeyFeatures As New List(Of KeyFeatureInfo)()
+
+        ''' <summary>投票委员会大小</summary>
+        Public Const COMMITTEE_SIZE As Integer = 5
+
+        ''' <summary>多数表决阈值</summary>
+        Public Const MAJORITY_THRESHOLD As Integer = 3
 
         ''' <summary>
-        ''' Returns the active sub-models in the order they appear in the bias file.
-        ''' The original Traitar sorts the bias file by cross-validation accuracy
-        ''' (best first), so the first CommitteeSize active entries form the
-        ''' voting committee.
+        ''' 获取投票委员会
+        ''' 论文：选出交叉验证中准确率最高的5个SVM模型
+        ''' 由于模型文件中没有交叉验证准确率信息，这里使用所有活跃模型
+        ''' （有非零偏置或非零权重的模型）作为投票委员会
         ''' </summary>
-        Public Function GetVotingCommittee() As List(Of SubModel)
-            Dim active As New List(Of SubModel)
-            For Each sm As SubModel In SubModels
-                If sm.IsActive Then
-                    active.Add(sm)
-                    If active.Count >= CommitteeSize Then Exit For
+        Public Function GetVotingCommittee() As List(Of SVMSubModel)
+            ' 筛选活跃模型
+            Dim activeModels As New List(Of SVMSubModel)()
+            For Each m As SVMSubModel In SubModels
+                If m.IsActive Then
+                    activeModels.Add(m)
                 End If
             Next
-            Return active
+
+            ' 使用所有活跃模型作为投票委员会
+            Return activeModels
         End Function
 
         ''' <summary>
-        ''' Majority-vote prediction: positive if at least ceil(N/2) of the
-        ''' committee members predict positive. With N=5 this means &gt;=3.
+        ''' 比较两个模型的权重绝对值之和
         ''' </summary>
-        Public Function Predict(sample As GenomeSample) As Integer
-            Dim committee As List(Of SubModel) = GetVotingCommittee()
-            If committee.Count = 0 Then Return 0
+        Private Function CompareByWeightMagnitude(ByVal a As SVMSubModel, ByVal b As SVMSubModel) As Integer
+            Dim sumA As Double = Math.Abs(a.Bias)
+            For Each w As Double In a.Weights.Values
+                sumA += Math.Abs(w)
+            Next
+
+            Dim sumB As Double = Math.Abs(b.Bias)
+            For Each w As Double In b.Weights.Values
+                sumB += Math.Abs(w)
+            Next
+
+            Return sumA.CompareTo(sumB)
+        End Function
+
+        ''' <summary>
+        ''' 使用投票委员会进行预测
+        ''' 论文：5个模型中至少有3个预测为正，则最终判定为表型存在
+        ''' 由于使用所有活跃模型，多数表决阈值为半数以上
+        ''' </summary>
+        Public Function Predict(ByVal features As Dictionary(Of String, Integer)) As Integer
+            Dim committee As List(Of SVMSubModel) = GetVotingCommittee()
+            If committee.Count = 0 Then
+                Return 0  ' 无可用模型，默认预测为负
+            End If
+
             Dim positiveVotes As Integer = 0
-            For Each sm As SubModel In committee
-                If sm.Predict(sample) = 1 Then positiveVotes += 1
-            Next
-            Dim threshold As Integer = CInt(Math.Ceiling(committee.Count / 2.0R))
-            If committee.Count Mod 2 = 0 Then threshold += 1   ' strict majority for even N
-            Return If(positiveVotes >= threshold, 1, 0)
-        End Function
-
-        ''' <summary>
-        ''' Average decision score across the committee (used as a confidence).
-        ''' </summary>
-        Public Function DecisionScore(sample As GenomeSample) As Double
-            Dim committee As List(Of SubModel) = GetVotingCommittee()
-            If committee.Count = 0 Then Return 0.0R
-            Dim sum As Double = 0.0R
-            For Each sm As SubModel In committee
-                sum += sm.Decision(sample)
-            Next
-            Return sum / committee.Count
-        End Function
-
-        ''' <summary>
-        ''' Feature selection (Module 7): a Pfam is "key" for this phenotype if
-        ''' it carries a positive weight in at least ceil(2N/3) of the committee
-        ''' models. With N=5 this means &gt;=3 models. Returns the selected
-        ''' features sorted by descending Pearson correlation.
-        ''' </summary>
-        Public Function SelectKeyFeatures() As List(Of PhenotypeFeature)
-            Dim committee As List(Of SubModel) = GetVotingCommittee()
-            If committee.Count = 0 Then Return New List(Of PhenotypeFeature)()
-            Dim minVotes As Integer = CInt(Math.Ceiling(committee.Count * 2.0R / 3.0R))
-
-            ' Count, per Pfam, how many committee members give it a positive weight
-            Dim positiveVotes As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
-            For Each sm As SubModel In committee
-                For Each kv As KeyValuePair(Of String, Double) In sm.Weights
-                    If kv.Value > 0.0R Then
-                        If positiveVotes.ContainsKey(kv.Key) Then
-                            positiveVotes(kv.Key) += 1
-                        Else
-                            positiveVotes(kv.Key) = 1
-                        End If
-                    End If
-                Next
-            Next
-
-            ' Pick features that pass the vote threshold, then sort by Pearson correlation
-            Dim selected As New List(Of PhenotypeFeature)()
-            For Each f As PhenotypeFeature In Features
-                Dim votes As Integer = 0
-                If positiveVotes.ContainsKey(f.PfamAcc) Then votes = positiveVotes(f.PfamAcc)
-                If votes >= minVotes Then
-                    selected.Add(f)
+            For Each m As SVMSubModel In committee
+                If m.PredictLabel(features) = 1 Then
+                    positiveVotes += 1
                 End If
             Next
-            selected.Sort(Function(a, b) b.PearsonCorrelation.CompareTo(a.PearsonCorrelation))
-            Return selected
+
+            ' 多数表决：超过半数即为阳性
+            Dim threshold As Integer = committee.Count \ 2 + 1
+            If positiveVotes >= threshold Then
+                Return 1
+            Else
+                Return 0
+            End If
         End Function
 
-        ''' <summary>Alias for SelectKeyFeatures (used by the main pipeline).</summary>
-        Public Function GetKeyFeatures() As List(Of PhenotypeFeature)
-            Return SelectKeyFeatures()
+        ''' <summary>
+        ''' 获取预测置信度（正票比例）
+        ''' </summary>
+        Public Function GetConfidence(ByVal features As Dictionary(Of String, Integer)) As Double
+            Dim committee As List(Of SVMSubModel) = GetVotingCommittee()
+            If committee.Count = 0 Then
+                Return 0.0
+            End If
+
+            Dim positiveVotes As Integer = 0
+            For Each m As SVMSubModel In committee
+                If m.PredictLabel(features) = 1 Then
+                    positiveVotes += 1
+                End If
+            Next
+            Return CDbl(positiveVotes) / CDbl(committee.Count)
         End Function
 
+    End Class
+
+    ''' <summary>
+    ''' 关键特征信息（来自non-zero+weights.txt的每一行）
+    ''' </summary>
+    Public Class KeyFeatureInfo
+        ''' <summary>Pfam家族ID</summary>
+        Public Property PfamId As String
+
+        ''' <summary>类别（+或-）</summary>
+        Public Property FeatureClass As String
+
+        ''' <summary>各C值对应的权重</summary>
+        Public Property WeightsByC As New Dictionary(Of Double, Double)()
+
+        ''' <summary>Pfam描述</summary>
+        Public Property Description As String
+
+        ''' <summary>皮尔逊相关系数</summary>
+        Public Property PearsonCorrelation As Double
+
+        ''' <summary>该特征是否在多数模型（≥3）中拥有正权重</summary>
+        Public ReadOnly Property IsMajorityPositive As Boolean
+            Get
+                Dim positiveCount As Integer = 0
+                For Each w As Double In WeightsByC.Values
+                    If w > 0 Then positiveCount += 1
+                Next
+                Return positiveCount >= 3
+            End Get
+        End Property
     End Class
 
 End Namespace

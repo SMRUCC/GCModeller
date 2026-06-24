@@ -1,0 +1,21 @@
+##gff-version 3
+##sample genome for Traitar VB.NET testing
+##organism: Staphylococcus aureus (demo)
+##source: synthetic test data
+
+##sequence-region contig1 1 5000
+contig1	Prodigal	CDS	100	900	0.5	+	0	ID=gene001;product=hypothetical protein;Dbxref=PFAM:PF00001
+contig1	Prodigal	CDS	1000	1800	0.5	+	0	ID=gene002;product=flagellin;Dbxref=PFAM:PF00689,PF06850
+contig1	Prodigal	CDS	2000	2800	0.5	-	0	ID=gene003;product=nitrate reductase;Dbxref=PFAM:PF03460
+contig1	Prodigal	CDS	3000	3500	0.5	+	0	ID=gene004;product=coagulase;Dbxref=PFAM:PF02351
+contig1	Prodigal	CDS	3600	4200	0.5	+	0	ID=gene005;product=hypothetical membrane protein;Dbxref=PFAM:PF00005
+contig1	Prodigal	CDS	4300	4900	0.5	-	0	ID=gene006;product=ABC transporter;Dbxref=PFAM:PF00005,PF00528
+contig1	Prodigal	CDS	5000	5600	0.5	+	0	ID=gene007;product=two-component system;Dbxref=PFAM:PF00072
+contig1	Prodigal	CDS	5700	6300	0.5	+	0	ID=gene008;product=beta-lactamase;Dbxref=PFAM:PF00144
+contig1	Prodigal	CDS	6400	7000	0.5	-	0	ID=gene009;product=hypothetical protein;Dbxref=PFAM:PF01715
+contig1	Prodigal	CDS	7100	7700	0.5	+	0	ID=gene010;product=enterotoxin;Dbxref=PFAM:PF02376
+contig1	Prodigal	CDS	7800	8400	0.5	+	0	ID=gene011;product=nuclease;Dbxref=PFAM:PF00571
+contig1	Prodigal	CDS	8500	9100	0.5	-	0	ID=gene012;product=lipase;Dbxref=PFAM:PF01715
+contig1	Prodigal	CDS	9200	9800	0.5	+	0	ID=gene013;product=hypothetical protein;Dbxref=PFAM:PF00069
+contig1	Prodigal	CDS	9900	10500	0.5	+	0	ID=gene014;product=protein kinase;Dbxref=PFAM:PF00069
+contig1	Prodigal	CDS	10600	11200	0.5	-	0	ID=gene015;product=hypothetical protein;Dbxref=PFAM:PF00004

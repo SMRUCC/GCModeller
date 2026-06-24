@@ -1,295 +1,417 @@
 ' ============================================================================
-'  Program.vb - Main entry point for the Traitar VB.NET phenotype predictor
+' Program.vb - Traitar VB.NET 主程序入口
 '
-'  Workflow:
-'    1. Parse command-line arguments (GFF, FASTA, optional Pfam TSV, model dir)
-'    2. Module 1: Build a GenomeSample from GFF + FASTA, attach Pfam hits
-'       (either by running HMMER or by reading a pre-computed TSV).
-'    3. Load all phenotype models from the model directory (or .zip).
-'    4. For each phenotype model:
-'         Module 6: Predict via the 5-member voting committee.
-'         Module 7: Extract the top key Pfam features for explanation.
-'    5. Write predictions + key features to TSV files in the output dir.
-'    6. (Optional) If ground-truth labels are provided, run Module 8
-'       (multi-label evaluation) and print macro/micro accuracy.
+' 论文复现：From Genomes to Phenotypes: Traitar, the Microbial Trait Analyzer
+'
+' 功能：
+'   1. 读取基因组GFF文件和蛋白FASTA文件
+'   2. 调用HMMER进行Pfam注释（或解析预计算的HMMER输出）
+'   3. 构建系统发育谱（0/1特征向量）
+'   4. 加载模型文件（pt2acc.txt, {id}_bias.txt, {id}_feats.txt等）
+'   5. 使用投票委员会进行表型预测
+'   6. 输出预测结果和关键特征
+'
+' 用法：
+'   TraitarVB.exe --gff <gff_file> --fasta <protein_fasta> --models <models_dir> [options]
+'
+'   或直接使用预计算的HMMER输出：
+'   TraitarVB.exe --domtblout <hmmsearch_output> --models <models_dir> [options]
 ' ============================================================================
-Imports System
-Imports System.Collections.Generic
-Imports System.IO
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Models
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Modules
-Imports TraitarVBNet.Models
-Imports TraitarVBNet.Modules
-Imports TraitarVBNet.Utils
 
-Namespace TraitarVBNet
+Imports System.IO
+
+Namespace TraitarVB
 
     Public Class Program
 
-        Public Shared Function Main(args As String()) As Integer
-            Console.WriteLine()
-            Console.WriteLine("==============================================================")
-            Console.WriteLine("  Traitar VB.NET - Microbial Phenotype Predictor")
-            Console.WriteLine("  Implementation of Weimann et al., mSystems 2016")
-            Console.WriteLine("==============================================================")
+        ' 默认参数
+        Public Const DEFAULT_BITSCORE_THRESHOLD As Double = 25.0
+        Public Const DEFAULT_EVALUE_THRESHOLD As Double = 0.01
+
+        Public Shared Sub Main(ByVal args As String())
+
+            Console.WriteLine(New String("="c, 70))
+            Console.WriteLine("  Traitar VB.NET - 微生物表型预测器")
+            Console.WriteLine("  基于论文: From Genomes to Phenotypes (mSystems, 2016)")
+            Console.WriteLine(New String("="c, 70))
             Console.WriteLine()
 
-            ' ---- Parse arguments ----
-            Dim opts As New CommandLineOptions()
-            If Not ParseArgs(args, opts) Then
+            ' 解析命令行参数
+            Dim config As New RunConfig()
+            If Not ParseArguments(args, config) Then
                 PrintUsage()
-                Return 1
+                Return
             End If
 
-            ' ---- Step 1: Build the genome sample ----
-            Console.WriteLine("[1/5] Building genome sample from GFF + FASTA ...")
-            Console.WriteLine("      GFF:   " & opts.GffPath)
-            Console.WriteLine("      FASTA: " & opts.FastaPath)
-            Dim sample As GenomeSample =
-                GenomeAnnotation.BuildSampleFromGffAndFasta(opts.SampleId,
-                                                            opts.GffPath,
-                                                            opts.FastaPath)
-            Console.WriteLine("      Parsed " & sample.Proteins.Count & " protein records.")
+            ' 执行预测流程
+            Try
+                RunPrediction(config)
+            Catch ex As Exception
+                Console.WriteLine("错误: " & ex.Message)
+                Console.WriteLine(ex.StackTrace)
+            End Try
 
-            ' ---- Step 2: Attach Pfam annotations ----
             Console.WriteLine()
-            Console.WriteLine("[2/5] Attaching Pfam annotations ...")
-            If Not String.IsNullOrEmpty(opts.PfamTsvPath) AndAlso File.Exists(opts.PfamTsvPath) Then
-                Console.WriteLine("      Reading pre-computed Pfam TSV: " & opts.PfamTsvPath)
-                GenomeAnnotation.AttachPfamHitsFromTsv(sample, opts.PfamTsvPath,
-                                                        opts.BitScoreCutoff,
-                                                        opts.EValueCutoff)
-                Console.WriteLine("      Pfam hits attached and filtered.")
-            ElseIf Not String.IsNullOrEmpty(opts.HmmsearchPath) AndAlso
-                   Not String.IsNullOrEmpty(opts.PfamDbPath) Then
-                Console.WriteLine("      Running HMMER hmmsearch ...")
-                Console.WriteLine("      hmmsearch: " & opts.HmmsearchPath)
-                Console.WriteLine("      Pfam DB:   " & opts.PfamDbPath)
-                Dim workDir As String = Path.Combine(opts.OutputDir, "hmmer_work")
-                Directory.CreateDirectory(workDir)
-                GenomeAnnotation.AnnotateWithHmmer(sample, opts.PfamDbPath, workDir,
-                                                    opts.EValueCutoff, opts.BitScoreCutoff)
-                Console.WriteLine("      HMMER annotation complete.")
-            Else
-                Console.WriteLine("      WARNING: no Pfam annotation source provided.")
-                Console.WriteLine("              Sample will have an empty Pfam profile.")
-                sample.BuildPfamProfile()
+            Console.WriteLine("按任意键退出...")
+            If Not Console.IsInputRedirected Then
+                Console.ReadKey()
             End If
-            Console.WriteLine("      Pfam families present (after filtering): " &
-                              sample.PfamProfile.Count)
-
-            ' ---- Step 3: Load phenotype models ----
-            Console.WriteLine()
-            Console.WriteLine("[3/5] Loading phenotype models ...")
-            Dim models As List(Of PhenotypeModel)
-            If Not String.IsNullOrEmpty(opts.ModelZipPath) AndAlso File.Exists(opts.ModelZipPath) Then
-                Console.WriteLine("      From ZIP: " & opts.ModelZipPath)
-                models = ModelLoader.LoadAllModelsFromZip(opts.ModelZipPath)
-            Else
-                Console.WriteLine("      From directory: " & opts.ModelDir)
-                models = ModelLoader.LoadAllModels(opts.ModelDir)
-            End If
-            Console.WriteLine("      Loaded " & models.Count & " phenotype models.")
-            For Each m As PhenotypeModel In models
-                Console.WriteLine("        - " & m.PhenotypeId & " (" & m.PhenotypeName &
-                                  ")  active sub-models: " & m.GetVotingCommittee().Count)
-            Next
-
-            ' ---- Step 4: Predict each phenotype ----
-            Console.WriteLine()
-            Console.WriteLine("[4/5] Predicting phenotypes ...")
-            Dim predictions As New List(Of PhenotypePrediction)()
-            For Each m As PhenotypeModel In models
-                Dim pred As Integer = m.Predict(sample)
-                Dim score As Double = m.DecisionScore(sample)
-                Dim keyFeats As List(Of PhenotypeFeature) = m.GetKeyFeatures()
-                predictions.Add(New PhenotypePrediction() With {
-                    .PhenotypeId = m.PhenotypeId,
-                    .PhenotypeName = m.PhenotypeName,
-                    .Category = m.Category,
-                    .Prediction = pred,
-                    .Score = score,
-                    .KeyFeatures = keyFeats
-                })
-                Console.WriteLine("      " & m.PhenotypeId.PadLeft(5) & "  " &
-                                  If(pred = 1, "+", "-") & "  " &
-                                  score.ToString("0.000").PadLeft(8) & "   " &
-                                  m.PhenotypeName)
-            Next
-
-            ' ---- Step 5: Write outputs ----
-            Console.WriteLine()
-            Console.WriteLine("[5/5] Writing outputs to " & opts.OutputDir & " ...")
-            Directory.CreateDirectory(opts.OutputDir)
-            WritePredictionsTsv(predictions, Path.Combine(opts.OutputDir, "phenotype_predictions.tsv"))
-            WriteFeatureContributionsTsv(predictions, Path.Combine(opts.OutputDir, "feature_contributions.tsv"))
-            WriteSummaryTxt(sample, predictions, Path.Combine(opts.OutputDir, "demo_log.txt"))
-
-            Console.WriteLine()
-            Console.WriteLine("Done. Output files:")
-            Console.WriteLine("  " & Path.Combine(opts.OutputDir, "phenotype_predictions.tsv"))
-            Console.WriteLine("  " & Path.Combine(opts.OutputDir, "feature_contributions.tsv"))
-            Console.WriteLine("  " & Path.Combine(opts.OutputDir, "demo_log.txt"))
-            Return 0
-        End Function
-
-        ' -------------------------------------------------------------------
-        '  Output writers
-        ' -------------------------------------------------------------------
-
-        Private Shared Sub WritePredictionsTsv(predictions As List(Of PhenotypePrediction),
-                                                path As String)
-            Using sw As New StreamWriter(path)
-                sw.WriteLine("PhenotypeID" & vbTab & "PhenotypeName" & vbTab & "Category" &
-                             vbTab & "Prediction" & vbTab & "Score" & vbTab & "Confidence")
-                For Each p As PhenotypePrediction In predictions
-                    Dim conf As String = If(p.Prediction = 1, "POSITIVE", "negative")
-                    sw.WriteLine(p.PhenotypeId & vbTab & p.PhenotypeName & vbTab & p.Category &
-                                 vbTab & p.Prediction & vbTab &
-                                 p.Score.ToString("0.######") & vbTab & conf)
-                Next
-            End Using
         End Sub
 
-        Private Shared Sub WriteFeatureContributionsTsv(predictions As List(Of PhenotypePrediction),
-                                                          path As String)
-            Using sw As New StreamWriter(path)
-                sw.WriteLine("PhenotypeID" & vbTab & "PhenotypeName" & vbTab & "Prediction" &
-                             vbTab & "PfamAcc" & vbTab & "Class" & vbTab &
-                             "PearsonCorr" & vbTab & "Description")
-                For Each p As PhenotypePrediction In predictions
-                    For Each f As PhenotypeFeature In p.KeyFeatures
-                        sw.WriteLine(p.PhenotypeId & vbTab & p.PhenotypeName & vbTab &
-                                     p.Prediction & vbTab & f.PfamAcc & vbTab &
-                                     f.WeightClass & vbTab &
-                                     f.PearsonCorrelation.ToString("0.####") & vbTab &
-                                     f.Description)
-                    Next
-                Next
-            End Using
-        End Sub
-
-        Private Shared Sub WriteSummaryTxt(sample As GenomeSample,
-                                            predictions As List(Of PhenotypePrediction),
-                                            path As String)
-            Using sw As New StreamWriter(path)
-                sw.WriteLine("Traitar VB.NET - Phenotype Prediction Demo Log")
-                sw.WriteLine("================================================")
-                sw.WriteLine()
-                sw.WriteLine("Sample ID: " & sample.SampleId)
-                sw.WriteLine("Proteins parsed: " & sample.Proteins.Count)
-                sw.WriteLine("Pfam families present (after bit-score/E-value filter): " &
-                             sample.PfamProfile.Count)
-                sw.WriteLine()
-                sw.WriteLine("Pfam families detected:")
-                Dim keys As New List(Of String)(sample.PfamProfile.Keys)
-                keys.Sort(StringComparer.OrdinalIgnoreCase)
-                For Each k As String In keys
-                    sw.WriteLine("  " & k & " = " & sample.PfamProfile(k))
-                Next
-                sw.WriteLine()
-                sw.WriteLine("Phenotype predictions:")
-                sw.WriteLine("------------------------------------------------")
-                Dim nPos As Integer = 0
-                For Each p As PhenotypePrediction In predictions
-                    If p.Prediction = 1 Then nPos += 1
-                    sw.WriteLine("  " & p.PhenotypeId.PadLeft(5) & "  " &
-                                 If(p.Prediction = 1, "[+]", "[ ]") & "  " &
-                                 p.Score.ToString("0.000").PadLeft(8) & "  " &
-                                 p.PhenotypeName)
-                Next
-                sw.WriteLine()
-                sw.WriteLine("Total phenotypes predicted POSITIVE: " & nPos &
-                             " / " & predictions.Count)
-                sw.WriteLine()
-                sw.WriteLine("Top key Pfam features per positive phenotype:")
-                sw.WriteLine("------------------------------------------------")
-                For Each p As PhenotypePrediction In predictions
-                    If p.Prediction <> 1 Then Continue For
-                    sw.WriteLine()
-                    sw.WriteLine("Phenotype " & p.PhenotypeId & " (" & p.PhenotypeName & "):")
-                    For Each f As PhenotypeFeature In p.KeyFeatures
-                        sw.WriteLine("  " & f.PfamAcc & "  [" & f.WeightClass & "]  " &
-                                     "r=" & f.PearsonCorrelation.ToString("0.###").PadLeft(7) &
-                                     "  " & f.Description)
-                    Next
-                Next
-            End Using
-        End Sub
-
-        ' -------------------------------------------------------------------
-        '  Command-line parsing
-        ' -------------------------------------------------------------------
-
-        Private Class CommandLineOptions
-            Public SampleId As String = "sample_1"
-            Public GffPath As String = ""
-            Public FastaPath As String = ""
-            Public PfamTsvPath As String = ""
-            Public HmmsearchPath As String = ""
-            Public PfamDbPath As String = ""
-            Public ModelDir As String = ""
-            Public ModelZipPath As String = ""
-            Public OutputDir As String = "./output"
-            Public BitScoreCutoff As Double = 25.0R
-            Public EValueCutoff As Double = 0.01R
+        ''' <summary>
+        ''' 运行配置
+        ''' </summary>
+        Public Class RunConfig
+            Public Property GffPath As String = ""
+            Public Property FastaPath As String = ""
+            Public Property DomtbloutPath As String = ""
+            Public Property ModelsDir As String = ""
+            Public Property OutputDir As String = "output"
+            Public Property BitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD
+            Public Property EValueThreshold As Double = DEFAULT_EVALUE_THRESHOLD
+            Public Property HmmsearchPath As String = "hmmsearch"
+            Public Property PfamDbPath As String = ""
+            Public Property RunHmmsearch As Boolean = False
+            Public Property Verbose As Boolean = True
         End Class
 
-        Private Shared Function ParseArgs(args As String(), opts As CommandLineOptions) As Boolean
-            If args Is Nothing OrElse args.Length = 0 Then Return False
-            For i As Integer = 0 To args.Length - 1
-                Dim a As String = args(i)
-                Select Case a.ToLowerInvariant()
-                    Case "--gff" : If i + 1 < args.Length Then opts.GffPath = args(i + 1) : i += 1
-                    Case "--fasta" : If i + 1 < args.Length Then opts.FastaPath = args(i + 1) : i += 1
-                    Case "--pfam-tsv" : If i + 1 < args.Length Then opts.PfamTsvPath = args(i + 1) : i += 1
-                    Case "--hmmsearch" : If i + 1 < args.Length Then opts.HmmsearchPath = args(i + 1) : i += 1
-                    Case "--pfam-db" : If i + 1 < args.Length Then opts.PfamDbPath = args(i + 1) : i += 1
-                    Case "--model-dir" : If i + 1 < args.Length Then opts.ModelDir = args(i + 1) : i += 1
-                    Case "--model-zip" : If i + 1 < args.Length Then opts.ModelZipPath = args(i + 1) : i += 1
-                    Case "--out" : If i + 1 < args.Length Then opts.OutputDir = args(i + 1) : i += 1
-                    Case "--sample-id" : If i + 1 < args.Length Then opts.SampleId = args(i + 1) : i += 1
-                    Case "--bitscore" : If i + 1 < args.Length Then opts.BitScoreCutoff = CDbl(args(i + 1)) : i += 1
-                    Case "--evalue" : If i + 1 < args.Length Then opts.EValueCutoff = CDbl(args(i + 1)) : i += 1
-                    Case "--help", "-h" : Return False
+        ''' <summary>
+        ''' 解析命令行参数
+        ''' </summary>
+        Private Shared Function ParseArguments(ByVal args As String(), ByVal config As RunConfig) As Boolean
+            If args.Length = 0 Then Return False
+
+            Dim i As Integer = 0
+            Do While i < args.Length
+                Select Case args(i).ToLower()
+                    Case "--gff"
+                        i += 1
+                        If i < args.Length Then config.GffPath = args(i)
+                    Case "--fasta"
+                        i += 1
+                        If i < args.Length Then config.FastaPath = args(i)
+                    Case "--domtblout"
+                        i += 1
+                        If i < args.Length Then config.DomtbloutPath = args(i)
+                    Case "--models"
+                        i += 1
+                        If i < args.Length Then config.ModelsDir = args(i)
+                    Case "--output", "-o"
+                        i += 1
+                        If i < args.Length Then config.OutputDir = args(i)
+                    Case "--bitscore"
+                        i += 1
+                        If i < args.Length Then Double.TryParse(args(i), config.BitScoreThreshold)
+                    Case "--evalue"
+                        i += 1
+                        If i < args.Length Then Double.TryParse(args(i), config.EValueThreshold)
+                    Case "--hmmsearch"
+                        i += 1
+                        If i < args.Length Then config.HmmsearchPath = args(i)
+                    Case "--pfam-db"
+                        i += 1
+                        If i < args.Length Then config.PfamDbPath = args(i)
+                    Case "--run-hmmsearch"
+                        config.RunHmmsearch = True
+                    Case "--verbose", "-v"
+                        config.Verbose = True
+                    Case "--help", "-h"
+                        Return False
+                    Case Else
+                        Console.WriteLine("未知参数: " & args(i))
                 End Select
-            Next
-            ' Require at least a FASTA and one model source
-            If opts.FastaPath.Length = 0 Then Return False
-            If opts.ModelDir.Length = 0 AndAlso opts.ModelZipPath.Length = 0 Then Return False
+                i += 1
+            Loop
+
+            ' 验证必要参数
+            If config.ModelsDir = "" Then
+                Console.WriteLine("错误: 必须指定 --models 参数")
+                Return False
+            End If
+
+            If config.DomtbloutPath = "" AndAlso config.FastaPath = "" AndAlso config.GffPath = "" Then
+                Console.WriteLine("错误: 必须指定 --domtblout 或 --fasta 或 --gff 参数")
+                Return False
+            End If
+
             Return True
         End Function
 
+        ''' <summary>
+        ''' 打印用法
+        ''' </summary>
         Private Shared Sub PrintUsage()
-            Console.WriteLine("Usage: TraitarVBNet --fasta <proteins.fasta> --model-dir <dir> [options]")
+            Console.WriteLine("用法:")
+            Console.WriteLine("  TraitarVB.exe --models <models_dir> [输入选项] [其他选项]")
             Console.WriteLine()
-            Console.WriteLine("Required:")
-            Console.WriteLine("  --fasta <path>         Protein FASTA file (amino acid sequences)")
-            Console.WriteLine("  --model-dir <dir>      Directory containing Traitar model files")
-            Console.WriteLine("    OR --model-zip <zip>   ZIP archive of model files")
+            Console.WriteLine("输入选项（三选一）:")
+            Console.WriteLine("  --domtblout <file>   预计算的HMMER domtblout输出文件")
+            Console.WriteLine("  --fasta <file>       蛋白质FASTA文件（需要配合--run-hmmsearch）")
+            Console.WriteLine("  --gff <file>         GFF3注释文件")
             Console.WriteLine()
-            Console.WriteLine("Optional:")
-            Console.WriteLine("  --gff <path>           GFF3 annotation file (for locus tags)")
-            Console.WriteLine("  --pfam-tsv <path>      Pre-computed Pfam annotation TSV")
-            Console.WriteLine("                         (target_name, pfam_acc, evalue, bitscore)")
-            Console.WriteLine("  --hmmsearch <path>     Path to hmmsearch executable")
-            Console.WriteLine("  --pfam-db <path>       Path to Pfam HMM database")
-            Console.WriteLine("  --out <dir>            Output directory (default: ./output)")
-            Console.WriteLine("  --sample-id <name>     Sample identifier (default: sample_1)")
-            Console.WriteLine("  --bitscore <val>       Bit-score cutoff (default: 25.0)")
-            Console.WriteLine("  --evalue <val>         E-value cutoff (default: 0.01)")
+            Console.WriteLine("必需参数:")
+            Console.WriteLine("  --models <dir>       模型文件目录（包含pt2acc.txt等）")
+            Console.WriteLine()
+            Console.WriteLine("可选参数:")
+            Console.WriteLine("  --output <dir>       输出目录（默认: output）")
+            Console.WriteLine("  --bitscore <val>     比特分数阈值（默认: 25.0）")
+            Console.WriteLine("  --evalue <val>       E值阈值（默认: 0.01）")
+            Console.WriteLine("  --run-hmmsearch      对FASTA文件运行hmmsearch")
+            Console.WriteLine("  --hmmsearch <path>   hmmsearch可执行文件路径")
+            Console.WriteLine("  --pfam-db <path>     Pfam数据库HMM文件路径")
+            Console.WriteLine("  --verbose, -v        详细输出")
+            Console.WriteLine("  --help, -h           显示帮助")
+            Console.WriteLine()
+            Console.WriteLine("示例:")
+            Console.WriteLine("  TraitarVB.exe --domtblout sample.domtblout --models ./models --output ./output")
+            Console.WriteLine("  TraitarVB.exe --fasta proteins.faa --models ./models --run-hmmsearch --pfam-db Pfam-A.hmm")
         End Sub
 
-    End Class
+        ''' <summary>
+        ''' 运行预测流程
+        ''' </summary>
+        Private Shared Sub RunPrediction(ByVal config As RunConfig)
 
-    ''' <summary>One phenotype prediction result with its key features.</summary>
-    Public Class PhenotypePrediction
-        Public Property PhenotypeId As String = ""
-        Public Property PhenotypeName As String = ""
-        Public Property Category As String = ""
-        Public Property Prediction As Integer
-        Public Property Score As Double
-        Public Property KeyFeatures As New List(Of PhenotypeFeature)()
+            ' ================================================================
+            ' 步骤1: 基因组注释与特征化（模块1）
+            ' ================================================================
+            Console.WriteLine("--- 步骤1: 基因组注释与特征化 ---")
+            Dim annotator As New Modules.GenomeAnnotation(
+                "prodigal", config.HmmsearchPath, config.PfamDbPath)
+
+            Dim sample As Models.GenomeSample
+
+            If config.DomtbloutPath <> "" Then
+                ' 直接解析预计算的HMMER输出
+                Console.WriteLine("解析HMMER domtblout文件: " & config.DomtbloutPath)
+                sample = annotator.AnnotateFromDomtblout(
+                    config.DomtbloutPath,
+                    config.BitScoreThreshold,
+                    config.EValueThreshold)
+            ElseIf config.FastaPath <> "" Then
+                ' 从FASTA文件注释
+                Console.WriteLine("从蛋白质FASTA文件注释: " & config.FastaPath)
+                sample = annotator.AnnotateFromFasta(
+                    config.FastaPath,
+                    config.BitScoreThreshold,
+                    config.EValueThreshold)
+            ElseIf config.GffPath <> "" Then
+                ' 从GFF文件注释
+                Console.WriteLine("从GFF文件注释: " & config.GffPath)
+                sample = annotator.AnnotateFromGFF(
+                    config.GffPath,
+                    config.BitScoreThreshold,
+                    config.EValueThreshold)
+            Else
+                Throw New Exception("未指定输入文件")
+            End If
+
+            Console.WriteLine("样本ID: " & sample.SampleId)
+            Console.WriteLine("Pfam家族数: " & sample.PfamCount)
+            Console.WriteLine()
+
+            ' ================================================================
+            ' 步骤2: 加载模型文件
+            ' ================================================================
+            Console.WriteLine("--- 步骤2: 加载模型文件 ---")
+            Dim modelLoader As New ModelLoader(config.ModelsDir)
+            modelLoader.LoadAll()
+
+            Console.WriteLine("表型数: " & modelLoader.PhenotypeCount)
+            Console.WriteLine()
+
+            ' ================================================================
+            ' 步骤3: 集成投票预测（模块6）
+            ' ================================================================
+            Console.WriteLine("--- 步骤3: 集成投票预测 ---")
+            Dim voting As New Modules.EnsembleVoting()
+
+            ' 构建表型ID -> 模型列表的映射
+            Dim phenotypeModels As New Dictionary(Of String, List(Of Modules.SVMClassifier.SVMModel))
+            For Each kvp As KeyValuePair(Of String, Models.PhenotypeModel) In modelLoader.Phenotypes
+                Dim phenoId As String = kvp.Key
+                Dim phenoModel As Models.PhenotypeModel = kvp.Value
+
+                ' 将PhenotypeModel转换为SVMModel列表
+                Dim svmModels As New List(Of Modules.SVMClassifier.SVMModel)
+                For Each subModel As Models.SVMSubModel In phenoModel.SubModels
+                    Dim svmModel As New Modules.SVMClassifier.SVMModel()
+                    svmModel.C = subModel.C
+                    svmModel.Bias = subModel.Bias
+                    svmModel.FeatureIds = New List(Of String)(subModel.Weights.Keys)
+                    svmModel.Weights = New Double(subModel.Weights.Count - 1) {}
+                    Dim idx As Integer = 0
+                    For Each wKvp As KeyValuePair(Of String, Double) In subModel.Weights
+                        svmModel.FeatureIds(idx) = wKvp.Key
+                        svmModel.Weights(idx) = wKvp.Value
+                        idx += 1
+                    Next
+                    svmModels.Add(svmModel)
+                Next
+
+                phenotypeModels(phenoId) = svmModels
+            Next
+
+            ' 执行预测
+            Dim predictions As Dictionary(Of String, Modules.EnsembleVoting.VotingResult) =
+                voting.PredictAllPhenotypes(phenotypeModels, sample.PhyleticProfile)
+
+            Console.WriteLine()
+
+            ' ================================================================
+            ' 步骤4: 特征选择与关联解释（模块7）
+            ' ================================================================
+            Console.WriteLine("--- 步骤4: 关键特征分析 ---")
+            Dim featSelector As New Modules.FeatureSelection()
+
+            ' 为每个阳性表型提取关键特征
+            Dim allKeyFeatures As New Dictionary(Of String, List(Of Modules.FeatureSelection.KeyFeature))
+
+            For Each kvp As KeyValuePair(Of String, Modules.EnsembleVoting.VotingResult) In predictions
+                If kvp.Value.IsPositive Then
+                    Dim phenoId As String = kvp.Key
+                    Dim keyFile As String = Path.Combine(config.ModelsDir, phenoId & "_non-zero+weights.txt")
+
+                    If File.Exists(keyFile) Then
+                        Dim keyFeats As List(Of Modules.FeatureSelection.KeyFeature) =
+                            featSelector.LoadKeyFeaturesFromFile(keyFile)
+                        allKeyFeatures(phenoId) = keyFeats
+                    End If
+                End If
+            Next
+
+            Console.WriteLine()
+
+            ' ================================================================
+            ' 步骤5: 输出结果
+            ' ================================================================
+            Console.WriteLine("--- 步骤5: 输出结果 ---")
+            If Not Directory.Exists(config.OutputDir) Then
+                Directory.CreateDirectory(config.OutputDir)
+            End If
+
+            OutputResults(config.OutputDir, sample, modelLoader, predictions, allKeyFeatures, featSelector)
+
+            Console.WriteLine()
+            Console.WriteLine("预测完成！结果已保存到: " & config.OutputDir)
+        End Sub
+
+        ''' <summary>
+        ''' 输出结果
+        ''' </summary>
+        Private Shared Sub OutputResults(
+            ByVal outputDir As String,
+            ByVal sample As Models.GenomeSample,
+            ByVal modelLoader As ModelLoader,
+            ByVal predictions As Dictionary(Of String, Modules.EnsembleVoting.VotingResult),
+            ByVal allKeyFeatures As Dictionary(Of String, List(Of Modules.FeatureSelection.KeyFeature)),
+            ByVal featSelector As Modules.FeatureSelection)
+
+            ' 1. 预测结果摘要
+            Dim summaryPath As String = Path.Combine(outputDir, "prediction_summary.txt")
+            Using writer As New StreamWriter(summaryPath)
+                writer.WriteLine(New String("="c, 70))
+                writer.WriteLine("  Traitar VB.NET 表型预测结果")
+                writer.WriteLine(New String("="c, 70))
+                writer.WriteLine()
+                writer.WriteLine("样本ID: " & sample.SampleId)
+                writer.WriteLine("Pfam家族数: " & sample.PfamCount)
+                writer.WriteLine("检测到的Pfam家族:")
+                For Each pid As String In sample.GetPresentPfamIds()
+                    writer.WriteLine("  " & pid)
+                Next
+                writer.WriteLine()
+                writer.WriteLine("--- 表型预测结果 ---")
+                writer.WriteLine(String.Format("{0,-10} {1,-40} {2,-15} {3,-10} {4,-10}",
+                                                "表型ID", "表型名称", "类别", "预测", "置信度"))
+                writer.WriteLine(New String("-"c, 90))
+
+                Dim positiveCount As Integer = 0
+                For Each kvp As KeyValuePair(Of String, Models.PhenotypeModel) In modelLoader.Phenotypes
+                    Dim phenoId As String = kvp.Key
+                    Dim phenoModel As Models.PhenotypeModel = kvp.Value
+
+                    Dim result As Modules.EnsembleVoting.VotingResult = Nothing
+                    If predictions.ContainsKey(phenoId) Then
+                        result = predictions(phenoId)
+                    End If
+
+                    Dim predStr As String = "N/A"
+                    Dim confStr As String = "N/A"
+                    If result IsNot Nothing Then
+                        predStr = If(result.IsPositive, "存在(+)", "不存在(-)")
+                        confStr = result.Confidence.ToString("F2")
+                        If result.IsPositive Then positiveCount += 1
+                    End If
+
+                    writer.WriteLine(String.Format("{0,-10} {1,-40} {2,-15} {3,-10} {4,-10}",
+                                                    phenoId,
+                                                    If(phenoModel.PhenotypeName.Length > 40,
+                                                       phenoModel.PhenotypeName.Substring(0, 40), phenoModel.PhenotypeName),
+                                                    phenoModel.Category,
+                                                    predStr, confStr))
+                Next
+
+                writer.WriteLine()
+                writer.WriteLine(String.Format("阳性表型数: {0}/{1}", positiveCount, modelLoader.PhenotypeCount))
+            End Using
+            Console.WriteLine("  预测摘要: " & summaryPath)
+
+            ' 2. 阳性表型详细报告
+            Dim detailPath As String = Path.Combine(outputDir, "positive_phenotypes_detail.txt")
+            Using writer As New StreamWriter(detailPath)
+                writer.WriteLine(New String("="c, 70))
+                writer.WriteLine("  阳性表型详细报告")
+                writer.WriteLine(New String("="c, 70))
+                writer.WriteLine()
+
+                For Each kvp As KeyValuePair(Of String, Modules.EnsembleVoting.VotingResult) In predictions
+                    If Not kvp.Value.IsPositive Then Continue For
+
+                    Dim phenoId As String = kvp.Key
+                    Dim phenoModel As Models.PhenotypeModel = modelLoader.Phenotypes(phenoId)
+
+                    writer.WriteLine(New String("-"c, 35))
+                    writer.WriteLine("表型ID: " & phenoId)
+                    writer.WriteLine("表型名称: " & phenoModel.PhenotypeName)
+                    writer.WriteLine("表型类别: " & phenoModel.Category)
+                    writer.WriteLine("预测结果: 存在(POSITIVE)")
+                    writer.WriteLine("投票统计: 正票=" & kvp.Value.PositiveVotes &
+                                     ", 负票=" & kvp.Value.NegativeVotes &
+                                     ", 总票数=" & kvp.Value.TotalVotes)
+                    writer.WriteLine("置信度: " & kvp.Value.Confidence.ToString("F4"))
+                    writer.WriteLine()
+
+                    ' 关键特征
+                    If allKeyFeatures.ContainsKey(phenoId) Then
+                        writer.WriteLine("关键蛋白质家族特征:")
+                        writer.WriteLine(featSelector.GenerateReport(allKeyFeatures(phenoId), 10))
+                    End If
+
+                    writer.WriteLine()
+                Next
+            End Using
+            Console.WriteLine("  阳性详情: " & detailPath)
+
+            ' 3. 特征向量
+            Dim featurePath As String = Path.Combine(outputDir, "phyletic_profile.txt")
+            Using writer As New StreamWriter(featurePath)
+                writer.WriteLine("样本ID: " & sample.SampleId)
+                writer.WriteLine("Pfam家族数: " & sample.PfamCount)
+                writer.WriteLine()
+                writer.WriteLine("存在的Pfam家族:")
+                For Each pid As String In sample.GetPresentPfamIds()
+                    Dim desc As String = ""
+                    If modelLoader.PfamDescriptions.ContainsKey(pid) Then
+                        desc = modelLoader.PfamDescriptions(pid)
+                    End If
+                    writer.WriteLine(pid & ControlChars.Tab & desc)
+                Next
+            End Using
+            Console.WriteLine("  特征向量: " & featurePath)
+
+        End Sub
+
     End Class
 
 End Namespace

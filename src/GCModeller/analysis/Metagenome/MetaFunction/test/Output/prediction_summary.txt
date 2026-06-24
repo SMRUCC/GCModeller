@@ -1,0 +1,42 @@
+======================================================================
+  Traitar 表型预测结果汇总
+======================================================================
+
+输入文件: /home/z/my-project/work/TraitarVB/Data/sample_hmmsearch.domtblout
+模型目录: /home/z/my-project/work/models
+检测到的Pfam家族数: 22
+预测表型总数: 5
+阳性表型数: 1
+
+存在的Pfam家族:
+  PF00001	
+  PF00004	
+  PF00005	
+  PF00069	
+  PF00072	
+  PF00144	
+  PF00528	
+  PF00571	
+  PF00689	
+  PF01138	
+  PF01715	
+  PF02351	
+  PF02376	
+  PF02797	
+  PF03460	
+  PF03726	
+  PF04020	
+  PF06850	
+  PF08353	
+  PF12732	
+  PF12911	
+  PF13014	
+
+预测结果:
+表型ID       表型名称                                     类别              预测         正票    总票    置信度     
+----------------------------------------------------------------------------------------------------
+8567       Coagulase production                     Enzyme          POSITIVE   7     8     0.8750  
+8566       D-Sorbitol                               Growth: Sugar   NEGATIVE   0     8     0.0000  
+8563       Esculin hydrolysis                       Growth: Sugar   NEGATIVE   0     9     0.0000  
+8564       Sucrose                                  Growth: Sugar   NEGATIVE   0     11    0.0000  
+8562       Facultative                              Oxygen          NEGATIVE   0     11    0.0000  
