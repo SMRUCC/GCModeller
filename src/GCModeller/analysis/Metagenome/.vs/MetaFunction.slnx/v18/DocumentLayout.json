@@ -3,32 +3,52 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\phylogeny\\ancestralstatereconstructor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\phylogeny\\ancestralstatereconstructor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\evaluation\\multilabelmetrics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\evaluation\\multilabelmetrics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\phylogeny\\datafusion.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\phylogeny\\datafusion.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\genomeannotation\\pfamannotator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\genomeannotation\\pfamannotator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AB57050C-25D0-7C6E-B8AD-8669B9FEB7A4}|MetaFunction\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\test\\traitartest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{AB57050C-25D0-7C6E-B8AD-8669B9FEB7A4}|MetaFunction\\test\\test.vbproj|solutionrelative:metafunction\\test\\traitartest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\prediction\\featureexplainer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\prediction\\featureexplainer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\genomeannotation\\gffparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\genomeannotation\\gffparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\genomeannotation\\featurematrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\genomeannotation\\featurematrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\genomeannotation\\pfamannotator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\genomeannotation\\pfamannotator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\genomeannotation\\fastaparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\genomeannotation\\fastaparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\models\\traitarmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\models\\traitarmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\phylogeny\\datafusion.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\phylogeny\\datafusion.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\phylogeny\\ancestralstatereconstructor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\phylogeny\\ancestralstatereconstructor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\prediction\\phenotypepredictor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\prediction\\phenotypepredictor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\prediction\\nestedcrossvalidation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\prediction\\nestedcrossvalidation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\prediction\\featureexplainer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\prediction\\featureexplainer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB57050C-25D0-7C6E-B8AD-8669B9FEB7A4}|MetaFunction\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\test\\traitartest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{AB57050C-25D0-7C6E-B8AD-8669B9FEB7A4}|MetaFunction\\test\\test.vbproj|solutionrelative:metafunction\\test\\traitartest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,50 +58,102 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
+              "Title": "GffParser.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\GffParser.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\GffParser.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\GffParser.vb",
+              "RelativeToolTip": "MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\GffParser.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-24T13:04:07.879Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FastaParser.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\FastaParser.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\FastaParser.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\FastaParser.vb",
+              "RelativeToolTip": "MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\FastaParser.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-24T13:04:05.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "PhenotypePredictor.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Prediction\\PhenotypePredictor.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\Prediction\\PhenotypePredictor.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Prediction\\PhenotypePredictor.vb",
+              "RelativeToolTip": "MetaFunction\\metaTraits\\Traitar\\Prediction\\PhenotypePredictor.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-24T13:03:55.295Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "NestedCrossValidation.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Prediction\\NestedCrossValidation.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\Prediction\\NestedCrossValidation.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Prediction\\NestedCrossValidation.vb",
+              "RelativeToolTip": "MetaFunction\\metaTraits\\Traitar\\Prediction\\NestedCrossValidation.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-24T13:03:54.268Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "AncestralStateReconstructor.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Phylogeny\\AncestralStateReconstructor.vb",
               "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\Phylogeny\\AncestralStateReconstructor.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Phylogeny\\AncestralStateReconstructor.vb",
               "RelativeToolTip": "MetaFunction\\metaTraits\\Traitar\\Phylogeny\\AncestralStateReconstructor.vb",
-              "ViewState": "AgIAAJsAAAAAAAAAAAApwK4AAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-24T13:02:08.93Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MultiLabelMetrics.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Evaluation\\MultiLabelMetrics.vb",
               "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\Evaluation\\MultiLabelMetrics.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Evaluation\\MultiLabelMetrics.vb",
               "RelativeToolTip": "MetaFunction\\metaTraits\\Traitar\\Evaluation\\MultiLabelMetrics.vb",
-              "ViewState": "AgIAAH0AAAAAAAAAAAApwI8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-24T13:02:01.9Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "DataFusion.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Phylogeny\\DataFusion.vb",
               "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\Phylogeny\\DataFusion.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Phylogeny\\DataFusion.vb",
               "RelativeToolTip": "MetaFunction\\metaTraits\\Traitar\\Phylogeny\\DataFusion.vb",
-              "ViewState": "AgIAAF4AAAAAAAAAAAAjwJAAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJAAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-24T13:01:29.742Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "PfamAnnotator.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\PfamAnnotator.vb",
               "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\PfamAnnotator.vb",
@@ -94,13 +166,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "FeatureMatrix.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\FeatureMatrix.vb",
               "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\FeatureMatrix.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\FeatureMatrix.vb",
               "RelativeToolTip": "MetaFunction\\metaTraits\\Traitar\\GenomeAnnotation\\FeatureMatrix.vb",
-              "ViewState": "AgIAAFYAAAAAAAAAAAApwGgAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGgAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-24T12:48:05.332Z",
               "EditorCaption": ""
@@ -123,7 +195,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 11,
               "Title": "TraitarTest.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\test\\TraitarTest.vb",
               "RelativeDocumentMoniker": "MetaFunction\\test\\TraitarTest.vb",
@@ -136,13 +208,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
+              "Title": "TraitarModel.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Models\\TraitarModel.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\Models\\TraitarModel.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Models\\TraitarModel.vb",
+              "RelativeToolTip": "MetaFunction\\metaTraits\\Traitar\\Models\\TraitarModel.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-24T13:04:02.214Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "FeatureExplainer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Prediction\\FeatureExplainer.vb",
               "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\Prediction\\FeatureExplainer.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\Prediction\\FeatureExplainer.vb",
               "RelativeToolTip": "MetaFunction\\metaTraits\\Traitar\\Prediction\\FeatureExplainer.vb",
-              "ViewState": "AgIAAHoAAAAAAAAAAAApwJoAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJoAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-06-24T12:40:55.411Z",
               "EditorCaption": ""

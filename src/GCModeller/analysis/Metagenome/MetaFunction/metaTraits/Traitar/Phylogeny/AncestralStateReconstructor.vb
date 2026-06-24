@@ -12,9 +12,6 @@
 '   4. 树遍历算法将生命树(sTOL)映射剪枝到特定表型树
 ' ============================================================================
 
-Imports System.Collections.Generic
-Imports System.Linq
-
 Namespace Traitar.Phylogeny
 
     ''' <summary>

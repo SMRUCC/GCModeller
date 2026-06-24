@@ -11,9 +11,6 @@
 '   3. 微平均 (Micro-average): 汇总所有表型的 TP/TN/FP/FN，计算总体准确率
 ' ============================================================================
 
-Imports System.Collections.Generic
-Imports System.Linq
-
 Namespace Traitar.Evaluation
 
     ''' <summary>
