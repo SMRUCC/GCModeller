@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\metatraits\\traitar\\traitartest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39489250-5EA1-8F23-838F-2A22CE447300}|MetaFunction\\MetaFunction.vbproj|solutionrelative:metafunction\\metatraits\\traitar\\traitartest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,6 +31,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TraitarTest.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\TraitarTest.vb",
+              "RelativeDocumentMoniker": "MetaFunction\\metaTraits\\Traitar\\TraitarTest.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\metaTraits\\Traitar\\TraitarTest.vb",
+              "RelativeToolTip": "MetaFunction\\metaTraits\\Traitar\\TraitarTest.vb",
+              "ViewState": "AgIAALcAAAAAAAAAAAAqwNwAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-06-24T12:19:52.442Z",
+              "EditorCaption": ""
             }
           ]
         },
