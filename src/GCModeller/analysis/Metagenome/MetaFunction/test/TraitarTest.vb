@@ -39,10 +39,10 @@ Namespace TraitarVB
 
             ' 解析命令行参数
             Dim config As New RunConfig()
-            If Not ParseArguments(args, config) Then
-                PrintUsage()
-                Return
-            End If
+            'If Not ParseArguments(args, config) Then
+            '    PrintUsage()
+            '    Return
+            'End If
 
             ' 执行预测流程
             Try
@@ -182,34 +182,36 @@ Namespace TraitarVB
 
             Dim sample As Models.GenomeSample
 
-            If config.DomtbloutPath <> "" Then
-                ' 直接解析预计算的HMMER输出
-                Console.WriteLine("解析HMMER domtblout文件: " & config.DomtbloutPath)
-                sample = annotator.AnnotateFromDomtblout(
-                    config.DomtbloutPath,
-                    config.BitScoreThreshold,
-                    config.EValueThreshold)
-            ElseIf config.FastaPath <> "" Then
-                ' 从FASTA文件注释
-                Console.WriteLine("从蛋白质FASTA文件注释: " & config.FastaPath)
-                sample = annotator.AnnotateFromFasta(
-                    config.FastaPath,
-                    config.BitScoreThreshold,
-                    config.EValueThreshold)
-            ElseIf config.GffPath <> "" Then
-                ' 从GFF文件注释
-                Console.WriteLine("从GFF文件注释: " & config.GffPath)
-                sample = annotator.AnnotateFromGFF(
-                    config.GffPath,
-                    config.BitScoreThreshold,
-                    config.EValueThreshold)
-            Else
-                Throw New Exception("未指定输入文件")
-            End If
+            ' If config.DomtbloutPath <> "" Then
+            ' 直接解析预计算的HMMER输出
+            Console.WriteLine("解析HMMER domtblout文件: " & config.DomtbloutPath)
+            sample = annotator.AnnotateFromDomtblout(
+                "G:\GCModeller\src\GCModeller\analysis\Metagenome\MetaFunction\test\Data\sample_hmmsearch.domtblout",
+                config.BitScoreThreshold,
+                config.EValueThreshold)
+            'ElseIf config.FastaPath <> "" Then
+            '    ' 从FASTA文件注释
+            '    Console.WriteLine("从蛋白质FASTA文件注释: " & config.FastaPath)
+            '    sample = annotator.AnnotateFromFasta(
+            '        config.FastaPath,
+            '        config.BitScoreThreshold,
+            '        config.EValueThreshold)
+            'ElseIf config.GffPath <> "" Then
+            '    ' 从GFF文件注释
+            '    Console.WriteLine("从GFF文件注释: " & config.GffPath)
+            '    sample = annotator.AnnotateFromGFF(
+            '        config.GffPath,
+            '        config.BitScoreThreshold,
+            '        config.EValueThreshold)
+            'Else
+            '    Throw New Exception("未指定输入文件")
+            'End If
 
             Console.WriteLine("样本ID: " & sample.SampleId)
             Console.WriteLine("Pfam家族数: " & sample.PfamCount)
             Console.WriteLine()
+
+            config.ModelsDir = "C:\Users\Administrator\Downloads\traitar-master\traitar\data\models\phypat+PGL"
 
             ' ================================================================
             ' 步骤2: 加载模型文件
