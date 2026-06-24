@@ -37,6 +37,36 @@ Namespace TraitarVB
             _modelsDir = modelsDir
         End Sub
 
+        Public Function LoadPhenotypeSVM() As Dictionary(Of String, Modules.SVMClassifier.SVMModel())
+            ' 构建表型ID -> 模型列表的映射
+            Dim phenotypeModels As New Dictionary(Of String, Modules.SVMClassifier.SVMModel())
+            For Each kvp As KeyValuePair(Of String, Models.PhenotypeModel) In Phenotypes
+                Dim phenoId As String = kvp.Key
+                Dim phenoModel As Models.PhenotypeModel = kvp.Value
+
+                ' 将PhenotypeModel转换为SVMModel列表
+                Dim svmModels As New List(Of Modules.SVMClassifier.SVMModel)
+                For Each subModel As Models.SVMSubModel In phenoModel.SubModels
+                    Dim svmModel As New Modules.SVMClassifier.SVMModel()
+                    svmModel.C = subModel.C
+                    svmModel.Bias = subModel.Bias
+                    svmModel.FeatureIds = New List(Of String)(subModel.Weights.Keys)
+                    svmModel.Weights = New Double(subModel.Weights.Count - 1) {}
+                    Dim idx As Integer = 0
+                    For Each wKvp As KeyValuePair(Of String, Double) In subModel.Weights
+                        svmModel.FeatureIds(idx) = wKvp.Key
+                        svmModel.Weights(idx) = wKvp.Value
+                        idx += 1
+                    Next
+                    svmModels.Add(svmModel)
+                Next
+
+                phenotypeModels(phenoId) = svmModels.ToArray
+            Next
+
+            Return phenotypeModels
+        End Function
+
         ''' <summary>
         ''' 加载所有模型文件
         ''' </summary>
