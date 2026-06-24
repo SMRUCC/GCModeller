@@ -176,7 +176,7 @@ Namespace Traitar.Phylogeny
                 likelihoods(node.Name) = L
             Else
                 ' 内部节点: 递归计算子节点，然后合并
-                Dim childLs As New List(Of Double()())
+                Dim childLs As New List(Of Double())
                 For Each child In node.Children
                     ComputeLikelihoods(child, leafStates, likelihoods)
                     childLs.Add(likelihoods(child.Name))

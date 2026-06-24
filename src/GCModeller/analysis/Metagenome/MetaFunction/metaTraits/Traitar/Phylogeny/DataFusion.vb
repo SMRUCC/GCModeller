@@ -13,8 +13,7 @@
 '      标签 y 和 y' 组合，形成扩展的分类数据集
 ' ============================================================================
 
-Imports System.Collections.Generic
-Imports Traitar.Phylogeny
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.Traitar.Phylogeny
 
 Namespace Traitar.DataFusion
 
@@ -154,8 +153,8 @@ Namespace Traitar.DataFusion
             ' 收集所有特征名
             Dim featSet As New HashSet(Of String)
             For Each sample In dataset
-                For Each f In sample.Features.Keys
-                    featSet.Add(f)
+                For Each F As String In sample.Features.Keys
+                    featSet.Add(F)
                 Next
             Next
             featureNames = New List(Of String)(featSet)

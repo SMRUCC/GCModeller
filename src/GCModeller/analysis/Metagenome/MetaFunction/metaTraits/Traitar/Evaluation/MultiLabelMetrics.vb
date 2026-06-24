@@ -149,7 +149,7 @@ Namespace Traitar.Evaluation
             Next
 
             ' 对每个表型计算混淆矩阵
-            For Each pid In phenotypeIds
+            For Each pid As String In phenotypeIds
                 Dim cm As New ConfusionMatrix With {
                     .PhenotypeId = pid,
                     .PhenotypeName = If(phenotypeNames.ContainsKey(pid), phenotypeNames(pid), pid)
