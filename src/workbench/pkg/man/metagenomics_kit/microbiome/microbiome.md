@@ -2,7 +2,6 @@
 
 tools for metagenomics and microbiome
 
-+ [load.meta_traits](microbiome/load.meta_traits.1) 
 + [parse.otu_taxonomy](microbiome/parse.otu_taxonomy.1) parse the otu taxonomy data file
 + [build.PICRUSt_db](microbiome/build.PICRUSt_db.1) build PICRUSt binary database file
 + [read_PICRUSt](microbiome/read_PICRUSt.1) read the compiled PICRUSt binary database file
