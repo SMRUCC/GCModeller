@@ -4,6 +4,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Models
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Modules
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Utils
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -56,11 +59,29 @@ Module metaTraitsTool
 
     <ExportAPI("make_predicts")>
     <RApiReturn(GetType(Modules.EnsembleVoting.VotingResult))>
-    Public Function make_predicts(models As ModelLoader, genome As GenomeSample) As Object
+    Public Function make_predicts(models As ModelLoader, <RRawVectorArgument> genome As Object,
+                                  Optional bit_score As Double = 25,
+                                  Optional evalue As Double = 0.01,
+                                  Optional env As Environment = Nothing) As Object
+
         Dim voting As New Modules.EnsembleVoting()
         Dim phenotypeModels = models.LoadPhenotypeSVM
+        Dim phyleticProfile As Dictionary(Of String, Integer)
+
+        If TypeOf genome Is GenomeSample Then
+            phyleticProfile = DirectCast(genome, GenomeSample).PhyleticProfile
+        Else
+            Dim data As PipeIterator(Of DiamondAnnotation) = pipeline.Stream(Of DiamondAnnotation)(genome, env)
+
+            If data.isError Then
+                Return data.getError
+            Else
+                phyleticProfile = GenomeSample.BuildPhyleticProfile(data.ConvertFromDiamond, bitScoreThreshold:=bit_score, evalueThreshold:=evalue)
+            End If
+        End If
+
         ' 执行预测
-        Dim predictions As Modules.EnsembleVoting.VotingResult() = voting.PredictAllPhenotypes(phenotypeModels, genome.PhyleticProfile).ToArray
+        Dim predictions As Modules.EnsembleVoting.VotingResult() = voting.PredictAllPhenotypes(phenotypeModels, phyleticProfile).ToArray
 
         Return predictions
     End Function
@@ -84,6 +105,5 @@ Module metaTraitsTool
 
         Return predictions.ResultTable(allKeyFeatures, models).ToArray
     End Function
-
 
 End Module
