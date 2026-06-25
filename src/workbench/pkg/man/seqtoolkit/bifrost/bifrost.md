@@ -2,7 +2,6 @@
 
 
 
-+ [as.data.frame](bifrost/as.data.frame.1) 
 + [prodigal_training](bifrost/prodigal_training.1) 
 + [prodigal](bifrost/prodigal.1) Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)
 + [metaeuk](bifrost/metaeuk.1) 

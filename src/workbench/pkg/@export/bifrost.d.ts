@@ -9,11 +9,6 @@
 */
 declare namespace bifrost {
    module as {
-      module data {
-         /**
-         */
-         function frame(result: object, args: object, env: object): any;
-      }
       /**
        * Extract the gene sequences from the gene prediction result, and return as FASTA format. The sequence ID is in the format of "seqid_geneindex". For example, "contig1_5" means the 5th predicted gene on contig1. The sequence description is in the format of "start-end(strand)". For example, "100-900(+)" means the gene starts at position 100, ends at position 900, and is on the forward strand.
        * 
