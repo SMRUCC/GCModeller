@@ -4,7 +4,6 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Models
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Modules
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Utils
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.Rsharp.Runtime
