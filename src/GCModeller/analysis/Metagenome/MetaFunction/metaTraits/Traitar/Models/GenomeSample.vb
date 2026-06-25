@@ -8,6 +8,8 @@
 '   - 系统发育谱（phyletic pattern，0/1特征向量）
 ' ============================================================================
 
+Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
+
 Namespace TraitarVB.Models
 
     ''' <summary>

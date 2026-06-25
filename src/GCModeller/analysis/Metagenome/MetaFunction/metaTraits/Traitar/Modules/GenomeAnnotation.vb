@@ -16,9 +16,9 @@
 '   - 二值化处理：将Pfam家族计数转化为0/1矩阵
 ' ============================================================================
 
-Imports System.Diagnostics
 Imports System.IO
 Imports System.Runtime.InteropServices
+Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
 
 Namespace TraitarVB.Modules
 
@@ -164,7 +164,7 @@ Namespace TraitarVB.Modules
                 sample.SourceFile = gffPath
 
                 ' 尝试从GFF中提取Pfam注释
-                Dim gffPfams As List(Of Models.PfamAnnotation) = Utils.FileParser.ExtractPfamFromGFF(gffPath)
+                Dim gffPfams As List(Of PfamAnnotation) = Utils.FileParser.ExtractPfamFromGFF(gffPath)
                 If gffPfams.Count > 0 Then
                     Console.WriteLine("[模块1] 从GFF中提取到 {0} 条Pfam注释", gffPfams.Count)
                     sample.PfamAnnotations.AddRange(gffPfams)
@@ -189,14 +189,14 @@ Namespace TraitarVB.Modules
             ' 3. 运行HMMER或解析已有domtblout
             If domtbloutPath IsNot Nothing AndAlso File.Exists(domtbloutPath) Then
                 Console.WriteLine("[模块1] 解析HMMER domtblout文件: " & domtbloutPath)
-                Dim anns As List(Of Models.PfamAnnotation) = Utils.FileParser.ParseHmmsearchDomtblout(domtbloutPath)
+                Dim anns As List(Of PfamAnnotation) = Utils.FileParser.ParseHmmsearchDomtblout(domtbloutPath)
                 sample.PfamAnnotations.AddRange(anns)
             ElseIf proteinFastaPath IsNot Nothing AndAlso File.Exists(proteinFastaPath) Then
                 ' 自动运行hmmsearch
                 Console.WriteLine("[模块1] 运行HMMER hmmsearch...")
                 Dim tempOut As String = Path.GetTempFileName()
                 If RunHmmsearch(proteinFastaPath, tempOut) Then
-                    Dim anns As List(Of Models.PfamAnnotation) = Utils.FileParser.ParseHmmsearchDomtblout(tempOut)
+                    Dim anns As List(Of PfamAnnotation) = Utils.FileParser.ParseHmmsearchDomtblout(tempOut)
                     sample.PfamAnnotations.AddRange(anns)
                 End If
                 Try

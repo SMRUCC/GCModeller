@@ -11,7 +11,7 @@
 
 Imports System.IO
 Imports System.Runtime.InteropServices
-Imports System.Text.RegularExpressions
+Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
 
 Namespace TraitarVB.Utils
 
@@ -90,8 +90,8 @@ Namespace TraitarVB.Utils
         ''' 从GFF3的Dbxref属性中提取Pfam注释
         ''' 某些GFF文件直接包含Pfam注释，如 Dbxref=PFAM:PF00001,InterPro:IPR000001
         ''' </summary>
-        Public Function ExtractPfamFromGFF(gffPath As String) As List(Of Models.PfamAnnotation)
-            Dim annotations As New List(Of Models.PfamAnnotation)()
+        Public Function ExtractPfamFromGFF(gffPath As String) As List(Of PfamAnnotation)
+            Dim annotations As New List(Of PfamAnnotation)()
 
             Using reader As New StreamReader(gffPath)
                 Dim line As String
@@ -118,7 +118,7 @@ Namespace TraitarVB.Utils
                                     r = r.Trim()
                                     If r.StartsWith("PFAM:", StringComparison.OrdinalIgnoreCase) Then
                                         Dim pfamId As String = r.Substring(5).Trim()
-                                        Dim ann As New Models.PfamAnnotation()
+                                        Dim ann As New PfamAnnotation()
                                         ann.TargetName = targetName
                                         ann.PfamId = pfamId
                                         ann.BitScore = 100.0  ' 默认高比特分
@@ -194,8 +194,8 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 解析HMMER hmmsearch --domtblout 输出文件
         ''' </summary>
-        Public Function ParseHmmsearchDomtblout(domtbloutPath As String) As List(Of Models.PfamAnnotation)
-            Dim annotations As New List(Of Models.PfamAnnotation)()
+        Public Function ParseHmmsearchDomtblout(domtbloutPath As String) As List(Of PfamAnnotation)
+            Dim annotations As New List(Of PfamAnnotation)()
 
             Using reader As New StreamReader(domtbloutPath)
                 Dim line As String
@@ -204,7 +204,7 @@ Namespace TraitarVB.Utils
                     If String.IsNullOrEmpty(line) Then Continue Do
                     If line.StartsWith("#") Then Continue Do
 
-                    Dim ann As Models.PfamAnnotation = Models.PfamAnnotation.ParseFromDomtblout(line)
+                    Dim ann As PfamAnnotation = PfamAnnotation.ParseFromDomtblout(line)
                     If ann IsNot Nothing Then
                         annotations.Add(ann)
                     End If
@@ -217,8 +217,8 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 解析HMMER hmmsearch --tblout 输出文件（简化版）
         ''' </summary>
-        Public Function ParseHmmsearchTblout(tbloutPath As String) As List(Of Models.PfamAnnotation)
-            Dim annotations As New List(Of Models.PfamAnnotation)()
+        Public Function ParseHmmsearchTblout(tbloutPath As String) As List(Of PfamAnnotation)
+            Dim annotations As New List(Of PfamAnnotation)()
 
             Using reader As New StreamReader(tbloutPath)
                 Dim line As String
@@ -227,7 +227,7 @@ Namespace TraitarVB.Utils
                     If String.IsNullOrEmpty(line) Then Continue Do
                     If line.StartsWith("#") Then Continue Do
 
-                    Dim ann As Models.PfamAnnotation = Models.PfamAnnotation.ParseFromTblout(line)
+                    Dim ann As PfamAnnotation = PfamAnnotation.ParseFromTblout(line)
                     If ann IsNot Nothing Then
                         annotations.Add(ann)
                     End If
