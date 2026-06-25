@@ -10,6 +10,7 @@
 ' ============================================================================
 
 Imports System.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 
 Namespace metaTraits.Traitar
 
@@ -103,27 +104,22 @@ Namespace metaTraits.Traitar
         ''' 格式: pheno_id \t pheno_name \t pheno_category
         ''' </summary>
         Private Sub LoadPhenotypeDescriptions(filePath As String)
-            Dim lines As String() = File.ReadAllLines(filePath)
+            Dim phenoTbl As DataFrameResolver = DataFrameResolver.Load(filePath, tsv:=True)
+            Dim accession As Integer = phenoTbl.GetOrdinal("accession")
+            Dim category As Integer = phenoTbl.GetOrdinal("category")
 
-            For Each line As String In lines
-                If String.IsNullOrWhiteSpace(line) Then Continue For
-                If line.StartsWith("#") Then Continue For
-
-                Dim parts As String() = line.Split(New Char() {ControlChars.Tab, " "c},
-                                                    StringSplitOptions.RemoveEmptyEntries)
-                If parts.Length < 2 Then Continue For
-
-                Dim phenoId As String = parts(0).Trim()
-                Dim phenoName As String = parts(1).Trim()
-                Dim phenoCategory As String = If(parts.Length >= 3, parts(2).Trim(), "")
-
-                Dim model As New Models.PhenotypeModel()
-                model.PhenotypeId = phenoId
-                model.PhenotypeName = phenoName
-                model.Category = phenoCategory
+            Do While phenoTbl.Read
+                Dim phenoId As String = phenoTbl.GetString(0)
+                Dim phenoName As String = phenoTbl.GetString(accession)
+                Dim phenoCategory As String = phenoTbl.GetString(category)
+                Dim model As New Models.PhenotypeModel() With {
+                    .PhenotypeId = phenoId,
+                    .PhenotypeName = phenoName,
+                    .Category = phenoCategory
+                }
 
                 Phenotypes(phenoId) = model
-            Next
+            Loop
 
             Console.WriteLine("[ModelLoader] 加载表型描述: {0} 个", Phenotypes.Count)
         End Sub
