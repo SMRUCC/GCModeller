@@ -2,8 +2,8 @@
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.TraitarVB
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.TraitarVB.Models
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Models
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop

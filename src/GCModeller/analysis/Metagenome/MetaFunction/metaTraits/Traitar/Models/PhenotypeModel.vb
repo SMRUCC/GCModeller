@@ -7,7 +7,7 @@
 '   - 每个表型对应一组不同C参数的SVM模型
 ' ============================================================================
 
-Namespace TraitarVB.Models
+Namespace metaTraits.Traitar.Models
 
     ''' <summary>
     ''' 单个SVM子模型（对应一个C参数值）

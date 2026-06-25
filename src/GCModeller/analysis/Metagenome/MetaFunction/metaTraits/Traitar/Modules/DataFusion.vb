@@ -16,7 +16,7 @@
 
 Imports System.Runtime.InteropServices
 
-Namespace TraitarVB.Modules
+Namespace metaTraits.Traitar.Modules
 
     ''' <summary>
     ''' 模块3：数据融合与扩展样本构建模块

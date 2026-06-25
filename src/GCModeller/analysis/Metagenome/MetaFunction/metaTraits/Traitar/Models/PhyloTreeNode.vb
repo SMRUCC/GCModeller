@@ -5,7 +5,7 @@
 ' 用于表示测序生命树(sequenced Tree of Life, sTOL)的结构
 ' ============================================================================
 
-Namespace TraitarVB.Models
+Namespace metaTraits.Traitar.Models
 
     ''' <summary>
     ''' 系统发育树节点

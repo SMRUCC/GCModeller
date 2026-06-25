@@ -13,7 +13,7 @@ Imports System.IO
 Imports System.Runtime.InteropServices
 Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
 
-Namespace TraitarVB.Utils
+Namespace metaTraits.Traitar.Utils
 
     ''' <summary>
     ''' 文件解析工具类

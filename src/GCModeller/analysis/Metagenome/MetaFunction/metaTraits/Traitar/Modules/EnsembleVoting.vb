@@ -13,7 +13,7 @@
 '   - 多数表决：5个模型中至少3个预测为正，则最终判定为表型存在
 ' ============================================================================
 
-Namespace TraitarVB.Modules
+Namespace metaTraits.Traitar.Modules
 
     ''' <summary>
     ''' 模块6：集成投票与预测模块

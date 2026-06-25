@@ -14,7 +14,7 @@
 '   - 防止数据泄露
 ' ============================================================================
 
-Namespace TraitarVB.Modules
+Namespace metaTraits.Traitar.Modules
 
     ''' <summary>
     ''' 模块5：嵌套交叉验证与超参调优模块

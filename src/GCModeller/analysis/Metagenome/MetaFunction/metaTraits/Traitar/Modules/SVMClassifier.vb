@@ -28,7 +28,7 @@
 '     label = +1 if score > 0, else -1
 ' ============================================================================
 
-Namespace TraitarVB.Modules
+Namespace metaTraits.Traitar.Modules
 
     ''' <summary>
     ''' 模块4：机器学习核心分类器模块

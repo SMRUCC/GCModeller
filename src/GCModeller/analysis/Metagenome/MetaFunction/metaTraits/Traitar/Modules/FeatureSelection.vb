@@ -19,7 +19,7 @@
 
 Imports System.IO
 
-Namespace TraitarVB.Modules
+Namespace metaTraits.Traitar.Modules
 
     ''' <summary>
     ''' 模块7：特征选择与关联解释模块

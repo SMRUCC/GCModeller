@@ -1,4 +1,4 @@
-﻿Namespace TraitarVB
+﻿Namespace metaTraits.Traitar
 
     Public Enum PredictionResults
         NA

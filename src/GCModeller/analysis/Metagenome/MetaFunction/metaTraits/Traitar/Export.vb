@@ -1,6 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 
-Namespace TraitarVB
+Namespace metaTraits.Traitar
 
     Public Module Export
 

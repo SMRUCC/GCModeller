@@ -1,6 +1,6 @@
-﻿Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.TraitarVB.Modules
+﻿Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Modules
 
-Namespace TraitarVB
+Namespace metaTraits.Traitar
 
     Public Class ReportJSON
 

@@ -11,7 +11,7 @@
 
 Imports System.IO
 
-Namespace TraitarVB
+Namespace metaTraits.Traitar
 
     ''' <summary>
     ''' 模型文件加载器

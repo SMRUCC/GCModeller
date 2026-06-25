@@ -13,7 +13,7 @@
 
 Imports System.Runtime.InteropServices
 
-Namespace TraitarVB.Utils
+Namespace metaTraits.Traitar.Utils
 
     ''' <summary>
     ''' 数学工具类

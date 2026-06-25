@@ -18,7 +18,7 @@
 '   - 树遍历算法：将生命树(sTOL)映射剪枝到特定表型树
 ' ============================================================================
 
-Namespace TraitarVB.Modules
+Namespace metaTraits.Traitar.Modules
 
     ''' <summary>
     ''' 模块2：系统发育与祖先状态重建模块
@@ -432,7 +432,7 @@ Namespace TraitarVB.Modules
 
 End Namespace
 
-Namespace TraitarVB.Models
+Namespace metaTraits.Traitar.Models
     ''' <summary>
     ''' PhyloTreeNode 的扩展方法：Clone
     ''' </summary>

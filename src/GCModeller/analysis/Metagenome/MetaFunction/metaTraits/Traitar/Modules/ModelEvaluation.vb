@@ -15,7 +15,7 @@
 '   - 微平均（Micro-average）：汇总所有表型的TP/TN/FP/FN，然后计算指标
 ' ============================================================================
 
-Namespace TraitarVB.Modules
+Namespace metaTraits.Traitar.Modules
 
     ''' <summary>
     ''' 模块8：多标签模型评估模块
