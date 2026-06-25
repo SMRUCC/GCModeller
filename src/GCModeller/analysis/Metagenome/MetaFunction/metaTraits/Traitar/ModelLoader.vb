@@ -129,20 +129,14 @@ Namespace metaTraits.Traitar
         ''' 格式: pfam_id \t description
         ''' </summary>
         Private Sub LoadPfamDescriptions(filePath As String)
-            Dim lines As String() = File.ReadAllLines(filePath)
+            Dim pfamTbl As DataFrameResolver = DataFrameResolver.Load(filePath, tsv:=True)
 
-            For Each line As String In lines
-                If String.IsNullOrWhiteSpace(line) Then Continue For
-                If line.StartsWith("#") Then Continue For
-
-                Dim parts As String() = line.Split(New Char() {ControlChars.Tab, " "c}, 2)
-                If parts.Length < 2 Then Continue For
-
-                Dim pfamId As String = parts(0).Trim()
-                Dim desc As String = parts(1).Trim()
+            Do While pfamTbl.Read
+                Dim pfamId As String = pfamTbl.GetString(0)
+                Dim desc As String = pfamTbl.GetString(1)
 
                 PfamDescriptions(pfamId) = desc
-            Next
+            Loop
 
             Console.WriteLine("[ModelLoader] 加载Pfam描述: {0} 个", PfamDescriptions.Count)
         End Sub
