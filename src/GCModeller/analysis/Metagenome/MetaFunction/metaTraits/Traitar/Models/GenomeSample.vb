@@ -47,8 +47,22 @@ Namespace TraitarVB.Models
             Optional ByVal bitScoreThreshold As Double = 25.0,
             Optional ByVal evalueThreshold As Double = 0.01)
 
-            PhyleticProfile.Clear()
+            PhyleticProfile = BuildPhyleticProfile(PfamAnnotations, bitScoreThreshold, evalueThreshold)
+        End Sub
 
+        ''' <summary>
+        ''' 从Pfam注释构建系统发育谱（二值化）
+        ''' 论文：设定阈值（比特分数阈值为25，E值阈值为1e-2），
+        '''       过滤掉不可靠的命中，随后将每个样本中各Pfam家族
+        '''       的数量转化为存在(1)或缺失(0)的二元矩阵
+        ''' </summary>
+        ''' <param name="bitScoreThreshold">比特分数阈值（默认25）</param>
+        ''' <param name="evalueThreshold">E值阈值（默认1e-2）</param>
+        Public Shared Function BuildPhyleticProfile(PfamAnnotations As IEnumerable(Of PfamAnnotation),
+                                                    Optional ByVal bitScoreThreshold As Double = 25.0,
+                                                    Optional ByVal evalueThreshold As Double = 0.01) As Dictionary(Of String, Integer)
+
+            Dim phyleticProfile As New Dictionary(Of String, Integer)
             ' 按Pfam家族分组，统计每个家族的命中数
             Dim pfamCounts As New Dictionary(Of String, Integer)
 
@@ -67,12 +81,14 @@ Namespace TraitarVB.Models
             ' 二值化：存在(1)/缺失(0)
             For Each kvp As KeyValuePair(Of String, Integer) In pfamCounts
                 If kvp.Value > 0 Then
-                    PhyleticProfile(kvp.Key) = 1
+                    phyleticProfile(kvp.Key) = 1
                 Else
-                    PhyleticProfile(kvp.Key) = 0
+                    phyleticProfile(kvp.Key) = 0
                 End If
             Next
-        End Sub
+
+            Return phyleticProfile
+        End Function
 
         ''' <summary>
         ''' 获取特征向量中存在的Pfam家族集合
