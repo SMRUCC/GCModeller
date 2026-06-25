@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::ba9fd17ebfceea2e0de2a78dee4863dd, engine\IO\GCMarkupLanguage\v2\Xml\VirtualCell.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 122
-    '    Code Lines: 72 (59.02%)
-    ' Comment Lines: 28 (22.95%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 22 (18.03%)
-    '     File Size: 4.76 KB
+' Summaries:
 
 
-    '     Class VirtualCell
-    ' 
-    '         Properties: cellular_id, genome, metabolismStructure, taxonomy
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: Summary, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 122
+'    Code Lines: 72 (59.02%)
+' Comment Lines: 28 (22.95%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 22 (18.03%)
+'     File Size: 4.76 KB
+
+
+'     Class VirtualCell
+' 
+'         Properties: cellular_id, genome, metabolismStructure, taxonomy
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: Summary, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,10 +60,21 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.CompilerServices
 Imports SMRUCC.genomics.Metagenomics
 
 Namespace v2
+
+    Public Class Traits
+
+        <XmlElement("phenotype")> Public Property phenotype As String()
+
+        Public Overrides Function ToString() As String
+            Return phenotype.GetJson
+        End Function
+
+    End Class
 
     ''' <summary>
     ''' The virtual cell model xml file 
@@ -99,6 +110,8 @@ Namespace v2
         ''' <returns></returns>
         Public Property cellular_id As String = "Intracellular"
 
+        Public Property traits As Traits
+
         Public Const GCMarkupLanguage$ = "https://bioCAD.gcmodeller.org/XML/schema_revision/GCMarkup_2.0"
 
         Sub New()
@@ -110,7 +123,7 @@ Namespace v2
             Call Me.New
 
             taxonomy = New Taxonomy(copy.taxonomy)
-            properties = New [Property](copy.properties)
+            properties = New CompilerServices.[Property](copy.properties)
             cellular_id = copy.cellular_id
             genome = New Genome(copy.genome)
             metabolismStructure = New MetabolismStructure(copy.metabolismStructure)
