@@ -18,7 +18,7 @@ Module bifrost
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(PredictionResult()), AddressOf scoreTable)
     End Sub
 
-    <ExportAPI("as.data.frame")>
+    <RGenericOverloads("as.data.frame")>
     Public Function scoreTable(result As PredictionResult(), args As list, env As Environment) As Object
         Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
         Dim table As GeneScore() = GeneScore.ScoreTable(result).ToArray
