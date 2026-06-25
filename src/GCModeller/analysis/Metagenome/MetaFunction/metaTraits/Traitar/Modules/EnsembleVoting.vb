@@ -73,9 +73,9 @@ Namespace TraitarVB.Modules
         ''' <param name="accuracies">各模型在交叉验证中的准确率</param>
         ''' <param name="committeeSize">委员会大小（默认5）</param>
         ''' <returns>投票委员会模型列表</returns>
-        Public Function SelectVotingCommittee(ByVal models As List(Of SVMClassifier.SVMModel),
-                                              ByVal accuracies As List(Of Double),
-                                              Optional ByVal committeeSize As Integer = COMMITTEE_SIZE) As List(Of SVMClassifier.SVMModel)
+        Public Function SelectVotingCommittee(models As List(Of SVMClassifier.SVMModel),
+                                              accuracies As List(Of Double),
+                                              Optional committeeSize As Integer = COMMITTEE_SIZE) As List(Of SVMClassifier.SVMModel)
 
             If models.Count <= committeeSize Then
                 Return New List(Of SVMClassifier.SVMModel)(models)
@@ -110,8 +110,8 @@ Namespace TraitarVB.Modules
         ''' <param name="committee">投票委员会模型列表</param>
         ''' <param name="features">样本特征</param>
         ''' <returns>投票结果</returns>
-        Public Function PredictWithCommittee(ByVal committee As List(Of SVMClassifier.SVMModel),
-                                             ByVal features As Dictionary(Of String, Integer)) As VotingResult
+        Public Function PredictWithCommittee(committee As List(Of SVMClassifier.SVMModel),
+                                             features As Dictionary(Of String, Integer)) As VotingResult
 
             Dim result As New VotingResult()
             result.TotalVotes = committee.Count
@@ -155,8 +155,8 @@ Namespace TraitarVB.Modules
         ''' <param name="allModels">所有模型</param>
         ''' <param name="features">样本特征</param>
         ''' <returns>投票结果</returns>
-        Public Function PredictWithAllModels(ByVal allModels As SVMClassifier.SVMModel(),
-                                             ByVal features As Dictionary(Of String, Integer)) As VotingResult
+        Public Function PredictWithAllModels(allModels As SVMClassifier.SVMModel(),
+                                             features As Dictionary(Of String, Integer)) As VotingResult
 
             ' 筛选活跃模型（有非零偏置或非零权重）
             Dim activeModels As New List(Of SVMClassifier.SVMModel)()
@@ -223,8 +223,8 @@ Namespace TraitarVB.Modules
         ''' <param name="features">样本特征</param>
         ''' <returns>表型ID -> 投票结果</returns>
         Public Iterator Function PredictAllPhenotypes(
-            ByVal phenotypeModels As Dictionary(Of String, SVMClassifier.SVMModel()),
-            ByVal features As Dictionary(Of String, Integer)) As IEnumerable(Of VotingResult)
+            phenotypeModels As Dictionary(Of String, SVMClassifier.SVMModel()),
+            features As Dictionary(Of String, Integer)) As IEnumerable(Of VotingResult)
 
             Console.WriteLine("[模块6] 开始预测所有表型...")
             Dim positiveCount As Integer = 0
@@ -249,10 +249,10 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 获取预测结果的详细报告
         ''' </summary>
-        Public Function GetDetailedReport(ByVal phenoId As String,
-                                          ByVal phenoName As String,
-                                          ByVal phenoCategory As String,
-                                          ByVal result As VotingResult) As String
+        Public Function GetDetailedReport(phenoId As String,
+                                          phenoName As String,
+                                          phenoCategory As String,
+                                          result As VotingResult) As String
             Dim sb As New System.Text.StringBuilder()
             sb.AppendLine(String.Format("表型ID: {0}", phenoId))
             sb.AppendLine(String.Format("表型名称: {0}", phenoName))

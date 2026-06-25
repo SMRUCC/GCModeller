@@ -29,7 +29,7 @@ Namespace TraitarVB.Utils
         ''' GFF3格式：9列，制表符分隔
         '''   seqid, source, type, start, end, score, strand, phase, attributes
         ''' </summary>
-        Public Function ParseGFF(ByVal gffPath As String) As List(Of Models.ProteinSequence)
+        Public Function ParseGFF(gffPath As String) As List(Of Models.ProteinSequence)
             Dim proteins As New List(Of Models.ProteinSequence)()
 
             Using reader As New StreamReader(gffPath)
@@ -90,7 +90,7 @@ Namespace TraitarVB.Utils
         ''' 从GFF3的Dbxref属性中提取Pfam注释
         ''' 某些GFF文件直接包含Pfam注释，如 Dbxref=PFAM:PF00001,InterPro:IPR000001
         ''' </summary>
-        Public Function ExtractPfamFromGFF(ByVal gffPath As String) As List(Of Models.PfamAnnotation)
+        Public Function ExtractPfamFromGFF(gffPath As String) As List(Of Models.PfamAnnotation)
             Dim annotations As New List(Of Models.PfamAnnotation)()
 
             Using reader As New StreamReader(gffPath)
@@ -142,7 +142,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 解析FASTA文件（DNA或蛋白质）
         ''' </summary>
-        Public Function ParseFasta(ByVal fastaPath As String) As List(Of Models.ProteinSequence)
+        Public Function ParseFasta(fastaPath As String) As List(Of Models.ProteinSequence)
             Dim proteins As New List(Of Models.ProteinSequence)()
             Dim current As Models.ProteinSequence = Nothing
             Dim seqBuilder As New System.Text.StringBuilder()
@@ -194,7 +194,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 解析HMMER hmmsearch --domtblout 输出文件
         ''' </summary>
-        Public Function ParseHmmsearchDomtblout(ByVal domtbloutPath As String) As List(Of Models.PfamAnnotation)
+        Public Function ParseHmmsearchDomtblout(domtbloutPath As String) As List(Of Models.PfamAnnotation)
             Dim annotations As New List(Of Models.PfamAnnotation)()
 
             Using reader As New StreamReader(domtbloutPath)
@@ -217,7 +217,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 解析HMMER hmmsearch --tblout 输出文件（简化版）
         ''' </summary>
-        Public Function ParseHmmsearchTblout(ByVal tbloutPath As String) As List(Of Models.PfamAnnotation)
+        Public Function ParseHmmsearchTblout(tbloutPath As String) As List(Of Models.PfamAnnotation)
             Dim annotations As New List(Of Models.PfamAnnotation)()
 
             Using reader As New StreamReader(tbloutPath)
@@ -245,7 +245,7 @@ Namespace TraitarVB.Utils
         ''' 解析pt2acc.txt文件（表型ID到名称的映射）
         ''' 格式：表型ID  表型名称  类别
         ''' </summary>
-        Public Function ParsePhenotypeTable(ByVal pt2accPath As String) As Dictionary(Of String, Models.PhenotypeModel)
+        Public Function ParsePhenotypeTable(pt2accPath As String) As Dictionary(Of String, Models.PhenotypeModel)
             Dim phenotypes As New Dictionary(Of String, Models.PhenotypeModel)()
 
             Using reader As New StreamReader(pt2accPath)
@@ -293,7 +293,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 解析pf2acc_desc.txt文件（Pfam ID到描述的映射）
         ''' </summary>
-        Public Function ParsePfamDescription(ByVal pf2accPath As String) As Dictionary(Of String, String)
+        Public Function ParsePfamDescription(pf2accPath As String) As Dictionary(Of String, String)
             Dim descriptions As New Dictionary(Of String, String)()
 
             Using reader As New StreamReader(pf2accPath)
@@ -325,7 +325,7 @@ Namespace TraitarVB.Utils
         ''' 解析{id}_bias.txt文件（各C值对应的偏置项）
         ''' 格式：C值  偏置
         ''' </summary>
-        Public Function ParseBiasFile(ByVal biasPath As String) As Dictionary(Of Double, Double)
+        Public Function ParseBiasFile(biasPath As String) As Dictionary(Of Double, Double)
             Dim biases As New Dictionary(Of Double, Double)()
 
             Using reader As New StreamReader(biasPath)
@@ -353,7 +353,7 @@ Namespace TraitarVB.Utils
         ''' 解析{id}_feats.txt文件（完整特征权重矩阵）
         ''' 格式：第一列为Pfam ID，后续列为各C值对应的权重
         ''' </summary>
-        Public Function ParseFeatsFile(ByVal featsPath As String,
+        Public Function ParseFeatsFile(featsPath As String,
                                        <Out()> ByRef cValues As List(Of Double)) As Dictionary(Of String, Dictionary(Of Double, Double))
             Dim featWeights As New Dictionary(Of String, Dictionary(Of Double, Double))()
             cValues = New List(Of Double)()
@@ -415,7 +415,7 @@ Namespace TraitarVB.Utils
         ''' 解析{id}_non-zero+weights.txt文件
         ''' 格式：PfamID  class(+/-)  各C值权重  Pfam_desc  cor
         ''' </summary>
-        Public Function ParseNonZeroWeightsFile(ByVal filePath As String,
+        Public Function ParseNonZeroWeightsFile(filePath As String,
                                                 <Out()> ByRef cValues As List(Of Double)) As List(Of Models.KeyFeatureInfo)
             Dim features As New List(Of Models.KeyFeatureInfo)()
             cValues = New List(Of Double)()
@@ -495,7 +495,7 @@ Namespace TraitarVB.Utils
         ''' 解析Newick格式系统发育树
         ''' 简化版，仅支持基本结构
         ''' </summary>
-        Public Function ParseNewick(ByVal newickStr As String) As Models.PhyloTreeNode
+        Public Function ParseNewick(newickStr As String) As Models.PhyloTreeNode
             newickStr = newickStr.Trim()
             If newickStr.EndsWith(";") Then
                 newickStr = newickStr.Substring(0, newickStr.Length - 1)
@@ -505,7 +505,7 @@ Namespace TraitarVB.Utils
             Return ParseNewickRecursive(newickStr, pos)
         End Function
 
-        Private Function ParseNewickRecursive(ByVal s As String, ByRef pos As Integer) As Models.PhyloTreeNode
+        Private Function ParseNewickRecursive(s As String, ByRef pos As Integer) As Models.PhyloTreeNode
             Dim node As New Models.PhyloTreeNode()
 
             If pos < s.Length AndAlso s(pos) = "(" Then

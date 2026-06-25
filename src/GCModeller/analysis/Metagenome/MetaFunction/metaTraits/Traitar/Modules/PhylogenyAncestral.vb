@@ -50,11 +50,11 @@ Namespace TraitarVB.Modules
         ''' <param name="gainRate">获得速率α</param>
         ''' <param name="lossRate">丢失速率β</param>
         Public Sub InferAncestralStates(
-            ByVal tree As Models.PhyloTreeNode,
-            ByVal leafProfiles As Dictionary(Of String, Dictionary(Of String, Integer)),
-            ByVal allFeatures As List(Of String),
-            Optional ByVal gainRate As Double = DEFAULT_GAIN_LOSS_RATE,
-            Optional ByVal lossRate As Double = DEFAULT_GAIN_LOSS_RATE)
+            tree As Models.PhyloTreeNode,
+            leafProfiles As Dictionary(Of String, Dictionary(Of String, Integer)),
+            allFeatures As List(Of String),
+            Optional gainRate As Double = DEFAULT_GAIN_LOSS_RATE,
+            Optional lossRate As Double = DEFAULT_GAIN_LOSS_RATE)
 
             Console.WriteLine("[模块2] 推断祖先状态（最大似然法）")
             Console.WriteLine("       获得速率 α = {0}", gainRate)
@@ -75,11 +75,11 @@ Namespace TraitarVB.Modules
         ''' 使用Felsenstein的pruning算法（简化版）
         ''' </summary>
         Private Sub InferSingleFeatureAncestral(
-            ByVal node As Models.PhyloTreeNode,
-            ByVal leafProfiles As Dictionary(Of String, Dictionary(Of String, Integer)),
-            ByVal featureId As String,
-            ByVal gainRate As Double,
-            ByVal lossRate As Double)
+            node As Models.PhyloTreeNode,
+            leafProfiles As Dictionary(Of String, Dictionary(Of String, Integer)),
+            featureId As String,
+            gainRate As Double,
+            lossRate As Double)
 
             ' 1. 自底向上：计算每个节点的部分似然
             ComputePartialLikelihoods(node, leafProfiles, featureId, gainRate, lossRate)
@@ -95,11 +95,11 @@ Namespace TraitarVB.Modules
         ''' 其中 P(s'|s,t) 是状态转移概率，t是分支长度
         ''' </summary>
         Private Sub ComputePartialLikelihoods(
-            ByVal node As Models.PhyloTreeNode,
-            ByVal leafProfiles As Dictionary(Of String, Dictionary(Of String, Integer)),
-            ByVal featureId As String,
-            ByVal gainRate As Double,
-            ByVal lossRate As Double)
+            node As Models.PhyloTreeNode,
+            leafProfiles As Dictionary(Of String, Dictionary(Of String, Integer)),
+            featureId As String,
+            gainRate As Double,
+            lossRate As Double)
 
             ' 递归处理子节点
             For Each child As Models.PhyloTreeNode In node.Children
@@ -176,9 +176,9 @@ Namespace TraitarVB.Modules
         ''' P(1→0) = β/(α+β) - β/(α+β)*exp(-(α+β)*t)
         ''' P(1→1) = α/(α+β) + β/(α+β)*exp(-(α+β)*t)
         ''' </summary>
-        Public Function ComputeTransitionMatrix(ByVal t As Double,
-                                                ByVal gainRate As Double,
-                                                ByVal lossRate As Double) As Double(,)
+        Public Function ComputeTransitionMatrix(t As Double,
+                                                gainRate As Double,
+                                                lossRate As Double) As Double(,)
             Dim alpha As Double = gainRate    ' 获得速率
             Dim beta As Double = lossRate     ' 丢失速率
             Dim total As Double = alpha + beta
@@ -208,11 +208,11 @@ Namespace TraitarVB.Modules
         ''' 计算后验概率（自顶向下）
         ''' </summary>
         Private Sub ComputePosteriorProbabilities(
-            ByVal node As Models.PhyloTreeNode,
-            ByVal featureId As String,
-            ByVal parentPrior As Double(),
-            ByVal gainRate As Double,
-            ByVal lossRate As Double)
+            node As Models.PhyloTreeNode,
+            featureId As String,
+            parentPrior As Double(),
+            gainRate As Double,
+            lossRate As Double)
 
             ' 当前节点的后验概率
             Dim posterior As Double() = New Double(1) {}
@@ -252,15 +252,15 @@ Namespace TraitarVB.Modules
         ''' Gain(node) = P(child=1 | parent=0)
         ''' Loss(node) = P(child=0 | parent=1)
         ''' </summary>
-        Public Sub ComputeGainLossProbabilities(ByVal tree As Models.PhyloTreeNode,
-                                                ByVal allFeatures As List(Of String))
+        Public Sub ComputeGainLossProbabilities(tree As Models.PhyloTreeNode,
+                                                allFeatures As List(Of String))
             For Each featureId As String In allFeatures
                 ComputeGainLossForFeature(tree, featureId)
             Next
         End Sub
 
-        Private Sub ComputeGainLossForFeature(ByVal node As Models.PhyloTreeNode,
-                                              ByVal featureId As String)
+        Private Sub ComputeGainLossForFeature(node As Models.PhyloTreeNode,
+                                              featureId As String)
             For Each child As Models.PhyloTreeNode In node.Children
                 Dim parentProb As Double = 0.5
                 Dim childProb As Double = 0.5
@@ -286,8 +286,8 @@ Namespace TraitarVB.Modules
         ''' 论文：Gamma分布采样：模拟获得/丢失速率的方差
         ''' 用于建模位点间速率的异质性
         ''' </summary>
-        Public Function GammaSample(ByVal shape As Double, ByVal scale As Double,
-                                    Optional ByVal numCategories As Integer = 4) As Double()
+        Public Function GammaSample(shape As Double, scale As Double,
+                                    Optional numCategories As Integer = 4) As Double()
             ' 离散Gamma近似：将连续Gamma分布分为numCategories个类别
             ' 每个类别取该区间的均值
             Dim rates As Double() = New Double(numCategories - 1) {}
@@ -322,8 +322,8 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' Gamma分布的逆CDF近似（使用Wilson-Hilferty变换）
         ''' </summary>
-        Private Function GammaInverseCDF(ByVal p As Double, ByVal shape As Double,
-                                         ByVal scale As Double) As Double
+        Private Function GammaInverseCDF(p As Double, shape As Double,
+                                         scale As Double) As Double
             ' Wilson-Hilferty变换：近似Gamma分布的分位数
             ' z = ( (shape * (1 - 1/(9*shape)) + z_p * sqrt(1/(9*shape)) )^3 ) * scale
             ' 其中z_p是标准正态分布的p分位数
@@ -342,7 +342,7 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 标准正态分布的逆CDF（使用Beasley-Springer-Moro算法）
         ''' </summary>
-        Public Function NormalInverseCDF(ByVal p As Double) As Double
+        Public Function NormalInverseCDF(p As Double) As Double
             ' 使用Acklam's算法近似标准正态分布的逆CDF
             Dim a As Double() = {-3.969683028665376e+01, 2.209460984245205e+02,
                                   -2.759285104469687e+02, 1.38357751867269e+02,
@@ -383,13 +383,13 @@ Namespace TraitarVB.Modules
         ''' 论文：树遍历算法：将生命树(sTOL)映射剪枝到特定表型树
         ''' 将完整生命树剪枝为只包含有表型注释的物种的子树
         ''' </summary>
-        Public Function PruneTree(ByVal tree As Models.PhyloTreeNode,
-                                  ByVal speciesWithPhenotype As HashSet(Of String)) As Models.PhyloTreeNode
+        Public Function PruneTree(tree As Models.PhyloTreeNode,
+                                  speciesWithPhenotype As HashSet(Of String)) As Models.PhyloTreeNode
             Return PruneTreeRecursive(tree, speciesWithPhenotype)
         End Function
 
-        Private Function PruneTreeRecursive(ByVal node As Models.PhyloTreeNode,
-                                            ByVal speciesWithPhenotype As HashSet(Of String)) As Models.PhyloTreeNode
+        Private Function PruneTreeRecursive(node As Models.PhyloTreeNode,
+                                            speciesWithPhenotype As HashSet(Of String)) As Models.PhyloTreeNode
             If node.IsLeaf Then
                 ' 叶节点：只保留有表型注释的物种
                 If speciesWithPhenotype.Contains(node.Name) Then
@@ -438,7 +438,7 @@ Namespace TraitarVB.Models
     ''' </summary>
     Public Module PhyloTreeNodeExtensions
         <System.Runtime.CompilerServices.Extension()>
-        Public Function Clone(ByVal node As PhyloTreeNode) As PhyloTreeNode
+        Public Function Clone(node As PhyloTreeNode) As PhyloTreeNode
             Dim copy As New PhyloTreeNode()
             copy.Name = node.Name
             copy.BranchLength = node.BranchLength

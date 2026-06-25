@@ -26,7 +26,7 @@ Namespace TraitarVB.Models
         ''' 对样本进行预测，返回原始得分
         ''' 公式：score = bias + Σ(weight_i × feature_i)
         ''' </summary>
-        Public Function PredictScore(ByVal features As Dictionary(Of String, Integer)) As Double
+        Public Function PredictScore(features As Dictionary(Of String, Integer)) As Double
             Dim score As Double = Bias
             For Each kvp As KeyValuePair(Of String, Double) In Weights
                 Dim featVal As Integer = 0
@@ -41,7 +41,7 @@ Namespace TraitarVB.Models
         ''' <summary>
         ''' 对样本进行预测，返回标签（1=正，-1=负）
         ''' </summary>
-        Public Function PredictLabel(ByVal features As Dictionary(Of String, Integer)) As Integer
+        Public Function PredictLabel(features As Dictionary(Of String, Integer)) As Integer
             Dim score As Double = PredictScore(features)
             If score > 0 Then
                 Return 1
@@ -111,7 +111,7 @@ Namespace TraitarVB.Models
         ''' <summary>
         ''' 比较两个模型的权重绝对值之和
         ''' </summary>
-        Private Function CompareByWeightMagnitude(ByVal a As SVMSubModel, ByVal b As SVMSubModel) As Integer
+        Private Function CompareByWeightMagnitude(a As SVMSubModel, b As SVMSubModel) As Integer
             Dim sumA As Double = Math.Abs(a.Bias)
             For Each w As Double In a.Weights.Values
                 sumA += Math.Abs(w)
@@ -130,7 +130,7 @@ Namespace TraitarVB.Models
         ''' 论文：5个模型中至少有3个预测为正，则最终判定为表型存在
         ''' 由于使用所有活跃模型，多数表决阈值为半数以上
         ''' </summary>
-        Public Function Predict(ByVal features As Dictionary(Of String, Integer)) As Integer
+        Public Function Predict(features As Dictionary(Of String, Integer)) As Integer
             Dim committee As List(Of SVMSubModel) = GetVotingCommittee()
             If committee.Count = 0 Then
                 Return 0  ' 无可用模型，默认预测为负
@@ -155,7 +155,7 @@ Namespace TraitarVB.Models
         ''' <summary>
         ''' 获取预测置信度（正票比例）
         ''' </summary>
-        Public Function GetConfidence(ByVal features As Dictionary(Of String, Integer)) As Double
+        Public Function GetConfidence(features As Dictionary(Of String, Integer)) As Double
             Dim committee As List(Of SVMSubModel) = GetVotingCommittee()
             If committee.Count = 0 Then
                 Return 0.0

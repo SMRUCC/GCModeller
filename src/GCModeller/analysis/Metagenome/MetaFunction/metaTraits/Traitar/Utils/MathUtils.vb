@@ -29,7 +29,7 @@ Namespace TraitarVB.Utils
         ''' 向量点积：a · b = Σ(a_i × b_i)
         ''' 用于SVM预测：score = w · x + b
         ''' </summary>
-        Public Function DotProduct(ByVal a As Double(), ByVal b As Double()) As Double
+        Public Function DotProduct(a As Double(), b As Double()) As Double
             If a Is Nothing OrElse b Is Nothing Then Return 0.0
             Dim n As Integer = Math.Min(a.Length, b.Length)
             Dim sum As Double = 0.0
@@ -43,7 +43,7 @@ Namespace TraitarVB.Utils
         ''' 向量L1范数：||v||_1 = Σ|v_i|
         ''' 用于L1正则化项的计算
         ''' </summary>
-        Public Function L1Norm(ByVal v As Double()) As Double
+        Public Function L1Norm(v As Double()) As Double
             If v Is Nothing Then Return 0.0
             Dim sum As Double = 0.0
             For i As Integer = 0 To v.Length - 1
@@ -55,7 +55,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 向量L2范数：||v||_2 = √(Σ v_i²)
         ''' </summary>
-        Public Function L2Norm(ByVal v As Double()) As Double
+        Public Function L2Norm(v As Double()) As Double
             If v Is Nothing Then Return 0.0
             Dim sumSq As Double = 0.0
             For i As Integer = 0 To v.Length - 1
@@ -68,7 +68,7 @@ Namespace TraitarVB.Utils
         ''' 向量L2范数的平方：||v||_2² = Σ v_i²
         ''' 用于L2损失函数
         ''' </summary>
-        Public Function L2NormSquared(ByVal v As Double()) As Double
+        Public Function L2NormSquared(v As Double()) As Double
             If v Is Nothing Then Return 0.0
             Dim sumSq As Double = 0.0
             For i As Integer = 0 To v.Length - 1
@@ -87,8 +87,8 @@ Namespace TraitarVB.Utils
         ''' 其中 g = Gain概率，l = Loss概率
         ''' 这是两个独立事件至少发生一个的概率（并集概率）
         ''' </summary>
-        Public Function GainOrLossProbability(ByVal gainProb As Double,
-                                              ByVal lossProb As Double) As Double
+        Public Function GainOrLossProbability(gainProb As Double,
+                                              lossProb As Double) As Double
             ' P(A∪B) = P(A) + P(B) - P(A)×P(B)
             Return gainProb + lossProb - gainProb * lossProb
         End Function
@@ -98,7 +98,7 @@ Namespace TraitarVB.Utils
         ''' P(A∩B) = P(A) × P(B)
         ''' 用于phypat+PGL中蛋白质家族事件与表型事件的联合概率
         ''' </summary>
-        Public Function JointProbability(ByVal probA As Double, ByVal probB As Double) As Double
+        Public Function JointProbability(probA As Double, probB As Double) As Double
             Return probA * probB
         End Function
 
@@ -107,8 +107,8 @@ Namespace TraitarVB.Utils
         ''' 论文：设定阈值t=0.5，只保留高置信度的进化事件
         ''' 低于该概率的不确定样本会被丢弃
         ''' </summary>
-        Public Function ThresholdFilter(ByVal probability As Double,
-                                        ByVal threshold As Double,
+        Public Function ThresholdFilter(probability As Double,
+                                        threshold As Double,
                                         <Out()> ByRef isConfident As Boolean) As Integer
             If probability >= threshold Then
                 isConfident = True
@@ -130,7 +130,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 计算均值
         ''' </summary>
-        Public Function Mean(ByVal values As Double()) As Double
+        Public Function Mean(values As Double()) As Double
             If values Is Nothing OrElse values.Length = 0 Then Return 0.0
             Dim sum As Double = 0.0
             For Each v As Double In values
@@ -142,7 +142,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 计算方差（总体方差）
         ''' </summary>
-        Public Function Variance(ByVal values As Double()) As Double
+        Public Function Variance(values As Double()) As Double
             If values Is Nothing OrElse values.Length = 0 Then Return 0.0
             Dim m As Double = Mean(values)
             Dim sumSq As Double = 0.0
@@ -155,7 +155,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 计算标准差
         ''' </summary>
-        Public Function StandardDeviation(ByVal values As Double()) As Double
+        Public Function StandardDeviation(values As Double()) As Double
             Return Math.Sqrt(Variance(values))
         End Function
 
@@ -166,7 +166,7 @@ Namespace TraitarVB.Utils
         '''
         ''' 公式：r = Σ((x_i - x̄)(y_i - ȳ)) / √(Σ(x_i - x̄)² × Σ(y_i - ȳ)²)
         ''' </summary>
-        Public Function PearsonCorrelation(ByVal x As Double(), ByVal y As Double()) As Double
+        Public Function PearsonCorrelation(x As Double(), y As Double()) As Double
             If x Is Nothing OrElse y Is Nothing Then Return 0.0
             If x.Length <> y.Length OrElse x.Length = 0 Then Return 0.0
 
@@ -195,7 +195,7 @@ Namespace TraitarVB.Utils
         ''' 计算二值变量的皮尔逊相关系数（简化版）
         ''' x和y均为0/1二值向量
         ''' </summary>
-        Public Function BinaryPearsonCorrelation(ByVal x As Integer(), ByVal y As Integer()) As Double
+        Public Function BinaryPearsonCorrelation(x As Integer(), y As Integer()) As Double
             If x Is Nothing OrElse y Is Nothing Then Return 0.0
             If x.Length <> y.Length OrElse x.Length = 0 Then Return 0.0
 
@@ -216,7 +216,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 自然对数（安全版本，避免log(0)）
         ''' </summary>
-        Public Function SafeLog(ByVal x As Double) As Double
+        Public Function SafeLog(x As Double) As Double
             If x <= 0.0 Then Return -700.0  ' 接近负无穷
             Return Math.Log(x)
         End Function
@@ -224,7 +224,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 以2为底的对数
         ''' </summary>
-        Public Function Log2(ByVal x As Double) As Double
+        Public Function Log2(x As Double) As Double
             If x <= 0.0 Then Return -700.0
             Return Math.Log(x) / Math.Log(2.0)
         End Function
@@ -234,8 +234,8 @@ Namespace TraitarVB.Utils
         ''' 用于GLOOME最大似然法推断祖先状态
         ''' LL = Σ(y_i × log(p_i) + (1-y_i) × log(1-p_i))
         ''' </summary>
-        Public Function LogLikelihood(ByVal observed As Integer(),
-                                      ByVal predictedProb As Double()) As Double
+        Public Function LogLikelihood(observed As Integer(),
+                                      predictedProb As Double()) As Double
             If observed Is Nothing OrElse predictedProb Is Nothing Then Return 0.0
             If observed.Length <> predictedProb.Length Then Return 0.0
 
@@ -259,7 +259,7 @@ Namespace TraitarVB.Utils
         ''' Logistic/Sigmoid函数：σ(x) = 1 / (1 + e^(-x))
         ''' 用于将得分转为概率
         ''' </summary>
-        Public Function Sigmoid(ByVal x As Double) As Double
+        Public Function Sigmoid(x As Double) As Double
             If x < -700 Then Return 0.0
             If x > 700 Then Return 1.0
             Return 1.0 / (1.0 + Math.Exp(-x))
@@ -269,7 +269,7 @@ Namespace TraitarVB.Utils
         ''' Gamma函数（Lanczos近似）
         ''' 用于GLOOME中Gamma分布采样，模拟获得/丢失速率的方差
         ''' </summary>
-        Public Function Gamma(ByVal x As Double) As Double
+        Public Function Gamma(x As Double) As Double
             ' Lanczos近似
             Dim g As Double = 7.0
             Dim p As Double() = {
@@ -302,14 +302,14 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' Gamma函数的对数（避免数值溢出）
         ''' </summary>
-        Public Function LogGamma(ByVal x As Double) As Double
+        Public Function LogGamma(x As Double) As Double
             Return SafeLog(Gamma(x))
         End Function
 
         ''' <summary>
         ''' Logistic函数的反函数（Logit）
         ''' </summary>
-        Public Function Logit(ByVal p As Double) As Double
+        Public Function Logit(p As Double) As Double
             If p <= 0.0 Then Return -700.0
             If p >= 1.0 Then Return 700.0
             Return Math.Log(p / (1.0 - p))
@@ -324,7 +324,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 设置随机种子
         ''' </summary>
-        Public Sub SetSeed(ByVal seed As Integer)
+        Public Sub SetSeed(seed As Integer)
             _rng = New Random(seed)
         End Sub
 
@@ -338,7 +338,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 生成[min,max]之间的随机整数
         ''' </summary>
-        Public Function RandInt(ByVal min As Integer, ByVal max As Integer) As Integer
+        Public Function RandInt(min As Integer, max As Integer) As Integer
             Return _rng.Next(min, max + 1)
         End Function
 
@@ -346,7 +346,7 @@ Namespace TraitarVB.Utils
         ''' Fisher-Yates洗牌算法
         ''' 用于交叉验证中随机打乱样本顺序
         ''' </summary>
-        Public Sub Shuffle(Of T)(ByVal arr As T())
+        Public Sub Shuffle(Of T)(arr As T())
             If arr Is Nothing Then Return
             Dim n As Integer = arr.Length
             For i As Integer = n - 1 To 1 Step -1
@@ -364,7 +364,7 @@ Namespace TraitarVB.Utils
         ''' <summary>
         ''' 矩阵转置
         ''' </summary>
-        Public Function Transpose(ByVal m As Double(,)) As Double(,)
+        Public Function Transpose(m As Double(,)) As Double(,)
             If m Is Nothing Then Return Nothing
             Dim rows As Integer = m.GetLength(0)
             Dim cols As Integer = m.GetLength(1)
@@ -382,7 +382,7 @@ Namespace TraitarVB.Utils
         ''' 论文：L2损失函数
         ''' L(y, f(x)) = max(0, 1 - y·f(x))²
         ''' </summary>
-        Public Function L2HingeLoss(ByVal y As Integer, ByVal score As Double) As Double
+        Public Function L2HingeLoss(y As Integer, score As Double) As Double
             Dim margin As Double = y * score
             Dim loss As Double = 1.0 - margin
             If loss < 0 Then loss = 0
@@ -393,7 +393,7 @@ Namespace TraitarVB.Utils
         ''' Hinge Loss（L1损失版本，用于对比）
         ''' L(y, f(x)) = max(0, 1 - y·f(x))
         ''' </summary>
-        Public Function L1HingeLoss(ByVal y As Integer, ByVal score As Double) As Double
+        Public Function L1HingeLoss(y As Integer, score As Double) As Double
             Dim loss As Double = 1.0 - y * score
             If loss < 0 Then loss = 0
             Return loss

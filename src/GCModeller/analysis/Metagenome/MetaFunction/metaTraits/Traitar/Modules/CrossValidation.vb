@@ -44,7 +44,7 @@ Namespace TraitarVB.Modules
         ''' <param name="nSamples">总样本数</param>
         ''' <param name="k">折数</param>
         ''' <returns>每折的样本索引列表</returns>
-        Public Function KFoldSplit(ByVal nSamples As Integer, ByVal k As Integer) As List(Of Integer)()
+        Public Function KFoldSplit(nSamples As Integer, k As Integer) As List(Of Integer)()
             ' 生成随机索引
             Dim indices As Integer() = New Integer(nSamples - 1) {}
             For i As Integer = 0 To nSamples - 1
@@ -83,9 +83,9 @@ Namespace TraitarVB.Modules
         ''' <param name="cGrid">C参数候选列表</param>
         ''' <param name="innerFolds">内层折数</param>
         ''' <returns>最优C值和对应准确率</returns>
-        Public Function GridSearchC(ByVal X As Integer(,), ByVal y As Integer(),
-                                    ByVal cGrid As Double(),
-                                    Optional ByVal innerFolds As Integer = 10) As (bestC As Double, bestAcc As Double)
+        Public Function GridSearchC(X As Integer(,), y As Integer(),
+                                    cGrid As Double(),
+                                    Optional innerFolds As Integer = 10) As (bestC As Double, bestAcc As Double)
 
             Console.WriteLine("[模块5] 网格搜索最优C参数")
             Console.WriteLine("       候选C值: {0}", String.Join(", ", cGrid))
@@ -158,10 +158,10 @@ Namespace TraitarVB.Modules
         ''' <param name="innerFolds">内层折数（默认10）</param>
         ''' <param name="cGrid">C参数候选列表</param>
         ''' <returns>每折的准确率和最优C值</returns>
-        Public Function NestedCrossValidation(ByVal X As Integer(,), ByVal y As Integer(),
-                                              Optional ByVal outerFolds As Integer = 10,
-                                              Optional ByVal innerFolds As Integer = 10,
-                                              Optional ByVal cGrid As Double() = Nothing) As List(Of (foldIdx As Integer, accuracy As Double, bestC As Double))
+        Public Function NestedCrossValidation(X As Integer(,), y As Integer(),
+                                              Optional outerFolds As Integer = 10,
+                                              Optional innerFolds As Integer = 10,
+                                              Optional cGrid As Double() = Nothing) As List(Of (foldIdx As Integer, accuracy As Double, bestC As Double))
 
             If cGrid Is Nothing Then cGrid = DefaultCGrid
 
@@ -224,7 +224,7 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 计算准确率
         ''' </summary>
-        Public Function ComputeAccuracy(ByVal yTrue As Integer(), ByVal yPred As Integer()) As Double
+        Public Function ComputeAccuracy(yTrue As Integer(), yPred As Integer()) As Double
             If yTrue.Length = 0 Then Return 0.0
             Dim correct As Integer = 0
             For i As Integer = 0 To yTrue.Length - 1
@@ -236,7 +236,7 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 从矩阵中抽取子集（按行索引）
         ''' </summary>
-        Private Function SubsetMatrix(ByVal X As Integer(,), ByVal indices As List(Of Integer)) As Integer(,)
+        Private Function SubsetMatrix(X As Integer(,), indices As List(Of Integer)) As Integer(,)
             Dim nFeatures As Integer = X.GetLength(1)
             Dim result As Integer(,) = New Integer(indices.Count - 1, nFeatures - 1) {}
             For i As Integer = 0 To indices.Count - 1
@@ -250,7 +250,7 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 从数组中抽取子集
         ''' </summary>
-        Private Function SubsetArray(ByVal arr As Integer(), ByVal indices As List(Of Integer)) As Integer()
+        Private Function SubsetArray(arr As Integer(), indices As List(Of Integer)) As Integer()
             Dim result As Integer() = New Integer(indices.Count - 1) {}
             For i As Integer = 0 To indices.Count - 1
                 result(i) = arr(indices(i))

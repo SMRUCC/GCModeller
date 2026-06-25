@@ -59,8 +59,8 @@ Namespace TraitarVB.Modules
         ''' </summary>
         ''' <param name="maxIterations">最大迭代次数</param>
         ''' <param name="tolerance">收敛阈值</param>
-        Public Sub New(Optional ByVal maxIterations As Integer = 1000,
-                       Optional ByVal tolerance As Double = 1e-6)
+        Public Sub New(Optional maxIterations As Integer = 1000,
+                       Optional tolerance As Double = 1e-6)
             _maxIterations = maxIterations
             _tolerance = tolerance
         End Sub
@@ -83,9 +83,9 @@ Namespace TraitarVB.Modules
         ''' <param name="C">正则化参数</param>
         ''' <param name="featureIds">特征ID列表</param>
         ''' <returns>训练好的SVM模型</returns>
-        Public Function Train(ByVal X As Integer(,), ByVal y As Integer(),
-                              ByVal C As Double,
-                              Optional ByVal featureIds As List(Of String) = Nothing) As SVMModel
+        Public Function Train(X As Integer(,), y As Integer(),
+                              C As Double,
+                              Optional featureIds As List(Of String) = Nothing) As SVMModel
 
             Dim nSamples As Integer = X.GetLength(0)
             Dim nFeatures As Integer = X.GetLength(1)
@@ -166,10 +166,10 @@ Namespace TraitarVB.Modules
         '''   2. 若 |G| &lt; 1，则 w_j = 0（L1正则化导致稀疏）
         '''   3. 否则 w_j -= (G - sign(w_j)) / H，其中H是Hessian对角元素
         ''' </summary>
-        Private Sub UpdateWeightCoordinate(ByVal X As Integer(,), ByVal y As Integer(),
-                                           ByVal w As Double(), ByVal b As Double,
-                                           ByVal pred As Double(), ByVal j As Integer,
-                                           ByVal C As Double, ByVal nSamples As Integer)
+        Private Sub UpdateWeightCoordinate(X As Integer(,), y As Integer(),
+                                           w As Double(), b As Double,
+                                           pred As Double(), j As Integer,
+                                           C As Double, nSamples As Integer)
 
             Dim wj_old As Double = w(j)
 
@@ -222,7 +222,7 @@ Namespace TraitarVB.Modules
         ''' 软阈值函数（L1正则化的核心）
         ''' SoftThreshold(z, λ) = sign(z) × max(|z| - λ, 0)
         ''' </summary>
-        Public Function SoftThreshold(ByVal z As Double, ByVal lambda As Double) As Double
+        Public Function SoftThreshold(z As Double, lambda As Double) As Double
             If z > lambda Then
                 Return z - lambda
             ElseIf z < -lambda Then
@@ -236,10 +236,10 @@ Namespace TraitarVB.Modules
         ''' 更新偏置项b
         ''' 偏置项不受L1正则化约束
         ''' </summary>
-        Private Sub UpdateBias(ByVal X As Integer(,), ByVal y As Integer(),
-                               ByVal w As Double(), ByRef b As Double,
-                               ByVal pred As Double(), ByVal C As Double,
-                               ByVal nSamples As Integer)
+        Private Sub UpdateBias(X As Integer(,), y As Integer(),
+                               w As Double(), ByRef b As Double,
+                               pred As Double(), C As Double,
+                               nSamples As Integer)
 
             Dim grad As Double = 0.0
             Dim hess As Double = 0.0
@@ -267,9 +267,9 @@ Namespace TraitarVB.Modules
         ''' 计算目标函数值
         ''' f(w, b) = ||w||_1 + C × Σ_i max(0, 1 - y_i × (w·x_i + b))²
         ''' </summary>
-        Public Function ComputeObjective(ByVal X As Integer(,), ByVal y As Integer(),
-                                         ByVal w As Double(), ByVal b As Double,
-                                         ByVal C As Double) As Double
+        Public Function ComputeObjective(X As Integer(,), y As Integer(),
+                                         w As Double(), b As Double,
+                                         C As Double) As Double
             Dim nSamples As Integer = X.GetLength(0)
             Dim nFeatures As Integer = X.GetLength(1)
 
@@ -300,8 +300,8 @@ Namespace TraitarVB.Modules
         ''' 公式：score = b + Σ w_j × x_j
         '''       label = +1 if score > 0, else -1
         ''' </summary>
-        Public Function PredictScore(ByVal model As SVMModel,
-                                     ByVal features As Dictionary(Of String, Integer)) As Double
+        Public Function PredictScore(model As SVMModel,
+                                     features As Dictionary(Of String, Integer)) As Double
             Dim score As Double = model.Bias
             For j As Integer = 0 To model.FeatureIds.Count - 1
                 Dim fid As String = model.FeatureIds(j)
@@ -315,8 +315,8 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 预测样本标签
         ''' </summary>
-        Public Function PredictLabel(ByVal model As SVMModel,
-                                     ByVal features As Dictionary(Of String, Integer)) As Integer
+        Public Function PredictLabel(model As SVMModel,
+                                     features As Dictionary(Of String, Integer)) As Integer
             Dim score As Double = PredictScore(model, features)
             Return If(score > 0, 1, -1)
         End Function
@@ -324,8 +324,8 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 批量预测
         ''' </summary>
-        Public Function PredictBatch(ByVal model As SVMModel,
-                                     ByVal X As Integer(,)) As Integer()
+        Public Function PredictBatch(model As SVMModel,
+                                     X As Integer(,)) As Integer()
             Dim nSamples As Integer = X.GetLength(0)
             Dim nFeatures As Integer = X.GetLength(1)
             Dim predictions As Integer() = New Integer(nSamples - 1) {}
@@ -347,8 +347,8 @@ Namespace TraitarVB.Modules
         '''   {id}_bias.txt:  C值 \t 偏置值
         '''   {id}_feats.txt: PfamID \t 各C值对应的权重
         ''' </summary>
-        Public Function LoadModelFromFiles(ByVal biasFile As String,
-                                           ByVal featsFile As String) As List(Of SVMModel)
+        Public Function LoadModelFromFiles(biasFile As String,
+                                           featsFile As String) As List(Of SVMModel)
             Dim models As New List(Of SVMModel)()
 
             ' 1. 解析bias文件

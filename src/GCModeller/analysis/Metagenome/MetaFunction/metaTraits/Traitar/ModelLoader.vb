@@ -33,7 +33,7 @@ Namespace TraitarVB
             End Get
         End Property
 
-        Public Sub New(ByVal modelsDir As String)
+        Public Sub New(modelsDir As String)
             _modelsDir = modelsDir
         End Sub
 
@@ -102,7 +102,7 @@ Namespace TraitarVB
         ''' 加载表型描述文件 pt2acc.txt
         ''' 格式: pheno_id \t pheno_name \t pheno_category
         ''' </summary>
-        Private Sub LoadPhenotypeDescriptions(ByVal filePath As String)
+        Private Sub LoadPhenotypeDescriptions(filePath As String)
             Dim lines As String() = File.ReadAllLines(filePath)
 
             For Each line As String In lines
@@ -132,7 +132,7 @@ Namespace TraitarVB
         ''' 加载Pfam描述文件 pf2acc_desc.txt
         ''' 格式: pfam_id \t description
         ''' </summary>
-        Private Sub LoadPfamDescriptions(ByVal filePath As String)
+        Private Sub LoadPfamDescriptions(filePath As String)
             Dim lines As String() = File.ReadAllLines(filePath)
 
             For Each line As String In lines
@@ -179,9 +179,9 @@ Namespace TraitarVB
         ''' <summary>
         ''' 加载单个表型的模型文件
         ''' </summary>
-        Private Sub LoadPhenotypeModel(ByVal phenoId As String,
-                                       ByVal biasFile As String,
-                                       ByVal featsFile As String)
+        Private Sub LoadPhenotypeModel(phenoId As String,
+                                       biasFile As String,
+                                       featsFile As String)
 
             Dim phenoModel As Models.PhenotypeModel = Phenotypes(phenoId)
 
@@ -281,7 +281,7 @@ Namespace TraitarVB
                 ' 查找偏置项
                 subModel.Bias = 0.0
                 For Each kvp As KeyValuePair(Of Double, Double) In biasDict
-                    If Math.Abs(kvp.Key - subModel.C) < 1e-6 Then
+                    If Math.Abs(kvp.Key - subModel.C) < 0.000001 Then
                         subModel.Bias = kvp.Value
                         Exit For
                     End If
@@ -291,7 +291,7 @@ Namespace TraitarVB
                 If nonzeroWeights.Count > 0 Then
                     For Each kvp As KeyValuePair(Of String, Double()) In nonzeroWeights
                         Dim w As Double = kvp.Value(colIdx)
-                        If Math.Abs(w) > 1e-12 Then
+                        If Math.Abs(w) > 0.000000000001 Then
                             subModel.Weights(kvp.Key) = w
                         End If
                     Next
@@ -299,7 +299,7 @@ Namespace TraitarVB
                     ' 回退到feats.txt的权重
                     For rowIdx As Integer = 0 To pfamIds.Count - 1
                         Dim w As Double = weightMatrix(rowIdx)(colIdx)
-                        If Math.Abs(w) > 1e-12 Then
+                        If Math.Abs(w) > 0.000000000001 Then
                             subModel.Weights(pfamIds(rowIdx)) = w
                         End If
                     Next

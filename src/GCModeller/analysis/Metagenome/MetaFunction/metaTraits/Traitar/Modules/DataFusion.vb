@@ -41,8 +41,8 @@ Namespace TraitarVB.Modules
         ''' <param name="gainProb">获得概率g</param>
         ''' <param name="lossProb">丢失概率l</param>
         ''' <returns>联合概率</returns>
-        Public Function ComputeJointProbability(ByVal gainProb As Double,
-                                                ByVal lossProb As Double) As Double
+        Public Function ComputeJointProbability(gainProb As Double,
+                                                lossProb As Double) As Double
             Dim g As Double = gainProb
             Dim l As Double = lossProb
             Return g + l - g * l
@@ -56,8 +56,8 @@ Namespace TraitarVB.Modules
         ''' <param name="prob">概率值</param>
         ''' <param name="threshold">阈值（默认0.5）</param>
         ''' <returns>1=事件发生，0=事件未发生，-1=不确定（需丢弃）</returns>
-        Public Function ThresholdFilter(ByVal prob As Double,
-                                        Optional ByVal threshold As Double = DEFAULT_THRESHOLD) As Integer
+        Public Function ThresholdFilter(prob As Double,
+                                        Optional threshold As Double = DEFAULT_THRESHOLD) As Integer
             If prob >= threshold Then
                 Return 1  ' 事件发生
             ElseIf prob <= (1 - threshold) Then
@@ -86,12 +86,12 @@ Namespace TraitarVB.Modules
         ''' <param name="extendedFeatures">输出的扩展特征矩阵</param>
         ''' <param name="extendedLabels">输出的扩展标签</param>
         Public Sub BuildExtendedDataset(
-            ByVal modernFeatures As Integer(,),
-            ByVal modernLabels As Integer(),
-            ByVal ancestralNodes As List(Of Models.PhyloTreeNode),
-            ByVal allPfamIds As List(Of String),
-            ByVal phenotypeId As String,
-            ByVal threshold As Double,
+            modernFeatures As Integer(,),
+            modernLabels As Integer(),
+            ancestralNodes As List(Of Models.PhyloTreeNode),
+            allPfamIds As List(Of String),
+            phenotypeId As String,
+            threshold As Double,
             <Out()> ByRef extendedFeatures As Integer(,),
             <Out()> ByRef extendedLabels As Integer())
 
@@ -186,7 +186,7 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 将标签从{0,1}转换为{-1,+1}（SVM标准格式）
         ''' </summary>
-        Public Function ConvertLabelsToSVMFormat(ByVal labels As Integer()) As Integer()
+        Public Function ConvertLabelsToSVMFormat(labels As Integer()) As Integer()
             Dim result As Integer() = New Integer(labels.Length - 1) {}
             For i As Integer = 0 To labels.Length - 1
                 result(i) = If(labels(i) = 1, 1, -1)
@@ -197,7 +197,7 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 将标签从{-1,+1}转换为{0,1}
         ''' </summary>
-        Public Function ConvertLabelsFromSVMFormat(ByVal labels As Integer()) As Integer()
+        Public Function ConvertLabelsFromSVMFormat(labels As Integer()) As Integer()
             Dim result As Integer() = New Integer(labels.Length - 1) {}
             For i As Integer = 0 To labels.Length - 1
                 result(i) = If(labels(i) = 1, 1, 0)

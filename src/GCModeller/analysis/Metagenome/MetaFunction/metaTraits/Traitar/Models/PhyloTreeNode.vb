@@ -86,7 +86,7 @@ Namespace TraitarVB.Models
             Return leaves
         End Function
 
-        Private Sub CollectLeaves(ByVal leaves As List(Of PhyloTreeNode))
+        Private Sub CollectLeaves(leaves As List(Of PhyloTreeNode))
             If IsLeaf Then
                 leaves.Add(Me)
             Else
@@ -105,7 +105,7 @@ Namespace TraitarVB.Models
             Return nodes
         End Function
 
-        Private Sub CollectNodes(ByVal nodes As List(Of PhyloTreeNode))
+        Private Sub CollectNodes(nodes As List(Of PhyloTreeNode))
             nodes.Add(Me)
             For Each child As PhyloTreeNode In Children
                 child.CollectNodes(nodes)

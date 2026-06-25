@@ -70,9 +70,9 @@ Namespace TraitarVB.Modules
         ''' <param name="pfamDescriptions">Pfam描述字典</param>
         ''' <param name="minPositiveModels">最小正权重模型数（默认3）</param>
         ''' <returns>关键特征列表</returns>
-        Public Function SelectKeyFeatures(ByVal committee As List(Of SVMClassifier.SVMModel),
-                                          ByVal pfamDescriptions As Dictionary(Of String, String),
-                                          Optional ByVal minPositiveModels As Integer = 3) As List(Of KeyFeature)
+        Public Function SelectKeyFeatures(committee As List(Of SVMClassifier.SVMModel),
+                                          pfamDescriptions As Dictionary(Of String, String),
+                                          Optional minPositiveModels As Integer = 3) As List(Of KeyFeature)
 
             ' 统计每个特征在多少个模型中拥有正权重
             Dim positiveCounts As New Dictionary(Of String, Integer)()
@@ -142,10 +142,10 @@ Namespace TraitarVB.Modules
         ''' <param name="featureIds">特征ID列表（对应矩阵列）</param>
         ''' <returns>按PCC排序的关键特征列表</returns>
         Public Function RankByPearsonCorrelation(
-            ByVal keyFeatures As List(Of KeyFeature),
-            ByVal featureMatrix As Integer(,),
-            ByVal labels As Integer(),
-            ByVal featureIds As List(Of String)) As List(Of KeyFeature)
+            keyFeatures As List(Of KeyFeature),
+            featureMatrix As Integer(,),
+            labels As Integer(),
+            featureIds As List(Of String)) As List(Of KeyFeature)
 
             Dim nSamples As Integer = featureMatrix.GetLength(0)
 
@@ -279,8 +279,8 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 生成关键特征报告
         ''' </summary>
-        Public Function GenerateReport(ByVal keyFeatures As List(Of KeyFeature),
-                                       Optional ByVal topN As Integer = 20) As String
+        Public Function GenerateReport(keyFeatures As List(Of KeyFeature),
+                                       Optional topN As Integer = 20) As String
             Dim sb As New System.Text.StringBuilder()
             sb.AppendLine("=== 关键蛋白质家族特征报告 ===")
             sb.AppendLine(String.Format("总特征数: {0}", keyFeatures.Count))

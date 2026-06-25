@@ -44,8 +44,8 @@ Namespace TraitarVB.Models
         ''' <param name="bitScoreThreshold">比特分数阈值（默认25）</param>
         ''' <param name="evalueThreshold">E值阈值（默认1e-2）</param>
         Public Sub BuildPhyleticProfile(
-            Optional ByVal bitScoreThreshold As Double = 25.0,
-            Optional ByVal evalueThreshold As Double = 0.01)
+            Optional bitScoreThreshold As Double = 25.0,
+            Optional evalueThreshold As Double = 0.01)
 
             PhyleticProfile = BuildPhyleticProfile(PfamAnnotations, bitScoreThreshold, evalueThreshold)
         End Sub
@@ -59,8 +59,8 @@ Namespace TraitarVB.Models
         ''' <param name="bitScoreThreshold">比特分数阈值（默认25）</param>
         ''' <param name="evalueThreshold">E值阈值（默认1e-2）</param>
         Public Shared Function BuildPhyleticProfile(PfamAnnotations As IEnumerable(Of PfamAnnotation),
-                                                    Optional ByVal bitScoreThreshold As Double = 25.0,
-                                                    Optional ByVal evalueThreshold As Double = 0.01) As Dictionary(Of String, Integer)
+                                                    Optional bitScoreThreshold As Double = 25.0,
+                                                    Optional evalueThreshold As Double = 0.01) As Dictionary(Of String, Integer)
 
             Dim phyleticProfile As New Dictionary(Of String, Integer)
             ' 按Pfam家族分组，统计每个家族的命中数
@@ -106,7 +106,7 @@ Namespace TraitarVB.Models
         ''' <summary>
         ''' 检查某Pfam家族是否存在
         ''' </summary>
-        Public Function HasPfam(ByVal pfamId As String) As Boolean
+        Public Function HasPfam(pfamId As String) As Boolean
             Return PhyleticProfile.ContainsKey(pfamId) AndAlso PhyleticProfile(pfamId) = 1
         End Function
 

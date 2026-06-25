@@ -77,7 +77,7 @@ Namespace TraitarVB.Modules
         ''' <param name="yTrue">真实标签（0/1）</param>
         ''' <param name="yPred">预测标签（0/1）</param>
         ''' <returns>混淆矩阵</returns>
-        Public Function ComputeConfusionMatrix(ByVal yTrue As Integer(), ByVal yPred As Integer()) As ConfusionMatrix
+        Public Function ComputeConfusionMatrix(yTrue As Integer(), yPred As Integer()) As ConfusionMatrix
             Dim cm As New ConfusionMatrix()
 
             For i As Integer = 0 To yTrue.Length - 1
@@ -106,8 +106,8 @@ Namespace TraitarVB.Modules
         ''' <param name="allPred">所有表型的预测标签（表型ID -> 标签数组）</param>
         ''' <returns>宏平均评估结果</returns>
         Public Function MacroAverageEvaluation(
-            ByVal allTrue As Dictionary(Of String, Integer()),
-            ByVal allPred As Dictionary(Of String, Integer())) As (macroAccuracy As Double,
+            allTrue As Dictionary(Of String, Integer()),
+            allPred As Dictionary(Of String, Integer())) As (macroAccuracy As Double,
                                                                     macroPrecision As Double,
                                                                     macroRecall As Double,
                                                                     macroF1 As Double,
@@ -163,8 +163,8 @@ Namespace TraitarVB.Modules
         ''' <param name="allPred">所有表型的预测标签</param>
         ''' <returns>微平均评估结果</returns>
         Public Function MicroAverageEvaluation(
-            ByVal allTrue As Dictionary(Of String, Integer()),
-            ByVal allPred As Dictionary(Of String, Integer())) As (microAccuracy As Double,
+            allTrue As Dictionary(Of String, Integer()),
+            allPred As Dictionary(Of String, Integer())) As (microAccuracy As Double,
                                                                     microPrecision As Double,
                                                                     microRecall As Double,
                                                                     microF1 As Double,
@@ -201,9 +201,9 @@ Namespace TraitarVB.Modules
         ''' 生成完整评估报告
         ''' </summary>
         Public Function GenerateEvaluationReport(
-            ByVal allTrue As Dictionary(Of String, Integer()),
-            ByVal allPred As Dictionary(Of String, Integer()),
-            ByVal phenoNames As Dictionary(Of String, String)) As String
+            allTrue As Dictionary(Of String, Integer()),
+            allPred As Dictionary(Of String, Integer()),
+            phenoNames As Dictionary(Of String, String)) As String
 
             Dim sb As New System.Text.StringBuilder()
             sb.AppendLine("========================================")

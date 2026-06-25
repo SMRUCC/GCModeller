@@ -62,7 +62,7 @@ Namespace TraitarVB.Models
         ''' domtblout格式（空格分隔）：
         ''' target_name acc tlen query_name acc qlen e-value score bias # of c-Evalue i-Evalue dom_score bias hmm_start hmm_end env_start env_end acc description
         ''' </summary>
-        Public Shared Function ParseFromDomtblout(ByVal line As String) As PfamAnnotation
+        Public Shared Function ParseFromDomtblout(line As String) As PfamAnnotation
             ' 跳过注释行
             If String.IsNullOrEmpty(line) Then Return Nothing
             If line.StartsWith("#") Then Return Nothing
@@ -108,7 +108,7 @@ Namespace TraitarVB.Models
         ''' <summary>
         ''' 从HMMER --tblout格式的一行解析（简化版）
         ''' </summary>
-        Public Shared Function ParseFromTblout(ByVal line As String) As PfamAnnotation
+        Public Shared Function ParseFromTblout(line As String) As PfamAnnotation
             If String.IsNullOrEmpty(line) Then Return Nothing
             If line.StartsWith("#") Then Return Nothing
 

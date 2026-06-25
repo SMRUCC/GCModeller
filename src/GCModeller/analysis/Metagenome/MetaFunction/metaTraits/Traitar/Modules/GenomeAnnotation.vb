@@ -43,9 +43,9 @@ Namespace TraitarVB.Modules
         ''' <param name="prodigalPath">Prodigal可执行文件路径</param>
         ''' <param name="hmmsearchPath">HMMER hmmsearch可执行文件路径</param>
         ''' <param name="pfamDbPath">Pfam数据库HMM文件路径</param>
-        Public Sub New(Optional ByVal prodigalPath As String = "prodigal",
-                       Optional ByVal hmmsearchPath As String = "hmmsearch",
-                       Optional ByVal pfamDbPath As String = "Pfam-A.hmm")
+        Public Sub New(Optional prodigalPath As String = "prodigal",
+                       Optional hmmsearchPath As String = "hmmsearch",
+                       Optional pfamDbPath As String = "Pfam-A.hmm")
             _prodigalPath = prodigalPath
             _hmmsearchPath = hmmsearchPath
             _pfamDbPath = pfamDbPath
@@ -64,9 +64,9 @@ Namespace TraitarVB.Modules
         ''' <param name="outputProteinPath">输出蛋白质FASTA文件路径</param>
         ''' <param name="outputGffPath">输出GFF文件路径</param>
         ''' <returns>是否成功</returns>
-        Public Function RunProdigal(ByVal dnaFastaPath As String,
-                                    ByVal outputProteinPath As String,
-                                    Optional ByVal outputGffPath As String = Nothing) As Boolean
+        Public Function RunProdigal(dnaFastaPath As String,
+                                    outputProteinPath As String,
+                                    Optional outputGffPath As String = Nothing) As Boolean
             Try
                 Dim args As String = String.Format(" -i ""{0}"" -a ""{1}""",
                                                     dnaFastaPath, outputProteinPath)
@@ -106,8 +106,8 @@ Namespace TraitarVB.Modules
         ''' <param name="proteinFastaPath">蛋白质FASTA文件路径</param>
         ''' <param name="outputDomtbloutPath">输出domtblout文件路径</param>
         ''' <returns>是否成功</returns>
-        Public Function RunHmmsearch(ByVal proteinFastaPath As String,
-                                     ByVal outputDomtbloutPath As String) As Boolean
+        Public Function RunHmmsearch(proteinFastaPath As String,
+                                     outputDomtbloutPath As String) As Boolean
             Try
                 Dim args As String = String.Format(
                     " --domtblout ""{0}"" --cpu 4 ""{1}"" ""{2}""",
@@ -149,11 +149,11 @@ Namespace TraitarVB.Modules
         ''' <param name="evalueThreshold">E值阈值</param>
         ''' <returns>基因组样本（含系统发育谱）</returns>
         Public Function AnnotateGenome(
-            Optional ByVal gffPath As String = Nothing,
-            Optional ByVal proteinFastaPath As String = Nothing,
-            Optional ByVal domtbloutPath As String = Nothing,
-            Optional ByVal bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
-            Optional ByVal evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+            Optional gffPath As String = Nothing,
+            Optional proteinFastaPath As String = Nothing,
+            Optional domtbloutPath As String = Nothing,
+            Optional bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
+            Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
 
             Dim sample As New Models.GenomeSample()
 
@@ -225,7 +225,7 @@ Namespace TraitarVB.Modules
         ''' 将多个样本的特征矩阵合并为二维矩阵
         ''' 论文：将每个样本中各Pfam家族的数量转化为存在(1)或缺失(0)的二元矩阵X
         ''' </summary>
-        Public Function BuildFeatureMatrix(ByVal samples As List(Of Models.GenomeSample),
+        Public Function BuildFeatureMatrix(samples As List(Of Models.GenomeSample),
                                            <Out()> ByRef allPfamIds As List(Of String)) As Integer(,)
             ' 收集所有Pfam ID
             Dim pfamSet As New HashSet(Of String)()
@@ -260,9 +260,9 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 打印特征矩阵（用于调试）
         ''' </summary>
-        Public Sub PrintFeatureMatrix(ByVal samples As List(Of Models.GenomeSample),
-                                      ByVal allPfamIds As List(Of String),
-                                      ByVal matrix As Integer(,))
+        Public Sub PrintFeatureMatrix(samples As List(Of Models.GenomeSample),
+                                      allPfamIds As List(Of String),
+                                      matrix As Integer(,))
             Console.Write("Sample" & ControlChars.Tab)
             For Each pid As String In allPfamIds
                 Console.Write(pid & ControlChars.Tab)
@@ -285,38 +285,38 @@ Namespace TraitarVB.Modules
         ''' <summary>
         ''' 从HMMER domtblout文件注释基因组
         ''' </summary>
-        Public Function AnnotateFromDomtblout(ByVal domtbloutPath As String,
-                                              Optional ByVal bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
-                                              Optional ByVal evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+        Public Function AnnotateFromDomtblout(domtbloutPath As String,
+                                              Optional bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
+                                              Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
             Return AnnotateGenome(Nothing, Nothing, domtbloutPath, bitScoreThreshold, evalueThreshold)
         End Function
 
         ''' <summary>
         ''' 从蛋白质FASTA文件注释基因组（自动运行HMMER）
         ''' </summary>
-        Public Function AnnotateFromFasta(ByVal proteinFastaPath As String,
-                                          Optional ByVal bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
-                                          Optional ByVal evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+        Public Function AnnotateFromFasta(proteinFastaPath As String,
+                                          Optional bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
+                                          Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
             Return AnnotateGenome(Nothing, proteinFastaPath, Nothing, bitScoreThreshold, evalueThreshold)
         End Function
 
         ''' <summary>
         ''' 从GFF文件注释基因组
         ''' </summary>
-        Public Function AnnotateFromGFF(ByVal gffPath As String,
-                                        Optional ByVal bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
-                                        Optional ByVal evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+        Public Function AnnotateFromGFF(gffPath As String,
+                                        Optional bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
+                                        Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
             Return AnnotateGenome(gffPath, Nothing, Nothing, bitScoreThreshold, evalueThreshold)
         End Function
 
         ''' <summary>
         ''' 从GFF和蛋白质FASTA文件注释基因组
         ''' </summary>
-        Public Function AnnotateFromGFFAndFasta(ByVal gffPath As String,
-                                                 ByVal proteinFastaPath As String,
-                                                 Optional ByVal domtbloutPath As String = Nothing,
-                                                 Optional ByVal bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
-                                                 Optional ByVal evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
+        Public Function AnnotateFromGFFAndFasta(gffPath As String,
+                                                 proteinFastaPath As String,
+                                                 Optional domtbloutPath As String = Nothing,
+                                                 Optional bitScoreThreshold As Double = DEFAULT_BITSCORE_THRESHOLD,
+                                                 Optional evalueThreshold As Double = DEFAULT_EVALUE_THRESHOLD) As Models.GenomeSample
             Return AnnotateGenome(gffPath, proteinFastaPath, domtbloutPath, bitScoreThreshold, evalueThreshold)
         End Function
 
