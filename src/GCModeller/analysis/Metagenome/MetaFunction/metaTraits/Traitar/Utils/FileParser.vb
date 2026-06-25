@@ -10,8 +10,11 @@
 ' ============================================================================
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
+Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.Database
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
 
 Namespace metaTraits.Traitar.Utils
 
@@ -84,6 +87,30 @@ Namespace metaTraits.Traitar.Utils
             End Using
 
             Return proteins
+        End Function
+
+        <Extension>
+        Public Iterator Function ConvertFromDiamond(diamond As IEnumerable(Of DiamondAnnotation)) As IEnumerable(Of PfamAnnotation)
+            For Each hit As DiamondAnnotation In diamond
+                Dim pfam = PfamEntryHeader.ParseHeaderTitle(hit.QseqId)
+
+                Yield New PfamAnnotation With {
+                    .Description = hit.QseqId,
+                    .BitScore = hit.BitScore,
+                    .DomainBitScore = hit.BitScore,
+                    .DomainEnd = hit.SEnd,
+                    .DomainEValue = hit.EValue,
+                    .DomainStart = hit.SStart,
+                    .EValue = hit.EValue,
+                    .HmmEnd = hit.QEnd,
+                    .HmmStart = hit.QStart,
+                    .PfamId = pfam.PfamId,
+                    .QueryLength = hit.Length,
+                    .TargetLength = hit.Length,
+                    .QueryName = hit.SseqId,
+                    .TargetName = pfam.CommonName
+                }
+            Next
         End Function
 
         ''' <summary>
