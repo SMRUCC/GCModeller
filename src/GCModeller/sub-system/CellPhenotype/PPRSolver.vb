@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Math.LinearAlgebra
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
 ''' Personalized PageRank（PPR）+ 代谢扩散稳态计算
@@ -110,6 +111,13 @@ Public Module PPRSolver
     Public Function SolveWithDrain(net As MetabolicNetwork, seedNode As Integer, drain() As Double, Optional alpha As Double = 0.85, Optional maxItrs As Integer = 10000) As Double()
         Dim P(,) As Double = net.BuildRowStochasticMatrix
         Dim n As Integer = P.GetLength(0)
+
+        If drain Is Nothing Then
+            Throw New NullReferenceException("drain should not be nothing!")
+        End If
+        If drain.Length <> n Then
+            Throw New InvalidDataException($"the network metabolite size({n}) is not matched with the size of drain({drain.Length}) vector!")
+        End If
 
         Dim x(n - 1) As Double
         Dim b(n - 1) As Double
