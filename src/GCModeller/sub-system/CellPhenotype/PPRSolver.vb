@@ -46,7 +46,8 @@ Public Module PPRSolver
     Public Function ComputeSteadyStateClosed(net As MetabolicNetwork,
                                              Optional totalMass As Double = 9999,
                                              Optional eps As Double = 0.01,
-                                             Optional maxItrs As Integer = 10000) As Double()
+                                             Optional maxItrs As Integer = 10000,
+                                             Optional wrap_console As Boolean = True) As Double()
 
         Dim P(,) As Double = net.BuildRowStochasticMatrix()
         Dim n As Integer = P.GetLength(0)
@@ -60,7 +61,7 @@ Public Module PPRSolver
 
         Dim bar As ProgressBar = Nothing
 
-        For Each iter As Integer In TqdmWrapper.Range(0, maxItrs, bar:=bar)
+        For Each iter As Integer In TqdmWrapper.Range(0, maxItrs, bar:=bar, wrap_console:=wrap_console)
             If n < 1000 Then
                 Dim piNew_1(n - 1) As Double
 
@@ -89,7 +90,9 @@ Public Module PPRSolver
                 diff += Math.Abs(piNew(i) - pi(i))
             Next
 
-            Call bar.SetLabel($"|P - P_new| = {diff}")
+            If wrap_console Then
+                Call bar.SetLabel($"|P - P0| = {diff}")
+            End If
 
             If diff < eps OrElse iter > maxItrs Then
                 Exit For
