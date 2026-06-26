@@ -1,10 +1,40 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Parallel
 
 ''' <summary>
 ''' Personalized PageRank（PPR）+ 代谢扩散稳态计算
 ''' </summary>
 Public Module PPRSolver
+
+    Private Class VectorSum : Inherits VectorTask
+
+        Friend piNew As Double()
+        Friend pi As Double()
+        Friend P As Double(,)
+
+        Public Sub New(pi As Double(), p As Double(,), Optional verbose As Boolean = False, Optional workers As Integer? = Nothing)
+            MyBase.New(pi.Length, verbose, workers)
+
+            Me.pi = pi
+            Me.P = p
+            Me.piNew = New Double(pi.Length - 1) {}
+        End Sub
+
+        Protected Overrides Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
+            Dim n As Integer = P.GetLength(0)
+
+            For j As Integer = start To ends
+                Dim pnew As Double = 0
+
+                For i As Integer = 0 To n - 1
+                    pnew += pi(i) * P(i, j)
+                Next
+
+                piNew(j) = pnew
+            Next
+        End Sub
+    End Class
 
     ''' <summary>
     ''' 计算封闭代谢网络的全局稳态浓度分布（质量守恒）
@@ -25,12 +55,23 @@ Public Module PPRSolver
         Dim iter As Integer = 0
 
         Do
-            Dim piNew(n - 1) As Double
-            For j As Integer = 0 To n - 1
-                For i As Integer = 0 To n - 1
-                    piNew(j) += pi(i) * P(i, j)
+            Dim piNew As Double()
+
+            If n < 1000 Then
+                Dim piNew_1(n - 1) As Double
+
+                For j As Integer = 0 To n - 1
+                    For i As Integer = 0 To n - 1
+                        piNew_1(j) += pi(i) * P(i, j)
+                    Next
                 Next
-            Next
+
+                piNew = piNew_1
+            Else
+                Dim vecSum As New VectorSum(pi, P)
+                Call vecSum.Run()
+                piNew = vecSum.piNew
+            End If
 
             ' 归一化以保证概率总和为1
             Dim sum As Double = piNew.Sum()
