@@ -693,12 +693,12 @@ Namespace PanGenomeSynteny
             Dim titleX As Single = _theme.ImageWidth / 2
             g.DrawString(_theme.Title, titleFont,
                          New SolidBrush(_theme.Palette.TextColor),
-                         titleX, 25, sf)
+                         titleX, 25)
 
             If Not String.IsNullOrEmpty(_theme.Subtitle) Then
                 g.DrawString(_theme.Subtitle, subFont,
                              New SolidBrush(_theme.Palette.SubTextColor),
-                             titleX, 55, sf)
+                             titleX, 55)
             End If
 
             ' titleFont.Dispose()
@@ -912,7 +912,7 @@ Namespace PanGenomeSynteny
                 For Each gp In _genomeLayouts
                     g.DrawString(gp.Id, genomeFont,
                                  New SolidBrush(_theme.Palette.TextColor),
-                                 _theme.MarginLeft - 15, gp.Y, sfLeft)
+                                 _theme.MarginLeft - 15, gp.Y)
                 Next
             End If
 
@@ -923,7 +923,7 @@ Namespace PanGenomeSynteny
                         Dim labelY = cp.Rect.Bottom + 4
                         g.DrawString(cp.Id, chromFont,
                                      New SolidBrush(_theme.Palette.SubTextColor),
-                                     cp.Rect.X + cp.Rect.Width / 2, labelY, sfCenter)
+                                     cp.Rect.X + cp.Rect.Width / 2, labelY)
                     Next
                 Next
             End If
@@ -937,7 +937,7 @@ Namespace PanGenomeSynteny
                                 g.DrawString(gpos.Gene.geneId, geneFont,
                                              New SolidBrush(_theme.Palette.SubTextColor),
                                              gpos.Rect.X + gpos.Rect.Width / 2,
-                                             gpos.Rect.Bottom + 2, sfCenter)
+                                             gpos.Rect.Bottom + 2)
                             End If
                         Next
                     Next
@@ -991,7 +991,7 @@ Namespace PanGenomeSynteny
             Dim sf As New StringFormat()
             sf.Alignment = StringAlignment.Center
             g.DrawString(label, font, New SolidBrush(_theme.Palette.TextColor),
-                         x + barWidth / 2, y + 6, sf)
+                         x + barWidth / 2, y + 6)
 
             ' font.Dispose()
         End Sub
