@@ -5,9 +5,7 @@
 '  本示例构造一组模拟的泛基因组共线性数据，并分别使用不同主题输出 PNG 图像。
 ' ============================================================================
 
-Imports System.Collections.Generic
-Imports System.Drawing
-Imports PanGenomeSynteny
+Imports SMRUCC.genomics.Visualize.SyntenyVisualize.PanGenomeSynteny
 
 Module SyntenyPlotterDemo
 

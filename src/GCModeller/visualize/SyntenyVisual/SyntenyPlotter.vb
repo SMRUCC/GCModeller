@@ -18,6 +18,8 @@ Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
 Imports System.Collections.Generic
 Imports System.Linq
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
 
 Namespace PanGenomeSynteny
 
@@ -631,14 +633,14 @@ Namespace PanGenomeSynteny
 
         Private Sub Render(outputPath As String)
             Using bmp As New Bitmap(_theme.ImageWidth, _theme.ImageHeight, PixelFormat.Format32bppArgb)
-                bmp.SetResolution(_theme.Dpi, _theme.Dpi)
-                Using g As Graphics = Graphics.FromImage(bmp)
+                ' bmp.SetResolution(_theme.Dpi, _theme.Dpi)
+                Using g As IGraphics = DriverLoad.CreateGraphicsDevice(bmp)
                     If _theme.UseAntiAlias Then
-                        g.SmoothingMode = SmoothingMode.AntiAlias
-                        g.TextRenderingHint = Text.TextRenderingHint.AntiAliasGridFit
-                        g.PixelOffsetMode = PixelOffsetMode.HighQuality
+                        ' g.SmoothingMode = SmoothingMode.AntiAlias
+                        ' g.TextRenderingHint = Text.TextRenderingHint.AntiAliasGridFit
+                        ' g.PixelOffsetMode = PixelOffsetMode.HighQuality
                     End If
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic
+                    ' g.InterpolationMode = InterpolationMode.HighQualityBicubic
 
                     ' 1. 背景
                     g.Clear(_theme.Palette.Background)
@@ -670,7 +672,7 @@ Namespace PanGenomeSynteny
                 If Not String.IsNullOrEmpty(dir) AndAlso Not System.IO.Directory.Exists(dir) Then
                     System.IO.Directory.CreateDirectory(dir)
                 End If
-                bmp.Save(outputPath, ImageFormat.Png)
+                bmp.Save(outputPath, ImageFormats.Png)
             End Using
         End Sub
 
@@ -679,7 +681,7 @@ Namespace PanGenomeSynteny
         '  绘制：标题
         ' --------------------------------------------------------------------
 
-        Private Sub DrawTitle(g As Graphics)
+        Private Sub DrawTitle(g As IGraphics)
             If String.IsNullOrEmpty(_theme.Title) Then Return
 
             Dim titleFont As New Font(_theme.FontFamily, 22, FontStyle.Bold, GraphicsUnit.Pixel)
@@ -699,8 +701,8 @@ Namespace PanGenomeSynteny
                              titleX, 55, sf)
             End If
 
-            titleFont.Dispose()
-            subFont.Dispose()
+            ' titleFont.Dispose()
+            ' subFont.Dispose()
         End Sub
 
 
@@ -708,7 +710,7 @@ Namespace PanGenomeSynteny
         '  绘制：网格
         ' --------------------------------------------------------------------
 
-        Private Sub DrawGrid(g As Graphics)
+        Private Sub DrawGrid(g As IGraphics)
             Using pen As New Pen(_theme.Palette.GridColor, 1)
                 ' 垂直网格线
                 Dim drawWidth As Single = _theme.ImageWidth - _theme.MarginLeft - _theme.MarginRight
@@ -730,7 +732,7 @@ Namespace PanGenomeSynteny
         '  绘制：连接线（核心）
         ' --------------------------------------------------------------------
 
-        Private Sub DrawConnections(g As Graphics)
+        Private Sub DrawConnections(g As IGraphics)
             ' 相邻基因组轨道之间绘制共线性连接
             For i = 0 To _genomeLayouts.Count - 2
                 Dim gp1 = _genomeLayouts(i)
@@ -792,7 +794,7 @@ Namespace PanGenomeSynteny
         ''' <summary>
         ''' 根据主题中的 ConnectionStyle 绘制单条连接线。
         ''' </summary>
-        Private Sub DrawSingleConnection(g As Graphics, pen As Pen, p1 As PointF, p2 As PointF)
+        Private Sub DrawSingleConnection(g As IGraphics, pen As Pen, p1 As PointF, p2 As PointF)
             Select Case _theme.ConnectionStyle
                 Case ConnectionStyle.StraightLine
                     g.DrawLine(pen, p1, p2)
@@ -811,7 +813,7 @@ Namespace PanGenomeSynteny
         '  绘制：染色体与基因
         ' --------------------------------------------------------------------
 
-        Private Sub DrawChromosomesAndGenes(g As Graphics)
+        Private Sub DrawChromosomesAndGenes(g As IGraphics)
             For Each gp In _genomeLayouts
                 For Each cp In gp.Chromosomes
                     ' 染色体条带（圆角矩形）
@@ -822,7 +824,6 @@ Namespace PanGenomeSynteny
                     Using pen As New Pen(_theme.Palette.ChromosomeBorder, 1.2F)
                         g.DrawPath(pen, path)
                     End Using
-                    path.Dispose()
 
                     ' 基因块
                     For Each gpos In cp.Genes
@@ -851,7 +852,7 @@ Namespace PanGenomeSynteny
         ''' <summary>
         ''' 绘制单个基因块，根据链方向绘制箭头形状。
         ''' </summary>
-        Private Sub DrawGeneBlock(g As Graphics, gpos As GenePos, color As Color)
+        Private Sub DrawGeneBlock(g As IGraphics, gpos As GenePos, color As Color)
             Dim r = gpos.Rect
             ' 如果基因块足够宽，绘制带方向的五边形箭头
             If r.Width > 8 Then
@@ -893,7 +894,7 @@ Namespace PanGenomeSynteny
         '  绘制：标签
         ' --------------------------------------------------------------------
 
-        Private Sub DrawLabels(g As Graphics)
+        Private Sub DrawLabels(g As IGraphics)
             Dim genomeFont As New Font(_theme.FontFamily, 13, FontStyle.Bold, GraphicsUnit.Pixel)
             Dim chromFont As New Font(_theme.FontFamily, 10, FontStyle.Regular, GraphicsUnit.Pixel)
             Dim geneFont As New Font(_theme.FontFamily, 7, FontStyle.Regular, GraphicsUnit.Pixel)
@@ -943,9 +944,9 @@ Namespace PanGenomeSynteny
                 Next
             End If
 
-            genomeFont.Dispose()
-            chromFont.Dispose()
-            geneFont.Dispose()
+            ' genomeFont.Dispose()
+            ' chromFont.Dispose()
+            ' geneFont.Dispose()
         End Sub
 
 
@@ -953,7 +954,7 @@ Namespace PanGenomeSynteny
         '  绘制：比例尺
         ' --------------------------------------------------------------------
 
-        Private Sub DrawScaleBar(g As Graphics)
+        Private Sub DrawScaleBar(g As IGraphics)
             ' 在左下角绘制比例尺
             Dim font As New Font(_theme.FontFamily, 10, FontStyle.Regular, GraphicsUnit.Pixel)
             Dim x As Single = _theme.MarginLeft
@@ -961,7 +962,7 @@ Namespace PanGenomeSynteny
 
             ' 取第一条基因组的总长度作为参考
             If _genomeLayouts.Count = 0 OrElse _genomeLayouts(0).Chromosomes.Count = 0 Then
-                font.Dispose()
+                ' font.Dispose()
                 Return
             End If
 
@@ -971,7 +972,7 @@ Namespace PanGenomeSynteny
                 totalLen += cp.Length
             Next
             If totalLen <= 0 Then
-                font.Dispose()
+                ' font.Dispose()
                 Return
             End If
 
@@ -992,7 +993,7 @@ Namespace PanGenomeSynteny
             g.DrawString(label, font, New SolidBrush(_theme.Palette.TextColor),
                          x + barWidth / 2, y + 6, sf)
 
-            font.Dispose()
+            ' font.Dispose()
         End Sub
 
 
@@ -1023,7 +1024,7 @@ Namespace PanGenomeSynteny
         '  绘制：图例
         ' --------------------------------------------------------------------
 
-        Private Sub DrawLegend(g As Graphics)
+        Private Sub DrawLegend(g As IGraphics)
             Dim font As New Font(_theme.FontFamily, 10, FontStyle.Regular, GraphicsUnit.Pixel)
             Dim titleFont As New Font(_theme.FontFamily, 11, FontStyle.Bold, GraphicsUnit.Pixel)
 
@@ -1072,12 +1073,12 @@ Namespace PanGenomeSynteny
                          New SolidBrush(_theme.Palette.SubTextColor),
                          legendX + 10, legendY + 70)
 
-            font.Dispose()
-            titleFont.Dispose()
+            ' font.Dispose()
+            ' titleFont.Dispose()
         End Sub
 
 
-        Private Sub DrawArrowIcon(g As Graphics, x As Single, y As Single,
+        Private Sub DrawArrowIcon(g As IGraphics, x As Single, y As Single,
                                   w As Single, h As Single, color As Color, strand As Char)
             Dim pts As PointF()
             If strand = "+"c Then
