@@ -12,7 +12,10 @@ Namespace Core
     ''' </summary>
     Public Class RegulatoryEdge
 
-        ''' <summary>转录因子名称</summary>
+        ''' <summary>transcript factor protein/rna id.</summary>
+        ''' <remarks>
+        ''' 转录因子名称
+        ''' </remarks>
         Public Property TF As String = ""
 
         ''' <summary>靶基因名称</summary>
