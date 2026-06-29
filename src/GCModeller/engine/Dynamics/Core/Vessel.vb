@@ -77,13 +77,6 @@ Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Namespace Core
 
-    Public Class CompartmentSnapshot
-
-        Public Property compart_id As String
-        Public Property snapshot As Dictionary(Of String, Double)
-
-    End Class
-
     ''' <summary>
     ''' 一个反应容器，也是一个微环境，这在这个反应容器之中包含有所有的反应过程
     ''' 
