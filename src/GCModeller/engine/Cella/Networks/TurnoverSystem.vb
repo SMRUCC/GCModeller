@@ -1,21 +1,14 @@
 ﻿Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 ''' <summary>
 ''' 物质回收的细胞周转系统
 ''' </summary>
-Public Class TurnoverSystem : Inherits SubNetwork
+Public Class TurnoverSystem : Inherits MetabolicNetwork
 
-    ReadOnly core As SolverIterator
-
-    Sub New(cell As VirtualCella)
-        Call MyBase.New(cell)
+    Sub New(network As IEnumerable(Of Channel), cell As VirtualCella)
+        Call MyBase.New(network, cell)
     End Sub
 
-    Public Overrides Sub RunStep()
-        Call core.Tick()
-    End Sub
 
-    Public Overrides Function GetStats() As Dictionary(Of String, Double)
-        Throw New NotImplementedException()
-    End Function
 End Class

@@ -1,15 +1,21 @@
 ﻿
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 ''' <summary>
 ''' 采用ODEs系统表示的代谢网络模型
 ''' </summary>
 Public Class MetabolicNetwork : Inherits SubNetwork
 
-    ReadOnly core As SolverIterator
+    Protected ReadOnly core As SolverIterator
+    Protected ReadOnly massEnv As MassTable
+    Protected ReadOnly cellular As Vessel
 
-    Sub New(cell As VirtualCella)
+    Sub New(network As IEnumerable(Of Channel), cell As VirtualCella)
         Call MyBase.New(cell)
+
+        cellular = New Vessel
+        cellular.load(network)
     End Sub
 
     Public Overrides Sub RunStep()
