@@ -38,8 +38,11 @@ Public Class VirtualCella
         Dim operonIndex As Dictionary(Of String, TranscriptUnit) = cell.genome.GetAllOperon
         Dim loader As New Loader(define, dynamics)
         Dim modelData = cell.CreateModel
-        Dim metabNetwork = loader.GetMetabolismNetworkLoader.CreateFlux(modelData).ToArray
+        Dim metabNetwork = loader.GetMetabolismNetworkLoader.CreateFlux(modelData).ToDictionary(Function(a) a.ID)
         Dim metabolites = loader.GetMetabolismNetworkLoader.MassTable
+        Dim fluxIndex = loader.GetFluxIndex
+        Dim transport = fluxIndex(MetabolismNetworkLoader.MembraneTransporter).Select(Function(id) metabNetwork(id)).ToArray
+        Dim metabolic = fluxIndex(NameOf(MetabolismNetworkLoader)).Select(Function(id) metabNetwork(id)).ToArray
 
         For Each trn As transcription In cell.genome.regulations.SafeQuery
             Call grn.Add(New RegulatoryLink With {
@@ -56,7 +59,8 @@ Public Class VirtualCella
             })
         Next
 
-        cella.metabolic = New MetabolicNetwork(metabolites, metabNetwork, cella)
+        cella.transportation = New TransportSystem(metabolites, transport, cella)
+        cella.metabolic = New MetabolicNetwork(metabolites, metabolic, cella)
         cella.grn = New GeneRegulatoryNetwork(cella, grn)
 
         Return cella
