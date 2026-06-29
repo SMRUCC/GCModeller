@@ -64,6 +64,10 @@ Namespace v2
     <XmlType("compound", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Compound : Implements INamedValue
 
+        ''' <summary>
+        ''' the registry unique reference symbol id
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
