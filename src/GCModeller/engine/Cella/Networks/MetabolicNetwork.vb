@@ -11,11 +11,14 @@ Public Class MetabolicNetwork : Inherits SubNetwork
     Protected ReadOnly massEnv As MassTable
     Protected ReadOnly cellular As Vessel
 
-    Sub New(network As IEnumerable(Of Channel), cell As VirtualCella)
+    Sub New(mass As MassTable, network As IEnumerable(Of Channel), cell As VirtualCella)
         Call MyBase.New(cell)
 
-        cellular = New Vessel
-        cellular.load(network)
+        cellular = New Vessel() _
+            .load(mass.AsEnumerable) _
+            .load(network) _
+            .Initialize(boost:=1)
+        massEnv = mass
     End Sub
 
     Public Overrides Sub RunStep()

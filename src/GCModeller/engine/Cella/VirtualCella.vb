@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.Metagenomics
+﻿Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.Metagenomics
 
 Public Class VirtualCella
 
@@ -24,5 +25,9 @@ Public Class VirtualCella
         Call transportation.RunStep()
         Call turnover.RunStep()
     End Sub
+
+    Public Shared Function FromModel(cell As VirtualCell) As VirtualCella
+
+    End Function
 
 End Class

@@ -18,7 +18,6 @@ Imports _rng = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace StructureLearning
 
-
     ''' <summary>
     ''' 贝叶斯网络结构学习器
     ''' </summary>

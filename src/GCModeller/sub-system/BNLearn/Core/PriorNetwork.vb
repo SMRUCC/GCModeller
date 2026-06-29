@@ -19,7 +19,7 @@ Namespace Core
         Public Property TargetGene As String = ""
 
         ''' <summary>调控类型（激活/抑制）</summary>
-        Public Property RegulationType As String = "activation"
+        Public Property RegulationType As Effector = Effector.Activator
 
         ''' <summary>置信度分数（0-1）</summary>
         Public Property Confidence As Double = 1.0
