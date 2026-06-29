@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+﻿Imports SMRUCC.genomics.Analysis.BNLearn
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.Metagenomics
 
 Public Class VirtualCella
@@ -27,7 +28,14 @@ Public Class VirtualCella
     End Sub
 
     Public Shared Function FromModel(cell As VirtualCell) As VirtualCella
+        Dim grn As New List(Of RegulatoryLink)
+        Dim cella As New VirtualCella With {
+            .taxonomy_info = cell.taxonomy
+        }
 
+        cella.grn = New GeneRegulatoryNetwork(cella, grn)
+
+        Return cella
     End Function
 
 End Class

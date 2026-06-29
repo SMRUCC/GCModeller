@@ -8,10 +8,10 @@ Public Class GeneRegulatoryNetwork : Inherits SubNetwork
 
     ReadOnly GRN As DynamicBayesianNetwork
 
-    Sub New(cell As VirtualCella, network As IEnumerable(Of RegulatoryLink), config As DBNConfig)
+    Sub New(cell As VirtualCella, network As IEnumerable(Of RegulatoryLink), Optional config As DBNConfig = Nothing)
         Call MyBase.New(cell)
 
-        GRN = New DynamicBayesianNetwork(config)
+        GRN = New DynamicBayesianNetwork(If(config, New DBNConfig))
         GRN.BuildFromTopology(network)
     End Sub
 
