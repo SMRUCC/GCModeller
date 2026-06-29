@@ -1,6 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.Metagenomics
 
 Public Class VirtualCella
@@ -28,12 +30,16 @@ Public Class VirtualCella
         Call turnover.RunStep()
     End Sub
 
-    Public Shared Function FromModel(cell As VirtualCell) As VirtualCella
+    Public Shared Function FromModel(cell As VirtualCell, define As Definition, dynamics As FluxBaseline) As VirtualCella
         Dim grn As New List(Of RegulatoryLink)
         Dim cella As New VirtualCella With {
             .taxonomy_info = cell.taxonomy
         }
         Dim operonIndex As Dictionary(Of String, TranscriptUnit) = cell.genome.GetAllOperon
+        Dim loader As New Loader(define, dynamics)
+        Dim modelData = cell.CreateModel
+        Dim metabNetwork = loader.GetMetabolismNetworkLoader.CreateFlux(modelData).ToArray
+        Dim metabolites = loader.GetMetabolismNetworkLoader.MassTable
 
         For Each trn As transcription In cell.genome.regulations.SafeQuery
             Call grn.Add(New RegulatoryLink With {
@@ -50,6 +56,7 @@ Public Class VirtualCella
             })
         Next
 
+        cella.metabolic = New MetabolicNetwork(metabolites, metabNetwork, cella)
         cella.grn = New GeneRegulatoryNetwork(cella, grn)
 
         Return cella
