@@ -19,6 +19,9 @@
     <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/ODE/odes-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
@@ -34,6 +37,9 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../sub-system/BNLearn/BNLearn.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Dynamics/Dynamics.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="Model/Model.Core.NET5.vbproj">
