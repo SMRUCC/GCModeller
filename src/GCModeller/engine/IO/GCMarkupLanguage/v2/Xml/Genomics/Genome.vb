@@ -119,6 +119,18 @@ Namespace v2
         Public Function GetAllGeneLocusTags(Optional skipPlasmids As Boolean = False) As IEnumerable(Of String)
             Return From gene As gene In GetAllGenes(skipPlasmids) Select gene.locus_tag
         End Function
+
+        Public Function GetAllOperon() As Dictionary(Of String, TranscriptUnit)
+            Dim index As New Dictionary(Of String, TranscriptUnit)
+
+            For Each replicon As replicon In replicons
+                For Each operon As TranscriptUnit In replicon.operons
+                    Call index.Add(operon.id, operon)
+                Next
+            Next
+
+            Return index
+        End Function
     End Class
 
     ''' <summary>

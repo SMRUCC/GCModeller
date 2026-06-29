@@ -77,12 +77,15 @@ Namespace v2
         ''' <returns></returns>
         Public Property centralDogma As String()
         Public Property biological_process As String
+
+        Public Property effector As String
+
         Public Property motif As Motif
         ''' <summary>
         ''' a collection of the genes id inside the regulated operons
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property targets As String()
+        <XmlAttribute> Public Property operonId As String
         Public Property note As String
 
     End Class
@@ -105,5 +108,9 @@ Namespace v2
         Public Property distance As Integer
 
         <XmlText> Public Property sequence As String
+
+        Public Overrides Function ToString() As String
+            Return $"{family}:{distance}"
+        End Function
     End Class
 End Namespace

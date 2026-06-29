@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.Analysis.BNLearn
+﻿Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.Metagenomics
 
@@ -32,6 +33,22 @@ Public Class VirtualCella
         Dim cella As New VirtualCella With {
             .taxonomy_info = cell.taxonomy
         }
+        Dim operonIndex As Dictionary(Of String, TranscriptUnit) = cell.genome.GetAllOperon
+
+        For Each trn As transcription In cell.genome.regulations.SafeQuery
+            Call grn.Add(New RegulatoryLink With {
+                .target_operon = trn.operonId,
+                .TFBS_id = trn.motif.ToString,
+                .TF_family = trn.motif.family,
+                .TF_id = trn.regulator,
+                .effector = New Dictionary(Of String, Effector) From {
+                    {trn.effector, If(trn.mode = "activator", Effector.Activator, Effector.Inhibitor)}
+                },
+                .regulate_genes = operonIndex(trn.operonId).genes _
+                    .Select(Function(g) g.locus_tag) _
+                    .ToArray
+            })
+        Next
 
         cella.grn = New GeneRegulatoryNetwork(cella, grn)
 
