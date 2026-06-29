@@ -31,7 +31,7 @@ Namespace Core
         Public Property Evidence As String = ""
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0} → {1} ({2}, conf={3:F2})", TF, TargetGene, RegulationType, Confidence)
+            Return String.Format("{0} → {1} ({2}, conf={3:F2})", TF, TargetGene, RegulationType.Description, Confidence)
         End Function
 
     End Class
@@ -51,7 +51,7 @@ Namespace Core
         Public Property TargetNames As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
 
         ''' <summary>添加调控关系</summary>
-        Public Sub AddEdge(tf As String, target As String, regType As String, confidence As Double, evidence As String)
+        Public Sub AddEdge(tf As String, target As String, regType As Effector, confidence As Double, evidence As String)
             Edges.Add(New RegulatoryEdge() With {
                 .TF = tf, .TargetGene = target,
                 .RegulationType = regType, .Confidence = confidence, .Evidence = evidence})
