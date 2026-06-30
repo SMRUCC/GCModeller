@@ -88,6 +88,10 @@ Namespace v2
 
     Public Class Transportation : Implements INamedValue
 
+        ''' <summary>
+        ''' the reaction model reference id
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property guid As String Implements INamedValue.Key
         <XmlAttribute> Public Property membrane As String()
 
