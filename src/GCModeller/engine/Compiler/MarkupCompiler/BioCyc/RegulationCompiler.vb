@@ -87,6 +87,15 @@ Namespace MarkupCompiler.BioCyc
                     Continue For
                 End If
 
+                Dim geneIds = transcripts _
+                    .SafeQuery _
+                    .Select(Function(t)
+                                Return t.genes.Select(Function(g) g.locus_tag)
+                            End Function) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToArray
+
                 Yield New transcription With {
                     .regulator = reg.regulator,
                     .mode = reg.mode,
@@ -94,15 +103,7 @@ Namespace MarkupCompiler.BioCyc
                         .SafeQuery _
                         .Select(Function(t) t.id) _
                         .ToArray,
-                    .note = reg.comment,
-                    .targets = transcripts _
-                        .SafeQuery _
-                        .Select(Function(t)
-                                    Return t.genes.Select(Function(g) g.locus_tag)
-                                End Function) _
-                        .IteratesALL _
-                        .Distinct _
-                        .ToArray
+                    .note = reg.comment
                 }
             Next
         End Function

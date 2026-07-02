@@ -188,10 +188,10 @@ Public Module NetworkViz
             .regulations _
             .Where(Function(reg)
                        ' 再上面做了所有基因的代谢途径筛选，在这里将剩余的基因的调控关系挑选出来
-                       Return reg.targets.Any(Function(id) geneNodes.ContainsKey(id))
+                       Return reg.centralDogma.Any(Function(id) geneNodes.ContainsKey(id))
                    End Function) _
             .Select(Iterator Function(reg) As IEnumerable(Of NetworkEdge)
-                        For Each id As String In reg.targets
+                        For Each id As String In reg.centralDogma
                             Yield New NetworkEdge With {
                                 .fromNode = reg.regulator,
                                 .toNode = id,
