@@ -136,7 +136,15 @@ Module TRNBuilder
         '                                      tqdm_bar:=tqdm_bar)
         'Return tfbs_hits
         Dim scanner As New MotifScanner(If(bg, BackgroundModel.Uniform))
+        Dim tfbs_hits As New List(Of MotifMatch)
 
+        For Each site As FastaSeq In seqs
+            For Each familyName As String In motifs.Keys
+
+            Next
+        Next
+
+        Return tfbs_hits.ToArray
     End Function
 
     ''' <summary>

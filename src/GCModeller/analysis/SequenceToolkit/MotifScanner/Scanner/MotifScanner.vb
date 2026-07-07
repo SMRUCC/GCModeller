@@ -232,8 +232,8 @@ Public Class MotifScanner
                          sequence As String,
                          Optional scoreThreshold As Double = Double.NegativeInfinity,
                          Optional pValueThreshold As Double = Double.PositiveInfinity,
-                         Optional scanReverseStrand As Boolean = True) As List(Of TFBSMatch)
-        Dim results As New List(Of TFBSMatch)()
+                         Optional scanReverseStrand As Boolean = True) As List(Of MotifMatch)
+        Dim results As New List(Of MotifMatch)()
         If motif Is Nothing OrElse motif.pwm Is Nothing OrElse motif.pwm.Length = 0 Then Return results
         If String.IsNullOrEmpty(sequence) Then Return results
 
@@ -270,8 +270,8 @@ Public Class MotifScanner
                                  sequence As String,
                                  Optional scoreThreshold As Double = Double.NegativeInfinity,
                                  Optional pValueThreshold As Double = Double.PositiveInfinity,
-                                 Optional scanReverseStrand As Boolean = True) As List(Of TFBSMatch)
-        Dim all As New List(Of TFBSMatch)()
+                                 Optional scanReverseStrand As Boolean = True) As List(Of MotifMatch)
+        Dim all As New List(Of MotifMatch)()
         If motifs Is Nothing Then Return all
         For Each m As MotifPWM In motifs
             all.AddRange(Scan(m, sequence, scoreThreshold, pValueThreshold, scanReverseStrand))
@@ -469,7 +469,7 @@ Public Class MotifScanner
                               strand As Char,
                               scoreThreshold As Double,
                               pValueThreshold As Double,
-                              results As List(Of TFBSMatch))
+                              results As List(Of MotifMatch))
         Dim motifLen As Integer = motif.pwm.Length
         Dim seqLen As Integer = sequence.Length
         Dim alphaIndex As Dictionary(Of Char, Integer) = BuildAlphabetIndex(motif)
@@ -506,15 +506,17 @@ Public Class MotifScanner
                 If motif.pwm(k).bits > 0 Then bits += motif.pwm(k).bits
             Next
 
-            results.Add(New TFBSMatch With {
-                        .MotifName = motif.name,
-                        .Start = reportStart,
-                        .Length = motifLen,
-                        .Sequence = frag,
-                        .Score = score,
-                        .PValue = pval,
-                        .Strand = strand,
-                        .Bits = bits
+            results.Add(New MotifMatch With {
+                        .seeds = {motif.name},
+                        .start = reportStart,
+                        .ends = motifLen + .start,
+                        .segment = frag,
+                        .score1 = score,
+                        .pvalue = pval,
+                        .strand = strand,
+                        .score2 = bits,
+                        .motif = motif.site_pattern,
+                        .identities = .score1
                         })
         Next
     End Sub
