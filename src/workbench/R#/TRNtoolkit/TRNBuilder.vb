@@ -144,7 +144,9 @@ Module TRNBuilder
 
             For Each familyName As String In motifs.Keys
                 For Each pwm As Probability In motifs(familyName)
-                    For Each match As MotifMatch In scanner.Scan(pwm.CreateModel, site.SequenceData, pValueThreshold:=0.05)
+                    For Each match As MotifMatch In scanner.Scan(pwm.CreateModel, site.SequenceData,
+                                                                 pValueThreshold:=0.05,
+                                                                 topN:=top)
                         match.title = site_id
                         tfbs_hits.Add(match)
                     Next
