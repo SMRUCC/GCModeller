@@ -53,6 +53,7 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework
@@ -138,10 +139,15 @@ Module TRNBuilder
         Dim scanner As New MotifScanner(If(bg, BackgroundModel.Uniform))
         Dim tfbs_hits As New List(Of MotifMatch)
 
-        For Each site As FastaSeq In seqs
+        For Each site As FastaSeq In TqdmWrapper.Wrap(seqs.ToArray, wrap_console:=tqdm_bar)
+            Dim site_id As String = site.Title
+
             For Each familyName As String In motifs.Keys
                 For Each pwm As Probability In motifs(familyName)
-                    Call tfbs_hits.AddRange(scanner.Scan(pwm.CreateModel, site.SequenceData))
+                    For Each match As MotifMatch In scanner.Scan(pwm.CreateModel, site.SequenceData, pValueThreshold:=0.05)
+                        match.title = site_id
+                        tfbs_hits.Add(match)
+                    Next
                 Next
             Next
         Next
