@@ -101,6 +101,7 @@ Module TRNBuilder
                                  Optional identities_cutoff As Double = 0.8,
                                  Optional minW As Double = 0.85,
                                  Optional top As Integer = 3,
+                                 Optional bg As BackgroundModel = Nothing,
                                  Optional permutation As Integer = 2500,
                                  Optional tqdm_bar As Boolean = True,
                                  Optional env As Environment = Nothing) As Object
@@ -127,13 +128,15 @@ Module TRNBuilder
                               End Function)
         End If
 
-        Dim tfbs_hits = motifs.ScanSequential(seqs,
-                                              identities_cutoff:=identities_cutoff,
-                                              minW:=minW,
-                                              top:=top,
-                                              permutation:=permutation,
-                                              tqdm_bar:=tqdm_bar)
-        Return tfbs_hits
+        'Dim tfbs_hits = motifs.ScanSequential(seqs,
+        '                                      identities_cutoff:=identities_cutoff,
+        '                                      minW:=minW,
+        '                                      top:=top,
+        '                                      permutation:=permutation,
+        '                                      tqdm_bar:=tqdm_bar)
+        'Return tfbs_hits
+        Dim scanner As New MotifScanner(If(bg, BackgroundModel.Uniform))
+
     End Function
 
     ''' <summary>

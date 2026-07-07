@@ -30,63 +30,6 @@ Imports System.Xml.Serialization
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 
 ' ========================================================================
-'  Result record
-' ========================================================================
-
-''' <summary>
-''' A single TFBS match found by scanning a sequence with a motif PWM.
-''' </summary>
-<Serializable>
-<XmlType("TFBSMatch")>
-Public Class TFBSMatch
-
-    ''' <summary>Name of the motif that produced this match.</summary>
-    <XmlAttribute> Public Property MotifName As String
-
-    ''' <summary>
-    ''' Leftmost (0-based) position of the match on the original forward
-    ''' sequence. For reverse-strand matches this is the forward-strand
-    ''' coordinate of the leftmost base of the binding site.
-    ''' </summary>
-    <XmlAttribute> Public Property Start As Integer
-
-    ''' <summary>Length of the matched region (equals motif length).</summary>
-    <XmlAttribute> Public Property Length As Integer
-
-    ''' <summary>
-    ''' The matched sequence fragment, read 5'->3' on the strand it was
-    ''' found (i.e. reverse-complemented for '-' strand matches).
-    ''' </summary>
-    <XmlAttribute> Public Property Sequence As String
-
-    ''' <summary>Log-odds matching score (higher = better match).</summary>
-    <XmlAttribute> Public Property Score As Double
-
-    ''' <summary>
-    ''' P-value under the null (background) model:
-    ''' P(random background window scores >= observed score).
-    ''' </summary>
-    <XmlAttribute> Public Property PValue As Double
-
-    ''' <summary>Strand: '+' for forward, '-' for reverse complement.</summary>
-    <XmlAttribute> Public Property Strand As Char
-
-    ''' <summary>
-    ''' Optional: total information content (sum of bits) of the matched
-    ''' motif columns. Populated only when the motif carries per-site bits.
-    ''' </summary>
-    <XmlAttribute> Public Property Bits As Double
-
-    Public Overrides Function ToString() As String
-        Return String.Format(Globalization.CultureInfo.InvariantCulture,
-                             "{0} @ {1}..{2} ({3}) score={4:F3} p={5:G4} bits={6:F2} seq={7}",
-                             MotifName, Start, Start + Length - 1, Strand,
-                             Score, PValue, Bits, Sequence)
-    End Function
-
-End Class
-
-' ========================================================================
 '  Background model
 ' ========================================================================
 
