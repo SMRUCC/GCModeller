@@ -80,40 +80,36 @@ const scan_motifs = function(db, seqs,
 
     close(motifdb );
 
-    # run in parallel for production
-    Parallel::parallel(family = familyList, n_threads = n_threads, 
-            ignoreError = FALSE, 
-            debug = FALSE,
-            log_tmp = `${temp_work}/.local_debug/`,
-            compress = FALSE) {
+    if (as.integer(n_threads) > 1) {
+        # run in parallel for production
+        Parallel::parallel(family = familyList, n_threads = n_threads, 
+                ignoreError = FALSE, 
+                debug = FALSE,
+                log_tmp = `${temp_work}/.local_debug/`,
+                compress = FALSE) {
 
-        require(GCModeller);
+            require(GCModeller);
 
-        imports "TRN.builder" from "TRNtoolkit";
-        imports "bioseq.fasta" from "seqtoolkit";
-
-        let family_name <- unlist(family);
-        let upstream <- read.fasta(unlist(seqs));
-        let outputdir <- unlist(temp_work);
-        
-        outputdir <- file.path(outputdir , "results");
-
-        # view verbose debug echo 
-        print("get motif family name for make search processing:");
-        print(` -> ${family_name}`);                  
-
-        TRN.builder::open_motifdb(db)
-        |> motif_search(
-            search_regions = upstream,
-            family = family_name,
-            identities_cutoff = identities_cutoff,
-            minW = minW,
-            top = top,
-            permutation = permutation,
-            tqdm_bar = FALSE
-        ) 
-        |> unlist()
-        |> write.csv(file = file.path(outputdir, `${normalizeFileName(family_name)}.csv`));
+            # call scan function for this thread
+            scan_motifs_internal(family_name = unlist(family), 
+                                seqs = unlist(seqs), 
+                                outputdir = unlist(temp_work),
+                                identities_cutoff = identities_cutoff ,
+                                minW = minW ,
+                                top = top ,
+                                permutation = permutation);
+        }
+    } else {
+        # run debug in sequential
+        for(let family in familyList) {
+            scan_motifs_internal(family_name = unlist(family), 
+                    seqs = unlist(seqs), 
+                    outputdir = unlist(temp_work),
+                    identities_cutoff = identities_cutoff ,
+                    minW = minW ,
+                    top = top ,
+                    permutation = permutation);
+        }
     }
 
     let tmp_results = list.files(file.path(workdir, "results"), pattern = "*.csv");
@@ -122,4 +118,36 @@ const scan_motifs = function(db, seqs,
     tmp_results = bind_rows(tmp_results);
 
     return(tmp_results);
+}
+
+const scan_motifs_internal = function(family_name, seqs, 
+                                      outputdir = "./", 
+                                      identities_cutoff = 0.8,
+                                      minW = 0.85,
+                                      top = 3,
+                                      permutation = 2500) {
+
+    imports "TRN.builder" from "TRNtoolkit";
+    imports "bioseq.fasta" from "seqtoolkit";
+
+    let upstream <- read.fasta(seqs);
+        
+    outputdir <- file.path(outputdir , "results");
+
+    # view verbose debug echo 
+    print("get motif family name for make search processing:");
+    print(` -> ${family_name}`);                  
+
+    TRN.builder::open_motifdb(db)
+    |> motif_search(
+        search_regions = upstream,
+        family = family_name,
+        identities_cutoff = identities_cutoff,
+        minW = minW,
+        top = top,
+        permutation = permutation,
+        tqdm_bar = FALSE
+    ) 
+    |> unlist()
+    |> write.csv(file = file.path(outputdir, `${normalizeFileName(family_name)}.csv`));
 }
