@@ -108,7 +108,8 @@ const scan_motifs = function(db, seqs,
                     identities_cutoff = identities_cutoff ,
                     minW = minW ,
                     top = top ,
-                    permutation = permutation);
+                    permutation = permutation, 
+                    sequential = TRUE);
         }
     }
 
@@ -125,7 +126,7 @@ const scan_motifs_internal = function(family_name, seqs,
                                       identities_cutoff = 0.8,
                                       minW = 0.85,
                                       top = 3,
-                                      permutation = 2500) {
+                                      permutation = 2500, sequential = FALSE) {
 
     imports "TRN.builder" from "TRNtoolkit";
     imports "bioseq.fasta" from "seqtoolkit";
@@ -146,7 +147,7 @@ const scan_motifs_internal = function(family_name, seqs,
         minW = minW,
         top = top,
         permutation = permutation,
-        tqdm_bar = FALSE
+        tqdm_bar = sequential 
     ) 
     |> unlist()
     |> write.csv(file = file.path(outputdir, `${normalizeFileName(family_name)}.csv`));

@@ -280,6 +280,51 @@ Public Class MotifScanner
         Return all
     End Function
 
+    ' --------------------------------------------------------------------
+    '  Result filtering by score
+    ' --------------------------------------------------------------------
+
+    ''' <summary>
+    ''' Filter a list of TFBS matches by a computed quality score, keeping
+    ''' the top-N matches with the highest score (higher = better).
+    ''' The list is sorted by score descending before truncation.
+    ''' </summary>
+    ''' <param name="matches">Candidate matches (e.g. from Scan / ScanMultiple).</param>
+    ''' <param name="topN">Maximum number of matches to keep.</param>
+    ''' <param name="scoreFunc">
+    '''   Optional function mapping a match to its quality score. If omitted,
+    '''   a default composite score is used:
+    '''       score1 + score2 - log10(pvalue)
+    '''   where score1 is the log-odds score, score2 is the information
+    '''   content (bits), and a smaller p-value yields a larger (more
+    '''   significant) contribution. Higher scores are considered better.
+    ''' </param>
+    ''' <returns>A new list containing the top-N matches, sorted by score descending.</returns>
+    Public Shared Function FilterByScore(matches As IEnumerable(Of MotifMatch),
+                                         topN As Integer,
+                                         Optional scoreFunc As Func(Of MotifMatch, Double) = Nothing) As List(Of MotifMatch)
+        If matches Is Nothing Then Return New List(Of MotifMatch)()
+        If topN <= 0 Then Return New List(Of MotifMatch)()
+
+        Dim scorer As Func(Of MotifMatch, Double)
+        If scoreFunc Is Nothing Then
+            ' Default composite quality score (higher = better).
+            scorer = Function(m As MotifMatch)
+                         Dim pval As Double = If(m.pvalue > 0, m.pvalue, Double.Epsilon)
+                         Dim significance As Double = -Math.Log10(pval)
+                         Return m.score1 + m.score2 + significance
+                     End Function
+        Else
+            scorer = scoreFunc
+        End If
+
+        Return matches _
+            .Where(Function(m) m IsNot Nothing) _
+            .OrderByDescending(Function(m) scorer(m)) _
+            .Take(topN) _
+            .ToList()
+    End Function
+
     ''' <summary>
     ''' Score a specific window of a sequence against the motif.
     ''' Returns the log-odds score, or Double.NaN if the window contains
