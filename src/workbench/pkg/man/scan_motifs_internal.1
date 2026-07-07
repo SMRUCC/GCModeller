@@ -5,14 +5,16 @@ scan_motifs_internal \- scan_motifs_internal(family.name, seqs,
     <i>identities.cutoff</i> = <span style='color: green;'>0.8</span>,
     <i>minW</i> = <span style='color: green;'>0.85</span>,
     <i>top</i> = <span style='color: green;'>3</span>,
-    <i>permutation</i> = <span style='color: green;'>2500</span>)
+    <i>permutation</i> = <span style='color: green;'>2500</span>,
+    <i>sequential</i> = <span style='color: blue !important;'>FALSE</span>)
 .SH SYNOPSIS
 \fIscan_motifs_internal(family.name, seqs,
     <i>outputdir</i> = <span style='color: brown;'><strong>'./'</strong></span>,
     <i>identities.cutoff</i> = <span style='color: green;'>0.8</span>,
     <i>minW</i> = <span style='color: green;'>0.85</span>,
     <i>top</i> = <span style='color: green;'>3</span>,
-    <i>permutation</i> = <span style='color: green;'>2500</span>)\fR
+    <i>permutation</i> = <span style='color: green;'>2500</span>,
+    <i>sequential</i> = <span style='color: blue !important;'>FALSE</span>)\fR
 .SH OPTIONS
 .PP
 \fBfamily.name\fB \fR\- . 
@@ -35,9 +37,12 @@ scan_motifs_internal \- scan_motifs_internal(family.name, seqs,
 .PP
 \fBpermutation\fB \fR\- 2500. 
 .PP
+.PP
+\fBsequential\fB \fR\- FALSE. 
+.PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.scan_motifs_internal at scan_motifs.R:line 123
+SMRUCC/R#.declare_function.scan_motifs_internal at scan_motifs.R:line 124
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, GPL3 Licensed 2026

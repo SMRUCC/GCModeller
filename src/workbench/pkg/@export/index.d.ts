@@ -208,8 +208,9 @@ declare namespace GCModeller {
      * @param minW default value Is ``0.85``.
      * @param top default value Is ``3``.
      * @param permutation default value Is ``2500``.
+     * @param sequential default value Is ``false``.
    */
-   function scan_motifs_internal(family_name: any, seqs: any, outputdir?: any, identities_cutoff?: any, minW?: any, top?: any, permutation?: any): object;
+   function scan_motifs_internal(family_name: any, seqs: any, outputdir?: any, identities_cutoff?: any, minW?: any, top?: any, permutation?: any, sequential?: any): object;
    /**
    */
    function split_omics_idset(IDs: any): object;
