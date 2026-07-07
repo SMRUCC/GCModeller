@@ -24,6 +24,8 @@
 
         <p>motif model sequence site matches result</p>
 
+<p>A single TFBS match found by scanning a sequence with a motif PWM.</p>
+
         <h3>Declare</h3>        
 
         <pre>
@@ -33,12 +35,20 @@ export class MotifMatch {
    ends: integer;
    identities: double;
    motif: string;
+   # P-value under the null (background) model:
+   #  P(random background window scores >= observed score).
    pvalue: double;
    score1: double;
    score2: double;
    seeds: string;
+   # <h5>the motif matched site sequence</h5>
+   # 
+   # The matched sequence fragment, read 5'->3' on the strand it was
+   #  found (i.e. reverse-complemented for '-' strand matches).
    segment: string;
    start: integer;
+   # Strand: '+' for forward, '-' for reverse complement.
+   strand: string;
    title: string;
 }
 </code>
