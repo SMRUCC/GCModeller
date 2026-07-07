@@ -132,12 +132,11 @@ const scan_motifs_internal = function(family_name, seqs,
     imports "bioseq.fasta" from "seqtoolkit";
 
     let upstream <- read.fasta(seqs);
-        
-    outputdir <- file.path(outputdir , "results");
+    let result_file <- file.path(outputdir, "results", `${normalizeFileName(family_name)}.csv`);
 
     # view verbose debug echo 
-    print("get motif family name for make search processing:");
-    print(` -> ${family_name}`);                  
+    message("get motif family name for make search processing:");
+    message(` -> ${family_name}`);                  
 
     TRN.builder::open_motifdb(db)
     |> motif_search(
@@ -150,5 +149,6 @@ const scan_motifs_internal = function(family_name, seqs,
         tqdm_bar = sequential 
     ) 
     |> unlist()
-    |> write.csv(file = file.path(outputdir, `${normalizeFileName(family_name)}.csv`));
+    |> write.csv(file = result_file, silent = TRUE)
+    ;
 }
