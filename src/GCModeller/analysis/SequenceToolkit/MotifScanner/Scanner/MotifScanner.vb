@@ -286,6 +286,8 @@ Public Class MotifScanner
         End If
 
         ' 5. Sort by p-value ascending (most significant first)
+        ' score1 is negative value possible, but this is common situtation
+        ' we should just make filter by pvalue
         Call results.Sort(Function(a, b) a.pvalue.CompareTo(b.pvalue))
 
         If topN <> Integer.MaxValue AndAlso topN <> Integer.MinValue Then
