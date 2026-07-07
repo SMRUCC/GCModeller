@@ -203,6 +203,14 @@ declare namespace GCModeller {
    */
    function scan_motifs(db: any, seqs: any, identities_cutoff?: any, minW?: any, top?: any, permutation?: any, workdir?: any, n_threads?: any): object;
    /**
+     * @param outputdir default value Is ``./``.
+     * @param identities_cutoff default value Is ``0.8``.
+     * @param minW default value Is ``0.85``.
+     * @param top default value Is ``3``.
+     * @param permutation default value Is ``2500``.
+   */
+   function scan_motifs_internal(family_name: any, seqs: any, outputdir?: any, identities_cutoff?: any, minW?: any, top?: any, permutation?: any): object;
+   /**
    */
    function split_omics_idset(IDs: any): object;
    taxonomy_query: any;
