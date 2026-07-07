@@ -258,7 +258,7 @@ Public Class MotifScanner
         End If
 
         ' 5. Sort by p-value ascending (most significant first)
-        results.Sort(Function(a, b) a.PValue.CompareTo(b.PValue))
+        results.Sort(Function(a, b) a.pvalue.CompareTo(b.pvalue))
         Return results
     End Function
 
@@ -276,7 +276,7 @@ Public Class MotifScanner
         For Each m As MotifPWM In motifs
             all.AddRange(Scan(m, sequence, scoreThreshold, pValueThreshold, scanReverseStrand))
         Next
-        all.Sort(Function(a, b) a.PValue.CompareTo(b.PValue))
+        all.Sort(Function(a, b) a.pvalue.CompareTo(b.pvalue))
         Return all
     End Function
 
@@ -422,7 +422,8 @@ Public Class MotifScanner
         Dim dist As New ScoreDistribution With {
             .MinScore = globalMin,
             .MaxScore = globalMax,
-            .BinWidth = binWidth
+            .BinWidth = binWidth,
+            .Bins = New Double(nBins - 1) {}
         }
 
         ' 2. DP: current distribution over binned scores.
