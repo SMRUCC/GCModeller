@@ -90,4 +90,8 @@ Public Class MotifMatch
     ''' </summary>
     Public Property pvalue As Double
 
+    Public Overrides Function ToString() As String
+        Return $"{title} [{segment}|{motif}] p.val:{pvalue}"
+    End Function
+
 End Class
