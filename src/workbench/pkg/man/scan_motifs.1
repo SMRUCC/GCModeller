@@ -1,7 +1,7 @@
 ﻿.TH SCAN_MOTIFS 1 2026-7月 "" "Parallel Motif Site Scanning"
 .SH NAME
 scan_motifs \- scan_motifs(db, seqs,
-    <i>identities.cutoff</i> = <span style='color: green;'>0.8</span>,
+    <i>pval.cutoff</i> = <span style='color: green;'>0.05</span>,
     <i>minW</i> = <span style='color: green;'>0.85</span>,
     <i>top</i> = <span style='color: green;'>3</span>,
     <i>permutation</i> = <span style='color: green;'>2500</span>,
@@ -9,7 +9,7 @@ scan_motifs \- scan_motifs(db, seqs,
     <i>n.threads</i> = <span style='color: green;'>8</span>)
 .SH SYNOPSIS
 \fIscan_motifs(db, seqs,
-    <i>identities.cutoff</i> = <span style='color: green;'>0.8</span>,
+    <i>pval.cutoff</i> = <span style='color: green;'>0.05</span>,
     <i>minW</i> = <span style='color: green;'>0.85</span>,
     <i>top</i> = <span style='color: green;'>3</span>,
     <i>permutation</i> = <span style='color: green;'>2500</span>,
@@ -31,7 +31,7 @@ a single dataframe.
 sequences for motif site matching.
 .PP
 .PP
-\fBidentities.cutoff\fB \fR\- 0.8. 
+\fBpval.cutoff\fB \fR\- 0.05. 
 .PP
 .PP
 \fBminW\fB \fR\- 0.85. \code{numeric}. The minimum weight or score threshold for a motif match.
