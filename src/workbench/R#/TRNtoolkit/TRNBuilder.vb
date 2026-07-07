@@ -140,7 +140,9 @@ Module TRNBuilder
 
         For Each site As FastaSeq In seqs
             For Each familyName As String In motifs.Keys
-
+                For Each pwm As Probability In motifs(familyName)
+                    Call tfbs_hits.AddRange(scanner.Scan(pwm.CreateModel, site.SequenceData))
+                Next
             Next
         Next
 
