@@ -11,7 +11,7 @@
 declare namespace TRN.builder {
    /**
      * @param family default value Is ``null``.
-     * @param identities_cutoff default value Is ``0.8``.
+     * @param pval_cutoff default value Is ``0.05``.
      * @param minW default value Is ``0.85``.
      * @param top default value Is ``3``.
      * @param bg default value Is ``null``.
@@ -19,7 +19,7 @@ declare namespace TRN.builder {
      * @param tqdm_bar default value Is ``true``.
      * @param env default value Is ``null``.
    */
-   function motif_search(db: object, search_regions: any, family?: any, identities_cutoff?: number, minW?: number, top?: object, bg?: object, permutation?: object, tqdm_bar?: boolean, env?: object): object;
+   function motif_search(db: object, search_regions: any, family?: any, pval_cutoff?: number, minW?: number, top?: object, bg?: object, permutation?: object, tqdm_bar?: boolean, env?: object): object;
    /**
      * @param env default value Is ``null``.
    */

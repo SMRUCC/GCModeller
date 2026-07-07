@@ -99,7 +99,7 @@ Module TRNBuilder
     Public Function motif_search(db As SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase, <RRawVectorArgument> search_regions As Object,
                                  <RRawVectorArgument(TypeCodes.string)>
                                  Optional family As Object = Nothing,
-                                 Optional identities_cutoff As Double = 0.8,
+                                 Optional pval_cutoff As Double = 0.05,
                                  Optional minW As Double = 0.85,
                                  Optional top As Integer = 3,
                                  Optional bg As BackgroundModel = Nothing,
@@ -145,7 +145,7 @@ Module TRNBuilder
             For Each familyName As String In motifs.Keys
                 For Each pwm As Probability In motifs(familyName)
                     For Each match As MotifMatch In scanner.Scan(pwm.CreateModel, site.SequenceData,
-                                                                 pValueThreshold:=0.05,
+                                                                 pValueThreshold:=pval_cutoff,
                                                                  topN:=top)
                         match.title = site_id
                         tfbs_hits.Add(match)
