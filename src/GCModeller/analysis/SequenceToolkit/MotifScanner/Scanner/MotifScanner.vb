@@ -258,7 +258,9 @@ Public Class MotifScanner
                          sequence As String,
                          Optional scoreThreshold As Double = Double.NegativeInfinity,
                          Optional pValueThreshold As Double = Double.PositiveInfinity,
-                         Optional scanReverseStrand As Boolean = True) As List(Of MotifMatch)
+                         Optional scanReverseStrand As Boolean = True,
+                         Optional topN As Integer = Integer.MaxValue) As List(Of MotifMatch)
+
         Dim results As New List(Of MotifMatch)()
         If motif Is Nothing OrElse motif.pwm Is Nothing OrElse motif.pwm.Length = 0 Then Return results
         If String.IsNullOrEmpty(sequence) Then Return results
@@ -284,7 +286,12 @@ Public Class MotifScanner
         End If
 
         ' 5. Sort by p-value ascending (most significant first)
-        results.Sort(Function(a, b) a.pvalue.CompareTo(b.pvalue))
+        Call results.Sort(Function(a, b) a.pvalue.CompareTo(b.pvalue))
+
+        If topN <> Integer.MaxValue AndAlso topN <> Integer.MinValue Then
+            results = FilterByScore(results, topN, dist)
+        End If
+
         Return results
     End Function
 
@@ -324,19 +331,6 @@ Public Class MotifScanner
     '''   where score1 is the log-odds score, score2 is the information
     '''   content (bits), and a smaller p-value yields a larger (more
     '''   significant) contribution. Higher scores are considered better.
-    ''' </param>
-    ''' <returns>A new list containing the top-N matches, sorted by score descending.</returns>
-    ''' <summary>
-    ''' Filter a list of TFBS matches by a computed quality score, keeping
-    ''' the top-N matches with the highest score (higher = better).
-    ''' This overload ranks purely by the quality score.
-    ''' </summary>
-    ''' <param name="matches">Candidate matches (e.g. from Scan / ScanMultiple).</param>
-    ''' <param name="topN">Maximum number of matches to keep.</param>
-    ''' <param name="scoreFunc">
-    '''   Optional function mapping a match to its quality score. If omitted,
-    '''   a default composite score is used: score1 + score2 - log10(pvalue).
-    '''   Higher scores are considered better.
     ''' </param>
     ''' <returns>A new list containing the top-N matches, sorted by score descending.</returns>
     Public Shared Function FilterByScore(matches As IEnumerable(Of MotifMatch),
