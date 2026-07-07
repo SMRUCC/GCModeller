@@ -161,6 +161,32 @@ Public Class ScoreDistribution
         Return p
     End Function
 
+    ''' <summary>
+    ''' Upper-tail inverse CDF (quantile). Returns the score threshold t such
+    ''' that P(score &gt;= t) = tailProbability under the null distribution.
+    ''' Scores at or above t lie in the most extreme top tailProbability
+    ''' fraction of the null model and can be used as a statistically
+    ''' grounded minimum-score cutoff (e.g. Quantile(0.05) keeps only the
+    ''' top 5% of background scores).
+    ''' </summary>
+    ''' <param name="tailProbability">Desired upper-tail mass in (0, 1).</param>
+    Public Function Quantile(tailProbability As Double) As Double
+        If tailProbability <= 0.0 Then Return MaxScore
+        If tailProbability >= 1.0 Then Return MinScore
+
+        ' Walk bins from the high-score end, accumulating mass until we
+        ' reach the requested upper-tail probability. The left edge of the
+        ' bin where the cumulative is first met is the threshold.
+        Dim cum As Double = 0.0
+        For i As Integer = Bins.Length - 1 To 0 Step -1
+            cum += Bins(i)
+            If cum >= tailProbability Then
+                Return MinScore + i * BinWidth
+            End If
+        Next
+        Return MinScore
+    End Function
+
 End Class
 
 ' ========================================================================
@@ -300,11 +326,60 @@ Public Class MotifScanner
     '''   significant) contribution. Higher scores are considered better.
     ''' </param>
     ''' <returns>A new list containing the top-N matches, sorted by score descending.</returns>
+    ''' <summary>
+    ''' Filter a list of TFBS matches by a computed quality score, keeping
+    ''' the top-N matches with the highest score (higher = better).
+    ''' This overload ranks purely by the quality score.
+    ''' </summary>
+    ''' <param name="matches">Candidate matches (e.g. from Scan / ScanMultiple).</param>
+    ''' <param name="topN">Maximum number of matches to keep.</param>
+    ''' <param name="scoreFunc">
+    '''   Optional function mapping a match to its quality score. If omitted,
+    '''   a default composite score is used: score1 + score2 - log10(pvalue).
+    '''   Higher scores are considered better.
+    ''' </param>
+    ''' <returns>A new list containing the top-N matches, sorted by score descending.</returns>
     Public Shared Function FilterByScore(matches As IEnumerable(Of MotifMatch),
                                          topN As Integer,
                                          Optional scoreFunc As Func(Of MotifMatch, Double) = Nothing) As List(Of MotifMatch)
+        Return FilterByScore(matches, topN, Nothing, 0.05, scoreFunc)
+    End Function
+
+    ''' <summary>
+    ''' Filter a list of TFBS matches using a null-distribution-derived score
+    ''' cutoff, then keep the top-N by a computed quality score.
+    '''
+    ''' A minimum-score cutoff is derived from <paramref name="distribution"/>
+    ''' via its upper-tail quantile at <paramref name="significanceLevel"/>
+    ''' (e.g. 0.05 yields the score below which only 5% of the null model
+    ''' falls). Matches whose score1 is below this cutoff are discarded as
+    ''' not significant; the survivors are then sorted by the quality score
+    ''' (higher = better) and the top-N are returned.
+    ''' </summary>
+    ''' <param name="matches">Candidate matches (e.g. from Scan / ScanMultiple).</param>
+    ''' <param name="topN">Maximum number of matches to keep.</param>
+    ''' <param name="distribution">
+    '''   The motif's null score distribution (from GetNullDistribution). If
+    '''   Nothing, no distribution-based cutoff is applied (pure ranking).
+    ''' </param>
+    ''' <param name="significanceLevel">Upper-tail mass for the cutoff, in (0,1).</param>
+    ''' <param name="scoreFunc">Optional quality-score function (see other overload).</param>
+    ''' <returns>Top-N significant matches sorted by quality score descending.</returns>
+    Public Shared Function FilterByScore(matches As IEnumerable(Of MotifMatch),
+                                         topN As Integer,
+                                         distribution As ScoreDistribution,
+                                         Optional significanceLevel As Double = 0.05,
+                                         Optional scoreFunc As Func(Of MotifMatch, Double) = Nothing) As List(Of MotifMatch)
         If matches Is Nothing Then Return New List(Of MotifMatch)()
         If topN <= 0 Then Return New List(Of MotifMatch)()
+
+        ' Derive a statistically grounded minimum-score cutoff from the
+        ' null distribution, if one was supplied.
+        Dim minScore As Double = Double.NegativeInfinity
+        If distribution IsNot Nothing AndAlso
+           significanceLevel > 0.0 AndAlso significanceLevel < 1.0 Then
+            minScore = distribution.Quantile(significanceLevel)
+        End If
 
         Dim scorer As Func(Of MotifMatch, Double)
         If scoreFunc Is Nothing Then
@@ -318,11 +393,30 @@ Public Class MotifScanner
             scorer = scoreFunc
         End If
 
-        Return matches _
-            .Where(Function(m) m IsNot Nothing) _
+        Dim query = matches.Where(Function(m) m IsNot Nothing)
+        If minScore > Double.NegativeInfinity Then
+            query = query.Where(Function(m) m.score1 >= minScore)
+        End If
+
+        Return query _
             .OrderByDescending(Function(m) scorer(m)) _
             .Take(topN) _
             .ToList()
+    End Function
+
+    ''' <summary>
+    ''' Compute (or retrieve from cache) the null score distribution for a
+    ''' motif. The returned distribution can be used to derive statistically
+    ''' grounded score cutoffs, e.g. via ScoreDistribution.Quantile.
+    ''' </summary>
+    ''' <param name="motif">The motif PWM.</param>
+    ''' <returns>The null score distribution, or Nothing if the motif is invalid.</returns>
+    Public Function GetNullDistribution(motif As MotifPWM) As ScoreDistribution
+        If motif Is Nothing OrElse motif.pwm Is Nothing OrElse motif.pwm.Length = 0 Then
+            Return Nothing
+        End If
+        Dim logOdds As Double(,) = BuildLogOddsMatrix(motif)
+        Return GetOrComputeDistribution(motif, logOdds)
     End Function
 
     ''' <summary>
