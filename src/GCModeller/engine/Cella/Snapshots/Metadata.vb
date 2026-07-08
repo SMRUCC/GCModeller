@@ -37,6 +37,9 @@ Public Class Metadata
     ''' 在这个三维空间中，采用boolean来标记模拟的空间形状，false表示空（不存在任何数据），true表示对应的位置是模拟环境空间的一部分
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 1D index = (x * HEIGHT + y) * DEPTH + z
+    ''' </remarks>
     Public Property shape As Boolean()
 
     ''' <summary>
