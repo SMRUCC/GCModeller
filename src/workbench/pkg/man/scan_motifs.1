@@ -4,7 +4,7 @@ scan_motifs \- scan_motifs(db, seqs,
     <i>pval.cutoff</i> = <span style='color: green;'>0.05</span>,
     <i>minW</i> = <span style='color: green;'>0.85</span>,
     <i>top</i> = <span style='color: green;'>3</span>,
-    <i>permutation</i> = <span style='color: green;'>2500</span>,
+    <i>scan.reverse</i> = <span style='color: blue !important;'>TRUE</span>,
     <i>workdir</i> = <span style='color: brown;'><strong>'./'</strong></span>,
     <i>n.threads</i> = <span style='color: green;'>8</span>)
 .SH SYNOPSIS
@@ -12,7 +12,7 @@ scan_motifs \- scan_motifs(db, seqs,
     <i>pval.cutoff</i> = <span style='color: green;'>0.05</span>,
     <i>minW</i> = <span style='color: green;'>0.85</span>,
     <i>top</i> = <span style='color: green;'>3</span>,
-    <i>permutation</i> = <span style='color: green;'>2500</span>,
+    <i>scan.reverse</i> = <span style='color: blue !important;'>TRUE</span>,
     <i>workdir</i> = <span style='color: brown;'><strong>'./'</strong></span>,
     <i>n.threads</i> = <span style='color: green;'>8</span>)\fR
 .SH DESCRIPTION
@@ -42,9 +42,7 @@ Default is \code{0.85}.
 region or motif. Default is \code{3}.
 .PP
 .PP
-\fBpermutation\fB \fR\- 2500. \code{integer}. The number of permutations to perform for
-calculating the statistical significance (e.g., p-value) of the motif matches.
-Default is \code{2500}.
+\fBscan.reverse\fB \fR\- TRUE. 
 .PP
 .PP
 \fBworkdir\fB \fR\- './'. \code{character}. The working directory where intermediate files and

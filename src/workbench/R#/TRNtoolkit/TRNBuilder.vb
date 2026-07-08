@@ -103,7 +103,7 @@ Module TRNBuilder
                                  Optional minW As Double = 0.85,
                                  Optional top As Integer = 3,
                                  Optional bg As BackgroundModel = Nothing,
-                                 Optional permutation As Integer = 2500,
+                                 Optional scan_reverse As Boolean = True,
                                  Optional tqdm_bar As Boolean = True,
                                  Optional env As Environment = Nothing) As Object
 
@@ -129,13 +129,6 @@ Module TRNBuilder
                               End Function)
         End If
 
-        'Dim tfbs_hits = motifs.ScanSequential(seqs,
-        '                                      identities_cutoff:=identities_cutoff,
-        '                                      minW:=minW,
-        '                                      top:=top,
-        '                                      permutation:=permutation,
-        '                                      tqdm_bar:=tqdm_bar)
-        'Return tfbs_hits
         Dim scanner As New MotifScanner(If(bg, BackgroundModel.Uniform))
         Dim tfbs_hits As New List(Of MotifMatch)
 
@@ -146,7 +139,8 @@ Module TRNBuilder
                 For Each pwm As Probability In motifs(familyName)
                     For Each match As MotifMatch In scanner.Scan(pwm.CreateModel, site.SequenceData,
                                                                  pValueThreshold:=pval_cutoff,
-                                                                 topN:=top)
+                                                                 topN:=top,
+                                                                 scanReverseStrand:=scan_reverse)
                         match.title = site_id
                         tfbs_hits.Add(match)
                     Next

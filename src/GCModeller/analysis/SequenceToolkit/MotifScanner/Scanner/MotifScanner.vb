@@ -26,7 +26,6 @@
 '  ============================================================================
 
 Imports System.IO
-Imports System.Xml.Serialization
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 
 ' ========================================================================
@@ -200,13 +199,14 @@ End Class
 ''' </summary>
 Public Class MotifScanner
 
-    Private ReadOnly _background As BackgroundModel
     Private ReadOnly _pseudocount As Double
     Private ReadOnly _numBins As Integer
 
     ' Cache of (motif -> null distribution) so repeated scans with the same
     ' motif do not recompute the DP.
     Private ReadOnly _distCache As New Dictionary(Of String, ScoreDistribution)
+
+    Public ReadOnly Property Background As BackgroundModel
 
     ' --------------------------------------------------------------------
     '  Construction
@@ -229,16 +229,10 @@ Public Class MotifScanner
         If pseudocount < 0 Then Throw New ArgumentOutOfRangeException(NameOf(pseudocount))
         If numBins < 100 Then Throw New ArgumentOutOfRangeException(NameOf(numBins))
 
-        _background = background
+        _Background = background
         _pseudocount = pseudocount
         _numBins = numBins
     End Sub
-
-    Public ReadOnly Property Background As BackgroundModel
-        Get
-            Return _background
-        End Get
-    End Property
 
     ' --------------------------------------------------------------------
     '  Public API
@@ -475,7 +469,7 @@ Public Class MotifScanner
             End If
             For j As Integer = 0 To alphaLen - 1
                 Dim p As Double = pwmRow(j) + _pseudocount
-                Dim bg As Double = _background.Frequency(motif.alphabets(j)) + _pseudocount
+                Dim bg As Double = _Background.Frequency(motif.alphabets(j)) + _pseudocount
                 m(i, j) = Math.Log(p / bg, 2.0)
             Next
         Next
@@ -527,8 +521,7 @@ Public Class MotifScanner
     ''' the per-position distributions, computed iteratively on a
     ''' discretized score grid.
     ''' </summary>
-    Private Function ComputeNullDistribution(motif As MotifPWM,
-                                             logOdds As Double(,)) As ScoreDistribution
+    Private Function ComputeNullDistribution(motif As MotifPWM, logOdds As Double(,)) As ScoreDistribution
         Dim motifLen As Integer = motif.pwm.Length
         Dim alphaLen As Integer = motif.alphabets.Length
 
@@ -572,7 +565,7 @@ Public Class MotifScanner
             ' background lookups in the inner loop.
             Dim contribs As New List(Of Tuple(Of Double, Double))(alphaLen)
             For j As Integer = 0 To alphaLen - 1
-                Dim bgFreq As Double = _background.Frequency(motif.alphabets(j))
+                Dim bgFreq As Double = _Background.Frequency(motif.alphabets(j))
                 If bgFreq <= 0 Then Continue For
                 contribs.Add(Tuple.Create(logOdds(i, j), bgFreq))
             Next

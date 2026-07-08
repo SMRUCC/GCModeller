@@ -197,20 +197,20 @@ declare namespace GCModeller {
      * @param pval_cutoff default value Is ``0.05``.
      * @param minW default value Is ``0.85``.
      * @param top default value Is ``3``.
-     * @param permutation default value Is ``2500``.
+     * @param scan_reverse default value Is ``true``.
      * @param workdir default value Is ``./``.
      * @param n_threads default value Is ``8``.
    */
-   function scan_motifs(db: any, seqs: any, pval_cutoff?: any, minW?: any, top?: any, permutation?: any, workdir?: any, n_threads?: any): object;
+   function scan_motifs(db: any, seqs: any, pval_cutoff?: any, minW?: any, top?: any, scan_reverse?: any, workdir?: any, n_threads?: any): object;
    /**
      * @param outputdir default value Is ``./``.
      * @param pval_cutoff default value Is ``0.05``.
      * @param minW default value Is ``0.85``.
      * @param top default value Is ``3``.
-     * @param permutation default value Is ``2500``.
+     * @param scan_reverse default value Is ``true``.
      * @param sequential default value Is ``false``.
    */
-   function scan_motifs_internal(family_name: any, seqs: any, outputdir?: any, pval_cutoff?: any, minW?: any, top?: any, permutation?: any, sequential?: any): object;
+   function scan_motifs_internal(family_name: any, seqs: any, outputdir?: any, pval_cutoff?: any, minW?: any, top?: any, scan_reverse?: any, sequential?: any): object;
    /**
    */
    function split_omics_idset(IDs: any): object;

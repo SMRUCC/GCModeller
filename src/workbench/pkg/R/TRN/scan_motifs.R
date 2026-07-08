@@ -66,7 +66,7 @@ const scan_motifs = function(db, seqs,
                              pval_cutoff = 0.05,
                              minW = 0.85,
                              top = 3,
-                             permutation = 2500,             
+                             scan_reverse = TRUE,             
                              workdir = "./", 
                              n_threads = 8) {
 
@@ -97,7 +97,7 @@ const scan_motifs = function(db, seqs,
                                 pval_cutoff = pval_cutoff,
                                 minW = minW ,
                                 top = top ,
-                                permutation = permutation);
+                                scan_reverse = scan_reverse);
         }
     } else {
         # run debug in sequential
@@ -108,7 +108,7 @@ const scan_motifs = function(db, seqs,
                     pval_cutoff = pval_cutoff,
                     minW = minW ,
                     top = top ,
-                    permutation = permutation, 
+                    scan_reverse = scan_reverse, 
                     sequential = TRUE);
         }
     }
@@ -126,7 +126,7 @@ const scan_motifs_internal = function(family_name, seqs,
                                       pval_cutoff = 0.05,
                                       minW = 0.85,
                                       top = 3,
-                                      permutation = 2500, sequential = FALSE) {
+                                      scan_reverse = TRUE, sequential = FALSE) {
 
     imports "TRN.builder" from "TRNtoolkit";
     imports "bioseq.fasta" from "seqtoolkit";
@@ -145,7 +145,7 @@ const scan_motifs_internal = function(family_name, seqs,
         pval_cutoff = pval_cutoff,
         minW = minW,
         top = top,
-        permutation = permutation,
+        scan_reverse = scan_reverse,
         tqdm_bar = sequential 
     ) 
     |> unlist()
