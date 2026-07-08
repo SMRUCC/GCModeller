@@ -54,5 +54,31 @@ Public Class Metadata
     ''' </summary>
     ''' <returns></returns>
     Public Property depth As Integer
+    ''' <summary>
+    ''' 进行模拟计算的细胞的种类信息，具体的虚拟细胞实例会依照这个细胞元数据信息进行实例化
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property cells As Dictionary(Of String, CellMetadata)
+    ''' <summary>
+    ''' [pathway_id => molecule_id array]
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property pathways As Dictionary(Of String, String())
+
+End Class
+
+Public Class CellMetadata
+
+    Public Property taxonomy As String
+    ''' <summary>
+    ''' [gene_id => GO terms]
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property genes As Dictionary(Of String, String())
+    ''' <summary>
+    ''' [gene_id => EC numbers]
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property ec_numbers As Dictionary(Of String, String())
 
 End Class

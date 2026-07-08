@@ -1,4 +1,7 @@
-﻿Public Class CellSnapshot
+﻿''' <summary>
+''' 具体的细胞实例对象的快照数据
+''' </summary>
+Public Class CellSnapshot
 
     ''' <summary>
     ''' the cell unique id
