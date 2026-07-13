@@ -43,7 +43,7 @@
     '     File Size: 1.30 KB
 
 
-    '     Module IO
+    '     Module ModelIO
     ' 
     '         Function: Load3DModel, NotNull, Open
     ' 
@@ -55,12 +55,12 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
-Imports Microsoft.VisualBasic.Imaging.Landscape.Vendor_3mf.XML
+Imports Microsoft.VisualBasic.Imaging.Landscape.ThreeMF.Xml
 Imports Microsoft.VisualBasic.Text.Xml
 
-Namespace Vendor_3mf
+Namespace ThreeMF
 
-    Public Module IO
+    Public Module ModelIO
 
         ''' <summary>
         ''' Open ``*.3mf`` model file.
