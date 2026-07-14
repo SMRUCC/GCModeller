@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::51af1bbf5b7f1caa87bb96d790dc2dc2, visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 232
-    '    Code Lines: 196 (84.48%)
-    ' Comment Lines: 13 (5.60%)
-    '    - Xml Docs: 69.23%
-    ' 
-    '   Blank Lines: 23 (9.91%)
-    '     File Size: 10.25 KB
+' Summaries:
 
 
-    '     Class PatternPlot
-    ' 
-    '         Properties: clusterLabelStyle, legendTickStyle, legendTitleStyle, matrix, Prefix
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: createLines
-    ' 
-    '         Sub: PlotInternal
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 232
+'    Code Lines: 196 (84.48%)
+' Comment Lines: 13 (5.60%)
+'    - Xml Docs: 69.23%
+' 
+'   Blank Lines: 23 (9.91%)
+'     File Size: 10.25 KB
+
+
+'     Class PatternPlot
+' 
+'         Properties: clusterLabelStyle, legendTickStyle, legendTitleStyle, matrix, Prefix
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: createLines
+' 
+'         Sub: PlotInternal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -73,33 +73,13 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-
-#If NET48 Then
-Imports Pen = System.Drawing.Pen
-Imports Pens = System.Drawing.Pens
-Imports Brush = System.Drawing.Brush
-Imports Font = System.Drawing.Font
-Imports Brushes = System.Drawing.Brushes
-Imports SolidBrush = System.Drawing.SolidBrush
-Imports DashStyle = System.Drawing.Drawing2D.DashStyle
-Imports Image = System.Drawing.Image
-Imports Bitmap = System.Drawing.Bitmap
-Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
-Imports FontStyle = System.Drawing.FontStyle
-#Else
-Imports Pen = Microsoft.VisualBasic.Imaging.Pen
-Imports Pens = Microsoft.VisualBasic.Imaging.Pens
-Imports Brush = Microsoft.VisualBasic.Imaging.Brush
-Imports Font = Microsoft.VisualBasic.Imaging.Font
 Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
-Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
 Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
-Imports Image = Microsoft.VisualBasic.Imaging.Image
-Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
-Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
-Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
-#End If
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
 
 Namespace ExpressionPattern
 
@@ -181,13 +161,13 @@ Namespace ExpressionPattern
             )
             Dim label As String
 
-            For Each row As Matrix() In matrix.GetPartitionMatrix(
+            For Each row As HTS.DataFrame.Matrix() In matrix.GetPartitionMatrix(
                 membershipCutoff:=membershipCutoff,
                 topMembers:=topMembers
             )
                 x = left + iw / 5
 
-                For Each col As Matrix In row
+                For Each col As HTS.DataFrame.Matrix In row
                     tagPos = New PointF(x, y - g.MeasureString("0", clusterTagFont).Height)
                     padding = $"padding: {y}px {canvas.Width - (x + w)}px {canvas.Height - (y + h)}px {x}"
                     legendLayout = New Rectangle With {
@@ -246,7 +226,7 @@ Namespace ExpressionPattern
             Next
         End Sub
 
-        Private Iterator Function createLines(col As Matrix, levels As Value(Of DoubleRange)) As IEnumerable(Of SerialData)
+        Private Iterator Function createLines(col As HTS.DataFrame.Matrix, levels As Value(Of DoubleRange)) As IEnumerable(Of SerialData)
             Dim rawSampleId As String() = matrix.sampleNames
             Dim clusterTagId As Integer = Integer.Parse(col.tag)
 
