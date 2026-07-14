@@ -55,7 +55,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ForceDirected
 
@@ -95,11 +95,11 @@ Namespace ForceDirected
                 For Each u As Node In g.vertex.Where(Function(ui) Not ui Is v)
                     distX = v.data.initialPostion.x - u.data.initialPostion.x
                     distY = v.data.initialPostion.y - u.data.initialPostion.y
-                    dist = stdNum.Sqrt(distX ^ 2 + distY ^ 2)
+                    dist = std.Sqrt(distX ^ 2 + distY ^ 2)
 
                     ' 排斥力只在一定的距离内生效
                     If dist > 0 AndAlso dist < dist_thresh.Max Then
-                        d = stdNum.Max(u.degree.In + u.degree.Out, v.degree.In + v.degree.Out)
+                        d = std.Max(u.degree.In + u.degree.Out, v.degree.In + v.degree.Out)
                         dx = (distX / dist) * (k * k / dist) * ejectFactor * d
                         dy = (distY / dist) * (k * k / dist) * ejectFactor * d
 
@@ -149,9 +149,9 @@ Namespace ForceDirected
             For Each v As Node In g.vertex
                 id = v.label
 
-                mDxMap(id) = 0.0
-                mDyMap(id) = 0.0
-
+                ' 注意：不可在此处把 mDxMap/mDyMap 重置为 0，
+                ' 否则会抹除 MyBase.runAttraction() 已累加的“直接边”吸引力。
+                ' 这里只在其之上继续累加“间接边”吸引力。
                 For Each u As Node In g.vertex.Where(Function(ui) Not ui Is v)
                     Dim key As String = $"{u.label}-{v.label}"
 
@@ -161,7 +161,7 @@ Namespace ForceDirected
 
                     distX = u.data.initialPostion.x - v.data.initialPostion.x
                     distY = u.data.initialPostion.y - v.data.initialPostion.y
-                    dist = stdNum.Sqrt(distX * distX + distY * distY)
+                    dist = std.Sqrt(distX * distX + distY * distY)
                     dx = distX * dist / k * condenseFactor
                     dy = distY * dist / k * condenseFactor
 
