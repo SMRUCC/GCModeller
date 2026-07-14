@@ -1106,12 +1106,12 @@ Module visualPlot
             .ToArray
 
         Dim camera As New Camera With {
-            .fov = 500000,
-            .screen = InteropArgumentHelper.getSize(size, env).SizeParser,
-            .viewDistance = viewDistance,
-            .angleX = DirectCast(viewAngle, Double())(0),
-            .angleY = DirectCast(viewAngle, Double())(1),
-            .angleZ = DirectCast(viewAngle, Double())(2)
+            .FieldOfView = 500000,
+            .Screen = InteropArgumentHelper.getSize(size, env).SizeParser,
+            .ViewDistance = viewDistance,
+            .AngleX = DirectCast(viewAngle, Double())(0),
+            .AngleY = DirectCast(viewAngle, Double())(1),
+            .AngleZ = DirectCast(viewAngle, Double())(2)
         }
         Dim category As Dictionary(Of NamedCollection(Of String)) = clusterData _
             .GroupBy(Function(a) a.Cluster) _

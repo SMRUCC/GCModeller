@@ -73,7 +73,7 @@ Public Module Encoder
     ''' in column and molecule features in rows.
     ''' </remarks>
     <Extension>
-    Public Function EncodeRanking(mat As Matrix) As Matrix
+    Public Function EncodeRanking(mat As HTS.DataFrame.Matrix) As HTS.DataFrame.Matrix
         Dim z As Vector
         Dim q As Double
 
@@ -101,7 +101,7 @@ Public Module Encoder
     ''' in column and molecule features in rows.
     ''' </remarks>
     <Extension>
-    Public Function EncodeMatrix(mat As Matrix,
+    Public Function EncodeMatrix(mat As HTS.DataFrame.Matrix,
                                  Optional charSet As String = "ATGC",
                                  Optional quantile_encoder As Boolean = True) As Dictionary(Of String, Char)
 
@@ -172,7 +172,7 @@ Public Module Encoder
     End Function
 
     <Extension>
-    Public Iterator Function AsSequenceSet(mat As Matrix, encodes As Dictionary(Of String, Char)) As IEnumerable(Of FastaSeq)
+    Public Iterator Function AsSequenceSet(mat As HTS.DataFrame.Matrix, encodes As Dictionary(Of String, Char)) As IEnumerable(Of FastaSeq)
         Dim features As String() = mat.rownames
 
         Call VBDebugger.WriteLine("encode the expression matrix as sequence pack!")
