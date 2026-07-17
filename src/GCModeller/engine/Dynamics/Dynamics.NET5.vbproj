@@ -293,7 +293,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.9" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.10" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
 
