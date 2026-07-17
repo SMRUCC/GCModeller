@@ -65,12 +65,12 @@ Namespace Scripting.MathExpression.Impl
         Public ReadOnly Property factor As Expression
 
         Sub New(factor As String)
-            Me.factor = Expression.Parse(factor)
+            Me.factor = Expression.Parse(factor.TrimEnd("!"c))
         End Sub
 
         Public Overrides Function Evaluate(env As ExpressionEngine) As Double
-            Dim factor As Double = env.Evaluate(factor)
-            Dim result = VBMath.Factorial(CInt(factor))
+            Dim value As Double = env.Evaluate(factor)
+            Dim result = VBMath.Factorial(CInt(value))
             Return result
         End Function
 

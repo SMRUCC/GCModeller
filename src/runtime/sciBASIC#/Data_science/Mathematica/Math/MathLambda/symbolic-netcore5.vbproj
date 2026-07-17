@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<RootNamespace>Microsoft.VisualBasic.Math.Lambda</RootNamespace>
-    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
 		<AssemblyName>Microsoft.VisualBasic.Math.Lambda</AssemblyName>
 		<Authors>xie.guigang@live.com</Authors>
 		<Company>sciBASIC.NET</Company>
@@ -126,8 +126,11 @@
 
 	<ItemGroup>
 	  <Compile Remove="Test\**" />
+	  <Compile Remove="verify\**" />
 	  <EmbeddedResource Remove="Test\**" />
+	  <EmbeddedResource Remove="verify\**" />
 	  <None Remove="Test\**" />
+	  <None Remove="verify\**" />
 	  <None Include="..\..\..\..\LICENSE">
 	    <Pack>True</Pack>
 	    <PackagePath></PackagePath>

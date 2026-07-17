@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    
+    <AssemblyName>Demo</AssemblyName>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseApplicationFramework>false</UseApplicationFramework>
+    <StartupObject>Demo.MainForm</StartupObject>
+    <Platforms>AnyCPU;x64</Platforms>
+    <OptionInfer>On</OptionInfer>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <Nullable>disable</Nullable>
+    <UseWPF>True</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\gr\physics\physics-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\DeepLearning\DeepLearning.NET6.vbproj" />
+    <ProjectReference Include="..\..\MachineLearning\machine_learning-netcore5.vbproj" />
+    <ProjectReference Include="..\..\TensorFlow\TensorFlow.vbproj" />
+    <ProjectReference Include="..\DeepQNetwork.vbproj" />
+  </ItemGroup>
+
+</Project>

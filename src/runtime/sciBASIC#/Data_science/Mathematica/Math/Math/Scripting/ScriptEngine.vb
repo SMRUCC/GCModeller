@@ -124,12 +124,22 @@ Namespace Scripting
         ''' 
         <Extension>
         Public Sub SetFunction(engine As ExpressionEngine, run As String)
-            Dim declares As String = r.Match(run, ".+\(.+?\)").Value
-            Dim lambda As String = Mid(run, declares.Length)
+            Dim declares As String = r.Match(run, ".+?\(.+?\)").Value
+            Dim lambda As String = run.Substring(run.IndexOf(declares) + declares.Length).Trim
             Dim name As String = declares.Split("("c).First
             Dim parameters As String() = declares.GetStackValue("(", ")").StringSplit("\s*,\s*")
 
-            Call engine.AddFunction(declares, parameters, lambda)
+            Call engine.AddFunction(name, parameters, lambda)
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="name">function name</param>
+        ''' <param name="args">parameter names</param>
+        ''' <param name="expr">function body, the math expression</param>
+        Public Sub SetFunction(name As String, args As String(), expr As String)
+            Call Expression.AddFunction(name, args, expr)
         End Sub
 
         ''' <summary>
@@ -218,7 +228,12 @@ Namespace Scripting
                 Return exp
             Catch ex As Exception
                 Call App.LogException(New Exception(expression, ex))
-                Return Nothing
+
+                If throwEx Then
+                    Throw
+                Else
+                    Return Nothing
+                End If
             End Try
         End Function
 
