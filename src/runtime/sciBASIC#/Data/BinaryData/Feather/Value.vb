@@ -2018,7 +2018,7 @@ Public Class Value
                 ' END TODO
 
             Case ColumnType.Category, ColumnType.NullableCategory, ColumnType.String
-                valStr = """" & ToString() & """"
+                valStr = """" & CStr(Me) & """"
             Case ColumnType.NullableString
                 Dim asStr = CStr(Me)
                 valStr = If(Not asStr Is Nothing, """" & asStr & """", "null")
@@ -2042,6 +2042,10 @@ Public Class Value
             Case ColumnType.Time_Nanosecond, ColumnType.Time_Second
                 Dim asTimeSpan = CType(Me, TimeSpan?)
                 valStr = If(asTimeSpan IsNot Nothing, asTimeSpan.ToString(), "null")
+
+            Case ColumnType.NullableTime_Microsecond, ColumnType.NullableTime_Millisecond, ColumnType.NullableTime_Nanosecond, ColumnType.NullableTime_Second
+                Dim asNullableTimeSpan = CType(Me, TimeSpan?)
+                valStr = If(asNullableTimeSpan IsNot Nothing, asNullableTimeSpan.ToString(), "null")
 
             Case ColumnType.Double
                 valStr = CDbl(Me).ToString()

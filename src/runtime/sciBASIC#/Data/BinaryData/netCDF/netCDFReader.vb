@@ -167,11 +167,12 @@ Public Class netCDFReader : Implements IDisposable
     ''' <returns></returns>
     Public ReadOnly Property version As String
         Get
-            If (header.version = 1) Then
-                Return "classic format"
-            Else
-                Return "64-bit offset format"
-            End If
+            Select Case header.version
+                Case 1 : Return "classic format"
+                Case 2 : Return "64-bit offset format (CDF-2)"
+                Case 5 : Return "64-bit data format (CDF-5)"
+                Case Else : Return $"unknown version {header.version}"
+            End Select
         End Get
     End Property
 
@@ -261,14 +262,16 @@ Public Class netCDFReader : Implements IDisposable
     End Property
 
     Sub New(buffer As BinaryDataReader, Optional ignoreDuplicated As Boolean = False)
-        Dim version As Value(Of Byte) = Scan0
+        Dim versionByte As Byte
 
         buffer.ByteOrder = ByteOrder.BigEndian
         ' Test if file in support format
         Utils.notNetcdf(buffer.ReadString(3) <> Magic, $"should start with {Magic}")
-        Utils.notNetcdf((version = buffer.ReadByte) > 2, "unknown version")
+        versionByte = buffer.ReadByte
+        ' Version 1 = classic, 2 = 64-bit offset (CDF-2), 5 = 64-bit data (CDF-5)
+        Utils.notNetcdf(versionByte > 5, "unknown or unsupported CDF version")
 
-        Me.header = New Header(buffer, version)
+        Me.header = New Header(buffer, versionByte)
         Me.buffer = buffer
         Me.globalAttributeTable = header _
             .globalAttributes _
@@ -347,10 +350,10 @@ Public Class netCDFReader : Implements IDisposable
 
         If (variable.record) Then
             ' record variable case
-            values = DataReader.record(buffer, variable, header.recordDimension)
+            values = DataReader.record(buffer, variable, header.recordDimension, header.dimensions)
         Else
             ' non-record variable case
-            values = DataReader.nonRecord(buffer, variable)
+            values = DataReader.nonRecord(buffer, variable, header.dimensions)
         End If
 
         Return VectorHelper.FromAny(values, variable.type)

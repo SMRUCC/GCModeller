@@ -99,6 +99,31 @@ Module Utils
     End Sub
 
     ''' <summary>
+    ''' Round <paramref name="n"/> up to the next multiple of 4.
+    ''' </summary>
+    <Extension> Public Function pad4(n As Long) As Long
+        Return ((n + 3) \ 4) * 4
+    End Function
+
+    ''' <summary>
+    ''' Read <paramref name="size"/> big-endian values of <paramref name="elementBytes"/> bytes
+    ''' each and convert them with <paramref name="convert"/>.
+    ''' </summary>
+    Private Function ReadBE(Of T As Structure)(buffer As BinaryDataReader, size As Integer, elementBytes As Integer, convert As Func(Of Byte(), Integer, T)) As T()
+        Dim block As Byte() = buffer.ReadBytes(size * elementBytes)
+        Dim result(size - 1) As T
+        Dim elem(elementBytes - 1) As Byte
+
+        For i As Integer = 0 To size - 1
+            Call Array.Copy(block, i * elementBytes, elem, 0, elementBytes)
+            Call Array.Reverse(elem)
+            result(i) = convert(elem, 0)
+        Next
+
+        Return result
+    End Function
+
+    ''' <summary>
     ''' write name string
     ''' </summary>
     ''' <param name="output"></param>
@@ -160,23 +185,35 @@ Module Utils
             Return Nothing
         End If
 
-        Select Case type
-            Case CDFDataTypes.NC_BYTE : Return buffer.ReadBytes(size)
-            Case CDFDataTypes.NC_CHAR : Return buffer.ReadChars(size)
-            Case CDFDataTypes.BOOLEAN
-                ' 20210212 bytes flags for maps boolean
-                Return buffer.ReadBytes(size) _
-                    .Select(Function(b) b <> 0) _
-                    .ToArray
-            Case CDFDataTypes.NC_DOUBLE : Return buffer.ReadDoubles(size)
-            Case CDFDataTypes.NC_FLOAT : Return buffer.ReadSingles(size)
-            Case CDFDataTypes.NC_INT : Return buffer.ReadInt32s(size)
-            Case CDFDataTypes.NC_INT64 : Return buffer.ReadInt64s(size)
-            Case CDFDataTypes.NC_SHORT : Return buffer.ReadInt16s(size)
-            Case Else
-                ' istanbul ignore next
-                Return Utils.notNetcdf(True, $"non valid type {type}")
-        End Select
+            Select Case type
+                Case CDFDataTypes.NC_BYTE, CDFDataTypes.NC_UBYTE : Return buffer.ReadBytes(size)
+                Case CDFDataTypes.NC_CHAR, CDFDataTypes.NC_STRING : Return buffer.ReadChars(size)
+                Case CDFDataTypes.BOOLEAN
+                    ' 20210212 bytes flags for maps boolean
+                    Return buffer.ReadBytes(size) _
+                        .Select(Function(b) b <> 0) _
+                        .ToArray
+                Case CDFDataTypes.NC_DOUBLE : Return buffer.ReadDoubles(size)
+                Case CDFDataTypes.NC_FLOAT : Return buffer.ReadSingles(size)
+                Case CDFDataTypes.NC_INT : Return buffer.ReadInt32s(size)
+                Case CDFDataTypes.NC_INT64 : Return buffer.ReadInt64s(size)
+                Case CDFDataTypes.NC_SHORT : Return buffer.ReadInt16s(size)
+                Case CDFDataTypes.NC_USHORT
+                    Return ReadBE(Of UShort)(buffer, size, 2, AddressOf BitConverter.ToUInt16) _
+                        .Select(Function(u) CInt(u)) _
+                        .ToArray
+                Case CDFDataTypes.NC_UINT
+                    Return ReadBE(Of UInteger)(buffer, size, 4, AddressOf BitConverter.ToUInt32) _
+                        .Select(Function(u) CLng(u)) _
+                        .ToArray
+                Case CDFDataTypes.NC_UINT64
+                    Return ReadBE(Of ULong)(buffer, size, 8, AddressOf BitConverter.ToUInt64) _
+                        .Select(Function(u) CLng(u)) _
+                        .ToArray
+                Case Else
+                    ' istanbul ignore next
+                    Return Utils.notNetcdf(True, $"non valid type {type}")
+            End Select
     End Function
 
     ''' <summary>
@@ -191,8 +228,8 @@ Module Utils
         End If
 
         Select Case type
-            Case CDFDataTypes.NC_BYTE : Return Function(buffer) buffer(Scan0)
-            Case CDFDataTypes.NC_CHAR : Return Function(buffer) Encoding.UTF8.GetString(buffer)
+            Case CDFDataTypes.NC_BYTE, CDFDataTypes.NC_UBYTE : Return Function(buffer) buffer(Scan0)
+            Case CDFDataTypes.NC_CHAR, CDFDataTypes.NC_STRING : Return Function(buffer) Encoding.UTF8.GetString(buffer)
 
             Case CDFDataTypes.BOOLEAN
                 ' 20210212 bytes flags for maps boolean
@@ -203,6 +240,9 @@ Module Utils
             Case CDFDataTypes.NC_INT : Return CastNumber(Of Integer)(reversed, AddressOf BitConverter.ToInt32)
             Case CDFDataTypes.NC_INT64 : Return CastNumber(Of Long)(reversed, AddressOf BitConverter.ToInt64)
             Case CDFDataTypes.NC_SHORT : Return CastNumber(Of Short)(reversed, AddressOf BitConverter.ToInt16)
+            Case CDFDataTypes.NC_USHORT : Return CastNumber(Of UShort)(reversed, AddressOf BitConverter.ToUInt16)
+            Case CDFDataTypes.NC_UINT : Return CastNumber(Of UInteger)(reversed, AddressOf BitConverter.ToUInt32)
+            Case CDFDataTypes.NC_UINT64 : Return CastNumber(Of ULong)(reversed, AddressOf BitConverter.ToUInt64)
 
             Case Else
                 ' istanbul ignore next
@@ -240,9 +280,9 @@ Module Utils
         End If
 
         Select Case type
-            Case CDFDataTypes.NC_BYTE
+            Case CDFDataTypes.NC_BYTE, CDFDataTypes.NC_UBYTE
                 Return buffer.ReadBytes(size)
-            Case CDFDataTypes.NC_CHAR
+            Case CDFDataTypes.NC_CHAR, CDFDataTypes.NC_STRING
                 Return New String(buffer.ReadChars(size)).TrimNull
             Case CDFDataTypes.NC_SHORT
                 Return readNumber(size, AddressOf buffer.ReadInt16)
@@ -254,6 +294,12 @@ Module Utils
                 Return readNumber(size, AddressOf buffer.ReadDouble)
             Case CDFDataTypes.NC_INT64
                 Return readNumber(size, AddressOf buffer.ReadInt64)
+            Case CDFDataTypes.NC_USHORT
+                Return ReadBE(Of UShort)(buffer, size, 2, AddressOf BitConverter.ToUInt16)
+            Case CDFDataTypes.NC_UINT
+                Return ReadBE(Of UInteger)(buffer, size, 4, AddressOf BitConverter.ToUInt32)
+            Case CDFDataTypes.NC_UINT64
+                Return ReadBE(Of ULong)(buffer, size, 8, AddressOf BitConverter.ToUInt64)
             Case CDFDataTypes.BOOLEAN
 
                 ' 20210212 bytes flags for maps boolean
@@ -265,5 +311,68 @@ Module Utils
                 ' istanbul ignore next
                 Return Utils.notNetcdf(True, $"non valid type {type}")
         End Select
+    End Function
+
+    ''' <summary>
+    ''' Return a new array of the same element type containing the slice
+    ''' [<paramref name="start"/>, <paramref name="start"/> + <paramref name="count"/>)
+    ''' of <paramref name="data"/>.
+    ''' </summary>
+    Public Function sliceVector(data As Array, type As CDFDataTypes, start As Integer, count As Integer) As Array
+        Select Case type
+            Case CDFDataTypes.NC_BYTE, CDFDataTypes.NC_UBYTE : Return sliceVector(Of Byte)(data, start, count)
+            Case CDFDataTypes.NC_CHAR, CDFDataTypes.NC_STRING : Return sliceVector(Of Char)(data, start, count)
+            Case CDFDataTypes.NC_SHORT, CDFDataTypes.NC_USHORT : Return sliceVector(Of Short)(data, start, count)
+            Case CDFDataTypes.NC_INT, CDFDataTypes.NC_UINT : Return sliceVector(Of Integer)(data, start, count)
+            Case CDFDataTypes.NC_INT64, CDFDataTypes.NC_UINT64 : Return sliceVector(Of Long)(data, start, count)
+            Case CDFDataTypes.NC_FLOAT : Return sliceVector(Of Single)(data, start, count)
+            Case CDFDataTypes.NC_DOUBLE : Return sliceVector(Of Double)(data, start, count)
+            Case Else : Return notNetcdf(True, $"non valid type {type}")
+        End Select
+    End Function
+
+    Private Function sliceVector(Of T)(data As Array, start As Integer, count As Integer) As T()
+        Dim src As T() = DirectCast(data, T())
+        Dim dst(count - 1) As T
+        Call Array.Copy(src, start, dst, 0, count)
+        Return dst
+    End Function
+
+    ''' <summary>
+    ''' Convert a whole variable array of the given CDF type into big-endian
+    ''' bytes ready to be written to a CDF file.
+    ''' </summary>
+    Public Function ToBigEndianBytes(data As Array, type As CDFDataTypes, encoding As Encoding) As Byte()
+        Select Case type
+            Case CDFDataTypes.NC_BYTE, CDFDataTypes.NC_UBYTE : Return DirectCast(data, Byte())
+            Case CDFDataTypes.BOOLEAN : Return DirectCast(data, Boolean()).Select(Function(b) CByte(If(b, 1, 0))).ToArray
+            Case CDFDataTypes.NC_CHAR, CDFDataTypes.NC_STRING : Return encoding.GetBytes(New String(DirectCast(data, Char())))
+            Case CDFDataTypes.NC_SHORT : Return toBE(DirectCast(data, Short()), 2, AddressOf BitConverter.GetBytes)
+            Case CDFDataTypes.NC_USHORT : Return toBE(DirectCast(data, UShort()), 2, AddressOf BitConverter.GetBytes)
+            Case CDFDataTypes.NC_INT : Return toBE(DirectCast(data, Integer()), 4, AddressOf BitConverter.GetBytes)
+            Case CDFDataTypes.NC_UINT : Return toBE(DirectCast(data, UInteger()), 4, AddressOf BitConverter.GetBytes)
+            Case CDFDataTypes.NC_INT64 : Return toBE(DirectCast(data, Long()), 8, AddressOf BitConverter.GetBytes)
+            Case CDFDataTypes.NC_UINT64 : Return toBE(DirectCast(data, ULong()), 8, AddressOf BitConverter.GetBytes)
+            Case CDFDataTypes.NC_FLOAT : Return toBE(DirectCast(data, Single()), 4, AddressOf BitConverter.GetBytes)
+            Case CDFDataTypes.NC_DOUBLE : Return toBE(DirectCast(data, Double()), 8, AddressOf BitConverter.GetBytes)
+            Case Else : Return notNetcdf(True, $"non valid type {type}")
+        End Select
+    End Function
+
+    Private Function toBE(Of T)(values As T(), elemSize As Integer, getBytes As Func(Of T, Byte())) As Byte()
+        Dim out As Byte() = New Byte(values.Length * elemSize - 1) {}
+        Dim tmp As Byte()
+
+        For i As Integer = 0 To values.Length - 1
+            tmp = getBytes(values(i))
+
+            If BitConverter.IsLittleEndian Then
+                Call Array.Reverse(tmp)
+            End If
+
+            Call Array.Copy(tmp, 0, out, i * elemSize, elemSize)
+        Next
+
+        Return out
     End Function
 End Module

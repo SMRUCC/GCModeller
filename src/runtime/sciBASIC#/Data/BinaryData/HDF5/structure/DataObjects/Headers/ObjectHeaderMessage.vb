@@ -1,63 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::f5452fb0194b94b2389551ab0c3472be, Data\BinaryData\HDF5\structure\DataObjects\Headers\ObjectHeaderMessage.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 156
-    '    Code Lines: 128 (82.05%)
-    ' Comment Lines: 8 (5.13%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 20 (12.82%)
-    '     File Size: 8.37 KB
+' Summaries:
 
 
-    '     Class ObjectHeaderMessage
-    ' 
-    '         Properties: attributeMessage, continueMessage, dataspaceMessage, dataTypeMessage, fillValueMessage
-    '                     fillValueOldMessage, filterPipelineMessage, groupMessage, headerLength, headerMessageData
-    '                     headerMessageFlags, headerMessageType, headerMessageTypeNumber, lastModifiedMessage, layoutMessage
-    '                     linkMessage, sizeOfHeaderMessageData
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: ToString
-    ' 
-    '         Sub: printValues
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 156
+'    Code Lines: 128 (82.05%)
+' Comment Lines: 8 (5.13%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 20 (12.82%)
+'     File Size: 8.37 KB
+
+
+'     Class ObjectHeaderMessage
+' 
+'         Properties: attributeMessage, continueMessage, dataspaceMessage, dataTypeMessage, fillValueMessage
+'                     fillValueOldMessage, filterPipelineMessage, groupMessage, headerLength, headerMessageData
+'                     headerMessageFlags, headerMessageType, headerMessageTypeNumber, lastModifiedMessage, layoutMessage
+'                     linkMessage, sizeOfHeaderMessageData
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: ToString
+' 
+'         Sub: printValues
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -69,6 +69,7 @@
 ' 
 
 Imports System.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.device
 Imports Microsoft.VisualBasic.Data.IO.HDF5.struct.messages
 Imports BinaryReader = Microsoft.VisualBasic.Data.IO.HDF5.device.BinaryReader
 
@@ -104,7 +105,7 @@ Namespace struct
         Public ReadOnly Property filterPipelineMessage As FilterPipelineMessage
 #End Region
 
-        Public Sub New([in] As BinaryReader, sb As Superblock, address As Long)
+        Public Sub New([in] As BinaryReader, sb As Superblock, address As Long, Optional headerVersion As Integer = 1, Optional messageCreationOrder As Boolean = False)
             Call MyBase.New(address)
 
             [in].offset = address
@@ -117,13 +118,40 @@ Namespace struct
             Me.sizeOfHeaderMessageData = [in].readShort()
             Me.headerMessageFlags = [in].readByte()
 
-            [in].skipBytes(3)
+            If headerVersion = 2 Then
+                ' v2 object headers store messages packed (no reserved/padding bytes). The
+                ' prefix is just type(2) + size(2) + flags(1); an optional per-message creation
+                ' order field may precede the message data.
+                Me.headerLength = 5
 
-            Me.headerLength = 8
+                If messageCreationOrder Then
+                    [in].skipBytes(4)
+                End If
+            Else
+                [in].skipBytes(3)
+                Me.headerLength = 8
+            End If
 
             If (Me.headerMessageFlags And &H2) <> 0 Then
-                ' shared
-                Throw New IOException("shared message is not implemented")
+                ' Shared message: the message data is a Shared Message structure that locates
+                ' the actual message content elsewhere in the file.
+                Dim resolved As ObjectHeaderMessage = resolveSharedMessage([in], sb)
+
+                If resolved IsNot Nothing Then
+                    Me.groupMessage = resolved.groupMessage
+                    Me.continueMessage = resolved.continueMessage
+                    Me.fillValueMessage = resolved.fillValueMessage
+                    Me.fillValueOldMessage = resolved.fillValueOldMessage
+                    Me.dataTypeMessage = resolved.dataTypeMessage
+                    Me.attributeMessage = resolved.attributeMessage
+                    Me.linkMessage = resolved.linkMessage
+                    Me.layoutMessage = resolved.layoutMessage
+                    Me.lastModifiedMessage = resolved.lastModifiedMessage
+                    Me.dataspaceMessage = resolved.dataspaceMessage
+                    Me.filterPipelineMessage = resolved.filterPipelineMessage
+                End If
+
+                Return
             End If
 
             If Me.headerMessageType Is ObjectHeaderMessageType.ObjectHeaderContinuation Then
@@ -168,6 +196,46 @@ Namespace struct
                 Me.headerMessageData = [in].readBytes(Me.sizeOfHeaderMessageData)
             End If
         End Sub
+
+        ''' <summary>
+        ''' Resolves a shared message (flag bit 0x02 is set) by reading the Shared Message
+        ''' structure at the current reader position and locating the actual message content.
+        ''' Supports the "message stored in another object header" form (committed / shared
+        ''' datatypes and dataspaces). Messages stored in the file's shared fractal heap are
+        ''' not yet implemented and throw <see cref="NotImplementedException"/>.
+        ''' </summary>
+        Private Function resolveSharedMessage([in] As BinaryReader, sb As Superblock) As ObjectHeaderMessage
+            Dim version As Integer = [in].readByte()
+            Dim type As Integer = [in].readByte()
+            Dim targetAddress As Long = -1
+
+            If version = 1 Then
+                [in].skipBytes(2)
+                targetAddress = ReadHelper.readO([in], sb)
+            ElseIf version = 2 Then
+                targetAddress = ReadHelper.readO([in], sb)
+            ElseIf version = 3 Then
+                If type = 2 Then
+                    targetAddress = ReadHelper.readO([in], sb)
+                ElseIf type = 1 Then
+                    Throw New NotImplementedException("shared message stored in the fractal heap is not yet implemented")
+                End If
+            End If
+
+            If targetAddress >= 0 Then
+                Dim target As New DataObject(sb, targetAddress)
+
+                For Each m As ObjectHeaderMessage In target.messages
+                    If m.headerMessageType Is Me.headerMessageType Then
+                        Return m
+                    End If
+                Next
+
+                Throw New IOException("shared message target does not contain message type " & Me.headerMessageType.ToString)
+            End If
+
+            Throw New IOException("shared message could not be resolved (version " & version & ")")
+        End Function
 
         Public Overrides Function ToString() As String
             Select Case CType(headerMessageType.num, ObjectHeaderMessages)
