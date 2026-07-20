@@ -4199,7 +4199,9 @@
       <BuildType Solution="nuget_release|*" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
-      <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+      <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
+      <BuildType Solution="Rsharp_app_release|ARM32" Project="Release" />
+      <BuildType Solution="Rsharp_app_release|x86" Project="Release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Release" />
       <BuildType Solution="vcellkit|*" Project="Release" />
       <BuildType Solution="Voyager1|*" Project="Release" />
