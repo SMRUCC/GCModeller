@@ -20,7 +20,6 @@ Module pubmedParserTest
             .rownames = (From article As PubmedArticle In articles Select article.PMID).ToArray
         }
         Dim genes As Dictionary(Of String, String())
-        Dim ollama As New Ollama.Ollama("qwen3:30b", preserveMemory:=False)
 
         genes = "./tmp.json".ReadAllText(throwEx:=False).LoadJSON(Of Dictionary(Of String, String()))(throwEx:=False)
 
