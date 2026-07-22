@@ -101,7 +101,7 @@ End Class
 
 ' --- 演示如何使用的模块 ---
 Module Module1GeneMatchTest
-    Sub Main()
+    Sub Main1()
         ' 模拟一段包含基因信息的文献文本
         Dim sampleText As String = "
             The tumor suppressor gene p53 plays a crucial role in cellular response to DNA damage.

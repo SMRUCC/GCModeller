@@ -4,7 +4,7 @@ Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.MeSH.Tree
 
 Module mesh_test
 
-    Sub Main()
+    Sub Main1()
 
         Dim tree As Term() = MeSH.Tree.ReadTerms("\GCModeller\src\workbench\pkg\data\mtrees2024.txt".OpenReadonly).ToArray
         Dim terms = MeSH.DescriptorRecordSet.ReadTerms("C:\Users\xieguigang\Downloads\desc2024.xml").ToArray

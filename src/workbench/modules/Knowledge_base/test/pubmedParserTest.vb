@@ -8,7 +8,7 @@ Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.PubMed
 
 Module pubmedParserTest
 
-    Sub Main()
+    Sub Main1()
         Dim articles = {"M:\project\20250728-wheat\20251012\pubmed\pubmed-WheatStrip-set.txt",
 "M:\project\20250728-wheat\20251012\pubmed\pubmed-plantNLRim-set.txt",
 "M:\project\20250728-wheat\20251012\pubmed\pubmed-plantdisea-set.txt",

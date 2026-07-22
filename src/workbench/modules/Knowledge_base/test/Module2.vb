@@ -2,7 +2,7 @@
 
 Module Module2
 
-    Sub Main()
+    Sub Main1()
         Dim doc = "C:\Users\Administrator\Downloads\livertox_NBK547852\Pegcetacoplan.nxml".LoadXml(Of BookPartWrapper)
 
         Call Console.WriteLine(doc.GetXml)

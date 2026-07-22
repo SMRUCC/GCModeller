@@ -3,7 +3,7 @@ Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base
 
 Module name_test
 
-    Sub Main()
+    Sub Main1()
 
         Dim groups = GeneName _
             .GroupBy(EntityObject.LoadDataSet("E:\GCModeller\src\workbench\modules\Knowledge_base\interested_genes.csv"), "description") _
