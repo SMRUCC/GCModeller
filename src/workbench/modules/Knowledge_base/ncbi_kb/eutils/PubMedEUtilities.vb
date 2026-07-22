@@ -1131,7 +1131,7 @@ Namespace PubMedFetcher
             Dim ext As String = If(article.PmcFullTextFormat = "html", "html", "txt")
             Dim safeTitle As String = MakeSafeFileName(article.Pmid & "_" & article.Title)
             If safeTitle.Length > 80 Then safeTitle = safeTitle.Substring(0, 80)
-            Dim path As String = Path.Combine(outputDir, $"PMC{article.PmcId}_{safeTitle}.{ext}")
+            Dim path As String = outputDir & "/" & $"PMC{article.PmcId}_{safeTitle}.{ext}"
             File.WriteAllText(path, article.PmcFullText, New UTF8Encoding(False))
             article.Messages.Add($"PMC 全文已保存: {path}")
         End Sub
