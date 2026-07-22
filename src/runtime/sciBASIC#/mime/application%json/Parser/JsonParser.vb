@@ -238,7 +238,10 @@ Public Class JsonParser
                 ' empty json object {}
                 Exit Do
             Else
-                key = t.text
+                Dim rawKey As String = t.text
+
+                ' decode json escape sequences in the key (e.g. \" or \/)
+                key = StripString(rawKey, decodeMetaChar:=True)
             End If
 
             t = pull.Next
@@ -262,7 +265,7 @@ Public Class JsonParser
                 If strictVectorSyntax Then
                     Throw New Exception(message)
                 Else
-                    Call message.Warning
+                    Call message.warning
                     Call VBDebugger.EchoLine(message)
                 End If
 
@@ -311,7 +314,7 @@ Public Class JsonParser
                 Else
                     Dim message As String = $"in-complete json array: possible json syntax error on parse json array at line {t.span.line}."
 
-                    Call message.Warning
+                    Call message.warning
                     Call System.Diagnostics.Debug.WriteLine(message)
 
                     Exit Do
@@ -332,7 +335,7 @@ Public Class JsonParser
                     ' stop iterator move to next in next loop
                     back = True
 
-                    Call message.Warning
+                    Call message.warning
                     Call System.Diagnostics.Debug.WriteLine(message)
                 End If
             End If
@@ -365,6 +368,13 @@ Public Class JsonParser
                     index += 1
 
                     If decodeMetaChar Then
+                        If index >= str_len Then
+                            ' trailing backslash at the end of the string:
+                            ' keep it as a literal character instead of throwing
+                            sb.Append("\"c)
+                            Exit While
+                        End If
+
                         chr = str(index)
 
                         Select Case chr
@@ -392,6 +402,12 @@ Public Class JsonParser
                                 code = Mid(str, index + 1, 4)
                                 sb.Append(ChrW(Val("&h" & code)))
                                 index += 4
+                            Case Else
+                                ' unrecognized escape sequence: keep the backslash
+                                ' together with the following literal character
+                                sb.Append("\"c)
+                                sb.Append(chr)
+                                index += 1
                         End Select
                     Else
                         sb.Append(chr)
