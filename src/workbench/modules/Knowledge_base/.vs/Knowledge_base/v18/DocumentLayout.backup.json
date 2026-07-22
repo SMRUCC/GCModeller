@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\pubmedparsertest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\pubmedparsertest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +27,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "pubmedParserTest.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\pubmedParserTest.vb",
+              "RelativeDocumentMoniker": "test\\pubmedParserTest.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\pubmedParserTest.vb",
+              "RelativeToolTip": "test\\pubmedParserTest.vb",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-22T19:58:09.676Z",
+              "EditorCaption": ""
             }
           ]
         },
