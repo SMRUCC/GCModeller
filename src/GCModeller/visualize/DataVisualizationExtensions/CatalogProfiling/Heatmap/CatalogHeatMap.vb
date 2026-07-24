@@ -64,32 +64,10 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
-
-#If NET48 Then
-Imports Pen = System.Drawing.Pen
-Imports Pens = System.Drawing.Pens
-Imports Brush = System.Drawing.Brush
-Imports Font = System.Drawing.Font
-Imports Brushes = System.Drawing.Brushes
-Imports SolidBrush = System.Drawing.SolidBrush
-Imports DashStyle = System.Drawing.Drawing2D.DashStyle
-Imports Image = System.Drawing.Image
-Imports Bitmap = System.Drawing.Bitmap
-Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
-Imports FontStyle = System.Drawing.FontStyle
-#Else
-Imports Pen = Microsoft.VisualBasic.Imaging.Pen
-Imports Pens = Microsoft.VisualBasic.Imaging.Pens
 Imports Brush = Microsoft.VisualBasic.Imaging.Brush
-Imports Font = Microsoft.VisualBasic.Imaging.Font
 Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports Font = Microsoft.VisualBasic.Imaging.Font
 Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
-Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
-Imports Image = Microsoft.VisualBasic.Imaging.Image
-Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
-Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
-Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
-#End If
 
 Namespace CatalogProfiling
 
@@ -103,6 +81,8 @@ Namespace CatalogProfiling
     ''' 4. cell color is scaled via -log10(pvalue)
     ''' </summary>
     Public Class CatalogHeatMap : Inherits MultipleCatalogHeatmap
+
+        Public Property angle As Single = 45
 
         Public Sub New(profile As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), mapLevels As Integer, unenriched$, rankorder As Boolean, theme As Theme)
             Call MyBase.New(profile, mapLevels, unenriched, rankorder, theme)
@@ -227,7 +207,7 @@ Namespace CatalogProfiling
             ' Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
 
             For Each sample In multiples
-                g.DrawString(sample.Name, pathwayNameFont, Brushes.Black, x, y, angle:=45)
+                g.DrawString(sample.Name, pathwayNameFont, Brushes.Black, x, y, angle:=angle)
                 x += dw
             Next
 
