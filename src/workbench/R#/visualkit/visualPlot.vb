@@ -621,6 +621,7 @@ Module visualPlot
                                       Optional ignore_categories As Object = Nothing,
                                       <RRawVectorArgument>
                                       Optional sort As Object = Nothing,
+                                      Optional x_angle As Single = 45,
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
@@ -755,7 +756,7 @@ Module visualPlot
                     .AsList
             End If
 
-            Dim app As New CatalogHeatMap(multiples, 100, unenrichColor, rankorder:=False, theme)
+            Dim app As New CatalogHeatMap(multiples, 100, unenrichColor, rankorder:=False, theme) With {.angle = x_angle}
             Return app.Plot(sizeStr, ppi:=ppi, driver:=driver)
         Else
             Throw New NotImplementedException(profiles.GetType.FullName)
