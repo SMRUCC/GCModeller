@@ -101,28 +101,13 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object.Linq
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
 Imports featureFrame = Microsoft.VisualBasic.Data.Framework.DataFrame
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
-
-#If NET48 Then
-Imports Pen = System.Drawing.Pen
-Imports Pens = System.Drawing.Pens
-Imports Brush = System.Drawing.Brush
-Imports Font = System.Drawing.Font
-Imports Brushes = System.Drawing.Brushes
-Imports SolidBrush = System.Drawing.SolidBrush
-Imports DashStyle = System.Drawing.Drawing2D.DashStyle
-Imports Image = System.Drawing.Image
-Imports Bitmap = System.Drawing.Bitmap
-Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
-Imports FontStyle = System.Drawing.FontStyle
-#Else
-Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
-#End If
 
 ''' <summary>
 ''' package module for biological analysis data visualization

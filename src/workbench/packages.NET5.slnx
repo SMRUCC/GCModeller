@@ -4711,7 +4711,7 @@
     <BuildType Solution="Voyager1|*" Project="Debug" />
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="../GCModeller/sub-system/simulators/simulators.NET5.vbproj">
+  <Project Path="../GCModeller/sub-system/simulators/simulators.vbproj">
     <BuildType Solution="BioDeep_database|*" Project="Debug" />
     <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
     <BuildType Solution="Biodeep|*" Project="Debug" />
@@ -4926,7 +4926,7 @@
     <BuildType Solution="Voyager1|*" Project="Debug" />
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="R#/gseakit/gseakit.NET5.vbproj">
+  <Project Path="R#/gseakit/gseakit.vbproj">
     <BuildType Solution="BioDeep_database|*" Project="Debug" />
     <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
     <BuildType Solution="Biodeep|*" Project="Debug" />
@@ -4999,7 +4999,7 @@
     <Platform Solution="nuget_release|x64" Project="x64" />
     <Platform Solution="Rsharp_app_release|x64" Project="x64" />
   </Project>
-  <Project Path="R#/kegg_kit/kegg_kit.NET5.vbproj">
+  <Project Path="R#/kegg_kit/kegg_kit.vbproj">
     <BuildType Solution="BioDeep_database|*" Project="Debug" />
     <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
     <BuildType Solution="Biodeep|*" Project="Debug" />
@@ -5078,7 +5078,7 @@
     <BuildType Solution="Voyager1|*" Project="Debug" />
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="R#/phenotype_kit/phenotype_kit.NET5.vbproj">
+  <Project Path="R#/phenotype_kit/phenotype_kit.vbproj">
     <BuildType Solution="BioDeep_database|*" Project="Debug" />
     <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
     <BuildType Solution="Biodeep|*" Project="Debug" />
@@ -5170,7 +5170,7 @@
     <Platform Solution="nuget_release|x64" Project="x64" />
     <Platform Solution="Rsharp_app_release|x64" Project="x64" />
   </Project>
-  <Project Path="R#/seqtoolkit/seqtoolkit.NET5.vbproj">
+  <Project Path="R#/seqtoolkit/seqtoolkit.vbproj">
     <BuildType Solution="BioDeep_database|*" Project="Debug" />
     <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
     <BuildType Solution="Biodeep|*" Project="Debug" />
@@ -5231,7 +5231,7 @@
     <BuildType Solution="Voyager1|*" Project="Debug" />
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="R#/visualkit/visualkit.NET5.vbproj">
+  <Project Path="R#/visualkit/visualkit.vbproj">
     <BuildType Solution="BioDeep_database|*" Project="Debug" />
     <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
     <BuildType Solution="Biodeep|*" Project="Debug" />
