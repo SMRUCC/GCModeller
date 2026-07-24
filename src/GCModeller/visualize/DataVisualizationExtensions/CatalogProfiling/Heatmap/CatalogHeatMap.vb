@@ -162,7 +162,7 @@ Namespace CatalogProfiling
                             End Function) _
                     .ToArray
 
-                Call g.DrawString(catName, categoryFont, Brushes.Black, New PointF(region.Right + 10, y - labelHeight))
+                Call g.DrawString(catName, categoryFont, Brushes.Black, New PointF(region.Right + 20, y - labelHeight))
 
                 Dim deltaY As Double = dh * pathIds.Length
                 Dim block As New Rectangle(region.Left, y, region.Width, deltaY)
@@ -193,7 +193,7 @@ Namespace CatalogProfiling
                         x += dw
                     Next
 
-                    g.DrawString(id, pathwayNameFont, foreColor, New PointF(x + 10, y + dh / 3))
+                    g.DrawString(id, pathwayNameFont, foreColor, New PointF(x + 20, y + dh / 3))
                     y += dh
                 Next
 
@@ -201,8 +201,8 @@ Namespace CatalogProfiling
             Next
 
             ' draw sample labels
-            x = region.Left + dw ' * 2
-            y += gap * 1.25 ' + 100
+            x = region.Left + dw / 2
+            y += gap * 1
 
             ' Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
 

@@ -282,6 +282,8 @@ declare namespace visualPlot {
            * + default value Is ``null``.
            * @param sort 
            * + default value Is ``null``.
+           * @param x_angle 
+           * + default value Is ``45``.
            * @param ppi -
            * 
            * + default value Is ``300``.
@@ -289,7 +291,7 @@ declare namespace visualPlot {
            * 
            * + default value Is ``null``.
          */
-         function bubbles(profiles: any, size?: any, padding?: any, unenrichColor?: string, themeColors?: string, alpha?: number, displays?: object, serialTopn?: boolean, bubbleRadius?: any, heatmap?: boolean, bubbleStyle?: boolean, top_samples?: object, sampleinfo?: object, ignore_categories?: any, sort?: any, ppi?: object, env?: object): any;
+         function bubbles(profiles: any, size?: any, padding?: any, unenrichColor?: string, themeColors?: string, alpha?: number, displays?: object, serialTopn?: boolean, bubbleRadius?: any, heatmap?: boolean, bubbleStyle?: boolean, top_samples?: object, sampleinfo?: object, ignore_categories?: any, sort?: any, x_angle?: number, ppi?: object, env?: object): any;
       }
    }
    /**
