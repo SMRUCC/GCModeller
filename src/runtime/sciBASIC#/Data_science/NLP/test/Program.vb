@@ -55,8 +55,8 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Data.NLP.LDA
 Imports Microsoft.VisualBasic.Parallel
 
-Module Program
-    Sub Main(args As String())
+Module Program2
+    Sub Main11111(args As String())
         ' 1. Load corpus from disk
         Dim corpus As Corpus = Corpus.load("\GCModeller\src\R-sharp\test\demo\machineLearning\NLP\data\mini")
 
