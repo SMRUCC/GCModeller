@@ -44,6 +44,12 @@ The design philosophy is **CLI-first**: instead of drag-and-drop controls, sciBA
 headless, scriptable, reproducible data-science programs that read files, compute, and emit figures or
 tables — the kind of artifacts that end up in a scientific manuscript.
 
+#### 3D Graphics Example From sciBASIC#
+
+![](tutorials/MESH.PNG)
+![](tutorials/ModelViewer1.PNG)
+![](tutorials/ModelViewer2.PNG)
+
 ---
 
 ## Features
