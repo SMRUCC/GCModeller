@@ -54,12 +54,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.vbproj
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.vbproj.Xml
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.ProjectXml
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 
 Namespace VBProj
@@ -88,20 +85,22 @@ Namespace VBProj
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function EnumerateSourceFiles(vbproj As Project,
+        Public Function EnumerateSourceFiles(vbproj As VBProject,
                                              Optional skipAssmInfo As Boolean = False,
                                              Optional fullName As Boolean = False) As IEnumerable(Of String)
 
             Dim sourceFolder As String = DirectCast(vbproj, IFileReference).FilePath.ParentPath
-            Dim sourceList As IEnumerable(Of String)
+            Dim sourceList As IEnumerable(Of String) = vbproj.CompileFiles _
+                .SafeQuery _
+                .Select(Function(c)
+                            Return c.FileName
+                        End Function)
 
-            If vbproj.IsDotNetCoreSDK Then
-                sourceList = vbproj.newDotNetSDKProjectSource
+            If fullName Then
+                Return sourceList.Select(Function(rel) $"{sourceFolder}/{rel}".GetFullPath)
             Else
-                sourceList = vbproj.legacyProjectSource
+                Return sourceList
             End If
-
-            Return sourceList.vbfileFilter(sourceFolder, fullName, skipAssmInfo)
         End Function
 
         ''' <summary>
