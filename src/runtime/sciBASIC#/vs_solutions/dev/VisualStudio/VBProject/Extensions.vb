@@ -56,11 +56,12 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.vbproj
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.vbproj.Xml
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.ProjectXml
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 
-Namespace vbproj
+Namespace VBProj
 
     <HideModuleName> Public Module Extensions
 
@@ -163,7 +164,7 @@ Namespace vbproj
         ''' <param name="vbproj"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function AssemblyInfo(vbproj As Project) As AssemblyInfo
+        Public Function AssemblyInfo(vbproj As VBProject) As AssemblyInfo
             If vbproj.IsDotNetCoreSDK Then
                 Return vbproj.ExtractNuGetAssemblyInfo
             Else
@@ -180,39 +181,41 @@ Namespace vbproj
         End Function
 
         <Extension>
-        Public Function ExtractNuGetAssemblyInfo(netcore As Project) As AssemblyInfo
-            Dim main As PropertyGroup = netcore.MainGroup
-
-            If main Is Nothing Then
-                Return Nothing
-            End If
+        Public Function ExtractNuGetAssemblyInfo(netcore As VBProject) As AssemblyInfo
+            Dim nuget = netcore.NuGet
+            Dim main = netcore.Metadata
 
             Return New AssemblyInfo With {
-                .AssemblyCompany = main.Company,
-                .AssemblyCopyright = main.Copyright,
-                .AssemblyDescription = main.Description,
-                .AssemblyFileVersion = main.AssemblyVersion,
-                .AssemblyVersion = main.AssemblyVersion,
-                .AssemblyInformationalVersion = main.Version,
-                .AssemblyFullName = main.AssemblyName,
-                .AssemblyProduct = main.AssemblyName,
-                .AssemblyTitle = main.Description,
-                .AssemblyTrademark = main.Company,
+                .AssemblyCompany = nuget.Company,
+                .AssemblyCopyright = nuget.Copyright,
+                .AssemblyDescription = nuget.Description,
+                .AssemblyFileVersion = netcore.AssemblyVersion,
+                .AssemblyVersion = nuget.Version,
+                .AssemblyInformationalVersion = nuget.Version,
+                .AssemblyFullName = netcore.AssemblyName,
+                .AssemblyProduct = nuget.Product,
+                .AssemblyTitle = nuget.Description,
+                .AssemblyTrademark = nuget.Company,
                 .ComVisible = False,
                 .Guid = Guid.NewGuid.ToString,
-                .Name = main.AssemblyName,
-                .TargetFramework = "netcoreapp",
+                .Name = nuget.PackageId,
+                .TargetFramework = main.TargetFramework,
                 .BuiltTime = Nothing
             }
         End Function
 
         <Extension>
-        Public Function GetOutputDirectory(vbproj As Project, profileName$) As String
+        Public Function GetOutputDirectory(vbproj As VBProject, profileName$) As String
             Dim profile = vbproj.GetProfile(profileName)
             Dim base$ = DirectCast(vbproj, IFileReference).FilePath.ParentPath
             Dim outputdir = $"{base}/{profile.OutputPath}"
 
             Return outputdir
+        End Function
+
+        <Extension>
+        Public Function GetProfile(vbproj As VBProject, name As String) As VBBuildConfiguration
+            Return vbproj.Configurations.SafeQuery.Where(Function(c) c.)
         End Function
 
         ''' <summary>
@@ -221,21 +224,13 @@ Namespace vbproj
         ''' <param name="vbproj"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function GetOutputName(vbproj As Project) As String
-            Return vbproj.PropertyGroups _
-                .FirstOrDefault(Function(p)
-                                    Return Not p.AssemblyName.StringEmpty
-                                End Function) _
-                .AssemblyName
+        Public Function GetOutputName(vbproj As VBProject) As String
+            Return vbproj.AssemblyName
         End Function
 
         <Extension>
-        Public Function RootNamespace(vbproj As Project) As String
-            Return vbproj.PropertyGroups _
-                .FirstOrDefault(Function(p)
-                                    Return Not p.RootNamespace.StringEmpty
-                                End Function) _
-                .RootNamespace
+        Public Function RootNamespace(vbproj As VBProject) As String
+            Return vbproj.RootNamespace
         End Function
     End Module
 End Namespace
