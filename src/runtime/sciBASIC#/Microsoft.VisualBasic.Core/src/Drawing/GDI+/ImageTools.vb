@@ -58,10 +58,6 @@ Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-#If NET48 Then
-Imports Bitmap = System.Drawing.Bitmap
-#End If
-
 Namespace Imaging
 
     Public Module ImageTools
@@ -163,128 +159,67 @@ Namespace Imaging
         ''' 将图像的多余的空白处给剪裁掉，确定边界，然后进行剪裁，使用这个函数需要注意下设置空白色，默认使用的空白色为<see cref="Color.White"/>
         ''' </summary>
         ''' <param name="res"></param>
+        ''' <param name="blankColor">默认白色为空白色</param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function CorpBlankInternal(res As Bitmap, blankColor As Color, isTransparent As Boolean, trace$) As Image
+            ' 通过 BitmapBuffer 直接读取内存中的像素数据，比 bitmap.GetPixel 更快
+            Dim bmp As BitmapBuffer = BufferInternal(res, trace)
+            Dim width As Integer = res.Width
+            Dim height As Integer = res.Height
+
+            ' 单次扫描整张图像，记录所有非背景色像素的最小/最大 x 与 y，
+            ' 从而得到内容的精确外接矩形。这样裁剪矩形严格等于内容包围盒，
+            ' 从数学上杜绝把真实内容（非背景区域）误裁掉的过度减裁问题。
+            Dim minX As Integer = width
+            Dim minY As Integer = height
+            Dim maxX As Integer = -1
+            Dim maxY As Integer = -1
+
+            For y As Integer = 0 To height - 1
+                For x As Integer = 0 To width - 1
+                    If Not GDIColors.Equals(bmp.GetPixel(x, y), blankColor) Then
+                        If x < minX Then minX = x
+                        If x > maxX Then maxX = x
+                        If y < minY Then minY = y
+                        If y > maxY Then maxY = y
+                    End If
+                Next
+            Next
+
+            If maxX < 0 Then
+                ' 整张图片都是背景色，没有任何内容需要保留，直接返回原图，
+                ' 避免退化裁剪为极小尺寸（原实现在此情况下会得到 1x1 之类的错误结果）
+                Return res
+            End If
+
+            ' 基于精确包围盒裁剪（max - min + 1 确保包含边界内容像素），
+            ' 不再做任何额外的 ±1 偏移调整，消除原实现上下/左右不对称的问题
+            Dim cropRect As New Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1)
+            Return res.ImageCrop(cropRect)
+        End Function
+
+        ''' <summary>
+        ''' 将图像的多余的空白处给剪裁掉，确定边界，然后进行剪裁，使用这个函数需要注意下设置空白色，默认使用的空白色为<see cref="Color.White"/>
+        ''' </summary>
+        ''' <param name="res"></param>
         ''' <param name="margin"></param>
         ''' <param name="blankColor">默认白色为空白色</param>
         ''' <returns></returns>
         <Extension>
         Private Function CorpBlankInternal(res As Bitmap, margin%, blankColor As Color, isTransparent As Boolean, trace$) As Image
-            Dim bmp As BitmapBuffer = BufferInternal(res, trace)
-            Dim top%, left%
-
-            ' top
-            For top = 0 To res.Height - 1
-                Dim find As Boolean = False
-
-                For left = 0 To res.Width - 1
-                    Dim p = bmp.GetPixel(left, top)
-
-                    If Not GDIColors.Equals(p, blankColor) Then
-                        ' 在这里确定了左右
-                        find = True
-
-                        If top > 0 Then
-                            top -= 1
-                        End If
-
-                        Exit For
-                    End If
-                Next
-
-                If find Then
-                    Exit For
-                End If
-            Next
-
-            Dim region As New Rectangle(0, top, res.Width, res.Height - top)
-
-            res = res.ImageCrop(New Rectangle(region.Location, region.Size))
-            bmp = BufferInternal(res, trace)
-
-            ' left
-            For left = 0 To res.Width - 1
-                Dim find As Boolean = False
-
-                For top = 0 To res.Height - 1
-                    Dim p = bmp.GetPixel(left, top)
-
-                    If Not GDIColors.Equals(p, blankColor) Then
-                        ' 在这里确定了左右
-                        find = True
-
-                        If left > 0 Then
-                            left -= 1
-                        End If
-
-                        Exit For
-                    End If
-                Next
-
-                If find Then
-                    Exit For
-                End If
-            Next
-
-            region = New Rectangle(left, 0, res.Width - left, res.Height)
-            res = res.ImageCrop(New Rectangle(region.Location, region.Size))
-            bmp = BufferInternal(res, trace)
-
-            Dim right As Integer
-            Dim bottom As Integer
-
-            ' bottom
-            For bottom = res.Height - 1 To 0 Step -1
-                Dim find As Boolean = False
-
-                For right = res.Width - 1 To 0 Step -1
-                    Dim p = bmp.GetPixel(right, bottom)
-                    If Not GDIColors.Equals(p, blankColor) Then
-                        ' 在这里确定了左右
-                        find = True
-
-                        bottom += 1
-
-                        Exit For
-                    End If
-                Next
-
-                If find Then
-                    Exit For
-                End If
-            Next
-
-            region = New Rectangle(0, 0, res.Width, bottom)
-            res = res.ImageCrop(New Rectangle(region.Location, region.Size))
-            bmp = BufferInternal(res, trace)
-
-            ' right
-            For right = res.Width - 1 To 0 Step -1
-                Dim find As Boolean = False
-
-                For bottom = res.Height - 1 To 0 Step -1
-                    Dim p = bmp.GetPixel(right, bottom)
-                    If Not GDIColors.Equals(p, blankColor) Then
-                        ' 在这里确定了左右
-                        find = True
-                        right += 1
-
-                        Exit For
-                    End If
-                Next
-
-                If find Then
-                    Exit For
-                End If
-            Next
-
-            region = New Rectangle(0, 0, right, res.Height)
-            res = res.ImageCrop(New Rectangle(region.Location, region.Size))
+            res = res.CorpBlankInternal(blankColor, isTransparent, trace)
 
             If margin > 0 Then
                 Dim paddedSize As New Size(res.Width + margin * 2, res.Height + margin * 2)
                 Dim gfx As IGraphics = DriverLoad.CreateDefaultRasterGraphics(paddedSize, If(isTransparent, Color.Transparent, blankColor))
 
+                ' 20260729 直接使用DrawImageUnscaled似乎会让图片被稍微放大
+                ' 直接使用DrawImage方法，并限定图片大小来解决掉这个bug
+                Const scale As Single = 0.9999
+
                 Call gfx.Clear(blankColor)
-                Call gfx.DrawImage(res, New Point(margin, margin))
+                Call gfx.DrawImage(res, CSng(margin), CSng(margin), CSng(res.Width * scale), CSng(res.Height * scale))
 
                 Return DirectCast(gfx, GdiRasterGraphics).ImageResource
             Else

@@ -61,16 +61,24 @@
 Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.Imaging
 
 Namespace Interop
 
     Public Class GDIPlusImage : Inherits Microsoft.VisualBasic.Imaging.Image
+        Implements IVisualStudioPreviews
 
         Public Overrides ReadOnly Property Size As Size
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return bitmap.Size
+            End Get
+        End Property
+
+        Public ReadOnly Property Previews As String Implements IVisualStudioPreviews.Previews
+            Get
+                Return GeneratePreviewHtml(Me)
             End Get
         End Property
 
