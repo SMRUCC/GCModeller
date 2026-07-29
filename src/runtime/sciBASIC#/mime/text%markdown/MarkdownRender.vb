@@ -1,5 +1,4 @@
-﻿Imports System.Collections.Generic
-Imports System.Text.RegularExpressions
+﻿Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 
@@ -41,14 +40,14 @@ Public Class MarkdownRender
         Return render.Document(parser.Parse(markdown))
     End Function
 
+    Shared ReadOnly headers As New Regex("^[#]+.+$", RegexOptions.Compiled Or RegexOptions.Multiline)
+
     ''' <summary>
     ''' Get table of content of the target markdown document.
     ''' (Only ATX style headers ``#`` to ``######`` are supported.)
     ''' </summary>
     ''' <param name="md"></param>
     ''' <returns></returns>
-    Shared ReadOnly headers As New Regex("^[#]+.+$", RegexOptions.Compiled Or RegexOptions.Multiline)
-
     Public Shared Iterator Function GetTOC(md As String) As IEnumerable(Of NamedValue(Of Integer))
         For Each level As String In headers.Matches(md).ToArray
             Yield New NamedValue(Of Integer)(level.Trim(" "c, "#"c), level.TakeWhile(Function(c) c = "#"c).Count)
