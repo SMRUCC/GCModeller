@@ -1,34 +1,34 @@
 #Region "Microsoft.VisualBasic::00000000000000000000000000000000, sciBASIC#\vs_solutions\dev\vs_PDB\DbiStream.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.IO
 Imports System.Text
-Imports Microsoft.VisualBasic.Binary
+Imports Microsoft.VisualBasic.Data.IO
 
 Namespace sciBASIC.PDB
 
@@ -56,6 +56,7 @@ Namespace sciBASIC.PDB
             Public OptionalDbgHdrSize As Integer
             Public ECSubstreamSize As Integer
             Public Machine As UShort
+            Public Property PdbDllVersion As UShort
         End Class
 
         ''' <summary>
@@ -124,7 +125,7 @@ Namespace sciBASIC.PDB
             Dim h As New DbiHeader()
 
             Using ms As New MemoryStream(data)
-                Using br As New BinaryDataReader(ms, ByteOrder.LittleEndian, leaveOpen:=False)
+                Using br As New BinaryDataReader(ms, leaveOpen:=False) With {.ByteOrder = ByteOrder.LittleEndian}
                     h.VersionSignature = br.ReadInt32()
                     h.VersionHeader = br.ReadInt32()
                     h.Age = br.ReadInt32()
@@ -220,8 +221,9 @@ Namespace sciBASIC.PDB
             Dim offsets As Integer() = New Integer(numSources - 1) {}
 
             For i As Integer = 0 To numSources - 1
-                offsets(i) = BitConverter.ToUInt16(data, p)
-                p += 2
+                ' Source-file name offsets are 4-byte (u32) entries.
+                offsets(i) = BitConverter.ToInt32(data, p)
+                p += 4
             Next
 
             ' The string table begins right after the offset array.
@@ -280,6 +282,8 @@ Namespace sciBASIC.PDB
                     Exit For
                 End If
 
+                ' Remember where this file entry starts so we can advance by blockSize.
+                Dim fileEntryStart As Integer = p
                 Dim fileId As Integer = BitConverter.ToInt32(data, p)
                 Dim numLines As Integer = BitConverter.ToInt32(data, p + 4)
                 Dim blockSize As Integer = BitConverter.ToInt32(data, p + 8)
@@ -295,59 +299,57 @@ Namespace sciBASIC.PDB
                     End If
                 End If
 
-                Dim entrySize As Integer = If(withColumns, 12, 4)
+                ' 1) the line-number records (each is u32 offset, u32 linenum).
+                Dim lineEnd As Integer = p + numLines * 8
+
+                If lineEnd > [end] Then
+                    lineEnd = [end]
+                End If
 
                 For l As Integer = 0 To numLines - 1
-                    If p + entrySize > [end] Then
+                    If p + 8 > lineEnd Then
                         Exit For
                     End If
 
-                    Dim li As New LineInfo With {.Document = doc}
+                    Dim lineOffset As UInteger = BitConverter.ToUInt32(data, p)
+                    Dim lineNum As UInteger = BitConverter.ToUInt32(data, p + 4)
+                    p += 8
 
-                    If withColumns Then
-                        Dim lineOffset As UInteger = BitConverter.ToUInt32(data, p)
-                        Dim lineNum As UInteger = BitConverter.ToUInt32(data, p + 4)
-                        Dim colStart As UShort = BitConverter.ToUInt16(data, p + 8)
-                        Dim colEnd As UShort = BitConverter.ToUInt16(data, p + 10)
-
-                        li.StartLine = CInt(lineNum And &HFFFFFF)
-                        li.EndLine = li.StartLine + CInt((lineNum >> 24) And &HFF)
-                        li.StartColumn = colStart
-                        li.EndColumn = colEnd
-                        p += 12
-                    Else
-                        Dim lineOffset As UShort = BitConverter.ToUInt16(data, p)
-                        Dim lineNum As UShort = BitConverter.ToUInt16(data, p + 2)
-                        li.StartLine = lineNum
-                        li.EndLine = lineNum
-                        p += 4
-                    End If
-
+                    Dim li As New LineInfo With {
+                        .Document = doc,
+                        .Offset = lineOffset
+                    }
+                    li.StartLine = CInt(lineNum And &HFFFFFF)
+                    li.EndLine = li.StartLine + CInt((lineNum >> 24) And &HFF)
                     LineNumbers.Add(li)
                 Next
 
-                ' Align p to the declared block size for this file entry.
-                p = start_of_file_entry(p, blockSize)
-                If blockSize > 0 Then
-                    p = payload_start_of_file(p, blockSize)
+                ' 2) for DEBUG_S_LINES_2 the column records follow as a separate array
+                '    (u16 colStart, u16 colEnd) per line.
+                If withColumns Then
+                    For l As Integer = 0 To numLines - 1
+                        If p + 4 > [end] Then
+                            Exit For
+                        End If
+
+                        Dim colStart As UShort = BitConverter.ToUInt16(data, p)
+                        Dim colEnd As UShort = BitConverter.ToUInt16(data, p + 2)
+                        p += 4
+
+                        Dim idx As Integer = LineNumbers.Count - numLines + l
+
+                        If idx >= 0 AndAlso idx < LineNumbers.Count Then
+                            LineNumbers(idx).StartColumn = colStart
+                            LineNumbers(idx).EndColumn = colEnd
+                        End If
+                    Next
                 End If
+
+                ' Advance to the next file entry using the declared block size.
+                p = fileEntryStart + blockSize
+                p = (p + 3) And Not 3
             Next
         End Sub
-
-        ' Helpers used only to keep the loop advancing on the declared block size.
-        Private Function start_of_file_entry(p As Integer, blockSize As Integer) As Integer
-            If blockSize > 0 Then
-                Return p
-            End If
-            Return p
-        End Function
-
-        Private Function payload_start_of_file(p As Integer, blockSize As Integer) As Integer
-            If blockSize > 0 Then
-                Return p
-            End If
-            Return p
-        End Function
 
         ''' <summary>
         ''' Read a null-terminated (UTF-8) string starting at <paramref name="offset"/>.
