@@ -98,7 +98,7 @@ Namespace VFDB
             Dim label As String = members(0).VFcategory
             Dim desc As String = members.Select(Function(vf) vf.Function).JoinBy("; ")
 
-            desc = LLMs.LLMsTalk($"请基于下面对{label}分类下的病原体毒力因子的功能描述做出这类病原体毒力因子的功能总结：" & desc)
+            desc = LLMs.LLMsTalk($"请基于下面对{label}分类下的病原体毒力因子的功能描述做出这类病原体毒力因子的功能总结：" & desc).GetAwaiter.GetResult
 
             Return New Cluster With {
                 .category = members.First.VFcategory,
