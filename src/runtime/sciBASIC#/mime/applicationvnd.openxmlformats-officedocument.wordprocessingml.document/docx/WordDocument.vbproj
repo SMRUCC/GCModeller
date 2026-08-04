@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Microsoft.VisualBasic.MIME.Office.WordDocument</RootNamespace>
+    <AssemblyName>Microsoft.VisualBasic.MIME.Office.WordDocument</AssemblyName>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <Import>Microsoft.VisualBasic</Import>
+    <Import>System</Import>
+    <Import>System.Collections.Generic</Import>
+    <Import>System.Linq</Import>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\application%json\JSON-netcore5.vbproj" />
+    <ProjectReference Include="..\..\text%markdown\markdown.NET5.vbproj" />
+  </ItemGroup>
+
+</Project>
