@@ -203,12 +203,14 @@ Namespace FileSystem
         End Function
 
         Public Function GetContentType(pathRelative As String) As ContentType
+            Dim extName As String = "." & pathRelative.ExtensionSuffix.ToLower
+
             ' test of the physical file at first
             If resourceUrl(pathRelative).FileExists Then
-                Dim extName As String = "." & pathRelative.ExtensionSuffix.ToLower
-
                 If MIME.SuffixTable.ContainsKey(extName) Then
                     Return MIME.SuffixTable(extName)
+                ElseIf extName = ".js" Then
+                    Return New ContentType("ECMAScript Module JavaScript", "application/javascript", ".js")
                 Else
                     Return MIME.UnknownType
                 End If
@@ -218,6 +220,9 @@ Namespace FileSystem
                 ' and then test for the logical file
                 If virtualMaps.ContainsKey(pathRelative) Then
                     Return virtualMaps(pathRelative).mime
+                ElseIf extName = ".js" Then
+                    ' 20260810 try to handling of the bug of the esmodule js file mime type
+                    Return New ContentType("ECMAScript Module JavaScript", "application/javascript", ".js")
                 End If
             End If
 
