@@ -1,72 +1,70 @@
 ﻿#Region "Microsoft.VisualBasic::7acd847c2080eb489d13c896f84c9a95, vs_solutions\dev\VisualStudio\sln\Solution.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 300
-    '    Code Lines: 173 (57.67%)
-    ' Comment Lines: 69 (23.00%)
-    '    - Xml Docs: 91.30%
-    ' 
-    '   Blank Lines: 58 (19.33%)
-    '     File Size: 10.95 KB
+' Summaries:
 
 
-    '     Class Solution
-    ' 
-    '         Properties: [Global], Configurations, FilePath, FormatVersion, IsXmlFormat
-    '                     MinimumVisualStudioVersion, Projects, SolutionGuid, VisualStudioVersion
-    ' 
-    '         Function: GetChildProjects, GetProject, GetProjectFullPath, GetRootProjects, GetTypeGuid
-    '                   Load
-    ' 
-    '         Sub: Save, WriteProjectNode
-    ' 
-    '     Class SolutionConfiguration
-    ' 
-    '         Properties: Configuration, Name, Platform
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 300
+'    Code Lines: 173 (57.67%)
+' Comment Lines: 69 (23.00%)
+'    - Xml Docs: 91.30%
+' 
+'   Blank Lines: 58 (19.33%)
+'     File Size: 10.95 KB
+
+
+'     Class Solution
+' 
+'         Properties: [Global], Configurations, FilePath, FormatVersion, IsXmlFormat
+'                     MinimumVisualStudioVersion, Projects, SolutionGuid, VisualStudioVersion
+' 
+'         Function: GetChildProjects, GetProject, GetProjectFullPath, GetRootProjects, GetTypeGuid
+'                   Load
+' 
+'         Sub: Save, WriteProjectNode
+' 
+'     Class SolutionConfiguration
+' 
+'         Properties: Configuration, Name, Platform
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.ComponentModel
-Imports System.Text
-Imports System.Xml
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.sln.File
 
 Namespace sln
 
@@ -197,7 +195,7 @@ Namespace sln
 
         ''' <summary>
         ''' Save this solution model as a ``.slnx`` (XML) file. The output is
-        ''' symmetric with <see cref="Parser.ParseSlnx"/> so it can be re-read.
+        ''' symmetric with <see cref="SlnxParser.ParseSlnx"/> so it can be re-read.
         ''' </summary>
         ''' <param name="path">
         ''' The target ``.slnx`` file path. When omitted, <see cref="FilePath"/> is used.
@@ -207,160 +205,12 @@ Namespace sln
 
             If String.IsNullOrEmpty(target) Then
                 Throw New ArgumentNullException(NameOf(path), "A target path must be supplied (FilePath is empty).")
-            End If
-
-            FilePath = target
-            IsXmlFormat = True
-
-            Dim doc As New XmlDocument()
-            doc.AppendChild(doc.CreateXmlDeclaration("1.0", "utf-8", Nothing))
-
-            Dim root As XmlElement = doc.CreateElement("Solution")
-            doc.AppendChild(root)
-
-            If Not String.IsNullOrEmpty(FormatVersion) Then
-                root.SetAttribute("Version", FormatVersion)
-            End If
-
-            If Not String.IsNullOrEmpty(VisualStudioVersion) Then
-                root.SetAttribute("VisualStudioVersion", VisualStudioVersion)
-            End If
-
-            If Not String.IsNullOrEmpty(MinimumVisualStudioVersion) Then
-                root.SetAttribute("MinimumVisualStudioVersion", MinimumVisualStudioVersion)
-            End If
-
-            If Not String.IsNullOrEmpty([Global].SolutionGuid) Then
-                root.SetAttribute("Id", [Global].SolutionGuid)
-            End If
-
-            ' Emit project tree recursively from roots down.
-            For Each root_p In GetRootProjects()
-                WriteProjectNode(root, root_p, doc)
-            Next
-
-            ' Solution level configurations.
-            For Each cfg In Configurations
-                Dim cfgEl As XmlElement = doc.CreateElement("Configuration")
-                cfgEl.SetAttribute("Name", cfg.Name)
-                root.AppendChild(cfgEl)
-            Next
-
-            ' Remaining global properties (skip SolutionGuid, already on root).
-            For Each kv In [Global].Properties
-                If String.Equals(kv.Key, "SolutionGuid", StringComparison.OrdinalIgnoreCase) Then
-                    Continue For
-                End If
-
-                ' Configuration_* entries are produced by the parser's round-trip,
-                ' not genuine global properties, so they are skipped on save.
-                If kv.Key.StartsWith("Configuration_", StringComparison.OrdinalIgnoreCase) Then
-                    Continue For
-                End If
-
-                Dim propEl As XmlElement = doc.CreateElement("Property")
-                propEl.SetAttribute("Name", kv.Key)
-                propEl.SetAttribute("Value", kv.Value)
-                root.AppendChild(propEl)
-            Next
-
-            IO.Directory.CreateDirectory(IO.Path.GetDirectoryName(IO.Path.GetFullPath(target)))
-
-            Using writer As New XmlTextWriter(target, New UTF8Encoding(encoderShouldEmitUTF8Identifier:=True))
-                writer.Formatting = Formatting.Indented
-                writer.Indentation = 2
-                doc.WriteTo(writer)
-            End Using
-        End Sub
-
-        ''' <summary>
-        ''' Recursively write a project / folder node and its children into the
-        ''' slnx XML tree. Folders become ``&lt;Folder&gt;`` elements, projects
-        ''' become ``&lt;Project&gt;`` elements.
-        ''' </summary>
-        Private Sub WriteProjectNode(parent As XmlNode, p As Project, doc As XmlDocument)
-            Dim el As XmlElement
-
-            If p.IsFolder Then
-                el = doc.CreateElement("Folder")
-                el.SetAttribute("Name", If(p.Name, ""))
-
-                If Not String.IsNullOrEmpty(p.Guid) Then
-                    el.SetAttribute("Guid", p.Guid)
-                End If
             Else
-                el = doc.CreateElement("Project")
-                el.SetAttribute("Path", If(p.RelativePath, ""))
-                el.SetAttribute("Name", If(p.Name, ""))
+                FilePath = target
+                IsXmlFormat = True
 
-                If Not String.IsNullOrEmpty(p.Guid) Then
-                    el.SetAttribute("Guid", p.Guid)
-                End If
-
-                If Not String.IsNullOrEmpty(p.TypeGuid) Then
-                    el.SetAttribute("Type", p.TypeGuid)
-                ElseIf p.NodeType <> TypeId.Unknown Then
-                    el.SetAttribute("Type", GetTypeGuid(p.NodeType))
-                End If
-            End If
-
-            parent.AppendChild(el)
-
-            ' Recurse into children so hierarchy is preserved as nesting.
-            For Each child In GetChildProjects(p.Guid)
-                WriteProjectNode(el, child, doc)
-            Next
-        End Sub
-
-        ''' <summary>
-        ''' Resolve the project type GUID for an enum value via its
-        ''' <see cref="DescriptionAttribute"/> (inverse of <c>Parser.ResolveType</c>).
-        ''' </summary>
-        Private Function GetTypeGuid(type As TypeId) As String
-            Dim field = GetType(TypeId).GetField(type.ToString())
-            Dim attr = CType(Attribute.GetCustomAttribute(field, GetType(DescriptionAttribute)), DescriptionAttribute)
-
-            If attr IsNot Nothing Then
-                Return attr.Description
-            End If
-
-            Return String.Empty
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' A solution level build configuration / platform pair, e.g. ``Debug|AnyCPU``.
-    ''' </summary>
-    Public Class SolutionConfiguration
-        ''' <summary>
-        ''' The combined name, e.g. ``Debug|AnyCPU``.
-        ''' </summary>
-        Public Property Name As String
-        ''' <summary>
-        ''' The configuration part, e.g. ``Debug``.
-        ''' </summary>
-        Public Property Configuration As String
-        ''' <summary>
-        ''' The platform part, e.g. ``AnyCPU``.
-        ''' </summary>
-        Public Property Platform As String
-
-        Public Sub New()
-        End Sub
-
-        Public Sub New(name As String)
-            Me.Name = name
-
-            If name IsNot Nothing Then
-                Dim parts = name.Split({"|"c}, 2)
-                Configuration = parts(0)
-
-                If parts.Length > 1 Then
-                    Platform = parts(1)
-                End If
+                Call Me.SaveSlnx(target)
             End If
         End Sub
     End Class
-
-
 End Namespace
