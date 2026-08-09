@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.sln.File
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM
 
 Namespace sln
 
@@ -15,9 +16,27 @@ Namespace sln
 
         Dim _VbProjs As VBProject()
 
+        Default Public ReadOnly Property GetSymbol(fullname As String) As LanguageSymbolType
+            Get
+                For Each proj As VBProject In _VbProjs
+                    Dim type As LanguageSymbolType = proj.GetType(fullname)
+
+                    If type IsNot Nothing Then
+                        Return type
+                    End If
+                Next
+
+                Return Nothing
+            End Get
+        End Property
+
         Sub New(sln As Solution)
             _Sln = sln
-            _VbProjs = sln.Projects.Select(Function(p) VBProject.Load(p.FullPath)).ToArray
+            _VbProjs = (From p As Project
+                        In sln.Projects
+                        Where p.FullPath.ExtensionSuffix("vbproj")
+                        Where p.FullPath.FileExists
+                        Select VBProject.Load(p.FullPath)).ToArray
         End Sub
 
         Public Overrides Function ToString() As String
