@@ -85,6 +85,15 @@ Module Program
         Dim port As Integer = args("/port") Or 80
         Dim attach As String = args("--attach")
         Dim parent As String = args("--parent")
+
+        ' check port availability BEFORE creating the server to avoid
+        ' a race condition where another process grabs the port between
+        ' the check and the actual bind.
+        If Not Tcp.PortIsAvailable(port) Then
+            Call Console.WriteLine($"local tcp port(={port}) is in used!")
+            Return 500
+        End If
+
         Dim localfs As New WebFileSystemListener(New FileSystem(wwwroot))
         Dim localhost As New HttpSocket(
             app:=AddressOf localfs.WebHandler,
@@ -108,11 +117,6 @@ Module Program
 
         ' Call BackgroundTaskUtils.BindToMaster(parentId:=parent, kill:=localhost)
 
-        If Not Tcp.PortIsAvailable(port) Then
-            Call Console.WriteLine($"local tcp port(={port}) is in used!")
-            Return 500
-        Else
-            Return localhost.Run
-        End If
+        Return localhost.Run
     End Function
 End Module

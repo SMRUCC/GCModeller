@@ -103,16 +103,21 @@ Namespace Core
         End Sub
 
         Public Overrides Sub handleGETRequest(p As HttpProcessor)
-            Call app(New HttpRequest(p), New HttpResponse(p.outputStream, AddressOf p.writeFailure, _settings))
+            Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure, _settings)
+            response.m_requestHeaders = p.httpHeaders
+            Call app(New HttpRequest(p), response)
         End Sub
 
         Public Overrides Sub handlePOSTRequest(p As HttpProcessor, inputData As String)
-            Call app(New HttpPOSTRequest(p, inputData, parseJSON), New HttpResponse(p.outputStream, AddressOf p.writeFailure, _settings))
+            Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure, _settings)
+            response.m_requestHeaders = p.httpHeaders
+            Call app(New HttpPOSTRequest(p, inputData, parseJSON), response)
         End Sub
 
         Public Overrides Sub handleOtherMethod(p As HttpProcessor)
             Dim req As New HttpRequest(p)
             Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure, _settings)
+            response.m_requestHeaders = p.httpHeaders
 
             If req.HTTPMethod = "OPTIONS" AndAlso req.URL.path.Trim("/"c) = "ctrl/kill" Then
                 ' remote shutdown requires a configured token to be present
@@ -133,7 +138,9 @@ Namespace Core
         End Sub
 
         Protected Overrides Function getHttpProcessor(client As TcpClient, bufferSize As Integer) As HttpProcessor
-            Return New HttpProcessor(client, Me, MAX_POST_SIZE:=bufferSize * 4, _settings)
+            ' use a generous default POST body limit (16 MB) instead of
+            ' bufferSize*4 which is only ~16 KB for the default 4 KB buffer.
+            Return New HttpProcessor(client, Me, MAX_POST_SIZE:=16 * 1024 * 1024, _settings)
         End Function
     End Class
 End Namespace

@@ -59,22 +59,24 @@ Imports Microsoft.VisualBasic.Data.IO
 
 Public Class SessionFile
 
-    ReadOnly keyfile As String
-    ReadOnly datafile As String
-
+    Friend ReadOnly keyfile As String
+    Friend ReadOnly datafile As String
     ''' <summary>
     ''' in-memory index of [key => {keyOffsetInKeyfile, dataPosition, dataSize}] built lazily to
     ''' avoid a full linear scan of the key file on every read/write.
     ''' </summary>
-    ReadOnly index As New Dictionary(Of String, Long())
+    Friend ReadOnly index As New Dictionary(Of String, Long())
+
     ''' <summary>
     ''' protects all file access; the session store may be hit concurrently by many HTTP requests.
     ''' </summary>
     ReadOnly [syncLock] As New Object
+    ReadOnly writer As FileWriter
 
     Sub New(keyfile As String, datafile As String)
         Me.datafile = datafile
         Me.keyfile = keyfile
+        Me.writer = New FileWriter With {.session = Me}
 
         If Not Me.keyfile.FileExists Then
             Call (New Byte() {}).FlushStream(Me.keyfile)
@@ -92,74 +94,9 @@ Public Class SessionFile
                 lastBlock = New BufferRegion
             End If
 
-            If region Is Nothing Then
-                ' append new region. always write data at the current end of the
-                ' data file (not lastBlock.nextBlock) to avoid overwriting an
-                ' earlier key's data when keys are not strictly offset-ordered.
-                Dim dataOffset As Long
-                Using s As New FileStream(datafile, FileMode.Open)
-                    s.Seek(0, SeekOrigin.End)
-                    dataOffset = s.Position
-                    s.Write(data, 0, data.Length)
-                    s.Flush()
-                End Using
-                Using s As New BinaryDataWriter(New FileStream(keyfile, FileMode.Append), Encoding.ASCII)
-                    s.Write(key, BinaryStringFormat.ZeroTerminated)
-                    s.Write(dataOffset)
-                    s.Write(data.Length)
-                    s.Flush()
-                End Using
-
-                ' update index with the new key location
-                index(key) = {offset, dataOffset, data.Length}
-            ElseIf data.Length = region.size Then
-                ' overrides
-                Using s As New BinaryDataWriter(New FileStream(datafile, FileMode.Open), Encoding.ASCII)
-                    s.Seek(region.position, SeekOrigin.Begin)
-                    s.Write(data, 0, data.Length)
-                    s.Flush()
-                End Using
-
-                If index.ContainsKey(key) Then
-                    index(key)(2) = data.Length
-                End If
-            ElseIf data.Length < region.size Then
-                ' update region size and then overrides data
-                Using s As New BinaryDataWriter(New FileStream(keyfile, FileMode.Open), Encoding.ASCII)
-                    s.Seek(offset + key.Length + 1 + 8, SeekOrigin.Begin)
-                    s.Write(data.Length)
-                    s.Flush()
-                End Using
-                Using s As New BinaryDataWriter(New FileStream(datafile, FileMode.Open), Encoding.ASCII)
-                    s.Seek(region.position, SeekOrigin.Begin)
-                    s.Write(data, 0, data.Length)
-                    s.Flush()
-                End Using
-
-                If index.ContainsKey(key) Then
-                    index(key)(2) = data.Length
-                End If
-            Else
-                ' erase the data, and write to new location
-                Dim dataOffset As Long
-
-                Using s As New BinaryDataWriter(New FileStream(datafile, FileMode.Open), Encoding.ASCII)
-                    s.Seek(s.BaseStream.Length, SeekOrigin.Begin)
-                    dataOffset = s.Position
-                    s.Write(data, 0, data.Length)
-                    s.Flush()
-                End Using
-                Using s As New BinaryDataWriter(New FileStream(keyfile, FileMode.Open), Encoding.ASCII)
-                    s.Seek(offset + key.Length + 1, SeekOrigin.Begin)
-                    s.Write(dataOffset)
-                    s.Write(data.Length)
-                    s.Flush()
-                End Using
-
-                If index.ContainsKey(key) Then
-                    index(key) = {offset, dataOffset, data.Length}
-                End If
-            End If
+            writer.key = key
+            writer.data = data
+            writer.SaveKey(region, lastBlock, offset)
         End SyncLock
 
         Return True
@@ -208,20 +145,22 @@ Public Class SessionFile
     End Function
 
     Public Function OpenKey(key As String) As Byte()
-        Dim region As BufferRegion = SearchKey(key)
+        SyncLock [syncLock]
+            Dim region As BufferRegion = SearchKey(key)
 
-        If region Is Nothing Then
-            Return Nothing
-        Else
-            Using s As New FileStream(datafile, FileMode.Open)
-                Dim load As Byte() = New Byte(region.size - 1) {}
+            If region Is Nothing Then
+                Return Nothing
+            Else
+                Using s As New FileStream(datafile, FileMode.Open)
+                    Dim load As Byte() = New Byte(region.size - 1) {}
 
-                Call s.Seek(region.position, SeekOrigin.Begin)
-                Call s.Read(load, Scan0, load.Length)
+                    Call s.Seek(region.position, SeekOrigin.Begin)
+                    Call s.Read(load, Scan0, load.Length)
 
-                Return load
-            End Using
-        End If
+                    Return load
+                End Using
+            End If
+        End SyncLock
     End Function
 
     ''' <summary>
@@ -235,41 +174,45 @@ Public Class SessionFile
 
         SyncLock [syncLock]
             Using s As New BinaryDataReader(New FileStream(keyfile, FileMode.Open), Encoding.ASCII)
-                Dim skey As String
-                Dim start As Long
-                Dim len As Integer
-
-                ' rebuild the in-memory index while scanning, so subsequent
-                ' lookups for any key can skip the linear scan entirely.
-                If index.Count = 0 Then
-                    Call buildIndex(s)
-                End If
-
-                If index.ContainsKey(key) Then
-                    Dim hit As Long() = index(key)
-                    keyOffset = hit(0)
-                    Return New BufferRegion(hit(1), CInt(hit(2)))
-                End If
-
-                ' fall back to a linear scan only when the index is not yet complete
-                ' (e.g. the file grew after the index was built)
-                s.Seek(Scan0, SeekOrigin.Begin)
-
-                While Not s.EndOfStream
-                    Dim entryOffset As Long = s.Position
-                    skey = s.ReadString(BinaryStringFormat.ZeroTerminated)
-                    start = s.ReadInt64
-                    len = s.ReadInt32
-
-                    If skey = key Then
-                        keyOffset = entryOffset
-                        Return New BufferRegion(start, len)
-                    Else
-                        lastBlock = New BufferRegion(start, len)
-                    End If
-                End While
+                Return SearchKey(s, key, lastBlock, keyOffset)
             End Using
         End SyncLock
+    End Function
+
+    Private Function SearchKey(s As BinaryDataReader, key As String, ByRef lastBlock As BufferRegion, ByRef keyOffset As Long)
+        Dim skey As String
+        Dim start As Long
+        Dim len As Integer
+
+        ' rebuild the in-memory index while scanning, so subsequent
+        ' lookups for any key can skip the linear scan entirely.
+        If index.Count = 0 Then
+            Call buildIndex(s)
+        End If
+
+        If index.ContainsKey(key) Then
+            Dim hit As Long() = index(key)
+            keyOffset = hit(0)
+            Return New BufferRegion(hit(1), CInt(hit(2)))
+        End If
+
+        ' fall back to a linear scan only when the index is not yet complete
+        ' (e.g. the file grew after the index was built)
+        s.Seek(Scan0, SeekOrigin.Begin)
+
+        While Not s.EndOfStream
+            Dim entryOffset As Long = s.Position
+            skey = s.ReadString(BinaryStringFormat.ZeroTerminated)
+            start = s.ReadInt64
+            len = s.ReadInt32
+
+            If skey = key Then
+                keyOffset = entryOffset
+                Return New BufferRegion(start, len)
+            Else
+                lastBlock = New BufferRegion(start, len)
+            End If
+        End While
 
         Return Nothing
     End Function

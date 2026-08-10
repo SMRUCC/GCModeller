@@ -89,10 +89,11 @@ Namespace Core.HttpOptions
         Public Sub HandlePreflightRequest(p As HttpProcessor)
             Dim request As New HttpRequest(p)
             Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure, p._settings)
+            response.m_requestHeaders = p.httpHeaders
             Dim httpStream As StreamWriter = response.response
 
             Call httpStream.WriteLine($"HTTP/1.1 204 No Content")
-            Call httpStream.WriteLine($"Date: {Now.ToString}")
+            Call httpStream.WriteLine($"Date: {DateTime.UtcNow.ToString("R")}")
             Call httpStream.WriteLine($"Server: {HttpProcessor.VBS_platform}")
             Call httpStream.WriteLine($"Access-Control-Allow-Origin: {If(p._settings?.cors_allow_origin, "*")}")
             Call httpStream.WriteLine($"Access-Control-Allow-Methods: {If(p._settings?.cors_allow_methods, "POST, GET, OPTIONS")}")

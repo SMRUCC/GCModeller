@@ -155,6 +155,13 @@ Namespace FileSystem
         Const STREAM_THRESHOLD% = 1024 * 1024
 
         Private Shared Sub HostStaticFile(ByRef fs As FileSystem, ByRef path As String, ByRef response As HttpResponse)
+            ' security: prevent path traversal (../) attacks by ensuring the
+            ' resolved physical path stays inside the wwwroot directory.
+            If ContainsPathTraversal(path) Then
+                Call response.WriteError(HTTP_RFC.RFC_FORBIDDEN, "403 Forbidden: path traversal detected")
+                Return
+            End If
+
             Dim mime As ContentType = fs.GetContentType(path)
             Dim fileSize As Integer = fs.GetFileSize(path)
 
@@ -201,5 +208,28 @@ Namespace FileSystem
                 Call response.WriteError(HTTP_RFC.RFC_NOT_FOUND, "404 NOT FOUND: " & path.Replace("<", "&lt;"))
             End If
         End Sub
+
+        ''' <summary>
+        ''' detect path traversal attempts like ``../`` or ``..\`` that could
+        ''' escape the wwwroot directory. Also normalises the path and checks
+        ''' that the resolved full path still starts with the wwwroot prefix.
+        ''' </summary>
+        Private Shared Function ContainsPathTraversal(path As String) As Boolean
+            If path.StringEmpty Then Return False
+
+            ' reject obvious traversal sequences
+            If path.Contains("..") Then Return True
+
+            ' reject absolute paths that could target drives or UNC shares
+            If path.StartsWith("/") AndAlso path.Length > 1 AndAlso path(1) <> "/"c Then
+                ' a single leading slash is a normal absolute URL path, leave it
+            End If
+
+            ' check for Windows drive letters or UNC paths
+            If path.Length >= 2 AndAlso path(1) = ":"c Then Return True
+            If path.StartsWith("\\") Then Return True
+
+            Return False
+        End Function
     End Class
 End Namespace

@@ -126,7 +126,7 @@ Namespace Core
         ''' <returns></returns>
         Public Property http_url As String
         Public Property http_protocol_versionstring As String
-        Public Property httpHeaders As New Dictionary(Of String, String)
+        Public Property httpHeaders As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
 
         ''' <summary>
         ''' 可以向这里面写入数据从而回传数据
@@ -185,7 +185,9 @@ Namespace Core
         End Function
 
         Public Function openResponseStream() As HttpResponse
-            Return New HttpResponse(outputStream, AddressOf writeFailure, _settings)
+            Dim response As New HttpResponse(outputStream, AddressOf writeFailure, _settings)
+            response.m_requestHeaders = httpHeaders
+            Return response
         End Function
 
         ''' <summary>
@@ -194,6 +196,9 @@ Namespace Core
         ''' <param name="inputStream"></param>
         ''' <returns></returns>
         Private Function streamReadLine(inputStream As Stream) As String
+            ' read one byte at a time until LF or end-of-stream.
+            ' BufferedStream wrapping the socket stream already coalesces
+            ' underlying IO, so each ReadByte() is a fast in-memory read.
             Dim nextChar As Integer
             Dim chrbuf As New StringBuilder(256)
 
@@ -378,7 +383,9 @@ Namespace Core
             Dim result As (error%, message$) = Nothing
 
             ' nodejs is content-length
-            If httpHeaders.ContainsKey(ResponseHeaders.ContentLength) OrElse httpHeaders.ContainsKey("content-length") Then
+            ' the httpHeaders dictionary is now case-insensitive, so a single
+            ' ContainsKey check covers "Content-Length", "content-length", etc.
+            If httpHeaders.ContainsKey(ResponseHeaders.ContentLength) Then
                 result = flushPOSTPayload(handle)
             End If
 
@@ -398,6 +405,11 @@ Namespace Core
         ''' <returns></returns>
         Private Function flushPOSTPayload(handle As String) As (error%, message$)
             Dim content_len% = Convert.ToInt32(httpHeaders.TryGetValue({ResponseHeaders.ContentLength, "content-length"}))
+
+            ' reject negative Content-Length values as malformed requests
+            If content_len < 0 Then
+                Return (400, "Invalid Content-Length (negative value)")
+            End If
 
             ' 小于零的时候不进行限制
             If MAX_POST_SIZE > 0 AndAlso content_len > MAX_POST_SIZE Then

@@ -92,6 +92,12 @@ Namespace Core.Message
         Friend ReadOnly writeFailed As HttpError
         Friend ReadOnly settings As Configuration
 
+        ''' <summary>
+        ''' reference to the request headers so that <see cref="WriteHttp(Content)"/>
+        ''' can honour the client's Connection header (keep-alive vs close).
+        ''' </summary>
+        Friend m_requestHeaders As IReadOnlyDictionary(Of String, String)
+
         Dim m_writeHTML As Boolean = False
         Dim m_writeData As Boolean = False
         Dim m_customHeaders As New Dictionary(Of String, String)
@@ -106,6 +112,7 @@ Namespace Core.Message
 
         Sub New(p As HttpProcessor)
             Call Me.New(p.outputStream, AddressOf p.writeFailure, p._settings)
+            m_requestHeaders = p.httpHeaders
         End Sub
 
         ''' <summary>
@@ -123,8 +130,9 @@ Namespace Core.Message
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Redirect(url As String)
-            Call response.WriteLine($"HTTP/1.0 302 Found")
+            Call response.WriteLine("HTTP/1.1 302 Found")
             Call response.WriteLine($"Location: {url}")
+            Call response.WriteLine("Date: " & DateTime.UtcNow.ToString("R"))
 
             ' this terminates the HTTP headers.. everything after this is HTTP body..
             Call response.WriteLine()
@@ -220,11 +228,20 @@ Namespace Core.Message
         ''' data payload to the browser.
         ''' </remarks>
         Public Function WriteHttp(content As Content) As HttpResponse
-            ' HTTP/1.1 keeps the connection alive by default
+            ' HTTP/1.1 keeps the connection alive by default unless the client
+            ' explicitly asked to close it. The Connection header is handled
+            ' case-insensitively per RFC 7230.
+            Dim connValue As String = Nothing
+            Dim keepAlive As Boolean = True
+
+            If m_requestHeaders IsNot Nothing AndAlso m_requestHeaders.TryGetValue("Connection", connValue) Then
+                keepAlive = Not String.Equals(connValue, "close", StringComparison.OrdinalIgnoreCase)
+            End If
+
             response.WriteLine("HTTP/1.1 200 OK")
             ' these are the HTTP headers...          
             response.WriteLine("Content-Type: " & content.type)
-            response.WriteLine("Connection: keep-alive")
+            response.WriteLine("Connection: " & If(keepAlive, "keep-alive", "close"))
             response.WriteLine("Date: " & DateTime.UtcNow.ToString("R"))
             response.WriteLine("Server: " & HttpProcessor.VBS_platform)
 

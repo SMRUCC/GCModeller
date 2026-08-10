@@ -200,7 +200,15 @@ Namespace Core
                 ' acquire a semaphore slot before scheduling the handler; the slot
                 ' will be released by RunTask once processing completes.
                 Call _connectionSemaphore.Wait()
-                Call RunTask(Sub(o) Call processor.Process())
+
+                Try
+                    Call RunTask(Sub(o) Call processor.Process())
+                Catch ex As Exception
+                    ' if RunTask itself throws before the work item is queued,
+                    ' release the slot we just acquired to avoid a leak.
+                    Call _connectionSemaphore.Release()
+                    Throw
+                End Try
             Catch ex As Exception
                 Call App.LogException(ex)
             End Try
@@ -218,7 +226,25 @@ Namespace Core
         ''' </summary>
         Public Sub Shutdown()
             Is_active = False
-            _httpListener.Stop()
+
+            Try
+                _httpListener.Stop()
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+
+            ' wait for active workers to finish (with a reasonable timeout)
+            ' so in-flight requests are not abruptly terminated.
+            ' note: if Shutdown is called from within a worker thread (e.g.
+            ' the /ctrl/kill handler), that thread itself holds one
+            ' _accept_workers count which it cannot release until this method
+            ' returns. So we wait for the count to drop to at most 1 (the
+            ' calling worker itself) rather than 0.
+            Dim deadline As DateTime = DateTime.UtcNow.AddSeconds(10)
+
+            Do While _accept_workers > 1 AndAlso DateTime.UtcNow < deadline
+                Call Thread.Sleep(50)
+            Loop
         End Sub
 
         ''' <summary>
@@ -265,6 +291,11 @@ Namespace Core
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
                     Call Shutdown()
+
+                    ' release the connection semaphore to free its unmanaged
+                    ' wait handle. CurrentVersion (net6+) SemaphoreSlim.Dispose()
+                    ' is safe to call after Shutdown.
+                    _connectionSemaphore?.Dispose()
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
