@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::092f5306ec442de28138eddc11f843c3, mime\applicationvnd.openxmlformats-officedocument.wordprocessingml.document\docx\WordDocument.vb"
+﻿#Region "Microsoft.VisualBasic::779145fd5e68cef35d02b110945ea883, mime\applicationvnd.openxmlformats-officedocument.wordprocessingml.document\docx\WordDocument.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1008
-    '    Code Lines: 734 (72.82%)
-    ' Comment Lines: 155 (15.38%)
-    '    - Xml Docs: 47.10%
+    '   Total Lines: 1183
+    '    Code Lines: 863 (72.95%)
+    ' Comment Lines: 163 (13.78%)
+    '    - Xml Docs: 44.79%
     ' 
-    '   Blank Lines: 119 (11.81%)
-    '     File Size: 50.83 KB
+    '   Blank Lines: 157 (13.27%)
+    '     File Size: 59.80 KB
 
 
     ' Class WordDocument
@@ -55,12 +55,19 @@
     '               GetCodeStyle, GetDefaultStyle, GetHeadingStyles, GetImages, GetMargins
     '               GetPageHeight, GetPageWidth, GetParagraphStyle, GetTableStyle, GetTitleStyle
     '               H1, H2, H3, H4, H5
-    '               H6, Heading, HeadingStyle, Hr, Image
-    '               List, PageBreak, PageSetup, PageSetupA4, PageSetupLetter
-    '               (+2 Overloads) Paragraph, ParagraphStyle, PtToTwip, (+3 Overloads) Table, (+2 Overloads) TableAutoFitContents
-    '               (+2 Overloads) TableAutoFitWindow, TableStyle, TaskList, TitleStyle, Toc
-    '               ToEmu, ToJagged1D, ToJagged2D, WriteAutoFitTable, WriteBlocks
-    '               XEsc
+    '               H6, Heading, HeadingStyle, Hr, IDW_Blockquote
+    '               IDW_BlockquoteStyle, IDW_CodeBlock, IDW_CodeStyle, IDW_DefaultStyle, IDW_DefinitionList
+    '               IDW_DocTitle, IDW_H1, IDW_H2, IDW_H3, IDW_H4
+    '               IDW_H5, IDW_H6, IDW_Heading, IDW_HeadingStyle, IDW_Hr
+    '               IDW_Image, IDW_List, IDW_PageBreak, IDW_PageSetup, IDW_PageSetupA4
+    '               IDW_PageSetupLetter, IDW_Paragraph, IDW_Paragraph2, IDW_ParagraphStyle, IDW_Table1
+    '               IDW_Table2, IDW_Table3, IDW_TableAutoFitContents1, IDW_TableAutoFitContents2, IDW_TableAutoFitWindow1
+    '               IDW_TableAutoFitWindow2, IDW_TableStyle, IDW_TaskList, IDW_TitleStyle, IDW_Toc
+    '               IDW_WriteBlocks, Image, List, PageBreak, PageSetup
+    '               PageSetupA4, PageSetupLetter, (+2 Overloads) Paragraph, ParagraphStyle, PtToTwip
+    '               (+3 Overloads) Table, (+2 Overloads) TableAutoFitContents, (+2 Overloads) TableAutoFitWindow, TableStyle, TaskList
+    '               TitleStyle, Toc, ToEmu, ToJagged1D, ToJagged2D
+    '               WriteAutoFitTable, WriteBlocks, XEsc
     ' 
     '     Sub: ResolveImageExtent, Save, WriteBlock
     '     Class ImageEntry
@@ -105,15 +112,15 @@ Imports std = System.Math
 ''' 支持通过流式 API 构建 docx 文档，包括标题、段落、表格、图片、
 ''' 目录(TOC)、分页符、代码块、引用、列表等。
 ''' </summary>
-Public Class WordDocument
+Public Class WordDocument : Implements IDocumentWriter
 
     ' === 元数据 ===
-    Public Property Author As String = ""
-    Public Property Title As String = ""
-    Public Property Subject As String = ""
-    Public Property Description As String = ""
-    Public Property Tags As String() = {}
-    Public Property ApplicationName As String = "VB.NET WordDocument Generator"
+    Public Property Author As String = "" Implements IDocumentWriter.Author
+    Public Property Title As String = "" Implements IDocumentWriter.Title
+    Public Property Subject As String = "" Implements IDocumentWriter.Subject
+    Public Property Description As String = "" Implements IDocumentWriter.Description
+    Public Property Tags As String() = {} Implements IDocumentWriter.Tags
+    Public Property ApplicationName As String = "VB.NET WordDocument Generator" Implements IDocumentWriter.ApplicationName
 
     ' === 页面设置 (twips) ===
     Private _pageWidth As Integer = 11906   ' A4 宽
@@ -1000,7 +1007,7 @@ Public Class WordDocument
     ' ========================================================================
 
     ''' <summary>保存为 .docx 文件。</summary>
-    Public Sub Save(filePath As String)
+    Public Sub Save(filePath As String) Implements IDocumentWriter.Save
         Dim packager As New DocxPackager()
         packager.Save(Me, filePath)
     End Sub
@@ -1080,5 +1087,179 @@ Public Class WordDocument
         End Select
     End Function
 
-End Class
+    ' ========================================================================
+    ' IDocumentWriter 显式接口实现
+    '
+    ' 现有公开方法的签名与返回类型（WordDocument）一律保持不变，下方
+    ' 以显式接口实现转调既有方法，从而在不破坏任何调用方的前提下让
+    ' WordDocument 满足 IDocumentWriter 契约。所有写入方法返回接口自身
+    ' 以支持链式调用。
+    ' ========================================================================
 
+    Private Function IDW_HeadingStyle(level As Integer, style As WordStyle) As IDocumentWriter Implements IDocumentWriter.HeadingStyle
+        Return HeadingStyle(level, style)
+    End Function
+
+    Private Function IDW_ParagraphStyle(style As WordStyle) As IDocumentWriter Implements IDocumentWriter.ParagraphStyle
+        Return ParagraphStyle(style)
+    End Function
+
+    Private Function IDW_DefaultStyle(style As WordStyle) As IDocumentWriter Implements IDocumentWriter.DefaultStyle
+        Return DefaultStyle(style)
+    End Function
+
+    Private Function IDW_TableStyle(style As TableStyle) As IDocumentWriter Implements IDocumentWriter.TableStyle
+        Return TableStyle(style)
+    End Function
+
+    Private Function IDW_CodeStyle(style As WordStyle) As IDocumentWriter Implements IDocumentWriter.CodeStyle
+        Return CodeStyle(style)
+    End Function
+
+    Private Function IDW_BlockquoteStyle(style As WordStyle) As IDocumentWriter Implements IDocumentWriter.BlockquoteStyle
+        Return BlockquoteStyle(style)
+    End Function
+
+    Private Function IDW_TitleStyle(style As WordStyle) As IDocumentWriter Implements IDocumentWriter.TitleStyle
+        Return TitleStyle(style)
+    End Function
+
+    Private Function IDW_PageSetup(pageWidth As Integer, pageHeight As Integer,
+                                   marginTop As Integer, marginRight As Integer,
+                                   marginBottom As Integer, marginLeft As Integer) As IDocumentWriter Implements IDocumentWriter.PageSetup
+        Return PageSetup(pageWidth, pageHeight, marginTop, marginRight, marginBottom, marginLeft)
+    End Function
+
+    Private Function IDW_PageSetupA4() As IDocumentWriter Implements IDocumentWriter.PageSetupA4
+        Return PageSetupA4()
+    End Function
+
+    Private Function IDW_PageSetupLetter() As IDocumentWriter Implements IDocumentWriter.PageSetupLetter
+        Return PageSetupLetter()
+    End Function
+
+    Private Function IDW_DocTitle(text As String) As IDocumentWriter Implements IDocumentWriter.DocTitle
+        Return DocTitle(text)
+    End Function
+
+    Private Function IDW_H1(text As String) As IDocumentWriter Implements IDocumentWriter.H1
+        Return H1(text)
+    End Function
+
+    Private Function IDW_H2(text As String) As IDocumentWriter Implements IDocumentWriter.H2
+        Return H2(text)
+    End Function
+
+    Private Function IDW_H3(text As String) As IDocumentWriter Implements IDocumentWriter.H3
+        Return H3(text)
+    End Function
+
+    Private Function IDW_H4(text As String) As IDocumentWriter Implements IDocumentWriter.H4
+        Return H4(text)
+    End Function
+
+    Private Function IDW_H5(text As String) As IDocumentWriter Implements IDocumentWriter.H5
+        Return H5(text)
+    End Function
+
+    Private Function IDW_H6(text As String) As IDocumentWriter Implements IDocumentWriter.H6
+        Return H6(text)
+    End Function
+
+    Private Function IDW_Heading(level As Integer, text As String) As IDocumentWriter Implements IDocumentWriter.Heading
+        Return Heading(level, text)
+    End Function
+
+    Private Function IDW_Paragraph(text As String) As IDocumentWriter Implements IDocumentWriter.Paragraph
+        Return Paragraph(text)
+    End Function
+
+    Private Function IDW_Paragraph2(text As String, style As WordStyle) As IDocumentWriter Implements IDocumentWriter.Paragraph
+        Return Paragraph(text, style)
+    End Function
+
+    Private Function IDW_CodeBlock(code As String, Optional language As String = "") As IDocumentWriter Implements IDocumentWriter.CodeBlock
+        Return CodeBlock(code, language)
+    End Function
+
+    Private Function IDW_Blockquote(text As String) As IDocumentWriter Implements IDocumentWriter.Blockquote
+        Return Blockquote(text)
+    End Function
+
+    Private Function IDW_List(items As String(), Optional ordered As Boolean = False) As IDocumentWriter Implements IDocumentWriter.List
+        Return List(items, ordered)
+    End Function
+
+    Private Function IDW_TaskList(items As String(), checked As Boolean()) As IDocumentWriter Implements IDocumentWriter.TaskList
+        Return TaskList(items, checked)
+    End Function
+
+    Private Function IDW_DefinitionList(terms As String(), definitions As String()) As IDocumentWriter Implements IDocumentWriter.DefinitionList
+        Return DefinitionList(terms, definitions)
+    End Function
+
+    Private Function IDW_Hr() As IDocumentWriter Implements IDocumentWriter.Hr
+        Return Hr()
+    End Function
+
+    Private Function IDW_PageBreak() As IDocumentWriter Implements IDocumentWriter.PageBreak
+        Return PageBreak()
+    End Function
+
+    Private Function IDW_Toc(Optional maxLevel As Integer = 3) As IDocumentWriter Implements IDocumentWriter.Toc
+        Return Toc(maxLevel)
+    End Function
+
+    Private Function IDW_Table1(headers As String(), data As String(,)) As IDocumentWriter Implements IDocumentWriter.Table
+        Return Table(headers, data)
+    End Function
+
+    Private Function IDW_Table2(headers As String(), data As String(,), alignments As String()) As IDocumentWriter Implements IDocumentWriter.Table
+        Return Table(headers, data, alignments)
+    End Function
+
+    Private Function IDW_Table3(headers As String(), rows As String()(),
+                                Optional alignments As String() = Nothing) As IDocumentWriter Implements IDocumentWriter.Table
+        Return Table(headers, rows, alignments)
+    End Function
+
+    Private Function IDW_TableAutoFitWindow1(headers As String(), rows As String()(),
+                                             Optional alignments As String() = Nothing,
+                                             Optional center As Boolean = False,
+                                             Optional threeLine As Boolean = False) As IDocumentWriter Implements IDocumentWriter.TableAutoFitWindow
+        Return TableAutoFitWindow(headers, rows, alignments, center, threeLine)
+    End Function
+
+    Private Function IDW_TableAutoFitContents1(headers As String(), rows As String()(),
+                                               Optional alignments As String() = Nothing,
+                                               Optional center As Boolean = False,
+                                               Optional threeLine As Boolean = False) As IDocumentWriter Implements IDocumentWriter.TableAutoFitContents
+        Return TableAutoFitContents(headers, rows, alignments, center, threeLine)
+    End Function
+
+    Private Function IDW_TableAutoFitWindow2(headers As String(,), rows As String(,),
+                                             Optional alignments As String() = Nothing,
+                                             Optional center As Boolean = False,
+                                             Optional threeLine As Boolean = False) As IDocumentWriter Implements IDocumentWriter.TableAutoFitWindow
+        Return TableAutoFitWindow(headers, rows, alignments, center, threeLine)
+    End Function
+
+    Private Function IDW_TableAutoFitContents2(headers As String(,), rows As String(,),
+                                               Optional alignments As String() = Nothing,
+                                               Optional center As Boolean = False,
+                                               Optional threeLine As Boolean = False) As IDocumentWriter Implements IDocumentWriter.TableAutoFitContents
+        Return TableAutoFitContents(headers, rows, alignments, center, threeLine)
+    End Function
+
+    Private Function IDW_Image(file As String,
+                               Optional width As Double = 0,
+                               Optional height As Double = 0,
+                               Optional caption As String = "") As IDocumentWriter Implements IDocumentWriter.Image
+        Return Image(file, width, height, caption)
+    End Function
+
+    Private Function IDW_WriteBlocks(blocks As IEnumerable(Of JSONSchema.Block)) As IDocumentWriter Implements IDocumentWriter.WriteBlocks
+        Return WriteBlocks(blocks)
+    End Function
+
+End Class
