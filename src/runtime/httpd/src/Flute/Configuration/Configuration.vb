@@ -75,6 +75,21 @@ Namespace Configurations
         <Description("user session in server backend")>
         Public Property session As Session
 
+        <Description("request read timeout in milliseconds, a slow client will be disconnected when exceeded this value. Default 30000 (30s).")>
+        Public Property request_timeout As Integer = 30000
+
+        <Description("a secret token required in the 'X-Shutdown-Token' header to allow the /ctrl/kill endpoint to stop the server. A null/empty value disables remote shutdown entirely.")>
+        Public Property shutdown_token As String = ""
+
+        <Description("comma separated list of allowed CORS origins. Use '*' (default) to allow any origin.")>
+        Public Property cors_allow_origin As String = "*"
+
+        <Description("comma separated list of allowed CORS methods.")>
+        Public Property cors_allow_methods As String = "POST, GET, OPTIONS"
+
+        <Description("comma separated list of allowed CORS headers.")>
+        Public Property cors_allow_headers As String = "X-PINGOTHER, Content-Type"
+
         Public Shared Function [Default]() As Configuration
             Return New Configuration With {.session = New Session}
         End Function

@@ -140,10 +140,11 @@ Namespace Core
         End Property
 
         ''' <summary>
-        ''' 10MB
+        ''' default maximum POST body size: 16MB
+        ''' a negative value (e.g. -1) means no limit.
         ''' </summary>
         ''' <remarks></remarks>
-        ReadOnly MAX_POST_SIZE% = 128 * 1024 * 1024
+        ReadOnly MAX_POST_SIZE% = 16 * 1024 * 1024
 
         ''' <summary>
         ''' If current request url is indicates the HTTP root:  index.html
@@ -159,8 +160,8 @@ Namespace Core
         Public Sub New(socket As TcpClient, srv As HttpServer, MAX_POST_SIZE%, settings As Configuration)
             Me.socket = socket
             Me.srv = srv
-            Me.MAX_POST_SIZE = MAX_POST_SIZE
-            Me.MAX_POST_SIZE = -1
+            ' a negative incoming value (e.g. -1) keeps the default 16MB limit disabled
+            Me.MAX_POST_SIZE = If(MAX_POST_SIZE > 0, MAX_POST_SIZE, Me.MAX_POST_SIZE)
             Me._settings = settings
         End Sub
 
@@ -194,11 +195,15 @@ Namespace Core
         ''' <returns></returns>
         Private Function streamReadLine(inputStream As Stream) As String
             Dim nextChar As Integer
-            Dim chrbuf As New List(Of Char)
-            Dim n As Integer
+            Dim chrbuf As New StringBuilder(256)
 
             While True
                 nextChar = inputStream.ReadByte()
+
+                ' stream end or client disconnect: stop reading
+                If nextChar = -1 Then
+                    Exit While
+                End If
 
                 If nextChar = ASCII.Byte.LF Then
                     Exit While
@@ -207,27 +212,19 @@ Namespace Core
                     Continue While
                 End If
 
-                If nextChar = -1 Then
-                    Call Thread.Sleep(1)
-
-                    n += 1
-
-                    If n > 1024 Then
-                        Exit While
-                    Else
-                        Continue While
-                    End If
-                End If
-
-                Call chrbuf.Add(Convert.ToChar(nextChar))
+                Call chrbuf.Append(Convert.ToChar(nextChar))
             End While
 
-            Return New String(chrbuf.ToArray)
+            Return chrbuf.ToString
         End Function
 
         Public Sub Process()
             ' we can't use a StreamReader for input, because it buffers up extra data on us inside it's
             ' "processed" view of the world, and we want the data raw after the headers
+            If _settings IsNot Nothing AndAlso _settings.request_timeout > 0 Then
+                socket.ReceiveTimeout = _settings.request_timeout
+            End If
+
             _inputStream = New BufferedStream(socket.GetStream())
 
             ' we probably shouldn't be using a streamwriter for all output from handlers either
@@ -268,7 +265,7 @@ Namespace Core
             Try
                 Call socket.Close()
             Catch ex As Exception
-
+                Call App.LogException(ex)
             End Try
         End Sub
 
@@ -307,22 +304,9 @@ Namespace Core
             Dim request As String = streamReadLine(_inputStream)
 
             If request.StringEmpty Then
-                ' 2017-3-25 因为在__streamReadLine函数之中可能会出现没有数据导致休眠时间长度可能会超过1024ms
-                ' 所以在这里只需要等待3次就行了，以避免当前线程占用系统资源的时间过长而导致对其他的请求响应过低
-                Dim wait% = 3
-
-                Do While request.StringEmpty
-                    ' 可能是网络传输速度比较慢，在这里等待一段时间再解析流之中的数据
-                    ' 但是当前的这条处理线程最多只等待wait次数
-                    Call Thread.Sleep(5)
-
-                    If wait <= 0 Then
-                        Return False
-                    Else
-                        request = streamReadLine(_inputStream)
-                        wait -= 1
-                    End If
-                Loop
+                ' no data received within the socket receive timeout window,
+                ' the client probably disconnected or sent an empty request.
+                Return False
             End If
 
             Dim tokens As String() = request.Split(" "c)
@@ -377,7 +361,7 @@ Namespace Core
             Call srv.handleGETRequest(Me)
         End Sub
 
-        Public BUF_SIZE As Integer = 4096
+        Public Const BUF_SIZE% = 4096
 
         Public Const packageTooLarge$ = "POST Content-Length({0}) too big for this web server"
 
@@ -467,34 +451,24 @@ Namespace Core
         Public Const XPoweredBy$ = "X-Powered-By: "
 
         Private Sub writeSuccess(content_type As String, content As Content)
+            ' HTTP/1.1 keeps the connection alive by default unless the client
+            ' explicitly asked to close it.
+            Dim keepAlive As Boolean = Not httpHeaders.ContainsKey("connection") OrElse
+                Not httpHeaders("connection").TextEquals("close")
+
             ' this is the successful HTTP response line
-            Call outputStream.WriteLine("HTTP/1.0 200 OK")
+            Call outputStream.WriteLine("HTTP/1.1 200 OK")
             ' these are the HTTP headers...          
             Call outputStream.WriteLine("Content-Length: " & content.length)
             Call outputStream.WriteLine("Content-Type: " & content_type)
-            Call outputStream.WriteLine("Connection: close")
+            Call outputStream.WriteLine("Connection: " & If(keepAlive, "keep-alive", "close"))
+            Call outputStream.WriteLine("Date: " & DateTime.UtcNow.ToString("R"))
+            Call outputStream.WriteLine("Server: " & VBS_platform)
             ' ..add your own headers here if you like
 
             ' Call content.WriteHeader(outputStream)
 
             Call outputStream.WriteLine(XPoweredBy & _settings.x_powered_by)
-            ' 2018-1-31 
-            ' The server committed a protocol violation. 
-            ' Section = ResponseHeader  
-            ' Detail  = CR must be followed by LF
-            '
-            ' RFC 822中的httpHeader必须以CRLF结束的规定的服务器响应。
-            '
-            ' app.config配置文件修改
-            '
-            ' <?xml version="1.0" encoding="utf-8" ?>
-            ' <configuration>
-            ' <system.net> 
-            '        <settings> 
-            '               <httpWebRequest useUnsafeHeaderParsing = "true" />
-            '        </settings>
-            ' </system.net>
-            ' </configuration>
             Call outputStream.WriteLine()
             ' this terminates the HTTP headers.. everything after this is HTTP body..
             Call outputStream.Flush()
@@ -543,10 +517,12 @@ Namespace Core
                               End Function)
 
             ' this is an http 404 failure response
-            Call outputStream.WriteLine($"HTTP/1.0 {CLng(error_code)} " & error_status(error_code))
+            Call outputStream.WriteLine($"HTTP/1.1 {CLng(error_code)} " & error_status(error_code))
             ' these are the HTTP headers
             Call outputStream.WriteLine("Content-Type: text/html")
             Call outputStream.WriteLine("Connection: close")
+            Call outputStream.WriteLine("Date: " & DateTime.UtcNow.ToString("R"))
+            Call outputStream.WriteLine("Server: " & VBS_platform)
             ' ..add your own headers here
             Call outputStream.WriteLine(XPoweredBy & _settings.x_powered_by)
             ' this terminates the HTTP headers.

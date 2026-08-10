@@ -92,9 +92,9 @@ Namespace Core.Message
         Friend ReadOnly writeFailed As HttpError
         Friend ReadOnly settings As Configuration
 
-        Dim __writeHTML As Boolean = False
-        Dim __writeData As Boolean = False
-        Dim __customHeaders As New Dictionary(Of String, String)
+        Dim m_writeHTML As Boolean = False
+        Dim m_writeData As Boolean = False
+        Dim m_customHeaders As New Dictionary(Of String, String)
 
         Public Property AccessControlAllowOrigin As String
 
@@ -155,8 +155,8 @@ Namespace Core.Message
 
         Public Sub WriteHTML(html As String)
             ' 如果writeData是True，则说明在这之前已经写了其他数据，就不写http头部了
-            If Not __writeHTML AndAlso Not __writeData Then
-                __writeHTML = writeSuccess()
+            If Not m_writeHTML AndAlso Not m_writeData Then
+                m_writeHTML = writeSuccess()
             End If
 
             Call response.WriteLine(html)
@@ -179,7 +179,7 @@ Namespace Core.Message
         End Function
 
         Public Sub AddCustomHttpHeader(header As String, value As String)
-            __customHeaders(header) = value
+            m_customHeaders(header) = value
         End Sub
 
         Shared ReadOnly SetCookie As String = HeaderToString(HttpHeaderName.SetCookie)
@@ -191,7 +191,7 @@ Namespace Core.Message
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub SetCookies(cookies As Dictionary(Of String, String))
-            __customHeaders(SetCookie) = (
+            m_customHeaders(SetCookie) = (
                 From data As KeyValuePair(Of String, String)
                 In cookies
                 Select $"{data.Key}={data.Value}"
@@ -199,10 +199,10 @@ Namespace Core.Message
         End Sub
 
         Public Sub SetCookies(name As String, value As String)
-            If __customHeaders.ContainsKey(SetCookie) Then
-                __customHeaders(SetCookie) &= $"; {name}={value}"
+            If m_customHeaders.ContainsKey(SetCookie) Then
+                m_customHeaders(SetCookie) &= $"; {name}={value}"
             Else
-                __customHeaders.Add(SetCookie, $"{name}={value}")
+                m_customHeaders.Add(SetCookie, $"{name}={value}")
             End If
         End Sub
 
@@ -220,11 +220,13 @@ Namespace Core.Message
         ''' data payload to the browser.
         ''' </remarks>
         Public Function WriteHttp(content As Content) As HttpResponse
-            ' this is the successful HTTP response line
-            response.WriteLine("HTTP/1.0 200 OK")
+            ' HTTP/1.1 keeps the connection alive by default
+            response.WriteLine("HTTP/1.1 200 OK")
             ' these are the HTTP headers...          
             response.WriteLine("Content-Type: " & content.type)
-            response.WriteLine("Connection: close")
+            response.WriteLine("Connection: keep-alive")
+            response.WriteLine("Date: " & DateTime.UtcNow.ToString("R"))
+            response.WriteLine("Server: " & HttpProcessor.VBS_platform)
 
             ' ..add your own headers here if you like
 
@@ -236,7 +238,7 @@ Namespace Core.Message
 
             response.WriteLine(HttpProcessor.XPoweredBy & settings.x_powered_by)
 
-            For Each header As KeyValuePair(Of String, String) In __customHeaders
+            For Each header As KeyValuePair(Of String, String) In m_customHeaders
                 response.WriteLine($"{header.Key}: {header.Value}")
             Next
 
@@ -267,8 +269,8 @@ Namespace Core.Message
             Dim json As String = obj.GetJson(indent:=indent)
             Dim bytes As Byte() = TextEncodings.UTF8WithoutBOM.GetBytes(json)
 
-            If Not __writeData Then
-                __writeData = True
+            If Not m_writeData Then
+                m_writeData = True
                 Call WriteHttp(New Content With {.length = bytes.Length, .type = MIME.Json})
             End If
 
@@ -277,17 +279,17 @@ Namespace Core.Message
         End Sub
 
         Public Sub WriteXML(Of T)(obj As T)
-            __writeData = True
+            m_writeData = True
             Call response.WriteLine(obj.GetXml)
         End Sub
 
         Public Overloads Sub Write(byts As Byte())
-            __writeData = True
+            m_writeData = True
             Call response.BaseStream.Write(byts, offset:=Scan0, count:=byts.Length)
         End Sub
 
         Public Overloads Sub Write(byts As Byte(), offset As Integer, count As Integer)
-            __writeData = True
+            m_writeData = True
             Call response.BaseStream.Write(byts, offset, count)
         End Sub
 
@@ -343,7 +345,7 @@ Namespace Core.Message
         ''' </summary>
         ''' <param name="value">The character to write to the stream.</param>
         Public Overloads Sub Write(value As Char)
-            __writeData = True
+            m_writeData = True
             Call response.Write(value)
         End Sub
 
@@ -367,12 +369,13 @@ Namespace Core.Message
         Public Overrides Sub Write(value As String)
             Dim bytes As Byte() = Encoding.UTF8.GetBytes(value)
 
-            If Not __writeData Then
-                __writeData = True
+            If Not m_writeData Then
+                m_writeData = True
                 Call WriteHttp(New Content With {.length = bytes.Length, .type = MIME.Html})
             End If
 
-            Call response.Write(value)
+            ' write the already-encoded bytes directly to avoid a second UTF8 encoding pass
+            Call response.BaseStream.Write(bytes, Scan0, bytes.Length)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -399,7 +402,7 @@ Namespace Core.Message
         ''' <param name="buffer">A character array containing the data to write. If buffer is null, nothing is
         ''' written.</param>
         Public Overloads Sub Write(buffer() As Char)
-            __writeData = True
+            m_writeData = True
             Call response.Write(buffer)
         End Sub
 
@@ -432,7 +435,7 @@ Namespace Core.Message
         ''' <param name="index">The character position in the buffer at which to start reading data.</param>
         ''' <param name="count">The maximum number of characters to write.</param>
         Public Overloads Sub Write(buffer() As Char, index As Integer, count As Integer)
-            __writeData = True
+            m_writeData = True
             Call response.Write(buffer, index, count)
         End Sub
 
@@ -465,7 +468,7 @@ Namespace Core.Message
         ''' <returns>A task that represents the asynchronous write operation.</returns>
         <ComVisible(False)>
         Public Function WriteAsync(value As Char) As Tasks.Task
-            __writeData = True
+            m_writeData = True
             Return response.WriteAsync(value)
         End Function
 
@@ -483,7 +486,7 @@ Namespace Core.Message
         ''' <returns>A task that represents the asynchronous write operation.</returns>
         <ComVisible(False)>
         Public Function WriteAsync(value As String) As Tasks.Task
-            __writeData = True
+            m_writeData = True
             Return response.WriteAsync(value)
         End Function
 
@@ -512,7 +515,7 @@ Namespace Core.Message
         ''' <returns>A task that represents the asynchronous write operation.</returns>
         <ComVisible(False)>
         Public Function WriteAsync(buffer() As Char, index As Integer, count As Integer) As Tasks.Task
-            __writeData = True
+            m_writeData = True
             Return response.WriteAsync(buffer, index, count)
         End Function
 
@@ -529,7 +532,7 @@ Namespace Core.Message
         ''' <returns>A task that represents the asynchronous write operation.</returns>
         <ComVisible(False)>
         Public Function WriteLineAsync() As Tasks.Task
-            __writeData = True
+            m_writeData = True
             Return response.WriteLineAsync
         End Function
 
@@ -547,7 +550,7 @@ Namespace Core.Message
         ''' <returns>A task that represents the asynchronous write operation.</returns>
         <ComVisible(False)>
         Public Function WriteLineAsync(value As Char) As Tasks.Task
-            __writeData = True
+            m_writeData = True
             Return response.WriteLineAsync(value)
         End Function
 
@@ -564,7 +567,7 @@ Namespace Core.Message
         ''' <returns>A task that represents the asynchronous write operation.</returns>
         <ComVisible(False)>
         Public Function WriteLineAsync(value As String) As Tasks.Task
-            __writeData = True
+            m_writeData = True
             Return response.WriteLineAsync(value)
         End Function
 
@@ -594,7 +597,7 @@ Namespace Core.Message
         ''' <returns>A task that represents the asynchronous write operation.</returns>
         <ComVisible(False)>
         Public Function WriteLineAsync(buffer() As Char, index As Integer, count As Integer) As Tasks.Task
-            __writeData = True
+            m_writeData = True
             Return response.WriteLineAsync(buffer, index, count)
         End Function
 

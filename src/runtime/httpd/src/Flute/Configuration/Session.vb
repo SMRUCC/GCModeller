@@ -53,6 +53,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 
 Namespace Configurations
@@ -63,8 +64,15 @@ Namespace Configurations
         <Description("the prefix for the user session id.")>
         Public Property session_id_prefix As String = "flute_www_"
 
-        <Description("the directory folder path for save the session data as files.")>
-        Public Property session_store As String = "/tmp/flute_sessions/"
+        <Description("the directory folder path for save the session data as files. A null/empty value resolves to a cross-platform default under App.HOME.")>
+        Public Property session_store As String = Nothing
+
+        <Description("resolved session store directory (cross-platform).")>
+        Public ReadOnly Property sessionStorePath As String
+            Get
+                Return If(session_store.StringEmpty, Path.Combine(App.HOME, "flute_sessions"), session_store)
+            End Get
+        End Property
 
         <Description("enable the session?")>
         Public Property session_enable As Boolean = True

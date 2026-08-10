@@ -115,8 +115,18 @@ Namespace Core
             Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure, _settings)
 
             If req.HTTPMethod = "OPTIONS" AndAlso req.URL.path.Trim("/"c) = "ctrl/kill" Then
-                Call response.WriteHTML("OK!")
-                Call Me.Shutdown()
+                ' remote shutdown requires a configured token to be present
+                ' in the X-Shutdown-Token header, otherwise it is rejected.
+                Dim token As String = _settings.shutdown_token
+
+                If token.StringEmpty Then
+                    Call response.WriteHTML("Remote shutdown is disabled.")
+                ElseIf Not String.Equals(If(req.HttpHeaders.TryGetValue("X-Shutdown-Token"), ""), token, StringComparison.Ordinal) Then
+                    Call response.WriteHTML("Invalid shutdown token.")
+                Else
+                    Call response.WriteHTML("OK!")
+                    Call Me.Shutdown()
+                End If
             Else
                 Call app(req, response)
             End If

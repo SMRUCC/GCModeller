@@ -204,11 +204,30 @@ Namespace FileSystem
             Return pathRelative
         End Function
 
+        ''' <summary>
+        ''' resolve a request path against the physical filesystem and the virtual maps.
+        ''' returns the physical full path when it exists, otherwise Nothing; the
+        ''' trimmed virtual map key is always returned so callers can probe virtualMaps.
+        ''' </summary>
+        Private Function resolveFile(pathRelative As String, ByRef virtualKey As String) As String
+            Dim physical As String = resourceUrl(pathRelative)
+
+            If physical.FileExists Then
+                virtualKey = pathRelative.Trim("."c, "\"c, "/"c)
+                Return physical
+            Else
+                virtualKey = pathRelative.Trim("."c, "\"c, "/"c)
+                Return Nothing
+            End If
+        End Function
+
         Public Function GetContentType(pathRelative As String) As ContentType
             Dim extName As String = "." & pathRelative.ExtensionSuffix.ToLower
+            Dim virtualKey As String = Nothing
+            Dim physical As String = resolveFile(pathRelative, virtualKey)
 
             ' test of the physical file at first
-            If resourceUrl(pathRelative).FileExists Then
+            If physical IsNot Nothing Then
                 If MIME.SuffixTable.ContainsKey(extName) Then
                     Return MIME.SuffixTable(extName)
                 ElseIf extName = ".js" Then
@@ -216,48 +235,42 @@ Namespace FileSystem
                 Else
                     Return MIME.UnknownType
                 End If
-            Else
-                pathRelative = pathRelative.Trim("."c, "\"c, "/"c)
-
+            ElseIf virtualMaps.ContainsKey(virtualKey) Then
                 ' and then test for the logical file
-                If virtualMaps.ContainsKey(pathRelative) Then
-                    Return virtualMaps(pathRelative).mime
-                ElseIf extName = ".js" Then
-                    ' 20260810 try to handling of the bug of the esmodule js file mime type
-                    Return New ContentType("ECMAScript Module JavaScript", "application/javascript", ".js")
-                End If
+                Return virtualMaps(virtualKey).mime
+            ElseIf extName = ".js" Then
+                ' 20260810 try to handling of the bug of the esmodule js file mime type
+                Return New ContentType("ECMAScript Module JavaScript", "application/javascript", ".js")
             End If
 
             Return MIME.UnknownType
         End Function
 
         Public Function GetFileSize(pathRelative As String) As Integer
-            ' test of the physical file at first
-            If resourceUrl(pathRelative).FileExists Then
-                Return resourceUrl(pathRelative).FileLength
-            Else
-                pathRelative = pathRelative.Trim("."c, "\"c, "/"c)
+            Dim virtualKey As String = Nothing
+            Dim physical As String = resolveFile(pathRelative, virtualKey)
 
+            ' test of the physical file at first
+            If physical IsNot Nothing Then
+                Return resourceUrl(pathRelative).FileLength
+            ElseIf virtualMaps.ContainsKey(virtualKey) Then
                 ' and then test for the logical file
-                If virtualMaps.ContainsKey(pathRelative) Then
-                    Return virtualMaps(pathRelative).ContentLength
-                End If
+                Return virtualMaps(virtualKey).ContentLength
             End If
 
             Return -1
         End Function
 
         Public Function GetResource(pathRelative As String) As Stream
-            ' test of the physical file at first
-            If resourceUrl(pathRelative).FileExists Then
-                Return resourceUrl(pathRelative).Open(FileMode.Open, doClear:=False)
-            Else
-                pathRelative = pathRelative.Trim("."c, "\"c, "/"c)
+            Dim virtualKey As String = Nothing
+            Dim physical As String = resolveFile(pathRelative, virtualKey)
 
+            ' test of the physical file at first
+            If physical IsNot Nothing Then
+                Return physical.Open(FileMode.Open, doClear:=False)
+            ElseIf virtualMaps.ContainsKey(virtualKey) Then
                 ' and then test for the logical file
-                If virtualMaps.ContainsKey(pathRelative) Then
-                    Return virtualMaps(pathRelative).GetResource
-                End If
+                Return virtualMaps(virtualKey).GetResource
             End If
 
             Return New MemoryStream(buffer:={})
@@ -269,35 +282,33 @@ Namespace FileSystem
         ''' <param name="pathRelative"></param>
         ''' <returns></returns>
         Public Function GetByteBuffer(pathRelative As String) As Byte()
-            ' test of the physical file at first
-            If resourceUrl(pathRelative).FileExists Then
-                Return resourceUrl(pathRelative).ReadBinary
-            Else
-                pathRelative = pathRelative.Trim("."c, "\"c, "/"c)
+            Dim virtualKey As String = Nothing
+            Dim physical As String = resolveFile(pathRelative, virtualKey)
 
+            ' test of the physical file at first
+            If physical IsNot Nothing Then
+                Return physical.ReadBinary
+            ElseIf virtualMaps.ContainsKey(virtualKey) Then
                 ' and then test for the logical file
-                If virtualMaps.ContainsKey(pathRelative) Then
-                    Return virtualMaps(pathRelative).GetByteBuffer
-                End If
+                Return virtualMaps(virtualKey).GetByteBuffer
             End If
 
             Return {}
         End Function
 
         Public Function FileExists(pathRelative As String) As Boolean
-            ' test of the physical file at first
-            If resourceUrl(pathRelative).FileExists Then
-                Return True
-            Else
-                pathRelative = pathRelative.Trim("."c, "/"c, "\"c)
+            Dim virtualKey As String = Nothing
+            Dim physical As String = resolveFile(pathRelative, virtualKey)
 
+            ' test of the physical file at first
+            If physical IsNot Nothing Then
+                Return True
+            ElseIf virtualMaps.ContainsKey(virtualKey) Then
                 ' and then test for the logical file
-                If virtualMaps.ContainsKey(pathRelative) Then
-                    If TypeOf virtualMaps(pathRelative) Is VirtualMappedFile Then
-                        Return DirectCast(virtualMaps(pathRelative), VirtualMappedFile).isValid
-                    Else
-                        Return True
-                    End If
+                If TypeOf virtualMaps(virtualKey) Is VirtualMappedFile Then
+                    Return DirectCast(virtualMaps(virtualKey), VirtualMappedFile).isValid
+                Else
+                    Return True
                 End If
             End If
 

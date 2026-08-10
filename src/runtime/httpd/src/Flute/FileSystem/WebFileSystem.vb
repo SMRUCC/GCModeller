@@ -1,67 +1,68 @@
 ﻿#Region "Microsoft.VisualBasic::4ccebc252c5bd523a95317123888a5ce, src\Flute\FileSystem\WebFileSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 116
-    '    Code Lines: 85 (73.28%)
-    ' Comment Lines: 10 (8.62%)
-    '    - Xml Docs: 40.00%
-    ' 
-    '   Blank Lines: 21 (18.10%)
-    '     File Size: 3.96 KB
+' Summaries:
 
 
-    '     Class WebFileSystemListener
-    ' 
-    '         Properties: fs, webContext, wwwroot
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: CheckResourceFileExists, CommonGetPath
-    ' 
-    '         Sub: (+2 Overloads) HostStaticFile, WebHandler
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 116
+'    Code Lines: 85 (73.28%)
+' Comment Lines: 10 (8.62%)
+'    - Xml Docs: 40.00%
+' 
+'   Blank Lines: 21 (18.10%)
+'     File Size: 3.96 KB
+
+
+'     Class WebFileSystemListener
+' 
+'         Properties: fs, webContext, wwwroot
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: CheckResourceFileExists, CommonGetPath
+' 
+'         Sub: (+2 Overloads) HostStaticFile, WebHandler
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Flute.Http.Core
 Imports Flute.Http.Core.Message
 Imports Microsoft.VisualBasic.ApplicationServices
-Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 
@@ -83,8 +84,8 @@ Namespace FileSystem
 
         Public ReadOnly Property wwwroot As String
             Get
-                If TypeOf fs(0).wwwroot Is Directory Then
-                    Return DirectCast(fs(0).wwwroot, Directory).folder
+                If TypeOf fs(0).wwwroot Is Microsoft.VisualBasic.FileIO.Directory Then
+                    Return DirectCast(fs(0).wwwroot, Microsoft.VisualBasic.FileIO.Directory).folder
                 Else
                     Return Nothing
                 End If
@@ -139,7 +140,7 @@ Namespace FileSystem
                 ' target url path is a directory path
                 ' but request a file at here, so we needs
                 ' to redirect to index.html
-                path = path & "/index.html"
+                path = path.TrimEnd("/"c) & "/index.html"
             End If
 
             ' 20250227
@@ -147,20 +148,48 @@ Namespace FileSystem
             Return path.UrlDecode
         End Function
 
+        ''' <summary>
+        ''' threshold (bytes) below which the whole file is buffered into memory,
+        ''' above which it is streamed to the client to avoid large memory usage.
+        ''' </summary>
+        Const STREAM_THRESHOLD% = 1024 * 1024
+
         Private Shared Sub HostStaticFile(ByRef fs As FileSystem, ByRef path As String, ByRef response As HttpResponse)
             Dim mime As ContentType = fs.GetContentType(path)
-            Dim res As Byte() = fs.GetByteBuffer(path)
-            Dim content As New Content With {
-                .type = mime.MIMEType,
-                .length = res.Length
-            }
+            Dim fileSize As Integer = fs.GetFileSize(path)
 
             response.AccessControlAllowOrigin = "*"
-            response _
-                .WriteHttp(content) _
-                .SendData(res)
 
-            Erase res
+            If fileSize <= STREAM_THRESHOLD Then
+                ' small file: read fully into memory and send
+                Dim res As Byte() = fs.GetByteBuffer(path)
+                Dim content As New Content With {
+                    .type = mime.MIMEType,
+                    .length = res.Length
+                }
+
+                response _
+                    .WriteHttp(content) _
+                    .SendData(res)
+
+                Erase res
+            Else
+                ' large file: stream directly from the source stream to the client
+                Using fileStream As Stream = fs.GetResource(path)
+                    Dim content As New Content With {
+                        .type = mime.MIMEType,
+                        .length = CInt(fileSize)
+                    }
+
+                    response.WriteHttp(content)
+
+                    If fileStream IsNot Nothing Then
+                        Call fileStream.CopyTo(response.response.BaseStream, HttpProcessor.BUF_SIZE)
+                    End If
+
+                    Call response.Flush()
+                End Using
+            End If
         End Sub
 
         Public Shared Sub HostStaticFile(fs As FileSystem, request As HttpRequest, response As HttpResponse)
