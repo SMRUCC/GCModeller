@@ -69,13 +69,16 @@ Imports System.Threading
 Imports Flute.Http.Configurations
 Imports Flute.Http.Core.HttpOptions
 Imports Flute.Http.Core.Message
+Imports Flute.Http.Core.WebSocket
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
+Imports RequestHeaders = Flute.Http.Core.Message.HttpHeader.RequestHeaders
 Imports ResponseHeaders = Flute.Http.Core.Message.HttpHeader.ResponseHeaders
+Imports WebSocketProtocol = Flute.Http.Core.Message.HttpHeader.WebSocketProtocol
 Imports std = System.Math
 
 ' offered to the public domain for any use with no restriction
@@ -100,6 +103,19 @@ Namespace Core
         Friend ReadOnly _settings As Configuration
 
         Public outputStream As StreamWriter
+
+        ''' <summary>
+        ''' has current tcp connection been taken over by the websocket protocol?
+        ''' </summary>
+        ''' <remarks>
+        ''' the whole lifecycle of the underlying tcp connection is managed by the
+        ''' <see cref="WebSocketConnection"/> object after the RFC6455 handshake has
+        ''' been completed, so the http response stream flush/close operation and
+        ''' the socket close operation inside the <see cref="Process"/> method must
+        ''' be skipped when this flag is true, otherwise the websocket data frame
+        ''' will be written onto a stream which has already been closed.
+        ''' </remarks>
+        Private m_webSocketHijacked As Boolean = False
 
         ''' <summary>
         ''' 
@@ -247,8 +263,26 @@ Namespace Core
                 End If
             Catch e As Exception
                 Call e.PrintException
-                writeFailure(HTTP_RFC.RFC_INTERNAL_SERVER_ERROR, e.ToString)
+
+                ' the http response stream is no longer available for reporting an
+                ' error after the connection has been switched to the websocket
+                ' protocol, and the websocket connection object has already handled
+                ' its own error internally.
+                If Not m_webSocketHijacked Then
+                    writeFailure(HTTP_RFC.RFC_INTERNAL_SERVER_ERROR, e.ToString)
+                End If
             End Try
+
+            If m_webSocketHijacked Then
+                ' the underlying tcp connection and its network streams are owned by
+                ' the websocket connection object now, which has already released all
+                ' of these resources when its data frame loop exits. so just drop the
+                ' stream references at here and leave the socket untouched.
+                _inputStream = Nothing
+                outputStream = Nothing
+
+                Return
+            End If
 
             Try
                 Call outputStream.Flush()
@@ -287,6 +321,14 @@ Namespace Core
                 Call readHeaders()
             End If
 
+            ' the RFC6455 websocket upgrade handshake is a http GET request which
+            ' reuses current tcp connection, so it must be detected at here before
+            ' the request is dispatched to the regular http request handlers.
+            If isWebSocketRequest() Then
+                Call handleWebSocketUpgrade()
+                Return Nothing
+            End If
+
             ' 调用相对应的API进行请求的处理
             If http_method = "GET" Then
                 handleGETRequest()
@@ -300,6 +342,154 @@ Namespace Core
 
             Return Nothing
         End Function
+
+#Region "WebSocket protocol upgrade"
+
+        ''' <summary>
+        ''' test of current http request is a RFC6455 websocket upgrade handshake
+        ''' request which should be served by this server or not.
+        ''' </summary>
+        ''' <returns>
+        ''' the websocket handshake request will be treated as a regular http request
+        ''' when the websocket feature has been disabled via the server configuration,
+        ''' or no application message handler is published on the requested url path.
+        ''' </returns>
+        ''' <summary>
+        ''' get a http request header value via the plain dictionary lookup, which
+        ''' never writes a missing key warning message into the server log for an
+        ''' optional request header.
+        ''' </summary>
+        ''' <returns>
+        ''' this function always returns a string value, an empty string will be
+        ''' returned when the given request header is not presented in the request.
+        ''' </returns>
+        Private Function getHeader(name As String) As String
+            Dim value As String = Nothing
+            Return If(httpHeaders.TryGetValue(name, value), value, "")
+        End Function
+
+        Private Function isWebSocketRequest() As Boolean
+            If _settings IsNot Nothing AndAlso Not _settings.websocket_enabled Then
+                Return False
+            ElseIf Not WebSocketConnection.IsWebSocketUpgrade(http_method, httpHeaders) Then
+                Return False
+            Else
+                ' let the regular http request handler produces a 404 response when
+                ' no websocket endpoint is published on the requested url path.
+                Return srv.WebSocket.CanHandle(http_url)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' complete the RFC6455 websocket upgrade handshake and then hands over
+        ''' current tcp connection to the websocket data frame processing loop.
+        ''' </summary>
+        ''' <remarks>
+        ''' current worker thread will be blocked inside this method until the
+        ''' websocket connection is closed, which is the expected behaviour as one
+        ''' websocket connection occupies one connection slot of the server
+        ''' connection semaphore during its whole lifecycle.
+        ''' </remarks>
+        Private Sub handleWebSocketUpgrade()
+            Dim version As String = getHeader(RequestHeaders.SecWebSocketVersion).Trim
+
+            ' RFC6455 section-4.4: the server must reply a 426 response with the
+            ' supported protocol version when the client speaks another version.
+            If Not version.TextEquals(WebSocketProtocol.SupportedVersion) Then
+                Call writeWebSocketVersionMismatch(version)
+                Return
+            End If
+
+            Dim key As String = getHeader(RequestHeaders.SecWebSocketKey)
+
+            If key.StringEmpty Then
+                Call writeFailure(HTTP_RFC.RFC_BAD_REQUEST, "Missing the Sec-WebSocket-Key request header.")
+                Return
+            End If
+
+            Dim handler As WebSocket.IWebSocketHandler = srv.WebSocket.ResolveHandler(http_url)
+
+            If handler Is Nothing Then
+                ' the route table was modified by another thread just after the
+                ' isWebSocketRequest() check has been passed.
+                Call writeFailure(HTTP_RFC.RFC_NOT_FOUND, $"No websocket endpoint is published on '{http_url}'.")
+                Return
+            End If
+
+            Dim accept As String = WebSocketConnection.CreateAcceptKey(key)
+            ' the ``Sec-WebSocket-Protocol`` request header is optional, so the
+            ' plain dictionary lookup is used at here for avoid the missing key
+            ' warning log of the collection extension helper.
+            Dim subProtocol As String = WebSocketConnection.NegotiateSubProtocol(
+                clientOffer:=getHeader(RequestHeaders.SecWebSocketProtocol),
+                serverSupports:=_settings.GetWebSocketSubProtocols
+            )
+            ' the handshake response must be written onto the raw network stream
+            ' directly instead of the buffered text mode ``outputStream`` writer,
+            ' as the connection turns into the binary data frame protocol right
+            ' after this handshake response.
+            Dim network As Stream = socket.GetStream()
+
+            ' mark the hijack flag before the handshake response is written out, so
+            ' that the Process() method will never touch this connection again even
+            ' if the handshake response writing failed.
+            m_webSocketHijacked = True
+
+            Call WebSocketConnection.WriteHandshakeResponse(network, accept, subProtocol)
+            Call $"websocket handshake accepted on '{http_url}'.".info(_settings.silent)
+
+            ' an established websocket connection may live for a very long time, so
+            ' the socket receive timeout of the http request stage must be reset,
+            ' otherwise the connection will be dropped when the client keeps silent.
+            Try
+                socket.ReceiveTimeout = If(_settings.websocket_read_timeout > 0, _settings.websocket_read_timeout, 0)
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+
+            ' the ``_inputStream`` buffered stream is reused at here on purpose: it
+            ' may already hold some of the bytes beyond the request header block,
+            ' those buffered bytes will be lost when a brand new stream is created.
+            Dim connection As New WebSocketConnection(
+                socket:=socket,
+                input:=_inputStream,
+                output:=network,
+                path:=WebSocketManager.NormalizePath(http_url),
+                url:=http_url,
+                subProtocol:=subProtocol,
+                headers:=httpHeaders,
+                handler:=handler,
+                manager:=srv.WebSocket,
+                maxMessageSize:=_settings.websocket_max_message_size,
+                silent:=_settings.silent
+            )
+
+            ' blocks current worker thread until the websocket connection is closed
+            Call connection.RunLoop()
+        End Sub
+
+        ''' <summary>
+        ''' write a ``426 Upgrade Required`` response for a websocket handshake
+        ''' request which speaks an unsupported protocol version.
+        ''' </summary>
+        Private Sub writeWebSocketVersionMismatch(clientVersion As String)
+            Call $"reject the websocket handshake of an unsupported protocol version: '{clientVersion}'.".warning(_settings.silent)
+
+            Try
+                Call outputStream.WriteLine("HTTP/1.1 426 Upgrade Required")
+                Call outputStream.WriteLine($"{ResponseHeaders.SecWebSocketVersion}: {WebSocketProtocol.SupportedVersion}")
+                Call outputStream.WriteLine("Content-Type: text/plain")
+                Call outputStream.WriteLine("Connection: close")
+                Call outputStream.WriteLine("Date: " & DateTime.UtcNow.ToString("R"))
+                Call outputStream.WriteLine("Server: " & VBS_platform)
+                Call outputStream.WriteLine()
+                Call outputStream.WriteLine($"Only the websocket protocol version {WebSocketProtocol.SupportedVersion} is supported by this server.")
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+        End Sub
+
+#End Region
 
         ''' <summary>
         ''' 对于非法的header格式会直接抛出错误，对于空的请求则会返回False

@@ -65,6 +65,7 @@ Imports System.Threading
 Imports Flute.Http.Configurations
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Flute.Http.Core.WebSocket
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Parallel.Linq
 
@@ -100,6 +101,21 @@ Namespace Core
         ''' <returns></returns>
         Public ReadOnly Property localPort As Integer
         Public Property BufferSize As Integer = 4096
+
+        ''' <summary>
+        ''' the websocket connection manager of current http server, the RFC6455
+        ''' websocket upgrade handshake request will be accepted by this http
+        ''' server only when an application message handler has been registered
+        ''' into this connection manager via its route table.
+        ''' </summary>
+        ''' <returns>
+        ''' this property value is always available, an empty routing table just
+        ''' means that no websocket endpoint is published on current http server.
+        ''' </returns>
+        ''' <example>
+        ''' Call server.WebSocket.Route("/ws/echo", WebSocketHandler.Echo)
+        ''' </example>
+        Public ReadOnly Property WebSocket As New WebSocketManager
 
         ''' <summary>
         ''' Indicates this http server is running status or not. 
@@ -229,6 +245,15 @@ Namespace Core
 
             Try
                 _httpListener.Stop()
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+
+            ' notify all of the active websocket clients that this server is going
+            ' away, otherwise those long-live connections will block the shutdown
+            ' waiting loop below until the timeout deadline is reached.
+            Try
+                Call WebSocket.CloseAll()
             Catch ex As Exception
                 Call App.LogException(ex)
             End Try

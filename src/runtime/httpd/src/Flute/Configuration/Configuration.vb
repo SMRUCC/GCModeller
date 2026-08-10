@@ -90,6 +90,37 @@ Namespace Configurations
         <Description("comma separated list of allowed CORS headers.")>
         Public Property cors_allow_headers As String = "X-PINGOTHER, Content-Type"
 
+        <Description("a logical value for enable the RFC6455 websocket protocol upgrade handshake on this http server. Default is enabled.")>
+        Public Property websocket_enabled As Boolean = True
+
+        <Description("comma separated list of the websocket sub-protocol names that accepted by this server. An empty value(default) means that no sub-protocol will be negotiated.")>
+        Public Property websocket_subprotocols As String = ""
+
+        <Description("the max size in bytes of a single websocket application message after the fragmentation re-assembly, default 16MB. A value which is less than or equals to zero means no limit.")>
+        Public Property websocket_max_message_size As Integer = 16 * 1024 * 1024
+
+        <Description("the socket read timeout in milliseconds of an established websocket connection. Default 0 means infinite waiting for the next data frame.")>
+        Public Property websocket_read_timeout As Integer = 0
+
+        ''' <summary>
+        ''' get the websocket sub-protocol name list from the
+        ''' <see cref="websocket_subprotocols"/> configuration value.
+        ''' </summary>
+        ''' <returns>
+        ''' this function always returns an array object with no null value.
+        ''' </returns>
+        Public Function GetWebSocketSubProtocols() As String()
+            If websocket_subprotocols.StringEmpty Then
+                Return {}
+            Else
+                Return websocket_subprotocols _
+                    .Split(","c) _
+                    .Select(Function(str) str.Trim()) _
+                    .Where(Function(str) Not str.StringEmpty) _
+                    .ToArray
+            End If
+        End Function
+
         Public Shared Function [Default]() As Configuration
             Return New Configuration With {.session = New Session}
         End Function
