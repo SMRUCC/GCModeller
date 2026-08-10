@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69f5a8118ba3347526bbc6e0105e6d94, G:/GCModeller/src/runtime/httpd/src/Flute//Http/HttpStream/PostReader.vb"
+﻿#Region "Microsoft.VisualBasic::28c92ba0c67491288f1ca4a81bf18fa0, src\Flute\Http\HttpStream\PostReader.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 194
-    '    Code Lines: 128
-    ' Comment Lines: 40
-    '   Blank Lines: 26
-    '     File Size: 7.77 KB
+    '   Total Lines: 211
+    '    Code Lines: 140 (66.35%)
+    ' Comment Lines: 41 (19.43%)
+    '    - Xml Docs: 70.73%
+    ' 
+    '   Blank Lines: 30 (14.22%)
+    '     File Size: 8.44 KB
 
 
     '     Class PostReader
@@ -51,6 +53,11 @@
     '         Delegate Function
     ' 
     '             Sub: loadjQueryPOST, loadMultiPart, LoadMultiPart
+    '         Class ContentOutput
+    ' 
+    ' 
+    ' 
+    ' 
     ' 
     ' 
     ' 

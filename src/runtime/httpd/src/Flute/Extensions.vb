@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b5b0d2b8d0351f564213092bf8573f13, G:/GCModeller/src/runtime/httpd/src/Flute//Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b5b0d2b8d0351f564213092bf8573f13, src\Flute\Extensions.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 66
-    '    Code Lines: 48
-    ' Comment Lines: 8
-    '   Blank Lines: 10
+    '    Code Lines: 48 (72.73%)
+    ' Comment Lines: 8 (12.12%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 10 (15.15%)
     '     File Size: 2.29 KB
 
 

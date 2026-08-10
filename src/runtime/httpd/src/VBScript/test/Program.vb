@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75ff7b37676fa9cfd4ec34c19c45f7e9, G:/GCModeller/src/runtime/httpd/src/WebCloud/SMRUCC.WebCloud.VBScript/test//Program.vb"
+﻿#Region "Microsoft.VisualBasic::75ff7b37676fa9cfd4ec34c19c45f7e9, src\VBScript\test\Program.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 36
-    '    Code Lines: 24
-    ' Comment Lines: 0
-    '   Blank Lines: 12
+    '    Code Lines: 24 (66.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 12 (33.33%)
     '     File Size: 903 B
 
 

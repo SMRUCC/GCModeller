@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dcb1fb6fc7993b619eef40a99b4dc3ef, G:/GCModeller/src/runtime/httpd/src/Flute//Http/Options/Preflight.vb"
+﻿#Region "Microsoft.VisualBasic::dcb1fb6fc7993b619eef40a99b4dc3ef, src\Flute\Http\Options\Preflight.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 52
-    '    Code Lines: 28
-    ' Comment Lines: 18
-    '   Blank Lines: 6
+    '    Code Lines: 28 (53.85%)
+    ' Comment Lines: 18 (34.62%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 6 (11.54%)
     '     File Size: 2.49 KB
 
 

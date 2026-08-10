@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a131acec571a4a122049e36bbdee91e, G:/GCModeller/src/runtime/httpd/src/Flute//HttpMessage/Content.vb"
+﻿#Region "Microsoft.VisualBasic::4a131acec571a4a122049e36bbdee91e, src\Flute\HttpMessage\Content.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 39
-    '    Code Lines: 21
-    ' Comment Lines: 12
-    '   Blank Lines: 6
+    '    Code Lines: 21 (53.85%)
+    ' Comment Lines: 12 (30.77%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (15.38%)
     '     File Size: 1.31 KB
 
 

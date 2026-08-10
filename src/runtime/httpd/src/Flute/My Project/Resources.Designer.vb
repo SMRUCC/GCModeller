@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54b0de798da05d1abe47479f46a9afda, G:/GCModeller/src/runtime/httpd/src/Flute//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::6aef891f40720ffb9da7c615ef2a710e, src\Flute\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 73
-    '    Code Lines: 38
-    ' Comment Lines: 26
-    '   Blank Lines: 9
+    '    Code Lines: 38 (52.05%)
+    ' Comment Lines: 26 (35.62%)
+    '    - Xml Docs: 19.23%
+    ' 
+    '   Blank Lines: 9 (12.33%)
     '     File Size: 3.15 KB
 
 
@@ -123,4 +125,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

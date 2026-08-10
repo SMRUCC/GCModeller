@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fddfc0953653335ffc01a904e0709560, G:/GCModeller/src/runtime/httpd/src/Flute//HttpMessage/Protocol/HttpError.vb"
+﻿#Region "Microsoft.VisualBasic::fddfc0953653335ffc01a904e0709560, src\Flute\HttpMessage\Protocol\HttpError.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 49
-    '    Code Lines: 38
-    ' Comment Lines: 0
-    '   Blank Lines: 11
+    '    Code Lines: 38 (77.55%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (22.45%)
     '     File Size: 1.46 KB
 
 

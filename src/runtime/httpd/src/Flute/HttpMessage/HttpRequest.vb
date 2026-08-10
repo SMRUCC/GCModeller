@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a41f37aaf81e4da1bc9e3cf0c905419, G:/GCModeller/src/runtime/httpd/src/Flute//HttpMessage/HttpRequest.vb"
+﻿#Region "Microsoft.VisualBasic::0807b6828754e152421075dd6e839036, src\Flute\HttpMessage\HttpRequest.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 107
-    '    Code Lines: 62
-    ' Comment Lines: 31
-    '   Blank Lines: 14
-    '     File Size: 3.69 KB
+    '   Total Lines: 116
+    '    Code Lines: 68 (58.62%)
+    ' Comment Lines: 31 (26.72%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (14.66%)
+    '     File Size: 4.00 KB
 
 
     '     Class HttpRequest
@@ -47,7 +49,7 @@
     '                     URL, version
     ' 
     '         Constructor: (+3 Overloads) Sub New
-    '         Function: GetBoolean, GetCookies, HasValue, ToString
+    '         Function: GetArguments, GetBoolean, GetCookies, HasValue, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -12,9 +12,10 @@
     <ProjectReference Include="..\..\..\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\sciBASIC#\mime\application%json\JSON-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\sciBASIC#\mime\text%markdown\markdown.NET5.vbproj" />
     <ProjectReference Include="..\..\src\Flute\Flute.NET5.vbproj" />
-    <ProjectReference Include="..\..\src\WebCloud\Flute.SessionManager\Flute.SessionManager.vbproj" />
-    <ProjectReference Include="..\..\src\WebCloud\SMRUCC.WebCloud.VBScript\Flute.Template.vbproj" />
+    <ProjectReference Include="..\..\src\SessionManager\Flute.SessionManager.vbproj" />
+    <ProjectReference Include="..\..\src\VBScript\Flute.Template.vbproj" />
   </ItemGroup>
 
 </Project>

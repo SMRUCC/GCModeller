@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dfd50f4974cad24dadb26172e8ca8b1d, G:/GCModeller/src/runtime/httpd/src/Flute//ServerComponent.vb"
+﻿#Region "Microsoft.VisualBasic::e30ff0be4c2eb9a2e85004a7093551b3, src\Flute\ServerComponent.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 11
-    '    Code Lines: 7
-    ' Comment Lines: 0
-    '   Blank Lines: 4
-    '     File Size: 231 B
+    '    Code Lines: 7 (63.64%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (36.36%)
+    '     File Size: 229 B
 
 
     ' Class ServerComponent
@@ -60,4 +62,3 @@ Public MustInherit Class ServerComponent
     End Sub
 
 End Class
-

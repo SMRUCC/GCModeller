@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7991f8f7f9b319259ddd40149164ca7c, G:/GCModeller/src/runtime/httpd/src/Flute//Configuration/Configuration.vb"
+﻿#Region "Microsoft.VisualBasic::7991f8f7f9b319259ddd40149164ca7c, src\Flute\Configuration\Configuration.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 52
-    '    Code Lines: 31
-    ' Comment Lines: 11
-    '   Blank Lines: 10
+    '    Code Lines: 31 (59.62%)
+    ' Comment Lines: 11 (21.15%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (19.23%)
     '     File Size: 1.84 KB
 
 

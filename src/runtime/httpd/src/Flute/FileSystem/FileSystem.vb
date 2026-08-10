@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9207ec4fe3def594b61c45c1fda7ee41, G:/GCModeller/src/runtime/httpd/src/Flute//FileSystem/FileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::95b5968953aa511dc5963a90dbe8d49f, src\Flute\FileSystem\FileSystem.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 243
-    '    Code Lines: 156
-    ' Comment Lines: 49
-    '   Blank Lines: 38
-    '     File Size: 9.39 KB
+    '   Total Lines: 253
+    '    Code Lines: 164 (64.82%)
+    ' Comment Lines: 50 (19.76%)
+    '    - Xml Docs: 66.00%
+    ' 
+    '   Blank Lines: 39 (15.42%)
+    '     File Size: 9.95 KB
 
 
     '     Class FileSystem
     ' 
     '         Properties: wwwroot
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: (+2 Overloads) AddCache, AddMapping, (+2 Overloads) AttachFolder, FileExists, GetByteBuffer
     '                   GetContentType, GetFileSize, GetResource, resourceUrl, ToString
     ' 

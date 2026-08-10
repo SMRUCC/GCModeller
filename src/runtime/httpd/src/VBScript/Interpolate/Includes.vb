@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2905a512db83708fa589081521b0a8ab, G:/GCModeller/src/runtime/httpd/src/WebCloud/SMRUCC.WebCloud.VBScript//Interpolate/Includes.vb"
+﻿#Region "Microsoft.VisualBasic::2905a512db83708fa589081521b0a8ab, src\VBScript\Interpolate\Includes.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 80
-    '    Code Lines: 59
-    ' Comment Lines: 5
-    '   Blank Lines: 16
+    '    Code Lines: 59 (73.75%)
+    ' Comment Lines: 5 (6.25%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 16 (20.00%)
     '     File Size: 3.48 KB
 
 

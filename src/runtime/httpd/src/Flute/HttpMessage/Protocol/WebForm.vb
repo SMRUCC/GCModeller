@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d95228ba040adf2375d2a68c6718c0c, G:/GCModeller/src/runtime/httpd/src/Flute//HttpMessage/Protocol/WebForm.vb"
+﻿#Region "Microsoft.VisualBasic::3d95228ba040adf2375d2a68c6718c0c, src\Flute\HttpMessage\Protocol\WebForm.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 6
-    '    Code Lines: 4
-    ' Comment Lines: 0
-    '   Blank Lines: 2
+    '    Code Lines: 4 (66.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 2 (33.33%)
     '     File Size: 82 B
 
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc9eb6779b5c2c20c08f3c110eeabaa9, G:/GCModeller/src/runtime/httpd/src/WebCloud/SMRUCC.WebCloud.VBScript//Reflection/GetValue.vb"
+﻿#Region "Microsoft.VisualBasic::cc9eb6779b5c2c20c08f3c110eeabaa9, src\VBScript\Reflection\GetValue.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 86
-    '    Code Lines: 67
-    ' Comment Lines: 1
-    '   Blank Lines: 18
+    '    Code Lines: 67 (77.91%)
+    ' Comment Lines: 1 (1.16%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 18 (20.93%)
     '     File Size: 3.25 KB
 
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5900a5d0d10b3354c7606ebe47cd0ecd, G:/GCModeller/src/runtime/httpd/src/Flute//SessionManager.vb"
+﻿#Region "Microsoft.VisualBasic::252bc714ea55fa826f51893fe7e42564, src\Flute\SessionManager.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 37
-    '    Code Lines: 24
-    ' Comment Lines: 0
-    '   Blank Lines: 13
-    '     File Size: 1021 B
+    '    Code Lines: 25 (67.57%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 12 (32.43%)
+    '     File Size: 1.05 KB
 
 
     ' Class SessionManager
@@ -92,4 +94,3 @@ Public Class SessionManager : Inherits ServerComponent
     End Sub
 
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63c08b5a2ffd3d0a2e28b1fb2ff6af2b, G:/GCModeller/src/runtime/httpd/src/Flute//Http/HttpStream/HttpPostedFile.vb"
+﻿#Region "Microsoft.VisualBasic::63c08b5a2ffd3d0a2e28b1fb2ff6af2b, src\Flute\Http\HttpStream\HttpPostedFile.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 125
-    '    Code Lines: 69
-    ' Comment Lines: 40
-    '   Blank Lines: 16
+    '    Code Lines: 69 (55.20%)
+    ' Comment Lines: 40 (32.00%)
+    '    - Xml Docs: 20.00%
+    ' 
+    '   Blank Lines: 16 (12.80%)
     '     File Size: 4.81 KB
 
 

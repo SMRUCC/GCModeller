@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1943018e2ec0952d9673365277ceecd9, G:/GCModeller/src/runtime/httpd/src/Flute//HttpMessage/HttpResponse.vb"
+﻿#Region "Microsoft.VisualBasic::e28c5a8f740a4eb9007516bd183c8930, src\Flute\HttpMessage\HttpResponse.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 565
-    '    Code Lines: 222
-    ' Comment Lines: 269
-    '   Blank Lines: 74
-    '     File Size: 22.86 KB
+    '   Total Lines: 580
+    '    Code Lines: 233 (40.17%)
+    ' Comment Lines: 270 (46.55%)
+    '    - Xml Docs: 41.11%
+    ' 
+    '   Blank Lines: 77 (13.28%)
+    '     File Size: 23.45 KB
 
 
     '     Delegate Sub
@@ -53,7 +55,7 @@
     '         Function: FlushAsync, (+3 Overloads) WriteAsync, WriteHttp, (+4 Overloads) WriteLineAsync, writeSuccess
     ' 
     '         Sub: AddCustomHttpHeader, Close, (+2 Overloads) Dispose, Flush, Redirect
-    '              SendData, SendFile, SetCookies, (+6 Overloads) Write, WriteError
+    '              SendData, SendFile, (+2 Overloads) SetCookies, (+6 Overloads) Write, WriteError
     '              WriteHeader, (+3 Overloads) WriteHTML, WriteHttp, WriteJSON, WriteLine
     '              WriteXML
     ' 

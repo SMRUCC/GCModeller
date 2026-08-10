@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76dad73d0ea63b70502f8acf5ade35ff, G:/GCModeller/src/runtime/httpd/src/WebCloud/SMRUCC.WebCloud.VBScript//Interpolate/Variable.vb"
+﻿#Region "Microsoft.VisualBasic::8bb7afa0d1be172d73502efacb235497, src\VBScript\Interpolate\Variable.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 99
-    '    Code Lines: 76
-    ' Comment Lines: 5
-    '   Blank Lines: 18
-    '     File Size: 3.68 KB
+    '   Total Lines: 113
+    '    Code Lines: 76 (67.26%)
+    ' Comment Lines: 19 (16.81%)
+    '    - Xml Docs: 57.89%
+    ' 
+    '   Blank Lines: 18 (15.93%)
+    '     File Size: 4.14 KB
 
 
     '     Module VariableInterpolate

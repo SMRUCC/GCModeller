@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d00083c172340d89b139d02deacbe0e7, G:/GCModeller/src/runtime/httpd/src/Flute//Http/HttpServer.vb"
+﻿#Region "Microsoft.VisualBasic::b2f3db263e449569daa720562bc6d13a, src\Flute\Http\HttpServer.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 222
-    '    Code Lines: 114
-    ' Comment Lines: 77
-    '   Blank Lines: 31
-    '     File Size: 8.78 KB
+    '   Total Lines: 227
+    '    Code Lines: 114 (50.22%)
+    ' Comment Lines: 81 (35.68%)
+    '    - Xml Docs: 70.37%
+    ' 
+    '   Blank Lines: 32 (14.10%)
+    '     File Size: 8.90 KB
 
 
     '     Class HttpServer

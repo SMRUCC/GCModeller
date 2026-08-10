@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8b25dae7a5ebd8f4cbb9861b62f429d, G:/GCModeller/src/runtime/httpd/src/WebCloud/SMRUCC.WebCloud.VBScript//VBHtml.vb"
+﻿#Region "Microsoft.VisualBasic::24e25838f88e3444bc19b46b5f385d7d, src\VBScript\VBHtml.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 153
-    '    Code Lines: 85
-    ' Comment Lines: 46
-    '   Blank Lines: 22
-    '     File Size: 5.78 KB
+    '   Total Lines: 161
+    '    Code Lines: 85 (52.80%)
+    ' Comment Lines: 54 (33.54%)
+    '    - Xml Docs: 81.48%
+    ' 
+    '   Blank Lines: 22 (13.66%)
+    '     File Size: 6.04 KB
 
 
     ' Class VBHtml

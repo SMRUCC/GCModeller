@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9293ee04d26089a8ad76971aa33c0c4b, G:/GCModeller/src/runtime/httpd/src/Flute//Http/HttpProcessor.vb"
+﻿#Region "Microsoft.VisualBasic::27022bd464373733c5e1d90e7956731e, src\Flute\Http\HttpProcessor.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 524
-    '    Code Lines: 304
-    ' Comment Lines: 138
-    '   Blank Lines: 82
-    '     File Size: 20.03 KB
+    '   Total Lines: 529
+    '    Code Lines: 306 (57.84%)
+    ' Comment Lines: 140 (26.47%)
+    '    - Xml Docs: 55.71%
+    ' 
+    '   Blank Lines: 83 (15.69%)
+    '     File Size: 20.08 KB
 
 
     '     Class HttpProcessor
@@ -48,11 +50,11 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: flushPOSTPayload, openResponseStream, parseRequest, streamReadLine, ToString
+    '         Function: flushPOSTPayload, GetSettings, openResponseStream, parseRequest, processHttpRequest
+    '                   streamReadLine, ToString
     ' 
-    '         Sub: (+2 Overloads) Dispose, handleGETRequest, HandlePOSTRequest, Process, processHttpRequest
-    '              readHeaders, WriteData, writeFailure, writeFailureInternal, WriteLine
-    '              (+3 Overloads) writeSuccess
+    '         Sub: (+2 Overloads) Dispose, handleGETRequest, HandlePOSTRequest, Process, readHeaders
+    '              WriteData, writeFailure, writeFailureInternal, WriteLine, (+3 Overloads) writeSuccess
     ' 
     ' 
     ' /********************************************************************************/

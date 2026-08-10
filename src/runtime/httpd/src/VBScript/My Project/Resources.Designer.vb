@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42a689d978dfb76a1f0096f366950a1d, G:/GCModeller/src/runtime/httpd/src/WebCloud/SMRUCC.WebCloud.VBScript//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::83b168f10b897ba9caddf5a0d634b161, src\VBScript\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 63
-    '    Code Lines: 32
-    ' Comment Lines: 23
-    '   Blank Lines: 8
+    '    Code Lines: 32 (50.79%)
+    ' Comment Lines: 23 (36.51%)
+    '    - Xml Docs: 17.39%
+    ' 
+    '   Blank Lines: 8 (12.70%)
     '     File Size: 2.79 KB
 
 
@@ -113,4 +115,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

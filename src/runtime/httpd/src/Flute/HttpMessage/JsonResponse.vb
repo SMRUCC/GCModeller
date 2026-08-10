@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3cda7cd70096b9ca5899b3fd4b4e20c, G:/GCModeller/src/runtime/httpd/src/Flute//HttpMessage/JsonResponse.vb"
+﻿#Region "Microsoft.VisualBasic::e28160b2560a8fdcb3182423b4ad25da, src\Flute\HttpMessage\JsonResponse.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 17
-    '    Code Lines: 13
-    ' Comment Lines: 0
-    '   Blank Lines: 4
-    '     File Size: 406 B
+    '   Total Lines: 30
+    '    Code Lines: 13 (43.33%)
+    ' Comment Lines: 12 (40.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (16.67%)
+    '     File Size: 838 B
 
 
     '     Class JsonResponse

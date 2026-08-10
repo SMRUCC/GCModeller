@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e77d7f86c69e0e024e90c780bda389e, G:/GCModeller/src/runtime/httpd/src/WebCloud/SMRUCC.WebCloud.VBScript//Interpolate/Foreach.vb"
+﻿#Region "Microsoft.VisualBasic::2eb9a9cbf191af5672aebfdb62fbced2, src\VBScript\Interpolate\Foreach.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 70
-    '    Code Lines: 40
-    ' Comment Lines: 15
-    '   Blank Lines: 15
-    '     File Size: 2.55 KB
+    '   Total Lines: 92
+    '    Code Lines: 40 (43.48%)
+    ' Comment Lines: 37 (40.22%)
+    '    - Xml Docs: 67.57%
+    ' 
+    '   Blank Lines: 15 (16.30%)
+    '     File Size: 3.39 KB
 
 
     '     Module ForeachInterpolate

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b322f5814bac473e0063b9a33407761a, G:/GCModeller/src/runtime/httpd/src/Flute//FileSystem/FileObject.vb"
+﻿#Region "Microsoft.VisualBasic::b322f5814bac473e0063b9a33407761a, src\Flute\FileSystem\FileObject.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 91
-    '    Code Lines: 63
-    ' Comment Lines: 5
-    '   Blank Lines: 23
+    '    Code Lines: 63 (69.23%)
+    ' Comment Lines: 5 (5.49%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 23 (25.27%)
     '     File Size: 2.71 KB
 
 

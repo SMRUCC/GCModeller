@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e757b6c0a4d4fc47b0068529e63755bc, G:/GCModeller/src/runtime/httpd/src/Flute//HttpMessage/Protocol/Cookies.vb"
+﻿#Region "Microsoft.VisualBasic::9536ca0b5058be84ff4fa40893be1f5a, src\Flute\HttpMessage\Protocol\Cookies.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 34
-    '    Code Lines: 21
-    ' Comment Lines: 3
-    '   Blank Lines: 10
-    '     File Size: 998 B
+    '   Total Lines: 56
+    '    Code Lines: 41 (73.21%)
+    ' Comment Lines: 3 (5.36%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (21.43%)
+    '     File Size: 1.93 KB
 
 
     '     Class Cookies
     ' 
-    '         Function: CheckCookie, GetCookie, GetReader, ParseCookies, ToString
+    '         Function: CheckCookie, GetCookie, GetReader, ParseCookies, ToJSON
+    '                   ToString
+    ' 
+    '         Sub: SetValue
     ' 
     ' 
     ' /********************************************************************************/

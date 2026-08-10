@@ -154,7 +154,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\.nuget\icons8-html-96.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\Flute\Flute.NET5.vbproj" />
   </ItemGroup>
 
 </Project>
