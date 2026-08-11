@@ -132,6 +132,15 @@ Namespace struct.messages
 
             Me.version = [in].readByte()
 
+            ' 诊断：转储原始字节
+            Try
+                Dim savedPos = [in].offset
+                Dim raw = sb.FileReader(address).readBytes(32).ToArray()
+                Call Console.WriteLine($"[DIAG] DataLayoutMessage@{address}: version={version}, raw={BitConverter.ToString(raw)}")
+                [in].offset = savedPos
+            Catch
+            End Try
+
             If Me.version < 3 Then
                 Call parseVersion1Or2([in], sb)
             Else
@@ -173,7 +182,15 @@ Namespace struct.messages
             ElseIf Me.type = LayoutClass.ChunkedStorage Then
                 Me._dimensionality = [in].readByte()
 
-                ' Call [in].skipBytes(3)
+                ' 诊断：打印 readO 前的位置和接下来的字节
+                Call Console.WriteLine($"[DIAG]   before readO: [in].offset={[in].offset}, msgAddr={address}, expected_offset={address + 3}")
+                Try
+                    Dim peekPos = [in].offset
+                    Dim peek = [in].readBytes(8).ToArray()
+                    Call Console.WriteLine($"[DIAG]   peek 8 bytes: {BitConverter.ToString(peek)}")
+                    [in].offset = peekPos
+                Catch
+                End Try
 
                 Me._dataAddress = ReadHelper.readO([in], sb)
                 Me._chunkSize = New Integer(Me.dimensionality - 2) {}
@@ -183,6 +200,18 @@ Namespace struct.messages
                 Next
 
                 Me._dataElementSize = [in].readInt
+
+                Call Console.WriteLine($"[DIAG] LayoutMessage v3 chunked: dataAddr={dataAddress}, dim={dimensionality}, elemSize={dataElementSize}")
+                If dataAddress > 0 Then
+                    Try
+                        Dim savedPos = [in].offset
+                        Dim probe = sb.FileReader(dataAddress).readBytes(4).ToArray()
+                        Dim sigStr = System.Text.Encoding.ASCII.GetString(probe)
+                        Call Console.WriteLine($"[DIAG]   dataAddr {dataAddress} -> sig='{sigStr}', hex={BitConverter.ToString(probe)}")
+                        [in].offset = savedPos
+                    Catch
+                    End Try
+                End If
             End If
         End Sub
 
@@ -211,6 +240,19 @@ Namespace struct.messages
                 Next
 
                 Me._dataElementSize = [in].readInt
+
+                Call Console.WriteLine($"[DIAG] LayoutMessage v{version} chunked: dataAddr={dataAddress}, dim={dimensionality}, elemSize={dataElementSize}")
+                ' Check if address points to TREE or continuation
+                If dataAddress > 0 Then
+                    Try
+                        Dim savedPos = [in].offset
+                        Dim probe = sb.FileReader(dataAddress).readBytes(4).ToArray()
+                        Dim sigStr = System.Text.Encoding.ASCII.GetString(probe)
+                        Call Console.WriteLine($"[DIAG]   dataAddr {dataAddress} -> sig='{sigStr}', hex={BitConverter.ToString(probe)}")
+                        [in].offset = savedPos
+                    Catch
+                    End Try
+                End If
             ElseIf isCompact Then
                 ' Dataset Element Size
                 Me._dataElementSize = [in].readInt()
