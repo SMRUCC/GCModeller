@@ -92,6 +92,14 @@ Namespace struct
 
             Me.version = [in].readByte()
 
+            Call Console.WriteLine($"[DIAG] ObjectHeader@{address}: firstByte={version} (&H{version:X2}), isV2={version = &H4F}")
+
+            ' 诊断：转储对象头起始处的原始字节
+            Try
+                Dim rawHdr = sb.FileReader(address).readBytes(48).ToArray()
+                Call Console.WriteLine($"[DIAG]   raw bytes@{address}: {BitConverter.ToString(rawHdr)}")
+            Catch
+            End Try
 
             If Me.version = 1 Then
 
@@ -102,6 +110,8 @@ Namespace struct
                 Me.objectHeaderSize = [in].readInt()
 
                 [in].skipBytes(4)
+
+                Call Console.WriteLine($"[DIAG]   v1 header: totalMsgs={totalNumberOfHeaderMessages}, headerSize={objectHeaderSize}, msgDataStart={[in].offset}")
 
                 ' 循环边界以「消息区大小」(objectHeaderSize) 为准，而非 totalNumberOfHeaderMessages：
                 ' 某些文件（如 10x Visium HD）根组对象头的消息区仅含 1 条 Group 消息，

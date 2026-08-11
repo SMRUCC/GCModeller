@@ -112,6 +112,7 @@ Namespace struct
 
             Dim messageTypeNo As Short = [in].readShort()
             Me.headerMessageType = ObjectHeaderMessageType.[getType](messageTypeNo)
+            Call Console.WriteLine($"[DIAG]   Msg@{address}: type={messageTypeNo}({Me.headerMessageType?.ToString()}), hdrVer={headerVersion}")
             If Me.headerMessageType Is Nothing Then
                 ' 未知消息类型：按 sizeOfHeaderMessageData 原样跳过数据，保证后续消息
                 ' 偏移正确，避免「遇到不支持的类型就整体崩溃」导致整棵树无法遍历。
@@ -120,6 +121,7 @@ Namespace struct
             End If
             Me.sizeOfHeaderMessageData = [in].readShort()
             Me.headerMessageFlags = [in].readByte()
+            Call Console.WriteLine($"[DIAG]     dataSize={sizeOfHeaderMessageData}, flags={headerMessageFlags}, msgDataAt={[in].offset + If(headerVersion = 2, If(messageCreationOrder, 2, 0), 3)}")
 
             If headerVersion = 2 Then
                 ' v2 object headers store messages packed (no reserved/padding bytes). The
@@ -128,7 +130,9 @@ Namespace struct
                 Me.headerLength = 5
 
                 If messageCreationOrder Then
-                    [in].skipBytes(4)
+                    ' v2 对象头的 per-message creation order 字段是 2 字节（非 4 字节）。
+                    ' 此前错误地跳过 4 字节会导致后续所有消息数据偏移 2 字节。
+                    [in].skipBytes(2)
                 End If
             Else
                 [in].skipBytes(3)

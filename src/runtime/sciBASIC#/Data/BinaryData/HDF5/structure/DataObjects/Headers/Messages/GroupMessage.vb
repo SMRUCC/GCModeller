@@ -96,39 +96,50 @@ Namespace struct.messages
 
             Dim [in] As BinaryReader = sb.FileReader(address)
 
+            ' Symbol Table Message 直接包含 B-tree 地址和 Local Heap 地址。
             Me.bTreeAddress = ReadHelper.readO([in], sb)
             Me.nameHeapAddress = ReadHelper.readO([in], sb)
 
-            ' HDF5 v1 对象头可能使用 continuation：Group 消息的数据并不内联，
-            ' 而是存放在一个 continuation 块里。此时 bTreeAddress 字段实际保存的是
-            ' continuation 块地址，其数据为真正的 (bTree, nameHeap) 对。
-            ' 若 bTreeAddress 指向一个 continuation 消息（type=17），则解析该块，
-            ' 用其中的 (bTree, nameHeap) 覆盖当前值。
-            If IsContinuation(sb, Me.bTreeAddress) Then
-                Dim c = sb.FileReader(Me.bTreeAddress)
-                c.readBytes(8) ' 跳过 continuation 头部：type(2)+size(2)+flags(1)+reserved(3)
-                Me.bTreeAddress = ReadHelper.readO(c, sb)
-                Me.nameHeapAddress = ReadHelper.readO(c, sb)
+            ' h5py 生成的 v0 superblock 文件中，Symbol Table Message 的 bTreeAddress
+            ' 可能不直接指向 B-tree，而是指向一个 Object Header Continuation 消息块，
+            ' 其中 continuation-offset 字段才是真正的 B-tree 地址，
+            ' continuation-length 字段是真正的 Local Heap 地址。
+            ' 这不是 HDF5 规范行为，但 h5py 的实际输出如此，需要特殊处理。
+            If Me.bTreeAddress > 0 Then
+                Try
+                    Dim probe = sb.FileReader(Me.bTreeAddress).readBytes(2).ToArray()
+                    Dim typeNo As Integer = probe(0) Or (probe(1) << 8)
+                    If typeNo = 17 Then
+                        ' 确实是 continuation 消息：读取其 data 字段作为真实地址
+                        Dim c = sb.FileReader(Me.bTreeAddress)
+                        c.readBytes(8) ' 跳过 continuation 头部：type(2)+size(2)+flags(1)+reserved(3)
+                        Me.bTreeAddress = ReadHelper.readO(c, sb)
+                        Me.nameHeapAddress = ReadHelper.readO(c, sb)
+                    End If
+                Catch
+                End Try
+            End If
+
+            Call Console.WriteLine($"[DIAG] GroupMessage@{address}: bTreeAddr={bTreeAddress}, nameHeapAddr={nameHeapAddress}")
+
+            ' 诊断：打印地址处的十六进制字节
+            If bTreeAddress > 0 Then
+                Try
+                    Dim bytes = sb.FileReader(bTreeAddress).readBytes(16).ToArray()
+                    Call Console.WriteLine($"[DIAG]   bTreeAddr {bTreeAddress} -> hex={BitConverter.ToString(bytes)}")
+                Catch ex As Exception
+                    Call Console.WriteLine($"[DIAG]   bTreeAddr {bTreeAddress} -> read error: {ex.Message}")
+                End Try
+            End If
+            If nameHeapAddress > 0 Then
+                Try
+                    Dim bytes = sb.FileReader(nameHeapAddress).readBytes(16).ToArray()
+                    Call Console.WriteLine($"[DIAG]   nameHeapAddr {nameHeapAddress} -> hex={BitConverter.ToString(bytes)}")
+                Catch ex As Exception
+                    Call Console.WriteLine($"[DIAG]   nameHeapAddr {nameHeapAddress} -> read error: {ex.Message}")
+                End Try
             End If
         End Sub
-
-        ''' <summary>
-        ''' 判断指定地址是否是一个对象头 continuation 消息块（H5O_MSG_CONT = 17）。
-        ''' </summary>
-        Private Shared Function IsContinuation(sb As Superblock, address As Long) As Boolean
-            If address <= 0 Then
-                Return False
-            End If
-
-            Try
-                Dim head = sb.FileReader(address).readBytes(4)
-                ' 小端 2 字节消息类型
-                Dim typeNo As Integer = head(0) Or (head(1) << 8)
-                Return typeNo = 17
-            Catch
-                Return False
-            End Try
-        End Function
 
         Public Overrides Function ToString() As String
             Return $"{MyBase.ToString} {bTreeAddress} -> {nameHeapAddress}"
