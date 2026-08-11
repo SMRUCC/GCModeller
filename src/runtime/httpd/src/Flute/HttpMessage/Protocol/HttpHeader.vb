@@ -124,7 +124,7 @@ Namespace Core.Message.HttpHeader
         ''' </summary>
         Public Const Upgrade As String = "Upgrade"
         ''' <summary>
-        ''' ``base64(sha1(Sec-WebSocket-Key + <see cref="WebSocketGuid"/>))``
+        ''' ``base64(sha1(Sec-WebSocket-Key + WebSocketGuid))``
         ''' </summary>
         Public Const SecWebSocketAccept As String = "Sec-WebSocket-Accept"
         ''' <summary>

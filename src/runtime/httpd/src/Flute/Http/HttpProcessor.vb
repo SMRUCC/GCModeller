@@ -354,15 +354,14 @@ Namespace Core
         ''' when the websocket feature has been disabled via the server configuration,
         ''' or no application message handler is published on the requested url path.
         ''' </returns>
-        ''' <summary>
+        ''' <remarks>
         ''' get a http request header value via the plain dictionary lookup, which
         ''' never writes a missing key warning message into the server log for an
         ''' optional request header.
-        ''' </summary>
-        ''' <returns>
+        ''' 
         ''' this function always returns a string value, an empty string will be
         ''' returned when the given request header is not presented in the request.
-        ''' </returns>
+        ''' </remarks>>
         Private Function getHeader(name As String) As String
             Dim value As String = Nothing
             Return If(httpHeaders.TryGetValue(name, value), value, "")
