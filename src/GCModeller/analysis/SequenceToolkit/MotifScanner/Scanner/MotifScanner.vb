@@ -256,11 +256,18 @@ Public Class MotifScanner
                          Optional topN As Integer = Integer.MaxValue) As List(Of MotifMatch)
 
         Dim results As New List(Of MotifMatch)()
-        If motif Is Nothing OrElse motif.pwm Is Nothing OrElse motif.pwm.Length = 0 Then Return results
-        If String.IsNullOrEmpty(sequence) Then Return results
+
+        If motif Is Nothing OrElse motif.pwm.IsNullOrEmpty Then
+            Return results
+        End If
+        If String.IsNullOrEmpty(sequence) Then
+            Return results
+        End If
 
         Dim motifLen As Integer = motif.pwm.Length
-        If sequence.Length < motifLen Then Return results
+        If sequence.Length < motifLen Then
+            Return results
+        End If
 
         ' 1. Build log-odds matrix [position, alphabet-index]
         Dim logOdds As Double(,) = BuildLogOddsMatrix(motif)
