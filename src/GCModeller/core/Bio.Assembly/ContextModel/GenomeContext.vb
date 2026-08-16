@@ -366,7 +366,7 @@ Namespace ContextModel
         ''' <summary>
         ''' 计算两个位点的物理距离。如果重叠，返回0
         ''' </summary>
-        Public Function GetPhysicalDistance(loci1 As NucleotideLocation, loci2 As NucleotideLocation) As Integer
+        Public Shared Function GetPhysicalDistance(loci1 As NucleotideLocation, loci2 As NucleotideLocation) As Integer
             ' 如果 loci1 在 loci2 左侧
             If loci1.right <= loci2.left Then
                 Return loci2.left - loci1.right
@@ -594,7 +594,7 @@ Namespace ContextModel
         ''' populate out the genomics feature <see cref="sequence"/> data
         ''' </summary>
         ''' <returns></returns>
-        Public Iterator Function GenericEnumerator() As IEnumerator(Of T) Implements Enumeration(Of T).GenericEnumerator
+        Private Iterator Function GenericEnumerator() As IEnumerator(Of T) Implements Enumeration(Of T).GenericEnumerator
             If sequence Is Nothing Then
                 Return
             End If

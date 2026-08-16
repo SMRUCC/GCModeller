@@ -179,7 +179,7 @@ Namespace ContextModel
                                             ranges As Integer) As Density()
 
             Dim LQuery As Density() = LinqAPI.Exec(Of Density) <=
- _
+                                                                 _
                 From gene As T
                 In genome.AllFeatures
                 Let sides As T() = getTF(gene.Location.Strand)
@@ -253,42 +253,4 @@ Namespace ContextModel
             Return result
         End Function
     End Module
-
-    ''' <summary>
-    ''' Genomics context relative abundance
-    ''' </summary>
-    Public Class Density : Implements INamedValue
-
-        ''' <summary>
-        ''' The gene locus_tag identifier
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property locus_tag As String Implements INamedValue.Key
-        Public Property loci As NucleotideLocation
-        ''' <summary>
-        ''' The specific features on the genome its relative abundance relative to this gene <see cref="locus_tag"/>
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property Abundance As Double
-        Public Property Hits As String()
-        ''' <summary>
-        ''' Current gene object its function annotation.
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property product As String
-
-        <XmlIgnore>
-        Public Property location As String
-            Get
-                Return loci.ToString
-            End Get
-            Set(value As String)
-                loci = LocusExtensions.TryParse(value)
-            End Set
-        End Property
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
 End Namespace
