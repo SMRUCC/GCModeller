@@ -4,7 +4,7 @@
     <RootNamespace>Flute.Http</RootNamespace>
     <TargetFrameworks>net10.0</TargetFrameworks>
     <AssemblyName>Flute.Http</AssemblyName>
-    <Platforms>AnyCPU;ARM32;x64</Platforms>
+    <Platforms>AnyCPU;ARM32;x64;ARM64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;PlantMAT;mzkit_win32;LipidSearch;gcmodeller_desktop;MEMI-Desktop;CellaLAB-Desktop</Configurations>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -20,6 +20,13 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
    
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <DocumentationFile>Flute.Http.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -42,7 +49,15 @@
     <DocumentationFile>Flute.Http.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <DocumentationFile>Flute.Http.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MEMI-Desktop|AnyCPU'">
+    <DocumentationFile>Flute.Http.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MEMI-Desktop|ARM64'">
     <DocumentationFile>Flute.Http.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -50,7 +65,15 @@
     <DocumentationFile>Flute.Http.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|ARM64'">
+    <DocumentationFile>Flute.Http.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|AnyCPU'">
+    <DocumentationFile>Flute.Http.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|ARM64'">
     <DocumentationFile>Flute.Http.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -58,7 +81,15 @@
     <DocumentationFile>Flute.Http.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|ARM64'">
+    <DocumentationFile>Flute.Http.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">
+    <DocumentationFile>Flute.Http.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|ARM64'">
     <DocumentationFile>Flute.Http.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -66,7 +97,15 @@
     <DocumentationFile>Flute.Http.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|ARM64'">
+    <DocumentationFile>Flute.Http.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PlantMAT|AnyCPU'">
+    <DocumentationFile>Flute.Http.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PlantMAT|ARM64'">
     <DocumentationFile>Flute.Http.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -182,7 +221,19 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='MEMI-Desktop|net6.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='MEMI-Desktop|net6.0-windows|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
@@ -194,7 +245,19 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='MEMI-Desktop|net6.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='MEMI-Desktop|net6.0|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
@@ -206,7 +269,19 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='MEMI-Desktop|net48|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='MEMI-Desktop|net48|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
@@ -218,7 +293,19 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='MEMI-Desktop|net7.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='MEMI-Desktop|net7.0-windows|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
@@ -350,7 +437,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0-windows|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -362,7 +461,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net7.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net7.0-windows|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -374,7 +485,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net6.0-windows|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net6.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net6.0|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -386,7 +509,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net48|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net7.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net7.0-windows|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -422,7 +557,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net6.0-windows|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net6.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net6.0|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -434,7 +581,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net48|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net7.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net7.0-windows|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -470,7 +629,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net6.0-windows|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net6.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net6.0|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -482,7 +653,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net48|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net7.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net7.0-windows|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -518,7 +701,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net6.0-windows|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net6.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net6.0-windows|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -530,7 +725,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net6.0|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net6.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net6.0|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -542,7 +749,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net48|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net48|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net48|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -554,7 +773,19 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net7.0-windows|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net7.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net7.0-windows|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -613,7 +844,17 @@
     <DefineConstants />
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|ARM64'">
+    <DebugType>full</DebugType>
+    <DefineConstants />
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DefineConstants />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|ARM64'">
     <DebugType>full</DebugType>
     <DefineConstants />
   </PropertyGroup>
@@ -623,7 +864,17 @@
     <DefineConstants />
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net48|ARM64'">
+    <DebugType>full</DebugType>
+    <DefineConstants />
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DefineConstants />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows|ARM64'">
     <DebugType>full</DebugType>
     <DefineConstants />
   </PropertyGroup>
@@ -794,6 +1045,12 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0|ARM32'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>portable</DebugType>
@@ -807,6 +1064,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
     <DebugType>portable</DebugType>
@@ -833,6 +1097,12 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net10.0|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net10.0|ARM32'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>portable</DebugType>
@@ -846,6 +1116,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net10.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net10.0|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>portable</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -869,6 +1145,12 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net10.0|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net10.0|ARM32'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>portable</DebugType>
@@ -882,6 +1164,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net10.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net10.0|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>portable</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -905,6 +1193,12 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net10.0|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net10.0|ARM32'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>portable</DebugType>
@@ -923,6 +1217,12 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='MEMI-Desktop|net10.0|ARM64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='MEMI-Desktop|net10.0|ARM32'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>portable</DebugType>
@@ -936,6 +1236,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net10.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>portable</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net10.0|ARM64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>portable</DebugType>
     <DefineTrace>True</DefineTrace>
