@@ -1,8 +1,7 @@
 imports "http" from "webKit";
 
-const kegg_url = "https://www.genome.jp/kegg-bin/download_htext?htext=%s.keg&format=htext&filedir=";
-
-reactions = [
+let kegg_url = "https://www.genome.jp/kegg-bin/download_htext?htext=%s.keg&format=htext&filedir=";
+let reactions = [
 	"br08610"
 	"br08901"
 	"br08902"
@@ -16,9 +15,14 @@ reactions = [
 
 str(reactions);
 
-for(id in reactions) {
-	const url = sprintf(kegg_url, id);
-	const text = http::requests.get(url);
-	
-	writeLines(text, con = `${@dir}/${id}.txt`);
+for(let id in reactions) {
+	sprintf(kegg_url, id)
+	|> http::requests.get()
+	|> writeLines(con = here(`${id}.txt`))
+	;
 }
+
+"https://rest.kegg.jp/list/ko"
+|> http::requests.get()
+|> writeLines(con = here("ko.txt"))
+;

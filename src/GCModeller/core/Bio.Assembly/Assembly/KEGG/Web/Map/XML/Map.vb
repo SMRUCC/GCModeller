@@ -65,12 +65,7 @@ Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Annotation
-
-#If NET48 Then
-Imports Image = System.Drawing.Image
-#Else
 Imports Image = Microsoft.VisualBasic.Imaging.Image
-#End If
 
 Namespace Assembly.KEGG.WebServices.XML
 
