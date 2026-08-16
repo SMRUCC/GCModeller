@@ -61,9 +61,13 @@ Namespace Assembly.KEGG.WebServices.KGML
                 Dim entry2Matches = entry2.TryGetValue(gene.id)
 
                 For Each rel As relation In c(entry1Matches, entry2Matches)
-                    Dim ko1 = entryIndex(rel.entry1).reaction.StringSplit(" ")
-                    Dim ko2 = entryIndex(rel.entry2).reaction.StringSplit(" ")
+                    Dim ko1 = entryIndex(rel.entry1).reaction.StringSplit(" ").Where(Function(rid) koIndex.ContainsKey(rid)).Select(Function(rid) koIndex(rid).Select(Function(e) e.name)).IteratesALL.IteratesALL.Distinct.ToArray
+                    Dim ko2 = entryIndex(rel.entry2).reaction.StringSplit(" ").Where(Function(rid) koIndex.ContainsKey(rid)).Select(Function(rid) koIndex(rid).Select(Function(e) e.name)).IteratesALL.IteratesALL.Distinct.ToArray
                     Dim compound = entryIndex(rel.subtype.value)
+
+                    If Not (ko1.Any AndAlso ko2.Any) Then
+                        Continue For
+                    End If
 
                     Yield New GeneNetworkExport With {
                         .mapId = kgml.name,
