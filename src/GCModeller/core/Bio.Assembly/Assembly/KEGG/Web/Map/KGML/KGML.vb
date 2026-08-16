@@ -112,6 +112,10 @@ Namespace Assembly.KEGG.WebServices.KGML
             Return $"http://www.kegg.jp/kegg-bin/download?entry={entry}&format=kgml"
         End Function
 
+        Public Shared Function LoadMap(url As String) As pathway
+            Return url.GET.LoadFromXml(Of pathway)
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"[{name}] {title}"
         End Function

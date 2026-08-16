@@ -62,7 +62,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.Annotation
 
-Namespace Assembly.KEGG.Archives.Csv
+Namespace Assembly.KEGG.Archives.Tabular
 
     Public Class [Module] : Inherits PathwayBrief
         Implements IKeyValuePairObject(Of String, String())
