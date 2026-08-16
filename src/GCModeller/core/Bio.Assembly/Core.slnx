@@ -1,0 +1,23 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="gcmodeller_desktop" />
+    <BuildType Name="LipidSearch" />
+    <BuildType Name="mzkit" />
+    <BuildType Name="mzkit_win32" />
+    <BuildType Name="NPSearch" />
+    <BuildType Name="Release" />
+    <BuildType Name="Rsharp_app_release" />
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="../../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="biocore-netcore5.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="Test/test.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+</Solution>
