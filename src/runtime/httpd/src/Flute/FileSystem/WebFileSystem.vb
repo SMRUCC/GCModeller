@@ -121,6 +121,10 @@ Namespace FileSystem
             fs = wwwroot
         End Sub
 
+        Sub New(wwwroot As String)
+            fs = {New FileSystem(wwwroot)}
+        End Sub
+
         ''' <summary>
         ''' the request handler: resolve the request path, then host the matching
         ''' static file (or first matching root) back to the client.

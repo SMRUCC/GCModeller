@@ -61,6 +61,7 @@ Imports System.Runtime.CompilerServices
 Imports Flute.Http.Core.HttpSocket
 Imports Flute.Http.Core.Message
 Imports Flute.Http.Core.Message.HttpHeader
+Imports Flute.Http.FileSystem
 Imports Microsoft.VisualBasic.Net.Http
 
 Namespace Core
@@ -117,8 +118,20 @@ Namespace Core
         ''' <summary>
         ''' route tables keyed by the normalized url path for each http method.
         ''' </summary>
-        Private ReadOnly getRoutes As New Dictionary(Of String, RouteEntry)
-        Private ReadOnly postRoutes As New Dictionary(Of String, RouteEntry)
+        ReadOnly getRoutes As New Dictionary(Of String, RouteEntry)
+        ReadOnly postRoutes As New Dictionary(Of String, RouteEntry)
+
+        Dim wfs As WebFileSystemListener
+
+        ''' <summary>
+        ''' the number of registered route entries (get + post), useful for diagnostics.
+        ''' </summary>
+        ''' <returns>the total count of registered routes.</returns>
+        Public ReadOnly Property Routes As Integer
+            Get
+                Return getRoutes.Count + postRoutes.Count
+            End Get
+        End Property
 
         ''' <summary>
         ''' create an empty router; handlers have to be registered through
@@ -138,15 +151,10 @@ Namespace Core
             Call RegisterController(controller)
         End Sub
 
-        ''' <summary>
-        ''' the number of registered route entries (get + post), useful for diagnostics.
-        ''' </summary>
-        ''' <returns>the total count of registered routes.</returns>
-        Public ReadOnly Property Routes As Integer
-            Get
-                Return getRoutes.Count + postRoutes.Count
-            End Get
-        End Property
+        Public Function MountFs(fs As WebFileSystemListener) As HttpRouter
+            Me.wfs = fs
+            Return Me
+        End Function
 
         ''' <summary>
         ''' reflect over the public instance methods of <paramref name="controller"/>
@@ -234,6 +242,14 @@ Namespace Core
         ''' <param name="request">the parsed incoming http request.</param>
         ''' <param name="response">the response object to be written to the client.</param>
         Public Sub AppHandler(request As HttpRequest, response As HttpResponse) Implements IAppHandler.AppHandler
+            If wfs IsNot Nothing AndAlso wfs.CheckResourceFileExists(request) Then
+                Call wfs.WebHandler(request, response)
+            Else
+                Call HandleClrAppProcessor(request, response)
+            End If
+        End Sub
+
+        Private Sub HandleClrAppProcessor(request As HttpRequest, response As HttpResponse)
             Dim table As Dictionary(Of String, RouteEntry)
             Dim entry As RouteEntry = Nothing
             Dim key As String = normalize(request.URL.path)

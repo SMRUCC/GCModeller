@@ -130,6 +130,27 @@ Namespace Core
         End Sub
 
         ''' <summary>
+        ''' create a new in-memory http socket that dispatches every request to the
+        ''' given application handler, listening on the given port.
+        ''' </summary>
+        ''' <param name="router">the application request handler callback.</param>
+        ''' <param name="port">the tcp port to listen on.</param>
+        ''' <param name="threads">the worker thread pool size; a value &lt;= 0 uses the CPU core count.</param>
+        ''' <param name="configs">the optional server wide configuration.</param>
+        ''' <param name="jsonParser">the optional custom json body parser.</param>
+        Public Sub New(router As IAppHandler, port As Integer,
+                       Optional threads As Integer = -1,
+                       Optional configs As Configuration = Nothing,
+                       Optional jsonParser As PostReader.JSONParser = Nothing)
+
+            MyBase.New(port, threads, configs)
+
+            ' handle http request
+            Me.app = AddressOf router.AppHandler
+            Me.parseJSON = jsonParser
+        End Sub
+
+        ''' <summary>
         ''' build an <see cref="HttpResponse"/> and dispatch the GET request to
         ''' the application handler as a plain <see cref="HttpRequest"/>.
         ''' </summary>
