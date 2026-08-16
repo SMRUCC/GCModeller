@@ -4,5 +4,7 @@ Public Module kgml_test
 
     Sub Main()
         Dim map1 = pathway.LoadMap("C:\Users\Administrator\Downloads\taes00940.xml")
+
+        Pause()
     End Sub
 End Module
