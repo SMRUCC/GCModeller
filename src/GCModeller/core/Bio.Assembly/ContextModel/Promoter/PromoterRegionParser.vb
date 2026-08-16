@@ -76,7 +76,6 @@ Namespace ContextModel.Promoter
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <Package("Parser.Gene.Promoter", Publisher:="xie.guigang@gmail.com")>
     Public Class PromoterRegionParser
 
         Public Shared ReadOnly Property PrefixLengths As IReadOnlyList(Of Integer) = GetPrefixLengths().ToArray
@@ -123,7 +122,7 @@ Namespace ContextModel.Promoter
             Return GetSequenceById(Me, geneIDs, length)
         End Function
 
-        Shared ReadOnly default150 As [Default](Of  Integer) = 150.AsDefault(Function(value) Not ContainsLength(length:=DirectCast(value, Integer)))
+        Shared ReadOnly default150 As [Default](Of Integer) = 150.AsDefault(Function(value) Not ContainsLength(length:=DirectCast(value, Integer)))
 
         ''' <summary>
         ''' Get parsed sequence by a given id list.
