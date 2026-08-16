@@ -97,22 +97,44 @@ Namespace Core.HttpStream
 
     Public Class HttpPostedFile
 
+        ''' <summary>
+        ''' the original file name of the uploaded file as reported by the client.
+        ''' </summary>
         Public ReadOnly Property FileName() As String
         ''' <summary>
         ''' 为了降低内存的使用率,在这里是将文件保存在临时文件之中的
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the path of the temporary file that stores the uploaded data.</returns>
         Public ReadOnly Property TempPath As String
+        ''' <summary>
+        ''' the content type (mime) of the uploaded file.
+        ''' </summary>
         Public ReadOnly Property ContentType As String
+        ''' <summary>
+        ''' the size in bytes of the uploaded file, taken from the temporary file length.
+        ''' </summary>
+        ''' <returns>the content length in bytes.</returns>
         Public ReadOnly Property ContentLength As Integer
             Get
                 Return TempPath.FileLength
             End Get
         End Property
 
+        ''' <summary>
+        ''' create an empty uploaded-file placeholder (used for serialization).
+        ''' </summary>
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' create an uploaded file backed by a portion of the given stream, spooled
+        ''' to a freshly allocated temporary file on construction.
+        ''' </summary>
+        ''' <param name="name">the original file name reported by the client.</param>
+        ''' <param name="content_type">the content type (mime) of the uploaded data.</param>
+        ''' <param name="base_stream">the source stream containing the uploaded bytes.</param>
+        ''' <param name="offset">the start offset of the file data within the stream.</param>
+        ''' <param name="length">the length in bytes of the file data.</param>
         Public Sub New(name As String, content_type As String, base_stream As Stream, offset As Long, length As Long)
             Me.FileName = name
             Me.ContentType = content_type
@@ -122,6 +144,10 @@ Namespace Core.HttpStream
             Call SaveAs(TempPath, New SubStream(base_stream, offset, length))
         End Sub
 
+        ''' <summary>
+        ''' serialize the file metadata (name, temp path, content type, length) to json.
+        ''' </summary>
+        ''' <returns>the json representation of the uploaded file metadata.</returns>
         Public Function GetJSON() As String
             Return New Dictionary(Of String, String) From {
                 {NameOf(FileName), FileName},
@@ -131,6 +157,10 @@ Namespace Core.HttpStream
             }.GetJson
         End Function
 
+        ''' <summary>
+        ''' get a name/value summary of the file metadata (name, content type, length).
+        ''' </summary>
+        ''' <returns>a dictionary describing the uploaded file.</returns>
         Public Function Summary() As Dictionary(Of String, String)
             Return New Dictionary(Of String, String) From {
                 {NameOf(FileName), FileName},
@@ -139,6 +169,11 @@ Namespace Core.HttpStream
             }
         End Function
 
+        ''' <summary>
+        ''' copy the temporary uploaded file to the given destination path,
+        ''' ensuring the target (and its folder) does not already exist.
+        ''' </summary>
+        ''' <param name="filename">the destination file path.</param>
         Public Sub SaveAs(filename As String)
             Call ensureTargetNotExists(filename)
             Call TempPath.FileCopy(filename)

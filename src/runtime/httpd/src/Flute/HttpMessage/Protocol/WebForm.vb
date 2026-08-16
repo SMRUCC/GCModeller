@@ -54,6 +54,10 @@
 
 Namespace Core.Message
 
+    ''' <summary>
+    ''' an empty marker base class reserved for web form (HTML form POST) related
+    ''' message models. currently it carries no behaviour.
+    ''' </summary>
     Public Class WebForm
 
     End Class

@@ -1,4 +1,4 @@
-#Region "Microsoft.VisualBasic::00000000000000000000000000000000, src\Flute\Http\WebSocket\WebSocketServer.vb"
+﻿#Region "Microsoft.VisualBasic::8aff677229343f1057b5222ffd9da681, src\Flute\Http\WebSocket\WebSocketServer.vb"
 
     ' Author:
     ' 
@@ -25,12 +25,42 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 204
+    '    Code Lines: 89 (43.63%)
+    ' Comment Lines: 87 (42.65%)
+    '    - Xml Docs: 96.55%
+    ' 
+    '   Blank Lines: 28 (13.73%)
+    '     File Size: 8.48 KB
+
+
+    '     Class WebSocketServer
+    ' 
+    '         Properties: Count, Port, WebSocket
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: (+2 Overloads) Broadcast, DefaultRoute, (+2 Overloads) Route, Run, RunAsync
+    '                   ToString
+    ' 
+    '         Sub: (+2 Overloads) Dispose, handleHttpRequest, Shutdown
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
-Imports System.Threading.Tasks
 Imports Flute.Http.Configurations
 Imports Flute.Http.Core.Message
-Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Net.Http
 
 Namespace Core.WebSocket
@@ -207,6 +237,10 @@ Namespace Core.WebSocket
             Call m_http.Shutdown()
         End Sub
 
+        ''' <summary>
+        ''' the string representation of this server: its listen address and port.
+        ''' </summary>
+        ''' <returns>a "websocket://0.0.0.0:port/" description string.</returns>
         Public Overrides Function ToString() As String
             Return $"websocket://0.0.0.0:{Port}/"
         End Function

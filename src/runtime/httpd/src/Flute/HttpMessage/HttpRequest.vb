@@ -71,32 +71,45 @@ Namespace Core.Message
     Public Class HttpRequest
 
         ''' <summary>
-        ''' GET/POST/PUT/DELETE....
+        ''' GET/POST/PUT/DELETE.... the http request method, always upper case.
         ''' </summary>
-        ''' <returns></returns>
         ''' <remarks>
         ''' http方法名是大写的
         ''' </remarks>
+        ''' <returns>the upper-case http method name.</returns>
         Public ReadOnly Property HTTPMethod As String
+        ''' <summary>
+        ''' the parsed request url, including its path and query string.
+        ''' </summary>
+        ''' <returns>the <see cref="URL"/> of the request.</returns>
         Public ReadOnly Property URL As URL
         ''' <summary>
-        ''' <see cref="HttpProcessor.http_protocol_versionstring"/>
+        ''' the http protocol version string declared by the client
+        ''' (<see cref="HttpProcessor.http_protocol_versionstring"/>).
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the protocol version, e.g. HTTP/1.1.</returns>
         Public ReadOnly Property version As String
+        ''' <summary>
+        ''' the parsed request headers, keyed case-insensitively.
+        ''' </summary>
+        ''' <returns>the dictionary of request header name/value pairs.</returns>
         Public ReadOnly Property HttpHeaders As Dictionary(Of String, String)
 
         ''' <summary>
         ''' Remote client ip address
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the remote client ip address.</returns>
         Public ReadOnly Property Remote As String
+        ''' <summary>
+        ''' the underlying <see cref="HttpProcessor"/> that carried this request.
+        ''' </summary>
+        ''' <returns>the owning http processor instance.</returns>
         Public ReadOnly Property HttpRequest As HttpProcessor
 
         ''' <summary>
         ''' If current request url is indicates the HTTP root:  index.html
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns><c>True</c> when the url is exactly "/".</returns>
         Public ReadOnly Property IsWWWRoot As Boolean
             Get
                 Return String.Equals("/", URL)
@@ -106,10 +119,10 @@ Namespace Core.Message
         Dim m_cookies As Cookies
 
         ''' <summary>
-        ''' Get from <see cref="URL"/>
+        ''' get a query string argument value by name (read from <see cref="URL"/>).
         ''' </summary>
-        ''' <param name="name"></param>
-        ''' <returns></returns>
+        ''' <param name="name">the query argument name.</param>
+        ''' <returns>the first query value, or an empty default string when absent.</returns>
         Default Public Overridable ReadOnly Property Argument(name As String) As DefaultString
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -117,6 +130,11 @@ Namespace Core.Message
             End Get
         End Property
 
+        ''' <summary>
+        ''' build a request object from the given <see cref="HttpProcessor"/>,
+        ''' copying its method, url, version, headers and remote endpoint.
+        ''' </summary>
+        ''' <param name="request">the http processor that carried the request.</param>
         Sub New(request As HttpProcessor)
             HTTPMethod = request.http_method
             URL = New URL(request.http_url)
@@ -126,13 +144,17 @@ Namespace Core.Message
             HttpRequest = request
         End Sub
 
+        ''' <summary>
+        ''' create an empty request placeholder, used for object construction
+        ''' before the real processor is attached.
+        ''' </summary>
         Sub New()
         End Sub
 
         ''' <summary>
-        ''' Debug use
+        ''' Debug use: build an in-memory GET request from the given named values.
         ''' </summary>
-        ''' <param name="args"></param>
+        ''' <param name="args">the query arguments of the synthetic request.</param>
         Friend Sub New(args As IEnumerable(Of NamedValue(Of String)))
             HTTPMethod = "GET"
             URL = URL.BuildUrl("memory://debug", query:=args)
@@ -141,6 +163,11 @@ Namespace Core.Message
             Remote = "127.0.0.1"
         End Sub
 
+        ''' <summary>
+        ''' get a query argument as a boolean value.
+        ''' </summary>
+        ''' <param name="name">the query argument name.</param>
+        ''' <returns>the parsed boolean, or <c>False</c> when absent.</returns>
         Public Overridable Function GetBoolean(name As String) As Boolean
             If URL.query.ContainsKey(name) Then
                 Return URL.query(name).ElementAtOrDefault(Scan0).ParseBoolean
@@ -149,6 +176,10 @@ Namespace Core.Message
             End If
         End Function
 
+        ''' <summary>
+        ''' parse and cache the <see cref="Cookies"/> carried in the request headers.
+        ''' </summary>
+        ''' <returns>the parsed cookie collection.</returns>
         Public Function GetCookies() As Cookies
             If m_cookies Is Nothing Then
                 m_cookies = Cookies.ParseCookies(HttpHeaders.TryGetValue(RequestHeaders.Cookie))
@@ -157,15 +188,28 @@ Namespace Core.Message
             Return m_cookies
         End Function
 
+        ''' <summary>
+        ''' get all query arguments as a name/object dictionary.
+        ''' </summary>
+        ''' <returns>a dictionary of query argument names and their values.</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Function GetArguments() As Dictionary(Of String, Object)
             Return URL.query.ToDictionary(Function(a) a.Key, Function(a) CObj(a.Value))
         End Function
 
+        ''' <summary>
+        ''' test whether the given query argument name is present.
+        ''' </summary>
+        ''' <param name="name">the query argument name.</param>
+        ''' <returns><c>True</c> when the argument exists.</returns>
         Public Overridable Function HasValue(name As String) As Boolean
             Return URL.query.ContainsKey(name)
         End Function
 
+        ''' <summary>
+        ''' the json representation of this request.
+        ''' </summary>
+        ''' <returns>the request serialized as json.</returns>
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function

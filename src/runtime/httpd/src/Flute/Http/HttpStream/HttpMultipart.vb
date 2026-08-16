@@ -281,6 +281,12 @@ Namespace Core.HttpStream
             Return retval
         End Function
 
+        ''' <summary>
+        ''' read the next multipart body part from the stream and return its
+        ''' <see cref="StreamElement"/> descriptor (name, filename, content type,
+        ''' bounds and length). returns <c>Nothing</c> when the stream has ended.
+        ''' </summary>
+        ''' <returns>the next <see cref="StreamElement"/>, or <c>Nothing</c> at end of stream.</returns>
         Friend Function ReadNextElement() As StreamElement
             If at_eof OrElse ReadBoundary() Then
                 Return Nothing

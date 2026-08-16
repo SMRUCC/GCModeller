@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d723426c25d21c97c050b043a8d3bdbc, src\HTTP_SERVER\Interop.vb"
+﻿#Region "Microsoft.VisualBasic::6cef2a63824af6cc20a35aff81393957, src\HTTP_SERVER\Interop.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 1 (16.67%)
-    '     File Size: 162 B
+    '     File Size: 160 B
 
 
     ' Module Interop
@@ -57,4 +57,3 @@ Public Module Interop
         Return CLI.Fluteway.FromEnvironment(App.HOME)
     End Function
 End Module
-

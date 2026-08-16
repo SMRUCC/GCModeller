@@ -1,4 +1,4 @@
-#Region "Microsoft.VisualBasic::00000000000000000000000000000000, src\Flute\Http\WebSocket\WebSocketDelegate.vb"
+﻿#Region "Microsoft.VisualBasic::9e78223a4e611cf2acc6295de7705a82, src\Flute\Http\WebSocket\WebSocketDelegate.vb"
 
     ' Author:
     ' 
@@ -24,6 +24,67 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 199
+    '    Code Lines: 74 (37.19%)
+    ' Comment Lines: 103 (51.76%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 22 (11.06%)
+    '     File Size: 8.71 KB
+
+
+    '     Delegate Sub
+    ' 
+    ' 
+    '     Delegate Sub
+    ' 
+    ' 
+    '     Delegate Sub
+    ' 
+    ' 
+    '     Delegate Sub
+    ' 
+    ' 
+    '     Class WebSocketMessage
+    ' 
+    '         Properties: Data, IsBinary, Length, Text
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    '     Interface IWebSocketHandler
+    ' 
+    '         Sub: OnClose, OnConnect, OnError, OnMessage
+    ' 
+    '     Class WebSocketHandler
+    ' 
+    '         Properties: [Close], [Error], Connect, Message
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: Echo
+    ' 
+    '         Sub: OnClose, OnConnect, OnError, OnMessage
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

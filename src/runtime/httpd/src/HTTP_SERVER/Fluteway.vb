@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab7c22dcc6268006b3ee699f572b637a, src\HTTP_SERVER\Fluteway.vb"
+﻿#Region "Microsoft.VisualBasic::415b194d259004230c0ba2032f3cfd23, src\HTTP_SERVER\Fluteway.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 100
-    '    Code Lines: 40 (40.00%)
-    ' Comment Lines: 47 (47.00%)
+    '   Total Lines: 99
+    '    Code Lines: 40 (40.40%)
+    ' Comment Lines: 47 (47.47%)
     '    - Xml Docs: 29.79%
     ' 
-    '   Blank Lines: 13 (13.00%)
+    '   Blank Lines: 12 (12.12%)
     '     File Size: 3.60 KB
 
 
@@ -152,5 +152,3 @@ Return CLI.ToString()
 End Function
 End Class
 End Namespace
-
-

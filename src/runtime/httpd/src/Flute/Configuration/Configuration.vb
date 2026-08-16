@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7991f8f7f9b319259ddd40149164ca7c, src\Flute\Configuration\Configuration.vb"
+﻿#Region "Microsoft.VisualBasic::e22a3debc7e778e7b2dfe4a25be808a3, src\Flute\Configuration\Configuration.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 52
-    '    Code Lines: 31 (59.62%)
-    ' Comment Lines: 11 (21.15%)
+    '   Total Lines: 110
+    '    Code Lines: 69 (62.73%)
+    ' Comment Lines: 18 (16.36%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 10 (19.23%)
-    '     File Size: 1.84 KB
+    '   Blank Lines: 23 (20.91%)
+    '     File Size: 5.40 KB
 
 
     '     Class Configuration
     ' 
-    '         Properties: session, silent, x_powered_by
+    '         Properties: cors_allow_headers, cors_allow_methods, cors_allow_origin, longpoll_enabled, longpoll_max_connections
+    '                     longpoll_timeout, request_timeout, session, shutdown_token, silent
+    '                     websocket_enabled, websocket_max_message_size, websocket_read_timeout, websocket_subprotocols, x_powered_by
     ' 
-    '         Function: [Default], Load, Save
+    '         Function: [Default], GetWebSocketSubProtocols, Load, Save
     ' 
     ' 
     ' /********************************************************************************/
@@ -55,6 +57,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.Runtime.CompilerServices
 Imports Flute.Http.Core
 Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 
@@ -102,6 +105,15 @@ Namespace Configurations
         <Description("the socket read timeout in milliseconds of an established websocket connection. Default 0 means infinite waiting for the next data frame.")>
         Public Property websocket_read_timeout As Integer = 0
 
+        <Description("a logical value for enable the HTTP long polling endpoint on this http server. Default is enabled.")>
+        Public Property longpoll_enabled As Boolean = True
+
+        <Description("the maximum time in milliseconds that a long poll request will be blocked before it returns an empty response. Default 30000 (30s). A value which is less than or equals to zero means infinite waiting.")>
+        Public Property longpoll_timeout As Integer = 30000
+
+        <Description("the maximum number of the concurrent pending long poll connections. A new long poll request will be rejected with a 503 response when this limit is exceeded. Default 1000.")>
+        Public Property longpoll_max_connections As Integer = 1000
+
         ''' <summary>
         ''' get the websocket sub-protocol name list from the
         ''' <see cref="websocket_subprotocols"/> configuration value.
@@ -121,6 +133,12 @@ Namespace Configurations
             End If
         End Function
 
+        ''' <summary>
+        ''' create a new configuration instance populated with the default
+        ''' values, including a fresh <see cref="Session"/> object.
+        ''' </summary>
+        ''' <returns>a default <see cref="Configuration"/> instance.</returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function [Default]() As Configuration
             Return New Configuration With {.session = New Session}
         End Function
@@ -128,7 +146,7 @@ Namespace Configurations
         ''' <summary>
         ''' safe handler for load ini configuration file
         ''' </summary>
-        ''' <param name="inifile"></param>
+        ''' <param name="inifile">the path of the ini configuration file to load.</param>
         ''' <returns>
         ''' this function returns the default configuration file if the
         ''' given <paramref name="inifile"/> missing or invalid file format.
@@ -146,6 +164,14 @@ Namespace Configurations
             End Try
         End Function
 
+        ''' <summary>
+        ''' persist the given configuration into an ini file, overwriting any
+        ''' existing content with the serialized values.
+        ''' </summary>
+        ''' <param name="settings">the configuration instance to save.</param>
+        ''' <param name="inifile">the target ini file path.</param>
+        ''' <returns><c>True</c> if the file was written successfully.</returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Save(settings As Configuration, inifile As String) As Boolean
             Return ClassMapper.WriteClass(settings, inifile, clean:=True)
         End Function

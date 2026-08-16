@@ -81,10 +81,10 @@ Namespace Core.HttpStream
     Public Class PostReader
 
         ''' <summary>
-        ''' Get value from <see cref="Form"/>
+        ''' Get a form field value by name from <see cref="Form"/> using the default indexer.
         ''' </summary>
-        ''' <param name="name"></param>
-        ''' <returns></returns>
+        ''' <param name="name">the form field name to look up.</param>
+        ''' <returns>the form field value, or <c>Nothing</c> when not present.</returns>
         Default Public ReadOnly Property param(name As String) As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -116,28 +116,42 @@ Namespace Core.HttpStream
             Return header.Substring(ap + 1, [end] - ap - 1)
         End Function
 
+        ''' <summary>
+        ''' the content type (mime) of the posted request body.
+        ''' </summary>
         Public ReadOnly Property ContentType As String
         ''' <summary>
         ''' 所POST上传的数据的临时文件的文件路径
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the file path of the temporary file holding the posted data.</returns>
         Public ReadOnly Property InputStream As String
+        ''' <summary>
+        ''' the text encoding used to decode the posted byte stream into strings.
+        ''' </summary>
         Public ReadOnly Property ContentEncoding As Encoding
         ''' <summary>
-        ''' The web form input values
+        ''' The web form input values (name/value pairs) parsed from the body.
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the collection of posted form fields.</returns>
         Public ReadOnly Property Form As New NameValueCollection
+        ''' <summary>
+        ''' the parsed json objects when the posted body is a json payload.
+        ''' </summary>
         Public ReadOnly Property Objects As New Dictionary(Of String, Object)
+        ''' <summary>
+        ''' the uploaded files keyed by their form field name.
+        ''' </summary>
         Public ReadOnly Property files As New Dictionary(Of String, List(Of HttpPostedFile))
 
         ''' <summary>
-        ''' 
+        ''' create a POST reader over the given temporary input file and parse it
+        ''' according to its content type (json, url-encoded form, or multipart).
         ''' </summary>
-        ''' <param name="input">所POST上传的数据是保存在一个临时文件之中的</param>
-        ''' <param name="contentType$"></param>
-        ''' <param name="encoding"></param>
-        ''' <param name="fileName$"></param>
+        ''' <param name="input">the path of the temporary file that holds the posted data.</param>
+        ''' <param name="contentType$">the content type (mime) of the posted body.</param>
+        ''' <param name="encoding">the text encoding of the posted data.</param>
+        ''' <param name="fileName$">the original file name, used when the body is a single file upload.</param>
+        ''' <param name="parseJSON">the optional custom json parser for json payloads.</param>
         Sub New(input$, contentType$, encoding As Encoding,
                 Optional fileName$ = Nothing,
                 Optional parseJSON As JSONParser = Nothing)
@@ -162,6 +176,12 @@ Namespace Core.HttpStream
             Return InputStream.Open(doClear:=False)
         End Function
 
+        ''' <summary>
+        ''' a custom parser delegate that deserializes a json request body into a
+        ''' name/value dictionary, used instead of the built-in json loader.
+        ''' </summary>
+        ''' <param name="json_str">the raw json request body string.</param>
+        ''' <returns>the parsed object dictionary.</returns>
         Public Delegate Function JSONParser(json_str As String) As Dictionary(Of String, Object)
 
         Private Sub loadjQueryPOST(fileName As String, parseJSON As JSONParser)

@@ -58,18 +58,40 @@ Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
 
 Namespace Core.Message.HttpHeader
 
+    ''' <summary>
+    ''' builds http error response pages from a template that supports a
+    ''' <c>{$message}</c> placeholder, and maps <see cref="HTTP_RFC"/> codes to
+    ''' their description text.
+    ''' </summary>
     Public Class HttpError
 
+        ''' <summary>
+        ''' the error page template; the <c>{$message}</c> placeholder is replaced
+        ''' with the actual error message when rendering.
+        ''' </summary>
         ReadOnly template As String
 
+        ''' <summary>
+        ''' create an error page builder from the given template string.
+        ''' </summary>
+        ''' <param name="template">the template containing a <c>{$message}</c> placeholder.</param>
         Sub New(template As String)
             Me.template = template
         End Sub
 
+        ''' <summary>
+        ''' create an error page builder using the default <c>{$message}</c> template.
+        ''' </summary>
         Sub New()
             Call Me.New("{$message}")
         End Sub
 
+        ''' <summary>
+        ''' render the error page for the given message by substituting the
+        ''' <c>{$message}</c> placeholder in the template.
+        ''' </summary>
+        ''' <param name="message">the error message to embed in the page.</param>
+        ''' <returns>the rendered error page string.</returns>
         Public Function GetErrorPage(message As String) As String
             With New ScriptBuilder(template)
                 !message = message
@@ -78,6 +100,10 @@ Namespace Core.Message.HttpHeader
             End With
         End Function
 
+        ''' <summary>
+        ''' the static map of <see cref="HTTP_RFC"/> numeric codes to their
+        ''' description text, built once from the enum metadata.
+        ''' </summary>
         Shared ReadOnly httpRFC As Dictionary(Of String, String)
 
         Shared Sub New()
@@ -92,6 +118,11 @@ Namespace Core.Message.HttpHeader
                               End Function)
         End Sub
 
+        ''' <summary>
+        ''' look up the human readable description for an <see cref="HTTP_RFC"/> code.
+        ''' </summary>
+        ''' <param name="code">the numeric status code as a string.</param>
+        ''' <returns>the description text, or "Unknown Status" when not found.</returns>
         Public Shared Function getRFCMessage(code As String) As String
             If httpRFC.ContainsKey(code) Then
                 Return httpRFC(code)

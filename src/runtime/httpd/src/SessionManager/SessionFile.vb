@@ -1,55 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::36cd110a84f67285066bb6c64d9a8943, src\SessionManager\SessionFile.vb"
+﻿#Region "Microsoft.VisualBasic::faaea722f6dba6c153c75e55504a2895, src\SessionManager\SessionFile.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 176
-'    Code Lines: 139 (78.98%)
-' Comment Lines: 9 (5.11%)
-'    - Xml Docs: 55.56%
-' 
-'   Blank Lines: 28 (15.91%)
-'     File Size: 6.11 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class SessionFile
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: OpenKey, OpenKeyDouble, OpenKeyInteger, OpenKeyString, (+4 Overloads) SaveKey
-'               SearchKey
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 184
+    '    Code Lines: 129 (70.11%)
+    ' Comment Lines: 20 (10.87%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 35 (19.02%)
+    '     File Size: 6.06 KB
+
+
+    ' Class SessionFile
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: OpenKey, OpenKeyDouble, OpenKeyInteger, OpenKeyString, (+4 Overloads) SaveKey
+    '               (+2 Overloads) SearchKey
+    ' 
+    '     Sub: buildIndex
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -237,4 +240,3 @@ Public Class SessionFile
     End Sub
 
 End Class
-

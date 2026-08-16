@@ -69,15 +69,20 @@ Namespace Core.Message
         ''' <summary>
         ''' the content length in byte size
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the response body length in bytes.</returns>
         Public Property length As Integer
 
         ''' <summary>
         ''' the mime content type, usually in format like: ``text/html``.
         ''' (不需要在这里写入http头部)
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the mime type string of the content.</returns>
         Public Property type As String
+        ''' <summary>
+        ''' when set, the content is sent as a downloadable attachment with this
+        ''' file name via the <c>Content-Disposition</c> header.
+        ''' </summary>
+        ''' <returns>the suggested download file name, or empty.</returns>
         Public Property attachment As String
 
         Public Overrides Function ToString() As String

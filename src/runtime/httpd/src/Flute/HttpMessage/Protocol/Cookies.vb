@@ -60,6 +60,11 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Core.Message
 
+    ''' <summary>
+    ''' a collection of http cookies parsed from or serialized to the
+    ''' <c>Cookie</c> request header. keys are stored in lower case for
+    ''' case-insensitive lookups.
+    ''' </summary>
     Public Class Cookies
 
         ''' <summary>
@@ -67,22 +72,48 @@ Namespace Core.Message
         ''' </summary>
         Dim cookies As Dictionary(Of String, String)
 
+        ''' <summary>
+        ''' check whether a cookie with the given (case-insensitive) name exists.
+        ''' </summary>
+        ''' <param name="name">the cookie name to look up.</param>
+        ''' <returns><c>True</c> when the cookie is present.</returns>
         Public Function CheckCookie(name As String) As Boolean
             Return cookies.ContainsKey(name.ToLower)
         End Function
 
+        ''' <summary>
+        ''' get a cookie value by name (case-insensitive lookup).
+        ''' </summary>
+        ''' <param name="name">the cookie name.</param>
+        ''' <returns>the cookie value, or empty when not present.</returns>
         Public Function GetCookie(name As String) As String
             Return cookies.TryGetValue(name.ToLower)
         End Function
 
+        ''' <summary>
+        ''' add or replace a cookie value in the collection (key stored lower case).
+        ''' </summary>
+        ''' <param name="name">the cookie name.</param>
+        ''' <param name="value">the cookie value.</param>
         Public Sub SetValue(name As String, value As String)
             cookies(name) = value
         End Sub
 
+        ''' <summary>
+        ''' get a line-oriented reader over the name/value cookie dictionary.
+        ''' </summary>
+        ''' <returns>a <see cref="StringReader"/> wrapping the cookie pairs.</returns>
         Public Function GetReader() As StringReader
             Return StringReader.WrapDictionary(cookies)
         End Function
 
+        ''' <summary>
+        ''' parse a raw <c>Cookie</c> header value (semicolon separated name=value
+        ''' pairs) into a <see cref="Cookies"/> collection; values sharing a name
+        ''' are joined with "; ".
+        ''' </summary>
+        ''' <param name="cookies">the raw cookie header value, or empty for an empty collection.</param>
+        ''' <returns>a populated <see cref="Cookies"/> instance.</returns>
         Public Shared Function ParseCookies(cookies As String) As Cookies
             If cookies.StringEmpty Then
                 Return New Cookies With {
@@ -101,10 +132,18 @@ Namespace Core.Message
             End If
         End Function
 
+        ''' <summary>
+        ''' the json array of the cookie names held in this collection.
+        ''' </summary>
+        ''' <returns>the json string of the cookie name list.</returns>
         Public Overrides Function ToString() As String
             Return cookies.Keys.AsEnumerable.GetJson
         End Function
 
+        ''' <summary>
+        ''' serialize the cookie collection (name/value) to json.
+        ''' </summary>
+        ''' <returns>the json representation of the cookies.</returns>
         Public Function ToJSON() As String
             Return cookies.GetJson
         End Function

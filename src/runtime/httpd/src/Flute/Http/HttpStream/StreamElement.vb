@@ -54,14 +54,37 @@
 
 Namespace Core.HttpStream
 
+    ''' <summary>
+    ''' a descriptor for a single element within a multipart/form-data stream,
+    ''' recording its header metadata and the byte range it occupies.
+    ''' </summary>
     Friend Class StreamElement
 
+        ''' <summary>
+        ''' the content type (mime) of this multipart element.
+        ''' </summary>
         Public ContentType As String
+        ''' <summary>
+        ''' the form field name of this multipart element.
+        ''' </summary>
         Public Name As String
+        ''' <summary>
+        ''' the file name of this multipart element when it is a file upload.
+        ''' </summary>
         Public Filename As String
+        ''' <summary>
+        ''' the start byte offset of the element data within the source stream.
+        ''' </summary>
         Public Start As Long
+        ''' <summary>
+        ''' the byte length of the element data.
+        ''' </summary>
         Public Length As Long
 
+        ''' <summary>
+        ''' a human readable description of this multipart element.
+        ''' </summary>
+        ''' <returns>the string representation of the element metadata.</returns>
         Public Overrides Function ToString() As String
             Return "ContentType " & ContentType & ", Name " & Name & ", Filename " & Filename & ", Start " & Start.ToString() & ", Length " & Length.ToString()
         End Function

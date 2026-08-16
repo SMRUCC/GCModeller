@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c9d006feafc57b5c1735f88f7aba42b, src\Flute\HttpMessage\Protocol\HttpHeader.vb"
+﻿#Region "Microsoft.VisualBasic::c6e46896b0c5795e0d328c208241e916, src\Flute\HttpMessage\Protocol\HttpHeader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 41
-    '    Code Lines: 35 (85.37%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 112
+    '    Code Lines: 52 (46.43%)
+    ' Comment Lines: 46 (41.07%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (14.63%)
-    '     File Size: 1.73 KB
+    '   Blank Lines: 14 (12.50%)
+    '     File Size: 4.80 KB
 
 
     '     Class RequestHeaders
@@ -51,6 +51,10 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
+    '     Class WebSocketProtocol
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -58,21 +62,36 @@
 
 Namespace Core.Message.HttpHeader
 
+    ''' <summary>
+    ''' the well known http request header names, used as constants so callers
+    ''' do not have to hard-code the (case-sensitive) header strings.
+    ''' </summary>
     Public NotInheritable Class RequestHeaders
 
         Private Sub New()
         End Sub
 
+        ''' <summary>the media types the client is able to understand.</summary>
         Public Const Accept As String = "Accept"
+        ''' <summary>the content encodings the client can decode.</summary>
         Public Const AcceptEncoding As String = "Accept-Encoding"
+        ''' <summary>the preferred natural languages for the response.</summary>
         Public Const AcceptLanguage As String = "Accept-Language"
+        ''' <summary>directives that control caching behaviour.</summary>
         Public Const CacheControl As String = "Cache-Control"
+        ''' <summary>the connection options, e.g. keep-alive or close.</summary>
         Public Const Connection As String = "Connection"
+        ''' <summary>the cookies previously sent by the server in Set-Cookie.</summary>
         Public Const Cookie As String = "Cookie"
+        ''' <summary>the domain name of the server (and optional port).</summary>
         Public Const Host As String = "Host"
+        ''' <summary>implementation specific directives that may affect caching.</summary>
         Public Const Pragma As String = "Pragma"
+        ''' <summary>indicates the client prefers an upgrade to a secure transport.</summary>
         Public Const UpgradeInsecureRequests As String = "Upgrade-Insecure-Requests"
+        ''' <summary>the media type of the request body.</summary>
         Public Const ContentType As String = "Content-Type"
+        ''' <summary>the user agent string identifying the client software.</summary>
         Public Const UserAgent As String = "User-Agent"
 
         ''' <summary>
@@ -99,24 +118,42 @@ Namespace Core.Message.HttpHeader
         Public Const SecWebSocketExtensions As String = "Sec-WebSocket-Extensions"
     End Class
 
+    ''' <summary>
+    ''' the well known http response header names, used as constants so callers
+    ''' do not have to hard-code the (case-sensitive) header strings.
+    ''' </summary>
     Public NotInheritable Class ResponseHeaders
 
         Private Sub New()
         End Sub
 
+        ''' <summary>directives that control caching behaviour.</summary>
         Public Const CacheControl As String = "Cache-Control"
+        ''' <summary>the connection options, e.g. keep-alive or close.</summary>
         Public Const Connection As String = "Connection"
+        ''' <summary>the content encodings applied to the response body.</summary>
         Public Const ContentEncoding As String = "Content-Encoding"
+        ''' <summary>the byte length of the response body.</summary>
         Public Const ContentLength As String = "Content-Length"
+        ''' <summary>the media type of the response body.</summary>
         Public Const ContentType As String = "Content-Type"
+        ''' <summary>the date and time the message was sent.</summary>
         Public Const [Date] As String = "Date"
+        ''' <summary>the date/time after which the response is considered stale.</summary>
         Public Const Expires As String = "Expires"
+        ''' <summary>parameters for keeping the connection alive.</summary>
         Public Const KeepAlive As String = "Keep-Alive"
+        ''' <summary>implementation specific directives that may affect caching.</summary>
         Public Const Pragma As String = "Pragma"
+        ''' <summary>the name of the server application handling the request.</summary>
         Public Const Server As String = "Server"
+        ''' <summary>instructs the client to store one or more cookies.</summary>
         Public Const SetCookie As String = "Set-Cookie"
+        ''' <summary>specifies which request headers influence the cached response.</summary>
         Public Const Vary As String = "Vary"
+        ''' <summary>indicates whether the browser should be allowed to render in a frame.</summary>
         Public Const XFrameOptions As String = "X-Frame-Options"
+        ''' <summary>a custom header advertising the framework that powers the server.</summary>
         Public Const XPoweredBy As String = "X-Powered-By"
 
         ''' <summary>

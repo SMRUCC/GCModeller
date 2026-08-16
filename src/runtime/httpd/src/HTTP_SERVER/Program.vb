@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2e8ca49f88a0f22d4ffd73333949f227, src\HTTP_SERVER\Program.vb"
+﻿#Region "Microsoft.VisualBasic::d59d6197138905104fe776208e813ab9, src\HTTP_SERVER\Program.vb"
 
     ' Author:
     ' 
@@ -34,26 +34,31 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 64
-    '    Code Lines: 44 (68.75%)
-    ' Comment Lines: 11 (17.19%)
-    '    - Xml Docs: 36.36%
+    '   Total Lines: 108
+    '    Code Lines: 68 (62.96%)
+    ' Comment Lines: 23 (21.30%)
+    '    - Xml Docs: 17.39%
     ' 
-    '   Blank Lines: 9 (14.06%)
-    '     File Size: 2.30 KB
+    '   Blank Lines: 17 (15.74%)
+    '     File Size: 4.65 KB
 
 
     ' Module Program
     ' 
     '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: listen, listenCurrentFolder, Main
+    ' 
+    '     Sub: ProcessRequest
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
+Imports System.Runtime.CompilerServices
 Imports Flute.Http.Core
+Imports Flute.Http.Core.Message
 Imports Flute.Http.FileSystem
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -95,10 +100,22 @@ Module Program
         End If
 
         Dim localfs As New WebFileSystemListener(New FileSystem(wwwroot))
+        ' wrap the static file handler with a long poll push endpoint demo:
+        '   GET  /poll/messages  -> long poll, blocks until a push arrives
+        '   POST /push           -> push a text message to all pending polls
+        Dim longpollEndpoint As String = "/poll/messages"
         Dim localhost As New HttpSocket(
-            app:=AddressOf localfs.WebHandler,
+            app:=Sub(request As HttpRequest, response As HttpResponse)
+                     Call localhost.ProcessRequest(localfs, longpollEndpoint, request, response)
+                 End Sub,
             port:=port
         )
+
+        ' register the long poll endpoint so that a GET /poll/messages request
+        ' will be blocked for waiting a push operation instead of being served
+        ' as a static file.
+        Call localhost.LongPoll.Route(longpollEndpoint)
+        Call $"long poll endpoint registered on '{longpollEndpoint}'.".info()
 
         If Not attach.StringEmpty Then
             If attach.DirectoryExists Then
@@ -119,4 +136,30 @@ Module Program
 
         Return localhost.Run
     End Function
+
+    <Extension>
+    Private Sub ProcessRequest(localhost As HttpSocket, localfs As WebFileSystemListener, longpollEndpoint As String, request As HttpRequest, response As HttpResponse)
+        ' handle the /push endpoint for pushing a message to the
+        ' pending long poll connections on the /poll/messages path.
+        If request.HTTPMethod = "POST" AndAlso request.URL.path.TextEquals("/push") Then
+            Dim payload As String = ""
+
+            If TypeOf request Is HttpPOSTRequest Then
+                Dim post As HttpPOSTRequest = DirectCast(request, HttpPOSTRequest)
+                payload = post("message").DefaultValue
+            End If
+
+            If payload.StringEmpty AndAlso request.URL.query.ContainsKey("message") Then
+                payload = request.URL.query("message").ElementAtOrNull(Scan0)
+            End If
+
+            Dim delivered As Integer = localhost.LongPoll.PushText(longpollEndpoint, If(payload, ""))
+
+            Call $"long poll push: delivered to {delivered} client(s), message: {payload}.".info()
+            response.WriteJSON(New With {.ok = True, .delivered = delivered, .message = payload})
+        Else
+            ' delegate all of the other requests to the static file handler
+            Call localfs.WebHandler(request, response)
+        End If
+    End Sub
 End Module

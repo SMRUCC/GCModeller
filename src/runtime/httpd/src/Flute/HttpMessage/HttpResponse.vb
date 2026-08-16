@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e28c5a8f740a4eb9007516bd183c8930, src\Flute\HttpMessage\HttpResponse.vb"
+﻿#Region "Microsoft.VisualBasic::7826a2182bfa0f518dd2c22c30607ed2, src\Flute\HttpMessage\HttpResponse.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 580
-    '    Code Lines: 233 (40.17%)
-    ' Comment Lines: 270 (46.55%)
-    '    - Xml Docs: 41.11%
+    '   Total Lines: 600
+    '    Code Lines: 243 (40.50%)
+    ' Comment Lines: 277 (46.17%)
+    '    - Xml Docs: 41.52%
     ' 
-    '   Blank Lines: 77 (13.28%)
-    '     File Size: 23.45 KB
+    '   Blank Lines: 80 (13.33%)
+    '     File Size: 24.65 KB
 
 
     '     Delegate Sub
@@ -102,14 +102,30 @@ Namespace Core.Message
         Dim m_writeData As Boolean = False
         Dim m_customHeaders As New Dictionary(Of String, String)
 
+        ''' <summary>
+        ''' the value written to the <c>Access-Control-Allow-Origin</c> response
+        ''' header; when empty the header is omitted. used to enable CORS.
+        ''' </summary>
         Public Property AccessControlAllowOrigin As String
 
+        ''' <summary>
+        ''' create a response bound to the given output stream, failure callback
+        ''' and server configuration.
+        ''' </summary>
+        ''' <param name="rep">the stream writer that writes the response to the client.</param>
+        ''' <param name="error">the callback used to render error pages.</param>
+        ''' <param name="config">the server wide configuration instance.</param>
         Sub New(rep As StreamWriter, [error] As HttpError, config As Configuration)
             response = rep
             writeFailed = [error]
             settings = config
         End Sub
 
+        ''' <summary>
+        ''' create a response from an <see cref="HttpProcessor"/>, reusing its
+        ''' output stream and failure writer, and capturing its request headers.
+        ''' </summary>
+        ''' <param name="p">the http processor that owns this response.</param>
         Sub New(p As HttpProcessor)
             Call Me.New(p.outputStream, AddressOf p.writeFailure, p._settings)
             m_requestHeaders = p.httpHeaders
@@ -128,6 +144,10 @@ Namespace Core.Message
             Call writeFailed(code, message)
         End Sub
 
+        ''' <summary>
+        ''' send an HTTP 302 redirect response that points the client to the given url.
+        ''' </summary>
+        ''' <param name="url">the absolute or relative url to redirect the client to.</param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Redirect(url As String)
             Call response.WriteLine("HTTP/1.1 302 Found")
@@ -139,10 +159,20 @@ Namespace Core.Message
             Call response.Flush()
         End Sub
 
+        ''' <summary>
+        ''' send the HTTP response headers with the given mime type and content length.
+        ''' </summary>
+        ''' <param name="MIMEType">the mime type of the response body.</param>
+        ''' <param name="contentLength">the byte length of the response body.</param>
         Public Sub WriteHeader(MIMEType As String, contentLength As Integer)
             Call WriteHttp(New Content With {.length = contentLength, .type = MIMEType})
         End Sub
 
+        ''' <summary>
+        ''' stream a local file to the client as a binary response, using its
+        ''' detected mime type.
+        ''' </summary>
+        ''' <param name="path">the path of the local file to send.</param>
         Public Sub SendFile(path As String)
             Call path.TransferBinary(path.FileMimeType.MIMEType, Me)
         End Sub
@@ -161,6 +191,11 @@ Namespace Core.Message
             End Using
         End Sub
 
+        ''' <summary>
+        ''' write an html string to the response, emitting the http header
+        ''' automatically when nothing has been written yet.
+        ''' </summary>
+        ''' <param name="html">the html content to write.</param>
         Public Sub WriteHTML(html As String)
             ' 如果writeData是True，则说明在这之前已经写了其他数据，就不写http头部了
             If Not m_writeHTML AndAlso Not m_writeData Then
@@ -186,6 +221,12 @@ Namespace Core.Message
             Return True
         End Function
 
+        ''' <summary>
+        ''' register a custom response header that will be written when the http
+        ''' header block is emitted.
+        ''' </summary>
+        ''' <param name="header">the custom header name.</param>
+        ''' <param name="value">the custom header value.</param>
         Public Sub AddCustomHttpHeader(header As String, value As String)
             m_customHeaders(header) = value
         End Sub
@@ -206,6 +247,11 @@ Namespace Core.Message
             ).JoinBy("; ")
         End Sub
 
+        ''' <summary>
+        ''' append a single name/value pair to the <c>Set-Cookie</c> response header.
+        ''' </summary>
+        ''' <param name="name">the cookie name.</param>
+        ''' <param name="value">the cookie value.</param>
         Public Sub SetCookies(name As String, value As String)
             If m_customHeaders.ContainsKey(SetCookie) Then
                 m_customHeaders(SetCookie) &= $"; {name}={value}"
@@ -214,6 +260,11 @@ Namespace Core.Message
             End If
         End Sub
 
+        ''' <summary>
+        ''' send the http response headers using the given content type and length.
+        ''' </summary>
+        ''' <param name="contentType">the mime type of the response body.</param>
+        ''' <param name="contentLength">the byte length of the response body.</param>
         Public Sub WriteHttp(contentType As String, contentLength As Integer)
             Call WriteHttp(New Content With {.type = contentType, .length = contentLength})
         End Sub
@@ -295,16 +346,31 @@ Namespace Core.Message
             Call response.BaseStream.Flush()
         End Sub
 
+        ''' <summary>
+        ''' serialize the given object as xml and write it to the response body.
+        ''' </summary>
+        ''' <typeparam name="T">the type of the object to serialize.</typeparam>
+        ''' <param name="obj">the object to write as xml.</param>
         Public Sub WriteXML(Of T)(obj As T)
             m_writeData = True
             Call response.WriteLine(obj.GetXml)
         End Sub
 
+        ''' <summary>
+        ''' write raw bytes to the response body.
+        ''' </summary>
+        ''' <param name="byts">the bytes to write.</param>
         Public Overloads Sub Write(byts As Byte())
             m_writeData = True
             Call response.BaseStream.Write(byts, offset:=Scan0, count:=byts.Length)
         End Sub
 
+        ''' <summary>
+        ''' write a slice of the given byte array to the response body.
+        ''' </summary>
+        ''' <param name="byts">the source byte array.</param>
+        ''' <param name="offset">the start offset within the array.</param>
+        ''' <param name="count">the number of bytes to write.</param>
         Public Overloads Sub Write(byts As Byte(), offset As Integer, count As Integer)
             m_writeData = True
             Call response.BaseStream.Write(byts, offset, count)
@@ -395,6 +461,10 @@ Namespace Core.Message
             Call response.BaseStream.Write(bytes, Scan0, bytes.Length)
         End Sub
 
+        ''' <summary>
+        ''' write a line of text to the response, appending the platform new-line.
+        ''' </summary>
+        ''' <param name="s">the text line to write.</param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Sub WriteLine(s As String)
             Call Write(value:=s & vbCrLf)

@@ -68,14 +68,14 @@ Namespace AppEngine
         ''' <summary>
         ''' the status code of the result response
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the integer status/application code.</returns>
         <XmlAttribute>
         Public Property code As Integer
 
         ''' <summary>
         ''' the response content data
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the payload carried by this response.</returns>
         <XmlText>
         Public Property info As T
 

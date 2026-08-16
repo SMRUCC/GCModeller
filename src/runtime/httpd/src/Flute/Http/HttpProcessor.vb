@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27022bd464373733c5e1d90e7956731e, src\Flute\Http\HttpProcessor.vb"
+﻿#Region "Microsoft.VisualBasic::c747dbe94a32532880463d63b3fd303d, src\Flute\Http\HttpProcessor.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 529
-    '    Code Lines: 306 (57.84%)
-    ' Comment Lines: 140 (26.47%)
-    '    - Xml Docs: 55.71%
+    '   Total Lines: 936
+    '    Code Lines: 525 (56.09%)
+    ' Comment Lines: 276 (29.49%)
+    '    - Xml Docs: 56.52%
     ' 
-    '   Blank Lines: 83 (15.69%)
-    '     File Size: 20.08 KB
+    '   Blank Lines: 135 (14.42%)
+    '     File Size: 40.88 KB
 
 
     '     Class HttpProcessor
@@ -50,11 +50,13 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: flushPOSTPayload, GetSettings, openResponseStream, parseRequest, processHttpRequest
-    '                   streamReadLine, ToString
+    '         Function: flushPOSTPayload, getHeader, GetSettings, isLongPollRequest, isWebSocketRequest
+    '                   openResponseStream, parseRequest, processHttpRequest, streamReadLine, ToString
     ' 
-    '         Sub: (+2 Overloads) Dispose, handleGETRequest, HandlePOSTRequest, Process, readHeaders
-    '              WriteData, writeFailure, writeFailureInternal, WriteLine, (+3 Overloads) writeSuccess
+    '         Sub: (+2 Overloads) Dispose, handleGETRequest, handleLongPoll, HandlePOSTRequest, handleWebSocketUpgrade
+    '              Process, readHeaders, WriteData, writeFailure, writeFailureInternal
+    '              WriteLine, writeLongPollRejected, writeLongPollResponse, writeLongPollTimeout, (+3 Overloads) writeSuccess
+    '              writeWebSocketVersionMismatch
     ' 
     ' 
     ' /********************************************************************************/
@@ -65,9 +67,9 @@ Imports System.IO
 Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports System.Threading
 Imports Flute.Http.Configurations
 Imports Flute.Http.Core.HttpOptions
+Imports Flute.Http.Core.LongPoll
 Imports Flute.Http.Core.Message
 Imports Flute.Http.Core.WebSocket
 Imports Microsoft.VisualBasic.ApplicationServices
@@ -78,8 +80,8 @@ Imports Microsoft.VisualBasic.Text
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 Imports RequestHeaders = Flute.Http.Core.Message.HttpHeader.RequestHeaders
 Imports ResponseHeaders = Flute.Http.Core.Message.HttpHeader.ResponseHeaders
-Imports WebSocketProtocol = Flute.Http.Core.Message.HttpHeader.WebSocketProtocol
 Imports std = System.Math
+Imports WebSocketProtocol = Flute.Http.Core.Message.HttpHeader.WebSocketProtocol
 
 ' offered to the public domain for any use with no restriction
 ' and also with no warranty of any kind, please enjoy. - David Jeske. 
@@ -118,9 +120,8 @@ Namespace Core
         Private m_webSocketHijacked As Boolean = False
 
         ''' <summary>
-        ''' 
+        ''' the http request method (GET/POST/OPTIONS/...), always upper case.
         ''' </summary>
-        ''' <returns></returns>
         ''' <remarks>
         ''' http方法名是大写的
         ''' </remarks>
@@ -129,7 +130,7 @@ Namespace Core
         ''' <summary>
         ''' returns the raw http request header
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the full raw request header text accumulated during parsing.</returns>
         Public ReadOnly Property raw As String
             Get
                 Return _raw.ToString
@@ -137,11 +138,17 @@ Namespace Core
         End Property
 
         ''' <summary>
-        ''' File location or GET/POST request arguments
+        ''' the requested url path, or the GET/POST request arguments.
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the request url string as sent by the client.</returns>
         Public Property http_url As String
+        ''' <summary>
+        ''' the http protocol version string declared by the client (e.g. HTTP/1.1).
+        ''' </summary>
         Public Property http_protocol_versionstring As String
+        ''' <summary>
+        ''' the parsed http request headers, keyed case-insensitively.
+        ''' </summary>
         Public Property httpHeaders As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
 
         ''' <summary>
@@ -173,6 +180,13 @@ Namespace Core
             End Get
         End Property
 
+        ''' <summary>
+        ''' create a new http processor for one tcp connection.
+        ''' </summary>
+        ''' <param name="socket">the accepted tcp client for this connection.</param>
+        ''' <param name="srv">the owning http server instance.</param>
+        ''' <param name="MAX_POST_SIZE%">the maximum allowed POST body size in bytes; a value &lt;= 0 keeps the default 16MB limit.</param>
+        ''' <param name="settings">the server wide configuration instance.</param>
         Public Sub New(socket As TcpClient, srv As HttpServer, MAX_POST_SIZE%, settings As Configuration)
             Me.socket = socket
             Me.srv = srv
@@ -181,25 +195,46 @@ Namespace Core
             Me._settings = settings
         End Sub
 
+        ''' <summary>
+        ''' get the server wide configuration instance that this processor uses.
+        ''' </summary>
+        ''' <returns>the shared <see cref="Configuration"/> instance.</returns>
         Public Function GetSettings() As Configuration
             Return _settings
         End Function
 
+        ''' <summary>
+        ''' write raw bytes directly onto the underlying response network stream.
+        ''' </summary>
+        ''' <param name="data">the bytes to write.</param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteData(data As Byte())
             Call outputStream.BaseStream.Write(data, Scan0, data.Length)
         End Sub
 
+        ''' <summary>
+        ''' write one line of text (with the configured new-line) onto the response stream.
+        ''' </summary>
+        ''' <param name="s">the text line to write.</param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteLine(s As String)
             Call outputStream.WriteLine(s)
         End Sub
 
+        ''' <summary>
+        ''' the string representation of this processor, which is the request url.
+        ''' </summary>
+        ''' <returns>the requested url string.</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return http_url
         End Function
 
+        ''' <summary>
+        ''' build a fresh <see cref="HttpResponse"/> bound to this processor's
+        ''' output stream and failure writer.
+        ''' </summary>
+        ''' <returns>a new <see cref="HttpResponse"/> ready to be written to.</returns>
         Public Function openResponseStream() As HttpResponse
             Dim response As New HttpResponse(outputStream, AddressOf writeFailure, _settings)
             response.m_requestHeaders = httpHeaders
@@ -239,6 +274,12 @@ Namespace Core
             Return chrbuf.ToString
         End Function
 
+        ''' <summary>
+        ''' the public entry point that drives the full request lifecycle: it
+        ''' parses the http request, dispatches to the matching handler
+        ''' (websocket upgrade / long poll / GET / POST / OPTIONS) and finally
+        ''' flushes and closes the response stream and the underlying socket.
+        ''' </summary>
         Public Sub Process()
             ' we can't use a StreamReader for input, because it buffers up extra data on us inside it's
             ' "processed" view of the world, and we want the data raw after the headers
@@ -326,6 +367,15 @@ Namespace Core
             ' the request is dispatched to the regular http request handlers.
             If isWebSocketRequest() Then
                 Call handleWebSocketUpgrade()
+                Return Nothing
+            End If
+
+            ' the HTTP long polling request is a regular http GET request which
+            ' blocks the worker thread until a push operation arrives or the poll
+            ' is timed out, it must be detected at here before the request is
+            ' dispatched to the regular http request handlers.
+            If isLongPollRequest() Then
+                Call handleLongPoll()
                 Return Nothing
             End If
 
@@ -490,6 +540,227 @@ Namespace Core
 
 #End Region
 
+#Region "HTTP long polling"
+
+        ''' <summary>
+        ''' test of current http request is a long polling request which should
+        ''' be served by this server or not.
+        ''' </summary>
+        ''' <returns>
+        ''' the long polling request will be treated as a regular http request
+        ''' when the long polling feature has been disabled via the server
+        ''' configuration, or no application handler is published on the
+        ''' requested url path.
+        ''' </returns>
+        Private Function isLongPollRequest() As Boolean
+            If _settings IsNot Nothing AndAlso Not _settings.longpoll_enabled Then
+                Return False
+            Else
+                ' let the regular http request handler produces a 404 response when
+                ' no long polling endpoint is published on the requested url path.
+                Return srv.LongPoll.CanHandle(http_url)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' handle a long polling request: register a pending connection into the
+        ''' long poll manager, block current worker thread until a push operation
+        ''' arrives or the poll is timed out, then write the http response and
+        ''' return.
+        ''' </summary>
+        ''' <remarks>
+        ''' current worker thread will be blocked inside this method until the
+        ''' push data arrives or the poll is timed out, which is the expected
+        ''' behaviour as one long poll connection occupies one connection slot
+        ''' of the server connection semaphore during its whole lifecycle.
+        ''' </remarks>
+        Private Sub handleLongPoll()
+            ' reject the request when the maximum concurrent pending connection
+            ' limit is exceeded, so that the worker thread will not be exhausted.
+            If _settings.longpoll_max_connections > 0 AndAlso
+               srv.LongPoll.Count >= _settings.longpoll_max_connections Then
+
+                Call writeLongPollRejected()
+                Return
+            End If
+
+            Dim handler As ILongPollHandler = srv.LongPoll.ResolveHandler(http_url)
+
+            If handler Is Nothing Then
+                ' the route table was modified by another thread just after the
+                ' isLongPollRequest() check has been passed.
+                Call writeFailure(HTTP_RFC.RFC_NOT_FOUND, $"No long poll endpoint is published on '{http_url}'.")
+                Return
+            End If
+
+            Dim remoteEP As System.Net.EndPoint = Nothing
+
+            Try
+                remoteEP = socket.Client.RemoteEndPoint
+            Catch ex As Exception
+                ' the socket may have already been disconnected
+            End Try
+
+            Dim connection As New LongPollConnection(
+                path:=LongPollManager.NormalizePath(http_url),
+                url:=http_url,
+                headers:=httpHeaders,
+                remote:=remoteEP
+            )
+
+            ' give the application handler a chance to return an immediate
+            ' response without blocking, i.e. for a pending message in a queue.
+            Dim immediate As LongPollMessage = Nothing
+
+            Try
+                immediate = handler.OnPoll(connection)
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+
+            If immediate IsNot Nothing Then
+                ' the application handler returns an immediate message, skip the
+                ' blocking wait and write the response directly.
+                Try
+                    Call handler.OnComplete(connection, immediate, False)
+                Catch ex As Exception
+                    Call App.LogException(ex)
+                End Try
+
+                Call writeLongPollResponse(immediate)
+                Return
+            End If
+
+            ' register the pending connection into the manager so that a push
+            ' operation from another thread could find and complete it.
+            Call srv.LongPoll.Register(connection)
+            Call $"long poll connection [{connection.Id}] on {connection.Path} has been established from {connection.Remote}.".info(_settings.silent)
+
+            ' block current worker thread until the push data arrives or the poll
+            ' is timed out. the socket receive timeout is reset to infinite so
+            ' that the blocked worker thread will not be interrupted by the
+            ' socket read timeout mechanism during the waiting.
+            Dim timeoutMs As Integer = _settings.longpoll_timeout
+
+            If timeoutMs > 0 Then
+                Try
+                    socket.ReceiveTimeout = 0
+                Catch ex As Exception
+                    Call App.LogException(ex)
+                End Try
+            End If
+
+            Dim message As LongPollMessage = connection.WaitForData(timeoutMs)
+            Dim timedOut As Boolean = message Is Nothing
+
+            ' unregister the connection from the manager, the connection may have
+            ' already been unregistered by the push operation, this is safe as the
+            ' TryRemove is a no-op when the key is not found.
+            Call srv.LongPoll.Unregister(connection)
+
+            ' raise the completion event to the application handler
+            Try
+                Call handler.OnComplete(connection, message, timedOut)
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+
+            If timedOut Then
+                ' the poll is timed out or cancelled, write an empty response so
+                ' that the client could re-connect.
+                Call writeLongPollTimeout()
+            Else
+                Call writeLongPollResponse(message)
+            End If
+
+            Call $"long poll connection [{connection.Id}] has been finished: {If(timedOut, "timed out", "pushed")}.".info(_settings.silent)
+        End Sub
+
+        ''' <summary>
+        ''' write the http response of a long poll request with the pushed message
+        ''' payload. the response is a regular http 200 response with the content
+        ''' type which is carried by the push message.
+        ''' </summary>
+        Private Sub writeLongPollResponse(message As LongPollMessage)
+            If message Is Nothing Then
+                Call writeLongPollTimeout()
+                Return
+            End If
+
+            Try
+                Dim keepAlive As Boolean = Not httpHeaders.ContainsKey("connection") OrElse
+                    Not httpHeaders("connection").TextEquals("close")
+
+                Call outputStream.WriteLine("HTTP/1.1 200 OK")
+                Call outputStream.WriteLine("Content-Length: " & message.Length)
+                Call outputStream.WriteLine("Content-Type: " & message.ContentType)
+                Call outputStream.WriteLine("Connection: " & If(keepAlive, "keep-alive", "close"))
+                Call outputStream.WriteLine("Date: " & DateTime.UtcNow.ToString("R"))
+                Call outputStream.WriteLine("Server: " & VBS_platform)
+                Call outputStream.WriteLine(XPoweredBy & _settings.x_powered_by)
+                ' this terminates the HTTP headers.. everything after this is HTTP body..
+                Call outputStream.WriteLine()
+                Call outputStream.Flush()
+
+                ' write the message payload as the http body
+                If message.Length > 0 Then
+                    Call outputStream.BaseStream.Write(message.Data, Scan0, message.Length)
+                    Call outputStream.BaseStream.Flush()
+                End If
+            Catch ex As Exception
+                ' the remote client may have already disconnected during the long
+                ' poll waiting, the response writing failure is expected at here.
+                Call App.LogException(ex)
+            End Try
+        End Sub
+
+        ''' <summary>
+        ''' write an empty http 204 response for a timed out long poll request,
+        ''' so that the client could re-connect and poll again.
+        ''' </summary>
+        Private Sub writeLongPollTimeout()
+            Try
+                Dim keepAlive As Boolean = Not httpHeaders.ContainsKey("connection") OrElse
+                    Not httpHeaders("connection").TextEquals("close")
+
+                Call outputStream.WriteLine("HTTP/1.1 204 No Content")
+                Call outputStream.WriteLine("Content-Length: 0")
+                Call outputStream.WriteLine("Connection: " & If(keepAlive, "keep-alive", "close"))
+                Call outputStream.WriteLine("Date: " & DateTime.UtcNow.ToString("R"))
+                Call outputStream.WriteLine("Server: " & VBS_platform)
+                Call outputStream.WriteLine(XPoweredBy & _settings.x_powered_by)
+                ' this terminates the HTTP headers..
+                Call outputStream.WriteLine()
+                Call outputStream.Flush()
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+        End Sub
+
+        ''' <summary>
+        ''' write a ``503 Service Unavailable`` response for a long poll request
+        ''' which is rejected due to the maximum concurrent pending connection
+        ''' limit is exceeded.
+        ''' </summary>
+        Private Sub writeLongPollRejected()
+            Call $"reject the long poll request on '{http_url}': the maximum concurrent pending connection limit ({_settings.longpoll_max_connections}) is exceeded.".warning(_settings.silent)
+
+            Try
+                Call outputStream.WriteLine("HTTP/1.1 503 Service Unavailable")
+                Call outputStream.WriteLine("Content-Type: text/plain")
+                Call outputStream.WriteLine("Connection: close")
+                Call outputStream.WriteLine("Date: " & DateTime.UtcNow.ToString("R"))
+                Call outputStream.WriteLine("Server: " & VBS_platform)
+                Call outputStream.WriteLine(XPoweredBy & _settings.x_powered_by)
+                Call outputStream.WriteLine()
+                Call outputStream.WriteLine($"The server is busy, the maximum concurrent long poll connection limit ({_settings.longpoll_max_connections}) is exceeded.")
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+        End Sub
+
+#End Region
+
         ''' <summary>
         ''' 对于非法的header格式会直接抛出错误，对于空的请求则会返回False
         ''' </summary>
@@ -519,6 +790,10 @@ Namespace Core
             Return True
         End Function
 
+        ''' <summary>
+        ''' read the http request headers from the input stream until the blank
+        ''' line that terminates the header block, populating <see cref="httpHeaders"/>.
+        ''' </summary>
         Public Sub readHeaders()
             Dim line As String = "", s As New Value(Of String)
             Dim separator As Integer
@@ -550,13 +825,24 @@ Namespace Core
             End While
         End Sub
 
+        ''' <summary>
+        ''' forward a parsed GET request to the owning http server for dispatch.
+        ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub handleGETRequest()
             Call srv.handleGETRequest(Me)
         End Sub
 
+        ''' <summary>
+        ''' the size of the read buffer used while streaming POST request bodies.
+        ''' </summary>
         Public Const BUF_SIZE% = 4096
 
+        ''' <summary>
+        ''' the format string for the error message emitted when a POST body
+        ''' exceeds the configured maximum size; the single argument is the
+        ''' received content length.
+        ''' </summary>
         Public Const packageTooLarge$ = "POST Content-Length({0}) too big for this web server"
 
         ''' <summary>
@@ -630,10 +916,11 @@ Namespace Core
         End Function
 
         ''' <summary>
-        ''' 默认是html文件类型
+        ''' write a successful HTTP 200 response header with the given content
+        ''' length and an optional content type (defaults to text/html).
         ''' </summary>
-        ''' <param name="len"></param>
-        ''' <param name="content_type"></param>
+        ''' <param name="len">the content length in bytes of the response body.</param>
+        ''' <param name="content_type">the mime type of the response body.</param>
         Public Sub writeSuccess(len&, Optional content_type As String = "text/html")
             Try
                 Call writeSuccess(
@@ -675,6 +962,11 @@ Namespace Core
             Call outputStream.Flush()
         End Sub
 
+        ''' <summary>
+        ''' write a successful HTTP 200 response header using the type and length
+        ''' carried by the given <see cref="Content"/> object.
+        ''' </summary>
+        ''' <param name="content">the content descriptor that carries the response type and length.</param>
         Public Sub writeSuccess(content As Content)
             Try
                 Call writeSuccess(content.type, content)
@@ -695,8 +987,12 @@ Namespace Core
         Public errorPage As New HttpHeader.HttpError
 
         ''' <summary>
-        ''' 404
+        ''' write a failure http response with the given RFC status code and a
+        ''' detailed error message; the error page is rendered through the
+        ''' configured <see cref="errorPage"/> handler.
         ''' </summary>
+        ''' <param name="error_code">the <see cref="HTTP_RFC"/> status code of the failure.</param>
+        ''' <param name="ex">the detailed error message rendered into the error page.</param>
         Public Sub writeFailure(error_code As HTTP_RFC, ex As String)
             Try
                 Call writeFailureInternal(error_code, ex)

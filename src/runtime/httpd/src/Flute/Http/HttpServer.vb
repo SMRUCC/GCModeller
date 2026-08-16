@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2f3db263e449569daa720562bc6d13a, src\Flute\Http\HttpServer.vb"
+﻿#Region "Microsoft.VisualBasic::dac52f95f1e43b14f06983be432eb77b, src\Flute\Http\HttpServer.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 227
-    '    Code Lines: 114 (50.22%)
-    ' Comment Lines: 81 (35.68%)
-    '    - Xml Docs: 70.37%
+    '   Total Lines: 314
+    '    Code Lines: 141 (44.90%)
+    ' Comment Lines: 134 (42.68%)
+    '    - Xml Docs: 64.93%
     ' 
-    '   Blank Lines: 32 (14.10%)
-    '     File Size: 8.90 KB
+    '   Blank Lines: 39 (12.42%)
+    '     File Size: 13.25 KB
 
 
     '     Class HttpServer
     ' 
-    '         Properties: BufferSize, isRunning, localPort
+    '         Properties: BufferSize, isRunning, localPort, LongPoll, WebSocket
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -63,9 +63,10 @@ Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Flute.Http.Configurations
+Imports Flute.Http.Core.LongPoll
+Imports Flute.Http.Core.WebSocket
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
-Imports Flute.Http.Core.WebSocket
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Parallel.Linq
 
@@ -96,10 +97,14 @@ Namespace Core
         Protected Friend ReadOnly _httpListener As TcpListener
 
         ''' <summary>
-        ''' The network data port of this internal http server listen.
+        ''' The network data port that this internal http server is listening on.
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the local tcp port bound by the listener.</returns>
         Public ReadOnly Property localPort As Integer
+        ''' <summary>
+        ''' the size of the read/write buffer (in bytes) used when streaming
+        ''' request and response data.
+        ''' </summary>
         Public Property BufferSize As Integer = 4096
 
         ''' <summary>
@@ -118,6 +123,21 @@ Namespace Core
         Public ReadOnly Property WebSocket As New WebSocketManager
 
         ''' <summary>
+        ''' the long polling connection manager of current http server, a http GET
+        ''' request will be treated as a long poll request and blocked for waiting
+        ''' a push operation only when an application handler has been registered
+        ''' into this connection manager via its route table.
+        ''' </summary>
+        ''' <returns>
+        ''' this property value is always available, an empty routing table just
+        ''' means that no long poll endpoint is published on current http server.
+        ''' </returns>
+        ''' <example>
+        ''' Call server.LongPoll.Route("/poll/messages")
+        ''' </example>
+        Public ReadOnly Property LongPoll As New LongPollManager
+
+        ''' <summary>
         ''' Indicates this http server is running status or not. 
         ''' </summary>
         ''' <returns></returns>
@@ -129,9 +149,12 @@ Namespace Core
         End Property
 
         ''' <summary>
-        ''' 
+        ''' create a new http server core listening on the given port, bound to an
+        ''' optional configuration and a worker thread pool size.
         ''' </summary>
         ''' <param name="port">The network data port of this internal http server listen.</param>
+        ''' <param name="threads%">the size of the connection worker pool; a value &lt;= 0 uses the CPU core count.</param>
+        ''' <param name="configs">the optional server wide configuration.</param>
         Public Sub New(port%, Optional threads% = -1, Optional configs As Configuration = Nothing)
             Static defaultThreads As [Default](Of Integer) = (LQuerySchedule.CPU_NUMBER).AsDefault(Function(n) CInt(n) <= 0)
 
@@ -231,10 +254,12 @@ Namespace Core
         End Sub
 
         ''' <summary>
-        ''' New HttpProcessor(Client, Me) with {._404Page = "...."}
+        ''' create a new <see cref="HttpProcessor"/> bound to the accepted tcp
+        ''' client and this server, with the given read buffer size.
         ''' </summary>
-        ''' <param name="client"></param>
-        ''' <returns></returns>
+        ''' <param name="client">the accepted tcp client for the incoming connection.</param>
+        ''' <param name="bufferSize%">the read buffer size (in bytes) for the processor.</param>
+        ''' <returns>a new <see cref="HttpProcessor"/> instance ready to process the request.</returns>
         Protected MustOverride Function getHttpProcessor(client As TcpClient, bufferSize%) As HttpProcessor
 
         ''' <summary>
@@ -258,6 +283,15 @@ Namespace Core
                 Call App.LogException(ex)
             End Try
 
+            ' wake up all of the pending long poll connections, otherwise those
+            ' blocked worker threads will block the shutdown waiting loop below
+            ' until the long poll timeout deadline is reached.
+            Try
+                Call LongPoll.CloseAll()
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+
             ' wait for active workers to finish (with a reasonable timeout)
             ' so in-flight requests are not abruptly terminated.
             ' note: if Shutdown is called from within a worker thread (e.g.
@@ -273,9 +307,11 @@ Namespace Core
         End Sub
 
         ''' <summary>
-        ''' 
+        ''' handle a parsed GET request for the given processor. derived servers
+        ''' must implement the route dispatch, write the response through the
+        ''' processor, and finally call its <see cref="HttpProcessor.Dispose"/>.
         ''' </summary>
-        ''' <param name="p"></param>
+        ''' <param name="p">the http processor that carried the GET request.</param>
         ''' <example>
         ''' 
         ''' If p.http_url.Equals("/Test.png") Then
@@ -300,9 +336,24 @@ Namespace Core
         ''' 
         ''' </example>
         Public MustOverride Sub handleGETRequest(p As HttpProcessor)
+        ''' <summary>
+        ''' handle a parsed POST request for the given processor, with its decoded body.
+        ''' </summary>
+        ''' <param name="p">the http processor that carried the POST request.</param>
+        ''' <param name="inputData$">the decoded POST body string.</param>
         Public MustOverride Sub handlePOSTRequest(p As HttpProcessor, inputData$)
+        ''' <summary>
+        ''' handle any http method other than GET/POST (e.g. PUT, DELETE, OPTIONS)
+        ''' for the given processor.
+        ''' </summary>
+        ''' <param name="p">the http processor that carried the request.</param>
         Public MustOverride Sub handleOtherMethod(p As HttpProcessor)
 
+        ''' <summary>
+        ''' the string representation of this server: its local address and the
+        ''' number of currently active http worker threads.
+        ''' </summary>
+        ''' <returns>a "[http://localhost:port] http_workers: n" description string.</returns>
         Public Overrides Function ToString() As String
             Return $"[http://localhost:{localPort}] http_workers: {_accept_workers}"
         End Function

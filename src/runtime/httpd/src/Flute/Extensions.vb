@@ -67,18 +67,24 @@ Imports Microsoft.VisualBasic.Language
 
 <HideModuleName> Public Module Extensions
 
+    ''' <summary>
+    ''' get the compiled favicon binary resource that is served at
+    ''' <c>/favicon.ico</c> by the http server.
+    ''' </summary>
+    ''' <returns>the raw favicon bytes embedded in the assembly resources.</returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function FaviconZip() As Byte()
         Return My.Resources.favicon
     End Function
 
     ''' <summary>
-    ''' 
+    ''' stream a local file to the client as a binary http response with the
+    ''' given mime type, sending it in chunks of <paramref name="buffer_size"/>.
     ''' </summary>
     ''' <param name="path$">The file path of the local file that will be transfer to the client browser.</param>
     ''' <param name="MIMEtype$"><see cref="MIME"/></param>
-    ''' <param name="out"></param>
-    ''' <param name="buffer_size%"></param>
+    ''' <param name="out">the http response that the binary stream is written to.</param>
+    ''' <param name="buffer_size%">the read/write buffer size (in bytes) used while streaming.</param>
     <Extension>
     Public Sub TransferBinary(path$, MIMEtype$, ByRef out As HttpResponse, Optional buffer_size% = 4096)
         Dim buffer As Byte() = New Byte(buffer_size) {}
@@ -107,12 +113,27 @@ Imports Microsoft.VisualBasic.Language
         End Using
     End Sub
 
+    ''' <summary>
+    ''' write a success json response with <c>code = 0</c> and the given message
+    ''' payload to the client.
+    ''' </summary>
+    ''' <typeparam name="T">the type of the message payload.</typeparam>
+    ''' <param name="rep">the http response to write to.</param>
+    ''' <param name="message">the success message payload.</param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Sub SuccessMsg(Of T)(rep As HttpResponse, message As T)
         Call rep.WriteJSON(New JsonResponse(Of T) With {.code = 0, .info = message})
     End Sub
 
+    ''' <summary>
+    ''' write a failure json response with the given error code and message
+    ''' payload to the client.
+    ''' </summary>
+    ''' <typeparam name="T">the type of the message payload.</typeparam>
+    ''' <param name="rep">the http response to write to.</param>
+    ''' <param name="message">the failure message payload.</param>
+    ''' <param name="code">the application level error code; defaults to <see cref="HTTP_RFC.RFC_UNKNOWN_ERROR"/>.</param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Sub FailureMsg(Of T)(rep As HttpResponse, message As T, Optional code& = HTTP_RFC.RFC_UNKNOWN_ERROR)

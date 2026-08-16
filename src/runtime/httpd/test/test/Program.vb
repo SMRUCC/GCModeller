@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e060370acc485f3b02700b631fdf767, test\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::e629aa953383a432985ff186ad4aeaec, test\test\Program.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 7 (28.00%)
-    '     File Size: 836 B
+    '     File Size: 834 B
 
 
     ' Module Program
@@ -76,4 +76,3 @@ Module Program
         Console.WriteLine(ssfile.OpenKeyString("abc"))
     End Sub
 End Module
-

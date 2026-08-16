@@ -1,4 +1,4 @@
-#Region "Microsoft.VisualBasic::00000000000000000000000000000000, src\Flute\Http\WebSocket\WebSocketManager.vb"
+﻿#Region "Microsoft.VisualBasic::41d801bd9849fcb14e08b6ce1af66933, src\Flute\Http\WebSocket\WebSocketManager.vb"
 
     ' Author:
     ' 
@@ -25,11 +25,41 @@
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 311
+    '    Code Lines: 136 (43.73%)
+    ' Comment Lines: 135 (43.41%)
+    '    - Xml Docs: 97.04%
+    ' 
+    '   Blank Lines: 40 (12.86%)
+    '     File Size: 13.81 KB
+
+
+    '     Class WebSocketManager
+    ' 
+    '         Properties: Count, Routes
+    ' 
+    '         Function: (+2 Overloads) Broadcast, (+2 Overloads) BroadcastBinary, broadcastFrame, CanHandle, DefaultRoute
+    '                   GetConnection, (+2 Overloads) GetConnections, NormalizePath, RemoveRoute, ResolveHandler
+    '                   (+2 Overloads) Route
+    ' 
+    '         Sub: CloseAll, Register, Unregister
+    ' 
+    ' 
+    ' /********************************************************************************/
+
 #End Region
 
 Imports System.Collections.Concurrent
 Imports System.Text
-Imports Microsoft.VisualBasic.ApplicationServices
 
 Namespace Core.WebSocket
 

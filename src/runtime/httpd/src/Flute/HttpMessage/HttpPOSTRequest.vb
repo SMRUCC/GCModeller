@@ -69,6 +69,10 @@ Namespace Core.Message
     ''' </summary>
     Public Class HttpPOSTRequest : Inherits HttpRequest
 
+        ''' <summary>
+        ''' the parsed POST body, exposing form fields, json objects and uploaded
+        ''' files extracted from the request body.
+        ''' </summary>
         Public ReadOnly Property POSTData As PostReader
 
         Default Public Overrides ReadOnly Property Argument(name As String) As DefaultString
@@ -91,10 +95,12 @@ Namespace Core.Message
         Shared ReadOnly uploadfile As [Default](Of String) = NameOf(uploadfile)
 
         ''' <summary>
-        ''' 
+        ''' build a POST request from the given processor, decoding the raw post
+        ''' body stored in the temporary input file through the supplied json parser.
         ''' </summary>
-        ''' <param name="request"></param>
-        ''' <param name="inputData">一个临时文件的文件路径,POST上传的原始数据都被保存在这个临时文件中</param>
+        ''' <param name="request">the http processor that carried the request.</param>
+        ''' <param name="inputData$">一个临时文件的文件路径,POST上传的原始数据都被保存在这个临时文件中</param>
+        ''' <param name="parseJSON">the optional json parser used to deserialize json bodies.</param>
         Sub New(request As HttpProcessor, inputData$, Optional parseJSON As PostReader.JSONParser = Nothing)
             Call MyBase.New(request)
 
@@ -116,6 +122,12 @@ Namespace Core.Message
             End If
         End Sub
 
+        ''' <summary>
+        ''' get a POST argument as a boolean value, checking both the url query
+        ''' and the parsed post body.
+        ''' </summary>
+        ''' <param name="name">the argument name.</param>
+        ''' <returns>the parsed boolean, or <c>False</c> when absent.</returns>
         Public Overrides Function GetBoolean(name As String) As Boolean
             If HasValue(name) Then
                 Return Argument(name).DefaultValue.ParseBoolean

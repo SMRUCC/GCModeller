@@ -53,10 +53,24 @@
 
 Imports Flute.Http.Configurations
 
+''' <summary>
+''' the base component class which carries the server wide configuration
+''' instance for all of the derived http server components.
+''' </summary>
 Public MustInherit Class ServerComponent
 
+    ''' <summary>
+    ''' the shared server configuration instance that is passed down from the
+    ''' host application into every derived server component.
+    ''' </summary>
     Protected ReadOnly settings As Configuration
 
+    ''' <summary>
+    ''' create a new server component with the given configuration
+    ''' </summary>
+    ''' <param name="settings">
+    ''' the server wide configuration instance that this component depends on.
+    ''' </param>
     Sub New(settings As Configuration)
         Me.settings = settings
     End Sub

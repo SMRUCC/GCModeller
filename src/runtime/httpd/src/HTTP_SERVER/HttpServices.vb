@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8343225dede4e02d88027d8f7e72f382, src\HTTP_SERVER\HttpServices.vb"
+﻿#Region "Microsoft.VisualBasic::a1c8146ec93a384eae2319e3869d8671, src\HTTP_SERVER\HttpServices.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 12 (20.69%)
-    '     File Size: 1.95 KB
+    '     File Size: 1.94 KB
 
 
     ' Class HttpServices
@@ -115,4 +115,3 @@ Public Class HttpServices : Implements IDisposable
         GC.SuppressFinalize(Me)
     End Sub
 End Class
-

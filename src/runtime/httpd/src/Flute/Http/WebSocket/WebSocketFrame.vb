@@ -1,4 +1,4 @@
-#Region "Microsoft.VisualBasic::00000000000000000000000000000000, src\Flute\Http\WebSocket\WebSocketFrame.vb"
+﻿#Region "Microsoft.VisualBasic::04de131f6353fe2417b48cae2b41a8d8, src\Flute\Http\WebSocket\WebSocketFrame.vb"
 
     ' Author:
     ' 
@@ -24,6 +24,57 @@
     ' 
     ' You should have received a copy of the GNU General Public License
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 415
+    '    Code Lines: 207 (49.88%)
+    ' Comment Lines: 154 (37.11%)
+    '    - Xml Docs: 93.51%
+    ' 
+    '   Blank Lines: 54 (13.01%)
+    '     File Size: 17.05 KB
+
+
+    '     Enum WebSocketOpcode
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Enum WebSocketCloseCode
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class WebSocketFrame
+    ' 
+    '         Properties: Fin, IsControlFrame, Length, Masked, Opcode
+    '                     Payload, Rsv1, Rsv2, Rsv3
+    ' 
+    '         Function: EncodeClosePayload, EncodeFrame, ParseCloseCode, ParseCloseReason, readExact
+    '                   ReadFrame, ToString
+    ' 
+    '         Sub: ApplyMask
+    ' 
+    '     Class WebSocketProtocolException
+    ' 
+    '         Properties: CloseCode
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -113,7 +164,13 @@ Namespace Core.WebSocket
         ''' </summary>
         ''' <returns></returns>
         Public Property Rsv1 As Boolean
+        ''' <summary>
+        ''' the reserved bit 2, must be zero when no extension has been negotiated
+        ''' </summary>
         Public Property Rsv2 As Boolean
+        ''' <summary>
+        ''' the reserved bit 3, must be zero when no extension has been negotiated
+        ''' </summary>
         Public Property Rsv3 As Boolean
         ''' <summary>
         ''' the payload data type of current data frame

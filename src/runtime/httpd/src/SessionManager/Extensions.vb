@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8af029d5b5f3850a56a70370f0f84ec4, src\SessionManager\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::61d58e0d764a37ef95e9e3c0841c68c1, src\SessionManager\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 22
-    '    Code Lines: 16 (72.73%)
+    '   Total Lines: 21
+    '    Code Lines: 16 (76.19%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (27.27%)
-    '     File Size: 775 B
+    '   Blank Lines: 5 (23.81%)
+    '     File Size: 771 B
 
 
     ' Module Extensions
@@ -50,7 +50,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Flute.Http.Configurations
@@ -73,4 +72,3 @@ Public Module Extensions
     End Function
 
 End Module
-

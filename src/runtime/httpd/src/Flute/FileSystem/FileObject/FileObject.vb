@@ -80,12 +80,25 @@ Namespace FileSystem
         ''' <summary>
         ''' 文件的类型
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>the content (mime) type of the file.</returns>
         Public ReadOnly Property mime As ContentType
+        ''' <summary>
+        ''' the file name (without path) that this object represents.
+        ''' </summary>
         Public ReadOnly Property fileName As String
 
+        ''' <summary>
+        ''' the byte length of the file content.
+        ''' </summary>
+        ''' <returns>the content length in bytes.</returns>
         Public MustOverride ReadOnly Property ContentLength As Long
 
+        ''' <summary>
+        ''' create a file object with the given file name and an optional content
+        ''' type, auto-detecting the mime type from the file name when omitted.
+        ''' </summary>
+        ''' <param name="fileName$">the file name of the resource.</param>
+        ''' <param name="mime">the optional content type; auto-detected when empty.</param>
         Sub New(fileName$, Optional mime As ContentType = Nothing)
             Me.fileName = fileName
             Me.mime = mime
@@ -95,68 +108,24 @@ Namespace FileSystem
             End If
         End Sub
 
+        ''' <summary>
+        ''' open a readable stream over the file content.
+        ''' </summary>
+        ''' <returns>the resource stream.</returns>
         Public MustOverride Function GetResource() As Stream
+        ''' <summary>
+        ''' get the full byte content of the file.
+        ''' </summary>
+        ''' <returns>the file bytes.</returns>
         Public MustOverride Function GetByteBuffer() As Byte()
 
+        ''' <summary>
+        ''' the string representation of this file object: its file name.
+        ''' </summary>
+        ''' <returns>the file name.</returns>
         Public Overrides Function ToString() As String
             Return fileName
         End Function
     End Class
 
-    Public Class MemoryCachedFile : Inherits FileObject
-
-        ReadOnly cache As MemoryStream
-
-        Public Overrides ReadOnly Property ContentLength As Long
-            Get
-                Return cache.Length
-            End Get
-        End Property
-
-        Sub New(fileName$, data As Byte(), Optional mime As ContentType = Nothing)
-            Call MyBase.New(fileName, mime)
-
-            ' create cache data stream
-            Me.cache = New MemoryStream(data)
-        End Sub
-
-        Public Overrides Function GetResource() As Stream
-            Return cache
-        End Function
-
-        Public Overrides Function GetByteBuffer() As Byte()
-            Return cache.ToArray
-        End Function
-    End Class
-
-    Public Class VirtualMappedFile : Inherits FileObject
-
-        Public ReadOnly Property mappedPath As String
-
-        Public ReadOnly Property isValid As Boolean
-            Get
-                Return mappedPath.FileExists
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property ContentLength As Long
-            Get
-                Return mappedPath.FileLength
-            End Get
-        End Property
-
-        Sub New(fileName$, mappedPath$, Optional mime As ContentType = Nothing)
-            Call MyBase.New(fileName, mime)
-
-            Me.mappedPath = mappedPath
-        End Sub
-
-        Public Overrides Function GetResource() As Stream
-            Return mappedPath.Open(FileMode.Open, doClear:=False)
-        End Function
-
-        Public Overrides Function GetByteBuffer() As Byte()
-            Return mappedPath.ReadBinary
-        End Function
-    End Class
 End Namespace
