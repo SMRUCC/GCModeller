@@ -10,6 +10,8 @@ Namespace Assembly.KEGG.WebServices.KGML
         Public Property gene1 As String()
         Public Property gene2 As String()
         Public Property compound As String()
+        Public Property ko1Name As String
+        Public Property ko2Name As String
         Public Property compoundName As String
         Public Property mapId As String
         Public Property mapName As String
@@ -17,8 +19,11 @@ Namespace Assembly.KEGG.WebServices.KGML
         Const Missing As String = "#FFFFFF"
 
         Public Overrides Function GetHashCode() As Integer
-            Return $"{gene1}+{gene2}+{compound}".GetHashCode
+            Return $"{gene1.JoinBy(",")}+{gene2.JoinBy(",")}+{compound.JoinBy(",")}".GetHashCode
         End Function
+
+        Shared ReadOnly koNames As Dictionary(Of String, String) = My.Resources.KEGG.ko.LineTokens.Select(Function(a) a.GetTagValue(vbTab)).ToDictionary(Function(a) a.Name, Function(a) a.Value)
+        Shared ReadOnly cpdNames As Dictionary(Of String, String) = My.Resources.KEGGCompounds.compound.LineTokens.Select(Function(a) a.GetTagValue(vbTab)).ToDictionary(Function(a) a.Name, Function(a) a.Value)
 
         Public Shared Iterator Function ExtractFromKGML(kgml As pathway) As IEnumerable(Of GeneNetworkExport)
             Dim entryIndex = kgml.entries.ToDictionary(Function(e) e.id)
@@ -65,7 +70,14 @@ Namespace Assembly.KEGG.WebServices.KGML
                         .mapName = kgml.title,
                         .gene1 = ko1,
                         .gene2 = ko2,
-                        .compound = compound.name
+                        .compound = compound.name,
+                        .compoundName = .compound _
+                            .Select(Function(cid)
+                                        Return cpdNames(cid.Split(":"c).Last)
+                                    End Function) _
+                            .JoinBy("; "),
+                        .ko1Name = ko1.Select(Function(kid) koNames(kid)).JoinBy("; "),
+                        .ko2Name = ko2.Select(Function(kid) koNames(kid)).JoinBy("; ")
                     }
                 Next
             Next
