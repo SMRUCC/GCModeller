@@ -23,8 +23,8 @@
         <h3>Description</h3>
 
         <p>间接效应检验表
- 
- 本表格展示了PLS-PM模型中潜变量之间通过中介变量传导的间接效应大小及其显著性检验结果。通过该表格，可以了解到上游变量（如蛋白通路）是如何通过中介变量（如黄酮类物质）间接影响下游变量（如生物学表型）的，从而解析多组学数据层级间的跨层调控机制与信号传导路径。</p>
+
+<p>本表格展示了PLS-PM模型中潜变量之间通过中介变量传导的间接效应大小及其显著性检验结果。通过该表格，可以了解到上游变量（如蛋白通路）是如何通过中介变量（如黄酮类物质）间接影响下游变量（如生物学表型）的，从而解析多组学数据层级间的跨层调控机制与信号传导路径。
 
         <h3>Declare</h3>        
 
@@ -34,9 +34,9 @@
 export class IndirectEffectBootstrap {
    # bse表示Bootstrap标准误；
    bse: double;
-   # ci<em>lb和ci</em>ub分别表示间接效应的Bootstrap 95%置信区间下限和上限；
+   # ci_lb和ci_ub分别表示间接效应的Bootstrap 95%置信区间下限和上限；
    ci_lb: double;
-   # ci<em>lb和ci</em>ub分别表示间接效应的Bootstrap 95%置信区间下限和上限；
+   # ci_lb和ci_ub分别表示间接效应的Bootstrap 95%置信区间下限和上限；
    ci_ub: double;
    # fromName和toName分别表示间接路径的起始潜变量和最终目标潜变量；
    fromName: string;

@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>WGCNA分析结果类</p>
+        <p>WGCNA分析结果类
 
         <h3>Declare</h3>        
 
@@ -32,24 +32,19 @@
 export class Result {
    # 最佳beta值测试结果
    beta: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BetaTest.html">BetaTest</a>;
-   # 基因显著性结果列表
-   #  存储每个基因与每个表型的相关性分析结果
+   # 基因显著性结果列表 存储每个基因与每个表型的相关性分析结果
    geneSignificance: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/GeneSignificanceResult.html">iterates(GeneSignificanceResult)</a>;
    # 层次聚类树
    hclust: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Cluster.html">Cluster</a>;
    # 连接度向量
    K: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Vector.html">Vector</a>;
-   # 模块特征基因详细结果列表
-   #  包含方差解释比例等信息
+   # 模块特征基因详细结果列表 包含方差解释比例等信息
    moduleEigengeneResults: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/ModuleEigengeneResult.html">iterates(ModuleEigengeneResult)</a>;
-   # 模块特征基因字典（模块名→特征基因值数组）
-   #  每个模块的特征基因是该模块内所有基因表达值的第一主成分
+   # 模块特征基因字典（模块名→特征基因值数组） 每个模块的特征基因是该模块内所有基因表达值的第一主成分
    moduleEigengenes: list;
-   # 模块成员结果列表
-   #  存储每个基因与每个模块特征基因的相关性
+   # 模块成员结果列表 存储每个基因与每个模块特征基因的相关性
    moduleMembership: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/ModuleMembershipResult.html">iterates(ModuleMembershipResult)</a>;
-   # 模块与表型相关性结果列表
-   #  存储每个模块与每个表型的相关性分析结果
+   # 模块与表型相关性结果列表 存储每个模块与每个表型的相关性分析结果
    modulePhenotypeCorrelations: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/ModulePhenotypeCorrelation.html">iterates(ModulePhenotypeCorrelation)</a>;
    # 模块字典（模块名→基因列表）
    modules: list;

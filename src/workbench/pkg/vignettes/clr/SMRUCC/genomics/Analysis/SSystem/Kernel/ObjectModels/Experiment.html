@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>对系统进行的一个刺激实验</p>
+        <p>对系统进行的一个刺激实验
 
         <h3>Declare</h3>        
 
@@ -31,17 +31,13 @@
 # namespace SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 export class Experiment {
    DisturbType: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SSystem/Kernel/ObjectModels/Types.html">Types</a>;
-   # The name Id of the target.
-   #  (目标的名称)
+   # The name Id of the target. (目标的名称)
    Id: string;
-   # The interval ticks between each kick.
-   #  (每次干扰动作执行的时间间隔)
+   # The interval ticks between each kick. (每次干扰动作执行的时间间隔)
    Interval: double;
-   # The counts of the kicks.
-   #  (执行的次数)
+   # The counts of the kicks. (执行的次数)
    Kicks: integer;
-   # The start time of this disturb.
-   #  (这个干扰动作的开始时间)
+   # The start time of this disturb. (这个干扰动作的开始时间)
    Start: double;
    Value: double;
 }

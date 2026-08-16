@@ -22,10 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>Describes a UniProtKB entry.
- (因为<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="#">accessions</a>可能会出现多个值，所以会需要使用
- <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">ShadowCopy</a>函数来解决实体多态的问题。
- 经过shadow copy之后可以使用主键@<code>P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.accession</code>来创建字典)</p>
+        <p>Describes a UniProtKB entry. (因为<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="#">accessions</a>可能会出现多个值，所以会需要使用 <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">ShadowCopy</a>函数来解决实体多态的问题。 经过shadow copy之后可以使用主键@<code>P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.accession</code>来创建字典)
 
         <h3>Declare</h3>        
 
@@ -51,9 +48,7 @@ export class entry {
    protein: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/protein.html">protein</a>;
    proteinExistence: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/value.html">value</a>;
    references: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/reference.html">reference[]</a>;
-   # 当前的这个蛋白质的蛋白序列，在Uniprot数据库之中，蛋白记录只有蛋白序列
-   #  没有核酸序列，如果需要核酸序列，则会需要通过accession编号从nt库之中
-   #  提取出来
+   # 当前的这个蛋白质的蛋白序列，在Uniprot数据库之中，蛋白记录只有蛋白序列 没有核酸序列，如果需要核酸序列，则会需要通过accession编号从nt库之中 提取出来
    sequence: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/sequence.html">sequence</a>;
    version: string;
    # <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/dbReference.html">dbReferences</a> table

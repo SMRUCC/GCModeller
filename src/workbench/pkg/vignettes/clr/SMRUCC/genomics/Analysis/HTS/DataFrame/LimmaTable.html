@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>limma <code>topTable</code> output dataframe.</p>
+        <p>limma <code>topTable</code> output dataframe.
 
         <h3>Declare</h3>        
 
@@ -35,9 +35,8 @@ export class LimmaTable {
    # AveExpr（平均表达量）
    AveExpr: double;
    # B（贝叶斯对数几率统计量）
-   #  
-   #  B统计量或log-odds，表示基因是差异表达的概率的对数；计算公式：B = log10( (1 - p) / p ) 其中p是基因是差异表达的概率，基于经验贝叶斯方法估计；
-   #  B统计量的数学意义：表示"基因差异表达的可信度"（B > 0表示有差异表达证据，B > 1表示强证据）。
+   # 
+   # B统计量或log-odds，表示基因是差异表达的概率的对数；计算公式：B = log10( (1 - p) / p ) 其中p是基因是差异表达的概率，基于经验贝叶斯方法估计； B统计量的数学意义：表示"基因差异表达的可信度"（B &gt; 0表示有差异表达证据，B &gt; 1表示强证据）。
    B: double;
    class: string;
    # row names - gene id

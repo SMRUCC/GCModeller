@@ -22,8 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>张量类 - GNN中所有数值计算的基础数据结构
- 支持多维数组的存储和基本数学运算</p>
+        <p>张量类 - GNN中所有数值计算的基础数据结构 支持多维数组的存储和基本数学运算
 
         <h3>Declare</h3>        
 
@@ -31,16 +30,13 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.MachineLearning.TensorFlow
 export class Tensor {
-   # 底层数据数组
-   #  Underlying data array
+   # 底层数据数组 Underlying data array
    Data: double;
    # 张量的维度数组（兼容旧版本）
    Dimensions: integer;
-   # 梯度（用于反向传播）
-   #  Gradient for backpropagation
+   # 梯度（用于反向传播） Gradient for backpropagation
    Gradient: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a>;
-   # 是否为变量（可训练）
-   #  Whether this is a variable (trainable)
+   # 是否为变量（可训练） Whether this is a variable (trainable)
    IsVariable: boolean;
    # 张量中元素的总数
    Length: integer;

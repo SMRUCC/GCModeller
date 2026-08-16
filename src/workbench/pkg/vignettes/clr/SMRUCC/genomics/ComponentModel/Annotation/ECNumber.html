@@ -22,9 +22,9 @@
 
         <h3>Description</h3>
 
-        <p>Enzyme Commission Number</p>
+        <p>Enzyme Commission Number
 
-<p>EC-6.1.1.10</p>
+<p>EC-6.1.1.10
 
         <h3>Declare</h3>        
 
@@ -34,13 +34,21 @@
 export class ECNumber {
    # generates the EC number in format like: x.x.x.x
    ECNumberString: string;
-   # 4. 该小分类之下的序号
+   # <ol start="4">
+   # <li>该小分类之下的序号</li>
+   # </ol>
    serialNumber: integer;
-   # 3. 该亚类之下的小分类
+   # <ol start="3">
+   # <li>该亚类之下的小分类</li>
+   # </ol>
    subCategory: integer;
-   # 2. 该大类之下的亚分类
+   # <ol start="2">
+   # <li>该大类之下的亚分类</li>
+   # </ol>
    subType: integer;
-   # 1. EC编号里面的第一个数字代表酶的分类号
+   # <ol>
+   # <li>EC编号里面的第一个数字代表酶的分类号</li>
+   # </ol>
    type: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/EnzymeClasses.html">EnzymeClasses</a>;
 }
 </code>

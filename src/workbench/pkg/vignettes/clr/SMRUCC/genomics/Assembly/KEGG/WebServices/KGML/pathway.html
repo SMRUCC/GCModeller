@@ -23,11 +23,8 @@
         <h3>Description</h3>
 
         <p>The kegg pathway map layout data in KGML file format.
- 
- KEGG通过通路图（Pathway Map）来直观展示生物分子及其相互作用网络。为了便于计算机处理和通路可视化，KEGG引入了KGML（KEGG Markup Language）作为通路信息的交换格式。
- KGML是一种基于XML的描述语言，用于表示KEGG通路图中的图形对象及其相互关系。它将通路中手动绘制的复杂图形信息转化为计算机可读的结构化数据，
- 从而支持通路的自动绘制和计算分析。KGML文件通常对应KEGG中的某条通路，例如糖酵解通路（map00010）。一个KGML文件包含了该通路中所有节点（基因、酶、代谢物等）以及
- 它们之间相互作用的详细信息。通过解析KGML文件，我们可以提取出基因、酶、反应和代谢物等关键元素，并构建出相应的代谢网络模型。这为后续的可视化分析和计算建模提供了基础。</p>
+
+<p>KEGG通过通路图（Pathway Map）来直观展示生物分子及其相互作用网络。为了便于计算机处理和通路可视化，KEGG引入了KGML（KEGG Markup Language）作为通路信息的交换格式。 KGML是一种基于XML的描述语言，用于表示KEGG通路图中的图形对象及其相互关系。它将通路中手动绘制的复杂图形信息转化为计算机可读的结构化数据， 从而支持通路的自动绘制和计算分析。KGML文件通常对应KEGG中的某条通路，例如糖酵解通路（map00010）。一个KGML文件包含了该通路中所有节点（基因、酶、代谢物等）以及 它们之间相互作用的详细信息。通过解析KGML文件，我们可以提取出基因、酶、反应和代谢物等关键元素，并构建出相应的代谢网络模型。这为后续的可视化分析和计算建模提供了基础。
 
         <h3>Declare</h3>        
 
@@ -40,7 +37,7 @@ export class pathway {
    image: string;
    # 该通路在KEGG网站上的详细页面链接，提供进一步的信息。
    link: string;
-   # 通路的KEGG标识符，格式通常为path:<organism><number>，例如path:hsa00010表示人类糖酵解通路。
+   # 通路的KEGG标识符，格式通常为path:&lt;organism&gt;&lt;number&gt;，例如path:hsa00010表示人类糖酵解通路。
    name: string;
    # 通路的数字编号，如00010，用于唯一标识该通路。
    number: string;

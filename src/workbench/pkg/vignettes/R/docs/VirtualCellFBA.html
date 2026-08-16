@@ -39,35 +39,27 @@
         <table>
             
 <dt>models</dt>
-<dd><p><p>a set of the virtual cell model CLR object to modelling of the FBA stoichiometric matrix</p></p></dd>
+<dd><p><p>a set of the virtual cell model CLR object to modelling of the FBA stoichiometric matrix</p></dd>
 
 
 <dt>obj.rxns</dt>
-<dd><p><p>A character vector specifying the reaction flux IDs (a subset
-of the column names of \code{S_df}) to be maximized. If multiple reactions
-are provided, their combined flux is maximized.</p></p></dd>
+<dd><p><p>A character vector specifying the reaction flux IDs (a subset of the column names of \code{S_df}) to be maximized. If multiple reactions are provided, their combined flux is maximized.</p></dd>
 
 
 <dt>temp</dt>
-<dd><p><p>temp dir for save the temp workspace files.</p></p></dd>
+<dd><p><p>temp dir for save the temp workspace files.</p></dd>
 
 
 <dt>default.lb</dt>
-<dd><p><p>A numeric value specifying the default lower bound for every
-metabolic reaction flux. Defaults to \code{-1000} (assumes reversible
-reactions by default).</p></p></dd>
+<dd><p><p>A numeric value specifying the default lower bound for every metabolic reaction flux. Defaults to \code{-1000} (assumes reversible reactions by default).</p></dd>
 
 
 <dt>default.ub</dt>
-<dd><p><p>A numeric value specifying the default upper bound for every
-metabolic reaction flux. Defaults to \code{1000}.</p></p></dd>
+<dd><p><p>A numeric value specifying the default upper bound for every metabolic reaction flux. Defaults to \code{1000}.</p></dd>
 
 
 <dt>flux.bounds</dt>
-<dd><p><p>A named list used to tweak specific reaction flux bounds. The
-name of each element should be the reaction ID, and the value should be a
-numeric vector of length 2 containing the lower and upper bounds:
-\code{list("flux_id" = c(lb, ub))}.</p></p></dd>
+<dd><p><p>A named list used to tweak specific reaction flux bounds. The name of each element should be the reaction ID, and the value should be a numeric vector of length 2 containing the lower and upper bounds: \code{list("flux_id" = c(lb, ub))}.</p></dd>
 
         </table>
 

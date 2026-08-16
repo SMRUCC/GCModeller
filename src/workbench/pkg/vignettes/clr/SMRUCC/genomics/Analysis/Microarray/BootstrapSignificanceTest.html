@@ -23,8 +23,8 @@
         <h3>Description</h3>
 
         <p>Bootstrap重抽样路径系数置信区间表
- 
- 本表格展示了基于Bootstrap重抽样方法计算出的路径系数稳健性显著性检验结果。通过该表格，可以了解到经过多次重抽样后，模型中各直接路径系数的置信区间分布情况，以此验证观察到的路径关系是否并非由抽样误差引起，从而确认各上下游层级间直接效应的可靠性。</p>
+
+<p>本表格展示了基于Bootstrap重抽样方法计算出的路径系数稳健性显著性检验结果。通过该表格，可以了解到经过多次重抽样后，模型中各直接路径系数的置信区间分布情况，以此验证观察到的路径关系是否并非由抽样误差引起，从而确认各上下游层级间直接效应的可靠性。
 
         <h3>Declare</h3>        
 
@@ -34,9 +34,9 @@
 export class BootstrapSignificanceTest {
    # bse表示Bootstrap标准误
    bse: double;
-   # ci<em>lb和ci</em>ub分别表示 Bootstrap 95%置信区间的下限和上限
+   # ci_lb和ci_ub分别表示 Bootstrap 95%置信区间的下限和上限
    ci_lb: double;
-   # ci<em>lb和ci</em>ub分别表示 Bootstrap 95%置信区间的下限和上限
+   # ci_lb和ci_ub分别表示 Bootstrap 95%置信区间的下限和上限
    ci_ub: double;
    # coef表示基于原始数据计算出的路径系数估计值
    coef: double;

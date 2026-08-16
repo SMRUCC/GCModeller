@@ -22,32 +22,41 @@
 
         <h3>Description</h3>
 
-        <p>FASTQ format is a text-based format for storing both a biological sequence (usually nucleotide sequence) and 
- its corresponding quality scores. Both the sequence letter and quality score are each encoded with a single 
- ASCII character for brevity. It was originally developed at the Wellcome Trust Sanger Institute to bundle a 
- FASTA sequence and its quality data, but has recently become the de facto standard for storing the output of 
- high-throughput sequencing instruments such as the Illumina Genome Analyzer.
- 
- There is no standard file extension for a FASTQ file, but .fq and .fastq, are commonly used.
- <a href='(http://en.wikipedia.org/wiki/FASTQ_format' title='(http://en.wikipedia.org/wiki/FASTQ_format'>(http://en.wikipedia.org/wiki/FASTQ_format</a>
+        <p>FASTQ format is a text-based format for storing both a biological sequence (usually nucleotide sequence) and its corresponding quality scores. Both the sequence letter and quality score are each encoded with a single ASCII character for brevity. It was originally developed at the Wellcome Trust Sanger Institute to bundle a FASTA sequence and its quality data, but has recently become the de facto standard for storing the output of high-throughput sequencing instruments such as the Illumina Genome Analyzer.
 
-A FASTQ file normally uses four lines per sequence.
- 
- + Line 1 begins with a '@' character and is followed by a sequence identifier and an optional description (like a FASTA title line).
- + Line 2 is the raw sequence letters.
- + Line 3 begins with a '+' character and is optionally followed by the same sequence identifier (and any description) again.
- + Line 4 encodes the quality values for the sequence in Line 2, and must contain the same number of symbols as letters in the sequence.
- 
- > + header
- > + seuqnece
- > + <code>+</code>
- > + quality
- 
- 一条FastQ序列文件通常使用4行代表一条序列数据：
- + 第一行： 起始于@字符，后面跟随着序列的标识符，以及一段可选的摘要描述信息
- + 第二行： 原始的序列
- + 第三行： 起始于+符号，与第一行的作用类似
- + 第四行： 编码了第二行的序列数据的质量高低，长度与第二行相同</p>
+<p>There is no standard file extension for a FASTQ file, but .fq and .fastq, are commonly used. (<a href="http://en.wikipedia.org/wiki/FASTQ_format" title="http://en.wikipedia.org/wiki/FASTQ_format">http://en.wikipedia.org/wiki/FASTQ_format</a>)
+
+<p>A FASTQ file normally uses four lines per sequence.
+
+
+<ul>
+<li><p>Line 1 begins with a '@' character and is followed by a sequence identifier and an optional description (like a FASTA title line).</li>
+<li><p>Line 2 is the raw sequence letters.</li>
+<li><p>Line 3 begins with a '+' character and is optionally followed by the same sequence identifier (and any description) again.</li>
+<li><p>Line 4 encodes the quality values for the sequence in Line 2, and must contain the same number of symbols as letters in the sequence.</li>
+</ul>
+
+
+<blockquote>
+<ul>
+<li><p>header</li>
+<li><p>seuqnece</li>
+<li><p><code>+</code></li>
+<li><p>quality</li>
+</ul>
+
+
+</blockquote>
+
+<p>一条FastQ序列文件通常使用4行代表一条序列数据：
+
+
+<ul>
+<li><p>第一行： 起始于@字符，后面跟随着序列的标识符，以及一段可选的摘要描述信息</li>
+<li><p>第二行： 原始的序列</li>
+<li><p>第三行： 起始于+符号，与第一行的作用类似</li>
+<li><p>第四行： 编码了第二行的序列数据的质量高低，长度与第二行相同</li>
+</ul>
 
         <h3>Declare</h3>        
 

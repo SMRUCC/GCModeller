@@ -22,10 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>`link_ko` takes a vector of KEGG gene identifiers (e.g. `"taes:803091"`)
-and retrieves their associated KEGG Orthology (KO) identifiers by calling
-the KEGG REST API `link/ko` endpoint. Results are cached locally in
-text files to avoid repeated downloads.</p>
+        <p><code>link_ko</code> takes a vector of KEGG gene identifiers (e.g. <code>"taes:803091"</code>) and retrieves their associated KEGG Orthology (KO) identifiers by calling the KEGG REST API <code>link/ko</code> endpoint. Results are cached locally in text files to avoid repeated downloads.
 
         <h3>Usage</h3>
 
@@ -40,38 +37,22 @@ text files to avoid repeated downloads.</p>
         <table>
             
 <dt>kegg.id</dt>
-<dd><p><p>Character vector of KEGG gene identifiers.
-Each element should be in the form `<org>:<gene>`, e.g. `"hsa:10458"`
-or `"taes:803091"`.</p></p></dd>
+<dd><p><p>Character vector of KEGG gene identifiers. Each element should be in the form <code>&lt;org&gt;:&lt;gene&gt;</code>, e.g. <code>"hsa:10458"</code> or <code>"taes:803091"</code>.</p></dd>
 
 
 <dt>cache</dt>
-<dd><p><p>Character. Path to the directory where cached results are
-stored. Text files in this directory are assumed to be tab‑separated
-output from previous KEGG `link/ko` queries. Default is `"./tmp"`.</p></p></dd>
+<dd><p><p>Character. Path to the directory where cached results are stored. Text files in this directory are assumed to be tab‑separated output from previous KEGG <code>link/ko</code> queries. Default is <code>"./tmp"</code>.</p></dd>
 
 
 <dt>batch.size</dt>
-<dd><p><p>Integer. Number of KEGG IDs to include in each API
-request. Larger values reduce the number of requests but increase the
-risk of timeouts or server‑side limits. Default is `100`.</p></p></dd>
+<dd><p><p>Integer. Number of KEGG IDs to include in each API request. Larger values reduce the number of requests but increase the risk of timeouts or server‑side limits. Default is <code>100</code>.</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>The function first scans `cache` for existing result files, reads them,
-and extracts already queried KEGG IDs. Those IDs are excluded from the
-current API requests to avoid redundant downloads.
-For each batch of remaining KEGG IDs, a URL of the form
-\preformatted<a href='{https://rest.kegg.jp/link/ko/<' title='{https://rest.kegg.jp/link/ko/<'>{https://rest.kegg.jp/link/ko/<</a>id1>+<id2>+...+<idn>}
-is constructed. The KEGG API returns a tab‑delimited text file, which is
-written to a file named `<md5(url)>.txt` under `cache`. A 1‑second pause
-is inserted between requests to reduce load on the KEGG server.
-This implementation assumes that the HTTP request returns plain text
-content; the exact syntax of `requests.get()`, `plain_text`, and `sleep()`
-depends on your runtime environment and is shown here as pseudo‑code.</p>
+        <p>The function first scans <code>cache</code> for existing result files, reads them, and extracts already queried KEGG IDs. Those IDs are excluded from the current API requests to avoid redundant downloads. For each batch of remaining KEGG IDs, a URL of the form \preformatted{<a href="https://rest.kegg.jp/link/ko/" title="https://rest.kegg.jp/link/ko/">https://rest.kegg.jp/link/ko/</a>&lt;id1&gt;+&lt;id2&gt;+...+&lt;idn&gt;} is constructed. The KEGG API returns a tab‑delimited text file, which is written to a file named <code>&lt;md5(url)&gt;.txt</code> under <code>cache</code>. A 1‑second pause is inserted between requests to reduce load on the KEGG server. This implementation assumes that the HTTP request returns plain text content; the exact syntax of <code>requests.get()</code>, <code>plain_text</code>, and <code>sleep()</code> depends on your runtime environment and is shown here as pseudo‑code.
 
         <h3 style="display: block">Authors</h3>
 

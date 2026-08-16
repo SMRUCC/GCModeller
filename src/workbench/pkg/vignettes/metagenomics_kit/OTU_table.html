@@ -66,22 +66,16 @@ table caption {font-size:14px;font-weight:bolder;}
                                <br /><br /><span style="color: green;">#' Tools for handling OTU table data</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "OTU_table"</span><span style="color: blue;"> from</span><span style="color: brown"> "metagenomics_kit"</span>;
                            </code>
     </p>
-    <p><p>Tools for handling OTU table data</p></p>
+    <p><p>Tools for handling OTU table data</p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
                            <h3>Operational taxonomic unit (OTU)</h3>
 
 <p>OTU's are used to categorize bacteria based on sequence similarity.
- 
- In 16S metagenomics approaches, OTUs are cluster of similar sequence variants of the 
- 16S rDNA marker gene sequence. Each of these cluster is intended to represent a 
- taxonomic unit of a bacteria species or genus depending on the sequence similarity 
- threshold. Typically, OTU cluster are defined by a 97% identity threshold of the 16S 
- gene sequences to distinguish bacteria at the genus level.</p>
 
-<p>Species separation requires a higher threshold Of 98% Or 99% sequence identity, Or 
- even better the use Of exact amplicon sequence variants (ASV) instead Of OTU sequence 
- clusters.</p>
+<p>In 16S metagenomics approaches, OTUs are cluster of similar sequence variants of the 16S rDNA marker gene sequence. Each of these cluster is intended to represent a taxonomic unit of a bacteria species or genus depending on the sequence similarity threshold. Typically, OTU cluster are defined by a 97% identity threshold of the 16S gene sequences to distinguish bacteria at the genus level.
+
+<p>Species separation requires a higher threshold Of 98% Or 99% sequence identity, Or even better the use Of exact amplicon sequence variants (ASV) instead Of OTU sequence clusters.
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -93,20 +87,15 @@ table caption {font-size:14px;font-weight:bolder;}
   </td>
   <td><h3>OTU table (sequence count table)</h3>
 
-<p>A OTU table contains the number of sequences that are observed for each taxonomic 
- unit (OTUs) in each samples. Columns usually represent samples and rows represent
- genera or species specific taxonomic units (OTUs). OTU tables are often saved as
- BIOM formatted files.
- 
- ### Limited taxonomic resolution
- 
- OTU resolution depends On the 16S approach which has some limits In distinguishing at 
- the species level, For example,
- 
- Escherichia coli And Shigella spp. share almost identical 16S rRNA gene sequences.
- 
- Alternative approaches are developed To achieve higher resolution up To strain level 
- by considering larger Or complete sets Of genes.</p></td>
+<p>A OTU table contains the number of sequences that are observed for each taxonomic unit (OTUs) in each samples. Columns usually represent samples and rows represent genera or species specific taxonomic units (OTUs). OTU tables are often saved as BIOM formatted files.
+
+<h3>Limited taxonomic resolution</h3>
+
+<p>OTU resolution depends On the 16S approach which has some limits In distinguishing at the species level, For example,
+
+<p>Escherichia coli And Shigella spp. share almost identical 16S rRNA gene sequences.
+
+<p>Alternative approaches are developed To achieve higher resolution up To strain level by considering larger Or complete sets Of genes.</td>
 </tr></tbody>
       </table>
       <br />
@@ -119,36 +108,29 @@ table caption {font-size:14px;font-weight:bolder;}
   </td>
   <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/OTUTable.html">OTUTable</a>: <h3>OTU table (sequence count table)</h3>
 
-<p>A OTU table contains the number of sequences that are observed for each taxonomic 
- unit (OTUs) in each samples. Columns usually represent samples and rows represent
- genera or species specific taxonomic units (OTUs). OTU tables are often saved as
- BIOM formatted files.
- 
- ### Limited taxonomic resolution
- 
- OTU resolution depends On the 16S approach which has some limits In distinguishing at 
- the species level, For example,
- 
- Escherichia coli And Shigella spp. share almost identical 16S rRNA gene sequences.
- 
- Alternative approaches are developed To achieve higher resolution up To strain level 
- by considering larger Or complete sets Of genes.</p></td>
+<p>A OTU table contains the number of sequences that are observed for each taxonomic unit (OTUs) in each samples. Columns usually represent samples and rows represent genera or species specific taxonomic units (OTUs). OTU tables are often saved as BIOM formatted files.
+
+<h3>Limited taxonomic resolution</h3>
+
+<p>OTU resolution depends On the 16S approach which has some limits In distinguishing at the species level, For example,
+
+<p>Escherichia coli And Shigella spp. share almost identical 16S rRNA gene sequences.
+
+<p>Alternative approaches are developed To achieve higher resolution up To strain level by considering larger Or complete sets Of genes.</td>
 </tr>
 <tr>
   <td id="sample_id">
     <a href="./OTU_table/sample_id.html">sample_id</a>
   </td>
-  <td><p>get sample id from the otu table</p></td>
+  <td><p>get sample id from the otu table</td>
 </tr>
 <tr>
   <td id="relative_abundance">
     <a href="./OTU_table/relative_abundance.html">relative_abundance</a>
   </td>
-  <td><p>Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
- 
- Transform abundance data into relative abundance, i.e. proportional data. This is 
- an alternative method of normalization and may not be appropriate for all datasets,
- particularly if your sequencing depth varies between samples.</p></td>
+  <td><p>Transform abundance data in an otu_table to relative abundance, sample-by-sample.
+
+<p>Transform abundance data into relative abundance, i.e. proportional data. This is an alternative method of normalization and may not be appropriate for all datasets, particularly if your sequencing depth varies between samples.</td>
 </tr>
 <tr>
   <td id="average">
@@ -166,13 +148,13 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="filter">
     <a href="./OTU_table/filter.html">filter</a>
   </td>
-  <td><p>filter the otu data which has relative abundance greater than the given threshold</p></td>
+  <td><p>filter the otu data which has relative abundance greater than the given threshold</td>
 </tr>
 <tr>
   <td id="read.OTUtable">
     <a href="./OTU_table/read.OTUtable.html">read.OTUtable</a>
   </td>
-  <td><p>read 16s OTU table</p></td>
+  <td><p>read 16s OTU table</td>
 </tr>
 <tr>
   <td id="read.OTUdata">
@@ -184,13 +166,13 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="otu_from_matrix">
     <a href="./OTU_table/otu_from_matrix.html">otu_from_matrix</a>
   </td>
-  <td><p>cast the expression matrix to the otu data</p></td>
+  <td><p>cast the expression matrix to the otu data</td>
 </tr>
 <tr>
   <td id="as.hts_matrix">
     <a href="./OTU_table/as.hts_matrix.html">as.hts_matrix</a>
   </td>
-  <td><p>Create expression matrix data from a given otu table</p></td>
+  <td><p>Create expression matrix data from a given otu table</td>
 </tr>
 <tr>
   <td id="read.rankdata">
@@ -202,7 +184,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="as.OTU_table">
     <a href="./OTU_table/as.OTU_table.html">as.OTU_table</a>
   </td>
-  <td><p>convert the mothur rank tree as the OTU table</p></td>
+  <td><p>convert the mothur rank tree as the OTU table</td>
 </tr>
 <tr>
   <td id="set_MAG_data">
@@ -220,13 +202,13 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="core_microbiome">
     <a href="./OTU_table/core_microbiome.html">core_microbiome</a>
   </td>
-  <td><p>evaluate the core microbiome species across all sample data</p></td>
+  <td><p>evaluate the core microbiome species across all sample data</td>
 </tr>
 <tr>
   <td id="dominant_species">
     <a href="./OTU_table/dominant_species.html">dominant_species</a>
   </td>
-  <td><p>evaluate top dominant species for each sample data</p></td>
+  <td><p>evaluate top dominant species for each sample data</td>
 </tr>
 <tr>
   <td id="make_otu_table">
@@ -238,7 +220,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="makeTreeGraph">
     <a href="./OTU_table/makeTreeGraph.html">makeTreeGraph</a>
   </td>
-  <td><p>make OTU tree graph via JSD correlation method</p></td>
+  <td><p>make OTU tree graph via JSD correlation method</td>
 </tr>
 <tr>
   <td id="makeUPGMATree">
@@ -268,7 +250,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="batch_combine">
     <a href="./OTU_table/batch_combine.html">batch_combine</a>
   </td>
-  <td><p>combine of two batch data directly via the taxonomy string group</p></td>
+  <td><p>combine of two batch data directly via the taxonomy string group</td>
 </tr></tbody>
       </table>
     </div>

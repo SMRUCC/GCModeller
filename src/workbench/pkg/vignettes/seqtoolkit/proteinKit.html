@@ -63,29 +63,40 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">#' A computational biology toolkit for protein structural analysis and sequence-based modeling.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "proteinKit"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
+                               <br /><br /><span style="color: green;">#' A computational biology toolkit for protein structural analysis and sequence-based modeling. This module provides R-language interfaces for predicting secondary structures, parsing molecular structure files, and generating graph-based protein sequence fingerprints.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "proteinKit"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
                            </code>
     </p>
-    <p><p>A computational biology toolkit for protein structural analysis and sequence-based modeling. 
- This module provides R-language interfaces for predicting secondary structures, parsing molecular 
- structure files, and generating graph-based protein sequence fingerprints.
- 
- Key functionalities include:
- 1. Chou-Fasman secondary structure prediction algorithm implementation
- 2. Protein Data Bank (PDB) file format parsing
- 3. K-mer graph construction for sequence pattern analysis
- 4. Morgan fingerprint generation for structural similarity comparison</p></p>
+    <p><p>A computational biology toolkit for protein structural analysis and sequence-based modeling. This module provides R-language interfaces for predicting secondary structures, parsing molecular structure files, and generating graph-based protein sequence fingerprints.
+
+<p>Key functionalities include:
+
+
+<ol>
+<li><p>Chou-Fasman secondary structure prediction algorithm implementation</li>
+<li><p>Protein Data Bank (PDB) file format parsing</li>
+<li><p>K-mer graph construction for sequence pattern analysis</li>
+<li><p>Morgan fingerprint generation for structural similarity comparison</li>
+</ol></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
                            <p>This module bridges biological sequence analysis with graph theory concepts, enabling:
- - Rapid prediction of alpha-helices and beta-sheets from amino acid sequences
- - Structural feature extraction from PDB files
- - Topological representation of proteins as k-mer adjacency graphs
- - Fixed-length hashing of structural patterns for machine learning applications
- 
- Dependencies: 
- - Requires R# runtime environment for interop
- - Relies on SMRUCC.genomics libraries for core bioinformatics operations</p>
+
+
+<ul>
+<li><p>Rapid prediction of alpha-helices and beta-sheets from amino acid sequences</li>
+<li><p>Structural feature extraction from PDB files</li>
+<li><p>Topological representation of proteins as k-mer adjacency graphs</li>
+<li><p>Fixed-length hashing of structural patterns for machine learning applications</li>
+</ul>
+
+
+<p>Dependencies:
+
+
+<ul>
+<li><p>Requires R# runtime environment for interop</li>
+<li><p>Relies on SMRUCC.genomics libraries for core bioinformatics operations</li>
+</ul>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -101,56 +112,41 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="chou_fasman">
     <a href="./proteinKit/chou_fasman.html">chou_fasman</a>
   </td>
-  <td><p>The Chou-Fasman method is a bioinformatics technique used for predicting the secondary structure of proteins. 
- It was developed by Peter Y. Chou and Gerald D. Fasman in the 1970s. The method is based on the observation 
- that certain amino acids have a propensity to form specific types of secondary structures, such as alpha-helices, 
- beta-sheets, and turns.
- 
- Here's a brief overview of how the Chou-Fasman method works:
- 
- 1. <strong>Amino Acid Propensities</strong>: Each amino acid is assigned a set of probability values that reflect its 
-    tendency to be found in alpha-helices, beta-sheets, and turns. These values are derived from statistical 
-    analysis of known protein structures.
- 2. <strong>Sliding Window Technique</strong>: A sliding window of typically 7 to 9 amino acids is moved along the protein 
-    sequence. At each position, the average propensity for each type of secondary structure is calculated 
-    for the amino acids within the window.
- 3. <strong>Thresholds and Rules</strong>: The method uses predefined thresholds and rules to identify regions of the 
-    protein sequence that are likely to form alpha-helices or beta-sheets based on the calculated propensities. 
-    For example, a region with a high average propensity for alpha-helix and meeting certain criteria 
-    might be predicted to form an alpha-helix.
- 4. <strong>Secondary Structure Prediction</strong>: The method predicts the secondary structure by identifying contiguous 
-    regions of the sequence that exceed the thresholds for helix or sheet formation. It also takes into 
-    account the likelihood of turns, which are important for the overall folding of the protein.
- 5. <strong>Refinement</strong>: The initial predictions are often refined using additional rules and considerations, such 
-    as the tendency of certain amino acids to stabilize or destabilize specific structures, and the overall 
-    composition of the protein.
-    
- The Chou-Fasman method was one of the first widely used techniques for predicting protein secondary structure
- and played a significant role in the field of structural bioinformatics. However, it has largely been superseded
- by more accurate methods, such as those based on machine learning and neural networks, which can take into
- account more complex patterns and interactions within protein sequences.
- 
- Despite its limitations, the Chou-Fasman method remains a historical milestone in the understanding of 
- protein structure and the development of computational methods for predicting it. It also serves as a 
- foundational concept for those learning about protein structure prediction and bioinformatics.</p></td>
+  <td><p>The Chou-Fasman method is a bioinformatics technique used for predicting the secondary structure of proteins. It was developed by Peter Y. Chou and Gerald D. Fasman in the 1970s. The method is based on the observation that certain amino acids have a propensity to form specific types of secondary structures, such as alpha-helices, beta-sheets, and turns.
+
+<p>Here's a brief overview of how the Chou-Fasman method works:
+
+
+<ol>
+<li><p><strong>Amino Acid Propensities</strong>: Each amino acid is assigned a set of probability values that reflect its tendency to be found in alpha-helices, beta-sheets, and turns. These values are derived from statistical analysis of known protein structures.</li>
+<li><p><strong>Sliding Window Technique</strong>: A sliding window of typically 7 to 9 amino acids is moved along the protein sequence. At each position, the average propensity for each type of secondary structure is calculated for the amino acids within the window.</li>
+<li><p><strong>Thresholds and Rules</strong>: The method uses predefined thresholds and rules to identify regions of the protein sequence that are likely to form alpha-helices or beta-sheets based on the calculated propensities. For example, a region with a high average propensity for alpha-helix and meeting certain criteria might be predicted to form an alpha-helix.</li>
+<li><p><strong>Secondary Structure Prediction</strong>: The method predicts the secondary structure by identifying contiguous regions of the sequence that exceed the thresholds for helix or sheet formation. It also takes into account the likelihood of turns, which are important for the overall folding of the protein.</li>
+<li><p><strong>Refinement</strong>: The initial predictions are often refined using additional rules and considerations, such as the tendency of certain amino acids to stabilize or destabilize specific structures, and the overall composition of the protein.</li>
+</ol>
+
+
+<p>The Chou-Fasman method was one of the first widely used techniques for predicting protein secondary structure and played a significant role in the field of structural bioinformatics. However, it has largely been superseded by more accurate methods, such as those based on machine learning and neural networks, which can take into account more complex patterns and interactions within protein sequences.
+
+<p>Despite its limitations, the Chou-Fasman method remains a historical milestone in the understanding of protein structure and the development of computational methods for predicting it. It also serves as a foundational concept for those learning about protein structure prediction and bioinformatics.</td>
 </tr>
 <tr>
   <td id="parse_pdb">
     <a href="./proteinKit/parse_pdb.html">parse_pdb</a>
   </td>
-  <td><p>parse the pdb struct data from a given document text data</p></td>
+  <td><p>parse the pdb struct data from a given document text data</td>
 </tr>
 <tr>
   <td id="read.pdb">
     <a href="./proteinKit/read.pdb.html">read.pdb</a>
   </td>
-  <td><p>Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.</p></td>
+  <td><p>Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.</td>
 </tr>
 <tr>
   <td id="pdb_models">
     <a href="./proteinKit/pdb_models.html">pdb_models</a>
   </td>
-  <td><p>get structure models inside the given pdb object</p></td>
+  <td><p>get structure models inside the given pdb object</td>
 </tr>
 <tr>
   <td id="pdb_centroid">
@@ -168,17 +164,15 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="kmer_graph">
     <a href="./proteinKit/kmer_graph.html">kmer_graph</a>
   </td>
-  <td><p>Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length 
- subsequences, edges connect k-mers appearing consecutively in the sequence.</p></td>
+  <td><p>Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length subsequences, edges connect k-mers appearing consecutively in the sequence.</td>
 </tr>
 <tr>
   <td id="kmer_fingerprint">
     <a href="./proteinKit/kmer_fingerprint.html">kmer_fingerprint</a>
   </td>
-  <td><p>Calculate the morgan fingerprint based on the k-mer graph data 
- 
- Generates fixed-length molecular fingerprint vectors from k-mer graphs using 
- Morgan algorithm with circular topology hashing.</p></td>
+  <td><p>Calculate the morgan fingerprint based on the k-mer graph data
+
+<p>Generates fixed-length molecular fingerprint vectors from k-mer graphs using Morgan algorithm with circular topology hashing.</td>
 </tr>
 <tr>
   <td id="enzyme_builder">
@@ -196,7 +190,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="analysis_domains">
     <a href="./proteinKit/analysis_domains.html">analysis_domains</a>
   </td>
-  <td><p>analysis the functional domain on the protein sequence</p></td>
+  <td><p>analysis the functional domain on the protein sequence</td>
 </tr></tbody>
       </table>
     </div>

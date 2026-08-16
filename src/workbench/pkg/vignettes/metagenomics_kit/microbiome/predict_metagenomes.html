@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>multiplies each normalized OTU abundance by each predicted <br /> functional trait abundance to produce a table of functions <br /> (rows) by samples (columns).</p>
+        <p>multiplies each normalized OTU abundance by each predicted &lt;br /&gt; functional trait abundance to produce a table of functions &lt;br /&gt; (rows) by samples (columns).
 
         <h3>Usage</h3>
 
@@ -36,12 +36,15 @@
             
 <dt>table</dt>
 <dd><p>should be a merged OTU dataframe object, that should be in format like:
- 
- 1. the colnames should be the sample name, and the column field value is the relative abundance value of each otu in each sample
- 2. the rows in this dataframe should be the otu expression value across samples
- 
- the GCModeller internal <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a> is also avaiable 
- for this parameter.</p></dd>
+
+
+<ol>
+<li><p>the colnames should be the sample name, and the column field value is the relative abundance value of each otu in each sample</li>
+<li><p>the rows in this dataframe should be the otu expression value across samples</li>
+</ol>
+
+
+<p>the GCModeller internal @<code>T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix</p></dd>
 
         </table>
 

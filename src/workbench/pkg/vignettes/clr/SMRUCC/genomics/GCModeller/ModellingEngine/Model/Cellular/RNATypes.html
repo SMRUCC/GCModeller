@@ -22,11 +22,9 @@
 
         <h3>Description</h3>
 
-        <p>Enumerates the data types of the RNA molecules</p>
+        <p>Enumerates the data types of the RNA molecules
 
-<p>The exact types and abundance of RNA molecules can vary between different species of prokaryotic bacteria, 
- but generally, the three main types—mRNA, rRNA, and tRNA—are universally present. The presence and function 
- of other types of RNA in prokaryotes are an area of ongoing research.</p>
+<p>The exact types and abundance of RNA molecules can vary between different species of prokaryotic bacteria, but generally, the three main types—mRNA, rRNA, and tRNA—are universally present. The presence and function of other types of RNA in prokaryotes are an area of ongoing research.
 
         <h3>Declare</h3>        
 
@@ -37,21 +35,17 @@ export class RNATypes extends <a href="/vignettes/clr/System/Enum.html">Enum</a>
    # Messenger RNA (mRNA): Carries the genetic code from DNA to the ribosome, where it is translated into a protein. Could be translate to protein pipetide
    mRNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Model/Cellular/RNATypes.html">RNATypes</a> = 0;
 
-   # Transfer RNA (tRNA): Brings the correct amino acid to the ribosome in accordance with the codon sequence of the mRNA during translation. 
-   #  Helper rna molecule for the protein transaltion
+   # Transfer RNA (tRNA): Brings the correct amino acid to the ribosome in accordance with the codon sequence of the mRNA during translation. Helper rna molecule for the protein transaltion
    tRNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Model/Cellular/RNATypes.html">RNATypes</a> = 1;
 
-   # Ribosomal RNA (rRNA): Forms the structural and functional components of ribosomes, which are the molecular machines that catalyze protein synthesis. 
-   #  In prokaryotes, the most common rRNAs are 16S, 23S, and 5S.
+   # Ribosomal RNA (rRNA): Forms the structural and functional components of ribosomes, which are the molecular machines that catalyze protein synthesis. In prokaryotes, the most common rRNAs are 16S, 23S, and 5S.
    [@desc "rRNA"]
    ribosomalRNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Model/Cellular/RNATypes.html">RNATypes</a> = 2;
 
-   # Heterogeneous nuclear RNA (hnRNA): This term is more commonly used in eukaryotes, but prokaryotes also have precursor RNAs 
-   #  that may serve similar roles before being processed into mature mRNA.
+   # Heterogeneous nuclear RNA (hnRNA): This term is more commonly used in eukaryotes, but prokaryotes also have precursor RNAs that may serve similar roles before being processed into mature mRNA.
    hnRNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Model/Cellular/RNATypes.html">RNATypes</a> = 3;
 
-   # Small regulatory RNAs (sRNAs): These are non-coding RNAs that can regulate gene expression by interacting with mRNA or other RNAs, 
-   #  often by base-pairing with target sequences.
+   # Small regulatory RNAs (sRNAs): These are non-coding RNAs that can regulate gene expression by interacting with mRNA or other RNAs, often by base-pairing with target sequences.
    sRNAs: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Model/Cellular/RNATypes.html">RNATypes</a> = 4;
 
    # Riboswitches: These are structured regions within some mRNA molecules that can bind small molecules and regulate gene expression by controlling translation or RNA stability.

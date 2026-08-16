@@ -22,9 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>Generates interactive HTML and static PNG visualizations of KEGG pathway maps
-with customizable highlighting for compounds, genes, and proteins. Output files
-are saved to the specified directory.</p>
+        <p>Generates interactive HTML and static PNG visualizations of KEGG pathway maps with customizable highlighting for compounds, genes, and proteins. Output files are saved to the specified directory.
 
         <h3>Usage</h3>
 
@@ -44,66 +42,60 @@ are saved to the specified directory.</p>
         <table>
             
 <dt>union.data</dt>
-<dd><p><p>A data frame or file path (CSV) containing KEGG pathway IDs
-and highlight information. Must include columns specified in `id`, `compound`,
-`gene`, and `protein` parameters. If a character string is provided,
-it is interpreted as a file path to a CSV file.</p></p></dd>
+<dd><p><p>A data frame or file path (CSV) containing KEGG pathway IDs and highlight information. Must include columns specified in <code>id</code>, <code>compound</code>, <code>gene</code>, and <code>protein</code> parameters. If a character string is provided, it is interpreted as a file path to a CSV file.</p></dd>
 
 
 <dt>outputdir</dt>
-<dd><p><p>Output directory path for rendered files (default: "./").</p></p></dd>
+<dd><p><p>Output directory path for rendered files (default: "./").</p></dd>
 
 
 <dt>id</dt>
-<dd><p><p>Column name in `union_data` containing KEGG pathway IDs (default: "KEGG").</p></p></dd>
+<dd><p><p>Column name in <code>union_data</code> containing KEGG pathway IDs (default: "KEGG").</p></dd>
 
 
 <dt>compound</dt>
-<dd><p><p>Column name in `union_data` containing compound highlight data
-(default: "compound"). See Details for formatting.</p></p></dd>
+<dd><p><p>Column name in <code>union_data</code> containing compound highlight data (default: "compound"). See Details for formatting.</p></dd>
 
 
 <dt>gene</dt>
-<dd><p><p>Column name in `union_data` containing gene highlight data
-(default: "gene").</p></p></dd>
+<dd><p><p>Column name in <code>union_data</code> containing gene highlight data (default: "gene").</p></dd>
 
 
 <dt>protein</dt>
-<dd><p><p>Column name in `union_data` containing protein highlight data
-(default: "protein").</p></p></dd>
+<dd><p><p>Column name in <code>union_data</code> containing protein highlight data (default: "protein").</p></dd>
 
 
 <dt>text.color</dt>
-<dd><p><p>Color for node labels on pathway maps (default: "white").</p></p></dd>
+<dd><p><p>Color for node labels on pathway maps (default: "white").</p></dd>
 
 
 <dt>kegg.maps</dt>
-<dd><p><p>Directory path containing KEGG map XML files. If `NULL` (default),
-uses the package's internal XML resources.</p></p></dd>
+<dd><p><p>Directory path containing KEGG map XML files. If <code>NULL</code> (default), uses the package's internal XML resources.</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p><strong>Highlight Data Format</strong>:
-The `compound`, `gene`, and `protein` columns should contain strings in one of two formats:
+        <p><strong>Highlight Data Format</strong>: The <code>compound</code>, <code>gene</code>, and <code>protein</code> columns should contain strings in one of two formats:
+
+
 <ol>
-<li>Semicolon-separated key-value pairs: `"K00001:blue;K00002:red;C00001:green"`</li>
-<li>Semicolon-separated IDs (default color: red): `"K00001;K00002;C00001"`</li>
-</ol></p>
+<li><p>Semicolon-separated key-value pairs: <code>"K00001:blue;K00002:red;C00001:green"</code></li>
+<li><p>Semicolon-separated IDs (default color: red): <code>"K00001;K00002;C00001"</code></li>
+</ol>
 
-<p>These are parsed by <a href='' title='`parse.highlight_tuples()`'>`parse.highlight_tuples()`</a>
-into named lists (e.g., `list(K00001 = "blue", K00002 = "red")`).
-<strong>Output Files</strong>:
-For each KEGG ID, two files are generated:
+
+<p>These are parsed by <a href="https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html"><code>parse.highlight_tuples()</code></a> into named lists (e.g., <code>list(K00001 = "blue", K00002 = "red")</code>). <strong>Output Files</strong>: For each KEGG ID, two files are generated:
+
+
 <ul>
-<li>`[KEGG_ID].html`: Interactive pathway visualization</li>
-<li>`[KEGG_ID].png`: Static PNG image</li>
-</ul></p>
+<li><p><code>[KEGG_ID].html</code>: Interactive pathway visualization</li>
+<li><p><code>[KEGG_ID].png</code>: Static PNG image</li>
+</ul>
 
-<p><strong>Error Handling</strong>:
-Errors during rendering are caught and printed to the console without stopping execution.</p>
+
+<p><strong>Error Handling</strong>: Errors during rendering are caught and printed to the console without stopping execution.
 
         <h3 style="display: block">Authors</h3>
 
@@ -111,7 +103,7 @@ Errors during rendering are caught and printed to the console without stopping e
 
         <h3>Value</h3>
 
-        <p>Invisibly returns `NULL`. Primary output is generated as files in `outputdir`.</p>
+        <p>Invisibly returns <code>NULL</code>. Primary output is generated as files in <code>outputdir</code>.
 
         <h3 style="display: block;">Examples</h3>
 

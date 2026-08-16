@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>each sample group.<br /> <br /> this method can be apply for reduce data size when <br /> create some plot for visualize the gene expression<br /> patterns across the sample groups.</p>
+        <p>each sample group.&lt;br /&gt; &lt;br /&gt; this method can be apply for reduce data size when &lt;br /&gt; create some plot for visualize the gene expression&lt;br /&gt; patterns across the sample groups.
 
         <h3>Usage</h3>
 
@@ -37,15 +37,15 @@
         <table>
             
 <dt>matrix</dt>
-<dd><p>a gene expression matrix. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
 
 
 <dt>sampleinfo</dt>
-<dd><p>The sample group data. [as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
 
 
 <dt>strict</dt>
-<dd><p>will try to ignores of the missing sample if strict option is off. [as boolean]</p></dd>
+<dd><p>[as boolean]</p></dd>
 
         </table>
 
@@ -61,9 +61,12 @@
         <h3>Value</h3>
 
         <p>this function return value is determined based on the sampleinfo parameter:
- 
- 1. for sampleinfo not nothing, a matrix with sample group as the sample feature data will be returns
- 2. for missing sampleinfo data, a numeric vector of average value for each gene feature will be returns</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li><li>double</li></ul>
+
+
+<ol>
+<li><p>for sampleinfo not nothing, a matrix with sample group as the sample feature data will be returns</li>
+<li><p>for missing sampleinfo data, a numeric vector of average value for each gene feature will be returns</li>
+</ol><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li><li>double</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

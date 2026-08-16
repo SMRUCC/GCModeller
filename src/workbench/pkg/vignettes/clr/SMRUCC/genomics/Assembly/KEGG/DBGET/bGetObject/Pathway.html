@@ -22,9 +22,9 @@
 
         <h3>Description</h3>
 
-        <p>The kegg pathway annotation data.</p>
+        <p>The kegg pathway annotation data.
 
-<p>(这个代谢途径模型是针对某一个物种而言的)</p>
+<p>(这个代谢途径模型是针对某一个物种而言的)
 
         <h3>Declare</h3>        
 
@@ -34,9 +34,7 @@
 export class Pathway extends <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/PathwayBrief.html">PathwayBrief</a> {
    briteID: string;
    class: string;
-   # The kegg compound entry collection data in this pathway.
-   #  (可以通过这个代谢物的列表得到可以出现在当前的这个代谢途径之中的所有的非酶促反应过程，
-   #  将整个基因组里面的化合物合并起来则可以得到整个细胞内可能存在的非酶促反应过程)
+   # The kegg compound entry collection data in this pathway. (可以通过这个代谢物的列表得到可以出现在当前的这个代谢途径之中的所有的非酶促反应过程， 将整个基因组里面的化合物合并起来则可以得到整个细胞内可能存在的非酶促反应过程)
    compound: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
    description: string;
    disease: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;

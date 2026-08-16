@@ -22,10 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>Queries the UniProt database for protein information based on a search term
-and an optional taxonomy ID. This function acts as a wrapper around the
-UniProt REST API, allowing for the retrieval of either raw query results
-or formatted protein sequences in FASTA format.</p>
+        <p>Queries the UniProt database for protein information based on a search term and an optional taxonomy ID. This function acts as a wrapper around the UniProt REST API, allowing for the retrieval of either raw query results or formatted protein sequences in FASTA format.
 
         <h3>Usage</h3>
 
@@ -40,25 +37,15 @@ or formatted protein sequences in FASTA format.</p>
         <table>
             
 <dt>q</dt>
-<dd><p><p>Character. The query term used to search UniProt.
-This can be a protein name, gene name, UniProt accession, or any valid
-UniProt query string (e.g., "insulin", "P12345").</p></p></dd>
+<dd><p><p>Character. The query term used to search UniProt. This can be a protein name, gene name, UniProt accession, or any valid UniProt query string (e.g., "insulin", "P12345").</p></dd>
 
 
 <dt>tax.id</dt>
-<dd><p><p>Character or Integer. An optional NCBI taxonomy identifier
-to restrict the search to a specific organism (e.g., 9606 for humans).
-If NULL (default), the search is performed across all organisms.</p></p></dd>
+<dd><p><p>Character or Integer. An optional NCBI taxonomy identifier to restrict the search to a specific organism (e.g., 9606 for humans). If NULL (default), the search is performed across all organisms.</p></dd>
 
 
 <dt>as.fasta</dt>
-<dd><p><p>Logical. Determines the format of the output.
-\itemize{
-\item If \code{TRUE} (default), the function extracts and returns
-protein sequences in FASTA format.
-\item If \code{FALSE}, the raw result object from the REST query
-is returned.
-}</p></p></dd>
+<dd><p><p>Logical. Determines the format of the output. \itemize{ \item If \code{TRUE} (default), the function extracts and returns protein sequences in FASTA format. \item If \code{FALSE}, the raw result object from the REST query is returned. }</p></dd>
 
         </table>
 
@@ -73,13 +60,7 @@ is returned.
 
         <h3>Value</h3>
 
-        <p>The return value depends on the \code{as_fasta} argument:
-\itemize{
-\item If \code{as_fasta = TRUE}: Returns the protein sequences in FASTA
-format (typically as a character vector or raw text).
-\item If \code{as_fasta = FALSE}: Returns the raw response object from
-\code{UniProt::rest_query}.
-}</p>
+        <p>The return value depends on the \code{as_fasta} argument: \itemize{ \item If \code{as_fasta = TRUE}: Returns the protein sequences in FASTA format (typically as a character vector or raw text). \item If \code{as_fasta = FALSE}: Returns the raw response object from \code{UniProt::rest_query}. }
 
         <h3 style="display: block;">Examples</h3>
 

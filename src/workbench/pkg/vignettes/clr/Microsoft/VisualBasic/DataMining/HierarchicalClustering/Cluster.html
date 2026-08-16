@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>the hierarchy cluster tree</p>
+        <p>Represents a node (cluster) in the hierarchical clustering tree (dendrogram). Each cluster can be a leaf node (containing a single data point) or an internal node (containing child clusters formed by merging). Implements the tree node data structure required for hierarchical clustering and provides named identification via <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Generic/INamedValue.html">INamedValue</a> .
 
         <h3>Declare</h3>        
 
@@ -30,20 +30,27 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.DataMining.HierarchicalClustering
 export class Cluster {
+   # Gets the read-only collection of child clusters directly under this node. An empty collection indicates that this node is a leaf cluster. Implements <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataStructures/Tree/ITreeNodeData`1.html">ITreeNodeData`1</a>.<a href="/vignettes/clr/System/Collections/Generic/IReadOnlyCollection`1.html">ChildNodes</a> .
    Children: <a href="/vignettes/clr/System/Collections/Generic/IReadOnlyCollection`1.html">IReadOnlyCollection`1</a>;
+   # Gets or sets the <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Cluster.html">Cluster</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Hierarchy/Distance.html">Distance</a>  object associated with this cluster, representing the distance at which this cluster was formed (for internal nodes) or the initial distance for leaf nodes.
    Distance: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Hierarchy/Distance.html">Distance</a>;
-   # value of <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Cluster.html">Cluster</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Hierarchy/Distance.html">Distance</a>
+   # Gets the distance value of this cluster from the underlying <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Cluster.html">Cluster</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Hierarchy/Distance.html">Distance</a>  object. For internal nodes, this represents the cophenetic distance at which child clusters were merged. For leaf nodes, this is typically zero or the initial distance.
    DistanceValue: double;
-   # 是否是一个叶节点？
+   # Gets a value indicating whether this cluster is a leaf node. A cluster is a leaf if it has no children. Implements <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataStructures/Tree/ITreeNodeData`1.html">ITreeNodeData`1</a>.<a href="#">IsLeaf</a> .
    isLeaf: boolean;
+   # Gets a value indicating whether this cluster is the root node of the dendrogram. A cluster is considered the root if it has no parent or if its parent is itself. Implements <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataStructures/Tree/ITreeNodeData`1.html">ITreeNodeData`1</a>.<a href="#">IsRoot</a> .
    IsRoot: boolean;
+   # Gets the list of leaf names contained within this cluster's subtree. For leaf clusters, this list contains the cluster's own name. For internal clusters, it accumulates the names of all descendant leaf nodes.
    LeafNames: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
-   # 计算出所有的叶节点的总数，包括自己的child的叶节点
+   # Gets the total number of leaf nodes in the subtree rooted at this cluster. Recursively counts all descendant leaf nodes, including direct children and their children.
    Leafs: integer;
-   # 名称是唯一的？
+   # Gets or sets the unique name identifier for this cluster. The name should be unique among all leaf clusters to ensure correct equality comparisons. Implements <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/Repository/IKeyedEntity`1.html">IKeyedEntity`1</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/Repository/TKeyType.html">Key</a>  and <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataStructures/Tree/ITreeNodeData`1.html">ITreeNodeData`1</a>.<a href="#">FullyQualifiedName</a> .
    Name: string;
+   # Gets or sets the parent cluster of this node in the dendrogram. A Nothing value indicates this cluster is the root of the tree. Implements <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataStructures/Tree/ITreeNodeData`1.html">ITreeNodeData`1</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataStructures/Tree/T.html">Parent</a> .
    Parent: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Cluster.html">Cluster</a>;
+   # Gets the total distance value accumulated along the left-most path from this node to its deepest descendant. This is the sum of distances from this node down through the first child at each level.
    TotalDistance: double;
+   # Gets the weight of this cluster from the underlying <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Cluster.html">Cluster</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Hierarchy/Distance.html">Distance</a>  object. The weight is used in weighted linkage strategies such as WPGMA.
    WeightValue: double;
 }
 </code>

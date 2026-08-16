@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>代表一个单独的比对块。</p>
+        <p>代表一个单独的比对块。
 
         <h3>Declare</h3>        
 
@@ -34,8 +34,7 @@ export class AlignmentBlock {
    Deltas: integer;
    # 比对区域内的错误总数 (错配 + 插入缺失)。
    Errors: integer;
-   # 获取一个值，指示该比对是否为反向互补比对。
-   #  如果 QStart > QEnd，则为反向互补。
+   # 获取一个值，指示该比对是否为反向互补比对。 如果 QStart &gt; QEnd，则为反向互补。
    IsReverseComplement: boolean;
    # 查询序列上的结束位置 (1-based inclusive)。
    QEnd: integer;

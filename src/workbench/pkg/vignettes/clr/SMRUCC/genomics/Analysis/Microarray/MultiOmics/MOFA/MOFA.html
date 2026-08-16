@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>Multi-Omics Factor Analysis-a framework for unsupervised integration of multi-omics data sets</p>
+        <p>Multi-Omics Factor Analysis-a framework for unsupervised integration of multi-omics data sets
 
         <h3>Declare</h3>        
 
@@ -32,8 +32,7 @@
 export class MOFA {
    # Active factor indices (after pruning)
    ActiveFactors: boolean;
-   # ARD precision α^m_k (M × K). Large α → factor k is suppressed in view m.
-   #  Updated during inference; factors with large α across all views are pruned.
+   # ARD precision α^m_k (M × K). Large α → factor k is suppressed in view m. Updated during inference; factors with large α across all views are pruned.
    Alpha: <a href="/vignettes/clr/System/Double.html">Double[,]</a>;
    # Whether training has converged
    Converged: boolean;
@@ -47,12 +46,9 @@ export class MOFA {
    # Number of global samples (union of all views' samples)
    N: integer;
    Options: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/MultiOmics/MOFA/MOFAOptions.html">MOFAOptions</a>;
-   # Per-feature spike-and-slab mixing probability π^m<em>d ∈ [0,1] (D</em>m × 1 per view).
-   #  π close to 1 → feature d is "active" (drawn from slab);
-   #  π close to 0 → feature d is "inactive" (drawn from spike).
+   # Per-feature spike-and-slab mixing probability π^m_d ∈ [0,1] (D_m × 1 per view). π close to 1 → feature d is "active" (drawn from slab); π close to 0 → feature d is "inactive" (drawn from spike).
    Pi: <a href="/vignettes/clr/System/Double.html">iterates(Double[])</a>;
-   # Per-view, per-feature noise precision τ^m<em>d (D</em>m × 1 for each view).
-   #  Gaussian noise model: ε ~ N(0, 1/τ).
+   # Per-view, per-feature noise precision τ^m_d (D_m × 1 for each view). Gaussian noise model: ε ~ N(0, 1/τ).
    Tau: <a href="/vignettes/clr/System/Double.html">iterates(Double[])</a>;
    Views: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/MultiOmics/MOFA/DataView.html">iterates(DataView)</a>;
    # Weight matrices W^m (one per view), each (D_m × K)

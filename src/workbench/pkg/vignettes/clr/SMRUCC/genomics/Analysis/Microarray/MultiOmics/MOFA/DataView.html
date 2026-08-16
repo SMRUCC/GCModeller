@@ -32,9 +32,7 @@
 export class DataView {
    # Number of features D_m
    D: integer;
-   # Data matrix Y^m of shape (N<em>local × D</em>m), where N_local is the number of
-   #  samples actually observed in this view, and D_m is the number of features.
-   #  Rows correspond to samples listed in <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/MultiOmics/MOFA/DataView.html">DataView</a>.<a href="#">SampleIds</a>.
+   # Data matrix Y^m of shape (N_local × D_m), where N_local is the number of samples actually observed in this view, and D_m is the number of features. Rows correspond to samples listed in <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/MultiOmics/MOFA/DataView.html">DataView</a>.<a href="#">SampleIds</a>.
    Data: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a>;
    # Feature-wise mean (D_m) — subtracted before factorization
    FeatureMean: double;
@@ -42,20 +40,15 @@ export class DataView {
    FeatureNames: string;
    # Feature-wise variance (D_m) — used for Z-score normalization
    FeatureStd: double;
-   # Reverse mapping: globalToLocal(n) = local index of global sample n in this view,
-   #  or -1 if sample n is NOT observed in this view. This is the key data structure
-   #  that enables MOFA to handle mismatched sample sets between views.
+   # Reverse mapping: globalToLocal(n) = local index of global sample n in this view, or -1 if sample n is NOT observed in this view. This is the key data structure that enables MOFA to handle mismatched sample sets between views.
    GlobalToLocal: integer;
-   # Local-to-global sample index mapping.
-   #  localToGlobal(i) = global index of the i-th observed sample in this view.
-   #  Built by @<code>M:SMRUCC.genomics.Analysis.Microarray.MultiOmics.MOFA.DataView.BuildIndexMapping(System.String[])</code> using the global sample list.
+   # Local-to-global sample index mapping. localToGlobal(i) = global index of the i-th observed sample in this view. Built by @<code>M:SMRUCC.genomics.Analysis.Microarray.MultiOmics.MOFA.DataView.BuildIndexMapping(System.String[])</code> using the global sample list.
    LocalToGlobal: integer;
    # View name (e.g. "mRNA", "metabolome")
    Name: string;
    # Number of locally observed samples
    NLocal: integer;
-   # Sample IDs that are observed in this view (length = N_local = Data.Shape(0)).
-   #  These IDs map local rows to the global sample index space.
+   # Sample IDs that are observed in this view (length = N_local = Data.Shape(0)). These IDs map local rows to the global sample index space.
    SampleIds: string;
 }
 </code>

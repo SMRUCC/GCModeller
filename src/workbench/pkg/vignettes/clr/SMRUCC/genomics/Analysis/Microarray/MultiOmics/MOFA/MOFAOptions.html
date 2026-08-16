@@ -32,8 +32,7 @@
 export class MOFAOptions {
    # ELBO convergence tolerance (relative change)
    ConvergenceTolerance: double;
-   # Minimum fraction of variance explained for a factor to be retained.
-   #  Factors below this threshold are pruned. (Paper uses 2%.)
+   # Minimum fraction of variance explained for a factor to be retained. Factors below this threshold are pruned. (Paper uses 2%.)
    DropFactorThreshold: double;
    # Number of initial "burn-in" iterations without sparsity (paper Sec. 5)
    DropIterations: integer;
@@ -45,8 +44,7 @@ export class MOFAOptions {
    PrintEvery: integer;
    # Random seed for reproducibility
    Seed: <a href="/vignettes/clr/System/Nullable`1.html">Nullable`1</a>;
-   # Prior precision for the spike distribution (small value → strong sparsity).
-   #  Set to 0 to disable spike-and-slab feature sparsity (use ARD only).
+   # Prior precision for the spike distribution (small value → strong sparsity). Set to 0 to disable spike-and-slab feature sparsity (use ARD only).
    SpikePrecision: double;
    # Whether to standardize each view before training (recommended)
    StandardizeViews: boolean;

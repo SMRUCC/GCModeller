@@ -22,9 +22,9 @@
 
         <h3>Description</h3>
 
-        <p>用于存储 --output 文件中每一行的数据，这个文件详细列出了每一条序列（read）的分类结果。每一行对应一条 read。</p>
+        <p>用于存储 --output 文件中每一行的数据，这个文件详细列出了每一条序列（read）的分类结果。每一行对应一条 read。
 
-<p>--output 文件是 read-centric 的，关注点是“每一条 read 被分到了哪里”。</p>
+<p>--output 文件是 read-centric 的，关注点是“每一条 read 被分到了哪里”。
 
         <h3>Declare</h3>        
 
@@ -33,10 +33,8 @@
 # namespace SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 export class KrakenOutputRecord {
    # LCA映射详情, 使用字典来存储 k-mer 的分配详情，键是 TaxID，值是 k-mer 数量
-   #  
-   #  这是一个由空格分隔的列表，详细描述了该 read 中所有 k-mer 的分配情况。
-   #  格式为 [TaxID]:[k-mer数量]。
-   #  0 是一个特殊的 TaxID，通常代表未分类的 k-mer（即数据库中没有匹配的 k-mer）。0:6 表示有 6 个 k-mer 未被分类。
+   # 
+   # 这是一个由空格分隔的列表，详细描述了该 read 中所有 k-mer 的分配情况。 格式为 [TaxID]:[k-mer数量]。 0 是一个特殊的 TaxID，通常代表未分类的 k-mer（即数据库中没有匹配的 k-mer）。0:6 表示有 6 个 k-mer 未被分类。
    LcaMappings: list;
    LCASupport: double;
    LCATaxids: integer;
@@ -45,9 +43,8 @@ export class KrakenOutputRecord {
    # 输入的 FASTQ 文件中该 read 的序列标识符。
    ReadName: string;
    # "C" or "U"
-   #   
-   #  C: Classified (已分类)。表示 Kraken2 成功为该 read 分配了一个分类单元。
-   #  U: Unclassified (未分类)。表示该 read 未能被分配到任何数据库中的分类单元。
+   # 
+   # C: Classified (已分类)。表示 Kraken2 成功为该 read 分配了一个分类单元。 U: Unclassified (未分类)。表示该 read 未能被分配到任何数据库中的分类单元。
    StatusCode: string;
    # 这是 Kraken2 最终分配给该 read 的分类单元的 NCBI Taxonomy ID。这个分类单元是该 read 上所有 k-mer 的最低共同祖先。
    TaxID: integer;
