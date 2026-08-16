@@ -10,7 +10,7 @@ Public Module kgml_test
 "C:\Users\Administrator\Downloads\taes00941.xml",
 "C:\Users\Administrator\Downloads\taes00999.xml"}
         Dim kgml_maps = maps.Select(Function(file) pathway.LoadMap(file)).ToArray
-        Dim network = kgml_maps.Select(Function(p) GeneNetworkExport.ExtractFromKGML(p)).IteratesALL.ToArray
+        Dim network = kgml_maps.Select(Function(p) ReactionNetworkExport.ExtractFromKGML(p)).IteratesALL.ToArray
 
         Call network.SaveTo("Z:/network.csv")
 

@@ -22,8 +22,8 @@ Namespace Assembly.KEGG.WebServices.KGML
             Return $"{gene1.JoinBy(",")}+{gene2.JoinBy(",")}+{compound.JoinBy(",")}".GetHashCode
         End Function
 
-        Shared ReadOnly koNames As Dictionary(Of String, String) = My.Resources.KEGG.ko.LineTokens.Select(Function(a) a.GetTagValue(vbTab)).ToDictionary(Function(a) a.Name, Function(a) a.Value)
-        Shared ReadOnly cpdNames As Dictionary(Of String, String) = My.Resources.KEGGCompounds.compound.LineTokens.Select(Function(a) a.GetTagValue(vbTab)).ToDictionary(Function(a) a.Name, Function(a) a.Value)
+        Friend Shared ReadOnly koNames As Dictionary(Of String, String) = My.Resources.KEGG.ko.LineTokens.Select(Function(a) a.GetTagValue(vbTab)).ToDictionary(Function(a) a.Name, Function(a) a.Value)
+        Friend Shared ReadOnly cpdNames As Dictionary(Of String, String) = My.Resources.KEGGCompounds.compound.LineTokens.Select(Function(a) a.GetTagValue(vbTab)).ToDictionary(Function(a) a.Name, Function(a) a.Value)
 
         Public Shared Iterator Function ExtractFromKGML(kgml As pathway) As IEnumerable(Of GeneNetworkExport)
             Dim entryIndex = kgml.entries.ToDictionary(Function(e) e.id)
