@@ -61,8 +61,6 @@
 
 Imports System.IO
 Imports System.Text
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text

@@ -53,6 +53,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -84,10 +86,10 @@ Namespace ContextModel.Promoter
         ''' <returns></returns>
         <Extension>
         Public Function ParseUpstreamByLength(context As PTT, nt As IPolymerSequenceModel, length%) As Dictionary(Of String, FastaSeq)
-            Dim genes = context.GeneObjects
+            Dim genes As New GenomeContext(Of GeneBrief)(context.GeneObjects)
             Dim parser = From gene As GeneBrief
-                         In genes.AsParallel
-                         Let upstream = gene.GetUpstreamSeq(nt, length)
+                         In genes.AsEnumerable.AsParallel
+                         Let upstream = gene.GetUpstreamSeq(genes, nt, length)
                          Select gene.Synonym,
                              promoter = upstream
             Dim table = parser.ToDictionary(Function(g) g.Synonym, Function(g) g.promoter)
@@ -105,7 +107,7 @@ Namespace ContextModel.Promoter
         ''' (在这个函数之中，位点的计算的时候会有一个碱基的偏移量是因为为了不将起始密码子ATG之中的A包含在结果序列之中)
         ''' </remarks>
         <Extension>
-        Public Function GetUpstreamSeq(gene As IGeneBrief, nt As IPolymerSequenceModel, len%) As FastaSeq
+        Public Function GetUpstreamSeq(gene As IGeneBrief, context As GenomeContext(Of GeneBrief), nt As IPolymerSequenceModel, len%) As FastaSeq
             Dim loci As NucleotideLocation = gene.Location
 
             With loci.Normalization()

@@ -134,9 +134,7 @@ Namespace ContextModel.Promoter
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Get.Sequence.By.Id")>
-        Public Shared Function GetSequenceById(parser As PromoterRegionParser,
-                                               geneIDs As IEnumerable(Of String),
-                                               Optional length As PrefixLength = PrefixLength.L150) As FastaFile
+        Public Shared Function GetSequenceById(parser As PromoterRegionParser, geneIDs As IEnumerable(Of String), Optional length As PrefixLength = PrefixLength.L150) As FastaFile
             With geneIDs.Indexing
                 Dim query = From fasta
                             In parser.GetRegionCollectionByLength(length Or default150)
