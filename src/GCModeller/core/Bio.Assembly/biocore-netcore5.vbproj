@@ -12,7 +12,7 @@
     <Product>GCModeller</Product>
     <Company>SMRUCC genomics institute</Company>
     <Authors>SMRUCC genomics</Authors>
-    <Version>6.3.256.3655</Version>
+    <Version>10.5.3.8911</Version>
     <Copyright>Copyright © SMRUCC genomics 2023</Copyright>
     <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
@@ -758,6 +758,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <DefineConstants />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-windows|AnyCPU'">
@@ -786,6 +787,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <DefineConstants />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-windows|x64'">
@@ -898,6 +900,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <DefineConstants>UNIX=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net10.0-windows|x64'">
@@ -954,6 +957,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <DefineConstants>UNIX=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit|net10.0-windows|x64'">
@@ -1010,6 +1014,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <DefineConstants></DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='NPSearch|net10.0-windows|x64'">
@@ -1066,6 +1071,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <DefineConstants>UNIX=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net10.0-windows|x64'">
@@ -1122,6 +1128,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <DefineConstants>UNIX=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net10.0-windows|x64'">
@@ -1220,6 +1227,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <DefineConstants>UNIX=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net10.0|x64'">
@@ -1227,6 +1235,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <DefineConstants>UNIX=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net10.0-windows|x64'">
@@ -1290,6 +1299,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <DefineConstants></DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Desktop|net10.0-windows|x64'">

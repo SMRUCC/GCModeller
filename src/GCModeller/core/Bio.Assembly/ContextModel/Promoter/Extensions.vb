@@ -144,7 +144,7 @@ Namespace ContextModel.Promoter
             ' The "-1" offset excludes the ATG start base from the result, consistent
             ' with the previous implementation.
             Dim tss As Long
-            Dim candidateLeft As Long, candidateRight As Long
+            Dim candidateLeft As Integer, candidateRight As Integer
 
             If strand = Strands.Forward Then
                 tss = loci.left
@@ -169,8 +169,8 @@ Namespace ContextModel.Promoter
             End If
 
             Dim takeFullLength As Boolean = True
-            Dim intergenicLeft As Long = candidateLeft
-            Dim intergenicRight As Long = candidateRight
+            Dim intergenicLeft As Integer = candidateLeft
+            Dim intergenicRight As Integer = candidateRight
 
             If upstreamGene IsNot Nothing Then
                 Dim aStop As Long = upstreamGene.TGA
@@ -227,7 +227,7 @@ Namespace ContextModel.Promoter
                     ' Intergenic spacer is too short to be an independent regulatory
                     ' region; gene B may be co-regulated with the upstream gene A.
                     Return New FastaSeq With {
-                        .Headers = {gene.Feature & " " & gene.Synonym, "intergenic too short"},
+                        .Headers = {gene.Feature & " " & gene.Key, "intergenic too short"},
                         .SequenceData = ""
                     }
                 End If

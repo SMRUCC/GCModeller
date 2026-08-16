@@ -237,9 +237,9 @@ Namespace ComponentModel.Loci
             Me.Strand = Strand
         End Sub
 
-        Public Sub New(LociStart As Long, LociEnds As Long, Strand As Strands)
-            MyBase.left = LociStart
-            MyBase.right = LociEnds
+        Public Sub New(lociStart As Long, lociEnds As Long, Strand As Strands)
+            MyBase.left = lociStart
+            MyBase.right = lociEnds
             Me.Strand = Strand
         End Sub
 
@@ -260,11 +260,11 @@ Namespace ComponentModel.Loci
         ''' 自动判断链的方向，假若开始小于结束，则是正链，反之为负义链
         ''' </summary>
         ''' <param name="start"></param>
-        ''' <param name="Ends"></param>
-        Public Sub New(start As Integer, Ends As Integer)
+        ''' <param name="ends"></param>
+        Public Sub New(start As Integer, ends As Integer)
             MyBase.left = start
-            MyBase.right = Ends
-            If start < Ends Then
+            MyBase.right = ends
+            If start < ends Then
                 Me.Strand = Strands.Forward '默认为正向链
             Else
                 Me.Strand = Strands.Reverse
@@ -276,12 +276,12 @@ Namespace ComponentModel.Loci
         ''' </summary>
         ''' <param name="_start"></param>
         ''' <param name="_ends"></param>
-        ''' <param name="ComplementStrand">这个片段是否位于DNA上面的互补链或者是否为反向序列</param>
+        ''' <param name="complementStrand">这个片段是否位于DNA上面的互补链或者是否为反向序列</param>
         ''' <remarks></remarks>
-        Public Sub New(_start As Long, _ends As Long, ComplementStrand As Boolean)
+        Public Sub New(_start As Long, _ends As Long, complementStrand As Boolean)
             MyBase.left = _start
             MyBase.right = _ends
-            Me.Strand = If(ComplementStrand, Strands.Reverse, Strands.Forward)
+            Me.Strand = If(complementStrand, Strands.Reverse, Strands.Forward)
         End Sub
 
         ''' <summary>
