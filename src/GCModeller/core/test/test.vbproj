@@ -10,7 +10,7 @@
     <AssemblyName>Test.Project</AssemblyName>
     <FileAlignment>512</FileAlignment>
   
-    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <UseApplicationFramework>True</UseApplicationFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
