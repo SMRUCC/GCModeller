@@ -136,7 +136,7 @@ Namespace ContextModel.Promoter
         '''    is returned (the two genes may be co-regulated).
         ''' </remarks>
         <Extension>
-        Public Function GetUpstreamSeq(gene As IGeneBrief, context As GenomeContext(Of GeneBrief), nt As IPolymerSequenceModel, len%, Optional minLen% = 20) As FastaSeq
+        Public Function GetUpstreamSeq(Of T As IGeneBrief)(gene As T, context As GenomeContext(Of T), nt As IPolymerSequenceModel, len%, Optional minLen% = 20) As FastaSeq
             Dim loci As NucleotideLocation = gene.Location.Normalization()
             Dim strand As Strands = loci.Strand
 
@@ -160,8 +160,8 @@ Namespace ContextModel.Promoter
             ' Locate the transcriptionally upstream neighbour gene A (best effort: only
             ' GeneBrief exposes the stop codon position). Fall back to the plain fixed
             ' length extraction when gene is not a GeneBrief.
-            Dim upstreamGene As GeneBrief = Nothing
-            Dim geneB = TryCast(gene, GeneBrief)
+            Dim upstreamGene As IGeneBrief = Nothing
+            Dim geneB = TryCast(gene, IGeneBrief)
 
             If geneB IsNot Nothing Then
                 Dim neighbours = context.GetDirectionalNeighbours(geneB)
@@ -250,6 +250,17 @@ Namespace ContextModel.Promoter
             }
 
             Return promoter
+        End Function
+
+        <Extension>
+        Private Function TGA(g As IGeneBrief) As Integer
+            Dim loc = g.Location
+
+            If loc.Strand = Strands.Forward Then
+                Return loc.right
+            Else
+                Return loc.left
+            End If
         End Function
 
         <Extension>
