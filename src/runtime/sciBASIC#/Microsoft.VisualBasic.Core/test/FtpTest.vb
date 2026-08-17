@@ -17,10 +17,11 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.Net.FTP
+Imports Microsoft.VisualBasic.Net.WebClient
 
 Module FtpTest
 
-    Async Function Main(args As String()) As Task
+    Public Async Function Run(args As String()) As Task
         Console.OutputEncoding = Text.Encoding.UTF8
 
         If args.Length < 2 Then
@@ -35,10 +36,12 @@ Module FtpTest
 
         Dim user As String = "anonymous"
         Dim password As String = "anonymous@localhost"
+        Dim port As Integer = 21
         Dim useSsl As Boolean = False
         Dim skipCert As Boolean = False
+        Dim useWget As Boolean = False
 
-        ' 解析可选参数
+        ' 解析可选位置参数
         Dim idx As Integer = 2
         If args.Length > 2 AndAlso Not args(2).StartsWith("--") Then
             ' args(2) 是 localPath，继续看后面的
@@ -53,10 +56,14 @@ Module FtpTest
         ' 解析开关
         For i As Integer = idx + 1 To args.Length - 1
             Select Case args(i)
+                Case "--port"
+                    If i + 1 < args.Length Then Integer.TryParse(args(i + 1), port) : i += 1
                 Case "--ssl", "--ftps"
                     useSsl = True
                 Case "--no-cert", "--skip-cert"
                     skipCert = True
+                Case "--wget"
+                    useWget = True
             End Select
         Next
 
@@ -69,14 +76,14 @@ Module FtpTest
 
         Dim creds As New FtpCredentials(user, password)
 
-        Console.WriteLine($"FTP 服务器 : {host}")
+        Console.WriteLine($"FTP 服务器 : {host}:{port}")
         Console.WriteLine($"远程文件   : {remotePath}")
         Console.WriteLine($"本地保存   : {localPath}")
         Console.WriteLine($"用户       : {user}")
         Console.WriteLine($"FTPS 加密  : {If(useSsl, "是", "否")}")
         Console.WriteLine()
 
-        Using client As New FtpClient(host, 21, options, creds)
+        Using client As New FtpClient(host, port, options, creds)
 
             ' 显示文件信息
             Try
@@ -89,6 +96,20 @@ Module FtpTest
                 Console.WriteLine()
             Catch ex As Exception
                 Console.WriteLine($"  (无法获取文件信息: {ex.Message})")
+                Console.WriteLine()
+            End Try
+
+            ' 列出远程根目录 (NLST)
+            Try
+                Console.WriteLine("正在列目录 (NLST /)...")
+                Dim listing = Await client.ListDirectoryAsync("/")
+                Console.WriteLine($"  共 {listing.Length} 个条目:")
+                For Each item In listing
+                    Console.WriteLine($"    - {item}")
+                Next
+                Console.WriteLine()
+            Catch ex As Exception
+                Console.WriteLine($"  (无法列目录: {ex.Message})")
                 Console.WriteLine()
             End Try
 
@@ -140,6 +161,26 @@ Module FtpTest
             End Try
 
         End Using
+
+        ' 可选: 验证重构后的 FtpDownloader (替代 FtpWebRequest)
+        If useWget Then
+            Try
+                Console.WriteLine()
+                Console.WriteLine("验证重构后的 FtpDownloader (ftp:// 下载)...")
+                Dim wgetPath As String = "_wget_" & Path.GetFileName(remotePath)
+                Dim ftpUrl As String = $"ftp://{host}:{port}{remotePath}"
+                Dim wget As New FtpDownloader(ftpUrl, wgetPath, user, password)
+                AddHandler wget.DownloadProgressChanged, Sub(s, e)
+                                                             Console.WriteLine($"    {FormatSize(e.BytesReceived)} / {FormatSize(e.TotalBytes)}")
+                                                         End Sub
+                Await wget.DownloadFileAsync()
+                Console.WriteLine($"  FtpDownloader 完成: {wgetPath} ({FormatSize(New FileInfo(wgetPath).Length)})")
+                Console.WriteLine()
+            Catch ex As Exception
+                Console.WriteLine($"  FtpDownloader 失败: {ex.Message}")
+                Console.WriteLine(ex.StackTrace)
+            End Try
+        End If
     End Function
 
     Private Function FormatSize(bytes As Long) As String
@@ -165,6 +206,7 @@ Module FtpTest
   password       密码 (默认: anonymous@localhost)
 
 选项:
+  --port <n>     端口 (默认: 21, 本地测试可指到 2121)
   --ssl           使用 FTPS (FTP over TLS)
   --no-cert       跳过证书验证 (用于自签名证书)
 
