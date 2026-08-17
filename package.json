@@ -16,8 +16,9 @@
     "student t"
   ],
   "dependencies": {
-    "summary": "0.3.x",
-    "distributions": "^1.0.0"
+    "distributions": "^1.0.0",
+    "playwright": "^1.62.1",
+    "summary": "0.3.x"
   },
   "devDependencies": {
     "eslint": "^6.6.0",

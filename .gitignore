@@ -10,6 +10,7 @@ src/runtime/R-sharp/App
 
 src/biodeep/
 
+node_modules/
 .nuget/
 
 *.pydevproject
