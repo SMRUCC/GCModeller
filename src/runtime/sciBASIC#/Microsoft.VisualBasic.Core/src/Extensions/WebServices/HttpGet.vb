@@ -56,6 +56,8 @@
 Imports System.IO
 Imports System.IO.Compression
 Imports System.Net
+Imports System.Net.Http
+Imports System.Net.Http.Headers
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Language
@@ -145,7 +147,7 @@ Public Module HttpGet
 
         Try
 Re0:
-            Return BuildWebRequest(url, headers, proxy, UA, timeout:=timeout).UrlGet(echo:=echo).html
+            Return BuildWebRequest(url, headers, proxy, UA, timeout:=timeout).UrlGet(echo:=echo, requestTimeout:=TimeSpan.FromSeconds(timeout)).html
 
             ' 20230620 the http error message at here could be various
             ' just check for the http status code 404 at here
@@ -197,35 +199,25 @@ Re0:
                                     proxy$,
                                     UA$,
                                     Optional isPost As Boolean = False,
-                                    Optional timeout As Long = 600) As HttpWebRequest
+                                    Optional timeout As Long = 600) As HttpRequestMessage
 
-        Dim webRequest As HttpWebRequest = HttpWebRequest.Create(url)
+        Dim request As New HttpRequestMessage(If(isPost, HttpMethod.Post, HttpMethod.Get), url)
 
-        webRequest.Headers.Add("Accept-Language", "en-US,en;q=0.8,zh-Hans-CN;q=0.5,zh-Hans;q=0.3")
-        webRequest.UserAgent = UA Or DefaultUA
+        request.Headers.Add("Accept-Language", "en-US,en;q=0.8,zh-Hans-CN;q=0.5,zh-Hans;q=0.3")
+        request.Headers.Add("User-Agent", UA Or DefaultUA)
 
-        If isPost Then
-            webRequest.Method = "POST"
-        End If
-
-        If HttpRequestTimeOut > 0 Then
-            webRequest.Timeout = 1000 * HttpRequestTimeOut
-        Else
-            webRequest.Timeout = 1000 * timeout
-        End If
-
+        ' The effective request timeout is decided by UrlGet / SendSync based
+        ' on HttpRequestTimeOut (>0 takes priority) or the passed-in timeout.
         If Not headers.IsNullOrEmpty Then
             For Each x As KeyValuePair(Of String, String) In headers
-                webRequest.Headers(x.Key) = x.Value
+                request.Headers.TryAddWithoutValidation(x.Key, x.Value)
             Next
         End If
         If Not String.IsNullOrEmpty(proxy) Then
-            webRequest.SetProxy(proxy)
-        Else
-            webRequest.Proxy = Nothing
+            Call HttpClientFactory.SetProxy(proxy)
         End If
 
-        Return webRequest
+        Return request
     End Function
 
     ''' <summary>
@@ -234,62 +226,58 @@ Re0:
     ''' <param name="webrequest"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function UrlGet(webrequest As HttpWebRequest, echo As Boolean) As WebResponseResult
+    Public Function UrlGet(webrequest As HttpRequestMessage,
+                           echo As Boolean,
+                           Optional requestTimeout As TimeSpan = Nothing) As WebResponseResult
         Dim timer As Stopwatch = Stopwatch.StartNew
         Dim url As String = webrequest.RequestUri.ToString
         Dim html As String
+        Dim effectiveTimeout As TimeSpan = requestTimeout
 
-        Using response As HttpWebResponse = webrequest.GetResponse
-            ' 检查内容编码是否为gzip
-            If response.ContentEncoding.ToLower().Contains("gzip") Then
-                ' 使用GZipStream解压缩响应流
-                Using gzipStream As New GZipStream(response.GetResponseStream(), CompressionMode.Decompress)
-                    ' 读取解压缩后的流
-                    Using reader As New StreamReader(gzipStream, Encoding.UTF8)
-                        ' 返回响应内容
-                        html = reader.ReadToEnd()
-                    End Using
-                End Using
-            Else
-                ' 如果不是gzip压缩，直接读取响应流
-                Using reader As New StreamReader(response.GetResponseStream(), Encoding.UTF8)
-                    ' 返回响应内容
-                    html = reader.ReadToEnd()
-                End Using
-            End If
+        ' HttpRequestTimeOut (>0) takes priority over the passed-in timeout,
+        ' mirroring the previous HttpWebRequest.Timeout behaviour.
+        If HttpRequestTimeOut > 0 Then
+            effectiveTimeout = timespan.FromSeconds(HttpRequestTimeOut)
+        End If
 
-            Dim timespan As Long = timer.ElapsedMilliseconds
-            Dim headers As New ResponseHeaders(response.Headers)
+        ' gzip / deflate automatic decompression is handled by HttpClientFactory
+        Dim response As HttpResponseMessage = HttpClientFactory.SendSync(webrequest, effectiveTimeout)
 
-            ' 判断是否是由于还没有登陆校园网客户端而导致的错误
-            If InStr(html, "http://www.doctorcom.com", CompareMethod.Text) > 0 Then
-                Call doctorcomError.PrintException
+        Using reader As New StreamReader(response.Content.ReadAsStreamAsync().GetAwaiter().GetResult(), Encoding.UTF8)
+            html = reader.ReadToEnd()
+        End Using
 
-                Return New WebResponseResult With {
-                    .url = url,
-                    .html = ""
-                }
-            ElseIf echo Then
-                Dim title As String = html.HTMLTitle
-                Dim time$ = StringFormats.ReadableElapsedTime(timespan)
-                Dim debug$ = $"[{url}] {title} - {Len(html)} chars in {time}"
+        Dim elapsedMs As Long = timer.ElapsedMilliseconds
+        Dim headers As New ResponseHeaders(response)
 
-                If timespan > 1000 Then
-                    Call debug.Warning
-                Else
-                    Call debug.info
-                End If
-            End If
+        ' 判断是否是由于还没有登陆校园网客户端而导致的错误
+        If InStr(html, "http://www.doctorcom.com", CompareMethod.Text) > 0 Then
+            Call doctorcomError.PrintException
 
-#If DEBUG Then
-            Call html.SaveTo($"{App.AppSystemTemp}/{App.PID}/{url.NormalizePathString}.html")
-#End If
             Return New WebResponseResult With {
                 .url = url,
-                .timespan = timespan,
-                .html = html,
-                .headers = headers
+                .html = ""
             }
-        End Using
+        ElseIf echo Then
+            Dim title As String = html.HTMLTitle
+            Dim time$ = StringFormats.ReadableElapsedTime(elapsedMs)
+            Dim debug$ = $"[{url}] {title} - {Len(html)} chars in {time}"
+
+            If elapsedMs > 1000 Then
+                Call debug.Warning
+            Else
+                Call debug.info
+            End If
+        End If
+
+#If DEBUG Then
+        Call html.SaveTo($"{App.AppSystemTemp}/{App.PID}/{url.NormalizePathString}.html")
+#End If
+        Return New WebResponseResult With {
+            .url = url,
+            .timespan = elapsedMs,
+            .html = html,
+            .headers = headers
+        }
     End Function
 End Module

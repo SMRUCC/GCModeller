@@ -109,11 +109,11 @@ Public Module StreamHelper
 
             If dl > chunkSize Then
                 ' buffer之中还存在充足的数据进行复制
-                Call buffer.Read(chunk, Scan0, chunkSize)
+                Call buffer.ReadFully(chunk, Scan0, chunkSize)
             Else
                 ' 数据不足了
                 chunk = New Byte(dl - 1) {}
-                buffer.Read(chunk, Scan0, dl)
+                buffer.ReadFully(chunk, Scan0, dl)
             End If
 
             Yield chunk
@@ -198,5 +198,28 @@ Public Module StreamHelper
         Next
 
         Return signed
+    End Function
+
+    ''' <summary>
+    ''' read exactly <paramref name="count"/> bytes from the <paramref name="stream"/>
+    ''' into <paramref name="buffer"/>, looping until the requested number of bytes
+    ''' has been read or the stream end is reached. This avoids the inexact-read
+    ''' behaviour of <see cref="Stream.Read"/> (CA2022).
+    ''' </summary>
+    <Extension>
+    Public Function ReadFully(stream As Stream, buffer As Byte(), offset As Integer, count As Integer) As Integer
+        Dim total As Integer = 0
+
+        While total < count
+            Dim read As Integer = stream.Read(buffer, offset + total, count - total)
+
+            If read = 0 Then
+                Exit While
+            End If
+
+            total += read
+        End While
+
+        Return total
     End Function
 End Module
