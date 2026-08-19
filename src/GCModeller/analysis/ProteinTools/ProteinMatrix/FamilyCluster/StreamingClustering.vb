@@ -111,16 +111,12 @@ Namespace ProteinStructure
         Private Function Pass1BuildVocabulary(fastaHandle As String, Optional tqdm_wrap As Boolean = True) As KmerVocabulary
             Call VBDebugger.EchoLine(" [stream] pass 1a : building kmer vocabulary (streaming)")
 
-            Dim seqs = Iterator Function() As IEnumerable(Of (title As String, sequence As String))
-                           For Each fa In StreamIterator.SeqSource(fastaHandle,
-                                                                   ext:=New String() {"*.fa", "*.fasta", "*.faa"},
-                                                                   debug:=False,
-                                                                   tqdm_wrap:=tqdm_wrap)
-                               Yield (fa.Title, fa.SequenceData)
-                           Next
-                       End Function()
-
-            Return KmerVocabulary.BuildVocabularyOnly(seqs, k, topN, kmerSortMode)
+            Return KmerVocabulary.BuildVocabularyOnly(StreamIterator.SeqSource(
+                handle:=fastaHandle,
+                ext:=New String() {"*.fa", "*.fasta", "*.faa"},
+                debug:=False,
+                tqdm_wrap:=tqdm_wrap), k, topN, kmerSortMode
+            )
         End Function
 
         ' ---- pass 1b ----

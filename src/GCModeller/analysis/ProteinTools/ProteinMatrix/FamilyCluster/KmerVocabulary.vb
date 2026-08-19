@@ -2,6 +2,8 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.Slicer
 
 Namespace ProteinStructure
 
@@ -83,7 +85,7 @@ Namespace ProteinStructure
         ''' the vocabulary size rather than the number of sequences - this is what makes the
         ''' streaming pipeline able to handle databases that do not fit in memory.
         ''' </summary>
-        Public Shared Function BuildVocabularyOnly(sequences As IEnumerable(Of (title As String, sequence As String)),
+        Public Shared Function BuildVocabularyOnly(sequences As IEnumerable(Of FastaSeq),
                                                    Optional k As Integer = 5,
                                                    Optional topN As Integer = 10000,
                                                    Optional mode As SortMode = SortMode.Ascending) As KmerVocabulary
@@ -91,11 +93,11 @@ Namespace ProteinStructure
             Dim globalCount As New Dictionary(Of String, Long)
             Dim inDocMax As New Dictionary(Of String, Integer)
 
-            For Each seq In sequences.SafeQuery
+            For Each seq As FastaSeq In sequences.SafeQuery
                 ' de-duplicated per-document counts (we only need the max inside one doc)
                 Dim seenInDoc As New HashSet(Of String)
 
-                For Each km In SMRUCC.genomics.SequenceModel.Slicer.KSeq.KmerSpans(seq.sequence, k)
+                For Each km In SMRUCC.genomics.SequenceModel.Slicer.KSeq.KmerSpans(seq.SequenceData, k)
                     If globalCount.ContainsKey(km) Then
                         globalCount(km) += 1
                     Else
@@ -166,7 +168,7 @@ Namespace ProteinStructure
         ''' <param name="k">kmer length in residues (default 5)</param>
         ''' <param name="topN">number of kmer features to keep (default 10000)</param>
         ''' <param name="mode">ranking mode used before slicing the top-N</param>
-        Public Shared Function Build(sequences As IEnumerable(Of (title As String, sequence As String)),
+        Public Shared Function Build(sequences As IEnumerable(Of FastaSeq),
                                      Optional k As Integer = 5,
                                      Optional topN As Integer = 10000,
                                      Optional mode As SortMode = SortMode.Ascending) As KmerVocabulary
@@ -178,7 +180,7 @@ Namespace ProteinStructure
             For Each seq In sequences.SafeQuery
                 Dim counts As New Dictionary(Of String, Integer)
 
-                For Each km In SMRUCC.genomics.SequenceModel.Slicer.KSeq.KmerSpans(seq.sequence, k)
+                For Each km As String In KSeq.KmerSpans(seq.SequenceData, k)
                     ' per-document count
                     If counts.ContainsKey(km) Then
                         counts(km) += 1
@@ -194,7 +196,7 @@ Namespace ProteinStructure
                     End If
                 Next
 
-                docCounts(seq.title) = counts
+                docCounts(seq.Title) = counts
 
                 For Each kv In counts
                     ' track the maximum per-document count for the secondary ranking key
@@ -216,7 +218,7 @@ Namespace ProteinStructure
         Public Function Vectorize(sequence As String) As (col As Integer, value As Double)()
             Dim tf As New Dictionary(Of String, Integer)
 
-            For Each km In SMRUCC.genomics.SequenceModel.Slicer.KSeq.KmerSpans(sequence, k)
+            For Each km As String In KSeq.KmerSpans(sequence, k)
                 If index.ContainsKey(km) Then
                     If tf.ContainsKey(km) Then
                         tf(km) += 1
@@ -227,7 +229,7 @@ Namespace ProteinStructure
             Next
 
             If tf.Count = 0 Then
-                Return New (col As Integer, value As Double)() {}
+                Return New(col As Integer, value As Double)() {}
             End If
 
             ' idf uses the global document frequency captured during vocabulary building
