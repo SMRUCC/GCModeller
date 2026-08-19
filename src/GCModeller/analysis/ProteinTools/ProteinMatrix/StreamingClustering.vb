@@ -197,32 +197,50 @@ Namespace ProteinStructure
             For Each ffile In Directory.EnumerateFiles(familiesDir, "family_*.fasta")
                 Dim famId = CInt(Val(Path.GetFileNameWithoutExtension(ffile).Split("_"c)(1)))
 
-                ' load only this family's sequences into memory
-                Dim famSeqs = FastaSeq.Read(family:=ffile).ToArray
-                Dim names = famSeqs.Select(Function(s) s.Title).ToArray
-                Dim msa = CenterStar.Compute(ScoreMatrix.DefaultMatrix, famSeqs)
+                ' load only this family's sequences into memory (one family resident at a time)
+                Dim famSeqs = LoadFamilySequences(ffile).ToArray
 
-                Dim minEdit = Integer.MaxValue
-                Dim refIdx = 0
-                For i As Integer = 0 To msa.edits.Length - 1
-                    If msa.edits(i) < minEdit Then
-                        minEdit = msa.edits(i)
-                        refIdx = i
-                    End If
-                Next
+                If famSeqs.Length = 0 Then
+                    Continue For
+                End If
 
+                Dim members = famSeqs.Select(Function(s) s.Title).ToArray
                 Dim fam As New ProteinFamily With {
                     .familyId = famId,
-                    .reference = names(refIdx),
-                    .size = famSeqs.Length,
-                    .msa = msa
+                    .members = members,
+                    .memberSequences = famSeqs
                 }
+
+                If famSeqs.Length = 1 Then
+                    fam.reference = famSeqs(0)
+                Else
+                    Dim msa = New CenterStar(famSeqs).Compute(ScoreMatrix.DefaultMatrix)
+                    fam.msa = msa
+
+                    ' pick the sequence with the fewest edits
+                    Dim best As Integer = 0
+                    For i As Integer = 1 To msa.edits.Length - 1
+                        If msa.edits(i) < msa.edits(best) Then
+                            best = i
+                        End If
+                    Next
+
+                    Dim refTitle = msa.names(best)
+                    fam.reference = If(famSeqs.Any(Function(s) s.Title = refTitle), famSeqs.First(Function(s) s.Title = refTitle), famSeqs(best))
+                End If
+
                 result(famId) = fam
 
-                Call VBDebugger.EchoLine($" [msa] family {famId} : {famSeqs.Length} seqs, reference = {fam.reference}")
+                Call VBDebugger.EchoLine($" [msa] family {famId} : {famSeqs.Length} seqs, reference = {fam.reference.Title}")
             Next
 
             Return result
+        End Function
+
+        Private Iterator Function LoadFamilySequences(ffile As String) As IEnumerable(Of FastaSeq)
+            For Each fa In StreamIterator.SeqSource(ffile, {"*.fasta", "*.fa", "*.faa"}, debug:=False)
+                Yield fa
+            Next
         End Function
     End Class
 End Namespace
