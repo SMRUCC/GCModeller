@@ -1,12 +1,48 @@
 Imports System.IO
-Imports System.Linq
 Imports System.Text
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.ProteinStructure
 
 Module Program
     Sub Main(args As String())
-        Call StreamingSmokeTest()
-        Call InMemorySmokeTest()
+        ' Call StreamingSmokeTest()
+        ' Call InMemorySmokeTest()
+        Call RunCluster()
+    End Sub
+
+    Sub RunCluster()
+        Dim clust As New ProteinFamilyClustering With {
+          .k = 5,
+          .topN = 500,
+          .svdDims = 9,
+          .knnK = 6,
+          .similarityCutoff = 0.0
+      }
+
+        Dim result = clust.Run("G:\cell-render\data\ec_numbers.fasta")
+
+        Console.WriteLine("sequenceCount = " & result.sequenceNames.Length)
+        Console.WriteLine("familyCount   = " & result.familyCount)
+        Console.WriteLine("svdDims       = " & result.svdDims)
+        Console.WriteLine("knnEdges      = " & result.knnEdges.Length)
+
+        ' show how many distinct family ids appear among protA vs protB
+        Dim aFams = result.sequenceNames _
+            .Where(Function(n) n.StartsWith("protA_")) _
+            .Select(Function(n, idx) result.familyAssignments(idx)) _
+            .Distinct _
+            .Count
+        Dim bFams = result.sequenceNames _
+            .Where(Function(n) n.StartsWith("protB_")) _
+            .Select(Function(n, idx) result.familyAssignments(idx)) _
+            .Distinct _
+            .Count
+
+        Console.WriteLine("protA distinct families = " & aFams)
+        Console.WriteLine("protB distinct families = " & bFams)
+
+        For Each fam In result.families
+            Console.WriteLine("  " & fam.ToString())
+        Next
     End Sub
 
     Sub InMemorySmokeTest()
@@ -72,8 +108,8 @@ Module Program
     End Sub
 
     Sub StreamingSmokeTest()
-        Dim fasta = "G:\cell-render\data\ec_numbers_stream.fasta"
-        Dim workDir = "G:\cell-render\data\stream_out"
+        Dim fasta = "Z:\ec_numbers.fasta"
+        Dim workDir = "Z:\stream_out"
         Dim sb As New StringBuilder
 
         Dim aMotif = "ACDEFGHIKL"
