@@ -1,5 +1,6 @@
 Imports System.Collections.Generic
 Imports System.IO
+Imports System.Text
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
@@ -89,8 +90,8 @@ Namespace ProteinStructure
 
         Private Shared Function ColumnCountPlaceholder(block As List(Of (rowIndex As Integer, cols As Integer(), vals As Double()))) As Integer
             Dim maxCol As Integer = 0
-            For Each r In block
-                For Each col In r.cols
+            For Each row In block
+                For Each col In row.cols
                     If col > maxCol Then maxCol = col
                 Next
             Next

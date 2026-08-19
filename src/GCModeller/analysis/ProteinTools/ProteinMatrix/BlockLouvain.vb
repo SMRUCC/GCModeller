@@ -1,5 +1,6 @@
 Imports System.Collections.Generic
 Imports System.IO
+Imports System.Text
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.Louvain
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Language.Default
@@ -37,23 +38,19 @@ Namespace ProteinStructure
         End Sub
 
         Public Sub Detect(edges As IEnumerable(Of (u As Integer, v As Integer, weight As Double)), nNodes As Integer)
-            Dim graph As New NetworkGraph(Of Node, Edge(Of Node))
-            Dim nodes As New Dictionary(Of Integer, Node)
-
-            For i As Integer = 0 To nNodes - 1
-                Dim node As New Node With {.label = "v" & i.ToString}
-                nodes(i) = node
-                Call graph.AddVertex(node)
-            Next
+            Dim nodes As Node() = (From i As Integer In Enumerable.Range(0, nNodes)
+                                   Select New Node With {.label = "v" & i.ToString}).ToArray
+            Dim netEdges As New List(Of Edge(Of Node))
 
             For Each e In edges.SafeQuery
-                Dim edge As New Edge(Of Node) With {
+                netEdges.Add(New Edge(Of Node) With {
                     .U = nodes(e.u),
                     .V = nodes(e.v),
                     .weight = e.weight
-                }
-                Call graph.AddEdge(edge)
+                })
             Next
+
+            Dim graph As New NetworkGraph(Of Node, Edge(Of Node))(nodes, netEdges)
 
             Call VBDebugger.EchoLine($" [louvain] graph built with {nNodes} nodes, running community detection...")
 
