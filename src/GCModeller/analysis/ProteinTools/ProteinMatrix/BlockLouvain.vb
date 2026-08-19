@@ -65,7 +65,7 @@ Namespace ProteinStructure
             Dim nFamilies As Integer = 0
             Dim maxFam As Integer = 0
 
-            Using writer = New StreamWriter(New BufferedStream(New FileStream(Path.Combine(workDir, ASSIGN_FILE), FileMode.Create, FileAccess.Write, FileShare.None, 1 << 20)), Encoding.ASCII)
+            Using writer = New StreamWriter(New BufferedStream(New FileStream(System.IO.Path.Combine(workDir, ASSIGN_FILE), FileMode.Create, FileAccess.Write, FileShare.None, 1 << 20)), Encoding.ASCII)
                 For i As Integer = 0 To nNodes - 1
                     Dim fam = CInt(Val(community(i)))
                     If fam > maxFam Then maxFam = fam
@@ -75,7 +75,7 @@ Namespace ProteinStructure
 
             nFamilies = maxFam + 1
 
-            Call File.WriteAllText(Path.Combine(workDir, ASSIGN_META_FILE), New Dictionary(Of String, String) From {
+            Call File.WriteAllText(System.IO.Path.Combine(workDir, ASSIGN_META_FILE), New Dictionary(Of String, String) From {
                 {"nodes", nNodes.ToString},
                 {"families", nFamilies.ToString}
             }.GetJson)
@@ -84,7 +84,7 @@ Namespace ProteinStructure
         End Sub
 
         Public Shared Iterator Function ReadAssignment(workDir As String) As IEnumerable(Of (rowIndex As Integer, family As Integer))
-            Dim path = Path.Combine(workDir, ASSIGN_FILE)
+            Dim path = System.IO.Path.Combine(workDir, ASSIGN_FILE)
 
             Using reader = New StreamReader(New BufferedStream(New FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 1 << 20)))
                 Dim line As String = Nothing

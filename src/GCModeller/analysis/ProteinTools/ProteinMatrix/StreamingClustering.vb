@@ -49,8 +49,8 @@ Namespace ProteinStructure
 
         Public Sub New(workDir As String)
             Me.workDir = workDir
-            Me.vocabularyDir = Path.Combine(workDir, "vocabulary")
-            Me.vectorDir = Path.Combine(workDir, "tfidf")
+            Me.vocabularyDir = System.IO.Path.Combine(workDir, "vocabulary")
+            Me.vectorDir = System.IO.Path.Combine(workDir, "tfidf")
         End Sub
 
         Public Function RunStreaming(fastaHandle As String) As ClusteringResult
@@ -59,7 +59,7 @@ Namespace ProteinStructure
             Call Directory.CreateDirectory(vectorDir)
 
             ' ---------- pass 1 : vocabulary + sparse vectors ----------
-            Dim vocabFile = Path.Combine(vocabularyDir, "vocab.txt")
+            Dim vocabFile = System.IO.Path.Combine(vocabularyDir, "vocab.txt")
             Dim vocab As KmerVocabulary
 
             If resumeIfExists AndAlso File.Exists(vocabFile) Then
@@ -70,7 +70,7 @@ Namespace ProteinStructure
                 Call vocab.Save(vocabFile)
             End If
 
-            Dim cooMeta = Path.Combine(vectorDir, SparseVectorWriter.META_FILE)
+            Dim cooMeta = System.IO.Path.Combine(vectorDir, SparseVectorWriter.META_FILE)
 
             If resumeIfExists AndAlso File.Exists(cooMeta) Then
                 Call VBDebugger.EchoLine(" [stream] reuse existing TF-IDF vectors")
@@ -84,25 +84,25 @@ Namespace ProteinStructure
             Dim nCols = meta.cols
 
             ' 2a : SVD
-            Dim svdMetaFile = Path.Combine(workDir, SvdBlockReducer.SVD_META_FILE)
+            Dim svdMetaFile = System.IO.Path.Combine(workDir, SvdBlockReducer.SVD_META_FILE)
             If Not (resumeIfExists AndAlso File.Exists(svdMetaFile)) Then
                 Call New SvdBlockReducer(workDir).Reduce(New SparseVectorWriter(vectorDir).ReadRows, svdDims, blockSize)
             End If
 
             ' 2b : KNN
-            Dim knnMetaFile = Path.Combine(workDir, ApproxKnnBuilder.KNN_META_FILE)
+            Dim knnMetaFile = System.IO.Path.Combine(workDir, ApproxKnnBuilder.KNN_META_FILE)
             If Not (resumeIfExists AndAlso File.Exists(knnMetaFile)) Then
                 Call New ApproxKnnBuilder(workDir).Build(SvdBlockReducer.ReadEmbeddings(workDir), knnK, blockSize)
             End If
 
             ' 2c : Louvain
-            Dim famMetaFile = Path.Combine(workDir, BlockLouvain.ASSIGN_META_FILE)
+            Dim famMetaFile = System.IO.Path.Combine(workDir, BlockLouvain.ASSIGN_META_FILE)
             If Not (resumeIfExists AndAlso File.Exists(famMetaFile)) Then
                 Call New BlockLouvain(workDir).Detect(ApproxKnnBuilder.ReadEdges(workDir), nRows)
             End If
 
             ' 2d : MSA per family + references
-            Dim familiesDir = Path.Combine(workDir, "families")
+            Dim familiesDir = System.IO.Path.Combine(workDir, "families")
             Dim assignment = BlockLouvain.ReadAssignment(workDir).ToArray
             Call BucketSequencesByFamily(fastaHandle, assignment, familiesDir)
             Dim familyInfo = RunFamilyMsa(familiesDir, assignment)
@@ -174,7 +174,7 @@ Namespace ProteinStructure
                 Dim fam = titleToFamily(fa.Title)
 
                 If Not famStreams.ContainsKey(fam) Then
-                    Dim fpath = Path.Combine(familiesDir, $"family_{fam}.fasta")
+                    Dim fpath = System.IO.Path.Combine(familiesDir, $"family_{fam}.fasta")
                     famStreams(fam) = New System.IO.StreamWriter(New BufferedStream(New FileStream(fpath, FileMode.Create, FileAccess.Write, FileShare.None, 1 << 20)), Encoding.ASCII)
                 End If
 

@@ -35,7 +35,7 @@ Namespace ProteinStructure
         ''' build the KNN graph from the streaming SVD embeddings and write undirected edges to disk.
         ''' </summary>
         Public Sub Build(embeddings As IEnumerable(Of (rowIndex As Integer, vector As Double())), k As Integer, blockSize As Integer)
-            Dim path = Path.Combine(workDir, KNN_FILE)
+            Dim path = System.IO.Path.Combine(workDir, KNN_FILE)
             edgeWriter = New StreamWriter(New BufferedStream(New FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 1 << 20)), Encoding.ASCII)
 
             Dim block As New List(Of (rowIndex As Integer, vector As Double()))
@@ -56,7 +56,7 @@ Namespace ProteinStructure
             edgeWriter.Flush()
             edgeWriter.Dispose()
 
-            Call File.WriteAllText(Path.Combine(workDir, KNN_META_FILE), New Dictionary(Of String, String) From {
+            Call File.WriteAllText(System.IO.Path.Combine(workDir, KNN_META_FILE), New Dictionary(Of String, String) From {
                 {"edges", edgeCount.ToString},
                 {"k", k.ToString}
             }.GetJson)
@@ -113,7 +113,7 @@ Namespace ProteinStructure
         End Sub
 
         Public Shared Function LoadMeta(workDir As String) As (edges As Integer, k As Integer)
-            Dim json = File.ReadAllText(Path.Combine(workDir, KNN_META_FILE)).LoadObject(Of Dictionary(Of String, String))
+            Dim json = File.ReadAllText(System.IO.Path.Combine(workDir, KNN_META_FILE)).LoadObject(Of Dictionary(Of String, String))
             Return (CInt(Val(json("edges"))), CInt(Val(json("k"))))
         End Function
 
@@ -121,7 +121,7 @@ Namespace ProteinStructure
         ''' stream the undirected edges (u, v, weight) back for the Louvain stage
         ''' </summary>
         Public Shared Iterator Function ReadEdges(workDir As String) As IEnumerable(Of (u As Integer, v As Integer, weight As Double))
-            Dim path = Path.Combine(workDir, KNN_FILE)
+            Dim path = System.IO.Path.Combine(workDir, KNN_FILE)
 
             Using reader = New StreamReader(New BufferedStream(New FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 1 << 20)))
                 Dim line As String = Nothing

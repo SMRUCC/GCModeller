@@ -52,7 +52,7 @@ Namespace ProteinStructure
         ''' open the append stream for writing COO rows (call once before <see cref="WriteRow"/>)
         ''' </summary>
         Public Sub OpenForWrite()
-            Dim path = Path.Combine(workDir, COO_FILE)
+            Dim path = System.IO.Path.Combine(workDir, COO_FILE)
             cooStream = New StreamWriter(New BufferedStream(New FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 1 << 20)), Encoding.ASCII)
         End Sub
 
@@ -76,20 +76,20 @@ Namespace ProteinStructure
             End If
 
             ' persist the title index and matrix shape
-            Call File.WriteAllText(Path.Combine(workDir, TITLE_INDEX_FILE), titleIndex.ToArray.GetJson)
-            Call File.WriteAllText(Path.Combine(workDir, META_FILE), New Dictionary(Of String, String) From {
+            Call File.WriteAllText(System.IO.Path.Combine(workDir, TITLE_INDEX_FILE), titleIndex.ToArray.GetJson)
+            Call File.WriteAllText(System.IO.Path.Combine(workDir, META_FILE), New Dictionary(Of String, String) From {
                 {"rows", titleIndex.Count.ToString},
                 {"cols", nCols.ToString}
             }.GetJson)
         End Sub
 
         Public Shared Function LoadMeta(workDir As String) As (rows As Integer, cols As Integer)
-            Dim json = File.ReadAllText(Path.Combine(workDir, META_FILE)).LoadObject(Of Dictionary(Of String, String))
+            Dim json = File.ReadAllText(System.IO.Path.Combine(workDir, META_FILE)).LoadObject(Of Dictionary(Of String, String))
             Return (CInt(Val(json("rows"))), CInt(Val(json("cols"))))
         End Function
 
         Public Shared Function LoadTitleIndex(workDir As String) As String()
-            Return File.ReadAllText(Path.Combine(workDir, TITLE_INDEX_FILE)).LoadObject(Of String())
+            Return File.ReadAllText(System.IO.Path.Combine(workDir, TITLE_INDEX_FILE)).LoadObject(Of String())
         End Function
 
         ''' <summary>
@@ -101,7 +101,7 @@ Namespace ProteinStructure
             Dim titles = LoadTitleIndex(workDir)
             Dim rows = New Dictionary(Of Integer, (cols As List(Of Integer), vals As List(Of Double)))
             Dim currentRow As Integer = -1
-            Dim path = Path.Combine(workDir, COO_FILE)
+            Dim path = System.IO.Path.Combine(workDir, COO_FILE)
 
             Using reader = New StreamReader(New BufferedStream(New FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 1 << 20)))
                 Dim line As String = Nothing

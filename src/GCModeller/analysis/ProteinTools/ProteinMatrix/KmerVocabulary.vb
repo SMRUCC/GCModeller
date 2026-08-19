@@ -204,7 +204,7 @@ Namespace ProteinStructure
                 Next
             Next
 
-            Return SelectVocabulary(globalCount, inDocMax, docCounts, topN, mode)
+            Return SelectVocabulary(globalCount, inDocMax, docCounts, topN, mode, k)
         End Function
 
         ''' <summary>
@@ -272,7 +272,8 @@ Namespace ProteinStructure
             Dim blob = New Dictionary(Of String, String) From {
                 {"words", words.GetJson},
                 {"globalCounts", globalCounts.GetJson},
-                {"rankingMode", rankingMode.ToString}
+                {"rankingMode", rankingMode.ToString},
+                {"k", k.ToString}
             }
             Call File.WriteAllText(path, blob.GetJson)
         End Sub
@@ -285,7 +286,8 @@ Namespace ProteinStructure
             Dim words = blob("words").LoadObject(Of String())
             Dim globalCounts = blob("globalCounts").LoadObject(Of Long())
             Dim mode = CType([Enum].Parse(GetType(SortMode), blob("rankingMode")), SortMode)
-            Return New KmerVocabulary(words, globalCounts, Nothing, mode)
+            Dim kvalue = CInt(Val(blob("k")))
+            Return New KmerVocabulary(words, globalCounts, Nothing, mode, kvalue)
         End Function
     End Class
-End Nam
+End Namespace
