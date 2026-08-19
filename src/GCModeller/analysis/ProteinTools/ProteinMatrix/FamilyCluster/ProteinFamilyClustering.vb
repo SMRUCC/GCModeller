@@ -150,15 +150,15 @@ Namespace ProteinStructure
         ''' <summary>
         ''' build the TF-IDF dataframe limited to the selected vocabulary, with L2 normalization
         ''' </summary>
-        Private Function BuildTfidf(vocab As KmerVocabulary, sequences As (title As String, sequence As String)(), words As String()) As DataFrame
+        Private Function BuildTfidf(vocab As KmerVocabulary, sequences As IEnumerable(Of FastaSeq), words As String()) As DataFrame
             Dim model As New TFIDF
 
-            For Each seq In sequences
-                If vocab.docCounts.ContainsKey(seq.title) Then
-                    model.Add(seq.title, vocab.docCounts(seq.title))
+            For Each seq As FastaSeq In sequences.SafeQuery
+                If vocab.docCounts.ContainsKey(seq.Title) Then
+                    model.Add(seq.Title, vocab.docCounts(seq.Title))
                 Else
                     ' sequence with no selected kmer -> empty counter
-                    model.Add(seq.title, New Dictionary(Of String, Integer))
+                    model.Add(seq.Title, New Dictionary(Of String, Integer))
                 End If
             Next
 
@@ -179,7 +179,7 @@ Namespace ProteinStructure
                 .Select(Function(name, i) (CStr(name), i)) _
                 .ToDictionary(Function(t) t.Item1, Function(t) t.Item2)
             Dim columns = tfidf.features _
-                .Select(Function(kv) (word := CStr(kv.Key), vec := DirectCast(kv.Value.vector, Double()))) _
+                .Select(Function(kv) (word:=CStr(kv.Key), vec:=DirectCast(kv.Value.vector, Double()))) _
                 .ToArray
 
             For Each col In columns
