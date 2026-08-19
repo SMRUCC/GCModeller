@@ -1,5 +1,6 @@
 Imports System.Collections.Generic
 Imports System.IO
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Language.Default
@@ -117,7 +118,7 @@ Namespace ProteinStructure
 
             Dim seqs = Iterator Function() As IEnumerable(Of (title As String, sequence As String))
                            For Each fa In StreamIterator.SeqSource(fastaHandle, {"*.fa", "*.fasta", "*.faa"}, debug:=False)
-                               Yield (fa.Title, fa.Sequence)
+                               Yield (fa.Title, fa.SequenceData)
                            Next
                        End Function()
 
@@ -135,7 +136,7 @@ Namespace ProteinStructure
 
             For Each fa In StreamIterator.SeqSource(fastaHandle, {"*.fa", "*.fasta", "*.faa"}, debug:=False)
                 Try
-                    Dim vec = vocab.Vectorize(fa.Sequence)
+                    Dim vec = vocab.Vectorize(fa.SequenceData)
                     Dim cols = vec.Select(Function(p) p.col).ToArray
                     Dim vals = vec.Select(Function(p) p.value).ToArray
                     Call writer.WriteRow(fa.Title, cols, vals)

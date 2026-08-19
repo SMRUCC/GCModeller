@@ -33,7 +33,7 @@ Namespace ProteinStructure
         ''' <paramref name="dims"/> dimensions and stream the dense embeddings to disk.
         ''' </summary>
         Public Sub Reduce(rows As IEnumerable(Of (rowIndex As Integer, cols As Integer(), vals As Double())), dims As Integer, blockSize As Integer)
-            Dim path = Path.Combine(workDir, SVD_FILE)
+            Dim path As String = System.IO.Path.Combine(workDir, SVD_FILE)
             svdWriter = New StreamWriter(New BufferedStream(New FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 1 << 20)), Encoding.ASCII)
 
             Dim blockRows As New List(Of (rowIndex As Integer, cols As Integer(), vals As Double()))
