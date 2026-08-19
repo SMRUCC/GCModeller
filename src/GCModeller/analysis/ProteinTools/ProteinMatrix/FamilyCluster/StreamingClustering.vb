@@ -61,7 +61,13 @@ Namespace ProteinStructure
             If resumeIfExists AndAlso File.Exists(vocabFile) Then
                 Call VBDebugger.EchoLine(" [stream] reuse existing vocabulary")
                 vocab = KmerVocabulary.Load(vocabFile)
+
+                If vocab Is Nothing OrElse vocab.k <> k Then
+                    Call $"invalid cache file or mis-matched k-mer size parameter, the kmer vocabulary cache file will be rebuild".warning
+                    GoTo rebuild
+                End If
             Else
+rebuild:
                 vocab = Pass1BuildVocabulary(fastaHandle)
                 Call vocab.Save(vocabFile)
             End If
