@@ -36,12 +36,11 @@ Namespace ProteinStructure
         End Sub
 
         Public Sub Detect(edges As IEnumerable(Of (u As Integer, v As Integer, weight As Double)), nNodes As Integer)
-            Dim nodes As Node() = (From i As Integer In Enumerable.Range(0, nNodes)
-                                   Select New Node With {.label = "v" & i.ToString}).ToArray
+            Dim nodes As Node() = (From i As Integer In Enumerable.Range(0, nNodes) Select New Node With {.label = "v" & i.ToString}).ToArray
             Dim netEdges As New List(Of Edge(Of Node))
 
             For Each e In edges.SafeQuery
-                netEdges.Add(New Edge(Of Node) With {
+                Call netEdges.Add(New Edge(Of Node) With {
                     .U = nodes(e.u),
                     .V = nodes(e.v),
                     .weight = e.weight
@@ -53,8 +52,8 @@ Namespace ProteinStructure
             Call VBDebugger.EchoLine($" [louvain] graph built with {nNodes} nodes, running community detection...")
 
             Dim community = Builder _
-                .Load(graph) _
-                .SolveClustersParallel() _
+                .Load(graph, leiden:=True) _
+                .SolveClusters() _
                 .GetCommunity()
 
             Dim nFamilies As Integer = 0

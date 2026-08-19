@@ -254,8 +254,8 @@ Namespace ProteinStructure
                 }) _
                 .ToArray
             Dim graph As New NetworkGraph(Of Node, Edge(Of Node))(nodes, netEdges)
-            Dim louvain = Builder.Load(graph)
-            Dim community = louvain.SolveClustersParallel().GetCommunity()
+            Dim louvain = Builder.Load(graph, leiden:=True)
+            Dim community = louvain.SolveClusters().GetCommunity()
 
             ' GetCommunity() is aligned to the node insertion order (1-based id -> index)
             Dim assignments As Integer() = New Integer(nSeq - 1) {}
