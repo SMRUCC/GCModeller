@@ -86,11 +86,9 @@ Public Module DomainAnalysis
     ''' <param name="data"></param>
     ''' <param name="MPAlignment"></param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>This function export all of the annotation result which was match in the mpalignment filtering result.
+    ''' data parameter is the blast query raw data and the mpalignment parameter is the data filtering resulr from the mpalignment.</remarks>
     '''
-    <ExportAPI("Enzyme.Classification",
-               Info:="This function export all of the annotation result which was match in the mpalignment filtering result.
-               data parameter is the blast query raw data and the mpalignment parameter is the data filtering resulr from the mpalignment.")>
     Public Function EnzymeClassified(<Parameter("data",
                                                 "data parameter is the blast query raw data and the mpalignment parameter is the data filtering resulr from the mpalignment.")>
                                      data As IEnumerable(Of T_EnzymeClass_BLAST_OUT),
@@ -112,8 +110,8 @@ Public Module DomainAnalysis
     ''' <param name="data"></param>
     ''' <param name="MPAlignment"></param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
-    <ExportAPI("Enzyme.Classification", Info:="This function export the possible best annotation result of the enzyme class")>
+    ''' <remarks>This function export the possible best annotation result of the enzyme class</remarks>
+    <ExportAPI("Enzyme.Classification")>
     Public Function EnzymeClassified(data As IEnumerable(Of T_EnzymeClass_BLAST_OUT), MPAlignment As IEnumerable(Of MPAlignment.MPCsvArchive)) As T_EnzymeClass_BLAST_OUT()
         Dim Grouped = (From align As MPAlignment.MPCsvArchive
                        In MPAlignment
@@ -156,11 +154,10 @@ Public Module DomainAnalysis
     ''' <param name="blastOutput">不需要进行<see cref="TextGrepScriptEngine.Grep">格式化操作</see></param>
     ''' <param name="query">是进过grep操作之后的数据</param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>The blast_output is not recommend using grep operation if the data source is download from KEGG database;
+    ''' and the query fasta parameter is need for unique id grep operation. The default query operation time out threshold is 5min.</remarks>
     '''
-    <ExportAPI("PfamString.Creates",
-               Info:="The blast_output is not recommend using grep operation if the data source is download from KEGG database;
-               and the query fasta parameter is need for unique id grep operation. The default query operation time out threshold is 5min.")>
+    <ExportAPI("PfamString.Creates")>
     Public Function CreatePfamString(<Parameter("Out.Blast+", "Blastp of the proteins and the pfam.fasta output data.")>
                                      blastOutput As v228,
                                      <Parameter("Query.Fasta", "The blastp query fasta source, this value is using for the chou-fasman data calculation,

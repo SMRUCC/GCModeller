@@ -129,14 +129,12 @@ Statistics as Topic",
         ''' <returns></returns>
         ''' <remarks>对于两个Domain之间的序列，其格式为[ABCT](start|ends)</remarks>
         '''
-        <ExportAPI("PfamString.Equals", Info:="MPAlignment algorithm")>
         Public Function PfamStringEquals(Protein_1 As PfamString.PfamString, Protein_2 As PfamString.PfamString,
                                          highlyScoringThreshold As Double,
                                          Optional partEquals As Boolean = False) As LevAlign
             Return PfamStringEquals(Protein_1, Protein_2, New DomainEquals(highlyScoringThreshold, partEquals))
         End Function
 
-        <ExportAPI("PfamString.Equals", Info:="MPAlignment algorithm")>
         Public Function PfamStringEquals(Protein_1 As PfamString.PfamString, Protein_2 As PfamString.PfamString, equals As DomainEquals) As LevAlign
             Dim result As LevAlign = New LevAlign(Protein_1, Protein_2, equals)
             Return result
@@ -151,7 +149,6 @@ Statistics as Topic",
         ''' <remarks>对于两个Domain之间的序列，其格式为[ABCT](start|ends)</remarks>
         ''' 
         '''
-        <ExportAPI("PfamString.Equals", Info:="MPAlignment algorithm")>
         Public Function AltEquals(Protein_1 As PfamString.PfamString, Protein_2 As PfamString.PfamString, highlyScoringThreshold As Double) As AlignmentOutput
             If Protein_1.PfamString.IsNullOrEmpty OrElse Protein_2.PfamString.IsNullOrEmpty Then  '两个蛋白质没有任何的结构域，则无法做进一步判断是否到底相等
                 Return New AlignmentOutput With {
