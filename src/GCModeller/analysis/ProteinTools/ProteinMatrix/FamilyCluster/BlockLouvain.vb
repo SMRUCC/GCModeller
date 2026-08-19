@@ -54,7 +54,7 @@ Namespace ProteinStructure
 
             Dim community = Builder _
                 .Load(graph) _
-                .SolveClusters() _
+                .SolveClustersParallel() _
                 .GetCommunity()
 
             Dim nFamilies As Integer = 0
