@@ -90,15 +90,15 @@ Namespace ProteinStructure
         Private Shared Function ColumnCountPlaceholder(block As List(Of (rowIndex As Integer, cols As Integer(), vals As Double()))) As Integer
             Dim maxCol As Integer = 0
             For Each r In block
-                For Each c In r.cols
-                    If c > maxCol Then maxCol = c
+                For Each col In r.cols
+                    If col > maxCol Then maxCol = col
                 Next
             Next
             Return maxCol + 1
         End Function
 
         Public Shared Function LoadMeta(workDir As String) As (rows As Integer, dims As Integer)
-            Dim json = File.ReadAllText(Path.Combine(workDir, SVD_META_FILE)).LoadObject(Of Dictionary(Of String, String))
+            Dim json = File.ReadAllText(System.IO.Path.Combine(workDir, SVD_META_FILE)).LoadObject(Of Dictionary(Of String, String))
             Return (CInt(Val(json("rows"))), CInt(Val(json("dims"))))
         End Function
 
