@@ -109,12 +109,9 @@ Public Module EnzymeGenerator
     Public Iterator Function BuildProteinSequence(model As TransformerModel, ec_numbers As IEnumerable(Of String)) As IEnumerable(Of FastaSeq)
         For Each id As String In ec_numbers
             Dim predict = model.Infer(id.Split("."c))
-            Dim seq As String
+            Dim seq As String = Nothing
 
-            Yield New FastaSeq With {
-                .Headers = {id},
-                .SequenceData = seq
-            }
+            Throw New NotImplementedException
         Next
     End Function
 

@@ -1,8 +1,5 @@
-Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text
-Imports Microsoft.VisualBasic.Language.Default
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ProteinStructure
@@ -15,8 +12,8 @@ Namespace ProteinStructure
     ''' keep a single opened <see cref="BufferedStream"/> and emit one row per sequence without
     ''' ever holding the whole matrix in memory:
     '''
-    ''' - <c>vectors.coo</c> : tab-separated "<paramref name="rowIndex"/> &lt;TAB&gt; <paramref name="colIndex"/> &lt;TAB&gt; <paramref name="value"/>" lines, grouped by row.
-    ''' - <c>titles.idx</c>  : JSON array mapping <paramref name="rowIndex"/> -&gt; original sequence title, written once at the end.
+    ''' - <c>vectors.coo</c> : tab-separated "<see name="rowIndex"/> &lt;TAB&gt; <see name="colIndex"/> &lt;TAB&gt; <see name="value"/>" lines, grouped by row.
+    ''' - <c>titles.idx</c>  : JSON array mapping <see name="rowIndex"/> -&gt; original sequence title, written once at the end.
     ''' - <c>meta.json</c>   : number of rows / columns so the second pass knows the matrix shape.
     ''' </summary>
     Public Class SparseVectorWriter

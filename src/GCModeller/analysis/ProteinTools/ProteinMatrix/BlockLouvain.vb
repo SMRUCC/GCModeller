@@ -1,9 +1,7 @@
-Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.Louvain
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -15,7 +13,7 @@ Namespace ProteinStructure
     ''' edges are read back from disk (they were already persisted by <see cref="ApproxKnnBuilder"/>
     ''' so the FASTA / embedding matrices are never re-materialised) and fed into a
     ''' <see cref="NetworkGraph(Of Node, Edge)"/>. classic Louvain is then run via
-    ''' <see cref="Builder.Load"/> / <see cref="Builder.SolveClusters"/>. the resulting per-row
+    ''' <see cref="Builder.Load"/> / "Builder.SolveClusters". the resulting per-row
     ''' family assignment is streamed to disk keyed by row index, keeping only the assignment array
     ''' (one integer per node) resident instead of any intermediate matrix.
     '''
