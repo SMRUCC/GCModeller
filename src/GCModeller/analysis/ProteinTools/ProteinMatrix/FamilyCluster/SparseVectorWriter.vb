@@ -82,7 +82,7 @@ Namespace ProteinStructure
             End If
 
             ' persist the title index and matrix shape
-            Call File.WriteAllText(System.IO.Path.Combine(workDir, TITLE_INDEX_FILE), titleIndex.ToArray.GetJson)
+            Call titleIndex.SaveTo(System.IO.Path.Combine(workDir, TITLE_INDEX_FILE))
             Call File.WriteAllText(System.IO.Path.Combine(workDir, META_FILE), New Dictionary(Of String, String) From {
                 {"rows", titleIndex.Count.ToString},
                 {"cols", nCols.ToString}
@@ -95,7 +95,7 @@ Namespace ProteinStructure
         End Function
 
         Public Shared Function LoadTitleIndex(workDir As String) As String()
-            Return CType(File.ReadAllText(System.IO.Path.Combine(workDir, TITLE_INDEX_FILE)).LoadObject(GetType(String())), String())
+            Return System.IO.Path.Combine(workDir, TITLE_INDEX_FILE).ReadAllLines
         End Function
 
         ''' <summary>

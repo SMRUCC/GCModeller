@@ -11,8 +11,8 @@ Module Program
 
     Sub RunCluster()
         Dim clust As New ProteinFamilyClustering With {
-            .k = 5,
-            .topN = 500,
+            .k = 4,
+            .topN = 10000,
             .svdDims = 9,
             .knnK = 6,
             .similarityCutoff = 0.0
