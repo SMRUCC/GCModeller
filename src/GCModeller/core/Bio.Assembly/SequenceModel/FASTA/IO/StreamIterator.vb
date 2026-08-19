@@ -62,6 +62,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 
 Namespace SequenceModel.FASTA
 
@@ -70,14 +71,16 @@ Namespace SequenceModel.FASTA
     ''' </summary>
     Public Class StreamIterator : Implements IDisposable
 
-        ReadOnly _file As StreamReader
+        ReadOnly _file As Stream
+        ReadOnly _tqdm As Boolean
 
         ''' <summary>
         ''' 从指定的文件之中构建一个读取超大型的fasta文件所需要的一个数据对象
         ''' </summary>
         ''' <param name="path"></param>
-        Sub New(path As String)
-            _file = path.OpenReader()
+        Sub New(path As String, Optional tqdm_wrap As Boolean = True)
+            _tqdm = tqdm_wrap
+            _file = path.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
         End Sub
 
         ''' <summary>
@@ -96,10 +99,8 @@ Namespace SequenceModel.FASTA
             End If
         End Function
 
-        Private Iterator Function BufferProvider() As IEnumerable(Of String)
-            Do While Not _file.EndOfStream
-                Yield _file.ReadLine
-            Loop
+        Private Function BufferProvider() As IEnumerable(Of String)
+            Return _file.IterateAllLines(Encodings.UTF8.CodePage, tqdm_wrap:=_tqdm)
         End Function
 
         Public Const SOH As Char = Chr(1)
@@ -143,7 +144,7 @@ Namespace SequenceModel.FASTA
             Dim temp As New List(Of FastaSeq)
             Dim i As Integer
 
-            Call _file.BaseStream.Seek(Scan0, SeekOrigin.Begin)
+            Call _file.Seek(Scan0, SeekOrigin.Begin)
 
             For Each fa As FastaSeq In Me.ReadStream
                 If i < size Then
@@ -175,13 +176,17 @@ Namespace SequenceModel.FASTA
         ''' 文件搜索的文件名匹配模式，如果<paramref name="handle"/>是一个文件夹的话
         ''' </param>
         ''' <returns></returns>
-        Public Shared Iterator Function SeqSource(handle$, Optional ext$() = Nothing, Optional debug As Boolean = False) As IEnumerable(Of FastaSeq)
+        Public Shared Iterator Function SeqSource(handle$,
+                                                  Optional ext$() = Nothing,
+                                                  Optional debug As Boolean = False,
+                                                  Optional tqdm_wrap As Boolean = True) As IEnumerable(Of FastaSeq)
+
             If (handle.Last <> "/"c AndAlso handle.Last <> "\"c) AndAlso handle.FixPath.FileExists Then
                 If debug Then
                     Call "File exists, reading fasta data from file...".debug
                 End If
 
-                Using si As New StreamIterator(handle)
+                Using si As New StreamIterator(handle, tqdm_wrap:=tqdm_wrap)
                     For Each fa As FastaSeq In si.ReadStream
                         Yield fa
                     Next
@@ -196,7 +201,8 @@ Namespace SequenceModel.FASTA
                     If debug Then
                         Call file.ToFileURL.debug
                     End If
-                    Using si As New StreamIterator(file)
+
+                    Using si As New StreamIterator(file, tqdm_wrap:=tqdm_wrap)
                         For Each nt As FastaSeq In si.ReadStream
                             Yield nt
                         Next

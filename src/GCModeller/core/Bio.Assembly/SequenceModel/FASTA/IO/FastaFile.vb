@@ -717,7 +717,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
         Public Shared Function SingleSequence(path$) As Boolean
             Dim i%
 
-            For Each fasta As FastaSeq In New StreamIterator(path).ReadStream
+            For Each fasta As FastaSeq In New StreamIterator(path, tqdm_wrap:=False).ReadStream
                 i += 1
 
                 If i = 2 Then
