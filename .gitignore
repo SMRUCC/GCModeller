@@ -514,3 +514,5 @@ src/repository/graphquery/kegg/pipeline/map.xml
 src/repository/graphquery/kegg/pipeline/map.txt
 *.db
 *.db
+src/GCModeller/analysis/ProteinTools/.vs/ProteinMatrix/v18/DocumentLayout.backup.json
+src/GCModeller/analysis/ProteinTools/.vs/ProteinMatrix/v18/DocumentLayout.json
