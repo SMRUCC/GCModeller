@@ -3,6 +3,26 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}|ProteinMatrix\\ProteinMatrix.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\proteintools\\proteinmatrix\\clusteringresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}|ProteinMatrix\\ProteinMatrix.vbproj|solutionrelative:proteinmatrix\\clusteringresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}|ProteinMatrix\\ProteinMatrix.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\proteintools\\proteinmatrix\\kmer\\kmernode.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}|ProteinMatrix\\ProteinMatrix.vbproj|solutionrelative:proteinmatrix\\kmer\\kmernode.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}|ProteinMatrix\\ProteinMatrix.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\proteintools\\proteinmatrix\\kmer\\kmergraph.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}|ProteinMatrix\\ProteinMatrix.vbproj|solutionrelative:proteinmatrix\\kmer\\kmergraph.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}|ProteinMatrix\\ProteinMatrix.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\proteintools\\proteinmatrix\\kmer\\kmeredge.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}|ProteinMatrix\\ProteinMatrix.vbproj|solutionrelative:proteinmatrix\\kmer\\kmeredge.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B30D29FC-4FF4-44ED-8765-6DA03588122C}|ProteinMatrix\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\proteintools\\proteinmatrix\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{B30D29FC-4FF4-44ED-8765-6DA03588122C}|ProteinMatrix\\test\\test.vbproj|solutionrelative:proteinmatrix\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D17E56C6-6614-15D0-9C04-1E190CD2D512}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\knn\\knn.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -48,19 +68,84 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ClusteringResult.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\ClusteringResult.vb",
+              "RelativeDocumentMoniker": "ProteinMatrix\\ClusteringResult.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\ClusteringResult.vb",
+              "RelativeToolTip": "ProteinMatrix\\ClusteringResult.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-19T07:03:56.507Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "KmerNode.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerNode.vb",
+              "RelativeDocumentMoniker": "ProteinMatrix\\Kmer\\KmerNode.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerNode.vb",
+              "RelativeToolTip": "ProteinMatrix\\Kmer\\KmerNode.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-19T07:03:54.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "KMerGraph.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KMerGraph.vb",
+              "RelativeDocumentMoniker": "ProteinMatrix\\Kmer\\KMerGraph.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KMerGraph.vb",
+              "RelativeToolTip": "ProteinMatrix\\Kmer\\KMerGraph.vb",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-19T07:03:49.243Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "KmerEdge.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerEdge.vb",
+              "RelativeDocumentMoniker": "ProteinMatrix\\Kmer\\KmerEdge.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerEdge.vb",
+              "RelativeToolTip": "ProteinMatrix\\Kmer\\KmerEdge.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-19T07:03:47.925Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\test\\Program.vb",
+              "RelativeDocumentMoniker": "ProteinMatrix\\test\\Program.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\test\\Program.vb",
+              "RelativeToolTip": "ProteinMatrix\\test\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-19T07:02:54.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "KNN.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\KNN\\KNN.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\KNN\\KNN.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\KNN\\KNN.vb",
               "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\KNN\\KNN.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-08-19T06:36:11.563Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "Extensions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Network\\Extensions.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Network\\Extensions.vb",
@@ -73,7 +158,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "SubNetworkComponents.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Network\\SubNetworkComponents.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Network\\SubNetworkComponents.vb",
@@ -86,7 +171,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "SparseGraph.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\SparseGraph.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\SparseGraph.vb",
@@ -99,7 +184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "KNNCluster.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\DataMining\\Clustering\\KNNCluster.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\DataMining\\Clustering\\KNNCluster.vb",
@@ -112,7 +197,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "Spectral.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\DataMining\\Clustering\\Spectral.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\DataMining\\Clustering\\Spectral.vb",
@@ -125,7 +210,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "KNN.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\DataMining\\Clustering\\KNN.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\DataMining\\Clustering\\KNN.vb",

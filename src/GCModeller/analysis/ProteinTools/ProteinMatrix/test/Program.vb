@@ -1,13 +1,10 @@
-Imports System
 Imports System.IO
 Imports System.Text
-
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.ProteinStructure
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module Program
     Sub Main(args As String())
-        Dim fasta = Path.Combine(Path.GetTempPath(), "smoke_proteins.fasta")
+        Dim fasta = "G:\cell-render\data\ec_numbers.fasta"
         Dim sb As New StringBuilder
 
         ' two artificial families: family A shares a motif block, family B another

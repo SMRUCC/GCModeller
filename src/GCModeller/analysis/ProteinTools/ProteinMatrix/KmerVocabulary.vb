@@ -1,9 +1,6 @@
+Imports System.Collections.Generic
 Imports System.Runtime.CompilerServices
-
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-
-Imports SMRUCC.genomics.SequenceModel.Slicer
 
 Namespace ProteinStructure
 
@@ -73,6 +70,87 @@ Namespace ProteinStructure
         End Sub
 
         ''' <summary>
+        ''' count the kmer occurrences over the whole database in a single streaming pass,
+        ''' keeping only the global total count and the per-document maximum (the two ranking
+        ''' keys). per-document counts are NOT retained so the memory footprint stays bounded by
+        ''' the vocabulary size rather than the number of sequences - this is what makes the
+        ''' streaming pipeline able to handle databases that do not fit in memory.
+        ''' </summary>
+        Public Shared Function BuildVocabularyOnly(sequences As IEnumerable(Of (title As String, sequence As String)),
+                                                   Optional k As Integer = 5,
+                                                   Optional topN As Integer = 10000,
+                                                   Optional mode As SortMode = SortMode.Ascending) As KmerVocabulary
+            Dim globalCount As New Dictionary(Of String, Long)
+            Dim inDocMax As New Dictionary(Of String, Integer)
+
+            For Each seq In sequences.SafeQuery
+                ' de-duplicated per-document counts (we only need the max inside one doc)
+                Dim seenInDoc As New HashSet(Of String)
+
+                For Each km In SMRUCC.genomics.SequenceModel.Slicer.KSeq.KmerSpans(seq.sequence, k)
+                    If globalCount.ContainsKey(km) Then
+                        globalCount(km) += 1
+                    Else
+                        globalCount(km) = 1
+                    End If
+
+                    If Not seenInDoc.Contains(km) Then
+                        seenInDoc.Add(km)
+
+                        If Not inDocMax.ContainsKey(km) OrElse 1 > inDocMax(km) Then
+                            inDocMax(km) = 1
+                        End If
+                    End If
+                Next
+            Next
+
+            Return SelectVocabulary(globalCount, inDocMax, Nothing, topN, mode)
+        End Function
+
+        ''' <summary>
+        ''' shared top-N vocabulary selection used by both the in-memory and the streaming build paths
+        ''' </summary>
+        Private Shared Function SelectVocabulary(globalCount As Dictionary(Of String, Long),
+                                                  inDocMax As Dictionary(Of String, Integer),
+                                                  docCounts As Dictionary(Of String, Dictionary(Of String, Integer)),
+                                                  topN As Integer,
+                                                  mode As SortMode) As KmerVocabulary
+            Dim ordered = globalCount.Keys _
+                .OrderBy(Function(w) globalCount(w)) _
+                .ThenBy(Function(w) inDocMax(w)) _
+                .ToArray
+
+            If mode = SortMode.Descending Then
+                Array.Reverse(ordered)
+            End If
+
+            Dim selected = ordered.Take(topN).ToArray
+            Dim selGlobal As Long() = selected _
+                .Select(Function(w) globalCount(w)) _
+                .ToArray
+
+            Dim selDocCounts As Dictionary(Of String, Dictionary(Of String, Integer)) = Nothing
+
+            If docCounts IsNot Nothing Then
+                ' restrict the per-document counts to the selected vocabulary to keep memory bounded
+                Dim selSet = New HashSet(Of String)(selected)
+
+                selDocCounts = New Dictionary(Of String, Dictionary(Of String, Integer))
+
+                For Each kv In docCounts
+                    Dim filtered = kv.Value _
+                        .Where(Function(c) selSet.Contains(c.Key)) _
+                        .ToDictionary(Function(c) c.Key, Function(c) c.Value)
+                    selDocCounts(kv.Key) = filtered
+                Next
+            End If
+
+            Call VBDebugger.EchoLine($" [kmer_vocab] selected {selected.Length} kmers from {globalCount.Count} distinct kmers (topN={topN}, mode={mode})")
+
+            Return New KmerVocabulary(selected, selGlobal, selDocCounts, mode)
+        End Function
+
+        ''' <summary>
         ''' build the kmer vocabulary from a stream of protein sequences
         ''' </summary>
         ''' <param name="sequences">the protein sequence database (title, sequence data)</param>
@@ -117,34 +195,53 @@ Namespace ProteinStructure
                 Next
             Next
 
-            Dim ordered = globalCount.Keys _
-                .OrderBy(Function(w) globalCount(w)) _
-                .ThenBy(Function(w) inDocMax(w)) _
-                .ToArray
+            Return SelectVocabulary(globalCount, inDocMax, docCounts, topN, mode)
+        End Function
 
-            If mode = SortMode.Descending Then
-                Array.Reverse(ordered)
-            End If
+        ''' <summary>
+        ''' compute the L2-normalized TF-IDF sparse vector of a single protein sequence over the
+        ''' fixed vocabulary, returning the non-zero (columnIndex, value) pairs. this is the
+        ''' streaming building block that lets the second pass emit one COO row per sequence
+        ''' without holding the whole database in memory.
+        ''' </summary>
+        Public Function Vectorize(sequence As String) As (col As Integer, value As Double)()
+            Dim tf As New Dictionary(Of String, Integer)
 
-            Dim selected = ordered.Take(topN).ToArray
-
-            Dim selGlobal As Long() = selected _
-                .Select(Function(w) globalCount(w)) _
-                .ToArray
-
-            ' restrict the per-document counts to the selected vocabulary to keep memory bounded
-            Dim selDocCounts As New Dictionary(Of String, Dictionary(Of String, Integer))
-
-            For Each kv In docCounts
-                Dim filtered = kv.Value _
-                    .Where(Function(c) globalCount.ContainsKey(c.Key) AndAlso Array.IndexOf(selected, c.Key) >= 0) _
-                    .ToDictionary(Function(c) c.Key, Function(c) c.Value)
-                selDocCounts(kv.Key) = filtered
+            For Each km In SMRUCC.genomics.SequenceModel.Slicer.KSeq.KmerSpans(sequence, k)
+                If index.ContainsKey(km) Then
+                    If tf.ContainsKey(km) Then
+                        tf(km) += 1
+                    Else
+                        tf(km) = 1
+                    End If
+                End If
             Next
 
-            Call VBDebugger.EchoLine($" [kmer_vocab] selected {selected.Length} kmers (k={k}, topN={topN}, mode={mode}) from {globalCount.Count} distinct kmers")
+            If tf.Count = 0 Then
+                Return New (col As Integer, value As Double)() {}
+            End If
 
-            Return New KmerVocabulary(selected, selGlobal, selDocCounts, mode)
+            ' idf uses the global document frequency captured during vocabulary building
+            Dim nDocs As Double = globalCounts.Sum(Function(c) CDbl(c))
+            Dim vec As New List(Of (col As Integer, value As Double))
+
+            For Each kv In tf
+                Dim col = index(kv.Key)
+                Dim idf = Math.Log((1.0 + nDocs) / (1.0 + globalCounts(col)))
+                Dim tfidf = kv.Value * idf
+                vec.Add((col, tfidf))
+            Next
+
+            ' L2 normalization
+            Dim norm As Double = Math.Sqrt(vec.Sum(Function(p) p.value * p.value))
+
+            If norm > 0.0 Then
+                vec = vec _
+                    .Select(Function(p) (p.col, p.value / norm)) _
+                    .ToList
+            End If
+
+            Return vec.ToArray
         End Function
 
         ''' <summary>

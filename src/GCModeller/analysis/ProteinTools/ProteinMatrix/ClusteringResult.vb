@@ -1,10 +1,6 @@
 Imports System.Runtime.CompilerServices
-
 Imports Microsoft.VisualBasic.Data.Framework
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace ProteinStructure

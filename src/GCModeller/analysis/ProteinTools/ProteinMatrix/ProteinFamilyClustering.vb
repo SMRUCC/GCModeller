@@ -1,20 +1,14 @@
-Imports System.Runtime.CompilerServices
-
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
-
 Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.Louvain
 Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree.ApproximateNearNeighbor
 Imports Microsoft.VisualBasic.Data.GraphTheory.KNearNeighbors
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
-Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.Louvain
 Imports Microsoft.VisualBasic.Data.NLP
-Imports Microsoft.VisualBasic.DataMining
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.Slicer
 
 Namespace ProteinStructure
 
