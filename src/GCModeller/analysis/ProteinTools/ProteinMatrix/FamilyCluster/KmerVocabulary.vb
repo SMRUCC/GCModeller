@@ -68,6 +68,16 @@ Namespace ProteinStructure
             Descending
         End Enum
 
+        ''' <summary>
+        ''' number of features in the vocabulary
+        ''' </summary>
+        Public ReadOnly Property size As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return words.Length
+            End Get
+        End Property
+
         Private Sub New(words As String(), globalCounts As Long(), docCounts As Dictionary(Of String, Dictionary(Of String, Integer)), sortMode As SortMode, kvalue As Integer)
             Me.words = words
             Me.globalCounts = globalCounts
@@ -255,16 +265,6 @@ Namespace ProteinStructure
 
             Return vec.ToArray
         End Function
-
-        ''' <summary>
-        ''' number of features in the vocabulary
-        ''' </summary>
-        Public ReadOnly Property size As Integer
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return words.Length
-            End Get
-        End Property
 
         ''' <summary>
         ''' persist the vocabulary (words + global counts + ranking mode) so a streaming run can be
