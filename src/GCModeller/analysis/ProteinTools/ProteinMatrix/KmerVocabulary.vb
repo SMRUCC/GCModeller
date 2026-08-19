@@ -1,4 +1,5 @@
 Imports System.Collections.Generic
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 
@@ -253,5 +254,30 @@ Namespace ProteinStructure
                 Return words.Length
             End Get
         End Property
+
+        ''' <summary>
+        ''' persist the vocabulary (words + global counts + ranking mode) so a streaming run can be
+        ''' resumed without re-counting kmers. per-document counts are not stored because the streaming
+        ''' path never keeps them in memory.
+        ''' </summary>
+        Public Sub Save(path As String)
+            Dim blob = New Dictionary(Of String, String) From {
+                {"words", words.GetJson},
+                {"globalCounts", globalCounts.GetJson},
+                {"rankingMode", rankingMode.ToString}
+            }
+            Call File.WriteAllText(path, blob.GetJson)
+        End Sub
+
+        ''' <summary>
+        ''' load a vocabulary previously written by <see cref="Save"/>
+        ''' </summary>
+        Public Shared Function Load(path As String) As KmerVocabulary
+            Dim blob = File.ReadAllText(path).LoadObject(Of Dictionary(Of String, String))
+            Dim words = blob("words").LoadObject(Of String())
+            Dim globalCounts = blob("globalCounts").LoadObject(Of Long())
+            Dim mode = CType([Enum].Parse(GetType(SortMode), blob("rankingMode")), SortMode)
+            Return New KmerVocabulary(words, globalCounts, Nothing, mode)
+        End Function
     End Class
 End Namespace
