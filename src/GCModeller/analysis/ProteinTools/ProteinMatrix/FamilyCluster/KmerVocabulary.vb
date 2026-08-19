@@ -1,6 +1,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Slicer
@@ -272,8 +273,8 @@ Namespace ProteinStructure
         ''' </summary>
         Public Sub Save(path As String)
             Dim blob = New Dictionary(Of String, String) From {
-                {"words", words.GetJson},
-                {"globalCounts", globalCounts.GetJson},
+                {"words", words.JoinBy(",")},
+                {"globalCounts", globalCounts.JoinBy(",")},
                 {"rankingMode", rankingMode.ToString},
                 {"k", k.ToString}
             }
@@ -285,8 +286,8 @@ Namespace ProteinStructure
         ''' </summary>
         Public Shared Function Load(path As String) As KmerVocabulary
             Dim blob = CType(File.ReadAllText(path).LoadObject(GetType(Dictionary(Of String, String))), Dictionary(Of String, String))
-            Dim words = CType(blob("words").LoadObject(GetType(String())), String())
-            Dim globalCounts = CType(blob("globalCounts").LoadObject(GetType(Long())), Long())
+            Dim words = blob("words").Split(","c)
+            Dim globalCounts = blob("globalCounts").Split(",").AsLong
             Dim mode = CType([Enum].Parse(GetType(SortMode), blob("rankingMode")), SortMode)
             Dim kvalue = CInt(Val(blob("k")))
             Return New KmerVocabulary(words, globalCounts, Nothing, mode, kvalue)
