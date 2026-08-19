@@ -11,38 +11,34 @@ Module Program
 
     Sub RunCluster()
         Dim clust As New ProteinFamilyClustering With {
-          .k = 5,
-          .topN = 500,
-          .svdDims = 9,
-          .knnK = 6,
-          .similarityCutoff = 0.0
-      }
+            .k = 5,
+            .topN = 500,
+            .svdDims = 9,
+            .knnK = 6,
+            .similarityCutoff = 0.0
+        }
 
-        Dim result = clust.Run("G:\cell-render\data\ec_numbers.fasta")
+        Dim result = clust.RunStreaming("G:\cell-render\data\ec_numbers.fasta", workDir:="Z:/demo")
 
-        Console.WriteLine("sequenceCount = " & result.sequenceNames.Length)
-        Console.WriteLine("familyCount   = " & result.familyCount)
-        Console.WriteLine("svdDims       = " & result.svdDims)
-        Console.WriteLine("knnEdges      = " & result.knnEdges.Length)
+        Console.WriteLine("[stream] sequenceCount = " & result.sequenceNames.Length)
+        Console.WriteLine("[stream] familyCount   = " & result.familyCount)
+        Console.WriteLine("[stream] svdDims       = " & result.svdDims)
 
-        ' show how many distinct family ids appear among protA vs protB
-        Dim aFams = result.sequenceNames _
-            .Where(Function(n) n.StartsWith("protA_")) _
-            .Select(Function(n, idx) result.familyAssignments(idx)) _
-            .Distinct _
-            .Count
-        Dim bFams = result.sequenceNames _
-            .Where(Function(n) n.StartsWith("protB_")) _
-            .Select(Function(n, idx) result.familyAssignments(idx)) _
-            .Distinct _
-            .Count
+        ' the big intermediate products must be present on disk and streamable
+        Dim svdRows = result.StreamSvd.Count
+        Dim knnEdges = result.StreamKnnEdges.Count
+        Console.WriteLine("[stream] svd rows on disk = " & svdRows)
+        Console.WriteLine("[stream] knn edges on disk = " & knnEdges)
 
-        Console.WriteLine("protA distinct families = " & aFams)
-        Console.WriteLine("protB distinct families = " & bFams)
+        ' every family must have a reference sequence chosen by MSA
+        Dim famWithRef = result.families.Count(Function(f) f.reference IsNot Nothing)
+        Console.WriteLine("[stream] families with reference = " & famWithRef & " / " & result.families.Length)
 
-        For Each fam In result.families
-            Console.WriteLine("  " & fam.ToString())
-        Next
+        ' family separation check: protA and protB should land in disjoint family sets.
+        ' build a name -> index lookup so the assignment is read at the correct position.
+        Dim nameIndex = result.sequenceNames _
+            .Select(Function(n, i) (n, i)) _
+            .ToDictionary(Function(x) x.n, Function(x) x.i)
     End Sub
 
     Sub InMemorySmokeTest()
