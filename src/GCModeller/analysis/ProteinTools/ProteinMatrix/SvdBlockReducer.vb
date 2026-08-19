@@ -56,7 +56,7 @@ Namespace ProteinStructure
             svdWriter.Flush()
             svdWriter.Dispose()
 
-            Call File.WriteAllText(Path.Combine(workDir, SVD_META_FILE), New Dictionary(Of String, String) From {
+            Call File.WriteAllText(System.IO.Path.Combine(workDir, SVD_META_FILE), New Dictionary(Of String, String) From {
                 {"rows", totalRows.ToString},
                 {"dims", dims.ToString}
             }.GetJson)
@@ -107,7 +107,7 @@ Namespace ProteinStructure
         ''' stage can consume them in blocks.
         ''' </summary>
         Public Shared Iterator Function ReadEmbeddings(workDir As String) As IEnumerable(Of (rowIndex As Integer, vector As Double()))
-            Dim path = Path.Combine(workDir, SVD_FILE)
+            Dim path As String = System.IO.Path.Combine(workDir, SVD_FILE)
 
             Using reader = New StreamReader(New BufferedStream(New FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 1 << 20)))
                 Dim line As String = Nothing

@@ -2,6 +2,7 @@ Imports System.Collections.Generic
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ProteinStructure
 
@@ -46,6 +47,11 @@ Namespace ProteinStructure
         Public ReadOnly Property rankingMode As SortMode
 
         ''' <summary>
+        ''' kmer length in residues (used when vectorizing a single sequence)
+        ''' </summary>
+        Public ReadOnly Property k As Integer
+
+        ''' <summary>
         ''' how kmers are ranked before the top-N slice is taken
         ''' </summary>
         Public Enum SortMode As Integer
@@ -60,11 +66,12 @@ Namespace ProteinStructure
             Descending
         End Enum
 
-        Private Sub New(words As String(), globalCounts As Long(), docCounts As Dictionary(Of String, Dictionary(Of String, Integer)), sortMode As SortMode)
+        Private Sub New(words As String(), globalCounts As Long(), docCounts As Dictionary(Of String, Dictionary(Of String, Integer)), sortMode As SortMode, kvalue As Integer)
             Me.words = words
             Me.globalCounts = globalCounts
             Me.docCounts = docCounts
             Me.rankingMode = sortMode
+            Me.k = kvalue
             Me.index = words _
                 .Select(Function(w, i) (w, i)) _
                 .ToDictionary(Function(t) t.w, Function(t) t.i)
@@ -105,7 +112,7 @@ Namespace ProteinStructure
                 Next
             Next
 
-            Return SelectVocabulary(globalCount, inDocMax, Nothing, topN, mode)
+            Return SelectVocabulary(globalCount, inDocMax, Nothing, topN, mode, k)
         End Function
 
         ''' <summary>
@@ -115,7 +122,8 @@ Namespace ProteinStructure
                                                   inDocMax As Dictionary(Of String, Integer),
                                                   docCounts As Dictionary(Of String, Dictionary(Of String, Integer)),
                                                   topN As Integer,
-                                                  mode As SortMode) As KmerVocabulary
+                                                  mode As SortMode,
+                                                  kvalue As Integer) As KmerVocabulary
             Dim ordered = globalCount.Keys _
                 .OrderBy(Function(w) globalCount(w)) _
                 .ThenBy(Function(w) inDocMax(w)) _
@@ -148,7 +156,7 @@ Namespace ProteinStructure
 
             Call VBDebugger.EchoLine($" [kmer_vocab] selected {selected.Length} kmers from {globalCount.Count} distinct kmers (topN={topN}, mode={mode})")
 
-            Return New KmerVocabulary(selected, selGlobal, selDocCounts, mode)
+            Return New KmerVocabulary(selected, selGlobal, selDocCounts, mode, kvalue)
         End Function
 
         ''' <summary>
@@ -280,4 +288,4 @@ Namespace ProteinStructure
             Return New KmerVocabulary(words, globalCounts, Nothing, mode)
         End Function
     End Class
-End Namespace
+End Nam
