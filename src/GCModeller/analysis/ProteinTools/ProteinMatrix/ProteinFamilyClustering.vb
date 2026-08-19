@@ -127,6 +127,27 @@ Namespace ProteinStructure
         End Function
 
         ''' <summary>
+        ''' run the clustering pipeline in streaming mode, designed for databases that do not fit in
+        ''' memory (e.g. a 20GB FASTA with tens of millions of sequences). the FASTA file is scanned
+        ''' in two passes and every intermediate product is written to <paramref name="workDir"/> so
+        ''' that memory stays bounded by the configured block size rather than the database size.
+        ''' a failed run can be resumed (skipping already-produced artifacts) when
+        ''' <see cref="StreamingClustering.resumeIfExists"/> is left at its default of true.
+        ''' </summary>
+        ''' <param name="fastaHandle">path to a FASTA file or a directory of FASTA files</param>
+        ''' <param name="workDir">directory that will hold the on-disk intermediate products</param>
+        Public Function RunStreaming(fastaHandle As String, workDir As String) As ClusteringResult
+            Dim engine As New StreamingClustering(workDir) With {
+                .k = k,
+                .topN = topN,
+                .svdDims = svdDims,
+                .knnK = knnK,
+                .kmerSortMode = kmerSortMode
+            }
+            Return engine.RunStreaming(fastaHandle)
+        End Function
+
+        ''' <summary>
         ''' build the TF-IDF dataframe limited to the selected vocabulary, with L2 normalization
         ''' </summary>
         Private Function BuildTfidf(vocab As KmerVocabulary, sequences As (title As String, sequence As String)(), words As String()) As DataFrame
