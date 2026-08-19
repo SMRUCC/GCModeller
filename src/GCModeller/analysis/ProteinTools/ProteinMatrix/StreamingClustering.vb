@@ -164,7 +164,7 @@ Namespace ProteinStructure
             Next
 
             ' one append stream per family, opened lazily
-            Dim famStreams As New Dictionary(Of Integer, StreamWriter)
+            Dim famStreams As New Dictionary(Of Integer, System.IO.StreamWriter)
 
             For Each fa In StreamIterator.SeqSource(fastaHandle, {"*.fa", "*.fasta", "*.faa"}, debug:=False)
                 If Not titleToFamily.ContainsKey(fa.Title) Then

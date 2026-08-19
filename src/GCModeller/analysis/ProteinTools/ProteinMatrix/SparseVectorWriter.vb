@@ -49,6 +49,15 @@ Namespace ProteinStructure
         End Sub
 
         ''' <summary>
+        ''' reader-only constructor (column count is loaded from meta when needed)
+        ''' </summary>
+        Public Sub New(workDir As String)
+            Me.workDir = workDir
+            Dim meta = LoadMeta(workDir)
+            Me.nCols = meta.cols
+        End Sub
+
+        ''' <summary>
         ''' open the append stream for writing COO rows (call once before <see cref="WriteRow"/>)
         ''' </summary>
         Public Sub OpenForWrite()
