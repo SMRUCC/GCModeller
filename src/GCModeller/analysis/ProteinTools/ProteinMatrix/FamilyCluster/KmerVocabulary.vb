@@ -1,4 +1,3 @@
-Imports System.Collections.Generic
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
@@ -88,6 +87,7 @@ Namespace ProteinStructure
                                                    Optional k As Integer = 5,
                                                    Optional topN As Integer = 10000,
                                                    Optional mode As SortMode = SortMode.Ascending) As KmerVocabulary
+
             Dim globalCount As New Dictionary(Of String, Long)
             Dim inDocMax As New Dictionary(Of String, Integer)
 
@@ -119,11 +119,11 @@ Namespace ProteinStructure
         ''' shared top-N vocabulary selection used by both the in-memory and the streaming build paths
         ''' </summary>
         Private Shared Function SelectVocabulary(globalCount As Dictionary(Of String, Long),
-                                                  inDocMax As Dictionary(Of String, Integer),
-                                                  docCounts As Dictionary(Of String, Dictionary(Of String, Integer)),
-                                                  topN As Integer,
-                                                  mode As SortMode,
-                                                  kvalue As Integer) As KmerVocabulary
+                                                 inDocMax As Dictionary(Of String, Integer),
+                                                 docCounts As Dictionary(Of String, Dictionary(Of String, Integer)),
+                                                 topN As Integer,
+                                                 mode As SortMode,
+                                                 kvalue As Integer) As KmerVocabulary
             Dim ordered = globalCount.Keys _
                 .OrderBy(Function(w) globalCount(w)) _
                 .ThenBy(Function(w) inDocMax(w)) _
