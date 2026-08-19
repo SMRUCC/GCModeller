@@ -33,11 +33,11 @@ Namespace ProteinStructure
         ''' reduce the sparse vectors (provided as blocks of (rowIndex, cols, vals)) down to
         ''' <paramref name="dims"/> dimensions and stream the dense embeddings to disk.
         ''' </summary>
-        Public Sub Reduce(rows As IEnumerable(Of (rowIndex As Integer, cols As Integer(), vals As Double())), dims As Integer, blockSize As Integer)
+        Public Sub Reduce(rows As IEnumerable(Of (rowIndex As Integer, title As String, cols As Integer(), vals As Double())), dims As Integer, blockSize As Integer)
             Dim path As String = System.IO.Path.Combine(workDir, SVD_FILE)
             svdWriter = New StreamWriter(New BufferedStream(New FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 1 << 20)), Encoding.ASCII)
 
-            Dim blockRows As New List(Of (rowIndex As Integer, cols As Integer(), vals As Double()))
+            Dim blockRows As New List(Of (rowIndex As Integer, title As String, cols As Integer(), vals As Double()))
             Dim totalRows As Integer = 0
 
             For Each row In rows.SafeQuery
@@ -65,7 +65,7 @@ Namespace ProteinStructure
             Call VBDebugger.EchoLine($" [svd] wrote {totalRows} x {dims} embeddings to {SVD_FILE}")
         End Sub
 
-        Private Sub FlushBlock(block As List(Of (rowIndex As Integer, cols As Integer(), vals As Double())), dims As Integer)
+        Private Sub FlushBlock(block As List(Of (rowIndex As Integer, title As String, cols As Integer(), vals As Double())), dims As Integer)
             Dim m = block.Count
             Dim sparse As New SparseMatrix(m, ColumnCountPlaceholder(block))
 
@@ -88,7 +88,7 @@ Namespace ProteinStructure
             Next
         End Sub
 
-        Private Shared Function ColumnCountPlaceholder(block As List(Of (rowIndex As Integer, cols As Integer(), vals As Double()))) As Integer
+        Private Shared Function ColumnCountPlaceholder(block As List(Of (rowIndex As Integer, title As String, cols As Integer(), vals As Double()))) As Integer
             Dim maxCol As Integer = 0
             For Each row In block
                 For Each col In row.cols

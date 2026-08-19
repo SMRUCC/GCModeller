@@ -181,9 +181,11 @@ Namespace SequenceModel.FASTA
                     Call "File exists, reading fasta data from file...".debug
                 End If
 
-                For Each fa As FastaSeq In New StreamIterator(handle).ReadStream
-                    Yield fa
-                Next
+                Using si As New StreamIterator(handle)
+                    For Each fa As FastaSeq In si.ReadStream
+                        Yield fa
+                    Next
+                End Using
             Else
                 If debug Then
                     Call "Directory exists, reading fasta data from files in DATA directory...".debug
@@ -194,9 +196,11 @@ Namespace SequenceModel.FASTA
                     If debug Then
                         Call file.ToFileURL.debug
                     End If
-                    For Each nt As FastaSeq In New StreamIterator(file).ReadStream
-                        Yield nt
-                    Next
+                    Using si As New StreamIterator(file)
+                        For Each nt As FastaSeq In si.ReadStream
+                            Yield nt
+                        Next
+                    End Using
                 Next
             End If
         End Function
