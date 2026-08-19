@@ -104,7 +104,7 @@ Namespace ProteinStructure
                                              fastaHandle As String,
                                              vocab As KmerVocabulary,
                                              familyInfo As Dictionary(Of Integer, ProteinFamily)) As ClusteringResult
-            Dim vectorDir = Path.Combine(workDir, "tfidf")
+            Dim vectorDir = System.IO.Path.Combine(workDir, "tfidf")
             Dim titles = SparseVectorWriter.LoadTitleIndex(vectorDir)
             Dim assignment = BlockLouvain.ReadAssignment(workDir).ToArray
             Dim familyAssignments(assignment.Length - 1) As Integer
@@ -139,7 +139,7 @@ Namespace ProteinStructure
         ''' stream the TF-IDF sparse vectors (rowIndex, title, columnIndices, values) back from disk
         ''' </summary>
         Public Iterator Function StreamTfidf() As IEnumerable(Of (rowIndex As Integer, title As String, cols As Integer(), vals As Double()))
-            Dim vectorDir = Path.Combine(workDir, "tfidf")
+            Dim vectorDir = System.IO.Path.Combine(workDir, "tfidf")
             For Each row In New SparseVectorWriter(vectorDir).ReadRows
                 Yield row
             Next
@@ -180,7 +180,7 @@ Namespace ProteinStructure
         End Function
 
         Private Function StreamKnnEdgesCount() As Integer
-            If String.IsNullOrEmpty(workDir) OrElse Not File.Exists(Path.Combine(workDir, ApproxKnnBuilder.KNN_META_FILE)) Then
+            If String.IsNullOrEmpty(workDir) OrElse Not File.Exists(System.IO.Path.Combine(workDir, ApproxKnnBuilder.KNN_META_FILE)) Then
                 Return 0
             End If
             Return ApproxKnnBuilder.LoadMeta(workDir).edges
