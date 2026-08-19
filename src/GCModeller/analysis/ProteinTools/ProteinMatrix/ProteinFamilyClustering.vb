@@ -230,7 +230,7 @@ Namespace ProteinStructure
         Private Function LouvainPartition(edges As (u As Integer, v As Integer, weight As Double)(), nSeq As Integer) As Integer()
             ' nodes are created in sequence order so their 1-based ID matches the sequence index + 1
             Dim nodes As Node() = (From i As Integer In Enumerable.Range(0, nSeq)
-                                   Select New Node).ToArray
+                                   Select New Node With {.label = "v" & i.ToString()}).ToArray
             Dim netEdges As Edge(Of Node)() = edges _
                 .Select(Function(e) New Edge(Of Node) With {
                     .U = nodes(e.u),
