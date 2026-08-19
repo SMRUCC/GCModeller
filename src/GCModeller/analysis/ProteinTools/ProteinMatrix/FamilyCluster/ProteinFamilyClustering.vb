@@ -1,5 +1,5 @@
 Imports Microsoft.VisualBasic.Data.Framework
-Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.Louvain
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.LPA
 Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree.ApproximateNearNeighbor
 Imports Microsoft.VisualBasic.Data.GraphTheory.KNearNeighbors
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
@@ -254,7 +254,7 @@ Namespace ProteinStructure
                 }) _
                 .ToArray
             Dim graph As New NetworkGraph(Of Node, Edge(Of Node))(nodes, netEdges)
-            Dim louvain = Builder.Load(graph, leiden:=True)
+            Dim louvain = Builder.Load(graph)
             Dim community = louvain.SolveClusters().GetCommunity()
 
             ' GetCommunity() is aligned to the node insertion order (1-based id -> index)

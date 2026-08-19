@@ -1,6 +1,6 @@
 Imports System.IO
 Imports System.Text
-Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.Louvain
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.LPA
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -52,7 +52,7 @@ Namespace ProteinStructure
             Call VBDebugger.EchoLine($" [louvain] graph built with {nNodes} nodes, running community detection...")
 
             Dim community = Builder _
-                .Load(graph, leiden:=True) _
+                .Load(graph) _
                 .SolveClusters() _
                 .GetCommunity()
 
