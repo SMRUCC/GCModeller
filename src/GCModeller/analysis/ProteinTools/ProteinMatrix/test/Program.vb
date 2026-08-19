@@ -121,15 +121,19 @@ Module Program
         Dim famWithRef = result.families.Count(Function(f) f.reference IsNot Nothing)
         Console.WriteLine("[stream] families with reference = " & famWithRef & " / " & result.families.Length)
 
-        ' family separation check: protA and protB should land in disjoint family sets
+        ' family separation check: protA and protB should land in disjoint family sets.
+        ' build a name -> index lookup so the assignment is read at the correct position.
+        Dim nameIndex = result.sequenceNames _
+            .Select(Function(n, i) (n, i)) _
+            .ToDictionary(Function(x) x.n, Function(x) x.i)
         Dim aFams = result.sequenceNames _
             .Where(Function(n) n.StartsWith("protA_")) _
-            .Select(Function(n, idx) result.familyAssignments(idx)) _
+            .Select(Function(n) result.familyAssignments(nameIndex(n))) _
             .Distinct _
             .ToArray
         Dim bFams = result.sequenceNames _
             .Where(Function(n) n.StartsWith("protB_")) _
-            .Select(Function(n, idx) result.familyAssignments(idx)) _
+            .Select(Function(n) result.familyAssignments(nameIndex(n))) _
             .Distinct _
             .ToArray
         Dim overlap = aFams.Intersect(bFams).Count

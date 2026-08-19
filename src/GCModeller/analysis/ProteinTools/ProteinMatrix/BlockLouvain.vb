@@ -55,7 +55,7 @@ Namespace ProteinStructure
             Call VBDebugger.EchoLine($" [louvain] graph built with {nNodes} nodes, running community detection...")
 
             Dim community = Builder _
-                .Load(graph, 0.0) _
+                .Load(graph) _
                 .SolveClusters() _
                 .GetCommunity()
 
@@ -64,7 +64,7 @@ Namespace ProteinStructure
 
             Using writer = New StreamWriter(New BufferedStream(New FileStream(System.IO.Path.Combine(workDir, ASSIGN_FILE), FileMode.Create, FileAccess.Write, FileShare.None, 1 << 20)), Encoding.ASCII)
                 For i As Integer = 0 To nNodes - 1
-                    Dim fam = CInt(Val(community(i)))
+                    Dim fam = If(community.Length > i, CInt(Val(community(i))), 0)
                     If fam > maxFam Then maxFam = fam
                     writer.WriteLine($"{i}" & vbTab & fam)
                 Next
