@@ -282,9 +282,9 @@ Namespace ProteinStructure
         ''' load a vocabulary previously written by <see cref="Save"/>
         ''' </summary>
         Public Shared Function Load(path As String) As KmerVocabulary
-            Dim blob = File.ReadAllText(path).LoadObject(Of Dictionary(Of String, String))
-            Dim words = blob("words").LoadObject(Of String())
-            Dim globalCounts = blob("globalCounts").LoadObject(Of Long())
+            Dim blob = CType(File.ReadAllText(path).LoadObject(GetType(Dictionary(Of String, String))), Dictionary(Of String, String))
+            Dim words = CType(blob("words").LoadObject(GetType(String())), String())
+            Dim globalCounts = CType(blob("globalCounts").LoadObject(GetType(Long())), Long())
             Dim mode = CType([Enum].Parse(GetType(SortMode), blob("rankingMode")), SortMode)
             Dim kvalue = CInt(Val(blob("k")))
             Return New KmerVocabulary(words, globalCounts, Nothing, mode, kvalue)

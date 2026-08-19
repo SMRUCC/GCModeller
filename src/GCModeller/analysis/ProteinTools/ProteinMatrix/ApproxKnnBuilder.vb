@@ -113,7 +113,7 @@ Namespace ProteinStructure
         End Sub
 
         Public Shared Function LoadMeta(workDir As String) As (edges As Integer, k As Integer)
-            Dim json = File.ReadAllText(System.IO.Path.Combine(workDir, KNN_META_FILE)).LoadObject(Of Dictionary(Of String, String))
+            Dim json = CType(File.ReadAllText(System.IO.Path.Combine(workDir, KNN_META_FILE)).LoadObject(GetType(Dictionary(Of String, String))), Dictionary(Of String, String))
             Return (CInt(Val(json("edges"))), CInt(Val(json("k"))))
         End Function
 

@@ -98,7 +98,7 @@ Namespace ProteinStructure
         End Function
 
         Public Shared Function LoadMeta(workDir As String) As (rows As Integer, dims As Integer)
-            Dim json = File.ReadAllText(System.IO.Path.Combine(workDir, SVD_META_FILE)).LoadObject(Of Dictionary(Of String, String))
+            Dim json = CType(File.ReadAllText(System.IO.Path.Combine(workDir, SVD_META_FILE)).LoadObject(GetType(Dictionary(Of String, String))), Dictionary(Of String, String))
             Return (CInt(Val(json("rows"))), CInt(Val(json("dims"))))
         End Function
 

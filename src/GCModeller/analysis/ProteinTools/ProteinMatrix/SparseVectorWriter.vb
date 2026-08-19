@@ -84,12 +84,12 @@ Namespace ProteinStructure
         End Sub
 
         Public Shared Function LoadMeta(workDir As String) As (rows As Integer, cols As Integer)
-            Dim json = File.ReadAllText(System.IO.Path.Combine(workDir, META_FILE)).LoadObject(Of Dictionary(Of String, String))
+            Dim json = CType(File.ReadAllText(System.IO.Path.Combine(workDir, META_FILE)).LoadObject(GetType(Dictionary(Of String, String))), Dictionary(Of String, String))
             Return (CInt(Val(json("rows"))), CInt(Val(json("cols"))))
         End Function
 
         Public Shared Function LoadTitleIndex(workDir As String) As String()
-            Return File.ReadAllText(System.IO.Path.Combine(workDir, TITLE_INDEX_FILE)).LoadObject(Of String())
+            Return CType(File.ReadAllText(System.IO.Path.Combine(workDir, TITLE_INDEX_FILE)).LoadObject(GetType(String())), String())
         End Function
 
         ''' <summary>
