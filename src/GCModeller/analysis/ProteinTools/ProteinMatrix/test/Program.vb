@@ -1,9 +1,15 @@
 Imports System.IO
+Imports System.Linq
 Imports System.Text
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.ProteinStructure
 
 Module Program
     Sub Main(args As String())
+        Call StreamingSmokeTest()
+        Call InMemorySmokeTest()
+    End Sub
+
+    Sub InMemorySmokeTest()
         Dim fasta = "G:\cell-render\data\ec_numbers.fasta"
         Dim sb As New StringBuilder
 
@@ -63,5 +69,77 @@ Module Program
 
         File.Delete(fasta)
         Console.WriteLine("SMOKE TEST OK")
+    End Sub
+
+    Sub StreamingSmokeTest()
+        Dim fasta = "G:\cell-render\data\ec_numbers_stream.fasta"
+        Dim workDir = "G:\cell-render\data\stream_out"
+        Dim sb As New StringBuilder
+
+        Dim aMotif = "ACDEFGHIKL"
+        Dim bMotif = "MNPQRSTVWY"
+
+        For i As Integer = 1 To 20
+            Dim seqA = "M" & aMotif & "G" & aMotif & "K" & aMotif & "D" & If(i Mod 2 = 0, "V", "L")
+            sb.AppendLine(">protA_" & i)
+            sb.AppendLine(seqA)
+        Next
+
+        For i As Integer = 1 To 20
+            Dim seqB = "S" & bMotif & "T" & bMotif & "R" & bMotif & "N" & If(i Mod 2 = 0, "Q", "E")
+            sb.AppendLine(">protB_" & i)
+            sb.AppendLine(seqB)
+        Next
+
+        File.WriteAllText(fasta, sb.ToString)
+
+        If Directory.Exists(workDir) Then
+            Directory.Delete(workDir, recursive:=True)
+        End If
+
+        Dim clust As New ProteinFamilyClustering With {
+            .k = 5,
+            .topN = 500,
+            .svdDims = 9,
+            .knnK = 6,
+            .similarityCutoff = 0.0
+        }
+
+        Dim result = clust.RunStreaming(fasta, workDir)
+
+        Console.WriteLine("[stream] sequenceCount = " & result.sequenceNames.Length)
+        Console.WriteLine("[stream] familyCount   = " & result.familyCount)
+        Console.WriteLine("[stream] svdDims       = " & result.svdDims)
+
+        ' the big intermediate products must be present on disk and streamable
+        Dim svdRows = result.StreamSvd.Count
+        Dim knnEdges = result.StreamKnnEdges.Count
+        Console.WriteLine("[stream] svd rows on disk = " & svdRows)
+        Console.WriteLine("[stream] knn edges on disk = " & knnEdges)
+
+        ' every family must have a reference sequence chosen by MSA
+        Dim famWithRef = result.families.Count(Function(f) f.reference IsNot Nothing)
+        Console.WriteLine("[stream] families with reference = " & famWithRef & " / " & result.families.Length)
+
+        ' family separation check: protA and protB should land in disjoint family sets
+        Dim aFams = result.sequenceNames _
+            .Where(Function(n) n.StartsWith("protA_")) _
+            .Select(Function(n, idx) result.familyAssignments(idx)) _
+            .Distinct _
+            .ToArray
+        Dim bFams = result.sequenceNames _
+            .Where(Function(n) n.StartsWith("protB_")) _
+            .Select(Function(n, idx) result.familyAssignments(idx)) _
+            .Distinct _
+            .ToArray
+        Dim overlap = aFams.Intersect(bFams).Count
+        Console.WriteLine("[stream] protA families = " & aFams.Length & ", protB families = " & bFams.Length & ", overlap = " & overlap)
+
+        If result.sequenceNames.Length <> 40 OrElse svdRows <> 40 OrElse knnEdges = 0 OrElse famWithRef <> result.families.Length OrElse overlap > 0 Then
+            Throw New Exception("[stream] smoke test assertion failed")
+        End If
+
+        File.Delete(fasta)
+        Console.WriteLine("STREAMING SMOKE TEST OK")
     End Sub
 End Module
