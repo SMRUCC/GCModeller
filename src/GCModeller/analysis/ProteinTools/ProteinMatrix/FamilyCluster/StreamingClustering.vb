@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace ProteinStructure
+Namespace FamilyCluster
 
     ''' <summary>
     ''' streaming orchestrator for the unsupervised protein-family clustering pipeline.
@@ -129,7 +129,7 @@ rebuild:
         Private Sub Pass1WriteVectors(fastaHandle As String, vocab As KmerVocabulary)
             Call VBDebugger.EchoLine(" [stream] pass 1b : writing TF-IDF sparse vectors (streaming)")
 
-            Dim writer = New SparseVectorWriter(vectorDir, vocab.Size)
+            Dim writer = New SparseVectorWriter(vectorDir, vocab.size)
             Call writer.OpenForWrite()
 
             Dim bad As Integer = 0

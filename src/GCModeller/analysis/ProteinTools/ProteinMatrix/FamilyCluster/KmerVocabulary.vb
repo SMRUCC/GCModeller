@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Slicer
 
-Namespace ProteinStructure
+Namespace FamilyCluster
 
     ''' <summary>
     ''' Extracts kmer features from a protein sequence database and selects a top-N

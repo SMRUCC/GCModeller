@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace ProteinStructure
+Namespace FamilyCluster
 
     ''' <summary>
     ''' community detection stage of the streaming pipeline.

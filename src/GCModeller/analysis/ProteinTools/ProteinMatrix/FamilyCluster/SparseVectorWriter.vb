@@ -2,7 +2,7 @@ Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace ProteinStructure
+Namespace FamilyCluster
 
     ''' <summary>
     ''' stream-friendly (coordinate list) writer / reader for the per-sequence TF-IDF sparse

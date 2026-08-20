@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Data.GraphTheory.KdTree.ApproximateNearNeighbor
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace ProteinStructure
+Namespace FamilyCluster
 
     ''' <summary>
     ''' block-wise approximate nearest-neighbour builder for the streaming pipeline.

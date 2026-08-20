@@ -1,7 +1,7 @@
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace ProteinStructure
+Namespace FamilyCluster
 
     ''' <summary>
     ''' a single protein family discovered by the unsupervised clustering pipeline

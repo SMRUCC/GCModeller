@@ -1,12 +1,10 @@
-Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace ProteinStructure
+Namespace FamilyCluster
 
     ''' <summary>
     ''' block-wise randomized SVD reducer for the streaming pipeline.

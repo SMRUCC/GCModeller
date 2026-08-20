@@ -10,7 +10,7 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace ProteinStructure
+Namespace FamilyCluster
 
     ''' <summary>
     ''' unsupervised protein family clustering pipeline.

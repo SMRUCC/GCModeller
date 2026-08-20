@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace ProteinStructure
+Namespace FamilyCluster
 
     ''' <summary>
     ''' full result of the unsupervised protein family clustering pipeline.
