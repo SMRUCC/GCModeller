@@ -17,6 +17,8 @@ Public Class CDHashTask : Inherits VectorTask
     End Sub
 
     Protected Overrides Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
+        Dim minHash As New List(Of SequenceItem)
+
         For i As Integer = start To ends
             ' MinHash.CreateSequenceData
             Dim s As FastaSeq = seqPool(i)
@@ -24,7 +26,11 @@ Public Class CDHashTask : Inherits VectorTask
                 .KmerSpans(s.SequenceData, k) _
                 .CreateSequenceData(id:=i)
 
-            minHash(i) = hash
+            minHash.Add(hash)
         Next
+
+        SyncLock Me.minHash
+            Call Array.Copy(minHash.ToArray, Scan0, Me.minHash, start, length:=minHash.Count)
+        End SyncLock
     End Sub
 End Class

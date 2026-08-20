@@ -92,10 +92,10 @@ Public Class CDHit
     End Function
 
     Public Function Setup(seqs As IEnumerable(Of FastaSeq)) As CDHit
-        Dim unique As FastaSeq() = (From seq As FastaSeq In seqs Order By seq.Length Descending).UniqueTitle
+        Dim unique As IEnumerable(Of FastaSeq) = (From seq As FastaSeq In seqs Order By seq.Length Descending).UniqueTitle
 
         Call "run data setup...".info
-        hash = New CDHashTask(unique.ToArray, workers:=threads)
+        hash = New CDHashTask(unique.ToArray, workers:=threads) With {.k = k}
 
         Call "create min hash sequence data in parallel".info
         Call hash.Run()
