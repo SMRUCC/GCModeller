@@ -39,19 +39,17 @@ Namespace Linclust
         ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function HashKmer(kmer As String) As UInteger
-            Dim h As ULong = 0
-            Dim baseUL As ULong = CULng(AlphabetSize)
-            Dim seedUL As ULong = CULng(Seed)
-            Dim code As Integer
+            ' 采用 base-13 多项式哈希并对 2^16 取模,全程 Integer 不溢出:
+            '   hash = (hash * base + code) mod 65536
+            ' 哈希值分布在 [0, 65535],作为 16 位 k-mer 索引。
+            Dim h As Integer = 0
 
             For Each c As Char In kmer
-                code = AlphabetCode(c)
-                ' 全程 ULong 运算,避免 ULong*Integer 触发 Decimal 算术;
-                ' 每步保持 32 位环(&HFFFFFFFFUL),避免溢出
-                h = ((h * baseUL + CULng(code)) * seedUL) And &HFFFFFFFFUL
+                Dim code = AlphabetCode(c)
+                h = (h * ReducedAlphabet.AlphabetSize + code) Mod 65536
             Next
 
-            Return CUInt(h And CULng(Mask16))
+            Return CUInt(h And &HFFFF)
         End Function
 
         ''' <summary>
