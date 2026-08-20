@@ -20,6 +20,7 @@ Public Module LinclustDemo
 
     Sub Run()
         Call TestAlignment()
+        ' Call Pause()
         ' Call RunTest()
         ' RunDemo 依赖外部 FASTA 文件,不存在时跳过以免整体崩溃
         If System.IO.File.Exists("G:\cell-render\data\ec_numbers.fasta") Then
