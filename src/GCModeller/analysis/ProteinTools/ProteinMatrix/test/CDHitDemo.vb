@@ -51,7 +51,7 @@ Public Module CDHitDemo
         'Call Console.WriteLine()
 
         ' ---------- 3. 导出聚类结果为两个 CSV ----------
-        Call CDHitFamilyExport.ExportClusters(seqs, clusters, outputDir)
+        Call CDHitFamilyExport.ExportClusters(cdhit.GetSequencePool, clusters, outputDir)
     End Sub
 
     ''' <summary>

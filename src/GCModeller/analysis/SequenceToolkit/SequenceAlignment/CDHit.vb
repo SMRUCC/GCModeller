@@ -86,6 +86,10 @@ Public Class CDHit
         Me.k = k
     End Sub
 
+    Public Function GetSequencePool() As FastaSeq()
+        Return seqPool
+    End Function
+
     Public Function Setup(seqs As IEnumerable(Of FastaSeq)) As CDHit
         seqPool = (From seq As FastaSeq In seqs Order By seq.Length Descending).UniqueTitle.ToArray
         minHash = seqPool.SeqIterator.ToArray _
