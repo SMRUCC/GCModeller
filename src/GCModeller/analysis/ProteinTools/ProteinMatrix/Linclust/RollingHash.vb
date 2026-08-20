@@ -39,16 +39,16 @@ Namespace Linclust
         ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function HashKmer(kmer As String) As UInteger
-            Dim h As UInteger = 0
+            Dim h As ULong = 0
             Dim code As Integer
 
             For Each c As Char In kmer
                 code = AlphabetCode(c)
-                ' 乘法散列混合,确保良好分布
-                h = (h * AlphabetSize + CUInt(code)) * Seed
+                ' 乘法散列混合,确保良好分布;每一步保持 32 位环,避免整数溢出
+                h = ((h * AlphabetSize + CUInt(code)) * Seed) And &HFFFFFFFFUL
             Next
 
-            Return h And Mask16
+            Return CUInt(h And Mask16)
         End Function
 
         ''' <summary>
@@ -77,29 +77,11 @@ Namespace Linclust
             Dim n = encoded.Length - k + 1
             Dim result = New KmerHash(n - 1) {}
 
-            ' 第一个 k-mer
-            Dim h As UInteger = 0
-            For i As Integer = 0 To k - 1
-                h = (h * ReducedAlphabet.AlphabetSize + CUInt(AlphabetCode(encoded(i)))) * Seed
-            Next
-            result(0) = New KmerHash(h, 0)
-
-            ' 滚动更新:F_n = (F_{n-1} * base - code(prev) * base^k + code(new)) * Seed
-            ' 其中 base^k 预计算(对基数 13 取模意义不大,这里直接用整数溢出的 2^32 环,
-            ' 但需保持一致:采用 ((h - prevCode*power) * base + newCode) * Seed 形式)
-            Dim power As UInteger = 1
-            For i As Integer = 1 To k - 1
-                power = power * ReducedAlphabet.AlphabetSize
-            Next
-
-            For i As Integer = 1 To n - 1
-                Dim prevCode = CUInt(AlphabetCode(encoded(i - 1)))
-                Dim newCode = CUInt(AlphabetCode(encoded(i + k - 1)))
-
-                ' 去掉最左侧字符贡献
-                Dim hNoPrev As UInteger = h - prevCode * power
-                h = (hNoPrev * ReducedAlphabet.AlphabetSize + newCode) * Seed
-                result(i) = New KmerHash(h, i)
+            ' 逐个 k-mer 计算滚动哈希(调用 HashKmer,绝对正确;
+            ' 对蛋白序列规模 O(n*k) 完全可接受,且避免手写滚动公式的边界/溢出错误)
+            For i As Integer = 0 To n - 1
+                Dim kmer = encoded.Substring(i, k)
+                result(i) = New KmerHash(HashKmer(kmer), i)
             Next
 
             Return result
