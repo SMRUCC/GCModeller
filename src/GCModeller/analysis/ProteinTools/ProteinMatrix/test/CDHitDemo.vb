@@ -20,12 +20,12 @@ Public Module CDHitDemo
     ''' 演示入口:构造数据、聚类、导出两个 CSV。
     ''' 默认阈值 0.8,可在调用处覆盖。
     ''' </summary>
-    Public Sub Run(Optional threshold As Double = 0.8, Optional outputDir As String = "Z:/cdhit_exports")
+    Public Sub Run(Optional threshold As Double = 0.3, Optional outputDir As String = "Z:/cdhit_exports")
         Call Console.WriteLine("=== CDHit 聚类 + FamilyExports / SequenceCluster 导出 Demo ===")
         Call Console.WriteLine()
 
         ' ---------- 1. 构造输入序列 ----------
-        Dim seqs = FastaFile.Read("G:\cell-render\data\ec_numbers.fasta").Take(1000).ToArray  ' BuildDemoSequences()
+        Dim seqs = FastaFile.Read("G:\cell-render\data\ec_numbers.fasta").Take(1000000).ToArray  ' BuildDemoSequences()
         Call Console.WriteLine($"输入序列总数: {seqs.Length}")
         Call Console.WriteLine()
 
@@ -42,13 +42,13 @@ Public Module CDHitDemo
         Call Console.WriteLine($"聚类耗时 = {timer.ElapsedMilliseconds} ms")
         Call Console.WriteLine()
 
-        For i As Integer = 0 To clusters.Length - 1
-            Dim c = clusters(i)
-            Dim memberTitles = If(c.Similar Is Nothing, {}, c.Similar.Keys.ToArray)
-            Call Console.WriteLine($"簇 #{i + 1}: 代表={c.SeqID}, 成员数={If(c.IsUniqued, 1, 1 + c.Similar.Count)}")
-            Call Console.WriteLine($"   成员: {c.SeqID}, {String.Join(", ", memberTitles)}")
-        Next
-        Call Console.WriteLine()
+        'For i As Integer = 0 To clusters.Length - 1
+        '    Dim c = clusters(i)
+        '    Dim memberTitles = If(c.Similar Is Nothing, {}, c.Similar.Keys.ToArray)
+        '    Call Console.WriteLine($"簇 #{i + 1}: 代表={c.SeqID}, 成员数={If(c.IsUniqued, 1, 1 + c.Similar.Count)}")
+        '    Call Console.WriteLine($"   成员: {c.SeqID}, {String.Join(", ", memberTitles)}")
+        'Next
+        'Call Console.WriteLine()
 
         ' ---------- 3. 导出聚类结果为两个 CSV ----------
         Call CDHitFamilyExport.ExportClusters(seqs, clusters, outputDir)

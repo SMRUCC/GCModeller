@@ -9,7 +9,7 @@ Module Program
 
         ' CDHit 聚类 + FamilyExports/SequenceCluster 导出演示(内存构造数据,无需外部文件)
         ' 默认导出到 Z:/cdhit_exports,可在调用处指定 outputDir
-        Call CDHitDemo.Run(threshold:=0.6, outputDir:="Z:/cdhit_exports")
+        Call CDHitDemo.Run(outputDir:="Z:/cdhit_exports")
 
         ' 以下为 FamilyCluster 流式聚类测试,依赖外部数据文件,默认不运行:
         ' Call RunCluster()

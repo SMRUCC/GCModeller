@@ -87,7 +87,7 @@ Public Class CDHit
     End Sub
 
     Public Function Setup(seqs As IEnumerable(Of FastaSeq)) As CDHit
-        seqPool = (From seq As FastaSeq In seqs Order By seq.Length Descending).ToArray
+        seqPool = (From seq As FastaSeq In seqs Order By seq.Length Descending).UniqueTitle.ToArray
         minHash = seqPool.SeqIterator.ToArray _
             .AsParallel _
             .Select(Function(s)

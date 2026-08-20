@@ -57,6 +57,8 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -117,5 +119,21 @@ Namespace SequenceModel.FASTA
                 Call printWriter.Flush()
             End Using
         End Sub
+
+        <Extension>
+        Public Iterator Function UniqueTitle(seqs As IEnumerable(Of FastaSeq)) As IEnumerable(Of FastaSeq)
+            Dim all As FastaSeq() = seqs.SafeQuery.ToArray
+            Dim titles As String() = all.Select(Function(f) f.Title).ToArray
+            Dim duplicated As String() = Nothing
+            Dim unique As String() = titles.UniqueNames(duplicated:=duplicated)
+
+            If Not duplicated.IsNullOrEmpty Then
+                Call $"found {duplicated.Length} duplicated fasta header: {duplicated.Concatenate}".warning
+            End If
+
+            For i As Integer = 0 To all.Length - 1
+                Yield New FastaSeq(all(i).SequenceData, title:=unique(i))
+            Next
+        End Function
     End Module
 End Namespace
