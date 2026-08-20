@@ -4,9 +4,11 @@ Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.FamilyCluster
 
 Module Program
     Sub Main(args As String())
-        ' Call StreamingSmokeTest()
-        ' Call InMemorySmokeTest()
-        Call RunCluster()
+        ' Linclust 算法演示(内存构造数据,无需外部文件)
+        Call LinclustDemo.Run()
+
+        ' 以下为 FamilyCluster 流式聚类测试,依赖外部数据文件,默认不运行:
+        ' Call RunCluster()
     End Sub
 
     Sub RunCluster()

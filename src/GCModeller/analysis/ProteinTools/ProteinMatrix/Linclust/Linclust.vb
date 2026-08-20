@@ -115,8 +115,13 @@ Namespace Linclust
                     Dim identity = AlignmentIdentity(hsp.Query, hsp.Subject)
                     Dim coverage = CDbl(Math.Min(hsp.LengthQuery, hsp.LengthHit)) / Math.Min(memberRaw.Length, centerRaw.Length)
 
-                    If identity >= opts.seqidThreshold AndAlso coverage >= opts.coverage Then
-                        ' 成员 -> 中心 有向边
+                    ' 阶段四:E-value 显著性判据(Karlin-Altschul)
+                    Dim eval = EValue.Compute(hsp.score, memberRaw.Length, centerRaw.Length)
+
+                    If identity >= opts.seqidThreshold AndAlso
+                       coverage >= opts.coverage AndAlso
+                       eval <= opts.evalue Then
+                        ' 成员 -> 中心 有向边(一致性 + 覆盖率 + E-value 三者均满足)
                         edges.Add((memberId, centerId))
                     End If
                 Next
