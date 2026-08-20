@@ -33,7 +33,7 @@ Public Module LinclustDemo
         If args.Length > 1 AndAlso Integer.TryParse(args(1), take) Then
             ' 由命令行指定规模
         Else
-            take = 1000
+            take = 10000
         End If
 
         Call Console.WriteLine($"=== Linclust 内存回归验证 (take={take}) ===")

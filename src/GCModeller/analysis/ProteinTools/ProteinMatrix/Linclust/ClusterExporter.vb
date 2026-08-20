@@ -11,7 +11,8 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.Framework
-Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports System.Text
@@ -102,8 +103,8 @@ Namespace Linclust
             Dim sequenceCsv = System.IO.Path.Combine(outputDir, "SequenceCluster.csv")
 
             ' strict:=True 确保所有基本类型属性均按属性名输出为列(含无 ColumnAttribute 标注的属性)
-            Call families.SaveTo(familyCsv, strict:=True, encoding:=Encoding.UTF8)
-            Call sequences.SaveTo(sequenceCsv, strict:=True, encoding:=Encoding.UTF8)
+            Call families.SaveTo(familyCsv, encoding:=Encoding.UTF8)
+            Call sequences.SaveTo(sequenceCsv, encoding:=Encoding.UTF8)
 
             Call Console.WriteLine($"[ClusterExporter] 导出完成: {families.Count} 个簇, {totalMembers} 条成员序列。")
             Call Console.WriteLine($"    -> {familyCsv}")
