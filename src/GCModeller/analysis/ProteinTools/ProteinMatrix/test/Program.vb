@@ -1,7 +1,6 @@
 Imports System.IO
 Imports System.Text
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.FamilyCluster
-Imports test.test
 
 Module Program
     Sub Main(args As String())

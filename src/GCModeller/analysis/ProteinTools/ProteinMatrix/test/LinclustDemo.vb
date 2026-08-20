@@ -170,4 +170,3 @@ Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
             End If
         End Sub
     End Module
-End Namespace
