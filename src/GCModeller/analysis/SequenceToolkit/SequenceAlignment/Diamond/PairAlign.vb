@@ -32,8 +32,10 @@ Namespace DIAMOND
         ''' <returns>得分最高的 HSP;若无正分比对则返回 Nothing。</returns>
         Public Function AlignBestHSP(query As String, subject As String, Optional minWidth As Integer = 0) As HSP
             Dim sw As New SmithWaterman(query, subject, Matrix)
-            Call sw.BuildMatrix
-            Return sw.GetOutput(cutoff:=0, minW:=minWidth).Best
+            Dim output As Output = DirectCast(sw.BuildMatrix, SmithWaterman).GetOutput(cutoff:=0, minW:=minWidth)
+            Dim best As HSP = output.Best
+
+            Return best
         End Function
 
         ''' <summary>
