@@ -7,6 +7,8 @@
 '   阶段四:Smith-Waterman 带缺口比对,通过判据者连成员 -> 中心有向边
 '   阶段五:贪心集合覆盖(按长度降序),输出簇与代表序列
 
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
 
@@ -88,7 +90,7 @@ Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
                     Dim memberEnc = encoded(memberId)
 
                     ' 阶段三:快速过滤(从 k-mer 位置无缺口延伸)
-                    Dim pos = kmerPos(memberId, centerId)
+                    Dim pos = kmerPos((memberId, centerId))
                     Dim fast = CascadeFilter.Filter(
                         memberEnc, centerEnc,
                         pos.memberPos, pos.centerPos, k,
@@ -174,7 +176,7 @@ Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
             Return 0
         End Function
 
-        Private Function GetBestHSP(output As BestLocalAlignment.Output) As BestLocalAlignment.HSP
+        Private Function GetBestHSP(output As Output) As HSP
             If output?.HSP Is Nothing OrElse output.HSP.Length = 0 Then
                 Return Nothing
             End If
