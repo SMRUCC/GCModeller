@@ -9,7 +9,7 @@
 '   2) 为 <see cref="HitScheduler"/> 提供排序依据,优先对高分目标做带状 SW。
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.BestLocalAlignment
+Imports BestLocalAlignment
 
 Namespace DIAMOND
 

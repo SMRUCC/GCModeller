@@ -12,8 +12,9 @@
 '
 ' 输出的 HSP 坐标从窗口相对坐标偏移回全局(原始查询/参考)坐标。
 
-Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.BestLocalAlignment
-Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.DynamicProgramming
+Imports System.Runtime.CompilerServices
+Imports BestLocalAlignment
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 
 Namespace DIAMOND
 
@@ -51,12 +52,9 @@ Namespace DIAMOND
         ''' <summary>产出 HSP 的最低得分阈值。</summary>
         Public ReadOnly MinScore As Double
 
-        Private ReadOnly sw As SmithWaterman
-
         Sub New(Optional bandMargin As Integer = 30, Optional minScore As Double = 0.0, Optional blosum As Blosum = Nothing)
             Me.BandMargin = bandMargin
             Me.MinScore = minScore
-            Me.sw = New SmithWaterman(If(blosum, Blosum.FromInnerBlosum62))
         End Sub
 
         ''' <summary>
@@ -78,14 +76,15 @@ Namespace DIAMOND
             Dim qWin = globalQuery.Substring(q0, q1 - q0 + 1)
             Dim sWin = globalSubject.Substring(s0, s1 - s0 + 1)
 
-            Dim result = sw.Align(qWin, sWin)
-            Dim matches = result.Matches(MinScore)
+            ' 复用 GSW 计算核心(本项目 BestLocalAlignment.SmithWaterman 子类)
+            Dim result As New SmithWaterman(qWin, sWin)
+            Dim matches As List(Of Match) = result.Matches(MinScore).ToList
 
             If matches.Count = 0 Then
                 Return Nothing
             End If
 
-            ' Matches 返回 1-based 坐标(下标 1 = 序列首),需转 0-based 再偏移
+            ' Matches 返回 1-based 坐标(下标 1 = 序列首),转 0-based 再偏移
             Dim best = matches(0)
             Dim relQStart = best.fromA - 1
             Dim relQEnd = best.toA - 1
