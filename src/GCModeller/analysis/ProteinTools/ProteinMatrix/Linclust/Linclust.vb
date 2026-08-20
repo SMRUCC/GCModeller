@@ -7,6 +7,7 @@
 '   阶段四:Smith-Waterman 带缺口比对,通过判据者连成员 -> 中心有向边
 '   阶段五:贪心集合覆盖(按长度降序),输出簇与代表序列
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
 Imports SMRUCC.genomics.SequenceModel
@@ -53,7 +54,7 @@ Namespace Linclust
             Dim seqLengths As New Dictionary(Of Integer, Integer)
             Dim avgLen As Double = 0
 
-            For i As Integer = 0 To list.Length - 1
+            For Each i As Integer In TqdmWrapper.Range(0, list.Length)
                 Dim s = list(i).SequenceData
                 rawSeqs(i) = If(s, "")
                 encoded(i) = ReducedAlphabet.Encode(rawSeqs(i))
@@ -74,7 +75,7 @@ Namespace Linclust
             ' ---------- 阶段三 & 四:对每个中心组做级联过滤 + SW ----------
             Dim edges As New List(Of (From As Integer, [To] As Integer))
 
-            For Each centerPair In byCenter
+            For Each centerPair In TqdmWrapper.Wrap(byCenter)
                 Dim centerId = centerPair.Key
                 Dim centerRaw = rawSeqs(centerId)
                 Dim centerEnc = encoded(centerId)

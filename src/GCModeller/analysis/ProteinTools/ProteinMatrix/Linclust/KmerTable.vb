@@ -6,6 +6,8 @@
 '
 ' 阶段二:按 k-mer 索引排序,相同 k-mer 的行聚成"k-mer 组",每组选最长序列为中心。
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+
 Namespace Linclust
 
     ''' <summary>
@@ -41,7 +43,7 @@ Namespace Linclust
         Public Shared Function Build(encodedSeqs As String(), k As Integer, m As Integer) As KmerEntry()
             Dim rows As New List(Of KmerEntry)
 
-            For seqId As Integer = 0 To encodedSeqs.Length - 1
+            For Each seqId As Integer In TqdmWrapper.Range(0, encodedSeqs.Length)
                 Dim seq = encodedSeqs(seqId)
 
                 If seq Is Nothing OrElse seq.Length < k Then
