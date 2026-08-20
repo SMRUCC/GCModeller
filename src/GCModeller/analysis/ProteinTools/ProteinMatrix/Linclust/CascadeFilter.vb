@@ -8,6 +8,8 @@
 ' 无缺口局部比对:以 k-mer 锚点为中心,向两端线性延伸取最长匹配区,
 ' 计算该区的 identity(一致性)与 coverage(覆盖率 = 匹配区长度 / 较短序列长度)。
 
+Imports System.Runtime.CompilerServices
+
 Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
 
     ''' <summary>

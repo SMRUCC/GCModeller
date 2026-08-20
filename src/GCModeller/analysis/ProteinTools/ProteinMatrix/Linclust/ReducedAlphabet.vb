@@ -17,6 +17,8 @@
 '   S, T        -> S   (羟基)
 ' 非标准字符(如 X、B、Z、U、O 等)映射为通配符 '.',以容忍未知残基。
 
+Imports System.Runtime.CompilerServices
+
 Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
 
     Public Module ReducedAlphabet
@@ -37,10 +39,10 @@ Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
         Public ReadOnly Property Letters As Char() = {"A"c, "B"c, "C"c, "F"c, "G"c, "H"c, "I"c, "P"c, "S"c, "T"c, "W"c, "Y"c, "Z"c}
 
         ' 原始氨基酸 -> 缩减字母 的查找表(大写)
-        Private ReadOnly map As Dictionary(Of Char, Char)
+        Private ReadOnly alphabetMap As Dictionary(Of Char, Char)
 
         Sub New()
-            map = New Dictionary(Of Char, Char) From {
+            alphabetMap = New Dictionary(Of Char, Char) From {
                 {"A"c, "A"c},
                 {"C"c, "C"c},
                 {"D"c, "B"c}, {"N"c, "B"c},
@@ -62,8 +64,8 @@ Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
         Public Function Map(aa As Char) As Char
             Dim key = Char.ToUpper(aa)
 
-            If map.ContainsKey(key) Then
-                Return map(key)
+            If alphabetMap.ContainsKey(key) Then
+                Return alphabetMap(key)
             Else
                 ' 已为缩减字母(B/Z/F/H/I/S 等)直接保留
                 If Array.IndexOf(Letters, key) >= 0 Then

@@ -6,6 +6,8 @@
 ' 选哈希值最小的 m 个(而非随机抽取)保证同源序列会抽到同一批
 ' k-mer,从而能相遇。
 
+Imports System.Runtime.CompilerServices
+
 Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
 
     Public Module RollingHash
