@@ -83,6 +83,8 @@ Namespace DIAMOND
             Dim W = BatchWindow
             Dim qAvail = query.Length - qPos
 
+            ' 延伸到序列末端(与标量 UngappedExtension 一致):W 取查询可用长度,
+            ' 各 lane 在自身参考序列末端后屏蔽(不再累加、不再截断)。
             If qAvail < W Then
                 W = qAvail
             End If
@@ -91,16 +93,16 @@ Namespace DIAMOND
             Dim acc(3) As Vector256(Of Integer)
             Dim best(3) As Vector256(Of Integer)
             Dim bestRight(3) As Vector256(Of Integer)
-            Dim mask(3) As Vector256(Of Integer)   ' 每 lane 是否仍有效(未越界)
+            Dim valid(3) As Vector256(Of Integer)   ' 每 lane 是否仍有效(未越界)
 
             For lane = 0 To 31
                 If lane < n Then
                     acc(lane \ 8) = acc(lane \ 8).WithElement(lane Mod 8, 0)
                     best(lane \ 8) = best(lane \ 8).WithElement(lane Mod 8, 0)
                     bestRight(lane \ 8) = bestRight(lane \ 8).WithElement(lane Mod 8, 0)
-                    mask(lane \ 8) = mask(lane \ 8).WithElement(lane Mod 8, -1)  ' 全 1 = 有效
+                    valid(lane \ 8) = valid(lane \ 8).WithElement(lane Mod 8, -1)  ' 全 1 = 有效
                 Else
-                    mask(lane \ 8) = mask(lane \ 8).WithElement(lane Mod 8, 0)  ' 屏蔽
+                    valid(lane \ 8) = valid(lane \ 8).WithElement(lane Mod 8, 0)  ' 屏蔽
                 End If
             Next
 
@@ -129,8 +131,8 @@ Namespace DIAMOND
                         Dim sAvail = subjects(lane).Length - sid
 
                         If k >= sAvail Then
-                            ' 该 lane 已到序列末端:屏蔽并停止累加
-                            mask(g) = mask(g).WithElement(l, 0)
+                            ' 该 lane 已到序列末端:标记为无效(不再累加、不再截断)
+                            valid(g) = valid(g).WithElement(l, 0)
                             scores(l) = 0
                         Else
                             scores(l) = CInt(blosum.GetDistance(qk, subjects(lane)(sid + k)))
@@ -139,19 +141,20 @@ Namespace DIAMOND
 
                     Dim vScore = Vector256.Create(scores(0), scores(1), scores(2), scores(3), scores(4), scores(5), scores(6), scores(7))
 
-                    ' acc = (acc + score);小于 dropoff 则截断为 0
+                    ' acc = (acc + score);仅对有效 lane,低于 dropoff 则截断为 0
                     Dim added = Avx2.Add(acc(g), vScore)
                     Dim below = Avx2.CompareGreaterThan(dropoffVec, added)  ' dropoff > added 即 added < dropoff
-                    acc(g) = Avx2.AndNot(below, added)   ' 低于 dropoff 的位置置 0
+                    below = Avx2.And(below, valid(g))                       ' 无效 lane 不参与截断
+                    acc(g) = Avx2.AndNot(below, added)
+
+                    ' bestRight 比较须用更新前的 best;先判定再更新 best
+                    Dim gtR = Avx2.CompareGreaterThan(acc(g), best(g))
+                    Dim upd = Avx2.And(gtR, Vector256.Create(k))
+                    bestRight(g) = Avx2.Or(upd, Avx2.AndNot(gtR, bestRight(g)))
 
                     ' best = max(best, acc)
                     Dim gt = Avx2.CompareGreaterThan(acc(g), best(g))
                     best(g) = Avx2.Or(Avx2.And(gt, acc(g)), Avx2.AndNot(gt, best(g)))
-
-                    ' bestRight = acc > best_prev ? k : bestRight
-                    Dim gtR = Avx2.CompareGreaterThan(acc(g), best(g))
-                    Dim upd = Avx2.And(gtR, Vector256.Create(k))
-                    bestRight(g) = Avx2.Or(upd, Avx2.AndNot(gtR, bestRight(g)))
                 Next
             Next
 
