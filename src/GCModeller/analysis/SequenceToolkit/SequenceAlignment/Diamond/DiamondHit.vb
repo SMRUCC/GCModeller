@@ -3,6 +3,8 @@
 ' 对应 BLAST m8 / tabular 输出的一行,供 GCModeller 内部 API 返回。
 ' 字段命名与 m8 格式对齐,便于后续对接外部分析流程。
 
+Imports SMRUCC.genomics.Analysis.SequenceAlignment
+
 Namespace DIAMOND
 
     ''' <summary>
@@ -74,12 +76,18 @@ Namespace DIAMOND
                 End If
             Next
 
+            ' 接入 Karlin-Altschul 统计模型(BLOSUM62 统计量)
+            Dim queryLen = globalQuery.Length
+            Dim subjectLen = globalSubject.Length
+            Dim bitScore = (EValue.LambdaBlosum62 * band.Score - Math.Log(EValue.KBlosum62)) / Math.Log(2)
+            Dim evalue = EValue.Compute(band.Score, queryLen, subjectLen)
+
             Dim hit As New DiamondHit With {
                 .QueryTitle = queryTitle,
                 .SubjectTitle = subjectTitle,
                 .RawScore = band.Score,
-                .BitScore = band.Score,  ' 占位:真实 bit-score 需查表换算
-                .Evalue = Double.NaN,    ' 占位:待接入统计模型
+                .BitScore = bitScore,
+                .Evalue = evalue,
                 .AlignmentLength = alnLen,
                 .Matches = matches,
                 .Mismatches = mismatches,
