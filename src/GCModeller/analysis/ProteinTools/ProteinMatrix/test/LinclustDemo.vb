@@ -16,7 +16,7 @@ Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Public Module LinclustDemo
 
     Sub Run()
-        Call RunDemo()
+        Call RunTest()
     End Sub
 
     Sub RunDemo()

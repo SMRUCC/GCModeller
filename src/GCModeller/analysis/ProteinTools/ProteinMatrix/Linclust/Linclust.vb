@@ -10,7 +10,7 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceAlignment
-Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.DIAMOND
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -74,6 +74,8 @@ Namespace Linclust
             Dim kmerPos = BuildKmerPosition(rows)
 
             ' ---------- 阶段三 & 四:对每个中心组做级联过滤 + SW ----------
+            ' 复用单个 PairAlign 实例(默认 BLOSUM62),避免每条 pair 重复加载替换矩阵
+            Dim aligner As New PairAlign
             Dim edges As New List(Of (From As Integer, [To] As Integer))
 
             For Each centerPair In TqdmWrapper.Wrap(byCenter)
@@ -105,13 +107,9 @@ Namespace Linclust
                         Continue For
                     End If
 
-                    ' 阶段四:Smith-Waterman 带缺口比对(对原始序列)
-                    Dim sw = SmithWaterman _
-                        .Align(DirectCast(list(memberId), IPolymerSequenceModel),
-                               DirectCast(list(centerId), IPolymerSequenceModel))
-                    ' 注意:GetOutput 的 cutoff 参数为 identity 比例(0-1),内部会乘以 AlignmentScore 作为 HSP 得分阈值
-                    Dim output = sw.GetOutput(opts.seqidThreshold, k)
-                    Dim hsp = GetBestHSP(output)
+                    ' 阶段四:DIAMOND.PairAlign 单对单带缺口局部比对(对原始序列)
+                    ' 内部基于 SmithWaterman 取得分最高的单条 HSP(cutoff:=0 收集所有正分)
+                    Dim hsp = aligner.AlignBestHSP(list(memberId), list(centerId))
 
                     If hsp Is Nothing Then
                         Continue For
@@ -190,21 +188,6 @@ Namespace Linclust
                 End If
             Next
             Return 0
-        End Function
-
-        Private Function GetBestHSP(output As Output) As HSP
-            If output?.HSP Is Nothing OrElse output.HSP.Length = 0 Then
-                Return Nothing
-            End If
-
-            ' 取 score 最高的 HSP
-            Dim best = output.HSP(0)
-            For Each h In output.HSP
-                If h.score > best.score Then
-                    best = h
-                End If
-            Next
-            Return best
         End Function
 
         ''' <summary>
