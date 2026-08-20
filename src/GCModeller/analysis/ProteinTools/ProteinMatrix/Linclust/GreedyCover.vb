@@ -6,6 +6,8 @@
 ' 3. 循环:取顶部序列 s,把所有与 s 有边相连且仍在列表中的序列一并移除,构成一个新簇,s 为簇代表。
 ' 4. 重复直到列表为空。
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+
 Namespace Linclust
 
     Public Module GreedyCover
@@ -45,7 +47,7 @@ Namespace Linclust
             Dim inList As New HashSet(Of Integer)(remaining)
             Dim clusters As New List(Of Cluster)
 
-            For Each s In remaining
+            For Each s As Integer In TqdmWrapper.Wrap(remaining)
                 If Not inList.Contains(s) Then
                     Continue For
                 End If

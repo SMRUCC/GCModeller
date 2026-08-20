@@ -146,6 +146,7 @@ Namespace Linclust
         Private Function BuildKmerPosition(rows As KmerEntry()) As Dictionary(Of (Integer, Integer), (memberPos As Integer, centerPos As Integer))
             Dim dict As New Dictionary(Of (Integer, Integer), (Integer, Integer))
             Dim i As Integer = 0
+            Dim tqdm As New ProgressBar
 
             While i < rows.Length
                 Dim kmer = rows(i).KmerIndex
@@ -172,7 +173,11 @@ Namespace Linclust
                 End While
 
                 i = j
+
+                Call tqdm.Progress(i, rows.Length)
             End While
+
+            tqdm.Finish()
 
             Return dict
         End Function

@@ -81,7 +81,7 @@ Namespace Linclust
                              End Function)
 
             Dim centers As New Dictionary(Of Long, Integer)
-
+            Dim tqdm As New ProgressBar
             Dim i As Integer = 0
             While i < rows.Length
                 Dim kmer = rows(i).KmerIndex
@@ -93,7 +93,11 @@ Namespace Linclust
                 While i < rows.Length AndAlso rows(i).KmerIndex = kmer
                     i += 1
                 End While
+
+                Call tqdm.Progress(i, rows.Length)
             End While
+
+            Call tqdm.Finish()
 
             Return centers
         End Function
