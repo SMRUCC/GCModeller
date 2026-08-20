@@ -86,7 +86,10 @@ Namespace ProteinStructure
             Me.k = kvalue
             Me.index = words _
                 .Select(Function(w, i) (w, i)) _
-                .ToDictionary(Function(t) t.w, Function(t) t.i)
+                .ToDictionary(Function(t) t.w,
+                              Function(t)
+                                  Return t.i
+                              End Function)
         End Sub
 
         ''' <summary>
@@ -108,7 +111,7 @@ Namespace ProteinStructure
                 ' de-duplicated per-document counts (we only need the max inside one doc)
                 Dim seenInDoc As New HashSet(Of String)
 
-                For Each km In Global.SMRUCC.genomics.SequenceModel.Slicer.KSeq.KmerSpans(seq.SequenceData, k)
+                For Each km As String In KSeq.KmerSpans(seq.SequenceData, k)
                     If globalCount.ContainsKey(km) Then
                         globalCount(km) += 1
                     Else

@@ -10,7 +10,7 @@
 
 Imports System.Runtime.CompilerServices
 
-Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
+Namespace Linclust
 
     ''' <summary>
     ''' 快速过滤结果

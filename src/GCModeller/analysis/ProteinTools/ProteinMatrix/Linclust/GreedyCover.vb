@@ -6,7 +6,7 @@
 ' 3. 循环:取顶部序列 s,把所有与 s 有边相连且仍在列表中的序列一并移除,构成一个新簇,s 为簇代表。
 ' 4. 重复直到列表为空。
 
-Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
+Namespace Linclust
 
     Public Module GreedyCover
 
@@ -21,11 +21,11 @@ Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
             Dim adj As New Dictionary(Of Integer, HashSet(Of Integer))
 
             Dim addEdge = Sub(a As Integer, b As Integer)
-                             If Not adj.ContainsKey(a) Then
-                                 adj(a) = New HashSet(Of Integer)
-                             End If
-                             adj(a).Add(b)
-                         End Sub
+                              If Not adj.ContainsKey(a) Then
+                                  adj(a) = New HashSet(Of Integer)
+                              End If
+                              adj(a).Add(b)
+                          End Sub
 
             For Each e In edges
                 addEdge(e.From, e.[To])

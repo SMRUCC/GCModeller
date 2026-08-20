@@ -6,7 +6,7 @@
 '
 ' 阶段二:按 k-mer 索引排序,相同 k-mer 的行聚成"k-mer 组",每组选最长序列为中心。
 
-Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
+Namespace Linclust
 
     ''' <summary>
     ''' 16 字节 k-mer 记录行

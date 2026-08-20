@@ -19,7 +19,7 @@
 
 Imports System.Runtime.CompilerServices
 
-Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
+Namespace Linclust
 
     Public Module ReducedAlphabet
 

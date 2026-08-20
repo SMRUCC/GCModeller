@@ -1,6 +1,5 @@
 ' Linclust 聚类结果模型与配置项
-
-Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
+Namespace Linclust
 
     ''' <summary>
     ''' Linclust 运行配置
