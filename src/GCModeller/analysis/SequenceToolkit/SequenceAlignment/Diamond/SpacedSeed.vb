@@ -57,14 +57,13 @@ Namespace DIAMOND
         ''' <summary>
         ''' 形状总长度(最高匹配位索引 + 1)。
         ''' </summary>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public ReadOnly Property Length As Integer
             Get
                 If Shape = 0 Then
                     Return 0
                 End If
 
-                Return 64 - Math LeadingZeroCount(Shape)
+                Return 64 - MathLeadingZeroCount(Shape)
             End Get
         End Property
 

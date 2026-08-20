@@ -13,7 +13,7 @@
 ' 输出的 HSP 坐标从窗口相对坐标偏移回全局(原始查询/参考)坐标。
 
 Imports System.Runtime.CompilerServices
-Imports BestLocalAlignment
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 
 Namespace DIAMOND
