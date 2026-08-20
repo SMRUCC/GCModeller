@@ -13,6 +13,7 @@
 '   聚类结果以序列 Title 为键(SimilarHit.SeqID / Similar 字典键均为 Title),
 '   故反查采用 Title -> FastaSeq 字典,而非整数下标。
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.Framework
@@ -38,28 +39,34 @@ Public Module CDHitFamilyExport
     ''' 其余成员行 score 取其在 Similar 字典中的相似度。
     ''' </remarks>
     Public Function ExportClusters(seqs As FastaSeq(), clusters As IEnumerable(Of SimilarHit), outputDir As String) As (familyCsv$, sequenceCsv$)
-        If clusters Is Nothing OrElse seqs Is Nothing Then
-            Call Console.WriteLine("[CDHitFamilyExport] 跳过: clusters 或 seqs 为空。")
-            Return (Nothing, Nothing)
-        End If
+        Dim familyCsv = System.IO.Path.Combine(outputDir, "FamilyExports.csv")
+        Dim sequenceCsv = System.IO.Path.Combine(outputDir, "SequenceCluster.csv")
+        Dim totalMembers As Integer = 0
 
-        Call System.IO.Directory.CreateDirectory(outputDir)
+        With seqs.ExportClustersInternal(clusters, totalMembers:=totalMembers)
+            Call .family.SaveTo(familyCsv, encoding:=Encoding.UTF8)
+            Call .clusters.SaveTo(sequenceCsv, encoding:=Encoding.UTF8)
 
+            Call Console.WriteLine($"[CDHitFamilyExport] 导出完成: { .family.Length} 个簇, {totalMembers} 条成员序列。")
+            Call Console.WriteLine($"    -> {familyCsv}")
+            Call Console.WriteLine($"    -> {sequenceCsv}")
+        End With
+
+        Return (familyCsv, sequenceCsv)
+    End Function
+
+    <Extension>
+    Private Function ExportClustersInternal(seqs As FastaSeq(), clusters As IEnumerable(Of SimilarHit), ByRef totalMembers As Integer) As (family As FamilyExports(), clusters As SequenceCluster())
         ' ---------- 建立 Title -> FastaSeq 反查表(仅保存引用,不复制序列内容) ----------
-        Dim seqByTitle = seqs.ToDictionary(Function(s) s.Title)
-
+        Dim seqByTitle As Dictionary(Of String, FastaSeq) = seqs.ToDictionary(Function(s) s.Title)
         ' ---------- 1. 生成 FamilyExports 集合(每簇一行) ----------
         Dim families As New List(Of FamilyExports)
         ' ---------- 2. 生成 SequenceCluster 集合(每成员一行) ----------
         Dim sequences As New List(Of SequenceCluster)
-
-        Dim totalMembers As Integer = 0
-        Dim tqdm As New ProgressBar
-
         ' 物化 clusters 以便统计总数与多遍遍历
-        Dim clusterList = clusters.ToArray
+        Dim clusterList As SimilarHit() = clusters.ToArray
 
-        For i As Integer = 0 To clusterList.Length - 1
+        For Each i As Integer In TqdmWrapper.Range(0, clusterList.Length)
             Dim c = clusterList(i)
             Dim familyId = $"family_{i + 1}"
 
@@ -118,24 +125,18 @@ Public Module CDHitFamilyExport
                     totalMembers += 1
                 Next
             End If
-
-            Call tqdm.Progress(i, clusterList.Length)
         Next
 
-        tqdm.Finish()
-
-        ' ---------- 3. 写出 CSV ----------
-        Dim familyCsv = System.IO.Path.Combine(outputDir, "FamilyExports.csv")
-        Dim sequenceCsv = System.IO.Path.Combine(outputDir, "SequenceCluster.csv")
-
-        Call families.SaveTo(familyCsv, encoding:=Encoding.UTF8)
-        Call sequences.SaveTo(sequenceCsv, encoding:=Encoding.UTF8)
-
-        Call Console.WriteLine($"[CDHitFamilyExport] 导出完成: {families.Count} 个簇, {totalMembers} 条成员序列。")
-        Call Console.WriteLine($"    -> {familyCsv}")
-        Call Console.WriteLine($"    -> {sequenceCsv}")
-
-        Return (familyCsv, sequenceCsv)
+        Return (families.ToArray, sequences.ToArray)
     End Function
 
+    <Extension>
+    Public Function ExportClusters(seqs As FastaSeq(), clusters As IEnumerable(Of SimilarHit)) As (family As FamilyExports(), clusters As SequenceCluster())
+        If clusters Is Nothing OrElse seqs Is Nothing Then
+            Call "[CDHitFamilyExport] 跳过: clusters 或 seqs 为空。".warning
+            Return (Nothing, Nothing)
+        Else
+            Return seqs.ExportClustersInternal(clusters, -1)
+        End If
+    End Function
 End Module

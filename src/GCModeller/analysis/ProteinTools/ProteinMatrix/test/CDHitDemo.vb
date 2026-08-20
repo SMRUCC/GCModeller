@@ -20,7 +20,7 @@ Public Module CDHitDemo
     ''' 演示入口:构造数据、聚类、导出两个 CSV。
     ''' 默认阈值 0.8,可在调用处覆盖。
     ''' </summary>
-    Public Sub Run(Optional threshold As Double = 0.3, Optional outputDir As String = "Z:/cdhit_exports")
+    Public Sub Run(Optional threshold As Double = 0.65, Optional outputDir As String = "Z:/cdhit_exports")
         Call Console.WriteLine("=== CDHit 聚类 + FamilyExports / SequenceCluster 导出 Demo ===")
         Call Console.WriteLine()
 
@@ -30,7 +30,7 @@ Public Module CDHitDemo
         Call Console.WriteLine()
 
         ' ---------- 2. 运行 CDHit 贪婪聚类 ----------
-        Dim cdhit As New CDHit(k:=6)
+        Dim cdhit As New CDHit(k:=9)
         cdhit.Setup(seqs)
 
         Dim timer = Stopwatch.StartNew()

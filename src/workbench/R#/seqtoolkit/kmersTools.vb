@@ -192,6 +192,7 @@ Module kmersTools
     Public Function cdhit_nr(<RRawVectorArgument> x As Object,
                              Optional k As Integer = 12,
                              Optional identities As Double = 0.8,
+                             Optional n_threads As Integer? = Nothing,
                              Optional env As Environment = Nothing) As Object
 
         Dim seqs As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
@@ -200,10 +201,28 @@ Module kmersTools
             Return Nothing
         End If
 
-        Dim cdhit As CDHit = New CDHit(k).Setup(seqs)
+        Dim cdhit As CDHit = New CDHit(k, n_threads:=n_threads).Setup(seqs)
         Dim nr As FastaSeq() = cdhit.NrSeqs(threshold:=identities).ToArray
 
         Return nr
+    End Function
+
+    <ExportAPI("cdhit_clusters")>
+    Public Function cdhit_clusters(<RRawVectorArgument> x As Object,
+                                   Optional k As Integer = 12,
+                                   Optional identities As Double = 0.8,
+                                   Optional n_threads As Integer? = Nothing,
+                                   Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+
+        If seqs Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim cdhit As CDHit = New CDHit(k, n_threads:=n_threads).Setup(seqs)
+        Dim clusters As SimilarHit() = cdhit.FindSimilar(identities).ToArray
+
     End Function
 End Module
 
