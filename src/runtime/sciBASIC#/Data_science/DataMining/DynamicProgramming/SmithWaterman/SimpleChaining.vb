@@ -106,12 +106,13 @@ Namespace SmithWaterman
         ''' 
         <Extension>
         Private Function ChainingImpl(matches As Match(), debug As Boolean) As IEnumerable(Of Match)
-            Dim size As Integer = matches.Count
+            Dim size As Integer = matches.Length
             ' Hold adjaency matrix as a double [] the (i,j)= i*(i-1)/2+j
             'with sink
-            Dim adjMatrix As Double() = New Double(size * (size - 1) \ 2 + size - 2) {}
+            Dim dims As Integer = size * (size - 1) \ 2 + size - 2
+            Dim adjMatrix As Double() = New Double(dims) {}
             ' Hold score matrix as a double [] the (i,j)= i*(i-1)/2+j
-            Dim sMatrix As Double() = New Double(size * (size - 1) \ 2 + size - 2) {}
+            Dim sMatrix As Double() = New Double(dims) {}
             'Hold max score of chain end at match i
             Dim sMax As Double() = New Double(size - 1) {}
             ' Hold the previous match index point to match i
