@@ -33,6 +33,7 @@ Namespace Assembly.KEGG.WebServices.KGML
         ''' </summary>
         ''' <returns></returns>
         Public Property compound_id As String
+        Public Property compound_name As String
         ''' <summary>
         ''' The reaction identifier, kept in its full KEGG form (e.g. ``rn:R00737``). A reaction may
         ''' reference several rn ids separated by spaces.
@@ -121,7 +122,7 @@ Namespace Assembly.KEGG.WebServices.KGML
 
                 ' When combineGenes is enabled, all gene identifiers on this node are merged into a
                 ' single unified id (semicolon separated); otherwise each gene keeps its own row.
-                Dim geneIds = If(combineGenes, {String.Join(";", genes)}, genes)
+                Dim geneIds As String() = If(combineGenes, {String.Join(";", genes)}, genes)
 
                 ' Resolve KO ids from any of the reaction's rn identifiers.
                 Dim kos = rxn.name _
@@ -137,6 +138,7 @@ Namespace Assembly.KEGG.WebServices.KGML
                 ' Substrates and products are expanded into gene x compound pairs.
                 For Each c As compound In rxn.substrates.SafeQuery
                     Dim compoundId = c.name.GetTagValue(":").Value
+                    Dim name As String = GeneNetworkExport.cpdNames(compoundId)
 
                     For Each geneId In geneIds
                         Yield New GeneMetaboliteNetwork With {
@@ -146,13 +148,15 @@ Namespace Assembly.KEGG.WebServices.KGML
                             .reaction_id = reactionId,
                             .pathway_id = pathwayId,
                             .pathway_title = pathwayTitle,
-                            .role = "substrate"
+                            .role = "substrate",
+                            .compound_name = name
                         }
                     Next
                 Next
 
                 For Each c As compound In rxn.products.SafeQuery
                     Dim compoundId = c.name.GetTagValue(":").Value
+                    Dim name As String = GeneNetworkExport.cpdNames(compoundId)
 
                     For Each geneId In geneIds
                         Yield New GeneMetaboliteNetwork With {
@@ -162,7 +166,8 @@ Namespace Assembly.KEGG.WebServices.KGML
                             .reaction_id = reactionId,
                             .pathway_id = pathwayId,
                             .pathway_title = pathwayTitle,
-                            .role = "product"
+                            .role = "product",
+                            .compound_name = name
                         }
                     Next
                 Next
