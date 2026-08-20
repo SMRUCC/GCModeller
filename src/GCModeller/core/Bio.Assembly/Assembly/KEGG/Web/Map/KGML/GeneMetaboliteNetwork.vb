@@ -59,11 +59,16 @@ Namespace Assembly.KEGG.WebServices.KGML
         ''' Extract the gene-compound metabolic reaction network from a loaded KGML pathway object.
         ''' </summary>
         ''' <param name="kgml">The pathway object loaded by <see cref="pathway.LoadMap"/>.</param>
+        ''' <param name="combineGenes">
+        ''' When <see langword="True"/>, all gene identifiers on a single gene node are joined into
+        ''' one unified id (separated by semicolons) placed in <see cref="gene_id"/>; otherwise each
+        ''' gene identifier is emitted as a separate row (the default long-table behavior).
+        ''' </param>
         ''' <returns>
         ''' A long-table enumeration, one row per (gene_id, compound_id) pair, with the reaction
         ''' direction recorded in <see cref="role"/>.
         ''' </returns>
-        Public Shared Iterator Function ExtractNetwork(kgml As pathway) As IEnumerable(Of GeneMetaboliteNetwork)
+        Public Shared Iterator Function ExtractNetwork(kgml As pathway, Optional combineGenes As Boolean = False) As IEnumerable(Of GeneMetaboliteNetwork)
             If kgml Is Nothing OrElse kgml.reactions Is Nothing Then
                 Return
             End If
@@ -114,6 +119,10 @@ Namespace Assembly.KEGG.WebServices.KGML
                     .Distinct _
                     .ToArray
 
+                ' When combineGenes is enabled, all gene identifiers on this node are merged into a
+                ' single unified id (semicolon separated); otherwise each gene keeps its own row.
+                Dim geneIds = If(combineGenes, {String.Join(";", genes)}, genes)
+
                 ' Resolve KO ids from any of the reaction's rn identifiers.
                 Dim kos = rxn.name _
                     .StringSplit(" ") _
@@ -129,7 +138,7 @@ Namespace Assembly.KEGG.WebServices.KGML
                 For Each c As compound In rxn.substrates.SafeQuery
                     Dim compoundId = c.name.GetTagValue(":").Value
 
-                    For Each geneId In genes
+                    For Each geneId In geneIds
                         Yield New GeneMetaboliteNetwork With {
                             .gene_id = geneId,
                             .ko_id = If(kos.Any, kos(0), ""),
@@ -145,7 +154,7 @@ Namespace Assembly.KEGG.WebServices.KGML
                 For Each c As compound In rxn.products.SafeQuery
                     Dim compoundId = c.name.GetTagValue(":").Value
 
-                    For Each geneId In genes
+                    For Each geneId In geneIds
                         Yield New GeneMetaboliteNetwork With {
                             .gene_id = geneId,
                             .ko_id = If(kos.Any, kos(0), ""),
