@@ -39,14 +39,12 @@ Namespace Linclust
         ''' <param name="opts">聚类配置</param>
         ''' <returns>簇划分与每簇代表序列</returns>
         Public Function Cluster(seqs As IEnumerable(Of FastaSeq), Optional opts As LinclustOptions = Nothing) As ClusterResult
-            If opts Is Nothing Then
-                opts = New LinclustOptions
-            End If
-
-            Dim list = seqs.SafeQuery.ToArray
+            Dim list As FastaSeq() = seqs.SafeQuery.ToArray
 
             If list.Length = 0 Then
                 Return New ClusterResult With {.clusters = New List(Of Cluster), .k = 0, .nSeq = 0}
+            Else
+                opts = If(opts, New LinclustOptions)
             End If
 
             ' ---------- 准备:编码与长度 ----------
