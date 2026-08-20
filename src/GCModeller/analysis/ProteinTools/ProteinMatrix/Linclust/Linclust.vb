@@ -109,7 +109,8 @@ Namespace Linclust
                     Dim sw = SmithWaterman _
                         .Align(DirectCast(list(memberId), IPolymerSequenceModel),
                                DirectCast(list(centerId), IPolymerSequenceModel))
-                    Dim output = sw.GetOutput(opts.seqidThreshold * 100, k)
+                    ' 注意:GetOutput 的 cutoff 参数为 identity 比例(0-1),内部会乘以 AlignmentScore 作为 HSP 得分阈值
+                    Dim output = sw.GetOutput(opts.seqidThreshold, k)
                     Dim hsp = GetBestHSP(output)
 
                     If hsp Is Nothing Then

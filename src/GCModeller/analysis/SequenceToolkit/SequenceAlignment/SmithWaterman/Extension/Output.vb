@@ -137,7 +137,9 @@ Namespace BestLocalAlignment
             Dim query = sw.query.Select(Function(x) toChar(x)).CharString
             Dim subject = sw.subject.Select(Function(x) toChar(x)).CharString
             Dim m2Len As Integer = Math.Min(query.Length, subject.Length)
-            Dim best As HSP = BestLocalAlignment.HSP.CreateFrom(hspList.GetBestAlignment, toChar)
+            Dim best As HSP = If(hspList Is Nothing OrElse hspList.Length = 0,
+                                  Nothing,
+                                  BestLocalAlignment.HSP.CreateFrom(hspList.GetBestAlignment, toChar))
 
             If m2Len < minW Then
                 Call $"Min width {minW} is too large than query/subject, using min(query,subject):={m2Len} instead....".debug
