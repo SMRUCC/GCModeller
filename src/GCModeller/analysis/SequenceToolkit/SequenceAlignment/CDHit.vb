@@ -58,21 +58,21 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.HashMaps.MinHash
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.Slicer
 
 Public Class CDHit
 
     ReadOnly k As Integer = 31
+    ReadOnly threads As Integer?
 
     ''' <summary>
     ''' sort by sequence length in desc order
     ''' </summary>
-    Dim seqPool As FastaSeq()
-    Dim minHash As SequenceItem()
+    Dim hash As CDHashTask
 
     ''' <summary>
     ''' 
@@ -82,31 +82,32 @@ Public Class CDHit
     ''' nucleotide - k=12nt
     ''' genomics - k=31nt
     ''' </param>
-    Sub New(Optional k As Integer = 12)
+    Sub New(Optional k As Integer = 12, Optional n_threads As Integer? = 16)
         Me.k = k
+        Me.threads = threads
     End Sub
 
     Public Function GetSequencePool() As FastaSeq()
-        Return seqPool
+        Return hash.seqPool
     End Function
 
     Public Function Setup(seqs As IEnumerable(Of FastaSeq)) As CDHit
-        seqPool = (From seq As FastaSeq In seqs Order By seq.Length Descending).UniqueTitle.ToArray
-        minHash = seqPool.SeqIterator.ToArray _
-            .AsParallel _
-            .Select(Function(s)
-                        ' MinHash.CreateSequenceData
-                        Return KSeq _
-                            .KmerSpans(s.value.SequenceData, k) _
-                            .CreateSequenceData(id:=s.i)
-                    End Function) _
-            .ToArray
+        Dim unique As FastaSeq() = (From seq As FastaSeq In seqs Order By seq.Length Descending).UniqueTitle
+
+        Call "run data setup...".info
+        hash = New CDHashTask(unique.ToArray, workers:=threads)
+
+        Call "create min hash sequence data in parallel".info
+        Call hash.Run()
+        Call "make hash job done!".info
 
         Return Me
     End Function
 
     Public Iterator Function SimilarGraph() As IEnumerable(Of SimilarHit)
         Dim similars As New Dictionary(Of Integer, SimilarHit)
+        Dim minHash = hash.minHash
+        Dim seqPool = hash.seqPool
 
         For Each result As SimilarityIndex In LSH.FindSimilarItems(minHash, produceUniqueHit:=True)
             If result.IsUniqueHit Then
@@ -133,6 +134,8 @@ Public Class CDHit
         ' 提前计算所有相似对，构建图结构
         Dim adjList As New Dictionary(Of Integer, Dictionary(Of Integer, Double))()
         Dim jaccardTh = LSHParameterEstimator.GetThresholdFromIdentity(threshold, k)
+        Dim minHash = hash.minHash
+        Dim seqPool = hash.seqPool
 
         For Each result As SimilarityIndex In LSH.FindSimilarItems(minHash, produceUniqueHit:=False)
             If result.Similarity >= jaccardTh Then
@@ -146,12 +149,14 @@ Public Class CDHit
         Next
 
         ' 2. CD-HIT 核心：贪婪聚类
-        Dim isClustered(seqPool.Length - 1) As Boolean ' 标记是否已被归入某个簇
+        ' 标记是否已被归入某个簇
+        Dim isClustered(seqPool.Length - 1) As Boolean
         Dim cluster As SimilarHit
 
-        For i As Integer = 0 To seqPool.Length - 1
+        For Each i As Integer In TqdmWrapper.Range(0, seqPool.Length)
             If isClustered(i) Then
-                Continue For ' 如果已经被归簇，跳过
+                ' 如果已经被归簇，跳过
+                Continue For
             Else
                 ' i 作为代表序列
                 cluster = New SimilarHit With {
@@ -179,7 +184,7 @@ Public Class CDHit
     End Function
 
     Public Iterator Function NrSeqs(Optional threshold As Double = 0.8) As IEnumerable(Of FastaSeq)
-        Dim seqIndex = seqPool.ToDictionary(Function(s) s.Title)
+        Dim seqIndex As Dictionary(Of String, FastaSeq) = hash.seqPool.ToDictionary(Function(s) s.Title)
 
         For Each cluster As SimilarHit In FindSimilar(threshold)
             Dim nr_rep = seqIndex(cluster.SeqID)
