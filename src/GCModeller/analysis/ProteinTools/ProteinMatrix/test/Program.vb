@@ -1,6 +1,6 @@
 Imports System.IO
 Imports System.Text
-Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.ProteinStructure
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.FamilyCluster
 
 Module Program
     Sub Main(args As String())
