@@ -108,7 +108,7 @@ Namespace ProteinStructure
                 ' de-duplicated per-document counts (we only need the max inside one doc)
                 Dim seenInDoc As New HashSet(Of String)
 
-                For Each km In SMRUCC.genomics.SequenceModel.Slicer.KSeq.KmerSpans(seq.SequenceData, k)
+                For Each km In Global.SMRUCC.genomics.SequenceModel.Slicer.KSeq.KmerSpans(seq.SequenceData, k)
                     If globalCount.ContainsKey(km) Then
                         globalCount(km) += 1
                     Else

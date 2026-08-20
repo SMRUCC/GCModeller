@@ -56,7 +56,7 @@ Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
             Dim avgLen As Double = 0
 
             For i As Integer = 0 To list.Length - 1
-                Dim s = list(i).GetSequenceData
+                Dim s = list(i).SequenceData
                 rawSeqs(i) = If(s, "")
                 encoded(i) = ReducedAlphabet.Encode(rawSeqs(i))
                 seqLengths(i) = rawSeqs(i).Length
