@@ -188,6 +188,7 @@ Module kmersTools
     End Function
 
     <ExportAPI("cdhit_nr")>
+    <RApiReturn(GetType(FastaSeq))>
     Public Function cdhit_nr(<RRawVectorArgument> x As Object,
                              Optional k As Integer = 12,
                              Optional identities As Double = 0.8,
@@ -200,7 +201,7 @@ Module kmersTools
         End If
 
         Dim cdhit As CDHit = New CDHit(k).Setup(seqs)
-        Dim nr = cdhit.NrSeqs(threshold:=identities).ToArray
+        Dim nr As FastaSeq() = cdhit.NrSeqs(threshold:=identities).ToArray
 
         Return nr
     End Function
