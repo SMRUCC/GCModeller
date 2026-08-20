@@ -73,7 +73,7 @@ Namespace DIAMOND
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Search(query As FastaSeq, subjectDb As IEnumerable(Of FastaSeq), Optional maxHits As Integer = 0) As IEnumerable(Of DiamondHit)
             Dim subjects = subjectDb.ToArray
-            Return SearchSingleCore(query, subjects, Nothing, maxHits)
+            Return SearchSingleCore(query, subjects, New Dictionary(Of Long, ReferenceIndex), maxHits)
         End Function
 
         ''' <summary>
@@ -81,31 +81,28 @@ Namespace DIAMOND
         ''' 以复用已构建的参考索引,避免对每个查询重复建索引。
         ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function SearchSingleCore(query As FastaSeq, subjects As FastaSeq(), ByRef refCache As Dictionary(Of Long, ReferenceIndex), Optional maxHits As Integer = 0) As IEnumerable(Of DiamondHit)
+        Private Function SearchSingleCore(query As FastaSeq, subjects As FastaSeq(), cache As Dictionary(Of Long, ReferenceIndex), Optional maxHits As Integer = 0) As IEnumerable(Of DiamondHit)
             Dim subjectSeqs As String() = subjects.Select(Function(s) s.SequenceData).ToArray
             Dim subjectTitles As String() = subjects.Select(Function(s) s.Title).ToArray
             Dim querySeq = query.SequenceData
             Dim queryTitle = query.Title
             Dim collected As New List(Of DiamondHit)
 
-            ' 跨查询复用的参考索引缓存(按形状对象的引用标识做 key)
-            If refCache Is Nothing Then
-                refCache = New Dictionary(Of Long, ReferenceIndex)
-            End If
-
             ' 逐形状:on-the-fly 建索引并哈希连接,用完释放查询侧索引
             For si As Integer = 0 To seeds.Length - 1
                 Dim seed = seeds(si)
                 Dim seedKey = CLng(si)  ' 形状索引作为缓存 key
 
-                ' 阶段 2:双索引(参考索引跨查询缓存复用)
+                ' 阶段 2:双索引(参考索引跨查询缓存复用,线程安全懒加载)
                 Dim refIdx As ReferenceIndex = Nothing
 
-                If Not refCache.TryGetValue(seedKey, refIdx) Then
-                    refIdx = New ReferenceIndex
-                    refIdx.Build(subjectSeqs, seed)
-                    refCache(seedKey) = refIdx
-                End If
+                SyncLock cache
+                    If Not cache.TryGetValue(seedKey, refIdx) Then
+                        refIdx = New ReferenceIndex
+                        refIdx.Build(subjectSeqs, seed)
+                        cache(seedKey) = refIdx
+                    End If
+                End SyncLock
 
                 Dim qIdx As New QueryIndex
                 qIdx.Build(querySeq, seed)
@@ -233,10 +230,11 @@ Namespace DIAMOND
             End If
 
             ' 逐查询执行;调度器负责并行分发,内部共享同一 ReferenceIndex 缓存
+            Dim sharedCache As New Dictionary(Of Long, ReferenceIndex)
+
             Dim perQuery As Func(Of FastaSeq, IEnumerable(Of DiamondHit)) =
                 Function(q)
-                    Dim refCache As Dictionary(Of Long, ReferenceIndex) = Nothing
-                    Return SearchSingleCore(q, subjects, refCache, maxHitsPerQuery)
+                    Return SearchSingleCore(q, subjects, sharedCache, maxHitsPerQuery)
                 End Function
 
             Return scheduler.Run(queries, subjects, perQuery)
