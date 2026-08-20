@@ -90,13 +90,18 @@ Namespace Linclust
                     Dim memberEnc = encoded(memberId)
 
                     ' 阶段三:快速过滤(从 k-mer 位置无缺口延伸)
+                    ' 作用:廉价淘汰明显无关的 (member, center) 对,避免进入昂贵的阶段四 SW。
+                    ' 注意:单 k-mer 锚点的无缺口延伸在有突变处会被截断,不足以代表整体
+                    ' 覆盖率,因此阶段三仅做"锚点有效性"粗筛(延伸匹配长度 >= k 即视为
+                    ' 可能同源),严格的覆盖率/一致性/E-value 判据统一交给阶段四 SW。
                     Dim pos = kmerPos((memberId, centerId))
                     Dim fast = CascadeFilter.Filter(
                         memberEnc, centerEnc,
                         pos.memberPos, pos.centerPos, k,
                         opts.fastFilterCoverage, opts.fastFilterSeqid)
 
-                    If Not fast.Pass Then
+                    If fast.MatchLength < k Then
+                        ' 锚点处无有效无缺口匹配,直接淘汰
                         Continue For
                     End If
 
