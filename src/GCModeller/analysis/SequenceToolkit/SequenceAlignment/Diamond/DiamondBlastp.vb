@@ -14,6 +14,7 @@
 ' 本阶段为"单查询 vs 单库"原型,算法正确性优先;SIMD 向量化作为后续可选
 ' 优化层(各过滤/扩展边界均已封装接口,替换不影响编排)。
 
+Imports System.Linq
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
 

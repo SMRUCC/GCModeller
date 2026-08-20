@@ -15,6 +15,7 @@
 '   very-sensitive : 14  个权重 7  的形状
 '   ultra-sensitive: 64  个权重 7  形状
 
+Imports System.Numerics
 Imports System.Runtime.CompilerServices
 
 Namespace DIAMOND
