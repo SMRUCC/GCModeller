@@ -142,7 +142,7 @@ Namespace test
                 ok = False
             End If
 
-            For Each c In result.clusters
+            For Each c As Cluster In result.clusters
                 If c.members Is Nothing OrElse c.members.Count = 0 Then
                     Call Console.WriteLine("[断言失败] 存在空簇")
                     ok = False
@@ -158,7 +158,7 @@ Namespace test
                 Dim reprLen = seqs(c.representative).SequenceData.Length
 
                 If reprLen < maxLen Then
-                    Call Console.WriteLine($"[断言失败] 代表 {seqs(c.representative).title} (len={reprLen}) 不是簇中最长(最长={maxLen})")
+                    Call Console.WriteLine($"[断言失败] 代表 {seqs(c.representative).Title} (len={reprLen}) 不是簇中最长(最长={maxLen})")
                     ok = False
                 End If
             Next

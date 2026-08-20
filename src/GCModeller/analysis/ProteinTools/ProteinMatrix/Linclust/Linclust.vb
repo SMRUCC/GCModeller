@@ -8,9 +8,9 @@
 '   阶段五:贪心集合覆盖(按长度降序),输出簇与代表序列
 
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
 
 Namespace Linclust
 
