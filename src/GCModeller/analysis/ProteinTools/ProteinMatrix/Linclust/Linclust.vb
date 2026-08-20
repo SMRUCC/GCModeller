@@ -99,7 +99,7 @@ Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
                     End If
 
                     ' 阶段四:Smith-Waterman 带缺口比对(对原始序列)
-                    Dim sw = SequenceAlignment.SmithWaterman.SmithWaterman _
+                    Dim sw = SmithWaterman _
                         .Align(DirectCast(list(memberId), IPolymerSequenceModel),
                                DirectCast(list(centerId), IPolymerSequenceModel))
                     Dim output = sw.GetOutput(opts.seqidThreshold * 100, k)
