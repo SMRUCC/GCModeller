@@ -7,7 +7,8 @@
 '   阶段四:Smith-Waterman 带缺口比对,通过判据者连成员 -> 中心有向边
 '   阶段五:贪心集合覆盖(按长度降序),输出簇与代表序列
 
-Imports BestLocalAlignment
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
 
 Namespace SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
 
