@@ -40,15 +40,18 @@ Namespace Linclust
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function HashKmer(kmer As String) As UInteger
             Dim h As ULong = 0
+            Dim baseUL As ULong = CULng(AlphabetSize)
+            Dim seedUL As ULong = CULng(Seed)
             Dim code As Integer
 
             For Each c As Char In kmer
                 code = AlphabetCode(c)
-                ' 乘法散列混合,确保良好分布;每一步保持 32 位环,避免整数溢出
-                h = ((h * AlphabetSize + CUInt(code)) * Seed) And &HFFFFFFFFUL
+                ' 全程 ULong 运算,避免 ULong*Integer 触发 Decimal 算术;
+                ' 每步保持 32 位环(&HFFFFFFFFUL),避免溢出
+                h = ((h * baseUL + CULng(code)) * seedUL) And &HFFFFFFFFUL
             Next
 
-            Return CUInt(h And Mask16)
+            Return CUInt(h And CULng(Mask16))
         End Function
 
         ''' <summary>
@@ -71,7 +74,7 @@ Namespace Linclust
         ''' </summary>
         Private Function HashAll(encoded As String, k As Integer) As KmerHash()
             If encoded.Length < k Then
-                Return New KmerHash(-1) {}
+                Return New KmerHash() {}
             End If
 
             Dim n = encoded.Length - k + 1
