@@ -54,7 +54,6 @@
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Numpy
 Imports std = System.Math
 
 ''' <summary>

@@ -65,6 +65,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.genomics.SequenceModel.Slicer
+Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -207,6 +208,21 @@ Module kmersTools
         Return nr
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="k"></param>
+    ''' <param name="identities"></param>
+    ''' <param name="n_threads"></param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' a tuple list that contains the data slots:
+    ''' 
+    ''' - family: <see cref="FamilyExports"/>
+    ''' - sequence: <see cref="SequenceCluster"/>
+    ''' - clusters: <see cref="SimilarHit"/>
+    ''' </returns>
     <ExportAPI("cdhit_clusters")>
     Public Function cdhit_clusters(<RRawVectorArgument> x As Object,
                                    Optional k As Integer = 12,
@@ -222,7 +238,11 @@ Module kmersTools
 
         Dim cdhit As CDHit = New CDHit(k, n_threads:=n_threads).Setup(seqs)
         Dim clusters As SimilarHit() = cdhit.FindSimilar(identities).ToArray
+        Dim result = cdhit.GetSequencePool.ExportClusters(clusters)
 
+        Return New list(slot("family") = result.family,
+                        slot("sequence") = result.clusters,
+                        slot("clusters") = clusters)
     End Function
 End Module
 

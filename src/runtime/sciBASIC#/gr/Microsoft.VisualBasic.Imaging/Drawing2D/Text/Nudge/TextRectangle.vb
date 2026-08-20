@@ -61,7 +61,6 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports np = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Numpy
 
 Namespace Drawing2D.Text.Nudge
 
