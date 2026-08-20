@@ -9,7 +9,6 @@
 ' 运行方式:作为独立入口,在 Program.Main 中调用 LinclustDemo.Run()。
 
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.DIAMOND
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
@@ -19,7 +18,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Module LinclustDemo
 
     Sub Run()
-        Call TestAlignment()
+        ' Call TestAlignment()
         ' Call Pause()
         ' Call RunTest()
         ' RunDemo 依赖外部 FASTA 文件,不存在时跳过以免整体崩溃
