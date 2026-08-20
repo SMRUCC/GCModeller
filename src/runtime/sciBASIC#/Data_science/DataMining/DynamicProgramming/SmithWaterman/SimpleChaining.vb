@@ -204,6 +204,9 @@ Namespace SmithWaterman
             'now the chain end with match at maxIndex
             'the score is max;
             'trace back to the begining of the chain;
+            Erase adjMatrix
+            Erase sMatrix
+            Erase sMax
 
             If maxIndex = 0 Then
                 Return {
