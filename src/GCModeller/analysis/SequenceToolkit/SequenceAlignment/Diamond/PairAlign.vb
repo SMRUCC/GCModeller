@@ -31,11 +31,12 @@ Namespace DIAMOND
         ''' <param name="minWidth">最短 HSP 片段长度过滤(0 表示不限制)。</param>
         ''' <returns>得分最高的 HSP;若无正分比对则返回 Nothing。</returns>
         Public Function AlignBestHSP(query As String, subject As String, Optional minWidth As Integer = 0) As HSP
-            Dim sw As New SmithWaterman(query, subject, Matrix)
-            Dim output As Output = DirectCast(sw.BuildMatrix, SmithWaterman).GetOutput(cutoff:=0, minW:=minWidth)
-            Dim best As HSP = output.Best
+            Using sw As New SmithWaterman(query, subject, Matrix)
+                Dim output As Output = DirectCast(sw.BuildMatrix, SmithWaterman).GetOutput(cutoff:=0, minW:=minWidth)
+                Dim best As HSP = output.Best
 
-            Return best
+                Return best
+            End Using
         End Function
 
         ''' <summary>

@@ -58,7 +58,6 @@ Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language.Default
 Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace BestLocalAlignment
 

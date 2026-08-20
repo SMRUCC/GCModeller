@@ -72,7 +72,7 @@ Namespace SmithWaterman
     ''' Generic Smith-Waterman computing kernel.(Smith-Waterman泛型化通用计算核心)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    Public Class GSW(Of T)
+    Public Class GSW(Of T) : Implements IDisposable
 
 #Region "input data"
 
@@ -90,6 +90,7 @@ Namespace SmithWaterman
         ''' The lengths of the input strings
         ''' </summary>
         ReadOnly queryLength%, subjectLength%
+        Private disposedValue As Boolean
 #End Region
 
 #Region "Matrix"
@@ -434,5 +435,36 @@ Namespace SmithWaterman
                 Next
             Next
         End Function
+
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: dispose managed state (managed objects)
+
+                    Erase _query
+                    Erase _subject
+
+                    Erase _score
+                    Erase _prevCells
+                End If
+
+                ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                ' TODO: set large fields to null
+                disposedValue = True
+            End If
+        End Sub
+
+        ' ' TODO: override finalizer only if 'Dispose(disposing As Boolean)' has code to free unmanaged resources
+        ' Protected Overrides Sub Finalize()
+        '     ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+        '     Dispose(disposing:=False)
+        '     MyBase.Finalize()
+        ' End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
+        End Sub
     End Class
 End Namespace
