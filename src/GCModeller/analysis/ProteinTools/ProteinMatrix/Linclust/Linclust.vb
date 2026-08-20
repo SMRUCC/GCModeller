@@ -9,6 +9,7 @@
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.SequenceAlignment
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
