@@ -7,7 +7,7 @@
     <UseApplicationFramework>True</UseApplicationFramework>
     <OutputType>Exe</OutputType>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <StartupObject>test.Module4</StartupObject>
+    <StartupObject>test.DiamondDemo</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
