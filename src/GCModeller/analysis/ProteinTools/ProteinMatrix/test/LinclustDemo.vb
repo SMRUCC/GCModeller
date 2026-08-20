@@ -8,16 +8,69 @@
 '
 ' 运行方式:作为独立入口,在 Program.Main 中调用 LinclustDemo.Run()。
 
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.DIAMOND
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module LinclustDemo
 
     Sub Run()
+        Call TestAlignment()
         ' Call RunTest()
-        Call RunDemo()
+        ' RunDemo 依赖外部 FASTA 文件,不存在时跳过以免整体崩溃
+        If System.IO.File.Exists("G:\cell-render\data\ec_numbers.fasta") Then
+            Call RunDemo()
+        Else
+            Console.WriteLine("[RunDemo] 跳过: 外部文件 G:\cell-render\data\ec_numbers.fasta 不存在。")
+        End If
+    End Sub
+
+    Sub TestAlignment()
+        Dim q = "MFAQLDTKTVYSFMDSLIDLNHYFERAKQFGYHTIGIMDKDNLYGAYHFIKGCQKNGLQPVLGLEIEILYQERQVLLNLIAQNTQGYHQLLKISTAKMSGKLHMDYFCQHLEGIAVIIPSKGWSDTLVVPFDYYIGVDQYTDLSHMDSKRQLIPLRTVRYFAQDDMETLHMLHAIRDNLSLAETPVVESDQELADCQQLTAFYQTHCPQALQNLEDLVSGIYYDFDTNLKLPHFNRDKSAKQELQDLTEAGLKEKGLWKEPYQSRLLHELVIISDMGFDDYFLIVWDLLRFGRSKGYYMGMGRGSAAGSLVAYALNITGIDPVQHDLLFERFLNKERYSMPDIDIDLPDIYRSEFLRYVRNRYGSDHSAQIVTFSTFGPKQAIRDVFKRFGVPEYELTNLTKKIGFKDSLATVYEKSISFRQVINSRTEFQKAFAIAKRIEGNPRQTSIHAAGIVMSDDALTNHIPLKSGDDMMITQYDAHAVEANGLLKMDFLGLRNLTFVQKMQEKVAKDYGCQIDITAIDLEDPQTLALFAKGDTKGIFQFEQNGAINLLKRIKPQRFEEIVATTSLNRPGASDYTTNFIKRREGQEKIDLIDPVIAPILEPTYGIMLYQEQVMQIAQVYAGFTLGKADLLRRAMSKKNLQEMQKMEEDFIASAKHLGRAEETARGLFKRMEKFAGYGFNRSHAFAYSALAFQLAYFKAHYPAVFYDIMMNYSSSDYITDALESDFQVAQVTINSIPYTDKIEASKIYMGLKNIKGLPRDFAYWIIEQRPFNSVEDFLTRTPEKYQKKVFLEPLIKIGLFDCFEPNRKKILDNLDGLLVFVNELGSLFSDSSFSWVDTKDYSVTEKYSLEQEIVGVGMSKHPLIDIAEKSTQTFTPISQLVKESEAVVLIQIDSIRIIRTKTSGQQMAFLSVNDTKKKLDVTLFPQEYAIYKDQLKEGEFYYLKGRIKERDHRLQMVCQQVQMAISQKYWLLVENHQFDSQISEILGAFPGTTPVVIHYQKNKETIALTKIQVHVTENLKEKLRPFVLKTVFR"
+        Dim s = "MNSQANTPLPNSSDVEAVVTKAIHRAEQWLEIEETSASTKQLADMVHDPDGVEFTFAFVDRVARPEDNQVSAKEFAKIANPFKRTEPVPGFMSLVDSILVTAGSIAAPLLPNIVMPIARSYLRATVGHLVLDAESKALDRMLDDYRDKGFQLNLNLLGEAVLGEAEAQRRLDNTLDLLKNPRVDYVSVKASSVVSQLNHWDFEGSIERLKDRLRPLYRQAMKRDPHPFINLDMEEYKDLHLTIKLFTELLDEEEFQNLEAGIVLQAYLPDTFDALQELAEFAAQRRAKGGAKIKVRLVKGANLSMERVDSEVHDWPQAPYLTKAEVDANYIRLLDWVLQPEHADNLRIGVASHNLYHLALAHELSVVRNVEHQLDVEMLQGMSPAQSEAVRDVAGNMILYTPVVKKEDFDVAISYLVRRLEENGAKQNFLYALFTPEDDETDVTGMTPMQGQELRFRNSVRDRWETFAGSRRTQNRLKEEAEKKGCQSDGLPGNFVNEPDTDPTLPANREWALKIVDPSSDPGPAQTPEVTDPAVIDAAVARCREASAQWSQKTGAERAELLDQAAHALANNRSKLISAAVFEAGKTVAETDPEVSEAIDFARYYAESARQLDHVRGSVFTPYKSVVVTPPWNFPIAIPLGGVFAALAAGSCVIIKPAPQVLRIAEVFMEILREAGISEDLVQLVNADEAEAGKRLVSHPDVESVILTGASETAKLFRGWKPRMVINAETSGKNAIIVTPAADPDLAVADIFKSAYGHAGQKCSAASLIITVGSIGKSKRFINQLVDAVRSMKVGPGSDISTFMNGVIEEPGDKLLRGLTELDKGEKWLVKPRKLNDEGTLWSPGLRDNVKPGSWFHTHECFGPVAGIMHAETLDEAIEWQNSTGFGLTGGIHTIDVDETAYWRERVEVGNAYVERGITGAIVQRQSFGGWKNSALGSGAKAGGPNYVAQQGVWTEGDLSELAAGTLPTHITQLLREIRGLGSPALSKDDHVWLRRAAESDAYAMSTEFGVEHDKTALVVESNVFRYKPLLEPLRVRVSEGANPRDLLRLKLASAATGTELDISANPEVAREWGELGEQMRTSSDRDFAEEIAIAQSVRVRSLGKAPDEFYEAAAKSGSVILDQDVLPDGRRELLPLLLEQAISTTEHRFGYIHGLTP"
+        Dim aligner As New PairAlign
+        ' 用 FastaSeq 包装后调用 AlignDetailed(FastaSeq 重载,返回 Output)。
+        ' 注意:AlignBestHSP 内部取 .Best 会触发底层 SimpleChaining.ChainingImpl 的"最佳链化",
+        ' 其 dims = size*(size-1)\2 以 Integer 计算,正分 HSP 数量过大时(长随机序列)会触发
+        ' 算术溢出(OverflowException)。AlignDetailed 仅收集全部正分 HSP 到 Output.HSP,不调用
+        ' 链化,随后在此自行取得分最高的单条 HSP,绕开该溢出路径。
+        Dim qSeq As New FastaSeq(q, "query")
+        Dim sSeq As New FastaSeq(s, "subject")
+        Dim out As Output = aligner.AlignDetailed(qSeq, sSeq)
+
+        If out Is Nothing OrElse out.HSP Is Nothing OrElse out.HSP.Length = 0 Then
+            Console.WriteLine("No significant local alignment found (no positive-scoring HSP).")
+            Return
+        End If
+
+        Dim best As HSP = out.HSP(0)
+        For Each h As HSP In out.HSP
+            If h.score > best.score Then
+                best = h
+            End If
+        Next
+
+        ' 在原始比对片段上计算 identity(无 gap)
+        Dim n = Math.Min(best.Query.Length, best.Subject.Length)
+        Dim matches = 0
+        For i = 0 To n - 1
+            If best.Query(i) = best.Subject(i) Then
+                matches += 1
+            End If
+        Next
+        Dim identity = If(n > 0, CDbl(matches) / n, 0.0)
+
+        Console.WriteLine("Best pairwise local alignment (PairAlign):")
+        Console.WriteLine($"  score       = {best.score}")
+        Console.WriteLine($"  LengthQuery = {best.LengthQuery}")
+        Console.WriteLine($"  LengthHit   = {best.LengthHit}")
+        Console.WriteLine($"  identity    ~ {identity:F3}")
+        Console.WriteLine($"  query   = {Left(best.Query, 60)}...")
+        Console.WriteLine($"  subject = {Left(best.Subject, 60)}...")
     End Sub
 
     Sub RunDemo()
@@ -28,7 +81,7 @@ Public Module LinclustDemo
             .coverage = 0.8,
             .evalue = 0.001
         }
-        Dim seqs = FastaFile.Read("G:\cell-render\data\ec_numbers.fasta").Take(10000).ToArray
+        Dim seqs As FastaSeq() = FastaFile.Read("G:\cell-render\data\ec_numbers.fasta").Take(1000).ToArray
         Dim result = Linclust.Cluster(seqs, opts)
 
         ' ---------- 3. 打印结果 ----------
