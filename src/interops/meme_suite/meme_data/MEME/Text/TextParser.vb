@@ -167,8 +167,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
         ''' Load the motif data from the meme text format calculation result
         ''' </summary>
         ''' <param name="path"></param>
-        ''' <returns></returns>
-        <ExportAPI("Load.MEME_Text", Info:="Load the motif data from the meme text format calculation result output file.")>
+        ''' <returns>Load the motif data from the meme text format calculation result output file.</returns>
         Public Function Load(path As String, Optional simplyGuid As Boolean = False) As Motif()
             Dim str As String = FileIO.FileSystem.ReadAllText(path)
             Dim Motifs = Strings.Split(str.Replace(vbCr, ""), SPLIT_MOTIFS)
@@ -469,6 +468,8 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
 
         ''' <summary>
         ''' 计算单位段长度之内的motif出现的频率的高低
+        ''' 
+        ''' if the maximum density value is too small(This is mainly caused by the long genome sequence length but fewer number of the motifs, so the density maybe two small.), then you can using the scale(>0) parameter to adjust.
         ''' </summary>
         ''' <param name="csv"></param>
         ''' <param name="faDIR"></param>
@@ -489,8 +490,6 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
         ''' Different loci or characters drift independently.
         ''' How these assumptions affect the methods will be seen in my papers on inference of phylogenies from gene frequency and continuous character data (Felsenstein, 1973b, 1981c, 1985c).
         ''' </remarks>
-        <ExportAPI("distr.normalization",
-             Info:="if the maximum density value is too small(This is mainly caused by the long genome sequence length but fewer number of the motifs, so the density maybe two small.), then you can using the scale(>0) parameter to adjust.")>
         Public Function Normalization(csv As IO.File, faDIR As String, Optional scale As Integer = -1) As IO.File
             Dim File As New IO.File
             Dim fasta = (From path As KeyValuePair(Of String, String)

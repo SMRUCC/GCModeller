@@ -156,9 +156,9 @@ Namespace Regprecise
         ''' <param name="LocalBLAST">本地BLAST服务</param>
         ''' <param name="QueryGrep">可选参数，目标蛋白质集合的ID号的解析脚本</param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>Matches basic data auto generation from the begining of the blastp operation.</remarks>
         '''
-        <ExportAPI("Process.Auto", Info:="Matches basic data auto generation from the begining of the blastp operation.")>
+        <ExportAPI("Process.Auto")>
         Public Function Match(RegpreciseRegulators As FASTA.FastaFile,
                               RegpreciseTfbs As FASTA.FastaFile,
                               Query As FASTA.FastaFile,
@@ -302,9 +302,9 @@ Namespace Regprecise
         ''' </summary>
         ''' <param name="BLASTbh"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>Create basic data for the matches data.</remarks>
         '''
-        <ExportAPI("bh2Regprecise.bbh", Info:="Create basic data for the matches data.")>
+        <ExportAPI("bh2Regprecise.bbh")>
         Public Function Convert(BLASTbh As LocalBLAST.Application.BBH.BiDirectionalBesthit()) As RegpreciseMPBBH()
             Dim LQuery As RegpreciseMPBBH() =
                 LinqAPI.Exec(Of RegpreciseMPBBH) <= From item As LocalBLAST.Application.BBH.BiDirectionalBesthit

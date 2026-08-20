@@ -57,7 +57,6 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
-Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regprecise
@@ -71,7 +70,14 @@ Namespace Regprecise
                       Description:="Sequence downloader for the regulators and the regulated genes in the regprecise database from KEGG server.")>
     Public Module KEGGDownloader
 
-        <ExportAPI("Regulator.Downloads", Info:="Download a regulators' protein fasta sequence using the gene's locus tag")>
+        ''' <summary>
+        ''' Download a regulators' protein fasta sequence using the gene's locus tag
+        ''' </summary>
+        ''' <param name="locusTag"></param>
+        ''' <param name="ErrLog"></param>
+        ''' <param name="bacteria"></param>
+        ''' <returns></returns>
+        <ExportAPI("Regulator.Downloads")>
         Public Function RegulatorDownloads(locusTag As String,
                                            ErrLog As LogFile,
                                            <Parameter("Err.Trace.Bacteria")> Optional bacteria As String = "") As FastaSeq

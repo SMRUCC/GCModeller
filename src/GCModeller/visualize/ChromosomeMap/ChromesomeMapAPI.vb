@@ -147,7 +147,11 @@ Public Module ChromesomeMapAPI
         Return Model
     End Function
 
-    <ExportAPI("Gene2Fasta", Info:="Convert the gene annotation data into a fasta sequence.")>
+    ''' <summary>
+    ''' Convert the gene annotation data into a fasta sequence.
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <returns></returns>
     Public Function WriteGeneFasta(<Parameter("Genes.Anno")> data As IEnumerable(Of PlasmidAnnotation)) As FastaFile
         Dim falist As IEnumerable(Of FastaSeq) =
             From gene As PlasmidAnnotation
@@ -161,13 +165,21 @@ Public Module ChromesomeMapAPI
         Return New FastaFile(falist)
     End Function
 
-    <ExportAPI("Read.Csv.PlasmidAnno", Info:="Reads the plasmid annotation data from a csv document.")>
+    ''' <summary>
+    ''' Reads the plasmid annotation data from a csv document.
+    ''' </summary>
+    ''' <param name="path"></param>
+    ''' <returns></returns>
     Public Function READ_PlasmidData(path As String) As PlasmidAnnotation()
         Return path.LoadCsv(Of PlasmidAnnotation)(False).ToArray
     End Function
 
-    <ExportAPI("PTT.From.Plasmid",
-               Info:="Generates the PTT genome data from the plasmid annotation data. NT.Src parameter is the file path of the original genome fasta source sequence.")>
+    ''' <summary>
+    ''' Generates the PTT genome data from the plasmid annotation data. NT.Src parameter is the file path of the original genome fasta source sequence.
+    ''' </summary>
+    ''' <param name="Annotations"></param>
+    ''' <param name="src"></param>
+    ''' <returns></returns>
     Public Function get_Converted(Annotations As IEnumerable(Of PlasmidAnnotation),
                                   <Parameter("NT.Src", "The nt fasta sequence of the plasmid whole genome.")> src As String) As PTTDbLoader
         Dim LoaderObject = PTTDbLoader.CreateObject(Annotations, FastaSeq.Load(src))
@@ -355,7 +367,12 @@ Public Module ChromesomeMapAPI
         End With
     End Function
 
-    <ExportAPI("DrawingModel.From.PTT", Info:="Creates a basically simple drawing model object from the PTT file data.")>
+    ''' <summary>
+    ''' Creates a basically simple drawing model object from the PTT file data.
+    ''' </summary>
+    ''' <param name="PTT"></param>
+    ''' <param name="conf"></param>
+    ''' <returns></returns>
     Public Function FromPTT(PTT As PTT, Optional conf As Config = Nothing) As ChromesomeDrawingModel
         With FromGenes(PTT, conf Or Config.DefaultValue, PTT.Size)
             .CDSCount = PTT.NumOfProducts

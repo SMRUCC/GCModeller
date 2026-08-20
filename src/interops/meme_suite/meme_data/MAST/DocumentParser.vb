@@ -71,7 +71,6 @@ Namespace DocumentFormat.MAST.HTML
         ''' <param name="FootPrintMode">当本参数为真的时候，表明为footprint模式，则会将所有的匹配位点列出来</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("Mast.Load_HTML", Info:="Old version of mast program output parser")>
         Public Function LoadDocument(url As String, <Parameter("Mode.Footprint")> FootPrintMode As Boolean) As MASTHtml
             Dim PageContent As String = Strings.Split(url.GET(), "<h4>Top Scoring Sequences <a").Last
             Dim MAST As MASTHtml = New MASTHtml
@@ -97,8 +96,8 @@ Namespace DocumentFormat.MAST.HTML
         ''' <param name="url"></param>
         ''' <param name="FootPrintMode">当本参数为真的时候，表明</param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        <ExportAPI("MAST410.Load_Html", Info:="MAST version 4.10.0 (Release date: Wed May 21 10:35:36 2014 +1000)")>
+        ''' <remarks>MAST version 4.10.0 (Release date: Wed May 21 10:35:36 2014 +1000)</remarks>
+        <ExportAPI("MAST410.Load_Html")>
         Public Function LoadDocument_v410(url As String, <Parameter("Mode.Footprints")> FootPrintMode As Boolean) As MASTHtml
             Dim PageContent As String = Strings.Split(url.GET(), "<h4>Top Scoring Sequences <a").Last
             Dim InputData As String = Regex.Match(PageContent, "<form>.+?</form>", RegexOptions.Singleline).Value

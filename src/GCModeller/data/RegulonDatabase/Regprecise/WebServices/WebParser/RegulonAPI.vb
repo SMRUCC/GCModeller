@@ -76,7 +76,13 @@ Namespace Regprecise
                       Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module RegulonAPI
 
-        <ExportAPI("Regulon.Equals", Info:="Regulon equals?")>
+        ''' <summary>
+        ''' Regulon equals?
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <param name="allMisMatch"></param>
+        ''' <returns></returns>
         Public Function Equals(a As Regulator, b As Regulator, Optional allMisMatch As Integer = 0) As Boolean
             If Not String.Equals(a.LocusId, b.LocusId, StringComparison.OrdinalIgnoreCase) Then
                 Return False
