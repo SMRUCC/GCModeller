@@ -15,10 +15,43 @@ Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 
 Public Module LinclustDemo
 
+    Sub Run()
+        Call RunDemo()
+    End Sub
+
+    Sub RunDemo()
+        ' ---------- 2. 运行聚类 ----------
+        Dim opts As New LinclustOptions With {
+            .m = 20,
+            .seqidThreshold = 0.9,
+            .coverage = 0.8,
+            .evalue = 0.001
+        }
+        Dim seqs = FastaFile.Read("G:\cell-render\data\ec_numbers.fasta")
+        Dim result = Linclust.Cluster(seqs, opts)
+
+        ' ---------- 3. 打印结果 ----------
+        Call Console.WriteLine($"自动选择的 k-mer 长度 k = {result.k}")
+        Call Console.WriteLine($"聚类簇数 = {result.nClusters}")
+        Call Console.WriteLine()
+
+        For i As Integer = 0 To result.clusters.Count - 1
+            Dim c = result.clusters(i)
+            Dim repr = seqs(c.representative)
+            Dim memberTitles = c.members _
+                .Select(Function(id) seqs(id).Title) _
+                .ToArray()
+
+            Call Console.WriteLine($"簇 #{i + 1}: 代表={repr.Title} (len={repr.SequenceData.Length}), 成员数={c.members.Count}")
+            Call Console.WriteLine($"   成员: {String.Join(", ", memberTitles)}")
+        Next
+        Call Console.WriteLine()
+    End Sub
+
     ''' <summary>
     ''' 演示入口:构造数据、聚类、打印结果
     ''' </summary>
-    Public Sub Run()
+    Public Sub RunTest()
         Call Console.WriteLine("=== Linclust 蛋白序列无监督聚类 Demo ===")
         Call Console.WriteLine()
 
