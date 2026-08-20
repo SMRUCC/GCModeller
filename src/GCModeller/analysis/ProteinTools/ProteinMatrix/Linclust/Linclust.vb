@@ -75,7 +75,9 @@ Namespace Linclust
             ' ---------- 阶段三 & 四:对每个中心组做级联过滤 + SW ----------
             ' 复用单个 PairAlign 实例(默认 BLOSUM62),避免每条 pair 重复加载替换矩阵
             Dim aligner As New PairAlign
-            Dim edges As New List(Of (From As Integer, [To] As Integer))
+            ' 有向边 (成员 -> 中心),携带该 (成员,中心) 对的 Smith-Waterman 比对 score,
+            ' 供阶段五 GreedyCover 填充 Cluster.memberScores,进而供结果导出模块读取。
+            Dim edges As New List(Of (From As Integer, [To] As Integer, Score As Double))
 
             For Each centerPair In TqdmWrapper.Wrap(byCenter)
                 Dim centerId = centerPair.Key
@@ -124,8 +126,9 @@ Namespace Linclust
                     If identity >= opts.seqidThreshold AndAlso
                        coverage >= opts.coverage AndAlso
                        eval <= opts.evalue Then
-                        ' 成员 -> 中心 有向边(一致性 + 覆盖率 + E-value 三者均满足)
-                        edges.Add((memberId, centerId))
+                        ' 成员 -> 中心 有向边(一致性 + 覆盖率 + E-value 三者均满足),
+                        ' 同时携带该 (成员,中心) 对的 Smith-Waterman 比对 score(供导出 score 字段)。
+                        edges.Add((memberId, centerId, hsp.score))
                     End If
                 Next
             Next

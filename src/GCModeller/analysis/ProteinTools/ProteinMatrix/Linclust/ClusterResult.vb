@@ -29,6 +29,14 @@ Namespace Linclust
         Public Property representative As Integer
         ''' <summary>簇内全部成员序列 ID(含代表)</summary>
         Public Property members As List(Of Integer)
+        ''' <summary>
+        ''' 成员序列 ID -> 相对代表序列的 Smith-Waterman 比对 score。
+        ''' 代表序列自身记为该簇内成员比对 score 的最大值(语义上代表其家族内最优同源强度)。
+        ''' 该字典由阶段五 <see cref="GreedyCover.Cluster"/> 依据携带 score 的有向边填充,
+        ''' 供结果导出模块(<c>ClusterExporter</c>)读取,作为 <see cref="SequenceCluster.score"/> 的数据来源。
+        ''' 旧调用方(如仅读取 representative/members)可忽略此字段。
+        ''' </summary>
+        Public Property memberScores As Dictionary(Of Integer, Double)
 
         Public Overrides Function ToString() As String
             Return $"repr={representative}, size={If(members Is Nothing, 0, members.Count)}"

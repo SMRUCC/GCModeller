@@ -15,12 +15,14 @@ Namespace Linclust
         ''' <summary>
         ''' 阶段五贪心集合覆盖。
         ''' </summary>
-        ''' <param name="edges">有向边列表(From=成员, To=中心)</param>
+        ''' <param name="edges">有向边列表(From=成员, To=中心, Score=成员相对中心的比对 score)</param>
         ''' <param name="seqLengths">序列 ID -> 序列长度</param>
-        ''' <returns>聚类结果(每簇代表为最长成员)</returns>
-        Public Function Cluster(edges As List(Of (From As Integer, [To] As Integer)), seqLengths As Dictionary(Of Integer, Integer)) As List(Of Cluster)
+        ''' <returns>聚类结果(每簇代表为最长成员;每簇 memberScores 承载成员比对 score)</returns>
+        Public Function Cluster(edges As List(Of (From As Integer, [To] As Integer, Score As Double)), seqLengths As Dictionary(Of Integer, Integer)) As List(Of Cluster)
             ' 构建无向邻接表(补全反向边)
             Dim adj As New Dictionary(Of Integer, HashSet(Of Integer))
+            ' 成员 -> 相对代表的 score 查表(从有向边收集,key=(成员,中心))
+            Dim edgeScores As New Dictionary(Of (Integer, Integer), Double)
 
             Dim addEdge = Sub(a As Integer, b As Integer)
                               If Not adj.ContainsKey(a) Then
@@ -32,6 +34,8 @@ Namespace Linclust
             For Each e In edges
                 addEdge(e.From, e.[To])
                 addEdge(e.[To], e.From)
+                ' 记录 (成员,中心) -> score,供下文构建 memberScores 时查找
+                edgeScores((e.From, e.[To])) = e.Score
             Next
 
             ' 剩余待处理序列,按长度降序(长度相同按 ID 升序保证确定性)
@@ -56,18 +60,36 @@ Namespace Linclust
                 Dim members As New List(Of Integer) From {s}
                 inList.Remove(s)
 
+                ' 成员序列 ID -> 相对代表 s 的比对 score
+                Dim scores As New Dictionary(Of Integer, Double)
+
                 If adj.ContainsKey(s) Then
                     For Each nb In adj(s)
                         If inList.Contains(nb) Then
                             members.Add(nb)
                             inList.Remove(nb)
+                            ' 从边查表取得该成员相对代表 s 的 score(若缺失则补 0)
+                            If edgeScores.ContainsKey((nb, s)) Then
+                                scores(nb) = edgeScores((nb, s))
+                            Else
+                                scores(nb) = 0.0
+                            End If
                         End If
                     Next
                 End If
 
+                ' 代表序列自身记为该簇内成员比对 score 的最大值
+                ' (语义上代表其家族内最优同源强度;簇内无成员时记为 0)
+                Dim reprScore As Double = 0.0
+                If scores.Count > 0 Then
+                    reprScore = scores.Values.Max
+                End If
+                scores(s) = reprScore
+
                 clusters.Add(New Cluster With {
                     .representative = s,
-                    .members = members
+                    .members = members,
+                    .memberScores = scores
                 })
             Next
 
