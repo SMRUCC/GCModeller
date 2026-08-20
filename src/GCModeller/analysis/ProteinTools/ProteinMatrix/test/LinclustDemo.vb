@@ -10,9 +10,8 @@
 
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Linclust
-Imports Microsoft.VisualBasic.LinQ
-
-Namespace test
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 
     Public Module LinclustDemo
 
@@ -28,7 +27,7 @@ Namespace test
             Call Console.WriteLine($"输入序列总数: {seqs.Length}")
 
             For Each s In seqs
-                Call Console.WriteLine($"  - {s.title,-18} len={s.SequenceData.Length}")
+                Call Console.WriteLine($"  - {s.Title,-18} len={s.SequenceData.Length}")
             Next
             Call Console.WriteLine()
 
@@ -51,10 +50,10 @@ Namespace test
                 Dim c = result.clusters(i)
                 Dim repr = seqs(c.representative)
                 Dim memberTitles = c.members _
-                    .Select(Function(id) seqs(id).title) _
+                    .Select(Function(id) seqs(id).Title) _
                     .ToArray()
 
-                Call Console.WriteLine($"簇 #{i + 1}: 代表={repr.title} (len={repr.SequenceData.Length}), 成员数={c.members.Count}")
+                Call Console.WriteLine($"簇 #{i + 1}: 代表={repr.Title} (len={repr.SequenceData.Length}), 成员数={c.members.Count}")
                 Call Console.WriteLine($"   成员: {String.Join(", ", memberTitles)}")
             Next
             Call Console.WriteLine()
