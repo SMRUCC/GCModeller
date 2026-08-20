@@ -124,8 +124,11 @@ Namespace DIAMOND
                 qIdx = Nothing
             Next
 
-            ' 按原始 SW 得分降序排序并截断
+            ' 聚合:多种子/多位置命中同一 (query, subject) 比对会产生重复 HSP。
+            ' 按 subject 去重,每组仅保留得分最高的 HSP(原型阶段取每库序列最优比对)。
             Dim result = collected _
+                .GroupBy(Function(h) h.SubjectTitle) _
+                .Select(Function(g) g.OrderByDescending(Function(h) h.RawScore).First()) _
                 .OrderByDescending(Function(h) h.RawScore) _
                 .ToArray
 

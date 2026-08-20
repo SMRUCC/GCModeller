@@ -77,7 +77,7 @@ Namespace DIAMOND
             Dim sWin = globalSubject.Substring(s0, s1 - s0 + 1)
 
             ' 复用 GSW 计算核心(本项目 BestLocalAlignment.SmithWaterman 子类)
-            Dim result As New SmithWaterman(qWin, sWin)
+            Dim result As GSW(Of Char) = New SmithWaterman(qWin, sWin).BuildMatrix()
             Dim matches As List(Of Match) = result.Matches(MinScore).ToList
 
             If matches.Count = 0 Then
