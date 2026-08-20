@@ -27,7 +27,7 @@ Public Module LinclustDemo
             .coverage = 0.8,
             .evalue = 0.001
         }
-        Dim seqs = FastaFile.Read("G:\cell-render\data\ec_numbers.fasta")
+        Dim seqs = FastaFile.Read("G:\cell-render\data\ec_numbers.fasta").Take(10000).ToArray
         Dim result = Linclust.Cluster(seqs, opts)
 
         ' ---------- 3. 打印结果 ----------
@@ -46,6 +46,7 @@ Public Module LinclustDemo
             Call Console.WriteLine($"   成员: {String.Join(", ", memberTitles)}")
         Next
         Call Console.WriteLine()
+        Call Pause()
     End Sub
 
     ''' <summary>
