@@ -9,6 +9,7 @@
 ' 不支持 SSE2(x86 32 位 / 非 x86 平台)时自动退化为标量逐字节比较,
 ' 保证跨平台可编译可运行且结果一致。
 
+Imports System
 Imports System.Numerics
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.Intrinsics
@@ -58,8 +59,8 @@ Namespace DIAMOND
             If Sse2.IsSupported Then
                 ' 每次比较 16 个字节
                 While i + 16 <= len
-                    Dim vq = Sse2.LoadVector128(qb, i)
-                    Dim vs = Sse2.LoadVector128(sb, i)
+                    Dim vq = Sse2.LoadVector128(qb.AsSpan(i, 16))
+                    Dim vs = Sse2.LoadVector128(sb.AsSpan(i, 16))
                     Dim eq = Sse2.CompareEqual(vq, vs)
                     Dim mask = Sse2.MoveMask(eq)          ' 16 位:相等位为 1
                     dist += 16 - BitOperations.PopCount(CUInt(mask))

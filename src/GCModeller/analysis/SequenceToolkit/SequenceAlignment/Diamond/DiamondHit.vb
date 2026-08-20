@@ -80,14 +80,14 @@ Namespace DIAMOND
             Dim queryLen = globalQuery.Length
             Dim subjectLen = globalSubject.Length
             Dim bitScore = (EValue.LambdaBlosum62 * band.Score - Math.Log(EValue.KBlosum62)) / Math.Log(2)
-            Dim evalue = EValue.Compute(band.Score, queryLen, subjectLen)
+            Dim eValCalc = EValue.Compute(band.Score, queryLen, subjectLen)
 
             Dim hit As New DiamondHit With {
                 .QueryTitle = queryTitle,
                 .SubjectTitle = subjectTitle,
                 .RawScore = band.Score,
                 .BitScore = bitScore,
-                .Evalue = evalue,
+                .Evalue = eValCalc,
                 .AlignmentLength = alnLen,
                 .Matches = matches,
                 .Mismatches = mismatches,

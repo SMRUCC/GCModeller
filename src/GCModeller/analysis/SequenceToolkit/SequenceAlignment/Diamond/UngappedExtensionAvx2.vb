@@ -141,7 +141,7 @@ Namespace DIAMOND
 
                     ' acc = (acc + score);小于 dropoff 则截断为 0
                     Dim added = Avx2.Add(acc(g), vScore)
-                    Dim below = Avx2.CompareLessThan(added, dropoffVec)
+                    Dim below = Avx2.CompareGreaterThan(dropoffVec, added)  ' dropoff > added 即 added < dropoff
                     acc(g) = Avx2.AndNot(below, added)   ' 低于 dropoff 的位置置 0
 
                     ' best = max(best, acc)
