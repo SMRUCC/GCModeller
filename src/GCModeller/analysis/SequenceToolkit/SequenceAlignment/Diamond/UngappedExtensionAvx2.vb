@@ -79,9 +79,11 @@ Namespace DIAMOND
                 n = MaxBatch
             End If
 
-            ' 公共延伸长度:各参考可用长度与 BatchWindow 的较小值;不足者该 lane 末尾屏蔽
-            Dim W = BatchWindow
+            ' 公共延伸长度取查询可用长度(与标量 UngappedExtension 一致,各自延伸到末端);
+            ' 各参考 lane 在自身序列末端后由 valid 掩码屏蔽(不再累加、不再截断)。
+            ' BatchWindow 仅是"单批次 SIMD 可并行处理的参考条数",并非延伸步数上限。
             Dim qAvail = query.Length - qPos
+            Dim W = qAvail
 
             ' 延伸到序列末端(与标量 UngappedExtension 一致):W 取查询可用长度,
             ' 各 lane 在自身参考序列末端后屏蔽(不再累加、不再截断)。
