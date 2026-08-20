@@ -112,6 +112,30 @@ Namespace BestLocalAlignment
         End Function
 
         ''' <summary>
+        ''' 轻量级路径:只取得分最高的一条 <see cref="HSP"/>。
+        ''' </summary>
+        ''' <param name="cutoff">0%-100%,收集 HSP 的得分阈值(占最高分的比例)。</param>
+        ''' <param name="minW">最短片段长度过滤;0 表示不限制。</param>
+        ''' <returns>得分最高的 HSP;若无满足条件的比对则返回 Nothing。</returns>
+        ''' <remarks>
+        ''' 相比 <see cref="GetOutput"/>,本方法不会构建 <see cref="Output"/> 对象,
+        ''' 从而避免复制整个动态规划得分矩阵、构建方向矩阵视图与回溯路径。
+        ''' 在需要对大量序列做两两比对的聚类流程中,应优先使用本方法:
+        ''' 完整的 <see cref="Output"/> 会产生与序列长度乘积成正比的大对象(进入 LOH),
+        ''' 在循环中反复分配会导致进程常驻内存不断攀升。
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetBestHSP(cutoff As Double, minW As Integer) As HSP
+            Dim best As LocalHSPMatch(Of Char) = MyBase.GetBestHSP(cutoff * AlignmentScore, minW)
+
+            If best Is Nothing Then
+                Return Nothing
+            Else
+                Return HSP.CreateFrom(best, AddressOf symbol.ToChar)
+            End If
+        End Function
+
+        ''' <summary>
         ''' Default using ``Blosum62`` matrix.
         ''' </summary>
         ''' <param name="query"></param>

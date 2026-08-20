@@ -64,8 +64,28 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace BestLocalAlignment
 
+    ''' <summary>
+    ''' Smith-Waterman 局部比对的完整输出结果。
+    ''' </summary>
+    ''' <remarks>
+    ''' 该对象是一个**重量级**结果容器:<see cref="DP"/> 与 <see cref="Directions"/> 
+    ''' 均为按行包装的动态规划矩阵视图,其内存占用与 query*subject 成正比
+    ''' (千级长度的蛋白序列比对即可达到数十 MB),并且这些行数组会进入大对象堆(LOH)。
+    ''' 
+    ''' 特别注意 <see cref="Directions"/> 的构建代价:它由方向矩阵(Integer)逐行
+    ''' 转换成 Double 数组,元素被放大到 8 字节;而 <see cref="DP"/> 又是得分矩阵的
+    ''' 一份完整副本。也就是说单次比对会额外产生**两份**与 query*subject 等大的
+    ''' Double 矩阵,与算法自身持有的矩阵叠加后内存放大到约三倍。
+    ''' 
+    ''' 因此本类实现了 <see cref="IDisposable"/>:在批量/循环比对场景中,请使用
+    ''' <c>Using</c> 语句或显式调用 <see cref="Dispose"/> 及时切断对矩阵的引用。
+    ''' 若只需要得分最高的一条比对结果,应改用轻量级接口
+    ''' <see cref="GSW(Of T).GetBestHSP"/>,它完全不会构建本对象。
+    ''' </remarks>
     <XmlType("GSW", [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
-    Public Class Output : Implements Enumeration(Of HSP)
+    Public Class Output : Implements Enumeration(Of HSP), IDisposable
+
+        Private disposedValue As Boolean
 
         ''' <summary>
         ''' best chain, 但是不明白这个有什么用途
@@ -171,5 +191,51 @@ Namespace BestLocalAlignment
                 Yield region
             Next
         End Function
+
+        ''' <summary>
+        ''' 释放本对象所持有的动态规划矩阵引用。
+        ''' </summary>
+        ''' <remarks>
+        ''' <see cref="DP"/> / <see cref="Directions"/> 的每一个元素都是一行矩阵数据的包装,
+        ''' 每行都是一个独立的 Double 数组,长度与序列长度同阶,足以进入大对象堆(LOH)。
+        ''' 这里先逐行置空,再释放外层数组,确保这些大数组在本对象被丢弃后可以立即被 GC 回收,
+        ''' 而不是滞留在大对象堆中造成常驻内存持续增长。
+        ''' 
+        ''' <see cref="Best"/> / <see cref="Query"/> / <see cref="Subject"/> 属于小对象,
+        ''' 通常需要在 Dispose 之后继续使用(例如返回给调用方),因此不在此处清理。
+        ''' </remarks>
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    Call eraseMatrix(_DP)
+                    Call eraseMatrix(_Directions)
+
+                    Erase _DP
+                    Erase _Directions
+                    Erase _Traceback
+                    Erase _HSP
+                End If
+
+                disposedValue = True
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 逐行切断矩阵视图对底层行数组的引用。
+        ''' </summary>
+        Private Shared Sub eraseMatrix(matrix As ArrayRow())
+            If matrix Is Nothing Then
+                Return
+            End If
+
+            For i As Integer = 0 To matrix.Length - 1
+                matrix(i) = Nothing
+            Next
+        End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
+        End Sub
     End Class
 End Namespace

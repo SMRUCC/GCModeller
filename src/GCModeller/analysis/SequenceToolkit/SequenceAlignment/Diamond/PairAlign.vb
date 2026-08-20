@@ -30,12 +30,21 @@ Namespace DIAMOND
         ''' <param name="subject">参考(主题)序列(字符形式)。</param>
         ''' <param name="minWidth">最短 HSP 片段长度过滤(0 表示不限制)。</param>
         ''' <returns>得分最高的 HSP;若无正分比对则返回 Nothing。</returns>
+        ''' <remarks>
+        ''' 这里走的是 <see cref="SmithWaterman.GetBestHSP"/> 轻量级路径,而**不是**
+        ''' <see cref="SmithWaterman.GetOutput"/>。后者会额外构建完整的 <see cref="Output"/>:
+        ''' 复制一份动态规划得分矩阵、为方向矩阵逐行建立视图、并计算完整回溯路径,
+        ''' 单次比对的额外开销与 query*subject 成正比(千级长度蛋白序列可达数十 MB),
+        ''' 且这些数组会进入大对象堆(LOH)。
+        ''' 
+        ''' 由于本方法只需要一条最佳 HSP,在聚类分析的两两比对循环(O(n^2))中若使用
+        ''' 完整路径,将造成进程常驻内存持续增长且无法回收。
+        ''' </remarks>
         Public Function AlignBestHSP(query As String, subject As String, Optional minWidth As Integer = 0) As HSP
             Using sw As New SmithWaterman(query, subject, Matrix)
-                Dim output As Output = DirectCast(sw.BuildMatrix, SmithWaterman).GetOutput(cutoff:=0, minW:=minWidth)
-                Dim best As HSP = output.Best
+                Call sw.BuildMatrix()
 
-                Return best
+                Return sw.GetBestHSP(cutoff:=0, minW:=minWidth)
             End Using
         End Function
 
@@ -51,10 +60,19 @@ Namespace DIAMOND
         ''' 供需要多条 HSP(如重叠高分区)的聚类分析使用。
         ''' </summary>
         ''' <param name="cutoff">收集 HSP 的得分阈值(占最高分比例,0-1;0 表示收集所有正分 HSP)。</param>
+        ''' <remarks>
+        ''' 返回的 <see cref="Output"/> 持有动态规划矩阵(其方向矩阵与 
+        ''' <see cref="SmithWaterman"/> 共享行数组),属于重量级对象。
+        ''' 调用方在用完之后应当及时 Dispose(<see cref="Output"/> 已实现 
+        ''' <see cref="IDisposable"/>),否则在循环调用场景下会造成内存持续增长。
+        ''' 若只需要最佳的那一条比对,请改用 <see cref="AlignBestHSP"/>。
+        ''' </remarks>
         Public Function AlignDetailed(query As FastaSeq, subject As FastaSeq, Optional cutoff As Double = 0, Optional minWidth As Integer = 0) As Output
-            Dim sw As New SmithWaterman(query.SequenceData, subject.SequenceData, Matrix)
-            Call sw.BuildMatrix
-            Return sw.GetOutput(cutoff, minW:=minWidth)
+            Using sw As New SmithWaterman(query.SequenceData, subject.SequenceData, Matrix)
+                Call sw.BuildMatrix()
+
+                Return sw.GetOutput(cutoff, minW:=minWidth)
+            End Using
         End Function
 
         ''' <summary>
