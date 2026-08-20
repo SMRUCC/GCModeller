@@ -79,8 +79,9 @@ Namespace DIAMOND
             ' 接入 Karlin-Altschul 统计模型(BLOSUM62 统计量)
             Dim queryLen = globalQuery.Length
             Dim subjectLen = globalSubject.Length
-            Dim bitScore = (EValue.LambdaBlosum62 * band.Score - Math.Log(EValue.KBlosum62)) / Math.Log(2)
-            Dim eValCalc = EValue.Compute(band.Score, queryLen, subjectLen)
+            ' λ=0.267, K=0.041 (BLOSUM62 经验标定,源自 EValue 模块常量)
+            Dim bitScore = (0.267 * band.Score - Math.Log(0.041)) / Math.Log(2)
+            Dim eValCalc = SMRUCC.genomics.Analysis.SequenceAlignment.EValue.Compute(band.Score, queryLen, subjectLen)
 
             Dim hit As New DiamondHit With {
                 .QueryTitle = queryTitle,

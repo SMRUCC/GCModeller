@@ -55,12 +55,22 @@ Namespace DIAMOND
 
             Dim dist As Integer = 0
             Dim i As Integer = 0
+            Dim tmp(15) As Byte   ' 16 字节临时缓冲,供 SSE2 从索引 0 加载
 
             If Sse2.IsSupported Then
-                ' 每次比较 16 个字节
+                ' 每次比较 16 个字节(拷贝到 0 基临时缓冲后加载)
                 While i + 16 <= len
-                    Dim vq = Sse2.LoadVector128(qb.AsSpan(i, 16))
-                    Dim vs = Sse2.LoadVector128(sb.AsSpan(i, 16))
+                    For t As Integer = 0 To 15
+                        tmp(t) = qb(i + t)
+                    Next
+
+                    Dim vq = Vector128.Create(tmp(0), tmp(1), tmp(2), tmp(3), tmp(4), tmp(5), tmp(6), tmp(7), tmp(8), tmp(9), tmp(10), tmp(11), tmp(12), tmp(13), tmp(14), tmp(15))
+
+                    For t As Integer = 0 To 15
+                        tmp(t) = sb(i + t)
+                    Next
+
+                    Dim vs = Vector128.Create(tmp(0), tmp(1), tmp(2), tmp(3), tmp(4), tmp(5), tmp(6), tmp(7), tmp(8), tmp(9), tmp(10), tmp(11), tmp(12), tmp(13), tmp(14), tmp(15))
                     Dim eq = Sse2.CompareEqual(vq, vs)
                     Dim mask = Sse2.MoveMask(eq)          ' 16 位:相等位为 1
                     dist += 16 - BitOperations.PopCount(CUInt(mask))

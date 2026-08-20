@@ -12,11 +12,11 @@ Namespace DIAMOND
 
     ''' <summary>
     ''' 多查询调度边界。
+    ''' queries: 查询序列数组。
+    ''' subjectDb: 参考蛋白库(只读共享)。
+    ''' perQuery: 对单条查询执行 DIAMOND 流水线并返回命中的函数(由 DiamondBlastp 提供)。
+    ''' 返回: 所有查询命中的聚合结果。
     ''' </summary>
-    ''' <param name="queries">查询序列数组。</param>
-    ''' <param name="subjectDb">参考蛋白库(只读共享)。</param>
-    ''' <param name="perQuery">对单条查询执行 DIAMOND 流水线并返回命中的函数(由 DiamondBlastp 提供)。</param>
-    ''' <returns>所有查询命中的聚合结果。</returns>
     Public Interface IDiamondScheduler
         Function Run(queries As FastaSeq(), subjectDb As IList(Of FastaSeq), perQuery As Func(Of FastaSeq, IEnumerable(Of DiamondHit))) As IEnumerable(Of DiamondHit)
     End Interface

@@ -77,8 +77,8 @@ Namespace DIAMOND
         End Function
 
         ''' <summary>
-        ''' 单查询核心逻辑。多查询场景下可传入按形状缓存的 <paramref name="refCache"/>,
-        ''' 以复用已构建的参考索引,避免对每个查询重复建索引。
+        ''' 单查询核心逻辑。多查询场景下复用按形状缓存的参考索引,
+        ''' 避免对每个查询重复建索引。
         ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function SearchSingleCore(query As FastaSeq, subjects As FastaSeq(), cache As Dictionary(Of Long, ReferenceIndex), Optional maxHits As Integer = 0) As IEnumerable(Of DiamondHit)
