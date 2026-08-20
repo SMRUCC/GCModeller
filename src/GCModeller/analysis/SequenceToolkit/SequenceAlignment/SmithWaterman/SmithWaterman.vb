@@ -125,7 +125,7 @@ Namespace BestLocalAlignment
         ''' 在循环中反复分配会导致进程常驻内存不断攀升。
         ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetBestHSP(cutoff As Double, minW As Integer) As HSP
+        Public Overloads Function GetBestHSP(cutoff As Double, minW As Integer) As HSP
             Dim best As LocalHSPMatch(Of Char) = MyBase.GetBestHSP(cutoff * AlignmentScore, minW)
 
             If best Is Nothing Then

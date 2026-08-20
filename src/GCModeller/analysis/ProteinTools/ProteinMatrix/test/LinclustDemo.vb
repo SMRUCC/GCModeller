@@ -8,6 +8,7 @@
 '
 ' 运行方式:作为独立入口,在 Program.Main 中调用 LinclustDemo.Run()。
 
+Imports System.Diagnostics
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.DIAMOND
@@ -17,16 +18,28 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module LinclustDemo
 
+    ''' <summary>
+    ''' 测试入口。可通过命令行第一个参数指定参与聚类的序列条数,
+    ''' 便于在内存监控下从小规模逐步放大验证(默认 50 条,保守起步)。
+    ''' </summary>
+    ''' <example>
+    ''' test.exe        ' 默认 50 条
+    ''' test.exe 100    ' 100 条
+    ''' test.exe 1000   ' 复现原始问题规模(请务必在内存监控下运行)
+    ''' </example>
     Sub Run()
-        ' Call TestAlignment()
-        ' Call Pause()
-        ' Call RunTest()
-        ' RunDemo 依赖外部 FASTA 文件,不存在时跳过以免整体崩溃
-        If System.IO.File.Exists("G:\cell-render\data\ec_numbers.fasta") Then
-            Call RunDemo()
+        Dim args As String() = Environment.GetCommandLineArgs
+        Dim take As Integer = 50
+
+        If args.Length > 1 AndAlso Integer.TryParse(args(1), take) Then
+            ' 由命令行指定规模
         Else
-            Console.WriteLine("[RunDemo] 跳过: 外部文件 G:\cell-render\data\ec_numbers.fasta 不存在。")
+            take = 50
         End If
+
+        Call Console.WriteLine($"=== Linclust 内存回归验证 (take={take}) ===")
+        Call RunDemo(take)
+        Call Console.WriteLine("=== 运行结束 ===")
     End Sub
 
     Sub TestAlignment()
@@ -73,16 +86,86 @@ Public Module LinclustDemo
         Console.WriteLine($"  subject = {Left(best.Subject, 60)}...")
     End Sub
 
-    Sub RunDemo()
-        ' ---------- 2. 运行聚类 ----------
+    Const demoFasta As String = "G:\cell-render\data\ec_numbers.fasta"
+
+    ''' <summary>
+    ''' 打印当前进程的内存占用,便于在外部监控脚本之外交叉验证内存是否稳定。
+    ''' </summary>
+    Private Sub ReportMemory(stage As String)
+        Dim proc = Process.GetCurrentProcess()
+
+        Call proc.Refresh()
+        Call Console.WriteLine(
+            $"[MEM] {stage,-22} WorkingSet={proc.WorkingSet64 / 1024 / 1024:F1}MB " &
+            $"Private={proc.PrivateMemorySize64 / 1024 / 1024:F1}MB " &
+            $"GCHeap={GC.GetTotalMemory(forceFullCollection:=False) / 1024 / 1024:F1}MB")
+    End Sub
+
+    ''' <summary>
+    ''' 小批量受控验证入口:默认只取 50 条序列,用于在内存监控下验证
+    ''' <see cref="PairAlign.AlignBestHSP"/> 的内存占用是否已经稳定。
+    ''' </summary>
+    ''' <param name="take">参与聚类的序列条数。</param>
+    ''' <remarks>
+    ''' Linclust 阶段四是 O(n^2) 的两两比对,序列条数对耗时与峰值内存都非常敏感。
+    ''' 请从小规模(50/100)开始,确认内存曲线平稳后再逐步放大,
+    ''' 避免一次性跑满数据集导致系统内存耗尽。
+    ''' </remarks>
+    Public Sub RunDemoSmall(Optional take As Integer = 50)
+        Call RunDemo(take)
+    End Sub
+
+    Sub RunDemo(Optional take As Integer = 1000)
+        If Not System.IO.File.Exists(demoFasta) Then
+            Call Console.WriteLine($"[RunDemo] 跳过: 外部文件 {demoFasta} 不存在。")
+            Return
+        End If
+
+        ' ---------- 1. 读取输入 ----------
         Dim opts As New LinclustOptions With {
             .m = 20,
             .seqidThreshold = 0.9,
             .coverage = 0.8,
             .evalue = 0.001
         }
-        Dim seqs As FastaSeq() = FastaFile.Read("G:\cell-render\data\ec_numbers.fasta").Take(1000).ToArray
+
+        Call ReportMemory("before-read")
+
+        ' 注意:必须使用 StreamIterator 流式读取,不能用 FastaFile.Read(...).Take(n)。
+        ' FastaFile.Read 内部走的是 ReadAllLines,会把**整个** FASTA 文件读进内存
+        ' (604MB 的文件在 .NET 中以 UTF-16 字符串形式驻留会膨胀到 1.6GB 以上),
+        ' 之后的 .Take(n) 只是丢弃多余对象,内存已经吃掉了。
+        ' 流式读取则只保留真正参与聚类的那 n 条序列。
+        Dim seqs As FastaSeq()
+
+        Using reader As New StreamIterator(demoFasta, tqdm_wrap:=False)
+            seqs = reader.ReadStream.Take(take).ToArray
+        End Using
+
+        Call GC.Collect()
+        Call GC.WaitForPendingFinalizers()
+        Call GC.Collect()
+
+        Call Console.WriteLine($"[RunDemo] 参与聚类的序列条数 = {seqs.Length}")
+        Call Console.WriteLine($"[RunDemo] 序列长度: min={seqs.Min(Function(s) s.SequenceData.Length)}, " &
+                               $"max={seqs.Max(Function(s) s.SequenceData.Length)}, " &
+                               $"avg={seqs.Average(Function(s) CDbl(s.SequenceData.Length)):F0}")
+        Call ReportMemory("after-read")
+
+        ' ---------- 2. 运行聚类 ----------
+        Dim timer = Stopwatch.StartNew()
         Dim result = Linclust.Cluster(seqs, opts)
+
+        Call timer.Stop()
+        Call ReportMemory("after-cluster")
+        Call Console.WriteLine($"[RunDemo] 聚类耗时 = {timer.ElapsedMilliseconds} ms")
+
+        ' 主动回收后再采样一次:若此时内存仍然居高不下,说明存在真实的对象滞留;
+        ' 若回落,则此前的高位主要来自尚未回收的临时对象。
+        Call GC.Collect()
+        Call GC.WaitForPendingFinalizers()
+        Call GC.Collect()
+        Call ReportMemory("after-gc")
 
         ' ---------- 3. 打印结果 ----------
         Call Console.WriteLine($"自动选择的 k-mer 长度 k = {result.k}")
@@ -100,7 +183,6 @@ Public Module LinclustDemo
             Call Console.WriteLine($"   成员: {String.Join(", ", memberTitles)}")
         Next
         Call Console.WriteLine()
-        Call Pause()
     End Sub
 
     ''' <summary>

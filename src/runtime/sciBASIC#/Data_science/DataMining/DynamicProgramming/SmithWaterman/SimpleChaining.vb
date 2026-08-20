@@ -98,13 +98,6 @@ Namespace SmithWaterman
         End Function
 
         ''' <summary>
-        ''' Identify the best chain from given list of match
-        ''' </summary>
-        ''' <param name="matches"> a list of match </param>
-        ''' <param name="debug">  if true, print list of input match, adjacency, score matrix, best chain found. </param>
-        ''' <returns> the optimal chain as a list of match </returns>
-        ''' 
-        ''' <summary>
         ''' 链化算法所允许的最大 match 数量。
         ''' </summary>
         ''' <remarks>
@@ -140,6 +133,12 @@ Namespace SmithWaterman
             Return top
         End Function
 
+        ''' <summary>
+        ''' Identify the best chain from given list of match
+        ''' </summary>
+        ''' <param name="matches"> a list of match </param>
+        ''' <param name="debug">  if true, print list of input match, adjacency, score matrix, best chain found. </param>
+        ''' <returns> the optimal chain as a list of match </returns>
         <Extension>
         Private Function ChainingImpl(matches As Match(), debug As Boolean) As IEnumerable(Of Match)
             Dim size As Integer = matches.Length
