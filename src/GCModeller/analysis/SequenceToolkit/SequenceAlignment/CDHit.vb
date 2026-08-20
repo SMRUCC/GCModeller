@@ -151,7 +151,8 @@ Public Class CDHit
             Else
                 ' i 作为代表序列
                 cluster = New SimilarHit With {
-                    .SeqID = seqPool(i).Title
+                    .SeqID = seqPool(i).Title,
+                    .Similar = New Dictionary(Of String, Double)
                 }
             End If
 

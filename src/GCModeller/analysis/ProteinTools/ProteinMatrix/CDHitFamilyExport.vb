@@ -13,14 +13,11 @@
 '   聚类结果以序列 Title 为键(SimilarHit.SeqID / Similar 字典键均为 Title),
 '   故反查采用 Title -> FastaSeq 字典,而非整数下标。
 
-Imports Microsoft.VisualBasic
+Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.Framework
-Imports Microsoft.VisualBasic.Data.Framework.IO
-Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports SMRUCC.genomics.Analysis.SequenceAlignment
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports System.Text
 
 Public Module CDHitFamilyExport
 

@@ -8,12 +8,11 @@
 '   2. 每簇的代表序列(representative)是该簇中最长的成员(CD-HIT 性质);
 '   3. 导出的两个 CSV 文件字段完整、成员数正确(代表被计为第 1 个成员)。
 
-Imports Microsoft.VisualBasic
+Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceAlignment
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports System.Text
 
 Public Module CDHitDemo
 
@@ -31,7 +30,7 @@ Public Module CDHitDemo
         Call Console.WriteLine()
 
         ' ---------- 2. 运行 CDHit 贪婪聚类 ----------
-        Dim cdhit As New CDHit(k:=12)
+        Dim cdhit As New CDHit(k:=6)
         cdhit.Setup(seqs)
 
         Dim timer = Stopwatch.StartNew()
