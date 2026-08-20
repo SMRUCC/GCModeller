@@ -25,7 +25,7 @@ Public Module CDHitDemo
         Call Console.WriteLine()
 
         ' ---------- 1. 构造输入序列 ----------
-        Dim seqs = BuildDemoSequences()
+        Dim seqs = FastaFile.Read("G:\cell-render\data\ec_numbers.fasta").Take(1000).ToArray  ' BuildDemoSequences()
         Call Console.WriteLine($"输入序列总数: {seqs.Length}")
         Call Console.WriteLine()
 
