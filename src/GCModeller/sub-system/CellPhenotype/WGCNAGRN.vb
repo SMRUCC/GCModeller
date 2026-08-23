@@ -209,8 +209,8 @@ Public Module WGCNAGRN
             Throw New InvalidOperationException("没有可定向的调控边，无法构建动态贝叶斯网络拓扑（请检查 TF 注释是否与网络节点匹配）")
         End If
 
-        Dim dbn As DynamicBayesianNetwork = DynamicBayesianNetwork.New() _
-            .BuildFromTopology(links)
+        Dim dbn As New DynamicBayesianNetwork()
+        Call dbn.BuildFromTopology(links)
 
         Call VBDebugger.WriteLine($"WGCNAGRN.BuildDBN: 拓扑构建完成，节点数 = {dbn.GetAllNodes().Count}，调控边 = {links.Count()}。开始参数学习...")
 
@@ -273,28 +273,37 @@ Public Module WGCNAGRN
             trajectory(g.NodeId) = New Double(nSteps - 1) {}
         Next
 
-        ' 记录初始（野生型）状态作为第 0 步基线
+        ' 构建初始基因状态，并将目标基因强制置为 Low（敲降状态）
+        Dim currentGeneStates As New Dictionary(Of String, String)
         For Each g As DBNNode In geneNodes
-            trajectory(g.NodeId)(0) = StateToValue(dbn.GeneStates.TryGetValue(g.NodeId, "Medium"))
+            currentGeneStates(g.NodeId) = "Medium"
+        Next
+        If Not currentGeneStates.ContainsKey(gene) Then
+            Throw New ArgumentException($"敲降目标基因 '{gene}' 不在动态贝叶斯网络节点集合中", NameOf(gene))
+        End If
+        currentGeneStates(gene) = "Low"
+
+        ' 记录初始（敲降）状态作为第 0 步基线
+        For Each g As DBNNode In geneNodes
+            trajectory(g.NodeId)(0) = StateToValue(currentGeneStates(g.NodeId))
         Next
 
         ' 多步级联推演
         For stepI As Integer = 1 To nSteps - 1
             ' 若目标基因本身是 TF，则将其输入丰度置 0（敲降）
-            ' 若目标是普通基因，则保持其在 GeneStates 中为 Low，并在每步后强制复位
             If tfAbundances.ContainsKey(gene) Then
                 tfAbundances(gene) = 0.0
             End If
 
-            Dim result As DBNPredictionResult = dbn.PredictNextState(metaboliteAbundances, tfAbundances)
+            Dim result As DBNPredictionResult = dbn.PredictNextState(metaboliteAbundances, tfAbundances, currentGeneStates)
 
-            ' 强制目标基因保持敲降（Low）状态，避免被下游反馈恢复
-            If dbn.GeneStates.ContainsKey(gene) Then
-                dbn.GeneStates(gene) = "Low"
-            End If
+            ' 以推演结果更新基因状态，并强制目标基因保持敲降（Low）状态，
+            ' 避免被下游反馈回路恢复，从而实现持续的虚拟敲降模拟
+            currentGeneStates = result.GeneStates
+            currentGeneStates(gene) = "Low"
 
             For Each g As DBNNode In geneNodes
-                trajectory(g.NodeId)(stepI) = StateToValue(result.GeneStates.TryGetValue(g.NodeId, "Medium"))
+                trajectory(g.NodeId)(stepI) = StateToValue(currentGeneStates(g.NodeId))
             Next
         Next
 
