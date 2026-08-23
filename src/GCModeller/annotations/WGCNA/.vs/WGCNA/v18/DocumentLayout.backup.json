@@ -3,20 +3,26 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\resulttables\\genesignificanceresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\resulttables\\genesignificanceresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\correlationnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\correlationnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\resulttables\\moduleeigengeneresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\resulttables\\moduleeigengeneresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{26205DB8-D7C5-402F-8518-71AA6C37420E}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\dataframeUtils-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\dataframe\\datamatrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\resulttables\\modulephenotypecorrelation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\resulttables\\modulephenotypecorrelation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{26205DB8-D7C5-402F-8518-71AA6C37420E}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\dataframeUtils-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\dataframe\\correlation\\distance.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\resulttables\\phenotyperesult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\resulttables\\phenotyperesult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{26205DB8-D7C5-402F-8518-71AA6C37420E}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\dataframeUtils-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\dataframe\\correlation\\correlation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{26205DB8-D7C5-402F-8518-71AA6C37420E}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\dataframeUtils-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\dataframe\\correlation\\builder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{26205DB8-D7C5-402F-8518-71AA6C37420E}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\dataframeUtils-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\dataframe\\namedsparsematrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{26205DB8-D7C5-402F-8518-71AA6C37420E}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\dataframeUtils-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\dataframe\\numericdataset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,53 +49,92 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "GeneSignificanceResult.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\ResultTables\\GeneSignificanceResult.vb",
-              "RelativeDocumentMoniker": "WGCNA\\ResultTables\\GeneSignificanceResult.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\ResultTables\\GeneSignificanceResult.vb",
-              "RelativeToolTip": "WGCNA\\ResultTables\\GeneSignificanceResult.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "CorrelationNetwork.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\CorrelationNetwork.vb",
+              "RelativeDocumentMoniker": "WGCNA\\CorrelationNetwork.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\CorrelationNetwork.vb",
+              "RelativeToolTip": "WGCNA\\CorrelationNetwork.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-23T04:14:49.267Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ModulePhenotypeCorrelation.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\ResultTables\\ModulePhenotypeCorrelation.vb",
-              "RelativeDocumentMoniker": "WGCNA\\ResultTables\\ModulePhenotypeCorrelation.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\ResultTables\\ModulePhenotypeCorrelation.vb",
-              "RelativeToolTip": "WGCNA\\ResultTables\\ModulePhenotypeCorrelation.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-23T04:14:36.728Z",
+              "WhenOpened": "2026-08-23T04:40:01.01Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ModuleEigengeneResult.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\ResultTables\\ModuleEigengeneResult.vb",
-              "RelativeDocumentMoniker": "WGCNA\\ResultTables\\ModuleEigengeneResult.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\ResultTables\\ModuleEigengeneResult.vb",
-              "RelativeToolTip": "WGCNA\\ResultTables\\ModuleEigengeneResult.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAiAAAAAAAAAA==",
+              "Title": "DataMatrix.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataMatrix.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataMatrix.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataMatrix.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataMatrix.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGkAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-23T04:14:14.159Z",
+              "WhenOpened": "2026-08-23T04:38:21.476Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Distance.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Distance.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Distance.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Distance.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Distance.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-23T04:38:12.336Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "PhenotypeResult.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\ResultTables\\PhenotypeResult.vb",
-              "RelativeDocumentMoniker": "WGCNA\\ResultTables\\PhenotypeResult.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\ResultTables\\PhenotypeResult.vb",
-              "RelativeToolTip": "WGCNA\\ResultTables\\PhenotypeResult.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAAAAAAAAAAAA==",
+              "Title": "Correlation.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Correlation.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Correlation.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Correlation.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Correlation.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-23T04:13:51.26Z",
+              "WhenOpened": "2026-08-23T04:38:10.516Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Builder.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Builder.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Builder.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Builder.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Builder.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-23T04:38:09.693Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "NamedSparseMatrix.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\NamedSparseMatrix.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\NamedSparseMatrix.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\NamedSparseMatrix.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\NamedSparseMatrix.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE4AAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-23T04:27:50.366Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "NumericDataSet.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\NumericDataSet.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\NumericDataSet.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\NumericDataSet.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\NumericDataSet.vb",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAYwGgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-23T04:21:58.989Z",
               "EditorCaption": ""
             }
           ]

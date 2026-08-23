@@ -71,6 +71,8 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
+
 ''' <summary>
 ''' 模块成员结果
 ''' </summary>
@@ -102,6 +104,26 @@ Public Class ModuleMembershipResult
 
     Public Overrides Function ToString() As String
         Return $"Gene '{GeneId}' in '{ModuleName}': MM={Correlation:F3}, p={PValue:F4}"
+    End Function
+
+    ''' <summary>
+    ''' [geneID,moduleColor,kME]
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    Public Shared Iterator Function ReadModuleAssignment(file As String) As IEnumerable(Of ModuleMembershipResult)
+        Dim df As DataFrameResolver = DataFrameResolver.Load(file)
+        Dim geneID As Integer = df.GetOrdinal("geneID")
+        Dim moduleColor As Integer = df.GetOrdinal("moduleColor")
+        Dim kME As Integer = df.GetOrdinal("kME")
+
+        Do While df.Read
+            Yield New ModuleMembershipResult With {
+                .GeneId = df.GetString(geneID),
+                .Correlation = df.GetDouble(kME),
+                .ModuleName = df.GetString(moduleColor)
+            }
+        Loop
     End Function
 End Class
 
