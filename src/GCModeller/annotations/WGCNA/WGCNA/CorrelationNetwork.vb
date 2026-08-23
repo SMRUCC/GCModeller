@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
-Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -12,8 +11,8 @@ Imports std = System.Math
 Public Module CorrelationNetwork
 
     Public Function LoadAdjacencyMatrix(file As String) As DataMatrix
-        Dim rows As IEnumerable(Of RowObject) = file.IterateAllLines(tqdm_wrap:=True).Select(Function(a) Tokenizer.CharsParser(a))
-        Dim data As IEnumerable(Of (String, Double())) = From row As RowObject In rows Select (row(0), row.Skip(1).AsDouble)
+        Dim rows As IEnumerable(Of String()) = file.IterateAllLines(tqdm_wrap:=True).Select(Function(a) Tokenizer.CharsParser(a).ToArray)
+        Dim data As IEnumerable(Of (String, Double())) = From row As String() In rows Select (row(0), row.Skip(1).AsDouble)
         Dim adj As New DataMatrix(data)
         Return adj
     End Function
