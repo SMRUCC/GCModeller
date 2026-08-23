@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>cdhit_nr</title>
+    <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,21 +13,21 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>cdhit_nr {kmers}</td>
+                <td>cdhit_clusters {kmers}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>cdhit_nr</h2>
+        <h2></h2>
 
         <h3>Description</h3>
 
-        cdhit_nr
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>cdhit_nr</strong>(<i>x</i>,
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>cdhit_clusters</strong>(<i>x</i>,
     <i>k</i> = <span style='color: green;'>12</span>,
     <i>identities</i> = <span style='color: green;'>0.8</span>,
     <i>n.threads</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
@@ -37,6 +37,25 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p></p></dd>
+
+
+<dt>k</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>identities</dt>
+<dd><p>[as double]</p></dd>
+
+
+<dt>n.threads</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -50,7 +69,14 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
+        <p>a tuple list that contains the data slots:
+
+
+<ul>
+<li><p>family: <a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/FamilyExports.html">FamilyExports</a></li>
+<li><p>sequence: <a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/SequenceCluster.html">SequenceCluster</a></li>
+<li><p>clusters: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/SimilarHit.html">SimilarHit</a></li>
+</ul><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

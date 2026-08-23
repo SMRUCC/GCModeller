@@ -83,11 +83,35 @@ declare namespace kmers {
    */
    function bloom_vector(x: any, k?: object, hash_index?: boolean, env?: object): any;
    /**
+    * 
+    * 
+     * @param x -
+     * @param k -
+     * 
+     * + default value Is ``12``.
+     * @param identities -
+     * 
+     * + default value Is ``0.8``.
+     * @param n_threads -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return a tuple list that contains the data slots:
+     *  
+     *  - family: @``T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.FamilyExports``
+     *  - sequence: @``T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.SequenceCluster``
+     *  - clusters: @``T:SMRUCC.genomics.Analysis.SequenceAlignment.SimilarHit``
+   */
+   function cdhit_clusters(x: any, k?: object, identities?: number, n_threads?: object, env?: object): any;
+   /**
      * @param k default value Is ``12``.
      * @param identities default value Is ``0.8``.
+     * @param n_threads default value Is ``null``.
      * @param env default value Is ``null``.
    */
-   function cdhit_nr(x: any, k?: object, identities?: number, env?: object): any;
+   function cdhit_nr(x: any, k?: object, identities?: number, n_threads?: object, env?: object): object;
    /**
     * filter the reads data that has the specific taxonomy id assignment.
     * 
