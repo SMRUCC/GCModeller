@@ -1,10 +1,8 @@
-﻿Imports System.Linq
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+﻿Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
-Imports VBDebugger = Microsoft.VisualBasic.Parallel.Threads.VBDebugger
 
 ''' <summary>
 ''' WGCNA 共表达网络与 BNLearn 动态贝叶斯网络（DBN）之间的桥接模块。
@@ -15,7 +13,7 @@ Imports VBDebugger = Microsoft.VisualBasic.Parallel.Threads.VBDebugger
 ''' （<see cref="DynamicBayesianNetwork"/>），并支持基于时间序列表达矩阵
 ''' 进行参数学习与基因表达虚拟敲降的级联模拟计算。
 ''' </summary>
-Public Module WGCNAGRN
+Public Module GeneRegulatoryNetwork
 
     ''' <summary>
     ''' 先验知识的证据来源标记。
@@ -43,7 +41,7 @@ Public Module WGCNAGRN
     ''' 作为先验置信度。两端同为 TF 或同为非 TF 的边无法由共表达确定方向，将被
     ''' 跳过并在日志中给出统计信息。
     ''' </summary>
-    ''' <param name="wgcna">WGCNA <see cref="CorrelationNetwork.ExportGraph"/> 生成的共表达网络。</param>
+    ''' <param name="wgcna">WGCNA "CorrelationNetwork.ExportGraph" 生成的共表达网络。</param>
     ''' <param name="TF">转录因子（上游调控因子）基因名称注释集合。</param>
     ''' <returns>定向后的 BNLearn 先验调控网络。</returns>
     Public Function BuildPriorNetwork(wgcna As NetworkGraph, TF As HashSet(Of String)) As Core.PriorNetwork
@@ -58,7 +56,7 @@ Public Module WGCNAGRN
             Throw New ArgumentException("TF 注释列表不能为空，否则无法构建调控方向", NameOf(TF))
         End If
 
-        For Each e As Edge In wgcna.edges
+        For Each e As Edge In wgcna.graphEdges
             Dim a As String = e.U.label
             Dim b As String = e.V.label
 
@@ -74,7 +72,7 @@ Public Module WGCNAGRN
             End If
         Next
 
-        Call VBDebugger.WriteLine($"WGCNAGRN.BuildPriorNetwork: 共 {wgcna.edges.Count} 条边，定向 {directed} 条，跳过 {skipped} 条（无法由 TF 注释确定方向）")
+        Call VBDebugger.WriteLine($"WGCNAGRN.BuildPriorNetwork: 共 {wgcna.graphEdges.Count} 条边，定向 {directed} 条，跳过 {skipped} 条（无法由 TF 注释确定方向）")
 
         Return prior
     End Function
@@ -108,7 +106,7 @@ Public Module WGCNAGRN
             Throw New ArgumentException("TF 注释列表不能为空，否则无法构建调控方向", NameOf(TF))
         End If
 
-        For Each e As Edge In wgcna.edges
+        For Each e As Edge In wgcna.graphEdges
             Dim a As String = e.U.label
             Dim b As String = e.V.label
 
@@ -127,7 +125,7 @@ Public Module WGCNAGRN
     ''' BNLearn 工作流中返回。调用方随后可设置工作流的
     ''' <see cref="BNLearnWorkflow.ExpressionData"/> 并执行结构学习与参数学习。
     ''' </summary>
-    ''' <param name="wgcna">WGCNA <see cref="CorrelationNetwork.ExportGraph"/> 生成的共表达网络。</param>
+    ''' <param name="wgcna">WGCNA "CorrelationNetwork.ExportGraph" 生成的共表达网络。</param>
     ''' <param name="TF">转录因子（上游调控因子）基因名称数组。</param>
     ''' <returns>已注入拓扑先验网络的 BNLearn 工作流实例。</returns>
     Public Function BuildBNNetwork(wgcna As NetworkGraph, TF As String()) As BNLearnWorkflow
@@ -165,8 +163,8 @@ Public Module WGCNAGRN
         For Each tp As Double In timePoints
             ' 收集该时间点的所有样本索引
             Dim sampleIdx As Integer() = expr.TimePoints _
-                .Select(Function(t, i) (time := t, index := i)) _
-                .Where(Function(x) Math.Abs(x.time - tp) < 1E-10) _
+                .Select(Function(t, i) (time:=t, index:=i)) _
+                .Where(Function(x) Math.Abs(x.time - tp) < 0.0000000001) _
                 .Select(Function(x) x.index) _
                 .ToArray()
 
@@ -179,13 +177,14 @@ Public Module WGCNAGRN
 
             For gi As Integer = 0 To expr.NGene - 1
                 Dim gene As String = expr.GeneNames(gi)
-                Dim avg As Double = sampleIdx _
-                    .Select(Function(i) expr.Matrix(gi, i)) _
-                    .Average()
+                Dim offset As Integer = gi
+                Dim avg As Double = Aggregate i As Integer
+                                    In sampleIdx
+                                    Into Average(expr.Matrix(offset, i))
                 frame(gene) = avg
             Next
 
-            series.Add(frame)
+            Call series.Add(frame)
         Next
 
         Call VBDebugger.WriteLine($"WGCNAGRN.ToTimeSeries: 构造时间序列，共 {series.Count} 个时间点")

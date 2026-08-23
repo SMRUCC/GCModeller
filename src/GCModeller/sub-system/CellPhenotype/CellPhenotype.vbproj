@@ -68,6 +68,5 @@
     <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\BNLearn\BNLearn.vbproj" />
-    <ProjectReference Include="..\..\annotations\WGCNA\WGCNA\WGCNA.vbproj" />
   </ItemGroup>
 </Project>
