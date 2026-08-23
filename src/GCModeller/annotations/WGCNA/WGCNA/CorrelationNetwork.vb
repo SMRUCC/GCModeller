@@ -11,7 +11,7 @@ Imports std = System.Math
 Public Module CorrelationNetwork
 
     Public Function LoadAdjacencyMatrix(file As String) As DataMatrix
-        Dim rows As IEnumerable(Of String()) = file.IterateAllLines(tqdm_wrap:=True).Select(Function(a) Tokenizer.CharsParser(a).ToArray)
+        Dim rows As IEnumerable(Of String()) = From line As String In file.IterateAllLines(tqdm_wrap:=True) Skip 1 Select Tokenizer.CharsParser(line).ToArray
         Dim data As IEnumerable(Of (String, Double())) = From row As String() In rows Select (row(0), row.Skip(1).AsDouble)
         Dim adj As New DataMatrix(data)
         Return adj
