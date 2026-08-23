@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
@@ -6,6 +7,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports std = System.Math
 
 Public Module CorrelationNetwork
 
@@ -32,6 +34,18 @@ Public Module CorrelationNetwork
                     {"pvalue", gene.PValue}
                 }
             })
+        Next
+
+        For Each gene_id As String In TqdmWrapper.Wrap(g.vertex.Select(Function(a) a.label).ToArray)
+            Dim u = g.GetElementByID(gene_id)
+
+            For Each pair As String In g.vertex.Select(Function(a) a.label)
+                Dim cor As Double = adj(gene_id, pair)
+
+                If std.Abs(cor) > adj_thres Then
+                    Call g.CreateEdge(u, g.GetElementByID(pair), weight:=cor)
+                End If
+            Next
         Next
 
         Return g
