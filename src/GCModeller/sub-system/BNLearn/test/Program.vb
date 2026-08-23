@@ -3,9 +3,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionComparisonExporter
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.MetabolicModel
 
 Module Program
 
@@ -13,7 +13,7 @@ Module Program
         ' 1. 加载数据
         Dim exprData = BnIO.ReadGeneExpressionMatrix(Matrix.LoadData("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\gene_expression_matrix.csv"))
         Dim priorNet = BnIO.ReadPriorNetwork("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\regulatory_network_prior.csv".LoadCsv(Of RegulatoryEdge))
-        Dim pathways As Dictionary(Of String, PathwayInfo) = "G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\pathway_info.json".LoadJsonFile(Of Dictionary(Of String, PathwayInfo))
+        Dim pathways As Dictionary(Of String, MetabolicPathway) = "G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\pathway_info.json".LoadJsonFile(Of Dictionary(Of String, MetabolicPathway))
 
         ' 2. 创建工作流
         Dim workflow As New BNLearnWorkflow()
