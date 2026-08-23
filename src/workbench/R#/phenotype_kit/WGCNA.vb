@@ -64,6 +64,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
@@ -136,7 +137,7 @@ Module WGCNA
     ''' <returns></returns>
     <ExportAPI("read.modules")>
     Public Function readModules(<RRawVectorArgument> file As Object, Optional prefix$ = Nothing, Optional result_modules As Boolean = False) As Object
-        Dim all = CLRVector.asCharacter(file) _
+        Dim all As CExprMods() = CLRVector.asCharacter(file) _
             .Select(Function(path)
                         Return WGCNAModules.LoadModules(path)
                     End Function) _
@@ -168,6 +169,11 @@ Module WGCNA
     <ExportAPI("read_clusters")>
     Public Function readClusterModuleResult(file As String, Optional prefix$ = Nothing) As ClusterModuleResult()
         Return ClusterModuleResult.LoadTable(tsv:=file, prefix).ToArray
+    End Function
+
+    <ExportAPI("read.module_cor")>
+    Public Function read_moduleCor(file As String) As Object
+        Return ModuleMembershipResult.ReadModuleAssignment(file).ToArray
     End Function
 
     ''' <summary>
@@ -203,6 +209,11 @@ Module WGCNA
         Else
             Return wgcna
         End If
+    End Function
+
+    <ExportAPI("read.adjacency")>
+    Public Function readAdjacencyMatrix(file As String) As DataMatrix
+        Return CorrelationNetwork.LoadAdjacencyMatrix(file)
     End Function
 
     ''' <summary>
@@ -266,19 +277,39 @@ Module WGCNA
     ''' Create correlation network based on WGCNA method
     ''' </summary>
     ''' <param name="x">
-    ''' should be an expression matrix object of gene features in rows and sample id in columns
+    ''' should be an HTS expression matrix object of gene features in rows and sample id in columns or the adjacency matrix which is read via ``read.adjacency`` function.
     ''' </param>
     ''' <param name="adjacency"></param>
+    ''' <param name="args">
+    ''' additional parameters for create correlation network based on the adjacency matrix directly: ``membership`` for gene to modulee membership correlation result.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("cor_network")>
     <RApiReturn(GetType(Result))>
-    Public Function runAnalysis(x As Matrix,
+    Public Function runAnalysis(x As Object,
                                 Optional adjacency As Double = 0.6,
                                 Optional pca_layout As Boolean = True,
+                                <RListObjectArgument>
+                                Optional args As list = Nothing,
                                 Optional env As Environment = Nothing) As Object
+        If x Is Nothing Then
+            Return Nothing
+        End If
 
-        Return Analysis.Run(x, adjacency, pca_layout)
+        If TypeOf x Is Matrix Then
+            Return Analysis.Run(x, adjacency, pca_layout)
+        ElseIf TypeOf x Is DataMatrix Then
+            Dim mods As PipeIterator(Of ModuleMembershipResult) = pipeline.Stream(Of ModuleMembershipResult)(args.getBySynonyms("modules", "module_colors", "membership"), env)
+
+            If mods.isError Then
+                Return mods.getError
+            End If
+
+            Return CorrelationNetwork.ExportGraph(x, mods, adj_thres:=adjacency)
+        Else
+            Return Message.InCompatibleType(GetType(Matrix), x.GetType, env)
+        End If
     End Function
 
     <ExportAPI("phenotype_matrix")>
