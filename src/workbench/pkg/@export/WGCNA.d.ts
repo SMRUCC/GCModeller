@@ -77,17 +77,20 @@ declare namespace WGCNA {
     * Create correlation network based on WGCNA method
     * 
     * 
-     * @param x should be an expression matrix object of gene features in rows and sample id in columns
+     * @param x should be an HTS expression matrix object of gene features in rows and sample id in columns or the adjacency matrix which is read via ``read.adjacency`` function.
      * @param adjacency -
      * 
      * + default value Is ``0.6``.
      * @param pca_layout 
      * + default value Is ``true``.
+     * @param args additional parameters for create correlation network based on the adjacency matrix directly: ``membership`` for gene to modulee membership correlation result.
+     * 
+     * + default value Is ``null``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function cor_network(x: object, adjacency?: number, pca_layout?: boolean, env?: object): object;
+   function cor_network(x: any, adjacency?: number, pca_layout?: boolean, args?: object, env?: object): object;
    /**
      * @param id1 default value Is ``null``.
      * @param id2 default value Is ``null``.
@@ -126,6 +129,12 @@ declare namespace WGCNA {
    */
    function phenotype_matrix(x: any, env?: object): any;
    module read {
+      /**
+      */
+      function adjacency(file: string): object;
+      /**
+      */
+      function module_cor(file: string): any;
       /**
        * load TOM module network nodes
        * 

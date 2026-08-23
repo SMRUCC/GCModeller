@@ -55,7 +55,9 @@ WGCNA, which stands for Weighted Gene Co-expression Network Analysis, is a syste
 
 + [read.modules](WGCNA/read.modules.1) load TOM module network nodes
 + [read_clusters](WGCNA/read_clusters.1) 
++ [read.module_cor](WGCNA/read.module_cor.1) 
 + [read.weight_matrix](WGCNA/read.weight_matrix.1) read the TOM correlation network matrix file
++ [read.adjacency](WGCNA/read.adjacency.1) 
 + [load_TOM_graph](WGCNA/load_TOM_graph.1) load network graph from the WGCNA exportNetworkToCytoscape function exports
 + [connectivity](WGCNA/connectivity.1) export a dataframe of the node information with connectivity value
 + [applyModuleColors](WGCNA/applyModuleColors.1) 

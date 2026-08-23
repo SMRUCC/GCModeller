@@ -3,9 +3,10 @@
 .SH NAME
 cor_network \- Create correlation network based on WGCNA method
 .SH SYNOPSIS
-\fIcor_network(\fBx\fR as <generic> Matrix, 
+\fIcor_network(\fBx\fR as any, 
 \fBadjacency\fR as double = 0.6, 
 \fBpca_layout\fR as boolean = TRUE, 
+..., 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -14,11 +15,16 @@ Create correlation network based on WGCNA method
 .SH OPTIONS
 .PP
 \fBx\fB \fR\- 
- should be an expression matrix object of gene features in rows and sample id in columns
+ should be an HTS expression matrix object of gene features in rows and sample id in columns or the adjacency matrix which is read via \fBread.adjacency\fR function.
 . 
 .PP
 .PP
 \fBadjacency\fB \fR\- -. 
+.PP
+.PP
+\fBargs\fB \fR\- 
+ additional parameters for create correlation network based on the adjacency matrix directly: \fBmembership\fR for gene to modulee membership correlation result.
+. 
 .PP
 .PP
 \fBenv\fB \fR\- -. 
