@@ -20,7 +20,10 @@ Public Module CorrelationNetwork
 
     <Extension>
     Public Function ExportGraph(adj As DataMatrix, modules As IEnumerable(Of ModuleMembershipResult), Optional adj_thres As Double = 0.8) As NetworkGraph
-        Dim g As New NetworkGraph With {.id = "adjacency_matrix", .name = "WGCNA correlation network"}
+        Dim g As New NetworkGraph With {
+            .id = "adjacency_matrix",
+            .name = "WGCNA correlation network"
+        }
 
         For Each gene As ModuleMembershipResult In modules
             Call g.CreateNode(gene.GeneId, New NodeData With {
