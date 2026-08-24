@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8020703aaf91a692be7f137a03903d87, Data_science\MachineLearning\DeepLearning\NeuralNetwork\Models\Network.vb"
+﻿#Region "Microsoft.VisualBasic::1720ebb5c7ce23f91a6b4c839286f047, Data_science\MachineLearning\DeepLearning\NeuralNetwork\Models\Network.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 445
-    '    Code Lines: 234 (52.58%)
-    ' Comment Lines: 153 (34.38%)
+    '   Total Lines: 440
+    '    Code Lines: 229 (52.05%)
+    ' Comment Lines: 153 (34.77%)
     '    - Xml Docs: 90.85%
     ' 
-    '   Blank Lines: 58 (13.03%)
-    '     File Size: 18.87 KB
+    '   Blank Lines: 58 (13.18%)
+    '     File Size: 18.57 KB
 
 
     '     Class Network
@@ -61,18 +61,13 @@
 #End Region
 
 Imports System.IO
-Imports System.Text
 Imports System.Runtime.CompilerServices
-Imports System.Collections.Generic
+Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.CNN
-Imports Microsoft.VisualBasic.MachineLearning.CNN.trainers
 Imports Microsoft.VisualBasic.MachineLearning.CNN.layers
-Imports Microsoft.VisualBasic.MachineLearning.CNN.data
 Imports Microsoft.VisualBasic.MachineLearning.CNN.losslayers
-Imports Microsoft.VisualBasic.MachineLearning.CNN.SaveModelCNN
-Imports Microsoft.VisualBasic.MachineLearning.CNN.ReadModelCNN
-Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
+Imports Microsoft.VisualBasic.MachineLearning.CNN.trainers
 
 Namespace NeuralNetwork
 
