@@ -1,4 +1,63 @@
-﻿' ============================================================================
+﻿#Region "Microsoft.VisualBasic::9c8a03c148be8d22b11d40e00cfebfdf, ncbi_datasets\Models\V2reportsVirusAssembly.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 61 (34.08%)
+    ' Comment Lines: 86 (48.04%)
+    '    - Xml Docs: 94.19%
+    ' 
+    '   Blank Lines: 32 (17.88%)
+    '     File Size: 4.87 KB
+
+
+    '     Class V2reportsVirusAssembly
+    ' 
+    '         Properties: Accession, Bioprojects, Biosample, Completeness, GeneCount
+    '                     Host, IsAnnotated, IsComplete, IsLabHost, Isolate
+    '                     IsVaccineStrain, LabHost, Length, Location, MaturePeptideCount
+    '                     MolType, Nucleotide, NucleotideCompleteness, ProteinCount, PurposeOfSampling
+    '                     ReleaseDate, Segment, SourceDatabase, SraAccessions, Submitter
+    '                     UpdateDate, Virus
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+' ============================================================================
 ' V2reportsVirusAssembly.vb
 ' 自动生成的模型类 - 基于 OpenAPI 3.0.1 规范
 ' 源 Schema: v2reportsVirusAssembly
@@ -177,3 +236,4 @@ Namespace ncbi_datasets.Models
     End Class
 
 End Namespace
+
