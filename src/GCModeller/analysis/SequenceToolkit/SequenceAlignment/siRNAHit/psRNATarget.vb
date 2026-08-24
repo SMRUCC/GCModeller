@@ -203,11 +203,11 @@ Namespace siRNAHit
         ''' <summary>对一组候选 mRNA 执行预测，返回通过的命中集合。</summary>
         Public Function Run(mirna As FastaSeq, targets As IEnumerable(Of FastaSeq)) As List(Of siRNAHit)
             Dim out As New List(Of siRNAHit)()
-            Dim query As String = mirna.Title
+            Dim query As String = mirna.Title.TrimStart(">"c)
             Dim mirnaSeq As String = mirna.SequenceData.ToUpper
 
             For Each t In targets
-                Dim id As String = t.Title
+                Dim id As String = t.Title.TrimStart(">"c)
                 Dim seq As String = t.SequenceData.ToUpper
 
                 Dim revComp As String = mirnaSeq.ReverseComplementRNA()
