@@ -1,3 +1,82 @@
+﻿#Region "Microsoft.VisualBasic::95eedeea79e6b12c39e3940890dc4539, annotations\GSEA\FELLA\KeggGraph.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 352
+    '    Code Lines: 206 (58.52%)
+    ' Comment Lines: 98 (27.84%)
+    '    - Xml Docs: 84.69%
+    ' 
+    '   Blank Lines: 48 (13.64%)
+    '     File Size: 13.18 KB
+
+
+    '     Enum KeggNodeType
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class KeggNode
+    ' 
+    '         Properties: Id, Index, Name, NodeType
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class KeggEdge
+    ' 
+    '         Properties: EdgeType, SourceIndex, TargetIndex
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class KeggGraph
+    ' 
+    '         Properties: EdgeCount, Edges, NodeCount, Nodes
+    ' 
+    '         Function: AddNode, BuildAdjacencyMatrix, ComputeDegrees, ComputeLaplacian, ComputeRegularizedLaplacian
+    '                   ComputeTransitionMatrix, ContainsId, GetIndex, GetIndicesByType, GetNeighbors
+    '                   GetNode, GetNodesByType, GetStatistics, GetSubGraph
+    ' 
+    '         Sub: AddEdge, AddEdgeByIndex
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' FELLA Algorithm - VB.NET Implementation
 ' KeggGraph.vb - KEGG multi-layer heterogeneous graph data structure
@@ -350,3 +429,4 @@ Namespace Core
     End Class
 
 End Namespace
+

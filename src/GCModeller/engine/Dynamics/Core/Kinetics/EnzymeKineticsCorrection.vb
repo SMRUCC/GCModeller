@@ -1,4 +1,61 @@
-﻿Namespace Kinetics
+﻿#Region "Microsoft.VisualBasic::f8e686a7933f3a56f4d5f45d2e10780d, engine\Dynamics\Core\Kinetics\EnzymeKineticsCorrection.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 329
+    '    Code Lines: 148 (44.98%)
+    ' Comment Lines: 120 (36.47%)
+    '    - Xml Docs: 56.67%
+    ' 
+    '   Blank Lines: 61 (18.54%)
+    '     File Size: 13.88 KB
+
+
+    '     Class AdvancedEnzymeKineticsCorrection
+    ' 
+    '         Function: CalculateChangeRate, CalculateCofactorActivationFactor, CalculateCorrectedKcat, CalculateCorrectedKm, CalculateCrowdingEffect
+    '                   CalculateDynamicAdaptationEffect, CalculateIonStrengthFactor, CalculatepHFactor, CalculateProductCompetitiveInhibitionFactor, CalculateProductNoncompetitiveInhibitionFactor
+    '                   CalculateSubstrateInhibitionFactor, CalculateTemperatureFactorKcat, CalculateTemperatureFactorKm, CalculateTemperaturepHInteraction, CalculateThermalDenaturationFactor
+    '                   CalculateViscosityEffect, SafeExp
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Namespace Kinetics
 
     ''' <summary>
     ''' Km = Km[0] + E(X)

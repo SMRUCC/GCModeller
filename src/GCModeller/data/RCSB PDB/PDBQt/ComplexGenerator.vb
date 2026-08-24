@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39fe09d001e15023dcc4d71fb6ecf714, data\RCSB PDB\PDBQt\ComplexGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::a520f3ac6d43899243c64cacd169be5b, data\RCSB PDB\PDBQt\ComplexGenerator.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 84
-    '    Code Lines: 55 (65.48%)
-    ' Comment Lines: 15 (17.86%)
+    '   Total Lines: 83
+    '    Code Lines: 55 (66.27%)
+    ' Comment Lines: 15 (18.07%)
     '    - Xml Docs: 93.33%
     ' 
-    '   Blank Lines: 14 (16.67%)
-    '     File Size: 3.15 KB
+    '   Blank Lines: 13 (15.66%)
+    '     File Size: 3.14 KB
 
 
     ' Class ComplexGenerator
@@ -51,7 +51,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -136,4 +135,3 @@ Public Class ComplexGenerator
     End Function
 
 End Class
-

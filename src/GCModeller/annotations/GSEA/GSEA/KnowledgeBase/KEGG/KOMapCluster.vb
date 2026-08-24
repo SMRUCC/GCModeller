@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22e53e4cc1df0c9de679e0f99f5d4bb1, annotations\GSEA\GSEA\KnowledgeBase\KEGG\KOMapCluster.vb"
+﻿#Region "Microsoft.VisualBasic::19925087f26686235d0857d8761ab63a, annotations\GSEA\GSEA\KnowledgeBase\KEGG\KOMapCluster.vb"
 
     ' Author:
     ' 
@@ -122,4 +122,3 @@ Public Class KOMapCluster
             .ToArray
     End Function
 End Class
-

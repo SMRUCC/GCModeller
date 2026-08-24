@@ -1,3 +1,58 @@
+﻿#Region "Microsoft.VisualBasic::880e3b3066656dc01e9624a512a240eb, annotations\Bifrost\Prodigal\PredictionPipeline.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 69 (57.50%)
+    ' Comment Lines: 28 (23.33%)
+    '    - Xml Docs: 39.29%
+    ' 
+    '   Blank Lines: 23 (19.17%)
+    '     File Size: 4.59 KB
+
+
+    ' Class PredictionPipeline
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: ComputeConfidence, Predict
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' ProdigalCore.vb - Prodigal VB.NET 基因预测程序 核心算法
 ' 包含：ORF查找、编码区打分、RBS检测、起始密码子评分、
@@ -116,5 +171,6 @@ Public Class PredictionPipeline
     End Function
 
 End Class
+
 
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3c5d597583c683ee92fe1540a41b745, engine\IO\GCMarkupLanguage\v2\Xml\Metabolism\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::fb591e2d275ee37a368ff0cf916cea29, engine\IO\GCMarkupLanguage\v2\Xml\Metabolism\Compound.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 44
-    '    Code Lines: 25 (56.82%)
-    ' Comment Lines: 8 (18.18%)
+    '   Total Lines: 48
+    '    Code Lines: 25 (52.08%)
+    ' Comment Lines: 12 (25.00%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 11 (25.00%)
-    '     File Size: 1.31 KB
+    '   Blank Lines: 11 (22.92%)
+    '     File Size: 1.44 KB
 
 
     '     Class Compound

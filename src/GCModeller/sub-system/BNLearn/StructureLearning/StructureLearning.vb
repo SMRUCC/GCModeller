@@ -1,3 +1,61 @@
+﻿#Region "Microsoft.VisualBasic::15f6960fb8e75bd42055a99c1c0bcac9, sub-system\BNLearn\StructureLearning\StructureLearning.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 787
+    '    Code Lines: 538 (68.36%)
+    ' Comment Lines: 125 (15.88%)
+    '    - Xml Docs: 31.20%
+    ' 
+    '   Blank Lines: 124 (15.76%)
+    '     File Size: 31.03 KB
+
+
+    '     Class BnStructureLearner
+    ' 
+    '         Function: BetaCF, BuildDesignMatrix, ComputeNetworkBIC, ComputeNodeBIC, GammaLn
+    '                   IncompleteBeta, Learn, LinearRegression, MatrixInverse, MMPCPhase
+    '                   NormalCDF, PartialCorrelation, TDistPValue
+    ' 
+    '         Sub: HillClimbingSearch, PrecomputeStatistics, TabuSearch
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================
 ' StructureLearning.vb - 贝叶斯网络结构学习
 ' ============================================================
@@ -785,3 +843,4 @@ Namespace StructureLearning
     End Class
 
 End Namespace
+

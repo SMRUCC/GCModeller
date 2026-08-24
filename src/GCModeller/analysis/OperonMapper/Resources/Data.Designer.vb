@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d27cb91a23673799abab4092035aa69, analysis\OperonMapper\Resources\Data.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::1fb54e204e113bf7d41faded2de34a35, analysis\OperonMapper\Resources\Data.Designer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 19.23%
     ' 
     '   Blank Lines: 10 (12.99%)
-    '     File Size: 3.37 KB
+    '     File Size: 3.36 KB
 
 
     '     Class Data
@@ -131,4 +131,3 @@ Namespace My.Resources
         End Property
     End Class
 End Namespace
-

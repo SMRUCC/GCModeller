@@ -1,3 +1,56 @@
+﻿#Region "Microsoft.VisualBasic::a861b3baa44dc34a577da97249a21c69, analysis\ProteinTools\ProteinMatrix\CDHitFamilyExport.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 142
+    '    Code Lines: 86 (60.56%)
+    ' Comment Lines: 38 (26.76%)
+    '    - Xml Docs: 42.11%
+    ' 
+    '   Blank Lines: 18 (12.68%)
+    '     File Size: 7.02 KB
+
+
+    ' Module CDHitFamilyExport
+    ' 
+    '     Function: (+2 Overloads) ExportClusters, ExportClustersInternal
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' CDHit 聚类结果导出模块
 '
 ' 将 CDHit.FindSimilar 返回的聚类结果(SimilarHit 集合)连同原始 FastaSeq 序列,
@@ -140,3 +193,4 @@ Public Module CDHitFamilyExport
         End If
     End Function
 End Module
+

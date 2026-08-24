@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::562da6275d206b4be028fe50648d9801, engine\BootstrapLoader\Engine\MemoryDataSet.vb"
+﻿#Region "Microsoft.VisualBasic::941045d8d8f28fc199079e94e9a0f031, engine\BootstrapLoader\Engine\MemoryDataSet.vb"
 
     ' Author:
     ' 
@@ -90,4 +90,3 @@ Public Class MemoryDataSet : Implements IOmicsDataAdapter
         reverseRows.Add(New Dictionary(Of String, Double)(data))
     End Sub
 End Class
-

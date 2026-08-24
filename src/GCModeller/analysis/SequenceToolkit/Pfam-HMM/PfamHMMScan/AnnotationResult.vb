@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b15650095754b6720019afe751ac933, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\AnnotationResult.vb"
+﻿#Region "Microsoft.VisualBasic::2599022200afcd48e8f01dafa083295d, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\AnnotationResult.vb"
 
     ' Author:
     ' 
@@ -111,4 +111,3 @@ Public Class AnnotationResult
     End Function
 
 End Class
-

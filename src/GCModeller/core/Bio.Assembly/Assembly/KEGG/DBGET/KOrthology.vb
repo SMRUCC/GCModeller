@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32ad401bebfa9ee54d04b6227b0f46ac, core\Bio.Assembly\Assembly\KEGG\DBGET\KOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::4c62346c2c44760bd9cf0db954533800, core\Bio.Assembly\Assembly\KEGG\DBGET\KOrthology.vb"
 
     ' Author:
     ' 
@@ -34,26 +34,25 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 58
-    '    Code Lines: 36 (62.07%)
-    ' Comment Lines: 9 (15.52%)
+    '   Total Lines: 71
+    '    Code Lines: 47 (66.20%)
+    ' Comment Lines: 9 (12.68%)
     '    - Xml Docs: 77.78%
     ' 
-    '   Blank Lines: 13 (22.41%)
-    '     File Size: 2.00 KB
+    '   Blank Lines: 15 (21.13%)
+    '     File Size: 2.49 KB
 
 
     '     Class KOrthology
     ' 
     '         Properties: [function], EC_number, geneNames, KO_id
     ' 
-    '         Function: ParseText, RequestKEGG, ToString
+    '         Function: ParseID, ParseTerm, ParseText, RequestKEGG, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.Text
 

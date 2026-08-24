@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e0c2f6a51c4018de8fb65e1f587d47f, analysis\SequenceToolkit\SequenceAlignment\SmithWaterman\SmithWaterman.vb"
+﻿#Region "Microsoft.VisualBasic::6c96a78edb01b6f7c59bcee52015835c, analysis\SequenceToolkit\SequenceAlignment\SmithWaterman\SmithWaterman.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 71
-    '    Code Lines: 33 (46.48%)
-    ' Comment Lines: 30 (42.25%)
-    '    - Xml Docs: 86.67%
+    '   Total Lines: 94
+    '    Code Lines: 41 (43.62%)
+    ' Comment Lines: 43 (45.74%)
+    '    - Xml Docs: 90.70%
     ' 
-    '   Blank Lines: 8 (11.27%)
-    '     File Size: 3.00 KB
+    '   Blank Lines: 10 (10.64%)
+    '     File Size: 4.36 KB
 
 
     '     Class SmithWaterman
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Align, GetOutput, SymbolProvider
+    '         Function: Align, GetBestHSP, GetOutput, SymbolProvider
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4298780ea1a792d5c4a320bca7e2ef8, analysis\SequenceToolkit\MotifFinder\Gibbs\RunSample.vb"
+﻿#Region "Microsoft.VisualBasic::febdc956a211897f52d74f6d2a39ca9c, analysis\SequenceToolkit\MotifFinder\Gibbs\RunSample.vb"
 
     ' Author:
     ' 
@@ -102,4 +102,3 @@ Friend Class RunSample
         End If
     End Sub
 End Class
-

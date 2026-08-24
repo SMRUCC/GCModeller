@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef2eee9742af84e99ef6afb18f985189, analysis\Metagenome\Metagenome\Tools\gast\TaxonomyTree\TaxonomyTree.vb"
+﻿#Region "Microsoft.VisualBasic::a0942db4445b575c3efbfb3f4e41dfc5, analysis\Metagenome\Metagenome\Tools\gast\TaxonomyTree\TaxonomyTree.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 77
-    '    Code Lines: 47 (61.04%)
-    ' Comment Lines: 15 (19.48%)
+    '   Total Lines: 86
+    '    Code Lines: 54 (62.79%)
+    ' Comment Lines: 15 (17.44%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (19.48%)
-    '     File Size: 2.45 KB
+    '   Blank Lines: 17 (19.77%)
+    '     File Size: 3.00 KB
 
 
     '     Class TaxonomyTree
@@ -48,7 +48,7 @@
     '         Properties: childs, hits, lineage, parent, root
     ' 
     '         Constructor: (+3 Overloads) Sub New
-    '         Function: BuildTree, PopulateTaxonomy, ToString
+    '         Function: (+2 Overloads) BuildTree, PopulateTaxonomy, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad39a46c13c13800d183a6dda5e68456, analysis\RNA-Seq\WGCNA\ClusterModuleResult.vb"
+﻿#Region "Microsoft.VisualBasic::64e0bd61b47bb9fd22345862a4c7243e, analysis\RNA-Seq\WGCNA\ClusterModuleResult.vb"
 
     ' Author:
     ' 
@@ -86,4 +86,3 @@ Public Class ClusterModuleResult : Implements INamedValue
     End Function
 
 End Class
-

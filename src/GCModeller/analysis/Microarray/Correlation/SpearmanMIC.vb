@@ -1,4 +1,77 @@
-﻿Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+﻿#Region "Microsoft.VisualBasic::e517a85f7ad37f022c2da8ec1b4fd4f5, analysis\Microarray\Correlation\SpearmanMIC.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 361
+    '    Code Lines: 211 (58.45%)
+    ' Comment Lines: 113 (31.30%)
+    '    - Xml Docs: 69.91%
+    ' 
+    '   Blank Lines: 37 (10.25%)
+    '     File Size: 16.39 KB
+
+
+    ' Class SpearmanMICResult
+    ' 
+    ' 
+    ' 
+    ' Module SpearmanMICCombined
+    ' 
+    ' 
+    '     Enum CombinationMethod
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Class SpearmanMICConfig
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Function: ComputeCrossCorrelation, DetermineAssociationType, FilterSignificantPairs, FisherCombinedPValue
+    ' 
+    ' Class SignificantPair
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Model.Network.Regulons
 Imports std = System.Math
 

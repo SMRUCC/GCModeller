@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d01721dab037a1649810d64058d4037d, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Map.vb"
+﻿#Region "Microsoft.VisualBasic::556a9477cbad23deb44bc486ba0dc8d3, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Map.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 121
-    '    Code Lines: 76 (62.81%)
-    ' Comment Lines: 27 (22.31%)
+    '   Total Lines: 116
+    '    Code Lines: 72 (62.07%)
+    ' Comment Lines: 27 (23.28%)
     '    - Xml Docs: 92.59%
     ' 
-    '   Blank Lines: 18 (14.88%)
-    '     File Size: 4.11 KB
+    '   Blank Lines: 17 (14.66%)
+    '     File Size: 4.03 KB
 
 
     '     Class Map

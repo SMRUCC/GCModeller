@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7c6581be221a8f56f507dadf7d472a3, analysis\SequenceToolkit\MotifFinder\MEMEMotifRepository.vb"
+﻿#Region "Microsoft.VisualBasic::5cd1d23d3f117c39c95155065f653b10, analysis\SequenceToolkit\MotifFinder\MEMEMotifRepository.vb"
 
     ' Author:
     ' 
@@ -95,4 +95,3 @@ Public Class MEMEMotifRepository : Inherits MotifSet
                Select CType(pwm, Probability)
     End Function
 End Class
-

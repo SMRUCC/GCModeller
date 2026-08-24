@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fd44e188ea42b9471a2da52b8096990, core\Bio.Assembly\SequenceModel\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::0f872aa3ef4179d79d0a8e1ad9ff28e4, core\Bio.Assembly\SequenceModel\Abstract.vb"
 
     ' Author:
     ' 
@@ -34,23 +34,15 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 76
-    '    Code Lines: 25 (32.89%)
-    ' Comment Lines: 43 (56.58%)
+    '   Total Lines: 57
+    '    Code Lines: 19 (33.33%)
+    ' Comment Lines: 31 (54.39%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (10.53%)
-    '     File Size: 2.32 KB
+    '   Blank Lines: 7 (12.28%)
+    '     File Size: 1.84 KB
 
 
-    '     Enum SeqTypes
-    ' 
-    '         DNA, RNA
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
     '     Interface IPolymerSequenceModel
     ' 
     '         Properties: SequenceData

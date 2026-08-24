@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::847b1e58494296e19d659d3f83d0049a, core\Bio.Annotation\GFF\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::6d80063a18a6c337c68c3996bf7a4e32, core\Bio.Annotation\GFF\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 146
-    '    Code Lines: 122 (83.56%)
-    ' Comment Lines: 7 (4.79%)
+    '   Total Lines: 149
+    '    Code Lines: 124 (83.22%)
+    ' Comment Lines: 7 (4.70%)
     '    - Xml Docs: 71.43%
     ' 
-    '   Blank Lines: 17 (11.64%)
-    '     File Size: 6.56 KB
+    '   Blank Lines: 18 (12.08%)
+    '     File Size: 6.64 KB
 
 
     '     Module Extensions

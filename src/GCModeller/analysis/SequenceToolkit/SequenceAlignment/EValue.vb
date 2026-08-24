@@ -1,3 +1,56 @@
+﻿#Region "Microsoft.VisualBasic::746f71042c8fab7c72d8424b08b97a12, analysis\SequenceToolkit\SequenceAlignment\EValue.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 19 (33.33%)
+    ' Comment Lines: 31 (54.39%)
+    '    - Xml Docs: 38.71%
+    ' 
+    '   Blank Lines: 7 (12.28%)
+    '     File Size: 2.46 KB
+
+
+    ' Module EValue
+    ' 
+    '     Function: Compute
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' Linclust 阶段四:E-value 统计模型(Karlin-Altschul)
 '
 ' 局部比对显著性统计,用于判定"成员 vs 中心"的 Smith-Waterman 比对
@@ -55,3 +108,4 @@ Public Module EValue
         Return K * CDbl(m) * CDbl(n) * factor
     End Function
 End Module
+

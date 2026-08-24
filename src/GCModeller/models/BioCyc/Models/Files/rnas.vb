@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::458d07b26e368e0675f4101220d4b2d9, models\BioCyc\Models\Files\rnas.vb"
+﻿#Region "Microsoft.VisualBasic::0ad81d01895d437758200bfce1365322, models\BioCyc\Models\Files\rnas.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 14
-    '    Code Lines: 10 (71.43%)
+    '   Total Lines: 13
+    '    Code Lines: 10 (76.92%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 4 (28.57%)
-    '     File Size: 351 B
+    '   Blank Lines: 3 (23.08%)
+    '     File Size: 347 B
 
 
     ' Class rnas
@@ -50,7 +50,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
@@ -65,4 +64,3 @@ Public Class rnas : Inherits Model
     Public Property regulates As String()
 
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2bc0e6c123ac1792aae41fd089e7476, engine\IO\Raw\HDS\CompoundInfo.vb"
+﻿#Region "Microsoft.VisualBasic::1aa14ed17250436c2683619f0f19f230, engine\IO\Raw\HDS\CompoundInfo.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 5 (26.32%)
-    '     File Size: 375 B
+    '     File Size: 373 B
 
 
     ' Class CompoundInfo
@@ -73,4 +73,3 @@ Public Class CompoundInfo
     End Function
 
 End Class
-

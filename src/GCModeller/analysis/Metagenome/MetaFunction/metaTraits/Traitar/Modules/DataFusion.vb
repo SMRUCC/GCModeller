@@ -1,3 +1,59 @@
+﻿#Region "Microsoft.VisualBasic::975257d63c41b12131b985bd3e1929fa, analysis\Metagenome\MetaFunction\metaTraits\Traitar\Modules\DataFusion.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 210
+    '    Code Lines: 108 (51.43%)
+    ' Comment Lines: 74 (35.24%)
+    '    - Xml Docs: 64.86%
+    ' 
+    '   Blank Lines: 28 (13.33%)
+    '     File Size: 9.05 KB
+
+
+    '     Class DataFusion
+    ' 
+    '         Function: ComputeJointProbability, ConvertLabelsFromSVMFormat, ConvertLabelsToSVMFormat, ThresholdFilter
+    ' 
+    '         Sub: BuildExtendedDataset
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' DataFusion.vb - 模块3：数据融合与扩展样本构建模块
 '
@@ -208,3 +264,4 @@ Namespace metaTraits.Traitar.Modules
     End Class
 
 End Namespace
+

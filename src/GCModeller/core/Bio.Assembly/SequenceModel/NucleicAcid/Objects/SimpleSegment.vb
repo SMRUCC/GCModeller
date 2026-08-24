@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd17feb3fa1dcbe724216ac033fa9dfc, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SimpleSegment.vb"
+﻿#Region "Microsoft.VisualBasic::e9562066680e91c614a11313be522f94, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SimpleSegment.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 137
-    '    Code Lines: 89 (64.96%)
-    ' Comment Lines: 27 (19.71%)
+    '   Total Lines: 136
+    '    Code Lines: 88 (64.71%)
+    ' Comment Lines: 27 (19.85%)
     '    - Xml Docs: 88.89%
     ' 
-    '   Blank Lines: 21 (15.33%)
-    '     File Size: 4.69 KB
+    '   Blank Lines: 21 (15.44%)
+    '     File Size: 4.64 KB
 
 
     '     Class SimpleSegment

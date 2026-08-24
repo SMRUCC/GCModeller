@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28971d7aa9349962777af0eb7fc9b047, data\Xfam\Pfam\Pipeline\DomainAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::ba6a6f2a96c7aa1910435dcda546eb36, data\Xfam\Pfam\Pipeline\DomainAnalysis.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 355
-    '    Code Lines: 269 (75.77%)
-    ' Comment Lines: 47 (13.24%)
-    '    - Xml Docs: 87.23%
+    '   Total Lines: 352
+    '    Code Lines: 264 (75.00%)
+    ' Comment Lines: 49 (13.92%)
+    '    - Xml Docs: 87.76%
     ' 
-    '   Blank Lines: 39 (10.99%)
-    '     File Size: 18.80 KB
+    '   Blank Lines: 39 (11.08%)
+    '     File Size: 18.68 KB
 
 
     ' Module DomainAnalysis

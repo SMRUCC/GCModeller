@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fd68fe2b01ebb17b661b2500c9d00d6, analysis\SequenceToolkit\TRNScanner\ScannerTask.vb"
+﻿#Region "Microsoft.VisualBasic::5347a069845564f802ca1eacbf17f879, analysis\SequenceToolkit\TRNScanner\ScannerTask.vb"
 
     ' Author:
     ' 
@@ -109,4 +109,3 @@ Public Module ScannerTask
     End Function
 
 End Module
-

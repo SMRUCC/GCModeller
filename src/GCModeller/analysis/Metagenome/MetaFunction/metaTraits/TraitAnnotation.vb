@@ -1,4 +1,73 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::058799e47bb56880b659b583cce2d9f2, analysis\Metagenome\MetaFunction\metaTraits\TraitAnnotation.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 106 (71.14%)
+    ' Comment Lines: 25 (16.78%)
+    '    - Xml Docs: 92.00%
+    ' 
+    '   Blank Lines: 18 (12.08%)
+    '     File Size: 5.97 KB
+
+
+    '     Class TraitData
+    ' 
+    '         Properties: consensus_count, consensus_percentage, consensus_value, database_count, databases
+    '                     discrete_values, group_1, group_2, maximum, mean
+    '                     median, minimum, ontology_ids, total_observations, trait_name
+    '                     unit
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ParseInnerTable, ToString
+    ' 
+    '     Class TraitAnnotation
+    ' 
+    '         Properties: consensus_count, consensus_percentage, consensus_value, database_count, databases
+    '                     discrete_values, group_1, group_2, maximum, mean
+    '                     median, minimum, ontology_ids, taxon_id, taxon_lineage
+    '                     taxon_name, total_observations, trait_name, unit
+    ' 
+    '         Function: CreateProfiles, ParseTable, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq

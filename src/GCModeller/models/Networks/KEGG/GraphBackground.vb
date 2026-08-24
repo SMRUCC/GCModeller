@@ -1,4 +1,66 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::7d9ba40b8c8ad84becb7d963939e5b36, models\Networks\KEGG\GraphBackground.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 84 (69.42%)
+    ' Comment Lines: 18 (14.88%)
+    '    - Xml Docs: 77.78%
+    ' 
+    '   Blank Lines: 19 (15.70%)
+    '     File Size: 4.68 KB
+
+
+    ' Class MapGraphPopulator
+    ' 
+    ' 
+    ' 
+    ' Class DefaultMapGraphPopulator
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: CreateGraphModel
+    ' 
+    ' Module GraphBackground
+    ' 
+    '     Function: (+2 Overloads) CreateBackground, graphModel
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic

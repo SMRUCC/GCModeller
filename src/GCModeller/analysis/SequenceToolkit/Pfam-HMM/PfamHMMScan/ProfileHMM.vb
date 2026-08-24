@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::057b787b2e633a57734ef7cf6b4c55d3, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\ProfileHMM.vb"
+﻿#Region "Microsoft.VisualBasic::c7e4a28cf63608e778272034f8d095cc, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\ProfileHMM.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 479
-    '    Code Lines: 288 (60.13%)
-    ' Comment Lines: 124 (25.89%)
+    '   Total Lines: 478
+    '    Code Lines: 288 (60.25%)
+    ' Comment Lines: 124 (25.94%)
     '    - Xml Docs: 34.68%
     ' 
-    '   Blank Lines: 67 (13.99%)
-    '     File Size: 18.43 KB
+    '   Blank Lines: 66 (13.81%)
+    '     File Size: 18.42 KB
 
 
     ' Class ProfileHMM
@@ -52,7 +52,6 @@
     ' 
     '     Function: CalculateBitScore, CalculateEValue, CreateHMM, GetAminoAcidIndex, GetEmissionScore
     '               GetInsertEmissionScore, GetTransitionScore, InitializeHMMParameters, LogOddsToProbability
-    ' 
     ' 
     ' /********************************************************************************/
 
@@ -536,5 +535,3 @@ Public Class ProfileHMM
         Return eValue
     End Function
 End Class
-
-

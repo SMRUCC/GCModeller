@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::281d181ec3009f7d9bf9fc4b4ef881a4, analysis\SequenceToolkit\MotifFinder\Consensus\ModelLoader.vb"
+﻿#Region "Microsoft.VisualBasic::570cc24012508931287b3c75d4cbafbf, analysis\SequenceToolkit\MotifFinder\Consensus\ModelLoader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 67
-    '    Code Lines: 22 (32.84%)
-    ' Comment Lines: 34 (50.75%)
+    '   Total Lines: 64
+    '    Code Lines: 19 (29.69%)
+    ' Comment Lines: 34 (53.12%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 11 (16.42%)
-    '     File Size: 2.66 KB
+    '   Blank Lines: 11 (17.19%)
+    '     File Size: 2.51 KB
 
 
     ' Module ModelLoader

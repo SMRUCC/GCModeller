@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::2d422031a337268fda7c34ad348e5ee3, core\Bio.Assembly\ContextModel\Promoter\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::970bd6d0e9b2074493f472980708cd0c, core\Bio.Assembly\ContextModel\Promoter\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 85
-'    Code Lines: 53 (62.35%)
-' Comment Lines: 23 (27.06%)
-'    - Xml Docs: 91.30%
-' 
-'   Blank Lines: 9 (10.59%)
-'     File Size: 3.57 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module Extensions
-' 
-'         Function: GetPrefixLengths, GetUpstreamSeq, headers, ParseUpstreamByLength
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 221
+    '    Code Lines: 123 (55.66%)
+    ' Comment Lines: 70 (31.67%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 28 (12.67%)
+    '     File Size: 10.31 KB
+
+
+    '     Module Extensions
+    ' 
+    '         Function: GetPrefixLengths, GetUpstreamSeq, headers, ParseUpstreamByLength, TGA
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

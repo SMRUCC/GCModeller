@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::d21003836646b1f8688b348641263604, annotations\WGCNA\WGCNA\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::9b14035be9af89047ad03ac8dc29190d, annotations\WGCNA\WGCNA\Analysis.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 270
-'    Code Lines: 180 (66.67%)
-' Comment Lines: 49 (18.15%)
-'    - Xml Docs: 77.55%
-' 
-'   Blank Lines: 41 (15.19%)
-'     File Size: 12.11 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Analysis
-' 
-'     Function: createGraph, Run, (+2 Overloads) RunWithPhenotype, setModules
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 265
+    '    Code Lines: 175 (66.04%)
+    ' Comment Lines: 49 (18.49%)
+    '    - Xml Docs: 77.55%
+    ' 
+    '   Blank Lines: 41 (15.47%)
+    '     File Size: 12.03 KB
+
+
+    ' Module Analysis
+    ' 
+    '     Function: createGraph, Run, (+2 Overloads) RunWithPhenotype, setModules
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

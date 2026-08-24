@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c617bb6c3d9bc743e834ec81c8a9c30, analysis\Metagenome\Metagenome\Kmers\Docs.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::0284ed89825af38c0dfbd727582e0301, analysis\Metagenome\Metagenome\Kmers\Docs.Designer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 19.23%
     ' 
     '   Blank Lines: 10 (12.99%)
-    '     File Size: 3.34 KB
+    '     File Size: 3.33 KB
 
 
     '     Class Docs
@@ -131,4 +131,3 @@ Namespace My.Resources
         End Property
     End Class
 End Namespace
-

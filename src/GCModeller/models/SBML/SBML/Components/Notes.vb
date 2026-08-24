@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8f7b2afe6a0f4d38076696ebbcf47ba, models\SBML\SBML\Components\Notes.vb"
+﻿#Region "Microsoft.VisualBasic::8ceb9fc91976187dbfc12f0fbb92eb98, models\SBML\SBML\Components\Notes.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 100
-    '    Code Lines: 74 (74.00%)
-    ' Comment Lines: 3 (3.00%)
+    '   Total Lines: 99
+    '    Code Lines: 73 (73.74%)
+    ' Comment Lines: 3 (3.03%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 23 (23.00%)
-    '     File Size: 3.26 KB
+    '   Blank Lines: 23 (23.23%)
+    '     File Size: 3.22 KB
 
 
     '     Class Notes

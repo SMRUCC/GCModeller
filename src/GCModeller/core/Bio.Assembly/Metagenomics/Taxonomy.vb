@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92035c2ac462f763ccc5328e647215d1, core\Bio.Assembly\Metagenomics\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::9fcf3f1daf48b96fc3d7201a7114fa86, core\Bio.Assembly\Metagenomics\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 370
-    '    Code Lines: 239 (64.59%)
-    ' Comment Lines: 83 (22.43%)
+    '   Total Lines: 379
+    '    Code Lines: 247 (65.17%)
+    ' Comment Lines: 83 (21.90%)
     '    - Xml Docs: 78.31%
     ' 
-    '   Blank Lines: 48 (12.97%)
-    '     File Size: 14.58 KB
+    '   Blank Lines: 49 (12.93%)
+    '     File Size: 14.87 KB
 
 
     '     Class Taxonomy
     ' 
     '         Properties: [class], family, genus, kingdom, ncbi_taxid
     '                     order, phylum, RankLevel, scientificName, species
+    '                     Unclassified
     ' 
     '         Constructor: (+5 Overloads) Sub New
     '         Function: [Select], compare, CompareWith, CreateTable, IsEmpty

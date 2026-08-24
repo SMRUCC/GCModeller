@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86b7ea505afc86d5ebc53fcab404600d, core\Bio.InteractionModel\ProteinInteractionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::1ca0e46aeed9501cb539fd7f850ba015, core\Bio.InteractionModel\ProteinInteractionNetwork.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 77
-    '    Code Lines: 62 (80.52%)
+    '   Total Lines: 75
+    '    Code Lines: 60 (80.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 15 (19.48%)
-    '     File Size: 3.34 KB
+    '   Blank Lines: 15 (20.00%)
+    '     File Size: 3.27 KB
 
 
     ' Class ProteinInteractionNetwork

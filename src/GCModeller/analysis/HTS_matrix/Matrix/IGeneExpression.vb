@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c0f73d9ce7914432c323113468a6659c, analysis\HTS_matrix\Matrix\IGeneExpression.vb"
+﻿#Region "Microsoft.VisualBasic::4629200d836d8c1badb37daab528fc4c, analysis\HTS_matrix\Matrix\IGeneExpression.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 3 (27.27%)
-    '     File Size: 324 B
+    '     File Size: 322 B
 
 
     ' Interface IGeneExpression
@@ -62,4 +62,3 @@ Public Interface IGeneExpression : Inherits IReadOnlyId
     Property Expression As Dictionary(Of String, Double)
 
 End Interface
-

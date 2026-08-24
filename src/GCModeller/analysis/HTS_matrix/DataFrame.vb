@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8083bcb5a45e1789cd7898da793130b, analysis\HTS_matrix\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::820ee45d6b26112dcd6a770416d0f3a8, analysis\HTS_matrix\DataFrame.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 134
-    '    Code Lines: 100 (74.63%)
-    ' Comment Lines: 15 (11.19%)
+    '   Total Lines: 147
+    '    Code Lines: 110 (74.83%)
+    ' Comment Lines: 15 (10.20%)
     '    - Xml Docs: 86.67%
     ' 
-    '   Blank Lines: 19 (14.18%)
-    '     File Size: 5.05 KB
+    '   Blank Lines: 22 (14.97%)
+    '     File Size: 5.41 KB
 
 
     ' Module HTSDataFrame
     ' 
-    '     Function: IsNullOrEmpty, MergeFeatures, MergeMultipleHTSMatrix
+    '     Function: AsTensorArray, IsNullOrEmpty, MergeFeatures, MergeMultipleHTSMatrix
     ' 
     ' /********************************************************************************/
 

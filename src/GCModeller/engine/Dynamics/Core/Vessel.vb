@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f126ce08adb07ba228f50c4b1790a544, engine\Dynamics\Core\Vessel.vb"
+﻿#Region "Microsoft.VisualBasic::ac89ed9f94098caf6a8a6dea7d55f9e7, engine\Dynamics\Core\Vessel.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,15 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 258
-    '    Code Lines: 136 (52.71%)
-    ' Comment Lines: 77 (29.84%)
+    '   Total Lines: 251
+    '    Code Lines: 132 (52.59%)
+    ' Comment Lines: 77 (30.68%)
     '    - Xml Docs: 80.52%
     ' 
-    '   Blank Lines: 45 (17.44%)
-    '     File Size: 9.69 KB
+    '   Blank Lines: 42 (16.73%)
+    '     File Size: 9.52 KB
 
 
-    '     Class CompartmentSnapshot
-    ' 
-    '         Properties: compart_id, snapshot
-    ' 
     '     Class Vessel
     ' 
     '         Properties: Channels, MassEnvironment

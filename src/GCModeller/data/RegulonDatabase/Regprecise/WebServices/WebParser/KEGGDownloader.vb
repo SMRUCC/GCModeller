@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cf8a986b2c783bf08c7e4aee87cc16d, data\RegulonDatabase\Regprecise\WebServices\WebParser\KEGGDownloader.vb"
+﻿#Region "Microsoft.VisualBasic::8a203c608ed364ae2536cb10b23f7604, data\RegulonDatabase\Regprecise\WebServices\WebParser\KEGGDownloader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 66
-    '    Code Lines: 56 (84.85%)
-    ' Comment Lines: 3 (4.55%)
+    '   Total Lines: 72
+    '    Code Lines: 55 (76.39%)
+    ' Comment Lines: 10 (13.89%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (10.61%)
-    '     File Size: 3.48 KB
+    '   Blank Lines: 7 (9.72%)
+    '     File Size: 3.65 KB
 
 
     '     Module KEGGDownloader

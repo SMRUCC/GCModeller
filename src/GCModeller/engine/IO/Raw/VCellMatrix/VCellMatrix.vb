@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47169cdec38ffee7230b9a83081c2118, engine\IO\Raw\VCellMatrix\VCellMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::1280d5e5c844d3f7ee5f04ee3e027bc0, engine\IO\Raw\VCellMatrix\VCellMatrix.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 4 (16.67%)
-    '     File Size: 747 B
+    '     File Size: 745 B
 
 
     ' Class VCellMatrix
@@ -75,4 +75,3 @@ Public Class VCellMatrix
     Public Property compartmentIds As String()
 
 End Class
-

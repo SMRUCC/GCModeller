@@ -1,4 +1,62 @@
-﻿Namespace DBN
+﻿#Region "Microsoft.VisualBasic::cc089f7c114d8920842d25f591fdda0b, sub-system\BNLearn\DBN\ConditionalProbabilityTable.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 46 (48.94%)
+    ' Comment Lines: 28 (29.79%)
+    '    - Xml Docs: 89.29%
+    ' 
+    '   Blank Lines: 20 (21.28%)
+    '     File Size: 3.79 KB
+
+
+    '     Class ConditionalProbabilityTable
+    ' 
+    '         Properties: ParentIds, States, Table, VariableId
+    ' 
+    '         Function: GetAllParentConfigurations, GetDistribution, GetKey
+    ' 
+    '         Sub: SetDistribution
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Namespace DBN
 
 
     ' ==================== Conditional Probability Table ====================

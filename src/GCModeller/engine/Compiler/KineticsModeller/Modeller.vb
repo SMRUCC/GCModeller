@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9cdc50f353c576f06b37431cdfb381ec, engine\Compiler\KineticsModeller\Modeller.vb"
+﻿#Region "Microsoft.VisualBasic::72af1e8efa86e35b14dd511f4f7bc56e, engine\Compiler\KineticsModeller\Modeller.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 165
-    '    Code Lines: 131 (79.39%)
-    ' Comment Lines: 5 (3.03%)
+    '   Total Lines: 174
+    '    Code Lines: 136 (78.16%)
+    ' Comment Lines: 5 (2.87%)
     '    - Xml Docs: 60.00%
     ' 
-    '   Blank Lines: 29 (17.58%)
-    '     File Size: 6.60 KB
+    '   Blank Lines: 33 (18.97%)
+    '     File Size: 6.88 KB
 
 
     ' Class Modeller

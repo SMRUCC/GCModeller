@@ -1,82 +1,85 @@
-﻿#Region "Microsoft.VisualBasic::d9ca67ef02b61faebb20f23c6be9719b, data\SABIO-RK\Dumps\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::a0ee0a1354f88f179202e4ac7c35b07d, data\SABIO-RK\Dumps\Kinetics.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 191
-'    Code Lines: 139 (72.77%)
-' Comment Lines: 35 (18.32%)
-'    - Xml Docs: 97.14%
-' 
-'   Blank Lines: 17 (8.90%)
-'     File Size: 9.30 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class EnzymeCatalystKineticLaw
-' 
-'         Properties: buffer, compartment, Ec_number, enzyme, fast
-'                     KEGGReactionId, lambda, parameters, PH, products
-'                     PubMed, reaction, reversible, rhea_id, substrates
-'                     temperature, uniprot_id
-' 
-'         Function: Create, ToString
-' 
-'     Class ModifierKinetics
-' 
-' 
-'         Enum ModifierTypes
-' 
-'             Activator, CoFactors, Inhibitor
-' 
-' 
-' 
-'  
-' 
-'     Properties: K, KEGGCompoundId, KineticsRecordId, Modifier, ModifierType
-'                 ObjectId
-' 
-'     Function: ToString, TryGetType
-' 
-'     Class KineticLawModel
-' 
-'         Properties: Catalyst, Ec, Equation, Fast, KeggReaction
-'                     KineticRecord, PubMed, Reaction, Taxonomy
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 198
+    '    Code Lines: 143 (72.22%)
+    ' Comment Lines: 35 (17.68%)
+    '    - Xml Docs: 97.14%
+    ' 
+    '   Blank Lines: 20 (10.10%)
+    '     File Size: 9.41 KB
+
+
+    '     Class KineticLawData
+    ' 
+    '         Properties: buffer, compartment, Ec_number, enzyme, fast
+    '                     KEGGReactionId, lambda, parameters, PH, PubMed
+    '                     reaction, reversible, rhea_id, temperature, uniprot_id
+    ' 
+    '     Class EnzymeCatalystKineticLaw
+    ' 
+    '         Properties: products, substrates
+    ' 
+    '         Function: Create, ToString
+    ' 
+    '     Class ModifierKinetics
+    ' 
+    ' 
+    '         Enum ModifierTypes
+    ' 
+    '             Activator, CoFactors, Inhibitor
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Properties: K, KEGGCompoundId, KineticsRecordId, Modifier, ModifierType
+    '                 ObjectId
+    ' 
+    '     Function: ToString, TryGetType
+    ' 
+    '     Class KineticLawModel
+    ' 
+    '         Properties: Catalyst, Ec, Equation, Fast, KeggReaction
+    '                     KineticRecord, PubMed, Reaction, Taxonomy
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

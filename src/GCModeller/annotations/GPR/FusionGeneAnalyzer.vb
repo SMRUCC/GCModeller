@@ -1,4 +1,61 @@
-﻿Imports SMRUCC.genomics.ComponentModel.Annotation
+﻿#Region "Microsoft.VisualBasic::e278449c203f9dc9619e96d2df9c3180, annotations\GPR\FusionGeneAnalyzer.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 58 (63.74%)
+    ' Comment Lines: 15 (16.48%)
+    '    - Xml Docs: 73.33%
+    ' 
+    '   Blank Lines: 18 (19.78%)
+    '     File Size: 3.48 KB
+
+
+    ' Class FusionGeneAnalyzer
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: CheckPathwayContinuity
+    ' 
+    '     Sub: AnalyzeFusionGenes
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.MetabolicModel
 
 ''' <summary>

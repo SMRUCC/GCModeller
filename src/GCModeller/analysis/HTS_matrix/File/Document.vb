@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc66102d8e0657ae3ee0b50b9ae52b13, analysis\HTS_matrix\File\Document.vb"
+﻿#Region "Microsoft.VisualBasic::c534f22d69f44f52f9ac1aa5e560611f, analysis\HTS_matrix\File\Document.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 95.45%
     ' 
     '   Blank Lines: 12 (13.95%)
-    '     File Size: 2.92 KB
+    '     File Size: 2.96 KB
 
 
     ' Module Document

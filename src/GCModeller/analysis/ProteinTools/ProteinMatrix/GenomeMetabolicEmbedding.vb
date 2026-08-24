@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d73b0b91b3f80232a1ed75c507faa318, analysis\ProteinTools\ProteinMatrix\GenomeMetabolicEmbedding.vb"
+﻿#Region "Microsoft.VisualBasic::6ff12d54b660d93d28d5394d7b90f577, analysis\ProteinTools\ProteinMatrix\GenomeMetabolicEmbedding.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 55
-    '    Code Lines: 40 (72.73%)
-    ' Comment Lines: 4 (7.27%)
+    '   Total Lines: 86
+    '    Code Lines: 67 (77.91%)
+    ' Comment Lines: 4 (4.65%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 11 (20.00%)
-    '     File Size: 1.79 KB
+    '   Blank Lines: 15 (17.44%)
+    '     File Size: 3.06 KB
 
 
     ' Class GenomeMetabolicEmbedding
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: AddGenomes, OneHotVectorizer, TfidfVectorizer
+    '     Function: AddGenomes, MakeVectorizer, OneHotVectorizer, TfidfVectorizer
     ' 
-    '     Sub: Add
+    '     Sub: (+2 Overloads) Add
     ' 
     ' /********************************************************************************/
 
@@ -141,4 +141,3 @@ Public Class GenomeMetabolicEmbedding
         Return vec.OneHotVectorizer
     End Function
 End Class
-

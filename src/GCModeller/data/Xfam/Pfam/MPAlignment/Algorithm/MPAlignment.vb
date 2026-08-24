@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::513bd0bb0c4149a833ea37cef5056dd7, data\Xfam\Pfam\MPAlignment\Algorithm\MPAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::392d1951462066966eafc05f479470fd, data\Xfam\Pfam\MPAlignment\Algorithm\MPAlignment.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 298
-    '    Code Lines: 220 (73.83%)
-    ' Comment Lines: 45 (15.10%)
+    '   Total Lines: 295
+    '    Code Lines: 217 (73.56%)
+    ' Comment Lines: 45 (15.25%)
     '    - Xml Docs: 84.44%
     ' 
-    '   Blank Lines: 33 (11.07%)
-    '     File Size: 16.39 KB
+    '   Blank Lines: 33 (11.19%)
+    '     File Size: 16.17 KB
 
 
     '     Module Algorithm

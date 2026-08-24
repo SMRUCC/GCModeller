@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a96e32bcbdbf6828836c4ecb2685700e, models\Networks\Network.Regulons\LazyCorrelationMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::e7ba0ee160e8e1c08964dcab31cd13db, models\Networks\Network.Regulons\LazyCorrelationMatrix.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 46
-    '    Code Lines: 27 (58.70%)
-    ' Comment Lines: 10 (21.74%)
-    '    - Xml Docs: 80.00%
+    '   Total Lines: 49
+    '    Code Lines: 27 (55.10%)
+    ' Comment Lines: 13 (26.53%)
+    '    - Xml Docs: 84.62%
     ' 
-    '   Blank Lines: 9 (19.57%)
-    '     File Size: 1.43 KB
+    '   Blank Lines: 9 (18.37%)
+    '     File Size: 1.52 KB
 
 
     ' Class LazyCorrelationMatrix
@@ -101,4 +101,3 @@ Public Class LazyCorrelationMatrix
         Return (cor(gene1, gene2), pval(gene1, gene2))
     End Function
 End Class
-

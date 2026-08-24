@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::466fea704095cd230a7e6603ab27cc9f, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\FileStream.vb"
+﻿#Region "Microsoft.VisualBasic::76561ce8ed12a05b11cc1b422ffc53a7, core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\FileStream.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 98.77%
     ' 
     '   Blank Lines: 54 (14.52%)
-    '     File Size: 17.71 KB
+    '     File Size: 17.72 KB
 
 
     '     Module FileStream

@@ -1,58 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::37baa66c45b7dcc49a61a8de199a8876, core\Bio.Assembly\ContextModel\GenomeContext.vb"
+﻿#Region "Microsoft.VisualBasic::f6e88ccc4985d7cd106a2799d0d65932, core\Bio.Assembly\ContextModel\GenomeContext.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 187
-'    Code Lines: 129 (68.98%)
-' Comment Lines: 37 (19.79%)
-'    - Xml Docs: 78.38%
-' 
-'   Blank Lines: 21 (11.23%)
-'     File Size: 6.91 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class GenomeContext
-' 
-'         Properties: AllFeatureKeys, N, size
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: Absent, Delta, GetByFeature, SelectByRange, selectByStrand
-'                   ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 549
+    '    Code Lines: 284 (51.73%)
+    ' Comment Lines: 202 (36.79%)
+    '    - Xml Docs: 80.20%
+    ' 
+    '   Blank Lines: 63 (11.48%)
+    '     File Size: 24.98 KB
+
+
+    '     Class GenomeContext
+    ' 
+    '         Properties: AllFeatureKeys, AverageGeneLength, AverageIntergenicDistance, contextName, N
+    '                     size
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Absent, Delta, FindOverlaps, GeneDensity, GenericEnumerator
+    '                   GetByFeature, GetDirectionalNeighbours, GetFeatureDistance, GetGenesByProduct, GetNearbyFeatures
+    '                   GetNearbyFeaturesByName, GetPhysicalDistance, GetPhysicalNeighbours, IsOverlapping, SearchByProduct
+    '                   SelectByPosition, SelectByRange, selectByStrand, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

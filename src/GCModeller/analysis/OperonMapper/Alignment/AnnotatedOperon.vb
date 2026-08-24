@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::482d094138b3a5aaee0a2b746665ab76, analysis\OperonMapper\Alignment\AnnotatedOperon.vb"
+﻿#Region "Microsoft.VisualBasic::b84a025fcfc1a3e280ca54d5d789ab11, analysis\OperonMapper\Alignment\AnnotatedOperon.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,15 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 51
-    '    Code Lines: 22 (43.14%)
-    ' Comment Lines: 24 (47.06%)
-    '    - Xml Docs: 95.83%
+    '   Total Lines: 42
+    '    Code Lines: 17 (40.48%)
+    ' Comment Lines: 21 (50.00%)
+    '    - Xml Docs: 95.24%
     ' 
-    '   Blank Lines: 5 (9.80%)
-    '     File Size: 1.53 KB
+    '   Blank Lines: 4 (9.52%)
+    '     File Size: 1.34 KB
 
 
-    ' Enum OperonType
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
     ' Class AnnotatedOperon
     ' 
     '     Properties: Genes, InsertedGeneIds, KnownGeneIds, left, MissingGeneIds
@@ -57,7 +50,6 @@
     '                 Type
     ' 
     '     Function: ToString
-    ' 
     ' 
     ' /********************************************************************************/
 
@@ -105,5 +97,3 @@ Public Class AnnotatedOperon
         Return $"{Type.Description} #{OperonID} at {strand}:{left}-{right} with {Genes.TryCount} gene members {Genes.GetJson}"
     End Function
 End Class
-
-

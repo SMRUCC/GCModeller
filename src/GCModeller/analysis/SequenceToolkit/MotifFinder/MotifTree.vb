@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::7a015a6fe2350630b02075b97d5306ac, analysis\SequenceToolkit\MotifFinder\MotifTree.vb"
+﻿#Region "Microsoft.VisualBasic::3ec56ab05e066b0cbb52c0e0d1c2aba0, analysis\SequenceToolkit\MotifFinder\MotifTree.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 208
-'    Code Lines: 133 (63.94%)
-' Comment Lines: 53 (25.48%)
-'    - Xml Docs: 84.91%
-' 
-'   Blank Lines: 22 (10.58%)
-'     File Size: 8.26 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module MotifTree
-' 
-'     Function: BuildTree, compares, ExtractSites, (+2 Overloads) FilterMotifs, FilterMotifsQuantile
-'               getLoci
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 208
+    '    Code Lines: 133 (63.94%)
+    ' Comment Lines: 53 (25.48%)
+    '    - Xml Docs: 84.91%
+    ' 
+    '   Blank Lines: 22 (10.58%)
+    '     File Size: 8.27 KB
+
+
+    ' Module MotifTree
+    ' 
+    '     Function: BuildTree, compares, ExtractSites, (+2 Overloads) FilterMotifs, FilterMotifsQuantile
+    '               getLoci
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

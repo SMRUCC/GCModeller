@@ -1,68 +1,68 @@
-﻿#Region "Microsoft.VisualBasic::f6bed8831278633b16f65f36788a741e, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
+﻿#Region "Microsoft.VisualBasic::28a1c27a1a684551114792ddd7268e07, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 658
-'    Code Lines: 419 (63.68%)
-' Comment Lines: 136 (20.67%)
-'    - Xml Docs: 94.12%
-' 
-'   Blank Lines: 103 (15.65%)
-'     File Size: 26.72 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class FastaFile
-' 
-'         Properties: _innerList, Count, FilePath, IsReadOnly, MimeType
-' 
-'         Constructor: (+8 Overloads) Sub New
-' 
-'         Function: [Select], (+2 Overloads) AddRange, AsKSource, Clone, Contains
-'                   Distinct, (+2 Overloads) DocParser, filterNulls, Find, Generate
-'                   GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile, LoadNucleotideData
-'                   Match, ParseDocument, (+2 Overloads) Query, QueryAny, Read
-'                   Remove, (+5 Overloads) Save, SaveData, SingleSequence, Take
-'                   ToLower, ToString, ToUpper
-' 
-'         Sub: Add, AppendToFile, Clear, CopyTo, Insert
-'              RemoveAt, Split, Write
-' 
-'         Operators: (+3 Overloads) +, <, >
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 668
+    '    Code Lines: 428 (64.07%)
+    ' Comment Lines: 136 (20.36%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 104 (15.57%)
+    '     File Size: 27.22 KB
+
+
+    '     Class FastaFile
+    ' 
+    '         Properties: _innerList, Count, FilePath, IsReadOnly, MimeType
+    ' 
+    '         Constructor: (+8 Overloads) Sub New
+    ' 
+    '         Function: [Select], (+2 Overloads) AddRange, AsKSource, Clone, Contains
+    '                   Distinct, (+2 Overloads) DocParser, filterNulls, Find, Generate
+    '                   GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile, LoadNucleotideData
+    '                   Match, ParseDocument, (+2 Overloads) Query, QueryAny, Read
+    '                   Remove, (+5 Overloads) Save, SaveData, SingleSequence, Take
+    '                   ToLower, ToString, ToUpper
+    ' 
+    '         Sub: Add, AppendToFile, Clear, CopyTo, Insert
+    '              RemoveAt, Split, Write
+    ' 
+    '         Operators: (+3 Overloads) +, <, >
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

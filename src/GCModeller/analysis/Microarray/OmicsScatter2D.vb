@@ -1,57 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::b3079544ecf51ad871afa8b03b0a875d, analysis\Microarray\OmicsScatter2D.vb"
+﻿#Region "Microsoft.VisualBasic::10de43edaaeaf866f40fa8a77c3a31a9, analysis\Microarray\OmicsScatter2D.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 205
-'    Code Lines: 168 (81.95%)
-' Comment Lines: 19 (9.27%)
-'    - Xml Docs: 94.74%
-' 
-'   Blank Lines: 18 (8.78%)
-'     File Size: 8.53 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module OmicsScatter2D
-' 
-'     Function: Correlation, CorrelationImpl, Plot
-' 
-' Class Connection
-' 
-'     Properties: cor, gene1, gene2, is_directly
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 128 (80.50%)
+    ' Comment Lines: 19 (11.95%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 12 (7.55%)
+    '     File Size: 6.78 KB
+
+
+    ' Module OmicsScatter2D
+    ' 
+    '     Function: Correlation, Plot
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -214,5 +210,3 @@ Public Module OmicsScatter2D
             .IteratesALL
     End Function
 End Module
-
-

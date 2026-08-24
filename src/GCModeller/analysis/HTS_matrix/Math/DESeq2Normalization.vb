@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::2be14609a1565b10502511ce056d37dd, analysis\HTS_matrix\Math\DESeq2Normalization.vb"
+﻿#Region "Microsoft.VisualBasic::eecd302e04d91c096024b9646dea5322, analysis\HTS_matrix\Math\DESeq2Normalization.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 88
-'    Code Lines: 57 (64.77%)
-' Comment Lines: 15 (17.05%)
-'    - Xml Docs: 20.00%
-' 
-'   Blank Lines: 16 (18.18%)
-'     File Size: 3.50 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module DESeq2Normalization
-' 
-'     Function: DESeq2Normalize
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 56 (64.37%)
+    ' Comment Lines: 15 (17.24%)
+    '    - Xml Docs: 20.00%
+    ' 
+    '   Blank Lines: 16 (18.39%)
+    '     File Size: 3.48 KB
+
+
+    ' Module DESeq2Normalization
+    ' 
+    '     Function: DESeq2Normalize
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -138,4 +138,3 @@ Public Module DESeq2Normalization
         }
     End Function
 End Module
-

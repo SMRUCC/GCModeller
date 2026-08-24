@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d75728d320703103cc30fc7f50301b4, visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogHeatMap.vb"
+﻿#Region "Microsoft.VisualBasic::1994248b095f9737ad7ce81f0262e1b5, visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogHeatMap.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 187
-    '    Code Lines: 149 (79.68%)
-    ' Comment Lines: 17 (9.09%)
+    '   Total Lines: 167
+    '    Code Lines: 129 (77.25%)
+    ' Comment Lines: 17 (10.18%)
     '    - Xml Docs: 76.47%
     ' 
-    '   Blank Lines: 21 (11.23%)
-    '     File Size: 8.47 KB
+    '   Blank Lines: 21 (12.57%)
+    '     File Size: 7.61 KB
 
 
     '     Class CatalogHeatMap
+    ' 
+    '         Properties: angle
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Sub: PlotInternal

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::019165b176d8514956f66225a72a6821, annotations\WGCNA\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::2c675acf0398e1ac6bd5d5a0d17d9243, annotations\WGCNA\test\Module1.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 21
+    '    Code Lines: 16 (76.19%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (23.81%)
+    '     File Size: 1018 B
+
 
     ' Module Module1
     ' 

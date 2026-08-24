@@ -1,3 +1,73 @@
+﻿#Region "Microsoft.VisualBasic::328b8b16b2052a8520ec1e121444a069, sub-system\BNLearn\Core\BayesianNetwork.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 351
+    '    Code Lines: 228 (64.96%)
+    ' Comment Lines: 58 (16.52%)
+    '    - Xml Docs: 58.62%
+    ' 
+    '   Blank Lines: 65 (18.52%)
+    '     File Size: 12.76 KB
+
+
+    '     Class BnNode
+    ' 
+    '         Properties: Children, CPD, Index, Level, Name
+    '                     Parents
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class BayesianNetwork
+    ' 
+    '         Properties: Adjacency, Blacklist, EdgeCount, NameToIndex, Nodes
+    '                     Whitelist
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: AddEdge, AddNode, CloneStructure, GetEdges, GetNodeIndex
+    '                   HasEdge, IsDAG, MakeBlackIndex, TopologicalSort, ToString
+    '                   WouldCreateCycle
+    ' 
+    '         Sub: AddBlacklistEdge, AddWhitelistEdge, RemoveEdge, ResizeAdjacency
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================
 ' BayesianNetwork.vb - 贝叶斯网络核心数据结构
 ' ============================================================
@@ -349,3 +419,4 @@ Namespace Core
     End Class
 
 End Namespace
+

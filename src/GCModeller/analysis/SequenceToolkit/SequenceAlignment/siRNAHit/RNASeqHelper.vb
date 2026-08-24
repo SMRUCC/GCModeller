@@ -1,3 +1,66 @@
+﻿#Region "Microsoft.VisualBasic::fd983c5b064766bdc7348d30dbcba38e, analysis\SequenceToolkit\SequenceAlignment\siRNAHit\RNASeqHelper.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 70 (57.38%)
+    ' Comment Lines: 37 (30.33%)
+    '    - Xml Docs: 94.59%
+    ' 
+    '   Blank Lines: 15 (12.30%)
+    '     File Size: 4.93 KB
+
+
+    '     Module RNASeqHelper
+    ' 
+    ' 
+    '         Enum PairType
+    ' 
+    '             [Gap], Mismatch, WC, Wobble
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Function: BestLocalHit, ClassifyPair, ComplementBase, NucleicAcidSymbol, ReverseComplementRNA
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
@@ -120,3 +183,4 @@ Namespace siRNAHit
         End Function
     End Module
 End Namespace
+

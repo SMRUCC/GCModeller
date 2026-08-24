@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bef4d29db88c3a503c8eacd0d77c0f6, core\Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
+﻿#Region "Microsoft.VisualBasic::55ca738c118a30af445289f99e7c0071, core\Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 170
-    '    Code Lines: 96 (56.47%)
-    ' Comment Lines: 46 (27.06%)
+    '   Total Lines: 180
+    '    Code Lines: 104 (57.78%)
+    ' Comment Lines: 46 (25.56%)
     '    - Xml Docs: 71.74%
     ' 
-    '   Blank Lines: 28 (16.47%)
-    '     File Size: 6.64 KB
+    '   Blank Lines: 30 (16.67%)
+    '     File Size: 7.17 KB
 
 
     '     Class StreamIterator

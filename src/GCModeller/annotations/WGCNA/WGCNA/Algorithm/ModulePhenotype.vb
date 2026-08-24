@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1581140bb98ae2c9c055a518db3890d9, annotations\WGCNA\WGCNA\ModulePhenotype.vb"
+﻿#Region "Microsoft.VisualBasic::1581140bb98ae2c9c055a518db3890d9, annotations\WGCNA\WGCNA\Algorithm\ModulePhenotype.vb"
 
     ' Author:
     ' 

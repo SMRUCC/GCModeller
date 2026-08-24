@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2410e093b3ddb8ca3b44ca502640576, core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
+﻿#Region "Microsoft.VisualBasic::f639bdad9a6ceef6a992e96d277a501c, core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 227
-    '    Code Lines: 152 (66.96%)
-    ' Comment Lines: 46 (20.26%)
+    '   Total Lines: 189
+    '    Code Lines: 133 (70.37%)
+    ' Comment Lines: 31 (16.40%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 29 (12.78%)
-    '     File Size: 9.37 KB
+    '   Blank Lines: 25 (13.23%)
+    '     File Size: 8.18 KB
 
 
     '     Module TFDensity
@@ -52,13 +52,6 @@
     '             Function: __stranded, __unstranded
     ' 
     ' 
-    ' 
-    '     Class Density
-    ' 
-    '         Properties: Abundance, Hits, location, loci, locus_tag
-    '                     product
-    ' 
-    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,60 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::9c2b9abd4591874af39a2bded9b8dab6, core\Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
+﻿#Region "Microsoft.VisualBasic::cfedb6f3b0275b441a0842863bb1e368, core\Bio.Assembly\SequenceModel\NucleicAcid\NucleicAcidStaticsProperty.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 306
-'    Code Lines: 185 (60.46%)
-' Comment Lines: 85 (27.78%)
-'    - Xml Docs: 92.94%
-' 
-'   Blank Lines: 36 (11.76%)
-'     File Size: 13.96 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module NucleicAcidStaticsProperty
-' 
-'         Function: __circular, __contentCommon, __liner, ATPercent, basePercent
-'                   Count, GC_Content, (+3 Overloads) GCContent, GCData, (+2 Overloads) GetCompositionVector
-'                   Tm
-'         Delegate Function
-' 
-'             Function: GCSkew, removesNA
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 315
+    '    Code Lines: 193 (61.27%)
+    ' Comment Lines: 85 (26.98%)
+    '    - Xml Docs: 92.94%
+    ' 
+    '   Blank Lines: 37 (11.75%)
+    '     File Size: 14.39 KB
+
+
+    '     Module NucleicAcidStaticsProperty
+    ' 
+    '         Function: __circular, __liner, ATPercent, basePercent, ContentCommon
+    '                   Count, GC_Content, (+3 Overloads) GCContent, GCData, (+2 Overloads) GetCompositionVector
+    '                   NucleotideFrequencies, Tm
+    '         Delegate Function
+    ' 
+    '             Function: GCSkew, removesNA
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

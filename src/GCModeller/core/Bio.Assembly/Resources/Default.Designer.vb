@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc0a569066b7f0274a73bc0e74111693, core\Bio.Assembly\Resources\Default.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::c78bf49d3a1deb8dfadcd0ac20625a4d, core\Bio.Assembly\Resources\Default.Designer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 19.23%
     ' 
     '   Blank Lines: 10 (12.99%)
-    '     File Size: 3.33 KB
+    '     File Size: 3.32 KB
 
 
     '     Class _Default
@@ -131,4 +131,3 @@ Namespace My.Resources
         End Property
     End Class
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b59d32f8071c079b0121ee196057d5e, analysis\Metagenome\MetaFunction\VFDB\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c6d102be194caca60341331c6c5164c2, analysis\Metagenome\MetaFunction\VFDB\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 10 (13.33%)
-    '     File Size: 3.35 KB
+    '     File Size: 3.37 KB
 
 
     '     Module Extensions

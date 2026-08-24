@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3dcb6f0444dd766e3a18ca1764293ef, models\BioCyc\Models\Files\regulation.vb"
+﻿#Region "Microsoft.VisualBasic::0560b25e8c0c224ae05907cc0c2d6eae, models\BioCyc\Models\Files\regulation.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 14
-    '    Code Lines: 10 (71.43%)
+    '   Total Lines: 13
+    '    Code Lines: 10 (76.92%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 4 (28.57%)
-    '     File Size: 372 B
+    '   Blank Lines: 3 (23.08%)
+    '     File Size: 368 B
 
 
     ' Class regulation
@@ -50,7 +50,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
@@ -65,4 +64,3 @@ Public Class regulation : Inherits Model
     Public Property regulator As String
 
 End Class
-

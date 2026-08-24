@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c196acc9ddc3e8ac5f4d09b2ae48519, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\HMMER3Parser.vb"
+﻿#Region "Microsoft.VisualBasic::af780beab6289e3706739e49387082fc, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\HMMER3Parser.vb"
 
     ' Author:
     ' 
@@ -301,4 +301,3 @@ Public Class HMMER3Parser
     End Sub
 
 End Class
-

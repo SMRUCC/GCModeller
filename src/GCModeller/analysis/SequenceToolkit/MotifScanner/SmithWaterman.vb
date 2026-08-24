@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bb800c5f0d0f69b680511fe4886ffbf, analysis\SequenceToolkit\MotifScanner\SmithWaterman.vb"
+﻿#Region "Microsoft.VisualBasic::61f08ba9ccbe479d06b428abe6f9ab65, analysis\SequenceToolkit\MotifScanner\SmithWaterman.vb"
 
     ' Author:
     ' 
@@ -123,4 +123,3 @@ Public Module SmithWaterman
         End If
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::199c75ad642c62c366ee05e5bac9f198, annotations\WGCNA\WGCNA\TOM.vb"
+﻿#Region "Microsoft.VisualBasic::199c75ad642c62c366ee05e5bac9f198, annotations\WGCNA\WGCNA\Algorithm\TOM.vb"
 
     ' Author:
     ' 

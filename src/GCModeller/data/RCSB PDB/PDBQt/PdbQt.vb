@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6b393fdf2cd3ae2f9ef170d23d2b838, data\RCSB PDB\PDBQt\PdbQt.vb"
+﻿#Region "Microsoft.VisualBasic::8bbe66f2d425d73f26de54815cd49ccc, data\RCSB PDB\PDBQt\PdbQt.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 5 (18.52%)
-    '     File Size: 890 B
+    '     File Size: 888 B
 
 
     ' Module PdbQt
@@ -78,4 +78,3 @@ Public Module PdbQt
         Return New NamedValue(Of Het.HETRecord)(name, ref)
     End Function
 End Module
-

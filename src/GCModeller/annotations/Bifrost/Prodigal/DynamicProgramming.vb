@@ -1,4 +1,57 @@
-﻿' ========================================================================
+﻿#Region "Microsoft.VisualBasic::0dacaf7183771008d173278d508f5b30, annotations\Bifrost\Prodigal\DynamicProgramming.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 133
+    '    Code Lines: 72 (54.14%)
+    ' Comment Lines: 36 (27.07%)
+    '    - Xml Docs: 55.56%
+    ' 
+    '   Blank Lines: 25 (18.80%)
+    '     File Size: 4.58 KB
+
+
+    ' Class DynamicProgramming
+    ' 
+    '     Function: DpSelect, FindLastNonOverlapping, SelectGenes
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+' ========================================================================
 ' 动态规划基因选择
 ' ========================================================================
 
@@ -131,3 +184,4 @@ Public Class DynamicProgramming
     End Function
 
 End Class
+

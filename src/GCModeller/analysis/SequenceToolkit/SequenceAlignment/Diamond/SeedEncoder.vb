@@ -1,3 +1,61 @@
+﻿#Region "Microsoft.VisualBasic::268e6d08a6240e9aaf2dfef135386475, analysis\SequenceToolkit\SequenceAlignment\Diamond\SeedEncoder.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 44 (51.76%)
+    ' Comment Lines: 29 (34.12%)
+    '    - Xml Docs: 58.62%
+    ' 
+    '   Blank Lines: 12 (14.12%)
+    '     File Size: 3.73 KB
+
+
+    '     Structure SeedHitPosition
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Module SeedEncoder
+    ' 
+    '         Function: EncodeAt, (+2 Overloads) EnumerateSeeds
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' 间隔种子编码器 (Seed Encoder)
 '
 ' 将一条蛋白序列按指定的间隔种子形状抽取残基,并用缩减字母表编码为整数哈希码。
@@ -83,3 +141,4 @@ Namespace DIAMOND
         End Function
     End Module
 End Namespace
+

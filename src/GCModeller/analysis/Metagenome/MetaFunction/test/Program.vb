@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00b3b507f52ee78b9130f2eb0d3417fc, analysis\Metagenome\MetaFunction\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::82d75d3afd28d1de049980fec03a04b4, analysis\Metagenome\MetaFunction\test\Program.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 39
-    '    Code Lines: 28 (71.79%)
+    '   Total Lines: 41
+    '    Code Lines: 30 (73.17%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 11 (28.21%)
-    '     File Size: 1.37 KB
+    '   Blank Lines: 11 (26.83%)
+    '     File Size: 1.46 KB
 
 
     ' Module Program

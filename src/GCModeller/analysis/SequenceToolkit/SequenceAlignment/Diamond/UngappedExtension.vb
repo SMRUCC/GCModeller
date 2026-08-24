@@ -1,3 +1,62 @@
+﻿#Region "Microsoft.VisualBasic::7fb724c5d157964fcedcd2d5948c3934, analysis\SequenceToolkit\SequenceAlignment\Diamond\UngappedExtension.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 59 (60.82%)
+    ' Comment Lines: 19 (19.59%)
+    '    - Xml Docs: 36.84%
+    ' 
+    '   Blank Lines: 19 (19.59%)
+    '     File Size: 3.67 KB
+
+
+    '     Structure UngappedHit
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Class UngappedExtension
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Extend
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' 无空位延伸 (Ungapped Extension)
 '
 ' 对通过 Hamming 初筛的命中,做基于 BLOSUM62 打分矩阵的无空位(ungapped)延伸:
@@ -95,3 +154,4 @@ Namespace DIAMOND
         End Function
     End Class
 End Namespace
+

@@ -1,3 +1,58 @@
+﻿#Region "Microsoft.VisualBasic::a4147d6fc4d19c5b24d27ea152aee8be, engine\Dynamics\test\DBNUsageExample.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 402
+    '    Code Lines: 225 (55.97%)
+    ' Comment Lines: 121 (30.10%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 56 (13.93%)
+    '     File Size: 17.49 KB
+
+
+    ' Module DBNUsageExample
+    ' 
+    '     Function: GenerateSyntheticRNAseqData
+    ' 
+    '     Sub: Main, PrintPredictionResult
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' File: DBNUsageExample.vb
 '
 ' Example usage of the Dynamic Bayesian Network for gene regulatory network simulation.
@@ -400,3 +455,4 @@ Module DBNUsageExample
     End Function
 
 End Module
+

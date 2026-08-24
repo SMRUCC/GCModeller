@@ -1,3 +1,85 @@
+﻿#Region "Microsoft.VisualBasic::8d69551bd636cf63722de5799786d968, analysis\Microarray\Correlation\CorrelationComputation.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 1089
+    '    Code Lines: 652 (59.87%)
+    ' Comment Lines: 285 (26.17%)
+    '    - Xml Docs: 64.91%
+    ' 
+    '   Blank Lines: 152 (13.96%)
+    '     File Size: 41.66 KB
+
+
+    ' Module MathHelpers
+    ' 
+    '     Function: ComputeCrossCorrelation, CorrelationPValue, Covariance, CreateCrossCorrelation, FisherZ
+    '               FisherZInv, GetFeatureColumn, MatrixTo2DArray, Mean, NormalCDF
+    '               Rank, SoftThreshold, StdDev, Variance
+    ' 
+    ' Module PearsonCorrelation
+    ' 
+    '     Function: ComputeCrossCorrelation, ComputeInternalMatrix
+    ' 
+    ' Module SpearmanCorrelation
+    ' 
+    '     Function: Compute, ComputeCrossCorrelation, ComputeInternalMatrix
+    ' 
+    ' Module SparCCComputation
+    ' 
+    '     Function: CLRTransform, ComputeCLRCorrelation, ComputeCrossCorrelation, ComputeInternalMatrix, ComputeSparCCCorrelation
+    '               ComputeVariationMatrix
+    '     Class SparCCConfig
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' Module CCLassoComputation
+    ' 
+    '     Function: ComputeCCLassoCovariance, ComputeCrossCorrelation, ComputeInternalMatrix, ComputeVariationMatrix, CovarianceToCorrelation
+    '     Class CCLassoConfig
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' CorrelationComputation.vb
 ' OTU表格与代谢物表达矩阵之间的 SparCC / CCLasso / Pearson / Spearman 
@@ -1087,3 +1169,4 @@ Public Module CCLassoComputation
     End Function
 
 End Module
+

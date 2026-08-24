@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f35557fdc043a4409c8b4e2ce5f0122, visualize\SyntenyVisual\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::5465b9b85ebb5bb809196f5b54e0411c, visualize\SyntenyVisual\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -115,4 +115,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

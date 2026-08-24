@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d7e67ced920c03aaa18f7a17a9e07c9, visualize\SyntenyVisual\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::0485fbc235ee6ea2928cbe13d453b394, visualize\SyntenyVisual\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 714
-    '    Code Lines: 537 (75.21%)
-    ' Comment Lines: 50 (7.00%)
-    '    - Xml Docs: 70.00%
+    '   Total Lines: 712
+    '    Code Lines: 441 (61.94%)
+    ' Comment Lines: 145 (20.37%)
+    '    - Xml Docs: 24.14%
     ' 
-    '   Blank Lines: 127 (17.79%)
-    '     File Size: 38.50 KB
+    '   Blank Lines: 126 (17.70%)
+    '     File Size: 38.54 KB
 
 
     '     Module ComparativeAlignment

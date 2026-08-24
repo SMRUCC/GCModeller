@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e8f3593444396affd2b601e0e8e86af, engine\Compiler\MarkupCompiler\BioCyc\RegulationCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::46d3826d71d063c9979e92a6d02a3159, engine\Compiler\MarkupCompiler\BioCyc\RegulationCompiler.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 55
-    '    Code Lines: 47 (85.45%)
+    '   Total Lines: 56
+    '    Code Lines: 47 (83.93%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 8 (14.55%)
-    '     File Size: 2.17 KB
+    '   Blank Lines: 9 (16.07%)
+    '     File Size: 2.14 KB
 
 
     '     Class RegulationCompiler

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fb4808c735254606e2a2ba300f16795, analysis\Metagenome\Metagenome\DataAnalysis\RelativeStatics.vb"
+﻿#Region "Microsoft.VisualBasic::b827bcb1153bb72d21ab68f97bdf3c6f, analysis\Metagenome\Metagenome\DataAnalysis\RelativeStatics.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 171
-    '    Code Lines: 126 (73.68%)
-    ' Comment Lines: 31 (18.13%)
-    '    - Xml Docs: 87.10%
+    '   Total Lines: 178
+    '    Code Lines: 126 (70.79%)
+    ' Comment Lines: 38 (21.35%)
+    '    - Xml Docs: 89.47%
     ' 
-    '   Blank Lines: 14 (8.19%)
-    '     File Size: 7.95 KB
+    '   Blank Lines: 14 (7.87%)
+    '     File Size: 8.21 KB
 
 
     ' Module RelativeStatics

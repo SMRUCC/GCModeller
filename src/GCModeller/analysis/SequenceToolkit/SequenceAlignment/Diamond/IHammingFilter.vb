@@ -1,3 +1,57 @@
+﻿#Region "Microsoft.VisualBasic::9c96a885de5ca98ef343f97207a1c800, analysis\SequenceToolkit\SequenceAlignment\Diamond\IHammingFilter.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 6 (17.65%)
+    ' Comment Lines: 24 (70.59%)
+    '    - Xml Docs: 62.50%
+    ' 
+    '   Blank Lines: 4 (11.76%)
+    '     File Size: 1.72 KB
+
+
+    '     Interface IHammingFilter
+    ' 
+    '         Function: Distance, Pass
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' Hamming 距离过滤接口 (SIMD 后续替换边界)
 '
 ' DIAMOND 在种子命中点周围 48 个氨基酸窗口内计算查询与参考的 Hamming 距离,
@@ -32,3 +86,4 @@ Namespace DIAMOND
         Function Distance(query As String, qPos As Integer, subject As String, sPos As Integer) As Integer
     End Interface
 End Namespace
+

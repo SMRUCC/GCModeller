@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4fb308a91a7bd7a845e90a34dcaeedb, engine\Dynamics\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::ec5b2ee1df5069864da69a25ad8d8c30, engine\Dynamics\test\Module1.vb"
 
     ' Author:
     ' 
@@ -40,14 +40,14 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 19 (13.97%)
-    '     File Size: 5.66 KB
+    '     File Size: 5.46 KB
 
 
     ' Module Module1
     ' 
     '     Function: mass, reactions
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 

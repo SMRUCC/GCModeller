@@ -1,3 +1,60 @@
+﻿#Region "Microsoft.VisualBasic::9ddaf0b832792bb20510cd82b4fbd470, analysis\ProteinTools\ProteinMatrix\Linclust\ReducedAlphabet.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 46 (47.42%)
+    ' Comment Lines: 36 (37.11%)
+    '    - Xml Docs: 44.44%
+    ' 
+    '   Blank Lines: 15 (15.46%)
+    '     File Size: 3.42 KB
+
+
+    '     Module ReducedAlphabet
+    ' 
+    '         Properties: Letters
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Encode, Map
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' Linclust 缩减字母表(Reduced Alphabet)
 '
 ' 将 20 种标准氨基酸合并为 13 个字母,提高突变容忍下的 k-mer 命中率。
@@ -95,3 +152,4 @@ Namespace Linclust
         End Function
     End Module
 End Namespace
+

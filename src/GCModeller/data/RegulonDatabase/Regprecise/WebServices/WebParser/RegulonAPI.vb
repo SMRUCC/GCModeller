@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::765d68982e262e9f58491e405d6cf16d, data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
+﻿#Region "Microsoft.VisualBasic::a85c8410a6fbc4f0a5a56d50955b6f30, data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 248
-    '    Code Lines: 202 (81.45%)
-    ' Comment Lines: 28 (11.29%)
-    '    - Xml Docs: 96.43%
+    '   Total Lines: 254
+    '    Code Lines: 201 (79.13%)
+    ' Comment Lines: 35 (13.78%)
+    '    - Xml Docs: 97.14%
     ' 
-    '   Blank Lines: 18 (7.26%)
-    '     File Size: 12.55 KB
+    '   Blank Lines: 18 (7.09%)
+    '     File Size: 12.72 KB
 
 
     '     Module RegulonAPI

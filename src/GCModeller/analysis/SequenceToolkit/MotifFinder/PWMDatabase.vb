@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df469a7e949e9f14db2c12e370c6c677, analysis\SequenceToolkit\MotifFinder\PWMDatabase.vb"
+﻿#Region "Microsoft.VisualBasic::6877f20c71b7929a56fe019ef9601f61, analysis\SequenceToolkit\MotifFinder\PWMDatabase.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 4 (17.39%)
-    '     File Size: 888 B
+    '     File Size: 886 B
 
 
     ' Class PWMDatabase
@@ -75,4 +75,3 @@ Public Class PWMDatabase : Inherits MotifSet
         Return LoadMotifs(New StreamPack(s, [readonly]:=True))
     End Function
 End Class
-

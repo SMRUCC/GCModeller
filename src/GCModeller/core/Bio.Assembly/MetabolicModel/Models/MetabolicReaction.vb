@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11333bc247e4868d97c3722c283173ca, core\Bio.Assembly\MetabolicModel\Models\MetabolicReaction.vb"
+﻿#Region "Microsoft.VisualBasic::61d485eae0b57ce0bd783ea6e3ca568c, core\Bio.Assembly\MetabolicModel\Models\MetabolicReaction.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 37
-    '    Code Lines: 20 (54.05%)
-    ' Comment Lines: 11 (29.73%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 44
+    '    Code Lines: 24 (54.55%)
+    ' Comment Lines: 13 (29.55%)
+    '    - Xml Docs: 84.62%
     ' 
-    '   Blank Lines: 6 (16.22%)
-    '     File Size: 1.57 KB
+    '   Blank Lines: 7 (15.91%)
+    '     File Size: 1.98 KB
 
 
     '     Class MetabolicReaction
@@ -48,7 +48,7 @@
     '         Properties: description, ECNumbers, id, is_reversible, is_spontaneous
     '                     left, name, right
     ' 
-    '         Function: ToString
+    '         Function: CheckConnectivity, ToString
     ' 
     ' 
     ' /********************************************************************************/

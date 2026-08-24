@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2afe6bfeb9a8493e8156f09a79c14624, data\SABIO-RK\SBML\SBMLInternalIndexer.vb"
+﻿#Region "Microsoft.VisualBasic::94296a38a8ccccfce9d75bd42b312a16, data\SABIO-RK\SBML\SBMLInternalIndexer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 184
-    '    Code Lines: 129 (70.11%)
-    ' Comment Lines: 28 (15.22%)
+    '   Total Lines: 185
+    '    Code Lines: 130 (70.27%)
+    ' Comment Lines: 28 (15.14%)
     '    - Xml Docs: 96.43%
     ' 
-    '   Blank Lines: 27 (14.67%)
-    '     File Size: 7.88 KB
+    '   Blank Lines: 27 (14.59%)
+    '     File Size: 7.91 KB
 
 
     '     Class SBMLInternalIndexer

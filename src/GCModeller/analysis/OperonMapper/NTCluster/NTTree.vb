@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43d4d22a287ebf41ed5681c79ff22021, analysis\OperonMapper\NTTree.vb"
+﻿#Region "Microsoft.VisualBasic::cb5a45c377ccc5c132762d8af4195a24, analysis\OperonMapper\NTCluster\NTTree.vb"
 
     ' Author:
     ' 
@@ -118,4 +118,3 @@ Public Class NTTree : Inherits ComparisonProvider
         Return map(id)
     End Function
 End Class
-

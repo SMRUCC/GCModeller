@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f37e0a5860d094b78a790b273836a81d, core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
+﻿#Region "Microsoft.VisualBasic::7d06de2e952227dc213d9e16258cdb52, core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
 
     ' Author:
     ' 

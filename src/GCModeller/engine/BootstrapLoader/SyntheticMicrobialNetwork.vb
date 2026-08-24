@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b34ffd5dead9b146f06e4d171d7124e9, engine\BootstrapLoader\SyntheticMicrobialNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::4eb368dc797cc4866a8c649d736d3094, engine\BootstrapLoader\SyntheticMicrobialNetwork.vb"
 
     ' Author:
     ' 
@@ -99,4 +99,3 @@ Public Module SyntheticMicrobialNetwork
         Return (massTable, processList.ToArray, fluxIndex)
     End Function
 End Module
-

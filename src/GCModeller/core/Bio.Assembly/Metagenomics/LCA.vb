@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2649a7352d5d244aaa258385d7aa80d, core\Bio.Assembly\Metagenomics\LCA.vb"
+﻿#Region "Microsoft.VisualBasic::cff0f6ab1b9e8e17dc8a99b93559b60b, core\Bio.Assembly\Metagenomics\LCA.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 341
-    '    Code Lines: 233 (68.33%)
-    ' Comment Lines: 45 (13.20%)
+    '   Total Lines: 340
+    '    Code Lines: 233 (68.53%)
+    ' Comment Lines: 45 (13.24%)
     '    - Xml Docs: 75.56%
     ' 
-    '   Blank Lines: 63 (18.48%)
-    '     File Size: 13.24 KB
+    '   Blank Lines: 62 (18.24%)
+    '     File Size: 13.23 KB
 
 
     '     Class LCA
@@ -66,7 +66,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9dc4d37dfc095690e42a2516c5feb5e1, analysis\Motifs\PrimerDesigner\Restriction_enzyme\WikiLoader.vb"
+﻿#Region "Microsoft.VisualBasic::9cbf89f487137d3f9ba86156e31b1f32, analysis\Motifs\PrimerDesigner\Restriction_enzyme\WikiLoader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 105
-    '    Code Lines: 82 (78.10%)
-    ' Comment Lines: 8 (7.62%)
+    '   Total Lines: 102
+    '    Code Lines: 79 (77.45%)
+    ' Comment Lines: 8 (7.84%)
     '    - Xml Docs: 87.50%
     ' 
-    '   Blank Lines: 15 (14.29%)
-    '     File Size: 3.88 KB
+    '   Blank Lines: 15 (14.71%)
+    '     File Size: 3.82 KB
 
 
     '     Module WikiLoader

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2187635a62d0c16046a884634b8c5c6c, core\Bio.Assembly\SequenceModel\FASTA\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e139b7b048afb0212400609a0d0b1611, core\Bio.Assembly\SequenceModel\FASTA\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 65
-    '    Code Lines: 43 (66.15%)
-    ' Comment Lines: 11 (16.92%)
+    '   Total Lines: 83
+    '    Code Lines: 58 (69.88%)
+    ' Comment Lines: 11 (13.25%)
     '    - Xml Docs: 90.91%
     ' 
-    '   Blank Lines: 11 (16.92%)
-    '     File Size: 2.40 KB
+    '   Blank Lines: 14 (16.87%)
+    '     File Size: 3.26 KB
 
 
     '     Module Extensions
     ' 
-    '         Function: Index
+    '         Function: Index, UniqueTitle
     ' 
     '         Sub: writeFasta
     ' 

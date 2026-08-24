@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec3756196ef3e8dd7ee56d9cfc2b4325, models\BioCyc\Models\Files\protligandcplxes.vb"
+﻿#Region "Microsoft.VisualBasic::f57dc7ecf26361afffe9019ff3fee485, models\BioCyc\Models\Files\protligandcplxes.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 12
-    '    Code Lines: 8 (66.67%)
+    '   Total Lines: 11
+    '    Code Lines: 8 (72.73%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 4 (33.33%)
-    '     File Size: 311 B
+    '   Blank Lines: 3 (27.27%)
+    '     File Size: 307 B
 
 
     ' Class protligandcplxes
@@ -50,7 +50,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
@@ -63,4 +62,3 @@ Public Class protligandcplxes : Inherits Model
     Public Property components As String()
 
 End Class
-

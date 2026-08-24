@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de815a0a2c74d915d0a5607c827c9e4d, analysis\HTS_matrix\Limma\Limma.vb"
+﻿#Region "Microsoft.VisualBasic::7fe149c98f599a4c960e712ac1a7a0e7, analysis\HTS_matrix\Limma\Limma.vb"
 
     ' Author:
     ' 
@@ -287,4 +287,3 @@ Public Module Limma
         Next
     End Function
 End Module
-

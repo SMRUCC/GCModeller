@@ -1,3 +1,61 @@
+﻿#Region "Microsoft.VisualBasic::d4a3ec0d2caed207abc1466aad2f4d9e, analysis\ProteinTools\ProteinMatrix\FamilyCluster\SvdBlockReducer.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 128
+    '    Code Lines: 89 (69.53%)
+    ' Comment Lines: 17 (13.28%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 22 (17.19%)
+    '     File Size: 5.65 KB
+
+
+    '     Class SvdBlockReducer
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ColumnCountPlaceholder, LoadMeta, ReadEmbeddings
+    ' 
+    '         Sub: FlushBlock, Reduce
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
@@ -126,3 +184,4 @@ Namespace FamilyCluster
         End Function
     End Class
 End Namespace
+

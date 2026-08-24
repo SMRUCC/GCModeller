@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8979dd36765613e32edc660ded749928, engine\vcellkit\Modeller\Modeller.vb"
+﻿#Region "Microsoft.VisualBasic::c3fa0d9f96a782f218e630f908d227c8, engine\vcellkit\Modeller\Modeller.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 173
-    '    Code Lines: 110 (63.58%)
-    ' Comment Lines: 44 (25.43%)
-    '    - Xml Docs: 93.18%
+    '   Total Lines: 184
+    '    Code Lines: 115 (62.50%)
+    ' Comment Lines: 49 (26.63%)
+    '    - Xml Docs: 93.88%
     ' 
-    '   Blank Lines: 19 (10.98%)
-    '     File Size: 6.95 KB
+    '   Blank Lines: 20 (10.87%)
+    '     File Size: 7.42 KB
 
 
     ' Module vcellModeller
     ' 
     '     Function: applyKinetics, CompileLambda, eval, evalArgumentValues, Kinetics
-    '               LoadVirtualCell, readJSON, writeJSON, WriteZipAssembly
+    '               LoadVirtualCell, readJSON, taxonomy_info, writeJSON, WriteZipAssembly
     ' 
     '     Sub: createKineticsDbCache
     ' 

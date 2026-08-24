@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eaa9aef3babed38192cd5428da35cdbf, foundation\OBO_Foundry\BasicTerm.vb"
+﻿#Region "Microsoft.VisualBasic::a3bd5ab43958c0cc3599c3f0cb25f070, foundation\OBO_Foundry\BasicTerm.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 2 (22.22%)
-    '     File Size: 225 B
+    '     File Size: 223 B
 
 
     ' Class BasicTerm
@@ -60,4 +60,3 @@ Public Class BasicTerm
     Public Property [namespace] As String
 
 End Class
-

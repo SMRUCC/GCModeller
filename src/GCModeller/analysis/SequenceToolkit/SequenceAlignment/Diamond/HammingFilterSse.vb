@@ -1,3 +1,58 @@
+﻿#Region "Microsoft.VisualBasic::fce220b3bc1a7dffb315ee28f69a27bf, analysis\SequenceToolkit\SequenceAlignment\Diamond\HammingFilterSse.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 60 (62.50%)
+    ' Comment Lines: 18 (18.75%)
+    '    - Xml Docs: 27.78%
+    ' 
+    '   Blank Lines: 18 (18.75%)
+    '     File Size: 4.13 KB
+
+
+    '     Class HammingFilterSse
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Distance, Pass
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' Hamming 距离过滤 —— SSE2 向量化实现
 '
 ' 实现 <see cref="IHammingFilter"/> 接口,在 48aa 窗口内用 SSE2 指令
@@ -94,3 +149,4 @@ Namespace DIAMOND
         End Function
     End Class
 End Namespace
+

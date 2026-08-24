@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::938f12a7382aa4df8bdc039ce9c4045a, core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::28bb4a0de48d247e17f0a247ddb9a447, core\Bio.Assembly\Assembly\KEGG\Archives\Tabular\Pathway.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 18 (15.00%)
-    '     File Size: 4.82 KB
+    '     File Size: 4.83 KB
 
 
     '     Class Pathway

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f3be1f091781bb79263bb55eb43c8f36, analysis\SequenceToolkit\SequenceAlignment\SmithWaterman\Extension\Output.vb"
+﻿#Region "Microsoft.VisualBasic::4eabb1418f82816092a653e387122608, analysis\SequenceToolkit\SequenceAlignment\SmithWaterman\Extension\Output.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 116
-    '    Code Lines: 75 (64.66%)
-    ' Comment Lines: 26 (22.41%)
-    '    - Xml Docs: 96.15%
+    '   Total Lines: 184
+    '    Code Lines: 103 (55.98%)
+    ' Comment Lines: 59 (32.07%)
+    '    - Xml Docs: 93.22%
     ' 
-    '   Blank Lines: 15 (12.93%)
-    '     File Size: 4.81 KB
+    '   Blank Lines: 22 (11.96%)
+    '     File Size: 8.07 KB
 
 
     '     Class Output
@@ -49,6 +49,8 @@
     '                     Subject, Traceback
     ' 
     '         Function: ContainsPoint, CreateObject, GenericEnumerator, ToString
+    ' 
+    '         Sub: (+2 Overloads) Dispose, eraseMatrix
     ' 
     ' 
     ' /********************************************************************************/

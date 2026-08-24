@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8071947b9cdef41b49b6d4a9e044d3b8, analysis\Metagenome\Metagenome\BatchMerge.vb"
+﻿#Region "Microsoft.VisualBasic::200a6d03c2acc2eb93e6cabf7d4c0678, analysis\Metagenome\Metagenome\BatchMerge.vb"
 
     ' Author:
     ' 
@@ -85,4 +85,3 @@ Public Module BatchMerge
         Next
     End Function
 End Module
-

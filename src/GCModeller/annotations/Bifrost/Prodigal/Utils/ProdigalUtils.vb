@@ -1,3 +1,58 @@
+﻿#Region "Microsoft.VisualBasic::8ec5a2250b2456415bfb8652e0e03b82, annotations\Bifrost\Prodigal\Utils\ProdigalUtils.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 113 (66.08%)
+    ' Comment Lines: 40 (23.39%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 18 (10.53%)
+    '     File Size: 6.54 KB
+
+
+    ' Class SequenceUtils
+    ' 
+    '     Function: ComputeGcContent, GetCodon, GetUpstreamSequence, HexamerToIndex, IndexToHexamer
+    '               InitCodonTable, IsStartCodon, IsStopCodon, ReverseComplement, Translate
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' ProdigalUtils.vb - Prodigal VB.NET 基因预测程序 工具类
 ' 包含：FASTA读取、DNA序列操作、密码子表、模型序列化
@@ -168,4 +223,5 @@ Public Class SequenceUtils
     End Function
 
 End Class
+
 

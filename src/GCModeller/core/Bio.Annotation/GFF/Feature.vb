@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e7bfd1d38deda060bcd3eac8ecc4e46, core\Bio.Annotation\GFF\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::f43e242c17c28f490456a2316457b944, core\Bio.Annotation\GFF\Feature.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 304
-    '    Code Lines: 159 (52.30%)
-    ' Comment Lines: 116 (38.16%)
+    '   Total Lines: 295
+    '    Code Lines: 151 (51.19%)
+    ' Comment Lines: 116 (39.32%)
     '    - Xml Docs: 90.52%
     ' 
-    '   Blank Lines: 29 (9.54%)
-    '     File Size: 14.36 KB
+    '   Blank Lines: 28 (9.49%)
+    '     File Size: 14.15 KB
 
 
     '     Class Feature

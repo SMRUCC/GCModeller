@@ -1,3 +1,60 @@
+﻿#Region "Microsoft.VisualBasic::d5bdef092ba08bbe24439d454c16a398, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\PfamAnnotation.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 138
+    '    Code Lines: 65 (47.10%)
+    ' Comment Lines: 42 (30.43%)
+    '    - Xml Docs: 69.05%
+    ' 
+    '   Blank Lines: 31 (22.46%)
+    '     File Size: 5.11 KB
+
+
+    ' Class PfamAnnotation
+    ' 
+    '     Properties: BitScore, Description, DomainBitScore, DomainEnd, DomainEValue
+    '                 DomainStart, EValue, HmmEnd, HmmStart, PfamId
+    '                 QueryLength, QueryName, TargetLength, TargetName
+    ' 
+    '     Function: ParseFromDomtblout, ParseFromTblout, ToString
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' PfamAnnotation.vb - Pfam蛋白质家族注释数据结构
 '
@@ -136,3 +193,4 @@ Public Class PfamAnnotation
     End Function
 
 End Class
+

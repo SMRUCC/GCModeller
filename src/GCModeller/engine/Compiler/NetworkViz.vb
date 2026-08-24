@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::781fb1ea1296d1349085e9ace4413bef, engine\Compiler\NetworkViz.vb"
+﻿#Region "Microsoft.VisualBasic::70c8d7e5c24c7c334b7d95132dcb0e73, engine\Compiler\NetworkViz.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 54.17%
     ' 
     '   Blank Lines: 12 (5.58%)
-    '     File Size: 9.89 KB
+    '     File Size: 9.90 KB
 
 
     ' Module NetworkViz

@@ -1,4 +1,65 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::048f27a68d0c3d70714adb77523b1394, engine\Dynamics\Core\Kinetics\EnzymeCharacteristics.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 254
+    '    Code Lines: 129 (50.79%)
+    ' Comment Lines: 110 (43.31%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (5.91%)
+    '     File Size: 10.36 KB
+
+
+    '     Class EnzymeCharacteristics
+    ' 
+    '         Properties: alpha_temp_pH, beta_ion_pH, crowding_sensitivity, DeltaH_bind, Ea
+    '                     I_opt, k_denat, k_ion, Ka_cofactor, Ki_prod_comp
+    '                     Ki_prod_uncomp, Ki_sub, n_cofactor, pH_opt, pH_width
+    '                     pKa1, pKa2, RequiresCofactor, T_melt, T_opt
+    '                     T_ref, tau_pH, tau_temp, viscosity_sensitivity, z_enzyme
+    '                     z_substrate
+    ' 
+    '         Function: FromVector, GetVector, ParseBase64, ToBase64String, Validate
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 
 Namespace Kinetics

@@ -1,4 +1,80 @@
-﻿''' <summary>
+﻿#Region "Microsoft.VisualBasic::cd283b940e1c8820a62df391f2a21b6b, analysis\Microarray\CausalModeling\PathCoefficient.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 371
+    '    Code Lines: 214 (57.68%)
+    ' Comment Lines: 124 (33.42%)
+    '    - Xml Docs: 96.77%
+    ' 
+    '   Blank Lines: 33 (8.89%)
+    '     File Size: 15.29 KB
+
+
+    ' Class PathCoefficient
+    ' 
+    '     Properties: coef, fromName, p, se, sig
+    '                 t, toName
+    ' 
+    '     Function: (+2 Overloads) FromResult, ToString
+    ' 
+    ' Class EffectDecomposition
+    ' 
+    '     Properties: direct, fromName, indirect, toName, total
+    ' 
+    '     Function: (+2 Overloads) FromResult, ToString
+    ' 
+    ' Class BootstrapSignificanceTest
+    ' 
+    '     Properties: bse, ci_lb, ci_ub, coef, fromName
+    '                 sig, toName
+    ' 
+    '     Function: (+2 Overloads) FromResult, ToString
+    ' 
+    ' Class IndirectEffectBootstrap
+    ' 
+    '     Properties: bse, ci_lb, ci_ub, fromName, indirectEffect
+    '                 sig, toName
+    ' 
+    '     Function: (+2 Overloads) FromResult, ToString
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+''' <summary>
 ''' 路径系数与显著性检验表
 ''' 
 ''' 本表格展示了PLS-PM结构模型（内模型）中相邻层级潜变量之间的直接路径系数及其统计学显著性检验结果。通过该表格，可以了解到不同的潜变量之间存在的直接作用方向与相对强度，以及这些直接调控关系在统计学上是否达到显著水平。

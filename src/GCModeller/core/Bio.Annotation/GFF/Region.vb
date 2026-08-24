@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::703b199f9c0115ce40642c3308151d2d, core\Bio.Annotation\GFF\Region.vb"
+﻿#Region "Microsoft.VisualBasic::35e9f755618a312ed2d619e3ba63bb43, core\Bio.Annotation\GFF\Region.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 38
-    '    Code Lines: 26 (68.42%)
-    ' Comment Lines: 6 (15.79%)
+    '   Total Lines: 45
+    '    Code Lines: 32 (71.11%)
+    ' Comment Lines: 6 (13.33%)
     '    - Xml Docs: 83.33%
     ' 
-    '   Blank Lines: 6 (15.79%)
-    '     File Size: 1.34 KB
+    '   Blank Lines: 7 (15.56%)
+    '     File Size: 1.66 KB
 
 
     '     Class SeqRegion
     ' 
     '         Properties: accessId, ends, start
     ' 
-    '         Function: Parser, ToString
+    '         Function: ParseLines, Parser, ToString
     ' 
     ' 
     ' /********************************************************************************/

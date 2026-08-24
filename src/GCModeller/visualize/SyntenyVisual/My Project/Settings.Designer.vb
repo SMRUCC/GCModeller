@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdeeb12889690006bc95d96294b8e65d, visualize\SyntenyVisual\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::5597876d8fb0a719077f3eeea5eaa42e, visualize\SyntenyVisual\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -131,4 +131,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

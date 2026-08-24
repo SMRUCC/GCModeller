@@ -1,3 +1,66 @@
+﻿#Region "Microsoft.VisualBasic::a9592670858ac435d3d16c48994484f4, annotations\GSEA\FELLA\Statistics.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 594
+    '    Code Lines: 337 (56.73%)
+    ' Comment Lines: 176 (29.63%)
+    '    - Xml Docs: 62.50%
+    ' 
+    '   Blank Lines: 81 (13.64%)
+    '     File Size: 23.57 KB
+
+
+    '     Class Statistics
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: BenjaminiHochberg, BetaFunc, EmpiricalPValue, GammaCDF, GammaContinuedFraction
+    '                   GammaFunc, GammaSeries, HypergeometricCDF, HypergeometricPMF, HypergeometricPValue
+    '                   LogBeta, LogBinomial, LogGamma, Mean, NormalCDF
+    '                   NormalInverseCDF, PScoreFromGamma, PScoreFromT, PScoreFromZScore, RandomPermutation
+    '                   RandomSample, RegularizedIncompleteBeta, RegularizedIncompleteGamma, StdDev, StudentTCDF
+    '                   Variance, ZScore
+    ' 
+    '         Sub: ComputeMeanVariance
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' FELLA Algorithm - VB.NET Implementation
 ' Statistics.vb - Statistical functions for FELLA enrichment analysis
@@ -592,3 +655,4 @@ Namespace Math
     End Class
 
 End Namespace
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45e30927f615e56ef216446150e5fd40, analysis\HTS_matrix\Matrix\DataFrameRow.vb"
+﻿#Region "Microsoft.VisualBasic::1c796263ac3de46065fa8154c7c11d7e, analysis\HTS_matrix\Matrix\DataFrameRow.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 183
-    '    Code Lines: 96 (52.46%)
-    ' Comment Lines: 66 (36.07%)
+    '   Total Lines: 190
+    '    Code Lines: 102 (53.68%)
+    ' Comment Lines: 66 (34.74%)
     '    - Xml Docs: 93.94%
     ' 
-    '   Blank Lines: 21 (11.48%)
-    '     File Size: 6.50 KB
+    '   Blank Lines: 22 (11.58%)
+    '     File Size: 6.71 KB
 
 
     ' Class DataFrameRow

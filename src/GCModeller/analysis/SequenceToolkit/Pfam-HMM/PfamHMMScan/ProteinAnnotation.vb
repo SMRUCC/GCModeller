@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a28dd03f89e53c7337db07eaed214beb, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\ProteinAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::28f3568ee93c8f3518ac40c97dc93583, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\ProteinAnnotation.vb"
 
     ' Author:
     ' 
@@ -311,4 +311,3 @@ Public Class ProteinAnnotator
     End Function
 
 End Class
-

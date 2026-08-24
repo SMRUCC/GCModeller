@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c62a21b2d57fd182ddd2e87534b642fd, analysis\HTS_matrix\Matrix\MatrixBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::31c1497e01ba828acd74ed927aaff47c, analysis\HTS_matrix\Matrix\MatrixBuilder.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 73
-    '    Code Lines: 54 (73.97%)
-    ' Comment Lines: 10 (13.70%)
-    '    - Xml Docs: 90.00%
+    '   Total Lines: 111
+    '    Code Lines: 73 (65.77%)
+    ' Comment Lines: 27 (24.32%)
+    '    - Xml Docs: 88.89%
     ' 
-    '   Blank Lines: 9 (12.33%)
-    '     File Size: 3.06 KB
+    '   Blank Lines: 11 (9.91%)
+    '     File Size: 4.51 KB
 
 
     ' Module MatrixBuilder
     ' 
-    '     Function: BuildAndNormalizeAbundanceMatrix, MatrixInternal
+    '     Function: BuildAndNormalizeAbundanceMatrix, BuildMatrix, MatrixInternal
     ' 
     ' /********************************************************************************/
 
@@ -162,4 +162,3 @@ Public Module MatrixBuilder
         Next
     End Function
 End Module
-

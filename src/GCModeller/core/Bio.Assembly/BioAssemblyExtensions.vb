@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14dbc7cb376b8c16e41b76c079e26f4a, core\Bio.Assembly\BioAssemblyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::ba097909a606d57b2b463960f06289ce, core\Bio.Assembly\BioAssemblyExtensions.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 225
-    '    Code Lines: 143 (63.56%)
-    ' Comment Lines: 63 (28.00%)
+    '   Total Lines: 230
+    '    Code Lines: 147 (63.91%)
+    ' Comment Lines: 63 (27.39%)
     '    - Xml Docs: 95.24%
     ' 
-    '   Blank Lines: 19 (8.44%)
-    '     File Size: 8.67 KB
+    '   Blank Lines: 20 (8.70%)
+    '     File Size: 8.82 KB
 
 
     ' Module BioAssemblyExtensions
     ' 
     '     Function: [DirectCast], AsSegment, CreatePTTObject, ExpressionValue, GetBriefStrandCode
-    '               GetCOGCategory, GetStrands, Group, IsNullOrEmpty, IsPure
+    '               GetCOGCategory, GetStrands, Group, (+2 Overloads) IsNullOrEmpty, IsPure
     '               IsReversed, IsUnknown
     ' 
     ' /********************************************************************************/

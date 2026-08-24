@@ -1,3 +1,80 @@
+﻿#Region "Microsoft.VisualBasic::44b18854cb437663645944dba2e1eb0f, analysis\Microarray\MixOmics\MOFA\MOFA.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 977
+    '    Code Lines: 563 (57.63%)
+    ' Comment Lines: 277 (28.35%)
+    '    - Xml Docs: 52.35%
+    ' 
+    '   Blank Lines: 137 (14.02%)
+    '     File Size: 40.12 KB
+
+
+    '     Class DataView
+    ' 
+    '         Properties: D, Data, FeatureMean, FeatureNames, FeatureStd
+    '                     GlobalToLocal, LocalToGlobal, Name, NLocal, SampleIds
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: BuildIndexMapping, Standardize
+    ' 
+    '     Class MOFAOptions
+    ' 
+    '         Properties: ConvergenceTolerance, DropFactorThreshold, DropIterations, MaxIterations, NumFactors
+    '                     PrintEvery, Seed, SpikePrecision, StandardizeViews, Verbose
+    ' 
+    '     Class MOFA
+    ' 
+    '         Properties: ActiveFactors, Alpha, Converged, ElboHistory, GlobalSampleIds
+    '                     K, M, N, Options, Pi
+    '                     Tau, Views, W, Z
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ComputeELBO, ComputeTotalVarianceExplained, ComputeVarianceExplained, CountActiveFactors, GetFactors
+    '                   GetWeights, ReconstructView, SampleNormal
+    ' 
+    '         Sub: Dispose, Finalize, Initialize, PruneFactors, Train
+    '              UpdateAlpha, UpdateFactors, UpdateNoisePrecision, UpdatePi, UpdateWeights
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' =====================================================================================
 '  MOFA (Multi-Omics Factor Analysis) Framework - VB.NET Implementation
 '  Based on: Argelaguet et al., Molecular Systems Biology 14:e8124 (2018)
@@ -975,3 +1052,4 @@ Namespace MultiOmics.MOFA
     End Class
 
 End Namespace
+

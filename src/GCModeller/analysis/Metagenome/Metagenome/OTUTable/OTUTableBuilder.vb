@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df1ea4cf0452f8884aff27d6d332dd6e, analysis\Metagenome\Metagenome\OTUTable\OTUTableBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::5e5086dee234aed4d0dd9d3c18572423, analysis\Metagenome\Metagenome\OTUTable\OTUTableBuilder.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 160
-    '    Code Lines: 125 (78.12%)
-    ' Comment Lines: 11 (6.88%)
+    '   Total Lines: 159
+    '    Code Lines: 125 (78.62%)
+    ' Comment Lines: 11 (6.92%)
     '    - Xml Docs: 54.55%
     ' 
-    '   Blank Lines: 24 (15.00%)
+    '   Blank Lines: 23 (14.47%)
     '     File Size: 6.64 KB
 
 
@@ -50,7 +50,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel

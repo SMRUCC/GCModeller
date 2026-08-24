@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::682652bea11093e1f67575c7a8a44042, analysis\Metagenome\Metagenome\OTUTable\ITaxonomyAbundance.vb"
+﻿#Region "Microsoft.VisualBasic::5eec291a7f0bd7dc2b39716458530e20, analysis\Metagenome\Metagenome\OTUTable\ITaxonomyAbundance.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 9 (34.62%)
-    '     File Size: 751 B
+    '     File Size: 749 B
 
 
     ' Interface ITaxonomyAbundance
@@ -85,4 +85,3 @@ Public Interface ITaxonomy
     Property taxonomy_string As String
 
 End Interface
-

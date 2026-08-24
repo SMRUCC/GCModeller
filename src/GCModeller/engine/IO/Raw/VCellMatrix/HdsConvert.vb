@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19e12f164f53fa388de47167b9b4f041, engine\IO\Raw\VCellMatrix\HdsConvert.vb"
+﻿#Region "Microsoft.VisualBasic::090de60ffa7ce94a28219bfbb86d04ef, engine\IO\Raw\VCellMatrix\HdsConvert.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 2 (50.00%)
-    '     File Size: 42 B
+    '     File Size: 40 B
 
 
     ' Module HdsConvert
@@ -55,4 +55,3 @@ Public Module HdsConvert
 
 
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a5ec8a08e9ab25b316342cdeb63f205, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\HMM.vb"
+﻿#Region "Microsoft.VisualBasic::e5a54224d62e56f7b79d1b65b54b06b0, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\HMM.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 55
-    '    Code Lines: 34 (61.82%)
-    ' Comment Lines: 15 (27.27%)
+    '   Total Lines: 54
+    '    Code Lines: 34 (62.96%)
+    ' Comment Lines: 15 (27.78%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (10.91%)
+    '   Blank Lines: 5 (9.26%)
     '     File Size: 1.21 KB
 
 
@@ -75,7 +75,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 ''' <summary>
 ''' 比特得分结果

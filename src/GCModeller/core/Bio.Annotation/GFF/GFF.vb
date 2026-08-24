@@ -1,60 +1,71 @@
-﻿#Region "Microsoft.VisualBasic::e0d753f158d9d116da728cd4a068ab2f, core\Bio.Annotation\GFF\GFF.vb"
+﻿#Region "Microsoft.VisualBasic::4faebba5c32832398238d0c8aca8a39e, core\Bio.Annotation\GFF\GFF.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 304
-'    Code Lines: 151 (49.67%)
-' Comment Lines: 112 (36.84%)
-'    - Xml Docs: 87.50%
-' 
-'   Blank Lines: 41 (13.49%)
-'     File Size: 12.90 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class GFFTable
-' 
-'         Properties: [date], DNA, features, GffVersion, processor
-'                     Protein, RNA, SeqRegion, Size, species
-'                     SrcVersion, type
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: CreateGeneObjectIndex, filterStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes
-'                   GetStrandFeatures, LoadDocument, (+3 Overloads) Save, ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 366
+    '    Code Lines: 202 (55.19%)
+    ' Comment Lines: 112 (30.60%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 52 (14.21%)
+    '     File Size: 15.48 KB
+
+
+    '     Class GFFContext
+    ' 
+    '         Properties: AllFeatures, Context
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetByName, GetRelatedGenes, GetStrandFeatures
+    ' 
+    '     Class GFFTable
+    ' 
+    '         Properties: [date], DNA, features, GffVersion, processor
+    '                     Protein, RNA, SeqRegion, Size, Sources
+    '                     species, SrcVersion, type
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: CreateContextModel, CreateGeneObjectIndex, FilterBySource, filterStrandFeatures, GenerateDocument
+    '                   GetByName, GetChromosomes, GetStrandFeatures, LoadDocument, (+3 Overloads) Save
+    '                   ToString
+    ' 
+    '         Sub: WriteDocument
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

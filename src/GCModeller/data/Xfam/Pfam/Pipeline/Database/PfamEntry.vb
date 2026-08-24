@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18cc97f04426d6511f1f99e524c4727e, data\Xfam\Pfam\Pipeline\Database\PfamEntry.vb"
+﻿#Region "Microsoft.VisualBasic::875f73272a75e27f9f7133a28471c291, data\Xfam\Pfam\Pipeline\Database\PfamEntry.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 111
-    '    Code Lines: 84 (75.68%)
-    ' Comment Lines: 3 (2.70%)
+    '   Total Lines: 109
+    '    Code Lines: 83 (76.15%)
+    ' Comment Lines: 3 (2.75%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 24 (21.62%)
-    '     File Size: 3.77 KB
+    '   Blank Lines: 23 (21.10%)
+    '     File Size: 3.70 KB
 
 
     '     Class PfamEntryHeader

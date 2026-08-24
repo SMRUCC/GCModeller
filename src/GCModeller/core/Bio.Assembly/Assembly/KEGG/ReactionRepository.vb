@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc375a160ef20be94f220b8c92542342, core\Bio.Assembly\Assembly\KEGG\ReactionRepository.vb"
+﻿#Region "Microsoft.VisualBasic::7c976e038af6e3edab0923935e2d9183, core\Bio.Assembly\Assembly\KEGG\ReactionRepository.vb"
 
     ' Author:
     ' 
@@ -34,23 +34,24 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 259
-    '    Code Lines: 183 (70.66%)
-    ' Comment Lines: 50 (19.31%)
+    '   Total Lines: 262
+    '    Code Lines: 185 (70.61%)
+    ' Comment Lines: 50 (19.08%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 26 (10.04%)
-    '     File Size: 10.24 KB
+    '   Blank Lines: 27 (10.31%)
+    '     File Size: 10.90 KB
 
 
-    ' Class ReactionRepository
+    '     Class ReactionRepository
     ' 
-    '     Properties: metabolicNetwork
+    '         Properties: metabolicNetwork
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: Enzymetic, Exists, GetAll, GetByKey, GetByKOMatch
-    '               GetCompoundIndex, GetKoIndex, GetWhere, LoadAuto, LoadFromList
-    '               NonEnzymetic, ScanModel, (+2 Overloads) Subset
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Enzymetic, Exists, GetAll, GetByKey, GetByKOMatch
+    '                   GetCompoundIndex, GetKoIndex, GetWhere, LoadAuto, LoadFromList
+    '                   NonEnzymetic, ScanModel, (+2 Overloads) Subset
+    ' 
     ' 
     ' /********************************************************************************/
 

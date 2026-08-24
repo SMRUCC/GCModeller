@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd9ad1294ab6470651a12cdc7b70b082, core\Bio.Annotation\GFF\Document\FileFormat.vb"
+﻿#Region "Microsoft.VisualBasic::602552f06044962935656a47bcf40edb, core\Bio.Annotation\GFF\Document\FileFormat.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 99
-    '    Code Lines: 77 (77.78%)
-    ' Comment Lines: 7 (7.07%)
+    '   Total Lines: 100
+    '    Code Lines: 78 (78.00%)
+    ' Comment Lines: 7 (7.00%)
     '    - Xml Docs: 71.43%
     ' 
-    '   Blank Lines: 15 (15.15%)
-    '     File Size: 4.27 KB
+    '   Blank Lines: 15 (15.00%)
+    '     File Size: 4.37 KB
 
 
     '     Module FileFormat

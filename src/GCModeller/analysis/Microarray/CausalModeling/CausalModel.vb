@@ -1,4 +1,67 @@
-﻿Imports Microsoft.VisualBasic.Data.Framework
+﻿#Region "Microsoft.VisualBasic::a4b67b0e463a499a2efd04b825480a8c, analysis\Microarray\CausalModeling\CausalModel.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 65 (74.71%)
+    ' Comment Lines: 5 (5.75%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (19.54%)
+    '     File Size: 3.34 KB
+
+
+    ' Class CausalModel
+    ' 
+    '     Properties: data, latentDefs, paths, sampleIds, varNames
+    ' 
+    '     Function: AsPathTuple, (+2 Overloads) Create, MakeDataFrame
+    '     Class Path
+    ' 
+    '         Properties: U, V
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Linq
@@ -85,3 +148,4 @@ Public Class CausalModel : Implements IndexGraph(Of Path)
     End Function
 
 End Class
+

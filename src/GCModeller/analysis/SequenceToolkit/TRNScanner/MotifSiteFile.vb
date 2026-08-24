@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6530b83cf80ddc793c69f716422973b7, analysis\SequenceToolkit\TRNScanner\MotifSiteFile.vb"
+﻿#Region "Microsoft.VisualBasic::1ea6aff8eb1c5ef385890733960dae45, analysis\SequenceToolkit\TRNScanner\MotifSiteFile.vb"
 
     ' Author:
     ' 
@@ -94,4 +94,3 @@ Public Class MotifSiteFile : Implements IEmitStream
                 Select json.CreateObject(Of MotifMatch)(decodeMetachar:=False)).ToArray
     End Function
 End Class
-

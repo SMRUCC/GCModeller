@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::08379cd3a99477bd374166ba9f86a686, engine\Compiler\MarkupCompiler\BioCyc\GenomeCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::4866b00e3e0157abc81e3b21c4736f22, engine\Compiler\MarkupCompiler\BioCyc\GenomeCompiler.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 183
-    '    Code Lines: 153 (83.61%)
-    ' Comment Lines: 2 (1.09%)
+    '   Total Lines: 182
+    '    Code Lines: 153 (84.07%)
+    ' Comment Lines: 2 (1.10%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 28 (15.30%)
+    '   Blank Lines: 27 (14.84%)
     '     File Size: 8.09 KB
 
 
@@ -52,7 +52,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models

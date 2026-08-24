@@ -1,3 +1,58 @@
+﻿#Region "Microsoft.VisualBasic::89f7bb51f1a1f92f58368ef67c7f843a, analysis\SequenceToolkit\SequenceAlignment\Diamond\ReducedAlphabet.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 39 (42.86%)
+    ' Comment Lines: 40 (43.96%)
+    '    - Xml Docs: 42.50%
+    ' 
+    '   Blank Lines: 12 (13.19%)
+    '     File Size: 3.35 KB
+
+
+    '     Module ReducedAlphabet
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Encode, Map
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' DIAMOND 缩减字母表 (Reduced Alphabet)
 '
 ' 将 20 种标准氨基酸按物理化学性质聚类为 11 类,用于种子匹配阶段的编码。
@@ -89,3 +144,4 @@ Namespace DIAMOND
         End Function
     End Module
 End Namespace
+

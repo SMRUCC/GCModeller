@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc87bcb0e125d923ca29490dfd6a9b25, analysis\Metagenome\Metagenome\Kmers\Kraken2\KrakenReportRecord.vb"
+﻿#Region "Microsoft.VisualBasic::a89ece21087579fa86abfcecce26c378, analysis\Metagenome\Metagenome\Kmers\Kraken2\KrakenReportRecord.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 81
-    '    Code Lines: 29 (35.80%)
-    ' Comment Lines: 42 (51.85%)
+    '   Total Lines: 80
+    '    Code Lines: 29 (36.25%)
+    ' Comment Lines: 42 (52.50%)
     '    - Xml Docs: 97.62%
     ' 
-    '   Blank Lines: 10 (12.35%)
+    '   Blank Lines: 9 (11.25%)
     '     File Size: 3.31 KB
 
 
@@ -54,7 +54,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic

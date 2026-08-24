@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::fe2433908abea885294840fa06ae2f60, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::2b80ce2424b55d46dcb767eca84bab39, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 89
-'    Code Lines: 54 (60.67%)
-' Comment Lines: 20 (22.47%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 15 (16.85%)
-'     File Size: 3.10 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class DBLink
-' 
-'         Properties: DBName, entry, link
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: CreateObject, FromTagValue, GetFormatValue, (+3 Overloads) ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 54 (60.67%)
+    ' Comment Lines: 20 (22.47%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (16.85%)
+    '     File Size: 3.11 KB
+
+
+    '     Class DBLink
+    ' 
+    '         Properties: DBName, entry, link
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: CreateObject, FromTagValue, GetFormatValue, (+3 Overloads) ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

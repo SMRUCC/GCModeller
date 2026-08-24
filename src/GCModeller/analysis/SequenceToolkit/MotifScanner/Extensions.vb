@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46675e3085645677dd21ba4d54ed2207, analysis\SequenceToolkit\MotifScanner\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::61963310d30aae2403f318d0fa52a90c, analysis\SequenceToolkit\MotifScanner\Extensions.vb"
 
     ' Author:
     ' 
@@ -314,4 +314,3 @@ Public Module Extensions
     End Function
 
 End Module
-

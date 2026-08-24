@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4da72c42eb04bee01be94f7e77c4802, analysis\HTS_matrix\Math.vb"
+﻿#Region "Microsoft.VisualBasic::5d3e7d0c973cb40090cf84dde9cae977, analysis\HTS_matrix\Math.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 162
-    '    Code Lines: 111 (68.52%)
-    ' Comment Lines: 37 (22.84%)
+    '   Total Lines: 146
+    '    Code Lines: 95 (65.07%)
+    ' Comment Lines: 37 (25.34%)
     '    - Xml Docs: 86.49%
     ' 
-    '   Blank Lines: 14 (8.64%)
-    '     File Size: 6.75 KB
+    '   Blank Lines: 14 (9.59%)
+    '     File Size: 5.82 KB
 
 
     ' Module Math

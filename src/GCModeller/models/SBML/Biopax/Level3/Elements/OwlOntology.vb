@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9cb020d4a1ccd4d3b0b1967d2e2e410, models\SBML\Biopax\Level3\Elements\OwlOntology.vb"
+﻿#Region "Microsoft.VisualBasic::4b2086a95909edabbdcae4ec0dd23e80, models\SBML\Biopax\Level3\Elements\OwlOntology.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 5 (20.83%)
-    '     File Size: 736 B
+    '     File Size: 721 B
 
 
     '     Class owlOntology

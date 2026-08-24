@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1010a2fcde2a40e7f36e2b8db6f44a41, analysis\HTS_matrix\Limma\LimmaTable.vb"
+﻿#Region "Microsoft.VisualBasic::7d4e406b94de6b5947ac9daceb74694a, analysis\HTS_matrix\Limma\LimmaTable.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 137
-    '    Code Lines: 45 (32.85%)
-    ' Comment Lines: 82 (59.85%)
+    '   Total Lines: 136
+    '    Code Lines: 45 (33.09%)
+    ' Comment Lines: 82 (60.29%)
     '    - Xml Docs: 98.78%
     ' 
-    '   Blank Lines: 10 (7.30%)
-    '     File Size: 8.01 KB
+    '   Blank Lines: 9 (6.62%)
+    '     File Size: 8.00 KB
 
 
     ' Class LimmaTable
@@ -53,7 +53,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -191,4 +190,3 @@ Public Class LimmaTable : Implements IDeg, INamedValue, IReadOnlyId, IStatPvalue
     End Function
 
 End Class
-

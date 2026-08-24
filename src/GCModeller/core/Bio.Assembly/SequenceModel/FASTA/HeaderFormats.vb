@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a64de2d871a745dcfbf7d53a38aefdd1, core\Bio.Assembly\SequenceModel\FASTA\HeaderFormats.vb"
+﻿#Region "Microsoft.VisualBasic::ff6c11e853df62cb161934443dc8b878, core\Bio.Assembly\SequenceModel\FASTA\HeaderFormats.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.86%
     ' 
     '   Blank Lines: 9 (15.79%)
-    '     File Size: 1.90 KB
+    '     File Size: 1.92 KB
 
 
     '     Module HeaderFormats

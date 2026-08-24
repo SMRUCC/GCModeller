@@ -1,3 +1,112 @@
+﻿#Region "Microsoft.VisualBasic::b075dd9cdc31bdba7c3b65cba7eaf5f5, analysis\Microarray\MixOmics\IMMO\Layers.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 799
+    '    Code Lines: 533 (66.71%)
+    ' Comment Lines: 159 (19.90%)
+    '    - Xml Docs: 62.89%
+    ' 
+    '   Blank Lines: 107 (13.39%)
+    '     File Size: 28.87 KB
+
+
+    '     Module TensorHelpers
+    ' 
+    '         Function: AddBias, AddRowVector, ColumnSlice, ConcatColumns, DivideByColumn
+    '                   DivideRowVector, ExpandColumn, MeanAxis0, MeanAxis1, MultiplyByColumn
+    '                   MultiplyRowVector, Sigmoid, SubtractMean, TotalSumDouble, VarAxis0
+    ' 
+    '         Sub: FillTensor
+    ' 
+    '     Class Parameter
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: AccumulateGradient, ZeroGrad
+    ' 
+    '     Class AdamOptimizer
+    ' 
+    '         Properties: LearningRate
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: DecayLearningRate, Update
+    ' 
+    '     Class Layer
+    ' 
+    '         Sub: ZeroGrad
+    ' 
+    '     Class DenseLayer
+    ' 
+    '         Properties: InputDim, OutputDim
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Backward, Forward, GetParameters
+    ' 
+    '     Class BatchNormLayer
+    ' 
+    '         Properties: NumFeatures
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Backward, Forward, GetParameters
+    ' 
+    '     Class DropoutLayer
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Backward, Forward, GetParameters
+    ' 
+    '     Class SwishActivation
+    ' 
+    '         Function: Backward, Forward, GetParameters
+    ' 
+    '     Class LinearActivation
+    ' 
+    '         Function: Backward, Forward, GetParameters
+    ' 
+    '     Class Sequential
+    ' 
+    '         Properties: Layers
+    ' 
+    '         Function: Backward, Forward, GetParameters
+    ' 
+    '         Sub: Add, ZeroGrad
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' IMMO Framework - Neural Network Layers
 ' ============================================================================
@@ -797,3 +906,4 @@ Namespace IMMO
     End Class
 
 End Namespace
+

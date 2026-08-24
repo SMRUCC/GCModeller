@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::639ad97eae8d4437c743631218efa9ec, analysis\Metagenome\Metagenome\DataAnalysis\Enterotype.vb"
+﻿#Region "Microsoft.VisualBasic::ab4cc9ff3407dc191e80f41bb8403d5b, analysis\Metagenome\Metagenome\DataAnalysis\Enterotype.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 99
-    '    Code Lines: 78 (78.79%)
-    ' Comment Lines: 9 (9.09%)
+    '   Total Lines: 100
+    '    Code Lines: 79 (79.00%)
+    ' Comment Lines: 9 (9.00%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 12 (12.12%)
-    '     File Size: 4.23 KB
+    '   Blank Lines: 12 (12.00%)
+    '     File Size: 4.29 KB
 
 
     ' Module Enterotype

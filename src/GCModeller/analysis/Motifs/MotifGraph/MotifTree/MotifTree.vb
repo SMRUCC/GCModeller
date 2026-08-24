@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::262cac28851500de5b587906c8c64955, analysis\Motifs\MotifGraph\MotifTree\MotifTree.vb"
+﻿#Region "Microsoft.VisualBasic::dee90b162679f9228a0ae7da3018a6be, analysis\Motifs\MotifGraph\MotifTree\MotifTree.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 6 (30.00%)
-    '     File Size: 701 B
+    '     File Size: 699 B
 
 
     ' Class MotifTree
@@ -71,4 +71,3 @@ Public Class MotifTree
     End Function
 
 End Class
-

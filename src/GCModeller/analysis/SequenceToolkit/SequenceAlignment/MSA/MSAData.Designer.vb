@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecab3c9590b21adb327795ec9aa9a845, analysis\SequenceToolkit\SequenceAlignment\MSA\MSAData.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ee47559b782295b01177f17b2f5e41b4, analysis\SequenceToolkit\SequenceAlignment\MSA\MSAData.Designer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 10.00%
     ' 
     '   Blank Lines: 10 (10.00%)
-    '     File Size: 3.73 KB
+    '     File Size: 3.72 KB
 
 
     '     Class MSAData
@@ -154,4 +154,3 @@ Namespace My.Resources
         End Property
     End Class
 End Namespace
-

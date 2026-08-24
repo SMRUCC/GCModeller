@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6130f7c224adc7bb65bbcd8b3971f0e8, models\SBML\Biopax\Level3\Elements\EntityProperty.vb"
+﻿#Region "Microsoft.VisualBasic::ed0dd93c50f1b78147cf15685b0e7316, models\SBML\Biopax\Level3\Elements\EntityProperty.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 78 (47.27%)
-    '     File Size: 3.27 KB
+    '     File Size: 3.26 KB
 
 
     '     Class structureFormat

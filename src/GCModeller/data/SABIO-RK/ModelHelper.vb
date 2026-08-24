@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf992e1b914c7d88d7ba1ea953d77fda, data\SABIO-RK\ModelHelper.vb"
+﻿#Region "Microsoft.VisualBasic::a2acf3ea1c6e67cbc9c9ecc1af87bd8b, data\SABIO-RK\ModelHelper.vb"
 
     ' Author:
     ' 
@@ -84,4 +84,3 @@ Public Module ModelHelper
         Next
     End Function
 End Module
-

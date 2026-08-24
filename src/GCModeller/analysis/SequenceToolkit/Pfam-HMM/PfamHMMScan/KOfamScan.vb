@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db808b663f2e71f317aef301e451a73c, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\KOfamScan.vb"
+﻿#Region "Microsoft.VisualBasic::b01d2bb4c0e83f4019bf795bc9072b4b, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\KOfamScan.vb"
 
     ' Author:
     ' 
@@ -157,4 +157,3 @@ Public Class KOFamScan
         Return item
     End Function
 End Class
-

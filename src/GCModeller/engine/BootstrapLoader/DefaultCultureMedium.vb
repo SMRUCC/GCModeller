@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51f20a6f2da0b65cdb8e70bc1b270089, engine\BootstrapLoader\DefaultCultureMedium.vb"
+﻿#Region "Microsoft.VisualBasic::c186ee0805423600b7793a1dff2f658c, engine\BootstrapLoader\DefaultCultureMedium.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 2 (28.57%)
-    '     File Size: 162 B
+    '     File Size: 160 B
 
 
     ' Class DefaultCultureMedium
@@ -58,4 +58,3 @@ Public Class DefaultCultureMedium
     }
 
 End Class
-

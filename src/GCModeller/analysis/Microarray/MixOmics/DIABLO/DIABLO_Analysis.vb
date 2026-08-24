@@ -1,3 +1,148 @@
+﻿#Region "Microsoft.VisualBasic::6704ba55a0941b822f9ebc38c329d976, analysis\Microarray\MixOmics\DIABLO\DIABLO_Analysis.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 2578
+    '    Code Lines: 1708 (66.25%)
+    ' Comment Lines: 549 (21.30%)
+    '    - Xml Docs: 68.85%
+    ' 
+    '   Blank Lines: 321 (12.45%)
+    '     File Size: 101.77 KB
+
+
+    '     Class Matrix
+    ' 
+    '         Properties: Cols, Data, Rows
+    ' 
+    '         Constructor: (+3 Overloads) Sub New
+    ' 
+    '         Function: Center, Clone, ColumnMeans, ColumnStdDevs, FrobeniusNorm
+    '                   GetColumn, GetRow, Hadamard, HConcat, Identity
+    '                   L1Norm, L2Norm, Normalize, Ones, RowMeans
+    '                   Scale, SubMatrix, ToString, Trace, Transpose
+    '                   VConcat, Zeros
+    ' 
+    '         Sub: SetColumn, SetRow
+    ' 
+    '         Operators: (+2 Overloads) -, (+3 Overloads) *, +
+    ' 
+    '     Class LinearAlgebra
+    ' 
+    '         Function: CorrelationMatrix, PearsonCorrelation, PowerIteration, PseudoInverse, SVD
+    ' 
+    '     Class SparseUtils
+    ' 
+    '         Function: SoftThreshold, SoftThresholdVector, SparsifyByL1Norm, SparsifyVector
+    ' 
+    '     Class DIABLO
+    ' 
+    '         Properties: Design, ExplainedVariance, LatentVars, Loadings, NBlocks
+    '                     NComp, YLatentVars, YLoadings
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ComputeBlockCorrelation, ComputeClassCentroids, ComputeVariableImportance, ExtractComponent, GetSelectedVariables
+    '                   OneHotEncode, Predict, PredictCentroidsDist, PredictMahalanobisDist, PredictMaxDist
+    ' 
+    '         Sub: DeflateMatrices, Fit, PreprocessData
+    '         Class ComponentResult
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Class DIABLOCrossValidation
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ComputeBER, CreateFolds, GenerateKeepXCombinations, SplitTrainTest, TuneKeepX
+    '                   TuneNComp
+    ' 
+    '         Sub: GenerateCombinationsRecursive
+    '         Class TrainTestSplit
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    '     Class BERResult
+    ' 
+    ' 
+    ' 
+    '     Class CVNCompResult
+    ' 
+    ' 
+    ' 
+    '     Class CVKeepXResult
+    ' 
+    ' 
+    ' 
+    '     Class DIABLOUtils
+    ' 
+    '         Function: ComputeAUC, ComputeMulticlassAUC, CreateCustomDesign, CreateFullDesign, SimulateMultiOmicsData
+    ' 
+    '     Class SimulatedData
+    ' 
+    ' 
+    ' 
+    '     Class MultiBlockIntegration
+    ' 
+    '         Function: ComputeConsensusMatrix, ComputeNetworkMetrics, ComputeRGCCACovariance, ProcrustesAnalysis
+    ' 
+    '     Class NetworkMetrics
+    ' 
+    ' 
+    ' 
+    '     Class ProcrustesResult
+    ' 
+    ' 
+    ' 
+    '     Class DIABLOPipeline
+    ' 
+    '         Function: Run
+    ' 
+    '     Class DIABLOPipelineResult
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' DIABLO_Analysis.vb
 ' ============================================================================
@@ -2576,3 +2721,4 @@ Namespace MixOmics
     End Class
 
 End Namespace
+

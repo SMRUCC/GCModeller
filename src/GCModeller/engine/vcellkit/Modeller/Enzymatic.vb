@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::667f9d589be82f05d4d2e03547c0f0f6, engine\vcellkit\Modeller\Enzymatic.vb"
+﻿#Region "Microsoft.VisualBasic::ce8938ef8ff5932d37c4580dddc2b16e, engine\vcellkit\Modeller\Enzymatic.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 83
-    '    Code Lines: 60 (72.29%)
-    ' Comment Lines: 9 (10.84%)
-    '    - Xml Docs: 88.89%
+    '   Total Lines: 61
+    '    Code Lines: 46 (75.41%)
+    ' Comment Lines: 3 (4.92%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 14 (16.87%)
-    '     File Size: 3.02 KB
+    '   Blank Lines: 12 (19.67%)
+    '     File Size: 2.21 KB
 
 
     ' Module Enzymatic
     ' 
-    '     Function: ImportsRhea, openRheaQuery, ParseRhea, QueryReaction
+    '     Function: ImportsRhea, openRheaQuery, QueryReaction
     ' 
     ' /********************************************************************************/
 

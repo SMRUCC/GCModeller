@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2b130b91e6661648ae030849f97ac27, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Fasta\TitleBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::a334e15d3abe6cf76a89173f12942cc1, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Fasta\TitleBuilder.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 62
-    '    Code Lines: 48 (77.42%)
+    '   Total Lines: 61
+    '    Code Lines: 48 (78.69%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 14 (22.58%)
+    '   Blank Lines: 13 (21.31%)
     '     File Size: 2.34 KB
 
 
@@ -52,7 +52,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports SMRUCC.genomics.Assembly.Uniprot.XML

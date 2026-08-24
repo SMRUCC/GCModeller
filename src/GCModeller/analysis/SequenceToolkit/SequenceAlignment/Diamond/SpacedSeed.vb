@@ -1,3 +1,71 @@
+﻿#Region "Microsoft.VisualBasic::93cc03bc9c72e574ee923ab4f15de1e2, analysis\SequenceToolkit\SequenceAlignment\Diamond\SpacedSeed.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 77 (48.73%)
+    ' Comment Lines: 55 (34.81%)
+    '    - Xml Docs: 67.27%
+    ' 
+    '   Blank Lines: 26 (16.46%)
+    '     File Size: 6.35 KB
+
+
+    '     Enum SensitivityMode
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Structure SpacedSeed
+    ' 
+    '         Properties: Length
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: MathLeadingZeroCount, ToString
+    ' 
+    '     Module SpacedSeeds
+    ' 
+    '         Function: GenerateSeeds, GetSeeds, PopCount
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' DIAMOND 间隔种子 (Spaced Seed) 形状集
 '
 ' 间隔种子用一个由"匹配位"(1) 和"忽略位"(0) 组成的形状从序列中抽取残基。
@@ -156,3 +224,4 @@ Namespace DIAMOND
         End Function
     End Module
 End Namespace
+

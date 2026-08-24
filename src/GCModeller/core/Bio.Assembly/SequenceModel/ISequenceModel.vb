@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c3c04a5eaaed4d9a696a0786fab33af, core\Bio.Assembly\SequenceModel\ISequenceModel.vb"
+﻿#Region "Microsoft.VisualBasic::af53bfb9307e1d2c1203de292fc71e8f, core\Bio.Assembly\SequenceModel\ISequenceModel.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 96
-    '    Code Lines: 42 (43.75%)
-    ' Comment Lines: 44 (45.83%)
+    '   Total Lines: 99
+    '    Code Lines: 44 (44.44%)
+    ' Comment Lines: 44 (44.44%)
     '    - Xml Docs: 95.45%
     ' 
-    '   Blank Lines: 10 (10.42%)
-    '     File Size: 3.89 KB
+    '   Blank Lines: 11 (11.11%)
+    '     File Size: 3.98 KB
 
 
     '     Class ISequenceModel

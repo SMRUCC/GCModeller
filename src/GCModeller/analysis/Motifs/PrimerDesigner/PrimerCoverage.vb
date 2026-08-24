@@ -1,4 +1,60 @@
-﻿Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat
+﻿#Region "Microsoft.VisualBasic::a7e8e73f91eb98e3d0359afcbc1559b1, analysis\Motifs\PrimerDesigner\PrimerCoverage.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 54 (72.00%)
+    ' Comment Lines: 7 (9.33%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (18.67%)
+    '     File Size: 3.24 KB
+
+
+    ' Class PrimerCoverage
+    ' 
+    '     Properties: Chromosome, Ends, GeneID, Product, Sequence
+    '                 Start, Strand
+    ' 
+    '     Function: GetCoverage, ToString
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.SequenceModel
@@ -73,3 +129,4 @@ Public Class PrimerCoverage
         Console.WriteLine($"提取完成，共找到 {extractedGenes.Count} 个基因")
     End Function
 End Class
+

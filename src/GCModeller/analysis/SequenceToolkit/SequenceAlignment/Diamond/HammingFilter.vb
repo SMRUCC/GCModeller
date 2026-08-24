@@ -1,3 +1,58 @@
+﻿#Region "Microsoft.VisualBasic::731deeaea0861a9a7da0fe29871dbf2f, analysis\SequenceToolkit\SequenceAlignment\Diamond\HammingFilter.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 32 (52.46%)
+    ' Comment Lines: 17 (27.87%)
+    '    - Xml Docs: 47.06%
+    ' 
+    '   Blank Lines: 12 (19.67%)
+    '     File Size: 2.50 KB
+
+
+    '     Class HammingFilter
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Distance, Pass
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' Hamming 距离过滤 —— 标量实现 (48aa 窗口)
 '
 ' 在种子命中点周围 <see cref="WindowSize"/> 个氨基酸窗口内,逐位置比较
@@ -59,3 +114,4 @@ Namespace DIAMOND
         End Function
     End Class
 End Namespace
+

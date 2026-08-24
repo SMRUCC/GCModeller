@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::470dafa61faec491156555cfa904a2df, engine\IO\GCMarkupLanguage\v2\Xml\Metabolism\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::6ab20a029ac976f53348fa92421bafa0, engine\IO\GCMarkupLanguage\v2\Xml\Metabolism\Reaction.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 215
-    '    Code Lines: 144 (66.98%)
-    ' Comment Lines: 39 (18.14%)
-    '    - Xml Docs: 97.44%
+    '   Total Lines: 219
+    '    Code Lines: 144 (65.75%)
+    ' Comment Lines: 43 (19.63%)
+    '    - Xml Docs: 97.67%
     ' 
-    '   Blank Lines: 32 (14.88%)
-    '     File Size: 7.94 KB
+    '   Blank Lines: 32 (14.61%)
+    '     File Size: 8.07 KB
 
 
     '     Class Transportation

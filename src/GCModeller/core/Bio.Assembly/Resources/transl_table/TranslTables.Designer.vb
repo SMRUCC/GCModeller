@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdd80b28a2493885d1964f5656163e8a, core\Bio.Assembly\Resources\transl_table\TranslTables.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::450a3da010f8de8918291d11935d0833, core\Bio.Assembly\Resources\transl_table\TranslTables.Designer.vb"
 
     ' Author:
     ' 
@@ -520,4 +520,3 @@ Namespace My.Resources
         End Property
     End Class
 End Namespace
-

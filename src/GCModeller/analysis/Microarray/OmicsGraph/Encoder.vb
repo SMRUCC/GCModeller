@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a129fd24a071b4051b091951813b89a, analysis\Microarray\OmicsGraph\Encoder.vb"
+﻿#Region "Microsoft.VisualBasic::344f2cdf408828cbc42d6297981bd734, analysis\Microarray\OmicsGraph\Encoder.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 78.26%
     ' 
     '   Blank Lines: 24 (17.02%)
-    '     File Size: 5.02 KB
+    '     File Size: 5.07 KB
 
 
     ' Module Encoder

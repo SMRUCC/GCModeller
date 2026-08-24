@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ba42983ba9b2dba79c39165c9940213, engine\IO\GCMarkupLanguage\v2\Xml\Metabolism\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::412e369d2292e18f3ec1a52419f9f880, engine\IO\GCMarkupLanguage\v2\Xml\Metabolism\Enzyme.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 110
-    '    Code Lines: 52 (47.27%)
-    ' Comment Lines: 39 (35.45%)
-    '    - Xml Docs: 97.44%
+    '   Total Lines: 105
+    '    Code Lines: 51 (48.57%)
+    ' Comment Lines: 35 (33.33%)
+    '    - Xml Docs: 97.14%
     ' 
-    '   Blank Lines: 19 (17.27%)
-    '     File Size: 3.33 KB
+    '   Blank Lines: 19 (18.10%)
+    '     File Size: 3.15 KB
 
 
     '     Class Enzyme
@@ -51,7 +51,7 @@
     ' 
     '     Class Catalysis
     ' 
-    '         Properties: formula, parameter, PH, reaction, temperature
+    '         Properties: characters, formula, parameter, reaction
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString

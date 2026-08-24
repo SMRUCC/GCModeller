@@ -1,3 +1,63 @@
+﻿#Region "Microsoft.VisualBasic::8be30bb782033bb6bf1bde46d79baeb6, analysis\Metagenome\MetaFunction\metaTraits\Traitar\Utils\MathUtils.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 404
+    '    Code Lines: 214 (52.97%)
+    ' Comment Lines: 142 (35.15%)
+    '    - Xml Docs: 73.24%
+    ' 
+    '   Blank Lines: 48 (11.88%)
+    '     File Size: 14.82 KB
+
+
+    '     Module MathUtils
+    ' 
+    '         Function: BinaryPearsonCorrelation, DotProduct, GainOrLossProbability, Gamma, JointProbability
+    '                   L1HingeLoss, L1Norm, L2HingeLoss, L2Norm, L2NormSquared
+    '                   Log2, LogGamma, Logit, LogLikelihood, Mean
+    '                   PearsonCorrelation, RandDouble, RandInt, SafeLog, Sigmoid
+    '                   StandardDeviation, ThresholdFilter, Transpose, Variance
+    ' 
+    '         Sub: SetSeed, Shuffle
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' MathUtils.vb - 基础数学工具函数
 '
@@ -402,3 +462,4 @@ Namespace metaTraits.Traitar.Utils
     End Module
 
 End Namespace
+

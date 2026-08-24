@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::77d663879a62bb14e8ba1fc31fe70db0, engine\Compiler\Workflow.vb"
+﻿#Region "Microsoft.VisualBasic::91a2994d58049392ec8a0a3570461ca1, engine\Compiler\Workflow.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 293
-'    Code Lines: 219 (74.74%)
-' Comment Lines: 41 (13.99%)
-'    - Xml Docs: 65.85%
-' 
-'   Blank Lines: 33 (11.26%)
-'     File Size: 12.61 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Workflow
-' 
-'     Function: AssemblingGenomeInformation, AssemblingMetabolicNetwork, AssemblingRegulationNetwork, BuildReactions, createMetabolicProcess
-'               GetCentralDogmas, getTaxonomy
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 292
+    '    Code Lines: 218 (74.66%)
+    ' Comment Lines: 41 (14.04%)
+    '    - Xml Docs: 65.85%
+    ' 
+    '   Blank Lines: 33 (11.30%)
+    '     File Size: 12.57 KB
+
+
+    ' Module Workflow
+    ' 
+    '     Function: AssemblingGenomeInformation, AssemblingMetabolicNetwork, AssemblingRegulationNetwork, BuildReactions, createMetabolicProcess
+    '               GetCentralDogmas, getTaxonomy
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

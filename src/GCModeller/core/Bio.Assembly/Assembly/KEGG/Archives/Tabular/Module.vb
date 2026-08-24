@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c14bc8c2b1ef928a387aa7b9dfe903df, core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
+﻿#Region "Microsoft.VisualBasic::2dcd62e27753e0ce003bd0124b6d974b, core\Bio.Assembly\Assembly\KEGG\Archives\Tabular\Module.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 18 (16.22%)
-    '     File Size: 4.11 KB
+    '     File Size: 4.12 KB
 
 
     '     Class [Module]

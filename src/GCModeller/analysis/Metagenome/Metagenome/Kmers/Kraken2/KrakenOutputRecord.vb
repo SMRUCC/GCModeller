@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fcb878c59ebfa94b42f625e5a61e75d, analysis\Metagenome\Metagenome\Kmers\Kraken2\KrakenOutputRecord.vb"
+﻿#Region "Microsoft.VisualBasic::4eee0f211d6d34381859b11287d3efac, analysis\Metagenome\Metagenome\Kmers\Kraken2\KrakenOutputRecord.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 116
-    '    Code Lines: 63 (54.31%)
-    ' Comment Lines: 38 (32.76%)
+    '   Total Lines: 124
+    '    Code Lines: 70 (56.45%)
+    ' Comment Lines: 38 (30.65%)
     '    - Xml Docs: 92.11%
     ' 
-    '   Blank Lines: 15 (12.93%)
-    '     File Size: 5.16 KB
+    '   Blank Lines: 16 (12.90%)
+    '     File Size: 5.42 KB
 
 
     '     Class KrakenOutputRecord
@@ -48,7 +48,7 @@
     '         Properties: LcaMappings, LCASupport, LCATaxids, ReadLength, ReadName
     '                     StatusCode, TaxID, Taxonomy
     ' 
-    '         Function: GetTaxID, MakeAnnotationResult, ParseDocument
+    '         Function: GetKMerMapping, GetTaxID, MakeAnnotationResult, ParseDocument
     ' 
     '         Sub: Save
     ' 

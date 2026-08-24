@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::760b2fc60af81bb36a7574e7e59661cb, engine\Model\Cellular\Vector\ProteinComposition.vb"
+﻿#Region "Microsoft.VisualBasic::63b573c973580d6470a055633c92dbe5, engine\Model\Cellular\Vector\ProteinComposition.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 173
-    '    Code Lines: 65 (37.57%)
-    ' Comment Lines: 95 (54.91%)
+    '   Total Lines: 177
+    '    Code Lines: 68 (38.42%)
+    ' Comment Lines: 95 (53.67%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 13 (7.51%)
-    '     File Size: 5.59 KB
+    '   Blank Lines: 14 (7.91%)
+    '     File Size: 5.73 KB
 
 
     '     Class ProteinComposition
@@ -52,7 +52,8 @@
     '                     V, W, Y
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: Blank, FromRefSeq, GetEnumerator, IEnumerable_GetEnumerator, ToString
+    '         Function: Blank, FromRefSeq, GetEnumerator, IEnumerable_GetEnumerator, IsBlank
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/

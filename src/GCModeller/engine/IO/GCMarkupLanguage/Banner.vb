@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebcb89d539221bfc564be60002ca733c, engine\IO\GCMarkupLanguage\Banner.vb"
+﻿#Region "Microsoft.VisualBasic::efc809742bb3bf7eddfd0558420d91ec, engine\IO\GCMarkupLanguage\Banner.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 9 (30.00%)
-    '     File Size: 929 B
+    '     File Size: 927 B
 
 
     ' Module Banner
@@ -81,4 +81,3 @@ Public Module Banner
     End Sub
 
 End Module
-

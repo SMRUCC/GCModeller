@@ -1,4 +1,57 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::23527632d9a602b3f105a887588c0db2, annotations\Bifrost\MetaEuk\CodonTable.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 56 (78.87%)
+    ' Comment Lines: 8 (11.27%)
+    '    - Xml Docs: 37.50%
+    ' 
+    '   Blank Lines: 7 (9.86%)
+    '     File Size: 3.24 KB
+
+
+    ' Class CodonTable
+    ' 
+    '     Function: ReverseComplement, Translate, TranslateCodon
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+
 ' ========================================================================
 ' MODULE 2: CODON TABLE & SIX-FRAME TRANSLATION
 ' ========================================================================
@@ -69,3 +122,4 @@ Public Class CodonTable
     End Function
 
 End Class
+

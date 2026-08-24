@@ -1,4 +1,61 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::20f4b8452869ef03d29577aefb1daf6b, core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\GeneMetaboliteNetwork.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 177
+    '    Code Lines: 93 (52.54%)
+    ' Comment Lines: 67 (37.85%)
+    '    - Xml Docs: 79.10%
+    ' 
+    '   Blank Lines: 17 (9.60%)
+    '     File Size: 8.71 KB
+
+
+    '     Class GeneMetaboliteNetwork
+    ' 
+    '         Properties: compound_id, compound_name, gene_id, ko_id, pathway_id
+    '                     pathway_title, reaction_id, role
+    ' 
+    '         Function: ExtractNetwork
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
 
@@ -175,3 +232,4 @@ Namespace Assembly.KEGG.WebServices.KGML
         End Function
     End Class
 End Namespace
+

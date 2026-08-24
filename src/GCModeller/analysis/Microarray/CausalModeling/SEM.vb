@@ -1,3 +1,73 @@
+﻿#Region "Microsoft.VisualBasic::510e7045065e0eda0a93f1988975e67a, analysis\Microarray\CausalModeling\SEM.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 724
+    '    Code Lines: 523 (72.24%)
+    ' Comment Lines: 110 (15.19%)
+    '    - Xml Docs: 44.55%
+    ' 
+    '   Blank Lines: 91 (12.57%)
+    '     File Size: 30.20 KB
+
+
+    ' Module SEM
+    ' 
+    '     Function: BootstrapSEM, ChiSquarePValue, FindAllPaths, (+2 Overloads) FitPathAnalysis, GammaPSeries
+    '               GammaQ, GammaQContinuedFraction
+    ' 
+    '     Sub: ComputeEffects, ComputeFitIndices, ComputeModelImpliedCov, DFS, PrintSEMResult
+    ' 
+    ' Class SEMResult
+    ' 
+    '     Properties: CFI, ChiSquare, ChiSquarePValue, DF, DirectEffects
+    '                 EndogenousVars, GFI, ImpliedCov, IndirectEffects, NFI
+    '                 NumVariables, PathCoefficients, Paths, PValues, RMSEA
+    '                 RSquared, SampleCorr, SampleCov, SampleSize, SRMR
+    '                 StdErrors, TotalEffects, TValues, VarNames
+    ' 
+    '     Function: GetEndogenousVariable, ToString
+    ' 
+    ' Class BootstrapResult
+    ' 
+    '     Properties: IndirectBootCI, IndirectBootSE, NumBootstraps, PathBootCI, PathBootSE
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
@@ -722,3 +792,4 @@ Public Class BootstrapResult
     Public Property IndirectBootSE As Dictionary(Of (Integer, Integer), Double)
     Public Property IndirectBootCI As Dictionary(Of (Integer, Integer), (Double, Double))
 End Class
+

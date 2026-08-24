@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32238c04da786167512c62b8bedbd143, analysis\SequenceToolkit\MotifScanner\PWMDatabase.vb"
+﻿#Region "Microsoft.VisualBasic::d95bcdacb31558933fb8253c76d00c36, analysis\SequenceToolkit\MotifScanner\PWMDatabase.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 54.55%
     ' 
     '   Blank Lines: 20 (17.39%)
-    '     File Size: 4.29 KB
+    '     File Size: 4.28 KB
 
 
     ' Class PWMDatabase
@@ -172,4 +172,3 @@ Public Class PWMDatabase : Implements IDisposable
         GC.SuppressFinalize(Me)
     End Sub
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c90b186ab77d5fb4490f65fad6f7ad8, core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcidObjUtility.vb"
+﻿#Region "Microsoft.VisualBasic::fee2e2aba842763a406a9fef7a3bd8c9, core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcidObjUtility.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 552
-    '    Code Lines: 523 (94.75%)
-    ' Comment Lines: 3 (0.54%)
+    '   Total Lines: 528
+    '    Code Lines: 499 (94.51%)
+    ' Comment Lines: 3 (0.57%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 26 (4.71%)
-    '     File Size: 14.39 KB
+    '   Blank Lines: 26 (4.92%)
+    '     File Size: 16.55 KB
 
 
     '     Module AminoAcidObjUtility

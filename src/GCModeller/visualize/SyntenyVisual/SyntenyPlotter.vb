@@ -1,3 +1,109 @@
+﻿#Region "Microsoft.VisualBasic::e61f9c91ea10cb37d39b4303e558e46a, visualize\SyntenyVisual\SyntenyPlotter.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 1127
+    '    Code Lines: 730 (64.77%)
+    ' Comment Lines: 214 (18.99%)
+    '    - Xml Docs: 34.11%
+    ' 
+    '   Blank Lines: 183 (16.24%)
+    '     File Size: 46.40 KB
+
+
+    '     Class Gene
+    ' 
+    '         Properties: [end], chromosome_id, geneId, orthology_family, start
+    '                     strand
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Enum ConnectionStyle
+    ' 
+    '         BezierCurve, StraightLine
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class ColorPalette
+    ' 
+    '         Properties: Background, ChromosomeBorder, ChromosomeFill, ConnectionColors, GeneForward
+    '                     GeneReverse, GridColor, Name, SubTextColor, TextColor
+    ' 
+    '         Function: Classic, GetConnectionColor, GetPreset, GetPresetNames, Grayscale
+    '                   Nature, Pastel, Science, Vibrant
+    ' 
+    '     Class SyntenyTheme
+    ' 
+    '         Properties: ChromosomeGap, ChromosomeHeight, ConnectionAlpha, ConnectionStyle, ConnectionWidth
+    '                     Dpi, FontFamily, GeneHeight, ImageHeight, ImageWidth
+    '                     MarginBottom, MarginLeft, MarginRight, MarginTop, Palette
+    '                     ShowChromosomeLabels, ShowGeneLabels, ShowGenomeLabels, ShowGrid, ShowLegend
+    '                     ShowScaleBar, Subtitle, Title, TrackHeight, UseAntiAlias
+    ' 
+    '         Function: CreateBezierTheme, CreateDefault, CreatePublicationTheme, CreateStraightLineTheme
+    ' 
+    '     Class SyntenyPlotter
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ChooseNiceScaleLength, CreateRoundedRectPath, FormatGenomeLength
+    ' 
+    '         Sub: AssignColors, ComputeLayout, DrawArrowIcon, DrawChromosomesAndGenes, DrawConnections
+    '              DrawGeneBlock, DrawGrid, DrawLabels, DrawLegend, DrawScaleBar
+    '              DrawSingleConnection, DrawTitle, Plot, PrepareData, Render
+    '         Class GenePos
+    ' 
+    '             Properties: Center, Gene, Rect
+    ' 
+    '         Class ChromosomePos
+    ' 
+    '             Properties: Genes, Id, Length, Rect
+    ' 
+    '         Class GenomePos
+    ' 
+    '             Properties: Chromosomes, Id, Y
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 '  SyntenyPlotter.vb
 '  泛基因组共线性可视化绘图模块
@@ -1125,3 +1231,4 @@ Namespace PanGenomeSynteny
     End Class
 
 End Namespace
+

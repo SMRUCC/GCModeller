@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eea57f066283c2447671b571bac8709e, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::42af28f2f804e04bce4133aa26197566, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\Reaction.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 172
-    '    Code Lines: 95 (55.23%)
-    ' Comment Lines: 56 (32.56%)
+    '   Total Lines: 176
+    '    Code Lines: 98 (55.68%)
+    ' Comment Lines: 56 (31.82%)
     '    - Xml Docs: 94.64%
     ' 
-    '   Blank Lines: 21 (12.21%)
-    '     File Size: 6.09 KB
+    '   Blank Lines: 22 (12.50%)
+    '     File Size: 6.26 KB
 
 
     '     Class Reaction

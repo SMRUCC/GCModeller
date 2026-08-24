@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7f4a0318f2a49e21a9a1372056f6206, models\SBML\Biopax\Level3\Elements\PathwayStep.vb"
+﻿#Region "Microsoft.VisualBasic::bc8415c4235b3636e6ee1d5aaab12184, models\SBML\Biopax\Level3\Elements\PathwayStep.vb"
 
     ' Author:
     ' 
@@ -34,58 +34,59 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 63
-    '    Code Lines: 43 (68.25%)
+    '   Total Lines: 65
+    '    Code Lines: 44 (67.69%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 20 (31.75%)
-    '     File Size: 1.79 KB
+    '   Blank Lines: 21 (32.31%)
+    '     File Size: 1.94 KB
 
 
-    ' Class Transport
+    '     Class Transport
     ' 
-    '     Properties: conversionDirection, displayName, left, name, participantStoichiometry
-    '                 right, spontaneous
+    '         Properties: conversionDirection, displayName, left, name, participantStoichiometry
+    '                     right, spontaneous
     ' 
-    ' Class TransportWithBiochemicalReaction
-    ' 
-    ' 
-    ' 
-    ' Class PathwayStep
-    ' 
-    '     Properties: stepProcess
-    ' 
-    ' Class BiochemicalPathwayStep
-    ' 
-    '     Properties: stepConversion
-    ' 
-    ' Class stepConversion
+    '     Class TransportWithBiochemicalReaction
     ' 
     ' 
     ' 
-    ' Class stepProcess
+    '     Class PathwayStep
+    ' 
+    '         Properties: stepProcess
+    ' 
+    '     Class BiochemicalPathwayStep
+    ' 
+    '         Properties: stepConversion
+    ' 
+    '     Class stepConversion
     ' 
     ' 
     ' 
-    ' Class Pathway
-    ' 
-    '     Properties: displayName, name, organism, pathwayComponent, pathwayOrder
-    '                 xref
-    ' 
-    ' Class pathwayComponent
+    '     Class stepProcess
     ' 
     ' 
     ' 
-    ' Class pathwayOrder
+    '     Class Pathway
+    ' 
+    '         Properties: displayName, name, organism, pathwayComponent, pathwayOrder
+    '                     xref
+    ' 
+    '     Class pathwayComponent
     ' 
     ' 
     ' 
-    ' Class Interaction
+    '     Class pathwayOrder
     ' 
-    '     Properties: displayName, name, participant
     ' 
-    ' Class participant
+    ' 
+    '     Class Interaction
+    ' 
+    '         Properties: displayName, name, participant
+    ' 
+    '     Class participant
+    ' 
     ' 
     ' 
     ' 

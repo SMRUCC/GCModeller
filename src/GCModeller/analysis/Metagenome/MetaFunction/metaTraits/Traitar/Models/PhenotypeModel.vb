@@ -1,3 +1,70 @@
+﻿#Region "Microsoft.VisualBasic::3da84a76623922a661e06941f8259a61, analysis\Metagenome\MetaFunction\metaTraits\Traitar\Models\PhenotypeModel.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 206
+    '    Code Lines: 111 (53.88%)
+    ' Comment Lines: 63 (30.58%)
+    '    - Xml Docs: 82.54%
+    ' 
+    '   Blank Lines: 32 (15.53%)
+    '     File Size: 7.43 KB
+
+
+    '     Class SVMSubModel
+    ' 
+    '         Properties: Bias, C, IsActive, Weights
+    ' 
+    '         Function: PredictLabel, PredictScore
+    ' 
+    '     Class PhenotypeModel
+    ' 
+    '         Properties: Category, KeyFeatures, PhenotypeId, PhenotypeName, SubModels
+    ' 
+    '         Function: CompareByWeightMagnitude, GetConfidence, GetVotingCommittee, Predict
+    ' 
+    '     Class KeyFeatureInfo
+    ' 
+    '         Properties: Description, FeatureClass, IsMajorityPositive, PearsonCorrelation, PfamId
+    '                     WeightsByC
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' PhenotypeModel.vb - 表型预测模型数据结构
 '
@@ -204,3 +271,4 @@ Namespace metaTraits.Traitar.Models
     End Class
 
 End Namespace
+

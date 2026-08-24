@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee756c95e002e9d497c527502a6e763e, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::7167a41f07817b5f79300243af2da214, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 442
-    '    Code Lines: 378 (85.52%)
-    ' Comment Lines: 24 (5.43%)
+    '   Total Lines: 441
+    '    Code Lines: 377 (85.49%)
+    ' Comment Lines: 24 (5.44%)
     '    - Xml Docs: 33.33%
     ' 
-    '   Blank Lines: 40 (9.05%)
-    '     File Size: 20.56 KB
+    '   Blank Lines: 40 (9.07%)
+    '     File Size: 20.52 KB
 
 
     '     Module ModelExtensions

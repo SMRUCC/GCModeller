@@ -1,3 +1,57 @@
+﻿#Region "Microsoft.VisualBasic::1b5201690f5fb2faaf822f7e89227cfd, analysis\ProteinTools\ProteinMatrix\Linclust\Linclust.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 215
+    '    Code Lines: 133 (61.86%)
+    ' Comment Lines: 44 (20.47%)
+    '    - Xml Docs: 31.82%
+    ' 
+    '   Blank Lines: 38 (17.67%)
+    '     File Size: 9.70 KB
+
+
+    '     Module Linclust
+    ' 
+    '         Function: AlignmentIdentity, BuildKmerPosition, Cluster, GetCenterPos, SelectK
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' Linclust 蛋白序列无监督聚类 - 主入口
 '
 ' 五阶段流程:
@@ -213,3 +267,4 @@ Namespace Linclust
         End Function
     End Module
 End Namespace
+

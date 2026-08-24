@@ -1,3 +1,59 @@
+﻿#Region "Microsoft.VisualBasic::905ddfed3ce1cf7696815f7ce8a5f811, analysis\Metagenome\MetaFunction\metaTraits\Traitar\Modules\CrossValidation.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 263
+    '    Code Lines: 141 (53.61%)
+    ' Comment Lines: 76 (28.90%)
+    '    - Xml Docs: 57.89%
+    ' 
+    '   Blank Lines: 46 (17.49%)
+    '     File Size: 10.68 KB
+
+
+    '     Class CrossValidation
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ComputeAccuracy, GridSearchC, KFoldSplit, NestedCrossValidation, SubsetArray
+    '                   SubsetMatrix
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' CrossValidation.vb - 模块5：嵌套交叉验证与超参调优模块
 '
@@ -261,3 +317,4 @@ Namespace metaTraits.Traitar.Modules
     End Class
 
 End Namespace
+

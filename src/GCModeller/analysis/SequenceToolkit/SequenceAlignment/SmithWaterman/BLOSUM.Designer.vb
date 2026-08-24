@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6123401a3a9161f9e448a09ee1b0c07d, analysis\SequenceToolkit\SequenceAlignment\SmithWaterman\BLOSUM.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::fed7800d3d5209ce85e7a2ab3f1e2735, analysis\SequenceToolkit\SequenceAlignment\SmithWaterman\BLOSUM.Designer.vb"
 
     ' Author:
     ' 
@@ -139,4 +139,3 @@ Namespace My.Resources
         End Property
     End Class
 End Namespace
-

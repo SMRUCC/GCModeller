@@ -1,3 +1,93 @@
+﻿#Region "Microsoft.VisualBasic::3d5c54191deffcc42cc01b7cde55ae0d, analysis\Microarray\MixOmics\IMMO\IMMO.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 823
+    '    Code Lines: 466 (56.62%)
+    ' Comment Lines: 207 (25.15%)
+    '    - Xml Docs: 59.42%
+    ' 
+    '   Blank Lines: 150 (18.23%)
+    '     File Size: 32.61 KB
+
+
+    '     Class IMMOConfig
+    ' 
+    '         Properties: AdamEpsilon, Beta1, Beta2, BNEpsilon, BNMomentum
+    '                     DecayRate, DecoderHiddenDims, DropoutRate, EncoderHiddenDims, GradientClipNorm
+    '                     InitialP, LatentDim, LearningRate, LogInterval, LossWeights
+    '                     MaxEpochs, MinDelta, Patience, Pmax, Pmin
+    '                     Seed, Verbose
+    ' 
+    '     Class OmicsData
+    ' 
+    '         Properties: Data, FeatureMean, FeatureNames, FeatureStd, Mask
+    '                     Name, NumFeatures, NumSamples, SampleIDs
+    ' 
+    '     Class PreparedData
+    ' 
+    '         Properties: NumOmics, NumSamples, OmicsList, UnifiedSampleIDs
+    ' 
+    '     Class IMMOModel
+    ' 
+    '         Properties: NumOmics
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: BuildDecoder, BuildEncoder, Forward, GetLatentRepresentations, GetParameters
+    '                   GetReconstructions
+    ' 
+    '         Sub: Backward, ZeroGrad
+    ' 
+    '     Class IMMOTrainer
+    ' 
+    '         Properties: LossHistory
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ComputeReconstructionGradients, ComputeRetentionProbability, ComputeTotalMask, ComputeWMSE, GenerateDynamicMask
+    '                   Train
+    ' 
+    '     Module DataPrep
+    ' 
+    '         Function: Denormalize, GetImputedData, PrepareData
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' IMMO Framework - Core Model
 ' ============================================================================
@@ -821,3 +911,4 @@ Namespace IMMO
     End Module
 
 End Namespace
+

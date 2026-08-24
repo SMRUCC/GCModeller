@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7091a03d3423f54476bad123b4054d70, annotations\WGCNA\WGCNA\SoftLinear.vb"
+﻿#Region "Microsoft.VisualBasic::7091a03d3423f54476bad123b4054d70, annotations\WGCNA\WGCNA\Algorithm\SoftLinear.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f89900fcf42ca0fda9ab0f5f7ede558, engine\Dynamics\Core\Mass\MassTable.vb"
+﻿#Region "Microsoft.VisualBasic::5719b3e0cc67b550333033a7758b8e9f, engine\Dynamics\Core\Mass\MassTable.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 342
-    '    Code Lines: 221 (64.62%)
-    ' Comment Lines: 68 (19.88%)
+    '   Total Lines: 346
+    '    Code Lines: 224 (64.74%)
+    ' Comment Lines: 68 (19.65%)
     '    - Xml Docs: 88.24%
     ' 
-    '   Blank Lines: 53 (15.50%)
-    '     File Size: 14.02 KB
+    '   Blank Lines: 54 (15.61%)
+    '     File Size: 14.13 KB
 
 
     '     Class MassTable
@@ -49,7 +49,7 @@
     '                     mRNA, polypeptide, protein, Represents, rRNA
     '                     statusView, tRNA
     ' 
-    '         Constructor: (+4 Overloads) Sub New
+    '         Constructor: (+5 Overloads) Sub New
     ' 
     '         Function: addCompartment, (+2 Overloads) addNew, Exists, ExistsAllCompartment, (+2 Overloads) GetByKey
     '                   GetEnumerator, getMapping, GetRole, getSource, GetWhere

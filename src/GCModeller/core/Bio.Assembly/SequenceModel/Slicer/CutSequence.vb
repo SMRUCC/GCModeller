@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::02812af762065710cdf093deb055b2bb, core\Bio.Assembly\SequenceModel\CutSequence.vb"
+﻿#Region "Microsoft.VisualBasic::295d2a6434bb774069052fb20d999359, core\Bio.Assembly\SequenceModel\Slicer\CutSequence.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 235
-    '    Code Lines: 136 (57.87%)
-    ' Comment Lines: 68 (28.94%)
+    '   Total Lines: 234
+    '    Code Lines: 135 (57.69%)
+    ' Comment Lines: 68 (29.06%)
     '    - Xml Docs: 86.76%
     ' 
-    '   Blank Lines: 31 (13.19%)
-    '     File Size: 9.22 KB
+    '   Blank Lines: 31 (13.25%)
+    '     File Size: 9.19 KB
 
 
     '     Module CutSequence

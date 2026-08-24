@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cb16a478577d05aa6b4fb66ac2dd38c, analysis\SequenceToolkit\TRNScanner\MotifDatabase.vb"
+﻿#Region "Microsoft.VisualBasic::dcde04babf1fbcf6f7187e23525c3a4e, analysis\SequenceToolkit\TRNScanner\MotifDatabase.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 4 (20.00%)
-    '     File Size: 793 B
+    '     File Size: 791 B
 
 
     ' Class MotifDatabase
@@ -72,4 +72,3 @@ Public Class MotifDatabase : Inherits PWMDatabase
         Return LoadMotifs(New StreamPack(s, [readonly]:=True))
     End Function
 End Class
-

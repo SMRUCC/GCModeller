@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24eee4da6e1e41c4fb96b0ddf49ad167, core\Bio.Assembly\Resources\KEGG\Reactions\KEGGReactions.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::aa42d6af07c632523d392521de624e9c, core\Bio.Assembly\Resources\KEGG\Reactions\KEGGReactions.Designer.vb"
 
     ' Author:
     ' 
@@ -209,4 +209,3 @@ Namespace My.Resources
         End Property
     End Class
 End Namespace
-

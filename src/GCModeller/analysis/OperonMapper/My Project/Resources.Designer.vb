@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7899f4f3a44df32dbd4ecba1566577b8, analysis\OperonMapper\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::a703cb5a9279b2c9bd359543d1b2dd98, analysis\OperonMapper\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

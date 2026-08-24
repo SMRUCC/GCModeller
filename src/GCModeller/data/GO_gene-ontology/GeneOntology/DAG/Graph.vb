@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42c3c4df0335f43c73f0bafa1a960d35, data\GO_gene-ontology\GeneOntology\DAG\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::f403540dcffef174e9ab020702e419b7, data\GO_gene-ontology\GeneOntology\DAG\Graph.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 227
-    '    Code Lines: 137 (60.35%)
-    ' Comment Lines: 55 (24.23%)
+    '   Total Lines: 232
+    '    Code Lines: 141 (60.78%)
+    ' Comment Lines: 55 (23.71%)
     '    - Xml Docs: 98.18%
     ' 
-    '   Blank Lines: 35 (15.42%)
-    '     File Size: 9.36 KB
+    '   Blank Lines: 36 (15.52%)
+    '     File Size: 9.57 KB
 
 
     '     Class Graph
@@ -48,7 +48,7 @@
     '         Properties: header
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: (+2 Overloads) Family, GetClusterMembers, ToString
+    '         Function: (+2 Overloads) Family, GetClusterMembers, GetDAG, ToString
     '         Structure InheritsChain
     ' 
     '             Properties: [Namespace], Family, Top

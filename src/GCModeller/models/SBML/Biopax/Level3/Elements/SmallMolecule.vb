@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8de568650573d2af2e10150bcec748b1, models\SBML\Biopax\Level3\Elements\SmallMolecule.vb"
+﻿#Region "Microsoft.VisualBasic::509268cec71121e3897be1ee95bd8744, models\SBML\Biopax\Level3\Elements\SmallMolecule.vb"
 
     ' Author:
     ' 
@@ -34,114 +34,119 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 170
-    '    Code Lines: 137 (80.59%)
+    '   Total Lines: 191
+    '    Code Lines: 149 (78.01%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 33 (19.41%)
-    '     File Size: 5.73 KB
+    '   Blank Lines: 42 (21.99%)
+    '     File Size: 6.75 KB
 
 
-    ' Class SmallMolecule
+    '     Class SmallMolecule
     ' 
-    '     Properties: dataSource, standardName, xrefs
+    '         Properties: dataSource, standardName, xrefs
     ' 
-    ' Class BiochemicalReaction
+    '     Class BiochemicalReaction
     ' 
-    '     Properties: conversionDirection, dataSource, displayName, eCNumber, left
-    '                 name, participantStoichiometry, right, spontaneous, xref
+    '         Properties: conversionDirection, dataSource, displayName, eCNumber, left
+    '                     name, participantStoichiometry, right, spontaneous, xref
     ' 
-    ' Class spontaneous
+    '         Function: ToString
+    ' 
+    '     Class spontaneous
     ' 
     ' 
     ' 
-    ' Class CellularLocationVocabulary
+    '     Class CellularLocationVocabulary
     ' 
-    '     Properties: term, xref
+    '         Properties: term, xref
     ' 
-    ' Class ChemicalStructure
+    '     Class ChemicalStructure
     ' 
-    '     Properties: structureData, structureFormat
+    '         Properties: structureData, structureFormat
     ' 
-    ' Class SmallMoleculeReference
+    '     Class SmallMoleculeReference
     ' 
-    '     Properties: [structure], chemicalFormula, molecularWeight
+    '         Properties: [structure], chemicalFormula, molecularWeight
     ' 
-    ' Class MoleculeReference
+    '     Class MoleculeReference
     ' 
-    '     Properties: displayName, name, xref
+    '         Properties: displayName, name, xref
     ' 
-    ' Class UnificationXref
+    '     Class UnificationXref
     ' 
-    '     Properties: db, id, idVersion
+    '         Properties: db, id, idVersion
     ' 
-    ' Class Provenance
+    '         Function: GetDblink, ToString
     ' 
-    '     Properties: name
+    '     Class Provenance
     ' 
-    ' Class Complex
+    '         Properties: name
     ' 
-    '     Properties: component, componentStoichiometry, dataSource, xref
+    '     Class Complex
     ' 
-    ' Class Protein
+    '         Properties: component, componentStoichiometry, dataSource, xref
     ' 
-    '     Properties: dataSource, feature, xref
+    '     Class Protein
     ' 
-    ' Class ProteinReference
+    '         Properties: dataSource, feature, xref
     ' 
-    '     Properties: organism
+    '     Class ProteinReference
     ' 
-    ' Class BioSource
+    '         Properties: organism
     ' 
-    '     Properties: displayName, name, xref
+    '     Class BioSource
     ' 
-    ' Class FragmentFeature
+    '         Properties: displayName, name, xref
     ' 
-    '     Properties: featureLocation
+    '     Class FragmentFeature
     ' 
-    ' Class SequenceInterval
+    '         Properties: featureLocation
     ' 
-    '     Properties: sequenceIntervalBegin, sequenceIntervalEnd
+    '     Class SequenceInterval
     ' 
-    ' Class SequenceSite
+    '         Properties: sequenceIntervalBegin, sequenceIntervalEnd
     ' 
-    '     Properties: positionStatus, sequencePosition
+    '     Class SequenceSite
     ' 
-    ' Class Stoichiometry
+    '         Properties: positionStatus, sequencePosition
     ' 
-    '     Properties: physicalEntity, stoichiometricCoefficient
+    '     Class Stoichiometry
     ' 
-    '     Function: ToString
+    '         Properties: physicalEntity, stoichiometricCoefficient
     ' 
-    ' Class Molecule
+    '         Function: ToString
     ' 
-    '     Properties: cellularLocation, displayName, entityReference, name
+    '     Class Molecule
     ' 
-    '     Function: GetEntityResourceId
+    '         Properties: cellularLocation, displayName, entityReference, name
     ' 
-    ' Class Catalysis
+    '         Function: GetEntityResourceId
     ' 
-    '     Properties: controlled, controller, controlType, dataSource, displayName
-    '                 xref
+    '     Class Catalysis
     ' 
-    ' Class RelationshipXref
+    '         Properties: controlled, controller, controlType, dataSource, displayName
+    '                     xref
     ' 
-    '     Properties: db, id, relationshipType
+    '     Class RelationshipXref
     ' 
-    ' Class RelationshipTypeVocabulary
+    '         Properties: db, id, relationshipType
     ' 
-    '     Properties: term, xref
+    '     Class RelationshipTypeVocabulary
     ' 
-    ' Class PublicationXref
+    '         Properties: term, xref
     ' 
-    '     Properties: author, db, id, source, title
-    '                 year
+    '     Class PublicationXref
     ' 
-    ' Class PhysicalEntity
+    '         Properties: author, db, id, source, title
+    '                     year
     ' 
-    '     Properties: cellularLocation, dataSource, displayName, memberPhysicalEntity, name
-    '                 xref
+    '     Class PhysicalEntity
+    ' 
+    '         Properties: cellularLocation, dataSource, displayName, memberPhysicalEntity, name
+    '                     xref
+    ' 
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8582df198d6550bc3011e658e0d9c71f, visualize\DataVisualizationExtensions\UPGMATreeDrawer.vb"
+﻿#Region "Microsoft.VisualBasic::a6ee68e39fe860cdd39048f39488e763, visualize\DataVisualizationExtensions\UPGMATreeDrawer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 5 (20.00%)
-    '     File Size: 881 B
+    '     File Size: 879 B
 
 
     ' Class UPGMATreeDrawer
@@ -77,4 +77,3 @@ Public Class UPGMATreeDrawer : Inherits Plot
         Call TreeDrawer.DrawCircularTree(g, tree, region.Size, region.Location)
     End Sub
 End Class
-

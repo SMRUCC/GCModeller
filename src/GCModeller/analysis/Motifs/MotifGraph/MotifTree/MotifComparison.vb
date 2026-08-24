@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed75753720ee589643700717af2f44bb, analysis\Motifs\MotifGraph\MotifTree\MotifComparison.vb"
+﻿#Region "Microsoft.VisualBasic::f88e275f75983a1a0ceeb39d826d5e17, analysis\Motifs\MotifGraph\MotifTree\MotifComparison.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 9 (20.45%)
-    '     File Size: 1.57 KB
+    '     File Size: 1.56 KB
 
 
     ' Class MotifComparison
@@ -98,4 +98,3 @@ Public Class MotifComparison : Inherits ComparisonProvider
         Return motifs.TryGetValue(id)
     End Function
 End Class
-

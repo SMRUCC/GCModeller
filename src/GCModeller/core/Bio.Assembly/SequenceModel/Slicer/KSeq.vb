@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46e08f869452cbb0d85b512cea1dd772, core\Bio.Assembly\SequenceModel\KSeq.vb"
+﻿#Region "Microsoft.VisualBasic::2372228abd8775651f9415abfe8cab42, core\Bio.Assembly\SequenceModel\Slicer\KSeq.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 47.69%
     ' 
     '   Blank Lines: 18 (12.86%)
-    '     File Size: 6.04 KB
+    '     File Size: 6.05 KB
 
 
     '     Class KSeq

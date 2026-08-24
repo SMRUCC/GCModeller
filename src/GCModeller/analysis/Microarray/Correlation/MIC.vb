@@ -1,4 +1,64 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+﻿#Region "Microsoft.VisualBasic::429c7931e9cd271eb93f43738da7a08b, analysis\Microarray\Correlation\MIC.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 541
+    '    Code Lines: 326 (60.26%)
+    ' Comment Lines: 134 (24.77%)
+    '    - Xml Docs: 52.99%
+    ' 
+    '   Blank Lines: 81 (14.97%)
+    '     File Size: 20.48 KB
+
+
+    ' Module MICComputation
+    ' 
+    '     Function: AssignEquiPopulationBins, BuildContingencyTable, ComputeCrossCorrelation, ComputeEntropyFromBins, ComputeEquiPopNormalizedMI
+    '               ComputeInternalMatrix, ComputeMarginalEntropy, ComputeMI, ComputeOptimalNormalizedMI, ComputePair
+    '               ComputePValue, ComputePValueFisherZ, OptimalPartitionConditionalEntropy
+    '     Class MICConfig
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports std = System.Math
 

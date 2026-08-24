@@ -1,60 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::5d0fbdd35bd7d4423f73709822814862, core\Bio.Assembly\ComponentModel\Locus\Location.vb"
+﻿#Region "Microsoft.VisualBasic::a918a7908cb2a32054035d98e30fe1c0, core\Bio.Assembly\ComponentModel\Locus\Location.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 277
-'    Code Lines: 132 (47.65%)
-' Comment Lines: 112 (40.43%)
-'    - Xml Docs: 82.14%
-' 
-'   Blank Lines: 33 (11.91%)
-'     File Size: 10.40 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Location
-' 
-'         Properties: Center, FragmentSize, IsNormalized, left, right
-'                     Tag
-' 
-'         Constructor: (+4 Overloads) Sub New
-'         Function: Clone, CreateObject, Equals, GetOverlapSize, Inside
-'                   (+2 Overloads) InsideOrOverlapWith, Normalization, OffSet, ToString
-'         Operators: <>, =
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 281
+    '    Code Lines: 135 (48.04%)
+    ' Comment Lines: 112 (39.86%)
+    '    - Xml Docs: 82.14%
+    ' 
+    '   Blank Lines: 34 (12.10%)
+    '     File Size: 10.48 KB
+
+
+    '     Class Location
+    ' 
+    '         Properties: Center, FragmentSize, IsNormalized, left, right
+    '                     Tag
+    ' 
+    '         Constructor: (+4 Overloads) Sub New
+    '         Function: Clone, CreateObject, Equals, GetOverlapSize, Inside
+    '                   (+2 Overloads) InsideOrOverlapWith, Normalization, OffSet, ToString
+    '         Operators: <>, =
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

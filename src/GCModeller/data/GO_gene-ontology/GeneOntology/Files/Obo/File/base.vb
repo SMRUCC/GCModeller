@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00d373ade274544f9b877e7c35eb93a6, data\GO_gene-ontology\GeneOntology\Files\Obo\File\base.vb"
+﻿#Region "Microsoft.VisualBasic::1771fdbb984c200258f07c9e8d866eab, data\GO_gene-ontology\GeneOntology\Files\Obo\File\base.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 31
-    '    Code Lines: 15 (48.39%)
-    ' Comment Lines: 11 (35.48%)
+    '   Total Lines: 30
+    '    Code Lines: 14 (46.67%)
+    ' Comment Lines: 11 (36.67%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 5 (16.13%)
-    '     File Size: 1.51 KB
+    '   Blank Lines: 5 (16.67%)
+    '     File Size: 1.50 KB
 
 
     '     Class base

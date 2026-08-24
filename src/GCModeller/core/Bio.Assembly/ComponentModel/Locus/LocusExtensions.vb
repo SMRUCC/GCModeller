@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::ae5280739a8d72d96b0d3cf69299195c, core\Bio.Assembly\ComponentModel\Locus\LocusExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::64e23f4a5a9098382d95f63c0435c431, core\Bio.Assembly\ComponentModel\Locus\LocusExtensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 215
-'    Code Lines: 130 (60.47%)
-' Comment Lines: 60 (27.91%)
-'    - Xml Docs: 93.33%
-' 
-'   Blank Lines: 25 (11.63%)
-'     File Size: 8.91 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module LocusExtensions
-' 
-'         Function: (+2 Overloads) Equals, GetRelationship, GetStrand, MergeJoins, NCBIstyle
-'                   TryParse, tryParseInternal
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 268
+    '    Code Lines: 151 (56.34%)
+    ' Comment Lines: 84 (31.34%)
+    '    - Xml Docs: 80.95%
+    ' 
+    '   Blank Lines: 33 (12.31%)
+    '     File Size: 11.40 KB
+
+
+    '     Module LocusExtensions
+    ' 
+    '         Function: (+2 Overloads) Equals, GetNormalizedSiteRelationship, (+2 Overloads) GetRelationship, GetStrand, MergeJoins
+    '                   NCBIstyle, TryParse, tryParseInternal
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

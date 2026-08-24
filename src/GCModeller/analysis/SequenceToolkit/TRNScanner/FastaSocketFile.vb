@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5dc33be7b24113f9b7e872415e6ceda, analysis\SequenceToolkit\TRNScanner\FastaSocketFile.vb"
+﻿#Region "Microsoft.VisualBasic::d212d69157a4e26d2c2f898a1492f24d, analysis\SequenceToolkit\TRNScanner\FastaSocketFile.vb"
 
     ' Author:
     ' 
@@ -87,4 +87,3 @@ Public Class FastaSocketFile : Implements IEmitStream
         Return fa
     End Function
 End Class
-

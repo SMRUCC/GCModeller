@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c279e4fe2eddbe789bfd81d00e2b32a, engine\Model\DataHelper.vb"
+﻿#Region "Microsoft.VisualBasic::ca68d5eddf966ce1f5caf28ffe5c0ce7, engine\Model\DataHelper.vb"
 
     ' Author:
     ' 
@@ -104,4 +104,3 @@ Public Module DataHelper
         Next
     End Function
 End Module
-

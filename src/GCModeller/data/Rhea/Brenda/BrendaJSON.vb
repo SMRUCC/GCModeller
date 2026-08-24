@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc15c7b0dc8f01e90466bca80b17d736, data\Rhea\Brenda\BrendaJSON.vb"
+﻿#Region "Microsoft.VisualBasic::b52bb3ade54b1a691bc6068461cf626b, data\Rhea\Brenda\BrendaJSON.vb"
 
     ' Author:
     ' 
@@ -175,4 +175,3 @@ Public Class ValueData
     End Function
 
 End Class
-

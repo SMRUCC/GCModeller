@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79d0c564743bf1cb581a53c8838360c2, analysis\Metagenome\Metagenome\OTUTable\OTUTable.vb"
+﻿#Region "Microsoft.VisualBasic::bcd2aff33d7de09e6186ed17298ce6b2, analysis\Metagenome\Metagenome\OTUTable\OTUTable.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 160
-    '    Code Lines: 98 (61.25%)
-    ' Comment Lines: 47 (29.38%)
+    '   Total Lines: 161
+    '    Code Lines: 99 (61.49%)
+    ' Comment Lines: 47 (29.19%)
     '    - Xml Docs: 82.98%
     ' 
-    '   Blank Lines: 15 (9.38%)
-    '     File Size: 6.14 KB
+    '   Blank Lines: 15 (9.32%)
+    '     File Size: 6.20 KB
 
 
     ' Class OTUTable

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb45f9f748633682c6bd37928fdd22d9, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\Genome.vb"
+﻿#Region "Microsoft.VisualBasic::e05f6c38ed8fdfcb7feb41d3e877adad, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\Genome.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 103
-    '    Code Lines: 53 (51.46%)
-    ' Comment Lines: 30 (29.13%)
+    '   Total Lines: 115
+    '    Code Lines: 62 (53.91%)
+    ' Comment Lines: 30 (26.09%)
     '    - Xml Docs: 96.67%
     ' 
-    '   Blank Lines: 20 (19.42%)
-    '     File Size: 3.38 KB
+    '   Blank Lines: 23 (20.00%)
+    '     File Size: 3.81 KB
 
 
     '     Class Genome
@@ -48,7 +48,7 @@
     '         Properties: proteins, regulations, replicons
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: GetAllGeneLocusTags, GetAllGenes
+    '         Function: GetAllGeneLocusTags, GetAllGenes, GetAllOperon
     ' 
     '     Class RNA
     ' 

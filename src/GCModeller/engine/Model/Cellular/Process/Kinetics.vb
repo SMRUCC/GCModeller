@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2816021e56bc2b665bf84911fbc913f7, engine\Model\Cellular\Process\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::bb3e60d6c6f2e939cefab8165a57e3a7, engine\Model\Cellular\Process\Kinetics.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 75
-    '    Code Lines: 47 (62.67%)
-    ' Comment Lines: 18 (24.00%)
-    '    - Xml Docs: 94.44%
+    '   Total Lines: 79
+    '    Code Lines: 46 (58.23%)
+    ' Comment Lines: 21 (26.58%)
+    '    - Xml Docs: 95.24%
     ' 
-    '   Blank Lines: 10 (13.33%)
-    '     File Size: 2.84 KB
+    '   Blank Lines: 12 (15.19%)
+    '     File Size: 2.95 KB
 
 
-    '     Structure Kinetics
+    '     Class Kinetics
+    ' 
+    '         Properties: characters, enzyme, formula, parameters, paramVals
+    '                     target
     ' 
     '         Function: CompileLambda, ExpressionModel, ToString
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e5097eed25e3c76bc33d17b8337723b, core\Bio.Assembly\Assembly\KEGG\ReactionClassifier.vb"
+﻿#Region "Microsoft.VisualBasic::91b156ee81f60a7d70371bf412854085, core\Bio.Assembly\Assembly\KEGG\ReactionClassifier.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 165
-    '    Code Lines: 132 (80.00%)
-    ' Comment Lines: 19 (11.52%)
+    '   Total Lines: 168
+    '    Code Lines: 134 (79.76%)
+    ' Comment Lines: 19 (11.31%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 14 (8.48%)
-    '     File Size: 6.93 KB
+    '   Blank Lines: 15 (8.93%)
+    '     File Size: 7.56 KB
 
 
-    ' Class ReactionClassifier
+    '     Class ReactionClassifier
     ' 
-    '     Properties: Count
+    '         Properties: Count
     ' 
-    '     Function: buildIndex, buildTupleIndex, FromRepository, (+2 Overloads) GetReactantTransform, (+2 Overloads) haveClassification
-    '               IsNullOrEmpty, QueryByCompoundId
+    '         Function: buildIndex, buildTupleIndex, FromRepository, (+2 Overloads) GetReactantTransform, (+2 Overloads) haveClassification
+    '                   IsNullOrEmpty, QueryByCompoundId
+    ' 
     ' 
     ' /********************************************************************************/
 

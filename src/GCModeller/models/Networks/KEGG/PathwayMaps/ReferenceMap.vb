@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::a1429b06a36df7e168079515360be397, models\Networks\KEGG\PathwayMaps\ReferenceMap.vb"
+﻿#Region "Microsoft.VisualBasic::84303f079e30011ed75b0ea2a25d34e6, models\Networks\KEGG\PathwayMaps\ReferenceMap.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 567
-'    Code Lines: 466 (82.19%)
-' Comment Lines: 38 (6.70%)
-'    - Xml Docs: 47.37%
-' 
-'   Blank Lines: 63 (11.11%)
-'     File Size: 26.68 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module ReferenceMap
-' 
-'         Function: (+2 Overloads) BuildNetworkModel, buildNetworkModelInternal, createNodeTable, getCompoundClassCategory, getCompoundIndex
-'                   (+2 Overloads) getCompoundsInMap, getKOlist, reactionKOFilter
-' 
-'         Sub: doMapAssignment, edgesFromClassFilter, edgesFromNoneClassFilter, mapColors, removesUnmapped
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 569
+    '    Code Lines: 467 (82.07%)
+    ' Comment Lines: 38 (6.68%)
+    '    - Xml Docs: 47.37%
+    ' 
+    '   Blank Lines: 64 (11.25%)
+    '     File Size: 26.72 KB
+
+
+    '     Module ReferenceMap
+    ' 
+    '         Function: (+2 Overloads) BuildNetworkModel, buildNetworkModelInternal, createNodeTable, getCompoundClassCategory, getCompoundIndex
+    '                   (+2 Overloads) getCompoundsInMap, getKOlist, reactionKOFilter
+    ' 
+    '         Sub: doMapAssignment, edgesFromClassFilter, edgesFromNoneClassFilter, mapColors, removesUnmapped
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

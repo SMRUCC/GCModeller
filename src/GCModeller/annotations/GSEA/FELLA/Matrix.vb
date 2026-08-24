@@ -1,3 +1,68 @@
+﻿#Region "Microsoft.VisualBasic::53b604cd2dea4c0181f4b07f5a0d546b, annotations\GSEA\FELLA\Matrix.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 477
+    '    Code Lines: 361 (75.68%)
+    ' Comment Lines: 66 (13.84%)
+    '    - Xml Docs: 68.18%
+    ' 
+    '   Blank Lines: 50 (10.48%)
+    '     File Size: 16.96 KB
+
+
+    '     Class Matrix
+    ' 
+    '         Properties: Cols, Data, Rows
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: Abs, Clone, ColumnSums, Diagonal, FrobeniusNorm
+    '                   FromColumns, GetColumn, GetRow, Identity, Inverse
+    '                   MultiplyVector, RowSums, Solve, SolveIterative, ToString
+    '                   Transpose, Zeros
+    ' 
+    '         Sub: SetColumn, SetRow
+    ' 
+    '         Operators: -, (+3 Overloads) *, +
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' FELLA Algorithm - VB.NET Implementation
 ' Matrix.vb - Dense matrix operations and linear algebra
@@ -475,3 +540,4 @@ Namespace Math
     End Class
 
 End Namespace ' Math
+
