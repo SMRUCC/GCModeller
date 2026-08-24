@@ -28,6 +28,7 @@
     <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\WGCNA\WGCNA.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifFinder\MotifFinder.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifScanner\MotifScanner.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequenceAlignment\SequenceAlignment.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />

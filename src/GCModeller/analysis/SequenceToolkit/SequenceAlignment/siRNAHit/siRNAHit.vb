@@ -1,4 +1,5 @@
 Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace siRNAHit
 
@@ -111,4 +112,10 @@ Namespace siRNAHit
             Return 0.0
         End Function
     End Class
+
+    Public Interface miRNAMapper
+
+        Function Run(miRNA As FastaSeq, db As IEnumerable(Of FastaSeq)) As IEnumerable(Of siRNAHit)
+
+    End Interface
 End Namespace

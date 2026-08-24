@@ -12,7 +12,7 @@ Namespace siRNAHit
     ''' 期望值越低代表互补质量越好。
     ''' 支持 V1（2011）/ V2（2017，默认）两套 Schema。
     ''' </summary>
-    Public Class psRNATarget
+    Public Class psRNATarget : Implements miRNAMapper
 
         ''' <summary>Schema 版本：V1 种子区 2–8，V2 种子区 2–13（默认）。</summary>
         Public Enum Schema
@@ -201,8 +201,7 @@ Namespace siRNAHit
         End Function
 
         ''' <summary>对一组候选 mRNA 执行预测，返回通过的命中集合。</summary>
-        Public Function Run(mirna As FastaSeq, targets As IEnumerable(Of FastaSeq)) As List(Of siRNAHit)
-            Dim out As New List(Of siRNAHit)()
+        Public Iterator Function Run(mirna As FastaSeq, targets As IEnumerable(Of FastaSeq)) As IEnumerable(Of siRNAHit) Implements miRNAMapper.Run
             Dim query As String = mirna.Title.TrimStart(">"c)
             Dim mirnaSeq As String = mirna.SequenceData.ToUpper
 
@@ -217,11 +216,10 @@ Namespace siRNAHit
                 If PassFilter(hit, hsp) Then
                     hit.miRNA = query
                     hit.Target = id
-                    out.Add(hit)
+
+                    Yield hit
                 End If
             Next
-
-            Return out
         End Function
     End Class
 End Namespace

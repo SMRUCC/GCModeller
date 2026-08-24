@@ -11,7 +11,7 @@ Namespace siRNAHit
     ''' 比对，再从比对串中按 miRNA 5'→3' 逐位施加位置权重罚分，最后按四条规则过滤。
     ''' 参考 siRNA.md 给出的 ssearch35 参数：<c>-r +15/-10</c>。
     ''' </summary>
-    Public Class TargetFinder
+    Public Class TargetFinder : Implements miRNAMapper
 
         ' 位置权重系数（从 miRNA 5' 端、1-based 计）：
         '   第 1 位：1×
@@ -173,8 +173,7 @@ Namespace siRNAHit
         ''' </summary>
         ''' <param name="mirna">miRNA 序列对象（FASTA）</param>
         ''' <param name="targets">候选 mRNA 序列集合</param>
-        Public Function Run(mirna As FastaSeq, targets As IEnumerable(Of FastaSeq)) As List(Of siRNAHit)
-            Dim out As New List(Of siRNAHit)()
+        Public Iterator Function Run(mirna As FastaSeq, targets As IEnumerable(Of FastaSeq)) As IEnumerable(Of siRNAHit) Implements miRNAMapper.Run
             Dim query As String = mirna.Title.TrimStart(">"c)
             Dim mirnaSeq As String = mirna.SequenceData.ToUpper
 
@@ -187,7 +186,7 @@ Namespace siRNAHit
                 If PassFilter(hit) Then
                     hit.miRNA = query
                     hit.Target = id
-                    out.Add(hit)
+                    Yield hit
                 End If
 
                 ' get_additional：掩蔽已命中区域后重搜额外靶位点
@@ -198,12 +197,10 @@ Namespace siRNAHit
                     If PassFilter(extra) Then
                         extra.miRNA = query
                         extra.Target = id & "_secondary"
-                        out.Add(extra)
+                        Yield extra
                     End If
                 End If
             Next
-
-            Return out
         End Function
 
         ''' <summary>将 mRNA 上 [start,end]（1-based）区域掩蔽为 N，用于 two-hits 重搜。</summary>
