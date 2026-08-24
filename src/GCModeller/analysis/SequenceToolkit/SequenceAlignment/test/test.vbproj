@@ -7,7 +7,7 @@
     <UseApplicationFramework>True</UseApplicationFramework>
     <OutputType>Exe</OutputType>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <StartupObject>test.DiamondDemo</StartupObject>
+    <StartupObject>siRNADemo</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

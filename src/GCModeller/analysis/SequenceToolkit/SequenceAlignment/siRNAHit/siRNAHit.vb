@@ -103,7 +103,7 @@ Namespace SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit
         ''' UPE 越低，靶位点越易被小RNA结合。
         ''' </summary>
         Function UPE(mrna As String, siteStart As Integer, siteEnd As Integer) As Double
-    End Class
+    End Interface
 
     ''' <summary>默认关闭的 UPE 评估器：始终返回 0（不影响期望计算）。</summary>
     Public Class DisabledAccessibility : Implements IAccessibilityEvaluator

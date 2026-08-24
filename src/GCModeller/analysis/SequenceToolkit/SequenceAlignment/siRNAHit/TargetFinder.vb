@@ -15,7 +15,7 @@ Namespace SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit
 
         ' 位置权重系数（从 miRNA 5' 端、1-based 计）：
         '   第 1 位：1×
-        （'   第 2–13 位：2× （含切割位点 10–11）
+        '   第 2–13 位：2× （含切割位点 10–11）
         '   第 14–21 位：1×
         Private Const CORE_START As Integer = 2
         Private Const CORE_END As Integer = 13
