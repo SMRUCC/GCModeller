@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 
 ''' <summary>
 ''' WGCNA 共表达网络与 BNLearn 动态贝叶斯网络（DBN）之间的桥接模块。
@@ -324,5 +325,101 @@ Public Module GeneRegulatoryNetwork
     Public Function RunPipeline(wgcna As NetworkGraph, expr As Core.GeneExpressionData, knockGene As String, TF As String(), Optional nSteps As Integer = 10) As Dictionary(Of String, Double())
         Dim dbn As DynamicBayesianNetwork = BuildDBN(wgcna, expr, TF)
         Return VirtualKnockdown(dbn, knockGene, nSteps)
+    End Function
+
+    ' ==================== 基于 DBN 时间序列（GeneExpressionData）的 BNLearn 工作流桥接 ====================
+
+    ''' <summary>
+    ''' 将 SingleGRN 流程产出的 DBN 时间序列（已是 <see cref="Core.GeneExpressionData"/>）装配为
+    ''' BNLearn 工作流，并可选地融合由伪速率趋势构造的方向先验（<see cref="Core.PriorNetwork"/>）。
+    '''
+    ''' 与 <see cref="BuildBNNetwork"/>（基于 WGCNA 共表达网络）不同，本函数直接消费已经完成
+    ''' 伪时间分箱的连续时间序列表达矩阵，无需 WGCNA 与 TF 注释，适用于 Monocle3 + PseudoVelo
+    ''' 产出的单细胞轨迹数据。
+    ''' </summary>
+    ''' <param name="expr">DBN 时间序列表达矩阵（基因 × 伪时间 bin），即 <see cref="DBNPreprocessOutput.timeSeries"/>。</param>
+    ''' <param name="prior">可选的因果方向先验（如由 PseudoVelo 趋势符号构造）。为 Nothing 时退化为纯数据驱动 MMHC 结构学习。</param>
+    ''' <returns>已注入表达数据与先验网络的 BNLearn 工作流实例。</returns>
+    Public Function BuildExpressionGRN(expr As Core.GeneExpressionData, Optional prior As Core.PriorNetwork = Nothing) As Core.BNLearnWorkflow
+        Dim usePrior As Core.PriorNetwork = If(prior, New Core.PriorNetwork())
+        Dim workflow As New Core.BNLearnWorkflow With {
+            .ExpressionData = expr,
+            .PriorNetwork = usePrior
+        }
+
+        Call VBDebugger.WriteLine($"GRN.BuildExpressionGRN: 表达矩阵 {expr.NGene} 基因 x {expr.TimePoints.Length} 伪时间点, 先验边 = {usePrior.Edges.Count}")
+        Return workflow
+    End Function
+
+    ''' <summary>
+    ''' 端到端封装：基于 DBN 时间序列构建基因表达调控网络 → 结构学习 → 参数学习 →
+    ''' 虚拟扰动分析（敲除 / 过表达 / 动态级联敲除 / 批量敲除），并可选导出结果。
+    '''
+    ''' 虚拟扰动逻辑严格复用 <see cref="Core.BNLearnWorkflow"/> 的高层 API
+    ''' （KnockoutGene / OverexpressGene / DynamicKnockout / BatchKnockout / SaveResults），
+    ''' 与 BNLearn\test\Program.vb 的演示一致。
+    ''' </summary>
+    ''' <param name="expr">DBN 时间序列表达矩阵（基因 × 伪时间 bin）。</param>
+    ''' <param name="prior">可选的因果方向先验网络。</param>
+    ''' <param name="knockGenes">演示虚拟敲除 / 动态敲除的目标基因集合。</param>
+    ''' <param name="overExpr">演示虚拟过表达的基因集合（源码 OverexpressGene 仅接受 nSamples，倍率由内部默认；此处传入的基因名用于选取目标）。</param>
+    ''' <param name="dynamicSteps">动态级联敲除推演的时间步数，默认 10。</param>
+    ''' <param name="outputDir">结果导出目录；为空则不导出。</param>
+    ''' <returns>训练好的工作流 + 各类扰动结果（供调用方进一步分析或二次导出）。</returns>
+    Public Function TrainAndIntervene(expr As Core.GeneExpressionData,
+                                       prior As Core.PriorNetwork,
+                                       knockGenes As String(),
+                                       Optional overExpr As (Gene As String, Fold As Double)() = Nothing,
+                                       Optional dynamicSteps As Integer = 10,
+                                       Optional outputDir As String = Nothing) As (workflow As Core.BNLearnWorkflow,
+                                                                                  knockout As Intervention.InterventionResult(),
+                                                                                  overExprResults As Intervention.InterventionResult(),
+                                                                                  dynamic As Intervention.InterventionResult(),
+                                                                                  batch As IEnumerable(Of Intervention.InterventionResult))
+        Dim workflow As Core.BNLearnWorkflow = BuildExpressionGRN(expr, prior)
+
+        ' ① 结构学习（MMHC + 白名单先验）
+        Call workflow.LearnStructure()
+        ' ② 参数学习（高斯 BN MLE）
+        Call workflow.LearnParameters()
+
+        Call VBDebugger.WriteLine($"GRN.TrainAndIntervene: 网络训练完成（基因 {expr.NGene}, 伪时间点 {expr.TimePoints.Length}）")
+
+        ' ③ 虚拟敲除
+        Dim koResults As New List(Of Intervention.InterventionResult)
+        For Each g As String In knockGenes
+            koResults.Add(workflow.KnockoutGene(g))
+        Next
+
+        ' ④ 虚拟过表达
+        Dim oeResults As New List(Of Intervention.InterventionResult)
+        If overExpr IsNot Nothing Then
+            For Each o In overExpr
+                oeResults.Add(workflow.OverexpressGene(o.Gene))
+            Next
+        End If
+
+        ' ⑤ 动态级联敲除
+        Dim dynResults As New List(Of Intervention.InterventionResult)
+        For Each g As String In knockGenes
+            dynResults.Add(workflow.DynamicKnockout(g, dynamicSteps))
+        Next
+
+        ' ⑥ 批量敲除
+        Dim batchResults As IEnumerable(Of Intervention.InterventionResult) = workflow.BatchKnockout(knockGenes)
+
+        ' ⑦ 导出结果（与 BNLearn\test\Program.vb 一致）
+        If Not String.IsNullOrEmpty(outputDir) Then
+            Call workflow.SaveResults(outputDir)
+            Dim merged As New List(Of Intervention.InterventionResult)
+            Call merged.AddRange(koResults)
+            Call merged.AddRange(oeResults)
+            Call merged.AddRange(dynResults)
+            Call merged.AddRange(batchResults)
+            Call New Intervention.InterventionComparisonExporter(merged).ExportAll(outputDir, Nothing)
+            Call VBDebugger.WriteLine($"GRN.TrainAndIntervene: 扰动结果已导出至 {outputDir}")
+        End If
+
+        Return (workflow, koResults.ToArray, oeResults.ToArray, dynResults.ToArray, batchResults)
     End Function
 End Module
