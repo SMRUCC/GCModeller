@@ -1,6 +1,6 @@
 Imports System.Runtime.CompilerServices
 
-Namespace SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit
+Namespace siRNAHit
 
     ''' <summary>
     ''' 小RNA（miRNA/siRNA）与靶标 mRNA 的互补匹配命中结果模型。

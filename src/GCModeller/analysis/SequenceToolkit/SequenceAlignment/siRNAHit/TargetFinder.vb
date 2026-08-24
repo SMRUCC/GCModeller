@@ -2,7 +2,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit
+Namespace siRNAHit
 
     ''' <summary>
     ''' TargetFinder 小RNA靶标预测算法实现。

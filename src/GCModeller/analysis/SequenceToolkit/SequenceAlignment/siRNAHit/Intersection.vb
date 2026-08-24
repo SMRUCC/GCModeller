@@ -1,6 +1,6 @@
 Imports System.Runtime.CompilerServices
 
-Namespace SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit
+Namespace siRNAHit
 
     ''' <summary>
     ''' psRNATarget 与 TargetFinder 两算法结果的交集合并器。

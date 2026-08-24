@@ -2,7 +2,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 
-Namespace SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit
+Namespace siRNAHit
 
     ''' <summary>
     ''' RNA 序列操作辅助工具：反向互补、碱基配对分类以及驱动 Smith-Waterman
