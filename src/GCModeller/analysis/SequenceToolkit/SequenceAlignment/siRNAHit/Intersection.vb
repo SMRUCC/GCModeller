@@ -19,20 +19,17 @@ Namespace siRNAHit
         ''' </summary>
         ''' <param name="psrna">psRNATarget 命中结果</param>
         ''' <param name="targetFinder">TargetFinder 命中结果</param>
-        Public Function Merge(psrna As IEnumerable(Of siRNAHit), targetFinder As IEnumerable(Of siRNAHit)) As List(Of siRNAHit)
+        Public Iterator Function Merge(psrna As IEnumerable(Of siRNAHit), targetFinder As IEnumerable(Of siRNAHit)) As IEnumerable(Of siRNAHit)
             Dim a As List(Of siRNAHit) = psrna.ToList()
             Dim b As List(Of siRNAHit) = targetFinder.ToList()
-            Dim result As New List(Of siRNAHit)()
 
-            For Each x In a
-                For Each y In b
+            For Each x As siRNAHit In a
+                For Each y As siRNAHit In b
                     If IsSameSite(x, y) Then
-                        result.Add(MergeHit(x, y))
+                        Yield MergeHit(x, y)
                     End If
                 Next
             Next
-
-            Return result
         End Function
 
         ''' <summary>
