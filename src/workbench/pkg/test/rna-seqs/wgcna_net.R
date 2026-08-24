@@ -4,13 +4,13 @@ require(igraph);
 
 imports "WGCNA" from "phenotype_kit";
 
-let colors = read.module_cor("K:\hsa\WGCNA_output-demo\gene_module_assignment.csv");
-let adj = read.adjacency("K:\hsa\WGCNA_output-demo\adjacency_matrix.csv");
+let colors = read.module_cor("K:\hsa\WGCNA_output\gene_module_assignment.csv");
+let adj = read.adjacency("K:\hsa\WGCNA_output\adjacency_matrix.csv");
 let output = "K:/hsa_grn/";
 
 writeBin(adj, con = file.path(output, "hsa_adj.dat"));
 
 adj 
-|> cor_network(membership = colors, adjacency = 0.6)
+|> cor_network(membership = colors, adjacency = 0.65)
 |> igraph::save.network(file = output)
 ;
