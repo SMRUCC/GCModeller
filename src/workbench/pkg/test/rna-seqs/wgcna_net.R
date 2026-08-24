@@ -4,8 +4,8 @@ require(igraph);
 
 imports "WGCNA" from "phenotype_kit";
 
-let colors = read.module_cor("C:\Users\Administrator\Downloads\WGCNA_output\gene_module_assignment.csv");
-let adj = read.adjacency("C:\Users\Administrator\Downloads\WGCNA_output\adjacency_matrix.csv");
+let colors = read.module_cor("K:\hsa\WGCNA_output-demo\gene_module_assignment.csv");
+let adj = read.adjacency("K:\hsa\WGCNA_output-demo\adjacency_matrix.csv");
 let output = "K:/hsa_grn/";
 
 writeBin(adj, con = file.path(output, "hsa_adj.dat"));

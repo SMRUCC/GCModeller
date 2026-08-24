@@ -41,11 +41,15 @@ Public Module CorrelationNetwork
         For Each gene_id As String In TqdmWrapper.Wrap(g.vertex.Select(Function(a) a.label).ToArray)
             Dim u = g.GetElementByID(gene_id)
 
-            For Each pair As String In g.vertex.Select(Function(a) a.label)
-                Dim cor As Double = adj(gene_id, pair)
+            ' 20260824 removes the selfloop node
+            For Each v As Node In From vi As Node
+                                  In g.vertex
+                                  Where vi.label <> gene_id
+
+                Dim cor As Double = adj(gene_id, v.label)
 
                 If std.Abs(cor) > adj_thres Then
-                    Call g.CreateEdge(u, g.GetElementByID(pair), weight:=cor)
+                    Call g.CreateEdge(u, v, weight:=cor)
                 End If
             Next
         Next
