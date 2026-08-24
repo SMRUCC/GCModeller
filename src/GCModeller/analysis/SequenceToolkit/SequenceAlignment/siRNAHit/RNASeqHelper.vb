@@ -8,8 +8,8 @@ Namespace siRNAHit
     ''' RNA 序列操作辅助工具：反向互补、碱基配对分类以及驱动 Smith-Waterman
     ''' 比对所需的核酸专用 <see cref="GenericSymbol(Of Char)"/> 打分符号。
     ''' 
-    ''' 注：<see cref="SMRUCC.genomics.SequenceModel.NucleicAcid.Complement"/> 仅处理
-    ''' DNA（A/T/G/C），不识别 U，因此这里单独实现 RNA（A/U/G/C）的反向互补。
+    ''' 注：Bio.Assembly 的 NucleicAcid.Complement 仅处理 DNA（A/T/G/C），不识别 U，
+    ''' 因此这里单独实现 RNA（A/U/G/C）的反向互补。
     ''' </summary>
     Public Module RNASeqHelper
 

@@ -38,6 +38,8 @@ Module siRNADemo
             .Select(Function(t) FA(t.id, t.seq)) _
             .ToArray
 
+        Console.WriteLine($"miRNA id = {mirna.Title}, first target id = {db(0).Title}")
+
         ' ---- 运行两款算法 ----
         Dim psrna As New psRNATarget() With {.Version = psRNATarget.Schema.V2_2017, .MaxExpectation = 5.0}
         Dim tf As New TargetFinder() With {.ScoreCutoff = 5.0}

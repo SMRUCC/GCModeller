@@ -175,11 +175,11 @@ Namespace siRNAHit
         ''' <param name="targets">候选 mRNA 序列集合</param>
         Public Function Run(mirna As FastaSeq, targets As IEnumerable(Of FastaSeq)) As List(Of siRNAHit)
             Dim out As New List(Of siRNAHit)()
-            Dim query As String = mirna.locus_tag
+            Dim query As String = mirna.Title
             Dim mirnaSeq As String = mirna.SequenceData.ToUpper
 
             For Each t In targets
-                Dim id As String = t.locus_tag
+                Dim id As String = t.Title
                 Dim seq As String = t.SequenceData.ToUpper
 
                 ' 首次命中
