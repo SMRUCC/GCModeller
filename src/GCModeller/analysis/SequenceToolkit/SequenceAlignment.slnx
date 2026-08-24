@@ -9,25 +9,25 @@
     <Platform Name="x64" />
   </Configurations>
   <Folder Name="/framework/">
-    <Project Path="../../../../runtime/sciBASIC#/Data_science/DataMining/DynamicProgramming/DynamicProgramming.NET5.vbproj">
+    <Project Path="../../../runtime/sciBASIC#/Data_science/DataMining/DynamicProgramming/DynamicProgramming.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
-    <Project Path="../../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
+    <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
-    <Project Path="../../../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
+    <Project Path="../../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
   <Folder Name="/internal/">
-    <Project Path="../../../core/Bio.Assembly/biocore-netcore5.vbproj">
+    <Project Path="../../core/Bio.Assembly/biocore-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
-  <Project Path="SequenceAlignment.vbproj">
+  <Project Path="SequenceAlignment/SequenceAlignment.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="test/test.vbproj" Id="bf631ba9-f32f-4445-9e06-dad57452e826">
+  <Project Path="SequenceAlignment/test/test.vbproj" Id="bf631ba9-f32f-4445-9e06-dad57452e826">
     <BuildType Solution="gcmodeller_desktop|*" Project="Release" />
     <BuildType Solution="mzkit_win32|*" Project="Release" />
     <BuildType Solution="Rsharp_app_release|*" Project="Release" />
