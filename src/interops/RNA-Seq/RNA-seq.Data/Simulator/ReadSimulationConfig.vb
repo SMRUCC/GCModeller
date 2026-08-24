@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be8cc3b70537a2fd45e86d93ea3fb730, RNA-Seq\RNA-seq.Data\Simulator\ReadSimulationConfig.vb"
+﻿#Region "Microsoft.VisualBasic::60b33426501f3733da2f96f4313db3d7, RNA-Seq\RNA-seq.Data\Simulator\ReadSimulationConfig.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 56
-    '    Code Lines: 13 (23.21%)
-    ' Comment Lines: 33 (58.93%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 104
+    '    Code Lines: 44 (42.31%)
+    ' Comment Lines: 44 (42.31%)
+    '    - Xml Docs: 86.36%
     ' 
-    '   Blank Lines: 10 (17.86%)
-    '     File Size: 2.04 KB
+    '   Blank Lines: 16 (15.38%)
+    '     File Size: 4.17 KB
 
 
     ' Class ReadSimulationConfig
     ' 
     '     Properties: ErrorRate, GenomeAbundanceWeights, Genomes, InsertSizeRange, IsPairedEnd
     '                 NumberOfReads, QualityScoreRange, ReadLengthRange, RegionHotspots
+    ' 
+    '     Function: GenerateRandomExpression
     ' 
     ' /********************************************************************************/
 

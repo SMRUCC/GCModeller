@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb07af7866e73c82b4e1cd35e325aafa, localblast\LocalBLAST\Pipeline\RankTerm.vb"
+﻿#Region "Microsoft.VisualBasic::92fe5688a2598cb4f80debc505a61fe3, localblast\LocalBLAST\Pipeline\RankTerm.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 25 (14.62%)
-    '     File Size: 7.69 KB
+    '     File Size: 7.70 KB
 
 
     '     Class RankTerm

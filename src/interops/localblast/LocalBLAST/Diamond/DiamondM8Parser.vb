@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc10b33eb18a592c81935a4bcbc7473d, localblast\LocalBLAST\Diamond\DiamondM8Parser.vb"
+﻿#Region "Microsoft.VisualBasic::53d0a86ea5496797cf0c92866cf46a95, localblast\LocalBLAST\Diamond\DiamondM8Parser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 121
-    '    Code Lines: 78 (64.46%)
-    ' Comment Lines: 22 (18.18%)
-    '    - Xml Docs: 36.36%
+    '   Total Lines: 126
+    '    Code Lines: 78 (61.90%)
+    ' Comment Lines: 27 (21.43%)
+    '    - Xml Docs: 51.85%
     ' 
-    '   Blank Lines: 21 (17.36%)
-    '     File Size: 4.46 KB
+    '   Blank Lines: 21 (16.67%)
+    '     File Size: 4.61 KB
 
 
     ' Class DiamondM8Parser
@@ -177,4 +177,3 @@ Public Class DiamondM8Parser
         Return hit
     End Function
 End Class
-

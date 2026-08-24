@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e5ee06af668f633bbb4569cad2d5506, localblast\PanGenome\GenomeAnalyzer.vb"
+﻿#Region "Microsoft.VisualBasic::bd55f202051fe996a721f05267c12756, localblast\PanGenome\GenomeAnalyzer.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 758
-    '    Code Lines: 456 (60.16%)
-    ' Comment Lines: 191 (25.20%)
+    '   Total Lines: 757
+    '    Code Lines: 456 (60.24%)
+    ' Comment Lines: 191 (25.23%)
     '    - Xml Docs: 30.89%
     ' 
-    '   Blank Lines: 111 (14.64%)
+    '   Blank Lines: 110 (14.53%)
     '     File Size: 35.10 KB
 
 
@@ -54,7 +54,6 @@
     '               DetectStructuralVariations, MakeFamilyMapping, OrderKey, SplitBlockByChromosome
     ' 
     '     Sub: CalculateGeneticDistance, CalculatePanGenomeJaccardDistance, CategorizeGeneFamilies, Initialize, SetGenesElements
-    ' 
     ' 
     ' /********************************************************************************/
 
@@ -817,5 +816,3 @@ Public Class GenomeAnalyzer
         End If
     End Sub
 End Class
-
-

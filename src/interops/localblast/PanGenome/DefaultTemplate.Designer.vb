@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4e140a85c45778b7f1a6c40ede791a8, localblast\PanGenome\DefaultTemplate.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::92744ea1f95981770d0453671a5846df, localblast\PanGenome\DefaultTemplate.Designer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 17.39%
     ' 
     '   Blank Lines: 9 (13.43%)
-    '     File Size: 3.00 KB
+    '     File Size: 2.99 KB
 
 
     '     Class DefaultTemplate
@@ -121,4 +121,3 @@ Namespace My.Resources
         End Property
     End Class
 End Namespace
-

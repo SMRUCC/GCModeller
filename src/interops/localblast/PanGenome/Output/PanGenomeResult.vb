@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4fe9259aef5a5f2ecf1a3c4a053c8f9, localblast\PanGenome\Output\PanGenomeResult.vb"
+﻿#Region "Microsoft.VisualBasic::7069787f65f1768d2e2c8e4c2987e0f3, localblast\PanGenome\Output\PanGenomeResult.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 78
-    '    Code Lines: 17 (21.79%)
-    ' Comment Lines: 50 (64.10%)
+    '   Total Lines: 77
+    '    Code Lines: 17 (22.08%)
+    ' Comment Lines: 50 (64.94%)
     '    - Xml Docs: 90.00%
     ' 
-    '   Blank Lines: 11 (14.10%)
+    '   Blank Lines: 10 (12.99%)
     '     File Size: 2.66 KB
 
 
@@ -52,7 +52,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.Serialization
 
@@ -131,4 +130,3 @@ Imports System.Runtime.Serialization
     Public Property GeneticDistanceMatrix As New Dictionary(Of String, Double)()
 
 End Class
-

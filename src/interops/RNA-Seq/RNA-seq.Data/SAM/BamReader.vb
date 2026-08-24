@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aded33335fff35196c616f602189265d, RNA-Seq\RNA-seq.Data\SAM\BamReader.vb"
+﻿#Region "Microsoft.VisualBasic::4db888898f8000614266faa3f4d8a194, RNA-Seq\RNA-seq.Data\SAM\BamReader.vb"
 
     ' Author:
     ' 
@@ -250,4 +250,3 @@ Module BamReader
     End Function
 
 End Module
-

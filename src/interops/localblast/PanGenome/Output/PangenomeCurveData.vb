@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eec3ee71fa3351d4e04f818b97d4ef9d, localblast\PanGenome\Output\PangenomeCurveData.vb"
+﻿#Region "Microsoft.VisualBasic::53d7949d9dff936184848564950c8290, localblast\PanGenome\Output\PangenomeCurveData.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 12
-    '    Code Lines: 8 (66.67%)
+    '   Total Lines: 11
+    '    Code Lines: 8 (72.73%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 4 (33.33%)
-    '     File Size: 324 B
+    '   Blank Lines: 3 (27.27%)
+    '     File Size: 322 B
 
 
     ' Class PangenomeCurveData
@@ -52,7 +52,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Public Class PangenomeCurveData
 

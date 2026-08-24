@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3493affb9c62b881d11ef97d95ec205, localblast\PanGenome\Output\Table\SVTable.vb"
+﻿#Region "Microsoft.VisualBasic::ec52fda3401ecffacfc9c54d23b80581, localblast\PanGenome\Output\Table\SVTable.vb"
 
     ' Author:
     ' 
@@ -131,4 +131,3 @@ Public Class SVTable : Inherits SVData
     End Sub
 
 End Class
-

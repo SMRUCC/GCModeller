@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ef6dcb8b85bf90302453d9bedfcb8a3, meme_suite\meme_data\MEME\Text\TextParser.vb"
+﻿#Region "Microsoft.VisualBasic::1efe5fe496cf40c6c071b9f215cbaca0, meme_suite\meme_data\MEME\Text\TextParser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 579
-    '    Code Lines: 393 (67.88%)
-    ' Comment Lines: 106 (18.31%)
-    '    - Xml Docs: 86.79%
+    '   Total Lines: 578
+    '    Code Lines: 390 (67.47%)
+    ' Comment Lines: 108 (18.69%)
+    '    - Xml Docs: 86.11%
     ' 
-    '   Blank Lines: 80 (13.82%)
-    '     File Size: 31.62 KB
+    '   Blank Lines: 80 (13.84%)
+    '     File Size: 31.53 KB
 
 
     '     Module MEME_TEXT

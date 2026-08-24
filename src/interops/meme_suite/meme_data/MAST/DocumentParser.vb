@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5fcd3be29112815d5885c335eca986e, meme_suite\meme_data\MAST\DocumentParser.vb"
+﻿#Region "Microsoft.VisualBasic::c2fd2ef96b9db9fca0c68c6144e307e7, meme_suite\meme_data\MAST\DocumentParser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 231
-    '    Code Lines: 184 (79.65%)
-    ' Comment Lines: 14 (6.06%)
+    '   Total Lines: 230
+    '    Code Lines: 183 (79.57%)
+    ' Comment Lines: 14 (6.09%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 33 (14.29%)
-    '     File Size: 12.45 KB
+    '   Blank Lines: 33 (14.35%)
+    '     File Size: 12.35 KB
 
 
     '     Module DocumentParser

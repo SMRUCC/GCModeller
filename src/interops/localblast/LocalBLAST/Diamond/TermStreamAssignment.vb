@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61038d24f4e403d58a33d581c09e360c, localblast\LocalBLAST\Diamond\TermStreamAssignment.vb"
+﻿#Region "Microsoft.VisualBasic::2432e67b624fe65ddeaccc22a6722af7, localblast\LocalBLAST\Diamond\TermStreamAssignment.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 86
-    '    Code Lines: 64 (74.42%)
-    ' Comment Lines: 10 (11.63%)
+    '   Total Lines: 88
+    '    Code Lines: 65 (73.86%)
+    ' Comment Lines: 10 (11.36%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 12 (13.95%)
-    '     File Size: 3.20 KB
+    '   Blank Lines: 13 (14.77%)
+    '     File Size: 3.26 KB
 
 
     ' Module TermStreamAssignment
@@ -139,4 +139,3 @@ Public Module TermStreamAssignment
         Next
     End Function
 End Module
-

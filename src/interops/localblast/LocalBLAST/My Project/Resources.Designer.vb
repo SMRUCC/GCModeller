@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::697903a9e71f4a20ff31c9e25771f48a, localblast\LocalBLAST\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::d4b1d51ef5f27f819253bfed913e743c, localblast\LocalBLAST\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -115,4 +115,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4081901616496600bd30aa74c49b7801, RNA-Seq\RNA-seq.Data\SAM\IndexStats.vb"
+﻿#Region "Microsoft.VisualBasic::5e4a6dd6c5dd8c23b37f4b3854dd72f8, RNA-Seq\RNA-seq.Data\SAM\featureCount\IndexStats.vb"
 
     ' Author:
     ' 
@@ -34,24 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 85
-    '    Code Lines: 61 (71.76%)
-    ' Comment Lines: 7 (8.24%)
-    '    - Xml Docs: 85.71%
+    '   Total Lines: 38
+    '    Code Lines: 28 (73.68%)
+    ' Comment Lines: 3 (7.89%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 17 (20.00%)
-    '     File Size: 2.94 KB
+    '   Blank Lines: 7 (18.42%)
+    '     File Size: 1.35 KB
 
 
-    '     Class GeneData
-    ' 
-    '         Properties: GeneID, Length, RawCount, RPK, TPM
-    ' 
     '     Class IndexStats
     ' 
     '         Properties: GeneID, Length, RawCount, UnmappedBases
     ' 
-    '         Function: ConvertCountsToTPM, Parse
+    '         Function: Parse
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f836a825f5d441224282102a279a7d1, meme_suite\meme_data\MemeWriter.vb"
+﻿#Region "Microsoft.VisualBasic::d2cc84aea321fde2579a1c842dfc31e9, meme_suite\meme_data\MemeWriter.vb"
 
     ' Author:
     ' 
@@ -224,4 +224,3 @@ Public Module ProbabilityExtensions
     End Function
 
 End Module
-

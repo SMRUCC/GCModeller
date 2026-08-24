@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13a10afc86db44e648db2d5439708eb2, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\MapsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::3f0a36029a877c4f04beb2074b8c4e60, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\MapsAPI.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 281
-    '    Code Lines: 183 (65.12%)
-    ' Comment Lines: 62 (22.06%)
-    '    - Xml Docs: 67.74%
+    '   Total Lines: 347
+    '    Code Lines: 228 (65.71%)
+    ' Comment Lines: 76 (21.90%)
+    '    - Xml Docs: 68.42%
     ' 
-    '   Blank Lines: 36 (12.81%)
-    '     File Size: 12.09 KB
+    '   Blank Lines: 43 (12.39%)
+    '     File Size: 15.02 KB
 
 
     '     Module MapsAPI
     ' 
-    '         Function: __createObject, CreateObject, (+2 Overloads) Export, GetCoverage, setUnique
-    '                   TrimAssembly, UniqueAlignment, Where
+    '         Function: CreateObject, (+2 Overloads) Export, GetCoverage, MakeChromosomeMapping, MakeMappingLocation
+    '                   MakeTabular, setUnique, TrimAssembly, UniqueAlignment, Where
     ' 
     ' 
     ' /********************************************************************************/

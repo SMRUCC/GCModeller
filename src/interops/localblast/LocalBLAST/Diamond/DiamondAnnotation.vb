@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01ef3cd9c115326c367d0bbd7057b1a2, localblast\LocalBLAST\Diamond\DiamondAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::fa785611a9d961ee6f9707e7fc5c100b, localblast\LocalBLAST\Diamond\DiamondAnnotation.vb"
 
     ' Author:
     ' 
@@ -158,4 +158,3 @@ Public Class DiamondAnnotation : Implements IBlastHit, IMap, IQueryHits
         }
     End Function
 End Class
-

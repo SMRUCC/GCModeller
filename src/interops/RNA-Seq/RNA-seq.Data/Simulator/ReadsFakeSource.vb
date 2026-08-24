@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47f9e54bf319a6329485bc79b7fd6af4, RNA-Seq\RNA-seq.Data\Simulator\ReadsFakeSource.vb"
+﻿#Region "Microsoft.VisualBasic::c796c0205825e4644a3811e82e060b00, RNA-Seq\RNA-seq.Data\Simulator\ReadsFakeSource.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 276
-    '    Code Lines: 179 (64.86%)
-    ' Comment Lines: 59 (21.38%)
+    '   Total Lines: 285
+    '    Code Lines: 186 (65.26%)
+    ' Comment Lines: 59 (20.70%)
     '    - Xml Docs: 50.85%
     ' 
-    '   Blank Lines: 38 (13.77%)
-    '     File Size: 13.17 KB
+    '   Blank Lines: 40 (14.04%)
+    '     File Size: 13.48 KB
 
 
     ' Module ReadsFakeSource
     ' 
-    '     Function: (+2 Overloads) BuildWeightedSelector, FakeReads, GenerateQualityString, SelectStartIndexFromHotspots, SelectWeightedItemInternal
-    '               SimulateSequencingErrors
+    '     Function: (+2 Overloads) BuildWeightedSelector, ConfigVerify, FakeReads, GenerateQualityString, SelectStartIndexFromHotspots
+    '               SelectWeightedItemInternal, SimulateSequencingErrors
     '     Class WeightedSelector
     ' 
     '         Properties: CumulativeWeights, Items, TotalWeight
@@ -342,4 +342,3 @@ Public Module ReadsFakeSource
     End Function
 
 End Module
-

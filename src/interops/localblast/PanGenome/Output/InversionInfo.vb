@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc14a40d4a19d8ea8589bb893c01ee24, localblast\PanGenome\Output\InversionInfo.vb"
+﻿#Region "Microsoft.VisualBasic::bd484a804a6ebac409aa3d1e9542ebfe, localblast\PanGenome\Output\InversionInfo.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 0 (0.00%)
-    '     File Size: 126 B
+    '     File Size: 124 B
 
 
     ' Class InversionInfo
@@ -55,4 +55,3 @@ Public Class InversionInfo
     Public Property isInversion As Boolean
     Public Property correlation As Double
 End Class
-
