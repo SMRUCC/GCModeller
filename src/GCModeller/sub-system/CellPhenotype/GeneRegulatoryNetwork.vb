@@ -3,7 +3,6 @@ Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 
 ''' <summary>
 ''' WGCNA 共表达网络与 BNLearn 动态贝叶斯网络（DBN）之间的桥接模块。
