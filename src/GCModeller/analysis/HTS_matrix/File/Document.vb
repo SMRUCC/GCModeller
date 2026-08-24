@@ -81,8 +81,8 @@ Public Module Document
     ''' 因为矩阵文档是由数字构成的，所以在这里不再使用csv文件解析器来完成，
     ''' 直接通过分隔符进行解析来获取最好的解析性能
     ''' </remarks>
-    Public Function LoadMatrixDocument(file As String, excludes As Index(Of String)) As Matrix
-        Dim text As String() = file.LineIterators(strictFile:=True).ToArray
+    Public Function LoadMatrixDocument(file As String, excludes As Index(Of String), Optional tqdm As Boolean = False) As Matrix
+        Dim text As String() = file.LineIterators(strictFile:=True, tqdm:=tqdm).ToArray
         Dim sampleIds As String() = text(Scan0).ParseHeaders
         Dim takeIndex As Integer()
 

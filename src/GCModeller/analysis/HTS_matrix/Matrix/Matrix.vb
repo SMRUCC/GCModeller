@@ -458,9 +458,10 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function LoadData(file As String,
                                     Optional excludes As Index(Of String) = Nothing,
-                                    Optional trimZeros As Boolean = False) As Matrix
+                                    Optional trimZeros As Boolean = False,
+                                    Optional tqdm_wrap As Boolean = False) As Matrix
 
-        Dim matrix As Matrix = Document.LoadMatrixDocument(file, excludes)
+        Dim matrix As Matrix = Document.LoadMatrixDocument(file, excludes, tqdm:=tqdm_wrap)
 
         Call matrix.checkMatrix()
 
