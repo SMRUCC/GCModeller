@@ -7,7 +7,7 @@ Module siRNADemo
     Const MIR As String = "UGACGUGACUGACGUGACUGA"
 
     ' 候选 mRNA 靶标集（T1~T7）
-    Shared ReadOnly targets As (id As String, seq As String)() = {
+    ReadOnly targets As (id As String, seq As String)() = {
         ("T1_perfect_match", "AUGGCAUCGGAUCCUCAGUCACGUCAGUCACGUCAAGGCUUAAGCCAU"),
         ("T2_3prime_mismatch", "AUGGCAUCGGAUCCUCAAUCACGUCAGUCACGUCAAGGCUUAAGCCAU"),
         ("T3_core_GU_pair", "AUGGCAUCGGAUCCUCAGUCACGUCAGUCACGUUAAGGCUUAAGCCAU"),
