@@ -1,57 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::13e91d2e0f99be416b37d9fb18530b03, R#\seqtoolkit\Annotations\workflows.vb"
+﻿#Region "Microsoft.VisualBasic::023af971aa817b16c9403dacc7212ebb, R#\seqtoolkit\Annotations\workflows.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 532
-'    Code Lines: 399 (75.00%)
-' Comment Lines: 77 (14.47%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 56 (10.53%)
-'     File Size: 24.80 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module workflows
-' 
-'     Function: blastn_table, diamond_hitgroups, ExportBBHHits, ExportSBHHits, filter_low_level
-'               FilterBesthitStream, flush, grepNames, openBlastReader, openWriter
-'               parseBlastnMaps, read_bbhhits, read_besthits, read_m8, removeProteinSufifx
-' 
-'     Sub: Main, writeStreamHelper
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 616
+    '    Code Lines: 466 (75.65%)
+    ' Comment Lines: 83 (13.47%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 67 (10.88%)
+    '     File Size: 28.84 KB
+
+
+    ' Module workflows
+    ' 
+    '     Function: blast_tabular, blastn_table, diamond_hitgroups, ExportBBHHits, ExportSBHHits
+    '               filter_low_level, FilterBesthitStream, flush, grepNames, openBlastReader
+    '               openWriter, parseBlastnMaps, read_bbhhits, read_besthits, read_blast_tabular
+    '               read_m8, removeProteinSufifx
+    ' 
+    '     Sub: Main, writeStreamHelper
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

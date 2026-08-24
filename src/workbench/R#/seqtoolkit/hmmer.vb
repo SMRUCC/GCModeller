@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34f014fd87f2214aac4acda0ae9a528d, R#\seqtoolkit\hmmer.vb"
+﻿#Region "Microsoft.VisualBasic::5b9d80577640509c41dde4c51db2fb7d, R#\seqtoolkit\hmmer.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ Module hmmer
     End Function
 
 End Module
-

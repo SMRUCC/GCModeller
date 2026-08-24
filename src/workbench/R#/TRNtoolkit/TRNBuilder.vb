@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef4e77d7e7e3247e42f94b574c9b2731, R#\TRNtoolkit\TRNBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::70930fe9f42206226e65959a80ad60a0, R#\TRNtoolkit\TRNBuilder.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 276
-    '    Code Lines: 183 (66.30%)
-    ' Comment Lines: 57 (20.65%)
+    '   Total Lines: 291
+    '    Code Lines: 195 (67.01%)
+    ' Comment Lines: 57 (19.59%)
     '    - Xml Docs: 35.09%
     ' 
-    '   Blank Lines: 36 (13.04%)
-    '     File Size: 12.80 KB
+    '   Blank Lines: 39 (13.40%)
+    '     File Size: 13.50 KB
 
 
     ' Module TRNBuilder

@@ -1,4 +1,58 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿#Region "Microsoft.VisualBasic::cbaf5b3bf5d78738218c480ca6226ddf, R#\rnaseq\Quantification.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 79 (69.91%)
+    ' Comment Lines: 16 (14.16%)
+    '    - Xml Docs: 93.75%
+    ' 
+    '   Blank Lines: 18 (15.93%)
+    '     File Size: 4.67 KB
+
+
+    ' Module Quantification
+    ' 
+    '     Function: as_countmatrix, convert_to_tpm, deseq2_norm, edgeR_norm, edgeR_tmm_factors
+    '               expression_data, read_featureCounts, read_genedata, sample_indexstats
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS
@@ -111,3 +165,4 @@ Module Quantification
         Return New list(slot("tpm") = tpm, slot("fpkm") = fpkm)
     End Function
 End Module
+

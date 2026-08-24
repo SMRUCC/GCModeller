@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c0525ca017f4f7981c8b6fc83f916fb1, modules\Knowledge_base\ncbi_kb\PubMed\PlainTextParser.vb"
+﻿#Region "Microsoft.VisualBasic::db43586d283f7be90e9ff44861cd5ebc, modules\Knowledge_base\ncbi_kb\PubMed\PlainTextParser.vb"
 
     ' Author:
     ' 
@@ -199,4 +199,3 @@ Public Module PlainTextParser
         End If
     End Function
 End Module
-

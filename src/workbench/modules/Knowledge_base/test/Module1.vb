@@ -1,4 +1,54 @@
-﻿'#Region "Microsoft.VisualBasic::1da3ea0265c3b6ee3b82c340fba25499, modules\Knowledge_base\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::5973ca4f9288fecc022e3aac16117be2, modules\Knowledge_base\test\Module1.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 0 (0.00%)
+    ' Comment Lines: 55 (67.07%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 27 (32.93%)
+    '     File Size: 2.61 KB
+
+
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+'#Region "Microsoft.VisualBasic::1da3ea0265c3b6ee3b82c340fba25499, modules\Knowledge_base\test\Module1.vb"
 
 '    ' Author:
 '    ' 
@@ -80,3 +130,4 @@
 '        Pause()
 '    End Sub
 'End Module
+

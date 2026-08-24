@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99a5820e81d1c5f3d3ebabdfa450e86f, R#\metagenomics_kit\microbiomeKit.vb"
+﻿#Region "Microsoft.VisualBasic::143b3b11fbd2a4e52885ae4f15db3a2a, R#\metagenomics_kit\microbiomeKit.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 441
-    '    Code Lines: 306 (69.39%)
-    ' Comment Lines: 81 (18.37%)
+    '   Total Lines: 442
+    '    Code Lines: 307 (69.46%)
+    ' Comment Lines: 81 (18.33%)
     '    - Xml Docs: 97.53%
     ' 
-    '   Blank Lines: 54 (12.24%)
-    '     File Size: 18.65 KB
+    '   Blank Lines: 54 (12.22%)
+    '     File Size: 18.71 KB
 
 
     ' Module microbiomeKit

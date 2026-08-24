@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ca483b3236350384425a79aed23feb7, R#\metagenomics_kit\OTUTableTools.vb"
+﻿#Region "Microsoft.VisualBasic::153040831a2b91375a4f542382af77dc, R#\metagenomics_kit\OTUTableTools.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 584
-    '    Code Lines: 406 (69.52%)
-    ' Comment Lines: 85 (14.55%)
-    '    - Xml Docs: 92.94%
+    '   Total Lines: 656
+    '    Code Lines: 449 (68.45%)
+    ' Comment Lines: 104 (15.85%)
+    '    - Xml Docs: 95.19%
     ' 
-    '   Blank Lines: 93 (15.92%)
-    '     File Size: 22.38 KB
+    '   Blank Lines: 103 (15.70%)
+    '     File Size: 25.61 KB
 
 
     ' Module OTUTableTools
     ' 
     '     Function: (+2 Overloads) asOTUTable, average, batch_combine, cast_matrix, castTable
-    '               dominant_species, drawUPGMATree, filter, fromMatrix, impute_missing
+    '               core_microbiome, dominant_species, drawUPGMATree, filter, fromMatrix
     '               make_repseq_id, MakeOTUTable, makeTreeGraph, makeUPGMATree, median_scale
     '               merge_phyloseq, readLevelAggregateData, readOTuData, readOTUTable, relativeAbundance
-    '               sample_id, set_taxonomyName
+    '               sample_id, set_MAG_data, set_taxonomyName
     ' 
     '     Sub: Main
     ' 

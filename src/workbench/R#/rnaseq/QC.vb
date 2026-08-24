@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d60323418879b5ad077ac9e161bbb8c5, R#\rnaseq\QC.vb"
+﻿#Region "Microsoft.VisualBasic::ea7542d495b65602aef5a36c298d4364, R#\rnaseq\QC.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 79
-    '    Code Lines: 51 (64.56%)
-    ' Comment Lines: 13 (16.46%)
+    '   Total Lines: 78
+    '    Code Lines: 51 (65.38%)
+    ' Comment Lines: 13 (16.67%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (18.99%)
+    '   Blank Lines: 14 (17.95%)
     '     File Size: 3.10 KB
 
 
@@ -50,7 +50,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -130,4 +129,3 @@ Module QC
     End Function
 
 End Module
-

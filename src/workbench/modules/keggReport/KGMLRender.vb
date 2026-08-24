@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dae6273d61412dba31a6d0d5c9a6667b, modules\keggReport\KGMLRender.vb"
+﻿#Region "Microsoft.VisualBasic::05f804e55ec252ab963a30874ab12dea, modules\keggReport\KGMLRender.vb"
 
     ' Author:
     ' 
@@ -183,4 +183,3 @@ Public Class KGMLRender
     End Function
 
 End Class
-

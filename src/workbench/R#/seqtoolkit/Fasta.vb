@@ -1,59 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::53627ecdf6a0465db9b58902434fd084, R#\seqtoolkit\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::47b037b607e214ffa84b9ff0d9d0c404, R#\seqtoolkit\Fasta.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 908
-'    Code Lines: 639 (70.37%)
-' Comment Lines: 157 (17.29%)
-'    - Xml Docs: 93.63%
-' 
-'   Blank Lines: 112 (12.33%)
-'     File Size: 37.01 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Fasta
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: chars, createFingerprintMatrix, createSequenceCollectionTable, createSequenceTable, CutSequenceLinear
-'               fasta, fastaTitle, fastaTitles, formula, list_index
-'               makeClusterTree, mass, MSA, openFasta, openFingerpintWriter
-'               parseFasta, readFasta, readFingerprintBson, readSeq, seq_sgt
-'               seq_vector, sizeof, take_byId, Tofasta, Translates
-'               translateSingleNtSeq, viewFasta, viewMSA, writeFasta
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 974
+    '    Code Lines: 686 (70.43%)
+    ' Comment Lines: 168 (17.25%)
+    '    - Xml Docs: 94.05%
+    ' 
+    '   Blank Lines: 120 (12.32%)
+    '     File Size: 39.55 KB
+
+
+    ' Module Fasta
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: chars, createFingerprintMatrix, createSequenceCollectionTable, createSequenceTable, CutSequenceLinear
+    '               fasta, fastaTitle, fastaTitles, formula, list_index
+    '               makeClusterTree, mass, MSA, openFasta, openFingerpintWriter
+    '               parseFasta, read_assembly, read_stockholm, readFasta, readFingerprintBson
+    '               readSeq, seq_sgt, seq_vector, sizeof, slicer
+    '               take_byId, Tofasta, Translates, translateSingleNtSeq, viewFasta
+    '               viewMSA, writeFasta
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

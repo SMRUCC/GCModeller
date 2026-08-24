@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4bb5917be3987b2f3d5b84ad141c6dc9, modules\ExperimentDesigner\ExpressionModel\ExpressionData.vb"
+﻿#Region "Microsoft.VisualBasic::1ba46d0b98bf3e7a7bc9fde3d3cb3fe2, modules\ExperimentDesigner\ExpressionModel\ExpressionData.vb"
 
     ' Author:
     ' 
@@ -81,4 +81,3 @@ Public Module ExpressionData
         }
     End Function
 End Module
-

@@ -1,54 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::dcd8b858bb0b2ea176c0b60d458982d4, R#\seqtoolkit\proteinKit.vb"
+﻿#Region "Microsoft.VisualBasic::71dc737daf3dc00c68335f993aa383de, R#\seqtoolkit\proteinKit.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 343
-'    Code Lines: 169 (49.27%)
-' Comment Lines: 139 (40.52%)
-'    - Xml Docs: 90.65%
-' 
-'   Blank Lines: 35 (10.20%)
-'     File Size: 15.26 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module proteinKit
-' 
-'     Function: (+2 Overloads) ChouFasman, enzymeBuilder, kmer_fingerprint, kmer_graph, ligands
-'               parsePdb, pdb_centroid, pdbModels, predict_sequence, readPdb
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 377
+    '    Code Lines: 193 (51.19%)
+    ' Comment Lines: 145 (38.46%)
+    '    - Xml Docs: 91.03%
+    ' 
+    '   Blank Lines: 39 (10.34%)
+    '     File Size: 16.67 KB
+
+
+    ' Module proteinKit
+    ' 
+    '     Function: analysis_domains, (+2 Overloads) ChouFasman, enzymeBuilder, kmer_fingerprint, kmer_graph
+    '               ligands, parsePdb, pdb_centroid, pdbModels, predict_sequence
+    '               readPdb
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

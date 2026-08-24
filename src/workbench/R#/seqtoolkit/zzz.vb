@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c20f66524d709419ca921ed9020218e8, R#\seqtoolkit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::f06f30b9d635d80df5c4fbd867fd7a1d, R#\seqtoolkit\zzz.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 13
-    '    Code Lines: 10 (76.92%)
+    '   Total Lines: 16
+    '    Code Lines: 13 (81.25%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 3 (23.08%)
-    '     File Size: 267 B
+    '   Blank Lines: 3 (18.75%)
+    '     File Size: 354 B
 
 
     ' Class zzz

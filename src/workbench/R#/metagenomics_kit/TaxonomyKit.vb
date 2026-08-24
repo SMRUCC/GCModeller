@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc2348fc53e45a1c98aa17b9293f5b3a, R#\metagenomics_kit\TaxonomyKit.vb"
+﻿#Region "Microsoft.VisualBasic::befda526011938b1be10294c4923b9c3, R#\metagenomics_kit\TaxonomyKit.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 451
-    '    Code Lines: 283 (62.75%)
-    ' Comment Lines: 120 (26.61%)
-    '    - Xml Docs: 95.83%
+    '   Total Lines: 456
+    '    Code Lines: 283 (62.06%)
+    ' Comment Lines: 125 (27.41%)
+    '    - Xml Docs: 93.60%
     ' 
-    '   Blank Lines: 48 (10.64%)
-    '     File Size: 18.93 KB
+    '   Blank Lines: 48 (10.53%)
+    '     File Size: 19.49 KB
 
 
     ' Module TaxonomyKit

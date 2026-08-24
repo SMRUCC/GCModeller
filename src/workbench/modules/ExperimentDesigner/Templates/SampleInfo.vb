@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90ca818ac2e3c7cf370dca20935614ab, modules\ExperimentDesigner\Templates\SampleInfo.vb"
+﻿#Region "Microsoft.VisualBasic::15fecc06eb9b98a5468cba02e08f4515, modules\ExperimentDesigner\Templates\SampleInfo.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 63
-    '    Code Lines: 38 (60.32%)
-    ' Comment Lines: 17 (26.98%)
+    '   Total Lines: 84
+    '    Code Lines: 52 (61.90%)
+    ' Comment Lines: 21 (25.00%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (12.70%)
-    '     File Size: 2.17 KB
+    '   Blank Lines: 11 (13.10%)
+    '     File Size: 2.91 KB
 
 
     ' Class SampleInfo
     ' 
-    '     Properties: batch, ID, injectionOrder
+    '     Properties: batch, ID, injectionOrder, metadata
     ' 
-    '     Constructor: (+2 Overloads) Sub New
+    '     Constructor: (+3 Overloads) Sub New
     '     Function: FromTagGroup, ToString
     ' 
     ' /********************************************************************************/

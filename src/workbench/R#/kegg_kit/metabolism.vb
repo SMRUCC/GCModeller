@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88c74ccbedf287d7a458bfbb4d448a95, R#\kegg_kit\metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::b00ad3679a83b671fa59abc1650bb9c8, R#\kegg_kit\metabolism.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 185
-    '    Code Lines: 114 (61.62%)
-    ' Comment Lines: 47 (25.41%)
-    '    - Xml Docs: 82.98%
+    '   Total Lines: 176
+    '    Code Lines: 114 (64.77%)
+    ' Comment Lines: 39 (22.16%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 24 (12.97%)
-    '     File Size: 7.70 KB
+    '   Blank Lines: 23 (13.07%)
+    '     File Size: 7.29 KB
 
 
     ' Module metabolism

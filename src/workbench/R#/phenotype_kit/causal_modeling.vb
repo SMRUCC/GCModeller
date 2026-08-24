@@ -1,4 +1,61 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿#Region "Microsoft.VisualBasic::6b9bbf95303a5ba98ca22d7629c27579, R#\phenotype_kit\causal_modeling.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 355
+    '    Code Lines: 274 (77.18%)
+    ' Comment Lines: 18 (5.07%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 63 (17.75%)
+    '     File Size: 17.16 KB
+
+
+    ' Module causal_modeling
+    ' 
+    '     Function: as_causalmodel, effect_decomposition, endogenous_latents, FilterTopManifestVariables, indirect_effect
+    '               make_full_path, make_latent, make_path, measurement_model, path_coefficient
+    '               plspm_tool, sem_tool, significance_test
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Microarray
@@ -353,3 +410,4 @@ Module causal_modeling
     End Function
 
 End Module
+

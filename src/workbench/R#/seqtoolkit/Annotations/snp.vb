@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa47f0b4e87eb957392a706fbf0a4d2f, R#\seqtoolkit\Annotations\snp.vb"
+﻿#Region "Microsoft.VisualBasic::15a83c5280312de4ea8d37cef59e8b38, R#\seqtoolkit\Annotations\snp.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 3 (14.29%)
-    '     File Size: 846 B
+    '     File Size: 844 B
 
 
     ' Module snpTools
@@ -72,4 +72,3 @@ Module snpTools
         Return nt.ScanSNPs(ref_index, pureMode, monomorphic, vcf_output_filename)
     End Function
 End Module
-

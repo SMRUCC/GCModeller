@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56a986a65ca2900327f5912714397994, R#\seqtoolkit\Annotations\genbankKit.vb"
+﻿#Region "Microsoft.VisualBasic::c5922863c35a398dbe640616a7687c64, R#\seqtoolkit\Annotations\genbankKit.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 721
-    '    Code Lines: 473 (65.60%)
-    ' Comment Lines: 169 (23.44%)
-    '    - Xml Docs: 93.49%
+    '   Total Lines: 723
+    '    Code Lines: 474 (65.56%)
+    ' Comment Lines: 170 (23.51%)
+    '    - Xml Docs: 92.94%
     ' 
-    '   Blank Lines: 79 (10.96%)
-    '     File Size: 29.15 KB
+    '   Blank Lines: 79 (10.93%)
+    '     File Size: 29.27 KB
 
 
     ' Module genbankKit

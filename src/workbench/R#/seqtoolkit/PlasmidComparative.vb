@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2dfe1e697ee7c3f33b68457c3f6e5ee8, R#\seqtoolkit\PlasmidComparative.vb"
+﻿#Region "Microsoft.VisualBasic::14764f8dedaee44cb9a0df7ce80cc79e, R#\seqtoolkit\PlasmidComparative.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 80.00%
     ' 
     '   Blank Lines: 6 (7.32%)
-    '     File Size: 4.72 KB
+    '     File Size: 4.73 KB
 
 
     ' Module PlasmidComparative

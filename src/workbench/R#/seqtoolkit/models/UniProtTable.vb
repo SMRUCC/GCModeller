@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::afb8aee8670e7ce02e3c21c3159c29d8, R#\seqtoolkit\models\UniProtTable.vb"
+﻿#Region "Microsoft.VisualBasic::58f513adf9376aea9047a97951577a57, R#\seqtoolkit\models\UniProtTable.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 10 (7.09%)
-    '     File Size: 7.46 KB
+    '     File Size: 7.45 KB
 
 
     ' Module UniProtTable
@@ -192,4 +192,3 @@ Module UniProtTable
         Return col.Select(Function(s) If(s = "", fill_str, s)).ToArray
     End Function
 End Module
-

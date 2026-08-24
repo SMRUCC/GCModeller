@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e3eea934af2f3da2da08571113c83b9, R#\TRNtoolkit\Motifs.vb"
+﻿#Region "Microsoft.VisualBasic::ba7bfdb627b8e63d5087640275875dd4, R#\TRNtoolkit\Motifs.vb"
 
     ' Author:
     ' 
@@ -119,4 +119,3 @@ Module MotifsTool
     End Function
 
 End Module
-

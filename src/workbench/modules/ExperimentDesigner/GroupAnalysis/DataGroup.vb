@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::735c4db87aff80dcf655447fca83655f, modules\ExperimentDesigner\GroupAnalysis\DataGroup.vb"
+﻿#Region "Microsoft.VisualBasic::df2793f2aca0e4da0bc0fe4e014e82b0, modules\ExperimentDesigner\GroupAnalysis\DataGroup.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 70
-    '    Code Lines: 44 (62.86%)
-    ' Comment Lines: 16 (22.86%)
+    '   Total Lines: 69
+    '    Code Lines: 44 (63.77%)
+    ' Comment Lines: 16 (23.19%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 10 (14.29%)
-    '     File Size: 2.63 KB
+    '   Blank Lines: 9 (13.04%)
+    '     File Size: 2.62 KB
 
 
     ' Class DataGroup
@@ -52,7 +52,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel

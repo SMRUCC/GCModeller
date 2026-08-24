@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd543a26186f32460f30b1f1371709b1, R#\comparative_toolkit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::3fa1c939594a3f87d028ee3c817fbeb4, R#\comparative_toolkit\zzz.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 5 (35.71%)
-    '     File Size: 232 B
+    '     File Size: 230 B
 
 
     ' Class zzz
@@ -66,4 +66,3 @@ Public NotInheritable Class zzz
     End Sub
 
 End Class
-

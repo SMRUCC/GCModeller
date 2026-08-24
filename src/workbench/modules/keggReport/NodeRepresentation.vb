@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0145d4b5f0ec4aa986c0155e10d8cb5c, modules\keggReport\NodeRepresentation.vb"
+﻿#Region "Microsoft.VisualBasic::49d930054a8caec9dcc4fcc93b5b6f73, modules\keggReport\NodeRepresentation.vb"
 
     ' Author:
     ' 
@@ -147,4 +147,3 @@ Public Class NodeRepresentation
     End Function
 
 End Class
-

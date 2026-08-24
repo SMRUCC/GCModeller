@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a88ef969d92a2999e31c54703b7cff68, R#\phenotype_kit\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::b81bd4c5d99b587e4642bc258648287d, R#\phenotype_kit\WGCNA.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 257
-    '    Code Lines: 128 (49.81%)
-    ' Comment Lines: 103 (40.08%)
-    '    - Xml Docs: 88.35%
+    '   Total Lines: 288
+    '    Code Lines: 152 (52.78%)
+    ' Comment Lines: 106 (36.81%)
+    '    - Xml Docs: 88.68%
     ' 
-    '   Blank Lines: 26 (10.12%)
-    '     File Size: 12.43 KB
+    '   Blank Lines: 30 (10.42%)
+    '     File Size: 13.90 KB
 
 
     ' Module WGCNA
     ' 
-    '     Function: applyModuleColors, connectivitySummary, LoadTOMModuleGraph_call, phenotype_matrix, readClusterModuleResult
-    '               readModules, readWeightMatrix, runAnalysis
+    '     Function: applyModuleColors, connectivitySummary, LoadTOMModuleGraph_call, phenotype_matrix, read_moduleCor
+    '               readAdjacencyMatrix, readClusterModuleResult, readModules, readWeightMatrix, runAnalysis
     ' 
     ' /********************************************************************************/
 
