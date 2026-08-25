@@ -102,6 +102,23 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="TF">转录因子（上游调控因子）基因名称注释集合。</param>
     ''' <returns>定向后的 BNLearn 先验调控网络。</returns>
     Public Function BuildPriorNetwork(wgcna As NetworkGraph, TF As HashSet(Of String)) As Core.PriorNetwork
+        Return wgcna.graphEdges.BuildPriorNetwork(TF)
+    End Function
+
+    ''' <summary>
+    ''' 根据 WGCNA 共表达网络与 TF 注释结果，构建 BNLearn 工作流的拓扑先验网络。
+    '''
+    ''' 调控方向严格依据 TF 注释确定：仅当一条边的其中一端是 TF、另一端不是 TF
+    ''' 时，才生成单向调控边（TF → 非 TF）；权重符号决定激活 / 抑制，权重绝对值
+    ''' 作为先验置信度。两端同为 TF 或同为非 TF 的边无法由共表达确定方向，将被
+    ''' 跳过并在日志中给出统计信息。
+    ''' </summary>
+    ''' <param name="wgcna">WGCNA "CorrelationNetwork.ExportGraph" 生成的共表达网络。</param>
+    ''' <param name="TF">转录因子（上游调控因子）基因名称注释集合。</param>
+    ''' <returns>定向后的 BNLearn 先验调控网络。</returns>
+    ''' 
+    <Extension>
+    Public Function BuildPriorNetwork(Of IE As INetworkEdge)(wgcna As IEnumerable(Of IE), TF As HashSet(Of String)) As Core.PriorNetwork
         Dim prior As New Core.PriorNetwork
         Dim skipped As Integer = 0
         Dim directed As Integer = 0
@@ -113,15 +130,15 @@ Public Module GeneRegulatoryNetwork
             Throw New ArgumentException("TF 注释列表不能为空，否则无法构建调控方向", NameOf(TF))
         End If
 
-        For Each e As Edge In wgcna.graphEdges
-            Dim a As String = e.U.label
-            Dim b As String = e.V.label
+        For Each e As IE In wgcna
+            Dim a As String = e.source
+            Dim b As String = e.target
 
             If TF.Contains(a) AndAlso Not TF.Contains(b) Then
-                prior.AddEdge(a, b, InferEffector(e.weight), Math.Abs(e.weight), EVIDENCE)
+                prior.AddEdge(a, b, InferEffector(e.value), Math.Abs(e.value), EVIDENCE)
                 directed += 1
             ElseIf TF.Contains(b) AndAlso Not TF.Contains(a) Then
-                prior.AddEdge(b, a, InferEffector(e.weight), Math.Abs(e.weight), EVIDENCE)
+                prior.AddEdge(b, a, InferEffector(e.value), Math.Abs(e.value), EVIDENCE)
                 directed += 1
             Else
                 ' 两端同为 TF 或同为非 TF：方向无法由共表达确定，跳过
@@ -129,7 +146,7 @@ Public Module GeneRegulatoryNetwork
             End If
         Next
 
-        Call VBDebugger.WriteLine($"WGCNAGRN.BuildPriorNetwork: 共 {wgcna.graphEdges.Count} 条边，定向 {directed} 条，跳过 {skipped} 条（无法由 TF 注释确定方向）")
+        Call VBDebugger.WriteLine($"WGCNAGRN.BuildPriorNetwork: 共 {directed + skipped} 条边，定向 {directed} 条，跳过 {skipped} 条（无法由 TF 注释确定方向）")
 
         Return prior
     End Function
