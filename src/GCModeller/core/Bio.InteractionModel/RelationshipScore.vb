@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 ''' <summary>
 ''' 带有分值的互做关系
 ''' </summary>
-Public Structure RelationshipScore
+Public Class RelationshipScore
     Implements IInteraction
     Implements INetworkEdge
 
@@ -39,4 +39,4 @@ Public Structure RelationshipScore
     Public Overrides Function ToString() As String
         Return $"{InteractorA}  ({Type}, {Score})    {InteractorB}"
     End Function
-End Structure
+End Class
