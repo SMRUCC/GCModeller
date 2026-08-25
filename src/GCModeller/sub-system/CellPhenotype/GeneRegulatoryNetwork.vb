@@ -424,7 +424,7 @@ Public Module GeneRegulatoryNetwork
     ''' 伪时间分箱的连续时间序列表达矩阵，无需 WGCNA 与 TF 注释，适用于 Monocle3 + PseudoVelo
     ''' 产出的单细胞轨迹数据。
     ''' </summary>
-    ''' <param name="expr">DBN 时间序列表达矩阵（基因 × 伪时间 bin），即 <see cref="DBNPreprocessOutput.timeSeries"/>。</param>
+    ''' <param name="expr">DBN 时间序列表达矩阵（基因 × 伪时间 bin）。</param>
     ''' <param name="prior">可选的因果方向先验（如由 PseudoVelo 趋势符号构造）。为 Nothing 时退化为纯数据驱动 MMHC 结构学习。</param>
     ''' <returns>已注入表达数据与先验网络的 BNLearn 工作流实例。</returns>
     Public Function BuildExpressionGRN(expr As Core.GeneExpressionData, Optional prior As Core.PriorNetwork = Nothing) As Core.BNLearnWorkflow
