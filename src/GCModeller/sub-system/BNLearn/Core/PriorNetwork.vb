@@ -1,64 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::93104b11e1a2c0586d77c0223a83dd6b, sub-system\BNLearn\Core\PriorNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 103
-    '    Code Lines: 54 (52.43%)
-    ' Comment Lines: 28 (27.18%)
-    '    - Xml Docs: 78.57%
-    ' 
-    '   Blank Lines: 21 (20.39%)
-    '     File Size: 4.13 KB
+' Summaries:
 
 
-    '     Class RegulatoryEdge
-    ' 
-    '         Properties: Confidence, Evidence, RegulationType, TargetGene, TF
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class PriorNetwork
-    ' 
-    '         Properties: Edges, TargetNames, TFNames
-    ' 
-    '         Function: GetAllGeneNames, GetRegulators, GetTargets, ToWhitelist
-    ' 
-    '         Sub: AddEdge
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 103
+'    Code Lines: 54 (52.43%)
+' Comment Lines: 28 (27.18%)
+'    - Xml Docs: 78.57%
+' 
+'   Blank Lines: 21 (20.39%)
+'     File Size: 4.13 KB
+
+
+'     Class RegulatoryEdge
+' 
+'         Properties: Confidence, Evidence, RegulationType, TargetGene, TF
+' 
+'         Function: ToString
+' 
+'     Class PriorNetwork
+' 
+'         Properties: Edges, TargetNames, TFNames
+' 
+'         Function: GetAllGeneNames, GetRegulators, GetTargets, ToWhitelist
+' 
+'         Sub: AddEdge
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -68,6 +68,8 @@
 ' 从 TF 注释和 TFBS motif 扫描得到的转录调控网络
 ' 作为 bnlearn 结构学习的白名单先验知识
 ' ============================================================
+
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 
 Namespace Core
 
@@ -134,7 +136,7 @@ Namespace Core
         End Function
 
         ''' <summary>转换为白名单边列表（使用基因表达矩阵的索引）</summary>
-        Public Function ToWhitelist(geneNames As String()) As List(Of (FromIdx As Integer, ToIdx As Integer))
+        Public Function ToWhitelist(geneNames As String()) As IEnumerable(Of (fromIdx%, toIdx%))
             Dim nameMap As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
             For i = 0 To geneNames.Length - 1
                 nameMap(geneNames(i)) = i

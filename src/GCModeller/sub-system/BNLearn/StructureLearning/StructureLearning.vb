@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::15f6960fb8e75bd42055a99c1c0bcac9, sub-system\BNLearn\StructureLearning\StructureLearning.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 787
-    '    Code Lines: 538 (68.36%)
-    ' Comment Lines: 125 (15.88%)
-    '    - Xml Docs: 31.20%
-    ' 
-    '   Blank Lines: 124 (15.76%)
-    '     File Size: 31.03 KB
+' Summaries:
 
 
-    '     Class BnStructureLearner
-    ' 
-    '         Function: BetaCF, BuildDesignMatrix, ComputeNetworkBIC, ComputeNodeBIC, GammaLn
-    '                   IncompleteBeta, Learn, LinearRegression, MatrixInverse, MMPCPhase
-    '                   NormalCDF, PartialCorrelation, TDistPValue
-    ' 
-    '         Sub: HillClimbingSearch, PrecomputeStatistics, TabuSearch
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 787
+'    Code Lines: 538 (68.36%)
+' Comment Lines: 125 (15.88%)
+'    - Xml Docs: 31.20%
+' 
+'   Blank Lines: 124 (15.76%)
+'     File Size: 31.03 KB
+
+
+'     Class BnStructureLearner
+' 
+'         Function: BetaCF, BuildDesignMatrix, ComputeNetworkBIC, ComputeNodeBIC, GammaLn
+'                   IncompleteBeta, Learn, LinearRegression, MatrixInverse, MMPCPhase
+'                   NormalCDF, PartialCorrelation, TDistPValue
+' 
+'         Sub: HillClimbingSearch, PrecomputeStatistics, TabuSearch
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -112,7 +112,7 @@ Namespace StructureLearning
             If prior IsNot Nothing Then
                 Dim wl = prior.ToWhitelist(data.GeneNames)
                 For Each edge In wl
-                    net.AddWhitelistEdge(edge.FromIdx, edge.ToIdx)
+                    net.AddWhitelistEdge(edge.fromIdx, edge.toIdx)
                 Next
             End If
 
@@ -571,7 +571,7 @@ Namespace StructureLearning
                     rss += (y(j) - mean) ^ 2
                 Next
                 Dim sigma2 As Double = rss / nS
-                If sigma2 < 1e-15 Then sigma2 = 1e-15
+                If sigma2 < 0.000000000000001 Then sigma2 = 0.000000000000001
 
                 Dim ll As Double = -nS / 2.0 * Math.Log(2 * Math.PI * sigma2) - rss / (2 * sigma2)
                 Dim k As Integer = 2  ' μ, σ²
@@ -592,7 +592,7 @@ Namespace StructureLearning
                 Next
 
                 Dim sigma2 As Double = rss / nS
-                If sigma2 < 1e-15 Then sigma2 = 1e-15
+                If sigma2 < 0.000000000000001 Then sigma2 = 0.000000000000001
 
                 Dim ll As Double = -nS / 2.0 * Math.Log(2 * Math.PI * sigma2) - rss / (2 * sigma2)
                 Dim k As Integer = parents.Count + 2  ' β0, β1...βp, σ²
@@ -788,14 +788,14 @@ Namespace StructureLearning
         ''' <summary>Beta 连分数展开</summary>
         Private Function BetaCF(a As Double, b As Double, x As Double) As Double
             Dim maxIter As Integer = 200
-            Dim eps As Double = 1e-10
+            Dim eps As Double = 0.0000000001
 
             Dim qab As Double = a + b
             Dim qap As Double = a + 1
             Dim qam As Double = a - 1
             Dim c As Double = 1
             Dim d As Double = 1 - qab * x / qap
-            If Math.Abs(d) < 1e-30 Then d = 1e-30
+            If Math.Abs(d) < 1.0E-30 Then d = 1.0E-30
             d = 1.0 / d
             Dim h As Double = d
 
@@ -803,17 +803,17 @@ Namespace StructureLearning
                 Dim m2 As Integer = 2 * m
                 Dim aa As Double = m * (b - m) * x / ((qam + m2) * (a + m2))
                 d = 1 + aa * d
-                If Math.Abs(d) < 1e-30 Then d = 1e-30
+                If Math.Abs(d) < 1.0E-30 Then d = 1.0E-30
                 c = 1 + aa / c
-                If Math.Abs(c) < 1e-30 Then c = 1e-30
+                If Math.Abs(c) < 1.0E-30 Then c = 1.0E-30
                 d = 1.0 / d
                 h *= d * c
 
                 aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2))
                 d = 1 + aa * d
-                If Math.Abs(d) < 1e-30 Then d = 1e-30
+                If Math.Abs(d) < 1.0E-30 Then d = 1.0E-30
                 c = 1 + aa / c
-                If Math.Abs(c) < 1e-30 Then c = 1e-30
+                If Math.Abs(c) < 1.0E-30 Then c = 1.0E-30
                 d = 1.0 / d
                 Dim del As Double = d * c
                 h *= del
@@ -826,18 +826,18 @@ Namespace StructureLearning
 
         ''' <summary>Gamma 函数对数（Stirling 近似）</summary>
         Private Function GammaLn(x As Double) As Double
-            Dim cof As Double() = {76.18009172947146, -86.50532032941677,
-                                    24.01409824083091, -1.231739572450155,
-                                    0.1208650973866179E-2, -0.5395239384953E-5}
+            Dim cof As Double() = {76.180091729471457, -86.505320329416776,
+                                    24.014098240830911, -1.231739572450155,
+                                    0.001208650973866179, -0.000005395239384953}
             Dim y As Double = x
             Dim tmp As Double = x + 5.5
             tmp -= (x + 0.5) * Math.Log(tmp)
-            Dim ser As Double = 1.000000000190015
+            Dim ser As Double = 1.0000000001900149
             For j = 0 To 5
                 y += 1
                 ser += cof(j) / y
             Next
-            Return -tmp + Math.Log(2.5066282746310005 * ser / x)
+            Return -tmp + Math.Log(2.5066282746310007 * ser / x)
         End Function
 
     End Class
