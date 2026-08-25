@@ -125,10 +125,11 @@ Public Module GeneRegulatoryNetwork
 
         If wgcna Is Nothing Then
             Throw New ArgumentNullException(NameOf(wgcna), "WGCNA 共表达网络不能为空")
-        End If
-        If TF Is Nothing OrElse TF.Count = 0 Then
+        ElseIf TF Is Nothing OrElse TF.Count = 0 Then
             Throw New ArgumentException("TF 注释列表不能为空，否则无法构建调控方向", NameOf(TF))
         End If
+
+        Call $"build bnlearn prior network based on WGCNA co-expression network and {TF.Count} TF information.".info
 
         For Each e As IE In wgcna
             Dim a As String = e.source
@@ -146,7 +147,7 @@ Public Module GeneRegulatoryNetwork
             End If
         Next
 
-        Call VBDebugger.WriteLine($"WGCNAGRN.BuildPriorNetwork: 共 {directed + skipped} 条边，定向 {directed} 条，跳过 {skipped} 条（无法由 TF 注释确定方向）")
+        Call $"WGCNAGRN.BuildPriorNetwork: 共 {directed + skipped} 条边，定向 {directed} 条，跳过 {skipped} 条（无法由 TF 注释确定方向）".debug
 
         Return prior
     End Function
