@@ -75,6 +75,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
@@ -693,7 +694,8 @@ Module geneExpression
 
         If TypeOf file Is String Then
             Dim filepath As String = DirectCast(file, String)
-            Dim mat As Matrix = Matrix.LoadData(filepath, ignores, rm_ZERO)
+            Dim checkTqdm As Boolean = filepath.FileLength > 100 * ByteSize.MB
+            Dim mat As Matrix = Matrix.LoadData(filepath, ignores, rm_ZERO, tqdm_wrap:=checkTqdm)
 
             x = mat
         ElseIf TypeOf file Is Rdataframe Then
