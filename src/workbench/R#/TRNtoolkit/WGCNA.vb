@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::b4fd248f4074842a588493329c7408a8, R#\TRNtoolkit\WGCNA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 139
-    '    Code Lines: 103 (74.10%)
-    ' Comment Lines: 15 (10.79%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 21 (15.11%)
-    '     File Size: 5.71 KB
+' Summaries:
 
 
-    ' Module WGCNA
-    ' 
-    '     Function: CorrelationNetwork, (+2 Overloads) expr_cor, FilterRegulation
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 139
+'    Code Lines: 103 (74.10%)
+' Comment Lines: 15 (10.79%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 21 (15.11%)
+'     File Size: 5.71 KB
+
+
+' Module WGCNA
+' 
+'     Function: CorrelationNetwork, (+2 Overloads) expr_cor, FilterRegulation
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,8 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.Analysis.CellPhenotype
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.genomics.InteractionModel
 Imports SMRUCC.genomics.Model.Network.Regulons
@@ -200,10 +202,29 @@ Module WGCNA
     ''' <param name="cor_thres"></param>
     ''' <returns></returns>
     <ExportAPI("read_wgcna_edges")>
+    <RApiReturn(GetType(RelationshipScore))>
     Public Function readWGCNAInteractions(file As String, Optional cor_thres As Double = 0.65, Optional env As Environment = Nothing) As Object
-        Return pipeline.Stream(Of RelationshipScore)(
+        Return pipeline.CreateFromPopulator(
             From ie As RelationshipScore
             In NetworkFileIO.ReadEdges(Of RelationshipScore)(file)
-            Where std.Abs(ie.Score) > cor_thres, env)
+            Where std.Abs(ie.Score) > cor_thres)
+    End Function
+
+    <ExportAPI("bnnet")>
+    <RApiReturn(GetType(PriorNetwork))>
+    Public Function bnnet(<RRawVectorArgument(GetType(RelationshipScore))> edges As Object,
+                          <RRawVectorArgument(TypeCodes.string)> TF As Object,
+                          Optional env As Environment = Nothing) As Object
+
+        Dim cor = pipeline.Stream(Of RelationshipScore)(edges, env)
+        Dim tfids As String() = CLRVector.asCharacter(TF)
+
+        If cor.isError Then
+            Return cor.getError
+        ElseIf tfids.IsNullOrEmpty Then
+            Return RInternal.debug.stop("the required TF id list should not be empty!", env)
+        End If
+
+        Return cor.BuildPriorNetwork(New HashSet(Of String)(tfids))
     End Function
 End Module
