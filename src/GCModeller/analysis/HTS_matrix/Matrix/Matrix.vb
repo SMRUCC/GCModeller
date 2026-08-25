@@ -1,64 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::ccef491d46022f137d43be44f3c63680, analysis\HTS_matrix\Matrix\Matrix.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 533
-    '    Code Lines: 350 (65.67%)
-    ' Comment Lines: 117 (21.95%)
-    '    - Xml Docs: 97.44%
-    ' 
-    '   Blank Lines: 66 (12.38%)
-    '     File Size: 18.83 KB
+' Summaries:
 
 
-    ' Class Matrix
-    ' 
-    '     Properties: expression, rownames, (+2 Overloads) sample, sample_count, sampleID
-    '                 size, tag
-    ' 
-    '     Function: Add, AggregateAverage, AggregateSum, ArrayPack, CreateGeneDataSet
-    '               Exp, GenericEnumerator, GetIndex, GetLabels, GetSampleArray
-    '               (+3 Overloads) IndexOf, LoadData, MatrixAggregate, MatrixAverage, MatrixSum
-    '               Project, T, TakeSamples, ToString, TrimZeros
-    ' 
-    '     Sub: checkMatrix, eachGene, EnsureGeneIndex, ResetIndex
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 533
+'    Code Lines: 350 (65.67%)
+' Comment Lines: 117 (21.95%)
+'    - Xml Docs: 97.44%
+' 
+'   Blank Lines: 66 (12.38%)
+'     File Size: 18.83 KB
+
+
+' Class Matrix
+' 
+'     Properties: expression, rownames, (+2 Overloads) sample, sample_count, sampleID
+'                 size, tag
+' 
+'     Function: Add, AggregateAverage, AggregateSum, ArrayPack, CreateGeneDataSet
+'               Exp, GenericEnumerator, GetIndex, GetLabels, GetSampleArray
+'               (+3 Overloads) IndexOf, LoadData, MatrixAggregate, MatrixAverage, MatrixSum
+'               Project, T, TakeSamples, ToString, TrimZeros
+' 
+'     Sub: checkMatrix, eachGene, EnsureGeneIndex, ResetIndex
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -455,6 +456,14 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
         End If
     End Sub
 
+    ''' <summary>
+    ''' load expression matrix in csv tabular text file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="excludes"></param>
+    ''' <param name="trimZeros"></param>
+    ''' <param name="tqdm_wrap"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function LoadData(file As String,
                                     Optional excludes As Index(Of String) = Nothing,
@@ -470,6 +479,17 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
         Else
             Return matrix
         End If
+    End Function
+
+    ''' <summary>
+    ''' load expression matrix in binary data file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    Public Shared Function LoadStreamData(file As String) As Matrix
+        Using s As Stream = file.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+            Return BinaryMatrix.LoadStream(s)
+        End Using
     End Function
 
     ''' <summary>
