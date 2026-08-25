@@ -53,11 +53,13 @@
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
+Imports SMRUCC.genomics.InteractionModel
 Imports SMRUCC.genomics.Model.Network.Regulons
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -67,6 +69,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
 Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
+Imports std = System.Math
 
 <Package("WGCNA")>
 Module WGCNA
@@ -188,5 +191,19 @@ Module WGCNA
         Call eval.add("pval", pvalvec)
 
         Return eval
+    End Function
+
+    ''' <summary>
+    ''' read network edges table which is save via igraph package
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="cor_thres"></param>
+    ''' <returns></returns>
+    <ExportAPI("read_wgcna_edges")>
+    Public Function readWGCNAInteractions(file As String, Optional cor_thres As Double = 0.65, Optional env As Environment = Nothing) As Object
+        Return pipeline.Stream(Of RelationshipScore)(
+            From ie As RelationshipScore
+            In NetworkFileIO.ReadEdges(Of RelationshipScore)(file)
+            Where std.Abs(ie.Score) > cor_thres, env)
     End Function
 End Module
