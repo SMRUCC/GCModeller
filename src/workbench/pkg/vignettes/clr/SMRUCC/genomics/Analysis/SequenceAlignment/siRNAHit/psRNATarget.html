@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.psRNATarget</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>psRNATarget {SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>psRNATarget</h2>
+
+        <h3>Description</h3>
+
+        <p>psRNATarget 小RNA靶标预测算法实现。
+
+<p>采用反向互补比对：miRNA 经 RNA 反向互补后作为正向 query 与 mRNA 做 Smith-Waterman 局部比对，再依据位置加权罚分体系计算期望值（Expectation）。 期望值越低代表互补质量越好。 支持 V1（2011）/ V2（2017，默认）两套 Schema。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit
+export class psRNATarget {
+   # 靶标可及性评估器（UPE），默认关闭。
+   Accessibility: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/IAccessibilityEvaluator.html">IAccessibilityEvaluator</a>;
+   MaxExpectation: double;
+   MinHitLength: integer;
+   Version: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/Schema.html">Schema</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Accessibility</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/IAccessibilityEvaluator.html">IAccessibilityEvaluator</a></li>
+<li>use by <i>property</i> member <code>Version</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/Schema.html">Schema</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

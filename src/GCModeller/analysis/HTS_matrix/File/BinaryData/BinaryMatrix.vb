@@ -70,8 +70,10 @@ Public Module BinaryMatrix
     Friend ReadOnly magic As Byte()
     ReadOnly bin As New NetworkByteOrderBuffer
 
+    Public Const MagicHeader As String = "GCModeller/HTS_matrix"
+
     Sub New()
-        magic = Encoding.ASCII.GetBytes("GCModeller/HTS_matrix")
+        magic = Encoding.ASCII.GetBytes(MagicHeader)
     End Sub
 
     Public Function LoadStream(file As Stream) As Matrix

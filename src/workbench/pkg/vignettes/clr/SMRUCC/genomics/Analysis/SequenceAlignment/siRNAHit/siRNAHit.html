@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>siRNAHit {SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>siRNAHit</h2>
+
+        <h3>Description</h3>
+
+        <p>小RNA（miRNA/siRNA）与靶标 mRNA 的互补匹配命中结果模型。 两个算法（psRNATarget / TargetFinder）共用此结构，便于后续求交集。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit
+export class siRNAHit {
+   # 比对可视化字符串：miRNA 行 / mRNA 行
+   Alignment: string;
+   # mRNA 靶位点终点（1-based，对应 HSP.toB）
+   EndSite: integer;
+   # 量化互补质量的分数： psRNATarget 为位置加权期望值（越低越好）， TargetFinder 为加权罚分总和（越低越好）。
+   Expectation: double;
+   # 缺口（单侧凸起）数
+   GapCount: integer;
+   # 靶位点长度（nt）
+   Length: integer;
+   # 小RNA 序列唯一标识（FastaSeq.Title 或 locus_tag）
+   miRNA: string;
+   # 严格错配数（不含 G:U 与 gap）
+   MismatchCount: integer;
+   # 产生该命中的算法来源（"psRNATarget" / "TargetFinder"）
+   Source: string;
+   # mRNA 靶位点起点（1-based，对应 HSP.fromB）
+   StartSite: integer;
+   # 靶标 mRNA 序列唯一标识
+   Target: string;
+   # 是否翻译抑制候选：互补区中心（约 miRNA 第 10–11 位切割位点）存在错配时为真。
+   TranslationInhibition: boolean;
+   # G:U wobble 配对数
+   WobbleCount: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
