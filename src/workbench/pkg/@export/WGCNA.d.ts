@@ -67,6 +67,10 @@ declare namespace WGCNA {
    */
    function applyModuleColors(g: object, modules: object): any;
    /**
+     * @param env default value Is ``null``.
+   */
+   function bnnet(edges: any, TF: any, env?: object): object;
+   /**
     * export a dataframe of the node information with connectivity value
     * 
     * 
@@ -174,6 +178,18 @@ declare namespace WGCNA {
      * @param prefix default value Is ``null``.
    */
    function read_clusters(file: string, prefix?: string): object;
+   /**
+    * read network edges table which is save via igraph package
+    * 
+    * 
+     * @param file -
+     * @param cor_thres -
+     * 
+     * + default value Is ``0.65``.
+     * @param env 
+     * + default value Is ``null``.
+   */
+   function read_wgcna_edges(file: string, cor_thres?: number, env?: object): object;
    /**
     * filter regulation network by WGCNA result weights
     * 
