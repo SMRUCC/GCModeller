@@ -1,58 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::c4b5e78654800cd954c4169d4f7e993d, sub-system\CellPhenotype\GeneRegulatoryNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 424
-    '    Code Lines: 232 (54.72%)
-    ' Comment Lines: 130 (30.66%)
-    '    - Xml Docs: 81.54%
-    ' 
-    '   Blank Lines: 62 (14.62%)
-    '     File Size: 22.44 KB
+' Summaries:
 
 
-    ' Module GeneRegulatoryNetwork
-    ' 
-    '     Function: BuildBNNetwork, BuildDBN, BuildExpressionGRN, BuildPriorNetwork, BuildRegulatoryLinks
-    '               InferEffector, RunPipeline, StateToValue, ToRegulatoryLink, ToTimeSeries
-    '               TrainAndIntervene, VirtualKnockdown
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 424
+'    Code Lines: 232 (54.72%)
+' Comment Lines: 130 (30.66%)
+'    - Xml Docs: 81.54%
+' 
+'   Blank Lines: 62 (14.62%)
+'     File Size: 22.44 KB
+
+
+' Module GeneRegulatoryNetwork
+' 
+'     Function: BuildBNNetwork, BuildDBN, BuildExpressionGRN, BuildPriorNetwork, BuildRegulatoryLinks
+'               InferEffector, RunPipeline, StateToValue, ToRegulatoryLink, ToTimeSeries
+'               TrainAndIntervene, VirtualKnockdown
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.BNLearn
@@ -151,7 +153,7 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="wgcna">WGCNA 共表达网络。</param>
     ''' <param name="TF">转录因子基因名称注释集合。</param>
     ''' <returns>DBN 调控链路集合（TF → 非 TF 单向）。</returns>
-    Public Function BuildRegulatoryLinks(wgcna As NetworkGraph, TF As HashSet(Of String)) As IEnumerable(Of RegulatoryLink)
+    Public Function BuildRegulatoryLinks(Of IE As INetworkEdge)(wgcna As IEnumerable(Of IE), TF As HashSet(Of String)) As IEnumerable(Of RegulatoryLink)
         Dim links As New List(Of RegulatoryLink)
 
         If wgcna Is Nothing Then
@@ -161,14 +163,14 @@ Public Module GeneRegulatoryNetwork
             Throw New ArgumentException("TF 注释列表不能为空，否则无法构建调控方向", NameOf(TF))
         End If
 
-        For Each e As Edge In wgcna.graphEdges
-            Dim a As String = e.U.label
-            Dim b As String = e.V.label
+        For Each e As IE In wgcna
+            Dim a As String = e.source
+            Dim b As String = e.target
 
             If TF.Contains(a) AndAlso Not TF.Contains(b) Then
-                links.Add(ToRegulatoryLink(a, b, e.weight))
+                links.Add(ToRegulatoryLink(a, b, e.value))
             ElseIf TF.Contains(b) AndAlso Not TF.Contains(a) Then
-                links.Add(ToRegulatoryLink(b, a, e.weight))
+                links.Add(ToRegulatoryLink(b, a, e.value))
             End If
         Next
 
@@ -255,7 +257,21 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="expr">时间序列表达矩阵。</param>
     ''' <param name="TF">转录因子基因名称数组。</param>
     ''' <returns>已完成拓扑构建与参数学习的动态贝叶斯网络。</returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function BuildDBN(wgcna As NetworkGraph, expr As Core.GeneExpressionData, TF As String()) As DynamicBayesianNetwork
+        Return BuildDBN(wgcna.graphEdges, expr, TF)
+    End Function
+
+    ''' <summary>
+    ''' 构建并拟合参数的动态贝叶斯网络：将 WGCNA 共表达网络按 TF 注释定向为
+    ''' DBN 拓扑，并基于时间序列表达矩阵学习条件概率表（CPT）。
+    ''' </summary>
+    ''' <param name="wgcna">WGCNA 共表达网络。</param>
+    ''' <param name="expr">时间序列表达矩阵。</param>
+    ''' <param name="TF">转录因子基因名称数组。</param>
+    ''' <returns>已完成拓扑构建与参数学习的动态贝叶斯网络。</returns>
+    Public Function BuildDBN(Of IE As INetworkEdge)(wgcna As IEnumerable(Of IE), expr As Core.GeneExpressionData, TF As String()) As DynamicBayesianNetwork
         Dim tfSet As New HashSet(Of String)(TF, StringComparer.OrdinalIgnoreCase)
         Dim links As IEnumerable(Of RegulatoryLink) = BuildRegulatoryLinks(wgcna, tfSet)
 
