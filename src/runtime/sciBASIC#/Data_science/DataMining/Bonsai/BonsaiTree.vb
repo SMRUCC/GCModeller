@@ -107,16 +107,19 @@ Public Class BonsaiTree
         Loop
 
         tree.mergeZeroTimeChilds(verbose)
-        If verbose Then Console.WriteLine($"  [diag] leafs after mergeZeroTime = {tree.root.getLeafs().Count}")
+
+        If verbose Then
+            Console.WriteLine($"  after merge + multifurcation resolution: {tree.root.getLeafs().Count} leaves, logL = {tree.calcLogLComplete():G4}")
+        End If
 
         ' Local rearrangement to escape the greedy-merge local optimum (Bonsai paper: NNI then SPR).
         If enableLocalSearch Then
             tree.PerformNNI(randomPhase:=True, maxRounds:=3, verbose:=verbose)
-            If verbose Then Console.WriteLine($"  [diag] leafs after NNI-rand = {tree.root.getLeafs().Count}")
             tree.PerformSPR(maxRounds:=2, verbose:=verbose)
-            If verbose Then Console.WriteLine($"  [diag] leafs after SPR = {tree.root.getLeafs().Count}")
             tree.PerformNNI(randomPhase:=False, maxRounds:=5, verbose:=verbose)
-            If verbose Then Console.WriteLine($"  [diag] leafs after NNI-greedy = {tree.root.getLeafs().Count}")
+            If verbose Then
+                Console.WriteLine($"  after NNI + SPR local search: {tree.root.getLeafs().Count} leaves, logL = {tree.calcLogLComplete():G4}")
+            End If
         End If
 
         tree.optTimes(maxiter, verbose)
@@ -517,7 +520,6 @@ Public Class BonsaiTree
         If A.childs.Count < 1 Then Return False
 
         Dim baseLL = calcLogLComplete()
-        Dim baseLeafCount = root.getLeafs().Count
         Dim bestGain = 0.000001
         Dim bestC As BonsaiNode = Nothing
         Dim bestState As NNIState = Nothing
@@ -533,9 +535,6 @@ Public Class BonsaiTree
                 bestState = st
             End If
             RestoreNNI(st)
-            If verbose AndAlso root.getLeafs().Count <> baseLeafCount Then
-                Console.WriteLine($"    [diag] RESTORE FAILED on A{A.nodeInd}: leaves {root.getLeafs().Count} != base {baseLeafCount}")
-            End If
         Next
 
         If bestC Is Nothing Then Return False
@@ -576,12 +575,7 @@ Public Class BonsaiTree
 
             Dim improved = False
             For Each A In internals
-                If TryNNI(A, maxiter, verbose) Then
-                    improved = True
-                    If verbose Then
-                        Console.WriteLine($"    [diag] after NNI on A{A.nodeInd}: totalNodes={GetAllNodes().Count} leafs={root.getLeafs().Count}")
-                    End If
-                End If
+                If TryNNI(A, maxiter, verbose) Then improved = True
             Next
             If Not improved OrElse rounds >= maxRounds Then Exit Do
         Loop
@@ -592,74 +586,45 @@ Public Class BonsaiTree
     ' =================================================================================
 
     ''' <summary>
-    ''' Saved topology state for an SPR move (prune subtree X, regraft onto edge E).
+    ''' Saved topology state for an SPR move (prune subtree X, regraft it onto a new parent Epar).
     ''' </summary>
     Private Structure SPRState
-        Public X As BonsaiNode, Epar As BonsaiNode, Echild As BonsaiNode
-        Public tX As Double, tEchild As Double
-        Public EparChilds As System.Collections.Generic.List(Of BonsaiNode), EchildChilds As System.Collections.Generic.List(Of BonsaiNode)
-        Public Xpar As BonsaiNode, EchildPar As BonsaiNode
-        Public newMid As BonsaiNode
+        Public X As BonsaiNode, Epar As BonsaiNode
+        Public tX As Double
+        Public EparChilds As System.Collections.Generic.List(Of BonsaiNode)
+        Public Xpar As BonsaiNode
     End Structure
 
     ''' <summary>
-    ''' Prune the subtree rooted at X (X must not be the root) and regraft it onto the middle of the edge
-    ''' (Epar -> Echild), creating a new zero-time internal node. Returns the saved state for exact revert.
+    ''' Prune the subtree rooted at X (X must not be the root) and regraft it directly under a new parent
+    ''' Epar. No intermediate node is created, so the move is fully reversible and never orphans a node; the
+    ''' branch time is re-optimised afterwards by <see cref="optTimes"/>. Returns the saved state for revert.
     ''' </summary>
-    Private Function ApplySPR(X As BonsaiNode, Epar As BonsaiNode, Echild As BonsaiNode) As SPRState
+    Private Function ApplySPR(X As BonsaiNode, Epar As BonsaiNode) As SPRState
         Dim st As New SPRState With {
-            .X = X, .Epar = Epar, .Echild = Echild,
-            .tX = X.tParent, .tEchild = Echild.tParent,
+            .X = X, .Epar = Epar,
+            .tX = X.tParent,
             .EparChilds = New System.Collections.Generic.List(Of BonsaiNode)(Epar.childs),
-            .EchildChilds = New System.Collections.Generic.List(Of BonsaiNode)(Echild.childs),
-            .Xpar = X.par, .EchildPar = Echild.par
+            .Xpar = X.par
         }
 
-        ' Detach X from its parent.
+        ' Detach X from its current parent and attach it under the new parent Epar.
         X.par.childs.Remove(X)
-
-        ' Split the target edge Epar->Echild with a fresh internal node.
-        maxNodeInd += 1
-        Dim mid = New BonsaiNode With {
-            .nodeInd = maxNodeInd,
-            .nodeId = "N" & maxNodeInd,
-            .isLeaf = False,
-            .par = Epar,
-            .tParent = Echild.tParent,
-            .diffusionScale = Me.diffusionScale
-        }
-        Epar.childs.Remove(Echild)
-        Epar.childs.Add(mid)
-        Echild.par = mid
-        Echild.tParent = 0.0
-        mid.childs.Add(Echild)
-
-        ' Attach the pruned subtree X under the new internal node.
-        X.par = mid
-        X.tParent = 0.0
-        mid.childs.Add(X)
-
-        mid.getLtqsUponMerge()
-        st.newMid = mid
+        Epar.childs.Add(X)
+        X.par = Epar
+        X.tParent = 1.0
         Return st
     End Function
 
     Private Sub RestoreSPR(st As SPRState)
-        Dim mid = st.newMid
-        ' Remove mid: reattach Echild directly under Epar and X back to its original parent.
+        ' Detach X from Epar and put it back under its original parent.
         st.Epar.childs.Clear()
         st.Epar.childs.AddRange(st.EparChilds)
-        st.Echild.childs.Clear()
-        st.Echild.childs.AddRange(st.EchildChilds)
-        st.Echild.par = st.EchildPar
-        st.Echild.tParent = st.tEchild
         st.X.par = st.Xpar
         st.X.tParent = st.tX
-        ' Reattach X into its original parent's child list (it was removed by ApplySPR).
         If Not st.Xpar.childs.Contains(st.X) Then
             st.Xpar.childs.Add(st.X)
         End If
-        maxNodeInd -= 1
     End Sub
 
     ''' <summary>
@@ -678,46 +643,53 @@ Public Class BonsaiTree
 
             For Each X In Xcandidates
                 Dim subtree = X.getLeafs().Select(Function(l) l.nodeInd).ToHashSet()
-                ' Ancestors of X (so we never regraft onto an edge that lies on X's own root path, which would
-                ' sever X from the tree).
-                Dim ancestors = New System.Collections.Generic.HashSet(Of Integer)
+                ' Forbidden endpoints: X itself, X's ancestors (root path), and every node of X's entire
+                ' subtree (including internal descendants). A valid SPR regrafts X onto an edge that lies
+                ' entirely outside X's own subtree and root path; otherwise X would be detached or form a
+                ' cycle with the freshly created midpoint.
+                Dim forbidden = New System.Collections.Generic.HashSet(Of Integer)
+                forbidden.Add(X.nodeInd)
                 Dim anc = X.par
                 While anc IsNot Nothing
-                    ancestors.Add(anc.nodeInd)
+                    forbidden.Add(anc.nodeInd)
                     anc = anc.par
                 End While
-                Dim baseLeafCount = root.getLeafs().Count
+                ' Collect every node of X's entire subtree (leaves and internal descendants) so we never regraft
+                ' onto an edge that lies inside X's own subtree.
+                Dim collect As Func(Of BonsaiNode, System.Collections.Generic.List(Of BonsaiNode)) = Nothing
+                collect = Function(n As BonsaiNode)
+                             Dim lst = New System.Collections.Generic.List(Of BonsaiNode)
+                             lst.Add(n)
+                             For Each ch In n.childs
+                                 lst.AddRange(collect(ch))
+                             Next
+                             Return lst
+                         End Function
+                For Each nd In collect(X)
+                    forbidden.Add(nd.nodeInd)
+                Next
                 Dim baseLL = calcLogLComplete()
                 Dim bestGain = 0.000001
-                Dim bestEpar As BonsaiNode = Nothing, bestEchild As BonsaiNode = Nothing, bestSt As SPRState = Nothing
+                Dim bestEpar As BonsaiNode = Nothing, bestSt As SPRState = Nothing
 
                 For Each Epar In allNodes
                     If Epar.isLeafNode() Then Continue For
-                    ' Copy the child list: ApplySPR mutates Epar.childs, so we must not enumerate it directly.
-                    Dim echildren = New System.Collections.Generic.List(Of BonsaiNode)(Epar.childs)
-                    For Each Echild In echildren
-                        ' Cannot regraft into X's own subtree or onto X's root path (would detach X).
-                        If subtree.Contains(Echild.nodeInd) OrElse ancestors.Contains(Echild.nodeInd) Then Continue For
-                        Dim st = ApplySPR(X, Epar, Echild)
-                        Dim ll = calcLogLComplete()
-                        If ll - baseLL > bestGain Then
-                            bestGain = ll - baseLL
-                            bestEpar = Epar
-                            bestEchild = Echild
-                            bestSt = st
-                        End If
-                        RestoreSPR(st)
-                        If verbose AndAlso root.getLeafs().Count <> baseLeafCount Then
-                            Console.WriteLine($"    [diag] SPR RESTORE FAILED: leaves {root.getLeafs().Count} != base {baseLeafCount}")
-                        End If
-                    Next
+                    If forbidden.Contains(Epar.nodeInd) Then Continue For
+                    Dim st = ApplySPR(X, Epar)
+                    Dim ll = calcLogLComplete()
+                    If ll - baseLL > bestGain Then
+                        bestGain = ll - baseLL
+                        bestEpar = Epar
+                        bestSt = st
+                    End If
+                    RestoreSPR(st)
                 Next
 
                 If bestEpar IsNot Nothing Then
-                    ApplySPR(X, bestEpar, bestEchild)
+                    ApplySPR(X, bestEpar)
                     calcLogLComplete()
                     If verbose Then
-                        Console.WriteLine($"  SPR accepted: X{X.nodeInd} Epar{bestEpar.nodeInd} Echild{bestEchild.nodeInd} gain={bestGain:G4} leafs={root.getLeafs().Count} rootChilds={root.childs.Count}")
+                        Console.WriteLine($"  SPR accepted: X{X.nodeInd} -> new parent N{bestEpar.nodeInd}, gain = {bestGain:G4}, logL = {calcLogLComplete():G4}")
                     End If
                     optTimes(maxiter, verbose)
                     improved = True
