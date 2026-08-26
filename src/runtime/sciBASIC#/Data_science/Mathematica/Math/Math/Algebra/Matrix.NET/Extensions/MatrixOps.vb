@@ -153,6 +153,9 @@ Namespace LinearAlgebra.Matrix
         ''' <summary>
         ''' 矩阵求逆 - 使用 Gauss-Jordan 消元法带部分主元选取
         ''' </summary>
+        ''' <param name="throwSingularity">
+        ''' this function will returns nothing if this parameter value set to false
+        ''' </param>
         Public Function Inverse(a As Double(,), strict As Boolean, Optional throwSingularity As Boolean = True) As Double(,)
             Dim n = a.GetLength(0)
 

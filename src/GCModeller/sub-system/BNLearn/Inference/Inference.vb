@@ -1,59 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::943cea05c1ee6ded787d58dffa940b88, sub-system\BNLearn\Inference\Inference.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 343
-    '    Code Lines: 214 (62.39%)
-    ' Comment Lines: 68 (19.83%)
-    '    - Xml Docs: 48.53%
-    ' 
-    '   Blank Lines: 61 (17.78%)
-    '     File Size: 13.14 KB
+' Summaries:
 
 
-    '     Class BnInferenceEngine
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ComputeJointCovariance, ComputeJointMeans, ConditionalInference, Predict, Sample
-    '                   SampleAsGeneData
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 343
+'    Code Lines: 214 (62.39%)
+' Comment Lines: 68 (19.83%)
+'    - Xml Docs: 48.53%
+' 
+'   Blank Lines: 61 (17.78%)
+'     File Size: 13.14 KB
+
+
+'     Class BnInferenceEngine
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: ComputeJointCovariance, ComputeJointMeans, ConditionalInference, Predict, Sample
+'                   SampleAsGeneData
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports rng = Microsoft.VisualBasic.Math.RandomExtensions
 
 ' ============================================================
@@ -178,7 +179,7 @@ Namespace Inference
             Next
 
             ' 3. 计算条件分布
-            Dim invSigmaEE As Double(,) = StructureLearning.BnStructureLearner.MatrixInverse(sigmaEE, nE)
+            Dim invSigmaEE As Double(,) = MatrixOps.Inverse(sigmaEE, strict:=True, throwSingularity:=False)
             If invSigmaEE Is Nothing Then
                 ' 奇异矩阵，返回先验均值
                 Dim means As Double() = New Double(nQ - 1) {}
@@ -223,7 +224,7 @@ Namespace Inference
                         sum -= sigmaQE(i, k) * invSigmaEE(k, j) * sigmaQE(i, j)  ' 简化
                     Next
                 Next
-                condVars(i) = Math.Max(1e-10, sum)
+                condVars(i) = Math.Max(0.0000000001, sum)
             Next
 
             Return (condMeans, condVars)
@@ -262,7 +263,7 @@ Namespace Inference
                 ImB(i, i) += 1.0
             Next
 
-            Dim invImB As Double(,) = StructureLearning.BnStructureLearner.MatrixInverse(ImB, nG)
+            Dim invImB As Double(,) = MatrixOps.Inverse(ImB, strict:=True, throwSingularity:=False)
             If invImB Is Nothing Then Return beta0
 
             Dim mu As Double() = New Double(nG - 1) {}
@@ -308,7 +309,7 @@ Namespace Inference
                 ImB(i, i) += 1.0
             Next
 
-            Dim invImB As Double(,) = StructureLearning.BnStructureLearner.MatrixInverse(ImB, nG)
+            Dim invImB As Double(,) = MatrixOps.Inverse(ImB, strict:=True, throwSingularity:=False)
             If invImB Is Nothing Then Return D
 
             ' Σ = invImB · D · invImB'

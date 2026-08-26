@@ -72,6 +72,7 @@
 ' ============================================================
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports _rng = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace StructureLearning
@@ -320,7 +321,7 @@ Namespace StructureLearning
             Next
 
             ' 求逆矩阵
-            Dim invR As Double(,) = MatrixInverse(R, k)
+            Dim invR As Double(,) = MatrixOps.Inverse(R, strict:=True, throwSingularity:=False)
             If invR Is Nothing Then Return 0
 
             ' 偏相关 = -invR(0,1) / sqrt(invR(0,0) * invR(1,1))
@@ -331,9 +332,7 @@ Namespace StructureLearning
 
         ' ==================== Hill-Climbing 搜索 ====================
 
-        Private Sub HillClimbingSearch(net As Core.BayesianNetwork,
-                                       Optional candidateEdges As HashSet(Of (Integer, Integer)) = Nothing)
-
+        Private Sub HillClimbingSearch(net As Core.BayesianNetwork, Optional candidateEdges As HashSet(Of (Integer, Integer)) = Nothing)
             Dim currentBIC As Double = ComputeNetworkBIC(net)
             Dim bar As ProgressBar = Nothing
 
@@ -647,7 +646,7 @@ Namespace StructureLearning
             Next
 
             ' 求解 β = (X'X)^(-1) X'y
-            Dim invXtX As Double(,) = MatrixInverse(XtX, p1)
+            Dim invXtX As Double(,) = MatrixOps.Inverse(XtX, strict:=True, throwSingularity:=False)
             If invXtX Is Nothing Then
                 ' 奇异矩阵，返回零系数
                 Dim result As Double() = New Double(p1 - 1) {}
@@ -665,69 +664,6 @@ Namespace StructureLearning
             Next
 
             Return beta
-        End Function
-
-        ''' <summary>
-        ''' 矩阵求逆（高斯-约旦消元法）
-        ''' </summary>
-        Public Shared Function MatrixInverse(A As Double(,), n As Integer) As Double(,)
-            ' 增广矩阵 [A | I]
-            Dim aug As Double(,) = New Double(n - 1, 2 * n - 1) {}
-            For i = 0 To n - 1
-                For j = 0 To n - 1
-                    aug(i, j) = A(i, j)
-                Next
-                aug(i, n + i) = 1.0
-            Next
-
-            ' 前向消元
-            For col = 0 To n - 1
-                ' 部分主元选取
-                Dim maxRow As Integer = col
-                Dim maxVal As Double = Math.Abs(aug(col, col))
-                For row = col + 1 To n - 1
-                    If Math.Abs(aug(row, col)) > maxVal Then
-                        maxVal = Math.Abs(aug(row, col))
-                        maxRow = row
-                    End If
-                Next
-
-                If maxVal < 0.000000000000001 Then Return Nothing  ' 奇异矩阵
-
-                ' 交换行
-                If maxRow <> col Then
-                    For j = 0 To 2 * n - 1
-                        Dim tmp As Double = aug(col, j)
-                        aug(col, j) = aug(maxRow, j)
-                        aug(maxRow, j) = tmp
-                    Next
-                End If
-
-                ' 归一化主元行
-                Dim pivot As Double = aug(col, col)
-                For j = 0 To 2 * n - 1
-                    aug(col, j) /= pivot
-                Next
-
-                ' 消元
-                For row = 0 To n - 1
-                    If row = col Then Continue For
-                    Dim factor As Double = aug(row, col)
-                    For j = 0 To 2 * n - 1
-                        aug(row, j) -= factor * aug(col, j)
-                    Next
-                Next
-            Next
-
-            ' 提取逆矩阵
-            Dim inv As Double(,) = New Double(n - 1, n - 1) {}
-            For i = 0 To n - 1
-                For j = 0 To n - 1
-                    inv(i, j) = aug(i, n + j)
-                Next
-            Next
-
-            Return inv
         End Function
 
         ''' <summary>
