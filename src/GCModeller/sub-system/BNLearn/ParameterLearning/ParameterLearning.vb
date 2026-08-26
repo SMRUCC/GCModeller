@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::de81980cdb204d1fb7ebfcaba6b0cafb, sub-system\BNLearn\ParameterLearning\ParameterLearning.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 189
-    '    Code Lines: 125 (66.14%)
-    ' Comment Lines: 36 (19.05%)
-    '    - Xml Docs: 25.00%
-    ' 
-    '   Blank Lines: 28 (14.81%)
-    '     File Size: 7.11 KB
+' Summaries:
 
 
-    '     Module BnParameterLearner
-    ' 
-    '         Function: Learn, OLS
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 189
+'    Code Lines: 125 (66.14%)
+' Comment Lines: 36 (19.05%)
+'    - Xml Docs: 25.00%
+' 
+'   Blank Lines: 28 (14.81%)
+'     File Size: 7.11 KB
+
+
+'     Module BnParameterLearner
+' 
+'         Function: Learn, OLS
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -64,6 +64,8 @@
 '   β = (X'X)^(-1) X'y  （最小二乘法）
 '   σ² = RSS / n
 ' ============================================================
+
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Solvers
 
 Namespace ParameterLearning
 
@@ -85,7 +87,7 @@ Namespace ParameterLearning
             ' 按拓扑排序依次拟合每个节点
             Dim topoOrder As Integer() = network.TopologicalSort()
 
-            For Each nodeIdx In topoOrder
+            For Each nodeIdx As Integer In topoOrder
                 Dim node As Core.BnNode = network.Nodes(nodeIdx)
                 Dim cpd As New Core.BnCPD()
                 cpd.NodeIndex = nodeIdx
@@ -136,7 +138,7 @@ Namespace ParameterLearning
                     Next
 
                     ' 最小二乘法求解 β = (X'X)^(-1) X'y
-                    Dim beta As Double() = OLS(X, y, nS, nP + 1)
+                    Dim beta As Double() = OLS.Solve(X, y, nS, nP + 1)
 
                     ' 计算残差
                     Dim predicted As Double() = New Double(nS - 1) {}
@@ -190,54 +192,6 @@ Namespace ParameterLearning
                 .ElapsedMs = (Now - t0).TotalMilliseconds
             }
         End Function
-
-        ''' <summary>
-        ''' OLS 最小二乘法
-        ''' </summary>
-        Private Function OLS(X As Double(,), y As Double(), nS As Integer, nP As Integer) As Double()
-            ' X'X
-            Dim XtX As Double(,) = New Double(nP - 1, nP - 1) {}
-            For i = 0 To nP - 1
-                For j = 0 To nP - 1
-                    Dim sum As Double = 0
-                    For k = 0 To nS - 1
-                        sum += X(k, i) * X(k, j)
-                    Next
-                    XtX(i, j) = sum
-                Next
-            Next
-
-            ' X'y
-            Dim Xty As Double() = New Double(nP - 1) {}
-            For i = 0 To nP - 1
-                Dim sum As Double = 0
-                For k = 0 To nS - 1
-                    sum += X(k, i) * y(k)
-                Next
-                Xty(i) = sum
-            Next
-
-            ' 求逆
-            Dim invXtX As Double(,) = StructureLearning.BnStructureLearner.MatrixInverse(XtX, nP)
-            If invXtX Is Nothing Then
-                Dim result As Double() = New Double(nP - 1) {}
-                result(0) = y.Average()
-                Return result
-            End If
-
-            ' β = (X'X)^(-1) X'y
-            Dim beta As Double() = New Double(nP - 1) {}
-            For i = 0 To nP - 1
-                Dim sum As Double = 0
-                For j = 0 To nP - 1
-                    sum += invXtX(i, j) * Xty(j)
-                Next
-                beta(i) = sum
-            Next
-
-            Return beta
-        End Function
-
     End Module
 
 End Namespace
