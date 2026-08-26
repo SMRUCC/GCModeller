@@ -65,6 +65,7 @@
 '   σ² = RSS / n
 ' ============================================================
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Solvers
 
 Namespace ParameterLearning
@@ -84,10 +85,14 @@ Namespace ParameterLearning
             Dim totalBIC As Double = 0
             Dim sumR2 As Double = 0
 
+            Call "make network topological sort!".debug
+
             ' 按拓扑排序依次拟合每个节点
             Dim topoOrder As Integer() = network.TopologicalSort()
 
-            For Each nodeIdx As Integer In topoOrder
+            Call "run bnlearn network parameter learning...".debug
+
+            For Each nodeIdx As Integer In TqdmWrapper.Wrap(topoOrder)
                 Dim node As Core.BnNode = network.Nodes(nodeIdx)
                 Dim cpd As New Core.BnCPD()
                 cpd.NodeIndex = nodeIdx
