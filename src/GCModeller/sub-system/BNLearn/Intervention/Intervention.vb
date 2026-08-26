@@ -353,20 +353,14 @@ Namespace Intervention
             ' 所有节点作为查询目标，在给定证据条件下推断其后验均值
             Dim queryIndices As Integer() = Enumerable.Range(0, nG).ToArray()
             Dim engine As New Inference.BnInferenceEngine(_network)
-            Dim posterior As Double(,) = engine.ConditionalInference(
+            Dim posterior = engine.ConditionalInference(
                 evidenceIndices.ToArray(),
                 evidenceValues.ToArray(),
                 queryIndices)
 
-            Dim means As Double() = New Double(nG - 1) {}
-            For i = 0 To nG - 1
-                Dim sum As Double = 0
-                For s = 0 To nSamples - 1
-                    sum += posterior(i, s)
-                Next
-                means(i) = sum / nSamples
-            Next
-            Return means
+            ' ConditionalInference 返回各查询节点的后验均值（与方差）元组，
+            ' Means(i) 即在给定证据条件下节点 i 的后验均值，直接作为基线
+            Return CType(posterior.Means.Clone(), Double())
         End Function
         Private Function CreateInterventionNetwork(spec As InterventionSpec, wildtypeMeans As Double()) As Core.BayesianNetwork
 
