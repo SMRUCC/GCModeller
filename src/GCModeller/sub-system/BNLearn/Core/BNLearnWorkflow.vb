@@ -283,6 +283,137 @@ Namespace Core
             Return analyzer.DynamicIntervention(spec, nTimeSteps, nSamples, RandomSeed)
         End Function
 
+        ' ==================== 外部转录组数据导入与上下文扰动 ====================
+
+        ''' <summary>
+        ''' 从外部转录组向量文件导入新的基因表达水平数据。
+        ''' 文件为两列（gene, expression）CSV/TSV，可由 <see cref="IO.BnIO.ReadExpressionVector"/> 解析。
+        ''' 导入后按基因名对齐，仅保留与训练网络重叠的基因，并自动派生观测证据与动态初始状态。
+        ''' </summary>
+        Public Sub ImportExternalExpression(path As String)
+            Dim vector As Dictionary(Of String, Double) = IO.BnIO.ReadExpressionVector(path)
+            SetExternalExpression(vector)
+        End Sub
+
+        ''' <summary>
+        ''' 核心导入接口：接收基因名 → 表达值的键值对字典（单样本向量 / 一组均值），
+        ''' 作为外部新检测到的转录组数据设置到训练好的网络中。
+        ''' 仅保留与训练网络重叠的基因（大小写不敏感），忽略未建模基因；
+        ''' 若没有任何重叠基因则抛出友好异常。派生内容写入
+        ''' <see cref="ExternalEvidence"/>（观测证据模式）与 <see cref="ExternalInitialState"/>（动态初始状态模式）。
+        ''' </summary>
+        ''' <param name="geneExpression">
+        ''' 外部转录组数据：基因名 → 表达值 的键值对字典。
+        ''' 例如 New Dictionary(Of String, Double) From {{"codY", 12.3}, {"comK", 4.5}}
+        ''' </param>
+        Public Sub SetExternalExpression(geneExpression As Dictionary(Of String, Double))
+            If FittedNetwork Is Nothing Then
+                Throw New Exception("请先执行结构学习和参数学习，再导入外部表达数据")
+            End If
+            If geneExpression Is Nothing OrElse geneExpression.Count = 0 Then
+                Throw New Exception("外部表达数据为空，无法导入")
+            End If
+
+            ExternalExpression = New Dictionary(Of String, Double)(geneExpression, StringComparer.OrdinalIgnoreCase)
+
+            Dim nG As Integer = FittedNetwork.Nodes.Count
+            Dim names As String() = FittedNetwork.Nodes.Select(Function(n) n.Name).ToArray()
+
+            ' 1) 观测证据：仅保留重叠基因
+            Dim evidence As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+            ' 2) 动态初始状态：按网络节点序，默认用训练数据均值
+            Dim initialState As Double() = New Double(nG - 1) {}
+            Dim workData As GeneExpressionData = ExpressionData
+            If NormalizeData Then workData = ExpressionData.Standardize
+            For i = 0 To nG - 1
+                Dim col As Integer = workData.Genes.IndexOf(names(i))
+                initialState(i) = If(col >= 0, workData.Matrix(col).Average(), 0)
+            Next
+
+            Dim overlap As Integer = 0
+            For Each kv In geneExpression
+                Dim idx As Integer = Array.FindIndex(names, Function(n) String.Equals(n, kv.Key, StringComparison.OrdinalIgnoreCase))
+                If idx >= 0 Then
+                    evidence(names(idx)) = kv.Value
+                    initialState(idx) = kv.Value
+                    overlap += 1
+                End If
+            Next
+
+            If overlap = 0 Then
+                Throw New Exception("外部表达数据未包含任何与训练网络重叠的基因，无法导入（请检查基因名是否一致）")
+            End If
+
+            ExternalEvidence = evidence
+            ExternalInitialState = initialState
+        End Sub
+
+        ''' <summary>
+        ''' 观测证据模式：基于已导入的外部转录组数据（<see cref="ExternalEvidence"/>），
+        ''' 在"给定该表达水平条件"下执行敲除虚拟扰动（do-演算 + 条件推断）。
+        ''' 结果反映用户真实样本背景下的因果效应。
+        ''' 必须先调用 <see cref="SetExternalExpression"/> / <see cref="ImportExternalExpression"/>。
+        ''' </summary>
+        Public Function KnockoutGeneWithEvidence(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult
+            Return RunInterventionWithEvidence(geneName, Intervention.InterventionMode.Knockout, nSamples)
+        End Function
+
+        ''' <summary>
+        ''' 观测证据模式：基于已导入的外部转录组数据，在给定表达水平条件下执行过表达虚拟扰动。
+        ''' </summary>
+        Public Function OverexpressGeneWithEvidence(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult
+            Return RunInterventionWithEvidence(geneName, Intervention.InterventionMode.Overexpression, nSamples)
+        End Function
+
+        Private Function RunInterventionWithEvidence(geneName As String,
+                                                     mode As Intervention.InterventionMode,
+                                                     nSamples As Integer) As Intervention.InterventionResult
+            If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
+                Throw New Exception("请先执行结构学习和参数学习")
+            End If
+            If ExternalEvidence Is Nothing OrElse ExternalEvidence.Count = 0 Then
+                Throw New Exception("请先调用 SetExternalExpression / ImportExternalExpression 导入外部表达数据")
+            End If
+            If nSamples <= 0 Then nSamples = Me.NSamples
+
+            Dim workData As GeneExpressionData = ExpressionData
+            If NormalizeData Then workData = ExpressionData.Standardize
+
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim spec As New Intervention.InterventionSpec() With {
+                .GeneName = geneName,
+                .Mode = mode
+            }
+
+            Return analyzer.AnalyzeIntervention(spec, nSamples, RandomSeed, ExternalEvidence)
+        End Function
+
+        ''' <summary>
+        ''' 动态初始状态模式：基于已导入的外部转录组数据（<see cref="ExternalInitialState"/>），
+        ''' 以其作为级联模拟起点执行动态敲除虚拟扰动，模拟在用户样本背景下的级联传播。
+        ''' 必须先调用 <see cref="SetExternalExpression"/> / <see cref="ImportExternalExpression"/>。
+        ''' </summary>
+        Public Function DynamicKnockoutWithState(geneName As String, nTimeSteps As Integer, Optional nSamples As Integer = 0) As Intervention.InterventionResult
+            If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
+                Throw New Exception("请先执行结构学习和参数学习")
+            End If
+            If ExternalInitialState Is Nothing Then
+                Throw New Exception("请先调用 SetExternalExpression / ImportExternalExpression 导入外部表达数据")
+            End If
+            If nSamples <= 0 Then nSamples = Me.NSamples
+
+            Dim workData As GeneExpressionData = ExpressionData
+            If NormalizeData Then workData = ExpressionData.Standardize
+
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim spec As New Intervention.InterventionSpec() With {
+                .GeneName = geneName,
+                .Mode = Intervention.InterventionMode.Knockout
+            }
+
+            Return analyzer.DynamicIntervention(spec, nTimeSteps, nSamples, RandomSeed, ExternalInitialState)
+        End Function
+
         ''' <summary>
         ''' 批量敲除所有基因
         ''' </summary>
