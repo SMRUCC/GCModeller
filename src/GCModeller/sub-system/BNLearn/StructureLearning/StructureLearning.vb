@@ -72,6 +72,7 @@
 ' ============================================================
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.Data.Bootstrapping.Multivariate
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports _rng = Microsoft.VisualBasic.Math.RandomExtensions
 
@@ -578,7 +579,16 @@ Namespace StructureLearning
             Else
                 ' 有父节点：回归模型 Xi = β0 + Σβj·Paj + ε
                 Dim x As Double(,) = BuildDesignMatrix(parents, nS)
-                Dim coeffs As Double() = LinearRegression(x, y, nS, parents.Count)
+                Dim nP As Integer = parents.Count
+                Dim coeffs As Double() = NormalEquation.LinearRegression(x, y, nS, nP)
+
+                If coeffs Is Nothing Then
+                    Dim p1 As Integer = nP + 1  ' 含截距
+                    ' 奇异矩阵，返回零系数
+                    Dim result As Double() = New Double(p1 - 1) {}
+                    result(0) = _means(Array.IndexOf(_means, y.Average()))
+                    coeffs = result
+                End If
 
                 ' 计算残差
                 Dim rss As Double = 0
@@ -614,56 +624,6 @@ Namespace StructureLearning
             Next
 
             Return X
-        End Function
-
-        ''' <summary>
-        ''' 多元线性回归（最小二乘法）
-        ''' β = (X'X)^(-1) X'y
-        ''' </summary>
-        Private Function LinearRegression(X As Double(,), y As Double(), nS As Integer, nP As Integer) As Double()
-            Dim p1 As Integer = nP + 1  ' 含截距
-
-            ' X'X
-            Dim XtX As Double(,) = New Double(p1 - 1, p1 - 1) {}
-            For i = 0 To p1 - 1
-                For j = 0 To p1 - 1
-                    Dim sum As Double = 0
-                    For k = 0 To nS - 1
-                        sum += X(k, i) * X(k, j)
-                    Next
-                    XtX(i, j) = sum
-                Next
-            Next
-
-            ' X'y
-            Dim Xty As Double() = New Double(p1 - 1) {}
-            For i = 0 To p1 - 1
-                Dim sum As Double = 0
-                For k = 0 To nS - 1
-                    sum += X(k, i) * y(k)
-                Next
-                Xty(i) = sum
-            Next
-
-            ' 求解 β = (X'X)^(-1) X'y
-            Dim invXtX As Double(,) = MatrixOps.Inverse(XtX, strict:=True, throwSingularity:=False)
-            If invXtX Is Nothing Then
-                ' 奇异矩阵，返回零系数
-                Dim result As Double() = New Double(p1 - 1) {}
-                result(0) = _means(Array.IndexOf(_means, y.Average()))
-                Return result
-            End If
-
-            Dim beta As Double() = New Double(p1 - 1) {}
-            For i = 0 To p1 - 1
-                Dim sum As Double = 0
-                For j = 0 To p1 - 1
-                    sum += invXtX(i, j) * Xty(j)
-                Next
-                beta(i) = sum
-            Next
-
-            Return beta
         End Function
 
         ''' <summary>
