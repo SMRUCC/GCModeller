@@ -95,7 +95,7 @@ Namespace Core
         ' ==================== 学习参数 ====================
 
         ''' <summary>结构学习参数</summary>
-        Public Property StructureParams As New StructureLearning.StructureLearningParams()
+        Public Property StructureParams As New StructureLearning.StructureLearningParams
 
         ''' <summary>是否对表达数据做标准化</summary>
         Public Property NormalizeData As Boolean = True
