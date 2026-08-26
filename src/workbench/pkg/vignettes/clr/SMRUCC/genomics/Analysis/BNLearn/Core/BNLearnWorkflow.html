@@ -32,6 +32,12 @@
 export class BNLearnWorkflow {
    # 基因表达矩阵
    ExpressionData: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/GeneExpressionData.html">GeneExpressionData</a>;
+   # 观测证据：按基因名对齐后仅保留与训练网络重叠的（基因名 → 表达值）。 供"观测证据模式"虚拟扰动使用（在给定表达水平条件下做 do-演算）。
+   ExternalEvidence: list;
+   # 外部导入的新基因表达水平（单样本向量，基因名 → 表达值）。 通过 @<code>M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.SetExternalExpression(System.Collections.Generic.Dictionary{System.String,System.Double})</code> 设置，通常来自用户新检测的转录组。 设置时仅保留与训练网络重叠的基因，并自动派生观测证据与动态初始状态。
+   ExternalExpression: list;
+   # 动态初始状态：按训练网络节点序排列的外部表达向量。 供"动态初始状态模式"虚拟扰动使用（作为级联模拟起点）。 仅重叠基因位置被外部值覆盖，未覆盖位置保持训练数据均值。
+   ExternalInitialState: double;
    # 学习到的贝叶斯网络
    FittedNetwork: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BayesianNetwork.html">BayesianNetwork</a>;
    # 是否对表达数据做标准化
@@ -56,6 +62,8 @@ export class BNLearnWorkflow {
 
         <ol>
 <li>use by <i>property</i> member <code>ExpressionData</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/GeneExpressionData.html">GeneExpressionData</a></li>
+<li>use by <i>property</i> member <code>ExternalEvidence</code>: list</li>
+<li>use by <i>property</i> member <code>ExternalExpression</code>: list</li>
 <li>use by <i>property</i> member <code>FittedNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BayesianNetwork.html">BayesianNetwork</a></li>
 <li>use by <i>property</i> member <code>ParameterResult</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ParameterLearning/ParameterLearningResult.html">ParameterLearningResult</a></li>
 <li>use by <i>property</i> member <code>PriorNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a></li>
