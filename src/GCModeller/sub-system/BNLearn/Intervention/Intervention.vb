@@ -324,10 +324,50 @@ Namespace Intervention
         End Function
 
         ''' <summary>
-        ''' 创建干预网络（do-演算核心操作）
-        ''' 1. 删除被干预基因的所有入边
-        ''' 2. 将 CPD 替换为常数分布
+        ''' 在给定外部观测证据（基因名 → 表达值）条件下计算野生型基线表达值。
+        ''' 仅采用与训练网络重叠的基因作为证据；键大小写不敏感。
+        ''' 用于在"用户真实样本表达水平"条件下求参考分布（观测证据模式）。
         ''' </summary>
+        Private Function ComputeConditionalWildtypeMeans(evidence As Dictionary(Of String, Double),
+                                                        nSamples As Integer,
+                                                        seed As Integer) As Double()
+            Dim nG As Integer = _network.Nodes.Count
+            Dim names As String() = _network.Nodes.Select(Function(n) n.Name).ToArray()
+
+            ' 按基因名对齐证据（仅保留与网络重叠的基因，大小写不敏感）
+            Dim evidenceIndices As New List(Of Integer)
+            Dim evidenceValues As New List(Of Double)
+            For Each kv In evidence
+                Dim idx As Integer = Array.FindIndex(names, Function(n) String.Equals(n, kv.Key, StringComparison.OrdinalIgnoreCase))
+                If idx >= 0 Then
+                    evidenceIndices.Add(idx)
+                    evidenceValues.Add(kv.Value)
+                End If
+            Next
+
+            If evidenceIndices.Count = 0 Then
+                ' 没有任何重叠基因，退化为无条件基线
+                Return ComputeWildtypeMeans(nSamples, seed)
+            End If
+
+            ' 所有节点作为查询目标，在给定证据条件下推断其后验均值
+            Dim queryIndices As Integer() = Enumerable.Range(0, nG).ToArray()
+            Dim engine As New Inference.BnInferenceEngine(_network)
+            Dim posterior As Double(,) = engine.ConditionalInference(
+                evidenceIndices.ToArray(),
+                evidenceValues.ToArray(),
+                queryIndices)
+
+            Dim means As Double() = New Double(nG - 1) {}
+            For i = 0 To nG - 1
+                Dim sum As Double = 0
+                For s = 0 To nSamples - 1
+                    sum += posterior(i, s)
+                Next
+                means(i) = sum / nSamples
+            Next
+            Return means
+        End Function
         Private Function CreateInterventionNetwork(spec As InterventionSpec, wildtypeMeans As Double()) As Core.BayesianNetwork
 
             ' 深拷贝网络

@@ -110,6 +110,28 @@ Namespace Core
         ''' <summary>学习到的贝叶斯网络</summary>
         Public Property FittedNetwork As BayesianNetwork
 
+        ' ==================== 外部导入的转录组数据 ====================
+
+        ''' <summary>
+        ''' 外部导入的新基因表达水平（单样本向量，基因名 → 表达值）。
+        ''' 通过 <see cref="SetExternalExpression"/> 设置，通常来自用户新检测的转录组。
+        ''' 设置时仅保留与训练网络重叠的基因，并自动派生观测证据与动态初始状态。
+        ''' </summary>
+        Public Property ExternalExpression As Dictionary(Of String, Double)
+
+        ''' <summary>
+        ''' 观测证据：按基因名对齐后仅保留与训练网络重叠的（基因名 → 表达值）。
+        ''' 供"观测证据模式"虚拟扰动使用（在给定表达水平条件下做 do-演算）。
+        ''' </summary>
+        Public Property ExternalEvidence As Dictionary(Of String, Double)
+
+        ''' <summary>
+        ''' 动态初始状态：按训练网络节点序排列的外部表达向量。
+        ''' 供"动态初始状态模式"虚拟扰动使用（作为级联模拟起点）。
+        ''' 仅重叠基因位置被外部值覆盖，未覆盖位置保持训练数据均值。
+        ''' </summary>
+        Public Property ExternalInitialState As Double()
+
         ''' <summary>结构学习结果</summary>
         Public Property StructureResult As StructureLearning.StructureLearningResult
 
