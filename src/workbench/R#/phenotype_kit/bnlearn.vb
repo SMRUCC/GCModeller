@@ -127,6 +127,8 @@ Module bnlearn
         Return priorNet
     End Function
 
+    ' permutation
+
     <ExportAPI("knockouts")>
     <RApiReturn(GetType(InterventionResult))>
     Public Function KnockoutGene(bnlearn As BNLearnWorkflow, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
@@ -164,7 +166,7 @@ Module bnlearn
     End Function
 
     <ExportAPI("make_exports")>
-    Public Function make_exports(<RRawVectorArgument> results As Object, dir As String,
+    Public Function make_exports(<RRawVectorArgument(GetType(InterventionResult))> results As Object, dir As String,
                                  <RRawVectorArgument>
                                  Optional pathway_info As list = Nothing,
                                  Optional top_n As Integer = 50,
