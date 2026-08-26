@@ -94,10 +94,7 @@ Namespace StructureLearning
         ''' <summary>
         ''' 从基因表达数据学习网络结构
         ''' </summary>
-        Public Function Learn(data As Core.GeneExpressionData,
-                              params As StructureLearningParams,
-                              Optional prior As Core.PriorNetwork = Nothing) As StructureLearningResult
-
+        Public Function Learn(data As Core.GeneExpressionData, params As StructureLearningParams, Optional prior As Core.PriorNetwork = Nothing) As StructureLearningResult
             Dim t0 As Date = Now
 
             _data = data
@@ -109,6 +106,8 @@ Namespace StructureLearning
 
             ' 创建初始空网络
             Dim net As New Core.BayesianNetwork(data.GeneNames)
+
+            Call "loading white list and black list from bayesian piror network".debug
 
             ' 注入先验知识（白名单/黑名单）
             If prior IsNot Nothing Then
@@ -142,6 +141,8 @@ Namespace StructureLearning
             ' 计算最终 BIC
             Dim finalBIC As Double = ComputeNetworkBIC(net)
 
+            Call $"final network BIC is {finalBIC}".debug
+
             Return New StructureLearningResult() With {
                 .Network = net,
                 .FinalBIC = finalBIC,
@@ -155,6 +156,9 @@ Namespace StructureLearning
         Private Sub PrecomputeStatistics()
             Dim nG As Integer = _data.NGene
             Dim nS As Integer = _data.NSample
+
+            Call "make pre-compute statistics...".debug
+            Call "  - means & sds".debug
 
             ' 均值和标准差
             _means = New Double(nG - 1) {}
@@ -173,6 +177,8 @@ Namespace StructureLearning
                 _sds(i) = Math.Sqrt(ss / (nS - 1))
                 If _sds(i) < 0.000000000000001 Then _sds(i) = 1.0
             Next
+
+            Call $" - correlation matrix".debug
 
             ' 相关系数矩阵
             _corrMatrix = New Double(nG - 1, nG - 1) {}
@@ -201,9 +207,10 @@ Namespace StructureLearning
         ''' 使用偏相关系数的条件独立性检验
         ''' </summary>
         Private Function MMPCPhase(net As Core.BayesianNetwork) As HashSet(Of (Integer, Integer))
-
             Dim nG As Integer = _data.NGene
             Dim candidates As New HashSet(Of (Integer, Integer))()
+
+            Call "do MMPC phase".debug
 
             ' 白名单边直接加入候选
             For Each wl In net.Whitelist
@@ -211,13 +218,15 @@ Namespace StructureLearning
             Next
 
             ' 对每个目标节点，寻找候选父节点
-            For target = 0 To nG - 1
+            For Each target As Integer In TqdmWrapper.Range(0, nG)
                 Dim CPC As New List(Of Integer)()  ' 候选父节点集
 
                 ' 前向阶段：逐步加入最相关的变量
                 Dim remaining As New List(Of Integer)()
                 For i = 0 To nG - 1
-                    If i <> target Then remaining.Add(i)
+                    If i <> target Then
+                        remaining.Add(i)
+                    End If
                 Next
 
                 While remaining.Count > 0
@@ -337,6 +346,8 @@ Namespace StructureLearning
             Dim currentBIC As Double = ComputeNetworkBIC(net)
             Dim bar As ProgressBar = Nothing
 
+            Call "do hill climbing search".info
+
             For Each iter As Integer In TqdmWrapper.Range(0, _params.MaxIterations, bar:=bar)
                 Dim bestOp As EdgeOp = EdgeOp.None
                 Dim bestDelta As Double = 0
@@ -448,10 +459,11 @@ Namespace StructureLearning
             Dim currentBIC As Double = ComputeNetworkBIC(net)
             Dim bestBIC As Double = currentBIC
             Dim bestNet As Core.BayesianNetwork = net.CloneStructure()
-
             Dim tabuList As New Queue(Of String)()
 
-            For iter = 0 To _params.MaxIterations - 1
+            Call "do tabu search...".debug
+
+            For Each iter As Integer In TqdmWrapper.Range(0, _params.MaxIterations)
                 Dim bestOp As EdgeOp = EdgeOp.None
                 Dim bestDelta As Double = Double.MaxValue
                 Dim bestFrom As Integer = -1
@@ -522,7 +534,9 @@ Namespace StructureLearning
                 ' 更新禁忌表
                 Dim key As String = String.Format("{0}_{1}_{2}", bestOp, bestFrom, bestTo)
                 tabuList.Enqueue(key)
-                If tabuList.Count > _params.TabuLength Then tabuList.Dequeue()
+                If tabuList.Count > _params.TabuLength Then
+                    tabuList.Dequeue()
+                End If
             Next
 
             ' 恢复最优网络
@@ -538,6 +552,9 @@ Namespace StructureLearning
         ''' BIC_node = -2·LL_node + k_node·log(n)
         ''' 对于高斯BN：LL_node = -n/2·log(2πσ²) - 1/(2σ²)·RSS
         ''' </summary>
+        ''' <remarks>
+        ''' <see cref="Parallel.For"/> 并行计算
+        ''' </remarks>
         Public Function ComputeNetworkBIC(net As Core.BayesianNetwork) As Double
             Dim nS As Integer = _data.NSample
             Dim totalBIC As Double() = New Double(net.Nodes.Count - 1) {}
