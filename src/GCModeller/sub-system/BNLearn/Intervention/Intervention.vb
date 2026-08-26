@@ -98,9 +98,17 @@ Namespace Intervention
         ''' <summary>
         ''' 执行单基因虚拟干扰分析
         ''' </summary>
+        ''' <param name="evidence">
+        ''' 可选：观测证据（外部导入的转录组数据，基因名 → 表达值）。
+        ''' 若提供，则野生型基线将在"给定该表达水平条件"下计算，
+        ''' 使扰动结果反映用户真实样本背景下的因果效应（观测证据模式）。
+        ''' 键必须与 <see cref="Core.BayesianNetwork.Nodes"/> 的 Name 对齐（大小写不敏感）。
+        ''' 仅与训练网络重叠的基因会被用作证据；空字典等价于不传入。
+        ''' </param>
         Public Function AnalyzeIntervention(spec As InterventionSpec,
                                             Optional nSamples As Integer = 10000,
-                                            Optional seed As Integer = 42) As InterventionResult
+                                            Optional seed As Integer = 42,
+                                            Optional evidence As Dictionary(Of String, Double) = Nothing) As InterventionResult
 
             Dim nG As Integer = _network.Nodes.Count
             Dim geneIdx As Integer = spec.GeneIndex
@@ -112,8 +120,13 @@ Namespace Intervention
 
             spec.GeneIndex = geneIdx
 
-            ' 1. 计算野生型基线
-            Dim wildtypeMeans As Double() = ComputeWildtypeMeans(nSamples, seed)
+            ' 1. 计算野生型基线（有外部证据时，在给定表达水平条件下计算）
+            Dim wildtypeMeans As Double()
+            If evidence IsNot Nothing AndAlso evidence.Count > 0 Then
+                wildtypeMeans = ComputeConditionalWildtypeMeans(evidence, nSamples, seed)
+            Else
+                wildtypeMeans = ComputeWildtypeMeans(nSamples, seed)
+            End If
 
             ' 2. 创建干预网络（do-演算）
             Dim mutantNetwork As Core.BayesianNetwork = CreateInterventionNetwork(spec, wildtypeMeans)
@@ -169,10 +182,17 @@ Namespace Intervention
         ''' 动态级联模拟：模拟敲除后多个时间步的表达变化
         ''' 每个时间步的输出作为下一个时间步的输入
         ''' </summary>
+        ''' <param name="initialState">
+        ''' 可选：动态模拟的初始状态（按网络节点序的表达值向量）。
+        ''' 若提供（来自外部导入的转录组数据），则以此作为级联传播的起点，
+        ''' 模拟在用户样本背景下的动态传播（动态初始状态模式）。
+        ''' 长度需与网络节点数一致；为 Nothing 时使用训练数据均值作为起点（原有行为）。
+        ''' </param>
         Public Function DynamicIntervention(spec As InterventionSpec,
                                             nTimeSteps As Integer,
                                             Optional nSamples As Integer = 5000,
-                                            Optional seed As Integer = 42) As InterventionResult
+                                            Optional seed As Integer = 42,
+                                            Optional initialState As Double() = Nothing) As InterventionResult
 
             Dim nG As Integer = _network.Nodes.Count
             Dim geneIdx As Integer = spec.GeneIndex
@@ -193,8 +213,16 @@ Namespace Intervention
             Dim trajectory As Double(,)() = New Double(nTimeSteps - 1, nG - 1)() {}
             Dim topoOrder As Integer() = _network.TopologicalSort()
 
-            ' 初始状态：从训练数据均值开始
-            Dim currentMeans As Double() = CType(wildtypeMeans.Clone(), Double())
+            ' 初始状态：优先使用外部导入的初始状态，否则从训练数据均值开始
+            Dim currentMeans As Double()
+            If initialState IsNot Nothing Then
+                If initialState.Length <> nG Then
+                    Throw New Exception(String.Format("动态初始状态长度 {0} 与网络节点数 {1} 不一致", initialState.Length, nG))
+                End If
+                currentMeans = CType(initialState.Clone(), Double())
+            Else
+                currentMeans = CType(wildtypeMeans.Clone(), Double())
+            End If
 
             For t = 0 To nTimeSteps - 1
                 Dim stepSamples As Double() = New Double(nSamples - 1) {}
