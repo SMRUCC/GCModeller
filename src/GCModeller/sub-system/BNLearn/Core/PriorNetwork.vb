@@ -69,8 +69,6 @@
 ' 作为 bnlearn 结构学习的白名单先验知识
 ' ============================================================
 
-Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-
 Namespace Core
 
     ''' <summary>
