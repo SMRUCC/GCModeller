@@ -321,13 +321,21 @@ Namespace Core
 
             ' 1) 观测证据：仅保留重叠基因
             Dim evidence As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
-            ' 2) 动态初始状态：按网络节点序，默认用训练数据均值
+            ' 2) 动态初始状态：按网络节点序，默认用训练数据各基因行均值
             Dim initialState As Double() = New Double(nG - 1) {}
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then workData = ExpressionData.Standardize
             For i = 0 To nG - 1
-                Dim col As Integer = workData.Genes.IndexOf(names(i))
-                initialState(i) = If(col >= 0, workData.Matrix(col).Average(), 0)
+                Dim geneRow As Integer = workData.GetGeneIndex(names(i))
+                If geneRow >= 0 Then
+                    Dim sum As Double = 0
+                    For j = 0 To workData.NSample - 1
+                        sum += workData.Matrix(geneRow, j)
+                    Next
+                    initialState(i) = If(workData.NSample > 0, sum / workData.NSample, 0)
+                Else
+                    initialState(i) = 0
+                End If
             Next
 
             Dim overlap As Integer = 0
