@@ -123,12 +123,11 @@ Namespace DBN
         ''' Enumerate all possible parent state combinations (Cartesian product).
         ''' Used for CPT initialization and parameter learning.
         ''' </summary>
-        Public Function GetAllParentConfigurations(
-            parentStatesMap As Dictionary(Of String, List(Of String))
-        ) As List(Of List(Of String))
-
-            Dim configs As New List(Of List(Of String))
-            configs.Add(New List(Of String))  ' Start with one empty configuration
+        Public Function GetAllParentConfigurations(parentStatesMap As Dictionary(Of String, List(Of String))) As List(Of List(Of String))
+            ' Start with one empty configuration
+            Dim configs As New List(Of List(Of String)) From {
+                New List(Of String)
+            }
 
             For Each pid As String In ParentIds
                 If Not parentStatesMap.ContainsKey(pid) Then Continue For
