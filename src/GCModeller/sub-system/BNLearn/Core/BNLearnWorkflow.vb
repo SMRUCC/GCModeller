@@ -186,7 +186,7 @@ Namespace Core
                 workData = ExpressionData.Standardize
             End If
 
-            ParameterResult = BnParameterLearner.Learn(FittedNetwork, workData)
+            ParameterResult = New BnParameterLearner().Learn(FittedNetwork, workData)
 
             Return ParameterResult
         End Function
