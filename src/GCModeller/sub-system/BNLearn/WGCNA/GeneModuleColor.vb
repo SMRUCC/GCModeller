@@ -11,5 +11,9 @@ Public Class GeneModuleColor
     ''' <returns></returns>
     Public Property kME As Double
 
+    Public Overrides Function ToString() As String
+        Return $"[{moduleColor}] {geneID}:= {kME}"
+    End Function
+
 End Class
 

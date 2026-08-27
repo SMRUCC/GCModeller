@@ -255,6 +255,7 @@ Namespace Core
         ''' 找不到的基因会被跳过并在控制台给出警告。
         ''' </summary>
         Public Function GetSubMatrix(geneNames As String()) As GeneExpressionData
+            Console.WriteLine($"[DIAG GSM] Me={Me.GetHashCode()} GeneNames={GeneNames.Length} Matrix0={Matrix.GetLength(0)} argN={geneNames.Length}")
             Dim keepIdx As New List(Of Integer)()
             Dim keepNames As New List(Of String)()
 
