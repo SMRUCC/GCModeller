@@ -54,6 +54,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports rng = Microsoft.VisualBasic.Math.RandomExtensions
 
@@ -86,9 +87,9 @@ Namespace Inference
         ''' 从拟合的网络中采样生成模拟数据
         ''' 按拓扑排序依次采样：Xi ~ N(β0 + Σβj·Pa_j, σ²)
         ''' </summary>
-        Public Function Sample(nSamples As Integer, Optional seed As Integer = 0) As Double(,)
+        Public Function Sample(nSamples As Integer, Optional seed As Integer = 0, <CallerMemberName> Optional callee As String = Nothing) As Double(,)
             Dim nG As Integer = _network.Nodes.Count
-            Dim topoOrder As Integer() = _network.TopologicalSort()
+            Dim topoOrder As Integer() = _network.TopologicalSort(callee:=callee)
             Dim samples As Double(,) = New Double(nG - 1, nSamples - 1) {}
 
             Call rng.SetSeed(seed)

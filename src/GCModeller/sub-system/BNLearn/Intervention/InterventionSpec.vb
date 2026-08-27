@@ -89,6 +89,10 @@ Namespace Intervention
             End Select
         End Function
 
+        Public Overrides Function ToString() As String
+            Return $"[{GeneIndex}] {GeneName} as {Mode.Description} = {Value}"
+        End Function
+
     End Class
 
 End Namespace
