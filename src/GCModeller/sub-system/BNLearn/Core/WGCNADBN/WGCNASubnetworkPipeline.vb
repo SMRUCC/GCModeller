@@ -285,7 +285,7 @@ Namespace Core.WGCNADBN
             _globalNet = New BayesianNetwork()
 
             For Each g In _genes
-                _globalNet.AddNode(g, NodeType.Continuous)
+                _globalNet.AddNode(g)
             Next
 
             For i = 0 To n - 1          ' child

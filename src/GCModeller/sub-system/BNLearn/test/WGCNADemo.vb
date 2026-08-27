@@ -2,45 +2,56 @@
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Module WGCNADemo
 
+    ''' <summary>
+    ''' 基于 WGCNA 模块划分训练多个 BNLearn 子网络，并在整合后的全局网络上
+    ''' 执行全局虚拟扰动（雅可比线性传播 + 级联采样传播）。
+    ''' 结果写出为 TSV（基因 × 扰动源响应矩阵 + 每源明细）并打印 Top 变化基因摘要。
+    ''' </summary>
     Sub Run()
+        ' 1. 读取数据
         Dim geneSet As String() = DataFrameResolver.Load("K:\hsa\WGCNA_output-demo\gene_module_assignment.csv")("geneID")
         Dim modules As GeneModuleColor() = WGCNA.ReadModuleAssignment("K:\hsa\WGCNA_output-demo\gene_module_assignment.csv")
-        Dim moduleCor As DataMatrix = WGCNA.ReadModuleEigengeneCorrelation("K:\hsa\WGCNA_output-demo\module_eigengene_correlation.csv")
         Dim subMat As Matrix = Matrix.LoadData("K:\hsa\Homo_sapiens_expr_advanced_all_conditions.csv")
-
         subMat = subMat(geneSet)
 
         Dim exprData = BnIO.ReadGeneExpressionMatrix(subMat)
-        ' 2. 创建工作流
-        Dim workflow As New BNLearnWorkflow()
-        workflow.ExpressionData = exprData
-        workflow.StructureParams.MaxIterations = 500
 
-        ' 3. 结构学习（MMHC + 白名单先验）
-        workflow.LearnStructure()
-        ' 4. 参数学习（高斯BN MLE）
-        workflow.LearnParameters()
+        ' 2. 构建 WGCNA 子网络 + 全局扰动流水线
+        Dim pipeline As New WGCNASubnetworkPipeline() With {
+            .NormalizeData = True,
+            .NSamples = 5000,
+            .RandomSeed = 42,
+            .MaxSteps = 30,
+            .HubTopN = 20,
+            .CrossModuleCorThreshold = 0.3,
+            .CrossGeneCorThreshold = 0.4,
+            .CrossScale = 0.5
+        }
+        ' 结构学习参数（与 BNLearnWorkflow 一致）
+        pipeline.StructureParams.MaxIterations = 500
 
-        ' 5. 随机挑选一个基因做虚拟敲除（导入外部数据之前：基于训练网络自身的理论野生型基线）
-        Dim koResult As InterventionResult = workflow.KnockoutGene(geneSet.Random)
+        ' 3. 方法一（默认）：雅可比矩阵多步线性传播
+        pipeline.Propagation = PropagationMethod.Jacobian
+        Dim jacResults = pipeline.Run(modules, exprData)
+        Dim outDirJac = App.HOME & "/output/wgcna_global_perturbation/jacobian"
+        Call pipeline.SaveResults(jacResults, outDirJac)
 
-        ' 6. 随机挑选一个基因做虚拟过表达
-        Dim oeResult As InterventionResult = workflow.OverexpressGene(geneSet.Random, 3.0)
+        ' 4. 方法二：级联采样跨模块传播（对前若干代表源演示，避免全量过慢）
+        pipeline.Propagation = PropagationMethod.CascadeSampling
+        Dim demoSources = jacResults.Take(5).Select(Function(r) r.SourceGene).ToArray()
+        Dim casResults = pipeline.Run(modules, exprData, demoSources)
+        Dim outDirCas = App.HOME & "/output/wgcna_global_perturbation/cascade"
+        Call pipeline.SaveResults(casResults, outDirCas)
 
-        ' 7. 随机挑选一个基因做动态级联模拟
-        Dim dynResult As InterventionResult = workflow.DynamicKnockout(geneSet.Random, nTimeSteps:=10)
-
-        ' 10. 输出结果
-        workflow.SaveResults(App.HOME & "/output/bnlearn")
-
-        Dim save As New InterventionComparisonExporter({koResult, oeResult, dynResult})
-
-        Call save.ExportAll(App.HOME & "/output/")
+        Call Console.WriteLine("[WGCNADemo] 全局虚拟扰动流程完成。雅可比方法源数={0}, 级联方法源数={1}",
+                               jacResults.Count, casResults.Count)
+        Call Console.WriteLine("[WGCNADemo] 结果目录: " & App.HOME & "/output/wgcna_global_perturbation/")
     End Sub
 End Module
