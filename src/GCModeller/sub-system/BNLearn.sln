@@ -27,6 +27,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "dataframework-netcore5", ".
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TensorFlow", "..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj", "{37C346A8-CB86-9E29-759B-D7AE446A8FCD}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "dataframeUtils-netcore5", "..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj", "{8D3EE561-4BC2-6560-BB09-74C37BE816C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,14 @@ Global
 		{37C346A8-CB86-9E29-759B-D7AE446A8FCD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37C346A8-CB86-9E29-759B-D7AE446A8FCD}.Release|x64.ActiveCfg = Release|x64
 		{37C346A8-CB86-9E29-759B-D7AE446A8FCD}.Release|x64.Build.0 = Release|x64
+		{8D3EE561-4BC2-6560-BB09-74C37BE816C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D3EE561-4BC2-6560-BB09-74C37BE816C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D3EE561-4BC2-6560-BB09-74C37BE816C5}.Debug|x64.ActiveCfg = Debug|x64
+		{8D3EE561-4BC2-6560-BB09-74C37BE816C5}.Debug|x64.Build.0 = Debug|x64
+		{8D3EE561-4BC2-6560-BB09-74C37BE816C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D3EE561-4BC2-6560-BB09-74C37BE816C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D3EE561-4BC2-6560-BB09-74C37BE816C5}.Release|x64.ActiveCfg = Release|x64
+		{8D3EE561-4BC2-6560-BB09-74C37BE816C5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,6 +138,7 @@ Global
 		{E058DBF6-9359-2160-8117-ADBC91C2BCFB} = {1AA48A28-E78F-45E4-9145-8E9D59164EE6}
 		{4EA5D1A3-20AC-5EF2-E8E3-8E8C905D86B7} = {1AA48A28-E78F-45E4-9145-8E9D59164EE6}
 		{37C346A8-CB86-9E29-759B-D7AE446A8FCD} = {1AA48A28-E78F-45E4-9145-8E9D59164EE6}
+		{8D3EE561-4BC2-6560-BB09-74C37BE816C5} = {1AA48A28-E78F-45E4-9145-8E9D59164EE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7AA79AC7-0FE8-4644-9232-C47F564E280D}
