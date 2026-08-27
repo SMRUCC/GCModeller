@@ -104,6 +104,24 @@ Namespace Core.WGCNADBN
             End If
 
             Call SplitModules(assignment)
+
+            ' 仅保留参与 WGCNA 模块的基因进入后续训练与全局网络，缩小全局规模。
+            ' 背景非模块基因既无意义又会让全局参数学习（O(N^2·样本)）变得极慢。
+            Dim allModuleGenes = _moduleGenes.Values _
+                .SelectMany(Function(lst) lst) _
+                .Distinct() _
+                .ToArray()
+            Dim exprModule = _exprStd.GetSubMatrix(allModuleGenes)
+            If exprModule IsNot Nothing AndAlso exprModule.NSample > 0 Then
+                _exprStd = exprModule
+                _genes = _exprStd.GeneNames
+                _gIndex = New Dictionary(Of String, Integer)()
+                For i = 0 To _genes.Length - 1
+                    _gIndex(_genes(i)) = i
+                Next
+                Call $"[WGCNASubnetworkPipeline] 仅保留模块基因参加全局网络: {_genes.Length}/{expr.GeneNames.Length}".debug
+            End If
+
             Call TrainSubnetworks()
             Call BuildInitialJacobian()
             Call BuildCrossModuleEdges()
