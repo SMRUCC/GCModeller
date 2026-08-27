@@ -103,8 +103,6 @@ Namespace Core.WGCNADBN
                 _exprStd = expr
             End If
 
-            Console.WriteLine($"[DIAG Run] _expr.GeneNames={_expr.GeneNames.Length}, _exprStd.GeneNames={_exprStd.GeneNames.Length}, _exprStd.Matrix0={_exprStd.Matrix.GetLength(0)}, _expr.Matrix0={_expr.Matrix.GetLength(0)}")
-
             Call SplitModules(assignment)
             Call TrainSubnetworks()
             Call BuildInitialJacobian()
@@ -192,7 +190,6 @@ Namespace Core.WGCNADBN
                     Continue For
                 End If
 
-                Console.WriteLine($"[DIAG Train] _exprStd={_exprStd.GetHashCode()} GeneNames={_exprStd.GeneNames.Length} Matrix0={_exprStd.Matrix.GetLength(0)} moduleGenes={genes.Length}")
                 Dim subData = _exprStd.GetSubMatrix(genes)
                 If subData Is Nothing Then
                     Call $"[WGCNASubnetworkPipeline] 模块 {moduleColor} 无基因匹配表达矩阵，跳过".debug

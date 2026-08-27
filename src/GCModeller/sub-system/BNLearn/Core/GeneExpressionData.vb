@@ -250,24 +250,21 @@ Namespace Core
         End Function
 
         ''' <summary>
-        ''' 按指定的基因名子集（顺序由 geneNames 决定）提取子表达矩阵，返回一个新的 GeneExpressionData。
+        ''' 按指定的基因名子集（顺序由 geneList 决定）提取子表达矩阵，返回一个新的 GeneExpressionData。
         ''' 行 = 指定基因，列 = 全部样本（保留 TimePoints 与 SampleNames）。
         ''' 找不到的基因会被跳过并在控制台给出警告。
+        ''' 注意：参数名不可使用 geneNames/GeneNames，否则在 VB.NET（大小写不敏感）下会
+        ''' 遮蔽实例属性 GeneNames，导致方法体内对 GeneNames 的引用被解析为参数而非属性。
         ''' </summary>
-        Public Function GetSubMatrix(geneNames As String()) As GeneExpressionData
-            Console.WriteLine($"[DIAG GSM] Me={Me.GetHashCode()} GeneNames={GeneNames.Length} Matrix0={Matrix.GetLength(0)} argN={geneNames.Length}")
+        Public Function GetSubMatrix(geneList As String()) As GeneExpressionData
             Dim keepIdx As New List(Of Integer)()
             Dim keepNames As New List(Of String)()
 
-            For Each g In geneNames
+            For Each g In geneList
                 Dim idx As Integer = GetGeneIndex(g)
                 If idx >= 0 Then
-                    If idx >= GeneNames.Length Then
-                        Console.WriteLine($"[DIAG BUG] gene='{g}' idx={idx} GeneNames.Length={GeneNames.Length} Matrix0={Matrix.GetLength(0)}")
-                    Else
-                        keepIdx.Add(idx)
-                        keepNames.Add(GeneNames(idx))
-                    End If
+                    keepIdx.Add(idx)
+                    keepNames.Add(Me.GeneNames(idx))
                 Else
                     Call $"[GeneExpressionData.GetSubMatrix] warning: gene '{g}' not found in matrix, skipped.".debug
                 End If
