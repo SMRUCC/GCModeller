@@ -759,7 +759,7 @@ Public Module GeneRegulatoryNetwork
                                      knockGene As String,
                                      steps As Integer,
                                      allGenes As String(),
-                                     trajectories As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double)))()) As Double()
+                                     trajectories As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double)))) As Double()
         ' 定位扰动基因所属模块
         Dim m0 As ModuleDBN = Nothing
         For Each m In modules
@@ -829,7 +829,7 @@ Public Module GeneRegulatoryNetwork
             Next
         Next
 
-        Dim resp As New Double(allGenes.Length - 1)
+        Dim resp(allGenes.Length - 1) As Double
         For i = 0 To allGenes.Length - 1
             Dim g = allGenes(i)
             If geneToTraj.ContainsKey(g) Then
