@@ -510,5 +510,497 @@ Public Module GeneRegulatoryNetwork
 
         Return (workflow, koResults.ToArray, oeResults.ToArray, dynResults.ToArray, batchResults)
     End Function
+
+    ' ==================== 基于 WGCNA 共表达模块的 DBN 子网络训练 + 全局级联虚拟扰动 ====================
+    '
+    ' 针对大型 WGCNA 网络，全局 DBN 训练与虚拟扰动极慢。本组函数实现"分而治之"优化：
+    '   1) 按 WGCNA 模块划分（GeneModuleColor）将时间序列划分为模块基因子块；
+    '   2) 对每个模块单独训练一个 DynamicBayesianNetwork 子网络（模块内定向边取自合并先验）；
+    '   3) 基于模块 eigengene 轨迹相关度构建模块间关联图；
+    '   4) 对每个显式指定的扰动基因，在其所属模块内固定 Low 并沿模块关联图做级联推演，
+    '      汇总得到全局虚拟扰动响应，并导出结果文件。
+    ' 与 TrainAndIntervene（全局高斯 BN）相比，单模块规模远小于全局，训练代价由 O(N^2·样本)
+    ' 降为 Σ O(模块规模^2·样本)，在大型 WGCNA 网络下收益显著。
+
+    ''' <summary>
+    ''' 单个 WGCNA 模块的 DBN 子网络训练结果容器（模块内部使用，不污染公共 API）。
+    ''' </summary>
+    Private Class ModuleDBN
+        ''' <summary>WGCNA 模块颜色标签</summary>
+        Public Property ModuleColor As String
+        ''' <summary>该模块参与训练的基因名（与 timeSeries 子矩阵对齐）</summary>
+        Public Property Genes As String()
+        ''' <summary>已构建拓扑并完成参数学习的动态贝叶斯网络子网络</summary>
+        Public Property Net As DynamicBayesianNetwork
+        ''' <summary>模块 eigengene 轨迹：各时间点的模块基因均值向量（用于模块间相关度）</summary>
+        Public Property Eigengene As Double()
+        ''' <summary>模块内基因名 → 在 Genes 数组中的索引</summary>
+        Public Property GeneIndex As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+    End Class
+
+    ''' <summary>
+    ''' 基于 WGCNA 共表达模块划分，逐模块训练 DynamicBayesianNetwork 子网络，并基于模块间
+    ''' 相关度构建子网络关联，对任意显式指定的扰动基因（knockGenes）做全局级联虚拟扰动推断。
+    '''
+    ''' 与 <see cref="TrainAndIntervene"/> 的区别：
+    '''   - 本函数使用"真正动态"的 <see cref="DynamicBayesianNetwork"/>（2TBN，离散状态 Low/Medium/High，
+    '''     时间序列参数学习），而非全局高斯 BN；
+    '''   - 子网络按 WGCNA 模块分块训练，仅在模块内进行结构/参数学习，避免全局大网络的性能瓶颈；
+    '''   - 级联虚拟扰动基于模块 eigengene 关联图逐模块推演（PredictNextState），实现全局性推断。
+    ''' </summary>
+    ''' <param name="timeSeries">DBN 时间序列表达矩阵（基因 × 伪时间 bin，来自 Monocle3 + PseudoVelo 链路）。</param>
+    ''' <param name="modules">WGCNA 模块划分结果（geneID / moduleColor / kME），来自 WGCNA.ReadModuleAssignment。</param>
+    ''' <param name="prior">合并后的因果方向先验网络（wgcna + 伪速率），用于提取模块内定向边构建 DBN 拓扑。</param>
+    ''' <param name="TF">转录因子基因名称数组（用于识别模块内的调控型接口基因）。</param>
+    ''' <param name="knockGenes">显式指定的虚拟扰动（敲降）目标基因列表。</param>
+    ''' <param name="dynamicSteps">级联推演的时间步数，默认 10。</param>
+    ''' <param name="crossModuleCorThreshold">模块 eigengene 相关阈值：|cor| 超过才建立模块间关联，默认 0.3。</param>
+    ''' <param name="outputDir">结果导出目录；为空则不导出。</param>
+    ''' <returns>每个扰动基因的全局最终响应向量（按全部模块基因顺序排列）与训练好的模块子网络字典。</returns>
+    Public Function TrainModularDBNIntervene(timeSeries As Core.GeneExpressionData,
+                                             modules As GeneModuleColor(),
+                                             prior As Core.PriorNetwork,
+                                             TF As String(),
+                                             knockGenes As String(),
+                                             Optional dynamicSteps As Integer = 10,
+                                             Optional crossModuleCorThreshold As Double = 0.3,
+                                             Optional outputDir As String = Nothing) As (finalResponses As Dictionary(Of String, Double()),
+                                                                                        moduleNets As Dictionary(Of String, DynamicBayesianNetwork))
+        If timeSeries Is Nothing Then Throw New ArgumentNullException(NameOf(timeSeries), "时间序列表达矩阵不能为空")
+        If modules Is Nothing OrElse modules.Length = 0 Then Throw New ArgumentNullException(NameOf(modules), "WGCNA 模块划分不能为空")
+        If prior Is Nothing Then prior = New Core.PriorNetwork()
+        If TF Is Nothing Then TF = {}
+        If knockGenes Is Nothing Then knockGenes = {}
+
+        ' ① 模块划分（跳过 grey 模块，仅保留出现在时间序列中的基因）
+        Dim moduleGenes = SplitModules(modules, timeSeries)
+        If moduleGenes.Count = 0 Then
+            Throw New InvalidOperationException("没有任何 WGCNA 模块基因匹配时间序列，无法构建子网络（请检查基因名体系是否一致）")
+        End If
+        Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 解析到 {moduleGenes.Count} 个非灰色模块")
+
+        ' ② 逐模块训练 DynamicBayesianNetwork 子网络
+        Dim tfSet As New HashSet(Of String)(TF, StringComparer.OrdinalIgnoreCase)
+        Dim moduleDBs As New List(Of ModuleDBN)
+        For Each kv In moduleGenes
+            Dim mcolor = kv.Key
+            Dim genes = kv.Value
+            If genes.Length < 2 Then
+                Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块 {mcolor} 基因数={genes.Length} < 2，跳过子网络训练")
+                Continue For
+            End If
+
+            Dim subMatrix = timeSeries.GetSubMatrix(genes)
+            If subMatrix Is Nothing Then
+                Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块 {mcolor} 无基因匹配时间序列，跳过")
+                Continue For
+            End If
+
+            ' 模块内定向边（两端都属于本模块）转为 RegulatoryLink
+            Dim links = BuildModuleRegulatoryLinks(prior, genes)
+            Dim net As New DynamicBayesianNetwork()
+            net.BuildFromTopology(links)
+
+            Dim ts = ToTimeSeries(subMatrix)
+            If ts IsNot Nothing AndAlso ts.Count >= 2 Then
+                net.LearnParameters(ts)
+            Else
+                Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块 {mcolor} 有效时间点不足，仅使用拓扑先验 CPT")
+            End If
+
+            Dim eig = ComputeModuleEigengene(ts)
+            Dim mdb As New ModuleDBN With {
+                .ModuleColor = mcolor,
+                .Genes = genes,
+                .Net = net,
+                .Eigengene = eig
+            }
+            For i = 0 To genes.Length - 1
+                mdb.GeneIndex(genes(i)) = i
+            Next
+            moduleDBs.Add(mdb)
+            Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块 {mcolor} 训练完成（基因={genes.Length}, 模块内边={links.Count()}）")
+        Next
+
+        If moduleDBs.Count = 0 Then
+            Throw New InvalidOperationException("没有任何模块成功训练出子网络，无法执行虚拟扰动")
+        End If
+
+        ' ③ 模块间关联图（基于 eigengene 轨迹相关度）
+        Dim graph = BuildModuleCorrelationGraph(moduleDBs, crossModuleCorThreshold)
+        Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块关联边数={graph.Values.Sum(Function(l) l.Count)}")
+
+        ' ④ 全局级联虚拟扰动
+        Dim allGenes = moduleDBs.SelectMany(Function(m) m.Genes).Distinct().ToArray()
+        Dim finalResponses As New Dictionary(Of String, Double)()
+        Dim trajectories As New Dictionary(Of String, Dictionary(Of String, Double()))()
+
+        For Each g In knockGenes
+            Dim respVec As Double() = CascadeIntervene(moduleDBs, graph, tfSet, g, dynamicSteps, allGenes, trajectories)
+            finalResponses(g) = respVec
+        Next
+
+        ' ⑤ 导出结果
+        If Not String.IsNullOrEmpty(outputDir) Then
+            Call SaveModularResults(finalResponses, trajectories, allGenes, outputDir)
+        End If
+
+        Dim moduleNets As New Dictionary(Of String, DynamicBayesianNetwork)
+        For Each m In moduleDBs
+            moduleNets(m.ModuleColor) = m.Net
+        Next
+
+        Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 全局级联虚拟扰动完成（扰动基因 {knockGenes.Length} 个，模块 {moduleDBs.Count} 个，全局基因 {allGenes.Length} 个）")
+
+        Return (finalResponses, moduleNets)
+    End Function
+
+    ''' <summary>
+    ''' 按 WGCNA 模块划分将基因分组（跳过 grey 模块，仅保留出现在 timeSeries 中的基因）。
+    ''' </summary>
+    Private Function SplitModules(assignment As GeneModuleColor(), timeSeries As Core.GeneExpressionData) As Dictionary(Of String, String())
+        Dim result As New Dictionary(Of String, List(Of String))
+        Dim present As New HashSet(Of String)(timeSeries.GeneNames, StringComparer.OrdinalIgnoreCase)
+
+        For Each mc In assignment
+            If String.Equals(mc.moduleColor, "grey", StringComparison.OrdinalIgnoreCase) Then Continue For
+            If Not present.Contains(mc.geneID) Then Continue For
+            If Not result.ContainsKey(mc.moduleColor) Then
+                result(mc.moduleColor) = New List(Of String)
+            End If
+            If Not result(mc.moduleColor).Contains(mc.geneID) Then
+                result(mc.moduleColor).Add(mc.geneID)
+            End If
+        Next
+
+        Return result.ToDictionary(Function(kv) kv.Key, Function(kv) kv.Value.ToArray())
+    End Function
+
+    ''' <summary>
+    ''' 从合并先验网络中筛选两端都属于当前模块基因的定向边，转为 DBN 拓扑所需的
+    ''' <see cref="RegulatoryLink"/> 集合。调控方向沿用 prior 的 RegulationType；
+    ''' 若某模块无任何模块内先验边，返回空集合（DBN 退化为无父节点拓扑，仅学习自身时序分布）。
+    ''' </summary>
+    Private Function BuildModuleRegulatoryLinks(prior As Core.PriorNetwork, moduleGenes As String()) As IEnumerable(Of RegulatoryLink)
+        Dim inModule As New HashSet(Of String)(moduleGenes, StringComparer.OrdinalIgnoreCase)
+        Dim links As New List(Of RegulatoryLink)
+
+        For Each e In prior.Edges
+            If inModule.Contains(e.TF) AndAlso inModule.Contains(e.TargetGene) Then
+                links.Add(New RegulatoryLink With {
+                    .TF_id = e.TF,
+                    .target_operon = e.TargetGene,
+                    .regulate_genes = {e.TargetGene},
+                    .effector = Nothing
+                })
+            End If
+        Next
+
+        Return links
+    End Function
+
+    ''' <summary>
+    ''' 计算模块 eigengene 轨迹：各时间点上模块基因均值（顺序与 timeSeries 一致）。
+    ''' 时间点不足时返回长度为 1 的均值向量，关联图仍可工作（相关退化为常数）。
+    ''' </summary>
+    Private Function ComputeModuleEigengene(ts As List(Of Dictionary(Of String, Double))) As Double()
+        If ts Is Nothing OrElse ts.Count = 0 Then Return {0.0}
+        Dim nT = ts.Count
+        Dim vec As New List(Of Double)
+        For t = 0 To nT - 1
+            Dim frame = ts(t)
+            If frame Is Nothing OrElse frame.Count = 0 Then
+                vec.Add(0.0)
+                Continue For
+            End If
+            Dim avg = frame.Values.Average()
+            vec.Add(avg)
+        Next
+        Return vec.ToArray()
+    End Function
+
+    ''' <summary>
+    ''' 基于模块 eigengene 轨迹的 Pearson 相关构建模块间关联图（邻接表，权重 = |cor|）。
+    ''' 仅保留 |cor| 超过阈值的双向关联。
+    ''' </summary>
+    Private Function BuildModuleCorrelationGraph(modules As List(Of ModuleDBN), threshold As Double) As Dictionary(Of String, List(Of (modColor As String, weight As Double)))
+        Dim graph As New Dictionary(Of String, List(Of (String, Double)))
+
+        For Each m In modules
+            graph(m.ModuleColor) = New List(Of (String, Double))
+        Next
+
+        For i = 0 To modules.Count - 1
+            For j = i + 1 To modules.Count - 1
+                Dim c = Pearson(modules(i).Eigengene, modules(j).Eigengene)
+                If Math.Abs(c) > threshold Then
+                    graph(modules(i).ModuleColor).Add((modules(j).ModuleColor, c))
+                    graph(modules(j).ModuleColor).Add((modules(i).ModuleColor, c))
+                End If
+            Next
+        Next
+
+        Return graph
+    End Function
+
+    ''' <summary>
+    ''' 对单个扰动基因执行全局级联虚拟扰动：
+    '''   - 在其所属模块内固定 Low 并多步推演本模块基因状态轨迹；
+    '''   - 计算本模块 eigengene 变化，沿模块关联图 BFS 逐级注入下游模块（作为模块整体状态偏置），
+    '''     在下游模块内做受迫推演，形成级联；
+    '''   - 汇总所有模块基因的最终状态为全局响应向量（按 allGenes 顺序，Low=0/Med=1/High=2）。
+    ''' </summary>
+    Private Function CascadeIntervene(modules As List(Of ModuleDBN),
+                                     graph As Dictionary(Of String, List(Of (modColor As String, weight As Double))),
+                                     tfSet As HashSet(Of String),
+                                     knockGene As String,
+                                     steps As Integer,
+                                     allGenes As String(),
+                                     trajectories As Dictionary(Of String, Dictionary(Of String, Double()))) As Double()
+        ' 定位扰动基因所属模块
+        Dim m0 As ModuleDBN = Nothing
+        For Each m In modules
+            If m.GeneIndex.ContainsKey(knockGene) Then
+                m0 = m
+                Exit For
+            End If
+        Next
+        If m0 Is Nothing Then
+            Call VBDebugger.WriteLine($"GRN.CascadeIntervene: 警告: 扰动基因 '{knockGene}' 不在任何模块中，跳过")
+            Dim zero As Double() = allGenes.Select(Function(g) 1.0).ToArray()
+            trajectories(knockGene) = New Dictionary(Of String, Double())()
+            Return zero
+        End If
+
+        ' 每个模块维护基因离散状态（初始 Medium），以及各自的轨迹容器
+        Dim moduleStates As New Dictionary(Of String, Dictionary(Of String, String))
+        Dim moduleTraj As New Dictionary(Of String, Dictionary(Of String, Double()))
+        For Each m In modules
+            Dim st As New Dictionary(Of String, String)
+            Dim tr As New Dictionary(Of String, Double())
+            For Each g In m.Genes
+                st(g) = "Medium"
+                tr(g) = New Double(steps - 1) {}
+            Next
+            moduleStates(m.ModuleColor) = st
+            moduleTraj(m.ModuleColor) = tr
+        Next
+
+        ' 初始步：扰动基因固定 Low
+        moduleStates(m0.ModuleColor)(knockGene) = "Low"
+        For Each g In m0.Genes
+            moduleTraj(m0.ModuleColor)(g)(0) = StateToValue(moduleStates(m0.ModuleColor)(g))
+        Next
+
+        ' 本模块多步推演
+        Dim m0Rates = RunModuleSteps(m0, moduleStates(m0.ModuleColor), knockGene, steps, tfSet, moduleTraj(m0.ModuleColor))
+        ' 计算本模块 eigengene 变化（最终步 RNA 速率均值）
+        Dim delta0 = If(m0Rates.Count > 0, m0Rates.Values.Average(), 0.0)
+
+        ' 沿模块关联图 BFS 级联
+        Dim visited As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase) From {m0.ModuleColor}
+        Dim queue As New Queue(Of (modColor As String, delta As Double))
+        queue.Enqueue((modColor:=m0.ModuleColor, delta:=delta0))
+
+        While queue.Count > 0
+            Dim cur = queue.Dequeue()
+            If Not graph.ContainsKey(cur.modColor) Then Continue While
+            For Each adj In graph(cur.modColor)
+                If visited.Contains(adj.modColor) Then Continue For
+                visited.Add(adj.modColor)
+                Dim mNext = modules.First(Function(m) String.Equals(m.ModuleColor, adj.modColor, StringComparison.OrdinalIgnoreCase))
+                ' 上游变化按关联权重注入下游模块（作为模块整体状态偏置）
+                Dim upstreamDelta = cur.delta * adj.weight
+                Dim fixedInNext = If(mNext.GeneIndex.ContainsKey(knockGene), knockGene, Nothing)
+                Dim nextRates = RunModuleForced(mNext, upstreamDelta, fixedInNext, steps, tfSet, moduleStates(mNext.ModuleColor), moduleTraj(mNext.ModuleColor))
+                Dim deltaNext = If(nextRates.Count > 0, nextRates.Values.Average(), 0.0)
+                queue.Enqueue((modColor:=mNext.ModuleColor, delta:=deltaNext))
+            Next
+        End While
+
+        ' 汇总全局最终响应向量
+        Dim geneToTraj = moduleTraj.Values _
+            .SelectMany(Function(tr) tr) _
+            .ToDictionary(Function(kv) kv.Key, Function(kv) kv.Value, StringComparer.OrdinalIgnoreCase)
+
+        Dim resp As New Double(allGenes.Length - 1)
+        For i = 0 To allGenes.Length - 1
+            Dim g = allGenes(i)
+            If geneToTraj.ContainsKey(g) Then
+                resp(i) = geneToTraj(g)(steps - 1)
+            Else
+                resp(i) = 1.0  ' 未参与任何模块：中性 Medium
+            End If
+        Next
+
+        trajectories(knockGene) = moduleTraj.Values _
+            .SelectMany(Function(tr) tr) _
+            .ToDictionary(Function(kv) kv.Key, Function(kv) kv.Value, StringComparer.OrdinalIgnoreCase)
+
+        Call VBDebugger.WriteLine($"GRN.CascadeIntervene: 对基因 '{knockGene}'（模块 {m0.ModuleColor}）完成级联虚拟扰动，本模块 eigengene 变化 δ={delta0:F4}")
+        Return resp
+    End Function
+
+    ''' <summary>
+    ''' 在单个模块子网络内多步推演（扰动基因固定 Low）。返回各基因最终 RNA 丰度变化率。
+    ''' </summary>
+    Private Function RunModuleSteps(m As ModuleDBN,
+                                    geneStates As Dictionary(Of String, String),
+                                    fixedGene As String,
+                                    steps As Integer,
+                                    tfSet As HashSet(Of String),
+                                    traj As Dictionary(Of String, Double())) As Dictionary(Of String, Double)
+        Dim lastRates As New Dictionary(Of String, Double)
+
+        For t = 1 To steps - 1
+            ' 模块内 TF 基因的连续 abundance（由当前离散状态映射，与证据一致）
+            Dim tfAbund As New Dictionary(Of String, Double)
+            For Each g In m.Genes
+                If tfSet.Contains(g) Then
+                    tfAbund(g) = StateToScore(geneStates(g))
+                End If
+            Next
+
+            Dim result = m.Net.PredictNextState(Nothing, tfAbund, geneStates)
+            For Each g In m.Genes
+                If result.GeneStates.ContainsKey(g) Then
+                    geneStates(g) = result.GeneStates(g)
+                End If
+                ' 持续固定扰动基因 Low，避免被反馈回路恢复
+                If Not String.IsNullOrEmpty(fixedGene) Then geneStates(fixedGene) = "Low"
+                traj(g)(t) = StateToValue(geneStates(g))
+            Next
+
+            For Each g In m.Genes
+                If result.RNAAbundanceChanges.ContainsKey(g) Then lastRates(g) = result.RNAAbundanceChanges(g)
+            Next
+        Next
+
+        Return lastRates
+    End Function
+
+    ''' <summary>
+    ''' 受迫推演：下游模块接收上游 eigengene 变化偏置，初始整体状态偏移后多步推演。
+    ''' </summary>
+    Private Function RunModuleForced(m As ModuleDBN,
+                                     upstreamDelta As Double,
+                                     fixedGene As String,
+                                     steps As Integer,
+                                     tfSet As HashSet(Of String),
+                                     geneStates As Dictionary(Of String, String),
+                                     traj As Dictionary(Of String, Double())) As Dictionary(Of String, Double)
+        ' 初始整体状态偏置：上游正向变化 → High，负向 → Low，近 0 → Medium
+        Dim initState As String = If(upstreamDelta > 0.1, "High", If(upstreamDelta < -0.1, "Low", "Medium"))
+        For Each g In m.Genes
+            geneStates(g) = initState
+        Next
+        If Not String.IsNullOrEmpty(fixedGene) Then geneStates(fixedGene) = "Low"
+        For Each g In m.Genes
+            traj(g)(0) = StateToValue(geneStates(g))
+        Next
+
+        Dim lastRates As New Dictionary(Of String, Double)
+        For t = 1 To steps - 1
+            Dim tfAbund As New Dictionary(Of String, Double)
+            For Each g In m.Genes
+                If tfSet.Contains(g) Then
+                    ' 上游变化注入 TF abundance（clamp 到合理范围）
+                    tfAbund(g) = Math.Max(0.0, Math.Min(2.0, StateToScore(geneStates(g)) * (1.0 + upstreamDelta)))
+                End If
+            Next
+
+            Dim result = m.Net.PredictNextState(Nothing, tfAbund, geneStates)
+            For Each g In m.Genes
+                If result.GeneStates.ContainsKey(g) Then
+                    geneStates(g) = result.GeneStates(g)
+                End If
+                If Not String.IsNullOrEmpty(fixedGene) Then geneStates(fixedGene) = "Low"
+                traj(g)(t) = StateToValue(geneStates(g))
+            Next
+            For Each g In m.Genes
+                If result.RNAAbundanceChanges.ContainsKey(g) Then lastRates(g) = result.RNAAbundanceChanges(g)
+            Next
+        Next
+
+        Return lastRates
+    End Function
+
+    ''' <summary>
+    ''' 将离散状态映射为数值分值（Low=0, Medium=0.5, High=1），供父节点证据离散化使用。
+    ''' </summary>
+    Private Function StateToScore(state As String) As Double
+        Select Case state
+            Case "Low" : Return 0.0
+            Case "Medium" : Return 0.5
+            Case "High" : Return 1.0
+            Case Else : Return 0.5
+        End Select
+    End Function
+
+    ''' <summary>
+    ''' 导出全局虚拟扰动结果：基因 × 扰动源 响应矩阵 TSV + 每个扰动源的逐基因明细 TSV。
+    ''' </summary>
+    Private Sub SaveModularResults(finalResponses As Dictionary(Of String, Double()),
+                                   trajectories As Dictionary(Of String, Dictionary(Of String, Double())),
+                                   allGenes As String(),
+                                   outputDir As String)
+        If Not IO.Directory.Exists(outputDir) Then IO.Directory.CreateDirectory(outputDir)
+
+        ' 全局响应矩阵（最终稳态，gene × perturbation）
+        Dim sbMatrix As New StringBuilder()
+        sbMatrix.Append("gene")
+        For Each src In finalResponses.Keys
+            sbMatrix.Append(vbTab).Append(src)
+        Next
+        sbMatrix.AppendLine()
+        For i = 0 To allGenes.Length - 1
+            sbMatrix.Append(allGenes(i))
+            For Each src In finalResponses.Keys
+                sbMatrix.Append(vbTab).Append(finalResponses(src)(i).ToString("F6"))
+            Next
+            sbMatrix.AppendLine()
+        Next
+        IO.File.WriteAllText(IO.Path.Combine(outputDir, "modular_global_perturbation_responses.tsv"), sbMatrix.ToString())
+
+        ' 每个扰动源明细（基因 \t 最终效应 \t 轨迹峰值）
+        For Each src In trajectories.Keys
+            Dim tr = trajectories(src)
+            Dim sb As New StringBuilder()
+            sb.AppendLine("gene" & vbTab & "final_effect" & vbTab & "peak_effect")
+            For Each g In allGenes
+                If tr.ContainsKey(g) Then
+                    Dim vec = tr(g)
+                    Dim peak = vec.Max()
+                    sb.AppendLine(String.Format("{0}{1}{2:F6}{3}{4:F6}", g, vbTab, vec(vec.Length - 1), vbTab, peak))
+                Else
+                    sb.AppendLine(String.Format("{0}{1}1.000000{1}1.000000", g, vbTab))
+                End If
+            Next
+            Dim safe = New String(src.Where(Function(c) Char.IsLetterOrDigit(c)).ToArray())
+            IO.File.WriteAllText(IO.Path.Combine(outputDir, "modular_pert_" & safe & ".tsv"), sb.ToString())
+        Next
+
+        Call VBDebugger.WriteLine($"GRN.SaveModularResults: 模块化全局扰动结果已导出至 {outputDir}")
+    End Sub
+
+    ''' <summary>
+    ''' Pearson 相关（对不等长序列按较短者截断），用于模块 eigengene 轨迹相关度。
+    ''' </summary>
+    Private Function Pearson(x As Double(), y As Double()) As Double
+        Dim n = Math.Min(x.Length, y.Length)
+        If n < 2 Then Return 0
+        Dim mx = x.Take(n).Average()
+        Dim my = y.Take(n).Average()
+        Dim num As Double = 0, dx As Double = 0, dy As Double = 0
+        For i = 0 To n - 1
+            Dim a = x(i) - mx
+            Dim b = y(i) - my
+            num += a * b
+            dx += a * a
+            dy += b * b
+        Next
+        If dx = 0 OrElse dy = 0 Then Return 0
+        Return num / Math.Sqrt(dx * dy)
+    End Function
 End Module
 
