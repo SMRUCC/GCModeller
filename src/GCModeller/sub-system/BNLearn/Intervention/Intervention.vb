@@ -95,6 +95,14 @@ Namespace Intervention
             _data = trainingData
         End Sub
 
+        ''' <summary>
+        ''' Strict 严格模式开关（默认 True）。
+        ''' True: 在拟合网络中匹配不到干预目标基因时，抛出 <see cref="MissingMemberException"/> 错误；
+        ''' False: 在终端打印一条警告消息，不执行虚拟扰动，直接以野生型数据作为扰动结果返回，
+        ''' 并将结果对象标记为未定义（<see cref="InterventionResult.Undefined"/> = True）。
+        ''' </summary>
+        Public Property Strict As Boolean = True
+
         Private Function FindGeneIndex(spec As InterventionSpec) As Integer
             Dim i As Integer = 0
 
@@ -106,7 +114,15 @@ Namespace Intervention
                 End If
             Next
 
-            Throw New MissingMemberException("missing target gene: " & spec.GeneName)
+            ' 网络中不存在与目标基因名匹配的节点
+            If Strict Then
+                Throw New MissingMemberException("missing target gene: " & spec.GeneName)
+            Else
+                ' 非严格模式：打印警告后返回 -1，由上层入口执行野生型降级返回
+                Call Console.WriteLine(
+                    $"[BnInterventionAnalyzer] 警告: 在拟合的网络中未找到虚拟扰动的目标基因 '{spec.GeneName}'，所以没有执行虚拟扰动，函数返回了野生型的数据。")
+                Return -1
+            End If
         End Function
 
         ''' <summary>
@@ -126,10 +142,17 @@ Namespace Intervention
 
             Dim nG As Integer = _network.Nodes.Count
             Dim geneIdx As Integer = spec.GeneIndex
+            Dim missingTarget As Boolean = False
 
             If geneIdx < 0 Then
                 geneIdx = FindGeneIndex(spec)
-                spec.GeneIndex = geneIdx
+
+                If geneIdx < 0 Then
+                    ' 网络中不包含目标基因（非严格模式下的返回值）：跳过干预采样，稍后直接给出野生型降级结果
+                    missingTarget = True
+                Else
+                    spec.GeneIndex = geneIdx
+                End If
             End If
 
             ' 1. 计算野生型基线（有外部证据时，在给定表达水平条件下计算）
@@ -138,6 +161,12 @@ Namespace Intervention
                 wildtypeMeans = ComputeConditionalWildtypeMeans(evidence, nSamples, seed)
             Else
                 wildtypeMeans = ComputeWildtypeMeans(nSamples, seed)
+            End If
+
+            If missingTarget Then
+                ' 非 Strict 模式降级：虚拟扰动由于没有找到目标基因而未被执行，
+                ' 直接将野生型数据作为扰动结果返回（Undefined = True）
+                Return CreateUndefinedResult(spec, wildtypeMeans)
             End If
 
             ' 2. 创建干预网络（do-演算）
@@ -208,14 +237,27 @@ Namespace Intervention
 
             Dim nG As Integer = _network.Nodes.Count
             Dim geneIdx As Integer = spec.GeneIndex
+            Dim missingTarget As Boolean = False
 
             If geneIdx < 0 Then
                 geneIdx = FindGeneIndex(spec)
-                spec.GeneIndex = geneIdx
+
+                If geneIdx < 0 Then
+                    ' 网络中不包含目标基因（非严格模式下的返回值）：跳过级联模拟，稍后直接给出野生型降级结果
+                    missingTarget = True
+                Else
+                    spec.GeneIndex = geneIdx
+                End If
             End If
 
             ' 野生型基线
             Dim wildtypeMeans As Double() = ComputeWildtypeMeans(nSamples, seed)
+
+            If missingTarget Then
+                ' 非 Strict 模式降级：虚拟扰动由于没有找到目标基因而未被执行，
+                ' 直接将野生型数据作为扰动结果返回（Undefined = True）
+                Return CreateUndefinedResult(spec, wildtypeMeans)
+            End If
 
             ' 创建干预网络
             Dim mutantNetwork As Core.BayesianNetwork = CreateInterventionNetwork(spec, wildtypeMeans)
@@ -314,6 +356,26 @@ Namespace Intervention
         End Function
 
         ' ==================== 内部方法 ====================
+
+        ''' <summary>
+        ''' 构建"找不到目标基因、未执行虚拟扰动"时的野生型降级结果：
+        ''' 干预后均值等于野生型均值，变化量/百分比全部为零、无任何显著变化基因，
+        ''' 并将结果对象 <see cref="InterventionResult.Undefined"/> 标记为 True。
+        ''' </summary>
+        Private Function CreateUndefinedResult(spec As InterventionSpec, wildtypeMeans As Double()) As InterventionResult
+            Dim nG As Integer = _network.Nodes.Count
+
+            Return New InterventionResult() With {
+                .Spec = spec,
+                .WildtypeMeans = wildtypeMeans,
+                .MutantMeans = CType(wildtypeMeans.Clone(), Double()),
+                .FoldChanges = New Double(nG - 1) {},
+                .PercentChanges = New Double(nG - 1) {},
+                .IsSignificant = New Boolean(nG - 1) {},
+                .GeneNames = _network.Nodes.Select(Function(n) n.Name).ToArray(),
+                .Undefined = True
+            }
+        End Function
 
         ''' <summary>
         ''' 计算野生型基线表达值（从原始网络采样）

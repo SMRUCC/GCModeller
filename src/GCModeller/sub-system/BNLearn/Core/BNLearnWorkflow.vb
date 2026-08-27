@@ -106,10 +106,34 @@ Namespace Core
         ''' <summary>随机种子</summary>
         Public Property RandomSeed As Integer = 42
 
+        ''' <summary>
+        ''' 虚拟扰动 Strict 模式开关（透传给内部创建的 <see cref="Intervention.BnInterventionAnalyzer"/>，默认 True）。
+        ''' True: <see cref="KnockoutGene"/> / <see cref="OverexpressGene"/> / <see cref="KnockDownGene"/> /
+        ''' <see cref="DynamicKnockout"/> 等扰动函数在找不到目标基因时抛出错误；
+        ''' False: 在终端打印一条警告消息，不执行虚拟扰动，直接以野生型数据作为扰动结果返回
+        ''' 并将结果的 Undefined 标记为 True。
+        ''' </summary>
+        Public Property Strict As Boolean = True
+
         ' ==================== 输出结果 ====================
 
         ''' <summary>学习到的贝叶斯网络</summary>
         Public Property FittedNetwork As BayesianNetwork
+
+        ''' <summary>
+        ''' 获取动态贝叶斯网络模型中被建模的目标基因 ID 集合
+        ''' （即 <see cref="FittedNetwork"/> 全部节点的基因名，按网络节点顺序排列）。
+        ''' 结构学习尚未完成（<see cref="FittedNetwork"/> 为空）时返回空数组而不抛出错误。
+        ''' </summary>
+        Public ReadOnly Property TargetGenes As String()
+            Get
+                If FittedNetwork Is Nothing Then
+                    Return {}
+                Else
+                    Return FittedNetwork.Nodes.Select(Function(n) n.Name).ToArray()
+                End If
+            End Get
+        End Property
 
         ' ==================== 外部导入的转录组数据 ====================
 
@@ -206,7 +230,7 @@ Namespace Core
                 workData = ExpressionData.Standardize
             End If
 
-            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
             Dim spec As New Intervention.InterventionSpec() With {
                 .GeneName = geneName,
                 .Mode = Intervention.InterventionMode.Knockout
@@ -230,7 +254,7 @@ Namespace Core
                 workData = ExpressionData.Standardize
             End If
 
-            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
             Dim spec As New Intervention.InterventionSpec() With {
                 .GeneName = geneName,
                 .Mode = Intervention.InterventionMode.Overexpression
@@ -251,7 +275,7 @@ Namespace Core
                 workData = ExpressionData.Standardize
             End If
 
-            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
             Dim spec As New Intervention.InterventionSpec() With {
                 .GeneName = geneName,
                 .Mode = Intervention.InterventionMode.Knockdown
@@ -275,7 +299,7 @@ Namespace Core
                 workData = ExpressionData.Standardize
             End If
 
-            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
             Dim spec As New Intervention.InterventionSpec() With {
                 .GeneName = geneName,
                 .Mode = Intervention.InterventionMode.Knockout
@@ -388,7 +412,7 @@ Namespace Core
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then workData = ExpressionData.Standardize
 
-            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
             Dim spec As New Intervention.InterventionSpec() With {
                 .GeneName = geneName,
                 .Mode = mode
@@ -414,7 +438,7 @@ Namespace Core
             Dim workData As GeneExpressionData = ExpressionData
             If NormalizeData Then workData = ExpressionData.Standardize
 
-            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
             Dim spec As New Intervention.InterventionSpec() With {
                 .GeneName = geneName,
                 .Mode = Intervention.InterventionMode.Knockout
@@ -438,7 +462,7 @@ Namespace Core
                 workData = ExpressionData.Standardize
             End If
 
-            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
             Dim allIndices As Integer() = geneNames.Select(Function(geneName) FittedNetwork.GetNodeIndex(geneName)).ToArray()
 
             Return analyzer.BatchIntervention(allIndices, Intervention.InterventionMode.Knockout, nSamples, RandomSeed)
@@ -459,7 +483,7 @@ Namespace Core
                 workData = ExpressionData.Standardize
             End If
 
-            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData)
+            Dim analyzer As New Intervention.BnInterventionAnalyzer(FittedNetwork, workData) With {.Strict = Me.Strict}
             Dim allIndices As Integer() = Enumerable.Range(0, FittedNetwork.Nodes.Count).ToArray()
 
             Return analyzer.BatchIntervention(allIndices, Intervention.InterventionMode.Knockout, nSamples, RandomSeed)

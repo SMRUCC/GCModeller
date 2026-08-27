@@ -92,6 +92,7 @@ Namespace Intervention
         ''' <summary>野生型标准差（每个基因）</summary>
         Public Property WildtypeSDs As Double()
 
+        Public Property Undefined As Boolean = False
 
         ''' <summary>受影响的基因数量（显著变化的）</summary>
         Public ReadOnly Property NAffected As Integer
