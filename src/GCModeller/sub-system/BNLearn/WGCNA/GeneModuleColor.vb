@@ -1,0 +1,15 @@
+﻿''' <summary>
+''' WGCNA gene module color assignment result
+''' </summary>
+Public Class GeneModuleColor
+
+    Public Property geneID As String
+    Public Property moduleColor As String
+    ''' <summary>
+    ''' membership of current gene to target module color
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property kME As Double
+
+End Class
+
