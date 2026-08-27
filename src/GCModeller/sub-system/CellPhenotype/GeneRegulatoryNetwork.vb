@@ -634,8 +634,8 @@ Public Module GeneRegulatoryNetwork
 
         ' ④ 全局级联虚拟扰动
         Dim allGenes = moduleDBs.SelectMany(Function(m) m.Genes).Distinct().ToArray()
-        Dim finalResponses As New Dictionary(Of String, Double())()
-        Dim trajectories As New Dictionary(Of String, Dictionary(Of String, Double()))()
+        Dim finalResponses As New System.Collections.Generic.Dictionary(Of String, List(Of Double))()
+        Dim trajectories As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double)))()
 
         For Each g In knockGenes
             Dim respVec As Double() = CascadeIntervene(moduleDBs, graph, tfSet, g, dynamicSteps, allGenes, trajectories)
@@ -758,7 +758,7 @@ Public Module GeneRegulatoryNetwork
                                      knockGene As String,
                                      steps As Integer,
                                      allGenes As String(),
-                                     trajectories As Dictionary(Of String, Dictionary(Of String, Double()))) As Double()
+                                     trajectories As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double)))()) As Double()
         ' 定位扰动基因所属模块
         Dim m0 As ModuleDBN = Nothing
         For Each m In modules
@@ -775,14 +775,14 @@ Public Module GeneRegulatoryNetwork
         End If
 
         ' 每个模块维护基因离散状态（初始 Medium），以及各自的轨迹容器
-        Dim moduleStates As New Dictionary(Of String, Dictionary(Of String, String))
-        Dim moduleTraj As New Dictionary(Of String, Dictionary(Of String, Double()))
+        Dim moduleStates As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, String))
+        Dim moduleTraj As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double)))
         For Each m In modules
-            Dim st As New Dictionary(Of String, String)
-            Dim tr As New Dictionary(Of String, Double())
+            Dim st As New System.Collections.Generic.Dictionary(Of String, String)
+            Dim tr As New System.Collections.Generic.Dictionary(Of String, List(Of Double))
             For Each g In m.Genes
                 st(g) = "Medium"
-                tr(g) = New Double(steps - 1) {}
+                tr(g) = New List(Of Double)(New Double(steps - 1) {})
             Next
             moduleStates(m.ModuleColor) = st
             moduleTraj(m.ModuleColor) = tr
