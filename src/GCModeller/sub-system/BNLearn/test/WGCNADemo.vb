@@ -20,6 +20,7 @@ Module WGCNADemo
         Dim subMat As Matrix = Matrix.LoadData("K:\hsa\Homo_sapiens_expr_advanced_all_conditions.csv", tqdm_wrap:=True)
 
         Dim exprData = BnIO.ReadGeneExpressionMatrix(subMat)
+        Console.WriteLine($"[DIAG] exprData.GeneNames.Length={exprData.GeneNames.Length}, Matrix=({exprData.Matrix.GetLength(0)},{exprData.Matrix.GetLength(1)}), SampleNames={exprData.SampleNames.Length}")
 
         ' 2. 构建 WGCNA 子网络 + 全局扰动流水线
         Dim pipeline As New WGCNASubnetworkPipeline() With {
