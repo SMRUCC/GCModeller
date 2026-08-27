@@ -316,10 +316,9 @@ Namespace StructureLearning
 
             ' 多变量偏相关：使用矩阵求逆法
             ' 构建增广矩阵 [x, y, z1, z2, ...]
-            Dim vars As New List(Of Integer)()
-            vars.Add(x)
-            vars.Add(y)
+            Dim vars As New List(Of Integer)() From {x, y}
             vars.AddRange(zSet)
+
             Dim k As Integer = vars.Count
 
             ' 提取子相关矩阵
@@ -343,7 +342,7 @@ Namespace StructureLearning
         ' ==================== Hill-Climbing 搜索 ====================
 
         Private Sub HillClimbingSearch(net As Core.BayesianNetwork, Optional candidateEdges As HashSet(Of (Integer, Integer)) = Nothing)
-            Dim currentBIC As Double = ComputeNetworkBIC(net)
+            Dim currentBIC As Double = ComputeNetworkBIC(net, parallelOp:=True)
             Dim bar As ProgressBar = Nothing
 
             Call "do hill climbing search".info
@@ -456,7 +455,7 @@ Namespace StructureLearning
         ' ==================== Tabu 搜索 ====================
 
         Private Sub TabuSearch(net As Core.BayesianNetwork)
-            Dim currentBIC As Double = ComputeNetworkBIC(net)
+            Dim currentBIC As Double = ComputeNetworkBIC(net, parallelOp:=True)
             Dim bestBIC As Double = currentBIC
             Dim bestNet As Core.BayesianNetwork = net.CloneStructure()
             Dim tabuList As New Queue(Of String)()
@@ -555,19 +554,21 @@ Namespace StructureLearning
         ''' <remarks>
         ''' <see cref="Parallel.For"/> 并行计算
         ''' </remarks>
-        Public Function ComputeNetworkBIC(net As Core.BayesianNetwork) As Double
+        Public Function ComputeNetworkBIC(net As Core.BayesianNetwork, Optional parallelOp As Boolean = False) As Double
             Dim nS As Integer = _data.NSample
             Dim totalBIC As Double() = New Double(net.Nodes.Count - 1) {}
 
-            Call Parallel.For(
-                0, net.Nodes.Count,
-                body:=Sub(i)
-                          totalBIC(i) = ComputeNodeBIC(net, i, nS)
-                      End Sub)
-
-            'For i = 0 To net.Nodes.Count - 1
-            '    totalBIC += ComputeNodeBIC(net, i, nS)
-            'Next
+            If parallelOp Then
+                Call Parallel.For(
+                    0, net.Nodes.Count,
+                    body:=Sub(i)
+                              totalBIC(i) = ComputeNodeBIC(net, i, nS)
+                          End Sub)
+            Else
+                For i = 0 To net.Nodes.Count - 1
+                    totalBIC(i) = ComputeNodeBIC(net, i, nS)
+                Next
+            End If
 
             Return totalBIC.Sum
         End Function
