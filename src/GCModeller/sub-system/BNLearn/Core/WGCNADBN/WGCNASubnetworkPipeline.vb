@@ -23,6 +23,7 @@ Imports Core
 Imports Core.Learn.ParameterLearning
 Imports Core.Learn.StructureLearning
 Imports Intervention
+Imports SMRUCC.genomics.Analysis.BNLearn
 
 Namespace Core.WGCNADBN
 
