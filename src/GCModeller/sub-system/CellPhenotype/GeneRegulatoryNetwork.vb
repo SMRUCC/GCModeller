@@ -53,6 +53,7 @@
 
 #End Region
 
+Imports System.Collections.Generic
 Imports System.IO
 Imports System.Linq
 Imports System.Runtime.CompilerServices
@@ -566,8 +567,8 @@ Public Module GeneRegulatoryNetwork
                                              knockGenes As String(),
                                              Optional dynamicSteps As Integer = 10,
                                              Optional crossModuleCorThreshold As Double = 0.3,
-                                             Optional outputDir As String = Nothing) As (finalResponses As Dictionary(Of String, Double()),
-                                                                                        moduleNets As Dictionary(Of String, DynamicBayesianNetwork))
+                                             Optional outputDir As String = Nothing) As (finalResponses As System.Collections.Generic.Dictionary(Of String, List(Of Double)),
+                                                                                        moduleNets As System.Collections.Generic.Dictionary(Of String, DynamicBayesianNetwork))
         If timeSeries Is Nothing Then Throw New ArgumentNullException(NameOf(timeSeries), "时间序列表达矩阵不能为空")
         If modules Is Nothing OrElse modules.Length = 0 Then Throw New ArgumentNullException(NameOf(modules), "WGCNA 模块划分不能为空")
         If prior Is Nothing Then prior = New Core.PriorNetwork()
@@ -639,7 +640,7 @@ Public Module GeneRegulatoryNetwork
 
         For Each g In knockGenes
             Dim respVec As Double() = CascadeIntervene(moduleDBs, graph, tfSet, g, dynamicSteps, allGenes, trajectories)
-            finalResponses(g) = respVec
+            finalResponses(g) = New List(Of Double)(respVec)
         Next
 
         ' ⑤ 导出结果
@@ -949,8 +950,8 @@ Public Module GeneRegulatoryNetwork
     ''' <summary>
     ''' 导出全局虚拟扰动结果：基因 × 扰动源 响应矩阵 TSV + 每个扰动源的逐基因明细 TSV。
     ''' </summary>
-    Private Sub SaveModularResults(finalResponses As Dictionary(Of String, Double()),
-                                   trajectories As Dictionary(Of String, Dictionary(Of String, Double())),
+    Private Sub SaveModularResults(finalResponses As System.Collections.Generic.Dictionary(Of String, List(Of Double)),
+                                   trajectories As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double))),
                                    allGenes As String(),
                                    outputDir As String)
         If Not System.IO.Directory.Exists(outputDir) Then System.IO.Directory.CreateDirectory(outputDir)
@@ -980,7 +981,7 @@ Public Module GeneRegulatoryNetwork
                 If tr.ContainsKey(g) Then
                     Dim vec = tr(g)
                     Dim peak = vec.Max()
-                    sb.AppendLine(String.Format("{0}{1}{2:F6}{3}{4:F6}", g, vbTab, vec(vec.Length - 1), vbTab, peak))
+                    sb.AppendLine(String.Format("{0}{1}{2:F6}{3}{4:F6}", g, vbTab, vec(vec.Count - 1), vbTab, peak))
                 Else
                     sb.AppendLine(String.Format("{0}{1}1.000000{1}1.000000", g, vbTab))
                 End If
