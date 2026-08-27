@@ -93,9 +93,9 @@ Namespace Inference
 
             Call rng.SetSeed(seed)
 
-            For s = 0 To nSamples - 1
+            For s As Integer = 0 To nSamples - 1
                 ' 按拓扑序依次采样每个节点
-                For Each nodeIdx In topoOrder
+                For Each nodeIdx As Integer In topoOrder
                     Dim node As Core.BnNode = _network.Nodes(nodeIdx)
                     Dim cpd As Core.BnCPD = node.CPD
                     If cpd Is Nothing Then Continue For
