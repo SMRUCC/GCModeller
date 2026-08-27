@@ -53,10 +53,12 @@
 
 #End Region
 
+Imports System.IO
+Imports System.Linq
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
@@ -632,7 +634,7 @@ Public Module GeneRegulatoryNetwork
 
         ' ④ 全局级联虚拟扰动
         Dim allGenes = moduleDBs.SelectMany(Function(m) m.Genes).Distinct().ToArray()
-        Dim finalResponses As New Dictionary(Of String, Double)()
+        Dim finalResponses As New Dictionary(Of String, Double())()
         Dim trajectories As New Dictionary(Of String, Dictionary(Of String, Double()))()
 
         For Each g In knockGenes
@@ -818,10 +820,13 @@ Public Module GeneRegulatoryNetwork
             Next
         End While
 
-        ' 汇总全局最终响应向量
-        Dim geneToTraj = moduleTraj.Values _
-            .SelectMany(Function(tr) tr) _
-            .ToDictionary(Function(kv) kv.Key, Function(kv) kv.Value, StringComparer.OrdinalIgnoreCase)
+        ' 汇总全局最终响应向量（显式双层循环，避免 SelectMany 对 Double() 轨迹的深层展平）
+        Dim geneToTraj As New System.Collections.Generic.Dictionary(Of String, Double())(StringComparer.OrdinalIgnoreCase)
+        For Each kvModule In moduleTraj
+            For Each kvGene In kvModule.Value
+                geneToTraj(kvGene.Key) = kvGene.Value
+            Next
+        Next
 
         Dim resp As New Double(allGenes.Length - 1)
         For i = 0 To allGenes.Length - 1
@@ -833,9 +838,13 @@ Public Module GeneRegulatoryNetwork
             End If
         Next
 
-        trajectories(knockGene) = moduleTraj.Values _
-            .SelectMany(Function(tr) tr) _
-            .ToDictionary(Function(kv) kv.Key, Function(kv) kv.Value, StringComparer.OrdinalIgnoreCase)
+        Dim trajMerged As New System.Collections.Generic.Dictionary(Of String, Double())(StringComparer.OrdinalIgnoreCase)
+        For Each kvModule In moduleTraj
+            For Each kvGene In kvModule.Value
+                trajMerged(kvGene.Key) = kvGene.Value
+            Next
+        Next
+        trajectories(knockGene) = trajMerged
 
         Call VBDebugger.WriteLine($"GRN.CascadeIntervene: 对基因 '{knockGene}'（模块 {m0.ModuleColor}）完成级联虚拟扰动，本模块 eigengene 变化 δ={delta0:F4}")
         Return resp
