@@ -11,9 +11,10 @@ declare namespace bnlearn {
    /**
      * @param priorNet default value Is ``null``.
      * @param max_itrs default value Is ``500``.
+     * @param strict default value Is ``null``.
      * @param env default value Is ``null``.
    */
-   function bnlearn(exprData: object, priorNet?: any, max_itrs?: object, env?: object): object;
+   function bnlearn(exprData: object, priorNet?: any, max_itrs?: object, strict?: object, env?: object): object;
    /**
    */
    function knockdown(bnlearn: object, geneNames: any): object;

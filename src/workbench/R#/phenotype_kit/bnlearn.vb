@@ -77,6 +77,7 @@ Module bnlearn
                             <RRawVectorArgument(GetType(RegulatoryEdge))>
                             Optional priorNet As Object = Nothing,
                             Optional max_itrs As Integer = 500,
+                            Optional strict As Boolean? = Nothing,
                             Optional env As Environment = Nothing) As Object
 
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of RegulatoryEdge)(priorNet, env, nullPipe:=True)
@@ -87,7 +88,8 @@ Module bnlearn
 
         Dim workflow As New BNLearnWorkflow() With {
             .ExpressionData = BnIO.ReadGeneExpressionMatrix(exprData),
-            .PriorNetwork = BnIO.ReadPriorNetwork(pull?.populates(Of RegulatoryEdge)(env))
+            .PriorNetwork = BnIO.ReadPriorNetwork(pull?.populates(Of RegulatoryEdge)(env)),
+            .Strict = env.strictOption(opt:=strict)
         }
 
         workflow.StructureParams.MaxIterations = max_itrs

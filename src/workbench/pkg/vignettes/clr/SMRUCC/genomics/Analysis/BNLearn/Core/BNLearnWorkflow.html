@@ -50,10 +50,14 @@ export class BNLearnWorkflow {
    PriorNetwork: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>;
    # 随机种子
    RandomSeed: integer;
+   # 虚拟扰动 Strict 模式开关（透传给内部创建的 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/BnInterventionAnalyzer.html">BnInterventionAnalyzer</a>，默认 True）。 True: @<code>M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.KnockoutGene(System.String,System.Int32)</code> / @<code>M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.OverexpressGene(System.String,System.Int32)</code> / @<code>M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.KnockDownGene(System.String,System.Int32)</code> / @<code>M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.DynamicKnockout(System.String,System.Int32,System.Int32)</code> 等扰动函数在找不到目标基因时抛出错误； False: 在终端打印一条警告消息，不执行虚拟扰动，直接以野生型数据作为扰动结果返回 并将结果的 Undefined 标记为 True。
+   Strict: boolean;
    # 结构学习参数
    StructureParams: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/StructureLearning/StructureLearningParams.html">StructureLearningParams</a>;
    # 结构学习结果
    StructureResult: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/StructureLearning/StructureLearningResult.html">StructureLearningResult</a>;
+   # 获取动态贝叶斯网络模型中被建模的目标基因 ID 集合 （即 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BayesianNetwork.html">FittedNetwork</a> 全部节点的基因名，按网络节点顺序排列）。 结构学习尚未完成（<a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BayesianNetwork.html">FittedNetwork</a> 为空）时返回空数组而不抛出错误。
+   TargetGenes: string;
 }
 </code>
         </pre>

@@ -119,8 +119,7 @@ Namespace Intervention
                 Throw New MissingMemberException("missing target gene: " & spec.GeneName)
             Else
                 ' 非严格模式：打印警告后返回 -1，由上层入口执行野生型降级返回
-                Call Console.WriteLine(
-                    $"[BnInterventionAnalyzer] 警告: 在拟合的网络中未找到虚拟扰动的目标基因 '{spec.GeneName}'，所以没有执行虚拟扰动，函数返回了野生型的数据。")
+                Call $"[BnInterventionAnalyzer] 警告: 在拟合的网络中未找到虚拟扰动的目标基因 '{spec.GeneName}'，所以没有执行虚拟扰动，函数返回了野生型的数据。".debug
                 Return -1
             End If
         End Function
