@@ -953,7 +953,7 @@ Public Module GeneRegulatoryNetwork
                                    trajectories As Dictionary(Of String, Dictionary(Of String, Double())),
                                    allGenes As String(),
                                    outputDir As String)
-        If Not IO.Directory.Exists(outputDir) Then IO.Directory.CreateDirectory(outputDir)
+        If Not System.IO.Directory.Exists(outputDir) Then System.IO.Directory.CreateDirectory(outputDir)
 
         ' 全局响应矩阵（最终稳态，gene × perturbation）
         Dim sbMatrix As New StringBuilder()
@@ -969,7 +969,7 @@ Public Module GeneRegulatoryNetwork
             Next
             sbMatrix.AppendLine()
         Next
-        IO.File.WriteAllText(IO.Path.Combine(outputDir, "modular_global_perturbation_responses.tsv"), sbMatrix.ToString())
+        System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, "modular_global_perturbation_responses.tsv"), sbMatrix.ToString())
 
         ' 每个扰动源明细（基因 \t 最终效应 \t 轨迹峰值）
         For Each src In trajectories.Keys
@@ -986,7 +986,7 @@ Public Module GeneRegulatoryNetwork
                 End If
             Next
             Dim safe = New String(src.Where(Function(c) Char.IsLetterOrDigit(c)).ToArray())
-            IO.File.WriteAllText(IO.Path.Combine(outputDir, "modular_pert_" & safe & ".tsv"), sb.ToString())
+            System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, "modular_pert_" & safe & ".tsv"), sb.ToString())
         Next
 
         Call VBDebugger.WriteLine($"GRN.SaveModularResults: 模块化全局扰动结果已导出至 {outputDir}")
