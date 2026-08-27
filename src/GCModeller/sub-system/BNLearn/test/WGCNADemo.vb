@@ -13,10 +13,11 @@ Module WGCNADemo
     ''' </summary>
     Sub Run()
         ' 1. 读取数据
-        Dim geneSet As String() = DataFrameResolver.Load("K:\hsa\WGCNA_output-demo\gene_module_assignment.csv")("geneID")
+        ' 注意：直接读取完整表达矩阵，避免用 WGCNA 基因列表做 Matrix 索引过滤导致
+        ' rownames 与数据行数不一致（rownames 被缩减而数据行未同步缩减）。
+        ' 模块子集的提取交由 pipeline 的 GeneExpressionData.GetSubMatrix 按模块基因自动完成。
         Dim modules As GeneModuleColor() = WGCNA.ReadModuleAssignment("K:\hsa\WGCNA_output-demo\gene_module_assignment.csv")
         Dim subMat As Matrix = Matrix.LoadData("K:\hsa\Homo_sapiens_expr_advanced_all_conditions.csv", tqdm_wrap:=True)
-        subMat = subMat(geneSet)
 
         Dim exprData = BnIO.ReadGeneExpressionMatrix(subMat)
 
