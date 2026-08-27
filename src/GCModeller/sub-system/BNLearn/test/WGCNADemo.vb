@@ -15,7 +15,7 @@ Module WGCNADemo
         ' 1. 读取数据
         Dim geneSet As String() = DataFrameResolver.Load("K:\hsa\WGCNA_output-demo\gene_module_assignment.csv")("geneID")
         Dim modules As GeneModuleColor() = WGCNA.ReadModuleAssignment("K:\hsa\WGCNA_output-demo\gene_module_assignment.csv")
-        Dim subMat As Matrix = Matrix.LoadData("K:\hsa\Homo_sapiens_expr_advanced_all_conditions.csv")
+        Dim subMat As Matrix = Matrix.LoadData("K:\hsa\Homo_sapiens_expr_advanced_all_conditions.csv", tqdm_wrap:=True)
         subMat = subMat(geneSet)
 
         Dim exprData = BnIO.ReadGeneExpressionMatrix(subMat)

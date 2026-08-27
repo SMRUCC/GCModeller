@@ -82,8 +82,7 @@ Public Module Document
     ''' 直接通过分隔符进行解析来获取最好的解析性能
     ''' </remarks>
     Public Function LoadMatrixDocument(file As String, excludes As Index(Of String), Optional tqdm As Boolean = False) As Matrix
-        Dim text As String() = file.LineIterators(strictFile:=True, tqdm:=tqdm).ToArray
-        Dim sampleIds As String() = text(Scan0).ParseHeaders
+        Dim sampleIds As String() = file.ReadFirstLine.ParseHeaders
         Dim takeIndex As Integer()
 
         If excludes Is Nothing Then
@@ -96,7 +95,9 @@ Public Module Document
                 .ToArray
         End If
 
-        Dim matrix As DataFrameRow() = text _
+        ' parse matrix data in stream model
+        Dim matrix As DataFrameRow() = file _
+            .LineIterators(strictFile:=True, tqdm:=tqdm) _
             .Skip(1) _
             .loadGeneMatrix(excludes, takeIndex) _
             .ToArray
