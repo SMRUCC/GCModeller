@@ -15,15 +15,11 @@
 '   5) 导出全局扰动响应矩阵（gene × perturbation）TSV + 控制台摘要。
 ' ============================================================
 
-Imports System.Collections.Generic
 Imports System.IO
-Imports System.Linq
 Imports System.Text
-Imports Core
-Imports Core.Learn.ParameterLearning
-Imports Core.Learn.StructureLearning
-Imports Intervention
-Imports SMRUCC.genomics.Analysis.BNLearn
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports SMRUCC.genomics.Analysis.BNLearn.ParameterLearning
+Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
 
 Namespace Core.WGCNADBN
 
@@ -53,7 +49,7 @@ Namespace Core.WGCNADBN
         Public Property MaxSteps As Integer = 50
 
         ''' <summary>雅可比收敛阈值：||e_{t+1}|| / ||e_t|| 小于该值即停止</summary>
-        Public Property Tolerance As Double = 1.0E-6
+        Public Property Tolerance As Double = 0.000001
 
         ''' <summary>每个模块取 kME 最高的前 N 个基因作为模块接口（hub）</summary>
         Public Property HubTopN As Integer = 20
@@ -201,11 +197,11 @@ Namespace Core.WGCNADBN
                 End If
 
                 ' 结构学习
-                Dim structResult = BnStructureLearner.Learn(subData, StructureParams, Nothing)
+                Dim structResult = New BnStructureLearner().Learn(subData, StructureParams, Nothing)
                 Dim net = structResult.Network
 
                 ' 参数学习（在标准化子矩阵上，系数与全局 A 自洽）
-                Dim learned = BnParameterLearner.Learn(net, subData).Network
+                Dim learned = New BnParameterLearner().Learn(net, subData).Network
 
                 _subNets.Add(learned)
                 Call $"[WGCNASubnetworkPipeline] 模块 {moduleColor}: 训练 {genes.Length} 基因, 节点 {learned.Nodes.Count}".debug
@@ -220,7 +216,7 @@ Namespace Core.WGCNADBN
             Dim n As Integer = _genes.Length
             _A = New Double(n - 1, n - 1) {}
 
-            For Each net In _subNets
+            For Each net As BayesianNetwork In _subNets
                 For Each node In net.Nodes
                     Dim childGlobal = GetGlobalIndex(node.Name)
                     If childGlobal < 0 OrElse node.CPD Is Nothing Then
@@ -299,7 +295,7 @@ Namespace Core.WGCNADBN
             Next
 
             ' 在完整标准化数据上统一学习全局 CPD（含模块内 + 跨模块边）
-            _globalNet = BnParameterLearner.Learn(_globalNet, _exprStd).Network
+            _globalNet = New BnParameterLearner().Learn(_globalNet, _exprStd).Network
 
             ' 用全局网络 CPD 重写 A（ParentIndices 此时直接是全局基因索引）
             _A = New Double(n - 1, n - 1) {}

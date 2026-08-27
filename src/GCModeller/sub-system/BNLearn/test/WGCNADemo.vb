@@ -1,13 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
-Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.BNLearn
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
-Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports System.Linq
-Imports System.Collections.Generic
 
 Module WGCNADemo
 
