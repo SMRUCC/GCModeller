@@ -17,6 +17,7 @@
 
 Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.ParameterLearning
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
@@ -299,13 +300,18 @@ Namespace Core.WGCNADBN
             Dim n As Integer = _genes.Length
             _globalNet = New BayesianNetwork()
 
-            For Each g In _genes
+            Call "build a global bayesian network.".debug
+            Call "add nodes.".debug
+
+            For Each g In TqdmWrapper.Wrap(_genes)
                 _globalNet.AddNode(g)
             Next
 
-            For i = 0 To n - 1          ' child
+            Call "add network edges.".debug
+
+            For Each i As Integer In TqdmWrapper.Range(0, n)          ' child
                 For j = 0 To n - 1      ' parent
-                    If Math.Abs(_A(i, j)) > 1.0E-12 Then
+                    If Math.Abs(_A(i, j)) > 0.000000000001 Then
                         ' AddEdge(parent, child)
                         _globalNet.AddEdge(j, i)
                     End If
@@ -460,13 +466,21 @@ Namespace Core.WGCNADBN
         End Function
 
         Private Function InterventionValue(sourceIdx As Integer) As Double
-            ' 标准化数据野生型均值≈0、SD≈1；Knockout 把源打到 -1 偏离
-            Dim spec As New InterventionSpec() With {
-                .GeneName = _genes(sourceIdx),
-                .GeneIndex = sourceIdx,
-                .Mode = Intervention.InterventionMode.Knockout
-            }
-            Return spec.GetInterventionValue(0.0, 1.0)
+            ' 雅可比传播需要的是「相对野生型的扰动增量 Δx0」，而非绝对干预值。
+            ' 标准化数据野生型均值≈0、SD≈1；Knockout 下调 1 个 SD、Overexpression 上调 3 倍、
+            ' Knockdown 下调 2 倍（与 BnInterventionAnalyzer 中采样所用的偏离尺度一致）。
+            ' 注意：不能用 GetInterventionValue(0,1) —— Knockout 返回绝对干预值 0，
+            ' 在标准化数据（野生型均值已是 0）下扰动增量为 0，导致传播全 0。
+            Select Case DefaultMode()
+                Case Intervention.InterventionMode.Knockout
+                    Return -1.0
+                Case Intervention.InterventionMode.Overexpression
+                    Return 3.0
+                Case Intervention.InterventionMode.Knockdown
+                    Return -2.0
+                Case Else
+                    Return 0.0
+            End Select
         End Function
 
         Private Function CountEdges() As Integer
