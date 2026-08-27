@@ -62,7 +62,7 @@ Namespace Intervention
     Public Class InterventionSpec
 
         ''' <summary>目标基因索引</summary>
-        Public Property GeneIndex As Integer
+        Public Property GeneIndex As Integer = -1
 
         ''' <summary>目标基因名称</summary>
         Public Property GeneName As String = ""
@@ -90,7 +90,7 @@ Namespace Intervention
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"[{GeneIndex}] {GeneName} as {Mode.Description} = {Value}"
+            Return $"[{GeneIndex}] {GeneName} as {Mode.Description} = {GetInterventionValue(10, 1.25)}"
         End Function
 
     End Class

@@ -95,6 +95,20 @@ Namespace Intervention
             _data = trainingData
         End Sub
 
+        Private Function FindGeneIndex(spec As InterventionSpec) As Integer
+            Dim i As Integer = 0
+
+            For Each node As BnNode In _network.Nodes
+                If String.Equals(node.Name, spec.GeneName, StringComparison.OrdinalIgnoreCase) Then
+                    Return i
+                Else
+                    i += 1
+                End If
+            Next
+
+            Throw New MissingMemberException("missing target gene: " & spec.GeneName)
+        End Function
+
         ''' <summary>
         ''' 执行单基因虚拟干扰分析
         ''' </summary>
@@ -112,13 +126,11 @@ Namespace Intervention
 
             Dim nG As Integer = _network.Nodes.Count
             Dim geneIdx As Integer = spec.GeneIndex
-            If geneIdx < 0 Then
-                geneIdx = Array.FindIndex(_network.Nodes.Select(Function(n) n.Name).ToArray(),
-                                           Function(n) String.Equals(n, spec.GeneName, StringComparison.OrdinalIgnoreCase))
-            End If
-            If geneIdx < 0 Then Throw New Exception("基因未找到: " & spec.GeneName)
 
-            spec.GeneIndex = geneIdx
+            If geneIdx < 0 Then
+                geneIdx = FindGeneIndex(spec)
+                spec.GeneIndex = geneIdx
+            End If
 
             ' 1. 计算野生型基线（有外部证据时，在给定表达水平条件下计算）
             Dim wildtypeMeans As Double()
@@ -196,12 +208,11 @@ Namespace Intervention
 
             Dim nG As Integer = _network.Nodes.Count
             Dim geneIdx As Integer = spec.GeneIndex
+
             If geneIdx < 0 Then
-                geneIdx = Array.FindIndex(_network.Nodes.Select(Function(n) n.Name).ToArray(),
-                                           Function(n) String.Equals(n, spec.GeneName, StringComparison.OrdinalIgnoreCase))
+                geneIdx = FindGeneIndex(spec)
+                spec.GeneIndex = geneIdx
             End If
-            If geneIdx < 0 Then Throw New Exception("基因未找到: " & spec.GeneName)
-            spec.GeneIndex = geneIdx
 
             ' 野生型基线
             Dim wildtypeMeans As Double() = ComputeWildtypeMeans(nSamples, seed)
