@@ -261,8 +261,12 @@ Namespace Core
             For Each g In geneNames
                 Dim idx As Integer = GetGeneIndex(g)
                 If idx >= 0 Then
-                    keepIdx.Add(idx)
-                    keepNames.Add(GeneNames(idx))
+                    If idx >= GeneNames.Length Then
+                        Console.WriteLine($"[DIAG BUG] gene='{g}' idx={idx} GeneNames.Length={GeneNames.Length} Matrix0={Matrix.GetLength(0)}")
+                    Else
+                        keepIdx.Add(idx)
+                        keepNames.Add(GeneNames(idx))
+                    End If
                 Else
                     Call $"[GeneExpressionData.GetSubMatrix] warning: gene '{g}' not found in matrix, skipped.".debug
                 End If
