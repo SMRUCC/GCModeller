@@ -339,9 +339,7 @@ Namespace Intervention
         ''' 仅采用与训练网络重叠的基因作为证据；键大小写不敏感。
         ''' 用于在"用户真实样本表达水平"条件下求参考分布（观测证据模式）。
         ''' </summary>
-        Private Function ComputeConditionalWildtypeMeans(evidence As Dictionary(Of String, Double),
-                                                        nSamples As Integer,
-                                                        seed As Integer) As Double()
+        Private Function ComputeConditionalWildtypeMeans(evidence As Dictionary(Of String, Double), nSamples As Integer, seed As Integer) As Double()
             Dim nG As Integer = _network.Nodes.Count
             Dim names As String() = _network.Nodes.Select(Function(n) n.Name).ToArray()
 
