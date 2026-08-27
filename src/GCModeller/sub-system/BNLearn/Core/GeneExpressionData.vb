@@ -249,6 +249,46 @@ Namespace Core
             Return -1
         End Function
 
+        ''' <summary>
+        ''' 按指定的基因名子集（顺序由 geneNames 决定）提取子表达矩阵，返回一个新的 GeneExpressionData。
+        ''' 行 = 指定基因，列 = 全部样本（保留 TimePoints 与 SampleNames）。
+        ''' 找不到的基因会被跳过并在控制台给出警告。
+        ''' </summary>
+        Public Function GetSubMatrix(geneNames As String()) As GeneExpressionData
+            Dim keepIdx As New List(Of Integer)()
+            Dim keepNames As New List(Of String)()
+
+            For Each g In geneNames
+                Dim idx As Integer = GetGeneIndex(g)
+                If idx >= 0 Then
+                    keepIdx.Add(idx)
+                    keepNames.Add(GeneNames(idx))
+                Else
+                    Call $"[GeneExpressionData.GetSubMatrix] warning: gene '{g}' not found in matrix, skipped.".debug
+                End If
+            Next
+
+            If keepIdx.Count = 0 Then
+                Return Nothing
+            End If
+
+            Dim sub_ As Double(,) = New Double(keepIdx.Count - 1, NSample - 1) {}
+            For i = 0 To keepIdx.Count - 1
+                For j = 0 To NSample - 1
+                    sub_(i, j) = Matrix(keepIdx(i), j)
+                Next
+            Next
+
+            Dim result As New GeneExpressionData() With {
+                .GeneNames = keepNames.ToArray(),
+                .SampleNames = CType(SampleNames.Clone(), String()),
+                .Matrix = sub_,
+                .TimePoints = CType(TimePoints.Clone(), Double())
+            }
+            result._uniqueTimes = Nothing
+            Return result
+        End Function
+
     End Class
 
 End Namespace
