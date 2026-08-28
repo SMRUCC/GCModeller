@@ -136,10 +136,12 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' </remarks>
         Private Function CreateObjectGff3(data As String) As Dictionary(Of String, String)
             Dim tokens As String() = attributeTokens(Line:=data)
-            Dim LQuery = (From Token As String In tokens
-                          Let p As Integer = InStr(Token, "=")
-                          Let Name As String = Mid(Token, 1, p - 1),
-                              Value As String = Mid(Token, p + 1)
+            Dim LQuery = (From t As String
+                          In tokens
+                          Where Strings.Len(t) > 0
+                          Let p As Integer = InStr(t, "=")
+                          Let Name As String = Mid(t, 1, p - 1),
+                              Value As String = Mid(t, p + 1)
                           Select Name, Value).ToArray
             Dim attrs = LQuery.ToDictionary(Function(obj) obj.Name.ToLower,   ' Key已经被转换为小写了
                                             Function(obj) If(Len(obj.Value) > 2 AndAlso
