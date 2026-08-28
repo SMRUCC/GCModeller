@@ -319,6 +319,14 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Next
         End Function
 
+        Public Iterator Function FilterByType(type As String) As IEnumerable(Of Feature)
+            For Each feature As Feature In features
+                If feature.feature = type Then
+                    Yield feature
+                End If
+            Next
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
