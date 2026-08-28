@@ -106,6 +106,12 @@ Module genomics
         Return gff.FilterBySource(source).ToArray
     End Function
 
+    <ExportAPI("type_features")>
+    <RApiReturn(GetType(Feature))>
+    Public Function SourceType(gff As GFFTable, type As String) As Object
+        Return gff.FilterByType(type).ToArray
+    End Function
+
     ''' <summary>
     ''' get gff features by id reference
     ''' </summary>

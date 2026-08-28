@@ -62,6 +62,14 @@ Module Program
             Return
         End If
 
+        ' runs the markdown console renderer regression checks only:
+        '   test.exe --markdown
+        If args.Length > 0 AndAlso args(0) = "--markdown" Then
+            Call markdownRenderVerify.Run()
+            Call markdownDisplayTest.Main1()
+            Return
+        End If
+
         Call qgramTestSearch.Run()
         Call progrsssBarTest.testLoop()
         Call streamTest.dataUriStreamtest()
@@ -78,7 +86,8 @@ Module Program
 
         Console.WriteLine("Hello World!")
 
-        Call markdownDisplayTest.Main1()
+        Call markdownRenderVerify.Run()
+
         Call SIMDTest.Main1()
         Call streamTest.Main1()
     End Sub
