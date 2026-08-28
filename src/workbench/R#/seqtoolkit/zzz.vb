@@ -65,5 +65,6 @@ Public Class zzz
         Call context.Main()
         Call primers.Main()
         Call bifrost.Main()
+        Call genomics.Main()
     End Sub
 End Class

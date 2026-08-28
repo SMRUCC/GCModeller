@@ -55,6 +55,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Annotation
@@ -78,6 +80,44 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 <Package("annotation.genomics", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 <RTypeExport("gene_info", GetType(GeneBrief))>
 Module genomics
+
+    Sub Main()
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(Feature()), AddressOf as_featureTable)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function as_featureTable(features As Feature(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = features.Keys
+        }
+
+        Call df.add(NameOf(Feature.seqname), From fi As Feature In features Select fi.seqname)
+        Call df.add(NameOf(Feature.source), From fi As Feature In features Select fi.source)
+        Call df.add(NameOf(Feature.feature), From fi As Feature In features Select fi.feature)
+        Call df.add(NameOf(Feature.synonym), From fi As Feature In features Select fi.synonym)
+        Call df.add(NameOf(Feature.start), From fi As Feature In features Select fi.start)
+        Call df.add(NameOf(Feature.ends), From fi As Feature In features Select fi.ends)
+        Call df.add("length", From fi As Feature In features Select fi.Length)
+        Call df.add(NameOf(Feature.strand), From fi As Feature In features Select fi.strand.Description)
+        Call df.add(NameOf(Feature.score), From fi As Feature In features Select fi.score)
+        Call df.add(NameOf(Feature.frame), From fi As Feature In features Select fi.frame)
+        Call df.add(NameOf(Feature.comments), From fi As Feature In features Select fi.comments)
+
+        Dim attrCols As String() = features _
+            .Select(Function(fi) fi.attributes.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+        For Each key As String In attrCols
+            Call df.add(key, From fi As Feature
+                             In features
+                             Select fi.attributes.TryGetValue(key))
+        Next
+
+        Return df
+    End Function
 
     <ExportAPI("read.gtf")>
     Public Function readGtf(file As String) As GeneBrief()
