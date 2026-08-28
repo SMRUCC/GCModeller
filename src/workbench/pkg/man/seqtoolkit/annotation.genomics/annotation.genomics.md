@@ -6,6 +6,7 @@
 + [read.gff](annotation.genomics/read.gff.1) read the gff3 file
 + [write.gff3](annotation.genomics/write.gff3.1) 
 + [source_features](annotation.genomics/source_features.1) 
++ [type_features](annotation.genomics/type_features.1) 
 + [gff_features](annotation.genomics/gff_features.1) get gff features by id reference
 + [as.tabular](annotation.genomics/as.tabular.1) 
 + [as.geneTable](annotation.genomics/as.geneTable.1) 

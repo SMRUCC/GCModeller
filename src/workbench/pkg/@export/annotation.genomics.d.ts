@@ -75,6 +75,9 @@ declare namespace annotation.genomics {
    */
    function source_features(gff: object, source: string): object;
    /**
+   */
+   function type_features(gff: object, type: string): object;
+   /**
     * Create the upstream location
     * 
     * 
