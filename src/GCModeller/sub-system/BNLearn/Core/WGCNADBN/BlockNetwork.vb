@@ -8,8 +8,6 @@ Namespace Core.WGCNADBN
     Public Class BlockNetwork
 
         ' ---- 训练参数（与 BNLearnWorkflow 风格一致） ----
-        ''' <summary>是否对表达数据做标准化（z-score），默认 True</summary>
-        Public Property NormalizeData As Boolean = True
 
         ''' <summary>结构学习参数（算法/显著性阈值/最大父节点数/随机种子）</summary>
         Public Property StructureParams As New StructureLearningParams()
@@ -43,8 +41,10 @@ Namespace Core.WGCNADBN
         ''' 模块切分 → 子网络训练 → 全局矩阵拼接
         ''' </summary>
         ''' <param name="expr">全局表达矩阵（基因 × 样本）</param>
+        ''' <param name="normalizeData">
+        ''' 是否对表达数据做标准化（z-score），默认 True
+        ''' </param>
         Sub New(expr As GeneExpressionData, Optional normalizeData As Boolean = True)
-            _NormalizeData = normalizeData
             _expr = expr
             _genes = expr.GeneNames
             _gIndex = New Dictionary(Of String, Integer)()

@@ -19,6 +19,7 @@ Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
 
 Namespace Core.WGCNADBN
 
@@ -42,6 +43,30 @@ Namespace Core.WGCNADBN
         ''' <summary>随机种子</summary>
         Public Property RandomSeed As Integer = 42
 
+        ' ---- 训练参数（与 BNLearnWorkflow 风格一致） ----
+
+        ''' <summary>
+        ''' 是否对表达数据做标准化（z-score），默认 True
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property NormalizeData As Boolean = True
+
+        ''' <summary>结构学习参数（算法/显著性阈值/最大父节点数/随机种子）</summary>
+        Public Property StructureParams As New StructureLearningParams()
+
+        ''' <summary>每个模块取 kME 最高的前 N 个基因作为模块接口（hub）</summary>
+        Public Property HubTopN As Integer = 20
+
+        ''' <summary>模块 eigengene 相关阈值：|cor| 超过才尝试补模块间边</summary>
+        Public Property CrossModuleCorThreshold As Double = 0.3
+
+        ''' <summary>hub 基因间相关阈值：|r| 超过才在对应基因间补跨模块边</summary>
+        Public Property CrossGeneCorThreshold As Double = 0.4
+
+        ''' <summary>跨模块边的初始权重缩放（最终由全局参数学习覆盖）</summary>
+        Public Property CrossScale As Double = 0.5
+
+
         Dim model As BlockNetwork
         Dim infer As BlockPropagate
 
@@ -60,7 +85,13 @@ Namespace Core.WGCNADBN
         ''' <param name="expr">全局表达矩阵（基因 × 样本）</param>
         ''' <returns></returns>
         Public Function Learn(assignment As GeneModuleColor(), expr As GeneExpressionData) As WGCNASubnetworkPipeline
-            model = New BlockNetwork(expr)
+            model = New BlockNetwork(expr, normalizeData:=NormalizeData) With {
+                .CrossGeneCorThreshold = CrossGeneCorThreshold,
+                .CrossModuleCorThreshold = CrossModuleCorThreshold,
+                .CrossScale = CrossScale,
+                .HubTopN = HubTopN,
+                .StructureParams = StructureParams
+            }
             infer = New BlockPropagate With {
                 .Model = model.Learn(assignment),
                 .MaxSteps = MaxSteps,

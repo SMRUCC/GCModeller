@@ -33,22 +33,24 @@ Module WGCNADemo
         }
         ' 结构学习参数（与 BNLearnWorkflow 一致）
         pipeline.StructureParams.MaxIterations = 500
+        pipeline.Learn(modules, exprData)
+
+        Dim source As String() = pipeline.GetModuleHubSources
 
         ' 3. 方法一（默认）：雅可比矩阵多步线性传播
         pipeline.Propagation = PropagationMethod.Jacobian
-        Dim jacResults = pipeline.Run(modules, exprData)
+        Dim jacResults = pipeline.InsilicoPerturbation(source, Intervention.InterventionMode.Knockout)
         Dim outDirJac = App.HOME & "/output/wgcna_global_perturbation/jacobian"
         Call pipeline.SaveResults(jacResults, outDirJac)
 
         ' 4. 方法二：级联采样跨模块传播（对前若干代表源演示，避免全量过慢）
         pipeline.Propagation = PropagationMethod.CascadeSampling
         Dim demoSources = jacResults.Take(5).Select(Function(r) r.SourceGene).ToArray()
-        Dim casResults = pipeline.Run(modules, exprData, demoSources)
+        Dim casResults = pipeline.InsilicoPerturbation(demoSources, Intervention.InterventionMode.Knockout)
         Dim outDirCas = App.HOME & "/output/wgcna_global_perturbation/cascade"
         Call pipeline.SaveResults(casResults, outDirCas)
 
-        Call Console.WriteLine("[WGCNADemo] 全局虚拟扰动流程完成。雅可比方法源数={0}, 级联方法源数={1}",
-                               jacResults.Count, casResults.Count)
+        Call Console.WriteLine("[WGCNADemo] 全局虚拟扰动流程完成。雅可比方法源数={0}, 级联方法源数={1}", jacResults.Count, casResults.Count)
         Call Console.WriteLine("[WGCNADemo] 结果目录: " & App.HOME & "/output/wgcna_global_perturbation/")
     End Sub
 End Module
