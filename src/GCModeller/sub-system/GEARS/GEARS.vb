@@ -10,6 +10,8 @@ Imports SMRUCC.genomics.Analysis.GEARS.Graph
 Imports SMRUCC.genomics.Analysis.GEARS.Model
 Imports SMRUCC.genomics.Analysis.GEARS.Training
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports System.IO
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
 ''' GEARS：基于图神经网络的基因表达调控网络虚拟扰动实验
@@ -45,9 +47,6 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
 
     ''' <summary>超参配置</summary>
     ReadOnly config As GEARSConfig
-
-    ''' <summary>随机数发生器</summary>
-    ReadOnly rand As Random
 
     ''' <summary>用于估计 control 基线所选取的样本列索引</summary>
     ReadOnly baselineSamples As Integer()
@@ -117,9 +116,10 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
 
         If Not Me.config.Validate() Then
             Throw New ArgumentException($"GEARS 配置参数不合法: {Me.config}")
+        Else
+            Call randf.SetSeed(Me.config.Seed)
         End If
 
-        Me.rand = New Random(Me.config.Seed)
         Me.baselineSamples = SelectBaselineSamples(nSamples)
         Me.WildtypeMeans = New Double(expression.NGene - 1) {}
         Me.WildtypeSDs = New Double(expression.NGene - 1) {}
@@ -186,7 +186,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         Dim picked As New HashSet(Of Integer)()
 
         While picked.Count < nSamples
-            picked.Add(rand.Next(total))
+            picked.Add(randf.Next(total))
         End While
 
         Return picked.OrderBy(Function(i) i).ToArray()
@@ -283,7 +283,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
             Dim size As Integer = std.Min(config.ComboSize, candidates.Count)
 
             While specs.Count < size
-                Dim gene As String = candidates(rand.Next(candidates.Count))
+                Dim gene As String = candidates(randf.Next(candidates.Count))
 
                 If used.Add(gene) Then
                     specs.Add(NewGeneSpec(gene, modes(i Mod modes.Length)))
@@ -349,29 +349,48 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     ''' 注入外部的真实 Perturb-seq 训练样本（覆盖内置仿真样本）
     ''' </summary>
     ''' <param name="samples">实测扰动样本集合</param>
-    Public Sub SetTrainingSamples(samples As IEnumerable(Of PerturbSeqSample))
+    Public Function SetTrainingSamples(samples As IEnumerable(Of PerturbSeqSample)) As GEARS
         TrainingSamples.Clear()
         TrainingSamples.AddRange(samples.SafeQuery)
+
+        Return Me
+    End Function
+
+    ''' <summary>
+    ''' Set Perturb-seq training sample from a given gene expression matrix
+    ''' </summary>
+    ''' <param name="samples"></param>
+    Public Function SetTrainingSamples(samples As Matrix) As GEARS
+
+        Return Me
+    End Function
+
+    ''' <summary>
+    ''' Save current model as zip file
+    ''' </summary>
+    ''' <param name="file"></param>
+    Public Sub Save(file As Stream)
+
     End Sub
+
+    ''' <summary>
+    ''' Load model from a zip file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    Public Shared Function Load(file As Stream) As GEARS
+
+    End Function
 
     ''' <summary>
     ''' 训练 GNN 模型
     ''' </summary>
-    ''' <param name="samples">
-    ''' 训练样本；为 Nothing 时使用 <see cref="TrainingSamples"/>
-    ''' （若为空则先调用 <see cref="GenerateTrainingSamples"/> 生成）
-    ''' </param>
     ''' <returns>损失曲线</returns>
-    Public Function Train(Optional samples As IEnumerable(Of PerturbSeqSample) = Nothing) As Double()
-        If samples IsNot Nothing Then
-            Call SetTrainingSamples(samples)
-        End If
-
-        If TrainingSamples.Count = 0 Then
-            Call GenerateTrainingSamples()
-        End If
-
-        If TrainingSamples.Count = 0 Then
+    ''' <remarks>
+    ''' 训练样本；为 Nothing 时使用 <see cref="TrainingSamples"/>若为空则先调用 <see cref="GenerateTrainingSamples"/> 生成）
+    ''' </remarks>
+    Public Function Train() As Double()
+        If TrainingSamples.IsNullOrEmpty Then
             Throw New InvalidOperationException("没有可用的训练样本：先验网络中没有任何基因能够映射到表达矩阵上")
         End If
 
@@ -591,7 +610,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         Dim total As Integer = exprData.NSample
 
         While picked.Count < std.Min(nSamples, total)
-            picked.Add(rand.Next(total))
+            picked.Add(randf.Next(total))
         End While
 
         Call ComputeBaseline(picked.OrderBy(Function(i) i).ToArray())
