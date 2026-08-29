@@ -77,7 +77,7 @@ Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
-Namespace StringDB.Tsv
+Namespace Tabular.Tsv
 
     ''' <summary>
     ''' interaction types for protein links.

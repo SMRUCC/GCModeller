@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::c0c0adf48c418c19813264cff2859612, data\STRING\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 151
-    '    Code Lines: 114 (75.50%)
-    ' Comment Lines: 17 (11.26%)
-    '    - Xml Docs: 70.59%
-    ' 
-    '   Blank Lines: 20 (13.25%)
-    '     File Size: 5.67 KB
+' Summaries:
 
 
-    ' Module Extensions
-    ' 
-    '     Function: (+3 Overloads) MatchNetwork
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 151
+'    Code Lines: 114 (75.50%)
+' Comment Lines: 17 (11.26%)
+'    - Xml Docs: 70.59%
+' 
+'   Blank Lines: 20 (13.25%)
+'     File Size: 5.67 KB
+
+
+' Module Extensions
+' 
+'     Function: (+3 Overloads) MatchNetwork
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
+Imports SMRUCC.genomics.Data.STRING.Tabular.Tsv
 
 Public Module Extensions
 
@@ -87,9 +87,9 @@ Public Module Extensions
                 Call testAdd(link.item_id_b)
 
                 edges += New NetworkEdge With {
-                    .FromNode = link.item_id_a,
-                    .ToNode = link.item_id_b,
-                    .Interaction = link.mode,
+                    .fromNode = link.item_id_a,
+                    .toNode = link.item_id_b,
+                    .interaction = link.mode,
                     .value = link.score,
                     .Properties = New Dictionary(Of String, String) From {
                         {"action", link.action},
@@ -100,8 +100,8 @@ Public Module Extensions
         Next
 
         Return New NetworkTables With {
-            .Edges = edges,
-            .Nodes = nodes.Values.ToArray
+            .edges = edges,
+            .nodes = nodes.Values.ToArray
         }
     End Function
 
@@ -173,18 +173,18 @@ Public Module Extensions
                 End If
 
                 edges += New NetworkEdge With {
-                    .FromNode = link.protein1,
-                    .ToNode = link.protein2,
+                    .fromNode = link.protein1,
+                    .toNode = link.protein2,
                     .value = link.combined_score,
-                    .Interaction = type,
+                    .interaction = type,
                     .Properties = properties
                 }
             End If
         Next
 
         Return New NetworkTables With {
-            .Edges = edges,
-            .Nodes = nodes.Values.ToArray
+            .edges = edges,
+            .nodes = nodes.Values.ToArray
         }
     End Function
 
