@@ -77,7 +77,7 @@ Public Module Extensions
                 End If
             End Sub
 
-        For Each link As LinkAction In LinkAction.LoadText(actions)
+        For Each link As linkAction In linkAction.LoadText(actions)
             If Not idData.ContainsKey(link.item_id_a) OrElse
                 Not idData.ContainsKey(link.item_id_b) Then
                 ' DO NOTHING
@@ -129,10 +129,10 @@ Public Module Extensions
                 End If
             End Sub
 
-        Dim linkActions As New Dictionary(Of String, LinkAction)
+        Dim linkActions As New Dictionary(Of String, linkAction)
 
         ' 先取出actions的子集
-        For Each link As LinkAction In LinkAction.LoadText(actions)
+        For Each link As linkAction In linkAction.LoadText(actions)
             If Not idData.ContainsKey(link.item_id_a) OrElse
                 Not idData.ContainsKey(link.item_id_b) Then
                 ' DO NOTHING
@@ -192,13 +192,16 @@ Public Module Extensions
     ''' 
     ''' </summary>
     ''' <param name="IDlist"><see cref="NamedValue(Of String).Name"/>为STRING之中的蛋白质的编号</param>
-    ''' <param name="actions$"><see cref="LinkAction"/></param>
+    ''' <param name="actions$"><see cref="linkAction"/></param>
     ''' <returns></returns>
     <Extension>
     Public Function MatchNetwork(IDlist As IEnumerable(Of NamedValue(Of String)), actions$) As NetworkTables
         Dim idData As Dictionary(Of String, String) = IDlist _
             .ToDictionary(Function(x) x.Name,
-                          Function(x) x.Value)
+                          Function(x)
+                              Return x.Value
+                          End Function)
+
         Return idData.MatchNetwork(actions)
     End Function
 End Module

@@ -64,7 +64,7 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Namespace Tabular.Tsv
 
     ''' <summary>
-    ''' 对于<see cref="LinkAction"/>和<see cref="linksDetail"/>而言，都是从ftp服务器上面下载的结果数据
+    ''' 对于<see cref="linkAction"/>和<see cref="linksDetail"/>而言，都是从ftp服务器上面下载的结果数据
     ''' 这个tsv文件则是搜索蛋白质网络结果之后的export下载数据的文件格式读取对象
     ''' </summary>
     ''' <remarks>这个数据模型是使用STRING的蛋白编号作为节点编号的</remarks>

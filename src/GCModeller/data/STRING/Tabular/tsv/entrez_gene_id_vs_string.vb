@@ -100,4 +100,23 @@ Namespace Tabular.Tsv
             Return source.ToDictionary(Function(x) x.Entrez_Gene_ID, Function(x) x.STRING_Locus_ID)
         End Function
     End Class
+
+    Public Class protein_aliases
+
+        <Column("#string_protein_id")>
+        Public Property string_protein_id As String
+        Public Property [alias] As String
+        Public Property source As String
+
+    End Class
+
+    Public Class protein_info
+
+        <Column("#string_protein_id")>
+        Public Property string_protein_id As String
+        Public Property preferred_name As String
+        Public Property protein_size As String
+        Public Property annotation As String
+
+    End Class
 End Namespace

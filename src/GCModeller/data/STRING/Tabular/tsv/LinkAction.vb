@@ -8,7 +8,7 @@ Namespace Tabular.Tsv
     ''' 这个对象只是存在注释数据的互作关系，只是所有的互作关系之中研究比较明白的网络部分，
     ''' 假若查看所有的网络数据在``9606.protein.links.v10.txt``文件之中)
     ''' </summary>
-    Public Class LinkAction
+    Public Class linkAction
 
         Public Property item_id_a As String
         Public Property item_id_b As String
@@ -17,11 +17,11 @@ Namespace Tabular.Tsv
         Public Property a_is_acting As String
         Public Property score As String
 
-        Public Shared Iterator Function LoadText(path As String) As IEnumerable(Of LinkAction)
+        Public Shared Iterator Function LoadText(path As String) As IEnumerable(Of linkAction)
             For Each line As String In path.IterateAllLines.Skip(1)
                 Dim tokens As String() = line.Split(ASCII.TAB)
 
-                Yield New LinkAction With {
+                Yield New linkAction With {
                     .item_id_a = tokens(0),
                     .item_id_b = tokens(1),
                     .mode = tokens(2),
