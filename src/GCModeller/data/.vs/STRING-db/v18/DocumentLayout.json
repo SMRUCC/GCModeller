@@ -3,6 +3,26 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\string\\psi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|solutionrelative:string\\psi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\string\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|solutionrelative:string\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\string\\webapi\\apimodels.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|solutionrelative:string\\webapi\\apimodels.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\string\\tsv\\coordinates.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|solutionrelative:string\\tsv\\coordinates.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\string\\tsv\\interactexports.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|solutionrelative:string\\tsv\\interactexports.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\string\\tsv.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}|STRING\\STRING-db.vbproj|solutionrelative:string\\tsv.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -22,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,7 +58,72 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PSI.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\PSI.vb",
+              "RelativeDocumentMoniker": "STRING\\PSI.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\PSI.vb",
+              "RelativeToolTip": "STRING\\PSI.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE4AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T18:43:54.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\Extensions.vb",
+              "RelativeDocumentMoniker": "STRING\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\Extensions.vb",
+              "RelativeToolTip": "STRING\\Extensions.vb",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAiwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T18:43:48.784Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "APIModels.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\WebAPI\\APIModels.vb",
+              "RelativeDocumentMoniker": "STRING\\WebAPI\\APIModels.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\WebAPI\\APIModels.vb",
+              "RelativeToolTip": "STRING\\WebAPI\\APIModels.vb",
+              "ViewState": "AgIAAAUBAAAAAAAAAADwv6wBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T18:43:33.032Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "InteractExports.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\tsv\\InteractExports.vb",
+              "RelativeDocumentMoniker": "STRING\\tsv\\InteractExports.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\tsv\\InteractExports.vb",
+              "RelativeToolTip": "STRING\\tsv\\InteractExports.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T18:43:22.779Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Coordinates.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\tsv\\Coordinates.vb",
+              "RelativeDocumentMoniker": "STRING\\tsv\\Coordinates.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\tsv\\Coordinates.vb",
+              "RelativeToolTip": "STRING\\tsv\\Coordinates.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T18:43:19.789Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "SimpleCsv.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\SimpleCsv.vb",
               "RelativeDocumentMoniker": "STRING\\SimpleCsv.vb",
@@ -51,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "StringIndex.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\StringIndex.vb",
               "RelativeDocumentMoniker": "STRING\\StringIndex.vb",
@@ -64,13 +149,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "Tsv.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\Tsv.vb",
               "RelativeDocumentMoniker": "STRING\\Tsv.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\STRING\\Tsv.vb",
               "RelativeToolTip": "STRING\\Tsv.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEsAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAAsBAAAAAAAAAAAkwFkAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-08-29T18:37:49.997Z",
               "EditorCaption": ""

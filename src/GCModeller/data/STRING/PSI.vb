@@ -67,23 +67,23 @@ Public Module PSI
         Dim LQuery As PitrNode() = LinqAPI.Exec(Of PitrNode) <=
             From entry As Entry
             In mif25.Entries
-            Select entry.__extractNetwork(mif25)
+            Select entry.extractNetwork(mif25)
 
         Return LQuery
     End Function
 
     <Extension>
-    Private Function __extractNetwork(entry As Entry, mif25 As EntrySet) As SimpleCsv.PitrNode()
+    Private Function extractNetwork(entry As Entry, mif25 As EntrySet) As PitrNode()
         Dim LQuery As PitrNode() = LinqAPI.Exec(Of PitrNode) <=
             From interacts As Interaction
             In entry.InteractionList
-            Select __extractEdge(mif25, interacts)
+            Select extractEdge(mif25, interacts)
 
         Return LQuery
     End Function
 
     <Extension>
-    Private Function __extractEdge(mif25 As EntrySet, Interaction As Interaction) As PitrNode
+    Private Function extractEdge(mif25 As EntrySet, Interaction As Interaction) As PitrNode
         Dim Node As New PitrNode
         Node.value = Interaction.ConfidenceList.First.value
         Node.FromNode = mif25.GetInteractor(Interaction.ParticipantList.First.InteractorRef).Xref.primaryRef.id
@@ -91,7 +91,7 @@ Public Module PSI
         Return Node
     End Function
 
-    Public Function ExtractNetwork([Imports] As String) As SimpleCsv.PitrNode()
+    Public Function ExtractNetwork([Imports] As String) As PitrNode()
         Dim files As IEnumerable(Of String) = ls - l - r - wildcards("*.xml") <= [Imports]
         Dim net As PitrNode() = LinqAPI.Exec(Of PitrNode) <=
             From file As String
