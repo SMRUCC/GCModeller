@@ -14,22 +14,6 @@ Namespace Core.WGCNADBN
         ''' <summary>结构学习参数（算法/显著性阈值/最大父节点数/随机种子）</summary>
         Public Property StructureParams As New StructureLearningParams()
 
-        ''' <summary>参数学习与采样所用样本数</summary>
-        Public Property NSamples As Integer = 10000
-
-        ''' <summary>随机种子</summary>
-        Public Property RandomSeed As Integer = 42
-
-        ' ---- 全局扰动参数 ----
-        ''' <summary>传播方法，默认 Jacobian（线性化雅可比多步传播）</summary>
-        Public Property Propagation As PropagationMethod = PropagationMethod.Jacobian
-
-        ''' <summary>最大传播步数（雅可比收敛上限 / 级联采样时间步数）</summary>
-        Public Property MaxSteps As Integer = 50
-
-        ''' <summary>雅可比收敛阈值：||e_{t+1}|| / ||e_t|| 小于该值即停止</summary>
-        Public Property Tolerance As Double = 0.000001
-
         ''' <summary>每个模块取 kME 最高的前 N 个基因作为模块接口（hub）</summary>
         Public Property HubTopN As Integer = 20
 
@@ -44,14 +28,16 @@ Namespace Core.WGCNADBN
 
         ' ---- 内部状态 ----
         Private _expr As GeneExpressionData
-        Private _exprStd As GeneExpressionData
-        Private _genes As String()
+
         Private _gIndex As New Dictionary(Of String, Integer)()
         Private _moduleGenes As New Dictionary(Of String, List(Of String))()
         Private _moduleHubs As New Dictionary(Of String, List(Of String))()
         Private _subNets As New List(Of BayesianNetwork)()
-        Private _A As Double(,)
-        Private _globalNet As BayesianNetwork
+
+        Friend _globalNet As BayesianNetwork
+        Friend _genes As String()
+        Friend _A As Double(,)
+        Friend _exprStd As GeneExpressionData
 
         ''' <summary>
         ''' 模块切分 → 子网络训练 → 全局矩阵拼接
