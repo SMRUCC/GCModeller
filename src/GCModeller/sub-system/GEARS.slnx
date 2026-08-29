@@ -11,4 +11,5 @@
     <Project Path="../analysis/HTS_matrix/HTS_matrix-netcore5.vbproj" />
   </Folder>
   <Project Path="GEARS/GEARS.vbproj" />
+  <Project Path="GEARS/test/test.vbproj" />
 </Solution>
