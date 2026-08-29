@@ -154,8 +154,6 @@ Namespace IO
                 ' 组装输入侧表达谱：control 基线 + 被扰动基因改写为干预值
                 Dim inputExpr As Double() = CType(controlExpression.Clone(), Double())
                 Dim perturbedExpr As Double() = New Double(nGene - 1) {}
-                Dim mean As Double() = controlExpression
-                Dim sd As Double() = New Double(nGene - 1) {}
 
                 For i As Integer = 0 To nGene - 1
                     Dim v As Double = 0

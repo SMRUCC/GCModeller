@@ -162,7 +162,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     ''' <param name="gearsConfig">超参配置；为 Nothing 时使用默认配置</param>
     ''' <param name="nSamples">用于估计 control 基线的样本数量；0 表示使用全部样本</param>
     ''' <param name="autoTrain">是否在构造时立即生成训练样本并开始训练</param>
-    Public Sub New(matrix As Analysis.HTS.DataFrame.Matrix,
+    Public Sub New(matrix As Matrix,
                    prior As PriorNetwork,
                    Optional gearsConfig As GEARSConfig = Nothing,
                    Optional nSamples As Integer = 0,
@@ -182,7 +182,13 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         Dim total As Integer = exprData.NSample
 
         If nSamples <= 0 OrElse nSamples >= total Then
-            Return Enumerable.Range(0, total).ToArray()
+            Dim all As Integer() = New Integer(total - 1) {}
+
+            For i As Integer = 0 To total - 1
+                all(i) = i
+            Next
+
+            Return all
         End If
 
         Dim picked As New HashSet(Of Integer)()
@@ -302,7 +308,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         Dim tfSet As New HashSet(Of String)(priorNetwork.TFNames, StringComparer.OrdinalIgnoreCase)
         Dim result As New List(Of String)()
         Dim rest As New List(Of String)()
-        Dim idx As Integer
+        Dim idx As Integer = -1
 
         For Each gene As String In GeneNames
             If GraphData.TryGetGeneIndex(gene, idx) Then
