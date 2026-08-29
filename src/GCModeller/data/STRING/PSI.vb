@@ -54,7 +54,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports SMRUCC.genomics.Data.STRING.SimpleCsv
+Imports SMRUCC.genomics.Data.STRING.Tabular
 Imports SMRUCC.genomics.foundation.psidev.XML
 
 ''' <summary>
