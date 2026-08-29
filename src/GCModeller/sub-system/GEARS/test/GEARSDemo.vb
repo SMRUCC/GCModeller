@@ -6,7 +6,9 @@ Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.GEARS
 Imports SMRUCC.genomics.Analysis.GEARS.IO
+Imports SMRUCC.genomics.Analysis.GEARS.Training
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.MetabolicModel
 
 ''' <summary>
@@ -17,8 +19,10 @@ Imports SMRUCC.genomics.MetabolicModel
 ''' <list type="number">
 ''' <item><description>从 CSV 读取基因表达矩阵（行=基因、列=样本）与先验调控网络；</description></item>
 ''' <item><description>构建基因调控图并用内置仿真器合成伪 Perturb-seq 数据训练 GNN；</description></item>
+''' <item><description>[2.5] 用现场合成的 Perturb-seq 风格矩阵测试 <c>SetTrainingSamples(Matrix, control, perturbed)</c> 接口；</description></item>
 ''' <item><description>执行单基因敲除 / 下调 / 过表达以及多基因组合扰动；</description></item>
-''' <item><description>导出结果 CSV：单扰动明细、批量汇总、以及各类比较分析矩阵。</description></item>
+''' <item><description>[4.5] 把训练好的 GEARS 存为 zip 再加载回来，逐基因比对扰动结果验证 Save/Load 实现；</description></item>
+''' <item><description>导出结果 CSV：单扰动明细、批量汇总、各类比较分析矩阵与一致性对比表。</description></item>
 ''' </list>
 ''' </remarks>
 Module GEARSDemo
@@ -98,6 +102,11 @@ Module GEARSDemo
         Console.WriteLine($"  训练耗时: {sw.Elapsed.TotalSeconds.ToString("F1")} 秒")
         Console.WriteLine()
 
+        ' ==================== 2.5 矩阵版训练样本接口 ====================
+        ' 注意：SetTrainingSamples(Matrix, ...) 会用显式 control 列重算并覆盖野生型基线，
+        ' 因此在独立的实例上做验证，避免破坏主实验 gears 已训练好的状态。
+        Call TestSetTrainingSamplesFromMatrix(exprData, prior, config)
+
         ' ==================== 3. 单基因虚拟扰动 ====================
         Console.WriteLine("[3/5] 单基因虚拟扰动（敲除 / 下调 / 过表达）")
 
@@ -155,15 +164,15 @@ Module GEARSDemo
 
         Console.WriteLine()
 
-        ' ==================== 5. 导出结果 ====================
-        Dim outputDir As String = App.HOME & "/GEARS_output/"
+        ' ==================== 4.5 Save / Load 一致性对比 ====================
+        Dim consistencyRows As List(Of (Condition As String, Gene As String, Direct As Double, Loaded As Double)) =
+            TestSaveLoadConsistency(gears, targetGenes, combos, outputDir)
 
+        Console.WriteLine()
+
+        ' ==================== 5. 导出结果 ====================
         Console.WriteLine("[5/5] 导出结果")
         Console.WriteLine($"  输出目录: {outputDir}")
-
-        If Not Directory.Exists(outputDir) Then
-            Call Directory.CreateDirectory(outputDir)
-        End If
 
         ' 逐个扰动输出明细表（复用 BNLearn\IO\IO.vb）
         For Each res As InterventionResult In results
