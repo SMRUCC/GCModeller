@@ -1,5 +1,5 @@
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 
