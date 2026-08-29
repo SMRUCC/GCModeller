@@ -55,6 +55,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
@@ -69,6 +70,7 @@ Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 <Package("bnlearn")>
 <RTypeExport("struct_learn_params", GetType(StructureLearningParams))>
 <RTypeExport("knowledges", GetType(Dictionary(Of String, MetabolicPathway)))>
+<RTypeExport("subnet", GetType(WGCNASubnetworkPipeline))>
 Module bnlearn
 
     <ExportAPI("bnlearn")>

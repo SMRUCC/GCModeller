@@ -82,7 +82,7 @@ Namespace Core
     ''' <summary>
     ''' BNLearn 工作流 —— 基因表达调控网络建模与虚拟干扰分析
     ''' </summary>
-    Public Class BNLearnWorkflow
+    Public Class BNLearnWorkflow : Implements InsilicoPerturbationExperiment
 
         ' ==================== 输入数据 ====================
 
@@ -218,7 +218,7 @@ Namespace Core
         ''' <summary>
         ''' 步骤4：虚拟基因敲除
         ''' </summary>
-        Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult
+        Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult Implements InsilicoPerturbationExperiment.KnockoutGene
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
@@ -242,7 +242,7 @@ Namespace Core
         ''' <summary>
         ''' 步骤4：虚拟基因过表达
         ''' </summary>
-        Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult
+        Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult Implements InsilicoPerturbationExperiment.OverexpressGene
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If
@@ -263,7 +263,7 @@ Namespace Core
             Return analyzer.AnalyzeIntervention(spec, nSamples, RandomSeed)
         End Function
 
-        Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult
+        Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As Intervention.InterventionResult Implements InsilicoPerturbationExperiment.KnockDownGene
             If FittedNetwork Is Nothing OrElse ParameterResult Is Nothing Then
                 Throw New Exception("请先执行结构学习和参数学习")
             End If

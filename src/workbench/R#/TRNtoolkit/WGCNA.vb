@@ -210,6 +210,13 @@ Module WGCNA
             Where std.Abs(ie.Score) > cor_thres)
     End Function
 
+    ''' <summary>
+    ''' Build bnlearn prior network based on the WGCNA co-expression network and TF id list.
+    ''' </summary>
+    ''' <param name="edges"></param>
+    ''' <param name="TF"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("bnnet")>
     <RApiReturn(GetType(PriorNetwork))>
     Public Function bnnet(<RRawVectorArgument(GetType(RelationshipScore))> edges As Object,
