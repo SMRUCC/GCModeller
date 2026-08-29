@@ -1,3 +1,4 @@
+﻿Imports std = System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
@@ -84,9 +85,9 @@ Namespace Graph
             Me.RelationTypeCounts = New Integer(EdgeRelationTypes.NumRelationTypes - 1) {}
 
             Dim n As Integer = geneNames.Length
-            Dim sources As New List(Of Integer())()
-            Dim types As New List(Of Integer())()
-            Dim weights As New List(Of Double())()
+            Dim sources As New List(Of List(Of Integer))()
+            Dim types As New List(Of List(Of Integer))()
+            Dim weights As New List(Of List(Of Double))()
             Dim degrees As Double() = New Double(n - 1) {}
             Dim edgeList As New List(Of (src As Integer, dst As Integer, type As Integer, w As Double))()
 
@@ -227,7 +228,7 @@ Namespace Graph
                     ss += row(j) * row(j)
                 Next
 
-                Dim sd As Double = Math.Sqrt(ss)
+                Dim sd As Double = std.Sqrt(ss)
 
                 If sd > 0 Then
                     For j As Integer = 0 To nSample - 1
@@ -260,7 +261,7 @@ Namespace Graph
                         r += za(j) * zb(j)
                     Next
 
-                    Dim absR As Double = Math.Abs(r)
+                    Dim absR As Double = std.Abs(r)
 
                     If absR >= minCorr Then
                         candidates(a).Add((b, absR))
@@ -276,7 +277,7 @@ Namespace Graph
 
                 list.Sort(Function(x, y) y.Item2.CompareTo(x.Item2))
 
-                Dim take As Integer = Math.Min(topK, list.Count)
+                Dim take As Integer = std.Min(topK, list.Count)
 
                 For k As Integer = 0 To take - 1
                     Dim b As Integer = list(k).Item1

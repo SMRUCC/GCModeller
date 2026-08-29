@@ -1,3 +1,4 @@
+﻿Imports std = System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
@@ -109,7 +110,7 @@ Namespace Training
                     Dim target As Double() = New Double(n - 1) {}
 
                     For i As Integer = 0 To n - 1
-                        Dim sd As Double = Math.Max(controlSD(i), 0.000001)
+                        Dim sd As Double = std.Max(controlSD(i), 0.000001)
 
                         xNorm(i) = (sample.ControlExpression(i) - controlMean(i)) / sd
                         target(i) = (sample.PerturbedExpression(i) - sample.ControlExpression(i)) / sd
@@ -156,7 +157,7 @@ Namespace Training
             For i As Integer = 0 To Parameters.Count - 1
                 Dim pd As Double() = Parameters(i).Data
                 Dim gd As Double() = Gradients(i).Data
-                Dim m As Integer = Math.Min(pd.Length, gd.Length)
+                Dim m As Integer = std.Min(pd.Length, gd.Length)
 
                 For j As Integer = 0 To m - 1
                     gd(j) += l2Lambda * pd(j)
@@ -179,7 +180,7 @@ Namespace Training
                 Dim target As Double() = New Double(n - 1) {}
 
                 For i As Integer = 0 To n - 1
-                    Dim sd As Double = Math.Max(controlSD(i), 0.000001)
+                    Dim sd As Double = std.Max(controlSD(i), 0.000001)
 
                     xNorm(i) = (sample.ControlExpression(i) - controlMean(i)) / sd
                     target(i) = (sample.PerturbedExpression(i) - sample.ControlExpression(i)) / sd

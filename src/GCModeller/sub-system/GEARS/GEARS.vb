@@ -1,4 +1,5 @@
-Imports System.Linq
+﻿Imports System.Linq
+Imports std = System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.BNLearn
@@ -225,7 +226,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
             Next
 
             WildtypeMeans(i) = mean
-            WildtypeSDs(i) = If(m > 1, Math.Sqrt(ss / (m - 1)), 0.0)
+            WildtypeSDs(i) = If(m > 1, std.Sqrt(ss / (m - 1)), 0.0)
         Next
     End Sub
 
@@ -280,7 +281,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         For i As Integer = 0 To config.NComboPerturbation - 1
             Dim specs As New List(Of InterventionSpec)()
             Dim used As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
-            Dim size As Integer = Math.Min(config.ComboSize, candidates.Count)
+            Dim size As Integer = std.Min(config.ComboSize, candidates.Count)
 
             While specs.Count < size
                 Dim gene As String = candidates(rand.Next(candidates.Count))
@@ -443,7 +444,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         Next
 
         For i As Integer = 0 To n - 1
-            Dim sd As Double = Math.Max(WildtypeSDs(i), 0.000001)
+            Dim sd As Double = std.Max(WildtypeSDs(i), 0.000001)
 
             xNorm(i) = (inputExpr(i) - WildtypeMeans(i)) / sd
         Next
@@ -457,32 +458,32 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         Dim significant As Boolean() = New Boolean(n - 1) {}
 
         For i As Integer = 0 To n - 1
-            Dim sd As Double = Math.Max(WildtypeSDs(i), 0.000001)
+            Dim sd As Double = std.Max(WildtypeSDs(i), 0.000001)
             Dim delta As Double = deltaNorm(i) * sd
 
             If pertSet.Contains(i) Then
                 ' 被扰动基因的表达由干预值直接决定，不叠加网络预测
                 mutant(i) = inputExpr(i)
             Else
-                mutant(i) = Math.Max(0.0, inputExpr(i) + delta)
+                mutant(i) = std.Max(0.0, inputExpr(i) + delta)
             End If
 
             fold(i) = mutant(i) - WildtypeMeans(i)
 
-            If Math.Abs(WildtypeMeans(i)) > 0.0000000001 Then
-                percent(i) = fold(i) / Math.Abs(WildtypeMeans(i)) * 100
+            If std.Abs(WildtypeMeans(i)) > 0.0000000001 Then
+                percent(i) = fold(i) / std.Abs(WildtypeMeans(i)) * 100
             End If
 
             z(i) = fold(i) / sd
-            significant(i) = pertSet.Contains(i) OrElse Math.Abs(z(i)) > config.SignificanceZScore
+            significant(i) = pertSet.Contains(i) OrElse std.Abs(z(i)) > config.SignificanceZScore
         Next
 
-        Dim spec As InterventionSpec
+        Dim resultSpec As InterventionSpec
 
         If specList.Count = 1 Then
-            spec = specList(0)
+            resultSpec = specList(0)
         Else
-            spec = New InterventionSpec With {
+            resultSpec = New InterventionSpec With {
                 .GeneName = String.Join("+", names),
                 .GeneIndex = indices(0),
                 .Mode = specList(0).Mode
@@ -490,7 +491,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         End If
 
         Return New InterventionResult With {
-            .Spec = spec,
+            .Spec = resultSpec,
             .WildtypeMeans = CType(WildtypeMeans.Clone(), Double()),
             .WildtypeSDs = CType(WildtypeSDs.Clone(), Double()),
             .MutantMeans = mutant,
@@ -590,7 +591,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         Dim picked As New HashSet(Of Integer)()
         Dim total As Integer = exprData.NSample
 
-        While picked.Count < Math.Min(nSamples, total)
+        While picked.Count < std.Min(nSamples, total)
             picked.Add(rand.Next(total))
         End While
 
@@ -616,7 +617,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
             Next
 
             WildtypeMeans(i) = mean
-            WildtypeSDs(i) = If(m > 1, Math.Sqrt(ss / (m - 1)), 0.0)
+            WildtypeSDs(i) = If(m > 1, std.Sqrt(ss / (m - 1)), 0.0)
         Next
     End Sub
 

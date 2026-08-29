@@ -1,3 +1,4 @@
+﻿Imports std = System.Math
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 
 Namespace Layers
@@ -184,7 +185,7 @@ Namespace Layers
         Public Sub Accumulate(source As Tensor, target As Tensor)
             Dim sd As Double() = source.Data
             Dim td As Double() = target.Data
-            Dim n As Integer = Math.Min(sd.Length, td.Length)
+            Dim n As Integer = std.Min(sd.Length, td.Length)
 
             For i As Integer = 0 To n - 1
                 td(i) += sd(i)

@@ -1,3 +1,4 @@
+﻿Imports std = System.Math
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.GEARS.Graph
@@ -145,7 +146,7 @@ Namespace Training
 
                     sum += c
 
-                    If Math.Abs(c) > ContributionEpsilon Then
+                    If std.Abs(c) > ContributionEpsilon Then
                         hits(j) += 1
                     End If
                 Next
@@ -167,12 +168,12 @@ Namespace Training
                     Continue For
                 End If
 
-                Dim cap As Double = 3.0 * Math.Max(controlSD(j), 1E-6)
-                Dim soft As Double = cap * Math.Tanh(delta(j) / cap)
+                Dim cap As Double = 3.0 * std.Max(controlSD(j), 1E-6)
+                Dim soft As Double = cap * std.Tanh(delta(j) / cap)
                 Dim noisy As Double = soft + noiseLevel * controlSD(j) * NextGaussian()
 
                 delta(j) = noisy
-                perturbedExpr(j) = Math.Max(0.0, inputExpr(j) + noisy)
+                perturbedExpr(j) = std.Max(0.0, inputExpr(j) + noisy)
             Next
 
             Dim label As String = String.Join("+", names) & "_" & specList(0).Mode.ToString()
@@ -203,7 +204,7 @@ Namespace Training
 
             For hop As Integer = 1 To maxHops
                 Dim nextSignal As Double() = New Double(n - 1) {}
-                Dim attenuation As Double = Math.Pow(decay, hop)
+                Dim attenuation As Double = std.Pow(decay, hop)
 
                 For j As Integer = 0 To n - 1
                     Dim sources As Integer() = graphData.InEdgeSources(j)
@@ -240,7 +241,7 @@ Namespace Training
             Dim u1 As Double = 1.0 - rand.NextDouble()
             Dim u2 As Double = 1.0 - rand.NextDouble()
 
-            Return Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2)
+            Return std.Sqrt(-2.0 * std.Log(u1)) * std.Sin(2.0 * std.PI * u2)
         End Function
     End Class
 End Namespace
