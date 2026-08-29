@@ -122,11 +122,11 @@ Namespace Layers
                 Next
             Else
                 ' 所有关系类型共享同一个变换矩阵实例，梯度在反向传播时自动累加
-                Dim shared As Tensor = Tensor.XavierInit(inFeatures, outFeatures)
+                Dim sharedW As Tensor = Tensor.XavierInit(inFeatures, outFeatures)
                 Dim sharedGrad As Tensor = New Tensor(inFeatures, outFeatures)
 
                 For r As Integer = 0 To EdgeRelationTypes.NumRelationTypes - 1
-                    relW(r) = shared
+                    relW(r) = sharedW
                     relWGrad(r) = sharedGrad
                 Next
             End If
@@ -196,7 +196,7 @@ Namespace Layers
         ''' <returns>长度为关系类型数量的变换结果数组</returns>
         Private Function BuildTransformed(input As Tensor, graphData As GeneRegulatoryGraph) As Tensor()
             Dim transformed As Tensor() = New Tensor(EdgeRelationTypes.NumRelationTypes - 1) {}
-            Dim shared As Tensor = Nothing
+            Dim sharedT As Tensor = Nothing
 
             For r As Integer = 0 To EdgeRelationTypes.NumRelationTypes - 1
                 If graphData.RelationTypeCounts(r) = 0 Then
@@ -204,11 +204,11 @@ Namespace Layers
                 End If
 
                 If Not UsePerRelationTransform Then
-                    If shared Is Nothing Then
-                        shared = MatOps.Mul(input, relW(0))
+                    If sharedT Is Nothing Then
+                        sharedT = MatOps.Mul(input, relW(0))
                     End If
 
-                    transformed(r) = shared
+                    transformed(r) = sharedT
                 Else
                     transformed(r) = MatOps.Mul(input, relW(r))
                 End If
