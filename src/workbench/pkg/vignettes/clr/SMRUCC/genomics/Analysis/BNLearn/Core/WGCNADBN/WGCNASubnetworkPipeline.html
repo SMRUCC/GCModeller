@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN.WGCNASubnetworkPipeline</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>WGCNASubnetworkPipeline {SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>WGCNASubnetworkPipeline</h2>
+
+        <h3>Description</h3>
+
+        <p>基于 WGCNA 模块划分的贝叶斯子网络训练 + 全局虚拟扰动流水线
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
+export class WGCNASubnetworkPipeline {
+   # hub 基因间相关阈值：|r| 超过才在对应基因间补跨模块边
+   CrossGeneCorThreshold: double;
+   # 模块 eigengene 相关阈值：|cor| 超过才尝试补模块间边
+   CrossModuleCorThreshold: double;
+   # 跨模块边的初始权重缩放（最终由全局参数学习覆盖）
+   CrossScale: double;
+   # 每个模块取 kME 最高的前 N 个基因作为模块接口（hub）
+   HubTopN: integer;
+   # 最大传播步数（雅可比收敛上限 / 级联采样时间步数）
+   MaxSteps: integer;
+   # 是否对表达数据做标准化（z-score），默认 True
+   NormalizeData: boolean;
+   # 参数学习与采样所用样本数
+   NSamples: integer;
+   # 传播方法，默认 Jacobian（线性化雅可比多步传播）
+   Propagation: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/WGCNADBN/PropagationMethod.html">PropagationMethod</a>;
+   # 随机种子
+   RandomSeed: integer;
+   # 结构学习参数（算法/显著性阈值/最大父节点数/随机种子）
+   StructureParams: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/StructureLearning/StructureLearningParams.html">StructureLearningParams</a>;
+   # 雅可比收敛阈值：||e_{t+1}|| / ||e_t|| 小于该值即停止
+   Tolerance: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Propagation</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/WGCNADBN/PropagationMethod.html">PropagationMethod</a></li>
+<li>use by <i>property</i> member <code>StructureParams</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/StructureLearning/StructureLearningParams.html">StructureLearningParams</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

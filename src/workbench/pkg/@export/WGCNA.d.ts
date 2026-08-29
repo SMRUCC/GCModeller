@@ -67,7 +67,14 @@ declare namespace WGCNA {
    */
    function applyModuleColors(g: object, modules: object): any;
    /**
-     * @param env default value Is ``null``.
+    * Build bnlearn prior network based on the WGCNA co-expression network and TF id list.
+    * 
+    * 
+     * @param edges -
+     * @param TF -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function bnnet(edges: any, TF: any, env?: object): object;
    /**

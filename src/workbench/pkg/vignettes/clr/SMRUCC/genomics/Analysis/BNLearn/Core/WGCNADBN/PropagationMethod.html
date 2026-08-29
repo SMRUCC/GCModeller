@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN.PropagationMethod</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PropagationMethod {SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PropagationMethod</h2>
+
+        <h3>Description</h3>
+
+        <p>全局虚拟扰动的传播方法
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
+export class PropagationMethod extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 雅可比矩阵传播（默认）：把全局系数矩阵 A 视作线性化雅可比， 扰动向量沿 A^k 多步线性传播至收敛，得到稳态全局响应。 适用于小幅扰动的线性近似。
+   Jacobian: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/WGCNADBN/PropagationMethod.html">PropagationMethod</a> = 0;
+
+   # 级联采样传播：在整合后的全局网络上做 do-演算，并把上一步 各基因均值作为相邻模块证据迭代采样多步，跨模块传播不确定性。 更忠实于概率模型，计算更重。
+   CascadeSampling: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/WGCNADBN/PropagationMethod.html">PropagationMethod</a> = 1;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Jacobian</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/WGCNADBN/PropagationMethod.html">PropagationMethod</a></li>
+<li>use by <i>field</i> member <code>CascadeSampling</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/WGCNADBN/PropagationMethod.html">PropagationMethod</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
