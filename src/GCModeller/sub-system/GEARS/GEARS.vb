@@ -697,7 +697,6 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     ''' <summary>
     ''' 当 control 列名同时存在于主表达矩阵时，同步更新基线样本索引
     ''' </summary>
-    ''' <param name="samples">外部传入的表达矩阵</param>
     ''' <param name="control">control 样本列名</param>
     ''' <remarks>
     ''' 保持 <see cref="baselineSamples"/> 与新的野生型基线同一口径，
