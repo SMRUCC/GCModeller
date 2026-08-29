@@ -60,7 +60,7 @@ Module GEARSDemo
 
         Dim matrix As Matrix = Matrix.LoadData(exprFile)
         Dim exprData = BnIO.ReadGeneExpressionMatrix(matrix)
-        Dim prior = PriorNetworkIO.LoadPriorNetwork(priorFile)
+        Dim prior As PriorNetwork = PriorNetworkIO.LoadPriorNetwork(priorFile)
 
         Console.WriteLine($"  表达矩阵: {exprData.NGene} 基因 x {exprData.NSample} 样本")
         Console.WriteLine($"  先验网络: {prior.Edges.Count} 条调控边, {prior.TFNames.Count} 个转录因子")

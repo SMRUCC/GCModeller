@@ -54,6 +54,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
@@ -82,7 +83,7 @@ Module bnlearn
                             Optional strict As Boolean? = Nothing,
                             Optional env As Environment = Nothing) As Object
 
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of RegulatoryEdge)(priorNet, env, nullPipe:=True)
+        Dim pull As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(priorNet, env, nullPipe:=True)
 
         If pull IsNot Nothing AndAlso pull.isError Then
             Return pull.getError
@@ -90,7 +91,7 @@ Module bnlearn
 
         Dim workflow As New BNLearnWorkflow() With {
             .ExpressionData = BnIO.ReadGeneExpressionMatrix(exprData),
-            .PriorNetwork = BnIO.ReadPriorNetwork(pull?.populates(Of RegulatoryEdge)(env)),
+            .PriorNetwork = BnIO.ReadPriorNetwork(pull),
             .Strict = env.strictOption(opt:=strict)
         }
 
@@ -101,6 +102,18 @@ Module bnlearn
         workflow.LearnParameters()
 
         Return workflow
+    End Function
+
+    <ExportAPI("as.prior_net")>
+    <RApiReturn(GetType(PriorNetwork))>
+    Public Function buildNetwork(<RRawVectorArgument(GetType(RegulatoryEdge))> priorNet As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(priorNet, env, nullPipe:=True)
+
+        If pull IsNot Nothing AndAlso pull.isError Then
+            Return pull.getError
+        Else
+            Return BnIO.ReadPriorNetwork(pull)
+        End If
     End Function
 
     <ExportAPI("prior_network")>
@@ -135,7 +148,7 @@ Module bnlearn
 
     <ExportAPI("knockouts")>
     <RApiReturn(GetType(InterventionResult))>
-    Public Function KnockoutGene(bnlearn As BNLearnWorkflow, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
+    Public Function KnockoutGene(bnlearn As InsilicoPerturbationExperiment, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
         Dim result As New List(Of InterventionResult)
 
         For Each geneName As String In CLRVector.asCharacter(geneNames)
@@ -147,7 +160,7 @@ Module bnlearn
 
     <ExportAPI("overexpress")>
     <RApiReturn(GetType(InterventionResult))>
-    Public Function overexpress(bnlearn As BNLearnWorkflow, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional env As Environment = Nothing) As Object
+    Public Function overexpress(bnlearn As InsilicoPerturbationExperiment, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional env As Environment = Nothing) As Object
         Dim result As New List(Of InterventionResult)
 
         For Each geneName As String In CLRVector.asCharacter(geneNames)
@@ -159,7 +172,7 @@ Module bnlearn
 
     <ExportAPI("knockdown")>
     <RApiReturn(GetType(InterventionResult))>
-    Public Function knockdownGene(bnlearn As BNLearnWorkflow, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
+    Public Function knockdownGene(bnlearn As InsilicoPerturbationExperiment, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
         Dim result As New List(Of InterventionResult)
 
         For Each geneName As String In CLRVector.asCharacter(geneNames)

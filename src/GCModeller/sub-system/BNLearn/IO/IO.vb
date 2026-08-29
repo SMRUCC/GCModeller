@@ -186,9 +186,11 @@ Namespace IO
         Public Function ReadPriorNetwork(TRN As IEnumerable(Of RegulatoryEdge)) As Core.PriorNetwork
             Dim prior As New Core.PriorNetwork()
 
-            For Each edge As RegulatoryEdge In TRN.SafeQuery
-                Call prior.AddEdge(edge.TF, edge.TargetGene, edge.RegulationType, edge.Confidence, edge.Evidence)
-            Next
+            If Not TRN Is Nothing Then
+                For Each edge As RegulatoryEdge In TRN
+                    Call prior.AddEdge(edge.TF, edge.TargetGene, edge.RegulationType, edge.Confidence, edge.Evidence)
+                Next
+            End If
 
             Return prior
         End Function
