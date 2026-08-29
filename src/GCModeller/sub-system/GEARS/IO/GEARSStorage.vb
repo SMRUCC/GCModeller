@@ -1,11 +1,13 @@
 Imports System.IO
 Imports System.IO.Compression
 Imports System.Text
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
+Imports SMRUCC.genomics.Analysis.GEARS.Model
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Namespace IO
@@ -51,52 +53,37 @@ Namespace IO
         Friend Const EntryModel As String = "model.bin"
 
         ''' <summary>
-        ''' zip 包清单，序列化为 <c>manifest.json</c>
+        ''' zip 包清单的字段键名集合
         ''' </summary>
-        Friend Class Manifest
+        ''' <remarks>
+        ''' 清单以 <c>Dictionary(Of String, String)</c> 的形式序列化为 <c>manifest.json</c>，
+        ''' 而不是定义一个专用的清单类型：sciBASIC 的 JSON 序列化底层走
+        ''' <c>DataContractJsonSerializer</c>，要求被序列化的类型必须是 public，
+        ''' 而本模块属于内部实现细节（Friend），用字典可以完全避免为此暴露公开类型。
+        ''' </remarks>
+        Friend Class ManifestKeys
             ''' <summary>格式版本号</summary>
-            ''' <returns>整数版本号</returns>
-            Public Property formatVersion As Integer
-
-            ''' <summary>保存时的 UTC 时间（yyyy-MM-dd HH:mm:ss）</summary>
-            ''' <returns>时间字符串</returns>
-            Public Property savedAt As String
-
+            Friend Const formatVersion As String = "formatVersion"
+            ''' <summary>保存时间</summary>
+            Friend Const savedAt As String = "savedAt"
             ''' <summary>基因数量</summary>
-            ''' <returns>基因数</returns>
-            Public Property nGenes As Integer
-
+            Friend Const nGenes As String = "nGenes"
             ''' <summary>样本数量</summary>
-            ''' <returns>样本数</returns>
-            Public Property nSamples As Integer
-
-            ''' <summary>超参配置</summary>
-            ''' <returns><see cref="GEARSConfig"/> 实例</returns>
-            Public Property config As GEARSConfig
-
+            Friend Const nSamples As String = "nSamples"
+            ''' <summary>超参配置（内嵌 JSON 字符串）</summary>
+            Friend Const config As String = "config"
             ''' <summary>基因身份嵌入维度</summary>
-            ''' <returns>嵌入维度</returns>
-            Public Property embeddingDim As Integer
-
+            Friend Const embeddingDim As String = "embeddingDim"
             ''' <summary>图卷积隐藏层维度</summary>
-            ''' <returns>隐藏维度</returns>
-            Public Property hiddenDim As Integer
-
+            Friend Const hiddenDim As String = "hiddenDim"
             ''' <summary>图卷积层数</summary>
-            ''' <returns>层数</returns>
-            Public Property numLayers As Integer
-
-            ''' <summary>每个 epoch 的平均损失</summary>
-            ''' <returns>损失曲线</returns>
-            Public Property lossCurve As Double()
-
-            ''' <summary>用于估计野生型基线的样本列索引</summary>
-            ''' <returns>列索引数组</returns>
-            Public Property baselineSamples As Integer()
-
-            ''' <summary>模型可训练参数张量的个数，加载时用于校验</summary>
-            ''' <returns>张量个数</returns>
-            Public Property nParameters As Integer
+            Friend Const numLayers As String = "numLayers"
+            ''' <summary>损失曲线（逗号分隔）</summary>
+            Friend Const lossCurve As String = "lossCurve"
+            ''' <summary>基线样本列索引（逗号分隔）</summary>
+            Friend Const baselineSamples As String = "baselineSamples"
+            ''' <summary>模型参数张量个数</summary>
+            Friend Const nParameters As String = "nParameters"
         End Class
 
         ' ==================== 条目读写 ====================
@@ -154,8 +141,36 @@ Namespace IO
         ''' 写入清单条目
         ''' </summary>
         ''' <param name="zip">目标 zip 归档</param>
-        ''' <param name="info">清单数据</param>
-        Friend Sub WriteManifest(zip As ZipArchive, info As Manifest)
+        ''' <param name="config">超参配置</param>
+        ''' <param name="model">模型（提供结构信息）</param>
+        ''' <param name="nGene">基因数量</param>
+        ''' <param name="nSample">样本数量</param>
+        ''' <param name="lossCurve">损失曲线</param>
+        ''' <param name="baselineSamples">基线样本列索引</param>
+        ''' <param name="nParameters">模型参数张量个数</param>
+        Friend Sub WriteManifest(zip As ZipArchive,
+                                 config As GEARSConfig,
+                                 model As GEARSModel,
+                                 nGene As Integer,
+                                 nSample As Integer,
+                                 lossCurve As Double(),
+                                 baselineSamples As Integer(),
+                                 nParameters As Integer)
+
+            Dim info As New Dictionary(Of String, String) From {
+                {ManifestKeys.formatVersion, FormatVersion.ToString()},
+                {ManifestKeys.savedAt, DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")},
+                {ManifestKeys.nGenes, nGene.ToString()},
+                {ManifestKeys.nSamples, nSample.ToString()},
+                {ManifestKeys.config, config.GetJson},
+                {ManifestKeys.embeddingDim, model.EmbeddingDim.ToString()},
+                {ManifestKeys.hiddenDim, model.HiddenDim.ToString()},
+                {ManifestKeys.numLayers, model.NumLayers.ToString()},
+                {ManifestKeys.lossCurve, JoinNumbers(lossCurve)},
+                {ManifestKeys.baselineSamples, JoinNumbers(baselineSamples)},
+                {ManifestKeys.nParameters, nParameters.ToString()}
+            }
+
             Using fs As Stream = OpenEntry(zip, EntryManifest)
                 Using writer As New StreamWriter(fs, New UTF8Encoding(False))
                     Call writer.Write(info.GetJson)
@@ -168,23 +183,164 @@ Namespace IO
         ''' 读取并校验清单条目
         ''' </summary>
         ''' <param name="zip">zip 归档</param>
-        ''' <returns>清单数据</returns>
-        Friend Function ReadManifest(zip As ZipArchive) As Manifest
+        ''' <param name="config">返回超参配置</param>
+        ''' <param name="lossCurve">返回损失曲线</param>
+        ''' <param name="baselineSamples">返回基线样本列索引</param>
+        ''' <param name="nParameters">返回模型参数张量个数</param>
+        ''' <returns>清单字典，便于调用方读取结构字段</returns>
+        Friend Function ReadManifest(zip As ZipArchive,
+                                     ByRef config As GEARSConfig,
+                                     ByRef lossCurve As Double(),
+                                     ByRef baselineSamples As Integer(),
+                                     ByRef nParameters As Integer) As Dictionary(Of String, String)
+
             Dim json As String = String.Join(vbLf, ReadTextLines(zip, EntryManifest))
-            Dim info As Manifest = json.LoadJSON(Of Manifest)
+            Dim info As Dictionary(Of String, String) = json.LoadJSON(Of Dictionary(Of String, String))
 
             If info Is Nothing Then
                 Throw New InvalidDataException("GEARS 模型包的 manifest.json 解析失败")
             End If
-            If info.formatVersion <> FormatVersion Then
+
+            Dim version As Integer = ReadInt(info, ManifestKeys.formatVersion)
+
+            If version <> FormatVersion Then
                 Throw New InvalidDataException(
-                    $"GEARS 模型包格式版本不匹配：文件为 {info.formatVersion}，当前程序支持 {FormatVersion}")
-            End If
-            If info.config Is Nothing Then
-                Throw New InvalidDataException("GEARS 模型包的 manifest.json 中缺少超参配置")
+                    $"GEARS 模型包格式版本不匹配：文件为 {version}，当前程序支持 {FormatVersion}")
             End If
 
+            Dim configJson As String = ReadString(info, ManifestKeys.config)
+            config = configJson.LoadJSON(Of GEARSConfig)
+
+            If config Is Nothing Then
+                Throw New InvalidDataException("GEARS 模型包的 manifest.json 中缺少或无法解析超参配置")
+            End If
+
+            lossCurve = ParseDoubles(ReadString(info, ManifestKeys.lossCurve))
+            baselineSamples = ParseIntegers(ReadString(info, ManifestKeys.baselineSamples))
+            nParameters = ReadInt(info, ManifestKeys.nParameters)
+
             Return info
+        End Function
+
+        ''' <summary>
+        ''' 从清单字典中读取必填字符串字段
+        ''' </summary>
+        ''' <param name="info">清单字典</param>
+        ''' <param name="key">字段键名</param>
+        ''' <returns>字段值</returns>
+        Private Function ReadString(info As Dictionary(Of String, String), key As String) As String
+            Dim value As String = Nothing
+
+            If info.TryGetValue(key, value) Then
+                Return value
+            End If
+
+            Return Nothing
+        End Function
+
+        ''' <summary>
+        ''' 从清单字典中读取必填整数字段
+        ''' </summary>
+        ''' <param name="info">清单字典</param>
+        ''' <param name="key">字段键名</param>
+        ''' <returns>字段值</returns>
+        Private Function ReadInt(info As Dictionary(Of String, String), key As String) As Integer
+            Dim text As String = ReadString(info, key)
+            Dim value As Integer
+
+            If Integer.TryParse(text, value) Then
+                Return value
+            End If
+
+            Throw New InvalidDataException($"GEARS 模型包的 manifest.json 中字段 ""{key}"" 缺失或不是整数")
+        End Function
+
+        ''' <summary>
+        ''' 把双精度数组拼成逗号分隔的字符串（固定使用不变文化，避免区域设置影响小数点）
+        ''' </summary>
+        ''' <param name="values">数值数组</param>
+        ''' <returns>逗号分隔文本；空数组返回空串</returns>
+        Private Function JoinNumbers(values As Double()) As String
+            If values.IsNullOrEmpty Then
+                Return ""
+            End If
+
+            Dim list As New List(Of String)()
+
+            For Each v As Double In values
+                list.Add(v.ToString("R", System.Globalization.CultureInfo.InvariantCulture))
+            Next
+
+            Return String.Join(",", list)
+        End Function
+
+        ''' <summary>
+        ''' 把整数数组拼成逗号分隔的字符串
+        ''' </summary>
+        ''' <param name="values">整数数组</param>
+        ''' <returns>逗号分隔文本；空数组返回空串</returns>
+        Private Function JoinNumbers(values As Integer()) As String
+            If values.IsNullOrEmpty Then
+                Return ""
+            End If
+
+            Dim list As New List(Of String)()
+
+            For Each v As Integer In values
+                list.Add(v.ToString(System.Globalization.CultureInfo.InvariantCulture))
+            Next
+
+            Return String.Join(",", list)
+        End Function
+
+        ''' <summary>
+        ''' 解析逗号分隔的双精度数组
+        ''' </summary>
+        ''' <param name="text">逗号分隔文本</param>
+        ''' <returns>双精度数组；文本为空时返回空数组</returns>
+        Private Function ParseDoubles(text As String) As Double()
+            If String.IsNullOrWhiteSpace(text) Then
+                Return New Double() {}
+            End If
+
+            Dim tokens As String() = text.Split(","c)
+            Dim result As New List(Of Double)()
+
+            For Each token As String In tokens
+                Dim v As Double
+
+                If Double.TryParse(token,
+                                   System.Globalization.NumberStyles.Float,
+                                   System.Globalization.CultureInfo.InvariantCulture, v) Then
+                    result.Add(v)
+                End If
+            Next
+
+            Return result.ToArray()
+        End Function
+
+        ''' <summary>
+        ''' 解析逗号分隔的整数数组
+        ''' </summary>
+        ''' <param name="text">逗号分隔文本</param>
+        ''' <returns>整数数组；文本为空时返回空数组</returns>
+        Private Function ParseIntegers(text As String) As Integer()
+            If String.IsNullOrWhiteSpace(text) Then
+                Return New Integer() {}
+            End If
+
+            Dim tokens As String() = text.Split(","c)
+            Dim result As New List(Of Integer)()
+
+            For Each token As String In tokens
+                Dim v As Integer
+
+                If Integer.TryParse(token, v) Then
+                    result.Add(v)
+                End If
+            Next
+
+            Return result.ToArray()
         End Function
 
         ' ==================== prior.csv ====================
@@ -235,9 +391,20 @@ Namespace IO
         ''' </summary>
         ''' <param name="zip">zip 归档</param>
         ''' <returns>表达矩阵</returns>
+        ''' <remarks>
+        ''' <see cref="BinaryMatrix.LoadStream"/> 内部依赖 <c>Stream.Length</c> 与 <c>Stream.Position</c>
+        ''' 判断数据块是否读完，而 zip 条目的解压流（<c>DeflateStream</c>）不支持取长度，
+        ''' 直接传入会抛 <see cref="NotSupportedException"/>。因此这里先把条目内容缓冲到
+        ''' <see cref="MemoryStream"/> 再解码——这样既复用了既有的二进制格式，又不必改动共享运行时代码。
+        ''' </remarks>
         Friend Function ReadExpression(zip As ZipArchive) As Matrix
-            Using fs As Stream = GetEntry(zip, EntryExpression).Open()
-                Return BinaryMatrix.LoadStream(fs)
+            Using raw As Stream = GetEntry(zip, EntryExpression).Open()
+                Using buffer As New MemoryStream()
+                    Call raw.CopyTo(buffer)
+                    Call buffer.Seek(0, SeekOrigin.Begin)
+
+                    Return BinaryMatrix.LoadStream(buffer)
+                End Using
             End Using
         End Function
 

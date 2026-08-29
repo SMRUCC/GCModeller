@@ -97,6 +97,22 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     ''' <remarks>可写，语义同 <see cref="WildtypeMeans"/>。</remarks>
     Public Property WildtypeSDs As Double()
 
+    ''' <summary>
+    ''' 当前实验使用的超参配置
+    ''' </summary>
+    ''' <returns><see cref="GEARSConfig"/> 实例</returns>
+    ''' <remarks>
+    ''' 返回的是实际生效的配置对象引用，读取其中的字段是安全的；
+    ''' 一般不建议在训练中途修改，但允许在重新训练前调整轮数、学习率等参数。
+    ''' （VB 标识符不区分大小写，故不能与私有字段 <c>config</c> 同名，这里取名为 Options。）
+    ''' </remarks>
+    Public ReadOnly Property Options As GEARSConfig
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return config
+        End Get
+    End Property
+
     ''' <summary>训练样本集合（默认由内置仿真器生成，可用实测数据覆盖）</summary>
     ''' <returns>训练样本列表</returns>
     Public ReadOnly Property TrainingSamples As New List(Of PerturbSeqSample)()
@@ -508,12 +524,18 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
                 inputExpr(gi) = perturbedExpr(gi)
             Next
 
+            ' 样本 ID 常常自带模式后缀（如 codY_Knockout），此时不再重复追加
+            Dim modeTag As String = mode.ToString()
+            Dim label As String = If(info.ID.EndsWith(modeTag, StringComparison.OrdinalIgnoreCase),
+                                     info.ID,
+                                     $"{info.ID}_{modeTag}")
+
             list.Add(New PerturbSeqSample With {
                 .PerturbedGeneIndices = indices.ToArray(),
                 .PerturbedGeneNames = geneNames.ToArray(),
                 .ControlExpression = inputExpr,
                 .PerturbedExpression = perturbedExpr,
-                .Label = $"{info.ID}_{mode.ToString()}",
+                .Label = label,
                 .Mode = mode
             })
         Next
@@ -718,7 +740,8 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         If mapped.Count = control.Length Then
             baselineSamples = mapped.OrderBy(Function(i) i).ToArray()
         Else
-            Console.WriteLine($"  [GEARS] control 列名与主表达矩阵不一致，基线样本索引保持为构造时的取值")
+            Console.WriteLine($"  [GEARS] control 列名在主表达矩阵中不存在（外部矩阵与主矩阵样本不同源），" &
+                              $"基线样本索引保持为构造时的取值")
         End If
     End Sub
 
@@ -758,21 +781,17 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
 
         Using zip As New ZipArchive(file, ZipArchiveMode.Create, leaveOpen:=True)
             Dim parameters As List(Of Tensor) = Model.GetParameters()
-            Dim info As New GEARSStorage.Manifest With {
-                .formatVersion = GEARSStorage.FormatVersion,
-                .savedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"),
-                .nGenes = exprData.NGene,
-                .nSamples = exprData.NSample,
-                .config = config,
-                .embeddingDim = Model.EmbeddingDim,
-                .hiddenDim = Model.HiddenDim,
-                .numLayers = Model.NumLayers,
-                .lossCurve = If(LossCurve, New Double() {}),
-                .baselineSamples = If(baselineSamples, New Integer() {}),
-                .nParameters = parameters.Count
-            }
 
-            Call GEARSStorage.WriteManifest(zip, info)
+            Call GEARSStorage.WriteManifest(
+                zip:=zip,
+                config:=config,
+                model:=Model,
+                nGene:=exprData.NGene,
+                nSample:=exprData.NSample,
+                lossCurve:=If(LossCurve, New Double() {}),
+                baselineSamples:=If(baselineSamples, New Integer() {}),
+                nParameters:=parameters.Count)
+
             Call GEARSStorage.WritePrior(zip, priorNetwork)
             Call GEARSStorage.WriteExpression(zip, ToExpressionMatrix())
             Call GEARSStorage.WriteVector(zip, GEARSStorage.EntryBaseline, PackBaseline())
@@ -791,24 +810,37 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         End If
 
         Using zip As New ZipArchive(file, ZipArchiveMode.Read, leaveOpen:=True)
-            Dim info As GEARSStorage.Manifest = GEARSStorage.ReadManifest(zip)
+            Dim config As GEARSConfig = Nothing
+            Dim loss As Double() = Nothing
+            Dim baseIdx As Integer() = Nothing
+            Dim nParameters As Integer = 0
+            Dim info As Dictionary(Of String, String) = GEARSStorage.ReadManifest(
+                zip, config, loss, baseIdx, nParameters)
+
             Dim prior As PriorNetwork = GEARSStorage.ReadPrior(zip)
             Dim matrix As Matrix = GEARSStorage.ReadExpression(zip)
             Dim expr As GeneExpressionData = matrix.ReadGeneExpressionMatrix()
 
             ' 构造函数会按保存时的配置重建调控图与模型结构（seed 一致，初始化也一致）
-            Dim gears As New GEARS(expr, prior, info.config)
+            Dim gears As New GEARS(expr, prior, config)
+            Dim parameters As List(Of Tensor) = gears.Model.GetParameters()
+
+            If nParameters <> parameters.Count Then
+                Throw New InvalidDataException(
+                    $"模型结构不一致：zip 中记录了 {nParameters} 个参数张量，" &
+                    $"按清单重建出的模型有 {parameters.Count} 个")
+            End If
 
             Call gears.RestoreBaseline(GEARSStorage.ReadVector(zip, GEARSStorage.EntryBaseline))
 
-            gears.LossCurve = If(info.lossCurve, New Double() {})
+            gears.LossCurve = If(loss, New Double() {})
 
-            If Not info.baselineSamples.IsNullOrEmpty Then
-                gears.baselineSamples = info.baselineSamples
+            If Not baseIdx.IsNullOrEmpty Then
+                gears.baselineSamples = baseIdx
             End If
 
             ' 形状逐一对齐校验后才注入，避免静默错位
-            Call GEARSStorage.ReadTensors(zip, gears.Model.GetParameters())
+            Call GEARSStorage.ReadTensors(zip, parameters)
 
             Return gears
         End Using
