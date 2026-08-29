@@ -290,7 +290,7 @@ Namespace Layers
             Call MatOps.Accumulate(MatOps.MulAT(lastInput, dSelf), wSelfGrad)
 
             ' ---- 邻居分支：把梯度散射回每条入边的源节点，按边类型分组 ----
-            dTransBuffers = EnsureBuffers(n, dOut)
+            dTransBuffers = EnsureBuffers(graphData, n, dOut)
 
             For i As Integer = 0 To n - 1
                 Dim sources As Integer() = graphData.InEdgeSources(i)
@@ -349,19 +349,47 @@ Namespace Layers
         End Function
 
         ''' <summary>
-        ''' 获取（并在必要时清零）按边类型分组的反向传播缓冲区
+        ''' 获取（并在必要时重新分配与清零）按边类型分组的反向传播缓冲区
         ''' </summary>
+        ''' <param name="graphData">基因调控图，用于判断哪些关系类型实际存在</param>
         ''' <param name="rows">行数（基因数量）</param>
         ''' <param name="cols">列数（输出维度）</param>
         ''' <returns>缓冲区数组；图上不存在的关系类型对应位置为 Nothing</returns>
-        Private Function EnsureBuffers(rows As Integer, cols As Integer) As Tensor()
-            Dim buffers As Tensor() = New Tensor(EdgeRelationTypes.NumRelationTypes - 1) {}
+        Private Function EnsureBuffers(graphData As GeneRegulatoryGraph, rows As Integer, cols As Integer) As Tensor()
+            Dim needRealloc As Boolean = dTransBuffers Is Nothing
 
-            For r As Integer = 0 To EdgeRelationTypes.NumRelationTypes - 1
-                buffers(r) = New Tensor(rows, cols)
-            Next
+            If Not needRealloc Then
+                For r As Integer = 0 To EdgeRelationTypes.NumRelationTypes - 1
+                    Dim buf As Tensor = dTransBuffers(r)
 
-            Return buffers
+                    If buf Is Nothing Then
+                        Continue For
+                    End If
+
+                    If buf.Shape(0) <> rows OrElse buf.Shape(1) <> cols Then
+                        needRealloc = True
+                        Exit For
+                    End If
+                Next
+            End If
+
+            If needRealloc Then
+                dTransBuffers = New Tensor(EdgeRelationTypes.NumRelationTypes - 1) {}
+
+                For r As Integer = 0 To EdgeRelationTypes.NumRelationTypes - 1
+                    If graphData.RelationTypeCounts(r) > 0 Then
+                        dTransBuffers(r) = New Tensor(rows, cols)
+                    End If
+                Next
+            Else
+                For r As Integer = 0 To EdgeRelationTypes.NumRelationTypes - 1
+                    If dTransBuffers(r) IsNot Nothing Then
+                        Call MatOps.Zero(dTransBuffers(r))
+                    End If
+                Next
+            End If
+
+            Return dTransBuffers
         End Function
 
         ''' <summary>
