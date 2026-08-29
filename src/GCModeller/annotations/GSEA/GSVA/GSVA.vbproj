@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Analysis.HTS.GSVA</RootNamespace>
-    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <Description>Gene set variation analysis</Description>
     <PackageReleaseNotes>Gene set variation analysis</PackageReleaseNotes>
     <PackageTags>GSVA</PackageTags>

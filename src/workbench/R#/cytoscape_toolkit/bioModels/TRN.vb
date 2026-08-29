@@ -66,7 +66,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' Transcription Regulation Network Builder Tools
 ''' </summary>
 ''' 
-<Package("bioModels.TRN")>
+<Package("TRN")>
 Module TRN
 
     Sub Main()

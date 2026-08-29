@@ -1,57 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::ac12ce18b42aef91f20069953cb11579, models\Networks\STRING\FunctionalNetwork\AnalysisAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 105
-    '    Code Lines: 94 (89.52%)
-    ' Comment Lines: 3 (2.86%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 8 (7.62%)
-    '     File Size: 4.83 KB
+' Summaries:
 
 
-    ' Module AnalysisAPI
-    ' 
-    '     Function: NetworkVisualize, Uniprot2STRING
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 105
+'    Code Lines: 94 (89.52%)
+' Comment Lines: 3 (2.86%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 8 (7.62%)
+'     File Size: 4.83 KB
+
+
+' Module AnalysisAPI
+' 
+'     Function: NetworkVisualize, Uniprot2STRING
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
@@ -60,37 +59,10 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports SMRUCC.genomics.Data.STRING
+Imports SMRUCC.genomics.Data.STRING.Tabular.Tsv
 Imports SMRUCC.genomics.Model.Network.KEGG
 Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer
-
-#If NET48 Then
-Imports Pen = System.Drawing.Pen
-Imports Pens = System.Drawing.Pens
-Imports Brush = System.Drawing.Brush
-Imports Font = System.Drawing.Font
-Imports Brushes = System.Drawing.Brushes
-Imports SolidBrush = System.Drawing.SolidBrush
-Imports DashStyle = System.Drawing.Drawing2D.DashStyle
-Imports Image = System.Drawing.Image
-Imports Bitmap = System.Drawing.Bitmap
-Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
-Imports FontStyle = System.Drawing.FontStyle
-Imports LineCap = System.Drawing.Drawing2D.LineCap
-#Else
-Imports Pen = Microsoft.VisualBasic.Imaging.Pen
-Imports Pens = Microsoft.VisualBasic.Imaging.Pens
-Imports Brush = Microsoft.VisualBasic.Imaging.Brush
-Imports Font = Microsoft.VisualBasic.Imaging.Font
-Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
-Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
-Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
 Imports Image = Microsoft.VisualBasic.Imaging.Image
-Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
-Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
-Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
-Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
-#End If
 
 
 ''' <summary>
@@ -128,19 +100,20 @@ Public Module AnalysisAPI
     <Extension>
     Public Function Uniprot2STRING(annotations As Dictionary(Of String, entry)) As Func(Of Dictionary(Of String, Double), Dictionary(Of String, Double))
         Dim uniprotSTRING = annotations.Values _
-               .Distinct _
-               .Select(Function(protein)
-                           Return protein.accessions.Select(Function(unid) (unid, protein))
-                       End Function) _
-               .IteratesALL _
-               .GroupBy(Function(x) x.Item1) _
-               .ToDictionary(Function(x) x.Key,
-                             Function(x)
-                                 Return x.First.Item2 _
-                                     .xrefs(InteractExports.STRING) _
-                                     .Select(Function(link) link.id) _
-                                     .ToArray
-                             End Function)
+            .Distinct _
+            .Select(Function(protein)
+                        Return protein.accessions.Select(Function(unid) (unid, protein))
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(x) x.Item1) _
+            .ToDictionary(Function(x) x.Key,
+                            Function(x)
+                                Return x.First.Item2 _
+                                    .xrefs(InteractExports.STRING) _
+                                    .Select(Function(link) link.id) _
+                                    .ToArray
+                            End Function)
+
         Return Function(list As Dictionary(Of String, Double))
                    Return list _
                        .Where(Function(id) uniprotSTRING.ContainsKey(id.Key)) _

@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<RootNamespace>SMRUCC.genomics.Data.Reactome</RootNamespace>
-    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
 		<AssemblyName>SMRUCC.genomics.Data.Reactome</AssemblyName>
 		<Authors>xie.guigang@live.com</Authors>
 		
