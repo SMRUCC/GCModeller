@@ -47,11 +47,16 @@ Namespace Core.WGCNADBN
         ' 1. 主入口
         ' ============================================================
 
+        ''' <summary>
+        ''' 模块切分 → 子网络训练 → 全局矩阵拼接
+        ''' </summary>
+        ''' <param name="assignment">WGCNA 模块划分结果（geneID / moduleColor / kME）</param>
+        ''' <param name="expr">全局表达矩阵（基因 × 样本）</param>
+        ''' <returns></returns>
         Public Function Learn(assignment As GeneModuleColor(), expr As GeneExpressionData) As WGCNASubnetworkPipeline
             model = New BlockNetwork(expr)
             infer = New BlockPropagate With {
                 .Model = model.Learn(assignment),
-                .Propagation = Propagation,
                 .MaxSteps = MaxSteps,
                 .Tolerance = Tolerance,
                 .NSamples = NSamples,
@@ -62,15 +67,11 @@ Namespace Core.WGCNADBN
         End Function
 
         ''' <summary>
-        ''' 运行完整流程：模块切分 → 子网络训练 → 全局矩阵拼接 → 各源基因全局扰动。
+        ''' 各源基因全局扰动。
         ''' </summary>
-        ''' <param name="assignment">WGCNA 模块划分结果（geneID / moduleColor / kME）</param>
-        ''' <param name="expr">全局表达矩阵（基因 × 样本）</param>
-        ''' <param name="sources">扰动源基因列表；为 Nothing 时自动取每模块 kME 最高的代表基因</param>
+        ''' <param name="sources">扰动源基因列表</param>
         ''' <returns>每个扰动源的全局扰动结果</returns>
-        Public Function Run(assignment As GeneModuleColor(),
-                           expr As GeneExpressionData,
-                           Optional sources As String() = Nothing) As List(Of GlobalPerturbationResult)
+        Public Function InsilicoPerturbation(sources As String(), mode As InterventionMode) As List(Of GlobalPerturbationResult)
 
             Call Learn(assignment, expr)
 
@@ -87,16 +88,16 @@ Namespace Core.WGCNADBN
 
             Dim results As New List(Of GlobalPerturbationResult)()
             For Each src In srcList
-                Dim gi As Integer = GetGlobalIndex(src)
+                Dim gi As Integer = model.GetGlobalIndex(src)
                 If gi < 0 Then
                     Call $"[WGCNASubnetworkPipeline] 警告: 扰动源 '{src}' 不在表达矩阵中，跳过".debug
                     Continue For
                 End If
                 Dim r As GlobalPerturbationResult
                 If Propagation = PropagationMethod.Jacobian Then
-                    r = PropagateJacobian(gi)
+                    r = infer.PropagateJacobian(gi)
                 Else
-                    r = PropagateCascade(gi)
+                    r = infer.PropagateCascade(gi)
                 End If
                 results.Add(r)
                 Call r.ToString().debug
@@ -104,13 +105,6 @@ Namespace Core.WGCNADBN
 
             Return results
         End Function
-
-
-
-
-
-
-
 
         ' ============================================================
         ' 8. 结果导出
@@ -132,8 +126,8 @@ Namespace Core.WGCNADBN
             Next
             sbMatrix.AppendLine()
 
-            For i = 0 To _genes.Length - 1
-                sbMatrix.Append(_genes(i))
+            For i = 0 To model._genes.Length - 1
+                sbMatrix.Append(model._genes(i))
                 For Each r In results
                     sbMatrix.Append(vbTab).Append(r.Effects(i).ToString("F6"))
                 Next
@@ -152,20 +146,6 @@ Namespace Core.WGCNADBN
                 Console.WriteLine(r.ToString())
             Next
         End Sub
-
-        ' ============================================================
-        ' 内部辅助
-        ' ============================================================
-
-        Private Function GetDefaultSources() As List(Of String)
-            Dim src As New List(Of String)()
-            For Each kv In _moduleHubs
-                If kv.Value.Count > 0 Then
-                    src.Add(kv.Value(0))
-                End If
-            Next
-            Return src
-        End Function
 
     End Class
 

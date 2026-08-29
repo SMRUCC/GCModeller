@@ -6,8 +6,6 @@ Namespace Core.WGCNADBN
 
         Public Property Model As BlockNetwork
         ' ---- 全局扰动参数 ----
-        ''' <summary>传播方法，默认 Jacobian（线性化雅可比多步传播）</summary>
-        Public Property Propagation As PropagationMethod = PropagationMethod.Jacobian
 
         ''' <summary>最大传播步数（雅可比收敛上限 / 级联采样时间步数）</summary>
         Public Property MaxSteps As Integer = 50
@@ -62,7 +60,7 @@ Namespace Core.WGCNADBN
         End Function
 
         ''' <summary>级联采样：在全局聚合网络上做多步 do-演算传播</summary>
-        Private Function PropagateCascade(sourceIdx As Integer, mode As InterventionMode) As GlobalPerturbationResult
+        Public Function PropagateCascade(sourceIdx As Integer, mode As InterventionMode) As GlobalPerturbationResult
             Dim spec As New InterventionSpec() With {
                 .GeneName = Model._genes(sourceIdx),
                 .GeneIndex = sourceIdx,
