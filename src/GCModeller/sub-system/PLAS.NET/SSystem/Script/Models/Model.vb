@@ -1,67 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::587815e33b55230ec537f56b46b4f170, sub-system\PLAS.NET\SSystem\Script\Models\Model.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 125
-    '    Code Lines: 65 (52.00%)
-    ' Comment Lines: 45 (36.00%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 15 (12.00%)
-    '     File Size: 4.36 KB
+' Summaries:
 
 
-    '     Class Model
-    ' 
-    '         Properties: [Constant], Comment, Experiments, FinalTime, sEquations
-    '                     Summary, Title, UserFunc, Vars
-    ' 
-    '         Function: FindObject, Load, ToString
-    ' 
-    '         Sub: Add
-    ' 
-    '         Operators: +
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 125
+'    Code Lines: 65 (52.00%)
+' Comment Lines: 45 (36.00%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 15 (12.00%)
+'     File Size: 4.36 KB
+
+
+'     Class Model
+' 
+'         Properties: [Constant], Comment, Experiments, FinalTime, sEquations
+'                     Summary, Title, UserFunc, Vars
+' 
+'         Function: FindObject, Load, ToString
+' 
+'         Sub: Add
+' 
+'         Operators: +
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#End If
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
