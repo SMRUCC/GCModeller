@@ -37,14 +37,48 @@ Namespace IO
         End Function
 
         ''' <summary>
+        ''' 把先验调控网络序列化为 CSV 文本行
+        ''' </summary>
+        ''' <param name="prior">先验调控网络</param>
+        ''' <returns>首行为表头、其余每行为一条调控边的文本行集合</returns>
+        ''' <remarks>
+        ''' 与 <see cref="ParseRegulatoryEdges(String())"/> 互为逆操作，
+        ''' 用于把先验网络写入 zip 包时无需借助临时文件。
+        ''' </remarks>
+        Public Iterator Function PriorNetworkToCsv(prior As PriorNetwork) As IEnumerable(Of String)
+            Yield "TF,TargetGene,RegulationType,Confidence,Evidence"
+
+            For Each edge As RegulatoryEdge In prior.Edges.SafeQuery
+                Yield String.Join(",",
+                    edge.TF,
+                    edge.TargetGene,
+                    edge.RegulationType.ToString(),
+                    edge.Confidence.ToString("R", System.Globalization.CultureInfo.InvariantCulture),
+                    If(edge.Evidence, ""))
+            Next
+        End Function
+
+        ''' <summary>
         ''' 解析 CSV 文件中的所有调控边
         ''' </summary>
         ''' <param name="path">CSV 文件路径</param>
         ''' <returns>调控边序列</returns>
         Public Iterator Function ParseRegulatoryEdges(path As String) As IEnumerable(Of RegulatoryEdge)
-            Dim lines As String() = File.ReadAllLines(path)
+            For Each edge As RegulatoryEdge In ParseRegulatoryEdges(File.ReadAllLines(path))
+                Yield edge
+            Next
+        End Function
 
-            If lines.Length = 0 Then
+        ''' <summary>
+        ''' 解析内存中的 CSV 文本行所描述的所有调控边
+        ''' </summary>
+        ''' <param name="lines">
+        ''' CSV 文本行集合，首行为表头 <c>TF,TargetGene,RegulationType,Confidence,Evidence</c>
+        ''' </param>
+        ''' <returns>调控边序列</returns>
+        ''' <remarks>供 <see cref="GEARS"/> 从 zip 包内读出的文本直接解析，避免落临时文件。</remarks>
+        Public Iterator Function ParseRegulatoryEdges(lines As String()) As IEnumerable(Of RegulatoryEdge)
+            If lines.IsNullOrEmpty Then
                 Return
             End If
 

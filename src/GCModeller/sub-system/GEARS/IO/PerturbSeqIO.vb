@@ -198,7 +198,11 @@ Namespace IO
         ''' <param name="columnName">列名，例如 <c>codY+luxR_Knockout</c></param>
         ''' <param name="mode">解析得到的干预模式；未指定时保持调用方传入的默认值</param>
         ''' <returns>去掉模式后缀之后的基因名部分</returns>
-        Private Function ParseMode(columnName As String, ByRef mode As InterventionMode) As String
+        ''' <remarks>
+        ''' 对外可见：<see cref="GEARS.SetTrainingSamples(Matrix, String(), SampleInfo())"/> 在样本的
+        ''' <see cref="SampleInfo.metadata"/> 里没有记录干预模式时，会用它按列名回退解析。
+        ''' </remarks>
+        Public Function ParseMode(columnName As String, ByRef mode As InterventionMode) As String
             Dim pos As Integer = columnName.LastIndexOf("_"c)
 
             If pos <= 0 Then

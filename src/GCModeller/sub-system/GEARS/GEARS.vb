@@ -12,6 +12,7 @@ Imports SMRUCC.genomics.Analysis.GEARS.Training
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports System.IO
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 ''' <summary>
 ''' GEARS：基于图神经网络的基因表达调控网络虚拟扰动实验
@@ -48,8 +49,15 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     ''' <summary>超参配置</summary>
     ReadOnly config As GEARSConfig
 
-    ''' <summary>用于估计 control 基线所选取的样本列索引</summary>
-    ReadOnly baselineSamples As Integer()
+    ''' <summary>
+    ''' 用于估计 control 基线所选取的样本列索引
+    ''' </summary>
+    ''' <remarks>
+    ''' 该字段不是只读的：<see cref="SetTrainingSamples(Matrix, String(), SampleInfo())"/> 指定了显式的
+    ''' control 列名后会更新它，从而让 <see cref="RecomputeBaseline"/> 与接口方法的 nSamples 分支
+    ''' 与新的野生型基线保持同一口径。
+    ''' </remarks>
+    Dim baselineSamples As Integer()
 
     ''' <summary>基因调控图</summary>
     ''' <returns><see cref="GeneRegulatoryGraph"/> 实例</returns>
@@ -68,13 +76,22 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
         End Get
     End Property
 
-    ''' <summary>control（野生型）表达均值</summary>
+    ''' <summary>
+    ''' control（野生型）表达均值
+    ''' </summary>
     ''' <returns>每个基因的表达均值</returns>
-    Public ReadOnly Property WildtypeMeans As Double()
+    ''' <remarks>
+    ''' 可写：<see cref="SetTrainingSamples(Matrix, String(), SampleInfo())"/> 会用显式指定的 control 列
+    ''' 重算并覆盖它；<see cref="Load"/> 则从 zip 包中还原保存时的取值。
+    ''' </remarks>
+    Public Property WildtypeMeans As Double()
 
-    ''' <summary>control（野生型）表达标准差，用于归一化、Z-score 与显著性判定</summary>
+    ''' <summary>
+    ''' control（野生型）表达标准差，用于归一化、Z-score 与显著性判定
+    ''' </summary>
     ''' <returns>每个基因的表达标准差</returns>
-    Public ReadOnly Property WildtypeSDs As Double()
+    ''' <remarks>可写，语义同 <see cref="WildtypeMeans"/>。</remarks>
+    Public Property WildtypeSDs As Double()
 
     ''' <summary>训练样本集合（默认由内置仿真器生成，可用实测数据覆盖）</summary>
     ''' <returns>训练样本列表</returns>
@@ -357,10 +374,33 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     End Function
 
     ''' <summary>
+    ''' <see cref="SampleInfo.metadata"/> 中记录「本样本被扰动了哪些基因」的键名
+    ''' </summary>
+    ''' <remarks>
+    ''' 对应值是一个 JSON 字符串数组，例如 <c>["codY","luxR"]</c>。
+    ''' </remarks>
+    Public Const metadata_perturbed_genes As String = "perturbed_genes"
+
+    ''' <summary>
+    ''' <see cref="SampleInfo.metadata"/> 中记录「本样本使用哪种干预模式」的键名
+    ''' </summary>
+    ''' <remarks>
+    ''' 对应值为 <see cref="InterventionMode"/> 的枚举名（大小写不敏感），例如 <c>Knockout</c>、<c>Knockdown</c>、
+    ''' <c>Overexpression</c>、<c>Custom</c>。缺失时回退到从样本 ID 的后缀解析，仍解析不出则取 <see cref="InterventionMode.Knockout"/>。
+    ''' </remarks>
+    Public Const metadata_intervention_mode As String = "intervention_mode"
+
+    ''' <summary>
     ''' Set Perturb-seq training sample from a given gene expression matrix
     ''' </summary>
-    ''' <param name="samples"></param>
-    Public Function SetTrainingSamples(samples As Matrix) As GEARS
+    ''' <param name="samples">基因表达矩阵对象</param>
+    ''' <param name="control">
+    ''' 基线样本名称列表，计算出mean/sd作为共享野生型基线
+    ''' </param>
+    ''' <param name="perturbed">
+    ''' 扰动后的样本名称列表，每一个<see cref="SampleInfo.ID"/>为<paramref name="samples"/>矩阵中的样本ID，为扰动样本，每一个扰动样本中被扰动的基因id集合以字符串json数组的形式记录在<see cref="SampleInfo.metadata"/>元数据字典中，通过键名<see cref="metadata_perturbed_genes"/>来获取
+    ''' </param>
+    Public Function SetTrainingSamples(samples As Matrix, control As String(), perturbed As SampleInfo()) As GEARS
 
         Return Me
     End Function
