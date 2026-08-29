@@ -99,12 +99,10 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     ''' 用于估计 control 基线（均值/标准差）的样本数量；
     ''' 小于等于 0 或大于总样本数时使用全部样本
     ''' </param>
-    ''' <param name="autoTrain">是否在构造时立即生成训练样本并开始训练</param>
     Public Sub New(expression As GeneExpressionData,
                    prior As PriorNetwork,
                    Optional gearsConfig As GEARSConfig = Nothing,
-                   Optional nSamples As Integer = 0,
-                   Optional autoTrain As Boolean = True)
+                   Optional nSamples As Integer = 0)
 
         If expression Is Nothing Then
             Throw New ArgumentNullException(NameOf(expression))
@@ -148,11 +146,6 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
             useDense:=Me.config.UseDense,
             seed:=Me.config.Seed
         )
-
-        If autoTrain Then
-            Call GenerateTrainingSamples()
-            Call Train()
-        End If
     End Sub
 
     ''' <summary>
@@ -162,14 +155,12 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     ''' <param name="prior">先验调控网络</param>
     ''' <param name="gearsConfig">超参配置；为 Nothing 时使用默认配置</param>
     ''' <param name="nSamples">用于估计 control 基线的样本数量；0 表示使用全部样本</param>
-    ''' <param name="autoTrain">是否在构造时立即生成训练样本并开始训练</param>
     Public Sub New(matrix As Matrix,
                    prior As PriorNetwork,
                    Optional gearsConfig As GEARSConfig = Nothing,
-                   Optional nSamples As Integer = 0,
-                   Optional autoTrain As Boolean = True)
+                   Optional nSamples As Integer = 0)
 
-        Me.New(matrix.ReadGeneExpressionMatrix(), prior, gearsConfig, nSamples, autoTrain)
+        Me.New(matrix.ReadGeneExpressionMatrix(), prior, gearsConfig, nSamples)
     End Sub
 
     ' ==================== 基线统计量 ====================

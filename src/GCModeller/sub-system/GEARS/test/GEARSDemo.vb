@@ -85,6 +85,9 @@ Module GEARSDemo
 
         Dim gears As New GEARS(exprData, prior, config)
 
+        Call gears.GenerateTrainingSamples()
+        Call gears.Train()
+
         Console.WriteLine()
         Console.WriteLine($"  调控图: {gears.GraphData}")
         Console.WriteLine($"  模型:   {gears.Model.NumLayers} 层, 隐藏维度 {gears.Model.HiddenDim}, " &

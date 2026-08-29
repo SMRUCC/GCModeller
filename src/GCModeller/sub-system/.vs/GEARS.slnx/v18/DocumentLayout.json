@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3DD3F601-261C-F01B-2467-1250C3716EB7}|GEARS\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\gears\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{3DD3F601-261C-F01B-2467-1250C3716EB7}|GEARS\\test\\test.vbproj|solutionrelative:gears\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{3DD3F601-261C-F01B-2467-1250C3716EB7}|GEARS\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\gears\\test\\gearsdemo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{3DD3F601-261C-F01B-2467-1250C3716EB7}|GEARS\\test\\test.vbproj|solutionrelative:gears\\test\\gearsdemo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{E39127B9-57B8-063B-4394-F16B1668DF9A}|GEARS\\GEARS.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\gears\\gears.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E39127B9-57B8-063B-4394-F16B1668DF9A}|GEARS\\GEARS.vbproj|solutionrelative:gears\\gears.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E39127B9-57B8-063B-4394-F16B1668DF9A}|GEARS\\GEARS.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\gears\\gearsconfig.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{E39127B9-57B8-063B-4394-F16B1668DF9A}|GEARS\\GEARS.vbproj|solutionrelative:gears\\gearsconfig.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD3F601-261C-F01B-2467-1250C3716EB7}|GEARS\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\gears\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{3DD3F601-261C-F01B-2467-1250C3716EB7}|GEARS\\test\\test.vbproj|solutionrelative:gears\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,26 +42,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "GEARS.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\GEARS.vb",
+              "RelativeDocumentMoniker": "GEARS\\GEARS.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\GEARS.vb",
+              "RelativeToolTip": "GEARS\\GEARS.vb",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAYwJMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T09:39:36.877Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\test\\Program.vb",
               "RelativeDocumentMoniker": "GEARS\\test\\Program.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\test\\Program.vb",
               "RelativeToolTip": "GEARS\\test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-08-29T09:38:43.076Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "GEARSDemo.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\test\\GEARSDemo.vb",
               "RelativeDocumentMoniker": "GEARS\\test\\GEARSDemo.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\test\\GEARSDemo.vb",
               "RelativeToolTip": "GEARS\\test\\GEARSDemo.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAzwFcAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-08-29T09:38:42.201Z",
               "EditorCaption": ""
