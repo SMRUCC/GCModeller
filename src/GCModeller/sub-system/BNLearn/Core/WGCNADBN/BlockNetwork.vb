@@ -61,14 +61,12 @@ Namespace Core.WGCNADBN
             End If
         End Sub
 
-        Public Function GetModuleHubSources() As List(Of String)
-            Dim src As New List(Of String)()
+        Public Iterator Function GetModuleHubSources() As IEnumerable(Of String)
             For Each kv In _moduleHubs
                 If kv.Value.Count > 0 Then
-                    src.Add(kv.Value(0))
+                    Yield kv.Value(0)
                 End If
             Next
-            Return src
         End Function
 
         ''' <summary>

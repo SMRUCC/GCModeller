@@ -17,6 +17,8 @@
 
 Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 
 Namespace Core.WGCNADBN
 
@@ -42,6 +44,10 @@ Namespace Core.WGCNADBN
 
         Dim model As BlockNetwork
         Dim infer As BlockPropagate
+
+        Public Function GetModuleHubSources() As String()
+            Return model.GetModuleHubSources.ToArray
+        End Function
 
         ' ============================================================
         ' 1. 主入口
@@ -71,23 +77,13 @@ Namespace Core.WGCNADBN
         ''' </summary>
         ''' <param name="sources">扰动源基因列表</param>
         ''' <returns>每个扰动源的全局扰动结果</returns>
-        Public Function InsilicoPerturbation(sources As String(), mode As InterventionMode) As List(Of GlobalPerturbationResult)
-
-            Call Learn(assignment, expr)
-
-
-
+        Public Iterator Function InsilicoPerturbation(sources As IEnumerable(Of String), mode As InterventionMode) As IEnumerable(Of GlobalPerturbationResult)
             ' 确定扰动源
-            Dim srcList As List(Of String)
-            If sources Is Nothing OrElse sources.Length = 0 Then
-                srcList = GetDefaultSources()
-                Call $"[WGCNASubnetworkPipeline] 未指定扰动源，自动取每模块代表基因共 {srcList.Count} 个".debug
-            Else
-                srcList = New List(Of String)(sources)
-            End If
+            Dim srcList As New List(Of String)(sources.SafeQuery)
 
-            Dim results As New List(Of GlobalPerturbationResult)()
-            For Each src In srcList
+            Call $"[WGCNASubnetworkPipeline] 虚拟扰动实验的代表基因共 {srcList.Count} 个".debug
+
+            For Each src As String In srcList
                 Dim gi As Integer = model.GetGlobalIndex(src)
                 If gi < 0 Then
                     Call $"[WGCNASubnetworkPipeline] 警告: 扰动源 '{src}' 不在表达矩阵中，跳过".debug
@@ -95,15 +91,15 @@ Namespace Core.WGCNADBN
                 End If
                 Dim r As GlobalPerturbationResult
                 If Propagation = PropagationMethod.Jacobian Then
-                    r = infer.PropagateJacobian(gi)
+                    r = infer.PropagateJacobian(gi, mode)
                 Else
-                    r = infer.PropagateCascade(gi)
+                    r = infer.PropagateCascade(gi, mode)
                 End If
-                results.Add(r)
+
+                Yield r
+
                 Call r.ToString().debug
             Next
-
-            Return results
         End Function
 
         ' ============================================================
