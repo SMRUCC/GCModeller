@@ -2,15 +2,18 @@
 Imports std = System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.GEARS.Graph
+Imports SMRUCC.genomics.Analysis.GEARS.IO
 Imports SMRUCC.genomics.Analysis.GEARS.Model
 Imports SMRUCC.genomics.Analysis.GEARS.Training
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports System.IO
+Imports System.IO.Compression
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
