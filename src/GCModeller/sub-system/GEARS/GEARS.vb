@@ -1,5 +1,5 @@
-﻿Imports System.Linq
-Imports std = System.Math
+﻿Imports System.IO
+Imports System.IO.Compression
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
@@ -13,10 +13,9 @@ Imports SMRUCC.genomics.Analysis.GEARS.IO
 Imports SMRUCC.genomics.Analysis.GEARS.Model
 Imports SMRUCC.genomics.Analysis.GEARS.Training
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
-Imports System.IO
-Imports System.IO.Compression
-Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports std = System.Math
 
 ''' <summary>
 ''' GEARS：基于图神经网络的基因表达调控网络虚拟扰动实验

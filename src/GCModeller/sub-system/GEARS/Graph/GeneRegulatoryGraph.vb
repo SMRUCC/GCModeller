@@ -1,8 +1,8 @@
-﻿Imports std = System.Math
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
-Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
+Imports std = System.Math
 
 Namespace Graph
 

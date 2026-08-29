@@ -1,9 +1,8 @@
-﻿Imports std = System.Math
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
-Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
+﻿Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports SMRUCC.genomics.Analysis.GEARS.Graph
 Imports SMRUCC.genomics.Analysis.GEARS.Model
+Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
+Imports std = System.Math
 
 Namespace Training
 

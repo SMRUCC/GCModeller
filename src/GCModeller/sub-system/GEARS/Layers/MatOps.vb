@@ -1,5 +1,5 @@
-﻿Imports std = System.Math
-Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+﻿Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports std = System.Math
 
 Namespace Layers
 

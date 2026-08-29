@@ -1,7 +1,7 @@
-﻿Imports std = System.Math
-Imports Microsoft.VisualBasic.Linq
+﻿Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.GEARS.Graph
+Imports std = System.Math
 
 Namespace Training
 

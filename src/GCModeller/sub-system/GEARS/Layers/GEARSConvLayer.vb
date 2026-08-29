@@ -1,7 +1,6 @@
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
-Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
 Imports SMRUCC.genomics.Analysis.GEARS.Graph
+Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
 
 Namespace Layers
 
