@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E39127B9-57B8-063B-4394-F16B1668DF9A}|GEARS\\GEARS.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\gears\\gears.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{E39127B9-57B8-063B-4394-F16B1668DF9A}|GEARS\\GEARS.vbproj|solutionrelative:gears\\gears.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1C05C443-721F-8915-43B1-6C32F7FBB110}|BNLearn\\BNLearn.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\bnlearn\\bnlearn.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{1C05C443-721F-8915-43B1-6C32F7FBB110}|BNLearn\\BNLearn.vbproj|solutionrelative:bnlearn\\bnlearn.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\temporalmodels.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -109,6 +117,31 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "GEARS",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\GEARS.vbproj",
+              "RelativeDocumentMoniker": "GEARS\\GEARS.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\GEARS.vbproj",
+              "RelativeToolTip": "GEARS\\GEARS.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2026-08-29T08:20:00.34Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BNLearn",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\BNLearn.vbproj",
+              "RelativeDocumentMoniker": "BNLearn\\BNLearn.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\BNLearn\\BNLearn.vbproj",
+              "RelativeToolTip": "BNLearn\\BNLearn.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2026-08-29T08:19:51.518Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "TemporalModels.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalModels.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalModels.vb",
@@ -121,7 +154,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "TemporalGraph.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalGraph.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalGraph.vb",
@@ -134,7 +167,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "RecurrentLayers.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\RecurrentLayers.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\RecurrentLayers.vb",
@@ -147,7 +180,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "GNNModel.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GNNModel.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GNNModel.vb",
@@ -160,7 +193,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "GraphClassificationTrainer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\GraphClassificationTrainer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\GraphClassificationTrainer.vb",
@@ -173,7 +206,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Trainer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\Trainer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\Trainer.vb",
@@ -186,7 +219,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "AdamOptimizer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\AdamOptimizer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\AdamOptimizer.vb",
@@ -199,7 +232,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "SGDOptimizer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\SGDOptimizer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\SGDOptimizer.vb",
@@ -212,7 +245,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "Optimizer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\Optimizer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\Optimizer.vb",
@@ -225,7 +258,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "GCNModel.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GCNModel.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GCNModel.vb",
@@ -238,7 +271,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "GraphClassificationModel.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GraphClassificationModel.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GraphClassificationModel.vb",
@@ -251,7 +284,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "GraphDataset.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GraphDataset.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GraphDataset.vb",
@@ -264,7 +297,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "LossFunctions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\LossFunctions.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\LossFunctions.vb",
@@ -277,7 +310,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "ActivationFunctions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\ActivationFunctions.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\ActivationFunctions.vb",
@@ -290,7 +323,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "ActivationType.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\ActivationType.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\ActivationType.vb",
@@ -303,7 +336,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Graph.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Graph.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Graph.vb",
@@ -316,7 +349,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "Loss.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Loss.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Loss.vb",
@@ -329,7 +362,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "Activations.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Activations.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Activations.vb",
@@ -342,7 +375,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "GlobalPoolingLayer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GlobalPoolingLayer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GlobalPoolingLayer.vb",
@@ -355,7 +388,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "GATLayer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GATLayer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GATLayer.vb",
@@ -368,7 +401,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "GCNConvLayer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GCNConvLayer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GCNConvLayer.vb",
@@ -381,7 +414,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "DropoutLayer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\DropoutLayer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\DropoutLayer.vb",
@@ -394,7 +427,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "LinearLayer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\LinearLayer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\LinearLayer.vb",
@@ -407,7 +440,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "ActivationLayer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\ActivationLayer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\ActivationLayer.vb",
@@ -420,7 +453,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "Layers.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
@@ -433,7 +466,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "SparseGraph.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\SparseGraph.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\SparseGraph.vb",
@@ -446,7 +479,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "GEARS.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\GEARS.vb",
               "RelativeDocumentMoniker": "GEARS\\GEARS.vb",
