@@ -92,12 +92,14 @@ Namespace Layers
         ''' 为 False 时所有类型共享同一个变换矩阵，仅用符号区分激活/抑制，计算量更小
         ''' </param>
         ''' <param name="useDense">为 True 时使用稠密归一化邻接矩阵聚合</param>
+        ''' <param name="seed">权重初始化随机种子；给定后初始化结果可复现</param>
         ''' <param name="name">层名称</param>
         Public Sub New(inFeatures As Integer,
                        outFeatures As Integer,
                        Optional activation As GNN.ActivationType = GNN.ActivationType.Tanh,
                        Optional usePerRelationTransform As Boolean = False,
                        Optional useDense As Boolean = False,
+                       Optional seed As Integer? = Nothing,
                        Optional name As String = Nothing)
 
             Me.InFeatures = inFeatures
@@ -107,7 +109,7 @@ Namespace Layers
             Me.UseDense = useDense
             MyBase.Name = If(name, $"GEARSConv_{inFeatures}_{outFeatures}")
 
-            wSelf = Tensor.XavierInit(inFeatures, outFeatures)
+            wSelf = Tensor.XavierInit(inFeatures, outFeatures, seed)
             bias = New Tensor(1, outFeatures)
             wSelfGrad = New Tensor(inFeatures, outFeatures)
             biasGrad = New Tensor(1, outFeatures)
@@ -117,12 +119,12 @@ Namespace Layers
 
             If usePerRelationTransform Then
                 For r As Integer = 0 To EdgeRelationTypes.NumRelationTypes - 1
-                    relW(r) = Tensor.XavierInit(inFeatures, outFeatures)
+                    relW(r) = Tensor.XavierInit(inFeatures, outFeatures, seed)
                     relWGrad(r) = New Tensor(inFeatures, outFeatures)
                 Next
             Else
                 ' 所有关系类型共享同一个变换矩阵实例，梯度在反向传播时自动累加
-                Dim sharedW As Tensor = Tensor.XavierInit(inFeatures, outFeatures)
+                Dim sharedW As Tensor = Tensor.XavierInit(inFeatures, outFeatures, seed)
                 Dim sharedGrad As Tensor = New Tensor(inFeatures, outFeatures)
 
                 For r As Integer = 0 To EdgeRelationTypes.NumRelationTypes - 1

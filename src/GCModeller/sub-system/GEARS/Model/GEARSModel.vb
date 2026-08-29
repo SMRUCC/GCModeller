@@ -134,7 +134,10 @@ Namespace Model
             Me.HiddenDim = hiddenDim
             MyBase.Name = name
 
-            embeddingLayer = New GeneEmbeddingLayer(graph.NumGenes, embeddingDim, seed:=seed)
+            ' 由主种子派生各层的初始化种子，保证给定种子时整网初始化完全可复现
+            Dim seeder As Random = New Random(If(seed.HasValue, seed.Value, Environment.TickCount))
+
+            embeddingLayer = New GeneEmbeddingLayer(graph.NumGenes, embeddingDim, seed:=seeder.Next())
             poolingLayer = New GNN.GlobalPoolingLayer(GNN.GlobalPoolingLayer.PoolingType.Mean)
 
             _layers.Add(embeddingLayer)
@@ -149,6 +152,7 @@ Namespace Model
                     activation:=activation,
                     usePerRelationTransform:=usePerRelationTransform,
                     useDense:=useDense,
+                    seed:=seeder.Next(),
                     name:=$"GEARSConv_{i}"
                 )
 
@@ -158,7 +162,7 @@ Namespace Model
                 dimIn = hiddenDim
             Next
 
-            decoder = New DenseLayer(hiddenDim, 1, useBias:=True, scale:=0.1, name:="DeltaDecoder")
+            decoder = New DenseLayer(hiddenDim, 1, useBias:=True, scale:=0.1, seed:=seeder.Next(), name:="DeltaDecoder")
             _layers.Add(decoder)
         End Sub
 

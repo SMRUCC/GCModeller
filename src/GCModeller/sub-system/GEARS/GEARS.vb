@@ -202,24 +202,32 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     End Function
 
     ''' <summary>
-    ''' 计算 control 条件下每个基因的表达均值与标准差
+    ''' 用构造时选定的样本集合估计 control 基线
     ''' </summary>
     Private Sub ComputeBaseline()
+        Call ComputeBaseline(baselineSamples)
+    End Sub
+
+    ''' <summary>
+    ''' 用指定的样本集合估计 control 条件下每个基因的表达均值与标准差
+    ''' </summary>
+    ''' <param name="sampleIdx">参与统计的样本列索引</param>
+    Private Sub ComputeBaseline(sampleIdx As Integer())
         Dim n As Integer = exprData.NGene
-        Dim m As Integer = baselineSamples.Length
+        Dim m As Integer = sampleIdx.Length
         Dim matrix As Double(,) = exprData.Matrix
 
         For i As Integer = 0 To n - 1
             Dim sum As Double = 0
 
-            For Each j As Integer In baselineSamples
+            For Each j As Integer In sampleIdx
                 sum += matrix(i, j)
             Next
 
             Dim mean As Double = sum / m
             Dim ss As Double = 0
 
-            For Each j As Integer In baselineSamples
+            For Each j As Integer In sampleIdx
                 Dim d As Double = matrix(i, j) - mean
 
                 ss += d * d
@@ -595,30 +603,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
             picked.Add(rand.Next(total))
         End While
 
-        Dim idx As Integer() = picked.OrderBy(Function(i) i).ToArray()
-        Dim matrix As Double(,) = exprData.Matrix
-        Dim n As Integer = exprData.NGene
-        Dim m As Integer = idx.Length
-
-        For i As Integer = 0 To n - 1
-            Dim sum As Double = 0
-
-            For Each j As Integer In idx
-                sum += matrix(i, j)
-            Next
-
-            Dim mean As Double = sum / m
-            Dim ss As Double = 0
-
-            For Each j As Integer In idx
-                Dim d As Double = matrix(i, j) - mean
-
-                ss += d * d
-            Next
-
-            WildtypeMeans(i) = mean
-            WildtypeSDs(i) = If(m > 1, std.Sqrt(ss / (m - 1)), 0.0)
-        Next
+        Call ComputeBaseline(picked.OrderBy(Function(i) i).ToArray())
     End Sub
 
     ''' <summary>

@@ -45,12 +45,17 @@ Public Class GEARSConfig
     ' ==================== 训练过程 ====================
 
     ''' <summary>训练轮数</summary>
-    ''' <returns>默认 30</returns>
-    Public Property Epochs As Integer = 30
+    ''' <returns>默认 50</returns>
+    ''' <remarks>
+    ''' 在 demo\TestData1（约 370 基因、约 350 条先验边）上，取学习率 0.003 训练 50 轮
+    ''' 即可把 MSE 从约 0.006 收敛到约 0.002，单核耗时约 30 秒。
+    ''' </remarks>
+    Public Property Epochs As Integer = 50
 
     ''' <summary>Adam 优化器学习率</summary>
-    ''' <returns>默认 0.01</returns>
-    Public Property LearningRate As Single = 0.01F
+    ''' <returns>默认 0.003</returns>
+    ''' <remarks>取 0.01 时训练过程会出现明显震荡，0.003 左右收敛更平稳。</remarks>
+    Public Property LearningRate As Single = 0.003F
 
     ''' <summary>L2 正则化（权重衰减）系数，0 表示不启用</summary>
     ''' <returns>默认 0</returns>

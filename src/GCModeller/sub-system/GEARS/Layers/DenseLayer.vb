@@ -47,10 +47,6 @@ Namespace Layers
         ''' <returns>使用偏置则返回 True</returns>
         Public ReadOnly Property UseBias As Boolean
 
-        ''' <summary>是否跳过线性变换（恒等映射，用于把某一路分支固定为直通）</summary>
-        ''' <returns>恒等映射则返回 True</returns>
-        Public ReadOnly Property IsIdentity As Boolean
-
         ''' <summary>
         ''' 创建全连接层
         ''' </summary>
@@ -58,50 +54,38 @@ Namespace Layers
         ''' <param name="outFeatures">输出特征维度</param>
         ''' <param name="useBias">是否使用偏置项</param>
         ''' <param name="scale">权重初始化的缩放系数，默认 1.0（Xavier 初始化的标准差乘上该系数）</param>
-        ''' <param name="identity">为 True 时构造一个恒等映射层（权重固定为单位矩阵、不参与训练）</param>
+        ''' <param name="seed">权重初始化随机种子；给定后初始化结果可复现</param>
         ''' <param name="name">层名称</param>
         Public Sub New(inFeatures As Integer,
                        outFeatures As Integer,
                        Optional useBias As Boolean = True,
                        Optional scale As Double = 1.0,
-                       Optional identity As Boolean = False,
+                       Optional seed As Integer? = Nothing,
                        Optional name As String = Nothing)
 
             Me.InFeatures = inFeatures
             Me.OutFeatures = outFeatures
             Me.UseBias = useBias
-            Me.IsIdentity = identity
             MyBase.Name = If(name, $"Dense_{inFeatures}_{outFeatures}")
 
-            If identity Then
-                If inFeatures <> outFeatures Then
-                    Throw New ArgumentException("恒等映射层要求输入输出维度相同")
-                End If
+            weights = Tensor.XavierInit(inFeatures, outFeatures, seed)
 
-                weights = Tensor.Identity(inFeatures)
-                bias = New Tensor(1, outFeatures)
-                weightGrad = New Tensor(inFeatures, outFeatures)
-                biasGrad = New Tensor(1, outFeatures)
-            Else
-                weights = Tensor.XavierInit(inFeatures, outFeatures)
+            If scale <> 1.0 Then
+                Dim wd As Double() = weights.Data
 
-                If scale <> 1.0 Then
-                    Dim wd As Double() = weights.Data
-
-                    For i As Integer = 0 To wd.Length - 1
-                        wd(i) *= scale
-                    Next
-                End If
-
-                If useBias Then
-                    bias = New Tensor(1, outFeatures)
-                Else
-                    bias = New Tensor(1, 0)
-                End If
-
-                weightGrad = New Tensor(inFeatures, outFeatures)
-                biasGrad = If(useBias, New Tensor(1, outFeatures), New Tensor(1, 0))
+                For i As Integer = 0 To wd.Length - 1
+                    wd(i) *= scale
+                Next
             End If
+
+            If useBias Then
+                bias = New Tensor(1, outFeatures)
+            Else
+                bias = New Tensor(1, 0)
+            End If
+
+            weightGrad = New Tensor(inFeatures, outFeatures)
+            biasGrad = If(useBias, New Tensor(1, outFeatures), New Tensor(1, 0))
         End Sub
 
         ''' <summary>
@@ -138,11 +122,6 @@ Namespace Layers
         ''' <param name="gradient">上游梯度 [batch, outFeatures]</param>
         ''' <returns>输入梯度 [batch, inFeatures]</returns>
         Public Overrides Function Backward(gradient As Tensor) As Tensor
-            If IsIdentity Then
-                ' 恒等映射不参与训练，梯度直接透传
-                Return gradient
-            End If
-
             ' dW = Xᵀ @ G  [in, out]
             Dim dW As Tensor = MatOps.MulAT(lastInput, gradient)
             ' db = Σ_rows G  [1, out]
@@ -161,14 +140,10 @@ Namespace Layers
         End Function
 
         ''' <summary>
-        ''' 获取本层可训练参数（权重与偏置，恒等映射层返回空列表）
+        ''' 获取本层可训练参数（权重与偏置）
         ''' </summary>
         ''' <returns>参数张量列表</returns>
         Public Overrides Function GetParameters() As List(Of Tensor)
-            If IsIdentity Then
-                Return New List(Of Tensor)()
-            End If
-
             Dim params As New List(Of Tensor) From {weights}
 
             If UseBias Then
@@ -183,10 +158,6 @@ Namespace Layers
         ''' </summary>
         ''' <returns>梯度张量列表</returns>
         Public Overrides Function GetGradients() As List(Of Tensor)
-            If IsIdentity Then
-                Return New List(Of Tensor)()
-            End If
-
             Dim grads As New List(Of Tensor) From {weightGrad}
 
             If UseBias Then

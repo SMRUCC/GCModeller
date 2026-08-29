@@ -27,7 +27,6 @@ Namespace Graph
     Public Module EdgeRelationTypes
 
         ''' <summary>关系类型的总数（用于分配每种类型专属的变换矩阵）</summary>
-        ''' <returns>关系类型的数量</returns>
         Public Const NumRelationTypes As Integer = 4
 
         ''' <summary>
