@@ -1,16 +1,40 @@
 <Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
   <Folder Name="/framework/">
-    <Project Path="../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj" />
-    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/GNN/GNN.vbproj" />
-    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/TensorFlow/TensorFlow.vbproj" />
-    <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj" />
-    <Project Path="../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj" />
+    <Project Path="../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/GNN/GNN.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/TensorFlow/TensorFlow.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
   <Folder Name="/gcmodeller/">
-    <Project Path="../../workbench/modules/ExperimentDesigner/designer-netcore5.vbproj" />
-    <Project Path="../analysis/HTS_matrix/HTS_matrix-netcore5.vbproj" />
+    <Project Path="../../workbench/modules/ExperimentDesigner/designer-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../analysis/HTS_matrix/HTS_matrix-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
-  <Project Path="BNLearn/BNLearn.vbproj" />
-  <Project Path="GEARS/GEARS.vbproj" />
-  <Project Path="GEARS/test/test.vbproj" />
+  <Project Path="BNLearn/BNLearn.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="GEARS/GEARS.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="GEARS/test/test.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
 </Solution>

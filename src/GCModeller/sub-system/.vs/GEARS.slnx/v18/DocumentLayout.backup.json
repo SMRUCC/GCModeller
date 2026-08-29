@@ -3,6 +3,24 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\temporalmodels.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\temporalgraph.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\recurrentlayers.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\graphdataset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\graph.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\trainer\\trainer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\trainer\\sgdoptimizer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -22,15 +40,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\models\\graphclassificationmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\trainer\\trainer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\graph.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\graphdataset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\activations\\activations.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -83,7 +92,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -99,7 +108,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
+              "Title": "TemporalModels.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalModels.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalModels.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalModels.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalModels.vb",
+              "ViewState": "AgIAACECAAAAAAAAAAAAACsCAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:17:08.404Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TemporalGraph.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalGraph.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalGraph.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalGraph.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\TemporalGraph.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:17:03.903Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RecurrentLayers.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\RecurrentLayers.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\RecurrentLayers.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\RecurrentLayers.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\RecurrentLayers.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:16:58.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "GNNModel.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GNNModel.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GNNModel.vb",
@@ -112,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "GraphClassificationTrainer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\GraphClassificationTrainer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\GraphClassificationTrainer.vb",
@@ -125,20 +173,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 5,
               "Title": "Trainer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\Trainer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\Trainer.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\Trainer.vb",
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\Trainer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-08-29T08:13:07.605Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 9,
               "Title": "AdamOptimizer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\AdamOptimizer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\AdamOptimizer.vb",
@@ -151,7 +199,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "SGDOptimizer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\SGDOptimizer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\SGDOptimizer.vb",
@@ -164,7 +212,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "Optimizer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\Optimizer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Trainer\\Optimizer.vb",
@@ -177,7 +225,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
               "Title": "GCNModel.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GCNModel.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GCNModel.vb",
@@ -190,7 +238,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 12,
               "Title": "GraphClassificationModel.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GraphClassificationModel.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Models\\GraphClassificationModel.vb",
@@ -203,7 +251,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 3,
               "Title": "GraphDataset.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GraphDataset.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GraphDataset.vb",
@@ -216,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "LossFunctions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\LossFunctions.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\LossFunctions.vb",
@@ -229,20 +277,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Loss.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Loss.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Loss.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Loss.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Loss.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-29T08:08:34.953Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "ActivationFunctions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\ActivationFunctions.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\ActivationFunctions.vb",
@@ -255,7 +290,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "ActivationType.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\ActivationType.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\ActivationType.vb",
@@ -268,111 +303,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Activations.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Activations.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Activations.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Activations.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Activations.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAANUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-29T08:07:27.454Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "GlobalPoolingLayer.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GlobalPoolingLayer.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GlobalPoolingLayer.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GlobalPoolingLayer.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GlobalPoolingLayer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-29T08:03:42.888Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "GATLayer.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GATLayer.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GATLayer.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GATLayer.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GATLayer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-29T08:03:33.549Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "GCNConvLayer.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GCNConvLayer.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GCNConvLayer.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GCNConvLayer.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GCNConvLayer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-29T08:03:17.547Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "DropoutLayer.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\DropoutLayer.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\DropoutLayer.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\DropoutLayer.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\DropoutLayer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-29T08:02:59.059Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "LinearLayer.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\LinearLayer.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\LinearLayer.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\LinearLayer.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\LinearLayer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-29T08:02:39.834Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "ActivationLayer.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\ActivationLayer.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\ActivationLayer.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\ActivationLayer.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\ActivationLayer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-29T08:02:02.607Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Layers.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-29T08:01:08.492Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
               "Title": "Graph.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Graph.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Graph.vb",
@@ -385,7 +316,124 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Loss.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Loss.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Loss.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Loss.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Loss.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:08:34.953Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Activations.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Activations.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Activations.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Activations.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Activations\\Activations.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAANUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:07:27.454Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 22,
+              "Title": "GlobalPoolingLayer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GlobalPoolingLayer.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GlobalPoolingLayer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GlobalPoolingLayer.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GlobalPoolingLayer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:03:42.888Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "GATLayer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GATLayer.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GATLayer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GATLayer.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GATLayer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:03:33.549Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "GCNConvLayer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GCNConvLayer.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GCNConvLayer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GCNConvLayer.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\GCNConvLayer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:03:17.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "DropoutLayer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\DropoutLayer.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\DropoutLayer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\DropoutLayer.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\DropoutLayer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:02:59.059Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "LinearLayer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\LinearLayer.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\LinearLayer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\LinearLayer.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\LinearLayer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:02:39.834Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ActivationLayer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\ActivationLayer.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\ActivationLayer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\ActivationLayer.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\ActivationLayer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:02:02.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Layers.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:01:08.492Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
               "Title": "SparseGraph.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\SparseGraph.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\SparseGraph.vb",
@@ -398,7 +446,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 26,
               "Title": "GEARS.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\GEARS.vb",
               "RelativeDocumentMoniker": "GEARS\\GEARS.vb",
