@@ -1,7 +1,20 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD3F601-261C-F01B-2467-1250C3716EB7}|GEARS\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\gears\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{3DD3F601-261C-F01B-2467-1250C3716EB7}|GEARS\\test\\test.vbproj|solutionrelative:gears\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD3F601-261C-F01B-2467-1250C3716EB7}|GEARS\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\gears\\test\\gearsdemo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{3DD3F601-261C-F01B-2467-1250C3716EB7}|GEARS\\test\\test.vbproj|solutionrelative:gears\\test\\gearsdemo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E39127B9-57B8-063B-4394-F16B1668DF9A}|GEARS\\GEARS.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\gears\\gearsconfig.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E39127B9-57B8-063B-4394-F16B1668DF9A}|GEARS\\GEARS.vbproj|solutionrelative:gears\\gearsconfig.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +35,45 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\test\\Program.vb",
+              "RelativeDocumentMoniker": "GEARS\\test\\Program.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\test\\Program.vb",
+              "RelativeToolTip": "GEARS\\test\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T09:38:43.076Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GEARSDemo.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\test\\GEARSDemo.vb",
+              "RelativeDocumentMoniker": "GEARS\\test\\GEARSDemo.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\test\\GEARSDemo.vb",
+              "RelativeToolTip": "GEARS\\test\\GEARSDemo.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T09:38:42.201Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GEARSConfig.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\GEARSConfig.vb",
+              "RelativeDocumentMoniker": "GEARS\\GEARSConfig.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\GEARSConfig.vb",
+              "RelativeToolTip": "GEARS\\GEARSConfig.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T09:38:40.311Z",
+              "EditorCaption": ""
             }
           ]
         },
