@@ -766,7 +766,7 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Private Function parseRequest() As Boolean
-            Dim request As String = streamReadLine(_inputStream)
+            Dim request As String = TryInvoke(Function() streamReadLine(_inputStream))
 
             If request.StringEmpty Then
                 ' no data received within the socket receive timeout window,
