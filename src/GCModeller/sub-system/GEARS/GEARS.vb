@@ -391,7 +391,7 @@ Public Class GEARS : Implements InsilicoPerturbationExperiment
     ''' </remarks>
     Public Function Train() As Double()
         If TrainingSamples.IsNullOrEmpty Then
-            Throw New InvalidOperationException("没有可用的训练样本：先验网络中没有任何基因能够映射到表达矩阵上")
+            Throw New InvalidOperationException("没有可用的训练样本：先验网络中没有任何基因能够映射到表达矩阵上，请先通过SetTrainingSamples函数设置训练样本")
         End If
 
         Trainer = New GEARSTrainer(
