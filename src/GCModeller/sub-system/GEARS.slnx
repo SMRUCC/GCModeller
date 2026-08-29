@@ -10,6 +10,7 @@
     <Project Path="../../workbench/modules/ExperimentDesigner/designer-netcore5.vbproj" />
     <Project Path="../analysis/HTS_matrix/HTS_matrix-netcore5.vbproj" />
   </Folder>
+  <Project Path="BNLearn/BNLearn.vbproj" />
   <Project Path="GEARS/GEARS.vbproj" />
   <Project Path="GEARS/test/test.vbproj" />
 </Solution>

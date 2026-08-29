@@ -1,7 +1,21 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\layers\\layers.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5B5F468-CB5E-7799-C7DB-CE851AC80A5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\GNN.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\machinelearning\\gnn\\graph.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F1E95FA-3271-F9B8-C142-4ABA8BF9D01A}|..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\sparsegraph.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E39127B9-57B8-063B-4394-F16B1668DF9A}|GEARS\\GEARS.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\gears\\gears.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E39127B9-57B8-063B-4394-F16B1668DF9A}|GEARS\\GEARS.vbproj|solutionrelative:gears\\gears.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +23,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +36,58 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Layers.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Layers\\Layers.vb",
+              "ViewState": "AgIAADsBAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:01:08.492Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SparseGraph.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\SparseGraph.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\SparseGraph.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\SparseGraph.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\SparseGraph.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:00:35.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Graph.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Graph.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Graph.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Graph.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\MachineLearning\\GNN\\Graph.vb",
+              "ViewState": "AgIAAFkBAAAAAAAAAAAgwFQBAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T08:00:24.872Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GEARS.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\GEARS.vb",
+              "RelativeDocumentMoniker": "GEARS\\GEARS.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\GEARS\\GEARS.vb",
+              "RelativeToolTip": "GEARS\\GEARS.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-29T07:55:59.331Z",
+              "EditorCaption": ""
             }
           ]
         },
