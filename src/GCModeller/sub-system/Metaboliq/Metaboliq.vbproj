@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="readme.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\LNN\LNN.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj" />
