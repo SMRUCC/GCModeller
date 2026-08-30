@@ -1,0 +1,309 @@
+Imports System
+Imports System.IO
+Imports System.Text
+
+''' <summary>
+''' The sitemap.xsl stylesheet builder: it renders the sitemap xml
+''' document as a human readable html page, and all of the visual style
+''' of the rendered page comes from the theme of the target website.
+''' </summary>
+Public Module XslTemplate
+
+    ''' <summary>
+    ''' the placeholder that will be replaced by the theme css style block
+    ''' </summary>
+    Const ThemeCssSlot As String = "@@THEME_CSS@@"
+    ''' <summary>
+    ''' the placeholder that will be replaced by the website title
+    ''' </summary>
+    Const SiteTitleSlot As String = "@@SITE_TITLE@@"
+    ''' <summary>
+    ''' the placeholder that will be replaced by the website root url
+    ''' </summary>
+    Const SiteUrlSlot As String = "@@SITE_URL@@"
+    ''' <summary>
+    ''' the placeholder that will be replaced by the color-scheme meta value
+    ''' </summary>
+    Const ColorSchemeSlot As String = "@@COLOR_SCHEME@@"
+    ''' <summary>
+    ''' the placeholder that will be replaced by the generate time
+    ''' </summary>
+    Const GeneratedSlot As String = "@@GENERATED@@"
+
+    ''' <summary>
+    ''' the xslt 1.0 stylesheet template of the sitemap xml document
+    ''' </summary>
+    Const Template As String =
+"<?xml version=""1.0"" encoding=""UTF-8""?>
+<xsl:stylesheet version=""1.0""
+                xmlns:xsl=""http://www.w3.org/1999/XSL/Transform""
+                xmlns:sitemap=""http://www.sitemaps.org/schemas/sitemap/0.9""
+                exclude-result-prefixes=""sitemap"">
+
+  <xsl:output method=""html"" indent=""yes"" encoding=""UTF-8"" doctype-system=""about:legacy-compat"" />
+
+  <xsl:template match=""/"">
+    <html lang=""en"">
+      <head>
+        <meta charset=""utf-8"" />
+        <meta name=""viewport"" content=""width=device-width, initial-scale=1"" />
+        <meta name=""color-scheme"" content=""@@COLOR_SCHEME@@"" />
+        <meta name=""robots"" content=""noindex"" />
+        <title>Sitemap · @@SITE_TITLE@@</title>
+        <style>
+@@THEME_CSS@@
+        </style>
+      </head>
+      <body>
+        <div class=""wrap"">
+          <header class=""head"">
+            <div class=""kicker"">SITEMAP</div>
+            <h1>@@SITE_TITLE@@</h1>
+            <p class=""sub"">
+              <a class=""home"" href=""@@SITE_URL@@"">@@SITE_URL@@</a>
+            </p>
+            <p class=""meta"">
+              <span class=""stat""><b><xsl:value-of select=""count(sitemap:urlset/sitemap:url)"" /></b> urls</span>
+              <span class=""dot"">·</span>
+              <span class=""stat"">generated at @@GENERATED@@</span>
+            </p>
+          </header>
+
+          <xsl:choose>
+            <xsl:when test=""count(sitemap:urlset/sitemap:url) = 0"">
+              <p class=""empty"">There is no url entry inside this sitemap document.</p>
+            </xsl:when>
+            <xsl:otherwise>
+              <div class=""card"">
+                <table class=""sitemap"">
+                  <thead>
+                    <tr>
+                      <th class=""num"">#</th>
+                      <th class=""loc"">URL</th>
+                      <th class=""time"">Last Modified</th>
+                      <th class=""freq"">Frequency</th>
+                      <th class=""prio"">Priority</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <xsl:for-each select=""sitemap:urlset/sitemap:url"">
+                      <xsl:sort select=""number(sitemap:priority)"" order=""descending"" data-type=""number"" />
+                      <xsl:sort select=""sitemap:loc"" order=""ascending"" data-type=""text"" />
+                      <tr>
+                        <td class=""num""><xsl:value-of select=""position()"" /></td>
+                        <td class=""loc"">
+                          <a href=""{sitemap:loc}""><xsl:value-of select=""sitemap:loc"" /></a>
+                        </td>
+                        <td class=""time""><xsl:value-of select=""sitemap:lastmod"" /></td>
+                        <td class=""freq""><span class=""tag""><xsl:value-of select=""sitemap:changefreq"" /></span></td>
+                        <td class=""prio"">
+                          <span class=""bar"">
+                            <i>
+                              <xsl:attribute name=""style"">
+                                <xsl:text>width:</xsl:text>
+                                <xsl:value-of select=""round(number(sitemap:priority) * 100)"" />
+                                <xsl:text>%</xsl:text>
+                              </xsl:attribute>
+                            </i>
+                          </span>
+                          <span class=""val""><xsl:value-of select=""sitemap:priority"" /></span>
+                        </td>
+                      </tr>
+                    </xsl:for-each>
+                  </tbody>
+                </table>
+              </div>
+            </xsl:otherwise>
+          </xsl:choose>
+
+          <footer class=""foot"">
+            <span>Generated by <b>GCModeller Sitemap</b> · sitemap protocol 0.9</span>
+          </footer>
+        </div>
+      </body>
+    </html>
+  </xsl:template>
+</xsl:stylesheet>
+"
+
+    ''' <summary>
+    ''' build the sitemap.xsl document text based on the website theme
+    ''' </summary>
+    ''' <param name="theme">
+    ''' the website theme that is extracted from the css style of the
+    ''' target website.
+    ''' </param>
+    ''' <param name="baseUrl">
+    ''' the website root url, example as ``https://gcmodeller.org/``
+    ''' </param>
+    ''' <param name="generateTime"></param>
+    ''' <returns></returns>
+    Public Function Build(theme As SiteTheme, Optional baseUrl As String = Nothing, Optional generateTime As DateTime? = Nothing) As String
+        If theme Is Nothing Then
+            theme = SiteTheme.DefaultTheme()
+        End If
+
+        Dim time As DateTime = If(generateTime, DateTime.Now)
+        Dim title As String = escape(If(theme.SiteTitle, "Sitemap"))
+        Dim url As String = escape(If(baseUrl, "/"))
+        Dim scheme As String = If(theme.IsDark, "dark", "light")
+        Dim css As String = BuildCss(theme)
+
+        Return Template _
+            .Replace(ThemeCssSlot, css) _
+            .Replace(SiteTitleSlot, title) _
+            .Replace(SiteUrlSlot, url) _
+            .Replace(ColorSchemeSlot, scheme) _
+            .Replace(GeneratedSlot, time.ToString("yyyy-MM-dd HH:mm"))
+    End Function
+
+    ''' <summary>
+    ''' save the sitemap.xsl document as a utf-8 encoded text file
+    ''' </summary>
+    ''' <param name="xsl"></param>
+    ''' <param name="saveTo"></param>
+    ''' <returns></returns>
+    Public Function Save(xsl As String, saveTo As String) As Boolean
+        Dim dir As String = Path.GetDirectoryName(Path.GetFullPath(saveTo))
+
+        If Not String.IsNullOrEmpty(dir) AndAlso Not Directory.Exists(dir) Then
+            Call Directory.CreateDirectory(dir)
+        End If
+
+        Call File.WriteAllText(saveTo, xsl, New UTF8Encoding(False))
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' build the visual style block of the rendered sitemap page, all of
+    ''' the color and the font value comes from the website theme.
+    ''' </summary>
+    ''' <param name="theme"></param>
+    ''' <returns></returns>
+    Public Function BuildCss(theme As SiteTheme) As String
+        Dim css As New StringBuilder
+        Dim bg As String = theme.Background
+        Dim surface As String = theme.Surface
+        Dim text As String = theme.TextColor
+        Dim muted As String = theme.MutedText
+        Dim primary As String = theme.Primary
+        Dim link As String = theme.LinkColor
+        Dim border As String = theme.BorderColor
+        Dim rowAlt As String = theme.RowAlt
+        Dim radius As String = If(theme.Radius, "6px")
+        Dim font As String = If(theme.FontFamily, """Segoe UI"", Helvetica, sans-serif")
+        Dim onPrimary As String = theme.OnPrimary
+        Dim shadow As String = If(theme.IsDark,
+            "0 1px 0 rgba(255,255,255,0.03), 0 12px 32px rgba(0,0,0,0.55)",
+            "0 1px 2px rgba(16,24,40,0.06), 0 12px 28px rgba(16,24,40,0.08)")
+        Dim tagBg As String = ColorTool.Mix(primary, surface, 0.82)
+        Dim barBg As String = ColorTool.Mix(primary, surface, 0.78)
+        Dim headLine As String = ColorTool.Mix(primary, bg, 0.65)
+
+        Call css.AppendLine("* { box-sizing: border-box; }")
+        Call css.AppendLine($"html {{ background: {bg}; }}")
+        Call css.AppendLine($"body {{")
+        Call css.AppendLine($"  margin: 0;")
+        Call css.AppendLine($"  padding: 0 0 48px 0;")
+        Call css.AppendLine($"  background: {bg};")
+        Call css.AppendLine($"  color: {text};")
+        Call css.AppendLine($"  font-family: {font};")
+        Call css.AppendLine($"  font-size: 15px;")
+        Call css.AppendLine($"  line-height: 1.65;")
+        Call css.AppendLine($"  -webkit-font-smoothing: antialiased;")
+        Call css.AppendLine($"}}")
+        Call css.AppendLine($"a {{ color: {link}; text-decoration: none; }}")
+        Call css.AppendLine($"a:hover {{ text-decoration: underline; }}")
+        Call css.AppendLine($".wrap {{ max-width: 1120px; margin: 0 auto; padding: 40px 20px 0 20px; }}")
+        Call css.AppendLine($".head {{ padding-bottom: 22px; border-bottom: 1px solid {headLine}; margin-bottom: 24px; }}")
+        Call css.AppendLine($".kicker {{")
+        Call css.AppendLine($"  display: inline-block;")
+        Call css.AppendLine($"  font-size: 11px;")
+        Call css.AppendLine($"  letter-spacing: 0.18em;")
+        Call css.AppendLine($"  font-weight: 600;")
+        Call css.AppendLine($"  color: {onPrimary};")
+        Call css.AppendLine($"  background: {primary};")
+        Call css.AppendLine($"  padding: 3px 9px;")
+        Call css.AppendLine($"  border-radius: 999px;")
+        Call css.AppendLine($"}}")
+        Call css.AppendLine($"h1 {{ font-size: 30px; line-height: 1.2; margin: 14px 0 6px 0; font-weight: 600; color: {text}; }}")
+        Call css.AppendLine($".sub {{ margin: 0 0 10px 0; color: {muted}; }}")
+        Call css.AppendLine($".meta {{ margin: 0; color: {muted}; font-size: 13px; }}")
+        Call css.AppendLine($".meta b {{ color: {text}; }}")
+        Call css.AppendLine($".dot {{ margin: 0 8px; opacity: 0.6; }}")
+        Call css.AppendLine($".card {{")
+        Call css.AppendLine($"  background: {surface};")
+        Call css.AppendLine($"  border: 1px solid {border};")
+        Call css.AppendLine($"  border-radius: {radius};")
+        Call css.AppendLine($"  overflow: hidden;")
+        Call css.AppendLine($"  box-shadow: {shadow};")
+        Call css.AppendLine($"}}")
+        Call css.AppendLine($"table.sitemap {{ width: 100%; border-collapse: collapse; font-size: 14px; }}")
+        Call css.AppendLine($"table.sitemap th {{")
+        Call css.AppendLine($"  text-align: left;")
+        Call css.AppendLine($"  font-size: 11px;")
+        Call css.AppendLine($"  letter-spacing: 0.12em;")
+        Call css.AppendLine($"  text-transform: uppercase;")
+        Call css.AppendLine($"  color: {muted};")
+        Call css.AppendLine($"  font-weight: 600;")
+        Call css.AppendLine($"  padding: 12px 14px;")
+        Call css.AppendLine($"  background: {barBg};")
+        Call css.AppendLine($"  border-bottom: 1px solid {border};")
+        Call css.AppendLine($"  white-space: nowrap;")
+        Call css.AppendLine($"}}")
+        Call css.AppendLine($"table.sitemap td {{ padding: 10px 14px; border-bottom: 1px solid {border}; vertical-align: middle; }}")
+        Call css.AppendLine($"table.sitemap tbody tr:nth-child(even) {{ background: {rowAlt}; }}")
+        Call css.AppendLine($"table.sitemap tbody tr:hover {{ background: {tagBg}; }}")
+        Call css.AppendLine($"table.sitemap tbody tr:last-child td {{ border-bottom: none; }}")
+        Call css.AppendLine($"td.num, th.num {{ width: 58px; color: {muted}; font-variant-numeric: tabular-nums; }}")
+        Call css.AppendLine($"td.loc {{ word-break: break-all; }}")
+        Call css.AppendLine($"td.loc a {{ font-weight: 500; }}")
+        Call css.AppendLine($"td.time, th.time {{ width: 130px; color: {muted}; white-space: nowrap; }}")
+        Call css.AppendLine($"td.freq, th.freq {{ width: 120px; }}")
+        Call css.AppendLine($"td.prio, th.prio {{ width: 150px; }}")
+        Call css.AppendLine($".tag {{")
+        Call css.AppendLine($"  display: inline-block;")
+        Call css.AppendLine($"  font-size: 11px;")
+        Call css.AppendLine($"  padding: 2px 8px;")
+        Call css.AppendLine($"  border-radius: 999px;")
+        Call css.AppendLine($"  color: {muted};")
+        Call css.AppendLine($"  background: {barBg};")
+        Call css.AppendLine($"  border: 1px solid {border};")
+        Call css.AppendLine($"}}")
+        Call css.AppendLine($".bar {{")
+        Call css.AppendLine($"  display: inline-block;")
+        Call css.AppendLine($"  width: 76px;")
+        Call css.AppendLine($"  height: 6px;")
+        Call css.AppendLine($"  border-radius: 999px;")
+        Call css.AppendLine($"  background: {barBg};")
+        Call css.AppendLine($"  overflow: hidden;")
+        Call css.AppendLine($"  vertical-align: middle;")
+        Call css.AppendLine($"  margin-right: 8px;")
+        Call css.AppendLine($"}}")
+        Call css.AppendLine($".bar i {{ display: block; height: 100%; background: {primary}; border-radius: 999px; }}")
+        Call css.AppendLine($".val {{ color: {muted}; font-variant-numeric: tabular-nums; font-size: 13px; }}")
+        Call css.AppendLine($".empty {{ color: {muted}; padding: 24px 0; }}")
+        Call css.AppendLine($".foot {{ margin-top: 20px; color: {muted}; font-size: 12px; }}")
+        Call css.AppendLine($".foot b {{ color: {primary}; font-weight: 600; }}")
+        Call css.AppendLine($"@media (max-width: 720px) {{")
+        Call css.AppendLine($"  .wrap {{ padding: 24px 12px 0 12px; }}")
+        Call css.AppendLine($"  h1 {{ font-size: 24px; }}")
+        Call css.AppendLine($"  table.sitemap th, table.sitemap td {{ padding: 8px 10px; }}")
+        Call css.AppendLine($"}}")
+
+        Return css.ToString.Trim
+    End Function
+
+    Private Function escape(text As String) As String
+        If text Is Nothing Then
+            Return ""
+        End If
+
+        Return text _
+            .Replace("&", "&amp;") _
+            .Replace("<", "&lt;") _
+            .Replace(">", "&gt;") _
+            .Replace("""", "&quot;")
+    End Function
+End Module
