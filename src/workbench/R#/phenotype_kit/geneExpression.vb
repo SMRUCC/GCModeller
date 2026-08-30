@@ -114,9 +114,48 @@ Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 ''' <summary>
 ''' the gene expression matrix data toolkit
 ''' </summary>
+''' 
+''' <remarks>
+''' This R# package module provides the toolkit for manipulate and analyze the 
+''' high throughput screening(HTS) gene expression matrix data(the samples in 
+''' column and the gene features in row):
+''' 
+''' + read/write the expression matrix data: ``load.expr``, ``load.expr0``, 
+'''   ``write.expr_matrix``, ``load.matrixView``, ``matrix_info``;
+''' + the matrix data manipulation: ``dims``, ``tr``, ``filter``, ``project``, 
+'''   ``joinSample``, ``joinFeatures``, ``aggregate``, ``sample_id``, 
+'''   ``setFeatures``, ``setTag``, etc;
+''' + the matrix data normalization and imputation: ``z_score``, ``minmax01Norm``, 
+'''   ``relative``, ``totalSumNorm``, ``impute_missing``, ``filterNaNMissing``, 
+'''   ``setZero``;
+''' + the expression pattern clustering: ``pca``, ``peakCMeans``, 
+'''   ``expression.cmeans_pattern``, ``cmeans_matrix``, ``pattern_representatives``;
+''' + the differential expression analysis: ``deg.t.test``, ``limma``, 
+'''   ``limma_impactsort``, ``as.deg``, ``deg.class``.
+''' </remarks>
 <Package("geneExpression")>
 Module geneExpression
 
+    ''' <summary>
+    ''' Initialize the internal environment of this R# package module
+    ''' </summary>
+    ''' 
+    ''' <remarks>
+    ''' this function is invoked automatically at the start of the R# runtime 
+    ''' environment, it registers:
+    ''' 
+    ''' 1. the console formatter of the <see cref="ExpressionPattern"/> and 
+    '''    <see cref="DEGModel"/> data object;
+    ''' 2. the data frame cast handler of the 
+    '''    <see cref="SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix"/> expression 
+    '''    matrix, the <see cref="DEP_iTraq"/> iTraq data, the 
+    '''    <see cref="DEGModel"/> deg result, the <see cref="LimmaTable"/> limma 
+    '''    result and the <see cref="ImpactResult"/> impact sort result, so that 
+    '''    all of these data object can be converted to a data frame via the 
+    '''    ``as.data.frame`` api;
+    ''' 3. the ``as.list`` generic api of the <see cref="ExpressionPattern"/> 
+    '''    expression pattern object.
+    ''' </remarks>
     Friend Sub Main()
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
@@ -252,12 +291,42 @@ Module geneExpression
         Return table
     End Function
 
+    ''' <summary>
+    ''' power of the expression value in the matrix
+    ''' </summary>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <param name="p">the power exponent value</param>
+    ''' <returns>
+    ''' a new expression matrix object that each expression value in the matrix 
+    ''' is the p power of the original expression value, the tag of the generated 
+    ''' matrix is formatted as ``exp({tag}, {p})``.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' this function implements the ``^`` operator of the gene expression matrix 
+    ''' object in R# environment.
+    ''' </remarks>
     <ExportAPI("exp")>
     <ROperator("^")>
     Public Function exp(x As Matrix, p As Double) As Matrix
         Return Matrix.Exp(x, p)
     End Function
 
+    ''' <summary>
+    ''' add a scalar value to each expression value in the matrix
+    ''' </summary>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <param name="y">the scalar value for add to each expression value</param>
+    ''' <returns>
+    ''' a new expression matrix object that each expression value in the matrix 
+    ''' is added with the given scalar value, the tag of the generated matrix is 
+    ''' formatted as ``{tag} + {y}``.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' this function implements the ``+`` operator of the gene expression matrix 
+    ''' object in R# environment.
+    ''' </remarks>
     <ROperator("+")>
     Public Function add(x As Matrix, y As Double) As Matrix
         Return Matrix.Add(x, y)
@@ -266,8 +335,13 @@ Module geneExpression
     ''' <summary>
     ''' do matrix transpose
     ''' </summary>
-    ''' <param name="mat"></param>
-    ''' <returns></returns>
+    ''' <param name="mat">
+    ''' the target gene expression matrix object for make transpose.
+    ''' </param>
+    ''' <returns>
+    ''' a transposed matrix object: the sample columns of the input matrix will 
+    ''' become the gene feature rows of the generated matrix and vice versa.
+    ''' </returns>
     <ExportAPI("tr")>
     Public Function tr(mat As Matrix) As Matrix
         Return mat.T
@@ -331,7 +405,11 @@ Module geneExpression
     ''' <summary>
     ''' convert the matrix into row gene list
     ''' </summary>
-    ''' <param name="expr0"></param>
+    ''' <param name="expr0">a gene expression matrix object</param>
+    ''' <param name="dataset">
+    ''' cast the expression vector as a named dataset object(the name of each 
+    ''' element is the corresponding sample id) or just a plain numeric vector?
+    ''' </param>
     ''' <returns>a tuple list of the expression numeric vector, each slot data 
     ''' is the vector of expression value of a gene, slot key name is the 
     ''' corresponding gene id.</returns>
@@ -391,9 +469,18 @@ Module geneExpression
     ''' <summary>
     ''' get gene expression vector data
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="geneId"></param>
-    ''' <returns>a numeric vector of the target gene expression across multiple samples</returns>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <param name="geneId">
+    ''' the gene feature id, which should be exists in the row names of the given 
+    ''' expression matrix object.
+    ''' </param>
+    ''' <returns>
+    ''' a named numeric vector of the target gene expression across multiple 
+    ''' samples, the name of each element is the corresponding sample id;
+    ''' 
+    ''' NULL will be returns if the given gene id is not exists in the input 
+    ''' expression matrix object.
+    ''' </returns>
     <ExportAPI("expression_vector")>
     <RApiReturn(TypeCodes.double)>
     Public Function expressionVector(x As Matrix, geneId As String) As Object
@@ -410,9 +497,13 @@ Module geneExpression
     ''' <summary>
     ''' set a new tag string to the matrix
     ''' </summary>
-    ''' <param name="expr0"></param>
-    ''' <param name="tag"></param>
-    ''' <returns></returns>
+    ''' <param name="expr0">the target gene expression matrix object</param>
+    ''' <param name="tag">
+    ''' a new tag label text for set to the given expression matrix object.
+    ''' </param>
+    ''' <returns>
+    ''' the input matrix object that its tag data has been modified.
+    ''' </returns>
     <ExportAPI("setTag")>
     Public Function setTag(expr0 As Matrix, tag As String) As Matrix
         expr0.tag = tag
@@ -424,9 +515,22 @@ Module geneExpression
     ''' 
     ''' if the expression value is less than a given threshold
     ''' </summary>
-    ''' <param name="expr0"></param>
-    ''' <param name="q"></param>
-    ''' <returns></returns>
+    ''' <param name="expr0">the target gene expression matrix object</param>
+    ''' <param name="q">
+    ''' the quantile threshold value of each gene feature row for make the 
+    ''' expression value as ZERO.
+    ''' </param>
+    ''' <returns>
+    ''' the input matrix object that the expression value which is less than or 
+    ''' equals to the quantile cutoff of the corresponding gene feature row has 
+    ''' been set to ZERO.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the quantile cutoff value is evaluated for each gene feature row 
+    ''' independently, so that the row of the low expression level will not be 
+    ''' wiped out entirely.
+    ''' </remarks>
     <ExportAPI("setZero")>
     Public Function setZero(expr0 As Matrix, Optional q As Double = 0.1) As Matrix
         For Each gene As DataFrameRow In expr0.expression
@@ -452,7 +556,7 @@ Module geneExpression
     ''' set to the sample columns of the gene expression 
     ''' matrix.
     ''' </param>
-    ''' <param name="env"></param>
+    ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>
     ''' this function will get sample_id character vector from the input matrix if the 
     ''' <paramref name="sample_ids"/> parameter is missing, otherwise it will set the new 
@@ -513,8 +617,16 @@ Module geneExpression
     ''' a collection of the new gene ids to set to the feature
     ''' rows of the gene expression matrix.
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the input matrix object that the gene id of each feature row has been 
+    ''' modified;
+    ''' 
+    ''' if the size of the given gene id vector is not equals to the feature row 
+    ''' numbers of the input matrix, or the input <paramref name="x"/> object is 
+    ''' not a valid gene expression matrix object, then a R# error message object 
+    ''' will be returned.
+    ''' </returns>
     ''' <remarks>
     ''' it is kind of ``rownames`` liked function for dataframe object.
     ''' </remarks>
@@ -561,9 +673,12 @@ Module geneExpression
     ''' <summary>
     ''' filter out all samples columns which its expression vector is ZERO!
     ''' </summary>
-    ''' <param name="mat"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="mat">a gene expression matrix object</param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a new expression matrix object that the sample columns which all of the 
+    ''' expression value is ZERO have been removed.
+    ''' </returns>
     <ExportAPI("filterZeroSamples")>
     <RApiReturn(GetType(Matrix))>
     Public Function filterZeroSamples(mat As Matrix, Optional env As Environment = Nothing) As Object
@@ -573,13 +688,10 @@ Module geneExpression
     ''' <summary>
     ''' removes the rows which all gene expression result is ZERO
     ''' </summary>
-    ''' <param name="mat"></param>
-    ''' <param name="env"></param>
+    ''' <param name="mat">a gene expression matrix object</param>
+    ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>A new expression matrix object that with gene row 
     ''' features subset from the original input raw matrix object.</returns>
-    ''' <example>
-    ''' 
-    ''' </example>
     <ExportAPI("filterZeroGenes")>
     <RApiReturn(GetType(Matrix))>
     Public Function filterZeroGenes(mat As Matrix, Optional env As Environment = Nothing) As Object
@@ -589,12 +701,15 @@ Module geneExpression
     ''' <summary>
     ''' set the NaN missing value to default value
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="x">a gene expression matrix object</param>
     ''' <param name="missingDefault">
     ''' set NA missing value to zero by default
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the input matrix object that all of the NaN or infinity value in the 
+    ''' expression matrix has been replaced with the given default value.
+    ''' </returns>
     <ExportAPI("filterNaNMissing")>
     <RApiReturn(GetType(Matrix))>
     Public Function filterNaN(x As Matrix, Optional missingDefault As Double = 0, Optional env As Environment = Nothing) As Object
@@ -613,9 +728,20 @@ Module geneExpression
     ''' set the zero value to the half of the min positive value
     ''' </summary>
     ''' <param name="x">an expression matrix object that may contains zero</param>
+    ''' <param name="by_features">
+    ''' fill the missing value by the gene feature rows or by the sample columns? 
+    ''' by default is fill the missing value by the sample columns.
+    ''' </param>
     ''' <returns>
     ''' An expression data matrix with missing data filled
     ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the missing value(the ZERO value or the NaN value) will be filled with the 
+    ''' half of the minimum positive value of the corresponding sample column(or 
+    ''' gene feature row when the ``by_features`` parameter is TRUE), if there is 
+    ''' no positive value in the target sample column, then ZERO will be used.
+    ''' </remarks>
     <ExportAPI("impute_missing")>
     <RApiReturn(GetType(Matrix))>
     Public Function imputeMissing(x As Matrix, Optional by_features As Boolean = False) As Object
@@ -654,6 +780,15 @@ Module geneExpression
         Return x
     End Function
 
+    ''' <summary>
+    ''' check that the given expression matrix object is empty or not
+    ''' </summary>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <returns>
+    ''' TRUE will be returns if the given expression matrix object is nothing or 
+    ''' there is no gene feature row and no sample column in the target matrix 
+    ''' object, otherwise FALSE.
+    ''' </returns>
     <ExportAPI("is_empty")>
     Public Function is_empty(x As Matrix) As Boolean
         Return x.IsNullOrEmpty
@@ -670,6 +805,19 @@ Module geneExpression
     ''' will removes some sample column data from the expression
     ''' matrix which is specificed by this parameter value.
     ''' </param>
+    ''' <param name="rm_ZERO">
+    ''' removes the gene feature rows that all of the expression value in the 
+    ''' target row is ZERO?
+    ''' </param>
+    ''' <param name="makeNames">
+    ''' create the gene id name via the generic make names function when the 
+    ''' ``makeUnique`` parameter is TRUE? if this parameter is FALSE, then the 
+    ''' duplicated gene id will be renamed via an unique numeric suffix.
+    ''' </param>
+    ''' <param name="makeUnique">
+    ''' make the gene id of the loaded expression matrix unique? default is TRUE.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>
     ''' a HTS data matrix of samples in column and gene features in row
     ''' </returns>
@@ -718,10 +866,24 @@ Module geneExpression
     ''' <summary>
     ''' read the binary matrix data file
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="env"></param>
+    ''' <param name="file">
+    ''' the file path of the binary expression matrix data file, or a file stream 
+    ''' object of the target binary matrix data.
+    ''' </param>
+    ''' <param name="lazy">
+    ''' load the binary matrix data in a lazy stream reader mode? if this 
+    ''' parameter is TRUE, then a <see cref="HTSMatrixReader"/> object will be 
+    ''' returned instead of loading all of the matrix data into the memory at 
+    ''' once, which is helpful for read a huge binary matrix data file.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>
-    ''' a HTS data matrix of samples in column and gene features in row
+    ''' a HTS data matrix of samples in column and gene features in row, or a lazy 
+    ''' <see cref="HTSMatrixReader"/> matrix reader object when the ``lazy`` 
+    ''' parameter is TRUE;
+    ''' 
+    ''' this function returns a R# error message object if the given file can not 
+    ''' be opened for read.
     ''' </returns>
     <ExportAPI("load.expr0")>
     <RApiReturn(GetType(Matrix), GetType(HTSMatrixReader))>
@@ -743,8 +905,14 @@ Module geneExpression
     ''' <summary>
     ''' Load the HTS matrix into a lazy matrix viewer
     ''' </summary>
-    ''' <param name="mat"></param>
-    ''' <returns></returns>
+    ''' <param name="mat">
+    ''' a gene expression matrix object for create the lazy data viewer.
+    ''' </param>
+    ''' <returns>
+    ''' an <see cref="HTSMatrixViewer"/> object that provides the random access 
+    ''' of the gene expression data in the input matrix object without keeps all 
+    ''' of the data in the memory.
+    ''' </returns>
     ''' <example>
     ''' let expr_mat = load.expr(file = "./rawdata.csv");
     ''' let view = load.matrixView(mat = expr_mat);
@@ -767,7 +935,18 @@ Module geneExpression
     ''' 1. sampleID: a character vector that contains the matrix sample information(column features name)
     ''' 2. geneID: a character vector that contains the matrix gene features information(row features name)
     ''' 3. tag: the matrix source tag label, could be the file basename if the given input file is a file path to the matrix.
+    ''' 
+    ''' if the input <paramref name="file"/> object is a 
+    ''' <see cref="SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix"/> expression 
+    ''' matrix object, then an additional ``mad`` data slot will be 
+    ''' added into the result list: the MAD value of each gene feature row.
     ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the summary information of a csv/tsv/xls table file is not implemented at 
+    ''' this moment, an <see cref="NotImplementedException"/> will be thrown for 
+    ''' such kind of the input file.
+    ''' </remarks>
     ''' <example>
     ''' str(matrix_info(file = "/path/to/expr_mat.csv"));
     ''' </example>
@@ -848,9 +1027,18 @@ Module geneExpression
     ''' <summary>
     ''' make matrix samples column projection
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="sampleIds"></param>
-    ''' <returns></returns>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <param name="sampleIds">
+    ''' a character vector of the sample id for make the matrix column subset.
+    ''' </param>
+    ''' <returns>
+    ''' a new expression matrix object that only contains the sample columns which 
+    ''' is specified by the ``sampleIds`` parameter, and the sample columns in the 
+    ''' generated matrix are in the same order as the given sample id vector;
+    ''' 
+    ''' NULL will be returns if the given sample id vector is nothing or is an 
+    ''' empty vector.
+    ''' </returns>
     <ExportAPI("project")>
     Public Function project(x As Matrix, <RRawVectorArgument> sampleIds As Object) As Matrix
         Dim samples As String() = CLRVector.asCharacter(sampleIds)
@@ -870,6 +1058,13 @@ Module geneExpression
     ''' <param name="exclude">matrix a subset of the data matrix excepts the 
     ''' input <paramref name="geneId"/> features or just make a subset which 
     ''' just contains the input <paramref name="geneId"/> features.
+    ''' </param>
+    ''' <param name="instr">
+    ''' a text pattern for search the gene id of the matrix feature rows, this 
+    ''' parameter will be used when the ``geneId`` parameter is not specified.
+    ''' </param>
+    ''' <param name="env">
+    ''' the R# runtime environment object.
     ''' </param>
     ''' <returns>
     ''' A new expression matrix object that consist with gene feature
@@ -1073,8 +1268,11 @@ Module geneExpression
     ''' <summary>
     ''' evaluate the MAD value for each gene features
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <returns></returns>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <returns>
+    ''' a named list of the MAD(median absolute deviation) value of each gene 
+    ''' feature row, the name of the list element is the corresponding gene id.
+    ''' </returns>
     <ExportAPI("mad")>
     Public Function mad(x As Matrix) As list
         Dim val As list = list.empty
@@ -1089,9 +1287,14 @@ Module geneExpression
     ''' <summary>
     ''' take top n expression feature by rank expression MAD value desc
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="x">a gene expression matrix object</param>
     ''' <param name="top">take top N gene features</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a new expression matrix object that only contains the top n gene feature 
+    ''' rows which is sorted by the MAD value of each gene feature row in 
+    ''' descending order, the tag of the generated matrix is formatted as 
+    ''' ``sort_mad({tag})``.
+    ''' </returns>
     <ExportAPI("sort_mad")>
     Public Function sort_mad(x As Matrix, Optional top As Integer = 10000) As Matrix
         Dim sort = x.expression _
@@ -1107,12 +1310,25 @@ Module geneExpression
     End Function
 
     ''' <summary>
-    ''' function alias of the ``geneExpression::average`` function
+    ''' calculate the sum value of the gene expression for each sample group.
+    ''' 
+    ''' this method can be apply for reduce data size when create some plot for 
+    ''' visualize the gene expression patterns across the sample groups.
     ''' </summary>
-    ''' <param name="matrix"></param>
-    ''' <param name="groups"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="matrix">a gene expression matrix object</param>
+    ''' <param name="groups">
+    ''' a tuple list of the sample group information: the slot key of the list is 
+    ''' the sample group label and the slot value is a character vector of the 
+    ''' sample id that belongs to the corresponding sample group.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a new expression matrix object that each sample column is the sum value of 
+    ''' the sample columns in the corresponding sample group;
+    ''' 
+    ''' this function returns a R# error message object if the given sample group 
+    ''' information is empty.
+    ''' </returns>
     <ExportAPI("aggregate_samples")>
     <RApiReturn(GetType(Matrix))>
     Public Function aggregate_samples(matrix As Matrix, <RListObjectArgument> groups As list, Optional env As Environment = Nothing) As Object
@@ -1136,6 +1352,20 @@ Module geneExpression
         Return Matrix.MatrixSum(matrix, sampleinfo, strict:=True)
     End Function
 
+    ''' <summary>
+    ''' merge the duplicated gene feature rows via the sum value
+    ''' </summary>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <returns>
+    ''' a new expression matrix object that the gene feature rows with the 
+    ''' identical gene id have been merged into a single row via the sum value, 
+    ''' the tag of the generated matrix is formatted as ``aggregate({tag})``.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' this function is a shortcut of the ``aggregate`` api with the ``byrow`` 
+    ''' parameter value TRUE.
+    ''' </remarks>
     <ExportAPI("aggregate_genes")>
     <RApiReturn(GetType(Matrix))>
     Public Function aggregate_genes(x As Matrix) As Object
@@ -1241,8 +1471,17 @@ Module geneExpression
     ''' do PCA on a gene expressin matrix
     ''' </summary>
     ''' <param name="x">a gene expression matrix</param>
-    ''' <param name="npc"></param>
-    ''' <returns></returns>
+    ''' <param name="npc">
+    ''' the max number of the principal components for calculate, the PCA analysis 
+    ''' is applied on the gene expression matrix in row(gene) and column(sample) 
+    ''' mode: each gene feature row is an observation and each sample column is a 
+    ''' data dimension.
+    ''' </param>
+    ''' <returns>
+    ''' a data frame object of the PCA score result: each row is a gene feature in 
+    ''' the input expression matrix(the row name is the gene id), and the columns 
+    ''' are the principal component scores: ``PC1``, ``PC2``, ... ``PC{npc}``.
+    ''' </returns>
     <ExportAPI("pca")>
     Public Function applyPCA(x As Matrix, Optional npc As Integer = 3) As Rdataframe
         Dim data As StatisticsObject = x.expression.CommonDataSet(x.sampleID)
@@ -1265,7 +1504,16 @@ Module geneExpression
     ''' normalize data by sample column
     ''' </summary>
     ''' <param name="matrix">a gene expression matrix</param>
-    ''' <returns></returns>
+    ''' <param name="scale">
+    ''' the total sum scale of each sample column after the normalization, by 
+    ''' default is 10000.
+    ''' </param>
+    ''' <returns>
+    ''' a new expression matrix object which is normalized by the total sum value 
+    ''' of each sample column: each expression value in a sample column is divided 
+    ''' by the sum of the sample column and then multiplied by the given scale 
+    ''' value.
+    ''' </returns>
     ''' <remarks>
     ''' apply for the metabolomics data usually
     ''' </remarks>
@@ -1281,7 +1529,13 @@ Module geneExpression
     ''' <param name="median">
     ''' normalize the matrix row by median value of each row?
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a new expression matrix object which is normalized by the relative scale 
+    ''' of each gene feature row: each expression value in a gene feature row is 
+    ''' divided by the max value(or the median value when the ``median`` parameter 
+    ''' is TRUE) of the corresponding gene feature row, the tag of the generated 
+    ''' matrix is formatted as ``relative_scaale({tag})``.
+    ''' </returns>
     ''' <remarks>
     ''' row/max(row)
     ''' </remarks>
@@ -1312,7 +1566,13 @@ Module geneExpression
     ''' matrix.</param>
     ''' <param name="fuzzification">the cmeans fuzzification parameter</param>
     ''' <param name="threshold">the cmeans threshold parameter</param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' an <see cref="ExpressionPattern"/> object that contains the cmeans 
+    ''' clustering result of the input gene expression data: the partition 
+    ''' patterns of the expression data and the membership value of each gene 
+    ''' feature to each pattern.
+    ''' </returns>
     <ExportAPI("expression.cmeans_pattern")>
     Public Function CmeansPattern(matrix As Matrix,
                                   <RRawVectorArgument>
@@ -1341,7 +1601,10 @@ Module geneExpression
     ''' <param name="matrix">a gene expression matrix object</param>
     ''' <param name="fuzzification">the cmeans fuzzification parameter</param>
     ''' <param name="threshold">the cmeans threshold parameter</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' an <see cref="ExpressionPattern"/> object that the gene expression data 
+    ''' has been partitioned into 3 clusters.
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("expression.cmeans3D")>
     Public Function CMeans3D(matrix As Matrix, Optional fuzzification# = 2, Optional threshold# = 0.001) As ExpressionPattern
@@ -1351,9 +1614,18 @@ Module geneExpression
     ''' <summary>
     ''' save the cmeans expression pattern result to local file
     ''' </summary>
-    ''' <param name="pattern"></param>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="pattern">
+    ''' an <see cref="ExpressionPattern"/> object that is created by the 
+    ''' ``expression.cmeans_pattern`` or ``peakCMeans`` api.
+    ''' </param>
+    ''' <param name="file">
+    ''' the file path of the binary data pack file for save the expression pattern 
+    ''' result.
+    ''' </param>
+    ''' <returns>
+    ''' a boolean value for indicates that the expression pattern data has been 
+    ''' saved into the target file successfully or not.
+    ''' </returns>
     <ExportAPI("savePattern")>
     Public Function savePattern(pattern As ExpressionPattern, file As String) As Boolean
         Return Writer.WriteExpressionPattern(pattern, file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
@@ -1369,7 +1641,10 @@ Module geneExpression
     ''' should be a csv file path to the sample matrix data if the input <paramref name="file"/>
     ''' is a csv membership matrix file.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' an <see cref="ExpressionPattern"/> object that read from the given binary 
+    ''' data pack file or the csv membership matrix file.
+    ''' </returns>
     ''' <remarks>
     ''' this function can also read the csv matrix file and 
     ''' then cast as the expression pattern data object.
@@ -1394,8 +1669,38 @@ Module geneExpression
     ''' <summary>
     ''' get cluster membership matrix
     ''' </summary>
-    ''' <param name="pattern"></param>
-    ''' <returns></returns>
+    ''' <param name="pattern">
+    ''' the cmeans clustering result, which can be an 
+    ''' <see cref="ExpressionPattern"/> object, a data frame object of the 
+    ''' membership matrix, or a pipeline object that produces a set of the 
+    ''' <see cref="EntityClusterModel"/> cluster model data.
+    ''' </param>
+    ''' <param name="memberCutoff">
+    ''' the membership cutoff value for assign a gene feature into the target 
+    ''' cluster: the gene feature will be assigned into the cluster if its 
+    ''' membership value is greater than this threshold ratio of the max membership 
+    ''' value of the corresponding cluster.
+    ''' </param>
+    ''' <param name="empty_shared">
+    ''' how many clusters will be assigned to a gene feature when there is no 
+    ''' cluster that its membership value is greater than the 
+    ''' ``memberCutoff`` threshold.
+    ''' </param>
+    ''' <param name="max_cluster_shared">
+    ''' the max cluster numbers that a gene feature can be assigned into.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="EntityClusterModel"/> cluster model data: the 
+    ''' ``ID`` property is the gene feature id, the ``Properties`` property is the 
+    ''' membership value of the gene feature to each cluster(``#1``, ``#2``, ...), 
+    ''' and the ``Cluster`` property is the cluster tag that the gene feature has 
+    ''' been assigned into(multiple cluster tags are joined by the ``;`` 
+    ''' character);
+    ''' 
+    ''' this function returns a R# error message object if the input data can not 
+    ''' be cast to a collection of the cluster model data.
+    ''' </returns>
     <ExportAPI("cmeans_matrix")>
     <RApiReturn(GetType(EntityClusterModel))>
     Public Function GetCmeansPatternA(<RRawVectorArgument>
@@ -1508,9 +1813,16 @@ Module geneExpression
     ''' <summary>
     ''' get the top n representatives genes in each expression pattern
     ''' </summary>
-    ''' <param name="pattern"></param>
+    ''' <param name="pattern">
+    ''' an <see cref="ExpressionPattern"/> object of the cmeans clustering result.
+    ''' </param>
     ''' <param name="top">top n cmeans membership items</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a tuple list of the representative gene id set: the slot key of the list is 
+    ''' the cluster tag(``#1``, ``#2``, ...) and the slot value is a character 
+    ''' vector of the gene id of the top n members in the corresponding cluster, 
+    ''' which is sorted by the membership value in descending order.
+    ''' </returns>
     <ExportAPI("pattern_representatives")>
     Public Function representatives(pattern As ExpressionPattern, Optional top As Integer = 3) As Object
         Dim allPatterns As Integer() = pattern.Patterns _
@@ -1602,15 +1914,40 @@ Module geneExpression
     ''' <param name="memberCutoff">
     ''' the cmeans membership cutoff value for create a molecule cluster
     ''' </param>
-    ''' <param name="env"></param>
+    ''' <param name="empty_shared">
+    ''' how many clusters will be assigned to a gene feature when there is no 
+    ''' cluster that its membership value is greater than the ``memberCutoff`` 
+    ''' threshold.
+    ''' </param>
+    ''' <param name="max_cluster_shared">
+    ''' the max cluster numbers that a gene feature can be assigned into.
+    ''' </param>
+    ''' <param name="xlab">the x axis label text of the cmeans pattern plot.</param>
+    ''' <param name="ylab">the y axis label text of the cmeans pattern plot.</param>
+    ''' <param name="top_members">
+    ''' the ratio of the top members of each cluster for draw the expression 
+    ''' pattern lines in the cmeans pattern plot.
+    ''' </param>
+    ''' <param name="margin">the plot padding css style of the cmeans pattern plot.</param>
+    ''' <param name="cluster_label_css">the css style of the cluster label text.</param>
+    ''' <param name="legend_title_css">the css style of the legend title text.</param>
+    ''' <param name="legend_tick_css">the css style of the legend tick text.</param>
+    ''' <param name="axis_tick_css">the css style of the axis tick text.</param>
+    ''' <param name="axis_label_css">the css style of the axis label text.</param>
+    ''' <param name="grid_fill">the background fill color of the plot grid.</param>
+    ''' <param name="grid_draw">draw the plot grid lines or not?</param>
+    ''' <param name="x_lab_rotate">the rotate angle of the x axis label text.</param>
+    ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>
     ''' this function returns a tuple list that contains the pattern 
     ''' cluster matrix and the cmeans pattern plots.
     ''' 
-    ''' 1. 'pattern' is a dataframe object that contains the object cluster patterns
+    ''' 1. 'pattern' is a vector of the <see cref="EntityClusterModel"/> data that contains the object cluster patterns
     ''' 2. 'image' is a bitmap image that plot based on the object cluster patterns data.
     ''' 3. 'pdf' is a pdf image that could be edit
+    ''' 4. 'cmeans' is the raw <see cref="ExpressionPattern"/> object of the cmeans clustering result
     ''' 
+    ''' NULL will be returns if the given expression matrix is empty.
     ''' </returns>
     <ExportAPI("peakCMeans")>
     Public Function cmeans(matrix As Matrix,
@@ -1694,6 +2031,19 @@ Module geneExpression
         Return output
     End Function
 
+    ''' <summary>
+    ''' make the abundance ranking of the gene features in each sample group
+    ''' </summary>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <param name="sampleinfo">
+    ''' the sample group information data: the gene expression value of the sample 
+    ''' columns in the same sample group will be averaged at first, and then the 
+    ''' ranking is evaluated based on the averaged value of each sample group.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="Ranking"/> data object: the abundance ranking of 
+    ''' each gene feature in each sample group.
+    ''' </returns>
     <ExportAPI("expr_ranking")>
     Public Function ranking(x As Matrix, sampleinfo As SampleInfo()) As Ranking()
         Return x.TRanking(sampleinfo).ToArray
@@ -1702,15 +2052,22 @@ Module geneExpression
     ''' <summary>
     ''' do t-test across specific analysis comparision
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="sampleinfo"></param>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <param name="sampleinfo">
+    ''' the sample group information data, which is used for get the sample id 
+    ''' list of the treatment group and the control group.
+    ''' </param>
     ''' <param name="treatment">group name of the treatment group</param>
     ''' <param name="control">group name of the control group</param>
     ''' <param name="level">log2FC cutoff level</param>
     ''' <param name="pvalue">the t-test pvalue cutoff</param>
     ''' <param name="FDR">the FDR cutoff</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="DEP_iTraq"/> deg result data of the t-test 
+    ''' analysis, which is filtered by the given log2FC, p-value and FDR cutoff 
+    ''' value.
+    ''' </returns>
     <ExportAPI("deg.t.test")>
     Public Function Ttest(x As Matrix,
                           sampleinfo As SampleInfo(),
@@ -1738,32 +2095,75 @@ Module geneExpression
     ''' for differential expression (DE) analysis of RNA-seq data. Originally designed for microarray studies, its 
     ''' flexibility and robustness have extended its utility to RNA-seq through the voomtransformation. 
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="design"></param>
-    ''' <returns></returns>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <param name="design">
+    ''' the experiment design data of the RNA-seq dataset, which describes the 
+    ''' sample group information and the linear model design of the limma 
+    ''' analysis.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="LimmaTable"/> differential expression analysis 
+    ''' result: the ``logFC``, ``AveExpr``, ``t``, ``P_Value``, ``adj_P_Val`` and 
+    ''' ``B`` data of each gene feature.
+    ''' </returns>
     <ExportAPI("limma")>
     Public Function limma(x As Matrix, design As DataAnalysis) As LimmaTable()
         Return x.LmFit(design).ToArray
     End Function
 
+    ''' <summary>
+    ''' read the limma result table from a given csv table file
+    ''' </summary>
+    ''' <param name="file">
+    ''' the file path of the limma result table file, which is usually generated 
+    ''' by the R limma package.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="LimmaTable"/> differential expression analysis 
+    ''' result data.
+    ''' </returns>
     <ExportAPI("read_limma")>
     Public Function readLimmaTable(file As String) As LimmaTable()
         Return LimmaTable.LoadTable(file).ToArray
     End Function
 
     ''' <summary>
-    ''' 
+    ''' make the impact sort of the limma differential expression analysis result
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="top"></param>
-    ''' <param name="logfc_impact"></param>
+    ''' <param name="x">
+    ''' the limma result data, which can be a vector of the 
+    ''' <see cref="LimmaTable"/> object, a pipeline object of the limma result, or 
+    ''' a tuple list of the multiple limma result groups(the slot value of the list 
+    ''' is the limma result of one group).
+    ''' </param>
+    ''' <param name="top">
+    ''' take the top n genes of the impact sort result, by default is all of the 
+    ''' genes in the input data.
+    ''' </param>
+    ''' <param name="logfc_impact">
+    ''' evaluate the impact value of each gene based on the log2 fold change value 
+    ''' or based on the p-value?
+    ''' </param>
     ''' <param name="class">
     ''' the id class data, example as: 
     ''' list(class1 = c(...), class2 = c(...), class3 = c(...))
+    ''' 
+    ''' this parameter can also be provided in the format of 
+    ''' ``list(id1 = "class1", id2 = "class2", ...)``, i.e. each id is mapped to 
+    ''' its class label directly.
     ''' </param>
     ''' <param name="names">should be a list of id mapping to name</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="ImpactResult"/> data object that is sorted by 
+    ''' the impact value in descending order: the ``total`` impact value of each 
+    ''' gene across all of the input limma result groups, the ``max`` impact value 
+    ''' and the corresponding ``top_group``, and the class label and the name of 
+    ''' each gene if the ``class``/``names`` parameter is provided;
+    ''' 
+    ''' this function returns a R# error message object if the input data can not 
+    ''' be cast to a collection of the <see cref="LimmaTable"/> data.
+    ''' </returns>
     <ExportAPI("limma_impactsort")>
     <RApiReturn(GetType(ImpactResult))>
     Public Function limma_impactSort(<RRawVectorArgument> x As Object,
@@ -1845,14 +2245,18 @@ Module geneExpression
     ''' <summary>
     ''' build limma table model from the dataframe columns
     ''' </summary>
-    ''' <param name="id"></param>
-    ''' <param name="logFC"></param>
-    ''' <param name="aveExpr"></param>
-    ''' <param name="t"></param>
-    ''' <param name="pval"></param>
-    ''' <param name="adj_pval"></param>
-    ''' <param name="b"></param>
-    ''' <returns></returns>
+    ''' <param name="id">a character vector of the gene id of each gene feature.</param>
+    ''' <param name="logFC">a numeric vector of the log2 fold change value.</param>
+    ''' <param name="aveExpr">a numeric vector of the average expression value.</param>
+    ''' <param name="t">a numeric vector of the moderated t-statistic value.</param>
+    ''' <param name="pval">a numeric vector of the p-value.</param>
+    ''' <param name="adj_pval">a numeric vector of the adjusted p-value.</param>
+    ''' <param name="b">a numeric vector of the log-odds value(B statistic).</param>
+    ''' <returns>
+    ''' a vector of the <see cref="LimmaTable"/> object that is created from the 
+    ''' given column data, all of the input column vectors should be in the same 
+    ''' size as the input gene id vector.
+    ''' </returns>
     <ExportAPI("limma_table")>
     Public Function createlimmaTable(<RRawVectorArgument> id As Object,
                                      <RRawVectorArgument> logFC As Object,
@@ -1889,9 +2293,26 @@ Module geneExpression
     ''' <summary>
     ''' log scale of the HTS raw matrix
     ''' </summary>
-    ''' <param name="expr">should be a HTS expression matrix object</param>
-    ''' <param name="base"></param>
-    ''' <returns>this function may produce negative expression value if the value number is less than 1.</returns>
+    ''' <param name="expr">
+    ''' should be a HTS expression matrix object, or a numeric vector of the raw 
+    ''' expression data.
+    ''' </param>
+    ''' <param name="base">the logarithm base value, by default is the natural 
+    ''' logarithm(the base e).</param>
+    ''' <returns>
+    ''' a new expression matrix object(or a numeric vector) of the log scaled 
+    ''' expression data;
+    ''' 
+    ''' this function may produce negative expression value if the value number is less than 1.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the function name of this api is conflict with the math ``log`` function in 
+    ''' the R# base runtime environment: if the input data is a gene expression 
+    ''' matrix object, then the log scale of the expression matrix will be 
+    ''' returned, otherwise the math log of the input numeric vector will be 
+    ''' returned.
+    ''' </remarks>
     <ExportAPI("log")>
     <RApiReturn(GetType(Matrix))>
     Public Function log(<RRawVectorArgument> expr As Object, Optional base As Double = std.E) As Object
@@ -1916,13 +2337,30 @@ Module geneExpression
     ''' 
     ''' this normalization method is usually used for the metabolomics data
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <returns></returns>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <returns>
+    ''' a new expression matrix object that the expression value of each gene 
+    ''' feature row has been scaled into the range ``[0, 1]`` via the min-max 
+    ''' normalization.
+    ''' </returns>
     <ExportAPI("minmax01Norm")>
     Public Function minmax01(x As Matrix) As Object
         Return x.MinMaxNorm
     End Function
 
+    ''' <summary>
+    ''' random takes a subset of the gene features from the expression matrix
+    ''' </summary>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <param name="n">
+    ''' the sample size of the gene features for takes from the input expression 
+    ''' matrix object.
+    ''' </param>
+    ''' <returns>
+    ''' a data frame object that contains the randomly selected gene features: each 
+    ''' row is a randomly selected gene feature(the row name is the gene id) and 
+    ''' the columns is the expression data of the corresponding gene.
+    ''' </returns>
     <ExportAPI("take_shuffle")>
     Public Function take_shuffle(x As Matrix, n As Integer) As dataframe
         Dim sample = x.expression.OrderBy(Function() randf.NextDouble()).Take(n).ToArray
@@ -1946,7 +2384,20 @@ Module geneExpression
     ''' <param name="x">
     ''' A collection of the deg/dep object or a raw HTS matrix object
     ''' </param>
-    ''' <returns>A collection of the gene id set</returns>
+    ''' <param name="set_id">
+    ''' a character vector of the new gene id list for overwrite the gene id of the 
+    ''' input matrix object, this parameter is not used if the input data is a 
+    ''' collection of the deg/dep object.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' A collection of the gene id set: the row names of the input expression 
+    ''' matrix object, or the ``ID`` property of each deg/dep object in the input 
+    ''' data collection;
+    ''' 
+    ''' this function returns a R# error message object if the input data can not 
+    ''' be cast to a collection of the <see cref="DEP_iTraq"/> data.
+    ''' </returns>
     ''' <example>
     ''' let rnaseqs = load.expr("rnaseq.csv");
     ''' let alias = readLines("gene_id.txt");
@@ -1994,11 +2445,17 @@ Module geneExpression
     ''' create gene expression DEG model
     ''' </summary>
     ''' <param name="x">usually be a dataframe object of the different expression analysis result</param>
-    ''' <param name="logFC"></param>
-    ''' <param name="pvalue"></param>
-    ''' <param name="label"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="logFC">the column name of the log2 fold change data in the input dataframe.</param>
+    ''' <param name="pvalue">the column name of the p-value data in the input dataframe.</param>
+    ''' <param name="label">the column name of the gene id label data in the input dataframe.</param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="DEGModel"/> deg result data that is created from 
+    ''' the given dataframe columns;
+    ''' 
+    ''' this function returns a R# error message object if the input data is not a 
+    ''' dataframe object.
+    ''' </returns>
     <ExportAPI("as.deg")>
     <RApiReturn(GetType(DEGModel))>
     Public Function createDEGModels(<RRawVectorArgument> x As Object,
@@ -2030,11 +2487,30 @@ Module geneExpression
     ''' <summary>
     ''' set deg class label
     ''' </summary>
-    ''' <param name="deg"></param>
-    ''' <param name="class_labels">
-    ''' set deg class label manually
+    ''' <param name="deg">
+    ''' a vector of the <see cref="DEGModel"/> deg result data for set the class 
+    ''' label.
     ''' </param>
-    ''' <returns></returns>
+    ''' <param name="class_labels">
+    ''' set deg class label manually;
+    ''' 
+    ''' if this parameter is not specified, then the class label will be evaluated 
+    ''' from the log2 fold change and the p-value of each deg result data 
+    ''' automatically: the deg data will be labelled as ``sig`` when its p-value is 
+    ''' less than the ``pval_cutoff`` and the absolute value of its log2 fold change 
+    ''' is greater than the ``logFC`` cutoff, otherwise it will be labelled as 
+    ''' ``not_sig``.
+    ''' </param>
+    ''' <param name="logFC">
+    ''' the log2 fold change cutoff value for evaluate the deg class label.
+    ''' </param>
+    ''' <param name="pval_cutoff">
+    ''' the p-value cutoff value for evaluate the deg class label.
+    ''' </param>
+    ''' <returns>
+    ''' a new vector of the <see cref="DEGModel"/> deg result data that the 
+    ''' ``class`` property of each deg data has been assigned.
+    ''' </returns>
     <ExportAPI("deg.class")>
     <RApiReturn(GetType(DEGModel))>
     Public Function DEGclass(deg As DEGModel(), <RRawVectorArgument> Optional class_labels As Object = Nothing,
@@ -2083,7 +2559,17 @@ Module geneExpression
     ''' matrix in multiple batches data should be normalized at
     ''' first before calling this data batch merge function.
     ''' </param>
-    ''' <returns></returns>
+    ''' <param name="strict">
+    ''' if this parameter is TRUE, then an error will be thrown when a gene feature 
+    ''' is missing from some of the input matrix object, otherwise the missing gene 
+    ''' feature will be filled with ZERO.
+    ''' </param>
+    ''' <returns>
+    ''' a new expression matrix object that the sample columns of all of the input 
+    ''' matrix object have been merged into one matrix: the sample columns of the 
+    ''' matrix in multiple batches data are joined by the gene id of the matrix 
+    ''' feature rows.
+    ''' </returns>
     <ExportAPI("joinSample")>
     Public Function joinSamples(samples As Matrix(), Optional strict As Boolean = True) As Matrix
         If samples.IsNullOrEmpty Then
@@ -2098,10 +2584,27 @@ Module geneExpression
     ''' <summary>
     ''' merge multiple gene expression matrix by gene features
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="strict"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' a collection of the gene expression matrix object for merge, which can be a 
+    ''' vector of the <see cref="SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix"/> 
+    ''' object or a pipeline object that 
+    ''' produces a set of the expression matrix data.
+    ''' </param>
+    ''' <param name="strict">
+    ''' if this parameter is TRUE, then an error will be thrown when the sample id 
+    ''' of the input matrix object is not identical with each other, otherwise the 
+    ''' missing sample column will be filled with ZERO.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a new expression matrix object that the gene feature rows of all of the 
+    ''' input matrix object have been merged into one matrix(the merged sample 
+    ''' columns are sorted in ascending order);
+    ''' 
+    ''' this function returns NULL if the input matrix collection is empty, or a R# 
+    ''' error message object if the input data can not be cast to a collection of 
+    ''' the expression matrix data.
+    ''' </returns>
     <ExportAPI("joinFeatures")>
     <RApiReturn(GetType(Matrix))>
     Public Function joinFeatures(<RRawVectorArgument> x As Object, Optional strict As Boolean = True, Optional env As Environment = Nothing) As Object
@@ -2127,12 +2630,21 @@ Module geneExpression
     ''' <summary>
     ''' merge row or column where the tag is identical
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="x">a gene expression matrix object</param>
     ''' <param name="byrow">
     ''' default by gene feature row means merge the duplicated genes with the idential gene id as tag.
     ''' otherwise will merge the duplicated samples with the identical sample id name.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a new expression matrix object that the duplicated gene feature rows have 
+    ''' been merged into a single row via the sum value, the tag of the generated 
+    ''' matrix is formatted as ``aggregate({tag})``.
+    ''' 
+    ''' NOTE: the merge of the duplicated sample columns(the ``byrow`` parameter is 
+    ''' FALSE) is not implemented at this moment, an 
+    ''' <see cref="NotImplementedException"/> will be thrown for such kind of the 
+    ''' operation.
+    ''' </returns>
     <ExportAPI("aggregate")>
     <Extension>
     Public Function Aggregate(x As Matrix, Optional byrow As Boolean = True) As Object
@@ -2168,10 +2680,26 @@ Module geneExpression
     ''' <summary>
     ''' Calculate the sum of the sample data with time-series information across all time points to obtain the area under the curve (AUC) of the time-series curve.
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="sampleinfo"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <param name="sampleinfo">
+    ''' the sample time-series information data, which can be a vector of the 
+    ''' <see cref="SampleInfo"/> object, a dataframe object or a pipeline object 
+    ''' that produces a set of the <see cref="SampleInfo"/> data.
+    ''' </param>
+    ''' <param name="sample">
+    ''' the property name of the time point information in the given 
+    ''' ``sampleinfo`` data, by default is the ``sample`` property.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a new expression matrix object that each sample column is the sum value(AUC) 
+    ''' of the sample columns in the corresponding time point, the tag of the 
+    ''' generated matrix is ``AUC(time)``;
+    ''' 
+    ''' this function returns a R# error message object if the given sample 
+    ''' information data can not be cast to a collection of the 
+    ''' <see cref="SampleInfo"/> data.
+    ''' </returns>
     <ExportAPI("sample_auc")>
     Public Function sample_auc(x As Matrix, <RRawVectorArgument> sampleinfo As Object,
                                Optional sample As String = "sample",
@@ -2199,9 +2727,15 @@ Module geneExpression
     ''' <summary>
     ''' add random gauss noise to the matrix
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="scale"></param>
-    ''' <returns></returns>
+    ''' <param name="x">a gene expression matrix object</param>
+    ''' <param name="scale">
+    ''' the scale range of the random gauss noise, the noise value is generated 
+    ''' from the range ``[-scale, scale]`` for each expression value.
+    ''' </param>
+    ''' <returns>
+    ''' the input matrix object that a random gauss noise has been added into each 
+    ''' expression value of the matrix data.
+    ''' </returns>
     <ExportAPI("add_gauss")>
     Public Function add_gauss(x As Matrix, Optional scale As Double = 0.1) As Matrix
         Dim width As Integer = x.sampleID.Length
@@ -2213,6 +2747,37 @@ Module geneExpression
         Return x
     End Function
 
+    ''' <summary>
+    ''' create the abundance matrix from a collection of the metagenomics 
+    ''' abundance data
+    ''' </summary>
+    ''' <param name="samples">
+    ''' a tuple list of the abundance data: the slot key of the list is the sample 
+    ''' id and the slot value is the abundance data of the corresponding sample, 
+    ''' which can be a collection of the <see cref="IExpressionValue"/> object, a 
+    ''' tuple list of the numeric value, or a dictionary object of the abundance 
+    ''' data(the dictionary key is the taxonomy id and the value is the abundance 
+    ''' value).
+    ''' </param>
+    ''' <param name="normalized">
+    ''' normalize the generated abundance matrix data? if this parameter is TRUE, 
+    ''' then the abundance value of each sample column will be normalized as a 
+    ''' relative abundance value.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix"/> abundance 
+    ''' matrix object that the rows are the 
+    ''' taxonomy features and the columns are the input samples.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' a warning message will be pushed into the R# environment message buffer if 
+    ''' the abundance data of some sample is nothing, and such kind of the sample 
+    ''' will be skipped, an <see cref="NotImplementedException"/> will be thrown if 
+    ''' the input data is not a tuple list object or the abundance data type is not 
+    ''' supported.
+    ''' </remarks>
     <ExportAPI("as.abundance_matrix")>
     <RApiReturn(GetType(Matrix))>
     Public Function metagenome_matrix(<RRawVectorArgument> samples As Object,
