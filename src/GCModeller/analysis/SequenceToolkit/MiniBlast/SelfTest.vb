@@ -14,6 +14,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports MiniBlast.Core
+Imports MiniBlast.MiniBlast.Core
 Imports MiniBlast.Model
 
 Namespace MiniBlast
@@ -58,7 +59,7 @@ Namespace MiniBlast
             Dim scorer = New AaScorer("BLOSUM62")
             Dim hist = KarlinAltschul.BuildAaHist(scorer)
             Dim lam = KarlinAltschul.SolveLambda(hist)
-            Check(Math.Abs(lam - 0.335390) < 0.001, $"BLOSUM62(RR) λ={lam:F6} ≈ 0.335390（文献表值 0.3176 见 README 说明）")
+            Check(Math.Abs(lam - 0.33539) < 0.001, $"BLOSUM62(RR) λ={lam:F6} ≈ 0.335390（文献表值 0.3176 见 README 说明）")
         End Sub
 
         Private Sub TestStatsIdentity()
@@ -259,7 +260,7 @@ Namespace MiniBlast
         Private Sub TestEndToEnd()
             Console.WriteLine("-- 端到端冒烟 --")
             ' blastn: 查询与其 95% 同源副本
-            Dim baseSeq = "ACGTTGCAAGGCTTACCGGATCCGTAAGCTTGCAACCGGTТАСGGATCCTTAGCACGT" & New String("G"C, 5) & "TTGCAA"
+            Dim baseSeq = "ACGTTGCAAGGCTTACCGGATCCGTAAGCTTGCAACCGGTТАСGGATCCTTAGCACGT" & New String("G"c, 5) & "TTGCAA"
             baseSeq = baseSeq.Replace("Т"c, "T"c).Replace("А"c, "A"c).Replace("С"c, "C"c) ' 防全角字符
             Dim mutated = MutateNt(baseSeq, 0.05)
 
@@ -267,7 +268,7 @@ Namespace MiniBlast
             Dim dbList = New List(Of FastaSequence) From {
                 New FastaSequence("homolog", "95% identity copy", mutated),
                 New FastaSequence("polya", "low complexity", New String("A"c, 120)),
-                New FastaSequence("random", "unrelated", MutateNt(New String("ACGT"c, 20), 0.5))
+                New FastaSequence("random", "unrelated", MutateNt("ACGT".RepeatString(20), 0.5))
             }
 
             Dim opts As New BlastOptions With {.Program = "blastn", .Task = "blastn"}
