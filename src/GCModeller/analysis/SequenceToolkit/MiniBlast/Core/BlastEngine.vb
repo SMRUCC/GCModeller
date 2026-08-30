@@ -8,10 +8,7 @@
 ' 数据库预处理一次（编码 + 掩码），供所有查询复用。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports MiniBlast.Model
+Imports MiniBlast.MiniBlast.Model
 
 Namespace MiniBlast.Core
 

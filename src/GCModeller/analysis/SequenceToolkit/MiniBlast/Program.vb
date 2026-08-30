@@ -14,14 +14,11 @@
 ' 输出：JSON（System.Text.Json，BCL）。默认写 stdout，--out 指定文件。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.IO
-Imports System.Linq
 Imports System.Text.Json
 Imports System.Text.Json.Serialization
-Imports MiniBlast.Core
-Imports MiniBlast.Model
+Imports MiniBlast.MiniBlast.Core
+Imports MiniBlast.MiniBlast.Model
 
 Namespace MiniBlast
 
@@ -36,9 +33,7 @@ Namespace MiniBlast
             End If
 
             Dim cmd = args(0).ToLowerInvariant()
-            If cmd = "selftest" Then
-                Return SelfTest.RunAll()
-            End If
+
             If cmd <> "blastn" AndAlso cmd <> "blastp" Then
                 Console.Error.WriteLine($"未知子命令: {cmd}")
                 PrintUsage()

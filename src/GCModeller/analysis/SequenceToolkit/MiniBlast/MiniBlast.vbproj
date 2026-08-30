@@ -18,10 +18,13 @@
   <ItemGroup>
     <Compile Remove="test2\**" />
     <Compile Remove="test\**" />
+    <Compile Remove="_validation\**" />
     <EmbeddedResource Remove="test2\**" />
     <EmbeddedResource Remove="test\**" />
+    <EmbeddedResource Remove="_validation\**" />
     <None Remove="test2\**" />
     <None Remove="test\**" />
+    <None Remove="_validation\**" />
   </ItemGroup>
 
   <ItemGroup>
