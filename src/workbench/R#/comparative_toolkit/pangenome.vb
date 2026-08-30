@@ -142,7 +142,10 @@ Module pangenome
     ''' <summary>
     ''' Load the pangenome analysis context
     ''' </summary>
-    ''' <param name="genomes">should be a collection of the genome GFF feature tables</param>
+    ''' <param name="genomes">should be a collection of the genome GFF3 feature tables</param>
+    ''' <param name="soft_core_threshold">
+    ''' threshold value for identify the gene as soft core, thres value 1 means core genes
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("build_context")>
@@ -167,6 +170,13 @@ Module pangenome
         Return context
     End Function
 
+    ''' <summary>
+    ''' run pan-genome analysis
+    ''' </summary>
+    ''' <param name="pangenome">context data for run pan-genome analysis</param>
+    ''' <param name="orthologSet">gene ortholog data table, usually be the bi-direction best hit of the blast result</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("analysis")>
     <RApiReturn(GetType(PanGenomeResult))>
     Public Function analysis(pangenome As GenomeAnalyzer, orthologSet As list, Optional env As Environment = Nothing) As Object
@@ -222,7 +232,7 @@ Module pangenome
     ''' <summary>
     ''' set orthology group for make gene family
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="x">gene ortholog annotation result set</param>
     ''' <param name="uf"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
@@ -243,17 +253,35 @@ Module pangenome
         Return uf
     End Function
 
+    ''' <summary>
+    ''' set species name to the genome gff3 context model
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="source_name"></param>
+    ''' <returns></returns>
     <ExportAPI("source_id")>
-    Public Function set_sourceID(genome As GFFTable, source_name As String) As GFFTable
+    Public Function set_sourceID(genome As GFFTable, <RByRefValueAssign> source_name As String) As GFFTable
         genome.species = source_name
         Return genome
     End Function
 
+    ''' <summary>
+    ''' generates the html report text for the pan-genome analysis result
+    ''' </summary>
+    ''' <param name="result"></param>
+    ''' <returns></returns>
     <ExportAPI("report_html")>
     Public Function report_html(result As PanGenomeResult) As String
         Return PanGenomeReportGenerator.GenerateReport(result, PanGenomeReportGenerator.DefaultHtmlTemplate)
     End Function
 
+    ''' <summary>
+    ''' export structure variant result table
+    ''' </summary>
+    ''' <param name="result"></param>
+    ''' <param name="index"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("sv_table")>
     Public Function sv_table(result As PanGenomeResult, Optional index As list = Nothing, Optional env As Environment = Nothing) As SVTable()
         Dim table = result.SVTable.ToArray

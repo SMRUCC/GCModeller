@@ -68,6 +68,9 @@ Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
+''' <summary>
+''' multiple omics analysis tool
+''' </summary>
 <Package("mixOmics")>
 Module mixOmics
 
@@ -149,14 +152,33 @@ Module mixOmics
         Return PathForceBuilder.CreateForce(x, y, maps)
     End Function
 
+    ''' <summary>
+    ''' SparCC correlation analysis
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="y"></param>
+    ''' <param name="strict"></param>
+    ''' <returns></returns>
     <ExportAPI("sparcc")>
-    Public Function sparcc(x As Matrix, y As Matrix, Optional strict As Boolean = True)
+    <RApiReturn(GetType(CrossOmicsCorrelation))>
+    Public Function sparcc(x As Matrix, y As Matrix, Optional strict As Boolean = True) As Object
         Call TRN.ValidateSamples(x, y, strict:=strict)
 
         Dim sparccResult As CrossOmicsCorrelation = SparCCComputation.ComputeCrossCorrelation(x, y, New SparCCConfig)
         Return sparccResult
     End Function
 
+    ''' <summary>
+    ''' CC lasso analysis
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="y"></param>
+    ''' <param name="lam_min_ratio"></param>
+    ''' <param name="nfold"></param>
+    ''' <param name="n_bootstraps"></param>
+    ''' <param name="strict"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("cclasso")>
     <RApiReturn(GetType(CrossOmicsCorrelation))>
     Public Function cclasso(x As Matrix, y As Matrix,
@@ -164,7 +186,7 @@ Module mixOmics
                             Optional nfold As Integer = 5,
                             Optional n_bootstraps As Integer = 500,
                             Optional strict As Boolean = True,
-                            Optional env As Environment = Nothing)
+                            Optional env As Environment = Nothing) As Object
 
         Call TRN.ValidateSamples(x, y, strict:=strict)
 
