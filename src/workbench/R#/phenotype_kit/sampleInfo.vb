@@ -549,9 +549,17 @@ Module DEGSample
     ''' <summary>
     ''' save sampleinfo data as csv file
     ''' </summary>
-    ''' <param name="sampleinfo"></param>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="sampleinfo">
+    ''' a vector of the <see cref="SampleInfo"/> sample information data for save 
+    ''' into the target csv table file.
+    ''' </param>
+    ''' <param name="file">
+    ''' the file path of the generated sample information csv table file.
+    ''' </param>
+    ''' <returns>
+    ''' a boolean value for indicates that the sample information data has been 
+    ''' saved into the target file successfully or not.
+    ''' </returns>
     ''' <remarks>
     ''' You also can save the sampleinfo data directly via the ``write.csv`` function.
     ''' </remarks>
@@ -568,7 +576,30 @@ Module DEGSample
     ''' <param name="sample_name">the sample name label for display, this character vector could be nothing, 
     ''' then the generated sample display name will be replaced with the input sample id</param>
     ''' <param name="sample_info">the sample group information.</param>
-    ''' <returns></returns>
+    ''' <param name="color">
+    ''' the color of each sample, this parameter could be nothing, then the color 
+    ''' of the generated sample data will not be assigned.
+    ''' </param>
+    ''' <param name="batch">
+    ''' the experiment batch id of each sample, the default batch id of each sample 
+    ''' is 1.
+    ''' </param>
+    ''' <param name="inject_order">
+    ''' the sample injection order of each sample, the default injection order of 
+    ''' each sample is its index order in the input sample id vector.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="SampleInfo"/> sample information data, the 
+    ''' ``shape`` property of the generated sample data is set as ``circle``;
+    ''' 
+    ''' this function returns NULL if the input sample id vector or the sample group 
+    ''' information vector is nothing, or a R# error message object if the size of 
+    ''' the input vectors is not agreed with each other: the size of the 
+    ''' ``sample_name`` should be equals to the size of the ``ID``, and the size of 
+    ''' the ``sample_info`` should be 1(a single group label for all samples) or 
+    ''' equals to the size of the ``ID``.
+    ''' </returns>
     ''' <example>
     ''' let group_vec = c("control","control","treat","control","treat","treat");
     ''' let samples = sampleInfo(group_vec, group_vec);
@@ -622,6 +653,44 @@ Module DEGSample
         Return list.ToArray
     End Function
 
+    ''' <summary>
+    ''' do text replace of the sample group label
+    ''' </summary>
+    ''' <param name="sampleinfo">
+    ''' the sample information data, which can be a vector of the 
+    ''' <see cref="SampleInfo"/> object or a pipeline object that produces a set of 
+    ''' the sample information data.
+    ''' </param>
+    ''' <param name="find">
+    ''' a character vector of the text pattern for search in the sample group label 
+    ''' of each sample data.
+    ''' </param>
+    ''' <param name="replace_as">
+    ''' the text for replace all of the found text pattern in the sample group 
+    ''' label.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a new vector of the <see cref="SampleInfo"/> object that the ``sample_info`` 
+    ''' group label of each sample data has been replaced;
+    ''' 
+    ''' this function returns a R# error message object if the input data can not be 
+    ''' cast to a collection of the sample information data.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' this api is helpful for merge the sample groups in a simple manner: replace 
+    ''' the different group label text as a common group label text, then all of 
+    ''' these sample data will be merged into the same sample group.
+    ''' </remarks>
+    ''' 
+    ''' <example>
+    ''' imports "sampleInfo" from "phenotype_kit";
+    ''' 
+    ''' # merge the sample groups of "treat-1h" and "treat-2h" 
+    ''' # into a single sample group of "treat"
+    ''' let samples = sampleinfo_gsub(samples, find = c("-1h", "-2h"), replace_as = "");
+    ''' </example>
     <ExportAPI("sampleinfo_gsub")>
     <RApiReturn(GetType(SampleInfo))>
     Public Function sampleinfo_gsub(<RRawVectorArgument> sampleinfo As Object,
@@ -652,10 +721,23 @@ Module DEGSample
     ''' <summary>
     ''' Get sample id collection from a speicifc sample data groups
     ''' </summary>
-    ''' <param name="sampleinfo"></param>
-    ''' <param name="groups"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="sampleinfo">
+    ''' the sample information data, which can be a vector of the 
+    ''' <see cref="SampleInfo"/> object or a pipeline object that produces a set of 
+    ''' the sample information data.
+    ''' </param>
+    ''' <param name="groups">
+    ''' a character vector of the sample group label for get the sample id list.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a character vector of the sample id that belongs to the given sample groups, 
+    ''' the sample id of all of the given sample groups will be merged into a single 
+    ''' character vector in the order of the given group label vector;
+    ''' 
+    ''' this function returns a R# error message object if the input data can not be 
+    ''' cast to a collection of the sample information data.
+    ''' </returns>
     <ExportAPI("sampleId")>
     <RApiReturn(GetType(String))>
     Public Function getSampleId(<RRawVectorArgument>
@@ -681,8 +763,25 @@ Module DEGSample
     ''' <summary>
     ''' Create sampleInfo table from text files
     ''' </summary>
-    ''' <param name="dir"></param>
-    ''' <returns></returns>
+    ''' <param name="dir">
+    ''' a directory path that contains a set of the text files: each text file is a 
+    ''' sample group and the file basename is used as the sample group label, each 
+    ''' line in the text file is a sample id of the corresponding sample group.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="SampleInfo"/> sample information data that is 
+    ''' created from the text files in the given directory: the ``ID`` and the 
+    ''' ``sample_name`` property of the generated sample data is the sample id, the 
+    ''' ``sample_info`` property is the file basename and the ``injectionOrder`` 
+    ''' property is the index order of the sample in the generated sample 
+    ''' collection.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' only the ``*.txt`` files in the given directory will be scanned, an empty 
+    ''' sample collection will be returned if there is no text file in the target 
+    ''' directory.
+    ''' </remarks>
     <ExportAPI("sampleinfo.text.groups")>
     Public Function ScanForSampleInfo(dir As String) As SampleInfo()
         Dim sampleInfo As New List(Of SampleInfo)
@@ -707,6 +806,43 @@ Module DEGSample
         Return sampleInfo
     End Function
 
+    ''' <summary>
+    ''' create the different expression analysis design of the control vs treatment
+    ''' </summary>
+    ''' <param name="sampleinfo">
+    ''' a vector of the <see cref="SampleInfo"/> sample information data.
+    ''' </param>
+    ''' <param name="control">
+    ''' the sample group label of the control group.
+    ''' </param>
+    ''' <param name="treatment">
+    ''' the sample group label of the treatment(the experiment) group.
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="DataAnalysis"/> analysis design object that only contains the 
+    ''' samples of the given control group and treatment group, the other sample 
+    ''' groups in the input sample information data will be ignored.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the samples of the control group will be placed at the first in the 
+    ''' generated analysis design object, and the samples of the treatment group 
+    ''' will be placed after the control group, so that the order of the sample 
+    ''' groups in the generated analysis design object is ``control vs treatment``.
+    ''' 
+    ''' the generated analysis design object can be used by the limma analysis 
+    ''' api(``limma``) or the t-test analysis api(``deg.t.test``) for run the 
+    ''' different expression analysis.
+    ''' </remarks>
+    ''' 
+    ''' <example>
+    ''' imports "sampleInfo" from "phenotype_kit";
+    ''' 
+    ''' let samples = sampleInfo(group_vec, group_vec);
+    ''' let analysis = make.analysis(samples, control = "control", treatment = "treat");
+    ''' 
+    ''' let deg = limma(x, analysis);
+    ''' </example>
     <ExportAPI("make.analysis")>
     <RApiReturn(GetType(DataAnalysis))>
     Public Function makeDataAnalysis(sampleinfo As SampleInfo(), control As String, treatment As String) As Object
@@ -724,6 +860,32 @@ Module DEGSample
         Return New DataAnalysis(sampleinfo)
     End Function
 
+    ''' <summary>
+    ''' create the machine learning dataset from the gene expression matrix and the 
+    ''' sample group information
+    ''' </summary>
+    ''' <param name="x">
+    ''' a gene expression matrix object, the gene feature rows of this matrix will 
+    ''' be used as the data features of the generated dataset.
+    ''' </param>
+    ''' <param name="sampleinfo">
+    ''' a vector of the <see cref="SampleInfo"/> sample information data: the 
+    ''' ``ID`` property of the sample data should be matched with the sample columns 
+    ''' of the given expression matrix, and the ``sample_info`` property of the 
+    ''' sample data will be used as the class label of the generated dataset 
+    ''' entities.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="EntityClusterModel"/> data entity: the ``ID`` 
+    ''' property is the sample id, the ``Cluster`` property is the sample group 
+    ''' label and the ``Properties`` property is the expression value of each gene 
+    ''' feature in the corresponding sample.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the sample data that its id is not exists in the expression matrix will be 
+    ''' skipped with a warning message.
+    ''' </remarks>
     <ExportAPI("make.MLdataset")>
     Public Function makeMLdataset(x As HTS.DataFrame.Matrix, sampleinfo As SampleInfo()) As Object
         Dim gene_ids As String() = x.rownames
