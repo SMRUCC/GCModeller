@@ -75,9 +75,47 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' <summary>
 ''' tools for create a transcription regulation network
 ''' </summary>
+''' 
+''' <remarks>
+''' This R# package module provides the toolkit for build the transcription 
+''' regulation network(TRN) from the regulon database and the motif site scan 
+''' result:
+''' 
+''' + ``open_motifdb``: open the position weight matrix(PWM) motif database;
+''' + ``motif_search``: scan the TF binding site(TFBS) motif site on the given 
+'''   promoter/upstream sequence regions;
+''' + ``regulation.footprint``: create the regulation footprint(regulation network 
+'''   edges) from the regulator mapping data(bbh), the motif site data and the 
+'''   regprecise regulon database;
+''' + ``read.regulations``/``write.regulations``: read and save the regulation 
+'''   footprint data table;
+''' + ``read.footprints``: read the motif site(footprint site) table data.
+''' </remarks>
 <Package("TRN.builder")>
 Module TRNBuilder
 
+    ''' <summary>
+    ''' open the motif database
+    ''' </summary>
+    ''' <param name="file">
+    ''' the motif database source:
+    ''' 
+    ''' 1. a directory path that contains a set of the MEME format motif files 
+    '''    (*.meme), then a <see cref="MEMEMotifRepository"/> object will be created 
+    '''    from this directory;
+    ''' 2. a file path or a file stream object of the binary motif database file, 
+    '''    then the database will be opened from the given data stream in read only 
+    '''    mode.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a motif database object for get the position weight matrix data of each 
+    ''' transcription factor family, which could be used by the ``motif_search`` api 
+    ''' for run the TFBS motif site scan;
+    ''' 
+    ''' this function returns a R# error message object if the given motif database 
+    ''' file can not be opened for read.
+    ''' </returns>
     <ExportAPI("open_motifdb")>
     <RApiReturn(GetType(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase))>
     Public Function open_motifdb(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
