@@ -67,12 +67,44 @@ Imports Microsoft.VisualBasic.Text
 Namespace SequenceModel.FASTA
 
     ''' <summary>
-    ''' 读取超大型的fasta文件所需要的一个数据对象
+    ''' 流式 FASTA 读取器：逐条读取，内存占用恒定（仅当前序列）。读取超大型的fasta文件所需要的一个数据对象
     ''' </summary>
     Public Class StreamIterator : Implements IDisposable
 
         ReadOnly _file As Stream
         ReadOnly _tqdm As Boolean
+
+        ''' <summary>文件总大小（字节）</summary>
+        Public ReadOnly Property FileSize As Long
+            Get
+                Try
+                    Return _file.Length
+                Catch ex As Exception
+                    Return 0
+                End Try
+            End Get
+        End Property
+
+        ''' <summary>已读取的字节数</summary>
+        Public ReadOnly Property BytesRead As Long
+
+        ''' <summary>已读取的序列数</summary>
+        Public ReadOnly Property RecordCount As Long
+            Get
+                Return _recordCount
+            End Get
+        End Property
+
+        ''' <summary>已读取的序列数</summary>
+        Dim _recordCount As Long = 0
+
+        ''' <summary>读取进度百分比 (0~100)</summary>
+        Public ReadOnly Property Progress As Double
+            Get
+                If FileSize = 0 Then Return 0.0
+                Return Math.Min(100.0, _BytesRead * 100.0 / FileSize)
+            End Get
+        End Property
 
         ''' <summary>
         ''' 从指定的文件之中构建一个读取超大型的fasta文件所需要的一个数据对象
@@ -82,6 +114,14 @@ Namespace SequenceModel.FASTA
             _tqdm = tqdm_wrap
             _file = path.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
         End Sub
+
+        ''' <summary>
+        ''' 读取下一条 FASTA 记录。
+        ''' </summary>
+        ''' <returns>FastaRecord 或 Nothing（文件结束）</returns>
+        Public Function ReadNext() As FastaSeq
+
+        End Function
 
         ''' <summary>
         ''' Read all sequence from the fasta file.
