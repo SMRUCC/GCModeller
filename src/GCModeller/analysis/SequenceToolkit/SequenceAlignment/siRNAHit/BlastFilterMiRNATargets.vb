@@ -5,6 +5,21 @@ Imports Microsoft.VisualBasic.Language
 
 Namespace siRNAHit
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <remarks>
+    ''' # ============ 第一轮：BLASTN 快速预筛 ============
+    ''' blastn -task blastn-short \
+    '''   -query miRNA.fa \
+    '''   -subject plant_cDNA.fasta \
+    '''   -evalue 10000 -word_size 7 \
+    '''   -gapopen 4 -gapextend 2 \
+    '''   -reward 1 -penalty -1 \
+    '''   -outfmt "6 qseqid sseqid sstart send qstart qend sstrand qseq sseq length evalue bitscore" \
+    '''   -num_threads 32 -max_target_seqs 5000 \
+    '''   > round1_hits.tsv
+    ''' </remarks>
     Public Module BlastFilterMiRNATargets
 
         ''' <summary>
