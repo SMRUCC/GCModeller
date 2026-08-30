@@ -11,6 +11,9 @@ Imports System.Text.Json.Serialization
 
 Namespace Model
 
+    ''' <summary>
+    ''' json output of the blast result
+    ''' </summary>
     Public Class BlastReport
 
         <JsonPropertyName("program")>
