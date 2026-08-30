@@ -209,6 +209,7 @@ Module miRNA
     Public Function miRNA_targets(mapper As miRNAMapper,
                                   <RRawVectorArgument(GetType(FastaSeq))> miRNAs As Object,
                                   <RRawVectorArgument(GetType(FastaSeq))> targets As Object,
+                                  Optional parallel As Boolean = False,
                                   Optional env As Environment = Nothing) As Object
 
         Dim miRNAList = GetFastaSeq(miRNAs, env)
@@ -225,10 +226,28 @@ Module miRNA
 
         Call $"make miRNA target prediction via {mapper.ToString}!".debug
 
-        For Each miRNA As FastaSeq In Tqdm.WrapIterator(miRNAList, bar:=bar)
-            Call bar.SetLabel(miRNA.Title)
-            Call result.AddRange(mapper.Run(miRNA, targetDb))
-        Next
+        If parallel Then
+            Dim miRNASet As FastaSeq() = miRNAList.ToArray
+            Dim outPool As siRNAHit()() = New siRNAHit(miRNASet.Length - 1)() {}
+
+            Call System.Threading.Tasks.Parallel.For(
+                0, outPool.Length, Sub(i)
+                                       Dim miRNA As FastaSeq = miRNASet(i)
+                                       Dim out As siRNAHit() = mapper.Run(miRNA, targetDb).ToArray
+
+                                       SyncLock outPool
+                                           outPool(i) = out
+                                           Call $"{miRNA.Title} found {out.Length} target genes!".debug
+                                       End SyncLock
+                                   End Sub)
+
+            Call result.AddRange(outPool.IteratesALL)
+        Else
+            For Each miRNA As FastaSeq In Tqdm.WrapIterator(miRNAList, bar:=bar)
+                Call bar.SetLabel(miRNA.Title)
+                Call result.AddRange(mapper.Run(miRNA, targetDb))
+            Next
+        End If
 
         Return result.ToArray
     End Function
