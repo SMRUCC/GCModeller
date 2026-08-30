@@ -12,6 +12,12 @@
     <Nullable>Disable</Nullable>
     <Description>蛋白质序列无监督聚类构建蛋白质家族 — 分块流式处理 + DIAMOND + 内存映射并查集</Description>
     <Version>1.0.0</Version>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+  </ItemGroup>
 
 </Project>
