@@ -65,11 +65,45 @@ Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
+''' <summary>
+''' Bifrost: the gene prediction toolkit
+''' </summary>
+''' <remarks>
+''' This R# package module provides the api for run gene prediction on the 
+''' genomics contigs assembly sequence:
+''' 
+''' + ``prodigal``: the ab-initio prokaryotic gene prediction algorithm 
+'''   (PROkaryotic DYnamic programming Gene-finding ALgorithm), works on the 
+'''   prokaryotic MAGs contigs assembly sequence;
+''' + ``metaeuk``: the homology based eukaryotic gene prediction algorithm, 
+'''   works on the eukaryotic contigs assembly sequence with a given reference 
+'''   protein database;
+'''   
+''' The gene prediction result of the prodigal algorithm is a collection of 
+''' the ``PredictionResult`` object, which could be exported as:
+''' 
+''' + GFF3 table via the ``as.gff3`` api;
+''' + nucleotide/protein fasta sequence via the ``as.genes``/``as.proteins`` api;
+''' + a score table data frame via the ``as.data.frame`` api, for save as a csv 
+'''   file by the ``write.csv`` api.
+''' </remarks>
 <Package("bifrost")>
 <RTypeExport("prodigal", GetType(TrainingModel))>
 <RTypeExport("metaeuk_config", GetType(MetaEukConfig))>
 Module bifrost
 
+    ''' <summary>
+    ''' Register the internal data cast handler of this package module
+    ''' </summary>
+    ''' 
+    ''' <remarks>
+    ''' this function is invoked automatically at the start of the R# runtime 
+    ''' environment, it just registers a data cast handler for makes the gene 
+    ''' prediction result collection(<see cref="PredictionResult"/>) could be 
+    ''' converted to a data frame via the ``as.data.frame`` api, so that the 
+    ''' prediction score table can be saved as a csv file via the ``write.csv`` 
+    ''' api.
+    ''' </remarks>
     Sub Main()
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(PredictionResult()), AddressOf scoreTable)
     End Sub
@@ -77,10 +111,24 @@ Module bifrost
     ''' <summary>
     ''' overloads function for cast gene prediction result collection as dataframe for save to file by ``write.csv``. 
     ''' </summary>
-    ''' <param name="result"></param>
-    ''' <param name="args"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="result">
+    ''' a collection of the gene prediction result, which is the output of the 
+    ''' ``prodigal`` function in this package module.
+    ''' </param>
+    ''' <param name="args">
+    ''' the additional arguments for the data frame cast, this parameter is not 
+    ''' used in this function.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a data frame object that contains the gene prediction score table, each 
+    ''' row in the generated data frame is a predicted gene, and the columns are 
+    ''' the corresponding gene location and score details: ``seq_id``, 
+    ''' ``gene_index``, ``start``, ``end``, ``strand``, ``frame``, 
+    ''' ``start_codon``, ``stop_codon``, ``rbs_motif``, ``total_score``, 
+    ''' ``coding_score``, ``start_score``, ``rbs_score``, ``type_score``, 
+    ''' ``upstream_score``, ``rbs_spacing`` and ``partial_type``.
+    ''' </returns>
     <RGenericOverloads("as.data.frame")>
     Public Function scoreTable(result As PredictionResult(), args As list, env As Environment) As Object
         Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
@@ -108,11 +156,36 @@ Module bifrost
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Train the gene prediction model in an unsupervised manner
     ''' </summary>
-    ''' <param name="x">input target fasta sequence collection for make prodigal training </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' input target fasta sequence collection for make prodigal training, it 
+    ''' should be a set of the genomics contigs assembly sequence, which can be 
+    ''' a <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a file path of the fasta sequence file, 
+    ''' or even a character vector of the raw sequence data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a trained ``prodigal`` <see cref="TrainingModel"/> object, which can be 
+    ''' used for the gene prediction of the other genomics contigs assembly 
+    ''' sequence that come from the same or a close related species, via the 
+    ''' ``model`` parameter of the ``prodigal`` function.
+    ''' 
+    ''' this function returns a R# error message object if the input sequence 
+    ''' data is nothing or can not be cast to a fasta sequence collection.
+    ''' </returns>
+    ''' 
+    ''' <example>
+    ''' imports "bioseq.fasta" from "seqtoolkit";
+    ''' imports "bifrost" from "seqtoolkit";
+    ''' 
+    ''' # train the gene prediction model from a well assembled 
+    ''' # genomics contigs sequence, and then apply the trained 
+    ''' # model on the other MAGs contigs of the same species
+    ''' let model &lt;- prodigal_training(read.fasta("./genome.fasta"));
+    ''' let genes &lt;- prodigal(read.fasta("./MAGs_contigs.fasta"), model = model);
+    ''' </example>
     <ExportAPI("prodigal_training")>
     <RApiReturn(GetType(TrainingModel))>
     Public Function training(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
@@ -128,11 +201,41 @@ Module bifrost
     ''' <summary>
     ''' Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="min_ORF_len"></param>
-    ''' <param name="model"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' the target MAGs contigs assembly sequence for run the gene prediction, 
+    ''' which can be a <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a file path of the fasta sequence file, 
+    ''' or even a character vector of the raw sequence data.
+    ''' </param>
+    ''' <param name="min_ORF_len">
+    ''' the minimum ORF length in bp of the predicted gene, any of the candidate 
+    ''' ORF that its length is less than this threshold value will be ignored in 
+    ''' the gene prediction.
+    ''' </param>
+    ''' <param name="model">
+    ''' the prodigal training model, which is the output of the 
+    ''' ``prodigal_training`` function. If this parameter is nothing(the default 
+    ''' value), then the model will be trained from the input contigs assembly 
+    ''' sequence in an unsupervised manner automatically.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a collection of the gene prediction result: each element in the 
+    ''' collection(<see cref="PredictionResult"/>) is the gene prediction result 
+    ''' of the corresponding contigs sequence in the input fasta sequence data.
+    ''' 
+    ''' this function returns a R# error message object if the input sequence 
+    ''' data is nothing or can not be cast to a fasta sequence collection.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' The prodigal gene prediction pipeline is implemented in an ab-initio 
+    ''' manner: a training model will be learned from the input contigs assembly 
+    ''' sequence at first(when the ``model`` parameter is not specified), and 
+    ''' then the gene finding algorithm is running based on the dynamic programming 
+    ''' score of the coding/non-coding hexamer and the RBS motif of the trained 
+    ''' model.
+    ''' </remarks>
     ''' <example>
     ''' imports "bioseq.fasta" from "seqtoolkit";
     ''' imports "bifrost" from "seqtoolkit";
@@ -178,11 +281,44 @@ Module bifrost
     End Function
 
     ''' <summary>
-    ''' 
+    ''' MetaEuk: the homology based eukaryotic gene prediction
     ''' </summary>
-    ''' <param name="x">a collection of the genomics fasta sequence for make metaeuk gene prediction</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' a ``metaeuk_config`` object(<see cref="MetaEukConfig"/>) that carries 
+    ''' all of the required data and parameters for run the metaeuk gene 
+    ''' prediction: the contigs assembly fasta file path(``ContigsFile``), the 
+    ''' reference protein fasta file path(``ReferenceFile``), the output file 
+    ''' prefix(``OutputPrefix``) and the other algorithm parameters, example as 
+    ''' the E-value threshold, the minimum identity, the maximum intron length, 
+    ''' etc.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a collection of the gene prediction result: each element in the 
+    ''' collection(<see cref="GenePrediction"/>) is a predicted gene that its 
+    ''' exons are chained from the homology hits of the reference protein 
+    ''' database.
+    ''' 
+    ''' this function returns a R# error message object if the input config 
+    ''' object is nothing, or the required contigs/reference file is not 
+    ''' specified in the config object.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' Unlike the prodigal gene prediction, which is running in an ab-initio 
+    ''' manner, the metaeuk algorithm is running in a reference protein database 
+    ''' dependent manner: at first the contigs assembly sequence is translated in 
+    ''' six reading frames for generate the candidate coding fragments, and then 
+    ''' the candidate fragments are aligned to the reference protein database for 
+    ''' get the homology hits, at last the optimal exon set of each gene is 
+    ''' picked out from the homology hits via dynamic programming.
+    ''' 
+    ''' NOTE: the input argument is evaluated as a fasta sequence collection at 
+    ''' first in the current implementation, so that a ``metaeuk_config`` object 
+    ''' input will be rejected by the sequence data check with the error message 
+    ''' "there is no MAGs contigs assembly sequence input!", please run this 
+    ''' metaeuk gene prediction program from the commandline at this moment.
+    ''' </remarks>
     <ExportAPI("metaeuk")>
     <RApiReturn(GetType(GenePrediction))>
     Public Function metaeuk(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
@@ -204,8 +340,18 @@ Module bifrost
     ''' <param name="x">
     ''' the gene prediction result, which can be the output of "prodigal" function, or a pipeline that produces PredictionResult objects. The pipeline can be created by using the "pipeline" function in R#, and the final output of the pipeline should be PredictionResult objects. For example, if you have a pipeline that produces PredictionResult objects, you can pass it directly to this function to get the GFF3 table format output.
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="GFFTable"/> object that contains all of the predicted genes 
+    ''' as the ``CDS`` feature, the score of each feature is the total score of 
+    ''' the corresponding predicted gene, and the score details are stored in the 
+    ''' attributes of the feature, example as ``start_codon``, ``rbs_motif``, 
+    ''' ``cscore``, ``sscore``, ``rscore``, ``tscore``, ``uscore`` and 
+    ''' ``partial``.
+    ''' 
+    ''' this function returns a R# error message object if the input data can not 
+    ''' be cast to a collection of the <see cref="PredictionResult"/> object.
+    ''' </returns>
     <ExportAPI("as.gff3")>
     <RApiReturn(GetType(GFFTable))>
     Public Function AsGff(<RRawVectorArgument()> x As Object, Optional env As Environment = Nothing) As Object
@@ -221,9 +367,22 @@ Module bifrost
     ''' <summary>
     ''' Extract the protein sequences from the gene prediction result, and return as FASTA format. The sequence ID is in the format of "seqid_geneindex". For example, "contig1_5" means the 5th predicted gene on contig1. The sequence description is in the format of "start-end(strand)". For example, "100-900(+)" means the gene starts at position 100, ends at position 900, and is on the forward strand.
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' the gene prediction result, which can be the output of the "prodigal" 
+    ''' function, or a pipeline that produces <see cref="PredictionResult"/> 
+    ''' objects.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a collection of the <see cref="FastaSeq"/> protein sequence data, one 
+    ''' sequence object for each of the predicted gene, the protein sequence is 
+    ''' translated from the corresponding predicted gene nucleotide sequence, 
+    ''' and the sequence title is formatted as: 
+    ''' ``{seq_id}_{gene_index} {start-end(strand)} ID=gene_{gene_index};partial={partial_type}``.
+    ''' 
+    ''' this function returns a R# error message object if the input data can not 
+    ''' be cast to a collection of the <see cref="PredictionResult"/> object.
+    ''' </returns>
     <ExportAPI("as.proteins")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function GetProteins(<RRawVectorArgument()> x As Object, Optional env As Environment = Nothing) As Object
@@ -239,9 +398,22 @@ Module bifrost
     ''' <summary>
     ''' Extract the gene sequences from the gene prediction result, and return as FASTA format. The sequence ID is in the format of "seqid_geneindex". For example, "contig1_5" means the 5th predicted gene on contig1. The sequence description is in the format of "start-end(strand)". For example, "100-900(+)" means the gene starts at position 100, ends at position 900, and is on the forward strand.
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' the gene prediction result, which can be the output of the "prodigal" 
+    ''' function, or a pipeline that produces <see cref="PredictionResult"/> 
+    ''' objects.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a collection of the <see cref="FastaSeq"/> nucleotide sequence data, one 
+    ''' sequence object for each of the predicted gene, the sequence data is the 
+    ''' nucleotide sequence of the corresponding predicted gene region on the 
+    ''' contigs assembly sequence, and the sequence title is formatted as: 
+    ''' ``{seq_id}_{gene_index} {start-end(strand)} ID=gene_{gene_index};partial={partial_type}``.
+    ''' 
+    ''' this function returns a R# error message object if the input data can not 
+    ''' be cast to a collection of the <see cref="PredictionResult"/> object.
+    ''' </returns>
     <ExportAPI("as.genes")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function GetGenes(<RRawVectorArgument()> x As Object, Optional env As Environment = Nothing) As Object
