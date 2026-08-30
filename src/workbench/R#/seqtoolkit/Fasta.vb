@@ -1157,9 +1157,13 @@ Module Fasta
     ''' <summary>
     ''' Create a new fasta sequence objects
     ''' </summary>
-    ''' <param name="seq"></param>
-    ''' <param name="attrs"></param>
-    ''' <returns></returns>
+    ''' <param name="seq">the raw sequence data text of the target fasta sequence.</param>
+    ''' <param name="attrs">
+    ''' a character vector of the fasta headers data: the first element of this 
+    ''' vector is the sequence id, and the other elements are the description 
+    ''' information of the target sequence.
+    ''' </param>
+    ''' <returns>a new <see cref="FastaSeq"/> sequence object.</returns>
     <ExportAPI("fasta")>
     Public Function fasta(seq$, attrs As String()) As Object
         Return New FastaSeq With {
@@ -1171,9 +1175,30 @@ Module Fasta
     ''' <summary>
     ''' get/set the fasta headers title
     ''' </summary>
-    ''' <param name="fa"></param>
-    ''' <param name="headers"></param>
-    ''' <returns></returns>
+    ''' <param name="fa">
+    ''' a <see cref="FastaSeq"/> sequence object for get or set the headers title 
+    ''' data.
+    ''' </param>
+    ''' <param name="headers">
+    ''' a character vector of the new fasta headers data for overwrite the headers 
+    ''' data of the given sequence object. If this parameter is not specified(or is 
+    ''' an empty vector), then the headers data of the given sequence object will 
+    ''' not be modified, and the current headers data will be returned.
+    ''' </param>
+    ''' <returns>
+    ''' a character vector of the fasta headers title data of the given sequence 
+    ''' object.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' this api can be used as a property setter in R# environment: the headers 
+    ''' data of the given fasta sequence object can be overwritten via the value 
+    ''' assign syntax:
+    ''' 
+    ''' ```r
+    ''' fasta.headers(seq) &lt;- c("seq_id", "description");
+    ''' ```
+    ''' </remarks>
     <ExportAPI("fasta.headers")>
     Public Function fastaTitle(fa As FastaSeq, <RByRefValueAssign> Optional headers As String() = Nothing) As String()
         If Not headers.IsNullOrEmpty Then
@@ -1186,8 +1211,16 @@ Module Fasta
     ''' <summary>
     ''' get the fasta titles from a collection of fasta sequence
     ''' </summary>
-    ''' <param name="fa"></param>
-    ''' <returns></returns>
+    ''' <param name="fa">
+    ''' a fasta sequence collection, which can be a <see cref="FastaFile"/> object, 
+    ''' a collection of the <see cref="FastaSeq"/> object, or a character vector of 
+    ''' the raw sequence data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a character vector of the fasta title text of each sequence in the given 
+    ''' fasta sequence collection.
+    ''' </returns>
     <ExportAPI("fasta.titles")>
     Public Function fastaTitles(<RRawVectorArgument> fa As Object, Optional env As Environment = Nothing) As String()
         Return GetFastaSeq(fa, env) _
@@ -1195,6 +1228,35 @@ Module Fasta
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' create a sequence region slicer for cut a specific sequence region from 
+    ''' the given sequence data
+    ''' </summary>
+    ''' <param name="fa">
+    ''' the target sequence data source, which can be:
+    ''' 
+    ''' 1. a <see cref="FastaSeq"/> sequence object, then a 
+    '''    <see cref="FastaSlicer"/> will be created;
+    ''' 2. a chromosome or contigs sequence object(<see cref="ChunkedNtFasta"/>) 
+    '''    that is read from the genome assembly sequence file via the 
+    '''    ``read_assembly`` api, then a <see cref="ChunkSlicer"/> will be created;
+    ''' 3. a ncbi genbank database file object(``GBFF.File``), then a 
+    '''    <see cref="GenBankSlicer"/> will be created.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' an <see cref="ISlicer"/> object for slice the sequence region from the 
+    ''' given sequence data source;
+    ''' 
+    ''' this function returns a R# error message object if the given sequence data 
+    ''' source is not a supported sequence data model.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the slicer object is used for cut a sequence region from a huge genome 
+    ''' sequence in a memory efficient manner, which is very helpful for the 
+    ''' sequence data extraction of a specific gene locus site.
+    ''' </remarks>
     <ExportAPI("slicer")>
     <RApiReturn(GetType(ISlicer), GetType(FastaSlicer), GetType(ChunkSlicer), GetType(GenBankSlicer))>
     Public Function slicer(fa As Object, Optional env As Environment = Nothing) As Object
