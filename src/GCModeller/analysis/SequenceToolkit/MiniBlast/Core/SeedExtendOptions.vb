@@ -1,12 +1,22 @@
 ﻿Namespace Core
 
-    ''' <summary>扫描/延伸选项</summary>
+    ''' <summary>
+    ''' 扫描/延伸选项
+    ''' </summary>
     Public Class SeedExtendOptions
 
         Public Property WordSize As Integer = 11
-        Public Property WindowTwoHit As Integer = 40       ' A
+        ''' <summary>
+        ''' A
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property WindowTwoHit As Integer = 40
         Public Property UseTwoHit As Boolean = True
-        Public Property XdropUngapBits As Double = 20      ' blastn 默认
+        ''' <summary>
+        ''' blastn 默认
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property XdropUngapBits As Double = 20
         Public Property XdropGapBits As Double = 30
         Public Property XdropGapFinalBits As Double = 100
         Public Property GapOpen As Double = 5

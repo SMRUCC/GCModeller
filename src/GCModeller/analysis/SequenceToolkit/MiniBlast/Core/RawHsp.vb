@@ -1,10 +1,16 @@
 ﻿Namespace Core
 
 
-    ''' <summary>延伸阶段产出的原始 HSP（未做统计换算）</summary>
+    ''' <summary>
+    ''' 延伸阶段产出的原始 HSP（未做统计换算）
+    ''' </summary>
     Public Class RawHsp
 
-        Public Property QueryFrom As Integer      ' 0-based inclusive
+        ''' <summary>
+        ''' 0-based inclusive
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property QueryFrom As Integer
         Public Property QueryTo As Integer
         Public Property SubjectFrom As Integer
         Public Property SubjectTo As Integer
