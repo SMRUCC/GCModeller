@@ -61,11 +61,21 @@ Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 
+''' <summary>
+''' make quality control of the reads data
+''' </summary>
 <Package("QC")>
 Module QC
 
+    ''' <summary>
+    ''' removes the low quality reads
+    ''' </summary>
+    ''' <param name="reads"></param>
+    ''' <param name="quality%"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("trim_low_quality")>
-    Public Function TrimLowQuality(<RRawVectorArgument> reads As Object, Optional quality% = 20, Optional env As Environment = Nothing) As Object
+    Public Function TrimLowQuality(<RRawVectorArgument(GetType(FastQ))> reads As Object, Optional quality% = 20, Optional env As Environment = Nothing) As Object
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of FQ.FastQ)(reads, env)
 
         If pull.isError Then
@@ -103,9 +113,15 @@ Module QC
         End If
     End Function
 
+    ''' <summary>
+    ''' make stats of the reads and export the nano plot formated stats result
+    ''' </summary>
+    ''' <param name="reads"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("nano_plot")>
     <RApiReturn(GetType(NanoPlotResult))>
-    Public Function nano_plot(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
+    Public Function nano_plot(<RRawVectorArgument(GetType(FastQ))> reads As Object, Optional env As Environment = Nothing) As Object
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of FQ.FastQ)(reads, env)
 
         If pull.isError Then
