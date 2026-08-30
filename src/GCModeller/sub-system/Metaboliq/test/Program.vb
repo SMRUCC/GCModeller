@@ -1,6 +1,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.DeepLearning.LiquidNeuralNetwork
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports std = System.Math
 
 ''' <summary>
 ''' 临时梯度校验：对比解析梯度（反向模式 AD）与中心差分数值梯度
@@ -62,14 +63,14 @@ Module Program
 
                 Dim fd As Double = (lp - lm) / (2 * eps)
                 Dim an As Double = analytic(p)(i)
-                Dim denom As Double = Math.Max(1.0, Math.Abs(fd) + Math.Abs(an))
-                Dim rel As Double = Math.Abs(fd - an) / denom
+                Dim denom As Double = std.Max(1.0, std.Abs(fd) + std.Abs(an))
+                Dim rel As Double = std.Abs(fd - an) / denom
 
                 If rel > maxAbs Then maxAbs = rel
                 sumRel += rel
             Next
 
-            Dim avg = sumRel / Math.Max(1, param.Length)
+            Dim avg = sumRel / std.Max(1, param.Length)
 
             sb.AppendLine($"   {pairs(p).Name,-46} maxRel={maxAbs:E3}  avgRel={avg:E3}")
 
