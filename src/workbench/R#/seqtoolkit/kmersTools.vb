@@ -71,15 +71,50 @@ Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SeqMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
+''' <summary>
+''' The sequence k-mer tools
+''' </summary>
+''' 
+''' <remarks>
+''' This R# package module provides the toolkit for make the k-mer based 
+''' sequence data analysis:
+''' 
+''' + ``kmers``: generate the k-mer sequence fragments from a given sequence 
+'''   data in a sliding window manner;
+''' + ``kmers_matrix``: generate the k-mer count matrix of a given sequence 
+'''   collection;
+''' + ``tfidf_vectorizer`` and ``onehot_vectorizer``: make the sequence 
+'''   embedding via the bag-of-k-mers model, the TF-IDF weight or the one-hot 
+'''   encoding vector;
+''' + ``cdhit_nr`` and ``cdhit_clusters``: run the CD-HIT like sequence 
+'''   clustering for get the non-redundant sequence set or the cluster 
+'''   family table.
+''' </remarks>
 <Package("kmers")>
 Module kmersTools
 
     ''' <summary>
     ''' Create kmers from a given sequence
     ''' </summary>
-    ''' <param name="seq"></param>
-    ''' <param name="k"></param>
-    ''' <returns></returns>
+    ''' <param name="seq">the raw sequence data text.</param>
+    ''' <param name="k">the length of the k-mer sequence fragment.</param>
+    ''' <returns>
+    ''' a character vector of the k-mer sequence fragments, which is generated 
+    ''' from the given sequence data via a sliding window of size ``k``, and 
+    ''' the step size of the sliding window is just one char, so that all of the 
+    ''' generated k-mer fragments are overlapped with each other.
+    ''' 
+    ''' an empty character vector will be returned if the value of the ``k`` 
+    ''' parameter is greater than the length of the input sequence data.
+    ''' </returns>
+    ''' 
+    ''' <example>
+    ''' imports "kmers" from "seqtoolkit";
+    ''' 
+    ''' # all of the generated k-mers are overlapped:
+    ''' # "ATGGC" -&gt; "ATG", "TGG", "GGC"
+    ''' print(kmers("ATGGC", k = 3));
+    ''' </example>
     <ExportAPI("kmers")>
     Public Function kmers_from_seq(seq As String, k As Integer) As String()
         Return KSeq.KmerSpans(seq, k).ToArray
@@ -88,10 +123,29 @@ Module kmersTools
     ''' <summary>
     ''' generate sequence k-mer count data matrix
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="k"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' a collection of the sequence data, which can be a fasta sequence 
+    ''' collection(<see cref="FastaSeq"/>, <see cref="FastaFile"/>), a fastq 
+    ''' sequence collection(<see cref="FastQFile"/>) or any other 
+    ''' <see cref="IFastaProvider"/> sequence data model, or a pipeline object 
+    ''' that produces a set of the sequence data.
+    ''' </param>
+    ''' <param name="k">
+    ''' the length of the k-mer sequence fragment for make the count.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="SeqMatrix"/> k-mer count matrix object: each row in this 
+    ''' matrix is a sequence in the input sequence collection(the row name is 
+    ''' the sequence title), and each column is a k-mer feature(the ``sampleID`` 
+    ''' property of the generated matrix is the k-mer alphabet sorted in 
+    ''' ascending order), the cell value is the count of the corresponding k-mer 
+    ''' in the corresponding sequence(ZERO means that the k-mer is not exists in 
+    ''' the target sequence).
+    ''' 
+    ''' this function returns a R# error message object if the input data can not 
+    ''' be cast to a collection of the sequence data.
+    ''' </returns>
     <ExportAPI("kmers_matrix")>
     <RApiReturn(GetType(SeqMatrix))>
     Public Function kmers_matrix(<RRawVectorArgument> x As Object, Optional k As Integer = 3, Optional env As Environment = Nothing) As Object
@@ -138,16 +192,30 @@ Module kmersTools
     End Function
 
     ''' <summary>
-    ''' 
+    ''' make the sequence embedding via the TF-IDF weight of the bag-of-k-mers 
+    ''' model
     ''' </summary>
     ''' <param name="x">should be a collection of the <see cref="FastaSeq"/> sequence collection</param>
     ''' <param name="type">the sequence data type, default is protein sequence</param>
     ''' <param name="k">the length of the k-mers</param>
     ''' <param name="L2_norm">do L2 normalized of the generated matrix data?</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a data frame object: each row is a sequence in the input sequence 
+    ''' collection(the row name is the fasta title of the corresponding 
+    ''' sequence), and each column is a k-mer term, the cell value is the TF-IDF 
+    ''' weight of the corresponding k-mer in the corresponding sequence.
+    ''' 
+    ''' this function returns NULL if the input data can not be cast to a fasta 
+    ''' sequence collection.
+    ''' </returns>
     ''' <remarks>
     ''' make sequence embedding via TF-IDF algorithm which is implemented via <see cref="KmerTFIDFVectorizer"/>
+    ''' 
+    ''' the generated embedding vector of each sequence will be normalized to an 
+    ''' unit vector when the ``L2_norm`` parameter is TRUE, which is helpful for 
+    ''' the cosine similarity or euclidean distance measurement between the 
+    ''' embedding vectors of the different length sequences.
     ''' </remarks>
     <ExportAPI("tfidf_vectorizer")>
     Public Function tfidf_vectorizer(<RRawVectorArgument> x As Object,
@@ -169,6 +237,39 @@ Module kmersTools
         Return df
     End Function
 
+    ''' <summary>
+    ''' make the sequence embedding via the one-hot encoding(Bag-of-n-grams) of 
+    ''' the k-mer composition
+    ''' </summary>
+    ''' <param name="x">
+    ''' should be a collection of the <see cref="FastaSeq"/> sequence 
+    ''' collection, which can be a <see cref="FastaFile"/> object, a vector of 
+    ''' the <see cref="FastaSeq"/> object, or a character vector of the raw 
+    ''' sequence data.
+    ''' </param>
+    ''' <param name="type">
+    ''' the sequence data type, default is protein sequence. If the sequence type 
+    ''' is not protein, then the input sequence data will be canonicalized as the 
+    ''' standard nucleotide letters at first.
+    ''' </param>
+    ''' <param name="k">the length of the k-mers</param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a data frame object: each row is a sequence in the input sequence 
+    ''' collection(the row name is the fasta title of the corresponding 
+    ''' sequence), and each column is a k-mer term, the cell value is ONE when the 
+    ''' k-mer is exists in the corresponding sequence, otherwise ZERO.
+    ''' 
+    ''' this function returns NULL if the input data can not be cast to a fasta 
+    ''' sequence collection.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' unlike the ``tfidf_vectorizer`` api, which evaluates the weight of each 
+    ''' k-mer term by the term frequency and the inverse document frequency, this 
+    ''' api just encodes the k-mer composition of the sequence data as a binary 
+    ''' vector, i.e. the presence or absence of each k-mer term.
+    ''' </remarks>
     <ExportAPI("onehot_vectorizer")>
     Public Function oneHot_vectorizer(<RRawVectorArgument> x As Object,
                                       Optional type As SeqTypes = SeqTypes.Protein,
@@ -188,6 +289,49 @@ Module kmersTools
         Return df
     End Function
 
+    ''' <summary>
+    ''' run the CD-HIT like sequence clustering for get the non-redundant 
+    ''' sequence set
+    ''' </summary>
+    ''' <param name="x">
+    ''' a collection of the sequence data for run the clustering, which can be a 
+    ''' <see cref="FastaFile"/> object, a vector of the <see cref="FastaSeq"/> 
+    ''' object, or a character vector of the raw sequence data.
+    ''' </param>
+    ''' <param name="k">
+    ''' the k-mer size for build the min-hash sketch of the sequence data: 
+    ''' 
+    ''' + protein - k=5aa
+    ''' + nucleotide - k=12nt
+    ''' + genomics - k=31nt
+    ''' </param>
+    ''' <param name="identities">
+    ''' the sequence identity threshold of the cluster members: the sequences 
+    ''' that their identity is greater than or equals to this threshold value will 
+    ''' be clustered into the same cluster.
+    ''' </param>
+    ''' <param name="n_threads">
+    ''' the thread number for run the min-hash task in parallel.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="FastaSeq"/> sequence object: the 
+    ''' representative sequence of each cluster. For a cluster that contains 
+    ''' multiple sequence members, the fasta headers of the representative 
+    ''' sequence is formatted as: the representative sequence title, 
+    ''' ``{cluster_size} cluster members`` and the json text of the cluster member 
+    ''' sequence id list; and the sequence data of a singleton cluster(the unique 
+    ''' sequence) is returned as is.
+    ''' 
+    ''' this function returns NULL if the input data can not be cast to a fasta 
+    ''' sequence collection.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the input sequence data will be sorted by the sequence length in 
+    ''' descending order at first, and then the greedy clustering algorithm runs 
+    ''' based on the min-hash similarity of the k-mer sketch of each sequence.
+    ''' </remarks>
     <ExportAPI("cdhit_nr")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function cdhit_nr(<RRawVectorArgument> x As Object,
@@ -209,19 +353,49 @@ Module kmersTools
     End Function
 
     ''' <summary>
-    ''' 
+    ''' run the CD-HIT like sequence clustering and then export the cluster 
+    ''' result as a set of the cluster tables
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="k"></param>
-    ''' <param name="identities"></param>
-    ''' <param name="n_threads"></param>
-    ''' <param name="env"></param>
+    ''' <param name="x">
+    ''' a collection of the sequence data for run the clustering, which can be a 
+    ''' <see cref="FastaFile"/> object, a vector of the <see cref="FastaSeq"/> 
+    ''' object, or a character vector of the raw sequence data.
+    ''' </param>
+    ''' <param name="k">
+    ''' the k-mer size for build the min-hash sketch of the sequence data: 
+    ''' 
+    ''' + protein - k=5aa
+    ''' + nucleotide - k=12nt
+    ''' + genomics - k=31nt
+    ''' </param>
+    ''' <param name="identities">
+    ''' the sequence identity threshold of the cluster members: the sequences 
+    ''' that their identity is greater than or equals to this threshold value will 
+    ''' be clustered into the same cluster.
+    ''' </param>
+    ''' <param name="n_threads">
+    ''' the thread number for run the min-hash task in parallel.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>
     ''' a tuple list that contains the data slots:
     ''' 
-    ''' - family: <see cref="FamilyExports"/>
-    ''' - sequence: <see cref="SequenceCluster"/>
-    ''' - clusters: <see cref="SimilarHit"/>
+    ''' - family: a vector of the <see cref="FamilyExports"/> object, each 
+    '''   element is the summary data of one cluster: the ``family_id``, the 
+    '''   ``members`` cluster size, and the ``representative``/``rep_seq`` data of 
+    '''   the representative sequence;
+    ''' - sequence: a vector of the <see cref="SequenceCluster"/> object, each 
+    '''   element is the data of one cluster member: the ``seq_title``, the 
+    '''   ``family_id``, the ``score`` identity to the cluster representative and 
+    '''   the ``seq`` sequence data;
+    ''' - clusters: a vector of the <see cref="SimilarHit"/> object, which is the 
+    '''   raw cluster result of the CD-HIT like clustering: the ``SeqID`` is the 
+    '''   representative sequence of the cluster and the ``Similar`` property is 
+    '''   the identity score of each cluster member to the representative 
+    '''   sequence.
+    ''' 
+    ''' this function returns NULL if the input data can not be cast to a fasta 
+    ''' sequence collection.
     ''' </returns>
     <ExportAPI("cdhit_clusters")>
     Public Function cdhit_clusters(<RRawVectorArgument> x As Object,
