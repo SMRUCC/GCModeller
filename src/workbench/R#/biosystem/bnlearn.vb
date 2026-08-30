@@ -208,12 +208,32 @@ Module bnlearn
     ''' <summary>
     ''' create prior knowledge netwoek edges from the given vector data
     ''' </summary>
-    ''' <param name="TF"></param>
-    ''' <param name="target_gene"></param>
-    ''' <param name="regulation_type"></param>
-    ''' <param name="confidence"></param>
-    ''' <param name="evidence"></param>
-    ''' <returns></returns>
+    ''' <param name="TF">
+    ''' a character vector of the transcript factor protein/rna id of each 
+    ''' regulatory edge.
+    ''' </param>
+    ''' <param name="target_gene">
+    ''' a character vector of the target gene id of each regulatory edge.
+    ''' </param>
+    ''' <param name="regulation_type">
+    ''' a character vector of the regulation type of each regulatory edge, the 
+    ''' value could be ``Unknown``, ``Activator`` or ``Inhibitor``.
+    ''' </param>
+    ''' <param name="confidence">
+    ''' a numeric vector of the confidence score of each regulatory edge, which 
+    ''' should be a value in the range ``[0,1]``.
+    ''' </param>
+    ''' <param name="evidence">
+    ''' a character vector of the evidence source description of each regulatory 
+    ''' edge.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="RegulatoryEdge"/> regulatory edge data, all of 
+    ''' the input vectors should be in the same size as the input TF vector, this 
+    ''' generated edge collection can be used as the whitelist of the network 
+    ''' structure learning via the ``bnlearn`` api, or be converted to a 
+    ''' <see cref="PriorNetwork"/> object via the ``as.prior_net`` api.
+    ''' </returns>
     <ExportAPI("prior_network")>
     <RApiReturn(GetType(RegulatoryEdge))>
     Public Function prior_network(<RRawVectorArgument(TypeCodes.string)> TF As Object,
@@ -244,6 +264,33 @@ Module bnlearn
 
     ' permutation
 
+    ''' <summary>
+    ''' run the in silico gene knockout experiment on the given network model
+    ''' </summary>
+    ''' <param name="bnlearn">
+    ''' the trained network model object, which could be created by the ``bnlearn`` 
+    ''' api or the ``GEARS::new`` api.
+    ''' </param>
+    ''' <param name="geneNames">
+    ''' a character vector of the gene id for run the knockout experiment, one 
+    ''' <see cref="InterventionResult"/> object will be generated for each gene.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="InterventionResult"/> perturbation result: the 
+    ''' ``WildtypeMeans`` is the wildtype expression value of each gene, the 
+    ''' ``MutantMeans`` is the expression value of each gene after the gene has been 
+    ''' knocked out, and the ``FoldChanges``, ``PercentChanges``, ``ZScores`` and 
+    ''' ``IsSignificant`` data is the differential analysis result of the 
+    ''' perturbation.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the behavior of this function is determined by the ``strict`` option of the 
+    ''' input network model: an error will be thrown when the target gene is missing 
+    ''' from the network model in the strict mode, otherwise the wildtype expression 
+    ''' data will be returned as the result with the ``Undefined`` flag marked as 
+    ''' TRUE.
+    ''' </remarks>
     <ExportAPI("knockouts")>
     <RApiReturn(GetType(InterventionResult))>
     Public Function KnockoutGene(bnlearn As InsilicoPerturbationExperiment, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
@@ -256,6 +303,26 @@ Module bnlearn
         Return result.ToArray
     End Function
 
+    ''' <summary>
+    ''' run the in silico gene overexpression experiment on the given network model
+    ''' </summary>
+    ''' <param name="bnlearn">
+    ''' the trained network model object, which could be created by the ``bnlearn`` 
+    ''' api or the ``GEARS::new`` api.
+    ''' </param>
+    ''' <param name="geneNames">
+    ''' a character vector of the gene id for run the overexpression experiment, 
+    ''' one <see cref="InterventionResult"/> object will be generated for each gene.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="InterventionResult"/> perturbation result: the 
+    ''' ``WildtypeMeans`` is the wildtype expression value of each gene, the 
+    ''' ``MutantMeans`` is the expression value of each gene after the gene has been 
+    ''' overexpressed, and the ``FoldChanges``, ``PercentChanges``, ``ZScores`` and 
+    ''' ``IsSignificant`` data is the differential analysis result of the 
+    ''' perturbation.
+    ''' </returns>
     <ExportAPI("overexpress")>
     <RApiReturn(GetType(InterventionResult))>
     Public Function overexpress(bnlearn As InsilicoPerturbationExperiment, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional env As Environment = Nothing) As Object
