@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Metaboliq</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.Metaboliq</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyName>SMRUCC.genomics.Analysis.Metaboliq</AssemblyName>
+    <AssemblyTitle>Metabolism + Liquid + IQ</AssemblyTitle>
   </PropertyGroup>
 
   <ItemGroup>

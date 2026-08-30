@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\..\GCModeller\sub-system\BNLearn\BNLearn.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\FBA\FBA.Core\FBA.Core.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\GEARS\GEARS.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\Metaboliq\Metaboliq.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\PLAS.NET\SSystem\SSystem.NET5.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
