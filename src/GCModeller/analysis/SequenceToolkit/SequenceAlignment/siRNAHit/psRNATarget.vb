@@ -124,6 +124,10 @@ Namespace siRNAHit
         ''' <summary>靶标可及性评估器（UPE），默认关闭。</summary>
         Public Property Accessibility As IAccessibilityEvaluator = New DisabledAccessibility()
 
+        Public Overrides Function ToString() As String
+            Return $"[*psRNATarget schema:{Version.Description}]"
+        End Function
+
         ''' <summary>
         ''' 对单条 miRNA 在整条 mRNA 上做位置加权期望计算。
         ''' </summary>

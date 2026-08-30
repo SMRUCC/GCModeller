@@ -91,6 +91,10 @@ Namespace siRNAHit
         ' 最小比对长度（HSP size），避免极短随机命中
         Public Property MinHitLength As Integer = 17
 
+        Public Overrides Function ToString() As String
+            Return $"[*TargetFinder score_cut={ScoreCutoff}]"
+        End Function
+
         ''' <summary>
         ''' 对单条 miRNA 在整条 mRNA 上做位置加权罚分统计。
         ''' </summary>
