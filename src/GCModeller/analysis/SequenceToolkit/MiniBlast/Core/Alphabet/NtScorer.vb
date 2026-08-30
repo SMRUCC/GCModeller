@@ -1,8 +1,7 @@
 ﻿Namespace Core
 
     ''' <summary>核酸打分器</summary>
-    Public Class NtScorer
-        Implements IScorer
+    Public Class NtScorer : Implements IScorer
 
         Private ReadOnly _table(4, 4) As Double
 

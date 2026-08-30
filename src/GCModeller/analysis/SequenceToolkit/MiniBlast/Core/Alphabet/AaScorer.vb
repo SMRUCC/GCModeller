@@ -10,8 +10,7 @@
 Namespace Core
 
     ''' <summary>氨基酸打分器（替换矩阵）</summary>
-    Public Class AaScorer
-        Implements IScorer
+    Public Class AaScorer : Implements IScorer
 
         Public Const MatrixCount As Integer = 24
 
