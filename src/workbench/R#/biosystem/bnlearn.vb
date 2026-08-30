@@ -68,6 +68,27 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
+''' <summary>
+''' Bayesian network learning and the in silico gene perturbation toolkit
+''' </summary>
+''' 
+''' <remarks>
+''' This R# package module provides the toolkit for learn the gene regulatory 
+''' bayesian network from the gene expression data, and then run the in silico 
+''' gene perturbation experiment based on the learned network model:
+''' 
+''' + ``prior_network`` and ``as.prior_net``: create the prior knowledge 
+'''   regulatory network(TF -&gt; target gene) which is used as the whitelist of 
+'''   the network structure learning;
+''' + ``bnlearn``: learn the network structure(MMHC algorithm with the whitelist 
+'''   prior) and the network parameters(Gaussian bayesian network MLE);
+''' + ``knockouts``, ``overexpress`` and ``knockdown``: run the in silico gene 
+'''   perturbation experiment on the learned network model;
+''' + ``make_exports``: export the perturbation experiment result as a set of the 
+'''   csv table files;
+''' + ``save_model``: save the learned bayesian network model as the tsv table 
+'''   files.
+''' </remarks>
 <Package("bnlearn")>
 <RTypeExport("struct_learn_params", GetType(StructureLearningParams))>
 <RTypeExport("knowledges", GetType(Dictionary(Of String, MetabolicPathway)))>
@@ -75,14 +96,56 @@ Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Module bnlearn
 
     ''' <summary>
-    ''' 
+    ''' learn the gene regulatory bayesian network from the gene expression data
     ''' </summary>
-    ''' <param name="exprData">the gene expression matrix object, could be load from csv file via ``geneExpression::load.expr`` api</param>
-    ''' <param name="priorNet"></param>
-    ''' <param name="max_itrs"></param>
-    ''' <param name="strict"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="exprData">
+    ''' the gene expression matrix object, could be load from csv file via ``geneExpression::load.expr`` api
+    ''' </param>
+    ''' <param name="priorNet">
+    ''' a collection of the prior knowledge regulatory edge data 
+    ''' (<see cref="RegulatoryEdge"/>), which is used as the whitelist of the 
+    ''' network structure learning: only the regulation relation that is described 
+    ''' in this prior network will be considered in the structure learning.
+    ''' 
+    ''' this parameter is optional, the network structure will be learned from the 
+    ''' expression data alone if the prior network is not provided.
+    ''' </param>
+    ''' <param name="max_itrs">
+    ''' the max iteration numbers of the network structure learning, by default is 
+    ''' 500.
+    ''' </param>
+    ''' <param name="strict">
+    ''' the strict option of the in silico perturbation experiment: if this 
+    ''' parameter is TRUE, then an error will be thrown when the target gene of the 
+    ''' perturbation is missing from the learned network; if this parameter is 
+    ''' FALSE, then a warning message will be printed and the wildtype expression 
+    ''' data will be returned as the perturbation result with the ``Undefined`` flag 
+    ''' marked as TRUE.
+    ''' 
+    ''' if this parameter is not specified, then the strict option of the R# 
+    ''' runtime environment will be used.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="BNLearnWorkflow"/> object that contains the learned bayesian 
+    ''' network model, which implements the 
+    ''' <see cref="InsilicoPerturbationExperiment"/> interface, so that it can be 
+    ''' used by the ``knockouts``, ``overexpress`` and ``knockdown`` api for run 
+    ''' the in silico gene perturbation experiment;
+    ''' 
+    ''' this function returns a R# error message object if the given prior network 
+    ''' data can not be cast to a collection of the 
+    ''' <see cref="RegulatoryEdge"/> data.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' this function runs the network learning in two steps:
+    ''' 
+    ''' 1. the structure learning: the MMHC algorithm with the whitelist prior 
+    '''    network;
+    ''' 2. the parameter learning: the maximum likelihood estimation(MLE) of the 
+    '''    Gaussian bayesian network.
+    ''' </remarks>
     <ExportAPI("bnlearn")>
     <RApiReturn(GetType(BNLearnWorkflow))>
     Public Function bnlearn(exprData As matrix,
@@ -116,9 +179,20 @@ Module bnlearn
     ''' <summary>
     ''' build prior network object based on a given vector of the knowledge network edges data
     ''' </summary>
-    ''' <param name="priorNet"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="priorNet">
+    ''' a collection of the regulatory edge data, which can be a vector of the 
+    ''' <see cref="RegulatoryEdge"/> object, the output of the ``prior_network`` 
+    ''' api, or a pipeline object that produces a set of the 
+    ''' <see cref="RegulatoryEdge"/> data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="PriorNetwork"/> object that contains all of the given 
+    ''' regulatory edges, the TF name set and the target gene name set;
+    ''' 
+    ''' this function returns a R# error message object if the given data can not 
+    ''' be cast to a collection of the <see cref="RegulatoryEdge"/> data.
+    ''' </returns>
     <ExportAPI("as.prior_net")>
     <RApiReturn(GetType(PriorNetwork))>
     Public Function buildNetwork(<RRawVectorArgument(GetType(RegulatoryEdge))> priorNet As Object, Optional env As Environment = Nothing) As Object
