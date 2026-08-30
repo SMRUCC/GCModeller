@@ -152,9 +152,10 @@ Module miRNA
     ''' mode.
     ''' </param>
     ''' <returns>
-    ''' a <see cref="TargetFinder"/> algorithm object, which implements the 
-    ''' <see cref="miRNAMapper"/> interface, so that it can be used by the 
-    ''' ``miRNA_targets`` api for run the target site match.
+    ''' a <see cref="SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.TargetFinder"/> 
+    ''' algorithm object, which implements the <see cref="miRNAMapper"/> interface, so 
+    ''' that it can be used by the ``miRNA_targets`` api for run the target site 
+    ''' match.
     ''' </returns>
     <ExportAPI("TargetFinder")>
     Public Function TargetFinder(Optional score_cutoff As Double = 5.0) As TargetFinder

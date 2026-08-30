@@ -116,6 +116,15 @@ Module TRNBuilder
     ''' this function returns a R# error message object if the given motif database 
     ''' file can not be opened for read.
     ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' NOTE: the ``db`` parameter of the ``motif_search`` api requires a 
+    ''' ``SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase`` 
+    ''' object, but this function returns a ``MEMEMotifRepository`` or a 
+    ''' ``SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.PWMDatabase`` 
+    ''' object, so the database object that is created by this api can not be 
+    ''' consumed by the ``motif_search`` api directly at this moment.
+    ''' </remarks>
     <ExportAPI("open_motifdb")>
     <RApiReturn(GetType(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase))>
     Public Function open_motifdb(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
@@ -366,6 +375,55 @@ Module TRNBuilder
     '    End If
     'End Function
 
+    ''' <summary>
+    ''' create the regulation footprint(regulation network edges) from the regulator 
+    ''' mapping data, the motif site data and the regprecise regulon database
+    ''' </summary>
+    ''' <param name="regulators">
+    ''' the regulator mapping data, which can be a vector of the 
+    ''' <see cref="BestHit"/> object(the bbh best hit mapping result of the 
+    ''' regulator protein to the target genome), or a pipeline object that produces a 
+    ''' set of the <see cref="BestHit"/> data.
+    ''' </param>
+    ''' <param name="motifLocis">
+    ''' a vector of the <see cref="FootprintSite"/> motif site data, which could be 
+    ''' loaded from a csv table file via the ``read.footprints`` api: the ``src`` 
+    ''' property of the site data is the transcription factor family name set of the 
+    ''' corresponding motif site and the ``gene`` property is the regulated target 
+    ''' gene of the site.
+    ''' </param>
+    ''' <param name="regprecise">
+    ''' the regprecise regulon database object(<see cref="TranscriptionFactors"/>), 
+    ''' which provides the regulator information(the effector, the regulation mode, 
+    ''' the regulog, the biological process, etc) of each transcription factor 
+    ''' family.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a pipeline object of the 
+    ''' <see cref="SMRUCC.genomics.Data.Regprecise.RegulationFootprint"/> regulation 
+    ''' network edge data: each edge is a regulation of one regulator to one target 
+    ''' gene, which is created by mapping the motif site to the regulator of the 
+    ''' corresponding transcription factor family in the regprecise database, the 
+    ''' duplicated edge(``{regulator}-&gt;{regulated}``) will be removed 
+    ''' automatically;
+    ''' 
+    ''' this function returns NULL if the given regulator mapping data is nothing, or 
+    ''' a R# error message object if the given regulator data is not a collection of 
+    ''' the <see cref="BestHit"/> data.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' only the regulator of the ``TF`` type in the regprecise database will be used 
+    ''' for create the regulation network, and the transcription factor family name 
+    ''' of the regulator is the first token of the family data which is splitted by 
+    ''' the ``/`` or the ``\`` character.
+    ''' 
+    ''' the regulator mapping is created by the bbh best hit: the ``HitName`` of the 
+    ''' <see cref="BestHit"/> data is mapped to the regprecise regulator via its 
+    ''' locus id(the text after the last ``:`` character), and the ``QueryName`` is 
+    ''' used as the regulator gene id in the target genome.
+    ''' </remarks>
     <ExportAPI("regulation.footprint")>
     Public Function RegulationFootprint(<RRawVectorArgument>
                                         regulators As Object,
