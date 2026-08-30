@@ -128,50 +128,32 @@ Namespace siRNAHit
                                 maxTotalMm As Integer,
                                 maxGu As Integer) As siRNAHit
 
-            Dim qseqid As String = cols(0)
-            Dim sseqid As String = cols(1)
-            Dim sstart As String = cols(2)
-            Dim send As String = cols(3)
-            Dim sstrand As String = cols(6)
-            Dim qseq As String = cols(7)
-            Dim sseq As String = cols(8)
-            Dim evalueStr As String = cols(10)
-
-            ' E-value 解析：BLASTN 常输出科学计数法（如 2e-07），
-            ' 用 InvariantCulture 避免系统区域设置（如德语逗号小数点）干扰
-            Dim evalue As Double
-
-            If Not Double.TryParse(evalueStr, NumberStyles.Float,
-                                   CultureInfo.InvariantCulture, evalue) Then
-                Return Nothing
-            End If
-
-            Dim scored As AlignmentScore = ScoreAlignment(qseq, sseq, seedStart, seedEnd)
+            Dim scored As AlignmentScore = ScoreAlignment(map.qseq, map.sseq, seedStart, seedEnd)
 
             ' psRNATarget 过滤条件（与 Python 版一致）
-            If evalue <= eCutoff AndAlso
+            If map.evalue <= eCutoff AndAlso
                scored.SeedMismatches <= maxSeedMm AndAlso
                scored.TotalMismatches <= maxTotalMm AndAlso
                scored.GuPairs <= maxGu Then
 
                 ' score 统一保留 1 位小数（psRNATarget 分数均为 0.5 的整数倍）
                 Console.WriteLine(String.Join(vbTab,
-                    qseqid, sseqid, sstart, send, sstrand,
-                    evalueStr,
+                    map.qseqid, map.sseqid, map.sstart, map.send, map.sstrand,
+                    map.evalue,
                     scored.Score.ToString("F1", CultureInfo.InvariantCulture),
                     scored.SeedMismatches.ToString(),
                     scored.TotalMismatches.ToString(),
                     scored.GuPairs.ToString(),
-                    qseq, sseq))
+                    map.qseq, map.sseq))
 
                 Return New siRNAHit With {
                     .WobbleCount = scored.GuPairs,
                     .MismatchCount = scored.TotalMismatches,
                     .GapCount = scored.SeedMismatches,
-                    .EndSite = send,
-                    .StartSite = sstart,
-                    .miRNA = qseqid,
-                    .Target = sseqid,
+                    .EndSite = map.send,
+                    .StartSite = map.sstart,
+                    .miRNA = map.qseqid,
+                    .Target = map.sseqid,
                     .Length = .EndSite - .StartSite,
                     .Source = "NCBI Blastn",
                     .Expectation = scored.Score
