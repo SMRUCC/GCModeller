@@ -119,16 +119,43 @@ Module miRNA
     End Function
 
     ''' <summary>
-    ''' 
+    ''' create the psRNATarget algorithm object for predict the miRNA target site
     ''' </summary>
-    ''' <param name="version"></param>
-    ''' <param name="max_expectation"></param>
-    ''' <returns></returns>
+    ''' <param name="version">
+    ''' the schema version of the psRNATarget algorithm: the ``V1_2011`` schema uses 
+    ''' the seed region of the 2-8nt site of the miRNA sequence, and the 
+    ''' ``V2_2017`` schema(the default) uses the seed region of the 2-13nt site.
+    ''' </param>
+    ''' <param name="max_expectation">
+    ''' the maximum expectation value cutoff of the target site match: the candidate 
+    ''' match result that its position weighted expectation value is greater than 
+    ''' this cutoff will be ignored(the expectation value is the lower the better).
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="psRNATarget"/> algorithm object, which implements the 
+    ''' <see cref="miRNAMapper"/> interface, so that it can be used by the 
+    ''' ``miRNA_targets`` api for run the target site match.
+    ''' </returns>
     <ExportAPI("psRNATarget")>
     Public Function psRNATarget_clr(Optional version As psRNATarget.Schema = psRNATarget.Schema.V2_2017, Optional max_expectation As Double = 5.0) As psRNATarget
         Return New psRNATarget With {.Version = version, .MaxExpectation = max_expectation}
     End Function
 
+    ''' <summary>
+    ''' create the TargetFinder algorithm object for predict the miRNA target site
+    ''' </summary>
+    ''' <param name="score_cutoff">
+    ''' the score cutoff of the target site match: the candidate match result that 
+    ''' its position weighted penalty score is greater than this cutoff will be 
+    ''' ignored(the penalty score is the lower the better), the recommended value 
+    ''' is 4.0 for the strict mode, 5.0 for the standard mode and 7.0 for the loose 
+    ''' mode.
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="TargetFinder"/> algorithm object, which implements the 
+    ''' <see cref="miRNAMapper"/> interface, so that it can be used by the 
+    ''' ``miRNA_targets`` api for run the target site match.
+    ''' </returns>
     <ExportAPI("TargetFinder")>
     Public Function TargetFinder(Optional score_cutoff As Double = 5.0) As TargetFinder
         Return New TargetFinder With {.ScoreCutoff = score_cutoff}
@@ -137,11 +164,27 @@ Module miRNA
     ''' <summary>
     ''' make matches of the miRNA target genes
     ''' </summary>
-    ''' <param name="mapper"></param>
+    ''' <param name="mapper">
+    ''' the target site match algorithm object, which could be created by the 
+    ''' ``psRNATarget`` or the ``TargetFinder`` api of this package module.
+    ''' </param>
     ''' <param name="miRNAs">a collection of the miRNA sequence</param>
     ''' <param name="targets">a collection of the mRNA/CDS sequence of the candidate genes</param>
-    ''' <param name="env"></param>
-    ''' <returns>a set of the miRNA to target gene matches result, a match result network edges with match score as weights</returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a set of the miRNA to target gene matches result, a match result network edges with match score as weights
+    ''' 
+    ''' each <see cref="siRNAHit"/> object in the generated result collection is a 
+    ''' match of one miRNA sequence to one target site of the candidate mRNA 
+    ''' sequence: the ``miRNA`` and the ``Target`` property is the sequence id of the 
+    ''' small RNA and the target mRNA, the ``StartSite``/``EndSite`` property is the 
+    ''' 1-based site location on the target mRNA sequence, and the ``Expectation`` 
+    ''' property is the match score(the lower the better);
+    ''' 
+    ''' this function returns NULL if the miRNA sequence collection or the target 
+    ''' sequence collection is empty, or the input data can not be cast to a fasta 
+    ''' sequence collection.
+    ''' </returns>
     ''' <example>
     ''' imports "miRNA" from "TRNtoolkit";
     ''' imports "bioseq.fasta" from "seqtoolkit";
