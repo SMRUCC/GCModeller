@@ -210,6 +210,9 @@ Public Class StaticScanner
                 Dim depth As Integer = UrlEntry.DepthOf(relativePath(file, root))
                 Dim html As String = ReadText(file)
 
+                index += 1
+                result.VisitedPages = index
+
                 result.Entries.Add(New UrlEntry With {
                     .Loc = siteUrl,
                     .LastMod = UrlEntry.LastModOf(file),

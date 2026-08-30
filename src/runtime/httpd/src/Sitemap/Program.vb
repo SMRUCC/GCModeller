@@ -78,7 +78,7 @@ Module Program
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("/make")>
-    <Description("Make the sitemap.xml file and the theme based sitemap.xsl stylesheet file for a website.\nThe target website can be an online http website or a local static website directory, the tool will crawl the in-site url from the static pages of the target website automatically.")>
+    <Description("Make the sitemap.xml file and the theme based sitemap.xsl stylesheet file for a website. The target website can be an online http website or a local static website directory, the tool will crawl the in-site url from the static pages of the target website automatically.")>
     <Usage("/make --site <url_or_local_wwwroot_dir> [--host <site_base_url> --out <output_dir> --sleep <seconds> --depth <level> --max_urls <size> --changefreq <freq> --exclude <pattern|pattern> --no-xsl --no-orphans --quiet]")>
     <Argument("--site", False, CLITypes.String,
         AcceptTypes:={GetType(String)},
