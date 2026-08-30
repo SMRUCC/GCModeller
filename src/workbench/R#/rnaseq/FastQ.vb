@@ -54,21 +54,16 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
-Imports SMRUCC.genomics.SequenceModel.GeneQuantification
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.SequenceModel.SAM
-Imports SMRUCC.genomics.SequenceModel.SAM.featureCount
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
@@ -92,10 +87,15 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 <Package("FastQ")>
 Public Module FastQTools
 
-    Sub New()
+    Sub Main()
         Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf AssembleResult.viewAssembles)
     End Sub
 
+    ''' <summary>
+    ''' Parse the Illumina FastQ id from the reads title
+    ''' </summary>
+    ''' <param name="fq"></param>
+    ''' <returns></returns>
     <ExportAPI("illumina_fastQ_id")>
     Public Function IlluminaFastQID(fq As FQ.FastQ) As IlluminaFastQID
         Return IlluminaFastQID.IDParser(fq.SEQ_ID)
@@ -104,7 +104,7 @@ Public Module FastQTools
     ''' <summary>
     ''' read the fastq file
     ''' </summary>
-    ''' <param name="file"></param>
+    ''' <param name="file">the character vector of the fastq reads files</param>
     ''' <returns></returns>
     <ExportAPI("read.fastq")>
     Public Function read_fastq(<RRawVectorArgument(TypeCodes.string)> file As Object) As FastQFile
@@ -128,9 +128,9 @@ Public Module FastQTools
     ''' <summary>
     ''' merge the raw fastq data
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="merge"></param>
-    ''' <param name="make_unique"></param>
+    ''' <param name="file">a character vector of the seperated fastq reads files.</param>
+    ''' <param name="merge">the file path for output the merged fastq reads file.</param>
+    ''' <param name="make_unique">try to make the fastq reads id unique?</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("merge_raw")>
@@ -177,21 +177,28 @@ Public Module FastQTools
         Return True
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="reads">a collection of the fastq reads data</param>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("write.fastq")>
     <RApiReturn(TypeCodes.boolean)>
-    Public Function write_fastq(<RRawVectorArgument> reads As Object, file As String, Optional env As Environment = Nothing) As Object
+    Public Function write_fastq(<RRawVectorArgument(GetType(FastQ))> reads As Object, file As String, Optional env As Environment = Nothing) As Object
         Dim fq As FastQFile = Nothing
 
         If TypeOf reads Is FastQFile Then
             fq = DirectCast(reads, FastQFile)
         Else
-            Dim pull As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
+            Dim pull As PipeIterator(Of FastQ) = pipeline.Stream(Of FastQ)(reads, env)
 
             If pull.isError Then
                 Return pull.getError
             End If
 
-            fq = New FastQFile(pull.populates(Of FastQ)(env))
+            fq = New FastQFile(pull)
         End If
 
         Return fq.WriteFastQ(file)
@@ -223,7 +230,7 @@ Public Module FastQTools
     ''' <returns>the short reads assembling result</returns>
     <ExportAPI("assemble")>
     <RApiReturn(GetType(AssembleResult))>
-    Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
+    Public Function SequenceAssembler(<RRawVectorArgument(GetType(FastaSeq))> reads As Object, Optional env As Environment = Nothing) As Object
         Dim readSeqs As FastaSeq() = GetFastaSeq(reads, env).ToArray
         Dim data As String() = readSeqs _
             .Select(Function(fa) fa.SequenceData) _
@@ -278,7 +285,7 @@ Public Module FastQTools
     End Function
 
     ''' <summary>
-    ''' generates the random expression weights
+    ''' generates the random expression weights for generates the simulated reads data
     ''' </summary>
     ''' <param name="names"></param>
     ''' <returns></returns>
