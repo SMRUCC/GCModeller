@@ -47,6 +47,54 @@ Public Class UrlEntry
     ''' <returns></returns>
     Public Property LocalFile As String
 
+    ''' <summary>
+    ''' The md5 fingerprint of the page content, this value is the input of
+    ''' the history database: the page content is treated as changed when
+    ''' this fingerprint value is not equals to the value that is stored
+    ''' inside the history database.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property ContentMd5 As String
+    ''' <summary>
+    ''' The html document size of this page in characters
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property ContentSize As Integer
+    ''' <summary>
+    ''' How many in-site pages that owns a hyper link point to this page
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property InLinks As Integer
+    ''' <summary>
+    ''' The role score of this page in range ``[0, 1]``: the index page gets
+    ''' 1.0, the directory index page gets 0.6 and the root level page gets
+    ''' 0.3.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Role As Double
+    ''' <summary>
+    ''' The unix timestamp queue of the page content update time, this value
+    ''' is loaded from the history database.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property UpdateTimes As Long()
+    ''' <summary>
+    ''' The unix timestamp of the last content update time of this page
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property LastChanged As Long
+    ''' <summary>
+    ''' Is this url the first time that observed by the sitemap generator?
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property IsNewPage As Boolean
+    ''' <summary>
+    ''' The average update interval of this page in time unit days, this
+    ''' value is calculated from the <see cref="UpdateTimes"/> queue.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property UpdateInterval As Double
+
     Public Overrides Function ToString() As String
         Return $"[{Priority.ToString("F2")}] {Loc}"
     End Function

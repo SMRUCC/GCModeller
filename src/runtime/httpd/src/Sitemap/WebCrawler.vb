@@ -72,6 +72,13 @@ Public Class WebCrawler
     Public Property ChangeFreq As String = "weekly"
 
     ''' <summary>
+    ''' calculate the md5 fingerprint of the page from the raw html document
+    ''' text instead of the normalized html document text?
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property RawMd5 As Boolean = False
+
+    ''' <summary>
     ''' crawl the target website from a given index page url
     ''' </summary>
     ''' <param name="startUrl">
@@ -132,7 +139,9 @@ Public Class WebCrawler
                 .ChangeFreq = ChangeFreq,
                 .Priority = UrlEntry.PriorityOf(current.depth),
                 .Depth = current.depth,
-                .Title = title
+                .Title = title,
+                .ContentMd5 = ContentHash.Compute(html, RawMd5),
+                .ContentSize = If(html Is Nothing, 0, html.Length)
             })
 
             ' collect the css document for the website theme extraction
@@ -186,6 +195,11 @@ Public Class WebCrawler
                 If UrlTool.IsExcluded(url, ExcludePatterns) Then
                     Continue For
                 End If
+
+                ' count the in-site link reference of this url, the same url
+                ' that is referenced by multiple pages should be counted
+                ' multiple times.
+                Call result.AddInLink(url)
 
                 If Not visited.Add(url) Then
                     Continue For

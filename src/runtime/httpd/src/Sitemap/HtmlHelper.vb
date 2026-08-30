@@ -37,12 +37,18 @@ Public Module HtmlHelper
     ''' extract all of the hyper link url from a html document text
     ''' </summary>
     ''' <param name="html"></param>
+    ''' <param name="fast">
+    ''' extract the hyper links by the regular expression only? the fast mode
+    ''' does not build the DOM tree of the html document, it is much faster
+    ''' than the DOM mode when the links of a large amount of pages should be
+    ''' extracted.
+    ''' </param>
     ''' <returns>
     ''' this function returns the raw href attribute value, the returned
     ''' value should be normalized by the <see cref="UrlTool.Normalize"/>
     ''' function at last.
     ''' </returns>
-    Public Iterator Function GetLinks(html As String) As IEnumerable(Of String)
+    Public Iterator Function GetLinks(html As String, Optional fast As Boolean = False) As IEnumerable(Of String)
         If String.IsNullOrEmpty(html) Then
             Return
         End If
@@ -50,19 +56,9 @@ Public Module HtmlHelper
         Dim links As New List(Of String)
 
         ' the primary extractor: parse the html document as a DOM tree
-        Try
-            Dim document As HtmlDocument = HtmlDocument.LoadDocument(ensureTextStream(html), strip:=False)
-
-            For Each anchor As HtmlElement In document.getElementsByTagName("a")
-                Dim href As ValueAttribute = anchor("href")
-
-                If Not String.IsNullOrEmpty(href.Value) Then
-                    links.Add(href.Value)
-                End If
-            Next
-        Catch ex As Exception
-            ' the html document parser is failed, use the regex fallback
-        End Try
+        If Not fast Then
+            links.AddRange(linksFromDom(html))
+        End If
 
         ' the regex fallback extractor
         If links.Count = 0 Then
@@ -78,6 +74,31 @@ Public Module HtmlHelper
 
             Yield link
         Next
+    End Function
+
+    ''' <summary>
+    ''' extract the hyper links from a html document by the DOM tree parser
+    ''' </summary>
+    ''' <param name="html"></param>
+    ''' <returns></returns>
+    Private Function linksFromDom(html As String) As List(Of String)
+        Dim links As New List(Of String)
+
+        Try
+            Dim document As HtmlDocument = HtmlDocument.LoadDocument(ensureTextStream(html), strip:=False)
+
+            For Each anchor As HtmlElement In document.getElementsByTagName("a")
+                Dim href As ValueAttribute = anchor("href")
+
+                If Not String.IsNullOrEmpty(href.Value) Then
+                    links.Add(href.Value)
+                End If
+            Next
+        Catch ex As Exception
+            ' the html document parser is failed, use the regex fallback
+        End Try
+
+        Return links
     End Function
 
     ''' <summary>

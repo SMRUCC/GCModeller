@@ -61,6 +61,22 @@ Public Class StaticScanner
     Public Property ChangeFreq As String = "weekly"
 
     ''' <summary>
+    ''' calculate the md5 fingerprint of the page from the raw html document
+    ''' text instead of the normalized html document text?
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property RawMd5 As Boolean = False
+
+    ''' <summary>
+    ''' count the in-site link reference of every page of the website? this
+    ''' option requires an extra link extraction pass on the html files that
+    ''' are not linked by the index page of the website, so that it will
+    ''' takes a little bit more time to finish the scan job.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property CountInLinks As Boolean = True
+
+    ''' <summary>
     ''' scan a local static website directory
     ''' </summary>
     ''' <param name="wwwroot">
@@ -128,7 +144,9 @@ Public Class StaticScanner
                 .Priority = UrlEntry.PriorityOf(current.depth),
                 .Depth = current.depth,
                 .Title = title,
-                .LocalFile = current.file
+                .LocalFile = current.file,
+                .ContentMd5 = ContentHash.Compute(html, RawMd5),
+                .ContentSize = If(html Is Nothing, 0, html.Length)
             })
 
             ' collect the css document for the website theme extraction
@@ -181,6 +199,11 @@ Public Class StaticScanner
                     Continue For
                 End If
 
+                ' count the in-site link reference of this page, the same
+                ' page that is referenced by multiple pages should be
+                ' counted multiple times.
+                Call result.AddInLink(siteUrl)
+
                 Call queue.Enqueue((linkFile, current.depth + 1))
             Next
         Loop
@@ -189,41 +212,89 @@ Public Class StaticScanner
         ' website, these pages are still a part of the website, so that
         ' they should be included in the sitemap file by default.
         If IncludeOrphans Then
-            For Each file As String In allPages(root)
+            For Each orphanFile As String In allPages(root)
                 If result.Entries.Count >= MaxUrls Then
                     Exit For
                 End If
 
-                If Not visited.Add(file) Then
+                If Not visited.Add(orphanFile) Then
                     Continue For
                 End If
 
-                Dim siteUrl As String = UrlTool.ToSiteUrl(file, root, host)
+                Dim siteUrl As String = UrlTool.ToSiteUrl(orphanFile, root, host)
 
                 If UrlTool.IsExcluded(siteUrl, ExcludePatterns) Then
                     Continue For
                 End If
 
-                Dim depth As Integer = UrlEntry.DepthOf(relativePath(file, root))
-                Dim html As String = ReadText(file)
+                Dim depth As Integer = UrlEntry.DepthOf(relativePath(orphanFile, root))
+                Dim html As String = ReadText(orphanFile)
 
                 index += 1
                 result.VisitedPages = index
 
+                ' the hyper links of this page should also be counted, so
+                ' that the pages that are referenced by this orphan page
+                ' will gets the bigger priority value.
+                If CountInLinks AndAlso Not html Is Nothing AndAlso result.Entries.Count < MaxUrls Then
+                    Call countLinks(html, orphanFile, root, host, result)
+                End If
+
                 result.Entries.Add(New UrlEntry With {
                     .Loc = siteUrl,
-                    .LastMod = UrlEntry.LastModOf(file),
+                    .LastMod = UrlEntry.LastModOf(orphanFile),
                     .ChangeFreq = ChangeFreq,
                     .Priority = UrlEntry.PriorityOf(depth),
                     .Depth = depth,
                     .Title = If(html Is Nothing, Nothing, HtmlHelper.GetTitle(html)),
-                    .LocalFile = file
+                    .LocalFile = orphanFile,
+                    .ContentMd5 = ContentHash.Compute(html, RawMd5),
+                    .ContentSize = If(html Is Nothing, 0, html.Length)
                 })
             Next
         End If
 
         Return result.Sort().Trim(MaxUrls)
     End Function
+
+    ''' <summary>
+    ''' count the in-site link reference of the pages that are referenced by
+    ''' a given html document.
+    ''' </summary>
+    ''' <param name="html"></param>
+    ''' <param name="pageFile">the local file path of the html document</param>
+    ''' <param name="root"></param>
+    ''' <param name="host"></param>
+    ''' <param name="result"></param>
+    Private Sub countLinks(html As String,
+                           pageFile As String,
+                           root As String,
+                           host As String,
+                           result As SiteData)
+
+        ' the fast mode does not build the DOM tree of the html document,
+        ' it is much faster when the links of a large amount of the pages
+        ' should be counted.
+        For Each href As String In HtmlHelper.GetLinks(html, fast:=True)
+            Dim linkFile As String = UrlTool.ResolveLocalPath(href, pageFile, root)
+
+            If linkFile Is Nothing OrElse Not System.IO.File.Exists(linkFile) Then
+                Continue For
+            End If
+
+            If Not UrlTool.IsStaticFile(linkFile) Then
+                Continue For
+            End If
+
+            Dim siteUrl As String = UrlTool.ToSiteUrl(linkFile, root, host)
+
+            If UrlTool.IsExcluded(siteUrl, ExcludePatterns) Then
+                Continue For
+            End If
+
+            Call result.AddInLink(siteUrl)
+        Next
+    End Sub
 
     Private Function relativePath(file As String, root As String) As String
         Return Path.GetFullPath(file) _
