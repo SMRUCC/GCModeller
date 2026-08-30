@@ -1,5 +1,7 @@
 ﻿Imports System.Globalization
 Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 
 Namespace siRNAHit
 
@@ -82,83 +84,102 @@ Namespace siRNAHit
                                 Optional maxTotalMm As Integer = 8,
                                 Optional maxGu As Integer = 7) As IEnumerable(Of siRNAHit)
 
+            Dim line As Value(Of String) = ""
+
             Console.WriteLine(String.Join(vbTab,
                 "sRNA_id", "target_id", "target_start", "target_end",
                 "strand", "evalue", "score", "seed_mm", "total_mm",
                 "gu_pairs", "qseq", "sseq"))
 
             Using reader As New StreamReader(inputFile)
-                While Not reader.EndOfStream
-                    Dim line As String = reader.ReadLine()
-
-                    If line Is Nothing Then
-                        Exit While
-                    End If
-
+                Do While Not (line = reader.ReadLine) Is Nothing
                     line = line.Trim()
 
                     If String.IsNullOrWhiteSpace(line) Then
-                        Continue While
+                        Continue Do
                     End If
 
                     Dim cols As String() = line.Split(vbTab)
 
                     If cols.Length < 12 Then
-                        Continue While
+                        Continue Do
+                    Else
+                        Dim hit As siRNAHit = cols.ParseHit(
+                            eCutoff:=eCutoff,
+                            seedStart:=seedStart,
+                            seedEnd:=seedEnd,
+                            maxSeedMm:=maxSeedMm,
+                            maxTotalMm:=maxTotalMm,
+                            maxGu:=maxGu
+                        )
+
+                        If hit IsNot Nothing Then
+                            Yield hit
+                        End If
                     End If
-
-                    Dim qseqid As String = cols(0)
-                    Dim sseqid As String = cols(1)
-                    Dim sstart As String = cols(2)
-                    Dim send As String = cols(3)
-                    Dim sstrand As String = cols(6)
-                    Dim qseq As String = cols(7)
-                    Dim sseq As String = cols(8)
-                    Dim evalueStr As String = cols(10)
-
-                    ' E-value 解析：BLASTN 常输出科学计数法（如 2e-07），
-                    ' 用 InvariantCulture 避免系统区域设置（如德语逗号小数点）干扰
-                    Dim evalue As Double
-
-                    If Not Double.TryParse(evalueStr, NumberStyles.Float,
-                                           CultureInfo.InvariantCulture, evalue) Then
-                        Continue While
-                    End If
-
-                    Dim scored As AlignmentScore = ScoreAlignment(qseq, sseq, seedStart, seedEnd)
-
-                    ' psRNATarget 过滤条件（与 Python 版一致）
-                    If evalue <= eCutoff AndAlso
-                       scored.SeedMismatches <= maxSeedMm AndAlso
-                       scored.TotalMismatches <= maxTotalMm AndAlso
-                       scored.GuPairs <= maxGu Then
-
-                        ' score 统一保留 1 位小数（psRNATarget 分数均为 0.5 的整数倍）
-                        Console.WriteLine(String.Join(vbTab,
-                            qseqid, sseqid, sstart, send, sstrand,
-                            evalueStr,
-                            scored.Score.ToString("F1", CultureInfo.InvariantCulture),
-                            scored.SeedMismatches.ToString(),
-                            scored.TotalMismatches.ToString(),
-                            scored.GuPairs.ToString(),
-                            qseq, sseq))
-
-                        Yield New siRNAHit With {
-                            .WobbleCount = scored.GuPairs,
-                            .MismatchCount = scored.TotalMismatches,
-                            .GapCount = scored.SeedMismatches,
-                            .EndSite = send,
-                            .StartSite = sstart,
-                            .miRNA = qseqid,
-                            .Target = sseqid,
-                            .Length = .EndSite - .StartSite,
-                            .Source = "NCBI Blastn",
-                            .Expectation = scored.Score
-                        }
-                    End If
-                End While
+                Loop
             End Using
         End Function
 
+        <Extension>
+        Private Function ParseHit(cols As String(), eCutoff As Double,
+                                seedStart As Integer,
+                                seedEnd As Integer,
+                                maxSeedMm As Integer,
+                                maxTotalMm As Integer,
+                                maxGu As Integer) As siRNAHit
+
+            Dim qseqid As String = cols(0)
+            Dim sseqid As String = cols(1)
+            Dim sstart As String = cols(2)
+            Dim send As String = cols(3)
+            Dim sstrand As String = cols(6)
+            Dim qseq As String = cols(7)
+            Dim sseq As String = cols(8)
+            Dim evalueStr As String = cols(10)
+
+            ' E-value 解析：BLASTN 常输出科学计数法（如 2e-07），
+            ' 用 InvariantCulture 避免系统区域设置（如德语逗号小数点）干扰
+            Dim evalue As Double
+
+            If Not Double.TryParse(evalueStr, NumberStyles.Float,
+                                   CultureInfo.InvariantCulture, evalue) Then
+                Return Nothing
+            End If
+
+            Dim scored As AlignmentScore = ScoreAlignment(qseq, sseq, seedStart, seedEnd)
+
+            ' psRNATarget 过滤条件（与 Python 版一致）
+            If evalue <= eCutoff AndAlso
+               scored.SeedMismatches <= maxSeedMm AndAlso
+               scored.TotalMismatches <= maxTotalMm AndAlso
+               scored.GuPairs <= maxGu Then
+
+                ' score 统一保留 1 位小数（psRNATarget 分数均为 0.5 的整数倍）
+                Console.WriteLine(String.Join(vbTab,
+                    qseqid, sseqid, sstart, send, sstrand,
+                    evalueStr,
+                    scored.Score.ToString("F1", CultureInfo.InvariantCulture),
+                    scored.SeedMismatches.ToString(),
+                    scored.TotalMismatches.ToString(),
+                    scored.GuPairs.ToString(),
+                    qseq, sseq))
+
+                Return New siRNAHit With {
+                    .WobbleCount = scored.GuPairs,
+                    .MismatchCount = scored.TotalMismatches,
+                    .GapCount = scored.SeedMismatches,
+                    .EndSite = send,
+                    .StartSite = sstart,
+                    .miRNA = qseqid,
+                    .Target = sseqid,
+                    .Length = .EndSite - .StartSite,
+                    .Source = "NCBI Blastn",
+                    .Expectation = scored.Score
+                }
+            Else
+                Return Nothing
+            End If
+        End Function
     End Module
 End Namespace
