@@ -13,17 +13,57 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
+''' <summary>
+''' GEARS: the graph neural network based in silico perturbation prediction toolkit
+''' </summary>
+''' 
+''' <remarks>
+''' This R# package module provides the toolkit for train a GEARS model(Gene 
+''' Expression Additive Response Simulator) from the Perturb-seq experiment data, 
+''' the trained model can be used for predict the gene expression response of the 
+''' in silico gene perturbation(the knockout/overexpression/knockdown 
+''' experiment):
+''' 
+''' + ``new``: create a new GEARS model from the gene expression matrix, the prior 
+'''   regulatory network and the model configuration;
+''' + ``training_set``: set the Perturb-seq training sample set of the GEARS model;
+''' + ``train``: train the GEARS model with the given training sample set.
+''' 
+''' the trained <see cref="GEARS"/> model object implements the 
+''' <see cref="InsilicoPerturbationExperiment"/> interface, so that it can be used 
+''' by the ``knockouts``, ``overexpress`` and ``knockdown`` api of the ``bnlearn`` 
+''' package module, and the perturbation result can be exported via the 
+''' ``make_exports`` api.
+''' </remarks>
 <Package("GEARS")>
 <RTypeExport("GEARS_opts", GetType(GEARSConfig))>
 Public Module gearsTools
 
     ''' <summary>
-    ''' 
+    ''' create a new GEARS model
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="prior"></param>
-    ''' <param name="config"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' the gene expression matrix object of the Perturb-seq experiment data, which 
+    ''' could be loaded from a csv table file via the 
+    ''' ``geneExpression::load.expr`` api.
+    ''' </param>
+    ''' <param name="prior">
+    ''' the prior knowledge regulatory network object, which could be created by the 
+    ''' ``bnlearn::as.prior_net`` api: only the gene that is described in this prior 
+    ''' network could be mapped into the gene regulatory graph of the GEARS model.
+    ''' </param>
+    ''' <param name="config">
+    ''' the hyper parameter configuration of the GEARS model, which could be created 
+    ''' via the ``new("GEARS_opts")`` syntax in R# environment: the embedding 
+    ''' dimension, the hidden layer dimension, the graph convolution layer numbers, 
+    ''' the activation function, the learning rate, the epochs, etc.
+    ''' </param>
+    ''' <returns>
+    ''' a new <see cref="GEARS"/> model object that the gene regulatory graph has 
+    ''' been created from the given prior network and expression data, the training 
+    ''' sample set should be set via the ``training_set`` api at first and then the 
+    ''' model can be trained via the ``train`` api.
+    ''' </returns>
     ''' <remarks>
     ''' <see cref="GEARS"/> implements of the interface <see cref="InsilicoPerturbationExperiment"/>, which could be used as the virtual perturbation experiment container for run knockouts/overexpress/knockdown experiments
     ''' </remarks>

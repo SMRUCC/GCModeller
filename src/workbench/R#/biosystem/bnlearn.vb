@@ -335,6 +335,25 @@ Module bnlearn
         Return result.ToArray
     End Function
 
+    ''' <summary>
+    ''' run the in silico gene knockdown experiment on the given network model
+    ''' </summary>
+    ''' <param name="bnlearn">
+    ''' the trained network model object, which could be created by the ``bnlearn`` 
+    ''' api or the ``GEARS::new`` api.
+    ''' </param>
+    ''' <param name="geneNames">
+    ''' a character vector of the gene id for run the knockdown experiment, one 
+    ''' <see cref="InterventionResult"/> object will be generated for each gene.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="InterventionResult"/> perturbation result: the 
+    ''' ``WildtypeMeans`` is the wildtype expression value of each gene, the 
+    ''' ``MutantMeans`` is the expression value of each gene after the gene has been 
+    ''' knocked down, and the ``FoldChanges``, ``PercentChanges``, ``ZScores`` and 
+    ''' ``IsSignificant`` data is the differential analysis result of the 
+    ''' perturbation.
+    ''' </returns>
     <ExportAPI("knockdown")>
     <RApiReturn(GetType(InterventionResult))>
     Public Function knockdownGene(bnlearn As InsilicoPerturbationExperiment, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
@@ -350,12 +369,47 @@ Module bnlearn
     ''' <summary>
     ''' export the virtual permutation result as csv table files
     ''' </summary>
-    ''' <param name="results"></param>
-    ''' <param name="dir"></param>
-    ''' <param name="pathway_info"></param>
-    ''' <param name="top_n"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="results">
+    ''' a collection of the in silico perturbation result, which can be a vector of 
+    ''' the <see cref="InterventionResult"/> object, or a pipeline object that 
+    ''' produces a set of the <see cref="InterventionResult"/> data.
+    ''' </param>
+    ''' <param name="dir">
+    ''' the output directory for save the generated csv table files, this directory 
+    ''' will be created if it is not exists.
+    ''' </param>
+    ''' <param name="pathway_info">
+    ''' an optional tuple list of the <see cref="MetabolicPathway"/> knowledge data: 
+    ''' the slot key of the list is the pathway id and the slot value is the 
+    ''' corresponding pathway object, this parameter is used for run the pathway 
+    ''' level analysis of the perturbation result.
+    ''' </param>
+    ''' <param name="top_n">
+    ''' the top n affected genes for export in the intervention ranking table, by 
+    ''' default is 50.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' TRUE will be returns if all of the result table files have been exported 
+    ''' into the given directory successfully;
+    ''' 
+    ''' this function returns a R# error message object if the given data can not be 
+    ''' cast to a collection of the <see cref="InterventionResult"/> data.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the generated csv table files in the given output directory:
+    ''' 
+    ''' + ``foldchange_matrix.csv``, ``percentchange_matrix.csv``, 
+    '''   ``significance_matrix.csv``, ``zscore_matrix.csv``, 
+    '''   ``wildtype_means_matrix.csv``, ``mutant_means_matrix.csv``;
+    ''' + ``comprehensive_comparison.csv``, ``condition_similarity.csv``;
+    ''' + ``intervention_ranking.csv``: the top n affected genes of each 
+    '''   perturbation condition;
+    ''' + ``pathway_summary.csv`` and ``cross_impact_matrix.csv``: these two table 
+    '''   files will be generated only when the ``pathway_info`` parameter is 
+    '''   provided.
+    ''' </remarks>
     <ExportAPI("make_exports")>
     Public Function make_exports(<RRawVectorArgument(GetType(InterventionResult))> results As Object, dir As String,
                                  <RRawVectorArgument>
@@ -381,9 +435,26 @@ Module bnlearn
     ''' <summary>
     ''' save bnlearn model
     ''' </summary>
-    ''' <param name="bnlearn"></param>
-    ''' <param name="dir"></param>
-    ''' <returns></returns>
+    ''' <param name="bnlearn">
+    ''' the trained <see cref="BNLearnWorkflow"/> network model object, which is the 
+    ''' output of the ``bnlearn`` api.
+    ''' </param>
+    ''' <param name="dir">
+    ''' the output directory for save the network model data, this directory will be 
+    ''' created if it is not exists.
+    ''' </param>
+    ''' <returns>
+    ''' TRUE will be returns if the network model data has been saved into the given 
+    ''' directory successfully.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the learned bayesian network model will be saved as two tsv table files in 
+    ''' the given output directory: the ``network_structure.tsv`` file for the 
+    ''' network structure data and the ``network_parameters.tsv`` file for the 
+    ''' conditional probability distribution(CPD) parameter data of each network 
+    ''' node.
+    ''' </remarks>
     <ExportAPI("save_model")>
     Public Function save_model(bnlearn As BNLearnWorkflow, dir As String) As Object
         Call bnlearn.SaveResults(dir)
