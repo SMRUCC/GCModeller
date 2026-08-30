@@ -11,6 +11,7 @@
 ' ============================================================================
 
 Imports MiniBlast.Core
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module SelfTest
 
@@ -257,11 +258,11 @@ Public Module SelfTest
         baseSeq = baseSeq.Replace("Т"c, "T"c).Replace("А"c, "A"c).Replace("С"c, "C"c) ' 防全角字符
         Dim mutated = MutateNt(baseSeq, 0.05)
 
-        Dim qList = New List(Of FastaSequence) From {New FastaSequence("q1", "nucleotide query", baseSeq)}
-        Dim dbList = New List(Of FastaSequence) From {
-                New FastaSequence("homolog", "95% identity copy", mutated),
-                New FastaSequence("polya", "low complexity", New String("A"c, 120)),
-                New FastaSequence("random", "unrelated", MutateNt("ACGT".RepeatString(20), 0.5))
+        Dim qList = New List(Of FastaSeq) From {New FastaSeq({"q1", "nucleotide query"}, baseSeq)}
+        Dim dbList = New List(Of FastaSeq) From {
+                New FastaSeq({"homolog", "95% identity copy"}, mutated),
+                New FastaSeq({"polya", "low complexity"}, New String("A"c, 120)),
+                New FastaSeq({"random", "unrelated"}, MutateNt("ACGT".RepeatString(20), 0.5))
             }
 
         Dim opts As New BlastOptions With {.Program = "blastn", .Task = "blastn"}
@@ -279,10 +280,10 @@ Public Module SelfTest
         ' blastp: 蛋白同源
         Dim prot = "MKTAYIAKQRQISFVKSHFSRQLEERLGLIEVQAPILSRVGDGTQDNLSGAEK"
         Dim protMut = MutateProt(prot, 0.15)
-        Dim pq = New List(Of FastaSequence) From {New FastaSequence("p1", "protein query", prot)}
-        Dim pdb = New List(Of FastaSequence) From {
-                New FastaSequence("p_homolog", "protein homolog", protMut),
-                New FastaSequence("p_random", "unrelated", "WWDDCCSSLLAAKKRRFFEE")
+        Dim pq = New List(Of FastaSeq) From {New FastaSeq({"p1", "protein query"}, prot)}
+        Dim pdb = New List(Of FastaSeq) From {
+                New FastaSeq({"p_homolog", "protein homolog"}, protMut),
+                New FastaSeq({"p_random", "unrelated"}, "WWDDCCSSLLAAKKRRFFEE")
             }
         Dim popts As New BlastOptions With {.Program = "blastp", .Task = "blastp"}
         Dim pdbp = BlastEngine.BuildDatabase(pdb, popts)

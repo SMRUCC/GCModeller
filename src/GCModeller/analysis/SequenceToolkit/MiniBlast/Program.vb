@@ -19,6 +19,7 @@ Imports System.Text.Json
 Imports System.Text.Json.Serialization
 Imports MiniBlast.Core
 Imports MiniBlast.Model
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Program
 
@@ -206,8 +207,8 @@ Public Module Program
     End Function
 
     Private Function RunSearch(o As RunOptions) As BlastReport
-        Dim queries = FastaIO.ReadAll(o.QueryPath)
-        Dim dbSeqs = FastaIO.ReadAll(o.DbPath)
+        Dim queries = FastaFile.Read(o.QueryPath)
+        Dim dbSeqs = FastaFile.Read(o.DbPath)
         If queries.Count = 0 Then Throw New ArgumentException("查询文件为空")
         If dbSeqs.Count = 0 Then Throw New ArgumentException("数据库文件为空")
 
@@ -218,7 +219,7 @@ Public Module Program
         Console.Error.WriteLine($"数据库总残基: {dbp.Item2.Residues}")
 
         Dim qrs As New List(Of QueryResult)()
-        For Each q In queries
+        For Each q As FastaSeq In queries
             qrs.Add(BlastEngine.RunQuery(q, dbp.Item1, dbp.Item2, o))
         Next
 

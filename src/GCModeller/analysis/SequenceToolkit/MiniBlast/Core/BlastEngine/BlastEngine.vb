@@ -8,7 +8,9 @@
 ' 数据库预处理一次（编码 + 掩码），供所有查询复用。
 ' ============================================================================
 
+Imports Microsoft.VisualBasic.Linq
 Imports MiniBlast.Model
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Core
 
@@ -60,23 +62,23 @@ Namespace Core
     Public Class BlastEngine
 
         ''' <summary>数据库预处理：编码 + 低复杂度掩码 [README §一.1]</summary>
-        Public Shared Function BuildDatabase(sequences As List(Of FastaSequence), opts As BlastOptions) As Tuple(Of List(Of DbEntry), DbStatistics)
+        Public Shared Function BuildDatabase(sequences As IEnumerable(Of FastaSeq), opts As BlastOptions) As Tuple(Of List(Of DbEntry), DbStatistics)
             Dim result As New List(Of DbEntry)()
             Dim stats As New DbStatistics()
 
-            For Each seq In sequences
+            For Each seq As FastaSeq In sequences.SafeQuery
                 Dim entry As New DbEntry With {
-                    .Id = seq.Id,
-                    .Description = seq.Description,
-                    .Length = seq.Sequence.Length
+                    .Id = seq.locus_tag,
+                    .Description = seq.Title,
+                    .Length = seq.SequenceData.Length
                 }
                 If opts.Program = "blastn" Then
-                    entry.Codes = NtAlphabet.Encode(seq.Sequence)
+                    entry.Codes = NtAlphabet.Encode(seq.SequenceData)
                     entry.Mask = If(opts.Dust,
                                     Dust.Mask(entry.Codes, opts.DustLevel, 64),
                                     New Boolean(entry.Codes.Length - 1) {})
                 Else
-                    entry.Codes = AaAlphabet.Encode(seq.Sequence)
+                    entry.Codes = AaAlphabet.Encode(seq.SequenceData)
                     entry.Mask = If(opts.Seg,
                                     SegFilter.Mask(entry.Codes, 12, 2.2, 2.5),
                                     New Boolean(entry.Codes.Length - 1) {})
@@ -90,21 +92,21 @@ Namespace Core
         End Function
 
         ''' <summary>单查询全流程</summary>
-        Public Shared Function RunQuery(query As FastaSequence,
+        Public Shared Function RunQuery(query As FastaSeq,
                                         db As List(Of DbEntry),
                                         dbStats As DbStatistics,
                                         opts As BlastOptions) As QueryResult
-            Dim qLen = query.Sequence.Length
+            Dim qLen = query.SequenceData.Length
             Dim qCodes As Int32()
             Dim qMask() As Boolean
 
             If opts.Program = "blastn" Then
-                qCodes = NtAlphabet.Encode(query.Sequence)
+                qCodes = NtAlphabet.Encode(query.SequenceData)
                 qMask = If(opts.Dust,
                            Dust.Mask(qCodes, opts.DustLevel, 64),
                            New Boolean(qCodes.Length - 1) {})
             Else
-                qCodes = AaAlphabet.Encode(query.Sequence)
+                qCodes = AaAlphabet.Encode(query.SequenceData)
                 qMask = If(opts.Seg,
                            SegFilter.Mask(qCodes, 12, 2.2, 2.5),
                            New Boolean(qCodes.Length - 1) {})
@@ -162,7 +164,7 @@ Namespace Core
             Return BuildResult(query, db, perHit, opts, ka, scorer, qCodes, qLen, dbStats)
         End Function
 
-        Private Shared Function BuildResult(query As FastaSequence,
+        Private Shared Function BuildResult(query As FastaSeq,
                                             db As List(Of DbEntry),
                                             perHit As Dictionary(Of String, List(Of RawHsp)),
                                             opts As BlastOptions,
@@ -172,8 +174,8 @@ Namespace Core
                                             qLen As Integer,
                                             dbStats As DbStatistics) As QueryResult
             Dim qr As New QueryResult With {
-                .Id = query.Id,
-                .Description = query.Description,
+                .Id = query.locus_tag,
+                .Description = query.Title,
                 .Length = qLen
             }
 
