@@ -17,8 +17,6 @@
 '   在 16GB 系统上建议 0.5~1.0
 ' ============================================================================
 
-Imports System
-Imports System.Diagnostics
 Imports System.IO
 
 Namespace Core

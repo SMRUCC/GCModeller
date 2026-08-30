@@ -14,8 +14,6 @@
 '   - 每个聚类的根节点即为蛋白质家族 ID
 ' ============================================================================
 
-Imports System
-
 Namespace Core
 
     ''' <summary>
@@ -48,12 +46,13 @@ Namespace Core
     ''' <summary>
     ''' 聚类引擎：将 DIAMOND 比对结果转化为 Union-Find 操作。
     ''' </summary>
-    Public Class ClusteringEngine
+    Public Class ClusteringEngine : Implements IDisposable
 
         Private ReadOnly _dsu As UnionFind
         Private ReadOnly _minIdentity As Double
         Private ReadOnly _minCoverage As Double
         Private ReadOnly _stats As New ClusteringStats()
+        Private disposedValue As Boolean
 
         ''' <summary>统计信息</summary>
         Public ReadOnly Property Stats As ClusteringStats
@@ -122,6 +121,30 @@ Namespace Core
             _stats.ChunksProcessed += 1
         End Sub
 
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: dispose managed state (managed objects)
+                End If
+
+                ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                ' TODO: set large fields to null
+                disposedValue = True
+            End If
+        End Sub
+
+        ' ' TODO: override finalizer only if 'Dispose(disposing As Boolean)' has code to free unmanaged resources
+        ' Protected Overrides Sub Finalize()
+        '     ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+        '     Dispose(disposing:=False)
+        '     MyBase.Finalize()
+        ' End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
+        End Sub
     End Class
 
 End Namespace

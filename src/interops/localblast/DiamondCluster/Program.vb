@@ -33,8 +33,6 @@
 '''     --block-size 0.5
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports ProteinClustering.Core
 
 Public Module Program

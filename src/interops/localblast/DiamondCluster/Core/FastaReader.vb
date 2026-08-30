@@ -12,7 +12,6 @@
 ' 适用场景：100GB 级 FASTA 文件，十亿条序列
 ' ============================================================================
 
-Imports System
 Imports System.IO
 Imports System.Text
 
@@ -29,7 +28,7 @@ Namespace Core
 
         Public Overrides Function ToString() As String
             Dim headerPreview As String = If(Header?.Length > 30, Header.Substring(0, 30) & "...", Header)
-            Return $">{headerPreview} [{Sequence?.Length ?? 0} aa]"
+            Return $">{headerPreview} [{If(Sequence?.Length, 0)} aa]"
         End Function
     End Class
 

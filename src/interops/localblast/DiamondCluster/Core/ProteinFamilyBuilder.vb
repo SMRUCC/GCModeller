@@ -41,9 +41,6 @@
 '   - 峰值：~270GB（建议预留 300GB 磁盘空间）
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Diagnostics
 Imports System.IO
 Imports System.Text
 
@@ -388,7 +385,7 @@ Namespace Core
             End Using
 
             Log($"    家族总数: {rootToFamily.Count:N0}")
-            Log($"    单例家族: {familySizes.Values.Count(Function(s) s = 1):N0}")
+            Log($"    单例家族: {familySizes.Values.Where(Function(s) s = 1).Count:N0}")
 
             ' ---- 第二遍：重新打开 DSU，写入 families.tsv ----
             Log("    [4b] 写入 families.tsv...")
