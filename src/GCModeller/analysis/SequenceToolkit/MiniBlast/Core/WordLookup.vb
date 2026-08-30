@@ -113,89 +113,7 @@ Namespace Core
         Private ReadOnly _cares() As Boolean
         Public ReadOnly Property Span As Integer Implements IWordLookup.Span
         Public ReadOnly Property Weight As Integer
-
-        Public Sub New(queryCodes As Int32(), mask() As Boolean, template As String)
-            Me.Span = template.Length
-            Dim w As Integer = 0
-            ReDim _cares(template.Length - 1)
-            For i As Integer = 0 To template.Length - 1
-                _cares(i) = (template(i) = "1"c)
-                If _cares(i) Then w += 1
-            Next
-            Me.Weight = w
-
-            Dim n = queryCodes.Length
-            If n < Span Then Return
-
-            ' 显式逐窗口打包（O(n·Span)，简单正确）：
-            ' care 位需非歧义且未遮蔽；don't-care 位任意（容忍错配/歧义/遮蔽）
-            For startPos As Integer = 0 To n - Span
-                Dim key As Long = 0
-                Dim valid = True
-                For k As Integer = 0 To Span - 1
-                    If _cares(k) Then
-                        Dim c = queryCodes(startPos + k)
-                        If c > 3 OrElse (mask IsNot Nothing AndAlso mask(startPos + k)) Then
-                            valid = False
-                            Exit For
-                        End If
-                        key = (key << 2) Or c
-                    End If
-                Next
-                If valid Then AddToTable(key, startPos)
-            Next
-        End Sub
-
-        Private Sub AddToTable(key As Long, pos As Integer)
-            Dim list As List(Of Integer) = Nothing
-            If Not _table.TryGetValue(key, list) Then
-                list = New List(Of Integer)()
-                _table(key) = list
-            End If
-            list.Add(pos)
-        End Sub
-
-        Public Function TryGetPositions(key As Long, ByRef positions As List(Of Integer)) As Boolean Implements IWordLookup.TryGetPositions
-            Return _table.TryGetValue(key, positions)
-        End Function
-
-        Public ReadOnly Property Span As Integer Implements IWordLookup.Span
-            Get
-                Return WordSize
-            End Get
-        End Property
-
-        ''' <summary>数据库侧打包 word 键；含歧义字符返回 Long.MinValue</summary>
-        Public Function PackAt(codes As Int32(), pos As Integer) As Long Implements IWordLookup.PackAt
-            Dim key As Long = 0
-            For k As Integer = 0 To WordSize - 1
-                Dim c = codes(pos + k)
-                If c > 3 Then Return Long.MinValue
-                key = (key << 2) Or c
-            Next
-            Return key
-        End Function
-
-        Public ReadOnly Property EntryCount As Integer
-            Get
-                Return _table.Count
-            End Get
-        End Property
-
-    End Class
-
-    ''' <summary>
-    ''' dc-megablast 非连续模板查找表（Ma, Xu &amp; Altschul 2003）。
-    ''' 模板串 '1' = care 位（参与编码与匹配），'0' = don't-care 位。
-    ''' 默认 11/18：coding = 101101100101101101, optimal = 111010010110010111
-    ''' </summary>
-    Public Class DcWordLookup
-        Implements IWordLookup
-
-        Private ReadOnly _table As New Dictionary(Of Long, List(Of Integer))()
-        Private ReadOnly _cares() As Boolean
-        Public ReadOnly Property Span As Integer Implements IWordLookup.Span
-        Public ReadOnly Property Weight As Integer
+        Public Property WordSize As Integer Implements IWordLookup.WordSize
 
         Public Sub New(queryCodes As Int32(), mask() As Boolean, template As String)
             Me.Span = template.Length
@@ -271,7 +189,6 @@ Namespace Core
                 Return _table.Count
             End Get
         End Property
-
     End Class
 
     ''' <summary>

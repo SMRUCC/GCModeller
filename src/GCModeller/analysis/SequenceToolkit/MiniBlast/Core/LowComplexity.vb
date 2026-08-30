@@ -13,9 +13,6 @@
 ' 输出：遮蔽掩码 Boolean()（soft masking：仅排除种子，不排除延伸打分）
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-
 Namespace Core
 
     Public Module Dust
@@ -26,8 +23,8 @@ Namespace Core
         ''' <param name="window">窗口宽（默认 64）</param>
         Public Function Mask(codes As Int32(), level As Integer, window As Integer) As Boolean()
             Dim n = codes.Length
-            Dim mask(n - 1) As Boolean
-            If n < 3 Then Return mask
+            Dim mask1(n - 1) As Boolean
+            If n < 3 Then Return mask1
 
             Dim thresholdRaw = level / 10.0
             Dim counts As New Dictionary(Of Int32, Integer)()
@@ -58,7 +55,7 @@ Namespace Core
                     For p As Integer = x To Math.Min(x + inWindow - 1, n - 3)
                         Dim k = keys(p)
                         If k >= 0 AndAlso counts.ContainsKey(k) AndAlso counts(k) >= 2 Then
-                            mask(p) = True : mask(p + 1) = True : mask(p + 2) = True
+                            mask1(p) = True : mask1(p + 1) = True : mask1(p + 2) = True
                         End If
                     Next
                 End If
@@ -67,7 +64,7 @@ Namespace Core
                 If x + inWindow <= n - 3 Then AddWord(counts, keys(x + inWindow), pairs)
             Next
 
-            Return mask
+            Return mask1
         End Function
 
         Private Sub AddWord(counts As Dictionary(Of Int32, Integer), key As Int32, ByRef pairs As Long)
@@ -89,14 +86,14 @@ Namespace Core
 
     End Module
 
-    Public Module Seg
+    Public Module SegFilter
 
         ''' <summary>SEG 掩码（窗口熵简化实现）</summary>
         ''' <param name="codes">蛋白编码（AaAlphabet，仅统计标准 20 氨基酸）</param>
         Public Function Mask(codes As Int32(), window As Integer, k1 As Double, k2 As Double) As Boolean()
             Dim n = codes.Length
-            Dim mask(n - 1) As Boolean
-            If n < window Then Return mask
+            Dim mask1(n - 1) As Boolean
+            If n < window Then Return mask1
 
             Dim log2 = Math.Log(2.0)
 
@@ -105,14 +102,14 @@ Namespace Core
                 If h < k1 Then
                     ' 标记窗口并按 K2 阈值向两侧延伸
                     For p As Integer = x To x + window - 1
-                        mask(p) = True
+                        mask1(p) = True
                     Next
                     ' 向右延伸
                     Dim endPos = x + window
                     Do While endPos < n
                         Dim w2 = endPos - x + 1
                         If WindowEntropyBits(codes, x, w2, log2) >= k2 Then Exit Do
-                        mask(endPos) = True
+                        mask1(endPos) = True
                         endPos += 1
                     Loop
                     ' 向左延伸
@@ -120,13 +117,13 @@ Namespace Core
                     Do While startPos >= 0
                         Dim w2 = endPos - startPos
                         If WindowEntropyBits(codes, startPos, w2, log2) >= k2 Then Exit Do
-                        mask(startPos) = True
+                        mask1(startPos) = True
                         startPos -= 1
                     Loop
                 End If
             Next
 
-            Return mask
+            Return mask1
         End Function
 
         ''' <summary>窗口香农熵（bits，仅统计标准 20 氨基酸）</summary>

@@ -10,12 +10,7 @@
 ' 7. 端到端冒烟：blastn / blastp 找回嵌入同源序列
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
 Imports MiniBlast.Core
-Imports MiniBlast.MiniBlast.Core
-Imports MiniBlast.Model
 
 Public Module SelfTest
 

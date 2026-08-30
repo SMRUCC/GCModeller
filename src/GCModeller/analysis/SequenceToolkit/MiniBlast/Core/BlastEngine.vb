@@ -8,7 +8,6 @@
 ' 数据库预处理一次（编码 + 掩码），供所有查询复用。
 ' ============================================================================
 
-Imports MiniBlast.MiniBlast.Model
 Imports MiniBlast.Model
 
 Namespace Core
@@ -248,9 +247,11 @@ Namespace Core
 
         ''' <summary>HSP 去重：同坐标剔除 + 已保留高分矩形完全包含的低分剔除</summary>
         Private Shared Function DedupeHsps(hsps As List(Of RawHsp), maxHsps As Integer) As List(Of RawHsp)
-            hsps.Sort(Function(a, b) b.Score.CompareTo(a.Score))
             Dim kept As New List(Of RawHsp)()
             Dim seen As New HashSet(Of String)()
+
+            Call hsps.Sort(Function(a, b) b.RawScore.CompareTo(a.RawScore))
+
             For Each h In hsps
                 Dim coordKey = $"{h.QueryFrom}:{h.QueryTo}:{h.SubjectFrom}:{h.SubjectTo}"
                 If seen.Contains(coordKey) Then Continue For
