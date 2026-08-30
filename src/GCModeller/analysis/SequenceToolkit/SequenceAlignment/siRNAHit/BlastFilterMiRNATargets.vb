@@ -1,7 +1,6 @@
 ﻿Imports System.Globalization
-Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace siRNAHit
 
@@ -91,7 +90,8 @@ Namespace siRNAHit
             Return result
         End Function
 
-        Public Iterator Function BlastnFilter(inputFile As String,
+        <Extension>
+        Public Iterator Function BlastnFilter(hits As IEnumerable(Of BlastnMapTable),
                                 Optional eCutoff As Double = 5.0,
                                 Optional seedStart As Integer = 2,
                                 Optional seedEnd As Integer = 13,
@@ -99,45 +99,29 @@ Namespace siRNAHit
                                 Optional maxTotalMm As Integer = 8,
                                 Optional maxGu As Integer = 7) As IEnumerable(Of siRNAHit)
 
-            Dim line As Value(Of String) = ""
-
             Console.WriteLine(String.Join(vbTab,
                 "sRNA_id", "target_id", "target_start", "target_end",
                 "strand", "evalue", "score", "seed_mm", "total_mm",
                 "gu_pairs", "qseq", "sseq"))
 
-            Using reader As New StreamReader(inputFile)
-                Do While Not (line = reader.ReadLine) Is Nothing
-                    line = line.Trim()
+            For Each map As BlastnMapTable In hits.SafeQuery
+                Dim hit As siRNAHit = map.ParseHit(
+                    eCutoff:=eCutoff,
+                    seedStart:=seedStart,
+                    seedEnd:=seedEnd,
+                    maxSeedMm:=maxSeedMm,
+                    maxTotalMm:=maxTotalMm,
+                    maxGu:=maxGu
+                )
 
-                    If String.IsNullOrWhiteSpace(line) Then
-                        Continue Do
-                    End If
-
-                    Dim cols As String() = line.Split(vbTab)
-
-                    If cols.Length < 12 Then
-                        Continue Do
-                    Else
-                        Dim hit As siRNAHit = cols.ParseHit(
-                            eCutoff:=eCutoff,
-                            seedStart:=seedStart,
-                            seedEnd:=seedEnd,
-                            maxSeedMm:=maxSeedMm,
-                            maxTotalMm:=maxTotalMm,
-                            maxGu:=maxGu
-                        )
-
-                        If hit IsNot Nothing Then
-                            Yield hit
-                        End If
-                    End If
-                Loop
-            End Using
+                If hit IsNot Nothing Then
+                    Yield hit
+                End If
+            Next
         End Function
 
         <Extension>
-        Private Function ParseHit(cols As String(), eCutoff As Double,
+        Private Function ParseHit(map As BlastnMapTable, eCutoff As Double,
                                 seedStart As Integer,
                                 seedEnd As Integer,
                                 maxSeedMm As Integer,

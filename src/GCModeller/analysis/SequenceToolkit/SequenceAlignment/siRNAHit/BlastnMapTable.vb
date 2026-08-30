@@ -1,4 +1,7 @@
-﻿Namespace siRNAHit
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.Language
+
+Namespace siRNAHit
 
     Public Class BlastnMapTable
 
@@ -15,8 +18,25 @@
         Public Property evalue As Double
         Public Property bitscore As Double
 
-        Public Shared Function Parse() As BlastnMapTable
+        Public Shared Function Parse(s As Stream) As BlastnMapTable
+            Dim line As Value(Of String) = ""
 
+            Using reader As New StreamReader(InputFile)
+                Do While Not (line = reader.ReadLine) Is Nothing
+                    line = line.Trim()
+
+                    If String.IsNullOrWhiteSpace(line) Then
+                        Continue Do
+                    End If
+
+                    Dim cols As String() = line.Split(vbTab)
+
+                    If cols.Length < 12 Then
+                        Continue Do
+                    Else
+                    End If
+                Loop
+            End Using
         End Function
 
     End Class
