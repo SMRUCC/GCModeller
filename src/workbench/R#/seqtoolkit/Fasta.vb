@@ -653,9 +653,9 @@ Module Fasta
     ''' <returns>
     ''' a lazy collection of the fasta sequence data(a pipeline object of the 
     ''' <see cref="FastaSeq"/> sequence data) when the ``read`` parameter is TRUE, 
-    ''' or a fasta stream writer(<see cref="FastaWriter"/>) object for write the 
-    ''' sequence data into the target file in a stream manner when the ``read`` 
-    ''' parameter is FALSE.
+    ''' or a fasta stream writer(<see cref="SMRUCC.genomics.SequenceModel.FASTA.StreamWriter"/>) 
+    ''' object for write the sequence data into the target file in a stream manner 
+    ''' when the ``read`` parameter is FALSE.
     ''' </returns>
     ''' <keywords>read data</keywords>
     <ExportAPI("open.fasta")>
