@@ -78,8 +78,6 @@ Public Module MetaEukWorker
             Throw New InvalidDataException("[ERROR] Both --contigs and --reference are required.")
         End If
 
-        Dim startTime = DateTime.Now
-
         ' ----------------------------------------------------------
         ' STEP 1: Read input FASTA files
         ' ----------------------------------------------------------
@@ -96,6 +94,11 @@ Public Module MetaEukWorker
             Throw New InvalidDataException("[ERROR] No reference proteins found. Check reference file.")
         End If
 
+        Return Predict(contigs, references, config)
+    End Function
+
+    Public Function Predict(contigs As IEnumerable(Of FastaSeq), references As IEnumerable(Of FastaSeq), config As MetaEukConfig) As IEnumerable(Of GenePrediction)
+        Dim startTime = DateTime.Now
         ' ----------------------------------------------------------
         ' STEP 2: Six-frame translation & candidate fragment generation
         ' ----------------------------------------------------------
