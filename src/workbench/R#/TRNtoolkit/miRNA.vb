@@ -229,11 +229,38 @@ Module miRNA
     ''' <summary>
     ''' --- High-confidence intersection (psRNATarget ∩ TargetFinder) ---
     ''' </summary>
-    ''' <param name="psRNATarget"></param>
-    ''' <param name="TargetFinder"></param>
-    ''' <param name="site_tolerance"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="psRNATarget">
+    ''' the target site match result of the psRNATarget algorithm, which is a 
+    ''' collection of the <see cref="siRNAHit"/> data.
+    ''' </param>
+    ''' <param name="TargetFinder">
+    ''' the target site match result of the TargetFinder algorithm, which is a 
+    ''' collection of the <see cref="siRNAHit"/> data.
+    ''' </param>
+    ''' <param name="site_tolerance">
+    ''' the coordinate alignment tolerance(in nt) of the target site location on the 
+    ''' mRNA sequence: two match result will be treated as the same target site if 
+    ''' their site interval is overlapped with each other in this tolerance range, by 
+    ''' default is 3nt.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="siRNAHit"/> high confidence target site data: the 
+    ''' match result that is reported by both of the psRNATarget and the 
+    ''' TargetFinder algorithm.
+    ''' 
+    ''' the merged site data of each target site: the ``Source`` property is marked 
+    ''' as ``Intersection(psRNATarget+TargetFinder)``, the ``StartSite``/``EndSite`` 
+    ''' property is the union range of the two algorithm result, the 
+    ''' ``MismatchCount``/``WobbleCount``/``GapCount`` property is the max value of 
+    ''' the two algorithm result, the ``TranslationInhibition`` property is TRUE when 
+    ''' any of the two algorithm result is a translation inhibition candidate, and 
+    ''' the ``Alignment`` property contains the expectation value of the psRNATarget 
+    ''' and the penalty score of the TargetFinder;
+    ''' 
+    ''' this function returns a R# error message object if the input data can not be 
+    ''' cast to a collection of the <see cref="siRNAHit"/> data.
+    ''' </returns>
     <ExportAPI("intersect_targets")>
     <RApiReturn(GetType(siRNAHit))>
     Public Function intersect_targets(<RRawVectorArgument(GetType(siRNAHit))> psRNATarget As Object,
