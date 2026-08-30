@@ -64,6 +64,8 @@ declare namespace miRNA {
      *  ``psRNATarget`` or the ``TargetFinder`` api of this package module.
      * @param miRNAs a collection of the miRNA sequence
      * @param targets a collection of the mRNA/CDS sequence of the candidate genes
+     * @param parallel 
+     * + default value Is ``false``.
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
@@ -80,7 +82,7 @@ declare namespace miRNA {
      *  sequence collection is empty, or the input data can not be cast to a fasta 
      *  sequence collection.
    */
-   function miRNA_targets(mapper: object, miRNAs: any, targets: any, env?: object): object;
+   function miRNA_targets(mapper: object, miRNAs: any, targets: any, parallel?: boolean, env?: object): object;
    /**
     * create the psRNATarget algorithm object for predict the miRNA target site
     * 
