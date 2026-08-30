@@ -74,6 +74,13 @@ Module bifrost
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(PredictionResult()), AddressOf scoreTable)
     End Sub
 
+    ''' <summary>
+    ''' overloads function for cast gene prediction result collection as dataframe for save to file by ``write.csv``. 
+    ''' </summary>
+    ''' <param name="result"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <RGenericOverloads("as.data.frame")>
     Public Function scoreTable(result As PredictionResult(), args As list, env As Environment) As Object
         Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
@@ -100,6 +107,12 @@ Module bifrost
         Return df
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x">input target fasta sequence collection for make prodigal training </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("prodigal_training")>
     <RApiReturn(GetType(TrainingModel))>
     Public Function training(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
@@ -164,6 +177,12 @@ Module bifrost
             model:=model).ToArray
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x">a collection of the genomics fasta sequence for make metaeuk gene prediction</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("metaeuk")>
     <RApiReturn(GetType(GenePrediction))>
     Public Function metaeuk(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
@@ -190,13 +209,13 @@ Module bifrost
     <ExportAPI("as.gff3")>
     <RApiReturn(GetType(GFFTable))>
     Public Function AsGff(<RRawVectorArgument()> x As Object, Optional env As Environment = Nothing) As Object
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of PredictionResult)(x, env, suppress:=True)
+        Dim pull As PipeIterator(Of PredictionResult) = pipeline.Stream(Of PredictionResult)(x, env, suppress:=True)
 
         If pull.isError Then
             Return pull.getError
         End If
 
-        Return ResultWriter.CastToGff(pull.populates(Of PredictionResult)(env).ToArray)
+        Return ResultWriter.CastToGff(pull.ToArray)
     End Function
 
     ''' <summary>
@@ -208,13 +227,13 @@ Module bifrost
     <ExportAPI("as.proteins")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function GetProteins(<RRawVectorArgument()> x As Object, Optional env As Environment = Nothing) As Object
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of PredictionResult)(x, env, suppress:=True)
+        Dim pull As PipeIterator(Of PredictionResult) = pipeline.Stream(Of PredictionResult)(x, env, suppress:=True)
 
         If pull.isError Then
             Return pull.getError
         End If
 
-        Return ResultWriter.GetProteinSequences(pull.populates(Of PredictionResult)(env).ToArray).ToArray
+        Return ResultWriter.GetProteinSequences(pull.ToArray).ToArray
     End Function
 
     ''' <summary>
@@ -226,13 +245,13 @@ Module bifrost
     <ExportAPI("as.genes")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function GetGenes(<RRawVectorArgument()> x As Object, Optional env As Environment = Nothing) As Object
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of PredictionResult)(x, env, suppress:=True)
+        Dim pull As PipeIterator(Of PredictionResult) = pipeline.Stream(Of PredictionResult)(x, env, suppress:=True)
 
         If pull.isError Then
             Return pull.getError
         End If
 
-        Return ResultWriter.GetGeneSequences(pull.populates(Of PredictionResult)(env).ToArray).ToArray
+        Return ResultWriter.GetGeneSequences(pull.ToArray).ToArray
     End Function
 
 End Module
