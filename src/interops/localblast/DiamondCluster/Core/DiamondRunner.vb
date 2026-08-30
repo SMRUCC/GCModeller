@@ -21,7 +21,7 @@ Imports System
 Imports System.Diagnostics
 Imports System.IO
 
-Namespace ProteinClustering.Core
+Namespace Core
 
     ''' <summary>DIAMOND 运行结果</summary>
     Public Class DiamondResult

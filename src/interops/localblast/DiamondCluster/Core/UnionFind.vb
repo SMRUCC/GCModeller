@@ -27,7 +27,7 @@ Imports System
 Imports System.IO
 Imports System.IO.MemoryMappedFiles
 
-Namespace ProteinClustering.Core
+Namespace Core
 
     ''' <summary>
     ''' 内存映射文件支持的并查集。
@@ -134,7 +134,7 @@ Namespace ProteinClustering.Core
 
                     ' 进度报告（每 1GB 报告一次）
                     If written Mod (1L << 30) = 0 AndAlso written > 0 Then
-                        Console.Error.Write($"    DSU 初始化: {written \ (1 << 20)} MB / {fileSize \ (1 << 20)} MB" & ControlChars.CR)
+                        Console.Error.Write($"    DSU 初始化: {written \ (1 << 20)} MB / {fileSize \ (1 << 20)} MB" & ControlChars.Cr)
                     End If
                 Loop
             End Using

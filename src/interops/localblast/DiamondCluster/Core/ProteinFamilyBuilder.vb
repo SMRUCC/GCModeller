@@ -47,7 +47,7 @@ Imports System.Diagnostics
 Imports System.IO
 Imports System.Text
 
-Namespace ProteinClustering.Core
+Namespace Core
 
     ''' <summary>流程配置参数</summary>
     Public Class PipelineConfig
@@ -221,7 +221,7 @@ Namespace ProteinClustering.Core
                     ' 进度报告
                     If count Mod _config.ProgressInterval = 0 Then
                         Console.Error.Write(
-                            $"    已索引 {count:N0} 序列 ({reader.Progress:F1}%)" & ControlChars.CR)
+                            $"    已索引 {count:N0} 序列 ({reader.Progress:F1}%)" & ControlChars.Cr)
                     End If
 
                     record = reader.ReadNext()
@@ -381,7 +381,7 @@ Namespace ProteinClustering.Core
                     If (i + 1) Mod _config.ProgressInterval = 0 Then
                         Console.Error.Write(
                             $"    已处理 {i + 1:N0}/{totalSeqs:N0} 序列，" &
-                            $"{rootToFamily.Count:N0} 个家族" & ControlChars.CR)
+                            $"{rootToFamily.Count:N0} 个家族" & ControlChars.Cr)
                     End If
                 Next
                 Console.Error.WriteLine()
@@ -440,7 +440,7 @@ Namespace ProteinClustering.Core
 
                     If seqIdx Mod _config.ProgressInterval = 0 Then
                         Console.Error.Write(
-                            $"    已写入 {seqIdx:N0}/{totalSeqs:N0} 序列" & ControlChars.CR)
+                            $"    已写入 {seqIdx:N0}/{totalSeqs:N0} 序列" & ControlChars.Cr)
                     End If
 
                     record = reader.ReadNext()

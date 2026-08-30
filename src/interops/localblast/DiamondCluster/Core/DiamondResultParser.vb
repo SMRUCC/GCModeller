@@ -19,7 +19,7 @@
 Imports System
 Imports System.IO
 
-Namespace ProteinClustering.Core
+Namespace Core
 
     ''' <summary>单条比对记录</summary>
     Public Structure AlignmentRecord

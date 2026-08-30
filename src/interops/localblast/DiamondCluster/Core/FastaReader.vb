@@ -16,7 +16,7 @@ Imports System
 Imports System.IO
 Imports System.Text
 
-Namespace ProteinClustering.Core
+Namespace Core
 
     ''' <summary>单条 FASTA 记录</summary>
     Public Class FastaRecord

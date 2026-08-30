@@ -16,7 +16,7 @@
 
 Imports System
 
-Namespace ProteinClustering.Core
+Namespace Core
 
     ''' <summary>
     ''' 聚类统计信息
