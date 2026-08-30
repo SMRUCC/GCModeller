@@ -1,4 +1,4 @@
-﻿Namespace Core
+﻿Namespace Options
 
     ''' <summary>命令行选项（已应用任务预设后的最终参数）</summary>
     Public Class BlastOptions

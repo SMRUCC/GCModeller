@@ -11,6 +11,7 @@
 ' ============================================================================
 
 Imports MiniBlast.Core
+Imports MiniBlast.Options
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module SelfTest

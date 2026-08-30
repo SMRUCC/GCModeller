@@ -10,6 +10,7 @@
 
 Imports Microsoft.VisualBasic.Linq
 Imports MiniBlast.Model
+Imports MiniBlast.Options
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Core

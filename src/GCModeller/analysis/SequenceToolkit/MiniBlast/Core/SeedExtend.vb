@@ -20,6 +20,7 @@
 ' ============================================================================
 
 Imports System.Text
+Imports MiniBlast.Options
 
 Namespace Core
 
