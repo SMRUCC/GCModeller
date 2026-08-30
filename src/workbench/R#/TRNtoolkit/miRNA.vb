@@ -73,6 +73,19 @@ Module miRNA
     Private Function targetMatchesResult(hits As siRNAHit(), args As list, env As Environment) As dataframe
         Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
 
+        Call df.add("miRNA", From h As siRNAHit In hits Select h.miRNA)
+        Call df.add("target", From h As siRNAHit In hits Select h.Target)
+        Call df.add("start", From h As siRNAHit In hits Select h.StartSite)
+        Call df.add("end", From h As siRNAHit In hits Select h.EndSite)
+        Call df.add("length", From h As siRNAHit In hits Select h.Length)
+        Call df.add("expectation", From h As siRNAHit In hits Select h.Expectation)
+        Call df.add("mismatch", From h As siRNAHit In hits Select h.MismatchCount)
+        Call df.add("wobble", From h As siRNAHit In hits Select h.WobbleCount)
+        Call df.add("gaps", From h As siRNAHit In hits Select h.GapCount)
+        Call df.add("alignment", From h As siRNAHit In hits Select h.Alignment)
+        Call df.add("translation_inhibition", From h As siRNAHit In hits Select h.TranslationInhibition)
+        Call df.add("source", From h As siRNAHit In hits Select h.Source)
+
         Return df
     End Function
 
