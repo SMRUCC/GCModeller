@@ -189,20 +189,20 @@ Public Class StaticScanner
                     Continue For
                 End If
 
-                If Not visited.Add(linkFile) Then
-                    Continue For
-                End If
-
                 Dim siteUrl As String = UrlTool.ToSiteUrl(linkFile, root, host)
 
                 If UrlTool.IsExcluded(siteUrl, ExcludePatterns) Then
                     Continue For
                 End If
 
-                ' count the in-site link reference of this page, the same
-                ' page that is referenced by multiple pages should be
-                ' counted multiple times.
+                ' the in-site link reference should be counted before the
+                ' visited test, so that the page that is referenced by
+                ' multiple pages can be counted multiple times.
                 Call result.AddInLink(siteUrl)
+
+                If Not visited.Add(linkFile) Then
+                    Continue For
+                End If
 
                 Call queue.Enqueue((linkFile, current.depth + 1))
             Next

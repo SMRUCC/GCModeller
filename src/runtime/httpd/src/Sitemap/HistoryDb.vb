@@ -43,6 +43,7 @@ Public Class PageRecord
     ''' get the last update time of this page in unix timestamp
     ''' </summary>
     ''' <returns></returns>
+    <JsonIgnore>
     Public ReadOnly Property LastUpdate As Long
         Get
             If Timestamp Is Nothing OrElse Timestamp.Length = 0 Then
@@ -57,6 +58,7 @@ Public Class PageRecord
     ''' how many times that the page content have been changed
     ''' </summary>
     ''' <returns></returns>
+    <JsonIgnore>
     Public ReadOnly Property UpdateCount As Integer
         Get
             Return If(Timestamp Is Nothing, 0, Timestamp.Length)
