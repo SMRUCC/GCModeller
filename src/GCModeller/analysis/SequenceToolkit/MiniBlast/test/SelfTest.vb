@@ -267,7 +267,7 @@ Public Module SelfTest
             }
 
         Dim opts As New BlastOptions With {.Program = "blastn", .Task = "blastn"}
-        Dim dbp = BlastEngine.BuildDatabase(dbList, opts)
+        Dim dbp = BlastDb.BuildDatabase(dbList, opts)
         Dim qr = BlastEngine.RunQuery(qList(0), dbp.Item1, dbp.Item2, opts)
 
         Check(qr.Hits.Count > 0, "blastn 找到命中")
@@ -287,7 +287,7 @@ Public Module SelfTest
                 New FastaSeq({"p_random", "unrelated"}, "WWDDCCSSLLAAKKRRFFEE")
             }
         Dim popts As New BlastOptions With {.Program = "blastp", .Task = "blastp"}
-        Dim pdbp = BlastEngine.BuildDatabase(pdb, popts)
+        Dim pdbp = BlastDb.BuildDatabase(pdb, popts)
         Dim pqr = BlastEngine.RunQuery(pq(0), pdbp.Item1, pdbp.Item2, popts)
 
         Check(pqr.Hits.Count > 0, "blastp 找到命中")

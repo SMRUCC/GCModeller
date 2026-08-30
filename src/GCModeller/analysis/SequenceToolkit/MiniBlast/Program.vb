@@ -216,7 +216,7 @@ Public Module Program
         Console.Error.WriteLine($"MiniBlast {VersionString} ({o.Task})")
         Console.Error.WriteLine($"查询: {queries.Count} 条  数据库: {dbSeqs.Count} 条")
 
-        Dim dbp = BlastEngine.BuildDatabase(dbSeqs, o)
+        Dim dbp = BlastDb.BuildDatabase(dbSeqs, o)
         Console.Error.WriteLine($"数据库总残基: {dbp.Item2.Residues}")
 
         Dim qrs As New List(Of QueryResult)()

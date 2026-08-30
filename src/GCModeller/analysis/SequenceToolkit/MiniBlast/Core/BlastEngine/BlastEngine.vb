@@ -8,7 +8,6 @@
 ' 数据库预处理一次（编码 + 掩码），供所有查询复用。
 ' ============================================================================
 
-Imports Microsoft.VisualBasic.Linq
 Imports MiniBlast.Model
 Imports MiniBlast.Options
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -16,36 +15,6 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Namespace Core
 
     Public Class BlastEngine
-
-        ''' <summary>数据库预处理：编码 + 低复杂度掩码 [README §一.1]</summary>
-        Public Shared Function BuildDatabase(sequences As IEnumerable(Of FastaSeq), opts As BlastOptions) As Tuple(Of List(Of DbEntry), DbStatistics)
-            Dim result As New List(Of DbEntry)()
-            Dim stats As New DbStatistics()
-
-            For Each seq As FastaSeq In sequences.SafeQuery
-                Dim entry As New DbEntry With {
-                    .Id = seq.locus_tag,
-                    .Description = seq.Title,
-                    .Length = seq.SequenceData.Length
-                }
-                If opts.Program = "blastn" Then
-                    entry.Codes = NtAlphabet.Encode(seq.SequenceData)
-                    entry.Mask = If(opts.Dust,
-                                    Dust.Mask(entry.Codes, opts.DustLevel, 64),
-                                    New Boolean(entry.Codes.Length - 1) {})
-                Else
-                    entry.Codes = AaAlphabet.Encode(seq.SequenceData)
-                    entry.Mask = If(opts.Seg,
-                                    SegFilter.Mask(entry.Codes, 12, 2.2, 2.5),
-                                    New Boolean(entry.Codes.Length - 1) {})
-                End If
-                result.Add(entry)
-                stats.Sequences += 1
-                stats.Residues += entry.Length
-            Next
-
-            Return Tuple.Create(result, stats)
-        End Function
 
         ''' <summary>单查询全流程</summary>
         Public Shared Function RunQuery(query As FastaSeq,
