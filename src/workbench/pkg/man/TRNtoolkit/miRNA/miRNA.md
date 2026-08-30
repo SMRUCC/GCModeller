@@ -15,6 +15,8 @@ miRNA/siRNA target gene prediction toolkit
 >  object, which can be converted to a data frame via the ``as.data.frame`` api, 
 >  or be saved as a csv table file via the ``write.csv`` api.
 
++ [parse_blastn](miRNA/parse_blastn.1) 
++ [blastn_filter](miRNA/blastn_filter.1) 
 + [psRNATarget](miRNA/psRNATarget.1) create the psRNATarget algorithm object for predict the miRNA target site
 + [TargetFinder](miRNA/TargetFinder.1) create the TargetFinder algorithm object for predict the miRNA target site
 + [miRNA_targets](miRNA/miRNA_targets.1) make matches of the miRNA target genes

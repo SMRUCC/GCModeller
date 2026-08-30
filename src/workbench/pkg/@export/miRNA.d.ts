@@ -23,6 +23,16 @@
 */
 declare namespace miRNA {
    /**
+     * @param eCutoff default value Is ``5``.
+     * @param seedStart default value Is ``2``.
+     * @param seedEnd default value Is ``13``.
+     * @param maxSeedMm default value Is ``2``.
+     * @param maxTotalMm default value Is ``8``.
+     * @param maxGu default value Is ``7``.
+     * @param env default value Is ``null``.
+   */
+   function blastn_filter(blastn: any, eCutoff?: number, seedStart?: object, seedEnd?: object, maxSeedMm?: object, maxTotalMm?: object, maxGu?: object, env?: object): object;
+   /**
     * --- High-confidence intersection (psRNATarget ∩ TargetFinder) ---
     * 
     * 
@@ -83,6 +93,15 @@ declare namespace miRNA {
      *  sequence collection.
    */
    function miRNA_targets(mapper: object, miRNAs: any, targets: any, parallel?: boolean, env?: object): object;
+   /**
+    * 
+    * 
+     * @param file -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function parse_blastn(file: any, env?: object): object;
    /**
     * create the psRNATarget algorithm object for predict the miRNA target site
     * 
