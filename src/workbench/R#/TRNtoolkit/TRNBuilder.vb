@@ -251,8 +251,14 @@ Module TRNBuilder
     ''' <summary>
     ''' read a footprint site model data file
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the footprint site csv table file, which contains the 
+    ''' motif site location data and the downstream gene information of each site.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="FootprintSite"/> object that is loaded from the 
+    ''' given csv table file.
+    ''' </returns>
     <ExportAPI("read.footprints")>
     Public Function readFootprintSites(file As String) As FootprintSite()
         Return file.LoadCsv(Of FootprintSite)
@@ -261,8 +267,15 @@ Module TRNBuilder
     ''' <summary>
     ''' read a regulation prediction result file
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the regulation footprint csv table file, which could be 
+    ''' created by the ``write.regulations`` api.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="RegulationFootprint"/> object that is loaded from 
+    ''' the given csv table file, each object is a regulation network edge of the 
+    ''' regulator to its regulated target gene.
+    ''' </returns>
     <ExportAPI("read.regulations")>
     Public Function readRegulations(file As String) As RegulationFootprint()
         Return file.LoadCsv(Of RegulationFootprint)
