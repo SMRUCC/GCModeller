@@ -10,10 +10,6 @@
 '                 数据库 word（24 字母空间，按列最大得分上界剪枝）
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Text
-
 Namespace Core
 
     ''' <summary>word 查找表统一接口（扫描器按此多态调用）</summary>

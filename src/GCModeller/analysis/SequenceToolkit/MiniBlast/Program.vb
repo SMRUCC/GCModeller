@@ -17,8 +17,8 @@
 Imports System.IO
 Imports System.Text.Json
 Imports System.Text.Json.Serialization
-Imports MiniBlast.MiniBlast.Core
-Imports MiniBlast.MiniBlast.Model
+Imports MiniBlast.Core
+Imports MiniBlast.Model
 
 Public Module Program
 

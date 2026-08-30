@@ -337,9 +337,9 @@ Namespace Core
                                           If(fAlive, fVal, NEG))
                     If collectTrace Then
                         tdir(u) = New CellDir With {
-                            .DirH = If(hAlive, hDir, -1S),
-                            .DirE = If(eAlive, eDir, -1S),
-                            .DirF = If(fAlive, fDir, -1S)
+                            .DirH = If(hAlive, hDir, CSByte(-1S)),
+                            .DirE = If(eAlive, eDir, CSByte(-1S)),
+                            .DirF = If(fAlive, fDir, CSByte(-1S))
                         }
                     End If
                 Next
@@ -568,22 +568,7 @@ Namespace Core
 
     End Interface
 
-    ''' <summary>word 查找表统一接口</summary>
-    Public Interface IWordLookup
-
-        ReadOnly Property WordSize As Integer
-
-        ''' <summary>word 覆盖的序列跨度（连续 word = WordSize；dc 模板 = Span）</summary>
-        ReadOnly Property Span As Integer
-
-        ''' <summary>从 pos 开始打包 word 键；含歧义无法作种子时返回 Long.MinValue</summary>
-        Function PackAt(codes As Int32(), pos As Integer) As Long
-
-        Function TryGetPositions(key As Long, ByRef positions As List(Of Integer)) As Boolean
-
-    End Interface
-
-    Friend Class CellDir
+    Public Class CellDir
 
         Public DirH As SByte
         Public DirE As SByte
@@ -601,7 +586,7 @@ Namespace Core
 
     End Class
 
-    Friend Class GappedForwardResult
+    Public Class GappedForwardResult
 
         Public Best As Double
         Public BestU As Integer
