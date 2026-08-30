@@ -51,6 +51,7 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -59,6 +60,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
@@ -117,6 +119,60 @@ Module miRNA
         Call df.add("source", From h As siRNAHit In hits Select h.Source)
 
         Return df
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("parse_blastn")>
+    <RApiReturn(GetType(BlastnMapTable))>
+    Public Function parseBlastn(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim is_filepath As Boolean = False
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, IO.FileAccess.Read, env, is_filepath:=is_filepath)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Dim table As BlastnMapTable() = BlastnMapTable.Parse(s).ToArray
+
+        If is_filepath Then
+            Try
+                Call s.TryCast(Of Stream).Dispose()
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
+        End If
+
+        Return table
+    End Function
+
+    <ExportAPI("blastn_filter")>
+    <RApiReturn(GetType(siRNAHit))>
+    Public Function blastnFilter(<RRawVectorArgument(GetType(BlastnMapTable))> blastn As Object,
+                                 Optional eCutoff As Double = 5.0,
+                                 Optional seedStart As Integer = 2,
+                                 Optional seedEnd As Integer = 13,
+                                 Optional maxSeedMm As Integer = 2,
+                                 Optional maxTotalMm As Integer = 8,
+                                 Optional maxGu As Integer = 7,
+                                 Optional env As Environment = Nothing) As Object
+
+        Dim pull As PipeIterator(Of BlastnMapTable) = pipeline.Stream(Of BlastnMapTable)(blastn, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.BlastnFilter(eCutoff:=eCutoff,
+                                 seedStart:=seedStart,
+                                 seedEnd:=seedEnd,
+                                 maxSeedMm:=maxSeedMm,
+                                 maxTotalMm:=maxTotalMm,
+                                 maxGu:=maxGu).ToArray
     End Function
 
     ''' <summary>
