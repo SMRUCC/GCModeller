@@ -60,17 +60,20 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("miRNA")>
 Module miRNA
 
     Sub Main()
-
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(siRNAHit()), AddressOf targetMatchesResult)
     End Sub
 
     <RGenericOverloads("as.data.frame")>
     Private Function targetMatchesResult(hits As siRNAHit(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
 
+        Return df
     End Function
 
     ''' <summary>
@@ -107,7 +110,9 @@ Module miRNA
     ''' let psr = miRNA_targets(psRNATarget(), sirna, targets = genes);
     ''' let tfd = miRNA_targets(TargetFinder(), sirna, targets = genes);
     ''' 
-    ''' let hi_conf = intersect_targets(psr, tfd); 
+    ''' let hi_conf = as.data.frame(intersect_targets(psr, tfd)); 
+    ''' 
+    ''' print(hi_conf, max.print = 6);
     ''' 
     ''' write.csv(hi_conf, file = "miRNA_targets_high_confidence.csv");
     ''' </example>
