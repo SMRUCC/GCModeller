@@ -29,15 +29,19 @@ declare namespace FastQ {
    */
    function assemble(reads: any, env?: object): object;
    /**
+    * Parse the Illumina FastQ id from the reads title
+    * 
+    * 
+     * @param fq -
    */
    function illumina_fastQ_id(fq: object): object;
    /**
     * merge the raw fastq data
     * 
     * 
-     * @param file -
-     * @param merge -
-     * @param make_unique -
+     * @param file a character vector of the seperated fastq reads files.
+     * @param merge the file path for output the merged fastq reads file.
+     * @param make_unique try to make the fastq reads id unique?
      * 
      * + default value Is ``true``.
      * @param env -
@@ -60,7 +64,7 @@ declare namespace FastQ {
    */
    function quality_score(q: any, env?: object): number;
    /**
-    * generates the random expression weights
+    * generates the random expression weights for generates the simulated reads data
     * 
     * 
      * @param names -
@@ -81,7 +85,7 @@ declare namespace FastQ {
        * read the fastq file
        * 
        * 
-        * @param file -
+        * @param file the character vector of the fastq reads files
       */
       function fastq(file: any): object;
    }
@@ -107,7 +111,13 @@ declare namespace FastQ {
    function simulate_reads(genomes: any, n?: object, len?: any, genome_weights?: object, env?: object): object;
    module write {
       /**
-        * @param env default value Is ``null``.
+       * 
+       * 
+        * @param reads a collection of the fastq reads data
+        * @param file -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function fastq(reads: any, file: string, env?: object): boolean;
    }

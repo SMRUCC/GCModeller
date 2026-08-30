@@ -10,12 +10,12 @@ FastQ toolkit
 >  high-throughput sequencing instruments such As the Illumina Genome 
 >  Analyzer.
 
-+ [illumina_fastQ_id](FastQ/illumina_fastQ_id.1) 
++ [illumina_fastQ_id](FastQ/illumina_fastQ_id.1) Parse the Illumina FastQ id from the reads title
 + [read.fastq](FastQ/read.fastq.1) read the fastq file
 + [merge_raw](FastQ/merge_raw.1) merge the raw fastq data
 + [write.fastq](FastQ/write.fastq.1) 
 + [random_sampling](FastQ/random_sampling.1) make reads data random sampling
 + [assemble](FastQ/assemble.1) Do short reads assembling
 + [quality_score](FastQ/quality_score.1) In FASTQ files, quality scores are encoded into a compact form, 
-+ [random_expression_weights](FastQ/random_expression_weights.1) generates the random expression weights
++ [random_expression_weights](FastQ/random_expression_weights.1) generates the random expression weights for generates the simulated reads data
 + [simulate_reads](FastQ/simulate_reads.1) Mock a fastq reads file from a given set of the reference sequence.

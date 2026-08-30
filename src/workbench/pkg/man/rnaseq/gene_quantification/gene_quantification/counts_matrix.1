@@ -1,10 +1,25 @@
 .\" man page create by R# package system.
 .TH GENE_QUANTIFICATION 1 2000-1月 "counts_matrix" "counts_matrix"
 .SH NAME
-counts_matrix \- 
+counts_matrix \- make assemble of the reads sample counts as a gene expression matrix object
 .SH SYNOPSIS
 \fIcounts_matrix(\fBcounts\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make assemble of the reads sample counts as a gene expression matrix object
+.PP
+.SH OPTIONS
+.PP
+\fBcounts\fB \fR\- feature counts data of multiple samples which is read via \fBread_featureCounts\fR api function. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+the gene expression matrix object
+.PP
 .SH SEE ALSO
 gene_quantification
 .SH FILES

@@ -5,11 +5,18 @@
 // ref=rnaseq.QC@rnaseq, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * make quality control of the reads data
  * 
 */
 declare namespace QC {
    /**
-     * @param env default value Is ``null``.
+    * make stats of the reads and export the nano plot formated stats result
+    * 
+    * 
+     * @param reads -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function nano_plot(reads: any, env?: object): object;
    /**
@@ -21,8 +28,15 @@ declare namespace QC {
    */
    function nano_report(nanoplot: object, file: string): boolean;
    /**
-     * @param quality default value Is ``20``.
-     * @param env default value Is ``null``.
+    * removes the low quality reads
+    * 
+    * 
+     * @param reads -
+     * @param quality 
+     * + default value Is ``20``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function trim_low_quality(reads: any, quality?: object, env?: object): any;
    /**

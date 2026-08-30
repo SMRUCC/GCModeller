@@ -5,15 +5,31 @@
 // ref=phenotype_kit.mixOmics@phenotype_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * multiple omics analysis tool
  * 
 */
 declare namespace mixOmics {
    /**
-     * @param lam_min_ratio default value Is ``0.001``.
-     * @param nfold default value Is ``5``.
-     * @param n_bootstraps default value Is ``500``.
-     * @param strict default value Is ``true``.
-     * @param env default value Is ``null``.
+    * CC lasso analysis
+    * 
+    * 
+     * @param x -
+     * @param y -
+     * @param lam_min_ratio -
+     * 
+     * + default value Is ``0.001``.
+     * @param nfold -
+     * 
+     * + default value Is ``5``.
+     * @param n_bootstraps -
+     * 
+     * + default value Is ``500``.
+     * @param strict -
+     * 
+     * + default value Is ``true``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function cclasso(x: object, y: object, lam_min_ratio?: number, nfold?: object, n_bootstraps?: object, strict?: boolean, env?: object): object;
    /**
@@ -49,7 +65,14 @@ declare namespace mixOmics {
       function 2D_scatter(x: any, y: any, xlab?: string, ylab?: string, size?: any, padding?: any, ptSize?: number, env?: object): any;
    }
    /**
-     * @param strict default value Is ``true``.
+    * SparCC correlation analysis
+    * 
+    * 
+     * @param x -
+     * @param y -
+     * @param strict -
+     * 
+     * + default value Is ``true``.
    */
-   function sparcc(x: object, y: object, strict?: boolean): any;
+   function sparcc(x: object, y: object, strict?: boolean): object;
 }

@@ -5,10 +5,12 @@
 // ref=rnaseq.Quantification@rnaseq, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * gene expression quantify tools
  * 
 */
 declare namespace gene_quantification {
    /**
+    * make normalize of the feature counts data as TPM expression value
     * 
     * 
      * @param counts A collection of the gene @``T:SMRUCC.genomics.SequenceModel.SAM.featureCount.featureCounts`` data.
@@ -19,7 +21,14 @@ declare namespace gene_quantification {
    */
    function convert_to_tpm(counts: any, env?: object): object;
    /**
-     * @param env default value Is ``null``.
+    * make assemble of the reads sample counts as a gene expression matrix object
+    * 
+    * 
+     * @param counts feature counts data of multiple samples which is read via ``read_featureCounts`` api function
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return the gene expression matrix object
    */
    function counts_matrix(counts: any, env?: object): object;
    /**
@@ -42,8 +51,16 @@ declare namespace gene_quantification {
    */
    function edgeR_norm(counts: object, trimFractionM?: number, trimFractionA?: number): object;
    /**
-     * @param trimFractionM default value Is ``0.3``.
-     * @param trimFractionA default value Is ``0.05``.
+    * get edgeR TMM factors
+    * 
+    * 
+     * @param countData -
+     * @param trimFractionM -
+     * 
+     * + default value Is ``0.3``.
+     * @param trimFractionA -
+     * 
+     * + default value Is ``0.05``.
    */
    function edgeR_tmm(countData: object, trimFractionM?: number, trimFractionA?: number): any;
    /**
@@ -54,9 +71,17 @@ declare namespace gene_quantification {
    */
    function gene_indexstats(file: string): object;
    /**
+    * read feature counts tsv table file
+    * 
+    * 
+     * @param file -
    */
    function read_featureCounts(file: string): object;
    /**
+    * read gene data csv table file
+    * 
+    * 
+     * @param file -
    */
    function read_genedata(file: string): object;
 }
