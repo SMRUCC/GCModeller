@@ -10,7 +10,7 @@
 Imports System
 Imports System.Collections.Generic
 
-Namespace MiniBlast.Core
+Namespace Core
 
     ''' <summary>核酸打分器</summary>
     Public Class NtScorer

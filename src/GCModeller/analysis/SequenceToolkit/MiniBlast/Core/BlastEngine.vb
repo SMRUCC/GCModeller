@@ -10,7 +10,7 @@
 
 Imports MiniBlast.MiniBlast.Model
 
-Namespace MiniBlast.Core
+Namespace Core
 
     ''' <summary>命令行选项（已应用任务预设后的最终参数）</summary>
     Public Class BlastOptions
@@ -232,7 +232,7 @@ Namespace MiniBlast.Core
                         .Id = entry.Id,
                         .Description = entry.Description,
                         .Length = entry.Length,
-                        .Hsps = hspList
+                        .hsps = hspList
                     })
                 End If
             Next

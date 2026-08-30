@@ -16,7 +16,7 @@
 Imports System
 Imports System.Collections.Generic
 
-Namespace MiniBlast.Core
+Namespace Core
 
     Public Module Dust
 

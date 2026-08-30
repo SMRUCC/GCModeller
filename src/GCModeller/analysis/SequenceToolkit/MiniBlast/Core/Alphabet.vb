@@ -8,7 +8,7 @@
 '       B=20, Z=21, X=22, '*'=23，未知字符归并为 X(22)
 ' ============================================================================
 
-Namespace MiniBlast.Core
+Namespace Core
 
     Public Module NtAlphabet
 

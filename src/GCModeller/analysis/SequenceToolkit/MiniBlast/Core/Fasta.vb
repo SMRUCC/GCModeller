@@ -10,7 +10,7 @@ Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text
 
-Namespace MiniBlast.Core
+Namespace Core
 
     ''' <summary>单条 FASTA 序列</summary>
     Public Class FastaSequence

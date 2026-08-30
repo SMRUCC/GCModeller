@@ -23,7 +23,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Text
 
-Namespace MiniBlast.Core
+Namespace Core
 
     ''' <summary>延伸阶段产出的原始 HSP（未做统计换算）</summary>
     Public Class RawHsp
@@ -64,7 +64,7 @@ Namespace MiniBlast.Core
         Private ReadOnly _opts As SeedExtendOptions
         Private ReadOnly _isNt As Boolean
 
-        Private Const Ln2 As Double = 0.6931471805599453
+        Private Const Ln2 As Double = 0.69314718055994529
 
         Public Sub New(scorer As IScorer, lambda As Double, opts As SeedExtendOptions, isNt As Boolean)
             _scorer = scorer

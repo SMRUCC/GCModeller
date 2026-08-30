@@ -14,7 +14,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Text
 
-Namespace MiniBlast.Core
+Namespace Core
 
     ''' <summary>word 查找表统一接口（扫描器按此多态调用）</summary>
     Public Interface IWordLookup

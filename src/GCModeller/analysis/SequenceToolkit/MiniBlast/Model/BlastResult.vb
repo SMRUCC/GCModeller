@@ -7,11 +7,9 @@
 ' 序列化使用 System.Text.Json（BCL，无第三方依赖）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Text.Json.Serialization
 
-Namespace MiniBlast.Model
+Namespace Model
 
     Public Class BlastReport
 

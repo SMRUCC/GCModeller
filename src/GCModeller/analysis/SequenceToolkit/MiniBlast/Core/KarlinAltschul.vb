@@ -21,7 +21,7 @@
 Imports System
 Imports System.Collections.Generic
 
-Namespace MiniBlast.Core
+Namespace Core
 
     ''' <summary>Karlin-Altschul 参数集</summary>
     Public Class KaParams
