@@ -100,12 +100,45 @@ Public Module gearsTools
     ''' <summary>
     ''' Set the training sample set
     ''' </summary>
-    ''' <param name="gears"></param>
-    ''' <param name="x"></param>
-    ''' <param name="controls"></param>
-    ''' <param name="perturbed"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="gears">
+    ''' a <see cref="GEARS"/> model object that is created by the ``GEARS::new`` 
+    ''' api.
+    ''' </param>
+    ''' <param name="x">
+    ''' the gene expression matrix object of the Perturb-seq experiment data, which 
+    ''' should contains both of the control sample columns and the perturbed sample 
+    ''' columns.
+    ''' </param>
+    ''' <param name="controls">
+    ''' a character vector of the control(wildtype) sample column names in the given 
+    ''' expression matrix: the mean value and the standard deviation of these control 
+    ''' sample columns will be used as the shared wildtype baseline of the model 
+    ''' training, at least two control sample columns are required.
+    ''' </param>
+    ''' <param name="perturbed">
+    ''' a collection of the <see cref="SampleInfo"/> sample information data of the 
+    ''' perturbed samples: the ``ID`` property of the sample data should be matched 
+    ''' with the sample column of the given expression matrix, the perturbed gene id 
+    ''' set of each sample is stored as a json string array in the ``metadata`` 
+    ''' property via the ``perturbed_genes`` key, and the intervention mode of each 
+    ''' sample could be stored in the ``metadata`` property via the 
+    ''' ``intervention_mode`` key(the value should be one of ``Knockout``, 
+    ''' ``Knockdown``, ``Overexpression`` or ``Custom``).
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the input <see cref="GEARS"/> model object that the training sample set has 
+    ''' been set;
+    ''' 
+    ''' this function returns a R# error message object if the given perturbed sample 
+    ''' data can not be cast to a collection of the <see cref="SampleInfo"/> data.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the wildtype baseline(the mean and the standard deviation of each gene) of 
+    ''' the GEARS model will be recomputed from the given control sample columns, so 
+    ''' that this api should be called before the ``train`` api.
+    ''' </remarks>
     <ExportAPI("training_set")>
     <RApiReturn(GetType(GEARS))>
     Public Function set_trainingSampleSet(gears As GEARS, x As Matrix,
@@ -124,10 +157,29 @@ Public Module gearsTools
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Train the GEARS model with the given training sample set
     ''' </summary>
-    ''' <param name="gears"></param>
-    ''' <returns></returns>
+    ''' <param name="gears">
+    ''' a <see cref="GEARS"/> model object that is created by the ``GEARS::new`` api, 
+    ''' and the training sample set has been set via the ``training_set`` api.
+    ''' </param>
+    ''' <returns>
+    ''' the input <see cref="GEARS"/> model object that has been trained, which can 
+    ''' be used for run the in silico gene perturbation experiment via the 
+    ''' ``knockouts``, ``overexpress`` and ``knockdown`` api of the ``bnlearn`` 
+    ''' package module.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the training epoch numbers and the learning rate of the model training is 
+    ''' determined by the ``GEARS_opts`` configuration object that is given at the 
+    ''' model creation time, and the loss value of each training epoch is stored in 
+    ''' the ``LossCurve`` property of the trained model object.
+    ''' 
+    ''' an error will be thrown if the training sample set is empty, i.e. there is 
+    ''' no gene of the prior network could be mapped into the gene expression 
+    ''' matrix.
+    ''' </remarks>
     <ExportAPI("train")>
     <RApiReturn(GetType(GEARS))>
     Public Function train(gears As GEARS) As GEARS
