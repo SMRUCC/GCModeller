@@ -230,6 +230,7 @@ Module miRNA
             Dim miRNASet As FastaSeq() = miRNAList.ToArray
             Dim outPool As siRNAHit()() = New siRNAHit(miRNASet.Length - 1)() {}
 
+            Call "in parallel".info
             Call System.Threading.Tasks.Parallel.For(
                 0, outPool.Length, Sub(i)
                                        Dim miRNA As FastaSeq = miRNASet(i)
