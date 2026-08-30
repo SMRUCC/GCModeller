@@ -64,6 +64,21 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Package("miRNA")>
 Module miRNA
 
+    Sub Main()
+
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function targetMatchesResult(hits As siRNAHit(), args As list, env As Environment) As dataframe
+
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="version"></param>
+    ''' <param name="max_expectation"></param>
+    ''' <returns></returns>
     <ExportAPI("psRNATarget")>
     Public Function psRNATarget_clr(Optional version As psRNATarget.Schema = psRNATarget.Schema.V2_2017, Optional max_expectation As Double = 5.0) As psRNATarget
         Return New psRNATarget With {.Version = version, .MaxExpectation = max_expectation}
@@ -74,6 +89,28 @@ Module miRNA
         Return New TargetFinder With {.ScoreCutoff = score_cutoff}
     End Function
 
+    ''' <summary>
+    ''' make matches of the miRNA target genes
+    ''' </summary>
+    ''' <param name="mapper"></param>
+    ''' <param name="miRNAs">a collection of the miRNA sequence</param>
+    ''' <param name="targets">a collection of the mRNA/CDS sequence of the candidate genes</param>
+    ''' <param name="env"></param>
+    ''' <returns>a set of the miRNA to target gene matches result, a match result network edges with match score as weights</returns>
+    ''' <example>
+    ''' imports "miRNA" from "TRNtoolkit";
+    ''' imports "bioseq.fasta" from "seqtoolkit";
+    ''' 
+    ''' let sirna = fasta("UGACGUGACUGACGUGACUGA", attrs = c("demo-miRNA"));
+    ''' let genes = read.fasta("candidates.fa");
+    ''' 
+    ''' let psr = miRNA_targets(psRNATarget(), sirna, targets = genes);
+    ''' let tfd = miRNA_targets(TargetFinder(), sirna, targets = genes);
+    ''' 
+    ''' let hi_conf = intersect_targets(psr, tfd); 
+    ''' 
+    ''' write.csv(hi_conf, file = "miRNA_targets_high_confidence.csv");
+    ''' </example>
     <ExportAPI("miRNA_targets")>
     <RApiReturn(GetType(siRNAHit))>
     Public Function miRNA_targets(mapper As miRNAMapper,
