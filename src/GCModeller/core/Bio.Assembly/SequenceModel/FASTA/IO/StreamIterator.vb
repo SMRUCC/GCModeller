@@ -97,6 +97,7 @@ Namespace SequenceModel.FASTA
 
         ''' <summary>已读取的序列数</summary>
         Dim _recordCount As Long = 0
+        Dim _stream As IEnumerator(Of FastaSeq)
 
         ''' <summary>读取进度百分比 (0~100)</summary>
         Public ReadOnly Property Progress As Double
@@ -113,6 +114,7 @@ Namespace SequenceModel.FASTA
         Sub New(path As String, Optional tqdm_wrap As Boolean = True)
             _tqdm = tqdm_wrap
             _file = path.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+            _stream = ReadStream()
         End Sub
 
         ''' <summary>
@@ -120,7 +122,11 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <returns>FastaRecord 或 Nothing（文件结束）</returns>
         Public Function ReadNext() As FastaSeq
-
+            If _stream.MoveNext() Then
+                Return _stream.Current
+            Else
+                Return Nothing
+            End If
         End Function
 
         ''' <summary>
