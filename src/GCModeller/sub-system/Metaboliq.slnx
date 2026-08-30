@@ -23,6 +23,11 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
+  <Folder Name="/gcmodeller/">
+    <Project Path="../core/Bio.Assembly/biocore-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
   <Project Path="Metaboliq/Metaboliq.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
