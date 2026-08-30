@@ -43,6 +43,7 @@
 
 Imports System.IO
 Imports System.Text
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Core
 
@@ -201,16 +202,17 @@ Namespace Core
             Log($"    写入重格式化 FASTA: {_reformattedFasta}")
 
             Dim count As Long = 0
-            Using reader As New FastaReader(_config.InputFasta),
-                  writer As New StreamWriter(_reformattedFasta, False, Encoding.ASCII, bufferSize:=1 << 20)
+            Using reader As New StreamIterator(_config.InputFasta),
+                  writer As New System.IO.StreamWriter(_reformattedFasta, False, Encoding.ASCII, bufferSize:=1 << 20)
 
-                Dim record = reader.ReadNext()
+                Dim record As FastaSeq = reader.ReadNext()
+
                 Do While record IsNot Nothing
                     ' 写入重格式化 FASTA：>整数ID\n序列\n
                     writer.Write(">"c)
                     writer.Write(count)
                     writer.Write(ControlChars.Lf)
-                    writer.Write(record.Sequence)
+                    writer.Write(record.SequenceData)
                     writer.Write(ControlChars.Lf)
 
                     count += 1
@@ -260,7 +262,7 @@ Namespace Core
                 Log("")
 
                 ' 流式读取原始 FASTA，写 chunk 文件
-                Using reader As New FastaReader(_config.InputFasta)
+                Using reader As New StreamIterator(_config.InputFasta)
 
                     Dim seqIdx As Integer = 0
                     Dim chunkNum As Integer = 0
@@ -273,7 +275,7 @@ Namespace Core
                         ' ---- 写 chunk FASTA ----
                         Log($"--- Chunk {chunkNum + 1}/{totalChunks} (序列 {seqIdx:N0}-{seqIdx + currentChunkSize - 1:N0}) ---")
 
-                        Using writer As New StreamWriter(chunkFasta, False, Encoding.ASCII, bufferSize:=1 << 20)
+                        Using writer As New System.IO.StreamWriter(chunkFasta, False, Encoding.ASCII, bufferSize:=1 << 20)
                             For i = 0 To currentChunkSize - 1
                                 Dim record = reader.ReadNext()
                                 If record Is Nothing Then Exit For
@@ -281,7 +283,7 @@ Namespace Core
                                 writer.Write(">"c)
                                 writer.Write(seqIdx)
                                 writer.Write(ControlChars.Lf)
-                                writer.Write(record.Sequence)
+                                writer.Write(record.SequenceData)
                                 writer.Write(ControlChars.Lf)
                                 seqIdx += 1
                             Next
@@ -393,7 +395,7 @@ Namespace Core
 
             ' ---- 写入 family_summary.tsv ----
             Log("    [4c] 写入 family_summary.tsv...")
-            Using writer As New StreamWriter(_config.OutputSummary, False, Encoding.ASCII, bufferSize:=1 << 20)
+            Using writer As New System.IO.StreamWriter(_config.OutputSummary, False, Encoding.ASCII, bufferSize:=1 << 20)
                 writer.WriteLine("#family_id" & ControlChars.Tab & "size")
                 For Each kv In familySizes.OrderByDescending(Function(k) k.Value)
                     writer.WriteLine($"{kv.Key}{ControlChars.Tab}{kv.Value}")
@@ -411,8 +413,8 @@ Namespace Core
                                           rootToFamily As Dictionary(Of Integer, Integer),
                                           familySizes As Dictionary(Of Integer, Integer))
             Using dsu As New UnionFind(_dsuPath, totalSeqs),
-                  reader As New FastaReader(_config.InputFasta),
-                  writer As New StreamWriter(_config.OutputFamilies, False, Encoding.ASCII, bufferSize:=1 << 20)
+                  reader As New StreamIterator(_config.InputFasta),
+                  writer As New System.IO.StreamWriter(_config.OutputFamilies, False, Encoding.ASCII, bufferSize:=1 << 20)
 
                 writer.WriteLine("#sequence_header" & ControlChars.Tab & "family_id")
 
@@ -429,7 +431,7 @@ Namespace Core
                     End If
 
                     ' 写入原始头 → 家族 ID
-                    writer.Write(record.Header)
+                    writer.Write(record.Title)
                     writer.Write(ControlChars.Tab)
                     writer.WriteLine(familyId)
 
