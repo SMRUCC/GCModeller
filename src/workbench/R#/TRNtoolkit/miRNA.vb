@@ -62,9 +62,38 @@ Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
+''' <summary>
+''' miRNA/siRNA target gene prediction toolkit
+''' </summary>
+''' 
+''' <remarks>
+''' This R# package module provides the toolkit for predict the target genes of 
+''' the miRNA/siRNA small RNA sequence:
+''' 
+''' + ``psRNATarget`` and ``TargetFinder``: create the miRNA target site match 
+'''   algorithm object;
+''' + ``miRNA_targets``: run the target site match of the given miRNA sequence 
+'''   against the candidate target mRNA/CDS sequence collection;
+''' + ``intersect_targets``: take the intersection of the two algorithm result for 
+'''   create the high confidence target site set.
+''' 
+''' the generated match result is a collection of the <see cref="siRNAHit"/> 
+''' object, which can be converted to a data frame via the ``as.data.frame`` api, 
+''' or be saved as a csv table file via the ``write.csv`` api.
+''' </remarks>
 <Package("miRNA")>
 Module miRNA
 
+    ''' <summary>
+    ''' Initialize the internal environment of this R# package module
+    ''' </summary>
+    ''' 
+    ''' <remarks>
+    ''' this function is invoked automatically at the start of the R# runtime 
+    ''' environment, it just registers the data frame cast handler of the 
+    ''' <see cref="siRNAHit"/> match result collection, so that the match result can 
+    ''' be converted to a data frame via the ``as.data.frame`` api.
+    ''' </remarks>
     Sub Main()
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(siRNAHit()), AddressOf targetMatchesResult)
     End Sub
