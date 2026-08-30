@@ -132,6 +132,65 @@ Module TRNBuilder
         End If
     End Function
 
+    ''' <summary>
+    ''' scan the TF binding site motif on the given sequence regions
+    ''' </summary>
+    ''' <param name="db">
+    ''' the position weight matrix(PWM) motif database object, which contains the 
+    ''' motif model of each transcription factor family.
+    ''' </param>
+    ''' <param name="search_regions">
+    ''' the sequence regions for run the motif site scan, which can be a fasta 
+    ''' sequence collection, a <see cref="FastaFile"/> object or a character vector 
+    ''' of the raw sequence data, each sequence is a candidate promoter/upstream 
+    ''' sequence region of one gene.
+    ''' </param>
+    ''' <param name="family">
+    ''' an optional character vector of the transcription factor family name for 
+    ''' restrict the motif scan: only the motif model of the given families will be 
+    ''' used for the scan, all of the motif models in the database will be used if 
+    ''' this parameter is not specified.
+    ''' </param>
+    ''' <param name="pval_cutoff">
+    ''' the p-value cutoff of the motif site match: the candidate site that its 
+    ''' match p-value is greater than this cutoff will be ignored, by default is 
+    ''' 0.05.
+    ''' </param>
+    ''' <param name="minW">
+    ''' the minimum score ratio cutoff of the motif site match, by default is 0.85.
+    ''' 
+    ''' NOTE: this parameter is not applied by the current implementation, the motif 
+    ''' site match result is filtered by the ``pval_cutoff`` and the ``top`` 
+    ''' parameter only.
+    ''' </param>
+    ''' <param name="top">
+    ''' the top n best matched site of each motif model on each sequence region, by 
+    ''' default is 3.
+    ''' </param>
+    ''' <param name="bg">
+    ''' the background model of the motif site scan, the uniform background model 
+    ''' will be used if this parameter is not specified.
+    ''' </param>
+    ''' <param name="scan_reverse">
+    ''' scan the motif site on the reverse complement strand of the sequence region 
+    ''' or not? by default is TRUE.
+    ''' </param>
+    ''' <param name="tqdm_bar">
+    ''' display the progress bar of the motif site scan task on the console? by 
+    ''' default is TRUE.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="MotifMatch"/> motif site match result: the 
+    ''' ``title`` property is the sequence title of the corresponding sequence 
+    ''' region, the ``motif`` property is the matched motif model, the ``start``, 
+    ''' ``ends``, ``strand`` and ``segment`` property is the location and the 
+    ''' sequence data of the matched site, and the ``score1``, ``score2`` and 
+    ''' ``pvalue`` property is the match score data;
+    ''' 
+    ''' this function returns a R# error message object if the given sequence source 
+    ''' can not be cast to a fasta sequence collection.
+    ''' </returns>
     <ExportAPI("motif_search")>
     <RApiReturn(GetType(MotifMatch))>
     Public Function motif_search(db As SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase, <RRawVectorArgument> search_regions As Object,
