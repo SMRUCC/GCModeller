@@ -14,7 +14,9 @@ open the fasta sequence file
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the file path of the target fasta sequence file for open.
+. 
 .PP
 .PP
 \fBread\fB \fR\- 
@@ -22,11 +24,28 @@ open the fasta sequence file
 . 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBline_break\fB \fR\- 
+ the sequence length in one line of the generated fasta document when this 
+ function is used for open a fasta file in write mode, a negative value 
+ means that all of the sequence data will be written in a single line.
+. 
+.PP
+.PP
+\fBdelimiter\fB \fR\- 
+ the delimiter character for merge the fasta headers title when this 
+ function is used for open a fasta file in write mode.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
 .PP
 .SH VALUE
 .PP
-a lazy collection of the fasta sequence data
+a lazy collection of the fasta sequence data(a pipeline object of the 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence data) when the \fBread\fR parameter is TRUE, 
+ or a fasta stream writer(@\fBT:SMRUCC.genomics.SequenceModel.FASTA.StreamWriter\fR) 
+ object for write the sequence data into the target file in a stream manner 
+ when the \fBread\fR parameter is FALSE.
 .PP
 .SH SEE ALSO
 bioseq.fasta

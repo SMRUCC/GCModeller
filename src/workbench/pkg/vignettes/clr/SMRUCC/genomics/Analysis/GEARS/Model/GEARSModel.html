@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GEARS.Model.GEARSModel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GEARSModel {SMRUCC.genomics.Analysis.GEARS.Model}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GEARSModel</h2>
+
+        <h3>Description</h3>
+
+        <p>GEARS 模型：面向基因表达调控网络虚拟扰动的图神经网络
+
+<p>本类型把 readme 的 Step 2 ~ Step 4 编排为一个可端到端训练的模型：
+
+<p>Step 2 节点特征与扰动编码： h_i^(0) = [ x̄_i ‖ p_i ‖ e_i ‖ z_pert ]， 其中 x̄ 为 control 基线表达（建议先做 Z-score 标准化）、p 为扰动 multi-hot 标记、 e 为可学习的基因身份嵌入、z_pert 为被扰动基因集合经 Deep Sets 均值池化得到的全局扰动向量。 Step 3 多层消息传递：堆叠若干 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Layers/GEARSConvLayer.html">GEARSConvLayer</a>， 每层沿调控图入边做边类型感知聚合，L 层对应 L-hop 的间接调控效应。 Step 4 解码预测：解码器把最终节点嵌入映射为 Δ表达， 最终预测表达为 x̂^pert = x̄^control + Δx̂。
+
+<p>扰动标记 p 的取值由调用方给出（GEARS 门面类会按 InterventionMode 把被扰动基因的表达值改写后一并编码进 x̄ 通道）， 因此同一个模型可以同时支持单基因与多基因组合扰动。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GEARS.Model
+export class GEARSModel extends <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/GNNModel.html">GNNModel</a> {
+   # 基因身份嵌入维度
+   EmbeddingDim: integer;
+   # 初始节点特征的维度：1(表达) + 1(扰动标记) + d(身份嵌入) + d(扰动集合向量)
+   FeatureDim: integer;
+   # 隐藏层维度
+   HiddenDim: integer;
+   # 获取最近一次前向传播构建的初始节点特征 [numGenes, FeatureDim]
+   LastNodeFeatures: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a>;
+   Name: string;
+   # 基因数量（图中节点数量）
+   NumGenes: integer;
+   # 图卷积层数（对应可捕捉的间接效应跳数）
+   NumLayers: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/GNNModel.html">GNNModel</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/GNNModel.html">GNNModel</a></li>
+<li>use by <i>property</i> member <code>LastNodeFeatures</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

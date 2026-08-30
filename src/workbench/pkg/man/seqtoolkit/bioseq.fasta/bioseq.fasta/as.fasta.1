@@ -11,10 +11,30 @@ Create a fasta sequence collection object from any given sequence collection.
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- any type of sequence collection. 
+\fBx\fB \fR\- 
+ any type of sequence collection, which can be:
+ 
+ 1. a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object or a collection of the 
+    @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object;
+ 2. a multiple sequence alignment result(@\fBT:SMRUCC.genomics.Analysis.SequenceAlignment.MSA.MSAOutput\fR);
+ 3. a set of the @\fBT:SMRUCC.genomics.SequenceModel.NucleotideModels.SimpleSegment\fR sequence segment object;
+ 4. a sequence motif object(@\fBT:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif\fR);
+ 5. a ncbi genbank feature object(\fBFeature\fR) for extract the nucleotide 
+    sequence data of the target feature site;
+ 6. a fastq sequence collection or a character vector of the raw sequence 
+    data.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR sequence collection object that created from the 
+ given sequence data source;
+ 
+ this function returns a R# error message object if the input data source 
+ can not be cast to a fasta sequence collection.
 .PP
 .SH SEE ALSO
 bioseq.fasta

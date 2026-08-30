@@ -1,13 +1,19 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "bnlearn" from "phenotype_kit";
+//    imports "bnlearn" from "biosystem";
 //
-// ref=phenotype_kit.bnlearn@phenotype_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=biosystem.bnlearn@biosystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * 
 */
 declare namespace bnlearn {
+   module as {
+      /**
+        * @param env default value Is ``null``.
+      */
+      function prior_net(priorNet: any, env?: object): object;
+   }
    /**
      * @param priorNet default value Is ``null``.
      * @param max_itrs default value Is ``500``.

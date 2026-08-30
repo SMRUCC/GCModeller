@@ -16,7 +16,19 @@ cast the gene prediction result as GFF3 table format
 . 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a @\fBT:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable\fR object that contains all of the predicted genes 
+ as the \fBCDS\fR feature, the score of each feature is the total score of 
+ the corresponding predicted gene, and the score details are stored in the 
+ attributes of the feature, example as \fBstart_codon\fR, \fBrbs_motif\fR, 
+ \fBcscore\fR, \fBsscore\fR, \fBrscore\fR, \fBtscore\fR, \fBuscore\fR and 
+ \fBpartial\fR.
+ 
+ this function returns a R# error message object if the input data can not 
+ be cast to a collection of the @\fBT:SMRUCC.genomics.Annotation.Prodigal.PredictionResult\fR object.
 .PP
 .SH SEE ALSO
 bifrost

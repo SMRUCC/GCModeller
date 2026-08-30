@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GEARS.Training.PerturbSeqSample</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PerturbSeqSample {SMRUCC.genomics.Analysis.GEARS.Training}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PerturbSeqSample</h2>
+
+        <h3>Description</h3>
+
+        <p>一次（虚拟）扰动实验样本，等价于 Perturb-seq 中的一条记录
+
+<p>训练样本由三部分组成： 输入侧的 control 表达谱 —— 注意被扰动基因自身的表达值已被改写为干预值 （readme §4.2 的关键设计：扰动基因自身的表达改变会作为信息在网络中传播）；输入侧的扰动基因集合（单基因或组合扰动）；标签侧的扰动后真实表达谱。
+
+<p>模型实际学习的是 Δ = 扰动后表达 − 输入表达，而不是绝对表达值， 这样标签分布近似零均值、训练更稳定（readme §6.3）。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GEARS.Training
+export class PerturbSeqSample {
+   # 输入侧表达谱 [numGenes]，被扰动基因位置已被改写为干预值
+   ControlExpression: double;
+   # 样本描述标签，例如 "codY_Knockout" 或 "codY+luxR_Knockout"
+   Label: string;
+   # 本次扰动所使用的干预模式（组合扰动取第一个基因的模式）
+   Mode: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionMode.html">InterventionMode</a>;
+   # 标签侧表达谱 [numGenes]，即扰动之后的真实表达
+   PerturbedExpression: double;
+   # 被扰动基因的节点索引集合
+   PerturbedGeneIndices: integer;
+   # 被扰动基因的基因名集合，顺序与 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Training/PerturbSeqSample.html">PerturbSeqSample</a>.<a href="#">PerturbedGeneIndices</a> 一致
+   PerturbedGeneNames: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Mode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionMode.html">InterventionMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

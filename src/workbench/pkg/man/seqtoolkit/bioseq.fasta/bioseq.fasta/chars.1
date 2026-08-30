@@ -14,6 +14,15 @@ get alphabets represents of the fasta sequence
  the sequence data type.
 . 
 .PP
+.SH VALUE
+.PP
+a character vector of the alphabet letters of the given molecule type: 
+ the A/C/G/T/U/N letters for the DNA or RNA nucleotide sequence, or the 
+ 20 standard amino acid letters for the protein sequence.
+ 
+ an error will be thrown if the given sequence type is not a valid 
+ biological sequence type(DNA/RNA/Protein).
+.PP
 .SH SEE ALSO
 bioseq.fasta
 .SH FILES

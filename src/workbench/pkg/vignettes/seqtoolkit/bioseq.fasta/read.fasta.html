@@ -38,6 +38,10 @@
 <dt>file</dt>
 <dd><p>[as string]</p></dd>
 
+
+<dt>lazyStream</dt>
+<dd><p>read the fasta sequence data in a lazy stream mode? if this parameter is TRUE, then a pipeline object of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq. [as boolean]</p></dd>
+
         </table>
 
 
@@ -51,7 +55,7 @@
 
         <h3>Value</h3>
 
-        <p>A collection of the fasta sequence object<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
+        <p>A collection of the fasta sequence object: a vector of the <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> object that contains all of the sequence data in the given fasta file, or a lazy pipeline object of the <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> sequence data when the <code>lazyStream</code> parameter is TRUE.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

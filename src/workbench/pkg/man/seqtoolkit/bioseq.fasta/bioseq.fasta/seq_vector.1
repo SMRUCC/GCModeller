@@ -13,13 +13,37 @@ embedding the given fasta sequence as vector
 .PP
 .SH OPTIONS
 .PP
-\fBsgt\fB \fR\- -. 
+\fBsgt\fB \fR\- 
+ the sequence graph transform algorithm object, which is created by the 
+ \fBseq_sgt\fR api in this package module.
+. 
 .PP
 .PP
-\fBseqs\fB \fR\- -. 
+\fBseqs\fB \fR\- 
+ a fasta sequence collection for make the sequence embedding, which can be 
+ a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a collection of the 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, or a character vector of the raw sequence 
+ data.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBas_dataframe\fB \fR\- 
+ when there are multiple sequence in the input sequence collection: cast 
+ the embedding matrix as a data frame object? if this parameter is FALSE(the 
+ default value), then a named list of the embedding vector will be returned 
+ for each sequence.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a numeric vector of the embedding result if there is only one sequence in 
+ the input sequence collection, or a data frame object(each row is the 
+ embedding vector of one sequence, and the column names are \fBv1\fR, \fBv2\fR, 
+ ...) when the \fBas_dataframe\fR parameter is TRUE, or a named list of the 
+ embedding vector of each sequence.
 .PP
 .SH EXAMPLES
 .PP

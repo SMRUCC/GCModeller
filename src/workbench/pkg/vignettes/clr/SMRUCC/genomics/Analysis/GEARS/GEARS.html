@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GEARS.GEARS</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GEARS {SMRUCC.genomics.Analysis.GEARS}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GEARS</h2>
+
+        <h3>Description</h3>
+
+        <p>GEARS：基于图神经网络的基因表达调控网络虚拟扰动实验
+
+<p>本类是整个算法的门面（facade），把 readme 中的五个步骤串联为一条完整的实验流水线：
+
+<p>Step 1：由先验调控网络 @<code>F:SMRUCC.genomics.Analysis.GEARS.GEARS.priorNetwork</code> 构建基因-基因调控图（<a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GeneRegulatoryGraph.html">GeneRegulatoryGraph</a>）；Step 2：以 control 基线表达 + 基因身份嵌入 + 扰动标记 + 扰动集合向量构成初始节点特征；Step 3：多层边类型感知消息传递，让扰动信号沿调控边向下游级联传播；Step 4：解码器输出 Δ表达，预测 x̂^pert = x^input + Δx̂；Step 5：用（仿真或实测的）Perturb-seq 样本做监督训练，之后即可泛化到未见过的扰动。
+
+<p>使用方式： ' Dim gears As New GEARS(exprData, priorNetwork) Dim ko = gears.KnockoutGene("codY") Dim combo = gears.PredictCombination({"codY", "luxR"}, InterventionMode.Knockout) '
+
+<p>本类实现了 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/InsilicoPerturbationExperiment.html">InsilicoPerturbationExperiment</a> 接口， 因此可以与 BNLearn 中已有的贝叶斯网络虚拟扰动实现互换使用。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GEARS
+export class GEARS {
+   # 基因名称列表（顺序与表达矩阵行序一致）
+   GeneNames: string;
+   # 基因调控图
+   GraphData: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GeneRegulatoryGraph.html">GeneRegulatoryGraph</a>;
+   # 最近一次训练得到的损失曲线（每个 epoch 的平均 MSE）
+   LossCurve: double;
+   # GNN 模型
+   Model: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Model/GEARSModel.html">GEARSModel</a>;
+   # 当前实验使用的超参配置
+   Options: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARSConfig.html">GEARSConfig</a>;
+   # 训练器实例；尚未训练时为 Nothing
+   Trainer: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Training/GEARSTrainer.html">GEARSTrainer</a>;
+   # 训练样本集合（默认由内置仿真器生成，可用实测数据覆盖）
+   TrainingSamples: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Training/PerturbSeqSample.html">iterates(PerturbSeqSample)</a>;
+   # control（野生型）表达均值
+   WildtypeMeans: double;
+   # control（野生型）表达标准差，用于归一化、Z-score 与显著性判定
+   WildtypeSDs: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>GraphData</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GeneRegulatoryGraph.html">GeneRegulatoryGraph</a></li>
+<li>use by <i>property</i> member <code>Model</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Model/GEARSModel.html">GEARSModel</a></li>
+<li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARSConfig.html">GEARSConfig</a></li>
+<li>use by <i>property</i> member <code>Trainer</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Training/GEARSTrainer.html">GEARSTrainer</a></li>
+<li>use by <i>property</i> member <code>TrainingSamples</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Training/PerturbSeqSample.html">iterates(PerturbSeqSample)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

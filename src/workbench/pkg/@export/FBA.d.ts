@@ -1,8 +1,8 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "FBA" from "simulators";
+//    imports "FBA" from "biosystem";
 //
-// ref=simulators.FBA@simulators, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=biosystem.FBA@biosystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * Flux Balance Analysis

@@ -13,16 +13,48 @@ Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- 
+ the target MAGs contigs assembly sequence for run the gene prediction, 
+ which can be a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a collection of the 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, or a file path of the fasta sequence file, 
+ or even a character vector of the raw sequence data.
+. 
 .PP
 .PP
-\fBmin_ORF_len\fB \fR\- -. 
+\fBmin_ORF_len\fB \fR\- 
+ the minimum ORF length in bp of the predicted gene, any of the candidate 
+ ORF that its length is less than this threshold value will be ignored in 
+ the gene prediction.
+. 
 .PP
 .PP
-\fBmodel\fB \fR\- -. 
+\fBmodel\fB \fR\- 
+ the prodigal training model, which is the output of the 
+ \fBprodigal_training\fR function. If this parameter is nothing(the default 
+ value), then the model will be trained from the input contigs assembly 
+ sequence in an unsupervised manner automatically.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a collection of the gene prediction result: each element in the 
+ collection(@\fBT:SMRUCC.genomics.Annotation.Prodigal.PredictionResult\fR) is the gene prediction result 
+ of the corresponding contigs sequence in the input fasta sequence data.
+ 
+ this function returns a R# error message object if the input sequence 
+ data is nothing or can not be cast to a fasta sequence collection.
+.PP
+.SH DETAILS
+.PP
+The prodigal gene prediction pipeline is implemented in an ab-initio 
+ manner: a training model will be learned from the input contigs assembly 
+ sequence at first(when the \fBmodel\fR parameter is not specified), and 
+ then the gene finding algorithm is running based on the dynamic programming 
+ score of the coding/non-coding hexamer and the RBS motif of the trained 
+ model.
 .PP
 .SH EXAMPLES
 .PP

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>takes</title>
+    <title>takes the sequence subset from the given sequence collection by a set of</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>takes</h2>
+        <h2>takes the sequence subset from the given sequence collection by a set of</h2>
 
         <h3>Description</h3>
 
-        takes
+        <p>the sequence id
 
         <h3>Usage</h3>
 
@@ -34,6 +34,17 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>a fasta sequence collection for make the subset, which can be a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+
+
+<dt>gene.ids</dt>
+<dd><p>a character vector of the sequence id for takes the sequence subset, the sequence id is the first token of the fasta headers title text, which is splitted by the space, <code>|</code>, <code>(</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +58,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
+        <p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> sequence object that its sequence id is in the given id set;
+
+<p>this function returns a R# error message object if the input sequence data can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GEARS.Training.GEARSTrainer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GEARSTrainer {SMRUCC.genomics.Analysis.GEARS.Training}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GEARSTrainer</h2>
+
+        <h3>Description</h3>
+
+        <p>GEARS 模型训练器
+
+<p>训练流程严格对应 readme §7.2 的伪代码： 构建扰动标记 p（组合扰动为 multi-hot）；构建初始节点特征 h0 = [x̄ ‖ p ‖ e ‖ z_pert]；多层消息传递；解码得到 Δ 预测，损失取 MSE(Δ̂, Δ)；反向传播并用 Adam 更新参数。
+
+<p>归一化约定：输入表达按基因做 Z-score（减 controlMean 除 controlSD）， Δ 标签同样除以 controlSD。预测时把 Δ̂ 乘回 controlSD 即可还原到原始表达尺度。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GEARS.Training
+export class GEARSTrainer {
+   # 模型参数梯度
+   Gradients: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">iterates(Tensor)</a>;
+   # 训练过程中每个 epoch 的平均损失
+   LossCurve: <a href="/vignettes/clr/System/Double.html">iterates(Double)</a>;
+   # 模型可训练参数（交给优化器原地更新）
+   Parameters: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">iterates(Tensor)</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Gradients</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">iterates(Tensor)</a></li>
+<li>use by <i>property</i> member <code>LossCurve</code>: <a href="/vignettes/clr/System/Double.html">iterates(Double)</a></li>
+<li>use by <i>property</i> member <code>Parameters</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">iterates(Tensor)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

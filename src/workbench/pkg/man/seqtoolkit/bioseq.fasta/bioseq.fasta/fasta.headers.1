@@ -11,10 +11,33 @@ get/set the fasta headers title
 .PP
 .SH OPTIONS
 .PP
-\fBfa\fB \fR\- -. 
+\fBfa\fB \fR\- 
+ a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence object for get or set the headers title 
+ data.
+. 
 .PP
 .PP
-\fBheaders\fB \fR\- -. 
+\fBheaders\fB \fR\- 
+ a character vector of the new fasta headers data for overwrite the headers 
+ data of the given sequence object. If this parameter is not specified(or is 
+ an empty vector), then the headers data of the given sequence object will 
+ not be modified, and the current headers data will be returned.
+. 
+.PP
+.SH VALUE
+.PP
+a character vector of the fasta headers title data of the given sequence 
+ object.
+.PP
+.SH DETAILS
+.PP
+this api can be used as a property setter in R# environment: the headers 
+ data of the given fasta sequence object can be overwritten via the value 
+ assign syntax:
+ 
+ \fBr
+ fasta.headers(seq) <- c("seq_id", "description");
+ \fR`
 .PP
 .SH SEE ALSO
 bioseq.fasta

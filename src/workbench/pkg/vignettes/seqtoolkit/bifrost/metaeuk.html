@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>metaeuk</title>
+    <title>MetaEuk: the homology based eukaryotic gene prediction</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>metaeuk</h2>
+        <h2>MetaEuk: the homology based eukaryotic gene prediction</h2>
 
         <h3>Description</h3>
 
-        metaeuk
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,21 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>a <code>metaeuk_config</code> object(<a href="/vignettes/clr/SMRUCC/genomics/Annotation/MetaEuk/MetaEukConfig.html">MetaEukConfig</a>) that carries all of the required data and parameters for run the metaeuk gene prediction: the contigs assembly fasta file path(<code>ContigsFile</code>), the reference protein fasta file path(<code>ReferenceFile</code>), the output file prefix(<code>OutputPrefix</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>Unlike the prodigal gene prediction, which is running in an ab-initio manner, the metaeuk algorithm is running in a reference protein database dependent manner: at first the contigs assembly sequence is translated in six reading frames for generate the candidate coding fragments, and then the candidate fragments are aligned to the reference protein database for get the homology hits, at last the optimal exon set of each gene is picked out from the homology hits via dynamic programming.
+
+<p>NOTE: the input argument is evaluated as a fasta sequence collection at first in the current implementation, so that a <code>metaeuk_config</code> object input will be rejected by the sequence data check with the error message "there is no MAGs contigs assembly sequence input!", please run this metaeuk gene prediction program from the commandline at this moment.
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +56,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Annotation/MetaEuk/GenePrediction.html">GenePrediction</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/MetaEuk/GenePrediction.html">GenePrediction</a></li></ul>
+        <p>a collection of the gene prediction result: each element in the collection(<a href="/vignettes/clr/SMRUCC/genomics/Annotation/MetaEuk/GenePrediction.html">GenePrediction</a>) is a predicted gene that its exons are chained from the homology hits of the reference protein database.
+
+<p>this function returns a R# error message object if the input config object is nothing, or the required contigs/reference file is not specified in the config object.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/MetaEuk/GenePrediction.html">GenePrediction</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

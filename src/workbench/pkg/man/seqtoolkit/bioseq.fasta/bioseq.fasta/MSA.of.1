@@ -11,7 +11,20 @@ Do multiple sequence alignment
 .PP
 .SH OPTIONS
 .PP
-\fBseqs\fB \fR\- A fasta sequence collection. 
+\fBseqs\fB \fR\- 
+ A fasta sequence collection, which can be a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, 
+ a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, or a character vector of 
+ the raw sequence data.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+an @\fBT:SMRUCC.genomics.Analysis.SequenceAlignment.MSA.MSAOutput\fR object that contains the multiple sequence 
+ alignment result: the aligned sequence data of each input sequence and the 
+ alignment cost value.
 .PP
 .SH SEE ALSO
 bioseq.fasta

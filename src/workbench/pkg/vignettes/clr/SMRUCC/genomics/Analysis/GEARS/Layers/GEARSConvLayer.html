@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GEARS.Layers.GEARSConvLayer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GEARSConvLayer {SMRUCC.genomics.Analysis.GEARS.Layers}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GEARSConvLayer</h2>
+
+        <h3>Description</h3>
+
+        <p>GEARS 边类型感知的图卷积层
+
+<p>实现 readme 第五节的「带边类型感知的消息传递」： ' h_i^(l+1) = σ( W_self · h_i^(l) + Σ_{j ∈ N_in(i)} α_ji · sign(r_ji) · (W_{r_ji} · h_j^(l)) ) '
+
+<p>要点： 调控图中 TF → Target 是有向边，扰动信号沿调控方向向下游传播， 因此聚合的是入边邻居（即调控该基因的上游基因）；抑制边（<a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/EdgeRelationType.html">EdgeRelationType</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/EdgeRelationType.html">Repression</a>）的消息符号为 -1， 使模型能够表达「上游下调导致下游上调」这样的反向效应；默认使用稀疏入边聚合（复杂度 O(|E|·d)），因为先验调控网络非常稀疏 （350+ 基因仅约 350 条边），稠密邻接矩阵乘法会带来两个数量级的无用开销；堆叠 L 层即可捕捉 L-hop 的间接调控效应；readme 建议 2~4 层以避免过平滑。
+
+<p>之所以不使用 GNN 模块自带的 <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/GATLayer.html">GATLayer</a>，是因为它的 Backward 直接抛出 <a href="/vignettes/clr/System/InvalidOperationException.html">InvalidOperationException</a>，无法参与训练。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GEARS.Layers
+export class GEARSConvLayer extends <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/Layer.html">Layer</a> {
+   # 激活函数类型
+   Activation: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/ActivationType.html">ActivationType</a>;
+   # 输入特征维度
+   InFeatures: integer;
+   IsTraining: boolean;
+   Name: string;
+   # 输出特征维度
+   OutFeatures: integer;
+   # 是否使用稠密邻接矩阵聚合（仅用于小图对照，默认关闭）
+   UseDense: boolean;
+   # 是否为每种边关系类型分配独立的变换矩阵
+   UsePerRelationTransform: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/Layer.html">Layer</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/Layer.html">Layer</a></li>
+<li>use by <i>property</i> member <code>Activation</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/ActivationType.html">ActivationType</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

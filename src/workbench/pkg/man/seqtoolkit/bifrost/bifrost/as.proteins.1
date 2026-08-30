@@ -11,10 +11,25 @@ Extract the protein sequences from the gene prediction result, and return as FAS
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- 
+ the gene prediction result, which can be the output of the "prodigal" 
+ function, or a pipeline that produces @\fBT:SMRUCC.genomics.Annotation.Prodigal.PredictionResult\fR 
+ objects.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR protein sequence data, one 
+ sequence object for each of the predicted gene, the protein sequence is 
+ translated from the corresponding predicted gene nucleotide sequence, 
+ and the sequence title is formatted as: 
+ \fB{seq_id}_{gene_index} {start-end(strand)} ID=gene_{gene_index};partial={partial_type}\fR.
+ 
+ this function returns a R# error message object if the input data can not 
+ be cast to a collection of the @\fBT:SMRUCC.genomics.Annotation.Prodigal.PredictionResult\fR object.
 .PP
 .SH SEE ALSO
 bifrost

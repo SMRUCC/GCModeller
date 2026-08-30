@@ -1,10 +1,56 @@
 .\" man page create by R# package system.
 .TH BIFROST 1 2000-1月 "metaeuk" "metaeuk"
 .SH NAME
-metaeuk \- 
+metaeuk \- MetaEuk: the homology based eukaryotic gene prediction
 .SH SYNOPSIS
 \fImetaeuk(\fBx\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+MetaEuk: the homology based eukaryotic gene prediction
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ a \fBmetaeuk_config\fR object(@\fBT:SMRUCC.genomics.Annotation.MetaEuk.MetaEukConfig\fR) that carries 
+ all of the required data and parameters for run the metaeuk gene 
+ prediction: the contigs assembly fasta file path(\fBContigsFile\fR), the 
+ reference protein fasta file path(\fBReferenceFile\fR), the output file 
+ prefix(\fBOutputPrefix\fR) and the other algorithm parameters, example as 
+ the E-value threshold, the minimum identity, the maximum intron length, 
+ etc.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a collection of the gene prediction result: each element in the 
+ collection(@\fBT:SMRUCC.genomics.Annotation.MetaEuk.GenePrediction\fR) is a predicted gene that its 
+ exons are chained from the homology hits of the reference protein 
+ database.
+ 
+ this function returns a R# error message object if the input config 
+ object is nothing, or the required contigs/reference file is not 
+ specified in the config object.
+.PP
+.SH DETAILS
+.PP
+Unlike the prodigal gene prediction, which is running in an ab-initio 
+ manner, the metaeuk algorithm is running in a reference protein database 
+ dependent manner: at first the contigs assembly sequence is translated in 
+ six reading frames for generate the candidate coding fragments, and then 
+ the candidate fragments are aligned to the reference protein database for 
+ get the homology hits, at last the optimal exon set of each gene is 
+ picked out from the homology hits via dynamic programming.
+ 
+ NOTE: the input argument is evaluated as a fasta sequence collection at 
+ first in the current implementation, so that a \fBmetaeuk_config\fR object 
+ input will be rejected by the sequence data check with the error message 
+ "there is no MAGs contigs assembly sequence input!", please run this 
+ metaeuk gene prediction program from the commandline at this moment.
+.PP
 .SH SEE ALSO
 bifrost
 .SH FILES

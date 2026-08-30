@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GEARS.GEARSConfig</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GEARSConfig {SMRUCC.genomics.Analysis.GEARS}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GEARSConfig</h2>
+
+        <h3>Description</h3>
+
+        <p>GEARS 虚拟扰动实验的超参数配置
+
+<p>默认取值针对 demo\TestData1 这样规模的数据（约 370 个基因、约 350 条先验边）做过权衡： 在单核 CPU 上完成一次完整训练约需数十秒。基因规模更大时建议下调 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARSConfig.html">GEARSConfig</a>.<a href="#">NSinglePerturbation</a>、<a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARSConfig.html">GEARSConfig</a>.<a href="#">NComboPerturbation</a> 或 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARSConfig.html">GEARSConfig</a>.<a href="#">Epochs</a>。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GEARS
+export class GEARSConfig {
+   # 图卷积层的激活函数
+   Activation: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/ActivationType.html">ActivationType</a>;
+   # 每个基因追加的共表达边数量（GEARS 的共表达协方差图）
+   CoexpressionTopK: integer;
+   # 组合扰动中同时扰动的基因个数
+   ComboSize: integer;
+   # 基因身份嵌入维度（对应 readme 中 e_i 的维度 d）
+   EmbeddingDim: integer;
+   # 训练轮数
+   Epochs: integer;
+   # 图卷积隐藏层维度
+   HiddenDim: integer;
+   # L2 正则化（权重衰减）系数，0 表示不启用
+   L2Lambda: double;
+   # Adam 优化器学习率
+   LearningRate: double;
+   # 仿真器的最大传播跳数
+   MaxHops: integer;
+   # 共表达边的最小相关系数阈值
+   MinCoexpression: double;
+   # 仿真生成的组合扰动样本数量
+   NComboPerturbation: integer;
+   # 仿真生成的单基因扰动样本数量
+   NSinglePerturbation: integer;
+   # 图卷积层数，等于模型可捕捉的间接调控跳数
+   NumLayers: integer;
+   # 每隔多少个 epoch 打印一次训练损失；0 表示静默
+   PrintEvery: integer;
+   # 仿真器的每跳信号衰减系数
+   PropagationDecay: double;
+   # 随机种子；给定后建图、初始化、样本生成与推理均可复现
+   Seed: integer;
+   # 显著性判据：|Z-score| 大于该阈值才被标记为显著变化
+   SignificanceZScore: double;
+   # 仿真标签的噪声水平（以基因标准差为单位）
+   SimulatorNoise: double;
+   # 仿真器中组合扰动的协同放大系数，0 表示退化为线性叠加
+   SynergyStrength: double;
+   # 是否使用稠密归一化邻接矩阵聚合（默认 False，使用稀疏入边聚合）
+   UseDense: boolean;
+   # 是否为每种边关系类型（激活/抑制/共表达）分配独立的变换矩阵
+   UsePerRelationTransform: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Activation</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/ActivationType.html">ActivationType</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

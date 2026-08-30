@@ -44,9 +44,9 @@
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>unlike the <code>read.fasta</code> api, this function reads the whole genome sequence in a chunked manner: the sequence data of each chromosome is stored as a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/ChunkedNtFasta.html">ChunkedNtFasta</a> object, so that we can slice a sequence region from a huge chromosome sequence in a memory efficient manner via the <code>slicer</code> api.
 
         <h3 style="display: block">Authors</h3>
 
@@ -54,7 +54,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/ChunkedNtFasta.html">ChunkedNtFasta</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/ChunkedNtFasta.html">ChunkedNtFasta</a></li></ul>
+        <p>a named list of the <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/ChunkedNtFasta.html">ChunkedNtFasta</a> chunk sequence object, the name of the list element is the fasta title of the corresponding chromosome or contigs sequence.
+
+<p>this function returns a R# error message object if the given file can not be opened for read.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/ChunkedNtFasta.html">ChunkedNtFasta</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

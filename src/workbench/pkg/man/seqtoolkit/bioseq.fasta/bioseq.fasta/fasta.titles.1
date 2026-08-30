@@ -11,7 +11,19 @@ get the fasta titles from a collection of fasta sequence
 .PP
 .SH OPTIONS
 .PP
-\fBfa\fB \fR\- -. 
+\fBfa\fB \fR\- 
+ a fasta sequence collection, which can be a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, 
+ a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, or a character vector of 
+ the raw sequence data.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a character vector of the fasta title text of each sequence in the given 
+ fasta sequence collection.
 .PP
 .SH SEE ALSO
 bioseq.fasta

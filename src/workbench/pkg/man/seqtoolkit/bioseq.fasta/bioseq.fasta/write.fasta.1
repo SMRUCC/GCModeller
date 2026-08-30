@@ -16,14 +16,30 @@ write a fasta sequence or a collection of fasta sequence object
 .PP
 .SH OPTIONS
 .PP
-\fBseq\fB \fR\- -. 
+\fBseq\fB \fR\- 
+ the fasta sequence data for write into the target file, which can be a 
+ single @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a 
+ collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, a character vector of the 
+ raw sequence data, a fastq sequence collection, or a pipeline object that 
+ produces a set of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence data.
+. 
 .PP
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the output target: a file path of the generated fasta sequence file, a file 
+ stream object, or a fasta stream writer object that is created by the 
+ \fBopen.fasta\fR api in write mode.
+. 
 .PP
 .PP
 \fBlineBreak\fB \fR\- 
  The sequence length in one line, negative value or ZERo means no line break.
+. 
+.PP
+.PP
+\fBdelimiter\fB \fR\- 
+ the delimiter character for merge the fasta headers title of the sequence 
+ data.
 . 
 .PP
 .PP
@@ -33,6 +49,18 @@ write a fasta sequence or a collection of fasta sequence object
 .PP
 .PP
 \fBencoding\fB \fR\- The text encoding value of the generated fasta file.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a boolean value of the file save result: TRUE means the sequence data has 
+ been written into the target file successfully;
+ 
+ this function returns a R# error message object if the given sequence data 
+ can not be cast to a fasta sequence collection, or the target file can not 
+ be opened for write.
 .PP
 .SH SEE ALSO
 bioseq.fasta

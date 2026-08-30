@@ -11,11 +11,25 @@ read a fasta sequence collection file
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the file path of the fasta sequence file for read the sequence data.
+. 
+.PP
+.PP
+\fBlazyStream\fB \fR\- 
+ read the fasta sequence data in a lazy stream mode? if this parameter is 
+ TRUE, then a pipeline object of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence data 
+ will be returned, which is helpful for read a huge fasta sequence file 
+ without loading all of the sequence data into the memory at once.
+. 
 .PP
 .SH VALUE
 .PP
-A collection of the fasta sequence object
+A collection of the fasta sequence object: a vector of the 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object that contains all of the sequence data in 
+ the given fasta file, or a lazy pipeline object of the 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence data when the \fBlazyStream\fR parameter is 
+ TRUE.
 .PP
 .SH SEE ALSO
 bioseq.fasta

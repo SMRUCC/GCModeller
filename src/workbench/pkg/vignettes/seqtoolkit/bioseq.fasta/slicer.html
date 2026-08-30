@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>slicer</title>
+    <title>create a sequence region slicer for cut a specific sequence region from</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>slicer</h2>
+        <h2>create a sequence region slicer for cut a specific sequence region from</h2>
 
         <h3>Description</h3>
 
-        slicer
+        <p>the given sequence data
 
         <h3>Usage</h3>
 
@@ -34,12 +34,26 @@
 
         <table>
             
+<dt>fa</dt>
+<dd><p>the target sequence data source, which can be:
+
+
+<ol>
+<li><p>a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> sequence object, then a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/FastaSlicer.html">FastaSlicer</a> will be created;</li>
+<li><p>a chromosome or contigs sequence object(<a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/ChunkedNtFasta.html">ChunkedNtFasta</a>) that is read from the genome assembly sequence file via the <code>read_assembly</code> api, then a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/ChunkSlicer.html">ChunkSlicer</a> will be created;</li>
+<li><p>a ncbi genbank database file object(<code>GBFF.File</code>), then a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/GenBankSlicer.html">GenBankSlicer</a> will be created.</li>
+</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the slicer object is used for cut a sequence region from a huge genome sequence in a memory efficient manner, which is very helpful for the sequence data extraction of a specific gene locus site.
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +61,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object in these one of the listed data types: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/ISlicer.html">ISlicer</a>, <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/FastaSlicer.html">FastaSlicer</a>, <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/ChunkSlicer.html">ChunkSlicer</a>, <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/GenBankSlicer.html">GenBankSlicer</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/ISlicer.html">ISlicer</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/FastaSlicer.html">FastaSlicer</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/ChunkSlicer.html">ChunkSlicer</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/GenBankSlicer.html">GenBankSlicer</a></li></ul>
+        <p>an <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/ISlicer.html">ISlicer</a> object for slice the sequence region from the given sequence data source;
+
+<p>this function returns a R# error message object if the given sequence data source is not a supported sequence data model.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/ISlicer.html">ISlicer</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/FastaSlicer.html">FastaSlicer</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/ChunkSlicer.html">ChunkSlicer</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/GenBankSlicer.html">GenBankSlicer</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

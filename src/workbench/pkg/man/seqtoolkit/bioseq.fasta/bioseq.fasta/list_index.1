@@ -12,13 +12,36 @@ make sequence list index
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- 
+ a fasta sequence collection for make the sequence index, which can be a 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR 
+ object, or a character vector of the raw sequence data.
+. 
 .PP
 .PP
-\fBids\fB \fR\- -. 
+\fBids\fB \fR\- 
+ a character vector of the index key of each sequence, the length of this 
+ vector should be equals to the size of the input sequence collection. If 
+ this parameter is not specified, then the first token of the fasta headers 
+ title text of each sequence will be used as the index key.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a named list of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence object, the name of the 
+ list element is the corresponding index key of the sequence, so that we can 
+ get the target sequence object by the index key directly.
+ 
+ this function returns a R# error message object if the input sequence data 
+ can not be cast to a fasta sequence collection.
+.PP
+.SH DETAILS
+.PP
+the index key of the generated list object is unique: the duplicated key 
+ will be renamed automatically by appending an unique numeric suffix.
 .PP
 .SH SEE ALSO
 bioseq.fasta

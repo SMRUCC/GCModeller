@@ -12,7 +12,33 @@ Create algorithm for make sequence embedding
 .PP
 .SH OPTIONS
 .PP
-\fBmoltype\fB \fR\- -. 
+\fBmoltype\fB \fR\- 
+ the molecule type of the target sequence data for make the sequence 
+ embedding: protein, DNA or RNA sequence.
+. 
+.PP
+.PP
+\fBkappa\fB \fR\- 
+ the decay factor of the sequence graph transform algorithm, the smaller 
+ value of this parameter makes the far distance k-mer composition weight 
+ less.
+. 
+.PP
+.PP
+\fBlengthsensitive\fB \fR\- 
+ is the generated embedding vector sensitive to the sequence length? if 
+ this parameter is FALSE(the default value), then the embedding vector will 
+ be normalized by the sequence length, so that two sequences with the same 
+ k-mer composition but different lengths get the same embedding vector; if 
+ this parameter is TRUE, then the vector norm value grows with the sequence 
+ length.
+. 
+.PP
+.SH VALUE
+.PP
+a @\fBT:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.CreateMatrix\fR algorithm object for embedding the given 
+ sequence data as a numeric vector, which can be applied on a collection 
+ of the sequence data via the \fBseq_vector\fR api.
 .PP
 .SH SEE ALSO
 bioseq.fasta

@@ -35,7 +35,7 @@
         <table>
             
 <dt>x</dt>
-<dd><p></p></dd>
+<dd><p>the gene prediction result, which can be the output of the "prodigal" function, or a pipeline that produces @<code>T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult</p></dd>
 
 
 <dt>env</dt>
@@ -54,7 +54,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
+        <p>a collection of the <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> nucleotide sequence data, one sequence object for each of the predicted gene, the sequence data is the nucleotide sequence of the corresponding predicted gene region on the contigs assembly sequence, and the sequence title is formatted as: <code>{seq_id}_{gene_index} {start-end(strand)} ID=gene_{gene_index};partial={partial_type}</code>.
+
+<p>this function returns a R# error message object if the input data can not be cast to a collection of the <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/PredictionResult.html">PredictionResult</a> object.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

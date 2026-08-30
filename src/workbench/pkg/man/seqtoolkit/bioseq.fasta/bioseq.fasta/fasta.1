@@ -11,10 +11,18 @@ Create a new fasta sequence objects
 .PP
 .SH OPTIONS
 .PP
-\fBseq\fB \fR\- -. 
+\fBseq\fB \fR\- the raw sequence data text of the target fasta sequence.. 
 .PP
 .PP
-\fBattrs\fB \fR\- -. 
+\fBattrs\fB \fR\- 
+ a character vector of the fasta headers data: the first element of this 
+ vector is the sequence id, and the other elements are the description 
+ information of the target sequence.
+. 
+.PP
+.SH VALUE
+.PP
+a new @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence object.
 .PP
 .SH SEE ALSO
 bioseq.fasta

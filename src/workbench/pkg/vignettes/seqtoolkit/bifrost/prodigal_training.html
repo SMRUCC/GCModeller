@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>prodigal_training</title>
+    <title>Train the gene prediction model in an unsupervised manner</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>prodigal_training</h2>
+        <h2>Train the gene prediction model in an unsupervised manner</h2>
 
         <h3>Description</h3>
 
-        prodigal_training
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>input target fasta sequence collection for make prodigal training, it should be a set of the genomics contigs assembly sequence, which can be a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -47,11 +54,20 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a></li></ul>
+        <p>a trained <code>prodigal</code> <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a> object, which can be used for the gene prediction of the other genomics contigs assembly sequence that come from the same or a close related species, via the <code>model</code> parameter of the <code>prodigal</code> function.
 
-        <h3 style="display: none;">Examples</h3>
+<p>this function returns a R# error message object if the input sequence data is nothing or can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a></li></ul>
 
-        
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> imports "bioseq.fasta" from "seqtoolkit";
+ imports "bifrost" from "seqtoolkit";
+ 
+ # train the gene prediction model from a well assembled 
+ # genomics contigs sequence, and then apply the trained 
+ # model on the other MAGs contigs of the same species
+ let model <- prodigal_training(read.fasta("./genome.fasta"));
+ let genes <- prodigal(read.fasta("./MAGs_contigs.fasta"), model = model);</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>bifrost</em> version 1.0.0.0 <a

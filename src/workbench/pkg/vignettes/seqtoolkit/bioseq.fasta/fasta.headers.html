@@ -36,7 +36,7 @@
         <table>
             
 <dt>fa</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>]</p></dd>
+<dd><p>a @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>]</p></dd>
 
 
 <dt>headers</dt>
@@ -45,9 +45,12 @@
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>this api can be used as a property setter in R# environment: the headers data of the given fasta sequence object can be overwritten via the value assign syntax:
+
+
+<pre><code class="language-r"> fasta.headers(seq) &lt;- c("seq_id", "description");</code></pre>
 
         <h3 style="display: block">Authors</h3>
 
@@ -55,7 +58,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type string.<h4>clr value class</h4><ul><li>string</li></ul>
+        <p>a character vector of the fasta headers title data of the given sequence object.<h4>clr value class</h4><ul><li>string</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

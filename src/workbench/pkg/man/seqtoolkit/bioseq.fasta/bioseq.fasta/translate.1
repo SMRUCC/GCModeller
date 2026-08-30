@@ -14,7 +14,12 @@ Do translation of the nt sequence to protein sequence
 .PP
 .SH OPTIONS
 .PP
-\fBnt\fB \fR\- The given fasta collection. 
+\fBnt\fB \fR\- 
+ The given fasta collection, which can be a single @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR 
+ object, a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a collection of the 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, or a character vector of the raw nucleotide 
+ sequence data.
+. 
 .PP
 .PP
 \fBtable\fB \fR\- The genetic code for translation table.. 
@@ -23,6 +28,32 @@ Do translation of the nt sequence to protein sequence
 \fBbypassStop\fB \fR\- 
  Try ignores of the stop codon.
 . 
+.PP
+.PP
+\fBcheckNt\fB \fR\- 
+ check the input nucleotide sequence data is a valid nucleotide sequence? 
+ if this parameter is TRUE and the input sequence data contains the invalid 
+ nucleotide letters, then an error will be thrown.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a protein @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object if the input is a single nucleotide 
+ sequence, or a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR protein sequence collection if the 
+ input is a collection of the nucleotide sequence data;
+ 
+ this function returns a R# error message object if the input sequence data 
+ can not be cast to a nucleotide fasta sequence collection.
+.PP
+.SH DETAILS
+.PP
+when the \fBbypassStop\fR parameter is TRUE and there are some invalid gene 
+ sequence that contains the stop codon symbol in the translated protein 
+ sequence, a warning message will be pushed into the R# environment message 
+ buffer.
 .PP
 .SH SEE ALSO
 bioseq.fasta

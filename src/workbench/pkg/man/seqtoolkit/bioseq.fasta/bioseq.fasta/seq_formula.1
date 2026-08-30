@@ -1,11 +1,43 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.FASTA 4 2000-1月 "seq_formula" "seq_formula"
 .SH NAME
-seq_formula \- 
+seq_formula \- evaluate the chemical formula of the given sequence data
 .SH SYNOPSIS
 \fIseq_formula(\fBseqs\fR as any, 
 \fBtype\fR as <integer> SeqTypes = [Generic], 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+evaluate the chemical formula of the given sequence data
+.PP
+.SH OPTIONS
+.PP
+\fBseqs\fB \fR\- 
+ a fasta sequence collection for evaluate the chemical formula, which can 
+ be a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a collection of the 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, or a character vector of the raw sequence 
+ data.
+. 
+.PP
+.PP
+\fBtype\fB \fR\- 
+ the molecule type of the input sequence data, if this parameter is not 
+ specified(@\fBF:SMRUCC.genomics.SequenceModel.SeqTypes.Generic\fR), then the molecule type will be 
+ evaluated from the input sequence data automatically: the most common 
+ sequence type of the input sequence collection will be used.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a character value of the chemical formula if there is only one sequence 
+ in the input sequence collection, or a named list of the chemical formula 
+ of each sequence if there are multiple sequence in the input sequence 
+ collection, the name of the list element is the fasta title of the 
+ corresponding sequence.
+.PP
 .SH SEE ALSO
 bioseq.fasta
 .SH FILES

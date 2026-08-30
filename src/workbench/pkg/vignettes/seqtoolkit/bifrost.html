@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; bifrost; seqtoolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="Bifrost: the gene prediction toolkit..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,29 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "bifrost"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
+                               <br /><br /><span style="color: green;">#' Bifrost: the gene prediction toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "bifrost"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>Bifrost: the gene prediction toolkit</p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module provides the api for run gene prediction on the genomics contigs assembly sequence:
+
+
+<ul>
+<li><p><code>prodigal</code>: the ab-initio prokaryotic gene prediction algorithm (PROkaryotic DYnamic programming Gene-finding ALgorithm), works on the prokaryotic MAGs contigs assembly sequence;</li>
+<li><p><code>metaeuk</code>: the homology based eukaryotic gene prediction algorithm, works on the eukaryotic contigs assembly sequence with a given reference protein database;</li>
+</ul>
+
+
+<p>The gene prediction result of the prodigal algorithm is a collection of the <code>PredictionResult</code> object, which could be exported as:
+
+
+<ul>
+<li><p>GFF3 table via the <code>as.gff3</code> api;</li>
+<li><p>nucleotide/protein fasta sequence via the <code>as.genes</code>/<code>as.proteins</code> api;</li>
+<li><p>a score table data frame via the <code>as.data.frame</code> api, for save as a csv file by the <code>write.csv</code> api.</li>
+</ul>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -102,7 +118,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="prodigal_training">
     <a href="./bifrost/prodigal_training.html">prodigal_training</a>
   </td>
-  <td></td>
+  <td><p>Train the gene prediction model in an unsupervised manner</td>
 </tr>
 <tr>
   <td id="prodigal">
@@ -114,7 +130,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="metaeuk">
     <a href="./bifrost/metaeuk.html">metaeuk</a>
   </td>
-  <td></td>
+  <td><p>MetaEuk: the homology based eukaryotic gene prediction</td>
 </tr>
 <tr>
   <td id="as.gff3">

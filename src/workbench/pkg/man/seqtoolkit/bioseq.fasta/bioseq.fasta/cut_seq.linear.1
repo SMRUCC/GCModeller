@@ -13,7 +13,11 @@ cut part of the sequence
 .PP
 .SH OPTIONS
 .PP
-\fBseq\fB \fR\- -. 
+\fBseq\fB \fR\- 
+ the target sequence data source, which can be a single 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR 
+ object, or a character vector of the raw sequence data.
+. 
 .PP
 .PP
 \fBloci\fB \fR\- 
@@ -30,7 +34,18 @@ cut part of the sequence
 . 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a new @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object of the cut sequence fragment if the 
+ input is a single sequence object, or a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object of 
+ the cut sequence fragments of each input sequence if the input is a 
+ sequence collection;
+ 
+ this function returns a R# error message object if the given location 
+ information is nothing, or the input sequence data can not be cast to a 
+ fasta sequence collection.
 .PP
 .SH SEE ALSO
 bioseq.fasta

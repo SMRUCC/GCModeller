@@ -1,11 +1,42 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.FASTA 4 2000-1月 "takes" "takes"
 .SH NAME
-takes \- 
+takes \- takes the sequence subset from the given sequence collection by a set of
 .SH SYNOPSIS
 \fItakes(\fBx\fR as any, 
 \fBgene_ids\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+takes the sequence subset from the given sequence collection by a set of 
+ the sequence id
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ a fasta sequence collection for make the subset, which can be a 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR 
+ object, or a character vector of the raw sequence data.
+. 
+.PP
+.PP
+\fBgene_ids\fB \fR\- 
+ a character vector of the sequence id for takes the sequence subset, the 
+ sequence id is the first token of the fasta headers title text, which is 
+ splitted by the space, \fB|\fR, \fB(\fR or the TAB character.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence object that its sequence id 
+ is in the given id set;
+ 
+ this function returns a R# error message object if the input sequence data 
+ can not be cast to a fasta sequence collection.
+.PP
 .SH SEE ALSO
 bioseq.fasta
 .SH FILES

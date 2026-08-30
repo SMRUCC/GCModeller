@@ -12,8 +12,18 @@ Read a single fasta sequence file
 .SH OPTIONS
 .PP
 \fBfile\fB \fR\- 
- Just contains one sequence
+ the file path of the target sequence file, Just contains one sequence
 . 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object that read from the given sequence file;
+ 
+ this function returns a R# error message object if the given file is not a 
+ valid fasta sequence file or a genbank database file.
 .PP
 .SH DETAILS
 .PP

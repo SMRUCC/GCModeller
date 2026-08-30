@@ -69,7 +69,18 @@ table caption {font-size:14px;font-weight:bolder;}
     <p><p>Fasta sequence toolkit</p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module provides the toolkit for manipulate the biological sequence data in fasta format:
+
+
+<ul>
+<li><p>read the fasta sequence data from a file: <code>read.fasta</code>, <code>read.seq</code>, <code>open.fasta</code>, <code>parse.fasta</code>;</li>
+<li><p>save the fasta sequence data to a file: <code>write.fasta</code>, <code>open.fasta</code>;</li>
+<li><p>create the fasta sequence object or cast the other sequence data model to the fasta sequence data: <code>fasta</code>, <code>as.fasta</code>;</li>
+<li><p>the sequence data analysis tools: <code>MSA.of</code>, <code>translate</code>, <code>mass</code>, <code>seq_formula</code>, <code>seq_vector</code>, <code>cut_seq.linear</code>, etc.</li>
+</ul>
+
+
+<p>The fasta sequence data object in R# environment is a tuple list that its element type is @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</code>, which can be cast to a data frame via the <code>as.data.frame</code> api, or be printed to the console with a pretty format via the registered console formatter.
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -120,7 +131,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="seq_formula">
     <a href="./bioseq.fasta/seq_formula.html">seq_formula</a>
   </td>
-  <td></td>
+  <td><p>evaluate the chemical formula of the given sequence data</td>
 </tr>
 <tr>
   <td id="seq_sgt">
@@ -168,7 +179,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="takes">
     <a href="./bioseq.fasta/takes.html">takes</a>
   </td>
-  <td></td>
+  <td><p>takes the sequence subset from the given sequence collection by a set of the sequence id</td>
 </tr>
 <tr>
   <td id="list_index">
@@ -228,7 +239,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="slicer">
     <a href="./bioseq.fasta/slicer.html">slicer</a>
   </td>
-  <td></td>
+  <td><p>create a sequence region slicer for cut a specific sequence region from the given sequence data</td>
 </tr>
 <tr>
   <td id="cut_seq.linear">
@@ -240,25 +251,25 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="open.fingerprint_writer">
     <a href="./bioseq.fasta/open.fingerprint_writer.html">open.fingerprint_writer</a>
   </td>
-  <td></td>
+  <td><p>open a fingerprint matrix writer for write the sequence fingerprint data into a binary BSON file</td>
 </tr>
 <tr>
   <td id="write_fingerprint">
     <a href="./bioseq.fasta/write_fingerprint.html">write_fingerprint</a>
   </td>
-  <td></td>
+  <td><p>make the sequence fingerprint data of the given nucleotide sequence collection, and then write the generated fingerprint data into the target fingerprint matrix file</td>
 </tr>
 <tr>
   <td id="read.fingerprint_bson">
     <a href="./bioseq.fasta/read.fingerprint_bson.html">read.fingerprint_bson</a>
   </td>
-  <td></td>
+  <td><p>read the sequence fingerprint data from a binary BSON format fingerprint matrix file</td>
 </tr>
 <tr>
   <td id="make_clusterTree">
     <a href="./bioseq.fasta/make_clusterTree.html">make_clusterTree</a>
   </td>
-  <td></td>
+  <td><p>make the cluster tree of the given sequence fingerprint data</td>
 </tr></tbody>
       </table>
     </div>

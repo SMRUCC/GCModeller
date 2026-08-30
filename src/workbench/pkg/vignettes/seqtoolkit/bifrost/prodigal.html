@@ -37,7 +37,7 @@
         <table>
             
 <dt>x</dt>
-<dd><p></p></dd>
+<dd><p>the target MAGs contigs assembly sequence for run the gene prediction, which can be a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
 
 
 <dt>min.ORF.len</dt>
@@ -45,7 +45,7 @@
 
 
 <dt>model</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a>]</p></dd>
+<dd><p>the prodigal training model, which is the output of the <code>prodigal_training. [as <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a>]</p></dd>
 
 
 <dt>env</dt>
@@ -54,9 +54,9 @@
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>The prodigal gene prediction pipeline is implemented in an ab-initio manner: a training model will be learned from the input contigs assembly sequence at first(when the <code>model</code> parameter is not specified), and then the gene finding algorithm is running based on the dynamic programming score of the coding/non-coding hexamer and the RBS motif of the trained model.
 
         <h3 style="display: block">Authors</h3>
 
@@ -64,7 +64,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/PredictionResult.html">PredictionResult</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/PredictionResult.html">PredictionResult</a></li></ul>
+        <p>a collection of the gene prediction result: each element in the collection(<a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/PredictionResult.html">PredictionResult</a>) is the gene prediction result of the corresponding contigs sequence in the input fasta sequence data.
+
+<p>this function returns a R# error message object if the input sequence data is nothing or can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/PredictionResult.html">PredictionResult</a></li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

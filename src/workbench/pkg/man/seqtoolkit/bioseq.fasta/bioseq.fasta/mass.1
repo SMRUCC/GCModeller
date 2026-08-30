@@ -12,10 +12,31 @@ evaluate the molecule mass of the given sequence
 .PP
 .SH OPTIONS
 .PP
-\fBseqs\fB \fR\- -. 
+\fBseqs\fB \fR\- 
+ a fasta sequence collection for evaluate the molecule mass, which can be 
+ a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a collection of the 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, or a character vector of the raw sequence 
+ data.
+. 
 .PP
 .PP
-\fBtype\fB \fR\- -. 
+\fBtype\fB \fR\- 
+ the molecule type of the input sequence data, if this parameter is not 
+ specified(@\fBF:SMRUCC.genomics.SequenceModel.SeqTypes.Generic\fR), then the molecule type will be 
+ evaluated from the input sequence data automatically: the most common 
+ sequence type of the input sequence collection will be used.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a number value of the molecule mass if there is only one sequence in the 
+ input sequence collection, or a named list of the molecule mass value of 
+ each sequence if there are multiple sequence in the input sequence 
+ collection, the name of the list element is the fasta title of the 
+ corresponding sequence.
 .PP
 .SH SEE ALSO
 bioseq.fasta

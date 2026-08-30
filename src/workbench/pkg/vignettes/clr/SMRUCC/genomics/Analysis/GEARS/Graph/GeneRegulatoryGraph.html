@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.GEARS.Graph.GeneRegulatoryGraph</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GeneRegulatoryGraph {SMRUCC.genomics.Analysis.GEARS.Graph}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GeneRegulatoryGraph</h2>
+
+        <h3>Description</h3>
+
+        <p>基因调控图：由先验调控网络构建用于 GNN 消息传递的异质有向图
+
+<p>本类型负责 readme 中 Step 1 的工作：把 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a> 中的 TF → TargetGene 调控关系转换为 GNN 的图结构，并且可选地根据 control 表达谱的 相关性追加共表达边（GEARS 双通道设计中的「共表达协方差图」）。
+
+<p>除了构建 <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/Graph.html">Graph</a> 之外，这里还会预先把入边按照目标节点分组缓存为 稀疏邻接结构（源节点索引 / 关系类型 / 归一化权重），供 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Layers/GEARSConvLayer.html">GEARSConvLayer</a> 做 O(|E|) 的稀疏聚合，避免 350+ 节点场景下 稠密邻接矩阵乘法带来的巨大开销。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.GEARS.Graph
+export class GeneRegulatoryGraph {
+   # 基因名称到节点索引的映射（大小写不敏感）
+   GeneIndex: list;
+   # 基因名称列表，顺序与表达矩阵的行顺序严格一致
+   GeneNames: string;
+   # GNN 图结构对象
+   Graph: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/Graph.html">Graph</a>;
+   # 追加的共表达边数量
+   NumCoExpressionEdges: integer;
+   # 基因数量（图中的节点数量）
+   NumGenes: integer;
+   # 实际生效的调控边数量（不含共表达边与自环）
+   NumPriorEdges: integer;
+   # 图中每种关系类型的边数量统计
+   RelationTypeCounts: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>GeneIndex</code>: list</li>
+<li>use by <i>property</i> member <code>Graph</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/Graph.html">Graph</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
