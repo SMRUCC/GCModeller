@@ -1,12 +1,61 @@
 .\" man page create by R# package system.
 .TH SAMPLEINFO 2 2000-1月 "sampleinfo_gsub" "sampleinfo_gsub"
 .SH NAME
-sampleinfo_gsub \- 
+sampleinfo_gsub \- do text replace of the sample group label
 .SH SYNOPSIS
 \fIsampleinfo_gsub(\fBsampleinfo\fR as any, 
 \fBfind\fR as any, 
 \fBreplace_as\fR as string, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+do text replace of the sample group label
+.PP
+.SH OPTIONS
+.PP
+\fBsampleinfo\fB \fR\- 
+ the sample information data, which can be a vector of the 
+ @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR object or a pipeline object that produces a set of 
+ the sample information data.
+. 
+.PP
+.PP
+\fBfind\fB \fR\- 
+ a character vector of the text pattern for search in the sample group label 
+ of each sample data.
+. 
+.PP
+.PP
+\fBreplace_as\fB \fR\- 
+ the text for replace all of the found text pattern in the sample group 
+ label.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a new vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR object that the \fBsample_info\fR 
+ group label of each sample data has been replaced;
+ 
+ this function returns a R# error message object if the input data can not be 
+ cast to a collection of the sample information data.
+.PP
+.SH DETAILS
+.PP
+this api is helpful for merge the sample groups in a simple manner: replace 
+ the different group label text as a common group label text, then all of 
+ these sample data will be merged into the same sample group.
+.PP
+.SH EXAMPLES
+.PP
+imports "sampleInfo" from "phenotype_kit";
+ 
+ # merge the sample groups of "treat-1h" and "treat-2h" 
+ # into a single sample group of "treat"
+ let samples = sampleinfo_gsub(samples, find = c("-1h", "-2h"), replace_as = "");
+.PP
 .SH SEE ALSO
 sampleInfo
 .SH FILES

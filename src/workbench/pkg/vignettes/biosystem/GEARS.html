@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; GEARS; biosystem" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="GEARS: the graph neural network based in silico perturbation pre..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,23 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "GEARS"</span><span style="color: blue;"> from</span><span style="color: brown"> "biosystem"</span>;
+                               <br /><br /><span style="color: green;">#' GEARS: the graph neural network based in silico perturbation prediction toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "GEARS"</span><span style="color: blue;"> from</span><span style="color: brown"> "biosystem"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>GEARS: the graph neural network based in silico perturbation prediction toolkit</p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module provides the toolkit for train a GEARS model(Gene Expression Additive Response Simulator) from the Perturb-seq experiment data, the trained model can be used for predict the gene expression response of the in silico gene perturbation(the knockout/overexpression/knockdown experiment):
+
+
+<ul>
+<li><p><code>new</code>: create a new GEARS model from the gene expression matrix, the prior regulatory network and the model configuration;</li>
+<li><p><code>training_set</code>: set the Perturb-seq training sample set of the GEARS model;</li>
+<li><p><code>train</code>: train the GEARS model with the given training sample set.</li>
+</ul>
+
+
+<p>the trained @<code>T:SMRUCC.genomics.Analysis.GEARS.GEARS</code> model object implements the @<code>T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment</code> interface, so that it can be used by the <code>knockouts</code>, <code>overexpress</code> and <code>knockdown</code> api of the <code>bnlearn</code> package module, and the perturbation result can be exported via the <code>make_exports</code> api.
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -90,7 +100,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="new">
     <a href="./GEARS/new.html">new</a>
   </td>
-  <td></td>
+  <td><p>create a new GEARS model</td>
 </tr>
 <tr>
   <td id="training_set">
@@ -102,7 +112,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="train">
     <a href="./GEARS/train.html">train</a>
   </td>
-  <td></td>
+  <td><p>Train the GEARS model with the given training sample set</td>
 </tr></tbody>
       </table>
     </div>

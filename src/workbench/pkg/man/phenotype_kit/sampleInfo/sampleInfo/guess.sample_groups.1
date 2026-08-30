@@ -13,10 +13,38 @@ try to parse the sampleInfo data from the
 .PP
 .SH OPTIONS
 .PP
-\fBsample_names\fB \fR\- -. 
+\fBsample_names\fB \fR\- 
+ a character vector of the sample labels, the sample group information will 
+ be guessed from the common tag prefix of these sample labels, example as 
+ the sample labels \fBiBAQ-AAA-1\fR, \fBiBAQ-AAA-2\fR, \fBiBAQ-BBB-1\fR will be 
+ grouped as the \fBAAA\fR and \fBBBB\fR groups.
+. 
 .PP
 .PP
-\fBraw_list\fB \fR\- -. 
+\fBmaxDepth\fB \fR\- 
+ extends the group label to the max depth? if this parameter is FALSE, then 
+ only the first different tag token will be used as the group label, 
+ otherwise the group label will be extended until the last common tag token.
+. 
+.PP
+.PP
+\fBraw_list\fB \fR\- 
+ returns the group result as a raw tuple list object(the slot key of the 
+ list is the group label and the slot value is a character vector of the 
+ sample label)? if this parameter is FALSE, then a vector of the 
+ @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR object will be returned.
+. 
+.PP
+.SH VALUE
+.PP
+a tuple list of the guessed sample groups, or a vector of the 
+ @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR object when the \fBraw_list\fR parameter is FALSE.
+ 
+ the generated @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR object will be assigned with a 
+ default color from the \fBPaper\fR color set, and the \fBshape\fR property is 
+ set as \fBcircle\fR, the \fBbatch\fR property is set as 1 and the 
+ \fBinjectionOrder\fR property is the index order of the sample in the 
+ generated sample collection.
 .PP
 .SH SEE ALSO
 sampleInfo

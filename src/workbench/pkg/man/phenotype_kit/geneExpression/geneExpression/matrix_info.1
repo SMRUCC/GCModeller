@@ -22,6 +22,17 @@ A tuple list object that contains the data information
  1. sampleID: a character vector that contains the matrix sample information(column features name)
  2. geneID: a character vector that contains the matrix gene features information(row features name)
  3. tag: the matrix source tag label, could be the file basename if the given input file is a file path to the matrix.
+ 
+ if the input **`file`** object is a 
+ @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix\fR expression 
+ matrix object, then an additional \fBmad\fR data slot will be 
+ added into the result list: the MAD value of each gene feature row.
+.PP
+.SH DETAILS
+.PP
+the summary information of a csv/tsv/xls table file is not implemented at 
+ this moment, an @\fBT:System.NotImplementedException\fR will be thrown for 
+ such kind of the input file.
 .PP
 .SH EXAMPLES
 .PP

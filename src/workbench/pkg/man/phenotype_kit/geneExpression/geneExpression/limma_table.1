@@ -16,25 +16,31 @@ build limma table model from the dataframe columns
 .PP
 .SH OPTIONS
 .PP
-\fBid\fB \fR\- -. 
+\fBid\fB \fR\- a character vector of the gene id of each gene feature.. 
 .PP
 .PP
-\fBlogFC\fB \fR\- -. 
+\fBlogFC\fB \fR\- a numeric vector of the log2 fold change value.. 
 .PP
 .PP
-\fBaveExpr\fB \fR\- -. 
+\fBaveExpr\fB \fR\- a numeric vector of the average expression value.. 
 .PP
 .PP
-\fBt\fB \fR\- -. 
+\fBt\fB \fR\- a numeric vector of the moderated t-statistic value.. 
 .PP
 .PP
-\fBpval\fB \fR\- -. 
+\fBpval\fB \fR\- a numeric vector of the p-value.. 
 .PP
 .PP
-\fBadj_pval\fB \fR\- -. 
+\fBadj_pval\fB \fR\- a numeric vector of the adjusted p-value.. 
 .PP
 .PP
-\fBb\fB \fR\- -. 
+\fBb\fB \fR\- a numeric vector of the log-odds value(B statistic).. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable\fR object that is created from the 
+ given column data, all of the input column vectors should be in the same 
+ size as the input gene id vector.
 .PP
 .SH SEE ALSO
 geneExpression

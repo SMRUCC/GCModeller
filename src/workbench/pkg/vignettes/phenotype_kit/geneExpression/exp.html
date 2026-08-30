@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>exp</title>
+    <title>power of the expression value in the matrix</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>exp</h2>
+        <h2>power of the expression value in the matrix</h2>
 
         <h3>Description</h3>
 
-        exp
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,19 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>p</dt>
+<dd><p>[as double]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>this function implements the <code>^</code> operator of the gene expression matrix object in R# environment.
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+        <p>a new expression matrix object that each expression value in the matrix is the p power of the original expression value, the tag of the generated matrix is formatted as <code>exp({tag}, {p})</code>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

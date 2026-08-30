@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>make.MLdataset</title>
+    <title>create the machine learning dataset from the gene expression matrix and the</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>make.MLdataset</h2>
+        <h2>create the machine learning dataset from the gene expression matrix and the</h2>
 
         <h3>Description</h3>
 
-        make.MLdataset
+        <p>sample group information
 
         <h3>Usage</h3>
 
@@ -34,12 +34,19 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>sampleinfo</dt>
+<dd><p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> sample information data: the <code>ID</code> property of the sample data should be matched with the sample columns of the given expression matrix, and the <code>sample_info. [as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the sample data that its id is not exists in the expression matrix will be skipped with a warning message.
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>a vector of the <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/KMeans/EntityClusterModel.html">EntityClusterModel</a> data entity: the <code>ID</code> property is the sample id, the <code>Cluster</code> property is the sample group label and the <code>Properties</code> property is the expression value of each gene feature in the corresponding sample.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

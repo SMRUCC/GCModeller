@@ -1,12 +1,56 @@
 .\" man page create by R# package system.
 .TH KMERS 1 2000-1月 "onehot_vectorizer" "onehot_vectorizer"
 .SH NAME
-onehot_vectorizer \- 
+onehot_vectorizer \- make the sequence embedding via the one-hot encoding(Bag-of-n-grams) of
 .SH SYNOPSIS
 \fIonehot_vectorizer(\fBx\fR as any, 
 \fBtype\fR as <integer> SeqTypes = [Protein], 
 \fBk\fR as integer = 6, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make the sequence embedding via the one-hot encoding(Bag-of-n-grams) of 
+ the k-mer composition
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ should be a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence 
+ collection, which can be a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a vector of 
+ the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, or a character vector of the raw 
+ sequence data.
+. 
+.PP
+.PP
+\fBtype\fB \fR\- 
+ the sequence data type, default is protein sequence. If the sequence type 
+ is not protein, then the input sequence data will be canonicalized as the 
+ standard nucleotide letters at first.
+. 
+.PP
+.PP
+\fBk\fB \fR\- the length of the k-mers. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a data frame object: each row is a sequence in the input sequence 
+ collection(the row name is the fasta title of the corresponding 
+ sequence), and each column is a k-mer term, the cell value is ONE when the 
+ k-mer is exists in the corresponding sequence, otherwise ZERO.
+ 
+ this function returns NULL if the input data can not be cast to a fasta 
+ sequence collection.
+.PP
+.SH DETAILS
+.PP
+unlike the \fBtfidf_vectorizer\fR api, which evaluates the weight of each 
+ k-mer term by the term frequency and the inverse document frequency, this 
+ api just encodes the k-mer composition of the sequence data as a binary 
+ vector, i.e. the presence or absence of each k-mer term.
+.PP
 .SH SEE ALSO
 kmers
 .SH FILES

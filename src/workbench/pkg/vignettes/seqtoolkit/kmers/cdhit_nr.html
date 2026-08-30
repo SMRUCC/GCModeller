@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>cdhit_nr</title>
+    <title>run the CD-HIT like sequence clustering for get the non-redundant</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>cdhit_nr</h2>
+        <h2>run the CD-HIT like sequence clustering for get the non-redundant</h2>
 
         <h3>Description</h3>
 
-        cdhit_nr
+        <p>sequence set
 
         <h3>Usage</h3>
 
@@ -37,12 +37,38 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>a collection of the sequence data for run the clustering, which can be a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a vector of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+
+
+<dt>k</dt>
+<dd><p>the k-mer size for build the min-hash sketch of the sequence data:
+
+
+<ul>
+<li><p>protein - k=5aa</li>
+<li><p>nucleotide - k=12nt</li>
+<li><p>genomics - k=31nt</li>
+. [as integer]</p></dd>
+
+
+<dt>identities</dt>
+<dd><p>[as double]</p></dd>
+
+
+<dt>n.threads</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the input sequence data will be sorted by the sequence length in descending order at first, and then the greedy clustering algorithm runs based on the min-hash similarity of the k-mer sketch of each sequence.
 
         <h3 style="display: block">Authors</h3>
 
@@ -50,7 +76,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
+        <p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> sequence object: the representative sequence of each cluster. For a cluster that contains multiple sequence members, the fasta headers of the representative sequence is formatted as: the representative sequence title, <code>{cluster_size} cluster members</code> and the json text of the cluster member sequence id list; and the sequence data of a singleton cluster(the unique sequence) is returned as is.
+
+<p>this function returns NULL if the input data can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

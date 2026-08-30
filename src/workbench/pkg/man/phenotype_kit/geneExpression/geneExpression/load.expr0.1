@@ -12,14 +12,30 @@ read the binary matrix data file
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the file path of the binary expression matrix data file, or a file stream 
+ object of the target binary matrix data.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBlazy\fB \fR\- 
+ load the binary matrix data in a lazy stream reader mode? if this 
+ parameter is TRUE, then a @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader\fR object will be 
+ returned instead of loading all of the matrix data into the memory at 
+ once, which is helpful for read a huge binary matrix data file.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
 .PP
 .SH VALUE
 .PP
-a HTS data matrix of samples in column and gene features in row
+a HTS data matrix of samples in column and gene features in row, or a lazy 
+ @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader\fR matrix reader object when the \fBlazy\fR 
+ parameter is TRUE;
+ 
+ this function returns a R# error message object if the given file can not 
+ be opened for read.
 .PP
 .SH SEE ALSO
 geneExpression

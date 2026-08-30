@@ -1,13 +1,77 @@
 .\" man page create by R# package system.
 .TH BNLEARN 1 2000-1月 "bnlearn" "bnlearn"
 .SH NAME
-bnlearn \- 
+bnlearn \- learn the gene regulatory bayesian network from the gene expression data
 .SH SYNOPSIS
 \fIbnlearn(\fBexprData\fR as <generic> Matrix, 
 \fBpriorNet\fR as any = \fB<NULL>\fR, 
 \fBmax_itrs\fR as integer = 500, 
 \fBstrict\fR as <generic> Boolean = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+learn the gene regulatory bayesian network from the gene expression data
+.PP
+.SH OPTIONS
+.PP
+\fBexprData\fB \fR\- 
+ the gene expression matrix object, could be load from csv file via \fBgeneExpression::load.expr\fR api
+. 
+.PP
+.PP
+\fBpriorNet\fB \fR\- 
+ a collection of the prior knowledge regulatory edge data 
+ (@\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge\fR), which is used as the whitelist of the 
+ network structure learning: only the regulation relation that is described 
+ in this prior network will be considered in the structure learning.
+ 
+ this parameter is optional, the network structure will be learned from the 
+ expression data alone if the prior network is not provided.
+. 
+.PP
+.PP
+\fBmax_itrs\fB \fR\- 
+ the max iteration numbers of the network structure learning, by default is 
+ 500.
+. 
+.PP
+.PP
+\fBstrict\fB \fR\- 
+ the strict option of the in silico perturbation experiment: if this 
+ parameter is TRUE, then an error will be thrown when the target gene of the 
+ perturbation is missing from the learned network; if this parameter is 
+ FALSE, then a warning message will be printed and the wildtype expression 
+ data will be returned as the perturbation result with the \fBUndefined\fR flag 
+ marked as TRUE.
+ 
+ if this parameter is not specified, then the strict option of the R# 
+ runtime environment will be used.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a @\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow\fR object that contains the learned bayesian 
+ network model, which implements the 
+ @\fBT:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment\fR interface, so that it can be 
+ used by the \fBknockouts\fR, \fBoverexpress\fR and \fBknockdown\fR api for run 
+ the in silico gene perturbation experiment;
+ 
+ this function returns a R# error message object if the given prior network 
+ data can not be cast to a collection of the 
+ @\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge\fR data.
+.PP
+.SH DETAILS
+.PP
+this function runs the network learning in two steps:
+ 
+ 1. the structure learning: the MMHC algorithm with the whitelist prior 
+    network;
+ 2. the parameter learning: the maximum likelihood estimation(MLE) of the 
+    Gaussian bayesian network.
+.PP
 .SH SEE ALSO
 bnlearn
 .SH FILES

@@ -36,11 +36,13 @@
         <table>
             
 <dt>sampleinfo</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
+<dd><p>a vector of the @<code>T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo. [as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
 
 
 <dt>colorSet</dt>
-<dd><p></p></dd>
+<dd><p>a new color set for assign to each sample group, which can be a character vector of the html color code or the color palette name, the <code>Paper</code> color set will be used if this color set parameter can not be recognized.
+
+</p></dd>
 
 
 <dt>env</dt>
@@ -49,9 +51,14 @@
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the colors of the color set will be assigned to the sample groups in a loop manner, so that the color set is not required to have the same size as the sample group numbers.
+
+<p>this api can be used as a property setter in R# environment: the color of each sample group can be overwritten via the value assign syntax:
+
+
+<pre><code class="language-r"> group.colors(samples) &lt;- "Set1:c8";</code></pre>
 
         <h3 style="display: block">Authors</h3>
 
@@ -59,7 +66,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
+        <p>this function returns a tuple list of the color of each sample group when the <code>colorSet</code> parameter is not specified(the slot key of the list is the sample group label and the slot value is the html color code of the corresponding sample group), otherwise the input sample information collection that the color of each sample group has been modified will be returned.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

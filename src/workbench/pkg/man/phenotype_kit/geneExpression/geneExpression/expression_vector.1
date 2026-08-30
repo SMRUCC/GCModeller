@@ -11,14 +11,21 @@ get gene expression vector data
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- a gene expression matrix object. 
 .PP
 .PP
-\fBgeneId\fB \fR\- -. 
+\fBgeneId\fB \fR\- 
+ the gene feature id, which should be exists in the row names of the given 
+ expression matrix object.
+. 
 .PP
 .SH VALUE
 .PP
-a numeric vector of the target gene expression across multiple samples
+a named numeric vector of the target gene expression across multiple 
+ samples, the name of each element is the corresponding sample id;
+ 
+ NULL will be returns if the given gene id is not exists in the input 
+ expression matrix object.
 .PP
 .SH SEE ALSO
 geneExpression

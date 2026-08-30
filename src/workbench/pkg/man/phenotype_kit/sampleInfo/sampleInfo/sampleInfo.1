@@ -25,6 +25,39 @@ create \fBsample_info\fR data table
 .PP
 \fBsample_info\fB \fR\- the sample group information.. 
 .PP
+.PP
+\fBcolor\fB \fR\- 
+ the color of each sample, this parameter could be nothing, then the color 
+ of the generated sample data will not be assigned.
+. 
+.PP
+.PP
+\fBbatch\fB \fR\- 
+ the experiment batch id of each sample, the default batch id of each sample 
+ is 1.
+. 
+.PP
+.PP
+\fBinject_order\fB \fR\- 
+ the sample injection order of each sample, the default injection order of 
+ each sample is its index order in the input sample id vector.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR sample information data, the 
+ \fBshape\fR property of the generated sample data is set as \fBcircle\fR;
+ 
+ this function returns NULL if the input sample id vector or the sample group 
+ information vector is nothing, or a R# error message object if the size of 
+ the input vectors is not agreed with each other: the size of the 
+ \fBsample_name\fR should be equals to the size of the \fBID\fR, and the size of 
+ the \fBsample_info\fR should be 1(a single group label for all samples) or 
+ equals to the size of the \fBID\fR.
+.PP
 .SH EXAMPLES
 .PP
 let group_vec = c("control","control","treat","control","treat","treat");

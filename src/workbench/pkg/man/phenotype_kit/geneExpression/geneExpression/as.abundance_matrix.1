@@ -1,11 +1,51 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-1月 "as.abundance_matrix" "as.abundance_matrix"
 .SH NAME
-as.abundance_matrix \- 
+as.abundance_matrix \- create the abundance matrix from a collection of the metagenomics
 .SH SYNOPSIS
 \fIas.abundance_matrix(\fBsamples\fR as any, 
 \fBnormalized\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+create the abundance matrix from a collection of the metagenomics 
+ abundance data
+.PP
+.SH OPTIONS
+.PP
+\fBsamples\fB \fR\- 
+ a tuple list of the abundance data: the slot key of the list is the sample 
+ id and the slot value is the abundance data of the corresponding sample, 
+ which can be a collection of the @\fBT:SMRUCC.genomics.ComponentModel.IExpressionValue\fR object, a 
+ tuple list of the numeric value, or a dictionary object of the abundance 
+ data(the dictionary key is the taxonomy id and the value is the abundance 
+ value).
+. 
+.PP
+.PP
+\fBnormalized\fB \fR\- 
+ normalize the generated abundance matrix data? if this parameter is TRUE, 
+ then the abundance value of each sample column will be normalized as a 
+ relative abundance value.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix\fR abundance 
+ matrix object that the rows are the 
+ taxonomy features and the columns are the input samples.
+.PP
+.SH DETAILS
+.PP
+a warning message will be pushed into the R# environment message buffer if 
+ the abundance data of some sample is nothing, and such kind of the sample 
+ will be skipped, an @\fBT:System.NotImplementedException\fR will be thrown if 
+ the input data is not a tuple list object or the abundance data type is not 
+ supported.
+.PP
 .SH SEE ALSO
 geneExpression
 .SH FILES

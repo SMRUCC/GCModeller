@@ -17,10 +17,13 @@ do t-test across specific analysis comparision
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- a gene expression matrix object. 
 .PP
 .PP
-\fBsampleinfo\fB \fR\- -. 
+\fBsampleinfo\fB \fR\- 
+ the sample group information data, which is used for get the sample id 
+ list of the treatment group and the control group.
+. 
 .PP
 .PP
 \fBtreatment\fB \fR\- group name of the treatment group. 
@@ -38,7 +41,13 @@ do t-test across specific analysis comparision
 \fBFDR\fB \fR\- the FDR cutoff. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.Analysis.HTS.Proteomics.DEP_iTraq\fR deg result data of the t-test 
+ analysis, which is filtered by the given log2FC, p-value and FDR cutoff 
+ value.
 .PP
 .SH SEE ALSO
 geneExpression

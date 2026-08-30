@@ -1,10 +1,30 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-1月 "take_shuffle" "take_shuffle"
 .SH NAME
-take_shuffle \- 
+take_shuffle \- random takes a subset of the gene features from the expression matrix
 .SH SYNOPSIS
 \fItake_shuffle(\fBx\fR as <generic> Matrix, 
 \fBn\fR as integer);\fR
+.SH DESCRIPTION
+.PP
+random takes a subset of the gene features from the expression matrix
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a gene expression matrix object. 
+.PP
+.PP
+\fBn\fB \fR\- 
+ the sample size of the gene features for takes from the input expression 
+ matrix object.
+. 
+.PP
+.SH VALUE
+.PP
+a data frame object that contains the randomly selected gene features: each 
+ row is a randomly selected gene feature(the row name is the gene id) and 
+ the columns is the expression data of the corresponding gene.
+.PP
 .SH SEE ALSO
 geneExpression
 .SH FILES

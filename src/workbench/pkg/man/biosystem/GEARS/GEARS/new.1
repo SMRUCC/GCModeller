@@ -1,11 +1,72 @@
 .\" man page create by R# package system.
 .TH GEARS 1 2000-1月 "new" "new"
 .SH NAME
-new \- 
+new \- create a new GEARS model
 .SH SYNOPSIS
 \fInew(\fBx\fR as <generic> Matrix, 
 \fBprior\fR as <generic> PriorNetwork, 
 \fBconfig\fR as <generic> GEARSConfig);\fR
+.SH DESCRIPTION
+.PP
+create a new GEARS model
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ the gene expression matrix object of the Perturb-seq experiment data, which 
+ could be loaded from a csv table file via the 
+ \fBgeneExpression::load.expr\fR api.
+. 
+.PP
+.PP
+\fBprior\fB \fR\- 
+ the prior knowledge regulatory network object, which could be created by the 
+ \fBbnlearn::as.prior_net\fR api: only the gene that is described in this prior 
+ network could be mapped into the gene regulatory graph of the GEARS model.
+. 
+.PP
+.PP
+\fBconfig\fB \fR\- 
+ the hyper parameter configuration of the GEARS model, which could be created 
+ via the \fBnew("GEARS_opts")\fR syntax in R# environment: the embedding 
+ dimension, the hidden layer dimension, the graph convolution layer numbers, 
+ the activation function, the learning rate, the epochs, etc.
+. 
+.PP
+.SH VALUE
+.PP
+a new @\fBT:SMRUCC.genomics.Analysis.GEARS.GEARS\fR model object that the gene regulatory graph has 
+ been created from the given prior network and expression data, the training 
+ sample set should be set via the \fBtraining_set\fR api at first and then the 
+ model can be trained via the \fBtrain\fR api.
+.PP
+.SH DETAILS
+.PP
+@\fBT:SMRUCC.genomics.Analysis.GEARS.GEARS\fR implements of the interface @\fBT:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment\fR, which could be used as the virtual perturbation experiment container for run knockouts/overexpress/knockdown experiments
+.PP
+.SH EXAMPLES
+.PP
+imports ["GEARS","bnlearn"] from "biosystem";
+ imports "geneExpression" from "phenotype_kit";
+ 
+ let exprData = load.expr("./dataset.csv");
+ let samples = read.sampleinfo("./experiment.csv");
+ let opts = new("GEARS_opts", Activation = "tanh");
+ let net = bnlearn::prior_network(
+     TF = c(), target_gene = c(), regulation_type = c(), confidence = c(), evidence = c()
+ ) |> as.prior_net();
+ 
+ net <- GEARS::new(exprData, net, opts)
+ |> training_set(exprData, controls = c(), perturbed = samples)
+ |> train()
+ ;
+ 
+ make_exports(c( 
+    net |> knockouts(c()), 
+    net |> overexpress(c()), 
+    net |> knockdown(c()) 
+ ), dir = "./GNN_result");
+.PP
 .SH SEE ALSO
 GEARS
 .SH FILES

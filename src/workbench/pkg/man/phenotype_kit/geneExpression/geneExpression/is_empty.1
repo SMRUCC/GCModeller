@@ -1,9 +1,23 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-1月 "is_empty" "is_empty"
 .SH NAME
-is_empty \- 
+is_empty \- check that the given expression matrix object is empty or not
 .SH SYNOPSIS
 \fIis_empty(\fBx\fR as <generic> Matrix);\fR
+.SH DESCRIPTION
+.PP
+check that the given expression matrix object is empty or not
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a gene expression matrix object. 
+.PP
+.SH VALUE
+.PP
+TRUE will be returns if the given expression matrix object is nothing or 
+ there is no gene feature row and no sample column in the target matrix 
+ object, otherwise FALSE.
+.PP
 .SH SEE ALSO
 geneExpression
 .SH FILES

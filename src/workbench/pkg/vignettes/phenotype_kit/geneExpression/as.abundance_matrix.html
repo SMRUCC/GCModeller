@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>as.abundance_matrix</title>
+    <title>create the abundance matrix from a collection of the metagenomics</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>as.abundance_matrix</h2>
+        <h2>create the abundance matrix from a collection of the metagenomics</h2>
 
         <h3>Description</h3>
 
-        as.abundance_matrix
+        <p>abundance data
 
         <h3>Usage</h3>
 
@@ -35,12 +35,23 @@
 
         <table>
             
+<dt>samples</dt>
+<dd><p>a tuple list of the abundance data: the slot key of the list is the sample id and the slot value is the abundance data of the corresponding sample, which can be a collection of the @<code>T:SMRUCC.genomics.ComponentModel.IExpressionValue</p></dd>
+
+
+<dt>normalized</dt>
+<dd><p>[as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>a warning message will be pushed into the R# environment message buffer if the abundance data of some sample is nothing, and such kind of the sample will be skipped, an <a href="/vignettes/clr/System/NotImplementedException.html">NotImplementedException</a> will be thrown if the input data is not a tuple list object or the abundance data type is not supported.
 
         <h3 style="display: block">Authors</h3>
 
@@ -48,7 +59,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+        <p>a <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a> abundance matrix object that the rows are the taxonomy features and the columns are the input samples.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

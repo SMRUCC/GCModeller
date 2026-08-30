@@ -36,7 +36,7 @@
         <table>
             
 <dt>x</dt>
-<dd><p></p></dd>
+<dd><p>a collection of the sequence data, which can be a fasta sequence collection(<a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>, <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a>), a fastq sequence collection(<a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/FastQFile.html">FastQFile</a>) or any other @<code>T:SMRUCC.genomics.SequenceModel.FASTA.IFastaProvider</p></dd>
 
 
 <dt>k</dt>
@@ -59,7 +59,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+        <p>a <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a> k-mer count matrix object: each row in this matrix is a sequence in the input sequence collection(the row name is the sequence title), and each column is a k-mer feature(the <code>sampleID</code> property of the generated matrix is the k-mer alphabet sorted in ascending order), the cell value is the count of the corresponding k-mer in the corresponding sequence(ZERO means that the k-mer is not exists in the target sequence).
+
+<p>this function returns a R# error message object if the input data can not be cast to a collection of the sequence data.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-1月 "limma_impactsort" "limma_impactsort"
 .SH NAME
-limma_impactsort \- 
+limma_impactsort \- make the impact sort of the limma differential expression analysis result
 .SH SYNOPSIS
 \fIlimma_impactsort(\fBx\fR as any, 
 \fBtop\fR as integer = 2147483647, 
@@ -9,27 +9,57 @@ limma_impactsort \-
 \fBclass\fR as list = \fB<NULL>\fR, 
 \fBnames\fR as list = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make the impact sort of the limma differential expression analysis result
+.PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- 
+ the limma result data, which can be a vector of the 
+ @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable\fR object, a pipeline object of the limma result, or 
+ a tuple list of the multiple limma result groups(the slot value of the list 
+ is the limma result of one group).
+. 
 .PP
 .PP
-\fBtop\fB \fR\- -. 
+\fBtop\fB \fR\- 
+ take the top n genes of the impact sort result, by default is all of the 
+ genes in the input data.
+. 
 .PP
 .PP
-\fBlogfc_impact\fB \fR\- -. 
+\fBlogfc_impact\fB \fR\- 
+ evaluate the impact value of each gene based on the log2 fold change value 
+ or based on the p-value?
+. 
 .PP
 .PP
 \fBclass\fB \fR\- 
  the id class data, example as: 
  list(class1 = c(...), class2 = c(...), class3 = c(...))
+ 
+ this parameter can also be provided in the format of 
+ \fBlist(id1 = "class1", id2 = "class2", ...)\fR, i.e. each id is mapped to 
+ its class label directly.
 . 
 .PP
 .PP
 \fBnames\fB \fR\- should be a list of id mapping to name. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.ImpactResult\fR data object that is sorted by 
+ the impact value in descending order: the \fBtotal\fR impact value of each 
+ gene across all of the input limma result groups, the \fBmax\fR impact value 
+ and the corresponding \fBtop_group\fR, and the class label and the name of 
+ each gene if the \fBclass\fR/\fBnames\fR parameter is provided;
+ 
+ this function returns a R# error message object if the input data can not 
+ be cast to a collection of the @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable\fR data.
 .PP
 .SH SEE ALSO
 geneExpression

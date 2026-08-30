@@ -13,12 +13,37 @@ set deg class label
 .PP
 .SH OPTIONS
 .PP
-\fBdeg\fB \fR\- -. 
+\fBdeg\fB \fR\- 
+ a vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DEGModel\fR deg result data for set the class 
+ label.
+. 
 .PP
 .PP
 \fBclass_labels\fB \fR\- 
- set deg class label manually
+ set deg class label manually;
+ 
+ if this parameter is not specified, then the class label will be evaluated 
+ from the log2 fold change and the p-value of each deg result data 
+ automatically: the deg data will be labelled as \fBsig\fR when its p-value is 
+ less than the \fBpval_cutoff\fR and the absolute value of its log2 fold change 
+ is greater than the \fBlogFC\fR cutoff, otherwise it will be labelled as 
+ \fBnot_sig\fR.
 . 
+.PP
+.PP
+\fBlogFC\fB \fR\- 
+ the log2 fold change cutoff value for evaluate the deg class label.
+. 
+.PP
+.PP
+\fBpval_cutoff\fB \fR\- 
+ the p-value cutoff value for evaluate the deg class label.
+. 
+.PP
+.SH VALUE
+.PP
+a new vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DEGModel\fR deg result data that the 
+ \fBclass\fR property of each deg data has been assigned.
 .PP
 .SH SEE ALSO
 geneExpression

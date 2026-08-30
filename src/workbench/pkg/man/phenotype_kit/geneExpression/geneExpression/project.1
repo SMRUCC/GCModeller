@@ -11,10 +11,21 @@ make matrix samples column projection
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- a gene expression matrix object. 
 .PP
 .PP
-\fBsampleIds\fB \fR\- -. 
+\fBsampleIds\fB \fR\- 
+ a character vector of the sample id for make the matrix column subset.
+. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that only contains the sample columns which 
+ is specified by the \fBsampleIds\fR parameter, and the sample columns in the 
+ generated matrix are in the same order as the given sample id vector;
+ 
+ NULL will be returns if the given sample id vector is nothing or is an 
+ empty vector.
 .PP
 .SH SEE ALSO
 geneExpression

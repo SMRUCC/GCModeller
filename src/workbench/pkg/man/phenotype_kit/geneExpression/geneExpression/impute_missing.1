@@ -13,9 +13,22 @@ set the zero value to the half of the min positive value
 .PP
 \fBx\fB \fR\- an expression matrix object that may contains zero. 
 .PP
+.PP
+\fBby_features\fB \fR\- 
+ fill the missing value by the gene feature rows or by the sample columns? 
+ by default is fill the missing value by the sample columns.
+. 
+.PP
 .SH VALUE
 .PP
 An expression data matrix with missing data filled
+.PP
+.SH DETAILS
+.PP
+the missing value(the ZERO value or the NaN value) will be filled with the 
+ half of the minimum positive value of the corresponding sample column(or 
+ gene feature row when the \fBby_features\fR parameter is TRUE), if there is 
+ no positive value in the target sample column, then ZERO will be used.
 .PP
 .SH SEE ALSO
 geneExpression

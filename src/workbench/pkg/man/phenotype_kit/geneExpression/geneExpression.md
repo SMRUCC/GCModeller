@@ -1,8 +1,24 @@
 ﻿# geneExpression
 
 the gene expression matrix data toolkit
+> This R# package module provides the toolkit for manipulate and analyze the 
+>  high throughput screening(HTS) gene expression matrix data(the samples in 
+>  column and the gene features in row):
+>  
+>  + read/write the expression matrix data: ``load.expr``, ``load.expr0``, 
+>    ``write.expr_matrix``, ``load.matrixView``, ``matrix_info``;
+>  + the matrix data manipulation: ``dims``, ``tr``, ``filter``, ``project``, 
+>    ``joinSample``, ``joinFeatures``, ``aggregate``, ``sample_id``, 
+>    ``setFeatures``, ``setTag``, etc;
+>  + the matrix data normalization and imputation: ``z_score``, ``minmax01Norm``, 
+>    ``relative``, ``totalSumNorm``, ``impute_missing``, ``filterNaNMissing``, 
+>    ``setZero``;
+>  + the expression pattern clustering: ``pca``, ``peakCMeans``, 
+>    ``expression.cmeans_pattern``, ``cmeans_matrix``, ``pattern_representatives``;
+>  + the differential expression analysis: ``deg.t.test``, ``limma``, 
+>    ``limma_impactsort``, ``as.deg``, ``deg.class``.
 
-+ [exp](geneExpression/exp.1) 
++ [exp](geneExpression/exp.1) power of the expression value in the matrix
 + [tr](geneExpression/tr.1) do matrix transpose
 + [dims](geneExpression/dims.1) get summary information about the HTS matrix dimensions
 + [as.expr_list](geneExpression/as.expr_list.1) convert the matrix into row gene list
@@ -15,7 +31,7 @@ the gene expression matrix data toolkit
 + [filterZeroGenes](geneExpression/filterZeroGenes.1) removes the rows which all gene expression result is ZERO
 + [filterNaNMissing](geneExpression/filterNaNMissing.1) set the NaN missing value to default value
 + [impute_missing](geneExpression/impute_missing.1) set the zero value to the half of the min positive value
-+ [is_empty](geneExpression/is_empty.1) 
++ [is_empty](geneExpression/is_empty.1) check that the given expression matrix object is empty or not
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
 + [load.expr0](geneExpression/load.expr0.1) read the binary matrix data file
 + [load.matrixView](geneExpression/load.matrixView.1) Load the HTS matrix into a lazy matrix viewer
@@ -26,8 +42,8 @@ the gene expression matrix data toolkit
 + [as.generic](geneExpression/as.generic.1) cast the HTS matrix object to the general dataset
 + [mad](geneExpression/mad.1) evaluate the MAD value for each gene features
 + [sort_mad](geneExpression/sort_mad.1) take top n expression feature by rank expression MAD value desc
-+ [aggregate_samples](geneExpression/aggregate_samples.1) function alias of the ``geneExpression::average`` function
-+ [aggregate_genes](geneExpression/aggregate_genes.1) 
++ [aggregate_samples](geneExpression/aggregate_samples.1) calculate the sum value of the gene expression for each sample group.
++ [aggregate_genes](geneExpression/aggregate_genes.1) merge the duplicated gene feature rows via the sum value
 + [average](geneExpression/average.1) calculate average value of the gene expression for
 + [z_score](geneExpression/z_score.1) Z-score normalized of the expression data matrix
 + [pca](geneExpression/pca.1) do PCA on a gene expressin matrix
@@ -42,15 +58,15 @@ the gene expression matrix data toolkit
 + [split.cmeans_clusters](geneExpression/split.cmeans_clusters.1) ### split the cmeans cluster output
 + [time_pattern_label](geneExpression/time_pattern_label.1) Make time pattern label for a specific cmeans expression pattern
 + [peakCMeans](geneExpression/peakCMeans.1) ### clustering analysis of time course data
-+ [expr_ranking](geneExpression/expr_ranking.1) 
++ [expr_ranking](geneExpression/expr_ranking.1) make the abundance ranking of the gene features in each sample group
 + [deg.t.test](geneExpression/deg.t.test.1) do t-test across specific analysis comparision
 + [limma](geneExpression/limma.1) The limma algorithm (Linear Models for Microarray Data) is a widely used statistical framework in R/Bioconductor 
-+ [read_limma](geneExpression/read_limma.1) 
-+ [limma_impactsort](geneExpression/limma_impactsort.1) 
++ [read_limma](geneExpression/read_limma.1) read the limma result table from a given csv table file
++ [limma_impactsort](geneExpression/limma_impactsort.1) make the impact sort of the limma differential expression analysis result
 + [limma_table](geneExpression/limma_table.1) build limma table model from the dataframe columns
 + [log](geneExpression/log.1) log scale of the HTS raw matrix
 + [minmax01Norm](geneExpression/minmax01Norm.1) min max normalization
-+ [take_shuffle](geneExpression/take_shuffle.1) 
++ [take_shuffle](geneExpression/take_shuffle.1) random takes a subset of the gene features from the expression matrix
 + [geneId](geneExpression/geneId.1) get gene Id list or byref set of the gene id alias set.
 + [as.deg](geneExpression/as.deg.1) create gene expression DEG model
 + [deg.class](geneExpression/deg.class.1) set deg class label
@@ -59,4 +75,4 @@ the gene expression matrix data toolkit
 + [aggregate](geneExpression/aggregate.1) merge row or column where the tag is identical
 + [sample_auc](geneExpression/sample_auc.1) Calculate the sum of the sample data with time-series information across all time points to obtain the area under the curve (AUC) of the time-series curve.
 + [add_gauss](geneExpression/add_gauss.1) add random gauss noise to the matrix
-+ [as.abundance_matrix](geneExpression/as.abundance_matrix.1) 
++ [as.abundance_matrix](geneExpression/as.abundance_matrix.1) create the abundance matrix from a collection of the metagenomics 

@@ -1,9 +1,25 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-1月 "read_limma" "read_limma"
 .SH NAME
-read_limma \- 
+read_limma \- read the limma result table from a given csv table file
 .SH SYNOPSIS
 \fIread_limma(\fBfile\fR as string);\fR
+.SH DESCRIPTION
+.PP
+read the limma result table from a given csv table file
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the file path of the limma result table file, which is usually generated 
+ by the R limma package.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable\fR differential expression analysis 
+ result data.
+.PP
 .SH SEE ALSO
 geneExpression
 .SH FILES

@@ -1,9 +1,33 @@
 .\" man page create by R# package system.
 .TH SAMPLEINFO 2 2000-1月 "shuffle_groups" "shuffle_groups"
 .SH NAME
-shuffle_groups \- 
+shuffle_groups \- shuffle the sample group order in a random manner
 .SH SYNOPSIS
 \fIshuffle_groups(\fBx\fR as <generic> SampleInfo[]);\fR
+.SH DESCRIPTION
+.PP
+shuffle the sample group order in a random manner
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ a vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR sample information data.
+. 
+.PP
+.SH VALUE
+.PP
+a tuple list of the sample groups in a random order: the slot key of the 
+ list is the sample group label and the slot value is a vector of the 
+ @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR object that belongs to the corresponding sample 
+ group.
+.PP
+.SH DETAILS
+.PP
+unlike the \fBsample_groups\fR api, which sorts the sample groups by the group 
+ label in ascending order, this function shuffles the sample group order in a 
+ random manner, which is helpful for the random color assignment or the 
+ permutation test of the sample groups.
+.PP
 .SH SEE ALSO
 sampleInfo
 .SH FILES

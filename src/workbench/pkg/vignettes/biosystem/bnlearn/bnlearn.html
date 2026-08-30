@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>bnlearn</title>
+    <title>learn the gene regulatory bayesian network from the gene expression data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>bnlearn</h2>
+        <h2>learn the gene regulatory bayesian network from the gene expression data</h2>
 
         <h3>Description</h3>
 
-        bnlearn
+        
 
         <h3>Usage</h3>
 
@@ -37,12 +37,41 @@
 
         <table>
             
+<dt>exprData</dt>
+<dd><p>the gene expression matrix object, could be load from csv file via <code>geneExpression::load.expr. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>priorNet</dt>
+<dd><p>a collection of the prior knowledge regulatory edge data (<a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a>), which is used as the whitelist of the network structure learning: only the regulation relation that is described in this prior network will be considered in the structure learning.
+
+</p></dd>
+
+
+<dt>max.itrs</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>strict</dt>
+<dd><p>the strict option of the in silico perturbation experiment: if this parameter is TRUE, then an error will be thrown when the target gene of the perturbation is missing from the learned network; if this parameter is FALSE, then a warning message will be printed and the wildtype expression data will be returned as the perturbation result with the <code>Undefined</code> flag marked as TRUE.
+
+. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>this function runs the network learning in two steps:
+
+
+<ol>
+<li><p>the structure learning: the MMHC algorithm with the whitelist prior network;</li>
+<li><p>the parameter learning: the maximum likelihood estimation(MLE) of the Gaussian bayesian network.</li>
+</ol>
 
         <h3 style="display: block">Authors</h3>
 
@@ -50,7 +79,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a></li></ul>
+        <p>a <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a> object that contains the learned bayesian network model, which implements the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/InsilicoPerturbationExperiment.html">InsilicoPerturbationExperiment</a> interface, so that it can be used by the <code>knockouts</code>, <code>overexpress</code> and <code>knockdown</code> api for run the in silico gene perturbation experiment;
+
+<p>this function returns a R# error message object if the given prior network data can not be cast to a collection of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a> data.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

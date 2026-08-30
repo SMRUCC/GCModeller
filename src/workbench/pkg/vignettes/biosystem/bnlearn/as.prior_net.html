@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>as.prior_net</title>
+    <title>build prior network object based on a given vector of the knowledge network edges data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>as.prior_net</h2>
+        <h2>build prior network object based on a given vector of the knowledge network edges data</h2>
 
         <h3>Description</h3>
 
-        as.prior_net
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>priorNet</dt>
+<dd><p>a collection of the regulatory edge data, which can be a vector of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a> object, the output of the <code>prior_network</code> api, or a pipeline object that produces a set of the @<code>T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +54,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a></li></ul>
+        <p>a <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a> object that contains all of the given regulatory edges, the TF name set and the target gene name set;
+
+<p>this function returns a R# error message object if the given data can not be cast to a collection of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a> data.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

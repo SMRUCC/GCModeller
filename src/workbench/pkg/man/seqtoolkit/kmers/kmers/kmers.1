@@ -11,10 +11,28 @@ Create kmers from a given sequence
 .PP
 .SH OPTIONS
 .PP
-\fBseq\fB \fR\- -. 
+\fBseq\fB \fR\- the raw sequence data text.. 
 .PP
 .PP
-\fBk\fB \fR\- -. 
+\fBk\fB \fR\- the length of the k-mer sequence fragment.. 
+.PP
+.SH VALUE
+.PP
+a character vector of the k-mer sequence fragments, which is generated 
+ from the given sequence data via a sliding window of size \fBk\fR, and 
+ the step size of the sliding window is just one char, so that all of the 
+ generated k-mer fragments are overlapped with each other.
+ 
+ an empty character vector will be returned if the value of the \fBk\fR 
+ parameter is greater than the length of the input sequence data.
+.PP
+.SH EXAMPLES
+.PP
+imports "kmers" from "seqtoolkit";
+ 
+ # all of the generated k-mers are overlapped:
+ # "ATGGC" -> "ATG", "TGG", "GGC"
+ print(kmers("ATGGC", k = 3));
 .PP
 .SH SEE ALSO
 kmers

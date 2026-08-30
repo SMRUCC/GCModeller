@@ -1,10 +1,30 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-1月 "expr_ranking" "expr_ranking"
 .SH NAME
-expr_ranking \- 
+expr_ranking \- make the abundance ranking of the gene features in each sample group
 .SH SYNOPSIS
 \fIexpr_ranking(\fBx\fR as <generic> Matrix, 
 \fBsampleinfo\fR as <generic> SampleInfo[]);\fR
+.SH DESCRIPTION
+.PP
+make the abundance ranking of the gene features in each sample group
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a gene expression matrix object. 
+.PP
+.PP
+\fBsampleinfo\fB \fR\- 
+ the sample group information data: the gene expression value of the sample 
+ columns in the same sample group will be averaged at first, and then the 
+ ranking is evaluated based on the averaged value of each sample group.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBM:phenotype_kit.geneExpression.ranking(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo[])\fR data object: the abundance ranking of 
+ each gene feature in each sample group.
+.PP
 .SH SEE ALSO
 geneExpression
 .SH FILES

@@ -35,7 +35,7 @@
         <table>
             
 <dt>gears</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a>]</p></dd>
+<dd><p>a <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a> model object that is created by the <code>GEARS::new. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a>]</p></dd>
 
 
 <dt>x</dt>
@@ -47,7 +47,7 @@
 
 
 <dt>perturbed</dt>
-<dd><p></p></dd>
+<dd><p>a collection of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> sample information data of the perturbed samples: the <code>ID</code> property of the sample data should be matched with the sample column of the given expression matrix, the perturbed gene id set of each sample is stored as a json string array in the <code>metadata</code> property via the <code>perturbed_genes</code> key, and the intervention mode of each sample could be stored in the <code>metadata</code> property via the <code>intervention_mode</code> key(the value should be one of <code>Knockout</code>, <code>Knockdown</code>, <code>Overexpression</code> or <code>Custom</p></dd>
 
 
 <dt>env</dt>
@@ -56,9 +56,9 @@
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the wildtype baseline(the mean and the standard deviation of each gene) of the GEARS model will be recomputed from the given control sample columns, so that this api should be called before the <code>train</code> api.
 
         <h3 style="display: block">Authors</h3>
 
@@ -66,7 +66,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>the input <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a> model object that the training sample set has been set;
+
+<p>this function returns a R# error message object if the given perturbed sample data can not be cast to a collection of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> data.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

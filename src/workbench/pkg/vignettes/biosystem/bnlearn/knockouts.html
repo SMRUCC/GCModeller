@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>knockouts</title>
+    <title>run the in silico gene knockout experiment on the given network model</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>knockouts</h2>
+        <h2>run the in silico gene knockout experiment on the given network model</h2>
 
         <h3>Description</h3>
 
-        knockouts
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,19 @@
 
         <table>
             
+<dt>bnlearn</dt>
+<dd><p>the trained network model object, which could be created by the <code>bnlearn</code> api or the <code>GEARS::new. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/InsilicoPerturbationExperiment.html">InsilicoPerturbationExperiment</a>]</p></dd>
+
+
+<dt>geneNames</dt>
+<dd><p>a character vector of the gene id for run the knockout experiment, one @<code>T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the behavior of this function is determined by the <code>strict</code> option of the input network model: an error will be thrown when the target gene is missing from the network model in the strict mode, otherwise the wildtype expression data will be returned as the result with the <code>Undefined</code> flag marked as TRUE.
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a></li></ul>
+        <p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a> perturbation result: the <code>WildtypeMeans</code> is the wildtype expression value of each gene, the <code>MutantMeans</code> is the expression value of each gene after the gene has been knocked out, and the <code>FoldChanges</code>, <code>PercentChanges</code>, <code>ZScores</code> and <code>IsSignificant</code> data is the differential analysis result of the perturbation.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

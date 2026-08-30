@@ -1,10 +1,32 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-1月 "exp" "exp"
 .SH NAME
-exp \- 
+exp \- power of the expression value in the matrix
 .SH SYNOPSIS
 \fIexp(\fBx\fR as <generic> Matrix, 
 \fBp\fR as double);\fR
+.SH DESCRIPTION
+.PP
+power of the expression value in the matrix
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a gene expression matrix object. 
+.PP
+.PP
+\fBp\fB \fR\- the power exponent value. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that each expression value in the matrix 
+ is the p power of the original expression value, the tag of the generated 
+ matrix is formatted as \fBexp({tag}, {p})\fR.
+.PP
+.SH DETAILS
+.PP
+this function implements the \fB^\fR operator of the gene expression matrix 
+ object in R# environment.
+.PP
 .SH SEE ALSO
 geneExpression
 .SH FILES

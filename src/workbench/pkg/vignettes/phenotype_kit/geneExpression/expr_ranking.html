@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>expr_ranking</title>
+    <title>make the abundance ranking of the gene features in each sample group</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>expr_ranking</h2>
+        <h2>make the abundance ranking of the gene features in each sample group</h2>
 
         <h3>Description</h3>
 
-        expr_ranking
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>sampleinfo</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Ranking.html">Ranking[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Ranking.html">Ranking[]</a></li></ul>
+        <p>a vector of the @<code>M:phenotype_kit.geneExpression.ranking(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo[])</code> data object: the abundance ranking of each gene feature in each sample group.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Ranking.html">Ranking[]</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

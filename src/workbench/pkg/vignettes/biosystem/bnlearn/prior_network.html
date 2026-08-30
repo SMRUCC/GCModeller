@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>prior_network</title>
+    <title>create prior knowledge netwoek edges from the given vector data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>prior_network</h2>
+        <h2>create prior knowledge netwoek edges from the given vector data</h2>
 
         <h3>Description</h3>
 
-        prior_network
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,25 @@
 
         <table>
             
+<dt>TF</dt>
+<dd><p></p></dd>
+
+
+<dt>target.gene</dt>
+<dd><p></p></dd>
+
+
+<dt>regulation.type</dt>
+<dd><p>a character vector of the regulation type of each regulatory edge, the value could be <code>Unknown</code>, <code>Activator</code> or <code>Inhibitor</p></dd>
+
+
+<dt>confidence</dt>
+<dd><p>a numeric vector of the confidence score of each regulatory edge, which should be a value in the range <code>[0,1]</p></dd>
+
+
+<dt>evidence</dt>
+<dd><p></p></dd>
+
         </table>
 
 
@@ -47,7 +66,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a></li></ul>
+        <p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a> regulatory edge data, all of the input vectors should be in the same size as the input TF vector, this generated edge collection can be used as the whitelist of the network structure learning via the <code>bnlearn</code> api, or be converted to a <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a> object via the <code>as.prior_net</code> api.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

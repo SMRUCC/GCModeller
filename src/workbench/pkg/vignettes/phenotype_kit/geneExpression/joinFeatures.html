@@ -36,7 +36,7 @@
         <table>
             
 <dt>x</dt>
-<dd><p></p></dd>
+<dd><p>a collection of the gene expression matrix object for merge, which can be a vector of the @<code>T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix</p></dd>
 
 
 <dt>strict</dt>
@@ -59,7 +59,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+        <p>a new expression matrix object that the gene feature rows of all of the input matrix object have been merged into one matrix(the merged sample columns are sorted in ascending order);
+
+<p>this function returns NULL if the input matrix collection is empty, or a R# error message object if the input data can not be cast to a collection of the expression matrix data.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

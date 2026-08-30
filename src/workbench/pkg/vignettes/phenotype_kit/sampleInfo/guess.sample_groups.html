@@ -37,11 +37,15 @@
         <table>
             
 <dt>sample.names</dt>
-<dd><p>[as <a href="/vignettes/clr/System/Array.html">Array</a>]</p></dd>
+<dd><p>a character vector of the sample labels, the sample group information will be guessed from the common tag prefix of these sample labels, example as the sample labels <code>iBAQ-AAA-1</code>, <code>iBAQ-AAA-2</code>, <code>iBAQ-BBB-1</code> will be grouped as the <code>AAA</code> and <code>BBB. [as <a href="/vignettes/clr/System/Array.html">Array</a>]</p></dd>
+
+
+<dt>maxDepth</dt>
+<dd><p>[as boolean]</p></dd>
 
 
 <dt>raw.list</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>returns the group result as a raw tuple list object(the slot key of the list is the group label and the slot value is a character vector of the sample label)? if this parameter is FALSE, then a vector of the @<code>T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo. [as boolean]</p></dd>
 
         </table>
 
@@ -56,7 +60,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object in these one of the listed data types: list, <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>.<h4>clr value class</h4><ul><li>list</li><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
+        <p>a tuple list of the guessed sample groups, or a vector of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> object when the <code>raw_list</code> parameter is FALSE.
+
+<p>the generated <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> object will be assigned with a default color from the <code>Paper</code> color set, and the <code>shape</code> property is set as <code>circle</code>, the <code>batch</code> property is set as 1 and the <code>injectionOrder</code> property is the index order of the sample in the generated sample collection.<h4>clr value class</h4><ul><li>list</li><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

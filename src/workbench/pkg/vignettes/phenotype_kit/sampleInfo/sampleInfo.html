@@ -49,6 +49,22 @@
 <dt>sample.info</dt>
 <dd><p>[as string]</p></dd>
 
+
+<dt>color</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>batch</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>inject.order</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -62,7 +78,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
+        <p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> sample information data, the <code>shape</code> property of the generated sample data is set as <code>circle</code>;
+
+<p>this function returns NULL if the input sample id vector or the sample group information vector is nothing, or a R# error message object if the size of the input vectors is not agreed with each other: the size of the <code>sample_name</code> should be equals to the size of the <code>ID</code>, and the size of the <code>sample_info</code> should be 1(a single group label for all samples) or equals to the size of the <code>ID</code>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

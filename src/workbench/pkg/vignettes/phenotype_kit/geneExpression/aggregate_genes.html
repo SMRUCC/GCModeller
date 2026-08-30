@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>aggregate_genes</title>
+    <title>merge the duplicated gene feature rows via the sum value</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>aggregate_genes</h2>
+        <h2>merge the duplicated gene feature rows via the sum value</h2>
 
         <h3>Description</h3>
 
-        aggregate_genes
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,15 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>this function is a shortcut of the <code>aggregate</code> api with the <code>byrow</code> parameter value TRUE.
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +50,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+        <p>a new expression matrix object that the gene feature rows with the identical gene id have been merged into a single row via the sum value, the tag of the generated matrix is formatted as <code>aggregate({tag})</code>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

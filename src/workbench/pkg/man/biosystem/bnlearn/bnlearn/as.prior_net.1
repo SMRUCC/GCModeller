@@ -1,10 +1,34 @@
 .\" man page create by R# package system.
 .TH BNLEARN 1 2000-1月 "as.prior_net" "as.prior_net"
 .SH NAME
-as.prior_net \- 
+as.prior_net \- build prior network object based on a given vector of the knowledge network edges data
 .SH SYNOPSIS
 \fIas.prior_net(\fBpriorNet\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+build prior network object based on a given vector of the knowledge network edges data
+.PP
+.SH OPTIONS
+.PP
+\fBpriorNet\fB \fR\- 
+ a collection of the regulatory edge data, which can be a vector of the 
+ @\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge\fR object, the output of the \fBprior_network\fR 
+ api, or a pipeline object that produces a set of the 
+ @\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge\fR data.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a @\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork\fR object that contains all of the given 
+ regulatory edges, the TF name set and the target gene name set;
+ 
+ this function returns a R# error message object if the given data can not 
+ be cast to a collection of the @\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge\fR data.
+.PP
 .SH SEE ALSO
 bnlearn
 .SH FILES

@@ -1,11 +1,57 @@
 .\" man page create by R# package system.
 .TH SAMPLEINFO 2 2000-1月 "make.analysis" "make.analysis"
 .SH NAME
-make.analysis \- 
+make.analysis \- create the different expression analysis design of the control vs treatment
 .SH SYNOPSIS
 \fImake.analysis(\fBsampleinfo\fR as <generic> SampleInfo[], 
 \fBcontrol\fR as string, 
 \fBtreatment\fR as string);\fR
+.SH DESCRIPTION
+.PP
+create the different expression analysis design of the control vs treatment
+.PP
+.SH OPTIONS
+.PP
+\fBsampleinfo\fB \fR\- 
+ a vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR sample information data.
+. 
+.PP
+.PP
+\fBcontrol\fB \fR\- 
+ the sample group label of the control group.
+. 
+.PP
+.PP
+\fBtreatment\fB \fR\- 
+ the sample group label of the treatment(the experiment) group.
+. 
+.PP
+.SH VALUE
+.PP
+a @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DataAnalysis\fR analysis design object that only contains the 
+ samples of the given control group and treatment group, the other sample 
+ groups in the input sample information data will be ignored.
+.PP
+.SH DETAILS
+.PP
+the samples of the control group will be placed at the first in the 
+ generated analysis design object, and the samples of the treatment group 
+ will be placed after the control group, so that the order of the sample 
+ groups in the generated analysis design object is \fBcontrol vs treatment\fR.
+ 
+ the generated analysis design object can be used by the limma analysis 
+ api(\fBlimma\fR) or the t-test analysis api(\fBdeg.t.test\fR) for run the 
+ different expression analysis.
+.PP
+.SH EXAMPLES
+.PP
+imports "sampleInfo" from "phenotype_kit";
+ 
+ let samples = sampleInfo(group_vec, group_vec);
+ let analysis = make.analysis(samples, control = "control", treatment = "treat");
+ 
+ let deg = limma(x, analysis);
+.PP
 .SH SEE ALSO
 sampleInfo
 .SH FILES

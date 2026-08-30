@@ -12,13 +12,34 @@ generate sequence k-mer count data matrix
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- 
+ a collection of the sequence data, which can be a fasta sequence 
+ collection(@\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR, @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR), a fastq 
+ sequence collection(@\fBT:SMRUCC.genomics.SequenceModel.FQ.FastQFile\fR) or any other 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.IFastaProvider\fR sequence data model, or a pipeline object 
+ that produces a set of the sequence data.
+. 
 .PP
 .PP
-\fBk\fB \fR\- -. 
+\fBk\fB \fR\- 
+ the length of the k-mer sequence fragment for make the count.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix\fR k-mer count matrix object: each row in this 
+ matrix is a sequence in the input sequence collection(the row name is 
+ the sequence title), and each column is a k-mer feature(the \fBsampleID\fR 
+ property of the generated matrix is the k-mer alphabet sorted in 
+ ascending order), the cell value is the count of the corresponding k-mer 
+ in the corresponding sequence(ZERO means that the k-mer is not exists in 
+ the target sequence).
+ 
+ this function returns a R# error message object if the input data can not 
+ be cast to a collection of the sequence data.
 .PP
 .SH SEE ALSO
 kmers

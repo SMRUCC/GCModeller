@@ -13,6 +13,19 @@ normalize data by sample column
 .PP
 \fBmatrix\fB \fR\- a gene expression matrix. 
 .PP
+.PP
+\fBscale\fB \fR\- 
+ the total sum scale of each sample column after the normalization, by 
+ default is 10000.
+. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object which is normalized by the total sum value 
+ of each sample column: each expression value in a sample column is divided 
+ by the sum of the sample column and then multiplied by the given scale 
+ value.
+.PP
 .SH DETAILS
 .PP
 apply for the metabolomics data usually

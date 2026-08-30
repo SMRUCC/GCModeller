@@ -54,11 +54,17 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type string.<h4>clr value class</h4><ul><li>string</li></ul>
+        <p>a character vector of the k-mer sequence fragments, which is generated from the given sequence data via a sliding window of size <code>k</code>, and the step size of the sliding window is just one char, so that all of the generated k-mer fragments are overlapped with each other.
 
-        <h3 style="display: none;">Examples</h3>
+<p>an empty character vector will be returned if the value of the <code>k</code> parameter is greater than the length of the input sequence data.<h4>clr value class</h4><ul><li>string</li></ul>
 
-        
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> imports "kmers" from "seqtoolkit";
+ 
+ # all of the generated k-mers are overlapped:
+ # "ATGGC" -> "ATG", "TGG", "GGC"
+ print(kmers("ATGGC", k = 3));</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>kmers</em> version 1.0.0.0 <a

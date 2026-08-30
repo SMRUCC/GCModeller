@@ -1,9 +1,28 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-1月 "aggregate_genes" "aggregate_genes"
 .SH NAME
-aggregate_genes \- 
+aggregate_genes \- merge the duplicated gene feature rows via the sum value
 .SH SYNOPSIS
 \fIaggregate_genes(\fBx\fR as <generic> Matrix);\fR
+.SH DESCRIPTION
+.PP
+merge the duplicated gene feature rows via the sum value
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a gene expression matrix object. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that the gene feature rows with the 
+ identical gene id have been merged into a single row via the sum value, 
+ the tag of the generated matrix is formatted as \fBaggregate({tag})\fR.
+.PP
+.SH DETAILS
+.PP
+this function is a shortcut of the \fBaggregate\fR api with the \fBbyrow\fR 
+ parameter value TRUE.
+.PP
 .SH SEE ALSO
 geneExpression
 .SH FILES

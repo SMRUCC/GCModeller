@@ -11,10 +11,17 @@ take top n expression feature by rank expression MAD value desc
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- a gene expression matrix object. 
 .PP
 .PP
 \fBtop\fB \fR\- take top N gene features. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that only contains the top n gene feature 
+ rows which is sorted by the MAD value of each gene feature row in 
+ descending order, the tag of the generated matrix is formatted as 
+ \fBsort_mad({tag})\fR.
 .PP
 .SH SEE ALSO
 geneExpression

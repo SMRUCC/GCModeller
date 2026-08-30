@@ -36,11 +36,11 @@
         <table>
             
 <dt>sampleinfo</dt>
-<dd><p></p></dd>
+<dd><p>the sample information data, which can be a vector of the @<code>T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo</p></dd>
 
 
 <dt>designs</dt>
-<dd><p>[as list]</p></dd>
+<dd><p>a tuple list of the experiment design formula: the slot key of the list is the label of the new sample group and the slot value is a formula expression that describes the merge of the original sample groups, example as <code>list(A = B + C + D)</code> means that the sample groups <code>B</code>, <code>C</code> and <code>D</code> will be merged into a new sample group <code>A. [as list]</p></dd>
 
 
 <dt>env</dt>
@@ -49,9 +49,11 @@
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the sample information data(the <code>ID</code>, <code>sample_name</code>, <code>color</code>, <code>shape</code>, <code>batch</code> and <code>injectionOrder</code> property) of the merged samples will be kept as is, only the <code>sample_info</code> group label will be replaced with the new group label.
+
+<p>the design formula expression is a lazy expression, so that the sample group label in the formula is not required to be a R# symbol.
 
         <h3 style="display: block">Authors</h3>
 
@@ -59,11 +61,17 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
+        <p>a new vector of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> object: the sample groups that are described in the given design formula will be replaced with the new generated sample groups, and the other sample groups that are not referenced in the design formula will be kept as is;
 
-        <h3 style="display: none;">Examples</h3>
+<p>this function returns a R# error message object if the input data can not be cast to a collection of the sample information data, or the given design formula is invalid.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
 
-        
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> imports "sampleInfo" from "phenotype_kit";
+ 
+ # merge the sample groups of "B", "C" and "D" into 
+ # a new sample group "A"
+ let samples = design(samples, list(A = B + C + D));</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>sampleInfo</em> version 1.0.0.0 <a

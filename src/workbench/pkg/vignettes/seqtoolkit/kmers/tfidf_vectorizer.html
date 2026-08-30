@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title></title>
+    <title>make the sequence embedding via the TF-IDF weight of the bag-of-k-mers</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2></h2>
+        <h2>make the sequence embedding via the TF-IDF weight of the bag-of-k-mers</h2>
 
         <h3>Description</h3>
 
-        
+        <p>model
 
         <h3>Usage</h3>
 
@@ -63,13 +63,17 @@
 
         <p>make sequence embedding via TF-IDF algorithm which is implemented via <a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/KmerTFIDFVectorizer.html">KmerTFIDFVectorizer</a>
 
+<p>the generated embedding vector of each sequence will be normalized to an unit vector when the <code>L2_norm</code> parameter is TRUE, which is helpful for the cosine similarity or euclidean distance measurement between the embedding vectors of the different length sequences.
+
         <h3 style="display: block">Authors</h3>
 
         seqtoolkit
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>a data frame object: each row is a sequence in the input sequence collection(the row name is the fasta title of the corresponding sequence), and each column is a k-mer term, the cell value is the TF-IDF weight of the corresponding k-mer in the corresponding sequence.
+
+<p>this function returns NULL if the input data can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

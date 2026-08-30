@@ -1,13 +1,70 @@
 .\" man page create by R# package system.
 .TH BNLEARN 1 2000-1月 "make_exports" "make_exports"
 .SH NAME
-make_exports \- 
+make_exports \- export the virtual permutation result as csv table files
 .SH SYNOPSIS
 \fImake_exports(\fBresults\fR as any, 
 \fBdir\fR as string, 
 \fBpathway_info\fR as list = \fB<NULL>\fR, 
 \fBtop_n\fR as integer = 50, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+export the virtual permutation result as csv table files
+.PP
+.SH OPTIONS
+.PP
+\fBresults\fB \fR\- 
+ a collection of the in silico perturbation result, which can be a vector of 
+ the @\fBT:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult\fR object, or a pipeline object that 
+ produces a set of the @\fBT:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult\fR data.
+. 
+.PP
+.PP
+\fBdir\fB \fR\- 
+ the output directory for save the generated csv table files, this directory 
+ will be created if it is not exists.
+. 
+.PP
+.PP
+\fBpathway_info\fB \fR\- 
+ an optional tuple list of the @\fBT:SMRUCC.genomics.MetabolicModel.MetabolicPathway\fR knowledge data: 
+ the slot key of the list is the pathway id and the slot value is the 
+ corresponding pathway object, this parameter is used for run the pathway 
+ level analysis of the perturbation result.
+. 
+.PP
+.PP
+\fBtop_n\fB \fR\- 
+ the top n affected genes for export in the intervention ranking table, by 
+ default is 50.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+TRUE will be returns if all of the result table files have been exported 
+ into the given directory successfully;
+ 
+ this function returns a R# error message object if the given data can not be 
+ cast to a collection of the @\fBT:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult\fR data.
+.PP
+.SH DETAILS
+.PP
+the generated csv table files in the given output directory:
+ 
+ + \fBfoldchange_matrix.csv\fR, \fBpercentchange_matrix.csv\fR, 
+   \fBsignificance_matrix.csv\fR, \fBzscore_matrix.csv\fR, 
+   \fBwildtype_means_matrix.csv\fR, \fBmutant_means_matrix.csv\fR;
+ + \fBcomprehensive_comparison.csv\fR, \fBcondition_similarity.csv\fR;
+ + \fBintervention_ranking.csv\fR: the top n affected genes of each 
+   perturbation condition;
+ + \fBpathway_summary.csv\fR and \fBcross_impact_matrix.csv\fR: these two table 
+   files will be generated only when the \fBpathway_info\fR parameter is 
+   provided.
+.PP
 .SH SEE ALSO
 bnlearn
 .SH FILES

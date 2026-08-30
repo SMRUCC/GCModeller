@@ -38,12 +38,16 @@
 <dt>x</dt>
 <dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
 
+
+<dt>by.features</dt>
+<dd><p>[as boolean]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the missing value(the ZERO value or the NaN value) will be filled with the half of the minimum positive value of the corresponding sample column(or gene feature row when the <code>by_features</code> parameter is TRUE), if there is no positive value in the target sample column, then ZERO will be used.
 
         <h3 style="display: block">Authors</h3>
 

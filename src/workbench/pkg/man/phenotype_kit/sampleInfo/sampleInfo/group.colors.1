@@ -12,13 +12,44 @@ get/set the group colors
 .PP
 .SH OPTIONS
 .PP
-\fBsampleinfo\fB \fR\- -. 
+\fBsampleinfo\fB \fR\- 
+ a vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR sample information data.
+. 
 .PP
 .PP
-\fBcolorSet\fB \fR\- -. 
+\fBcolorSet\fB \fR\- 
+ a new color set for assign to each sample group, which can be a character 
+ vector of the html color code or the color palette name, the \fBPaper\fR 
+ color set will be used if this color set parameter can not be recognized.
+ 
+ if this parameter is not specified, then this function works as a getter: 
+ the current color of each sample group will be returned.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+this function returns a tuple list of the color of each sample group when 
+ the \fBcolorSet\fR parameter is not specified(the slot key of the list is the 
+ sample group label and the slot value is the html color code of the 
+ corresponding sample group), otherwise the input sample information 
+ collection that the color of each sample group has been modified will be 
+ returned.
+.PP
+.SH DETAILS
+.PP
+the colors of the color set will be assigned to the sample groups in a 
+ loop manner, so that the color set is not required to have the same size 
+ as the sample group numbers.
+ 
+ this api can be used as a property setter in R# environment: the color of 
+ each sample group can be overwritten via the value assign syntax:
+ 
+ \fBr
+ group.colors(samples) <- "Set1:c8";
+ \fR`
 .PP
 .SH SEE ALSO
 sampleInfo

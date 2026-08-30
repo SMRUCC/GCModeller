@@ -1,24 +1,39 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-1月 "aggregate_samples" "aggregate_samples"
 .SH NAME
-aggregate_samples \- function alias of the \fBgeneExpression::average\fR function
+aggregate_samples \- calculate the sum value of the gene expression for each sample group.
 .SH SYNOPSIS
 \fIaggregate_samples(\fBmatrix\fR as <generic> Matrix, 
 ..., 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-function alias of the \fBgeneExpression::average\fR function
+calculate the sum value of the gene expression for each sample group.
+ 
+ this method can be apply for reduce data size when create some plot for 
+ visualize the gene expression patterns across the sample groups.
 .PP
 .SH OPTIONS
 .PP
-\fBmatrix\fB \fR\- -. 
+\fBmatrix\fB \fR\- a gene expression matrix object. 
 .PP
 .PP
-\fBgroups\fB \fR\- -. 
+\fBgroups\fB \fR\- 
+ a tuple list of the sample group information: the slot key of the list is 
+ the sample group label and the slot value is a character vector of the 
+ sample id that belongs to the corresponding sample group.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that each sample column is the sum value of 
+ the sample columns in the corresponding sample group;
+ 
+ this function returns a R# error message object if the given sample group 
+ information is empty.
 .PP
 .SH SEE ALSO
 geneExpression

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>sample_groups</title>
+    <title>group the sample information data by the sample group label</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>sample_groups</h2>
+        <h2>group the sample information data by the sample group label</h2>
 
         <h3>Description</h3>
 
-        sample_groups
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,9 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>a vector of the @<code>T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo. [as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +50,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type list.<h4>clr value class</h4><ul><li>list</li></ul>
+        <p>a tuple list of the sample groups: the slot key of the list is the sample group label and the slot value is a vector of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> object that belongs to the corresponding sample group, the sample groups in the generated list object are sorted by the group label in ascending order.<h4>clr value class</h4><ul><li>list</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

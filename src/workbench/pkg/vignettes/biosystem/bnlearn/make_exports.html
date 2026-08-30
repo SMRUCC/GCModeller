@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>make_exports</title>
+    <title>export the virtual permutation result as csv table files</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>make_exports</h2>
+        <h2>export the virtual permutation result as csv table files</h2>
 
         <h3>Description</h3>
 
-        make_exports
+        
 
         <h3>Usage</h3>
 
@@ -36,12 +36,39 @@
 
         <table>
             
+<dt>results</dt>
+<dd><p>a collection of the in silico perturbation result, which can be a vector of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a> object, or a pipeline object that produces a set of the @<code>T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult</p></dd>
+
+
+<dt>dir</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>pathway.info</dt>
+<dd><p>an optional tuple list of the @<code>T:SMRUCC.genomics.MetabolicModel.MetabolicPathway. [as list]</p></dd>
+
+
+<dt>top.n</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the generated csv table files in the given output directory:
+
+
+<ul>
+<li><p><code>foldchange_matrix.csv</code>, <code>percentchange_matrix.csv</code>, <code>significance_matrix.csv</code>, <code>zscore_matrix.csv</code>, <code>wildtype_means_matrix.csv</code>, <code>mutant_means_matrix.csv</code>;</li>
+<li><p><code>comprehensive_comparison.csv</code>, <code>condition_similarity.csv</code>;</li>
+<li><p><code>intervention_ranking.csv</code>: the top n affected genes of each perturbation condition;</li>
+<li><p><code>pathway_summary.csv</code> and <code>cross_impact_matrix.csv</code>: these two table files will be generated only when the <code>pathway_info</code> parameter is provided.</li>
+</ul>
 
         <h3 style="display: block">Authors</h3>
 
@@ -49,7 +76,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>TRUE will be returns if all of the result table files have been exported into the given directory successfully;
+
+<p>this function returns a R# error message object if the given data can not be cast to a collection of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a> data.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

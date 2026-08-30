@@ -1,36 +1,70 @@
 .\" man page create by R# package system.
 .TH KMERS 1 2000-1月 "cdhit_clusters" "cdhit_clusters"
 .SH NAME
-cdhit_clusters \- 
+cdhit_clusters \- run the CD-HIT like sequence clustering and then export the cluster
 .SH SYNOPSIS
 \fIcdhit_clusters(\fBx\fR as any, 
 \fBk\fR as integer = 12, 
 \fBidentities\fR as double = 0.8, 
 \fBn_threads\fR as <generic> Int32 = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+run the CD-HIT like sequence clustering and then export the cluster 
+ result as a set of the cluster tables
+.PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- 
+ a collection of the sequence data for run the clustering, which can be a 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a vector of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR 
+ object, or a character vector of the raw sequence data.
+. 
 .PP
 .PP
-\fBk\fB \fR\- -. 
+\fBk\fB \fR\- 
+ the k-mer size for build the min-hash sketch of the sequence data: 
+ 
+ + protein - k=5aa
+ + nucleotide - k=12nt
+ + genomics - k=31nt
+. 
 .PP
 .PP
-\fBidentities\fB \fR\- -. 
+\fBidentities\fB \fR\- 
+ the sequence identity threshold of the cluster members: the sequences 
+ that their identity is greater than or equals to this threshold value will 
+ be clustered into the same cluster.
+. 
 .PP
 .PP
-\fBn_threads\fB \fR\- -. 
+\fBn_threads\fB \fR\- 
+ the thread number for run the min-hash task in parallel.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
 .PP
 .SH VALUE
 .PP
 a tuple list that contains the data slots:
  
- - family: @\fBT:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.FamilyExports\fR
- - sequence: @\fBT:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.SequenceCluster\fR
- - clusters: @\fBT:SMRUCC.genomics.Analysis.SequenceAlignment.SimilarHit\fR
+ - family: a vector of the @\fBT:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.FamilyExports\fR object, each 
+   element is the summary data of one cluster: the \fBfamily_id\fR, the 
+   \fBmembers\fR cluster size, and the \fBrepresentative\fR/\fBrep_seq\fR data of 
+   the representative sequence;
+ - sequence: a vector of the @\fBT:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.SequenceCluster\fR object, each 
+   element is the data of one cluster member: the \fBseq_title\fR, the 
+   \fBfamily_id\fR, the \fBscore\fR identity to the cluster representative and 
+   the \fBseq\fR sequence data;
+ - clusters: a vector of the @\fBT:SMRUCC.genomics.Analysis.SequenceAlignment.SimilarHit\fR object, which is the 
+   raw cluster result of the CD-HIT like clustering: the \fBSeqID\fR is the 
+   representative sequence of the cluster and the \fBSimilar\fR property is 
+   the identity score of each cluster member to the representative 
+   sequence.
+ 
+ this function returns NULL if the input data can not be cast to a fasta 
+ sequence collection.
 .PP
 .SH SEE ALSO
 kmers

@@ -11,10 +11,15 @@ filter out all samples columns which its expression vector is ZERO!
 .PP
 .SH OPTIONS
 .PP
-\fBmat\fB \fR\- -. 
+\fBmat\fB \fR\- a gene expression matrix object. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that the sample columns which all of the 
+ expression value is ZERO have been removed.
 .PP
 .SH SEE ALSO
 geneExpression

@@ -14,7 +14,18 @@ do PCA on a gene expressin matrix
 \fBx\fB \fR\- a gene expression matrix. 
 .PP
 .PP
-\fBnpc\fB \fR\- -. 
+\fBnpc\fB \fR\- 
+ the max number of the principal components for calculate, the PCA analysis 
+ is applied on the gene expression matrix in row(gene) and column(sample) 
+ mode: each gene feature row is an observation and each sample column is a 
+ data dimension.
+. 
+.PP
+.SH VALUE
+.PP
+a data frame object of the PCA score result: each row is a gene feature in 
+ the input expression matrix(the row name is the gene id), and the columns 
+ are the principal component scores: \fBPC1\fR, \fBPC2\fR, ... \fBPC{npc}\fR.
 .PP
 .SH SEE ALSO
 geneExpression

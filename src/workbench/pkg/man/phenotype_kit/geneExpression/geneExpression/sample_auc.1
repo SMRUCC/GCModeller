@@ -13,13 +13,33 @@ Calculate the sum of the sample data with time-series information across all tim
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- a gene expression matrix object. 
 .PP
 .PP
-\fBsampleinfo\fB \fR\- -. 
+\fBsampleinfo\fB \fR\- 
+ the sample time-series information data, which can be a vector of the 
+ @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR object, a dataframe object or a pipeline object 
+ that produces a set of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR data.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBsample\fB \fR\- 
+ the property name of the time point information in the given 
+ \fBsampleinfo\fR data, by default is the \fBsample\fR property.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that each sample column is the sum value(AUC) 
+ of the sample columns in the corresponding time point, the tag of the 
+ generated matrix is \fBAUC(time)\fR;
+ 
+ this function returns a R# error message object if the given sample 
+ information data can not be cast to a collection of the 
+ @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR data.
 .PP
 .SH SEE ALSO
 geneExpression

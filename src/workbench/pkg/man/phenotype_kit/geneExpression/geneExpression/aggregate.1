@@ -11,13 +11,24 @@ merge row or column where the tag is identical
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- a gene expression matrix object. 
 .PP
 .PP
 \fBbyrow\fB \fR\- 
  default by gene feature row means merge the duplicated genes with the idential gene id as tag.
  otherwise will merge the duplicated samples with the identical sample id name.
 . 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that the duplicated gene feature rows have 
+ been merged into a single row via the sum value, the tag of the generated 
+ matrix is formatted as \fBaggregate({tag})\fR.
+ 
+ NOTE: the merge of the duplicated sample columns(the \fBbyrow\fR parameter is 
+ FALSE) is not implemented at this moment, an 
+ @\fBT:System.NotImplementedException\fR will be thrown for such kind of the 
+ operation.
 .PP
 .SH SEE ALSO
 geneExpression

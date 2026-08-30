@@ -26,6 +26,27 @@ load an expressin matrix data
  matrix which is specificed by this parameter value.
 . 
 .PP
+.PP
+\fBrm_ZERO\fB \fR\- 
+ removes the gene feature rows that all of the expression value in the 
+ target row is ZERO?
+. 
+.PP
+.PP
+\fBmakeNames\fB \fR\- 
+ create the gene id name via the generic make names function when the 
+ \fBmakeUnique\fR parameter is TRUE? if this parameter is FALSE, then the 
+ duplicated gene id will be renamed via an unique numeric suffix.
+. 
+.PP
+.PP
+\fBmakeUnique\fB \fR\- 
+ make the gene id of the loaded expression matrix unique? default is TRUE.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
 .SH VALUE
 .PP
 a HTS data matrix of samples in column and gene features in row

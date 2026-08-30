@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; kmers; seqtoolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="The sequence k-mer tools..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,21 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "kmers"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
+                               <br /><br /><span style="color: green;">#' The sequence k-mer tools</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "kmers"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>The sequence k-mer tools</p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module provides the toolkit for make the k-mer based sequence data analysis:
+
+
+<ul>
+<li><p><code>kmers</code>: generate the k-mer sequence fragments from a given sequence data in a sliding window manner;</li>
+<li><p><code>kmers_matrix</code>: generate the k-mer count matrix of a given sequence collection;</li>
+<li><p><code>tfidf_vectorizer</code> and <code>onehot_vectorizer</code>: make the sequence embedding via the bag-of-k-mers model, the TF-IDF weight or the one-hot encoding vector;</li>
+<li><p><code>cdhit_nr</code> and <code>cdhit_clusters</code>: run the CD-HIT like sequence clustering for get the non-redundant sequence set or the cluster family table.</li>
+</ul>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -97,25 +105,25 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="tfidf_vectorizer">
     <a href="./kmers/tfidf_vectorizer.html">tfidf_vectorizer</a>
   </td>
-  <td></td>
+  <td><p>make the sequence embedding via the TF-IDF weight of the bag-of-k-mers model</td>
 </tr>
 <tr>
   <td id="onehot_vectorizer">
     <a href="./kmers/onehot_vectorizer.html">onehot_vectorizer</a>
   </td>
-  <td></td>
+  <td><p>make the sequence embedding via the one-hot encoding(Bag-of-n-grams) of the k-mer composition</td>
 </tr>
 <tr>
   <td id="cdhit_nr">
     <a href="./kmers/cdhit_nr.html">cdhit_nr</a>
   </td>
-  <td></td>
+  <td><p>run the CD-HIT like sequence clustering for get the non-redundant sequence set</td>
 </tr>
 <tr>
   <td id="cdhit_clusters">
     <a href="./kmers/cdhit_clusters.html">cdhit_clusters</a>
   </td>
-  <td></td>
+  <td><p>run the CD-HIT like sequence clustering and then export the cluster result as a set of the cluster tables</td>
 </tr></tbody>
       </table>
     </div>

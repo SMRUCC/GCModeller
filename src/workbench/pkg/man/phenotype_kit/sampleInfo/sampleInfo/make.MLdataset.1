@@ -1,10 +1,43 @@
 .\" man page create by R# package system.
 .TH SAMPLEINFO 2 2000-1月 "make.MLdataset" "make.MLdataset"
 .SH NAME
-make.MLdataset \- 
+make.MLdataset \- create the machine learning dataset from the gene expression matrix and the
 .SH SYNOPSIS
 \fImake.MLdataset(\fBx\fR as <generic> Matrix, 
 \fBsampleinfo\fR as <generic> SampleInfo[]);\fR
+.SH DESCRIPTION
+.PP
+create the machine learning dataset from the gene expression matrix and the 
+ sample group information
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ a gene expression matrix object, the gene feature rows of this matrix will 
+ be used as the data features of the generated dataset.
+. 
+.PP
+.PP
+\fBsampleinfo\fB \fR\- 
+ a vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR sample information data: the 
+ \fBID\fR property of the sample data should be matched with the sample columns 
+ of the given expression matrix, and the \fBsample_info\fR property of the 
+ sample data will be used as the class label of the generated dataset 
+ entities.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:Microsoft.VisualBasic.DataMining.KMeans.EntityClusterModel\fR data entity: the \fBID\fR 
+ property is the sample id, the \fBCluster\fR property is the sample group 
+ label and the \fBProperties\fR property is the expression value of each gene 
+ feature in the corresponding sample.
+.PP
+.SH DETAILS
+.PP
+the sample data that its id is not exists in the expression matrix will be 
+ skipped with a warning message.
+.PP
 .SH SEE ALSO
 sampleInfo
 .SH FILES

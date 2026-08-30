@@ -12,13 +12,32 @@ merge multiple gene expression matrix by gene features
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- 
+ a collection of the gene expression matrix object for merge, which can be a 
+ vector of the @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix\fR 
+ object or a pipeline object that 
+ produces a set of the expression matrix data.
+. 
 .PP
 .PP
-\fBstrict\fB \fR\- -. 
+\fBstrict\fB \fR\- 
+ if this parameter is TRUE, then an error will be thrown when the sample id 
+ of the input matrix object is not identical with each other, otherwise the 
+ missing sample column will be filled with ZERO.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that the gene feature rows of all of the 
+ input matrix object have been merged into one matrix(the merged sample 
+ columns are sorted in ascending order);
+ 
+ this function returns NULL if the input matrix collection is empty, or a R# 
+ error message object if the input data can not be cast to a collection of 
+ the expression matrix data.
 .PP
 .SH SEE ALSO
 geneExpression

@@ -1,10 +1,44 @@
 .\" man page create by R# package system.
 .TH BNLEARN 1 2000-1月 "knockouts" "knockouts"
 .SH NAME
-knockouts \- 
+knockouts \- run the in silico gene knockout experiment on the given network model
 .SH SYNOPSIS
 \fIknockouts(\fBbnlearn\fR as <generic> InsilicoPerturbationExperiment, 
 \fBgeneNames\fR as any);\fR
+.SH DESCRIPTION
+.PP
+run the in silico gene knockout experiment on the given network model
+.PP
+.SH OPTIONS
+.PP
+\fBbnlearn\fB \fR\- 
+ the trained network model object, which could be created by the \fBbnlearn\fR 
+ api or the \fBGEARS::new\fR api.
+. 
+.PP
+.PP
+\fBgeneNames\fB \fR\- 
+ a character vector of the gene id for run the knockout experiment, one 
+ @\fBT:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult\fR object will be generated for each gene.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult\fR perturbation result: the 
+ \fBWildtypeMeans\fR is the wildtype expression value of each gene, the 
+ \fBMutantMeans\fR is the expression value of each gene after the gene has been 
+ knocked out, and the \fBFoldChanges\fR, \fBPercentChanges\fR, \fBZScores\fR and 
+ \fBIsSignificant\fR data is the differential analysis result of the 
+ perturbation.
+.PP
+.SH DETAILS
+.PP
+the behavior of this function is determined by the \fBstrict\fR option of the 
+ input network model: an error will be thrown when the target gene is missing 
+ from the network model in the strict mode, otherwise the wildtype expression 
+ data will be returned as the result with the \fBUndefined\fR flag marked as 
+ TRUE.
+.PP
 .SH SEE ALSO
 bnlearn
 .SH FILES

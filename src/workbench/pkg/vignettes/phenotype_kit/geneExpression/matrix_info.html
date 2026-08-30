@@ -40,9 +40,9 @@
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the summary information of a csv/tsv/xls table file is not implemented at this moment, an <a href="/vignettes/clr/System/NotImplementedException.html">NotImplementedException</a> will be thrown for such kind of the input file.
 
         <h3 style="display: block">Authors</h3>
 
@@ -57,7 +57,10 @@
 <li><p>sampleID: a character vector that contains the matrix sample information(column features name)</li>
 <li><p>geneID: a character vector that contains the matrix gene features information(row features name)</li>
 <li><p>tag: the matrix source tag label, could be the file basename if the given input file is a file path to the matrix.</li>
-</ol> the list data also has some specificied data fields: <code>list(sampleID, geneID, tag, mad)</code>.<h4>clr value class</h4><ul><li>list</li></ul>
+</ol>
+
+
+<p>if the input <strong><code>file</code></strong> object is a <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a> expression matrix object, then an additional <code>mad</code> data slot will be added into the result list: the MAD value of each gene feature row. the list data also has some specificied data fields: <code>list(sampleID, geneID, tag, mad)</code>.<h4>clr value class</h4><ul><li>list</li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

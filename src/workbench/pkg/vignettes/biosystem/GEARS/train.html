@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>train</title>
+    <title>Train the GEARS model with the given training sample set</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>train</h2>
+        <h2>Train the GEARS model with the given training sample set</h2>
 
         <h3>Description</h3>
 
-        train
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,17 @@
 
         <table>
             
+<dt>gears</dt>
+<dd><p>a <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a> model object that is created by the <code>GEARS::new</code> api, and the training sample set has been set via the <code>training_set. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the training epoch numbers and the learning rate of the model training is determined by the <code>GEARS_opts</code> configuration object that is given at the model creation time, and the loss value of each training epoch is stored in the <code>LossCurve</code> property of the trained model object.
+
+<p>an error will be thrown if the training sample set is empty, i.e. there is no gene of the prior network could be mapped into the gene expression matrix.
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +52,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a></li></ul>
+        <p>the input <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a> model object that has been trained, which can be used for run the in silico gene perturbation experiment via the <code>knockouts</code>, <code>overexpress</code> and <code>knockdown</code> api of the <code>bnlearn</code> package module.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

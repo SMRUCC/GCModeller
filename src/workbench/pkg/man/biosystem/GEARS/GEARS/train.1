@@ -1,9 +1,38 @@
 .\" man page create by R# package system.
 .TH GEARS 1 2000-1月 "train" "train"
 .SH NAME
-train \- 
+train \- Train the GEARS model with the given training sample set
 .SH SYNOPSIS
 \fItrain(\fBgears\fR as <generic> GEARS);\fR
+.SH DESCRIPTION
+.PP
+Train the GEARS model with the given training sample set
+.PP
+.SH OPTIONS
+.PP
+\fBgears\fB \fR\- 
+ a @\fBT:SMRUCC.genomics.Analysis.GEARS.GEARS\fR model object that is created by the \fBGEARS::new\fR api, 
+ and the training sample set has been set via the \fBtraining_set\fR api.
+. 
+.PP
+.SH VALUE
+.PP
+the input @\fBT:SMRUCC.genomics.Analysis.GEARS.GEARS\fR model object that has been trained, which can 
+ be used for run the in silico gene perturbation experiment via the 
+ \fBknockouts\fR, \fBoverexpress\fR and \fBknockdown\fR api of the \fBbnlearn\fR 
+ package module.
+.PP
+.SH DETAILS
+.PP
+the training epoch numbers and the learning rate of the model training is 
+ determined by the \fBGEARS_opts\fR configuration object that is given at the 
+ model creation time, and the loss value of each training epoch is stored in 
+ the \fBLossCurve\fR property of the trained model object.
+ 
+ an error will be thrown if the training sample set is empty, i.e. there is 
+ no gene of the prior network could be mapped into the gene expression 
+ matrix.
+.PP
 .SH SEE ALSO
 GEARS
 .SH FILES

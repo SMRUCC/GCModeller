@@ -62,16 +62,70 @@ clustering analysis of time course data
 . 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBempty_shared\fB \fR\- 
+ how many clusters will be assigned to a gene feature when there is no 
+ cluster that its membership value is greater than the \fBmemberCutoff\fR 
+ threshold.
+. 
+.PP
+.PP
+\fBmax_cluster_shared\fB \fR\- 
+ the max cluster numbers that a gene feature can be assigned into.
+. 
+.PP
+.PP
+\fBxlab\fB \fR\- the x axis label text of the cmeans pattern plot.. 
+.PP
+.PP
+\fBylab\fB \fR\- the y axis label text of the cmeans pattern plot.. 
+.PP
+.PP
+\fBtop_members\fB \fR\- 
+ the ratio of the top members of each cluster for draw the expression 
+ pattern lines in the cmeans pattern plot.
+. 
+.PP
+.PP
+\fBmargin\fB \fR\- the plot padding css style of the cmeans pattern plot.. 
+.PP
+.PP
+\fBcluster_label_css\fB \fR\- the css style of the cluster label text.. 
+.PP
+.PP
+\fBlegend_title_css\fB \fR\- the css style of the legend title text.. 
+.PP
+.PP
+\fBlegend_tick_css\fB \fR\- the css style of the legend tick text.. 
+.PP
+.PP
+\fBaxis_tick_css\fB \fR\- the css style of the axis tick text.. 
+.PP
+.PP
+\fBaxis_label_css\fB \fR\- the css style of the axis label text.. 
+.PP
+.PP
+\fBgrid_fill\fB \fR\- the background fill color of the plot grid.. 
+.PP
+.PP
+\fBgrid_draw\fB \fR\- draw the plot grid lines or not?. 
+.PP
+.PP
+\fBx_lab_rotate\fB \fR\- the rotate angle of the x axis label text.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
 .PP
 .SH VALUE
 .PP
 this function returns a tuple list that contains the pattern 
  cluster matrix and the cmeans pattern plots.
  
- 1. 'pattern' is a dataframe object that contains the object cluster patterns
+ 1. 'pattern' is a vector of the @\fBT:Microsoft.VisualBasic.DataMining.KMeans.EntityClusterModel\fR data that contains the object cluster patterns
  2. 'image' is a bitmap image that plot based on the object cluster patterns data.
  3. 'pdf' is a pdf image that could be edit
+ 4. 'cmeans' is the raw @\fBT:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern\fR object of the cmeans clustering result
+ 
+ NULL will be returns if the given expression matrix is empty.
 .PP
 .SH SEE ALSO
 geneExpression

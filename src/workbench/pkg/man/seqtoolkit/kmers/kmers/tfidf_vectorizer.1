@@ -1,13 +1,18 @@
 .\" man page create by R# package system.
 .TH KMERS 1 2000-1月 "tfidf_vectorizer" "tfidf_vectorizer"
 .SH NAME
-tfidf_vectorizer \- 
+tfidf_vectorizer \- make the sequence embedding via the TF-IDF weight of the bag-of-k-mers
 .SH SYNOPSIS
 \fItfidf_vectorizer(\fBx\fR as any, 
 \fBtype\fR as <integer> SeqTypes = [Protein], 
 \fBk\fR as integer = 6, 
 \fBL2_norm\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make the sequence embedding via the TF-IDF weight of the bag-of-k-mers 
+ model
+.PP
 .SH OPTIONS
 .PP
 \fBx\fB \fR\- should be a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence collection. 
@@ -22,11 +27,26 @@ tfidf_vectorizer \-
 \fBL2_norm\fB \fR\- do L2 normalized of the generated matrix data?. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a data frame object: each row is a sequence in the input sequence 
+ collection(the row name is the fasta title of the corresponding 
+ sequence), and each column is a k-mer term, the cell value is the TF-IDF 
+ weight of the corresponding k-mer in the corresponding sequence.
+ 
+ this function returns NULL if the input data can not be cast to a fasta 
+ sequence collection.
 .PP
 .SH DETAILS
 .PP
 make sequence embedding via TF-IDF algorithm which is implemented via @\fBT:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.KmerTFIDFVectorizer\fR
+ 
+ the generated embedding vector of each sequence will be normalized to an 
+ unit vector when the \fBL2_norm\fR parameter is TRUE, which is helpful for 
+ the cosine similarity or euclidean distance measurement between the 
+ embedding vectors of the different length sequences.
 .PP
 .SH SEE ALSO
 kmers

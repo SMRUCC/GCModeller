@@ -11,10 +11,19 @@ get the top n representatives genes in each expression pattern
 .PP
 .SH OPTIONS
 .PP
-\fBpattern\fB \fR\- -. 
+\fBpattern\fB \fR\- 
+ an @\fBT:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern\fR object of the cmeans clustering result.
+. 
 .PP
 .PP
 \fBtop\fB \fR\- top n cmeans membership items. 
+.PP
+.SH VALUE
+.PP
+a tuple list of the representative gene id set: the slot key of the list is 
+ the cluster tag(\fB#1\fR, \fB#2\fR, ...) and the slot value is a character 
+ vector of the gene id of the top n members in the corresponding cluster, 
+ which is sorted by the membership value in descending order.
 .PP
 .SH SEE ALSO
 geneExpression

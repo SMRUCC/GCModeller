@@ -69,7 +69,16 @@ table caption {font-size:14px;font-weight:bolder;}
     <p><p>the gene expression matrix data toolkit</p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module provides the toolkit for manipulate and analyze the high throughput screening(HTS) gene expression matrix data(the samples in column and the gene features in row):
+
+
+<ul>
+<li><p>read/write the expression matrix data: <code>load.expr</code>, <code>load.expr0</code>, <code>write.expr_matrix</code>, <code>load.matrixView</code>, <code>matrix_info</code>;</li>
+<li><p>the matrix data manipulation: <code>dims</code>, <code>tr</code>, <code>filter</code>, <code>project</code>, <code>joinSample</code>, <code>joinFeatures</code>, <code>aggregate</code>, <code>sample_id</code>, <code>setFeatures</code>, <code>setTag</code>, etc;</li>
+<li><p>the matrix data normalization and imputation: <code>z_score</code>, <code>minmax01Norm</code>, <code>relative</code>, <code>totalSumNorm</code>, <code>impute_missing</code>, <code>filterNaNMissing</code>, <code>setZero</code>;</li>
+<li><p>the expression pattern clustering: <code>pca</code>, <code>peakCMeans</code>, <code>expression.cmeans_pattern</code>, <code>cmeans_matrix</code>, <code>pattern_representatives</code>;</li>
+<li><p>the differential expression analysis: <code>deg.t.test</code>, <code>limma</code>, <code>limma_impactsort</code>, <code>as.deg</code>, <code>deg.class</code>.</li>
+</ul>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -103,7 +112,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="exp">
     <a href="./geneExpression/exp.html">exp</a>
   </td>
-  <td></td>
+  <td><p>power of the expression value in the matrix</td>
 </tr>
 <tr>
   <td id="tr">
@@ -183,7 +192,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="is_empty">
     <a href="./geneExpression/is_empty.html">is_empty</a>
   </td>
-  <td></td>
+  <td><p>check that the given expression matrix object is empty or not</td>
 </tr>
 <tr>
   <td id="load.expr">
@@ -249,13 +258,15 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="aggregate_samples">
     <a href="./geneExpression/aggregate_samples.html">aggregate_samples</a>
   </td>
-  <td><p>function alias of the <code>geneExpression::average</code> function</td>
+  <td><p>calculate the sum value of the gene expression for each sample group.
+
+<p>this method can be apply for reduce data size when create some plot for visualize the gene expression patterns across the sample groups.</td>
 </tr>
 <tr>
   <td id="aggregate_genes">
     <a href="./geneExpression/aggregate_genes.html">aggregate_genes</a>
   </td>
-  <td></td>
+  <td><p>merge the duplicated gene feature rows via the sum value</td>
 </tr>
 <tr>
   <td id="average">
@@ -359,7 +370,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="expr_ranking">
     <a href="./geneExpression/expr_ranking.html">expr_ranking</a>
   </td>
-  <td></td>
+  <td><p>make the abundance ranking of the gene features in each sample group</td>
 </tr>
 <tr>
   <td id="deg.t.test">
@@ -377,13 +388,13 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="read_limma">
     <a href="./geneExpression/read_limma.html">read_limma</a>
   </td>
-  <td></td>
+  <td><p>read the limma result table from a given csv table file</td>
 </tr>
 <tr>
   <td id="limma_impactsort">
     <a href="./geneExpression/limma_impactsort.html">limma_impactsort</a>
   </td>
-  <td></td>
+  <td><p>make the impact sort of the limma differential expression analysis result</td>
 </tr>
 <tr>
   <td id="limma_table">
@@ -411,7 +422,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="take_shuffle">
     <a href="./geneExpression/take_shuffle.html">take_shuffle</a>
   </td>
-  <td></td>
+  <td><p>random takes a subset of the gene features from the expression matrix</td>
 </tr>
 <tr>
   <td id="geneId">
@@ -465,7 +476,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="as.abundance_matrix">
     <a href="./geneExpression/as.abundance_matrix.html">as.abundance_matrix</a>
   </td>
-  <td></td>
+  <td><p>create the abundance matrix from a collection of the metagenomics abundance data</td>
 </tr></tbody>
       </table>
     </div>

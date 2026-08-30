@@ -11,10 +11,18 @@ add random gauss noise to the matrix
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- -. 
+\fBx\fB \fR\- a gene expression matrix object. 
 .PP
 .PP
-\fBscale\fB \fR\- -. 
+\fBscale\fB \fR\- 
+ the scale range of the random gauss noise, the noise value is generated 
+ from the range \fB[-scale, scale]\fR for each expression value.
+. 
+.PP
+.SH VALUE
+.PP
+the input matrix object that a random gauss noise has been added into each 
+ expression value of the matrix data.
 .PP
 .SH SEE ALSO
 geneExpression

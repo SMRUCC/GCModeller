@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>make.analysis</title>
+    <title>create the different expression analysis design of the control vs treatment</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>make.analysis</h2>
+        <h2>create the different expression analysis design of the control vs treatment</h2>
 
         <h3>Description</h3>
 
-        make.analysis
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,25 @@
 
         <table>
             
+<dt>sampleinfo</dt>
+<dd><p>a vector of the @<code>T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo. [as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
+
+
+<dt>control</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>treatment</dt>
+<dd><p>[as string]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the samples of the control group will be placed at the first in the generated analysis design object, and the samples of the treatment group will be placed after the control group, so that the order of the sample groups in the generated analysis design object is <code>control vs treatment</code>.
+
+<p>the generated analysis design object can be used by the limma analysis api(<code>limma</code>) or the t-test analysis api(<code>deg.t.test</code>) for run the different expression analysis.
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,11 +60,16 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/DataAnalysis.html">DataAnalysis</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/DataAnalysis.html">DataAnalysis</a></li></ul>
+        <p>a <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/DataAnalysis.html">DataAnalysis</a> analysis design object that only contains the samples of the given control group and treatment group, the other sample groups in the input sample information data will be ignored.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/DataAnalysis.html">DataAnalysis</a></li></ul>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r"> imports "sampleInfo" from "phenotype_kit";
+ 
+ let samples = sampleInfo(group_vec, group_vec);
+ let analysis = make.analysis(samples, control = "control", treatment = "treat");
+ 
+ let deg = limma(x, analysis);</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>sampleInfo</em> version 1.0.0.0 <a

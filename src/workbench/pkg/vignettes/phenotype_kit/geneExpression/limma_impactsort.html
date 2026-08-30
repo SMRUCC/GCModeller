@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title></title>
+    <title>make the impact sort of the limma differential expression analysis result</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2></h2>
+        <h2>make the impact sort of the limma differential expression analysis result</h2>
 
         <h3>Description</h3>
 
@@ -39,7 +39,7 @@
         <table>
             
 <dt>x</dt>
-<dd><p></p></dd>
+<dd><p>the limma result data, which can be a vector of the @<code>T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable</p></dd>
 
 
 <dt>top</dt>
@@ -51,7 +51,9 @@
 
 
 <dt>class</dt>
-<dd><p>[as list]</p></dd>
+<dd><p>the id class data, example as: list(class1 = c(...), class2 = c(...), class3 = c(...))
+
+<p>this parameter can also be provided in the format of <code>list(id1 = "class1", id2 = "class2", ...). [as list]</p></dd>
 
 
 <dt>names</dt>
@@ -74,7 +76,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/ImpactResult.html">ImpactResult</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/ImpactResult.html">ImpactResult</a></li></ul>
+        <p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/ImpactResult.html">ImpactResult</a> data object that is sorted by the impact value in descending order: the <code>total</code> impact value of each gene across all of the input limma result groups, the <code>max</code> impact value and the corresponding <code>top_group</code>, and the class label and the name of each gene if the <code>class</code>/<code>names</code> parameter is provided;
+
+<p>this function returns a R# error message object if the input data can not be cast to a collection of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/LimmaTable.html">LimmaTable</a> data.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/ImpactResult.html">ImpactResult</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

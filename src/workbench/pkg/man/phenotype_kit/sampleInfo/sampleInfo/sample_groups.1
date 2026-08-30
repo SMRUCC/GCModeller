@@ -1,9 +1,26 @@
 .\" man page create by R# package system.
 .TH SAMPLEINFO 2 2000-1月 "sample_groups" "sample_groups"
 .SH NAME
-sample_groups \- 
+sample_groups \- group the sample information data by the sample group label
 .SH SYNOPSIS
 \fIsample_groups(\fBx\fR as <generic> SampleInfo[]);\fR
+.SH DESCRIPTION
+.PP
+group the sample information data by the sample group label
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ a vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR sample information data.
+. 
+.PP
+.SH VALUE
+.PP
+a tuple list of the sample groups: the slot key of the list is the sample 
+ group label and the slot value is a vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR 
+ object that belongs to the corresponding sample group, the sample groups in 
+ the generated list object are sorted by the group label in ascending order.
+.PP
 .SH SEE ALSO
 sampleInfo
 .SH FILES

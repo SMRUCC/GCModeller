@@ -13,10 +13,25 @@ set the expression value to zero
 .PP
 .SH OPTIONS
 .PP
-\fBexpr0\fB \fR\- -. 
+\fBexpr0\fB \fR\- the target gene expression matrix object. 
 .PP
 .PP
-\fBq\fB \fR\- -. 
+\fBq\fB \fR\- 
+ the quantile threshold value of each gene feature row for make the 
+ expression value as ZERO.
+. 
+.PP
+.SH VALUE
+.PP
+the input matrix object that the expression value which is less than or 
+ equals to the quantile cutoff of the corresponding gene feature row has 
+ been set to ZERO.
+.PP
+.SH DETAILS
+.PP
+the quantile cutoff value is evaluated for each gene feature row 
+ independently, so that the row of the low expression level will not be 
+ wiped out entirely.
 .PP
 .SH SEE ALSO
 geneExpression

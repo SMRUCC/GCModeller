@@ -12,13 +12,52 @@ Create new analysis design sample info via formula
 .PP
 .SH OPTIONS
 .PP
-\fBsampleinfo\fB \fR\- -. 
+\fBsampleinfo\fB \fR\- 
+ the sample information data, which can be a vector of the 
+ @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR object or a pipeline object that produces a set of 
+ the sample information data.
+. 
 .PP
 .PP
-\fBdesigns\fB \fR\- -. 
+\fBdesigns\fB \fR\- 
+ a tuple list of the experiment design formula: the slot key of the list is 
+ the label of the new sample group and the slot value is a formula 
+ expression that describes the merge of the original sample groups, example 
+ as \fBlist(A = B + C + D)\fR means that the sample groups \fBB\fR, \fBC\fR and 
+ \fBD\fR will be merged into a new sample group \fBA\fR.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a new vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR object: the sample groups that 
+ are described in the given design formula will be replaced with the new 
+ generated sample groups, and the other sample groups that are not 
+ referenced in the design formula will be kept as is;
+ 
+ this function returns a R# error message object if the input data can not 
+ be cast to a collection of the sample information data, or the given design 
+ formula is invalid.
+.PP
+.SH DETAILS
+.PP
+the sample information data(the \fBID\fR, \fBsample_name\fR, \fBcolor\fR, 
+ \fBshape\fR, \fBbatch\fR and \fBinjectionOrder\fR property) of the merged samples 
+ will be kept as is, only the \fBsample_info\fR group label will be replaced 
+ with the new group label.
+ 
+ the design formula expression is a lazy expression, so that the sample group 
+ label in the formula is not required to be a R# symbol.
+.PP
+.SH EXAMPLES
+.PP
+imports "sampleInfo" from "phenotype_kit";
+ 
+ # merge the sample groups of "B", "C" and "D" into 
+ # a new sample group "A"
+ let samples = design(samples, list(A = B + C + D));
 .PP
 .SH SEE ALSO
 sampleInfo

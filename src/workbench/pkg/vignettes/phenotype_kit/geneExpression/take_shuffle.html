@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>take_shuffle</title>
+    <title>random takes a subset of the gene features from the expression matrix</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>take_shuffle</h2>
+        <h2>random takes a subset of the gene features from the expression matrix</h2>
 
         <h3>Description</h3>
 
-        take_shuffle
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>n</dt>
+<dd><p>[as integer]</p></dd>
+
         </table>
 
 
@@ -47,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li></ul>
+        <p>a data frame object that contains the randomly selected gene features: each row is a randomly selected gene feature(the row name is the gene id) and the columns is the expression data of the corresponding gene.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

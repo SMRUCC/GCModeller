@@ -18,6 +18,14 @@ normalize data by feature rows
  normalize the matrix row by median value of each row?
 . 
 .PP
+.SH VALUE
+.PP
+a new expression matrix object which is normalized by the relative scale 
+ of each gene feature row: each expression value in a gene feature row is 
+ divided by the max value(or the median value when the \fBmedian\fR parameter 
+ is TRUE) of the corresponding gene feature row, the tag of the generated 
+ matrix is formatted as \fBrelative_scaale({tag})\fR.
+.PP
 .SH DETAILS
 .PP
 row/max(row)

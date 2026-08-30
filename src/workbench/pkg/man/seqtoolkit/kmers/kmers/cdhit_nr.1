@@ -1,13 +1,69 @@
 .\" man page create by R# package system.
 .TH KMERS 1 2000-1月 "cdhit_nr" "cdhit_nr"
 .SH NAME
-cdhit_nr \- 
+cdhit_nr \- run the CD-HIT like sequence clustering for get the non-redundant
 .SH SYNOPSIS
 \fIcdhit_nr(\fBx\fR as any, 
 \fBk\fR as integer = 12, 
 \fBidentities\fR as double = 0.8, 
 \fBn_threads\fR as <generic> Int32 = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+run the CD-HIT like sequence clustering for get the non-redundant 
+ sequence set
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ a collection of the sequence data for run the clustering, which can be a 
+ @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a vector of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR 
+ object, or a character vector of the raw sequence data.
+. 
+.PP
+.PP
+\fBk\fB \fR\- 
+ the k-mer size for build the min-hash sketch of the sequence data: 
+ 
+ + protein - k=5aa
+ + nucleotide - k=12nt
+ + genomics - k=31nt
+. 
+.PP
+.PP
+\fBidentities\fB \fR\- 
+ the sequence identity threshold of the cluster members: the sequences 
+ that their identity is greater than or equals to this threshold value will 
+ be clustered into the same cluster.
+. 
+.PP
+.PP
+\fBn_threads\fB \fR\- 
+ the thread number for run the min-hash task in parallel.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence object: the 
+ representative sequence of each cluster. For a cluster that contains 
+ multiple sequence members, the fasta headers of the representative 
+ sequence is formatted as: the representative sequence title, 
+ \fB{cluster_size} cluster members\fR and the json text of the cluster member 
+ sequence id list; and the sequence data of a singleton cluster(the unique 
+ sequence) is returned as is.
+ 
+ this function returns NULL if the input data can not be cast to a fasta 
+ sequence collection.
+.PP
+.SH DETAILS
+.PP
+the input sequence data will be sorted by the sequence length in 
+ descending order at first, and then the greedy clustering algorithm runs 
+ based on the min-hash similarity of the k-mer sketch of each sequence.
+.PP
 .SH SEE ALSO
 kmers
 .SH FILES

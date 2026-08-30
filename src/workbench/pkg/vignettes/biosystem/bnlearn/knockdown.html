@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>knockdown</title>
+    <title>run the in silico gene knockdown experiment on the given network model</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>knockdown</h2>
+        <h2>run the in silico gene knockdown experiment on the given network model</h2>
 
         <h3>Description</h3>
 
-        knockdown
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>bnlearn</dt>
+<dd><p>the trained network model object, which could be created by the <code>bnlearn</code> api or the <code>GEARS::new. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/InsilicoPerturbationExperiment.html">InsilicoPerturbationExperiment</a>]</p></dd>
+
+
+<dt>geneNames</dt>
+<dd><p>a character vector of the gene id for run the knockdown experiment, one @<code>T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult</p></dd>
+
         </table>
 
 
@@ -47,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a></li></ul>
+        <p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a> perturbation result: the <code>WildtypeMeans</code> is the wildtype expression value of each gene, the <code>MutantMeans</code> is the expression value of each gene after the gene has been knocked down, and the <code>FoldChanges</code>, <code>PercentChanges</code>, <code>ZScores</code> and <code>IsSignificant</code> data is the differential analysis result of the perturbation.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

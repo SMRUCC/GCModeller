@@ -13,16 +13,37 @@ Read the sampleinfo data table from a given csv file
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the file path of the sample information table file.
+. 
 .PP
 .PP
-\fBtsv\fB \fR\- -. 
+\fBtsv\fB \fR\- 
+ is the target table file a TSV format table file? by default is FALSE means 
+ that the target table file is a CSV format table file.
+. 
 .PP
 .PP
-\fBexclude_groups\fB \fR\- -. 
+\fBexclude_groups\fB \fR\- 
+ a character vector of the sample group label for exclude from the loaded 
+ sample information data.
+. 
 .PP
 .PP
-\fBid_makenames\fB \fR\- -. 
+\fBid_makenames\fB \fR\- 
+ rename the sample id via the generic make names function? this parameter is 
+ helpful for make the sample id as a valid R# symbol name.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR object that is loaded from the 
+ given table file.
+ 
+ NOTE: the first column of the table file will be used as the \fBID\fR 
+ property of the generated sample information data, and the sample data rows 
+ that the \fBID\fR or the \fBsample_info\fR data is empty will be removed 
+ automatically with a warning message.
 .PP
 .SH SEE ALSO
 sampleInfo

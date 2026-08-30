@@ -12,13 +12,28 @@ Get sample id collection from a speicifc sample data groups
 .PP
 .SH OPTIONS
 .PP
-\fBsampleinfo\fB \fR\- -. 
+\fBsampleinfo\fB \fR\- 
+ the sample information data, which can be a vector of the 
+ @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR object or a pipeline object that produces a set of 
+ the sample information data.
+. 
 .PP
 .PP
-\fBgroups\fB \fR\- -. 
+\fBgroups\fB \fR\- 
+ a character vector of the sample group label for get the sample id list.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a character vector of the sample id that belongs to the given sample groups, 
+ the sample id of all of the given sample groups will be merged into a single 
+ character vector in the order of the given group label vector;
+ 
+ this function returns a R# error message object if the input data can not be 
+ cast to a collection of the sample information data.
 .PP
 .SH SEE ALSO
 sampleInfo

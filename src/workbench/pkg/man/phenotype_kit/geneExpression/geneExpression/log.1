@@ -11,14 +11,29 @@ log scale of the HTS raw matrix
 .PP
 .SH OPTIONS
 .PP
-\fBexpr\fB \fR\- should be a HTS expression matrix object. 
+\fBexpr\fB \fR\- 
+ should be a HTS expression matrix object, or a numeric vector of the raw 
+ expression data.
+. 
 .PP
 .PP
-\fBbase\fB \fR\- -. 
+\fBbase\fB \fR\- the logarithm base value, by default is the natural 
+ logarithm(the base e).. 
 .PP
 .SH VALUE
 .PP
-this function may produce negative expression value if the value number is less than 1.
+a new expression matrix object(or a numeric vector) of the log scaled 
+ expression data;
+ 
+ this function may produce negative expression value if the value number is less than 1.
+.PP
+.SH DETAILS
+.PP
+the function name of this api is conflict with the math \fBlog\fR function in 
+ the R# base runtime environment: if the input data is a gene expression 
+ matrix object, then the log scale of the expression matrix will be 
+ returned, otherwise the math log of the input numeric vector will be 
+ returned.
 .PP
 .SH SEE ALSO
 geneExpression

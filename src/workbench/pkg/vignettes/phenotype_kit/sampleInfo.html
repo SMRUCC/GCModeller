@@ -69,7 +69,17 @@ table caption {font-size:14px;font-weight:bolder;}
     <p><p>GCModeller DEG experiment analysis designer toolkit</p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module provides the toolkit for create and manipulate the experiment sample information data(@<code>T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo</code>), which is the experiment design data of the different expression analysis:
+
+
+<ul>
+<li><p>create the sample information data: <code>sampleInfo</code>, <code>guess.sample_groups</code>, <code>sampleinfo.text.groups</code>, <code>read.sampleinfo</code>;</li>
+<li><p>manipulate the sample group data: <code>design</code>, <code>sample_groups</code>, <code>shuffle_groups</code>, <code>group.colors</code>, <code>sampleinfo_gsub</code>, <code>sampleId</code>;</li>
+<li><p>build the analysis model for run the different expression analysis: <code>make.analysis</code>, <code>make.MLdataset</code>.</li>
+</ul>
+
+
+<p>The sample information data object in R# environment can be saved as a csv table file via the <code>write.sampleinfo</code> api, or be converted to a data frame via the <code>as.data.frame</code> api.
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -114,13 +124,13 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="shuffle_groups">
     <a href="./sampleInfo/shuffle_groups.html">shuffle_groups</a>
   </td>
-  <td></td>
+  <td><p>shuffle the sample group order in a random manner</td>
 </tr>
 <tr>
   <td id="sample_groups">
     <a href="./sampleInfo/sample_groups.html">sample_groups</a>
   </td>
-  <td></td>
+  <td><p>group the sample information data by the sample group label</td>
 </tr>
 <tr>
   <td id="write.sampleinfo">
@@ -138,7 +148,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="sampleinfo_gsub">
     <a href="./sampleInfo/sampleinfo_gsub.html">sampleinfo_gsub</a>
   </td>
-  <td></td>
+  <td><p>do text replace of the sample group label</td>
 </tr>
 <tr>
   <td id="sampleId">
@@ -156,13 +166,13 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="make.analysis">
     <a href="./sampleInfo/make.analysis.html">make.analysis</a>
   </td>
-  <td></td>
+  <td><p>create the different expression analysis design of the control vs treatment</td>
 </tr>
 <tr>
   <td id="make.MLdataset">
     <a href="./sampleInfo/make.MLdataset.html">make.MLdataset</a>
   </td>
-  <td></td>
+  <td><p>create the machine learning dataset from the gene expression matrix and the sample group information</td>
 </tr></tbody>
       </table>
     </div>

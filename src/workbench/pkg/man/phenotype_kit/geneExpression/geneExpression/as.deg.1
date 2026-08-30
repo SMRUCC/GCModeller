@@ -17,16 +17,24 @@ create gene expression DEG model
 \fBx\fB \fR\- usually be a dataframe object of the different expression analysis result. 
 .PP
 .PP
-\fBlogFC\fB \fR\- -. 
+\fBlogFC\fB \fR\- the column name of the log2 fold change data in the input dataframe.. 
 .PP
 .PP
-\fBpvalue\fB \fR\- -. 
+\fBpvalue\fB \fR\- the column name of the p-value data in the input dataframe.. 
 .PP
 .PP
-\fBlabel\fB \fR\- -. 
+\fBlabel\fB \fR\- the column name of the gene id label data in the input dataframe.. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DEGModel\fR deg result data that is created from 
+ the given dataframe columns;
+ 
+ this function returns a R# error message object if the input data is not a 
+ dataframe object.
 .PP
 .SH SEE ALSO
 geneExpression

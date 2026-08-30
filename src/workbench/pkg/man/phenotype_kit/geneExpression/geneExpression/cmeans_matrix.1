@@ -14,7 +14,47 @@ get cluster membership matrix
 .PP
 .SH OPTIONS
 .PP
-\fBpattern\fB \fR\- -. 
+\fBpattern\fB \fR\- 
+ the cmeans clustering result, which can be an 
+ @\fBT:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern\fR object, a data frame object of the 
+ membership matrix, or a pipeline object that produces a set of the 
+ @\fBT:Microsoft.VisualBasic.DataMining.KMeans.EntityClusterModel\fR cluster model data.
+. 
+.PP
+.PP
+\fBmemberCutoff\fB \fR\- 
+ the membership cutoff value for assign a gene feature into the target 
+ cluster: the gene feature will be assigned into the cluster if its 
+ membership value is greater than this threshold ratio of the max membership 
+ value of the corresponding cluster.
+. 
+.PP
+.PP
+\fBempty_shared\fB \fR\- 
+ how many clusters will be assigned to a gene feature when there is no 
+ cluster that its membership value is greater than the 
+ \fBmemberCutoff\fR threshold.
+. 
+.PP
+.PP
+\fBmax_cluster_shared\fB \fR\- 
+ the max cluster numbers that a gene feature can be assigned into.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:Microsoft.VisualBasic.DataMining.KMeans.EntityClusterModel\fR cluster model data: the 
+ \fBID\fR property is the gene feature id, the \fBProperties\fR property is the 
+ membership value of the gene feature to each cluster(\fB#1\fR, \fB#2\fR, ...), 
+ and the \fBCluster\fR property is the cluster tag that the gene feature has 
+ been assigned into(multiple cluster tags are joined by the \fB;\fR 
+ character);
+ 
+ this function returns a R# error message object if the input data can not 
+ be cast to a collection of the cluster model data.
 .PP
 .SH SEE ALSO
 geneExpression

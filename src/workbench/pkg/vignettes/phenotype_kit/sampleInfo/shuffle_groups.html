@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>shuffle_groups</title>
+    <title>shuffle the sample group order in a random manner</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>shuffle_groups</h2>
+        <h2>shuffle the sample group order in a random manner</h2>
 
         <h3>Description</h3>
 
-        shuffle_groups
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,15 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>a vector of the @<code>T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo. [as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>unlike the <code>sample_groups</code> api, which sorts the sample groups by the group label in ascending order, this function shuffles the sample group order in a random manner, which is helpful for the random color assignment or the permutation test of the sample groups.
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +50,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type list.<h4>clr value class</h4><ul><li>list</li></ul>
+        <p>a tuple list of the sample groups in a random order: the slot key of the list is the sample group label and the slot value is a vector of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> object that belongs to the corresponding sample group.<h4>clr value class</h4><ul><li>list</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
