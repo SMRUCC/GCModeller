@@ -98,10 +98,42 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' Fasta sequence toolkit
 ''' </summary>
 ''' 
+''' <remarks>
+''' This R# package module provides the toolkit for manipulate the biological 
+''' sequence data in fasta format:
+''' 
+''' + read the fasta sequence data from a file: ``read.fasta``, ``read.seq``, 
+'''   ``open.fasta``, ``parse.fasta``;
+''' + save the fasta sequence data to a file: ``write.fasta``, ``open.fasta``;
+''' + create the fasta sequence object or cast the other sequence data model to 
+'''   the fasta sequence data: ``fasta``, ``as.fasta``;
+''' + the sequence data analysis tools: ``MSA.of``, ``translate``, ``mass``, 
+'''   ``seq_formula``, ``seq_vector``, ``cut_seq.linear``, etc.
+''' 
+''' The fasta sequence data object in R# environment is a tuple list that its 
+''' element type is <see cref="FastaSeq"/>, which can be cast to a data frame 
+''' via the ``as.data.frame`` api, or be printed to the console with a pretty 
+''' format via the registered console formatter.
+''' </remarks>
 <Package("bioseq.fasta", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 <RTypeExport("MSA_result", GetType(MSAOutput))>
 Module Fasta
 
+    ''' <summary>
+    ''' Initialize the internal environment of this R# package module
+    ''' </summary>
+    ''' 
+    ''' <remarks>
+    ''' this function is invoked automatically at the start of the R# runtime 
+    ''' environment, it registers:
+    ''' 
+    ''' 1. the console formatter of the <see cref="FastaSeq"/> and 
+    '''    <see cref="FastaFile"/> sequence data object, and the multiple 
+    '''    sequence alignment result(<see cref="MSAOutput"/>);
+    ''' 2. the data frame cast handler of the fasta sequence collection, so that 
+    '''    the fasta sequence data can be converted to a data frame via the 
+    '''    ``as.data.frame`` api.
+    ''' </remarks>
     Sub New()
         Call printer.AttachConsoleFormatter(Of FastaSeq)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of FastaFile)(AddressOf viewFasta)
@@ -143,11 +175,45 @@ Module Fasta
         End Select
     End Function
 
+    ''' <summary>
+    ''' cast the fasta sequence collection as a data frame
+    ''' </summary>
+    ''' <param name="fa">
+    ''' a <see cref="FastaFile"/> object that contains a set of the fasta 
+    ''' sequence data.
+    ''' </param>
+    ''' <param name="args">
+    ''' the additional arguments for the data frame cast, this parameter is not 
+    ''' used in this function.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a data frame object that each row is a fasta sequence, and the columns 
+    ''' are: ``id``, ``title``, ``len`` and ``seq``.
+    ''' </returns>
     <RGenericOverloads("as.data.frame")>
     Public Function createSequenceCollectionTable(fa As FastaFile, args As list, env As Environment) As dataframe
         Return createSequenceTable(fa.ToArray, args, env)
     End Function
 
+    ''' <summary>
+    ''' overloads function for cast the fasta sequence collection as a data 
+    ''' frame for save to file by ``write.csv``.
+    ''' </summary>
+    ''' <param name="fa">
+    ''' a tuple list or a vector of the <see cref="FastaSeq"/> sequence object.
+    ''' </param>
+    ''' <param name="args">
+    ''' the additional arguments for the data frame cast, this parameter is not 
+    ''' used in this function.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a data frame object that each row is a fasta sequence, and the columns 
+    ''' are: the ``id`` column is the locus_tag id of the sequence, the ``title`` 
+    ''' column is the fasta headers title text, the ``len`` column is the sequence 
+    ''' length in chars, and the ``seq`` column is the raw sequence data.
+    ''' </returns>
     <RGenericOverloads("as.data.frame")>
     Public Function createSequenceTable(fa As FastaSeq(), args As list, env As Environment) As dataframe
         Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
@@ -163,8 +229,13 @@ Module Fasta
     ''' <summary>
     ''' get the sequence length
     ''' </summary>
-    ''' <param name="fa"></param>
-    ''' <returns></returns>
+    ''' <param name="fa">
+    ''' a <see cref="FastaSeq"/> sequence object for measure the sequence length.
+    ''' </param>
+    ''' <returns>
+    ''' the sequence length in chars of the given fasta sequence data, ZERO will 
+    ''' be returned when the given sequence object is nothing.
+    ''' </returns>
     <ExportAPI("size")>
     Public Function sizeof(fa As FastaSeq) As Integer
         If fa Is Nothing Then
@@ -180,7 +251,14 @@ Module Fasta
     ''' <param name="type">
     ''' the sequence data type.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a character vector of the alphabet letters of the given molecule type: 
+    ''' the A/C/G/T/U/N letters for the DNA or RNA nucleotide sequence, or the 
+    ''' 20 standard amino acid letters for the protein sequence.
+    ''' 
+    ''' an error will be thrown if the given sequence type is not a valid 
+    ''' biological sequence type(DNA/RNA/Protein).
+    ''' </returns>
     <ExportAPI("chars")>
     <RApiReturn(TypeCodes.string)>
     Public Function chars(Optional type As SeqTypes = SeqTypes.Protein) As Object
@@ -196,9 +274,26 @@ Module Fasta
     ''' <summary>
     ''' evaluate the molecule mass of the given sequence
     ''' </summary>
-    ''' <param name="seqs"></param>
-    ''' <param name="type"></param>
-    ''' <returns></returns>
+    ''' <param name="seqs">
+    ''' a fasta sequence collection for evaluate the molecule mass, which can be 
+    ''' a <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a character vector of the raw sequence 
+    ''' data.
+    ''' </param>
+    ''' <param name="type">
+    ''' the molecule type of the input sequence data, if this parameter is not 
+    ''' specified(<see cref="SeqTypes.Generic"/>), then the molecule type will be 
+    ''' evaluated from the input sequence data automatically: the most common 
+    ''' sequence type of the input sequence collection will be used.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a number value of the molecule mass if there is only one sequence in the 
+    ''' input sequence collection, or a named list of the molecule mass value of 
+    ''' each sequence if there are multiple sequence in the input sequence 
+    ''' collection, the name of the list element is the fasta title of the 
+    ''' corresponding sequence.
+    ''' </returns>
     <ExportAPI("mass")>
     Public Function mass(<RRawVectorArgument> seqs As Object,
                          Optional type As SeqTypes = SeqTypes.Generic,
@@ -245,6 +340,29 @@ Module Fasta
         Return vals
     End Function
 
+    ''' <summary>
+    ''' evaluate the chemical formula of the given sequence data
+    ''' </summary>
+    ''' <param name="seqs">
+    ''' a fasta sequence collection for evaluate the chemical formula, which can 
+    ''' be a <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a character vector of the raw sequence 
+    ''' data.
+    ''' </param>
+    ''' <param name="type">
+    ''' the molecule type of the input sequence data, if this parameter is not 
+    ''' specified(<see cref="SeqTypes.Generic"/>), then the molecule type will be 
+    ''' evaluated from the input sequence data automatically: the most common 
+    ''' sequence type of the input sequence collection will be used.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a character value of the chemical formula if there is only one sequence 
+    ''' in the input sequence collection, or a named list of the chemical formula 
+    ''' of each sequence if there are multiple sequence in the input sequence 
+    ''' collection, the name of the list element is the fasta title of the 
+    ''' corresponding sequence.
+    ''' </returns>
     <ExportAPI("seq_formula")>
     Public Function formula(<RRawVectorArgument> seqs As Object,
                             Optional type As SeqTypes = SeqTypes.Generic,
@@ -293,8 +411,28 @@ Module Fasta
     ''' <summary>
     ''' Create algorithm for make sequence embedding
     ''' </summary>
-    ''' <param name="moltype"></param>
-    ''' <returns></returns>
+    ''' <param name="moltype">
+    ''' the molecule type of the target sequence data for make the sequence 
+    ''' embedding: protein, DNA or RNA sequence.
+    ''' </param>
+    ''' <param name="kappa">
+    ''' the decay factor of the sequence graph transform algorithm, the smaller 
+    ''' value of this parameter makes the far distance k-mer composition weight 
+    ''' less.
+    ''' </param>
+    ''' <param name="lengthsensitive">
+    ''' is the generated embedding vector sensitive to the sequence length? if 
+    ''' this parameter is FALSE(the default value), then the embedding vector will 
+    ''' be normalized by the sequence length, so that two sequences with the same 
+    ''' k-mer composition but different lengths get the same embedding vector; if 
+    ''' this parameter is TRUE, then the vector norm value grows with the sequence 
+    ''' length.
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="CreateMatrix"/> algorithm object for embedding the given 
+    ''' sequence data as a numeric vector, which can be applied on a collection 
+    ''' of the sequence data via the ``seq_vector`` api.
+    ''' </returns>
     <ExportAPI("seq_sgt")>
     Public Function seq_sgt(Optional moltype As SeqTypes = SeqTypes.Protein,
                             Optional kappa As Double = 1,
@@ -306,10 +444,30 @@ Module Fasta
     ''' <summary>
     ''' embedding the given fasta sequence as vector
     ''' </summary>
-    ''' <param name="sgt"></param>
-    ''' <param name="seqs"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="sgt">
+    ''' the sequence graph transform algorithm object, which is created by the 
+    ''' ``seq_sgt`` api in this package module.
+    ''' </param>
+    ''' <param name="seqs">
+    ''' a fasta sequence collection for make the sequence embedding, which can be 
+    ''' a <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a character vector of the raw sequence 
+    ''' data.
+    ''' </param>
+    ''' <param name="as_dataframe">
+    ''' when there are multiple sequence in the input sequence collection: cast 
+    ''' the embedding matrix as a data frame object? if this parameter is FALSE(the 
+    ''' default value), then a named list of the embedding vector will be returned 
+    ''' for each sequence.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a numeric vector of the embedding result if there is only one sequence in 
+    ''' the input sequence collection, or a data frame object(each row is the 
+    ''' embedding vector of one sequence, and the column names are ``v1``, ``v2``, 
+    ''' ...) when the ``as_dataframe`` parameter is TRUE, or a named list of the 
+    ''' embedding vector of each sequence.
+    ''' </returns>
     ''' <example>
     ''' imports "bioseq.fasta" from "seqtoolkit";
     ''' 
@@ -369,9 +527,15 @@ Module Fasta
     ''' Read a single fasta sequence file
     ''' </summary>
     ''' <param name="file">
-    ''' Just contains one sequence
+    ''' the file path of the target sequence file, Just contains one sequence
     ''' </param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="FastaSeq"/> object that read from the given sequence file;
+    ''' 
+    ''' this function returns a R# error message object if the given file is not a 
+    ''' valid fasta sequence file or a genbank database file.
+    ''' </returns>
     ''' <remarks>
     ''' for input a genbank database file, this function will extract the origin sequence fasta object
     ''' </remarks>
@@ -394,8 +558,22 @@ Module Fasta
     ''' <summary>
     ''' read a fasta sequence collection file
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns>A collection of the fasta sequence object</returns>
+    ''' <param name="file">
+    ''' the file path of the fasta sequence file for read the sequence data.
+    ''' </param>
+    ''' <param name="lazyStream">
+    ''' read the fasta sequence data in a lazy stream mode? if this parameter is 
+    ''' TRUE, then a pipeline object of the <see cref="FastaSeq"/> sequence data 
+    ''' will be returned, which is helpful for read a huge fasta sequence file 
+    ''' without loading all of the sequence data into the memory at once.
+    ''' </param>
+    ''' <returns>
+    ''' A collection of the fasta sequence object: a vector of the 
+    ''' <see cref="FastaSeq"/> object that contains all of the sequence data in 
+    ''' the given fasta file, or a lazy pipeline object of the 
+    ''' <see cref="FastaSeq"/> sequence data when the ``lazyStream`` parameter is 
+    ''' TRUE.
+    ''' </returns>
     ''' <keywords>read data</keywords>
     <ExportAPI("read.fasta")>
     <RApiReturn(GetType(FastaSeq))>
@@ -412,9 +590,27 @@ Module Fasta
     ''' <summary>
     ''' read genome assembly fasta sequence file
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the genome assembly fasta sequence file, or a file stream 
+    ''' object of the target sequence file.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a named list of the <see cref="ChunkedNtFasta"/> chunk sequence object, 
+    ''' the name of the list element is the fasta title of the corresponding 
+    ''' chromosome or contigs sequence.
+    ''' 
+    ''' this function returns a R# error message object if the given file can not 
+    ''' be opened for read.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' unlike the ``read.fasta`` api, this function reads the whole genome 
+    ''' sequence in a chunked manner: the sequence data of each chromosome is 
+    ''' stored as a <see cref="ChunkedNtFasta"/> object, so that we can slice a 
+    ''' sequence region from a huge chromosome sequence in a memory efficient 
+    ''' manner via the ``slicer`` api.
+    ''' </remarks>
     <ExportAPI("read_assembly")>
     <RApiReturn(GetType(ChunkedNtFasta))>
     Public Function read_assembly(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
@@ -438,12 +634,29 @@ Module Fasta
     ''' <summary>
     ''' open the fasta sequence file 
     ''' </summary>
-    ''' <param name="file"></param>
+    ''' <param name="file">
+    ''' the file path of the target fasta sequence file for open.
+    ''' </param>
     ''' <param name="read">
     ''' load a set of fasta sequence data in lazy mode? default is yes.
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns>a lazy collection of the fasta sequence data</returns>
+    ''' <param name="line_break">
+    ''' the sequence length in one line of the generated fasta document when this 
+    ''' function is used for open a fasta file in write mode, a negative value 
+    ''' means that all of the sequence data will be written in a single line.
+    ''' </param>
+    ''' <param name="delimiter">
+    ''' the delimiter character for merge the fasta headers title when this 
+    ''' function is used for open a fasta file in write mode.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a lazy collection of the fasta sequence data(a pipeline object of the 
+    ''' <see cref="FastaSeq"/> sequence data) when the ``read`` parameter is TRUE, 
+    ''' or a fasta stream writer(<see cref="FastaWriter"/>) object for write the 
+    ''' sequence data into the target file in a stream manner when the ``read`` 
+    ''' parameter is FALSE.
+    ''' </returns>
     ''' <keywords>read data</keywords>
     <ExportAPI("open.fasta")>
     <RApiReturn(GetType(FastaSeq), GetType(FastaWriter))>
@@ -466,8 +679,14 @@ Module Fasta
     ''' <summary>
     ''' parse the fasta sequence object from the given text data
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' a character vector of the fasta sequence text data, each element in the 
+    ''' given character vector is one line of the fasta document text.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="FastaSeq"/> sequence object that parsed from 
+    ''' the given fasta document text data.
+    ''' </returns>
     <ExportAPI("parse.fasta")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function parseFasta(x As Object) As Object
@@ -476,6 +695,28 @@ Module Fasta
         Return fasta
     End Function
 
+    ''' <summary>
+    ''' takes the sequence subset from the given sequence collection by a set of 
+    ''' the sequence id
+    ''' </summary>
+    ''' <param name="x">
+    ''' a fasta sequence collection for make the subset, which can be a 
+    ''' <see cref="FastaFile"/> object, a collection of the <see cref="FastaSeq"/> 
+    ''' object, or a character vector of the raw sequence data.
+    ''' </param>
+    ''' <param name="gene_ids">
+    ''' a character vector of the sequence id for takes the sequence subset, the 
+    ''' sequence id is the first token of the fasta headers title text, which is 
+    ''' splitted by the space, ``|``, ``(`` or the TAB character.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="FastaSeq"/> sequence object that its sequence id 
+    ''' is in the given id set;
+    ''' 
+    ''' this function returns a R# error message object if the input sequence data 
+    ''' can not be cast to a fasta sequence collection.
+    ''' </returns>
     <ExportAPI("takes")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function take_byId(<RRawVectorArgument> x As Object, <RRawVectorArgument> gene_ids As Object, Optional env As Environment = Nothing) As Object
@@ -500,10 +741,31 @@ Module Fasta
     ''' <summary>
     ''' make sequence list index
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="ids"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' a fasta sequence collection for make the sequence index, which can be a 
+    ''' <see cref="FastaFile"/> object, a collection of the <see cref="FastaSeq"/> 
+    ''' object, or a character vector of the raw sequence data.
+    ''' </param>
+    ''' <param name="ids">
+    ''' a character vector of the index key of each sequence, the length of this 
+    ''' vector should be equals to the size of the input sequence collection. If 
+    ''' this parameter is not specified, then the first token of the fasta headers 
+    ''' title text of each sequence will be used as the index key.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a named list of the <see cref="FastaSeq"/> sequence object, the name of the 
+    ''' list element is the corresponding index key of the sequence, so that we can 
+    ''' get the target sequence object by the index key directly.
+    ''' 
+    ''' this function returns a R# error message object if the input sequence data 
+    ''' can not be cast to a fasta sequence collection.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the index key of the generated list object is unique: the duplicated key 
+    ''' will be renamed automatically by appending an unique numeric suffix.
+    ''' </remarks>
     <ExportAPI("list_index")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function list_index(<RRawVectorArgument> x As Object,
@@ -542,16 +804,38 @@ Module Fasta
     ''' <summary>
     ''' write a fasta sequence or a collection of fasta sequence object
     ''' </summary>
-    ''' <param name="seq"></param>
-    ''' <param name="file"></param>
+    ''' <param name="seq">
+    ''' the fasta sequence data for write into the target file, which can be a 
+    ''' single <see cref="FastaSeq"/> object, a <see cref="FastaFile"/> object, a 
+    ''' collection of the <see cref="FastaSeq"/> object, a character vector of the 
+    ''' raw sequence data, a fastq sequence collection, or a pipeline object that 
+    ''' produces a set of the <see cref="FastaSeq"/> sequence data.
+    ''' </param>
+    ''' <param name="file">
+    ''' the output target: a file path of the generated fasta sequence file, a file 
+    ''' stream object, or a fasta stream writer object that is created by the 
+    ''' ``open.fasta`` api in write mode.
+    ''' </param>
     ''' <param name="lineBreak">
     ''' The sequence length in one line, negative value or ZERo means no line break.
+    ''' </param>
+    ''' <param name="delimiter">
+    ''' the delimiter character for merge the fasta headers title of the sequence 
+    ''' data.
     ''' </param>
     ''' <param name="filter_empty">
     ''' skip write sequence if the sequence object has no sequence data
     ''' </param>
     ''' <param name="encoding">The text encoding value of the generated fasta file.</param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a boolean value of the file save result: TRUE means the sequence data has 
+    ''' been written into the target file successfully;
+    ''' 
+    ''' this function returns a R# error message object if the given sequence data 
+    ''' can not be cast to a fasta sequence collection, or the target file can not 
+    ''' be opened for write.
+    ''' </returns>
     ''' <keywords>save data</keywords>
     <ExportAPI("write.fasta")>
     <RApiReturn(TypeCodes.boolean)>
@@ -661,12 +945,37 @@ Module Fasta
     ''' <summary>
     ''' Do translation of the nt sequence to protein sequence
     ''' </summary>
-    ''' <param name="nt">The given fasta collection</param>
+    ''' <param name="nt">
+    ''' The given fasta collection, which can be a single <see cref="FastaSeq"/> 
+    ''' object, a <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a character vector of the raw nucleotide 
+    ''' sequence data.
+    ''' </param>
     ''' <param name="table">The genetic code for translation table.</param>
     ''' <param name="bypassStop">
     ''' Try ignores of the stop codon.
     ''' </param>
-    ''' <returns></returns>
+    ''' <param name="checkNt">
+    ''' check the input nucleotide sequence data is a valid nucleotide sequence? 
+    ''' if this parameter is TRUE and the input sequence data contains the invalid 
+    ''' nucleotide letters, then an error will be thrown.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a protein <see cref="FastaSeq"/> object if the input is a single nucleotide 
+    ''' sequence, or a <see cref="FastaFile"/> protein sequence collection if the 
+    ''' input is a collection of the nucleotide sequence data;
+    ''' 
+    ''' this function returns a R# error message object if the input sequence data 
+    ''' can not be cast to a nucleotide fasta sequence collection.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' when the ``bypassStop`` parameter is TRUE and there are some invalid gene 
+    ''' sequence that contains the stop codon symbol in the translated protein 
+    ''' sequence, a warning message will be pushed into the R# environment message 
+    ''' buffer.
+    ''' </remarks>
     <ExportAPI("translate")>
     Public Function Translates(<RRawVectorArgument>
                                nt As Object,
@@ -718,8 +1027,17 @@ Module Fasta
     ''' <summary>
     ''' Do multiple sequence alignment
     ''' </summary>
-    ''' <param name="seqs">A fasta sequence collection</param>
-    ''' <returns></returns>
+    ''' <param name="seqs">
+    ''' A fasta sequence collection, which can be a <see cref="FastaFile"/> object, 
+    ''' a collection of the <see cref="FastaSeq"/> object, or a character vector of 
+    ''' the raw sequence data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' an <see cref="MSAOutput"/> object that contains the multiple sequence 
+    ''' alignment result: the aligned sequence data of each input sequence and the 
+    ''' alignment cost value.
+    ''' </returns>
     <ExportAPI("MSA.of")>
     Public Function MSA(<RRawVectorArgument> seqs As Object, Optional env As Environment = Nothing) As MSAOutput
         Return GetFastaSeq(seqs, env).MultipleAlignment(ScoreMatrix.DefaultMatrix)
@@ -728,8 +1046,13 @@ Module Fasta
     ''' <summary>
     ''' read stockholm MSA file.
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the stockholm format multiple sequence alignment file.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="Stockholm"/> alignment object that contains the 
+    ''' aligned sequence data of the target stockholm file.
+    ''' </returns>
     <ExportAPI("read_stockholm")>
     <RApiReturn(GetType(Stockholm))>
     Public Function read_stockholm(file As String) As Object
@@ -739,9 +1062,27 @@ Module Fasta
     ''' <summary>
     ''' Create a fasta sequence collection object from any given sequence collection.
     ''' </summary>
-    ''' <param name="x">any type of sequence collection</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' any type of sequence collection, which can be:
+    ''' 
+    ''' 1. a <see cref="FastaFile"/> object or a collection of the 
+    '''    <see cref="FastaSeq"/> object;
+    ''' 2. a multiple sequence alignment result(<see cref="MSAOutput"/>);
+    ''' 3. a set of the <see cref="SimpleSegment"/> sequence segment object;
+    ''' 4. a sequence motif object(<see cref="SequenceMotif"/>);
+    ''' 5. a ncbi genbank feature object(``Feature``) for extract the nucleotide 
+    '''    sequence data of the target feature site;
+    ''' 6. a fastq sequence collection or a character vector of the raw sequence 
+    '''    data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="FastaFile"/> sequence collection object that created from the 
+    ''' given sequence data source;
+    ''' 
+    ''' this function returns a R# error message object if the input data source 
+    ''' can not be cast to a fasta sequence collection.
+    ''' </returns>
     ''' <keywords>conversion</keywords>
     <ExportAPI("as.fasta")>
     <RApiReturn(GetType(FastaFile))>
