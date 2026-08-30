@@ -1,7 +1,4 @@
-Imports System
-Imports System.Collections.Generic
 Imports System.IO
-Imports System.Linq
 
 ''' <summary>
 ''' A local static website directory scanner, it walks through the html

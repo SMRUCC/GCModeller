@@ -1,7 +1,3 @@
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-
 ''' <summary>
 ''' The website data model that is produced by the <see cref="WebCrawler"/>
 ''' or the <see cref="StaticScanner"/>, it contains the url entries of the

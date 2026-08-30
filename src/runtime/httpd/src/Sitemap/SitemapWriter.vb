@@ -1,10 +1,6 @@
-Imports System
-Imports System.Collections.Generic
 Imports System.IO
-Imports System.Linq
 Imports System.Text
 Imports System.Xml
-Imports System.Xml.Linq
 
 ''' <summary>
 ''' The sitemap.xml document builder, the generated xml document is
