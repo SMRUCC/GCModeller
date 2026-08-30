@@ -272,9 +272,9 @@ Module TRNBuilder
     ''' created by the ``write.regulations`` api.
     ''' </param>
     ''' <returns>
-    ''' a vector of the <see cref="RegulationFootprint"/> object that is loaded from 
-    ''' the given csv table file, each object is a regulation network edge of the 
-    ''' regulator to its regulated target gene.
+    ''' a vector of the <see cref="SMRUCC.genomics.Data.Regprecise.RegulationFootprint"/> 
+    ''' object that is loaded from the given csv table file, each object is a 
+    ''' regulation network edge of the regulator to its regulated target gene.
     ''' </returns>
     <ExportAPI("read.regulations")>
     Public Function readRegulations(file As String) As RegulationFootprint()
@@ -284,10 +284,22 @@ Module TRNBuilder
     ''' <summary>
     ''' save the regulation network data file.
     ''' </summary>
-    ''' <param name="regulationFootprints"></param>
-    ''' <param name="file$"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="regulationFootprints">
+    ''' the regulation network edge data for save, which can be a vector of the 
+    ''' <see cref="SMRUCC.genomics.Data.Regprecise.RegulationFootprint"/> object, or 
+    ''' a pipeline object that produces a set of the regulation footprint data.
+    ''' </param>
+    ''' <param name="file">the file path of the generated regulation footprint csv 
+    ''' table file.</param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a boolean value for indicates that the regulation network data has been 
+    ''' saved into the target file successfully or not;
+    ''' 
+    ''' this function returns a R# error message object if the given data is nothing, 
+    ''' the output file path is empty, or the given data is not a collection of the 
+    ''' regulation footprint data.
+    ''' </returns>
     <ExportAPI("write.regulations")>
     Public Function writeRegulationFootprints(regulationFootprints As Object, file$, Optional env As Environment = Nothing) As Object
         If regulationFootprints Is Nothing Then
