@@ -51,17 +51,6 @@ Namespace Core
             Return codes
         End Function
 
-        ''' <summary>解码单个核酸码（用于比对字符串输出）</summary>
-        Public Function Decode(code As Int32) As Char
-            Select Case code
-                Case 0 : Return "A"c
-                Case 1 : Return "C"c
-                Case 2 : Return "G"c
-                Case 3 : Return "T"c
-                Case Else : Return "N"c
-            End Select
-        End Function
-
         ''' <summary>反向互补（自动搜索负链时备用；当前实现按用户给定方向搜索）</summary>
         Public Function ReverseComplement(seq As String) As String
             Dim buf(seq.Length - 1) As Char

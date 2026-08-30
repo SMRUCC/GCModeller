@@ -19,8 +19,6 @@
 ' 得分系统为 Double（megablast 动态 gap 代价 |2p-r|/2 可能为 x.5）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Text
 
 Namespace Core

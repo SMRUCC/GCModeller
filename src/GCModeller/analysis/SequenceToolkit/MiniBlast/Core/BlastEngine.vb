@@ -9,6 +9,7 @@
 ' ============================================================================
 
 Imports MiniBlast.MiniBlast.Model
+Imports MiniBlast.Model
 
 Namespace Core
 
@@ -232,7 +233,7 @@ Namespace Core
                         .Id = entry.Id,
                         .Description = entry.Description,
                         .Length = entry.Length,
-                        .hsps = hspList
+                        .Hsps = hspList
                     })
                 End If
             Next
