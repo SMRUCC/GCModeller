@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.Linq
 Namespace siRNAHit
 
     ''' <summary>
-    ''' 
+    ''' 通过ncbi blastn进行靶基因搜索加速
     ''' </summary>
     ''' <remarks>
     ''' # ============ 第一轮：BLASTN 快速预筛 ============
