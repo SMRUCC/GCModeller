@@ -18,9 +18,6 @@
 '      H 由数值式 H = λ·Σ v·prob(v)·e^(λv) 计算（仅信息展示用）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-
 Namespace Core
 
     ''' <summary>Karlin-Altschul 参数集</summary>
