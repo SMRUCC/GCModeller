@@ -6,14 +6,20 @@
     ''' 模板串 '1' = care 位（参与编码与匹配），'0' = don't-care 位。
     ''' 默认 11/18：coding = 101101100101101101, optimal = 111010010110010111
     ''' </summary>
-    Public Class DcWordLookup
-        Implements IWordLookup
+    Public Class DcWordLookup : Implements IWordLookup
 
-        Private ReadOnly _table As New Dictionary(Of Long, List(Of Integer))()
-        Private ReadOnly _cares() As Boolean
+        ReadOnly _table As New Dictionary(Of Long, List(Of Integer))()
+        ReadOnly _cares() As Boolean
+
         Public ReadOnly Property Span As Integer Implements IWordLookup.Span
         Public ReadOnly Property Weight As Integer
         Public Property WordSize As Integer Implements IWordLookup.WordSize
+
+        Public ReadOnly Property EntryCount As Integer
+            Get
+                Return _table.Count
+            End Get
+        End Property
 
         Public Sub New(queryCodes As Int32(), mask() As Boolean, template As String)
             Me.Span = template.Length
@@ -83,11 +89,5 @@
             Next
             Return key
         End Function
-
-        Public ReadOnly Property EntryCount As Integer
-            Get
-                Return _table.Count
-            End Get
-        End Property
     End Class
 End Namespace

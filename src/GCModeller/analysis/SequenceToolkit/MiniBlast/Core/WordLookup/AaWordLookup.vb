@@ -4,8 +4,7 @@
     ''' 蛋白邻域 word 查找表：dbWordKey → 查询位置列表。
     ''' [README §2.2] 对查询每个 word，枚举所有比对得分 ≥ T 的数据库 word。
     ''' </summary>
-    Public Class AaWordLookup
-        Implements IWordLookup
+    Public Class AaWordLookup : Implements IWordLookup
 
         Private ReadOnly _table As New Dictionary(Of Int32, List(Of Integer))()
         Public ReadOnly Property WordSize As Integer Implements IWordLookup.WordSize

@@ -2,11 +2,23 @@
 
 
     ''' <summary>核酸连续 word 查找表：wordKey → 查询位置列表</summary>
-    Public Class NtWordLookup
-        Implements IWordLookup
+    Public Class NtWordLookup : Implements IWordLookup
 
-        Private ReadOnly _table As New Dictionary(Of Long, List(Of Integer))()
+        ReadOnly _table As New Dictionary(Of Long, List(Of Integer))()
+
         Public ReadOnly Property WordSize As Integer Implements IWordLookup.WordSize
+
+        Public ReadOnly Property EntryCount As Integer
+            Get
+                Return _table.Count
+            End Get
+        End Property
+
+        Public ReadOnly Property Span As Integer Implements IWordLookup.Span
+            Get
+                Return WordSize
+            End Get
+        End Property
 
         Public Sub New(queryCodes As Int32(), mask() As Boolean, wordSize As Integer)
             Me.WordSize = wordSize
@@ -51,12 +63,6 @@
             Return _table.TryGetValue(key, positions)
         End Function
 
-        Public ReadOnly Property Span As Integer Implements IWordLookup.Span
-            Get
-                Return WordSize
-            End Get
-        End Property
-
         ''' <summary>数据库侧打包 word 键；含歧义字符返回 Long.MinValue</summary>
         Public Function PackAt(codes As Int32(), pos As Integer) As Long Implements IWordLookup.PackAt
             Dim key As Long = 0
@@ -67,13 +73,6 @@
             Next
             Return key
         End Function
-
-        Public ReadOnly Property EntryCount As Integer
-            Get
-                Return _table.Count
-            End Get
-        End Property
-
     End Class
 
 
