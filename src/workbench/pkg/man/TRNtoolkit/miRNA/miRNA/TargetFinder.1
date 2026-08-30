@@ -1,9 +1,30 @@
 .\" man page create by R# package system.
 .TH MIRNA 1 2000-1月 "TargetFinder" "TargetFinder"
 .SH NAME
-TargetFinder \- 
+TargetFinder \- create the TargetFinder algorithm object for predict the miRNA target site
 .SH SYNOPSIS
 \fITargetFinder(\fBscore_cutoff\fR as double = 5);\fR
+.SH DESCRIPTION
+.PP
+create the TargetFinder algorithm object for predict the miRNA target site
+.PP
+.SH OPTIONS
+.PP
+\fBscore_cutoff\fB \fR\- 
+ the score cutoff of the target site match: the candidate match result that 
+ its position weighted penalty score is greater than this cutoff will be 
+ ignored(the penalty score is the lower the better), the recommended value 
+ is 4.0 for the strict mode, 5.0 for the standard mode and 7.0 for the loose 
+ mode.
+. 
+.PP
+.SH VALUE
+.PP
+a @\fBT:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.TargetFinder\fR 
+ algorithm object, which implements the @\fBT:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.miRNAMapper\fR interface, so 
+ that it can be used by the \fBmiRNA_targets\fR api for run the target site 
+ match.
+.PP
 .SH SEE ALSO
 miRNA
 .SH FILES

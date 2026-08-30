@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH TRN.BUILDER 1 2000-1月 "motif_search" "motif_search"
 .SH NAME
-motif_search \- 
+motif_search \- scan the TF binding site motif on the given sequence regions
 .SH SYNOPSIS
 \fImotif_search(\fBdb\fR as <generic> PWMDatabase, 
 \fBsearch_regions\fR as any, 
@@ -13,6 +13,88 @@ motif_search \-
 \fBscan_reverse\fR as boolean = TRUE, 
 \fBtqdm_bar\fR as boolean = TRUE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+scan the TF binding site motif on the given sequence regions
+.PP
+.SH OPTIONS
+.PP
+\fBdb\fB \fR\- 
+ the position weight matrix(PWM) motif database object, which contains the 
+ motif model of each transcription factor family.
+. 
+.PP
+.PP
+\fBsearch_regions\fB \fR\- 
+ the sequence regions for run the motif site scan, which can be a fasta 
+ sequence collection, a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object or a character vector 
+ of the raw sequence data, each sequence is a candidate promoter/upstream 
+ sequence region of one gene.
+. 
+.PP
+.PP
+\fBfamily\fB \fR\- 
+ an optional character vector of the transcription factor family name for 
+ restrict the motif scan: only the motif model of the given families will be 
+ used for the scan, all of the motif models in the database will be used if 
+ this parameter is not specified.
+. 
+.PP
+.PP
+\fBpval_cutoff\fB \fR\- 
+ the p-value cutoff of the motif site match: the candidate site that its 
+ match p-value is greater than this cutoff will be ignored, by default is 
+ 0.05.
+. 
+.PP
+.PP
+\fBminW\fB \fR\- 
+ the minimum score ratio cutoff of the motif site match, by default is 0.85.
+ 
+ NOTE: this parameter is not applied by the current implementation, the motif 
+ site match result is filtered by the \fBpval_cutoff\fR and the \fBtop\fR 
+ parameter only.
+. 
+.PP
+.PP
+\fBtop\fB \fR\- 
+ the top n best matched site of each motif model on each sequence region, by 
+ default is 3.
+. 
+.PP
+.PP
+\fBbg\fB \fR\- 
+ the background model of the motif site scan, the uniform background model 
+ will be used if this parameter is not specified.
+. 
+.PP
+.PP
+\fBscan_reverse\fB \fR\- 
+ scan the motif site on the reverse complement strand of the sequence region 
+ or not? by default is TRUE.
+. 
+.PP
+.PP
+\fBtqdm_bar\fB \fR\- 
+ display the progress bar of the motif site scan task on the console? by 
+ default is TRUE.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch\fR motif site match result: the 
+ \fBtitle\fR property is the sequence title of the corresponding sequence 
+ region, the \fBmotif\fR property is the matched motif model, the \fBstart\fR, 
+ \fBends\fR, \fBstrand\fR and \fBsegment\fR property is the location and the 
+ sequence data of the matched site, and the \fBscore1\fR, \fBscore2\fR and 
+ \fBpvalue\fR property is the match score data;
+ 
+ this function returns a R# error message object if the given sequence source 
+ can not be cast to a fasta sequence collection.
+.PP
 .SH SEE ALSO
 TRN.builder
 .SH FILES

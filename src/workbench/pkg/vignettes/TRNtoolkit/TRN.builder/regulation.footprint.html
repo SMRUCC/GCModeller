@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>regulation.footprint</title>
+    <title>create the regulation footprint(regulation network edges) from the regulator</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>regulation.footprint</h2>
+        <h2>create the regulation footprint(regulation network edges) from the regulator</h2>
 
         <h3>Description</h3>
 
-        regulation.footprint
+        <p>mapping data, the motif site data and the regprecise regulon database
 
         <h3>Usage</h3>
 
@@ -34,12 +34,29 @@
 
         <table>
             
+<dt>regulators</dt>
+<dd><p>the regulator mapping data, which can be a vector of the <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BestHit.html">BestHit</a> object(the bbh best hit mapping result of the regulator protein to the target genome), or a pipeline object that produces a set of the @<code>T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit</p></dd>
+
+
+<dt>motifLocis</dt>
+<dd><p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/FootprintSite.html">FootprintSite</a> motif site data, which could be loaded from a csv table file via the <code>read.footprints</code> api: the <code>src</code> property of the site data is the transcription factor family name set of the corresponding motif site and the <code>gene. [as <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/FootprintSite.html">FootprintSite</a>]</p></dd>
+
+
+<dt>regprecise</dt>
+<dd><p>the regprecise regulon database object(@<code>T:SMRUCC.genomics.Data.Regprecise.TranscriptionFactors. [as <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/TranscriptionFactors.html">TranscriptionFactors</a>]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>only the regulator of the <code>TF</code> type in the regprecise database will be used for create the regulation network, and the transcription factor family name of the regulator is the first token of the family data which is splitted by the <code>/</code> or the <code>\</code> character.
+
+<p>the regulator mapping is created by the bbh best hit: the <code>HitName</code> of the <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BestHit.html">BestHit</a> data is mapped to the regprecise regulator via its locus id(the text after the last <code>:</code> character), and the <code>QueryName</code> is used as the regulator gene id in the target genome.
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +64,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a></li></ul>
+        <p>a pipeline object of the <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/RegulationFootprint.html">RegulationFootprint</a> regulation network edge data: each edge is a regulation of one regulator to one target gene, which is created by mapping the motif site to the regulator of the corresponding transcription factor family in the regprecise database, the duplicated edge(<code>{regulator}-&gt;{regulated}</code>) will be removed automatically;
+
+<p>this function returns NULL if the given regulator mapping data is nothing, or a R# error message object if the given regulator data is not a collection of the <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BestHit.html">BestHit</a> data.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -1,12 +1,64 @@
 .\" man page create by R# package system.
 .TH MIRNA 1 2000-1月 "miRNA_targets" "miRNA_targets"
 .SH NAME
-miRNA_targets \- 
+miRNA_targets \- make matches of the miRNA target genes
 .SH SYNOPSIS
 \fImiRNA_targets(\fBmapper\fR as <generic> miRNAMapper, 
 \fBmiRNAs\fR as any, 
 \fBtargets\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make matches of the miRNA target genes
+.PP
+.SH OPTIONS
+.PP
+\fBmapper\fB \fR\- 
+ the target site match algorithm object, which could be created by the 
+ \fBpsRNATarget\fR or the \fBTargetFinder\fR api of this package module.
+. 
+.PP
+.PP
+\fBmiRNAs\fB \fR\- a collection of the miRNA sequence. 
+.PP
+.PP
+\fBtargets\fB \fR\- a collection of the mRNA/CDS sequence of the candidate genes. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a set of the miRNA to target gene matches result, a match result network edges with match score as weights
+ 
+ each @\fBT:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit\fR object in the generated result collection is a 
+ match of one miRNA sequence to one target site of the candidate mRNA 
+ sequence: the \fBmiRNA\fR and the \fBTarget\fR property is the sequence id of the 
+ small RNA and the target mRNA, the \fBStartSite\fR/\fBEndSite\fR property is the 
+ 1-based site location on the target mRNA sequence, and the \fBExpectation\fR 
+ property is the match score(the lower the better);
+ 
+ this function returns NULL if the miRNA sequence collection or the target 
+ sequence collection is empty, or the input data can not be cast to a fasta 
+ sequence collection.
+.PP
+.SH EXAMPLES
+.PP
+imports "miRNA" from "TRNtoolkit";
+ imports "bioseq.fasta" from "seqtoolkit";
+ 
+ let sirna = fasta("UGACGUGACUGACGUGACUGA", attrs = c("demo-miRNA"));
+ let genes = read.fasta("candidates.fa");
+ 
+ let psr = miRNA_targets(psRNATarget(), sirna, targets = genes);
+ let tfd = miRNA_targets(TargetFinder(), sirna, targets = genes);
+ 
+ let hi_conf = as.data.frame(intersect_targets(psr, tfd)); 
+ 
+ print(hi_conf, max.print = 6);
+ 
+ write.csv(hi_conf, file = "miRNA_targets_high_confidence.csv");
+.PP
 .SH SEE ALSO
 miRNA
 .SH FILES

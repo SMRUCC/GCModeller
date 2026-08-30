@@ -1,12 +1,72 @@
 .\" man page create by R# package system.
 .TH TRN.BUILDER 1 2000-1月 "regulation.footprint" "regulation.footprint"
 .SH NAME
-regulation.footprint \- 
+regulation.footprint \- create the regulation footprint(regulation network edges) from the regulator
 .SH SYNOPSIS
 \fIregulation.footprint(\fBregulators\fR as any, 
 \fBmotifLocis\fR as <generic> FootprintSite[], 
 \fBregprecise\fR as <generic> TranscriptionFactors, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+create the regulation footprint(regulation network edges) from the regulator 
+ mapping data, the motif site data and the regprecise regulon database
+.PP
+.SH OPTIONS
+.PP
+\fBregulators\fB \fR\- 
+ the regulator mapping data, which can be a vector of the 
+ @\fBT:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit\fR object(the bbh best hit mapping result of the 
+ regulator protein to the target genome), or a pipeline object that produces a 
+ set of the @\fBT:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit\fR data.
+. 
+.PP
+.PP
+\fBmotifLocis\fB \fR\- 
+ a vector of the @\fBT:SMRUCC.genomics.Data.Regprecise.FootprintSite\fR motif site data, which could be 
+ loaded from a csv table file via the \fBread.footprints\fR api: the \fBsrc\fR 
+ property of the site data is the transcription factor family name set of the 
+ corresponding motif site and the \fBgene\fR property is the regulated target 
+ gene of the site.
+. 
+.PP
+.PP
+\fBregprecise\fB \fR\- 
+ the regprecise regulon database object(@\fBT:SMRUCC.genomics.Data.Regprecise.TranscriptionFactors\fR), 
+ which provides the regulator information(the effector, the regulation mode, 
+ the regulog, the biological process, etc) of each transcription factor 
+ family.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a pipeline object of the 
+ @\fBT:SMRUCC.genomics.Data.Regprecise.RegulationFootprint\fR regulation 
+ network edge data: each edge is a regulation of one regulator to one target 
+ gene, which is created by mapping the motif site to the regulator of the 
+ corresponding transcription factor family in the regprecise database, the 
+ duplicated edge(\fB{regulator}->{regulated}\fR) will be removed 
+ automatically;
+ 
+ this function returns NULL if the given regulator mapping data is nothing, or 
+ a R# error message object if the given regulator data is not a collection of 
+ the @\fBT:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit\fR data.
+.PP
+.SH DETAILS
+.PP
+only the regulator of the \fBTF\fR type in the regprecise database will be used 
+ for create the regulation network, and the transcription factor family name 
+ of the regulator is the first token of the family data which is splitted by 
+ the \fB/\fR or the \fB\\fR character.
+ 
+ the regulator mapping is created by the bbh best hit: the \fBHitName\fR of the 
+ @\fBT:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit\fR data is mapped to the regprecise regulator via its 
+ locus id(the text after the last \fB:\fR character), and the \fBQueryName\fR is 
+ used as the regulator gene id in the target genome.
+.PP
 .SH SEE ALSO
 TRN.builder
 .SH FILES

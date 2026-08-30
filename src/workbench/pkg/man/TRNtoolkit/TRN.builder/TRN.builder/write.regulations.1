@@ -12,13 +12,27 @@ save the regulation network data file.
 .PP
 .SH OPTIONS
 .PP
-\fBregulationFootprints\fB \fR\- -. 
+\fBregulationFootprints\fB \fR\- 
+ the regulation network edge data for save, which can be a vector of the 
+ @\fBT:SMRUCC.genomics.Data.Regprecise.RegulationFootprint\fR object, or 
+ a pipeline object that produces a set of the regulation footprint data.
+. 
 .PP
 .PP
-\fBfile$\fB \fR\- -. 
+\fBfile\fB \fR\- the file path of the generated regulation footprint csv 
+ table file.. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a boolean value for indicates that the regulation network data has been 
+ saved into the target file successfully or not;
+ 
+ this function returns a R# error message object if the given data is nothing, 
+ the output file path is empty, or the given data is not a collection of the 
+ regulation footprint data.
 .PP
 .SH SEE ALSO
 TRN.builder

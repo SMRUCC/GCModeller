@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; miRNA; TRNtoolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="miRNA/siRNA target gene prediction toolkit..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,23 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "miRNA"</span><span style="color: blue;"> from</span><span style="color: brown"> "TRNtoolkit"</span>;
+                               <br /><br /><span style="color: green;">#' miRNA/siRNA target gene prediction toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "miRNA"</span><span style="color: blue;"> from</span><span style="color: brown"> "TRNtoolkit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>miRNA/siRNA target gene prediction toolkit</p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module provides the toolkit for predict the target genes of the miRNA/siRNA small RNA sequence:
+
+
+<ul>
+<li><p><code>psRNATarget</code> and <code>TargetFinder</code>: create the miRNA target site match algorithm object;</li>
+<li><p><code>miRNA_targets</code>: run the target site match of the given miRNA sequence against the candidate target mRNA/CDS sequence collection;</li>
+<li><p><code>intersect_targets</code>: take the intersection of the two algorithm result for create the high confidence target site set.</li>
+</ul>
+
+
+<p>the generated match result is a collection of the @<code>T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit</code> object, which can be converted to a data frame via the <code>as.data.frame</code> api, or be saved as a csv table file via the <code>write.csv</code> api.
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -82,22 +92,28 @@ table caption {font-size:14px;font-weight:bolder;}
       <table class="table-three-line">
         <caption>.NET clr function exports</caption>
         <tbody><tr>
+  <td id="as.data.frame.sirnahit">
+    <a href="./miRNA/as.data.frame.sirnahit.html">as.data.frame.sirnahit</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/siRNAHit.html">siRNAHit</a>: <p>小RNA（miRNA/siRNA）与靶标 mRNA 的互补匹配命中结果模型。 两个算法（psRNATarget / TargetFinder）共用此结构，便于后续求交集。</td>
+</tr>
+<tr>
   <td id="psRNATarget">
     <a href="./miRNA/psRNATarget.html">psRNATarget</a>
   </td>
-  <td></td>
+  <td><p>create the psRNATarget algorithm object for predict the miRNA target site</td>
 </tr>
 <tr>
   <td id="TargetFinder">
     <a href="./miRNA/TargetFinder.html">TargetFinder</a>
   </td>
-  <td></td>
+  <td><p>create the TargetFinder algorithm object for predict the miRNA target site</td>
 </tr>
 <tr>
   <td id="miRNA_targets">
     <a href="./miRNA/miRNA_targets.html">miRNA_targets</a>
   </td>
-  <td></td>
+  <td><p>make matches of the miRNA target genes</td>
 </tr>
 <tr>
   <td id="intersect_targets">

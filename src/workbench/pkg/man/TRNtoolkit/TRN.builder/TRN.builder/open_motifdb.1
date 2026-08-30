@@ -1,10 +1,48 @@
 .\" man page create by R# package system.
 .TH TRN.BUILDER 1 2000-1月 "open_motifdb" "open_motifdb"
 .SH NAME
-open_motifdb \- 
+open_motifdb \- open the motif database
 .SH SYNOPSIS
 \fIopen_motifdb(\fBfile\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+open the motif database
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the motif database source:
+ 
+ 1. a directory path that contains a set of the MEME format motif files 
+    (*.meme), then a @\fBT:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MEMEMotifRepository\fR object will be created 
+    from this directory;
+ 2. a file path or a file stream object of the binary motif database file, 
+    then the database will be opened from the given data stream in read only 
+    mode.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a motif database object for get the position weight matrix data of each 
+ transcription factor family, which could be used by the \fBmotif_search\fR api 
+ for run the TFBS motif site scan;
+ 
+ this function returns a R# error message object if the given motif database 
+ file can not be opened for read.
+.PP
+.SH DETAILS
+.PP
+NOTE: the \fBdb\fR parameter of the \fBmotif_search\fR api requires a 
+ \fBSMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase\fR 
+ object, but this function returns a \fBMEMEMotifRepository\fR or a 
+ \fBSMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.PWMDatabase\fR 
+ object, so the database object that is created by this api can not be 
+ consumed by the \fBmotif_search\fR api directly at this moment.
+.PP
 .SH SEE ALSO
 TRN.builder
 .SH FILES

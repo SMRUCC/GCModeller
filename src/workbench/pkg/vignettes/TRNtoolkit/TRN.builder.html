@@ -69,7 +69,16 @@ table caption {font-size:14px;font-weight:bolder;}
     <p><p>tools for create a transcription regulation network</p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module provides the toolkit for build the transcription regulation network(TRN) from the regulon database and the motif site scan result:
+
+
+<ul>
+<li><p><code>open_motifdb</code>: open the position weight matrix(PWM) motif database;</li>
+<li><p><code>motif_search</code>: scan the TF binding site(TFBS) motif site on the given promoter/upstream sequence regions;</li>
+<li><p><code>regulation.footprint</code>: create the regulation footprint(regulation network edges) from the regulator mapping data(bbh), the motif site data and the regprecise regulon database;</li>
+<li><p><code>read.regulations</code>/<code>write.regulations</code>: read and save the regulation footprint data table;</li>
+<li><p><code>read.footprints</code>: read the motif site(footprint site) table data.</li>
+</ul>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -85,13 +94,13 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="open_motifdb">
     <a href="./TRN.builder/open_motifdb.html">open_motifdb</a>
   </td>
-  <td></td>
+  <td><p>open the motif database</td>
 </tr>
 <tr>
   <td id="motif_search">
     <a href="./TRN.builder/motif_search.html">motif_search</a>
   </td>
-  <td></td>
+  <td><p>scan the TF binding site motif on the given sequence regions</td>
 </tr>
 <tr>
   <td id="read.footprints">
@@ -115,7 +124,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="regulation.footprint">
     <a href="./TRN.builder/regulation.footprint.html">regulation.footprint</a>
   </td>
-  <td></td>
+  <td><p>create the regulation footprint(regulation network edges) from the regulator mapping data, the motif site data and the regprecise regulon database</td>
 </tr></tbody>
       </table>
     </div>

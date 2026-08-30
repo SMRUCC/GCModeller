@@ -10,7 +10,16 @@ read a regulation prediction result file
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the file path of the regulation footprint csv table file, which could be 
+ created by the \fBwrite.regulations\fR api.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the @\fBT:SMRUCC.genomics.Data.Regprecise.RegulationFootprint\fR 
+ object that is loaded from the given csv table file, each object is a 
+ regulation network edge of the regulator to its regulated target gene.
 .PP
 .SH SEE ALSO
 TRN.builder

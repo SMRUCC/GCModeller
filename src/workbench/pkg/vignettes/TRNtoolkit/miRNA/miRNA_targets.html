@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>miRNA_targets</title>
+    <title>make matches of the miRNA target genes</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>miRNA_targets</h2>
+        <h2>make matches of the miRNA target genes</h2>
 
         <h3>Description</h3>
 
-        miRNA_targets
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,21 @@
 
         <table>
             
+<dt>mapper</dt>
+<dd><p>the target site match algorithm object, which could be created by the <code>psRNATarget</code> or the <code>TargetFinder. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/miRNAMapper.html">miRNAMapper</a>]</p></dd>
+
+
+<dt>miRNAs</dt>
+<dd><p></p></dd>
+
+
+<dt>targets</dt>
+<dd><p></p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -47,11 +62,28 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/siRNAHit.html">siRNAHit</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/siRNAHit.html">siRNAHit</a></li></ul>
+        <p>a set of the miRNA to target gene matches result, a match result network edges with match score as weights
 
-        <h3 style="display: none;">Examples</h3>
+<p>each <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/siRNAHit.html">siRNAHit</a> object in the generated result collection is a match of one miRNA sequence to one target site of the candidate mRNA sequence: the <code>miRNA</code> and the <code>Target</code> property is the sequence id of the small RNA and the target mRNA, the <code>StartSite</code>/<code>EndSite</code> property is the 1-based site location on the target mRNA sequence, and the <code>Expectation</code> property is the match score(the lower the better);
 
-        
+<p>this function returns NULL if the miRNA sequence collection or the target sequence collection is empty, or the input data can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/siRNAHit.html">siRNAHit</a></li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> imports "miRNA" from "TRNtoolkit";
+ imports "bioseq.fasta" from "seqtoolkit";
+ 
+ let sirna = fasta("UGACGUGACUGACGUGACUGA", attrs = c("demo-miRNA"));
+ let genes = read.fasta("candidates.fa");
+ 
+ let psr = miRNA_targets(psRNATarget(), sirna, targets = genes);
+ let tfd = miRNA_targets(TargetFinder(), sirna, targets = genes);
+ 
+ let hi_conf = as.data.frame(intersect_targets(psr, tfd)); 
+ 
+ print(hi_conf, max.print = 6);
+ 
+ write.csv(hi_conf, file = "miRNA_targets_high_confidence.csv");</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>miRNA</em> version 1.0.0.0 <a
