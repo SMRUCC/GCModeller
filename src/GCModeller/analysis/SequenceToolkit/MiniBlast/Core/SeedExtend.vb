@@ -23,38 +23,6 @@ Imports System.Text
 
 Namespace Core
 
-    ''' <summary>延伸阶段产出的原始 HSP（未做统计换算）</summary>
-    Public Class RawHsp
-
-        Public Property QueryFrom As Integer      ' 0-based inclusive
-        Public Property QueryTo As Integer
-        Public Property SubjectFrom As Integer
-        Public Property SubjectTo As Integer
-        Public Property RawScore As Double
-        Public Property QueryAlign As String
-        Public Property SubjectAlign As String
-        Public Property Midline As String
-        Public Property Identities As Integer
-        Public Property Positives As Integer
-        Public Property Gaps As Integer
-
-    End Class
-
-    ''' <summary>扫描/延伸选项</summary>
-    Public Class SeedExtendOptions
-
-        Public Property WordSize As Integer = 11
-        Public Property WindowTwoHit As Integer = 40       ' A
-        Public Property UseTwoHit As Boolean = True
-        Public Property XdropUngapBits As Double = 20      ' blastn 默认
-        Public Property XdropGapBits As Double = 30
-        Public Property XdropGapFinalBits As Double = 100
-        Public Property GapOpen As Double = 5
-        Public Property GapExtend As Double = 2
-        Public Property MaxCellsPerExtension As Long = 4000000
-
-    End Class
-
     Public Class SeedScanner
 
         Private ReadOnly _scorer As IScorer
