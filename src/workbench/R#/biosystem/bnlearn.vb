@@ -74,6 +74,15 @@ Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 <RTypeExport("subnet", GetType(WGCNASubnetworkPipeline))>
 Module bnlearn
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="exprData">the gene expression matrix object, could be load from csv file via ``geneExpression::load.expr`` api</param>
+    ''' <param name="priorNet"></param>
+    ''' <param name="max_itrs"></param>
+    ''' <param name="strict"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("bnlearn")>
     <RApiReturn(GetType(BNLearnWorkflow))>
     Public Function bnlearn(exprData As matrix,
@@ -104,6 +113,12 @@ Module bnlearn
         Return workflow
     End Function
 
+    ''' <summary>
+    ''' build prior network object based on a given vector of the knowledge network edges data
+    ''' </summary>
+    ''' <param name="priorNet"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("as.prior_net")>
     <RApiReturn(GetType(PriorNetwork))>
     Public Function buildNetwork(<RRawVectorArgument(GetType(RegulatoryEdge))> priorNet As Object, Optional env As Environment = Nothing) As Object
@@ -116,6 +131,15 @@ Module bnlearn
         End If
     End Function
 
+    ''' <summary>
+    ''' create prior knowledge netwoek edges from the given vector data
+    ''' </summary>
+    ''' <param name="TF"></param>
+    ''' <param name="target_gene"></param>
+    ''' <param name="regulation_type"></param>
+    ''' <param name="confidence"></param>
+    ''' <param name="evidence"></param>
+    ''' <returns></returns>
     <ExportAPI("prior_network")>
     <RApiReturn(GetType(RegulatoryEdge))>
     Public Function prior_network(<RRawVectorArgument(TypeCodes.string)> TF As Object,
@@ -182,6 +206,15 @@ Module bnlearn
         Return result.ToArray
     End Function
 
+    ''' <summary>
+    ''' export the virtual permutation result as csv table files
+    ''' </summary>
+    ''' <param name="results"></param>
+    ''' <param name="dir"></param>
+    ''' <param name="pathway_info"></param>
+    ''' <param name="top_n"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("make_exports")>
     Public Function make_exports(<RRawVectorArgument(GetType(InterventionResult))> results As Object, dir As String,
                                  <RRawVectorArgument>

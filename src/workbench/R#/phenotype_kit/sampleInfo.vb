@@ -88,10 +88,40 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' <summary>
 ''' GCModeller DEG experiment analysis designer toolkit
 ''' </summary>
+''' 
+''' <remarks>
+''' This R# package module provides the toolkit for create and manipulate the 
+''' experiment sample information data(<see cref="SampleInfo"/>), which is the 
+''' experiment design data of the different expression analysis:
+''' 
+''' + create the sample information data: ``sampleInfo``, 
+'''   ``guess.sample_groups``, ``sampleinfo.text.groups``, ``read.sampleinfo``;
+''' + manipulate the sample group data: ``design``, ``sample_groups``, 
+'''   ``shuffle_groups``, ``group.colors``, ``sampleinfo_gsub``, ``sampleId``;
+''' + build the analysis model for run the different expression analysis: 
+'''   ``make.analysis``, ``make.MLdataset``.
+''' 
+''' The sample information data object in R# environment can be saved as a csv 
+''' table file via the ``write.sampleinfo`` api, or be converted to a data frame 
+''' via the ``as.data.frame`` api.
+''' </remarks>
 <Package("sampleInfo", Category:=APICategories.ResearchTools)>
 <RTypeExport("sample_info", GetType(SampleInfo))>
 Module DEGSample
 
+    ''' <summary>
+    ''' Initialize the internal environment of this R# package module
+    ''' </summary>
+    ''' 
+    ''' <remarks>
+    ''' this function is invoked automatically at the start of the R# runtime 
+    ''' environment, it registers:
+    ''' 
+    ''' 1. the console formatter of the <see cref="SampleInfo"/> data object;
+    ''' 2. the data frame cast handler of the sample information collection, so 
+    '''    that the sample information data can be converted to a data frame via 
+    '''    the ``as.data.frame`` api.
+    ''' </remarks>
     Sub Main()
         Call printer.AttachConsoleFormatter(Of SampleInfo)(AddressOf print)
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SampleInfo()), AddressOf sampleinfoTable)
@@ -120,9 +150,33 @@ Module DEGSample
     ''' try to parse the sampleInfo data from the
     ''' sample labels
     ''' </summary>
-    ''' <param name="sample_names"></param>
-    ''' <param name="raw_list"></param>
-    ''' <returns></returns>
+    ''' <param name="sample_names">
+    ''' a character vector of the sample labels, the sample group information will 
+    ''' be guessed from the common tag prefix of these sample labels, example as 
+    ''' the sample labels ``iBAQ-AAA-1``, ``iBAQ-AAA-2``, ``iBAQ-BBB-1`` will be 
+    ''' grouped as the ``AAA`` and ``BBB`` groups.
+    ''' </param>
+    ''' <param name="maxDepth">
+    ''' extends the group label to the max depth? if this parameter is FALSE, then 
+    ''' only the first different tag token will be used as the group label, 
+    ''' otherwise the group label will be extended until the last common tag token.
+    ''' </param>
+    ''' <param name="raw_list">
+    ''' returns the group result as a raw tuple list object(the slot key of the 
+    ''' list is the group label and the slot value is a character vector of the 
+    ''' sample label)? if this parameter is FALSE, then a vector of the 
+    ''' <see cref="SampleInfo"/> object will be returned.
+    ''' </param>
+    ''' <returns>
+    ''' a tuple list of the guessed sample groups, or a vector of the 
+    ''' <see cref="SampleInfo"/> object when the ``raw_list`` parameter is FALSE.
+    ''' 
+    ''' the generated <see cref="SampleInfo"/> object will be assigned with a 
+    ''' default color from the ``Paper`` color set, and the ``shape`` property is 
+    ''' set as ``circle``, the ``batch`` property is set as 1 and the 
+    ''' ``injectionOrder`` property is the index order of the sample in the 
+    ''' generated sample collection.
+    ''' </returns>
     <ExportAPI("guess.sample_groups")>
     <RApiReturn(GetType(list), GetType(SampleInfo))>
     Public Function guessSampleGroups(sample_names As Array,
@@ -171,10 +225,39 @@ Module DEGSample
     ''' <summary>
     ''' get/set the group colors
     ''' </summary>
-    ''' <param name="sampleinfo"></param>
-    ''' <param name="colorSet"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="sampleinfo">
+    ''' a vector of the <see cref="SampleInfo"/> sample information data.
+    ''' </param>
+    ''' <param name="colorSet">
+    ''' a new color set for assign to each sample group, which can be a character 
+    ''' vector of the html color code or the color palette name, the ``Paper`` 
+    ''' color set will be used if this color set parameter can not be recognized.
+    ''' 
+    ''' if this parameter is not specified, then this function works as a getter: 
+    ''' the current color of each sample group will be returned.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' this function returns a tuple list of the color of each sample group when 
+    ''' the ``colorSet`` parameter is not specified(the slot key of the list is the 
+    ''' sample group label and the slot value is the html color code of the 
+    ''' corresponding sample group), otherwise the input sample information 
+    ''' collection that the color of each sample group has been modified will be 
+    ''' returned.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the colors of the color set will be assigned to the sample groups in a 
+    ''' loop manner, so that the color set is not required to have the same size 
+    ''' as the sample group numbers.
+    ''' 
+    ''' this api can be used as a property setter in R# environment: the color of 
+    ''' each sample group can be overwritten via the value assign syntax:
+    ''' 
+    ''' ```r
+    ''' group.colors(samples) &lt;- "Set1:c8";
+    ''' ```
+    ''' </remarks>
     <ExportAPI("group.colors")>
     <RApiReturn(GetType(SampleInfo))>
     Public Function groupColors(sampleinfo As SampleInfo(),
@@ -219,10 +302,47 @@ Module DEGSample
     ''' <summary>
     ''' Create new analysis design sample info via formula
     ''' </summary>
-    ''' <param name="sampleinfo"></param>
-    ''' <param name="designs"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="sampleinfo">
+    ''' the sample information data, which can be a vector of the 
+    ''' <see cref="SampleInfo"/> object or a pipeline object that produces a set of 
+    ''' the sample information data.
+    ''' </param>
+    ''' <param name="designs">
+    ''' a tuple list of the experiment design formula: the slot key of the list is 
+    ''' the label of the new sample group and the slot value is a formula 
+    ''' expression that describes the merge of the original sample groups, example 
+    ''' as ``list(A = B + C + D)`` means that the sample groups ``B``, ``C`` and 
+    ''' ``D`` will be merged into a new sample group ``A``.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a new vector of the <see cref="SampleInfo"/> object: the sample groups that 
+    ''' are described in the given design formula will be replaced with the new 
+    ''' generated sample groups, and the other sample groups that are not 
+    ''' referenced in the design formula will be kept as is;
+    ''' 
+    ''' this function returns a R# error message object if the input data can not 
+    ''' be cast to a collection of the sample information data, or the given design 
+    ''' formula is invalid.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' the sample information data(the ``ID``, ``sample_name``, ``color``, 
+    ''' ``shape``, ``batch`` and ``injectionOrder`` property) of the merged samples 
+    ''' will be kept as is, only the ``sample_info`` group label will be replaced 
+    ''' with the new group label.
+    ''' 
+    ''' the design formula expression is a lazy expression, so that the sample group 
+    ''' label in the formula is not required to be a R# symbol.
+    ''' </remarks>
+    ''' 
+    ''' <example>
+    ''' imports "sampleInfo" from "phenotype_kit";
+    ''' 
+    ''' # merge the sample groups of "B", "C" and "D" into 
+    ''' # a new sample group "A"
+    ''' let samples = design(samples, list(A = B + C + D));
+    ''' </example>
     <ExportAPI("design")>
     <RApiReturn(GetType(SampleInfo))>
     Public Function DesignAnalysis(<RRawVectorArgument> sampleinfo As Object,
@@ -286,11 +406,30 @@ Module DEGSample
     ''' <summary>
     ''' Read the sampleinfo data table from a given csv file
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="tsv"></param>
-    ''' <param name="exclude_groups"></param>
-    ''' <param name="id_makenames"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the sample information table file.
+    ''' </param>
+    ''' <param name="tsv">
+    ''' is the target table file a TSV format table file? by default is FALSE means 
+    ''' that the target table file is a CSV format table file.
+    ''' </param>
+    ''' <param name="exclude_groups">
+    ''' a character vector of the sample group label for exclude from the loaded 
+    ''' sample information data.
+    ''' </param>
+    ''' <param name="id_makenames">
+    ''' rename the sample id via the generic make names function? this parameter is 
+    ''' helpful for make the sample id as a valid R# symbol name.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="SampleInfo"/> object that is loaded from the 
+    ''' given table file.
+    ''' 
+    ''' NOTE: the first column of the table file will be used as the ``ID`` 
+    ''' property of the generated sample information data, and the sample data rows 
+    ''' that the ``ID`` or the ``sample_info`` data is empty will be removed 
+    ''' automatically with a warning message.
+    ''' </returns>
     <ExportAPI("read.sampleinfo")>
     Public Function ReadSampleInfo(file As String,
                                    Optional tsv As Boolean = False,
@@ -351,6 +490,25 @@ Module DEGSample
         Return samples
     End Function
 
+    ''' <summary>
+    ''' shuffle the sample group order in a random manner
+    ''' </summary>
+    ''' <param name="x">
+    ''' a vector of the <see cref="SampleInfo"/> sample information data.
+    ''' </param>
+    ''' <returns>
+    ''' a tuple list of the sample groups in a random order: the slot key of the 
+    ''' list is the sample group label and the slot value is a vector of the 
+    ''' <see cref="SampleInfo"/> object that belongs to the corresponding sample 
+    ''' group.
+    ''' </returns>
+    ''' 
+    ''' <remarks>
+    ''' unlike the ``sample_groups`` api, which sorts the sample groups by the group 
+    ''' label in ascending order, this function shuffles the sample group order in a 
+    ''' random manner, which is helpful for the random color assignment or the 
+    ''' permutation test of the sample groups.
+    ''' </remarks>
     <ExportAPI("shuffle_groups")>
     Public Function shuffle_groups(x As SampleInfo()) As list
         Dim shuffles = x.GroupBy(Function(xi) xi.sample_info) _
@@ -363,6 +521,18 @@ Module DEGSample
         Return New list(shuffles)
     End Function
 
+    ''' <summary>
+    ''' group the sample information data by the sample group label
+    ''' </summary>
+    ''' <param name="x">
+    ''' a vector of the <see cref="SampleInfo"/> sample information data.
+    ''' </param>
+    ''' <returns>
+    ''' a tuple list of the sample groups: the slot key of the list is the sample 
+    ''' group label and the slot value is a vector of the <see cref="SampleInfo"/> 
+    ''' object that belongs to the corresponding sample group, the sample groups in 
+    ''' the generated list object are sorted by the group label in ascending order.
+    ''' </returns>
     <ExportAPI("sample_groups")>
     Public Function sample_groups(x As SampleInfo()) As list
         Dim groups = x _
