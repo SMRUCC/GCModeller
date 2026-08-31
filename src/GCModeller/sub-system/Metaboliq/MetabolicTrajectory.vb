@@ -194,6 +194,37 @@ Public Class MetabolicTrajectory
         Return acc / std.Max(1, steps)
     End Function
 
+    ''' <summary>
+    ''' 整条轨迹上的平均热力学违反度：对每个时刻的 (预测浓度, 预测通量) 计算
+    ''' <c>Σ_j max(0, â_j·dg_j)² / r</c> 后取时间平均。越接近 0 表示通量方向越符合浓度梯度。
+    ''' </summary>
+    ''' <param name="thermo">热力学可行性项（内含反归一化参数与 Keq 先验）</param>
+    ''' <param name="boundarySeries">边界代谢物浓度序列（归一化空间，形状 T × nB）</param>
+    ''' <param name="activeCount">返回：出现违反的"反应 × 时刻"累计条数</param>
+    Public Function ThermoViolation(thermo As ThermoFeasibility, boundarySeries As Tensor,
+                                    Optional ByRef activeCount As Integer = 0) As Double
+        If thermo Is Nothing Then
+            activeCount = 0
+            Return 0.0
+        End If
+
+        Dim acc As Double = 0.0
+        Dim steps = Fluxes.Shape(0)
+        Dim r = Fluxes.Shape(1)
+        Dim active As Integer = 0
+
+        For t = 0 To steps - 1
+            Dim tStep = thermo.Evaluate(Row(Concentrations, t), Row(boundarySeries, t), Row(Fluxes, t))
+
+            acc += tStep.Penalty / std.Max(1, r)
+            active += tStep.ActiveCount
+        Next
+
+        activeCount = active
+
+        Return acc / std.Max(1, steps)
+    End Function
+
     Private Function Row(mat As Tensor, i As Integer) As Tensor
         Dim width = mat.Shape(1)
         Dim v = New Tensor(width)

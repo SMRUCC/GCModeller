@@ -13,11 +13,27 @@ Public Class MetabolicTrainerConfig
     ''' <summary>λ1：质量守恒项 ‖S·v̂‖² 权重</summary>
     Public Property LambdaMass As Double = 1.0
 
-    ''' <summary>λ2：热力学方向性项（不可逆反应通量不得为负）权重</summary>
+    ''' <summary>
+    ''' λ2：热力学可行性项（ΔG 方向性）权重。
+    ''' 判据：有净通量的反应不得逆着浓度梯度运行，罚 <c>Σ_j max(0, â_j·dg_j)²</c>，
+    ''' 其中 <c>dg_j = ln(Q_j/Keq_j) = ΔG_j/RT</c>，<c>â_j = tanh(v_j/FluxScale)</c>。
+    ''' </summary>
     Public Property LambdaThermo As Double = 0.5
 
     ''' <summary>λ3：通量监督项 ‖v̂ − v_MFA‖² 权重（无真值通量时设为 0）</summary>
     Public Property LambdaFlux As Double = 0.1
+
+    ''' <summary>
+    ''' 热力学可行性项的可调参数（活跃度门控尺度、浓度下限、推动力钳制等）
+    ''' 由 <see cref="ThermoContext.Config"/> 持有，经 <see cref="MetabolicTrainer.SetThermo"/> 注入；
+    ''' 这里保留一份默认值，是为了让 <see cref="MetabolicTrainer.SetThermo(ThermoContext, ThermoConfig)"/>
+    ''' 的重载可以在没有显式构造上下文时覆盖它。
+    ''' </summary>
+    Public Property Thermo As ThermoConfig
+
+    Public Sub New()
+        Me.Thermo = New ThermoConfig()
+    End Sub
 
     ''' <summary>学习率</summary>
     Public Property LearningRate As Double = 0.005
@@ -59,6 +75,13 @@ Public Class EpochLoss
     Public Property Thermo As Double
     Public Property Flux As Double
 
+    ''' <summary>
+    ''' 只读诊断：不可逆反应出现负通量的条数（按"反应 × 时刻"累计）。
+    ''' 通量读取头对不可逆反应取 v = e·σ(·)（e ≥ 0），结构上保证 v ≥ 0，
+    ''' 因此正常应为 0；不为 0 说明硬约束被破坏，需要排查。
+    ''' </summary>
+    Public Property NegFlux As Integer
+
     Public ReadOnly Property Total As Double
         Get
             Return Data + Mass + Thermo + Flux
@@ -66,7 +89,7 @@ Public Class EpochLoss
     End Property
 
     Public Overrides Function ToString() As String
-        Return $"epoch {Epoch,4}: total={Total:F6} (data={Data:F6} mass={Mass:F6} thermo={Thermo:F6} flux={Flux:F6})"
+        Return $"epoch {Epoch,4}: total={Total:F6} (data={Data:F6} mass={Mass:F6} thermo={Thermo:F6} flux={Flux:F6} neg={NegFlux})"
     End Function
 
 End Class
@@ -180,12 +203,17 @@ End Class
 ''' <code>
 ''' L = λ_data·‖ĉ − c‖²            (仅在观测点计算，天然支持不规则采样与缺失值)
 '''   + λ1·‖S·v̂‖²                  (质量守恒 / 稳态软约束)
-'''   + λ2·Σ_j max(0, −v_j)²        (热力学方向性：不可逆反应通量非负)
+'''   + λ2·Σ_j max(0, â_j·dg_j)²    (热力学可行性：有通量的反应不得逆浓度梯度运行)
 '''   + λ3·‖v̂ − v_MFA‖²             (通量监督，可选)
 ''' </code>
+''' 其中 <c>dg_j = ln(Q_j/Keq_j)</c> 由模型预测的浓度算出，<c>â_j = tanh(v_j/FluxScale)</c> 为活跃度门控。
+''' 
 ''' 反向传播分两条路径汇合到隐藏状态：
-''' 浓度拟合项经 <c>Liquid.BackwardOutput</c>，通量相关项经 <c>FluxBackward</c>，
+''' 浓度拟合项与热力学项（经 ĉ）走 <c>Liquid.BackwardOutput</c>，
+''' 通量相关项（质量守恒、热力学、通量监督）经 <c>FluxBackward</c>，
 ''' 两者相加后再交给 <c>Liquid.BackwardLiquid</c> 完成跨时间步的 BPTT。
+''' 
+''' 注意：热力学项对 ĉ 的梯度<strong>必须在调用 BackwardOutput 之前</strong>并入 dOut，顺序不可颠倒。
 ''' </remarks>
 Public Class MetabolicTrainer
 
@@ -205,7 +233,49 @@ Public Class MetabolicTrainer
     Private ReadOnly _r As Integer
     Private ReadOnly _nAll As Integer
 
+    ''' <summary>热力学可行性项的实现（未注入上下文时为 Nothing，该项不参与训练）</summary>
+    Private _thermo As ThermoFeasibility
+
+    ''' <summary>最近一次前向中不可逆反应出现负通量的累计条数（只读诊断）</summary>
+    Private _negFlux As Integer
+
 #End Region
+
+    ''' <summary>
+    ''' 注入热力学上下文以启用 λ2；传 Nothing 则关闭该项
+    ''' </summary>
+    ''' <param name="context">反归一化参数 + Keq 先验</param>
+    Public Sub SetThermo(context As ThermoContext)
+        _thermo = If(context Is Nothing, Nothing, New ThermoFeasibility(Model.Graph, context))
+    End Sub
+
+    ''' <summary>
+    ''' 在给定上下文的基础上覆盖热力项配置（内部会以新配置重建一份 <see cref="ThermoContext"/>）
+    ''' </summary>
+    Public Sub SetThermo(context As ThermoContext, config As ThermoConfig)
+        If context Is Nothing OrElse config Is Nothing Then
+            Call SetThermo(context)
+            Exit Sub
+        End If
+
+        Call SetThermo(New ThermoContext(context.InternalMeans, context.InternalStds,
+                                         context.BoundaryMeans, context.BoundaryStds,
+                                         context.Keq, context.MissingKeqCount, config))
+    End Sub
+
+    ''' <summary>当前生效的热力学可行性项（未启用时为 Nothing）</summary>
+    Public ReadOnly Property Thermo As ThermoFeasibility
+        Get
+            Return _thermo
+        End Get
+    End Property
+
+    ''' <summary>最近一次前向中不可逆反应出现负通量的累计条数（结构应保证恒为 0）</summary>
+    Public ReadOnly Property NegativeFluxCount As Integer
+        Get
+            Return _negFlux
+        End Get
+    End Property
 
     Public Sub New(model As MetabolicLiquidNetwork, Optional config As MetabolicTrainerConfig = Nothing)
         Me.Model = model
@@ -328,6 +398,10 @@ Public Class MetabolicTrainer
         Public vTrace As Tensor()
         ''' <summary>每个观测区间内部实际执行的 ODE 子步数（逆序回传时需要按同样步数回退）</summary>
         Public stepCounts As Integer()
+        ''' <summary>热力学项每步的评估缓存（反向时复用，避免重复反归一化与取对数）</summary>
+        Public thermoSteps As ThermoStep()
+        ''' <summary>不可逆反应出现负通量的累计条数（只读诊断）</summary>
+        Public negFlux As Integer
         Public Loss As EpochLoss
     End Class
 
@@ -350,8 +424,10 @@ Public Class MetabolicTrainer
         Dim uTrace(steps - 1) As Tensor
         Dim vTrace(steps - 1) As Tensor
         Dim stepCounts(steps - 1) As Integer
+        Dim thermoSteps As ThermoStep() = If(_thermo IsNot Nothing, New ThermoStep(steps - 1) {}, Nothing)
 
         Dim lData As Double = 0.0, lMass As Double = 0.0, lThermo As Double = 0.0, lFlux As Double = 0.0
+        Dim negFlux As Integer = 0
 
         For t = 0 To steps - 1
             Dim u = Model.BuildInput(Row(enzymeSeries, t), Row(boundarySeries, t))
@@ -388,19 +464,28 @@ Public Class MetabolicTrainer
 
             lMass += Config.LambdaMass * rsq / _nAll
 
-            ' ---- (3) 热力学方向性 + (4) 通量监督 ----
-            Dim fluxObs As Tensor = If(observedFlux IsNot Nothing, Row(observedFlux, t), Nothing)
+            ' ---- (3) 热力学可行性：有通量的反应不得逆着浓度梯度运行 ----
+            ' dg_j = ln(Q_j/Keq_j)，Q 由模型预测浓度反归一化后算出；
+            ' â_j = tanh(v/FluxScale) 使无通量的反应完全不受约束。
+            If thermoSteps IsNot Nothing Then
+                Dim tStep = _thermo.Evaluate(out, Row(boundarySeries, t), v)
 
-            For j = 0 To r - 1
-                If Not Model.Graph.Reversible(j) AndAlso v(j) < 0 Then
-                    lThermo += Config.LambdaThermo * v(j) * v(j) / r
-                End If
+                thermoSteps(t) = tStep
+                lThermo += Config.LambdaThermo * tStep.Penalty / r
+                negFlux += tStep.NegativeIrreversibleCount
+            End If
 
-                If fluxObs IsNot Nothing AndAlso Not Double.IsNaN(fluxObs(j)) Then
-                    Dim df = v(j) - fluxObs(j)
-                    lFlux += Config.LambdaFlux * df * df / r
-                End If
-            Next
+            ' ---- (4) 通量监督 ----
+            If observedFlux IsNot Nothing Then
+                Dim fluxObs = Row(observedFlux, t)
+
+                For j = 0 To r - 1
+                    If Not Double.IsNaN(fluxObs(j)) Then
+                        Dim df = v(j) - fluxObs(j)
+                        lFlux += Config.LambdaFlux * df * df / r
+                    End If
+                Next
+            End If
 
             ' ---- teacher forcing：用真实浓度覆盖状态，提升长程稳定性 ----
             If t < steps - 1 Then
@@ -413,6 +498,7 @@ Public Class MetabolicTrainer
         Next
 
         liquid.Training = False
+        _negFlux = negFlux
 
         Return New ForwardTrace With {
             .hTrace = hTrace,
@@ -420,11 +506,14 @@ Public Class MetabolicTrainer
             .uTrace = uTrace,
             .vTrace = vTrace,
             .stepCounts = stepCounts,
+            .thermoSteps = thermoSteps,
+            .negFlux = negFlux,
             .Loss = New EpochLoss With {
                 .Data = lData / steps,
                 .Mass = lMass / steps,
                 .Thermo = lThermo / steps,
-                .Flux = lFlux / steps
+                .Flux = lFlux / steps,
+                .NegFlux = negFlux
             }
         }
     End Function
@@ -461,11 +550,33 @@ Public Class MetabolicTrainer
                 End If
             Next
 
+            ' ---------- (3) 热力学项：对 ĉ 的梯度必须在 BackwardOutput 之前并入 dOut ----------
+            ' 同一个 adjoint 里还含有对 v 的梯度，稍后再并入 adjV。
+            Dim thermoAdj As ThermoAdjoint = Nothing
+
+            If _thermo IsNot Nothing AndAlso trace.thermoSteps IsNot Nothing Then
+                Dim tStep = trace.thermoSteps(t)
+
+                If tStep IsNot Nothing Then
+                    thermoAdj = _thermo.Backward(tStep, steps, Config.LambdaThermo)
+
+                    For i = 0 To m - 1
+                        dOut(i) += thermoAdj.dOut(i)
+                    Next
+                End If
+            End If
+
             Dim adjH = liquid.BackwardOutput(dOut, trace.hTrace(t), trace.outTrace(t))
 
             ' ---------- (2)(3)(4) 通量相关的三项 ----------
             Dim adjV = New Tensor(r)
             Dim v = trace.vTrace(t)
+
+            If thermoAdj IsNot Nothing Then
+                For j = 0 To r - 1
+                    adjV(j) += thermoAdj.adjV(j)
+                Next
+            End If
 
             If Config.LambdaMass > 0 Then
                 Dim residual = Model.Graph.SteadyStateResidual(v)
@@ -476,13 +587,6 @@ Public Class MetabolicTrainer
                     adjV(j) += ms * toFlux(j)
                 Next
             End If
-
-            Dim ts = Config.LambdaThermo * 2.0 / (r * steps)
-            For j = 0 To r - 1
-                If Not Model.Graph.Reversible(j) AndAlso v(j) < 0 Then
-                    adjV(j) += ts * v(j)
-                End If
-            Next
 
             If observedFlux IsNot Nothing AndAlso Config.LambdaFlux > 0 Then
                 Dim fluxObs = Row(observedFlux, t)
