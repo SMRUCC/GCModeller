@@ -1,0 +1,943 @@
+[
+  {
+    "id": "HEX1",
+    "name": "hexokinase",
+    "description": "hexokinase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "glc_e",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "atp",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "g6p",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "adp",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "PGI",
+    "name": "glucose-6-phosphate isomerase",
+    "description": "glucose-6-phosphate isomerase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "g6p",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "f6p",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "PFK",
+    "name": "phosphofructokinase",
+    "description": "phosphofructokinase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "f6p",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "atp",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "fdp",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "adp",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "FBA",
+    "name": "fructose-bisphosphate aldolase",
+    "description": "fructose-bisphosphate aldolase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "fdp",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "dhap",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "gap",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "TPI",
+    "name": "triose-phosphate isomerase",
+    "description": "triose-phosphate isomerase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "dhap",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "gap",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "GAPD",
+    "name": "glyceraldehyde-3-phosphate dehydrogenase",
+    "description": "glyceraldehyde-3-phosphate dehydrogenase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "gap",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "pi",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nad",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "_13dpg",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nadh",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "PGK",
+    "name": "phosphoglycerate kinase",
+    "description": "phosphoglycerate kinase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "_13dpg",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "adp",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "_3pg",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "atp",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "PGM",
+    "name": "phosphoglycerate mutase",
+    "description": "phosphoglycerate mutase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "_3pg",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "_2pg",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "ENO",
+    "name": "enolase",
+    "description": "enolase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "_2pg",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "pep",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "PYK",
+    "name": "pyruvate kinase",
+    "description": "pyruvate kinase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "pep",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "adp",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "pyr",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "atp",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "LDH_L",
+    "name": "L-lactate dehydrogenase",
+    "description": "L-lactate dehydrogenase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "pyr",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nadh",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "lac_c",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nad",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "LACt",
+    "name": "lactate transporter",
+    "description": "lactate transporter",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "lac_c",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "lac_e",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "PDC",
+    "name": "pyruvate decarboxylase",
+    "description": "pyruvate decarboxylase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "pyr",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "acald",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "co2_e",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "ADH",
+    "name": "alcohol dehydrogenase",
+    "description": "alcohol dehydrogenase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "acald",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nadh",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "etoh_c",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nad",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "ETOHt",
+    "name": "ethanol transporter",
+    "description": "ethanol transporter",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "etoh_c",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "etoh_e",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "PDH",
+    "name": "pyruvate dehydrogenase",
+    "description": "pyruvate dehydrogenase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "pyr",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nad",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "accoa",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "co2_e",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nadh",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "PTAr",
+    "name": "phosphotransacetylase",
+    "description": "phosphotransacetylase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "accoa",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "actp",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "ACKr",
+    "name": "acetate kinase",
+    "description": "acetate kinase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "actp",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "adp",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "ac_c",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "atp",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "ACt",
+    "name": "acetate transporter",
+    "description": "acetate transporter",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "ac_c",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "ac_e",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "CS",
+    "name": "citrate synthase",
+    "description": "citrate synthase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "accoa",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "oaa",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "cit",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "ACONTa",
+    "name": "aconitase",
+    "description": "aconitase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "cit",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "icit",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "ICDH",
+    "name": "isocitrate dehydrogenase",
+    "description": "isocitrate dehydrogenase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "icit",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nad",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "akg",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "co2_e",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nadh",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "AKGDH",
+    "name": "alpha-ketoglutarate dehydrogenase",
+    "description": "alpha-ketoglutarate dehydrogenase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "akg",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nad",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "succoa",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "co2_e",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nadh",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "SUCOAS",
+    "name": "succinyl-CoA synthetase",
+    "description": "succinyl-CoA synthetase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "succoa",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "adp",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "succ",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "atp",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "SDH",
+    "name": "succinate dehydrogenase",
+    "description": "succinate dehydrogenase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "succ",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "q8",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "fum",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "q8h2",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "FUM",
+    "name": "fumarase",
+    "description": "fumarase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "fum",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "mal",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "MDH",
+    "name": "malate dehydrogenase",
+    "description": "malate dehydrogenase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "mal",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nad",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "oaa",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nadh",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "ME1",
+    "name": "malic enzyme",
+    "description": "malic enzyme",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "mal",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nad",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "pyr",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "co2_e",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "nadh",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "NDH1",
+    "name": "NADH dehydrogenase",
+    "description": "NADH dehydrogenase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "nadh",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "q8",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "nad",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "q8h2",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "CYTBO3",
+    "name": "cytochrome bo3 terminal oxidase",
+    "description": "cytochrome bo3 terminal oxidase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "q8h2",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "o2_e",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "q8",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "ATPS4r",
+    "name": "ATP synthase",
+    "description": "ATP synthase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "adp",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "pi",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "atp",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "ATPM",
+    "name": "ATP maintenance requirement",
+    "description": "ATP maintenance requirement",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "atp",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "adp",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "pi",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "PIt2r",
+    "name": "phosphate exchange",
+    "description": "phosphate exchange",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "pi_e",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "pi",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": true,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  }
+]
