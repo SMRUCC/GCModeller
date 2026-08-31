@@ -28,7 +28,7 @@ Public Module DemoData
 
     ''' <summary>边界（胞外）代谢物 id</summary>
     Public ReadOnly BoundaryIds As String() = {
-        "glc_e", "o2_e", "co2_e", "lac_e", "etoh_e", "ac_e", "pi_e"
+        "glc_e", "o2_e", "co2_e", "lac_e", "etoh_e", "ac_e", "succ_e", "pi_e"
     }
 
 #Region "网络定义"
@@ -74,6 +74,13 @@ Public Module DemoData
         list.Add(Rxn("FUM", "fumarase", {"fum"}, {"mal"}, rev:=True))
         list.Add(Rxn("MDH", "malate dehydrogenase", {"mal", "nad"}, {"oaa", "nadh"}, rev:=True))
         list.Add(Rxn("ME1", "malic enzyme", {"mal", "nad"}, {"pyr", "co2_e", "nadh"}))
+
+        ' ---------------- 无氧呼吸的还原支路 (Anaerobic respiration) ----------------
+        ' 富马酸还原酶：以延胡索酸替代 O2 作为末端电子受体，厌氧下把 q8h2 重新氧化为 q8。
+        ' 它与 SDH 恰好反向，二者构成教科书式的「SDH / FRD 无效循环」。
+        list.Add(Rxn("FRD", "fumarate reductase", {"fum", "q8h2"}, {"succ", "q8"}))
+        ' 琥珀酸外排：厌氧发酵的真实产物之一；同时避免 succ 在胞内无谓累积。
+        list.Add(Rxn("SUCT", "succinate exporter", {"succ"}, {"succ_e"}))
 
         ' ---------------- 有氧呼吸链 (Electron transport chain / OxPhos) ----------------
         list.Add(Rxn("NDH1", "NADH dehydrogenase", {"nadh", "q8"}, {"nad", "q8h2"}))
@@ -129,6 +136,7 @@ Public Module DemoData
         {"CS", 1.5}, {"ACONTa", 2.0}, {"ICDH", 1.0}, {"AKGDH", 1.0}, {"SUCOAS", 2.0},
         {"SDH", 1.5}, {"FUM", 2.0}, {"MDH", 2.0}, {"ME1", 0.1},
         {"NDH1", 2.5}, {"CYTBO3", 2.0}, {"ATPS4r", 3.5}, {"ATPM", 0.25},
+        {"FRD", 1.5}, {"SUCT", 1.5},
         {"PIt2r", 4.0}
     }
 
@@ -137,10 +145,17 @@ Public Module DemoData
     ''' 取 10 表示平衡强烈偏向产物，避免出现耗尽 ATP 的倒流；
     ''' 磷酸盐交换反应取 1，使其把胞内 Pi 缓冲在与胞外相当的水平。
     ''' </summary>
-    Private Function KeqOf(reactionId As String) As Double
+    Public Function KeqOf(reactionId As String) As Double
         If reactionId = "PIt2r" Then Return 1.0
         Return 10.0
     End Function
+
+    ''' <summary>
+    ''' 不可逆反应在导出 Keq 时使用的"有效"平衡常数。
+    ''' 真值速率律对不可逆反应没有反向项 ⇒ Keq 实为 ∞；
+    ''' 取有限大值是为了让 ΔG 可计算，效果上等价于"强烈偏向正向"。
+    ''' </summary>
+    Public Const EffectiveKeqIrreversible As Double = 1000.0
 
     ''' <summary>
     ''' 米氏常数（代谢物特异，缺省 0.3）
@@ -225,7 +240,7 @@ Public Module DemoData
             {"q8", 0.50}, {"q8h2", 0.10},
             {"lac_c", 0.10}, {"acald", 0.01}, {"etoh_c", 0.10}, {"actp", 0.01}, {"ac_c", 0.10},
             {"glc_e", 10.0}, {"o2_e", 0.25}, {"co2_e", 0.0}, {"lac_e", 0.0},
-            {"etoh_e", 0.0}, {"ac_e", 0.0}, {"pi_e", 1.0}
+            {"etoh_e", 0.0}, {"ac_e", 0.0}, {"succ_e", 0.0}, {"pi_e", 1.0}
         }
     End Function
 
@@ -256,11 +271,25 @@ Public Module DemoData
     End Function
 
     ''' <summary>
-    ''' 酶表达程序：以 1.0 为基线做平滑的时序波动（模拟生长阶段依赖的酶表达调控）
+    ''' 酶表达程序：以 1.0 为基线做平滑的时序波动（模拟生长阶段依赖的酶表达调控），
+    ''' 并在溶氧切换处叠加真实的转录重编程。
     ''' </summary>
-    Private Function EnzymeProgram(reactionIndex As Integer, t As Double) As Double
+    Private Function EnzymeProgram(reactionId As String, reactionIndex As Integer, t As Double) As Double
         Dim phase = reactionIndex * 0.7
-        Return 1.0 + 0.25 * std.Sin(2.0 * std.PI * t / 90.0 + phase)
+        Dim baseLevel = 1.0 + 0.25 * std.Sin(2.0 * std.PI * t / 90.0 + phase)
+        ' 溶氧切换引发的转录重编程：0 = 好氧，1 = 厌氧
+        Dim anaero = 1.0 / (1.0 + std.Exp(-(t - 50.0) / 6.0))
+
+        Select Case reactionId
+            Case "SDH", "CYTBO3"
+                ' 好氧呼吸链组件在厌氧下被抑制
+                Return baseLevel * (1.0 - 0.9 * anaero)
+            Case "FRD", "SUCT"
+                ' 富马酸还原酶与琥珀酸外排在厌氧下被诱导（真实 E. coli 行为）
+                Return baseLevel * (0.05 + 1.2 * anaero)
+            Case Else
+                Return baseLevel
+        End Select
     End Function
 
 #End Region
@@ -278,10 +307,11 @@ Public Module DemoData
         Dim metabolitePath = Path.Combine(outputDir, "metabolites_timeseries.csv")
         Dim enzymePath = Path.Combine(outputDir, "enzymes_timeseries.csv")
         Dim fluxPath = Path.Combine(outputDir, "fluxes_truth.csv")
+        Dim keqPath = Path.Combine(outputDir, "keq_truth.csv")
 
         If Not force AndAlso File.Exists(networkPath) AndAlso File.Exists(metabolitePath) AndAlso
-            File.Exists(enzymePath) AndAlso File.Exists(fluxPath) Then
-            Return {networkPath, metabolitePath, enzymePath, fluxPath}
+            File.Exists(enzymePath) AndAlso File.Exists(fluxPath) AndAlso File.Exists(keqPath) Then
+            Return {networkPath, metabolitePath, enzymePath, fluxPath, keqPath}
         End If
 
         If Not Directory.Exists(outputDir) Then
@@ -293,6 +323,7 @@ Public Module DemoData
         Dim graph As New MetabolicNetworkGraph(reactions, BoundaryIds)
 
         Call graph.SaveJson(networkPath)
+        Call SaveKeqCsv(keqPath, graph)
 
         ' ---------- 场景矩阵 ----------
         Dim times = SampleTimes()
@@ -306,7 +337,7 @@ Public Module DemoData
         Dim enzymes = New Tensor(steps, r)
         For t = 0 To steps - 1
             For j = 0 To r - 1
-                enzymes(t, j) = EnzymeProgram(j, times(t))
+                enzymes(t, j) = EnzymeProgram(graph.ReactionIds(j), j, times(t))
             Next
         Next
 

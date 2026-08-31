@@ -351,15 +351,17 @@ Public Class ThermoFeasibility
     ''' <param name="boundaryNorm">边界代谢物浓度（归一化空间，长度 = 边界代谢物数）</param>
     ''' <param name="v">反应通量（长度 = 反应数）</param>
     Public Function Evaluate(outNorm As Tensor, boundaryNorm As Tensor, v As Tensor) As ThermoStep
-        Dim cInt = ToPhysicalInternal(outNorm)
-        Dim cBnd = ToPhysicalBoundary(boundaryNorm)
+        ' 注意：局部变量不要命名为 cInt / cBnd 之类，
+        ' VB 不区分大小写，会与转换函数 CInt 等保留字冲突
+        Dim concInternal = ToPhysicalInternal(outNorm)
+        Dim concBoundary = ToPhysicalBoundary(boundaryNorm)
         Dim physConc = New Double(_nAll - 1) {}
 
         For i = 0 To _nInt - 1
-            physConc(_intToAll(i)) = cInt(i)
+            physConc(_intToAll(i)) = concInternal(i)
         Next
         For k = 0 To _nBnd - 1
-            physConc(_bndToAll(k)) = cBnd(k)
+            physConc(_bndToAll(k)) = concBoundary(k)
         Next
 
         Return EvaluatePhysical(physConc, ToArray(v))
@@ -476,28 +478,29 @@ Public Class ThermoFeasibility
             Return New ThermoAdjoint(dOut, adjV)
         End If
 
-        ' L = λ2·Σ_t Σ_j w_j²/(T·r)  ⇒  ∂L/∂w_j = s·w_j，s = 2λ2/(T·r)
-        Dim s = 2.0 * lambda / (std.Max(1, steps) * _nRxn)
+        ' L = λ2·Σ_t Σ_j w_j²/(T·r)  ⇒  ∂L/∂w_j = gradScale·w_j，gradScale = 2λ2/(T·r)
+        ' 注意：不要把这个标量命名为 s —— VB 不区分大小写，会与下面代表化学计量矩阵的 S 冲突
+        Dim gradScale = 2.0 * lambda / (std.Max(1, steps) * _nRxn)
 
-        ' ---- 对通量：∂L/∂v_j = s·w_j·dg_j·(1 − â_j²)/FluxScale ----
+        ' ---- 对通量：∂L/∂v_j = gradScale·w_j·dg_j·(1 − â_j²)/FluxScale ----
         For j = 0 To _nRxn - 1
             If cache.w(j) <= 0.0 Then Continue For
 
-            Dim dAhat = s * cache.w(j) * cache.dg(j)
+            Dim dAhat = gradScale * cache.w(j) * cache.dg(j)
             adjV(j) += dAhat * (1.0 - cache.ahat(j) * cache.ahat(j)) / _cfg.FluxScale
         Next
 
-        ' ---- 对 ln c：∂L/∂ln c_i = Σ_j s·w_j·â_j·S(i,j)（钳制处梯度置 0）----
-        Dim S = _graph.Stoichiometry
+        ' ---- 对 ln c：∂L/∂ln c_i = Σ_j gradScale·w_j·â_j·S(i,j)（钳制处梯度置 0）----
+        Dim stoich = _graph.Stoichiometry
         Dim dLnC = New Double(_nAll - 1) {}
 
         For j = 0 To _nRxn - 1
             If cache.w(j) <= 0.0 OrElse cache.clamped(j) Then Continue For
 
-            Dim dDg = s * cache.w(j) * cache.ahat(j)
+            Dim dDg = gradScale * cache.w(j) * cache.ahat(j)
 
             For i = 0 To _nAll - 1
-                Dim sij = S(i, j)
+                Dim sij = stoich(i, j)
 
                 If sij <> 0.0 Then
                     dLnC(i) += dDg * sij
