@@ -89,8 +89,6 @@ Namespace SequenceModel
             .Join({"X"c}) _
             .ToArray
 
-#Region "Constants"
-
         ''' <summary>
         ''' Enumerate all of the amino acid.(字符串常量枚举所有的氨基酸分子)
         ''' </summary>
@@ -101,7 +99,6 @@ Namespace SequenceModel
         ''' </summary>
         ''' <remarks></remarks>
         Public Const NA_CHARS_ALL As String = "ATGCU"
-#End Region
 
         ReadOnly type_parser As New Dictionary(Of String, SeqTypes)
 
@@ -114,7 +111,7 @@ Namespace SequenceModel
             Next
         End Sub
 
-        Public Function ParseSeqType(desc As String, Optional [default] As SeqTypes = SeqTypes.Generic) As SeqTypes
+        Public Function ParseSeqType(desc As String, Optional [default] As SeqTypes = SeqTypes.Unknown) As SeqTypes
             If type_parser.ContainsKey(desc) Then
                 Return type_parser(desc)
             Else
@@ -147,25 +144,11 @@ Namespace SequenceModel
         ''' <returns></returns>
         <Extension>
         Public Function GetSeqType(seq As IPolymerSequenceModel) As SeqTypes
-            If IsProteinSource(seq) Then
-                Return SeqTypes.Protein
-            ElseIf seq.SequenceData.Any(Function(c) c = "U"c) Then
-                Return SeqTypes.RNA
-            Else
-                Return SeqTypes.DNA
-            End If
+            Return BioSequenceValidator.IdentifySequence(seq.SequenceData)
         End Function
 
         Public Function CheckSeqType(seq As String) As SeqTypes
-            If seq.StringEmpty(, True) Then
-                Return SeqTypes.Generic
-            ElseIf IsProteinSource(seq) Then
-                Return SeqTypes.Protein
-            ElseIf seq.Any(Function(c) c = "U"c) Then
-                Return SeqTypes.RNA
-            Else
-                Return SeqTypes.DNA
-            End If
+            Return BioSequenceValidator.IdentifySequence(seq)
         End Function
 
         ''' <summary>
@@ -187,11 +170,7 @@ Namespace SequenceModel
         ''' <remarks></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function IsProteinSource(seq As String) As Boolean
-            Return seq _
-                .ToUpper _
-                .Where(Function(c) c <> "N"c AndAlso AA_CHARS_ALL.IndexOf(c) > -1) _
-                .FirstOrDefault _
-                .CharCode > 0
+            Return BioSequenceValidator.IdentifySequence(seq) = SeqTypes.Protein
         End Function
     End Module
 End Namespace

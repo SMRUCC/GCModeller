@@ -282,7 +282,7 @@ Module Fasta
     ''' </param>
     ''' <param name="type">
     ''' the molecule type of the input sequence data, if this parameter is not 
-    ''' specified(<see cref="SeqTypes.Generic"/>), then the molecule type will be 
+    ''' specified(<see cref="SeqTypes.Unknown"/>), then the molecule type will be 
     ''' evaluated from the input sequence data automatically: the most common 
     ''' sequence type of the input sequence collection will be used.
     ''' </param>
@@ -296,12 +296,12 @@ Module Fasta
     ''' </returns>
     <ExportAPI("mass")>
     Public Function mass(<RRawVectorArgument> seqs As Object,
-                         Optional type As SeqTypes = SeqTypes.Generic,
+                         Optional type As SeqTypes = SeqTypes.Unknown,
                          Optional env As Environment = Nothing) As Object
 
         Dim seq_pool = GetFastaSeq(seqs, env).ToArray
 
-        If type = SeqTypes.Generic Then
+        If type = SeqTypes.Unknown Then
             type = seq_pool _
                 .Select(Function(s) s.GetSeqType) _
                 .GroupBy(Function(t) t) _
@@ -351,7 +351,7 @@ Module Fasta
     ''' </param>
     ''' <param name="type">
     ''' the molecule type of the input sequence data, if this parameter is not 
-    ''' specified(<see cref="SeqTypes.Generic"/>), then the molecule type will be 
+    ''' specified(<see cref="SeqTypes.Unknown"/>), then the molecule type will be 
     ''' evaluated from the input sequence data automatically: the most common 
     ''' sequence type of the input sequence collection will be used.
     ''' </param>
@@ -365,13 +365,13 @@ Module Fasta
     ''' </returns>
     <ExportAPI("seq_formula")>
     Public Function formula(<RRawVectorArgument> seqs As Object,
-                            Optional type As SeqTypes = SeqTypes.Generic,
+                            Optional type As SeqTypes = SeqTypes.Unknown,
                             Optional env As Environment = Nothing) As Object
 
         Dim seq_pool = GetFastaSeq(seqs, env).ToArray
         Dim vals As list = list.empty
 
-        If type = SeqTypes.Generic Then
+        If type = SeqTypes.Unknown Then
             type = seq_pool _
                 .Select(Function(s) s.GetSeqType) _
                 .GroupBy(Function(t) t) _

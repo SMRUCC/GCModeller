@@ -37,6 +37,7 @@
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\Network.Regulons\Network.Regulons.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\BNLearn\BNLearn.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\CellPhenotype\CellPhenotype.vbproj" />
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
     <ProjectReference Include="..\..\..\interops\meme_suite\meme_data\meme_data.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />

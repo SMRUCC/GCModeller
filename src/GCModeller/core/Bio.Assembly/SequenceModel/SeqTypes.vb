@@ -65,7 +65,7 @@ Namespace SequenceModel
         ''' <summary>
         ''' the unknow sequence type
         ''' </summary>
-        Generic = 0
+        Unknown = 0
         ''' <summary>
         ''' Deoxyribonucleotide - DNA(ATGC)
         ''' </summary>

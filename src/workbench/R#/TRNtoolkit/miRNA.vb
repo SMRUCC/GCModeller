@@ -52,17 +52,20 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
@@ -119,6 +122,31 @@ Module miRNA
         Call df.add("source", From h As siRNAHit In hits Select h.Source)
 
         Return df
+    End Function
+
+    <ExportAPI("mirna_blastn")>
+    Public Function mirna_blastn(<RRawVectorArgument(GetType(FastaSeq))> mirna As Object, <RRawVectorArgument> geneset As Object, Optional blastn As String = "blastn", Optional env As Environment = Nothing) As Object
+        Dim mirnaSeqs = GetFastaSeq(mirna, env, allowString:=True).SafeQuery.ToArray
+        Dim geneSeqs = GetFastaSeq(geneset, env, allowString:=False)
+        Dim mirnaFile As String
+        Dim targetFile As String
+        Dim workTmp As String = TempFileSystem.GetAppSysTempFile(".txt", sessionID:=App.PID, prefix:="mirna_blastn_")
+
+        If mirnaSeqs.IsNullOrEmpty AndAlso CLRVector.asCharacter(mirna).FirstOrDefault.FileExists Then
+            mirnaFile = CLRVector.asCharacter(mirna).First
+        Else
+            mirnaFile = TempFileSystem.GetAppSysTempFile(".fa", sessionID:=App.PID, prefix:="miRNA_")
+            FastaFile.SaveData(mirnaSeqs, mirnaFile, encoding:=Encodings.ASCII)
+        End If
+        If geneSeqs Is Nothing AndAlso CLRVector.asCharacter(geneset).FirstOrDefault.FileExists Then
+            ' is file path
+            targetFile = CLRVector.asCharacter(geneset).First
+        Else
+            targetFile = TempFileSystem.GetAppSysTempFile(".fa", sessionID:=App.PID, prefix:="TargetGenes_")
+            FastaFile.SaveData(geneSeqs, targetFile, encoding:=Encodings.ASCII)
+        End If
+
+
     End Function
 
     ''' <summary>

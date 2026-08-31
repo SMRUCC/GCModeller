@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA.Tabular
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -185,6 +186,14 @@ Module pipHelper
     Private Iterator Function fastaFromStrings(a As Object) As IEnumerable(Of FastaSeq)
         Dim strs As String() = CLRVector.asCharacter(a)
         Dim i As i32 = 1
+
+        If strs.IsNullOrEmpty Then
+            Return
+        ElseIf strs.Length = 1 AndAlso BioSequenceValidator.IdentifySequence(strs(0)) = SeqTypes.Unknown Then
+            ' is not a valid fasta sequence
+            ' maybe fasta file path?
+            Return
+        End If
 
         For Each str As String In strs
             Yield New FastaSeq With {
