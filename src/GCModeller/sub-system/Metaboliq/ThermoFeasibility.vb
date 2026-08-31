@@ -179,7 +179,7 @@ End Class
 Public Class ThermoStep
 
     ''' <summary>物理浓度，按 <c>graph.MetaboliteIds</c> 顺序</summary>
-    Public cAll As Double()
+    Public physConc As Double()
     ''' <summary>ln(c)，已施加浓度下限</summary>
     Public lnC As Double()
     ''' <summary>ln Q_j</summary>
@@ -353,26 +353,26 @@ Public Class ThermoFeasibility
     Public Function Evaluate(outNorm As Tensor, boundaryNorm As Tensor, v As Tensor) As ThermoStep
         Dim cInt = ToPhysicalInternal(outNorm)
         Dim cBnd = ToPhysicalBoundary(boundaryNorm)
-        Dim cAll = New Double(_nAll - 1) {}
+        Dim physConc = New Double(_nAll - 1) {}
 
         For i = 0 To _nInt - 1
-            cAll(_intToAll(i)) = cInt(i)
+            physConc(_intToAll(i)) = cInt(i)
         Next
         For k = 0 To _nBnd - 1
-            cAll(_bndToAll(k)) = cBnd(k)
+            physConc(_bndToAll(k)) = cBnd(k)
         Next
 
-        Return EvaluatePhysical(cAll, ToArray(v))
+        Return EvaluatePhysical(physConc, ToArray(v))
     End Function
 
     ''' <summary>
     ''' 直接用物理浓度评估（用于真值数据的正确性佐证）
     ''' </summary>
-    ''' <param name="cAll">物理浓度，按 <c>graph.MetaboliteIds</c> 顺序</param>
+    ''' <param name="physConc">物理浓度，按 <c>graph.MetaboliteIds</c> 顺序</param>
     ''' <param name="v">反应通量，按 <c>graph.ReactionIds</c> 顺序</param>
-    Public Function EvaluatePhysical(cAll As Double(), v As Double()) As ThermoStep
-        If cAll.Length <> _nAll Then
-            Throw New ArgumentException($"物理浓度维度不匹配：期望 {_nAll}，实际 {cAll.Length}")
+    Public Function EvaluatePhysical(physConc As Double(), v As Double()) As ThermoStep
+        If physConc.Length <> _nAll Then
+            Throw New ArgumentException($"物理浓度维度不匹配：期望 {_nAll}，实际 {physConc.Length}")
         End If
         If v.Length <> _nRxn Then
             Throw New ArgumentException($"通量维度不匹配：期望 {_nRxn}，实际 {v.Length}")
@@ -381,7 +381,7 @@ Public Class ThermoFeasibility
         ' ln c（施加浓度下限）
         Dim lnC = New Double(_nAll - 1) {}
         For i = 0 To _nAll - 1
-            Dim c = cAll(i)
+            Dim c = physConc(i)
             If c < _cfg.MinConcentration Then c = _cfg.MinConcentration
             lnC(i) = std.Log(c)
         Next
@@ -444,7 +444,7 @@ Public Class ThermoFeasibility
         Next
 
         Return New ThermoStep With {
-            .cAll = cAll,
+            .physConc = physConc,
             .lnC = lnC,
             .lnQ = lnQ,
             .dg = dg,
@@ -508,7 +508,7 @@ Public Class ThermoFeasibility
         ' ---- 回传到归一化浓度空间：∂ln c/∂ĉ = σ·(c+1)/c ----
         For i = 0 To _nInt - 1
             Dim ai = _intToAll(i)
-            Dim c = cache.cAll(ai)
+            Dim c = cache.physConc(ai)
 
             If c < _cfg.MinConcentration Then c = _cfg.MinConcentration
 
