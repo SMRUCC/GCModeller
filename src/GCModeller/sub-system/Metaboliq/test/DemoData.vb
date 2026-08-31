@@ -124,11 +124,11 @@ Public Module DemoData
     Private ReadOnly VmaxTable As New Dictionary(Of String, Double) From {
         {"HEX1", 1.0}, {"PGI", 6.0}, {"PFK", 1.2}, {"FBA", 6.0}, {"TPI", 8.0},
         {"GAPD", 4.0}, {"PGK", 4.0}, {"PGM", 6.0}, {"ENO", 6.0}, {"PYK", 2.0},
-        {"LDH_L", 1.2}, {"LACt", 1.0}, {"PDC", 0.8}, {"ADH", 1.2}, {"ETOHt", 1.0},
-        {"PDH", 1.2}, {"PTAr", 3.0}, {"ACKr", 1.2}, {"ACt", 1.0},
-        {"CS", 1.5}, {"ACONTa", 6.0}, {"ICDH", 1.5}, {"AKGDH", 1.5}, {"SUCOAS", 4.0},
-        {"SDH", 1.5}, {"FUM", 6.0}, {"MDH", 4.0}, {"ME1", 0.4},
-        {"NDH1", 2.5}, {"CYTBO3", 2.0}, {"ATPS4r", 3.5}, {"ATPM", 0.3},
+        {"LDH_L", 3.0}, {"LACt", 1.5}, {"PDC", 1.5}, {"ADH", 3.0}, {"ETOHt", 1.5},
+        {"PDH", 0.8}, {"PTAr", 3.0}, {"ACKr", 1.2}, {"ACt", 1.5},
+        {"CS", 1.5}, {"ACONTa", 6.0}, {"ICDH", 1.0}, {"AKGDH", 1.0}, {"SUCOAS", 4.0},
+        {"SDH", 1.5}, {"FUM", 6.0}, {"MDH", 4.0}, {"ME1", 0.2},
+        {"NDH1", 2.5}, {"CYTBO3", 2.0}, {"ATPS4r", 3.5}, {"ATPM", 0.25},
         {"PIt2r", 4.0}
     }
 
