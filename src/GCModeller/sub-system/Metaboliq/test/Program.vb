@@ -6,6 +6,9 @@ Imports std = System.Math
 ''' <summary>
 ''' 临时梯度校验：对比解析梯度（反向模式 AD）与中心差分数值梯度
 ''' </summary>
+''' <remarks>
+''' 注意：VB 不区分大小写，循环变量与标量不要用仅大小写不同的名字（例如 T 与 t）。
+''' </remarks>
 Module Program
 
     Sub Main(args As String())
@@ -18,16 +21,21 @@ Module Program
 
     Private Sub CheckMode(mode As LiquidMode, solver As String)
         Dim seed As Integer = 42
-        Dim T = 6, N = 3, H = 4, O = 2
-        Dim dt = 0.1
+        Dim steps As Integer = 6
+        Dim N As Integer = 3
+        Dim H As Integer = 4
+        Dim O As Integer = 2
+        Dim dt As Double = 0.1
 
         Dim net As New LiquidNeuralNetwork(N, H, O, 1, "tanh", "none", seed, mode)
         net.SolverType = solver
 
-        Dim inputs = Tensor.Random({T, N}, -0.5F, 0.5F, seed + 7)
-        Dim targets = Tensor.Random({T, O}, -0.5F, 0.5F, seed + 9)
+        Dim inputs = Tensor.Random({steps, N}, -0.5F, 0.5F, seed + 7)
+        Dim targets = Tensor.Random({steps, O}, -0.5F, 0.5F, seed + 9)
 
         ' ---------- 解析梯度 ----------
+        ' 注意 RollOut 返回的是 mean loss；而 MSEGradient 累加的是 Σ_t MSE_t 的梯度，
+        ' 因此解析梯度需要再除以 steps 才能与数值梯度（对 mean loss 求导）对齐
         Dim analyticLoss = RollOut(net, inputs, targets, dt, backward:=True)
 
         Dim pairs = net.GetParameterPairs()
@@ -37,12 +45,12 @@ Module Program
             Dim g = pairs(p).Gradient
             analytic(p) = New Double(g.Length - 1) {}
             For i = 0 To g.Length - 1
-                analytic(p)(i) = g(i)
+                analytic(p)(i) = g(i) / steps
             Next
         Next
 
         ' ---------- 数值梯度 ----------
-        Dim eps = 0.00001
+        Dim eps As Double = 0.00001
         Dim worstRel As Double = 0
         Dim worstName As String = ""
         Dim sb As New StringBuilder()
@@ -90,46 +98,38 @@ Module Program
     ''' </summary>
     Private Function RollOut(net As LiquidNeuralNetwork, inputs As Tensor, targets As Tensor,
                              dt As Double, backward As Boolean) As Double
-        Dim T = inputs.Shape(0)
-        Dim outputs(T - 1) As Tensor
+        Dim n = inputs.Shape(0)
+        Dim outputs(n - 1) As Tensor
         Dim loss As Double = 0
 
         net.ResetState()
         net.Training = backward
 
-        For t = 0 To T - 1
+        For k = 0 To n - 1
             Dim u = New Tensor(net.InputSize)
             For i = 0 To net.InputSize - 1
-                u(i) = inputs(t, i)
+                u(i) = inputs(k, i)
             Next
 
-            outputs(t) = net.Forward(u, dt)
-            loss += LNNTrainer.MSE(outputs(t), Row(targets, t, net.OutputSize))
+            outputs(k) = net.Forward(u, dt)
+            loss += LNNTrainer.MSE(outputs(k), Row(targets, k, net.OutputSize))
         Next
 
         If Not backward Then
             net.Training = False
-            Return loss / T
+            Return loss / n
         End If
 
-        Dim carry As Tensor = Nothing
-
-        For t = T - 1 To 0 Step -1
-            Dim dOut = LNNTrainer.MSEGradient(outputs(t), Row(targets, t, net.OutputSize))
+        For k = n - 1 To 0 Step -1
+            Dim dOut = LNNTrainer.MSEGradient(outputs(k), Row(targets, k, net.OutputSize))
             Dim adjH = net.BackwardOutput(dOut)
 
-            If carry IsNot Nothing Then
-                For i = 0 To adjH.Length - 1
-                    adjH(i) += carry(i)
-                Next
-            End If
-
-            carry = net.BackwardLiquid(adjH)
+            Call net.BackwardLiquid(adjH)
         Next
 
         net.Training = False
 
-        Return loss / T
+        Return loss / n
     End Function
 
     Private Function Row(m As Tensor, r As Integer, width As Integer) As Tensor
