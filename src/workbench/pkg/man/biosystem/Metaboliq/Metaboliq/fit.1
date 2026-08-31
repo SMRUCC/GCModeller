@@ -1,0 +1,42 @@
+.\" man page create by R# package system.
+.TH METABOLIQ 1 2000-1月 "fit" "fit"
+.SH NAME
+fit \- make liquid network training
+.SH SYNOPSIS
+\fIfit(\fBmodel\fR as <generic> MetabolicLiquidNetwork, 
+\fBconfig\fR as <generic> MetabolicTrainerConfig, 
+\fBtimes\fR as any, 
+\fBobserved\fR as <generic> Tensor, 
+\fBenzymeSeries\fR as <generic> Tensor, 
+\fBboundarySeries\fR as <generic> Tensor, 
+\fBfluxTruth\fR as <generic> Tensor);\fR
+.SH DESCRIPTION
+.PP
+make liquid network training
+.PP
+.SH OPTIONS
+.PP
+\fBmodel\fB \fR\- -. 
+.PP
+.PP
+\fBobserved\fB \fR\- -. 
+.PP
+.PP
+\fBenzymeSeries\fB \fR\- -. 
+.PP
+.PP
+\fBboundarySeries\fB \fR\- -. 
+.PP
+.PP
+\fBfluxTruth\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+get training loss @\fBT:SMRUCC.genomics.Analysis.Metaboliq.EpochLoss\fR vector data via attr(x, "loss")
+.PP
+.SH SEE ALSO
+Metaboliq
+.SH FILES
+.PP
+biosystem.dll
+.PP
