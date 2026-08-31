@@ -125,9 +125,9 @@ Public Module DemoData
         {"HEX1", 1.0}, {"PGI", 6.0}, {"PFK", 1.2}, {"FBA", 6.0}, {"TPI", 8.0},
         {"GAPD", 4.0}, {"PGK", 4.0}, {"PGM", 6.0}, {"ENO", 6.0}, {"PYK", 2.0},
         {"LDH_L", 3.0}, {"LACt", 1.5}, {"PDC", 1.5}, {"ADH", 3.0}, {"ETOHt", 1.5},
-        {"PDH", 0.8}, {"PTAr", 3.0}, {"ACKr", 1.2}, {"ACt", 1.5},
-        {"CS", 1.5}, {"ACONTa", 6.0}, {"ICDH", 1.0}, {"AKGDH", 1.0}, {"SUCOAS", 4.0},
-        {"SDH", 1.5}, {"FUM", 6.0}, {"MDH", 4.0}, {"ME1", 0.2},
+        {"PDH", 1.5}, {"PTAr", 0.6}, {"ACKr", 1.2}, {"ACt", 1.5},
+        {"CS", 1.5}, {"ACONTa", 2.0}, {"ICDH", 1.0}, {"AKGDH", 1.0}, {"SUCOAS", 2.0},
+        {"SDH", 1.5}, {"FUM", 2.0}, {"MDH", 2.0}, {"ME1", 0.1},
         {"NDH1", 2.5}, {"CYTBO3", 2.0}, {"ATPS4r", 3.5}, {"ATPM", 0.25},
         {"PIt2r", 4.0}
     }
@@ -142,10 +142,22 @@ Public Module DemoData
         Return 10.0
     End Function
 
-    ''' <summary>米氏常数（代谢物特异，缺省 0.3）</summary>
+    ''' <summary>
+    ''' 米氏常数（代谢物特异，缺省 0.3）
+    ''' </summary>
+    ''' <remarks>
+    ''' 发酵途径对丙酮酸/乙醛取较小的 Km，使其能在低底物浓度下继续氧化 NADH；
+    ''' 否则会出现"丙酮酸耗尽 → NADH 积累 → GAPD 受阻 → 丙酮酸进一步减少"的正反馈失稳。
+    ''' </remarks>
     Private Function KmOf(id As String) As Double
         Select Case id
-            Case "atp", "adp", "pi", "pi_e", "nad", "nadh"
+            Case "pyr"
+                Return 0.05
+            Case "acald"
+                Return 0.02
+            Case "nad", "nadh"
+                Return 0.2
+            Case "atp", "adp", "pi", "pi_e"
                 Return 0.5
             Case "o2_e"
                 Return 0.05
@@ -456,8 +468,11 @@ Public Module DemoData
             End Select
         Next
 
-        ' 浓度不允许为负
+        ' 整步结束后再统一施加浓度下限（并拦截数值故障产生的 NaN）
         For i = 0 To mAll - 1
+            If Double.IsNaN(c(i)) Then
+                Throw New InvalidOperationException($"积分在时间 {time + dt} 处产生 NaN（代谢物 {graph.MetaboliteIds(i)}）")
+            End If
             If c(i) < 0.0 Then c(i) = 0.0
         Next
     End Sub
@@ -489,11 +504,15 @@ Public Module DemoData
         Return dc
     End Function
 
+    ''' <summary>
+    ''' RK4 的中间阶段：这里不能做截断，
+    ''' 否则会破坏龙格-库塔的阶数并引入数值振荡（浓度下限只在整步结束后再统一施加）。
+    ''' </summary>
     Private Function AddScaled(c As Double(), d As Double(), factor As Double) As Double()
         Dim out = New Double(c.Length - 1) {}
 
         For i = 0 To c.Length - 1
-            out(i) = std.Max(0.0, c(i) + d(i) * factor)
+            out(i) = c(i) + d(i) * factor
         Next
 
         Return out
