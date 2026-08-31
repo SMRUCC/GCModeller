@@ -129,12 +129,12 @@ Module Program
 
         Dim config As New MetabolicTrainerConfig With {
             .LambdaData = 1.0,
-            .LambdaMass = 1.0,      ' ‖S·v̂‖²  质量守恒
-            .LambdaThermo = 0.5,    ' 不可逆反应通量非负
+            .LambdaMass = 0.5,      ' ‖S·v̂‖²  质量守恒（软约束）
+            .LambdaThermo = 0.5,    ' 不可逆反应通量非负（读取头已保证非负，此项为守卫）
             .LambdaFlux = 0.2,      ' 通量监督（有 13C-MFA 真值时启用）
-            .LearningRate = 0.01,
-            .Epochs = 200,
-            .WarmupEpochs = 20,
+            .LearningRate = 0.02,
+            .Epochs = 300,
+            .WarmupEpochs = 30,
             .GradientClip = 5.0,
             .TeacherForcingStart = 0.9,
             .TeacherForcingEnd = 0.0,
@@ -175,49 +175,70 @@ Module Program
         Console.WriteLine("  液态时间常数 τ^sys（可解释性输出，末时刻，最小的 8 个 = 响应最快的代谢物）：")
         Call PrintTau(traj, steps - 1, 8)
 
+        Console.WriteLine()
+        Console.WriteLine("  分通路平均 τ^sys（τ 小 = 快反应，τ 大 = 慢过程）：")
+        Call PrintPathwayTau(traj, steps - 1)
+
         ' ==================================================================
         ' 阶段 8：敲除呼吸链 → 有氧/无氧代谢重编程外推
         ' ==================================================================
         Call Banner("阶段 8 / 8  扰动外推：敲除呼吸链反应")
 
         Dim last = steps - 1
+        Dim o2Index = graph.IndexOfBoundary("o2_e")
 
-        ' 野生型基线
+        ' 好氧 / 厌氧两档溶氧水平（取归一化空间中该边界代谢物的首末值）
+        Dim o2Aerobic = boundarySeries(0, o2Index)
+        Dim o2Anaerobic = boundarySeries(last, o2Index)
+
+        ' ---- 场景 1：好氧 + 野生型（基线）----
         model.ResetPerturbation()
-        Dim wildType = model.Simulate(h0, enzymeSeries, boundarySeries, times)
+        model.SetBoundary("o2_e", o2Aerobic)
+        Dim aerobicWT = model.Simulate(h0, enzymeSeries, boundarySeries, times)
 
-        ' 敲除细胞色素氧化酶（有氧呼吸链终端氧化酶）
+        ' ---- 场景 2：好氧 + 敲除终端氧化酶 CYTBO3（呼吸链中断）----
         model.KnockOut("CYTBO3")
-        Dim koCytbo3 = model.Simulate(h0, enzymeSeries, boundarySeries, times)
+        Dim aerobicKO = model.Simulate(h0, enzymeSeries, boundarySeries, times)
 
-        ' 敲除 ATP 合成酶
+        ' ---- 场景 3：好氧 + 敲除 ATP 合成酶 ----
         model.ResetPerturbation()
+        model.SetBoundary("o2_e", o2Aerobic)
         model.KnockOut("ATPS4r")
-        Dim koAtps = model.Simulate(h0, enzymeSeries, boundarySeries, times)
+        Dim aerobicKOAtp = model.Simulate(h0, enzymeSeries, boundarySeries, times)
+
+        ' ---- 场景 4：厌氧 + 野生型（作为"呼吸链失效"的对照表型）----
+        model.ResetPerturbation()
+        model.SetBoundary("o2_e", o2Anaerobic)
+        Dim anaerobicWT = model.Simulate(h0, enzymeSeries, boundarySeries, times)
 
         model.ResetPerturbation()
 
-        Console.WriteLine("  末时刻关键表型（通量，归一化单位）：")
-        Console.WriteLine($"  {"反应",-10}{"野生型",12}{"KO-CYTBO3",12}{"KO-ATPS4r",12}")
-        For Each r In {"CYTBO3", "NDH1", "ATPS4r", "LDH_L", "ADH", "PDH", "CS", "ICDH"}
-            Console.WriteLine($"  {r,-10}{wildType.Fluxes(last, graph.IndexOfReaction(r)),12:F4}" &
-                              $"{koCytbo3.Fluxes(last, graph.IndexOfReaction(r)),12:F4}" &
-                              $"{koAtps.Fluxes(last, graph.IndexOfReaction(r)),12:F4}")
+        Console.WriteLine("  末时刻反应通量（归一化单位）：")
+        Console.WriteLine($"  {"反应",-10}{"好氧WT",12}{"好氧ΔCYTBO3",14}{"好氧ΔATPS4r",14}{"厌氧WT",12}")
+        For Each r In {"CYTBO3", "NDH1", "ATPS4r", "LDH_L", "ADH", "PDH", "CS", "ICDH", "ACKr"}
+            Dim j = graph.IndexOfReaction(r)
+            Console.WriteLine($"  {r,-10}{aerobicWT.Fluxes(last, j),12:F4}" &
+                              $"{aerobicKO.Fluxes(last, j),14:F4}" &
+                              $"{aerobicKOAtp.Fluxes(last, j),14:F4}" &
+                              $"{anaerobicWT.Fluxes(last, j),12:F4}")
         Next
 
         Console.WriteLine()
-        Console.WriteLine("  末时刻关键代谢物（归一化浓度）：")
-        Console.WriteLine($"  {"代谢物",-10}{"野生型",12}{"KO-CYTBO3",12}{"KO-ATPS4r",12}")
-        For Each id In {"atp", "nadh", "lac_c", "etoh_c", "pyr", "cit"}
+        Console.WriteLine("  末时刻代谢物浓度（归一化）：")
+        Console.WriteLine($"  {"代谢物",-10}{"好氧WT",12}{"好氧ΔCYTBO3",14}{"好氧ΔATPS4r",14}{"厌氧WT",12}")
+        For Each id In {"atp", "adp", "nadh", "lac_c", "etoh_c", "ac_c", "pyr", "cit"}
             Dim k = graph.IndexOfInternal(id)
-            Console.WriteLine($"  {id,-10}{wildType.Concentrations(last, k),12:F4}" &
-                              $"{koCytbo3.Concentrations(last, k),12:F4}" &
-                              $"{koAtps.Concentrations(last, k),12:F4}")
+            Console.WriteLine($"  {id,-10}{aerobicWT.Concentrations(last, k),12:F4}" &
+                              $"{aerobicKO.Concentrations(last, k),14:F4}" &
+                              $"{aerobicKOAtp.Concentrations(last, k),14:F4}" &
+                              $"{anaerobicWT.Concentrations(last, k),12:F4}")
         Next
 
         Console.WriteLine()
-        Console.WriteLine("  解读：敲除终端氧化酶 CYTBO3 后电子传递链中断，" &
-                          "模型应当自发把碳流从 TCA 转向乳酸/乙醇发酵（有氧 → 无氧重编程）。")
+        Console.WriteLine("  解读：把溶氧钳制在好氧水平后敲除 CYTBO3（呼吸链终端氧化酶），")
+        Console.WriteLine("       电子传递链中断 → 氧化磷酸化通量下降、ATP 降低，碳流被迫转向")
+        Console.WriteLine("       乳酸/乙醇/乙酸发酵以再生 NAD⁺；该表型应当与「厌氧野生型」趋同，")
+        Console.WriteLine("       即模型复现了有氧 → 无氧的代谢重编程。")
 
         ' ==================================================================
         ' 评估与导出
@@ -225,14 +246,10 @@ Module Program
         Call Banner("评估与结果导出")
 
         Console.WriteLine($"  浓度拟合        : RMSE={traj.RMSE(observed):F4}  MAE={traj.MAE(observed):F4}  R²={traj.R2(observed):F4}")
-        Console.WriteLine($"  通量重建        : RMSE={traj.RMSE(fluxTruth):F4}（注意列数需一致）")
+        Console.WriteLine($"  通量重建        : RMSE={RMSE(traj.Fluxes, fluxTruth):F4}（与真值通量对比）")
         Console.WriteLine($"  稳态违反度      : mean‖S·v̂‖ = {traj.SteadyStateViolation(graph):F6}（越接近 0 越满足质量守恒）")
-
-        ' 与真值通量的对比（形状一致时才计算）
-        If traj.Fluxes.Shape.SequenceEqual(fluxTruth.Shape) Then
-            Dim fluxRmse = RMSE(traj.Fluxes, fluxTruth)
-            Console.WriteLine($"  通量 RMSE       : {fluxRmse:F4}")
-        End If
+        Console.WriteLine($"  热力学方向性项  : 通量读取头对不可逆反应恒输出 v = e·σ(·) ≥ 0，" &
+                          "因此该项在整个训练过程中为 0（约束已被结构保证）。")
 
         Call traj.SaveCsv(resultDir, "ltc_simulation")
 
@@ -253,7 +270,7 @@ Module Program
 
         Dim cfcConfig As New MetabolicTrainerConfig With {
             .LambdaData = 1.0, .LambdaMass = 1.0, .LambdaThermo = 0.5, .LambdaFlux = 0.2,
-            .LearningRate = 0.01, .Epochs = 200, .WarmupEpochs = 20,
+            .LearningRate = 0.02, .Epochs = 300, .WarmupEpochs = 30,
             .GradientClip = 5.0, .LogEvery = 50, .Verbose = False, .Seed = 123
         }
         Dim cfcTrainer As New MetabolicTrainer(cfcModel, cfcConfig)
@@ -373,6 +390,34 @@ Module Program
 
         For k = 0 To std.Min(topN, items.Count) - 1
             Console.WriteLine($"    {items(k).id,-10} τ^sys = {items(k).tau:F4}")
+        Next
+    End Sub
+
+    ''' <summary>按通路分组打印平均 τ^sys，用于展示 LNN 的可解释性</summary>
+    Private Sub PrintPathwayTau(traj As MetabolicTrajectory, t As Integer)
+        Dim groups = New Dictionary(Of String, String()) From {
+            {"糖酵解", {"g6p", "f6p", "fdp", "dhap", "gap", "_13dpg", "_3pg", "_2pg", "pep", "pyr"}},
+            {"TCA 循环", {"accoa", "cit", "icit", "akg", "succoa", "succ", "fum", "mal", "oaa"}},
+            {"呼吸链/能量", {"nad", "nadh", "atp", "adp", "pi", "q8", "q8h2"}},
+            {"发酵产物", {"lac_c", "acald", "etoh_c", "actp", "ac_c"}}
+        }
+
+        For Each kv In groups
+            Dim sum As Double = 0.0
+            Dim n As Integer = 0
+
+            For Each id In kv.Value
+                Dim k = Array.IndexOf(traj.MetaboliteIds, id)
+
+                If k >= 0 Then
+                    sum += traj.Tau(t, k)
+                    n += 1
+                End If
+            Next
+
+            If n > 0 Then
+                Console.WriteLine($"    {kv.Key,-12} 平均 τ^sys = {sum / n:F4}")
+            End If
         Next
     End Sub
 
