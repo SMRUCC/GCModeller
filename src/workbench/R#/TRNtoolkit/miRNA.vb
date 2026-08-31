@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.IO
+Imports Darwinism.Centos
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
@@ -125,8 +126,16 @@ Module miRNA
         Return df
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="mirna"></param>
+    ''' <param name="geneset"></param>
+    ''' <param name="ncbi_blast">folder dir path for the ncbi blast+</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("mirna_blastn")>
-    Public Function mirna_blastn(<RRawVectorArgument(GetType(FastaSeq))> mirna As Object, <RRawVectorArgument> geneset As Object, Optional blastn As String = Nothing, Optional env As Environment = Nothing) As Object
+    Public Function mirna_blastn(<RRawVectorArgument(GetType(FastaSeq))> mirna As Object, <RRawVectorArgument> geneset As Object, Optional ncbi_blast As String = Nothing, Optional env As Environment = Nothing) As Object
         Dim mirnaSeqs = GetFastaSeq(mirna, env, allowString:=True).SafeQuery.ToArray
         Dim geneSeqs = GetFastaSeq(geneset, env, allowString:=False)
         Dim mirnaFile As String
@@ -147,15 +156,24 @@ Module miRNA
             FastaFile.SaveData(geneSeqs, targetFile, encoding:=Encodings.ASCII)
         End If
 
-        If blastn Is Nothing Then
+        If ncbi_blast Is Nothing Then
             If System.Environment.OSVersion.Platform = PlatformID.Win32NT Then
                 Return RInternal.debug.stop("ncbi blast+ path not configured!", env)
             Else
+                ncbi_blast = Bash.which("blastn")
 
+                If ncbi_blast.StringEmpty Then
+                    Return RInternal.debug.stop("ncbi blast+ not installed inside your linux system!", env)
+                Else
+                    ncbi_blast = ncbi_blast.ParentPath
+                End If
             End If
         End If
 
-        Dim blastp As New BLASTPlus(Workbench.Settings.ncbi_blast) With {.NumThreads = Workbench.Settings.n_threads}
+        Dim blastp As New BLASTPlus(ncbi_blast) With {.NumThreads = 16}
+
+        Call blastp.FormatDb(mirnaFile, "nucl").Run()
+
     End Function
 
     ''' <summary>

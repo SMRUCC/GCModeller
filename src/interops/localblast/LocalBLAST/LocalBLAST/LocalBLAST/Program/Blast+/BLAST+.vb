@@ -142,6 +142,10 @@ Namespace LocalBLAST.Programs
             Return BLASTOutput.BlastPlus.Parser.TryParse(MyBase._InternalLastBLASTOutputFile)
         End Function
 
+        Public Function BlastnCustom(input As String, db As String, output As String, args As String) As IORedirect
+
+        End Function
+
         Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As IORedirect
             If String.IsNullOrEmpty(e) Then
                 e = "1e-3"
