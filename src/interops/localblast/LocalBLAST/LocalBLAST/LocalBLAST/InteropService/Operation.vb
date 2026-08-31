@@ -74,18 +74,18 @@ Namespace LocalBLAST.InteropService
 
         Public Overrides Function Blastp(InputQuery As String, TargetSubjectDb As String, Output As String, Optional e As String = "10") As IORedirect
             Dim Cmdl = DirectCast(ProgramProfile.GetCommand("blastp"), Executable.Executable_BLAST).CreateCommand(InputQuery, TargetSubjectDb, e, Output)
-            MyBase._InternalLastBLASTOutputFile = Output
+            MyBase.LastBLASTOutputFile = Output
             Return Cmdl
         End Function
 
         Public Overrides Function GetLastLogFile() As BLASTOutput.IBlastOutput
             Select Case ProgramProfile.Name.ToLower
                 Case "blast+"
-                    Return BLASTOutput.BlastPlus.Parser.TryParse(_InternalLastBLASTOutputFile)
+                    Return BLASTOutput.BlastPlus.Parser.TryParse(LastBLASTOutputFile)
                 Case "rpsblast"
-                    Return BLASTOutput.BlastPlus.Parser.TryParse(_InternalLastBLASTOutputFile)
+                    Return BLASTOutput.BlastPlus.Parser.TryParse(LastBLASTOutputFile)
                 Case Else
-                    Return BLASTOutput.XmlFile.BlastOutput.LoadFromFile(_InternalLastBLASTOutputFile)
+                    Return BLASTOutput.XmlFile.BlastOutput.LoadFromFile(LastBLASTOutputFile)
             End Select
         End Function
 
@@ -129,7 +129,7 @@ Namespace LocalBLAST.InteropService
 
         Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As IORedirect
             Dim Cmdl = DirectCast(ProgramProfile.GetCommand("blastn"), Executable.Executable_BLAST).CreateCommand(Input, TargetDb, e, Output)
-            MyBase._InternalLastBLASTOutputFile = Output
+            MyBase.LastBLASTOutputFile = Output
             Return Cmdl
         End Function
 

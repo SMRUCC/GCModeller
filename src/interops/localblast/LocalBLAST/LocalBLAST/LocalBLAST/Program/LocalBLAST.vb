@@ -514,7 +514,7 @@ Namespace LocalBLAST.Programs
         ''' <remarks></remarks>
         Public Overrides Function Blastp(Input As File, TargetDb As String, Output As File, Optional e As String = "10") As Microsoft.VisualBasic.CommandLine.IORedirect
             Dim Argums As String = String.Format(ARGUMS_BLASTP, Input, TargetDb, Output, e)
-            MyBase._InternalLastBLASTOutputFile = Output
+            MyBase.LastBLASTOutputFile = Output
             Dim Cmdl As String = String.Format("{0} {1}", BLASTALLAssembly, Argums)
             Call Console.WriteLine("BLASTP::" & vbCrLf & "  ---> {0}", Cmdl)
             Return New CommandLine.IORedirect(BLASTALLAssembly, Argums)
@@ -526,8 +526,8 @@ Namespace LocalBLAST.Programs
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function GetLastLogFile() As BLASTOutput.IBlastOutput
-            If FileIO.FileSystem.FileExists(MyBase._InternalLastBLASTOutputFile) Then
-                Return NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.BlastOutput.LoadFromFile(MyBase._InternalLastBLASTOutputFile)
+            If FileIO.FileSystem.FileExists(MyBase.LastBLASTOutputFile) Then
+                Return NCBI.Extensions.LocalBLAST.BLASTOutput.XmlFile.BlastOutput.LoadFromFile(MyBase.LastBLASTOutputFile)
             Else
                 Return Nothing
             End If
@@ -536,7 +536,7 @@ Namespace LocalBLAST.Programs
 
         Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As CommandLine.IORedirect
             Dim Argums As String = String.Format(ARGUMS_BLASTN, Input, TargetDb, Output, e, Strand, Output & ".aln")
-            MyBase._InternalLastBLASTOutputFile = Output
+            MyBase.LastBLASTOutputFile = Output
             Dim Cmdl As String = String.Format("{0} {1}", BLASTALLAssembly, Argums)
             Call Console.WriteLine("BLASTN::" & vbCrLf & "  ---> {0}", Cmdl)
             Return New CommandLine.IORedirect(BLASTALLAssembly, Argums)

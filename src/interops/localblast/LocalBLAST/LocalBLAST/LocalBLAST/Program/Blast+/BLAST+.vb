@@ -135,19 +135,19 @@ Namespace LocalBLAST.Programs
             Dim cmdl As String = String.Format("{0} {1}", _blastpAssembly, argv)
             Call Output.ParentPath.MakeDir
             Call VBDebugger.EchoLine("LOCALBLAST+::BLASTP" & vbCrLf & $" --> {cmdl}")
-            MyBase._InternalLastBLASTOutputFile = Output
+            MyBase.LastBLASTOutputFile = Output
             Return New IORedirect(_blastpAssembly, argv, IOredirect:=False, hide:=False)
         End Function
 
         Public Overrides Function GetLastLogFile() As BLASTOutput.IBlastOutput
-            Return BLASTOutput.BlastPlus.Parser.TryParse(MyBase._InternalLastBLASTOutputFile)
+            Return BLASTOutput.BlastPlus.Parser.TryParse(MyBase.LastBLASTOutputFile)
         End Function
 
         Public Function BlastnCustom(input As String, db As String, output As String, args As String) As IORedirect
             Dim cmdl As String = $"-query {input.CLIPath} -subject {db.CLIPath} -out {output.CLIPath} {args}"
 
             Call output.ParentPath.MakeDir
-            MyBase._InternalLastBLASTOutputFile = output
+            Call SetLastOutputFile(output)
 
             Return New IORedirect(_blastnAssembly, cmdl, IOredirect:=False, hide:=False)
         End Function
@@ -171,8 +171,8 @@ Namespace LocalBLAST.Programs
 
             Dim cmdl As String = String.Format("{0} {1}", _blastnAssembly, args)
             Call Output.ParentPath.MakeDir
+            Call SetLastOutputFile(Output)
             Call VBDebugger.EchoLine("LOCALBLAST+::BLASTN" & vbCrLf & $" --> {cmdl}")
-            MyBase._InternalLastBLASTOutputFile = Output
             Return New IORedirect(_blastnAssembly, args, IOredirect:=False, hide:=False)
         End Function
 

@@ -64,12 +64,12 @@ Namespace LocalBLAST.Programs
 
         Public ReadOnly Property LastBLASTOutputFilePath As String
             Get
-                Return _InternalLastBLASTOutputFile
+                Return LastBLASTOutputFile
             End Get
         End Property
 
         Sub New(BLASTBin As String)
-            Me._innerBLASTBinDIR = BLASTBin
+            Me.BLAST_bin = BLASTBin
             Me._MakeProfileDb = BLASTBin & "/makeprofiledb.exe"
             Me._RpsBLAST = BLASTBin & "/rpsblast.exe"
         End Sub
@@ -86,7 +86,7 @@ Namespace LocalBLAST.Programs
         Public Function Performance(FsaDb As String, rpsDb As String, Evalue As String, Output As String) As CommandLine.IORedirect
             Dim Argv As String = String.Format("-query ""{0}"" -evalue {1} -out ""{2}"" -db ""{3}""", FsaDb, Evalue, Output, rpsDb)
             Dim Cmdl As CommandLine.IORedirect = New CommandLine.IORedirect(Me._RpsBLAST, Argv)
-            _InternalLastBLASTOutputFile = Output
+            LastBLASTOutputFile = Output
             Call Console.WriteLine("[RPSBLAST]{0}  ---> ""{1}""", vbCrLf, Cmdl.ToString)
 
             Return Cmdl

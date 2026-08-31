@@ -83,18 +83,18 @@ Imports File = System.String
 Namespace LocalBLAST.InteropService
 
     Public MustInherit Class LocalBlastProgramGroup : Inherits CLI
-        Implements System.IDisposable
+        Implements IDisposable
 
         ''' <summary>
         ''' Blast程序组所在的安装文件夹
         ''' </summary>
         ''' <remarks></remarks>
-        Protected _innerBLASTBinDIR As String
+        Protected BLAST_bin As String
         ''' <summary>
         ''' The blast output file path of the last time blast operation.(上一次执行BLAST操作时所输出的日志文件)
         ''' </summary>
         ''' <remarks></remarks>
-        Protected _InternalLastBLASTOutputFile As String
+        Protected LastBLASTOutputFile As String
 
         ''' <summary>
         ''' The cpu core number usage of the blast operation.(进行blast操作所需要的线程数)
@@ -112,7 +112,7 @@ Namespace LocalBLAST.InteropService
         ''' <remarks></remarks>
         Public ReadOnly Property BlastBin As String
             Get
-                Return _innerBLASTBinDIR
+                Return BLAST_bin
             End Get
         End Property
 
@@ -122,8 +122,12 @@ Namespace LocalBLAST.InteropService
             End Get
         End Property
 
+        Protected Sub SetLastOutputFile(file As String)
+            LastBLASTOutputFile = file
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return _innerBLASTBinDIR
+            Return BLAST_bin
         End Function
 
 #Region "IDisposable Support"
@@ -247,7 +251,7 @@ Namespace LocalBLAST.InteropService
         End Enum
 
         Sub New(bin As String)
-            _innerBLASTBinDIR = bin
+            BLAST_bin = bin
             NumThreads = 2
 
             If Not bin.DirectoryExists Then
@@ -272,7 +276,7 @@ Namespace LocalBLAST.InteropService
         ''' <remarks></remarks>
         Public ReadOnly Property LastBLASTOutputFilePath As String
             Get
-                Return _InternalLastBLASTOutputFile
+                Return LastBLASTOutputFile
             End Get
         End Property
 
@@ -324,7 +328,7 @@ Namespace LocalBLAST.InteropService
         ''' <remarks></remarks>
         Public Function TryInvoke(Program As String, Query As String, Subject As String, Evalue As String, Output As String) As IORedirect
             Dim argvs As String = String.Format("-query ""{0}"" -subject ""{1}"" -evalue {2} -out ""{3}""", Query, Subject, Evalue, Output)
-            Program = _innerBLASTBinDIR & "/" & Program
+            Program = BLAST_bin & "/" & Program
 
             Return New IORedirect(Program, argvs, IOredirect:=False, hide:=False)
         End Function
