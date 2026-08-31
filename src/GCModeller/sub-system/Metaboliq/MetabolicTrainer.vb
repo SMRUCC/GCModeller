@@ -342,6 +342,8 @@ Public Class MetabolicTrainer
         liquid.Training = True
         cell.SetState(h0)
 
+        Console.WriteLine($"  [debug] net.Training={liquid.Training} cell.Training={cell.Training}")
+
         Dim hTrace(T - 1) As Tensor
         Dim outTrace(T - 1) As Tensor
         Dim uTrace(T - 1) As Tensor
@@ -405,10 +407,16 @@ Public Class MetabolicTrainer
                 End If
 
                 Call liquid.Forward(u, times(t + 1) - times(t))
+
+                If t = 0 Then
+                    Console.WriteLine($"  [debug] after step t=0: cellRecords={cell.RecordCount} solver={liquid.SolverType}")
+                End If
             End If
         Next
 
         liquid.Training = False
+
+        Console.WriteLine($"  [debug] T={T} records={cell.RecordCount} mode={cell.Mode}")
 
         Return New ForwardTrace With {
             .hTrace = hTrace,
