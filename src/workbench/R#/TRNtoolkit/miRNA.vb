@@ -170,10 +170,21 @@ Module miRNA
             End If
         End If
 
-        Dim blastp As New BLASTPlus(ncbi_blast) With {.NumThreads = 16}
+        Dim blast As New BLASTPlus(ncbi_blast) With {.NumThreads = 16}
 
-        Call blastp.FormatDb(mirnaFile, "nucl").Run()
+        Call blast.FormatDb(mirnaFile, "nucl").Run()
+        Call blast.BlastnCustom(
+            mirnaFile, targetFile,
+            output:=workTmp,
+            args:=$"-task blastn-short -evalue 10000 -word_size 7 -gapopen 4 -gapextend 2 -reward 1 -penalty -1 -outfmt ""6 qseqid sseqid sstart send qstart qend sstrand qseq sseq length evalue bitscore"" -num_threads 32 -max_target_seqs 5000").Run()
 
+        If workTmp.FileExists Then
+            Using s As Stream = workTmp.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Return BlastnMapTable.Parse(s).ToArray
+            End Using
+        Else
+            Return RInternal.debug.stop("blastn search task error", env)
+        End If
     End Function
 
     ''' <summary>
