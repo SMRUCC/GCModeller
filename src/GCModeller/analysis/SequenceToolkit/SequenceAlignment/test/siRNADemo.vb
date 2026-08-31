@@ -211,7 +211,7 @@ Module siRNADemo
 
     Sub Main()
         Call blastnFilterTest()
-        Call ssearchTest()
+        ' Call ssearchTest()
     End Sub
 End Module
 
