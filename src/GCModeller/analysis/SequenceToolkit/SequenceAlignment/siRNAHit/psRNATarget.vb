@@ -96,19 +96,18 @@ Namespace siRNAHit
         ' 最小比对长度（HSP size），psRNATarget 常规推荐 20
         Public Property MinHitLength As Integer = 17
 
-        ' 位置权重表（miRNA 5'->3' 1-based，核心区高、末端低）
+        ' 位置权重表（miRNA 5'->3' 1-based，核心区高、末端低，长度需覆盖到 21 nt 的成熟体）
         '  第 1 位: 1
         '  第 2–13 位: 2（核心配对区）
-        '  第 14–15 位: 1（相对宽松）
-        '  第 16–21 位: 1（3' 末端宽松）
+        '  第 14–21 位: 1（3' 末端宽松）
         Private Shared ReadOnly weightV2 As Double() = {
             1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            1, 1, 1, 1, 1, 1
+            1, 1, 1, 1, 1, 1, 1, 1
         }
         ' V1：种子区 2–8 权重高，其余宽松
         Private Shared ReadOnly weightV1 As Double() = {
             1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1, 1
+            1, 1, 1, 1, 1, 1, 1, 1
         }
 
         ''' <summary>基线（非种子区）错配罚分基数；G:U 半值。</summary>
@@ -145,7 +144,7 @@ Namespace siRNAHit
             ' 叠加靶标可及性（默认关闭 → 0）
             expectation += Accessibility.UPE(mrna, hsp.fromB, hsp.toB)
             hit.Expectation = expectation
-            hit.TranslationInhibition = HasCenterMismatch(hsp)
+            hit.TranslationInhibition = HasCenterMismatch(mirna, hsp)
             hit.Source = "psRNATarget"
 
             Return hit
@@ -166,7 +165,8 @@ Namespace siRNAHit
             Dim gapRun As Boolean = False
 
             For i As Integer = 0 To n - 1
-                Dim pos As Integer = hsp.fromA + i
+                ' query 是 miRNA 的反向互补，需换算回 miRNA 的 5'->3' 坐标
+                Dim pos As Integer = MirnaPosition(mirna, hsp, i)
                 Dim w As Double = PositionWeight(pos, weight)
                 Dim t As RNASeqHelper.PairType = RNASeqHelper.ClassifyPair(s1(i), s2(i))
                 Dim base As Double
@@ -210,13 +210,13 @@ Namespace siRNAHit
 
         ''' <summary>切割位点（miRNA 第 10–11 位）错配 → 翻译抑制候选。</summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Friend Function HasCenterMismatch(hsp As LocalHSPMatch(Of Char)) As Boolean
+        Friend Function HasCenterMismatch(mirna As String, hsp As LocalHSPMatch(Of Char)) As Boolean
             Dim s1 As Char() = hsp.seq1
             Dim s2 As Char() = hsp.seq2
             Dim n As Integer = Math.Min(s1.Length, s2.Length)
 
             For i As Integer = 0 To n - 1
-                Dim pos As Integer = hsp.fromA + i
+                Dim pos As Integer = MirnaPosition(mirna, hsp, i)
                 If pos = 10 OrElse pos = 11 Then
                     Dim t As RNASeqHelper.PairType = RNASeqHelper.ClassifyPair(s1(i), s2(i))
                     If t = RNASeqHelper.PairType.Mismatch Then
@@ -232,7 +232,7 @@ Namespace siRNAHit
         ''' 应用 psRNATarget 过滤：期望值达标，且种子区内非 G:U 错配不超过版本上限。
         ''' 种子区定义：V1 = 第 2–8 位，V2 = 第 2–13 位。
         ''' </summary>
-        Public Function PassFilter(hit As siRNAHit, hsp As LocalHSPMatch(Of Char)) As Boolean
+        Public Function PassFilter(mirna As String, hit As siRNAHit, hsp As LocalHSPMatch(Of Char)) As Boolean
             If hit Is Nothing Then
                 Return False
             End If
@@ -254,7 +254,7 @@ Namespace siRNAHit
             Dim seedMis As Integer = 0
 
             For i As Integer = 0 To n - 1
-                Dim pos As Integer = hsp.fromA + i
+                Dim pos As Integer = MirnaPosition(mirna, hsp, i)
                 If pos >= seedLo AndAlso pos <= seedHi Then
                     Dim t As RNASeqHelper.PairType = RNASeqHelper.ClassifyPair(s1(i), s2(i))
                     If t = RNASeqHelper.PairType.Mismatch Then
@@ -283,7 +283,7 @@ Namespace siRNAHit
                 Dim hsp As LocalHSPMatch(Of Char) = RNASeqHelper.BestLocalHit(revComp, seq)
                 Dim hit As siRNAHit = Score(mirnaSeq, seq)
 
-                If PassFilter(hit, hsp) Then
+                If PassFilter(mirnaSeq, hit, hsp) Then
                     hit.miRNA = query
                     hit.Target = id
 

@@ -120,7 +120,8 @@ Namespace siRNAHit
 
         ''' <summary>
         ''' 由 HSP 的比对串构造位置加权罚分明细字符串，并统计总罚分。
-        ''' 位置权重按 miRNA 5'→3'（query fromA 起，1-based）计数。
+        ''' 位置权重按 miRNA 5'→3' 1-based 计数（由比对列经
+        ''' <see cref="MirnaPosition"/> 换算，因为 query 是 miRNA 的反向互补链）。
         ''' </summary>
         Friend Function ScoreByPosition(mirna As String, hsp As LocalHSPMatch(Of Char)) As String
             Dim s1 As Char() = hsp.seq1
@@ -129,7 +130,8 @@ Namespace siRNAHit
             Dim sb As New System.Text.StringBuilder()
 
             For i As Integer = 0 To n - 1
-                Dim pos As Integer = hsp.fromA + i   ' miRNA 5'->3' 1-based 位置
+                ' query 是 miRNA 的反向互补，需换算回 miRNA 的 5'->3' 1-based 坐标
+                Dim pos As Integer = MirnaPosition(mirna, hsp, i)
                 Dim t As RNASeqHelper.PairType = RNASeqHelper.ClassifyPair(s1(i), s2(i))
                 Dim w As Double = PositionWeight(pos)
 
@@ -190,7 +192,7 @@ Namespace siRNAHit
             Dim n As Integer = Math.Min(s1.Length, s2.Length)
 
             For i As Integer = 0 To n - 1
-                Dim pos As Integer = hsp.fromA + i
+                Dim pos As Integer = MirnaPosition(mirna, hsp, i)
                 If pos = 10 OrElse pos = 11 Then
                     Dim t As RNASeqHelper.PairType = RNASeqHelper.ClassifyPair(s1(i), s2(i))
                     If t = RNASeqHelper.PairType.Mismatch Then

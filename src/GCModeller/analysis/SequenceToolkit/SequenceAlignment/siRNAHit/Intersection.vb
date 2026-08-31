@@ -127,6 +127,7 @@ Namespace siRNAHit
         ''' </summary>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function MergeHit(x As siRNAHit, y As siRNAHit) As siRNAHit
+            ' 两算法的期望值同为"越低越好"，合并时取较大者作为保守估计
             Dim merged As New siRNAHit With {
                 .miRNA = x.miRNA,
                 .Target = NormalizeTarget(x.Target),
@@ -135,6 +136,7 @@ Namespace siRNAHit
                 .MismatchCount = Math.Max(x.MismatchCount, y.MismatchCount),
                 .WobbleCount = Math.Max(x.WobbleCount, y.WobbleCount),
                 .GapCount = Math.Max(x.GapCount, y.GapCount),
+                .Expectation = Math.Max(x.Expectation, y.Expectation),
                 .TranslationInhibition = x.TranslationInhibition OrElse y.TranslationInhibition,
                 .Source = "Intersection(psRNATarget+TargetFinder)",
                 .Alignment = $"psRNATarget E={x.Expectation:F2} | TargetFinder Penalty={y.Expectation:F2}"
