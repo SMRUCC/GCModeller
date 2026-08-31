@@ -57,6 +57,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 
 Namespace LocalBLAST.Programs
@@ -143,7 +144,12 @@ Namespace LocalBLAST.Programs
         End Function
 
         Public Function BlastnCustom(input As String, db As String, output As String, args As String) As IORedirect
+            Dim cmdl As String = $"-query {input.CLIPath} -subject {db.CLIPath} -out {output.CLIPath} {args}"
 
+            Call output.ParentPath.MakeDir
+            MyBase._InternalLastBLASTOutputFile = output
+
+            Return New IORedirect(_blastnAssembly, cmdl, IOredirect:=False, hide:=False)
         End Function
 
         Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As IORedirect
