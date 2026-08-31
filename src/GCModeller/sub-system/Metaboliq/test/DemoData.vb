@@ -1,6 +1,7 @@
 Imports System.Globalization
 Imports System.IO
 Imports System.Text
+Imports Metaboliq
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.MetabolicModel
@@ -199,7 +200,6 @@ Public Module DemoData
             {"nad", 1.00}, {"nadh", 0.10}, {"atp", 2.00}, {"adp", 0.50}, {"pi", 1.00},
             {"q8", 0.50}, {"q8h2", 0.10},
             {"lac_c", 0.10}, {"acald", 0.01}, {"etoh_c", 0.10}, {"actp", 0.01}, {"ac_c", 0.10},
-            ' 边界（胞外）浓度由场景给定，这里给初值
             {"glc_e", 10.0}, {"o2_e", 0.25}, {"co2_e", 0.0}, {"lac_e", 0.0},
             {"etoh_e", 0.0}, {"ac_e", 0.0}, {"pi_e", 1.0}
         }
