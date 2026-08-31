@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>blastn_filter</title>
+    <title>对 blastn 预筛结果做 psRNATarget 风格的打分过滤。</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,28 +18,46 @@
             </tr>
         </table>
 
-        <h2>blastn_filter</h2>
+        <h2>对 blastn 预筛结果做 psRNATarget 风格的打分过滤。</h2>
 
         <h3>Description</h3>
 
-        blastn_filter
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>blastn_filter</strong>(<i>blastn</i>,
-    <i>eCutoff</i> = <span style='color: green;'>5</span>,
+    <i>evalueCutoff</i> = <span style='color: green;'>1000</span>,
+    <i>maxExpectation</i> = <span style='color: green;'>5</span>,
+    <i>minHitLength</i> = <span style='color: green;'>17</span>,
     <i>seedStart</i> = <span style='color: green;'>2</span>,
     <i>seedEnd</i> = <span style='color: green;'>13</span>,
     <i>maxSeedMm</i> = <span style='color: green;'>2</span>,
     <i>maxTotalMm</i> = <span style='color: green;'>8</span>,
-    <i>maxGu</i> = <span style='color: green;'>7</span>);</code></pre>
+    <i>maxGu</i> = <span style='color: green;'>7</span>,
+    <i>verbose</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>blastn</dt>
+<dd><p>由 <code>parse_blastn</code> 或 <code>mirna_blastn</p></dd>
+
+
+<dt>evalueCutoff</dt>
+<dd><p>BLAST e-value 预筛阈值（与 blastn 命令行 -evalue 同量级）。 注意它与 <code>maxExpectation. [as double]</p></dd>
+
+
+<dt>maxExpectation</dt>
+<dd><p>[as double]</p></dd>
+
+
+<dt>minHitLength</dt>
+<dd><p>[as integer]</p></dd>
+
         </table>
 
 

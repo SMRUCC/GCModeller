@@ -1,16 +1,39 @@
 .\" man page create by R# package system.
 .TH MIRNA 1 2000-1月 "blastn_filter" "blastn_filter"
 .SH NAME
-blastn_filter \- 
+blastn_filter \- 对 blastn 预筛结果做 psRNATarget 风格的打分过滤。
 .SH SYNOPSIS
 \fIblastn_filter(\fBblastn\fR as any, 
-\fBeCutoff\fR as double = 5, 
+\fBevalueCutoff\fR as double = 1000, 
+\fBmaxExpectation\fR as double = 5, 
+\fBminHitLength\fR as integer = 17, 
 \fBseedStart\fR as integer = 2, 
 \fBseedEnd\fR as integer = 13, 
 \fBmaxSeedMm\fR as integer = 2, 
 \fBmaxTotalMm\fR as integer = 8, 
 \fBmaxGu\fR as integer = 7, 
+\fBverbose\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+对 blastn 预筛结果做 psRNATarget 风格的打分过滤。
+.PP
+.SH OPTIONS
+.PP
+\fBblastn\fB \fR\- 由 \fBparse_blastn\fR 或 \fBmirna_blastn\fR 解析出的 HSP 集合。. 
+.PP
+.PP
+\fBevalueCutoff\fB \fR\- 
+ BLAST e-value 预筛阈值（与 blastn 命令行 -evalue 同量级）。
+ 注意它与 \fBmaxExpectation\fR 量纲不同：前者是 BLAST 统计显著性，后者是打分期望值。
+. 
+.PP
+.PP
+\fBmaxExpectation\fB \fR\- psRNATarget 期望分上限（越低越好）。. 
+.PP
+.PP
+\fBminHitLength\fB \fR\- 最小 HSP 长度。. 
+.PP
 .SH SEE ALSO
 miRNA
 .SH FILES

@@ -17,7 +17,7 @@ miRNA/siRNA target gene prediction toolkit
 
 + [mirna_blastn](miRNA/mirna_blastn.1) 
 + [parse_blastn](miRNA/parse_blastn.1) 
-+ [blastn_filter](miRNA/blastn_filter.1) 
++ [blastn_filter](miRNA/blastn_filter.1) 对 blastn 预筛结果做 psRNATarget 风格的打分过滤。
 + [psRNATarget](miRNA/psRNATarget.1) create the psRNATarget algorithm object for predict the miRNA target site
 + [TargetFinder](miRNA/TargetFinder.1) create the TargetFinder algorithm object for predict the miRNA target site
 + [miRNA_targets](miRNA/miRNA_targets.1) make matches of the miRNA target genes

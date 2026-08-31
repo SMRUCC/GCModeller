@@ -32,12 +32,20 @@
 export class BlastnMapTable {
    bitscore: double;
    evalue: double;
+   # 该 HSP 是否命中在 subject 的负链上（BLASTN 的 sstrand = "minus"）。
+   IsMinus: boolean;
    length: integer;
    qend: integer;
    qseq: string;
    qseqid: string;
    qstart: integer;
    send: integer;
+   # 靶位点在 mRNA 正义链上的结束坐标（1-based，恒大于等于 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/BlastnMapTable.html">BlastnMapTable</a>.<a href="#">SiteStart</a>）。
+   SiteEnd: integer;
+   # 靶位点在 mRNA 正义链上的跨度（nt）。
+   SiteLength: integer;
+   # 靶位点在 mRNA 正义链上的起始坐标（1-based，恒小于等于 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/BlastnMapTable.html">BlastnMapTable</a>.<a href="#">SiteEnd</a>）。
+   SiteStart: integer;
    sseq: string;
    sseqid: string;
    sstart: integer;

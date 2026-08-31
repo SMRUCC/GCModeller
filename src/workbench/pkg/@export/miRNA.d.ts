@@ -23,15 +23,36 @@
 */
 declare namespace miRNA {
    /**
-     * @param eCutoff default value Is ``5``.
-     * @param seedStart default value Is ``2``.
-     * @param seedEnd default value Is ``13``.
-     * @param maxSeedMm default value Is ``2``.
-     * @param maxTotalMm default value Is ``8``.
-     * @param maxGu default value Is ``7``.
-     * @param env default value Is ``null``.
+    * 对 blastn 预筛结果做 psRNATarget 风格的打分过滤。
+    * 
+    * 
+     * @param blastn 由 ``parse_blastn`` 或 ``mirna_blastn`` 解析出的 HSP 集合。
+     * @param evalueCutoff BLAST e-value 预筛阈值（与 blastn 命令行 -evalue 同量级）。
+     *  注意它与 ``maxExpectation`` 量纲不同：前者是 BLAST 统计显著性，后者是打分期望值。
+     * 
+     * + default value Is ``1000``.
+     * @param maxExpectation psRNATarget 期望分上限（越低越好）。
+     * 
+     * + default value Is ``5``.
+     * @param minHitLength 最小 HSP 长度。
+     * 
+     * + default value Is ``17``.
+     * @param seedStart 
+     * + default value Is ``2``.
+     * @param seedEnd 
+     * + default value Is ``13``.
+     * @param maxSeedMm 
+     * + default value Is ``2``.
+     * @param maxTotalMm 
+     * + default value Is ``8``.
+     * @param maxGu 
+     * + default value Is ``7``.
+     * @param verbose 
+     * + default value Is ``false``.
+     * @param env 
+     * + default value Is ``null``.
    */
-   function blastn_filter(blastn: any, eCutoff?: number, seedStart?: object, seedEnd?: object, maxSeedMm?: object, maxTotalMm?: object, maxGu?: object, env?: object): object;
+   function blastn_filter(blastn: any, evalueCutoff?: number, maxExpectation?: number, minHitLength?: object, seedStart?: object, seedEnd?: object, maxSeedMm?: object, maxTotalMm?: object, maxGu?: object, verbose?: boolean, env?: object): object;
    /**
     * --- High-confidence intersection (psRNATarget ∩ TargetFinder) ---
     * 
