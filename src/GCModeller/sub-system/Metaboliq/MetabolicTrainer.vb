@@ -332,7 +332,8 @@ Public Class MetabolicTrainer
     Private Function ForwardPass(times As Double(), observed As Tensor, enzymeSeries As Tensor,
                                  boundarySeries As Tensor, observedFlux As Tensor,
                                  h0 As Tensor, tfProb As Double) As ForwardTrace
-        Dim T = times.Length
+        ' 注意：VB 不区分大小写，标量不要命名为 T 以免与循环变量 t 冲突
+        Dim steps = times.Length
         Dim liquid = Model.Liquid
         Dim cell = liquid.LiquidLayer.Cells(0)
         Dim m = _m
@@ -342,16 +343,14 @@ Public Class MetabolicTrainer
         liquid.Training = True
         cell.SetState(h0)
 
-        Console.WriteLine($"  [debug] net.Training={liquid.Training} cell.Training={cell.Training}")
-
-        Dim hTrace(T - 1) As Tensor
-        Dim outTrace(T - 1) As Tensor
-        Dim uTrace(T - 1) As Tensor
-        Dim vTrace(T - 1) As Tensor
+        Dim hTrace(steps - 1) As Tensor
+        Dim outTrace(steps - 1) As Tensor
+        Dim uTrace(steps - 1) As Tensor
+        Dim vTrace(steps - 1) As Tensor
 
         Dim lData As Double = 0.0, lMass As Double = 0.0, lThermo As Double = 0.0, lFlux As Double = 0.0
 
-        For t = 0 To T - 1
+        For t = 0 To steps - 1
             Dim u = Model.BuildInput(Row(enzymeSeries, t), Row(boundarySeries, t))
             Dim h = CType(cell.State.Clone(), Tensor)
             Dim out = liquid.ComputeOutputFrom(h)
@@ -401,22 +400,16 @@ Public Class MetabolicTrainer
             Next
 
             ' ---- teacher forcing：用真实浓度覆盖状态，提升长程稳定性 ----
-            If t < T - 1 Then
+            If t < steps - 1 Then
                 If tfProb > 0 AndAlso _rng.NextDouble() < tfProb Then
                     cell.SetState(Row(observed, t))
                 End If
 
                 Call liquid.Forward(u, times(t + 1) - times(t))
-
-                If t = 0 Then
-                    Console.WriteLine($"  [debug] after step t=0: cellRecords={cell.RecordCount} solver={liquid.SolverType}")
-                End If
             End If
         Next
 
         liquid.Training = False
-
-        Console.WriteLine($"  [debug] T={T} records={cell.RecordCount} mode={cell.Mode}")
 
         Return New ForwardTrace With {
             .hTrace = hTrace,
@@ -424,10 +417,10 @@ Public Class MetabolicTrainer
             .uTrace = uTrace,
             .vTrace = vTrace,
             .Loss = New EpochLoss With {
-                .Data = lData / T,
-                .Mass = lMass / T,
-                .Thermo = lThermo / T,
-                .Flux = lFlux / T
+                .Data = lData / steps,
+                .Mass = lMass / steps,
+                .Thermo = lThermo / steps,
+                .Flux = lFlux / steps
             }
         }
     End Function
@@ -438,12 +431,12 @@ Public Class MetabolicTrainer
 
     Private Sub BackwardPass(trace As ForwardTrace, times As Double(),
                              observed As Tensor, observedFlux As Tensor)
-        Dim T = times.Length
+        Dim steps = times.Length
         Dim liquid = Model.Liquid
         Dim m = _m
         Dim r = _r
 
-        For t = T - 1 To 0 Step -1
+        For t = steps - 1 To 0 Step -1
             Dim obs = Row(observed, t)
 
             ' ---------- (1) 浓度拟合项 ----------
@@ -453,7 +446,7 @@ Public Class MetabolicTrainer
                 If Not Double.IsNaN(obs(i)) Then cnt += 1
             Next
 
-            Dim scale = Config.LambdaData * 2.0 / (std.Max(1, cnt) * T)
+            Dim scale = Config.LambdaData * 2.0 / (std.Max(1, cnt) * steps)
             Dim dOut = New Tensor(m)
 
             For i = 0 To m - 1
@@ -473,14 +466,14 @@ Public Class MetabolicTrainer
             If Config.LambdaMass > 0 Then
                 Dim residual = Model.Graph.SteadyStateResidual(v)
                 Dim toFlux = Model.Graph.ResidualGradientToFlux(residual)
-                Dim ms = Config.LambdaMass * 2.0 / (_nAll * T)
+                Dim ms = Config.LambdaMass * 2.0 / (_nAll * steps)
 
                 For j = 0 To r - 1
                     adjV(j) += ms * toFlux(j)
                 Next
             End If
 
-            Dim ts = Config.LambdaThermo * 2.0 / (r * T)
+            Dim ts = Config.LambdaThermo * 2.0 / (r * steps)
             For j = 0 To r - 1
                 If Not Model.Graph.Reversible(j) AndAlso v(j) < 0 Then
                     adjV(j) += ts * v(j)
@@ -489,7 +482,7 @@ Public Class MetabolicTrainer
 
             If observedFlux IsNot Nothing AndAlso Config.LambdaFlux > 0 Then
                 Dim fluxObs = Row(observedFlux, t)
-                Dim fs = Config.LambdaFlux * 2.0 / (r * T)
+                Dim fs = Config.LambdaFlux * 2.0 / (r * steps)
 
                 For j = 0 To r - 1
                     If Not Double.IsNaN(fluxObs(j)) Then

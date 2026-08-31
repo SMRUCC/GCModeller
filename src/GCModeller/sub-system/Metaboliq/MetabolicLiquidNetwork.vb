@@ -362,27 +362,28 @@ Public Class MetabolicLiquidNetwork
     ''' <returns>浓度 / 通量 / τ^sys 三条轨迹</returns>
     Public Function Simulate(h0 As Tensor, enzymeSeries As Tensor, boundarySeries As Tensor,
                              times As Double()) As MetabolicTrajectory
-        Dim T = times.Length
+        ' 注意：VB 不区分大小写，标量不要命名为 T 以免与循环变量 t 冲突
+        Dim steps = times.Length
         Dim m = MetaboliteCount
         Dim r = ReactionCount
 
         If h0.Length <> m Then
             Throw New ArgumentException($"初始状态维度不匹配：期望 {m}，实际 {h0.Length}")
         End If
-        If enzymeSeries.Shape(0) <> T Then
-            Throw New ArgumentException($"酶序列长度 {enzymeSeries.Shape(0)} 与时间网格 {T} 不一致")
+        If enzymeSeries.Shape(0) <> steps Then
+            Throw New ArgumentException($"酶序列长度 {enzymeSeries.Shape(0)} 与时间网格 {steps} 不一致")
         End If
 
-        Dim conc = New Tensor(T, m)
-        Dim flux = New Tensor(T, r)
-        Dim tau = New Tensor(T, m)
+        Dim conc = New Tensor(steps, m)
+        Dim flux = New Tensor(steps, r)
+        Dim tau = New Tensor(steps, m)
 
         Dim cell = Liquid.LiquidLayer.Cells(0)
 
         Liquid.ResetState()
         cell.SetState(h0)
 
-        For t = 0 To T - 1
+        For t = 0 To steps - 1
             If t > 0 Then
                 Dim dt = times(t) - times(t - 1)
 
@@ -405,7 +406,7 @@ Public Class MetabolicLiquidNetwork
             Next
 
             ' 用当前时刻的驱动外推下一时刻
-            If t < T - 1 Then
+            If t < steps - 1 Then
                 Call Liquid.Forward(u, times(t + 1) - times(t))
             End If
         Next
