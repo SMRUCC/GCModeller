@@ -169,7 +169,7 @@ Module Program
     <Usage("/parse_apache --log <apache_access/error.log> [--save <save.csv>]")>
     Public Function ParseApacheLog(log As String, Optional save As String = Nothing, Optional args As CommandLine = Nothing) As Integer
         Dim logdata As HttpLogEntry() = HttpLogEntry.ParseApacheLogFile(log).ToArray
-        Dim save_csv As String = If(save, log.ChangeSuffix("csv"))
+        Dim save_csv As String = If(save, If(log.FileName.IndexOf("."c) < 0, log & ".csv", log.ChangeSuffix("csv")))
 
         Return logdata.SaveTo(save_csv).CLICode
     End Function
