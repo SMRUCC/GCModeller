@@ -281,8 +281,9 @@ Module Program
 
         Dim cfcTraj = cfcTrainer.Predict(h0, times, enzymeSeries, boundarySeries)
 
-        Console.WriteLine($"  LTC (RK4) : total loss={history(history.Count - 1).Total:F6}, RMSE={history(history.Count - 1).Total:F6}, 浓度 R²={traj.R2(observed):F4}")
-        Console.WriteLine($"  CfC (闭式): total loss={cfcHistory(cfcHistory.Count - 1).Total:F6}, 浓度 R²={cfcTraj.R2(observed):F4}, 训练耗时={sw.ElapsedMilliseconds} ms")
+        Console.WriteLine($"  LTC (RK4) : 训练 loss={history(history.Count - 1).Total:F6}, 自由运行浓度 RMSE={traj.RMSE(observed):F4}, R²={traj.R2(observed):F4}")
+        Console.WriteLine($"  CfC (闭式): 训练 loss={cfcHistory(cfcHistory.Count - 1).Total:F6}, 自由运行浓度 RMSE={cfcTraj.RMSE(observed):F4}, R²={cfcTraj.R2(observed):F4}")
+        Console.WriteLine($"  两者训练轮数与超参完全相同，CfC 训练耗时仅 {sw.ElapsedMilliseconds} ms（闭式解每步只需 1 次前向求值，RK4 需要 4 次）")
         Console.WriteLine()
         Console.WriteLine("  readme 建议：追求动力学可解释性用 LTC，追求推理速度用 CfC。")
         Console.WriteLine($"  结构化掩码下 CfC 的参数量与 LTC 相同（{cfcModel.GetParameterCount()}），但每步只需 1 次前向求值（RK4 需要 4 次）。")

@@ -412,12 +412,15 @@ Public Class MetabolicLiquidNetwork
             End If
 
             Dim u = BuildInput(RowOf(enzymeSeries, t), RowOf(boundarySeries, t))
-            Dim h = cell.State
+            Dim h = CType(cell.State.Clone(), Tensor)
+            ' 浓度必须经输出读出层 ĉ = W_out·h + b_out 才是"浓度空间"的量；
+            ' 直接把隐藏状态当作浓度会与训练时的监督目标不一致
+            Dim out = Liquid.ComputeOutputFrom(h)
             Dim v = ComputeFlux(h, u)
             Dim sysTau = cell.GetSystemTau(h, u)
 
             For i = 0 To m - 1
-                conc(t, i) = h(i)
+                conc(t, i) = out(i)
                 tau(t, i) = sysTau(i)
             Next
             For j = 0 To r - 1
