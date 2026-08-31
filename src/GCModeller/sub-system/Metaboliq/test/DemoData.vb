@@ -272,15 +272,15 @@ Public Module DemoData
 
         ' ---------- 场景矩阵 ----------
         Dim times = SampleTimes()
-        Dim T = times.Length
+        ' 注意：VB 不区分大小写，标量不要命名为 T 以免与循环变量 t 冲突
+        Dim steps = times.Length
         Dim mAll = graph.MetaboliteIds.Length
-        Dim mInt = graph.MetaboliteCount
         Dim r = graph.ReactionCount
         Dim idx = BuildIndex(graph.MetaboliteIds)
 
         ' 酶表达序列 (T × r)
-        Dim enzymes = New Tensor(T, r)
-        For t = 0 To T - 1
+        Dim enzymes = New Tensor(steps, r)
+        For t = 0 To steps - 1
             For j = 0 To r - 1
                 enzymes(t, j) = EnzymeProgram(j, times(t))
             Next
@@ -288,9 +288,9 @@ Public Module DemoData
 
         ' 边界代谢物浓度序列 (T × nB)
         Dim nB = graph.BoundaryCount
-        Dim boundarySeries = New Tensor(T, nB)
+        Dim boundarySeries = New Tensor(steps, nB)
 
-        For t = 0 To T - 1
+        For t = 0 To steps - 1
             For k = 0 To nB - 1
                 Dim id = graph.BoundaryIds(k)
 
@@ -316,15 +316,15 @@ Public Module DemoData
             c(i) = If(init.ContainsKey(graph.MetaboliteIds(i)), init(graph.MetaboliteIds(i)), 0.1)
         Next
 
-        Dim concAll = New Tensor(T, mAll)
-        Dim fluxAll = New Tensor(T, r)
+        Dim concAll = New Tensor(steps, mAll)
+        Dim fluxAll = New Tensor(steps, r)
 
         ' 记录 t=0
         Call Snapshot(c, idx, graph, enzymes, 0, times(0), concAll, fluxAll)
 
         Const fineDt As Double = 0.02
 
-        For t = 1 To T - 1
+        For t = 1 To steps - 1
             Dim tStart = times(t - 1)
             Dim tEnd = times(t)
             Dim span = tEnd - tStart
@@ -344,9 +344,9 @@ Public Module DemoData
         ' 代谢物 CSV 同时包含内部代谢物与胞外（边界）代谢物：
         ' 前者作为监督目标，后者作为网络的外部驱动输入。叠加 3% 乘性噪声模拟 LC-MS 测量误差。
         Dim rng As New Random(20260831)
-        Dim observed = New Tensor(T, mAll)
+        Dim observed = New Tensor(steps, mAll)
 
-        For t = 0 To T - 1
+        For t = 0 To steps - 1
             For i = 0 To mAll - 1
                 Dim truth = concAll(t, i)
                 Dim noise = 1.0 + 0.03 * Gauss(rng)

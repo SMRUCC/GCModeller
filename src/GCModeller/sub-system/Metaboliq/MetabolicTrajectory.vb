@@ -148,22 +148,22 @@ Public Class MetabolicTrajectory
     ''' </summary>
     Public Function R2(observed As Tensor) As Double
         Dim m = Concentrations.Shape(1)
-        Dim T = Concentrations.Shape(0)
+        Dim steps = Concentrations.Shape(0)
         Dim acc As Double = 0.0
         Dim counted As Integer = 0
 
         For j = 0 To m - 1
             Dim mean As Double = 0.0
 
-            For i = 0 To T - 1
+            For i = 0 To steps - 1
                 mean += observed(i, j)
             Next
-            mean /= T
+            mean /= steps
 
             Dim ssRes As Double = 0.0
             Dim ssTot As Double = 0.0
 
-            For i = 0 To T - 1
+            For i = 0 To steps - 1
                 Dim d = Concentrations(i, j) - observed(i, j)
                 ssRes += d * d
                 Dim dv = observed(i, j) - mean
@@ -185,13 +185,13 @@ Public Class MetabolicTrajectory
     ''' </summary>
     Public Function SteadyStateViolation(graph As MetabolicNetworkGraph) As Double
         Dim acc As Double = 0.0
-        Dim T = Fluxes.Shape(0)
+        Dim steps = Fluxes.Shape(0)
 
-        For t = 0 To T - 1
+        For t = 0 To steps - 1
             acc += graph.SteadyStateViolation(Row(Fluxes, t))
         Next
 
-        Return acc / std.Max(1, T)
+        Return acc / std.Max(1, steps)
     End Function
 
     Private Function Row(mat As Tensor, i As Integer) As Tensor

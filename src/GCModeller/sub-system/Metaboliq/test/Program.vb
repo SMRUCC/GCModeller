@@ -94,7 +94,7 @@ Module Program
         Dim fluxTruth = fluxTruthRaw.Reorder(graph.ReactionIds)
 
         Dim times = metabolome.Times
-        Dim T = times.Length
+        Dim steps = times.Length
         Dim h0 = Row(observed, 0)
 
         ' ==================================================================
@@ -166,18 +166,18 @@ Module Program
 
         Console.WriteLine()
         Console.WriteLine("  反应通量（末时刻，按大小排序前 12 条）：")
-        Call PrintFluxes(traj, T - 1, 12)
+        Call PrintFluxes(traj, steps - 1, 12)
 
         Console.WriteLine()
         Console.WriteLine("  液态时间常数 τ^sys（可解释性输出，末时刻，最小的 8 个 = 响应最快的代谢物）：")
-        Call PrintTau(traj, T - 1, 8)
+        Call PrintTau(traj, steps - 1, 8)
 
         ' ==================================================================
         ' 阶段 8：敲除呼吸链 → 有氧/无氧代谢重编程外推
         ' ==================================================================
         Call Banner("阶段 8 / 8  扰动外推：敲除呼吸链反应")
 
-        Dim last = T - 1
+        Dim last = steps - 1
 
         ' 野生型基线
         model.ResetPerturbation()
