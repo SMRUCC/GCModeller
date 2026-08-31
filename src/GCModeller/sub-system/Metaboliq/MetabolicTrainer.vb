@@ -49,7 +49,7 @@ Public Class MetabolicTrainerConfig
 End Class
 
 ''' <summary>
-''' 单轮训练的四路损失分解
+''' 单轮（或一次评估）的四路损失分解
 ''' </summary>
 Public Class EpochLoss
 
@@ -89,8 +89,6 @@ Public Class AdamOptimizer
     ''' <summary>
     ''' 按梯度配对列表做一步 Adam 更新
     ''' </summary>
-    ''' <param name="pairs">参数-梯度配对</param>
-    ''' <param name="learningRateScale">学习率缩放（用于预热）</param>
     Public Sub [Step](pairs As IEnumerable(Of ParameterPair), Optional learningRateScale As Double = 1.0)
         _t += 1
 
@@ -227,6 +225,11 @@ Public Class MetabolicTrainer
         _nAll = model.Graph.MetaboliteIds.Length
     End Sub
 
+    ''' <summary>模型全部可训练参数的 (名称, 参数, 梯度) 配对</summary>
+    Public Function GetAllParameterPairs() As List(Of ParameterPair)
+        Return Model.Liquid.GetParameterPairs().Concat(Model.GetFluxHeadPairs()).ToList()
+    End Function
+
 #Region "训练"
 
     ''' <summary>
@@ -240,17 +243,15 @@ Public Class MetabolicTrainer
     ''' <returns>逐轮损失分解</returns>
     Public Function Fit(times As Double(), observed As Tensor, enzymeSeries As Tensor,
                         boundarySeries As Tensor, Optional observedFlux As Tensor = Nothing) As List(Of EpochLoss)
+        ValidateShapes(times, observed, enzymeSeries, boundarySeries)
+
         Dim T = times.Length
-        Dim history As New List(Of EpochLoss)()
-
-        If observed.Shape(0) <> T OrElse observed.Shape(1) <> _m Then
-            Throw New ArgumentException($"观测浓度形状应为 ({T}, {_m})，实际为 ({observed.Shape(0)}, {observed.Shape(1)})")
-        End If
-
         Dim h0 = Row(observed, 0)
+        Dim history As New List(Of EpochLoss)()
 
         For epoch = 1 To Config.Epochs
             Dim loss = TrainEpoch(times, observed, enzymeSeries, boundarySeries, observedFlux, h0, epoch)
+
             history.Add(loss)
 
             If Config.Verbose AndAlso (epoch Mod Config.LogEvery = 0 OrElse epoch = 1) Then
@@ -261,20 +262,82 @@ Public Class MetabolicTrainer
         Return history
     End Function
 
-    Private Function TrainEpoch(times As Double(), observed As Tensor, enzymeSeries As Tensor,
-                                boundarySeries As Tensor, observedFlux As Tensor,
-                                h0 As Tensor, epoch As Integer) As EpochLoss
+    ''' <summary>
+    ''' 跑一个 epoch。
+    ''' </summary>
+    ''' <param name="keepGradients">
+    ''' 为 True 时只累积梯度、不做参数更新也不清零梯度（供梯度校验使用）
+    ''' </param>
+    Public Function TrainEpoch(times As Double(), observed As Tensor, enzymeSeries As Tensor,
+                               boundarySeries As Tensor, observedFlux As Tensor, h0 As Tensor,
+                               epoch As Integer, Optional keepGradients As Boolean = False) As EpochLoss
+        ' teacher forcing 概率随训练进程线性衰减
+        Dim progress = std.Min(1.0, (epoch - 1) / std.Max(1.0, Config.Epochs - 1))
+        Dim tfProb = Config.TeacherForcingStart + (Config.TeacherForcingEnd - Config.TeacherForcingStart) * progress
+
+        Dim trace = ForwardPass(times, observed, enzymeSeries, boundarySeries, observedFlux, h0, tfProb)
+
+        If keepGradients Then
+            Call BackwardPass(trace, times, observed, observedFlux)
+            Return trace.Loss
+        End If
+
+        Call BackwardPass(trace, times, observed, observedFlux)
+        Call ApplyGradients(epoch, trace.Loss)
+
+        Return trace.Loss
+    End Function
+
+    ''' <summary>
+    ''' 只做前向，返回四路损失（不产生梯度、不更新参数）
+    ''' </summary>
+    Public Function Evaluate(times As Double(), observed As Tensor, enzymeSeries As Tensor,
+                             boundarySeries As Tensor, Optional observedFlux As Tensor = Nothing) As EpochLoss
+        ValidateShapes(times, observed, enzymeSeries, boundarySeries)
+
+        Dim h0 = Row(observed, 0)
+        Dim trace = ForwardPass(times, observed, enzymeSeries, boundarySeries, observedFlux, h0, 0.0)
+
+        Return trace.Loss
+    End Function
+
+    Private Sub ValidateShapes(times As Double(), observed As Tensor,
+                               enzymeSeries As Tensor, boundarySeries As Tensor)
+        Dim T = times.Length
+
+        If observed.Shape(0) <> T OrElse observed.Shape(1) <> _m Then
+            Throw New ArgumentException($"观测浓度形状应为 ({T}, {_m})，实际为 ({observed.Shape(0)}, {observed.Shape(1)})")
+        End If
+        If enzymeSeries.Shape(0) <> T OrElse enzymeSeries.Shape(1) <> _r Then
+            Throw New ArgumentException($"酶序列形状应为 ({T}, {_r})，实际为 ({enzymeSeries.Shape(0)}, {enzymeSeries.Shape(1)})")
+        End If
+        If boundarySeries.Shape(0) <> T Then
+            Throw New ArgumentException($"边界序列长度应为 {T}，实际为 {boundarySeries.Shape(0)}")
+        End If
+    End Sub
+
+#End Region
+
+#Region "前向"
+
+    ''' <summary>一次前向的逐步缓存</summary>
+    Private Class ForwardTrace
+        Public hTrace As Tensor()
+        Public outTrace As Tensor()
+        Public uTrace As Tensor()
+        Public vTrace As Tensor()
+        Public Loss As EpochLoss
+    End Class
+
+    Private Function ForwardPass(times As Double(), observed As Tensor, enzymeSeries As Tensor,
+                                 boundarySeries As Tensor, observedFlux As Tensor,
+                                 h0 As Tensor, tfProb As Double) As ForwardTrace
         Dim T = times.Length
         Dim liquid = Model.Liquid
         Dim cell = liquid.LiquidLayer.Cells(0)
         Dim m = _m
         Dim r = _r
 
-        ' teacher forcing 概率线性衰减
-        Dim progress = std.Min(1.0, (epoch - 1) / std.Max(1.0, Config.Epochs - 1))
-        Dim tfProb = Config.TeacherForcingStart + (Config.TeacherForcingEnd - Config.TeacherForcingStart) * progress
-
-        ' ---------- 前向 ----------
         liquid.ResetState()
         liquid.Training = True
         cell.SetState(h0)
@@ -283,7 +346,6 @@ Public Class MetabolicTrainer
         Dim outTrace(T - 1) As Tensor
         Dim uTrace(T - 1) As Tensor
         Dim vTrace(T - 1) As Tensor
-        Dim missCount As Integer = 0
 
         Dim lData As Double = 0.0, lMass As Double = 0.0, lThermo As Double = 0.0, lFlux As Double = 0.0
 
@@ -298,41 +360,38 @@ Public Class MetabolicTrainer
             outTrace(t) = out
             vTrace(t) = v
 
-            ' ---- 浓度拟合项 ----
+            ' ---- (1) 浓度拟合项 ----
             Dim obs = Row(observed, t)
             Dim cnt As Integer = 0
             Dim sq As Double = 0.0
 
             For i = 0 To m - 1
-                If Double.IsNaN(obs(i)) Then
-                    missCount += 1
-                    Continue For
-                End If
+                If Double.IsNaN(obs(i)) Then Continue For
                 Dim d = out(i) - obs(i)
                 sq += d * d
                 cnt += 1
             Next
 
-            lData += sq / std.Max(1, cnt)
+            lData += Config.LambdaData * sq / std.Max(1, cnt)
 
-            ' ---- 质量守恒项 ----
+            ' ---- (2) 质量守恒项 ‖S·v‖² ----
             Dim residual = Model.Graph.SteadyStateResidual(v)
             Dim rsq As Double = 0.0
+
             For i = 0 To _nAll - 1
                 rsq += residual(i) * residual(i)
             Next
+
             lMass += Config.LambdaMass * rsq / _nAll
 
-            ' ---- 热力学方向性 + 通量监督 ----
-            Dim fluxObs As Tensor = Nothing
-            If observedFlux IsNot Nothing Then
-                fluxObs = Row(observedFlux, t)
-            End If
+            ' ---- (3) 热力学方向性 + (4) 通量监督 ----
+            Dim fluxObs As Tensor = If(observedFlux IsNot Nothing, Row(observedFlux, t), Nothing)
 
             For j = 0 To r - 1
                 If Not Model.Graph.Reversible(j) AndAlso v(j) < 0 Then
                     lThermo += Config.LambdaThermo * v(j) * v(j) / r
                 End If
+
                 If fluxObs IsNot Nothing AndAlso Not Double.IsNaN(fluxObs(j)) Then
                     Dim df = v(j) - fluxObs(j)
                     lFlux += Config.LambdaFlux * df * df / r
@@ -344,36 +403,64 @@ Public Class MetabolicTrainer
                 If tfProb > 0 AndAlso _rng.NextDouble() < tfProb Then
                     cell.SetState(Row(observed, t))
                 End If
+
                 Call liquid.Forward(u, times(t + 1) - times(t))
             End If
         Next
 
-        ' ---------- 反向（逆时间序 BPTT） ----------
+        liquid.Training = False
+
+        Return New ForwardTrace With {
+            .hTrace = hTrace,
+            .outTrace = outTrace,
+            .uTrace = uTrace,
+            .vTrace = vTrace,
+            .Loss = New EpochLoss With {
+                .Data = lData / T,
+                .Mass = lMass / T,
+                .Thermo = lThermo / T,
+                .Flux = lFlux / T
+            }
+        }
+    End Function
+
+#End Region
+
+#Region "反向"
+
+    Private Sub BackwardPass(trace As ForwardTrace, times As Double(),
+                             observed As Tensor, observedFlux As Tensor)
+        Dim T = times.Length
+        Dim liquid = Model.Liquid
+        Dim m = _m
+        Dim r = _r
+
         For t = T - 1 To 0 Step -1
             Dim obs = Row(observed, t)
 
-            ' (1) 浓度拟合项对输出的梯度
-            Dim dOut = New Tensor(m)
+            ' ---------- (1) 浓度拟合项 ----------
             Dim cnt As Integer = 0
+
             For i = 0 To m - 1
-                If Double.IsNaN(obs(i)) Then Continue For
-                cnt += 1
+                If Not Double.IsNaN(obs(i)) Then cnt += 1
             Next
+
             Dim scale = Config.LambdaData * 2.0 / (std.Max(1, cnt) * T)
+            Dim dOut = New Tensor(m)
 
             For i = 0 To m - 1
                 If Double.IsNaN(obs(i)) Then
                     dOut(i) = 0.0
                 Else
-                    dOut(i) = scale * (outTrace(t)(i) - obs(i))
+                    dOut(i) = scale * (trace.outTrace(t)(i) - obs(i))
                 End If
             Next
 
-            Dim adjH = liquid.BackwardOutput(dOut, hTrace(t), outTrace(t))
+            Dim adjH = liquid.BackwardOutput(dOut, trace.hTrace(t), trace.outTrace(t))
 
-            ' (2) 通量相关项对通量的梯度
+            ' ---------- (2)(3)(4) 通量相关的三项 ----------
             Dim adjV = New Tensor(r)
-            Dim v = vTrace(t)
+            Dim v = trace.vTrace(t)
 
             If Config.LambdaMass > 0 Then
                 Dim residual = Model.Graph.SteadyStateResidual(v)
@@ -403,32 +490,24 @@ Public Class MetabolicTrainer
                 Next
             End If
 
-            Dim adjHFlux = Model.FluxBackward(adjV, hTrace(t), uTrace(t))
+            Dim adjHFlux = Model.FluxBackward(adjV, trace.hTrace(t), trace.uTrace(t))
 
             For i = 0 To m - 1
                 adjH(i) += adjHFlux(i)
             Next
 
-            ' (3) 回传液态层（t=0 没有对应的前向步记录）
+            ' ---------- 回传液态层（t = 0 没有对应的前向步记录） ----------
             If t >= 1 Then
                 Call liquid.BackwardLiquid(adjH)
             End If
         Next
-
-        liquid.Training = False
-
-        ' ---------- 更新 ----------
-        Return ApplyGradients(epoch, lData / T, lMass / T, lThermo / T, lFlux / T)
-    End Function
+    End Sub
 
     ''' <summary>
     ''' 全局梯度裁剪 → Adam 更新 LNN 与通量头 → 清零梯度 → 重新施加结构化掩码
     ''' </summary>
-    Private Function ApplyGradients(epoch As Integer, data As Double, mass As Double,
-                                    thermo As Double, flux As Double) As EpochLoss
-        Dim headPairs = Model.GetFluxHeadPairs()
-        Dim lnnPairs = Model.Liquid.GetParameterPairs()
-        Dim allPairs = lnnPairs.Concat(headPairs).ToList()
+    Private Sub ApplyGradients(epoch As Integer, loss As EpochLoss)
+        Dim allPairs = GetAllParameterPairs()
 
         If AdamOptimizer.HasNonFinite(allPairs) Then
             ' 数值故障：丢弃本轮梯度，避免把参数推到不可恢复的区域
@@ -436,10 +515,10 @@ Public Class MetabolicTrainer
                 Console.WriteLine($"epoch {epoch}: 检测到非有限梯度，跳过本轮更新")
             End If
 
-            Model.Liquid.ZeroGradients()
-            Model.ZeroFluxGradients()
+            Call Model.Liquid.ZeroGradients()
+            Call Model.ZeroFluxGradients()
 
-            Return New EpochLoss With {.Epoch = epoch, .Data = data, .Mass = mass, .Thermo = thermo, .Flux = flux}
+            Exit Sub
         End If
 
         Call AdamOptimizer.ClipGlobal(allPairs, Config.GradientClip)
@@ -451,13 +530,11 @@ Public Class MetabolicTrainer
         Call _lnnTrainer.Step()
 
         _adam.LearningRate = Config.LearningRate
-        Call _adam.Step(headPairs, warmup)
+        Call _adam.Step(Model.GetFluxHeadPairs(), warmup)
 
         Call Model.ZeroFluxGradients()
         Call Model.ApplyStructuralMasks()
-
-        Return New EpochLoss With {.Epoch = epoch, .Data = data, .Mass = mass, .Thermo = thermo, .Flux = flux}
-    End Function
+    End Sub
 
 #End Region
 
@@ -473,12 +550,12 @@ Public Class MetabolicTrainer
 
 #End Region
 
-    Private Function Row(mat As Tensor, r As Integer) As Tensor
+    Private Function Row(mat As Tensor, rowIndex As Integer) As Tensor
         Dim width = mat.Shape(1)
         Dim v = New Tensor(width)
 
         For j = 0 To width - 1
-            v(j) = mat(r, j)
+            v(j) = mat(rowIndex, j)
         Next
 
         Return v
