@@ -145,6 +145,7 @@ Module miRNA
 
         If mirnaSeqs.IsNullOrEmpty AndAlso CLRVector.asCharacter(mirna).FirstOrDefault.FileExists Then
             mirnaFile = CLRVector.asCharacter(mirna).First
+            workTmp = mirnaFile.ParentPath & "/" & mirnaFile.BaseName & "-miRNA-blastn.txt"
         Else
             mirnaFile = TempFileSystem.GetAppSysTempFile(".fa", sessionID:=App.PID, prefix:="miRNA_")
             FastaFile.SaveData(mirnaSeqs, mirnaFile, encoding:=Encodings.ASCII)
@@ -152,6 +153,7 @@ Module miRNA
         If geneSeqs Is Nothing AndAlso CLRVector.asCharacter(geneset).FirstOrDefault.FileExists Then
             ' is file path
             targetFile = CLRVector.asCharacter(geneset).First
+            workTmp = targetFile.ParentPath & "/" & targetFile.BaseName & "-miRNA-blastn.txt"
         Else
             targetFile = TempFileSystem.GetAppSysTempFile(".fa", sessionID:=App.PID, prefix:="TargetGenes_")
             FastaFile.SaveData(geneSeqs, targetFile, encoding:=Encodings.ASCII)
