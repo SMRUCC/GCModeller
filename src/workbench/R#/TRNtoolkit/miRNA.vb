@@ -119,7 +119,7 @@ Module miRNA
         Call df.add("mismatch", From h As siRNAHit In hits Select h.MismatchCount)
         Call df.add("wobble", From h As siRNAHit In hits Select h.WobbleCount)
         Call df.add("gaps", From h As siRNAHit In hits Select h.GapCount)
-        Call df.add("alignment", From h As siRNAHit In hits Select h.Alignment)
+        Call df.add("alignment", From h As siRNAHit In hits Select h.Alignment.LineTokens.JoinBy(" ~ "))
         Call df.add("translation_inhibition", From h As siRNAHit In hits Select h.TranslationInhibition)
         Call df.add("source", From h As siRNAHit In hits Select h.Source)
 
