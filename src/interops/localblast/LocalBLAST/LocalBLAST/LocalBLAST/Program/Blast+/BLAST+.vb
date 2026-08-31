@@ -144,7 +144,7 @@ Namespace LocalBLAST.Programs
         End Function
 
         Public Function BlastnCustom(input As String, db As String, output As String, args As String) As IORedirect
-            Dim cmdl As String = $"-query {input.CLIPath} -subject {db.CLIPath} -out {output.CLIPath} {args}"
+            Dim cmdl As String = $"-query {input.CLIPath} -db {db.CLIPath} -out {output.CLIPath} {args}"
 
             Call output.ParentPath.MakeDir
             Call SetLastOutputFile(output)

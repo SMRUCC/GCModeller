@@ -135,6 +135,7 @@ Module miRNA
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("mirna_blastn")>
+    <RApiReturn(GetType(BlastnMapTable))>
     Public Function mirna_blastn(<RRawVectorArgument(GetType(FastaSeq))> mirna As Object, <RRawVectorArgument> geneset As Object, Optional ncbi_blast As String = Nothing, Optional env As Environment = Nothing) As Object
         Dim mirnaSeqs = GetFastaSeq(mirna, env, allowString:=True).SafeQuery.ToArray
         Dim geneSeqs = GetFastaSeq(geneset, env, allowString:=False)
@@ -172,7 +173,7 @@ Module miRNA
 
         Dim blast As New BLASTPlus(ncbi_blast) With {.NumThreads = 16}
 
-        Call blast.FormatDb(mirnaFile, "nucl").Run()
+        Call blast.FormatDb(targetFile, "nucl").Run()
         Call blast.BlastnCustom(
             mirnaFile, targetFile,
             output:=workTmp,

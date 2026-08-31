@@ -78,7 +78,7 @@ declare namespace miRNA {
      * 
      * + default value Is ``null``.
    */
-   function mirna_blastn(mirna: any, geneset: any, ncbi_blast?: string, env?: object): any;
+   function mirna_blastn(mirna: any, geneset: any, ncbi_blast?: string, env?: object): object;
    /**
     * make matches of the miRNA target genes
     * 
