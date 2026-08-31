@@ -806,6 +806,92 @@
     "ECNumbers": []
   },
   {
+    "id": "PPC",
+    "name": "phosphoenolpyruvate carboxylase",
+    "description": "phosphoenolpyruvate carboxylase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "pep",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "co2_e",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "oaa",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "pi",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "FRD",
+    "name": "fumarate reductase",
+    "description": "fumarate reductase",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "fum",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "q8h2",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "succ",
+        "Compartment": null
+      },
+      {
+        "Stoichiometry": 1,
+        "ID": "q8",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
+    "id": "SUCT",
+    "name": "succinate exporter",
+    "description": "succinate exporter",
+    "left": [
+      {
+        "Stoichiometry": 1,
+        "ID": "succ",
+        "Compartment": null
+      }
+    ],
+    "right": [
+      {
+        "Stoichiometry": 1,
+        "ID": "succ_e",
+        "Compartment": null
+      }
+    ],
+    "is_reversible": false,
+    "is_spontaneous": false,
+    "ECNumbers": []
+  },
+  {
     "id": "NDH1",
     "name": "NADH dehydrogenase",
     "description": "NADH dehydrogenase",

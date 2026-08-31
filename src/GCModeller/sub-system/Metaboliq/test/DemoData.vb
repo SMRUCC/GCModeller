@@ -11,14 +11,16 @@ Imports std = System.Math
 ''' Demo 模拟数据的生成器
 ''' </summary>
 ''' <remarks>
-''' 构建一个把 <c>糖酵解 + TCA 循环 + 有氧呼吸链（ETC / 氧化磷酸化）+ 无氧呼吸（乳酸发酵、乙醇发酵）</c>
-''' 整合在一起的中心碳代谢网络（31 个内部代谢物、7 个边界代谢物、33 条反应），
+''' 构建一个把 <c>糖酵解 + TCA 循环 + 有氧呼吸链（ETC / 氧化磷酸化）+ 无氧呼吸
+''' （乳酸发酵、乙醇发酵、以延胡索酸为末端电子受体的还原支路与琥珀酸外排）</c>
+''' 整合在一起的中心碳代谢网络（31 个内部代谢物、8 个边界代谢物、35 条反应），
 ''' 用米氏动力学的真值模型做 RK4 积分，产出：
 ''' <list type="bullet">
 ''' <item><description><c>network.json</c>：<see cref="MetabolicReaction"/> 数组</description></item>
 ''' <item><description><c>metabolites_timeseries.csv</c>：代谢物浓度时序（行=代谢物，列=时间点）</description></item>
 ''' <item><description><c>enzymes_timeseries.csv</c>：酶/基因表达时序（行=反应 id，列=时间点）</description></item>
 ''' <item><description><c>fluxes_truth.csv</c>：真值反应通量（用于 λ3 通量监督与结果验证）</description></item>
+''' <item><description><c>keq_truth.csv</c>：各反应的平衡常数（λ2 热力学可行性项所需的先验）</description></item>
 ''' </list>
 ''' 场景设计：体系从好氧状态启动，在 t≈50 处溶氧被耗尽（o2_e 由 0.25 平滑降到 0），
 ''' 从而触发"有氧呼吸 → 无氧发酵"的代谢重编程——这正是 LNN 需要复现的动态。
@@ -75,6 +77,13 @@ Public Module DemoData
         list.Add(Rxn("MDH", "malate dehydrogenase", {"mal", "nad"}, {"oaa", "nadh"}, rev:=True))
         list.Add(Rxn("ME1", "malic enzyme", {"mal", "nad"}, {"pyr", "co2_e", "nadh"}))
 
+        ' ---------------- 回补反应 (Anaplerotic) ----------------
+        ' PEP 羧化酶：把糖酵解的 PEP 回补进 C4 池（oaa）。
+        ' 这是 E. coli 在厌氧下维持 C4 代谢物的必需反应——没有它，
+        ' oaa/mal/fum/succ 会被 CS 与 ME1 抽干，还原支路（FRD）将无底物可用，
+        ' 同时 PEP 会因 PYK 达到 Vmax 上限而堆积到不切实际的浓度。
+        list.Add(Rxn("PPC", "phosphoenolpyruvate carboxylase", {"pep", "co2_e"}, {"oaa", "pi"}))
+
         ' ---------------- 无氧呼吸的还原支路 (Anaerobic respiration) ----------------
         ' 富马酸还原酶：以延胡索酸替代 O2 作为末端电子受体，厌氧下把 q8h2 重新氧化为 q8。
         ' 它与 SDH 恰好反向，二者构成教科书式的「SDH / FRD 无效循环」。
@@ -126,17 +135,21 @@ Public Module DemoData
     ''' <summary>
     ''' 每条反应的最大反应速率。
     ''' 经典近平衡步骤（PGI/FBA/TPI/PGM/ENO/ACONTa/FUM 等）取较高的 Vmax，
-    ''' 使其不至于成为瓶颈；真正限速的是 HEX1、PFK、PYK 这类不可逆步骤。
+    ''' 使其不至于成为瓶颈；真正限速的是 HEX1、PFK 这类不可逆步骤。
+    ''' PYK 也取高容量：它是厌氧下底物水平磷酸化的主要 ATP 来源，
+    ''' Vmax 过低会让 PEP 在 ENO 下游堆积到不切实际的浓度并拖垮 ATP 平衡。
+    ''' 发酵脱氢酶（LDH_L / ADH）同样取高容量：厌氧下它们是唯一的 NADH 再氧化途径，
+    ''' 容量不足会把 NAD 池完全还原（nad → 0.01），抑制 GAPD 并拖垮糖酵解与 ATP。
     ''' </summary>
     Private ReadOnly VmaxTable As New Dictionary(Of String, Double) From {
         {"HEX1", 1.0}, {"PGI", 6.0}, {"PFK", 1.2}, {"FBA", 6.0}, {"TPI", 8.0},
-        {"GAPD", 4.0}, {"PGK", 4.0}, {"PGM", 6.0}, {"ENO", 6.0}, {"PYK", 2.0},
-        {"LDH_L", 3.0}, {"LACt", 1.5}, {"PDC", 1.5}, {"ADH", 3.0}, {"ETOHt", 1.5},
+        {"GAPD", 4.0}, {"PGK", 4.0}, {"PGM", 6.0}, {"ENO", 6.0}, {"PYK", 6.0},
+        {"LDH_L", 4.0}, {"LACt", 2.0}, {"PDC", 1.5}, {"ADH", 4.0}, {"ETOHt", 2.0},
         {"PDH", 1.5}, {"PTAr", 0.6}, {"ACKr", 1.2}, {"ACt", 1.5},
         {"CS", 1.5}, {"ACONTa", 2.0}, {"ICDH", 1.0}, {"AKGDH", 1.0}, {"SUCOAS", 2.0},
         {"SDH", 1.5}, {"FUM", 2.0}, {"MDH", 2.0}, {"ME1", 0.1},
-        {"NDH1", 2.5}, {"CYTBO3", 2.0}, {"ATPS4r", 3.5}, {"ATPM", 0.25},
-        {"FRD", 1.5}, {"SUCT", 1.5},
+        {"NDH1", 2.5}, {"CYTBO3", 2.0}, {"ATPS4r", 3.5}, {"ATPM", 0.2},
+        {"FRD", 1.5}, {"SUCT", 1.5}, {"PPC", 0.8},
         {"PIt2r", 4.0}
     }
 
@@ -171,7 +184,9 @@ Public Module DemoData
             Case "acald"
                 Return 0.02
             Case "nad", "nadh"
-                Return 0.2
+                ' 吡啶核苷酸的 Km 取小值：真实 NAD/NADH 依赖酶的 Km 很低，
+                ' 取 0.2 会让厌氧下 nad 降到 0.03 时 GAPD 被严重抑制，进而拖垮糖酵解与 ATP 平衡
+                Return 0.05
             Case "atp", "adp", "pi", "pi_e"
                 Return 0.5
             Case "o2_e"
@@ -183,6 +198,11 @@ Public Module DemoData
             Case Else
                 Return 0.3
         End Select
+    End Function
+
+    ''' <summary>变构抑制常数（代谢物特异，缺省 0.5）</summary>
+    Private Function KiOf(id As String) As Double
+        Return 0.5
     End Function
 
     Private Function Sat(c As Double, K As Double) As Double
@@ -210,10 +230,15 @@ Public Module DemoData
             forward *= Sat(c(idx(sp.ID)), KmOf(sp.ID))
         Next
 
-        ' 特殊耦合：ATP 合成酶受电子传递链与溶氧驱动
+        ' 特殊耦合
         Select Case rxn.id
             Case "ATPS4r"
+                ' ATP 合成酶受电子传递链与溶氧驱动
                 forward *= Sat(c(idx("q8h2")), KmOf("q8h2")) * Sat(c(idx("o2_e")), KmOf("o2_e"))
+            Case "PPC"
+                ' PEP 羧化酶受产物 oaa 的反馈抑制（真实存在的变构调控）。
+                ' 没有这个抑制时，厌氧下 CS 因缺少 accoa 而无法消耗 oaa，C4 池会无界累积。
+                forward *= 1.0 / (1.0 + c(idx("oaa")) / KiOf("oaa"))
         End Select
 
         If Not rxn.is_reversible Then
@@ -415,8 +440,26 @@ Public Module DemoData
         Call MetabolicDataIO.SaveCsv(enzymePath, graph.ReactionIds, ColumnNames(times), Transpose(enzymes))
         Call MetabolicDataIO.SaveCsv(fluxPath, graph.ReactionIds, ColumnNames(times), Transpose(fluxAll))
 
-        Return {networkPath, metabolitePath, enzymePath, fluxPath}
+        Return {networkPath, metabolitePath, enzymePath, fluxPath, keqPath}
     End Function
+
+    ''' <summary>
+    ''' 导出各反应的平衡常数（热力学先验）：
+    ''' 可逆反应写真值，不可逆反应写"有效大值"（其真值速率律没有反向项 ⇒ Keq 视为 ∞）。
+    ''' </summary>
+    Private Sub SaveKeqCsv(path As String, graph As MetabolicNetworkGraph)
+        Dim sb As New StringBuilder()
+
+        sb.AppendLine("ID,Keq")
+
+        For j = 0 To graph.ReactionCount - 1
+            Dim keq = If(graph.Reversible(j), KeqOf(graph.ReactionIds(j)), EffectiveKeqIrreversible)
+
+            sb.AppendLine($"{graph.ReactionIds(j)},{keq.ToString(CultureInfo.InvariantCulture)}")
+        Next
+
+        File.WriteAllText(path, sb.ToString(), Encoding.UTF8)
+    End Sub
 
     Private Function BuildIndex(ids As String()) As Dictionary(Of String, Integer)
         Dim map As New Dictionary(Of String, Integer)()
