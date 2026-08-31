@@ -82,7 +82,14 @@ Module siRNADemo
         Return cond
     End Function
 
-    Sub Main()
+    Sub blastnFilterTest()
+        Dim blastn = BlastnMapTable.Parse("N:\project\20260831-miRNA\RM271-miRNA-blastn.txt".Open(IO.FileMode.Open, doClear:=False, [readOnly]:=True)).ToArray
+        Dim result = BlastFilterMiRNATargets.BlastnFilter(blastn).ToArray
+
+
+    End Sub
+
+    Sub ssearchTest()
         Console.WriteLine("=== siRNA target prediction demo (miR-Demo1) ===")
         Console.WriteLine($"miRNA: {MIR}  (reverse-complement target site)")
         Console.WriteLine($"miRNA rev-comp: {MIR.ReverseComplementRNA()}")
@@ -148,6 +155,11 @@ Module siRNADemo
 
         Console.WriteLine()
         Console.WriteLine(If(ok, "ALL ASSERTIONS PASSED", "SOME ASSERTIONS FAILED"))
+    End Sub
+
+    Sub Main()
+        Call blastnFilterTest()
+        Call ssearchTest()
     End Sub
 End Module
 
