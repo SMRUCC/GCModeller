@@ -290,7 +290,7 @@ Public Class MetabolicTrainer
         For t = 0 To T - 1
             Dim u = Model.BuildInput(Row(enzymeSeries, t), Row(boundarySeries, t))
             Dim h = CType(cell.State.Clone(), Tensor)
-            Dim out = liquid.ComputeOutputPublic(h)
+            Dim out = liquid.ComputeOutputFrom(h)
             Dim v = Model.ComputeFlux(h, u)
 
             uTrace(t) = u
