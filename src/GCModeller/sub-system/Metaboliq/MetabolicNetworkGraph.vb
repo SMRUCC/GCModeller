@@ -240,7 +240,7 @@ Public Class MetabolicNetworkGraph
     ''' </summary>
     Private Function BuildAdjacency() As Tensor
         Dim m = InternalIds.Length
-        Dim A = New Tensor(m, m)
+        Dim adj = New Tensor(m, m)
         ' 邻居集合：代谢物 -&gt; 与之共现的代谢物
         Dim coOccur = New List(Of HashSet(Of Integer))(m)
 
@@ -258,20 +258,20 @@ Public Class MetabolicNetworkGraph
                 End If
             Next
 
-            For a = 0 To involved.Count - 1
-                For b = 0 To involved.Count - 1
-                    coOccur(involved(a)).Add(involved(b))
+            For x = 0 To involved.Count - 1
+                For y = 0 To involved.Count - 1
+                    coOccur(involved(x)).Add(involved(y))
                 Next
             Next
         Next
 
         For i = 0 To m - 1
             For Each j In coOccur(i)
-                A(i, j) = 1.0
+                adj(i, j) = 1.0
             Next
         Next
 
-        Return A
+        Return adj
     End Function
 
     ''' <summary>
