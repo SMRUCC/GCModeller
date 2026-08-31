@@ -116,17 +116,31 @@ Public Module DemoData
 
 #Region "真值动力学"
 
-    ''' <summary>每条反应的最大反应速率</summary>
+    ''' <summary>
+    ''' 每条反应的最大反应速率。
+    ''' 经典近平衡步骤（PGI/FBA/TPI/PGM/ENO/ACONTa/FUM 等）取较高的 Vmax，
+    ''' 使其不至于成为瓶颈；真正限速的是 HEX1、PFK、PYK 这类不可逆步骤。
+    ''' </summary>
     Private ReadOnly VmaxTable As New Dictionary(Of String, Double) From {
-        {"HEX1", 1.0}, {"PGI", 2.0}, {"PFK", 1.2}, {"FBA", 2.0}, {"TPI", 3.0},
-        {"GAPD", 2.5}, {"PGK", 2.5}, {"PGM", 2.5}, {"ENO", 2.5}, {"PYK", 1.5},
-        {"LDH_L", 1.0}, {"LACt", 0.8}, {"PDC", 0.6}, {"ADH", 1.0}, {"ETOHt", 0.8},
-        {"PDH", 1.2}, {"PTAr", 1.0}, {"ACKr", 1.0}, {"ACt", 0.8},
-        {"CS", 1.5}, {"ACONTa", 2.0}, {"ICDH", 1.5}, {"AKGDH", 1.5}, {"SUCOAS", 2.0},
-        {"SDH", 1.2}, {"FUM", 2.0}, {"MDH", 2.0}, {"ME1", 0.4},
-        {"NDH1", 2.0}, {"CYTBO3", 2.0}, {"ATPS4r", 2.5}, {"ATPM", 0.5},
-        {"PIt2r", 2.0}
+        {"HEX1", 1.0}, {"PGI", 6.0}, {"PFK", 1.2}, {"FBA", 6.0}, {"TPI", 8.0},
+        {"GAPD", 4.0}, {"PGK", 4.0}, {"PGM", 6.0}, {"ENO", 6.0}, {"PYK", 2.0},
+        {"LDH_L", 1.2}, {"LACt", 1.0}, {"PDC", 0.8}, {"ADH", 1.2}, {"ETOHt", 1.0},
+        {"PDH", 1.2}, {"PTAr", 3.0}, {"ACKr", 1.2}, {"ACt", 1.0},
+        {"CS", 1.5}, {"ACONTa", 6.0}, {"ICDH", 1.5}, {"AKGDH", 1.5}, {"SUCOAS", 4.0},
+        {"SDH", 1.5}, {"FUM", 6.0}, {"MDH", 4.0}, {"ME1", 0.4},
+        {"NDH1", 2.5}, {"CYTBO3", 2.0}, {"ATPS4r", 3.5}, {"ATPM", 0.3},
+        {"PIt2r", 4.0}
     }
+
+    ''' <summary>
+    ''' 可逆反应的平衡常数。
+    ''' 取 10 表示平衡强烈偏向产物，避免出现耗尽 ATP 的倒流；
+    ''' 磷酸盐交换反应取 1，使其把胞内 Pi 缓冲在与胞外相当的水平。
+    ''' </summary>
+    Private Function KeqOf(reactionId As String) As Double
+        If reactionId = "PIt2r" Then Return 1.0
+        Return 10.0
+    End Function
 
     ''' <summary>米氏常数（代谢物特异，缺省 0.3）</summary>
     Private Function KmOf(id As String) As Double
@@ -179,15 +193,13 @@ Public Module DemoData
             Return vmax * e * forward
         End If
 
-        ' 可逆反应：减去反向项，Keq=3 表示平衡偏向产物
+        ' 可逆反应：减去反向项
         Dim backward As Double = 1.0
         For Each sp In rxn.right
             backward *= Sat(c(idx(sp.ID)), KmOf(sp.ID))
         Next
 
-        Const Keq As Double = 3.0
-
-        Return vmax * e * (forward - backward / Keq)
+        Return vmax * e * (forward - backward / KeqOf(rxn.id))
     End Function
 
     ''' <summary>初始胞内代谢物浓度</summary>
@@ -428,7 +440,8 @@ Public Module DemoData
             c(i) += dt / 6.0 * (k1(i) + 2.0 * k2(i) + 2.0 * k3(i) + k4(i))
         Next
 
-        ' 边界代谢物由场景强制给定，不参与积分
+        ' 只有"输入型"边界代谢物由场景强制给定；
+        ' 输出型边界（co2_e / lac_e / etoh_e / ac_e）是产物汇，让它们自然累积
         For k = 0 To graph.BoundaryCount - 1
             Dim id = graph.BoundaryIds(k)
             Dim i = idx(id)
@@ -440,8 +453,6 @@ Public Module DemoData
                     c(i) = OxygenLevel(time + dt)
                 Case "pi_e"
                     c(i) = 1.0
-                Case Else
-                    c(i) = 0.0
             End Select
         Next
 
