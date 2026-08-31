@@ -26,7 +26,6 @@
     <ProjectReference Include="..\..\..\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj" />
     <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
-    <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 Imports System.Globalization
 Imports System.IO
 Imports System.Text
-Imports Metaboliq
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports SMRUCC.genomics.Analysis.Metaboliq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.MetabolicModel
 Imports std = System.Math
