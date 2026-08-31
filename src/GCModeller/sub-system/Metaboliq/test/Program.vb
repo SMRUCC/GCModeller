@@ -157,6 +157,8 @@ Module Program
         Console.WriteLine($"  训练后 loss     : {history(history.Count - 1)}")
         Console.WriteLine($"  训练耗时        : {sw.ElapsedMilliseconds} ms / {config.Epochs} epochs")
 
+        Dim ltcMs = sw.ElapsedMilliseconds
+
         ' ==================================================================
         ' 阶段 7：模拟输出（浓度 / 通量 / 液态时间常数）
         ' ==================================================================
@@ -235,10 +237,26 @@ Module Program
         Next
 
         Console.WriteLine()
-        Console.WriteLine("  解读：把溶氧钳制在好氧水平后敲除 CYTBO3（呼吸链终端氧化酶），")
-        Console.WriteLine("       电子传递链中断 → 氧化磷酸化通量下降、ATP 降低，碳流被迫转向")
-        Console.WriteLine("       乳酸/乙醇/乙酸发酵以再生 NAD⁺；该表型应当与「厌氧野生型」趋同，")
-        Console.WriteLine("       即模型复现了有氧 → 无氧的代谢重编程。")
+        Console.WriteLine("  敲除相对变化（相对好氧野生型）：")
+        Console.WriteLine($"  {"通量",-10}{"ΔCYTBO3",12}{"ΔATPS4r",12}{"厌氧WT",12}")
+        For Each r In {"CYTBO3", "ATPS4r", "LDH_L", "ACKr", "PDH", "CS", "NDH1"}
+            Dim j = graph.IndexOfReaction(r)
+            Dim base_ = aerobicWT.Fluxes(last, j)
+
+            Console.WriteLine($"  {r,-10}{Pct(aerobicKO.Fluxes(last, j), base_),12}" &
+                              $"{Pct(aerobicKOAtp.Fluxes(last, j), base_),12}" &
+                              $"{Pct(anaerobicWT.Fluxes(last, j), base_),12}")
+        Next
+
+        Console.WriteLine()
+        Console.WriteLine("  解读：")
+        Console.WriteLine("   1) 溶氧由好氧切换到厌氧（训练数据中存在的条件变化）时，模型给出清晰的")
+        Console.WriteLine("      代谢重编程：呼吸链 CYTBO3/NDH1 与 PDH/CS 通量大幅下降，")
+        Console.WriteLine("      乳酸与乙酸支路通量显著上升 —— 与真实的有氧→无氧切换一致。")
+        Console.WriteLine("   2) 单酶敲除（CYTBO3 / ATPS4r 设为 0）属于训练时从未见过的扰动，")
+        Console.WriteLine("      被敲除反应的通量会立刻归零，但下游重编程的幅度较弱。")
+        Console.WriteLine("      这正是 readme 提到的外推难点：若要让敲除响应同样可靠，")
+        Console.WriteLine("      需要在训练数据中纳入多条件（不同敲除株）的时序数据。")
 
         ' ==================================================================
         ' 评估与导出
@@ -283,7 +301,8 @@ Module Program
 
         Console.WriteLine($"  LTC (RK4) : 训练 loss={history(history.Count - 1).Total:F6}, 自由运行浓度 RMSE={traj.RMSE(observed):F4}, R²={traj.R2(observed):F4}")
         Console.WriteLine($"  CfC (闭式): 训练 loss={cfcHistory(cfcHistory.Count - 1).Total:F6}, 自由运行浓度 RMSE={cfcTraj.RMSE(observed):F4}, R²={cfcTraj.R2(observed):F4}")
-        Console.WriteLine($"  两者训练轮数与超参完全相同，CfC 训练耗时仅 {sw.ElapsedMilliseconds} ms（闭式解每步只需 1 次前向求值，RK4 需要 4 次）")
+        Console.WriteLine($"  两者训练轮数与超参完全相同：LTC 耗时 {ltcMs} ms，CfC 耗时 {sw.ElapsedMilliseconds} ms")
+        Console.WriteLine("  （CfC 用解析解替代数值积分，每步只需 1 次前向求值，RK4 需要 4 次）")
         Console.WriteLine()
         Console.WriteLine("  readme 建议：追求动力学可解释性用 LTC，追求推理速度用 CfC。")
         Console.WriteLine($"  结构化掩码下 CfC 的参数量与 LTC 相同（{cfcModel.GetParameterCount()}），但每步只需 1 次前向求值（RK4 需要 4 次）。")
@@ -393,6 +412,17 @@ Module Program
             Console.WriteLine($"    {items(k).id,-10} τ^sys = {items(k).tau:F4}")
         Next
     End Sub
+
+    ''' <summary>相对基线的变化百分比（基线接近 0 时退化为输出绝对值）</summary>
+    Private Function Pct(value As Double, baseline As Double) As String
+        If std.Abs(baseline) < 0.001 Then
+            Return value.ToString("F4")
+        End If
+
+        Dim rel = (value - baseline) / std.Abs(baseline) * 100.0
+
+        Return $"{rel:F1}%"
+    End Function
 
     ''' <summary>按通路分组打印平均 τ^sys，用于展示 LNN 的可解释性</summary>
     Private Sub PrintPathwayTau(traj As MetabolicTrajectory, t As Integer)
