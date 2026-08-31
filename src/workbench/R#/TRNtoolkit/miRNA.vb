@@ -219,15 +219,28 @@ Module miRNA
         Return table
     End Function
 
+    ''' <summary>
+    ''' 对 blastn 预筛结果做 psRNATarget 风格的打分过滤。
+    ''' </summary>
+    ''' <param name="blastn">由 ``parse_blastn`` 或 ``mirna_blastn`` 解析出的 HSP 集合。</param>
+    ''' <param name="evalueCutoff">
+    ''' BLAST e-value 预筛阈值（与 blastn 命令行 -evalue 同量级）。
+    ''' 注意它与 ``maxExpectation`` 量纲不同：前者是 BLAST 统计显著性，后者是打分期望值。
+    ''' </param>
+    ''' <param name="maxExpectation">psRNATarget 期望分上限（越低越好）。</param>
+    ''' <param name="minHitLength">最小 HSP 长度。</param>
     <ExportAPI("blastn_filter")>
     <RApiReturn(GetType(siRNAHit))>
     Public Function blastnFilter(<RRawVectorArgument(GetType(BlastnMapTable))> blastn As Object,
-                                 Optional eCutoff As Double = 5.0,
+                                 Optional evalueCutoff As Double = 1000,
+                                 Optional maxExpectation As Double = 5.0,
+                                 Optional minHitLength As Integer = 17,
                                  Optional seedStart As Integer = 2,
                                  Optional seedEnd As Integer = 13,
                                  Optional maxSeedMm As Integer = 2,
                                  Optional maxTotalMm As Integer = 8,
                                  Optional maxGu As Integer = 7,
+                                 Optional verbose As Boolean = False,
                                  Optional env As Environment = Nothing) As Object
 
         Dim pull As PipeIterator(Of BlastnMapTable) = pipeline.Stream(Of BlastnMapTable)(blastn, env)
@@ -236,12 +249,15 @@ Module miRNA
             Return pull.getError
         End If
 
-        Return pull.BlastnFilter(eCutoff:=eCutoff,
+        Return pull.BlastnFilter(evalueCutoff:=evalueCutoff,
+                                 maxExpectation:=maxExpectation,
+                                 minHitLength:=minHitLength,
                                  seedStart:=seedStart,
                                  seedEnd:=seedEnd,
                                  maxSeedMm:=maxSeedMm,
                                  maxTotalMm:=maxTotalMm,
-                                 maxGu:=maxGu).ToArray
+                                 maxGu:=maxGu,
+                                 verbose:=verbose).ToArray
     End Function
 
     ''' <summary>
