@@ -210,14 +210,14 @@ Public Class MetabolicTrajectory
 #Region "导出"
 
     ''' <summary>把浓度/通量/τ 轨迹分别写成 CSV（行=时间，列=代谢物或反应）</summary>
-    Public Sub SaveCsv(directory As String, Optional prefix As String = "sim")
-        If Not Directory.Exists(directory) Then
-            Directory.CreateDirectory(directory)
+    Public Sub SaveCsv(outputDir As String, Optional prefix As String = "sim")
+        If Not System.IO.Directory.Exists(outputDir) Then
+            System.IO.Directory.CreateDirectory(outputDir)
         End If
 
-        WriteMatrix(Path.Combine(directory, $"{prefix}_concentrations.csv"), MetaboliteIds, Concentrations)
-        WriteMatrix(Path.Combine(directory, $"{prefix}_fluxes.csv"), ReactionIds, Fluxes)
-        WriteMatrix(Path.Combine(directory, $"{prefix}_tau.csv"), MetaboliteIds, Tau)
+        WriteMatrix(System.IO.Path.Combine(outputDir, $"{prefix}_concentrations.csv"), MetaboliteIds, Concentrations)
+        WriteMatrix(System.IO.Path.Combine(outputDir, $"{prefix}_fluxes.csv"), ReactionIds, Fluxes)
+        WriteMatrix(System.IO.Path.Combine(outputDir, $"{prefix}_tau.csv"), MetaboliteIds, Tau)
     End Sub
 
     Private Sub WriteMatrix(path As String, headers As String(), mat As Tensor)

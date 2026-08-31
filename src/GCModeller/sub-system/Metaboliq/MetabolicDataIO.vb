@@ -288,7 +288,7 @@ Public Module MetabolicDataIO
     ''' <summary>
     ''' 写出 (行=特征, 列=样本) 的 CSV，与 <see cref="LoadCsv"/> 的格式约定保持一致
     ''' </summary>
-    Public Sub SaveCsv(path As String, featureIds As String(), sampleNames As String(), data As Tensor)
+    Public Sub SaveCsv(filePath As String, featureIds As String(), sampleNames As String(), data As Tensor)
         Dim sb As New StringBuilder()
 
         sb.Append("ID").Append(","c)
@@ -304,13 +304,13 @@ Public Module MetabolicDataIO
             sb.AppendLine()
         Next
 
-        Dim dir = Path.GetDirectoryName(path)
+        Dim dir = System.IO.Path.GetDirectoryName(filePath)
 
-        If Not String.IsNullOrEmpty(dir) AndAlso Not Directory.Exists(dir) Then
-            Directory.CreateDirectory(dir)
+        If Not String.IsNullOrEmpty(dir) AndAlso Not System.IO.Directory.Exists(dir) Then
+            System.IO.Directory.CreateDirectory(dir)
         End If
 
-        File.WriteAllText(path, sb.ToString())
+        File.WriteAllText(filePath, sb.ToString())
     End Sub
 
 End Module
