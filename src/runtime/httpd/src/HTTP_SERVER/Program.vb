@@ -57,11 +57,13 @@
 
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
+Imports Flute.Http
 Imports Flute.Http.Core
 Imports Flute.Http.Core.Message
 Imports Flute.Http.FileSystem
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Net
 
 Module Program
@@ -162,4 +164,13 @@ Module Program
             Call localfs.WebHandler(request, response)
         End If
     End Sub
+
+    <ExportAPI("/parse_apache")>
+    <Usage("/parse_apache --log <apache_access/error.log> [--save <save.csv>]")>
+    Public Function ParseApacheLog(log As String, Optional save As String = Nothing, Optional args As CommandLine = Nothing) As Integer
+        Dim logdata As HttpLogEntry() = HttpLogEntry.ParseApacheLogFile(log).ToArray
+        Dim save_csv As String = If(save, log.ChangeSuffix("csv"))
+
+        Return logdata.SaveTo(save_csv).CLICode
+    End Function
 End Module
