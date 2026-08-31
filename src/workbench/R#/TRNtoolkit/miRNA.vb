@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -125,7 +126,7 @@ Module miRNA
     End Function
 
     <ExportAPI("mirna_blastn")>
-    Public Function mirna_blastn(<RRawVectorArgument(GetType(FastaSeq))> mirna As Object, <RRawVectorArgument> geneset As Object, Optional blastn As String = "blastn", Optional env As Environment = Nothing) As Object
+    Public Function mirna_blastn(<RRawVectorArgument(GetType(FastaSeq))> mirna As Object, <RRawVectorArgument> geneset As Object, Optional blastn As String = Nothing, Optional env As Environment = Nothing) As Object
         Dim mirnaSeqs = GetFastaSeq(mirna, env, allowString:=True).SafeQuery.ToArray
         Dim geneSeqs = GetFastaSeq(geneset, env, allowString:=False)
         Dim mirnaFile As String
@@ -146,7 +147,15 @@ Module miRNA
             FastaFile.SaveData(geneSeqs, targetFile, encoding:=Encodings.ASCII)
         End If
 
+        If blastn Is Nothing Then
+            If System.Environment.OSVersion.Platform = PlatformID.Win32NT Then
+                Return RInternal.debug.stop("ncbi blast+ path not configured!", env)
+            Else
 
+            End If
+        End If
+
+        Dim blastp As New BLASTPlus(Workbench.Settings.ncbi_blast) With {.NumThreads = Workbench.Settings.n_threads}
     End Function
 
     ''' <summary>
