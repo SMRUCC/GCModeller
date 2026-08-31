@@ -213,10 +213,10 @@ Public Class MetabolicTrainer
         Me.Model = model
         Me.Config = If(config, New MetabolicTrainerConfig())
 
+        ' 梯度裁剪统一在本训练器里按"全部参数"做，避免两处裁剪尺度不一致
         _lnnTrainer = New LNNTrainer(model.Liquid, Me.Config.LearningRate) With {
             .OptimizerType = "adam",
             .Verbose = False,
-            ' 梯度裁剪统一在本训练器里按"全部参数"做，避免两处裁剪尺度不一致
             .UseGradientClipping = False
         }
         _adam = New AdamOptimizer With {.LearningRate = Me.Config.LearningRate}
