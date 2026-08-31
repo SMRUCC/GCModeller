@@ -326,6 +326,8 @@ Public Class MetabolicTrainer
         Public outTrace As Tensor()
         Public uTrace As Tensor()
         Public vTrace As Tensor()
+        ''' <summary>每个观测区间内部实际执行的 ODE 子步数（逆序回传时需要按同样步数回退）</summary>
+        Public stepCounts As Integer()
         Public Loss As EpochLoss
     End Class
 
@@ -347,6 +349,7 @@ Public Class MetabolicTrainer
         Dim outTrace(steps - 1) As Tensor
         Dim uTrace(steps - 1) As Tensor
         Dim vTrace(steps - 1) As Tensor
+        Dim stepCounts(steps - 1) As Integer
 
         Dim lData As Double = 0.0, lMass As Double = 0.0, lThermo As Double = 0.0, lFlux As Double = 0.0
 
@@ -405,7 +408,7 @@ Public Class MetabolicTrainer
                     cell.SetState(Row(observed, t))
                 End If
 
-                Call liquid.Forward(u, times(t + 1) - times(t))
+                stepCounts(t) = Model.StepInterval(u, times(t + 1) - times(t))
             End If
         Next
 
@@ -416,6 +419,7 @@ Public Class MetabolicTrainer
             .outTrace = outTrace,
             .uTrace = uTrace,
             .vTrace = vTrace,
+            .stepCounts = stepCounts,
             .Loss = New EpochLoss With {
                 .Data = lData / steps,
                 .Mass = lMass / steps,
@@ -498,8 +502,22 @@ Public Class MetabolicTrainer
             Next
 
             ' ---------- 回传液态层（t = 0 没有对应的前向步记录） ----------
+            ' 观测区间内部被细分为 n 个 ODE 子步：外部伴随只注入最后一个子步，
+            ' 其余子步仅由 LiquidLayer 内部维护的跨步 carry 驱动，从而完成完整 BPTT。
             If t >= 1 Then
-                Call liquid.BackwardLiquid(adjH)
+                Dim n = trace.stepCounts(t - 1)
+                Dim zero As Tensor = Nothing
+
+                For k = n To 1 Step -1
+                    If k = n Then
+                        Call liquid.BackwardLiquid(adjH)
+                    Else
+                        If zero Is Nothing Then
+                            zero = New Tensor(m)
+                        End If
+                        Call liquid.BackwardLiquid(zero)
+                    End If
+                Next
             End If
         Next
     End Sub

@@ -53,6 +53,17 @@ Public Class MetabolicLiquidNetwork
     ''' <summary>动力学模式</summary>
     Public ReadOnly Property Mode As LiquidMode
 
+    ''' <summary>
+    ''' ODE 积分的最大子步长。
+    ''' </summary>
+    ''' <remarks>
+    ''' 代谢组学的时间采样往往很不规则（相邻间隔可能相差几十倍），
+    ''' 而显式 RK4 的稳定域要求 decay·dt ≲ 2.8（decay = 1/τ + f）。
+    ''' 因此在每个观测间隔内部再细分为若干子步，保证最快的时间尺度也被解析到；
+    ''' 这是对 LNN"支持不规则采样"能力的正确实现方式。
+    ''' </remarks>
+    Public Property MaxSubStep As Double = 0.5
+
 #End Region
 
 #Region "扰动状态"
@@ -262,6 +273,10 @@ Public Class MetabolicLiquidNetwork
     ''' <summary>
     ''' 通量读取头：<c>v = e ⊙ σ(Wv·[h;u] + bv)</c>
     ''' </summary>
+    ''' <remarks>
+    ''' 不可逆反应的饱和因子取 σ(·) ∈ (0,1)，通量恒为非负；
+    ''' 可逆反应取 2σ(·)−1 ∈ (−1,1)，允许通量为负（表示逆向流动）。
+    ''' </remarks>
     ''' <param name="h">隐藏状态（代谢物浓度）</param>
     ''' <param name="u">网络输入（酶表达量 + 边界浓度）</param>
     ''' <returns>各反应的通量，长度 = 反应数</returns>
@@ -272,10 +287,13 @@ Public Class MetabolicLiquidNetwork
         Dim v = New Tensor(r)
 
         For j = 0 To r - 1
-            Dim g = z(0, j) + _FluxBias(j)
-            Dim sat = 1.0 / (1.0 + std.Exp(-Clamp(g)))
+            Dim sat = 1.0 / (1.0 + std.Exp(-Clamp(z(0, j) + _FluxBias(j))))
 
-            v(j) = u(j) * sat
+            If Graph.Reversible(j) Then
+                v(j) = u(j) * (2.0 * sat - 1.0)
+            Else
+                v(j) = u(j) * sat
+            End If
         Next
 
         Return v
@@ -297,11 +315,12 @@ Public Class MetabolicLiquidNetwork
         Dim dz = New Double(r - 1) {}
 
         For j = 0 To r - 1
-            Dim g = z(0, j) + _FluxBias(j)
-            Dim sat = 1.0 / (1.0 + std.Exp(-Clamp(g)))
+            Dim sat = 1.0 / (1.0 + std.Exp(-Clamp(z(0, j) + _FluxBias(j))))
+            ' 可逆反应用 2σ−1，其导数为 2σ(1−σ)
+            Dim dSat = If(Graph.Reversible(j), 2.0 * sat * (1.0 - sat), sat * (1.0 - sat))
 
-            ' v_j = e_j · σ(g_j)
-            dz(j) = adjV(j) * u(j) * sat * (1.0 - sat)
+            ' v_j = e_j · gsat(g_j)
+            dz(j) = adjV(j) * u(j) * dSat
             _FluxBiasGradient(j) += dz(j)
         Next
 
@@ -405,9 +424,9 @@ Public Class MetabolicLiquidNetwork
                 flux(t, j) = v(j)
             Next
 
-            ' 用当前时刻的驱动外推下一时刻
+            ' 用当前时刻的驱动外推下一时刻（区间内部会按 MaxSubStep 细分积分）
             If t < steps - 1 Then
-                Call Liquid.Forward(u, times(t + 1) - times(t))
+                Call StepInterval(u, times(t + 1) - times(t))
             End If
         Next
 
@@ -420,6 +439,36 @@ Public Class MetabolicLiquidNetwork
             .Tau = tau
         }
     End Function
+
+    ''' <summary>
+    ''' 把状态从 t 推进到 t+span（区间内部按 <see cref="MaxSubStep"/> 细分）
+    ''' </summary>
+    ''' <param name="u">该区间内保持恒定的驱动输入</param>
+    ''' <param name="span">区间长度</param>
+    ''' <returns>实际执行的 ODE 步数（反向传播时需要对同样多步做逆序回传）</returns>
+    Public Function StepInterval(u As Tensor, span As Double) As Integer
+        If span <= 0 Then
+            Throw New ArgumentException($"时间区间长度必须为正，当前为 {span}")
+        End If
+
+        Dim n As Integer = CInt(std.Ceiling(span / std.Max(0.0000001, MaxSubStep)))
+
+        If n < 1 Then n = 1
+        If n > MaxSubStepsPerInterval Then n = MaxSubStepsPerInterval
+
+        Dim dt = span / n
+
+        For k = 1 To n
+            Call Liquid.Forward(u, dt)
+        Next
+
+        Return n
+    End Function
+
+    ''' <summary>
+    ''' 单个观测区间内允许的最大子步数（防御性上限，避免极端时间尺度拖垮训练）
+    ''' </summary>
+    Public Property MaxSubStepsPerInterval As Integer = 512
 
     Private Function RowOf(mat As Tensor, row As Integer) As Tensor
         Dim width = mat.Shape(1)
