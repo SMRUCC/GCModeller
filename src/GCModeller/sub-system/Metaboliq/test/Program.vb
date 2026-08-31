@@ -105,8 +105,8 @@ Module Program
         Dim model As New MetabolicLiquidNetwork(graph, LiquidMode.LTC, "rk4", seed:=42)
         ' 代谢系统是 stiff 系统：不同反应的时间尺度跨越多个数量级，放宽 τ 的取值范围
         model.SetTauBounds(2.0, 60.0)
-        ' 观测间隔最长可达 11 个时间单位，内部按 0.5 细分子步以保证显式 RK4 的数值稳定
-        model.MaxSubStep = 0.5
+        ' 观测间隔最长可达 11 个时间单位，内部按 1.0 细分子步以保证显式 RK4 的数值稳定
+        model.MaxSubStep = 1.0
 
         Console.WriteLine($"  {model}")
         Console.WriteLine($"  积分子步长      : MaxSubStep={model.MaxSubStep}（区间内自动细分，支持不规则采样）")
@@ -133,8 +133,8 @@ Module Program
             .LambdaThermo = 0.5,    ' 不可逆反应通量非负（读取头已保证非负，此项为守卫）
             .LambdaFlux = 0.2,      ' 通量监督（有 13C-MFA 真值时启用）
             .LearningRate = 0.02,
-            .Epochs = 300,
-            .WarmupEpochs = 30,
+            .Epochs = 600,
+            .WarmupEpochs = 40,
             .GradientClip = 5.0,
             .TeacherForcingStart = 0.9,
             .TeacherForcingEnd = 0.0,
@@ -266,7 +266,7 @@ Module Program
 
         Dim cfcModel As New MetabolicLiquidNetwork(graph, LiquidMode.CFC, "cfc", seed:=42)
         cfcModel.SetTauBounds(2.0, 60.0)
-        cfcModel.MaxSubStep = 0.5
+        cfcModel.MaxSubStep = 1.0
 
         Dim cfcConfig As New MetabolicTrainerConfig With {
             .LambdaData = 1.0, .LambdaMass = 1.0, .LambdaThermo = 0.5, .LambdaFlux = 0.2,
