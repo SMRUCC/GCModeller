@@ -67,6 +67,19 @@ declare namespace miRNA {
    */
    function intersect_targets(psRNATarget: any, TargetFinder: any, site_tolerance?: object, env?: object): object;
    /**
+    * 
+    * 
+     * @param mirna -
+     * @param geneset -
+     * @param ncbi_blast folder dir path for the ncbi blast+
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function mirna_blastn(mirna: any, geneset: any, ncbi_blast?: string, env?: object): any;
+   /**
     * make matches of the miRNA target genes
     * 
     * 

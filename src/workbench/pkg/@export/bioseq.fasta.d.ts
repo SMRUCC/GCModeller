@@ -194,7 +194,7 @@ declare namespace bioseq.fasta {
      *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a character vector of the raw sequence 
      *  data.
      * @param type the molecule type of the input sequence data, if this parameter is not 
-     *  specified(@``F:SMRUCC.genomics.SequenceModel.SeqTypes.Generic``), then the molecule type will be 
+     *  specified(@``F:SMRUCC.genomics.SequenceModel.SeqTypes.Unknown``), then the molecule type will be 
      *  evaluated from the input sequence data automatically: the most common 
      *  sequence type of the input sequence collection will be used.
      * 
@@ -377,7 +377,7 @@ declare namespace bioseq.fasta {
      *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a character vector of the raw sequence 
      *  data.
      * @param type the molecule type of the input sequence data, if this parameter is not 
-     *  specified(@``F:SMRUCC.genomics.SequenceModel.SeqTypes.Generic``), then the molecule type will be 
+     *  specified(@``F:SMRUCC.genomics.SequenceModel.SeqTypes.Unknown``), then the molecule type will be 
      *  evaluated from the input sequence data automatically: the most common 
      *  sequence type of the input sequence collection will be used.
      * 

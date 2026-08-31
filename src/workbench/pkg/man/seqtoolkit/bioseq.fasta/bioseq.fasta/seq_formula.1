@@ -4,7 +4,7 @@
 seq_formula \- evaluate the chemical formula of the given sequence data
 .SH SYNOPSIS
 \fIseq_formula(\fBseqs\fR as any, 
-\fBtype\fR as <integer> SeqTypes = [Generic], 
+\fBtype\fR as <integer> SeqTypes = [Unknown], 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -22,7 +22,7 @@ evaluate the chemical formula of the given sequence data
 .PP
 \fBtype\fB \fR\- 
  the molecule type of the input sequence data, if this parameter is not 
- specified(@\fBF:SMRUCC.genomics.SequenceModel.SeqTypes.Generic\fR), then the molecule type will be 
+ specified(@\fBF:SMRUCC.genomics.SequenceModel.SeqTypes.Unknown\fR), then the molecule type will be 
  evaluated from the input sequence data automatically: the most common 
  sequence type of the input sequence collection will be used.
 . 
