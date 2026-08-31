@@ -22,7 +22,7 @@ Namespace siRNAHit
         Public Shared Iterator Function Parse(s As Stream) As IEnumerable(Of BlastnMapTable)
             Dim line As Value(Of String) = ""
 
-            Using reader As New StreamReader(InputFile)
+            Using reader As New StreamReader(s)
                 Do While Not (line = reader.ReadLine) Is Nothing
                     line = line.Trim()
 
