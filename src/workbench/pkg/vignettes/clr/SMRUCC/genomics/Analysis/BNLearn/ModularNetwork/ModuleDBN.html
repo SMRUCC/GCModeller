@@ -40,6 +40,10 @@ export class ModuleDBN {
    ModuleColor: string;
    # 已构建拓扑并完成参数学习的动态贝叶斯网络子网络
    Net: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/DBN/DynamicBayesianNetwork.html">DynamicBayesianNetwork</a>;
+   # 该模块各基因的<strong>野生型（未受扰动）表达丰度</strong>：基因 ID → 丰度值。
+   # 
+   # 由训练流程自动计算（各基因在时间序列上的中位数，对 dropout 零值与 异常值稳健），作为虚拟扰动推演的初始状态与响应参照基准。早期实现把初始 状态硬编码为"全部 Medium"，导致未受扰动影响的基因一律输出 Medium。 可由 BlockBayesianNetwork.SetWildtypeBaseline 覆盖。
+   WildtypeAbundance: list;
 }
 </code>
         </pre>
@@ -49,6 +53,7 @@ export class ModuleDBN {
         <ol>
 <li>use by <i>property</i> member <code>GeneIndex</code>: list</li>
 <li>use by <i>property</i> member <code>Net</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/DBN/DynamicBayesianNetwork.html">DynamicBayesianNetwork</a></li>
+<li>use by <i>property</i> member <code>WildtypeAbundance</code>: list</li>
 </ol>
 
 
