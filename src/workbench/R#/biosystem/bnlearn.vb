@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::0a84bf1f85437d0009dd4da6da08e55d, R#\phenotype_kit\bnlearn.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 145
-    '    Code Lines: 111 (76.55%)
-    ' Comment Lines: 8 (5.52%)
-    '    - Xml Docs: 75.00%
-    ' 
-    '   Blank Lines: 26 (17.93%)
-    '     File Size: 6.11 KB
+' Summaries:
 
 
-    ' Module bnlearn
-    ' 
-    '     Function: bnlearn, knockdownGene, KnockoutGene, make_exports, overexpress
-    '               prior_network, save_model
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 145
+'    Code Lines: 111 (76.55%)
+' Comment Lines: 8 (5.52%)
+'    - Xml Docs: 75.00%
+' 
+'   Blank Lines: 26 (17.93%)
+'     File Size: 6.11 KB
+
+
+' Module bnlearn
+' 
+'     Function: bnlearn, knockdownGene, KnockoutGene, make_exports, overexpress
+'               prior_network, save_model
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -57,9 +57,10 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
-Imports SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
+Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork
+Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
 Imports SMRUCC.genomics.MetabolicModel
 Imports SMRUCC.Rsharp.Runtime
@@ -488,7 +489,7 @@ Module bnlearn
             Return pull.getError
         End If
         If pathway_info IsNot Nothing Then
-            pathways = pathway_info.AsGeneric(Of MetabolicPathway)(env)
+            pathways = pathway_info.asGeneric(Of MetabolicPathway)(env)
         End If
 
         Call New InterventionComparisonExporter(pull.populates(Of InterventionResult)(env)).ExportAll(dir, pathways, topN:=top_n)
