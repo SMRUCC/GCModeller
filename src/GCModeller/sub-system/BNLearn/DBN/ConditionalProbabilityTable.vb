@@ -68,6 +68,10 @@ Namespace DBN
     ''' The table is indexed by a string key formed by joining parent state values
     ''' with the "|" separator. Each entry contains a probability distribution over
     ''' the child node's states.
+    ''' 
+    ''' 线程安全：本类**不是**线程安全的。惰性求值时 GetDistribution 会向 Table 写入
+    ''' 记忆化结果，多个线程并发查询同一个节点会导致 Dictionary 损坏。
+    ''' 调用方需自行保证同一实例的访问是串行的（当前 DBN 的预测/传播链路均为串行）。
     ''' </summary>
     Public Class ConditionalProbabilityTable
 
@@ -122,6 +126,7 @@ Namespace DBN
         ''' <param name="copy">
         ''' 是否返回副本。只读场景传 False 可避免每次查询都分配一个新数组
         ''' （初始化/学习/预测等热路径的调用量是配置数量的量级，省下的分配非常可观）。
+        ''' 注意：传 False 时返回的可能是表内部的数组引用，调用方**不得修改**其内容。
         ''' </param>
         Public Function GetDistribution(parentStates As List(Of String), Optional copy As Boolean = True) As Double()
             Dim key = GetKey(parentStates)
@@ -161,6 +166,14 @@ Namespace DBN
         ''' </param>
         Public Sub SetDistribution(parentStates As List(Of String), distribution As Double(), Optional copy As Boolean = True)
             Dim key = GetKey(parentStates)
+
+            ' 只在"新增条目"时受 MaxCacheRows 约束，已存在的条目永远允许更新：
+            ' 惰性 CPT 的记忆化缓存必须是有界的，否则长期在线学习会让表无限增长；
+            ' 完整展开的 CPT 其条目数在初始化阶段就已确定且有界，不受此限制。
+            If Not Table.ContainsKey(key) AndAlso Table.Count >= MaxCacheRows Then
+                Exit Sub
+            End If
+
             Table(key) = If(copy, CType(distribution.Clone(), Double()), distribution)
         End Sub
 

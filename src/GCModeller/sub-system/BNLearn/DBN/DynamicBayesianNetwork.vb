@@ -487,8 +487,9 @@ Namespace DBN
             node.CPT.ParentIds = New List(Of String)(node.ParentIds)
             node.CPT.States = New List(Of String)(node.States)
             node.CPT.Table = New Dictionary(Of String, Double())
-            node.CPT.MaxCacheRows = _config.MaxCPTCacheRows
             node.CPT.OnDemandProvider = Nothing
+            ' 完整展开的节点其条目数由 rows 决定且有界，不需要缓存上限
+            node.CPT.MaxCacheRows = Integer.MaxValue
 
             If node.ParentIds.Count = 0 Then
                 ' No parents: uniform prior
@@ -517,6 +518,7 @@ Namespace DBN
                 ' 拓扑先验分布本身是父状态的纯函数（noisy-OR/AND 得分的确定性映射），
                 ' 现场计算的结果与全表展开逐位一致，但内存从 O(3^P) 降为 O(实际访问过的配置数)。
                 node.CPT.Table = New Dictionary(Of String, Double())()
+                node.CPT.MaxCacheRows = _config.MaxCPTCacheRows
                 node.CPT.OnDemandProvider = Function(cfg) ComputeDefaultDistribution(node, cfg)
 
                 Call $"[DBN lazy] {node.NodeId} parents={node.ParentIds.Count} rows={rows} -> 按需计算（不展开 CPT）".debug
@@ -1242,6 +1244,17 @@ Namespace DBN
                 writer.WriteLine()
 
                 ' Write CPTs
+                ' 惰性 CPT 节点只持久化"实际访问过的配置"，这里把这类节点登记在文件头部，
+                ' 使落盘结果可以被正确解读：缺失的配置在载入后由 OnDemandProvider 现场计算。
+                Dim lazyNodes = _nodes.Values _
+                    .Where(Function(n) n.CPT.OnDemandProvider IsNot Nothing) _
+                    .Select(Function(n) n.NodeId) _
+                    .ToArray
+
+                If lazyNodes.Length > 0 Then
+                    writer.WriteLine("# LAZY_NODES {0}", String.Join(",", lazyNodes))
+                End If
+
                 writer.WriteLine("CPTS")
                 For Each node In _nodes.Values
                     For Each kv In node.CPT.Table

@@ -135,7 +135,9 @@ try {
         try { $exited = $proc.HasExited } catch { $exited = $true }
 
         if ($exited) {
-            try { $exitCode = $proc.ExitCode } catch { $exitCode = -1 }
+            # 先 WaitForExit 再取 ExitCode，否则进程刚销毁时读到的可能是空值
+            try { $proc.WaitForExit(5000) } catch { }
+            try { $exitCode = [int]$proc.ExitCode } catch { $exitCode = -1 }
             break
         }
 
@@ -188,6 +190,8 @@ try {
 } finally {
     $writer.Dispose()
     $sw.Stop()
+    # 进程已被销毁时 ExitCode 可能读不到，统一规范化为 -1，避免摘要里出现空值
+    if ($null -eq $exitCode) { $exitCode = -1 }
 }
 
 # ---------------------------------------------------------------- 结果汇总
