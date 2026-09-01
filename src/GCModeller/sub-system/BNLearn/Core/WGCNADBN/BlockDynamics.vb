@@ -9,10 +9,12 @@ Namespace Core.WGCNADBN
         Public Iterator Function TrainBlocks(timeSeries As Core.GeneExpressionData, modules As IEnumerable(Of GeneModuleColor), prior As Core.PriorNetwork, TF As String()) As IEnumerable(Of ModuleDBN)
             ' ① 模块划分（跳过 grey 模块，仅保留出现在时间序列中的基因）
             Dim moduleGenes = SplitModules(modules, timeSeries)
+
             If moduleGenes.Count = 0 Then
                 Throw New InvalidOperationException("没有任何 WGCNA 模块基因匹配时间序列，无法构建子网络（请检查基因名体系是否一致）")
+            Else
+                Call $"GRN.TrainModularDBNIntervene: 解析到 {moduleGenes.Count} 个非灰色模块".info
             End If
-            Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 解析到 {moduleGenes.Count} 个非灰色模块")
 
             ' ② 逐模块训练 DynamicBayesianNetwork 子网络
             Dim tfSet As New HashSet(Of String)(TF, StringComparer.OrdinalIgnoreCase)
@@ -21,8 +23,9 @@ Namespace Core.WGCNADBN
             For Each kv In moduleGenes
                 Dim mcolor = kv.Key
                 Dim genes = kv.Value
+
                 If genes.Length < 2 Then
-                    Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块 {mcolor} 基因数={genes.Length} < 2，跳过子网络训练")
+                    Call $"GRN.TrainModularDBNIntervene: 模块 {mcolor} 基因数={genes.Length} < 2，跳过子网络训练".debug
                     Continue For
                 End If
 
@@ -33,7 +36,7 @@ Namespace Core.WGCNADBN
                     Yield [module]
                 End If
 
-                Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块 {mcolor} 训练完成（基因={genes.Length}, 模块内边={[module].Net.topologySize}）")
+                Call $"GRN.TrainModularDBNIntervene: 模块 {mcolor} 训练完成（基因={genes.Length}, 模块内边={[module].Net.topologySize}）".info
             Next
 
             If moduleDBs = 0 Then

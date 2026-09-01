@@ -212,7 +212,7 @@ Public Module GeneRegulatoryNetwork
             .PriorNetwork = prior
         }
 
-        Call VBDebugger.WriteLine($"WGCNAGRN.BuildBNNetwork: 已构建 BNLearn 工作流，先验边数 = {prior.Edges.Count}（TF 注释 {tfSet.Count} 个）")
+        Call $"WGCNAGRN.BuildBNNetwork: 已构建 BNLearn 工作流，先验边数 = {prior.Edges.Count}（TF 注释 {tfSet.Count} 个）".info
 
         Return workflow
     End Function
@@ -250,12 +250,12 @@ Public Module GeneRegulatoryNetwork
         Dim dbn As New DynamicBayesianNetwork()
         Call dbn.BuildFromTopology(links)
 
-        Call VBDebugger.WriteLine($"WGCNAGRN.BuildDBN: 拓扑构建完成，节点数 = {dbn.GetAllNodes().Count}，调控边 = {links.Count()}。开始参数学习...")
+        Call $"WGCNAGRN.BuildDBN: 拓扑构建完成，节点数 = {dbn.GetAllNodes().Count}，调控边 = {links.Count()}。开始参数学习...".info
 
         Dim timeSeries As List(Of Dictionary(Of String, Double)) = expr.ToTimeSeries()
         dbn.LearnParameters(timeSeries)
 
-        Call VBDebugger.WriteLine("WGCNAGRN.BuildDBN: 参数学习完成")
+        Call $"WGCNAGRN.BuildDBN: 参数学习完成".info
 
         Return dbn
     End Function
@@ -333,7 +333,7 @@ Public Module GeneRegulatoryNetwork
             Next
         Next
 
-        Call VBDebugger.WriteLine($"WGCNAGRN.VirtualKnockdown: 对基因 '{gene}' 完成 {nSteps} 步虚拟敲降级联模拟")
+        Call $"WGCNAGRN.VirtualKnockdown: 对基因 '{gene}' 完成 {nSteps} 步虚拟敲降级联模拟".info
 
         Return trajectory
     End Function
@@ -373,7 +373,7 @@ Public Module GeneRegulatoryNetwork
             .PriorNetwork = usePrior
         }
 
-        Call VBDebugger.WriteLine($"GRN.BuildExpressionGRN: 表达矩阵 {expr.NGene} 基因 x {expr.TimePoints.Length} 伪时间点, 先验边 = {usePrior.Edges.Count}")
+        Call $"GRN.BuildExpressionGRN: 表达矩阵 {expr.NGene} 基因 x {expr.TimePoints.Length} 伪时间点, 先验边 = {usePrior.Edges.Count}".info
         Return workflow
     End Function
 
@@ -409,7 +409,7 @@ Public Module GeneRegulatoryNetwork
         ' ② 参数学习（高斯 BN MLE）
         Call workflow.LearnParameters()
 
-        Call VBDebugger.WriteLine($"GRN.TrainAndIntervene: 网络训练完成（基因 {expr.NGene}, 伪时间点 {expr.TimePoints.Length}）")
+        Call $"GRN.TrainAndIntervene: 网络训练完成（基因 {expr.NGene}, 伪时间点 {expr.TimePoints.Length}）".info
 
         ' ③ 虚拟敲除
         Dim koResults As New List(Of Intervention.InterventionResult)
@@ -443,7 +443,7 @@ Public Module GeneRegulatoryNetwork
             Call merged.AddRange(dynResults)
             Call merged.AddRange(batchResults)
             Call New Intervention.InterventionComparisonExporter(merged).ExportAll(outputDir, Nothing)
-            Call VBDebugger.WriteLine($"GRN.TrainAndIntervene: 扰动结果已导出至 {outputDir}")
+            Call $"GRN.TrainAndIntervene: 扰动结果已导出至 {outputDir}".info
         End If
 
         Return (workflow, koResults.ToArray, oeResults.ToArray, dynResults.ToArray, batchResults)
@@ -504,7 +504,7 @@ Public Module GeneRegulatoryNetwork
             moduleNets(m.ModuleColor) = m.Net
         Next
 
-        Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 全局级联虚拟扰动完成（扰动基因 {knockGenes.Length} 个，模块 {moduleDBs.blocks} 个，全局基因 {moduleDBs.allgenes.Length} 个）")
+        Call $"GRN.TrainModularDBNIntervene: 全局级联虚拟扰动完成（扰动基因 {knockGenes.Length} 个，模块 {moduleDBs.blocks} 个，全局基因 {moduleDBs.allgenes.Length} 个）".info
 
         Return (finalResponses, moduleNets)
     End Function
@@ -552,7 +552,7 @@ Public Module GeneRegulatoryNetwork
             System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, "modular_pert_" & safe & ".tsv"), sb.ToString())
         Next
 
-        Call VBDebugger.WriteLine($"GRN.SaveModularResults: 模块化全局扰动结果已导出至 {outputDir}")
+        Call $"GRN.SaveModularResults: 模块化全局扰动结果已导出至 {outputDir}".info
     End Sub
 End Module
 
