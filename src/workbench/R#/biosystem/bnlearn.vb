@@ -252,28 +252,10 @@ Module bnlearn
     <ExportAPI("wildtype_baseline")>
     <RApiReturn(GetType(BNLearnWorkflow), GetType(BlockBayesianNetwork))>
     Public Function setBaseline(model As Object, baseline As list, Optional env As Environment = Nothing) As Object
-        ' 诊断：管道传参（x |> wildtype_baseline(as.list(...))）时，
-        ' R# 可能把整个列表包成一个单元素结构，这里展开一层后再解析
-        Dim data As list = baseline
-
-        If data.length = 1 Then
-            Dim first As Object = data.slots.Values.FirstOrDefault()
-
-            If TypeOf first Is list Then
-                Dim inner = DirectCast(first, list)
-
-                If inner.length > 1 Then
-                    data = inner
-                End If
-            End If
-        End If
-
-        Call $"[wildtype_baseline] 收到 baseline: 外层={baseline.length}, 采用={data.length}".info
-
         If TypeOf model Is BNLearnWorkflow Then
-            Call DirectCast(model, BNLearnWorkflow).SetExternalExpression(data.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
+            Call DirectCast(model, BNLearnWorkflow).SetExternalExpression(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
         ElseIf TypeOf model Is BlockBayesianNetwork Then
-            Call DirectCast(model, BlockBayesianNetwork).SetWildtypeBaseline(data.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
+            Call DirectCast(model, BlockBayesianNetwork).SetWildtypeBaseline(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
         Else
             Return Message.InCompatibleType(GetType(BNLearnWorkflow), model.GetType, env)
         End If
