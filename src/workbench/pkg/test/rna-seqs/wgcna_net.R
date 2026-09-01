@@ -11,6 +11,6 @@ let output = "K:\hsa\WGCNA_output\cor_network";
 writeBin(adj, con = file.path(output, "hsa_adj.dat"));
 
 adj 
-|> cor_network(membership = colors, adjacency = 0.65)
+|> cor_network(membership = colors, adjacency = 1e-3)
 |> igraph::save.network(file = output)
 ;
