@@ -3,7 +3,7 @@
 .SH NAME
 bnlearn \- learn the gene regulatory bayesian network from the gene expression data
 .SH SYNOPSIS
-\fIbnlearn(\fBexprData\fR as <generic> Matrix, 
+\fIbnlearn(\fBexprData\fR as any, 
 \fBpriorNet\fR as any = \fB<NULL>\fR, 
 \fBmodules\fR as any = \fB<NULL>\fR, 
 \fBTF\fR as any = \fB<NULL>\fR, 
@@ -18,7 +18,7 @@ learn the gene regulatory bayesian network from the gene expression data
 .SH OPTIONS
 .PP
 \fBexprData\fB \fR\- 
- the gene expression matrix object, could be load from csv file via \fBgeneExpression::load.expr\fR api
+ the gene expression matrix object, could be load from csv file via \fBgeneExpression::load.expr\fR api, or the @\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.GeneExpressionData\fR matrix
 . 
 .PP
 .PP

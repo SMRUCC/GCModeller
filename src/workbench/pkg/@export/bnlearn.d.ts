@@ -54,7 +54,7 @@ declare namespace bnlearn {
     * >  2. the parameter learning: the maximum likelihood estimation(MLE) of the 
     * >     Gaussian bayesian network.
     * 
-     * @param exprData the gene expression matrix object, could be load from csv file via ``geneExpression::load.expr`` api
+     * @param exprData the gene expression matrix object, could be load from csv file via ``geneExpression::load.expr`` api, or the @``T:SMRUCC.genomics.Analysis.BNLearn.Core.GeneExpressionData`` matrix
      * @param priorNet a collection of the prior knowledge regulatory edge data 
      *  (@``T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge``), which is used as the whitelist of the 
      *  network structure learning: only the regulation relation that is described 
@@ -98,7 +98,7 @@ declare namespace bnlearn {
      *  data can not be cast to a collection of the 
      *  @``T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge`` data.
    */
-   function bnlearn(exprData: object, priorNet?: any, modules?: any, TF?: any, max_itrs?: object, cross_thres?: number, strict?: object, env?: object): object|object;
+   function bnlearn(exprData: any, priorNet?: any, modules?: any, TF?: any, max_itrs?: object, cross_thres?: number, strict?: object, env?: object): object|object;
    /**
    */
    function export_modular_response(x: object, outputdir: string): boolean;
