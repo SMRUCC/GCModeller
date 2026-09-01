@@ -483,15 +483,15 @@ Public Module GeneRegulatoryNetwork
         If TF Is Nothing Then TF = {}
         If knockGenes Is Nothing Then knockGenes = {}
 
-        Dim moduleDBs As New BlockBayesianNetwork(timeSeries.TrainBlocks(modules, prior, TF), crossModuleCorThreshold)
+        Dim moduleDBs As New BlockBayesianNetwork(timeSeries.TrainBlocks(modules, prior, TF), TF, crossModuleCorThreshold)
 
         ' ④ 全局级联虚拟扰动
         Dim finalResponses As New Dictionary(Of String, List(Of Double))()
         Dim trajectories As New Dictionary(Of String, Dictionary(Of String, List(Of Double)))()
 
-        For Each g In knockGenes
-            Dim respVec As Double() = moduleDBs.CascadeIntervene(New HashSet(Of String)(TF), g, dynamicSteps, trajectories)
-            finalResponses(g) = New List(Of Double)(respVec)
+        For Each geneId As String In knockGenes
+            Dim respVec As Double() = moduleDBs.CascadeIntervene(geneId, dynamicSteps, trajectories)
+            finalResponses(geneId) = New List(Of Double)(respVec)
         Next
 
         ' ⑤ 导出结果

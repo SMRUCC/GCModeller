@@ -12,6 +12,8 @@ Namespace Core.WGCNADBN
         ''' <returns></returns>
         Public Property graph As Dictionary(Of String, List(Of (modColor As String, weight As Double)))
 
+        Public Property TF As String()
+
         Public ReadOnly Property blocks As Integer
             Get
                 Return moduleDBs.TryCount
@@ -24,11 +26,12 @@ Namespace Core.WGCNADBN
             End Get
         End Property
 
-        Sub New(subblocks As IEnumerable(Of ModuleDBN), Optional crossModuleCorThreshold As Double = 0.3)
+        Sub New(subblocks As IEnumerable(Of ModuleDBN), TFs As IEnumerable(Of String), Optional crossModuleCorThreshold As Double = 0.3)
             moduleDBs = subblocks.SafeQuery.ToArray
             graph = BuildModuleCorrelationGraph(moduleDBs, crossModuleCorThreshold)
+            TF = TFs.SafeQuery.ToArray
 
-            Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块关联边数={graph.Values.Sum(Function(l) l.Count)}")
+            Call $"GRN.TrainModularDBNIntervene: 模块关联边数={graph.Values.Sum(Function(l) l.Count)}".info
         End Sub
 
         ''' <summary>
@@ -38,13 +41,11 @@ Namespace Core.WGCNADBN
         '''     在下游模块内做受迫推演，形成级联；
         '''   - 汇总所有模块基因的最终状态为全局响应向量（按 allGenes 顺序，Low=0/Med=1/High=2）。
         ''' </summary>
-        Public Function CascadeIntervene(tfSet As HashSet(Of String),
-                                         knockGene As String,
-                                         steps As Integer,
-                                         trajectories As Dictionary(Of String, Dictionary(Of String, List(Of Double)))) As Double()
+        Public Function CascadeIntervene(knockGene As String, steps As Integer, trajectories As Dictionary(Of String, Dictionary(Of String, List(Of Double)))) As Double()
             ' 定位扰动基因所属模块
             Dim m0 As ModuleDBN = Nothing
             Dim allGenes As String() = Me.allgenes
+            Dim tfSet As New HashSet(Of String)(TF)
 
             For Each m In moduleDBs
                 If m.GeneIndex.ContainsKey(knockGene) Then
@@ -53,8 +54,8 @@ Namespace Core.WGCNADBN
                 End If
             Next
             If m0 Is Nothing Then
-                Call VBDebugger.WriteLine($"GRN.CascadeIntervene: 警告: 扰动基因 '{knockGene}' 不在任何模块中，跳过")
-                Dim zero As Double() = allgenes.Select(Function(g) 1.0).ToArray()
+                Call $"GRN.CascadeIntervene: 警告: 扰动基因 '{knockGene}' 不在任何模块中，跳过".info
+                Dim zero As Double() = allGenes.Select(Function(g) 1.0).ToArray()
                 trajectories(knockGene) = New Dictionary(Of String, List(Of Double))
                 Return zero
             End If
@@ -113,9 +114,9 @@ Namespace Core.WGCNADBN
                 Next
             Next
 
-            Dim resp(allgenes.Length - 1) As Double
-            For i = 0 To allgenes.Length - 1
-                Dim g = allgenes(i)
+            Dim resp(allGenes.Length - 1) As Double
+            For i = 0 To allGenes.Length - 1
+                Dim g = allGenes(i)
                 If geneToTraj.ContainsKey(g) Then
                     resp(i) = geneToTraj(g)(steps - 1)
                 Else
@@ -131,7 +132,7 @@ Namespace Core.WGCNADBN
             Next
             trajectories(knockGene) = trajMerged
 
-            Call VBDebugger.WriteLine($"GRN.CascadeIntervene: 对基因 '{knockGene}'（模块 {m0.ModuleColor}）完成级联虚拟扰动，本模块 eigengene 变化 δ={delta0:F4}")
+            Call $"GRN.CascadeIntervene: 对基因 '{knockGene}'（模块 {m0.ModuleColor}）完成级联虚拟扰动，本模块 eigengene 变化 δ={delta0:F4}".info
             Return resp
         End Function
 
