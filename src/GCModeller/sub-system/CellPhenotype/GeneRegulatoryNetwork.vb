@@ -490,7 +490,7 @@ Public Module GeneRegulatoryNetwork
         Dim trajectories As New Dictionary(Of String, Dictionary(Of String, List(Of Double)))()
 
         For Each g In knockGenes
-            Dim respVec As Double() = moduleDBs.CascadeIntervene(New HashSet(Of String)(TF), g, dynamicSteps, moduleDBs.allgenes, trajectories)
+            Dim respVec As Double() = moduleDBs.CascadeIntervene(New HashSet(Of String)(TF), g, dynamicSteps, trajectories)
             finalResponses(g) = New List(Of Double)(respVec)
         Next
 

@@ -41,10 +41,11 @@ Namespace Core.WGCNADBN
         Public Function CascadeIntervene(tfSet As HashSet(Of String),
                                          knockGene As String,
                                          steps As Integer,
-                                         allGenes As String(),
                                          trajectories As Dictionary(Of String, Dictionary(Of String, List(Of Double)))) As Double()
             ' 定位扰动基因所属模块
             Dim m0 As ModuleDBN = Nothing
+            Dim allGenes As String() = Me.allgenes
+
             For Each m In moduleDBs
                 If m.GeneIndex.ContainsKey(knockGene) Then
                     m0 = m
@@ -53,7 +54,7 @@ Namespace Core.WGCNADBN
             Next
             If m0 Is Nothing Then
                 Call VBDebugger.WriteLine($"GRN.CascadeIntervene: 警告: 扰动基因 '{knockGene}' 不在任何模块中，跳过")
-                Dim zero As Double() = allGenes.Select(Function(g) 1.0).ToArray()
+                Dim zero As Double() = allgenes.Select(Function(g) 1.0).ToArray()
                 trajectories(knockGene) = New Dictionary(Of String, List(Of Double))
                 Return zero
             End If
@@ -112,9 +113,9 @@ Namespace Core.WGCNADBN
                 Next
             Next
 
-            Dim resp(allGenes.Length - 1) As Double
-            For i = 0 To allGenes.Length - 1
-                Dim g = allGenes(i)
+            Dim resp(allgenes.Length - 1) As Double
+            For i = 0 To allgenes.Length - 1
+                Dim g = allgenes(i)
                 If geneToTraj.ContainsKey(g) Then
                     resp(i) = geneToTraj(g)(steps - 1)
                 Else
