@@ -52,8 +52,11 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
@@ -69,6 +72,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Bayesian network learning and the in silico gene perturbation toolkit
@@ -94,8 +98,25 @@ Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 <Package("bnlearn")>
 <RTypeExport("struct_learn_params", GetType(StructureLearningParams))>
 <RTypeExport("knowledges", GetType(Dictionary(Of String, MetabolicPathway)))>
-<RTypeExport("modular_net", GetType(ModularNetworkPipeline))>
+<RTypeExport("modular_pipe", GetType(ModularNetworkPipeline))>
+<RTypeExport("modular_bayesian", GetType(BlockBayesianNetwork))>
 Module bnlearn
+
+    Sub Main()
+        Call RInternal.generic.add("writeBin", GetType(NumericMatrix), AddressOf SaveModelZip)
+        Call RInternal.generic.add("readBin.modular_bayesian", GetType(Stream), AddressOf LoadModelZip)
+    End Sub
+
+    Private Function SaveModelZip(model As BlockBayesianNetwork, args As list, env As Environment) As Object
+        Dim con As Stream = args!con
+        Call model.SaveModel(con)
+        Call con.Flush()
+        Return True
+    End Function
+
+    Private Function LoadModelZip(s As Stream, args As list, env As Environment) As Object
+        Return BlockBayesianNetwork.LoadModel(s)
+    End Function
 
     ''' <summary>
     ''' learn the gene regulatory bayesian network from the gene expression data

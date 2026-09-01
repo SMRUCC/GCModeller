@@ -58,6 +58,6 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Public Class zzz
 
     Public Shared Sub onLoad()
-
+        Call bnlearn.Main()
     End Sub
 End Class
