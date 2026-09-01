@@ -134,6 +134,28 @@ Namespace DBN
         ''' </summary>
         Public Property MarginalSampleSize As Integer = 4096
 
+        ''' <summary>
+        ''' 每个节点（基因）的离散化阈值：key = 节点 ID，value = (low_threshold, high_threshold)。
+        ''' 
+        ''' 默认阈值 <see cref="LowThreshold"/> / <see cref="HighThreshold"/>（0.33 / 0.66）是按
+        ''' "已归一化到 [0,1] 的数据"设计的；而时间序列常常是原始 log1p 表达值（量级 0~10+），
+        ''' 此时几乎所有基因都会被判为 High，导致学习到的 CPT 与推理证据都严重偏向 High。
+        ''' 
+        ''' 由训练流程按数据的经验分位数填好该字典后，参数学习（LearnParameters）与
+        ''' 推理（PredictNextState）都会经 GetThresholds 命中这里，保证两侧使用同一套阈值。
+        ''' </summary>
+        Public Property NodeThresholds As New Dictionary(Of String, Tuple(Of Double, Double))
+
+        ''' <summary>
+        ''' 自适应阈值所使用的低分位数（默认 0.33，即约 1/3 的样本落入 Low）。
+        ''' </summary>
+        Public Property QuantileLow As Double = 0.33
+
+        ''' <summary>
+        ''' 自适应阈值所使用的高分位数（默认 0.66，即约 1/3 的样本落入 High）。
+        ''' </summary>
+        Public Property QuantileHigh As Double = 0.66
+
     End Class
 
 

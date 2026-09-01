@@ -374,6 +374,13 @@ Namespace DBN
                     End If
                 Next
 
+                ' 同步清理被裁剪掉的父节点的方向记录，保持节点状态一致
+                For Each pid In node.ParentDirections.Keys.ToArray()
+                    If Not keepSet.Contains(pid) Then
+                        node.ParentDirections.Remove(pid)
+                    End If
+                Next
+
                 Call $"[DBN] {node.NodeId} 父节点数 {origin} 超过上限 {limit}，已裁剪 {origin - keep.Length} 个".debug
             Next
         End Sub
@@ -1117,6 +1124,13 @@ Namespace DBN
             If customThresholds IsNot Nothing AndAlso customThresholds.ContainsKey(nodeId) Then
                 Return customThresholds(nodeId)
             End If
+
+            ' per-node 阈值：学习侧与推理侧必须共用同一套阈值，
+            ' 否则会出现"学习用自适应阈值、推理用固定 0.33/0.66"的不一致
+            If _config.NodeThresholds IsNot Nothing AndAlso _config.NodeThresholds.ContainsKey(nodeId) Then
+                Return _config.NodeThresholds(nodeId)
+            End If
+
             Return New Tuple(Of Double, Double)(_config.LowThreshold, _config.HighThreshold)
         End Function
 

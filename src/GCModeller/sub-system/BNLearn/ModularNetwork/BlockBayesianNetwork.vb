@@ -19,6 +19,16 @@ Namespace ModularNetwork
         Public Property TF As String()
 
         ''' <summary>
+        ''' 各模块的野生型基线转录速率（模块颜色 → 速率均值），按步数缓存。
+        ''' 
+        ''' 级联传播时必须使用"相对基线的变化量"：<see cref="DBNPredictionResult.RNAAbundanceChanges"/>
+        ''' 给出的是**绝对转录速率水平**（恒为正），直接拿它当传播量会让下游模块被强制初始化为
+        ''' High，形成单向正反馈。基线只依赖模块构成与推演步数，故按 steps 缓存复用。
+        ''' </summary>
+        Private _baselineRates As Dictionary(Of String, Double)
+        Private _baselineSteps As Integer = -1
+
+        ''' <summary>
         ''' get length of <see cref="moduleDBs"/> array
         ''' </summary>
         ''' <returns></returns>
@@ -96,10 +106,37 @@ Namespace ModularNetwork
                 moduleTraj(m0.ModuleColor)(g)(0) = StateToValue(moduleStates(m0.ModuleColor)(g))
             Next
 
+            ' 野生型基线：每个模块以"全部 Medium、不固定任何基因"跑同样步数，
+            ' 得到未受扰动时的转录速率水平。RNA 速率（ComputeExpectedRNARate）是
+            ' **绝对水平**（恒为正），不能直接当作"上游变化量"用于判断传播方向，
+            ' 否则下游模块的初始状态会被强制设为 High，形成单向正反馈把下游锁定在 High。
+            ' 基线只依赖模块构成与步数，这里按 steps 缓存，避免每个扰动基因重复推演。
+            If _baselineSteps <> steps OrElse _baselineRates Is Nothing Then
+                _baselineRates = New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+                _baselineSteps = steps
+
+                For Each m In moduleDBs
+                    Dim wtStates As New Dictionary(Of String, String)
+
+                    For Each g In m.Genes
+                        wtStates(g) = "Medium"
+                    Next
+
+                    Dim wtRates = RunModuleSteps(m, wtStates, Nothing, steps, tfSet, Nothing)
+
+                    _baselineRates(m.ModuleColor) = If(wtRates.Count > 0, wtRates.Values.Average(), 0.0)
+                Next
+            End If
+
             ' 本模块多步推演
             Dim m0Rates = RunModuleSteps(m0, moduleStates(m0.ModuleColor), knockGene, steps, tfSet, moduleTraj(m0.ModuleColor))
-            ' 计算本模块 eigengene 变化（最终步 RNA 速率均值）
-            Dim delta0 = If(m0Rates.Count > 0, m0Rates.Values.Average(), 0.0)
+            Dim rate0 = If(m0Rates.Count > 0, m0Rates.Values.Average(), 0.0)
+            Dim baseline0 As Double = If(_baselineRates.ContainsKey(m0.ModuleColor), _baselineRates(m0.ModuleColor), 0.0)
+
+            ' 本模块向外的传播量 = 扰动后速率 - 野生型基线速率（可正可负）
+            Dim delta0 = rate0 - baseline0
+
+            Call $"GRN.CascadeIntervene: 基因 '{knockGene}' 本模块速率 基线={baseline0:F4}, 扰动后={rate0:F4}, Δ={delta0:F4}".debug
 
             ' 沿模块关联图 BFS 级联
             Dim visited As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase) From {m0.ModuleColor}
@@ -117,7 +154,12 @@ Namespace ModularNetwork
                     Dim upstreamDelta = cur.delta * adj.weight
                     Dim fixedInNext = If(mNext.GeneIndex.ContainsKey(knockGene), knockGene, Nothing)
                     Dim nextRates = RunModuleForced(mNext, upstreamDelta, fixedInNext, steps, tfSet, moduleStates(mNext.ModuleColor), moduleTraj(mNext.ModuleColor))
-                    Dim deltaNext = If(nextRates.Count > 0, nextRates.Values.Average(), 0.0)
+                    Dim rateNext = If(nextRates.Count > 0, nextRates.Values.Average(), 0.0)
+                    Dim baselineNext As Double = If(_baselineRates.ContainsKey(mNext.ModuleColor), _baselineRates(mNext.ModuleColor), 0.0)
+
+                    ' 同样取相对基线的变化量，保证传播方向可正可负
+                    Dim deltaNext = rateNext - baselineNext
+
                     queue.Enqueue((modColor:=mNext.ModuleColor, delta:=deltaNext))
                 Next
             End While

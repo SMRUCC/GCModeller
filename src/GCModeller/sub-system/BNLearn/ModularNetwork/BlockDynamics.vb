@@ -67,6 +67,11 @@ Namespace ModularNetwork
             Dim net As DynamicBayesianNetwork = New DynamicBayesianNetwork().BuildFromTopology(links)
             Dim ts As List(Of Dictionary(Of String, Double)) = subMatrix.ToTimeSeries()
 
+            ' 按数据的经验分位数设定每个基因的离散化阈值：
+            ' 时间序列是原始 log1p 表达值（量级 0~10+），若沿用 DBN 默认阈值 0.33/0.66
+            ' 会让几乎所有基因被判为 High，学习出的 CPT 与推理证据都会严重偏向 High。
+            Call net.ApplyQuantileThresholds(subMatrix)
+
             If ts IsNot Nothing AndAlso ts.Count >= 2 Then
                 Call net.LearnParameters(ts)
             Else

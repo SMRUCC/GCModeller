@@ -137,6 +137,82 @@ Namespace ModularNetwork
         End Function
 
         ''' <summary>
+        ''' 按每个基因在时间序列上的经验分布计算分位数阈值，写入网络的 per-node 离散化阈值。
+        ''' 
+        ''' 时间序列通常是原始 log1p 表达值（量级 0~10+），而 DBN 的默认阈值（0.33 / 0.66）
+        ''' 是按"已归一化到 [0,1]"的数据设计的：log1p(x)=0.66 仅对应原始 count≈0.94，
+        ''' 直接使用会让几乎所有有表达的基因都被判为 High，使学习到的 CPT 与推理证据都偏向 High。
+        ''' 用分位数自适应阈值可以保证 Low / Medium / High 三态在数据侧获得合理比例。
+        ''' </summary>
+        <Extension>
+        Public Sub ApplyQuantileThresholds(net As DynamicBayesianNetwork, matrix As Core.GeneExpressionData)
+            If net Is Nothing OrElse matrix Is Nothing Then Return
+            If matrix.NGene <= 0 OrElse matrix.NSample <= 0 Then Return
+
+            Dim thresholds As Dictionary(Of String, Tuple(Of Double, Double)) = net.Config.NodeThresholds
+            Dim qLow As Double = net.Config.QuantileLow
+            Dim qHigh As Double = net.Config.QuantileHigh
+            Dim nLow As Integer = 0
+            Dim nMid As Integer = 0
+            Dim nHigh As Integer = 0
+
+            thresholds.Clear()
+
+            For i As Integer = 0 To matrix.NGene - 1
+                Dim gene As String = matrix.GeneNames(i)
+                Dim col(matrix.NSample - 1) As Double
+
+                For j As Integer = 0 To matrix.NSample - 1
+                    col(j) = matrix.Matrix(i, j)
+                Next
+
+                Array.Sort(col)
+
+                Dim low As Double = Quantile(col, qLow)
+                Dim high As Double = Quantile(col, qHigh)
+
+                ' 防止退化区间（数据过于集中、分位数相等）导致所有样本落入同一离散状态
+                If high <= low Then
+                    Dim eps As Double = Math.Abs(low) * 0.001 + 0.001
+                    low -= eps
+                    high += eps
+                End If
+
+                thresholds(gene) = New Tuple(Of Double, Double)(low, high)
+
+                For j As Integer = 0 To col.Length - 1
+                    Dim x As Double = col(j)
+
+                    If x < low Then
+                        nLow += 1
+                    ElseIf x < high Then
+                        nMid += 1
+                    Else
+                        nHigh += 1
+                    End If
+                Next
+            Next
+
+            Dim total As Integer = nLow + nMid + nHigh
+
+            If total > 0 Then
+                Call $"[GRN thres] 基因数={matrix.NGene}, 离散化三态占比: Low={100.0 * nLow / total:F1}%, Medium={100.0 * nMid / total:F1}%, High={100.0 * nHigh / total:F1}%".info
+            End If
+        End Sub
+
+        ''' <summary>取已升序排序数组的分位数（最近秩法）</summary>
+        Private Function Quantile(sorted As Double(), q As Double) As Double
+            If sorted Is Nothing OrElse sorted.Length = 0 Then Return 0.0
+
+            Dim idx As Integer = CInt(Math.Floor(q * (sorted.Length - 1)))
+
+            If idx < 0 Then idx = 0
+            If idx > sorted.Length - 1 Then idx = sorted.Length - 1
+
+            Return sorted(idx)
+        End Function
+
+        ''' <summary>
         ''' Pearson 相关（对不等长序列按较短者截断），用于模块 eigengene 轨迹相关度。
         ''' </summary>
         Private Function Pearson(x As Double(), y As Double()) As Double
