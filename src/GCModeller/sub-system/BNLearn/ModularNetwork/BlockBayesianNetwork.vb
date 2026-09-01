@@ -631,18 +631,30 @@ Namespace ModularNetwork
                         Next
                     End If
 
+                    ' 一并导出该边的调控方向：加载时靠它重建 ParentDirections。
+                    ' 若缺失，重建出的网络会退回"全部激活"，使惰性节点在未缓存配置上
+                    ' 计算出错误的（全激活）先验分布。
+                    Dim dir As Effector = Effector.Unknown
+
+                    If Not node.ParentDirections.TryGetValue(tfId, dir) Then
+                        dir = Effector.Activator
+                    End If
+
                     Yield New RegulatoryLink With {
                         .TF_id = tfId,
                         .target_operon = node.NodeId,
                         .regulate_genes = {node.NodeId},
-                        .effector = effMap
+                        .effector = effMap,
+                        .RegulationType = dir,
+                        .Confidence = 1.0
                     }
                 Next
             Next
         End Function
 
         ''' <summary>
-        ''' 写出调控边（制表符分隔：TF_id / TF_family / TFBS_id / target_operon / genes / effectors）
+        ''' 写出调控边（制表符分隔 8 列：
+        ''' TF_id / TF_family / TFBS_id / target_operon / genes / effectors / regulationType / confidence）
         ''' </summary>
         Private Shared Sub WriteLinks(w As TextWriter, links As IEnumerable(Of RegulatoryLink))
             Dim tab As String = ChrW(9)
@@ -661,7 +673,9 @@ Namespace ModularNetwork
                     Text(l.TFBS_id),
                     Text(l.target_operon),
                     genes,
-                    effectors
+                    effectors,
+                    CInt(l.RegulationType).ToString(CultureInfo.InvariantCulture),
+                    l.Confidence.ToString("G17", CultureInfo.InvariantCulture)
                 }))
             Next
         End Sub
@@ -694,7 +708,14 @@ Namespace ModularNetwork
                     .TFBS_id = If(parts.Length > 2, parts(2), Nothing),
                     .target_operon = If(parts.Length > 3, parts(3), Nothing),
                     .regulate_genes = genes,
-                    .effector = effMap
+                    .effector = effMap,
+                    ' 第 7/8 列：调控方向与置信度（兼容旧文件：缺省时回退为激活）
+                    .RegulationType = If(parts.Length > 6 AndAlso parts(6).Length > 0,
+                        CType(Integer.Parse(parts(6), CultureInfo.InvariantCulture), Effector),
+                        Effector.Activator),
+                    .Confidence = If(parts.Length > 7 AndAlso parts(7).Length > 0,
+                        Double.Parse(parts(7), CultureInfo.InvariantCulture),
+                        1.0)
                 })
             Next
 
