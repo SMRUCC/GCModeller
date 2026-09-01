@@ -383,7 +383,7 @@ Namespace DBN
                     End If
                 Next
 
-                Call $"[DBN] {node.NodeId} 父节点数 {origin} 超过上限 {limit}，已裁剪 {origin - keep.Length} 个".debug
+                ' Call $"[DBN] {node.NodeId} 父节点数 {origin} 超过上限 {limit}，已裁剪 {origin - keep.Length} 个".debug
             Next
         End Sub
 
