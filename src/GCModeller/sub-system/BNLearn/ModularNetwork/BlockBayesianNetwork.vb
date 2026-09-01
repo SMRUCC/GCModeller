@@ -2,7 +2,7 @@
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
 Imports SMRUCC.genomics.Analysis.BNLearn.Inference
 
-Namespace Core.WGCNADBN
+Namespace ModularNetwork
 
     Public Class BlockBayesianNetwork
 

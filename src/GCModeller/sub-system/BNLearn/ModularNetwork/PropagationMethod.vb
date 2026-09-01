@@ -6,7 +6,7 @@
 ' 由 WGCNASubnetworkPipeline.Propagation 参数切换。
 ' ============================================================
 
-Namespace Core.WGCNADBN
+Namespace ModularNetwork
 
     ''' <summary>
     ''' 全局虚拟扰动的传播方法

@@ -1,19 +1,22 @@
-﻿''' <summary>
-''' WGCNA gene module color assignment result
-''' </summary>
-Public Class GeneModuleColor
+﻿Namespace ModularNetwork.WGCNA
 
-    Public Property geneID As String
-    Public Property moduleColor As String
     ''' <summary>
-    ''' membership of current gene to target module color
+    ''' WGCNA gene module color assignment result
     ''' </summary>
-    ''' <returns></returns>
-    Public Property kME As Double
+    Public Class GeneModuleColor
 
-    Public Overrides Function ToString() As String
-        Return $"[{moduleColor}] {geneID}:= {kME}"
-    End Function
+        Public Property geneID As String
+        Public Property moduleColor As String
+        ''' <summary>
+        ''' membership of current gene to target module color
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property kME As Double
 
-End Class
+        Public Overrides Function ToString() As String
+            Return $"[{moduleColor}] {geneID}:= {kME}"
+        End Function
 
+    End Class
+
+End Namespace

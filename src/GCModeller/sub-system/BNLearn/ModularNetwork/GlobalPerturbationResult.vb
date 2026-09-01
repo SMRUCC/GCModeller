@@ -7,7 +7,7 @@
 
 Imports System.Text
 
-Namespace Core.WGCNADBN
+Namespace ModularNetwork
 
     ''' <summary>
     ''' 单个扰动源在全局网络上传播后的结果

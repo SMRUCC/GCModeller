@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.Math.Correlations
 Imports SMRUCC.genomics.Analysis.BNLearn.ParameterLearning
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
 
-Namespace Core.WGCNADBN
+Namespace ModularNetwork
 
     Public Class BlockNetwork
 

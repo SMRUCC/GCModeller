@@ -21,7 +21,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
 
-Namespace Core.WGCNADBN
+Namespace ModularNetwork
 
     ''' <summary>
     ''' 基于 WGCNA 模块划分的贝叶斯子网络训练 + 全局虚拟扰动流水线

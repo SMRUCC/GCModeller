@@ -1,6 +1,6 @@
 ﻿Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 
-Namespace Core.WGCNADBN
+Namespace ModularNetwork
 
     Public Class BlockPropagate
 
@@ -33,7 +33,7 @@ Namespace Core.WGCNADBN
             Dim result As New GlobalPerturbationResult() With {
                 .SourceGene = Model._genes(sourceIdx),
                 .Method = PropagationMethod.Jacobian,
-                .Mode = mode,
+                .mode = mode,
                 .GeneNames = Model._genes
             }
             result.StepEffects.Add(CType(delta.Clone(), Double()))
@@ -73,7 +73,7 @@ Namespace Core.WGCNADBN
             Dim result As New GlobalPerturbationResult() With {
                 .SourceGene = Model._genes(sourceIdx),
                 .Method = PropagationMethod.CascadeSampling,
-                .Mode = mode,
+                .mode = mode,
                 .GeneNames = Model._genes,
                 .Effects = CType(res.FoldChanges.Clone(), Double()),
                 .Steps = MaxSteps

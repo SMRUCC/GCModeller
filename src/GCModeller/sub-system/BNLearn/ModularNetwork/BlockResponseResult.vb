@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 
-Namespace Core.WGCNADBN
+Namespace ModularNetwork
 
     Public Class BlockResponseResult
 

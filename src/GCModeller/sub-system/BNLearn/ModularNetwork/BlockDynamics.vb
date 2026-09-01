@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
 
-Namespace Core.WGCNADBN
+Namespace ModularNetwork
 
     Public Module BlockDynamics
 
@@ -74,8 +74,8 @@ Namespace Core.WGCNADBN
             Dim eig As Double() = ComputeModuleEigengene(ts)
             Dim mdb As New ModuleDBN With {
                 .ModuleColor = mcolor,
-                .Genes = genes,
-                .Net = net,
+                .genes = genes,
+                .net = net,
                 .Eigengene = eig
             }
 

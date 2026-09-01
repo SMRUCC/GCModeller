@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
 
-Namespace Core.WGCNADBN
+Namespace ModularNetwork
 
     ' ==================== 基于 WGCNA 共表达模块的 DBN 子网络训练 + 全局级联虚拟扰动 ====================
     '
