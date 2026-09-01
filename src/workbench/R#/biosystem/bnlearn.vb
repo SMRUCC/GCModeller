@@ -60,6 +60,7 @@ Imports SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.MetabolicModel
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -150,13 +151,14 @@ Module bnlearn
     <RApiReturn(GetType(BNLearnWorkflow))>
     Public Function bnlearn(exprData As matrix,
                             <RRawVectorArgument(GetType(RegulatoryEdge))> Optional priorNet As Object = Nothing,
-                            <RRawVectorArgument(GetType(GeneModuleColor))> Optional moudles As Object = Nothing,
+                            <RRawVectorArgument(GetType(GeneModuleColor))> Optional modules As Object = Nothing,
                             <RRawVectorArgument(TypeCodes.string)> Optional TF As Object = Nothing,
                             Optional max_itrs As Integer = 500,
                             Optional strict As Boolean? = Nothing,
                             Optional env As Environment = Nothing) As Object
 
         Dim kbNet As PriorNetwork = Nothing
+        Dim colors As PipeIterator(Of GeneModuleColor) = pipeline.Stream(Of GeneModuleColor)(modules, env, nullPipe:=True, suppress:=True)
 
         If Not priorNet Is Nothing Then
             If TypeOf priorNet Is PriorNetwork Then
@@ -174,10 +176,23 @@ Module bnlearn
             kbNet = New PriorNetwork
         End If
 
+        Dim timeSeries = BnIO.ReadGeneExpressionMatrix(exprData)
+
+        If Not colors Is Nothing Then
+            If colors.isError Then
+                Return colors.getError
+            End If
+
+            ' ① 模块划分（跳过 grey 模块，仅保留出现在时间序列中的基因）
+            Dim moduleGenes = modules.SplitModules(timeSeries)
+        Else
+
+        End If
+
 
 
         Dim workflow As New BNLearnWorkflow() With {
-            .ExpressionData = BnIO.ReadGeneExpressionMatrix(exprData),
+            .ExpressionData = timeSeries,
             .PriorNetwork = kbNet,
             .Strict = env.strictOption(opt:=strict)
         }
