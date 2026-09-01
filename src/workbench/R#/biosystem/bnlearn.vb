@@ -242,10 +242,24 @@ Module bnlearn
         Return file.LoadCsv(Of GeneModuleColor)(mute:=True)
     End Function
 
-    <ExportAPI("set_baseline")>
-    <RApiReturn(GetType(BNLearnWorkflow))>
-    Public Function setBaseline(model As BNLearnWorkflow, <RListObjectArgument> baseline As list, Optional env As Environment = Nothing) As Object
-        model.SetExternalExpression(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
+    ''' <summary>
+    ''' set wildtype baseline
+    ''' </summary>
+    ''' <param name="model"><see cref="BNLearnWorkflow"/> or <see cref="BlockBayesianNetwork"/></param>
+    ''' <param name="baseline">a value list tuple of the baseline expression value, example as list(gene1=xxx,gene2=xxx,...)</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("wildtype_baseline")>
+    <RApiReturn(GetType(BNLearnWorkflow), GetType(BlockBayesianNetwork))>
+    Public Function setBaseline(model As Object, <RListObjectArgument> baseline As list, Optional env As Environment = Nothing) As Object
+        If TypeOf model Is BNLearnWorkflow Then
+            Call DirectCast(model, BNLearnWorkflow).SetExternalExpression(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
+        ElseIf TypeOf model Is BlockBayesianNetwork Then
+            Call DirectCast(model, BlockBayesianNetwork).SetWildtypeBaseline(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
+        Else
+            Return Message.InCompatibleType(GetType(BNLearnWorkflow), model.GetType, env)
+        End If
+
         Return model
     End Function
 

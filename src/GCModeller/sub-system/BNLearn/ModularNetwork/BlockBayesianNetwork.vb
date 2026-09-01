@@ -827,5 +827,9 @@ Namespace ModularNetwork
 
             Return s.Replace(vbTab, " ").Replace(vbCr, " ").Replace(vbLf, " ")
         End Function
+
+        Public Sub SetWildtypeBaseline(baseline As Dictionary(Of String, Double))
+            Throw New NotImplementedException()
+        End Sub
     End Class
 End Namespace
