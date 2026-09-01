@@ -1136,18 +1136,55 @@ Namespace DBN
             End If
 
             Dim marginal(node.States.Count - 1) As Double
-            Dim parentStatesMap As New Dictionary(Of String, List(Of String))
-            For Each pid As String In node.ParentIds
-                parentStatesMap(pid) = _nodes(pid).States
-            Next
+            Dim parentStatesMap As Dictionary(Of String, List(Of String)) = GetParentStatesMap(node)
+            Dim rows As Long = node.CPT.GetConfigurationCount(parentStatesMap)
 
-            Dim configs = node.CPT.GetAllParentConfigurations(parentStatesMap)
-            For Each cfg In configs
-                Dim dist = node.CPT.GetDistribution(cfg)
-                For i = 0 To marginal.Length - 1
-                    marginal(i) += dist(i) / configs.Count
+            If rows <= _config.MaxCPTRows Then
+                ' 规模可控：枚举全部父配置求平均
+                Dim n As Integer = 0
+
+                For Each cfg In node.CPT.GetAllParentConfigurations(parentStatesMap)
+                    Dim dist = node.CPT.GetDistribution(cfg, copy:=False)
+
+                    n += 1
+                    For i = 0 To marginal.Length - 1
+                        marginal(i) += dist(i)
+                    Next
                 Next
-            Next
+
+                If n > 0 Then
+                    For i = 0 To marginal.Length - 1
+                        marginal(i) /= n
+                    Next
+                End If
+            Else
+                ' 配置空间过大（惰性 CPT）：改用蒙特卡洛采样估计，避免在此处再次触发 3^P 爆炸
+                Dim n As Integer = If(_config.MarginalSampleSize > 0, _config.MarginalSampleSize, 4096)
+                Dim dims As New List(Of List(Of String))
+                Dim cfg As New List(Of String)(node.ParentIds.Count)
+
+                For Each pid As String In node.ParentIds
+                    If parentStatesMap.ContainsKey(pid) Then dims.Add(parentStatesMap(pid))
+                Next
+
+                For s As Integer = 0 To n - 1
+                    cfg.Clear()
+
+                    For d As Integer = 0 To dims.Count - 1
+                        cfg.Add(dims(d)(_rng.Next(dims(d).Count)))
+                    Next
+
+                    Dim dist = node.CPT.GetDistribution(cfg, copy:=False)
+
+                    For i = 0 To marginal.Length - 1
+                        marginal(i) += dist(i)
+                    Next
+                Next
+
+                For i = 0 To marginal.Length - 1
+                    marginal(i) /= n
+                Next
+            End If
 
             Return marginal
         End Function
@@ -1223,6 +1260,7 @@ Namespace DBN
         Public Sub LoadFromFile(filePath As String)
             _nodes.Clear()
             _operonGenes.Clear()
+            _activationModels.Clear()
 
             Dim lines = File.ReadAllLines(filePath)
 
@@ -1263,7 +1301,50 @@ Namespace DBN
                         End If
                 End Select
             Next
+
+            ' 文件只保存了结构与参数：父子下标索引与按需计算委托需要在内存中重建，
+            ' 否则惰性 CPT 节点在查询未保存的配置时会退化成均匀分布。
+            Call BuildActivationModels()
+
+            For Each n In _nodes.Values
+                If n.ParentIds.Count = 0 Then Continue For
+
+                Dim node = n
+
+                n.CPT.MaxCacheRows = _config.MaxCPTCacheRows
+
+                If n.CPT.GetConfigurationCount(GetParentStatesMap(n)) > _config.MaxCPTRows Then
+                    n.CPT.OnDemandProvider = Function(cfg) ComputeDefaultDistribution(node, cfg)
+                End If
+            Next
         End Sub
+
+    End Class
+
+    ''' <summary>
+    ''' 节点激活模型的预计算结果：把 TF / effector 的父下标与调控方向解析成定长数组。
+    ''' 
+    ''' 原始实现在每一个父配置里都要对 ParentIds 做 IndexOf 字符串查找，
+    ''' 单次 O(P) 比较 × 每个配置 O(P) 次 = O(P²)，在 3^P 个配置上总复杂度为 O(3^P·P²)。
+    ''' 预计算之后每个配置只需 O(P) 次数组取值，无字符串比较、无装箱。
+    ''' </summary>
+    Public Class ActivationModel
+
+        ''' <summary>第 k 个调控项对应的 TF 在 ParentIds 中的下标</summary>
+        Public Property tfIdx As Integer()
+
+        ''' <summary>第 k 个调控项对应的 effector 在 ParentIds 中的下标（-1 表示该 TF 无 effector）</summary>
+        Public Property effIdx As Integer()
+
+        ''' <summary>第 k 个调控项是否为抑制性调控</summary>
+        Public Property isInhibitor As Boolean()
+
+        ''' <summary>调控项数量</summary>
+        Public ReadOnly Property Count As Integer
+            Get
+                Return If(tfIdx Is Nothing, 0, tfIdx.Length)
+            End Get
+        End Property
 
     End Class
 
