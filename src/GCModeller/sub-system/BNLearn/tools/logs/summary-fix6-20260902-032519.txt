@@ -1,0 +1,99 @@
+﻿==== R# 运行监控摘要 ====
+tag                : fix6
+pid                : 19536
+command            : G:\GCModeller\src\R-sharp\App\net10.0\R#.exe K:\hsa_grn\bnlearn.R --attach G:\Erica
+workdir            : G:\GCModeller\src\R-sharp\App\net10.0
+start              : 2026-09-02 03:25:19
+duration_min       : 1.33
+peak_private_gb    : 3.61
+peak_at_min        : 0.5
+threshold_gb       : 80
+exit_code          : 0
+stop_reason        : 进程正常退出
+samples            : 8
+memory_csv         : G:\GCModeller\src\GCModeller\sub-system\BNLearn\tools\logs\memory-fix6-20260902-032519.csv
+stdout_log         : G:\GCModeller\src\GCModeller\sub-system\BNLearn\tools\logs\stdout-fix6-20260902-032519.log
+stderr_log         : G:\GCModeller\src\GCModeller\sub-system\BNLearn\tools\logs\stderr-fix6-20260902-032519.log
+
+---- stdout 末尾 80 行 ----
+debug[2.01 GB, 11 threads], 1.09 min - Step 3: Initialize CPTs for all nodes
+info, 1.09 min - [DBN scale] nodes=386 with_parents=346 max_parents=8
+info, 1.09 min - [DBN scale] cpt_rows=2.073E+006 est_mem_gb=0.347
+info, 1.09 min - [DBN scale] parents_hist=0:40, 1:11, 2:4, 3:9, 4:2, 5:2, 6:1, 7:2, 8:315
+info, 1.09 min - [DBN scale] top_hub=ENSG00000005471(P=8), ENSG00000008323(P=8), ENSG00000010310(P=8), ENSG00000010932(P=8), ENSG00000014257(P=8), ENSG00000021488(P=8), ENSG00000023839(P=8), ENSG00000026751(P=8), ENSG00000027869(P=8), ENSG00000049192(P=8)
+                                         | 0.0% [ 0 / 386 | 0ms < 106751991808.000days ]  .                                        | 0.3% [ 1 / 386 | 3ms < 10.358s ] ENSG00000005102 2.01 GB :                                        | 0.5% [ 2 / 386 | 7ms < 6.930s ] ENSG00000005471 2.01 GB  :                                        | 0.8% [ 3 / 386 | 9ms < 4.010s ] ENSG00000010030 2.01 GB -                                        | 1.0% [ 4 / 386 | 12ms < 3.093s ] ENSG00000067646 2.01 GB █                                        | 1.3% [ 5 / 386 | 15ms < 2.585s ] ENSG00000073282 2.01 GB █                                        | 1.6% [ 6 / 386 | 17ms < 2.203s ] ENSG00000078399 2.01 GB █                                        | 1.8% [ 7 / 386 | 20ms < 1.878s ] ENSG00000126778 2.01 GB █                                        | 2.1% [ 8 / 386 | 22ms < 1.639s ] ENSG00000197757 2.01 GB █                                        | 2.3% [ 9 / 386 | 24ms < 1.463s ] ENSG00000253293 2.01 GB █                                        | 2.6% [ 10 / 386 | 28ms < 1.481s ] ENSG00000008323 2.01 GB ████                                     | 9.3% [ 36 / 386 | 140ms < 1.390s ] ENSG00000141579 2.02 GB █████-                                   | 13.5% [ 52 / 386 | 237ms < 1.374s ] ENSG00000100448 2.03 GB ███████                                  | 17.1% [ 66 / 386 | 321ms < 1.359s ] ENSG00000105664 2.05 GB █████████                                | 21.8% [ 84 / 386 | 438ms < 1.329s ] ENSG00000116690 2.06 GB ██████████                               | 24.6% [ 95 / 386 | 508ms < 1.322s ] ENSG00000124256 2.08 GB ████████████                             | 29.5% [ 114 / 386 | 654ms < 1.288s ] ENSG00000131944 2.10 GB ████████████-                            | 30.8% [ 119 / 386 | 679ms < 1.268s ] ENSG00000133661 2.10 GB █████████████                            | 32.6% [ 126 / 386 | 723ms < 1.265s ] ENSG00000135773 2.11 GB ██████████████.                          | 35.2% [ 136 / 386 | 792ms < 1.254s ] ENSG00000140030 2.12 GB ████████████████                         | 39.6% [ 153 / 386 | 906ms < 1.199s ] ENSG00000153283 2.13 GB ██████████████████                       | 44.0% [ 170 / 386 | 1.021s < 1.139s ] ENSG00000164404 2.15 GB ███████████████████-                     | 48.4% [ 187 / 386 | 1.133s < 1.071s ] ENSG00000172955 2.17 GB █████████████████████.                   | 52.8% [ 204 / 386 | 1.248s < 999ms ] ENSG00000187474 2.19 GB  ██████████████████████                   | 53.9% [ 208 / 386 | 1.274s < 994ms ] ENSG00000197465 2.19 GB ███████████████████████:                 | 58.0% [ 224 / 386 | 1.368s < 909ms ] ENSG00000240498 2.20 GB █████████████████████████                | 62.2% [ 240 / 386 | 1.474s < 832ms ] ENSG00000287315 2.22 GB ███████████████████████████              | 66.3% [ 256 / 386 | 1.567s < 742ms ] ENSG00000112299 2.24 GB ████████████████████████████.            | 70.5% [ 272 / 386 | 1.669s < 658ms ] ENSG00000163814 2.26 GB ██████████████████████████████           | 74.6% [ 288 / 386 | 1.756s < 562ms ] ENSG00000203876 2.27 GB ████████████████████████████████         | 78.8% [ 304 / 386 | 1.834s < 462ms ] ENSG00000198554 2.28 GB ████████████████████████████████         | 79.3% [ 306 / 386 | 1.849s < 462ms ] ENSG00000105967 2.28 GB █████████████████████████████████=       | 83.7% [ 323 / 386 | 1.911s < 344ms ] ENSG00000198074 2.29 GB ███████████████████████████████████:     | 88.1% [ 340 / 386 | 2.029s < 257ms ] ENSG00000104313 2.31 GB █████████████████████████████████████    | 92.5% [ 357 / 386 | 2.127s < 162ms ] ENSG00000105371 2.32 GB ████████████████████████████████████████| 100.0% [ 386 / 386 | 2.194s < 0ms ] ENSG00000164626 2.33 GB   ████████████████████████████████████████| 100.0% [ 386 / 386 | 2.237s < 0ms ] ENSG00000173702 2.33 GB 
+
+debug[2.33 GB, 9 threads], 1.12 min - [BuildFromTopology] finished!
+debug[2.44 GB, 9 threads], 1.15 min - DynamicBayesianNetwork.BuildFromTopology: 正在构建 DBN 结构
+debug[2.44 GB, 9 threads], 1.15 min - Step 1: Create nodes for all TFs, effector metabolites, and target operons
+debug[2.44 GB, 9 threads], 1.15 min - Step 2: Set up parent-child relationships
+debug[2.44 GB, 9 threads], 1.15 min - Step 2b: Guard parent count and precompute activation models
+info, 1.15 min - [DBN dir] 调控项统计: 激活=878, 抑制=0
+debug[2.44 GB, 9 threads], 1.15 min - [DBN dir] 警告: 网络中不存在任何抑制性调控，激活得分恒为正，CPT 的 Low 分支不可达
+debug[2.44 GB, 9 threads], 1.15 min - Step 3: Initialize CPTs for all nodes
+info, 1.15 min - [DBN scale] nodes=180 with_parents=169 max_parents=8
+info, 1.15 min - [DBN scale] cpt_rows=3.960E+005 est_mem_gb=0.066
+info, 1.15 min - [DBN scale] parents_hist=0:11, 1:3, 2:3, 3:54, 4:26, 5:13, 6:9, 7:4, 8:57
+info, 1.15 min - [DBN scale] top_hub=ENSG00000007350(P=8), ENSG00000030304(P=8), ENSG00000066405(P=8), ENSG00000086506(P=8), ENSG00000089012(P=8), ENSG00000091128(P=8), ENSG00000091138(P=8), ENSG00000101425(P=8), ENSG00000102970(P=8), ENSG00000104321(P=8)
+                                         | 0.0% [ 0 / 180 | 0ms < 106751991808.000days ]  :                                        | 0.6% [ 1 / 180 | 3ms < 5.408s ] ENSG00000105880 2.44 GB =                                        | 1.1% [ 2 / 180 | 6ms < 2.574s ] ENSG00000000005 2.44 GB █                                        | 1.7% [ 3 / 180 | 8ms < 1.633s ] ENSG00000112041 2.44 GB █                                        | 2.2% [ 4 / 180 | 10ms < 1.218s ] ENSG00000166349 2.44 GB █.                                       | 2.8% [ 5 / 180 | 12ms < 987ms ] ENSG00000002745 2.44 GB  █-                                       | 3.3% [ 6 / 180 | 15ms < 924ms ] ENSG00000004809 2.44 GB ██                                       | 3.9% [ 7 / 180 | 18ms < 841ms ] ENSG00000183734 2.44 GB ██                                       | 4.4% [ 8 / 180 | 21ms < 762ms ] ENSG00000043039 2.44 GB ██                                       | 5.0% [ 9 / 180 | 25ms < 759ms ] ENSG00000007350 2.44 GB ██:                                      | 5.6% [ 10 / 180 | 27ms < 684ms ] ENSG00000108813 2.44 GB ████████:                                | 20.6% [ 37 / 180 | 167ms < 589ms ] ENSG00000125726 2.45 GB ██████████                               | 24.4% [ 44 / 180 | 221ms < 587ms ] ENSG00000149021 2.47 GB █████████████-                           | 33.3% [ 60 / 180 | 325ms < 536ms ] ENSG00000172016 2.49 GB ████████████████                         | 40.0% [ 72 / 180 | 391ms < 492ms ] ENSG00000048462 2.49 GB ████████████████████                     | 50.0% [ 90 / 180 | 433ms < 374ms ] ENSG00000111339 2.49 GB ███████████████████████-                 | 58.3% [ 105 / 180 | 469ms < 291ms ] ENSG00000138316 2.49 GB ████████████████████████=                | 61.1% [ 110 / 180 | 481ms < 253ms ] ENSG00000140279 2.49 GB ██████████████████████████               | 63.9% [ 115 / 180 | 491ms < 220ms ] ENSG00000148680 2.49 GB ███████████████████████████████          | 76.7% [ 138 / 180 | 549ms < 137ms ] ENSG00000173208 2.50 GB █████████████████████████████████-       | 83.3% [ 150 / 180 | 576ms < 94ms ] ENSG00000188916 2.50 GB  ████████████████████████████████████████| 100.0% [ 180 / 180 | 590ms < 0ms ] ENSG00000232079 2.50 GB  ████████████████████████████████████████| 100.0% [ 180 / 180 | 640ms < 0ms ] ENSG00000163121 2.50 GB 
+
+debug[2.50 GB, 9 threads], 1.16 min - [BuildFromTopology] finished!
+debug[2.52 GB, 9 threads], 1.16 min - DynamicBayesianNetwork.BuildFromTopology: 正在构建 DBN 结构
+debug[2.52 GB, 9 threads], 1.16 min - Step 1: Create nodes for all TFs, effector metabolites, and target operons
+debug[2.52 GB, 9 threads], 1.16 min - Step 2: Set up parent-child relationships
+debug[2.52 GB, 9 threads], 1.16 min - Step 2b: Guard parent count and precompute activation models
+info, 1.16 min - [DBN dir] 调控项统计: 激活=3137, 抑制=0
+debug[2.52 GB, 9 threads], 1.16 min - [DBN dir] 警告: 网络中不存在任何抑制性调控，激活得分恒为正，CPT 的 Low 分支不可达
+debug[2.52 GB, 9 threads], 1.16 min - Step 3: Initialize CPTs for all nodes
+info, 1.16 min - [DBN scale] nodes=405 with_parents=393 max_parents=8
+info, 1.16 min - [DBN scale] cpt_rows=2.572E+006 est_mem_gb=0.431
+info, 1.16 min - [DBN scale] parents_hist=0:12, 1:1, 8:392
+info, 1.16 min - [DBN scale] top_hub=ENSG00000005421(P=8), ENSG00000007171(P=8), ENSG00000007952(P=8), ENSG00000008438(P=8), ENSG00000021461(P=8), ENSG00000039987(P=8), ENSG00000053108(P=8), ENSG00000055957(P=8), ENSG00000057468(P=8), ENSG00000069482(P=8)
+                                         | 0.0% [ 0 / 405 | 0ms < 106751991808.000days ]  .                                        | 0.2% [ 1 / 405 | 3ms < 13.204s ] ENSG00000049768 2.52 GB :                                        | 0.5% [ 2 / 405 | 15ms < 11.170s ] ENSG00000005421 2.52 GB :                                        | 0.7% [ 3 / 405 | 19ms < 6.701s ] ENSG00000061455 2.52 GB  -                                        | 1.0% [ 4 / 405 | 22ms < 4.522s ] ENSG00000104804 2.52 GB =                                        | 1.2% [ 5 / 405 | 24ms < 3.376s ] ENSG00000118156 2.52 GB █                                        | 1.5% [ 6 / 405 | 26ms < 2.659s ] ENSG00000119608 2.52 GB █                                        | 1.7% [ 7 / 405 | 29ms < 2.185s ] ENSG00000151650 2.52 GB █                                        | 2.0% [ 8 / 405 | 31ms < 1.881s ] ENSG00000166268 2.52 GB █                                        | 2.2% [ 9 / 405 | 33ms < 1.668s ] ENSG00000186051 2.52 GB █                                        | 2.5% [ 10 / 405 | 38ms < 1.697s ] ENSG00000007171 2.52 GB ███                                      | 6.4% [ 26 / 405 | 118ms < 1.653s ] ENSG00000089692 2.53 GB ████-                                    | 10.9% [ 44 / 405 | 242ms < 1.634s ] ENSG00000106128 2.55 GB █████-                                   | 13.3% [ 54 / 405 | 323ms < 1.662s ] ENSG00000112706 2.57 GB ███████                                  | 16.8% [ 68 / 405 | 399ms < 1.617s ] ENSG00000121101 2.58 GB ████████-                                | 21.0% [ 85 / 405 | 508ms < 1.574s ] ENSG00000132204 2.60 GB ██████████.                              | 25.2% [ 102 / 405 | 613ms < 1.522s ] ENSG00000145692 2.61 GB ████████████                             | 29.4% [ 119 / 405 | 724ms < 1.471s ] ENSG00000159197 2.64 GB █████████████                            | 31.6% [ 128 / 405 | 782ms < 1.453s ] ENSG00000162643 2.64 GB ██████████████:                          | 35.6% [ 144 / 405 | 888ms < 1.398s ] ENSG00000170289 2.66 GB ████████████████                         | 39.5% [ 160 / 405 | 993ms < 1.337s ] ENSG00000177238 2.68 GB █████████████████-                       | 43.5% [ 176 / 405 | 1.097s < 1.270s ] ENSG00000183273 2.70 GB ███████████████████                      | 47.4% [ 192 / 405 | 1.199s < 1.198s ] ENSG00000187066 2.71 GB █████████████████████                    | 51.4% [ 208 / 405 | 1.305s < 1.125s ] ENSG00000198400 2.73 GB ██████████████████████.                  | 55.3% [ 224 / 405 | 1.413s < 1.049s ] ENSG00000215146 2.75 GB ████████████████████████                 | 59.3% [ 240 / 405 | 1.509s < 960ms ] ENSG00000226756 2.77 GB  █████████████████████████:               | 63.2% [ 256 / 405 | 1.614s < 877ms ] ENSG00000231154 2.78 GB ███████████████████████████              | 67.2% [ 272 / 405 | 1.723s < 794ms ] ENSG00000236256 2.80 GB ████████████████████████████=            | 71.1% [ 288 / 405 | 1.830s < 706ms ] ENSG00000247324 2.81 GB ██████████████████████████████           | 75.1% [ 304 / 405 | 1.933s < 613ms ] ENSG00000251230 2.83 GB ████████████████████████████████         | 79.0% [ 320 / 405 | 2.033s < 517ms ] ENSG00000258647 2.85 GB █████████████████████████████████.       | 83.0% [ 336 / 405 | 2.139s < 423ms ] ENSG00000261404 2.87 GB ███████████████████████████████████      | 86.9% [ 352 / 405 | 2.240s < 326ms ] ENSG00000267650 2.89 GB ████████████████████████████████████-    | 90.9% [ 368 / 405 | 2.347s < 229ms ] ENSG00000272914 2.90 GB ██████████████████████████████████████   | 94.8% [ 384 / 405 | 2.444s < 130ms ] ENSG00000279317 2.93 GB ████████████████████████████████████████| 100.0% [ 405 / 405 | 2.548s < 0ms ] ENSG00000283945 2.95 GB   ████████████████████████████████████████| 100.0% [ 405 / 405 | 2.575s < 0ms ] ENSG00000238199 2.95 GB 
+
+debug[2.95 GB, 9 threads], 1.21 min - [BuildFromTopology] finished!
+info, 1.24 min - GRN.TrainModularDBNIntervene: 模块关联边数=20
+info, 1.24 min - [BlockBayesianNetwork] 模型已载入: blocks=5, genes=1470
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000204434' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000225712' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000176882' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000215063' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000231397' 不在任何模块中，跳过
+debug[3.01 GB, 9 threads], 1.24 min - GRN.CascadeIntervene: 基因 'ENSG00000213063' 本模块速率 基线=0.5386, 扰动后=0.5386, 状态Δ=-0.0049
+info, 1.24 min - GRN.CascadeIntervene: 对基因 'ENSG00000213063'（模块 turquoise_blue）完成级联虚拟扰动，本模块 eigengene 变化 δ=-0.0049
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000106038' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000213717' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000223513' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000186329' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000229871' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000213003' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000280381' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000234575' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000277656' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000172912' 不在任何模块中，跳过
+debug[3.01 GB, 9 threads], 1.24 min - GRN.CascadeIntervene: 基因 'ENSG00000241346' 本模块速率 基线=0.5590, 扰动后=0.5590, 状态Δ=-0.0037
+info, 1.24 min - GRN.CascadeIntervene: 对基因 'ENSG00000241346'（模块 brown）完成级联虚拟扰动，本模块 eigengene 变化 δ=-0.0037
+debug[3.02 GB, 9 threads], 1.24 min - GRN.CascadeIntervene: 基因 'ENSG00000214374' 本模块速率 基线=0.5848, 扰动后=0.5848, 状态Δ=-0.0024
+info, 1.24 min - GRN.CascadeIntervene: 对基因 'ENSG00000214374'（模块 turquoise_1）完成级联虚拟扰动，本模块 eigengene 变化 δ=-0.0024
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000171611' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000124391' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000173349' 不在任何模块中，跳过
+debug[3.02 GB, 9 threads], 1.24 min - GRN.CascadeIntervene: 基因 'ENSG00000237793' 本模块速率 基线=0.5848, 扰动后=0.5848, 状态Δ=-0.0024
+info, 1.24 min - GRN.CascadeIntervene: 对基因 'ENSG00000237793'（模块 turquoise_1）完成级联虚拟扰动，本模块 eigengene 变化 δ=-0.0024
+debug[3.02 GB, 9 threads], 1.24 min - GRN.CascadeIntervene: 基因 'ENSG00000163735' 本模块速率 基线=0.5848, 扰动后=0.5848, 状态Δ=-0.0024
+info, 1.24 min - GRN.CascadeIntervene: 对基因 'ENSG00000163735'（模块 turquoise_1）完成级联虚拟扰动，本模块 eigengene 变化 δ=-0.0024
+debug[3.02 GB, 9 threads], 1.24 min - GRN.CascadeIntervene: 基因 'ENSG00000215467' 本模块速率 基线=0.5848, 扰动后=0.5848, 状态Δ=-0.0024
+info, 1.24 min - GRN.CascadeIntervene: 对基因 'ENSG00000215467'（模块 turquoise_1）完成级联虚拟扰动，本模块 eigengene 变化 δ=-0.0024
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000145681' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000243910' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000178723' 不在任何模块中，跳过
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000173357' 不在任何模块中，跳过
+debug[3.02 GB, 9 threads], 1.24 min - GRN.CascadeIntervene: 基因 'ENSG00000224939' 本模块速率 基线=0.5590, 扰动后=0.5590, 状态Δ=-0.0037
+info, 1.24 min - GRN.CascadeIntervene: 对基因 'ENSG00000224939'（模块 brown）完成级联虚拟扰动，本模块 eigengene 变化 δ=-0.0037
+info, 1.24 min - GRN.CascadeIntervene: 警告: 扰动基因 'ENSG00000161270' 不在任何模块中，跳过
+info, 1.24 min - GRN.SaveModularResults: 模块化全局扰动结果已导出至 K:/hsa_grn/modular_response
+Warning messages:
+  1. ignore missing script engine module: ... [SMRUCC/R#.global.<globalEnvironment> at <globalEnvironment>:line n/a]
+
+
+

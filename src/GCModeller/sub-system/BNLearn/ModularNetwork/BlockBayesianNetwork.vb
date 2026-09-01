@@ -123,17 +123,19 @@ Namespace ModularNetwork
                 ' 基线同时记录"稳态时的基因状态"，用于把传播量表达为**状态值的平均变化**
                 ' （Low=0/Medium=1/High=2）。RNA 速率均值是连续量，平均后变化被稀释到 1e-4 量级，
                 ' 单基因敲降几乎测不到；状态值变化对扰动更敏感，且方向语义明确。
-                Dim wtStates As New Dictionary(Of String, String)
+                For Each m In moduleDBs
+                    Dim wtStates As New Dictionary(Of String, String)
 
-                For Each g In m.Genes
-                    wtStates(g) = "Medium"
+                    For Each g In m.Genes
+                        wtStates(g) = "Medium"
+                    Next
+
+                    Dim wtRates = RunModuleSteps(m, wtStates, Nothing, steps, tfSet, Nothing)
+                    Dim snapshot As New Dictionary(Of String, String)(wtStates, StringComparer.OrdinalIgnoreCase)
+
+                    _baselineRates(m.ModuleColor) = If(wtRates.Count > 0, wtRates.Values.Average(), 0.0)
+                    _baselineStates(m.ModuleColor) = snapshot
                 Next
-
-                Dim wtRates = RunModuleSteps(m, wtStates, Nothing, steps, tfSet, Nothing)
-                Dim baselineStates As New Dictionary(Of String, String)(wtStates, StringComparer.OrdinalIgnoreCase)
-
-                _baselineRates(m.ModuleColor) = If(wtRates.Count > 0, wtRates.Values.Average(), 0.0)
-                _baselineStates(m.ModuleColor) = baselineStates
             End If
 
             ' 本模块多步推演

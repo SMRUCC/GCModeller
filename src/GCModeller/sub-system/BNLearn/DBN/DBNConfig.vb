@@ -166,13 +166,15 @@ Namespace DBN
         Public Property ActivationLowThreshold As Double = 0.47
 
         ''' <summary>
-        ''' 级联传播触发下游模块整体状态偏置的阈值（默认 0.02）。
+        ''' 级联传播触发下游模块整体状态偏置的阈值（默认 0.005）。
         ''' 
         ''' 传播量是"模块内基因状态相对基线的平均变化"（状态值 Low=0/Medium=1/High=2）。
-        ''' 单基因敲降通常只影响其直接靶标（约占模块基因的 1%），对应量级约 0.01；
-        ''' 沿用原实现的 0.1 会让级联永远不触发，扰动效应被完全局限在本模块内。
+        ''' 单基因敲降通常只影响其直接靶标（实测约占模块基因的 0.3%~0.5%，
+        ''' 对应传播信号量级 0.003~0.005）。原实现固定取 0.1，且用的是恒为正的速率均值，
+        ''' 导致级联要么永远不触发、要么被单向锁定为 High。
+        ''' 设为 0 可让任何扰动都跨模块传播（放大效应强），调大则只有强扰动才传播。
         ''' </summary>
-        Public Property CascadeStateThreshold As Double = 0.02
+        Public Property CascadeStateThreshold As Double = 0.005
 
         ''' <summary>
         ''' 自适应阈值所使用的低分位数（默认 0.33，即约 1/3 的样本落入 Low）。
