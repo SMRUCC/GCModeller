@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
 Imports SMRUCC.genomics.Analysis.BNLearn.Inference
 
@@ -234,6 +235,23 @@ Namespace ModularNetwork
             Next
 
             Return lastRates
+        End Function
+
+        ''' <summary>
+        ''' save model as zip archive file
+        ''' </summary>
+        ''' <param name="file"></param>
+        Public Sub SaveModel(file As Stream)
+
+        End Sub
+
+        ''' <summary>
+        ''' load model from zip archive file
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
+        Public Shared Function LoadModel(file As Stream) As BlockBayesianNetwork
+
         End Function
     End Class
 End Namespace
