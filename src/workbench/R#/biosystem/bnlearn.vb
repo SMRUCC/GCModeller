@@ -154,7 +154,7 @@ Module bnlearn
                             <RRawVectorArgument(GetType(GeneModuleColor))> Optional modules As Object = Nothing,
                             <RRawVectorArgument(TypeCodes.string)> Optional TF As Object = Nothing,
                             Optional max_itrs As Integer = 500,
-                            Optional crossModuleCorThreshold As Double = 0.3,
+                            Optional cross_thres As Double = 0.3,
                             Optional strict As Boolean? = Nothing,
                             Optional env As Environment = Nothing) As Object
 
@@ -184,8 +184,9 @@ Module bnlearn
                 Return colors.getError
             End If
 
-            Dim blocks = timeSeries.TrainBlocks(colors, kbNet, TF).ToArray
-            Dim moduleDBs As New BlockBayesianNetwork(blocks, crossModuleCorThreshold)
+            Dim TFlist As String() = CLRVector.asCharacter(TF)
+            Dim blocks = timeSeries.TrainBlocks(colors, kbNet, TFlist).ToArray
+            Dim moduleDBs As New BlockBayesianNetwork(blocks, TFlist, cross_thres)
 
             Return moduleDBs
         Else
