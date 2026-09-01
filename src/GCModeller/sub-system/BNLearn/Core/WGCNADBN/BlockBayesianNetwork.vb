@@ -36,7 +36,7 @@ Namespace Core.WGCNADBN
                                          knockGene As String,
                                          steps As Integer,
                                          allGenes As String(),
-                                         trajectories As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double)))) As Double()
+                                         trajectories As Dictionary(Of String, Dictionary(Of String, List(Of Double)))) As Double()
             ' 定位扰动基因所属模块
             Dim m0 As ModuleDBN = Nothing
             For Each m In moduleDBs
@@ -48,16 +48,16 @@ Namespace Core.WGCNADBN
             If m0 Is Nothing Then
                 Call VBDebugger.WriteLine($"GRN.CascadeIntervene: 警告: 扰动基因 '{knockGene}' 不在任何模块中，跳过")
                 Dim zero As Double() = allGenes.Select(Function(g) 1.0).ToArray()
-                trajectories(knockGene) = New System.Collections.Generic.Dictionary(Of String, List(Of Double))
+                trajectories(knockGene) = New Dictionary(Of String, List(Of Double))
                 Return zero
             End If
 
             ' 每个模块维护基因离散状态（初始 Medium），以及各自的轨迹容器
-            Dim moduleStates As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, String))
-            Dim moduleTraj As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double)))
+            Dim moduleStates As New Dictionary(Of String, Dictionary(Of String, String))
+            Dim moduleTraj As New Dictionary(Of String, Dictionary(Of String, List(Of Double)))
             For Each m In moduleDBs
-                Dim st As New System.Collections.Generic.Dictionary(Of String, String)
-                Dim tr As New System.Collections.Generic.Dictionary(Of String, List(Of Double))
+                Dim st As New Dictionary(Of String, String)
+                Dim tr As New Dictionary(Of String, List(Of Double))
                 For Each g In m.Genes
                     st(g) = "Medium"
                     tr(g) = New List(Of Double)(New Double(steps - 1) {})
@@ -99,7 +99,7 @@ Namespace Core.WGCNADBN
             End While
 
             ' 汇总全局最终响应向量（显式双层循环，避免 SelectMany 对 Double() 轨迹的深层展平）
-            Dim geneToTraj As New System.Collections.Generic.Dictionary(Of String, List(Of Double))(StringComparer.OrdinalIgnoreCase)
+            Dim geneToTraj As New Dictionary(Of String, List(Of Double))(StringComparer.OrdinalIgnoreCase)
             For Each kvModule In moduleTraj
                 For Each kvGene In kvModule.Value
                     geneToTraj(kvGene.Key) = kvGene.Value
@@ -116,7 +116,7 @@ Namespace Core.WGCNADBN
                 End If
             Next
 
-            Dim trajMerged As New System.Collections.Generic.Dictionary(Of String, List(Of Double))(StringComparer.OrdinalIgnoreCase)
+            Dim trajMerged As New Dictionary(Of String, List(Of Double))(StringComparer.OrdinalIgnoreCase)
             For Each kvModule In moduleTraj
                 For Each kvGene In kvModule.Value
                     trajMerged(kvGene.Key) = kvGene.Value
@@ -136,7 +136,7 @@ Namespace Core.WGCNADBN
                                         fixedGene As String,
                                         steps As Integer,
                                         tfSet As HashSet(Of String),
-                                        traj As System.Collections.Generic.Dictionary(Of String, List(Of Double))) As System.Collections.Generic.Dictionary(Of String, Double)
+                                        traj As Dictionary(Of String, List(Of Double))) As Dictionary(Of String, Double)
             Dim lastRates As New Dictionary(Of String, Double)
 
             For t = 1 To steps - 1
@@ -175,7 +175,7 @@ Namespace Core.WGCNADBN
                                          steps As Integer,
                                          tfSet As HashSet(Of String),
                                          geneStates As Dictionary(Of String, String),
-                                         traj As System.Collections.Generic.Dictionary(Of String, List(Of Double))) As System.Collections.Generic.Dictionary(Of String, Double)
+                                         traj As Dictionary(Of String, List(Of Double))) As Dictionary(Of String, Double)
             ' 初始整体状态偏置：上游正向变化 → High，负向 → Low，近 0 → Medium
             Dim initState As String = If(upstreamDelta > 0.1, "High", If(upstreamDelta < -0.1, "Low", "Medium"))
             For Each g In m.Genes
