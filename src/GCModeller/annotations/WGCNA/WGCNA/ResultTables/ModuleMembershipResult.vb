@@ -58,6 +58,9 @@ Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 ''' <summary>
 ''' 模块成员结果
 ''' </summary>
+''' <remarks>
+''' [gene_id, moduleColor, kME, pvalue]
+''' </remarks>
 Public Class ModuleMembershipResult
     ''' <summary>
     ''' 基因ID

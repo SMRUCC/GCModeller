@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports std = System.Math
@@ -76,10 +77,15 @@ Public Module CorrelationNetwork
             .id = "adjacency_matrix",
             .name = "WGCNA correlation network"
         }
+        Dim moduleList As ModuleMembershipResult() = modules.ToArray
+        Dim colors As New CategoryColorProfile(From r As ModuleMembershipResult
+                                               In moduleList
+                                               Select r.ModuleName
+                                               Distinct, colorSet:="paper")
 
-        For Each gene As ModuleMembershipResult In modules
+        For Each gene As ModuleMembershipResult In moduleList
             Call g.CreateNode(gene.GeneId, New NodeData With {
-                .color = New SolidBrush(gene.ModuleName.TranslateColor),
+                .color = New SolidBrush(colors(gene.ModuleName)),
                 .label = gene.ToString,
                 .mass = gene.Correlation,
                 .origID = gene.GeneId,
