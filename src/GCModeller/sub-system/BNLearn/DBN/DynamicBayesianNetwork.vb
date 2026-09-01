@@ -146,6 +146,11 @@ Namespace DBN
             End Set
         End Property
 
+        Public ReadOnly Property topologySize As Integer
+            Get
+                Return _topologyLinks.Length
+            End Get
+        End Property
 
         ''' <summary>Default constructor with default configuration</summary>
         Public Sub New()

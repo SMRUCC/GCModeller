@@ -6,7 +6,7 @@ Namespace Core.WGCNADBN
     Public Module BlockDynamics
 
         <Extension>
-        Public Iterator Function TrainBlocks(timeSeries As Core.GeneExpressionData, modules As GeneModuleColor(), TF As String()) As IEnumerable(Of ModuleDBN)
+        Public Iterator Function TrainBlocks(timeSeries As Core.GeneExpressionData, modules As GeneModuleColor(), prior As Core.PriorNetwork, TF As String()) As IEnumerable(Of ModuleDBN)
             ' ① 模块划分（跳过 grey 模块，仅保留出现在时间序列中的基因）
             Dim moduleGenes = SplitModules(modules, timeSeries)
             If moduleGenes.Count = 0 Then
@@ -26,8 +26,14 @@ Namespace Core.WGCNADBN
                     Continue For
                 End If
 
+                Dim [module] = TrainBlock(timeSeries, prior, mcolor, genes)
 
-                Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块 {mcolor} 训练完成（基因={genes.Length}, 模块内边={links.Count()}）")
+                If [module] IsNot Nothing Then
+                    moduleDBs += 1
+                    Yield [module]
+                End If
+
+                Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块 {mcolor} 训练完成（基因={genes.Length}, 模块内边={[module].Net.topologySize}）")
             Next
 
             If moduleDBs = 0 Then
@@ -35,7 +41,7 @@ Namespace Core.WGCNADBN
             End If
         End Function
 
-        Private Function TrainBlock(timeSeries As Core.GeneExpressionData, mcolor As String, genes As String()) As ModuleDBN
+        Private Function TrainBlock(timeSeries As Core.GeneExpressionData, prior As Core.PriorNetwork, mcolor As String, genes As String()) As ModuleDBN
             Dim subMatrix = timeSeries.GetSubMatrix(genes)
             If subMatrix Is Nothing Then
                 Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块 {mcolor} 无基因匹配时间序列，跳过")
@@ -47,7 +53,7 @@ Namespace Core.WGCNADBN
             Dim net As New DynamicBayesianNetwork()
             net.BuildFromTopology(links)
 
-            Dim ts = ToTimeSeries(subMatrix)
+            Dim ts = subMatrix.ToTimeSeries()
             If ts IsNot Nothing AndAlso ts.Count >= 2 Then
                 net.LearnParameters(ts)
             Else
@@ -64,7 +70,7 @@ Namespace Core.WGCNADBN
             For i = 0 To genes.Length - 1
                 mdb.GeneIndex(genes(i)) = i
             Next
-            moduleDBs.Add(mdb)
+            Return mdb
         End Function
 
     End Module

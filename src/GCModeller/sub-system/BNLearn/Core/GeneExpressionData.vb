@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::c966e27d2580c999d9f10e8dedcc021a, sub-system\BNLearn\Core\GeneExpressionData.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 196
-    '    Code Lines: 129 (65.82%)
-    ' Comment Lines: 37 (18.88%)
-    '    - Xml Docs: 48.65%
-    ' 
-    '   Blank Lines: 30 (15.31%)
-    '     File Size: 7.23 KB
+' Summaries:
 
 
-    '     Class GeneExpressionData
-    ' 
-    '         Properties: GeneNames, Matrix, NGene, NSample, SampleNames
-    '                     TimePoints, UniqueTimePoints
-    ' 
-    '         Function: GetGeneExpression, GetGeneIndex, GetSample, GetSampleIndicesAtTime, GetSubMatrixAtTime
-    '                   QuantileNormalize, Standardize
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 196
+'    Code Lines: 129 (65.82%)
+' Comment Lines: 37 (18.88%)
+'    - Xml Docs: 48.65%
+' 
+'   Blank Lines: 30 (15.31%)
+'     File Size: 7.23 KB
+
+
+'     Class GeneExpressionData
+' 
+'         Properties: GeneNames, Matrix, NGene, NSample, SampleNames
+'                     TimePoints, UniqueTimePoints
+' 
+'         Function: GetGeneExpression, GetGeneIndex, GetSample, GetSampleIndicesAtTime, GetSubMatrixAtTime
+'                   QuantileNormalize, Standardize
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -65,6 +65,8 @@
 '   - 数据标准化
 '   - 时间切片提取
 ' ============================================================
+
+Imports SMRUCC.genomics.Analysis.BNLearn.DBN
 
 Namespace Core
 
@@ -142,7 +144,7 @@ Namespace Core
         Public Function GetSampleIndicesAtTime(time As Double) As Integer()
             Dim indices As New List(Of Integer)()
             For j = 0 To NSample - 1
-                If Math.Abs(TimePoints(j) - time) < 1e-10 Then
+                If Math.Abs(TimePoints(j) - time) < 0.0000000001 Then
                     indices.Add(j)
                 End If
             Next
@@ -184,7 +186,7 @@ Namespace Core
                     ss += (result.Matrix(i, j) - mean) ^ 2
                 Next
                 Dim sd As Double = Math.Sqrt(ss / (NSample - 1))
-                If sd < 1e-15 Then sd = 1.0
+                If sd < 0.000000000000001 Then sd = 1.0
 
                 ' 标准化
                 For j = 0 To NSample - 1
@@ -291,6 +293,52 @@ Namespace Core
             Return result
         End Function
 
+        ''' <summary>
+        ''' 将表达矩阵（时间序列）转换为 DBN 参数学习所需的输入格式。
+        '''
+        ''' 每个唯一时间点被聚合为一个基因丰度字典（该时间点下全部生物学重复样本的
+        ''' 均值），按时间顺序排列形成时间序列轨迹。要求至少包含 2 个时间点。
+        ''' </summary>
+        ''' <returns>按时间排序的基因丰度字典列表，供 <see cref="DynamicBayesianNetwork.LearnParameters"/> 使用。</returns>
+        Public Function ToTimeSeries() As List(Of Dictionary(Of String, Double))
+            Dim timePoints As Double() = UniqueTimePoints
+            If timePoints Is Nothing OrElse timePoints.Length < 2 Then
+                Throw New InvalidOperationException("表达矩阵需要至少包含 2 个时间点以进行动态贝叶斯网络参数学习")
+            End If
+
+            Dim series As New List(Of Dictionary(Of String, Double))
+
+            For Each tp As Double In timePoints
+                ' 收集该时间点的所有样本索引
+                Dim sampleIdx As Integer() = Me.TimePoints _
+                .Select(Function(t, i) (time:=t, index:=i)) _
+                .Where(Function(x) Math.Abs(x.time - tp) < 0.0000000001) _
+                .Select(Function(x) x.index) _
+                .ToArray()
+
+                If sampleIdx.Length = 0 Then
+                    Call VBDebugger.WriteLine($"WGCNAGRN.ToTimeSeries: 时间点 {tp} 无样本，已跳过")
+                    Continue For
+                End If
+
+                Dim frame As New Dictionary(Of String, Double)
+
+                For gi As Integer = 0 To Me.NGene - 1
+                    Dim gene As String = Me.GeneNames(gi)
+                    Dim offset As Integer = gi
+                    Dim avg As Double = Aggregate i As Integer
+                                    In sampleIdx
+                                    Into Average(Me.Matrix(offset, i))
+                    frame(gene) = avg
+                Next
+
+                Call series.Add(frame)
+            Next
+
+            Call VBDebugger.WriteLine($"WGCNAGRN.ToTimeSeries: 构造时间序列，共 {series.Count} 个时间点")
+
+            Return series
+        End Function
     End Class
 
 End Namespace

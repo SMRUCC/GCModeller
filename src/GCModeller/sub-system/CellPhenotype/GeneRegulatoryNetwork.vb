@@ -220,58 +220,6 @@ Public Module GeneRegulatoryNetwork
     End Function
 
     ''' <summary>
-    ''' 将表达矩阵（时间序列）转换为 DBN 参数学习所需的输入格式。
-    '''
-    ''' 每个唯一时间点被聚合为一个基因丰度字典（该时间点下全部生物学重复样本的
-    ''' 均值），按时间顺序排列形成时间序列轨迹。要求至少包含 2 个时间点。
-    ''' </summary>
-    ''' <param name="expr">已加载的 <see cref="GeneExpressionData"/> 表达矩阵。</param>
-    ''' <returns>按时间排序的基因丰度字典列表，供 <see cref="DynamicBayesianNetwork.LearnParameters"/> 使用。</returns>
-    Public Function ToTimeSeries(expr As Core.GeneExpressionData) As List(Of Dictionary(Of String, Double))
-        If expr Is Nothing Then
-            Throw New ArgumentNullException(NameOf(expr), "表达矩阵不能为空")
-        End If
-
-        Dim timePoints As Double() = expr.UniqueTimePoints
-        If timePoints Is Nothing OrElse timePoints.Length < 2 Then
-            Throw New InvalidOperationException("表达矩阵需要至少包含 2 个时间点以进行动态贝叶斯网络参数学习")
-        End If
-
-        Dim series As New List(Of Dictionary(Of String, Double))
-
-        For Each tp As Double In timePoints
-            ' 收集该时间点的所有样本索引
-            Dim sampleIdx As Integer() = expr.TimePoints _
-                .Select(Function(t, i) (time:=t, index:=i)) _
-                .Where(Function(x) Math.Abs(x.time - tp) < 0.0000000001) _
-                .Select(Function(x) x.index) _
-                .ToArray()
-
-            If sampleIdx.Length = 0 Then
-                Call VBDebugger.WriteLine($"WGCNAGRN.ToTimeSeries: 时间点 {tp} 无样本，已跳过")
-                Continue For
-            End If
-
-            Dim frame As New Dictionary(Of String, Double)
-
-            For gi As Integer = 0 To expr.NGene - 1
-                Dim gene As String = expr.GeneNames(gi)
-                Dim offset As Integer = gi
-                Dim avg As Double = Aggregate i As Integer
-                                    In sampleIdx
-                                    Into Average(expr.Matrix(offset, i))
-                frame(gene) = avg
-            Next
-
-            Call series.Add(frame)
-        Next
-
-        Call VBDebugger.WriteLine($"WGCNAGRN.ToTimeSeries: 构造时间序列，共 {series.Count} 个时间点")
-
-        Return series
-    End Function
-
-    ''' <summary>
     ''' 构建并拟合参数的动态贝叶斯网络：将 WGCNA 共表达网络按 TF 注释定向为
     ''' DBN 拓扑，并基于时间序列表达矩阵学习条件概率表（CPT）。
     ''' </summary>
@@ -306,7 +254,7 @@ Public Module GeneRegulatoryNetwork
 
         Call VBDebugger.WriteLine($"WGCNAGRN.BuildDBN: 拓扑构建完成，节点数 = {dbn.GetAllNodes().Count}，调控边 = {links.Count()}。开始参数学习...")
 
-        Dim timeSeries As List(Of Dictionary(Of String, Double)) = ToTimeSeries(expr)
+        Dim timeSeries As List(Of Dictionary(Of String, Double)) = expr.ToTimeSeries()
         dbn.LearnParameters(timeSeries)
 
         Call VBDebugger.WriteLine("WGCNAGRN.BuildDBN: 参数学习完成")
@@ -549,7 +497,7 @@ Public Module GeneRegulatoryNetwork
         If TF Is Nothing Then TF = {}
         If knockGenes Is Nothing Then knockGenes = {}
 
-        Dim moduleDBs = timeSeries.TrainBlocks(modules, TF)
+        Dim moduleDBs = timeSeries.TrainBlocks(modules, prior, TF).ToArray
 
         ' ③ 模块间关联图（基于 eigengene 轨迹相关度）
         Dim graph = BuildModuleCorrelationGraph(moduleDBs, crossModuleCorThreshold)
@@ -587,7 +535,7 @@ Public Module GeneRegulatoryNetwork
     '''     在下游模块内做受迫推演，形成级联；
     '''   - 汇总所有模块基因的最终状态为全局响应向量（按 allGenes 顺序，Low=0/Med=1/High=2）。
     ''' </summary>
-    Private Function CascadeIntervene(modules As List(Of ModuleDBN),
+    Private Function CascadeIntervene(modules As IReadOnlyCollection(Of ModuleDBN),
                                      graph As Dictionary(Of String, List(Of (modColor As String, weight As Double))),
                                      tfSet As HashSet(Of String),
                                      knockGene As String,

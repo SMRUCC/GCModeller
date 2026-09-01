@@ -102,7 +102,7 @@ Namespace Core.WGCNADBN
         ''' 基于模块 eigengene 轨迹的 Pearson 相关构建模块间关联图（邻接表，权重 = |cor|）。
         ''' 仅保留 |cor| 超过阈值的双向关联。
         ''' </summary>
-        Public Function BuildModuleCorrelationGraph(modules As List(Of ModuleDBN), threshold As Double) As Dictionary(Of String, List(Of (modColor As String, weight As Double)))
+        Public Function BuildModuleCorrelationGraph(modules As IReadOnlyCollection(Of ModuleDBN), threshold As Double) As Dictionary(Of String, List(Of (modColor As String, weight As Double)))
             Dim graph As New Dictionary(Of String, List(Of (String, Double)))
 
             For Each m In modules
