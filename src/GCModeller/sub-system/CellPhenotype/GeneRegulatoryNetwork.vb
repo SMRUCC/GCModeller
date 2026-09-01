@@ -53,9 +53,6 @@
 
 #End Region
 
-Imports System.Collections.Generic
-Imports System.IO
-Imports System.Linq
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
@@ -64,6 +61,7 @@ Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
+Imports SMRUCC.genomics.Analysis.BNLearn.Inference
 
 ''' <summary>
 ''' WGCNA 共表达网络与 BNLearn 动态贝叶斯网络（DBN）之间的桥接模块。

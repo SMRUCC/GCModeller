@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.BNLearn.Inference
 
 Namespace Core.WGCNADBN
 
@@ -87,7 +88,7 @@ Namespace Core.WGCNADBN
                 For Each adj In graph(cur.modColor)
                     If visited.Contains(adj.modColor) Then Continue For
                     visited.Add(adj.modColor)
-                    Dim mNext = modules.First(Function(m) String.Equals(m.ModuleColor, adj.modColor, StringComparison.OrdinalIgnoreCase))
+                    Dim mNext = moduleDBs.First(Function(m) String.Equals(m.ModuleColor, adj.modColor, StringComparison.OrdinalIgnoreCase))
                     ' 上游变化按关联权重注入下游模块（作为模块整体状态偏置）
                     Dim upstreamDelta = cur.delta * adj.weight
                     Dim fixedInNext = If(mNext.GeneIndex.ContainsKey(knockGene), knockGene, Nothing)
