@@ -94,7 +94,7 @@ Imports matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 <Package("bnlearn")>
 <RTypeExport("struct_learn_params", GetType(StructureLearningParams))>
 <RTypeExport("knowledges", GetType(Dictionary(Of String, MetabolicPathway)))>
-<RTypeExport("subnet", GetType(WGCNASubnetworkPipeline))>
+<RTypeExport("modular_net", GetType(ModularNetworkPipeline))>
 Module bnlearn
 
     ''' <summary>
