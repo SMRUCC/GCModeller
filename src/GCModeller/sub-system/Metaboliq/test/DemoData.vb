@@ -153,6 +153,9 @@ Public Module DemoData
         {"PIt2r", 4.0}
     }
 
+    ''' <summary>取对数时使用的浓度下限，防止痕量代谢物导致 ln(c) → −∞</summary>
+    Private Const TraceFloor As Double = 0.000001
+
     ''' <summary>
     ''' 可逆反应的平衡常数。
     ''' 取 10 表示平衡强烈偏向产物，避免出现耗尽 ATP 的倒流；
@@ -245,13 +248,29 @@ Public Module DemoData
             Return vmax * e * forward
         End If
 
-        ' 可逆反应：减去反向项
-        Dim backward As Double = 1.0
+        ' 可逆反应：使用热力学一致的速率律
+        '   v = Vmax · e · cap · tanh(−dg/2)，其中 dg = ln(Q) − ln(Keq)
+        '   Q = Π c_i^S(i,j) 是真实质量作用比，cap = 底物饱和项（正向容量）
+        ' 这样：
+        '   · v 的符号恒与 −dg 一致 ⇒ 真值动力学天然满足 ΔG 方向性（违反度精确为 0）
+        '   · dg = 0（Q = Keq）时 v = 0 ⇒ 平衡点上净通量为零
+        '   · |v| ≤ Vmax·e 有界，且 tanh 在 dg 很大时平滑饱和，不会数值爆炸
+        Dim lnQ As Double = 0.0
+
+        For Each sp In rxn.left
+            lnQ -= sp.Stoichiometry * std.Log(std.Max(TraceFloor, c(idx(sp.ID))))
+        Next
         For Each sp In rxn.right
-            backward *= Sat(c(idx(sp.ID)), KmOf(sp.ID))
+            lnQ += sp.Stoichiometry * std.Log(std.Max(TraceFloor, c(idx(sp.ID))))
         Next
 
-        Return vmax * e * (forward - backward / KeqOf(rxn.id))
+        Dim dg = lnQ - std.Log(KeqOf(rxn.id))
+
+        ' 痕量代谢物（c → 1e-6）会让 |dg| 很大；tanh 早已饱和，钳制只为避免溢出
+        If dg > 40.0 Then dg = 40.0
+        If dg < -40.0 Then dg = -40.0
+
+        Return vmax * e * forward * std.Tanh(-dg / 2.0)
     End Function
 
     ''' <summary>初始胞内代谢物浓度</summary>
@@ -444,9 +463,14 @@ Public Module DemoData
     End Function
 
     ''' <summary>
-    ''' 导出各反应的平衡常数（热力学先验）：
-    ''' 可逆反应写真值，不可逆反应写"有效大值"（其真值速率律没有反向项 ⇒ Keq 视为 ∞）。
+    ''' 导出各反应的平衡常数（热力学先验）。
     ''' </summary>
+    ''' <remarks>
+    ''' 可逆反应直接写速率律所用的 <see cref="KeqOf"/>——因为真值的可逆速率律
+    ''' 已经改用热力学一致的形式 <c>v ∝ tanh(−(ln Q − ln Keq)/2)</c>，
+    ''' 其 Keq 就是热力学意义下的真实平衡常数，无需再做 Km 校正。
+    ''' 不可逆反应写"有效大值"（其速率律没有反向项 ⇒ Keq 视为 ∞）。
+    ''' </remarks>
     Private Sub SaveKeqCsv(path As String, graph As MetabolicNetworkGraph)
         Dim sb As New StringBuilder()
 

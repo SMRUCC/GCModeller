@@ -211,6 +211,14 @@ Module Program
         Dim last = steps - 1
         Dim o2Index = graph.IndexOfBoundary("o2_e")
 
+        ' 评估时刻取在好氧期（t≈26，溶氧切换发生在 t≈50）。
+        ' 若取末时刻，无论哪种情形模型都已处在深厌氧状态、呼吸链通量本就≈0，
+        ' 敲除与否看不出差异。
+        Dim probe As Integer = 0
+        For t = 0 To steps - 1
+            If times(t) <= 26.0 Then probe = t
+        Next
+
         ' 好氧 / 厌氧两档溶氧水平（取归一化空间中该边界代谢物的首末值）
         Dim o2Aerobic = boundarySeries(0, o2Index)
         Dim o2Anaerobic = boundarySeries(last, o2Index)
@@ -237,25 +245,25 @@ Module Program
 
         model.ResetPerturbation()
 
-        Console.WriteLine("  末时刻反应通量（归一化单位）：")
+        Console.WriteLine($"  t={times(probe)} 时刻反应通量（归一化单位）：")
         Console.WriteLine($"  {"反应",-10}{"好氧WT",12}{"好氧ΔCYTBO3",14}{"好氧ΔATPS4r",14}{"厌氧WT",12}")
         For Each r In {"CYTBO3", "NDH1", "ATPS4r", "LDH_L", "ADH", "PDH", "CS", "ICDH", "ACKr"}
             Dim j = graph.IndexOfReaction(r)
-            Console.WriteLine($"  {r,-10}{aerobicWT.Fluxes(last, j),12:F4}" &
-                              $"{aerobicKO.Fluxes(last, j),14:F4}" &
-                              $"{aerobicKOAtp.Fluxes(last, j),14:F4}" &
-                              $"{anaerobicWT.Fluxes(last, j),12:F4}")
+            Console.WriteLine($"  {r,-10}{aerobicWT.Fluxes(probe, j),12:F4}" &
+                              $"{aerobicKO.Fluxes(probe, j),14:F4}" &
+                              $"{aerobicKOAtp.Fluxes(probe, j),14:F4}" &
+                              $"{anaerobicWT.Fluxes(probe, j),12:F4}")
         Next
 
         Console.WriteLine()
-        Console.WriteLine("  末时刻代谢物浓度（归一化）：")
+        Console.WriteLine($"  t={times(probe)} 时刻代谢物浓度（归一化）：")
         Console.WriteLine($"  {"代谢物",-10}{"好氧WT",12}{"好氧ΔCYTBO3",14}{"好氧ΔATPS4r",14}{"厌氧WT",12}")
         For Each id In {"atp", "adp", "nadh", "lac_c", "etoh_c", "ac_c", "pyr", "cit"}
             Dim k = graph.IndexOfInternal(id)
-            Console.WriteLine($"  {id,-10}{aerobicWT.Concentrations(last, k),12:F4}" &
-                              $"{aerobicKO.Concentrations(last, k),14:F4}" &
-                              $"{aerobicKOAtp.Concentrations(last, k),14:F4}" &
-                              $"{anaerobicWT.Concentrations(last, k),12:F4}")
+            Console.WriteLine($"  {id,-10}{aerobicWT.Concentrations(probe, k),12:F4}" &
+                              $"{aerobicKO.Concentrations(probe, k),14:F4}" &
+                              $"{aerobicKOAtp.Concentrations(probe, k),14:F4}" &
+                              $"{anaerobicWT.Concentrations(probe, k),12:F4}")
         Next
 
         Console.WriteLine()
@@ -263,11 +271,11 @@ Module Program
         Console.WriteLine($"  {"通量",-10}{"ΔCYTBO3",12}{"ΔATPS4r",12}{"厌氧WT",12}")
         For Each r In {"CYTBO3", "ATPS4r", "LDH_L", "ACKr", "PDH", "CS", "NDH1"}
             Dim j = graph.IndexOfReaction(r)
-            Dim base_ = aerobicWT.Fluxes(last, j)
+            Dim base_ = aerobicWT.Fluxes(probe, j)
 
-            Console.WriteLine($"  {r,-10}{Pct(aerobicKO.Fluxes(last, j), base_),12}" &
-                              $"{Pct(aerobicKOAtp.Fluxes(last, j), base_),12}" &
-                              $"{Pct(anaerobicWT.Fluxes(last, j), base_),12}")
+            Console.WriteLine($"  {r,-10}{Pct(aerobicKO.Fluxes(probe, j), base_),12}" &
+                              $"{Pct(aerobicKOAtp.Fluxes(probe, j), base_),12}" &
+                              $"{Pct(anaerobicWT.Fluxes(probe, j), base_),12}")
         Next
 
         ' ---- 只读诊断：SDH / FRD 同时活跃度 ----
@@ -280,13 +288,13 @@ Module Program
         If sdhIdx >= 0 AndAlso frdIdx >= 0 Then
             Console.WriteLine()
             Console.WriteLine("  无效循环诊断（只读，不进损失）：SDH 与 FRD 方向相反，同时通流即为无效循环")
-            Console.WriteLine($"  {"时刻",-8}{"v_SDH",12}{"v_FRD",12}{"min(同时活跃度)",18}")
-            Console.WriteLine($"  {"好氧WT",-8}{aerobicWT.Fluxes(last, sdhIdx),12:F4}" &
-                              $"{aerobicWT.Fluxes(last, frdIdx),12:F4}" &
-                              $"{std.Min(aerobicWT.Fluxes(last, sdhIdx), aerobicWT.Fluxes(last, frdIdx)),18:F4}")
-            Console.WriteLine($"  {"厌氧WT",-8}{anaerobicWT.Fluxes(last, sdhIdx),12:F4}" &
-                              $"{anaerobicWT.Fluxes(last, frdIdx),12:F4}" &
-                              $"{std.Min(anaerobicWT.Fluxes(last, sdhIdx), anaerobicWT.Fluxes(last, frdIdx)),18:F4}")
+            Console.WriteLine($"  {"情形",-8}{"v_SDH",12}{"v_FRD",12}{"min(同时活跃度)",18}")
+            Console.WriteLine($"  {"好氧WT",-8}{aerobicWT.Fluxes(probe, sdhIdx),12:F4}" &
+                              $"{aerobicWT.Fluxes(probe, frdIdx),12:F4}" &
+                              $"{std.Min(aerobicWT.Fluxes(probe, sdhIdx), aerobicWT.Fluxes(probe, frdIdx)),18:F4}")
+            Console.WriteLine($"  {"厌氧WT",-8}{anaerobicWT.Fluxes(probe, sdhIdx),12:F4}" &
+                              $"{anaerobicWT.Fluxes(probe, frdIdx),12:F4}" &
+                              $"{std.Min(anaerobicWT.Fluxes(probe, sdhIdx), anaerobicWT.Fluxes(probe, frdIdx)),18:F4}")
         End If
 
         Console.WriteLine()
@@ -499,17 +507,18 @@ Module Program
         Dim nRxn = graph.ReactionCount
 
         For t = 0 To steps - 1
-            Dim cAll = New Double(graph.MetaboliteIds.Length - 1) {}
+            ' 注意：不要命名为 cAll —— VB 不区分大小写，会被解析器当成保留字上下文
+            Dim physConc = New Double(graph.MetaboliteIds.Length - 1) {}
             Dim v = New Double(nRxn - 1) {}
 
-            For i = 0 To cAll.Length - 1
-                cAll(i) = physical(t, i)
+            For i = 0 To physConc.Length - 1
+                physConc(i) = physical(t, i)
             Next
             For j = 0 To nRxn - 1
                 v(j) = fluxTruth(t, j)
             Next
 
-            Dim tStep = thermo.EvaluatePhysical(cAll, v)
+            Dim tStep = thermo.EvaluatePhysical(physConc, v)
 
             acc += tStep.Penalty / std.Max(1, nRxn)
         Next
