@@ -1,6 +1,7 @@
 ﻿Imports SMRUCC.genomics.Analysis.BNLearn
-Imports SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
+Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork
+Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Module WGCNADemo
@@ -21,7 +22,7 @@ Module WGCNADemo
         Dim exprData = BnIO.ReadGeneExpressionMatrix(subMat)
 
         ' 2. 构建 WGCNA 子网络 + 全局扰动流水线
-        Dim pipeline As New WGCNASubnetworkPipeline() With {
+        Dim pipeline As New ModularNetworkPipeline() With {
             .NormalizeData = True,
             .NSamples = 5000,
             .RandomSeed = 42,

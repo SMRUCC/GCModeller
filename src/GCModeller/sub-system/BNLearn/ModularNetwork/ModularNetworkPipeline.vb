@@ -28,7 +28,7 @@ Namespace ModularNetwork
     ''' <summary>
     ''' 基于 WGCNA 模块划分的贝叶斯子网络训练 + 全局虚拟扰动流水线
     ''' </summary>
-    Public Class WGCNASubnetworkPipeline
+    Public Class ModularNetworkPipeline
 
         ' ---- 全局扰动参数 ----
         ''' <summary>传播方法，默认 Jacobian（线性化雅可比多步传播）</summary>
@@ -86,7 +86,7 @@ Namespace ModularNetwork
         ''' <param name="assignment">WGCNA 模块划分结果（geneID / moduleColor / kME）</param>
         ''' <param name="expr">全局表达矩阵（基因 × 样本）</param>
         ''' <returns></returns>
-        Public Function Learn(assignment As GeneModuleColor(), expr As GeneExpressionData) As WGCNASubnetworkPipeline
+        Public Function Learn(assignment As GeneModuleColor(), expr As GeneExpressionData) As ModularNetworkPipeline
             model = New BlockNetwork(expr, normalizeData:=NormalizeData) With {
                 .CrossGeneCorThreshold = CrossGeneCorThreshold,
                 .CrossModuleCorThreshold = CrossModuleCorThreshold,
