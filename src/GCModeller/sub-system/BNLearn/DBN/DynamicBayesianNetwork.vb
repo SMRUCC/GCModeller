@@ -250,6 +250,9 @@ Namespace DBN
             Call "Step 2: Set up parent-child relationships".debug
 
             ' --- Step 2: Set up parent-child relationships ---
+            ' dirConfidence：gene → tf → 已采用的边的置信度，用于方向冲突时做确定性仲裁
+            Dim dirConfidence As New Dictionary(Of String, Dictionary(Of String, Double))
+
             For Each link As RegulatoryLink In _topologyLinks
                 Dim geneNode = _nodes(link.target_operon)
 
@@ -257,6 +260,21 @@ Namespace DBN
                 If Not geneNode.ParentIds.Contains(link.TF_id) Then
                     geneNode.ParentIds.Add(link.TF_id)
                     geneNode.RegulatorTFs.Add(link.TF_id)
+                End If
+
+                ' 记录 TF → 本基因 的调控方向（调控方向是边的属性，而非 TF 的属性：
+                ' 同一个 TF 完全可能对基因 A 激活、对基因 B 抑制）。
+                ' 同一 (TF, gene) 存在多条方向冲突的边时以置信度较高者为准，
+                ' 置信度相同则保留先出现者，保证结果确定可复现。
+                If Not dirConfidence.ContainsKey(link.target_operon) Then
+                    dirConfidence(link.target_operon) = New Dictionary(Of String, Double)
+                End If
+
+                Dim adoptedConf As Double = 0
+
+                If Not dirConfidence(link.target_operon).TryGetValue(link.TF_id, adoptedConf) OrElse link.Confidence > adoptedConf Then
+                    dirConfidence(link.target_operon)(link.TF_id) = link.Confidence
+                    geneNode.ParentDirections(link.TF_id) = link.RegulationType
                 End If
 
                 ' Initialize TFEffectors entry if needed
@@ -367,9 +385,31 @@ Namespace DBN
         Private Sub BuildActivationModels()
             _activationModels.Clear()
 
+            Dim nActivate As Integer = 0
+            Dim nInhibit As Integer = 0
+
             For Each node In _nodes.Values
-                _activationModels(node.NodeId) = BuildActivationModel(node)
+                Dim model = BuildActivationModel(node)
+
+                _activationModels(node.NodeId) = model
+
+                For k As Integer = 0 To model.Count - 1
+                    If model.isInhibitor(k) Then
+                        nInhibit += 1
+                    Else
+                        nActivate += 1
+                    End If
+                Next
             Next
+
+            ' 方向分布是诊断"调控信息是否丢失"的关键指标：若抑制项数为 0，
+            ' 说明拓扑构建时未传递 per-edge 的 RegulationType，此时激活得分恒为正，
+            ' 归一化后的得分恒 >= 0.5，CPT 的 Low 分支（score < 0.34）不可达。
+            Call $"[DBN dir] 调控项统计: 激活={nActivate}, 抑制={nInhibit}".info
+
+            If nInhibit = 0 Then
+                Call "[DBN dir] 警告: 网络中不存在任何抑制性调控，激活得分恒为正，CPT 的 Low 分支不可达".debug
+            End If
         End Sub
 
         ''' <summary>构建单个节点的激活模型（TF 下标 / effector 下标 / 是否抑制）</summary>
@@ -389,8 +429,13 @@ Namespace DBN
                 End If
 
                 If effectorIds Is Nothing OrElse effectorIds.Count = 0 Then
-                    ' 无 effector：直接使用 TF 的默认调控方向
-                    Dim direction As Effector = _nodes(tfId).DefaultRegulatoryDirection
+                    ' 无 effector：优先使用该 TF→本基因 边上声明的方向（per-edge 属性），
+                    ' 边未声明方向时回退到该 TF 的默认方向（per-TF，见 DBNNode.DefaultRegulatoryDirection）。
+                    Dim direction As Effector = Effector.Unknown
+
+                    If Not node.ParentDirections.TryGetValue(tfId, direction) Then
+                        direction = _nodes(tfId).DefaultRegulatoryDirection
+                    End If
 
                     If direction = Effector.Activator Then
                         tfIdx.Add(tIdx)

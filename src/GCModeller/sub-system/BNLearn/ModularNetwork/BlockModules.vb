@@ -71,10 +71,22 @@ Namespace ModularNetwork
                         .TF_id = e.TF,
                         .target_operon = e.TargetGene,
                         .regulate_genes = {e.TargetGene},
-                        .effector = Nothing
+                        .effector = Nothing,
+                        ' 传递先验边上声明的调控方向（激活/抑制）：
+                        ' 缺失它会导致网络中不存在抑制性调控，使激活得分恒为正、
+                        ' CPT 的 Low 分支不可达，虚拟扰动也就无法产生下调响应。
+                        .RegulationType = e.RegulationType,
+                        .Confidence = e.Confidence
                     })
                 End If
             Next
+
+            ' 方向分布诊断：抑制边为 0 即意味着方向信息在上游丢失
+            Dim nActivate As Integer = links.Count(Function(l) l.RegulationType = Effector.Activator)
+            Dim nInhibit As Integer = links.Count(Function(l) l.RegulationType = Effector.Inhibitor)
+            Dim nUnknown As Integer = links.Count(Function(l) l.RegulationType = Effector.Unknown)
+
+            Call $"[GRN links] 模块内定向边={links.Count}（激活={nActivate}, 抑制={nInhibit}, 未知={nUnknown}）".info
 
             Return links.ToArray
         End Function

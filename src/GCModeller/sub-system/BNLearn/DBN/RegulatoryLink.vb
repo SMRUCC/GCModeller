@@ -81,6 +81,23 @@ Public Class RegulatoryLink
     ''' </summary>
     ''' <returns></returns>
     Public Property TFBS_id As String
+
+    ''' <summary>
+    ''' 该条调控边的调控方向（激活 / 抑制）。
+    ''' 
+    ''' 默认值为 <see cref="Effector.Activator"/>，以保持既有构造点的行为不变。
+    ''' 由先验网络构建拓扑时，必须把先验边的 RegulationType 传入：若缺失该信息，
+    ''' 网络中将不存在任何抑制性调控，激活得分恒为正，CPT 的 Low 分支将不可达。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property RegulationType As Effector = Effector.Activator
+
+    ''' <summary>
+    ''' 该条调控边的置信度（0-1）。用于同一 TF 对同一靶点存在多条方向冲突的边时做确定性仲裁。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Confidence As Double = 1.0
+
     ''' <summary>
     ''' effector metabolite of this TF its regulation function
     ''' </summary>

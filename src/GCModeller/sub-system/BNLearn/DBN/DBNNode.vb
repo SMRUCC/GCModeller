@@ -80,6 +80,16 @@ Namespace DBN
         ''' </summary>
         Public Property ParentIds As New List(Of String)
 
+        ''' <summary>
+        ''' 每个父节点对本节点的调控方向（父节点 ID → 激活 / 抑制）。
+        ''' 
+        ''' 调控方向本质上是**边**（TF→gene）的属性：同一个 TF 完全可能对基因 A 起激活作用、
+        ''' 对基因 B 起抑制作用。因此不能用 per-TF 的
+        ''' <see cref="DefaultRegulatoryDirection"/> 来表达，需要 per-parent 的映射。
+        ''' 该映射为空时，回退到 <see cref="DefaultRegulatoryDirection"/>。
+        ''' </summary>
+        Public Property ParentDirections As New Dictionary(Of String, Effector)
+
         ''' <summary>Conditional Probability Table for this node</summary>
         Public Property CPT As ConditionalProbabilityTable
 
