@@ -466,7 +466,6 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="knockGenes">显式指定的虚拟扰动（敲降）目标基因列表。</param>
     ''' <param name="dynamicSteps">级联推演的时间步数，默认 10。</param>
     ''' <param name="crossModuleCorThreshold">模块 eigengene 相关阈值：|cor| 超过才建立模块间关联，默认 0.3。</param>
-    ''' <param name="outputDir">结果导出目录；为空则不导出。</param>
     ''' <returns>每个扰动基因的全局最终响应向量（按全部模块基因顺序排列）与训练好的模块子网络字典。</returns>
     Public Function TrainModularDBNIntervene(timeSeries As Core.GeneExpressionData,
                                              modules As GeneModuleColor(),
@@ -474,9 +473,8 @@ Public Module GeneRegulatoryNetwork
                                              TF As String(),
                                              knockGenes As String(),
                                              Optional dynamicSteps As Integer = 10,
-                                             Optional crossModuleCorThreshold As Double = 0.3,
-                                             Optional outputDir As String = Nothing) As (finalResponses As Dictionary(Of String, List(Of Double)),
-                                                                                        moduleNets As Dictionary(Of String, DynamicBayesianNetwork))
+                                             Optional crossModuleCorThreshold As Double = 0.3) As (finalResponses As BlockResponseResult, moduleNets As BlockBayesianNetwork)
+
         If timeSeries Is Nothing Then Throw New ArgumentNullException(NameOf(timeSeries), "时间序列表达矩阵不能为空")
         If modules Is Nothing OrElse modules.Length = 0 Then Throw New ArgumentNullException(NameOf(modules), "WGCNA 模块划分不能为空")
         If prior Is Nothing Then prior = New Core.PriorNetwork()
@@ -484,75 +482,11 @@ Public Module GeneRegulatoryNetwork
         If knockGenes Is Nothing Then knockGenes = {}
 
         Dim moduleDBs As New BlockBayesianNetwork(timeSeries.TrainBlocks(modules, prior, TF), TF, crossModuleCorThreshold)
-
-        ' ④ 全局级联虚拟扰动
-        Dim finalResponses As New Dictionary(Of String, List(Of Double))()
-        Dim trajectories As New Dictionary(Of String, Dictionary(Of String, List(Of Double)))()
-
-        For Each geneId As String In knockGenes
-            Dim respVec As Double() = moduleDBs.CascadeIntervene(geneId, dynamicSteps, trajectories)
-            finalResponses(geneId) = New List(Of Double)(respVec)
-        Next
-
-        ' ⑤ 导出结果
-        If Not String.IsNullOrEmpty(outputDir) Then
-            Call SaveModularResults(finalResponses, trajectories, moduleDBs.allgenes, outputDir)
-        End If
-
-        Dim moduleNets As New Dictionary(Of String, DynamicBayesianNetwork)
-        For Each m In moduleDBs.moduleDBs
-            moduleNets(m.ModuleColor) = m.Net
-        Next
+        Dim resultt As BlockResponseResult = BlockResponseResult.ModularDBNIntervene(moduleDBs, knockGenes, dynamicSteps)
 
         Call $"GRN.TrainModularDBNIntervene: 全局级联虚拟扰动完成（扰动基因 {knockGenes.Length} 个，模块 {moduleDBs.blocks} 个，全局基因 {moduleDBs.allgenes.Length} 个）".info
 
-        Return (finalResponses, moduleNets)
+        Return (resultt, moduleDBs)
     End Function
-
-    ''' <summary>
-    ''' 导出全局虚拟扰动结果：基因 × 扰动源 响应矩阵 TSV + 每个扰动源的逐基因明细 TSV。
-    ''' </summary>
-    Private Sub SaveModularResults(finalResponses As System.Collections.Generic.Dictionary(Of String, List(Of Double)),
-                                   trajectories As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double))),
-                                   allGenes As String(),
-                                   outputDir As String)
-        If Not System.IO.Directory.Exists(outputDir) Then System.IO.Directory.CreateDirectory(outputDir)
-
-        ' 全局响应矩阵（最终稳态，gene × perturbation）
-        Dim sbMatrix As New StringBuilder()
-        sbMatrix.Append("gene")
-        For Each src In finalResponses.Keys
-            sbMatrix.Append(vbTab).Append(src)
-        Next
-        sbMatrix.AppendLine()
-        For i = 0 To allGenes.Length - 1
-            sbMatrix.Append(allGenes(i))
-            For Each src In finalResponses.Keys
-                sbMatrix.Append(vbTab).Append(finalResponses(src)(i).ToString("F6"))
-            Next
-            sbMatrix.AppendLine()
-        Next
-        System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, "modular_global_perturbation_responses.tsv"), sbMatrix.ToString())
-
-        ' 每个扰动源明细（基因 \t 最终效应 \t 轨迹峰值）
-        For Each src In trajectories.Keys
-            Dim tr = trajectories(src)
-            Dim sb As New StringBuilder()
-            sb.AppendLine("gene" & vbTab & "final_effect" & vbTab & "peak_effect")
-            For Each g In allGenes
-                If tr.ContainsKey(g) Then
-                    Dim vec = tr(g)
-                    Dim peak = vec.Max()
-                    sb.AppendLine(String.Format("{0}{1}{2:F6}{3}{4:F6}", g, vbTab, vec(vec.Count - 1), vbTab, peak))
-                Else
-                    sb.AppendLine(String.Format("{0}{1}1.000000{1}1.000000", g, vbTab))
-                End If
-            Next
-            Dim safe = New String(src.Where(Function(c) Char.IsLetterOrDigit(c)).ToArray())
-            System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, "modular_pert_" & safe & ".tsv"), sb.ToString())
-        Next
-
-        Call $"GRN.SaveModularResults: 模块化全局扰动结果已导出至 {outputDir}".info
-    End Sub
 End Module
 
