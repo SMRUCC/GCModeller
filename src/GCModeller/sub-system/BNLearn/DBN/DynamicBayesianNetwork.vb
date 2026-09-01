@@ -597,66 +597,36 @@ Namespace DBN
         ''' For TFs without effectors, uses the TF's DefaultRegulatoryDirection.
         ''' </summary>
         Private Function ComputeActivationScore(node As DBNNode, parentStates As List(Of String)) As Double
+            ' 使用预计算的下标模型：把每个父配置内部的 O(P) 次 IndexOf 字符串查找
+            ' 替换为 O(1) 的数组取值（初始化热路径的总复杂度由 O(3^P·P²) 降为 O(3^P·P)）。
+            Dim model As ActivationModel = Nothing
+
+            If Not _activationModels.TryGetValue(node.NodeId, model) OrElse model Is Nothing Then
+                model = BuildActivationModel(node)
+                _activationModels(node.NodeId) = model
+            End If
+
             Dim activationScore = 0.0  ' P(at least one activator is active)
             Dim inhibitionScore = 0.0  ' P(at least one inhibitor is active)
             Dim hasActivator = False
             Dim hasInhibitor = False
 
-            For Each tfId As String In node.RegulatorTFs
-                Dim tfIdx = node.ParentIds.IndexOf(tfId)
-                If tfIdx < 0 Then Continue For
+            For k As Integer = 0 To model.Count - 1
+                Dim score As Double = StateToScore(parentStates(model.tfIdx(k)))  ' Low=0, Medium=0.5, High=1
 
-                Dim tfState = parentStates(tfIdx)
-                Dim tfScore = StateToScore(tfState)  ' Low=0, Medium=0.5, High=1
-
-                ' Get effectors for this TF (in the context of this gene)
-                Dim effectorIds As List(Of String) = Nothing
-                If node.TFEffectors.ContainsKey(tfId) Then
-                    effectorIds = node.TFEffectors(tfId)
+                If model.effIdx(k) >= 0 Then
+                    ' TF-effector 复合体：TF 与 effector 需同时存在，得分取二者之积
+                    score *= StateToScore(parentStates(model.effIdx(k)))
                 End If
 
-                If effectorIds Is Nothing OrElse effectorIds.Count = 0 Then
-                    ' --- No effector: use TF's default regulatory direction ---
-                    Dim tfNode = _nodes(tfId)
-                    Dim direction = tfNode.DefaultRegulatoryDirection
-
-                    If direction = Effector.Activator Then
-                        hasActivator = True
-                        ' Noisy-OR: combine with existing activation
-                        activationScore = 1 - (1 - activationScore) * (1 - tfScore)
-                    ElseIf direction = Effector.Inhibitor Then
-                        hasInhibitor = True
-                        inhibitionScore = 1 - (1 - inhibitionScore) * (1 - tfScore)
-                    End If
+                If model.isInhibitor(k) Then
+                    hasInhibitor = True
+                    ' Noisy-OR: combine with existing inhibition
+                    inhibitionScore = 1 - (1 - inhibitionScore) * (1 - score)
                 Else
-                    ' --- Has effectors: combine TF and effector states ---
-                    ' The TF-effector complex requires both TF and effector to be present.
-                    ' complexScore = tfScore * effScore (both must be high for strong effect)
-                    For Each effId In effectorIds
-                        Dim effIdx = node.ParentIds.IndexOf(effId)
-                        If effIdx < 0 Then Continue For
-
-                        Dim effState = parentStates(effIdx)
-                        Dim effScore = StateToScore(effState)
-
-                        ' Complex formation: both TF and effector needed
-                        Dim complexScore = tfScore * effScore
-
-                        ' Get effector type from TF node
-                        Dim effType = Effector.Unknown
-                        If _nodes(tfId).EffectorMetabolites.ContainsKey(effId) Then
-                            effType = _nodes(tfId).EffectorMetabolites(effId)
-                        End If
-
-                        Select Case effType
-                            Case Effector.Activator
-                                hasActivator = True
-                                activationScore = 1 - (1 - activationScore) * (1 - complexScore)
-                            Case Effector.Inhibitor
-                                hasInhibitor = True
-                                inhibitionScore = 1 - (1 - inhibitionScore) * (1 - complexScore)
-                        End Select
-                    Next
+                    hasActivator = True
+                    ' Noisy-OR: combine with existing activation
+                    activationScore = 1 - (1 - activationScore) * (1 - score)
                 End If
             Next
 
@@ -742,23 +712,19 @@ Namespace DBN
                 discreteSeries.Add(d)
             Next
 
-            Call "Step 2: Initialize count tables for all nodes with parents".debug
+            Call "Step 2: Initialize sparse count tables for all nodes with parents".debug
 
-            ' --- Step 2: Initialize count tables for all nodes with parents ---
+            ' --- Step 2: 初始化（稀疏）计数表 ---
+            ' 旧实现会为每个节点预先建好全部 3^P 个父配置的计数数组，其内存开销与 CPT
+            ' 同一量级，是初始化阶段的第二个内存炸弹。改为"稀疏计数"：只在数据中真正
+            ' 观测到某个父配置时才建条目。对没有观测的配置，后验
+            '   (0 + α·prior) / (0 + α) = prior
+            ' 是恒等变换，因此"只回写有观测的配置"与"回写全部配置"在数学上完全等价。
             Dim counts As New Dictionary(Of String, Dictionary(Of String, Double()))
             For Each node In _nodes.Values
                 If node.ParentIds.Count = 0 Then Continue For
 
                 counts(node.NodeId) = New Dictionary(Of String, Double())
-                Dim parentStatesMap As New Dictionary(Of String, List(Of String))
-                For Each pid As String In node.ParentIds
-                    parentStatesMap(pid) = _nodes(pid).States
-                Next
-                Dim configs = node.CPT.GetAllParentConfigurations(parentStatesMap)
-                For Each cfg In configs
-                    Dim key = String.Join("|", cfg)
-                    counts(node.NodeId)(key) = New Double(node.States.Count - 1) {}
-                Next
             Next
 
             Call "Step 3: Count transitions (t -> t+1)".debug
@@ -784,38 +750,42 @@ Namespace DBN
                     Next
                     If Not allPresent Then Continue For
 
-                    Dim key = String.Join("|", parentStates)
                     Dim childState = nxt(node.NodeId)
                     Dim childIdx = node.States.IndexOf(childState)
 
-                    If childIdx >= 0 AndAlso counts(node.NodeId).ContainsKey(key) Then
-                        counts(node.NodeId)(key)(childIdx) += 1
+                    If childIdx < 0 Then Continue For
+
+                    Dim key = String.Join("|", parentStates)
+                    Dim table = counts(node.NodeId)
+                    Dim c As Double() = Nothing
+
+                    If Not table.TryGetValue(key, c) Then
+                        c = New Double(node.States.Count - 1) {}
+                        table(key) = c
                     End If
+
+                    c(childIdx) += 1
                 Next
             Next
 
-            Call "Step 4: Update CPTs with Dirichlet posterior".debug
+            Call "Step 4: Update CPTs with Dirichlet posterior (observed configurations only)".debug
 
             ' --- Step 4: Update CPTs with Dirichlet posterior ---
             ' P(s|parents) = (count(s) + alpha * prior(s)) / (total + alpha)
+            ' 只遍历实际观测到的配置：未观测配置的后验恒等于其先验，无需回写。
             For Each node In Tqdm.Wrap(_nodes.Values)
                 If node.ParentIds.Count = 0 Then
                     Continue For
                 End If
 
-                Dim parentStatesMap As New Dictionary(Of String, List(Of String))
-                For Each pid As String In node.ParentIds
-                    parentStatesMap(pid) = _nodes(pid).States
-                Next
-                Dim configs = node.CPT.GetAllParentConfigurations(parentStatesMap)
-
-                For Each cfg In configs
-                    Dim key = String.Join("|", cfg)
-                    Dim c = counts(node.NodeId)(key)
+                For Each kv In counts(node.NodeId)
+                    Dim cfg As New List(Of String)(kv.Key.Split("|"c))
+                    Dim c = kv.Value
                     Dim total = c.Sum()
 
                     ' Get prior distribution from topology-based CPT
-                    Dim prior = node.CPT.GetDistribution(cfg)
+                    ' （只读场景，不需要再复制一份数组）
+                    Dim prior = node.CPT.GetDistribution(cfg, copy:=False)
 
                     ' Compute posterior
                     Dim newDist(node.States.Count - 1) As Double
@@ -824,7 +794,7 @@ Namespace DBN
                         newDist(i) = (c(i) + _config.SmoothingAlpha * prior(i)) / denom
                     Next
 
-                    node.CPT.SetDistribution(cfg, newDist)
+                    node.CPT.SetDistribution(cfg, newDist, copy:=False)
                 Next
             Next
 
@@ -867,7 +837,7 @@ Namespace DBN
                 If childIdx < 0 Then Continue For
 
                 ' EMA update
-                Dim dist = node.CPT.GetDistribution(parentStates)
+                Dim dist = node.CPT.GetDistribution(parentStates, copy:=False)
                 Dim lr = _config.OnlineLearningRate
 
                 For i = 0 To dist.Length - 1
@@ -875,7 +845,7 @@ Namespace DBN
                     dist(i) = (1 - lr) * dist(i) + lr * target
                 Next
 
-                node.CPT.SetDistribution(parentStates, dist)
+                node.CPT.SetDistribution(parentStates, dist, copy:=False)
             Next
         End Sub
 
@@ -962,8 +932,8 @@ Namespace DBN
                     End If
                 Next
 
-                ' Get CPT distribution
-                Dim dist = node.CPT.GetDistribution(parentStates)
+                ' Get CPT distribution（只读，避免每次查询都分配新数组）
+                Dim dist = node.CPT.GetDistribution(parentStates, copy:=False)
 
                 ' Determine predicted state
                 Dim predictedState As String
@@ -1077,7 +1047,7 @@ Namespace DBN
                     Next
                     If Not allPresent Then Continue For
 
-                    Dim dist = node.CPT.GetDistribution(parentStates)
+                    Dim dist = node.CPT.GetDistribution(parentStates, copy:=False)
                     Dim childIdx = node.States.IndexOf(nxt(node.NodeId))
                     If childIdx >= 0 Then
                         Dim p = Math.Max(dist(childIdx), 0.001)  ' Avoid log(0)
