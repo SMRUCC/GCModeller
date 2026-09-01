@@ -16,6 +16,10 @@ Namespace ModularNetwork
 
         Public Property TF As String()
 
+        ''' <summary>
+        ''' get length of <see cref="moduleDBs"/> array
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property blocks As Integer
             Get
                 Return moduleDBs.TryCount

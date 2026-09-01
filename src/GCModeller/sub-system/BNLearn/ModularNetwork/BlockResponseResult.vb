@@ -9,6 +9,12 @@ Namespace ModularNetwork
         Public Property trajectories As Dictionary(Of String, Dictionary(Of String, List(Of Double)))
         Public Property allgenes As String()
 
+        Public ReadOnly Property size As Integer
+            Get
+                Return finalResponses.TryCount
+            End Get
+        End Property
+
         Sub New()
             finalResponses = New Dictionary(Of String, Double())
             trajectories = New Dictionary(Of String, Dictionary(Of String, List(Of Double)))
