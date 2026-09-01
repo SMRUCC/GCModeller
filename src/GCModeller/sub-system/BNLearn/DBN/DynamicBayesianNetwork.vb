@@ -612,21 +612,21 @@ Namespace DBN
             Dim hasInhibitor = False
 
             For k As Integer = 0 To model.Count - 1
-                Dim score As Double = StateToScore(parentStates(model.tfIdx(k)))  ' Low=0, Medium=0.5, High=1
+                Dim itemScore As Double = StateToScore(parentStates(model.tfIdx(k)))  ' Low=0, Medium=0.5, High=1
 
                 If model.effIdx(k) >= 0 Then
                     ' TF-effector 复合体：TF 与 effector 需同时存在，得分取二者之积
-                    score *= StateToScore(parentStates(model.effIdx(k)))
+                    itemScore *= StateToScore(parentStates(model.effIdx(k)))
                 End If
 
                 If model.isInhibitor(k) Then
                     hasInhibitor = True
                     ' Noisy-OR: combine with existing inhibition
-                    inhibitionScore = 1 - (1 - inhibitionScore) * (1 - score)
+                    inhibitionScore = 1 - (1 - inhibitionScore) * (1 - itemScore)
                 Else
                     hasActivator = True
                     ' Noisy-OR: combine with existing activation
-                    activationScore = 1 - (1 - activationScore) * (1 - score)
+                    activationScore = 1 - (1 - activationScore) * (1 - itemScore)
                 End If
             Next
 
