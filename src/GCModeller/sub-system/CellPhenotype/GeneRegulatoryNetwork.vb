@@ -486,18 +486,17 @@ Public Module GeneRegulatoryNetwork
         Dim moduleDBs As New BlockBayesianNetwork(timeSeries.TrainBlocks(modules, prior, TF), crossModuleCorThreshold)
 
         ' ④ 全局级联虚拟扰动
-        Dim allGenes = moduleDBs.moduleDBs.SelectMany(Function(m) m.Genes).Distinct().ToArray()
-        Dim finalResponses As New System.Collections.Generic.Dictionary(Of String, List(Of Double))()
-        Dim trajectories As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double)))()
+        Dim finalResponses As New Dictionary(Of String, List(Of Double))()
+        Dim trajectories As New Dictionary(Of String, Dictionary(Of String, List(Of Double)))()
 
         For Each g In knockGenes
-            Dim respVec As Double() = moduleDBs.CascadeIntervene(New HashSet(Of String)(TF), g, dynamicSteps, allGenes, trajectories)
+            Dim respVec As Double() = moduleDBs.CascadeIntervene(New HashSet(Of String)(TF), g, dynamicSteps, moduleDBs.allgenes, trajectories)
             finalResponses(g) = New List(Of Double)(respVec)
         Next
 
         ' ⑤ 导出结果
         If Not String.IsNullOrEmpty(outputDir) Then
-            Call SaveModularResults(finalResponses, trajectories, allGenes, outputDir)
+            Call SaveModularResults(finalResponses, trajectories, moduleDBs.allgenes, outputDir)
         End If
 
         Dim moduleNets As New Dictionary(Of String, DynamicBayesianNetwork)
@@ -505,7 +504,7 @@ Public Module GeneRegulatoryNetwork
             moduleNets(m.ModuleColor) = m.Net
         Next
 
-        Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 全局级联虚拟扰动完成（扰动基因 {knockGenes.Length} 个，模块 {moduleDBs.blocks} 个，全局基因 {allGenes.Length} 个）")
+        Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 全局级联虚拟扰动完成（扰动基因 {knockGenes.Length} 个，模块 {moduleDBs.blocks} 个，全局基因 {moduleDBs.allgenes.Length} 个）")
 
         Return (finalResponses, moduleNets)
     End Function

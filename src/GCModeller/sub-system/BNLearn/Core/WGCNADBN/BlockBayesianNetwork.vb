@@ -18,6 +18,12 @@ Namespace Core.WGCNADBN
             End Get
         End Property
 
+        Public ReadOnly Property allgenes As String()
+            Get
+                Return moduleDBs.SelectMany(Function(m) m.Genes).Distinct().ToArray()
+            End Get
+        End Property
+
         Sub New(subblocks As IEnumerable(Of ModuleDBN), Optional crossModuleCorThreshold As Double = 0.3)
             moduleDBs = subblocks.SafeQuery.ToArray
             graph = BuildModuleCorrelationGraph(moduleDBs, crossModuleCorThreshold)
