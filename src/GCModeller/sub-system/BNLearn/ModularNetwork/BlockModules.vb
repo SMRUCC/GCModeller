@@ -82,9 +82,9 @@ Namespace ModularNetwork
             Next
 
             ' 方向分布诊断：抑制边为 0 即意味着方向信息在上游丢失
-            Dim nActivate As Integer = links.Count(Function(l) l.RegulationType = Effector.Activator)
-            Dim nInhibit As Integer = links.Count(Function(l) l.RegulationType = Effector.Inhibitor)
-            Dim nUnknown As Integer = links.Count(Function(l) l.RegulationType = Effector.Unknown)
+            Dim nActivate As Integer = links.Where(Function(l) l.RegulationType = Effector.Activator).Count()
+            Dim nInhibit As Integer = links.Where(Function(l) l.RegulationType = Effector.Inhibitor).Count()
+            Dim nUnknown As Integer = links.Where(Function(l) l.RegulationType = Effector.Unknown).Count()
 
             Call $"[GRN links] 模块内定向边={links.Count}（激活={nActivate}, 抑制={nInhibit}, 未知={nUnknown}）".info
 

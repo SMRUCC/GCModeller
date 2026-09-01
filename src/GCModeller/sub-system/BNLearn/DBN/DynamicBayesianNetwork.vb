@@ -375,9 +375,11 @@ Namespace DBN
                 Next
 
                 ' 同步清理被裁剪掉的父节点的方向记录，保持节点状态一致
-                For Each pid In node.ParentDirections.Keys.ToArray()
-                    If Not keepSet.Contains(pid) Then
-                        node.ParentDirections.Remove(pid)
+                Dim staleParents As String() = node.ParentDirections.Keys.ToArray()
+
+                For i As Integer = 0 To staleParents.Length - 1
+                    If Not keepSet.Contains(staleParents(i)) Then
+                        node.ParentDirections.Remove(staleParents(i))
                     End If
                 Next
 

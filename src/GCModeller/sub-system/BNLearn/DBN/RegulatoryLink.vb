@@ -60,6 +60,9 @@
 
 #End Region
 
+' 本类有一个名为 effector 的属性，VB 名称解析不区分大小写，
+' 会遮蔽同名的 Effector 枚举，这里用别名显式引用该枚举类型。
+Imports EffectorRole = SMRUCC.genomics.Analysis.BNLearn.Effector
 
 ''' <summary>
 ''' Gene regulatory network
@@ -90,7 +93,7 @@ Public Class RegulatoryLink
     ''' 网络中将不存在任何抑制性调控，激活得分恒为正，CPT 的 Low 分支将不可达。
     ''' </summary>
     ''' <returns></returns>
-    Public Property RegulationType As Effector = Effector.Activator
+    Public Property RegulationType As EffectorRole = EffectorRole.Activator
 
     ''' <summary>
     ''' 该条调控边的置信度（0-1）。用于同一 TF 对同一靶点存在多条方向冲突的边时做确定性仲裁。
