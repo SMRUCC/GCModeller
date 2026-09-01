@@ -6,7 +6,7 @@ Namespace Core.WGCNADBN
     Public Module BlockDynamics
 
         <Extension>
-        Public Iterator Function TrainBlocks(timeSeries As Core.GeneExpressionData, modules As GeneModuleColor(), prior As Core.PriorNetwork, TF As String()) As IEnumerable(Of ModuleDBN)
+        Public Iterator Function TrainBlocks(timeSeries As Core.GeneExpressionData, modules As IEnumerable(Of GeneModuleColor), prior As Core.PriorNetwork, TF As String()) As IEnumerable(Of ModuleDBN)
             ' ① 模块划分（跳过 grey 模块，仅保留出现在时间序列中的基因）
             Dim moduleGenes = SplitModules(modules, timeSeries)
             If moduleGenes.Count = 0 Then

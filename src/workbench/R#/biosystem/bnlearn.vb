@@ -148,12 +148,13 @@ Module bnlearn
     '''    Gaussian bayesian network.
     ''' </remarks>
     <ExportAPI("bnlearn")>
-    <RApiReturn(GetType(BNLearnWorkflow))>
+    <RApiReturn(GetType(BNLearnWorkflow), GetType(BlockBayesianNetwork))>
     Public Function bnlearn(exprData As matrix,
                             <RRawVectorArgument(GetType(RegulatoryEdge))> Optional priorNet As Object = Nothing,
                             <RRawVectorArgument(GetType(GeneModuleColor))> Optional modules As Object = Nothing,
                             <RRawVectorArgument(TypeCodes.string)> Optional TF As Object = Nothing,
                             Optional max_itrs As Integer = 500,
+                            Optional crossModuleCorThreshold As Double = 0.3,
                             Optional strict As Boolean? = Nothing,
                             Optional env As Environment = Nothing) As Object
 
@@ -183,27 +184,25 @@ Module bnlearn
                 Return colors.getError
             End If
 
-            ' ① 模块划分（跳过 grey 模块，仅保留出现在时间序列中的基因）
-            Dim moduleGenes = colors.SplitModules(timeSeries)
+            Dim blocks = timeSeries.TrainBlocks(colors, kbNet, TF).ToArray
+            Dim moduleDBs As New BlockBayesianNetwork(blocks, crossModuleCorThreshold)
+
+            Return moduleDBs
         Else
+            Dim workflow As New BNLearnWorkflow() With {
+                .ExpressionData = timeSeries,
+                .PriorNetwork = kbNet,
+                .Strict = env.strictOption(opt:=strict)
+            }
 
+            workflow.StructureParams.MaxIterations = max_itrs
+            ' 3. 结构学习（MMHC + 白名单先验）
+            workflow.LearnStructure()
+            ' 4. 参数学习（高斯BN MLE）
+            workflow.LearnParameters()
+
+            Return workflow
         End If
-
-
-
-        Dim workflow As New BNLearnWorkflow() With {
-            .ExpressionData = timeSeries,
-            .PriorNetwork = kbNet,
-            .Strict = env.strictOption(opt:=strict)
-        }
-
-        workflow.StructureParams.MaxIterations = max_itrs
-        ' 3. 结构学习（MMHC + 白名单先验）
-        workflow.LearnStructure()
-        ' 4. 参数学习（高斯BN MLE）
-        workflow.LearnParameters()
-
-        Return workflow
     End Function
 
     ''' <summary>
