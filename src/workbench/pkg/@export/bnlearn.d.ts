@@ -64,10 +64,16 @@ declare namespace bnlearn {
      *  expression data alone if the prior network is not provided.
      * 
      * + default value Is ``null``.
+     * @param modules 
+     * + default value Is ``null``.
+     * @param TF 
+     * + default value Is ``null``.
      * @param max_itrs the max iteration numbers of the network structure learning, by default is 
      *  500.
      * 
      * + default value Is ``500``.
+     * @param crossModuleCorThreshold 
+     * + default value Is ``0.3``.
      * @param strict the strict option of the in silico perturbation experiment: if this 
      *  parameter is TRUE, then an error will be thrown when the target gene of the 
      *  perturbation is missing from the learned network; if this parameter is 
@@ -92,7 +98,7 @@ declare namespace bnlearn {
      *  data can not be cast to a collection of the 
      *  @``T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge`` data.
    */
-   function bnlearn(exprData: object, priorNet?: any, max_itrs?: object, strict?: object, env?: object): object;
+   function bnlearn(exprData: object, priorNet?: any, modules?: any, TF?: any, max_itrs?: object, crossModuleCorThreshold?: number, strict?: object, env?: object): object|object;
    /**
     * run the in silico gene knockdown experiment on the given network model
     * 

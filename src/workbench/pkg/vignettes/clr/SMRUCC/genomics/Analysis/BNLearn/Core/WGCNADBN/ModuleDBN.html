@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN.ModuleDBN</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ModuleDBN {SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ModuleDBN</h2>
+
+        <h3>Description</h3>
+
+        <p>单个 WGCNA 模块的 DBN 子网络训练结果容器（模块内部使用，不污染公共 API）。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
+export class ModuleDBN {
+   # 模块 eigengene 轨迹：各时间点的模块基因均值向量（用于模块间相关度）
+   Eigengene: double;
+   # 模块内基因名 → 在 Genes 数组中的索引
+   GeneIndex: list;
+   # 该模块参与训练的基因名（与 timeSeries 子矩阵对齐）
+   Genes: string;
+   # WGCNA 模块颜色标签
+   ModuleColor: string;
+   # 已构建拓扑并完成参数学习的动态贝叶斯网络子网络
+   Net: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/DBN/DynamicBayesianNetwork.html">DynamicBayesianNetwork</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>GeneIndex</code>: list</li>
+<li>use by <i>property</i> member <code>Net</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/DBN/DynamicBayesianNetwork.html">DynamicBayesianNetwork</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

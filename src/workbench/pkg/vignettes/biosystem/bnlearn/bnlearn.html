@@ -29,7 +29,10 @@
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>bnlearn</strong>(<i>exprData</i>,
     <i>priorNet</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>modules</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>TF</i> = <span style='color: blue !important;'>NULL</span>,
     <i>max.itrs</i> = <span style='color: green;'>500</span>,
+    <i>crossModuleCorThreshold</i> = <span style='color: green;'>0.3</span>,
     <i>strict</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
@@ -81,7 +84,7 @@
 
         <p>a <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a> object that contains the learned bayesian network model, which implements the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/InsilicoPerturbationExperiment.html">InsilicoPerturbationExperiment</a> interface, so that it can be used by the <code>knockouts</code>, <code>overexpress</code> and <code>knockdown</code> api for run the in silico gene perturbation experiment;
 
-<p>this function returns a R# error message object if the given prior network data can not be cast to a collection of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a> data.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a></li></ul>
+<p>this function returns a R# error message object if the given prior network data can not be cast to a collection of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a> data.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/WGCNADBN/BlockBayesianNetwork.html">BlockBayesianNetwork</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

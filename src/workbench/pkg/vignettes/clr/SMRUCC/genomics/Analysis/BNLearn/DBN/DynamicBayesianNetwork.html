@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.BNLearn.DBN.DynamicBayesianNetwork</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>DynamicBayesianNetwork {SMRUCC.genomics.Analysis.BNLearn.DBN}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>DynamicBayesianNetwork</h2>
+
+        <h3>Description</h3>
+
+        <p>Dynamic Bayesian Network for gene regulatory network simulation.
+
+<p>This DBN implements a 2-slice temporal Bayesian network (2TBN) where:
+
+
+<ul>
+<li><p>Gene/operon expression at time t+1 depends on TF and metabolite states at time t</li>
+<li><p>TF states are provided as evidence from the ODE solver (TF protein/RNA abundance)</li>
+<li><p>Metabolite concentrations are provided as evidence from the ODE solver</li>
+</ul>
+
+
+<p>The DBN supports two modes:
+
+
+<ol>
+<li><p>Topology-only mode: Uses RegulatoryLink topology to initialize CPTs based on biological heuristics (activator/inhibitor effects via noisy-OR/AND gates). No RNAseq data required.</li>
+<li><p>Data-fitting mode: Uses RNAseq time-series data to learn CPT parameters, with the topology-based CPTs serving as a Dirichlet prior.</li>
+</ol>
+
+
+<p>Coupling with metabolic network ODEs:
+
+
+<ul>
+<li><p>DBN -&gt; ODEs: Predicted gene states are mapped to RNA transcript abundance change rates (expected transcription rate), which serve as transcription rate terms in the ODEs: dR/dt = k_synthesis <em> rate - k_degradation </em> R</li>
+<li><p>ODEs -&gt; DBN: Metabolite concentrations and TF abundances from the ODEs are discretized (Low/Medium/High) and used as evidence for DBN inference.</li>
+</ul>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.BNLearn.DBN
+export class DynamicBayesianNetwork {
+   # Configuration for the DBN (discretization, smoothing, rates, etc.)
+   Config: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/DBN/DBNConfig.html">DBNConfig</a>;
+   topologySize: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Config</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/DBN/DBNConfig.html">DBNConfig</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

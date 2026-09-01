@@ -5,7 +5,10 @@ bnlearn \- learn the gene regulatory bayesian network from the gene expression d
 .SH SYNOPSIS
 \fIbnlearn(\fBexprData\fR as <generic> Matrix, 
 \fBpriorNet\fR as any = \fB<NULL>\fR, 
+\fBmodules\fR as any = \fB<NULL>\fR, 
+\fBTF\fR as any = \fB<NULL>\fR, 
 \fBmax_itrs\fR as integer = 500, 
+\fBcrossModuleCorThreshold\fR as double = 0.3, 
 \fBstrict\fR as <generic> Boolean = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION

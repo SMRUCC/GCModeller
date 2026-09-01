@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.BNLearn.DBN.DBNConfig</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>DBNConfig {SMRUCC.genomics.Analysis.BNLearn.DBN}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>DBNConfig</h2>
+
+        <h3>Description</h3>
+
+        <p>Configuration options for the Dynamic Bayesian Network. Controls discretization thresholds, smoothing, transcription rate mapping, etc.
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.BNLearn.DBN
+export class DBNConfig {
+   # Transcription rate for "Medium" expression state (basal)
+   BasalTranscriptionRate: double;
+   # Upper threshold for discretization (values above this = "High")
+   HighThreshold: double;
+   # Transcription rate for "High" expression state
+   HighTranscriptionRate: double;
+   # Lower threshold for discretization (values below this = "Low")
+   LowThreshold: double;
+   # Transcription rate for "Low" expression state
+   LowTranscriptionRate: double;
+   # Learning rate for online parameter updates (exponential moving average)
+   OnlineLearningRate: double;
+   # Random seed for reproducible stochastic sampling
+   Seed: integer;
+   # Smoothing parameter for parameter learning (Dirichlet prior concentration). Larger values give more weight to the topology-based prior. When alpha = 0: pure Maximum Likelihood Estimation (data only). When alpha is large: prior dominates (topology only). Default = 1.0 (Laplace smoothing with topology prior).
+   SmoothingAlpha: double;
+   # If true, sample from the probability distribution (stochastic prediction). If false, take the most likely state (deterministic, argmax). Default = false (deterministic).
+   UseMultinomialSampling: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
