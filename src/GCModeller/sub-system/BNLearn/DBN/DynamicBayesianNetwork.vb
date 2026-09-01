@@ -573,7 +573,7 @@ Namespace DBN
 
             ' --- Step 4: Update CPTs with Dirichlet posterior ---
             ' P(s|parents) = (count(s) + alpha * prior(s)) / (total + alpha)
-            For Each node In _nodes.Values
+            For Each node In Tqdm.Wrap(_nodes.Values)
                 If node.ParentIds.Count = 0 Then Continue For
 
                 Dim parentStatesMap As New Dictionary(Of String, List(Of String))
