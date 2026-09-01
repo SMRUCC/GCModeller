@@ -41,35 +41,45 @@ Namespace Core.WGCNADBN
             End If
         End Function
 
-        Private Function TrainBlock(timeSeries As Core.GeneExpressionData, prior As Core.PriorNetwork, mcolor As String, genes As String()) As ModuleDBN
+        ''' <summary>
+        ''' 训练某一个WGCNA模块的动态贝叶斯子网络
+        ''' </summary>
+        ''' <param name="timeSeries"></param>
+        ''' <param name="prior"></param>
+        ''' <param name="mcolor"></param>
+        ''' <param name="genes"></param>
+        ''' <returns></returns>
+        Private Function TrainBlock(timeSeries As GeneExpressionData, prior As PriorNetwork, mcolor As String, genes As String()) As ModuleDBN
             Dim subMatrix = timeSeries.GetSubMatrix(genes)
+
             If subMatrix Is Nothing Then
-                Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块 {mcolor} 无基因匹配时间序列，跳过")
+                Call $"GRN.TrainModularDBNIntervene: 模块 {mcolor} 无基因匹配时间序列，跳过".debug
                 Return Nothing
             End If
 
             ' 模块内定向边（两端都属于本模块）转为 RegulatoryLink
-            Dim links = BuildModuleRegulatoryLinks(prior, genes)
-            Dim net As New DynamicBayesianNetwork()
-            net.BuildFromTopology(links)
+            Dim links As IEnumerable(Of RegulatoryLink) = BuildModuleRegulatoryLinks(prior, genes)
+            Dim net As DynamicBayesianNetwork = New DynamicBayesianNetwork().BuildFromTopology(links)
+            Dim ts As List(Of Dictionary(Of String, Double)) = subMatrix.ToTimeSeries()
 
-            Dim ts = subMatrix.ToTimeSeries()
             If ts IsNot Nothing AndAlso ts.Count >= 2 Then
                 net.LearnParameters(ts)
             Else
-                Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块 {mcolor} 有效时间点不足，仅使用拓扑先验 CPT")
+                Call $"GRN.TrainModularDBNIntervene: 模块 {mcolor} 有效时间点不足，仅使用拓扑先验 CPT".debug
             End If
 
-            Dim eig = ComputeModuleEigengene(ts)
+            Dim eig As Double() = ComputeModuleEigengene(ts)
             Dim mdb As New ModuleDBN With {
                 .ModuleColor = mcolor,
                 .Genes = genes,
                 .Net = net,
                 .Eigengene = eig
             }
-            For i = 0 To genes.Length - 1
+
+            For i As Integer = 0 To genes.Length - 1
                 mdb.GeneIndex(genes(i)) = i
             Next
+
             Return mdb
         End Function
 

@@ -181,7 +181,7 @@ Namespace DBN
         ''' or parameter learning (data-fitting mode).
         ''' </summary>
         ''' <param name="links">List of regulatory links defining the network topology</param>
-        Public Sub BuildFromTopology(links As IEnumerable(Of RegulatoryLink))
+        Public Function BuildFromTopology(links As IEnumerable(Of RegulatoryLink)) As DynamicBayesianNetwork
             If links Is Nothing Then
                 Throw New ArgumentNullException("the gene expression regulator network should not be nothing!")
             Else
@@ -260,7 +260,9 @@ Namespace DBN
             For Each node In _nodes.Values
                 InitializeCPT(node)
             Next
-        End Sub
+
+            Return Me
+        End Function
 
 
         ' ==================== CPT Initialization (Topology-Based Prior) ====================
