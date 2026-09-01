@@ -101,6 +101,36 @@ Namespace DBN
         ''' <summary>Learning rate for online parameter updates (exponential moving average)</summary>
         Public Property OnlineLearningRate As Double = 0.1
 
+        ''' <summary>
+        ''' 单个节点允许的最大父节点数（拓扑构建阶段的兜底保护）。
+        ''' 
+        ''' CPT 的行数为各父节点状态数之积（默认 3 态即 3^P），父节点数不受限时
+        ''' 规模会指数爆炸。默认值 20 只用于隔离极端异常拓扑，正常情况下不会触发，
+        ''' 因此不会损失任何真实的调控关系；需要更强约束时可显式调小。
+        ''' </summary>
+        Public Property MaxParents As Integer = 20
+
+        ''' <summary>
+        ''' 单个节点 CPT 允许"完整展开"的最大行数。
+        ''' 
+        ''' 不超过该阈值（默认 10000，即 3 态下 P&lt;=8）时按原逻辑展开全表；
+        ''' 超过时改为按需计算（惰性 CPT，见 ConditionalProbabilityTable.OnDemandProvider）：
+        ''' 拓扑先验分布本身就是父状态的纯函数，查询时现场计算的结果与全表展开完全一致，
+        ''' 但内存占用从 O(3^P) 降为 O(实际访问过的配置数)。
+        ''' </summary>
+        Public Property MaxCPTRows As Integer = 10000
+
+        ''' <summary>
+        ''' 惰性 CPT 的记忆化缓存上限：单个节点最多缓存多少个"现场计算过"的父配置。
+        ''' 超过后不再写入缓存，每次查询直接计算，保证稀疏缓存不会无限增长。
+        ''' </summary>
+        Public Property MaxCPTCacheRows As Integer = 10000
+
+        ''' <summary>
+        ''' 计算惰性节点的边缘分布时使用的蒙特卡洛采样数（配置空间过大时无法枚举）。
+        ''' </summary>
+        Public Property MarginalSampleSize As Integer = 4096
+
     End Class
 
 

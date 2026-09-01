@@ -168,28 +168,77 @@ Namespace DBN
         ''' <summary>
         ''' Enumerate all possible parent state combinations (Cartesian product).
         ''' Used for CPT initialization and parameter learning.
+        ''' 
+        ''' 惰性求值（按"里程表"逐位进位产生配置），不再一次性构造出全部配置列表。
+        ''' 旧实现先把完整的 List(Of List(Of String)) 物化到堆上，其内存占用与最终 CPT
+        ''' 表同一量级，是初始化阶段内存峰值的主要来源之一；改为惰性后该部分峰值降为 O(P)。
+        ''' 产出顺序与旧实现保持一致（最后一个父节点变化最快），保证结果可复现。
         ''' </summary>
-        Public Function GetAllParentConfigurations(parentStatesMap As Dictionary(Of String, List(Of String))) As List(Of List(Of String))
-            ' Start with one empty configuration
-            Dim configs As New List(Of List(Of String)) From {
-                New List(Of String)
-            }
+        Public Iterator Function GetAllParentConfigurations(parentStatesMap As Dictionary(Of String, List(Of String))) As IEnumerable(Of List(Of String))
+            Dim dims As New List(Of List(Of String))
 
             For Each pid As String In ParentIds
-                If Not parentStatesMap.ContainsKey(pid) Then Continue For
-                Dim pStates = parentStatesMap(pid)
-                Dim newConfigs As New List(Of List(Of String))
-                For Each cfg In configs
-                    For Each s In pStates
-                        Dim newCfg = New List(Of String)(cfg)
-                        newCfg.Add(s)
-                        newConfigs.Add(newCfg)
-                    Next
-                Next
-                configs = newConfigs
+                If parentStatesMap.ContainsKey(pid) Then
+                    dims.Add(parentStatesMap(pid))
+                End If
             Next
 
-            Return configs
+            If dims.Count = 0 Then
+                Yield New List(Of String)
+                Exit Function
+            End If
+
+            Dim counters(dims.Count - 1) As Integer
+            Dim total As Long = 1
+
+            For i = 0 To dims.Count - 1
+                total *= dims(i).Count
+            Next
+
+            For n As Long = 0 To total - 1
+                Dim cfg As New List(Of String)(dims.Count)
+
+                For i = 0 To dims.Count - 1
+                    cfg.Add(dims(i)(counters(i)))
+                Next
+
+                Yield cfg
+
+                ' 里程表进位：从最后一个父节点开始加一，溢出则回零并向前进位
+                For i = dims.Count - 1 To 0 Step -1
+                    counters(i) += 1
+
+                    If counters(i) < dims(i).Count Then
+                        Exit For
+                    End If
+
+                    counters(i) = 0
+                Next
+            Next
+        End Function
+
+
+        ''' <summary>
+        ''' 计算父配置的组合总数（各父节点状态数的乘积，默认 3 态即 3^P）。
+        ''' 结果达到 Integer.MaxValue 时提前饱和返回 Long.MaxValue：既避免溢出，
+        ''' 也直接给出"该节点的 CPT 无法完整展开"的判据。
+        ''' </summary>
+        Public Function GetConfigurationCount(parentStatesMap As Dictionary(Of String, List(Of String))) As Long
+            Dim n As Long = 1
+            Dim states As List(Of String) = Nothing
+
+            For Each pid As String In ParentIds
+                If Not parentStatesMap.TryGetValue(pid, states) Then Continue For
+                If states Is Nothing OrElse states.Count <= 0 Then Continue For
+
+                n *= states.Count
+
+                If n >= Integer.MaxValue Then
+                    Return Long.MaxValue
+                End If
+            Next
+
+            Return n
         End Function
 
     End Class
