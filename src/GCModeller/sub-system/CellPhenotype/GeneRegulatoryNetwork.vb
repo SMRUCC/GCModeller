@@ -475,8 +475,8 @@ Public Module GeneRegulatoryNetwork
                                              knockGenes As String(),
                                              Optional dynamicSteps As Integer = 10,
                                              Optional crossModuleCorThreshold As Double = 0.3,
-                                             Optional outputDir As String = Nothing) As (finalResponses As System.Collections.Generic.Dictionary(Of String, List(Of Double)),
-                                                                                        moduleNets As System.Collections.Generic.Dictionary(Of String, DynamicBayesianNetwork))
+                                             Optional outputDir As String = Nothing) As (finalResponses As Dictionary(Of String, List(Of Double)),
+                                                                                        moduleNets As Dictionary(Of String, DynamicBayesianNetwork))
         If timeSeries Is Nothing Then Throw New ArgumentNullException(NameOf(timeSeries), "时间序列表达矩阵不能为空")
         If modules Is Nothing OrElse modules.Length = 0 Then Throw New ArgumentNullException(NameOf(modules), "WGCNA 模块划分不能为空")
         If prior Is Nothing Then prior = New Core.PriorNetwork()
