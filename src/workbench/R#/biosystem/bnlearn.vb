@@ -149,21 +149,36 @@ Module bnlearn
     <ExportAPI("bnlearn")>
     <RApiReturn(GetType(BNLearnWorkflow))>
     Public Function bnlearn(exprData As matrix,
-                            <RRawVectorArgument(GetType(RegulatoryEdge))>
-                            Optional priorNet As Object = Nothing,
+                            <RRawVectorArgument(GetType(RegulatoryEdge))> Optional priorNet As Object = Nothing,
+                            <RRawVectorArgument(GetType(GeneModuleColor))> Optional moudles As Object = Nothing,
+                            <RRawVectorArgument(TypeCodes.string)> Optional TF As Object = Nothing,
                             Optional max_itrs As Integer = 500,
                             Optional strict As Boolean? = Nothing,
                             Optional env As Environment = Nothing) As Object
 
-        Dim pull As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(priorNet, env, nullPipe:=True)
+        Dim kbNet As PriorNetwork = Nothing
 
-        If pull IsNot Nothing AndAlso pull.isError Then
-            Return pull.getError
+        If Not priorNet Is Nothing Then
+            If TypeOf priorNet Is PriorNetwork Then
+                kbNet = priorNet
+            Else
+                Dim pull As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(priorNet, env, nullPipe:=True)
+
+                If pull IsNot Nothing AndAlso pull.isError Then
+                    Return pull.getError
+                Else
+                    kbNet = BnIO.ReadPriorNetwork(pull)
+                End If
+            End If
+        Else
+            kbNet = New PriorNetwork
         End If
+
+
 
         Dim workflow As New BNLearnWorkflow() With {
             .ExpressionData = BnIO.ReadGeneExpressionMatrix(exprData),
-            .PriorNetwork = BnIO.ReadPriorNetwork(pull),
+            .PriorNetwork = kbNet,
             .Strict = env.strictOption(opt:=strict)
         }
 
