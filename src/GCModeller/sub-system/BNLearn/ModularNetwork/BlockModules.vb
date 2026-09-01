@@ -30,6 +30,16 @@ Namespace ModularNetwork
         Public Property Eigengene As Double()
         ''' <summary>模块内基因名 → 在 Genes 数组中的索引</summary>
         Public Property GeneIndex As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+        ''' <summary>
+        ''' 该模块各基因的**野生型（未受扰动）表达丰度**：基因 ID → 丰度值。
+        ''' 
+        ''' 由训练流程自动计算（各基因在时间序列上的中位数，对 dropout 零值与
+        ''' 异常值稳健），作为虚拟扰动推演的初始状态与响应参照基准。早期实现把初始
+        ''' 状态硬编码为"全部 Medium"，导致未受扰动影响的基因一律输出 Medium。
+        ''' 可由 BlockBayesianNetwork.SetWildtypeBaseline 覆盖。
+        ''' </summary>
+        Public Property WildtypeAbundance As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
     End Class
 
     Public Module BlockModules
@@ -345,6 +355,61 @@ Namespace ModularNetwork
             If dx <= 0 OrElse dy <= 0 Then Return 0.0
 
             Return num / Math.Sqrt(dx * dy)
+        End Function
+
+        ''' <summary>
+        ''' 计算每个基因的野生型表达丰度：取该基因在全部时间点上的**中位数**。
+        ''' 
+        ''' 用中位数而非均值，是因为单细胞 log1p 表达存在大量 dropout 零值与右尾异常值，
+        ''' 中位数刻画的是"典型表达水平"，对它们稳健；均值会被异常高表达拉偏。
+        ''' </summary>
+        Public Function ComputeWildtypeAbundance(timeSeries As List(Of Dictionary(Of String, Double)), genes As String()) As Dictionary(Of String, Double)
+            Dim result As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+            If timeSeries Is Nothing OrElse genes Is Nothing Then Return result
+
+            Dim series As New Dictionary(Of String, List(Of Double))(StringComparer.OrdinalIgnoreCase)
+
+            For Each frame In timeSeries
+                If frame Is Nothing Then Continue For
+
+                For Each kv In frame
+                    If Not series.ContainsKey(kv.Key) Then
+                        series(kv.Key) = New List(Of Double)()
+                    End If
+
+                    series(kv.Key).Add(kv.Value)
+                Next
+            Next
+
+            For Each g In genes
+                Dim values As List(Of Double) = Nothing
+
+                If Not series.TryGetValue(g, values) OrElse values.Count = 0 Then
+                    Continue For
+                End If
+
+                result(g) = Median(values)
+            Next
+
+            Return result
+        End Function
+
+        ''' <summary>中位数（对升序排序后的数组取中值，偶数个元素时取中间两个的均值）</summary>
+        Private Function Median(values As List(Of Double)) As Double
+            If values Is Nothing OrElse values.Count = 0 Then Return 0.0
+
+            Dim col As Double() = values.ToArray()
+
+            Array.Sort(col)
+
+            Dim n As Integer = col.Length
+
+            If n Mod 2 = 1 Then
+                Return col(n \ 2)
+            End If
+
+            Return (col(n \ 2 - 1) + col(n \ 2)) / 2.0
         End Function
 
         ''' <summary>取已升序排序数组的分位数（最近秩法）</summary>

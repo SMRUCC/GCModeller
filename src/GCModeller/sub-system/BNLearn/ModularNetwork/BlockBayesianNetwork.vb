@@ -33,6 +33,18 @@ Namespace ModularNetwork
         Private _baselineSteps As Integer = -1
 
         ''' <summary>
+        ''' 野生型（未受扰动）各基因的表达丰度：基因 ID → 丰度值。
+        ''' 由训练流程按时间序列中位数自动计算，可被 SetWildtypeBaseline 覆盖。
+        ''' </summary>
+        Private _wildtypeAbundance As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+        ''' <summary>
+        ''' 由野生型丰度离散化得到的各基因野生型状态：基因 ID → Low/Medium/High。
+        ''' 用作级联推演的初始状态，以及计算扰动响应增量时的参照基准。
+        ''' </summary>
+        Private _wildtypeStates As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+        ''' <summary>
         ''' get length of <see cref="moduleDBs"/> array
         ''' </summary>
         ''' <returns></returns>
@@ -85,19 +97,21 @@ Namespace ModularNetwork
             Next
             If m0 Is Nothing Then
                 Call $"GRN.CascadeIntervene: 警告: 扰动基因 '{knockGene}' 不在任何模块中，跳过".info
-                Dim zero As Double() = allGenes.Select(Function(g) 1.0).ToArray()
+                ' 输出的是"相对野生型的响应增量"，未参与任何模块即视为无响应（0）
+                Dim zero As Double() = allGenes.Select(Function(g) 0.0).ToArray()
                 trajectories(knockGene) = New Dictionary(Of String, List(Of Double))
                 Return zero
             End If
 
-            ' 每个模块维护基因离散状态（初始 Medium），以及各自的轨迹容器
+            ' 每个模块维护基因离散状态（以**野生型基线**为初始状态），以及各自的轨迹容器。
+            ' 轨迹记录的是"相对野生型的响应增量"，而非绝对状态值。
             Dim moduleStates As New Dictionary(Of String, Dictionary(Of String, String))
             Dim moduleTraj As New Dictionary(Of String, Dictionary(Of String, List(Of Double)))
             For Each m In moduleDBs
                 Dim st As New Dictionary(Of String, String)
                 Dim tr As New Dictionary(Of String, List(Of Double))
                 For Each g In m.Genes
-                    st(g) = "Medium"
+                    st(g) = WildtypeStateOf(g)
                     tr(g) = New List(Of Double)(New Double(steps - 1) {})
                 Next
                 moduleStates(m.ModuleColor) = st
@@ -107,7 +121,7 @@ Namespace ModularNetwork
             ' 初始步：扰动基因固定 Low
             moduleStates(m0.ModuleColor)(knockGene) = "Low"
             For Each g In m0.Genes
-                moduleTraj(m0.ModuleColor)(g)(0) = StateToValue(moduleStates(m0.ModuleColor)(g))
+                moduleTraj(m0.ModuleColor)(g)(0) = StateToValue(moduleStates(m0.ModuleColor)(g)) - StateToValue(WildtypeStateOf(g))
             Next
 
             ' 野生型基线：每个模块以"全部 Medium、不固定任何基因"跑同样步数，
@@ -126,8 +140,9 @@ Namespace ModularNetwork
                 For Each m In moduleDBs
                     Dim wtStates As New Dictionary(Of String, String)
 
+                    ' 野生型推演同样从野生型基线出发，而不是"全部 Medium"
                     For Each g In m.Genes
-                        wtStates(g) = "Medium"
+                        wtStates(g) = WildtypeStateOf(g)
                     Next
 
                     Dim wtRates = RunModuleSteps(m, wtStates, Nothing, steps, tfSet, Nothing)
@@ -189,7 +204,7 @@ Namespace ModularNetwork
                 If geneToTraj.ContainsKey(g) Then
                     resp(i) = geneToTraj(g)(steps - 1)
                 Else
-                    resp(i) = 1.0  ' 未参与任何模块：中性 Medium
+                    resp(i) = 0.0  ' 未参与任何模块：相对野生型无响应
                 End If
             Next
 
@@ -237,9 +252,10 @@ Namespace ModularNetwork
                         geneStates(fixedGene) = "Low"
                     End If
 
-                    ' traj 为 Nothing 时用于基线推演（不需要记录轨迹）
+                    ' traj 为 Nothing 时用于基线推演（不需要记录轨迹）；
+                    ' 记录的是相对野生型的响应增量，而非绝对状态值
                     If traj IsNot Nothing Then
-                        traj(gene_id)(t) = StateToValue(geneStates(gene_id))
+                        traj(gene_id)(t) = StateToValue(geneStates(gene_id)) - StateToValue(WildtypeStateOf(gene_id))
                     End If
                 Next
 
@@ -273,7 +289,7 @@ Namespace ModularNetwork
             Next
             If Not String.IsNullOrEmpty(fixedGene) Then geneStates(fixedGene) = "Low"
             For Each g In m.Genes
-                traj(g)(0) = StateToValue(geneStates(g))
+                traj(g)(0) = StateToValue(geneStates(g)) - StateToValue(WildtypeStateOf(g))
             Next
 
             Dim lastRates As New Dictionary(Of String, Double)
@@ -292,7 +308,7 @@ Namespace ModularNetwork
                         geneStates(g) = result.GeneStates(g)
                     End If
                     If Not String.IsNullOrEmpty(fixedGene) Then geneStates(fixedGene) = "Low"
-                    traj(g)(t) = StateToValue(geneStates(g))
+                    traj(g)(t) = StateToValue(geneStates(g)) - StateToValue(WildtypeStateOf(g))
                 Next
                 For Each g In m.Genes
                     If result.RNAAbundanceChanges.ContainsKey(g) Then lastRates(g) = result.RNAAbundanceChanges(g)
@@ -828,8 +844,73 @@ Namespace ModularNetwork
             Return s.Replace(vbTab, " ").Replace(vbCr, " ").Replace(vbLf, " ")
         End Function
 
+        ''' <summary>
+        ''' 设置野生型（未受扰动）各基因的表达丰度，作为后续虚拟扰动实验的基线。
+        ''' 
+        ''' 语义与 <see cref="BNLearnWorkflow.SetExternalExpression"/> 保持一致：
+        '''   - 只保留与网络中已建模基因重叠的部分，忽略未建模基因；
+        '''   - 未覆盖的基因回退到"训练数据各基因的平均表达水平"（由训练流程自动计算）；
+        '''   - 基因名大小写不敏感。
+        ''' 
+        ''' 丰度会按各基因自身的离散化阈值（训练时写入 Config.NodeThresholds）
+        ''' 转成 Low/Medium/High，作为级联推演的初始状态与响应参照基准。
+        ''' 在此之前推演一律从"全部 Medium"出发，导致未受影响的基因恒为 Medium。
+        ''' </summary>
+        ''' <param name="baseline">基因 ID → 表达丰度 的字典</param>
         Public Sub SetWildtypeBaseline(baseline As Dictionary(Of String, Double))
-            Throw New NotImplementedException()
+            _wildtypeAbundance = New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+            ' 先以训练流程自动算出的丰度打底，再用外部传入的值覆盖（未覆盖者保持训练均值）
+            For Each m In moduleDBs.SafeQuery
+                For Each kv In m.WildtypeAbundance.SafeQuery
+                    _wildtypeAbundance(kv.Key) = kv.Value
+                Next
+            Next
+
+            For Each kv In baseline.SafeQuery
+                _wildtypeAbundance(kv.Key) = kv.Value
+            Next
+
+            Call ApplyWildtypeStates()
         End Sub
+
+        ''' <summary>
+        ''' 依据当前的野生型丰度，按各基因自身的离散化阈值计算其野生型离散状态。
+        ''' </summary>
+        Private Sub ApplyWildtypeStates()
+            _wildtypeStates = New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+            For Each m In moduleDBs.SafeQuery
+                If m.Net Is Nothing Then Continue For
+
+                For Each g As String In m.Genes.SafeQuery
+                    Dim abundance As Double = 0
+
+                    If Not _wildtypeAbundance.TryGetValue(g, abundance) Then
+                        Continue For
+                    End If
+
+                    _wildtypeStates(g) = m.Net.Discretize(g, abundance)
+                Next
+            Next
+
+            ' 基线已改变，此前缓存的野生型推演结果必须失效
+            _baselineRates = Nothing
+            _baselineStates = Nothing
+            _baselineSteps = -1
+
+            Call $"[GRN wt] 野生型基线已设置: 基因数={_wildtypeStates.Count}".info
+        End Sub
+
+        ''' <summary>取某个基因的野生型状态（未设置基线时回退 Medium）</summary>
+        Private Function WildtypeStateOf(geneId As String) As String
+            Dim st As String = Nothing
+
+            If _wildtypeStates IsNot Nothing AndAlso _wildtypeStates.TryGetValue(geneId, st) Then
+                Return st
+            End If
+
+            Return "Medium"
+        End Function
     End Class
 End Namespace

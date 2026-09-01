@@ -96,6 +96,10 @@ Namespace ModularNetwork
                 mdb.GeneIndex(genes(i)) = i
             Next
 
+            ' 野生型基线：以各基因在时间序列上的中位数作为"未受扰动时的表达丰度"，
+            ' 供虚拟扰动推演作为初始状态与响应参照基准（可被 SetWildtypeBaseline 覆盖）
+            mdb.WildtypeAbundance = ComputeWildtypeAbundance(ts, genes)
+
             Return mdb
         End Function
 

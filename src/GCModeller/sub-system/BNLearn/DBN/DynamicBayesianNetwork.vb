@@ -1165,6 +1165,21 @@ Namespace DBN
             Return "High"
         End Function
 
+        ''' <summary>
+        ''' 用指定节点自身的离散化阈值，把连续表达丰度离散为 Low/Medium/High。
+        ''' 
+        ''' 阈值解析顺序与内部完全一致：customThresholds → Config.NodeThresholds →
+        ''' 默认阈值（见 <see cref="GetThresholds"/>），从而保证外部调用方
+        ''' （例如设置野生型基线）与模型内部（参数学习、推理）使用同一套阈值。
+        ''' </summary>
+        ''' <param name="nodeId">节点（基因）ID</param>
+        ''' <param name="value">连续表达丰度</param>
+        Public Function Discretize(nodeId As String, value As Double) As String
+            Dim thresh = GetThresholds(nodeId, Nothing)
+
+            Return DiscretizeValue(value, thresh.Item1, thresh.Item2)
+        End Function
+
 
         ''' <summary>Get a node by ID (returns Nothing if not found)</summary>
         Public Function GetNode(id As String) As DBNNode
