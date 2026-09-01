@@ -205,6 +205,13 @@ Module bnlearn
         End If
     End Function
 
+    <ExportAPI("set_baseline")>
+    <RApiReturn(GetType(BNLearnWorkflow))>
+    Public Function setBaseline(model As BNLearnWorkflow, <RListObjectArgument> baseline As list, Optional env As Environment = Nothing) As Object
+        model.SetExternalExpression(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
+        Return model
+    End Function
+
     <ExportAPI("modular_intervene")>
     Public Function modularDBNIntervene(model As BlockBayesianNetwork, <RRawVectorArgument(TypeCodes.string)> knockGenes As Object, Optional dynamicSteps As Integer = 10) As BlockResponseResult
         Return BlockResponseResult.ModularDBNIntervene(model, CLRVector.asCharacter(knockGenes), dynamicSteps)

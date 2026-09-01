@@ -217,7 +217,7 @@ Module WGCNA
     ''' <param name="TF"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("bnnet")>
+    <ExportAPI("prior_network")>
     <RApiReturn(GetType(PriorNetwork))>
     Public Function bnnet(<RRawVectorArgument(GetType(RelationshipScore))> edges As Object,
                           <RRawVectorArgument(TypeCodes.string)> TF As Object,
