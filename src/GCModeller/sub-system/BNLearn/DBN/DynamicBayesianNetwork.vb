@@ -295,9 +295,9 @@ Namespace DBN
 
             ' --- Step 3: Initialize CPTs for all nodes ---
             For Each node In Tqdm.Wrap(_nodes.Values, bar:=bar)
-                If node.ParentIds.Count >= 8 Then
-                    Call $"[DBN init] {node.NodeId} parents={node.ParentIds.Count} rows={Math.Pow(3, node.ParentIds.Count).ToString("E3")} mem={App.MemorySize}".debug
-                End If
+                'If node.ParentIds.Count >= 8 Then
+                '    Call $"[DBN init] {node.NodeId} parents={node.ParentIds.Count} rows={Math.Pow(3, node.ParentIds.Count).ToString("E3")} mem={App.MemorySize}".debug
+                'End If
 
                 Call InitializeCPT(node)
                 Call bar.SetLabel($"{node.NodeId} {App.MemorySize}")
@@ -521,7 +521,7 @@ Namespace DBN
                 node.CPT.MaxCacheRows = _config.MaxCPTCacheRows
                 node.CPT.OnDemandProvider = Function(cfg) ComputeDefaultDistribution(node, cfg)
 
-                Call $"[DBN lazy] {node.NodeId} parents={node.ParentIds.Count} rows={rows} -> 按需计算（不展开 CPT）".debug
+                ' Call $"[DBN lazy] {node.NodeId} parents={node.ParentIds.Count} rows={rows} -> 按需计算（不展开 CPT）".debug
             End If
         End Sub
 

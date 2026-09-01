@@ -26,8 +26,11 @@
 
   <ItemGroup>
     <Compile Remove="test\**" />
+    <Compile Remove="tools\**" />
     <EmbeddedResource Remove="test\**" />
+    <EmbeddedResource Remove="tools\**" />
     <None Remove="test\**" />
+    <None Remove="tools\**" />
   </ItemGroup>
 
   <ItemGroup>
