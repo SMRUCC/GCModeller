@@ -247,7 +247,14 @@ declare namespace bnlearn {
    */
    function save_model(bnlearn: object, dir: string): any;
    /**
-     * @param env default value Is ``null``.
+    * set wildtype baseline
+    * 
+    * 
+     * @param model @``T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow`` or @``T:SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.BlockBayesianNetwork``
+     * @param baseline a value list tuple of the baseline expression value, example as list(gene1=xxx,gene2=xxx,...)
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function set_baseline(model: object, baseline: object, env?: object): object;
+   function wildtype_baseline(model: any, baseline: object, env?: object): object|object;
 }

@@ -19,7 +19,7 @@ Bayesian network learning and the in silico gene perturbation toolkit
 
 + [bnlearn](bnlearn/bnlearn.1) learn the gene regulatory bayesian network from the gene expression data
 + [read_module_assignment](bnlearn/read_module_assignment.1) read WGCNA module color assignment result table
-+ [set_baseline](bnlearn/set_baseline.1) 
++ [wildtype_baseline](bnlearn/wildtype_baseline.1) set wildtype baseline
 + [modular_intervene](bnlearn/modular_intervene.1) 
 + [export_modular_response](bnlearn/export_modular_response.1) 
 + [as.prior_net](bnlearn/as.prior_net.1) build prior network object based on a given vector of the knowledge network edges data
