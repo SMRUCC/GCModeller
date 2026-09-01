@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.DBN
+Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
 
 Namespace ModularNetwork
 
