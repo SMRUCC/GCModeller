@@ -1,3 +1,4 @@
+Imports System.Globalization
 Imports System.IO
 Imports Microsoft.VisualBasic.DeepLearning.LiquidNeuralNetwork
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
@@ -45,6 +46,7 @@ Module Program
         Dim metaboliteCsv = files(1)
         Dim enzymeCsv = files(2)
         Dim fluxCsv = files(3)
+        Dim keqCsv = files(4)
 
         For Each f In files
             Console.WriteLine($"  [数据] {Path.GetFileName(f)}  ({New FileInfo(f).Length / 1024.0:F1} KB)")
@@ -91,6 +93,26 @@ Module Program
         Dim fluxTruthRaw = MetabolicDataIO.LoadCsv(fluxCsv)
         Dim fluxTruth = fluxTruthRaw.Reorder(graph.ReactionIds)
 
+        ' ---------- 热力学先验与 λ2 上下文 ----------
+        ' keq_truth.csv：可逆反应写真值，不可逆反应写真值速率律隐含的"有效大值"（无反向项 ⇒ Keq 视为 ∞）
+        Dim keqById = LoadKeqCsv(keqCsv)
+        Dim thermoConfig As New ThermoConfig With {
+            .FluxScale = 0.05,          ' â = tanh(v/0.05)：|v|>0.15 视为"有通量"
+            .MinConcentration = 0.001,  ' 物理浓度下限，兼顾 ln c 不失真与 (c+1)/c 不爆炸
+            .MaxDrivingForce = 20.0     ' dg 钳制范围
+        }
+        Dim thermoCtx = ThermoContext.FromMetabolome(metabolome, graph, keqById, thermoConfig)
+
+        Dim nRevTherm = 0
+        For j = 0 To graph.ReactionCount - 1
+            If graph.Reversible(j) Then nRevTherm += 1
+        Next
+
+        Console.WriteLine($"  热力学先验 Keq  : 载入 {keqById.Count} 条（可逆 {nRevTherm} 条写真值，" &
+                          $"不可逆 {graph.ReactionCount - nRevTherm} 条取有效大值 {DemoData.EffectiveKeqIrreversible:F0}）")
+        Console.WriteLine($"  λ2 上下文       : 门控尺度 vScale={thermoConfig.FluxScale}，" &
+                          $"浓度下限 cMin={thermoConfig.MinConcentration}，推动力钳制 ±{thermoConfig.MaxDrivingForce}")
+
         Dim times = metabolome.Times
         Dim steps = times.Length
         Dim h0 = Row(observed, 0)
@@ -128,7 +150,7 @@ Module Program
         Dim config As New MetabolicTrainerConfig With {
             .LambdaData = 1.0,
             .LambdaMass = 0.5,      ' ‖S·v̂‖²  质量守恒（软约束）
-            .LambdaThermo = 0.5,    ' 不可逆反应通量非负（读取头已保证非负，此项为守卫）
+            .LambdaThermo = 0.5,    ' 热力学可行性：有通量的反应不得逆浓度梯度运行（ΔG 方向性）
             .LambdaFlux = 0.2,      ' 通量监督（有 13C-MFA 真值时启用）
             .LearningRate = 0.02,
             .Epochs = 600,
@@ -142,6 +164,8 @@ Module Program
         }
 
         Dim trainer As New MetabolicTrainer(model, config)
+        Call trainer.SetThermo(thermoCtx)
+
         Dim before = trainer.Evaluate(times, observed, enzymeSeries, boundarySeries, fluxTruth)
 
         Console.WriteLine($"  训练前 loss     : {before}")
@@ -264,8 +288,21 @@ Module Program
         Console.WriteLine($"  浓度拟合        : RMSE={traj.RMSE(observed):F4}  MAE={traj.MAE(observed):F4}  R²={traj.R2(observed):F4}")
         Console.WriteLine($"  通量重建        : RMSE={RMSE(traj.Fluxes, fluxTruth):F4}（与真值通量对比）")
         Console.WriteLine($"  稳态违反度      : mean‖S·v̂‖ = {traj.SteadyStateViolation(graph):F6}（越接近 0 越满足质量守恒）")
-        Console.WriteLine($"  热力学方向性项  : 通量读取头对不可逆反应恒输出 v = e·σ(·) ≥ 0，" &
-                          "因此该项在整个训练过程中为 0（约束已被结构保证）。")
+
+        ' ---- 热力学可行性（λ2）----
+        Dim thermo As New ThermoFeasibility(graph, thermoCtx)
+        Dim activeTherm As Integer = 0
+        Dim thermoViol = traj.ThermoViolation(thermo, boundarySeries, activeTherm)
+
+        Console.WriteLine($"  热力学可行性 λ2 : mean Σ_j max(0, â_j·dg_j)²/r = {thermoViol:F6}（越接近 0 越满足 ΔG 方向性）")
+        Console.WriteLine($"                    违反的「反应 × 时刻」共 {activeTherm} 条 / {steps * graph.ReactionCount} 条")
+        Console.WriteLine($"  不可逆反应负通量: {trainer.NegativeFluxCount} 条（通量读取头对不可逆反应取 v = e·σ(·) ≥ 0，" &
+                          "由结构硬保证，因此恒为 0）")
+
+        ' ---- 正确性佐证：真值 (真值浓度 + 真值通量) 的 ΔG 违反度应 ≈ 0 ----
+        Dim truthViol = TruthThermoViolation(thermo, graph, metabolomeRaw, fluxTruth, steps)
+
+        Console.WriteLine($"  真值 ΔG 违反度  : {truthViol:F6}（真值动力学按其自身 Keq 构造，天然满足方向性，应≈0）")
 
         Call traj.SaveCsv(resultDir, "ltc_simulation")
 
@@ -290,6 +327,7 @@ Module Program
             .GradientClip = 5.0, .LogEvery = 50, .Verbose = False, .Seed = 123
         }
         Dim cfcTrainer As New MetabolicTrainer(cfcModel, cfcConfig)
+        Call cfcTrainer.SetThermo(thermoCtx)
 
         sw.Restart()
         Dim cfcHistory = cfcTrainer.Fit(times, observed, enzymeSeries, boundarySeries, fluxTruth)
@@ -410,6 +448,55 @@ Module Program
             Console.WriteLine($"    {items(k).id,-10} τ^sys = {items(k).tau:F4}")
         Next
     End Sub
+
+    ''' <summary>载入 keq_truth.csv（ID,Keq）成 反应 id → Keq 的映射</summary>
+    Private Function LoadKeqCsv(path As String) As Dictionary(Of String, Double)
+        Dim map As New Dictionary(Of String, Double)()
+
+        For Each line In File.ReadAllLines(path).Skip(1)
+            If String.IsNullOrWhiteSpace(line) Then Continue For
+
+            Dim parts = line.Split(","c)
+
+            If parts.Length < 2 Then Continue For
+
+            map(parts(0).Trim()) = Double.Parse(parts(1).Trim(), CultureInfo.InvariantCulture)
+        Next
+
+        Return map
+    End Function
+
+    ''' <summary>
+    ''' 用真值浓度 + 真值通量计算 ΔG 违反度。
+    ''' 真值动力学按其自身 Keq 构造，天然满足方向性，因此该值应≈0——
+    ''' 这是 λ2 实现是否正确的一个强佐证。
+    ''' </summary>
+    Private Function TruthThermoViolation(thermo As ThermoFeasibility, graph As MetabolicNetworkGraph,
+                                          metabolomeRaw As TimeSeriesMatrix, fluxTruth As Tensor,
+                                          steps As Integer) As Double
+        ' metabolomeRaw 未归一化，Reorder 后即为物理浓度（T × mAll）
+        Dim physical = metabolomeRaw.Reorder(graph.MetaboliteIds)
+        Dim acc As Double = 0.0
+        Dim nRxn = graph.ReactionCount
+
+        For t = 0 To steps - 1
+            Dim cAll = New Double(graph.MetaboliteIds.Length - 1) {}
+            Dim v = New Double(nRxn - 1) {}
+
+            For i = 0 To cAll.Length - 1
+                cAll(i) = physical(t, i)
+            Next
+            For j = 0 To nRxn - 1
+                v(j) = fluxTruth(t, j)
+            Next
+
+            Dim tStep = thermo.EvaluatePhysical(cAll, v)
+
+            acc += tStep.Penalty / std.Max(1, nRxn)
+        Next
+
+        Return acc / std.Max(1, steps)
+    End Function
 
     ''' <summary>相对基线的变化百分比（基线接近 0 时退化为输出绝对值）</summary>
     Private Function Pct(value As Double, baseline As Double) As String
