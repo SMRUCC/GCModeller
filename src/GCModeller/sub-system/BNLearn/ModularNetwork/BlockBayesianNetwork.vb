@@ -141,10 +141,12 @@ Namespace ModularNetwork
             Dim rate0 = If(m0Rates.Count > 0, m0Rates.Values.Average(), 0.0)
             Dim baseline0 As Double = If(_baselineRates.ContainsKey(m0.ModuleColor), _baselineRates(m0.ModuleColor), 0.0)
 
-            ' 本模块向外的传播量 = 扰动后速率 - 野生型基线速率（可正可负）
-            Dim delta0 = rate0 - baseline0
+            ' 本模块向外的传播量 = 基因状态相对野生型稳态的平均变化（可正可负）。
+            ' 不用速率差：RNA 速率均值是连续量，单基因敲降带来的变化被平均到 1e-4 量级，
+            ' 几乎测不到，级联传播等同于关闭。
+            Dim delta0 = StateDelta(m0.Genes, moduleStates(m0.ModuleColor), GetBaselineStates(m0.ModuleColor))
 
-            Call $"GRN.CascadeIntervene: 基因 '{knockGene}' 本模块速率 基线={baseline0:F4}, 扰动后={rate0:F4}, Δ={delta0:F4}".debug
+            Call $"GRN.CascadeIntervene: 基因 '{knockGene}' 本模块速率 基线={baseline0:F4}, 扰动后={rate0:F4}, 状态Δ={delta0:F4}".debug
 
             ' 沿模块关联图 BFS 级联
             Dim visited As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase) From {m0.ModuleColor}
@@ -163,10 +165,9 @@ Namespace ModularNetwork
                     Dim fixedInNext = If(mNext.GeneIndex.ContainsKey(knockGene), knockGene, Nothing)
                     Dim nextRates = RunModuleForced(mNext, upstreamDelta, fixedInNext, steps, tfSet, moduleStates(mNext.ModuleColor), moduleTraj(mNext.ModuleColor))
                     Dim rateNext = If(nextRates.Count > 0, nextRates.Values.Average(), 0.0)
-                    Dim baselineNext As Double = If(_baselineRates.ContainsKey(mNext.ModuleColor), _baselineRates(mNext.ModuleColor), 0.0)
 
-                    ' 同样取相对基线的变化量，保证传播方向可正可负
-                    Dim deltaNext = rateNext - baselineNext
+                    ' 同样以"状态相对基线的平均变化"作为继续向外传播的信号
+                    Dim deltaNext = StateDelta(mNext.Genes, moduleStates(mNext.ModuleColor), GetBaselineStates(mNext.ModuleColor))
 
                     queue.Enqueue((modColor:=mNext.ModuleColor, delta:=deltaNext))
                 Next
@@ -261,7 +262,10 @@ Namespace ModularNetwork
                                          geneStates As Dictionary(Of String, String),
                                          traj As Dictionary(Of String, List(Of Double))) As Dictionary(Of String, Double)
             ' 初始整体状态偏置：上游正向变化 → High，负向 → Low，近 0 → Medium
-            Dim initState As String = If(upstreamDelta > 0.1, "High", If(upstreamDelta < -0.1, "Low", "Medium"))
+            ' 阈值由配置给出：单基因敲降只影响其直接靶标（约占模块基因 1%），
+            ' 固定 0.1 会让级联永远不触发
+            Dim threshold As Double = m.Net.Config.CascadeStateThreshold
+            Dim initState As String = If(upstreamDelta > threshold, "High", If(upstreamDelta < -threshold, "Low", "Medium"))
             For Each g In m.Genes
                 geneStates(g) = initState
             Next
@@ -300,6 +304,50 @@ Namespace ModularNetwork
         ''' 模型文件格式版本（用于 LoadModel 的兼容性校验）
         ''' </summary>
         Private Const ModelFormatVersion As Integer = 1
+
+        ''' <summary>
+        ''' 计算一组基因相对野生型稳态的**平均状态变化**（状态值 Low=0 / Medium=1 / High=2 的差值均值）。
+        ''' 
+        ''' 正值表示整体上调、负值表示下调，用作模块间级联传播的驱动信号。
+        ''' 相比 RNA 速率均值，状态值对扰动更敏感：速率是连续量且被平均到 1e-4 量级，
+        ''' 单基因敲降几乎测不到差异，级联传播等同于关闭。
+        ''' </summary>
+        Private Shared Function StateDelta(genes As String(),
+                                           states As Dictionary(Of String, String),
+                                           baseline As Dictionary(Of String, String)) As Double
+            If genes Is Nothing OrElse genes.Length = 0 Then Return 0.0
+            If states Is Nothing OrElse baseline Is Nothing Then Return 0.0
+
+            Dim acc As Double = 0
+            Dim n As Integer = 0
+
+            For Each g In genes
+                Dim baseState As String = Nothing
+                Dim curState As String = Nothing
+
+                If baseline.TryGetValue(g, baseState) AndAlso states.TryGetValue(g, curState) Then
+                    acc += StateToValue(curState) - StateToValue(baseState)
+                    n += 1
+                End If
+            Next
+
+            If n = 0 Then Return 0.0
+
+            Return acc / n
+        End Function
+
+        ''' <summary>取指定模块的野生型稳态基因状态（未缓存时返回 Nothing，调用方需容错）</summary>
+        Private Function GetBaselineStates(moduleColor As String) As Dictionary(Of String, String)
+            If _baselineStates Is Nothing Then Return Nothing
+
+            Dim states As Dictionary(Of String, String) = Nothing
+
+            If _baselineStates.TryGetValue(moduleColor, states) Then
+                Return states
+            End If
+
+            Return Nothing
+        End Function
 
         ''' <summary>
         ''' save model as zip archive file
