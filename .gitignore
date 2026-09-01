@@ -532,3 +532,5 @@ src/workbench/.vs/packages.NET5.slnx/v18/HierarchyCache.v1.txt
 src/GCModeller/sub-system/.vs/Metaboliq.slnx/v18/DocumentLayout.backup.json
 src/GCModeller/sub-system/.vs/Metaboliq.slnx/v18/DocumentLayout.json
 src/GCModeller/sub-system/BNLearn/tools/logs/summary-baseline-20260902-003639.txt
+src/GCModeller/sub-system/BNLearn/tools/logs/summary-saveload-20260902-015121.txt
+src/GCModeller/sub-system/BNLearn/tools/logs/summary-roundtrip-20260902-015406.txt
