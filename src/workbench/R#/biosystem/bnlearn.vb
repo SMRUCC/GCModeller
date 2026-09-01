@@ -99,7 +99,7 @@ Module bnlearn
     ''' learn the gene regulatory bayesian network from the gene expression data
     ''' </summary>
     ''' <param name="exprData">
-    ''' the gene expression matrix object, could be load from csv file via ``geneExpression::load.expr`` api
+    ''' the gene expression matrix object, could be load from csv file via ``geneExpression::load.expr`` api, or the <see cref="GeneExpressionData"/> matrix
     ''' </param>
     ''' <param name="priorNet">
     ''' a collection of the prior knowledge regulatory edge data 
@@ -148,7 +148,7 @@ Module bnlearn
     ''' </remarks>
     <ExportAPI("bnlearn")>
     <RApiReturn(GetType(BNLearnWorkflow), GetType(BlockBayesianNetwork))>
-    Public Function bnlearn(exprData As matrix,
+    Public Function bnlearn(exprData As Object,
                             <RRawVectorArgument(GetType(RegulatoryEdge))> Optional priorNet As Object = Nothing,
                             <RRawVectorArgument(GetType(GeneModuleColor))> Optional modules As Object = Nothing,
                             <RRawVectorArgument(TypeCodes.string)> Optional TF As Object = Nothing,
@@ -176,7 +176,13 @@ Module bnlearn
             kbNet = New PriorNetwork
         End If
 
-        Dim timeSeries = BnIO.ReadGeneExpressionMatrix(exprData)
+        Dim timeSeries As GeneExpressionData
+
+        If TypeOf exprData Is matrix Then
+            timeSeries = BnIO.ReadGeneExpressionMatrix(DirectCast(exprData, matrix))
+        Else
+            timeSeries = DirectCast(exprData, GeneExpressionData)
+        End If
 
         If Not colors Is Nothing Then
             If colors.isError Then

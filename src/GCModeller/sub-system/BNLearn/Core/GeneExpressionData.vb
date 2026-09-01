@@ -104,7 +104,8 @@ Namespace Core
                 Return _uniqueTimes
             End Get
         End Property
-        Private _uniqueTimes As Double() = Nothing
+
+        Dim _uniqueTimes As Double() = Nothing
 
         ''' <summary>基因数量</summary>
         Public ReadOnly Property NGene As Integer
@@ -287,9 +288,10 @@ Namespace Core
                 .GeneNames = keepNames.ToArray(),
                 .SampleNames = CType(SampleNames.Clone(), String()),
                 .Matrix = sub_,
-                .TimePoints = CType(TimePoints.Clone(), Double())
+                .TimePoints = CType(TimePoints.Clone(), Double()),
+                ._uniqueTimes = Nothing
             }
-            result._uniqueTimes = Nothing
+
             Return result
         End Function
 
