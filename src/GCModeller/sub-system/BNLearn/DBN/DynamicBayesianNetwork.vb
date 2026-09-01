@@ -434,6 +434,7 @@ Namespace DBN
         End Function
 
         ''' <summary>
+        ''' 输出当前拓扑的规模诊断信息（父节点数分布 / CPT 行数估算 / hub 节点清单）。
         ''' 
         ''' CPT 的行数等于各父节点状态数的乘积，默认 3 态即 3^P（P = 父节点数），
         ''' 因此父节点数一旦不受限，初始化阶段的时间与内存都会指数级爆炸。
@@ -486,6 +487,8 @@ Namespace DBN
             node.CPT.ParentIds = New List(Of String)(node.ParentIds)
             node.CPT.States = New List(Of String)(node.States)
             node.CPT.Table = New Dictionary(Of String, Double())
+            node.CPT.MaxCacheRows = _config.MaxCPTCacheRows
+            node.CPT.OnDemandProvider = Nothing
 
             If node.ParentIds.Count = 0 Then
                 ' No parents: uniform prior
@@ -493,22 +496,43 @@ Namespace DBN
                 For i = 0 To dist.Length - 1
                     dist(i) = 1.0 / node.States.Count
                 Next
-                node.CPT.SetDistribution(New List(Of String), dist)
+                node.CPT.SetDistribution(New List(Of String), dist, copy:=False)
+                Exit Sub
+            End If
+
+            Dim parentStatesMap As Dictionary(Of String, List(Of String)) = GetParentStatesMap(node)
+            Dim rows As Long = node.CPT.GetConfigurationCount(parentStatesMap)
+
+            If rows <= _config.MaxCPTRows Then
+                ' 规模可控：完整展开。预先给定容量，避免 Dictionary 扩容时新旧桶数组
+                ' 并存造成的内存瞬时翻倍；分布数组由调用方新建，无需再克隆一份。
+                node.CPT.Table = New Dictionary(Of String, Double())(CInt(rows))
+                node.CPT.OnDemandProvider = Nothing
+
+                For Each cfg In node.CPT.GetAllParentConfigurations(parentStatesMap)
+                    node.CPT.SetDistribution(cfg, ComputeDefaultDistribution(node, cfg), copy:=False)
+                Next
             Else
-                ' Enumerate all parent configurations and compute default distributions
-                Dim parentStatesMap As New Dictionary(Of String, List(Of String))
-                For Each pid As String In node.ParentIds
-                    parentStatesMap(pid) = _nodes(pid).States
-                Next
+                ' 规模爆炸（3^P 远超阈值）：不展开全表，改为查询时按需计算。
+                ' 拓扑先验分布本身是父状态的纯函数（noisy-OR/AND 得分的确定性映射），
+                ' 现场计算的结果与全表展开逐位一致，但内存从 O(3^P) 降为 O(实际访问过的配置数)。
+                node.CPT.Table = New Dictionary(Of String, Double())()
+                node.CPT.OnDemandProvider = Function(cfg) ComputeDefaultDistribution(node, cfg)
 
-                Dim configs = node.CPT.GetAllParentConfigurations(parentStatesMap)
-
-                For Each cfg In configs
-                    Dim dist = ComputeDefaultDistribution(node, cfg)
-                    node.CPT.SetDistribution(cfg, dist)
-                Next
+                Call $"[DBN lazy] {node.NodeId} parents={node.ParentIds.Count} rows={rows} -> 按需计算（不展开 CPT）".debug
             End If
         End Sub
+
+        ''' <summary>构造 父节点 ID → 状态列表 的映射，供配置枚举与规模估算使用</summary>
+        Private Function GetParentStatesMap(node As DBNNode) As Dictionary(Of String, List(Of String))
+            Dim map As New Dictionary(Of String, List(Of String))
+
+            For Each pid As String In node.ParentIds
+                map(pid) = _nodes(pid).States
+            Next
+
+            Return map
+        End Function
 
 
         ''' <summary>
