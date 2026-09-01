@@ -64,6 +64,12 @@ Namespace ModularNetwork
 
             ' 模块内定向边（两端都属于本模块）转为 RegulatoryLink
             Dim links As RegulatoryLink() = BuildModuleRegulatoryLinks(prior, genes)
+
+            ' WGCNA 先验的权重是非负共表达强度，不含方向符号（实测全库无负值），
+            ' 因此调控方向必须由表达数据推断：TF[t] 与 target[t+1] 的滞后相关，
+            ' 负相关判为抑制。缺失这一步网络中将全是激活边，扰动无法产生下调响应。
+            Call links.InferRegulationDirections(subMatrix)
+
             Dim net As DynamicBayesianNetwork = New DynamicBayesianNetwork().BuildFromTopology(links)
             Dim ts As List(Of Dictionary(Of String, Double)) = subMatrix.ToTimeSeries()
 

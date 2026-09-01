@@ -105,12 +105,15 @@ Namespace DBN
         ''' 单个节点允许的最大父节点数（拓扑构建阶段的兜底保护）。
         ''' 
         ''' CPT 的行数为各父节点状态数之积（默认 3 态即 3^P），父节点数不受限时
-        ''' 规模会指数爆炸。默认值 64 只用于隔离病态拓扑（实测模块内 hub 基因的
-        ''' 父节点数可达 39），不会损失真实的调控关系；需要更强约束时可显式调小。
-        ''' 注意：父节点数超限本身并不必然导致内存问题，因为超过 MaxCPTRows 的节点
-        ''' 会自动改用惰性 CPT，此处只是防止 key 过长、查询退化的最后一道保护。
+        ''' 规模会指数爆炸（实测模块内 hub 基因的父节点数可达 39）。
+        ''' 
+        ''' 默认值 8 的另一层意义是**模型判别力**：激活得分用 noisy-OR 组合，
+        ''' 当父节点数为 P 时，单个父节点从 Medium 变为 Low 只会让
+        ''' activationScore 从 1-0.5^P 变为 1-0.5^(P-1)，P 越大变化越小
+        ''' （P=39 时差异约 1e-12），单基因敲降将完全无法产生可观测的响应。
+        ''' 取 8 既符合转录调控 fan-in 的一般规模，也让每个父节点保持足够影响权重。
         ''' </summary>
-        Public Property MaxParents As Integer = 64
+        Public Property MaxParents As Integer = 8
 
         ''' <summary>
         ''' 单个节点 CPT 允许"完整展开"的最大行数。
@@ -145,6 +148,22 @@ Namespace DBN
         ''' 推理（PredictNextState）都会经 GetThresholds 命中这里，保证两侧使用同一套阈值。
         ''' </summary>
         Public Property NodeThresholds As New Dictionary(Of String, Tuple(Of Double, Double))
+
+        ''' <summary>
+        ''' 激活得分判定为"高表达"的下限（默认 0.58）。
+        ''' 
+        ''' 得分由 noisy-OR 组合得到，父节点数为 P 时单个父节点由 Medium 变 Low
+        ''' 只会让得分变动约 0.5^P（P=8 时约 0.06）。若沿用较宽的区间（0.34/0.66，
+        ''' 区间宽度 0.32），单基因敲降带来的得分变化远不足以跨越区间，
+        ''' 所有基因都会被钉死在 Medium，虚拟扰动也就观测不到任何响应。
+        ''' 默认取 0.42/0.58（区间宽度 0.16），使单基因扰动能够跨越状态边界。
+        ''' </summary>
+        Public Property ActivationHighThreshold As Double = 0.53
+
+        ''' <summary>
+        ''' 激活得分判定为"低表达"的上限（默认 0.42），见 <see cref="ActivationHighThreshold"/>。
+        ''' </summary>
+        Public Property ActivationLowThreshold As Double = 0.47
 
         ''' <summary>
         ''' 自适应阈值所使用的低分位数（默认 0.33，即约 1/3 的样本落入 Low）。

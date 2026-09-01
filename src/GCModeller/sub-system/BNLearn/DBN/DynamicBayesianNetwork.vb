@@ -610,12 +610,15 @@ Namespace DBN
                 Dim idxLow = node.States.IndexOf("Low")
 
                 ' Map score to probability distribution using soft thresholds
-                If score >= 0.66 Then
+                ' 阈值由配置给出：默认 0.58/0.42 而非 0.66/0.34。
+                ' noisy-OR 组合下单个父节点的状态变化对得分的影响约 0.5^P（P 为父节点数），
+                ' 区间过宽会让所有基因被钉死在 Medium，扰动无法产生任何可观测响应。
+                If score >= _config.ActivationHighThreshold Then
                     ' Strong activation
                     dist(idxHigh) = 0.7
                     dist(idxMed) = 0.2
                     dist(idxLow) = 0.1
-                ElseIf score >= 0.34 Then
+                ElseIf score >= _config.ActivationLowThreshold Then
                     ' Moderate / basal expression
                     dist(idxHigh) = 0.25
                     dist(idxMed) = 0.5
@@ -853,6 +856,20 @@ Namespace DBN
                     node.CPT.SetDistribution(cfg, newDist, copy:=False)
                 Next
             Next
+
+            ' 诊断：数据对 CPT 的实际覆盖程度。配置空间为 3^P 而时间点数量有限，
+            ' 绝大多数父配置没有观测样本、其后验等于先验。该比例决定了模型
+            ' 究竟是"数据驱动"还是"拓扑先验驱动"，是解释扰动响应强弱的依据。
+            Dim nObserved As Integer = counts.Values.Sum(Function(d) d.Count)
+            Dim nPossible As Long = 0
+
+            For Each node In _nodes.Values
+                If node.ParentIds.Count = 0 Then Continue For
+
+                nPossible += node.CPT.GetConfigurationCount(GetParentStatesMap(node))
+            Next
+
+            Call $"[DBN learn] 时间点={rnaSeqTimeSeries.Count}, 观测到的父配置={nObserved}, 配置空间={nPossible}".info
 
             Call "[LearnParameters] finished!".debug
         End Sub

@@ -170,12 +170,29 @@ Namespace ModularNetwork
 
                 Dim low As Double = Quantile(col, qLow)
                 Dim high As Double = Quantile(col, qHigh)
+                Dim vmin As Double = col(0)
+                Dim vmax As Double = col(col.Length - 1)
 
-                ' 防止退化区间（数据过于集中、分位数相等）导致所有样本落入同一离散状态
+                ' 离散化用的是"严格小于"：若 low 恰好等于数据最小值，则最小值永远判不到 Low
+                ' （单细胞 log1p 数据里大量基因存在 dropout 零值，33% 分位数常常就是 0，
+                '  这会让 Low 态在数据侧完全消失）
+                If low <= vmin Then
+                    low = vmin + (Math.Abs(vmin) * 0.001 + 0.001)
+                End If
+
+                ' 同理，high 等于最大值时最大值判不到 High
+                If high >= vmax Then
+                    high = vmax - (Math.Abs(vmax) * 0.001 + 0.001)
+                End If
+
+                ' 数据过于集中导致区间退化时，直接以最小/最大值为界划分三态
                 If high <= low Then
-                    Dim eps As Double = Math.Abs(low) * 0.001 + 0.001
-                    low -= eps
-                    high += eps
+                    low = vmin + (Math.Abs(vmin) * 0.001 + 0.001)
+                    high = vmax - (Math.Abs(vmax) * 0.001 + 0.001)
+
+                    If high <= low Then
+                        high = low + 0.001
+                    End If
                 End If
 
                 thresholds(gene) = New Tuple(Of Double, Double)(low, high)
@@ -199,6 +216,136 @@ Namespace ModularNetwork
                 Call $"[GRN thres] 基因数={matrix.NGene}, 离散化三态占比: Low={100.0 * nLow / total:F1}%, Medium={100.0 * nMid / total:F1}%, High={100.0 * nHigh / total:F1}%".info
             End If
         End Sub
+
+        ''' <summary>
+        ''' 用模块内的时间序列表达数据，重新推断每条调控边的方向（激活 / 抑制）。
+        ''' 
+        ''' WGCNA 先验网络的权重是非负的共表达强度（|cor| 的软阈值变换），**不含方向符号**；
+        ''' 伪速率先验也只生成激活边。因此若完全依赖先验，网络中将 100% 是激活边，
+        ''' 激活得分恒为正、CPT 的 Low 分支不可达，虚拟扰动也就无法产生任何下调响应。
+        ''' 
+        ''' 这里改由表达数据本身推断方向：按 2TBN 的时序因果语义，取
+        ''' TF[t] 与 target[t+1] 的**滞后相关**，正相关判为激活、负相关判为抑制。
+        ''' </summary>
+        <Extension>
+        Public Sub InferRegulationDirections(links As RegulatoryLink(), matrix As Core.GeneExpressionData)
+            If links Is Nothing OrElse links.Length = 0 OrElse matrix Is Nothing Then Return
+            If matrix.NGene <= 0 OrElse matrix.NSample < 3 Then Return
+
+            Dim vectors As New Dictionary(Of String, Double())
+
+            For i As Integer = 0 To matrix.NGene - 1
+                Dim v(matrix.NSample - 1) As Double
+
+                For j As Integer = 0 To matrix.NSample - 1
+                    v(j) = matrix.Matrix(i, j)
+                Next
+
+                vectors(matrix.GeneNames(i)) = v
+            Next
+
+            Dim nInhibit As Integer = 0
+            Dim nResolved As Integer = 0
+
+            For Each l In links
+                Dim tf As Double() = Nothing
+                Dim target As Double() = Nothing
+
+                If Not vectors.TryGetValue(l.TF_id, tf) Then Continue For
+                If Not vectors.TryGetValue(l.target_operon, target) Then Continue For
+
+                Dim r As Double = DifferencedLaggedCorrelation(tf, target)
+
+                If Double.IsNaN(r) Then Continue For
+
+                nResolved += 1
+
+                If r < 0 Then
+                    l.RegulationType = Effector.Inhibitor
+                    nInhibit += 1
+                Else
+                    l.RegulationType = Effector.Activator
+                End If
+            Next
+
+            Call $"[GRN dir] 由表达数据推断调控方向: 可判定={nResolved}/{links.Length}, 抑制={nInhibit}".info
+        End Sub
+
+        ''' <summary>
+        ''' 差分滞后相关：先对两条序列做一阶差分（去除伪时间轨迹的共同趋势），
+        ''' 再取 cor(Δx[t], Δy[t+1])。
+        ''' 
+        ''' 直接用原始序列的滞后相关会被共同趋势主导：细胞沿伪时间连续变化，
+        ''' 相邻 bin 高度相似，几乎所有基因对的滞后相关都为正（实测 100% 为正，
+        ''' 完全无法区分激活与抑制）。差分后保留的是同步波动，才能反映真实的耦合方向。
+        ''' </summary>
+        Private Function DifferencedLaggedCorrelation(x As Double(), y As Double()) As Double
+            Dim n As Integer = Math.Min(x.Length, y.Length)
+
+            If n < 4 Then Return Double.NaN
+
+            Dim m As Integer = n - 1
+            Dim dx(m - 1) As Double
+            Dim dy(m - 1) As Double
+
+            For i As Integer = 0 To m - 1
+                dx(i) = x(i + 1) - x(i)
+                dy(i) = y(i + 1) - y(i)
+            Next
+
+            ' 再滞后一阶：cor(dx[0..m-2], dy[1..m-1])
+            Dim k As Integer = m - 1
+
+            If k < 2 Then Return Double.NaN
+
+            Dim ax(k - 1) As Double
+            Dim ay(k - 1) As Double
+
+            For i As Integer = 0 To k - 1
+                ax(i) = dx(i)
+                ay(i) = dy(i + 1)
+            Next
+
+            Return Pearson(ax, ay)
+        End Function
+
+        ''' <summary>
+        ''' 滞后 Pearson 相关 cor(x[0..n-2], y[1..n-1])：
+        ''' 刻画"上游 t 时刻状态 → 下游 t+1 时刻状态"的时序关联（2TBN 语义）。
+        ''' </summary>
+        Private Function LaggedCorrelation(x As Double(), y As Double()) As Double
+            Dim n As Integer = Math.Min(x.Length, y.Length) - 1
+
+            If n < 2 Then Return Double.NaN
+
+            Dim mx As Double = 0
+            Dim my As Double = 0
+
+            For i As Integer = 0 To n - 1
+                mx += x(i)
+                my += y(i + 1)
+            Next
+
+            mx /= n
+            my /= n
+
+            Dim num As Double = 0
+            Dim dx As Double = 0
+            Dim dy As Double = 0
+
+            For i As Integer = 0 To n - 1
+                Dim a As Double = x(i) - mx
+                Dim b As Double = y(i + 1) - my
+
+                num += a * b
+                dx += a * a
+                dy += b * b
+            Next
+
+            If dx <= 0 OrElse dy <= 0 Then Return 0.0
+
+            Return num / Math.Sqrt(dx * dy)
+        End Function
 
         ''' <summary>取已升序排序数组的分位数（最近秩法）</summary>
         Private Function Quantile(sorted As Double(), q As Double) As Double
