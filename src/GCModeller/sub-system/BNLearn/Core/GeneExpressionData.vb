@@ -314,10 +314,10 @@ Namespace Core
             For Each tp As Double In timePoints
                 ' 收集该时间点的所有样本索引
                 Dim sampleIdx As Integer() = Me.TimePoints _
-                .Select(Function(t, i) (time:=t, index:=i)) _
-                .Where(Function(x) Math.Abs(x.time - tp) < 0.0000000001) _
-                .Select(Function(x) x.index) _
-                .ToArray()
+                    .Select(Function(t, i) (time:=t, index:=i)) _
+                    .Where(Function(x) Math.Abs(x.time - tp) < 0.0000000001) _
+                    .Select(Function(x) x.index) _
+                    .ToArray()
 
                 If sampleIdx.Length = 0 Then
                     Call $"WGCNAGRN.ToTimeSeries: 时间点 {tp} 无样本，已跳过".debug
@@ -330,8 +330,8 @@ Namespace Core
                     Dim gene As String = Me.GeneNames(gi)
                     Dim offset As Integer = gi
                     Dim avg As Double = Aggregate i As Integer
-                                    In sampleIdx
-                                    Into Average(Me.Matrix(offset, i))
+                                        In sampleIdx
+                                        Into Average(Me.Matrix(offset, i))
                     frame(gene) = avg
                 Next
 

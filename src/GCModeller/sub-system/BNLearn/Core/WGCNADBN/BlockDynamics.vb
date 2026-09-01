@@ -61,12 +61,12 @@ Namespace Core.WGCNADBN
             End If
 
             ' 模块内定向边（两端都属于本模块）转为 RegulatoryLink
-            Dim links As IEnumerable(Of RegulatoryLink) = BuildModuleRegulatoryLinks(prior, genes)
+            Dim links As RegulatoryLink() = BuildModuleRegulatoryLinks(prior, genes)
             Dim net As DynamicBayesianNetwork = New DynamicBayesianNetwork().BuildFromTopology(links)
             Dim ts As List(Of Dictionary(Of String, Double)) = subMatrix.ToTimeSeries()
 
             If ts IsNot Nothing AndAlso ts.Count >= 2 Then
-                net.LearnParameters(ts)
+                Call net.LearnParameters(ts)
             Else
                 Call $"GRN.TrainModularDBNIntervene: 模块 {mcolor} 有效时间点不足，仅使用拓扑先验 CPT".debug
             End If

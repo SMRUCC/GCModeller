@@ -179,6 +179,8 @@ Namespace DBN
         ''' </summary>
         ''' <param name="links">List of regulatory links defining the network topology</param>
         Public Function BuildFromTopology(links As IEnumerable(Of RegulatoryLink)) As DynamicBayesianNetwork
+            Call $"DynamicBayesianNetwork.BuildFromTopology: 正在构建 DBN 结构".debug
+
             If links Is Nothing Then
                 Throw New ArgumentNullException("the gene expression regulator network should not be nothing!")
             Else
@@ -186,6 +188,8 @@ Namespace DBN
                 _nodes.Clear()
                 _operonGenes.Clear()
             End If
+
+            Call "Step 1: Create nodes for all TFs, effector metabolites, and target operons".debug
 
             ' --- Step 1: Create nodes for all TFs, effector metabolites, and target operons ---
             For Each link As RegulatoryLink In _topologyLinks
@@ -223,6 +227,8 @@ Namespace DBN
                 End If
             Next
 
+            Call "Step 2: Set up parent-child relationships".debug
+
             ' --- Step 2: Set up parent-child relationships ---
             For Each link As RegulatoryLink In _topologyLinks
                 Dim geneNode = _nodes(link.target_operon)
@@ -253,10 +259,14 @@ Namespace DBN
                 End If
             Next
 
+            Call "Step 3: Initialize CPTs for all nodes".debug
+
             ' --- Step 3: Initialize CPTs for all nodes ---
             For Each node In _nodes.Values
                 Call InitializeCPT(node)
             Next
+
+            Call "[BuildFromTopology] finished!".debug
 
             Return Me
         End Function
@@ -482,13 +492,14 @@ Namespace DBN
         ''' Key = node ID, Value = Tuple(low_threshold, high_threshold).
         ''' If not provided, uses Config.LowThreshold and Config.HighThreshold.
         ''' </param>
-        Public Sub LearnParameters(
-            rnaSeqTimeSeries As List(Of Dictionary(Of String, Double)),
-            Optional customThresholds As Dictionary(Of String, Tuple(Of Double, Double)) = Nothing
-        )
+        Public Sub LearnParameters(rnaSeqTimeSeries As List(Of Dictionary(Of String, Double)), Optional customThresholds As Dictionary(Of String, Tuple(Of Double, Double)) = Nothing)
             If rnaSeqTimeSeries Is Nothing OrElse rnaSeqTimeSeries.Count < 2 Then
                 Throw New ArgumentException("Need at least 2 time points for parameter learning")
+            Else
+                Call "learn parameters...".debug
             End If
+
+            Call "Step 1: Discretize all continuous values".debug
 
             ' --- Step 1: Discretize all continuous values ---
             Dim discreteSeries As New List(Of Dictionary(Of String, String))
@@ -504,6 +515,8 @@ Namespace DBN
                 End If
                 discreteSeries.Add(d)
             Next
+
+            Call "Step 2: Initialize count tables for all nodes with parents".debug
 
             ' --- Step 2: Initialize count tables for all nodes with parents ---
             Dim counts As New Dictionary(Of String, Dictionary(Of String, Double()))
@@ -521,6 +534,8 @@ Namespace DBN
                     counts(node.NodeId)(key) = New Double(node.States.Count - 1) {}
                 Next
             Next
+
+            Call "Step 3: Count transitions (t -> t+1)".debug
 
             ' --- Step 3: Count transitions (t -> t+1) ---
             For t = 0 To discreteSeries.Count - 2
@@ -553,6 +568,8 @@ Namespace DBN
                 Next
             Next
 
+            Call "Step 4: Update CPTs with Dirichlet posterior".debug
+
             ' --- Step 4: Update CPTs with Dirichlet posterior ---
             ' P(s|parents) = (count(s) + alpha * prior(s)) / (total + alpha)
             For Each node In _nodes.Values
@@ -582,6 +599,8 @@ Namespace DBN
                     node.CPT.SetDistribution(cfg, newDist)
                 Next
             Next
+
+            Call "[LearnParameters] finished!".debug
         End Sub
 
 
@@ -595,11 +614,10 @@ Namespace DBN
         ''' </summary>
         ''' <param name="currentStates">Discrete states at time t (node_id -> state string)</param>
         ''' <param name="nextStates">Discrete states at time t+1 (node_id -> state string)</param>
-        Public Sub UpdateParametersOnline(
-            currentStates As Dictionary(Of String, String),
-            nextStates As Dictionary(Of String, String)
-        )
-            If currentStates Is Nothing OrElse nextStates Is Nothing Then Return
+        Public Sub UpdateParametersOnline(currentStates As Dictionary(Of String, String), nextStates As Dictionary(Of String, String))
+            If currentStates Is Nothing OrElse nextStates Is Nothing Then
+                Return
+            End If
 
             For Each node In _nodes.Values
                 If node.ParentIds.Count = 0 Then Continue For

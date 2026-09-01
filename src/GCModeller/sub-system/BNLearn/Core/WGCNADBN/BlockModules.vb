@@ -59,7 +59,7 @@ Namespace Core.WGCNADBN
         ''' <see cref="RegulatoryLink"/> 集合。调控方向沿用 prior 的 RegulationType；
         ''' 若某模块无任何模块内先验边，返回空集合（DBN 退化为无父节点拓扑，仅学习自身时序分布）。
         ''' </summary>
-        Public Function BuildModuleRegulatoryLinks(prior As Core.PriorNetwork, moduleGenes As String()) As IEnumerable(Of RegulatoryLink)
+        Public Function BuildModuleRegulatoryLinks(prior As Core.PriorNetwork, moduleGenes As String()) As RegulatoryLink()
             Dim inModule As New HashSet(Of String)(moduleGenes, StringComparer.OrdinalIgnoreCase)
             Dim links As New List(Of RegulatoryLink)
 
@@ -74,7 +74,7 @@ Namespace Core.WGCNADBN
                 End If
             Next
 
-            Return links
+            Return links.ToArray
         End Function
 
         ''' <summary>
