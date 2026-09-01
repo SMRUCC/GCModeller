@@ -451,6 +451,19 @@ Namespace ModularNetwork
                     Call WriteText(zip, dir & "cpt.tsv", Sub(w) Call WriteCPT(w, m.Net))
                     Call WriteText(zip, dir & "thresholds.tsv", Sub(w) Call WriteThresholds(w, m.Net))
                 Next
+
+                ' 野生型基线丰度：必须与 CPT、阈值一起持久化，
+                ' 否则加载后的模型会从错误的基线出发推演，破坏 round-trip 保真性
+                Dim wildtype = _wildtypeAbundance
+
+                Call WriteText(zip, "wildtype.tsv", Sub(w)
+                                                        For Each kv In wildtype
+                                                            w.WriteLine(String.Join(ChrW(9), {
+                                                                kv.Key,
+                                                                kv.Value.ToString("G17", CultureInfo.InvariantCulture)
+                                                            }))
+                                                        Next
+                                                    End Sub)
             End Using
 
             Call $"[BlockBayesianNetwork] 模型已导出: blocks={blocks.Length}, genes={allgenes.Length}".info
@@ -488,6 +501,7 @@ Namespace ModularNetwork
                 End If
                 tfList = ReadLines(GetEntry(zip, "TF.txt"))
                 links = ReadGraph(GetEntry(zip, "graph.tsv"))
+                wtAbundance = ReadWildtype(GetEntry(zip, "wildtype.tsv"))
 
                 For i As Integer = 0 To blockCount - 1
                     Dim dir As String = ModuleDir(i)
@@ -518,6 +532,13 @@ Namespace ModularNetwork
 
                     For j As Integer = 0 To genes.Length - 1
                         m.GeneIndex(genes(j)) = j
+
+                        ' 恢复该模块的野生型丰度（供 SetWildtypeBaseline 打底）
+                        Dim abundance As Double = 0
+
+                        If wtAbundance.TryGetValue(genes(j), abundance) Then
+                            m.WildtypeAbundance(genes(j)) = abundance
+                        End If
                     Next
 
                     modules.Add(m)
@@ -529,6 +550,12 @@ Namespace ModularNetwork
             ' 构造函数会用 eigengene 重算模块关联图（默认阈值 0.3），
             ' 这里以文件中保存的图覆盖，避免依赖阈值一致性
             model.graph = links
+
+            ' 恢复野生型基线：必须在模块全部就绪之后，
+            ' 因为要按各模块网络的离散化阈值把丰度转成状态
+            If wtAbundance.Count > 0 Then
+                Call model.SetWildtypeBaseline(wtAbundance)
+            End If
 
             Call $"[BlockBayesianNetwork] 模型已载入: blocks={model.blocks}, genes={model.allgenes.Length}".info
 

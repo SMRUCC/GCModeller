@@ -23,6 +23,9 @@ Namespace ModularNetwork
 
         ''' <summary>
         ''' 导出全局虚拟扰动结果：基因 × 扰动源 响应矩阵 TSV + 每个扰动源的逐基因明细 TSV。
+        ''' 
+        ''' 数值语义为**相对野生型基线的响应增量**（Low=0/Medium=1/High=2 的差值）：
+        ''' 正值表示相对野生型上调、负值表示下调、0 表示未受该扰动影响。
         ''' </summary>
         Public Sub SaveModularResults(outputDir As String)
             ' 全局响应矩阵（最终稳态，gene × perturbation）
@@ -50,10 +53,12 @@ Namespace ModularNetwork
                 For Each g In allgenes
                     If tr.ContainsKey(g) Then
                         Dim vec = tr(g)
-                        Dim peak = vec.Max()
+                        ' 响应是"相对野生型的增量"（可正可负），
+                        ' 峰值取绝对值最大者并保留符号，否则全负响应会被 Max() 显示成 0
+                        Dim peak = vec.OrderByDescending(Function(x) Math.Abs(x)).FirstOrDefault()
                         sb.AppendLine(String.Format("{0}{1}{2:F6}{3}{4:F6}", g, vbTab, vec(vec.Count - 1), vbTab, peak))
                     Else
-                        sb.AppendLine(String.Format("{0}{1}1.000000{1}1.000000", g, vbTab))
+                        sb.AppendLine(String.Format("{0}{1}0.000000{1}0.000000", g, vbTab))
                     End If
                 Next
                 Dim safe = New String(src.Where(Function(c) Char.IsLetterOrDigit(c)).ToArray())
