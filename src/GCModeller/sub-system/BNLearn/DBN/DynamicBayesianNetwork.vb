@@ -133,6 +133,14 @@ Namespace DBN
         Private _rng As Random
         Private _config As DBNConfig
 
+        ''' <summary>
+        ''' 节点 ID → 预计算好的激活模型（父下标索引）。
+        ''' 
+        ''' 原始实现在每个父配置里都要对 ParentIds 做 IndexOf 字符串查找（O(P) 次、每次 O(P)），
+        ''' 总复杂度为 O(3^P · P²)。预计算之后每个配置只需 O(P) 次数组取值。
+        ''' </summary>
+        Private _activationModels As New Dictionary(Of String, ActivationModel)
+
         ''' <summary>Configuration for the DBN (discretization, smoothing, rates, etc.)</summary>
         Public Property Config As DBNConfig
             Get
@@ -185,7 +193,18 @@ Namespace DBN
             If links Is Nothing Then
                 Throw New ArgumentNullException("the gene expression regulator network should not be nothing!")
             Else
-                _topologyLinks = links.ToArray
+                Dim all = links.ToArray
+
+                ' 自环（TF 调控其自身）在 2TBN 语义下没有意义：它会让节点成为自己的父节点，
+                ' 并凭空使该节点 CPT 的规模翻 3 倍。这里在入口处直接剔除。
+                _topologyLinks = all _
+                    .Where(Function(l) Not String.Equals(l.TF_id, l.target_operon, StringComparison.OrdinalIgnoreCase)) _
+                    .ToArray
+
+                If _topologyLinks.Length <> all.Length Then
+                    Call $"[DBN] 剔除自环调控边 {all.Length - _topologyLinks.Length} 条（剩余 {_topologyLinks.Length} 条）".debug
+                End If
+
                 _nodes.Clear()
                 _operonGenes.Clear()
             End If
@@ -260,6 +279,12 @@ Namespace DBN
                 End If
             Next
 
+            Call "Step 2b: Guard parent count and precompute activation models".debug
+
+            ' --- Step 2b: 父节点数量上限保护 + 激活模型预计算 ---
+            Call ApplyParentLimit()
+            Call BuildActivationModels()
+
             Call "Step 3: Initialize CPTs for all nodes".debug
 
             ' 诊断：CPT 的行数随父节点数呈 3^P 指数增长，父节点数不受限时会直接导致
@@ -284,7 +309,131 @@ Namespace DBN
         End Function
 
         ''' <summary>
-        ''' 输出当前拓扑的规模诊断信息（父节点数分布 / CPT 行数估算 / hub 节点清单）。
+        ''' 父节点数量上限保护：对父节点数超过 Config.MaxParents 的节点做确定性截断。
+        ''' 
+        ''' 截断策略：优先保留调控靶标更少（特异性更强）的父节点，同度时按 ID 排序，
+        ''' 保证结果可复现；ParentIds / RegulatorTFs / TFEffectors 三者同步裁剪，避免状态不一致。
+        ''' 默认上限 20 只用于隔离极端异常拓扑（正常情况下不会触发），不损失真实调控关系。
+        ''' </summary>
+        Private Sub ApplyParentLimit()
+            Dim limit As Integer = _config.MaxParents
+
+            If limit <= 0 Then Return
+
+            ' 统计每个调控因子在本拓扑中的出度，作为"特异性"的度量
+            Dim outDegree As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+            For Each link As RegulatoryLink In _topologyLinks
+                If outDegree.ContainsKey(link.TF_id) Then
+                    outDegree(link.TF_id) += 1
+                Else
+                    outDegree(link.TF_id) = 1
+                End If
+            Next
+
+            For Each node In _nodes.Values
+                If node.ParentIds.Count <= limit Then Continue For
+
+                Dim keep = node.ParentIds _
+                    .Select(Function(pid) New With {.id = pid, .deg = If(outDegree.ContainsKey(pid), outDegree(pid), 0)}) _
+                    .OrderBy(Function(x) x.deg) _
+                    .ThenBy(Function(x) x.id, StringComparer.Ordinal) _
+                    .Take(limit) _
+                    .Select(Function(x) x.id) _
+                    .ToArray
+
+                Dim keepSet As New HashSet(Of String)(keep, StringComparer.OrdinalIgnoreCase)
+                Dim origin As Integer = node.ParentIds.Count
+
+                node.ParentIds = keep.ToList()
+                node.RegulatorTFs = node.RegulatorTFs.Where(Function(t) keepSet.Contains(t)).ToList()
+
+                For Each tfId In node.TFEffectors.Keys.ToArray()
+                    If Not keepSet.Contains(tfId) Then
+                        node.TFEffectors.Remove(tfId)
+                    Else
+                        node.TFEffectors(tfId) = node.TFEffectors(tfId).Where(Function(e) keepSet.Contains(e)).ToList()
+                    End If
+                Next
+
+                Call $"[DBN] {node.NodeId} 父节点数 {origin} 超过上限 {limit}，已裁剪 {origin - keep.Length} 个".debug
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 为所有节点预计算激活模型：把 TF / effector 在 ParentIds 中的下标以及调控方向
+        ''' 解析成定长数组，供 <see cref="ComputeActivationScore"/> 直接取用。
+        ''' </summary>
+        Private Sub BuildActivationModels()
+            _activationModels.Clear()
+
+            For Each node In _nodes.Values
+                _activationModels(node.NodeId) = BuildActivationModel(node)
+            Next
+        End Sub
+
+        ''' <summary>构建单个节点的激活模型（TF 下标 / effector 下标 / 是否抑制）</summary>
+        Private Function BuildActivationModel(node As DBNNode) As ActivationModel
+            Dim tfIdx As New List(Of Integer)
+            Dim effIdx As New List(Of Integer)
+            Dim inhibitor As New List(Of Boolean)
+
+            For Each tfId As String In node.RegulatorTFs
+                Dim tIdx As Integer = node.ParentIds.IndexOf(tfId)
+                If tIdx < 0 Then Continue For
+
+                Dim effectorIds As List(Of String) = Nothing
+
+                If node.TFEffectors.ContainsKey(tfId) Then
+                    effectorIds = node.TFEffectors(tfId)
+                End If
+
+                If effectorIds Is Nothing OrElse effectorIds.Count = 0 Then
+                    ' 无 effector：直接使用 TF 的默认调控方向
+                    Dim direction As Effector = _nodes(tfId).DefaultRegulatoryDirection
+
+                    If direction = Effector.Activator Then
+                        tfIdx.Add(tIdx)
+                        effIdx.Add(-1)
+                        inhibitor.Add(False)
+                    ElseIf direction = Effector.Inhibitor Then
+                        tfIdx.Add(tIdx)
+                        effIdx.Add(-1)
+                        inhibitor.Add(True)
+                    End If
+                Else
+                    ' 有 effector：TF 与 effector 需同时存在才形成调控复合体
+                    For Each effId In effectorIds
+                        Dim eIdx As Integer = node.ParentIds.IndexOf(effId)
+                        If eIdx < 0 Then Continue For
+
+                        Dim effType As Effector = Effector.Unknown
+
+                        If _nodes(tfId).EffectorMetabolites.ContainsKey(effId) Then
+                            effType = _nodes(tfId).EffectorMetabolites(effId)
+                        End If
+
+                        If effType = Effector.Activator Then
+                            tfIdx.Add(tIdx)
+                            effIdx.Add(eIdx)
+                            inhibitor.Add(False)
+                        ElseIf effType = Effector.Inhibitor Then
+                            tfIdx.Add(tIdx)
+                            effIdx.Add(eIdx)
+                            inhibitor.Add(True)
+                        End If
+                    Next
+                End If
+            Next
+
+            Return New ActivationModel With {
+                .tfIdx = tfIdx.ToArray(),
+                .effIdx = effIdx.ToArray(),
+                .isInhibitor = inhibitor.ToArray()
+            }
+        End Function
+
+        ''' <summary>
         ''' 
         ''' CPT 的行数等于各父节点状态数的乘积，默认 3 态即 3^P（P = 父节点数），
         ''' 因此父节点数一旦不受限，初始化阶段的时间与内存都会指数级爆炸。
