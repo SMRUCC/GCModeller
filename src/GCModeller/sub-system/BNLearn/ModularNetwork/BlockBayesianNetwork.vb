@@ -557,17 +557,17 @@ Namespace ModularNetwork
                 Dim genes As String() = If(parts.Length > 4 AndAlso parts(4).Length > 0,
                     parts(4).Split(";"c),
                     New String() {})
-                Dim effector As Dictionary(Of String, Effector) = Nothing
+                Dim effMap As Dictionary(Of String, Effector) = Nothing
 
                 If parts.Length > 5 AndAlso parts(5).Length > 0 Then
-                    effector = New Dictionary(Of String, Effector)
+                    effMap = New Dictionary(Of String, Effector)
 
                     For Each item As String In parts(5).Split(";"c)
                         Dim kv As String() = item.Split(":"c)
 
                         If kv.Length <> 2 Then Continue For
 
-                        effector(kv(0)) = CType(Integer.Parse(kv(1), CultureInfo.InvariantCulture), Effector)
+                        effMap(kv(0)) = CType(Integer.Parse(kv(1), CultureInfo.InvariantCulture), Effector)
                     Next
                 End If
 
@@ -577,7 +577,7 @@ Namespace ModularNetwork
                     .TFBS_id = If(parts.Length > 2, parts(2), Nothing),
                     .target_operon = If(parts.Length > 3, parts(3), Nothing),
                     .regulate_genes = genes,
-                    .effector = effector
+                    .effector = effMap
                 })
             Next
 
