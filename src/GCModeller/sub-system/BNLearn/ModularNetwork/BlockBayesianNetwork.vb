@@ -482,6 +482,7 @@ Namespace ModularNetwork
             Dim modules As New List(Of ModuleDBN)
             Dim tfList As String() = {}
             Dim links As Dictionary(Of String, List(Of (modColor As String, weight As Double)))
+            Dim wtAbundance As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
             Dim blockCount As Integer = 0
 
             Using zip As New ZipArchive(file, ZipArchiveMode.Read, leaveOpen:=True)
@@ -863,6 +864,46 @@ Namespace ModularNetwork
                 Loop
             End Using
         End Sub
+
+        ''' <summary>
+        ''' 写出野生型基线丰度：gene / abundance（制表符分隔）。
+        ''' 必须与 CPT、离散化阈值一起持久化：缺失它，加载后的模型会从错误的基线出发推演。
+        ''' </summary>
+        Private Shared Sub WriteWildtype(w As TextWriter, abundance As Dictionary(Of String, Double))
+            If abundance Is Nothing Then Return
+
+            Dim tab As String = ChrW(9)
+
+            For Each kv In abundance
+                w.WriteLine(String.Join(tab, {
+                    kv.Key,
+                    kv.Value.ToString("G17", CultureInfo.InvariantCulture)
+                }))
+            Next
+        End Sub
+
+        ''' <summary>读回野生型基线丰度（见 <see cref="WriteWildtype"/>）</summary>
+        Private Shared Function ReadWildtype(entry As ZipArchiveEntry) As Dictionary(Of String, Double)
+            Dim result As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+            If entry Is Nothing Then Return result
+
+            Using sr As New StreamReader(entry.Open())
+                Do While Not sr.EndOfStream
+                    Dim line As String = sr.ReadLine()
+
+                    If String.IsNullOrWhiteSpace(line) Then Continue Do
+
+                    Dim parts As String() = line.Split(ChrW(9))
+
+                    If parts.Length < 2 Then Continue Do
+
+                    result(parts(0)) = Double.Parse(parts(1), CultureInfo.InvariantCulture)
+                Loop
+            End Using
+
+            Return result
+        End Function
 
         ''' <summary>文本字段规整：Nothing 转空串，并剔除会破坏行/列结构的制表符与换行</summary>
         Private Shared Function Text(s As String) As String
