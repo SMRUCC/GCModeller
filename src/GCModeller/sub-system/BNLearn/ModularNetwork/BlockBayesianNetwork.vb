@@ -73,6 +73,19 @@ Namespace ModularNetwork
             graph = BuildModuleCorrelationGraph(moduleDBs, crossModuleCorThreshold)
             TF = TFs.SafeQuery.ToArray
 
+            ' 默认基线：聚合各模块训练时算出的野生型丰度（时间序列中位数）。
+            ' 缺少这一步，模型在外部调用 SetWildtypeBaseline 之前没有任何基线，
+            ' 推演会退回"全部 Medium"，保存出的 wildtype.tsv 也会是空的。
+            _wildtypeAbundance = New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+            For Each m In moduleDBs
+                For Each kv In m.WildtypeAbundance.SafeQuery
+                    _wildtypeAbundance(kv.Key) = kv.Value
+                Next
+            Next
+
+            Call ApplyWildtypeStates()
+
             Call $"GRN.TrainModularDBNIntervene: 模块关联边数={graph.Values.Sum(Function(l) l.Count)}".info
         End Sub
 
@@ -919,9 +932,11 @@ Namespace ModularNetwork
         ''' </summary>
         ''' <param name="baseline">基因 ID → 表达丰度 的字典</param>
         Public Sub SetWildtypeBaseline(baseline As Dictionary(Of String, Double))
+            Dim nInput As Integer = baseline.TryCount
+
             _wildtypeAbundance = New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
 
-            ' 先以训练流程自动算出的丰度打底，再用外部传入的值覆盖（未覆盖者保持训练均值）
+            ' 先以训练流程自动算出的丰度打底，再用外部传入的值覆盖（未覆盖者保持训练中位数）
             For Each m In moduleDBs.SafeQuery
                 For Each kv In m.WildtypeAbundance.SafeQuery
                     _wildtypeAbundance(kv.Key) = kv.Value
@@ -933,6 +948,8 @@ Namespace ModularNetwork
             Next
 
             Call ApplyWildtypeStates()
+
+            Call $"[GRN wt] SetWildtypeBaseline: 传入={nInput}, 建模基因={allgenes.Length}, 生效={_wildtypeStates.Count}".info
         End Sub
 
         ''' <summary>
@@ -960,7 +977,7 @@ Namespace ModularNetwork
             _baselineStates = Nothing
             _baselineSteps = -1
 
-            Call $"[GRN wt] 野生型基线已设置: 基因数={_wildtypeStates.Count}".info
+            Call $"[GRN wt] 野生型基线已应用: 状态数={_wildtypeStates.Count}".debug
         End Sub
 
         ''' <summary>取某个基因的野生型状态（未设置基线时回退 Medium）</summary>
