@@ -157,14 +157,12 @@ Namespace DBN
             _rng = New Random(_config.Seed)
         End Sub
 
-
         ''' <summary>Constructor with custom configuration</summary>
         Public Sub New(config As DBNConfig)
             _config = config
             If _config Is Nothing Then _config = New DBNConfig()
             _rng = New Random(_config.Seed)
         End Sub
-
 
         ' ==================== Build from Topology ====================
 
