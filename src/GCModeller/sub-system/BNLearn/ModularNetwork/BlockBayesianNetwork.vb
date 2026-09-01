@@ -26,6 +26,10 @@ Namespace ModularNetwork
         ''' High，形成单向正反馈。基线只依赖模块构成与推演步数，故按 steps 缓存复用。
         ''' </summary>
         Private _baselineRates As Dictionary(Of String, Double)
+
+        ''' <summary>各模块野生型稳态推演结束时的基因状态（模块颜色 → 基因 → 状态）</summary>
+        Private _baselineStates As Dictionary(Of String, Dictionary(Of String, String))
+
         Private _baselineSteps As Integer = -1
 
         ''' <summary>
@@ -111,21 +115,25 @@ Namespace ModularNetwork
             ' **绝对水平**（恒为正），不能直接当作"上游变化量"用于判断传播方向，
             ' 否则下游模块的初始状态会被强制设为 High，形成单向正反馈把下游锁定在 High。
             ' 基线只依赖模块构成与步数，这里按 steps 缓存，避免每个扰动基因重复推演。
-            If _baselineSteps <> steps OrElse _baselineRates Is Nothing Then
+            If _baselineSteps <> steps OrElse _baselineRates Is Nothing OrElse _baselineStates Is Nothing Then
                 _baselineRates = New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+                _baselineStates = New Dictionary(Of String, Dictionary(Of String, String))(StringComparer.OrdinalIgnoreCase)
                 _baselineSteps = steps
 
-                For Each m In moduleDBs
-                    Dim wtStates As New Dictionary(Of String, String)
+                ' 基线同时记录"稳态时的基因状态"，用于把传播量表达为**状态值的平均变化**
+                ' （Low=0/Medium=1/High=2）。RNA 速率均值是连续量，平均后变化被稀释到 1e-4 量级，
+                ' 单基因敲降几乎测不到；状态值变化对扰动更敏感，且方向语义明确。
+                Dim wtStates As New Dictionary(Of String, String)
 
-                    For Each g In m.Genes
-                        wtStates(g) = "Medium"
-                    Next
-
-                    Dim wtRates = RunModuleSteps(m, wtStates, Nothing, steps, tfSet, Nothing)
-
-                    _baselineRates(m.ModuleColor) = If(wtRates.Count > 0, wtRates.Values.Average(), 0.0)
+                For Each g In m.Genes
+                    wtStates(g) = "Medium"
                 Next
+
+                Dim wtRates = RunModuleSteps(m, wtStates, Nothing, steps, tfSet, Nothing)
+                Dim baselineStates As New Dictionary(Of String, String)(wtStates, StringComparer.OrdinalIgnoreCase)
+
+                _baselineRates(m.ModuleColor) = If(wtRates.Count > 0, wtRates.Values.Average(), 0.0)
+                _baselineStates(m.ModuleColor) = baselineStates
             End If
 
             ' 本模块多步推演
