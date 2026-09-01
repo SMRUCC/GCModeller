@@ -60,7 +60,6 @@ Imports SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
-Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.MetabolicModel
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -204,6 +203,17 @@ Module bnlearn
 
             Return workflow
         End If
+    End Function
+
+    <ExportAPI("modular_intervene")>
+    Public Function modularDBNIntervene(model As BlockBayesianNetwork, <RRawVectorArgument(TypeCodes.string)> knockGenes As Object, Optional dynamicSteps As Integer = 10) As BlockResponseResult
+        Return BlockResponseResult.ModularDBNIntervene(model, CLRVector.asCharacter(knockGenes), dynamicSteps)
+    End Function
+
+    <ExportAPI("export_modular_response")>
+    Public Function exportModularResponse(x As BlockResponseResult, outputdir As String) As Boolean
+        Call x.SaveModularResults(outputdir)
+        Return True
     End Function
 
     ''' <summary>
