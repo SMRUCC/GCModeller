@@ -36,7 +36,7 @@ Namespace Core.WGCNADBN
         ''' 按 WGCNA 模块划分将基因分组（跳过 grey 模块，仅保留出现在 timeSeries 中的基因）。
         ''' </summary>
         <Extension>
-        Public Function SplitModules(assignment As GeneModuleColor(), timeSeries As Core.GeneExpressionData) As Dictionary(Of String, String())
+        Public Function SplitModules(assignment As IEnumerable(Of GeneModuleColor), timeSeries As Core.GeneExpressionData) As Dictionary(Of String, String())
             Dim result As New Dictionary(Of String, List(Of String))
             Dim present As New HashSet(Of String)(timeSeries.GeneNames, StringComparer.OrdinalIgnoreCase)
 
