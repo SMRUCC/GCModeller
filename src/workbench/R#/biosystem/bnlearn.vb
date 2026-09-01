@@ -103,7 +103,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Module bnlearn
 
     Sub Main()
-        Call RInternal.generic.add("writeBin", GetType(NumericMatrix), AddressOf SaveModelZip)
+        Call RInternal.generic.add("writeBin", GetType(BlockBayesianNetwork), AddressOf SaveModelZip)
         Call RInternal.generic.add("readBin.modular_bayesian", GetType(Stream), AddressOf LoadModelZip)
     End Sub
 
