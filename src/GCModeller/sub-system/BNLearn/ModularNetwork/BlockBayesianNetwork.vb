@@ -456,14 +456,7 @@ Namespace ModularNetwork
                 ' 否则加载后的模型会从错误的基线出发推演，破坏 round-trip 保真性
                 Dim wildtype = _wildtypeAbundance
 
-                Call WriteText(zip, "wildtype.tsv", Sub(w)
-                                                        For Each kv In wildtype
-                                                            w.WriteLine(String.Join(ChrW(9), {
-                                                                kv.Key,
-                                                                kv.Value.ToString("G17", CultureInfo.InvariantCulture)
-                                                            }))
-                                                        Next
-                                                    End Sub)
+                Call WriteText(zip, "wildtype.tsv", Sub(w) Call WriteWildtype(w, wildtype))
             End Using
 
             Call $"[BlockBayesianNetwork] 模型已导出: blocks={blocks.Length}, genes={allgenes.Length}".info
