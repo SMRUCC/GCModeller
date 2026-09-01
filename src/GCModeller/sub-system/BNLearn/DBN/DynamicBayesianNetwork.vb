@@ -262,9 +262,12 @@ Namespace DBN
 
             Call "Step 3: Initialize CPTs for all nodes".debug
 
+            Dim bar As Tqdm.ProgressBar = Nothing
+
             ' --- Step 3: Initialize CPTs for all nodes ---
-            For Each node In Tqdm.Wrap(_nodes.Values)
+            For Each node In Tqdm.Wrap(_nodes.Values, bar:=bar)
                 Call InitializeCPT(node)
+                Call bar.SetLabel($"{node.NodeId} {App.MemorySize}")
             Next
 
             Call "[BuildFromTopology] finished!".debug
@@ -574,7 +577,9 @@ Namespace DBN
             ' --- Step 4: Update CPTs with Dirichlet posterior ---
             ' P(s|parents) = (count(s) + alpha * prior(s)) / (total + alpha)
             For Each node In Tqdm.Wrap(_nodes.Values)
-                If node.ParentIds.Count = 0 Then Continue For
+                If node.ParentIds.Count = 0 Then
+                    Continue For
+                End If
 
                 Dim parentStatesMap As New Dictionary(Of String, List(Of String))
                 For Each pid As String In node.ParentIds
