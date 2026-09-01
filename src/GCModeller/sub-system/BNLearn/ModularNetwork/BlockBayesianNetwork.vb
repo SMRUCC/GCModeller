@@ -274,6 +274,10 @@ Namespace ModularNetwork
         ''' 恒为 0.5，导致惰性 CPT 在未缓存配置上退化为 basal 分布。保存拓扑后可由
         ''' BuildFromTopology 完整重建结构语义，再把学到的 CPT 条目回填。
         Public Sub SaveModel(file As Stream)
+            If file Is Nothing Then
+                Throw New ArgumentNullException(NameOf(file))
+            End If
+
             Dim blocks As ModuleDBN() = If(moduleDBs, New ModuleDBN() {})
 
             Using zip As New ZipArchive(file, ZipArchiveMode.Create, leaveOpen:=True)
@@ -337,6 +341,10 @@ Namespace ModularNetwork
         ''' <param name="file">zip 压缩包输入流（由 R# 的 ``readBin`` 传入，调用方负责释放）</param>
         ''' <returns>还原后的模块化贝叶斯网络模型，可直接用于级联虚拟扰动</returns>
         Public Shared Function LoadModel(file As Stream) As BlockBayesianNetwork
+            If file Is Nothing Then
+                Throw New ArgumentNullException(NameOf(file))
+            End If
+
             Dim modules As New List(Of ModuleDBN)
             Dim tfList As String() = {}
             Dim links As Dictionary(Of String, List(Of (modColor As String, weight As Double)))
