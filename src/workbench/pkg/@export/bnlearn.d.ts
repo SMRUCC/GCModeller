@@ -223,6 +223,13 @@ declare namespace bnlearn {
    */
    function prior_network(TF: any, target_gene: any, regulation_type: any, confidence: any, evidence: any): object;
    /**
+    * read WGCNA module color assignment result table
+    * 
+    * 
+     * @param file -
+   */
+   function read_module_assignment(file: string): object;
+   /**
     * save bnlearn model
     * 
     * > the learned bayesian network model will be saved as two tsv table files in 

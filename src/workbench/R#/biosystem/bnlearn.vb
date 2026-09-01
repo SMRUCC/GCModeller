@@ -53,6 +53,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
@@ -209,6 +210,16 @@ Module bnlearn
 
             Return workflow
         End If
+    End Function
+
+    ''' <summary>
+    ''' read WGCNA module color assignment result table
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read_module_assignment")>
+    Public Function readModuleAssignment(file As String) As GeneModuleColor()
+        Return file.LoadCsv(Of GeneModuleColor)(mute:=True)
     End Function
 
     <ExportAPI("set_baseline")>

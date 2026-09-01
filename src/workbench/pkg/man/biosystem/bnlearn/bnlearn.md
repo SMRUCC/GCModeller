@@ -18,6 +18,7 @@ Bayesian network learning and the in silico gene perturbation toolkit
 >    files.
 
 + [bnlearn](bnlearn/bnlearn.1) learn the gene regulatory bayesian network from the gene expression data
++ [read_module_assignment](bnlearn/read_module_assignment.1) read WGCNA module color assignment result table
 + [set_baseline](bnlearn/set_baseline.1) 
 + [modular_intervene](bnlearn/modular_intervene.1) 
 + [export_modular_response](bnlearn/export_modular_response.1) 
