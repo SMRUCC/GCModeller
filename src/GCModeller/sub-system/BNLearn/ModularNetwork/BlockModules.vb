@@ -67,14 +67,14 @@ Namespace ModularNetwork
 
             For Each e As RegulatoryEdge In prior.Edges
                 If inModule.Contains(e.TF) AndAlso inModule.Contains(e.TargetGene) Then
+                    ' 传递先验边上声明的调控方向（激活/抑制）：缺失它会导致网络中不存在
+                    ' 抑制性调控，使激活得分恒为正、CPT 的 Low 分支不可达，
+                    ' 虚拟扰动也就无法产生下调响应。
                     links.Add(New RegulatoryLink With {
                         .TF_id = e.TF,
                         .target_operon = e.TargetGene,
                         .regulate_genes = {e.TargetGene},
                         .effector = Nothing,
-                        ' 传递先验边上声明的调控方向（激活/抑制）：
-                        ' 缺失它会导致网络中不存在抑制性调控，使激活得分恒为正、
-                        ' CPT 的 Low 分支不可达，虚拟扰动也就无法产生下调响应。
                         .RegulationType = e.RegulationType,
                         .Confidence = e.Confidence
                     })

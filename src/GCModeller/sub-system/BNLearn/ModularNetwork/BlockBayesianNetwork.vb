@@ -226,7 +226,10 @@ Namespace ModularNetwork
                         geneStates(fixedGene) = "Low"
                     End If
 
-                    traj(gene_id)(t) = StateToValue(geneStates(gene_id))
+                    ' traj 为 Nothing 时用于基线推演（不需要记录轨迹）
+                    If traj IsNot Nothing Then
+                        traj(gene_id)(t) = StateToValue(geneStates(gene_id))
+                    End If
                 Next
 
                 For Each gene_id As String In m.Genes
@@ -309,6 +312,7 @@ Namespace ModularNetwork
         '''     eigengene.txt   每行一个 double
         '''     links.tsv       由网络节点反推出来的调控边（用于重建拓扑）
         '''     cpt.tsv         nodeId, key, p1,p2,p3
+        '''     thresholds.tsv  gene, low, high（per-gene 离散化阈值）
         ''' ```
         ''' 
         ''' 说明：之所以保存拓扑边而不是直接用 <see cref="DynamicBayesianNetwork.SaveToFile"/>，
@@ -371,6 +375,7 @@ Namespace ModularNetwork
 
                     Call WriteText(zip, dir & "links.tsv", Sub(w) Call WriteLinks(w, ExportLinks(m.Net)))
                     Call WriteText(zip, dir & "cpt.tsv", Sub(w) Call WriteCPT(w, m.Net))
+                    Call WriteText(zip, dir & "thresholds.tsv", Sub(w) Call WriteThresholds(w, m.Net))
                 Next
             End Using
 
@@ -425,6 +430,10 @@ Namespace ModularNetwork
 
                     ' 再把学习到的（或已缓存的）CPT 参数回填
                     Call ImportCPT(GetEntry(zip, dir & "cpt.tsv"), net)
+
+                    ' 回填每个基因的离散化阈值：必须与 CPT 一起恢复，
+                    ' 否则推理侧会回退到默认的固定阈值 0.33/0.66，破坏 round-trip 保真性
+                    Call ReadThresholds(GetEntry(zip, dir & "thresholds.tsv"), net)
 
                     Dim m As New ModuleDBN With {
                         .ModuleColor = color,
@@ -683,6 +692,52 @@ Namespace ModularNetwork
                         .ToArray()
 
                     node.CPT.Table(parts(1)) = probs
+                Loop
+            End Using
+        End Sub
+
+        ''' <summary>
+        ''' 写出每个基因的离散化阈值：gene / low / high（制表符分隔）。
+        ''' 
+        ''' 阈值由训练流程按数据分位数计算得到，必须与 CPT 一起持久化：
+        ''' 若丢失，加载后的模型在推理时会回退到默认的固定阈值 0.33/0.66，
+        ''' 与训练时使用的自适应阈值不一致，破坏 round-trip 保真性。
+        ''' </summary>
+        Private Shared Sub WriteThresholds(w As TextWriter, net As DynamicBayesianNetwork)
+            If net Is Nothing OrElse net.Config.NodeThresholds Is Nothing Then Return
+
+            Dim tab As String = ChrW(9)
+
+            For Each kv In net.Config.NodeThresholds
+                w.WriteLine(String.Join(tab, {
+                    kv.Key,
+                    kv.Value.Item1.ToString("G17", CultureInfo.InvariantCulture),
+                    kv.Value.Item2.ToString("G17", CultureInfo.InvariantCulture)
+                }))
+            Next
+        End Sub
+
+        ''' <summary>读回每个基因的离散化阈值并写入网络配置（见 <see cref="WriteThresholds"/>）</summary>
+        Private Shared Sub ReadThresholds(entry As ZipArchiveEntry, net As DynamicBayesianNetwork)
+            If entry Is Nothing OrElse net Is Nothing Then Return
+
+            Dim thresholds As Dictionary(Of String, Tuple(Of Double, Double)) = net.Config.NodeThresholds
+
+            thresholds.Clear()
+
+            Using sr As New StreamReader(entry.Open())
+                Do While Not sr.EndOfStream
+                    Dim line As String = sr.ReadLine()
+
+                    If String.IsNullOrWhiteSpace(line) Then Continue Do
+
+                    Dim parts As String() = line.Split(ChrW(9))
+
+                    If parts.Length < 3 Then Continue Do
+
+                    thresholds(parts(0)) = New Tuple(Of Double, Double)(
+                        Double.Parse(parts(1), CultureInfo.InvariantCulture),
+                        Double.Parse(parts(2), CultureInfo.InvariantCulture))
                 Loop
             End Using
         End Sub
