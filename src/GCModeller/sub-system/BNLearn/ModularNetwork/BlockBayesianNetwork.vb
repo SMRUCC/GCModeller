@@ -702,6 +702,7 @@ Namespace ModularNetwork
                     Next
                 End If
 
+                ' 第 7/8 列为调控方向与置信度，缺省时回退为激活（兼容旧版模型文件）
                 links.Add(New RegulatoryLink With {
                     .TF_id = parts(0),
                     .TF_family = If(parts.Length > 1, parts(1), Nothing),
@@ -709,7 +710,6 @@ Namespace ModularNetwork
                     .target_operon = If(parts.Length > 3, parts(3), Nothing),
                     .regulate_genes = genes,
                     .effector = effMap,
-                    ' 第 7/8 列：调控方向与置信度（兼容旧文件：缺省时回退为激活）
                     .RegulationType = If(parts.Length > 6 AndAlso parts(6).Length > 0,
                         CType(Integer.Parse(parts(6), CultureInfo.InvariantCulture), Effector),
                         Effector.Activator),
