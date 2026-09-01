@@ -140,7 +140,7 @@ Module Program
         ' ==================================================================
         Call Banner("阶段 5 / 8  梯度自检（解析 BPTT vs 数值差分）")
 
-        Call GradientSelfCheck(graph, times, observed, enzymeSeries, boundarySeries, fluxTruth)
+        Call GradientSelfCheck(graph, times, observed, enzymeSeries, boundarySeries, fluxTruth, thermoCtx)
 
         ' ==================================================================
         ' 阶段 6：PINN 风格多目标训练
@@ -269,6 +269,25 @@ Module Program
                               $"{Pct(aerobicKOAtp.Fluxes(last, j), base_),12}" &
                               $"{Pct(anaerobicWT.Fluxes(last, j), base_),12}")
         Next
+
+        ' ---- 只读诊断：SDH / FRD 同时活跃度 ----
+        ' 这两条反应方向恰好相反，同时通流即构成"无效循环"；
+        ' 由于二者都被声明为不可逆（结构上 v ≥ 0，且有效 Keq 取大值），
+        ' ΔG 方向性项不会直接惩罚这一对，因此单独用 min(v_SDH, v_FRD) 观测。
+        Dim sdhIdx = graph.IndexOfReaction("SDH")
+        Dim frdIdx = graph.IndexOfReaction("FRD")
+
+        If sdhIdx >= 0 AndAlso frdIdx >= 0 Then
+            Console.WriteLine()
+            Console.WriteLine("  无效循环诊断（只读，不进损失）：SDH 与 FRD 方向相反，同时通流即为无效循环")
+            Console.WriteLine($"  {"时刻",-8}{"v_SDH",12}{"v_FRD",12}{"min(同时活跃度)",18}")
+            Console.WriteLine($"  {"好氧WT",-8}{aerobicWT.Fluxes(last, sdhIdx),12:F4}" &
+                              $"{aerobicWT.Fluxes(last, frdIdx),12:F4}" &
+                              $"{std.Min(aerobicWT.Fluxes(last, sdhIdx), aerobicWT.Fluxes(last, frdIdx)),18:F4}")
+            Console.WriteLine($"  {"厌氧WT",-8}{anaerobicWT.Fluxes(last, sdhIdx),12:F4}" &
+                              $"{anaerobicWT.Fluxes(last, frdIdx),12:F4}" &
+                              $"{std.Min(anaerobicWT.Fluxes(last, sdhIdx), anaerobicWT.Fluxes(last, frdIdx)),18:F4}")
+        End If
 
         Console.WriteLine()
         Console.WriteLine("  解读：")
@@ -545,7 +564,8 @@ Module Program
     ''' 用中心差分校验整个代谢模型（LTC 内核 + 通量读取头）的解析梯度是否正确
     ''' </summary>
     Private Sub GradientSelfCheck(graph As MetabolicNetworkGraph, times As Double(), observed As Tensor,
-                                  enzymeSeries As Tensor, boundarySeries As Tensor, fluxTruth As Tensor)
+                                  enzymeSeries As Tensor, boundarySeries As Tensor, fluxTruth As Tensor,
+                                  Optional thermoCtx As ThermoContext = Nothing)
         ' 只取前 6 个时间点，缩短校验耗时
         Dim shortT = std.Min(6, times.Length)
         Dim tShort = times.Take(shortT).ToArray()
@@ -561,6 +581,9 @@ Module Program
             .Epochs = 1, .Verbose = False, .TeacherForcingStart = 0.0, .TeacherForcingEnd = 0.0
         }
         Dim probeTrainer As New MetabolicTrainer(probe, cfg)
+
+        ' 让自检覆盖 λ2 热力学项（它会向浓度读出层与通量头注入梯度）
+        Call probeTrainer.SetThermo(thermoCtx)
 
         ' ---------- 解析梯度 ----------
         Call probeTrainer.TrainEpoch(tShort, obsShort, enzShort, bndShort, fluxShort, h0Short, 1, keepGradients:=True)
