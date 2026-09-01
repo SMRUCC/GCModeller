@@ -262,10 +262,18 @@ Namespace DBN
 
             Call "Step 3: Initialize CPTs for all nodes".debug
 
+            ' 诊断：CPT 的行数随父节点数呈 3^P 指数增长，父节点数不受限时会直接导致
+            ' 初始化阶段内存与耗时爆炸。这里把拓扑规模显式输出，便于定位问题节点。
+            Call LogTopologyScale()
+
             Dim bar As Tqdm.ProgressBar = Nothing
 
             ' --- Step 3: Initialize CPTs for all nodes ---
             For Each node In Tqdm.Wrap(_nodes.Values, bar:=bar)
+                If node.ParentIds.Count >= 8 Then
+                    Call $"[DBN init] {node.NodeId} parents={node.ParentIds.Count} rows={Math.Pow(3, node.ParentIds.Count).ToString("E3")} mem={App.MemorySize}".debug
+                End If
+
                 Call InitializeCPT(node)
                 Call bar.SetLabel($"{node.NodeId} {App.MemorySize}")
             Next
@@ -274,6 +282,47 @@ Namespace DBN
 
             Return Me
         End Function
+
+        ''' <summary>
+        ''' 输出当前拓扑的规模诊断信息（父节点数分布 / CPT 行数估算 / hub 节点清单）。
+        ''' 
+        ''' CPT 的行数等于各父节点状态数的乘积，默认 3 态即 3^P（P = 父节点数），
+        ''' 因此父节点数一旦不受限，初始化阶段的时间与内存都会指数级爆炸。
+        ''' 该方法把规模显式输出到日志，用于定位导致爆炸的节点。
+        ''' </summary>
+        Private Sub LogTopologyScale()
+            Dim hist As New Dictionary(Of Integer, Integer)
+            Dim worst As New List(Of (id As String, p As Integer))
+            Dim maxP As Integer = 0
+            Dim nWithParents As Integer = 0
+            Dim totalRows As Double = 0
+
+            For Each node In _nodes.Values
+                Dim p As Integer = node.ParentIds.Count
+
+                If Not hist.ContainsKey(p) Then hist(p) = 0
+                hist(p) += 1
+
+                If p > maxP Then maxP = p
+                If p > 0 Then
+                    nWithParents += 1
+                    totalRows += Math.Pow(3, p)
+                End If
+
+                worst.Add((node.NodeId, p))
+            Next
+
+            Dim top = worst _
+                .OrderByDescending(Function(x) x.p) _
+                .Take(10) _
+                .Select(Function(x) $"{x.id}(P={x.p})") _
+                .ToArray
+
+            Call $"[DBN scale] nodes={_nodes.Count} with_parents={nWithParents} max_parents={maxP}".info
+            Call $"[DBN scale] cpt_rows={totalRows.ToString("E3")} est_mem_gb={(totalRows * 180 / 1024 ^ 3).ToString("F3")}".info
+            Call $"[DBN scale] parents_hist={String.Join(", ", hist.OrderBy(Function(kv) kv.Key).Select(Function(kv) $"{kv.Key}:{kv.Value}"))}".info
+            Call $"[DBN scale] top_hub={String.Join(", ", top)}".info
+        End Sub
 
 
         ' ==================== CPT Initialization (Topology-Based Prior) ====================
