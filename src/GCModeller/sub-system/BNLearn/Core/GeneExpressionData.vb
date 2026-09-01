@@ -304,6 +304,7 @@ Namespace Core
         ''' <returns>按时间排序的基因丰度字典列表，供 <see cref="DynamicBayesianNetwork.LearnParameters"/> 使用。</returns>
         Public Function ToTimeSeries() As List(Of Dictionary(Of String, Double))
             Dim timePoints As Double() = UniqueTimePoints
+
             If timePoints Is Nothing OrElse timePoints.Length < 2 Then
                 Throw New InvalidOperationException("表达矩阵需要至少包含 2 个时间点以进行动态贝叶斯网络参数学习")
             End If
@@ -319,7 +320,7 @@ Namespace Core
                 .ToArray()
 
                 If sampleIdx.Length = 0 Then
-                    Call VBDebugger.WriteLine($"WGCNAGRN.ToTimeSeries: 时间点 {tp} 无样本，已跳过")
+                    Call $"WGCNAGRN.ToTimeSeries: 时间点 {tp} 无样本，已跳过".debug
                     Continue For
                 End If
 
@@ -337,7 +338,7 @@ Namespace Core
                 Call series.Add(frame)
             Next
 
-            Call VBDebugger.WriteLine($"WGCNAGRN.ToTimeSeries: 构造时间序列，共 {series.Count} 个时间点")
+            Call $"WGCNAGRN.ToTimeSeries: 构造时间序列，共 {series.Count} 个时间点".info
 
             Return series
         End Function

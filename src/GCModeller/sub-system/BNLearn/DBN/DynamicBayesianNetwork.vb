@@ -188,7 +188,7 @@ Namespace DBN
             End If
 
             ' --- Step 1: Create nodes for all TFs, effector metabolites, and target operons ---
-            For Each link In _topologyLinks
+            For Each link As RegulatoryLink In _topologyLinks
                 ' Create TF node if not exists
                 If Not _nodes.ContainsKey(link.TF_id) Then
                     _nodes(link.TF_id) = New DBNNode(link.TF_id, DBNNodeType.TranscriptionFactor)
@@ -224,7 +224,7 @@ Namespace DBN
             Next
 
             ' --- Step 2: Set up parent-child relationships ---
-            For Each link In _topologyLinks
+            For Each link As RegulatoryLink In _topologyLinks
                 Dim geneNode = _nodes(link.target_operon)
 
                 ' Add TF as parent (avoid duplicates for multi-effector TFs)
@@ -255,7 +255,7 @@ Namespace DBN
 
             ' --- Step 3: Initialize CPTs for all nodes ---
             For Each node In _nodes.Values
-                InitializeCPT(node)
+                Call InitializeCPT(node)
             Next
 
             Return Me
@@ -306,11 +306,7 @@ Namespace DBN
         ''' - Moderate score -> P(Medium) dominant
         ''' - Low score (inhibited) -> P(Low) dominant
         ''' </summary>
-        Private Function ComputeDefaultDistribution(
-            node As DBNNode,
-            parentStates As List(Of String)
-        ) As Double()
-
+        Private Function ComputeDefaultDistribution(node As DBNNode, parentStates As List(Of String)) As Double()
             Dim dist(node.States.Count - 1) As Double
 
             If node.NodeType = DBNNodeType.Gene AndAlso node.ParentIds.Count > 0 Then

@@ -20,7 +20,7 @@ Namespace Core.WGCNADBN
             Dim tfSet As New HashSet(Of String)(TF, StringComparer.OrdinalIgnoreCase)
             Dim moduleDBs As Integer = 0
 
-            For Each kv In moduleGenes
+            For Each kv As KeyValuePair(Of String, String()) In moduleGenes
                 Dim mcolor = kv.Key
                 Dim genes = kv.Value
 

@@ -63,7 +63,7 @@ Namespace Core.WGCNADBN
             Dim inModule As New HashSet(Of String)(moduleGenes, StringComparer.OrdinalIgnoreCase)
             Dim links As New List(Of RegulatoryLink)
 
-            For Each e In prior.Edges
+            For Each e As RegulatoryEdge In prior.Edges
                 If inModule.Contains(e.TF) AndAlso inModule.Contains(e.TargetGene) Then
                     links.Add(New RegulatoryLink With {
                         .TF_id = e.TF,
