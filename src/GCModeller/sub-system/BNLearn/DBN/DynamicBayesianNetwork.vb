@@ -132,7 +132,6 @@ Namespace DBN
         Private _rng As Random
         Private _config As DBNConfig
 
-
         ''' <summary>Configuration for the DBN (discretization, smoothing, rates, etc.)</summary>
         Public Property Config As DBNConfig
             Get
@@ -367,17 +366,13 @@ Namespace DBN
         ''' 
         ''' For TFs without effectors, uses the TF's DefaultRegulatoryDirection.
         ''' </summary>
-        Private Function ComputeActivationScore(
-            node As DBNNode,
-            parentStates As List(Of String)
-        ) As Double
-
+        Private Function ComputeActivationScore(node As DBNNode, parentStates As List(Of String)) As Double
             Dim activationScore = 0.0  ' P(at least one activator is active)
             Dim inhibitionScore = 0.0  ' P(at least one inhibitor is active)
             Dim hasActivator = False
             Dim hasInhibitor = False
 
-            For Each tfId In node.RegulatorTFs
+            For Each tfId As String In node.RegulatorTFs
                 Dim tfIdx = node.ParentIds.IndexOf(tfId)
                 If tfIdx < 0 Then Continue For
 

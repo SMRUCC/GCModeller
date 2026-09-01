@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.BNLearn.DBN
 Imports SMRUCC.genomics.Analysis.BNLearn.Inference
 
 Namespace Core.WGCNADBN
@@ -26,6 +27,14 @@ Namespace Core.WGCNADBN
             End Get
         End Property
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="subblocks"></param>
+        ''' <param name="TFs"></param>
+        ''' <param name="crossModuleCorThreshold">
+        ''' 模块 eigengene 相关阈值：|cor| 超过才建立模块间关联，默认 0.3。
+        ''' </param>
         Sub New(subblocks As IEnumerable(Of ModuleDBN), TFs As IEnumerable(Of String), Optional crossModuleCorThreshold As Double = 0.3)
             moduleDBs = subblocks.SafeQuery.ToArray
             graph = BuildModuleCorrelationGraph(moduleDBs, crossModuleCorThreshold)
@@ -147,27 +156,34 @@ Namespace Core.WGCNADBN
                                         traj As Dictionary(Of String, List(Of Double))) As Dictionary(Of String, Double)
             Dim lastRates As New Dictionary(Of String, Double)
 
-            For t = 1 To steps - 1
+            For t As Integer = 1 To steps - 1
                 ' 模块内 TF 基因的连续 abundance（由当前离散状态映射，与证据一致）
                 Dim tfAbund As New Dictionary(Of String, Double)
-                For Each g In m.Genes
-                    If tfSet.Contains(g) Then
-                        tfAbund(g) = StateToScore(geneStates(g))
+
+                For Each gene_id As String In m.Genes
+                    If tfSet.Contains(gene_id) Then
+                        tfAbund(gene_id) = StateToScore(geneStates(gene_id))
                     End If
                 Next
 
-                Dim result = m.Net.PredictNextState(Nothing, tfAbund, geneStates)
-                For Each g In m.Genes
-                    If result.GeneStates.ContainsKey(g) Then
-                        geneStates(g) = result.GeneStates(g)
+                Dim result As DBNPredictionResult = m.Net.PredictNextState(Nothing, tfAbund, geneStates)
+
+                For Each gene_id As String In m.Genes
+                    If result.GeneStates.ContainsKey(gene_id) Then
+                        geneStates(gene_id) = result.GeneStates(gene_id)
                     End If
                     ' 持续固定扰动基因 Low，避免被反馈回路恢复
-                    If Not String.IsNullOrEmpty(fixedGene) Then geneStates(fixedGene) = "Low"
-                    traj(g)(t) = StateToValue(geneStates(g))
+                    If Not String.IsNullOrEmpty(fixedGene) Then
+                        geneStates(fixedGene) = "Low"
+                    End If
+
+                    traj(gene_id)(t) = StateToValue(geneStates(gene_id))
                 Next
 
-                For Each g In m.Genes
-                    If result.RNAAbundanceChanges.ContainsKey(g) Then lastRates(g) = result.RNAAbundanceChanges(g)
+                For Each gene_id As String In m.Genes
+                    If result.RNAAbundanceChanges.ContainsKey(gene_id) Then
+                        lastRates(gene_id) = result.RNAAbundanceChanges(gene_id)
+                    End If
                 Next
             Next
 
