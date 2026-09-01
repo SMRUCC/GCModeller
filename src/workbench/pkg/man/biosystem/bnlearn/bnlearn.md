@@ -18,6 +18,9 @@ Bayesian network learning and the in silico gene perturbation toolkit
 >    files.
 
 + [bnlearn](bnlearn/bnlearn.1) learn the gene regulatory bayesian network from the gene expression data
++ [set_baseline](bnlearn/set_baseline.1) 
++ [modular_intervene](bnlearn/modular_intervene.1) 
++ [export_modular_response](bnlearn/export_modular_response.1) 
 + [as.prior_net](bnlearn/as.prior_net.1) build prior network object based on a given vector of the knowledge network edges data
 + [prior_network](bnlearn/prior_network.1) create prior knowledge netwoek edges from the given vector data
 + [knockouts](bnlearn/knockouts.1) run the in silico gene knockout experiment on the given network model

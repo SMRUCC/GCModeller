@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN.BlockBayesianNetwork</title>
+    <title>SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN.BlockResponseResult</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>BlockBayesianNetwork {SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN}</td>
+                <td>BlockResponseResult {SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>BlockBayesianNetwork</h2>
+        <h2>BlockResponseResult</h2>
 
         <h3>Description</h3>
 
@@ -29,13 +29,10 @@
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.BNLearn.Core.WGCNADBN
-export class BlockBayesianNetwork {
+export class BlockResponseResult {
    allgenes: string;
-   blocks: integer;
-   # ③ 模块间关联图（基于 eigengene 轨迹相关度）
-   graph: list;
-   moduleDBs: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/WGCNADBN/ModuleDBN.html">ModuleDBN[]</a>;
-   TF: string;
+   finalResponses: list;
+   trajectories: list;
 }
 </code>
         </pre>
@@ -43,8 +40,8 @@ export class BlockBayesianNetwork {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>graph</code>: list</li>
-<li>use by <i>property</i> member <code>moduleDBs</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/WGCNADBN/ModuleDBN.html">ModuleDBN</a></li>
+<li>use by <i>property</i> member <code>finalResponses</code>: list</li>
+<li>use by <i>property</i> member <code>trajectories</code>: list</li>
 </ol>
 
 

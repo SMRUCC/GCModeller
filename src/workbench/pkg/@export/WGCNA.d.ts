@@ -67,17 +67,6 @@ declare namespace WGCNA {
    */
    function applyModuleColors(g: object, modules: object): any;
    /**
-    * Build bnlearn prior network based on the WGCNA co-expression network and TF id list.
-    * 
-    * 
-     * @param edges -
-     * @param TF -
-     * @param env -
-     * 
-     * + default value Is ``null``.
-   */
-   function bnnet(edges: any, TF: any, env?: object): object;
-   /**
     * export a dataframe of the node information with connectivity value
     * 
     * 
@@ -139,6 +128,17 @@ declare namespace WGCNA {
      * @param env default value Is ``null``.
    */
    function phenotype_matrix(x: any, env?: object): any;
+   /**
+    * Build bnlearn prior network based on the WGCNA co-expression network and TF id list.
+    * 
+    * 
+     * @param edges -
+     * @param TF -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function prior_network(edges: any, TF: any, env?: object): object;
    module read {
       /**
       */

@@ -72,7 +72,7 @@ declare namespace bnlearn {
      *  500.
      * 
      * + default value Is ``500``.
-     * @param crossModuleCorThreshold 
+     * @param cross_thres 
      * + default value Is ``0.3``.
      * @param strict the strict option of the in silico perturbation experiment: if this 
      *  parameter is TRUE, then an error will be thrown when the target gene of the 
@@ -98,7 +98,10 @@ declare namespace bnlearn {
      *  data can not be cast to a collection of the 
      *  @``T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge`` data.
    */
-   function bnlearn(exprData: object, priorNet?: any, modules?: any, TF?: any, max_itrs?: object, crossModuleCorThreshold?: number, strict?: object, env?: object): object|object;
+   function bnlearn(exprData: object, priorNet?: any, modules?: any, TF?: any, max_itrs?: object, cross_thres?: number, strict?: object, env?: object): object|object;
+   /**
+   */
+   function export_modular_response(x: object, outputdir: string): boolean;
    /**
     * run the in silico gene knockdown experiment on the given network model
     * 
@@ -177,6 +180,10 @@ declare namespace bnlearn {
    */
    function make_exports(results: any, dir: string, pathway_info?: object, top_n?: object, env?: object): any;
    /**
+     * @param dynamicSteps default value Is ``10``.
+   */
+   function modular_intervene(model: object, knockGenes: any, dynamicSteps?: object): object;
+   /**
     * run the in silico gene overexpression experiment on the given network model
     * 
     * 
@@ -232,4 +239,8 @@ declare namespace bnlearn {
      *  directory successfully.
    */
    function save_model(bnlearn: object, dir: string): any;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function set_baseline(model: object, baseline: object, env?: object): object;
 }
