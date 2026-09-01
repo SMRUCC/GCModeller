@@ -263,18 +263,6 @@ Public Module GeneRegulatoryNetwork
     End Function
 
     ''' <summary>
-    ''' 将离散状态映射为数值，便于以轨迹数组形式输出虚拟敲降模拟结果。
-    ''' </summary>
-    Private Function StateToValue(state As String) As Double
-        Select Case state
-            Case "Low" : Return 0.0
-            Case "Medium" : Return 1.0
-            Case "High" : Return 2.0
-            Case Else : Return 1.0
-        End Select
-    End Function
-
-    ''' <summary>
     ''' 在已构建并拟合参数的动态贝叶斯网络上，对指定基因执行虚拟敲降模拟。
     '''
     ''' 模拟逻辑：将目标基因节点状态强制固定为 ""Low""（敲降状态），并基于
@@ -497,19 +485,15 @@ Public Module GeneRegulatoryNetwork
         If TF Is Nothing Then TF = {}
         If knockGenes Is Nothing Then knockGenes = {}
 
-        Dim moduleDBs = timeSeries.TrainBlocks(modules, prior, TF).ToArray
-
-        ' ③ 模块间关联图（基于 eigengene 轨迹相关度）
-        Dim graph = BuildModuleCorrelationGraph(moduleDBs, crossModuleCorThreshold)
-        Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 模块关联边数={graph.Values.Sum(Function(l) l.Count)}")
+        Dim moduleDBs As New BlockBayesianNetwork(timeSeries.TrainBlocks(modules, prior, TF), crossModuleCorThreshold)
 
         ' ④ 全局级联虚拟扰动
-        Dim allGenes = moduleDBs.SelectMany(Function(m) m.Genes).Distinct().ToArray()
+        Dim allGenes = moduleDBs.moduleDBs.SelectMany(Function(m) m.Genes).Distinct().ToArray()
         Dim finalResponses As New System.Collections.Generic.Dictionary(Of String, List(Of Double))()
         Dim trajectories As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double)))()
 
         For Each g In knockGenes
-            Dim respVec As Double() = CascadeIntervene(moduleDBs, graph, New HashSet(Of String)(TF), g, dynamicSteps, allGenes, trajectories)
+            Dim respVec As Double() = moduleDBs.CascadeIntervene(New HashSet(Of String)(TF), g, dynamicSteps, allGenes, trajectories)
             finalResponses(g) = New List(Of Double)(respVec)
         Next
 
@@ -519,214 +503,13 @@ Public Module GeneRegulatoryNetwork
         End If
 
         Dim moduleNets As New Dictionary(Of String, DynamicBayesianNetwork)
-        For Each m In moduleDBs
+        For Each m In moduleDBs.moduleDBs
             moduleNets(m.ModuleColor) = m.Net
         Next
 
-        Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 全局级联虚拟扰动完成（扰动基因 {knockGenes.Length} 个，模块 {moduleDBs.Count} 个，全局基因 {allGenes.Length} 个）")
+        Call VBDebugger.WriteLine($"GRN.TrainModularDBNIntervene: 全局级联虚拟扰动完成（扰动基因 {knockGenes.Length} 个，模块 {moduleDBs.blocks} 个，全局基因 {allGenes.Length} 个）")
 
         Return (finalResponses, moduleNets)
-    End Function
-
-    ''' <summary>
-    ''' 对单个扰动基因执行全局级联虚拟扰动：
-    '''   - 在其所属模块内固定 Low 并多步推演本模块基因状态轨迹；
-    '''   - 计算本模块 eigengene 变化，沿模块关联图 BFS 逐级注入下游模块（作为模块整体状态偏置），
-    '''     在下游模块内做受迫推演，形成级联；
-    '''   - 汇总所有模块基因的最终状态为全局响应向量（按 allGenes 顺序，Low=0/Med=1/High=2）。
-    ''' </summary>
-    Private Function CascadeIntervene(modules As IReadOnlyCollection(Of ModuleDBN),
-                                     graph As Dictionary(Of String, List(Of (modColor As String, weight As Double))),
-                                     tfSet As HashSet(Of String),
-                                     knockGene As String,
-                                     steps As Integer,
-                                     allGenes As String(),
-                                     trajectories As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double)))) As Double()
-        ' 定位扰动基因所属模块
-        Dim m0 As ModuleDBN = Nothing
-        For Each m In modules
-            If m.GeneIndex.ContainsKey(knockGene) Then
-                m0 = m
-                Exit For
-            End If
-        Next
-        If m0 Is Nothing Then
-            Call VBDebugger.WriteLine($"GRN.CascadeIntervene: 警告: 扰动基因 '{knockGene}' 不在任何模块中，跳过")
-            Dim zero As Double() = allGenes.Select(Function(g) 1.0).ToArray()
-            trajectories(knockGene) = New System.Collections.Generic.Dictionary(Of String, List(Of Double))
-            Return zero
-        End If
-
-        ' 每个模块维护基因离散状态（初始 Medium），以及各自的轨迹容器
-        Dim moduleStates As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, String))
-        Dim moduleTraj As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, List(Of Double)))
-        For Each m In modules
-            Dim st As New System.Collections.Generic.Dictionary(Of String, String)
-            Dim tr As New System.Collections.Generic.Dictionary(Of String, List(Of Double))
-            For Each g In m.Genes
-                st(g) = "Medium"
-                tr(g) = New List(Of Double)(New Double(steps - 1) {})
-            Next
-            moduleStates(m.ModuleColor) = st
-            moduleTraj(m.ModuleColor) = tr
-        Next
-
-        ' 初始步：扰动基因固定 Low
-        moduleStates(m0.ModuleColor)(knockGene) = "Low"
-        For Each g In m0.Genes
-            moduleTraj(m0.ModuleColor)(g)(0) = StateToValue(moduleStates(m0.ModuleColor)(g))
-        Next
-
-        ' 本模块多步推演
-        Dim m0Rates = RunModuleSteps(m0, moduleStates(m0.ModuleColor), knockGene, steps, tfSet, moduleTraj(m0.ModuleColor))
-        ' 计算本模块 eigengene 变化（最终步 RNA 速率均值）
-        Dim delta0 = If(m0Rates.Count > 0, m0Rates.Values.Average(), 0.0)
-
-        ' 沿模块关联图 BFS 级联
-        Dim visited As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase) From {m0.ModuleColor}
-        Dim queue As New Queue(Of (modColor As String, delta As Double))
-        queue.Enqueue((modColor:=m0.ModuleColor, delta:=delta0))
-
-        While queue.Count > 0
-            Dim cur = queue.Dequeue()
-            If Not graph.ContainsKey(cur.modColor) Then Continue While
-            For Each adj In graph(cur.modColor)
-                If visited.Contains(adj.modColor) Then Continue For
-                visited.Add(adj.modColor)
-                Dim mNext = modules.First(Function(m) String.Equals(m.ModuleColor, adj.modColor, StringComparison.OrdinalIgnoreCase))
-                ' 上游变化按关联权重注入下游模块（作为模块整体状态偏置）
-                Dim upstreamDelta = cur.delta * adj.weight
-                Dim fixedInNext = If(mNext.GeneIndex.ContainsKey(knockGene), knockGene, Nothing)
-                Dim nextRates = RunModuleForced(mNext, upstreamDelta, fixedInNext, steps, tfSet, moduleStates(mNext.ModuleColor), moduleTraj(mNext.ModuleColor))
-                Dim deltaNext = If(nextRates.Count > 0, nextRates.Values.Average(), 0.0)
-                queue.Enqueue((modColor:=mNext.ModuleColor, delta:=deltaNext))
-            Next
-        End While
-
-        ' 汇总全局最终响应向量（显式双层循环，避免 SelectMany 对 Double() 轨迹的深层展平）
-        Dim geneToTraj As New System.Collections.Generic.Dictionary(Of String, List(Of Double))(StringComparer.OrdinalIgnoreCase)
-        For Each kvModule In moduleTraj
-            For Each kvGene In kvModule.Value
-                geneToTraj(kvGene.Key) = kvGene.Value
-            Next
-        Next
-
-        Dim resp(allGenes.Length - 1) As Double
-        For i = 0 To allGenes.Length - 1
-            Dim g = allGenes(i)
-            If geneToTraj.ContainsKey(g) Then
-                resp(i) = geneToTraj(g)(steps - 1)
-            Else
-                resp(i) = 1.0  ' 未参与任何模块：中性 Medium
-            End If
-        Next
-
-        Dim trajMerged As New System.Collections.Generic.Dictionary(Of String, List(Of Double))(StringComparer.OrdinalIgnoreCase)
-        For Each kvModule In moduleTraj
-            For Each kvGene In kvModule.Value
-                trajMerged(kvGene.Key) = kvGene.Value
-            Next
-        Next
-        trajectories(knockGene) = trajMerged
-
-        Call VBDebugger.WriteLine($"GRN.CascadeIntervene: 对基因 '{knockGene}'（模块 {m0.ModuleColor}）完成级联虚拟扰动，本模块 eigengene 变化 δ={delta0:F4}")
-        Return resp
-    End Function
-
-    ''' <summary>
-    ''' 在单个模块子网络内多步推演（扰动基因固定 Low）。返回各基因最终 RNA 丰度变化率。
-    ''' </summary>
-    Private Function RunModuleSteps(m As ModuleDBN,
-                                    geneStates As Dictionary(Of String, String),
-                                    fixedGene As String,
-                                    steps As Integer,
-                                    tfSet As HashSet(Of String),
-                                    traj As System.Collections.Generic.Dictionary(Of String, List(Of Double))) As System.Collections.Generic.Dictionary(Of String, Double)
-        Dim lastRates As New Dictionary(Of String, Double)
-
-        For t = 1 To steps - 1
-            ' 模块内 TF 基因的连续 abundance（由当前离散状态映射，与证据一致）
-            Dim tfAbund As New Dictionary(Of String, Double)
-            For Each g In m.Genes
-                If tfSet.Contains(g) Then
-                    tfAbund(g) = StateToScore(geneStates(g))
-                End If
-            Next
-
-            Dim result = m.Net.PredictNextState(Nothing, tfAbund, geneStates)
-            For Each g In m.Genes
-                If result.GeneStates.ContainsKey(g) Then
-                    geneStates(g) = result.GeneStates(g)
-                End If
-                ' 持续固定扰动基因 Low，避免被反馈回路恢复
-                If Not String.IsNullOrEmpty(fixedGene) Then geneStates(fixedGene) = "Low"
-                traj(g)(t) = StateToValue(geneStates(g))
-            Next
-
-            For Each g In m.Genes
-                If result.RNAAbundanceChanges.ContainsKey(g) Then lastRates(g) = result.RNAAbundanceChanges(g)
-            Next
-        Next
-
-        Return lastRates
-    End Function
-
-    ''' <summary>
-    ''' 受迫推演：下游模块接收上游 eigengene 变化偏置，初始整体状态偏移后多步推演。
-    ''' </summary>
-    Private Function RunModuleForced(m As ModuleDBN,
-                                     upstreamDelta As Double,
-                                     fixedGene As String,
-                                     steps As Integer,
-                                     tfSet As HashSet(Of String),
-                                     geneStates As Dictionary(Of String, String),
-                                     traj As System.Collections.Generic.Dictionary(Of String, List(Of Double))) As System.Collections.Generic.Dictionary(Of String, Double)
-        ' 初始整体状态偏置：上游正向变化 → High，负向 → Low，近 0 → Medium
-        Dim initState As String = If(upstreamDelta > 0.1, "High", If(upstreamDelta < -0.1, "Low", "Medium"))
-        For Each g In m.Genes
-            geneStates(g) = initState
-        Next
-        If Not String.IsNullOrEmpty(fixedGene) Then geneStates(fixedGene) = "Low"
-        For Each g In m.Genes
-            traj(g)(0) = StateToValue(geneStates(g))
-        Next
-
-        Dim lastRates As New Dictionary(Of String, Double)
-        For t = 1 To steps - 1
-            Dim tfAbund As New Dictionary(Of String, Double)
-            For Each g In m.Genes
-                If tfSet.Contains(g) Then
-                    ' 上游变化注入 TF abundance（clamp 到合理范围）
-                    tfAbund(g) = Math.Max(0.0, Math.Min(2.0, StateToScore(geneStates(g)) * (1.0 + upstreamDelta)))
-                End If
-            Next
-
-            Dim result = m.Net.PredictNextState(Nothing, tfAbund, geneStates)
-            For Each g In m.Genes
-                If result.GeneStates.ContainsKey(g) Then
-                    geneStates(g) = result.GeneStates(g)
-                End If
-                If Not String.IsNullOrEmpty(fixedGene) Then geneStates(fixedGene) = "Low"
-                traj(g)(t) = StateToValue(geneStates(g))
-            Next
-            For Each g In m.Genes
-                If result.RNAAbundanceChanges.ContainsKey(g) Then lastRates(g) = result.RNAAbundanceChanges(g)
-            Next
-        Next
-
-        Return lastRates
-    End Function
-
-    ''' <summary>
-    ''' 将离散状态映射为数值分值（Low=0, Medium=0.5, High=1），供父节点证据离散化使用。
-    ''' </summary>
-    Private Function StateToScore(state As String) As Double
-        Select Case state
-            Case "Low" : Return 0.0
-            Case "Medium" : Return 0.5
-            Case "High" : Return 1.0
-            Case Else : Return 0.5
-        End Select
     End Function
 
     ''' <summary>
