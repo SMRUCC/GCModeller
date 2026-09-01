@@ -184,7 +184,7 @@ Module bnlearn
             End If
 
             ' ① 模块划分（跳过 grey 模块，仅保留出现在时间序列中的基因）
-            Dim moduleGenes = modules.SplitModules(timeSeries)
+            Dim moduleGenes = colors.SplitModules(timeSeries)
         Else
 
         End If
