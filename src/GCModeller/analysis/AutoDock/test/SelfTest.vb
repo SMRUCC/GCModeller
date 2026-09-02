@@ -216,8 +216,9 @@ Public Module SelfTest
             For k = 0 To 2
                 Dim rp = CType(rotvec.Clone(), Double())
                 Dim rm = CType(rotvec.Clone(), Double())
-                Dim dPlus(2) As Double : dPlus(k) = h
-                Dim dMinus(2) As Double : dMinus(k) = -h
+                ' 旋转分量位于 direction(3..5)；数组需覆盖 6 + nTors 个分量
+                Dim dPlus(6 + nTors - 1) As Double : dPlus(3 + k) = h
+                Dim dMinus(6 + nTors - 1) As Double : dMinus(3 + k) = -h
                 Dim tp = CType(trans.Clone(), Double())
                 Dim tm = CType(trans.Clone(), Double())
                 PoseOps.ApplyIncrement(tp, rp, torsions, dPlus, 1.0)
