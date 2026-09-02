@@ -142,14 +142,14 @@ Namespace MiniDock.Core
                 If Not Double.TryParse(cx, NumberStyles.Float, CultureInfo.InvariantCulture, ci) Then Continue For
                 Dim cyy As Double
                 If Not Double.TryParse(cy, NumberStyles.Float, CultureInfo.InvariantCulture, cyy) Then Continue For
-                Dim cz As Double
-                If Not Double.TryParse(cz, NumberStyles.Float, CultureInfo.InvariantCulture, cz) Then Continue For
-                atom.X = ci : atom.Y = cyy : atom.Z = cz
+                Dim czv As Double
+                If Not Double.TryParse(cz, NumberStyles.Float, CultureInfo.InvariantCulture, czv) Then Continue For
+                atom.X = ci : atom.Y = cyy : atom.Z = czv
                 atom.ResName = atom.ResName.ToUpperInvariant()
                 atom.IsWater = (atom.ResName = "HOH" OrElse atom.ResName = "WAT")
                 atom.FromReceptor = True
                 mol.Atoms.Add(atom)
-            End For
+            Next
             If frames.Count = 0 OrElse mol.Atoms.Count > 0 Then
                 If mol.Atoms.Count > 0 Then frames.Add(mol)
             End If

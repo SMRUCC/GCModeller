@@ -212,7 +212,7 @@ Namespace MiniDock.Core
                     PoseOps.ApplyIncrement(tt, rr, ss, p, alpha)
                     fn = obj.Evaluate(tt, rr, ss, gn, rigidCenter)
                     evalCount += 1
-                    If fn <= f0 + 0.0001 * alpha * slope OrElse alpha < 1.0E-12 Then
+                    If fn <= f0 + 0.0001 * alpha * slope OrElse alpha < 0.000000000001 Then
                         t2 = tt : r2 = rr : s2 = ss
                         Exit While
                     End If
@@ -227,7 +227,7 @@ Namespace MiniDock.Core
                     y(i) = gn(i) - grads(i)
                     sy += sV(i) * y(i)
                 Next
-                If sy > 1.0E-10 Then
+                If sy > 0.0000000001 Then
                     Dim rho = 1.0 / sy
                     Dim Hy(n - 1) As Double
                     Dim yH(n - 1) As Double
@@ -260,7 +260,7 @@ Namespace MiniDock.Core
                 For i = 0 To n - 1
                     grads(i) = gn(i)
                 Next
-            End While
+            Next
             Return f
         End Function
 
@@ -319,7 +319,7 @@ Namespace MiniDock.Core
                 Dim ev As Int32 = 0
                 Dim f = bfgs.Minimize(obj, trans, rotvec, torsions, ev)
 
-                For step = 1 To StepsPerRun
+                For [step] = 1 To StepsPerRun
                     Dim pt = CType(trans.Clone(), Double())
                     Dim pr = CType(rotvec.Clone(), Double())
                     Dim ps = CType(torsions.Clone(), Double())

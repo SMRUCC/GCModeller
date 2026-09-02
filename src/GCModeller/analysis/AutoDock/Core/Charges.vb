@@ -78,7 +78,7 @@ Namespace MiniDock.Core
                         ' q_i 增（更正）、q_j 减（更负）
                         Dim dChi = chiJ - chiI
                         Dim dSum = chiI + chiJ
-                        If Math.Abs(dSum) < 1.0E-9 Then Continue For
+                        If Math.Abs(dSum) < 0.000000001 Then Continue For
                         Dim dq = 0.3 * damp * dChi / dSum
                         transferred(i) += dq
                         transferred(j) -= dq
@@ -131,9 +131,9 @@ Namespace MiniDock.Core
             For Each kv In groups
                 Dim idxList = kv.Value
                 Dim resName = mol.Atoms(idxList(0)).ResName
-                Dim sub As New Molecule With {.Id = resName}
+                Dim [sub] As New Molecule With {.Id = resName}
                 For Each i In idxList
-                    sub.Atoms.Add(mol.Atoms(i))
+                    [sub].Atoms.Add(mol.Atoms(i))
                 Next
                 ' 残基内键：模板
                 Dim specs() As String = Nothing
@@ -151,13 +151,13 @@ Namespace MiniDock.Core
                         End If
                         Dim pp = pairNames.Split("-"c)
                         If pp.Length = 2 AndAlso nameIdx.ContainsKey(pp(0)) AndAlso nameIdx.ContainsKey(pp(1)) Then
-                            sub.Bonds.Add(New Bond(nameIdx(pp(0)), nameIdx(pp(1)), order))
+                            [sub].Bonds.Add(New Bond(nameIdx(pp(0)), nameIdx(pp(1)), order))
                         End If
                     Next
                 Else
-                    StructureIO.PerceiveBonds(sub)
+                    StructureIO.PerceiveBonds([sub])
                 End If
-                AssignPoeCharges(sub, ResidueTemplates.FormalCharge(resName))
+                AssignPoeCharges([sub], ResidueTemplates.FormalCharge(resName))
             Next
 
             ' 水

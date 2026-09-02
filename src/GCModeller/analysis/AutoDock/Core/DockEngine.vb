@@ -248,7 +248,7 @@ Namespace MiniDock.Core
                             q.Enqueue(v)
                         End If
                     Next
-                Next
+                End While
                 For j = 0 To n - 1
                     If j <> start AndAlso dist(j) > 0 AndAlso dist(j) <= 3 Then
                         Dim lo = Math.Min(start, j)

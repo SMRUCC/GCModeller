@@ -274,16 +274,16 @@ Namespace MiniDock.Core
             Next
             ' 模板未覆盖的残基（HETATM 配体等）：距离感知成键 + SDF 规则
             If hetIdx.Count > 0 Then
-                Dim sub As New Molecule()
+                Dim [sub] As New Molecule()
                 Dim map As New Dictionary(Of Int32, Int32)()
                 For Each i In hetIdx
-                    map(i) = sub.Atoms.Count
-                    sub.Atoms.Add(mol.Atoms(i))
+                    map(i) = [sub].Atoms.Count
+                    [sub].Atoms.Add(mol.Atoms(i))
                 Next
-                PerceiveBonds(sub)
-                AssignTypesSdf(sub)
+                PerceiveBonds([sub])
+                AssignTypesSdf([sub])
                 For Each kv In map
-                    mol.Atoms(kv.Key).VinaType = sub.Atoms(kv.Value).VinaType
+                    mol.Atoms(kv.Key).VinaType = [sub].Atoms(kv.Value).VinaType
                 Next
             End If
         End Sub
@@ -357,7 +357,7 @@ Namespace MiniDock.Core
                         stack.Push(v)
                     End If
                 Next
-            Next
+            End While
             ' blocked 不在 branch 中
             outList.Remove(blocked)
             Return outList

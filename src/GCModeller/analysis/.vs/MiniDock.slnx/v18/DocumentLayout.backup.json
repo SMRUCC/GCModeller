@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\autodock\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|solutionrelative:autodock\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\autodock\\core\\molbuilder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|solutionrelative:autodock\\core\\molbuilder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\autodock\\core\\dockengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|solutionrelative:autodock\\core\\dockengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\autodock\\core\\charges.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|solutionrelative:autodock\\core\\charges.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{55BE92FF-4846-E099-4D31-84D86861F29A}|AutoDock\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\autodock\\test\\test.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{55BE92FF-4846-E099-4D31-84D86861F29A}|AutoDock\\test\\test.vbproj|solutionrelative:autodock\\test\\test.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,14 +43,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Program.vb",
-              "RelativeDocumentMoniker": "AutoDock\\Program.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Program.vb",
-              "RelativeToolTip": "AutoDock\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "MolBuilder.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\MolBuilder.vb",
+              "RelativeDocumentMoniker": "AutoDock\\Core\\MolBuilder.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\MolBuilder.vb",
+              "RelativeToolTip": "AutoDock\\Core\\MolBuilder.vb",
+              "ViewState": "AgIAAK4AAAAAAAAAAAAswFgBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-02T16:00:14.166Z",
+              "WhenOpened": "2026-09-02T16:05:16.236Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DockEngine.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\DockEngine.vb",
+              "RelativeDocumentMoniker": "AutoDock\\Core\\DockEngine.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\DockEngine.vb",
+              "RelativeToolTip": "AutoDock\\Core\\DockEngine.vb",
+              "ViewState": "AgIAAJIAAAAAAAAAAAAcwJcAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-02T16:04:35.868Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Charges.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\Charges.vb",
+              "RelativeDocumentMoniker": "AutoDock\\Core\\Charges.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\Charges.vb",
+              "RelativeToolTip": "AutoDock\\Core\\Charges.vb",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAcwKYAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-02T16:03:56.027Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "test",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\test\\test.vbproj",
+              "RelativeDocumentMoniker": "AutoDock\\test\\test.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\test\\test.vbproj",
+              "RelativeToolTip": "AutoDock\\test\\test.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2026-09-02T16:03:43.872Z",
               "EditorCaption": ""
             }
           ]
