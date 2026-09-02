@@ -7,4 +7,5 @@
     <Project Path="../data/RCSB PDB/RCSB PDB.vbproj" />
   </Folder>
   <Project Path="AutoDock/MiniDock.vbproj" />
+  <Project Path="AutoDock/test/test.vbproj" />
 </Solution>
