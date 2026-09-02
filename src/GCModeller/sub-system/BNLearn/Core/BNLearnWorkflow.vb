@@ -664,14 +664,39 @@ Namespace Core
                                                    Next
                                                End Sub)
 
+                ' 证据来源字段在大规模先验网络中重复度极高（几十万条边共用同一条来源描述），
+                ' 这里做一次字典编码把重复字符串收敛成索引，可把该表体积压掉一半以上
+                Dim evidences As New List(Of String)()
+                Dim evIndex As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
+                Dim evCodes As New List(Of Integer)()
+
+                For Each e As RegulatoryEdge In prior.Edges
+                    Dim ev As String = Sanitize(e.Evidence)
+
+                    If Not evIndex.ContainsKey(ev) Then
+                        Call evIndex.Add(ev, evidences.Count)
+                        Call evidences.Add(ev)
+                    End If
+
+                    Call evCodes.Add(evIndex(ev))
+                Next
+
+                Call WriteText(zip, "prior/evidence.tsv", Sub(w)
+                                                              For i As Integer = 0 To evidences.Count - 1
+                                                                  w.WriteLine($"{i}{vbTab}{evidences(i)}")
+                                                              Next
+                                                          End Sub)
+
                 Call WriteText(zip, "prior_edges.tsv", Sub(w)
-                                                           For Each e As RegulatoryEdge In prior.Edges
+                                                           For i As Integer = 0 To prior.Edges.Count - 1
+                                                               Dim e As RegulatoryEdge = prior.Edges(i)
+
                                                                w.WriteLine(String.Join(vbTab, {
                                                                    Sanitize(e.TF),
                                                                    Sanitize(e.TargetGene),
                                                                    CInt(e.RegulationType).ToString(CultureInfo.InvariantCulture),
                                                                    Num(e.Confidence),
-                                                                   Sanitize(e.Evidence)
+                                                                   evCodes(i).ToString(CultureInfo.InvariantCulture)
                                                                }))
                                                            Next
                                                        End Sub)
@@ -768,7 +793,7 @@ Namespace Core
                 Dim algoText As String = GetValue(settings, "Algorithm")
                 Dim algo As StructureLearning.StructureAlgorithm = StructureLearning.StructureAlgorithm.MMHC
 
-                If algoText.Length > 0 AndAlso Enum.TryParse(Of StructureLearning.StructureAlgorithm)(algoText, True, algo) Then
+                If algoText.Length > 0 AndAlso [Enum].TryParse(Of StructureLearning.StructureAlgorithm)(algoText, True, algo) Then
                     workflow.StructureParams.Algorithm = algo
                 End If
 
@@ -820,7 +845,7 @@ Namespace Core
                         .ResidualVariance = ParseNum(p(5)),
                         .RSquared = ParseNum(p(6)),
                         .BIC = ParseNum(p(7)),
-                        .NSamples = CInt(Math.Round(ParseNum(p(8))))
+                        .NSamples = CInt(ParseNum(p(8)))
                     }
                 Next
 
@@ -828,6 +853,16 @@ Namespace Core
 
                 ' 先验网络：走 AddEdge 以自动重建 TFNames / TargetNames 两个索引
                 Dim prior As New PriorNetwork()
+                Dim evidences As New Dictionary(Of Integer, String)()
+
+                For Each line As String In ReadLines(GetEntry(zip, "prior/evidence.tsv"))
+                    Dim p As String() = line.Split(New String() {vbTab}, StringSplitOptions.None)
+                    Dim key As Integer = 0
+
+                    If Integer.TryParse(p(0), NumberStyles.Integer, CultureInfo.InvariantCulture, key) Then
+                        evidences(key) = If(p.Length > 1, p(1), "")
+                    End If
+                Next
 
                 For Each line As String In ReadLines(GetEntry(zip, "prior_edges.tsv"))
                     Dim p As String() = line.Split(New String() {vbTab}, StringSplitOptions.None)
@@ -844,7 +879,17 @@ Namespace Core
                     End If
 
                     Dim confidence As Double = If(p.Length > 3 AndAlso p(3).Length > 0, ParseNum(p(3)), 1.0)
-                    Dim evidence As String = If(p.Length > 4, p(4), "")
+                    Dim evidence As String = ""
+                    Dim evKey As Integer = 0
+
+                    If p.Length > 4 AndAlso p(4).Length > 0 Then
+                        If Integer.TryParse(p(4), NumberStyles.Integer, CultureInfo.InvariantCulture, evKey) Then
+                            ' 证据来源已做字典编码，按索引取回原文；解析不出来时按字面量兼容旧文件
+                            Call evidences.TryGetValue(evKey, evidence)
+                        Else
+                            evidence = p(4)
+                        End If
+                    End If
 
                     Call prior.AddEdge(p(0), p(1), regType, confidence, evidence)
                 Next
@@ -861,10 +906,10 @@ Namespace Core
                     Dim nS As Integer = GetInt(meta, "samples", sampleNames.Length)
 
                     If matrix Is Nothing Then
-                        matrix = New Double(Math.Max(nG, 1) - 1, Math.Max(nS, 1) - 1) {}
+                        matrix = New Double(If(nG > 1, nG, 1) - 1, If(nS > 1, nS, 1) - 1) {}
                     End If
                     If times Is Nothing OrElse times.Length <> nS Then
-                        times = Enumerable.Repeat(0.0, Math.Max(nS, 0)).ToArray()
+                        times = Enumerable.Repeat(0.0, If(nS > 0, nS, 0)).ToArray()
                     End If
 
                     workflow.ExpressionData = New GeneExpressionData() With {
@@ -1175,13 +1220,21 @@ Namespace Core
 
         Private Shared Function ParseInts(s As String) As Integer()
             If String.IsNullOrWhiteSpace(s) Then Return New Integer() {}
-            Return s.Split(","c).Where(Function(x) x.Length > 0).Select(Function(x) CInt(Math.Round(ParseNum(x)))).ToArray()
+            Return s.Split(","c).Where(Function(x) x.Length > 0).Select(Function(x) CInt(ParseNum(x))).ToArray()
         End Function
 
-        ''' <summary>清理文本字段中的制表符与换行符，避免破坏 TSV / 逐行文本格式</summary>
+        ''' <summary>文本字段中不允许出现的字符：制表符、CR、LF（会破坏 TSV / 逐行文本格式）</summary>
+        Private Shared ReadOnly IllegalChars As Char() = New Char() {ChrW(9), ChrW(13), ChrW(10)}
+
+        ''' <summary>
+        ''' 清理文本字段中的制表符与换行符，避免破坏 TSV / 逐行文本格式。
+        ''' 先验网络动辄数十万条边，这里先做一次快速探测，不含非法字符时直接原样返回。
+        ''' </summary>
         Private Shared Function Sanitize(s As String) As String
             If String.IsNullOrEmpty(s) Then Return ""
-            Return s.Replace(vbTab, " ").Replace(vbCr, " ").Replace(vbLf, " ")
+            If s.IndexOfAny(IllegalChars) < 0 Then Return s
+
+            Return s.Replace(ChrW(9), " "c).Replace(ChrW(13), " "c).Replace(ChrW(10), " "c)
         End Function
 
         ''' <summary>取元数据字符串值，缺失时返回缺省值</summary>
