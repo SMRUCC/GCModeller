@@ -92,6 +92,7 @@ def gapped_fwd(q, s, si0, sj0, h0, sub, go, ge, xdrop, collect=False):
     n, m = len(q), len(s)
     umax = n - 1 - si0; vmax = m - 1 - sj0
     NEG = -10**9
+    go_open = go + ge      # NCBI: 长度 k 的 gap = go + k*ge ⇒ 首个残基扣 go+ge
     best = h0; bu = bv = 0
     prev2H = {}    # t-2: u -> H
     prev1 = {}     # t-1: u -> (H, E, F)
@@ -113,14 +114,14 @@ def gapped_fwd(q, s, si0, sj0, h0, sub, go, ge, xdrop, collect=False):
                 p = prev1.get(u - 1)
                 if p is not None:
                     hp, ep, _ = p
-                    if hp > NEG // 2 and hp - go > e: e = hp - go; e_dir = 0
+                    if hp > NEG // 2 and hp - go_open > e: e = hp - go_open; e_dir = 0
                     if ep > NEG // 2 and ep - ge > e: e = ep - ge; e_dir = 1
             # F(u,v)：消耗 subject（query 侧 gap），来自 (u,v-1) 的 H 或 F
             f = NEG; f_dir = -1
             p = prev1.get(u)
             if p is not None:
                 hp, _, fp = p
-                if hp > NEG // 2 and hp - go > f: f = hp - go; f_dir = 0
+                if hp > NEG // 2 and hp - go_open > f: f = hp - go_open; f_dir = 0
                 if fp > NEG // 2 and fp - ge > f: f = fp - ge; f_dir = 2
             # diag
             d = NEG
@@ -188,21 +189,25 @@ def gapped_fwd(q, s, si0, sj0, h0, sub, go, ge, xdrop, collect=False):
 
 
 def recompute(qa, sa, sub, go, ge):
-    """从比对字符串重算得分（gap: 首残基 go，后续 ge）"""
+    """从比对字符串重算得分。
+
+    NCBI 仿射 gap 约定：长度 k 的 gap 代价 = go + k*ge
+    （首个 gap 残基扣 go+ge，其后每个残基扣 ge）。与 SeedExtend.vb 的 DP 一致。
+    """
     score = 0; inq = ins = 0
     for a, b in zip(qa, sa):
         if a != '-' and b != '-':
-            if inq: score -= go + (inq-1)*ge; inq = 0
-            if ins: score -= go + (ins-1)*ge; ins = 0
+            if inq: score -= go + inq*ge; inq = 0
+            if ins: score -= go + ins*ge; ins = 0
             score += sub(a, b)
         elif a != '-':
-            if ins: score -= go + (ins-1)*ge; ins = 0
+            if ins: score -= go + ins*ge; ins = 0
             inq += 1
         else:
-            if inq: score -= go + (inq-1)*ge; inq = 0
+            if inq: score -= go + inq*ge; inq = 0
             ins += 1
-    if inq: score -= go + (inq-1)*ge
-    if ins: score -= go + (ins-1)*ge
+    if inq: score -= go + inq*ge
+    if ins: score -= go + ins*ge
     return score
 
 

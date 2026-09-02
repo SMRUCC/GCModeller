@@ -267,9 +267,17 @@ Namespace Core
         ' X-drop 仿射间隙 DP（前向；后向通过反向前缀复用同一实现）
         ' 状态：H(i,j) 终止于对角列；E(i,j) 终止于 query 残基对 subject gap；
         '       F(i,j) 终止于 query gap 对 subject 残基。
-        '   E = max( H(i-1,j) - gO , E(i-1,j) - gE )
-        '   F = max( H(i,j-1) - gO , F(i,j-1) - gE )
+        '
+        ' gap 代价约定（NCBI，见 https://www.ncbi.nlm.nih.gov/blast/html/gaplambda.html）：
+        '   "charge the score -a for the existence of a gap, and -b for each residue
+        '    in the gap. Thus a gap of k residues receives a total score of -(a+b·k);
+        '    specifically, a gap of length 1 receives -(a+b)."
+        ' 记 open = gO + gE（首个 gap 残基）、extend = gE（其后每个残基）：
+        '   E = max( H(i-1,j) - open , E(i-1,j) - gE )
+        '   F = max( H(i,j-1) - open , F(i,j-1) - gE )
         '   H = max( H(i-1,j-1) + sub , E , F )
+        ' 若沿用「首个残基只扣 gO」，megablast 的 gO=0 会让长度 1 的 gap 完全免费。
+        '
         ' 按反对角线 t = (i-i0)+(j-j0) 迭代；每格记录 H/E/F 三状态回溯方向。
         ' ------------------------------------------------------------------
         Public Function GappedForward(q As Int32(), s As Int32(),
@@ -281,7 +289,8 @@ Namespace Core
             Dim NEG = -1.0E+15
             Dim best = h0
             Dim bu = 0, bv = 0
-            Dim go = opts.GapOpen, ge = opts.GapExtend
+            ' [NCBI] 长度 k 的 gap 代价 = gO + k·gE ⇒ 首个 gap 残基扣 gO+gE，其后每个扣 gE
+            Dim go = opts.GapOpen + opts.GapExtend, ge = opts.GapExtend
 
             Dim prev2H As New Dictionary(Of Integer, Double)()  ' t-2: u -> H
             Dim prev1 As New Dictionary(Of Integer, Tuple(Of Double, Double, Double))() ' t-1: u -> (H,E,F)
