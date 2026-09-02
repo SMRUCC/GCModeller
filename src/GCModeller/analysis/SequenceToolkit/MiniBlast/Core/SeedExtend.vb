@@ -73,8 +73,8 @@ Namespace Core
             Dim lastTrig As New Dictionary(Of Integer, Integer)()  ' diag -> 已延伸到的 i
 
             For j As Integer = 0 To m - span
-                ' 掩码位置不做种子
-                If dbMask IsNot Nothing AndAlso dbMask(j) Then Continue For
+                ' 掩码：整窗 [j, j+span) 任一位置被 DUST/SEG 遮蔽则不作种子
+                If dbMask IsNot Nothing AndAlso WindowMasked(dbMask, j, span) Then Continue For
                 Dim key = lookup.PackAt(dbCodes, j)
                 If key = Long.MinValue Then Continue For   ' 含歧义，无法作种子
 
@@ -89,21 +89,34 @@ Namespace Core
                     If _opts.UseTwoHit Then
                         If lastHit.TryGetValue(diag, prevI) Then
                             Dim d = i - prevI
-                            ' 非重叠（d ≥ word 长度）且相距 ≤ A
-                            If d >= ws AndAlso d <= _opts.WindowTwoHit Then
-                                Dim t As Integer = 0
-                                If Not lastTrig.TryGetValue(diag, t) OrElse i > t Then
-                                    trigger = True
+                            If d >= ws Then
+                                ' 与上一次命中非重叠：窗 A 内成键，触发无 gap 延伸
+                                If d <= _opts.WindowTwoHit Then
+                                    Dim t As Integer = 0
+                                    If Not lastTrig.TryGetValue(diag, t) OrElse i > t Then
+                                        trigger = True
+                                    End If
                                 End If
+                                ' 无论是否触发，这对命中都已消费：以 i 为新起点
+                                lastHit(diag) = i
+                            ElseIf d > _opts.WindowTwoHit OrElse d < 0 Then
+                                ' 超出窗 A（或出现逆序）：丢弃旧命中，以 i 重新起头
+                                lastHit(diag) = i
                             End If
+                            ' 其余情况（0 ≤ d < ws）是与上一次命中重叠的命中：
+                            ' 必须保留旧 lastHit 不覆盖。这是两-hit 法的关键——
+                            ' 若无条件覆盖 lastHit，则完全一致的对角线上每个位置都命中、
+                            ' d 恒为 1 < W，永远配不出非重叠对，精确副本将完全召回不到。
+                        Else
+                            lastHit(diag) = i
                         End If
                     Else
                         Dim t2 As Integer = 0
                         If Not lastTrig.TryGetValue(diag, t2) OrElse i > t2 Then
                             trigger = True
                         End If
+                        lastHit(diag) = i
                     End If
-                    lastHit(diag) = i
 
                     If Not trigger Then Continue For
 
@@ -136,16 +149,68 @@ Namespace Core
                     Dim midS = (prelim.SubjectFrom + prelim.SubjectTo) \ 2
                     Dim hsp = GappedExtend(queryCodes, dbCodes, midQ, midS,
                                            _opts, BitsToRaw(_opts.XdropGapFinalBits), True)
-                    If hsp Is Nothing Then hsp = prelim
-                    If hsp.RawScore < prelim.RawScore Then
-                        hsp = prelim
+                    If hsp Is Nothing OrElse hsp.RawScore < prelim.RawScore Then
+                        ' 最终延伸失败或退化：回退到预延伸。预延伸调用时 collect=False
+                        ' 不带 traceback，直接复用它会产出空比对串，必须以相同参数
+                        ' 重跑一次带 traceback 的延伸。
+                        hsp = GappedExtend(queryCodes, dbCodes, gapSeeds.Item1, gapSeeds.Item2,
+                                           _opts, BitsToRaw(_opts.XdropGapBits), True)
+                        If hsp Is Nothing Then Continue For
                     End If
+                    ' 坐标 / 比对串 / 源序列三者一致性兜底：traceback 不完整时丢弃该 HSP，
+                    ' 避免产出坐标与比对串互相矛盾的结果
+                    If Not AlignMatchesSequence(hsp, queryCodes, dbCodes) Then Continue For
+
                     ComputeAlignStats(hsp)
                     results.Add(hsp)
                 Next
             Next
 
             Return results
+        End Function
+
+        ''' <summary>窗口 [pos, pos+span) 内是否存在被 DUST/SEG 遮蔽的位置</summary>
+        Private Shared Function WindowMasked(mask As Boolean(), pos As Integer, span As Integer) As Boolean
+            Dim last = Math.Min(mask.Length - 1, pos + span - 1)
+            For k As Integer = pos To last
+                If mask(k) Then Return True
+            Next
+            Return False
+        End Function
+
+        ''' <summary>
+        ''' 校验 HSP 的「比对串 ↔ 坐标 ↔ 源序列」三者严格一致：
+        ''' 两条比对串等长；按坐标逐字符走查时非 gap 列的字符必须与源序列相同；
+        ''' 去 gap 后的字符数必须恰好等于坐标跨度。
+        ''' 回溯不完整、状态机错乱或种子字符取错时这里会失败，调用方应丢弃该 HSP。
+        ''' </summary>
+        Private Function AlignMatchesSequence(hsp As RawHsp, q As Int32(), s As Int32()) As Boolean
+            Dim qa = hsp.QueryAlign
+            Dim sa = hsp.SubjectAlign
+            If String.IsNullOrEmpty(qa) OrElse String.IsNullOrEmpty(sa) Then Return False
+            If qa.Length <> sa.Length Then Return False
+            If hsp.QueryFrom < 0 OrElse hsp.QueryTo >= q.Length Then Return False
+            If hsp.SubjectFrom < 0 OrElse hsp.SubjectTo >= s.Length Then Return False
+            If hsp.QueryTo < hsp.QueryFrom OrElse hsp.SubjectTo < hsp.SubjectFrom Then Return False
+
+            Dim qi = hsp.QueryFrom
+            Dim sj = hsp.SubjectFrom
+            For c As Integer = 0 To qa.Length - 1
+                Dim a = qa(c)
+                Dim b = sa(c)
+                If a = "-"c AndAlso b = "-"c Then Return False
+                If a <> "-"c Then
+                    If qi > hsp.QueryTo Then Return False
+                    If EncodeChar(a) <> q(qi) Then Return False
+                    qi += 1
+                End If
+                If b <> "-"c Then
+                    If sj > hsp.SubjectTo Then Return False
+                    If EncodeChar(b) <> s(sj) Then Return False
+                    sj += 1
+                End If
+            Next
+            Return qi = hsp.QueryTo + 1 AndAlso sj = hsp.SubjectTo + 1
         End Function
 
         ''' <summary>无 gap 双侧延伸（最优段必含种子，各侧独立 X-drop）</summary>
@@ -369,7 +434,7 @@ Namespace Core
             ' 前向段：从种子向外（moves 已反转成 seed→best 顺序）
             Dim fq As New StringBuilder(), fs As New StringBuilder()
             fq.Append(DecodeCode(q(ic)))
-            fs.Append(DecodeCode(s(ic)))
+            fs.Append(DecodeCode(s(jc)))   ' subject 起点为 jc（非对角种子时 ic ≠ jc）
             Dim qi = ic, sj = jc
             For Each mv As Byte In fwdMoves
                 If mv = 0 Then
