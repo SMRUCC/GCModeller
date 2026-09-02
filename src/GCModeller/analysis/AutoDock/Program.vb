@@ -112,7 +112,7 @@ Public Module Program
             End If
         End If
 
-        Dim receptor = StructureIO.ReadPdb(Of VinaAtom)(recPath)
+        Dim receptor = StructureIO.ReadPdb(Of VinaAtom, VinaMolecule)(recPath)
         Dim ligand As VinaMolecule
         Dim mode As String
         Dim ligExt = IO.Path.GetExtension(ligPath).ToLowerInvariant()
@@ -122,7 +122,7 @@ Public Module Program
             MolBuilder.AssignTypesSdf(ligand)
             Charges.AssignPoeCharges(ligand, 0.0)
         Else
-            ligand = StructureIO.ReadPdb(Of VinaAtom)(ligPath)
+            ligand = StructureIO.ReadPdb(Of VinaAtom, VinaMolecule)(ligPath)
             mode = "protein-protein"
             MolBuilder.AssignTypesPdb(ligand)
             Charges.AssignProteinCharges(ligand)
@@ -219,7 +219,7 @@ Public Module Program
         Dim ligResname = FlagValue(args, "--ligand-resname")
         Dim nwat = IntArg(args, "--nwat", 0)
 
-        Dim frames = StructureIO.ReadPdbFrames(Of VinaAtom)(complexPath)
+        Dim frames = StructureIO.ReadPdbFrames(Of VinaAtom, VinaMolecule)(complexPath)
         Dim frameResults As New List(Of MmGbsaFrame)()
         Dim modelNo = 0
 
