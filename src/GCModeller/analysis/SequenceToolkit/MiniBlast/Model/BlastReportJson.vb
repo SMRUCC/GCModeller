@@ -36,20 +36,21 @@ Namespace Model
         End Function
 
         ''' <summary>序列化并写入文件（自动创建目录），返回写入的绝对路径</summary>
-        Public Function Save(report As BlastReport, path As String,
+        ''' <remarks>形参名不能叫 path：VB 标识符大小写不敏感，会遮蔽 System.IO.Path</remarks>
+        Public Function Save(report As BlastReport, outputFile As String,
                              Optional pretty As Boolean = True) As String
-            Dim full = Path.GetFullPath(path)
-            Dim dir = Path.GetDirectoryName(full)
-            If Not String.IsNullOrEmpty(dir) AndAlso Not Directory.Exists(dir) Then
-                Directory.CreateDirectory(dir)
+            Dim full = System.IO.Path.GetFullPath(outputFile)
+            Dim dir = System.IO.Path.GetDirectoryName(full)
+            If Not String.IsNullOrEmpty(dir) AndAlso Not System.IO.Directory.Exists(dir) Then
+                System.IO.Directory.CreateDirectory(dir)
             End If
             File.WriteAllText(full, ToJson(report, pretty))
             Return full
         End Function
 
         ''' <summary>从 JSON 文件回读（用于验证导出链路完整性）</summary>
-        Public Function Load(path As String) As BlastReport
-            Return JsonSerializer.Deserialize(Of BlastReport)(File.ReadAllText(path), DefaultOptions)
+        Public Function Load(jsonFile As String) As BlastReport
+            Return JsonSerializer.Deserialize(Of BlastReport)(File.ReadAllText(jsonFile), DefaultOptions)
         End Function
 
         ''' <summary>从 JSON 字符串回读</summary>
