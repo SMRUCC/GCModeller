@@ -30,4 +30,19 @@
     <ProjectReference Include="..\MiniBlast.vbproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="aa_db.fa">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="aa_query.fa">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="nt_db.fa">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="nt_query.fa">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
