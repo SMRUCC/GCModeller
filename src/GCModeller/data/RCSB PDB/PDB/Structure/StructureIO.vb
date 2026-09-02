@@ -27,7 +27,23 @@ Namespace Structures
         ''' <param name="path">The file path of the PDB structure file.</param>
         ''' <returns></returns>
         Public Function ReadPdb(Of T As {Atom, New})(path As String) As Molecule(Of T)
-            Dim frames = ReadPdbFrames(Of T)(path)
+            Return ReadPdb(Of T, Molecule(Of T))(path)
+        End Function
+
+        ''' <summary>
+        ''' Read the first ``MODEL`` frame of the given PDB file into a caller supplied
+        ''' container type.
+        ''' </summary>
+        ''' <typeparam name="T">The atom model type, derived from <see cref="Atom"/>.</typeparam>
+        ''' <typeparam name="TMol">
+        ''' The molecule container type, derived from <see cref="Molecule(Of T)"/>. Naming the
+        ''' concrete container type lets the caller keep a strongly typed subclass
+        ''' (e.g. the AutoDock Vina molecule) without any down-casting.
+        ''' </typeparam>
+        ''' <param name="path">The file path of the PDB structure file.</param>
+        ''' <returns></returns>
+        Public Function ReadPdb(Of T As {Atom, New}, TMol As {Molecule(Of T), New})(path As String) As TMol
+            Dim frames = ReadPdbFrames(Of T, TMol)(path)
 
             If frames.Count = 0 Then Throw New InvalidDataException("PDB 无 ATOM/HETATM 记录: " & path)
 
@@ -42,10 +58,22 @@ Namespace Structures
         ''' <param name="path">The file path of the PDB structure file.</param>
         ''' <returns></returns>
         Public Function ReadPdbFrames(Of T As {Atom, New})(path As String) As List(Of Molecule(Of T))
-            Dim frames As New List(Of Molecule(Of T))()
+            Return ReadPdbFrames(Of T, Molecule(Of T))(path)
+        End Function
+
+        ''' <summary>
+        ''' Read all of the ``MODEL`` frames of the given PDB file into a caller supplied
+        ''' container type.
+        ''' </summary>
+        ''' <typeparam name="T">The atom model type, derived from <see cref="Atom"/>.</typeparam>
+        ''' <typeparam name="TMol">The molecule container type, derived from <see cref="Molecule(Of T)"/>.</typeparam>
+        ''' <param name="path">The file path of the PDB structure file.</param>
+        ''' <returns></returns>
+        Public Function ReadPdbFrames(Of T As {Atom, New}, TMol As {Molecule(Of T), New})(path As String) As List(Of TMol)
+            Dim frames As New List(Of TMol)()
             ' 注意：VB 标识符不区分大小写，此处必须写全限定名，
             ' 否则 Path 会绑定到同名的 path 参数上。
-            Dim mol As New Molecule(Of T)() With {
+            Dim mol As New TMol() With {
                 .Id = System.IO.Path.GetFileNameWithoutExtension(path)
             }
             Dim inModel As Boolean = False
@@ -58,7 +86,7 @@ Namespace Structures
                     If mol.Atoms.Count > 0 Then frames.Add(mol)
                     inModel = False
                     firstModelDone = True
-                    mol = New Molecule(Of T)() With {.Id = mol.Id}
+                    mol = New TMol() With {.Id = mol.Id}
                     Continue For
                 End If
                 If rec = "MODEL" Then
