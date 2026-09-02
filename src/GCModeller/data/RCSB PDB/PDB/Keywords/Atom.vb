@@ -117,11 +117,13 @@ Namespace Keywords
             Dim record As New Terminator()
 
             ' 提取各字段（注意VB.NET字符串索引从0开始）
+            ' 字段可能整列为空（例如 pdbqt 输出里不带序号的裸 TER 行），
+            ' 用 TryParse 而不是 Parse，避免把整份文件解析打断
             record.RecordType = paddedLine.Substring(0, 6).Trim()          ' 列 1-6
-            record.SerialNumber = Integer.Parse(paddedLine.Substring(6, 5).Trim()) ' 列 7-11
+            Integer.TryParse(paddedLine.Substring(6, 5).Trim(), record.SerialNumber) ' 列 7-11
             record.ResidueName = paddedLine.Substring(17, 3).Trim()         ' 列 18-20
             record.ChainID = paddedLine(21)                                 ' 列 22 (索引21)
-            record.ResidueNumber = Integer.Parse(paddedLine.Substring(22, 4).Trim()) ' 列 23-26
+            Integer.TryParse(paddedLine.Substring(22, 4).Trim(), record.ResidueNumber) ' 列 23-26
 
             atoms.ter.Add(record)
 
