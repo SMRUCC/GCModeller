@@ -18,11 +18,7 @@
 ' 残基模板：20 标准氨基酸的原子→类型 与 连接表（供蛋白类型分配与 PEOE）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Text
-
-Namespace MiniDock.Core
+Namespace Core
 
     ''' <summary>Vina 原子类型（重原子）</summary>
     Public Module VinaAtomTypes
@@ -186,7 +182,7 @@ Namespace MiniDock.Core
 
         ''' <summary>为 SDF 小分子分配 Vina 类型</summary>
         Public Sub AssignTypesSdf(mol As Molecule)
-            Dim ringAtoms = RingAtoms(mol.Atoms.Count, mol.Bonds)
+            Dim ringAtoms = ringAtoms(mol.Atoms.Count, mol.Bonds)
             Dim ringSize = RingSizes(mol.Atoms.Count, mol.Bonds, ringAtoms)
 
             For i = 0 To mol.Atoms.Count - 1
@@ -299,7 +295,7 @@ Namespace MiniDock.Core
             Dim results As New List(Of Bond)()
             If n < 4 Then Return Tuple.Create(results, New List(Of List(Of Int32))())
 
-            Dim ringAtoms = RingAtoms(n, mol.Bonds)
+            Dim ringAtoms = ringAtoms(n, mol.Bonds)
             Dim adj(n - 1) As List(Of Int32)
             For i = 0 To n - 1
                 adj(i) = New List(Of Int32)()

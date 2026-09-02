@@ -9,12 +9,9 @@
 '   protein-protein  配体 = 第二条蛋白（PDB，刚体 6 DOF，无扭转）
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
 Imports MiniDock.Model
 
-Namespace MiniDock.Core
+Namespace Core
 
     ''' <summary>IPoseObjective 适配器：绑定配体/受体/扭转树</summary>
     Public Class DockObjective

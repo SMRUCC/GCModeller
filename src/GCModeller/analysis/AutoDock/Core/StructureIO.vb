@@ -9,13 +9,10 @@
 ' SDF 连接性：键块直接给出（order 4 = 芳香）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.IO
-Imports System.Text
 
-Namespace MiniDock.Core
+Namespace Core
 
     ''' <summary>原子（重原子）</summary>
     Public Class Atom

@@ -2,11 +2,9 @@
 ' DockResult.vb — 结构化对接结果对象（JSON DTO，System.Text.Json 序列化）
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Text.Json.Serialization
 
-Namespace MiniDock.Model
+Namespace Model
 
     Public Class DockReport
 

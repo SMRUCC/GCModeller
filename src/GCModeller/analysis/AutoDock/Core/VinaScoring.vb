@@ -15,10 +15,7 @@
 ' 近邻查询用 CellGrid（cell = cutoff），复杂度 O(配体原子 × 邻居数)。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-
-Namespace MiniDock.Core
+Namespace Core
 
     ''' <summary>空间网格（配体求受体近邻用）</summary>
     Public Class CellGrid
@@ -117,7 +114,7 @@ Namespace MiniDock.Core
             Dim dy = ay - by
             Dim dz = az - bz
             Dim r2 = dx * dx + dy * dy + dz * dz
-            If r2 > Cutoff * Cutoff OrElse r2 < 1.0E-9 Then
+            If r2 > Cutoff * Cutoff OrElse r2 < 0.000000001 Then
                 fx = 0 : fy = 0 : fz = 0
                 Return 0.0
             End If
@@ -234,7 +231,7 @@ Namespace MiniDock.Core
                 Dim ayv = ligAtoms(bi).Y - pay
                 Dim azv = ligAtoms(bi).Z - paz
                 Dim na = Math.Sqrt(axv * axv + ayv * ayv + azv * azv)
-                If na < 1.0E-9 Then
+                If na < 0.000000001 Then
                     grads(6 + t) = 0
                     Continue For
                 End If

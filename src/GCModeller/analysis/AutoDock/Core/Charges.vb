@@ -10,10 +10,7 @@
 ' 水：O 固定 −0.8；SDF M CHG 形式电荷在 PEOE 前已置入并按残差校正。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-
-Namespace MiniDock.Core
+Namespace Core
 
     Public Module Charges
 

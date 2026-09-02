@@ -9,10 +9,7 @@
 ' 连接表供 PEOE 电荷计算；键级：C=O 双键，芳环 1.5，其余单键。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-
-Namespace MiniDock.Core
+Namespace Core
 
     Public Module ResidueTemplates
 

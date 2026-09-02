@@ -7,11 +7,9 @@
 ' Metropolis 温度 T = 293.15 K × 0.001987 kcal/(mol·K) ≈ 0.582（Vina 同款）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Math
 
-Namespace MiniDock.Core
+Namespace Core
 
     ''' <summary>姿态算子（应用 DOF 到初始坐标；增量更新；rotvec ↔ 矩阵）</summary>
     Public Module PoseOps
@@ -19,7 +17,7 @@ Namespace MiniDock.Core
         Public Function RotvecToMatrix(rotvec() As Double) As Double(,)
             Dim th = Math.Sqrt(rotvec(0) * rotvec(0) + rotvec(1) * rotvec(1) + rotvec(2) * rotvec(2))
             Dim m(2, 2) As Double
-            If th < 1.0E-12 Then
+            If th < 0.000000000001 Then
                 m(0, 0) = 1 : m(1, 1) = 1 : m(2, 2) = 1
                 Return m
             End If
@@ -35,10 +33,10 @@ Namespace MiniDock.Core
             Dim cosT = 0.5 * (m(0, 0) + m(1, 1) + m(2, 2) - 1.0)
             cosT = Max(-1.0, Min(1.0, cosT))
             Dim th = Acos(cosT)
-            If th < 1.0E-9 Then
+            If th < 0.000000001 Then
                 Return {0.5 * (m(2, 1) - m(1, 2)), 0.5 * (m(0, 2) - m(2, 0)), 0.5 * (m(1, 0) - m(0, 1))}
             End If
-            If Abs(Math.PI - th) < 1.0E-5 Then
+            If Abs(Math.PI - th) < 0.00001 Then
                 Dim k = th / (2.0 * (1.0 + cosT))
                 Return {k * (m(0, 0) + 1.0), k * (m(1, 1) + 1.0), k * (m(2, 2) + 1.0)}
             End If
@@ -101,7 +99,7 @@ Namespace MiniDock.Core
                 Dim azv = outPos(3 * bi + 2) - paz
                 ' 以 (axis, theta) 直接构造旋转（无需归一化回调）
                 Dim n2 = Sqrt(axv * axv + ayv * ayv + azv * azv)
-                If n2 < 1.0E-12 Then Continue For
+                If n2 < 0.000000000001 Then Continue For
                 Dim ux = axv / n2, uy = ayv / n2, uz = azv / n2
                 Dim cc = Cos(theta), ss = Sin(theta), ccc = 1 - cc
                 Dim M(2, 2) As Double

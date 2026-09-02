@@ -23,10 +23,7 @@
 '   的能量计算（水 O 固定电荷 −0.8；最近定义用 O 原子到配体重原子的最小距离）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-
-Namespace MiniDock.Core
+Namespace Core
 
     Public Class MmGbsaResult
 
@@ -150,7 +147,7 @@ Namespace MiniDock.Core
                     Dim r2 = dx * dx + dy * dy + dz * dz
                     Dim Rj = BornRadiusOf(aj)
                     Dim f As Double
-                    If r2 < 1.0E-8 Then
+                    If r2 < 0.00000001 Then
                         f = 0.5 * (Ri + Rj)
                     Else
                         Dim r = Math.Sqrt(r2)
