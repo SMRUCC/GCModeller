@@ -98,14 +98,18 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 <RTypeExport("knowledges", GetType(Dictionary(Of String, MetabolicPathway)))>
 <RTypeExport("modular_pipe", GetType(ModularNetworkPipeline))>
 <RTypeExport("modular_bayesian", GetType(BlockBayesianNetwork))>
+<RTypeExport("bnlearn", GetType(BNLearnWorkflow))>
 Module bnlearn
 
     Sub Main()
-        Call RInternal.generic.add("writeBin", GetType(BlockBayesianNetwork), AddressOf SaveModelZip)
-        Call RInternal.generic.add("readBin.modular_bayesian", GetType(Stream), AddressOf LoadModelZip)
+        Call RInternal.generic.add("writeBin", GetType(BlockBayesianNetwork), AddressOf SaveModelZip1)
+        Call RInternal.generic.add("readBin.modular_bayesian", GetType(Stream), AddressOf LoadModelZip1)
+
+        Call RInternal.generic.add("writeBin", GetType(BNLearnWorkflow), AddressOf SaveModelZip)
+        Call RInternal.generic.add("readBin.bnlearn", GetType(Stream), AddressOf LoadModelZip)
     End Sub
 
-    Private Function SaveModelZip(model As BlockBayesianNetwork, args As list, env As Environment) As Object
+    Private Function SaveModelZip(model As BNLearnWorkflow, args As list, env As Environment) As Object
         Dim con As Stream = args!con
         Call model.SaveModel(con)
         Call con.Flush()
@@ -113,6 +117,17 @@ Module bnlearn
     End Function
 
     Private Function LoadModelZip(s As Stream, args As list, env As Environment) As Object
+        Return BNLearnWorkflow.LoadModel(s)
+    End Function
+
+    Private Function SaveModelZip1(model As BlockBayesianNetwork, args As list, env As Environment) As Object
+        Dim con As Stream = args!con
+        Call model.SaveModel(con)
+        Call con.Flush()
+        Return True
+    End Function
+
+    Private Function LoadModelZip1(s As Stream, args As list, env As Environment) As Object
         Return BlockBayesianNetwork.LoadModel(s)
     End Function
 
