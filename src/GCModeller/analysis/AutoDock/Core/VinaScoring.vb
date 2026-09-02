@@ -15,6 +15,8 @@
 ' 近邻查询用 CellGrid（cell = cutoff），复杂度 O(配体原子 × 邻居数)。
 ' ============================================================================
 
+Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
+
 Namespace Core
 
     ''' <summary>空间网格（配体求受体近邻用）</summary>
@@ -22,9 +24,9 @@ Namespace Core
 
         Private ReadOnly _cells As New Dictionary(Of Int64, List(Of Int32))()
         Private ReadOnly _cellSize As Double
-        Private ReadOnly _atoms As List(Of Atom)
+        Private ReadOnly _atoms As List(Of VinaAtom)
 
-        Public Sub New(atoms As List(Of Atom), cellSize As Double)
+        Public Sub New(atoms As List(Of VinaAtom), cellSize As Double)
             _atoms = atoms
             _cellSize = cellSize
             For i = 0 To atoms.Count - 1
@@ -47,7 +49,7 @@ Namespace Core
 
         ''' <summary>访问 (x,y,z) 半径 radius 内的全部原子（回调避免分配）</summary>
         Public Sub ForNeighbors(x As Double, y As Double, z As Double, radius As Double,
-                                action As Action(Of Atom))
+                                action As Action(Of VinaAtom))
             Dim cx = CInt(Math.Floor(x / _cellSize))
             Dim cy = CInt(Math.Floor(y / _cellSize))
             Dim cz = CInt(Math.Floor(z / _cellSize))
@@ -96,11 +98,11 @@ Namespace Core
         Public Const Cutoff As Double = 8.0
         Public Const RotatableWeight As Double = 0.0585
 
-        Private ReadOnly _recAtoms As List(Of Atom)
+        Private ReadOnly _recAtoms As List(Of VinaAtom)
         Private ReadOnly _recGrid As CellGrid
 
         ''' <summary>受体重建网格（蛋白/水，作为刚性环境）</summary>
-        Public Sub New(receptorAtoms As List(Of Atom))
+        Public Sub New(receptorAtoms As List(Of VinaAtom))
             _recAtoms = receptorAtoms
             _recGrid = New CellGrid(receptorAtoms, Cutoff)
         End Sub
@@ -162,7 +164,7 @@ Namespace Core
         ''' interPairs：仅配体×受体；intraPairs：配体内距 &gt;3 键的原子对。
         ''' grads 长度 = 6 + nTorsions（trans3, rot3, torsionN）。
         ''' </summary>
-        Public Function Evaluate(ligAtoms As List(Of Atom),
+        Public Function Evaluate(ligAtoms As List(Of VinaAtom),
                                  rigidCenter() As Double,
                                  intraI() As Int32, intraJ() As Int32,
                                  torsionAxes() As Int32,
@@ -180,7 +182,7 @@ Namespace Core
                 Dim ta = a.VinaType
                 Dim ex As Double = 0, ey As Double = 0, ez As Double = 0
                 _recGrid.ForNeighbors(a.X, a.Y, a.Z, Cutoff,
-                    Sub(b As Atom)
+                    Sub(b As VinaAtom)
                         Dim tfx As Double, tfy As Double, tfz As Double
                         inter += ScorePair(a.X, a.Y, a.Z, b.X, b.Y, b.Z, ta, b.VinaType, tfx, tfy, tfz)
                         ex += tfx : ey += tfy : ez += tfz

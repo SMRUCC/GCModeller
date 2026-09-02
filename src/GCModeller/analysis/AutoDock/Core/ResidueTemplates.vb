@@ -9,6 +9,8 @@
 ' 连接表供 PEOE 电荷计算；键级：C=O 双键，芳环 1.5，其余单键。
 ' ============================================================================
 
+Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
+
 Namespace Core
 
     Public Module ResidueTemplates

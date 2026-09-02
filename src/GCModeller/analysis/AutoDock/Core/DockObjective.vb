@@ -1,4 +1,6 @@
-﻿Namespace Core
+﻿Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
+
+Namespace Core
 
 
     ''' <summary>IPoseObjective 适配器：绑定配体/受体/扭转树</summary>
@@ -6,7 +8,7 @@
         Implements IPoseObjective
 
         Private ReadOnly _baseCoords(,) As Double        ' 配体初始坐标 (n,3)
-        Private ReadOnly _ligAtoms As List(Of Atom)      ' 配体原子（类型/半径在 atom 上）
+        Private ReadOnly _ligAtoms As List(Of VinaAtom)      ' 配体原子（类型/半径在 atom 上）
         Private ReadOnly _scorer As VinaScorer
         Private ReadOnly _axes() As Int32
         Private ReadOnly _branches As List(Of List(Of Int32))
@@ -15,7 +17,7 @@
         Private ReadOnly _workPos() As Double
         Private ReadOnly _rigidCenter(2) As Double
 
-        Public Sub New(baseCoords(,) As Double, ligAtoms As List(Of Atom), scorer As VinaScorer,
+        Public Sub New(baseCoords(,) As Double, ligAtoms As List(Of VinaAtom), scorer As VinaScorer,
                        axes() As Int32, branches As List(Of List(Of Int32)),
                        intraI() As Int32, intraJ() As Int32)
             _baseCoords = baseCoords

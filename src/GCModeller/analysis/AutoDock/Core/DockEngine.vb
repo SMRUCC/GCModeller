@@ -10,6 +10,7 @@
 ' ============================================================================
 
 Imports MiniDock.Model
+Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
 
 Namespace Core
 
@@ -18,7 +19,7 @@ Namespace Core
         ''' <summary>
         ''' 执行对接。receptorMol / ligandMol 已完成类型与电荷分配。
         ''' </summary>
-        Public Shared Function Dock(receptorMol As Molecule, ligandMol As Molecule,
+        Public Shared Function Dock(receptorMol As VinaMolecule, ligandMol As VinaMolecule,
                                     opts As DockOptions) As LigandResult
             ' 1. 内部 1-4 以上原子对（配体柔性时）
             Dim intraI() As Int32 = Nothing
@@ -134,7 +135,7 @@ Namespace Core
         End Function
 
         ''' <summary>构建配体内部 1-4 以上原子对索引（初始距离 &lt; 2×cutoff）</summary>
-        Private Shared Sub BuildIntraPairs(mol As Molecule, ByRef intraI() As Int32, ByRef intraJ() As Int32)
+        Private Shared Sub BuildIntraPairs(mol As VinaMolecule, ByRef intraI() As Int32, ByRef intraJ() As Int32)
             Dim n = mol.Atoms.Count
             Dim sep = BondSeparation(mol)
             Dim ii As New List(Of Int32)()
@@ -162,7 +163,7 @@ Namespace Core
         End Sub
 
         ''' <summary>原子对键分离度（BFS 多源；忽略；返回 ≤4 的对）</summary>
-        Private Shared Function BondSeparation(mol As Molecule) As HashSet(Of Long)
+        Private Shared Function BondSeparation(mol As VinaMolecule) As HashSet(Of Long)
             Dim n = mol.Atoms.Count
             Dim adj(n - 1) As List(Of Int32)
             For i = 0 To n - 1
@@ -206,11 +207,11 @@ Namespace Core
         ''' MM-GBSA 重打分（对接姿态或独立复合物帧）。
         ''' recAll：受体全部原子（含水）；ligAtoms：配体原子；nwat：保留水数。
         ''' </summary>
-        Public Shared Function MmGbsaRescore(recAll As List(Of Atom), ligAtoms As List(Of Atom),
+        Public Shared Function MmGbsaRescore(recAll As List(Of VinaAtom), ligAtoms As List(Of VinaAtom),
                                              nwat As Int32) As MmGbsaResult
             ' 水分组
-            Dim waters As New List(Of Atom)()
-            Dim recNoWater As New List(Of Atom)()
+            Dim waters As New List(Of VinaAtom)()
+            Dim recNoWater As New List(Of VinaAtom)()
             For Each a In recAll
                 If a.IsWater Then
                     waters.Add(a)
@@ -219,7 +220,7 @@ Namespace Core
                 End If
             Next
 
-            Dim recSide As New List(Of Atom)()
+            Dim recSide As New List(Of VinaAtom)()
             recSide.AddRange(recNoWater)
             Dim nSelected As Int32 = 0
             If nwat > 0 AndAlso waters.Count > 0 Then

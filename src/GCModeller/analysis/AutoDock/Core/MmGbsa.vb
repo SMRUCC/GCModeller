@@ -23,6 +23,8 @@
 '   的能量计算（水 O 固定电荷 −0.8；最近定义用 O 原子到配体重原子的最小距离）。
 ' ============================================================================
 
+Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
+
 Namespace Core
 
     Public Class MmGbsaResult
@@ -59,7 +61,7 @@ Namespace Core
             {"F", 1.5}, {"Cl", 1.8}, {"Br", 2.0}, {"I", 2.1},
             {"MG", 1.2}, {"CA", 1.5}, {"FE", 1.2}, {"ZN", 1.2}, {"MN", 1.2}}
 
-        Private Sub FillLjAndBorn(a As Atom)
+        Private Sub FillLjAndBorn(a As VinaAtom)
             If a.LjEps > 0 Then Return   ' 已填
             Dim p() As Double = Nothing
             If Not LjParams.TryGetValue(a.Element, p) Then p = {0.086, 1.908}
@@ -67,7 +69,7 @@ Namespace Core
             a.LjRmin = p(1)
         End Sub
 
-        Private Function BornRadiusOf(a As Atom) As Double
+        Private Function BornRadiusOf(a As VinaAtom) As Double
             Dim r As Double = 1.7
             If BornRadii.TryGetValue(a.Element, r) Then Return r
             Return 1.7
@@ -77,7 +79,7 @@ Namespace Core
         ''' 单点 MM-GBSA。recAtoms：受体侧（含选定的 Nwat 水）；ligAtoms：配体侧。
         ''' 内部项抵消（1A 单一轨迹），只算分子间 vdW/Coulomb + 三态溶剂化差。
         ''' </summary>
-        Public Function EvaluateSinglePoint(recAtoms As List(Of Atom), ligAtoms As List(Of Atom)) As MmGbsaResult
+        Public Function EvaluateSinglePoint(recAtoms As List(Of VinaAtom), ligAtoms As List(Of VinaAtom)) As MmGbsaResult
             For Each a In recAtoms : FillLjAndBorn(a) : Next
             For Each a In ligAtoms : FillLjAndBorn(a) : Next
 
@@ -107,13 +109,13 @@ Namespace Core
             ' ---- GB 三态差 ----
             Dim gComplex = GbEnergy(recAtoms, ligAtoms)
             Dim gRec = GbEnergy(recAtoms, Nothing)
-            Dim gLig = GbEnergy(New List(Of Atom)(), ligAtoms)
+            Dim gLig = GbEnergy(New List(Of VinaAtom)(), ligAtoms)
             Dim gbPolar = gComplex - gRec - gLig
 
             ' ---- SASA 三态差 ----
             Dim sComplex = TotalSasa(recAtoms, ligAtoms)
             Dim sRec = TotalSasa(recAtoms, Nothing)
-            Dim sLig = TotalSasa(New List(Of Atom)(), ligAtoms)
+            Dim sLig = TotalSasa(New List(Of VinaAtom)(), ligAtoms)
             Dim sasNonpolar = Gamma * (sComplex - sRec - sLig)
 
             Dim result As New MmGbsaResult With {
@@ -124,7 +126,7 @@ Namespace Core
         End Function
 
         ''' <summary>GB 极性溶剂化能（单态）</summary>
-        Private Function GbEnergy(recAtoms As List(Of Atom), ligAtoms As List(Of Atom)) As Double
+        Private Function GbEnergy(recAtoms As List(Of VinaAtom), ligAtoms As List(Of VinaAtom)) As Double
             ' 合并原子列表（避免分配：直接双段循环）
             Dim nRec = recAtoms.Count
             Dim nLig = If(ligAtoms IsNot Nothing, ligAtoms.Count, 0)
@@ -160,9 +162,9 @@ Namespace Core
         End Function
 
         ''' <summary>全部原子 SASA 总和（Shrake-Rupley）</summary>
-        Public Function TotalSasa(recAtoms As List(Of Atom), ligAtoms As List(Of Atom)) As Double
+        Public Function TotalSasa(recAtoms As List(Of VinaAtom), ligAtoms As List(Of VinaAtom)) As Double
             ' 构建点集 + 邻居表
-            Dim all As New List(Of Atom)()
+            Dim all As New List(Of VinaAtom)()
             all.AddRange(recAtoms)
             If ligAtoms IsNot Nothing Then all.AddRange(ligAtoms)
             If all.Count = 0 Then Return 0
@@ -203,7 +205,7 @@ Namespace Core
                     Dim sz = a.Z + pts(k, 2) * ri
                     Dim blocked = False
                     grid.ForNeighbors(sx, sy, sz, 4.5,
-                        Sub(b As Atom)
+                        Sub(b As VinaAtom)
                             If blocked OrElse b Is a Then Exit Sub
                             Dim dx = sx - b.X
                             Dim dy = sy - b.Y
@@ -224,7 +226,7 @@ Namespace Core
         ''' Nwat 水选择：按 水 O 到配体重原子最小距离 升序取前 nwat 个。
         ''' waters：全部水 O 原子；返回入选索引。
         ''' </summary>
-        Public Function SelectNwat(waters As List(Of Atom), ligAtoms As List(Of Atom), nwat As Int32) As List(Of Int32)
+        Public Function SelectNwat(waters As List(Of VinaAtom), ligAtoms As List(Of VinaAtom), nwat As Int32) As List(Of Int32)
             Dim ranked As New List(Of Tuple(Of Double, Int32))()
             For w = 0 To waters.Count - 1
                 Dim best = Double.PositiveInfinity

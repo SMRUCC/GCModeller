@@ -24,6 +24,7 @@ Imports System.Text.Json
 Imports System.Text.Json.Serialization
 Imports MiniDock.Core
 Imports MiniDock.Model
+Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
 
 
 Public Module Program
@@ -111,17 +112,17 @@ Public Module Program
             End If
         End If
 
-        Dim receptor = StructureIO.ReadPdb(recPath)
-        Dim ligand As Molecule
+        Dim receptor = StructureIO.ReadPdb(Of VinaAtom)(recPath)
+        Dim ligand As VinaMolecule
         Dim mode As String
         Dim ligExt = IO.Path.GetExtension(ligPath).ToLowerInvariant()
         If ligExt = ".sdf" OrElse ligExt = ".mol" Then
-            ligand = StructureIO.ReadSdf(ligPath)
+            ligand = SdfIO.ReadSdf(ligPath)
             mode = "ligand"
             MolBuilder.AssignTypesSdf(ligand)
             Charges.AssignPoeCharges(ligand, 0.0)
         Else
-            ligand = StructureIO.ReadPdb(ligPath)
+            ligand = StructureIO.ReadPdb(Of VinaAtom)(ligPath)
             mode = "protein-protein"
             MolBuilder.AssignTypesPdb(ligand)
             Charges.AssignProteinCharges(ligand)
@@ -141,13 +142,13 @@ Public Module Program
         If opts.Mmgbsa Then
             For k = 0 To Math.Min(opts.MmgbsaTop, lr.Poses.Count) - 1
                 Dim pose = lr.Poses(k)
-                Dim poseAtoms As New List(Of Atom)()
+                Dim poseAtoms As New List(Of VinaAtom)()
                 For Each pa In pose.Atoms
-                    poseAtoms.Add(New Atom With {.X = pa.X, .Y = pa.Y, .Z = pa.Z,
-                                                 .Element = pa.Element, .ChainId = "L",
-                                                 .ResName = If(mode = "ligand", "LIG", pa.ResName),
-                                                 .ResSeq = 1, .AtomName = pa.AtomName,
-                                                 .FromReceptor = False})
+                    poseAtoms.Add(New VinaAtom With {.X = pa.X, .Y = pa.Y, .Z = pa.Z,
+                                                     .Element = pa.Element, .ChainID = "L",
+                                                     .ResName = If(mode = "ligand", "LIG", pa.ResName),
+                                                     .ResSeq = 1, .AtomName = pa.AtomName,
+                                                     .FromReceptor = False})
                 Next
                 ' 配体电荷：ligand.Mol 的 PEOE 电荷按原子序映射到姿态原子
                 ' （SDF 与 PDB 配体均在对接前完成电荷分配）
@@ -218,14 +219,14 @@ Public Module Program
         Dim ligResname = FlagValue(args, "--ligand-resname")
         Dim nwat = IntArg(args, "--nwat", 0)
 
-        Dim frames = StructureIO.ReadPdbFrames(complexPath)
+        Dim frames = StructureIO.ReadPdbFrames(Of VinaAtom)(complexPath)
         Dim frameResults As New List(Of MmGbsaFrame)()
         Dim modelNo = 0
 
         For Each mol In frames
             modelNo += 1
-            Dim rec As New List(Of Atom)()
-            Dim lig As New List(Of Atom)()
+            Dim rec As New List(Of VinaAtom)()
+            Dim lig As New List(Of VinaAtom)()
             For Each a In mol.Atoms
                 If a.IsWater Then Continue For
                 Dim isLig As Boolean = False

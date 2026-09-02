@@ -13,6 +13,7 @@
 ' ============================================================================
 
 Imports MiniDock.Core
+Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
 
 Public Module SelfTest
 
@@ -49,8 +50,8 @@ Public Module SelfTest
     ' ---------------- 测试体系构建 ----------------
 
     ''' <summary>合成口袋受体：球壳 6-8Å 上 60 个原子 + 类型</summary>
-    Private Function BuildPocketReceptor() As Molecule
-        Dim mol As New Molecule With {.Id = "pocket"}
+    Private Function BuildPocketReceptor() As VinaMolecule
+        Dim mol As New VinaMolecule With {.Id = "pocket"}
         For i = 1 To 60
             Dim v(2) As Double
             Do
@@ -65,7 +66,7 @@ Public Module SelfTest
                 End If
             Loop
             Dim typeName = {"C", "C", "OA", "N", "NA", "A"}(_rng.Next(6))
-            mol.Atoms.Add(New Atom With {.X = v(0), .Y = v(1), .Z = v(2), .Element = "C"})
+            mol.Atoms.Add(New VinaAtom With {.X = v(0), .Y = v(1), .Z = v(2), .Element = "C"})
             mol.Atoms(mol.Atoms.Count - 1).VinaType = TypeByName(typeName)
         Next
         Return mol
@@ -85,12 +86,12 @@ Public Module SelfTest
     End Function
 
     ''' <summary>直链醇配体（6 重原子，2 可旋转键）：C-C-C-OA-C-N 型</summary>
-    Private Function BuildChainLigand() As Molecule
-        Dim mol As New Molecule With {.Id = "chain"}
+    Private Function BuildChainLigand() As VinaMolecule
+        Dim mol As New VinaMolecule With {.Id = "chain"}
         Dim types = {VinaAtomTypes.TC, VinaAtomTypes.TC, VinaAtomTypes.TC,
                      VinaAtomTypes.TOA, VinaAtomTypes.TC, VinaAtomTypes.TN}
         For i = 0 To 5
-            mol.Atoms.Add(New Atom With {
+            mol.Atoms.Add(New VinaAtom With {
                 .X = 0.5 * i, .Y = 0.06 * (i Mod 3), .Z = 0.1 * i,
                 .Element = If(types(i) = VinaAtomTypes.TOA, "O", "C"),
                 .VinaType = types(i)})
@@ -102,7 +103,7 @@ Public Module SelfTest
     End Function
 
     ''' <summary>目标函数（inter + intra 全量）</summary>
-    Private Function BuildObjective(lig As Molecule, rec As Molecule) As (obj As DockObjective, axes As Int32())
+    Private Function BuildObjective(lig As VinaMolecule, rec As VinaMolecule) As (obj As DockObjective, axes As Int32())
         Dim n = lig.Atoms.Count
         Dim bc(n - 1, 2) As Double
         For i = 0 To n - 1
@@ -136,7 +137,7 @@ Public Module SelfTest
         Return (obj, axes)
     End Function
 
-    Private Function BondSepSet(lig As Molecule) As HashSet(Of Int64)
+    Private Function BondSepSet(lig As VinaMolecule) As HashSet(Of Int64)
         Dim n = lig.Atoms.Count
         Dim adj(n - 1) As List(Of Int32)
         For i = 0 To n - 1
@@ -322,7 +323,7 @@ Public Module SelfTest
 
     Private Sub TestSasa()
         Console.WriteLine("-- SASA --")
-        Dim one As New List(Of Atom) From {New Atom With {.X = 0, .Y = 0, .Z = 0, .Element = "C"}}
+        Dim one As New List(Of VinaAtom) From {New VinaAtom With {.X = 0, .Y = 0, .Z = 0, .Element = "C"}}
         Dim s = MmGbsa.TotalSasa(one, Nothing)
         Dim expect = 4.0 * Math.PI * (1.908 + 1.4) ^ 2
         Dim rel = Math.Abs(s - expect) / expect
@@ -333,10 +334,10 @@ Public Module SelfTest
     Private Sub TestGb()
         Console.WriteLine("-- GB --")
         ' 两原子远距：交叉项 ≈ -(1-1/ε)q₁q₂/r
-        Dim a As New List(Of Atom) From {New Atom With {.X = 0, .Y = 0, .Z = 0, .Element = "O", .Charge = -0.5}}
-        Dim b As New List(Of Atom) From {New Atom With {.X = 100, .Y = 0, .Z = 0, .Element = "N", .Charge = 0.5}}
+        Dim a As New List(Of VinaAtom) From {New VinaAtom With {.X = 0, .Y = 0, .Z = 0, .Element = "O", .Charge = -0.5}}
+        Dim b As New List(Of VinaAtom) From {New VinaAtom With {.X = 100, .Y = 0, .Z = 0, .Element = "N", .Charge = 0.5}}
         Dim g = MmGbsa.TotalSasa(a, b) ' 占位防优化
-        Dim gb = MmGbsa.EvaluateSinglePoint(New List(Of Atom)(a), New List(Of Atom)(b))
+        Dim gb = MmGbsa.EvaluateSinglePoint(New List(Of VinaAtom)(a), New List(Of VinaAtom)(b))
         ' 交叉项理论：-(1-1/ε)·q₁q₂/r（Born 屏蔽指数衰减为 0）
         Dim expectCross = -(1 - 1 / 78.5) * (-0.5) * 0.5 / 100.0
         ' 自项：-(1/2)(1-1/ε)(q₁²/R₁ + q₂²/R₂) 三态相减后抵消（同一构象）
@@ -348,16 +349,16 @@ Public Module SelfTest
 
     Private Sub TestNwat()
         Console.WriteLine("-- Nwat 最近水选择 --")
-        Dim lig As New List(Of Atom) From {
-            New Atom With {.X = 0, .Y = 0, .Z = 0},
-            New Atom With {.X = 1, .Y = 0, .Z = 0}}
-        Dim waters As New List(Of Atom) From {
-            New Atom With {.X = 3, .Y = 0, .Z = 0},
-            New Atom With {.X = 2.5, .Y = 0.5, .Z = 0},
-            New Atom With {.X = 1.2, .Y = 0.1, .Z = 0},
-            New Atom With {.X = 5, .Y = 5, .Z = 5},
-            New Atom With {.X = 1.5, .Y = 0, .Z = 0},
-            New Atom With {.X = 10, .Y = 0, .Z = 0}}
+        Dim lig As New List(Of VinaAtom) From {
+            New VinaAtom With {.X = 0, .Y = 0, .Z = 0},
+            New VinaAtom With {.X = 1, .Y = 0, .Z = 0}}
+        Dim waters As New List(Of VinaAtom) From {
+            New VinaAtom With {.X = 3, .Y = 0, .Z = 0},
+            New VinaAtom With {.X = 2.5, .Y = 0.5, .Z = 0},
+            New VinaAtom With {.X = 1.2, .Y = 0.1, .Z = 0},
+            New VinaAtom With {.X = 5, .Y = 5, .Z = 5},
+            New VinaAtom With {.X = 1.5, .Y = 0, .Z = 0},
+            New VinaAtom With {.X = 10, .Y = 0, .Z = 0}}
         Dim sel = MmGbsa.SelectNwat(waters, lig, 3)
         Check(sel.Count = 3 AndAlso sel(0) = 2 AndAlso sel(1) = 4 AndAlso sel(2) = 1,
               $"Nwat=3 选择索引 = ({sel(0)},{sel(1)},{sel(2)}) 期望 (2,4,1)")
@@ -368,10 +369,10 @@ Public Module SelfTest
     Private Sub TestPoe()
         Console.WriteLine("-- PEOE 电荷 --")
         ' 乙醇分子：C-C-O
-        Dim mol As New Molecule With {.Id = "ethanol"}
-        mol.Atoms.Add(New Atom With {.X = 0, .Y = 0, .Z = 0, .Element = "C"})
-        mol.Atoms.Add(New Atom With {.X = 1.5, .Y = 0, .Z = 0, .Element = "C"})
-        mol.Atoms.Add(New Atom With {.X = 2.9, .Y = 0.9, .Z = 0, .Element = "O"})
+        Dim mol As New VinaMolecule With {.Id = "ethanol"}
+        mol.Atoms.Add(New VinaAtom With {.X = 0, .Y = 0, .Z = 0, .Element = "C"})
+        mol.Atoms.Add(New VinaAtom With {.X = 1.5, .Y = 0, .Z = 0, .Element = "C"})
+        mol.Atoms.Add(New VinaAtom With {.X = 2.9, .Y = 0.9, .Z = 0, .Element = "O"})
         mol.Bonds.Add(New Bond(0, 1, 1.0))
         mol.Bonds.Add(New Bond(1, 2, 1.0))
         Charges.AssignPoeCharges(mol, 0.0)
@@ -396,7 +397,7 @@ Public Module SelfTest
             "M  END"}
         Dim tmp = IO.Path.Combine(IO.Path.GetTempPath(), "minidock_test.sdf")
         IO.File.WriteAllLines(tmp, sdf)
-        Dim mol = StructureIO.ReadSdf(tmp)
+        Dim mol = SdfIO.ReadSdf(tmp)
         MolBuilder.AssignTypesSdf(mol)
         Dim tt = MolBuilder.BuildTorsionTree(mol)
         Check(mol.Atoms.Count = 3 AndAlso mol.Bonds.Count = 2, "SDF 解析")
@@ -404,10 +405,10 @@ Public Module SelfTest
         Check(mol.Atoms(2).VinaType = VinaAtomTypes.TOA, "O → OA")
 
         ' 苯：0 可旋转
-        Dim benz As New Molecule With {.Id = "benzene"}
+        Dim benz As New VinaMolecule With {.Id = "benzene"}
         For i = 0 To 5
             Dim ang = 2.0 * Math.PI * i / 6.0
-            benz.Atoms.Add(New Atom With {.X = Math.Cos(ang) * 1.39, .Y = Math.Sin(ang) * 1.39, .Z = 0, .Element = "C"})
+            benz.Atoms.Add(New VinaAtom With {.X = Math.Cos(ang) * 1.39, .Y = Math.Sin(ang) * 1.39, .Z = 0, .Element = "C"})
         Next
         For i = 0 To 5
             benz.Bonds.Add(New Bond(i, (i + 1) Mod 6, 1.5))
@@ -435,12 +436,12 @@ Public Module SelfTest
             Check(best.VinaScore <= 0.0, "最优姿态结合自由能 ≤ 0")
 
             ' MM-GBSA 重打分
-            Dim poseAtoms As New List(Of Atom)()
+            Dim poseAtoms As New List(Of VinaAtom)()
             For Each pa In best.Atoms
-                poseAtoms.Add(New Atom With {.X = pa.X, .Y = pa.Y, .Z = pa.Z,
+                poseAtoms.Add(New VinaAtom With {.X = pa.X, .Y = pa.Y, .Z = pa.Z,
                                              .Element = pa.Element, .FromReceptor = False})
             Next
-            Charges.AssignPoeCharges(New Molecule With {.Atoms = poseAtoms, .Bonds = lig.Bonds}, 0.0)
+            Charges.AssignPoeCharges(New VinaMolecule With {.Atoms = poseAtoms, .Bonds = lig.Bonds}, 0.0)
             Dim r = DockEngine.MmGbsaRescore(rec.Atoms, poseAtoms, 5)
             Console.WriteLine($"  MM-GBSA: ΔG={r.DeltaG:F2} (vdw {r.Vdw:F2}, elec {r.Elec:F2}, gb {r.GbPolar:F2}, sasa {r.SasNonpolar:F3}, nwat {r.NwatSelected})")
             Check(r.Vdw < 0, "MM-GBSA vdW 为吸引（负值）")

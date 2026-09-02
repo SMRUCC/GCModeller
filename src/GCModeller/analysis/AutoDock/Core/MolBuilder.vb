@@ -18,6 +18,8 @@
 ' 残基模板：20 标准氨基酸的原子→类型 与 连接表（供蛋白类型分配与 PEOE）。
 ' ============================================================================
 
+Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
+
 Namespace Core
 
     ''' <summary>Vina 原子类型（重原子）</summary>
@@ -161,7 +163,7 @@ Namespace Core
         ' ---------------- 原子类型分配 ----------------
 
         ''' <summary>判断酰胺 N：N 的邻居中有 C 且该 C 双键连 O</summary>
-        Private Function IsAmideNitrogen(idx As Int32, atoms As List(Of Atom), bonds As List(Of Bond)) As Boolean
+        Private Function IsAmideNitrogen(idx As Int32, atoms As List(Of VinaAtom), bonds As List(Of Bond)) As Boolean
             Dim neighbors As New List(Of Int32)()
             For Each b In bonds
                 If b.A = idx Then neighbors.Add(b.B)
@@ -181,7 +183,7 @@ Namespace Core
         End Function
 
         ''' <summary>为 SDF 小分子分配 Vina 类型</summary>
-        Public Sub AssignTypesSdf(mol As Molecule)
+        Public Sub AssignTypesSdf(mol As VinaMolecule)
             Dim ringAtoms = MolBuilder.RingAtoms(mol.Atoms.Count, mol.Bonds)
             Dim ringSize = RingSizes(mol.Atoms.Count, mol.Bonds, ringAtoms)
 
@@ -223,7 +225,7 @@ Namespace Core
             Next
         End Sub
 
-        Private Function IsAromaticRingAtom(mol As Molecule, idx As Int32, ringAtoms As HashSet(Of Int32)) As Boolean
+        Private Function IsAromaticRingAtom(mol As VinaMolecule, idx As Int32, ringAtoms As HashSet(Of Int32)) As Boolean
             ' SDF order=4 或 1.5 → 显式芳香；否则 5/6 元环内 C/N 混合且键级交替近似判定
             Dim orders As New List(Of Double)()
             For Each b In mol.Bonds
@@ -253,7 +255,7 @@ Namespace Core
         End Function
 
         ''' <summary>为 PDB 蛋白/配体分配类型（残基模板 + 通用规则）</summary>
-        Public Sub AssignTypesPdb(mol As Molecule)
+        Public Sub AssignTypesPdb(mol As VinaMolecule)
             Dim hetIdx As New List(Of Int32)()
             For i = 0 To mol.Atoms.Count - 1
                 Dim a = mol.Atoms(i)
@@ -270,13 +272,13 @@ Namespace Core
             Next
             ' 模板未覆盖的残基（HETATM 配体等）：距离感知成键 + SDF 规则
             If hetIdx.Count > 0 Then
-                Dim [sub] As New Molecule()
+                Dim [sub] As New VinaMolecule()
                 Dim map As New Dictionary(Of Int32, Int32)()
                 For Each i In hetIdx
                     map(i) = [sub].Atoms.Count
                     [sub].Atoms.Add(mol.Atoms(i))
                 Next
-                PerceiveBonds([sub])
+                StructureIO.PerceiveBonds([sub])
                 AssignTypesSdf([sub])
                 For Each kv In map
                     mol.Atoms(kv.Key).VinaType = [sub].Atoms(kv.Value).VinaType
@@ -290,7 +292,7 @@ Namespace Core
         ''' 找可旋转键并构建扭转树。返回（键列表，branch 列表）。
         ''' 判据：单键、两端不在环上、非酰胺 C-N、非端基键。
         ''' </summary>
-        Public Function BuildTorsionTree(mol As Molecule) As Tuple(Of List(Of Bond), List(Of List(Of Int32)))
+        Public Function BuildTorsionTree(mol As VinaMolecule) As Tuple(Of List(Of Bond), List(Of List(Of Int32)))
             Dim n = mol.Atoms.Count
             Dim results As New List(Of Bond)()
             If n < 4 Then Return Tuple.Create(results, New List(Of List(Of Int32))())

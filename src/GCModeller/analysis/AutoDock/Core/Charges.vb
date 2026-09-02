@@ -10,6 +10,8 @@
 ' 水：O 固定 −0.8；SDF M CHG 形式电荷在 PEOE 前已置入并按残差校正。
 ' ============================================================================
 
+Imports SMRUCC.genomics.Data.RCSB.PDB.Structures
+
 Namespace Core
 
     Public Module Charges
@@ -36,7 +38,7 @@ Namespace Core
 
 
         ''' <summary>对整分子做 PEOE；中性化后按 totalChargeTarget 校正最后一个极性原子</summary>
-        Public Sub AssignPoeCharges(mol As Molecule, totalChargeTarget As Double)
+        Public Sub AssignPoeCharges(mol As VinaMolecule, totalChargeTarget As Double)
             Dim n = mol.Atoms.Count
             Dim q(n - 1) As Double
 
@@ -114,7 +116,7 @@ Namespace Core
         End Sub
 
         ''' <summary>蛋白：逐残基 PEOE + 形式电荷；水：O = −0.8</summary>
-        Public Sub AssignProteinCharges(mol As Molecule)
+        Public Sub AssignProteinCharges(mol As VinaMolecule)
             ' 按残基分组
             Dim groups As New Dictionary(Of String, List(Of Int32))()
             For i = 0 To mol.Atoms.Count - 1
@@ -128,7 +130,7 @@ Namespace Core
             For Each kv In groups
                 Dim idxList = kv.Value
                 Dim resName = mol.Atoms(idxList(0)).ResName
-                Dim [sub] As New Molecule With {.Id = resName}
+                Dim [sub] As New VinaMolecule With {.Id = resName}
                 For Each i In idxList
                     [sub].Atoms.Add(mol.Atoms(i))
                 Next
