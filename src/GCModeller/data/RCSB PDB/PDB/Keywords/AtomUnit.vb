@@ -96,69 +96,127 @@ Namespace Keywords
     ''' <summary>
     ''' the amino acid residue/atom model
     ''' </summary>
-    Public Class AtomUnit
+    ''' <remarks>
+    ''' This type is the keyword level view of the unified atom model: all of the field
+    ''' storages are moved into the base class <see cref="Structures.Atom"/>, and the legacy
+    ''' property names are kept here as the compatibility aliases, so that the existing
+    ''' consumers (``AminoAcid.SequenceGenerator``, ``PDB.MaxSpace``/``MinSpace``, ...) do not
+    ''' need any change.
+    ''' </remarks>
+    Public Class AtomUnit : Inherits Structures.Atom
 
         ''' <summary>
-        ''' 氨基酸的名称简写
+        ''' 氨基酸的名称简写（残基名）
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' 兼容别名，实际存储于 <see cref="Structures.Atom.ResName"/>。
+        ''' </remarks>
         Public Property AA_ID As String
+            Get
+                Return ResName
+            End Get
+            Set(value As String)
+                ResName = value
+            End Set
+        End Property
+
         ''' <summary>
         ''' 当前的氨基酸分子在Fasta序列之中的残基位置
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' 兼容别名，实际存储于 <see cref="Structures.Atom.ResSeq"/>。
+        ''' </remarks>
         Public Property AA_IDX As Integer
-        Public Property Index As Integer
-        Public Property Atom As String
-        Public Property ChianID As String
-        Public Property Location As Point3D
-
-        Public Overrides Function ToString() As String
-            Return String.Format("[{0}]  ---> ({1}) {2}   {3}", Index, AA_ID, Location.ToString, Atom)
-        End Function
+            Get
+                Return ResSeq
+            End Get
+            Set(value As Integer)
+                ResSeq = value
+            End Set
+        End Property
 
         ''' <summary>
-        ''' 
+        ''' 原子序号（PDB 列 7-11）
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 兼容别名，实际存储于 <see cref="Structures.Atom.Serial"/>。
+        ''' </remarks>
+        Public Property Index As Integer
+            Get
+                Return Serial
+            End Get
+            Set(value As Integer)
+                Serial = value
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 原子名称（PDB 列 13-16）
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 兼容别名，实际存储于 <see cref="Structures.Atom.AtomName"/>。
+        ''' </remarks>
+        Public Property Atom As String
+            Get
+                Return AtomName
+            End Get
+            Set(value As String)
+                AtomName = value
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 链标识符（PDB 列 22）
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 兼容别名，实际存储于 <see cref="Structures.Atom.ChainID"/>。
+        ''' 注：该名称存在拼写错误（ChianID），保留仅为向后兼容，新代码请使用
+        ''' <see cref="Structures.Atom.ChainID"/>。
+        ''' </remarks>
+        Public Property ChianID As String
+            Get
+                Return ChainID
+            End Get
+            Set(value As String)
+                ChainID = value
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Parse one raw ``ATOM`` record line.
         ''' </summary>
         ''' <param name="s">
-        ''' -----------------------------------------------|-----------------
-        ''' N   ILE     7      25.289   6.282   7.602  1.00121.47           N
+        ''' The **raw** record line with the record name prefix, e.g.
+        ''' ```
+        ''' ATOM      1  N   SER A   1      25.289   6.282   7.602  1.00121.47           N
+        ''' ```
+        ''' the fixed-column offsets are resolved by <see cref="Structures.PdbLineParser"/>.
         ''' </param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Friend Shared Function InternalParser(s As String, InternalIndex As Integer) As AtomUnit
-            Dim xyz As Point3D
-            Dim t As String() =
-                LinqAPI.Exec(Of String) <= From strToken As String
-                                           In s.Split
-                                           Where Not String.IsNullOrEmpty(strToken)
-                                           Select strToken
-            If t.Length = 2 Then
-                ' TER
+        ''' <returns>
+        ''' Returns Nothing when the coordinate columns can not be parsed, the caller should
+        ''' skip such a record line.
+        ''' </returns>
+        ''' <remarks>
+        ''' The legacy implementation split the line by the whitespace characters and then took
+        ''' the fields by the token index; that is broken for the fixed-column PDB format: when
+        ''' the chain identifier column is empty, the tokens shift left by one and the
+        ''' coordinates are read as ``(Y, Z, occupancy)``.
+        ''' </remarks>
+        Friend Shared Function InternalParser(s As String) As AtomUnit
+            Dim atom As New AtomUnit
+
+            If Not Structures.PdbLineParser.ParseLine(s, atom, isHet:=False) Then
                 Return Nothing
             End If
-            If t.Length = 3 Then
-                t = {""}.Join(t).ToArray
-            Else
-                xyz = New Point3D With {
-                    .X = Val(t(4)),
-                    .Y = Val(t(5)),
-                    .Z = Val(t(6))
-                }
-            End If
 
-            Return New AtomUnit With {
-                .Index = InternalIndex,
-                .Location = xyz,
-                .Atom = t(0),
-                .AA_ID = t(1),
-                .AA_IDX = Val(t(3)),
-                .ChianID = t(2)
-            }
+            Return atom
         End Function
     End Class
 End Namespace

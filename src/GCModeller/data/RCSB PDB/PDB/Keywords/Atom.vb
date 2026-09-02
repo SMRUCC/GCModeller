@@ -92,15 +92,18 @@ Namespace Keywords
             End Get
         End Property
 
-        Dim cache As New List(Of (key As Integer, value As String))
+        ''' <summary>
+        ''' 缓存的是 **原始** ATOM 记录行：固定列解析依赖完整的列偏移，
+        ''' 不能在入缓存前剥离记录名前缀或 Trim 掉前导空格。
+        ''' </summary>
+        Dim cache As New List(Of String)
         Dim ter As New List(Of Terminator)
 
         Friend Shared Function Append(ByRef atoms As Atom, str As String) As Atom
             If atoms Is Nothing Then
                 atoms = New Atom
             End If
-            Dim index = str.Trim.GetTagValue(" ", trim:=True)
-            atoms.cache.Add((CInt(Val(index.Name)), index.Value))
+            atoms.cache.Add(str)
             Return atoms
         End Function
 
@@ -126,9 +129,9 @@ Namespace Keywords
         End Function
 
         Friend Overrides Sub Flush()
-            Atoms = (From item As (key As Integer, value As String)
+            Atoms = (From line As String
                      In cache.AsParallel
-                     Let aa As AtomUnit = AtomUnit.InternalParser(item.value, InternalIndex:=item.key)
+                     Let aa As AtomUnit = AtomUnit.InternalParser(line)
                      Where Not aa Is Nothing
                      Select aa).ToArray
 

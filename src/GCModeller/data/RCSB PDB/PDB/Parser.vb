@@ -195,7 +195,8 @@ Friend Class Parser
                 modelId = Nothing
 
             Case Keyword.KEYWORD_ATOM
-                model = Atom.Append(model, data.Value)
+                ' 固定列解析需要原始整行（含记录名前缀与前导空格）
+                model = Atom.Append(model, line)
             Case "TER"
                 ' chain/model terminator
                 model = Atom.AppendTerminator(model, data.Value)
@@ -210,7 +211,8 @@ Friend Class Parser
             Case Keyword.KEYWORD_CONECT : pdb.Conect = CONECT.Append(last, data.Value)
             Case Keyword.KEYWORD_HETATM
 
-                model = HETATM.Append(model, data.Value)
+                ' 固定列解析需要原始整行（含记录名前缀与前导空格）
+                model = HETATM.Append(model, line)
 
             Case "MODRES" : pdb.MODRES = MODRES.Append(last, data.Value)
             Case "SIGATM" : pdb.SIGATM = SIGATM.Append(last, data.Value)

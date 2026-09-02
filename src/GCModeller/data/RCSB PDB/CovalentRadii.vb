@@ -200,7 +200,19 @@ Public Class CovalentRadii
     Public Property Double_Bond As Double
     Public Property Triple_Bond As Double
 
-    Shared ReadOnly atoms As New Dictionary(Of String, CovalentRadii)
+    ''' <summary>
+    ''' 元素符号查询时使用的默认共价半径（Å），用于表中缺失或单键半径为 -1 的元素。
+    ''' </summary>
+    Public Const DefaultCovalentRadius As Double = 0.77
+
+    ''' <summary>
+    ''' 元素符号 → 共价半径数据。
+    ''' </summary>
+    ''' <remarks>
+    ''' 字典键为元素符号，比较时忽略大小写：PDB 文件的元素列（列 77-78）既有
+    ''' ``Mg``/``Fe`` 这样的规范写法，也有 ``MG``/``FE`` 这样的全大写写法。
+    ''' </remarks>
+    Shared ReadOnly atoms As New Dictionary(Of String, CovalentRadii)(StringComparer.OrdinalIgnoreCase)
 
     Shared Sub New()
         Dim table As String() = Covalent_Radii_Table.Trim.LineTokens
@@ -219,6 +231,33 @@ Public Class CovalentRadii
             Call atoms.Add(atom.Atom, atom)
         Next
     End Sub
+
+    ''' <summary>
+    ''' 查询指定元素的单键共价半径（Å）。
+    ''' </summary>
+    ''' <param name="element">
+    ''' 元素符号，大小写不敏感，例如 ``C`` / ``cl`` / ``FE`` / ``Mg``。
+    ''' </param>
+    ''' <returns>
+    ''' 单键共价半径（Å）；元素不在表中、或表中该元素的单键半径缺失（值为 -1）时，
+    ''' 回退到 <see cref="DefaultCovalentRadius"/>。
+    ''' </returns>
+    Public Shared Function SingleBondRadius(element As String) As Double
+        If element Is Nothing OrElse element.Length = 0 Then
+            Return DefaultCovalentRadius
+        End If
+
+        Dim radii As CovalentRadii = Nothing
+
+        If Not atoms.TryGetValue(element, radii) Then
+            Return DefaultCovalentRadius
+        End If
+        If radii Is Nothing OrElse radii.Single_Bond1 <= 0 Then
+            Return DefaultCovalentRadius
+        End If
+
+        Return radii.Single_Bond1
+    End Function
 
     ''' <summary>
     ''' 

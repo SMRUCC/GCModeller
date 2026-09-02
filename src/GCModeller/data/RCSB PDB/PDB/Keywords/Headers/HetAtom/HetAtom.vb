@@ -82,20 +82,135 @@ Namespace Keywords
         ''' <summary>
         ''' 表示解析后的HETATM记录信息
         ''' </summary>
-        Public Class HETATMRecord : Implements PointF3D
+        ''' <remarks>
+        ''' 与 <see cref="AtomUnit"/> 一样，所有字段存储都上移到了基类
+        ''' <see cref="Structures.Atom"/>，此处仅保留 PDB 记录术语命名的兼容别名属性，
+        ''' 使得 <see cref="CovalentRadii.MeasureBonds"/> 与 ``PDBQt\ComplexGenerator``
+        ''' 等既有消费方无需改动。
+        ''' </remarks>
+        Public Class HETATMRecord : Inherits AtomUnit
+            Implements PointF3D
 
-            Public Property AtomNumber As Integer   ' 原子序号
-            Public Property AtomName As String      ' 原子名称
-            Public Property AlternateLocation As String ' 交替位置指示符
-            Public Property ResidueName As String   ' 残基名称
-            Public Property ChainID As String       ' 链标识符
-            Public Property ResidueSequenceNumber As Integer ' 残基序列号
-            Public Property XCoord As Double Implements PointF3D.X        ' X坐标
-            Public Property YCoord As Double Implements PointF3D.Y       ' Y坐标
-            Public Property ZCoord As Double Implements PointF3D.Z        ' Z坐标
-            Public Property Occupancy As Double     ' 占据率
-            Public Property TemperatureFactor As Double ' 温度因子
-            Public Property ElementSymbol As String ' 元素符号
+            ''' <summary>
+            ''' 原子序号（PDB 列 7-11）
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property AtomNumber As Integer
+                Get
+                    Return Serial
+                End Get
+                Set(value As Integer)
+                    Serial = value
+                End Set
+            End Property
+
+            ''' <summary>
+            ''' 交替位置指示符（PDB 列 17）
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property AlternateLocation As String
+                Get
+                    Return AltLoc
+                End Get
+                Set(value As String)
+                    AltLoc = value
+                End Set
+            End Property
+
+            ''' <summary>
+            ''' 残基名称（PDB 列 18-20）
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property ResidueName As String
+                Get
+                    Return ResName
+                End Get
+                Set(value As String)
+                    ResName = value
+                End Set
+            End Property
+
+            ''' <summary>
+            ''' 残基序列号（PDB 列 23-26）
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property ResidueSequenceNumber As Integer
+                Get
+                    Return ResSeq
+                End Get
+                Set(value As Integer)
+                    ResSeq = value
+                End Set
+            End Property
+
+            ''' <summary>
+            ''' X坐标（PDB 列 31-38）
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property XCoord As Double Implements PointF3D.X
+                Get
+                    Return X
+                End Get
+                Set(value As Double)
+                    X = value
+                End Set
+            End Property
+
+            ''' <summary>
+            ''' Y坐标（PDB 列 39-46）
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property YCoord As Double Implements PointF3D.Y
+                Get
+                    Return Y
+                End Get
+                Set(value As Double)
+                    Y = value
+                End Set
+            End Property
+
+            ''' <summary>
+            ''' Z坐标（PDB 列 47-54）
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property ZCoord As Double Implements PointF3D.Z
+                Get
+                    Return Z
+                End Get
+                Set(value As Double)
+                    Z = value
+                End Set
+            End Property
+
+            ''' <summary>
+            ''' 温度因子（PDB 列 61-66）
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property TemperatureFactor As Double
+                Get
+                    Return TempFactor
+                End Get
+                Set(value As Double)
+                    TempFactor = value
+                End Set
+            End Property
+
+            ''' <summary>
+            ''' 元素符号（PDB 列 77-78）
+            ''' </summary>
+            ''' <returns></returns>
+            ''' <remarks>
+            ''' 该列的缺失值不再留空：<see cref="Structures.PdbLineParser"/> 会回退到
+            ''' 由原子名/残基名推测的元素符号。
+            ''' </remarks>
+            Public Property ElementSymbol As String
+                Get
+                    Return Element
+                End Get
+                Set(value As String)
+                    Element = value
+                End Set
+            End Property
 
             Sub New()
             End Sub
@@ -104,18 +219,17 @@ Namespace Keywords
             ''' copy valye from atom model data
             ''' </summary>
             ''' <param name="atom"></param>
+            ''' <remarks>
+            ''' 修正：旧实现把残基名（``AtomUnit.AA_ID``）同时填给了 ``AtomName`` 与
+            ''' ``ResidueName``，并把原子名（``AtomUnit.Atom``）当成了元素符号，
+            ''' 三者全部取错字段。
+            ''' </remarks>
             Sub New(atom As AtomUnit)
-                With atom.Location
-                    XCoord = .X
-                    YCoord = .Y
-                    ZCoord = .Z
-                End With
+                MyBase.New()
 
-                ChainID = atom.ChianID
-                AtomName = atom.AA_ID
-                ResidueName = atom.AA_ID
-                AtomNumber = atom.Index
-                ElementSymbol = atom.Atom
+                If Not atom Is Nothing Then
+                    Call CopyFrom(atom)
+                End If
             End Sub
 
             Public Overrides Function ToString() As String
@@ -221,73 +335,11 @@ Namespace Keywords
 
             Dim record As New HETATMRecord()
 
-            line = "HETATM " & line
-
-            ' 提取原子序号（第7-11列，索引6-10）
-            If line.Length >= 11 Then
-                Dim atomNumStr As String = line.Substring(6, 5).Trim()
-                Integer.TryParse(atomNumStr, record.AtomNumber)
-            End If
-
-            ' 提取原子名称（第13-16列，索引12-15）
-            If line.Length >= 16 Then
-                record.AtomName = line.Substring(12, 4).Trim()
-            End If
-
-            ' 提取交替位置指示符（第17列，索引16）
-            If line.Length >= 17 Then
-                record.AlternateLocation = line.Substring(16, 1).Trim()
-            End If
-
-            ' 提取残基名称（第18-20列，索引17-19）
-            If line.Length >= 20 Then
-                record.ResidueName = line.Substring(17, 3).Trim()
-            End If
-
-            ' 提取链标识符（第22列，索引21）
-            If line.Length >= 22 Then
-                record.ChainID = line.Substring(21, 1).Trim()
-            End If
-
-            ' 提取残基序列号（第23-26列，索引22-25）
-            If line.Length >= 26 Then
-                Dim resSeqStr As String = line.Substring(22, 4).Trim()
-                Integer.TryParse(resSeqStr, record.ResidueSequenceNumber)
-            End If
-
-            ' 提取X坐标（第31-38列，索引30-37）
-            If line.Length >= 38 Then
-                Dim xCoordStr As String = line.Substring(30, 8).Trim()
-                Double.TryParse(xCoordStr, record.XCoord)
-            End If
-
-            ' 提取Y坐标（第39-46列，索引38-45）
-            If line.Length >= 46 Then
-                Dim yCoordStr As String = line.Substring(38, 8).Trim()
-                Double.TryParse(yCoordStr, record.YCoord)
-            End If
-
-            ' 提取Z坐标（第47-54列，索引46-53）
-            If line.Length >= 54 Then
-                Dim zCoordStr As String = line.Substring(46, 8).Trim()
-                Double.TryParse(zCoordStr, record.ZCoord)
-            End If
-
-            ' 提取占据率（第55-60列，索引54-59）
-            If line.Length >= 60 Then
-                Dim occupancyStr As String = line.Substring(54, 6).Trim()
-                Double.TryParse(occupancyStr, record.Occupancy)
-            End If
-
-            ' 提取温度因子（第61-66列，索引60-65）
-            If line.Length >= 66 Then
-                Dim tempFactorStr As String = line.Substring(60, 6).Trim()
-                Double.TryParse(tempFactorStr, record.TemperatureFactor)
-            End If
-
-            ' 提取元素符号（第77-78列，索引76-77）
-            If line.Length >= 78 Then
-                record.ElementSymbol = line.Substring(76, 2).Trim()
+            ' 列解析复用全库唯一的固定列实现（Structures.PdbLineParser）；
+            ' 入参必须是原始整行，不能先 Trim 或剥离记录名前缀。
+            ' 坐标列非法时跳过该行，而不是在原点点位上补一个假原子。
+            If Not Structures.PdbLineParser.ParseLine(line, record, isHet:=True) Then
+                Return hetatom
             End If
 
             Dim key As String = $"{record.ResidueName}-{record.ResidueSequenceNumber}"
