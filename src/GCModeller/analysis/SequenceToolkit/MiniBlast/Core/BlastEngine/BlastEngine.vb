@@ -16,6 +16,13 @@ Namespace Core
 
     Public Class BlastEngine
 
+        ''' <summary>
+        ''' 触发 gapped 延伸的裕量：无 gap HSP 需达到的显著性为
+        ''' EvalueCutoff 的该倍数（即 E_pass = EvalueCutoff × 本值）才做 gapped 延伸。
+        ''' 无 gap 得分只是最终得分的下界，留裕量可避免过早剪掉真正的同源。
+        ''' </summary>
+        Public Const GappedTriggerMargin As Double = 0.001
+
         ''' <summary>单查询全流程</summary>
         Public Shared Function RunQuery(query As FastaSeq,
                                         db As List(Of DbEntry),
@@ -59,10 +66,13 @@ Namespace Core
             End If
 
             ' 触发 gapped 延伸的 raw 分阈值（无 gap HSP 得分低于此值不做 gapped）：
-            ' 对应 E = K·m·n·E_pass 时的 S，E_pass 取 evalue 截止的 1/1000 留裕量
-            Dim ePass = Math.Max(opts.EvalueCutoff * 0.001, 1.0E-30)
+            '   E = K·m·n·e^(-λS) ≤ E_pass  ⇔  S ≥ ln(K·m·n / E_pass) / λ
+            ' E_pass 取 evalue 截止的 GappedTriggerMargin 倍留裕量（无 gap 得分只是下界，
+            ' gapped 延伸后通常更高）。
+            ' 注意：原式写成 ln(K·m·n * E_pass)/λ，把除写成了乘，门槛约为应有值的一半。
+            Dim ePass = Math.Max(opts.EvalueCutoff * GappedTriggerMargin, 1.0E-300)
             Dim sMin As Double = Math.Max(5.0,
-                Math.Log(ka.K * CDbl(qLen) * CDbl(dbStats.Residues) * ePass) / ka.Lambda)
+                Math.Log(ka.K * CDbl(qLen) * CDbl(dbStats.Residues) / ePass) / ka.Lambda)
 
             ' ---- 阶段3/4/5：扫描 + 延伸 ----
             Dim seOpts As New SeedExtendOptions With {
@@ -120,22 +130,21 @@ Namespace Core
 
                 Dim hspList As New List(Of Hsp)()
                 For Each raw In deduped
-                    Dim lam = ka.Lambda
-                    Dim kk = ka.K
-
                     ' [comp_based_stats=1] 简化组成校正（README §4.4）：
                     ' 以查询×命中残基组成重估 λ（模式 2/3 的条件矩阵校正未实现，
                     ' 回落为模式 1；未校正时保持基准 λ）
+                    Dim eff As KaParams = ka
                     If opts.Program = "blastp" AndAlso opts.CompBasedStats >= 1 Then
                         Dim aaScorer = DirectCast(scorer, AaScorer)
-                        Dim adj = KarlinAltschul.AdjustedParams(aaScorer, qCodes, entry.Codes, ka)
-                        lam = adj.Lambda
+                        eff = KarlinAltschul.AdjustedParams(aaScorer, qCodes, entry.Codes, ka)
                     End If
 
+                    ' bit_score 与 evalue 必须使用同一套 (λ, K)，否则 [式5-2] 与 [式5-1]
+                    ' 不再互为恒等，下游按 bit_score 反推 E 值会得到错误结果。
                     Dim h = New Hsp With {
                         .Score = raw.RawScore,
-                        .BitScore = Math.Round((lam * raw.RawScore - Math.Log(kk)) / Math.Log(2), 3),
-                        .Evalue = ka.EValue(CDbl(qLen), CDbl(entry.Length), raw.RawScore),
+                        .BitScore = Math.Round(eff.BitScore(raw.RawScore), 3),
+                        .Evalue = eff.EValue(CDbl(qLen), CDbl(entry.Length), raw.RawScore),
                         .Identities = raw.Identities,
                         .Positives = raw.Positives,
                         .Gaps = raw.Gaps,

@@ -4,7 +4,8 @@
 ' 用法：
 '   MiniBlast blastn --query q.fa --db db.fa [--out r.json] [选项]
 '   MiniBlast blastp --query q.fa --db db.fa [--out r.json] [选项]
-'   MiniBlast selftest
+'
+' 内置自检位于独立的 test 工程（SelfTest.vb），运行：cd test && dotnet run
 '
 ' 任务预设（[README §2.1 / §3.1]）：
 '   blastn 任务：megablast | dc-megablast | blastn | blastn-short
@@ -24,7 +25,11 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Program
 
-    Private Const VersionString As String = "1.0.0"
+    Private ReadOnly Property VersionString As String
+        Get
+            Return Core.BlastSearch.VersionString
+        End Get
+    End Property
 
     Public Function Main(args As String()) As Integer
         If args.Length = 0 OrElse args(0) = "--help" OrElse args(0) = "-h" Then
@@ -95,63 +100,9 @@ Public Module Program
             i += 1
         End While
 
-        ' ---- 任务预设 [README §2.1/§3.1] ----
+        ' ---- 任务预设 [README §2.1/§3.1]（与自检共用 TaskPresets，避免两套参数漂移）----
         If flags.ContainsKey("task") Then o.Task = flags("task").ToLowerInvariant()
-        If program = "blastn" Then
-            Select Case o.Task
-                Case "megablast"
-                    o.WordSize = 28
-                    o.Reward = 1.0
-                    o.Penalty = -2.0
-                    o.GapOpen = 0.0
-                    ' [式2-1] megablast 动态 gap 延伸代价 = |2·penalty - reward| / 2
-                    ' 例：reward=1, penalty=-5 → |2×(-5)-1|/2 = 5.5
-                    o.GapExtend = Math.Ceiling(Math.Abs(2.0 * o.Penalty - o.Reward) / 2.0)
-                    o.Dust = False
-                Case "dc-megablast"
-                    o.WordSize = 11       ' 非连续（11/18 模板）
-                    o.Reward = 2.0
-                    o.Penalty = -3.0
-                    o.GapOpen = 5.0
-                    o.GapExtend = 2.0
-                    o.Dust = True
-                Case "blastn"
-                    o.WordSize = 11
-                    o.Reward = 2.0
-                    o.Penalty = -3.0
-                    o.GapOpen = 5.0
-                    o.GapExtend = 2.0
-                    o.Dust = True
-                Case "blastn-short"
-                    o.WordSize = 7
-                    o.Reward = 1.0
-                    o.Penalty = -3.0
-                    o.GapOpen = 5.0
-                    o.GapExtend = 2.0
-                    o.Dust = False
-            End Select
-        Else
-            Select Case o.Task
-                Case "blastp"
-                    o.WordSize = 3
-                    o.Matrix = "BLOSUM62"
-                    o.Threshold = 11
-                    o.GapOpen = 11.0
-                    o.GapExtend = 1.0
-                    o.Seg = True
-                    o.CompBasedStats = 0
-                    o.XdropGapFinal = 25.0
-                Case "blastp-short"
-                    o.WordSize = 2
-                    o.Matrix = "BLOSUM80"
-                    o.Threshold = 13
-                    o.GapOpen = 10.0
-                    o.GapExtend = 1.0
-                    o.Seg = False
-                    o.CompBasedStats = 0
-                    o.XdropGapFinal = 25.0
-            End Select
-        End If
+        TaskPresets.Apply(o)
 
         ' ---- 显式参数覆盖预设 ----
         If flags.ContainsKey("query") Then o.QueryPath = flags("query")
@@ -198,7 +149,7 @@ Public Module Program
         ' megablast：reward/penalty 被显式修改且 gap 未显式给出 → 重算动态 gap
         If program = "blastn" AndAlso o.Task = "megablast" AndAlso
            (userReward OrElse userPenalty) AndAlso Not userGap Then
-            o.GapExtend = Math.Ceiling(Math.Abs(2.0 * o.Penalty - o.Reward) / 2.0)
+            o.GapExtend = TaskPresets.MegablastGapExtend(o.Reward, o.Penalty)
         End If
 
         If o.QueryPath Is Nothing OrElse o.DbPath Is Nothing Then
@@ -208,6 +159,7 @@ Public Module Program
     End Function
 
     Private Function RunSearch(o As RunOptions) As BlastReport
+        ' 与自检共用 BlastSearch，保证 CLI 与自检走完全相同的搜索路径
         Dim queries = FastaFile.Read(o.QueryPath)
         Dim dbSeqs = FastaFile.Read(o.DbPath)
         If queries.Count = 0 Then Throw New ArgumentException("查询文件为空")
@@ -215,65 +167,13 @@ Public Module Program
 
         Console.Error.WriteLine($"MiniBlast {VersionString} ({o.Task})")
         Console.Error.WriteLine($"查询: {queries.Count} 条  数据库: {dbSeqs.Count} 条")
+        Console.Error.WriteLine($"数据库总残基: {dbSeqs.Sum(Function(s) CLng(s.SequenceData.Length))}")
 
-        Dim dbp = BlastDb.BuildDatabase(dbSeqs, o)
-        Console.Error.WriteLine($"数据库总残基: {dbp.Item2.Residues}")
-
-        Dim qrs As New List(Of QueryResult)()
-        For Each q As FastaSeq In queries
-            qrs.Add(BlastEngine.RunQuery(q, dbp.Item1, dbp.Item2, o))
-        Next
-
-        ' 统计参数（首个查询的系统参数作为报告级参数输出）
-        Dim ka As KaParams
-        If o.Program = "blastn" Then
-            ka = KarlinAltschul.NtParams(o.Reward, o.Penalty)
-        Else
-            ka = KarlinAltschul.ProteinParams(o.Matrix)
-        End If
-
-        Dim hInfo As Double
-        If o.Program = "blastn" Then
-            Dim hist = KarlinAltschul.BuildNtHist(o.Reward, o.Penalty)
-            hInfo = KarlinAltschul.SolveH(hist, ka.Lambda)
-        Else
-            Dim hist = KarlinAltschul.BuildAaHist(New AaScorer(o.Matrix))
-            hInfo = KarlinAltschul.SolveH(hist, ka.Lambda)
-        End If
-
-        Return New BlastReport With {
-            .Program = o.Program,
-            .Task = o.Task,
-            .Version = VersionString,
-            .Parameters = New BlastParameters With {
-                .WordSize = If(o.Program = "blastn" AndAlso o.Task = "dc-megablast", 11, o.WordSize),
-                .Matrix = If(o.Program = "blastp", o.Matrix, Nothing),
-                .Reward = If(o.Program = "blastn", o.Reward, 0),
-                .Penalty = If(o.Program = "blastn", o.Penalty, 0),
-                .Threshold = If(o.Program = "blastp", o.Threshold, 0),
-                .GapOpen = o.GapOpen,
-                .GapExtend = o.GapExtend,
-                .EvalueCutoff = o.EvalueCutoff,
-                .TwoHitWindow = o.WindowTwoHit,
-                .Dust = o.Dust,
-                .Seg = o.Seg,
-                .CompBasedStats = o.CompBasedStats,
-                .Lambda = Math.Round(ka.Lambda, 6),
-                .K = Math.Round(ka.K, 6),
-                .H = Math.Round(hInfo, 6),
-                .DbSequences = dbp.Item2.Sequences,
-                .DbResidues = dbp.Item2.Residues
-            },
-            .Queries = qrs
-        }
+        Return Core.BlastSearch.RunQueries(queries, dbSeqs, o)
     End Function
 
     Private Function SerializeReport(report As BlastReport, o As RunOptions) As String
-        Dim jsonOpts As New JsonSerializerOptions With {
-            .WriteIndented = o.Pretty,
-            .DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        }
-        Return JsonSerializer.Serialize(report, jsonOpts)
+        Return Model.BlastReportJson.ToJson(report, o.Pretty)
     End Function
 
     Private Sub PrintUsage()
@@ -282,7 +182,9 @@ Public Module Program
         Console.WriteLine("用法:")
         Console.WriteLine("  MiniBlast blastn --query q.fa --db db.fa [--out r.json] [--pretty] [选项]")
         Console.WriteLine("  MiniBlast blastp --query q.fa --db db.fa [--out r.json] [--pretty] [选项]")
-        Console.WriteLine("  MiniBlast selftest")
+        Console.WriteLine()
+        Console.WriteLine("内置自检（独立 test 工程）：")
+        Console.WriteLine("  cd test && dotnet run")
         Console.WriteLine()
         Console.WriteLine("blastn 选项:")
         Console.WriteLine("  --task megablast|dc-megablast|blastn|blastn-short   任务预设（默认 blastn）")
