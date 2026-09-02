@@ -1,4 +1,6 @@
-﻿Namespace Core
+﻿Imports std = System.Math
+
+Namespace Core
 
 
 
@@ -28,7 +30,7 @@
                 For i = 0 To n - 1
                     gnorm += grads(i) * grads(i)
                 Next
-                gnorm = Sqrt(gnorm)
+                gnorm = std.Sqrt(gnorm)
                 If gnorm < Gtol Then Exit For
 
                 Dim p(n - 1) As Double

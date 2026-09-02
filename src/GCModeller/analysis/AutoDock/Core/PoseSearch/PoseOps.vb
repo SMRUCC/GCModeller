@@ -1,4 +1,6 @@
-﻿Namespace Core
+﻿Imports std = System.Math
+
+Namespace Core
 
 
     ''' <summary>姿态算子（应用 DOF 到初始坐标；增量更新；rotvec ↔ 矩阵）</summary>
@@ -12,7 +14,7 @@
                 Return m
             End If
             Dim x = rotvec(0) / th, y = rotvec(1) / th, z = rotvec(2) / th
-            Dim c = Cos(th), s = Sin(th), cc = 1 - c
+            Dim c = std.Cos(th), s = std.Sin(th), cc = 1 - c
             m(0, 0) = c + x * x * cc : m(0, 1) = x * y * cc - z * s : m(0, 2) = x * z * cc + y * s
             m(1, 0) = y * x * cc + z * s : m(1, 1) = c + y * y * cc : m(1, 2) = y * z * cc - x * s
             m(2, 0) = z * x * cc - y * s : m(2, 1) = z * y * cc + x * s : m(2, 2) = c + z * z * cc
@@ -21,16 +23,16 @@
 
         Public Function MatrixToRotvec(m As Double(,)) As Double()
             Dim cosT = 0.5 * (m(0, 0) + m(1, 1) + m(2, 2) - 1.0)
-            cosT = Max(-1.0, Min(1.0, cosT))
-            Dim th = Acos(cosT)
+            cosT = std.Max(-1.0, std.Min(1.0, cosT))
+            Dim th = std.Acos(cosT)
             If th < 0.000000001 Then
                 Return {0.5 * (m(2, 1) - m(1, 2)), 0.5 * (m(0, 2) - m(2, 0)), 0.5 * (m(1, 0) - m(0, 1))}
             End If
-            If Abs(Math.PI - th) < 0.00001 Then
+            If std.Abs(Math.PI - th) < 0.00001 Then
                 Dim k = th / (2.0 * (1.0 + cosT))
                 Return {k * (m(0, 0) + 1.0), k * (m(1, 1) + 1.0), k * (m(2, 2) + 1.0)}
             End If
-            Dim s = 2.0 * Sin(th)
+            Dim s = 2.0 * std.Sin(th)
             Return {(m(2, 1) - m(1, 2)) / s * th,
                     (m(0, 2) - m(2, 0)) / s * th,
                     (m(1, 0) - m(0, 1)) / s * th}
@@ -88,10 +90,10 @@
                 Dim ayv = outPos(3 * bi + 1) - pay
                 Dim azv = outPos(3 * bi + 2) - paz
                 ' 以 (axis, theta) 直接构造旋转（无需归一化回调）
-                Dim n2 = Sqrt(axv * axv + ayv * ayv + azv * azv)
+                Dim n2 = std.Sqrt(axv * axv + ayv * ayv + azv * azv)
                 If n2 < 0.000000000001 Then Continue For
                 Dim ux = axv / n2, uy = ayv / n2, uz = azv / n2
-                Dim cc = Cos(theta), ss = Sin(theta), ccc = 1 - cc
+                Dim cc = std.Cos(theta), ss = std.Sin(theta), ccc = 1 - cc
                 Dim M(2, 2) As Double
                 M(0, 0) = cc + ux * ux * ccc : M(0, 1) = ux * uy * ccc - uz * ss : M(0, 2) = ux * uz * ccc + uy * ss
                 M(1, 0) = uy * ux * ccc + uz * ss : M(1, 1) = cc + uy * uy * ccc : M(1, 2) = uy * uz * ccc - ux * ss
