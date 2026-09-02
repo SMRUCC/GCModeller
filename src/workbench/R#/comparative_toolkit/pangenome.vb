@@ -238,13 +238,13 @@ Module pangenome
     ''' <returns></returns>
     <ExportAPI("set_ortho_group")>
     Public Function set_ortho_group(<RRawVectorArgument> x As Object, uf As UnionFind, Optional env As Environment = Nothing) As Object
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of RankTerm)(x, env)
+        Dim pull As PipeIterator(Of RankTerm) = pipeline.Stream(Of RankTerm)(x, env)
 
         If pull.isError Then
             Return pull.getError
         End If
 
-        For Each gene As RankTerm In pull.populates(Of RankTerm)(env)
+        For Each gene As RankTerm In pull
             Call uf.AddElement(gene.queryName)
             Call uf.AddElement(gene.term)
             Call uf.Union(referID:=gene.term, gene.queryName)

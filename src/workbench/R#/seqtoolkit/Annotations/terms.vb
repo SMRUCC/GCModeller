@@ -254,6 +254,31 @@ Module terms
         Return file.LoadCsv(Of RankTerm)(mute:=True).ToArray
     End Function
 
+    <ExportAPI("rank_term")>
+    <RApiReturn(GetType(RankTerm))>
+    Public Function create_rankterms(<RRawVectorArgument(TypeCodes.string)> id As Object,
+                                     <RRawVectorArgument(TypeCodes.string)> term As Object,
+                                     <RRawVectorArgument(TypeCodes.double)> score As Object,
+                                     <RRawVectorArgument(TypeCodes.string)> source As Object, Optional env As Environment = Nothing) As Object
+
+        Dim gene_id As String() = CLRVector.asCharacter(id)
+        Dim term_list As String() = CLRVector.asCharacter(term)
+        Dim score_list As Double() = CLRVector.asNumeric(score)
+        Dim source_list As String() = CLRVector.asCharacter(source)
+        Dim rankTerms As New List(Of RankTerm)
+
+        For Each tuple As (gene_id$, term$, score$, source$) In GetVectorElement.Zip(gene_id, term_list, score_list, source_list)
+            Call rankTerms.Add(New RankTerm With {
+                .queryName = tuple.gene_id,
+                .term = tuple.term,
+                .scores = {tuple.score},
+                .source = {tuple.source}
+            })
+        Next
+
+        Return rankTerms.ToArray
+    End Function
+
     ''' <summary>
     ''' try parse gene names from the product description strings
     ''' </summary>

@@ -76,6 +76,10 @@ declare namespace annotation.terms {
      * @param env default value Is ``null``.
    */
    function make_vectors(terms: any, stream?: boolean, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function rank_term(id: any, term: any, score: any, source: any, env?: object): object;
    module read {
       /**
        * 
