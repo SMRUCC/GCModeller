@@ -217,7 +217,7 @@ Namespace Core
         End Sub
 
         ''' <summary>原子对键分离度（BFS 多源；忽略；返回 ≤4 的对）</summary>
-        Private Shared Function BondSeparation(mol As Molecule) As HashSet(Of (Int32, Int32))
+        Private Shared Function BondSeparation(mol As Molecule) As HashSet(Of Long)
             Dim n = mol.Atoms.Count
             Dim adj(n - 1) As List(Of Int32)
             For i = 0 To n - 1

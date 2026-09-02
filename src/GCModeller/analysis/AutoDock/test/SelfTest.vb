@@ -102,7 +102,7 @@ Public Module SelfTest
     End Function
 
     ''' <summary>目标函数（inter + intra 全量）</summary>
-    Private Function BuildObjective(lig As Molecule, rec As Molecule) As Tuple(Of DockObjective, Int32(), Int32())
+    Private Function BuildObjective(lig As Molecule, rec As Molecule) As (obj As DockObjective, axes As Int32())
         Dim n = lig.Atoms.Count
         Dim bc(n - 1, 2) As Double
         For i = 0 To n - 1
@@ -133,7 +133,7 @@ Public Module SelfTest
         Dim scorer As New VinaScorer(rec.Atoms)
         Dim obj As New DockObjective(bc, lig.Atoms, scorer, axes, branches:=tt.Item2,
                                      intraI:=ii.ToArray(), intraJ:=jj.ToArray())
-        Return Tuple.Create(obj, axes, tt.Item2)
+        Return (obj, axes)
     End Function
 
     Private Function BondSepSet(lig As Molecule) As HashSet(Of Int64)
@@ -164,12 +164,12 @@ Public Module SelfTest
                         q.Enqueue(v)
                     End If
                 Next
-                Next
-        For j = 0 To n - 1
-            If j <> start AndAlso dist(j) > 0 AndAlso dist(j) <= 3 Then
-                result.Add(CLng(Math.Min(start, j)) * 100000L + Math.Max(start, j))
-            End If
-        Next
+            End While
+            For j = 0 To n - 1
+                If j <> start AndAlso dist(j) > 0 AndAlso dist(j) <= 3 Then
+                    result.Add(CLng(Math.Min(start, j)) * 100000L + Math.Max(start, j))
+                End If
+            Next
         Next
         Return result
     End Function

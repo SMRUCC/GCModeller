@@ -182,7 +182,7 @@ Namespace Core
 
         ''' <summary>为 SDF 小分子分配 Vina 类型</summary>
         Public Sub AssignTypesSdf(mol As Molecule)
-            Dim ringAtoms = ringAtoms(mol.Atoms.Count, mol.Bonds)
+            Dim ringAtoms = MolBuilder.RingAtoms(mol.Atoms.Count, mol.Bonds)
             Dim ringSize = RingSizes(mol.Atoms.Count, mol.Bonds, ringAtoms)
 
             For i = 0 To mol.Atoms.Count - 1
@@ -295,7 +295,7 @@ Namespace Core
             Dim results As New List(Of Bond)()
             If n < 4 Then Return Tuple.Create(results, New List(Of List(Of Int32))())
 
-            Dim ringAtoms = ringAtoms(n, mol.Bonds)
+            Dim ringAtoms = MolBuilder.RingAtoms(n, mol.Bonds)
             Dim adj(n - 1) As List(Of Int32)
             For i = 0 To n - 1
                 adj(i) = New List(Of Int32)()

@@ -1,7 +1,24 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{55BE92FF-4846-E099-4D31-84D86861F29A}|AutoDock\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\autodock\\test\\selftest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{55BE92FF-4846-E099-4D31-84D86861F29A}|AutoDock\\test\\test.vbproj|solutionrelative:autodock\\test\\selftest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\autodock\\core\\dockengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|solutionrelative:autodock\\core\\dockengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\autodock\\core\\mmgbsa.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|solutionrelative:autodock\\core\\mmgbsa.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\autodock\\core\\molbuilder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6CE7650F-1FCE-047D-7B52-EA169DE26023}|AutoDock\\MiniDock.vbproj|solutionrelative:autodock\\core\\molbuilder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +39,58 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SelfTest.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\test\\SelfTest.vb",
+              "RelativeDocumentMoniker": "AutoDock\\test\\SelfTest.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\test\\SelfTest.vb",
+              "RelativeToolTip": "AutoDock\\test\\SelfTest.vb",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAiwG8AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-02T16:12:22.702Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DockEngine.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\DockEngine.vb",
+              "RelativeDocumentMoniker": "AutoDock\\Core\\DockEngine.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\DockEngine.vb",
+              "RelativeToolTip": "AutoDock\\Core\\DockEngine.vb",
+              "ViewState": "AgIAANEAAAAAAAAAAAAowOgAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-02T16:11:47.614Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MmGbsa.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\MmGbsa.vb",
+              "RelativeDocumentMoniker": "AutoDock\\Core\\MmGbsa.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\MmGbsa.vb",
+              "RelativeToolTip": "AutoDock\\Core\\MmGbsa.vb",
+              "ViewState": "AgIAAJUAAAAAAAAAAAAcwKkAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-02T16:11:36.519Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MolBuilder.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\MolBuilder.vb",
+              "RelativeDocumentMoniker": "AutoDock\\Core\\MolBuilder.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\AutoDock\\Core\\MolBuilder.vb",
+              "RelativeToolTip": "AutoDock\\Core\\MolBuilder.vb",
+              "ViewState": "AgIAAIYAAAAAAAAAAAAcwL4AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-02T16:10:49.397Z",
+              "EditorCaption": ""
             }
           ]
         },

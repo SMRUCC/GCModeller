@@ -173,7 +173,7 @@ Namespace Core
             Dim inc = Math.PI * (3.0 - Math.Sqrt(5.0))
             For k = 0 To SasPoints - 1
                 Dim y = ((k * offset) - 1.0) + offset / 2.0
-                Dim r = Math.Sqrt(Max(0.0, 1.0 - y * y))
+                Dim r = Math.Sqrt(Math.Max(0.0, 1.0 - y * y))
                 Dim phi = k * inc
                 pts(k, 0) = Math.Cos(phi) * r
                 pts(k, 1) = y

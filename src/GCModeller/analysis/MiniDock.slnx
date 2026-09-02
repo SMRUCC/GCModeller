@@ -1,11 +1,25 @@
 <Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
   <Folder Name="/framework/">
-    <Project Path="../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj" />
+    <Project Path="../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
   <Folder Name="/gcmodeller/">
-    <Project Path="../core/Bio.Assembly/biocore-netcore5.vbproj" />
-    <Project Path="../data/RCSB PDB/RCSB PDB.vbproj" />
+    <Project Path="../core/Bio.Assembly/biocore-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../data/RCSB PDB/RCSB PDB.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
-  <Project Path="AutoDock/MiniDock.vbproj" />
-  <Project Path="AutoDock/test/test.vbproj" />
+  <Project Path="AutoDock/MiniDock.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="AutoDock/test/test.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
 </Solution>

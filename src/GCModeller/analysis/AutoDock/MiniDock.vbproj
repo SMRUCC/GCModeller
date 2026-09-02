@@ -13,6 +13,7 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <Version>1.0.0</Version>
     <Description>从头实现的 AutoDock Vina 分子对接 + MM-GBSA/Nwat-MMGBSA 重打分（纯 BCL，JSON 输出）</Description>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
