@@ -21,10 +21,24 @@ dotnet run -c Release -- blastn --task dc-megablast --query test/nt_query.fa --d
 
 # blastp（蛋白比对，BLOSUM62 + 组成校正）
 dotnet run -c Release -- blastp --query test/aa_query.fa --db test/aa_db.fa --comp-based-stats 1 --pretty
-
-# 内置自检（λ 解、DP vs 参照 SW 交叉验证、DUST/SEG、端到端冒烟）
-dotnet run -c Release -- selftest
 ```
+
+## 内置自检
+
+自检位于独立的 `test` 工程，走与 CLI 完全相同的代码路径
+（`TaskPresets` → `BlastSearch` → `BlastReportJson`）：
+
+```bash
+cd test && dotnet run
+```
+
+覆盖四层：单元自检（λ 解、E/BitScore 恒等式、gapped DP vs 参照 SW、
+traceback 合法性、DUST/SEG、dc 模板种子）→ 扫描器延伸触发回归 →
+基于 `test/*.fa` 的 blastn / megablast / dc-megablast / blastn-short /
+blastp / blastp-short 端到端检索 → 每条 HSP 的结构不变量校验与 JSON 导出回读。
+
+退出码 = 失败用例数（0 表示全绿，可直接接入 CI）。
+各任务的比对报告导出到 `test/bin/Debug/net10.0/selftest_results/*.json`。
 
 ## 二、README 文档 → 代码映射表
 
@@ -33,30 +47,33 @@ dotnet run -c Release -- selftest
 | 文档概念 | 公式/条件 | 代码位置 |
 |---|---|---|
 | 流程编排（过滤→查表→扫描→延伸→统计） | — | `Core/BlastEngine.vb` — `BuildDatabase` / `RunQuery` |
-| [阶段1] DUST 低复杂度过滤（核酸） | S = Σ_v C_v(C_v−1)/2 / (W−1) > level/10，W=64, word=3 | `Core/LowComplexity.vb` — `Dust.Mask`（滑窗 O(L) 增量实现） |
-| [阶段1] SEG 低复杂度过滤（蛋白） | 香农熵 H = −Σ p·log₂p < 2.2 触发，≥2.5 终止，W=12 | `Core/LowComplexity.vb` — `SegFilter.Mask` |
-| [阶段2] BLASTN word 查找表 | 连续 word 精确匹配，base-4 打包 Long 键 | `Core/WordLookup.vb` — `NtWordLookup`（滚动编码） |
-| [阶段2] dc-megablast 模板种子 | 11/18 模板 coding=`101101100101101101`，optimal=`111010010110010111`，只编码 care 位 | `Core/WordLookup.vb` — `DcWordLookup` |
-| [阶段2] BLASTP 邻域 word | 查询 word 与 db word 比对得分 ≥ T（默认 11） | `Core/WordLookup.vb` — `AaWordLookup.ExpandNeighborhood`（按列最大得分上界剪枝的递归枚举） |
-| [阶段3] 两-hit 法 | 同对角线 diag=i−j，两命中非重叠且距离 ≤ A=40 | `Core/SeedExtend.vb` — `SeedScanner.ScanSequence`（每对角线维护 lastHit 与已延伸区） |
+| [阶段1] DUST 低复杂度过滤（核酸） | S = Σ_v C_v(C_v−1)/2 / (W−1) > level/10，W=64, word=3 | `Core/LowComplexity/Dust.vb` — `Dust.Mask`（滑窗 O(L) 增量实现） |
+| [阶段1] SEG 低复杂度过滤（蛋白） | 香农熵 H = −Σ p·log₂p < 2.2 触发，≥2.5 终止，W=12 | `Core/LowComplexity/SegFilter.vb` — `SegFilter.Mask` |
+| [阶段2] BLASTN word 查找表 | 连续 word 精确匹配，base-4 打包 Long 键 | `Core/WordLookup/NtWordLookup.vb`（滚动编码） |
+| [阶段2] dc-megablast 模板种子 | 11/18 模板 coding=`101101100101101101`，optimal=`111010010110010111`，只编码 care 位 | `Core/WordLookup/DcWordLookup.vb`（按窗口起点整窗重算键） |
+| [阶段2] BLASTP 邻域 word | 查询 word 与 db word 比对得分 ≥ T（默认 11） | `Core/WordLookup/AaWordLookup.vb` — `ExpandNeighborhood`（按列最大得分上界剪枝的递归枚举） |
+| [阶段3] 两-hit 法 | 同对角线 diag=i−j，两命中非重叠（d ≥ W）且距离 ≤ A=40；**重叠命中不覆盖 lastHit**，超窗 A 则重置 | `Core/SeedExtend.vb` — `SeedScanner.ScanSequence`（每对角线维护 lastHit 与已延伸区 lastTrig） |
 | [阶段4] 无 gap X-drop 延伸 | 双侧行走，得分相对该侧最优下降 > X_ungap（20 bits）即停；最优段必含种子 | `Core/SeedExtend.vb` — `UngappedExtend` |
-| [阶段5] 有 gap X-drop 延伸 | 仿射间隙 SW 变体：E=max(H↑−go, E↑−ge)，F=max(H←−go, F←−ge)，H=max(diag+E,F)；反对角线迭代 + X-drop 剪枝；双向合并 | `Core/SeedExtend.vb` — `GappedForward`（每格记录 H/E/F 三状态回溯方向）+ `GappedExtend`（正反向合并）+ `TracebackMoves`（状态机回溯） |
-| 两级 gapped（预延伸 Xg → 最终延伸） | 预延伸 X=30 bits 定坐标 → 最终延伸 X=100 bits（blastp 25）重比对出串 | `Core/SeedExtend.vb` — `ScanSequence` 中两次 `GappedExtend` 调用 |
+| [阶段5] 有 gap X-drop 延伸 | 仿射间隙 SW 变体：E=max(H↑−(go+ge), E↑−ge)，F=max(H←−(go+ge), F←−ge)，H=max(diag, E, F)；反对角线迭代 + X-drop 剪枝；双向合并 | `Core/SeedExtend.vb` — `GappedForward`（每格记录 H/E/F 三状态回溯方向）+ `GappedExtend`（正反向合并）+ `TracebackMoves`（状态机回溯） |
+| 两级 gapped（预延伸 Xg → 最终延伸） | 预延伸 X=30 bits 定坐标 → 最终延伸 X=100 bits（blastp 25）重比对出串；最终延伸退化时以**带 traceback** 的预延伸回退 | `Core/SeedExtend.vb` — `ScanSequence` 中两次 `GappedExtend` 调用 |
+| HSP 一致性兜底 | 比对串 ↔ 坐标 ↔ 源序列三者不符时丢弃该 HSP | `Core/SeedExtend.vb` — `AlignMatchesSequence` |
+| gapped 触发阈值 | E=K·m·n·e^(−λS) ≤ E_pass ⇒ S ≥ ln(K·m·n / E_pass)/λ，E_pass = EvalueCutoff × 0.001 | `Core/BlastEngine/BlastEngine.vb` — `GappedTriggerMargin` |
+| 搜索编排 / 参数预设 / 结果导出 | 读 FASTA → 建库 → 逐查询 → 组装报告 → JSON | `Core/BlastSearch.vb`、`Options/TaskPresets.vb`、`Model/BlastReportJson.vb`（CLI 与自检共用） |
 
 ### §二 BLASTN 任务预设 [§2.1 表]
 
 | 任务 | Word | Reward/penalty | Gap open/extend | 代码位置 |
 |---|---|---|---|---|
-| megablast | 28 | +1/−2 | 0 / 动态：[式2-1] \|2·penalty−reward\|/2（例：1/−5 → 5.5） | `Program.vb` — `ParseArgs` megablast 分支 |
-| dc-megablast | 11/18 非连续 | +2/−3 | 5/2 | `Program.vb` + `DcWordLookup` |
-| blastn | 11 | +2/−3 | 5/2 | `Program.vb` |
-| blastn-short | 7 | +1/−3 | 5/2，dust 关 | `Program.vb` |
+| megablast | 28 | +1/−2 | 0 / 动态：[式2-1] \|2·penalty−reward\|/2（例：1/−5 → 5.5，**保留 Double 不取整**） | `Options/TaskPresets.vb` — `Apply` / `MegablastGapExtend` |
+| dc-megablast | 11/18 非连续 | +2/−3 | 5/2 | `Options/TaskPresets.vb` + `Core/WordLookup/DcWordLookup.vb` |
+| blastn | 11 | +2/−3 | 5/2 | `Options/TaskPresets.vb` |
+| blastn-short | 7 | +1/−3 | 5/2，dust 关 | `Options/TaskPresets.vb` |
 
 ### §三 BLASTP [§3]
 
 | 文档概念 | 代码位置 |
 |---|---|
-| word=3、BLOSUM62、T=11、gapopen 11/gapextend 1、window 40 | `Program.vb` blastp 预设 |
+| word=3、BLOSUM62、T=11、gapopen 11/gapextend 1、window 40、xdrop_gap_final 25 | `Options/TaskPresets.vb` blastp 预设 |
 | 打分矩阵 BLOSUM45/62/80、PAM250（24×24 含 B/Z/X/*） | `Core/Scoring.vb`（内嵌标准矩阵） |
 | SEG 过滤 | `Core/LowComplexity.vb` |
 | comp_based_stats | 模式 0=关；模式 1=简化组成校正（查询×命中组成重估 λ）；模式 2/3（条件矩阵调整）未实现，回落为 1 → `Core/KarlinAltschul.vb` — `AdjustedParams` |
@@ -127,7 +144,7 @@ dotnet run -c Release -- selftest
 | comp_based_stats 2/3 | 条件矩阵调整未实现，回落模式 1（JSON 中 `comp_based_stats` 字段如实反映所用模式） |
 | DUST/SEG | DUST 为 Morgulis 2006 对称版的滑窗实现；SEG 为窗口熵简化版，非逐位复刻 |
 | 规模 | 数据库一次性载入内存；目标为 MB~GB 级 FASTA，百 GB 级请走分块外置方案 |
-| gap 代价 | Double 打分（megablast 动态 gap 为 x.5 非整数） |
+| gap 代价 | Double 打分（megablast 动态 gap 为 x.5 非整数）。**约定与 NCBI 一致**：长度 k 的 gap 代价 = −(a + b·k)，即首个 gap 残基扣 `gapopen + gapextend`，其后每个残基扣 `gapextend`；故长度 1 的 gap 代价为 −(a+b)（见 <https://www.ncbi.nlm.nih.gov/blast/html/gaplambda.html>）。megablast 的 `gapopen=0` 在此约定下即线性 gap，不会出现"长度 1 的 gap 免费" |
 
 ## 五、验证体系
 
@@ -136,24 +153,45 @@ dotnet run -c Release -- selftest
    - X-drop gapped DP vs 暴力全序列 Smith-Waterman：60 随机用例得分一致；
    - traceback 重算得分 == DP 报告得分；无 gap 延伸 == 暴力对角线最大段；
    - X-drop 单调性；两-hit/模板种子行为。
-2. **内置自检** `dotnet run -- selftest`：λ 解、E/S' 恒等式、DP vs 内嵌参照 SW、
-   traceback 合法性、DUST/SEG 行为、dc 模板命中/不命中、blastn/blastp 端到端冒烟。
+2. **内置自检** `cd test && dotnet run`（退出码 = 失败数，共 99 项检查）：
+   - 单元自检：λ 解、E/S' 恒等式、gapped DP vs 内嵌参照 SW、traceback 重算合法性、
+     DUST/SEG 行为、dc 模板命中/不命中 + 窗口滑动建表键一致性；
+   - 延伸触发回归：精确自匹配与局部同源必须触发（两-hit 死锁的回归锁）；
+   - 端到端：以 `test/*.fa` 跑 blastn / megablast / dc-megablast / blastn-short /
+     blastp / blastp(+comp-based-stats) / blastp-short，断言各任务的敏感度边界
+     （如 megablast 找回 5% 突变但不找回 25% 分歧）与反例零召回；
+   - 结构不变量：每条 HSP 校验「比对串 ↔ 坐标 ↔ 源序列」三者一致、midline 与
+     identities/positives/gaps 计数一致、重算 raw score == 报告 score、
+     bit_score/evalue 满足式 5-2 / 5-1；
+   - 导出链路：7 份 JSON 报告落盘后回读，逐字段比对。
 
 ## 六、文件清单
 
 ```
 MiniBlast/
 ├── MiniBlast.vbproj          net10.0 控制台项目（无 PackageReference）
-├── Program.vb                CLI + 任务预设 + JSON 序列化
-├── SelfTest.vb               内置自检
+├── Program.vb                CLI 外壳（参数解析 → 委托下方三个公共 API）
+├── Options/
+│   ├── BlastOptions.vb       最终搜索参数
+│   ├── SeedExtendOptions.vb  扫描/延伸参数
+│   └── TaskPresets.vb        任务预设唯一来源（CLI 与自检共用）
 ├── Core/
-│   ├── Fasta.vb              FASTA 读取
-│   ├── Alphabet.vb           核酸/氨基酸编码
-│   ├── Scoring.vb            打分系统（含内嵌矩阵）
-│   ├── LowComplexity.vb      DUST / SEG
+│   ├── Alphabet/             核酸/氨基酸编码 + 打分器（含内嵌矩阵）
+│   ├── LowComplexity/        DUST（核酸）/ SEG（蛋白）
+│   ├── WordLookup/           NtWordLookup / AaWordLookup / DcWordLookup
+│   ├── BlastEngine/          BlastEngine（单查询编排） / DbEntry·DbStatistics·BlastDb
+│   ├── BlastSearch.vb        搜索编排（读 FASTA→建库→多查询→组装报告）
 │   ├── KarlinAltschul.vb     λ/H/K 参数与 E 值
-│   ├── WordLookup.vb         三类 word 查找表
+│   ├── KaParams.vb           E/BitScore 公式
+│   ├── Data.vb / RawHsp.vb   中间数据结构
 │   └── SeedExtend.vb         两-hit 扫描 + 无 gap / 有 gap X-drop 延伸
-├── Model/BlastResult.vb      结构化结果对象（JSON DTO）
-└── test/                     测试数据（含同源/突变/低复杂度/无关序列）
+├── Model/                    结构化结果对象（JSON DTO）
+│   ├── BlastReport.vb / BlastParameters.vb / QueryResult.vb / Hit.vb / Hsp.vb
+│   └── BlastReportJson.vb    序列化 / 落盘 / 回读
+├── _validation/              开发期 Python 镜像对拍（不参与编译）
+└── test/                     独立自检工程
+    ├── test.vbproj           net10.0 控制台（cd test && dotnet run）
+    ├── SelfTest.vb           四层自检（单元 / 触发回归 / 端到端 / 不变量+导出）
+    ├── nt_query.fa / nt_db.fa    核酸：精确副本 / 5% 突变 / 25% 分歧 / poly-A / 无关
+    └── aa_query.fa / aa_db.fa    蛋白：精确副本 / 12% 突变 / 旁系同源 / 泛素 / 溶菌酶 / 随机
 ```
