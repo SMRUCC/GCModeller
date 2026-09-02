@@ -71,6 +71,7 @@
 '   5. 输出结果
 ' ============================================================
 
+Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.Framework
 Imports SMRUCC.genomics.Analysis.BNLearn.IO
@@ -549,6 +550,23 @@ Namespace Core
                     System.IO.Path.Combine(outputDir, "network_parameters.tsv"))
             End If
         End Sub
+
+        ''' <summary>
+        ''' save current model as zip file
+        ''' </summary>
+        ''' <param name="file"></param>
+        Public Sub SaveModel(file As Stream)
+
+        End Sub
+
+        ''' <summary>
+        ''' load trained model from zip file
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
+        Public Shared Function LoadModel(file As Stream) As BNLearnWorkflow
+            Throw New NotImplementedException()
+        End Function
 
     End Class
 
