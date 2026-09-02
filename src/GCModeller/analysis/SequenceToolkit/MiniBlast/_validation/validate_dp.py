@@ -213,14 +213,15 @@ def recompute(qa, sa, sub, go, ge):
 
 def sw_full(q, s, sub, go, ge):
     n, m = len(q), len(s)
+    go_open = go + ge      # NCBI: 长度 k 的 gap = go + k*ge
     H = [[0]*(m+1) for _ in range(n+1)]
     E = [[0]*(m+1) for _ in range(n+1)]
     F = [[0]*(m+1) for _ in range(n+1)]
     best = 0
     for i in range(1, n+1):
         for j in range(1, m+1):
-            E[i][j] = max(H[i-1][j]-go, E[i-1][j]-ge)
-            F[i][j] = max(H[i][j-1]-go, F[i][j-1]-ge)
+            E[i][j] = max(H[i-1][j]-go_open, E[i-1][j]-ge)
+            F[i][j] = max(H[i][j-1]-go_open, F[i][j-1]-ge)
             H[i][j] = max(0, H[i-1][j-1]+sub(q[i-1], s[j-1]), E[i][j], F[i][j])
             if H[i][j] > best: best = H[i][j]
     return best

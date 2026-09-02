@@ -4,7 +4,23 @@
     <RootNamespace>test</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
+    <!-- 自检是可执行控制台程序：cd test && dotnet run -->
+    <OutputType>Exe</OutputType>
+    <StartupObject>test.SelfTest</StartupObject>
+    <AssemblyName>test</AssemblyName>
+    <LangVersion>Latest</LangVersion>
+    <OptionStrict>On</OptionStrict>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionInfer>On</OptionInfer>
+    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
+
+  <!-- 测试数据随产物拷贝，自检直接按 AppContext.BaseDirectory 定位 -->
+  <ItemGroup>
+    <None Include="*.fa">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
