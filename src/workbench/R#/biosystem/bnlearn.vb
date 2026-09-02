@@ -116,6 +116,15 @@ Module bnlearn
         Return True
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="s"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' <see cref="BNLearnWorkflow"/>
+    ''' </returns>
     Private Function LoadModelZip(s As Stream, args As list, env As Environment) As Object
         Return BNLearnWorkflow.LoadModel(s)
     End Function
