@@ -88,6 +88,14 @@ Public Class GibbsSampler
     Friend Const MAX_ICPC As Double = 2.0R
 
     ''' <summary>
+    ''' 落在屏蔽区（窗口内含有 N）之上的候选起点所使用的 log 权重。
+    ''' 
+    ''' 这里取一个足够小的常数而不是负无穷：若某条序列的候选起点在若干轮屏蔽之后
+    ''' 全部落入屏蔽区，采样分布依然是可归一化的（此时退化为均匀分布）。
+    ''' </summary>
+    Const MASKED_LOG_WEIGHT As Double = -1000.0R
+
+    ''' <summary>
     ''' populate all fasta <see cref="FastaSeq.SequenceData"/> in upper case.
     ''' </summary>
     ''' <returns></returns>
@@ -594,19 +602,26 @@ Public Class GibbsSampler
         For i As Integer = 0 To m_motifLength - 1
             Dim baseIdx = Utils.indexOfBase(z(x + i))
 
-            If baseIdx > -1 Then
-                q = q_ij.probability(i, baseIdx)
-                background = P(baseIdx)
-
-                ' 背景概率为 0 时 q / 0 会得到 +Inf，使得该候选起点的权重恒为
-                ' +Inf 从而独占整个采样分布，这里做下限钳制保证似然比始终有限
-                If background <= 0 Then
-                    background = MIN_BACKGROUND
-                End If
-
-                ' 直接计算似然比 log(q / P)
-                sum += Math.Log(q / background)
+            ' 窗口内含有 N，说明该候选起点落入了上一轮已发现 motif 的屏蔽区。
+            ' 必须直接判定为不可选：若让它参与计算，由于 N 位被跳过，
+            ' 完全落在屏蔽区内的窗口会拿到 0 分（等价于随机背景水平），
+            ' 当真实位点的对数似然比为负时反而会被优先采样到，
+            ' 且随着屏蔽轮次累积，屏蔽区会越来越大，问题会愈发严重。
+            If baseIdx < 0 Then
+                Return MASKED_LOG_WEIGHT
             End If
+
+            q = q_ij.probability(i, baseIdx)
+            background = P(baseIdx)
+
+            ' 背景概率为 0 时 q / 0 会得到 +Inf，使得该候选起点的权重恒为
+            ' +Inf 从而独占整个采样分布，这里做下限钳制保证似然比始终有限
+            If background <= 0 Then
+                background = MIN_BACKGROUND
+            End If
+
+            ' 累加对数似然比 log(q / P)
+            sum += Math.Log(q / background)
         Next
 
         Return sum
