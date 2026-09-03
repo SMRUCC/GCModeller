@@ -286,7 +286,7 @@ Module WGCNA
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("cor_network")>
-    <RApiReturn(GetType(Result))>
+    <RApiReturn(GetType(Result), GetType(NetworkGraphStream))>
     Public Function runAnalysis(x As Object,
                                 Optional adjacency As Double = 0.6,
                                 Optional pca_layout As Boolean = True,
