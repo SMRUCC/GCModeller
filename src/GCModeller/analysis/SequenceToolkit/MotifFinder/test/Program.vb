@@ -69,7 +69,7 @@ Module Program
         Dim take As Integer = If(args.Length > 1, Integer.Parse(args(1)), 400)
         Dim width As Integer = If(args.Length > 2, Integer.Parse(args(2)), 12)
         Dim topN As Integer = If(args.Length > 3, Integer.Parse(args(3)), 5)
-        Dim icpcCutoff As Double = If(args.Length > 4, Double.Parse(args(4)), 0.1)
+        Dim icpcCutoff As Double = If(args.Length > 4, Double.Parse(args(4)), -1)
         Dim evalueCutoff As Double = If(args.Length > 5, Double.Parse(args(5)), Double.PositiveInfinity)
         Dim restarts As Integer = If(args.Length > 6, Integer.Parse(args(6)), 0)
         Dim maxIterations As Integer = If(args.Length > 7, Integer.Parse(args(7)), 500)

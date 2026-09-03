@@ -88,6 +88,13 @@ Public Class GibbsSampler
     Friend Const MAX_ICPC As Double = 2.0R
 
     ''' <summary>
+    ''' 自适应信息含量阈值所使用的倍数：随机对齐的期望信息含量约为
+    ''' <see cref="Probability.E(Integer)"/>（即有限样本带来的偏置），
+    ''' 默认为其 5 倍，也就是要求 motif 的信息含量至少是随机噪声水平的 5 倍。
+    ''' </summary>
+    Friend Const ICPC_NOISE_FACTOR As Double = 5.0R
+
+    ''' <summary>
     ''' 落在屏蔽区（窗口内含有 N）之上的候选起点所使用的 log 权重。
     ''' 
     ''' 这里取一个足够小的常数而不是负无穷：若某条序列的候选起点在若干轮屏蔽之后
@@ -229,9 +236,13 @@ Public Class GibbsSampler
     ''' 3. 把 Mk 的所有位点窗口（两侧各外扩 <paramref name="maskPadding"/> 倍 motif 宽度）
     '''    屏蔽为 N，然后重新随机初始化位点，在屏蔽之后的序列上继续发现下一个 motif。
     ''' 
-    ''' 由于每一轮都会把上一轮的发现屏蔽掉，结果天然地按照发现顺序（质量递减）排列，
-    ''' 并且同一个 motif 不会被重复发现。发现的数量允许少于 <paramref name="topN"/>：
+    ''' 由于每一轮都会把上一轮的发现屏蔽掉，同一个 motif 不会被重复发现，
+    ''' 各轮结果之间的位点窗口也互不重叠。发现的数量允许少于 <paramref name="topN"/>：
     ''' 一旦新的 motif 达不到阈值要求就立即终止，绝不会返回低质量的结果。
+    ''' 
+    ''' 返回值按照「发现顺序」排列。需要注意每一轮面对的是不同的搜索空间
+    ''' （越往后屏蔽区越大），因此各轮的信息含量并不保证严格单调递减：
+    ''' 某一轮若陷入了较差的局部最优，其后一轮完全可能找到信息含量更高的 motif。
     ''' </summary>
     ''' <param name="topN">期望发现的 motif 数量上限</param>
     ''' <param name="maxIterations">maximum number of times to iterate in a Gibbs Sample </param>
@@ -243,9 +254,13 @@ Public Class GibbsSampler
     ''' 位点窗口两侧的屏蔽外扩量，单位为 motif 宽度的倍数（默认 ±w/2）
     ''' </param>
     ''' <param name="icpcCutoff">
-    ''' 单位列信息含量(bits/column)的下限，其理论上限为 log2(4) = 2.0，置为 0 表示关闭该闸门。
-    ''' 随机背景对齐的噪声水平约为 <see cref="Probability.E(Integer)"/>（120 条序列时约 0.018，
-    ''' 2444 条序列时约 0.0009），默认值 0.1 大约是中大规模数据集噪声水平的数倍以上。
+    ''' 单位列信息含量(bits/column)的下限，其理论上限为 log2(4) = 2.0。
+    ''' 
+    ''' 信息含量的绝对值会随序列条数的增加而系统性下降（随机对齐的期望信息含量约为
+    ''' <see cref="Probability.E(Integer)"/>：120 条序列时约 0.018，400 条时约 0.0054），
+    ''' 所以用固定的绝对阈值并不合适。默认 -1 表示按噪声水平自适应推算，
+    ''' 即 <see cref="ICPC_NOISE_FACTOR"/> × <see cref="Probability.E(Integer)"/>；
+    ''' 置为 0 表示关闭该闸门。
     ''' </param>
     ''' <param name="evalueCutoff">
     ''' E-value 的上限，默认是 <see cref="Double.PositiveInfinity"/>，即默认关闭该闸门。
@@ -260,7 +275,7 @@ Public Class GibbsSampler
                              Optional maxIterations As Integer = 1000,
                              Optional restarts As Integer = 0,
                              Optional maskPadding As Double = 0.5,
-                             Optional icpcCutoff As Double = 0.1,
+                             Optional icpcCutoff As Double = -1,
                              Optional evalueCutoff As Double = Double.PositiveInfinity) As MSAMotif()
         If topN <= 0 Then
             Return {}
@@ -268,6 +283,10 @@ Public Class GibbsSampler
 
         If restarts <= 0 Then
             restarts = DefaultRestarts()
+        End If
+        If icpcCutoff < 0 Then
+            ' 按有限样本噪声水平自适应：随机对齐的期望信息含量约为 Probability.E(n)
+            icpcCutoff = ICPC_NOISE_FACTOR * Probability.E(Math.Max(m_sequenceCount, 1))
         End If
 
         Dim println As Action(Of String) = AddressOf VBDebugger.EchoLine
@@ -283,6 +302,9 @@ Public Class GibbsSampler
         Call println(" * motif width for search: " & m_motifLength)
         Call println(" * ignores of short sequence with length less than required motif width: " & m_ignored)
         Call println(" * restarts of each round: " & restarts)
+        Call println(" * mask padding: +/-" & pad & " bp")
+        Call println($" * icpc cutoff : {icpcCutoff.ToString("G4")} bits/column")
+        Call println($" * e-value cutoff: {If(Double.IsPositiveInfinity(evalueCutoff), "<disabled>", evalueCutoff.ToString("G4"))}")
         Call println("")
 
         For round As Integer = 1 To topN
