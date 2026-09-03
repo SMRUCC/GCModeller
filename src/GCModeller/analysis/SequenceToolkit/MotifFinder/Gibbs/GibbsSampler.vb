@@ -65,11 +65,13 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
-''' 
+''' Gibbs Sampler 是一种基于马尔可夫链蒙特卡洛（MCMC）思想的随机抽样算法，被广泛用于从一组序列中发现未知的保守 motif。其基本流程为：
+''' 假设每条输入序列中均包含一个长度为 W 的 motif 实例，算法首先在每条序列中随机选取一个长度为 W 的窗口作为 motif 位点的初始状态；
+''' 在随后每一轮迭代中，随机抽出一条序列并暂时移除，用其余序列中已定位的 motif 片段构建位置特异性评分矩阵（PWM），并结合背景模型计算
+''' 被移除序列中每个候选窗口作为 motif 位点的后验概率，再依据该概率分布随机抽样新的位点并放回；如此反复迭代更新各序列的 motif 位置，
+''' 直至全体位点趋于收敛。由于每一步均以概率采样（而非贪心选取最优）的方式更新，Gibbs Sampler 能有效规避 EM 类算法（如 MEME）易陷入
+''' 局部最优的问题；实践中通常设置伪计数和平滑项、从多个随机初始状态独立运行并保留总得分最高的比对结果，以提高发现真实 motif 的准确性与稳健性。
 ''' </summary>
-''' <remarks>
-''' https://github.com/trueb2/cs466proj
-''' </remarks>
 Public Class GibbsSampler
 
     Shared ReadOnly LOG_2 As Double = Math.Log(2)
