@@ -123,6 +123,13 @@ Namespace EmMotif
             End If
         End Sub
 
+        ''' <summary>按被测实现的 clamp 语义夹逼数值，供期望值计算使用</summary>
+        Public Function ClampLike(v As Double, lo As Double, hi As Double) As Double
+            If v < lo Then Return lo
+            If v > hi Then Return hi
+            Return v
+        End Function
+
         ''' <summary>断言 action 不抛异常；抛出则计入失败并打印异常类型与消息</summary>
         Public Sub CheckNoThrow(action As Action, name As String)
             Try
