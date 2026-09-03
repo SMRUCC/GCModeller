@@ -52,12 +52,17 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Language
+Imports System.Collections.Generic
 
 ''' <summary>
 ''' 单次「多重启吉布斯采样」的执行器：从多个随机初始状态独立运行采样，
 ''' 并保留其中信息含量最高的那一份位点与 motif 序列。
 ''' </summary>
+''' <remarks>
+''' 注意不要在此引入 Microsoft.VisualBasic.Language：该命名空间下也有一个 List(Of T)，
+''' 会把 System.Collections.Generic.List(Of T) 遮蔽掉，
+''' 导致把采样器返回的列表赋值过来时出现 InvalidCastException。
+''' </remarks>
 Friend Class RunSample
 
     ''' <summary>
@@ -74,8 +79,8 @@ Friend Class RunSample
     Private ReadOnly syncRoot As New Object()
 
     Private bestInformationContent As Double = Double.NegativeInfinity
-    Friend ReadOnly predictedMotifs As New List(Of String)
-    Friend ReadOnly predictedSites As New List(Of Integer)
+    Friend ReadOnly predictedMotifs As New System.Collections.Generic.List(Of String)
+    Friend ReadOnly predictedSites As New System.Collections.Generic.List(Of Integer)
 
     ''' <summary>
     ''' 当前所有重启之中找到的最大信息含量
@@ -121,8 +126,8 @@ Friend Class RunSample
             End If
         End SyncLock
 
-        Dim sites As List(Of Integer) = sampler.gibbsSample(maxIterations, New List(Of String)(sequences))
-        Dim motifs As List(Of String) = sampler.getMotifStrings(sequences, sites)
+        Dim sites As System.Collections.Generic.List(Of Integer) = sampler.gibbsSample(maxIterations, New List(Of String)(sequences))
+        Dim motifs As System.Collections.Generic.List(Of String) = sampler.getMotifStrings(sequences, sites)
         Dim informationContent As Double = sampler.informationContent(motifs)
         Dim newMax As Boolean
 
@@ -130,7 +135,9 @@ Friend Class RunSample
         ' 原实现把「判定」与「写入」拆成了两段，并且对三个字段分别使用不同的锁对象，
         ' 并发之下会交错产生「位点来自线程 A、而 motif 序列来自线程 B」的静默数据损坏。
         SyncLock syncRoot
-            newMax = informationContent >= bestInformationContent
+            ' 严格大于：与当前最优解打平时没有必要覆盖，
+            ' 否则每一次重启都会重复打印一整条位点向量
+            newMax = informationContent > bestInformationContent
 
             If newMax Then
                 bestInformationContent = informationContent

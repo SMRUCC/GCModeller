@@ -1,27 +1,27 @@
 ﻿#Region "Microsoft.VisualBasic::0538b66ce0be1bfd98e7952ac18cd363, analysis\SequenceToolkit\MotifFinder\test\Program.vb"
 
 ' Author:
-' 
+'
 '       asuka (amethyst.asuka@gcmodeller.org)
 '       xie (genetics@smrucc.org)
 '       xieguigang (xie.guigang@live.com)
-' 
+'
 ' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
+'
+'
 ' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
+'
+'
 ' This program is free software: you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
 ' the Free Software Foundation, either version 3 of the License, or
 ' (at your option) any later version.
-' 
+'
 ' This program is distributed in the hope that it will be useful,
 ' but WITHOUT ANY WARRANTY; without even the implied warranty of
 ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ' GNU General Public License for more details.
-' 
+'
 ' You should have received a copy of the GNU General Public License
 ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
@@ -38,29 +38,100 @@
 '    Code Lines: 12 (85.71%)
 ' Comment Lines: 0 (0.00%)
 '    - Xml Docs: 0.00%
-' 
+'
 '   Blank Lines: 2 (14.29%)
 '     File Size: 583 B
 
 
 ' Module Program
-' 
+'
 '     Sub: Main
-' 
+'
 ' /********************************************************************************/
 
 #End Region
 
+Imports System.Diagnostics
+Imports System.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module Program
+
+    Const DEFAULT_FASTA As String = "G:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\CP073066.fasta"
+
+    ''' <summary>
+    ''' 用法：MotifFinder.test.exe [fasta] [take] [motifWidth] [topN] [icpcCutoff] [evalueCutoff]
+    ''' </summary>
     Sub Main(args As String())
-        Dim data As FastaFile = FastaFile.LoadNucleotideData("G:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Staphylococcaceae_LexA___Staphylococcaceae.fasta")
-        Dim avgLen As Integer = data.Average(Function(seq) seq.Length) - 1
-        Dim gibbs As New GibbsSampler(data, motifLength:=avgLen)
-        Dim motif As MSAMotif = gibbs.find
+        Dim path As String = If(args.Length > 0, args(0), DEFAULT_FASTA)
+        Dim take As Integer = If(args.Length > 1, Integer.Parse(args(1)), 400)
+        Dim width As Integer = If(args.Length > 2, Integer.Parse(args(2)), 12)
+        Dim topN As Integer = If(args.Length > 3, Integer.Parse(args(3)), 5)
+        Dim icpcCutoff As Double = If(args.Length > 4, Double.Parse(args(4)), 0.1)
+        Dim evalueCutoff As Double = If(args.Length > 5, Double.Parse(args(5)), Double.PositiveInfinity)
+
+        Dim data As FastaFile = FastaFile.LoadNucleotideData(path)
+        ' CP073066.fasta 之中有 2444 条序列，全量跑一次耗时过长，
+        ' 冒烟验证时默认只取其前一部分
+        Dim input As FastaSeq() = data.Take(take).ToArray
+
+        Call Console.WriteLine($"loaded {data.Count} sequences from {path}")
+        Call Console.WriteLine($"run gibbs sampling on {input.Length} sequences, motif width = {width}")
+        Call Console.WriteLine()
+
+        Dim gibbs As New GibbsSampler(input, motifLength:=width)
+        Dim watch As Stopwatch = Stopwatch.StartNew()
+        Dim top As MSAMotif() = gibbs.findTopN(
+            topN:=topN,
+            maxIterations:=500,
+            restarts:=0,
+            maskPadding:=0.5,
+            icpcCutoff:=icpcCutoff,
+            evalueCutoff:=evalueCutoff
+        )
+
+        Call watch.Stop()
+        Call Console.WriteLine()
+        Call Console.WriteLine($"======== found {top.Length} motifs in {watch.ElapsedMilliseconds} ms ========")
+
+        For Each motif As MSAMotif In top
+            Call Console.WriteLine()
+            Call Console.WriteLine($"[{motif.rank}] {motif.cost.ToString("F4")} bits/column, e-value = {motif.evalue.ToString("G4")}")
+            Call Console.WriteLine($"    consensus : {Consensus(motif)}")
+            Call Console.WriteLine($"    sites     : {motif.start.ints.JoinBy(",")}")
+        Next
+
+        ' 兼容旧接口：find 依旧只返回信息含量最高的那一个 motif
+        Dim best As MSAMotif = gibbs.find(maxIterations:=500)
+
+        Call Console.WriteLine()
+        Call Console.WriteLine($"find() top1 : {If(best Is Nothing, "<nothing>", best.cost.ToString("F4") & " bits/column")}")
 
         Pause()
     End Sub
+
+    ''' <summary>
+    ''' 从计数矩阵之中取出每一列上占比最高的碱基，得到 consensus 序列
+    ''' </summary>
+    Private Function Consensus(motif As MSAMotif) As String
+        Dim sb As New StringBuilder()
+
+        For Each col As ints In motif.countMatrix
+            Dim max As Integer = -1
+            Dim best As Integer = 0
+
+            For j As Integer = 0 To 3
+                If col.ints(j) > max Then
+                    max = col.ints(j)
+                    best = j
+                End If
+            Next
+
+            Call sb.Append(motif.alphabets(best))
+        Next
+
+        Return sb.ToString()
+    End Function
 End Module
