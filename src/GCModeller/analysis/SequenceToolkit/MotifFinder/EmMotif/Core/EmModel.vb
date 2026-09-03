@@ -195,17 +195,17 @@ Namespace EmMotif.Core
         ''' <summary>窗口 logR：Σ_k log(θ_{k,a}/θ0,a)；含歧义字母 → −∞</summary>
         Public Function WindowLogR(enc() As Int32, j As Int32, minus As Boolean) As Double
             Dim lr As Double = 0
-            For k As Integer = 0 To W - 1
+            For col As Integer = 0 To W - 1
                 ' 必须先判原始编码是否为歧义（−1），再取互补：
                 ' 否则负链分支会把 −1 传给 Complement 造成越界 [缺陷 #6]。
                 ' 注意正/负链读的是同一组位置 {j..j+W−1}，因此两者的有效性判定一致。
-                Dim raw As Int32 = enc(j + If(minus, W - 1 - k, k))
+                Dim raw As Int32 = enc(j + If(minus, W - 1 - col, col))
                 If raw < 0 Then Return Double.NegativeInfinity
 
                 Dim a As Int32 = If(minus, AlphabetRef.Complement(raw), raw)
                 If a < 0 Then Return Double.NegativeInfinity
 
-                Dim th = Pwm(k, a)
+                Dim th = Pwm(col, a)
                 Dim b0 = Background(a)
                 If th <= 0 OrElse b0 <= 0 Then Return Double.NegativeInfinity
                 lr += Math.Log(th / b0)
