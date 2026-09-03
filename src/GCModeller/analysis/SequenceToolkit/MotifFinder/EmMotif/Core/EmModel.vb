@@ -70,33 +70,28 @@ Namespace EmMotif.Core
             Lambda = If(model = SiteModel.Oops, 1.0, 0.5)
         End Sub
 
-        ''' <summary>从种子 W-mer 构建 PWM：one-hot + 伪计数 [em.md §5]</summary>
+        ''' <summary>
+        ''' 从种子 W-mer 构建 PWM：one-hot + 伪计数 [em.md §5]。
+        ''' 结果：θ_{col,a} = (pc + 1[a = seed_col]) / (1 + K·pc)。
+        '''
+        ''' 注意：列下标一律用 col，字母表大小一律用 Me.K。VB 不区分大小写，
+        ''' 若把列循环变量写成 K/k，会遮蔽字母表大小字段 Me.K，使内层
+        ''' 「For a = 0 To K - 1」退化为按列号遍历（见 CODE_REVIEW 缺陷 #1）。
+        ''' </summary>
         Public Sub InitFromSeed(seed() As Int32)
-            For K As Integer = 0 To W - 1
-                For a = 0 To K - 1
-                    Pwm(K, a) = Pseudocount
+            For col As Integer = 0 To W - 1
+                For a = 0 To Me.K - 1
+                    Pwm(col, a) = Pseudocount
                 Next
-                If seed(K) >= 0 Then Pwm(K, seed(K)) += 1.0
-                Dim s As Double = 0
-                For a = 0 To K - 1
-                    s += Pwm(K, a)
-                Next
-                For a = 0 To K - 1
-                    Pwm(K, a) /= s
-                Next
-            Next
-        End Sub
+                Dim seedLetter = If(seed(col) >= 0 AndAlso seed(col) < Me.K, seed(col), -1)
+                If seedLetter >= 0 Then Pwm(col, seedLetter) += 1.0
 
-        ''' <summary>从加权计数初始化（K-mer 富集种子用）</summary>
-        Public Sub InitFromCounts(counts As Double(,))
-            For K As Integer = 0 To W - 1
                 Dim s As Double = 0
-                For a = 0 To K - 1
-                    Pwm(K, a) = counts(K, a) + Pseudocount
-                    s += Pwm(K, a)
+                For a = 0 To Me.K - 1
+                    s += Pwm(col, a)
                 Next
-                For a = 0 To K - 1
-                    Pwm(K, a) /= s
+                For a = 0 To Me.K - 1
+                    Pwm(col, a) /= s
                 Next
             Next
         End Sub
@@ -224,32 +219,31 @@ Namespace EmMotif.Core
         ''' </summary>
         Public Sub MStep(encList As List(Of Int32()), sitesList As List(Of List(Of SitePosterior)),
                          Optional revcomp As Boolean = False)
-            ' 加权计数
-            Dim counts(W - 1, K - 1) As Double
+            ' 加权计数 [em.md §3 Step1]：n_{col,a} = Σ Z_ij·1[S_i(j+col) = a]
+            Dim counts(W - 1, Me.K - 1) As Double
             For si = 0 To encList.Count - 1
                 Dim enc = encList(si)
                 For Each sp In sitesList(si)
                     If sp.Z <= 0 Then Continue For
-                    For k As Integer = 0 To W - 1
-                        Dim a As Int32
-                        If sp.StrandMinus Then
-                            a = AlphabetRef.Complement(enc(sp.Pos + W - 1 - k))
-                        Else
-                            a = enc(sp.Pos + k)
-                        End If
-                        If a >= 0 Then counts(k, a) += sp.Z
+                    For col As Integer = 0 To W - 1
+                        Dim raw As Int32 = enc(sp.Pos + If(sp.StrandMinus, W - 1 - col, col))
+                        Dim a As Int32 = If(sp.StrandMinus, AlphabetRef.Complement(raw), raw)
+                        If a >= 0 Then counts(col, a) += sp.Z
                     Next
                 Next
             Next
             ' 伪计数 + 归一化 [em.md §3 Step2]
-            For k As Integer = 0 To W - 1
+            ' 循环边界必须是字母表大小 Me.K，不能是列号 [缺陷 #2]
+            For col As Integer = 0 To W - 1
                 Dim s As Double = 0
-                For a = 0 To k - 1
-                    counts(k, a) += Pseudocount
-                    s += counts(k, a)
+                For a = 0 To Me.K - 1
+                    counts(col, a) += Pseudocount
                 Next
-                For a = 0 To k - 1
-                    Pwm(k, a) = counts(k, a) / s
+                For a = 0 To Me.K - 1
+                    s += counts(col, a)
+                Next
+                For a = 0 To Me.K - 1
+                    Pwm(col, a) = counts(col, a) / s
                 Next
             Next
             ' λ 更新 [em.md §3 Step3]
