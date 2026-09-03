@@ -90,7 +90,7 @@ declare namespace WGCNA {
      * 
      * + default value Is ``null``.
    */
-   function cor_network(x: any, adjacency?: number, pca_layout?: boolean, args?: object, env?: object): object;
+   function cor_network(x: any, adjacency?: number, pca_layout?: boolean, args?: object, env?: object): object|object;
    /**
      * @param id1 default value Is ``null``.
      * @param id2 default value Is ``null``.

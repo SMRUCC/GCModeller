@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.RCSB.PDB.Structures.Atom</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Atom {SMRUCC.genomics.Data.RCSB.PDB.Structures}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Atom</h2>
+
+        <h3>Description</h3>
+
+        <p>The unified molecular atom model for the PDB/SDF structure readers.
+
+<p>This class is the single merged atom model of this library: it only carries the general physico-chemical fields (coordinates, element, partial charge, residue and chain annotations). Domain specific fields (e.g. the AutoDock Vina atom typing) should be placed on a derived type instead of polluting this base model.
+
+<p>Both of the legacy keyword level atom models (<a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/AtomUnit.html">AtomUnit</a> for <code>ATOM</code> records and @<code>T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.HETATM.HETATMRecord</code> for <code>HETATM</code> records) are inherited from this class, so that the fixed-column parsing logic can be shared in one place.
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data.RCSB.PDB.Structures
+export class Atom {
+   # The alternate location indicator (PDB column 17).
+   AltLoc: string;
+   # The atom name (PDB column 13-16).
+   AtomName: string;
+   # The chain identifier (PDB column 22).
+   ChainID: string;
+   # The partial charge of current atom site.
+   Charge: double;
+   # The normalized element symbol, e.g. <code>C</code>/<code>N</code>/<code>O</code>/<code>Cl</code>/<code>FE</code>.
+   Element: string;
+   # Is current atom comes from a <code>HETATM</code> record? (<code>False</code> means the <code>ATOM</code> record)
+   IsHet: boolean;
+   # Is current atom a water molecule? (residue name is <code>HOH</code> or <code>WAT</code>)
+   IsWater: boolean;
+   # Get/set the atom spatial position as a point tuple in 3D space.
+   Location: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a>;
+   # The occupancy value (PDB column 55-60).
+   Occupancy: double;
+   # The residue name (PDB column 18-20), in upper case.
+   ResName: string;
+   # The residue sequence number (PDB column 23-26).
+   ResSeq: integer;
+   # The atom serial number (PDB column 7-11).
+   Serial: integer;
+   # The temperature factor, aka B-factor (PDB column 61-66).
+   TempFactor: double;
+   # The X axis coordinate value in angstrom.
+   X: double;
+   # The Y axis coordinate value in angstrom.
+   Y: double;
+   # The Z axis coordinate value in angstrom.
+   Z: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Location</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
