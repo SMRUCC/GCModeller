@@ -62,7 +62,7 @@ Module Program
     Const DEFAULT_FASTA As String = "G:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\CP073066.fasta"
 
     ''' <summary>
-    ''' 用法：MotifFinder.test.exe [fasta] [take] [motifWidth] [topN] [icpcCutoff] [evalueCutoff]
+    ''' 用法：MotifFinder.test.exe [fasta] [take] [motifWidth] [topN] [icpcCutoff] [evalueCutoff] [restarts] [maxIterations]
     ''' </summary>
     Sub Main(args As String())
         Dim path As String = If(args.Length > 0, args(0), DEFAULT_FASTA)
@@ -71,6 +71,8 @@ Module Program
         Dim topN As Integer = If(args.Length > 3, Integer.Parse(args(3)), 5)
         Dim icpcCutoff As Double = If(args.Length > 4, Double.Parse(args(4)), 0.1)
         Dim evalueCutoff As Double = If(args.Length > 5, Double.Parse(args(5)), Double.PositiveInfinity)
+        Dim restarts As Integer = If(args.Length > 6, Integer.Parse(args(6)), 0)
+        Dim maxIterations As Integer = If(args.Length > 7, Integer.Parse(args(7)), 500)
 
         Dim data As FastaFile = FastaFile.LoadNucleotideData(path)
         ' CP073066.fasta 之中有 2444 条序列，全量跑一次耗时过长，
@@ -85,8 +87,8 @@ Module Program
         Dim watch As Stopwatch = Stopwatch.StartNew()
         Dim top As MSAMotif() = gibbs.findTopN(
             topN:=topN,
-            maxIterations:=500,
-            restarts:=0,
+            maxIterations:=maxIterations,
+            restarts:=restarts,
             maskPadding:=0.5,
             icpcCutoff:=icpcCutoff,
             evalueCutoff:=evalueCutoff
