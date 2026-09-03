@@ -80,7 +80,7 @@ Namespace EmMotif.Core
                     If Not WidthFeasible(w) Then Continue For
                     Dim r = DiscoverOneWidth(w)
                     If r Is Nothing Then Continue For
-                    If best Is Nothing OrElse BetterThan(r, best) Then best = r
+                    If best Is Nothing OrElse BetterAcrossWidths(r, best) Then best = r
                 Next
                 If best Is Nothing Then Exit For
                 ' [em.md §7 停止] E-value 超阈值
@@ -98,11 +98,36 @@ Namespace EmMotif.Core
             Return False
         End Function
 
+        ''' <summary>
+        ''' 同一宽度内、不同种子之间的择优：比对数似然（MEME 的做法）。
+        ''' 同宽度下似然可比，无需额外惩罚项。
+        ''' </summary>
         Private Shared Function BetterThan(a As EmMotifResult, b As EmMotifResult) As Boolean
             If Math.Abs(a.LogLikelihood - b.LogLikelihood) > 0.000000001 Then
                 Return a.LogLikelihood > b.LogLikelihood
             End If
             Return a.Evalue < b.Evalue
+        End Function
+
+        ''' <summary>
+        ''' [em.md §9 −minw/−maxw] 跨宽度择优：必须比 E-value，不能比原始对数似然。
+        '''
+        ''' 不同宽度 W 的对数似然不可比：ZOOPS 的 ΣR 随 W 增大被逐列放大，
+        ''' OOPS 还差一个随 W 变化的 log(1/nCand) 常数项。直接按 LL 择优会
+        ''' 稳定选中 maxw，而不是真正的 motif 宽度 [缺陷 #10]。
+        '''
+        ''' E-value = 窗口总数 × χ²_sf(LLR, df)，其中 df = (K−1)·W 随宽度增大，
+        ''' 天然对过宽的模型施加惩罚；LLR 相同的情形下更宽的模型 E-value 更大。
+        ''' </summary>
+        Private Shared Function BetterAcrossWidths(a As EmMotifResult, b As EmMotifResult) As Boolean
+            ' E-value 量级跨度极大（强信号会同时下溢到 1e−300），因此按数量级比较
+            If Math.Abs(Math.Log10(a.Evalue) - Math.Log10(b.Evalue)) > 0.000000001 Then
+                Return a.Evalue < b.Evalue
+            End If
+            If Math.Abs(a.LogLikelihoodRatio - b.LogLikelihoodRatio) > 0.000000001 Then
+                Return a.LogLikelihoodRatio > b.LogLikelihoodRatio
+            End If
+            Return a.LogLikelihood > b.LogLikelihood
         End Function
 
         ''' <summary>单宽度：种子生成 → 逐种子 EM → 最优</summary>
@@ -181,7 +206,7 @@ Namespace EmMotif.Core
             End If
 
             ' enriched / all：W-mer 计数（双链取规范形）
-            Dim counter As New Dictionary(Of String, Double())()
+            Dim counter As New Dictionary(Of String, Int32)()
             Dim meta As New Dictionary(Of String, Int32())()
             For si = 0 To _masked.Count - 1
                 Dim enc = _masked(si)
@@ -210,28 +235,31 @@ Namespace EmMotif.Core
                                     String.CompareOrdinal(keyR, keyF) < 0, keyR, keyF)
                     Dim useArr = If(useKey = keyF, fwd, rcv)
                     If Not counter.ContainsKey(useKey) Then
-                        counter(useKey) = New Double(w - 1) {}
-                        For t = 0 To w - 1
-                            counter(useKey)(t) = 0
-                        Next
+                        counter(useKey) = 0
                         meta(useKey) = useArr
                     End If
-                    ' 列计数 +1
-                    For t = 0 To w - 1
-                        counter(useKey)(t) += 1
-                    Next
+                    counter(useKey) += 1
                 Next
             Next
 
-            ' 打分：count（出现次数）；期望均匀时 count 即富集度。
-            ' 为稳健用 count 直接排序（enriched 取前 seedCount；all 上限 maxSeeds）
+            ' 打分：富集度 = 观测次数 / 背景模型下的期望次数 [em.md §5 K-mer 富集]。
+            ' 期望次数 = 候选窗口总数 × Π_k θ0(kmer_k)；背景不均匀时，
+            ' 单纯按出现次数排序会偏向高频率字母组成的 k-mer。
+            Dim bg = ComputeBackground()
+            Dim nwinTotal As Double = 0
+            For Each enc In _masked
+                Dim nw = enc.Length - w + 1
+                If nw > 0 Then nwinTotal += nw
+            Next
+
             Dim ranked As New List(Of Tuple(Of Double, String))()
             For Each kv In counter
-                Dim c As Double = 0
-                For t = 0 To w - 1
-                    c = Math.Max(c, kv.Value(t))
+                Dim expected As Double = nwinTotal
+                For Each a In meta(kv.Key)
+                    expected *= bg(a)
                 Next
-                ranked.Add(Tuple.Create(c, kv.Key))
+                Dim enrichment = If(expected > 0, kv.Value / expected, CDbl(kv.Value))
+                ranked.Add(Tuple.Create(enrichment, kv.Key))
             Next
             ranked.Sort(Function(a, b)
                             Dim c = b.Item1.CompareTo(a.Item1)
@@ -266,7 +294,8 @@ Namespace EmMotif.Core
             For i = 0 To _masked.Count - 1
                 sitesList.Add(New List(Of SitePosterior)())
             Next
-            Dim ll = model.FullLogLik(_masked, sitesList)
+            ' 链模式显式传入：不再由后验列表反推 [缺陷 #7]
+            Dim ll = model.FullLogLik(_masked, _opts.Revcomp)
             trace.Add(ll)
             Dim converged = False
             Dim iters = 0
@@ -282,7 +311,7 @@ Namespace EmMotif.Core
                 nextModel.MStep(_masked, sitesList, _opts.Revcomp)
                 model = nextModel
                 ' 收敛判据 [em.md §4]：ΔLL < ε
-                Dim newLl = model.FullLogLik(_masked, sitesList)
+                Dim newLl = model.FullLogLik(_masked, _opts.Revcomp)
                 trace.Add(newLl)
                 Dim delta = Math.Abs(newLl - trace(trace.Count - 2))
                 ll = newLl
@@ -303,6 +332,11 @@ Namespace EmMotif.Core
             For si = 0 To _masked.Count - 1
                 sitesList.Add(model.EStep(_masked(si), _opts.Revcomp))
             Next
+
+            ' 用最终 PWM/λ 重算似然，保证对外报告的 LogLikelihood 与输出的
+            ' PWM、位点三者自洽（收敛前的 ll 是上一轮参数的值）[缺陷 #15]
+            ll = model.FullLogLik(_masked, _opts.Revcomp)
+            trace.Add(ll)
 
             ' LLR 与 E-value
             Dim llr = model.SoftLlr(sitesList)

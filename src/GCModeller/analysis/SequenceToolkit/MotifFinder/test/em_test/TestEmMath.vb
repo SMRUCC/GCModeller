@@ -324,15 +324,15 @@ Namespace EmMotif
 
         ''' <summary>
         ''' 手工驱动一次完整的 EM 迭代（E → M → 记 LL），用于逐步验证。
-        ''' 轨迹首元素与 EmSearch.RunEm 一致：用空后验列表计算 θ⁰ 的似然。
+        ''' 轨迹首元素为 θ⁰ 的似然（链模式显式传入，与 EmSearch.RunEm 一致）。
         ''' </summary>
         Public Function RunEm(model As EmModel, encs As List(Of Int32()), revcomp As Boolean,
                               Optional maxIter As Integer = 200,
                               Optional eps As Double = 0.0001) As EmRunResult
             Dim result As New EmRunResult With {.Model = model}
+            Dim sites As List(Of List(Of SitePosterior))
 
-            Dim sites = EmptySites(encs.Count)
-            result.Trace.Add(model.FullLogLik(encs, sites))
+            result.Trace.Add(model.FullLogLik(encs, revcomp))
             result.Converged = False
 
             For it = 1 To maxIter
@@ -346,7 +346,7 @@ Namespace EmMotif
                 nextModel.MStep(encs, sites, revcomp)
                 model = nextModel
 
-                Dim ll = model.FullLogLik(encs, sites)
+                Dim ll = model.FullLogLik(encs, revcomp)
                 result.Trace.Add(ll)
 
                 If Math.Abs(ll - result.Trace(result.Trace.Count - 2)) < eps Then
@@ -785,18 +785,28 @@ Namespace EmMotif
                 Dim m As New EmModel(w, alpha, sm, bg, 0.1)
                 m.InitFromSeed(alpha.Encode("ACGTTACGTA"))
 
-                Dim empty = EmptySites(encs.Count)
-                Dim full As New List(Of List(Of SitePosterior))()
+                ' 1) 似然是（θ, λ, 数据, 链模式）的函数，与 E 步给出的后验无关。
+                '    旧实现用「后验里有没有负链条目」反推是否双链，而 EM 首轮的后验
+                '    列表为空 ⇒ 按单链计算，次轮起才按双链计算，LL 轨迹出现假的
+                '    跳变，既破坏单调性保证也污染 ΔLL 收敛判据 [缺陷 #7]。
+                Dim llBefore = m.FullLogLik(encs, True)
                 For Each enc In encs
-                    full.Add(m.EStep(enc, True))
+                    m.EStep(enc, True)
                 Next
+                Dim llAfter = m.FullLogLik(encs, True)
+                TestAssert.CheckNear(llBefore, llAfter, 0.0,
+                                     $"{sm} 似然与是否执行过 E 步无关 [缺陷 #7]")
 
-                ' 似然是模型参数（θ, λ）与数据的函数，与后验列表无关。
-                ' 若实现用后验列表反推「是否双链」，则双链模式下两者会不等 [缺陷 #7]。
-                Dim llEmpty = m.FullLogLik(encs, empty)
-                Dim llFull = m.FullLogLik(encs, full)
-                TestAssert.CheckNear(llEmpty, llFull, 0.000000001,
-                                     $"{sm} 似然与传入的后验列表无关 [缺陷 #7]")
+                ' 2) 链模式必须显式生效：单链与双链给出不同的（且各自正确的）值
+                Dim llSingle = m.FullLogLik(encs, False)
+                Dim llDouble = m.FullLogLik(encs, True)
+                TestAssert.Check(Not Double.IsNaN(llSingle) AndAlso Not Double.IsNaN(llDouble),
+                                 $"{sm} 单/双链似然均为有限值 [缺陷 #7]")
+                If sm <> SiteModel.Oops Then
+                    ' ZOOPS/ANR 下候选变多只会增大混合项，似然不应下降
+                    TestAssert.Check(llDouble >= llSingle - 0.000000001,
+                                     $"{sm} 双链似然 ≥ 单链似然 [em.md §9]")
+                End If
             Next
         End Sub
 
@@ -820,7 +830,7 @@ Namespace EmMotif
                         sites.Add(m.EStep(enc, rev))
                     Next
 
-                    Dim actual = m.FullLogLik(encs, sites)
+                    Dim actual = m.FullLogLik(encs, rev)
                     Dim expect = OracleLogLik(encs, m.Pwm, m.Background, m.Lambda, sm, w, rev, comp)
                     TestAssert.CheckNear(actual, expect, 0.000001,
                                          $"{sm}/{(If(rev, "双链", "单链"))} 全似然与 Oracle 一致 [em.md §4]")

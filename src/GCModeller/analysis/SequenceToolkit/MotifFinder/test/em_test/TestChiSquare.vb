@@ -89,10 +89,13 @@ Namespace EmMotif
         Private Sub TestBranchContinuity()
             TestAssert.Section("级数/连分数分支连续性（切换点 x = s+1）")
 
+            ' 用极小的步长跨过切换点：真实函数在此处的斜率约 0.15，
+            ' Δx = 2e−7 带来的真值变化约 3e−8，远小于容差 1e−5；
+            ' 若两条分支不自洽（典型偏差 ≥1e−3），就会被检出。
             For Each s In New Double() {1.0, 3.0, 10.0, 25.5}
-                Dim lo = ChiSquare.GammaQ(s, s + 1.0 - 0.01)
-                Dim hi = ChiSquare.GammaQ(s, s + 1.0 + 0.01)
-                TestAssert.CheckNear(hi, lo, 0.0005, $"s={s} 时在 x=s+1 两侧连续（{lo:G8} → {hi:G8}）")
+                Dim lo = ChiSquare.GammaQ(s, s + 1.0 - 0.0000001)
+                Dim hi = ChiSquare.GammaQ(s, s + 1.0 + 0.0000001)
+                TestAssert.CheckNear(hi, lo, 0.00001, $"s={s} 时在 x=s+1 两侧连续（{lo:G8} → {hi:G8}）")
             Next
         End Sub
 
