@@ -10,9 +10,6 @@
 ' IGD：IGD = B.start − A.end − 1（两基因间隔碱基数，≥0；重叠 → 0）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-
 Namespace OperonPredictor.Core
 
     Public Enum StrandRelation

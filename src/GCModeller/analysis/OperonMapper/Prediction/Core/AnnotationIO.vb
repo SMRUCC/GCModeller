@@ -8,10 +8,9 @@
 ' 功能注释 TSV：gene <TAB> category（COG 单字母 / KEGG 通路 / Pfam 均可）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.IO
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace OperonPredictor.Core
 
@@ -142,27 +141,7 @@ Namespace OperonPredictor.Core
 
         ''' <summary>读 FASTA（单/多 contig，键 = contig 名）</summary>
         Public Function ReadFasta(path As String) As Dictionary(Of String, String)
-            Dim result As New Dictionary(Of String, System.Text.StringBuilder)()
-            Dim cur As System.Text.StringBuilder = Nothing
-            Dim curName As String = ""
-            For Each raw In File.ReadLines(path)
-                Dim line = raw.TrimEnd(Convert.ToChar(13), Convert.ToChar(10))
-                If line.StartsWith(">"c) Then
-                    If cur IsNot Nothing Then result(curName) = cur
-                    Dim header = line.Substring(1).Trim()
-                    Dim sp = header.IndexOf(" "c)
-                    curName = If(sp < 0, header, header.Substring(0, sp))
-                    cur = New System.Text.StringBuilder()
-                ElseIf line.Length > 0 AndAlso cur IsNot Nothing Then
-                    cur.Append(line.Trim())
-                End If
-            Next
-            If cur IsNot Nothing Then result(curName) = cur
-            Dim outDict As New Dictionary(Of String, String)()
-            For Each kv In result
-                outDict(kv.Key) = kv.Value.ToString().ToUpperInvariant()
-            Next
-            Return outDict
+            Return FastaFile.Read(path).ToDictionary(Function(a) a.Title.GetTagValue(" ").Name, Function(a) a.SequenceData.ToUpper)
         End Function
 
     End Module

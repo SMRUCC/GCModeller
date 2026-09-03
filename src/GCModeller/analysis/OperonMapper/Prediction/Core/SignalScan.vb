@@ -13,8 +13,6 @@
 '   （σ70 经典 17±2）；评分 = 1 − 总错配/8。以"下游基因链"读框扫描。
 ' ============================================================================
 
-Imports System
-
 Namespace OperonPredictor.Core
 
     Public Module SignalScan

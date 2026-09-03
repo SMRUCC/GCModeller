@@ -13,10 +13,6 @@
 '      会是 q——闭式无此缺陷且只用文档已有的三个量；README 已记录。）
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-
 Namespace OperonPredictor.Core
 
     Public Class UniopModel
@@ -29,7 +25,7 @@ Namespace OperonPredictor.Core
 
         Public Sub New(sameDist As List(Of Double), convDist As List(Of Double),
                        divDist As List(Of Double), mCount As Int32, oCount As Int32)
-            SameDist = sameDist
+            sameDist = sameDist
             QPrior = ComputePrior(mCount, oCount)
 
             Dim c = convDist.ToList()

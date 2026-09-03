@@ -12,10 +12,6 @@
 '    （信息性计数，无 LLR；严谨的 BBH 需双向打分，此处为简化计数）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-
 Namespace OperonPredictor.Core
 
     Public Class HomologySignals
@@ -163,7 +159,7 @@ Namespace OperonPredictor.Core
             Dim coef() As Double = {
                 0.99999999999980993, 676.5203681218851, -1259.1392167224028,
                 771.32342877765313, -176.61502916214059, 12.507343278686905,
-                -0.13857109526572012, 9.9843695780195716E-6, 1.5056327351493116E-7}
+                -0.13857109526572012, 0.0000099843695780195716, 0.00000015056327351493116}
             If x < 0.5 Then
                 Return Math.Log(Math.PI / Math.Sin(Math.PI * x)) - LogGamma(1.0 - x)
             End If
