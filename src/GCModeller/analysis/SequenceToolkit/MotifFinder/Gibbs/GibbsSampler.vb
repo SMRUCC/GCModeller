@@ -77,6 +77,17 @@ Public Class GibbsSampler
     Shared ReadOnly LOG_2 As Double = Math.Log(2)
 
     ''' <summary>
+    ''' 背景概率的下限值：输入序列中完全没有出现过的碱基其背景频率为 0，
+    ''' 会在计算似然比 q/p 时产生除零(+Inf)，需要钳制到一个极小的概率。
+    ''' </summary>
+    Const MIN_BACKGROUND As Double = 0.000001
+
+    ''' <summary>
+    ''' 信息含量的理论上限：log2(4) = 2 bits/column（DNA 四个碱基）
+    ''' </summary>
+    Friend Const MAX_ICPC As Double = 2.0R
+
+    ''' <summary>
     ''' populate all fasta <see cref="FastaSeq.SequenceData"/> in upper case.
     ''' </summary>
     ''' <returns></returns>
@@ -151,9 +162,20 @@ Public Class GibbsSampler
             Next
         Next
 
-        Return If(total > 0,
-              counts.Select(Function(c) c / total).ToArray(),
-              {0.25, 0.25, 0.25, 0.25}) ' 默认均匀分布
+        If total <= 0 Then
+            ' 默认均匀分布
+            Return {0.25, 0.25, 0.25, 0.25}
+        End If
+
+        ' 输入中不曾出现的碱基其背景概率为 0，会在计算似然比 q / P 时产生除零，
+        ' 使得包含该碱基的候选起点权重恒为 +Inf，这里统一钳制到极小的下限概率
+        Return counts _
+            .Select(Function(c)
+                        Dim p As Double = c / total
+
+                        Return If(p > 0, p, MIN_BACKGROUND)
+                    End Function) _
+            .ToArray()
     End Function
 
     ''' <summary>
@@ -240,7 +262,10 @@ Public Class GibbsSampler
     Friend Function gibbsSample(maxIterations As Integer, S As List(Of String)) As List(Of Integer)
         Dim A = getRandomSites().AsList
 
-        For i As Integer = 0 To maxIterations
+        ' 背景概率在整轮采样中是不变量，没必要在每一次迭代里重复拷贝
+        Dim P As List(Of Double) = m_globalBackground.ToList()
+
+        For i As Integer = 0 To maxIterations - 1
             ' Choose the next sequence
             Dim idx As Integer = randf.Next(m_sequenceCount)
             Dim z As String = S(idx)
@@ -251,7 +276,6 @@ Public Class GibbsSampler
 
             ' Run the predictive step on z
             Dim q_ij = predictiveUpdateStep(S, A)
-            Dim P As List(Of Double) = m_globalBackground.ToList()
 
             ' Run the sampling step on q_ij
             Dim a_z = samplingStep(q_ij, z, P)
@@ -335,17 +359,18 @@ Public Class GibbsSampler
     ''' <param name="z">, sequence we are iterating through </param>
     Private Function samplingStep(q_ij As SequenceMatrix, z As String, P As List(Of Double)) As Integer
         ' 使用当前序列长度而非全局最小长度
-        Dim maxStart As Integer = z.Length - m_motifLength
-        Dim A As List(Of Double) = Enumerable.Range(0, maxStart) _
-            .AsParallel() _
-            .Select(Function(x)
-                        Return calculateMotifProbability(q_ij, z, x, P)
-                    End Function) _
-            .AsList()
+        ' 合法起点为 [0, z.Length - motifLength]，共 z.Length - motifLength + 1 个；
+        ' 这里必须 +1，否则每条序列上的最后一个合法起点永远不会被采样到
+        Dim candidates As Integer = z.Length - m_motifLength + 1
+        Dim A As New List(Of Double)(candidates)
 
-        ' 直接使用原始概率（无需平滑）
-        Dim choiceIndex As Integer = weightedChooseIndex(A)
-        Return choiceIndex
+        ' 候选起点的个数通常只有几十个，PLINQ 的调度开销远大于计算本身，
+        ' 这里改用普通串行循环，并行度由外层的重启级 Parallel.For 提供
+        For x As Integer = 0 To candidates - 1
+            A.Add(calculateMotifProbability(q_ij, z, x, P))
+        Next
+
+        Return weightedChooseIndex(A)
     End Function
 
     ''' <summary>
@@ -361,14 +386,23 @@ Public Class GibbsSampler
                                                P As List(Of Double)) As Double
         Dim sum As Double = 0
         Dim q As Double
+        Dim background As Double
 
         For i As Integer = 0 To m_motifLength - 1
             Dim baseIdx = Utils.indexOfBase(z(x + i))
 
             If baseIdx > -1 Then
                 q = q_ij.probability(i, baseIdx)
+                background = P(baseIdx)
+
+                ' 背景概率为 0 时 q / 0 会得到 +Inf，使得该候选起点的权重恒为
+                ' +Inf 从而独占整个采样分布，这里做下限钳制保证似然比始终有限
+                If background <= 0 Then
+                    background = MIN_BACKGROUND
+                End If
+
                 ' 直接计算似然比 log(q / P)
-                sum += Math.Log(q / P(baseIdx))
+                sum += Math.Log(q / background)
             End If
         Next
 
