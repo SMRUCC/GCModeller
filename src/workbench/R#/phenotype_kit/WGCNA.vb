@@ -306,7 +306,7 @@ Module WGCNA
                 Return mods.getError
             End If
 
-            Return CorrelationNetwork.ExportGraph(x, mods, adj_thres:=adjacency)
+            Return CorrelationNetwork.ExportGraph(DirectCast(x, DataMatrix), mods, adj_thres:=adjacency)
         Else
             Return Message.InCompatibleType(GetType(Matrix), x.GetType, env)
         End If

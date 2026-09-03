@@ -72,8 +72,8 @@ Public Module CorrelationNetwork
     End Function
 
     <Extension>
-    Public Function ExportGraph(adj As DataMatrix, modules As IEnumerable(Of ModuleMembershipResult), Optional adj_thres As Double = 0.8) As NetworkGraph
-        Dim g As New NetworkGraph With {
+    Public Function ExportGraph(adj As DataMatrix, modules As IEnumerable(Of ModuleMembershipResult), Optional adj_thres As Double = 0.8) As NetworkGraphStream
+        Dim g As New NetworkGraphStream With {
             .id = "adjacency_matrix",
             .name = "WGCNA correlation network"
         }
@@ -97,8 +97,12 @@ Public Module CorrelationNetwork
             })
         Next
 
-        For Each gene_id As String In TqdmWrapper.Wrap(g.vertex.Select(Function(a) a.label).ToArray)
-            Dim u = g.GetElementByID(gene_id)
+        Call $"build graph with {g.vertex.Count} network node.".debug
+
+        Dim bar As ProgressBar = Nothing
+
+        For Each gene_id As String In TqdmWrapper.Wrap(g.vertex.Select(Function(a) a.label).ToArray, bar:=bar)
+            Dim u As Node = g.GetElementByID(gene_id)
 
             ' 20260824 removes the selfloop node
             For Each v As Node In From vi As Node
@@ -111,6 +115,8 @@ Public Module CorrelationNetwork
                     Call g.CreateEdge(u, v, weight:=cor)
                 End If
             Next
+
+            Call bar.SetLabel($"{u.label} - {App.MemorySize}")
         Next
 
         Return g
