@@ -97,12 +97,17 @@ Public Module CorrelationNetwork
             })
         Next
 
-        Call $"build graph with {g.vertex.Count} network node.".debug
+        Return g.SetEdgeStream(Function() g.CreateEdgeSet(adj, adj_thres))
+    End Function
 
+    <Extension>
+    Private Iterator Function CreateEdgeSet(g As NetworkGraphStream, adj As DataMatrix, adj_thres As Double) As IEnumerable(Of Edge)
         Dim bar As ProgressBar = Nothing
 
+        Call $"build graph with {g.vertex.Count} network node.".debug
+
         For Each gene_id As String In TqdmWrapper.Wrap(g.vertex.Select(Function(a) a.label).ToArray, bar:=bar)
-            Dim u As Node = g.GetElementByID(gene_id)
+            Dim u As Node = g.GetElementById(gene_id)
 
             ' 20260824 removes the selfloop node
             For Each v As Node In From vi As Node
@@ -112,14 +117,14 @@ Public Module CorrelationNetwork
                 Dim cor As Double = adj(gene_id, v.label)
 
                 If std.Abs(cor) > adj_thres Then
-                    Call g.CreateEdge(u, v, weight:=cor)
+                    Yield New Edge($"{u.label}->{v.label}", u, v) With {
+                        .weight = cor
+                    }
                 End If
             Next
 
             Call bar.SetLabel($"{u.label} - {App.MemorySize}")
         Next
-
-        Return g
     End Function
 End Module
 
