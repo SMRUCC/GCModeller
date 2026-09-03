@@ -54,5 +54,6 @@
   </Project>
   <Project Path="OperonMapper/test/test.vbproj">
     <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+    <Platform Solution="Debug|x64" Project="x64" />
   </Project>
 </Solution>
