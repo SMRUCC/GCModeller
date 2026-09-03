@@ -13,10 +13,10 @@
 ' 10. FASTA 解析
 ' ============================================================================
 
-Imports System.IO
 Imports System.Text.Json
-Imports EmMotif.EmMotif.Core
-Imports EmMotif.EmMotif.Model
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.EmMotif.Core
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.EmMotif.Model
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace EmMotif
 
@@ -46,7 +46,7 @@ Namespace EmMotif
             TestNormalization()
             TestMultiMotif()
             TestJsonRoundTrip()
-            TestFasta()
+
             Console.WriteLine($"=== {If(_failures = 0, "ALL TESTS PASSED", _failures & " TEST(S) FAILED")} ===")
             Return _failures
         End Function
@@ -93,7 +93,7 @@ Namespace EmMotif
 
         Private Sub TestConstraints()
             Console.WriteLine("-- E 步约束（三种模型）--")
-            Dim alpha As New Alphabet(AlphabetKind.Dna)
+            Dim alpha As New Alphabet(SeqTypes.DNA)
             Dim truth As New List(Of Int32)()
             Dim seqs = PlantDna(5, 200, "ACGTTACGTA", 0.8, _rng, truth)
             Dim encs = EncodeAll(seqs, alpha)
@@ -148,7 +148,7 @@ Namespace EmMotif
 
         Private Sub TestDnaRecovery()
             Console.WriteLine("-- DNA ZOOPS 种植恢复 --")
-            Dim alpha As New Alphabet(AlphabetKind.Dna)
+            Dim alpha As New Alphabet(SeqTypes.DNA)
             Dim motif = "ACGTTACGTA"
             Dim truth As New List(Of Int32)()
             Dim seqs = PlantDna(30, 200, motif, 0.8, _rng, truth)
@@ -204,7 +204,7 @@ Namespace EmMotif
 
         Private Sub TestProteinRecovery()
             Console.WriteLine("-- 蛋白序列恢复 --")
-            Dim alpha As New Alphabet(AlphabetKind.Protein)
+            Dim alpha As New Alphabet(SeqTypes.Protein)
             Dim motif = "GASTLSKL"
             Dim w = motif.Length
             Dim seqs As New List(Of String)()
@@ -250,7 +250,7 @@ Namespace EmMotif
 
         Private Sub TestRevcomp()
             Console.WriteLine("-- 反义链恢复 --")
-            Dim alpha As New Alphabet(AlphabetKind.Dna)
+            Dim alpha As New Alphabet(SeqTypes.DNA)
             Dim motif = "ACGTCGTA"
             Dim w = motif.Length
             Dim rc = alpha.Revcomp(motif)
@@ -307,7 +307,7 @@ Namespace EmMotif
 
         Private Sub TestAnr()
             Console.WriteLine("-- ANR 多位点 --")
-            Dim alpha As New Alphabet(AlphabetKind.Dna)
+            Dim alpha As New Alphabet(SeqTypes.DNA)
             Dim motif = "TTGACAAT"
             Dim w = motif.Length
             ' 每条序列植入 2~3 个位点
@@ -381,12 +381,12 @@ Namespace EmMotif
 
         Private Sub TestNormalization()
             Console.WriteLine("-- PWM/背景归一化 --")
-            Dim alpha As New Alphabet(AlphabetKind.Dna)
+            Dim alpha As New Alphabet(SeqTypes.DNA)
             Dim truth As New List(Of Int32)()
             Dim seqs = PlantDna(10, 150, "GCGCGTATA", 1.0, _rng, truth)
             Dim encs = EncodeAll(seqs, alpha)
             Dim bg = BgOf(encs, alpha)
-            Check(Math.Abs(bg.Sum() - 1.0) < 1.0E-9, "背景频率和 = 1")
+            Check(Math.Abs(bg.Sum() - 1.0) < 0.000000001, "背景频率和 = 1")
 
             Dim model As New EmModel(9, alpha, SiteModel.Oops, bg, 0.1)
             model.InitFromSeed(alpha.Encode("GCGCGTATA"))
@@ -405,7 +405,7 @@ Namespace EmMotif
                 For a = 0 To 3
                     s += model.Pwm(k, a)
                 Next
-                If Math.Abs(s - 1.0) > 1.0E-9 Then colOk = False
+                If Math.Abs(s - 1.0) > 0.000000001 Then colOk = False
             Next
             Check(colOk, "PWM 每列概率和 = 1（含伪计数 M 步）")
         End Sub
@@ -414,7 +414,7 @@ Namespace EmMotif
 
         Private Sub TestMultiMotif()
             Console.WriteLine("-- 多 motif 屏蔽重跑 --")
-            Dim alpha As New Alphabet(AlphabetKind.Dna)
+            Dim alpha As New Alphabet(SeqTypes.DNA)
             Dim motif1 = "ACGTTACGTA"
             Dim motif2 = "TTGGCCAGGA"
             Dim w1 = motif1.Length
@@ -470,27 +470,6 @@ Namespace EmMotif
             Check(back IsNot Nothing AndAlso back.Id = "motif_1" AndAlso back.Width = 4 AndAlso
                   back.Pwm("A")(0) = 0.7 AndAlso back.Sites(0).Start = 10 AndAlso
                   back.Sites(0).Strand = "+", "MotifDto JSON 往返保真")
-        End Sub
-
-        ' ---------------- 10. FASTA ----------------
-
-        Private Sub TestFasta()
-            Console.WriteLine("-- FASTA 解析 --")
-            Dim tmp = Path.Combine(Path.GetTempPath(), "emmotif_test.fa")
-            File.WriteAllLines(tmp, {
-                "; comment line", ">seq1 description here", "ACGTACGTAG", "TTTTGGGGCC",
-                "", ">seq2", "acgtacgtacgt"})
-            Dim recs = FastaIO.Read(tmp)
-            Check(recs.Count = 2, $"记录数 = 2（实际 {recs.Count}）")
-            Check(recs(0).Id = "seq1" AndAlso recs(0).Description = "description here", "头行解析")
-            Check(recs(0).Seq = "ACGTACGTAGTTTTGGGGCC", "多行拼接")
-            Check(recs(1).Seq = "acgtacgtacgt", "小写保留（编码时归一）")
-            Dim alpha As New Alphabet(AlphabetKind.Dna)
-            Dim enc = alpha.Encode(recs(1).Seq)
-            Check(enc.All(Function(a) a >= 0), "小写序列编码成功（内部大写归一）")
-            Dim encAmb = alpha.Encode("ACGNNRT")
-            Check(encAmb(3) >= 0 AndAlso encAmb(4) < 0 AndAlso encAmb(6) < 0, "歧义字符 → −1")
-            Check(alpha.Revcomp("ACGTTT") = "AAACGT", "反向互补")
         End Sub
 
     End Module

@@ -25,8 +25,6 @@
 '   负链第 k 列读 enc(j+W−1−k) 的互补索引。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Text
 Imports Microsoft.VisualBasic.Math
 

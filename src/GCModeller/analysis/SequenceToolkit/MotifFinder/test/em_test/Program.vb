@@ -14,8 +14,10 @@ Imports System.Globalization
 Imports System.IO
 Imports System.Text.Json
 Imports System.Text.Json.Serialization
-Imports EmMotif.EmMotif.Core
-Imports EmMotif.EmMotif.Model
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.EmMotif.Core
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.EmMotif.Model
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace EmMotif
 
@@ -23,7 +25,7 @@ Namespace EmMotif
 
         Private Const VersionString As String = "1.0.0"
 
-        Public Function Main(args As String()) As Integer
+        Public Function Main2(args As String()) As Integer
             If args.Length = 0 OrElse args(0) = "--help" OrElse args(0) = "-h" Then
                 PrintUsage()
                 Return 0
@@ -84,21 +86,21 @@ Namespace EmMotif
             End If
             Dim outPath = FlagValue(args, "--out")
 
-            Dim records = FastaIO.Read(inPath)
+            Dim records = FastaFile.Read(inPath)
 
             ' 字母表
             Dim alpha As Alphabet
             Dim alphaStr = StrArg(args, "--alphabet", "auto")
             If alphaStr = "dna" Then
-                alpha = New Alphabet(AlphabetKind.Dna)
+                alpha = New Alphabet(SeqTypes.DNA)
             ElseIf alphaStr = "protein" Then
-                alpha = New Alphabet(AlphabetKind.Protein)
+                alpha = New Alphabet(SeqTypes.Protein)
             Else
-                Dim longest = records(0).Seq
+                Dim longest = records(0).SequenceData
                 For Each r In records
-                    If r.Seq.Length > longest.Length Then longest = r.Seq
+                    If r.Length > longest.Length Then longest = r.SequenceData
                 Next
-                alpha = New Alphabet(Alphabet.Detect(longest))
+                alpha = New Alphabet(BioSequenceValidator.IdentifySequence(longest))
             End If
 
             ' 模型
@@ -139,16 +141,16 @@ Namespace EmMotif
             Dim encList As New List(Of Int32())()
             Dim seqSummaries As New List(Of SeqSummary)()
             For Each r In records
-                encList.Add(alpha.Encode(r.Seq))
+                encList.Add(alpha.Encode(r.SequenceData))
                 Dim amb As Int32 = 0
                 For Each a In encList(encList.Count - 1)
                     If a < 0 Then amb += 1
                 Next
                 seqSummaries.Add(New SeqSummary With {
-                    .Id = r.Id, .Length = r.Seq.Length, .AmbiguousPositions = amb})
+                    .Id = r.locus_tag, .Length = r.Length, .AmbiguousPositions = amb})
             Next
 
-            Console.Error.WriteLine($"EmMotif {VersionString}  字母表={If(alpha.Kind = AlphabetKind.Dna, "dna", "protein")}  " &
+            Console.Error.WriteLine($"EmMotif {VersionString}  字母表={If(alpha.Kind = SeqTypes.DNA, "dna", "protein")}  " &
                                     $"模型={modelStr}  序列数={records.Count}  W=[{opts.MinW},{opts.MaxW}]")
 
             ' 背景频率（结果 JSON 也用）
@@ -218,12 +220,12 @@ Namespace EmMotif
                     Dim seg As String
                     If sp.StrandMinus Then
                         ' 负链位点段：原串 [j, j+W) 的反向互补
-                        seg = alpha.Revcomp(rec.Seq.Substring(sp.Pos, r.Width))
+                        seg = alpha.Revcomp(rec.SequenceData.Substring(sp.Pos, r.Width))
                     Else
-                        seg = rec.Seq.Substring(sp.Pos, r.Width).ToUpperInvariant()
+                        seg = rec.SequenceData.Substring(sp.Pos, r.Width).ToUpperInvariant()
                     End If
                     siteDtos.Add(New SiteDto With {
-                        .Sequence = rec.Id,
+                        .Sequence = rec.locus_tag,
                         .Start = sp.Pos + 1,               ' 1-based
                         .Strand = If(sp.StrandMinus, "-", "+"),
                         .Posterior = Math.Round(sp.Z, 5),
@@ -244,7 +246,7 @@ Namespace EmMotif
             Dim report As New MotifReport With {
                 .Program = "EmMotif",
                 .Version = VersionString,
-                .Alphabet = If(alpha.Kind = AlphabetKind.Dna, "dna", "protein"),
+                .Alphabet = If(alpha.Kind = SeqTypes.DNA, "dna", "protein"),
                 .Parameters = New MotifParameters With {
                     .Model = modelStr,
                     .MinWidth = opts.MinW,

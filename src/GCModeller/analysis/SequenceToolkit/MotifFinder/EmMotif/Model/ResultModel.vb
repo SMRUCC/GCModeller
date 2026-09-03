@@ -2,8 +2,6 @@
 ' ResultModel.vb — 结构化 motif 发现结果对象（JSON DTO，System.Text.Json）
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Text.Json.Serialization
 
 Namespace EmMotif.Model

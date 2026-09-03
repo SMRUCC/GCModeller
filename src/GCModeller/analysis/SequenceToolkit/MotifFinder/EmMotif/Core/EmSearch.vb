@@ -12,9 +12,6 @@
 ' [em.md §9 宽度范围] minw..maxw 逐宽度评估，每个 motif 槽位取 LLR 最高宽度。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-
 Namespace EmMotif.Core
 
     Public Class SearchOptions
@@ -102,7 +99,7 @@ Namespace EmMotif.Core
         End Function
 
         Private Shared Function BetterThan(a As EmMotifResult, b As EmMotifResult) As Boolean
-            If Math.Abs(a.LogLikelihood - b.LogLikelihood) > 1.0E-9 Then
+            If Math.Abs(a.LogLikelihood - b.LogLikelihood) > 0.000000001 Then
                 Return a.LogLikelihood > b.LogLikelihood
             End If
             Return a.Evalue < b.Evalue
@@ -295,7 +292,7 @@ Namespace EmMotif.Core
                 End If
                 Dim dPwm = model.MaxDeltaTo(prev)
                 prev = model.Clone()
-                If dPwm < 1.0E-12 Then
+                If dPwm < 0.000000000001 Then
                     converged = True
                     Exit For
                 End If
@@ -324,7 +321,7 @@ Namespace EmMotif.Core
             Dim flatSeq As New List(Of Int32)()
             For si = 0 To sitesList.Count - 1
                 For Each sp In sitesList(si)
-                    If sp.Z > 1.0E-9 Then
+                    If sp.Z > 0.000000001 Then
                         flat.Add(sp)
                         flatSeq.Add(si)
                     End If

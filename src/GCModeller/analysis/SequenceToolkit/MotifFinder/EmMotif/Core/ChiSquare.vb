@@ -10,8 +10,6 @@
 ' Python 镜像已对 χ²(1,2,4,10) 文献分位数验证至 5e-4。
 ' ============================================================================
 
-Imports System
-
 Namespace EmMotif.Core
 
     Public Module ChiSquare
@@ -29,7 +27,7 @@ Namespace EmMotif.Core
                     ap += 1.0
                     delt *= x / ap
                     summ += delt
-                    If Math.Abs(delt) < Math.Abs(summ) * 1.0E-15 Then Exit For
+                    If Math.Abs(delt) < Math.Abs(summ) * 0.000000000000001 Then Exit For
                 Next
                 Dim p = summ * Math.Exp(-x + s * Math.Log(x) - GammaLn(s))
                 Return Math.Max(0.0, Math.Min(1.0, 1.0 - p))
@@ -49,7 +47,7 @@ Namespace EmMotif.Core
                     d = 1.0 / d
                     Dim delt = d * c
                     h *= delt
-                    If Math.Abs(delt - 1.0) < 1.0E-15 Then Exit For
+                    If Math.Abs(delt - 1.0) < 0.000000000000001 Then Exit For
                 Next
                 Dim q = Math.Exp(-x + s * Math.Log(x) - GammaLn(s)) * h
                 Return Math.Max(0.0, Math.Min(1.0, q))
@@ -68,7 +66,7 @@ Namespace EmMotif.Core
             Dim coef() As Double = {
                 0.99999999999980993, 676.5203681218851, -1259.1392167224028,
                 771.32342877765313, -176.61502916214059, 12.507343278686905,
-                -0.13857109526572012, 9.9843695780195716E-6, 1.5056327351493116E-7}
+                -0.13857109526572012, 0.0000099843695780195716, 0.00000015056327351493116}
             If x < 0.5 Then
                 Return Math.Log(Math.PI / Math.Sin(Math.PI * x)) - GammaLn(1.0 - x)
             End If

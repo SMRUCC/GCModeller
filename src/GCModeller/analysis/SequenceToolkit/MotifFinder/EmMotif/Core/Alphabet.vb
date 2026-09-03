@@ -8,15 +8,9 @@
 ' 位碱基的互补。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace EmMotif.Core
-
-    Public Enum AlphabetKind
-        Dna = 0
-        Protein = 1
-    End Enum
 
     Public Enum SiteModel
         Oops = 0     ' [em.md §6] 每条序列恰好 1 个实例：Σ_j Z_ij = 1
@@ -26,16 +20,16 @@ Namespace EmMotif.Core
 
     Public Class Alphabet
 
-        Public ReadOnly Kind As AlphabetKind
+        Public ReadOnly Kind As SeqTypes
         Public ReadOnly Letters As String
         Public ReadOnly Size As Int32
         Private ReadOnly _encode As Dictionary(Of Char, Int32)
         Private ReadOnly _compMap As Int32()      ' 反向互补映射（仅核酸）
         Public ReadOnly SupportsRevcomp As Boolean
 
-        Public Sub New(kind As AlphabetKind)
+        Public Sub New(kind As SeqTypes)
             Me.Kind = kind
-            If kind = AlphabetKind.Dna Then
+            If kind = SeqTypes.DNA Then
                 Letters = "ACGT"
                 SupportsRevcomp = True
             Else
@@ -48,9 +42,9 @@ Namespace EmMotif.Core
                 _encode(Letters(i)) = i
             Next
             ' 尿嘧啶并入 T
-            If kind = AlphabetKind.Dna Then _encode("U"c) = 1   ' T 的索引是 1
+            If kind = SeqTypes.DNA Then _encode("U"c) = 1   ' T 的索引是 1
             _compMap = New Int32(Size - 1) {}
-            If kind = AlphabetKind.Dna Then
+            If kind = SeqTypes.DNA Then
                 ' A<->T, C<->G
                 _compMap(0) = 3 : _compMap(1) = 2 : _compMap(2) = 1 : _compMap(3) = 0
             End If
@@ -82,7 +76,7 @@ Namespace EmMotif.Core
 
         ''' <summary>反向互补（字符串形式，用于输出）</summary>
         Public Function Revcomp(seq As String) As String
-            If Kind <> AlphabetKind.Dna Then Return seq
+            If Kind <> SeqTypes.DNA Then Return seq
             Dim ch = seq.ToCharArray()
             Array.Reverse(ch)
             For i = 0 To ch.Length - 1
@@ -93,21 +87,6 @@ Namespace EmMotif.Core
             Next
             Return New String(ch)
         End Function
-
-        ''' <summary>自动判定字母表：出现 ACGT 之外的有效字符（非歧义）→ 蛋白</summary>
-        Public Shared Function Detect(seq As String) As AlphabetKind
-            Dim dnaAlpha As New Alphabet(AlphabetKind.Dna)
-            Dim aaOnly As Int32 = 0
-            For Each c In seq.ToUpperInvariant()
-                Dim v = dnaAlpha.EncodeChar(c)
-                If v < 0 Then
-                    ' 不属于 DNA 表（含 U 归并后）——若属蛋白 20 字母则为蛋白序列
-                    If "ACDEFGHIKLMNPQRSTVWY".IndexOf(c) >= 0 Then aaOnly += 1
-                End If
-            Next
-            Return If(aaOnly > 0, AlphabetKind.Protein, AlphabetKind.Dna)
-        End Function
-
     End Class
 
 End Namespace
