@@ -216,8 +216,7 @@ Namespace EmMotif.Core
         ''' <summary>
         ''' M 步：由全部序列的位点后验重估 PWM 与 λ [em.md §3]。
         ''' </summary>
-        Public Sub MStep(encList As List(Of Int32()), sitesList As List(Of List(Of SitePosterior)),
-                         Optional revcomp As Boolean = False)
+        Public Sub MStep(encList As List(Of Int32()), sitesList As List(Of List(Of SitePosterior)))
             ' 加权计数 [em.md §3 Step1]：n_{col,a} = Σ Z_ij·1[S_i(j+col) = a]
             Dim counts(W - 1, Me.K - 1) As Double
             For si = 0 To encList.Count - 1
@@ -261,13 +260,17 @@ Namespace EmMotif.Core
                         totalZ += sp.Z
                     Next
                 Next
-                Dim nwinTotal As Double = 0
+                ' 分母是「位点槽位数」= 候选位置数，不是候选链数。
+                ' ANR 的 E 步与似然都让同一位置的正/负链共享一个「无位点」状态
+                ' （(1−λ) 只在每个位置上出现一次），因此每个位置只有一个槽位；
+                ' 双链下若按 2×nwin 归一，λ 会被系统性低估一半，
+                ' M 步就不再最大化 Q 函数，EM 的单调收敛保证随之失效（实测 LL 下降 17.5）。
+                Dim nPosTotal As Double = 0
                 For Each enc In encList
                     Dim nw = enc.Length - W + 1
-                    If nw > 0 Then nwinTotal += nw
+                    If nw > 0 Then nPosTotal += nw
                 Next
-                If revcomp Then nwinTotal *= 2.0         ' 双链候选窗口总数
-                Lambda = Clamp(totalZ / Math.Max(1.0, nwinTotal), 0.0001, 0.9999)
+                Lambda = Clamp(totalZ / Math.Max(1.0, nPosTotal), 0.0001, 0.9999)
             Else
                 Lambda = 1.0
             End If

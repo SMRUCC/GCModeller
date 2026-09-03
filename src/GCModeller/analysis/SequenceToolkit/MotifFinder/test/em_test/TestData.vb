@@ -199,6 +199,43 @@ Namespace EmMotif
             Return c
         End Function
 
+        ''' <summary>
+        ''' 允许位移的最佳匹配数（motif 发现质量的合理度量）。
+        '''
+        ''' EM 收敛到的窗口与真实植入位置可能错开 1~2 bp，甚至发生循环移位
+        ''' （例如植入 CAGGTAGCA、找回 ACAGGTAGC）——这是 motif 发现的固有现象，
+        ''' MEME 同样存在。因此恢复质量应按「允许位移的最佳比对」衡量，
+        ''' 逐位比对会因窗口寄存器不同而产生大量假失败。
+        ''' </summary>
+        ''' <param name="minOverlap">参与比较的最小重叠长度（避免短重叠的高分假象）</param>
+        Public Function BestShiftedMatch(a As String, b As String, Optional minOverlap As Integer = -1) As Integer
+            If minOverlap < 0 Then minOverlap = Math.Max(4, Math.Min(a.Length, b.Length) - 2)
+
+            Dim best = 0
+            For d = -(a.Length - 1) To b.Length - 1
+                Dim overlap = 0
+                Dim match = 0
+                For i = 0 To a.Length - 1
+                    Dim j = i + d
+                    If j < 0 OrElse j >= b.Length Then Continue For
+                    overlap += 1
+                    If a(i) = b(j) Then match += 1
+                Next
+                If overlap >= minOverlap AndAlso match > best Then best = match
+            Next
+            Return best
+        End Function
+
+        ''' <summary>在多个候选 motif 中取允许位移的最佳匹配数（多 motif 用例用）</summary>
+        Public Function BestShiftedMatchAny(text As String, ParamArray needles As String()) As Integer
+            Dim best = 0
+            For Each nd In needles
+                Dim m = BestShiftedMatch(text, nd)
+                If m > best Then best = m
+            Next
+            Return best
+        End Function
+
         ''' <summary>在 needles 中任取一个，返回与 text 的最大匹配数（多 motif 用例用）</summary>
         Public Function BestMatchCount(text As String, ParamArray needles As String()) As Integer
             Dim best = -1

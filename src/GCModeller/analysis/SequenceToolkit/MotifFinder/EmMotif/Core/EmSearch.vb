@@ -242,7 +242,13 @@ Namespace EmMotif.Core
                 Next
             Next
 
-            ' 打分：富集度 = 观测次数 / 背景模型下的期望次数 [em.md §5 K-mer 富集]。
+            ' 打分：富集度 = 邻域观测次数 / 背景模型下的期望次数 [em.md §5 K-mer 富集]。
+            '
+            ' 邻域 = Hamming 距离 ≤ 1 的全部 W-mer（含自身）。只数精确 k-mer 是不够的：
+            ' 蛋白（K=20）或高突变率下，绝大多数 k-mer 只出现 1 次，排序会退化成
+            ' 「按 key 字典序取前 N 个」，等价于随机种子；而真实 motif 的各位点
+            ' 因突变彼此相差 1~2 个字母，只有聚合邻域才能把它们聚成一类 [缺陷 #11]。
+            '
             ' 期望次数 = 候选窗口总数 × Π_k θ0(kmer_k)；背景不均匀时，
             ' 单纯按出现次数排序会偏向高频率字母组成的 k-mer。
             Dim bg = ComputeBackground()
@@ -252,13 +258,29 @@ Namespace EmMotif.Core
                 If nw > 0 Then nwinTotal += nw
             Next
 
+            Dim alphaSize = _alpha.Size
             Dim ranked As New List(Of Tuple(Of Double, String))()
             For Each kv In counter
+                Dim seedArr = CType(meta(kv.Key).Clone(), Int32())
+                Dim neighbourhood As Double = kv.Value
+
+                For pos = 0 To w - 1
+                    Dim original = seedArr(pos)
+                    For a = 0 To alphaSize - 1
+                        If a = original Then Continue For
+                        seedArr(pos) = a
+                        Dim nbKey = KeyOf(seedArr)
+                        Dim nbCount As Integer
+                        If counter.TryGetValue(nbKey, nbCount) Then neighbourhood += nbCount
+                    Next
+                    seedArr(pos) = original
+                Next
+
                 Dim expected As Double = nwinTotal
                 For Each a In meta(kv.Key)
                     expected *= bg(a)
                 Next
-                Dim enrichment = If(expected > 0, kv.Value / expected, CDbl(kv.Value))
+                Dim enrichment = If(expected > 0, neighbourhood / expected, neighbourhood)
                 ranked.Add(Tuple.Create(enrichment, kv.Key))
             Next
             ranked.Sort(Function(a, b)
@@ -308,7 +330,7 @@ Namespace EmMotif.Core
                 Next
                 ' M 步 [em.md §3]
                 Dim nextModel = model.Clone()
-                nextModel.MStep(_masked, sitesList, _opts.Revcomp)
+                nextModel.MStep(_masked, sitesList)
                 model = nextModel
                 ' 收敛判据 [em.md §4]：ΔLL < ε
                 Dim newLl = model.FullLogLik(_masked, _opts.Revcomp)

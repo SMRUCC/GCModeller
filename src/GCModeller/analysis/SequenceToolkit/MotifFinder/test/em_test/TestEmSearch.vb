@@ -129,7 +129,7 @@ Namespace EmMotif
             If results.Count = 0 Then Return
 
             Dim r = results(0)
-            Dim match = TestData.MatchCount(r.Consensus, motif)
+            Dim match = TestData.BestShiftedMatch(r.Consensus, motif)
             Dim score = ScoreSites(r, planted, 2)
 
             TestAssert.Note($"共识 = {r.Consensus}（匹配 {match}/10）λ={r.Lambda:F3} " &
@@ -158,7 +158,7 @@ Namespace EmMotif
             If results.Count = 0 Then Return
 
             Dim r = results(0)
-            Dim match = TestData.MatchCount(r.Consensus, motif)
+            Dim match = TestData.BestShiftedMatch(r.Consensus, motif)
             Dim score = ScoreSites(r, planted, 2)
             TestAssert.Note($"共识 = {r.Consensus}（匹配 {match}/10）定位 {score}")
 
@@ -195,7 +195,7 @@ Namespace EmMotif
             If results.Count = 0 Then Return
 
             Dim r = results(0)
-            Dim match = TestData.MatchCount(r.Consensus, motif)
+            Dim match = TestData.BestShiftedMatch(r.Consensus, motif)
             Dim score = ScoreSites(r, planted, 1)
             TestAssert.Note($"共识 = {r.Consensus}（匹配 {match}/8）定位 {score}")
 
@@ -221,7 +221,7 @@ Namespace EmMotif
             If results.Count = 0 Then Return
 
             Dim r = results(0)
-            Dim match = TestData.MatchCount(r.Consensus, motif)
+            Dim match = TestData.BestShiftedMatch(r.Consensus, motif)
             Dim score = ScoreSites(r, planted, 2)
             TestAssert.Note($"共识 = {r.Consensus}（匹配 {match}/8）定位 {score} 链向正确 {score.StrandOk}/{score.Total}")
 
@@ -254,7 +254,7 @@ Namespace EmMotif
             If results.Count = 0 Then Return
 
             Dim r = results(0)
-            Dim match = TestData.MatchCount(r.Consensus, motif)
+            Dim match = TestData.BestShiftedMatch(r.Consensus, motif)
             Dim strong = 0
             For Each sp In r.Sites
                 If sp.Z > 0.5 Then strong += 1
@@ -297,10 +297,10 @@ Namespace EmMotif
             Dim c2 = results(1).Consensus
             TestAssert.Note($"motif_1 = {c1}   motif_2 = {c2}")
 
-            Dim ok1 = TestData.BestMatchCount(c1, m1, m2) >= 8
-            Dim ok2 = TestData.BestMatchCount(c2, m1, m2) >= 8
-            TestAssert.Check(ok1, $"motif_1 命中某个植入 motif（≥8/10，实际 {TestData.BestMatchCount(c1, m1, m2)}）")
-            TestAssert.Check(ok2, $"motif_2 命中某个植入 motif（≥8/10，实际 {TestData.BestMatchCount(c2, m1, m2)}）")
+            Dim s1 = TestData.BestShiftedMatchAny(c1, m1, m2)
+            Dim s2 = TestData.BestShiftedMatchAny(c2, m1, m2)
+            TestAssert.Check(s1 >= 8, $"motif_1 命中某个植入 motif（≥8/10，实际 {s1}）")
+            TestAssert.Check(s2 >= 8, $"motif_2 命中某个植入 motif（≥8/10，实际 {s2}）")
             TestAssert.Check(String.CompareOrdinal(c1, c2) <> 0, "两个 motif 互不相同（屏蔽生效）[em.md §7]")
         End Sub
 
@@ -317,7 +317,7 @@ Namespace EmMotif
                 Dim results = Discover(planted.Sequences, alpha, opts)
                 TestAssert.Check(results.Count = 1, $"策略 {strategy} 能产出结果")
                 If results.Count > 0 Then
-                    Dim m = TestData.MatchCount(results(0).Consensus, motif)
+                    Dim m = TestData.BestShiftedMatch(results(0).Consensus, motif)
                     TestAssert.Check(m >= 7, $"策略 {strategy} 共识恢复 ≥7/9（实际 {m}/9，共识 {results(0).Consensus}）")
                 End If
             Next
@@ -378,8 +378,8 @@ Namespace EmMotif
             ' 若按原始 LL 择优会稳定选中 maxw=14 —— 见 CODE_REVIEW 缺陷 #10
             TestAssert.Check(r.Width >= 7 AndAlso r.Width <= 11,
                              $"选中宽度落在真实宽度附近 [7,11]，而非边界 14 [缺陷 #10]")
-            TestAssert.Check(TestData.MatchCount(r.Consensus, motif) >= 7,
-                             $"变宽搜索后仍能恢复 motif（匹配 {TestData.MatchCount(r.Consensus, motif)}/8）")
+            TestAssert.Check(TestData.BestShiftedMatch(r.Consensus, motif) >= 7,
+                             $"变宽搜索后仍能恢复 motif（匹配 {TestData.BestShiftedMatch(r.Consensus, motif)}/8）")
         End Sub
 
         ''' <summary>边界与异常输入不应崩溃</summary>
@@ -465,7 +465,7 @@ Namespace EmMotif
                 If results.Count = 0 Then Continue For
 
                 Dim r = results(0)
-                Dim match = TestData.MatchCount(r.Consensus, expectMotif)
+                Dim match = TestData.BestShiftedMatch(r.Consensus, expectMotif)
                 TestAssert.Note($"{file}：{seqs.Count} 条序列，共识 = {r.Consensus}（与种植 motif 匹配 {match}/{expectMotif.Length}）")
                 TestAssert.Check(match >= expectMotif.Length - 1,
                                  $"{file} 恢复出种植 motif（{match}/{expectMotif.Length}）")

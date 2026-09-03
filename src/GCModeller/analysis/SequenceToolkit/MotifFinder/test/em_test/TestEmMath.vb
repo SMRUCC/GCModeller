@@ -35,19 +35,31 @@ Namespace EmMotif
         Public Property Iterations As Integer
         Public Property Converged As Boolean
 
-        ''' <summary>LL 轨迹是否单调不降（EM 的理论保证 [em.md §4]）</summary>
-        Public Function IsMonotone(Optional tol As Double = 0.000001) As Boolean
-            For i = 1 To Trace.Count - 1
-                If Trace(i) < Trace(i - 1) - tol Then Return False
-            Next
-            Return True
+        ''' <summary>
+        ''' LL 轨迹是否单调不降（EM 的理论保证 [em.md §4]）。
+        ''' 容差按相对量给：M 步带伪计数（等价于 Dirichlet 先验的 MAP-EM），
+        ''' 最大化的是带惩罚的目标，未惩罚的似然在收敛点附近允许 1e−7 量级的抖动。
+        ''' </summary>
+        Public Function IsMonotone(Optional relTol As Double = 0.0000001) As Boolean
+            Return WorstRelativeDrop() > -relTol
         End Function
 
-        ''' <summary>LL 轨迹中最大的单轮下降幅度（负号为下降）</summary>
+        ''' <summary>LL 轨迹中最大的单轮绝对下降幅度（负号为下降）</summary>
         Public Function WorstDrop() As Double
             Dim worst As Double = 0
             For i = 1 To Trace.Count - 1
                 Dim d = Trace(i) - Trace(i - 1)
+                If d < worst Then worst = d
+            Next
+            Return worst
+        End Function
+
+        ''' <summary>LL 轨迹中最大的单轮相对下降幅度（按上一轮似然的量级归一化）</summary>
+        Public Function WorstRelativeDrop() As Double
+            Dim worst As Double = 0
+            For i = 1 To Trace.Count - 1
+                Dim scale = Math.Max(1.0, Math.Abs(Trace(i - 1)))
+                Dim d = (Trace(i) - Trace(i - 1)) / scale
                 If d < worst Then worst = d
             Next
             Return worst
@@ -311,14 +323,13 @@ Namespace EmMotif
             Return s
         End Function
 
-        ''' <summary>统计候选窗口总数（双链时 ×2）</summary>
-        Public Function TotalWindows(encs As List(Of Int32()), w As Integer, revcomp As Boolean) As Double
+        ''' <summary>候选位置总数（= Σ_i (L_i − W + 1)，与链数无关）</summary>
+        Public Function TotalPositions(encs As List(Of Int32()), w As Integer) As Double
             Dim s As Double = 0
             For Each enc In encs
                 Dim nw = enc.Length - w + 1
                 If nw > 0 Then s += nw
             Next
-            If revcomp Then s *= 2.0
             Return s
         End Function
 
@@ -343,7 +354,7 @@ Namespace EmMotif
                 Next
 
                 Dim nextModel = model.Clone()
-                nextModel.MStep(encs, sites, revcomp)
+                nextModel.MStep(encs, sites)
                 model = nextModel
 
                 Dim ll = model.FullLogLik(encs, revcomp)
@@ -505,7 +516,7 @@ Namespace EmMotif
                     es.Add(m.EStep(enc, True))
                 Next
                 Dim before = m.Clone()
-                m.MStep(encList, es, True)
+                m.MStep(encList, es)
 
                 Dim oracle = OracleMstepPwm(encList, es, ww, alpha.Size, pc, ComplementOf(alpha))
                 Dim flatActual = FlattenPwm(m.Pwm, ww, alpha.Size)
@@ -855,8 +866,8 @@ Namespace EmMotif
                     Dim tag = $"{sm}/{(If(rev, "双链", "单链"))}"
 
                     TestAssert.Check(run.Trace.Count > 1, $"{tag} LL 轨迹至少 2 个点")
-                    TestAssert.Check(run.IsMonotone(0.000001),
-                                     $"{tag} LL 逐轮单调不降（最大下降 {run.WorstDrop():G4}）[em.md §4]")
+                    TestAssert.Check(run.IsMonotone(),
+                                     $"{tag} LL 逐轮单调不降（最大下降 {run.WorstDrop():G4}，相对 {run.WorstRelativeDrop():G3}）[em.md §4]")
                 Next
             Next
         End Sub
@@ -880,7 +891,7 @@ Namespace EmMotif
                     sz.Add(mz.EStep(enc, rev))
                 Next
                 Dim beforeZ = mz.Lambda
-                mz.MStep(encs, sz, rev)
+                mz.MStep(encs, sz)
                 Dim expectZ = TestAssert.ClampLike(TotalZ(sz) / encs.Count, 0.001, 0.999)
                 TestAssert.CheckNear(mz.Lambda, expectZ, 0.000000001,
                                      $"ZOOPS λ = ΣZ/N（{(If(rev, "双链", "单链"))}，{beforeZ:G4} → {mz.Lambda:G4}）[em.md §3]")
@@ -892,10 +903,12 @@ Namespace EmMotif
                 For Each enc In encs
                     sa.Add(ma.EStep(enc, rev))
                 Next
-                ma.MStep(encs, sa, rev)
-                Dim expectA = TestAssert.ClampLike(TotalZ(sa) / TotalWindows(encs, w, rev), 0.0001, 0.9999)
+                ma.MStep(encs, sa)
+                ' ANR 的分母是「位点槽位数」= 候选位置数：同一位置的正/负链共享
+                ' 一个「无位点」状态，双链不会让槽位翻倍 [em.md §3]
+                Dim expectA = TestAssert.ClampLike(TotalZ(sa) / TotalPositions(encs, w), 0.0001, 0.9999)
                 TestAssert.CheckNear(ma.Lambda, expectA, 0.000000001,
-                                     $"ANR λ = ΣZ/窗口总数（{(If(rev, "双链", "单链"))}，λ={ma.Lambda:G6}）[em.md §3]")
+                                     $"ANR λ = ΣZ/位置数（{(If(rev, "双链", "单链"))}，λ={ma.Lambda:G6}）[em.md §3]")
 
                 ' OOPS：λ ≡ 1
                 Dim mo As New EmModel(w, alpha, SiteModel.Oops, bg, 0.1)
@@ -904,7 +917,7 @@ Namespace EmMotif
                 For Each enc In encs
                     so.Add(mo.EStep(enc, rev))
                 Next
-                mo.MStep(encs, so, rev)
+                mo.MStep(encs, so)
                 TestAssert.CheckNear(mo.Lambda, 1.0, 0.000000001, "OOPS λ ≡ 1 [em.md §6]")
             Next
         End Sub
