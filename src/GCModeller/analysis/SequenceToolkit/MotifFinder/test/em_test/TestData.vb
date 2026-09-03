@@ -236,16 +236,6 @@ Namespace EmMotif
             Return best
         End Function
 
-        ''' <summary>在 needles 中任取一个，返回与 text 的最大匹配数（多 motif 用例用）</summary>
-        Public Function BestMatchCount(text As String, ParamArray needles As String()) As Integer
-            Dim best = -1
-            For Each nd In needles
-                Dim m = MatchCount(text, nd)
-                If m > best Then best = m
-            Next
-            Return best
-        End Function
-
         ''' <summary>
         ''' 定位随生成输出复制的测试数据文件（em_test\*.fa）。
         ''' 依次探测 基准目录\em_test\file、基准目录\file、以及源码树路径（便于 IDE 内直接跑）。

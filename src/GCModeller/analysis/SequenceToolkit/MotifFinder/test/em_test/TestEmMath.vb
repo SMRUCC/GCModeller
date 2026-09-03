@@ -303,15 +303,6 @@ Namespace EmMotif
             Return Function(a As Integer) alpha.Complement(a)
         End Function
 
-        ''' <summary>构造空的后验列表（与序列条数等长）</summary>
-        Public Function EmptySites(seqCount As Integer) As List(Of List(Of SitePosterior))
-            Dim out As New List(Of List(Of SitePosterior))()
-            For i = 0 To seqCount - 1
-                out.Add(New List(Of SitePosterior)())
-            Next
-            Return out
-        End Function
-
         ''' <summary>统计全部位点的后验之和</summary>
         Public Function TotalZ(sitesPerSeq As List(Of List(Of SitePosterior))) As Double
             Dim s As Double = 0
@@ -920,6 +911,144 @@ Namespace EmMotif
                 mo.MStep(encs, so)
                 TestAssert.CheckNear(mo.Lambda, 1.0, 0.000000001, "OOPS λ ≡ 1 [em.md §6]")
             Next
+        End Sub
+
+        ''' <summary>[em.md §3 Step2] 伪计数的作用：越大 PWM 越平滑、峰值概率越低</summary>
+        Public Sub TestPseudocountEffect()
+            TestAssert.Section("伪计数对 PWM 平滑的作用 [em.md §3 Step2]")
+
+            Dim alpha As New Alphabet(SeqTypes.DNA)
+            Dim planted = TestData.PlantDna(12, 120, "ACGTTACGTA", 8080)
+            Dim encs = TestData.EncodeAll(planted.Sequences, alpha)
+            Dim bg = TestData.BgOf(encs, alpha)
+            Dim w = 10
+
+            Dim peaks As New List(Of Double)()
+            For Each pc In New Double() {0.01, 0.1, 1.0}
+                Dim m As New EmModel(w, alpha, SiteModel.Zoops, bg, pc)
+                m.InitFromSeed(alpha.Encode("ACGTTACGTA"))
+                Dim run = RunEm(m, encs, False, maxIter:=40)
+
+                ' 每列概率和仍须为 1（伪计数不改变归一化约束）
+                CheckPwmNormalized(run.Model, $"伪计数 {pc} 下 PWM 每列和 = 1")
+
+                Dim peakSum As Double = 0
+                For col = 0 To w - 1
+                    Dim mx As Double = 0
+                    For a = 0 To alpha.Size - 1
+                        If run.Model.Pwm(col, a) > mx Then mx = run.Model.Pwm(col, a)
+                    Next
+                    peakSum += mx
+                Next
+                peaks.Add(peakSum / w)
+            Next
+
+            TestAssert.Note($"峰值概率均值：pc=0.01 → {peaks(0):F4}，pc=0.1 → {peaks(1):F4}，pc=1.0 → {peaks(2):F4}")
+            TestAssert.Check(peaks(0) > peaks(1) AndAlso peaks(1) > peaks(2),
+                             "伪计数越大，PWM 峰值概率越低（平滑作用）[em.md §3 Step2]")
+
+            ' 极端小伪计数下不允许出现 0 概率（否则 logR = −∞ 会把候选窗口全部排除）
+            Dim tiny As New EmModel(w, alpha, SiteModel.Zoops, bg, 0.01)
+            tiny.InitFromSeed(alpha.Encode("ACGTTACGTA"))
+            Dim tinyRun = RunEm(tiny, encs, False, maxIter:=40)
+            Dim noZero As Boolean = True
+            For col = 0 To w - 1
+                For a = 0 To alpha.Size - 1
+                    If tinyRun.Model.Pwm(col, a) <= 0 Then noZero = False
+                Next
+            Next
+            TestAssert.Check(noZero, "伪计数 > 0 时 PWM 无 0 概率 [em.md §3 Step2]")
+        End Sub
+
+        ''' <summary>
+        ''' [em.md §9] 反向互补不变性：同一批序列与其反向互补应给出一致的 motif 判读。
+        ''' </summary>
+        Public Sub TestRevcompInvariance()
+            TestAssert.Section("反向互补不变性 [em.md §9]")
+
+            Dim alpha As New Alphabet(SeqTypes.DNA)
+            Dim planted = TestData.PlantDna(16, 160, "ACGTTACGTA", 6161)
+            Dim encs = TestData.EncodeAll(planted.Sequences, alpha)
+            Dim bg = TestData.BgOf(encs, alpha)
+            Dim w = 10
+
+            ' 原始序列上：正链位点的 logR
+            Dim mF As New EmModel(w, alpha, SiteModel.Zoops, bg, 0.1)
+            mF.InitFromSeed(alpha.Encode("ACGTTACGTA"))
+            Dim runF = RunEm(mF, encs, False, maxIter:=40)
+
+            ' 反向互补后的序列上：负链位点的 logR 应与前者一致
+            Dim rcSeqs As New List(Of String)()
+            For Each s In planted.Sequences
+                rcSeqs.Add(TestData.RevcompOf(s))
+            Next
+            Dim rcEncs = TestData.EncodeAll(rcSeqs, alpha)
+            Dim mR As New EmModel(w, alpha, SiteModel.Zoops, bg, 0.1)
+            mR.InitFromSeed(alpha.Encode("ACGTTACGTA"))
+            Dim runR = RunEm(mR, rcEncs, False, maxIter:=40)
+
+            ' 不变性的正确表述：把整批序列替换成反向互补后，motif 也会变成
+            ' 原 motif 的反向互补（读取方向反了），而不是保持原样。
+            ' 另外允许 1~2 bp 的窗口寄存器差异（motif 发现的固有现象）。
+            Dim cF = runF.Model.Consensus()
+            Dim cR = runR.Model.Consensus()
+            Dim expectR = TestData.RevcompOf(cF)
+            Dim match = TestData.BestShiftedMatch(cR, expectR)
+            TestAssert.Note($"正链一致序列 = {cF}；反向互补数据集 = {cR}（期望 ≈ {expectR}，匹配 {match}/{w}）")
+            TestAssert.Check(match >= w - 1,
+                             $"反向互补数据集上得到原 motif 的反向互补（{match}/{w}）[em.md §9]")
+
+            ' λ 应一致（位点密度不因读取方向改变）
+            TestAssert.CheckNear(runR.Model.Lambda, runF.Model.Lambda, 0.01,
+                                 $"反向互补后 λ 一致（{runF.Model.Lambda:F4} vs {runR.Model.Lambda:F4}）")
+
+            ' 全似然也应一致（同一批数据的两种表示；差异仅来自寄存器与数值路径）
+            Dim llF = runF.Trace(runF.Trace.Count - 1)
+            Dim llR = runR.Trace(runR.Trace.Count - 1)
+            TestAssert.Check(Math.Abs(llR - llF) / Math.Max(1.0, Math.Abs(llF)) < 0.01,
+                             $"反向互补后全似然一致（{llF:F2} vs {llR:F2}，相对差 {Math.Abs(llR - llF) / Math.Abs(llF):G3}）[em.md §4]")
+        End Sub
+
+        ''' <summary>
+        ''' 数值回归：固定数据集 + 固定种子下的关键指标快照。
+        ''' 用区间而非精确值断言，既能捕捉实现回归，又不会因合理的数值微调而失效。
+        ''' </summary>
+        Public Sub TestGoldenSnapshot()
+            TestAssert.Section("数值回归快照（固定数据集 + 固定种子）")
+
+            Dim alpha As New Alphabet(SeqTypes.DNA)
+            Dim motif = "ACGTTACGTA"
+            Dim planted = TestData.PlantDna(30, 200, motif, 20240903, withSiteRatio:=0.8)
+            Dim opts As New SearchOptions With {
+                .Model = SiteModel.Zoops, .MinW = 10, .MaxW = 10, .NumMotifs = 1,
+                .Revcomp = False, .SeedStrategy = "enriched", .SeedCount = 8,
+                .MaxSeeds = 200, .Pseudocount = 0.1, .MaxIter = 100,
+                .Epsilon = 0.0001, .EvalueMax = 10.0, .RngSeed = 7}
+
+            Dim search As New EmSearch(TestData.EncodeAll(planted.Sequences, alpha), alpha, opts)
+            Dim results = search.Discover()
+
+            TestAssert.Check(results.Count = 1, "回归数据集产出 1 个 motif")
+            If results.Count = 0 Then Return
+
+            Dim r = results(0)
+            TestAssert.Note($"共识={r.Consensus} λ={r.Lambda:F4} LLR={r.LogLikelihoodRatio:F2} " &
+                            $"E={r.Evalue:G3} 迭代={r.Iterations} 收敛={r.Converged}")
+
+            TestAssert.CheckEqual(r.Consensus, motif, "回归数据集共识序列 = 植入 motif")
+            TestAssert.Check(r.Lambda > 0.75 AndAlso r.Lambda <= 1.0,
+                             $"λ 落在 [0.75, 1.0]（80% 序列含位点；实际 {r.Lambda:F4}）")
+            TestAssert.Check(r.LogLikelihoodRatio > 300,
+                             $"LLR 显著为正（实际 {r.LogLikelihoodRatio:F1}）[em.md §9]")
+            TestAssert.Check(r.Evalue < 0.0000000001,
+                             $"E-value 极显著（实际 {r.Evalue:G3}）[em.md §9]")
+            TestAssert.Check(r.Converged AndAlso r.Iterations < 100,
+                             $"在最大迭代内收敛（{r.Iterations} 轮）[em.md §4]")
+
+            ' 位点后验：含植入位点的序列应给出高后验，且归一化后的 ΣZ ≤ 1
+            Dim highZ = r.Sites.Where(Function(sp) sp.Z > 0.9).Count()
+            TestAssert.Check(highZ >= planted.Sites.Count * 0.7,
+                             $"多数植入位点获得高后验 Z>0.9（{highZ}/{planted.Sites.Count}）")
         End Sub
 
     End Module

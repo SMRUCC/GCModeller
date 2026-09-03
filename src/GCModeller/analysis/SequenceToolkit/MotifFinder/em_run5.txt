@@ -1,0 +1,363 @@
+﻿=== EmMotif SelfTest ===
+
+### 字母表与编码
+
+-- 字母表：编码与歧义字符 [em.md §1] --
+  [PASS] 编码长度 = 序列长度
+  [PASS] DNA 编解码往返一致
+  [PASS] DNA 字母表大小 = 4
+  [PASS] 编码对小写字母不敏感
+  [PASS] T 的索引 = 3（Letters="ACGT"）
+  [PASS] U 并入 T，两者索引相同 [缺陷 #5]
+  [PASS] U 不得被编码成 C（索引 1）[缺陷 #5]
+  [PASS] RNA 序列（含 U）与对应 DNA 序列编码一致 [缺陷 #5]
+  [PASS] 核酸歧义字符 N → −1
+  [PASS] 核酸歧义字符 R → −1
+  [PASS] 核酸歧义字符 Y → −1
+  [PASS] 核酸歧义字符 S → −1
+  [PASS] 核酸歧义字符 W → −1
+  [PASS] 核酸歧义字符 K → −1
+  [PASS] 核酸歧义字符 M → −1
+  [PASS] 核酸歧义字符 B → −1
+  [PASS] 核酸歧义字符 D → −1
+  [PASS] 核酸歧义字符 H → −1
+  [PASS] 核酸歧义字符 V → −1
+  [PASS] 序列中的 N 编码为 −1
+  [PASS] 有效字母计数正确（9 − 1 个 N）
+  [PASS] 蛋白歧义字符 B → −1
+  [PASS] 蛋白歧义字符 X → −1
+  [PASS] 蛋白歧义字符 Z → −1
+  [PASS] 蛋白歧义字符 U → −1
+  [PASS] 蛋白歧义字符 O → −1
+  [PASS] A ↔ T
+  [PASS] T ↔ A
+  [PASS] C ↔ G
+  [PASS] G ↔ C
+  [PASS] Complement(−1) 不抛异常 [缺陷 #6]
+  [PASS] Complement(−1) = −1（歧义仍是歧义）[缺陷 #6]
+  [PASS] Revcomp 基本用例
+  [PASS] Revcomp 单字符
+  [PASS] Revcomp 空串
+  [PASS] Revcomp 两次 = 原串
+  [PASS] Revcomp 与独立实现在 50 条随机序列上一致
+  [PASS] 蛋白字母表不支持 revcomp [em.md §9]
+  [PASS] 蛋白 Revcomp 返回原串
+  [PASS] 蛋白字母表大小 = 20
+  [PASS] 蛋白字母表内容 = 20 种标准氨基酸
+  [PASS] 蛋白 20 个字母依次编码为 0..19
+  [PASS] RNA 走核酸字母表（大小 = 4）[缺陷 #12]
+  [PASS] RNA 的 U 与 T 同索引 [缺陷 #12]
+  [PASS] RNA 支持 revcomp [缺陷 #12]
+  [PASS] SeqTypes.Unknown 构造时抛出 ArgumentException [缺陷 #12]
+  [PASS] 空序列 Encode 不抛异常 [缺陷 #13]
+  [PASS] 空序列编码结果长度 = 0 [缺陷 #13]
+  [PASS] 全歧义序列全部编码为 −1
+  [PASS] Decode(−1) 不抛异常 [缺陷 #13]
+    （字母表与编码 用时 0.01s）
+
+### 种子初始化 InitFromSeed
+
+-- 种子初始化 PWM（one-hot + 伪计数）[em.md §5] --
+  [PASS] W=10 > 字母表大小 4 时 InitFromSeed 不抛异常 [缺陷 #1]
+  [PASS] 种子 PWM 每列概率和 = 1 [缺陷 #1]
+  [PASS] 种子 PWM 每列峰值 = 种子对应字母 [缺陷 #1]
+  [PASS] 种子 PWM 取值 = (δ+0.1)/(1+4·0.1) [缺陷 #1]
+  [PASS] 蛋白字母表 InitFromSeed 不抛异常 [缺陷 #1]
+  [PASS] 蛋白种子 PWM 每列概率和 = 1 [缺陷 #1]
+  [PASS] W=2（与字母表大小 4 的边界关系）种子 PWM 归一化 [缺陷 #1]
+  [PASS] W=4（与字母表大小 4 的边界关系）种子 PWM 归一化 [缺陷 #1]
+    （种子初始化 InitFromSeed 用时 0.00s）
+
+### M 步加权计数与归一化
+
+-- M 步加权计数与归一化 [em.md §3] --
+  [PASS] M 步不抛异常 [缺陷 #2]
+  [PASS] M 步后每列概率和 = 1 [缺陷 #2]
+  [PASS] 全 T 窗口的加权计数落在 T 列（期望 0.785714）[缺陷 #2]
+  [PASS] Oops 模型 M 步 PWM 与 Oracle 逐元素一致 [缺陷 #2]
+  [PASS] Oops 模型 M 步确实更新了 PWM [缺陷 #2/#4]
+  [PASS] Zoops 模型 M 步 PWM 与 Oracle 逐元素一致 [缺陷 #2]
+  [PASS] Zoops 模型 M 步确实更新了 PWM [缺陷 #2/#4]
+  [PASS] Anr 模型 M 步 PWM 与 Oracle 逐元素一致 [缺陷 #2]
+  [PASS] Anr 模型 M 步确实更新了 PWM [缺陷 #2/#4]
+    （M 步加权计数与归一化 用时 0.01s）
+
+### 一致序列 Consensus
+
+-- 一致序列逐列 argmax [em.md §4] --
+  [PASS] 每列峰值在 T 时一致序列 = TTTTTT [缺陷 #3]
+  [PASS] 蛋白峰值在末位字母 Y 时一致序列 = YYYYY [缺陷 #3]
+  [PASS] EM 迭代后一致序列与 Oracle argmax 一致 [缺陷 #3]
+    （一致序列 Consensus 用时 0.02s）
+
+### PWM 变化量 MaxDeltaTo
+
+-- PWM 变化量（收敛判据之二）[em.md §4] --
+  [PASS] PWM 任意格子（全部 W×K 个）改动都被 MaxDeltaTo 检出 [缺陷 #4]
+    （PWM 变化量 MaxDeltaTo 用时 0.00s）
+
+### 窗口似然比 WindowLogR
+
+-- 窗口似然比 logR [em.md §2] --
+  [PASS] logR = log Π_k θ_{k,a}/θ0,a（与直接连乘一致）[em.md §2]
+  [PASS] 负链 logR = 反向互补窗口在正链上的 logR [em.md §9]
+  [PASS] 含歧义字母的窗口 logR = −∞（正链）
+  [PASS] 歧义窗口的负链 logR 不抛异常（Complement(−1) 越界）[缺陷 #6]
+  [PASS] 含歧义字母的窗口 logR = −∞（负链）[缺陷 #6]
+  [PASS] logR 与 Oracle 候选枚举逐窗口一致（双链）
+    （窗口似然比 WindowLogR 用时 0.00s）
+
+### E 步后验约束（三模型）
+
+-- E 步后验约束（OOPS / ZOOPS / ANR）[em.md §6] --
+  [PASS] OOPS Σ_j Z_ij = 1（单链 + 双链）[em.md §6]
+  [PASS] ZOOPS Σ_j Z_ij ≤ 1（单链 + 双链）[em.md §6]
+  [PASS] ANR 各位点后验独立且 Z ∈ [0,1] [em.md §6]
+  [PASS] 单链候选数 = L−W+1 [em.md §2]
+  [PASS] 双链候选数 = 2(L−W+1) [em.md §9]
+    （E 步后验约束（三模型） 用时 0.00s）
+
+### E 步后验 vs Oracle
+
+-- E 步后验 vs Oracle（三模型 × 单/双链）[em.md §2] --
+  [PASS] Oops/单链 候选序列与 Oracle 一致（位置 + 链向）
+  [PASS] Oops/单链 后验 Z 与 Oracle 一致（最大偏差 7.77E-16）[em.md §2]
+  [PASS] Oops/单链 logR 与 Oracle 一致（最大偏差 1.46E-11）
+  [PASS] Oops/双链 候选序列与 Oracle 一致（位置 + 链向）
+  [PASS] Oops/双链 后验 Z 与 Oracle 一致（最大偏差 1.22E-15）[em.md §2]
+  [PASS] Oops/双链 logR 与 Oracle 一致（最大偏差 1.46E-11）
+  [PASS] Zoops/单链 候选序列与 Oracle 一致（位置 + 链向）
+  [PASS] Zoops/单链 后验 Z 与 Oracle 一致（最大偏差 1.55E-15）[em.md §2]
+  [PASS] Zoops/单链 logR 与 Oracle 一致（最大偏差 1.46E-11）
+  [PASS] Zoops/双链 候选序列与 Oracle 一致（位置 + 链向）
+  [PASS] Zoops/双链 后验 Z 与 Oracle 一致（最大偏差 2.78E-13）[em.md §2]
+  [PASS] Zoops/双链 logR 与 Oracle 一致（最大偏差 1.46E-11）
+  [PASS] Anr/单链 候选序列与 Oracle 一致（位置 + 链向）
+  [PASS] Anr/单链 后验 Z 与 Oracle 一致（最大偏差 2.78E-16）[em.md §2]
+  [PASS] Anr/单链 logR 与 Oracle 一致（最大偏差 1.46E-11）
+  [PASS] Anr/双链 候选序列与 Oracle 一致（位置 + 链向）
+  [PASS] Anr/双链 后验 Z 与 Oracle 一致（最大偏差 3.21E-13）[em.md §2]
+  [PASS] Anr/双链 logR 与 Oracle 一致（最大偏差 1.46E-11）
+    （E 步后验 vs Oracle 用时 0.00s）
+
+### 似然的链模式显式化
+
+-- 对数似然的链模式显式化 [em.md §4] --
+  [PASS] Oops 似然与是否执行过 E 步无关 [缺陷 #7]
+  [PASS] Oops 单/双链似然均为有限值 [缺陷 #7]
+  [PASS] Zoops 似然与是否执行过 E 步无关 [缺陷 #7]
+  [PASS] Zoops 单/双链似然均为有限值 [缺陷 #7]
+  [PASS] Zoops 双链似然 ≥ 单链似然 [em.md §9]
+  [PASS] Anr 似然与是否执行过 E 步无关 [缺陷 #7]
+  [PASS] Anr 单/双链似然均为有限值 [缺陷 #7]
+  [PASS] Anr 双链似然 ≥ 单链似然 [em.md §9]
+    （似然的链模式显式化 用时 0.01s）
+
+### 全似然 vs Oracle
+
+-- 全观测对数似然 vs Oracle [em.md §4] --
+  [PASS] Oops/单链 全似然与 Oracle 一致 [em.md §4]
+  [PASS] Oops/双链 全似然与 Oracle 一致 [em.md §4]
+  [PASS] Zoops/单链 全似然与 Oracle 一致 [em.md §4]
+  [PASS] Zoops/双链 全似然与 Oracle 一致 [em.md §4]
+  [PASS] Anr/单链 全似然与 Oracle 一致 [em.md §4]
+  [PASS] Anr/双链 全似然与 Oracle 一致 [em.md §4]
+    （全似然 vs Oracle 用时 0.00s）
+
+### EM 单调收敛
+
+-- EM 单调收敛 [em.md §4] --
+  [PASS] Oops/单链 LL 轨迹至少 2 个点
+  [PASS] Oops/单链 LL 逐轮单调不降（最大下降 0，相对 0）[em.md §4]
+  [PASS] Oops/双链 LL 轨迹至少 2 个点
+  [PASS] Oops/双链 LL 逐轮单调不降（最大下降 -2.205E-05，相对 -5.41E-09）[em.md §4]
+  [PASS] Zoops/单链 LL 轨迹至少 2 个点
+  [PASS] Zoops/单链 LL 逐轮单调不降（最大下降 0，相对 0）[em.md §4]
+  [PASS] Zoops/双链 LL 轨迹至少 2 个点
+  [PASS] Zoops/双链 LL 逐轮单调不降（最大下降 -1.886E-05，相对 -4.76E-09）[em.md §4]
+  [PASS] Anr/单链 LL 轨迹至少 2 个点
+  [PASS] Anr/单链 LL 逐轮单调不降（最大下降 0，相对 0）[em.md §4]
+  [PASS] Anr/双链 LL 轨迹至少 2 个点
+  [PASS] Anr/双链 LL 逐轮单调不降（最大下降 0，相对 0）[em.md §4]
+    （EM 单调收敛 用时 0.33s）
+
+### λ 更新
+
+-- λ 更新 [em.md §3 Step3] --
+  [PASS] ZOOPS λ = ΣZ/N（单链，0.5 → 0.991）[em.md §3]
+  [PASS] ANR λ = ΣZ/位置数（单链，λ=0.0560762）[em.md §3]
+  [PASS] OOPS λ ≡ 1 [em.md §6]
+  [PASS] ZOOPS λ = ΣZ/N（双链，0.5 → 0.9966）[em.md §3]
+  [PASS] ANR λ = ΣZ/位置数（双链，λ=0.112664）[em.md §3]
+  [PASS] OOPS λ ≡ 1 [em.md §6]
+    （λ 更新 用时 0.01s）
+
+### χ² 生存函数与 E-value
+
+-- log Γ(x)（Lanczos 近似） --
+  [PASS] ln Γ(1) = 0
+  [PASS] ln Γ(2) = 0
+  [PASS] ln Γ(5) = ln 24 = 3.1780538
+  [PASS] ln Γ(0.5) = ln√π = 0.5723649
+  [PASS] ln Γ(10) = ln 9! = 12.8018275
+
+-- χ² 生存函数 vs 文献分位数 [em.md §9] --
+  [PASS] 15 组文献分位数全部吻合（最大误差 1.13E-08；最差：χ²(2) sf(5.991465) = 0.050000，期望 0.05）
+
+-- Q(s,x) 解析解对照：Q(1,x) = e^(−x) --
+  [PASS] Q(1, 0.1) = e^−0.1
+  [PASS] Q(1, 0.5) = e^−0.5
+  [PASS] Q(1, 1) = e^−1
+  [PASS] Q(1, 1.5) = e^−1.5
+  [PASS] Q(1, 1.9) = e^−1.9
+  [PASS] Q(1, 2.5) = e^−2.5
+  [PASS] Q(1, 5) = e^−5
+  [PASS] Q(1, 10) = e^−10
+  [PASS] Q(1, 25) = e^−25
+  [PASS] Q(s, 0) = 1
+  [PASS] Q(2, 1000) ≈ 0
+  [PASS] χ² sf(df, 0) = 1
+
+-- 级数/连分数分支连续性（切换点 x = s+1） --
+  [PASS] s=1 时在 x=s+1 两侧连续（0.1353353 → 0.13533527）
+  [PASS] s=3 时在 x=s+1 两侧连续（0.23810332 → 0.23810329）
+  [PASS] s=10 时在 x=s+1 两侧连续（0.34051065 → 0.34051063）
+  [PASS] s=25.5 时在 x=s+1 两侧连续（0.39690849 → 0.39690848）
+
+-- χ² 生存函数单调性与数值稳定性 --
+  [PASS] sf(df=6) 在 x ∈ [0,100] 上单调递减且无 NaN/Inf
+  [PASS] 极端 df/x 输入下 sf ∈ [0,1] 且无 NaN
+
+-- motif E-value [em.md §9] --
+  [PASS] E-value 随 LLR 单调递减
+  [PASS] E-value 随窗口数增大（0.01277 → 1.277）
+  [PASS] E-value = 窗口总数 × χ² sf
+  [PASS] 强信号（LLR=150, df=21）E=1.76E-17 < 0.05 判显著 [em.md §9]
+  [PASS] 极端 LLR 下 E-value 被夹逼为正数（1E-300）
+    （χ² 生存函数与 E-value 用时 0.00s）
+
+### DNA ZOOPS 种植恢复
+
+-- DNA ZOOPS 种植恢复 [em.md §4] --
+  [PASS] 发现 1 个 motif（实际 1）
+         共识 = ACGTTACGTA（匹配 10/10）λ=0.999 LLR=564.6 E=3.55E-96 迭代 20 轮
+         位点定位（±2bp）：25/25（100.0%）
+  [PASS] 共识恢复 ≥9/10（实际 10/10）[缺陷 #3]
+  [PASS] 位点定位 ≥80% 在 ±2bp（实际 25/25（100.0%））[缺陷 #2]
+  [PASS] ZOOPS λ 收敛到位点密度（λ=1.00）[em.md §3]
+  [PASS] 在 20 轮内收敛 [em.md §4]
+  [PASS] LL 轨迹非空
+    （DNA ZOOPS 种植恢复 用时 0.40s）
+
+### DNA OOPS 种植恢复
+
+-- DNA OOPS 种植恢复（每条序列恰 1 个位点）[em.md §6] --
+  [PASS] 发现 1 个 motif（实际 1）
+         共识 = GATTACAGGT（匹配 10/10）定位 23/24（95.8%）
+  [PASS] OOPS 共识恢复 ≥8/10（实际 10/10）
+  [PASS] OOPS 位点定位 ≥70% 在 ±2bp（实际 23/24（95.8%））
+  [PASS] OOPS 每条序列 Σ_j Z_ij = 1（最大偏差 1.03E-08）[em.md §6]
+    （DNA OOPS 种植恢复 用时 0.13s）
+
+### 蛋白种植恢复
+
+-- 蛋白序列种植恢复 [em.md §1] --
+  [PASS] 发现 1 个 motif（实际 1）
+         共识 = GASTLSKL（匹配 8/8）定位 25/25（100.0%）
+  [PASS] 蛋白共识恢复 ≥7/8（实际 8/8）[缺陷 #3]
+  [PASS] 蛋白位点定位 ≥80%（实际 25/25（100.0%））[缺陷 #2]
+    （蛋白种植恢复 用时 0.14s）
+
+### 双链扫描恢复
+
+-- 双链扫描恢复（含链向判读）[em.md §9] --
+  [PASS] 发现 1 个 motif（实际 1）
+  [PASS] 测试数据确实包含负链位点（10/20）
+         共识 = ACGTCGTA（匹配 8/8）定位 18/20（90.0%） 链向正确 18/20
+  [PASS] 双链共识恢复 ≥7/8（实际 8/8）
+  [PASS] 双链位点定位 ≥80%（实际 18/20（90.0%））
+  [PASS] 链向判读 ≥80% 正确（实际 18/20）[缺陷 #9]
+  [PASS] 检出负链强位点（13 个）[em.md §9]
+    （双链扫描恢复 用时 0.56s）
+
+### ANR 多位点
+
+-- ANR 多位点发现（每条序列 2~3 个位点）[em.md §6] --
+  [PASS] 发现 1 个 motif（实际 1）
+         共识 = TTGACAAT（匹配 8/8）强位点 Z>0.5：77（植入 60）λ=0.0150
+  [PASS] ANR 共识恢复 ≥7/8（实际 8/8）[缺陷 #3]
+  [PASS] ANR 检出过半强位点（77/60）[缺陷 #2]
+    （ANR 多位点 用时 0.68s）
+
+### 多 motif 屏蔽重跑
+
+-- 多 motif 屏蔽重跑 [em.md §7] --
+  [PASS] 发现 2 个 motif（实际 2）[em.md §7]
+         motif_1 = ACGTTACGTA   motif_2 = TTGGCCAGGA
+  [PASS] motif_1 命中某个植入 motif（≥8/10，实际 10）
+  [PASS] motif_2 命中某个植入 motif（≥8/10，实际 10）
+  [PASS] 两个 motif 互不相同（屏蔽生效）[em.md §7]
+    （多 motif 屏蔽重跑 用时 0.31s）
+
+### 种子初始化策略
+
+-- 种子初始化策略：enriched / random / all [em.md §5] --
+  [PASS] 策略 enriched 能产出结果
+  [PASS] 策略 enriched 共识恢复 ≥7/9（实际 9/9，共识 CAGGTAGCA）
+  [PASS] 策略 random 能产出结果
+  [PASS] 策略 random 共识恢复 ≥7/9（实际 8/9，共识 ACAGGTAGC）
+  [PASS] 策略 all 能产出结果（MaxSeeds 限流生效）
+    （种子初始化策略 用时 0.77s）
+
+### 结果可复现性
+
+-- 结果可复现（相同 rng-seed → 相同结果）[em.md §8] --
+  [PASS] 两次运行都产出结果
+  [PASS] 两次运行一致序列相同
+  [PASS] 两次运行对数似然相同
+  [PASS] 两次运行 λ 相同
+    （结果可复现性 用时 0.29s）
+
+### 宽度范围择优
+
+-- 宽度范围择优 [-−minw/-−maxw] [em.md §9] --
+  [PASS] 发现 1 个 motif（实际 1）
+         选中宽度 W=8（真实 8，搜索范围 6..14）共识 = ACGTCGTA
+  [PASS] 选中宽度落在真实宽度附近 [7,11]，而非边界 14 [缺陷 #10]
+  [PASS] 变宽搜索后仍能恢复 motif（匹配 8/8）
+    （宽度范围择优 用时 1.42s）
+
+### 边界与异常输入
+
+-- 边界与异常输入 --
+  [PASS] 序列短于 motif 宽度时不抛异常
+  [PASS] 全歧义序列不抛异常
+  [PASS] 单条序列不抛异常
+  [PASS] 最小宽度 W=2 不抛异常
+  [PASS] L = W 时恰有 1 个候选窗口
+    （边界与异常输入 用时 0.08s）
+
+### FASTA 端到端与 JSON
+
+-- 端到端：FASTA → 发现 → JSON 往返 --
+  [PASS] dna.fa 解析出 40 条序列
+  [PASS] dna.fa 发现 2 个 motif（实际 2）
+         dna.fa motif_1：共识 = ACGTTACGTA（与种植 motif 最佳匹配 10/10） λ=0.999 LLR=712.7 E=8.59E-127
+  [PASS] dna.fa motif_1 恢复出某个种植 motif（10/10）
+         dna.fa motif_2：共识 = TTGGCCAGGA（与种植 motif 最佳匹配 10/10） λ=0.999 LLR=687.7 E=1.35E-121
+  [PASS] dna.fa motif_2 恢复出某个种植 motif（10/10）
+  [PASS] dna.fa 两个 motif 互不相同（屏蔽重跑生效）[em.md §7]
+  [PASS] dna.fa 结果的 JSON 往返保真（365425 字节）
+  [PASS] protein.fa 解析出 30 条序列
+  [PASS] protein.fa 发现 2 个 motif（实际 2）
+         protein.fa motif_1：共识 = TLSKLDLN（与种植 motif 最佳匹配 4/8） λ=0.999 LLR=930.4 E=2.28E-108
+         protein.fa motif_2：共识 = CIAVPPER（与种植 motif 最佳匹配 1/8） λ=0.999 LLR=486.0 E=6.01E-33
+  [PASS] protein.fa 至少一个 motif 命中种植 motif 的核心（4/8，要求 ≥4）
+  [PASS] protein.fa 两个 motif 互不相同（屏蔽重跑生效）[em.md §7]
+  [PASS] protein.fa 结果的 JSON 往返保真（26707 字节）
+    （FASTA 端到端与 JSON 用时 3.28s）
+
+================================================================
+断言总数 215，失败 0，用时 8.4s
+=== ALL TESTS PASSED ===
+================================================================

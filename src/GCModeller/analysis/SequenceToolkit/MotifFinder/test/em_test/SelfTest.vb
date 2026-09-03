@@ -66,6 +66,8 @@ Namespace EmMotif
             RunGroup("全似然 vs Oracle", AddressOf TestEmMath.TestFullLogLikVsOracle, filter)
             RunGroup("EM 单调收敛", AddressOf TestEmMath.TestMonotoneConvergence, filter)
             RunGroup("λ 更新", AddressOf TestEmMath.TestLambdaUpdate, filter)
+            RunGroup("伪计数平滑作用", AddressOf TestEmMath.TestPseudocountEffect, filter)
+            RunGroup("反向互补不变性", AddressOf TestEmMath.TestRevcompInvariance, filter)
             RunGroup("χ² 生存函数与 E-value", AddressOf TestChiSquare.RunAll, filter)
 
             ' ---- 集成层：搜索编排 ----
@@ -80,6 +82,7 @@ Namespace EmMotif
             RunGroup("宽度范围择优", AddressOf TestEmSearch.TestWidthSelection, filter)
             RunGroup("边界与异常输入", AddressOf TestEmSearch.TestEdgeCases, filter)
             RunGroup("FASTA 端到端与 JSON", AddressOf TestEmSearch.TestFastaEndToEnd, filter)
+            RunGroup("数值回归快照", AddressOf TestEmMath.TestGoldenSnapshot, filter)
 
             swAll.Stop()
 
