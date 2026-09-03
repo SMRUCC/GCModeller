@@ -29,4 +29,11 @@
     <ProjectReference Include="..\MotifFinder.vbproj" />
   </ItemGroup>
 
+  <!-- em_test 的端到端用例需要读取这两个种植数据文件，随生成输出一并复制 -->
+  <ItemGroup>
+    <None Update="em_test\*.fa">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

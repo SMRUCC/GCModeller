@@ -61,9 +61,22 @@ Module Program
     Const DEFAULT_FASTA As String = "G:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\CP073066.fasta"
 
     ''' <summary>
-    ''' 用法：MotifFinder.test.exe [fasta] [take] [motifWidth] [topN] [icpcCutoff] [evalueCutoff] [restarts] [maxIterations]
+    ''' 用法：
+    '''   MotifFinder.test.exe em selftest
+    '''   MotifFinder.test.exe em discover --input em_test\dna.fa --model zoops --minw 8 --maxw 12 --out motifs.json
+    '''   MotifFinder.test.exe [fasta] [take] [motifWidth] [topN] [icpcCutoff] [evalueCutoff] [restarts] [maxIterations]
+    '''
+    ''' 第一个参数为 "em" 时转发给 EmMotif 命令行（test\em_test\Program.vb），
+    ''' 其余情况保持原有的 Gibbs findTopN 冒烟测试。
     ''' </summary>
     Sub Main(args As String())
+        If args.Length > 0 AndAlso (args(0) = "em" OrElse args(0) = "emtest") Then
+            Dim exitCode As Integer = Global.test.EmMotif.Program.Main2(args.Skip(1).ToArray())
+
+            Environment.Exit(exitCode)
+            Return
+        End If
+
         Dim path As String = If(args.Length > 0, args(0), DEFAULT_FASTA)
         Dim take As Integer = If(args.Length > 1, Integer.Parse(args(1)), 400)
         Dim width As Integer = If(args.Length > 2, Integer.Parse(args(2)), 12)
