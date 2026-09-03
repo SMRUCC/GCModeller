@@ -35,10 +35,16 @@ export class MSAMotif extends <a href="/vignettes/clr/SMRUCC/genomics/Analysis/S
    cost: double;
    countMatrix: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/ints.html">ints[]</a>;
    edits: integer;
+   # motif 显著性的估计值（越小越显著），由 @<code>M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.GibbsSampler.findTopN(System.Int32,System.Int32,System.Int32,System.Double,System.Double,System.Double)</code> 在阈值判定之中填充。
+   # 
+   # 注意这是一个启发式的保守估计（基于全 motif 信息量 bits 之和折算）， 并不是严格意义上的 Karlin-Altschul E-value。
+   evalue: double;
    MSA: string;
    names: string;
    p: double;
    q: double;
+   # 在 @<code>M:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.GibbsSampler.findTopN(System.Int32,System.Int32,System.Int32,System.Double,System.Double,System.Double)</code> 的迭代式发现过程之中的发现序号，从 1 开始编号。
+   rank: integer;
    rowSum: integer;
    score: double;
    size: integer;
