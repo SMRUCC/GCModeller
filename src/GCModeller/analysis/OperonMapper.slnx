@@ -36,6 +36,9 @@
     <Project Path="../../interops/localblast/LocalBLAST/localblast.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../core/Bio.Annotation/annotation.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../core/Bio.Assembly/biocore-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
@@ -46,6 +49,9 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../models/SBML/Biopax/biopax-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="ProteinTools/ProteinMatrix/ProteinMatrix.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>

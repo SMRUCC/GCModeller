@@ -21,8 +21,8 @@ Imports System.Globalization
 Imports System.IO
 Imports System.Text.Json
 Imports System.Text.Json.Serialization
-Imports OperonPredictor.OperonPredictor.Core
-Imports OperonPredictor.OperonPredictor.Model
+Imports SMRUCC.genomics.Model.OperonMapper.OperonPredictor.Core
+Imports SMRUCC.genomics.Model.OperonMapper.OperonPredictor.Model
 
 Namespace OperonPredictor
 
