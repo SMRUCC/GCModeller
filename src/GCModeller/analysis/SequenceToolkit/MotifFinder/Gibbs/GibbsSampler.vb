@@ -432,30 +432,52 @@ Public Class GibbsSampler
     End Function
 
     ''' <summary>
-    ''' Currently picks the one with the greatest probability but should be
-    ''' picking randomly from a weighted distribution </summary>
-    ''' <param name="weightDistribution">, sequenceCount smoothed log probabilities </param>
+    ''' 依据 log 概率分布做轮盘赌随机采样（而非贪心地选取最大值），
+    ''' 这正是吉布斯采样能够跳出局部最优的关键所在。
+    ''' </summary>
+    ''' <param name="weightDistribution">, 每一个候选起点上的 log 似然比 </param>
     ''' <returns> new index of the site </returns>
-    Private Function weightedChooseIndex(weightDistribution As List(Of Double)) As Double
-        ' 将log概率转换为线性概率
-        Dim probabilities = weightDistribution.Select(Function(d) Math.Exp(d)).ToArray()
-        Dim total As Double = probabilities.Sum()
+    Private Function weightedChooseIndex(weightDistribution As List(Of Double)) As Integer
+        Dim n As Integer = weightDistribution.Count
 
-        ' 归一化
-        If total > 0 Then
-            For i As Integer = 0 To probabilities.Length - 1
-                probabilities(i) /= total
-            Next
-        Else
-            ' 处理全零情况
-            Return randf.Next(probabilities.Length)
+        If n = 0 Then
+            Return 0
+        End If
+
+        ' log-sum-exp 稳定化：
+        ' log 似然比是 W 项之和，当 motif 较宽时其典型值可以远低于 -700，
+        ' 直接 Exp 会全部下溢为 0，使得采样静默退化为均匀分布而彻底失去导向性；
+        ' 反过来较大的正值又会溢出为 +Inf。先减去最大值即可同时避免这两种情况。
+        Dim max As Double = Double.NegativeInfinity
+
+        For i As Integer = 0 To n - 1
+            If weightDistribution(i) > max Then
+                max = weightDistribution(i)
+            End If
+        Next
+
+        If max.Equals(Double.NegativeInfinity) OrElse max.IsNaNImaginary Then
+            ' 所有候选起点都不可达，退化为均匀随机采样
+            Return randf.Next(n)
+        End If
+
+        Dim probabilities As Double() = New Double(n - 1) {}
+        Dim total As Double = 0
+
+        For i As Integer = 0 To n - 1
+            probabilities(i) = Math.Exp(weightDistribution(i) - max)
+            total += probabilities(i)
+        Next
+
+        If total <= 0 OrElse total.IsNaNImaginary Then
+            Return randf.Next(n)
         End If
 
         ' 轮盘赌选择
-        Dim r As Double = randf.NextDouble()
+        Dim r As Double = randf.NextDouble() * total
         Dim cumulative As Double = 0.0
 
-        For i As Integer = 0 To probabilities.Length - 1
+        For i As Integer = 0 To n - 1
             cumulative += probabilities(i)
 
             If r <= cumulative Then
@@ -463,7 +485,7 @@ Public Class GibbsSampler
             End If
         Next
 
-        Return probabilities.Length - 1 ' 浮点误差保护
+        Return n - 1 ' 浮点误差保护
     End Function
 
     ''' <summary>
