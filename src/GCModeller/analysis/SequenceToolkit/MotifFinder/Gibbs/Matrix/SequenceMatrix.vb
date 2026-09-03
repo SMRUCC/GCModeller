@@ -60,17 +60,33 @@ Namespace Matrix
 
     Public Class SequenceMatrix : Inherits WeightMatrix
 
+        ''' <summary>
+        ''' 加一平滑所引入的伪计数
+        ''' </summary>
+        Const PSEUDOCOUNT As Double = 1.0R
+
         Private ReadOnly sequences As IList(Of String)
         Private ReadOnly sequenceCount As Integer
         Private ReadOnly sequenceLength As Integer
+        ''' <summary>
+        ''' 每一列之上实际观测到的碱基数量，N 等非标准字符不计入
+        ''' </summary>
+        Private ReadOnly columnObserved As Integer()
 
         Public Sub New(sequences As IList(Of String))
+            If sequences Is Nothing OrElse sequences.Count = 0 Then
+                Throw New ArgumentException("the motif sequence collection should not be empty!", NameOf(sequences))
+            End If
+
             Me.sequences = sequences
             Me.sequenceCount = sequences.Count
             Me.rowSum = sequenceCount
             Me.sequenceLength = sequences(0).Length
 
             Call initMatrix(sequenceLength)
+
+            ReDim Me.columnObserved(sequenceLength - 1)
+
             Call initSequenceMatrix()
         End Sub
 
@@ -90,19 +106,39 @@ Namespace Matrix
                     ' b = -1 means N or - these non-standard sequence chars
                     If b > -1 Then
                         countsMatrix(j)(b) += 1
+                        ' 记录该列上实际观测到的碱基数，供概率归一化使用
+                        columnObserved(j) += 1
                     End If
                 Next
             Next
         End Sub
 
         ''' <summary>
+        ''' 第 index 列之上实际观测到的碱基数量（被屏蔽为 N 的位置不计入）
+        ''' </summary>
+        ''' <param name="index">, index of base </param>
+        ''' <returns></returns>
+        Public Function observedCount(index As Integer) As Integer
+            Return columnObserved(index)
+        End Function
+
+        ''' <summary>
         ''' Returns the probability of seeing the base in the index </summary>
         ''' <param name="index">, index of base </param>
         ''' <param name="base">, base in the index </param>
         Public Overridable Function probability(index As Integer, base As Integer) As Double
-            ' 添加伪计数（加1平滑）
-            Dim totalCount As Double = rowSum + 4 ' 4个碱基
-            Return (countsMatrix(index)(base) + 1) / totalCount
+            Dim observed As Integer = columnObserved(index)
+
+            ' 整列都被屏蔽（全部为 N）时没有任何观测数据，退化为均匀分布，
+            ' 此时该列对信息含量的贡献恰好为 0
+            If observed = 0 Then
+                Return 0.25
+            End If
+
+            ' 必须按照「该列的实际观测数」归一化，而不是按照序列条数 rowSum：
+            ' 位点被屏蔽之后列内会出现 N，若继续沿用固定的 rowSum 分母，
+            ' 概率会被稀释、信息含量被压低甚至变为负数，并且跨屏蔽轮次之间不可比。
+            Return (countsMatrix(index)(base) + PSEUDOCOUNT) / (observed + PSEUDOCOUNT * 4)
         End Function
     End Class
 

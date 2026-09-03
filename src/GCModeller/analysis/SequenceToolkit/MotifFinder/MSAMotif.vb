@@ -77,6 +77,22 @@ Public Class MSAMotif : Inherits MSAOutput
     Public Property q As Double()
 
     ''' <summary>
+    ''' 在 <see cref="GibbsSampler.findTopN"/> 的迭代式发现过程之中的发现序号，从 1 开始编号。
+    ''' </summary>
+    ''' <returns></returns>
+    <XmlAttribute> Public Property rank As Integer
+
+    ''' <summary>
+    ''' motif 显著性的估计值（越小越显著），由
+    ''' <see cref="GibbsSampler.findTopN"/> 在阈值判定之中填充。
+    ''' 
+    ''' 注意这是一个启发式的保守估计（基于全 motif 信息量 bits 之和折算），
+    ''' 并不是严格意义上的 Karlin-Altschul E-value。
+    ''' </summary>
+    ''' <returns></returns>
+    <XmlAttribute> Public Property evalue As Double
+
+    ''' <summary>
     ''' usually be the ACGT
     ''' </summary>
     ''' <returns></returns>

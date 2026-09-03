@@ -48,16 +48,16 @@
     '     Properties: SequenceCount, Sequences
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: CalculateGlobalBackground, calculateMotifProbability, calculateP, FillNNNN, find
-    '               getMotifStrings, getRandomSites, gibbsSample, informationContent, minExceptInfinity
-    '               predictiveUpdateStep, samplingStep, smoothProbabilities, weightedChooseIndex
+    '     Function: BuildMotifResult, CalculateGlobalBackground, calculateMotifProbability, DefaultRestarts,
+    '               EstimateEvalue, FillNNNN, find, findTopN, getMotifStrings, getRandomSites, gibbsSample,
+    '               informationContent, MaskSites, predictiveUpdateStep, RunRestarts, samplingStep,
+    '               SiteOdds, weightedChooseIndex
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Math.GibbsSampling
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.Matrix
@@ -182,6 +182,10 @@ Public Class GibbsSampler
     ''' Runs numSamples gibbsSamples to find a prediction on the sites
     ''' and motifs with the highest information content in the sequences </summary>
     ''' <param name="maxIterations">maximum number of times to iterate in a Gibbs Sample </param>
+    ''' <returns>
+    ''' 信息含量最高的那一个 motif；当所有重启都没有产出有效结果时返回 Nothing。
+    ''' 若需要一次发现多个 motif，请改用 <see cref="findTopN"/>。
+    ''' </returns>
     Public Function find(Optional maxIterations As Integer = 1000) As MSAMotif
         Dim numSamples As Integer = SequenceCount
         Dim sampler As New RunSample(Me)
@@ -195,46 +199,270 @@ Public Class GibbsSampler
         Call println("")
         Call println("============= Result of Gibbs Sampling Algorithm in each iteration =============")
 
+        ' 保持既有的重启次数：每一个输入序列对应一次独立重启
+        Call RunRestarts(sampler, restarts:=numSamples, maxIterations:=maxIterations)
+
+        Dim result As MSAMotif = BuildMotifResult(sampler, rank:=1)
+
+        If result Is Nothing Then
+            Call println("!!!! no valid motif was found in all of the restarts !!!!")
+        Else
+            Call println("======== Maximum Information Content :: " & result.cost & " =========" & vbLf)
+        End If
+
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' 迭代式（find -&gt; mask -&gt; resample）的多 motif 发现：
+    ''' 
+    ''' 1. 在当前的序列集合上运行一轮标准的吉布斯采样，得到 motif Mk 及其在每条序列上的位点；
+    ''' 2. 若 Mk 的信息含量或者 E-value 达不到阈值要求，则终止整个发现过程；
+    ''' 3. 把 Mk 的所有位点窗口（两侧各外扩 <paramref name="maskPadding"/> 倍 motif 宽度）
+    '''    屏蔽为 N，然后重新随机初始化位点，在屏蔽之后的序列上继续发现下一个 motif。
+    ''' 
+    ''' 由于每一轮都会把上一轮的发现屏蔽掉，结果天然地按照发现顺序（质量递减）排列，
+    ''' 并且同一个 motif 不会被重复发现。发现的数量允许少于 <paramref name="topN"/>：
+    ''' 一旦新的 motif 达不到阈值要求就立即终止，绝不会返回低质量的结果。
+    ''' </summary>
+    ''' <param name="topN">期望发现的 motif 数量上限</param>
+    ''' <param name="maxIterations">maximum number of times to iterate in a Gibbs Sample </param>
+    ''' <param name="restarts">
+    ''' 每一轮发现所使用的随机重启次数；小于等于 0 时按照序列规模自动推算。
+    ''' 注意：一旦某个重启达到了信息含量的理论上限，其余重启会提前空转退出。
+    ''' </param>
+    ''' <param name="maskPadding">
+    ''' 位点窗口两侧的屏蔽外扩量，单位为 motif 宽度的倍数（默认 ±w/2）
+    ''' </param>
+    ''' <param name="icpcCutoff">
+    ''' 单位列信息含量(bits/column)的下限，其理论上限为 log2(4) = 2.0；
+    ''' 置为 0 表示关闭该闸门。
+    ''' </param>
+    ''' <param name="evalueCutoff">
+    ''' E-value 的上限（启发式保守估计），置为 <see cref="Double.PositiveInfinity"/> 表示关闭该闸门。
+    ''' </param>
+    ''' <returns>
+    ''' 按发现顺序排列的 motif 数组，其长度允许小于 <paramref name="topN"/>。
+    ''' </returns>
+    Public Function findTopN(Optional topN As Integer = 5,
+                             Optional maxIterations As Integer = 1000,
+                             Optional restarts As Integer = 0,
+                             Optional maskPadding As Double = 0.5,
+                             Optional icpcCutoff As Double = 0.5,
+                             Optional evalueCutoff As Double = 1.0) As MSAMotif()
+        If topN <= 0 Then
+            Return {}
+        End If
+
+        If restarts <= 0 Then
+            restarts = DefaultRestarts()
+        End If
+
+        Dim println As Action(Of String) = AddressOf VBDebugger.EchoLine
+        Dim pad As Integer = CInt(Math.Floor(m_motifLength * maskPadding))
+        Dim result As New List(Of MSAMotif)()
+        ' 迭代式屏蔽的可变工作副本：每一轮发现结束之后就地写入 N。
+        ' 屏蔽只替换字符、绝不改变序列长度，索引体系才能保持不变。
+        Dim work As String() = Sequences.ToArray
+
+        Call println("============= Input Sequences =============")
+        Call println(" * number of sequence samples: " & m_sequenceCount)
+        Call println(" * range of sequence length: " & New DoubleRange(m_sequenceLength).MinMax.GetJson)
+        Call println(" * motif width for search: " & m_motifLength)
+        Call println(" * ignores of short sequence with length less than required motif width: " & m_ignored)
+        Call println(" * restarts of each round: " & restarts)
+        Call println("")
+
+        For round As Integer = 1 To topN
+            Call println($"============= motif #{round} =============")
+
+            Dim sampler As New RunSample(Me, work)
+
+            Call RunRestarts(sampler, restarts, maxIterations)
+
+            Dim motif As MSAMotif = BuildMotifResult(sampler, rank:=round)
+
+            If motif Is Nothing Then
+                Call println($" -> stop: no valid motif was found at round {round}")
+                Exit For
+            End If
+
+            If motif.cost < icpcCutoff Then
+                Call println($" -> stop: information content {motif.cost.ToString("F4")} bits/column is less than cutoff {icpcCutoff}")
+                Exit For
+            End If
+
+            If motif.evalue > evalueCutoff Then
+                Call println($" -> stop: e-value {motif.evalue.ToString("G4")} is greater than cutoff {evalueCutoff}")
+                Exit For
+            End If
+
+            Call println($" -> found: {motif.cost.ToString("F4")} bits/column, e-value {motif.evalue.ToString("G4")}")
+
+            result.Add(motif)
+
+            If round < topN Then
+                Call MaskSites(work, sampler.predictedSites, pad)
+                Call println($" -> masked {sampler.predictedSites.Count} sites with +/-{pad} bp padding" & vbLf)
+            End If
+        Next
+
+        Call println($"============= found {result.Count} motifs in total =============")
+
+        Return result.ToArray()
+    End Function
+
+    ''' <summary>
+    ''' 在未显式指定重启次数时，依据序列规模推算一个合理的重启次数
+    ''' </summary>
+    Private Function DefaultRestarts() As Integer
+        Return Math.Max(Environment.ProcessorCount, Math.Min(4 * m_sequenceCount, 200))
+    End Function
+
+    ''' <summary>
+    ''' 以 restarts 个互不相同的随机初始状态并行运行吉布斯采样，
+    ''' 各重启之间共享的最优结果汇总在 <paramref name="sampler"/> 之中。
+    ''' </summary>
+    Private Sub RunRestarts(sampler As RunSample, restarts As Integer, maxIterations As Integer)
         Dim parallelOptions As New ParallelOptions With {
             .MaxDegreeOfParallelism = Environment.ProcessorCount
         }
 
         Call System.Threading.Tasks.Parallel.For(
             fromInclusive:=0,
-            toExclusive:=numSamples,
+            toExclusive:=restarts,
             parallelOptions,
             body:=Sub(j)
                       Call sampler.RunOne(maxIterations)
                   End Sub)
+    End Sub
 
-        Dim motifMatrix As WeightMatrix = New SequenceMatrix(sampler.predictedMotifs)
-        Dim icpc As Double = CDbl(sampler.maxInformationContent) / m_motifLength
-        Dim p As Double() = New Double(sampler.predictedMotifs.Count - 1) {}
-        Dim q As Double() = New Double(sampler.predictedMotifs.Count - 1) {}
-        Dim eval As New Gibbs(Sequences.ToArray, m_motifLength)
+    ''' <summary>
+    ''' 把本轮发现的位点窗口（两侧各外扩 <paramref name="pad"/> 个碱基）就地屏蔽为 N。
+    ''' 
+    ''' 屏蔽是「等长替换」：只改写字符而不改变序列长度，因为
+    ''' <see cref="m_sequenceLength"/>、随机初始化以及候选起点的计算全部依赖于长度不变。
+    ''' 被屏蔽的位置 <see cref="Utils.indexOfBase"/> 会返回 -1，
+    ''' 计数矩阵与似然比计算都会自动跳过它们。
+    ''' </summary>
+    Private Sub MaskSites(work As String(), sites As List(Of Integer), pad As Integer)
+        Dim n As Integer = Math.Min(work.Length, sites.Count)
 
-        Call println("======== Maximum Information Content :: " & icpc & " =========" & vbLf)
+        For i As Integer = 0 To n - 1
+            Dim sequence As Char() = work(i).ToCharArray
+            Dim start As Integer = Math.Max(0, sites(i) - pad)
+            Dim [end] As Integer = Math.Min(sequence.Length - 1, sites(i) + m_motifLength - 1 + pad)
 
-        For i As Integer = 0 To sampler.predictedMotifs.Count - 1
-            Dim pq = eval.PQ(i)
+            For j As Integer = start To [end]
+                sequence(j) = "N"c
+            Next
 
-            p(i) = pq.p.Average
-            q(i) = pq.q.Average
+            work(i) = New String(sequence)
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 依据一轮多重启采样的结果构造 <see cref="MSAMotif"/>；
+    ''' 当所有重启都没有产出有效结果时（例如信息含量恒为 NaN）返回 Nothing。
+    ''' </summary>
+    Private Function BuildMotifResult(sampler As RunSample, rank As Integer) As MSAMotif
+        If sampler.predictedMotifs.Count = 0 Then
+            Return Nothing
+        End If
+
+        Dim motifMatrix As SequenceMatrix = New SequenceMatrix(sampler.predictedMotifs)
+        Dim n As Integer = sampler.predictedMotifs.Count
+        Dim p As Double() = New Double(n - 1) {}
+        Dim q As Double() = New Double(n - 1) {}
+
+        For i As Integer = 0 To n - 1
+            Dim odds As (q As Double, p As Double) = SiteOdds(motifMatrix, sampler.predictedMotifs(i))
+
+            q(i) = odds.q
+            p(i) = odds.p
         Next
 
         Return New MSAMotif With {
-            .cost = icpc,
+            .rank = rank,
+            .evalue = EstimateEvalue(motifMatrix),
+            .cost = sampler.ICPC,
             .MSA = sampler.predictedMotifs.ToArray,
             .names = m_sequences.Select(Function(fa) fa.Title).ToArray,
             .start = New ints(sampler.predictedSites),
             .countMatrix = motifMatrix.countsMatrix _
-                .Select(Function(n) New ints(n)) _
+                .Select(Function(row) New ints(row)) _
                 .ToArray,
             .rowSum = motifMatrix.rowSum,
             .p = p,
             .q = q,
             .alphabets = Utils.ACGT
         }
+    End Function
+
+    ''' <summary>
+    ''' 计算某一条 motif 实例在 PWM 模型之下的概率 q 与在背景模型之下的概率 p。
+    ''' 
+    ''' 两者都以「逐列几何平均」的形式给出，以避免较长 motif 的连乘下溢，
+    ''' 因此 <see cref="MSAMotif.score"/>（= q / p）是逐列的优势比(odds ratio)：
+    ''' 大于 1 表示该位点相比于随机背景更像是 motif 实例。
+    ''' </summary>
+    Private Function SiteOdds(pwm As SequenceMatrix, motif As String) As (q As Double, p As Double)
+        Dim logQ As Double = 0
+        Dim logP As Double = 0
+        Dim observed As Integer = 0
+
+        For i As Integer = 0 To m_motifLength - 1
+            Dim baseIdx As Integer = Utils.indexOfBase(motif(i))
+
+            ' 被屏蔽为 N 的位置不参与似然比的计算
+            If baseIdx < 0 Then
+                Continue For
+            End If
+
+            logQ += Math.Log(pwm.probability(i, baseIdx))
+            logP += Math.Log(If(m_globalBackground(baseIdx) > 0, m_globalBackground(baseIdx), MIN_BACKGROUND))
+            observed += 1
+        Next
+
+        If observed = 0 Then
+            Return (0.0R, 0.0R)
+        End If
+
+        Return (Math.Exp(logQ / observed), Math.Exp(logP / observed))
+    End Function
+
+    ''' <summary>
+    ''' 对 motif 的显著性做启发式的保守估计：
+    ''' 
+    ''' 1. 逐列计算信息含量 bits（沿用 <see cref="MSAMotif.CreateMotif"/> 的口径，
+    '''    其中包含 <see cref="Probability.E(Integer)"/> 的小样本校正）；
+    ''' 2. 以整个 motif 的 bits 之和作为得分，再按 E = 候选位点总数 × 2^(-score) 折算。
+    ''' 
+    ''' 该数值仅用于 <see cref="findTopN"/> 的阈值判定，
+    ''' 它并不是严格意义上的 Karlin-Altschul E-value。
+    ''' </summary>
+    Private Function EstimateEvalue(motifMatrix As SequenceMatrix) As Double
+        Dim En As Double = Probability.E(Math.Max(motifMatrix.rowSum, 1))
+        Dim score As Double = 0
+
+        For i As Integer = 0 To m_motifLength - 1
+            Dim col As Double() = New Double(3) {}
+
+            For j As Integer = 0 To 3
+                col(j) = motifMatrix.probability(i, j)
+            Next
+
+            score += Probability.CalculatesBits(Probability.HI(col), En, NtMol:=True)
+        Next
+
+        ' 所有输入序列之上的候选起点总数
+        Dim candidateSites As Double = 0
+
+        For i As Integer = 0 To m_sequenceCount - 1
+            candidateSites += m_sequenceLength(i) - m_motifLength + 1
+        Next
+
+        Return Math.Max(candidateSites, 1) * Math.Pow(2, -score)
     End Function
 
     Friend Function informationContent(motifs As List(Of String)) As Double
@@ -286,31 +514,6 @@ Public Class GibbsSampler
         Next
 
         Return A
-    End Function
-
-    ''' <summary>
-    ''' Calculates the background probabilities for each base </summary>
-    ''' <param name="S">, sequenceCount sequences </param>
-    ''' <returns> List of Double length 4 </returns>
-    Private Function calculateP(S As List(Of String)) As List(Of Double)
-        Dim P = New Double() {0, 0, 0, 0}
-
-        For i As Integer = 0 To S.Count - 1
-            Dim seq As String = S(i)
-
-            For j As Integer = 0 To seq.Length - 1
-                Dim c As Char = seq(j)
-                Dim offset As Integer = Utils.indexOfBase(c)
-
-                If offset > -1 Then
-                    P(offset) += 1
-                End If
-            Next
-        Next
-
-        Dim sum As Double = P.Sum()
-
-        Return P.Select(Function(d) d / sum).ToList()
     End Function
 
     ''' <summary>
@@ -407,28 +610,6 @@ Public Class GibbsSampler
         Next
 
         Return sum
-    End Function
-
-    ''' <summary>
-    ''' Takes Q a list of log probabilities
-    ''' Replaces negative infinities with 1 less than the minimum log probability </summary>
-    ''' <param name="A">, log probabilities </param>
-    ''' <returns> list of smoothed probabilities </returns>
-    Private Function smoothProbabilities(A As List(Of Double)) As List(Of Double)
-        ' Find the smallest probability greater than 0
-        Dim min As Double = A.Aggregate(Double.NegativeInfinity, AddressOf minExceptInfinity)
-
-        ' Assert that there is some non zero probability so that we may smooth
-        If min <= Double.NegativeInfinity + 1 Then
-            Return A.Select(Function(i) -100.0).ToList()
-        Else
-            ' Replace the 0 probability indices with (min - 1) log probability
-            Return A.Select(Function(i) If(i.Equals(Double.NegativeInfinity), min - 1, i)).ToList()
-        End If
-    End Function
-
-    Private Shared Function minExceptInfinity(i As Double, b As Double) As Double
-        Return If(i < b AndAlso Not b.Equals(Double.NegativeInfinity), b, i)
     End Function
 
     ''' <summary>
