@@ -243,11 +243,15 @@ Public Class GibbsSampler
     ''' 位点窗口两侧的屏蔽外扩量，单位为 motif 宽度的倍数（默认 ±w/2）
     ''' </param>
     ''' <param name="icpcCutoff">
-    ''' 单位列信息含量(bits/column)的下限，其理论上限为 log2(4) = 2.0；
-    ''' 置为 0 表示关闭该闸门。
+    ''' 单位列信息含量(bits/column)的下限，其理论上限为 log2(4) = 2.0，置为 0 表示关闭该闸门。
+    ''' 随机背景对齐的噪声水平约为 <see cref="Probability.E(Integer)"/>（120 条序列时约 0.018，
+    ''' 2444 条序列时约 0.0009），默认值 0.1 大约是中大规模数据集噪声水平的数倍以上。
     ''' </param>
     ''' <param name="evalueCutoff">
-    ''' E-value 的上限（启发式保守估计），置为 <see cref="Double.PositiveInfinity"/> 表示关闭该闸门。
+    ''' E-value 的上限，默认是 <see cref="Double.PositiveInfinity"/>，即默认关闭该闸门。
+    ''' 这里的 E-value 是对「在全部候选起点上至少出现一次同等或更强匹配」的期望次数
+    ''' 所做的 Chernoff 上界，作为上界它偏保守，因此默认不作为终止条件；
+    ''' 若需要严格的显著性判据，可将其设为 1.0。
     ''' </param>
     ''' <returns>
     ''' 按发现顺序排列的 motif 数组，其长度允许小于 <paramref name="topN"/>。
@@ -256,8 +260,8 @@ Public Class GibbsSampler
                              Optional maxIterations As Integer = 1000,
                              Optional restarts As Integer = 0,
                              Optional maskPadding As Double = 0.5,
-                             Optional icpcCutoff As Double = 0.5,
-                             Optional evalueCutoff As Double = 1.0) As MSAMotif()
+                             Optional icpcCutoff As Double = 0.1,
+                             Optional evalueCutoff As Double = Double.PositiveInfinity) As MSAMotif()
         If topN <= 0 Then
             Return {}
         End If
@@ -444,10 +448,12 @@ Public Class GibbsSampler
     ''' 
     ''' 1. 逐列计算信息含量 bits（沿用 <see cref="MSAMotif.CreateMotif"/> 的口径，
     '''    其中包含 <see cref="Probability.E(Integer)"/> 的小样本校正）；
-    ''' 2. 以整个 motif 的 bits 之和作为得分，再按 E = 候选位点总数 × 2^(-score) 折算。
+    ''' 2. 以整个 motif 的 bits 之和作为得分（它是 PWM 之下的期望位点对数似然比，单位为 bit），
+    '''    再按 E = 候选位点总数 × 2^(-score) 折算。
     ''' 
-    ''' 该数值仅用于 <see cref="findTopN"/> 的阈值判定，
-    ''' 它并不是严格意义上的 Karlin-Altschul E-value。
+    ''' 对于以 bit 计量的对数似然比得分，P(随机位点得分 ≥ score) ≤ 2^(-score) 成立，
+    ''' 因此上面给出的是 E-value 的 Chernoff 上界，而不是严格意义上的 Karlin-Altschul E-value；
+    ''' 作为上界它偏保守（同样的 motif 会给出偏大的 E 值）。
     ''' </summary>
     Private Function EstimateEvalue(motifMatrix As SequenceMatrix) As Double
         Dim En As Double = Probability.E(Math.Max(motifMatrix.rowSum, 1))
