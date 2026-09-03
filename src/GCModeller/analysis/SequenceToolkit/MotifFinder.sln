@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32519.111
+# Visual Studio Version 18
+VisualStudioVersion = 18.9.12120.119 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "MotifFinder", "MotifFinder\MotifFinder.vbproj", "{6219C176-D51C-48AD-93B6-B663BACB0E5A}"
 EndProject
@@ -833,8 +833,8 @@ Global
 		{683DF930-4E77-8A7A-26A4-87E56D18740D}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{04968D99-CF44-40EE-B2C0-9F00F9087947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{04968D99-CF44-40EE-B2C0-9F00F9087947}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04968D99-CF44-40EE-B2C0-9F00F9087947}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{04968D99-CF44-40EE-B2C0-9F00F9087947}.Debug|x64.Build.0 = Debug|Any CPU
+		{04968D99-CF44-40EE-B2C0-9F00F9087947}.Debug|x64.ActiveCfg = Debug|x64
+		{04968D99-CF44-40EE-B2C0-9F00F9087947}.Debug|x64.Build.0 = Debug|x64
 		{04968D99-CF44-40EE-B2C0-9F00F9087947}.gcmodeller_desktop|Any CPU.ActiveCfg = Release|Any CPU
 		{04968D99-CF44-40EE-B2C0-9F00F9087947}.gcmodeller_desktop|Any CPU.Build.0 = Release|Any CPU
 		{04968D99-CF44-40EE-B2C0-9F00F9087947}.gcmodeller_desktop|x64.ActiveCfg = Release|Any CPU
