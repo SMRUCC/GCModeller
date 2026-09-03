@@ -155,27 +155,24 @@ Namespace EmMotif.Core
                     Next
                 Case Else ' ANR
                     ' 单链：Z = λR/(λR + 1−λ)（logistic 形式）
-                    ' 双链：同窗口两链向候选共享归一化 (1−λ) + λ(Rf + Rr)
+                    ' 双链：同一位置的正/负链候选共享一个「无位点」状态
+                    '       Z(j,±) = λR(j,±) / ((1−λ) + λR(j,+) + λR(j,−))
+                    ' 这里按「位置」聚合，不依赖候选在列表中的成对排列顺序，
+                    ' 避免正链候选缺失时把负链的 logR 错当成正链输出 [缺陷 #9]。
                     If revcomp Then
-                        Dim t = 0
-                        While t < n
-                            Dim j = candPos(t)
-                            Dim logRf As Double = candLogR(t)
-                            Dim logRr As Double = If(t + 1 < n AndAlso candPos(t + 1) = j, candLogR(t + 1), Double.NegativeInfinity)
-                            Dim logSites = LogAdd(Math.Log(Lambda) + logRf,
-                                                  If(Double.IsNegativeInfinity(logRr), Double.NegativeInfinity,
-                                                     Math.Log(Lambda) + logRr))
-                            Dim logDen = LogAdd(logSites, log1p(-Lambda))
-                            Dim zF = Math.Exp(Math.Log(Lambda) + logRf - logDen)
-                            cands.Add(New SitePosterior(j, False, zF, logRf))
-                            If Not Double.IsNegativeInfinity(logRr) Then
-                                Dim zR = Math.Exp(Math.Log(Lambda) + logRr - logDen)
-                                cands.Add(New SitePosterior(j, True, zR, logRr))
-                                t += 2
-                            Else
-                                t += 1
-                            End If
-                        End While
+                        Dim sumByPos As New Dictionary(Of Int32, Double)()
+                        For t = 0 To n - 1
+                            Dim s As Double = 0
+                            sumByPos.TryGetValue(candPos(t), s)
+                            sumByPos(candPos(t)) = s + relR(t)
+                        Next
+                        For t = 0 To n - 1
+                            ' λ·Σ_group R = e^mx·λ·Σ_group relR
+                            Dim logLamSumR = mx + Math.Log(Lambda) + Math.Log(sumByPos(candPos(t)))
+                            Dim logDen = LogAdd(logLamSumR, log1p(-Lambda))
+                            Dim z = Math.Exp(Math.Log(Lambda) + candLogR(t) - logDen)
+                            cands.Add(New SitePosterior(candPos(t), candMinus(t), z, candLogR(t)))
+                        Next
                     Else
                         Dim logOdds0 = log1p(-Lambda) - Math.Log(Lambda)
                         For t = 0 To n - 1
@@ -199,13 +196,15 @@ Namespace EmMotif.Core
         Public Function WindowLogR(enc() As Int32, j As Int32, minus As Boolean) As Double
             Dim lr As Double = 0
             For k As Integer = 0 To W - 1
-                Dim a As Int32
-                If minus Then
-                    a = AlphabetRef.Complement(enc(j + W - 1 - k))
-                Else
-                    a = enc(j + k)
-                End If
+                ' 必须先判原始编码是否为歧义（−1），再取互补：
+                ' 否则负链分支会把 −1 传给 Complement 造成越界 [缺陷 #6]。
+                ' 注意正/负链读的是同一组位置 {j..j+W−1}，因此两者的有效性判定一致。
+                Dim raw As Int32 = enc(j + If(minus, W - 1 - k, k))
+                If raw < 0 Then Return Double.NegativeInfinity
+
+                Dim a As Int32 = If(minus, AlphabetRef.Complement(raw), raw)
                 If a < 0 Then Return Double.NegativeInfinity
+
                 Dim th = Pwm(k, a)
                 Dim b0 = Background(a)
                 If th <= 0 OrElse b0 <= 0 Then Return Double.NegativeInfinity
@@ -275,100 +274,92 @@ Namespace EmMotif.Core
         End Sub
 
         ''' <summary>
-        ''' 全观测对数似然（含混合项；OOPS/ZOOPS 精确，ANR 窗口独立式）。
+        ''' 全观测对数似然 [em.md §1/§4]：
+        '''   OOPS : P(S_i) = bg(S_i)·(1/nCand)·Σ_c R_c
+        '''   ZOOPS: P(S_i) = bg(S_i)·[(1−λ) + λ·Σ_c R_c]
+        '''   ANR  : P(S_i) = bg(S_i)·Π_j [(1−λ) + λ·Σ_strands R(j,·)]
+        '''
+        ''' 似然只取决于模型参数（PWM θ、λ）与数据本身，与 E 步给出的后验无关，
+        ''' 因此这里不再接收后验列表，链模式改由调用方显式传入。
+        ''' 旧实现用「后验里有没有负链条目」反推是否双链，导致 EM 首轮
+        ''' （后验列表为空）按单链计算、次轮起按双链计算，LL 轨迹出现假的跳变，
+        ''' 既破坏了单调性保证也污染了 ΔLL 收敛判据 [缺陷 #7]。
         ''' </summary>
-        Public Function FullLogLik(encList As List(Of Int32()), sitesList As List(Of List(Of SitePosterior))) As Double
+        Public Function FullLogLik(encList As List(Of Int32()), Optional revcomp As Boolean = False) As Double
             Dim ll As Double = 0
-            For si = 0 To encList.Count - 1
-                Dim enc = encList(si)
+
+            For Each enc In encList
                 ' 背景项：所有有效字母
                 For Each a In enc
                     If a >= 0 Then ll += Math.Log(Background(a))
                 Next
-                ' 位点相对项
-                Dim revcomp = sitesList(si).Count > 0 AndAlso HasMinus(sitesList(si))
+
+                Dim nwin = enc.Length - W + 1
+                If nwin <= 0 Then Continue For
+
+                ' 有效候选的 logR（j 升序；双链时同一位置正链在前、负链在后）
+                Dim lrs As New List(Of Double)()
+                Dim posOf As New List(Of Int32)()
+                For j = 0 To nwin - 1
+                    Dim f = WindowLogR(enc, j, False)
+                    If Not Double.IsNegativeInfinity(f) Then
+                        lrs.Add(f)
+                        posOf.Add(j)
+                    End If
+                    If revcomp Then
+                        Dim r = WindowLogR(enc, j, True)
+                        If Not Double.IsNegativeInfinity(r) Then
+                            lrs.Add(r)
+                            posOf.Add(j)
+                        End If
+                    End If
+                Next
+
+                If lrs.Count = 0 Then
+                    ' 该序列没有任何可用候选窗口：ZOOPS 下只能取「无位点」状态
+                    If Model = SiteModel.Zoops Then ll += log1p(-Lambda)
+                    Continue For
+                End If
+
+                ' 数值稳定：对 logR 做 max 平移
+                Dim mx = Double.NegativeInfinity
+                For Each v In lrs
+                    If v > mx Then mx = v
+                Next
+
                 Select Case Model
                     Case SiteModel.Oops
-                        ' bg(S)·Σ_j R_j（背景项已计入，加 log Σ R）
+                        ' Σ_c R_c，再乘位点位置的均匀先验 1/nCand
+                        ' （nCand 只取决于歧义字符分布，与 θ 无关，不影响 EM 单调性）[缺陷 #14]
                         Dim sumR As Double = 0
-                        Dim mx = Double.NegativeInfinity
-                        Dim lrs As New List(Of Double)()
-                        Dim nwin = enc.Length - W + 1
-                        For j = 0 To nwin - 1
-                            Dim lr = WindowLogR(enc, j, False)
-                            If Double.IsNegativeInfinity(lr) Then Continue For
-                            lrs.Add(lr)
-                            If revcomp Then lrs.Add(WindowLogR(enc, j, True))
+                        For Each v In lrs
+                            sumR += Math.Exp(v - mx)
                         Next
-                        If revcomp Then
-                            ' 双链：重新全量收集
-                            lrs.Clear()
-                            For j = 0 To nwin - 1
-                                Dim f = WindowLogR(enc, j, False)
-                                If Not Double.IsNegativeInfinity(f) Then lrs.Add(f)
-                                Dim r = WindowLogR(enc, j, True)
-                                If Not Double.IsNegativeInfinity(r) Then lrs.Add(r)
-                            Next
-                        End If
-                        If lrs.Count > 0 Then
-                            For Each v In lrs
-                                If v > mx Then mx = v
-                            Next
-                            For Each v In lrs
-                                sumR += Math.Exp(v - mx)
-                            Next
-                            ll += mx + Math.Log(sumR)
-                        End If
+                        ll += mx + Math.Log(sumR) - Math.Log(lrs.Count)
+
                     Case SiteModel.Zoops
-                        ' bg(S)·[(1−λ) + λΣR]
-                        Dim nwin = enc.Length - W + 1
-                        Dim lrs As New List(Of Double)()
-                        For j = 0 To nwin - 1
-                            Dim f = WindowLogR(enc, j, False)
-                            If Not Double.IsNegativeInfinity(f) Then lrs.Add(f)
-                            If revcomp Then
-                                Dim r = WindowLogR(enc, j, True)
-                                If Not Double.IsNegativeInfinity(r) Then lrs.Add(r)
-                            End If
+                        ' log[(1−λ) + λ·Σ_c R_c]
+                        Dim sumR As Double = 0
+                        For Each v In lrs
+                            sumR += Math.Exp(v - mx)
                         Next
-                        If lrs.Count > 0 Then
-                            Dim mx = Double.NegativeInfinity
-                            For Each v In lrs
-                                If v > mx Then mx = v
-                            Next
-                            Dim sumR As Double = 0
-                            For Each v In lrs
-                                sumR += Math.Exp(v - mx)
-                            Next
-                            Dim logLamSumR = mx + Math.Log(Lambda) + Math.Log(sumR)
-                            Dim logOneMinus = log1p(-Lambda)
-                            ll += LogAdd(logLamSumR, logOneMinus)
-                        Else
-                            ll += log1p(-Lambda)
-                        End If
-                    Case Else
-                        ' ANR：Σ_j log((1−λ) + λR_j)（窗口独立）
-                        Dim nwin2 = enc.Length - W + 1
-                        For j = 0 To nwin2 - 1
-                            Dim best = Double.NegativeInfinity
-                            Dim anyValid = False
-                            Dim lrF = WindowLogR(enc, j, False)
-                            If Not Double.IsNegativeInfinity(lrF) Then
-                                anyValid = True
-                                best = LogAdd(log1p(-Lambda), Math.Log(Lambda) + lrF)
-                            End If
-                            If revcomp Then
-                                Dim lrR = WindowLogR(enc, j, True)
-                                If Not Double.IsNegativeInfinity(lrR) Then
-                                    anyValid = True
-                                    ' (1−λ) + λRf + λRr（三态 logadd）
-                                    best = LogAdd(best, Math.Log(Lambda) + lrR)
-                                End If
-                            End If
-                            If anyValid Then ll += best
+                        ll += LogAdd(mx + Math.Log(Lambda) + Math.Log(sumR), log1p(-Lambda))
+
+                    Case Else ' ANR
+                        ' 逐位置累乘；同一位置的正/负链共享一个「无位点」状态，
+                        ' 与 EStep 的 ANR 分支语义一致
+                        Dim sumByPos As New Dictionary(Of Int32, Double)()
+                        For t = 0 To lrs.Count - 1
+                            Dim s As Double = 0
+                            sumByPos.TryGetValue(posOf(t), s)
+                            sumByPos(posOf(t)) = s + Math.Exp(lrs(t) - mx)
+                        Next
+                        For Each kv In sumByPos
+                            ll += LogAdd(mx + Math.Log(Lambda) + Math.Log(kv.Value), log1p(-Lambda))
                         Next
                 End Select
             Next
+
             Return ll
         End Function
 
@@ -385,25 +376,31 @@ Namespace EmMotif.Core
             Return 2.0 * s
         End Function
 
-        ''' <summary>每列最大概率碱基 → 一致序列 [em.md §4 输出]</summary>
+        ''' <summary>
+        ''' 每列最大概率碱基 → 一致序列 [em.md §4 输出]。
+        ''' argmax 必须遍历完整字母表（Me.K），不能只遍历到列号 [缺陷 #3]。
+        ''' </summary>
         Public Function Consensus() As String
             Dim sb = New StringBuilder()
-            For k As Integer = 0 To W - 1
+            For col As Integer = 0 To W - 1
                 Dim bestA = 0
-                For a = 1 To k - 1
-                    If Pwm(k, a) > Pwm(k, bestA) Then bestA = a
+                For a = 1 To Me.K - 1
+                    If Pwm(col, a) > Pwm(col, bestA) Then bestA = a
                 Next
                 sb.Append(AlphabetRef.Letters(bestA))
             Next
             Return sb.ToString()
         End Function
 
-        ''' <summary>PWM 与旧版的最大元素变化（收敛判据之二 [em.md §4]）</summary>
+        ''' <summary>
+        ''' PWM 与旧版的最大元素变化（收敛判据之二 [em.md §4]）。
+        ''' 必须比较全部 W×K 个格子，不能只比较到列号 [缺陷 #4]。
+        ''' </summary>
         Public Function MaxDeltaTo(other As EmModel) As Double
             Dim mx As Double = 0
-            For K As Integer = 0 To W - 1
-                For a = 0 To K - 1
-                    Dim d = Math.Abs(Pwm(K, a) - other.Pwm(K, a))
+            For col As Integer = 0 To W - 1
+                For a = 0 To Me.K - 1
+                    Dim d = Math.Abs(Pwm(col, a) - other.Pwm(col, a))
                     If d > mx Then mx = d
                 Next
             Next
@@ -417,13 +414,6 @@ Namespace EmMotif.Core
         End Function
 
         ' ---- 工具 ----
-
-        Private Function HasMinus(sites As List(Of SitePosterior)) As Boolean
-            For Each sp In sites
-                If sp.StrandMinus Then Return True
-            Next
-            Return False
-        End Function
 
         Private Shared Function LogAdd(a As Double, b As Double) As Double
             If Double.IsNegativeInfinity(a) Then Return b
