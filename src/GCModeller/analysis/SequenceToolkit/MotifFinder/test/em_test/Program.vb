@@ -31,7 +31,7 @@ Namespace EmMotif
                 Return 0
             End If
             Dim cmd = args(0).ToLowerInvariant()
-            If cmd = "selftest" Then Return SelfTest.RunAll()
+            If cmd = "selftest" Then Return SelfTest.RunAll(FlagValue(args, "--only"))
 
             Try
                 If cmd = "discover" Then
@@ -132,6 +132,14 @@ Namespace EmMotif
                 Console.Error.WriteLine("宽度范围无效（需 2 ≤ minw ≤ maxw）")
                 Return 2
             End If
+            If opts.MaxIter < 1 Then
+                Console.Error.WriteLine("--max-iter 必须 ≥ 1")
+                Return 2
+            End If
+            If opts.Pseudocount <= 0 Then
+                Console.Error.WriteLine("--pseudocount 必须 > 0（否则某列计数为 0 时概率会极端化）[em.md §3 Step2]")
+                Return 2
+            End If
             If opts.Revcomp AndAlso Not alpha.SupportsRevcomp Then
                 Console.Error.WriteLine("氨基酸字母表不支持 --revcomp，已忽略")
                 opts.Revcomp = False
@@ -160,23 +168,23 @@ Namespace EmMotif
             sw.Stop()
             Console.Error.WriteLine($"发现 {motifs.Count} 个 motif（{sw.Elapsed.TotalSeconds:F1}s）")
 
-            ' 组装报告
+            ' 背景频率：无论是否发现 motif 都要输出，否则 JSON 缺键不便下游消费 [缺陷 #16]
             Dim bgDict As New Dictionary(Of String, Double)()
-            If motifs.Count > 0 Then
-                ' 背景：重算一次（与 EmSearch 内部一致）
-                Dim cnt(alpha.Size - 1) As Double
-                Dim total As Double = 0
-                For Each enc In encList
-                    For Each a In enc
-                        If a >= 0 Then
-                            cnt(a) += 1.0
-                            total += 1.0
-                        End If
-                    Next
+            Dim bgcnt(alpha.Size - 1) As Double
+            Dim bgtotal As Double = 0
+            For Each enc In encList
+                For Each a In enc
+                    If a >= 0 Then
+                        bgcnt(a) += 1.0
+                        bgtotal += 1.0
+                    End If
                 Next
-                For a = 0 To alpha.Size - 1
-                    bgDict(alpha.Letters(a).ToString()) = Math.Round((cnt(a) + 0.1) / (total + 0.1 * alpha.Size), 6)
-                Next
+            Next
+            For a = 0 To alpha.Size - 1
+                bgDict(alpha.Letters(a).ToString()) = Math.Round((bgcnt(a) + 0.1) / (bgtotal + 0.1 * alpha.Size), 6)
+            Next
+            If bgtotal = 0 Then
+                Console.Error.WriteLine("警告：输入序列中没有可识别的字母（全部为歧义字符）")
             End If
 
             Dim motifDtos As New List(Of MotifDto)()
@@ -302,6 +310,7 @@ Namespace EmMotif
             Console.WriteLine("EmMotif — EM 算法 motif 发现（MEME 三种位点分布模型；核酸+氨基酸；纯 BCL）")
             Console.WriteLine()
             Console.WriteLine("用法:")
+            Console.WriteLine("  EmMotif selftest [--only <关键字>]")
             Console.WriteLine("  EmMotif discover --input seqs.fa [--alphabet dna|protein|auto] [--model zoops]")
             Console.WriteLine("      [--minw 8 --maxw 8] [--nmotifs 1] [--revcomp]")
             Console.WriteLine("      [--seed-strategy enriched|random|all] [--seed-count 20]")

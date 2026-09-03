@@ -10,7 +10,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Configurations>Debug;Release;MEMI-Desktop;CellaLAB-Desktop</Configurations>
+    <Configurations>Debug;Release;MEMI-Desktop;CellaLAB-Desktop;Rsharp_app_release</Configurations>
     <PackageIcon>icons8-html-96.png</PackageIcon>
     <PackageOutputPath>..\..\..\.nuget\</PackageOutputPath>
   </PropertyGroup>
@@ -51,6 +51,12 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net6.0-windows|AnyCPU'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
@@ -64,6 +70,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|AnyCPU'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
@@ -87,6 +99,12 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net48|AnyCPU'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
@@ -100,6 +118,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0-windows|x64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
@@ -123,6 +147,12 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net6.0|x64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
@@ -136,6 +166,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|x64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>

@@ -28,21 +28,29 @@ Namespace EmMotif.Core
         Public ReadOnly SupportsRevcomp As Boolean
 
         Public Sub New(kind As SeqTypes)
-            Me.Kind = kind
-            If kind = SeqTypes.DNA Then
-                Letters = "ACGT"
-                SupportsRevcomp = True
-            Else
-                Letters = "ACDEFGHIKLMNPQRSTVWY"
-                SupportsRevcomp = False
-            End If
+            ' RNA 与 DNA 共用核酸字母表（U 并入 T）；无法识别的类型直接失败，
+            ' 而不是被静默当成蛋白质处理 [缺陷 #12]
+            Select Case kind
+                Case SeqTypes.DNA, SeqTypes.RNA
+                    Letters = "ACGT"
+                    SupportsRevcomp = True
+                    Me.Kind = SeqTypes.DNA
+                Case SeqTypes.Protein
+                    Letters = "ACDEFGHIKLMNPQRSTVWY"
+                    SupportsRevcomp = False
+                    Me.Kind = SeqTypes.Protein
+                Case Else
+                    Throw New ArgumentException(
+                        $"无法识别的序列类型：{kind}（仅支持 DNA / RNA / Protein）", NameOf(kind))
+            End Select
+
             Size = Letters.Length
             _encode = New Dictionary(Of Char, Int32)()
             For i = 0 To Size - 1
                 _encode(Letters(i)) = i
             Next
-            ' 尿嘧啶并入 T
-            If kind = SeqTypes.DNA Then _encode("U"c) = 1   ' T 的索引是 1
+            ' 尿嘧啶并入 T：直接复用 T 的索引，避免手写下标的错误 [缺陷 #5]
+            If SupportsRevcomp Then _encode("U"c) = _encode("T"c)
             _compMap = New Int32(Size - 1) {}
             If kind = SeqTypes.DNA Then
                 ' A<->T, C<->G
@@ -56,8 +64,9 @@ Namespace EmMotif.Core
             Return -1
         End Function
 
-        ''' <summary>序列编码；歧义字符 → −1</summary>
+        ''' <summary>序列编码；歧义字符 → −1；空串 → 空数组 [缺陷 #13]</summary>
         Public Function Encode(seq As String) As Int32()
+            If String.IsNullOrEmpty(seq) Then Return New Int32() {}
             Dim outArr(seq.Length - 1) As Int32
             For i = 0 To seq.Length - 1
                 outArr(i) = EncodeChar(seq(i))
@@ -65,12 +74,20 @@ Namespace EmMotif.Core
             Return outArr
         End Function
 
+        ''' <summary>索引 → 字母；歧义（−1）返回 N（核酸）/ X（蛋白）[缺陷 #13]</summary>
         Public Function Decode(a As Int32) As String
+            If a < 0 OrElse a >= Size Then
+                Return If(SupportsRevcomp, "N", "X")
+            End If
             Return Letters(a).ToString()
         End Function
 
-        ''' <summary>互补碱基索引（仅核酸有效）</summary>
+        ''' <summary>
+        ''' 互补碱基索引（仅核酸有效）。歧义/越界索引返回 −1，
+        ''' 使调用方可以用「a &lt; 0」统一判断，而不会越界崩溃 [缺陷 #6]。
+        ''' </summary>
         Public Function Complement(a As Int32) As Int32
+            If a < 0 OrElse a >= Size Then Return -1
             Return _compMap(a)
         End Function
 

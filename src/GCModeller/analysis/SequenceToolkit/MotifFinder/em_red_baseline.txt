@@ -1,0 +1,304 @@
+﻿=== EmMotif SelfTest ===
+
+### 字母表与编码
+
+-- 字母表：编码与歧义字符 [em.md §1] --
+  [PASS] 编码长度 = 序列长度
+  [PASS] DNA 编解码往返一致
+  [PASS] DNA 字母表大小 = 4
+  [PASS] 编码对小写字母不敏感
+  [PASS] T 的索引 = 3（Letters="ACGT"）
+  [FAIL] U 并入 T，两者索引相同 [缺陷 #5] — 期望 <3>，实际 <1>
+  [FAIL] U 不得被编码成 C（索引 1）[缺陷 #5] — 期望 True，实际 False
+  [FAIL] RNA 序列（含 U）与对应 DNA 序列编码一致 [缺陷 #5] — 期望 True，实际 False
+  [PASS] 核酸歧义字符 N → −1
+  [PASS] 核酸歧义字符 R → −1
+  [PASS] 核酸歧义字符 Y → −1
+  [PASS] 核酸歧义字符 S → −1
+  [PASS] 核酸歧义字符 W → −1
+  [PASS] 核酸歧义字符 K → −1
+  [PASS] 核酸歧义字符 M → −1
+  [PASS] 核酸歧义字符 B → −1
+  [PASS] 核酸歧义字符 D → −1
+  [PASS] 核酸歧义字符 H → −1
+  [PASS] 核酸歧义字符 V → −1
+  [PASS] 序列中的 N 编码为 −1
+  [PASS] 有效字母计数正确（9 − 1 个 N）
+  [PASS] 蛋白歧义字符 B → −1
+  [PASS] 蛋白歧义字符 X → −1
+  [PASS] 蛋白歧义字符 Z → −1
+  [PASS] 蛋白歧义字符 U → −1
+  [PASS] 蛋白歧义字符 O → −1
+  [PASS] A ↔ T
+  [PASS] T ↔ A
+  [PASS] C ↔ G
+  [PASS] G ↔ C
+         Complement(−1) 抛出 IndexOutOfRangeException: Index was outside the bounds of the array.
+  [FAIL] Complement(−1) 不抛异常 [缺陷 #6] — 期望 True，实际 False
+  [FAIL] Complement(−1) = −1（歧义仍是歧义）[缺陷 #6] — 期望 <-1>，实际 <0>
+  [PASS] Revcomp 基本用例
+  [PASS] Revcomp 单字符
+  [PASS] Revcomp 空串
+  [PASS] Revcomp 两次 = 原串
+  [PASS] Revcomp 与独立实现在 50 条随机序列上一致
+  [PASS] 蛋白字母表不支持 revcomp [em.md §9]
+  [PASS] 蛋白 Revcomp 返回原串
+  [PASS] 蛋白字母表大小 = 20
+  [PASS] 蛋白字母表内容 = 20 种标准氨基酸
+  [PASS] 蛋白 20 个字母依次编码为 0..19
+  [FAIL] RNA 走核酸字母表（大小 = 4）[缺陷 #12] — 期望 <4>，实际 <20>
+  [FAIL] RNA 的 U 与 T 同索引 [缺陷 #12] — 期望 <16>，实际 <-1>
+  [FAIL] RNA 支持 revcomp [缺陷 #12] — 期望 True，实际 False
+         Unknown 未抛异常，得到字母表大小 20
+  [FAIL] SeqTypes.Unknown 构造时抛出 ArgumentException [缺陷 #12] — 期望 True，实际 False
+  [PASS] 空序列 Encode 不抛异常 [缺陷 #13]
+  [PASS] 空序列编码结果长度 = 0 [缺陷 #13]
+  [PASS] 全歧义序列全部编码为 −1
+         Decode(−1) 抛出 IndexOutOfRangeException: Index was outside the bounds of the array.
+  [FAIL] Decode(−1) 不抛异常 [缺陷 #13] — 期望 True，实际 False
+    （字母表与编码 用时 0.01s）
+
+### 种子初始化 InitFromSeed
+
+-- 种子初始化 PWM（one-hot + 伪计数）[em.md §5] --
+         InitFromSeed 抛出 IndexOutOfRangeException: Index was outside the bounds of the array.
+  [FAIL] W=10 > 字母表大小 4 时 InitFromSeed 不抛异常 [缺陷 #1] — 期望 True，实际 False
+  [FAIL] 种子初始化 InitFromSeed — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （种子初始化 InitFromSeed 用时 0.00s）
+
+### M 步加权计数与归一化
+
+-- M 步加权计数与归一化 [em.md §3] --
+  [PASS] M 步不抛异常 [缺陷 #2]
+  [FAIL] M 步后每列概率和 = 1 [缺陷 #2]（最大列偏差 1） — 期望 True，实际 False
+  [FAIL] 全 T 窗口的加权计数落在 T 列（期望 0.785714）[缺陷 #2] — 期望 True，实际 False
+  [FAIL] M 步加权计数与归一化 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （M 步加权计数与归一化 用时 0.00s）
+
+### 一致序列 Consensus
+
+-- 一致序列逐列 argmax [em.md §4] --
+  [FAIL] 一致序列 Consensus — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （一致序列 Consensus 用时 0.00s）
+
+### PWM 变化量 MaxDeltaTo
+
+-- PWM 变化量（收敛判据之二）[em.md §4] --
+  [FAIL] PWM 变化量 MaxDeltaTo — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （PWM 变化量 MaxDeltaTo 用时 0.00s）
+
+### 窗口似然比 WindowLogR
+
+-- 窗口似然比 logR [em.md §2] --
+  [PASS] logR = log Π_k θ_{k,a}/θ0,a（与直接连乘一致）[em.md §2]
+  [PASS] 负链 logR = 反向互补窗口在正链上的 logR [em.md §9]
+  [PASS] 含歧义字母的窗口 logR = −∞（正链）
+         负链 WindowLogR 抛出 IndexOutOfRangeException: Index was outside the bounds of the array.
+  [FAIL] 歧义窗口的负链 logR 不抛异常（Complement(−1) 越界）[缺陷 #6] — 期望 True，实际 False
+  [FAIL] 含歧义字母的窗口 logR = −∞（负链）[缺陷 #6] — 期望 True，实际 False
+  [FAIL] 窗口似然比 WindowLogR — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （窗口似然比 WindowLogR 用时 0.00s）
+
+### E 步后验约束（三模型）
+
+-- E 步后验约束（OOPS / ZOOPS / ANR）[em.md §6] --
+  [FAIL] E 步后验约束（三模型） — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （E 步后验约束（三模型） 用时 0.00s）
+
+### E 步后验 vs Oracle
+
+-- E 步后验 vs Oracle（三模型 × 单/双链）[em.md §2] --
+  [FAIL] E 步后验 vs Oracle — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （E 步后验 vs Oracle 用时 0.00s）
+
+### 似然的链模式显式化
+
+-- 对数似然的链模式显式化 [em.md §4] --
+  [FAIL] 似然的链模式显式化 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （似然的链模式显式化 用时 0.00s）
+
+### 全似然 vs Oracle
+
+-- 全观测对数似然 vs Oracle [em.md §4] --
+  [FAIL] 全似然 vs Oracle — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （全似然 vs Oracle 用时 0.00s）
+
+### EM 单调收敛
+
+-- EM 单调收敛 [em.md §4] --
+  [FAIL] EM 单调收敛 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （EM 单调收敛 用时 0.00s）
+
+### λ 更新
+
+-- λ 更新 [em.md §3 Step3] --
+  [FAIL] λ 更新 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （λ 更新 用时 0.00s）
+
+### χ² 生存函数与 E-value
+
+-- log Γ(x)（Lanczos 近似） --
+  [PASS] ln Γ(1) = 0
+  [PASS] ln Γ(2) = 0
+  [PASS] ln Γ(5) = ln 24 = 3.1780538
+  [PASS] ln Γ(0.5) = ln√π = 0.5723649
+  [PASS] ln Γ(10) = ln 9! = 12.8018275
+
+-- χ² 生存函数 vs 文献分位数 [em.md §9] --
+  [PASS] 15 组文献分位数全部吻合（最大误差 1.13E-08；最差：χ²(2) sf(5.991465) = 0.050000，期望 0.05）
+
+-- Q(s,x) 解析解对照：Q(1,x) = e^(−x) --
+  [PASS] Q(1, 0.1) = e^−0.1
+  [PASS] Q(1, 0.5) = e^−0.5
+  [PASS] Q(1, 1) = e^−1
+  [PASS] Q(1, 1.5) = e^−1.5
+  [PASS] Q(1, 1.9) = e^−1.9
+  [PASS] Q(1, 2.5) = e^−2.5
+  [PASS] Q(1, 5) = e^−5
+  [PASS] Q(1, 10) = e^−10
+  [PASS] Q(1, 25) = e^−25
+  [PASS] Q(s, 0) = 1
+  [PASS] Q(2, 1000) ≈ 0
+  [PASS] χ² sf(df, 0) = 1
+
+-- 级数/连分数分支连续性（切换点 x = s+1） --
+  [FAIL] s=1 时在 x=s+1 两侧连续（0.13669543 → 0.13398867） — 期望 0.136695425446，实际 0.133988674669，|Δ|=0.002707 > 容差 0.0005
+  [FAIL] s=3 时在 x=s+1 两侧连续（0.23957222 → 0.23664171） — 期望 0.239572222837，实际 0.23664171451，|Δ|=0.002931 > 容差 0.0005
+  [FAIL] s=10 时在 x=s+1 两侧连续（0.34159688 → 0.33942637） — 期望 0.341596883405，实际 0.339426374713，|Δ|=0.002171 > 容差 0.0005
+  [FAIL] s=25.5 时在 x=s+1 两侧连续（0.39765215 → 0.39616538） — 期望 0.39765215409，实际 0.396165377965，|Δ|=0.001487 > 容差 0.0005
+
+-- χ² 生存函数单调性与数值稳定性 --
+  [PASS] sf(df=6) 在 x ∈ [0,100] 上单调递减且无 NaN/Inf
+  [PASS] 极端 df/x 输入下 sf ∈ [0,1] 且无 NaN
+
+-- motif E-value [em.md §9] --
+  [PASS] E-value 随 LLR 单调递减
+  [PASS] E-value 随窗口数增大（0.01277 → 1.277）
+  [PASS] E-value = 窗口总数 × χ² sf
+  [PASS] 强信号（LLR=150, df=21）E=1.76E-17 < 0.05 判显著 [em.md §9]
+  [PASS] 极端 LLR 下 E-value 被夹逼为正数（1E-300）
+    （χ² 生存函数与 E-value 用时 0.00s）
+
+### DNA ZOOPS 种植恢复
+
+-- DNA ZOOPS 种植恢复 [em.md §4] --
+  [FAIL] DNA ZOOPS 种植恢复 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （DNA ZOOPS 种植恢复 用时 0.01s）
+
+### DNA OOPS 种植恢复
+
+-- DNA OOPS 种植恢复（每条序列恰 1 个位点）[em.md §6] --
+  [FAIL] DNA OOPS 种植恢复 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （DNA OOPS 种植恢复 用时 0.01s）
+
+### 蛋白种植恢复
+
+-- 蛋白序列种植恢复 [em.md §1] --
+  [PASS] 发现 1 个 motif（实际 1）
+         共识 = AACAAAAA（匹配 1/8）定位 12/25（48.0%）
+  [FAIL] 蛋白共识恢复 ≥7/8（实际 1/8）[缺陷 #3] — 期望 True，实际 False
+  [FAIL] 蛋白位点定位 ≥80%（实际 12/25（48.0%））[缺陷 #2] — 期望 True，实际 False
+    （蛋白种植恢复 用时 0.01s）
+
+### 双链扫描恢复
+
+-- 双链扫描恢复（含链向判读）[em.md §9] --
+  [FAIL] 双链扫描恢复 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （双链扫描恢复 用时 0.01s）
+
+### ANR 多位点
+
+-- ANR 多位点发现（每条序列 2~3 个位点）[em.md §6] --
+  [FAIL] ANR 多位点 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （ANR 多位点 用时 0.01s）
+
+### 多 motif 屏蔽重跑
+
+-- 多 motif 屏蔽重跑 [em.md §7] --
+  [FAIL] 多 motif 屏蔽重跑 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （多 motif 屏蔽重跑 用时 0.01s）
+
+### 种子初始化策略
+
+-- 种子初始化策略：enriched / random / all [em.md §5] --
+  [FAIL] 种子初始化策略 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （种子初始化策略 用时 0.01s）
+
+### 结果可复现性
+
+-- 结果可复现（相同 rng-seed → 相同结果）[em.md §8] --
+  [FAIL] 结果可复现性 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （结果可复现性 用时 0.00s）
+
+### 宽度范围择优
+
+-- 宽度范围择优 [-−minw/-−maxw] [em.md §9] --
+  [FAIL] 宽度范围择优 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （宽度范围择优 用时 0.00s）
+
+### 边界与异常输入
+
+-- 边界与异常输入 --
+  [PASS] 序列短于 motif 宽度时不抛异常
+  [PASS] 全歧义序列不抛异常
+  [FAIL] 单条序列不抛异常 — 不应抛出异常，实际抛出 IndexOutOfRangeException: Index was outside the bounds of the array.
+  [PASS] 最小宽度 W=2 不抛异常
+  [FAIL] 边界与异常输入 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （边界与异常输入 用时 0.00s）
+
+### FASTA 端到端与 JSON
+
+-- 端到端：FASTA → 发现 → JSON 往返 --
+  [PASS] dna.fa 解析出 40 条序列
+  [FAIL] FASTA 端到端与 JSON — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+    （FASTA 端到端与 JSON 用时 0.18s）
+
+================================================================
+断言总数 117，失败 43，用时 0.3s
+=== 43 ASSERTION(S) FAILED ===
+
+失败清单：
+    1. U 并入 T，两者索引相同 [缺陷 #5] — 期望 <3>，实际 <1>
+    2. U 不得被编码成 C（索引 1）[缺陷 #5] — 期望 True，实际 False
+    3. RNA 序列（含 U）与对应 DNA 序列编码一致 [缺陷 #5] — 期望 True，实际 False
+    4. Complement(−1) 不抛异常 [缺陷 #6] — 期望 True，实际 False
+    5. Complement(−1) = −1（歧义仍是歧义）[缺陷 #6] — 期望 <-1>，实际 <0>
+    6. RNA 走核酸字母表（大小 = 4）[缺陷 #12] — 期望 <4>，实际 <20>
+    7. RNA 的 U 与 T 同索引 [缺陷 #12] — 期望 <16>，实际 <-1>
+    8. RNA 支持 revcomp [缺陷 #12] — 期望 True，实际 False
+    9. SeqTypes.Unknown 构造时抛出 ArgumentException [缺陷 #12] — 期望 True，实际 False
+   10. Decode(−1) 不抛异常 [缺陷 #13] — 期望 True，实际 False
+   11. W=10 > 字母表大小 4 时 InitFromSeed 不抛异常 [缺陷 #1] — 期望 True，实际 False
+   12. 种子初始化 InitFromSeed — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   13. M 步后每列概率和 = 1 [缺陷 #2]（最大列偏差 1） — 期望 True，实际 False
+   14. 全 T 窗口的加权计数落在 T 列（期望 0.785714）[缺陷 #2] — 期望 True，实际 False
+   15. M 步加权计数与归一化 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   16. 一致序列 Consensus — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   17. PWM 变化量 MaxDeltaTo — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   18. 歧义窗口的负链 logR 不抛异常（Complement(−1) 越界）[缺陷 #6] — 期望 True，实际 False
+   19. 含歧义字母的窗口 logR = −∞（负链）[缺陷 #6] — 期望 True，实际 False
+   20. 窗口似然比 WindowLogR — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   21. E 步后验约束（三模型） — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   22. E 步后验 vs Oracle — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   23. 似然的链模式显式化 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   24. 全似然 vs Oracle — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   25. EM 单调收敛 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   26. λ 更新 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   27. s=1 时在 x=s+1 两侧连续（0.13669543 → 0.13398867） — 期望 0.136695425446，实际 0.133988674669，|Δ|=0.002707 > 容差 0.0005
+   28. s=3 时在 x=s+1 两侧连续（0.23957222 → 0.23664171） — 期望 0.239572222837，实际 0.23664171451，|Δ|=0.002931 > 容差 0.0005
+   29. s=10 时在 x=s+1 两侧连续（0.34159688 → 0.33942637） — 期望 0.341596883405，实际 0.339426374713，|Δ|=0.002171 > 容差 0.0005
+   30. s=25.5 时在 x=s+1 两侧连续（0.39765215 → 0.39616538） — 期望 0.39765215409，实际 0.396165377965，|Δ|=0.001487 > 容差 0.0005
+   31. DNA ZOOPS 种植恢复 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   32. DNA OOPS 种植恢复 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   33. 蛋白共识恢复 ≥7/8（实际 1/8）[缺陷 #3] — 期望 True，实际 False
+   34. 蛋白位点定位 ≥80%（实际 12/25（48.0%））[缺陷 #2] — 期望 True，实际 False
+   35. 双链扫描恢复 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   36. ANR 多位点 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   37. 多 motif 屏蔽重跑 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   38. 种子初始化策略 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   39. 结果可复现性 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   40. 宽度范围择优 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   41. 单条序列不抛异常 — 不应抛出异常，实际抛出 IndexOutOfRangeException: Index was outside the bounds of the array.
+   42. 边界与异常输入 — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+   43. FASTA 端到端与 JSON — 用例组异常终止：IndexOutOfRangeException: Index was outside the bounds of the array.
+================================================================

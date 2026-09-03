@@ -11,6 +11,7 @@
 Option Strict On
 
 Imports System.IO
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.EmMotif.Core
 
 Namespace EmMotif
 

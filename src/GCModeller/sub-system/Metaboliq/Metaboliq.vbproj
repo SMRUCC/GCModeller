@@ -6,6 +6,7 @@
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyName>SMRUCC.genomics.Analysis.Metaboliq</AssemblyName>
     <AssemblyTitle>Metabolism + Liquid + IQ</AssemblyTitle>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
