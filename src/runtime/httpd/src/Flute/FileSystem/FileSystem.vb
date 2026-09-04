@@ -174,7 +174,7 @@ Namespace FileSystem
                     .Where(Function(t) Not t.StringEmpty) _
                     .Skip(1) _
                     .JoinBy("/")
-                type = Utils.FileMimeType(file)
+                type = MIME.FileMimeType(file)
 
                 If cacheMode Then
                     fileObj = AddCache(resourceUrl, file, mime:=type)
@@ -219,7 +219,7 @@ Namespace FileSystem
                 buf = New MemoryStream
                 s.CopyTo(buf)
                 buf.Flush()
-                type = Utils.FileMimeType(file)
+                type = MIME.FileMimeType(file)
                 fileObj = AddCache(resourceUrl, buf.ToArray, mime:=type)
 
                 Yield New NamedValue(Of FileObject) With {
