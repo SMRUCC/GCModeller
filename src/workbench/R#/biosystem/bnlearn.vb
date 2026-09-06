@@ -213,6 +213,7 @@ Module bnlearn
                             <RRawVectorArgument(TypeCodes.string)> Optional TF As Object = Nothing,
                             Optional max_itrs As Integer = 500,
                             Optional cross_thres As Double = 0.3,
+                            Optional opt As ModularNetworkPipeline = Nothing,
                             Optional strict As Boolean? = Nothing,
                             Optional env As Environment = Nothing) As Object
 
@@ -248,11 +249,15 @@ Module bnlearn
                 Return colors.getError
             End If
 
-            Dim TFlist As String() = CLRVector.asCharacter(TF)
-            Dim blocks = timeSeries.TrainBlocks(colors, kbNet, TFlist).ToArray
-            Dim moduleDBs As New BlockBayesianNetwork(blocks, TFlist, cross_thres)
+            If opt Is Nothing Then
+                Dim TFlist As String() = CLRVector.asCharacter(TF)
+                Dim blocks = timeSeries.TrainBlocks(colors, kbNet, TFlist).ToArray
+                Dim moduleDBs As New BlockBayesianNetwork(blocks, TFlist, cross_thres)
 
-            Return moduleDBs
+                Return moduleDBs
+            Else
+                Return opt.Learn(colors.ToArray, timeSeries)
+            End If
         Else
             Dim workflow As New BNLearnWorkflow() With {
                 .ExpressionData = timeSeries,
@@ -306,9 +311,33 @@ Module bnlearn
         Return BlockResponseResult.ModularDBNIntervene(model, CLRVector.asCharacter(knockGenes), dynamicSteps)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x"><see cref="BlockResponseResult"/> or <see cref="ModularNetworkPipeline"/></param>
+    ''' <param name="outputdir"></param>
+    ''' <returns></returns>
     <ExportAPI("export_modular_response")>
-    Public Function exportModularResponse(x As BlockResponseResult, outputdir As String) As Boolean
-        Call x.SaveModularResults(outputdir)
+    <RApiReturn(TypeCodes.boolean)>
+    Public Function exportModularResponse(x As Object, outputdir As String,
+                                          <RRawVectorArgument(GetType(GlobalPerturbationResult))>
+                                          Optional result As Object = Nothing,
+                                          Optional env As Environment = Nothing) As Object
+
+        If TypeOf x Is BlockResponseResult Then
+            Call DirectCast(x, BlockResponseResult).SaveModularResults(outputdir)
+        ElseIf TypeOf x Is ModularNetworkPipeline Then
+            Dim pull As PipeIterator(Of GlobalPerturbationResult) = pipeline.Stream(Of GlobalPerturbationResult)(result, env)
+
+            If pull.isError Then
+                Return pull.getError
+            Else
+                Call DirectCast(x, ModularNetworkPipeline).SaveResults(pull, outputdir)
+            End If
+        Else
+            Return Message.InCompatibleType(GetType(ModularNetworkPipeline), x.GetType, env)
+        End If
+
         Return True
     End Function
 
