@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.GlobalPerturbationResult</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GlobalPerturbationResult {SMRUCC.genomics.Analysis.BNLearn.ModularNetwork}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GlobalPerturbationResult</h2>
+
+        <h3>Description</h3>
+
+        <p>单个扰动源在全局网络上传播后的结果
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.BNLearn.ModularNetwork
+export class GlobalPerturbationResult {
+   # 稳态全局效应向量（最终各基因的表达变化量，与 GeneNames 对齐）
+   Effects: double;
+   # 全局基因名列表（与 Effects 各分量对齐）
+   GeneNames: string;
+   # 使用的传播方法
+   Method: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ModularNetwork/PropagationMethod.html">PropagationMethod</a>;
+   # 扰动模式（敲低/过表达/自定义）
+   Mode: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionMode.html">InterventionMode</a>;
+   # 扰动源基因名
+   SourceGene: string;
+   # 逐步效应向量（索引 = 传播步数，每个元素为长度 N 的向量），用于观察收敛过程
+   StepEffects: <a href="/vignettes/clr/System/Double.html">iterates(Double[])</a>;
+   # 实际传播步数
+   Steps: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Method</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ModularNetwork/PropagationMethod.html">PropagationMethod</a></li>
+<li>use by <i>property</i> member <code>Mode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionMode.html">InterventionMode</a></li>
+<li>use by <i>property</i> member <code>StepEffects</code>: <a href="/vignettes/clr/System/Double.html">iterates(Double)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

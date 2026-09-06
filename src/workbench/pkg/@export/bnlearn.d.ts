@@ -74,6 +74,8 @@ declare namespace bnlearn {
      * + default value Is ``500``.
      * @param cross_thres 
      * + default value Is ``0.3``.
+     * @param opt 
+     * + default value Is ``null``.
      * @param strict the strict option of the in silico perturbation experiment: if this 
      *  parameter is TRUE, then an error will be thrown when the target gene of the 
      *  perturbation is missing from the learned network; if this parameter is 
@@ -98,10 +100,18 @@ declare namespace bnlearn {
      *  data can not be cast to a collection of the 
      *  @``T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge`` data.
    */
-   function bnlearn(exprData: any, priorNet?: any, modules?: any, TF?: any, max_itrs?: object, cross_thres?: number, strict?: object, env?: object): object|object;
+   function bnlearn(exprData: any, priorNet?: any, modules?: any, TF?: any, max_itrs?: object, cross_thres?: number, opt?: object, strict?: object, env?: object): object|object;
    /**
+    * 
+    * 
+     * @param x @``T:SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.BlockResponseResult`` or @``T:SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.ModularNetworkPipeline``
+     * @param outputdir -
+     * @param result 
+     * + default value Is ``null``.
+     * @param env 
+     * + default value Is ``null``.
    */
-   function export_modular_response(x: object, outputdir: string): boolean;
+   function export_modular_response(x: any, outputdir: string, result?: any, env?: object): boolean;
    /**
     * run the in silico gene knockdown experiment on the given network model
     * 
@@ -117,7 +127,7 @@ declare namespace bnlearn {
      *  ``IsSignificant`` data is the differential analysis result of the 
      *  perturbation.
    */
-   function knockdown(bnlearn: object, geneNames: any): object;
+   function knockdown(bnlearn: any, geneNames: any): object|object;
    /**
     * run the in silico gene knockout experiment on the given network model
     * 
@@ -138,7 +148,7 @@ declare namespace bnlearn {
      *  ``IsSignificant`` data is the differential analysis result of the 
      *  perturbation.
    */
-   function knockouts(bnlearn: object, geneNames: any): object;
+   function knockouts(bnlearn: any, geneNames: any): object|object;
    /**
     * export the virtual permutation result as csv table files
     * 
@@ -201,7 +211,7 @@ declare namespace bnlearn {
      *  ``IsSignificant`` data is the differential analysis result of the 
      *  perturbation.
    */
-   function overexpress(bnlearn: object, geneNames: any, env?: object): object;
+   function overexpress(bnlearn: any, geneNames: any, env?: object): object|object;
    /**
     * create prior knowledge netwoek edges from the given vector data
     * 

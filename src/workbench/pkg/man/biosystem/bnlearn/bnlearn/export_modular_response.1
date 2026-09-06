@@ -3,8 +3,17 @@
 .SH NAME
 export_modular_response \- 
 .SH SYNOPSIS
-\fIexport_modular_response(\fBx\fR as <generic> BlockResponseResult, 
-\fBoutputdir\fR as string);\fR
+\fIexport_modular_response(\fBx\fR as any, 
+\fBoutputdir\fR as string, 
+\fBresult\fR as any = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- @\fBT:SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.BlockResponseResult\fR or @\fBT:SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.ModularNetworkPipeline\fR. 
+.PP
+.PP
+\fBoutputdir\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 bnlearn
 .SH FILES
