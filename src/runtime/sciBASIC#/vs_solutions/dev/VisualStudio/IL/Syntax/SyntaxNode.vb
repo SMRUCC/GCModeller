@@ -21,7 +21,8 @@ Namespace IL
         Binary
         Unary
         Convert
-        [Call]
+        ' 方法调用（C# 里的 Call 是关键字，这里改名 Invoke）
+        Invoke
         ArrayIndex
         ArrayLength
         Ternary
@@ -31,12 +32,12 @@ Namespace IL
         VariableDeclaration
         Assignment
         ExpressionStatement
-        [Return]
-        [If]
-        [While]
-        [For]
-        Break
-        [Continue]
+        ReturnStmt
+        IfStmt
+        WhileStmt
+        ForStmt
+        BreakStmt
+        ContinueStmt
         Nop
     End Enum
 

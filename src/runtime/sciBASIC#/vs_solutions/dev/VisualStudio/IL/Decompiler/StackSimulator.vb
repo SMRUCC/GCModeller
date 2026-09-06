@@ -192,6 +192,7 @@ Namespace IL
 
         Private Sub Reduce(b As BasicBlock, ins As ILInstruction, stack As List(Of Expression))
             Dim code = ins.Code
+            Dim name = code.Name
 
             ' ---- 常量 ----
             Dim constValue As Object = Nothing
@@ -254,12 +255,12 @@ Namespace IL
                 Return
             End If
 
-            If IlOpcodeInfo.IsSkip(code) Then Return
+            If IlOpcodeInfo.IsSkip(name) Then Return
 
             ' ---- 一元运算 ----
             Dim unary As UnaryOperator = Nothing
 
-            If IlOpcodeInfo.TryGetUnaryOperator(code, unary) Then
+            If IlOpcodeInfo.TryGetUnaryOperator(name, unary) Then
                 Dim operand = Pop(stack, ins)
                 stack.Add(New UnaryExpression(unary, operand, operand.Type))
                 Return
@@ -269,7 +270,7 @@ Namespace IL
             Dim convType As System.Type = Nothing
             Dim isChecked As Boolean = False
 
-            If IlOpcodeInfo.TryGetConvertType(code, convType, isChecked) Then
+            If IlOpcodeInfo.TryGetConvertType(name, convType, isChecked) Then
                 Dim operand = Pop(stack, ins)
                 stack.Add(New ConvertExpression(operand, convType, isChecked))
                 Return
@@ -278,10 +279,10 @@ Namespace IL
             ' ---- 二元运算 / 比较 ----
             Dim binary As BinaryOperator = Nothing
 
-            If IlOpcodeInfo.TryGetBinaryOperator(code, binary) Then
+            If IlOpcodeInfo.TryGetBinaryOperator(name, binary) Then
                 Dim right = Pop(stack, ins)
                 Dim left = Pop(stack, ins)
-                Dim resultType = If(IlOpcodeInfo.IsComparison(code),
+                Dim resultType = If(IlOpcodeInfo.IsComparison(name),
                                     GetType(Boolean),
                                     WiderType(left.Type, right.Type))
 
@@ -292,7 +293,7 @@ Namespace IL
             ' ---- 数组 ----
             Dim elementType As System.Type = Nothing
 
-            If IlOpcodeInfo.IsLoadElement(code, elementType) Then
+            If IlOpcodeInfo.IsLoadElement(name, elementType) Then
                 Dim arrayIndex = Pop(stack, ins)
                 Dim array = Pop(stack, ins)
 
@@ -310,9 +311,9 @@ Namespace IL
                 Return
             End If
 
-            If IlOpcodeInfo.IsStoreElement(code) Then
+            If IlOpcodeInfo.IsStoreElement(name) Then
                 Throw New DecompileException(
-                    $"IL_{ins.Offset.ToString("X4")}: 暂不支持数组写入（{code.Name}）")
+                    $"IL_{ins.Offset.ToString("X4")}: 暂不支持数组写入（{name}）")
             End If
 
             ' ---- 调用 ----
@@ -351,7 +352,7 @@ Namespace IL
             End If
 
             Throw New DecompileException(
-                $"IL_{ins.Offset.ToString("X4")}: 不支持的指令 {code.Name}")
+                $"IL_{ins.Offset.ToString("X4")}: 不支持的指令 {name}")
         End Sub
 
         Private Sub ReduceCall(b As BasicBlock, ins As ILInstruction,
@@ -411,8 +412,8 @@ Namespace IL
             Else
                 Dim binary As BinaryOperator = Nothing
 
-                If Not IlOpcodeInfo.TryGetBinaryOperator(code, binary) OrElse
-                   Not IlOpcodeInfo.IsComparison(code) Then
+                If Not IlOpcodeInfo.TryGetBinaryOperator(code.Name, binary) OrElse
+                   Not IlOpcodeInfo.IsComparison(code.Name) Then
                     Throw New DecompileException(
                         $"IL_{ins.Offset.ToString("X4")}: 不支持的条件分支 {code.Name}")
                 End If
