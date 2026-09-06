@@ -27,17 +27,26 @@ Namespace ModularNetwork
         Public Property CrossScale As Double = 0.5
 
         ' ---- 内部状态 ----
-        Private _expr As GeneExpressionData
+        ' 说明：以下状态字段统一为 Friend，以便 ModularNetworkPipeline 在做模型持久化
+        ' （zip 导出 / 载入）时能够逐字段回填，与既有 _globalNet / _A / _exprStd 一致。
+        Friend _expr As GeneExpressionData
 
-        Private _gIndex As New Dictionary(Of String, Integer)()
-        Private _moduleGenes As New Dictionary(Of String, List(Of String))()
-        Private _moduleHubs As New Dictionary(Of String, List(Of String))()
-        Private _subNets As New List(Of BayesianNetwork)()
+        Friend _gIndex As New Dictionary(Of String, Integer)()
+        Friend _moduleGenes As New Dictionary(Of String, List(Of String))()
+        Friend _moduleHubs As New Dictionary(Of String, List(Of String))()
+        Friend _subNets As New List(Of BayesianNetwork)()
 
         Friend _globalNet As BayesianNetwork
         Friend _genes As String()
         Friend _A As Double(,)
         Friend _exprStd As GeneExpressionData
+
+        ''' <summary>
+        ''' 空构造器：仅供 <see cref="ModularNetworkPipeline.LoadModel"/> 反序列化时创建空壳后再
+        ''' 逐字段回填使用。训练流程请使用 New(expr, normalizeData) 构造器。
+        ''' </summary>
+        Friend Sub New()
+        End Sub
 
         ''' <summary>
         ''' 模块切分 → 子网络训练 → 全局矩阵拼接

@@ -15,7 +15,9 @@
 '   5) 导出全局扰动响应矩阵（gene × perturbation）TSV + 控制台摘要。
 ' ============================================================
 
+Imports System.Globalization
 Imports System.IO
+Imports System.IO.Compression
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
