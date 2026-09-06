@@ -40,14 +40,14 @@ Module WGCNADemo
 
         ' 3. 方法一（默认）：雅可比矩阵多步线性传播
         pipeline.Propagation = PropagationMethod.Jacobian
-        Dim jacResults = pipeline.InsilicoPerturbation(source, Intervention.InterventionMode.Knockout)
+        Dim jacResults = pipeline.InsilicoPerturbation(source, Intervention.InterventionMode.Knockout).ToArray
         Dim outDirJac = App.HOME & "/output/wgcna_global_perturbation/jacobian"
         Call pipeline.SaveResults(jacResults, outDirJac)
 
         ' 4. 方法二：级联采样跨模块传播（对前若干代表源演示，避免全量过慢）
         pipeline.Propagation = PropagationMethod.CascadeSampling
         Dim demoSources = jacResults.Take(5).Select(Function(r) r.SourceGene).ToArray()
-        Dim casResults = pipeline.InsilicoPerturbation(demoSources, Intervention.InterventionMode.Knockout)
+        Dim casResults = pipeline.InsilicoPerturbation(demoSources, Intervention.InterventionMode.Knockout).ToArray
         Dim outDirCas = App.HOME & "/output/wgcna_global_perturbation/cascade"
         Call pipeline.SaveResults(casResults, outDirCas)
 

@@ -16,6 +16,7 @@
 ' ============================================================
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
@@ -72,6 +73,7 @@ Namespace ModularNetwork
         Dim model As BlockNetwork
         Dim infer As BlockPropagate
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetModuleHubSources() As String()
             Return model.GetModuleHubSources.ToArray
         End Function
@@ -142,7 +144,7 @@ Namespace ModularNetwork
         ''' <summary>
         ''' 写出全局扰动响应矩阵（行=基因，列=各扰动源）与每个源的明细 TSV，并打印摘要。
         ''' </summary>
-        Public Sub SaveResults(results As List(Of GlobalPerturbationResult), outputDir As String)
+        Public Sub SaveResults(results As IReadOnlyCollection(Of GlobalPerturbationResult), outputDir As String)
             If Not Directory.Exists(outputDir) Then
                 Directory.CreateDirectory(outputDir)
             End If
@@ -176,6 +178,22 @@ Namespace ModularNetwork
             Next
         End Sub
 
+        ''' <summary>
+        ''' Save current model as zip archive file
+        ''' </summary>
+        ''' <param name="s"></param>
+        Public Sub SaveModel(s As Stream)
+
+        End Sub
+
+        ''' <summary>
+        ''' load <see cref="ModularNetworkPipeline"/> model from a zip archive file.
+        ''' </summary>
+        ''' <param name="s"></param>
+        ''' <returns></returns>
+        Public Shared Function LoadModel(s As Stream) As ModularNetworkPipeline
+
+        End Function
     End Class
 
 End Namespace
