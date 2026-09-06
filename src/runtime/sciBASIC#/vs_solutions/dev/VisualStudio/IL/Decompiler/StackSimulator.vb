@@ -432,14 +432,14 @@ Namespace IL
         ' ==================================================================
 
         Private Function NameOfUse(ins As ILInstruction) As String
-            Dim name As String = Nothing
-            If _ssa.UseNames.TryGetValue(ins.Offset, name) Then Return name
+            Dim found As String = Nothing
+            If _ssa.UseNames.TryGetValue(ins.Offset, found) Then Return found
             Return "undef_" & ins.Offset.ToString("X4")
         End Function
 
         Private Function NameOfDef(ins As ILInstruction) As String
-            Dim name As String = Nothing
-            If _ssa.DefNames.TryGetValue(ins.Offset, name) Then Return name
+            Dim found As String = Nothing
+            If _ssa.DefNames.TryGetValue(ins.Offset, found) Then Return found
             Return "undef_" & ins.Offset.ToString("X4")
         End Function
 
