@@ -457,15 +457,19 @@ Module bnlearn
     ''' TRUE.
     ''' </remarks>
     <ExportAPI("knockouts")>
-    <RApiReturn(GetType(InterventionResult))>
-    Public Function KnockoutGene(bnlearn As InsilicoPerturbationExperiment, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
-        Dim result As New List(Of InterventionResult)
+    <RApiReturn(GetType(InterventionResult), GetType(GlobalPerturbationResult))>
+    Public Function KnockoutGene(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
+        If TypeOf bnlearn Is ModularNetworkPipeline Then
+            Return DirectCast(bnlearn, ModularNetworkPipeline).InsilicoPerturbation(CLRVector.asCharacter(geneNames), InterventionMode.Knockout).ToArray
+        Else
+            Dim result As New List(Of InterventionResult)
 
-        For Each geneName As String In CLRVector.asCharacter(geneNames)
-            Call result.Add(bnlearn.KnockoutGene(geneName))
-        Next
+            For Each geneName As String In CLRVector.asCharacter(geneNames)
+                Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).KnockoutGene(geneName))
+            Next
 
-        Return result.ToArray
+            Return result.ToArray
+        End If
     End Function
 
     ''' <summary>
@@ -489,15 +493,18 @@ Module bnlearn
     ''' perturbation.
     ''' </returns>
     <ExportAPI("overexpress")>
-    <RApiReturn(GetType(InterventionResult))>
-    Public Function overexpress(bnlearn As InsilicoPerturbationExperiment, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional env As Environment = Nothing) As Object
-        Dim result As New List(Of InterventionResult)
+    <RApiReturn(GetType(InterventionResult), GetType(GlobalPerturbationResult))>
+    Public Function overexpress(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf bnlearn Is ModularNetworkPipeline Then
+        Else
+            Dim result As New List(Of InterventionResult)
 
-        For Each geneName As String In CLRVector.asCharacter(geneNames)
-            Call result.Add(bnlearn.OverexpressGene(geneName))
-        Next
+            For Each geneName As String In CLRVector.asCharacter(geneNames)
+                Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).OverexpressGene(geneName))
+            Next
 
-        Return result.ToArray
+            Return result.ToArray
+        End If
     End Function
 
     ''' <summary>
@@ -520,15 +527,19 @@ Module bnlearn
     ''' perturbation.
     ''' </returns>
     <ExportAPI("knockdown")>
-    <RApiReturn(GetType(InterventionResult))>
-    Public Function knockdownGene(bnlearn As InsilicoPerturbationExperiment, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
-        Dim result As New List(Of InterventionResult)
+    <RApiReturn(GetType(InterventionResult), GetType(GlobalPerturbationResult))>
+    Public Function knockdownGene(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
+        If TypeOf bnlearn Is ModularNetworkPipeline Then
 
-        For Each geneName As String In CLRVector.asCharacter(geneNames)
-            Call result.Add(bnlearn.KnockDownGene(geneName))
-        Next
+        Else
+            Dim result As New List(Of InterventionResult)
 
-        Return result.ToArray
+            For Each geneName As String In CLRVector.asCharacter(geneNames)
+                Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).KnockDownGene(geneName))
+            Next
+
+            Return result.ToArray
+        End If
     End Function
 
     ''' <summary>
