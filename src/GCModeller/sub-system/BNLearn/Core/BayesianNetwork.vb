@@ -329,6 +329,10 @@ Namespace Core
                         newAdj(i, j) = Adjacency(i, j)
                     Next
                 Next
+
+                ' out of memory error
+                ' needs?
+                ' Erase Adjacency
             End If
             Adjacency = newAdj
         End Sub
