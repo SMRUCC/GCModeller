@@ -54,7 +54,13 @@
 Module Program
 
     Sub Main(args As String())
-        Call WGCNADemo.Run()
+        ' test.exe persistence  → 运行 ModularNetworkPipeline 模型持久化往返测试
+        ' test.exe              → 运行原有的 WGCNA 全局虚拟扰动演示
+        If args.Length > 0 AndAlso args(0).TrimStart("-"c).Equals("persistence", StringComparison.OrdinalIgnoreCase) Then
+            Call WGCNADemo.RunPersistenceTest()
+        Else
+            Call WGCNADemo.Run()
+        End If
     End Sub
 End Module
 
