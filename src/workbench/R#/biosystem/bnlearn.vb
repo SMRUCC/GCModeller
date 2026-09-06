@@ -496,6 +496,7 @@ Module bnlearn
     <RApiReturn(GetType(InterventionResult), GetType(GlobalPerturbationResult))>
     Public Function overexpress(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional env As Environment = Nothing) As Object
         If TypeOf bnlearn Is ModularNetworkPipeline Then
+            Return DirectCast(bnlearn, ModularNetworkPipeline).InsilicoPerturbation(CLRVector.asCharacter(geneNames), InterventionMode.Overexpression).ToArray
         Else
             Dim result As New List(Of InterventionResult)
 
@@ -530,7 +531,7 @@ Module bnlearn
     <RApiReturn(GetType(InterventionResult), GetType(GlobalPerturbationResult))>
     Public Function knockdownGene(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
         If TypeOf bnlearn Is ModularNetworkPipeline Then
-
+            Return DirectCast(bnlearn, ModularNetworkPipeline).InsilicoPerturbation(CLRVector.asCharacter(geneNames), InterventionMode.Knockdown).ToArray
         Else
             Dim result As New List(Of InterventionResult)
 
