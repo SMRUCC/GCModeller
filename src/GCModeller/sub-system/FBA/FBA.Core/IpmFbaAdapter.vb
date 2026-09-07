@@ -35,7 +35,8 @@ Public Module IpmFbaAdapter
     ''' <param name="fbaMat">FBA 矩阵（稀疏化学计量矩阵 + 反应流量上下界）</param>
     ''' <param name="opt">最大化（生物量）或最小化</param>
     Public Function CreateStandard(fbaMat As Matrix,
-                                   Optional opt As OptimizationType = OptimizationType.MAX) As StandardForm
+                                   Optional opt As OptimizationType = OptimizationType.MAX,
+                                   Optional forceDense As Boolean = False) As StandardForm
         Dim stoichiometry As LpSparseMatrix = GetStoichiometry(fbaMat)
         Dim bounds As (lb As Double(), ub As Double()) = fbaMat.GetFluxBounds()
         Dim names As String() = fbaMat.Flux.Keys.ToArray
@@ -57,7 +58,8 @@ Public Module IpmFbaAdapter
             lb:=bounds.lb,
             ub:=bounds.ub,
             varNames:=names,
-            sense:=sense
+            sense:=sense,
+            forceDense:=forceDense
         )
     End Function
 
@@ -164,7 +166,8 @@ Public Module IpmFbaAdapter
     ''' </returns>
     Public Function Run(fbaMat As Matrix,
                         Optional opt As OptimizationType = OptimizationType.MAX) As LPPSolution
-        Dim sf As StandardForm = CreateStandard(fbaMat, opt)
+        Dim dense As Boolean = (Environment.GetEnvironmentVariable("FBA_IPM_DENSE") = "1")
+        Dim sf As StandardForm = CreateStandard(fbaMat, opt, forceDense:=dense)
         Dim watch As Stopwatch = Stopwatch.StartNew
 
         Call ApplyTuning()
