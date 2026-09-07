@@ -323,23 +323,23 @@ Module Program
             .Targets = {"R3"}
         }
         Dim result As LPPSolution = New LinearProgrammingEngine().Run(matrix, OptimizationType.MAX)
-        Dim flux As Dictionary(Of String, Double) = result _
-            .GetSolution() _
-            .ToDictionary(Function(v) v.Name, Function(v) v.Value)
 
         Console.WriteLine("[6] small FBA network")
 
         If Not result.failureMessage.StringEmpty Then
             failed += 1
             Console.WriteLine($"  [FAIL] solver returns error: {result.failureMessage}")
-            Return
-        End If
+        Else
+            Dim flux As Dictionary(Of String, Double) = result _
+                .GetSolution() _
+                .ToDictionary(Function(v) v.Name, Function(v) v.Value)
 
-        Call Check("objective(biomass)", 10, result.ObjectiveFunctionValue)
-        Call Check("v1", 10, flux("R1"))
-        Call Check("v2", 10, flux("R2"))
-        Call Check("v3", 10, flux("R3"))
-        Call Check("v4", 0, flux("R4"))
+            Call Check("objective(biomass)", 10, result.ObjectiveFunctionValue)
+            Call Check("v1", 10, flux("R1"))
+            Call Check("v2", 10, flux("R2"))
+            Call Check("v3", 10, flux("R3"))
+            Call Check("v4", 0, flux("R4"))
+        End If
     End Sub
 
     ''' <summary>
