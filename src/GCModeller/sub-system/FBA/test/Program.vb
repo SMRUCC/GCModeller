@@ -49,6 +49,7 @@ Module Program
         Console.WriteLine(" small scale LPP validation")
         Console.WriteLine("=========================================================")
 
+        Call TestSparseTableauRow()
         Call TestClassicMaximize()
         Call TestMinimize()
         Call TestGreaterThanConstraint()
@@ -59,6 +60,56 @@ Module Program
         Console.WriteLine()
         Console.WriteLine($" small scale result: {passed} passed, {failed} failed")
         Console.WriteLine()
+    End Sub
+
+    ''' <summary>
+    ''' the sparse tableau row is the core data structure of the simplex
+    ''' method, checks the AXPY operation of this data structure
+    ''' </summary>
+    Private Sub TestSparseTableauRow()
+        Dim a As New SparseTableauRow(4)
+        Dim b As New SparseTableauRow(4)
+        Dim c As New SparseTableauRow(4)
+
+        a.Add(1, 2.0)
+        a.Add(3, 4.0)
+        a.Add(5, 6.0)
+
+        b.Add(2, 1.0)
+        b.Add(3, 3.0)
+        b.Add(7, 2.0)
+
+        ' a = a - 2b
+        Call a.Axpy(b, 2.0, 0.0)
+
+        Console.WriteLine("[0] sparse tableau row AXPY")
+
+        Call Check("non-zeros", 5, a.Count)
+        Call Check("a[1]", 2, a.Item(1))
+        Call Check("a[2]", -2, a.Item(2))
+        Call Check("a[3]", -2, a.Item(3))
+        Call Check("a[5]", 6, a.Item(5))
+        Call Check("a[7]", -4, a.Item(7))
+
+        ' runs the AXPY again for checking the ping-pong buffer
+        c.Add(1, 1.0)
+        c.Add(6, 5.0)
+
+        Call a.Axpy(c, 1.0, 0.0)
+
+        Call Check("non-zeros(2)", 6, a.Count)
+        Call Check("a[1](2)", 1, a.Item(1))
+        Call Check("a[3](2)", -2, a.Item(3))
+        Call Check("a[6](2)", -5, a.Item(6))
+
+        ' the row should be kept in ascending order
+        For i As Integer = 1 To a.Count - 1
+            If a.Idx(i) <= a.Idx(i - 1) Then
+                failed += 1
+                Console.WriteLine("  [FAIL] the column index is not in ascending order")
+                Exit For
+            End If
+        Next
     End Sub
 
     ''' <summary>
@@ -161,10 +212,6 @@ Module Program
         Call Check("objective", 15, result.ObjectiveFunctionValue)
         Call Check("x", 5, result.GetSolution("x"))
         Call Check("y", 0, result.GetSolution("y"))
-
-        If std.Abs(15 - result.ObjectiveFunctionValue) > TOL OrElse std.Abs(5 - result.GetSolution("x")) > TOL Then
-            Console.WriteLine(result.ToString() & vbLf & result.SolutionLog)
-        End If
     End Sub
 
     ''' <summary>
