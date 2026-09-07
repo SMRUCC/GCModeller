@@ -170,8 +170,9 @@ Public Module IpmFbaAdapter
         Call ApplyTuning()
 
         Console.WriteLine($"run IPM solver for FBA problem! [{sf.M} x {sf.N}], {sf.Mat.NonZeros} non-zeros")
+        Console.WriteLine($"  scale: {ScaleReport(sf.Mat)}")
 
-        Dim result As LPPSolution = LppSolver.SolveStandard(sf)
+        Dim result As LPPSolution = LppSolver.SolveStandard(sf, maxIter:=MaxIPMIterations)
 
         watch.Stop()
 
@@ -214,6 +215,31 @@ Public Module IpmFbaAdapter
 
     ''' <summary>内点法最大迭代数（默认 200）</summary>
     Public Property MaxIPMIterations As Integer = 200
+
+    ''' <summary>矩阵缩放信息（诊断病态/量级问题用）</summary>
+    Private Function ScaleReport(mat As ILpMatrix) As String
+        Dim theta As Double() = New Double(mat.Columns - 1) {}
+        Dim d As Double() = mat.NormalDiag(theta)
+        Dim maxA As Double = 0
+        Dim maxRow As Integer = 0
+
+        For j As Integer = 0 To theta.Length - 1
+            theta(j) = 1.0
+        Next
+
+        d = mat.NormalDiag(theta)
+
+        Dim maxD As Double = 0
+        Dim minD As Double = Double.MaxValue
+
+        For i As Integer = 0 To d.Length - 1
+            If d(i) > maxD Then maxD = d(i)
+            If d(i) < minD Then minD = d(i)
+            If d(i) > maxRow Then maxRow = CInt(d(i))
+        Next
+
+        Return $"row ‖A_i‖² ∈ [{minD.ToString("G3")}, {maxD.ToString("G3")}]"
+    End Function
 
     ''' <summary>取稀疏化学计量矩阵（兼容只设置了稠密矩阵的模型对象）</summary>
     Private Function GetStoichiometry(fbaMat As Matrix) As LpSparseMatrix
