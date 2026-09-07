@@ -4,7 +4,7 @@
 matrix \- create FBA model matrix
 .SH SYNOPSIS
 \fImatrix(\fBmodel\fR as any, 
-\fBterms\fR as string = \fB<NULL>\fR, 
+\fBterms\fR as any = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -12,7 +12,7 @@ create FBA model matrix
 .PP
 .SH OPTIONS
 .PP
-\fBmodel\fB \fR\- should be a GCModeller virtual cell @\fBT:SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.CellularModule\fR model object.. 
+\fBmodel\fB \fR\- should be a GCModeller @\fBT:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.VirtualCell\fR or @\fBT:SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.CellularModule\fR model object, or a collection of the kegg @\fBT:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction\fR.. 
 .PP
 .PP
 \fBenv\fB \fR\- -. 

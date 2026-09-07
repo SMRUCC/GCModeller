@@ -29,22 +29,35 @@ declare namespace FBA {
     * 
     * 
      * @param model -
+     * @return a tuple list of the FBA lpp solver result:
+     *  
+     *  + objective, target objective function value
+     *  + flux, the flux distribution result tuple list, key name is the flux id and the value is the flux value. 
+     *  
+     *  additional, the original .NET CLR @``T:Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.LPPSolution`` object is attached inside the result object attribute ``lpp``, which could be get from the result object via ``attr(x)`` function..
    */
-   function lpsolve(model: object): any;
+   function lpsolve(model: object): object;
    /**
     * create FBA model matrix
     * 
     * 
-     * @param model should be a GCModeller virtual cell @``T:SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.CellularModule`` model object.
+     * @param model should be a GCModeller @``T:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.VirtualCell`` or @``T:SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.CellularModule`` model object, or a collection of the kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction``.
      * @param terms 
      * + default value Is ``null``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function matrix(model: any, terms?: string, env?: object): object;
+   function matrix(model: any, terms?: any, env?: object): object;
    /**
-     * @param env default value Is ``null``.
+    * set lpp objective targets for FBA analysis
+    * 
+    * 
+     * @param matrix -
+     * @param target should be a character vector of the target reaction id
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function objective(matrix: object, target: any, env?: object): object;
 }

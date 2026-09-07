@@ -12,6 +12,15 @@ Solve a FBA matrix model
 .PP
 \fBmodel\fB \fR\- -. 
 .PP
+.SH VALUE
+.PP
+a tuple list of the FBA lpp solver result:
+ 
+ + objective, target objective function value
+ + flux, the flux distribution result tuple list, key name is the flux id and the value is the flux value. 
+ 
+ additional, the original .NET CLR @\fBT:Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.LPPSolution\fR object is attached inside the result object attribute \fBlpp\fR, which could be get from the result object via \fBattr(x)\fR function..
+.PP
 .SH SEE ALSO
 FBA
 .SH FILES
