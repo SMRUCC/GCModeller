@@ -161,6 +161,10 @@ Module Program
         Call Check("objective", 15, result.ObjectiveFunctionValue)
         Call Check("x", 5, result.GetSolution("x"))
         Call Check("y", 0, result.GetSolution("y"))
+
+        If std.Abs(15 - result.ObjectiveFunctionValue) > TOL OrElse std.Abs(5 - result.GetSolution("x")) > TOL Then
+            Console.WriteLine(result.ToString() & vbLf & result.SolutionLog)
+        End If
     End Sub
 
     ''' <summary>
