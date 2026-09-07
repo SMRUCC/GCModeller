@@ -59,7 +59,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics
-Imports SMRUCC.genomics.Analysis.FBA.Core
+Imports SMRUCC.genomics.Analysis.FBA
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
@@ -67,7 +67,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
-Imports Matrix = SMRUCC.genomics.Analysis.FBA.Core.Matrix
+Imports Matrix = SMRUCC.genomics.Analysis.FBA.Matrix
 
 ''' <summary>
 ''' Flux Balance Analysis

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SMRUCC.genomics.Analysis.FBA.Core</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.FBA</RootNamespace>
     <TargetFrameworks>net10.0</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.Analysis.FBA</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
@@ -15,6 +15,7 @@
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
     <AssemblyTitle>Flux Balanced Analysis</AssemblyTitle>
     <UseApplicationFramework>True</UseApplicationFramework>
+    <Title>Flux Balanced Analysis</Title>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
