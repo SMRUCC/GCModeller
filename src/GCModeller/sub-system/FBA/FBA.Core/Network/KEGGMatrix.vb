@@ -63,7 +63,7 @@ Public Module KEGGMatrix
     ''' <returns></returns>
     <Extension>
     Public Function CreateKeggMatrix(keggNetwork As IEnumerable(Of Reaction)) As Matrix
-        Return keggNetwork.Select(Function(r) r.ReactionModel).BuildMatrix
+        Return keggNetwork.Select(Function(r) r.ReactionModel).ToArray.BuildMatrix
     End Function
 
 End Module

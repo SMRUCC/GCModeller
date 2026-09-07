@@ -7,7 +7,7 @@ Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Public Module MetabolicHelper
 
     <Extension>
-    Public Function BuildMatrix(gem As IEnumerable(Of Equation)) As Matrix
+    Public Function BuildMatrix(gem As IReadOnlyCollection(Of Equation)) As Matrix
         Dim allCompounds As String() = gem _
             .Select(Function(r) r.GetMetabolites) _
             .IteratesALL _

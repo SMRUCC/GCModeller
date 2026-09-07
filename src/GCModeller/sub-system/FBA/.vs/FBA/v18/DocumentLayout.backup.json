@@ -7,8 +7,16 @@
       "RelativeMoniker": "D:0:0:{5AB60E6A-DED8-8EAD-73FF-986226A9CAC5}|FBA.Core\\FBA.Core.NET5.vbproj|solutionrelative:fba.core\\network\\keggmatrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F36DF01A-E178-42A4-B55C-75C42C84F007}|test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\fba\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F36DF01A-E178-42A4-B55C-75C42C84F007}|test\\test.vbproj|solutionrelative:test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5AB60E6A-DED8-8EAD-73FF-986226A9CAC5}|FBA.Core\\FBA.Core.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\fba\\fba.core\\network\\metabolichelper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{5AB60E6A-DED8-8EAD-73FF-986226A9CAC5}|FBA.Core\\FBA.Core.NET5.vbproj|solutionrelative:fba.core\\network\\metabolichelper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5AB60E6A-DED8-8EAD-73FF-986226A9CAC5}|FBA.Core\\FBA.Core.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\fba\\fba.core\\linearprogrammingengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{5AB60E6A-DED8-8EAD-73FF-986226A9CAC5}|FBA.Core\\FBA.Core.NET5.vbproj|solutionrelative:fba.core\\linearprogrammingengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5AB60E6A-DED8-8EAD-73FF-986226A9CAC5}|FBA.Core\\FBA.Core.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\fba\\fba.core\\matrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -19,14 +27,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{A4C2EBEF-140F-EECB-850D-A71FE7E64DBC}|..\\..\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\modelextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5AB60E6A-DED8-8EAD-73FF-986226A9CAC5}|FBA.Core\\FBA.Core.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\fba\\fba.core\\linearprogrammingengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5AB60E6A-DED8-8EAD-73FF-986226A9CAC5}|FBA.Core\\FBA.Core.NET5.vbproj|solutionrelative:fba.core\\linearprogrammingengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F36DF01A-E178-42A4-B55C-75C42C84F007}|test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\fba\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F36DF01A-E178-42A4-B55C-75C42C84F007}|test\\test.vbproj|solutionrelative:test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,19 +38,6 @@
           "DockedWidth": 200,
           "SelectedChildIndex": 8,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ModelExtensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
-              "RelativeDocumentMoniker": "..\\..\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
-              "RelativeToolTip": "..\\..\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEABAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-07T10:01:54.33Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -65,7 +52,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
+              "Title": "ModelExtensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "RelativeToolTip": "..\\..\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEABAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-07T10:01:54.33Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Reaction.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Metabolism\\Reaction.vb",
               "RelativeDocumentMoniker": "..\\..\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Metabolism\\Reaction.vb",
@@ -78,20 +78,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MetabolicHelper.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\FBA.Core\\Network\\MetabolicHelper.vb",
               "RelativeDocumentMoniker": "FBA.Core\\Network\\MetabolicHelper.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\FBA.Core\\Network\\MetabolicHelper.vb",
               "RelativeToolTip": "FBA.Core\\Network\\MetabolicHelper.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-09-07T09:54:04.89Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Matrix.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\FBA.Core\\Matrix.vb",
               "RelativeDocumentMoniker": "FBA.Core\\Matrix.vb",
@@ -104,13 +104,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "LinearProgrammingEngine.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\FBA.Core\\LinearProgrammingEngine.vb",
               "RelativeDocumentMoniker": "FBA.Core\\LinearProgrammingEngine.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\FBA.Core\\LinearProgrammingEngine.vb",
               "RelativeToolTip": "FBA.Core\\LinearProgrammingEngine.vb",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAiwKQAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-09-07T09:53:08.564Z",
               "EditorCaption": ""
@@ -123,20 +123,20 @@
               "RelativeDocumentMoniker": "FBA.Core\\Network\\KEGGMatrix.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\FBA.Core\\Network\\KEGGMatrix.vb",
               "RelativeToolTip": "FBA.Core\\Network\\KEGGMatrix.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADYAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-09-07T09:52:35.858Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\test\\Program.vb",
               "RelativeDocumentMoniker": "test\\Program.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\test\\Program.vb",
               "RelativeToolTip": "test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-09-07T09:51:20.394Z",
               "EditorCaption": ""
