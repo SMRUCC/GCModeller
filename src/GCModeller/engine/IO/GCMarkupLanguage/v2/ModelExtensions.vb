@@ -328,7 +328,7 @@ Namespace v2
         End Function
 
         <Extension>
-        Private Function BuildEquation(reaction As Reaction) As Equation
+        Public Function BuildEquation(reaction As Reaction) As Equation
             Return New Equation With {
                 .Id = reaction.ID,
                 .reversible = True,
