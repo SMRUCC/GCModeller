@@ -175,6 +175,10 @@ Public Module IpmFbaAdapter
         Console.WriteLine($"run IPM solver for FBA problem! [{sf.M} x {sf.N}], {sf.Mat.NonZeros} non-zeros")
         Console.WriteLine($"  scale: {ScaleReport(sf.Mat)}")
 
+        If Environment.GetEnvironmentVariable("FBA_IPM_CHECK") = "1" Then
+            Call CheckLinearSolver(sf)
+        End If
+
         Dim result As LPPSolution = LppSolver.SolveStandard(sf, maxIter:=MaxIPMIterations)
 
         watch.Stop()
@@ -218,6 +222,54 @@ Public Module IpmFbaAdapter
 
     ''' <summary>内点法最大迭代数（默认 200）</summary>
     Public Property MaxIPMIterations As Integer = 200
+
+    ''' <summary>稀疏线性求解器 vs 稠密对照（FBA_IPM_CHECK=1 时启用，诊断用）</summary>
+    Private Sub CheckLinearSolver(sf As StandardForm)
+        Dim rowsN As Integer = sf.Mat.Rows
+        Dim colsN As Integer = sf.Mat.Columns
+        Dim rnd As New Random(42)
+        Dim theta(colsN - 1) As Double
+        Dim rhs(rowsN - 1) As Double
+
+        For j As Integer = 0 To colsN - 1
+            theta(j) = 0.1 + rnd.NextDouble() * 10
+        Next
+        For i As Integer = 0 To rowsN - 1
+            rhs(i) = rnd.NextDouble() - 0.5
+        Next
+
+        Dim denseA(rowsN - 1, colsN - 1) As Double
+
+        For j As Integer = 0 To colsN - 1
+            Dim col As Double() = sf.Mat.Column(j)
+
+            For i As Integer = 0 To rowsN - 1
+                denseA(i, j) = col(i)
+            Next
+        Next
+
+        Dim reg As Double = 0.0000001
+        Dim sfac As INormalFactor = sf.Mat.FactorNormal(theta, reg)
+        Dim dfac As INormalFactor = New DenseLpMatrix(denseA).FactorNormal(theta, reg)
+        Dim z1 As Double() = sfac.Solve(rhs)
+        Dim z2 As Double() = dfac.Solve(rhs)
+        Dim diff As Double = 0
+        Dim mag As Double = 0
+
+        For i As Integer = 0 To rowsN - 1
+            diff = std.Max(diff, std.Abs(z1(i) - z2(i)))
+            mag = std.Max(mag, std.Abs(z2(i)))
+        Next
+
+        Dim mv As Double() = sfac.Mv(z1)
+        Dim res As Double = 0
+
+        For i As Integer = 0 To rowsN - 1
+            res = std.Max(res, std.Abs(mv(i) - rhs(i)))
+        Next
+
+        Console.WriteLine($"  [CHECK] method={sfac.Method} max|z_dense|={mag.ToString("G4")} max|diff|={diff.ToString("G4")} max|Mz-rhs|={res.ToString("G4")}")
+    End Sub
 
     ''' <summary>矩阵缩放信息（诊断病态/量级问题用）</summary>
     Private Function ScaleReport(mat As ILpMatrix) As String
