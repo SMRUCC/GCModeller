@@ -51,6 +51,7 @@
 
 #End Region
 
+Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
@@ -102,14 +103,33 @@ Public Class LinearProgrammingEngine
             .Distinct _
             .OrderBy(Function(name) name) _
             .ToArray
-        Dim matrix#()() = allCompounds _
-            .Select(Function(compound)
-                        ' 按照列取出系数
-                        Return model.Phenotype.fluxes _
-                            .Select(Function(r) r.GetCoefficient(compound)) _
-                            .ToArray
-                    End Function) _
-            .ToArray
+        Dim fluxList = model.Phenotype.fluxes.ToArray
+        Dim compoundIndex As Dictionary(Of String, Integer) = allCompounds _
+            .Select(Function(id, i) (id, i)) _
+            .ToDictionary(Function(t) t.id, Function(t) t.i)
+        Dim rows As New List(Of Integer)(fluxList.Length * 8)
+        Dim cols As New List(Of Integer)(fluxList.Length * 8)
+        Dim vals As New List(Of Double)(fluxList.Length * 8)
+
+        For j As Integer = 0 To fluxList.Length - 1
+            Dim flux = fluxList(j)
+
+            For Each compound As String In flux.AllCompounds
+                Dim row As Integer = -1
+
+                If Not compoundIndex.TryGetValue(compound, row) Then
+                    Continue For
+                End If
+
+                Dim coefficient# = flux.GetCoefficient(compound)
+
+                If coefficient <> 0.0 Then
+                    rows.Add(row)
+                    cols.Add(j)
+                    vals.Add(coefficient)
+                End If
+            Next
+        Next
 
         If targets.IsNullOrEmpty Then
             targets = model.Phenotype.fluxes _
@@ -118,9 +138,14 @@ Public Class LinearProgrammingEngine
         End If
 
         Return New Matrix With {
-            .Matrix = matrix,
+            .Stoichiometry = LpSparseMatrix.FromTriplets(
+                rows:=allCompounds.Length,
+                columns:=fluxList.Length,
+                rowIdx:=rows.ToArray,
+                colIdx:=cols.ToArray,
+                vals:=vals.ToArray),
             .Compounds = allCompounds,
-            .Flux = model.Phenotype.fluxes _
+            .Flux = fluxList _
                 .ToDictionary(Function(flux) flux.ID,
                               Function(flux)
                                   Return New DoubleRange(flux.bounds)
@@ -152,19 +177,39 @@ Public Class LinearProgrammingEngine
     ''' + the lpp solution is the reaction flux value
     ''' </returns>
     Public Function Run(fbaMat As Matrix, Optional opt As OptimizationType = OptimizationType.MAX) As LPPSolution
+        Dim stoichiometry As LpSparseMatrix = fbaMat.Stoichiometry
+
+        If stoichiometry Is Nothing Then
+            ' 兼容只设置了稠密矩阵的模型对象
+            stoichiometry = LpSparseMatrix.FromJagged(fbaMat.Matrix)
+        End If
+
+        Dim bounds As (lb As Double(), ub As Double()) = fbaMat.GetFluxBounds()
+        Dim stopWatch As Stopwatch = Stopwatch.StartNew
+
+        ' the flux bounds is required by the FBA problem, without the flux
+        ' bounds the FBA linear programming problem will be degenerated at
+        ' the zero flux point (the right hand side of the mass balance 
+        ' constraint is always zero), result in a full zero solution.
         Dim engine As New LPP(
             objectiveFunctionType:=opt.Description,
             variableNames:=fbaMat.Flux.Keys.ToArray,
             objectiveFunctionCoefficients:=fbaMat.GetTargetCoefficients,
-            constraintCoefficients:=fbaMat.Matrix,
+            constraintCoefficients:=stoichiometry,
             constraintTypes:="=".Replicate(fbaMat.NumOfCompounds).ToArray,
             constraintRightHandSides:=0.0.Replicate(fbaMat.NumOfCompounds).ToArray,
-            objectiveFunctionValue:=0
+            objectiveFunctionValue:=0,
+            lowerBounds:=bounds.lb,
+            upperBounds:=bounds.ub
         )
 
-        Call "run solver for FBA lpp problem!".info
+        Call $"run solver for FBA lpp problem! [{stoichiometry.Rows} x {stoichiometry.Columns}], {stoichiometry.NonZeros} non-zeros".info
 
-        Return engine.solve(showProgress:=True, strict:=False)
+        Dim result As LPPSolution = engine.solve(showProgress:=True, strict:=False)
+
+        Call $"FBA lpp problem solved in {stopWatch.ElapsedMilliseconds} ms, objective = {result.ObjectiveFunctionValue}".info
+
+        Return result
     End Function
 
 End Class

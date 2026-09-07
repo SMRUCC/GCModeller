@@ -58,6 +58,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 
 ''' <summary>
 ''' 未知变量xyz为代谢过程，而在约束的目标函数之中则可以通过对代谢过程的约束计算出系数
@@ -92,7 +93,43 @@ Public Class Matrix
     ''' 行应该为Compound, 列应该为代谢过程
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 基因组规模的代谢网络的化学计量矩阵是一个非常稀疏的矩阵，如果以稠密
+    ''' 矩阵的形式进行存储的话，那么会消耗非常多的内存（例如一个万级别的代谢
+    ''' 网络的化学计量矩阵的稠密存储会需要接近2GB的内存空间），所以在这个属性
+    ''' 之中，稠密矩阵是延迟物化的：只有在需要的时候才会从
+    ''' <see cref="Stoichiometry"/> 稀疏矩阵之中展开。
+    ''' </remarks>
     Public Property Matrix As Double()()
+        Get
+            If dense Is Nothing AndAlso sparse IsNot Nothing Then
+                dense = sparse.ToJagged()
+            End If
+
+            Return dense
+        End Get
+        Set(value As Double()())
+            dense = value
+            sparse = If(value Is Nothing, Nothing, LpSparseMatrix.FromJagged(value))
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' 化学计量矩阵的CSR稀疏矩阵表示，用于大规模的FBA问题的求解
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Stoichiometry As LpSparseMatrix
+        Get
+            Return sparse
+        End Get
+        Set(value As LpSparseMatrix)
+            sparse = value
+            dense = Nothing
+        End Set
+    End Property
+
+    Dim dense As Double()()
+    Dim sparse As LpSparseMatrix
 
     ''' <summary>
     ''' 这个矩阵之中有多少列？即有多少个代谢物
@@ -128,6 +165,25 @@ Public Class Matrix
                         End Function) _
                 .ToArray
         End With
+    End Function
+
+    ''' <summary>
+    ''' 从<see cref="Flux"/>之中取出每一个代谢反应过程的流量约束：即流量的上下界
+    ''' </summary>
+    ''' <returns>
+    ''' 数组元素的顺序与<see cref="Flux"/>之中的代谢反应的顺序完全一致
+    ''' </returns>
+    Public Function GetFluxBounds() As (lb As Double(), ub As Double())
+        Dim flux As KeyValuePair(Of String, DoubleRange)() = Me.Flux.ToArray
+        Dim lb As Double() = New Double(flux.Length - 1) {}
+        Dim ub As Double() = New Double(flux.Length - 1) {}
+
+        For i As Integer = 0 To flux.Length - 1
+            lb(i) = flux(i).Value.Min
+            ub(i) = flux(i).Value.Max
+        Next
+
+        Return (lb, ub)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
