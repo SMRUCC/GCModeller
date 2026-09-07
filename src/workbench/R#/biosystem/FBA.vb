@@ -279,6 +279,8 @@ Module FBA
     ''' 
     ''' + objective, target objective function value
     ''' + flux, the flux distribution result tuple list, key name is the flux id and the value is the flux value. 
+    ''' 
+    ''' additional, the original .NET CLR <see cref="LPPSolution"/> object is attached inside the result object attribute ``lpp``, which could be get from the result object via ``attr(x)`` function..
     ''' </returns>
     <ExportAPI("lpsolve")>
     <RApiReturn("objective", "flux")>
