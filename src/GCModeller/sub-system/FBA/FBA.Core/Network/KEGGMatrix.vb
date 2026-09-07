@@ -59,6 +59,11 @@ Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 Public Module KEGGMatrix
 
+    ''' <summary>
+    ''' build FBA analysis matrix from a collection of the kegg reaction model data.
+    ''' </summary>
+    ''' <param name="keggNetwork"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CreateKeggMatrix(keggNetwork As IEnumerable(Of Reaction)) As Matrix
         Dim graph As Equation() = keggNetwork.Select(Function(r) r.ReactionModel).ToArray

@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F36DF01A-E178-42A4-B55C-75C42C84F007}|test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\fba\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F36DF01A-E178-42A4-B55C-75C42C84F007}|test\\test.vbproj|solutionrelative:test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +27,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\test\\Program.vb",
+              "RelativeDocumentMoniker": "test\\Program.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\test\\Program.vb",
+              "RelativeToolTip": "test\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-07T09:51:20.394Z",
+              "EditorCaption": ""
             }
           ]
         },
