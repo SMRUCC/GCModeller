@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\..\GCModeller\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\data\SABIO-RK\SABIO-RK.NET.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\engine\IO\GCMarkupLanguage\GCMarkupXML.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\SBML\SBML\sbml-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\BNLearn\BNLearn.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\FBA\FBA.Core\FBA.Core.NET5.vbproj" />

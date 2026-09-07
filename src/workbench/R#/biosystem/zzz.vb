@@ -59,5 +59,6 @@ Public Class zzz
 
     Public Shared Sub onLoad()
         Call bnlearn.Main()
+        Call FBA.Main()
     End Sub
 End Class

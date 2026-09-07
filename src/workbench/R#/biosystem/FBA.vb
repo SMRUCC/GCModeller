@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::2ded2dd0662a2213de1b3c41b7264db4, sub-system\simulators\FBA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 182
-    '    Code Lines: 130 (71.43%)
-    ' Comment Lines: 26 (14.29%)
-    '    - Xml Docs: 96.15%
-    ' 
-    '   Blank Lines: 26 (14.29%)
-    '     File Size: 6.73 KB
+' Summaries:
 
 
-    ' Module FBA
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: GetLppModel, lpsolve, Matrix, MatrixTable, SetObjective
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 182
+'    Code Lines: 130 (71.43%)
+' Comment Lines: 26 (14.29%)
+'    - Xml Docs: 96.15%
+' 
+'   Blank Lines: 26 (14.29%)
+'     File Size: 6.73 KB
+
+
+' Module FBA
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: GetLppModel, lpsolve, Matrix, MatrixTable, SetObjective
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,11 +62,14 @@ Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.FBA
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports KEGGReaction = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
 Imports Matrix = SMRUCC.genomics.Analysis.FBA.Matrix
 
 ''' <summary>
@@ -75,7 +78,7 @@ Imports Matrix = SMRUCC.genomics.Analysis.FBA.Matrix
 <Package("FBA")>
 Module FBA
 
-    Sub New()
+    Sub Main()
         Call Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf MatrixTable)
     End Sub
 
@@ -125,7 +128,7 @@ Module FBA
     ''' <returns></returns>
     <ExportAPI("matrix")>
     <RApiReturn(GetType(Matrix))>
-    Public Function Matrix(<RRawVectorArgument> model As Object,
+    Public Function LppMatrix(<RRawVectorArgument> model As Object,
                            Optional terms As String() = Nothing,
                            Optional env As Environment = Nothing) As Object
 
@@ -156,16 +159,56 @@ Module FBA
             network.Gaps = gaps.ToArray
 
             Return network
+        ElseIf TypeOf model Is VirtualCell Then
+            Dim gem As VirtualCell = DirectCast(model, VirtualCell)
+
+            Console.WriteLine("=========================================================")
+            Console.WriteLine(" genome scale GEM model FBA test")
+            Console.WriteLine($" model: {gem.cellular_id}")
+            Console.WriteLine("=========================================================")
+
+            Dim watch As Stopwatch = Stopwatch.StartNew
+            Dim reactions = gem.metabolismStructure.reactions.AsEnumerable.ToArray
+            Dim reversible As New Dictionary(Of String, Boolean)
+
+            Console.WriteLine($"load GEM model in {watch.ElapsedMilliseconds} ms, {reactions.Length} reactions")
+
+            ' 可逆性判定：方程式中出现 "<=>" 即为可逆反应
+            For Each reaction In reactions
+                Dim note As String = If(reaction.note, "")
+
+                reversible(reaction.ID) = note.Contains("<=>")
+            Next
+
+            watch.Restart()
+
+            Dim metabolic As Equation() = reactions _
+                .Select(Function(r) r.BuildEquation) _
+                .ToArray
+            Dim matrix As Matrix = metabolic.BuildMatrix()
+            Dim nReversible As Integer = 0
+
+            For Each id As String In matrix.Flux.Keys.ToArray
+                If reversible.ContainsKey(id) AndAlso reversible(id) Then
+                    matrix.Flux(id) = New DoubleRange(-1000, 1000)
+                    nReversible += 1
+                Else
+                    matrix.Flux(id) = New DoubleRange(0, 1000)
+                End If
+            Next
+
+            Console.WriteLine($"build stoichiometric matrix in {watch.ElapsedMilliseconds} ms: {matrix.Stoichiometry}")
+            Console.WriteLine($"  {nReversible} reversible reactions, {matrix.Flux.Count - nReversible} irreversible reactions")
+
+            Return matrix
         Else
-            Dim stream = pipeline.TryCreatePipeline(Of Reaction)(model, env)
+            Dim stream As PipeIterator(Of KEGGReaction) = pipeline.Stream(Of KEGGReaction)(model, env)
 
             If stream.isError Then
                 Return stream.getError
             End If
 
-            Return stream _
-                .populates(Of Reaction)(env) _
-                .CreateKeggMatrix
+            Return stream.CreateKeggMatrix
         End If
     End Function
 
