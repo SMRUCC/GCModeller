@@ -11,14 +11,11 @@
 ' 8. JSON 往返
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.IO
-Imports System.Linq
 Imports System.Text.Json
-Imports RetroPath.Chem
-Imports RetroPath.Model
-Imports RetroPath.Search
+Imports SMRUCC.genomics.Analysis.RetroPath.RetroPath.Chem
+Imports SMRUCC.genomics.Analysis.RetroPath.RetroPath.Model
+Imports SMRUCC.genomics.Analysis.RetroPath.RetroPath.Search
 
 Namespace RetroPath
 
@@ -217,8 +214,8 @@ Namespace RetroPath
             Console.WriteLine($"  1 步全局 {ps1.GlobalScore:F3}  2 步全局 {ps2.GlobalScore:F3}")
             Check(ps1.GlobalScore > ps2.GlobalScore, "短路径全局分更高（长度项）")
             Check(ps1.GlobalScore > 0 AndAlso ps1.GlobalScore <= 1, "全局分 ∈ (0,1]")
-            Check(Math.Abs(ps1.ThermoScore - Scoring.Sigmoid(1.5)) < 1e-9, "thermo = σ(−ΔG/10)")
-            Check(Math.Abs(ps1.EnzymeScore - 1.0) < 1e-9, "tier=1 → 酶分 1.0")
+            Check(Math.Abs(ps1.ThermoScore - Scoring.Sigmoid(1.5)) < 0.000000001, "thermo = σ(−ΔG/10)")
+            Check(Math.Abs(ps1.EnzymeScore - 1.0) < 0.000000001, "tier=1 → 酶分 1.0")
         End Sub
 
         ' ---------------- 6. SMILES 往返 ----------------

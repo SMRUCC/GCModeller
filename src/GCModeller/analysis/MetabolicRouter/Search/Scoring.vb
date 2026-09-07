@@ -8,10 +8,7 @@
 ' 组装：逆合成步骤反转+翻转方向 = 正向生物合成路径（底物=前体+共底物，产物=子化合物）
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports RetroPath.Chem
+Imports SMRUCC.genomics.Analysis.RetroPath.RetroPath.Chem
 
 Namespace RetroPath.Search
 

@@ -10,10 +10,7 @@
 ' DFS 策略 = 深度优先单路径枚举（beam-width=1 变体）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports RetroPath.Chem
+Imports SMRUCC.genomics.Analysis.RetroPath.RetroPath.Chem
 
 Namespace RetroPath.Search
 

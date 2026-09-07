@@ -9,12 +9,9 @@
 ' 用户规则 TSV：id <TAB> name <TAB> dG <TAB> tier <TAB> reversible <TAB> reactant <TAB> product
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.IO
-Imports System.Linq
-Imports RetroPath.Chem
+Imports SMRUCC.genomics.Analysis.RetroPath.RetroPath.Chem
 
 Namespace RetroPath.Search
 

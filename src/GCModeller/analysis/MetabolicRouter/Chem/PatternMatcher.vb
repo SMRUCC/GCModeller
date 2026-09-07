@@ -287,7 +287,7 @@ Namespace RetroPath.Chem
             End Sub
 
             Private Shared Function KeyOf(cm As Dictionary(Of Int32, Int32)) As String
-                Return String.Join(";", cm.OrderBy(Function(k) k).Select(Function(k) $"{k}:{cm(k)}"))
+                Return String.Join(";", cm.OrderBy(Function(k) k.Key).Select(Function(k) $"{k.Key}:{cm(k.Key)}"))
             End Function
 
         End Class
