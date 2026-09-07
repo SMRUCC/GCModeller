@@ -18,6 +18,7 @@
 ' ============================================================================
 
 Imports System.Diagnostics
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.IPMCrossover
@@ -42,15 +43,116 @@ Public Module IpmFbaAdapter
         Dim rhs As Double() = New Double(fbaMat.NumOfCompounds - 1) {}
         Dim sense As String = If(opt.Description.ToLowerInvariant.StartsWith("max"), "max", "min")
 
+        ' 预求解：去掉空行与重复行。
+        ' 这一步对基因组规模模型是**必需**的——重复的行会让 S·Θ·Sᵀ 奇异，
+        ' 正规方程的解被放大到 1e8~1e11，内点法完全走不动。
+        Dim rhs2 As Double() = Nothing
+
+        stoichiometry = PresolveRows(stoichiometry, rhs, rhs2)
+
         Return StandardForm.FromSparse(
             csr:=stoichiometry,
-            rhs:=rhs,
+            rhs:=rhs2,
             obj:=objective,
             lb:=bounds.lb,
             ub:=bounds.ub,
             varNames:=names,
             sense:=sense
         )
+    End Function
+
+    ''' <summary>
+    ''' 行预求解：删除全零行、合并完全相同的行
+    ''' </summary>
+    ''' <param name="csr">化学计量矩阵</param>
+    ''' <param name="rhs">约束右端项</param>
+    ''' <param name="rhsOut">压缩后的右端项</param>
+    ''' <returns>压缩后的化学计量矩阵（列数不变）</returns>
+    Private Function PresolveRows(csr As LpSparseMatrix, rhs As Double(),
+                                  ByRef rhsOut As Double()) As LpSparseMatrix
+        Dim m As Integer = csr.Rows
+        Dim keep As New List(Of Integer)()
+        Dim seen As New Dictionary(Of String, Integer)()
+        Dim nDup As Integer = 0
+        Dim nZero As Integer = 0
+        Dim tol As Double = 0.0000001
+
+        For i As Integer = 0 To m - 1
+            Dim p0 As Integer = csr.RowPtr(i)
+            Dim p1 As Integer = csr.RowPtr(i + 1) - 1
+
+            If p1 < p0 Then
+                ' 全零行：右端必须为 0，否则问题不可行
+                nZero += 1
+
+                If std.Abs(rhs(i)) > tol Then
+                    Throw New ArgumentException($"第 {i + 1} 行没有非零系数但右端项为 {rhs(i)}，问题不可行")
+                End If
+
+                Continue For
+            End If
+
+            Dim key As New StringBuilder()
+
+            For p As Integer = p0 To p1
+                key.Append(csr.ColIdx(p)).Append(":"c).Append(csr.Values(p).ToString("R")).Append(";"c)
+            Next
+
+            Dim sig As String = key.ToString()
+
+            If seen.ContainsKey(sig) Then
+                ' 重复行：只有当右端也一致时才是冗余约束，否则不可行
+                Dim j As Integer = seen(sig)
+
+                If std.Abs(rhs(i) - rhs(j)) > tol * (1.0 + std.Abs(rhs(j))) Then
+                    Throw New ArgumentException($"第 {i + 1} 行与第 {j + 1} 行系数相同但右端项不同，问题不可行")
+                End If
+
+                nDup += 1
+                Continue For
+            End If
+
+            seen(sig) = i
+            keep.Add(i)
+        Next
+
+        If nZero = 0 AndAlso nDup = 0 Then
+            rhsOut = rhs
+            Return csr
+        End If
+        ' 重新打包 CSR
+        Dim nnz As Integer = 0
+
+
+        For Each i As Integer In keep
+            nnz += csr.RowPtr(i + 1) - csr.RowPtr(i)
+        Next
+
+        Dim rowPtr As Integer() = New Integer(keep.Count) {}
+        Dim colIdx As Integer() = New Integer(std.Max(nnz, 1) - 1) {}
+        Dim values As Double() = New Double(std.Max(nnz, 1) - 1) {}
+        Dim newRhs As Double() = New Double(keep.Count - 1) {}
+        Dim q As Integer = 0
+
+        For k As Integer = 0 To keep.Count - 1
+            Dim i As Integer = keep(k)
+
+            rowPtr(k) = q
+            newRhs(k) = rhs(i)
+
+            For p As Integer = csr.RowPtr(i) To csr.RowPtr(i + 1) - 1
+                colIdx(q) = csr.ColIdx(p)
+                values(q) = csr.Values(p)
+                q += 1
+            Next
+        Next
+
+        rowPtr(keep.Count) = q
+        rhsOut = newRhs
+
+        Console.WriteLine($"  presolve: {m} → {keep.Count} rows (删除 {nZero} 个空行, 合并 {nDup} 个重复行)")
+
+        Return New LpSparseMatrix(keep.Count, csr.Columns, rowPtr, colIdx, values)
     End Function
 
     ''' <summary>
@@ -64,6 +166,8 @@ Public Module IpmFbaAdapter
                         Optional opt As OptimizationType = OptimizationType.MAX) As LPPSolution
         Dim sf As StandardForm = CreateStandard(fbaMat, opt)
         Dim watch As Stopwatch = Stopwatch.StartNew
+
+        Call ApplyTuning()
 
         Console.WriteLine($"run IPM solver for FBA problem! [{sf.M} x {sf.N}], {sf.Mat.NonZeros} non-zeros")
 
@@ -83,6 +187,33 @@ Public Module IpmFbaAdapter
 
         Return result
     End Function
+
+    ''' <summary>
+    ''' 数值调参开关（环境变量，便于在基因组规模问题上做 A/B 对比）
+    '''   FBA_IPM_PCG=1      正规方程强制走 PCG（跳过稀疏 LDLᵀ）
+    '''   FBA_IPM_CHOLNNZ=n 稀疏 LDLᵀ 的 fill-in 上限
+    '''   FBA_IPM_MAXITER=n 内点法最大迭代数
+    ''' </summary>
+    Private Sub ApplyTuning()
+        If Environment.GetEnvironmentVariable("FBA_IPM_PCG") = "1" Then
+            SparseLpMatrix.CholRowLimit = 0
+        End If
+
+        Dim nnzLimit As String = Environment.GetEnvironmentVariable("FBA_IPM_CHOLNNZ")
+
+        If Not String.IsNullOrEmpty(nnzLimit) Then
+            SparseLpMatrix.MaxCholNnz = CLng(Val(nnzLimit))
+        End If
+
+        Dim maxIter As String = Environment.GetEnvironmentVariable("FBA_IPM_MAXITER")
+
+        If Not String.IsNullOrEmpty(maxIter) Then
+            MaxIPMIterations = CInt(Val(maxIter))
+        End If
+    End Sub
+
+    ''' <summary>内点法最大迭代数（默认 200）</summary>
+    Public Property MaxIPMIterations As Integer = 200
 
     ''' <summary>取稀疏化学计量矩阵（兼容只设置了稠密矩阵的模型对象）</summary>
     Private Function GetStoichiometry(fbaMat As Matrix) As LpSparseMatrix
