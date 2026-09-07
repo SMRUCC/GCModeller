@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <None Remove="gem_err.log" />
+    <None Remove="gem_full.err" />
+    <None Remove="gem_full.log" />
     <None Remove="gem_out.log" />
   </ItemGroup>
 
