@@ -52,6 +52,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
@@ -66,6 +67,7 @@ Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
@@ -129,15 +131,16 @@ Module FBA
     <ExportAPI("matrix")>
     <RApiReturn(GetType(Matrix))>
     Public Function LppMatrix(<RRawVectorArgument> model As Object,
-                           Optional terms As String() = Nothing,
-                           Optional env As Environment = Nothing) As Object
+                              <RRawVectorArgument(TypeCodes.string)>
+                              Optional terms As Object = Nothing,
+                              Optional env As Environment = Nothing) As Object
 
         If TypeOf model Is CellularModule Then
             Return New LinearProgrammingEngine().CreateMatrix(DirectCast(model, CellularModule))
         ElseIf TypeOf model Is ReactionRepository Then
             Dim repo = DirectCast(model, ReactionRepository)
             Dim stream As Index(Of String) = repo _
-                .GetByKOMatch(terms) _
+                .GetByKOMatch(CLRVector.asCharacter(terms)) _
                 .Select(Function(r) r.ID) _
                 .ToArray
             Dim network As Matrix = repo.metabolicNetwork.CreateKeggMatrix
@@ -160,47 +163,7 @@ Module FBA
 
             Return network
         ElseIf TypeOf model Is VirtualCell Then
-            Dim gem As VirtualCell = DirectCast(model, VirtualCell)
-
-            Console.WriteLine("=========================================================")
-            Console.WriteLine(" genome scale GEM model FBA test")
-            Console.WriteLine($" model: {gem.cellular_id}")
-            Console.WriteLine("=========================================================")
-
-            Dim watch As Stopwatch = Stopwatch.StartNew
-            Dim reactions = gem.metabolismStructure.reactions.AsEnumerable.ToArray
-            Dim reversible As New Dictionary(Of String, Boolean)
-
-            Console.WriteLine($"load GEM model in {watch.ElapsedMilliseconds} ms, {reactions.Length} reactions")
-
-            ' 可逆性判定：方程式中出现 "<=>" 即为可逆反应
-            For Each reaction In reactions
-                Dim note As String = If(reaction.note, "")
-
-                reversible(reaction.ID) = note.Contains("<=>")
-            Next
-
-            watch.Restart()
-
-            Dim metabolic As Equation() = reactions _
-                .Select(Function(r) r.BuildEquation) _
-                .ToArray
-            Dim matrix As Matrix = metabolic.BuildMatrix()
-            Dim nReversible As Integer = 0
-
-            For Each id As String In matrix.Flux.Keys.ToArray
-                If reversible.ContainsKey(id) AndAlso reversible(id) Then
-                    matrix.Flux(id) = New DoubleRange(-1000, 1000)
-                    nReversible += 1
-                Else
-                    matrix.Flux(id) = New DoubleRange(0, 1000)
-                End If
-            Next
-
-            Console.WriteLine($"build stoichiometric matrix in {watch.ElapsedMilliseconds} ms: {matrix.Stoichiometry}")
-            Console.WriteLine($"  {nReversible} reversible reactions, {matrix.Flux.Count - nReversible} irreversible reactions")
-
-            Return matrix
+            Return DirectCast(model, VirtualCell).gemLppMatrix
         Else
             Dim stream As PipeIterator(Of KEGGReaction) = pipeline.Stream(Of KEGGReaction)(model, env)
 
@@ -210,6 +173,49 @@ Module FBA
 
             Return stream.CreateKeggMatrix
         End If
+    End Function
+
+    <Extension>
+    Private Function gemLppMatrix(gem As VirtualCell) As Matrix
+        Console.WriteLine("=========================================================")
+        Console.WriteLine(" genome scale GEM model FBA test")
+        Console.WriteLine($" model: {gem.cellular_id}")
+        Console.WriteLine("=========================================================")
+
+        Dim watch As Stopwatch = Stopwatch.StartNew
+        Dim reactions = gem.metabolismStructure.reactions.AsEnumerable.ToArray
+        Dim reversible As New Dictionary(Of String, Boolean)
+
+        Console.WriteLine($"load GEM model in {watch.ElapsedMilliseconds} ms, {reactions.Length} reactions")
+
+        ' 可逆性判定：方程式中出现 "<=>" 即为可逆反应
+        For Each reaction In reactions
+            Dim note As String = If(reaction.note, "")
+
+            reversible(reaction.ID) = note.Contains("<=>")
+        Next
+
+        watch.Restart()
+
+        Dim metabolic As Equation() = reactions _
+            .Select(Function(r) r.BuildEquation) _
+            .ToArray
+        Dim matrix As Matrix = metabolic.BuildMatrix()
+        Dim nReversible As Integer = 0
+
+        For Each id As String In matrix.Flux.Keys.ToArray
+            If reversible.ContainsKey(id) AndAlso reversible(id) Then
+                matrix.Flux(id) = New DoubleRange(-1000, 1000)
+                nReversible += 1
+            Else
+                matrix.Flux(id) = New DoubleRange(0, 1000)
+            End If
+        Next
+
+        Console.WriteLine($"build stoichiometric matrix in {watch.ElapsedMilliseconds} ms: {matrix.Stoichiometry}")
+        Console.WriteLine($"  {nReversible} reversible reactions, {matrix.Flux.Count - nReversible} irreversible reactions")
+
+        Return matrix
     End Function
 
     ''' <summary>
