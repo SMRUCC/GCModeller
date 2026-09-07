@@ -1,0 +1,17 @@
+# name	SMILES	E. coli 核心内源代谢物（演示集合；生产请从 GEM 模型提取）
+pyruvate	CC(=O)C(=O)O
+oxaloacetate	OC(=O)C(=O)CC(=O)O
+acetate	CC(=O)O
+acetaldehyde	CC=O
+glycine	NCC(=O)O
+glyoxylate	OC(=O)C=O
+oxalate	OC(=O)C(=O)O
+2-oxoglutarate	OC(=O)CCC(=O)C(=O)O
+succinate	OC(=O)CCC(=O)O
+fumarate	OC(=O)C=CC(=O)O
+malate	OC(=O)CC(O)C(=O)O
+ethanol	CCO
+glycerol	OCC(O)CO
+CO2	O=C=O
+H2O	O
+NH3	N
