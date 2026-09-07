@@ -123,7 +123,7 @@ Module FBA
     ''' <summary>
     ''' create FBA model matrix
     ''' </summary>
-    ''' <param name="model">should be a GCModeller virtual cell <see cref="CellularModule"/> model object.</param>
+    ''' <param name="model">should be a GCModeller <see cref="VirtualCell"/> or <see cref="CellularModule"/> model object, or a collection of the kegg <see cref="KEGGReaction"/>.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("matrix")>
@@ -212,6 +212,15 @@ Module FBA
         End If
     End Function
 
+    ''' <summary>
+    ''' set lpp objective targets for FBA analysis
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="target">
+    ''' should be a character vector of the target reaction id 
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("objective")>
     <RApiReturn(GetType(Matrix))>
     Public Function SetObjective(matrix As Matrix, target As Object, Optional env As Environment = Nothing) As Matrix
@@ -259,8 +268,14 @@ Module FBA
     ''' Solve a FBA matrix model
     ''' </summary>
     ''' <param name="model"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a tuple list of the FBA lpp solver result:
+    ''' 
+    ''' + objective, target objective function value
+    ''' + flux, the flux distribution result tuple list, key name is the flux id and the value is the flux value. 
+    ''' </returns>
     <ExportAPI("lpsolve")>
+    <RApiReturn("objective", "flux")>
     Public Function lpsolve(model As Matrix) As Object
         Dim lpp As LPPSolution = New LinearProgrammingEngine().Run(model)
         Dim result As New list
@@ -272,6 +287,7 @@ Module FBA
 
         Call result.add("objective", lpp.ObjectiveFunctionValue)
         Call result.add("flux", solution)
+        Call result.setAttribute("lpp", lpp)
 
         Return result
     End Function
