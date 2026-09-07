@@ -338,6 +338,35 @@ Module Program
     End Sub
 
     ''' <summary>
+    ''' 计算结果的质量校验：检查稳态假设 S*v = 0 的残差
+    ''' </summary>
+    Private Function MaxResidual(matrix As Matrix, flux As NamedValue(Of Double)()) As Double
+        Dim v As New Dictionary(Of String, Double)
+        Dim maxErr As Double = 0.0
+
+        For Each x In flux
+            v(x.Name) = x.Value
+        Next
+
+        For i As Integer = 0 To matrix.Compounds.Length - 1
+            Dim sum As Double = 0.0
+
+            For p As Integer = matrix.Stoichiometry.RowPtr(i) To matrix.Stoichiometry.RowPtr(i + 1) - 1
+                Dim j As Integer = matrix.Stoichiometry.ColIdx(p)
+                Dim name As String = matrix.Flux.Keys.ElementAt(j)
+
+                sum += matrix.Stoichiometry.Values(p) * v(name)
+            Next
+
+            If std.Abs(sum) > maxErr Then
+                maxErr = std.Abs(sum)
+            End If
+        Next
+
+        Return maxErr
+    End Function
+
+    ''' <summary>
     ''' 大规模问题：完整的GEM模型的FBA求解测试
     ''' </summary>
     Private Sub RunGemTest(modelFile As String)
@@ -393,20 +422,28 @@ Module Program
 
         Dim flux = result.GetSolution.ToArray
         Dim nonZero As Integer = flux.Count(Function(v) std.Abs(v.Value) > TOL)
-        Dim top As NamedValue(Of Double)() = flux _
-            .Where(Function(v) std.Abs(v.Value) > TOL) _
-            .OrderByDescending(Function(v) std.Abs(v.Value)) _
-            .Take(10) _
-            .ToArray
+        Dim maxFlux As Double = flux.Max(Function(v) std.Abs(v.Value))
+        Dim violated As Integer = flux _
+            .Where(Function(v) matrix.Flux.ContainsKey(v.Name)) _
+            .Count(Function(v)
+                       Dim range = matrix.Flux(v.Name)
+                       Return v.Value < range.Min - 0.000001 OrElse v.Value > range.Max + 0.000001
+                   End Function)
 
         Console.WriteLine()
         Console.WriteLine($" objective (sum of all flux) = {result.ObjectiveFunctionValue.ToString("G6")}")
         Console.WriteLine($" non-zero flux: {nonZero} / {flux.Length} ({100 * nonZero / flux.Length}%)")
+        Console.WriteLine($" max |flux| = {maxFlux.ToString("G6")}, bound violated: {violated}")
+        Console.WriteLine($" max |S*v| residual = {MaxResidual(matrix, flux).ToString("G6")}")
         Console.WriteLine($" solve time = {result.SolveTime} ms, phase 1 time = {result.FeasibleSolutionTime} ms")
         Console.WriteLine()
         Console.WriteLine(" top 10 flux:")
 
-        For Each v In top
+        For Each v In flux _
+            .Where(Function(x) std.Abs(x.Value) > TOL) _
+            .OrderByDescending(Function(x) std.Abs(x.Value)) _
+            .Take(10)
+
             Console.WriteLine($"   {v.Name} = {v.Value.ToString("G5")}")
         Next
 
