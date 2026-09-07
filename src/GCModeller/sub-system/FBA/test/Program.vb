@@ -29,7 +29,10 @@ Module Program
             Call RunGemTest(If(args.Length > 1, args(1), GEM_MODEL), n)
         End If
 
-        Pause()
+        If args.IsNullOrEmpty Then
+            ' 以命令行参数运行时不等待按键，便于批处理与日志采集
+            Pause()
+        End If
     End Sub
 
     Private Sub Check(name As String, expected As Double, actual As Double)
