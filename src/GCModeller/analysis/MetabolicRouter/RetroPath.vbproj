@@ -3,8 +3,8 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net10.0</TargetFramework>
-    <RootNamespace>RetroPath</RootNamespace>
-    <AssemblyName>RetroPath</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.Analysis.RetroPath</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Analysis.RetroPath</AssemblyName>
     <LangVersion>Latest</LangVersion>
     <OptionStrict>On</OptionStrict>
     <OptionExplicit>On</OptionExplicit>
@@ -14,6 +14,7 @@
     <Version>1.0.0</Version>
     <Description>基于广义反应规则的代谢网络逆向路径合成搜索（类逆合成分析：反应中心匹配+原子映射+束搜索+多维评分，纯 BCL，JSON 输出）</Description>
     <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyTitle>Metabolic Pathway Router</AssemblyTitle>
   </PropertyGroup>
 
   <ItemGroup>

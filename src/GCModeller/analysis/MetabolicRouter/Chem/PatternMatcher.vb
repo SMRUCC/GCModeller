@@ -202,7 +202,7 @@ Namespace RetroPath.Chem
                                 If Not seen.Contains(nb) Then stack.Push(nb)
                             Next
                         End If
-                    Next
+                    End While
                 Next
                 ' 候选
                 For Each pai In _order
