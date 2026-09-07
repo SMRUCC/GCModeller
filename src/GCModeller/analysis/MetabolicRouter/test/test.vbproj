@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
-    <RootNamespace>RetroPath</RootNamespace>
-    <AssemblyName>RetroPath</AssemblyName>
+   
     <LangVersion>Latest</LangVersion>
     <OptionStrict>On</OptionStrict>
     <OptionExplicit>On</OptionExplicit>
@@ -16,19 +15,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="test\**" />
     <Compile Remove="_validation\**" />
-    <EmbeddedResource Remove="test\**" />
     <EmbeddedResource Remove="_validation\**" />
-    <None Remove="test\**" />
     <None Remove="_validation\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\RetroPath.vbproj" />
   </ItemGroup>
 
 </Project>
