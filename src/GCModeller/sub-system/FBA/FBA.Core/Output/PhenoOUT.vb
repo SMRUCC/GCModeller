@@ -46,20 +46,18 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 
-Namespace Models.rFBA
+Namespace Output
 
     ''' <summary>
     ''' 基本类型之中的flux是野生型的数据
     ''' </summary>
-    Public Class PhenoOUT : Inherits FBA_OUTPUT.TabularOUT
+    Public Class PhenoOUT : Inherits TabularOUT
         Implements IDynamicMeta(Of Double)
         Implements IPhenoOUT
 
         Dim _props As Dictionary(Of String, Double)
 
-        <Meta(GetType(Double))>
         Public Property Properties As Dictionary(Of String, Double) Implements IDynamicMeta(Of Double).Properties
             Get
                 If _props Is Nothing Then

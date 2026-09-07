@@ -57,7 +57,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace FBA_OUTPUT
+Namespace Output
 
     ''' <summary>
     ''' RXN  --> flux result.

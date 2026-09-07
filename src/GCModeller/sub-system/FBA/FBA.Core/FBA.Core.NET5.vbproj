@@ -400,4 +400,8 @@
     <ProjectReference Include="..\..\..\engine\Model\Model.Core.NET5.vbproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Output\" />
+  </ItemGroup>
+
 </Project>
