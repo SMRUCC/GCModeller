@@ -23,7 +23,10 @@ Module Program
             Call RunSmallScaleTests()
         End If
         If mode = "gem" OrElse mode = "all" Then
-            Call RunGemTest(If(args.Length > 1, args(1), GEM_MODEL))
+            ' args(2) 可以指定只取前 n 个反应，用于快速的规模测试
+            Dim n As Integer = If(args.Length > 2, Integer.Parse(args(2)), 0)
+
+            Call RunGemTest(If(args.Length > 1, args(1), GEM_MODEL), n)
         End If
 
         Pause()
@@ -369,7 +372,7 @@ Module Program
     ''' <summary>
     ''' 大规模问题：完整的GEM模型的FBA求解测试
     ''' </summary>
-    Private Sub RunGemTest(modelFile As String)
+    Private Sub RunGemTest(modelFile As String, Optional maxReactions As Integer = 0)
         Console.WriteLine("=========================================================")
         Console.WriteLine(" genome scale GEM model FBA test")
         Console.WriteLine($" model: {modelFile}")
@@ -378,6 +381,11 @@ Module Program
         Dim watch As Stopwatch = Stopwatch.StartNew
         Dim gem As VirtualCell = modelFile.LoadXml(Of VirtualCell)
         Dim reactions = gem.metabolismStructure.reactions.AsEnumerable.ToArray
+
+        If maxReactions > 0 AndAlso maxReactions < reactions.Length Then
+            reactions = reactions.Take(maxReactions).ToArray
+        End If
+
         Dim reversible As New Dictionary(Of String, Boolean)
 
         Console.WriteLine($"load GEM model in {watch.ElapsedMilliseconds} ms, {reactions.Length} reactions")
