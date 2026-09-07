@@ -154,6 +154,13 @@ Public Class LinearProgrammingEngine
         }
     End Function
 
+    ''' <summary>
+    ''' 导出 FBA 问题的线性规划模型描述
+    ''' </summary>
+    ''' <remarks>
+    ''' 仅用于模型导出与展示（R# 等上层接口），**不参与求解**：
+    ''' 求解路径已切换到内点法引擎，见 <see cref="Run(Matrix, OptimizationType)"/>。
+    ''' </remarks>
     Public Shared Function ToLppModel(fbaMat As Matrix, name As String, Optional description As String = "n/a", Optional opt As OptimizationType = OptimizationType.MAX) As LPPModel
         Dim types As String() = "=".Replicate(fbaMat.NumOfCompounds).ToArray
         Dim constraints As Double() = 0.0.Replicate(fbaMat.NumOfCompounds).ToArray
@@ -168,7 +175,7 @@ Public Class LinearProgrammingEngine
     End Function
 
     ''' <summary>
-    ''' FBA solver based on the LPP solver
+    ''' FBA solver based on the interior point method(IPM) solver
     ''' </summary>
     ''' <param name="fbaMat"></param>
     ''' <param name="opt"></param>
@@ -176,40 +183,20 @@ Public Class LinearProgrammingEngine
     ''' + the objective function value is the bio-mass value
     ''' + the lpp solution is the reaction flux value
     ''' </returns>
+    ''' <remarks>
+    ''' 本函数原先使用单纯形法求解器 <c>LPP</c>，在基因组规模（万级代谢物 × 万级反应）
+    ''' 上会退化：既无法在可接受时间内收敛，结果也会严重越界。
+    ''' 现已切换为 IPMCrossover 内点法引擎（Mehrotra 预测-校正 + 稀疏正规方程），
+    ''' 并通过 <see cref="IpmFbaAdapter"/> 完成 FBA 问题 ⇄ 标准形的稀疏转换
+    ''' （下界平移消掉 lb、上界由内点法原生支持，规模不膨胀）。
+    '''
+    ''' the flux bounds is required by the FBA problem, without the flux
+    ''' bounds the FBA linear programming problem will be degenerated at
+    ''' the zero flux point (the right hand side of the mass balance 
+    ''' constraint is always zero), result in a full zero solution.
+    ''' </remarks>
     Public Function Run(fbaMat As Matrix, Optional opt As OptimizationType = OptimizationType.MAX) As LPPSolution
-        Dim stoichiometry As LpSparseMatrix = fbaMat.Stoichiometry
-
-        If stoichiometry Is Nothing Then
-            ' 兼容只设置了稠密矩阵的模型对象
-            stoichiometry = LpSparseMatrix.FromJagged(fbaMat.Matrix)
-        End If
-
-        Dim bounds As (lb As Double(), ub As Double()) = fbaMat.GetFluxBounds()
-        Dim stopWatch As Stopwatch = Stopwatch.StartNew
-
-        ' the flux bounds is required by the FBA problem, without the flux
-        ' bounds the FBA linear programming problem will be degenerated at
-        ' the zero flux point (the right hand side of the mass balance 
-        ' constraint is always zero), result in a full zero solution.
-        Dim engine As New LPP(
-            objectiveFunctionType:=opt.Description,
-            variableNames:=fbaMat.Flux.Keys.ToArray,
-            objectiveFunctionCoefficients:=fbaMat.GetTargetCoefficients,
-            constraintCoefficients:=stoichiometry,
-            constraintTypes:="=".Replicate(fbaMat.NumOfCompounds).ToArray,
-            constraintRightHandSides:=0.0.Replicate(fbaMat.NumOfCompounds).ToArray,
-            objectiveFunctionValue:=0,
-            lowerBounds:=bounds.lb,
-            upperBounds:=bounds.ub
-        )
-
-        Call $"run solver for FBA lpp problem! [{stoichiometry.Rows} x {stoichiometry.Columns}], {stoichiometry.NonZeros} non-zeros".info
-
-        Dim result As LPPSolution = engine.solve(showProgress:=True, strict:=False)
-
-        Call $"FBA lpp problem solved in {stopWatch.ElapsedMilliseconds} ms, objective = {result.ObjectiveFunctionValue}".info
-
-        Return result
+        Return IpmFbaAdapter.Run(fbaMat, opt)
     End Function
 
 End Class
