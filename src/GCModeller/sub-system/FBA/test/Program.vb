@@ -349,6 +349,7 @@ Module Program
     Private Function MaxResidual(matrix As Matrix, flux As NamedValue(Of Double)()) As Double
         Dim v As New Dictionary(Of String, Double)
         Dim maxErr As Double = 0.0
+        Dim bad As Integer = 0
 
         For Each x In flux
             v(x.Name) = x.Value
@@ -367,7 +368,12 @@ Module Program
             If std.Abs(sum) > maxErr Then
                 maxErr = std.Abs(sum)
             End If
+            If std.Abs(sum) > 0.000001 Then
+                bad += 1
+            End If
         Next
+
+        Console.WriteLine($" mass balance violated rows: {bad} / {matrix.Compounds.Length}")
 
         Return maxErr
     End Function
