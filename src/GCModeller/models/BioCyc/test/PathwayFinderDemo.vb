@@ -38,6 +38,12 @@ Module PathwayFinderDemo
         Console.WriteLine($"数据库: F:\ecoli\29.0 (EcoCyc 29.0, E. coli K-12 MG1655)")
         Console.WriteLine()
 
+        If onlyId IsNot Nothing AndAlso onlyId.StartsWith("debug:", StringComparison.OrdinalIgnoreCase) Then
+            Dim dbgRouter As New BioCycAdapter(Workspace.Open("F:\ecoli\29.0"), opts:=New SearchOptions)
+            DebugMatch(dbgRouter, onlyId.Substring(6))
+            Return
+        End If
+
         Dim biocyc As Workspace = Workspace.Open("F:\ecoli\29.0")
 
         ' 束搜索参数：规则集来自全库反应（上千条），首次实测取较小的束宽与深度以控耗时
@@ -58,7 +64,8 @@ Module PathwayFinderDemo
             coreDegree:=4,
             maxMoleculeAtoms:=80,
             maxPatternAtoms:=32,
-            includeBuiltinRules:=False)
+            includeBuiltinRules:=False,
+            keepRuleTrace:=True)
         sw.Stop()
 
         Console.WriteLine()
@@ -67,6 +74,17 @@ Module PathwayFinderDemo
 
         ' 分子指纹 → 化合物名，便于把结果里的 SMILES 还原成代谢物名称
         BuildNameIndex(router)
+
+        ' 关键反应是否成功进入规则库（用来核对"目标分子的真实合成反应是否被覆盖"）
+        For Each rxnId As String In {"CHORISMATE-SYNTHASE-RXN"}
+            Dim why As String = Nothing
+            If router.RuleTrace.TryGetValue(rxnId, why) Then
+                Console.WriteLine($"规则覆盖检查 {rxnId}: 未收录（原因 {why}）")
+            Else
+                Console.WriteLine($"规则覆盖检查 {rxnId}: 已收录")
+            End If
+        Next
+        Console.WriteLine()
 
         ' 落盘挖掘出的规则库，便于核查规则质量（SMARTS 两侧模式 + ΔG + 酶层级）
         Dim rulesTsv As String = IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "biocyc_rules.tsv")
@@ -117,6 +135,43 @@ Module PathwayFinderDemo
             Console.Write("按任意键退出...")
             Console.ReadKey(True)
         End If
+    End Sub
+
+    ''' <summary>诊断：列出所有能作用于该化合物的规则（正向 + 逆向），用于核查规则是否命中</summary>
+    Private Sub DebugMatch(router As BioCycAdapter, targetId As String)
+        Dim st As CompoundStructure = router.GetCompound(targetId)
+
+        If st Is Nothing Then
+            Console.WriteLine($"[{targetId}] 无可用结构")
+            Return
+        End If
+
+        Dim mol As Molecule = SmilesIO.Parse(st.Smiles)
+        Dim hits As Integer = 0
+
+        Console.WriteLine($"=== 规则命中检查：{targetId} = {st.Smiles} ===")
+
+        For Each r As Rule In router.Rules
+            Dim apps As New List(Of ApplicationResult)()
+
+            Try
+                apps.AddRange(RuleEngine.ApplyReverse(mol, r, 8))
+                apps.AddRange(RuleEngine.ApplyForward(mol, r, 8))
+            Catch ex As Exception
+                Continue For
+            End Try
+
+            If apps.Count = 0 Then Continue For
+
+            hits += 1
+            Console.WriteLine($"  {r.Id} [{r.Name}]  {r.ReactantText} >> {r.ProductText}")
+
+            For Each a As ApplicationResult In apps.Take(3)
+                Console.WriteLine("      ⟶ " & String.Join(" + ", a.Fragments.Select(Function(f) SmilesIO.Write(f))))
+            Next
+        Next
+
+        Console.WriteLine($"共 {hits} / {router.Rules.Count} 条规则可作用于 {targetId}")
     End Sub
 
     Private Sub BuildNameIndex(router As BioCycAdapter)

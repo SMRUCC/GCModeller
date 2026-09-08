@@ -34,6 +34,8 @@ Public Class BioCycAdapter
     Public ReadOnly Property SinkMode As SinkModes
     ''' <summary>规则挖掘过程中被跳过的条目及原因计数</summary>
     Public ReadOnly Property Skipped As New Dictionary(Of String, Integer)()
+    ''' <summary>逐条反应的跳过原因（reaction uniqueId → 原因），用于排查某条反应为何未进规则库</summary>
+    Public ReadOnly Property RuleTrace As New Dictionary(Of String, String)()
     ''' <summary>装配统计信息（化合物总数 / 可用结构数 / 规则数 / 汇大小 / 耗时）</summary>
     Public ReadOnly Property Stats As New Dictionary(Of String, String)()
 
@@ -74,7 +76,8 @@ Public Class BioCycAdapter
             Optional mcsNodeBudget As Integer = 60000,
             Optional maxUnmappedAtoms As Integer = 3,
             Optional includeBuiltinRules As Boolean = False,
-            Optional verbose As Boolean = True)
+            Optional verbose As Boolean = True,
+            Optional keepRuleTrace As Boolean = False)
 
         Dim sw As Stopwatch = Stopwatch.StartNew()
 
@@ -138,7 +141,8 @@ Public Class BioCycAdapter
             mcsNodeBudget:=mcsNodeBudget,
             maxUnmappedAtoms:=maxUnmappedAtoms,
             includeBuiltin:=includeBuiltinRules,
-            skipped:=Skipped))
+            skipped:=Skipped,
+            trace:=If(keepRuleTrace, RuleTrace, Nothing)))
 
         ' ---------- 4) 底盘汇集合 ----------
         Dim sinkList As List(Of (String, smiles As String)) =

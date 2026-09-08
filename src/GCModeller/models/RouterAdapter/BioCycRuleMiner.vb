@@ -63,7 +63,8 @@ Public Module BioCycRuleMiner
                          Optional mcsNodeBudget As Integer = 60000,
                          Optional maxUnmappedAtoms As Integer = 3,
                          Optional includeBuiltin As Boolean = False,
-                         Optional skipped As Dictionary(Of String, Integer) = Nothing) As List(Of Rule)
+                         Optional skipped As Dictionary(Of String, Integer) = Nothing,
+                         Optional trace As Dictionary(Of String, String) = Nothing) As List(Of Rule)
 
         Dim rules As New List(Of Rule)()
         Dim seenRule As New Dictionary(Of String, Integer)()   ' 模式文本 → rules 下标
@@ -82,7 +83,7 @@ Public Module BioCycRuleMiner
             End If
 
             Dim rule As Rule = MineOne(rxn, structures, maxMoleculeAtoms,
-                                       maxPatternAtoms, mcsNodeBudget, maxUnmappedAtoms, skipped)
+                                       maxPatternAtoms, mcsNodeBudget, maxUnmappedAtoms, skipped, trace)
             If rule Is Nothing Then Continue For
 
             Dim key As String = rule.ReactantText & ">>" & rule.ProductText
@@ -93,7 +94,7 @@ Public Module BioCycRuleMiner
                 If rule.EnzymeTier < old.EnzymeTier Then
                     rules(seenRule(key)) = rule
                 Else
-                    CountSkip(skipped, "duplicate-rule")
+                    Bail(skipped, trace, rule.Id, "duplicate-rule")
                 End If
             Else
                 seenRule(key) = rules.Count
@@ -111,7 +112,10 @@ Public Module BioCycRuleMiner
                              maxPatternAtoms As Integer,
                              mcsNodeBudget As Integer,
                              maxUnmappedAtoms As Integer,
-                             skipped As Dictionary(Of String, Integer)) As Rule
+                             skipped As Dictionary(Of String, Integer),
+                             Optional trace As Dictionary(Of String, String) = Nothing) As Rule
+
+        Dim rxnId As String = If(rxn Is Nothing, Nothing, rxn.uniqueId)
 
         ' ---- 1) 方向归正：不要直接用 left/right，equation 已按 REACTION-DIRECTION 归正
         Dim eq As Equation = Nothing
@@ -119,12 +123,12 @@ Public Module BioCycRuleMiner
         Try
             eq = rxn.equation
         Catch ex As Exception
-            CountSkip(skipped, "bad-equation")
+            Bail(skipped, trace, rxnId, "bad-equation")
             Return Nothing
         End Try
 
         If eq Is Nothing Then
-            CountSkip(skipped, "no-equation")
+            Bail(skipped, trace, rxnId, "no-equation")
             Return Nothing
         End If
 
@@ -132,7 +136,7 @@ Public Module BioCycRuleMiner
         Dim pIds As List(Of String) = CompoundIds(eq.Products)
 
         If rIds.Count = 0 OrElse pIds.Count = 0 Then
-            CountSkip(skipped, "empty-side")
+            Bail(skipped, trace, rxnId, "empty-side")
             Return Nothing
         End If
 
@@ -141,7 +145,7 @@ Public Module BioCycRuleMiner
         Dim pSmiles As String = Nothing
 
         If Not JoinSmiles(rIds, structures, rSmiles) OrElse Not JoinSmiles(pIds, structures, pSmiles) Then
-            CountSkip(skipped, "missing-structure")
+            Bail(skipped, trace, rxnId, "missing-structure")
             Return Nothing
         End If
 
@@ -152,12 +156,12 @@ Public Module BioCycRuleMiner
             rMol = SmilesIO.Parse(rSmiles)
             pMol = SmilesIO.Parse(pSmiles)
         Catch ex As Exception
-            CountSkip(skipped, "parse-error")
+            Bail(skipped, trace, rxnId, "parse-error")
             Return Nothing
         End Try
 
         If rMol.NumAtoms() > maxMoleculeAtoms OrElse pMol.NumAtoms() > maxMoleculeAtoms Then
-            CountSkip(skipped, "too-large")
+            Bail(skipped, trace, rxnId, "too-large")
             Return Nothing
         End If
 
@@ -166,7 +170,7 @@ Public Module BioCycRuleMiner
 
         ' ---- 4) 反应中心 = 未映射原子 ∪ 其 1 层邻居 [§2.2 / §2.3]
         If map.ReactantOnly.Count = 0 AndAlso map.ProductOnly.Count = 0 Then
-            CountSkip(skipped, "no-reaction-center")
+            Bail(skipped, trace, rxnId, "no-reaction-center")
             Return Nothing
         End If
 
@@ -220,7 +224,7 @@ Public Module BioCycRuleMiner
         End While
 
         If oversized Then
-            CountSkip(skipped, "center-too-large")
+            Bail(skipped, trace, rxnId, "center-too-large")
             Return Nothing
         End If
 
@@ -279,7 +283,7 @@ Public Module BioCycRuleMiner
         Next
 
         If edgeMap.Count = 0 Then
-            CountSkip(skipped, "no-pattern-bond")
+            Bail(skipped, trace, rxnId, "no-pattern-bond")
             Return Nothing
         End If
 
@@ -310,11 +314,11 @@ Public Module BioCycRuleMiner
         Dim pText As String = EmitSide(clsP.Values.ToList(), forest, False, pMol, atomOfClsP)
 
         If rText Is Nothing OrElse pText Is Nothing Then
-            CountSkip(skipped, "emit-isolated")
+            Bail(skipped, trace, rxnId, "emit-isolated")
             Return Nothing
         End If
         If clsR.Count > maxPatternAtoms OrElse clsP.Count > maxPatternAtoms Then
-            CountSkip(skipped, "pattern-too-large")
+            Bail(skipped, trace, rxnId, "pattern-too-large")
             Return Nothing
         End If
 
@@ -342,7 +346,7 @@ Public Module BioCycRuleMiner
         Try
             rule = New Rule(rxn.uniqueId, name, rText, pText, dg, tier, reversible)
         Catch ex As Exception
-            CountSkip(skipped, "pattern-error")
+            Bail(skipped, trace, rxnId, "pattern-error")
             Return Nothing
         End Try
 
@@ -350,11 +354,11 @@ Public Module BioCycRuleMiner
         Try
             If PatternMatcher.Match(pMol, rule.Product, 1).Count = 0 OrElse
                PatternMatcher.Match(rMol, rule.Reactant, 1).Count = 0 Then
-                CountSkip(skipped, "no-self-match")
+                Bail(skipped, trace, rxnId, "no-self-match")
                 Return Nothing
             End If
         Catch ex As Exception
-            CountSkip(skipped, "self-match-error")
+            Bail(skipped, trace, rxnId, "self-match-error")
             Return Nothing
         End Try
 
@@ -560,6 +564,14 @@ Public Module BioCycRuleMiner
         Dim n As Integer = 0
         skipped.TryGetValue(reason, n)
         skipped(reason) = n + 1
+    End Sub
+
+    ''' <summary>记录一条反应被跳过的原因（计数 + 逐条 trace，便于排查"某个反应为什么没进规则库"）</summary>
+    Private Sub Bail(skipped As Dictionary(Of String, Integer),
+                     trace As Dictionary(Of String, String),
+                     id As String, reason As String)
+        CountSkip(skipped, reason)
+        If trace IsNot Nothing AndAlso id IsNot Nothing Then trace(id) = reason
     End Sub
 
     ''' <summary>类图上的一条边：两侧键级（0 = 该侧不存在此键）</summary>
