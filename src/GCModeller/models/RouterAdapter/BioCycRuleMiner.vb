@@ -224,19 +224,9 @@ Public Module BioCycRuleMiner
             Return Nothing
         End If
 
-        ' 仍然孤立（单原子分子等情况）→ 无法构成合法模式
-        For Each r As Integer In centerR
-            If Not HasCenterNeighbor(rMol, centerR, r) Then
-                CountSkip(skipped, "isolated-center-atom")
-                Return Nothing
-            End If
-        Next
-        For Each p As Integer In centerP
-            If Not HasCenterNeighbor(pMol, centerP, p) Then
-                CountSkip(skipped, "isolated-center-atom")
-                Return Nothing
-            End If
-        Next
+        ' 注：此时仍可能存在"孤立"的模式原子——典型是水/质子/氨这类单原子共底物
+        ' （它们没有任何邻居可补）。这类类号在模式中没有键，因此不参与匹配、也不会被
+        ' 创建，等价于"货币分子被忽略"的语义，属预期行为，不再视为失败。
 
         ' ---- 5) 类号分配：映射对同号，未映射原子各自新号
         Dim clsR As New Dictionary(Of Integer, Integer)()
@@ -477,11 +467,6 @@ Public Module BioCycRuleMiner
 
         Dim sorted As New List(Of Integer)(classes)
         sorted.Sort()
-
-        ' 每个类号在所在侧都必须至少有一条键
-        For Each c As Integer In sorted
-            If Not adj.ContainsKey(c) OrElse adj(c).Count = 0 Then Return Nothing
-        Next
 
         Dim seen As New HashSet(Of Integer)()
         Dim parts As New List(Of String)()

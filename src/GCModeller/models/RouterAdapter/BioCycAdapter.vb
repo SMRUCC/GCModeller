@@ -72,6 +72,7 @@ Public Class BioCycAdapter
             Optional maxMoleculeAtoms As Integer = 80,
             Optional maxPatternAtoms As Integer = 32,
             Optional mcsNodeBudget As Integer = 60000,
+            Optional maxUnmappedAtoms As Integer = 3,
             Optional includeBuiltinRules As Boolean = False,
             Optional verbose As Boolean = True)
 
@@ -128,15 +129,16 @@ Public Class BioCycAdapter
 
         ' ---------- 3) 反应实例 → 广义反应规则 ----------
         ruleList.AddRange(BioCycRuleMiner.Mine(
-            reactions _
+            reactionList:=reactions _
                 .Where(Function(r) r IsNot Nothing AndAlso Not String.IsNullOrEmpty(r.uniqueId)) _
                 .OrderBy(Function(r) r.uniqueId, StringComparer.Ordinal),
-            structures,
-            maxMoleculeAtoms,
-            maxPatternAtoms,
-            mcsNodeBudget,
-            includeBuiltinRules,
-            Skipped))
+            structures:=structures,
+            maxMoleculeAtoms:=maxMoleculeAtoms,
+            maxPatternAtoms:=maxPatternAtoms,
+            mcsNodeBudget:=mcsNodeBudget,
+            maxUnmappedAtoms:=maxUnmappedAtoms,
+            includeBuiltin:=includeBuiltinRules,
+            skipped:=Skipped))
 
         ' ---------- 4) 底盘汇集合 ----------
         Dim sinkList As List(Of (String, smiles As String)) =
