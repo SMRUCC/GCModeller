@@ -114,15 +114,20 @@ Public Module AtomMapping
         Private mapBA As Integer()
         Private cur As New List(Of (Integer, Integer))
         Private best As New List(Of (Integer, Integer))
+        Private bestChanged As Integer = 0
+        Private curChanged As Integer = 0
+        Private ReadOnly maxChanged As Integer
         Private nodes As Integer = 0
         Private stopped As Boolean = False
 
-        Sub New(a As Molecule, b As Molecule, budget As Integer, maxUnmapped As Integer)
+        Sub New(a As Molecule, b As Molecule, budget As Integer, maxUnmapped As Integer,
+                Optional maxChangedBonds As Integer = 4)
             Me.a = a
             Me.b = b
             Me.nA = a.NumAtoms()
             Me.nB = b.NumAtoms()
             Me.budget = budget
+            Me.maxChanged = Math.Max(0, maxChangedBonds)
             Me.ordA = BondMatrix(a)
             Me.ordB = BondMatrix(b)
             Me.invA = Invariants(a, ordA)
@@ -162,23 +167,39 @@ Public Module AtomMapping
             Next
         End Sub
 
-        ''' <summary>贪心：按不变量优先顺序尽可能扩展，得到下界</summary>
+        ''' <summary>贪心：优先取"不引入键变化"的配对，其次取变化最少的，得到下界</summary>
         Private Function Greedy() As List(Of (Integer, Integer))
             ResetMaps()
             Dim res As New List(Of (Integer, Integer))()
+            Dim total As Integer = 0
 
             For Each ai As Integer In order
+                Dim bestBj As Integer = -1
+                Dim bestDc As Integer = maxChanged + 1
+
                 For Each bj As Integer In cands(ai)
                     If mapBA(bj) >= 0 Then Continue For
-                    If Not Consistent(ai, bj, res) Then Continue For
 
-                    mapAB(ai) = bj
-                    mapBA(bj) = ai
-                    res.Add((ai, bj))
-                    Exit For
+                    Dim dc As Integer = ChangeCount(ai, bj, res)
+                    If dc < 0 Then Continue For
+
+                    If dc < bestDc Then
+                        bestDc = dc
+                        bestBj = bj
+                        ' 完全一致是常态，尽早退出避免全量扫描
+                        If dc = 0 Then Exit For
+                    End If
                 Next
+
+                If bestBj < 0 Then Continue For
+
+                mapAB(ai) = bestBj
+                mapBA(bestBj) = ai
+                res.Add((ai, bestBj))
+                total += bestDc
             Next
 
+            bestChanged = total
             Return res
         End Function
 
@@ -195,9 +216,11 @@ Public Module AtomMapping
             If cur.Count + (order.Length - k) <= best.Count Then Return
 
             If k = order.Length Then
-                If cur.Count > best.Count Then
+                If cur.Count > best.Count OrElse
+                   (cur.Count = best.Count AndAlso curChanged < bestChanged) Then
                     best = New List(Of (Integer, Integer))(cur)
-                    If best.Count >= target Then stopped = True
+                    bestChanged = curChanged
+                    If best.Count >= target AndAlso bestChanged = 0 Then stopped = True
                 End If
                 Return
             End If
@@ -207,14 +230,18 @@ Public Module AtomMapping
             ' 分支一：把 ai 映射到某个兼容的产物原子
             For Each bj As Integer In cands(ai)
                 If mapBA(bj) >= 0 Then Continue For
-                If Not Consistent(ai, bj, cur) Then Continue For
+
+                Dim dc As Integer = ChangeCount(ai, bj, cur)
+                If dc < 0 Then Continue For
 
                 mapAB(ai) = bj
                 mapBA(bj) = ai
                 cur.Add((ai, bj))
+                curChanged += dc
 
                 Dfs(k + 1)
 
+                curChanged -= dc
                 cur.RemoveAt(cur.Count - 1)
                 mapBA(bj) = -1
                 mapAB(ai) = -1
@@ -226,12 +253,24 @@ Public Module AtomMapping
             Dfs(k + 1)
         End Sub
 
-        ''' <summary>诱导式 MCS 约束：与所有已映射原子对之间的键（含"不存在"）必须完全一致</summary>
-        Private Function Consistent(ai As Integer, bj As Integer, mapped As List(Of (Integer, Integer))) As Boolean
+        ''' <summary>
+        ''' 计算把 (ai,bj) 加入映射会引入多少处"键不一致"（键级改变 / 断键 / 成键）；
+        ''' 返回 -1 表示超过容忍上限，该配对不可用。
+        '''
+        ''' 与严格的诱导式 MCS（要求键完全一致）不同，这里允许少量键发生变化：反应中心
+        ''' 本来就靠键级/断键/成键来定义，若强制完全一致，反应中心处的原子会被挤出映射，
+        ''' 规则就会退化成"删掉一个原子 / 凭空造一个原子"，逆推时产生游离碎片（实测会把
+        ''' 分支酸逆推成一堆碎片，路径永远无法收敛到汇集合）。
+        ''' </summary>
+        Private Function ChangeCount(ai As Integer, bj As Integer, mapped As List(Of (Integer, Integer))) As Integer
+            Dim n As Integer = 0
             For Each pr In mapped
-                If ordA(ai, pr.Item1) <> ordB(bj, pr.Item2) Then Return False
+                If ordA(ai, pr.Item1) <> ordB(bj, pr.Item2) Then
+                    n += 1
+                    If n > maxChanged Then Return -1
+                End If
             Next
-            Return True
+            Return n
         End Function
 
         Private Shared Function BondMatrix(m As Molecule) As Integer(,)
