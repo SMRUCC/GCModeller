@@ -1,61 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::3236dd2609f778a05796e750eaace7f8, R#\metagenomics_kit\Kmers.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 959
-    '    Code Lines: 697 (72.68%)
-    ' Comment Lines: 116 (12.10%)
-    '    - Xml Docs: 83.62%
-    ' 
-    '   Blank Lines: 146 (15.22%)
-    '     File Size: 41.72 KB
+' Summaries:
 
 
-    ' Module KmersTool
-    ' 
-    '     Function: bayes_background, bayes_estimate, benchmark, bloom_filter, bloom_vector
-    '               bracken_table, filter_classification, filter_hostId, filter_reads, format_kraken_seqs
-    '               gene_seqs, genomics_nt, get_kraken_data, hitTable, kraken2Table
-    '               load_background, MAG_classify, make_classify, make_seq_groups, make_vector
-    '               parse_kraken_output, parse_kraken_report, quantify, read_bracken, read_kraken_reads
-    '               read_kraken_report, readKmerBloomFilter, reads_hits_matrix, readSequenceDb, scanBloomDatabase
-    '               seqTable, sequenceInfo, taxonomy_expression, write_background, writeKmerBloomFilter
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 959
+'    Code Lines: 697 (72.68%)
+' Comment Lines: 116 (12.10%)
+'    - Xml Docs: 83.62%
+' 
+'   Blank Lines: 146 (15.22%)
+'     File Size: 41.72 KB
+
+
+' Module KmersTool
+' 
+'     Function: bayes_background, bayes_estimate, benchmark, bloom_filter, bloom_vector
+'               bracken_table, filter_classification, filter_hostId, filter_reads, format_kraken_seqs
+'               gene_seqs, genomics_nt, get_kraken_data, hitTable, kraken2Table
+'               load_background, MAG_classify, make_classify, make_seq_groups, make_vector
+'               parse_kraken_output, parse_kraken_report, quantify, read_bracken, read_kraken_reads
+'               read_kraken_report, readKmerBloomFilter, reads_hits_matrix, readSequenceDb, scanBloomDatabase
+'               seqTable, sequenceInfo, taxonomy_expression, write_background, writeKmerBloomFilter
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -66,13 +66,12 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.IO
-Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.MIME.application.json.BSON
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
-Imports Microsoft.VisualBasic.MIME.application.xml
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame

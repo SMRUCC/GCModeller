@@ -1,4 +1,3 @@
-Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.RetroPath
@@ -17,7 +16,7 @@ Imports SMRUCC.genomics.Data.BioCyc
 '''   3) 底盘内源代谢物汇集合。
 ''' 之后每次 <see cref="FindPathway"/> 只是对已装配的 Netwalk 发起一次搜索。
 ''' </summary>
-Public Class BioCycAdapter
+Public Class BioCycAdapter : Implements IRouter
 
     ReadOnly netwalk As Netwalk
     ReadOnly opts As SearchOptions
@@ -225,7 +224,7 @@ Public Class BioCycAdapter
     ''' 查询时会把目标自身从汇集合中剔除：BeamSearch 一旦判定"目标已属于汇"就直接返回
     ''' 0 条路径，而"目标在底盘中已存在"对通路设计没有意义——我们想知道的是它怎么被合成出来。
     ''' </summary>
-    Public Function FindPathway(targetSmiles As String) As PathReport
+    Public Function FindPathway(targetSmiles As String) As PathReport Implements IRouter.FindPathway
         Dim walker As Netwalk = netwalk
         Dim key As String = Nothing
 

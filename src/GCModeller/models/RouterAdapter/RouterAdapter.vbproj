@@ -1,9 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>RouterAdapter</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Model.Metabolic.RouterAdapter</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyName>SMRUCC.genomics.Model.Metabolic.RouterAdapter</AssemblyName>
+    <AssemblyTitle>Metabolic Pathway Router</AssemblyTitle>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Metabolic Pathway Router</Title>
   </PropertyGroup>
 
   <ItemGroup>

@@ -60,9 +60,11 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.RetroPath.Model
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
+Imports SMRUCC.genomics.Model.Metabolic.RouterAdapter
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -109,6 +111,17 @@ Public Module BioCycRepository
     <ExportAPI("open.biocyc")>
     Public Function openBioCyc(repo As String) As Workspace
         Return New Workspace(repo)
+    End Function
+
+    <ExportAPI("router")>
+    Public Function router(repo As Workspace) As BioCycAdapter
+        Return New BioCycAdapter(repo)
+    End Function
+
+    <ExportAPI("find_pathway")>
+    <RApiReturn(GetType(PathReport))>
+    Public Function find_pathway(router As BioCycAdapter, target As String) As Object
+        Return router.FindPathway(target)
     End Function
 
     ''' <summary>
