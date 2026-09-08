@@ -15,9 +15,20 @@ Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 
 Namespace Search
 
+    ''' <summary>
+    ''' 反应规则库：内置广义规则 + 用户 TSV 扩展。
+    ''' </summary>
     Public Module RuleLibrary
 
-        ''' <summary>内置规则库（9 条核心酶促变换）</summary>
+        ''' <summary>
+        ''' 内置规则库：9 条核心酶促变换（氧化还原 / 转氨 / 醛缩 / 脱羧 / 水合 /
+        ''' 磷酸化 / 酯水解 / Claisen / 互变异构）。
+        ''' </summary>
+        ''' <returns>内置 <see cref="Rule"/> 列表（每次调用返回新实例）。</returns>
+        ''' <remarks>
+        ''' 规则由酶催化的化学逻辑抽象而来，不绑定具体底物，因此可作用于任何含有相同
+        ''' 反应中心的分子。ΔG 为启发式基团贡献代理值，酶层级为 1=常见 EC 家族 / 2=一般 / 3=特化。
+        ''' </remarks>
         Public Function BuiltinRules() As List(Of Rule)
             Dim rules As New List(Of Rule)()
             ' 产物侧 [C!O:1]：排除带 -OH 邻居的碳（羧基 C），否则逆向还原会把 -COOH 变成偕二醇 -CH(OH)2
@@ -49,7 +60,10 @@ Namespace Search
             Return rules
         End Function
 
-        ''' <summary>货币/辅底物 SMILES（应用产生的这类碎片不计入前体）[readme.md 汇集合]</summary>
+        ''' <summary>
+        ''' 货币/辅底物 SMILES：规则应用产生的这类碎片不计入前体，直接视为"底盘中天然存在"。
+        ''' </summary>
+        ''' <returns>SMILES 列表（默认含水、二氧化碳、氨、硫化氢、磷酸）。</returns>
         Public Function CurrencySmiles() As List(Of String)
             Return New List(Of String) From {"O", "O=C=O", "N", "S", "OP(=O)(O)O"}
         End Function
