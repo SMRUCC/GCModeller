@@ -260,14 +260,8 @@ Public Module BioCycRuleMiner
         '     永远无法命中（实测分支酸合酶 EPSP → 分支酸 + Pi 就是因此失效）。
         '     被丢弃的共产物在模式里消失，等价于"作为货币分子忽略"；而它们在另一侧
         '     若存在（如底物上挂着的磷酸基）会由 RuleEngine 自动创建出来。
-        If rxnId = "CHORISMATE-SYNTHASE-RXN" Then
-            Console.Error.WriteLine($"[trace] before: |R|={centerR.Count} comps={ComponentCount(rMol, centerR)}  |P|={centerP.Count} comps={ComponentCount(pMol, centerP)}")
-        End If
         KeepLargestComponent(rMol, centerR)
         KeepLargestComponent(pMol, centerP)
-        If rxnId = "CHORISMATE-SYNTHASE-RXN" Then
-            Console.Error.WriteLine($"[trace] after : |R|={centerR.Count} comps={ComponentCount(rMol, centerR)}  |P|={centerP.Count} comps={ComponentCount(pMol, centerP)}")
-        End If
 
         ' 注：此时仍可能存在"孤立"的模式原子——典型是水/质子/氨这类单原子共底物
         ' （它们没有任何邻居可补）。这类类号在模式中没有键，因此不参与匹配、也不会被

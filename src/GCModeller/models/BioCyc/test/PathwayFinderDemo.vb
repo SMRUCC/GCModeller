@@ -49,8 +49,8 @@ Module PathwayFinderDemo
         ' 束搜索参数：规则集来自全库反应（上千条），首次实测取较小的束宽与深度以控耗时
         Dim opts As New SearchOptions With {
             .Strategy = "beam",
-            .BeamWidth = 20,
-            .MaxDepth = 4,
+            .BeamWidth = 50,
+            .MaxDepth = 6,
             .MaxPaths = 5,
             .MatchLimit = 20
         }

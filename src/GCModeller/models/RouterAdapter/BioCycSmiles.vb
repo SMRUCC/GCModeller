@@ -11,6 +11,7 @@
 ' ============================================================================
 
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 
 Public Module BioCycSmiles
@@ -54,7 +55,30 @@ Public Module BioCycSmiles
         ' [C@] -> [C] 之类的净化残留：空括号原子已无意义
         If out.IndexOf("[]") >= 0 Then Return Nothing
 
+        ' 括号原子必须整体合法。
+        ' 这一关不能省：SmilesIO 的括号解析只做前缀匹配，遇到 [Cr+3] 会把 "C" 当成元素、
+        ' 后面的 "r+3" 直接忽略，于是铬离子被静默解析成一个"碳原子"——它随后会作为
+        ' 单碳碎片进入汇集合，让逆推时掉下来的碳碎片被误判为"已内源"，从而拼出伪通路。
+        For Each m As Match In BracketAtom.Matches(out)
+            If Not IsSupportedBracketAtom(m.Groups(1).Value) Then Return Nothing
+        Next
+
         Return out
+    End Function
+
+    ''' <summary>匹配 SMILES 里的括号原子 [...]</summary>
+    Private ReadOnly BracketAtom As New Regex("\[([^]]*)\]", RegexOptions.Compiled)
+
+    ''' <summary>合法括号原子的模式：白名单元素 + 可选显式氢 + 可选电荷</summary>
+    Private ReadOnly AtomBody As New Regex(
+        "^(Cl|Br|Si|C|N|O|S|P|F|I|B|H)(H[0-9]*)?([+-][0-9]*)?$", RegexOptions.Compiled)
+
+    ''' <summary>
+    ''' 括号原子内容是否可被 RetroPath 的分子模型正确表达。
+    ''' 必须整体匹配（而非前缀匹配），否则 [Cr+3] / [Fe-2] / [a protein] 会被误读。
+    ''' </summary>
+    Private Function IsSupportedBracketAtom(body As String) As Boolean
+        Return AtomBody.IsMatch(body)
     End Function
 
     ''' <summary>净化 + 解析 + 原子数上限 + 元素白名单；任一环节失败返回 False</summary>
