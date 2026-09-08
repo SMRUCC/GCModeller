@@ -242,7 +242,10 @@ Public Module BioCycRuleMiner
         Dim nextCls As Integer = 1
 
         For Each pr In map.Pairs.OrderBy(Function(x) x.r).ThenBy(Function(x) x.p)
-            If Not (centerR.Contains(pr.r) OrElse centerP.Contains(pr.p)) Then Continue For
+            ' 只给"两侧都保留下来"的原子分配共用类号；只在一侧的类号会由 RuleEngine
+            ' 视为新生成/离去的基团自动创建出来（等价于货币分子语义）。
+            If Not centerR.Contains(pr.r) Then Continue For
+            If Not centerP.Contains(pr.p) Then Continue For
 
             Dim c As Integer = nextCls
             nextCls += 1
