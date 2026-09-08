@@ -549,30 +549,6 @@ Public Module BioCycRuleMiner
         Return e.A & "_" & e.B
     End Function
 
-    ''' <summary>中心集合在本侧的连通分量数（临时诊断用）</summary>
-    Private Function ComponentCount(mol As Molecule, center As SortedSet(Of Integer)) As Integer
-        If center.Count = 0 Then Return 0
-
-        Dim seen As New HashSet(Of Integer)()
-        Dim n As Integer = 0
-
-        For Each a As Integer In center
-            If seen.Contains(a) Then Continue For
-            n += 1
-            Dim stack As New Stack(Of Integer)()
-            stack.Push(a)
-            seen.Add(a)
-            While stack.Count > 0
-                Dim x As Integer = stack.Pop()
-                For Each nb In mol.Neighbors(x)
-                    If center.Contains(nb.Item1) AndAlso seen.Add(nb.Item1) Then stack.Push(nb.Item1)
-                Next
-            End While
-        Next
-
-        Return n
-    End Function
-
     ''' <summary>只保留中心集合里最大的那个连通分量（丢弃游离的共底物/共产物组分）</summary>
     Private Sub KeepLargestComponent(mol As Molecule, center As SortedSet(Of Integer))
         If center.Count <= 1 Then Return
