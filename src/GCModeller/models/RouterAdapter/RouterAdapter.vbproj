@@ -8,6 +8,7 @@
     <AssemblyTitle>Metabolic Pathway Router</AssemblyTitle>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Metabolic Pathway Router</Title>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
