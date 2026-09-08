@@ -298,9 +298,29 @@ Public Module BioCycRuleMiner
             Return Nothing
         End If
 
-        ' ---- 7) 生成森林：优先保留发生变化的键（它们才是反应中心的化学含义）
-        Dim edges As New List(Of PatternEdge)(edgeMap.Values)
-        edges.Sort()
+        ' ---- 7) 选择进入模式的边集 E*
+        ' 边分两类：
+        '   双侧键（两侧都存在，含"键级改变"）——必须同时在两侧模式中出现，否则键级
+        '     变化无法表达，或环境键被误判为成键/断键；
+        '   单侧键（只在一侧存在）——就是成键/断键本身，天然只属于一侧。
+        ' 做法：先在双侧键上做 Kruskal（键级改变的边即使成环也保留），再让每一侧用
+        '   各自的单侧键把连通性补齐。这样"每侧一个连通分量"能保证——否则产物侧模式
+        '   会碎成多块，逆向搜索时要求目标分子同时含有这几块，规则就永远命中不了
+        '   （分支酸合酶 EPSP → 分支酸 + Pi 正是栽在这里）。
+        Dim bothSides As New List(Of PatternEdge)()
+        Dim rOnly As New List(Of PatternEdge)()
+        Dim pOnly As New List(Of PatternEdge)()
+        Dim allEdges As New List(Of PatternEdge)(edgeMap.Values)
+
+        For Each e As PatternEdge In allEdges
+            If e.OrderR > 0 AndAlso e.OrderP > 0 Then
+                bothSides.Add(e)
+            ElseIf e.OrderR > 0 Then
+                rOnly.Add(e)
+            Else
+                pOnly.Add(e)
+            End If
+        Next
 
         Dim parent As New Dictionary(Of Integer, Integer)()
         For Each c As Integer In clsR.Values
@@ -310,14 +330,28 @@ Public Module BioCycRuleMiner
             If Not parent.ContainsKey(c) Then parent(c) = c
         Next
 
-        Dim forest As New List(Of PatternEdge)()
+        Dim eStar As New HashSet(Of String)()
 
-        For Each e As PatternEdge In edges
+        bothSides.Sort()
+        For Each e As PatternEdge In bothSides
             Dim ra As Integer = Find(parent, e.A)
             Dim rb As Integer = Find(parent, e.B)
-            If ra = rb Then Continue For
-            parent(ra) = rb
-            forest.Add(e)
+            If ra = rb Then
+                ' 键级改变的边必须保留（成环也无妨：发射时跳过已访问原子）
+                If e.Changed Then eStar.Add(EdgeKey(e))
+            Else
+                parent(ra) = rb
+                eStar.Add(EdgeKey(e))
+            End If
+        Next
+
+        ' 两侧各自独立补边（互不影响对方的连通性判断）
+        CompleteSide(rOnly, New Dictionary(Of Integer, Integer)(parent), eStar)
+        CompleteSide(pOnly, New Dictionary(Of Integer, Integer)(parent), eStar)
+
+        Dim forest As New List(Of PatternEdge)()
+        For Each e As PatternEdge In allEdges
+            If eStar.Contains(EdgeKey(e)) Then forest.Add(e)
         Next
 
         ' ---- 8) 发射两侧模式（每个类号在所在侧都必须至少有一条键）
@@ -374,6 +408,25 @@ Public Module BioCycRuleMiner
         End Try
 
         Return rule
+    End Function
+
+    ''' <summary>用该侧独有的键（成键/断键）把模式的连通性补齐</summary>
+    Private Sub CompleteSide(edges As List(Of PatternEdge),
+                             local As Dictionary(Of Integer, Integer),
+                             eStar As HashSet(Of String))
+        edges.Sort()
+
+        For Each e As PatternEdge In edges
+            Dim ra As Integer = Find(local, e.A)
+            Dim rb As Integer = Find(local, e.B)
+            If ra = rb Then Continue For
+            local(ra) = rb
+            eStar.Add(EdgeKey(e))
+        Next
+    End Sub
+
+    Private Function EdgeKey(e As PatternEdge) As String
+        Return e.A & "_" & e.B
     End Function
 
     ''' <summary>中心集合在本侧的连通分量数（临时诊断用）</summary>
