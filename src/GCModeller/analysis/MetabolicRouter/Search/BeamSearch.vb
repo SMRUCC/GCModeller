@@ -16,11 +16,17 @@ Namespace Search
 
     Public Class SearchOptions
 
-        Public Strategy As String = "beam"        ' beam | dfs
+        ''' <summary>
+        ''' beam | dfs
+        ''' </summary>
+        Public Strategy As String = "beam"
         Public BeamWidth As Int32 = 50
         Public MaxDepth As Int32 = 6
         Public MaxPaths As Int32 = 20
-        Public MatchLimit As Int32 = 50           ' 每规则每分子最大匹配数
+        ''' <summary>
+        ''' 每规则每分子最大匹配数
+        ''' </summary>
+        Public MatchLimit As Int32 = 50
 
     End Class
 
@@ -28,10 +34,19 @@ Namespace Search
 
         Public RuleId As String
         Public RuleName As String
-        Public Orientation As String              ' forward / reverse（规则定义方向）
-        Public SubstrateKey As String             ' 被分解化合物
+        ''' <summary>
+        ''' forward / reverse（规则定义方向）
+        ''' </summary>
+        Public Orientation As String
+        ''' <summary>
+        ''' 被分解化合物
+        ''' </summary>
+        Public SubstrateKey As String
         Public SubstrateMol As Molecule
-        Public Precursors As New List(Of Tuple(Of String, Molecule))()   ' (key, mol)
+        ''' <summary>
+        ''' (key, mol)
+        ''' </summary>
+        Public Precursors As New List(Of (key As String, mol As Molecule))()
         Public CoproductCount As Int32
         Public DeltaG As Double
         Public EnzymeTier As Int32
@@ -41,7 +56,7 @@ Namespace Search
 
     Public Class SearchState
 
-        Public Pending As New List(Of Tuple(Of String, Molecule))()
+        Public Pending As New List(Of (key As String, mol As Molecule))()
         Public Steps As New List(Of RetroStep)()
         Public Used As HashSet(Of String)
 
@@ -86,7 +101,7 @@ Namespace Search
             Dim tkey = target.MolKey()
             If _sinkKeys.Contains(tkey) Then Return New List(Of SearchState)()
             Dim st0 As New SearchState()
-            st0.Pending.Add(Tuple.Create(tkey, target))
+            st0.Pending.Add((tkey, target))
             st0.Used = New HashSet(Of String) From {tkey}
             Dim completed As New List(Of SearchState)()
             Dim frontier As New List(Of SearchState) From {st0}
@@ -107,21 +122,21 @@ Namespace Search
                             If apps.Count > 0 Then Stats.RulesApplied += 1
                             For Each appRes In apps
                                 ' 碎片分类：货币/自身 → 共产物；其余 → 前体
-                                Dim precursors As New List(Of Tuple(Of String, Molecule))()
+                                Dim precursors As New List(Of (String, Molecule))()
                                 Dim coproducts As Int32 = 0
                                 For Each f In appRes.Fragments
                                     Dim fk = f.MolKey()
                                     If _currencyKeys.Contains(fk) OrElse fk = ckey Then
                                         coproducts += 1
                                     Else
-                                        precursors.Add(Tuple.Create(fk, f))
+                                        precursors.Add((fk, f))
                                     End If
                                 Next
                                 If precursors.Count = 0 Then Continue For
                                 ' 循环消除 [readme.md §3]
                                 If precursors.Any(Function(p) st.Used.Contains(p.Item1)) Then Continue For
                                 Dim newUsed As New HashSet(Of String)(st.Used)
-                                Dim newPending As New List(Of Tuple(Of String, Molecule))()
+                                Dim newPending As New List(Of (String, Molecule))()
                                 For Each p In precursors
                                     newUsed.Add(p.Item1)
                                     If Not _sinkKeys.Contains(p.Item1) Then newPending.Add(p)
