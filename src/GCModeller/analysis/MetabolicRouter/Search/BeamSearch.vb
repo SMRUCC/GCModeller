@@ -14,22 +14,6 @@ Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 
 Namespace Search
 
-    Public Class SearchOptions
-
-        ''' <summary>
-        ''' beam | dfs
-        ''' </summary>
-        Public Strategy As String = "beam"
-        Public BeamWidth As Int32 = 50
-        Public MaxDepth As Int32 = 6
-        Public MaxPaths As Int32 = 20
-        ''' <summary>
-        ''' 每规则每分子最大匹配数
-        ''' </summary>
-        Public MatchLimit As Int32 = 50
-
-    End Class
-
     Public Class RetroStep
 
         Public RuleId As String
@@ -108,71 +92,85 @@ Namespace Search
 
             For depth = 1 To _opts.MaxDepth
                 Stats.MaxDepthReached = depth
-                Dim nextStates As New List(Of SearchState)()
-                For Each st In frontier
-                    For Each pend In st.Pending
-                        Dim ckey = pend.Item1
-                        Dim cmol = pend.Item2
-                        For Each rule In _rules
-                            ' 双向应用
-                            Dim apps As New List(Of ApplicationResult)()
-                            apps.AddRange(RuleEngine.ApplyForward(cmol, rule, _opts.MatchLimit))
-                            apps.AddRange(RuleEngine.ApplyReverse(cmol, rule, _opts.MatchLimit))
-                            Stats.ApplicationsTried += 2
-                            If apps.Count > 0 Then Stats.RulesApplied += 1
-                            For Each appRes In apps
-                                ' 碎片分类：货币/自身 → 共产物；其余 → 前体
-                                Dim precursors As New List(Of (String, Molecule))()
-                                Dim coproducts As Int32 = 0
-                                For Each f In appRes.Fragments
-                                    Dim fk = f.MolKey()
-                                    If _currencyKeys.Contains(fk) OrElse fk = ckey Then
-                                        coproducts += 1
-                                    Else
-                                        precursors.Add((fk, f))
-                                    End If
-                                Next
-                                If precursors.Count = 0 Then Continue For
-                                ' 循环消除 [readme.md §3]
-                                If precursors.Any(Function(p) st.Used.Contains(p.Item1)) Then Continue For
-                                Dim newUsed As New HashSet(Of String)(st.Used)
-                                Dim newPending As New List(Of (String, Molecule))()
-                                For Each p In precursors
-                                    newUsed.Add(p.Item1)
-                                    If Not _sinkKeys.Contains(p.Item1) Then newPending.Add(p)
-                                Next
-                                Dim rest = st.Pending.Where(Function(t) t.Item1 <> ckey).ToList()
-                                Dim stepRec As New RetroStep With {
-                                    .RuleId = rule.Id, .RuleName = rule.Name,
-                                    .Orientation = "applied",
-                                    .SubstrateKey = ckey, .SubstrateMol = cmol,
-                                    .Precursors = precursors,
-                                    .CoproductCount = coproducts,
-                                    .DeltaG = rule.DeltaG,
-                                    .EnzymeTier = rule.EnzymeTier,
-                                    .AtomMap = appRes.AtomMap.ToList()}
-                                Dim ns As New SearchState With {
-                                    .Pending = rest.Concat(newPending).ToList(),
-                                    .Steps = st.Steps.Concat({stepRec}).ToList(),
-                                    .Used = newUsed}
-                                Stats.StatesGenerated += 1
-                                If ns.Pending.Count = 0 Then
-                                    completed.Add(ns)
+
+                ' 状态去重 + 束剪枝
+                Dim pruned = Prune(Search(frontier, completed))
+
+                If pruned.Count = 0 Then
+                    Exit For
+                Else
+                    frontier = pruned
+                End If
+
+                ' 收满路径数即停
+                If completed.Count >= _opts.MaxPaths Then
+                    Exit For
+                End If
+            Next
+            Return completed
+        End Function
+
+        Private Function Search(frontier As List(Of SearchState), completed As List(Of SearchState)) As List(Of SearchState)
+            Dim nextStates As New List(Of SearchState)()
+
+            For Each st As SearchState In frontier
+                For Each pend In st.Pending
+                    Dim ckey = pend.Item1
+                    Dim cmol = pend.Item2
+                    For Each rule As Rule In _rules
+                        ' 双向应用
+                        Dim apps As New List(Of ApplicationResult)()
+                        apps.AddRange(RuleEngine.ApplyForward(cmol, rule, _opts.MatchLimit))
+                        apps.AddRange(RuleEngine.ApplyReverse(cmol, rule, _opts.MatchLimit))
+                        Stats.ApplicationsTried += 2
+                        If apps.Count > 0 Then Stats.RulesApplied += 1
+                        For Each appRes In apps
+                            ' 碎片分类：货币/自身 → 共产物；其余 → 前体
+                            Dim precursors As New List(Of (String, Molecule))()
+                            Dim coproducts As Int32 = 0
+                            For Each f In appRes.Fragments
+                                Dim fk = f.MolKey()
+                                If _currencyKeys.Contains(fk) OrElse fk = ckey Then
+                                    coproducts += 1
                                 Else
-                                    nextStates.Add(ns)
+                                    precursors.Add((fk, f))
                                 End If
                             Next
+                            If precursors.Count = 0 Then Continue For
+                            ' 循环消除 [readme.md §3]
+                            If precursors.Any(Function(p) st.Used.Contains(p.Item1)) Then Continue For
+                            Dim newUsed As New HashSet(Of String)(st.Used)
+                            Dim newPending As New List(Of (String, Molecule))()
+                            For Each p In precursors
+                                newUsed.Add(p.Item1)
+                                If Not _sinkKeys.Contains(p.Item1) Then newPending.Add(p)
+                            Next
+                            Dim rest = st.Pending.Where(Function(t) t.Item1 <> ckey).ToList()
+                            Dim stepRec As New RetroStep With {
+                                .RuleId = rule.Id, .RuleName = rule.Name,
+                                .Orientation = "applied",
+                                .SubstrateKey = ckey, .SubstrateMol = cmol,
+                                .Precursors = precursors,
+                                .CoproductCount = coproducts,
+                                .DeltaG = rule.DeltaG,
+                                .EnzymeTier = rule.EnzymeTier,
+                                .AtomMap = appRes.AtomMap.ToList()}
+                            Dim ns As New SearchState With {
+                                .Pending = rest.Concat(newPending).ToList(),
+                                .Steps = st.Steps.Concat({stepRec}).ToList(),
+                                .Used = newUsed}
+                            Stats.StatesGenerated += 1
+                            If ns.Pending.Count = 0 Then
+                                completed.Add(ns)
+                            Else
+                                nextStates.Add(ns)
+                            End If
                         Next
                     Next
                 Next
-                ' 状态去重 + 束剪枝
-                Dim pruned = Prune(nextStates)
-                frontier = pruned
-                If frontier.Count = 0 Then Exit For
-                ' 收满路径数即停
-                If completed.Count >= _opts.MaxPaths Then Exit For
             Next
-            Return completed
+
+            Return nextStates
         End Function
 
         Private Function Prune(states As List(Of SearchState)) As List(Of SearchState)
