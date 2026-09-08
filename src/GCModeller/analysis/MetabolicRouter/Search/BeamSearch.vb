@@ -14,6 +14,20 @@ Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 
 Namespace Search
 
+    ''' <summary>
+    ''' 逆向路径搜索：以目标分子为根，逐层把广义规则逆向应用（亦尝试正向）展开搜索树，
+    ''' 直到所有前体落入汇集合。
+    ''' </summary>
+    ''' <remarks>
+    ''' 三个核心机制（readme.md §3）：
+    ''' <list type="bullet">
+    ''' <item>束剪枝：每层按 (待分解数, 原子总数, ΔG) 确定性排序，只保留前 beam-width 个状态；</item>
+    ''' <item>循环消除：每条分支维护已见化合物指纹集合，前体重复即剪枝；</item>
+    ''' <item>状态去重：同一 Pending 集合只保留一次。</item>
+    ''' </list>
+    ''' 束搜索并非完备搜索，提高 <see cref="SearchOptions.BeamWidth"/> 与
+    ''' <see cref="SearchOptions.MaxDepth"/> 可提升召回。
+    ''' </remarks>
     Public Class BeamSearch
 
         Private ReadOnly _rules As List(Of Rule)
@@ -22,8 +36,19 @@ Namespace Search
         Private ReadOnly _opts As SearchOptions
         ''' <summary>已收录完整路径的内容指纹（消除对称臂等同构重复路径）</summary>
         Private ReadOnly _pathKeys As New HashSet(Of String)()
+
+        ''' <summary>
+        ''' 本次搜索的运行统计（尝试次数、生成状态数、到达深度等）。
+        ''' </summary>
         Public ReadOnly Stats As New SearchStats()
 
+        ''' <summary>
+        ''' 构造搜索器。
+        ''' </summary>
+        ''' <param name="rules">广义反应规则集。</param>
+        ''' <param name="sinkKeys">底盘内源代谢物的分子指纹集合（汇）。</param>
+        ''' <param name="currencyKeys">货币/辅底物的分子指纹集合（产生即忽略，不计入前体）。</param>
+        ''' <param name="opts">搜索参数（策略、束宽、深度、路径上限、匹配上限）。</param>
         Public Sub New(rules As List(Of Rule), sinkKeys As HashSet(Of String),
                        currencyKeys As HashSet(Of String), opts As SearchOptions)
             _rules = rules
@@ -32,7 +57,14 @@ Namespace Search
             _opts = opts
         End Sub
 
-        ''' <summary>主入口：返回全部完整路径（深度 ≤ maxDepth）</summary>
+        ''' <summary>
+        ''' 主入口：从目标分子出发做逆向搜索，返回全部完整路径（深度 ≤ maxDepth）。
+        ''' </summary>
+        ''' <param name="target">目标分子（源）。</param>
+        ''' <returns>
+        ''' 完整路径列表（每条为一个 <see cref="SearchState"/>，其 Pending 为空）。
+        ''' 若目标本身已属于汇集合，返回空列表——因为"目标已内源"不存在待设计的通路。
+        ''' </returns>
         Public Function Search(target As Molecule) As List(Of SearchState)
             Dim tkey = target.MolKey()
             If _sinkKeys.Contains(tkey) Then Return New List(Of SearchState)()

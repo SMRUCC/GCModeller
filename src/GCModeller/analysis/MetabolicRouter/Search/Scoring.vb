@@ -109,9 +109,14 @@ Namespace Search
         End Function
 
         ''' <summary>
-        ''' 正向组装：逆合成步骤序列反转，每步翻转规则方向——
-        ''' 前体（+共底物）→ 被分解化合物 [readme.md §一 "正向组装成完整路径"]。
+        ''' 正向组装：把逆合成步骤序列反转，每步翻转方向，得到"汇前体 → 目标"的生物合成顺序。
         ''' </summary>
+        ''' <param name="state">已完成的搜索状态。</param>
+        ''' <returns>正向步骤列表，每步含底物/产物 SMILES、ΔG 与酶层级。</returns>
+        ''' <remarks>
+        ''' 每步的 Substrates = 该逆合成步得到的前体（彼此为共底物关系，主前体在前），
+        ''' Products = 被分解的化合物本身。
+        ''' </remarks>
         Public Function AssembleForward(state As SearchState) As List(Of ForwardStep)
             Dim steps As New List(Of ForwardStep)()
             For Each rs In state.Steps.AsEnumerable().Reverse()
