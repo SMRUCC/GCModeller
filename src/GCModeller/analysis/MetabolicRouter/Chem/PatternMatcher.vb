@@ -10,7 +10,7 @@
 '   辅底物模板 [readme.md §2 规则泛化]）；匹配 = 单射 + 原子约束 + 键级约束。
 ' ============================================================================
 
-Namespace RetroPath.Chem
+Namespace Chem
 
     Public Class PatternAtom
 

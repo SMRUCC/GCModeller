@@ -4,7 +4,7 @@
 
 Imports System.Text.Json.Serialization
 
-Namespace RetroPath.Model
+Namespace Model
 
     Public Class PathReport
 

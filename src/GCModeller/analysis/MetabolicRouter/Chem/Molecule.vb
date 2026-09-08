@@ -11,7 +11,7 @@
 
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 
-Namespace RetroPath.Chem
+Namespace Chem
 
     Public Class Bond : Implements IndexEdge
 

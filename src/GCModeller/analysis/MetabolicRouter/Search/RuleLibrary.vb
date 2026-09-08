@@ -11,9 +11,9 @@
 
 Imports System.Globalization
 Imports System.IO
-Imports SMRUCC.genomics.Analysis.RetroPath.RetroPath.Chem
+Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 
-Namespace RetroPath.Search
+Namespace Search
 
     Public Module RuleLibrary
 

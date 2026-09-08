@@ -13,9 +13,9 @@
 
 Imports System.IO
 Imports System.Text.Json
-Imports SMRUCC.genomics.Analysis.RetroPath.RetroPath.Chem
-Imports SMRUCC.genomics.Analysis.RetroPath.RetroPath.Model
-Imports SMRUCC.genomics.Analysis.RetroPath.RetroPath.Search
+Imports SMRUCC.genomics.Analysis.RetroPath.Chem
+Imports SMRUCC.genomics.Analysis.RetroPath.Model
+Imports SMRUCC.genomics.Analysis.RetroPath.Search
 
 Namespace RetroPath
 

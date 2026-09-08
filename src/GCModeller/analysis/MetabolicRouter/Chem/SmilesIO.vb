@@ -9,7 +9,7 @@
 
 Imports System.Text
 
-Namespace RetroPath.Chem
+Namespace Chem
 
     Public Module SmilesIO
 
