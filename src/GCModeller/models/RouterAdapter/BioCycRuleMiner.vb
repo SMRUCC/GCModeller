@@ -62,6 +62,7 @@ Public Module BioCycRuleMiner
                          Optional maxPatternAtoms As Integer = 32,
                          Optional mcsNodeBudget As Integer = 60000,
                          Optional maxUnmappedAtoms As Integer = 3,
+                         Optional shellRadius As Integer = 2,
                          Optional includeBuiltin As Boolean = False,
                          Optional skipped As Dictionary(Of String, Integer) = Nothing,
                          Optional trace As Dictionary(Of String, String) = Nothing) As List(Of Rule)
@@ -83,7 +84,7 @@ Public Module BioCycRuleMiner
             End If
 
             Dim rule As Rule = MineOne(rxn, structures, maxMoleculeAtoms,
-                                       maxPatternAtoms, mcsNodeBudget, maxUnmappedAtoms, skipped, trace)
+                                       maxPatternAtoms, mcsNodeBudget, maxUnmappedAtoms, shellRadius, skipped, trace)
             If rule Is Nothing Then Continue For
 
             Dim key As String = rule.ReactantText & ">>" & rule.ProductText
@@ -112,6 +113,7 @@ Public Module BioCycRuleMiner
                              maxPatternAtoms As Integer,
                              mcsNodeBudget As Integer,
                              maxUnmappedAtoms As Integer,
+                             shellRadius As Integer,
                              skipped As Dictionary(Of String, Integer),
                              Optional trace As Dictionary(Of String, String) = Nothing) As Rule
 
@@ -177,20 +179,11 @@ Public Module BioCycRuleMiner
         Dim centerR As New SortedSet(Of Integer)()
         Dim centerP As New SortedSet(Of Integer)()
 
-        ' (a) 种子 = 未映射原子（断键/成键/键级改变的位点）+ 其 1 层邻居作为泛化环境。
-        '     只从种子扩展一层，避免不动点迭代把整个分子都吞进模式。
-        For Each r As Integer In map.ReactantOnly
-            centerR.Add(r)
-            For Each nb In rMol.Neighbors(r)
-                centerR.Add(nb.Item1)
-            Next
-        Next
-        For Each p As Integer In map.ProductOnly
-            centerP.Add(p)
-            For Each nb In pMol.Neighbors(p)
-                centerP.Add(nb.Item1)
-            Next
-        Next
+        ' (a) 种子 = 未映射原子（断键/成键/键级改变的位点）；按 shellRadius 层向外扩展
+        '     作为泛化环境。半径过小（1 层）会抽取出 "[C]-[O-]" 这种无意义的局部模式，
+        '     实测会匹配到任何羟基/羧基上并生成伪通路；半径越大规则越特异。
+        ExpandShell(rMol, centerR, map.ReactantOnly, shellRadius)
+        ExpandShell(pMol, centerP, map.ProductOnly, shellRadius)
 
         ' (b)/(c) 不动点迭代：映射闭包 + 连通性修补
         Dim changed As Boolean = True
@@ -364,6 +357,29 @@ Public Module BioCycRuleMiner
 
         Return rule
     End Function
+
+    ''' <summary>从种子原子出发按指定半径向外扩展，作为规则的成键环境（泛化上下文）</summary>
+    Private Sub ExpandShell(mol As Molecule, center As SortedSet(Of Integer),
+                            seeds As List(Of Integer), radius As Integer)
+        Dim frontier As New List(Of Integer)()
+
+        For Each s As Integer In seeds
+            If center.Add(s) Then frontier.Add(s)
+        Next
+
+        For d As Integer = 1 To Math.Max(0, radius)
+            Dim nextFrontier As New List(Of Integer)()
+
+            For Each a As Integer In frontier
+                For Each nb In mol.Neighbors(a)
+                    If center.Add(nb.Item1) Then nextFrontier.Add(nb.Item1)
+                Next
+            Next
+
+            frontier = nextFrontier
+            If frontier.Count = 0 Then Exit For
+        Next
+    End Sub
 
     ''' <summary>该中心原子在本侧是否与另一个中心原子成键</summary>
     Private Function HasCenterNeighbor(mol As Molecule, center As SortedSet(Of Integer), a As Integer) As Boolean
