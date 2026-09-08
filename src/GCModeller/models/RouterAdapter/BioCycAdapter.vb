@@ -214,26 +214,25 @@ Public Class BioCycAdapter
 
     ''' <summary>
     ''' 以给定 SMILES 为目标做逆向合成通路搜索。
-    ''' All 模式下会自动把目标自身从汇中剔除（否则 BeamSearch 判定目标已内源，返回 0 条路径）。
+    ''' 查询时会把目标自身从汇集合中剔除：BeamSearch 一旦判定"目标已属于汇"就直接返回
+    ''' 0 条路径，而"目标在底盘中已存在"对通路设计没有意义——我们想知道的是它怎么被合成出来。
     ''' </summary>
     Public Function FindPathway(targetSmiles As String) As PathReport
         Dim walker As Netwalk = netwalk
+        Dim key As String = Nothing
 
-        If SinkMode = SinkModes.All Then
-            Dim key As String = Nothing
-            Try
-                key = SmilesIO.Parse(targetSmiles).MolKey()
-            Catch ex As Exception
-                key = Nothing
-            End Try
+        Try
+            key = SmilesIO.Parse(targetSmiles).MolKey()
+        Catch ex As Exception
+            key = Nothing
+        End Try
 
-            If key IsNot Nothing Then
-                Dim sink As New List(Of (String, smiles As String))()
-                For Each e In sinkEntries
-                    If e.key <> key Then sink.Add((e.id, e.smiles))
-                Next
-                walker = New Netwalk(ruleList, sink, opts, w)
-            End If
+        If key IsNot Nothing Then
+            Dim sink As New List(Of (String, smiles As String))()
+            For Each e In sinkEntries
+                If e.key <> key Then sink.Add((e.id, e.smiles))
+            Next
+            walker = New Netwalk(ruleList, sink, opts, w)
         End If
 
         Return walker.Search(targetSmiles)
