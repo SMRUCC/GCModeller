@@ -88,7 +88,7 @@ Public Module BioCycSmiles
         Try
             m = SmilesIO.Parse(s)
         Catch ex As Exception
-            reason = "unsupported-syntax"
+            reason = "syntax[" & ex.Message.Split(":"c)(0).Trim() & "]"
             Return False
         End Try
 

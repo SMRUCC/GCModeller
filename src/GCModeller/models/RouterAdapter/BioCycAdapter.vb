@@ -88,6 +88,7 @@ Public Class BioCycAdapter
         Dim noSmiles As Integer = 0
         Dim badSmiles As Integer = 0
         Dim rejectReasons As New Dictionary(Of String, Integer)()
+        Dim rejectSamples As New Dictionary(Of String, String)()
 
         For Each cpd As compounds In compounds
             If cpd Is Nothing OrElse String.IsNullOrEmpty(cpd.uniqueId) Then Continue For
@@ -105,6 +106,9 @@ Public Class BioCycAdapter
                 Dim n As Integer = 0
                 rejectReasons.TryGetValue(why, n)
                 rejectReasons(why) = n + 1
+                If Not rejectSamples.ContainsKey(why) Then
+                    rejectSamples(why) = cpd.uniqueId & " = " & cpd.SMILES
+                End If
                 Continue For
             End If
 
@@ -166,9 +170,13 @@ Public Class BioCycAdapter
             Console.Error.WriteLine($"[BioCycAdapter] 化合物 {compounds.Length}（可用结构 {structures.Count}，" &
                                     $"无 SMILES {noSmiles}，不可用 {badSmiles}）")
             If rejectReasons.Count > 0 Then
-                Dim why = rejectReasons.OrderByDescending(Function(kv) kv.Value).
-                    Take(8).Select(Function(kv) $"{kv.Key}={kv.Value}")
-                Console.Error.WriteLine($"[BioCycAdapter] 结构不可用原因：{String.Join(", ", why)}")
+                For Each kv In rejectReasons.OrderByDescending(Function(x) x.Value).Take(8)
+                    Dim sample As String = Nothing
+                    rejectSamples.TryGetValue(kv.Key, sample)
+                    If sample Is Nothing Then sample = ""
+                    If sample.Length > 110 Then sample = sample.Substring(0, 110) & "..."
+                    Console.Error.WriteLine($"[BioCycAdapter]   跳过 {kv.Key} × {kv.Value}  例：{sample}")
+                Next
             End If
             Console.Error.WriteLine($"[BioCycAdapter] 反应 {reactions.Length} → 广义规则 {rules.Count}（模式原子上限 {maxPatternAtoms}）")
             If Skipped.Count > 0 Then

@@ -358,6 +358,35 @@ Public Module BioCycRuleMiner
         Return rule
     End Function
 
+    ''' <summary>该中心原子在本侧是否与另一个中心原子成键</summary>
+    Private Function HasCenterNeighbor(mol As Molecule, center As SortedSet(Of Integer), a As Integer) As Boolean
+        For Each nb In mol.Neighbors(a)
+            If center.Contains(nb.Item1) Then Return True
+        Next
+        Return False
+    End Function
+
+    ''' <summary>
+    ''' 为本侧孤立的中心原子补进一个邻居，使模式中的每个原子都至少有一条键。
+    ''' 返回是否发生了修改。
+    ''' </summary>
+    Private Function RepairIsolated(mol As Molecule, center As SortedSet(Of Integer)) As Boolean
+        Dim changed As Boolean = False
+
+        For Each a As Integer In center.ToList()
+            If HasCenterNeighbor(mol, center, a) Then Continue For
+
+            For Each nb In mol.Neighbors(a)
+                If center.Contains(nb.Item1) Then Continue For
+                center.Add(nb.Item1)
+                changed = True
+                Exit For
+            Next
+        Next
+
+        Return changed
+    End Function
+
     ''' <summary>反应某一侧的化合物 id（去重、去空、保持字典序）</summary>
     Private Function CompoundIds(side As IEnumerable(Of CompoundSpecieReference)) As List(Of String)
         Dim ids As New SortedSet(Of String)(StringComparer.Ordinal)
