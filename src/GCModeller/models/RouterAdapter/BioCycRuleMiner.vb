@@ -171,6 +171,8 @@ Public Module BioCycRuleMiner
         Dim centerR As New SortedSet(Of Integer)()
         Dim centerP As New SortedSet(Of Integer)()
 
+        ' (a) 种子 = 未映射原子（断键/成键/键级改变的位点）+ 其 1 层邻居作为泛化环境。
+        '     只从种子扩展一层，避免不动点迭代把整个分子都吞进模式。
         For Each r As Integer In map.ReactantOnly
             centerR.Add(r)
             For Each nb In rMol.Neighbors(r)
@@ -184,21 +186,39 @@ Public Module BioCycRuleMiner
             Next
         Next
 
-        ' 映射闭包：已映射对的另一侧必须同时进入模式，否则该类号只在一侧出现
+        ' (b)/(c) 不动点迭代：映射闭包 + 连通性修补
         Dim changed As Boolean = True
         While changed
             changed = False
+
+            ' 映射闭包：已映射对的另一侧必须同时进入模式，否则该类号只在一侧出现
             For Each pr In map.Pairs
-                If centerR.Contains(pr.r) AndAlso Not centerP.Contains(pr.p) Then
-                    centerP.Add(pr.p)
-                    changed = True
-                End If
-                If centerP.Contains(pr.p) AndAlso Not centerR.Contains(pr.r) Then
-                    centerR.Add(pr.r)
-                    changed = True
-                End If
+                If centerR.Contains(pr.r) AndAlso centerP.Add(pr.p) Then changed = True
+                If centerP.Contains(pr.p) AndAlso centerR.Add(pr.r) Then changed = True
             Next
+
+            ' 连通性修补：模式原子若在本侧没有任何键，就既不参与匹配也不会被创建，
+            ' 必须补进来一个邻居（典型如 R-OH → R-O-PO3(2-)：只有一侧加入基团时，
+            ' 反应物侧的中心原子最初是孤立的）。
+            If RepairIsolated(rMol, centerR) Then changed = True
+            If RepairIsolated(pMol, centerP) Then changed = True
+
+            If centerR.Count > maxPatternAtoms OrElse centerP.Count > maxPatternAtoms Then Exit While
         End While
+
+        ' 仍然孤立（单原子分子等情况）→ 无法构成合法模式
+        For Each r As Integer In centerR
+            If Not HasCenterNeighbor(rMol, centerR, r) Then
+                CountSkip(skipped, "isolated-center-atom")
+                Return Nothing
+            End If
+        Next
+        For Each p As Integer In centerP
+            If Not HasCenterNeighbor(pMol, centerP, p) Then
+                CountSkip(skipped, "isolated-center-atom")
+                Return Nothing
+            End If
+        Next
 
         If centerR.Count > maxPatternAtoms OrElse centerP.Count > maxPatternAtoms Then
             CountSkip(skipped, "center-too-large")
