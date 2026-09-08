@@ -25,24 +25,24 @@ Namespace RetroPath
     Public Module Program
 
         ''' <summary>内置 E. coli 核心汇集合（演示用；生产请从 GEM 提取）</summary>
-        Private Function BuiltinSink() As List(Of Tuple(Of String, String))
-            Dim s As New List(Of Tuple(Of String, String))()
-            s.Add(Tuple.Create("pyruvate", "CC(=O)C(=O)O"))
-            s.Add(Tuple.Create("oxaloacetate", "OC(=O)C(=O)CC(=O)O"))
-            s.Add(Tuple.Create("acetate", "CC(=O)O"))
-            s.Add(Tuple.Create("acetaldehyde", "CC=O"))
-            s.Add(Tuple.Create("glycine", "NCC(=O)O"))
-            s.Add(Tuple.Create("glyoxylate", "OC(=O)C=O"))
-            s.Add(Tuple.Create("oxalate", "OC(=O)C(=O)O"))
-            s.Add(Tuple.Create("akg", "OC(=O)CCC(=O)C(=O)O"))
-            s.Add(Tuple.Create("succinate", "OC(=O)CCC(=O)O"))
-            s.Add(Tuple.Create("fumarate", "OC(=O)C=CC(=O)O"))
-            s.Add(Tuple.Create("malate", "OC(=O)CC(O)C(=O)O"))
-            s.Add(Tuple.Create("ethanol", "CCO"))
-            s.Add(Tuple.Create("glycerol", "OCC(O)CO"))
-            s.Add(Tuple.Create("co2", "O=C=O"))
-            s.Add(Tuple.Create("h2o", "O"))
-            s.Add(Tuple.Create("nh3", "N"))
+        Private Function BuiltinSink() As List(Of (String, smiles As String))
+            Dim s As New List(Of (String, smiles As String))()
+            s.Add(("pyruvate", "CC(=O)C(=O)O"))
+            s.Add(("oxaloacetate", "OC(=O)C(=O)CC(=O)O"))
+            s.Add(("acetate", "CC(=O)O"))
+            s.Add(("acetaldehyde", "CC=O"))
+            s.Add(("glycine", "NCC(=O)O"))
+            s.Add(("glyoxylate", "OC(=O)C=O"))
+            s.Add(("oxalate", "OC(=O)C(=O)O"))
+            s.Add(("akg", "OC(=O)CCC(=O)C(=O)O"))
+            s.Add(("succinate", "OC(=O)CCC(=O)O"))
+            s.Add(("fumarate", "OC(=O)C=CC(=O)O"))
+            s.Add(("malate", "OC(=O)CC(O)C(=O)O"))
+            s.Add(("ethanol", "CCO"))
+            s.Add(("glycerol", "OCC(O)CO"))
+            s.Add(("co2", "O=C=O"))
+            s.Add(("h2o", "O"))
+            s.Add(("nh3", "N"))
             Return s
         End Function
 
@@ -128,16 +128,16 @@ Namespace RetroPath
             End If
 
             ' 汇集合
-            Dim sink As List(Of Tuple(Of String, String))
+            Dim sink As List(Of (String, smiles As String))
             Dim sinkPath = FlagValue(args, "--sink")
             If sinkPath IsNot Nothing Then
-                sink = New List(Of Tuple(Of String, String))()
+                sink = New List(Of (String, smiles As String))()
                 For Each raw In File.ReadLines(sinkPath)
                     Dim line = raw.TrimEnd(Convert.ToChar(13), Convert.ToChar(10))
                     If line.Length = 0 OrElse line.StartsWith("#"c) Then Continue For
                     Dim cols = line.Split(ControlChars.Tab)
                     If cols.Length >= 2 Then
-                        sink.Add(Tuple.Create(cols(0).Trim(), cols(1).Trim()))
+                        sink.Add((cols(0).Trim(), cols(1).Trim()))
                     End If
                 Next
             Else
