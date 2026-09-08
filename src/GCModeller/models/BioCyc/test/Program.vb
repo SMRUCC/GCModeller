@@ -55,8 +55,24 @@ Imports System.IO
 Imports SMRUCC.genomics.Data.BioCyc
 
 Module Program
-    Sub Main(args As String())
 
+    ''' <summary>
+    ''' 入口：默认执行 BioCyc → RetroPath 的次级代谢产物生物合成通路搜索演示。
+    '''   dotnet run -c Release                 # 全部目标
+    '''   dotnet run -c Release -- CHORISMATE   # 只跑指定 UNIQUE-ID 的目标
+    '''   dotnet run -c Release -- all          # 以全库汇模式跑全部目标
+    '''   dotnet run -c Release -- legacy       # 旧的数据库读取冒烟测试
+    ''' </summary>
+    Sub Main(args As String())
+        If args.Length > 0 AndAlso args(0).Equals("legacy", StringComparison.OrdinalIgnoreCase) Then
+            LegacySmokeTest()
+        Else
+            PathwayFinderDemo.Run(args.FirstOrDefault())
+        End If
+    End Sub
+
+    ''' <summary>旧的 BioCyc 文件读取冒烟测试（路径为历史版本，仅保留备查）</summary>
+    Private Sub LegacySmokeTest()
         Using file As Stream = "F:\ecoli\28.1\data\proteins.dat".Open
             Dim data = AttrDataCollection(Of proteins).LoadFile(file)
 
@@ -81,17 +97,6 @@ Module Program
 
             Pause()
         End Using
-
-        Using file As Stream = "P:\2022_nar\25.5\data\pathways.dat".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
-            Dim data = AttrDataCollection(Of pathways).LoadFile(file)
-
-            Pause()
-        End Using
-
-        Using file As StreamReader = "P:\2022_nar\25.5\data\protein-features.dat".OpenReader
-            Dim data = AttrValDatFile.ParseFile(file)
-
-            Pause()
-        End Using
     End Sub
+
 End Module

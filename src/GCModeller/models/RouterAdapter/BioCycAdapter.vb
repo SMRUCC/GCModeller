@@ -174,10 +174,12 @@ Public Class BioCycAdapter
                                  deg As Dictionary(Of String, Integer))
         If side Is Nothing Then Return
 
-        For Each c As CompoundSpecieReference In side
-            If c Is Nothing OrElse String.IsNullOrEmpty(c.ID) Then Continue For
-            Dim id As String = c.ID.Split(","c)(0).Trim()
+        For Each spec As CompoundSpecieReference In side
+            If spec Is Nothing OrElse String.IsNullOrEmpty(spec.ID) Then Continue For
+
+            Dim id As String = spec.ID.Split(","c)(0).Trim()
             Dim n As Integer = 0
+
             deg.TryGetValue(id, n)
             deg(id) = n + 1
         Next
