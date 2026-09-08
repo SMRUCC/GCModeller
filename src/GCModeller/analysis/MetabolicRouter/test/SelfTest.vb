@@ -334,7 +334,7 @@ Namespace RetroPath
         End Sub
 
         ''' <summary>是否存在同一碳上连有 ≥2 个羟基氧（偕二醇/半缩醛 C(OH)2）</summary>
-        Private Shared Function HasGemDiol(m As Molecule) As Boolean
+        Private Function HasGemDiol(m As Molecule) As Boolean
             For a = 0 To m.NumAtoms() - 1
                 If m.Elements(a) <> "C" Then Continue For
                 Dim oh As Int32 = 0
