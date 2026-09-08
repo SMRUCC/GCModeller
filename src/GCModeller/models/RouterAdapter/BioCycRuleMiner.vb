@@ -170,20 +170,50 @@ Public Module BioCycRuleMiner
         ' ---- 3) 原子映射 [§2.1]
         Dim map As MappingResult = AtomMapping.Map(rMol, pMol, mcsNodeBudget, maxUnmappedAtoms)
 
-        ' ---- 4) 反应中心 = 未映射原子 ∪ 其 1 层邻居 [§2.2 / §2.3]
-        If map.ReactantOnly.Count = 0 AndAlso map.ProductOnly.Count = 0 Then
+        ' ---- 4) 反应中心 [§2.2]
+        ' 种子由两部分组成：
+        '   (i)  未映射原子——在本侧出现、在另一侧没有对应物的基团（加入/离去基团）；
+        '   (ii) 已映射但键发生变化的原子——键级改变、断键、成键。
+        ' 之所以要用 (ii)：MCS 允许少量键变化以保持原子对应（否则反应中心处的原子会被
+        ' 挤出映射，规则就退化成"凭空造原子/删原子"），此时"差异"体现在键上而不是原子上。
+        Dim centerR As New SortedSet(Of Integer)()
+        Dim centerP As New SortedSet(Of Integer)()
+
+        For Each pr In map.Pairs
+            For Each nb In rMol.Neighbors(pr.r)
+                Dim p2 As Integer = map.ReactantToProduct(nb.Item1)
+                If p2 < 0 Then Continue For
+                If pMol.BondOrder(pr.p, p2) <> nb.Item2 Then
+                    centerR.Add(pr.r) : centerP.Add(pr.p)
+                    centerR.Add(nb.Item1) : centerP.Add(p2)
+                End If
+            Next
+            For Each nb In pMol.Neighbors(pr.p)
+                Dim r2 As Integer = map.ProductToReactant(nb.Item1)
+                If r2 < 0 Then Continue For
+                If rMol.BondOrder(pr.r, r2) <> nb.Item2 Then
+                    centerR.Add(pr.r) : centerP.Add(pr.p)
+                    centerR.Add(r2) : centerP.Add(nb.Item1)
+                End If
+            Next
+        Next
+
+        If centerR.Count = 0 AndAlso centerP.Count = 0 AndAlso
+           map.ReactantOnly.Count = 0 AndAlso map.ProductOnly.Count = 0 Then
             Bail(skipped, trace, rxnId, "no-reaction-center")
             Return Nothing
         End If
 
-        Dim centerR As New SortedSet(Of Integer)()
-        Dim centerP As New SortedSet(Of Integer)()
+        ' (a) 以反应中心为种子，按 shellRadius 层向外扩展作为泛化环境。
+        '     半径过小（1 层）会抽出 "[C]-[O-]" 这种无意义的局部模式，实测会匹配到任何
+        '     羟基/羧基上并生成伪通路；半径越大规则越特异。
+        Dim seedR As New List(Of Integer)(centerR)
+        Dim seedP As New List(Of Integer)(centerP)
+        seedR.AddRange(map.ReactantOnly)
+        seedP.AddRange(map.ProductOnly)
 
-        ' (a) 种子 = 未映射原子（断键/成键/键级改变的位点）；按 shellRadius 层向外扩展
-        '     作为泛化环境。半径过小（1 层）会抽取出 "[C]-[O-]" 这种无意义的局部模式，
-        '     实测会匹配到任何羟基/羧基上并生成伪通路；半径越大规则越特异。
-        ExpandShell(rMol, centerR, map.ReactantOnly, shellRadius)
-        ExpandShell(pMol, centerP, map.ProductOnly, shellRadius)
+        ExpandShell(rMol, centerR, seedR, shellRadius)
+        ExpandShell(pMol, centerP, seedP, shellRadius)
 
         ' (b)/(c) 不动点迭代：映射闭包 + 连通性修补
         Dim changed As Boolean = True
