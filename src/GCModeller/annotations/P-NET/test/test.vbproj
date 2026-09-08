@@ -1,12 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>SMRUCC.genomics.Analysis.HTS.P_NET</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>test</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
-    <AssemblyName>SMRUCC.genomics.Analysis.HTS.P-NET</AssemblyName>
-    <AssemblyTitle>Biologically informed deep neural network</AssemblyTitle>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
@@ -16,6 +13,7 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\P-NET\P-NET.vbproj" />
   </ItemGroup>
 
 </Project>
