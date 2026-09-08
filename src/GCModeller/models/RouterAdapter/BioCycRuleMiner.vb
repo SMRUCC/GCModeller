@@ -490,7 +490,7 @@ Public Module BioCycRuleMiner
         seen.Add(cls)
 
         Dim atom As Integer = atomOfCls(cls)
-        sb.Append(AtomToken(cls, mol.Elements(atom), mol.Charges(atom)))
+        sb.Append(AtomToken(cls, mol.Elements(atom), mol.Charges(atom), mol.TotalH(atom)))
 
         If Not adj.ContainsKey(cls) Then Return
 
@@ -505,11 +505,19 @@ Public Module BioCycRuleMiner
         Next
     End Sub
 
-    ''' <summary>模式原子记号：[元素(电荷):类号]，不加 Hn/Dn 以保留底物混杂性</summary>
-    Private Function AtomToken(cls As Integer, el As String, charge As Integer) As String
+    ''' <summary>
+    ''' 模式原子记号：[元素(Hn)(电荷):类号]。
+    ''' Hn = 源分子中该原子的总氢数（显式 + 隐式）。保留氢数约束是必要的：只靠
+    ''' "元素 + 键级" 的模式过于宽松，会把目标分子误切成碰巧落入汇集合的碎片
+    ''' （实测出现过把分支酸"水解"成甲醇 + 甲酸的伪通路）。代价是牺牲一部分底物
+    ''' 混杂性——这正是 readme §6 所述"化学合理性 vs 泛化能力"的权衡。
+    ''' </summary>
+    Private Function AtomToken(cls As Integer, el As String, charge As Integer, hCount As Integer) As String
         Dim sb As New StringBuilder()
 
         sb.Append("["c).Append(el)
+
+        If hCount > 0 Then sb.Append("H").Append(hCount.ToString())
 
         If charge > 0 Then
             sb.Append("+"c)

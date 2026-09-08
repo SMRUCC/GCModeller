@@ -68,6 +68,17 @@ Module PathwayFinderDemo
         ' 分子指纹 → 化合物名，便于把结果里的 SMILES 还原成代谢物名称
         BuildNameIndex(router)
 
+        ' 落盘挖掘出的规则库，便于核查规则质量（SMARTS 两侧模式 + ΔG + 酶层级）
+        Dim rulesTsv As String = IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "biocyc_rules.tsv")
+        Dim lines As New List(Of String) From {"id" & vbTab & "name" & vbTab & "tier" & vbTab & "dG" & vbTab & "reactant" & vbTab & "product"}
+
+        For Each r In router.Rules
+            lines.Add(String.Join(vbTab, {r.Id, r.Name, CInt(r.EnzymeTier).ToString(), r.DeltaG.ToString("0.##"), r.ReactantText, r.ProductText}))
+        Next
+        IO.File.WriteAllLines(rulesTsv, lines)
+        Console.WriteLine($"规则库 TSV 已写入: {rulesTsv}")
+        Console.WriteLine()
+
         Dim reports As New List(Of PathReport)()
 
         For Each t In targets
