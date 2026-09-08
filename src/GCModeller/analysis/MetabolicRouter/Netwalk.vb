@@ -36,7 +36,7 @@ Public Class Netwalk
         ' 搜索
         Dim sw = Stopwatch.StartNew()
         Dim searcher As New BeamSearch(rules, sinkKeys, currencyKeys, opts)
-        Dim completed = searcher.Search(target)
+        Dim completed As List(Of SearchState) = searcher.Search(target)
         sw.Stop()
         searcher.Stats.ElapsedMs = CLng(sw.Elapsed.TotalMilliseconds)
 
@@ -87,6 +87,9 @@ Public Class Netwalk
                 .ElapsedMs = searcher.Stats.ElapsedMs,
                 .PathsFound = pathDtos.Count},
             .Paths = pathDtos}
+
+        Console.Error.WriteLine($"完成: {completed.Count} 条完整路径（展示前 {pathDtos.Count}），" &
+                                    $"{searcher.Stats.ApplicationsTried} 次规则应用，{sw.Elapsed.TotalMilliseconds:F0}ms")
 
         Return report
     End Function

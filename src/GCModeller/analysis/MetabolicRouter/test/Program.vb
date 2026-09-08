@@ -167,8 +167,7 @@ Namespace RetroPath
             Else
                 Console.Out.WriteLine(json)
             End If
-            Console.Error.WriteLine($"完成: {completed.Count} 条完整路径（展示前 {pathDtos.Count}），" &
-                                    $"{searcher.Stats.ApplicationsTried} 次规则应用，{sw.Elapsed.TotalMilliseconds:F0}ms")
+
             Return 0
         End Function
 
