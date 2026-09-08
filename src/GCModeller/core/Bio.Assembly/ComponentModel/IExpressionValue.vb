@@ -56,6 +56,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ComponentModel
 
+    ''' <summary>
+    ''' interface for molecule feature expression value in one sample
+    ''' </summary>
     Public Interface IExpressionValue : Inherits IReadOnlyId
 
         Property ExpressionValue As Double
