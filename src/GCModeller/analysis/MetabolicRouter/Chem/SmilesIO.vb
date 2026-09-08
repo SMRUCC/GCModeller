@@ -7,9 +7,6 @@
 '   roundtrip 性质：write→parse→同 MolKey（自检覆盖）。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
 Imports System.Text
 
 Namespace RetroPath.Chem
@@ -47,7 +44,7 @@ Namespace RetroPath.Chem
                         Dim opened = ringOpen(d)
                         ringOpen.Remove(d)
                         Dim order = If(pendingOrder > 1, pendingOrder, opened.Item2)
-                        m.Bonds.Add(Tuple.Create(opened.Item1, prev, order))
+                        m.Bonds.Add((opened.Item1, prev, order))
                         pendingOrder = 1
                     Else
                         ringOpen(d) = Tuple.Create(prev, If(pendingOrder > 1, pendingOrder, 1))
@@ -66,7 +63,7 @@ Namespace RetroPath.Chem
                     ParseBracket(body, el, eh, charge)
                     Dim idx = m.AddAtom(el, charge)
                     m.ExplicitH(idx) = eh
-                    If prev >= 0 Then m.Bonds.Add(Tuple.Create(prev, idx, pendingOrder))
+                    If prev >= 0 Then m.Bonds.Add((prev, idx, pendingOrder))
                     pendingOrder = 1
                     prev = idx
                     i = closeIdx + 1
@@ -74,7 +71,7 @@ Namespace RetroPath.Chem
                     Dim el = MatchElement(smiles, i)
                     If el Is Nothing Then Throw New ArgumentException($"SMILES 解析失败 @ {i}: {smiles}")
                     Dim idx = m.AddAtom(el, 0)
-                    If prev >= 0 Then m.Bonds.Add(Tuple.Create(prev, idx, pendingOrder))
+                    If prev >= 0 Then m.Bonds.Add((prev, idx, pendingOrder))
                     pendingOrder = 1
                     prev = idx
                     i += el.Length

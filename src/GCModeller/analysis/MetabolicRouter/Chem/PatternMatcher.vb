@@ -10,10 +10,6 @@
 '   辅底物模板 [readme.md §2 规则泛化]）；匹配 = 单射 + 原子约束 + 键级约束。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-
 Namespace RetroPath.Chem
 
     Public Class PatternAtom
@@ -30,7 +26,10 @@ Namespace RetroPath.Chem
     Public Class Pattern
 
         Public Atoms As New List(Of PatternAtom)()
-        Public Bonds As New List(Of Tuple(Of Int32, Int32, Int32))()   ' (a, b, order；0=任意)
+        ''' <summary>
+        ''' (a, b, order；0=任意)
+        ''' </summary>
+        Public Bonds As New List(Of Tuple(Of Int32, Int32, Int32))()
         Public NoOh As New List(Of Boolean)()
 
     End Class

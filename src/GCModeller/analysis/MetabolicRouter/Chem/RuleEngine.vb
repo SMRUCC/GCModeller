@@ -155,7 +155,7 @@ Namespace RetroPath.Chem
                             If order = 0 Then order = 1
                             Dim bo = res.BondOrder(a, b2)
                             If bo = 0 Then
-                                res.Bonds.Add(Tuple.Create(a, b2, order))
+                                res.Bonds.Add((a, b2, order))
                             ElseIf bo <> order Then
                                 res.SetBondOrder(a, b2, order)
                             End If

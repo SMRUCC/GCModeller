@@ -68,7 +68,7 @@ Namespace RetroPath
             Check(hs = "3,2,1", $"乙醇隐式氢 = {hs}（期望 3,2,1）")
             ' 环闭合
             Dim bz = SmilesIO.Parse("C1=CC=CC=C1")
-            Dim orderSum = bz.Bonds.Sum(Function(b) b.Item3)
+            Dim orderSum = bz.Bonds.Sum(Function(b) b.order)
             Check(bz.NumAtoms() = 6 AndAlso bz.Bonds.Count = 6 AndAlso orderSum = 9,
                   $"苯（Kekulé）6 原子 6 键 键级和 {orderSum}")
             ' 电价

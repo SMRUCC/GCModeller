@@ -36,7 +36,10 @@ Namespace RetroPath.Search
 
         Public RuleId As String
         Public RuleName As String
-        Public Orientation As String          ' 规则定义方向的适用态
+        ''' <summary>
+        ''' 规则定义方向的适用态
+        ''' </summary>
+        Public Orientation As String
         Public Substrates As New List(Of String)()      ' SMILES
         Public Products As New List(Of String)()        ' SMILES
         Public DeltaG As Double

@@ -9,25 +9,37 @@
 ' 价态模型：隐式 H = max(0, 价态 − Σ键级 − 显式H)；价态违规的应用被拒绝。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Text
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 
 Namespace RetroPath.Chem
+
+    Public Class Bond : Implements IndexEdge
+
+        Public Property a As Integer Implements IndexEdge.U
+        Public Property b As Integer Implements IndexEdge.V
+        Public Property order As Integer
+
+        Public Shared Widening Operator CType(tri As (Integer, Integer, Integer)) As Bond
+            Return New Bond With {.a = tri.Item1, .b = tri.Item2, .order = tri.Item3}
+        End Operator
+
+    End Class
 
     Public Class Molecule
 
         Public Elements As List(Of String)
         Public Charges As List(Of Int32)
         Public ExplicitH As List(Of Int32)
-        Public Bonds As List(Of Tuple(Of Int32, Int32, Int32))    ' (a, b, order 1/2/3)
+        ''' <summary>
+        ''' (a, b, order 1/2/3)
+        ''' </summary>
+        Public Bonds As List(Of Bond)
 
         Public Sub New()
             Elements = New List(Of String)()
             Charges = New List(Of Int32)()
             ExplicitH = New List(Of Int32)()
-            Bonds = New List(Of Tuple(Of Int32, Int32, Int32))()
+            Bonds = New List(Of Bond)()
         End Sub
 
         Public Function NumAtoms() As Int32
@@ -38,10 +50,10 @@ Namespace RetroPath.Chem
         Public Function Neighbors(a As Int32) As List(Of Tuple(Of Int32, Int32))
             Dim outList As New List(Of Tuple(Of Int32, Int32))()
             For Each b In Bonds
-                If b.Item1 = a Then
-                    outList.Add(Tuple.Create(b.Item2, b.Item3))
-                ElseIf b.Item2 = a Then
-                    outList.Add(Tuple.Create(b.Item1, b.Item3))
+                If b.a = a Then
+                    outList.Add(Tuple.Create(b.b, b.order))
+                ElseIf b.b = a Then
+                    outList.Add(Tuple.Create(b.a, b.order))
                 End If
             Next
             Return outList
@@ -53,8 +65,8 @@ Namespace RetroPath.Chem
 
         Public Function BondOrder(a As Int32, b As Int32) As Int32
             For Each bd In Bonds
-                If (bd.Item1 = a AndAlso bd.Item2 = b) OrElse (bd.Item1 = b AndAlso bd.Item2 = a) Then
-                    Return bd.Item3
+                If (bd.a = a AndAlso bd.b = b) OrElse (bd.a = b AndAlso bd.b = a) Then
+                    Return bd.order
                 End If
             Next
             Return 0
@@ -64,16 +76,15 @@ Namespace RetroPath.Chem
         Public Sub SetBondOrder(a As Int32, b As Int32, newOrder As Int32)
             For i = 0 To Bonds.Count - 1
                 Dim bd = Bonds(i)
-                If (bd.Item1 = a AndAlso bd.Item2 = b) OrElse (bd.Item1 = b AndAlso bd.Item2 = a) Then
-                    Bonds(i) = Tuple.Create(bd.Item1, bd.Item2, newOrder)
+                If (bd.a = a AndAlso bd.b = b) OrElse (bd.a = b AndAlso bd.b = a) Then
+                    Bonds(i) = (bd.a, bd.b, newOrder)
                     Return
                 End If
             Next
         End Sub
 
         Public Sub RemoveBond(a As Int32, b As Int32)
-            Bonds = Bonds.Where(Function(bd) Not ((bd.Item1 = a AndAlso bd.Item2 = b) OrElse
-                                                   (bd.Item1 = b AndAlso bd.Item2 = a))).ToList()
+            Bonds = Bonds.Where(Function(bd) Not ((bd.a = a AndAlso bd.b = b) OrElse (bd.a = b AndAlso bd.b = a))).ToList()
         End Sub
 
         Public Function AddAtom(el As String, charge As Int32) As Int32
@@ -186,8 +197,8 @@ Namespace RetroPath.Chem
                     fm.ExplicitH(remap(a)) = ExplicitH(a)
                 Next
                 For Each bd In Bonds
-                    If remap.ContainsKey(bd.Item1) AndAlso remap.ContainsKey(bd.Item2) Then
-                        fm.Bonds.Add(Tuple.Create(remap(bd.Item1), remap(bd.Item2), bd.Item3))
+                    If remap.ContainsKey(bd.a) AndAlso remap.ContainsKey(bd.b) Then
+                        fm.Bonds.Add((remap(bd.a), remap(bd.b), bd.order))
                     End If
                 Next
                 outList.Add(fm)
@@ -241,9 +252,9 @@ Namespace RetroPath.Chem
             atomList.Sort(StringComparer.Ordinal)
             Dim bondList As New List(Of String)()
             For Each bd In Bonds
-                Dim ra = rk(bd.Item1)
-                Dim rb = rk(bd.Item2)
-                bondList.Add($"{Math.Min(ra, rb)}-{Math.Max(ra, rb)}:{bd.Item3}")
+                Dim ra = rk(bd.a)
+                Dim rb = rk(bd.b)
+                bondList.Add($"{Math.Min(ra, rb)}-{Math.Max(ra, rb)}:{bd.order}")
             Next
             bondList.Sort(StringComparer.Ordinal)
             Return String.Join(";", atomList) & "#" & String.Join(";", bondList)
