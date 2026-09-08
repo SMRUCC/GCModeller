@@ -22,6 +22,8 @@
 Imports System.Text
 Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 Imports SMRUCC.genomics.Analysis.RetroPath.Search
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.Schema.Metabolism
 
 ''' <summary>
@@ -110,7 +112,7 @@ Public Module BioCycRuleMiner
                              skipped As Dictionary(Of String, Integer)) As Rule
 
         ' ---- 1) 方向归正：不要直接用 left/right，equation 已按 REACTION-DIRECTION 归正
-        Dim eq As ComponentModel.EquaionModel.DefaultTypes.Equation = Nothing
+        Dim eq As Equation = Nothing
 
         Try
             eq = rxn.equation
@@ -337,7 +339,7 @@ Public Module BioCycRuleMiner
     End Function
 
     ''' <summary>反应某一侧的化合物 id（去重、去空、保持字典序）</summary>
-    Private Function CompoundIds(side As IEnumerable(Of ComponentModel.EquaionModel.DefaultTypes.CompoundSpecieReference)) As List(Of String)
+    Private Function CompoundIds(side As IEnumerable(Of CompoundSpecieReference)) As List(Of String)
         Dim ids As New SortedSet(Of String)(StringComparer.Ordinal)
 
         If side IsNot Nothing Then
