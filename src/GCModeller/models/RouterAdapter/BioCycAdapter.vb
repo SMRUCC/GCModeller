@@ -75,6 +75,7 @@ Public Class BioCycAdapter
             Optional maxPatternAtoms As Integer = 32,
             Optional mcsNodeBudget As Integer = 60000,
             Optional maxUnmappedAtoms As Integer = 3,
+            Optional shellRadius As Integer = 2,
             Optional includeBuiltinRules As Boolean = False,
             Optional verbose As Boolean = True,
             Optional keepRuleTrace As Boolean = False)
@@ -140,6 +141,7 @@ Public Class BioCycAdapter
             maxPatternAtoms:=maxPatternAtoms,
             mcsNodeBudget:=mcsNodeBudget,
             maxUnmappedAtoms:=maxUnmappedAtoms,
+            shellRadius:=shellRadius,
             includeBuiltin:=includeBuiltinRules,
             skipped:=Skipped,
             trace:=If(keepRuleTrace, RuleTrace, Nothing)))
