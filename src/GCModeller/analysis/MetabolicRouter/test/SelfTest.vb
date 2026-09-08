@@ -9,6 +9,7 @@
 ' 6. SMILES 写出往返
 ' 7. 规则 TSV 加载
 ' 8. JSON 往返
+' 9. 反应中心化学约束（羧基不得被当作酮羰基）+ 完整路径去重
 ' ============================================================================
 
 Imports System.IO
@@ -43,6 +44,7 @@ Namespace RetroPath
             TestSmilesRoundTrip()
             TestRulesTsv()
             TestJsonRoundTrip()
+            TestRuleConstraints()
             Console.WriteLine($"=== {If(_failures = 0, "ALL TESTS PASSED", _failures & " TEST(S) FAILED")} ===")
             Return _failures
         End Function
@@ -274,6 +276,77 @@ Namespace RetroPath
                   back.Steps(0).Substrates(0) = "CCO" AndAlso back.Steps(0).DeltaG = 18.0,
                   "PathDto JSON 往返保真")
         End Sub
+
+        ' ---------------- 9. 化学约束 + 路径去重 ----------------
+
+        Private Sub TestRuleConstraints()
+            Console.WriteLine("-- 反应中心化学约束 + 路径去重 --")
+            Dim rules = RuleLibrary.BuiltinRules()
+            Dim byId = rules.ToDictionary(Function(r) r.Id)
+            Dim acetic = SmilesIO.Parse("CC(=O)O")
+
+            ' 羧基不得被当作酮羰基参与变换，否则会生成偕二醇/烯酮/烯二醇等不合理中间体
+            Check(RuleEngine.ApplyReverse(acetic, byId("R001")).Count = 0,
+                  "R001 逆向拒绝还原羧基（无偕二醇 -CH(OH)2）")
+            Check(RuleEngine.ApplyReverse(acetic, byId("R005")).Count = 0,
+                  "R005 逆向拒绝脱水羧基（无烯酮 C(=C)(=O)）")
+            Check(RuleEngine.ApplyForward(acetic, byId("R009")).Count = 0,
+                  "R009 正向拒绝异构羧基（无烯二醇 C=C(OH)2）")
+            ' 反向验证：约束不能误杀真正适用规则的反应中心
+            Check(RuleEngine.ApplyReverse(SmilesIO.Parse("CC(=O)C"), byId("R001")).Count = 1,
+                  "R001 逆向仍可还原酮羰基（丙酮 → 异丙醇）")
+            Check(RuleEngine.ApplyForward(SmilesIO.Parse("CC=C"), byId("R005")).Count = 2,
+                  "R005 正向仍可水合普通烯烃（丙烯 → 丙醇，2 个区域异构）")
+
+            ' 对称臂产生的等价路径应合并为一条
+            Dim sinkSmiles As New List(Of String) From {
+                "CC(=O)C(=O)O", "OC(=O)C(=O)CC(=O)O", "CC(=O)O", "CC=O",
+                "NCC(=O)O", "OC(=O)C=O", "O", "O=C=O", "N", "OC(=O)C(=O)O"}
+            Dim sinkKeys As New HashSet(Of String)()
+            For Each s In sinkSmiles
+                sinkKeys.Add(Key(s))
+            Next
+            Dim currencyKeys As New HashSet(Of String)()
+            For Each cs In RuleLibrary.CurrencySmiles()
+                currencyKeys.Add(Key(cs))
+            Next
+            Dim opts As New SearchOptions With {.BeamWidth = 30, .MaxDepth = 4}
+            Dim searcher As New BeamSearch(rules, sinkKeys, currencyKeys, opts)
+            Dim ps = searcher.Search(SmilesIO.Parse("OC(=O)CC(O)(CC(=O)O)C(=O)O"))
+            Dim oneStep = ps.Where(Function(p) p.Steps.Count = 1 AndAlso
+                                              p.Steps(0).RuleId = "R003").ToList()
+            Console.WriteLine($"  柠檬酸: 完整路径 {ps.Count}，1 步醛缩 {oneStep.Count}")
+            Check(oneStep.Count = 1, "柠檬酸对称臂等价路径去重（1 步醛缩恰好 1 条）")
+
+            ' 端到端：所有完整路径涉及的分子中不得出现偕二醇 C(OH)2（羧基/烯醇被误当酮羰基的产物）
+            Dim allMols As New List(Of Molecule)()
+            For Each p In ps
+                For Each s In p.Steps
+                    allMols.Add(s.SubstrateMol)
+                    For Each pre In s.Precursors
+                        allMols.Add(pre.Item2)
+                    Next
+                Next
+            Next
+            Dim gem = allMols.Where(Function(mol) HasGemDiol(mol)).ToList()
+            Console.WriteLine($"  路径涉及分子 {allMols.Count}，含偕二醇 {gem.Count}")
+            Check(gem.Count = 0, "柠檬酸搜索全路径无偕二醇中间体 [readme.md §六 化学合理性]")
+        End Sub
+
+        ''' <summary>是否存在同一碳上连有 ≥2 个羟基氧（偕二醇/半缩醛 C(OH)2）</summary>
+        Private Shared Function HasGemDiol(m As Molecule) As Boolean
+            For a = 0 To m.NumAtoms() - 1
+                If m.Elements(a) <> "C" Then Continue For
+                Dim oh As Int32 = 0
+                For Each nb In m.Neighbors(a)
+                    If nb.Item2 = 1 AndAlso m.Elements(nb.Item1) = "O" AndAlso m.TotalH(nb.Item1) >= 1 Then
+                        oh += 1
+                    End If
+                Next
+                If oh >= 2 Then Return True
+            Next
+            Return False
+        End Function
 
     End Module
 

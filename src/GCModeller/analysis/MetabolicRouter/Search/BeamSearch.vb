@@ -20,6 +20,8 @@ Namespace Search
         Private ReadOnly _sinkKeys As HashSet(Of String)
         Private ReadOnly _currencyKeys As HashSet(Of String)
         Private ReadOnly _opts As SearchOptions
+        ''' <summary>已收录完整路径的内容指纹（消除对称臂等同构重复路径）</summary>
+        Private ReadOnly _pathKeys As New HashSet(Of String)()
         Public ReadOnly Stats As New SearchStats()
 
         Public Sub New(rules As List(Of Rule), sinkKeys As HashSet(Of String),
@@ -111,7 +113,8 @@ Namespace Search
                                 .Used = newUsed}
                             Stats.StatesGenerated += 1
                             If ns.Pending.Count = 0 Then
-                                completed.Add(ns)
+                                ' 完整路径按内容去重：对称臂/不同分解顺序产生的等价路径只保留一条
+                                If _pathKeys.Add(PathKey(ns)) Then completed.Add(ns)
                             Else
                                 nextStates.Add(ns)
                             End If
@@ -121,6 +124,21 @@ Namespace Search
             Next
 
             Return nextStates
+        End Function
+
+        ''' <summary>
+        ''' 路径内容指纹 = 各步（规则 + 被分解物 + 前体集合）的多重集。
+        ''' 步骤字符串排序后拼接，使"分解顺序不同但反应集合相同"的等价路径合并为一条。
+        ''' </summary>
+        Private Shared Function PathKey(st As SearchState) As String
+            Dim parts As New List(Of String)()
+            For Each s In st.Steps
+                Dim pre = s.Precursors.Select(Function(p) p.Item1).
+                    OrderBy(Function(x) x, StringComparer.Ordinal)
+                parts.Add($"{s.RuleId}|{s.SubstrateKey}|{String.Join(",", pre)}")
+            Next
+            parts.Sort(StringComparer.Ordinal)
+            Return String.Join(";", parts)
         End Function
 
         Private Function Prune(states As List(Of SearchState)) As List(Of SearchState)

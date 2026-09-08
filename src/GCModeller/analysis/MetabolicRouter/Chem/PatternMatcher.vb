@@ -18,7 +18,10 @@ Namespace Chem
         Public Charge As Int32 = -999       ' -999 = 任意
         Public HCount As Int32 = -999       ' -999 = 任意
         Public Degree As Int32 = -999       ' -999 = 任意
+        ''' <summary>!O：无单键羟基氧邻居（用于区分酮/醛 C 与羧基 C）</summary>
         Public NoOhNeighbor As Boolean = False
+        ''' <summary>!=O：无双键羰基氧邻居（用于排除羧基/羰基碳，R005 脱水反应中心）</summary>
+        Public NoOxoNeighbor As Boolean = False
         Public Cls As Int32 = -1
 
     End Class
@@ -112,6 +115,10 @@ Namespace Chem
                 ElseIf core(pos) = "D"c AndAlso pos + 1 < core.Length AndAlso Char.IsDigit(core(pos + 1)) Then
                     pa.Degree = Int32.Parse(core(pos + 1).ToString())
                     pos += 2
+                ElseIf core(pos) = "!"c AndAlso pos + 2 < core.Length AndAlso
+                       core(pos + 1) = "="c AndAlso core(pos + 2) = "O"c Then
+                    pa.NoOxoNeighbor = True
+                    pos += 3
                 ElseIf core(pos) = "!"c AndAlso pos + 1 < core.Length AndAlso core(pos + 1) = "O"c Then
                     pa.NoOhNeighbor = True
                     pos += 2
@@ -234,6 +241,13 @@ Namespace Chem
                 If pa.NoOhNeighbor Then
                     For Each nb In _m.Neighbors(ma)
                         If nb.Item2 = 1 AndAlso _m.Elements(nb.Item1) = "O" AndAlso _m.TotalH(nb.Item1) >= 1 Then
+                            Return False
+                        End If
+                    Next
+                End If
+                If pa.NoOxoNeighbor Then
+                    For Each nb In _m.Neighbors(ma)
+                        If nb.Item2 = 2 AndAlso _m.Elements(nb.Item1) = "O" Then
                             Return False
                         End If
                     Next
