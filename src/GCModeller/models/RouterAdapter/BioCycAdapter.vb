@@ -87,6 +87,7 @@ Public Class BioCycAdapter
         ' ---------- 1) 化合物结构索引 ----------
         Dim noSmiles As Integer = 0
         Dim badSmiles As Integer = 0
+        Dim rejectReasons As New Dictionary(Of String, Integer)()
 
         For Each cpd As compounds In compounds
             If cpd Is Nothing OrElse String.IsNullOrEmpty(cpd.uniqueId) Then Continue For
@@ -163,7 +164,12 @@ Public Class BioCycAdapter
 
         If verbose Then
             Console.Error.WriteLine($"[BioCycAdapter] 化合物 {compounds.Length}（可用结构 {structures.Count}，" &
-                                    $"无 SMILES {noSmiles}，不可解析 {badSmiles}）")
+                                    $"无 SMILES {noSmiles}，不可用 {badSmiles}）")
+            If rejectReasons.Count > 0 Then
+                Dim why = rejectReasons.OrderByDescending(Function(kv) kv.Value).
+                    Take(8).Select(Function(kv) $"{kv.Key}={kv.Value}")
+                Console.Error.WriteLine($"[BioCycAdapter] 结构不可用原因：{String.Join(", ", why)}")
+            End If
             Console.Error.WriteLine($"[BioCycAdapter] 反应 {reactions.Length} → 广义规则 {rules.Count}（模式原子上限 {maxPatternAtoms}）")
             If Skipped.Count > 0 Then
                 Dim reasons = Skipped.OrderByDescending(Function(kv) kv.Value).
