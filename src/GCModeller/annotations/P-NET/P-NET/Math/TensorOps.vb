@@ -311,14 +311,4 @@ Public Module TensorOps
         Return idx
     End Function
 
-    ''' <summary>
-    ''' 计算数组的平均值
-    ''' </summary>
-    ''' <param name="x">输入数组</param>
-    ''' <returns>算术平均值</returns>
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function Average(x As IEnumerable(Of Double)) As Double
-        Return Mean(x.ToArray())
-    End Function
-
 End Module
