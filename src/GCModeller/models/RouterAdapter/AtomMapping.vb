@@ -301,10 +301,10 @@ Public Module AtomMapping
                     Dim x As Integer = q.Dequeue()
                     res.Add(x)
 
-                    For Each nb In a.Neighbors(x)
-                        If Not seen(nb.Item1) Then
-                            seen(nb.Item1) = True
-                            q.Enqueue(nb.Item1)
+                    For Each nbr In a.Neighbors(x)
+                        If Not seen(nbr.Item1) Then
+                            seen(nbr.Item1) = True
+                            q.Enqueue(nbr.Item1)
                         End If
                     Next
                 End While

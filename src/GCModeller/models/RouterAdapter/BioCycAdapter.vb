@@ -174,7 +174,7 @@ Public Class BioCycAdapter
                                  deg As Dictionary(Of String, Integer))
         If side Is Nothing Then Return
 
-        For Each c In side
+        For Each c As CompoundSpecieReference In side
             If c Is Nothing OrElse String.IsNullOrEmpty(c.ID) Then Continue For
             Dim id As String = c.ID.Split(","c)(0).Trim()
             Dim n As Integer = 0
