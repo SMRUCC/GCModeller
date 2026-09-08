@@ -227,8 +227,14 @@ Public Module BioCycRuleMiner
         '     永远无法命中（实测分支酸合酶 EPSP → 分支酸 + Pi 就是因此失效）。
         '     被丢弃的共产物在模式里消失，等价于"作为货币分子忽略"；而它们在另一侧
         '     若存在（如底物上挂着的磷酸基）会由 RuleEngine 自动创建出来。
+        If rxnId = "CHORISMATE-SYNTHASE-RXN" Then
+            Console.Error.WriteLine($"[trace] before: |R|={centerR.Count} comps={ComponentCount(rMol, centerR)}  |P|={centerP.Count} comps={ComponentCount(pMol, centerP)}")
+        End If
         KeepLargestComponent(rMol, centerR)
         KeepLargestComponent(pMol, centerP)
+        If rxnId = "CHORISMATE-SYNTHASE-RXN" Then
+            Console.Error.WriteLine($"[trace] after : |R|={centerR.Count} comps={ComponentCount(rMol, centerR)}  |P|={centerP.Count} comps={ComponentCount(pMol, centerP)}")
+        End If
 
         ' 注：此时仍可能存在"孤立"的模式原子——典型是水/质子/氨这类单原子共底物
         ' （它们没有任何邻居可补）。这类类号在模式中没有键，因此不参与匹配、也不会被
@@ -368,6 +374,30 @@ Public Module BioCycRuleMiner
         End Try
 
         Return rule
+    End Function
+
+    ''' <summary>中心集合在本侧的连通分量数（临时诊断用）</summary>
+    Private Function ComponentCount(mol As Molecule, center As SortedSet(Of Integer)) As Integer
+        If center.Count = 0 Then Return 0
+
+        Dim seen As New HashSet(Of Integer)()
+        Dim n As Integer = 0
+
+        For Each a As Integer In center
+            If seen.Contains(a) Then Continue For
+            n += 1
+            Dim stack As New Stack(Of Integer)()
+            stack.Push(a)
+            seen.Add(a)
+            While stack.Count > 0
+                Dim x As Integer = stack.Pop()
+                For Each nb In mol.Neighbors(x)
+                    If center.Contains(nb.Item1) AndAlso seen.Add(nb.Item1) Then stack.Push(nb.Item1)
+                Next
+            End While
+        Next
+
+        Return n
     End Function
 
     ''' <summary>只保留中心集合里最大的那个连通分量（丢弃游离的共底物/共产物组分）</summary>
