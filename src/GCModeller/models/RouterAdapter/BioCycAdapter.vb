@@ -97,9 +97,13 @@ Public Class BioCycAdapter
 
             Dim smiles As String = Nothing
             Dim mol As Molecule = Nothing
+            Dim why As String = Nothing
 
-            If Not BioCycSmiles.TryParse(cpd.SMILES, smiles, mol, maxMoleculeAtoms) Then
+            If Not BioCycSmiles.TryParse(cpd.SMILES, smiles, mol, maxMoleculeAtoms, why) Then
                 badSmiles += 1
+                Dim n As Integer = 0
+                rejectReasons.TryGetValue(why, n)
+                rejectReasons(why) = n + 1
                 Continue For
             End If
 

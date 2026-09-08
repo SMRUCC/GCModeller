@@ -59,39 +59,58 @@ Public Module BioCycSmiles
 
     ''' <summary>净化 + 解析 + 原子数上限 + 元素白名单；任一环节失败返回 False</summary>
     Public Function TryParse(raw As String, ByRef mol As Molecule,
-                             Optional maxAtoms As Integer = 80) As Boolean
+                             Optional maxAtoms As Integer = 80,
+                             Optional ByRef reason As String = Nothing) As Boolean
         Dim smiles As String = Nothing
-        Return TryParse(raw, smiles, mol, maxAtoms)
+        Return TryParse(raw, smiles, mol, maxAtoms, reason)
     End Function
 
     ''' <summary>
     ''' 净化 + 解析 + 原子数上限 + 元素白名单；任一环节失败返回 False。
-    ''' <paramref name="smiles"/> 返回净化后的 SMILES（可直接用于汇集合/写出）。
+    ''' <paramref name="smiles"/> 返回净化后的 SMILES（可直接用于汇集合/写出）；
+    ''' <paramref name="reason"/> 失败原因（用于装配诊断统计）。
     ''' </summary>
     Public Function TryParse(raw As String, ByRef smiles As String, ByRef mol As Molecule,
-                             Optional maxAtoms As Integer = 80) As Boolean
+                             Optional maxAtoms As Integer = 80,
+                             Optional ByRef reason As String = Nothing) As Boolean
         smiles = Nothing
         mol = Nothing
+        reason = Nothing
 
         Dim s As String = Sanitize(raw)
-        If s Is Nothing Then Return False
+        If s Is Nothing Then
+            reason = "stereo-only"
+            Return False
+        End If
+
+        Dim m As Molecule = Nothing
 
         Try
-            Dim m As Molecule = SmilesIO.Parse(s)
-
-            If m Is Nothing OrElse m.NumAtoms() = 0 Then Return False
-            If maxAtoms > 0 AndAlso m.NumAtoms() > maxAtoms Then Return False
-
-            For Each el As String In m.Elements
-                If Not supportedElements.Contains(el) Then Return False
-            Next
-
-            smiles = s
-            mol = m
-            Return True
+            m = SmilesIO.Parse(s)
         Catch ex As Exception
+            reason = "unsupported-syntax"
             Return False
         End Try
+
+        If m Is Nothing OrElse m.NumAtoms() = 0 Then
+            reason = "empty"
+            Return False
+        End If
+        If maxAtoms > 0 AndAlso m.NumAtoms() > maxAtoms Then
+            reason = "too-many-atoms"
+            Return False
+        End If
+
+        For Each el As String In m.Elements
+            If Not supportedElements.Contains(el) Then
+                reason = "element:" & el
+                Return False
+            End If
+        Next
+
+        smiles = s
+        mol = m
+        Return True
     End Function
 
 End Module
