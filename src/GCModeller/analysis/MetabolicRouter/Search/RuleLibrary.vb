@@ -68,7 +68,16 @@ Namespace Search
             Return New List(Of String) From {"O", "O=C=O", "N", "S", "OP(=O)(O)O"}
         End Function
 
-        ''' <summary>用户规则 TSV 加载（追加到内置库）</summary>
+        ''' <summary>
+        ''' 从 TSV 文件加载用户自定义规则（可随后追加到内置库之后）。
+        ''' </summary>
+        ''' <param name="path">TSV 文件路径。</param>
+        ''' <returns>解析得到的规则列表；格式非法的行被静默跳过。</returns>
+        ''' <remarks>
+        ''' 每行格式（制表符分隔）：
+        ''' <c>id &lt;TAB&gt; name &lt;TAB&gt; dG &lt;TAB&gt; tier &lt;TAB&gt; reversible &lt;TAB&gt; reactant &lt;TAB&gt; product</c>；
+        ''' 以 <c>#</c> 开头或空行视为注释。
+        ''' </remarks>
         Public Function LoadRulesTsv(path As String) As List(Of Rule)
             Dim rules As New List(Of Rule)()
             For Each raw In File.ReadLines(path)
