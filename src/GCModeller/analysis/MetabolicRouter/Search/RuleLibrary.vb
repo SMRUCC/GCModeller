@@ -21,23 +21,23 @@ Namespace RetroPath.Search
         Public Function BuiltinRules() As List(Of Rule)
             Dim rules As New List(Of Rule)()
             rules.Add(New Rule("R001", "醇脱氢酶（氧化/还原）",
-                "[C:1]-[OH1:2]", "[C:1]=[O:2]", 18.0, 1))
+                "[C:1]-[OH1:2]", "[C:1]=[O:2]", 18.0, EnzymeTiers.Common))
             rules.Add(New Rule("R002", "转氨酶（酮↔胺）",
-                "[CD3H0!O:1]=[O:2]", "[CD3H1!O:1]-[N:3].[O:2]", 10.0, 1))
+                "[CD3H0!O:1]=[O:2]", "[CD3H1!O:1]-[N:3].[O:2]", 10.0, EnzymeTiers.Common))
             rules.Add(New Rule("R003", "醛缩酶（β-羟羰基裂解/aldol）",
-                "[C:1](-[OH1:2])-[C:3]-[C:4]=[O:5]", "[C:1]=[O:2].[C:3]-[C:4]=[O:5]", -15.0, 1))
+                "[C:1](-[OH1:2])-[C:3]-[C:4]=[O:5]", "[C:1]=[O:2].[C:3]-[C:4]=[O:5]", -15.0, EnzymeTiers.Common))
             rules.Add(New Rule("R004", "脱羧酶（羧基离去 CO2）",
-                "[C:1]-[C:2](=[O:3])-[OH1:4]", "[C:1].[O:3]=[C:2]=[O:4]", -28.0, 1))
+                "[C:1]-[C:2](=[O:3])-[OH1:4]", "[C:1].[O:3]=[C:2]=[O:4]", -28.0, EnzymeTiers.Common))
             rules.Add(New Rule("R005", "水合酶（C=C 水合/脱水）",
-                "[C:1]=[C:2]", "[C:1](-[O:3])-[C:2]", -12.0, 1))
+                "[C:1]=[C:2]", "[C:1](-[O:3])-[C:2]", -12.0, EnzymeTiers.Common))
             rules.Add(New Rule("R006", "激酶（羟基磷酸化）",
-                "[OH1:1]", "[O:1]-[P:2](=[O:3])-[O-:4]", 25.0, 1))
+                "[OH1:1]", "[O:1]-[P:2](=[O:3])-[O-:4]", 25.0, EnzymeTiers.Common))
             rules.Add(New Rule("R007", "酯酶（酯水解/酯化）",
-                "[C:1](=[O:2])-[O:3]", "[C:1](=[O:2])-[O:5].[O:3]", -20.0, 1))
+                "[C:1](=[O:2])-[O:3]", "[C:1](=[O:2])-[O:5].[O:3]", -20.0, EnzymeTiers.Common))
             rules.Add(New Rule("R008", "硫解酶（Claisen 裂解）",
-                "[C:1](=[O:2])-[CH2:3]-[C:4](=[O:5])", "[C:1](=[O:2])-[S:6].[C:3]-[C:4]=[O:5]", -25.0, 2))
+                "[C:1](=[O:2])-[CH2:3]-[C:4](=[O:5])", "[C:1](=[O:2])-[S:6].[C:3]-[C:4]=[O:5]", -25.0, EnzymeTiers.General))
             rules.Add(New Rule("R009", "酮-烯醇互变异构酶",
-                "[C:1]-[C:2]=[O:3]", "[C:1]=[C:2]-[OH1:3]", -2.0, 2))
+                "[C:1]-[C:2]=[O:3]", "[C:1]=[C:2]-[OH1:3]", -2.0, EnzymeTiers.General))
             Return rules
         End Function
 
@@ -59,7 +59,7 @@ Namespace RetroPath.Search
                 Dim tier As Int32 = 2
                 Int32.TryParse(cols(3).Trim(), tier)
                 Dim rev As Boolean = cols(4).Trim().ToLowerInvariant() = "true" OrElse cols(4).Trim() = "1"
-                rules.Add(New Rule(cols(0).Trim(), cols(1).Trim(), cols(5).Trim(), cols(6).Trim(), dg, tier, rev))
+                rules.Add(New Rule(cols(0).Trim(), cols(1).Trim(), cols(5).Trim(), cols(6).Trim(), dg, CType(tier, EnzymeTiers), rev))
             Next
             Return rules
         End Function

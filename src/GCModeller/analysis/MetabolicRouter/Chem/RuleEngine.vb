@@ -11,11 +11,19 @@
 '   应用后全分子价态校验，违规 → 丢弃该应用 [化学合理性闸门]。
 ' ============================================================================
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-
 Namespace RetroPath.Chem
+
+    ''' <summary>
+    ''' 酶等级枚举
+    ''' </summary>
+    Public Enum EnzymeTiers
+        ''' <summary>常见酶家族</summary>
+        Common = 1
+        ''' <summary>一般</summary>
+        General = 2
+        ''' <summary>特化</summary>
+        Specialized = 3
+    End Enum
 
     Public Class Rule
 
@@ -25,12 +33,18 @@ Namespace RetroPath.Chem
         Public ProductText As String
         Public Reactant As Pattern
         Public Product As Pattern
-        Public DeltaG As Double          ' 正向 kJ/mol（启发式基团贡献代理值）
-        Public EnzymeTier As Int32       ' 1=常见酶家族 2=一般 3=特化
+        ''' <summary>
+        ''' 正向 kJ/mol（启发式基团贡献代理值）
+        ''' </summary>
+        Public DeltaG As Double
+        ''' <summary>
+        ''' 1=常见酶家族 2=一般 3=特化
+        ''' </summary>
+        Public EnzymeTier As EnzymeTiers
         Public Reversible As Boolean
 
         Public Sub New(id As String, name As String, reactantSmarts As String,
-                       productSmarts As String, dg As Double, tier As Int32,
+                       productSmarts As String, dg As Double, tier As EnzymeTiers,
                        Optional reversible As Boolean = True)
             Me.Id = id
             Me.Name = name
@@ -47,8 +61,14 @@ Namespace RetroPath.Chem
 
     Public Class ApplicationResult
 
-        Public Fragments As List(Of Molecule)     ' 变换后的连通碎片
-        Public AtomMap As List(Of Tuple(Of Int32, Int32))   ' (类号, 分子原子索引)
+        ''' <summary>
+        ''' 变换后的连通碎片
+        ''' </summary>
+        Public Fragments As List(Of Molecule)
+        ''' <summary>
+        ''' (类号, 分子原子索引)
+        ''' </summary>
+        Public AtomMap As List(Of Tuple(Of Int32, Int32))
 
     End Class
 

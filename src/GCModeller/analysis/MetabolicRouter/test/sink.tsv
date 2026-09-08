@@ -1,4 +1,4 @@
-# name	SMILES	E. coli 核心内源代谢物（演示集合；生产请从 GEM 模型提取）
+﻿# name	SMILES	E. coli 核心内源代谢物（演示集合；生产请从 GEM 模型提取）
 pyruvate	CC(=O)C(=O)O
 oxaloacetate	OC(=O)C(=O)CC(=O)O
 acetate	CC(=O)O
