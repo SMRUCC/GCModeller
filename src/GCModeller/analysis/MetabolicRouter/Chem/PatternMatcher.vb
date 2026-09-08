@@ -115,6 +115,18 @@ Namespace Chem
                 ElseIf core(pos) = "!"c AndAlso pos + 1 < core.Length AndAlso core(pos + 1) = "O"c Then
                     pa.NoOhNeighbor = True
                     pos += 2
+                ElseIf core(pos) = "+"c OrElse core(pos) = "-"c Then
+                    ' 电荷旗标：+ / -，可带数字（+2 / -2）；单独符号视为 ±1
+                    Dim sign As Int32 = If(core(pos) = "+"c, 1, -1)
+                    pos += 1
+                    Dim mag As Int32 = 0
+                    Dim hasMag As Boolean = False
+                    While pos < core.Length AndAlso Char.IsDigit(core(pos))
+                        mag = mag * 10 + (AscW(core(pos)) - AscW("0"c))
+                        hasMag = True
+                        pos += 1
+                    End While
+                    pa.Charge = sign * If(hasMag, mag, 1)
                 Else
                     Throw New ArgumentException($"模式旗标解析失败: {body} @ {pos}")
                 End If

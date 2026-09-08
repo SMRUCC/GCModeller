@@ -10,8 +10,10 @@ Namespace Chem
         Private ReadOnly _sb As New StringBuilder()
         Private ReadOnly _compSet As HashSet(Of Int32)
         Private ReadOnly _emitted As New HashSet(Of Int32)()
-        Private ReadOnly _digitFirst As New Dictionary(Of Int32, Tuple(Of Int32, Int32))()   ' 原子 → (digit, order)
-        Private ReadOnly _digitSecond As New Dictionary(Of Int32, Tuple(Of Int32, Int32))()  ' 环闭合后端原子 → (digit, order)
+        ''' <summary>原子 → 该原子上待输出的环闭合号列表 [(digit, order)]；回边两端登记同一 digit</summary>
+        Private ReadOnly _ringDigits As New Dictionary(Of Int32, List(Of Tuple(Of Int32, Int32)))()
+        ''' <summary>DFS 回边端点对 (min, max)：写出时不得作为树边遍历，仅由环号表达</summary>
+        Private ReadOnly _ringEdgeKeys As New HashSet(Of (Integer, Integer))()
 
         Public Sub New(m As Molecule)
             _m = m
@@ -36,8 +38,8 @@ Namespace Chem
 
         Private Sub WriteOneComponent(comp As List(Of Int32))
             _emitted.Clear()
-            _digitFirst.Clear()
-            _digitSecond.Clear()
+            _ringDigits.Clear()
+            _ringEdgeKeys.Clear()
             Dim start = comp.OrderBy(Function(a) _ranks(a), StringComparer.Ordinal).ThenBy(Function(a) a).First()
             ' 环闭合边探测（DFS 树回边）
             Dim ringEdges As New List(Of Tuple(Of Int32, Int32, Int32))()
@@ -45,11 +47,19 @@ Namespace Chem
             ScanRings(start, -1, dfsSeen, ringEdges)
             Dim dg As Int32 = 1
             For Each re_ In ringEdges
-                _digitFirst(re_.Item1) = Tuple.Create(dg, re_.Item3)
-                _digitSecond(re_.Item2) = Tuple.Create(dg, re_.Item3)
+                AppendRingDigit(re_.Item1, dg, re_.Item3)
+                AppendRingDigit(re_.Item2, dg, re_.Item3)
+                _ringEdgeKeys.Add((re_.Item1, re_.Item2))
                 dg += 1
             Next
             EmitDfs(start, -1, "")
+        End Sub
+
+        Private Sub AppendRingDigit(atom As Int32, digit As Int32, order As Int32)
+            If Not _ringDigits.ContainsKey(atom) Then
+                _ringDigits(atom) = New List(Of Tuple(Of Int32, Int32))()
+            End If
+            _ringDigits(atom).Add(Tuple.Create(digit, order))
         End Sub
 
         Private Sub ScanRings(a As Int32, parent As Int32, dfsSeen As HashSet(Of Int32),
@@ -81,18 +91,18 @@ Namespace Chem
             _emitted.Add(a)
             _sb.Append(bondPrefix)
             _sb.Append(AtomSymbol(a))
-            If _digitFirst.ContainsKey(a) Then
-                Dim dd = _digitFirst(a)
-                _sb.Append(BondChar(dd.Item2)).Append(dd.Item1.ToString())
-            ElseIf _digitSecond.ContainsKey(a) Then
-                Dim dd = _digitSecond(a)
-                _sb.Append(BondChar(dd.Item2)).Append(dd.Item1.ToString())
+            If _ringDigits.ContainsKey(a) Then
+                For Each dd In _ringDigits(a)
+                    _sb.Append(BondChar(dd.Item2)).Append(dd.Item1.ToString())
+                Next
             End If
             Dim cont As New List(Of Tuple(Of Int32, Int32))()
             For Each nb In OrderedNeighbors(a)
                 Dim b = nb.Item1
                 If b = parent Then Continue For
-                If _emitted.Contains(b) Then Continue For      ' 环后端：数字已在前端输出
+                If _emitted.Contains(b) Then Continue For
+                ' 环闭合回边：不作为树边展开，避免同原子被重复发射导致环号无法配对
+                If _ringEdgeKeys.Contains((Math.Min(a, b), Math.Max(a, b))) Then Continue For
                 cont.Add(nb)
             Next
             For bi = 0 To cont.Count - 2
