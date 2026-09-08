@@ -221,6 +221,15 @@ Public Module BioCycRuleMiner
             Return Nothing
         End If
 
+        ' (d) 每侧只保留最大的连通分量。
+        '     逆向搜索是把规则的"产物侧"模式匹配到目标分子上的，而目标永远是一个
+        '     单独的分子：若产物侧模式里还带了 Pi / 丙酮酸 之类的共产物组分，规则就
+        '     永远无法命中（实测分支酸合酶 EPSP → 分支酸 + Pi 就是因此失效）。
+        '     被丢弃的共产物在模式里消失，等价于"作为货币分子忽略"；而它们在另一侧
+        '     若存在（如底物上挂着的磷酸基）会由 RuleEngine 自动创建出来。
+        KeepLargestComponent(rMol, centerR)
+        KeepLargestComponent(pMol, centerP)
+
         ' 注：此时仍可能存在"孤立"的模式原子——典型是水/质子/氨这类单原子共底物
         ' （它们没有任何邻居可补）。这类类号在模式中没有键，因此不参与匹配、也不会被
         ' 创建，等价于"货币分子被忽略"的语义，属预期行为，不再视为失败。
@@ -357,6 +366,43 @@ Public Module BioCycRuleMiner
 
         Return rule
     End Function
+
+    ''' <summary>只保留中心集合里最大的那个连通分量（丢弃游离的共底物/共产物组分）</summary>
+    Private Sub KeepLargestComponent(mol As Molecule, center As SortedSet(Of Integer))
+        If center.Count <= 1 Then Return
+
+        Dim seen As New HashSet(Of Integer)()
+        Dim best As New List(Of Integer)()
+
+        For Each a As Integer In center
+            If seen.Contains(a) Then Continue For
+
+            Dim comp As New List(Of Integer)()
+            Dim stack As New Stack(Of Integer)()
+
+            stack.Push(a)
+            seen.Add(a)
+
+            While stack.Count > 0
+                Dim x As Integer = stack.Pop()
+                comp.Add(x)
+
+                For Each nb In mol.Neighbors(x)
+                    If center.Contains(nb.Item1) AndAlso seen.Add(nb.Item1) Then
+                        stack.Push(nb.Item1)
+                    End If
+                Next
+            End While
+
+            ' 同规模时取原子序最小者，保证结果确定
+            If comp.Count > best.Count Then best = comp
+        Next
+
+        center.Clear()
+        For Each a As Integer In best
+            center.Add(a)
+        Next
+    End Sub
 
     ''' <summary>从种子原子出发按指定半径向外扩展，作为规则的成键环境（泛化上下文）</summary>
     Private Sub ExpandShell(mol As Molecule, center As SortedSet(Of Integer),
