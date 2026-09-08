@@ -384,9 +384,43 @@ Public Module BioCycRuleMiner
             If eStar.Contains(EdgeKey(e)) Then forest.Add(e)
         Next
 
-        ' ---- 8) 发射两侧模式（每个类号在所在侧都必须至少有一条键）
-        Dim rText As String = EmitSide(clsR.Values.ToList(), forest, True, rMol, atomOfClsR)
-        Dim pText As String = EmitSide(clsP.Values.ToList(), forest, False, pMol, atomOfClsP)
+        ' ---- 8) 发射两侧模式
+        ' SMARTS 子集不支持环闭合写法，模式只能是一棵树；而中心子图常常带环，于是
+        ' "哪些键被写进模式"必须两侧一致：若某条键两侧分子里都存在且键级相同，却在
+        ' 一侧模式里出现、另一侧被省略，RuleEngine 会把它当成成键/断键处理，规则就
+        ' 无法重现它自己的反应（自检发现 78% 的规则因此失效）。
+        ' 做法：两侧各自做 DFS 生成树，比对后把"只在一侧出现"的共有键加入 forbidden
+        ' 重新生成，直到两侧一致（最多迭代 4 轮）。
+        Dim forbidden As New HashSet(Of String)()
+        Dim sharedEqual As New HashSet(Of String)()
+        For Each e As PatternEdge In allEdges
+            If e.OrderR > 0 AndAlso e.OrderR = e.OrderP Then sharedEqual.Add(EdgeKey(e))
+        Next
+
+        Dim rText As String = Nothing
+        Dim pText As String = Nothing
+        Dim er As New HashSet(Of String)()
+        Dim ep As New HashSet(Of String)()
+
+        For iter As Integer = 1 To 4
+            er = New HashSet(Of String)()
+            ep = New HashSet(Of String)()
+            rText = EmitSide(clsR.Values.ToList(), forest, forbidden, True, rMol, atomOfClsR, er)
+            pText = EmitSide(clsP.Values.ToList(), forest, forbidden, False, pMol, atomOfClsP, ep)
+
+            Dim bad As New List(Of String)()
+            For Each k As String In er
+                If Not ep.Contains(k) AndAlso sharedEqual.Contains(k) Then bad.Add(k)
+            Next
+            For Each k As String In ep
+                If Not er.Contains(k) AndAlso sharedEqual.Contains(k) Then bad.Add(k)
+            Next
+
+            If bad.Count = 0 Then Exit For
+            For Each k As String In bad
+                forbidden.Add(k)
+            Next
+        Next
 
         If rText Is Nothing OrElse pText Is Nothing Then
             Bail(skipped, trace, rxnId, "emit-isolated")
@@ -475,6 +509,17 @@ Public Module BioCycRuleMiner
             End Try
 
             If Not ok Then
+                If rxnId = "CHORISMATE-SYNTHASE-RXN" Then
+                    Console.Error.WriteLine("[trace] rule  = " & rule.ReactantText & " >> " & rule.ProductText)
+                    Console.Error.WriteLine("[trace] want  = " & SmilesIO.Write(mainProduct))
+                    Try
+                        For Each a As ApplicationResult In RuleEngine.ApplyForward(rMol, rule, 20)
+                            Console.Error.WriteLine("[trace] got   = " & String.Join(" + ", a.Fragments.Select(Function(f) SmilesIO.Write(f))))
+                        Next
+                    Catch ex As Exception
+                        Console.Error.WriteLine("[trace] apply error " & ex.Message)
+                    End Try
+                End If
                 Bail(skipped, trace, rxnId, "self-apply-failed")
                 Return Nothing
             End If
@@ -684,21 +729,29 @@ Public Module BioCycRuleMiner
     ''' 返回 Nothing 表示存在孤立的类号（不参与匹配也不会被创建，属非法模式）。
     ''' </summary>
     Private Function EmitSide(classes As List(Of Integer),
-                              forest As List(Of PatternEdge),
+                              eStar As List(Of PatternEdge),
+                              forbidden As HashSet(Of String),
                               onReactant As Boolean,
                               mol As Molecule,
-                              atomOfCls As Dictionary(Of Integer, Integer)) As String
+                              atomOfCls As Dictionary(Of Integer, Integer),
+                              ByRef emitted As HashSet(Of String)) As String
 
         Dim adj As New Dictionary(Of Integer, List(Of (nb As Integer, order As Integer)))()
 
-        For Each e As PatternEdge In forest
+        For Each e As PatternEdge In eStar
             Dim order As Integer = If(onReactant, e.OrderR, e.OrderP)
             If order <= 0 Then Continue For
+            If forbidden.Contains(EdgeKey(e)) Then Continue For
 
             If Not adj.ContainsKey(e.A) Then adj(e.A) = New List(Of (Integer, Integer))()
             If Not adj.ContainsKey(e.B) Then adj(e.B) = New List(Of (Integer, Integer))()
             adj(e.A).Add((e.B, order))
             adj(e.B).Add((e.A, order))
+        Next
+
+        ' 邻接按类号升序，保证两侧的生成树选择尽可能一致（确定性）
+        For Each kv In adj
+            kv.Value.Sort(Function(x, y) x.nb.CompareTo(y.nb))
         Next
 
         Dim sorted As New List(Of Integer)(classes)
@@ -711,7 +764,7 @@ Public Module BioCycRuleMiner
             If seen.Contains(c) Then Continue For
 
             Dim sb As New StringBuilder()
-            EmitAtom(c, -1, sb, adj, seen, mol, atomOfCls)
+            EmitAtom(c, -1, sb, adj, seen, mol, atomOfCls, emitted)
             parts.Add(sb.ToString())
         Next
 
@@ -721,7 +774,8 @@ Public Module BioCycRuleMiner
     Private Sub EmitAtom(cls As Integer, parent As Integer, sb As StringBuilder,
                          adj As Dictionary(Of Integer, List(Of (nb As Integer, order As Integer))),
                          seen As HashSet(Of Integer),
-                         mol As Molecule, atomOfCls As Dictionary(Of Integer, Integer))
+                         mol As Molecule, atomOfCls As Dictionary(Of Integer, Integer),
+                         emitted As HashSet(Of String))
 
         seen.Add(cls)
 
@@ -734,9 +788,13 @@ Public Module BioCycRuleMiner
             If nb.nb = parent Then Continue For
             If seen.Contains(nb.nb) Then Continue For
 
+            Dim lo As Integer = Math.Min(cls, nb.nb)
+            Dim hi As Integer = Math.Max(cls, nb.nb)
+            emitted.Add(lo & "_" & hi)
+
             sb.Append("("c)
             sb.Append(BondSymbol(nb.order))
-            EmitAtom(nb.nb, cls, sb, adj, seen, mol, atomOfCls)
+            EmitAtom(nb.nb, cls, sb, adj, seen, mol, atomOfCls, emitted)
             sb.Append(")"c)
         Next
     End Sub
