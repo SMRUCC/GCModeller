@@ -81,18 +81,30 @@ Public Class MaskedDenseLayer
     ''' </summary>
     ''' <returns>激活前张量，供 DeepLIFT 归因使用</returns>
     Public ReadOnly Property LastZ As Tensor
+        Get
+            Return _lastZ
+        End Get
+    End Property
 
     ''' <summary>
     ''' 最近一次前向传播所得到的激活值 <c>tanh(z)</c>，形状为 [N, FanOut]
     ''' </summary>
     ''' <returns>激活值张量</returns>
     Public ReadOnly Property LastA As Tensor
+        Get
+            Return _lastA
+        End Get
+    End Property
 
     ''' <summary>
     ''' 最近一次前向传播的输入，形状为 [N, FanIn]
     ''' </summary>
     ''' <returns>输入张量</returns>
     Public ReadOnly Property LastInput As Tensor
+        Get
+            Return _lastInput
+        End Get
+    End Property
 
     Private _lastZ As Tensor
     Private _lastA As Tensor
