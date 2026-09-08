@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::8677b717d1022da55301d3a53392857a, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 138
-    '    Code Lines: 77 (55.80%)
-    ' Comment Lines: 42 (30.43%)
-    '    - Xml Docs: 69.05%
-    ' 
-    '   Blank Lines: 19 (13.77%)
-    '     File Size: 5.31 KB
+' Summaries:
 
 
-    '     Module Extensions
-    ' 
-    '         Function: FindChEBI, IDlist, MainID, RewriteMass, TheSameAs
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 138
+'    Code Lines: 77 (55.80%)
+' Comment Lines: 42 (30.43%)
+'    - Xml Docs: 69.05%
+' 
+'   Blank Lines: 19 (13.77%)
+'     File Size: 5.31 KB
+
+
+'     Module Extensions
+' 
+'         Function: FindChEBI, IDlist, MainID, RewriteMass, TheSameAs
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Expressions
 Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.XML
-Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Chemical
 Imports std = System.Math
 
 Namespace Assembly.ELIXIR.EBI.ChEBI
@@ -66,7 +66,8 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
     <HideModuleName>
     Public Module Extensions
 
-        <Extension> Public Function RewriteMass(mass#, molecule As IMolecule) As Double
+        <Extension>
+        Public Function RewriteMass(mass#, molecule As IMolecule) As Double
             If std.Abs(mass - 0) <= 0.00001 OrElse std.Abs(mass - molecule.Mass) <= 0.5 Then
                 Return molecule.Mass
             Else
