@@ -16,6 +16,7 @@ Imports System.Globalization
 Imports System.IO
 Imports System.Text.Json
 Imports System.Text.Json.Serialization
+Imports SMRUCC.genomics.Analysis.RetroPath
 Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 Imports SMRUCC.genomics.Analysis.RetroPath.Model
 Imports SMRUCC.genomics.Analysis.RetroPath.Search
@@ -156,6 +157,8 @@ Namespace RetroPath
                 .Thermo = DblArg(args, "--w-thermo", 0.4),
                 .Enzyme = DblArg(args, "--w-enzyme", 0.3),
                 .Length = DblArg(args, "--w-length", 0.3)}
+
+            Dim netwalk As New Netwalk(rules, sink, opts, w)
 
             ' 解析目标与汇
             Dim target = SmilesIO.Parse(targetSmiles)
