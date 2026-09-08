@@ -89,7 +89,7 @@ Namespace Script
             Dim buffer As New List(Of String)
             Dim bufferKind As String = Nothing      ' "type" / "func" / "stmt"
 
-            For Each raw As String In code.Replace(vbCrLf, vbLf).Replace(vbCr, vbLf).Split(vbLf)
+            For Each raw As String In code.LineTokens
                 Dim line As String = raw.TrimEnd()
                 Dim t As String = StripComment(line).Trim()
 
@@ -143,12 +143,7 @@ Namespace Script
                         If stack.Count = 0 Then
                             Dim blockCode As String = String.Join(vbLf, buffer)
                             Call buffer.Clear()
-
-                            Select Case bufferKind
-                                Case "type" : Call typeBlocks.Add(blockCode)
-                                Case "func" : Call funcBlocks.Add(blockCode)
-                                Case Else : Call mainBody.AddRange(blockCode.Split(vbLf))
-                            End Select
+                            Call EmitBlock(bufferKind, blockCode, typeBlocks, funcBlocks, mainBody)
 
                             bufferKind = Nothing
                         End If
@@ -157,6 +152,16 @@ Namespace Script
                     End If
                 End If
             Next
+
+            ' ---- 兜底处理: 存在没有正常闭合的代码块时, 将残留的块内容一并导出,
+            '      避免因为块不配对(例如缺少Next/End Function)而静默丢失脚本代码 ----
+            If buffer.Count > 0 Then
+                Dim blockCode As String = String.Join(vbLf, buffer)
+                Call buffer.Clear()
+                Call EmitBlock(bufferKind, blockCode, typeBlocks, funcBlocks, mainBody)
+
+                bufferKind = Nothing
+            End If
 
             ' ---- 组装最终的完整代码 ----
             Dim sb As New StringBuilder()
@@ -219,6 +224,22 @@ Namespace Script
 
             Return sb.ToString()
         End Function
+
+        ''' <summary>
+        ''' 将缓冲收集到的一个完整代码块, 按照其块类型派发到对应的结果集合之中
+        ''' </summary>
+        ''' <param name="bufferKind">块类型: type/func/stmt</param>
+        Private Sub EmitBlock(bufferKind As String, blockCode As String,
+                              typeBlocks As List(Of String),
+                              funcBlocks As List(Of String),
+                              mainBody As List(Of String))
+
+            Select Case bufferKind
+                Case "type" : Call typeBlocks.Add(blockCode)
+                Case "func" : Call funcBlocks.Add(blockCode)
+                Case Else : Call mainBody.AddRange(blockCode.Split(vbLf))
+            End Select
+        End Sub
 
         ''' <summary>剥离行尾注释(用于块结构检测)</summary>
         Private Function StripComment(line As String) As String
@@ -336,12 +357,21 @@ Namespace Script
             Return IsControlBlockStart(line, blockType)
         End Function
 
-        ''' <summary>判断代码行是否为指定类型块的结束标记</summary>
+        ''' <summary>
+        ''' 判断代码行是否为指定类型块的结束标记
+        ''' </summary>
+        ''' <remarks>
+        ''' 栈中所保存的块类型名称统一为小写形式(全部经由``bt.ToLower``入栈),
+        ''' 而VB的Select Case在默认的``Option Compare Binary``之下是区分大小写的,
+        ''' 所以这里必须先统一大小写之后再进行块类型判定, 否则``For``/``Do``块
+        ''' 将永远无法被``Next``/``Loop``所闭合。
+        ''' </remarks>
         Private Function IsBlockEnd(line As String, blockType As String) As Boolean
-            Select Case blockType
-                Case "For" : Return Regex.IsMatch(line, "^next\b", RegexOptions.IgnoreCase)
-                Case "Do" : Return Regex.IsMatch(line, "^loop\b", RegexOptions.IgnoreCase)
-                Case Else : Return Regex.IsMatch(line, "^end\s+" & blockType & "\b", RegexOptions.IgnoreCase)
+            Select Case blockType.ToLower()
+                Case "for" : Return Regex.IsMatch(line, "^next\b", RegexOptions.IgnoreCase)
+                Case "do" : Return Regex.IsMatch(line, "^loop\b", RegexOptions.IgnoreCase)
+                Case Else
+                    Return Regex.IsMatch(line, "^end\s+" & Regex.Escape(blockType) & "\b", RegexOptions.IgnoreCase)
             End Select
         End Function
 
