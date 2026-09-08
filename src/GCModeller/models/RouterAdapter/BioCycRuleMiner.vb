@@ -425,7 +425,7 @@ Public Module BioCycRuleMiner
             Return Nothing
         End Try
 
-        ' ---- 10) 自检：规则必须能匹配它自己的底物/产物，否则是无效泛化
+        ' ---- 10) 自检：规则必须能匹配它自己的底物/产物
         Try
             If PatternMatcher.Match(pMol, rule.Product, 1).Count = 0 OrElse
                PatternMatcher.Match(rMol, rule.Reactant, 1).Count = 0 Then
@@ -437,7 +437,61 @@ Public Module BioCycRuleMiner
             Return Nothing
         End Try
 
+        ' ---- 11) 自检（关键）：把规则正向施加到它自己的底物上，必须真的得到它自己的产物。
+        '     这一步能滤掉"退化规则"——两侧模式拓扑相同、只是把一段结构原样替换成另一段
+        '     相同结构的伪规则（如把共轭二烯换成共轭二烯）。这类规则能匹配大量无关分子，
+        '     却是零信息量的空转步骤，实测会污染搜索结果的 Top 路径。
+        Dim mainProduct As Molecule = LargestComponent(pMol)
+        Dim mainReactant As Molecule = LargestComponent(rMol)
+
+        If mainProduct IsNot Nothing AndAlso mainReactant IsNot Nothing Then
+            Dim pKey As String = mainProduct.MolKey()
+            Dim rKey As String = mainReactant.MolKey()
+            Dim ok As Boolean = False
+
+            Try
+                For Each a As ApplicationResult In RuleEngine.ApplyForward(rMol, rule, 20)
+                    For Each f As Molecule In a.Fragments
+                        If f.NumAtoms() = mainProduct.NumAtoms() AndAlso f.MolKey() = pKey Then
+                            ok = True
+                            Exit For
+                        End If
+                    Next
+                    If ok Then Exit For
+                Next
+                If Not ok Then
+                    For Each a As ApplicationResult In RuleEngine.ApplyReverse(pMol, rule, 20)
+                        For Each f As Molecule In a.Fragments
+                            If f.NumAtoms() = mainReactant.NumAtoms() AndAlso f.MolKey() = rKey Then
+                                ok = True
+                                Exit For
+                            End If
+                        Next
+                        If ok Then Exit For
+                    Next
+                End If
+            Catch ex As Exception
+                ok = False
+            End Try
+
+            If Not ok Then
+                Bail(skipped, trace, rxnId, "self-apply-failed")
+                Return Nothing
+            End If
+        End If
+
         Return rule
+    End Function
+
+    ''' <summary>取分子中最大的连通分量（多组分体系中即"主底物/主产物"）</summary>
+    Private Function LargestComponent(mol As Molecule) As Molecule
+        Dim best As Molecule = Nothing
+
+        For Each f As Molecule In mol.SplitComponents()
+            If best Is Nothing OrElse f.NumAtoms() > best.NumAtoms() Then best = f
+        Next
+
+        Return best
     End Function
 
     ''' <summary>用该侧独有的键（成键/断键）把模式的连通性补齐</summary>
