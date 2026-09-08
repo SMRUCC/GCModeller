@@ -61,6 +61,7 @@ Public Module BioCycRuleMiner
                          Optional maxMoleculeAtoms As Integer = 80,
                          Optional maxPatternAtoms As Integer = 32,
                          Optional mcsNodeBudget As Integer = 60000,
+                         Optional maxUnmappedAtoms As Integer = 3,
                          Optional includeBuiltin As Boolean = False,
                          Optional skipped As Dictionary(Of String, Integer) = Nothing) As List(Of Rule)
 
@@ -81,7 +82,7 @@ Public Module BioCycRuleMiner
             End If
 
             Dim rule As Rule = MineOne(rxn, structures, maxMoleculeAtoms,
-                                       maxPatternAtoms, mcsNodeBudget, skipped)
+                                       maxPatternAtoms, mcsNodeBudget, maxUnmappedAtoms, skipped)
             If rule Is Nothing Then Continue For
 
             Dim key As String = rule.ReactantText & ">>" & rule.ProductText
@@ -109,6 +110,7 @@ Public Module BioCycRuleMiner
                              maxMoleculeAtoms As Integer,
                              maxPatternAtoms As Integer,
                              mcsNodeBudget As Integer,
+                             maxUnmappedAtoms As Integer,
                              skipped As Dictionary(Of String, Integer)) As Rule
 
         ' ---- 1) 方向归正：不要直接用 left/right，equation 已按 REACTION-DIRECTION 归正
@@ -160,7 +162,7 @@ Public Module BioCycRuleMiner
         End If
 
         ' ---- 3) 原子映射 [§2.1]
-        Dim map As MappingResult = AtomMapping.Map(rMol, pMol, mcsNodeBudget)
+        Dim map As MappingResult = AtomMapping.Map(rMol, pMol, mcsNodeBudget, maxUnmappedAtoms)
 
         ' ---- 4) 反应中心 = 未映射原子 ∪ 其 1 层邻居 [§2.2 / §2.3]
         If map.ReactantOnly.Count = 0 AndAlso map.ProductOnly.Count = 0 Then
@@ -188,8 +190,12 @@ Public Module BioCycRuleMiner
 
         ' (b)/(c) 不动点迭代：映射闭包 + 连通性修补
         Dim changed As Boolean = True
+        Dim oversized As Boolean = False
+        Dim rounds As Integer = 0
+
         While changed
             changed = False
+            rounds += 1
 
             ' 映射闭包：已映射对的另一侧必须同时进入模式，否则该类号只在一侧出现
             For Each pr In map.Pairs
@@ -203,8 +209,20 @@ Public Module BioCycRuleMiner
             If RepairIsolated(rMol, centerR) Then changed = True
             If RepairIsolated(pMol, centerP) Then changed = True
 
-            If centerR.Count > maxPatternAtoms OrElse centerP.Count > maxPatternAtoms Then Exit While
+            If centerR.Count > maxPatternAtoms OrElse centerP.Count > maxPatternAtoms Then
+                oversized = True
+                Exit While
+            End If
+            If rounds > 8 Then
+                oversized = True
+                Exit While
+            End If
         End While
+
+        If oversized Then
+            CountSkip(skipped, "center-too-large")
+            Return Nothing
+        End If
 
         ' 仍然孤立（单原子分子等情况）→ 无法构成合法模式
         For Each r As Integer In centerR
@@ -219,11 +237,6 @@ Public Module BioCycRuleMiner
                 Return Nothing
             End If
         Next
-
-        If centerR.Count > maxPatternAtoms OrElse centerP.Count > maxPatternAtoms Then
-            CountSkip(skipped, "center-too-large")
-            Return Nothing
-        End If
 
         ' ---- 5) 类号分配：映射对同号，未映射原子各自新号
         Dim clsR As New Dictionary(Of Integer, Integer)()
@@ -307,7 +320,7 @@ Public Module BioCycRuleMiner
         Dim pText As String = EmitSide(clsP.Values.ToList(), forest, False, pMol, atomOfClsP)
 
         If rText Is Nothing OrElse pText Is Nothing Then
-            CountSkip(skipped, "isolated-center-atom")
+            CountSkip(skipped, "emit-isolated")
             Return Nothing
         End If
         If clsR.Count > maxPatternAtoms OrElse clsP.Count > maxPatternAtoms Then
