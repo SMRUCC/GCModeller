@@ -9,6 +9,8 @@
 ' 价态模型：隐式 H = max(0, 价态 − Σ键级 − 显式H)；价态违规的应用被拒绝。
 ' ============================================================================
 
+Imports SMRUCC.genomics.ComponentModel.Chemical
+
 Namespace Chem
 
     Public Class Molecule
@@ -94,7 +96,7 @@ Namespace Chem
             For Each nb In Neighbors(a)
                 used += nb.Item2
             Next
-            Return Math.Max(0, ValenceOf(Elements(a), Charges(a)) - used - ExplicitH(a))
+            Return Math.Max(0, ChemicalExtensions.ValenceOf(Elements(a), Charges(a)) - used - ExplicitH(a))
         End Function
 
         Public Function TotalH(a As Int32) As Int32
