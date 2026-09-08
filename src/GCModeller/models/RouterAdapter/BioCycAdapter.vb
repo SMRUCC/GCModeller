@@ -77,6 +77,7 @@ Public Class BioCycAdapter
             Optional maxUnmappedAtoms As Integer = 3,
             Optional shellRadius As Integer = 2,
             Optional includeBuiltinRules As Boolean = False,
+            Optional strictSelfCheck As Boolean = False,
             Optional verbose As Boolean = True,
             Optional keepRuleTrace As Boolean = False)
 
@@ -143,6 +144,7 @@ Public Class BioCycAdapter
             maxUnmappedAtoms:=maxUnmappedAtoms,
             shellRadius:=shellRadius,
             includeBuiltin:=includeBuiltinRules,
+            strictSelfCheck:=strictSelfCheck,
             skipped:=Skipped,
             trace:=If(keepRuleTrace, RuleTrace, Nothing)))
 

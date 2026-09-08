@@ -64,6 +64,7 @@ Public Module BioCycRuleMiner
                          Optional maxUnmappedAtoms As Integer = 3,
                          Optional shellRadius As Integer = 2,
                          Optional includeBuiltin As Boolean = False,
+                         Optional strictSelfCheck As Boolean = False,
                          Optional skipped As Dictionary(Of String, Integer) = Nothing,
                          Optional trace As Dictionary(Of String, String) = Nothing) As List(Of Rule)
 
@@ -84,7 +85,8 @@ Public Module BioCycRuleMiner
             End If
 
             Dim rule As Rule = MineOne(rxn, structures, maxMoleculeAtoms,
-                                       maxPatternAtoms, mcsNodeBudget, maxUnmappedAtoms, shellRadius, skipped, trace)
+                                       maxPatternAtoms, mcsNodeBudget, maxUnmappedAtoms, shellRadius,
+                                       strictSelfCheck, skipped, trace)
             If rule Is Nothing Then Continue For
 
             Dim key As String = rule.ReactantText & ">>" & rule.ProductText
@@ -114,6 +116,7 @@ Public Module BioCycRuleMiner
                              mcsNodeBudget As Integer,
                              maxUnmappedAtoms As Integer,
                              shellRadius As Integer,
+                             strictSelfCheck As Boolean,
                              skipped As Dictionary(Of String, Integer),
                              Optional trace As Dictionary(Of String, String) = Nothing) As Rule
 
@@ -509,19 +512,13 @@ Public Module BioCycRuleMiner
             End Try
 
             If Not ok Then
-                If rxnId = "CHORISMATE-SYNTHASE-RXN" Then
-                    Console.Error.WriteLine("[trace] rule  = " & rule.ReactantText & " >> " & rule.ProductText)
-                    Console.Error.WriteLine("[trace] want  = " & SmilesIO.Write(mainProduct))
-                    Try
-                        For Each a As ApplicationResult In RuleEngine.ApplyForward(rMol, rule, 20)
-                            Console.Error.WriteLine("[trace] got   = " & String.Join(" + ", a.Fragments.Select(Function(f) SmilesIO.Write(f))))
-                        Next
-                    Catch ex As Exception
-                        Console.Error.WriteLine("[trace] apply error " & ex.Message)
-                    End Try
+                ' 严格模式下直接丢弃；否则只记数（rejectedSelfCheck 由调用方汇总），
+                ' 规则仍保留——这是"召回 vs 化学严格性"的取舍开关。
+                If strictSelfCheck Then
+                    Bail(skipped, trace, rxnId, "self-apply-failed")
+                    Return Nothing
                 End If
-                Bail(skipped, trace, rxnId, "self-apply-failed")
-                Return Nothing
+                CountSkip(skipped, "self-apply-failed(kept)")
             End If
         End If
 
