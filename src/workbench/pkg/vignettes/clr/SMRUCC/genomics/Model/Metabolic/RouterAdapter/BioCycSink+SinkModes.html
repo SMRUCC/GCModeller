@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.LppVariable</title>
+    <title>SMRUCC.genomics.Model.Metabolic.RouterAdapter.BioCycSink+SinkModes</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>LppVariable {Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming}</td>
+                <td>SinkModes {SMRUCC.genomics.Model.Metabolic.RouterAdapter}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>LppVariable</h2>
+        <h2>SinkModes</h2>
 
         <h3>Description</h3>
 
@@ -28,21 +28,23 @@
 
         <pre>
             <code id="clr_ts">
-# namespace Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
-export class LppVariable {
-   coefficient: double;
-   # 变量下界，默认 0（标准形要求 x ≥ 0）
-   LowerBound: double;
-   symbol: string;
-   # 变量上界，默认 +∞（无上界）。有限上界由内点法原生支持 （引入 w = u − x 与对偶 z，Θ = 1/(s/x + z/w)），不会增加约束行数。
-   UpperBound: double;
+# namespace SMRUCC.genomics.Model.Metabolic.RouterAdapter
+export class SinkModes extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   Core: <a href="/vignettes/clr/SMRUCC/genomics/Model/Metabolic/RouterAdapter/SinkModes.html">SinkModes</a> = 0;
+
+   All: <a href="/vignettes/clr/SMRUCC/genomics/Model/Metabolic/RouterAdapter/SinkModes.html">SinkModes</a> = 1;
+
 }
 </code>
         </pre>
 
         <h3>.NET clr type reference tree</h3>
 
-        this clr type has no other .net clr type reference.
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Core</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Metabolic/RouterAdapter/SinkModes.html">SinkModes</a></li>
+<li>use by <i>field</i> member <code>All</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Metabolic/RouterAdapter/SinkModes.html">SinkModes</a></li>
+</ol>
 
 
         <hr />

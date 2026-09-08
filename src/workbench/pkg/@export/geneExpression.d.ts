@@ -196,7 +196,7 @@ declare namespace geneExpression {
      * @param pattern the cmeans clustering result, which can be an 
      *  @``T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern`` object, a data frame object of the 
      *  membership matrix, or a pipeline object that produces a set of the 
-     *  @``T:Microsoft.VisualBasic.DataMining.KMeans.EntityClusterModel`` cluster model data.
+     *  @``T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel`` cluster model data.
      * @param memberCutoff the membership cutoff value for assign a gene feature into the target 
      *  cluster: the gene feature will be assigned into the cluster if its 
      *  membership value is greater than this threshold ratio of the max membership 
@@ -214,7 +214,7 @@ declare namespace geneExpression {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a vector of the @``T:Microsoft.VisualBasic.DataMining.KMeans.EntityClusterModel`` cluster model data: the 
+     * @return a vector of the @``T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel`` cluster model data: the 
      *  ``ID`` property is the gene feature id, the ``Properties`` property is the 
      *  membership value of the gene feature to each cluster(``#1``, ``#2``, ...), 
      *  and the ``Cluster`` property is the cluster tag that the gene feature has 
@@ -839,7 +839,7 @@ declare namespace geneExpression {
      * @return this function returns a tuple list that contains the pattern 
      *  cluster matrix and the cmeans pattern plots.
      *  
-     *  1. 'pattern' is a vector of the @``T:Microsoft.VisualBasic.DataMining.KMeans.EntityClusterModel`` data that contains the object cluster patterns
+     *  1. 'pattern' is a vector of the @``T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel`` data that contains the object cluster patterns
      *  2. 'image' is a bitmap image that plot based on the object cluster patterns data.
      *  3. 'pdf' is a pdf image that could be edit
      *  4. 'cmeans' is the raw @``T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern`` object of the cmeans clustering result

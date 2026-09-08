@@ -160,7 +160,7 @@ declare namespace sampleInfo {
         *  of the given expression matrix, and the ``sample_info`` property of the 
         *  sample data will be used as the class label of the generated dataset 
         *  entities.
-        * @return a vector of the @``T:Microsoft.VisualBasic.DataMining.KMeans.EntityClusterModel`` data entity: the ``ID`` 
+        * @return a vector of the @``T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel`` data entity: the ``ID`` 
         *  property is the sample id, the ``Cluster`` property is the sample group 
         *  label and the ``Properties`` property is the expression value of each gene 
         *  feature in the corresponding sample.
