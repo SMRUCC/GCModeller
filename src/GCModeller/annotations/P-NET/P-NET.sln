@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.9.12120.119 stable
+VisualStudioVersion = 18.9.12120.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "P-NET", "P-NET\P-NET.vbproj", "{F9384548-FA76-4E91-9131-DDB692AF2918}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TensorFlow", "..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj", "{B35460EA-7FDB-0EA7-4684-A17F0059339B}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "test", "test\test.vbproj", "{27D349B5-1A06-4F33-8235-36F778A47F36}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DeepLearning.NET6", "..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\DeepLearning\DeepLearning.NET6.vbproj", "{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -353,6 +355,50 @@ Global
 		{27D349B5-1A06-4F33-8235-36F778A47F36}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
 		{27D349B5-1A06-4F33-8235-36F778A47F36}.Rsharp_app_release|x64.ActiveCfg = Release|Any CPU
 		{27D349B5-1A06-4F33-8235-36F778A47F36}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Debug|x64.ActiveCfg = Debug|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Debug|x64.Build.0 = Debug|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.gcmodeller_desktop|Any CPU.ActiveCfg = gcmodeller_desktop|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.gcmodeller_desktop|Any CPU.Build.0 = gcmodeller_desktop|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.gcmodeller_desktop|x64.ActiveCfg = gcmodeller_desktop|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.gcmodeller_desktop|x64.Build.0 = gcmodeller_desktop|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.LipidSearch|Any CPU.ActiveCfg = LipidSearch|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.LipidSearch|Any CPU.Build.0 = LipidSearch|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.LipidSearch|x64.ActiveCfg = LipidSearch|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.LipidSearch|x64.Build.0 = LipidSearch|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.MEMI-Desktop|Any CPU.ActiveCfg = MEMI-Desktop|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.MEMI-Desktop|Any CPU.Build.0 = MEMI-Desktop|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.MEMI-Desktop|x64.ActiveCfg = MEMI-Desktop|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.MEMI-Desktop|x64.Build.0 = MEMI-Desktop|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.mzkit_win32|Any CPU.ActiveCfg = mzkit_win32|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.mzkit_win32|Any CPU.Build.0 = mzkit_win32|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.mzkit_win32|x64.ActiveCfg = mzkit_win32|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.mzkit_win32|x64.Build.0 = mzkit_win32|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.mzkit|Any CPU.ActiveCfg = mzkit|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.mzkit|Any CPU.Build.0 = mzkit|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.mzkit|x64.ActiveCfg = mzkit|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.mzkit|x64.Build.0 = mzkit|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.NPSearch|Any CPU.ActiveCfg = LipidSearch|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.NPSearch|Any CPU.Build.0 = LipidSearch|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.NPSearch|x64.ActiveCfg = LipidSearch|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.NPSearch|x64.Build.0 = LipidSearch|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.nuget_release|Any CPU.ActiveCfg = nuget_release|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.nuget_release|Any CPU.Build.0 = nuget_release|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.nuget_release|x64.ActiveCfg = nuget_release|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.nuget_release|x64.Build.0 = nuget_release|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.PlantMAT|Any CPU.ActiveCfg = LipidSearch|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.PlantMAT|Any CPU.Build.0 = LipidSearch|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.PlantMAT|x64.ActiveCfg = LipidSearch|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.PlantMAT|x64.Build.0 = LipidSearch|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Release|x64.ActiveCfg = Release|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Release|x64.Build.0 = Release|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -363,6 +409,7 @@ Global
 		{B72A8770-7388-4318-8EC9-6BA75A22FF1C} = {AAAAF2DA-D8A7-4554-9B0A-A3E5259F1D38}
 		{3DCE9684-A359-4425-846D-07B481552711} = {AAAAF2DA-D8A7-4554-9B0A-A3E5259F1D38}
 		{B35460EA-7FDB-0EA7-4684-A17F0059339B} = {AAAAF2DA-D8A7-4554-9B0A-A3E5259F1D38}
+		{FD1BAA0E-F369-7183-EA09-FFDA3FF75CD4} = {AAAAF2DA-D8A7-4554-9B0A-A3E5259F1D38}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6CE5147F-CF7E-4E7F-88DB-5EFCD54E5AD1}
