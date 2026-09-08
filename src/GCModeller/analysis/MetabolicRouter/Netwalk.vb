@@ -9,13 +9,13 @@ Public Class Netwalk
     Public ReadOnly Property opts As SearchOptions
     Public ReadOnly Property w As ScoreWeights
     Public ReadOnly Property rules As List(Of Rule)
-    Public ReadOnly Property sink As List(Of Tuple(Of String, String))
+    Public ReadOnly Property sink As List(Of (String, smiles As String))
 
-    Sub New(rules As List(Of Rule), sink As List(Of Tuple(Of String, String)), opts As SearchOptions, w As ScoreWeights)
-        _rules = rules
+    Sub New(rules As IReadOnlyCollection(Of Rule), sink As IReadOnlyCollection(Of (String, smiles As String)), opts As SearchOptions, w As ScoreWeights)
+        _rules = New List(Of Rule)(rules)
         _w = w
         _opts = opts
-        _sink = sink
+        _sink = New List(Of (String, String))(sink)
     End Sub
 
     Public Function Search(targetSmiles As String) As PathReport
@@ -23,7 +23,7 @@ Public Class Netwalk
         Dim target = SmilesIO.Parse(targetSmiles)
         Dim sinkKeys As New HashSet(Of String)()
         For Each s In sink
-            sinkKeys.Add(SmilesIO.Parse(s.Item2).MolKey())
+            sinkKeys.Add(SmilesIO.Parse(s.smiles).MolKey())
         Next
         Dim currencyKeys As New HashSet(Of String)()
         For Each cs In RuleLibrary.CurrencySmiles()
