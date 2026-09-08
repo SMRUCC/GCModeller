@@ -1,62 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::425d2d1da0e210431094761cf4beb491, core\Bio.Assembly\SequenceModel\MWCalculator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 245
-    '    Code Lines: 146 (59.59%)
-    ' Comment Lines: 68 (27.76%)
-    '    - Xml Docs: 92.65%
-    ' 
-    '   Blank Lines: 31 (12.65%)
-    '     File Size: 9.28 KB
+' Summaries:
 
 
-    '     Module MolecularWeightCalculator
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) CalcMW_Nucleotides, (+2 Overloads) CalcMW_Polypeptide, DeoxyribonucleotideFormula, PolypeptideFormula, RibonucleotideFormula
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 245
+'    Code Lines: 146 (59.59%)
+' Comment Lines: 68 (27.76%)
+'    - Xml Docs: 92.65%
+' 
+'   Blank Lines: 31 (12.65%)
+'     File Size: 9.28 KB
+
+
+'     Module MolecularWeightCalculator
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: (+2 Overloads) CalcMW_Nucleotides, (+2 Overloads) CalcMW_Polypeptide, DeoxyribonucleotideFormula, PolypeptideFormula, RibonucleotideFormula
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Chemical
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
