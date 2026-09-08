@@ -12,34 +12,93 @@
 
 Namespace Chem
 
+    ''' <summary>
+    ''' 模式中的一个原子（SMARTS 子集的一个原子约束）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 语法 <c>[元素(Hn)(Dn)(!O)(!=O)(+/-)(:类号)]</c>，例 <c>[C]</c>、<c>[CH2]</c>、
+    ''' <c>[CD3H0!O:1]</c>、<c>[O-]</c>。除类号外各项都是可选约束，取哨兵值表示不约束。
+    ''' </remarks>
     Public Class PatternAtom
 
+        ''' <summary>
+        ''' 元素符号；Nothing 表示通配（本规则库未使用通配原子）。
+        ''' </summary>
         Public Element As String            ' Nothing = 通配（本库未用）
+
+        ''' <summary>
+        ''' 形式电荷约束；-999 表示"任意电荷"。
+        ''' </summary>
         Public Charge As Int32 = -999       ' -999 = 任意
+
+        ''' <summary>
+        ''' 氢总数（显式 + 隐式）约束；-999 表示"不约束氢数"。
+        ''' </summary>
         Public HCount As Int32 = -999       ' -999 = 任意
+
+        ''' <summary>
+        ''' 重原子度约束；-999 表示"不约束度数"。
+        ''' </summary>
         Public Degree As Int32 = -999       ' -999 = 任意
-        ''' <summary>!O：无单键羟基氧邻居（用于区分酮/醛 C 与羧基 C）</summary>
+
+        ''' <summary>
+        ''' !O：要求该原子没有"以单键相连的羟基氧"邻居（用于区分酮/醛碳与羧基碳）。
+        ''' </summary>
         Public NoOhNeighbor As Boolean = False
-        ''' <summary>!=O：无双键羰基氧邻居（用于排除羧基/羰基碳，R005 脱水反应中心）</summary>
+
+        ''' <summary>
+        ''' !=O：要求该原子没有"以双键相连的羰基氧"邻居（用于排除羧基碳、羰基碳）。
+        ''' </summary>
         Public NoOxoNeighbor As Boolean = False
+
+        ''' <summary>
+        ''' 原子类号（SMIRKS 的原子映射"货币"）：规则两侧同一类号代表同一个原子。
+        ''' </summary>
         Public Cls As Int32 = -1
 
     End Class
 
+    ''' <summary>
+    ''' 一个完整的子结构模式（规则的一侧）：模式原子 + 模式内键 + 逐原子的 !O 标记。
+    ''' </summary>
     Public Class Pattern
 
-        Public Atoms As New List(Of PatternAtom)()
         ''' <summary>
-        ''' (a, b, order；0=任意)
+        ''' 模式原子列表，下标即模式内索引。
+        ''' </summary>
+        Public Atoms As New List(Of PatternAtom)()
+
+        ''' <summary>
+        ''' 模式内的键 (a, b, order)；order 为 0 表示"任意键级"（<c>~</c>）。
         ''' </summary>
         Public Bonds As New List(Of Bond)()
+
+        ''' <summary>
+        ''' 与 <see cref="Atoms"/> 逐项对应的 !O 标记缓存。
+        ''' </summary>
         Public NoOh As New List(Of Boolean)()
 
     End Class
 
+    ''' <summary>
+    ''' SMARTS 子集的模式解析与子图单射匹配。
+    ''' </summary>
+    ''' <remarks>
+    ''' 关键语义约定：只有"有键的原子"参与匹配。模式中不带任何键的独立组分不会被匹配，
+    ''' 而是在规则应用时被当作"生成/离去的辅底物模板"。因此构造模式时，凡需要参与匹配的
+    ''' 原子都必须在模式里至少有一条键。
+    ''' </remarks>
     Public Module PatternMatcher
 
-        ''' <summary>解析模式字符串</summary>
+        ''' <summary>
+        ''' 解析模式字符串，构造 <see cref="Pattern"/>。
+        ''' </summary>
+        ''' <param name="s">
+        ''' 模式串，语法见 <see cref="PatternAtom"/>；键符支持 <c>-</c> 单键、<c>=</c> 双键、
+        ''' <c>#</c> 三键、<c>~</c> 任意，默认单键；<c>.</c> 用作多组分分隔。
+        ''' </param>
+        ''' <returns>解析得到的模式对象。</returns>
+        ''' <exception cref="ArgumentException">括号不匹配/未闭合，或元素、旗标无法解析时抛出。</exception>
         Public Function ParsePattern(s As String) As Pattern
             Dim p As New Pattern()
             Dim stack As New Stack(Of Int32)()
@@ -142,8 +201,15 @@ Namespace Chem
         End Function
 
         ''' <summary>
-        ''' 子图单射匹配（回溯枚举，上限 limit）。返回 [{类号 → 分子原子}]（去重）。
+        ''' 在分子中枚举模式的全部子图单射匹配（回溯搜索，最多 <paramref name="limit"/> 个）。
         ''' </summary>
+        ''' <param name="m">被搜索的目标分子。</param>
+        ''' <param name="pat">待匹配的模式。</param>
+        ''' <param name="limit">返回结果数量上限，用于控制组合爆炸。</param>
+        ''' <returns>
+        ''' 匹配列表，每项为一个"类号 → 分子原子索引"的字典，已按内容去重。
+        ''' 未命中时返回空列表。
+        ''' </returns>
         Public Function Match(m As Molecule, pat As Pattern, Optional limit As Int32 = 100) As List(Of Dictionary(Of Int32, Int32))
             Dim matcher As New MatcherState(m, pat, limit)
             matcher.Run()

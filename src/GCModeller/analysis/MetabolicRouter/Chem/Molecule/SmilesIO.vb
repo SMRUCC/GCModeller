@@ -9,11 +9,32 @@
 
 Namespace Chem
 
+    ''' <summary>
+    ''' SMILES 的输入/输出：一个"够用即可"的 SMILES 子集解析与确定性写出实现。
+    ''' </summary>
+    ''' <remarks>
+    ''' 解析支持：元素（双字母优先）、支链 <c>()</c>、环闭合数字、键符 <c>- = #</c>、
+    ''' 电价（<c>[NH4+]</c>、<c>[O-]</c>）、显式氢（<c>[NH2]</c>）、多组分 <c>.</c>。
+    ''' 不支持：芳香小写记号（请改用 Kekulé 式）、<c>@/@@</c> 与 <c>/ \</c> 立体标记、
+    ''' <c>%nn</c> 多位环号、通配原子 <c>*</c>；元素表仅含
+    ''' Cl、Br、Si、C、N、O、S、P、F、I、B、H。
+    ''' 写出具备 roundtrip 性质：write → parse → 同一 <see cref="Molecule.MolKey"/>。
+    ''' </remarks>
     Public Module SmilesIO
 
+        ''' <summary>
+        ''' 可解析的元素符号表；双字母元素排在单字母之前，保证 "Cl"/"Br"/"Si" 优先匹配。
+        ''' </summary>
         Private ReadOnly ElementsAlt As String() = {"Cl", "Br", "Si", "C", "N", "O", "S", "P", "F", "I", "B", "H"}
 
-        ''' <summary>解析 SMILES 子集</summary>
+        ''' <summary>
+        ''' 解析 SMILES 字符串，构造对应的分子图。
+        ''' </summary>
+        ''' <param name="smiles">待解析的 SMILES（须落在本模块支持的子集内）。</param>
+        ''' <returns>解析得到的 <see cref="Molecule"/>。</returns>
+        ''' <exception cref="ArgumentException">
+        ''' SMILES 括号不匹配、环号未闭合、或遇到无法识别的元素/记号时抛出。
+        ''' </exception>
         Public Function Parse(smiles As String) As Molecule
             Dim m As New Molecule()
             Dim stack As New Stack(Of Int32)()
@@ -125,7 +146,14 @@ Namespace Chem
             Return Nothing
         End Function
 
-        ''' <summary>确定性 SMILES 写出</summary>
+        ''' <summary>
+        ''' 以确定性 DFS（邻居按 Morgan 秩排序）写出 SMILES：支链括号化、环用数字闭合。
+        ''' </summary>
+        ''' <param name="m">待写出的分子；多组分分子各分量以 <c>.</c> 分隔。</param>
+        ''' <returns>规范 SMILES 字符串；空分子返回空串。</returns>
+        ''' <remarks>
+        ''' 同一分子（含同构的不同写法）总是得到同一输出，因此可作为结构比较与去重的依据。
+        ''' </remarks>
         Public Function Write(m As Molecule) As String
             If m.NumAtoms() = 0 Then Return ""
             Dim writer As New SmilesWriter(m)

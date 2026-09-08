@@ -2,25 +2,45 @@
 
 Namespace Chem
 
-    ''' <summary>写出器（封装递归 DFS 状态）</summary>
+    ''' <summary>
+    ''' SMILES 写出器：封装一次确定性 DFS 写出所需的全部可变状态。
+    ''' </summary>
+    ''' <remarks>
+    ''' 直接使用者应优先调用 <see cref="SmilesIO.Write(Molecule)"/>；本类暴露出来是为了
+    ''' 需要复用写出状态或做自定义写法的场景。写出顺序由 <see cref="Molecule.MorganRanks"/>
+    ''' 决定，因此结果确定、可重现。
+    ''' </remarks>
     Public Class SmilesWriter
 
+        ''' <summary>待写出的分子。</summary>
         Private ReadOnly _m As Molecule
+        ''' <summary>各原子的 Morgan 秩标签，用于确定 DFS 的邻居遍历顺序。</summary>
         Private ReadOnly _ranks As List(Of String)
+        ''' <summary>输出缓冲区。</summary>
         Private ReadOnly _sb As New StringBuilder()
+        ''' <summary>当前正在处理的连通分量的原子集合。</summary>
         Private ReadOnly _compSet As HashSet(Of Int32)
+        ''' <summary>当前分量中已经发射过的原子，避免同一原子被写出两次。</summary>
         Private ReadOnly _emitted As New HashSet(Of Int32)()
         ''' <summary>原子 → 该原子上待输出的环闭合号列表 [(digit, order)]；回边两端登记同一 digit</summary>
         Private ReadOnly _ringDigits As New Dictionary(Of Int32, List(Of Tuple(Of Int32, Int32)))()
         ''' <summary>DFS 回边端点对 (min, max)：写出时不得作为树边遍历，仅由环号表达</summary>
         Private ReadOnly _ringEdgeKeys As New HashSet(Of (Integer, Integer))()
 
+        ''' <summary>
+        ''' 以给定分子初始化写出器（会预先计算 Morgan 秩）。
+        ''' </summary>
+        ''' <param name="m">待写出的分子。</param>
         Public Sub New(m As Molecule)
             _m = m
             _ranks = m.MorganRanks()
             _compSet = New HashSet(Of Int32)(m.Components()(0))
         End Sub
 
+        ''' <summary>
+        ''' 执行写出：逐连通分量做确定性 DFS，分量之间以 <c>.</c> 分隔。
+        ''' </summary>
+        ''' <returns>规范 SMILES 字符串。</returns>
         Public Function Write() As String
             Dim comps = _m.Components()
             Dim first = True
