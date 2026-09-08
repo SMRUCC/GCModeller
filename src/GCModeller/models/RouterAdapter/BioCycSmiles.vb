@@ -32,13 +32,22 @@ Public Module BioCycSmiles
     ''' 剔除立体/构型标记（/ \ @），返回可交给 SmilesIO.Parse 的 SMILES。
     ''' 含 %nn 环号或通配 * 的串无法净化，返回 Nothing。
     ''' </summary>
-    Public Function Sanitize(raw As String) As String
+    Public Function Sanitize(raw As String, Optional ByRef reason As String = Nothing) As String
+        reason = Nothing
+
         If raw Is Nothing Then Return Nothing
 
         Dim s As String = raw.Trim()
         If s.Length = 0 Then Return Nothing
-        ' 多位环闭合 %10 与通配原子 * 均无法表达
-        If s.IndexOf("%"c) >= 0 OrElse s.IndexOf("*"c) >= 0 Then Return Nothing
+
+        If s.IndexOf("%"c) >= 0 Then
+            reason = "ring-number-%nn"
+            Return Nothing
+        End If
+        If s.IndexOf("*"c) >= 0 Then
+            reason = "wildcard-*"
+            Return Nothing
+        End If
 
         Dim sb As New StringBuilder(s.Length)
 
@@ -53,14 +62,21 @@ Public Module BioCycSmiles
         Dim out As String = sb.ToString()
 
         ' [C@] -> [C] 之类的净化残留：空括号原子已无意义
-        If out.IndexOf("[]") >= 0 Then Return Nothing
+        If out.IndexOf("[]") >= 0 Then
+            reason = "empty-bracket-atom"
+            Return Nothing
+        End If
 
         ' 括号原子必须整体合法。
         ' 这一关不能省：SmilesIO 的括号解析只做前缀匹配，遇到 [Cr+3] 会把 "C" 当成元素、
         ' 后面的 "r+3" 直接忽略，于是铬离子被静默解析成一个"碳原子"——它随后会作为
         ' 单碳碎片进入汇集合，让逆推时掉下来的碳碎片被误判为"已内源"，从而拼出伪通路。
         For Each m As Match In BracketAtom.Matches(out)
-            If Not IsSupportedBracketAtom(m.Groups(1).Value) Then Return Nothing
+            If Not IsSupportedBracketAtom(m.Groups(1).Value) Then
+                ' 金属离子、R 基团、[a protein] 之类的泛型类条目
+                reason = "unsupported-atom[" & m.Groups(1).Value & "]"
+                Return Nothing
+            End If
         Next
 
         Return out
@@ -101,9 +117,9 @@ Public Module BioCycSmiles
         mol = Nothing
         reason = Nothing
 
-        Dim s As String = Sanitize(raw)
+        Dim s As String = Sanitize(raw, reason)
         If s Is Nothing Then
-            reason = "stereo-only"
+            If reason Is Nothing Then reason = "not-sanitizable"
             Return False
         End If
 
