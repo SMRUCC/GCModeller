@@ -29,7 +29,7 @@ Namespace RetroPath.Chem
         ''' <summary>
         ''' (a, b, order；0=任意)
         ''' </summary>
-        Public Bonds As New List(Of Tuple(Of Int32, Int32, Int32))()
+        Public Bonds As New List(Of Bond)()
         Public NoOh As New List(Of Boolean)()
 
     End Class
@@ -67,7 +67,7 @@ Namespace RetroPath.Chem
                     p.NoOh.Add(pa.NoOhNeighbor)
                     Dim idx = p.Atoms.Count - 1
                     If prev >= 0 Then
-                        p.Bonds.Add(Tuple.Create(prev, idx, If(pending >= 0, pending, 1)))
+                        p.Bonds.Add((prev, idx, If(pending >= 0, pending, 1)))
                     End If
                     pending = -1
                     prev = idx
@@ -161,8 +161,8 @@ Namespace RetroPath.Chem
                 ' 匹配类 = 有键类；无键模式 → 全部类
                 Dim bondedCls As New HashSet(Of Int32)()
                 For Each b In _pat.Bonds
-                    bondedCls.Add(_pat.Atoms(b.Item1).Cls)
-                    bondedCls.Add(_pat.Atoms(b.Item2).Cls)
+                    bondedCls.Add(_pat.Atoms(b.a).Cls)
+                    bondedCls.Add(_pat.Atoms(b.b).Cls)
                 Next
                 If bondedCls.Count = 0 Then
                     For Each a In _pat.Atoms
@@ -172,13 +172,13 @@ Namespace RetroPath.Chem
                 ' 匹配子图邻接
                 Dim adj As New Dictionary(Of Int32, List(Of Int32))()
                 For Each b In _pat.Bonds
-                    Dim cx = _pat.Atoms(b.Item1).Cls
-                    Dim cy = _pat.Atoms(b.Item2).Cls
+                    Dim cx = _pat.Atoms(b.a).Cls
+                    Dim cy = _pat.Atoms(b.b).Cls
                     If bondedCls.Contains(cx) AndAlso bondedCls.Contains(cy) Then
-                        If Not adj.ContainsKey(b.Item1) Then adj(b.Item1) = New List(Of Int32)()
-                        If Not adj.ContainsKey(b.Item2) Then adj(b.Item2) = New List(Of Int32)()
-                        adj(b.Item1).Add(b.Item2)
-                        adj(b.Item2).Add(b.Item1)
+                        If Not adj.ContainsKey(b.a) Then adj(b.a) = New List(Of Int32)()
+                        If Not adj.ContainsKey(b.b) Then adj(b.b) = New List(Of Int32)()
+                        adj(b.a).Add(b.b)
+                        adj(b.b).Add(b.a)
                     End If
                 Next
                 ' 连通序（DFS，栈实现）
@@ -254,17 +254,17 @@ Namespace RetroPath.Chem
             Private Function BondsConsistent(pai As Int32, ma As Int32) As Boolean
                 For Each b In _pat.Bonds
                     Dim other As Int32 = -1
-                    If b.Item2 = pai AndAlso _assign.ContainsKey(b.Item1) Then
-                        other = _assign(b.Item1)
-                    ElseIf b.Item1 = pai AndAlso _assign.ContainsKey(b.Item2) Then
-                        other = _assign(b.Item2)
+                    If b.b = pai AndAlso _assign.ContainsKey(b.a) Then
+                        other = _assign(b.a)
+                    ElseIf b.a = pai AndAlso _assign.ContainsKey(b.b) Then
+                        other = _assign(b.b)
                     Else
                         Continue For
                     End If
                     Dim bo = _m.BondOrder(other, ma)
-                    If b.Item3 = 0 Then
+                    If b.order = 0 Then
                         If bo = 0 Then Return False
-                    ElseIf bo <> b.Item3 Then
+                    ElseIf bo <> b.order Then
                         Return False
                     End If
                 Next

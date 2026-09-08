@@ -93,8 +93,8 @@ Namespace RetroPath.Chem
             ' other 侧拓扑
             Dim otherBonded As New HashSet(Of Int32)()
             For Each b In otherSide.Bonds
-                otherBonded.Add(otherSide.Atoms(b.Item1).Cls)
-                otherBonded.Add(otherSide.Atoms(b.Item2).Cls)
+                otherBonded.Add(otherSide.Atoms(b.a).Cls)
+                otherBonded.Add(otherSide.Atoms(b.b).Cls)
             Next
             Dim otherAtom As New Dictionary(Of Int32, PatternAtom)()
             For Each a In otherSide.Atoms
@@ -102,15 +102,15 @@ Namespace RetroPath.Chem
             Next
             Dim otherBonds As New Dictionary(Of Tuple(Of Int32, Int32), Int32)()
             For Each b In otherSide.Bonds
-                Dim cx = otherSide.Atoms(b.Item1).Cls
-                Dim cy = otherSide.Atoms(b.Item2).Cls
-                otherBonds(Tuple.Create(Math.Min(cx, cy), Math.Max(cx, cy))) = b.Item3
+                Dim cx = otherSide.Atoms(b.a).Cls
+                Dim cy = otherSide.Atoms(b.b).Cls
+                otherBonds(Tuple.Create(Math.Min(cx, cy), Math.Max(cx, cy))) = b.order
             Next
             Dim matchBonds As New Dictionary(Of Tuple(Of Int32, Int32), Int32)()
             For Each b In matchSide.Bonds
-                Dim cx = matchSide.Atoms(b.Item1).Cls
-                Dim cy = matchSide.Atoms(b.Item2).Cls
-                matchBonds(Tuple.Create(Math.Min(cx, cy), Math.Max(cx, cy))) = b.Item3
+                Dim cx = matchSide.Atoms(b.a).Cls
+                Dim cy = matchSide.Atoms(b.b).Cls
+                matchBonds(Tuple.Create(Math.Min(cx, cy), Math.Max(cx, cy))) = b.order
             Next
 
             For Each mp In matches
