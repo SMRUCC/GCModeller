@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.RetroPath.Search
 Imports SMRUCC.genomics.MetabolicModel
@@ -28,6 +29,34 @@ Public Class MetabolicNetwork
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function LoadRouter(Optional opts As SearchOptions = Nothing, Optional w As ScoreWeights = Nothing) As MetabolicAdapter
         Return New MetabolicAdapter(compounds.Values, reactions.Values, opts, w)
+    End Function
+
+    Public Function SubNetwork(sources As IEnumerable(Of String)) As MetabolicNetwork
+        Dim check As Index(Of String) = sources.Indexing
+        Dim subs As MetabolicReaction() = reactions.Values _
+            .Where(Function(r)
+                       Return r.sources.Any(Function(tag) tag Like check)
+                   End Function) _
+            .ToArray
+        Dim network As New MetabolicNetwork
+        Dim metaboliteIds As String() = subs.Select(Function(r) r.left.JoinIterates(r.right)) _
+            .IteratesALL _
+            .Keys _
+            .Distinct _
+            .ToArray
+
+        network.compounds = compounds.Subset(metaboliteIds)
+
+        For Each rxn As MetabolicReaction In subs
+            rxn = New MetabolicReaction(rxn)
+            rxn.sources = check _
+                .Intersect(collection:=rxn.sources) _
+                .ToArray
+
+            Call network.reactions.Add(rxn.id, rxn)
+        Next
+
+        Return network
     End Function
 
 End Class

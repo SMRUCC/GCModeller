@@ -58,6 +58,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
@@ -88,6 +89,22 @@ Namespace MetabolicModel
         Public Property ECNumbers As String()
         Public Property gibbs As Double
         Public Property sources As String()
+
+        Sub New()
+        End Sub
+
+        Sub New(copy As MetabolicReaction)
+            id = copy.id
+            name = copy.name
+            description = copy.description
+            left = copy.left.Select(Function(c) New CompoundSpecieReference(c)).ToArray
+            right = copy.right.Select(Function(c) New CompoundSpecieReference(c)).ToArray
+            is_reversible = copy.is_reversible
+            is_spontaneous = copy.is_spontaneous
+            ECNumbers = copy.ECNumbers.SafeQuery.ToArray
+            gibbs = copy.gibbs
+            sources = copy.sources.SafeQuery.ToArray
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String

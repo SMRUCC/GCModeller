@@ -94,6 +94,12 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
             Me.Compartment = compart
         End Sub
 
+        Sub New(copy As CompoundSpecieReference)
+            Stoichiometry = copy.Stoichiometry
+            ID = copy.ID
+            Compartment = copy.Compartment
+        End Sub
+
         Public Overloads Function Equals(b As ICompoundSpecies, strict As Boolean) As Boolean
             Return Equivalence.Equals(Me, b, strict)
         End Function
