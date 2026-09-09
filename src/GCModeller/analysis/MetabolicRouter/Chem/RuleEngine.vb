@@ -62,6 +62,16 @@ Namespace Chem
         Public Reversible As Boolean
 
         ''' <summary>
+        ''' 正向（反应物模式 → 产物模式）的预计算拓扑；构造期算一次，之后只读共享。
+        ''' </summary>
+        Public ReadOnly Property ForwardPlan As ApplyPlan
+
+        ''' <summary>
+        ''' 逆向（产物模式 → 反应物模式）的预计算拓扑；构造期算一次，之后只读共享。
+        ''' </summary>
+        Public ReadOnly Property ReversePlan As ApplyPlan
+
+        ''' <summary>
         ''' 构造一条反应规则；两侧模式字符串会在此处被立即解析，非法模式会抛异常。
         ''' </summary>
         ''' <param name="id">规则唯一标识。</param>
@@ -84,6 +94,9 @@ Namespace Chem
             Me.DeltaG = dg
             Me.EnzymeTier = tier
             Me.Reversible = reversible
+            ' 两侧拓扑与应用方向有关但与分子无关，提前算好供每次应用复用（只读，线程安全）
+            Me.ForwardPlan = New ApplyPlan(Me.Reactant, Me.Product)
+            Me.ReversePlan = New ApplyPlan(Me.Product, Me.Reactant)
         End Sub
 
     End Class
@@ -127,7 +140,7 @@ Namespace Chem
         ''' <param name="limit">每个模式的匹配枚举上限，用于防组合爆炸。</param>
         ''' <returns>应用结果列表；未命中或全部被价态闸门拒绝时返回空列表。</returns>
         Public Function ApplyForward(m As Molecule, rule As Rule, Optional limit As Int32 = 50) As List(Of ApplicationResult)
-            Return Apply(m, rule.Reactant, rule.Product, limit)
+            Return Apply(m, rule.ForwardPlan, limit)
         End Function
 
         ''' <summary>
@@ -138,7 +151,7 @@ Namespace Chem
         ''' <param name="limit">每个模式的匹配枚举上限。</param>
         ''' <returns>应用结果列表；未命中或全部被价态闸门拒绝时返回空列表。</returns>
         Public Function ApplyReverse(m As Molecule, rule As Rule, Optional limit As Int32 = 50) As List(Of ApplicationResult)
-            Return Apply(m, rule.Product, rule.Reactant, limit)
+            Return Apply(m, rule.ReversePlan, limit)
         End Function
 
         ''' <summary>
@@ -150,33 +163,29 @@ Namespace Chem
         ''' <param name="otherSide">目标侧模式（决定变换后的拓扑）。</param>
         ''' <param name="limit">匹配枚举上限。</param>
         ''' <returns>每个匹配对应的一个应用结果；已过滤掉价态非法的候选。</returns>
+        ''' <remarks>
+        ''' 兼容入口：两侧模式临时构造 <see cref="ApplyPlan"/>。热路径请改用
+        ''' <see cref="Apply(Molecule, ApplyPlan, Integer)"/> 以复用规则预计算好的拓扑。
+        ''' </remarks>
         Public Function Apply(m As Molecule, matchSide As Pattern, otherSide As Pattern,
                               Optional limit As Int32 = 50) As List(Of ApplicationResult)
-            Dim matches = PatternMatcher.Match(m, matchSide, limit)
-            Dim outList As New List(Of ApplicationResult)()
+            Return Apply(m, New ApplyPlan(matchSide, otherSide), limit)
+        End Function
 
-            ' other 侧拓扑
-            Dim otherBonded As New HashSet(Of Int32)()
-            For Each b In otherSide.Bonds
-                otherBonded.Add(otherSide.Atoms(b.a).Cls)
-                otherBonded.Add(otherSide.Atoms(b.b).Cls)
-            Next
-            Dim otherAtom As New Dictionary(Of Int32, PatternAtom)()
-            For Each a In otherSide.Atoms
-                If Not otherAtom.ContainsKey(a.Cls) Then otherAtom(a.Cls) = a
-            Next
-            Dim otherBonds As New Dictionary(Of Tuple(Of Int32, Int32), Int32)()
-            For Each b In otherSide.Bonds
-                Dim cx = otherSide.Atoms(b.a).Cls
-                Dim cy = otherSide.Atoms(b.b).Cls
-                otherBonds(Tuple.Create(Math.Min(cx, cy), Math.Max(cx, cy))) = b.order
-            Next
-            Dim matchBonds As New Dictionary(Of Tuple(Of Int32, Int32), Int32)()
-            For Each b In matchSide.Bonds
-                Dim cx = matchSide.Atoms(b.a).Cls
-                Dim cy = matchSide.Atoms(b.b).Cls
-                matchBonds(Tuple.Create(Math.Min(cx, cy), Math.Max(cx, cy))) = b.order
-            Next
+        ''' <summary>
+        ''' 核心变换（热路径）：在分子上匹配计划中的「匹配侧」模式，再按「目标侧」拓扑改写化学键。
+        ''' </summary>
+        ''' <param name="m">被变换的分子（不会被就地修改，内部先拷贝）。</param>
+        ''' <param name="plan">该规则在该方向上的预计算拓扑（只读，可多线程共享）。</param>
+        ''' <param name="limit">匹配枚举上限。</param>
+        ''' <returns>每个匹配对应的一个应用结果；已过滤掉价态非法的候选。</returns>
+        Public Function Apply(m As Molecule, plan As ApplyPlan,
+                              Optional limit As Int32 = 50) As List(Of ApplicationResult)
+            Dim matches = PatternMatcher.Match(m, plan.MatchSide, limit)
+            Dim outList As New List(Of ApplicationResult)()
+            Dim otherAtom = plan.AtomOfCls
+            Dim otherBonds = plan.OtherBonds
+            Dim matchBonds = plan.MatchBonds
 
             For Each mp In matches
                 Dim res = m.Copy()
@@ -190,21 +199,20 @@ Namespace Chem
                     surv(cls) = ma
                     Dim pa As PatternAtom = Nothing
                     If otherAtom.TryGetValue(cls, pa) Then
-                        If pa.Element IsNot Nothing Then res.Elements(ma) = pa.Element
-                        If pa.Charge <> -999 Then res.Charges(ma) = pa.Charge
+                        If pa.Element IsNot Nothing Then res.SetElement(ma, pa.Element)
+                        If pa.Charge <> -999 Then res.SetCharge(ma, pa.Charge)
                     End If
                     mapped.Add(Tuple.Create(cls, ma))
                 Next
                 ' 2) 创建原子（other 侧有键但未匹配）
-                Dim createdCls As New List(Of Int32)(otherBonded.OrderBy(Function(x) x))
-                For Each cls In createdCls
+                For Each cls In plan.CreatedClasses
                     If surv.ContainsKey(cls) Then Continue For
                     Dim pa = otherAtom(cls)
                     Dim idx = res.AddAtom(pa.Element, If(pa.Charge <> -999, pa.Charge, 0))
                     ' 保留模式中写出的显式氢（如 [NH3+]、[CH1]）：MolKey 把显式氢计入分子指纹，
                     ' 若丢弃，逆向生成的分子会与库中同一化合物的指纹不一致（典型表现为 [NH3+]
                     ' 退化成 [N+]，色氨酸就再也匹配不上），导致通路无法在起点 A 处收束。
-                    If pa.HCount > 0 Then res.ExplicitH(idx) = pa.HCount
+                    If pa.HCount > 0 Then res.SetExplicitH(idx, pa.HCount)
                     surv(cls) = idx
                     mapped.Add(Tuple.Create(cls, idx))
                 Next
@@ -224,7 +232,7 @@ Namespace Chem
                             If order = 0 Then order = 1
                             Dim bo = res.BondOrder(a, b2)
                             If bo = 0 Then
-                                res.Bonds.Add((a, b2, order))
+                                res.AddBond(a, b2, order)
                             ElseIf bo <> order Then
                                 res.SetBondOrder(a, b2, order)
                             End If

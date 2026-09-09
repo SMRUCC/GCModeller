@@ -63,7 +63,7 @@ Namespace Chem
                         Dim opened = ringOpen(d)
                         ringOpen.Remove(d)
                         Dim order = If(pendingOrder > 1, pendingOrder, opened.Item2)
-                        m.Bonds.Add((opened.Item1, prev, order))
+                        m.AddBond(opened.Item1, prev, order)
                         pendingOrder = 1
                     Else
                         ringOpen(d) = Tuple.Create(prev, If(pendingOrder > 1, pendingOrder, 1))
@@ -81,8 +81,8 @@ Namespace Chem
                     Dim charge As Int32 = 0
                     ParseBracket(body, el, eh, charge)
                     Dim idx = m.AddAtom(el, charge)
-                    m.ExplicitH(idx) = eh
-                    If prev >= 0 Then m.Bonds.Add((prev, idx, pendingOrder))
+                    m.SetExplicitH(idx, eh)
+                    If prev >= 0 Then m.AddBond(prev, idx, pendingOrder)
                     pendingOrder = 1
                     prev = idx
                     i = closeIdx + 1
@@ -90,7 +90,7 @@ Namespace Chem
                     Dim el = MatchElement(smiles, i)
                     If el Is Nothing Then Throw New ArgumentException($"SMILES 解析失败 @ {i}: {smiles}")
                     Dim idx = m.AddAtom(el, 0)
-                    If prev >= 0 Then m.Bonds.Add((prev, idx, pendingOrder))
+                    If prev >= 0 Then m.AddBond(prev, idx, pendingOrder)
                     pendingOrder = 1
                     prev = idx
                     i += el.Length

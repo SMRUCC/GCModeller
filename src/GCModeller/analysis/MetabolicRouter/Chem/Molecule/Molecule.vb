@@ -51,7 +51,18 @@ Namespace Chem
         ''' 化学键列表，每项为 (a, b, order)，其中 order 取 1/2/3（单/双/三键）。
         ''' </summary>
         ''' <returns>分子内全部共价键。</returns>
+        ''' <remarks>
+        ''' 请优先使用 <see cref="AddBond"/>、<see cref="SetBondOrder"/>、<see cref="RemoveBond"/>
+        ''' 修改键表：直接改这个列表会让下面几个派生缓存失效不了，从而读到陈旧结果。
+        ''' </remarks>
         Public Property Bonds As List(Of Bond)
+
+        ''' <summary>邻接表缓存（惰性构建）：每个原子一个 (邻居索引, 键级) 列表。</summary>
+        Private _adjacency As List(Of List(Of (Int32, Int32))) = Nothing
+        ''' <summary>Morgan 秩缓存（惰性构建）。</summary>
+        Private _morgan As List(Of String) = Nothing
+        ''' <summary><see cref="MolKey"/> 结果缓存（惰性构建）。</summary>
+        Private _molKey As String = Nothing
 
         ''' <summary>
         ''' 创建一个不含任何原子与键的空分子。
@@ -62,6 +73,43 @@ Namespace Chem
             ExplicitH = New List(Of Int32)()
             Bonds = New List(Of Bond)()
         End Sub
+
+        ''' <summary>
+        ''' 作废全部派生缓存（邻接表 / Morgan 秩 / 分子指纹）。
+        ''' 任何改动元素、电荷、显式氢或键表的操作都必须调用它。
+        ''' </summary>
+        Private Sub InvalidateStructure()
+            _adjacency = Nothing
+            _morgan = Nothing
+            _molKey = Nothing
+        End Sub
+
+        ''' <summary>
+        ''' 邻接表（惰性构建，O(键数)）：每个原子一个 (邻居索引, 键级) 列表。
+        ''' </summary>
+        ''' <returns>长度等于原子数的邻接表。</returns>
+        ''' <remarks>
+        ''' 原先 <see cref="Neighbors"/> 每次调用都要扫描整张键表并新建一个列表，
+        ''' 在 Morgan 迭代（每原子 × 多轮）、价态校验、连通分量里被反复调用，
+        ''' 实际复杂度退化到 O(原子数 × 键数 × 轮数)。热路径统一走这里。
+        ''' </remarks>
+        Public Function Adjacency() As List(Of List(Of (Int32, Int32)))
+            If _adjacency IsNot Nothing Then Return _adjacency
+
+            Dim adj As New List(Of List(Of (Int32, Int32)))()
+            For i = 0 To NumAtoms() - 1
+                adj.Add(New List(Of (Int32, Int32))())
+            Next
+            For Each bd In Bonds
+                If bd.a >= 0 AndAlso bd.a < adj.Count AndAlso bd.b >= 0 AndAlso bd.b < adj.Count Then
+                    adj(bd.a).Add((bd.b, bd.order))
+                    adj(bd.b).Add((bd.a, bd.order))
+                End If
+            Next
+
+            _adjacency = adj
+            Return adj
+        End Function
 
         ''' <summary>
         ''' 分子中的原子总数（含氢以外的全部显式原子）。
@@ -78,12 +126,8 @@ Namespace Chem
         ''' <returns>邻居列表，每项为 (邻接原子索引, 键级)；无邻居时返回空列表。</returns>
         Public Function Neighbors(a As Int32) As List(Of Tuple(Of Int32, Int32))
             Dim outList As New List(Of Tuple(Of Int32, Int32))()
-            For Each b In Bonds
-                If b.a = a Then
-                    outList.Add(Tuple.Create(b.b, b.order))
-                ElseIf b.b = a Then
-                    outList.Add(Tuple.Create(b.a, b.order))
-                End If
+            For Each nb In Adjacency()(a)
+                outList.Add(Tuple.Create(nb.Item1, nb.Item2))
             Next
             Return outList
         End Function
@@ -94,7 +138,7 @@ Namespace Chem
         ''' <param name="a">原子索引。</param>
         ''' <returns>邻居原子个数。</returns>
         Public Function Degree(a As Int32) As Int32
-            Return Neighbors(a).Count
+            Return Adjacency()(a).Count
         End Function
 
         ''' <summary>
@@ -104,10 +148,8 @@ Namespace Chem
         ''' <param name="b">第二个原子索引。</param>
         ''' <returns>键级 1/2/3；两原子间无键时返回 0。</returns>
         Public Function BondOrder(a As Int32, b As Int32) As Int32
-            For Each bd In Bonds
-                If (bd.a = a AndAlso bd.b = b) OrElse (bd.a = b AndAlso bd.b = a) Then
-                    Return bd.order
-                End If
+            For Each nb In Adjacency()(a)
+                If nb.Item1 = b Then Return nb.Item2
             Next
             Return 0
         End Function
@@ -123,6 +165,7 @@ Namespace Chem
                 Dim bd = Bonds(i)
                 If (bd.a = a AndAlso bd.b = b) OrElse (bd.a = b AndAlso bd.b = a) Then
                     Bonds(i) = (bd.a, bd.b, newOrder)
+                    InvalidateStructure()
                     Return
                 End If
             Next
@@ -134,7 +177,56 @@ Namespace Chem
         ''' <param name="a">键一端原子索引。</param>
         ''' <param name="b">键另一端原子索引。</param>
         Public Sub RemoveBond(a As Int32, b As Int32)
-            Bonds = Bonds.Where(Function(bd) Not ((bd.a = a AndAlso bd.b = b) OrElse (bd.a = b AndAlso bd.b = a))).ToList()
+            Dim next_ As New List(Of Bond)()
+            Dim removed As Boolean = False
+
+            For Each bd In Bonds
+                If (bd.a = a AndAlso bd.b = b) OrElse (bd.a = b AndAlso bd.b = a) Then
+                    removed = True
+                Else
+                    next_.Add(bd)
+                End If
+            Next
+
+            If removed Then
+                Bonds = next_
+                InvalidateStructure()
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 追加一条键（唯一推荐的"加键"入口，会自动作废派生缓存）。
+        ''' </summary>
+        ''' <param name="a">键一端原子索引。</param>
+        ''' <param name="b">键另一端原子索引。</param>
+        ''' <param name="order">键级 1/2/3。</param>
+        Public Sub AddBond(a As Int32, b As Int32, order As Int32)
+            Bonds.Add((a, b, order))
+            InvalidateStructure()
+        End Sub
+
+        ''' <summary>
+        ''' 修改某个原子的元素符号（会作废派生缓存）。
+        ''' </summary>
+        Public Sub SetElement(a As Int32, el As String)
+            Elements(a) = el
+            InvalidateStructure()
+        End Sub
+
+        ''' <summary>
+        ''' 修改某个原子的形式电荷（会作废派生缓存）。
+        ''' </summary>
+        Public Sub SetCharge(a As Int32, charge As Int32)
+            Charges(a) = charge
+            InvalidateStructure()
+        End Sub
+
+        ''' <summary>
+        ''' 修改某个原子的显式氢数（会作废派生缓存）。
+        ''' </summary>
+        Public Sub SetExplicitH(a As Int32, h As Int32)
+            ExplicitH(a) = h
+            InvalidateStructure()
         End Sub
 
         ''' <summary>
@@ -147,6 +239,7 @@ Namespace Chem
             Elements.Add(el)
             Charges.Add(charge)
             ExplicitH.Add(0)
+            InvalidateStructure()
             Return Elements.Count - 1
         End Function
 
@@ -170,7 +263,7 @@ Namespace Chem
         ''' <returns>隐式氢个数。</returns>
         Public Function ImplicitH(a As Int32) As Int32
             Dim used As Int32 = 0
-            For Each nb In Neighbors(a)
+            For Each nb In Adjacency()(a)
                 used += nb.Item2
             Next
             Return Math.Max(0, ChemicalExtensions.ValenceOf(Elements(a), Charges(a)) - used - ExplicitH(a))
@@ -194,9 +287,11 @@ Namespace Chem
         ''' </remarks>
         Public Function ValenceViolations() As List(Of Int32)
             Dim bad As New List(Of Int32)()
+            Dim adj = Adjacency()
+
             For a = 0 To NumAtoms() - 1
                 Dim used As Int32 = 0
-                For Each nb In Neighbors(a)
+                For Each nb In adj(a)
                     used += nb.Item2
                 Next
                 used += ExplicitH(a)
@@ -212,6 +307,8 @@ Namespace Chem
         Public Function Components() As List(Of List(Of Int32))
             Dim seen(NumAtoms() - 1) As Boolean
             Dim comps As New List(Of List(Of Int32))()
+            Dim adj = Adjacency()
+
             For a = 0 To NumAtoms() - 1
                 If seen(a) Then Continue For
                 Dim comp As New List(Of Int32)()
@@ -221,7 +318,7 @@ Namespace Chem
                 While stack.Count > 0
                     Dim x = stack.Pop()
                     comp.Add(x)
-                    For Each nb In Neighbors(x)
+                    For Each nb In adj(x)
                         If Not seen(nb.Item1) Then
                             seen(nb.Item1) = True
                             stack.Push(nb.Item1)
@@ -245,11 +342,11 @@ Namespace Chem
                 Dim remap As New Dictionary(Of Int32, Int32)()
                 For Each a In comp
                     remap(a) = fm.AddAtom(Elements(a), Charges(a))
-                    fm.ExplicitH(remap(a)) = ExplicitH(a)
+                    fm.SetExplicitH(remap(a), ExplicitH(a))
                 Next
                 For Each bd In Bonds
                     If remap.ContainsKey(bd.a) AndAlso remap.ContainsKey(bd.b) Then
-                        fm.Bonds.Add((remap(bd.a), remap(bd.b), bd.order))
+                        fm.AddBond(remap(bd.a), remap(bd.b), bd.order)
                     End If
                 Next
                 outList.Add(fm)
@@ -269,10 +366,13 @@ Namespace Chem
         ''' 确定性写出的排序依据。
         ''' </remarks>
         Public Function MorganRanks(Optional rounds As Int32 = 8) As List(Of String)
+            If _morgan IsNot Nothing Then Return _morgan
+
+            Dim adj = Adjacency()
             Dim labels As New List(Of String)()
             For a = 0 To NumAtoms() - 1
-                Dim orders = Neighbors(a).Select(Function(nb) nb.Item2).OrderBy(Function(x) x)
-                labels.Add($"{Elements(a)}|{Charges(a)}|{TotalH(a)}|{Degree(a)}|" &
+                Dim orders = adj(a).Select(Function(nb) nb.Item2).OrderBy(Function(x) x)
+                labels.Add($"{Elements(a)}|{Charges(a)}|{TotalH(a)}|{adj(a).Count}|" &
                            String.Join(",", orders))
             Next
             Dim prevCount = labels.Distinct().Count()
@@ -294,6 +394,7 @@ Namespace Chem
                 If cnt = prevCount Then Exit For
                 prevCount = cnt
             Next
+            _morgan = labels
             Return labels
         End Function
 
@@ -312,6 +413,8 @@ Namespace Chem
         ''' 逆向生成的化合物与库里的同一化合物对不上（通路无法在起点 A 处收束）。
         ''' </remarks>
         Public Function MolKey() As String
+            If _molKey IsNot Nothing Then Return _molKey
+
             Dim ranks = MorganRanks()
             Dim uniq = ranks.Distinct().OrderBy(Function(x) x, StringComparer.Ordinal).ToList()
             Dim idxMap As New Dictionary(Of String, Int32)()
@@ -331,7 +434,8 @@ Namespace Chem
                 bondList.Add($"{Math.Min(ra, rb)}-{Math.Max(ra, rb)}:{bd.order}")
             Next
             bondList.Sort(StringComparer.Ordinal)
-            Return String.Join(";", atomList) & "#" & String.Join(";", bondList)
+            _molKey = String.Join(";", atomList) & "#" & String.Join(";", bondList)
+            Return _molKey
         End Function
 
     End Class
