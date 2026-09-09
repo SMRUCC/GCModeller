@@ -220,6 +220,8 @@ Namespace Chem
         Private Class MatcherState
 
             Private ReadOnly _m As Molecule
+            ''' <summary>分子不变量快照：匹配期只读，避免每个候选原子都回分子现算氢数/度/键级。</summary>
+            Private ReadOnly _snap As MoleculeSnapshot
             Private ReadOnly _pat As Pattern
             Private ReadOnly _limit As Int32
             Private ReadOnly _order As New List(Of Int32)()
@@ -230,6 +232,7 @@ Namespace Chem
 
             Public Sub New(m As Molecule, pat As Pattern, limit As Int32)
                 _m = m
+                _snap = New MoleculeSnapshot(m)
                 _pat = pat
                 _limit = limit
             End Sub
@@ -300,20 +303,20 @@ Namespace Chem
 
             Private Function OkAtom(ma As Int32, pai As Int32) As Boolean
                 Dim pa = _pat.Atoms(pai)
-                If pa.Element IsNot Nothing AndAlso _m.Elements(ma) <> pa.Element Then Return False
-                If pa.Charge <> -999 AndAlso _m.Charges(ma) <> pa.Charge Then Return False
-                If pa.HCount <> -999 AndAlso _m.TotalH(ma) <> pa.HCount Then Return False
-                If pa.Degree <> -999 AndAlso _m.Degree(ma) <> pa.Degree Then Return False
+                If pa.Element IsNot Nothing AndAlso _snap.Element(ma) <> pa.Element Then Return False
+                If pa.Charge <> -999 AndAlso _snap.Charge(ma) <> pa.Charge Then Return False
+                If pa.HCount <> -999 AndAlso _snap.TotalH(ma) <> pa.HCount Then Return False
+                If pa.Degree <> -999 AndAlso _snap.Degree(ma) <> pa.Degree Then Return False
                 If pa.NoOhNeighbor Then
-                    For Each nb In _m.Neighbors(ma)
-                        If nb.Item2 = 1 AndAlso _m.Elements(nb.Item1) = "O" AndAlso _m.TotalH(nb.Item1) >= 1 Then
+                    For Each nb In _snap.Adj(ma)
+                        If nb.Item2 = 1 AndAlso _snap.Element(nb.Item1) = "O" AndAlso _snap.TotalH(nb.Item1) >= 1 Then
                             Return False
                         End If
                     Next
                 End If
                 If pa.NoOxoNeighbor Then
-                    For Each nb In _m.Neighbors(ma)
-                        If nb.Item2 = 2 AndAlso _m.Elements(nb.Item1) = "O" Then
+                    For Each nb In _snap.Adj(ma)
+                        If nb.Item2 = 2 AndAlso _snap.Element(nb.Item1) = "O" Then
                             Return False
                         End If
                     Next
@@ -353,7 +356,7 @@ Namespace Chem
                     Else
                         Continue For
                     End If
-                    Dim bo = _m.BondOrder(other, ma)
+                    Dim bo = _snap.BondOrder(other, ma)
                     If b.order = 0 Then
                         If bo = 0 Then Return False
                     ElseIf bo <> b.order Then
