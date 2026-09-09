@@ -65,6 +65,16 @@ Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.Fisher
 ''' </summary>
 Public Module Enrichment
 
+    ''' <summary>
+    ''' 过滤掉成员数量过少的功能聚类
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="cutSize"></param>
+    ''' <returns>
+    ''' 注意：背景规模(universe, N)始终是目标基因组之中的基因总数，
+    ''' 不能够因为过滤掉了部分过小的功能聚类而发生改变，否则会使得
+    ''' 超几何检验的总量N被低估
+    ''' </returns>
     <Extension>
     Public Function CutBackgroundBySize(genome As Background, cutSize As Integer) As Background
         Return New Background With {
@@ -75,9 +85,6 @@ Public Module Enrichment
             .clusters = genome.clusters _
                 .Where(Function(cl) cl.members.Length > cutSize) _
                 .ToArray,
-            ' 注意：背景规模(universe, N)始终是目标基因组之中的基因总数，
-            ' 不能够因为过滤掉了部分过小的功能聚类而发生改变，否则会
-            ' 使得超几何检验的总量N被低估
             .size = genome.size
         }
     End Function
