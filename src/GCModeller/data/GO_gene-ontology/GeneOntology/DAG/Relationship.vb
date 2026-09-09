@@ -74,13 +74,12 @@ Namespace DAG
         ''' 注意：旧版本的代码在这里使用了``GetTagValue(":")``进行解析，
         ''' 结果会把``GO:0008361``截断为``GO``与``0008361``两个部分，
         ''' 导致<see cref="NamedValue(Of String).Name"/>不再是完整的GO编号，
-        ''' 从而使得<see cref="Axioms.Infer(Dictionary(Of String, Term), String, String)"/>
-        ''' 之类的下游代码永远都查不到对应的词条。
+        ''' 从而使得``Axioms.Infer``之类的下游代码永远都查不到对应的词条。
         ''' </remarks>
         Public parent As NamedValue(Of String)
         Public parentName As String
         ''' <summary>
-        ''' 父节点的实例，在<see cref="Builder.BuildTree(IEnumerable(Of Term))"/>之中被赋值
+        ''' 父节点的实例，在``Builder.BuildTree``之中被赋值
         ''' </summary>
         Public term As TermNode
 

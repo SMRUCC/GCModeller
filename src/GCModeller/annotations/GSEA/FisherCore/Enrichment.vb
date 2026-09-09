@@ -75,7 +75,10 @@ Public Module Enrichment
             .clusters = genome.clusters _
                 .Where(Function(cl) cl.members.Length > cutSize) _
                 .ToArray,
-            .size = .clusters.BackgroundSize
+            ' 注意：背景规模(universe, N)始终是目标基因组之中的基因总数，
+            ' 不能够因为过滤掉了部分过小的功能聚类而发生改变，否则会
+            ' 使得超几何检验的总量N被低估
+            .size = genome.size
         }
     End Function
 
@@ -152,7 +155,10 @@ Public Module Enrichment
                 End If
             End If
 
-            For Each cluster As Cluster In genome.clusters
+            ' 注意：旧版本的代码在这里遍历的是``genome.clusters``，导致上面
+            ' 所创建的Tqdm进度条包装``background``变成了一个死变量，进度条
+            ' 实际上从来都不会被推进
+            For Each cluster As Cluster In background
                 Dim enriched$() = cluster.Intersect(.ByRef, isLocustag).ToArray
 
                 Call doProgress(cluster.names)
@@ -181,16 +187,36 @@ Public Module Enrichment
         Dim a% = enriched.Length
         ' 在目标基因组中，属于当前的代谢途径中的基因的数量
         Dim b% = cluster.size
-        ' 在我们的差异基因列表中，不属于当前的代谢途径的基因的数量
-        Dim c% = inputSize - a
-        ' 在目标基因组中，不属于当前的代谢途径中的基因的数量
-        Dim d% = genes - b
-        ' 最后将得到的个数变量，进行F双尾检验
-        Dim pvalue# = F.FishersExact(a, b, c, d).two_tail_pvalue
-        Dim score# = a / b
 
-        If a = 0 Then
+        ' 构造标准的超几何检验2x2列联表：
+        '
+        '                  |  in term        | not in term      |  row margin
+        '     in list      |  a              | inputSize - a    |  inputSize
+        '     not in list  |  b - a          | N - b - (inputSize - a) | N - inputSize
+        '     ------------------------------------------------------------------
+        '     col margin   |  b              | N - b            |  N
+        '
+        ' 注意：旧版本的代码在这里直接使用``FishersExact(a, b, c, d)``，其中
+        ' ``b = cluster.size``已经将``a``重复计入了一次，而``d = genes - b``又没有
+        ' 减去``inputSize - a``，导致四格之和变成了``genes + inputSize``，
+        ' 行列的边际也不再正确，最终使得p值被系统性的低估。
+        Dim n11% = a
+        Dim n12% = inputSize - a
+        Dim n21% = b - a
+        Dim n22% = genes - b - inputSize + a
+        Dim pvalue#
+        ' a / b 为富集分数
+        Dim score# = If(b > 0, a / b, 0.0)
+
+        ' 由于注释数据可能并不完整，所以在这里对越界的计数做一个截断保护
+        If n12 < 0 Then n12 = 0
+        If n21 < 0 Then n21 = 0
+        If n22 < 0 Then n22 = 0
+
+        If a <= 0 OrElse inputSize <= 0 OrElse genes <= 0 OrElse b <= 0 Then
             pvalue = 1
+        Else
+            pvalue = F.FishersExact(n11, n12, n21, n22).two_tail_pvalue
         End If
 
         If (pvalue.IsNaNImaginary OrElse enriched.Length = 0) AndAlso Not outputAll Then
