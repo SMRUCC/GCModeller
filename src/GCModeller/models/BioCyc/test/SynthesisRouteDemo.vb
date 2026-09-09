@@ -34,7 +34,7 @@ Module SynthesisRouteDemo
         ("SHIKIMATE", "CHORISMATE", "莽草酸 → 分支酸（莽草酸途径）", False),
         ("GLT", "PRO", "谷氨酸 → 脯氨酸（多步环化还原）", False),
         ("SER", "TRP", "丝氨酸 → 色氨酸（多步，芳香族氨基酸合成）", False),
-        ("CHORISMATE", "ENTEROBACTIN", "分支酸 → 肠杆菌素（儿茶酚型铁载体，大分子多步）", True)
+        ("CHORISMATE", "ENTEROBACTIN", "分支酸 → 肠杆菌素（儿茶酚型铁载体；真实途径 ≥7 步且需 3 次对称缩合，当前规则集难以收束）", True)
     }
 
     ''' <summary>分子指纹 → 化合物 frame id，用于把结果里的 SMILES 还原成代谢物名</summary>
@@ -154,6 +154,13 @@ Module SynthesisRouteDemo
             PrintReport(pair, report, pairSw.Elapsed.TotalMilliseconds)
         Next
 
+        Dim hit As Integer = 0
+        For Each r In reports
+            If r.Found Then hit += 1
+        Next
+
+        Console.WriteLine($"汇总：{hit} / {reports.Count} 对找到满足起点约束的通路")
+
         Dim outJson As String = IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "biocyc_routes.json")
         IO.File.WriteAllText(outJson, JsonSerializer.Serialize(reports, New JsonSerializerOptions With {.WriteIndented = True}))
         Console.WriteLine()
@@ -178,8 +185,16 @@ Module SynthesisRouteDemo
                           $"耗时 {report.Stats.ElapsedMs}ms（含打印 {elapsedMs:F0}ms）")
 
         If Not report.Found Then
-            Console.WriteLine("   结果     : 未找到满足起点约束的通路" &
-                              If(report.Stats.Strict, "（strict 模式下如需 ATP/NADH 等辅因子，请用 allowedExtraIds 放行）", ""))
+            Console.WriteLine("   结果     : 未找到满足起点约束的通路")
+
+            If report.Stats.CandidatesScanned = 0 Then
+                Console.WriteLine("   原因     : 当前规则集无法把目标分子碎片化成更小的前体（该分解反应未被挖掘成规则），" &
+                                  "逆向搜索在深度上限内收束不了")
+            Else
+                Console.WriteLine("   原因     : 已枚举到完整通路，但没有一条经过起点 A——通常是 A 与 B 之间的反应未被挖掘成规则" &
+                                  If(report.Stats.Strict, "；strict 模式下如需 ATP/NADH 等辅因子，请用 allowedExtraIds 放行", ""))
+            End If
+
             Console.WriteLine()
             Return
         End If
