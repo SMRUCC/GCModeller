@@ -74,59 +74,296 @@ Namespace DAG
                 .ToArray
         End Function
 
-        <Extension>
-        Public Function CreateClusterMembers(tree As Graph) As Dictionary(Of String, List(Of TermNode))
-            Dim clusters As New Dictionary(Of String, List(Of TermNode))
-            Dim familyLineage As IEnumerable(Of (term As TermNode, family As Graph.InheritsChain())) =
-                From term As TermNode
-                In tree.DAG.Values.ToArray.AsParallel
-                Let family = tree.Family(term.id).ToArray
-                Select (term, family)
+        ''' <summary>
+        ''' 判断obo文本之中的逻辑值标记是否为真，例如``is_obsolete: true``
+        ''' </summary>
+        ''' <param name="value$"></param>
+        ''' <returns></returns>
+        Private Function isTrue(value As String) As Boolean
+            If String.IsNullOrEmpty(value) Then
+                Return False
+            Else
+                Return value.Trim.Equals("true", StringComparison.OrdinalIgnoreCase)
+            End If
+        End Function
 
-            Call VBDebugger.EchoLine("Extract the family lineage relationship data...")
+        ''' <summary>
+        ''' 由祖先闭包反查得到子孙索引
+        ''' </summary>
+        ''' <param name="tree"></param>
+        ''' <param name="ancestors">
+        ''' ``[term_id => all ancestor term_id]``，即<see cref="AncestorSets(Dictionary(Of String, String()))"/>的产物
+        ''' </param>
+        ''' <returns>
+        ''' ``[term_id => all descendant nodes]``，不包含term自身
+        ''' </returns>
+        ''' <remarks>
+        ''' 这个函数是<see cref="CreateClusterMembers(Graph)"/>的新的实现：
+        ''' 只需要对祖先集合做一次反查聚合即可，复杂度为``O(N * A)``，
+        ''' 而不像旧版本那样需要枚举出所有指数级数量的祖先路径。
+        ''' </remarks>
+        Public Function DescendantSets(tree As Dictionary(Of TermNode),
+                                       ancestors As Dictionary(Of String, String())) As Dictionary(Of String, List(Of TermNode))
+            Dim descendants As New Dictionary(Of String, List(Of TermNode))
 
-            For Each i In familyLineage.ToArray
-                Dim family As Graph.InheritsChain() = i.family
-                Dim term As TermNode = i.term
+            For Each node As TermNode In tree.Values
+                Dim parents As String()
 
-                For Each node As Graph.InheritsChain In family
-                    For Each parent In node.Route
-                        If Not clusters.ContainsKey(parent.id) Then
-                            clusters.Add(parent.id, New List(Of TermNode))
-                        End If
+                If ancestors.ContainsKey(node.id) Then
+                    parents = ancestors(node.id)
+                Else
+                    parents = {}
+                End If
 
-                        clusters(parent.id).Add(term)
-                    Next
+                For Each parent As String In parents
+                    If Not descendants.ContainsKey(parent) Then
+                        Call descendants.Add(parent, New List(Of TermNode))
+                    End If
+
+                    descendants(parent).Add(node)
                 Next
             Next
 
-            Return clusters
+            Return descendants
         End Function
 
+        ''' <summary>
+        ''' 计算出DAG图之中所有节点的祖先闭包集合
+        ''' </summary>
+        ''' <param name="parents">
+        ''' ``[term_id => parent term_id()]``，即<see cref="ParentIndex(Dictionary(Of TermNode), OntologyRelations())"/>的产物
+        ''' </param>
+        ''' <returns>
+        ''' ``[term_id => all ancestor term_id]``，不包含term自身，与拓扑顺序无关
+        ''' </returns>
+        ''' <remarks>
+        ''' 由于GO是一个有向无环图，一个节点可能会有多个父节点，所以直接递归枚举路径
+        ''' 会得到指数级数量的结果。在这里只关心**集合**而不关心路径，所以通过记忆化
+        ''' 的DFS，让每一个节点的祖先集合只被计算一次。
+        ''' </remarks>
+        Public Function AncestorSets(parents As Dictionary(Of String, String())) As Dictionary(Of String, String())
+            Dim result As New Dictionary(Of String, String())
+            Dim visiting As New HashSet(Of String)
+
+            For Each id As String In parents.Keys.ToArray
+                Call walkAncestors(id, parents, result, visiting)
+            Next
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' 记忆化的祖先闭包递归求解，<paramref name="visiting"/>用于防止因为数据错误
+        ''' 而出现的环导致的无限递归
+        ''' </summary>
+        Private Function walkAncestors(id As String,
+                                       parents As Dictionary(Of String, String()),
+                                       result As Dictionary(Of String, String()),
+                                       visiting As HashSet(Of String)) As String()
+
+            If result.ContainsKey(id) Then
+                Return result(id)
+            End If
+            If visiting.Contains(id) Then
+                ' 出现了环，在这里中断递归
+                Return {}
+            End If
+            If Not parents.ContainsKey(id) Then
+                Return {}
+            End If
+
+            visiting.Add(id)
+
+            Dim acc As New HashSet(Of String)
+
+            For Each parent As String In parents(id)
+                If String.IsNullOrEmpty(parent) OrElse Not parents.ContainsKey(parent) Then
+                    ' 悬空的父节点引用，跳过
+                    Continue For
+                End If
+
+                acc.Add(parent)
+
+                For Each grandParent As String In walkAncestors(parent, parents, result, visiting)
+                    acc.Add(grandParent)
+                Next
+            Next
+
+            visiting.Remove(id)
+
+            Dim all As String() = acc.ToArray
+
+            result(id) = all
+
+            Return all
+        End Function
+
+        ''' <summary>
+        ''' 构建出``[term_id => parent term_id()]``的索引
+        ''' </summary>
+        ''' <param name="tree"></param>
+        ''' <param name="relations">
+        ''' 除了``is_a``之外，还需要参与计算的relationship关系类型列表，
+        ''' 默认为<see cref="Graph.DefaultRelations"/>
+        ''' </param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 注意：``has_part``/``regulates``之类的关系按照GO官方的约定不参与
+        ''' 注释的传播，所以默认只使用``is_a``与``part_of``。
+        ''' </remarks>
+        <Extension>
+        Public Function ParentIndex(tree As Dictionary(Of TermNode),
+                                    Optional relations As OntologyRelations() = Nothing) As Dictionary(Of String, String())
+
+            Dim allowRels As OntologyRelations() = relations
+
+            If allowRels Is Nothing OrElse allowRels.Length = 0 Then
+                allowRels = {OntologyRelations.part_of}
+            End If
+
+            Dim allow As New HashSet(Of OntologyRelations)(allowRels)
+            Dim index As New Dictionary(Of String, String())
+
+            For Each node As TermNode In tree.Values
+                Dim list As New List(Of String)
+
+                For Each rel As is_a In node.is_a.SafeQuery
+                    If String.IsNullOrEmpty(rel.term_id) OrElse Not tree.ContainsKey(rel.term_id) Then
+                        Continue For
+                    End If
+
+                    list.Add(rel.term_id)
+                Next
+
+                If allow.Count > 0 Then
+                    For Each rel As Relationship In node.relationship.SafeQuery
+                        If rel.parent Is Nothing OrElse String.IsNullOrEmpty(rel.parent.Name) Then
+                            Continue For
+                        End If
+                        If Not tree.ContainsKey(rel.parent.Name) Then
+                            Continue For
+                        End If
+                        If Not allow.Contains(rel.type) Then
+                            Continue For
+                        End If
+
+                        list.Add(rel.parent.Name)
+                    Next
+                End If
+
+                index(node.id) = list.Distinct.ToArray
+            Next
+
+            Return index
+        End Function
+
+        ''' <summary>
+        ''' 建立``[alt_id => primary term id]``映射表
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 旧的注释数据之中可能会使用已经被废弃掉的alt_id编号，
+        ''' 通过这个映射表可以将其回填为最新的主编号
+        ''' </remarks>
+        <Extension>
+        Public Function AltIdIndex(file As IEnumerable(Of Term)) As Dictionary(Of String, String)
+            Dim index As New Dictionary(Of String, String)
+
+            For Each term As Term In file.SafeQuery
+                If term Is Nothing OrElse String.IsNullOrEmpty(term.id) Then
+                    Continue For
+                End If
+
+                For Each alt As String In term.alt_id.SafeQuery
+                    If String.IsNullOrEmpty(alt) Then
+                        Continue For
+                    End If
+                    If index.ContainsKey(alt) Then
+                        Continue For
+                    End If
+
+                    index.Add(alt, term.id)
+                Next
+            Next
+
+            Return index
+        End Function
+
+        ''' <summary>
+        ''' 由祖先集合反查得到每一个GO词条的所有的子孙节点
+        ''' </summary>
+        ''' <param name="tree"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function CreateClusterMembers(tree As Graph) As Dictionary(Of String, List(Of TermNode))
+            Return tree.DescendantTable(Nothing)
+        End Function
+
+        ''' <summary>
+        ''' 从obo词条集合之中构建出DAG图的节点集合
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 在这里会做如下的几项数据清洗工作：
+        ''' 
+        ''' 1. 跳过被标记为``is_obsolete``的废弃词条；
+        ''' 2. 跳过重复编号的词条，避免<see cref="Dictionary(Of TermNode)"/>添加元素的时候抛出异常；
+        ''' 3. 跳过在当前的词表之中不存在的父节点引用，避免产生悬空的``Nothing``引用；
+        ''' 4. 将``relationship``关系也解析为节点引用，使得``part_of``之类的边也可以被遍历。
+        ''' </remarks>
         <Extension>
         Public Function BuildTree(file As IEnumerable(Of Term)) As Dictionary(Of TermNode)
             Dim tree As New Dictionary(Of TermNode)
 
             Call VBDebugger.EchoLine("Parse the ontology lineage information and build DAG tree...")
 
-            ' parse the vectex node data in parallel
-            For Each v As TermNode In (From ti As Term
-                                       In file.ToArray.AsParallel
-                                       Select ti.ConstructNode)
-                Call tree.Add(v)
+            For Each term As Term In file.SafeQuery
+                If term Is Nothing OrElse String.IsNullOrEmpty(term.id) Then
+                    Continue For
+                End If
+                If isTrue(term.is_obsolete) Then
+                    Continue For
+                End If
+                If tree.ContainsKey(term.id) Then
+                    Continue For
+                End If
+
+                Call tree.Add(term.ConstructNode)
             Next
 
-            For Each node As TermNode In tree.Values
-                node.is_a = node.is_a _
-                    .SafeQuery _
-                    .Select(Function(rel)
-                                Return New is_a With {
-                                    .name = rel.name,
-                                    .term_id = rel.term_id,
-                                    .term = tree(rel.term_id)
-                                }
-                            End Function) _
-                    .ToArray
+            ' 将文本形式的父子关系链接为节点对象的引用
+            For Each node As TermNode In tree.Values.ToArray
+                Dim is_aList As New List(Of is_a)
+
+                For Each rel As is_a In node.is_a.SafeQuery
+                    If String.IsNullOrEmpty(rel.term_id) OrElse Not tree.ContainsKey(rel.term_id) Then
+                        ' 父节点不存在，丢弃掉这个悬空的引用
+                        Continue For
+                    End If
+
+                    rel.term = tree(rel.term_id)
+                    is_aList.Add(rel)
+                Next
+
+                node.is_a = is_aList.ToArray
+
+                Dim relList As New List(Of Relationship)
+
+                For Each rel As Relationship In node.relationship.SafeQuery
+                    If rel.parent Is Nothing OrElse String.IsNullOrEmpty(rel.parent.Name) Then
+                        Continue For
+                    End If
+                    If Not tree.ContainsKey(rel.parent.Name) Then
+                        Continue For
+                    End If
+
+                    rel.term = tree(rel.parent.Name)
+                    relList.Add(rel)
+                Next
+
+                node.relationship = relList.ToArray
             Next
 
             Return tree
@@ -170,7 +407,7 @@ Namespace DAG
 
             Return New NamedValue(Of String) With {
                 .Name = id(Scan0),
-                .Value = id(1%),
+                .Value = id.ElementAtOrDefault(1%),
                 .Description = tokens.ElementAtOrDefault(1%)
             }
         End Function

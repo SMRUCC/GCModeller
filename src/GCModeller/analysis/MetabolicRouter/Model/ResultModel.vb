@@ -3,13 +3,15 @@
 ' ============================================================================
 
 Imports System.Text.Json.Serialization
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Model
 
     ''' <summary>
     ''' 一次通路搜索的完整结果报告（JSON 输出的根对象）。
     ''' </summary>
-    Public Class PathReport
+    Public Class PathReport : Implements Enumeration(Of PathDto)
 
         ''' <summary>程序名，恒为 "RetroPath"。</summary>
         <JsonPropertyName("program")>
@@ -31,10 +33,20 @@ Namespace Model
         <JsonPropertyName("stats")>
         Public Property Stats As SearchStatsDto
 
-        ''' <summary>按全局分降序排列的候选通路；未找到时为空列表。</summary>
+        ''' <summary>
+        ''' 按全局分降序排列的候选通路；未找到时为空列表。
+        ''' </summary>
+        ''' <remarks>
+        ''' a collection of the candidate pathways
+        ''' </remarks>
         <JsonPropertyName("paths")>
         Public Property Paths As PathDto()
 
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of PathDto) Implements Enumeration(Of PathDto).GenericEnumerator
+            For Each pathway As PathDto In Paths.SafeQuery
+                Yield pathway
+            Next
+        End Function
     End Class
 
     ''' <summary>
@@ -92,6 +104,10 @@ Namespace Model
         ''' <summary>找到并展示的完整通路条数。</summary>
         <JsonPropertyName("paths_found")>
         Public Property PathsFound As Integer
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
 
     End Class
 

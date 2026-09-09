@@ -36,7 +36,9 @@ Namespace Model
         <JsonPropertyName("num_steps")>
         Public Property NumSteps As Integer
 
-        ''' <summary>正向生物合成顺序的步骤列表（汇前体 → 目标）。</summary>
+        ''' <summary>
+        ''' 正向生物合成顺序的步骤列表（汇前体 → 目标）。
+        ''' </summary>
         <JsonPropertyName("steps")>
         Public Property Steps As ForwardStepDto()
 
