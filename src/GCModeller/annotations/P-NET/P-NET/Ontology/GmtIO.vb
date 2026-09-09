@@ -84,7 +84,7 @@ Public Module GmtIO
             members.Add(idx.Distinct().OrderBy(Function(x) x).ToArray())
         Next
 
-        Return New HierarchyLevel(Path.GetFileNameWithoutExtension(path), nodes.ToArray(), members.ToArray())
+        Return New HierarchyLevel(System.IO.Path.GetFileNameWithoutExtension(path), nodes.ToArray(), members.ToArray())
     End Function
 
     ''' <summary>
@@ -146,7 +146,7 @@ Public Module GmtIO
 
         genes = union.ToArray()
 
-        Return New HierarchyLevel(Path.GetFileNameWithoutExtension(path), nodes.ToArray(), members.ToArray())
+        Return New HierarchyLevel(System.IO.Path.GetFileNameWithoutExtension(path), nodes.ToArray(), members.ToArray())
     End Function
 
     ''' <summary>
@@ -225,8 +225,8 @@ Public Module GmtIO
     ''' 文件名采用 ``level1_xxx.gmt`` 的编号形式，重新读取时按文件名排序即可得到正确的层级顺序。
     ''' </remarks>
     Public Function WriteHierarchy(hierarchy As PathwayHierarchy, directory As String) As String()
-        If Not Directory.Exists(directory) Then
-            Call Directory.CreateDirectory(directory)
+        If Not System.IO.Directory.Exists(directory) Then
+            Call System.IO.Directory.CreateDirectory(directory)
         End If
 
         Dim files As New List(Of String)()
@@ -234,7 +234,7 @@ Public Module GmtIO
 
         For i As Integer = 0 To hierarchy.Levels.Count - 1
             Dim level As HierarchyLevel = hierarchy.Levels(i)
-            Dim file As String = Path.Combine(directory, $"level{i + 1}_{level.Name}.gmt")
+            Dim file As String = System.IO.Path.Combine(directory, $"level{i + 1}_{level.Name}.gmt")
 
             Call WriteGmt(level, previousNames, file)
 

@@ -1,4 +1,3 @@
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports std = System.Math
 
@@ -15,9 +14,8 @@ Imports std = System.Math
 Public Module TensorOps
 
     ''' <summary>
-    ''' 数值计算中用于防止除零与对数溢出的极小正数
+    ''' 数值计算中用于防止除零与对数溢出的极小正数（1e-12）
     ''' </summary>
-    ''' <returns>1e-12</returns>
     Public Const Epsilon As Double = 0.000000000001
 
     ''' <summary>
