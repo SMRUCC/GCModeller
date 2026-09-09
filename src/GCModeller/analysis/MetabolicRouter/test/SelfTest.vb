@@ -208,10 +208,10 @@ Namespace RetroPath
         Private Sub TestScoring()
             Console.WriteLine("-- 评分 [readme.md §4] --")
             Dim st As New SearchState()
-            st.Steps.Add(New RetroStep With {.RuleId = "R003", .DeltaG = -15, .EnzymeTier = 1})
+            st.Steps.Add(New RetroStep With {.RuleId = "R003", .DeltaG = -15, .EnzymeTier = CType(1, EnzymeTiers)})
             Dim w As New ScoreWeights()
             Dim ps1 = Scoring.ScorePath(st, w)
-            st.Steps.Add(New RetroStep With {.RuleId = "R001", .DeltaG = 18, .EnzymeTier = 1})
+            st.Steps.Add(New RetroStep With {.RuleId = "R001", .DeltaG = 18, .EnzymeTier = CType(1, EnzymeTiers)})
             Dim ps2 = Scoring.ScorePath(st, w)
             Console.WriteLine($"  1 步全局 {ps1.GlobalScore:F3}  2 步全局 {ps2.GlobalScore:F3}")
             Check(ps1.GlobalScore > ps2.GlobalScore, "短路径全局分更高（长度项）")
@@ -264,12 +264,12 @@ Namespace RetroPath
             Dim opts As New JsonSerializerOptions With {.WriteIndented = False}
             Dim dto As New PathDto With {
                 .Id = "path_1", .GlobalScore = 0.87, .NumSteps = 2,
-                .Steps = New List(Of ForwardStepDto) From {
+                .Steps = New ForwardStepDto() {
                     New ForwardStepDto With {
                         .RuleId = "R001", .RuleName = "醇脱氢酶",
-                        .Substrates = New List(Of String) From {"CCO"},
-                        .Products = New List(Of String) From {"CC=O"},
-                        .DeltaG = 18.0, .EnzymeTier = 1}}}
+                        .Substrates = New String() {"CCO"},
+                        .Products = New String() {"CC=O"},
+                        .DeltaG = 18.0, .EnzymeTier = CType(1, EnzymeTiers)}}}
             Dim json = JsonSerializer.Serialize(dto, opts)
             Dim back = JsonSerializer.Deserialize(Of PathDto)(json)
             Check(back IsNot Nothing AndAlso back.Id = "path_1" AndAlso back.NumSteps = 2 AndAlso
