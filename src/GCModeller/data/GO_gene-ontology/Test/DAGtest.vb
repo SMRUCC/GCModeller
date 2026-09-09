@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
+Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Module DAGtest
 

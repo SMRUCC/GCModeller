@@ -75,6 +75,27 @@ Namespace DAG
         End Function
 
         ''' <summary>
+        ''' 安全的空值处理
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="source"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 与``SafeQuery``的区别在于：``SafeQuery``在遇到Nothing的时候会向
+        ''' 控制台输出一条警告信息，而在``go.obo``之中有大量的词条并没有
+        ''' ``is_a``/``relationship``/``xref``这些字段，使用SafeQuery会
+        ''' 刷出数以十万计的警告信息，从而严重的拖慢构建的 speed
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function safeArray(Of T)(source As T()) As T()
+            If source Is Nothing Then
+                Return New T() {}
+            Else
+                Return source
+            End If
+        End Function
+
+        ''' <summary>
         ''' 判断obo文本之中的逻辑值标记是否为真，例如``is_obsolete: true``
         ''' </summary>
         ''' <param name="value$"></param>
@@ -227,7 +248,7 @@ Namespace DAG
             For Each node As TermNode In tree.Values
                 Dim list As New List(Of String)
 
-                For Each rel As is_a In node.is_a.SafeQuery
+                For Each rel As is_a In safeArray(node.is_a)
                     If String.IsNullOrEmpty(rel.term_id) OrElse Not tree.ContainsKey(rel.term_id) Then
                         Continue For
                     End If
@@ -236,7 +257,7 @@ Namespace DAG
                 Next
 
                 If allow.Count > 0 Then
-                    For Each rel As Relationship In node.relationship.SafeQuery
+                    For Each rel As Relationship In safeArray(node.relationship)
                         If String.IsNullOrEmpty(rel.parent.Name) Then
                             Continue For
                         End If
@@ -275,7 +296,7 @@ Namespace DAG
                     Continue For
                 End If
 
-                For Each alt As String In term.alt_id.SafeQuery
+                For Each alt As String In safeArray(term.alt_id)
                     If String.IsNullOrEmpty(alt) Then
                         Continue For
                     End If
@@ -337,7 +358,7 @@ Namespace DAG
             For Each node As TermNode In tree.Values.ToArray
                 Dim is_aList As New List(Of is_a)
 
-                For Each rel As is_a In node.is_a.SafeQuery
+                For Each rel As is_a In safeArray(node.is_a)
                     If String.IsNullOrEmpty(rel.term_id) OrElse Not tree.ContainsKey(rel.term_id) Then
                         ' 父节点不存在，丢弃掉这个悬空的引用
                         Continue For
@@ -351,7 +372,7 @@ Namespace DAG
 
                 Dim relList As New List(Of Relationship)
 
-                For Each rel As Relationship In node.relationship.SafeQuery
+                For Each rel As Relationship In safeArray(node.relationship)
                     If String.IsNullOrEmpty(rel.parent.Name) Then
                         Continue For
                     End If
@@ -376,16 +397,13 @@ Namespace DAG
         ''' <returns></returns>
         <Extension>
         Public Function ConstructNode(term As Term) As TermNode
-            Dim is_a = term.is_a _
-                .SafeQuery _
+            Dim is_a = safeArray(term.is_a) _
                 .Select(Function(s) New is_a(s$)) _
                 .ToArray
-            Dim rels = term.relationship _
-                .SafeQuery _
+            Dim rels = safeArray(term.relationship) _
                 .Select(Function(s) New Relationship(s$)) _
                 .ToArray
-            Dim synonym = term.synonym _
-                .SafeQuery _
+            Dim synonym = safeArray(term.synonym) _
                 .Select(Function(s) New synonym(s$)) _
                 .ToArray
             Dim xrefValues = term.GetTermXrefs
@@ -415,8 +433,7 @@ Namespace DAG
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function GetTermXrefs(term As Term) As NamedValue(Of String)()
-            Return term.xref _
-                .SafeQuery _
+            Return safeArray(term.xref) _
                 .Select(AddressOf TermXrefParser) _
                 .ToArray
         End Function
