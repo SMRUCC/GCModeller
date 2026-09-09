@@ -33,25 +33,25 @@ Namespace Chem
         ''' 各原子的元素符号（如 "C"、"N"、"O"、"Cl"）。
         ''' </summary>
         ''' <returns>长度等于 <see cref="NumAtoms"/> 的元素符号列表，下标即原子索引。</returns>
-        Public Elements As List(Of String)
+        Public Property Elements As List(Of String)
 
         ''' <summary>
         ''' 各原子的形式电荷（如羧基氧为 -1、铵根氮为 +1）。
         ''' </summary>
         ''' <returns>长度等于 <see cref="NumAtoms"/> 的电荷列表。</returns>
-        Public Charges As List(Of Int32)
+        Public Property Charges As List(Of Int32)
 
         ''' <summary>
         ''' 各原子的显式氢数目（来自 <c>[NH3+]</c> 这类括号记号；隐式氢不计入此处）。
         ''' </summary>
         ''' <returns>长度等于 <see cref="NumAtoms"/> 的显式氢计数列表。</returns>
-        Public ExplicitH As List(Of Int32)
+        Public Property ExplicitH As List(Of Int32)
 
         ''' <summary>
         ''' 化学键列表，每项为 (a, b, order)，其中 order 取 1/2/3（单/双/三键）。
         ''' </summary>
         ''' <returns>分子内全部共价键。</returns>
-        Public Bonds As List(Of Bond)
+        Public Property Bonds As List(Of Bond)
 
         ''' <summary>
         ''' 创建一个不含任何原子与键的空分子。
