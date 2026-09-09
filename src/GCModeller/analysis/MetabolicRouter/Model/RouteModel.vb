@@ -73,7 +73,7 @@ Namespace Model
     ''' <summary>
     ''' 一条「A → B」候选通路的 JSON DTO：原有评分明细 + 经济性指标。
     ''' </summary>
-    Public Class RouteDto
+    Public Class RouteDto : Implements Enumeration(Of RouteStepDto)
 
         ''' <summary>通路编号，形如 "route_1"（按经济性排序编号）。</summary>
         <JsonPropertyName("id")>
@@ -138,6 +138,11 @@ Namespace Model
         <JsonPropertyName("steps")>
         Public Property Steps As RouteStepDto()
 
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of RouteStepDto) Implements Enumeration(Of RouteStepDto).GenericEnumerator
+            For Each [step] As RouteStepDto In Steps
+                Yield [step]
+            Next
+        End Function
     End Class
 
     ''' <summary>
