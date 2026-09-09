@@ -1,5 +1,4 @@
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
-Imports std = System.Math
 
 ''' <summary>
 ''' 一次前向传播所产生的全部中间结果

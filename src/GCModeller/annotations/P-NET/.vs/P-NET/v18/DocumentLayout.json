@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\annotations\\P-NET\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F9384548-FA76-4E91-9131-DDB692AF2918}|P-NET\\P-NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\p-net\\p-net\\pnetmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F9384548-FA76-4E91-9131-DDB692AF2918}|P-NET\\P-NET.vbproj|solutionrelative:p-net\\pnetmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9384548-FA76-4E91-9131-DDB692AF2918}|P-NET\\P-NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\p-net\\p-net\\nnbuilder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F9384548-FA76-4E91-9131-DDB692AF2918}|P-NET\\P-NET.vbproj|solutionrelative:p-net\\nnbuilder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{27D349B5-1A06-4F33-8235-36F778A47F36}|test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\p-net\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{27D349B5-1A06-4F33-8235-36F778A47F36}|test\\test.vbproj|solutionrelative:test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
@@ -31,12 +39,38 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "PNETModel.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\P-NET\\P-NET\\PNETModel.vb",
+              "RelativeDocumentMoniker": "P-NET\\PNETModel.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\P-NET\\P-NET\\PNETModel.vb",
+              "RelativeToolTip": "P-NET\\PNETModel.vb",
+              "ViewState": "AgIAAEABAAAAAAAAAAAUwAAAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-09T00:10:25.046Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NNBuilder.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\P-NET\\P-NET\\NNBuilder.vb",
+              "RelativeDocumentMoniker": "P-NET\\NNBuilder.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\P-NET\\P-NET\\NNBuilder.vb",
+              "RelativeToolTip": "P-NET\\NNBuilder.vb",
+              "ViewState": "AgIAAKsAAAAAAAAAAAAUwDUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-09T00:10:17.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\P-NET\\test\\Program.vb",
               "RelativeDocumentMoniker": "test\\Program.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\P-NET\\test\\Program.vb",
               "RelativeToolTip": "test\\Program.vb",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-09-09T00:08:40.118Z",
               "EditorCaption": ""
