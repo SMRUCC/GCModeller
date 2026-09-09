@@ -103,11 +103,14 @@ Public Class Netwalk
                 .LengthScore = Math.Round(ps.LengthScore, 5),
                 .DeltaGTotal = Math.Round(ps.DeltaGTotal, 2),
                 .NumSteps = ps.NumSteps,
-                .Steps = fwdSteps.Select(Function(fs) New ForwardStepDto With {
+                .Steps = fwdSteps _
+                    .Select(Function(fs)
+                                Return New ForwardStepDto With {
                     .RuleId = fs.RuleId, .RuleName = fs.RuleName,
-                    .Substrates = fs.Substrates, .Products = fs.Products,
+                    .Substrates = fs.Substrates.ToArray, .Products = fs.Products.ToArray,
                     .DeltaG = Math.Round(fs.DeltaG, 2),
-                    .EnzymeTier = fs.EnzymeTier}).ToList()})
+                    .EnzymeTier = fs.EnzymeTier}
+                            End Function).ToArray})
         Next
 
         Dim report As New PathReport With {
@@ -128,7 +131,7 @@ Public Class Netwalk
                 .MaxDepthReached = searcher.Stats.MaxDepthReached,
                 .ElapsedMs = searcher.Stats.ElapsedMs,
                 .PathsFound = pathDtos.Count},
-            .Paths = pathDtos}
+            .Paths = pathDtos.ToArray}
 
         Console.Error.WriteLine($"完成: {completed.Count} 条完整路径（展示前 {pathDtos.Count}），" &
                                     $"{searcher.Stats.ApplicationsTried} 次规则应用，{sw.Elapsed.TotalMilliseconds:F0}ms")

@@ -1,4 +1,5 @@
 ﻿Imports System.Text.Json.Serialization
+Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 
 Namespace Model
 
@@ -37,7 +38,7 @@ Namespace Model
 
         ''' <summary>正向生物合成顺序的步骤列表（汇前体 → 目标）。</summary>
         <JsonPropertyName("steps")>
-        Public Property Steps As List(Of ForwardStepDto)
+        Public Property Steps As ForwardStepDto()
 
     End Class
 
@@ -56,11 +57,11 @@ Namespace Model
 
         ''' <summary>底物（前体 + 共底物）的 SMILES 列表。</summary>
         <JsonPropertyName("substrates")>
-        Public Property Substrates As List(Of String)
+        Public Property Substrates As String()
 
         ''' <summary>产物的 SMILES 列表。</summary>
         <JsonPropertyName("products")>
-        Public Property Products As List(Of String)
+        Public Property Products As String()
 
         ''' <summary>该步的 ΔG（kJ/mol）。</summary>
         <JsonPropertyName("delta_g")>
@@ -68,7 +69,11 @@ Namespace Model
 
         ''' <summary>该步的酶可得性层级（1/2/3）。</summary>
         <JsonPropertyName("enzyme_tier")>
-        Public Property EnzymeTier As Integer
+        Public Property EnzymeTier As EnzymeTiers
+
+        Public Overrides Function ToString() As String
+            Return $"[{RuleId} - {RuleName}] {EnzymeTier.Description}, delta-G:{DeltaG}, formula:{Substrates.JoinBy(" + ")} => {Products.JoinBy(" + ")}"
+        End Function
 
     End Class
 

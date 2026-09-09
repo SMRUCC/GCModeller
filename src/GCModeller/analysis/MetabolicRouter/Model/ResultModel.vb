@@ -33,7 +33,7 @@ Namespace Model
 
         ''' <summary>按全局分降序排列的候选通路；未找到时为空列表。</summary>
         <JsonPropertyName("paths")>
-        Public Property Paths As List(Of PathDto)
+        Public Property Paths As PathDto()
 
     End Class
 

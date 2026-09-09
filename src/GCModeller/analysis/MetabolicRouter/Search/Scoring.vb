@@ -64,7 +64,7 @@ Namespace Search
         ''' <summary>该步的 ΔG（kJ/mol）。</summary>
         Public DeltaG As Double
         ''' <summary>该步的酶可得性层级（1/2/3）。</summary>
-        Public EnzymeTier As Int32
+        Public EnzymeTier As EnzymeTiers
 
     End Class
 

@@ -38,7 +38,7 @@ Namespace Search
         ''' <summary>
         ''' 该步反应的酶可得性层级（1/2/3）。
         ''' </summary>
-        Public EnzymeTier As Int32
+        Public EnzymeTier As EnzymeTiers
         ''' <summary>
         ''' 本次变换的原子映射，每项为 (模式类号, 分子原子索引)。
         ''' </summary>

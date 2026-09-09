@@ -198,7 +198,7 @@ Module PathwayFinderDemo
         Console.WriteLine($"   统计     : 路径 {report.Stats.PathsFound} 条，展开状态 {report.Stats.StatesGenerated}，" &
                           $"规则应用 {report.Stats.ApplicationsTried} 次，耗时 {report.Stats.ElapsedMs}ms")
 
-        If report.Paths.Count = 0 Then
+        If report.Paths.Length = 0 Then
             Console.WriteLine("   结果     : 未找到完整通路（目标可能已属于汇集合，或所需反应超出规则/深度上限）")
             Console.WriteLine()
             Return
@@ -219,7 +219,7 @@ Module PathwayFinderDemo
         Console.WriteLine()
     End Sub
 
-    Private Function JoinNames(smilesList As List(Of String)) As String
+    Private Function JoinNames(smilesList As IEnumerable(Of String)) As String
         Dim parts As New List(Of String)()
 
         For Each s As String In smilesList
