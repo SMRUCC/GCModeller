@@ -142,7 +142,7 @@ Module GSEA
     ''' <returns></returns>
     <ExportAPI("read.enrichment")>
     Public Function ReadEnrichmentTerms(file As String) As EnrichmentResult()
-        Return file.LoadCsv(Of EnrichmentResult)
+        Return file.LoadCsv(Of EnrichmentResult)(mute:=True)
     End Function
 
     ''' <summary>
@@ -466,6 +466,12 @@ Module GSEA
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' cast dataframe to CLR enrichmentt terms
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("to_enrichment_terms")>
     Public Function toEnrichmentTerms(x As dataframe, Optional env As Environment = Nothing) As EnrichmentResult()
         Dim terms As String() = x.getRowNames

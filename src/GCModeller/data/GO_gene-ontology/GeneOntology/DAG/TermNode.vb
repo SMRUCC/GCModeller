@@ -99,15 +99,15 @@ Namespace DAG
         Public Function AllParents(Optional relations As OntologyRelations() = Nothing) As TermNode()
             Dim list As New List(Of TermNode)
 
-            For Each rel As is_a In Me.is_a
-                If rel Is Nothing OrElse rel.term Is Nothing Then
-                    Continue For
-                End If
+            If Not Me.is_a Is Nothing Then
+                For Each rel As is_a In Me.is_a
+                    If Not rel.term Is Nothing Then
+                        list.Add(rel.term)
+                    End If
+                Next
+            End If
 
-                list.Add(rel.term)
-            Next
-
-            If Not relations.IsNullOrEmpty Then
+            If Not relations.IsNullOrEmpty AndAlso Not Me.relationship Is Nothing Then
                 Dim allow As New HashSet(Of OntologyRelations)(relations)
 
                 For Each rel As Relationship In Me.relationship

@@ -417,7 +417,7 @@ Namespace DAG
         ''' <param name="term"></param>
         ''' <returns></returns>
         Private Function isAParents(term As TermNode) As String()
-            If term Is Nothing OrElse term.is_a.IsNullOrEmpty Then
+            If term Is Nothing OrElse term.is_a Is Nothing OrElse term.is_a.Length = 0 Then
                 Return {}
             End If
 
