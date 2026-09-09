@@ -11,13 +11,13 @@
 ' 运行：dotnet run -c Release -- metabolic
 ' ============================================================================
 
-Imports System.Text.Json
-Imports SMRUCC.genomics.Model.Metabolic.RouterAdapter
 Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 Imports SMRUCC.genomics.Analysis.RetroPath.Model
 Imports SMRUCC.genomics.Analysis.RetroPath.Search
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.MetabolicModel
+Imports SMRUCC.genomics.Model.Metabolic.RouterAdapter
+Imports SMRUCC.genomics.Model.Metabolic.RouterAdapter.Data
 
 Public Module MetabolicDemo
 
