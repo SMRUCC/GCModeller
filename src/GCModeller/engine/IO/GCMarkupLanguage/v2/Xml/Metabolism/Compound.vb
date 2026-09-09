@@ -58,6 +58,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports SMRUCC.genomics.MetabolicModel
 
 Namespace v2
 
@@ -82,6 +83,7 @@ Namespace v2
 
         <XmlAttribute>
         Public Property formula As String
+        Public Property smiles As String
 
         ''' <summary>
         ''' the cross reference id of this compound, used for search on the workbench ui
@@ -99,6 +101,17 @@ Namespace v2
 
         Public Overrides Function ToString() As String
             Return $"[{ID}] {name}"
+        End Function
+
+        Public Function BuildModel() As MetabolicCompound
+            Return New MetabolicCompound With {
+                .formula = formula,
+                .id = ID,
+                .moleculeWeight = 0,
+                .name = name,
+                .smiles = smiles,
+                .synonym = referenceIds
+            }
         End Function
 
     End Class

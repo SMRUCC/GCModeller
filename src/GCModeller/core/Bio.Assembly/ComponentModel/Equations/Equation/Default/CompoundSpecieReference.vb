@@ -77,9 +77,10 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         Sub New()
         End Sub
 
-        Sub New(ref As ICompoundSpecies)
+        Sub New(ref As ICompoundSpecies, Optional compartmentId As String = Nothing)
             Stoichiometry = ref.Stoichiometry
             ID = ref.Key
+            Compartment = compartmentId
         End Sub
 
         Sub New(factor As Double, compound As String)
