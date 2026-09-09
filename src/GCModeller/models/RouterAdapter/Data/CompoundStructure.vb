@@ -1,4 +1,6 @@
-﻿''' <summary>
+﻿Imports SMRUCC.genomics.Analysis.RetroPath.Chem
+
+''' <summary>
 ''' 一个可被 RetroPath 使用的化合物结构（净化后的 SMILES + 分子图）
 ''' </summary>
 Public Class CompoundStructure
