@@ -66,21 +66,10 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.CompilerServices
 Imports SMRUCC.genomics.Metagenomics
 
 Namespace v2
-
-    Public Class Traits
-
-        <XmlElement("phenotype")> Public Property phenotype As String()
-
-        Public Overrides Function ToString() As String
-            Return phenotype.GetJson
-        End Function
-
-    End Class
 
     ''' <summary>
     ''' The virtual cell model xml file 

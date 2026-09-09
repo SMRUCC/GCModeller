@@ -64,7 +64,6 @@ Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace v2
 
