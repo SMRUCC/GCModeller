@@ -131,34 +131,54 @@ Public Module GSEACalculate
     Friend Function enrich_score(geneExpression As GeneExpressionRank(), geneSet As Index(Of String)) As Double
         Dim sortedGenes = geneExpression.OrderByDescending(Function(a) a.rank).ToArray
         Dim enrichmentScore As Double = 0
-        Dim maxEnrichmentScore As Double = Double.MinValue
+        Dim maxScore As Double = 0
+        Dim minScore As Double = 0
 
-        ' --- 修改开始：计算分数所需的参数 ---
+        ' 注意：这里必须统计**在表达列表之中真实出现过的**基因集成员数量，
+        ' 而不能够直接使用基因集自身的大小来计算步长；否则当基因集之中的
+        ' 成员并没有全部出现在表达列表之中的时候，命中的步长就会出现偏差，
+        ' 从而使得running sum的最终值不再归零
         Dim totalGenes As Integer = sortedGenes.Length
-        Dim hitsCount As Integer = geneSet.Count
-
-        ' 预先计算“命中”和“未命中”时的分数步长，避免在循环中重复除法
-        Dim hitStep As Double = 1.0 / hitsCount
-        Dim missStep As Double = 1.0 / (totalGenes - hitsCount)
-        ' --- 修改结束 ---
+        Dim hits As Integer = 0
 
         For Each gene As GeneExpressionRank In sortedGenes
             If gene.gene_id Like geneSet Then
-                ' 修改前: enrichmentScore += gene.rank
-                ' 修改后: 使用归一化的分数 (1 / N_hits)
-                enrichmentScore += hitStep
-
-                If enrichmentScore > maxEnrichmentScore Then
-                    maxEnrichmentScore = enrichmentScore
-                End If
-            Else
-                ' 修改前: enrichmentScore -= gene.rank
-                ' 修改后: 使用归一化的分数 (1 / (N_total - N_hits))
-                enrichmentScore -= missStep
+                hits += 1
             End If
         Next
 
-        Return maxEnrichmentScore
+        If hits = 0 OrElse hits >= totalGenes Then
+            ' 一个都没有命中，或者列表之中的基因全部都属于当前的基因集，
+            ' 这个时候running sum没有偏离，富集分数为零
+            Return 0
+        End If
+
+        Dim hitStep As Double = 1.0 / hits
+        Dim missStep As Double = 1.0 / (totalGenes - hits)
+
+        For Each gene As GeneExpressionRank In sortedGenes
+            If gene.gene_id Like geneSet Then
+                enrichmentScore += hitStep
+
+                If enrichmentScore > maxScore Then
+                    maxScore = enrichmentScore
+                End If
+            Else
+                enrichmentScore -= missStep
+
+                If enrichmentScore < minScore Then
+                    minScore = enrichmentScore
+                End If
+            End If
+        Next
+
+        ' 经典GSEA的ES是running sum与零之间的**最大偏离值**，
+        ' 即正向偏离与负向偏离之中绝对值更大的那一个
+        If maxScore >= -minScore Then
+            Return maxScore
+        Else
+            Return minScore
+        End If
     End Function
 End Module
 
@@ -178,8 +198,11 @@ Public Class PermutationTest : Inherits NullHypothesis(Of GeneExpressionRank())
             ' make copy of the raw array
             Dim permutedGeneExpression = geneExpression.ToArray
 
-            For i As Integer = 0 To permutedGeneExpression.Length - 1
-                Dim k As Integer = randf.NextInteger(permutedGeneExpression.Length)
+            ' 注意：旧版本的代码在这里从整个数组的范围之中随机取下标k来做交换，
+            ' 这是一个有偏的naive shuffle；标准的Fisher-Yates洗牌算法要求
+            ' 随机下标k必须取自[i, n-1]这个区间之中
+            For i As Integer = 0 To permutedGeneExpression.Length - 2
+                Dim k As Integer = i + randf.NextInteger(permutedGeneExpression.Length - i)
                 Dim swapRank As Double = permutedGeneExpression(k).rank
                 Dim temp As Double = permutedGeneExpression(i).rank
 
