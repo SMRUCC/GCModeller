@@ -60,7 +60,7 @@ Module PathwayFinderDemo
             biocyc,
             opts,
             Nothing,
-            sinkMode:=If(useAllSink, BioCycSink.SinkModes.All, BioCycSink.SinkModes.Core),
+            sinkMode:=If(useAllSink, SinkModes.All, SinkModes.Core),
             coreDegree:=4,
             maxMoleculeAtoms:=80,
             maxPatternAtoms:=32,

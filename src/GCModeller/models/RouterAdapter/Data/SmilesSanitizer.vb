@@ -1,12 +1,12 @@
 ' ============================================================================
-' BioCycSmiles.vb — BioCyc SMILES 净化与安全解析
+' SmilesSanitizer.vb — SMILES 净化与安全解析（与数据源无关）
 ' ----------------------------------------------------------------------------
 ' RetroPath 的 SmilesIO 仅支持：元素/支链/环闭合数字/键符 - = # / 电价 [NH3+] [O-]
 '   / 显式氢 / 多组分 "."；不支持芳香小写、@/@@ 立体标记、/ \ 的 E/Z 标记、%nn 环号
 '   与通配 *，元素表仅含 Cl Br Si C N O S P F I B H。
-' BioCyc 的 SMILES 为 Kekulé 大写式（无芳香小写）但普遍带立体标记
-'   （[C@@H]、C(\C=C/C(\C=1)=2)），且部分条目含金属（如 PROTOHEME 的 [Fe-2]），
-'   因此必须先净化/过滤再交给 SmilesIO，否则 Parse 会直接抛异常。
+' 各代谢数据库的 SMILES 普遍带立体标记（如 [C@@H]、C(\C=C/C(\C=1)=2)），且部分条目
+' 含金属（如 PROTOHEME 的 [Fe-2]）或泛型基团（[R]、[a protein]），因此必须先净化/过滤
+' 再交给 SmilesIO，否则 Parse 会直接抛异常。
 ' 所有 API 均为无状态纯函数且内部 Try/Catch——单条脏数据只跳过，不影响整库装配。
 ' ============================================================================
 
@@ -14,7 +14,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 
-Public Module BioCycSmiles
+Public Module SmilesSanitizer
 
     ''' <summary>
     ''' RetroPath 分子模型所支持的元素集合（超出该集合的化合物一律跳过）
@@ -32,6 +32,9 @@ Public Module BioCycSmiles
     ''' 剔除立体/构型标记（/ \ @），返回可交给 SmilesIO.Parse 的 SMILES。
     ''' 含 %nn 环号或通配 * 的串无法净化，返回 Nothing。
     ''' </summary>
+    ''' <param name="raw">原始 SMILES。</param>
+    ''' <param name="reason">无法净化时返回原因。</param>
+    ''' <returns>净化后的 SMILES；不可用时返回 Nothing。</returns>
     Public Function Sanitize(raw As String, Optional ByRef reason As String = Nothing) As String
         reason = Nothing
 

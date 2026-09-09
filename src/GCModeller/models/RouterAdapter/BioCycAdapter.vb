@@ -90,53 +90,35 @@ Public Class BioCycAdapter : Implements IRouter
         Me.w = If(w, New ScoreWeights)
         Me.SinkMode = sinkMode
 
-        ' ---------- 1) 化合物结构索引 ----------
-        Dim noSmiles As Integer = 0
-        Dim badSmiles As Integer = 0
-        Dim rejectReasons As New Dictionary(Of String, Integer)()
-        Dim rejectSamples As New Dictionary(Of String, String)()
+        ' ---------- 1) 化合物结构索引（SMILES 净化 + 解析） ----------
+        Dim seeds As New List(Of CompoundSeed)()
 
         For Each cpd As compounds In compounds
             If cpd Is Nothing OrElse String.IsNullOrEmpty(cpd.uniqueId) Then Continue For
-            If String.IsNullOrEmpty(cpd.SMILES) Then
-                noSmiles += 1
-                Continue For
-            End If
-
-            Dim smiles As String = Nothing
-            Dim mol As Molecule = Nothing
-            Dim why As String = Nothing
-
-            If Not BioCycSmiles.TryParse(cpd.SMILES, smiles, mol, maxMoleculeAtoms, why) Then
-                badSmiles += 1
-                Dim n As Integer = 0
-                rejectReasons.TryGetValue(why, n)
-                rejectReasons(why) = n + 1
-                If Not rejectSamples.ContainsKey(why) Then
-                    rejectSamples(why) = cpd.uniqueId & " = " & cpd.SMILES
-                End If
-                Continue For
-            End If
-
-            structures(cpd.uniqueId) = New CompoundStructure With {
-                .Id = cpd.uniqueId,
-                .Smiles = smiles,
-                .Mol = mol
-            }
+            seeds.Add(CompoundSeed.Create(cpd.uniqueId, cpd.SMILES, name:=cpd.commonName))
         Next
 
-        ' ---------- 2) 反应参与度（判定枢纽代谢物） ----------
-        For Each rxn As reactions In reactions
-            If rxn Is Nothing Then Continue For
-            CountSide(rxn.left, degrees)
-            CountSide(rxn.right, degrees)
+        Dim index As CompoundIndexResult = CompoundIndex.Build(seeds, maxMoleculeAtoms)
+
+        For Each kvp In index.Structures
+            structures(kvp.Key) = kvp.Value
         Next
 
-        ' ---------- 3) 反应实例 → 广义反应规则 ----------
-        ruleList.AddRange(BioCycRuleMiner.Mine(
-            reactionList:=reactions _
+        ' ---------- 2) 反应实例 → 中立契约；并统计参与度（判定枢纽代谢物） ----------
+        Dim specs As List(Of ReactionSpec) = BioCycRuleMiner.ToSpecs(
+            reactions _
                 .Where(Function(r) r IsNot Nothing AndAlso Not String.IsNullOrEmpty(r.uniqueId)) _
                 .OrderBy(Function(r) r.uniqueId, StringComparer.Ordinal),
+            Skipped,
+            If(keepRuleTrace, RuleTrace, Nothing))
+
+        For Each kvp In CompoundIndex.DegreeOf(specs)
+            degrees(kvp.Key) = kvp.Value
+        Next
+
+        ' ---------- 3) 广义反应规则挖掘（通用引擎） ----------
+        ruleList.AddRange(RuleMiner.Mine(
+            reactionList:=specs,
             structures:=structures,
             maxMoleculeAtoms:=maxMoleculeAtoms,
             maxPatternAtoms:=maxPatternAtoms,
@@ -166,29 +148,29 @@ Public Class BioCycAdapter : Implements IRouter
         netwalk = New Netwalk(ruleList, sink, Me.opts, Me.w)
 
         ' ---------- 5) 诊断 ----------
-        Stats("compounds") = compounds.Length
+        Stats("compounds") = index.Total
         Stats("structures") = structures.Count
-        Stats("no_smiles") = noSmiles
-        Stats("bad_smiles") = badSmiles
-        Stats("reactions") = reactions.Length
+        Stats("no_smiles") = index.MissingSmiles.Count
+        Stats("bad_smiles") = index.Total - index.Count - index.MissingSmiles.Count
+        Stats("reactions") = specs.Count
         Stats("rules") = ruleList.Count
         Stats("sink") = sink.Count
         Stats("sink_mode") = sinkMode.ToString()
         Stats("elapsed_ms") = CLng(sw.Elapsed.TotalMilliseconds)
 
         If verbose Then
-            Console.Error.WriteLine($"[BioCycAdapter] 化合物 {compounds.Length}（可用结构 {structures.Count}，" &
-                                    $"无 SMILES {noSmiles}，不可用 {badSmiles}）")
-            If rejectReasons.Count > 0 Then
-                For Each kv In rejectReasons.OrderByDescending(Function(x) x.Value).Take(8)
+            Console.Error.WriteLine($"[BioCycAdapter] 化合物 {index.Total}（可用结构 {index.Count}，" &
+                                    $"无 SMILES {index.MissingSmiles.Count}，不可用 {index.Total - index.Count - index.MissingSmiles.Count}）")
+            If index.RejectReasons.Count > 0 Then
+                For Each kv In index.RejectReasons.OrderByDescending(Function(x) x.Value).Take(8)
                     Dim sample As String = Nothing
-                    rejectSamples.TryGetValue(kv.Key, sample)
+                    index.RejectSamples.TryGetValue(kv.Key, sample)
                     If sample Is Nothing Then sample = ""
                     If sample.Length > 110 Then sample = sample.Substring(0, 110) & "..."
                     Console.Error.WriteLine($"[BioCycAdapter]   跳过 {kv.Key} × {kv.Value}  例：{sample}")
                 Next
             End If
-            Console.Error.WriteLine($"[BioCycAdapter] 反应 {reactions.Length} → 广义规则 {rules.Count}（模式原子上限 {maxPatternAtoms}）")
+            Console.Error.WriteLine($"[BioCycAdapter] 反应 {specs.Count} → 广义规则 {rules.Count}（模式原子上限 {maxPatternAtoms}）")
             If Skipped.Count > 0 Then
                 Dim reasons = Skipped.OrderByDescending(Function(kv) kv.Value).
                     Select(Function(kv) $"{kv.Key}={kv.Value}")
@@ -196,21 +178,6 @@ Public Class BioCycAdapter : Implements IRouter
             End If
             Console.Error.WriteLine($"[BioCycAdapter] 汇集合 = {sink.Count}（模式 {sinkMode}，coreDegree≥{coreDegree}），装配耗时 {sw.Elapsed.TotalMilliseconds:F0}ms")
         End If
-    End Sub
-
-    Private Shared Sub CountSide(side As CompoundSpecieReference(),
-                                 deg As Dictionary(Of String, Integer))
-        If side Is Nothing Then Return
-
-        For Each spec As CompoundSpecieReference In side
-            If spec Is Nothing OrElse String.IsNullOrEmpty(spec.ID) Then Continue For
-
-            Dim id As String = spec.ID.Split(","c)(0).Trim()
-            Dim n As Integer = 0
-
-            deg.TryGetValue(id, n)
-            deg(id) = n + 1
-        Next
     End Sub
 
     ''' <summary>按 compound frame id 取结构（无结构时返回 Nothing）</summary>
