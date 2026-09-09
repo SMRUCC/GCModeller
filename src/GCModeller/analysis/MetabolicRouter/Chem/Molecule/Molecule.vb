@@ -264,7 +264,7 @@ Namespace Chem
         ''' <param name="rounds">最大迭代轮数；分区数收敛时会提前退出。</param>
         ''' <returns>每个原子一个标签字符串；标签相同表示化学环境等价（用于规范化排序与指纹）。</returns>
         ''' <remarks>
-        ''' 初值为 (元素, 电荷, 显式氢, 重原子度, 邻接键级多重集)；迭代式为
+        ''' 初值为 (元素, 电荷, 氢总数, 重原子度, 邻接键级多重集)；迭代式为
         ''' (旧标签, 邻居(标签, 键级) 多重集)。这是 <see cref="MolKey"/> 与 SMILES
         ''' 确定性写出的排序依据。
         ''' </remarks>
@@ -272,7 +272,7 @@ Namespace Chem
             Dim labels As New List(Of String)()
             For a = 0 To NumAtoms() - 1
                 Dim orders = Neighbors(a).Select(Function(nb) nb.Item2).OrderBy(Function(x) x)
-                labels.Add($"{Elements(a)}|{Charges(a)}|{ExplicitH(a)}|{Degree(a)}|" &
+                labels.Add($"{Elements(a)}|{Charges(a)}|{TotalH(a)}|{Degree(a)}|" &
                            String.Join(",", orders))
             Next
             Dim prevCount = labels.Distinct().Count()
@@ -306,6 +306,12 @@ Namespace Chem
         ''' 注意它并非严格的规范 SMILES——正则图的极端情形下理论上存在碰撞，但在代谢物
         ''' 尺度可忽略。
         ''' </remarks>
+        ''' <remarks>
+        ''' 指纹一律采用"氢总数"（<see cref="TotalH"/> = 显式 + 隐式）而非"显式氢"：对价态合法的
+        ''' 原子，氢总数由元素、电荷与键级唯一决定，而显式氢数只反映 SMILES 的书写方式。若用
+        ''' 显式氢，同一个分子写成 <c>N</c> 还是 <c>[NH3+]</c> 会得到两个不同的指纹，导致规则
+        ''' 逆向生成的化合物与库里的同一化合物对不上（通路无法在起点 A 处收束）。
+        ''' </remarks>
         Public Function MolKey() As String
             Dim ranks = MorganRanks()
             Dim uniq = ranks.Distinct().OrderBy(Function(x) x, StringComparer.Ordinal).ToList()
@@ -316,7 +322,7 @@ Namespace Chem
             Dim rk = ranks.Select(Function(x) idxMap(x)).ToList()
             Dim atomList As New List(Of String)()
             For a = 0 To NumAtoms() - 1
-                atomList.Add($"{Elements(a)}|{Charges(a)}|{ExplicitH(a)}|{rk(a)}")
+                atomList.Add($"{Elements(a)}|{Charges(a)}|{TotalH(a)}|{rk(a)}")
             Next
             atomList.Sort(StringComparer.Ordinal)
             Dim bondList As New List(Of String)()

@@ -62,16 +62,19 @@ Module Program
     '''   dotnet run -c Release -- CHORISMATE   # 只跑指定 UNIQUE-ID 的目标
     '''   dotnet run -c Release -- all          # 以全库汇模式跑全部目标
     '''   dotnet run -c Release -- metabolic    # MetabolicAdapter 演示（内部标准代谢模型）
+    '''   dotnet run -c Release -- route        # A → B 定向合成通路搜索演示（EcoCyc）
     '''   dotnet run -c Release -- legacy       # 旧的数据库读取冒烟测试
     ''' </summary>
     Sub Main(args As String())
-        '  If args.Length > 0 AndAlso args(0).Equals("legacy", StringComparison.OrdinalIgnoreCase) Then
-        'LegacySmokeTest()
-        '  ElseIf args.Length > 0 AndAlso args(0).Equals("metabolic", StringComparison.OrdinalIgnoreCase) Then
-        MetabolicDemo.Run() '(args.Skip(1).FirstOrDefault())
-        '  Else
-        ' PathwayFinderDemo.Run(args.FirstOrDefault())
-        ' End If
+        If args.Length > 0 AndAlso args(0).Equals("route", StringComparison.OrdinalIgnoreCase) Then
+            SynthesisRouteDemo.Run(args.Skip(1).ToArray())
+        ElseIf args.Length > 0 AndAlso args(0).Equals("legacy", StringComparison.OrdinalIgnoreCase) Then
+            LegacySmokeTest()
+        ElseIf args.Length > 0 AndAlso args(0).Equals("pathway", StringComparison.OrdinalIgnoreCase) Then
+            PathwayFinderDemo.Run(args.Skip(1).FirstOrDefault())
+        Else
+            MetabolicDemo.Run() '(args.Skip(1).FirstOrDefault())
+        End If
     End Sub
 
     ''' <summary>旧的 BioCyc 文件读取冒烟测试（路径为历史版本，仅保留备查）</summary>

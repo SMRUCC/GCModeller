@@ -16,6 +16,12 @@ Public Class Netwalk
     ''' </summary>
     Public Const VersionString As String = "1.0.0"
 
+    ''' <summary>
+    ''' <see cref="SynthesisRoute"/> 自动升级（加大束宽/深度重试）的耗时预算（毫秒）。
+    ''' 超过预算即停止重试，避免单个查询把整个批量 demo 拖垮。
+    ''' </summary>
+    Public Const EscalateBudgetMs As Integer = 30000
+
     ''' <summary>构造时传入的搜索参数。</summary>
     Public ReadOnly Property opts As SearchOptions
 
@@ -261,14 +267,21 @@ Public Class Netwalk
             totalStates += searcher.Stats.StatesGenerated
             maxDepthReached = Math.Max(maxDepthReached, searcher.Stats.MaxDepthReached)
 
-            If completed.Any(Function(st) Evaluate(st, sourceKey, role) IsNot Nothing) Then Exit Do
+            Dim hitThisRound As Boolean = completed.Any(Function(st) Evaluate(st, sourceKey, role) IsNot Nothing)
+
+            Console.Error.WriteLine($"  第 {rounds} 轮：束宽 {curOpts.BeamWidth}，深度上限 {curOpts.MaxDepth}，" &
+                                      $"完整路径 {completed.Count}（命中 A 的 {If(hitThisRound, "有", "无")}），" &
+                                      $"累计 {sw.Elapsed.TotalMilliseconds:F0}ms")
+
+            If hitThisRound Then Exit Do
             If Not escalate OrElse rounds >= 3 Then Exit Do
+            If sw.Elapsed.TotalMilliseconds > EscalateBudgetMs Then Exit Do
 
             curOpts = New SearchOptions With {
                 .Strategy = opts.Strategy,
-                .BeamWidth = curOpts.BeamWidth * 4,
-                .MaxDepth = curOpts.MaxDepth + 2,
-                .MaxPaths = Math.Max(curOpts.MaxPaths * 4, 100),
+                .BeamWidth = Math.Min(curOpts.BeamWidth * 2, 400),
+                .MaxDepth = curOpts.MaxDepth + 1,
+                .MaxPaths = Math.Min(Math.Max(curOpts.MaxPaths * 2, 40), 400),
                 .MatchLimit = opts.MatchLimit}
         Loop
         sw.Stop()

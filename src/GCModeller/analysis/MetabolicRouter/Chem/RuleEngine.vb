@@ -201,6 +201,10 @@ Namespace Chem
                     If surv.ContainsKey(cls) Then Continue For
                     Dim pa = otherAtom(cls)
                     Dim idx = res.AddAtom(pa.Element, If(pa.Charge <> -999, pa.Charge, 0))
+                    ' 保留模式中写出的显式氢（如 [NH3+]、[CH1]）：MolKey 把显式氢计入分子指纹，
+                    ' 若丢弃，逆向生成的分子会与库中同一化合物的指纹不一致（典型表现为 [NH3+]
+                    ' 退化成 [N+]，色氨酸就再也匹配不上），导致通路无法在起点 A 处收束。
+                    If pa.HCount > 0 Then res.ExplicitH(idx) = pa.HCount
                     surv(cls) = idx
                     mapped.Add(Tuple.Create(cls, idx))
                 Next
