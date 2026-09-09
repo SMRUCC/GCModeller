@@ -27,6 +27,14 @@ Public Module metabolicNetwork
         Dim meta As PipeIterator(Of MetabolicCompound) = pipeline.Stream(Of MetabolicCompound)(compounds, env)
         Dim rxns As PipeIterator(Of MetabolicReaction) = pipeline.Stream(Of MetabolicReaction)(reactions, env)
 
+        If meta.isError Then
+            Return meta.getError
+        ElseIf rxns.isError Then
+            Return rxns.getError
+        End If
+
+        Dim router As New MetabolicAdapter(meta, rxns)
+        Return router
     End Function
 End Module
 
