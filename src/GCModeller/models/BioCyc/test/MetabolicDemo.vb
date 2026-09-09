@@ -207,6 +207,11 @@ Public Module MetabolicDemo
             Console.WriteLine("   规则挖掘跳过原因：" & String.Join(", ",
                 all.OrderByDescending(Function(kv) kv.Value).Select(Function(kv) $"{kv.Key}={kv.Value}")))
         End If
+
+        If router.RuleTrace.Count > 0 Then
+            Console.WriteLine("   未收录反应明细：" & String.Join(", ",
+                router.RuleTrace.Select(Function(kv) $"{kv.Key}({kv.Value})")))
+        End If
     End Sub
 
     Private Sub BuildNameIndex(compounds As Dictionary(Of String, CompoundStructure))

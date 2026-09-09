@@ -47,20 +47,30 @@ Public Module BioCycMetabolicConvertor
         If rxn Is Nothing Then Return Nothing
 
         Dim eq As Equation = rxn.equation
+        Dim m As New MetabolicReaction()
+        Dim stepName As String = "id"
 
-        Return New MetabolicReaction With {
-            .id = rxn.uniqueId,
-            .name = If(rxn.commonName, rxn.systematicName, rxn.uniqueId),
-            .description = rxn.comment,
-            .ECNumbers = If(rxn.ec_number Is Nothing,
-                            Nothing,
-                            rxn.ec_number.Select(Function(ec) ec.ToString()).ToArray),
-            .is_reversible = (rxn.reactionDirection = ReactionDirections.Reversible),
-            .is_spontaneous = SafeBool(rxn.spontaneous),
-            .gibbs = If(Double.IsNaN(rxn.gibbs0) OrElse Double.IsInfinity(rxn.gibbs0), 0, rxn.gibbs0),
-            .left = eq.Reactants,
-            .right = eq.Products
-        }
+        Try
+            stepName = "id" : m.id = rxn.uniqueId
+            stepName = "name"
+            m.name = rxn.commonName
+            If String.IsNullOrEmpty(m.name) Then m.name = rxn.systematicName
+            If String.IsNullOrEmpty(m.name) Then m.name = rxn.uniqueId
+            stepName = "description" : m.description = rxn.comment
+            stepName = "ECNumbers"
+            m.ECNumbers = If(rxn.ec_number Is Nothing,
+                             Nothing,
+                             rxn.ec_number.Select(Function(ec) ec.ToString()).ToArray)
+            stepName = "is_reversible" : m.is_reversible = (rxn.reactionDirection = ReactionDirections.Reversible)
+            stepName = "is_spontaneous" : m.is_spontaneous = SafeBool(rxn.spontaneous)
+            stepName = "gibbs" : m.gibbs = If(Double.IsNaN(rxn.gibbs0) OrElse Double.IsInfinity(rxn.gibbs0), 0, rxn.gibbs0)
+            stepName = "left" : m.left = eq.Reactants
+            stepName = "right" : m.right = eq.Products
+        Catch ex As Exception
+            Throw New Exception($"{rxn.uniqueId} @ {stepName}: {ex.Message}", ex)
+        End Try
+
+        Return m
     End Function
 
     ''' <summary>
@@ -103,7 +113,7 @@ Public Module BioCycMetabolicConvertor
             Catch ex As Exception
                 errors += 1
                 If errors <= 5 Then
-                    Console.Error.WriteLine($"[convert] 跳过 {If(rxn?.uniqueId, "<null>")}: {ex.Message}")
+                    Console.Error.WriteLine($"[convert] {ex.Message}")
                 End If
             End Try
         Next
