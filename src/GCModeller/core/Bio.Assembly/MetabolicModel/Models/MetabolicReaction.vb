@@ -87,6 +87,7 @@ Namespace MetabolicModel
         Public Property is_spontaneous As Boolean
         Public Property ECNumbers As String()
         Public Property gibbs As Double
+        Public Property sources As String()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
