@@ -87,6 +87,7 @@ Namespace WebJSON
         Public Property right As Substrate()
         Public Property law As LawData()
         Public Property gibbs As Double
+        Public Property reversible As Boolean
 
         Public Property ec_numbers As String()
             Get
