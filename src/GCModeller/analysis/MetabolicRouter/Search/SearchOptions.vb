@@ -31,5 +31,29 @@
         ''' </summary>
         Public MatchLimit As Int32 = 50
 
+        ''' <summary>
+        ''' 束搜索展开阶段的并行度：0 或负数 = 取 <see cref="Environment.ProcessorCount"/>；
+        ''' 1 = 完全串行（便于回归对比、排查，或资源受限环境降级）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 并行只改变吞吐、不改变结果：展开按「状态序 → 待分解物序 → 规则序」分块并行，
+        ''' 产出的状态按序号有序归并后再去重与剪枝，因此与串行版本逐位一致。
+        ''' </remarks>
+        Public MaxDegreeOfParallelism As Int32 = 0
+
+        ''' <summary>展开阶段实际使用的并行度（把 0/负数解析为处理器核数）。</summary>
+        Public Function EffectiveParallelism() As Int32
+            If MaxDegreeOfParallelism <= 0 Then
+                Return Math.Max(1, Environment.ProcessorCount)
+            End If
+            Return Math.Max(1, MaxDegreeOfParallelism)
+        End Function
+
+        ''' <summary>
+        ''' 少于这个工作单元数时直接串行展开：任务调度开销会超过并行收益
+        ''' （典型情形是搜索第 1 层只有 1 个状态）。
+        ''' </summary>
+        Public Shared ReadOnly MinParallelUnits As Int32 = 64
+
     End Class
 End Namespace
