@@ -55,6 +55,11 @@ Namespace Search
         Public StatesGenerated As Int64 = 0
         ''' <summary>至少产生过一次有效应用的规则次数。</summary>
         Public RulesApplied As Int64 = 0
+        ''' <summary>
+        ''' 被「元素多重集预过滤」直接跳过的规则应用次数：
+        ''' 分子里根本不含模式所需的元素，匹配必然失败，无需尝试。
+        ''' </summary>
+        Public RulesPrefiltered As Int64 = 0
         ''' <summary>实际到达的最大搜索深度。</summary>
         Public MaxDepthReached As Int32 = 0
         ''' <summary>搜索耗时（毫秒），由调用方在搜索结束后回填。</summary>
