@@ -72,13 +72,21 @@ Namespace DAG
         Sub New(value$)
             Dim refs$ = Regex.Match(value, "\s+\[.+?\]").Value
 
-            def = Mid(value$, 1, value.Length - ref.Length)
+            ' 注意：旧版本的代码在这里错误的引用了尚未赋值的成员字段ref(Nothing)，
+            ' 从而会在这里抛出NullReferenceException，正确的做法应该是使用
+            ' 上面刚刚解析出来的局部变量refs
+            def = Mid(value$, 1, value.Length - refs.Length)
             refs = refs.GetStackValue("[", "]")
-            ref = LinqAPI.Exec(Of NamedValue(Of String)) <=
+
+            If String.IsNullOrEmpty(refs) Then
+                ref = {}
+            Else
+                ref = LinqAPI.Exec(Of NamedValue(Of String)) <=
  _
-                From t As String
-                In refs.Split(","c)
-                Select t.Trim.GetTagValue(":", trim:=True)
+                    From t As String
+                    In refs.Split(","c)
+                    Select t.Trim.GetTagValue(":", trim:=True)
+            End If
         End Sub
 
         Public Overrides Function ToString() As String

@@ -78,7 +78,32 @@ Public Module Axioms
 
     <Extension>
     Public Function Infer(go As Dictionary(Of String, Term), a$, b$) As OntologyRelations
+        Return Infer(go, a, b, New HashSet(Of String))
+    End Function
+
+    ''' <summary>
+    ''' 带访问记录的递归重载，<paramref name="visited"/>用于防止因为数据错误而
+    ''' 出现的环所导致的无限递归(栈溢出)
+    ''' </summary>
+    Private Function Infer(go As Dictionary(Of String, Term), a$, b$, visited As HashSet(Of String)) As OntologyRelations
+        If String.IsNullOrEmpty(a) OrElse String.IsNullOrEmpty(b) Then
+            Return OntologyRelations.none
+        End If
+        If visited.Contains(a) Then
+            Return OntologyRelations.none
+        End If
+        If go Is Nothing OrElse Not go.ContainsKey(a) Then
+            Return OntologyRelations.none
+        End If
+
         Dim term As Term = go(a)
+
+        If term Is Nothing Then
+            Return OntologyRelations.none
+        End If
+
+        visited.Add(a)
+
         Dim relations As New OBO.OntologyRelations(term)
         Dim relationship As OntologyRelations
 
@@ -86,7 +111,7 @@ Public Module Axioms
             If rel.parent.Name = b Then
                 Return rel.type
             Else
-                relationship = go.Infer(rel.parent.Name, b)
+                relationship = Infer(go, rel.parent.Name, b, visited)
             End If
 
             If relationship <> OntologyRelations.none Then

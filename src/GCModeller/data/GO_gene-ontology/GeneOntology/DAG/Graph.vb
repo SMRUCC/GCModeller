@@ -108,7 +108,7 @@ Namespace DAG
 
         Private ReadOnly parentIndexCache As New Dictionary(Of String, Dictionary(Of String, String()))
         Private ReadOnly ancestorCache As New Dictionary(Of String, Dictionary(Of String, String()))
-        Private ReadOnly descendantCache As New Dictionary(Of String, Dictionary(Of String, List(Of TermNode)))
+        Private ReadOnly descendantCache As New Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.List(Of TermNode)))
 
         ''' <summary>
         ''' 在进行GO注释传播的时候所默认使用的关系类型
@@ -261,7 +261,7 @@ Namespace DAG
         ''' </summary>
         ''' <param name="relations"></param>
         ''' <returns></returns>
-        Friend Function DescendantTable(relations As OntologyRelations()) As Dictionary(Of String, List(Of TermNode))
+        Friend Function DescendantTable(relations As OntologyRelations()) As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.List(Of TermNode))
             Dim key$ = RelationKey(relations)
 
             If Not descendantCache.ContainsKey(key) Then
@@ -290,7 +290,9 @@ Namespace DAG
                 Return ancestors
             End If
 
-            Dim list As New List(Of String)(ancestors)
+            Dim list As New List(Of String)
+
+            list.AddRange(ancestors)
             list.Add(id)
 
             Return list.ToArray
@@ -385,7 +387,6 @@ Namespace DAG
         ''' <summary>
         ''' 三大namespace根节点的名称
         ''' </summary>
-        ''' <returns></returns>
         Public Shared ReadOnly RootNames As String() = {biological_process, molecular_function, cellular_component}
 
         ''' <summary>
@@ -679,13 +680,13 @@ Namespace DAG
             ''' </summary>
             ''' <returns></returns>
             Public Function Strip() As InheritsChain
-                If Route Is Nothing Then
+                If Me.Route Is Nothing Then
                     Return New InheritsChain({}) With {
                         .Route = New List(Of TermNode)
                     }
                 End If
 
-                Dim route = Route.Distinct.AsList
+                Dim route = Me.Route.Distinct.AsList
                 Dim tree = route _
                     .AsEnumerable _
                     .Reverse _

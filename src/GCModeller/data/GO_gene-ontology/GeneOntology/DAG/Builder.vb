@@ -103,8 +103,8 @@ Namespace DAG
         ''' 而不像旧版本那样需要枚举出所有指数级数量的祖先路径。
         ''' </remarks>
         Public Function DescendantSets(tree As Dictionary(Of TermNode),
-                                       ancestors As Dictionary(Of String, String())) As Dictionary(Of String, List(Of TermNode))
-            Dim descendants As New Dictionary(Of String, List(Of TermNode))
+                                        ancestors As Dictionary(Of String, String())) As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.List(Of TermNode))
+            Dim descendants As New System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.List(Of TermNode))
 
             For Each node As TermNode In tree.Values
                 Dim parents As String()
@@ -117,7 +117,7 @@ Namespace DAG
 
                 For Each parent As String In parents
                     If Not descendants.ContainsKey(parent) Then
-                        Call descendants.Add(parent, New List(Of TermNode))
+                        Call descendants.Add(parent, New System.Collections.Generic.List(Of TermNode))
                     End If
 
                     descendants(parent).Add(node)
@@ -237,7 +237,7 @@ Namespace DAG
 
                 If allow.Count > 0 Then
                     For Each rel As Relationship In node.relationship.SafeQuery
-                        If rel.parent Is Nothing OrElse String.IsNullOrEmpty(rel.parent.Name) Then
+                        If String.IsNullOrEmpty(rel.parent.Name) Then
                             Continue For
                         End If
                         If Not tree.ContainsKey(rel.parent.Name) Then
@@ -296,7 +296,7 @@ Namespace DAG
         ''' <param name="tree"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function CreateClusterMembers(tree As Graph) As Dictionary(Of String, List(Of TermNode))
+        Public Function CreateClusterMembers(tree As Graph) As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.List(Of TermNode))
             Return tree.DescendantTable(Nothing)
         End Function
 
@@ -352,7 +352,7 @@ Namespace DAG
                 Dim relList As New List(Of Relationship)
 
                 For Each rel As Relationship In node.relationship.SafeQuery
-                    If rel.parent Is Nothing OrElse String.IsNullOrEmpty(rel.parent.Name) Then
+                    If String.IsNullOrEmpty(rel.parent.Name) Then
                         Continue For
                     End If
                     If Not tree.ContainsKey(rel.parent.Name) Then

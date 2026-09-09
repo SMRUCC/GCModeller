@@ -116,7 +116,9 @@ Namespace OBO
         Private Shared Iterator Function parseRelationships(dataLines As String()) As IEnumerable(Of Relationship)
             For Each line As String In dataLines.SafeQuery
                 Dim tokens = line.GetTagValue(trim:=True)
-                Dim type = Relationship.relationshipParser(tokens.Name)
+                ' 有一些关系类型并没有在OntologyRelations枚举之中被定义出来，
+                ' 在这里使用TryGetValue避免因为未知的键而抛出异常
+                Dim type = Relationship.relationshipParser.TryGetValue(tokens.Name, [default]:=GeneOntology.OntologyRelations.none)
 
                 Yield New Relationship With {
                     .type = type,

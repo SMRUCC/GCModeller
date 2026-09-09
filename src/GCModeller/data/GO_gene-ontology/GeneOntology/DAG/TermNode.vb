@@ -55,8 +55,10 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
@@ -83,6 +85,43 @@ Namespace DAG
         Public Property id As String Implements INamedValue.Key
         Public Property [namespace] As String
         Public Property GO_term As Term
+
+        ''' <summary>
+        ''' 获取得到当前的这个节点的所有的父节点引用(合并``is_a``与``relationship``)
+        ''' </summary>
+        ''' <param name="relations">
+        ''' 除了``is_a``之外还需要参与计算的relationship关系类型列表，
+        ''' 为空的时候则只使用``is_a``关系
+        ''' </param>
+        ''' <returns>
+        ''' 这里只会返回在DAG图之中真实存在的父节点，悬空的``Nothing``引用会被自动过滤掉
+        ''' </returns>
+        Public Function AllParents(Optional relations As OntologyRelations() = Nothing) As TermNode()
+            Dim list As New List(Of TermNode)
+
+            For Each rel As is_a In Me.is_a.SafeQuery
+                If Not rel.term Is Nothing Then
+                    list.Add(rel.term)
+                End If
+            Next
+
+            If Not relations.IsNullOrEmpty Then
+                Dim allow As New HashSet(Of OntologyRelations)(relations)
+
+                For Each rel As Relationship In Me.relationship.SafeQuery
+                    If rel.term Is Nothing Then
+                        Continue For
+                    End If
+                    If Not allow.Contains(rel.type) Then
+                        Continue For
+                    End If
+
+                    list.Add(rel.term)
+                Next
+            End If
+
+            Return list.ToArray
+        End Function
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
