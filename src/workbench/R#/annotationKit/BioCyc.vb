@@ -118,12 +118,6 @@ Public Module BioCycRepository
         Return New BioCycAdapter(repo)
     End Function
 
-    <ExportAPI("find_pathway")>
-    <RApiReturn(GetType(PathReport))>
-    Public Function find_pathway(router As BioCycAdapter, target As String) As Object
-        Return router.FindPathway(target)
-    End Function
-
     ''' <summary>
     ''' get compounds list data from a given biocyc workspace context
     ''' </summary>
