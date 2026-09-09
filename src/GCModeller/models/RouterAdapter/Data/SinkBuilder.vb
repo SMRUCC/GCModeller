@@ -22,92 +22,93 @@
 
 Imports System.Text
 
-Public Module SinkBuilder
+Namespace Data
 
-    ''' <summary>
-    ''' 构建汇集合。
-    ''' </summary>
-    ''' <param name="structures">compound id → 已净化结构。</param>
-    ''' <param name="degrees">compound id → 在反应中出现的总次数（可用
-    ''' <see cref="CompoundIndex.DegreeOf(IEnumerable(Of ReactionSpec))"/> 计算）。</param>
-    ''' <param name="mode">Core / All。</param>
-    ''' <param name="coreDegree">Core 模式下判定"枢纽代谢物"的最少反应出现次数。</param>
-    ''' <param name="idWhitelist">按 id 精确匹配的白名单（大小写不敏感）。</param>
-    ''' <param name="nameWhitelist">
-    ''' 按 id/名称/同义名归一化匹配的白名单（大小写、连字符、空格不敏感），跨数据库可移植。
-    ''' </param>
-    ''' <returns>汇集合，每项为 (化合物 id, 净化后的 SMILES)，按 id 排序。</returns>
-    Public Function Build(structures As Dictionary(Of String, CompoundStructure),
+    Public Module SinkBuilder
+
+        ''' <summary>
+        ''' 构建汇集合。
+        ''' </summary>
+        ''' <param name="structures">compound id → 已净化结构。</param>
+        ''' <param name="degrees">compound id → 在反应中出现的总次数（可用
+        ''' <see cref="CompoundIndex.DegreeOf(IEnumerable(Of ReactionSpec))"/> 计算）。</param>
+        ''' <param name="mode">Core / All。</param>
+        ''' <param name="coreDegree">Core 模式下判定"枢纽代谢物"的最少反应出现次数。</param>
+        ''' <param name="idWhitelist">按 id 精确匹配的白名单（大小写不敏感）。</param>
+        ''' <param name="nameWhitelist">
+        ''' 按 id/名称/同义名归一化匹配的白名单（大小写、连字符、空格不敏感），跨数据库可移植。
+        ''' </param>
+        ''' <returns>汇集合，每项为 (化合物 id, 净化后的 SMILES)，按 id 排序。</returns>
+        Public Function Build(structures As Dictionary(Of String, CompoundStructure),
                           degrees As Dictionary(Of String, Integer),
                           mode As SinkModes,
                           Optional coreDegree As Integer = 4,
                           Optional idWhitelist As IEnumerable(Of String) = Nothing,
                           Optional nameWhitelist As IEnumerable(Of String) = Nothing) As List(Of (String, smiles As String))
 
-        Dim sink As New List(Of (String, smiles As String))()
-        Dim ids As New List(Of String)(structures.Keys)
+            Dim sink As New List(Of (String, smiles As String))()
+            Dim ids As New List(Of String)(structures.Keys)
 
-        ids.Sort(StringComparer.Ordinal)
+            ids.Sort(StringComparer.Ordinal)
 
-        Dim byId As New HashSet(Of String)(
+            Dim byId As New HashSet(Of String)(
             If(idWhitelist, Array.Empty(Of String)()).Where(Function(s) s IsNot Nothing).Select(Function(s) s.Trim()),
             StringComparer.OrdinalIgnoreCase)
-        Dim byName As New HashSet(Of String)(
+            Dim byName As New HashSet(Of String)(
             If(nameWhitelist, Array.Empty(Of String)()).Where(Function(s) s IsNot Nothing).Select(Function(s) Normalize(s)),
             StringComparer.Ordinal)
 
-        For Each id As String In ids
-            Dim st As CompoundStructure = structures(id)
+            For Each id As String In ids
+                Dim st As CompoundStructure = structures(id)
 
-            If mode = SinkModes.All Then
-                sink.Add((id, st.Smiles))
-                Continue For
-            End If
+                If mode = SinkModes.All Then
+                    sink.Add((id, st.Smiles))
+                    Continue For
+                End If
 
-            Dim deg As Integer = 0
-            degrees.TryGetValue(id, deg)
+                Dim deg As Integer = 0
+                degrees.TryGetValue(id, deg)
 
-            If deg >= coreDegree OrElse
-               byId.Contains(id) OrElse
-               MatchesName(st, byName) Then
-                sink.Add((id, st.Smiles))
-            End If
-        Next
-
-        Return sink
-    End Function
-
-    ''' <summary>
-    ''' 名称归一化：转小写并去掉所有非字母数字字符，
-    ''' 使 "Acetyl-CoA"、"acetyl coa"、"ACETYL-COA" 归一到同一形式。
-    ''' </summary>
-    Public Function Normalize(text As String) As String
-        If String.IsNullOrEmpty(text) Then Return ""
-
-        Dim sb As New StringBuilder(text.Length)
-
-        For Each ch As Char In text.ToLowerInvariant()
-            If Char.IsLetterOrDigit(ch) Then sb.Append(ch)
-        Next
-
-        Return sb.ToString()
-    End Function
-
-    ''' <summary>
-    ''' 化合物的 id / 名称 / 同义名中是否有任一项命中归一化名称白名单。
-    ''' </summary>
-    Private Function MatchesName(st As CompoundStructure, byName As HashSet(Of String)) As Boolean
-        If byName.Count = 0 OrElse st Is Nothing Then Return False
-        If byName.Contains(Normalize(st.Id)) Then Return True
-        If byName.Contains(Normalize(st.Name)) Then Return True
-
-        If st.Synonyms IsNot Nothing Then
-            For Each syn As String In st.Synonyms
-                If byName.Contains(Normalize(syn)) Then Return True
+                If deg >= coreDegree OrElse byId.Contains(id) OrElse MatchesName(st, byName) Then
+                    sink.Add((id, st.Smiles))
+                End If
             Next
-        End If
 
-        Return False
-    End Function
+            Return sink
+        End Function
 
-End Module
+        ''' <summary>
+        ''' 名称归一化：转小写并去掉所有非字母数字字符，
+        ''' 使 "Acetyl-CoA"、"acetyl coa"、"ACETYL-COA" 归一到同一形式。
+        ''' </summary>
+        Public Function Normalize(text As String) As String
+            If String.IsNullOrEmpty(text) Then Return ""
+
+            Dim sb As New StringBuilder(text.Length)
+
+            For Each ch As Char In text.ToLowerInvariant()
+                If Char.IsLetterOrDigit(ch) Then sb.Append(ch)
+            Next
+
+            Return sb.ToString()
+        End Function
+
+        ''' <summary>
+        ''' 化合物的 id / 名称 / 同义名中是否有任一项命中归一化名称白名单。
+        ''' </summary>
+        Private Function MatchesName(st As CompoundStructure, byName As HashSet(Of String)) As Boolean
+            If byName.Count = 0 OrElse st Is Nothing Then Return False
+            If byName.Contains(Normalize(st.Id)) Then Return True
+            If byName.Contains(Normalize(st.Name)) Then Return True
+
+            If st.Synonyms IsNot Nothing Then
+                For Each syn As String In st.Synonyms
+                    If byName.Contains(Normalize(syn)) Then Return True
+                Next
+            End If
+
+            Return False
+        End Function
+
+    End Module
+End Namespace
