@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>搜索参数快照（随结果一同输出，便于复现）。
 
         <h3>Declare</h3>        
 
@@ -30,11 +30,17 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.RetroPath.Model
 export class SearchParameters {
+   # 束宽。
    BeamWidth: integer;
+   # 最大搜索深度（步数上限）。
    MaxDepth: integer;
+   # 参与搜索的广义规则条数。
    NumRules: integer;
+   # 底盘汇集合中去重后的代谢物个数。
    SinkSize: integer;
+   # 搜索策略：beam 或 dfs。
    Strategy: string;
+   # 评分权重，键为 thermo / enzyme / length。
    Weights: list;
 }
 </code>

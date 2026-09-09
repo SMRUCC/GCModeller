@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>正向通路中一步反应的 JSON DTO。
 
         <h3>Declare</h3>        
 
@@ -30,12 +30,18 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.RetroPath.Model
 export class ForwardStepDto {
+   # 该步的 ΔG（kJ/mol）。
    DeltaG: double;
-   EnzymeTier: integer;
-   Products: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
+   # 该步的酶可得性层级（1/2/3）。
+   EnzymeTier: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/EnzymeTiers.html">EnzymeTiers</a>;
+   # 产物的 SMILES 列表。
+   Products: string;
+   # 该步使用的规则 ID。
    RuleId: string;
+   # 该步使用的规则名称。
    RuleName: string;
-   Substrates: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
+   # 底物（前体 + 共底物）的 SMILES 列表。
+   Substrates: string;
 }
 </code>
         </pre>
@@ -43,8 +49,7 @@ export class ForwardStepDto {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>Products</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
-<li>use by <i>property</i> member <code>Substrates</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
+<li>use by <i>property</i> member <code>EnzymeTier</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/EnzymeTiers.html">EnzymeTiers</a></li>
 </ol>
 
 

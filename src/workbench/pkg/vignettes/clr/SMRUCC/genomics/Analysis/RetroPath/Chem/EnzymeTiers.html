@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.RetroPath.Chem.EnzymeTiers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>EnzymeTiers {SMRUCC.genomics.Analysis.RetroPath.Chem}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>EnzymeTiers</h2>
+
+        <h3>Description</h3>
+
+        <p>酶可得性层级（酶可得性评分的代理指标；数值越小代表越容易找到可用酶）。
+
+<p>readme.md §4 中"酶可得性"本应基于反应指纹与序列数据库比对（Selenzyme / BridgIT）， 本库以层级代理简化：酶得分 = mean(1/tier)。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.RetroPath.Chem
+export class EnzymeTiers extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 常见酶家族（有明确 EC 号归属，最容易获取）。
+   Common: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/EnzymeTiers.html">EnzymeTiers</a> = 1;
+
+   # 一般（如自发反应，或仅知反应类型）。
+   General: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/EnzymeTiers.html">EnzymeTiers</a> = 2;
+
+   # 特化（孤儿反应等，酶未知，获取难度最高）。
+   Specialized: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/EnzymeTiers.html">EnzymeTiers</a> = 3;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Common</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/EnzymeTiers.html">EnzymeTiers</a></li>
+<li>use by <i>field</i> member <code>General</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/EnzymeTiers.html">EnzymeTiers</a></li>
+<li>use by <i>field</i> member <code>Specialized</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/EnzymeTiers.html">EnzymeTiers</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

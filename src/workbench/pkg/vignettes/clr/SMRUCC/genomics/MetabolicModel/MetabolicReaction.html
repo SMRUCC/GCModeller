@@ -32,6 +32,7 @@
 export class MetabolicReaction {
    description: string;
    ECNumbers: string;
+   gibbs: double;
    id: string;
    # if not is reversible, then the reaction direction is left to right by default
    is_reversible: boolean;
@@ -40,6 +41,7 @@ export class MetabolicReaction {
    left: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/DefaultTypes/CompoundSpecieReference.html">CompoundSpecieReference[]</a>;
    name: string;
    right: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/DefaultTypes/CompoundSpecieReference.html">CompoundSpecieReference[]</a>;
+   sources: string;
 }
 </code>
         </pre>

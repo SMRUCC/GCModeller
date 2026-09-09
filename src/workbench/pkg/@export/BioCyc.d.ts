@@ -29,9 +29,6 @@ declare namespace BioCyc {
    */
    function db_links(meta: object, env?: object): object;
    /**
-   */
-   function find_pathway(router: object, target: string): object;
-   /**
     * get formula string of the given object model
     * 
     * 

@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>一条候选通路的 JSON DTO：评分明细 + 正向生物合成步骤。
 
         <h3>Declare</h3>        
 
@@ -30,13 +30,21 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.RetroPath.Model
 export class PathDto {
+   # 整条通路的 ΔG 合计（kJ/mol）。
    DeltaGTotal: double;
+   # 酶可得性得分 (0,1]。
    EnzymeScore: double;
+   # 加权全局得分，用于排序。
    GlobalScore: double;
+   # 通路编号，形如 "path_1"（按全局分降序编号）。
    Id: string;
+   # 长度得分 = 1 / 步数。
    LengthScore: double;
+   # 反应步数。
    NumSteps: integer;
-   Steps: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/ForwardStepDto.html">iterates(ForwardStepDto)</a>;
+   # 正向生物合成顺序的步骤列表（汇前体 → 目标）。
+   Steps: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/ForwardStepDto.html">ForwardStepDto[]</a>;
+   # 热力学可行性得分 (0,1)。
    ThermoScore: double;
 }
 </code>
@@ -45,7 +53,7 @@ export class PathDto {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>Steps</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/ForwardStepDto.html">iterates(ForwardStepDto)</a></li>
+<li>use by <i>property</i> member <code>Steps</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/ForwardStepDto.html">ForwardStepDto</a></li>
 </ol>
 
 

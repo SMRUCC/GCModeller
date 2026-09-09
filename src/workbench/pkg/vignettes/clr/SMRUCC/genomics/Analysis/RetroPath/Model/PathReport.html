@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>一次通路搜索的完整结果报告（JSON 输出的根对象）。
 
         <h3>Declare</h3>        
 
@@ -30,11 +30,17 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.RetroPath.Model
 export class PathReport {
+   # 本次搜索所使用的参数快照。
    Parameters: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/SearchParameters.html">SearchParameters</a>;
-   Paths: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/PathDto.html">iterates(PathDto)</a>;
+   # 按全局分降序排列的候选通路；未找到时为空列表。
+   Paths: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/PathDto.html">PathDto[]</a>;
+   # 程序名，恒为 "RetroPath"。
    Program: string;
+   # 搜索过程统计（尝试次数、耗时、找到的路径数等）。
    Stats: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/SearchStatsDto.html">SearchStatsDto</a>;
+   # 目标分子的 SMILES。
    Target: string;
+   # 程序版本号。
    Version: string;
 }
 </code>
@@ -44,7 +50,7 @@ export class PathReport {
 
         <ol>
 <li>use by <i>property</i> member <code>Parameters</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/SearchParameters.html">SearchParameters</a></li>
-<li>use by <i>property</i> member <code>Paths</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/PathDto.html">iterates(PathDto)</a></li>
+<li>use by <i>property</i> member <code>Paths</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/PathDto.html">PathDto</a></li>
 <li>use by <i>property</i> member <code>Stats</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/SearchStatsDto.html">SearchStatsDto</a></li>
 </ol>
 

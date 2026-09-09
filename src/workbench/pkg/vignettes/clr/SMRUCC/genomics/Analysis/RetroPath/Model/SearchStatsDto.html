@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>搜索统计（JSON DTO）。
 
         <h3>Declare</h3>        
 
@@ -30,10 +30,15 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.RetroPath.Model
 export class SearchStatsDto {
+   # 尝试过的规则应用次数。
    ApplicationsTried: integer;
+   # 搜索耗时（毫秒）。
    ElapsedMs: integer;
+   # 实际到达的最大深度。
    MaxDepthReached: integer;
+   # 找到并展示的完整通路条数。
    PathsFound: integer;
+   # 生成的搜索状态总数。
    StatesGenerated: integer;
 }
 </code>

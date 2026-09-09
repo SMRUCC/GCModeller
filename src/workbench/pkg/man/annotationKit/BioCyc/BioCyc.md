@@ -7,7 +7,6 @@ The BioCyc database collection is an assortment of organism specific Pathway/Gen
 
 + [open.biocyc](BioCyc/open.biocyc.1) open a directory path as the biocyc workspace
 + [router](BioCyc/router.1) 
-+ [find_pathway](BioCyc/find_pathway.1) 
 + [getCompounds](BioCyc/getCompounds.1) get compounds list data from a given biocyc workspace context
 + [getReactions](BioCyc/getReactions.1) 
 + [getGenes](BioCyc/getGenes.1) 
