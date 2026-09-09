@@ -74,6 +74,7 @@ Module DAGtest
         Call testAncestors(g, testTerm)
         Call testDescendants(g, testTerm)
         Call testFamily(g, testTerm)
+        Call testDefinition(g, testTerm)
         Call testLevelStat(g)
 
         Call GOEnrichmentTest.Run(g)
@@ -203,6 +204,29 @@ Module DAGtest
                 .ToArray, "GO:0003674") > -1,
                 $"{parent.id} should be a direct child of the root")
         Next
+    End Sub
+
+    ''' <summary>
+    ''' ``DAG.def``的构造函数在旧版本之中会错误的引用尚未赋值的成员字段
+    ''' 从而抛出空引用异常，这里做一个回归测试
+    ''' </summary>
+    Private Sub testDefinition(g As Graph, testTerm$)
+        Call Console.WriteLine("")
+        Call Console.WriteLine("---------------- term definition parser test ----------------")
+
+        Dim node As TermNode = g.GetTerm(testTerm)
+
+        If node Is Nothing OrElse String.IsNullOrEmpty(node.GO_term.def) Then
+            Call Console.WriteLine($"[SKIP] {testTerm} has no definition")
+            Return
+        End If
+
+        Dim info As New def(node.GO_term.def)
+
+        Call Console.WriteLine($"    {info}")
+
+        Call assert(Not String.IsNullOrEmpty(info.def), "the definition text should not be empty")
+        Call assert(Not info.def.Contains("["), "the evidence reference block should be trimmed")
     End Sub
 
     Private Sub testLevelStat(g As Graph)
