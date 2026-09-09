@@ -241,6 +241,67 @@ Public Class MetabolicAdapter : Implements IRouter
         Return walker.Search(targetSmiles)
     End Function
 
+    ''' <summary>
+    ''' 从起点代谢物 A 出发，搜索合成目标代谢物 B 的最经济通路。
+    ''' </summary>
+    ''' <param name="sourceSmiles">起点化合物 A 的 SMILES。</param>
+    ''' <param name="targetSmiles">目标化合物 B 的 SMILES。</param>
+    ''' <param name="role">A 的角色：Source = 必须是最上游叶子原料；Anywhere = 出现在通路任意位置即可。</param>
+    ''' <param name="strict">
+    ''' 严格模式：除 A 与货币分子外不依赖任何底盘代谢物（可用 <paramref name="allowedExtra"/> 放行个别辅因子）。
+    ''' </param>
+    ''' <param name="allowedExtra">strict 模式下额外允许作为起点的化合物（名称, SMILES）。</param>
+    ''' <param name="maxRoutes">最多返回多少条候选（0 = 默认 10 条）。</param>
+    ''' <param name="escalate">首轮未命中时是否自动加大束宽/深度重试。</param>
+    Public Function SynthesisRoute(sourceSmiles As String, targetSmiles As String,
+                                   Optional role As SourceRoles = SourceRoles.Source,
+                                   Optional strict As Boolean = False,
+                                   Optional allowedExtra As IEnumerable(Of (String, String)) = Nothing,
+                                   Optional maxRoutes As Integer = 0,
+                                   Optional escalate As Boolean = True) As RouteReport Implements IRouter.SynthesisRoute
+        Return netwalk.SynthesisRoute(sourceSmiles, targetSmiles, role, strict, allowedExtra, maxRoutes, escalate)
+    End Function
+
+    ''' <summary>
+    ''' 以代谢模型的化合物 id 指定起点与目标（如 "CHORISMATE" → "ENTEROBACTIN"）。
+    ''' </summary>
+    ''' <param name="allowedExtraIds">strict 模式下额外放行的化合物 id（如 ATP / NADH）。</param>
+    Public Function SynthesisRouteById(sourceId As String, targetId As String,
+                                       Optional role As SourceRoles = SourceRoles.Source,
+                                       Optional strict As Boolean = False,
+                                       Optional allowedExtraIds As IEnumerable(Of String) = Nothing,
+                                       Optional maxRoutes As Integer = 0,
+                                       Optional escalate As Boolean = True) As RouteReport
+        Dim extra As List(Of (String, String)) = Nothing
+
+        If allowedExtraIds IsNot Nothing Then
+            extra = New List(Of (String, String))()
+
+            For Each id As String In allowedExtraIds
+                Dim st As CompoundStructure = GetCompound(id)
+
+                If st Is Nothing Then
+                    Throw New ArgumentException($"额外放行的化合物 {id} 在当前代谢模型中没有可用结构")
+                End If
+
+                extra.Add((id, st.Smiles))
+            Next
+        End If
+
+        Return SynthesisRoute(SmilesOf(sourceId), SmilesOf(targetId), role, strict, extra, maxRoutes, escalate)
+    End Function
+
+    ''' <summary>按 compound id 取净化后的 SMILES（无结构时抛异常）</summary>
+    Private Function SmilesOf(compoundId As String) As String
+        Dim st As CompoundStructure = GetCompound(compoundId)
+
+        If st Is Nothing Then
+            Throw New ArgumentException($"化合物 {compoundId} 在当前代谢模型中没有可用结构（缺失 SMILES 或含不支持的元素）")
+        End If
+
+        Return st.Smiles
+    End Function
+
     ''' <summary>以内部模型的化合物 id 为目标做搜索（如 "ENTEROBACTIN"）</summary>
     ''' <param name="compoundId">化合物 id（即 <see cref="MetabolicCompound.id"/>）。</param>
     ''' <exception cref="ArgumentException">该化合物没有可用结构（缺失 SMILES 或含不支持元素）。</exception>

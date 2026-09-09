@@ -34,6 +34,12 @@ Namespace Search
         Private ReadOnly _sinkKeys As HashSet(Of String)
         Private ReadOnly _currencyKeys As HashSet(Of String)
         Private ReadOnly _opts As SearchOptions
+        ''' <summary>
+        ''' 导向键集合（可选）：束剪枝时优先保留「本分支已经触达过其中某个化合物」的状态。
+        ''' 用于 SynthesisRoute(A→B) 把 A 的分子指纹放进来，使通往 A 的分支不被剪掉。
+        ''' 为 Nothing 或空集时，剪枝排序与历史行为完全一致。
+        ''' </summary>
+        Private ReadOnly _preferKeys As HashSet(Of String)
         ''' <summary>已收录完整路径的内容指纹（消除对称臂等同构重复路径）</summary>
         Private ReadOnly _pathKeys As New HashSet(Of String)()
 
@@ -49,12 +55,18 @@ Namespace Search
         ''' <param name="sinkKeys">底盘内源代谢物的分子指纹集合（汇）。</param>
         ''' <param name="currencyKeys">货币/辅底物的分子指纹集合（产生即忽略，不计入前体）。</param>
         ''' <param name="opts">搜索参数（策略、束宽、深度、路径上限、匹配上限）。</param>
+        ''' <param name="preferKeys">
+        ''' 可选的导向键集合：束剪枝时优先保留本分支已触达这些指纹的状态（用于「必须从 A 出发」的定向搜索）。
+        ''' 传 Nothing 时与历史行为完全一致。
+        ''' </param>
         Public Sub New(rules As List(Of Rule), sinkKeys As HashSet(Of String),
-                       currencyKeys As HashSet(Of String), opts As SearchOptions)
+                       currencyKeys As HashSet(Of String), opts As SearchOptions,
+                       Optional preferKeys As HashSet(Of String) = Nothing)
             _rules = rules
             _sinkKeys = sinkKeys
             _currencyKeys = currencyKeys
             _opts = opts
+            _preferKeys = preferKeys
         End Sub
 
         ''' <summary>
@@ -175,7 +187,9 @@ Namespace Search
 
         Private Function Prune(states As List(Of SearchState)) As List(Of SearchState)
             Dim seen As New HashSet(Of String)()
-            Dim ordered = states.OrderBy(Function(s) s.Pending.Count).
+            Dim ordered = states.
+                OrderBy(Function(s) Preference(s)).
+                ThenBy(Function(s) s.Pending.Count).
                 ThenBy(Function(s) s.TotalAtoms()).
                 ThenBy(Function(s) If(s.Steps.Count > 0, s.Steps(s.Steps.Count - 1).DeltaG, 0.0)).
                 ThenBy(Function(s) s.StateKey(), StringComparer.Ordinal).ToList()
@@ -188,6 +202,21 @@ Namespace Search
                 If outList.Count >= _opts.BeamWidth Then Exit For
             Next
             Return outList
+        End Function
+
+        ''' <summary>
+        ''' 导向优先级：0 = 本分支已触达导向键（如起点化合物 A），1 = 尚未触达。
+        ''' 未配置导向键时恒返回 0，即退化为原有的纯 (pending, atoms, ΔG) 排序。
+        ''' </summary>
+        Private Function Preference(st As SearchState) As Integer
+            If _preferKeys Is Nothing OrElse _preferKeys.Count = 0 Then Return 0
+            If st.Used Is Nothing Then Return 1
+
+            For Each k As String In _preferKeys
+                If st.Used.Contains(k) Then Return 0
+            Next
+
+            Return 1
         End Function
 
     End Class
