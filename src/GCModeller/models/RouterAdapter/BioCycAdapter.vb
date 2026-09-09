@@ -82,6 +82,7 @@ Public Class BioCycAdapter : Implements IRouter
 
         Dim sw As Stopwatch = Stopwatch.StartNew()
 
+        ' (unique_id, smiles)
         Dim compounds As compounds() = biocyc.compounds.AsEnumerable.ToArray
         Dim reactions As reactions() = biocyc.reactions.AsEnumerable.ToArray
 
