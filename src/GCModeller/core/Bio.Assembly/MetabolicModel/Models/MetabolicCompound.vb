@@ -63,6 +63,9 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace MetabolicModel
 
+    ''' <summary>
+    ''' internal standard model of the metabolite object
+    ''' </summary>
     Public Class MetabolicCompound : Implements INamedValue, IMolecule
 
         Public Property id As String Implements IKeyedEntity(Of String).Key, IMolecule.EntryId
