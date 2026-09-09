@@ -9,11 +9,11 @@
 ' ============================================================================
 
 Imports System.Text.Json
-Imports RouterAdapter
 Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 Imports SMRUCC.genomics.Analysis.RetroPath.Model
 Imports SMRUCC.genomics.Analysis.RetroPath.Search
 Imports SMRUCC.genomics.Data.BioCyc
+Imports SMRUCC.genomics.Model.Metabolic.RouterAdapter
 
 Module PathwayFinderDemo
 
