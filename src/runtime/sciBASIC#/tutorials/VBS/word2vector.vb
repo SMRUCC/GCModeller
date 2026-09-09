@@ -19,7 +19,12 @@ imports Microsoft.VisualBasic.scripting.runtime
 imports Microsoft.VisualBasic.DataMining.UMAP
 
 dim textfile = "G:\GCModeller\src\runtime\sciBASIC#\Data\TextRank\Rapunzel.txt"
-dim wv As Word2Vec = BuildWord2VecFactory().setVectorSize(30).setMethod(TrainMethod.CBow).setNumOfThread(1).setFreqThresold(1).build()
+dim wv As Word2Vec = BuildWord2VecFactory() _
+    .setVectorSize(30) _
+    .setMethod(TrainMethod.CBow) _
+    .setNumOfThread(1) _
+    .setFreqThresold(1) _
+    .build()
 Dim data As Paragraph() = Paragraph.Segmentation(textFile.ReadAllText).ToArray
 
 For Each p As Paragraph In data
@@ -52,7 +57,7 @@ Using plt As New ScatterPlot(800, 600, PlotTheme.Nature())
     plt.XLabel = "UMAP1"
     plt.YLabel = "UMAP2"
     plt.Plot(DataSerials(x,y, class_id).tolist())
-    plt.SavePng("Z:/rapunzel-pca-groups.png", 300)
+    plt.SavePng("Z:/rapunzel-umap-groups.png", 300)
 End Using
 
-call result.WriteCsv("Z:/rapunzel-pca-groups.csv")
+call result.WriteCsv("Z:/rapunzel-umap-groups.csv")
