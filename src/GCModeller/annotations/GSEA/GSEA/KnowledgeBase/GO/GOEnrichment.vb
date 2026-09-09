@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports oboDef = SMRUCC.genomics.Data.GeneOntology.OBO.Definition
+Imports oboTerm = SMRUCC.genomics.Data.GeneOntology.OBO.Term
 
 Namespace GO
 
@@ -76,7 +77,7 @@ Namespace GO
                     Continue For
                 End If
 
-                Dim go As Term = node.GO_term
+                Dim go As oboTerm = node.GO_term
                 Dim members As BackgroundGene() = term.Value _
                     .Select(Function(geneID) New BackgroundGene(geneID)) _
                     .ToArray

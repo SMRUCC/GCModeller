@@ -225,19 +225,19 @@ Namespace GO
         ''' <returns></returns>
         Public Function TermGenes(dag As Graph, Optional relations As OntologyRelations() = Nothing) As Dictionary(Of String, List(Of String))
             Dim expanded As Dictionary(Of String, String()) = Expand(dag, relations)
-            Dim termGenes As New Dictionary(Of String, List(Of String))
+            Dim index As New Dictionary(Of String, List(Of String))
 
             For Each gene As KeyValuePair(Of String, String()) In expanded
                 For Each term As String In gene.Value
-                    If Not termGenes.ContainsKey(term) Then
-                        Call termGenes.Add(term, New List(Of String))
+                    If Not index.ContainsKey(term) Then
+                        Call index.Add(term, New List(Of String))
                     End If
 
-                    termGenes(term).Add(gene.Key)
+                    index(term).Add(gene.Key)
                 Next
             Next
 
-            Return termGenes
+            Return index
         End Function
 
         Public Overrides Function ToString() As String
