@@ -69,6 +69,11 @@ Namespace WebJSON
         Public Property symbol As String
         Public Property formula As String
         Public Property db_xrefs As DBXref()
+        Public Property smiles As String
+
+        Public Overrides Function ToString() As String
+            Return $"{id} - {name}"
+        End Function
 
     End Class
 
@@ -76,6 +81,10 @@ Namespace WebJSON
 
         Public Property dbname As String
         Public Property xref_id As String
+
+        Public Overrides Function ToString() As String
+            Return $"{dbname} - {xref_id}"
+        End Function
 
     End Class
 End Namespace
