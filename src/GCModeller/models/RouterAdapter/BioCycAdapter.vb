@@ -262,6 +262,20 @@ Public Class BioCycAdapter : Implements IRouter
         Return SynthesisRoute(SmilesOf(sourceId), SmilesOf(targetId), role, strict, extra, maxRoutes, escalate)
     End Function
 
+    ''' <summary>
+    ''' 用已装配好的规则集与汇集合另建一个搜索器（可指定不同的搜索参数）。
+    ''' </summary>
+    ''' <param name="opts">搜索参数；省略时用构造期参数。适合做串行/并行对比或按查询调参。</param>
+    ''' <param name="w">评分权重；省略时用构造期权重。</param>
+    Public Function CreateNetwalk(Optional opts As SearchOptions = Nothing,
+                                  Optional w As ScoreWeights = Nothing) As Netwalk
+        Dim sink As New List(Of (String, smiles As String))()
+        For Each e In sinkEntries
+            sink.Add((e.id, e.smiles))
+        Next
+        Return New Netwalk(ruleList, sink, If(opts, Me.opts), If(w, Me.w))
+    End Function
+
     ''' <summary>按 compound frame id 取净化后的 SMILES（无结构时抛异常）</summary>
     Private Function SmilesOf(compoundId As String) As String
         Dim st As CompoundStructure = GetCompound(compoundId)

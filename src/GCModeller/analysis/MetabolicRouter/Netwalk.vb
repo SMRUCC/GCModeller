@@ -67,15 +67,23 @@ Public Class Netwalk
     ''' 过程中会向 <see cref="Console.Error"/> 输出一行进度摘要。
     ''' </remarks>
     Public Function Search(targetSmiles As String) As PathReport
-        ' 解析目标与汇
+        ' 解析目标与汇（汇与货币分子的指纹并行计算：它们互不依赖，且只与顺序有关）
+        Dim parallelism As Int32 = opts.EffectiveParallelism()
         Dim target = SmilesIO.Parse(targetSmiles)
         Dim sinkKeys As New HashSet(Of String)()
-        For Each s In sink
-            sinkKeys.Add(SmilesIO.Parse(s.smiles).MolKey())
+
+        For Each k As String In ParseKeys(sink, parallelism)
+            If k IsNot Nothing Then sinkKeys.Add(k)
+        Next
+
+        Dim currencyList As New List(Of (String, String))()
+        For Each cs In RuleLibrary.CurrencySmiles()
+            currencyList.Add((cs, cs))
         Next
         Dim currencyKeys As New HashSet(Of String)()
-        For Each cs In RuleLibrary.CurrencySmiles()
-            currencyKeys.Add(SmilesIO.Parse(cs).MolKey())
+
+        For Each k As String In ParseKeys(currencyList, parallelism)
+            If k IsNot Nothing Then currencyKeys.Add(k)
         Next
 
         Console.Error.WriteLine($"RetroPath {VersionString}: 目标 = {targetSmiles}  " &
@@ -134,6 +142,7 @@ Public Class Netwalk
             .Stats = New SearchStatsDto With {
                 .ApplicationsTried = searcher.Stats.ApplicationsTried,
                 .StatesGenerated = searcher.Stats.StatesGenerated,
+                .RulesPrefiltered = searcher.Stats.RulesPrefiltered,
                 .MaxDepthReached = searcher.Stats.MaxDepthReached,
                 .ElapsedMs = searcher.Stats.ElapsedMs,
                 .PathsFound = pathDtos.Count},
@@ -212,6 +221,7 @@ Public Class Netwalk
         End If
 
         ' ---------- 本次查询的汇集合：底盘汇（剔除 B 自身） + A ----------
+        Dim parallelism As Int32 = opts.EffectiveParallelism()
         Dim sinkKeys As New HashSet(Of String)()
 
         If strict Then
@@ -224,8 +234,7 @@ Public Class Netwalk
                 Next
             End If
         Else
-            For Each s In sink
-                Dim k As String = TryMolKey(s.smiles)
+            For Each k As String In ParseKeys(sink, parallelism)
                 If k Is Nothing Then Continue For
                 ' B 自身必须剔除：BeamSearch 判定"目标已属于汇"会直接返回 0 条路径
                 If k = targetKey Then Continue For
@@ -234,9 +243,13 @@ Public Class Netwalk
             sinkKeys.Add(sourceKey)
         End If
 
-        Dim currencyKeys As New HashSet(Of String)()
+        Dim currencyList As New List(Of (String, String))()
         For Each cs In RuleLibrary.CurrencySmiles()
-            Dim k As String = TryMolKey(cs)
+            currencyList.Add((cs, cs))
+        Next
+        Dim currencyKeys As New HashSet(Of String)()
+
+        For Each k As String In ParseKeys(currencyList, parallelism)
             If k IsNot Nothing Then currencyKeys.Add(k)
         Next
 
@@ -253,6 +266,7 @@ Public Class Netwalk
         Dim all As New List(Of SearchState)()
         Dim totalApps As Int64 = 0
         Dim totalStates As Int64 = 0
+        Dim totalPrefiltered As Int64 = 0
         Dim maxDepthReached As Int32 = 0
         Dim rounds As Int32 = 0
 
@@ -265,6 +279,7 @@ Public Class Netwalk
             all.AddRange(completed)
             totalApps += searcher.Stats.ApplicationsTried
             totalStates += searcher.Stats.StatesGenerated
+            totalPrefiltered += searcher.Stats.RulesPrefiltered
             maxDepthReached = Math.Max(maxDepthReached, searcher.Stats.MaxDepthReached)
 
             Dim hitThisRound As Boolean = completed.Any(Function(st) Evaluate(st, sourceKey, role) IsNot Nothing)
@@ -322,6 +337,7 @@ Public Class Netwalk
 
         report.Stats.ApplicationsTried = totalApps
         report.Stats.StatesGenerated = totalStates
+        report.Stats.RulesPrefiltered = totalPrefiltered
         report.Stats.MaxDepthReached = maxDepthReached
         report.Stats.ElapsedMs = CLng(sw.Elapsed.TotalMilliseconds)
         report.Stats.PathsFound = dtos.Count
@@ -371,7 +387,37 @@ Public Class Netwalk
             .BeamWidth = o.BeamWidth,
             .MaxDepth = o.MaxDepth,
             .MaxPaths = o.MaxPaths,
-            .MatchLimit = o.MatchLimit}
+            .MatchLimit = o.MatchLimit,
+            .MaxDegreeOfParallelism = o.MaxDegreeOfParallelism}
+    End Function
+
+    ''' <summary>
+    ''' 批量解析 SMILES → 分子指纹（并行）。
+    ''' </summary>
+    ''' <param name="entries">待解析的 (标识, SMILES) 序列。</param>
+    ''' <param name="parallelism">并行度（&lt;=1 时串行）。</param>
+    ''' <returns>与输入等长的指纹数组；解析失败的项为 Nothing。</returns>
+    ''' <remarks>
+    ''' 汇集合常有数百条，货币分子另有若干条；指纹计算要走 Morgan 迭代，逐条串行是可观的
+    ''' 固定开销。各条之间互不依赖，因此可安全并行；结果按输入顺序写回数组，
+    ''' 保证汇集合的内容与串行版本一致。
+    ''' </remarks>
+    Private Shared Function ParseKeys(entries As IList(Of (String, String)),
+                                      parallelism As Int32) As String()
+        Dim n As Int32 = entries.Count
+        Dim keys As String() = New String(n - 1) {}
+        If n = 0 Then Return keys
+
+        If parallelism > 1 AndAlso n >= SearchOptions.MinParallelUnits Then
+            Parallel.For(0, n, New ParallelOptions With {.MaxDegreeOfParallelism = parallelism},
+                         Sub(i) keys(i) = TryMolKey(entries(i).Item2))
+        Else
+            For i = 0 To n - 1
+                keys(i) = TryMolKey(entries(i).Item2)
+            Next
+        End If
+
+        Return keys
     End Function
 
     ''' <summary>

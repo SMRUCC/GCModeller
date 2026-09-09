@@ -93,6 +93,13 @@ Namespace Model
         <JsonPropertyName("states_generated")>
         Public Property StatesGenerated As Long
 
+        ''' <summary>
+        ''' 被元素多重集预过滤直接跳过的规则应用次数（分子里没有模式所需元素，匹配必然失败）。
+        ''' 该优化不改变任何路径结果，只减少无效尝试。
+        ''' </summary>
+        <JsonPropertyName("rules_prefiltered")>
+        Public Property RulesPrefiltered As Long
+
         ''' <summary>实际到达的最大深度。</summary>
         <JsonPropertyName("max_depth_reached")>
         Public Property MaxDepthReached As Integer

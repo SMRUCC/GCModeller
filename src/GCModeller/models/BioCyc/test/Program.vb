@@ -66,7 +66,9 @@ Module Program
     '''   dotnet run -c Release -- legacy       # 旧的数据库读取冒烟测试
     ''' </summary>
     Sub Main(args As String())
-        If args.Length > 0 AndAlso args(0).Equals("route", StringComparison.OrdinalIgnoreCase) Then
+        If args.Length > 0 AndAlso args(0).Equals("bench", StringComparison.OrdinalIgnoreCase) Then
+            BenchDemo.Run(args.Skip(1).ToArray())
+        ElseIf args.Length > 0 AndAlso args(0).Equals("route", StringComparison.OrdinalIgnoreCase) Then
             SynthesisRouteDemo.Run(args.Skip(1).ToArray())
         ElseIf args.Length > 0 AndAlso args(0).Equals("legacy", StringComparison.OrdinalIgnoreCase) Then
             LegacySmokeTest()
