@@ -113,17 +113,17 @@ Namespace KOBAS
                 Iterator Function() As IEnumerable(Of Cluster)
                     ' 假设注释只出现在前面
                     For Each row As RowObject In table.Skip(attrs.Count)
+                        ' 注意：旧版本的代码在这里创建的是基类Synonym对象，
+                        ' 而Cluster.members的类型是BackgroundGene()，
+                        ' 这是一个从基类到派生类的向下窄化，在运行时很容易
+                        ' 抛出InvalidCastException，这里改为直接构造BackgroundGene
                         Yield New Cluster With {
                                 .ID = row(0),
                                 .description = row(1),
                                 .names = .ID,
                                 .members = row.Skip(2) _
-                                    .Select(Function(name)
-                                                Return New Synonym With {
-                                                    .accessionID = name,
-                                                    .[alias] = {name}
-                                                }
-                                            End Function) _
+                                    .Where(Function(name) Not name.StringEmpty(, True)) _
+                                    .Select(Function(name) New BackgroundGene(name)) _
                                     .ToArray
                             }
                     Next

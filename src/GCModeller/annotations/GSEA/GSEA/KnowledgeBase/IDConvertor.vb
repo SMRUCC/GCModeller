@@ -133,6 +133,11 @@ Public Class IDConvertor
                     .vector = {id}
                 }
             Next
+
+            ' 注意：旧版本的代码在这里缺少了这个Return，导致accession
+            ' 编号类型在产出结果之后还会继续向下执行，从而在
+            ' ``typesID(type)``处抛出KeyNotFoundException
+            Return
         End If
 
         Dim typeIDSets = Me.typesID(type)

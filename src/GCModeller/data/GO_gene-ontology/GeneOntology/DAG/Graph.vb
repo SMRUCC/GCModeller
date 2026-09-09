@@ -272,6 +272,28 @@ Namespace DAG
         End Function
 
         ''' <summary>
+        ''' 获取得到完整的祖先闭包表 ``[term_id => all ancestor term_id]``
+        ''' </summary>
+        ''' <param name="relations"></param>
+        ''' <returns>
+        ''' 这个表是惰性构建的，并且会被缓存起来，可以安全的重复调用
+        ''' </returns>
+        Public Function GetAncestorTable(Optional relations As OntologyRelations() = Nothing) As Dictionary(Of String, String())
+            Return AncestorTable(relations)
+        End Function
+
+        ''' <summary>
+        ''' 获取得到完整的子孙索引表 ``[term_id => all descendant nodes]``
+        ''' </summary>
+        ''' <param name="relations"></param>
+        ''' <returns>
+        ''' 这个表是惰性构建的，并且会被缓存起来，可以安全的重复调用
+        ''' </returns>
+        Public Function GetDescendantTable(Optional relations As OntologyRelations() = Nothing) As System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.List(Of TermNode))
+            Return DescendantTable(relations)
+        End Function
+
+        ''' <summary>
         ''' 获取得到指定的GO词条的所有祖先词条编号(不包含自身)
         ''' </summary>
         ''' <param name="id"></param>
