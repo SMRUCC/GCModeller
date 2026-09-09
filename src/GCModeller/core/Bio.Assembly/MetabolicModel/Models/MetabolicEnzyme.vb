@@ -54,12 +54,15 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace MetabolicModel
 
     Public Class MetabolicEnzyme : Implements INamedValue
 
         Public Property ID As String Implements IKeyedEntity(Of String).Key
+        Public Property ec_number As ECNumber()
+        Public Property pfam As String()
 
     End Class
 End Namespace

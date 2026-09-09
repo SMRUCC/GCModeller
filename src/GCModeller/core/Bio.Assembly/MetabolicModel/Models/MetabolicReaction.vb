@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::61d485eae0b57ce0bd783ea6e3ca568c, core\Bio.Assembly\MetabolicModel\Models\MetabolicReaction.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 44
-    '    Code Lines: 24 (54.55%)
-    ' Comment Lines: 13 (29.55%)
-    '    - Xml Docs: 84.62%
-    ' 
-    '   Blank Lines: 7 (15.91%)
-    '     File Size: 1.98 KB
+' Summaries:
 
 
-    '     Class MetabolicReaction
-    ' 
-    '         Properties: description, ECNumbers, id, is_reversible, is_spontaneous
-    '                     left, name, right
-    ' 
-    '         Function: CheckConnectivity, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 44
+'    Code Lines: 24 (54.55%)
+' Comment Lines: 13 (29.55%)
+'    - Xml Docs: 84.62%
+' 
+'   Blank Lines: 7 (15.91%)
+'     File Size: 1.98 KB
+
+
+'     Class MetabolicReaction
+' 
+'         Properties: description, ECNumbers, id, is_reversible, is_spontaneous
+'                     left, name, right
+' 
+'         Function: CheckConnectivity, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
@@ -85,17 +86,30 @@ Namespace MetabolicModel
         ''' <returns></returns>
         Public Property is_spontaneous As Boolean
         Public Property ECNumbers As String()
+        Public Property gibbs As Double
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return $"[{id}] {name}"
         End Function
 
+        ''' <summary>
+        ''' Check one reaction is connected with another reaction based on the shared substrate/product compound.
+        ''' </summary>
+        ''' <param name="another"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CheckConnectivity(another As MetabolicReaction) As Boolean
             ' this is upstream of another, 
             ' or another is upstream of this
-            Return right.Select(Function(c) c.ID).Intersect(another.left.Select(Function(c) c.ID)).Any OrElse
-                another.right.Select(Function(c) c.ID).Intersect(left.Select(Function(c) c.ID)).Any
+            Return Intersect(right, another.left) OrElse Intersect(another.right, left)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function Intersect(lhs As CompoundSpecieReference(), rhs As CompoundSpecieReference()) As Boolean
+            Return lhs.Select(Function(c) c.ID) _
+                .Intersect(rhs.Select(Function(c) c.ID)) _
+                .Any
+        End Function
     End Class
 End Namespace

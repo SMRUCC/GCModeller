@@ -71,6 +71,7 @@ Namespace MetabolicModel
         Public Property formula As String Implements IMolecule.Formula
         Public Property moleculeWeight As Double Implements IMolecule.Mass
         Public Property xref As DBLink()
+        Public Property smiles As String
 
         Default Public ReadOnly Property db_xref(db_name As String) As String
             Get
