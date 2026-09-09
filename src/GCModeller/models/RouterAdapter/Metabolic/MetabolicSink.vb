@@ -10,14 +10,18 @@
 ' 此时依赖本白名单兜底；必要时把 coreDegree 调低或直接用 SinkModes.All。
 ' ============================================================================
 
+Imports SMRUCC.genomics.Model.Metabolic.RouterAdapter.Data
+
 Public Module MetabolicSink
 
     ''' <summary>
     ''' 中心代谢 / 底盘常见代谢物的名称白名单（归一化后按 id、name、synonym 匹配）。
     ''' 覆盖：糖酵解 / PPP / TCA、莽草酸途径、氨基酸、多胺、核苷酸辅因子、能量通货与无机小分子。
     ''' </summary>
-    ' 白名单按分区排序：糖酵解/PPP/糖 → TCA/乙醛酸 → 莽草酸途径 → 氨基酸 → 多胺 →
-    ' 核苷酸辅因子 → 无机小分子与常见共底物
+    ''' <remarks>
+    ''' 白名单按分区排序：糖酵解/PPP/糖 → TCA/乙醛酸 → 莽草酸途径 → 氨基酸 → 多胺 →
+    ''' 核苷酸辅因子 → 无机小分子与常见共底物
+    ''' </remarks>
     Public ReadOnly Property CentralMetaboliteNames As String() = {
         "glucose", "glucose 6-phosphate", "glucose-6-phosphate", "glucose 1-phosphate",
         "fructose 6-phosphate", "fructose 1,6-bisphosphate", "fructose-bisphosphate",

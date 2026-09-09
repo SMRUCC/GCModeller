@@ -15,6 +15,7 @@ Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.Schema.Metabolism
+Imports SMRUCC.genomics.Model.Metabolic.RouterAdapter.Data
 
 Public Module BioCycRuleMiner
 

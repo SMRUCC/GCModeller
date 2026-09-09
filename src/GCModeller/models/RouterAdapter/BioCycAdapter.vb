@@ -4,8 +4,8 @@ Imports SMRUCC.genomics.Analysis.RetroPath
 Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 Imports SMRUCC.genomics.Analysis.RetroPath.Model
 Imports SMRUCC.genomics.Analysis.RetroPath.Search
-Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
+Imports SMRUCC.genomics.Model.Metabolic.RouterAdapter.Data
 
 ''' <summary>
 ''' 把 BioCyc（MetaCyc/EcoCyc）PGDB 装配成 RetroPath 的逆向合成通路搜索器。
@@ -131,8 +131,7 @@ Public Class BioCycAdapter : Implements IRouter
             trace:=If(keepRuleTrace, RuleTrace, Nothing)))
 
         ' ---------- 4) 底盘汇集合 ----------
-        Dim sinkList As List(Of (String, smiles As String)) =
-            BioCycSink.Build(structures, degrees, sinkMode, coreDegree)
+        Dim sinkList As List(Of (String, smiles As String)) = BioCycSink.Build(structures, degrees, sinkMode, coreDegree)
 
         For Each s In sinkList
             Dim st As CompoundStructure = structures(s.Item1)
@@ -170,7 +169,7 @@ Public Class BioCycAdapter : Implements IRouter
                     Console.Error.WriteLine($"[BioCycAdapter]   跳过 {kv.Key} × {kv.Value}  例：{sample}")
                 Next
             End If
-            Console.Error.WriteLine($"[BioCycAdapter] 反应 {specs.Count} → 广义规则 {rules.Count}（模式原子上限 {maxPatternAtoms}）")
+            Console.Error.WriteLine($"[BioCycAdapter] 反应 {specs.Count} → 广义规则 {Rules.Count}（模式原子上限 {maxPatternAtoms}）")
             If Skipped.Count > 0 Then
                 Dim reasons = Skipped.OrderByDescending(Function(kv) kv.Value).
                     Select(Function(kv) $"{kv.Key}={kv.Value}")

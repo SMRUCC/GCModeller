@@ -19,6 +19,7 @@ Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 Imports SMRUCC.genomics.Analysis.RetroPath.Model
 Imports SMRUCC.genomics.Analysis.RetroPath.Search
 Imports SMRUCC.genomics.MetabolicModel
+Imports SMRUCC.genomics.Model.Metabolic.RouterAdapter.Data
 
 ''' <summary>
 ''' 把 GCModeller 内部标准代谢网络（化合物 + 反应的集合）装配成 RetroPath 的
@@ -195,7 +196,7 @@ Public Class MetabolicAdapter : Implements IRouter
                     Console.Error.WriteLine($"[MetabolicAdapter]   跳过 {kv.Key} × {kv.Value}  例：{sample}")
                 Next
             End If
-            Console.Error.WriteLine($"[MetabolicAdapter] 反应 {specs.Count} → 广义规则 {rules.Count}（模式原子上限 {maxPatternAtoms}）")
+            Console.Error.WriteLine($"[MetabolicAdapter] 反应 {specs.Count} → 广义规则 {Rules.Count}（模式原子上限 {maxPatternAtoms}）")
             If Skipped.Count > 0 Then
                 Dim reasons = Skipped.OrderByDescending(Function(kv) kv.Value).
                     Select(Function(kv) $"{kv.Key}={kv.Value}")

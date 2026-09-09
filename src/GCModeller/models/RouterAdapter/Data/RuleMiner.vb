@@ -612,8 +612,7 @@ Namespace Data
             Return changed
         End Function
 
-        ''' <summary>反应某一侧的化合物 id（去重、去空、保持字典序）</summary>
-        ''' <summary>
+        ''' <summary>反应某一侧的化合物 id（去重、去空、保持字典序）
         ''' 从反应某一侧的化合物引用中取出 id（去重、去空、保持字典序）。
         ''' </summary>
         ''' <param name="side">化合物引用序列；BioCyc 与 GCModeller 内部代谢模型共用

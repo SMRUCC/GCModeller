@@ -12,6 +12,7 @@
 
 Imports SMRUCC.genomics.Analysis.RetroPath.Chem
 Imports SMRUCC.genomics.MetabolicModel
+Imports SMRUCC.genomics.Model.Metabolic.RouterAdapter.Data
 
 Public Module MetabolicRuleMiner
 

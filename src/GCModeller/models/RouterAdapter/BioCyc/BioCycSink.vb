@@ -6,6 +6,8 @@
 ' 自动忽略，不会报错）。
 ' ============================================================================
 
+Imports SMRUCC.genomics.Model.Metabolic.RouterAdapter.Data
+
 Public Module BioCycSink
 
     ''' <summary>
