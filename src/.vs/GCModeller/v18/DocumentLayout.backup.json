@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{85172D93-FB44-41A8-AB4E-2B8A82A5BE52}|interops\\localblast\\CLI_tools\\localblast.vbproj|g:\\gcmodeller\\src\\interops\\localblast\\cli_tools\\cli\\blastn.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{85172D93-FB44-41A8-AB4E-2B8A82A5BE52}|interops\\localblast\\CLI_tools\\localblast.vbproj|solutionrelative:interops\\localblast\\cli_tools\\cli\\blastn.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BB69F9C4-B886-4A79-9817-D14C8A3396C0}|GCModeller\\analysis\\SequenceToolkit\\SNP\\SNP.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\snp\\snpscan.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{BB69F9C4-B886-4A79-9817-D14C8A3396C0}|GCModeller\\analysis\\SequenceToolkit\\SNP\\SNP.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\snp\\snpscan.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -59,6 +63,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Blastn.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\CLI_tools\\CLI\\Blastn.vb",
+              "RelativeDocumentMoniker": "interops\\localblast\\CLI_tools\\CLI\\Blastn.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\localblast\\CLI_tools\\CLI\\Blastn.vb",
+              "RelativeToolTip": "interops\\localblast\\CLI_tools\\CLI\\Blastn.vb",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAgwNkAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-21T13:44:29.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "SNPScan.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SNP\\SNPScan.vb",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SNP\\SNPScan.vb",
@@ -71,7 +88,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "SNP.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SNP\\SNP.vb",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SNP\\SNP.vb",
@@ -84,7 +101,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Genotype.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SNP\\Genotype.vb",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SNP\\Genotype.vb",
@@ -97,7 +114,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "DiffVariation.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SNP\\DiffVariation.vb",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SNP\\DiffVariation.vb",
@@ -110,7 +127,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "SNP",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SNP\\SNP.vbproj",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SNP\\SNP.vbproj",
@@ -123,7 +140,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "SequenceTools",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
@@ -136,7 +153,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "localblast",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\CLI_tools\\localblast.vbproj",
               "RelativeDocumentMoniker": "interops\\localblast\\CLI_tools\\localblast.vbproj",
