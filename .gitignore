@@ -556,3 +556,6 @@ src/GCModeller/sub-system/FBA/.vs/FBA.slnx/v18/.wsuo
 *.cab
 src/runtime/sciBASIC\#/vs_solutions/package-install-cache/part1/output-info.ini
 src/runtime/sciBASIC\#/vs_solutions/package-install-cache/cacheIndex.txt
+src/runtime/sciBASIC\#/nuget-smoketest.slnx
+src/runtime/sciBASIC\#/gr/_smoke2/S2.vbproj
+src/runtime/sciBASIC\#/Data_science/Visualization/_smoke_DataPlot/DataPlot.vbproj
