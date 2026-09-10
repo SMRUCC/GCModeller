@@ -284,6 +284,7 @@ Namespace Core.HttpStream
                     End If
 
                     If Not CompareBytes(boundary_bytes, buffer) Then
+                        Call $"multipart debug: boundary mismatch, buffer='{encoding.GetString(buffer)}' expected='{boundary}'".warning()
                         state = 0
                         data.Position = retval + 2
                         If got_cr Then
