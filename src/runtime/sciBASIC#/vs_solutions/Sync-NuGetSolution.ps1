@@ -9,7 +9,7 @@
     * SDK style       -- <Project Sdk="Microsoft.NET.Sdk">
     * package worthy  -- <RootNamespace> starts with "Microsoft.VisualBasic"
 
-  For every matching project the script performs four idempotent checks:
+  For every matching project the script performs five idempotent checks:
 
     1. Solution membership
        If the project is not referenced by nuget.slnx it is appended to the
@@ -35,6 +35,20 @@
        the repository level ".nuget" directory, e.g. "../../.nuget/" for
        gr/avi/AVI.NET5.vbproj. Missing values are inserted, wrong ones rewritten
        (this also normalises sloppy values such as a missing trailing slash).
+
+    5. Packaging properties
+       The four properties that make MSBuild actually emit a .nupkg on build are
+       upserted into the first unconditional PropertyGroup of every matching
+       project (a project missing them silently produces no package):
+
+           GeneratePackageOnBuild          = True
+           PackageRequireLicenseAcceptance = True
+           IncludeSymbols                  = True
+           SymbolPackageFormat             = snupkg
+
+       Properties that are already present with the target value are left alone;
+       a present but different value is rewritten. Use -SkipPackagingProps to
+       turn step 5 off.
 
   The script is safe to run repeatedly: a file is only rewritten when at least
   one real change was produced, and encoding (UTF-8 BOM or not), line endings
@@ -71,6 +85,10 @@
   Optional CSV path receiving one row per matched project with the individual
   operations that were applied.
 
+.PARAMETER SkipPackagingProps
+  Do not touch GeneratePackageOnBuild / PackageRequireLicenseAcceptance /
+  IncludeSymbols / SymbolPackageFormat.
+
 .PARAMETER WhatIf
   Run every check and print the resulting operations without writing anything.
 
@@ -99,6 +117,7 @@ param(
     [string]$ProjectFilter  = '*',
     [string]$ExcludePattern = '(^|[\\/])(obj|bin|\.git|packages|package-install-cache|package-install-SetupFiles)([\\/]|$)',
     [string]$ReportFile     = '',
+    [switch]$SkipPackagingProps,
     [switch]$WhatIf
 )
 
@@ -125,6 +144,17 @@ $DefaultPlatforms      = 'AnyCPU'
 # Only projects whose <RootNamespace> starts with this prefix are picked up, and
 # only such projects are ever registered in the solution.
 $NamespacePrefix = 'Microsoft.VisualBasic'
+
+# Without these four properties MSBuild never emits a .nupkg for a project, so
+# they are upserted into the first unconditional PropertyGroup of every project
+# that is picked up. Values are forced, matching the convention already used by
+# the packed projects in this repository (e.g. gr/avi/AVI.NET5.vbproj).
+$PackagingProps = [ordered]@{
+    GeneratePackageOnBuild          = 'True'
+    PackageRequireLicenseAcceptance = 'True'
+    IncludeSymbols                  = 'True'
+    SymbolPackageFormat             = 'snupkg'
+}
 
 # ---------------------------------------------------------------------------
 # Generic XML helpers (kept in sync with dev/NuGetMetadata/Apply-NuGetMetadata.ps1)
@@ -329,6 +359,41 @@ function Find-PropertyOwnerGroup($doc, [string]$name) {
         if (Find-ChildElement $pg $name) { return $pg }
     }
     return $null
+}
+
+function Remove-DuplicateProperty($group, [string]$name) {
+    # MSBuild honours the *last* declaration of a property, so a file carrying
+    # two copies of e.g. PackageRequireLicenseAcceptance keeps the trailing one.
+    # Drop every earlier copy so the value that is actually in effect is also the
+    # only one a reader sees.
+    $copies = @()
+    foreach ($c in $group.ChildNodes) {
+        if ($c.NodeType -eq 'Element' -and $c.LocalName -eq $name) { $copies += $c }
+    }
+    if ($copies.Count -le 1) { return 0 }
+
+    for ($i = 0; $i -lt $copies.Count - 1; $i++) {
+        $node = $copies[$i]
+        $prev = $node.PreviousSibling
+        [void]$group.RemoveChild($node)
+        if (Test-WhitespaceNode $prev) { [void]$group.RemoveChild($prev) }
+    }
+    return ($copies.Count - 1)
+}
+
+function Test-ShouldPatchPackagingProp($doc, [string]$name, [string]$value) {
+    # Only an *unconditional* definition counts as "already declared": a value
+    # that merely exists inside a conditional PropertyGroup (for instance the
+    # nuget_release|x64 group) is not a project wide setting and must still be
+    # added, otherwise every other configuration builds without a package.
+    $owner = Find-PropertyOwnerGroup $doc $name
+    if ($null -eq $owner) { return $true }
+    $existing = Find-ChildElement $owner $name
+    if ($null -eq $existing) { return $true }
+    if ($existing.InnerText.Trim() -eq $value) { return $false }
+    # Declared unconditionally, but with another value -- rewrite it in place.
+    $mainGroup = Find-RootNsPropertyGroup $doc
+    return ($null -ne $mainGroup) -and ($owner -eq $mainGroup)
 }
 
 function Test-TargetCondition([string]$condition) {
@@ -557,6 +622,9 @@ $stats = @{
     platformTargetAdded   = 0
     outputPathAdded       = 0
     outputPathUpdated     = 0
+    packagingAdded        = 0
+    packagingUpdated      = 0
+    packagingDupesRemoved = 0
 }
 $report        = New-Object System.Collections.Generic.List[object]
 $slnxDirty     = $false
@@ -656,7 +724,30 @@ foreach ($file in $allProjects) {
                                  $DefaultPlatforms (Get-Indents $platGroup)
     if ($platOp -ne 'unchanged') { $stats.platformsPatched++; $ops += "Platforms:$platOp" }
 
-    # ---- 3. conditional property group ------------------------------------
+    # ---- 3. packaging properties ------------------------------------------
+    # Without GeneratePackageOnBuild the build silently produces no .nupkg, so
+    # these belong to the same "make this project packable" check as step 4.
+    $packIndents = Get-Indents $mainGroup
+    if (-not $SkipPackagingProps) {
+        foreach ($name in $PackagingProps.Keys) {
+            $value = $PackagingProps[$name]
+            $op    = 'present'
+            if (Test-ShouldPatchPackagingProp $doc $name $value) {
+                # Collapse repeated declarations first: the surviving (last) copy
+                # is then compared and patched, leaving exactly one entry.
+                if ((Remove-DuplicateProperty $mainGroup $name) -gt 0) {
+                    $stats.packagingDupesRemoved++
+                    $ops += "$name`:de-duplicated"
+                }
+                $op = Set-Property $doc $mainGroup $name $value $packIndents
+            }
+            if ($op -eq 'added')   { $stats.packagingAdded++ }
+            if ($op -eq 'updated') { $stats.packagingUpdated++ }
+            if ($op -ne 'present' -and $op -ne 'unchanged') { $ops += "$name`:$op" }
+        }
+    }
+
+    # ---- 4. conditional property group ------------------------------------
     $groups  = @(Find-TargetGroups $doc)
     $groupOp = 'present'
     if ($groups.Count -eq 0) {
@@ -755,6 +846,9 @@ Write-Host ("  PropertyGroups added  : {0}" -f $stats.groupsAdded)
 Write-Host ("  PlatformTarget added  : {0}" -f $stats.platformTargetAdded)
 Write-Host ("  OutputPath added      : {0}" -f $stats.outputPathAdded)
 Write-Host ("  OutputPath rewritten  : {0}" -f $stats.outputPathUpdated)
+Write-Host ("  Packaging props added : {0}" -f $stats.packagingAdded)
+Write-Host ("  Packaging props fixed : {0}" -f $stats.packagingUpdated)
+Write-Host ("  Packaging dupes merged: {0}" -f $stats.packagingDupesRemoved)
 Write-Host ("skipped (non SDK style) : {0}" -f $stats.skippedLegacy)      -ForegroundColor DarkGray
 Write-Host ("skipped (RootNamespace) : {0}" -f $stats.skippedRootNamespace) -ForegroundColor DarkGray
 Write-Host ("blocked by ns guard     : {0}" -f $stats.skippedByGuard)     -ForegroundColor $(if ($stats.skippedByGuard) { 'Yellow' } else { 'DarkGray' })

@@ -1,0 +1,526 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="CFD_win32" />
+    <BuildType Name="Debug" />
+    <BuildType Name="Docker" />
+    <BuildType Name="gcmodeller_desktop" />
+    <BuildType Name="LipidSearch" />
+    <BuildType Name="mzkit" />
+    <BuildType Name="mzkit_win32" />
+    <BuildType Name="NPSearch" />
+    <BuildType Name="nuget_release" />
+    <BuildType Name="PlantMAT" />
+    <BuildType Name="Release" />
+    <BuildType Name="Rsharp_app_release" />
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM32" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/framework/" />
+  <Folder Name="/framework/runtime/">
+    <Project Path="runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+  </Folder>
+  <Folder Name="/framework/runtime/data/">
+    <Project Path="runtime/sciBASIC#/Data/BinaryData/BinaryData/binarydata-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/Data/BinaryData/HDSPack/HDSPack.vbproj">
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/Data/BinaryData/msgpack/msgpack-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/Data/DataFrame/dataframework-netcore5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="nuget_release" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/framework/runtime/graph/">
+    <Project Path="runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj">
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/framework/runtime/math/">
+    <Project Path="runtime/sciBASIC#/Data_science/DataMining/DataMining/DataMining.NET5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/Data_science/DataMining/DynamicProgramming/DynamicProgramming.NET5.vbproj">
+      <BuildType Solution="CFD_win32|Any CPU" Project="gcmodeller_desktop" />
+      <BuildType Solution="CFD_win32|ARM32" Project="gcmodeller_desktop" />
+      <BuildType Solution="CFD_win32|x64" Project="Rsharp_app_release" />
+      <BuildType Solution="CFD_win32|x86" Project="gcmodeller_desktop" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="mzkit_win32" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|Any CPU" Project="gcmodeller_desktop" />
+      <BuildType Solution="nuget_release|ARM32" Project="gcmodeller_desktop" />
+      <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="gcmodeller_desktop" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/Data_science/DataMining/UMAP/UMAP.NET5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="mzkit" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/Data_science/Mathematica/Math/Gibbs/Gibbs.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/Data_science/Mathematica/Math/Math.Statistics/stats-netcore5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="mzkit" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/Data_science/Mathematica/Math/Randomizer/randomizer-netcore5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="mzkit" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/framework/runtime/mime/">
+    <Project Path="runtime/sciBASIC#/mime/application%json/JSON-netcore5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Docker" />
+      <BuildType Solution="mzkit|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/mime/application%rdf+xml/rdf_xml-netcore5.vbproj">
+      <BuildType Solution="CFD_win32|Any CPU" Project="gcmodeller_desktop" />
+      <BuildType Solution="CFD_win32|ARM32" Project="gcmodeller_desktop" />
+      <BuildType Solution="CFD_win32|x64" Project="Rsharp_app_release" />
+      <BuildType Solution="CFD_win32|x86" Project="gcmodeller_desktop" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="mzkit_win32" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|Any CPU" Project="gcmodeller_desktop" />
+      <BuildType Solution="nuget_release|ARM32" Project="gcmodeller_desktop" />
+      <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="gcmodeller_desktop" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/mime/application%xml/xml-netcore5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="mzkit_win32" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/mime/text%html/html_netcore5.vbproj">
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/framework/runtime/visual/">
+    <Project Path="runtime/sciBASIC#/Data_science/Visualization/Plots/plots-netcore5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="LipidSearch" />
+      <BuildType Solution="Docker|*" Project="Release" />
+      <BuildType Solution="mzkit_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="NPSearch|*" Project="LipidSearch" />
+      <BuildType Solution="PlantMAT|*" Project="LipidSearch" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/gr/Drawing-net4.8/Drawing-net4.8.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="nuget_release" />
+      <BuildType Solution="Docker|*" Project="Release" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="nuget_release" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="nuget_release" />
+      <BuildType Solution="gcmodeller_desktop|x64" Project="Release" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="nuget_release" />
+      <BuildType Solution="LipidSearch|*" Project="nuget_release" />
+      <BuildType Solution="mzkit_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/sciBASIC#/gr/Microsoft.VisualBasic.Imaging/imaging.NET5.vbproj">
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/framework/utils/">
+    <Project Path="runtime/Darwinism/src/CloudKit/Centos/Centos.NET5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Release" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="gcmodeller_desktop|x64" Project="Release" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="mzkit_win32" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/Darwinism/src/computing/Parallel/parallel-netcore5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="LipidSearch|*" Project="PlantMAT" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/Darwinism/src/networking/networking.vbproj">
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+  </Folder>
+  <Folder Name="/gcmodeller/">
+    <Project Path="GCModeller/analysis/SequenceToolkit/DNA_Comparative/DNA_Comparative.netcoreapp.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/SequenceToolkit/gwANI/gwANI.NET5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/SequenceToolkit/SequenceAlignment/SequenceAlignment.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Release" />
+      <BuildType Solution="LipidSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/SequenceToolkit/SNP/SNP.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/core/Bio.Assembly/biocore-netcore5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/gcmodeller/database/">
+    <Project Path="GCModeller/core/Bio.Annotation/annotation.NET5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="mzkit_win32" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|ARM32" Project="ARM32" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/data/Rhea/Rhea.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/data/SABIO-RK/SABIO-RK.NET.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="mzkit" />
+      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/SBML/SBML/sbml-netcore5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="repository/Bio.Repository/repository.NET5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="mzkit_win32" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|ARM32" Project="ARM32" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/gcmodeller/localblast/">
+    <Project Path="interops/localblast/LocalBLAST/localblast.NET5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="interops/localblast/ParallelTask/ParallelTask.vbproj">
+      <BuildType Solution="CFD_win32|Any CPU" Project="Release" />
+      <BuildType Solution="CFD_win32|ARM32" Project="Release" />
+      <BuildType Solution="CFD_win32|x64" Project="Debug" />
+      <BuildType Solution="CFD_win32|x86" Project="Release" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x64" Project="Release" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x64" Project="Debug" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+      <Platform Solution="CFD_win32|x64" Project="x64" />
+      <Platform Solution="Docker|x64" Project="x64" />
+      <Platform Solution="gcmodeller_desktop|x64" Project="x64" />
+      <Platform Solution="nuget_release|x64" Project="x64" />
+      <Platform Solution="Release|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/gcmodeller/motifs/">
+    <Project Path="GCModeller/analysis/Motifs/MotifGraph/MotifGraph.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/SequenceToolkit/MotifFinder/MotifFinder.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/SequenceToolkit/MotifScanner/MotifScanner.NET5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/SequenceToolkit/SequenceLogo/SequenceLogo.NET5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract/SequencePatterns.Abstract.NET5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/SequenceToolkit/SequencePatterns/SequencePatterns.NET5.vbproj">
+      <BuildType Solution="CFD_win32|*" Project="mzkit_win32" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+      <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Debug" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/settings/">
+    <Project Path="Settings/Shared/InternalApps_CLI/InternalApps_CLI.shproj" />
+    <Project Path="Settings/Shared/RepositoryCommon/RepositoryCommon.shproj" />
+    <Project Path="Settings/Shared/Settings.Configuration/Settings.Configuration.shproj" />
+    <Project Path="Settings/Shared/Settings.FileSystem/Settings.FileSystem.shproj" />
+  </Folder>
+  <Project Path="GCModeller/analysis/SequenceToolkit/SequenceTools/SequenceTools.vbproj">
+    <BuildType Solution="CFD_win32|Any CPU" Project="Rsharp_app_release" />
+    <BuildType Solution="CFD_win32|ARM32" Project="Rsharp_app_release" />
+    <BuildType Solution="CFD_win32|x64" Project="Release" />
+    <BuildType Solution="CFD_win32|x86" Project="Rsharp_app_release" />
+    <BuildType Solution="Docker|*" Project="Debug" />
+    <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Release" />
+    <BuildType Solution="gcmodeller_desktop|ARM32" Project="Release" />
+    <BuildType Solution="gcmodeller_desktop|x86" Project="Release" />
+    <BuildType Solution="LipidSearch|*" Project="Release" />
+    <BuildType Solution="mzkit_win32|*" Project="Release" />
+    <BuildType Solution="mzkit|*" Project="Release" />
+    <BuildType Solution="NPSearch|*" Project="Release" />
+    <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+    <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+    <BuildType Solution="nuget_release|x64" Project="Release" />
+    <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
+    <BuildType Solution="PlantMAT|*" Project="Release" />
+    <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+    <Platform Solution="CFD_win32|x64" Project="x64" />
+    <Platform Solution="Debug|x64" Project="x64" />
+    <Platform Solution="Docker|x64" Project="x64" />
+    <Platform Solution="gcmodeller_desktop|x64" Project="x64" />
+    <Platform Solution="nuget_release|x64" Project="x64" />
+    <Platform Solution="Release|x64" Project="x64" />
+  </Project>
+  <Project Path="interops/localblast/CLI_tools/localblast.vbproj">
+    <BuildType Solution="CFD_win32|Any CPU" Project="Rsharp_app_release" />
+    <BuildType Solution="CFD_win32|ARM32" Project="Rsharp_app_release" />
+    <BuildType Solution="CFD_win32|x64" Project="Debug" />
+    <BuildType Solution="CFD_win32|x86" Project="Rsharp_app_release" />
+    <BuildType Solution="Docker|*" Project="Debug" />
+    <BuildType Solution="gcmodeller_desktop|Any CPU" Project="Debug" />
+    <BuildType Solution="gcmodeller_desktop|ARM32" Project="Debug" />
+    <BuildType Solution="gcmodeller_desktop|x86" Project="Debug" />
+    <BuildType Solution="LipidSearch|*" Project="Debug" />
+    <BuildType Solution="mzkit_win32|*" Project="Debug" />
+    <BuildType Solution="mzkit|*" Project="Debug" />
+    <BuildType Solution="NPSearch|*" Project="Debug" />
+    <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+    <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+    <BuildType Solution="nuget_release|x64" Project="Debug" />
+    <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
+    <BuildType Solution="PlantMAT|*" Project="Debug" />
+    <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+    <Platform Solution="CFD_win32|x64" Project="x64" />
+    <Platform Solution="Docker|x64" Project="x64" />
+    <Platform Solution="gcmodeller_desktop|x64" Project="x64" />
+    <Platform Solution="nuget_release|x64" Project="x64" />
+    <Platform Solution="Release|x64" Project="x64" />
+  </Project>
+</Solution>
