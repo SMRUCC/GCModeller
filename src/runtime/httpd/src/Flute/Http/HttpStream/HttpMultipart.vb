@@ -261,6 +261,7 @@ Namespace Core.HttpStream
                     End If
                     state = 1
                     c = data.ReadByte()
+                    Call $"multipart debug: after LF next byte=0x{c:X2}".info()
                 ElseIf state = 0 Then
                     got_cr = (c = ASCII.Byte.CR)
                     c = data.ReadByte()
@@ -279,6 +280,7 @@ Namespace Core.HttpStream
 
                     Dim nread As Integer = data.Read(buffer, 0, buffer.Length)
                     Dim bl As Integer = buffer.Length
+                    Call $"multipart debug: candidate bl={bl}, nread={nread}, text='{encoding.GetString(buffer)}', last2=0x{buffer(bl - 2):X2},0x{buffer(bl - 1):X2}".info()
                     If nread <> bl Then
                         Return -1
                     End If
@@ -349,6 +351,13 @@ Namespace Core.HttpStream
 
             Dim start As Long = data.Position
             elem.Start = start
+
+            Dim preview As Byte() = New Byte(63) {}
+            Dim savedPos As Long = data.Position
+            Dim previewLen As Integer = data.Read(preview, 0, preview.Length)
+            data.Position = savedPos
+            Call $"multipart debug: start={start}, length={data.Length}, preview='{encoding.GetString(preview, 0, previewLen)}'".info()
+
             Dim pos As Long = MoveToNextBoundary()
             If pos = -1 Then
                 Call "multipart debug: next boundary was not found".warning()
