@@ -1286,6 +1286,9 @@
     </Project>
   </Folder>
   <Folder Name="/packages/math.dll/">
+    <Project Path="Data_science/DataMining/PaCMAP/PaCMAP.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="Data_science/Mathematica/Math/ANOVA/ANOVA.vbproj">
       <BuildType Solution="Biodeep|Any CPU" Project="Debug" />
       <BuildType Solution="Biodeep|ARM32" Project="Rsharp_app_release" />
@@ -1627,6 +1630,9 @@
       <BuildType Solution="Yilia-Release_x64|*" Project="Release" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="mime/application%pdf/Pdf.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="mime/application%rdf+xml/rdf_xml-netcore5.vbproj">
       <BuildType Solution="Biodeep|Any CPU" Project="Debug" />
       <BuildType Solution="Biodeep|ARM32" Project="gcmodeller_desktop" />
@@ -1747,6 +1753,9 @@
       <BuildType Solution="RsharpDev|*" Project="Rsharp_app_release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
       <BuildType Solution="Yilia-Release_x64|*" Project="Release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="mime/applicationvnd.openxmlformats-officedocument.wordprocessingml.document/docx/WordDocument.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="mime/text%html/html_netcore5.vbproj">
@@ -2628,6 +2637,62 @@
       <BuildType Solution="Yilia-Release_x64|*" Project="Release" />
       <Platform Solution="Debug|x64" Project="x64" />
       <Platform Solution="nuget_release|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/packages/new/">
+    <Project Path="Data/MyersDiff/MyersDiff.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/DataMining/Bonsai/Bonsai.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/DataMining/DBNCode/DBNCode.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/MachineLearning/Bootstrapping/Bootstrapping.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/MachineLearning/CellularAutomaton/CellularAutomaton.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/MachineLearning/GNN/GNN.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/MachineLearning/LNN/LNN.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/MachineLearning/RestrictedBoltzmannMachine/RestrictedBoltzmannMachine.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/MachineVision/GaussianSplatting3D/GaussianSplatting/GaussianSplatting.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/Mathematica/Math/CVODE_Solver/Sundials.CVODE.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/Mathematica/Math/GeneticProgramming/GeneticProgramming.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/Mathematica/Math/Gibbs/Gibbs.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/Mathematica/Math/KaplanMeierEstimator/KaplanMeierEstimator.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/Mathematica/Math/ODESolver.Extensions/ODESolver.Extensions.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/Mathematica/SignalProcessing/MachineVision/MachineVision.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="gr/network-visualization/NetworkCanvas/NetworkCanvas.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="nlp/KnowledgeGraph/KnowledgeGraph.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="www/Microsoft.VisualBasic.Webservices.Bing/Bing.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
   <Project Path="Microsoft.VisualBasic.Core/src/Core.vbproj">
