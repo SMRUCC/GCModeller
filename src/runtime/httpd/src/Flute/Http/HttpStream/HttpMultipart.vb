@@ -93,7 +93,10 @@ Namespace Core.HttpStream
             Me.data = data
             boundary = b
             boundary_bytes = encoding.GetBytes(b)
-            buffer = New Byte(boundary_bytes.Length + 1) {}
+            ' the buffer must hold the boundary plus the trailing CRLF (or the
+            ' closing ``--``), otherwise MoveToNextBoundary can never validate
+            ' the delimiter line.
+            buffer = New Byte(boundary_bytes.Length + 2) {}
             ' CRLF or '--'
             Me.encoding = encoding
             sb = New StringBuilder()
