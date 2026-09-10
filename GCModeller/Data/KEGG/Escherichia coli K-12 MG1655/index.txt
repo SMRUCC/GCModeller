@@ -1,2 +1,0 @@
-Escherichia coli K-12 MG1655
-GCF_000005845.2

@@ -1,1 +1,0 @@
-eggHTS /DEP.logFC.Volcano /in "./qlfTable.csv"
