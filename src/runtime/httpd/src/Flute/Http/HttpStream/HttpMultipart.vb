@@ -329,6 +329,7 @@ Namespace Core.HttpStream
         ''' <returns>the next <see cref="StreamElement"/>, or <c>Nothing</c> at end of stream.</returns>
         Friend Function ReadNextElement() As StreamElement
             If at_eof OrElse ReadBoundary() Then
+                Call $"multipart debug: end of stream (at_eof={at_eof})".info()
                 Return Nothing
             End If
 
@@ -343,10 +344,13 @@ Namespace Core.HttpStream
                 End If
             End While
 
+            Call $"multipart debug: element name='{elem.Name}', filename='{elem.Filename}'".info()
+
             Dim start As Long = data.Position
             elem.Start = start
             Dim pos As Long = MoveToNextBoundary()
             If pos = -1 Then
+                Call "multipart debug: next boundary was not found".warning()
                 Return Nothing
             End If
 
