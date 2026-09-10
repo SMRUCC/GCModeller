@@ -94,9 +94,9 @@ Namespace Core.HttpStream
             boundary = b
             boundary_bytes = encoding.GetBytes(b)
             ' the buffer must hold the boundary plus the trailing CRLF (or the
-            ' closing ``--``), otherwise MoveToNextBoundary can never validate
-            ' the delimiter line.
-            buffer = New Byte(boundary_bytes.Length + 2) {}
+            ' closing ``--``). note ``New Byte(n)`` allocates n + 1 elements, so
+            ' ``+ 1`` yields exactly boundary.Length + 2 bytes.
+            buffer = New Byte(boundary_bytes.Length + 1) {}
             ' CRLF or '--'
             Me.encoding = encoding
             sb = New StringBuilder()
@@ -261,7 +261,6 @@ Namespace Core.HttpStream
                     End If
                     state = 1
                     c = data.ReadByte()
-                    Call $"multipart debug: after LF next byte=0x{c:X2}".info()
                 ElseIf state = 0 Then
                     got_cr = (c = ASCII.Byte.CR)
                     c = data.ReadByte()
@@ -280,13 +279,11 @@ Namespace Core.HttpStream
 
                     Dim nread As Integer = data.Read(buffer, 0, buffer.Length)
                     Dim bl As Integer = buffer.Length
-                    Call $"multipart debug: candidate bl={bl}, nread={nread}, text='{encoding.GetString(buffer)}', last2=0x{buffer(bl - 2):X2},0x{buffer(bl - 1):X2}".info()
                     If nread <> bl Then
                         Return -1
                     End If
 
                     If Not CompareBytes(boundary_bytes, buffer) Then
-                        Call $"multipart debug: boundary mismatch, buffer='{encoding.GetString(buffer)}' expected='{boundary}'".warning()
                         state = 0
                         data.Position = retval + 2
                         If got_cr Then
@@ -332,7 +329,6 @@ Namespace Core.HttpStream
         ''' <returns>the next <see cref="StreamElement"/>, or <c>Nothing</c> at end of stream.</returns>
         Friend Function ReadNextElement() As StreamElement
             If at_eof OrElse ReadBoundary() Then
-                Call $"multipart debug: end of stream (at_eof={at_eof})".info()
                 Return Nothing
             End If
 
@@ -347,20 +343,10 @@ Namespace Core.HttpStream
                 End If
             End While
 
-            Call $"multipart debug: element name='{elem.Name}', filename='{elem.Filename}'".info()
-
             Dim start As Long = data.Position
             elem.Start = start
-
-            Dim preview As Byte() = New Byte(63) {}
-            Dim savedPos As Long = data.Position
-            Dim previewLen As Integer = data.Read(preview, 0, preview.Length)
-            data.Position = savedPos
-            Call $"multipart debug: start={start}, length={data.Length}, preview='{encoding.GetString(preview, 0, previewLen)}'".info()
-
             Dim pos As Long = MoveToNextBoundary()
             If pos = -1 Then
-                Call "multipart debug: next boundary was not found".warning()
                 Return Nothing
             End If
 
