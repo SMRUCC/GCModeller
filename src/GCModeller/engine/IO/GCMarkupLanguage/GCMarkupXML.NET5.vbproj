@@ -17,7 +17,7 @@
 		<PackageIcon>logo.png</PackageIcon>
 		<RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
 		<Platforms>AnyCPU;x64</Platforms>
-		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;CellaLAB-Desktop</Configurations>
+		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;CellaLAB-Desktop;nuget_release</Configurations>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<Description>The core runtime module of sciBASIC# scientific computing project.</Description>
@@ -25,6 +25,8 @@
 		<UseApplicationFramework>True</UseApplicationFramework>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -618,6 +620,10 @@
 	  <Optimize>False</Optimize>
 	  <DebugType>full</DebugType>
 	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+	  <OutputPath>../../../../../.nuget</OutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>

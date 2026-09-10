@@ -558,6 +558,10 @@
 	  <DefineTrace>True</DefineTrace>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+	  <OutputPath>../../../../.nuget</OutputPath>
+	</PropertyGroup>
+
 	<ItemGroup>
 	  <Compile Remove="LocalMySQL\**" />
 	  <Compile Remove="test\**" />

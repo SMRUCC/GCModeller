@@ -4,6 +4,16 @@
     <RootNamespace>SMRUCC.genomics.Visualize.ChromosomeMap.Data</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <TargetFramework>net6.0</TargetFramework>
+    <Configurations>Debug;Release;nuget_release</Configurations>
+    <Platforms>AnyCPU;x64</Platforms>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <OutputPath>../../../../../.nuget</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />

@@ -466,6 +466,257 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
+  <Folder Name="/nuget_packages/">
+    <Project Path="GCModeller/analysis/HTS_matrix/HTS_matrix-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/MetabolicRouter/RetroPath.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/Metagenome/MetaFunction/MetaFunction.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/Metagenome/Metagenome/Metagenome.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/Microarray/Microarray.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/Motifs/PrimerDesigner/PrimerDesigner.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/Motifs/VirtualFootprint/VirtualFootprint.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/OperonMapper/OperonMapper.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/ProteinTools/ProteinMatrix/ProteinMatrix.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/RNA-Seq/RNAExpression/RNAExpression.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/RNA-Seq/WGCNA/WGCNA.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/SequenceToolkit/ClusterMatrix/SeqFeature.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/analysis/SequenceToolkit/Pfam-HMM/PfamHMMScan/HMMER3.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/Bifrost/MetaEuk/MetaEuk.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/Bifrost/Prodigal/Prodigal.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/GO/GOAnalysis.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/GPR/GPR.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/GSEA/FELLA/FELLA.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/GSEA/FisherCore/Fisher.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions/GSEA.KB.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/GSEA/GSEA/gsea-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/GSEA/GSVA/GSVA.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/GSEA/PFSNet/PFSNet/PFSNet.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/GSEA/PFSNet/PFSNet_visual/PFSNet_visual.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/KEGG/KEGGAnalysis.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/P-NET/P-NET/P-NET.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/Proteomics/Proteomics.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/annotations/WGCNA/WGCNA/WGCNA.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/core/Bio.InteractionModel/InteractionModel.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/data/GO_gene-ontology/GeneOntology/go_owl-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/data/GO_gene-ontology/GO_Annotation/GO_Annotation.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/data/GO_gene-ontology/obographs/obographs/obographs.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/data/RCSB PDB/RCSB PDB.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/data/Reactome/Reactome.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/data/RegulonDatabase/RegulonDatabase.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/data/STRING/STRING-db.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/data/Xfam/Pfam/Pfam.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/engine/BootstrapLoader/BootstrapLoader.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/engine/Compiler/Compiler.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/engine/CompilerServices/CompilerServices.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/engine/Dynamics.Debugger/vcellDebugger.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/engine/Dynamics/Dynamics.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/engine/GCModeller.Framework.Kernel_Driver/GCModeller.Framework.Kernel_Driver.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/engine/IO/GCMarkupLanguage/GCMarkupXML.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/engine/IO/Raw/vcXML.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/engine/Model/Model.Core.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/foundation/OBO_Foundry/obo_foundry-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/foundation/PSICQUIC/psidev/psidev.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/BioCyc/BioCyc.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/BIOM/BIOM/BIOM.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/GPML/PathVisio/GPML.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/ncbi-BioSystems/BioSystems.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/Networks/KEGG/KEGGNetwork.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/Networks/KEGGGraphVisualizer/KEGGGraphVisualizer.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/Networks/Microbiome/Microbiome.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/Networks/Network.Regulons/Network.Regulons.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/Networks/STRING/STRING.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/RouterAdapter/RouterAdapter.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/models/SBML/Biopax/biopax-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/sub-system/BNLearn/BNLearn.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/sub-system/CellPhenotype/CellPhenotype.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/sub-system/FBA/FBA.Core/FBA.Core.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/sub-system/GEARS/GEARS.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/sub-system/Metaboliq/Metaboliq.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/sub-system/PLAS.NET/SSystem/SSystem.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/visualize/ChromosomeMap/ChromosomeMap.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/visualize/ChromosomeMap/Data/Data.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/visualize/DataVisualizationExtensions/datavisual-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="GCModeller/visualize/SyntenyVisual/SyntenyVisual.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="interops/localblast/PanGenome/PanGenome.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="interops/meme_suite/meme_data/meme_data.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="interops/RNA-Seq/RNA-seq.Data/RNA-seq.Data.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="interops/visualize/Cytoscape/Cytoscape.Automation/Cytoscape.Automation.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="interops/visualize/Cytoscape/Cytoscape/Cytoscape.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="interops/visualize/Cytoscape/Cytoscape/test/test.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="repository/HMP_client/HMP_client.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="repository/ncbi_datasets/ncbi_datasets.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="runtime/markdown2pdf/src/ReportBuilder/reportBuilder-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="workbench/modules/ExperimentDesigner/designer-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="workbench/modules/keggReport/keggReport.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="workbench/modules/Knowledge_base/Knowledge_base/kb.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="workbench/modules/Knowledge_base/ncbi_kb/ncbi_kb.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="workbench/modules/SeqFeature/SeqFeature/SeqFeature.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
   <Folder Name="/settings/">
     <Project Path="Settings/Shared/InternalApps_CLI/InternalApps_CLI.shproj" />
     <Project Path="Settings/Shared/RepositoryCommon/RepositoryCommon.shproj" />

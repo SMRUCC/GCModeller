@@ -14,6 +14,8 @@
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -96,6 +98,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <OutputPath>../../../../../.nuget</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

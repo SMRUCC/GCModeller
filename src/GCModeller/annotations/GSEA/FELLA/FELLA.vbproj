@@ -12,6 +12,13 @@
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
     <OutputType>Library</OutputType>
     <AssemblyName>SMRUCC.genomics.Analysis.HTS.FELLA</AssemblyName>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <OutputPath>../../../../../.nuget</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

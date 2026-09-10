@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;Desktop;MEMI-Desktop;PlantMAT</Configurations>
+    <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;Desktop;MEMI-Desktop;PlantMAT;nuget_release</Configurations>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <AssemblyName>SMRUCC.genomics.Model.Network.VirtualFootprint</AssemblyName>
     <RootNamespace>SMRUCC.genomics.Model.Network.VirtualFootprint</RootNamespace>
@@ -11,6 +11,13 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <OutputPath>../../../../../.nuget</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\..\..\..\images\logo.png">

@@ -17,7 +17,9 @@
     <Company>SMRUCC genomics institute</Company>
     <Product>GCModeller</Product>
     <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
-
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

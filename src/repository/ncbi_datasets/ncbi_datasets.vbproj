@@ -9,6 +9,14 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <AssemblyTitle>OpenApi3.0 Source Generator</AssemblyTitle>
     <UseApplicationFramework>True</UseApplicationFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <OutputPath>../../../.nuget</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Generator\**" />
