@@ -4289,6 +4289,7 @@
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Release" />
       <BuildType Solution="vcellkit|*" Project="Release" />
       <BuildType Solution="Voyager1|*" Project="Release" />
+      <Platform Solution="nuget_release|x64" Project="x64" />
       <Platform Solution="Rsharp_app_release|x64" Project="x64" />
     </Project>
     <Project Path="../interops/RNA-Seq/RNA-seq.Data/RNA-seq.Data.NET5.vbproj">
@@ -5097,6 +5098,7 @@
     <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Release" />
     <BuildType Solution="vcellkit|*" Project="Release" />
     <BuildType Solution="Voyager1|*" Project="Release" />
+    <Platform Solution="nuget_release|x64" Project="x64" />
     <Platform Solution="Rsharp_app_release|x64" Project="x64" />
   </Project>
   <Project Path="R#/cytoscape_toolkit/cytoscape.vbproj">

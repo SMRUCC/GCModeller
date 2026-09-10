@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>FELLA</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.HTS.FELLA</RootNamespace>
     <TargetFrameworks>net10.0</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;nuget_release</Configurations>
@@ -11,6 +11,7 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
     <OutputType>Library</OutputType>
+    <AssemblyName>SMRUCC.genomics.Analysis.HTS.FELLA</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
