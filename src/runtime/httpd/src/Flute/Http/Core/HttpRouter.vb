@@ -69,10 +69,13 @@ Namespace Core
     ''' <summary>
     ''' A request router that implements <see cref="IAppHandler"/> by reflecting
     ''' over a user supplied clr object instance. Public methods annotated with
-    ''' <see cref="HttpGet"/> or <see cref="HttpPost"/> (inheriting
-    ''' <see cref="ExportAPIAttribute"/>) are registered as request handlers,
-    ''' keyed by the http method and the annotated url. The router also supports
-    ''' manual registration of handlers through <see cref="Register(String, String, AppHandler)"/>.
+    ''' <see cref="HttpGet"/>, <see cref="HttpPost"/>, <see cref="HttpPut"/> or
+    ''' <see cref="HttpDelete"/> (inheriting <see cref="ExportAPIAttribute"/>) are
+    ''' registered as request handlers, keyed by the http method and the annotated
+    ''' url. An url containing ``{name}`` placeholders is registered as a dynamic
+    ''' template route (the captured values are exposed through
+    ''' <see cref="HttpRequest.RouteData"/>). The router also supports manual
+    ''' registration of handlers through <see cref="Register(String, String, AppHandler)"/>.
     ''' </summary>
     ''' <remarks>
     ''' The handler signature must match <see cref="AppHandler"/>:
@@ -116,20 +119,102 @@ Namespace Core
         End Class
 
         ''' <summary>
-        ''' route tables keyed by the normalized url path for each http method.
+        ''' a parsed dynamic url template route containing ``{name}`` placeholders,
+        ''' for example ``/v3-flatcontainer/{id}/index.json``.
         ''' </summary>
-        ReadOnly getRoutes As New Dictionary(Of String, RouteEntry)
-        ReadOnly postRoutes As New Dictionary(Of String, RouteEntry)
+        Private Class RouteTemplate
+
+            ''' <summary>
+            ''' the upper-case http method this template is bound to.
+            ''' </summary>
+            Public ReadOnly method As String
+
+            ''' <summary>
+            ''' the original url template text (kept for diagnostics).
+            ''' </summary>
+            Public ReadOnly template As String
+
+            ''' <summary>
+            ''' the template path split into segments (leading/trailing slashes trimmed).
+            ''' </summary>
+            Public ReadOnly segments As String()
+
+            ''' <summary>
+            ''' the route entry invoked when this template matches.
+            ''' </summary>
+            Public ReadOnly entry As RouteEntry
+
+            Public Sub New(httpMethod As String, url As String, entry As RouteEntry)
+                Me.method = httpMethod
+                Me.template = url
+                Me.segments = normalize(url).Split("/"c)
+                Me.entry = entry
+            End Sub
+
+            ''' <summary>
+            ''' try to match the given request path segments, capturing the
+            ''' ``{name}`` placeholder values into <paramref name="captures"/>.
+            ''' </summary>
+            ''' <param name="pathSegments">the request path split into segments.</param>
+            ''' <param name="captures">the captured placeholder values on success.</param>
+            ''' <returns><c>True</c> when the path matches this template.</returns>
+            Public Function Match(pathSegments As String(), ByRef captures As Dictionary(Of String, String)) As Boolean
+                If segments.Length <> pathSegments.Length Then
+                    Return False
+                End If
+
+                Dim data As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+                For i As Integer = 0 To segments.Length - 1
+                    Dim seg As String = segments(i)
+
+                    If seg.Length > 1 AndAlso seg.StartsWith("{"c) AndAlso seg.EndsWith("}"c) Then
+                        Dim name As String = seg.Substring(1, seg.Length - 2)
+                        data(name) = pathSegments(i).UrlDecode
+                    ElseIf Not String.Equals(seg, pathSegments(i), StringComparison.OrdinalIgnoreCase) Then
+                        Return False
+                    End If
+                Next
+
+                captures = data
+                Return True
+            End Function
+        End Class
+
+        ''' <summary>
+        ''' exact route tables keyed by the http method and normalized url path.
+        ''' The dictionary key is formatted as ``METHOD path`` (for example
+        ''' ``GET user/info``).
+        ''' </summary>
+        ReadOnly exactRoutes As New Dictionary(Of String, RouteEntry)
+
+        ''' <summary>
+        ''' the dynamic url template routes (containing ``{name}`` placeholders),
+        ''' evaluated in registration order when no exact route matched.
+        ''' </summary>
+        ReadOnly templateRoutes As New List(Of RouteTemplate)
 
         Dim wfs As WebFileSystemListener
 
         ''' <summary>
-        ''' the number of registered route entries (get + post), useful for diagnostics.
+        ''' the static file system listener mounted through
+        ''' <see cref="MountFs(WebFileSystemListener)"/>; may be <c>Nothing</c>
+        ''' when this router only handles clr application routes.
+        ''' </summary>
+        ''' <returns>the mounted <see cref="WebFileSystemListener"/>, or <c>Nothing</c>.</returns>
+        Public ReadOnly Property FileSystem As WebFileSystemListener
+            Get
+                Return wfs
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' the number of registered route entries (exact + template), useful for diagnostics.
         ''' </summary>
         ''' <returns>the total count of registered routes.</returns>
         Public ReadOnly Property Routes As Integer
             Get
-                Return getRoutes.Count + postRoutes.Count
+                Return exactRoutes.Count + templateRoutes.Count
             End Get
         End Property
 
@@ -158,9 +243,10 @@ Namespace Core
 
         ''' <summary>
         ''' reflect over the public instance methods of <paramref name="controller"/>
-        ''' and register every method that is annotated with <see cref="HttpGet"/> or
-        ''' <see cref="HttpPost"/> and whose signature matches
-        ''' <c>Sub(HttpRequest, HttpResponse)</c>.
+        ''' and register every method that is annotated with <see cref="HttpGet"/>,
+        ''' <see cref="HttpPost"/>, <see cref="HttpPut"/> or <see cref="HttpDelete"/>
+        ''' and whose signature matches <c>Sub(HttpRequest, HttpResponse)</c>.
+        ''' The url may contain ``{name}`` placeholders to define a dynamic route.
         ''' </summary>
         ''' <param name="controller">the clr object instance to scan; null is ignored.</param>
         ''' <returns>this router, for fluent registration chaining.</returns>
@@ -174,8 +260,10 @@ Namespace Core
             For Each method As MethodInfo In type.GetMethods(BindingFlags.Public Or BindingFlags.Instance)
                 Dim getAttr As HttpGet = method.GetCustomAttribute(Of HttpGet)()
                 Dim postAttr As HttpPost = method.GetCustomAttribute(Of HttpPost)()
+                Dim putAttr As HttpPut = method.GetCustomAttribute(Of HttpPut)()
+                Dim deleteAttr As HttpDelete = method.GetCustomAttribute(Of HttpDelete)()
 
-                If getAttr Is Nothing AndAlso postAttr Is Nothing Then
+                If getAttr Is Nothing AndAlso postAttr Is Nothing AndAlso putAttr Is Nothing AndAlso deleteAttr Is Nothing Then
                     Continue For
                 End If
 
@@ -185,33 +273,59 @@ Namespace Core
                     Continue For
                 End If
 
-                Dim url As String = If(getAttr IsNot Nothing, getAttr.Url, postAttr.Url)
+                Dim httpMethod As String
+                Dim url As String
+                Dim attribute As ExportAPIAttribute
+
+                If getAttr IsNot Nothing Then
+                    httpMethod = "GET" : url = getAttr.Url : attribute = getAttr
+                ElseIf postAttr IsNot Nothing Then
+                    httpMethod = "POST" : url = postAttr.Url : attribute = postAttr
+                ElseIf putAttr IsNot Nothing Then
+                    httpMethod = "PUT" : url = putAttr.Url : attribute = putAttr
+                Else
+                    httpMethod = "DELETE" : url = deleteAttr.Url : attribute = deleteAttr
+                End If
+
                 Dim entry As New RouteEntry With {
                     .target = controller,
                     .method = method,
                     .handler = Nothing
                 }
 
-                If getAttr IsNot Nothing Then
-                    getRoutes(normalize(url)) = entry
-                    Call $"registered GET route {getAttr.ToString} -> {type.Name}.{method.Name}".debug()
-                Else
-                    postRoutes(normalize(url)) = entry
-                    Call $"registered POST route {postAttr.ToString} -> {type.Name}.{method.Name}".debug()
-                End If
+                Call addRoute(httpMethod, url, entry)
+                Call $"registered {attribute.ToString} -> {type.Name}.{method.Name}".debug()
             Next
 
             Return Me
         End Function
 
         ''' <summary>
-        ''' manually register a handler delegate for the given http method and url.
+        ''' register a route entry keyed by the given http method and url. a url
+        ''' containing ``{name}`` placeholders is registered as a dynamic template
+        ''' route, otherwise it is registered as an exact route.
         ''' </summary>
-        ''' <param name="httpMethod">
-        ''' the upper-case http method name, e.g. "GET" or "POST". Only GET and POST
-        ''' are routed; any other value is treated as a GET route.
-        ''' </param>
-        ''' <param name="url">the url path to match, e.g. "/user/info".</param>
+        ''' <param name="httpMethod">the http method name (GET/POST/PUT/DELETE...).</param>
+        ''' <param name="url">the url path, optionally with ``{name}`` placeholders.</param>
+        ''' <param name="entry">the route entry to register.</param>
+        Private Sub addRoute(httpMethod As String, url As String, entry As RouteEntry)
+            Dim method As String = normalizeMethod(httpMethod)
+
+            If url.IndexOf("{"c) >= 0 Then
+                templateRoutes.Add(New RouteTemplate(method, url, entry))
+            Else
+                exactRoutes(method & " " & normalize(url)) = entry
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' manually register a handler delegate for the given http method and url.
+        ''' The method is honored as-is (GET/POST/PUT/DELETE...), so the same path
+        ''' may be registered once per http method. The url may contain ``{name}``
+        ''' placeholders for a dynamic route.
+        ''' </summary>
+        ''' <param name="httpMethod">the http method name, e.g. "GET", "POST" or "PUT".</param>
+        ''' <param name="url">the url path to match, e.g. "/user/info" or "/pkg/{id}".</param>
         ''' <param name="handler">the handler delegate matching <see cref="AppHandler"/>.</param>
         ''' <returns>this router, for fluent registration chaining.</returns>
         Public Function Register(httpMethod As String, url As String, handler As AppHandler) As HttpRouter
@@ -220,15 +334,9 @@ Namespace Core
                 .method = Nothing,
                 .handler = handler
             }
-            Dim key As String = normalize(url)
 
-            If String.Equals(httpMethod, "POST", StringComparison.OrdinalIgnoreCase) Then
-                postRoutes(key) = entry
-                Call $"registered POST route '{key}' (manual)".debug()
-            Else
-                getRoutes(key) = entry
-                Call $"registered GET route '{key}' (manual)".debug()
-            End If
+            Call addRoute(httpMethod, url, entry)
+            Call $"registered {normalizeMethod(httpMethod)} route '{url}' (manual)".debug()
 
             Return Me
         End Function
@@ -250,19 +358,32 @@ Namespace Core
         End Sub
 
         Private Sub HandleClrAppProcessor(request As HttpRequest, response As HttpResponse)
-            Dim table As Dictionary(Of String, RouteEntry)
-            Dim entry As RouteEntry = Nothing
-            Dim key As String = normalize(request.URL.path)
+            Dim method As String = normalizeMethod(request.HTTPMethod)
+            Dim path As String = normalize(request.URL.path)
 
-            ' POST requests arrive as HttpPOSTRequest and are routed against the
-            ' post table; everything else (GET / other methods) uses the get table.
-            If TypeOf request Is HttpPOSTRequest Then
-                table = postRoutes
-            Else
-                table = getRoutes
+            Dim entry As RouteEntry = Nothing
+            Dim routeData As Dictionary(Of String, String) = Nothing
+
+            If Not exactRoutes.TryGetValue(method & " " & path, entry) Then
+                ' no exact route hit: fallback to the dynamic url templates
+                Dim pathSegments As String() = If(path.Length = 0, New String() {}, path.Split("/"c))
+
+                For Each route As RouteTemplate In templateRoutes
+                    If Not String.Equals(route.method, method, StringComparison.OrdinalIgnoreCase) Then
+                        Continue For
+                    End If
+
+                    If route.Match(pathSegments, routeData) Then
+                        entry = route.entry
+                        Exit For
+                    End If
+                Next
             End If
 
-            If table.TryGetValue(key, entry) Then
+            If entry IsNot Nothing Then
+                ' expose the captured url template parameters to the handler
+                request.RouteData = routeData
+
                 Try
                     Call entry.Invoke(request, response)
                 Catch ex As TargetInvocationException
@@ -274,8 +395,8 @@ Namespace Core
                     Call response.WriteError(HTTP_RFC.RFC_INTERNAL_SERVER_ERROR, ex.Message)
                 End Try
             Else
-                Call $"no route registered for {request.HTTPMethod} '{key}'".warning()
-                Call response.WriteError(HTTP_RFC.RFC_NOT_FOUND, $"404 Not Found: {request.HTTPMethod} {key}")
+                Call $"no route registered for {request.HTTPMethod} '{path}'".warning()
+                Call response.WriteError(HTTP_RFC.RFC_NOT_FOUND, $"404 Not Found: {request.HTTPMethod} {path}")
             End If
         End Sub
 
@@ -292,6 +413,21 @@ Namespace Core
                 Return ""
             End If
             Return url.Trim("/"c)
+        End Function
+
+        ''' <summary>
+        ''' normalize an http method name to its upper-case form, defaulting to
+        ''' ``GET`` when the value is empty.
+        ''' </summary>
+        ''' <param name="httpMethod">the raw http method name.</param>
+        ''' <returns>the upper-case method name.</returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function normalizeMethod(httpMethod As String) As String
+            If httpMethod.StringEmpty Then
+                Return "GET"
+            Else
+                Return httpMethod.Trim.ToUpperInvariant
+            End If
         End Function
 
         ''' <summary>

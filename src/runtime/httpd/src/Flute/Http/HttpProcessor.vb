@@ -384,6 +384,12 @@ Namespace Core
                 handleGETRequest()
             ElseIf http_method = "POST" Then
                 HandlePOSTRequest()
+            ElseIf (http_method = "PUT" OrElse http_method = "PATCH") AndAlso httpHeaders.ContainsKey(ResponseHeaders.ContentLength) Then
+                ' a PUT/PATCH request that carries a body (for example the standard
+                ' nuget push protocol) is buffered to a temp file the same way a
+                ' POST payload is, then dispatched as an HttpPOSTRequest so the
+                ' router can still match the route by its actual http method.
+                Call HandlePOSTRequest()
             ElseIf http_method = "OPTIONS" AndAlso Preflight.IsPreflightRequest(Me) Then
                 Preflight.HandlePreflightRequest(Me)
             Else

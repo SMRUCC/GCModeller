@@ -213,9 +213,10 @@ Namespace Core
         ''' <param name="bufferSize">the read buffer size (unused, kept for signature compatibility).</param>
         ''' <returns>a new <see cref="HttpProcessor"/> bound to this server.</returns>
         Protected Overrides Function getHttpProcessor(client As TcpClient, bufferSize As Integer) As HttpProcessor
-            ' use a generous default POST body limit (16 MB) instead of
+            ' use the configured request body limit (default 16 MB) instead of
             ' bufferSize*4 which is only ~16 KB for the default 4 KB buffer.
-            Return New HttpProcessor(client, Me, MAX_POST_SIZE:=16 * ByteSize.MB, _settings)
+            Dim limit As Integer = If(_settings Is Nothing, 16 * ByteSize.MB, _settings.max_post_size)
+            Return New HttpProcessor(client, Me, MAX_POST_SIZE:=limit, _settings)
         End Function
     End Class
 End Namespace

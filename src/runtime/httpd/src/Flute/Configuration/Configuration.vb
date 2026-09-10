@@ -114,6 +114,9 @@ Namespace Configurations
         <Description("the maximum number of the concurrent pending long poll connections. A new long poll request will be rejected with a 503 response when this limit is exceeded. Default 1000.")>
         Public Property longpoll_max_connections As Integer = 1000
 
+        <Description("the maximum allowed size in bytes of a single HTTP request body for POST/PUT/PATCH, default 16MB. A value which is less than or equals to zero keeps the built-in default.")>
+        Public Property max_post_size As Integer = 16 * 1024 * 1024
+
         ''' <summary>
         ''' get the websocket sub-protocol name list from the
         ''' <see cref="websocket_subprotocols"/> configuration value.

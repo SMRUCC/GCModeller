@@ -107,6 +107,15 @@ Namespace Core.Message
         Public ReadOnly Property HttpRequest As HttpProcessor
 
         ''' <summary>
+        ''' the url template parameters captured by the dynamic router
+        ''' (<see cref="Flute.Http.Core.HttpRouter"/>), keyed by the
+        ''' <c>{name}</c> placeholder. <c>Nothing</c> when the route was matched
+        ''' exactly (no placeholders).
+        ''' </summary>
+        ''' <returns>the captured route parameters, or <c>Nothing</c>.</returns>
+        Public Property RouteData As Dictionary(Of String, String)
+
+        ''' <summary>
         ''' If current request url is indicates the HTTP root:  index.html
         ''' </summary>
         ''' <returns><c>True</c> when the url is exactly "/".</returns>
