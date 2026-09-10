@@ -58,6 +58,8 @@
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports System.Text.RegularExpressions
 Imports Flute.Http.Core.HttpSocket
 Imports Flute.Http.Core.Message
 Imports Flute.Http.Core.Message.HttpHeader
@@ -135,9 +137,10 @@ Namespace Core
             Public ReadOnly template As String
 
             ''' <summary>
-            ''' the template path split into segments (leading/trailing slashes trimmed).
+            ''' the compiled regular expression that matches the request path and
+            ''' captures the ``{name}`` placeholder values.
             ''' </summary>
-            Public ReadOnly segments As String()
+            Public ReadOnly pattern As Regex
 
             ''' <summary>
             ''' the route entry invoked when this template matches.
@@ -147,37 +150,84 @@ Namespace Core
             Public Sub New(httpMethod As String, url As String, entry As RouteEntry)
                 Me.method = httpMethod
                 Me.template = url
-                Me.segments = normalize(url).Split("/"c)
+                Me.pattern = buildPattern(normalize(url))
                 Me.entry = entry
             End Sub
 
             ''' <summary>
-            ''' try to match the given request path segments, capturing the
-            ''' ``{name}`` placeholder values into <paramref name="captures"/>.
+            ''' try to match the given request path, capturing the ``{name}``
+            ''' placeholder values into <paramref name="captures"/>.
             ''' </summary>
-            ''' <param name="pathSegments">the request path split into segments.</param>
+            ''' <param name="path">the normalized request path.</param>
             ''' <param name="captures">the captured placeholder values on success.</param>
             ''' <returns><c>True</c> when the path matches this template.</returns>
-            Public Function Match(pathSegments As String(), ByRef captures As Dictionary(Of String, String)) As Boolean
-                If segments.Length <> pathSegments.Length Then
+            Public Function Match(path As String, ByRef captures As Dictionary(Of String, String)) As Boolean
+                Dim m As Match = pattern.Match(path)
+
+                If Not m.Success Then
                     Return False
                 End If
 
                 Dim data As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
 
-                For i As Integer = 0 To segments.Length - 1
-                    Dim seg As String = segments(i)
+                For Each name As String In pattern.GetGroupNames()
+                    Dim index As Integer
+                    If Integer.TryParse(name, index) Then
+                        Continue For
+                    End If
 
-                    If seg.Length > 1 AndAlso seg.StartsWith("{"c) AndAlso seg.EndsWith("}"c) Then
-                        Dim name As String = seg.Substring(1, seg.Length - 2)
-                        data(name) = pathSegments(i).UrlDecode
-                    ElseIf Not String.Equals(seg, pathSegments(i), StringComparison.OrdinalIgnoreCase) Then
-                        Return False
+                    If m.Groups(name).Success Then
+                        data(name) = m.Groups(name).Value.UrlDecode
                     End If
                 Next
 
                 captures = data
                 Return True
+            End Function
+
+            ''' <summary>
+            ''' compile a ``{name}`` url template into a regex, supporting both
+            ''' full segments (``/{id}/``) and mixed segments (``/{version}.json``).
+            ''' </summary>
+            Private Shared Function buildPattern(normalized As String) As Regex
+                Dim segments As String() = normalized.Split("/"c)
+                Dim sb As New StringBuilder("^")
+
+                For i As Integer = 0 To segments.Length - 1
+                    If i > 0 Then
+                        sb.Append("/")
+                    End If
+
+                    Dim seg As String = segments(i)
+                    Dim idx As Integer = 0
+
+                    While idx < seg.Length
+                        Dim openPos As Integer = seg.IndexOf("{"c, idx)
+
+                        If openPos < 0 Then
+                            sb.Append(Regex.Escape(seg.Substring(idx)))
+                            Exit While
+                        End If
+
+                        If openPos > idx Then
+                            sb.Append(Regex.Escape(seg.Substring(idx, openPos - idx)))
+                        End If
+
+                        Dim closePos As Integer = seg.IndexOf("}"c, openPos)
+
+                        If closePos < 0 Then
+                            sb.Append(Regex.Escape(seg.Substring(openPos)))
+                            Exit While
+                        End If
+
+                        Dim name As String = seg.Substring(openPos + 1, closePos - openPos - 1)
+                        sb.Append("(?<").Append(name).Append(">[^/]+)")
+                        idx = closePos + 1
+                    End While
+                Next
+
+                sb.Append("$")
+                Return New Regex(sb.ToString(), RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             End Function
         End Class
 
@@ -366,14 +416,12 @@ Namespace Core
 
             If Not exactRoutes.TryGetValue(method & " " & path, entry) Then
                 ' no exact route hit: fallback to the dynamic url templates
-                Dim pathSegments As String() = If(path.Length = 0, New String() {}, path.Split("/"c))
-
                 For Each route As RouteTemplate In templateRoutes
                     If Not String.Equals(route.method, method, StringComparison.OrdinalIgnoreCase) Then
                         Continue For
                     End If
 
-                    If route.Match(pathSegments, routeData) Then
+                    If route.Match(path, routeData) Then
                         entry = route.entry
                         Exit For
                     End If
