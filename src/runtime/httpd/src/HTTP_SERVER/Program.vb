@@ -55,11 +55,16 @@
 
 #End Region
 
+Imports System.Collections.Generic
 Imports System.ComponentModel
+Imports System.IO
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Flute.Http
+Imports Flute.Http.Configurations
 Imports Flute.Http.Core
 Imports Flute.Http.Core.Message
+Imports Flute.Http.Core.Message.HttpHeader
 Imports Flute.Http.FileSystem
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -137,6 +142,215 @@ Module Program
         ' Call BackgroundTaskUtils.BindToMaster(parentId:=parent, kill:=localhost)
 
         Return localhost.Run
+    End Function
+
+    ''' <summary>
+    ''' run a dynamically loaded web application module: the given dll is loaded
+    ''' through reflection, every http controller it contains (a public class
+    ''' with <see cref="HttpGet"/>/<see cref="HttpPost"/>/<see cref="HttpPut"/>/
+    ''' <see cref="HttpDelete"/> annotated methods, or a class implementing
+    ''' <see cref="IHttpAppModule"/>) is instantiated and registered into the
+    ''' router, then the http server is started.
+    ''' </summary>
+    <ExportAPI("/run")>
+    <Description("Run a dynamically loaded web application module (a controller class library) on this http server")>
+    <Usage("/run --app <app.dll> [--listen <port, default=80> --wwwroot <directory_path> --data <data_directory> --config <config.ini> --max-post-size <bytes> --base-url <http://host>]")>
+    Public Function Run(args As CommandLine) As Integer
+        Dim app As String = args("--app")
+
+        If app.StringEmpty Then
+            Call Console.WriteLine("missing required argument: --app <app.dll>")
+            Return 404
+        End If
+
+        Dim configs As Dictionary(Of String, String) = loadRunConfiguration(args)
+
+        Dim apiFile As String = app
+        If Not Path.IsPathRooted(apiFile) Then
+            apiFile = Path.GetFullPath(apiFile)
+        End If
+        If Not File.Exists(apiFile) Then
+            Call Console.WriteLine($"application module not found: {apiFile}")
+            Return 404
+        End If
+
+        Dim port As Integer = configValue(configs, "listen", 80)
+        Dim wwwroot As String = configValue(configs, "wwwroot", App.CurrentDirectory)
+        Dim data As String = configValue(configs, "data", Path.Combine(App.CurrentDirectory, "data"))
+        Dim maxPostSize As Integer = configValue(configs, "max-post-size", 0)
+
+        If Not Tcp.PortIsAvailable(port) Then
+            Call Console.WriteLine($"local tcp port(={port}) is in used!")
+            Return 500
+        End If
+
+        Dim assembly As Assembly
+        Try
+            assembly = Assembly.LoadFrom(apiFile)
+        Catch ex As Exception
+            Call App.LogException(ex)
+            Call Console.WriteLine($"failed to load application module: {ex.Message}")
+            Return 500
+        End Try
+
+        Dim wfs As New WebFileSystemListener(wwwroot)
+        Dim router As New HttpRouter()
+        Call router.MountFs(wfs)
+
+        ' map the data directory as a virtual static resource folder so that the
+        ' downloaded package files can also be served as plain static files.
+        Dim packagesDir As String = Path.Combine(data, "packages")
+        If packagesDir.DirectoryExists Then
+            Call wfs.fs(0).AttachFolder(packagesDir, "/packages/").ToArray
+            Call $"attached static packages folder: {packagesDir} -> /packages/".info()
+        End If
+
+        Dim modules As Integer = 0
+        For Each type As Type In getLoadableTypes(assembly)
+            If Not isHttpController(type) Then
+                Continue For
+            End If
+
+            Dim controller As Object
+            Try
+                controller = Activator.CreateInstance(type)
+            Catch ex As Exception
+                Call App.LogException(ex)
+                Call $"skip controller '{type.FullName}': {ex.Message}".warning()
+                Continue For
+            End Try
+
+            Call router.RegisterController(controller)
+
+            Dim [module] As IHttpAppModule = TryCast(controller, IHttpAppModule)
+            If [module] IsNot Nothing Then
+                Call [module].Mount(router, configs)
+            End If
+
+            modules += 1
+            Call $"controller mounted: {type.FullName}".info()
+        Next
+
+        If modules = 0 Then
+            Call Console.WriteLine($"no http controller found in '{apiFile}'")
+            Return 404
+        End If
+
+        Dim settings As New Configuration With {
+            .silent = False,
+            .session = New Session()
+        }
+        If maxPostSize > 0 Then
+            settings.max_post_size = maxPostSize
+        End If
+
+        Dim localhost As New HttpSocket(router, port, configs:=settings)
+
+        Call $"http server started: http://localhost:{port}/ (wwwroot={wwwroot}, data={data})".info()
+
+        Return localhost.Run
+    End Function
+
+    ''' <summary>
+    ''' build the runtime configuration dictionary from an optional ini-like
+    ''' config file (lowest priority) overridden by the command line arguments.
+    ''' </summary>
+    Private Function loadRunConfiguration(args As CommandLine) As Dictionary(Of String, String)
+        Dim configs As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+        Dim configFile As String = args("--config")
+        If Not configFile.StringEmpty AndAlso File.Exists(configFile) Then
+            For Each line As String In File.ReadAllLines(configFile)
+                Dim text As String = line.Trim()
+
+                If text.StringEmpty OrElse text.StartsWith("#"c) OrElse text.StartsWith(";"c) Then
+                    Continue For
+                End If
+
+                Dim i As Integer = text.IndexOf("="c)
+                If i > 0 Then
+                    configs(text.Substring(0, i).Trim()) = text.Substring(i + 1).Trim()
+                End If
+            Next
+        End If
+
+        Call setConfig(configs, "app", args("--app"))
+        Call setConfig(configs, "listen", args("--listen"))
+        Call setConfig(configs, "wwwroot", args("--wwwroot"))
+        Call setConfig(configs, "data", args("--data"))
+        Call setConfig(configs, "base-url", args("--base-url"))
+        Call setConfig(configs, "max-post-size", args("--max-post-size"))
+        Call setConfig(configs, "config", configFile)
+
+        Return configs
+    End Function
+
+    Private Sub setConfig(configs As Dictionary(Of String, String), name As String, value As String)
+        If Not value.StringEmpty Then
+            configs(name) = value
+        End If
+    End Sub
+
+    Private Function configValue(configs As Dictionary(Of String, String), name As String, fallback As Integer) As Integer
+        Dim value As String = Nothing
+        If configs.TryGetValue(name, value) AndAlso Not value.StringEmpty Then
+            Dim parsed As Integer
+            If Integer.TryParse(value, parsed) Then
+                Return parsed
+            End If
+        End If
+        Return fallback
+    End Function
+
+    Private Function configValue(configs As Dictionary(Of String, String), name As String, fallback As String) As String
+        Dim value As String = Nothing
+        If configs.TryGetValue(name, value) AndAlso Not value.StringEmpty Then
+            Return value
+        End If
+        Return fallback
+    End Function
+
+    ''' <summary>
+    ''' test whether the given type is an http controller: either it implements
+    ''' <see cref="IHttpAppModule"/> or it exposes at least one public instance
+    ''' method annotated with one of the http route attributes.
+    ''' </summary>
+    Private Function isHttpController(type As Type) As Boolean
+        If type Is Nothing OrElse Not type.IsClass OrElse type.IsAbstract Then
+            Return False
+        End If
+        If GetType(IHttpAppModule).IsAssignableFrom(type) Then
+            Return True
+        End If
+
+        For Each method As MethodInfo In type.GetMethods(BindingFlags.Public Or BindingFlags.Instance)
+            If method.GetCustomAttribute(Of HttpGet)() IsNot Nothing OrElse
+               method.GetCustomAttribute(Of HttpPost)() IsNot Nothing OrElse
+               method.GetCustomAttribute(Of HttpPut)() IsNot Nothing OrElse
+               method.GetCustomAttribute(Of HttpDelete)() IsNot Nothing Then
+                Return True
+            End If
+        Next
+
+        Return False
+    End Function
+
+    ''' <summary>
+    ''' get all loadable types of the given assembly, ignoring the types that
+    ''' failed to load (for example a missing optional dependency).
+    ''' </summary>
+    Private Function getLoadableTypes(assembly As Assembly) As Type()
+        Try
+            Return assembly.GetTypes()
+        Catch ex As ReflectionTypeLoadException
+            Dim list As New List(Of Type)
+            For Each type As Type In ex.Types
+                If type IsNot Nothing Then
+                    list.Add(type)
+                End If
+            Next
+            Return list.ToArray
+        End Try
     End Function
 
     <Extension>
