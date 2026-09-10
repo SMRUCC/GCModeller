@@ -129,40 +129,77 @@ Namespace Core.HttpStream
             Return sb.ToString()
         End Function
 
+        ''' <summary>
+        ''' find the position of a content-disposition attribute (for example
+        ''' ``name=`` or ``filename=``), making sure the match is a real attribute
+        ''' (preceded by a space or ``;``) so that ``name=`` does not match inside
+        ''' ``filename=``.
+        ''' </summary>
+        Private Shared Function findAttribute(l As String, name As String) As Integer
+            Dim token As String = name & "="
+            Dim from As Integer = 0
+
+            While from < l.Length
+                Dim idx As Integer = l.IndexOf(token, from, StringComparison.OrdinalIgnoreCase)
+                If idx < 0 Then
+                    Return -1
+                End If
+                If idx = 0 OrElse l(idx - 1) = " "c OrElse l(idx - 1) = ";"c Then
+                    Return idx
+                End If
+                from = idx + 1
+            End While
+
+            Return -1
+        End Function
+
+        ''' <summary>
+        ''' read an attribute value that may be either quoted (``name="value"``)
+        ''' or a bare token (``name=value``), as produced by the .NET HttpClient
+        ''' multipart writer.
+        ''' </summary>
+        Private Shared Function readAttributeValue(l As String, idx As Integer, name As String) As String
+            Dim begin As Integer = idx + name.Length + 1
+
+            If begin >= l.Length Then
+                Return Nothing
+            End If
+
+            If l(begin) = """"c Then
+                Dim [end] As Integer = l.IndexOf(""""c, begin + 1)
+                If [end] < 0 Then
+                    Return Nothing
+                End If
+                If begin + 1 = [end] Then
+                    Return ""
+                End If
+                Return l.Substring(begin + 1, [end] - begin - 1)
+            Else
+                Dim [end] As Integer = l.IndexOf(";"c, begin)
+                If [end] < 0 Then
+                    [end] = l.Length
+                End If
+                Return l.Substring(begin, [end] - begin).Trim()
+            End If
+        End Function
+
         Private Shared Function GetContentDispositionAttribute(l As String, name As String) As String
-            Dim idx As Integer = l.IndexOf(name & "=""")
+            Dim idx As Integer = findAttribute(l, name)
             If idx < 0 Then
                 Return Nothing
             End If
-            Dim begin As Integer = idx + name.Length + "=""".Length
-            Dim [end] As Integer = l.IndexOf(""""c, begin)
-            If [end] < 0 Then
-                Return Nothing
-            End If
-            If begin = [end] Then
-                Return ""
-            End If
-            Return l.Substring(begin, [end] - begin)
+            Return readAttributeValue(l, idx, name)
         End Function
 
         Private Function GetContentDispositionAttributeWithEncoding(l As String, name As String) As String
-            Dim idx As Integer = l.IndexOf(name & "=""")
-            If idx < 0 Then
+            Dim value As String = GetContentDispositionAttribute(l, name)
+            If value Is Nothing Then
                 Return Nothing
-            End If
-            Dim begin As Integer = idx + name.Length + "=""".Length
-            Dim [end] As Integer = l.IndexOf(""""c, begin)
-            If [end] < 0 Then
-                Return Nothing
-            End If
-            If begin = [end] Then
-                Return ""
             End If
 
-            Dim temp As String = l.Substring(begin, [end] - begin)
-            Dim source As Byte() = New Byte(temp.Length - 1) {}
-            For i As Integer = temp.Length - 1 To 0 Step -1
-                source(i) = CByte(AscW(temp(i)))
+            Dim source As Byte() = New Byte(value.Length - 1) {}
+            For i As Integer = value.Length - 1 To 0 Step -1
+                source(i) = CByte(AscW(value(i)))
             Next
 
             Return encoding.GetString(source)
