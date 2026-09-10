@@ -64,12 +64,12 @@ Imports Flute.Http
 Imports Flute.Http.Configurations
 Imports Flute.Http.Core
 Imports Flute.Http.Core.Message
-Imports Flute.Http.Core.Message.HttpHeader
 Imports Flute.Http.FileSystem
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Net
+Imports FluteHttpHeader = Flute.Http.Core.Message.HttpHeader
 
 Module Program
 
@@ -147,10 +147,9 @@ Module Program
     ''' <summary>
     ''' run a dynamically loaded web application module: the given dll is loaded
     ''' through reflection, every http controller it contains (a public class
-    ''' with <see cref="HttpGet"/>/<see cref="HttpPost"/>/<see cref="HttpPut"/>/
-    ''' <see cref="HttpDelete"/> annotated methods, or a class implementing
-    ''' <see cref="IHttpAppModule"/>) is instantiated and registered into the
-    ''' router, then the http server is started.
+    ''' with HttpGet/HttpPost/HttpPut/HttpDelete annotated methods, or a class
+    ''' implementing <see cref="IHttpAppModule"/>) is instantiated and registered
+    ''' into the router, then the http server is started.
     ''' </summary>
     <ExportAPI("/run")>
     <Description("Run a dynamically loaded web application module (a controller class library) on this http server")>
@@ -324,10 +323,10 @@ Module Program
         End If
 
         For Each method As MethodInfo In type.GetMethods(BindingFlags.Public Or BindingFlags.Instance)
-            If method.GetCustomAttribute(Of HttpGet)() IsNot Nothing OrElse
-               method.GetCustomAttribute(Of HttpPost)() IsNot Nothing OrElse
-               method.GetCustomAttribute(Of HttpPut)() IsNot Nothing OrElse
-               method.GetCustomAttribute(Of HttpDelete)() IsNot Nothing Then
+            If method.GetCustomAttribute(Of FluteHttpHeader.HttpGet)() IsNot Nothing OrElse
+               method.GetCustomAttribute(Of FluteHttpHeader.HttpPost)() IsNot Nothing OrElse
+               method.GetCustomAttribute(Of FluteHttpHeader.HttpPut)() IsNot Nothing OrElse
+               method.GetCustomAttribute(Of FluteHttpHeader.HttpDelete)() IsNot Nothing Then
                 Return True
             End If
         Next
