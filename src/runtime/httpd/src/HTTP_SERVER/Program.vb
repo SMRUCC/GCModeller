@@ -155,16 +155,16 @@ Module Program
     <Description("Run a dynamically loaded web application module (a controller class library) on this http server")>
     <Usage("/run --app <app.dll> [--listen <port, default=80> --wwwroot <directory_path> --data <data_directory> --config <config.ini> --max-post-size <bytes> --base-url <http://host>]")>
     Public Function Run(args As CommandLine) As Integer
-        Dim app As String = args("--app")
+        Dim appModule As String = args("--app")
 
-        If app.StringEmpty Then
+        If appModule.StringEmpty Then
             Call Console.WriteLine("missing required argument: --app <app.dll>")
             Return 404
         End If
 
         Dim configs As Dictionary(Of String, String) = loadRunConfiguration(args)
 
-        Dim apiFile As String = app
+        Dim apiFile As String = appModule
         If Not Path.IsPathRooted(apiFile) Then
             apiFile = Path.GetFullPath(apiFile)
         End If

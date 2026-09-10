@@ -11,8 +11,8 @@ Namespace Core
     ''' <see cref="Mount(HttpRouter, IReadOnlyDictionary(Of String, String))"/>
     ''' so that the module can register its http routes (via
     ''' <see cref="HttpRouter.RegisterController(Object)"/> and
-    ''' <see cref="HttpRouter.Register(String, String, AppHandler)"/>) and read
-    ''' the host supplied configuration.
+    ''' <see cref="HttpRouter.Register(String, String, HttpSocket.AppHandler)"/>)
+    ''' and read the host supplied configuration.
     ''' </remarks>
     Public Interface IHttpAppModule
 
