@@ -559,3 +559,6 @@ src/runtime/sciBASIC\#/vs_solutions/package-install-cache/cacheIndex.txt
 src/runtime/sciBASIC\#/nuget-smoketest.slnx
 src/runtime/sciBASIC\#/gr/_smoke2/S2.vbproj
 src/runtime/sciBASIC\#/Data_science/Visualization/_smoke_DataPlot/DataPlot.vbproj
+src/repository/.vs/HMP/v18/DocumentLayout.json
+src/Settings/.vs/Settings/v18/DocumentLayout.backup.json
+src/Settings/.vs/Settings/v18/DocumentLayout.json
