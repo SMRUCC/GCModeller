@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf859c6d5aadab0101a6c67ff6cb4ce9, visualize\Circos\Circos\Karyotype\Adapters\DoorOperon.vb"
+﻿#Region "Microsoft.VisualBasic::cf859c6d5aadab0101a6c67ff6cb4ce9, visualize\Circos\Circos\KaryotypeEntry\Adapters\DoorOperon.vb"
 
     ' Author:
     ' 
@@ -52,7 +52,7 @@ Namespace Karyotype
     ''' <summary>
     ''' 最外层的Ideogram，
     ''' </summary>
-    Public Class DOOROperon : Inherits SkeletonInfo
+    Public Class DOOROperon : Inherits KaryotypeSkeleton
 
         Sub New(DoorFile As String)
             Dim DOOR As DOOR = DOOR_API.Load(DoorFile)

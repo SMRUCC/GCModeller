@@ -52,7 +52,7 @@ Namespace TrackDatas.NtProps
     ''' <summary>
     ''' 整个基因组范围内的GC%变化的情况
     ''' </summary>
-    Public Class GenomeGCContent : Inherits data(Of ValueTrackData)
+    Public Class GenomeGCContent : Inherits TrackDataDocument(Of ValueTrackData)
 
         Sub New(nt As FastaSeq, Optional SegmentLength As Integer = -1, Optional steps As Integer = 10, Optional avg As Boolean = True)
             Call MyBase.New(

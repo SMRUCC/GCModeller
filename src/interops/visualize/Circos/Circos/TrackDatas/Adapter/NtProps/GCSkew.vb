@@ -54,7 +54,7 @@ Namespace TrackDatas.NtProps
     ''' G+C/G-C偏移量
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GCSkew : Inherits data(Of ValueTrackData)
+    Public Class GCSkew : Inherits TrackDataDocument(Of ValueTrackData)
 
         Sub New(nt As IPolymerSequenceModel,
                 slideWinSize As Integer,
@@ -81,7 +81,7 @@ Namespace TrackDatas.NtProps
         ''' <param name="steps"></param>
         ''' <param name="isCircular"></param>
         Sub New(genome As IEnumerable(Of FastaSeq),
-                karyotype As Karyotype.SkeletonInfo,
+                karyotype As Karyotype.KaryotypeSkeleton,
                 winSize As Integer,
                 steps As Integer,
                 isCircular As Boolean)

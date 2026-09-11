@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a11772edb2f91eca472c2cdfb9a698cc, visualize\Circos\Circos\Karyotype\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a11772edb2f91eca472c2cdfb9a698cc, visualize\Circos\Circos\KaryotypeEntry\Extensions.vb"
 
     ' Author:
     ' 
@@ -55,8 +55,8 @@ Namespace Karyotype
         ''' <param name="x"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function nt(x As Karyotype) As PropertyValue(Of FastaSeq)
-            Return PropertyValue(Of Object).Read(Of Karyotype, FastaSeq)(x, NameOf(nt))
+        Public Function nt(x As KaryotypeEntry) As PropertyValue(Of FastaSeq)
+            Return PropertyValue(Of Object).Read(Of KaryotypeEntry, FastaSeq)(x, NameOf(nt))
         End Function
     End Module
 End Namespace

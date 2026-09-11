@@ -47,8 +47,8 @@ Namespace TrackDatas
     Public Module DataExtensions
 
         <Extension>
-        Public Function GetchrLabels(karyotype As Karyotype.SkeletonInfo,
-                                     Optional getKey As Func(Of Karyotype.Karyotype, String) = Nothing) As Dictionary(Of String, Karyotype.Karyotype)
+        Public Function GetchrLabels(karyotype As Karyotype.KaryotypeSkeleton,
+                                     Optional getKey As Func(Of Karyotype.KaryotypeEntry, String) = Nothing) As Dictionary(Of String, Karyotype.KaryotypeEntry)
 
             If getKey Is Nothing Then
                 getKey = Function(x) x.chrName

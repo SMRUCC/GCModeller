@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1efc572454f3d9dd8ce62137bee222da, visualize\Circos\Circos\Karyotype\Karyotype.vb"
+﻿#Region "Microsoft.VisualBasic::1efc572454f3d9dd8ce62137bee222da, visualize\Circos\Circos\KaryotypeEntry\Karyotype.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Class Karyotype
+    '     Class KaryotypeEntry
     ' 
     '         Properties: [end], chrLabel, chrName, color, start
     ' 
@@ -88,7 +88,7 @@ Namespace Karyotype
     ''' Colors are taken from the spectral Brewer palette. 
     ''' To learn about Brewer palettes, see (www.colorbrewer.org)[http://www.colorbrewer.org]
     ''' </remarks>
-    Public Class Karyotype : Inherits DynamicPropertyBase(Of Object)
+    Public Class KaryotypeEntry : Inherits DynamicPropertyBase(Of Object)
         Implements IKaryotype
         Implements INamedValue
 

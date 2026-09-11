@@ -68,7 +68,7 @@ Namespace TrackDatas
             }
         End Function
 
-        Public Function Distinct(source As IEnumerable(Of ValueTrackData)) As ValueTrackData()
+        Public Function DistinctRegions(source As IEnumerable(Of ValueTrackData)) As ValueTrackData()
             Dim LQuery As ValueTrackData() = (From x As ValueTrackData
                                               In source
                                               Select x,

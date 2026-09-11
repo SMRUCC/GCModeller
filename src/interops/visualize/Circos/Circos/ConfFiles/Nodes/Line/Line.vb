@@ -19,7 +19,7 @@ Namespace Configurations.Nodes.Plots.Lines
     ''' The default values of this plot are taken from the official template
     ''' ``etc/tracks/line.conf`` in the circos distribution.
     ''' </remarks>
-    Public Class LinePlot : Inherits TracksPlot(Of ValueTrackData)
+    Public Class LinePlot : Inherits TrackPlot(Of ValueTrackData)
 
         <Circos> Public Overrides ReadOnly Property type As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -44,14 +44,14 @@ Namespace Configurations.Nodes.Plots.Lines
         ''' </remarks>
         <Circos> Public Property max_gap As String = null
 
-        Sub New(data As data(Of ValueTrackData))
+        Sub New(data As TrackDataDocument(Of ValueTrackData))
             Call MyBase.New(data)
 
             ' 默认值取自 circos 发行版之中的 etc/tracks/line.conf
             thickness = "1"
             r1 = "0.69r"
             r0 = "0.60r"
-            orientation = orientations.out
+            orientation = Orientation.Out
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

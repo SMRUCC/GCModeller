@@ -42,7 +42,7 @@
 
 Namespace TrackDatas
 
-    Public Class Connector : Inherits data(Of RegionTrackData)
+    Public Class Connector : Inherits TrackDataDocument(Of RegionTrackData)
 
         Sub New(data As IEnumerable(Of RegionTrackData))
             Call MyBase.New(data)

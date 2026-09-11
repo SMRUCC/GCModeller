@@ -52,7 +52,7 @@ Namespace Configurations.Nodes.Plots
     ''' <summary>
     ''' 可以用来表示调控关系
     ''' </summary>
-    Public Class Connector : Inherits TracksPlot(Of RegionTrackData)
+    Public Class Connector : Inherits TrackPlot(Of RegionTrackData)
 
         <Circos> Public Overrides ReadOnly Property type As String
             Get
@@ -74,12 +74,12 @@ Namespace Configurations.Nodes.Plots
         <Circos> Public Property connector_dims As String = "0,0.3,0.4,0.3,0"
 
         Sub New(data As IEnumerable(Of RegionTrackData))
-            Call MyBase.New(New TrackDatas.Connector(data))
+            Call MyBase.New(New ConnectorDocument(data))
 
             Call applyDefaults()
         End Sub
 
-        Sub New(doc As TrackDatas.Connector)
+        Sub New(doc As ConnectorDocument)
             Call MyBase.New(doc)
 
             Call applyDefaults()

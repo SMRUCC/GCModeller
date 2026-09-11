@@ -50,7 +50,7 @@ Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Documents.Karyotype.NtProps
 
-    Public Class DeltaDiff : Inherits data(Of ValueTrackData)
+    Public Class DeltaDiff : Inherits TrackDataDocument(Of ValueTrackData)
 
         Dim _Steps As Integer
         Dim dbufs As Double()

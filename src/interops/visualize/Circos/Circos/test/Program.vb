@@ -1,4 +1,4 @@
-Imports System.Drawing
+﻿Imports System.Drawing
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -42,7 +42,7 @@ Module Program
         Dim sizes As Integer() = {200000, 150000, 120000}
         Dim gcs As Double() = {0.42, 0.55, 0.36}
         Dim colors As String() = {"chr1", "chr2", "chr3"}
-        Dim karyos As New List(Of Karyotype)
+        Dim karyos As New List(Of KaryotypeEntry)
         Dim seqs As New Dictionary(Of String, String)
 
         For i As Integer = 0 To sizes.Length - 1
@@ -51,7 +51,7 @@ Module Program
 
             seqs(name) = seq
 
-            karyos.Add(New Karyotype With {
+            karyos.Add(New KaryotypeEntry With {
                 .chrName = name,
                 .chrLabel = $"Test {name}",
                 .start = 0,
@@ -60,14 +60,14 @@ Module Program
             })
         Next
 
-        Dim skeleton As New KaryotypeChromosomes(karyos)
+        Dim skeleton As New GenomeKaryotype(karyos)
 
         ' GC content sliding window
         Dim bins As New List(Of ValueTrackData)
         Dim winSize% = 2000
         Dim steps% = 2000
 
-        For Each k As Karyotype In karyos
+        For Each k As KaryotypeEntry In karyos
             Dim seq$ = seqs(k.chrName)
 
             For start As Integer = 0 To seq.Length - 1 Step steps
@@ -88,14 +88,14 @@ Module Program
         circos.skeletonKaryotype = skeleton
         circos.karyotype = "data/karyotype.txt"
         circos.chromosomes_units = "1000000"
-        circos.includes.Add(New Ideogram(circos))
-        circos.includes.Add(New Ticks(circos))
+        circos.includes.Add(New IdeogramInclude(circos))
+        circos.includes.Add(New TicksInclude(circos))
 
         circos.Ideogram.Ideogram.show_label = "yes"
         circos.Ideogram.Ideogram.Spacing.default = "0.01r"
 
-        circos.AddTrack(New Histogram(New data(Of ValueTrackData)(bins)))
-        circos.AddTrack(New ScatterPlot(New data(Of ValueTrackData)(
+        circos.AddTrack(New Histogram(New TrackDataDocument(Of ValueTrackData)(bins)))
+        circos.AddTrack(New ScatterPlot(New TrackDataDocument(Of ValueTrackData)(
             bins.Where(Function(b, i) i Mod 12 = 0).ToArray)))
 
         Call circos.Save(outDIR)

@@ -53,7 +53,7 @@ Imports SMRUCC.genomics.SequenceModel.Slicer
 Imports SMRUCC.genomics.Visualize.Circos.Colors
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
-Imports KaryotypeModel = SMRUCC.genomics.Visualize.Circos.Karyotype.Karyotype
+Imports KaryotypeModel = SMRUCC.genomics.Visualize.Circos.Karyotype.KaryotypeEntry
 
 Public Module DataExtensions
 
@@ -63,8 +63,8 @@ Public Module DataExtensions
     ''' <param name="source">Band数据</param>
     ''' <param name="chrs">karyotype数据</param>
     ''' <returns></returns>
-    Public Function FromBlastnMappings(source As IEnumerable(Of BlastnMapping), chrs As IEnumerable(Of FastaSeq)) As KaryotypeChromosomes
-        Dim ks As KaryotypeChromosomes = FromNts(chrs)
+    Public Function FromBlastnMappings(source As IEnumerable(Of BlastnMapping), chrs As IEnumerable(Of FastaSeq)) As GenomeKaryotype
+        Dim ks As GenomeKaryotype = FromNts(chrs)
         Dim labels As Dictionary(Of String, KaryotypeModel) = ks.Karyotypes.ToDictionary(Function(x) x.nt.value.Title, Function(x) x)
         Dim reads = source.ToArray
         Dim bands As List(Of Band) = reads.createBands(labels).AsList
@@ -130,10 +130,10 @@ Public Module DataExtensions
 
     <Extension>
     Public Iterator Function Hits(source As IEnumerable(Of BlastnMapping),
-                            karyotype As Karyotype.SkeletonInfo,
+                            karyotype As Karyotype.KaryotypeSkeleton,
                             Optional steps% = 2048) As IEnumerable(Of ValueTrackData)
 
-        Dim chrs As Dictionary(Of String, Karyotype.Karyotype) =
+        Dim chrs As Dictionary(Of String, Karyotype.KaryotypeEntry) =
             karyotype.GetchrLabels(Function(x) x.chrLabel)
         Dim LQuery = From x As BlastnMapping
                      In source
@@ -144,7 +144,7 @@ Public Module DataExtensions
         Dim bar As ProgressBar = Nothing
 
         For Each ch In TqdmWrapper.WrapIterator(LQuery, bar:=bar)
-            Dim chr As Karyotype.Karyotype = chrs(ch.chr)
+            Dim chr As Karyotype.KaryotypeEntry = chrs(ch.chr)
             Dim idata As SeqValue(Of Value(Of Integer))() =
                 LinqAPI.Exec(Of SeqValue(Of Value(Of Integer))) <= From i As Integer
                                                                    In chr.end.Sequence
@@ -196,8 +196,8 @@ Public Module DataExtensions
     ''' <param name="karyotype">用于得到chr标签</param>
     ''' <returns></returns>
     <Extension>
-    Public Function Identities(source As IEnumerable(Of BlastnMapping), karyotype As Karyotype.SkeletonInfo, Optional steps As Integer = 2048) As ValueTrackData()
-        Dim chrs As Dictionary(Of String, Karyotype.Karyotype) = karyotype.GetchrLabels(Function(x) x.chrLabel)
+    Public Function Identities(source As IEnumerable(Of BlastnMapping), karyotype As Karyotype.KaryotypeSkeleton, Optional steps As Integer = 2048) As ValueTrackData()
+        Dim chrs As Dictionary(Of String, Karyotype.KaryotypeEntry) = karyotype.GetchrLabels(Function(x) x.chrLabel)
         Dim LQuery = From x As BlastnMapping
                      In source
                      Select x.MappingLocation,
@@ -207,7 +207,7 @@ Public Module DataExtensions
         Dim list As New List(Of ValueTrackData)
 
         For Each ch In LQuery
-            Dim chr As Karyotype.Karyotype = chrs(ch.chr)
+            Dim chr As Karyotype.KaryotypeEntry = chrs(ch.chr)
             Dim idata As SeqValue(Of List(Of Double))() =
                 LinqAPI.Exec(Of SeqValue(Of List(Of Double))) <= From i As Integer
                                                                  In chr.end.Sequence
@@ -259,8 +259,8 @@ Public Module DataExtensions
     End Function
 
     <Extension>
-    Public Function IdentitiesTracks(source As IEnumerable(Of BlastnMapping), karyotype As Karyotype.SkeletonInfo) As ValueTrackData()
-        Dim chrs As Dictionary(Of String, Karyotype.Karyotype) = karyotype.GetchrLabels(Function(x) x.chrLabel)
+    Public Function IdentitiesTracks(source As IEnumerable(Of BlastnMapping), karyotype As Karyotype.KaryotypeSkeleton) As ValueTrackData()
+        Dim chrs As Dictionary(Of String, Karyotype.KaryotypeEntry) = karyotype.GetchrLabels(Function(x) x.chrLabel)
         Dim LQuery = From x As BlastnMapping
                      In source
                      Select x.MappingLocation,
@@ -270,7 +270,7 @@ Public Module DataExtensions
         Dim list As New List(Of ValueTrackData)
 
         For Each ch In LQuery
-            Dim chr As Karyotype.Karyotype = chrs(ch.chr)
+            Dim chr As Karyotype.KaryotypeEntry = chrs(ch.chr)
             Dim idata As List(Of Double)() =
                 LinqAPI.Exec(Of List(Of Double)) <= From i As Integer
                                                     In chr.end.Sequence

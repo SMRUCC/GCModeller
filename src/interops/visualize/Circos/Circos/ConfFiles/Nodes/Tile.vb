@@ -1,4 +1,4 @@
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Configurations.Nodes.Plots
@@ -21,7 +21,7 @@ Namespace Configurations.Nodes.Plots
     ''' The default values of this plot are taken from the official template
     ''' ``etc/tracks/tile.conf`` in the circos distribution.
     ''' </remarks>
-    Public Class TilePlot : Inherits TracksPlot(Of RegionTrackData)
+    Public Class TilePlot : Inherits TrackPlot(Of RegionTrackData)
 
         <Circos> Public Overrides ReadOnly Property type As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -66,7 +66,7 @@ Namespace Configurations.Nodes.Plots
         ''' <returns></returns>
         <Circos> Public Property padding As String = "3"
 
-        Sub New(data As data(Of RegionTrackData))
+        Sub New(data As TrackDataDocument(Of RegionTrackData))
             Call MyBase.New(data)
 
             ' 默认值取自 circos 发行版之中的 etc/tracks/tile.conf
@@ -76,7 +76,7 @@ Namespace Configurations.Nodes.Plots
             thickness = "10"
             r1 = "0.55r"
             r0 = "0.40r"
-            orientation = orientations.out
+            orientation = Orientation.Out
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

@@ -54,11 +54,11 @@ Namespace TrackDatas
     ''' Tracks data document generator.(使用这个对象生成data文件夹之中的数据文本文件)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    Public Class data(Of T As ITrackData)
+    Public Class TrackDataDocument(Of T As ITrackData)
         Implements IEnumerable(Of T)
-        Implements Idata
+        Implements ITrackDataDocument
 
-        Public Property FileName As String Implements Idata.FileName
+        Public Property FileName As String Implements ITrackDataDocument.FileName
 
         Protected Friend source As List(Of T)
 
@@ -86,7 +86,7 @@ Namespace TrackDatas
             Return Me.GetJson
         End Function
 
-        Public Function GetDocumentText() As String Implements Idata.GetDocumentText
+        Public Function GetDocumentText() As String Implements ITrackDataDocument.GetDocumentText
             Dim sb As New StringBuilder
 
             For Each data As T In Me
@@ -109,7 +109,7 @@ Namespace TrackDatas
             Yield GetEnumerator()
         End Function
 
-        Private Iterator Function IEnumerable_GetEnumerator1() As IEnumerable(Of ITrackData) Implements Idata.GetEnumerator
+        Private Iterator Function IEnumerable_GetEnumerator1() As IEnumerable(Of ITrackData) Implements ITrackDataDocument.GetEnumerator
             For Each x As T In source.SafeQuery
                 Yield TryCast(x, ITrackData)
             Next

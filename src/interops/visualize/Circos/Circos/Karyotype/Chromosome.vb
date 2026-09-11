@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4828bc35e83b02396c02f1b6cf4ab2e, visualize\Circos\Circos\Karyotype\Chromosome.vb"
+﻿#Region "Microsoft.VisualBasic::c4828bc35e83b02396c02f1b6cf4ab2e, visualize\Circos\Circos\KaryotypeEntry\Chromosome.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Class KaryotypeChromosomes
+    '     Class GenomeKaryotype
     ' 
     '         Properties: size
     ' 
@@ -51,7 +51,7 @@ Namespace Karyotype
     ''' <summary>
     ''' The very basically genome skeleton information description.(基因组的基本框架的描述信息)
     ''' </summary>
-    Public Class KaryotypeChromosomes : Inherits SkeletonInfo
+    Public Class GenomeKaryotype : Inherits KaryotypeSkeleton
 
         Public Overrides ReadOnly Property size As Integer
 
@@ -68,7 +68,7 @@ Namespace Karyotype
             Call singleKaryotypeChromosome(color)
         End Sub
 
-        Sub New(Karyotypes As IEnumerable(Of Karyotype))
+        Sub New(Karyotypes As IEnumerable(Of KaryotypeEntry))
             karyos = Karyotypes.AsList
         End Sub
 

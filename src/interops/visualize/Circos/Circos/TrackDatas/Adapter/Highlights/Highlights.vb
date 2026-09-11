@@ -45,7 +45,7 @@ Imports System.Data
 
 Namespace TrackDatas.Highlights
 
-    Public MustInherit Class Highlights : Inherits data(Of ValueTrackData)
+    Public MustInherit Class Highlights : Inherits TrackDataDocument(Of ValueTrackData)
 
         Sub New(source As IEnumerable(Of ValueTrackData))
             Call MyBase.New(source)

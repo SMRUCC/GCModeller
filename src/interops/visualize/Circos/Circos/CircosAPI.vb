@@ -90,12 +90,12 @@ Public Module CircosAPI
     ''' <param name="idg"></param>
     ''' <param name="width"></param>
     ''' <returns></returns>
-    Public Function SetIdeogramWidth(idg As Ideogram, width As Integer) As Ideogram
-        idg.Ideogram.thickness = width & "p"
+    Public Function SetIdeogramWidth(idg As IdeogramInclude, width As Integer) As IdeogramInclude
+        idg.IdeogramInclude.thickness = width & "p"
 
         If width = 0 Then
-            idg.Ideogram.stroke_thickness = "0"
-            idg.Ideogram.band_stroke_thickness = "0"
+            idg.IdeogramInclude.stroke_thickness = "0"
+            idg.IdeogramInclude.band_stroke_thickness = "0"
         End If
 
         Return idg
@@ -140,10 +140,10 @@ Public Module CircosAPI
     ''' 相对的大小是和ideogram有关的
     ''' 1/ideogram.radius
     ''' </remarks>
-    Public Function SetIdeogramRadius(ideogram As Ideogram, r As Double) As Ideogram
-        Dim PreviousRadius As Double = Val(ideogram.Ideogram.radius)
+    Public Function SetIdeogramRadius(ideogram As IdeogramInclude, r As Double) As IdeogramInclude
+        Dim PreviousRadius As Double = Val(ideogram.IdeogramInclude.radius)
 
-        ideogram.Ideogram.radius = r & "r"
+        ideogram.IdeogramInclude.radius = r & "r"
 
         Dim IR As Double = r
         Dim Max As Double = (1 / r) * 0.825
@@ -216,8 +216,8 @@ Public Module CircosAPI
     ''' <param name="Length"></param>
     ''' <param name="width"></param>
     ''' <returns></returns>
-    Public Function PlotsSeperatorLine(Length As Integer, Optional width As Integer = 0) As Nodes.Plots.SeperatorCircle
-        Return New SeperatorCircle(Length, width)
+    Public Function PlotsSeperatorLine(Length As Integer, Optional width As Integer = 0) As Nodes.Plots.SeparatorCircle
+        Return New SeparatorCircle(Length, width)
     End Function
 
     ''' <summary>
@@ -252,7 +252,7 @@ Public Module CircosAPI
             .snuggle_refine = snuggle_refine_option,
             .label_snuggle = .snuggle_refine
         }
-        circos += New HighLight(motifTrack)
+        circos += New Highlight(motifTrack)
 
         Return circos
     End Function
@@ -276,7 +276,7 @@ Public Module CircosAPI
             .snuggle_refine = snuggle_refine.CircosOption,
             .label_snuggle = .snuggle_refine
         }
-        circos += New HighLight(motifTrack)
+        circos += New Highlight(motifTrack)
 
         Return circos
     End Function
@@ -292,7 +292,7 @@ Public Module CircosAPI
             values, circos.size, mapName,
             winSize,
             replaceBase, extTails)
-        Dim hTrack As New HighLight(node)
+        Dim hTrack As New Highlight(node)
         Call circos.AddTrack(track:=hTrack)
         Return circos
     End Function
@@ -300,7 +300,7 @@ Public Module CircosAPI
     <ExportAPI("Plots.add.Gradients")>
     Public Function AddGradientMappings(circos As Configurations.Circos, values As IEnumerable(Of ValueTrackData), Optional mapName As String = "Jet") As Configurations.Circos
         Dim node As New GradientMappings(values, mapName)
-        Dim hTrack As New HighLight(node)
+        Dim hTrack As New Highlight(node)
         Call circos.AddTrack(track:=hTrack)
         Return circos
     End Function
@@ -317,7 +317,7 @@ Public Module CircosAPI
             winSize,
             replaceBase,
             extTails)
-        Dim track As New HighLight(node)
+        Dim track As New Highlight(node)
         Call circos.AddTrack(track:=track)
         Return circos
     End Function
@@ -512,8 +512,8 @@ SET_END:    Dim ends = i
     Public Function SetBasicProperty(doc As Configurations.Circos, data As PTTMarks) As Boolean
         doc.skeletonKaryotype = data
 
-        Call doc.includes.Add(New Ticks(Circos:=doc))
-        Call doc.includes.Add(New Ideogram(doc))
+        Call doc.includes.Add(New TicksInclude(Circos:=doc))
+        Call doc.includes.Add(New IdeogramInclude(doc))
 
         Return True
     End Function
@@ -539,10 +539,10 @@ SET_END:    Dim ends = i
 
         Dim totalSize% = Len(NT.SequenceData) + loopHole
 
-        Call circos.includes.Add(New Ticks(Circos:=circos))
-        Call circos.includes.Add(New Ideogram(circos))
+        Call circos.includes.Add(New TicksInclude(Circos:=circos))
+        Call circos.includes.Add(New IdeogramInclude(circos))
 
-        circos.skeletonKaryotype = New KaryotypeChromosomes(totalSize, "white", bands)
+        circos.skeletonKaryotype = New GenomeKaryotype(totalSize, "white", bands)
         circos.skeletonKaryotype.loopHole = loopHole
         circos.karyotype = "./data/genome_skeleton.txt"
 
@@ -570,7 +570,7 @@ SET_END:    Dim ends = i
     End Function
 
     ''' <summary>
-    ''' Creates the basic Karyotype document for the circos plot.
+    ''' Creates the basic KaryotypeEntry document for the circos plot.
     ''' </summary>
     ''' <param name="doc"></param>
     ''' <param name="NT"></param>
@@ -628,25 +628,25 @@ SET_END:    Dim ends = i
         Return circos.filePath
     End Function
 
-    <ExportAPI("Ticks.ShowLabel")>
+    <ExportAPI("TicksInclude.ShowLabel")>
     Public Sub ShowTicksLabel(circos As Configurations.Circos, value As Boolean)
         If circos.includes.IsNullOrEmpty Then
             Return
         End If
 
-        Dim ticks = LinqAPI.DefaultFirst(Of Ticks) <=
+        Dim ticks = LinqAPI.DefaultFirst(Of TicksInclude) <=
                                                      _
             From include As CircosConfig
             In circos.includes
             Where InStr(include.refPath, Configurations.Circos.TicksConf, CompareMethod.Text) > 0
-            Select DirectCast(include, Ticks)
+            Select DirectCast(include, TicksInclude)
 
         If Not ticks Is Nothing Then
             Dim show As String = If(value, yes, no)
 
             ticks.show_tick_labels = show
 
-            For Each tick As Nodes.Tick In ticks.Ticks.ticks
+            For Each tick As Nodes.TickBlock In ticks.TicksInclude.ticks
                 tick.show_label = show
             Next
         End If
@@ -657,7 +657,7 @@ SET_END:    Dim ends = i
     ''' </summary>
     ''' <param name="doc"></param>
     ''' <returns></returns>
-    <ExportAPI("Ticks.Remove")>
+    <ExportAPI("TicksInclude.Remove")>
     Public Function RemoveTicks(doc As Configurations.Circos) As Boolean
         Return __includesRemoveCommon(Configurations.Circos.TicksConf, doc)
     End Function
@@ -692,13 +692,13 @@ SET_END:    Dim ends = i
     ''' <param name="doc"></param>
     ''' <returns></returns>
     Public Function RemoveIdeogram(doc As Configurations.Circos) As Boolean
-        Dim Ideogram = (From include In doc.includes
-                        Where InStr(include.refPath, Configurations.Ideogram.IdeogramConf, CompareMethod.Text) > 0
-                        Select DirectCast(include, Configurations.Ideogram)).FirstOrDefault
-        If Ideogram Is Nothing Then
+        Dim IdeogramInclude = (From include In doc.includes
+                        Where InStr(include.refPath, Configurations.IdeogramInclude.IdeogramConf, CompareMethod.Text) > 0
+                        Select DirectCast(include, Configurations.IdeogramInclude)).FirstOrDefault
+        If IdeogramInclude Is Nothing Then
             Call $"Circos configuration file have no ideogram data".debug
         Else
-            Ideogram.Ideogram.thickness = "0p"
+            IdeogramInclude.IdeogramInclude.thickness = "0p"
 
         End If
         Return True

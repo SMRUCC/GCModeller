@@ -54,7 +54,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 
 Namespace Documents.Karyotype
 
-    Public Class PhenotypeRegulation : Inherits SkeletonInfo
+    Public Class PhenotypeRegulation : Inherits KaryotypeSkeleton
 
         ''' <summary>
         ''' Family, Regulators

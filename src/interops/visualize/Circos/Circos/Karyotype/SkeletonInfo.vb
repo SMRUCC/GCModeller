@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::584371b5cd4a5a12df90084462e6f039, visualize\Circos\Circos\Karyotype\SkeletonInfo.vb"
+﻿#Region "Microsoft.VisualBasic::584371b5cd4a5a12df90084462e6f039, visualize\Circos\Circos\KaryotypeEntry\KaryotypeSkeleton.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Class SkeletonInfo
+    '     Class KaryotypeSkeleton
     ' 
     '         Properties: loopHole, size
     ' 
@@ -57,7 +57,7 @@ Namespace Karyotype
     ''' <summary>
     ''' The annotated genome skeleton information.
     ''' </summary>
-    Public MustInherit Class SkeletonInfo : Inherits DynamicPropertyBase(Of Object)
+    Public MustInherit Class KaryotypeSkeleton : Inherits DynamicPropertyBase(Of Object)
         Implements ICircosDocument
 
         ''' <summary>
@@ -67,7 +67,7 @@ Namespace Karyotype
         Public Overridable ReadOnly Property size As Integer
             Get
                 ' 使用 Long 累加之后再转换为 Integer，避免真核生物基因组（> 2^31）求总和的时候溢出
-                Dim genomeSize& = Aggregate karyo As Karyotype
+                Dim genomeSize& = Aggregate karyo As KaryotypeEntry
                                   In karyos.SafeQuery
                                   Let len As Long = Math.Abs(CLng(karyo.end) - CLng(karyo.start))
                                   Into Sum(len)
@@ -88,16 +88,16 @@ Namespace Karyotype
         ''' <returns></returns>
         Public Property loopHole As Integer
 
-        Protected karyos As List(Of Karyotype)
+        Protected karyos As List(Of KaryotypeEntry)
         Protected bands As List(Of Band)
 
         ''' <summary>
         ''' 枚举出当前的这个圈图内的所有的染色体的定义数据
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Iterator Property Karyotypes As IEnumerable(Of Karyotype)
+        Public ReadOnly Iterator Property Karyotypes As IEnumerable(Of KaryotypeEntry)
             Get
-                For Each karyo As Karyotype In karyos
+                For Each karyo As KaryotypeEntry In karyos
                     Yield karyo
                 Next
             End Get
@@ -107,7 +107,7 @@ Namespace Karyotype
         ''' 只有一个基因组的时候可以调用这个方法
         ''' </summary>
         Protected Sub singleKaryotypeChromosome(Optional color As String = "black")
-            Me.karyos = New Karyotype With {
+            Me.karyos = New KaryotypeEntry With {
                 .chrLabel = "1",
                 .chrName = "chr1",
                 .start = 1,
@@ -116,7 +116,7 @@ Namespace Karyotype
             }
         End Sub
 
-        Public Function AddBands(bands As IEnumerable(Of Band)) As SkeletonInfo
+        Public Function AddBands(bands As IEnumerable(Of Band)) As KaryotypeSkeleton
             Call Me.bands.AddRange(bands)
             Return Me
         End Function

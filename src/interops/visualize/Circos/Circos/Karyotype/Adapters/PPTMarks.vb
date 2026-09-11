@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22682de3fda6d72dab5f2bf0f7ffb5f6, visualize\Circos\Circos\Karyotype\Adapters\PPTMarks.vb"
+﻿#Region "Microsoft.VisualBasic::22682de3fda6d72dab5f2bf0f7ffb5f6, visualize\Circos\Circos\KaryotypeEntry\Adapters\PPTMarks.vb"
 
     ' Author:
     ' 
@@ -57,7 +57,7 @@ Namespace Karyotype.GeneObjects
     ''' 基因对象
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class PTTMarks : Inherits SkeletonInfo
+    Public Class PTTMarks : Inherits KaryotypeSkeleton
 
         Public Overrides ReadOnly Property Size As Integer
 

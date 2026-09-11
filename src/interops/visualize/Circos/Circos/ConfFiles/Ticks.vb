@@ -50,7 +50,7 @@ Imports System.Text
 
 Namespace Configurations
 
-    Public Class Ticks : Inherits CircosConfig
+    Public Class TicksInclude : Inherits CircosConfig
         Implements ICircosDocument
 
         <Circos> Public Property show_ticks As String = yes
@@ -60,11 +60,11 @@ Namespace Configurations
         <Circos> Public Property grid_start As String = "dims(ideogram,radius_inner)-0.5r"
         <Circos> Public Property grid_end As String = "dims(ideogram,radius_inner)"
 
-        Public Property Ticks As Nodes.Ticks
+        Public Property Ticks As Nodes.TicksBlock
 
         Sub New(Circos As Circos)
             Call MyBase.New("ticks.conf", Circos)
-            Ticks = Nodes.Ticks.DefaultConfiguration
+            Ticks = Nodes.TicksBlock.DefaultConfiguration
         End Sub
 
         Protected Overrides Function Build(IndentLevel As Integer, directory$) As String

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fc0d970260a8a538fb3be6fca0828ce, visualize\Circos\Circos\ConfFiles\Nodes\HighLight.vb"
+﻿#Region "Microsoft.VisualBasic::8fc0d970260a8a538fb3be6fca0828ce, visualize\Circos\Circos\ConfFiles\Nodes\Highlight.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Class HighLight
+    '     Class Highlight
     ' 
     '         Properties: Highlights, type
     ' 
@@ -51,7 +51,7 @@ Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
 Namespace Configurations.Nodes.Plots
 
-    Public Class HighLight : Inherits TracksPlot(Of ValueTrackData)
+    Public Class Highlight : Inherits TrackPlot(Of ValueTrackData)
 
         Public ReadOnly Property Highlights As Highlights
             Get

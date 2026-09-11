@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff940caae6c231975ce7588c39570844, visualize\Circos\Circos\TrackDatas\TrackDatas\Idata.vb"
+﻿#Region "Microsoft.VisualBasic::ff940caae6c231975ce7588c39570844, visualize\Circos\Circos\TrackDatas\TrackDatas\ITrackDataDocument.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Interface Idata
+    '     Interface ITrackDataDocument
     ' 
     '         Properties: fileName
     ' 
@@ -44,7 +44,7 @@
 
 Namespace TrackDatas
 
-    Public Interface Idata
+    Public Interface ITrackDataDocument
 
         Property fileName As String
         Function GetDocumentText() As String

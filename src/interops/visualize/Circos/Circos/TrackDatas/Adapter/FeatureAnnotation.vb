@@ -147,17 +147,17 @@ Namespace TrackDatas
                 Call addDisplayName(onlyGeneName, IDregex, anno, doc, snuggleRefine:=snuggleRefine)
             End If
 
-            Dim highlightsTrack As HighLight() = anno.geneHighlights(colors, Strands.Forward, splitOverlaps)
+            Dim highlightsTrack As Highlight() = anno.geneHighlights(colors, Strands.Forward, splitOverlaps)
 
             If Not highlightsTrack.IsNullOrEmpty Then
                 If highlightsTrack.Length = 1 AndAlso Not highlightsTrack.First.Highlights.Count = 0 Then
-                    Dim htrack As HighLight = highlightsTrack(Scan0)
+                    Dim htrack As Highlight = highlightsTrack(Scan0)
                     htrack.r0 = "0.86r"
                     htrack.r1 = "0.90r"
 
                     Call doc.AddTrack(htrack)
                 Else
-                    For Each circle As HighLight In highlightsTrack
+                    For Each circle As Highlight In highlightsTrack
                         If circle.Highlights.Count = 0 Then
                             Continue For
                         End If
@@ -172,11 +172,11 @@ Namespace TrackDatas
             If Not highlightsTrack.IsNullOrEmpty Then
                 If highlightsTrack.Length = 1 AndAlso highlightsTrack.First.Highlights.Count > 0 Then
 
-                    Dim hTrack As HighLight = highlightsTrack(Scan0)
+                    Dim hTrack As Highlight = highlightsTrack(Scan0)
                     hTrack.r0 = "0.82r"
                     hTrack.r1 = "0.86r"
                     hTrack.fill_color = "blue"
-                    hTrack.orientation = orientations.out
+                    hTrack.orientation = Orientation.Out
 
                     Call doc.AddTrack(hTrack)
                 Else
@@ -202,7 +202,7 @@ Namespace TrackDatas
         ''' <returns></returns>
         Private Function __geneHighlights(anno As IEnumerable(Of GeneTable),
                                       colors As Dictionary(Of String, String),
-                                      strands As Strands) As HighLight
+                                      strands As Strands) As Highlight
             Dim genes As GeneTable()
 
             If strands <> Strands.Unknown Then
@@ -216,7 +216,7 @@ Namespace TrackDatas
                 genes = anno.ToArray
             End If
 
-            Dim track As New HighLight(New GeneMark(genes, colors))
+            Dim track As New Highlight(New GeneMark(genes, colors))
             Return track
         End Function
 
@@ -235,7 +235,7 @@ Namespace TrackDatas
         Private Function geneHighlights(anno As IEnumerable(Of GeneTable),
                                       colors As Dictionary(Of String, String),
                                       strands As Strands,
-                                      splitOverlaps As Boolean) As HighLight()
+                                      splitOverlaps As Boolean) As Highlight()
             If Not splitOverlaps Then
                 Return {
                 __geneHighlights(anno, colors, strands)
@@ -254,7 +254,7 @@ Namespace TrackDatas
                 list = anno.AsList
             End If
 
-            Dim circles As New List(Of HighLight)
+            Dim circles As New List(Of Highlight)
 
             Do While Not list.IsNullOrEmpty
                 Dim genes As New List(Of GeneTable)
@@ -281,12 +281,12 @@ Namespace TrackDatas
                 If genes = 0 Then
                     Exit Do
                 Else
-                    circles += New HighLight(New GeneMark(genes, colors))
+                    circles += New Highlight(New GeneMark(genes, colors))
                 End If
             Loop
 
             If list > 0 Then
-                circles += New HighLight(New GeneMark(list, colors))
+                circles += New Highlight(New GeneMark(list, colors))
             End If
 
             Return circles.ToArray

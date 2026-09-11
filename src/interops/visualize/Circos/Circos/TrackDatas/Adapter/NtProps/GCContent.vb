@@ -51,7 +51,7 @@ Namespace TrackDatas.NtProps
     ''' <summary>
     ''' 每一个基因的GC%的表述
     ''' </summary>
-    Public Class GeneGCContent : Inherits data(Of ValueTrackData)
+    Public Class GeneGCContent : Inherits TrackDataDocument(Of ValueTrackData)
 
         Public ReadOnly Property SourceFasta As FastaFile
 
@@ -64,7 +64,7 @@ Namespace TrackDatas.NtProps
         End Sub
 
         Sub New(genome As IEnumerable(Of FastaSeq),
-                karyotype As Karyotype.SkeletonInfo,
+                karyotype As Karyotype.KaryotypeSkeleton,
                 winSize As Integer,
                 steps As Integer,
                 getValue As Func(Of NASegment_GC, Double))

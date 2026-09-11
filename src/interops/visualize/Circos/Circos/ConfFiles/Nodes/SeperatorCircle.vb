@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9310ec8b5ace6430514143bff4db247f, visualize\Circos\Circos\ConfFiles\Nodes\SeperatorCircle.vb"
+﻿#Region "Microsoft.VisualBasic::9310ec8b5ace6430514143bff4db247f, visualize\Circos\Circos\ConfFiles\Nodes\SeparatorCircle.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Class SeperatorCircle
+    '     Class SeparatorCircle
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -46,7 +46,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Settings
 
 Namespace Configurations.Nodes.Plots
 
-    Public Class SeperatorCircle : Inherits Histogram
+    Public Class SeparatorCircle : Inherits Histogram
 
         Dim width As Integer
 

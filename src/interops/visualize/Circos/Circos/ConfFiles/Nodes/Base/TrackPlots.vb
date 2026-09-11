@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Class TracksPlot
+    '     Class TrackPlot
     ' 
     '         Properties: file, fill_color, max, min, orientation
     '                     r0, r1, rules, stroke_color, stroke_thickness
@@ -55,7 +55,7 @@ Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Configurations.Nodes.Plots
 
-    Public MustInherit Class TracksPlot(Of T As ITrackData)
+    Public MustInherit Class TrackPlot(Of T As ITrackData)
         Implements ICircosDocument
         Implements ITrackPlot
 
@@ -137,7 +137,7 @@ Namespace Configurations.Nodes.Plots
         ''' 圈的朝向，是<see cref="ORIENTATIONs.IN"/>向内还是<see cref="ORIENTATIONs.OUT"/>向外
         ''' </summary>
         ''' <returns></returns>
-        <Circos> Public Property orientation As orientations = orientations.in Implements ITrackPlot.orientation
+        <Circos> Public Property orientation As Orientation = Orientation.In Implements ITrackPlot.orientation
         ''' <summary>
         ''' To turn off default outline, set the outline thickness to zero. 
         ''' If you want To permanently disable this Default, edit
@@ -196,13 +196,13 @@ Namespace Configurations.Nodes.Plots
         ''' data文件夹之中的绘图数据
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property tracksData As Idata Implements ITrackPlot.tracksData
+        Public ReadOnly Property tracksData As ITrackDataDocument Implements ITrackPlot.tracksData
 
         ''' <summary>
         ''' Creates plot element from the tracks data file.
         ''' </summary>
         ''' <param name="data"></param>
-        Public Sub New(data As data(Of T))
+        Public Sub New(data As TrackDataDocument(Of T))
             tracksData = data
         End Sub
 

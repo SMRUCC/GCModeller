@@ -67,8 +67,8 @@ Public Module ExtensionsAPI
                                         Pathways As IEnumerable(Of bGetObject.Pathway))
         Dim data As New PhenotypeRegulation(Regulations, Pathways)
         doc.SkeletonKaryotype = data
-        Call doc.includes.Add(New Configurations.Ticks(Circos:=doc))
-        Call doc.includes.Add(New Configurations.Ideogram(Circos:=doc))
+        Call doc.includes.Add(New Configurations.TicksInclude(Circos:=doc))
+        Call doc.includes.Add(New Configurations.IdeogramInclude(Circos:=doc))
     End Sub
 
     <ExportAPI("Karyotype.doc.DeltaDiff")>

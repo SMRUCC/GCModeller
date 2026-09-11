@@ -155,7 +155,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to # Karyotype band colors for ideograms
+        '''  Looks up a localized string similar to # KaryotypeEntry band colors for ideograms
         '''
         '''gpos100 = 0,0,0
         '''gpos    = 0,0,0

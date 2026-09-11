@@ -31,7 +31,7 @@
 
     ' Summaries:
 
-    '     Enum orientations
+    '     Enum Orientation
     ' 
     '         [in], out
     ' 
@@ -57,7 +57,7 @@ Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Configurations.Nodes.Plots
 
-    Public Enum orientations
+    Public Enum Orientation
         [in]
         out
     End Enum
@@ -108,13 +108,13 @@ Namespace Configurations.Nodes.Plots
         ''' </remarks>
         <Circos> Property r0 As String
 
-        Property orientation As orientations
+        Property orientation As Orientation
         Property fill_color As String
         Property stroke_thickness As String
         Property stroke_color As String
         Property thickness As String
 
-        ReadOnly Property tracksData As Idata
+        ReadOnly Property tracksData As ITrackDataDocument
 
         Function Save(filePath As String, Encoding As Encoding) As Boolean
     End Interface

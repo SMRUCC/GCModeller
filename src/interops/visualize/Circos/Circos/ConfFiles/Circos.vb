@@ -35,7 +35,7 @@
     ' 
     '         Properties: chromosomes, chromosomes_breaks, chromosomes_color, chromosomes_display_default, chromosomes_order
     '                     chromosomes_radius, chromosomes_reverse, chromosomes_scale, chromosomes_units, colors
-    '                     genome, Ideogram, karyotype, numberOfTracks, Plots
+    '                     genome, IdeogramInclude, karyotype, numberOfTracks, Plots
     '                     show_heatmap, show_heatmaps, show_highlight, show_highlights, show_histogram
     '                     show_line, show_links, show_scatter, show_text, show_tile
     '                     size, skeletonKaryotype, track_start, track_step, track_width
@@ -224,15 +224,15 @@ Namespace Configurations
         ''' 基因组的骨架信息
         ''' </summary>
         ''' <returns></returns>
-        Public Property skeletonKaryotype As SkeletonInfo
+        Public Property skeletonKaryotype As KaryotypeSkeleton
 
         ReadOnly plotTracks As New List(Of ITrackPlot)
 
-        Public ReadOnly Property Ideogram As Ideogram
+        Public ReadOnly Property IdeogramInclude As IdeogramInclude
             Get
                 For Each include In Me.includes
-                    If TypeOf include Is Ideogram Then
-                        Return DirectCast(include, Ideogram)
+                    If TypeOf include Is IdeogramInclude Then
+                        Return DirectCast(include, IdeogramInclude)
                     End If
                 Next
 

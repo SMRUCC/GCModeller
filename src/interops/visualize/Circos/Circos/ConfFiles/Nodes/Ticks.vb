@@ -57,7 +57,7 @@ Imports Microsoft.VisualBasic.Language
 
 Namespace Configurations.Nodes
 
-    Public Class Ticks : Inherits CircosDocument
+    Public Class TicksBlock : Inherits CircosDocument
         Implements ICircosDocNode
 
         <Circos> Public Property skip_first_label As String = no
@@ -82,17 +82,17 @@ Namespace Configurations.Nodes
         <Circos> Public Property thickness As String = "3p"
         <Circos> Public Property size As String = "20p"
 
-        Public Property ticks As New List(Of Tick)
+        Public Property ticks As New List(Of TickBlock)
 
-        Public Shared Function DefaultConfiguration() As Ticks
-            Dim ticks As New List(Of Tick)
+        Public Shared Function DefaultConfiguration() As TicksBlock
+            Dim ticks As New List(Of TickBlock)
 
             ' sub ticks
-            ticks += New Tick With {.spacing = "1u", .show_label = no, .grid_thickness = "1p"}
+            ticks += New TickBlock With {.spacing = "1u", .show_label = no, .grid_thickness = "1p"}
             ' main ticks
-            ticks += New Tick With {.spacing = "5u", .show_label = yes, .label_size = "28p", .format = "%d"}
+            ticks += New TickBlock With {.spacing = "5u", .show_label = yes, .label_size = "28p", .format = "%d"}
 
-            Return New Ticks With {
+            Return New TicksBlock With {
                 .ticks = ticks
             }
         End Function
@@ -106,7 +106,7 @@ Namespace Configurations.Nodes
     ''' Rule unit and displaying
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Tick : Inherits CircosDocument
+    Public Class TickBlock : Inherits CircosDocument
         Implements ICircosDocNode
 
         <Circos> Public Property size As String = "20p"

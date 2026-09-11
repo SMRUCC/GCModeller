@@ -47,7 +47,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace TrackDatas.Highlights
 
-    Public Class HighlightLabel : Inherits data(Of TextTrackData)
+    Public Class HighlightLabel : Inherits TrackDataDocument(Of TextTrackData)
 
         Sub New(annoData As IEnumerable(Of IGeneBrief), Optional chr$ = "chr1")
             Call MyBase.New(__textSource(annoData, chr))

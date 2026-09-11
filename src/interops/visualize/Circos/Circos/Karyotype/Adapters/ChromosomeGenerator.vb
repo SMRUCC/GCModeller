@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80e5493df320fc967df2352c886b12c1, visualize\Circos\Circos\Karyotype\Adapters\ChromosomeGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::80e5493df320fc967df2352c886b12c1, visualize\Circos\Circos\KaryotypeEntry\Adapters\ChromosomeGenerator.vb"
 
     ' Author:
     ' 
@@ -63,19 +63,19 @@ Namespace Karyotype
         ''' 如果这个参数为空值的话，则默认使用随机的<see cref="CircosColor.AllCircosColors"/>
         ''' </param>
         ''' <returns></returns>
-        Public Function FromNts(chrs As IEnumerable(Of FastaSeq), Optional colors As String() = Nothing) As KaryotypeChromosomes
+        Public Function FromNts(chrs As IEnumerable(Of FastaSeq), Optional colors As String() = Nothing) As GenomeKaryotype
             Dim chrVector As FastaSeq() = chrs.ToArray
-            Dim ks As Karyotype() = chrVector.chromosomes(colors Or shuffleCircosColors).ToArray
+            Dim ks As KaryotypeEntry() = chrVector.chromosomes(colors Or shuffleCircosColors).ToArray
 
             With ks.VectorShadows
                 .nt = chrVector
             End With
 
-            Return New KaryotypeChromosomes(ks)
+            Return New GenomeKaryotype(ks)
         End Function
 
         <Extension>
-        Private Function chromosomes(chrVector As FastaSeq(), colors$()) As IEnumerable(Of Karyotype)
+        Private Function chromosomes(chrVector As FastaSeq(), colors$()) As IEnumerable(Of KaryotypeEntry)
             Return From nt As SeqValue(Of FastaSeq)
                    In chrVector.SeqIterator(offset:=1)
                    Let fasta = nt.value
@@ -85,7 +85,7 @@ Namespace Karyotype
                        .NormalizePathString(True) _
                        .Replace(" ", "_")
                    Let clInd As Integer = randf.NextInteger(colors.Length)
-                   Select New Karyotype With {
+                   Select New KaryotypeEntry With {
                        .chrName = "chr" & nt.i,
                        .chrLabel = name,
                        .color = colors(clInd),

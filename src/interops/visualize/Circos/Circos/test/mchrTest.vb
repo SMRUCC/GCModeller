@@ -54,13 +54,13 @@ Module Module1
     Private Sub run()
         Dim fas As New FastaFile("H:\5.14.circos\6.22\Af293.fna")
         Dim maps As BlastnMapping() = "H:\5.14.circos\6.22\maps.MergeMappings-Trim.Full.Perfect.identities=0.9.Csv".LoadCsv(Of BlastnMapping)
-        Dim genome As KaryotypeChromosomes = ChromosomeGenerator.FromNts(fas)
+        Dim genome As GenomeKaryotype = ChromosomeGenerator.FromNts(fas)
         Call genome.Save("x:/test.txt")
 
         Dim circos As New Circos
         circos.skeletonKaryotype = genome
-        circos.includes.Add(New Configurations.Ideogram(circos))
-        circos.includes.Add(New Configurations.Ticks(circos))
+        circos.includes.Add(New Configurations.IdeogramInclude(circos))
+        circos.includes.Add(New Configurations.TicksInclude(circos))
 
         circos.Ideogram.Ideogram.show_label = yes
         circos.Ideogram.Ideogram.Spacing.default = "0.2u"
@@ -72,7 +72,7 @@ Module Module1
         circos.AddTrack(New Histogram(New GCSkew(fas, karyotype:=circos.skeletonKaryotype, winSize:=4096, steps:=2048, isCircular:=True)))
         circos.AddTrack(New Histogram(New GeneGCContent(genome:=fas, karyotype:=circos.skeletonKaryotype, winSize:=4096, steps:=2048, getValue:=Function(x) x.GC_AT)))
         circos.AddTrack(New Histogram(New GradientMappings(maps.IdentitiesTracks(circos.skeletonKaryotype), "Jet")))
-        circos.AddTrack(New Histogram(New TrackDatas.data(Of TrackDatas.ValueTrackData)(hhhh.EndInvoke(inn))))
+        circos.AddTrack(New Histogram(New TrackDatas.TrackDataDocument(Of TrackDatas.ValueTrackData)(hhhh.EndInvoke(inn))))
 
         Call circos.Save("Z:\circos-test/")
     End Sub

@@ -53,10 +53,10 @@ Namespace Configurations
     ''' properties Of the segments On which data are drawn. These segments
     ''' are usually chromosomes, but can be any Integer axis.
     ''' </summary>
-    Public Class Ideogram : Inherits CircosConfig
+    Public Class IdeogramInclude : Inherits CircosConfig
         Implements ICircosDocument
 
-        Public Property Ideogram As Nodes.Ideogram = New Nodes.Ideogram
+        Public Property Ideogram As Nodes.IdeogramBlock = New Nodes.IdeogramBlock
 
         Sub New(circos As Circos)
             Call MyBase.New(IdeogramConf, circos)

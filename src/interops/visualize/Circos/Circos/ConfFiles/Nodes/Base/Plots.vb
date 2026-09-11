@@ -76,7 +76,7 @@ Namespace Configurations.Nodes.Plots
     ''' f = (value - min) / ( max - min )
     ''' n = N * f
     ''' </summary>
-    Public Class HeatMap : Inherits TracksPlot(Of ValueTrackData)
+    Public Class HeatMap : Inherits TrackPlot(Of ValueTrackData)
 
         ''' <summary>
         ''' Colors are defined by a combination of lists or CSV. Color lists
@@ -109,7 +109,7 @@ Namespace Configurations.Nodes.Plots
         ''' <returns></returns>
         <Circos> Public Property scale_log_base As String = "5"
 
-        Public Sub New(data As data(Of ValueTrackData))
+        Public Sub New(data As TrackDataDocument(Of ValueTrackData))
             Call MyBase.New(data)
         End Sub
 
@@ -148,7 +148,7 @@ Namespace Configurations.Nodes.Plots
     ''' Each data point (i.e. histogram bin). Here, I include the ```&lt;rule>```
     ''' block from a file, which contains the following
     ''' </remarks>
-    Public Class Histogram : Inherits TracksPlot(Of ValueTrackData)
+    Public Class Histogram : Inherits TrackPlot(Of ValueTrackData)
 
         <Circos> Public Overrides ReadOnly Property type As String
             Get
@@ -168,7 +168,7 @@ Namespace Configurations.Nodes.Plots
         ''' <returns></returns>
         <Circos> Public Property extend_bin As String = no
 
-        Public Sub New(data As data(Of ValueTrackData))
+        Public Sub New(data As TrackDataDocument(Of ValueTrackData))
             Call MyBase.New(data)
         End Sub
 
@@ -190,7 +190,7 @@ Namespace Configurations.Nodes.Plots
     ''' position window To fit more labels, without overlap. This Is an
     ''' advanced feature - see the 2D Track text tutorials.
     ''' </summary>
-    Public Class TextLabel : Inherits TracksPlot(Of TextTrackData)
+    Public Class TextLabel : Inherits TrackPlot(Of TextTrackData)
 
         <Circos> Public Property color As String = "black"
         <Circos> Public Property label_size As String = "16"
@@ -237,7 +237,7 @@ Namespace Configurations.Nodes.Plots
         ''' 创建一个圈用来显示位点的标签文本信息
         ''' </summary>
         ''' <param name="data"></param>
-        Sub New(data As data(Of TextTrackData))
+        Sub New(data As TrackDataDocument(Of TextTrackData))
             Call MyBase.New(data)
         End Sub
 

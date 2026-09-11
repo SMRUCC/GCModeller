@@ -92,7 +92,7 @@ Namespace Configurations.Nodes.Plots
     ''' chr12 1000 5000 chr15 5000 7000
     ''' ```
     ''' </remarks>
-    Public Class link : Inherits TracksPlot(Of TrackDatas.link)
+    Public Class LinkPlot : Inherits TrackPlot(Of LinkData)
 
         <Circos> Public Overrides ReadOnly Property type As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -153,7 +153,7 @@ Namespace Configurations.Nodes.Plots
         <Circos> Public Property ribbon As String = no
         <Circos> Public Property color As String = "black_a4"
 
-        Sub New(data As data(Of TrackDatas.link))
+        Sub New(data As TrackDataDocument(Of LinkData))
             Call MyBase.New(data)
         End Sub
 

@@ -1,4 +1,4 @@
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Configurations.Nodes.Plots
@@ -32,7 +32,7 @@ Namespace Configurations.Nodes.Plots
     ''' The default values of this plot are taken from the official template
     ''' ``etc/tracks/scatter.conf`` in the circos distribution.
     ''' </remarks>
-    Public Class ScatterPlot : Inherits TracksPlot(Of ValueTrackData)
+    Public Class ScatterPlot : Inherits TrackPlot(Of ValueTrackData)
 
         <Circos> Public Overrides ReadOnly Property type As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -53,7 +53,7 @@ Namespace Configurations.Nodes.Plots
         <Circos> Public Property glyph_size As String = "10"
         ''' <summary>
         ''' The primary color parameter of the glyph.
-        ''' (与继承得到的<see cref="TracksPlot(Of T).fill_color"/>是同义参数，二者使用任意一个即可)
+        ''' (与继承得到的<see cref="TrackPlot(Of T).fill_color"/>是同义参数，二者使用任意一个即可)
         ''' </summary>
         ''' <returns></returns>
         <Circos> Public Property color As String = null
@@ -68,7 +68,7 @@ Namespace Configurations.Nodes.Plots
         ''' </remarks>
         <Circos> Public Property max_gap As String = null
 
-        Sub New(data As data(Of ValueTrackData))
+        Sub New(data As TrackDataDocument(Of ValueTrackData))
             Call MyBase.New(data)
 
             ' 默认值取自 circos 发行版之中的 etc/tracks/scatter.conf
@@ -77,7 +77,7 @@ Namespace Configurations.Nodes.Plots
             stroke_thickness = "0"
             r1 = "0.79r"
             r0 = "0.70r"
-            orientation = orientations.out
+            orientation = Orientation.Out
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

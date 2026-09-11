@@ -71,7 +71,7 @@ Namespace Configurations.Nodes
         End Function
     End Class
 
-    Public Class Ideogram : Inherits CircosDocument
+    Public Class IdeogramBlock : Inherits CircosDocument
         Implements ICircosDocNode
 
         ''' <summary>
