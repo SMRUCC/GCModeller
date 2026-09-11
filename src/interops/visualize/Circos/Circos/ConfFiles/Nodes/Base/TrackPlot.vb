@@ -134,7 +134,7 @@ Namespace Configurations.Nodes.Plots
         End Property
         <Circos> Public Overridable Property fill_color As String = "orange" Implements ITrackPlot.fill_color
         ''' <summary>
-        ''' 圈的朝向，是<see cref="ORIENTATIONs.IN"/>向内还是<see cref="ORIENTATIONs.OUT"/>向外
+        ''' 圈的朝向，是<see cref="ORIENTATION.IN"/>向内还是<see cref="ORIENTATION.OUT"/>向外
         ''' </summary>
         ''' <returns></returns>
         <Circos> Public Property orientation As Orientation = Orientation.In Implements ITrackPlot.orientation

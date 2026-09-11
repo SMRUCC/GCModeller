@@ -1,4 +1,3 @@
-Imports System.Diagnostics
 Imports System.IO
 Imports System.Text
 
@@ -25,7 +24,7 @@ Namespace Configurations
         ''' <returns></returns>
         Public Property Message As String
         ''' <summary>
-        ''' 被渲染的配置文件<paramref name="ConfFile"/>的文件路径
+        ''' 被渲染的配置文件<see cref="ConfFile"/>的文件路径
         ''' </summary>
         Public Property ConfFile As String
         ''' <summary>
