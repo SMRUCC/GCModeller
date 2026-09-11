@@ -76,7 +76,7 @@ Public Module RockhopperPipeline
         Next
 
         ' 复制子（用于重建覆盖度）
-        Dim replicons As List(Replicon) = genomes.Select(Function(g, i) New Replicon(g.Name, g.Sequence.Substring(1))).ToList()
+        Dim replicons As List(Of Replicon) = genomes.Select(Function(g, i) New Replicon(g.Name, g.Sequence.Substring(1))).ToList()
 
         ' 条件文件解析（条件内用逗号分隔，mate-pair 用 % 分隔）
         Dim conditions As List(Of Condition) = buildConditions(parameters)

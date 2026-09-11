@@ -16,5 +16,14 @@
     "content": "{\"type\":\"shutdown_request\",\"request_id\":\"shutdown-1789168456476\",\"reason\":\"Alignment/ 模块已由主线按论文算法实现完成，为避免覆盖冲突，请立即停止并不再写入任何文件。\",\"from\":\"team-lead\",\"timestamp\":\"2026-09-11T23:14:16.476Z\"}",
     "timestamp": "2026-09-11T23:14:16.476Z",
     "read": false
+  },
+  {
+    "id": "nudge-1789168486480-mlxa36",
+    "from": "team-lead",
+    "to": "alignment",
+    "type": "message",
+    "content": "Reminder: a previous shutdown_request (request_id=shutdown-1789168456476) is still awaiting your response.\nPer the Shutdown Protocol, you MUST reply now with:\n  send_message(type='shutdown_response', approve=true, request_id='shutdown-1789168456476')\nIf you have unreported deliverables, send them via send_message first, then acknowledge.\nForce termination will occur shortly if no response is received.",
+    "timestamp": "2026-09-11T23:14:46.480Z",
+    "read": false
   }
 ]

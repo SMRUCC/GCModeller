@@ -140,9 +140,9 @@ Namespace Alignment
             Return count
         End Function
 
-        ''' <summary>C(c)：字典序严格小于 c 的字符总数。</summary>
-        Public Function C(c As Char) As Integer
-            Dim a As Integer = indexOf(c)
+        ''' <summary>C(ch)：字典序严格小于 ch 的字符总数。</summary>
+        Public Function C(ch As Char) As Integer
+            Dim a As Integer = indexOf(ch)
             If a < 0 Then Return 0
             Return cTable(a)
         End Function
@@ -179,13 +179,6 @@ Namespace Alignment
             Next
             Return hits.ToArray
         End Function
-
-        ''' <summary>后缀数组（只读，供候选定位使用）。</summary>
-        Public ReadOnly Property Sa As Integer()
-            Get
-                Return sa
-            End Get
-        End Property
 
     End Class
 

@@ -185,7 +185,7 @@ Namespace Core
         End Property
 
         ''' <summary>Return the collection of RNA genes.</summary>
-        Public ReadOnly Property RNAs As List(Of Gene)
+        Public ReadOnly Property RnaGenes As List(Of Gene)
             Get
                 Return Me.rnas
             End Get

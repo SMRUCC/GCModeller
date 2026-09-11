@@ -25,5 +25,14 @@
     "content": "{\"type\":\"shutdown_request\",\"request_id\":\"shutdown-1789168456234\",\"reason\":\"Core/Transcripts.vb 与 Core/Operons.vb 已由主线实现完成，为避免覆盖冲突，请立即停止并不再写入任何文件。\",\"from\":\"team-lead\",\"timestamp\":\"2026-09-11T23:14:16.234Z\"}",
     "timestamp": "2026-09-11T23:14:16.234Z",
     "read": false
+  },
+  {
+    "id": "nudge-1789168486239-089w7k",
+    "from": "team-lead",
+    "to": "core-models",
+    "type": "message",
+    "content": "Reminder: a previous shutdown_request (request_id=shutdown-1789168456234) is still awaiting your response.\nPer the Shutdown Protocol, you MUST reply now with:\n  send_message(type='shutdown_response', approve=true, request_id='shutdown-1789168456234')\nIf you have unreported deliverables, send them via send_message first, then acknowledge.\nForce termination will occur shortly if no response is received.",
+    "timestamp": "2026-09-11T23:14:46.239Z",
+    "read": false
   }
 ]

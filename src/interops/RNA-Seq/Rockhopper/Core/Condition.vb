@@ -78,7 +78,7 @@ Namespace Core
         ''' <summary>
         ''' 全部重复（只读）。
         ''' </summary>
-        Public ReadOnly Property Replicates As IReadOnlyList(Of Replicate)
+        Public ReadOnly Property ReplicateList As IReadOnlyList(Of Replicate)
             Get
                 Return replicates
             End Get
