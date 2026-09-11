@@ -176,18 +176,25 @@ Namespace GdiPlus.Tracks
                 units = 1
             End If
 
-            For Each tick As TickBlock In block.ticks
+            ' 先绘制间距较大的主刻度，并记录已经被标注过的位置，
+            ' 从而避免主/副刻度在相同的位置重复绘制标签
+            Dim tickBlocks As TickBlock() = block.ticks _
+                .OrderByDescending(Function(t) spacingInNt(t.spacing, units)) _
+                .ToArray()
+            Dim labeledPositions As New HashSet(Of String)
+
+            For Each tick As TickBlock In tickBlocks
                 Dim spacingNt As Double = spacingInNt(tick.spacing, units)
 
                 If spacingNt <= 0 Then
                     Continue For
                 End If
 
-                Dim tickSize As Double = CircosUnits.ParseNumber(tick.size, CircosUnits.ParseNumber(block.size, 20))
-                Dim tickThickness As Double = CircosUnits.ParseNumber(block.thickness, 3)
+                Dim tickSize As Double = ctx.Radius(tick.size, ctx.Radius(block.size, 20))
+                Dim tickThickness As Double = ctx.Radius(block.thickness, 3)
                 Dim tickColor As Color = ctx.ColorOf(tick.color, color)
                 Dim showTickLabel As Boolean = showLabels AndAlso CircosUnits.IsYes(tick.show_label)
-                Dim labelOffset As Double = CircosUnits.ParseNumber(
+                Dim labelOffset As Double = ctx.Radius(
                     If(tick.label_offset, block.label_offset), 5)
                 Dim labelSize As Double = CircosUnits.ParseNumber(tick.label_size, CircosUnits.ParseNumber(block.label_size, 36))
                 Dim suffix$ = stripQuotes(tick.suffix)
@@ -215,10 +222,14 @@ Namespace GdiPlus.Tracks
                             CSng(Math.Max(1, tickThickness)))
 
                         If showTickLabel Then
-                            Dim label$ = CircosUnits.FormatTick(position * multiplier, tick.format) & suffix
-                            Dim labelRadius As Double = radiusBase + Math.Max(1, tickSize) + labelOffset + labelSize * 0.5
+                            Dim labelKey$ = $"{band.Name}:{CInt(position)}"
 
-                            Call ctx.Canvas.DrawRadialText(label, angle, labelRadius, labelFont, color)
+                            If labeledPositions.Add(labelKey) Then
+                                Dim label$ = CircosUnits.FormatTick(position * multiplier, tick.format) & suffix
+                                Dim labelRadius As Double = radiusBase + Math.Max(1, tickSize) + labelOffset + labelSize * 0.45
+
+                                Call ctx.Canvas.DrawRadialText(label, angle, labelRadius, labelFont, color)
+                            End If
                         End If
                     Next
                 Next

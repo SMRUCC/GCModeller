@@ -60,11 +60,23 @@ Namespace GdiPlus
         ''' <param name="expr">长度表达式</param>
         ''' <param name="imageRadius">图像半径（像素），用于换算 ``r`` 单位</param>
         ''' <param name="fallback">解析失败时返回的默认值</param>
-        Public Function ParseLength(expr As String, imageRadius As Double, Optional fallback As Double = 0) As Double
+        ''' <param name="pixelScale">
+        ''' ``p`` 单位的缩放系数。circos 之中的 ``p`` 是相对于 1000px 的参考图像尺寸的像素值，
+        ''' 因此实际像素值 = 数值 * (图像尺寸 / 1000)
+        ''' </param>
+        Public Function ParseLength(expr As String,
+                                   imageRadius As Double,
+                                   Optional fallback As Double = 0,
+                                   Optional pixelScale As Double = 1) As Double
+
             Dim s$ = If(expr, "").Trim()
 
             If s.Length = 0 Then
                 Return fallback
+            End If
+
+            If pixelScale <= 0 Then
+                pixelScale = 1
             End If
 
             If s.EndsWith("r", StringComparison.OrdinalIgnoreCase) Then
@@ -72,7 +84,7 @@ Namespace GdiPlus
             End If
 
             If s.EndsWith("p", StringComparison.OrdinalIgnoreCase) Then
-                Return ParseNumber(s.Substring(0, s.Length - 1), fallback)
+                Return ParseNumber(s.Substring(0, s.Length - 1), fallback) * pixelScale
             End If
 
             Return ParseNumber(s, fallback)
@@ -87,7 +99,8 @@ Namespace GdiPlus
         Public Function ParseRadius(expr As String,
                                     imageRadius As Double,
                                     Optional fallback As Double = 0,
-                                    Optional resolveDims As Func(Of String, Double) = Nothing) As Double
+                                    Optional resolveDims As Func(Of String, Double) = Nothing,
+                                    Optional pixelScale As Double = 1) As Double
 
             Dim s$ = If(expr, "").Trim()
 
@@ -111,13 +124,13 @@ Namespace GdiPlus
                     baseValue = imageRadius
                 End If
 
-                Return baseValue + parseOffset(rest, imageRadius)
+                Return baseValue + parseOffset(rest, imageRadius, pixelScale)
             End If
 
-            Return ParseLength(s, imageRadius, fallback)
+            Return ParseLength(s, imageRadius, fallback, pixelScale)
         End Function
 
-        Private Function parseOffset(rest As String, imageRadius As Double) As Double
+        Private Function parseOffset(rest As String, imageRadius As Double, pixelScale As Double) As Double
             Dim s$ = If(rest, "").Trim()
 
             If s.Length = 0 Then
@@ -133,7 +146,7 @@ Namespace GdiPlus
                 s = s.Substring(1).Trim()
             End If
 
-            Return sign * ParseLength(s, imageRadius, 0)
+            Return sign * ParseLength(s, imageRadius, 0, pixelScale)
         End Function
 
         ''' <summary>
