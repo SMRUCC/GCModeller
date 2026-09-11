@@ -46,6 +46,8 @@ export class Tensor {
    Shape: integer;
    # 张量中元素的总数（兼容旧版本）
    TotalLength: integer;
+   # 数据版本号（只读）。任何原地写入都会使其自增，供设备端缓存判断失效。
+   Version: integer;
 }
 </code>
         </pre>

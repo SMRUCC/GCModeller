@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.GeneOntology.DAG.TermNode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>TermNode {SMRUCC.genomics.Data.GeneOntology.DAG}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>TermNode</h2>
+
+        <h3>Description</h3>
+
+        <p>The DAG node of a specific GO <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/Term.html">Term</a>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data.GeneOntology.DAG
+export class TermNode {
+   GO_term: <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/Term.html">Term</a>;
+   # <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/base.html">base</a>.<a href="#">id</a>
+   id: string;
+   # 当前的这个term是子节点，则这个属性内的所有的节点都是这个节点的父节点
+   is_a: <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/DAG/is_a.html">is_a[]</a>;
+   namespace: string;
+   relationship: <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/DAG/Relationship.html">Relationship[]</a>;
+   synonym: <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/DAG/synonym.html">synonym[]</a>;
+   xref: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/NamedValue`1.html">NamedValue`1[]</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>GO_term</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/Term.html">Term</a></li>
+<li>use by <i>property</i> member <code>is_a</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/DAG/is_a.html">is_a</a></li>
+<li>use by <i>property</i> member <code>relationship</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/DAG/Relationship.html">Relationship</a></li>
+<li>use by <i>property</i> member <code>synonym</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/DAG/synonym.html">synonym</a></li>
+<li>use by <i>property</i> member <code>xref</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/NamedValue`1.html">NamedValue`1</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

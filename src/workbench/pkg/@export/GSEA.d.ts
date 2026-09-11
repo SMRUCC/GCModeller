@@ -114,7 +114,13 @@ declare namespace GSEA {
       function enrichment(file: string): object;
    }
    /**
-     * @param env default value Is ``null``.
+    * cast dataframe to CLR enrichmentt terms
+    * 
+    * 
+     * @param x -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function to_enrichment_terms(x: object, env?: object): object;
    module write {
