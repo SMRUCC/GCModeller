@@ -172,7 +172,7 @@ Namespace Karyotype
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetData() As String Implements IKaryotype.GetData
-            Return $"band {trimField(chrName)} {trimField(bandX)} {trimField(bandY)} {start} {[end]} {trimField(color)}"
+            Return $"band {Karyotype.trimField(chrName)} {Karyotype.trimField(bandX)} {Karyotype.trimField(bandY)} {start} {[end]} {Karyotype.trimField(color)}"
         End Function
     End Class
 End Namespace
