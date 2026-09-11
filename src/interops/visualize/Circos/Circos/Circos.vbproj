@@ -20,7 +20,12 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;circos;genome-visualization;karyotype;visualization</PackageTags>
     <PackageReleaseNotes>Implements the Circos configuration document model and rendering API for genome circle visualization.</PackageReleaseNotes>
-    <TargetFramework>net10.0</TargetFramework>
+    <!--
+      同时输出 net10.0 与 net10.0-windows 两个目标框架：
+      net10.0 保持原有的跨平台配置生成能力；net10.0-windows 提供内置的 GDI+ 绘图引擎
+      （GDI+ 仅在 Windows 平台可用，因此该引擎的代码通过 #If WINDOWS 条件编译进行保护）
+    -->
+    <TargetFrameworks>net10.0;net10.0-windows</TargetFrameworks>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>

@@ -226,6 +226,22 @@ Namespace Configurations
         ''' <returns></returns>
         Public Property skeletonKaryotype As KaryotypeSkeleton
 
+        ''' <summary>
+        ''' 内置 GDI+ 绘图引擎所使用的画布尺寸。
+        ''' 
+        ''' 这个属性没有使用 <see cref="CircosAttribute"/> 标记，所以它**不会**被序列化到
+        ''' ``circos.conf`` 配置文件之中（不会影响到命令行调用 circos 的既有流程），
+        ''' 仅用于 <see cref="GdiPlus.GdiRender"/> 在没有显式指定渲染参数的时候确定输出图像的尺寸。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property GdiPlusImageSize As System.Drawing.Size = New System.Drawing.Size(1200, 1200)
+
+        ''' <summary>
+        ''' 内置 GDI+ 绘图引擎所使用的 DPI（同样不会参与 ``circos.conf`` 的序列化输出）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property GdiPlusDpi As Integer = 100
+
         ReadOnly plotTracks As New List(Of ITrackPlot)
 
         ''' <summary>
