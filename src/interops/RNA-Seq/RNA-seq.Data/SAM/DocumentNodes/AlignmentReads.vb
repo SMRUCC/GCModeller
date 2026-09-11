@@ -303,8 +303,141 @@ Namespace SAM
         ''' <remarks></remarks>
         Public Property CIGAR As String
 
-        Public Sub CIGARParser(ByRef paraValue As Integer, ByRef opr As CIGAROperations)
+        ''' <summary>
+        ''' 单个 CIGAR 操作的解析结果（长度 + 操作类型）。
+        ''' </summary>
+        Public Structure CigarOp
+            ''' <summary>
+            ''' 该操作覆盖的碱基个数。
+            ''' </summary>
+            Public ReadOnly Length As Integer
+            ''' <summary>
+            ''' 操作类型。
+            ''' </summary>
+            Public ReadOnly Operation As CIGAROperations
 
+            Public Sub New(length As Integer, op As CIGAROperations)
+                Me.Length = length
+                Me.Operation = op
+            End Sub
+
+            Public Overrides Function ToString() As String
+                Return $"{Length}{Operation}"
+            End Function
+        End Structure
+
+        ''' <summary>
+        ''' 将 <see cref="CIGAR"/> 字符串解析为操作序列。
+        ''' </summary>
+        ''' <returns>
+        ''' 解析得到的操作序列；当 CIGAR 为 ``*`` 或者空字符串时返回空数组。
+        ''' 无法识别的字符会被忽略。
+        ''' </returns>
+        ''' <remarks>
+        ''' 支持的操作为 ``MIDNSHP=X``（``H`` 仅出现在两端，``S`` 仅出现在两端或 ``H`` 之间）。
+        ''' </remarks>
+        Public Function ParseCigar() As CigarOp()
+            If String.IsNullOrEmpty(CIGAR) OrElse CIGAR = "*" Then
+                Return New CigarOp() {}
+            End If
+
+            Dim ops As New List(Of CigarOp)
+            Dim number As Integer = 0
+            Dim hasNumber As Boolean = False
+
+            For Each ch As Char In CIGAR
+                If Char.IsDigit(ch) Then
+                    number = number * 10 + (AscW(ch) - AscW("0"c))
+                    hasNumber = True
+                Else
+                    Dim op As CIGAROperations
+
+                    Select Case ch
+                        Case "M"c : op = CIGAROperations.M
+                        Case "I"c : op = CIGAROperations.I
+                        Case "D"c : op = CIGAROperations.D
+                        Case "N"c : op = CIGAROperations.N
+                        Case "S"c : op = CIGAROperations.S
+                        Case "H"c : op = CIGAROperations.H
+                        Case "P"c : op = CIGAROperations.P
+                        Case "="c : op = CIGAROperations.EQ
+                        Case "X"c : op = CIGAROperations.X
+                        Case Else
+                            ' 非法字符：忽略
+                            Continue For
+                    End Select
+
+                    ops.Add(New CigarOp(If(hasNumber, number, 0), op))
+                    number = 0
+                    hasNumber = False
+                End If
+            Next
+
+            Return ops.ToArray
+        End Function
+
+        ''' <summary>
+        ''' 计算该比对在参考基因组上面消耗（跨越）的碱基长度。
+        ''' </summary>
+        ''' <param name="includeN">
+        ''' 是否把 ``N``（跳过区域，如 mRNA 到基因组的比对之中代表内含子）计入参考跨度。
+        ''' 缺省为 ``False``，以与原始 TSSAR Perl 脚本
+        ''' （``cigarlength``：仅累加 ``M/D/X/=``）保持一致。
+        ''' </param>
+        ''' <returns>参考跨度；当 CIGAR 不可用时返回 0。</returns>
+        Public Function ReferenceSpan(Optional includeN As Boolean = False) As Integer
+            Dim length As Integer = 0
+
+            For Each op As CigarOp In ParseCigar()
+                Select Case op.Operation
+                    Case CIGAROperations.M, CIGAROperations.D, CIGAROperations.EQ, CIGAROperations.X
+                        length += op.Length
+                    Case CIGAROperations.N
+                        If includeN Then
+                            length += op.Length
+                        End If
+                End Select
+            Next
+
+            Return length
+        End Function
+
+        ''' <summary>
+        ''' 计算该比对对应的查询（read）序列长度，即 ``M/I/S/=/X`` 的长度之和。
+        ''' </summary>
+        ''' <returns>查询序列长度；当 CIGAR 不可用时返回 0。</returns>
+        Public Function QueryLength() As Integer
+            Dim length As Integer = 0
+
+            For Each op As CigarOp In ParseCigar()
+                Select Case op.Operation
+                    Case CIGAROperations.M, CIGAROperations.I, CIGAROperations.S, CIGAROperations.EQ, CIGAROperations.X
+                        length += op.Length
+                End Select
+            Next
+
+            Return length
+        End Function
+
+        ''' <summary>
+        ''' CIGAR 解析入口（修复原先的空实现）。
+        ''' </summary>
+        ''' <param name="paraValue">输出：该比对的参考基因组跨度（``M/D/X/=``，不含 ``N``）。</param>
+        ''' <param name="opr">输出：CIGAR 字符串之中的第一个操作类型；无有效操作时为 ``M``。</param>
+        ''' <remarks>
+        ''' 完整的操作序列请使用 <see cref="ParseCigar"/>；
+        ''' 参考跨度请使用 <see cref="ReferenceSpan"/>；查询长度请使用 <see cref="QueryLength"/>。
+        ''' </remarks>
+        Public Sub CIGARParser(ByRef paraValue As Integer, ByRef opr As CIGAROperations)
+            Dim ops As CigarOp() = ParseCigar()
+
+            paraValue = ReferenceSpan()
+
+            If ops.Length > 0 Then
+                opr = ops(0).Operation
+            Else
+                opr = CIGAROperations.M
+            End If
         End Sub
 
         ''' <summary>
