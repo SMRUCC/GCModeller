@@ -37,8 +37,8 @@ Public Module RockhopperPipeline
         Dim watch As Stopwatch = Stopwatch.StartNew()
 
         ' 输出目录与 summary.txt
-        If Not Directory.Exists(parameters.OutputDirectory) Then
-            Call Directory.CreateDirectory(parameters.OutputDirectory)
+        If Not System.IO.Directory.Exists(parameters.OutputDirectory) Then
+            Call System.IO.Directory.CreateDirectory(parameters.OutputDirectory)
         End If
         Dim summaryPath As String = Path.Combine(parameters.OutputDirectory, parameters.SummaryFile)
         Using summaryWriter As New StreamWriter(summaryPath, False)
@@ -71,8 +71,8 @@ Public Module RockhopperPipeline
         Call Logging.Output($"[{Now}] Loading {parameters.GenomeDirectories.Count} reference genome(s)...{vbLf}")
 
         Dim genomes As New List(Of Genome)()
-        For Each directory As String In parameters.GenomeDirectories
-            genomes.Add(FileIO.GenomeReader.Load(directory))
+        For Each genomeDir As String In parameters.GenomeDirectories
+            genomes.Add(FileIO.GenomeReader.Load(genomeDir))
         Next
 
         ' 复制子（用于重建覆盖度）
@@ -97,10 +97,10 @@ Public Module RockhopperPipeline
 
         For c As Integer = 0 To parameters.ConditionFiles.Count - 1
             Dim files As String() = parameters.ConditionFiles(c).Split(","c)
-            For Each file As String In files
-                Dim mates As String() = file.Split("%"c)
+            For Each readListItem As String In files
+                Dim mates As String() = readListItem.Split("%"c)
                 Dim readFile As String = mates(0)
-                If Not File.Exists(readFile) Then Continue For
+                If Not System.IO.File.Exists(readFile) Then Continue For
 
                 Dim hits As IEnumerable(Of Alignment.AlignmentHit)
                 If mates.Length > 1 AndAlso File.Exists(mates(1)) Then
@@ -205,7 +205,7 @@ Public Module RockhopperPipeline
         If parameters.ComputeOperons Then
             Call Logging.Output($"[{Now}] Predicting operons...{vbLf}")
             For z As Integer = 0 To genomes.Count - 1
-                Dim operons As List(Of Operon) = Operons.OperonPrediction.Predict(genomes(z), conditions.Count)
+                Dim operonList As List(Of Operon) = Operons.OperonPrediction.Predict(genomes(z), conditions.Count)
                 Dim pairs As List(Of OperonGenePair) = Operons.OperonPrediction.GenePairs(genomes(z), conditions.Count)
 
                 Dim pairPath As String = Path.Combine(parameters.OutputDirectory, $"{replicons(z).Name}_{parameters.OperonGenePairFile}")
@@ -216,15 +216,15 @@ Public Module RockhopperPipeline
                 End Using
 
                 Dim operonPath As String = Path.Combine(parameters.OutputDirectory, $"{replicons(z).Name}_{parameters.OperonMergedFile}")
-                Call FileIO.ResultWriter.WriteOperons(operonPath, operons)
-                Call Logging.Output($"[{Now}] {operons.Count} operons written to {operonPath}{vbLf}")
+                Call FileIO.ResultWriter.WriteOperons(operonPath, operonList)
+                Call Logging.Output($"[{Now}] {operonList.Count} operons written to {operonPath}{vbLf}")
             Next
         End If
 
         ' 基因组浏览器文件（UTRs / Novel RNAs / 差异表达基因）
         If parameters.ComputeTranscripts Then
             Dim browserDir As String = Path.Combine(parameters.OutputDirectory, parameters.BrowserDirectory)
-            If Not Directory.Exists(browserDir) Then Call Directory.CreateDirectory(browserDir)
+            If Not System.IO.Directory.Exists(browserDir) Then Call System.IO.Directory.CreateDirectory(browserDir)
             For z As Integer = 0 To genomes.Count - 1
                 Call FileIO.WigWriter.WriteUTRs(Path.Combine(browserDir, $"{replicons(z).Name}_UTRs.wig"), replicons(z).Name, genomes(z).Genes, replicons(z).Length)
                 Call FileIO.WigWriter.WriteRNAs(Path.Combine(browserDir, $"{replicons(z).Name}_RNAs.wig"), replicons(z).Name, genomes(z).Genes, replicons(z).Length)
