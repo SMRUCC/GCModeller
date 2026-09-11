@@ -43,13 +43,9 @@
 Option Strict Off
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize.Circos.Colors
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 

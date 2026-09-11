@@ -75,7 +75,7 @@ Namespace Karyotype
         Protected Sub New()
         End Sub
 
-        Private Overloads Shared Iterator Function GenerateDocument(data As IEnumerable(Of NamedTuple(Of String))) As IEnumerable(Of Band)
+        Public Overloads Shared Iterator Function GenerateDocument(data As IEnumerable(Of NamedTuple(Of String))) As IEnumerable(Of Band)
             If Not data Is Nothing Then
                 Dim i As Integer
 
