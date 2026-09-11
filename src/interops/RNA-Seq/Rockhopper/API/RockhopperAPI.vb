@@ -78,6 +78,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Analysis.RNA_Seq.TSSAR
 Imports CSVFile = Microsoft.VisualBasic.Data.Framework.IO.File
+Imports Microsoft.VisualBasic.Data.Framework.IO
 
 Namespace AnalysisAPI
 
@@ -145,7 +146,7 @@ Tjaden, B.",
                 Call temp.Add(i)
             Next
 
-            Call Csv.Add(New String() {"Length"}.Join(temp).ToCsvRow)
+            Call Csv.Add(New RowObject(New String() {"Length"}.Join(temp)))
             Call Csv.AppendRange((From File In LQuery
                                   Select New String() {File.Name & "/" & File.Parent}.Join(GenerateRow(File.distr, Max, delta)).ToCsvRow).ToArray)
             Return Csv
