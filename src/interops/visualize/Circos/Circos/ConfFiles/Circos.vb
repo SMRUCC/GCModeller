@@ -283,7 +283,7 @@ Namespace Configurations
             Dim base = directory Or FilePath.ParentPath.AsDefault
             Dim dataDIR As String = $"{base}/data/"
 
-            Call FilePath.SetValue($"{base}/{FileIO.FileSystem.GetFileInfo(FilePath).Name}")
+            filePath = ($"{base}/{FileIO.FileSystem.GetFileInfo(filePath).Name}")
             Call FileIO.FileSystem.CreateDirectory(dataDIR)
 
             For Each i As SeqValue(Of ITrackPlot) In plotTracks.SeqIterator

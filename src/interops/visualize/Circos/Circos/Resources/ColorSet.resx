@@ -121,19 +121,19 @@
   <data name="colors" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>colors.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="colors.brewer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="colors_brewer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>colors.brewer.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="colors.brewer.lists" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="colors_brewer_lists" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>colors.brewer.lists.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="colors.hsv" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="colors_hsv" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>colors.hsv.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="colors.ucsc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="colors_ucsc" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>colors.ucsc.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="colors.unix" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="colors_unix" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>colors.unix.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

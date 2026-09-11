@@ -1,14 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
   
-    <ProjectGuid>{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}</ProjectGuid>
+   
     <OutputType>Library</OutputType>
-    <StartupObject>
-    </StartupObject>
+
     <RootNamespace>SMRUCC.genomics.Visualize.Circos</RootNamespace>
     <AssemblyName>SMRUCC.genomics.Visualize.Circos.Core</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <MyType>Windows</MyType>
+ 
     <Platforms>AnyCPU;x64;x86;ARM64</Platforms>
     <Title>Circos Configuration Model and Rendering API</Title>
     <Description>Configuration model and API for generating Circos genome circle plots. Builds circos configuration files including ideograms, karyotypes, ticks, highlights, links and track plots, offers color mapping schemes, and invokes the circos renderer.</Description>

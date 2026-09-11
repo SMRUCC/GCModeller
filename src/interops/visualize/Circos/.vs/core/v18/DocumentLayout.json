@@ -3,39 +3,27 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\circosapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\circosapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\trackdatas\\adapter\\highlights\\genemark.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\trackdatas\\adapter\\highlights\\genemark.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\karyotype\\skeletoninfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\karyotype\\skeletoninfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{D33E0DB2-5858-EFFD-F792-F7BA1505261B}|..\\..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\conffiles\\nodes\\base\\trackplots.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\conffiles\\nodes\\base\\trackplots.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\trackdatas\\adapter\\highlights\\highlights.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\trackdatas\\adapter\\highlights\\highlights.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\conffiles\\componentmodel\\circosconfig.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\conffiles\\componentmodel\\circosconfig.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\trackdatas\\adapter\\highlights\\gradientmappings.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\trackdatas\\adapter\\highlights\\gradientmappings.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\colors\\maps\\gradientmaps.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\colors\\maps\\gradientmaps.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7076491-B10F-748C-916A-FC51068B23D4}|..\\..\\..\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Drawing-net4.8.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\drawing-net4.8\\graphics\\graphics2d.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\conffiles\\circos.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\conffiles\\circos.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\colors\\circoscolor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\colors\\circoscolor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\trackdatas\\adapter\\highlights\\name.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\trackdatas\\adapter\\highlights\\name.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\trackdatas\\adapter\\ntprops\\gc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\trackdatas\\adapter\\ntprops\\gc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -45,8 +33,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 6,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\Extensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-11T13:56:25.762Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -61,119 +62,67 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SkeletonInfo.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\Karyotype\\SkeletonInfo.vb",
-              "RelativeDocumentMoniker": "Circos\\Karyotype\\SkeletonInfo.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\Karyotype\\SkeletonInfo.vb",
-              "RelativeToolTip": "Circos\\Karyotype\\SkeletonInfo.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-11T13:49:09.007Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "TrackPlots.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\ConfFiles\\Nodes\\Base\\TrackPlots.vb",
-              "RelativeDocumentMoniker": "Circos\\ConfFiles\\Nodes\\Base\\TrackPlots.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\ConfFiles\\Nodes\\Base\\TrackPlots.vb",
-              "RelativeToolTip": "Circos\\ConfFiles\\Nodes\\Base\\TrackPlots.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFEAAABQAAAAAAAAAA==",
+              "Title": "Highlights.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\Highlights.vb",
+              "RelativeDocumentMoniker": "Circos\\TrackDatas\\Adapter\\Highlights\\Highlights.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\Highlights.vb",
+              "RelativeToolTip": "Circos\\TrackDatas\\Adapter\\Highlights\\Highlights.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-11T13:49:00.977Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Graphics2D.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Graphics\\Graphics2D.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Graphics\\Graphics2D.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Graphics\\Graphics2D.vb",
-              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Graphics\\Graphics2D.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFoAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-11T13:47:59.26Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "GradientMaps.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\Colors\\Maps\\GradientMaps.vb",
-              "RelativeDocumentMoniker": "Circos\\Colors\\Maps\\GradientMaps.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\Colors\\Maps\\GradientMaps.vb",
-              "RelativeToolTip": "Circos\\Colors\\Maps\\GradientMaps.vb",
-              "ViewState": "AgIAADUAAAAAAAAAAAAAAHMAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-11T13:42:24.271Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Name.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\Name.vb",
-              "RelativeDocumentMoniker": "Circos\\TrackDatas\\Adapter\\Highlights\\Name.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\Name.vb",
-              "RelativeToolTip": "Circos\\TrackDatas\\Adapter\\Highlights\\Name.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-11T13:42:10.913Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "GC.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\NtProps\\GC.vb",
-              "RelativeDocumentMoniker": "Circos\\TrackDatas\\Adapter\\NtProps\\GC.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\NtProps\\GC.vb",
-              "RelativeToolTip": "Circos\\TrackDatas\\Adapter\\NtProps\\GC.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-11T13:41:46.586Z",
+              "WhenOpened": "2026-09-11T13:55:26.244Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "CircosConfig.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\ConfFiles\\ComponentModel\\CircosConfig.vb",
-              "RelativeDocumentMoniker": "Circos\\ConfFiles\\ComponentModel\\CircosConfig.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\ConfFiles\\ComponentModel\\CircosConfig.vb",
-              "RelativeToolTip": "Circos\\ConfFiles\\ComponentModel\\CircosConfig.vb",
-              "ViewState": "AgIAAFYAAAAAAAAAAAAuwEQAAAAAAAAAAAAAAA==",
+              "Title": "GradientMappings.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\GradientMappings.vb",
+              "RelativeDocumentMoniker": "Circos\\TrackDatas\\Adapter\\Highlights\\GradientMappings.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\GradientMappings.vb",
+              "RelativeToolTip": "Circos\\TrackDatas\\Adapter\\Highlights\\GradientMappings.vb",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAcwKsAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-11T13:41:41.977Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CircosColor.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\Colors\\CircosColor.vb",
-              "RelativeDocumentMoniker": "Circos\\Colors\\CircosColor.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\Colors\\CircosColor.vb",
-              "RelativeToolTip": "Circos\\Colors\\CircosColor.vb",
-              "ViewState": "AgIAADEAAAAAAAAAAADwv1UAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-11T13:40:44.46Z",
+              "WhenOpened": "2026-09-11T13:55:12.305Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CircosAPI.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\CircosAPI.vb",
-              "RelativeDocumentMoniker": "Circos\\CircosAPI.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\CircosAPI.vb",
-              "RelativeToolTip": "Circos\\CircosAPI.vb",
-              "ViewState": "AgIAAFICAAAAAAAAAAAQwGkCAAAQAAAAAAAAAA==",
+              "Title": "GeneMark.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\GeneMark.vb",
+              "RelativeDocumentMoniker": "Circos\\TrackDatas\\Adapter\\Highlights\\GeneMark.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\GeneMark.vb",
+              "RelativeToolTip": "Circos\\TrackDatas\\Adapter\\Highlights\\GeneMark.vb",
+              "ViewState": "AgIAAJYAAAAAAAAAAADwv7oAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-11T13:38:29.132Z",
+              "WhenOpened": "2026-09-11T13:55:04.606Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Circos.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\ConfFiles\\Circos.vb",
+              "RelativeDocumentMoniker": "Circos\\ConfFiles\\Circos.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\ConfFiles\\Circos.vb",
+              "RelativeToolTip": "Circos\\ConfFiles\\Circos.vb",
+              "ViewState": "AgIAAPcAAAAAAAAAAAAcwAUBAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-11T13:54:41.836Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CircosColor.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\Colors\\CircosColor.vb",
+              "RelativeDocumentMoniker": "Circos\\Colors\\CircosColor.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\Colors\\CircosColor.vb",
+              "RelativeToolTip": "Circos\\Colors\\CircosColor.vb",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAuwEsAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-11T13:54:15.694Z",
               "EditorCaption": ""
             }
           ]

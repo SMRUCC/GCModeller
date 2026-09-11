@@ -192,7 +192,7 @@ Namespace TrackDatas.Highlights
                     .GetColors(mapName, 500) _
                     .Select(Function(cl) $"({cl.R},{cl.G},{cl.B})") _
                     .ToArray
-                Dim indexRange As DoubleRange = {0, colors.Length - 1}
+                Dim indexRange As New DoubleRange(0, colors.Length - 1)
                 Dim chunk As ValueTrackData() = ch.Group _
                     .Select(Function(p)
                                 p.formatting = New Formatting With {

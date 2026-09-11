@@ -1,45 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::5d1de4e9dd5099dc50db78a84bb3f09f, visualize\Circos\Circos\Colors\CircosColor.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module CircosColor
-    ' 
-    '         Properties: AllCircosColors, DefaultCOGColor
-    ' 
-    '         Function: ColorFromHSV, (+2 Overloads) ColorProfiles, FromColor, FromHsv, FromKnownColorName
-    '                   FromRGB, getColorMaps, getColorNames, getColorRgb, loadResource
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module CircosColor
+' 
+'         Properties: AllCircosColors, DefaultCOGColor
+' 
+'         Function: ColorFromHSV, (+2 Overloads) ColorProfiles, FromColor, FromHsv, FromKnownColorName
+'                   FromRGB, getColorMaps, getColorNames, getColorRgb, loadResource
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -80,19 +80,19 @@ Namespace Colors
         ''' 
         Private Function loadResource() As Dictionary(Of String, Color)
             Dim clBufs$() = LinqAPI.Exec(Of String) <= {
- _
-                Strings.Split(My.Resources.colors, vbLf),
-                Strings.Split(My.Resources.colors_brewer, vbLf),
-                Strings.Split(My.Resources.colors_brewer_lists, vbLf),
-                Strings.Split(My.Resources.colors_ucsc, vbLf),
-                Strings.Split(My.Resources.colors_unix, vbLf)
+                                                        _
+                Strings.Split(My.Resources.ColorSet.colors, vbLf),
+                Strings.Split(My.Resources.ColorSet.colors_brewer, vbLf),
+                Strings.Split(My.Resources.ColorSet.colors_brewer_lists, vbLf),
+                Strings.Split(My.Resources.ColorSet.colors_ucsc, vbLf),
+                Strings.Split(My.Resources.ColorSet.colors_unix, vbLf)
             }
 
             Dim value As List(Of NamedValue(Of String)) = clBufs.getColorNames
             Dim RGBValue = value.getColorRgb
             Dim RGBList As NamedValue(Of String)() = RGBValue.Select(Function(x) x.color).ToArray
             Dim nameEquals = LinqAPI.Exec(Of NamedValue(Of String)) _
- _
+                                                                    _
                 () <= From item As NamedValue(Of String)
                       In value.AsParallel
                       Where Array.IndexOf(RGBList, item) = -1
@@ -124,7 +124,7 @@ Namespace Colors
         <Extension>
         Private Function getColorMaps(RgbValues As (color As NamedValue(Of String), name$, Rgb As String())()) As KeyValuePair(Of Color, String)()
             Return LinqAPI.Exec(Of KeyValuePair(Of Color, String)) _
- _
+                                                                   _
                 () <= From item
                       In RgbValues.AsParallel
                       Where item.Rgb.Length >= 3
@@ -138,7 +138,7 @@ Namespace Colors
         <Extension>
         Private Function getColorRgb(colors As IEnumerable(Of NamedValue(Of String))) As (color As NamedValue(Of String), name$, Rgb As String())()
             Return LinqAPI.Exec(Of (NamedValue(Of String), String, String())) _
- _
+                                                                              _
                 () <= From item As NamedValue(Of String)
                       In colors.AsParallel
                       Let rgb = r.Match(item.Value, "\d+,\d+,\d+").Value
@@ -151,7 +151,7 @@ Namespace Colors
         <Extension>
         Private Function getColorNames(expressions As IEnumerable(Of String)) As List(Of NamedValue(Of String))
             Return LinqAPI.MakeList(Of NamedValue(Of String)) _
- _
+                                                              _
                 () <= From str As String
                       In expressions.AsParallel
                       Let strM As String = r.Match(str, ".+?=\s*\S+").Value
@@ -283,7 +283,7 @@ Namespace Colors
             Dim Colors As String() = CircosColor.RGBColors.Keys.Shuffles
 
             If categories.IsNullOrEmpty OrElse (categories.Count = 1 AndAlso categories(Scan0) Is Nothing) Then
-                Call $"{NameOf(categories)} is null...".Warning
+                Call $"{NameOf(categories)} is null...".warning
                 categories = New T() {}
             End If
 
