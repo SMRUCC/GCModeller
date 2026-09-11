@@ -84,7 +84,11 @@ Namespace GdiPlus
         ''' GDI+ 引擎之中将 ``dims(ideogram,radius_outer)`` 近似处理为图像半径，
         ''' ``dims(image,radius)`` 同样处理为图像半径。
         ''' </summary>
-        Public Function ParseRadius(expr As String, imageRadius As Double, Optional fallback As Double = 0) As Double
+        Public Function ParseRadius(expr As String,
+                                    imageRadius As Double,
+                                    Optional fallback As Double = 0,
+                                    Optional resolveDims As Func(Of String, Double) = Nothing) As Double
+
             Dim s$ = If(expr, "").Trim()
 
             If s.Length = 0 Then
@@ -95,8 +99,19 @@ Namespace GdiPlus
 
             If m.Success Then
                 Dim rest$ = s.Substring(m.Index + m.Length).Trim()
+                Dim baseValue As Double
 
-                Return imageRadius + parseOffset(rest, imageRadius)
+                If resolveDims IsNot Nothing Then
+                    baseValue = resolveDims(m.Value)
+
+                    If baseValue <= 0 Then
+                        baseValue = imageRadius
+                    End If
+                Else
+                    baseValue = imageRadius
+                End If
+
+                Return baseValue + parseOffset(rest, imageRadius)
             End If
 
             Return ParseLength(s, imageRadius, fallback)

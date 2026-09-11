@@ -3,6 +3,7 @@ Imports SMRUCC.genomics.Visualize.Circos
 Imports SMRUCC.genomics.Visualize.Circos.Configurations
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots.Lines
+Imports SMRUCC.genomics.Visualize.Circos.GdiPlus
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
@@ -48,26 +49,26 @@ Public Module DemoGallery
         Return CircosAPI.SetRadius(circos, rMax, rMin)
     End Function
 
+#Region "文档构建"
+
     ''' <summary>
     ''' 场景 1: 只绘制基因组骨架(ideogram + ticks)
     ''' </summary>
-    Public Function SkeletonOnly(outDIR As String) As CircosRenderResult
-        Dim circos As Circos = BaseDocument(outDIR, DemoSyntheticData.Karyotype())
-
-        Return CircosRender.Render(circos, outDIR, outputFile:="skeleton.png")
+    Public Function SkeletonDocument() As Circos
+        Return BaseDocument("", DemoSyntheticData.Karyotype())
     End Function
 
     ''' <summary>
     ''' 场景 2: 全部的 2D 数据类型(scatter / line / histogram / heatmap / tile / text / connector)
     ''' </summary>
-    Public Function AllTrackTypes(outDIR As String) As CircosRenderResult
+    Public Function AllTrackTypesDocument() As Circos
         Dim genome = DemoSyntheticData.Genome()
         Dim gc = DemoSyntheticData.GCContent(genome)
         Dim skew = DemoSyntheticData.GCSkew(genome)
         Dim genes = DemoSyntheticData.Genes()
         Dim labels = DemoSyntheticData.GeneLabels(genes)
 
-        Dim circos As Circos = BaseDocument(outDIR, DemoSyntheticData.Karyotype())
+        Dim circos As Circos = BaseDocument("", DemoSyntheticData.Karyotype())
 
         circos.AddTrack(New Histogram(New TrackDataDocument(Of ValueTrackData)(gc)), autoLayout:=False)
         circos.AddTrack(New Histogram(New TrackDataDocument(Of ValueTrackData)(skew)), autoLayout:=False)
@@ -81,15 +82,15 @@ Public Module DemoGallery
 
         Call layout(circos, rMax:=0.76, rMin:=0.30)
 
-        Return CircosRender.Render(circos, outDIR, outputFile:="allTracks.png")
+        Return circos
     End Function
 
     ''' <summary>
     ''' 场景 3: 顶层的 ``&lt;links>`` 配置块
     ''' </summary>
-    Public Function LinksBlockDemo(outDIR As String) As CircosRenderResult
+    Public Function LinksDocument() As Circos
         Dim links = DemoSyntheticData.Links()
-        Dim circos As Circos = BaseDocument(outDIR, DemoSyntheticData.Karyotype())
+        Dim circos As Circos = BaseDocument("", DemoSyntheticData.Karyotype())
 
         circos.AddTrack(New LinkPlot(New TrackDataDocument(Of LinkData)(links)), autoLayout:=False)
 
@@ -101,14 +102,14 @@ Public Module DemoGallery
         link.color = "black_a3"
         link.thickness = "2"
 
-        Return CircosRender.Render(circos, outDIR, outputFile:="links.png")
+        Return circos
     End Function
 
     ''' <summary>
     ''' 场景 4: 顶层的 ``&lt;highlights>`` 配置块
     ''' </summary>
-    Public Function HighlightsBlockDemo(outDIR As String) As CircosRenderResult
-        Dim circos As Circos = BaseDocument(outDIR, DemoSyntheticData.Karyotype())
+    Public Function HighlightsDocument() As Circos
+        Dim circos As Circos = BaseDocument("", DemoSyntheticData.Karyotype())
         Dim highlight As New Highlight(DemoSyntheticData.Highlights()) With {
             .IsTopLevelBlock = True,
             .fill_color = "red_a2"
@@ -122,15 +123,15 @@ Public Module DemoGallery
 
         Call layout(circos, rMax:=0.76, rMin:=0.45)
 
-        Return CircosRender.Render(circos, outDIR, outputFile:="highlights.png")
+        Return circos
     End Function
 
     ''' <summary>
     ''' 场景 5: rules / axes / backgrounds 子块
     ''' </summary>
-    Public Function RulesAndAxes(outDIR As String) As CircosRenderResult
+    Public Function RulesDocument() As Circos
         Dim skew = DemoSyntheticData.GCSkew(DemoSyntheticData.Genome())
-        Dim circos As Circos = BaseDocument(outDIR, DemoSyntheticData.Karyotype())
+        Dim circos As Circos = BaseDocument("", DemoSyntheticData.Karyotype())
         Dim histogram As New Histogram(New TrackDataDocument(Of ValueTrackData)(skew)) With {
             .fill_color = "vdgrey"
         }
@@ -156,7 +157,66 @@ Public Module DemoGallery
 
         Call layout(circos, rMax:=0.76, rMin:=0.5)
 
-        Return CircosRender.Render(circos, outDIR, outputFile:="rules.png")
+        Return circos
+    End Function
+
+    ''' <summary>
+    ''' 场景 6: 文档之中所描述的完整工作流(``mchrTest.vb``)
+    ''' </summary>
+    Public Function WorkflowDocument(outDIR As String) As Circos
+        Return run(outDIR)
+    End Function
+
+    Private Function ScenarioDocuments(root As String) As List(Of KeyValuePair(Of String, Func(Of Circos)))
+        root = Circos.NormalizeDirectory(root)
+
+        Return New List(Of KeyValuePair(Of String, Func(Of Circos))) From {
+            New KeyValuePair(Of String, Func(Of Circos))("skeleton", AddressOf SkeletonDocument),
+            New KeyValuePair(Of String, Func(Of Circos))("allTracks", AddressOf AllTrackTypesDocument),
+            New KeyValuePair(Of String, Func(Of Circos))("links", AddressOf LinksDocument),
+            New KeyValuePair(Of String, Func(Of Circos))("highlights", AddressOf HighlightsDocument),
+            New KeyValuePair(Of String, Func(Of Circos))("rules", AddressOf RulesDocument),
+            New KeyValuePair(Of String, Func(Of Circos))("mchr", Function() WorkflowDocument($"{root}/mchr"))
+        }
+    End Function
+
+#End Region
+
+#Region "circos 命令行渲染"
+
+    ''' <summary>
+    ''' 场景 1: 只绘制基因组骨架(ideogram + ticks)
+    ''' </summary>
+    Public Function SkeletonOnly(outDIR As String) As CircosRenderResult
+        Return CircosRender.Render(SkeletonDocument(), outDIR, outputFile:="skeleton.png")
+    End Function
+
+    ''' <summary>
+    ''' 场景 2: 全部的 2D 数据类型
+    ''' </summary>
+    Public Function AllTrackTypes(outDIR As String) As CircosRenderResult
+        Return CircosRender.Render(AllTrackTypesDocument(), outDIR, outputFile:="allTracks.png")
+    End Function
+
+    ''' <summary>
+    ''' 场景 3: 顶层的 ``&lt;links>`` 配置块
+    ''' </summary>
+    Public Function LinksBlockDemo(outDIR As String) As CircosRenderResult
+        Return CircosRender.Render(LinksDocument(), outDIR, outputFile:="links.png")
+    End Function
+
+    ''' <summary>
+    ''' 场景 4: 顶层的 ``&lt;highlights>`` 配置块
+    ''' </summary>
+    Public Function HighlightsBlockDemo(outDIR As String) As CircosRenderResult
+        Return CircosRender.Render(HighlightsDocument(), outDIR, outputFile:="highlights.png")
+    End Function
+
+    ''' <summary>
+    ''' 场景 5: rules / axes / backgrounds 子块
+    ''' </summary>
+    Public Function RulesAndAxes(outDIR As String) As CircosRenderResult
+        Return CircosRender.Render(RulesDocument(), outDIR, outputFile:="rules.png")
     End Function
 
     ''' <summary>
@@ -172,19 +232,10 @@ Public Module DemoGallery
     End Function
 
     ''' <summary>
-    ''' 依次渲染所有的演示场景
+    ''' 依次渲染所有的演示场景（调用外部的 circos 程序）
     ''' </summary>
     Public Iterator Function RunAll(Optional root As String = "Z:\circos-test\") As IEnumerable(Of CircosRenderResult)
-        Dim scenarios As New List(Of KeyValuePair(Of String, Func(Of String, CircosRenderResult))) From {
-            New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("skeleton", AddressOf SkeletonOnly),
-            New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("allTracks", AddressOf AllTrackTypes),
-            New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("links", AddressOf LinksBlockDemo),
-            New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("highlights", AddressOf HighlightsBlockDemo),
-            New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("rules", AddressOf RulesAndAxes),
-            New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("mchr", AddressOf WorkflowDemo)
-        }
-
-        For Each scenario In scenarios
+        For Each scenario In ScenarioDocuments(root)
             Dim outDIR As String = Circos.NormalizeDirectory($"{root}/{scenario.Key}")
 
             ' 注意：这里不删除上一次运行所遗留下来的文件夹，
@@ -193,7 +244,50 @@ Public Module DemoGallery
 
             Console.WriteLine($"[{scenario.Key}] rendering...")
 
-            Yield scenario.Value(outDIR)
+            Dim builder As Func(Of Circos) = scenario.Value
+            Dim doc As Circos = builder()
+
+            Yield CircosRender.Render(doc, outDIR, outputFile:=$"{scenario.Key}.png")
         Next
     End Function
+
+#End Region
+
+#Region "内置 GDI+ 引擎渲染"
+
+    ''' <summary>
+    ''' GDI+ 引擎的输出画布参数（与 circos 默认输出尺寸保持一致，方便对比）
+    ''' </summary>
+    Public Function GdiOptions() As GdiRenderOptions
+        Return New GdiRenderOptions With {
+            .Width = 1500,
+            .Height = 1500,
+            .Dpi = 100
+        }
+    End Function
+
+    ''' <summary>
+    ''' 依次使用内置的 GDI+ 引擎渲染所有的演示场景，输出 ``*.gdi.png`` 以便与官方 circos 的结果做对比
+    ''' </summary>
+    Public Iterator Function RunAllGdiPlus(Optional root As String = "Z:\circos-test\") As IEnumerable(Of CircosRenderResult)
+        For Each scenario In ScenarioDocuments(root)
+            Dim outDIR As String = Circos.NormalizeDirectory($"{root}/{scenario.Key}")
+
+            Call Directory.CreateDirectory(outDIR)
+
+            Console.WriteLine($"[{scenario.Key}] gdi+ rendering...")
+
+            Dim builder As Func(Of Circos) = scenario.Value
+            Dim doc As Circos = builder()
+
+            Yield CircosRender.RenderGdiPlus(
+                doc,
+                outDIR,
+                outputFile:=$"{scenario.Key}.gdi.png",
+                options:=GdiOptions())
+        Next
+    End Function
+
+#End Region
+
 End Module

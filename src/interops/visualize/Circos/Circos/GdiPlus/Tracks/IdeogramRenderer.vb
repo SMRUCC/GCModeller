@@ -21,6 +21,11 @@ Namespace GdiPlus.Tracks
             Public LabelRadius As Double
         End Structure
 
+        ''' <summary>
+        ''' circos 的字体尺寸（``p``/pt）与画布像素之间的经验换算系数
+        ''' </summary>
+        Public Const FontScale As Double = 0.45
+
         Public Function Render(ctx As GdiRenderContext) As IdeogramMetrics
             Dim metrics As New IdeogramMetrics With {.Inner = 0, .Outer = 0}
 
@@ -40,6 +45,12 @@ Namespace GdiPlus.Tracks
 
             metrics.Inner = centerR - thickness / 2
             metrics.Outer = centerR + thickness / 2
+
+            ' 回填 ideogram 的尺寸信息，供后面的 dims(...) 表达式（刻度/标签半径）解析使用
+            ctx.IdeogramInnerRadius = metrics.Inner
+            ctx.IdeogramOuterRadius = metrics.Outer
+            ctx.IdeogramCenterRadius = centerR
+
             metrics.ShowLabel = CircosUnits.IsYes(idg.show_label)
             metrics.LabelRadius = ctx.Radius(idg.label_radius, metrics.Outer + 12)
 
@@ -114,8 +125,8 @@ Namespace GdiPlus.Tracks
                 size = 36
             End If
 
-            ' circos 的 label_size 使用 pt 单位，画布使用像素，这里做一个简单的换算
-            Dim font = ctx.CreateFont(size * 0.75)
+            ' circos 的字体尺寸与画布像素之间的经验换算系数
+            Dim font = ctx.CreateFont(size * FontScale)
             Dim upper As Boolean = String.Equals(idg.label_case, "upper", StringComparison.OrdinalIgnoreCase)
 
             For Each band As ChromosomeBand In ctx.Layout.Bands
@@ -181,7 +192,7 @@ Namespace GdiPlus.Tracks
                 Dim labelSize As Double = CircosUnits.ParseNumber(tick.label_size, CircosUnits.ParseNumber(block.label_size, 36))
                 Dim suffix$ = stripQuotes(tick.suffix)
 
-                Dim labelFont = ctx.CreateFont(labelSize * 0.75)
+                Dim labelFont = ctx.CreateFont(labelSize * FontScale)
 
                 For Each band As ChromosomeBand In ctx.Layout.Bands
                     Dim first As Integer = 0

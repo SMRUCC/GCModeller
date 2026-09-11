@@ -17,6 +17,8 @@ local.properties
 .loadpath
 packages/
 
+circos-test/
+
 # External tool builders
 .externalToolBuilders/
 

@@ -34,10 +34,46 @@ Namespace GdiPlus
         End Sub
 
         ''' <summary>
+        ''' ideogram 的内圈半径（像素），由 <see cref="Tracks.IdeogramRenderer"/> 在绘制骨架圈的时候回填
+        ''' </summary>
+        Public Property IdeogramInnerRadius As Double = 0
+        ''' <summary>
+        ''' ideogram 的外圈半径（像素），由 <see cref="Tracks.IdeogramRenderer"/> 在绘制骨架圈的时候回填
+        ''' </summary>
+        Public Property IdeogramOuterRadius As Double = 0
+        ''' <summary>
+        ''' ideogram 的中心半径（像素），由 <see cref="Tracks.IdeogramRenderer"/> 在绘制骨架圈的时候回填
+        ''' </summary>
+        Public Property IdeogramCenterRadius As Double = 0
+
+        ''' <summary>
         ''' 将 circos 的长度表达式（``0.85r`` / ``25p`` / ``dims(...)``）换算为像素
         ''' </summary>
         Public Function Radius(expr As String, Optional fallback As Double = 0) As Double
-            Return CircosUnits.ParseRadius(expr, Canvas.ImageRadius, fallback)
+            Return CircosUnits.ParseRadius(expr, Canvas.ImageRadius, fallback, AddressOf resolveDims)
+        End Function
+
+        ''' <summary>
+        ''' 解析 ``dims(image,radius)`` / ``dims(ideogram,radius)`` / ``dims(ideogram,radius_outer)`` 之类的尺寸引用
+        ''' </summary>
+        Private Function resolveDims(token As String) As Double
+            Dim s$ = If(token, "").ToLowerInvariant()
+
+            If s.Contains("radius_outer") OrElse s.Contains("radius_out") Then
+                If IdeogramOuterRadius > 0 Then
+                    Return IdeogramOuterRadius
+                End If
+            ElseIf s.Contains("radius_inner") OrElse s.Contains("radius_in") Then
+                If IdeogramInnerRadius > 0 Then
+                    Return IdeogramInnerRadius
+                End If
+            ElseIf s.Contains("ideogram") Then
+                If IdeogramCenterRadius > 0 Then
+                    Return IdeogramCenterRadius
+                End If
+            End If
+
+            Return Canvas.ImageRadius
         End Function
 
         ''' <summary>
