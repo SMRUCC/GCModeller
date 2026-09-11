@@ -57,13 +57,13 @@ Namespace GdiPlus
                 End If
             End SyncLock
 
-            Dim color As Color = resolveInternal(text, 0, fallback)
+            Dim resolvedColor As Color = resolveInternal(text, 0, fallback)
 
             SyncLock cache
-                cache(text) = color
+                cache(text) = resolvedColor
             End SyncLock
 
-            Return color
+            Return resolvedColor
         End Function
 
         Private Function resolveInternal(expr As String, depth As Integer, fallback As Color?) As Color
@@ -101,7 +101,7 @@ Namespace GdiPlus
             ' 4. 颜色名（含间接引用）
             If depth < 16 Then
                 Dim key$ = text.ToLowerInvariant()
-                Dim raw As String
+                Dim raw As String = Nothing
 
                 If rawValues.TryGetValue(key, raw) Then
                     If Not String.IsNullOrEmpty(raw) AndAlso Not String.Equals(raw.Trim(), text, StringComparison.OrdinalIgnoreCase) Then
