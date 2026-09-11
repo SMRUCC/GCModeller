@@ -6,6 +6,15 @@
       "AbsoluteMoniker": "D:0:0:{D33E0DB2-5858-EFFD-F792-F7BA1505261B}|..\\..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{D33E0DB2-5858-EFFD-F792-F7BA1505261B}|..\\..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\catalogprofiling\\cogcatalogprofiling.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC651B65-7128-71F6-9C8A-A140EEADA33F}|..\\..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\microsoft.visualbasic.imaging\\drawing2d\\colors\\legend\\colormaplegend.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC651B65-7128-71F6-9C8A-A140EEADA33F}|..\\..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\microsoft.visualbasic.imaging\\drawing2d\\colors\\legend\\legend.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\circos\\circos\\trackdatas\\adapter\\highlights\\genemark.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{5BF44C97-B7A0-47D7-9622-2F2C0C4F31A9}|Circos\\Circos.vbproj|solutionrelative:circos\\trackdatas\\adapter\\highlights\\genemark.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -43,9 +52,48 @@
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\Extensions.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\Extensions.vb",
               "RelativeToolTip": "..\\..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\Extensions.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGAAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-09-11T13:56:25.762Z",
+              "WhenOpened": "2026-09-11T16:58:18.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "COGCatalogProfiling.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\COGCatalogProfiling.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\COGCatalogProfiling.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\COGCatalogProfiling.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\COGCatalogProfiling.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-11T16:57:33.814Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Legend.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\Drawing2D\\Colors\\Legend\\Legend.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\Drawing2D\\Colors\\Legend\\Legend.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\Drawing2D\\Colors\\Legend\\Legend.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\Drawing2D\\Colors\\Legend\\Legend.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-11T16:55:25.309Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ColorMapLegend.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\Drawing2D\\Colors\\Legend\\ColorMapLegend.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\Drawing2D\\Colors\\Legend\\ColorMapLegend.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\Drawing2D\\Colors\\Legend\\ColorMapLegend.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\Drawing2D\\Colors\\Legend\\ColorMapLegend.vb",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAgwEIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-11T16:55:24.605Z",
               "EditorCaption": ""
             },
             {
@@ -62,7 +110,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Highlights.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\Highlights.vb",
               "RelativeDocumentMoniker": "Circos\\TrackDatas\\Adapter\\Highlights\\Highlights.vb",
@@ -75,7 +123,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "GradientMappings.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\GradientMappings.vb",
               "RelativeDocumentMoniker": "Circos\\TrackDatas\\Adapter\\Highlights\\GradientMappings.vb",
@@ -88,20 +136,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "GeneMark.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\GeneMark.vb",
               "RelativeDocumentMoniker": "Circos\\TrackDatas\\Adapter\\Highlights\\GeneMark.vb",
               "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\TrackDatas\\Adapter\\Highlights\\GeneMark.vb",
               "RelativeToolTip": "Circos\\TrackDatas\\Adapter\\Highlights\\GeneMark.vb",
-              "ViewState": "AgIAAJYAAAAAAAAAAADwv7oAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAJYAAAAAAAAAAADwv7oAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-09-11T13:55:04.606Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "Circos.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\ConfFiles\\Circos.vb",
               "RelativeDocumentMoniker": "Circos\\ConfFiles\\Circos.vb",
@@ -114,7 +162,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "CircosColor.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Circos\\Circos\\Colors\\CircosColor.vb",
               "RelativeDocumentMoniker": "Circos\\Colors\\CircosColor.vb",

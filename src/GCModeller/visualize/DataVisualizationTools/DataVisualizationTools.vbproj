@@ -348,112 +348,52 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}
-  <ItemGroup>
-    <None Include="..\..\..\..\assets\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-</Project>
+  <ItemGroup><None Include="..\..\..\..\assets\logo.png"><Pack>True</Pack><PackagePath>\</PackagePath></None></ItemGroup></Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}
-  <ItemGroup>
-    <None Include="..\..\..\..\assets\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-</Project>
+  <ItemGroup><None Include="..\..\..\..\assets\logo.png"><Pack>True</Pack><PackagePath>\</PackagePath></None></ItemGroup></Project>
       <Name>math-core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\SignalProcessing\SignalProcessing\SignalProcessing.vbproj">
       <Project>{83975074-cbe1-4abc-ba91-91d63da156c8}
-  <ItemGroup>
-    <None Include="..\..\..\..\assets\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-</Project>
+  <ItemGroup><None Include="..\..\..\..\assets\logo.png"><Pack>True</Pack><PackagePath>\</PackagePath></None></ItemGroup></Project>
       <Name>SignalProcessing</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
       <Project>{85e71b4b-9276-4ec8-aadc-c849205f1ea8}
-  <ItemGroup>
-    <None Include="..\..\..\..\assets\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-</Project>
+  <ItemGroup><None Include="..\..\..\..\assets\logo.png"><Pack>True</Pack><PackagePath>\</PackagePath></None></ItemGroup></Project>
       <Name>Microsoft.VisualBasic.Imaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}
-  <ItemGroup>
-    <None Include="..\..\..\..\assets\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-</Project>
+  <ItemGroup><None Include="..\..\..\..\assets\logo.png"><Pack>True</Pack><PackagePath>\</PackagePath></None></ItemGroup></Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\MIME-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}
-  <ItemGroup>
-    <None Include="..\..\..\..\assets\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-</Project>
+  <ItemGroup><None Include="..\..\..\..\assets\logo.png"><Pack>True</Pack><PackagePath>\</PackagePath></None></ItemGroup></Project>
       <Name>MIME-htmls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}
-  <ItemGroup>
-    <None Include="..\..\..\..\assets\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-</Project>
+  <ItemGroup><None Include="..\..\..\..\assets\logo.png"><Pack>True</Pack><PackagePath>\</PackagePath></None></ItemGroup></Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}
-  <ItemGroup>
-    <None Include="..\..\..\..\assets\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-</Project>
+  <ItemGroup><None Include="..\..\..\..\assets\logo.png"><Pack>True</Pack><PackagePath>\</PackagePath></None></ItemGroup></Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}
-  <ItemGroup>
-    <None Include="..\..\..\..\assets\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-</Project>
+  <ItemGroup><None Include="..\..\..\..\assets\logo.png"><Pack>True</Pack><PackagePath>\</PackagePath></None></ItemGroup></Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\SyntenyVisual\SyntenyVisual.vbproj">
       <Project>{7a0874a9-2e3b-4708-a777-8ddd7edc50a7}
-  <ItemGroup>
-    <None Include="..\..\..\..\assets\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-</Project>
+  <ItemGroup><None Include="..\..\..\..\assets\logo.png"><Pack>True</Pack><PackagePath>\</PackagePath></None></ItemGroup></Project>
       <Name>SyntenyVisual</Name>
     </ProjectReference>
   </ItemGroup>
@@ -468,7 +408,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
   <ItemGroup>
     <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
