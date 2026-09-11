@@ -35,7 +35,7 @@ Public Module DemoGallery
         circos.Ideogram.Ideogram.radius = "0.80r"
         circos.Ideogram.Ideogram.thickness = "25p"
 
-        Call CircosAPI.ShowTicksLabel(circos, showTicksLabel)
+        Call Global.CircosAPI.ShowTicksLabel(circos, showTicksLabel)
 
         Return circos
     End Function
@@ -44,7 +44,7 @@ Public Module DemoGallery
     ''' 将所有的绘图元素重新排布在 <paramref name="rMax"/> ~ <paramref name="rMin"/> 的半径区间之内
     ''' </summary>
     Private Function layout(circos As Circos, rMax#, rMin#) As Circos
-        Return CircosAPI.SetRadius(circos, rMax, rMin)
+        Return Global.CircosAPI.SetRadius(circos, rMax, rMin)
     End Function
 
     ''' <summary>

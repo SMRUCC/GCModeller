@@ -101,13 +101,13 @@ Public Module DemoSyntheticData
 
         Return WindowValues(genome, winSize, steps,
             Function(nt)
-                Dim g% = nt.Count(Function(c) c = "G"c)
-                Dim c% = nt.Count(Function(c) c = "C"c)
+                Dim gCount% = nt.Count(Function(base) base = "G"c)
+                Dim cCount% = nt.Count(Function(base) base = "C"c)
 
-                If g + c = 0 Then
+                If gCount + cCount = 0 Then
                     Return 0R
                 Else
-                    Return (g - c) / (g + c)
+                    Return (gCount - cCount) / (gCount + cCount)
                 End If
             End Function)
     End Function
@@ -146,7 +146,7 @@ Public Module DemoSyntheticData
     ''' </summary>
     Public Function Genes(Optional countPerChr% = 30, Optional geneLen% = 3000) As RegionTrackData()
         Dim rnd As New Random(2026)
-        Dim genes As New List(Of RegionTrackData)
+        Dim regions As New List(Of RegionTrackData)
 
         For i As Integer = 0 To ChrSizes.Length - 1
             Dim size% = ChrSizes(i)
@@ -154,7 +154,7 @@ Public Module DemoSyntheticData
             For j As Integer = 0 To countPerChr - 1
                 Dim start% = rnd.Next(0, size - geneLen)
 
-                genes.Add(New RegionTrackData With {
+                regions.Add(New RegionTrackData With {
                     .chr = ChrName(i),
                     .start = start,
                     .end = start + geneLen
@@ -162,25 +162,27 @@ Public Module DemoSyntheticData
             Next
         Next
 
-        Return genes.OrderBy(Function(g) g.chr).ThenBy(Function(g) g.start).ToArray
+        Return regions.OrderBy(Function(g) g.chr).ThenBy(Function(g) g.start).ToArray
     End Function
 
     ''' <summary>
     ''' 生成虚构的基因名称标签
     ''' </summary>
     Public Function GeneLabels(genes As RegionTrackData(), Optional take% = 18) As TextTrackData()
-        Dim rnd As New Random(77)
         Dim stepN% = Math.Max(1, genes.Length \ take)
         Dim labels As New List(Of TextTrackData)
+        Dim n% = 0
 
         For i As Integer = 0 To genes.Length - 1 Step stepN
             Dim gene = genes(i)
+
+            n += 1
 
             labels.Add(New TextTrackData With {
                 .chr = gene.chr,
                 .start = gene.start,
                 .end = gene.end,
-                .text = $"{gene.chr}_gene{j + 1}"
+                .text = $"{gene.chr}_gene{n}"
             })
         Next
 
@@ -192,7 +194,7 @@ Public Module DemoSyntheticData
     ''' </summary>
     Public Function Links(Optional countPerPair% = 6, Optional linkLen% = 12000) As LinkData()
         Dim rnd As New Random(314)
-        Dim links As New List(Of LinkData)
+        Dim result As New List(Of LinkData)
 
         For i As Integer = 0 To ChrSizes.Length - 1
             Dim j% = (i + 1) Mod ChrSizes.Length
@@ -203,13 +205,13 @@ Public Module DemoSyntheticData
                 Dim aStart% = rnd.Next(0, aSize - linkLen)
                 Dim bStart% = rnd.Next(0, bSize - linkLen)
 
-                links.Add(New LinkData(
+                result.Add(New LinkData(
                     New RegionTrackData With {.chr = ChrName(i), .start = aStart, .end = aStart + linkLen},
                     New RegionTrackData With {.chr = ChrName(j), .start = bStart, .end = bStart + linkLen}))
             Next
         Next
 
-        Return links.ToArray
+        Return result.ToArray
     End Function
 
     ''' <summary>

@@ -201,8 +201,9 @@ Public Module CircosAPI
             Dim r1 = r
             Dim r2 = r1 - d
 
-            plot.r1 = $"{r1}r"
-            plot.r0 = $"{r2}r"
+            ' 必须使用 InvariantCulture 格式化，否则在非英文 locale 之下会输出非法的半径值
+            plot.r1 = $"{Configurations.Extensions.Num(r1)}r"
+            plot.r0 = $"{Configurations.Extensions.Num(r2)}r"
 
             r = r2 - dd
         Next
