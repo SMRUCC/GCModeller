@@ -127,6 +127,7 @@
     <ProjectReference Include="..\..\..\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationTools\DataVisualizationTools.vbproj" />
+    <ProjectReference Include="..\..\..\interops\visualize\Circos\Circos.Extensions\Circos.Extensions.vbproj" />
     <ProjectReference Include="..\..\..\interops\visualize\Circos\Circos\Circos.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\Library\shares\graphics.common_runtime\R_graphics.common_runtime.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
