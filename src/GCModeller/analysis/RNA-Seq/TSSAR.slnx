@@ -11,11 +11,24 @@
     <Platform Name="x64" />
   </Configurations>
   <Folder Name="/framework/">
+    <Project Path="../../../runtime/sciBASIC#/Data/DataFrame/dataframework-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/DataMining/DynamicProgramming/DynamicProgramming.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math.Statistics/stats-netcore5.vbproj">
       <BuildType Solution="mzkit_win32|*" Project="Rsharp_app_release" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../runtime/sciBASIC#/gr/network-visualization/Datavisualization.Network/network_graph-netcore5.vbproj">
+      <BuildType Solution="mzkit_win32|*" Project="Rsharp_app_release" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
@@ -24,7 +37,15 @@
     <Project Path="../../core/Bio.Assembly/biocore-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../SequenceToolkit/SequenceAlignment/SequenceAlignment.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
+  <Project Path="../../../interops/RNA-Seq/RNA-seq.Data/RNA-seq.Data.NET5.vbproj">
+    <BuildType Solution="gcmodeller_desktop|*" Project="CellaLAB-Desktop" />
+    <BuildType Solution="mzkit_win32|*" Project="Rsharp_app_release" />
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
   <Project Path="TSSAR/TSSAR.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>

@@ -1,55 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::8f01d168a7dc04d4b142eadb43ca0a0e, analysis\RNA-Seq\TSSAR\TSSAR\Perl.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Perl
-    ' 
-    '     Function: Invoke, LoadFastaq, LoadSAM, Located, SaveAlignmentReadsMapping
-    '     Class LocatedAlignment
-    ' 
-    '         Properties: BitwiseFLAG, CIGAR, MappingPosition, MapQuality, PosNext
-    '                     QueryTemplateName, RefName, RefNext, SegmentDirection
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module Perl
+' 
+'     Function: Invoke, LoadFastaq, LoadSAM, Located, SaveAlignmentReadsMapping
+'     Class LocatedAlignment
+' 
+'         Properties: BitwiseFLAG, CIGAR, MappingPosition, MapQuality, PosNext
+'                     QueryTemplateName, RefName, RefNext, SegmentDirection
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Text
-Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -187,10 +185,6 @@ Public Module Perl
     ''' computation are deleted afterwards. With --noclean they are stored.
     ''' Mainly for debugging purpose. Default setting is --clean.</param>
     ''' 
-    <ExportAPI("TSSAR", Info:="*T*ranscription *S*tart *S*ites *A*nnotation *R*egime for dRNA-seq data, based on a Skellam distribution with parameter estimation by " &
-        "zero-inflated-poisson model regression analysis. The input are two mapped sequencing files in SAM file formate (library[+] and library[-]), " &
-        "the output is a *.BED file with an entry for each position which is annotated as a TSS, writen to STDOUT. Addtionally, a file named Dump.bed " &
-        "is created. It specifies regions where the applied regression model does not converge. Hence, those regions are omitted from analysis.")>
     Public Function Invoke(<Parameter("libP", "Input library (P .. Plus; M .. Minus) in SAM format. The plus library is the one with enriched TSS " &
                            "(for dRNA-seq this means that the plus library is the treated library, while the minus library is the untreated library)")> libP As String,
                            <Parameter("libM", "Input library (P .. Plus; M .. Minus) in SAM format. The plus library is the one with enriched TSS " &
@@ -218,110 +212,110 @@ Public Module Perl
                            <Parameter("prorata", "If set, the information from the SAM file how many times a read was mapped to the genome is used, if present. If the read maps *n* times " &
                                "to the genome, each position is counted only *1/n* times. Usefull in combination with e.g. segemehl mapper, which can report suboptimal " &
                                "mapping positions and/or reports all location where a read maps optimally. Default is off.")> Optional prorata As Boolean = False) _
- _
+                                                                                                                                                                   _
           As <FunctionReturns("")> Integer
 
-        If String.IsNullOrEmpty(R) OrElse Not R.FileExists Then
-            Call Console.WriteLine("TSSAR Perl script could not found the R system, threading exit!")
-            Return -1
-        End If
-
-        ' --tmpdir *DIR*
-        ' Specifies where the temporary files should be stored. Default is
-        ' */tmp*.
-
-        'SYNOPSIS
-        ' ./TSSAR --libP *libraryP.sam* --libM *libraryM.sam* [--score *p|d*]
-        '  [--fasta *genome.fa* --g_size *INT*] [--minPeak *INT*] [--pval *FLOAT*]
-        '  [--winSize *INT*] [--verbose] [--noclean] [--nocluster] [-range *INT*]]
-        '  [<--tmpdir> *DIR*] [--help|?] [--man]
-
-        Dim argBuilder As New Dictionary(Of String, String) From {
-            {"--libP", libP.Replace("\", "/")},
-            {"--libM", libM.Replace("\", "/")},
-            {"--tmpdir", Settings.DataCache.Replace("\", "/") & "/" & Rnd()}
-        }
-
-        Call FileIO.FileSystem.CreateDirectory(argBuilder("--tmpdir"))
-
-        If Not String.IsNullOrEmpty(fasta) AndAlso fasta.FileExists Then
-            Call argBuilder.Add("--fasta", fasta.Replace("\", "/"))
-        Else
-            Call argBuilder.Add("--g_size", g_size)
-        End If
-        If nocluster Then
-            Call argBuilder.Add("--nocluster", "")
-        Else
-            Call argBuilder.Add("--cluster", "")
-        End If
-        If clean Then
-            Call argBuilder.Add("--clean", "")
-        Else
-            Call argBuilder.Add("--noclean", "")
-        End If
-        If verbose Then
-            Call argBuilder.Add("--verbose", "")
-        End If
-
-        Call argBuilder.Add("--minPeak", minPeak)
-        Call argBuilder.Add("--pval", pval)
-        Call argBuilder.Add("--winSize", winSize)
-        Call argBuilder.Add("--score", score)
-        Call argBuilder.Add("--range", range)
-
-        Dim sBuilder As StringBuilder = New StringBuilder(1024)
-        Dim TSSAR As String = Settings.DataCache & "/TSSAR.pl"
-
-        Call My.Resources.dskellam.SaveTo(Settings.DataCache & "/dskellam.R")
-        Call My.Resources.dskellam_sp.SaveTo(Settings.DataCache & "/dskellam_sp.R")
-        Call My.Resources.pskellam.SaveTo(Settings.DataCache & "/pskellam.R")
-        Call My.Resources.pskellam_sp.SaveTo(Settings.DataCache & "/pskellam_sp.R")
-        Call My.Resources.qskellam.SaveTo(Settings.DataCache & "/qskellam.R")
-        Call My.Resources.rskellam.SaveTo(Settings.DataCache & "/rskellam.R")
-
-        Dim TSSARPerl As StringBuilder = New StringBuilder(My.Resources.TSSAR)
-
-        Call TSSARPerl.Replace("{skellam-0}", (Settings.DataCache & "/dskellam.R").Replace("\", "/"))
-        Call TSSARPerl.Replace("{skellam-1}", (Settings.DataCache & "/dskellam_sp.R").Replace("\", "/"))
-        Call TSSARPerl.Replace("{skellam-2}", (Settings.DataCache & "/pskellam.R").Replace("\", "/"))
-        Call TSSARPerl.Replace("{skellam-3}", (Settings.DataCache & "/pskellam_sp.R").Replace("\", "/"))
-        Call TSSARPerl.Replace("{skellam-4}", (Settings.DataCache & "/qskellam.R").Replace("\", "/"))
-        Call TSSARPerl.Replace("{skellam-5}", (Settings.DataCache & "/rskellam.R").Replace("\", "/"))
-
-        Dim R_PATH As String = Perl.R
-        'If R_PATH.Contains(" "c) Then
-        '    R_PATH = """" & R_PATH & """"
+        'If String.IsNullOrEmpty(R) OrElse Not R.FileExists Then
+        '    Call Console.WriteLine("TSSAR Perl script could not found the R system, threading exit!")
+        '    Return -1
         'End If
-        R_PATH = R_PATH.Replace("\", "/")
 
-        Call TSSARPerl.Replace("{R_PATH}", R_PATH)
-        Call TSSARPerl.ToString.SaveTo(TSSAR)
+        '' --tmpdir *DIR*
+        '' Specifies where the temporary files should be stored. Default is
+        '' */tmp*.
 
-        If TSSAR.Contains(" "c) Then
-            TSSAR = """" & TSSAR & """"
-        End If
+        ''SYNOPSIS
+        '' ./TSSAR --libP *libraryP.sam* --libM *libraryM.sam* [--score *p|d*]
+        ''  [--fasta *genome.fa* --g_size *INT*] [--minPeak *INT*] [--pval *FLOAT*]
+        ''  [--winSize *INT*] [--verbose] [--noclean] [--nocluster] [-range *INT*]]
+        ''  [<--tmpdir> *DIR*] [--help|?] [--man]
 
-        Call sBuilder.Append(TSSAR)
+        'Dim argBuilder As New Dictionary(Of String, String) From {
+        '    {"--libP", libP.Replace("\", "/")},
+        '    {"--libM", libM.Replace("\", "/")},
+        '    {"--tmpdir", Settings.DataCache.Replace("\", "/") & "/" & Rnd()}
+        '}
 
-        For Each para In argBuilder
-            Call sBuilder.Append(" ")
+        'Call FileIO.FileSystem.CreateDirectory(argBuilder("--tmpdir"))
 
-            If String.IsNullOrEmpty(para.Value) Then 'boolean
-                Call sBuilder.Append(para.Key)
-                Continue For
-            End If
+        'If Not String.IsNullOrEmpty(fasta) AndAlso fasta.FileExists Then
+        '    Call argBuilder.Add("--fasta", fasta.Replace("\", "/"))
+        'Else
+        '    Call argBuilder.Add("--g_size", g_size)
+        'End If
+        'If nocluster Then
+        '    Call argBuilder.Add("--nocluster", "")
+        'Else
+        '    Call argBuilder.Add("--cluster", "")
+        'End If
+        'If clean Then
+        '    Call argBuilder.Add("--clean", "")
+        'Else
+        '    Call argBuilder.Add("--noclean", "")
+        'End If
+        'If verbose Then
+        '    Call argBuilder.Add("--verbose", "")
+        'End If
 
-            Dim pValue As String = para.Value
-            If pValue.Contains(" "c) Then
-                pValue = """" & pValue & """"
-            End If
-            Call sBuilder.Append(para.Key & " " & pValue)
-        Next
+        'Call argBuilder.Add("--minPeak", minPeak)
+        'Call argBuilder.Add("--pval", pval)
+        'Call argBuilder.Add("--winSize", winSize)
+        'Call argBuilder.Add("--score", score)
+        'Call argBuilder.Add("--range", range)
 
-        Dim argvs As String = sBuilder.ToString
-        Dim InvokeCli As New IORedirect("perl", argvs)
-        Call ("Perl " & argvs).SaveTo(Settings.DataCache & "/Perl_Invoke.bat")
-        Return InvokeCli.Start(waitForExit:=True, displaDebug:=True)
+        'Dim sBuilder As StringBuilder = New StringBuilder(1024)
+        'Dim TSSAR As String = Settings.DataCache & "/TSSAR.pl"
+
+        'Call My.Resources.dskellam.SaveTo(Settings.DataCache & "/dskellam.R")
+        'Call My.Resources.dskellam_sp.SaveTo(Settings.DataCache & "/dskellam_sp.R")
+        'Call My.Resources.pskellam.SaveTo(Settings.DataCache & "/pskellam.R")
+        'Call My.Resources.pskellam_sp.SaveTo(Settings.DataCache & "/pskellam_sp.R")
+        'Call My.Resources.qskellam.SaveTo(Settings.DataCache & "/qskellam.R")
+        'Call My.Resources.rskellam.SaveTo(Settings.DataCache & "/rskellam.R")
+
+        'Dim TSSARPerl As StringBuilder = New StringBuilder(My.Resources.TSSAR)
+
+        'Call TSSARPerl.Replace("{skellam-0}", (Settings.DataCache & "/dskellam.R").Replace("\", "/"))
+        'Call TSSARPerl.Replace("{skellam-1}", (Settings.DataCache & "/dskellam_sp.R").Replace("\", "/"))
+        'Call TSSARPerl.Replace("{skellam-2}", (Settings.DataCache & "/pskellam.R").Replace("\", "/"))
+        'Call TSSARPerl.Replace("{skellam-3}", (Settings.DataCache & "/pskellam_sp.R").Replace("\", "/"))
+        'Call TSSARPerl.Replace("{skellam-4}", (Settings.DataCache & "/qskellam.R").Replace("\", "/"))
+        'Call TSSARPerl.Replace("{skellam-5}", (Settings.DataCache & "/rskellam.R").Replace("\", "/"))
+
+        'Dim R_PATH As String = Perl.R
+        ''If R_PATH.Contains(" "c) Then
+        ''    R_PATH = """" & R_PATH & """"
+        ''End If
+        'R_PATH = R_PATH.Replace("\", "/")
+
+        'Call TSSARPerl.Replace("{R_PATH}", R_PATH)
+        'Call TSSARPerl.ToString.SaveTo(TSSAR)
+
+        'If TSSAR.Contains(" "c) Then
+        '    TSSAR = """" & TSSAR & """"
+        'End If
+
+        'Call sBuilder.Append(TSSAR)
+
+        'For Each para In argBuilder
+        '    Call sBuilder.Append(" ")
+
+        '    If String.IsNullOrEmpty(para.Value) Then 'boolean
+        '        Call sBuilder.Append(para.Key)
+        '        Continue For
+        '    End If
+
+        '    Dim pValue As String = para.Value
+        '    If pValue.Contains(" "c) Then
+        '        pValue = """" & pValue & """"
+        '    End If
+        '    Call sBuilder.Append(para.Key & " " & pValue)
+        'Next
+
+        'Dim argvs As String = sBuilder.ToString
+        'Dim InvokeCli As New IORedirect("perl", argvs)
+        'Call ("Perl " & argvs).SaveTo(Settings.DataCache & "/Perl_Invoke.bat")
+        'Return InvokeCli.Start(waitForExit:=True, displaDebug:=True)
     End Function
 
     <ExportAPI("Read.Fastaq")>
@@ -461,7 +455,7 @@ Public Module Perl
     <ExportAPI("Assembly.Located")>
     Public Function Located(data As IEnumerable(Of AlignmentReads), PTT As PTT) As LocatedAlignment()
 
-        Call Settings.Initialize()
+        ' Call Settings.Initialize()
 
         ' 通过blastn方法进行搜索定位的旧方法
 
