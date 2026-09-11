@@ -45,6 +45,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Configurations
@@ -132,6 +133,33 @@ Namespace Configurations
             Dim value As String = line.Substring(assign + 1).Trim
 
             Return Not String.IsNullOrEmpty(value)
+        End Function
+
+        ''' <summary>
+        ''' 生成一个 circos 的顶层配置块(``&lt;plots>`` / ``&lt;links>`` / ``&lt;highlights>``)
+        ''' </summary>
+        ''' <param name="name">顶层块的名称，仅可以为 plots、links 或者 highlights</param>
+        ''' <param name="nodes">被放置在这个顶层块之中的子元素</param>
+        ''' <param name="directory">The root directory of ``circos.conf`` file.</param>
+        ''' <returns>当子元素列表为空的时候返回空字符串，表示不需要输出这个块</returns>
+        Public Function BuildCircosBlock(name$, nodes As IEnumerable(Of ICircosDocNode), directory$) As String
+            Dim list As ICircosDocNode() = If(nodes Is Nothing, {}, nodes.ToArray)
+
+            If list.IsNullOrEmpty Then
+                Return ""
+            End If
+
+            Dim sb As New StringBuilder(vbCrLf & $"<{name}>" & vbCrLf, 1024)
+
+            For Each node As ICircosDocNode In list
+                Call sb.AppendLine()
+                Call sb.AppendLine(node.Build(2, directory))
+            Next
+
+            Call sb.AppendLine()
+            Call sb.AppendLine($"</{name}>")
+
+            Return sb.ToString
         End Function
 
         ''' <summary>

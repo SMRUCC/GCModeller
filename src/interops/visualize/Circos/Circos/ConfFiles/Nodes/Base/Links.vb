@@ -72,24 +72,8 @@ Namespace Configurations.Nodes.Plots
         ''' <param name="links">被输出到这个块之中的所有的 ``&lt;link>`` 节点</param>
         ''' <param name="directory"></param>
         ''' <returns>当没有 link 元素的时候返回空字符串</returns>
-        Public Function Build(links As IEnumerable(Of ITrackPlot), directory$) As String
-            Dim list As ITrackPlot() = If(links Is Nothing, {}, links.ToArray)
-
-            If list.IsNullOrEmpty Then
-                Return ""
-            End If
-
-            Dim sb As New StringBuilder(vbCrLf & "<links>" & vbCrLf, 1024)
-
-            For Each link As ITrackPlot In list
-                Call sb.AppendLine()
-                Call sb.AppendLine(link.Build(2, directory))
-            Next
-
-            Call sb.AppendLine()
-            Call sb.AppendLine("</links>")
-
-            Return sb.ToString
+        Public Function Build(links As IEnumerable(Of ICircosDocNode), directory$) As String
+            Return BuildCircosBlock(CircosBlocks.links, links, directory)
         End Function
     End Module
 
@@ -121,8 +105,8 @@ Namespace Configurations.Nodes.Plots
         ''' 因为这个类型的元素不是合法的 plot 类型，所以其必须被输出到顶层的 ``&lt;links>`` 块之中
         ''' </summary>
         ''' <returns></returns>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides ReadOnly Property BlockName As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return CircosBlocks.links
             End Get
@@ -132,8 +116,8 @@ Namespace Configurations.Nodes.Plots
         ''' ``&lt;links>`` 块之中的元素标签为 ``&lt;link>``
         ''' </summary>
         ''' <returns></returns>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides ReadOnly Property ElementTag As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return "link"
             End Get

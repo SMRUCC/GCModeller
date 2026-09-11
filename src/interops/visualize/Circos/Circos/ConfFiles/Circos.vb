@@ -423,13 +423,18 @@ Namespace Configurations
         ''' </summary>
         ''' <param name="tracks"></param>
         Public Shared Sub ForceAutoLayout(tracks As ITrackPlot())
+            If tracks.IsNullOrEmpty Then
+                Return
+            End If
+
             Dim d = 0.8 / tracks.Length / 2
             Dim p As Double = 0.95
 
             For Each track As ITrackPlot In tracks
-                track.r1 = p & "r"
+                ' 必须使用 InvariantCulture 格式化，否则在非英文 locale 之下会输出非法的半径值
+                track.r1 = Num(p) & "r"
                 p -= d
-                track.r0 = p & "r"
+                track.r0 = Num(p) & "r"
                 p -= d / 5
             Next
         End Sub
@@ -440,7 +445,7 @@ Namespace Configurations
             sb += Me.GenerateIncludes(directory)
             sb += ""
 
-            For Each line As String In SimpleConfig.GenerateConfigurations(Of Circos)(Me)
+            For Each line As String In Me.GenerateConfigLines()
                 Call sb.AppendLine(line)
             Next
 
@@ -448,19 +453,29 @@ Namespace Configurations
                 sb += DirectCast(colors, ICircosDocument).Build(Scan0, directory)
             End If
 
-            If Not Plots.IsNullOrEmpty Then
-                Call sb.AppendLine(vbCrLf & "<plots>")
-
-                For Each plotRule As ITrackPlot In plotTracks
-                    Call sb.AppendLine()
-                    Call sb.AppendLine(plotRule.Build(IndentLevel + 2, directory))
-                Next
-
-                Call sb.AppendLine()
-                Call sb.AppendLine("</plots>")
-            End If
+            ' circos 的 plot 类型白名单之中并不包含 link，不同类型的元素必须被输出到
+            ' 其归属的顶层配置块之中，否则 circos 程序会直接报错退出
+            Call sb.AppendLine(Extensions.BuildCircosBlock(CircosBlocks.plots, TracksInBlock(CircosBlocks.plots), directory))
+            Call sb.AppendLine(Extensions.BuildCircosBlock(CircosBlocks.links, TracksInBlock(CircosBlocks.links), directory))
+            Call sb.AppendLine(Extensions.BuildCircosBlock(CircosBlocks.highlights, TracksInBlock(CircosBlocks.highlights), directory))
 
             Return sb.ToString
+        End Function
+
+        ''' <summary>
+        ''' 取出归属于指定的顶层配置块之中的所有的绘图元素
+        ''' </summary>
+        ''' <param name="blockName">
+        ''' 仅可以为 <see cref="CircosBlocks.plots"/>、<see cref="CircosBlocks.links"/> 
+        ''' 或者 <see cref="CircosBlocks.highlights"/>
+        ''' </param>
+        ''' <returns></returns>
+        Public Iterator Function TracksInBlock(blockName As String) As IEnumerable(Of ITrackPlot)
+            For Each track As ITrackPlot In plotTracks
+                If String.Equals(track.block, blockName, StringComparison.OrdinalIgnoreCase) Then
+                    Yield track
+                End If
+            Next
         End Function
 
         Public Shared Operator +(circos As Circos, track As ITrackPlot) As Circos

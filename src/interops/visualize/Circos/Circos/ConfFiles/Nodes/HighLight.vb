@@ -45,6 +45,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Settings
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
@@ -54,13 +55,32 @@ Namespace Configurations.Nodes.Plots
 
         Public ReadOnly Property Highlights As Highlights
             Get
-                Return DirectCast(Me.TracksData, Highlights)
+                Return TryCast(Me.TracksData, Highlights)
             End Get
         End Property
+
+        ''' <summary>
+        ''' 是否将这个高亮元素输出到顶层的 ``&lt;highlights>`` 块之中？
+        ''' (默认为假，即作为 ``&lt;plots>`` 块之中的一个 ``type = highlight`` 的 plot 元素输出)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property IsTopLevelBlock As Boolean = False
 
         <Circos> Public Overrides ReadOnly Property type As String
             Get
                 Return "highlight"
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property BlockName As String
+            Get
+                Return If(IsTopLevelBlock, CircosBlocks.highlights, CircosBlocks.plots)
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property ElementTag As String
+            Get
+                Return If(IsTopLevelBlock, "highlight", "plot")
             End Get
         End Property
 
