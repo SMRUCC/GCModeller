@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\localblast\LocalBLAST\localblast.NET5.vbproj" />
+    <ProjectReference Include="..\..\Circos.Extensions\Circos.Extensions.vbproj" />
     <ProjectReference Include="..\Circos.vbproj" />
   </ItemGroup>
 

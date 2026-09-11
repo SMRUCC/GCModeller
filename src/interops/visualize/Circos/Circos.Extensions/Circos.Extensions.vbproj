@@ -5,8 +5,27 @@
     <OutputType>Library</OutputType>
 
     <RootNamespace>SMRUCC.genomics.Visualize.Circos</RootNamespace>
-    <AssemblyName>SMRUCC.genomics.Visualize.Circos.Core</AssemblyName>
+    <AssemblyName>SMRUCC.genomics.Visualize.Circos.Extensions</AssemblyName>
  
     <Platforms>AnyCPU;x64;x86;ARM64</Platforms>
+ 
+    <TargetFramework>net10.0</TargetFramework>
+ 
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+ 
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\plots-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Drawing-net4.8\Drawing-net4.8.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\localblast\LocalBLAST\localblast.NET5.vbproj" />
+    <ProjectReference Include="..\Circos\Circos.vbproj" />
+  </ItemGroup>
 	</Project>
