@@ -612,20 +612,32 @@ SET_END:    Dim ends = i
     ''' <param name="outDIR"></param>
     ''' <param name="debug"></param>
     ''' <returns></returns>
+    ''' <param name="circosScriptPath">
+    ''' The file path of the circos executable program(``bin\circos.exe``), NOT the perl
+    ''' interpreter! If this parameter is empty, then <see cref="CircosRender.DefaultCircosExe"/>
+    ''' will be used.
+    ''' </param>
     <Extension>
     Public Function WriteData(circos As Configurations.Circos, circosScriptPath As String,
                               Optional outDIR$ = "",
                               Optional debug As DebugGroups = DebugGroups.NULL) As String
 
-        Dim perlRun$ = circosScriptPath.CLIPath.Replace("\", "/")
-        Dim conf$ = circos.filePath.CLIPath.Replace("\", "/")
+        Dim base$ = Configurations.Circos.NormalizeDirectory(outDIR)
+        Dim exe$ = If(
+            String.IsNullOrEmpty(circosScriptPath),
+            CircosRender.DefaultCircosExe,
+            circosScriptPath).Replace("\"c, "/"c)
+        Dim conf$ = $"{base}/{Configurations.Circos.FileName}"
 
-        Call circos.Save(outDIR)
-        Call $"perl {perlRun} -conf {conf}{debug.GetOptions}".SaveTo(outDIR & "/run.bat")
+        Call circos.Save(base)
+
+        ' windows 环境之中通常并没有安装 perl 解释器，所以在这里直接调用 circos 的
+        ' 可执行文件(其内部已经自带了 perl 运行时)
+        Call $"""{exe}"" -conf ""{conf}""{debug.GetOptions}".SaveTo(base & "/run.bat")
         Call ("#! /bin/bash" & vbCrLf &
-             $"perl {perlRun} -conf {conf}{debug.GetOptions}").SaveTo(outDIR & "/run.sh")
+             $"""{exe}"" -conf ""{conf}""{debug.GetOptions}").SaveTo(base & "/run.sh")
 
-        Return circos.filePath
+        Return conf
     End Function
 
     <ExportAPI("Ticks.ShowLabel")>
