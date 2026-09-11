@@ -92,10 +92,10 @@ Namespace Configurations.ComponentModel
         Public ReadOnly Property MimeType As ContentType() Implements IFileReference.MimeType
             Get
                 Return {New ContentType With {
-                    .ContentType = "text/plain",
+                    .Name = "circos.conf",
+                    .MIMEType = "text/plain",
                     .FileExt = ".conf",
-                    .MimeEntity = "circos configuration",
-                    .Name = "circos.conf"
+                    .Details = "The circos configuration file"
                 }}
             End Get
         End Property
