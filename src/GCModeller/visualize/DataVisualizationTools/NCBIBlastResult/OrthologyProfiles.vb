@@ -177,7 +177,7 @@ Namespace NCBIBlastResult
                     .OrderBy(Function(s) s.Name) _
                     .ToArray
 
-                Call name.__INFO_ECHO
+                Call name.info
 
                 Yield New OrthologyProfile With {
                     .Category = name,
@@ -241,7 +241,8 @@ Namespace NCBIBlastResult
                              Optional tickStroke$ = Stroke.AxisStroke,
                              Optional dpi As Integer = 100) As GraphicsData
 
-            Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject(dpi)
+            Dim css As CSSEnvirnment = Nothing
+            Dim labelFont As Font = css.GetFont(CSSFont.TryParse(labelFontCSS))
             Dim profiles As OrthologyProfile() = profileData _
                 .OrderByDescending(Function(p) p.Total) _
                 .ToArray
@@ -249,12 +250,12 @@ Namespace NCBIBlastResult
             Dim maxLabel$ = profiles _
                 .Select(Function(orth) orth.Category) _
                 .MaxLengthString
-            Dim boxStroke As Pen = Stroke.TryParse(boxBorderStrokeCSS)
-            Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject(dpi)
-            Dim axisLabelFont As Font = CSSFont.TryParse(axisLabelFontCSS).GDIObject(dpi)
+            Dim boxStroke As Pen = css.GetPen(Stroke.TryParse(boxBorderStrokeCSS))
+            Dim titleFont As Font = css.GetFont(CSSFont.TryParse(titleFontCSS))
+            Dim axisLabelFont As Font = css.GetFont(CSSFont.TryParse(axisLabelFontCSS))
             Dim ticks#() = CatalogProfiling.GetTicks(maxCount, tick)
-            Dim tickFont As Font = CSSFont.TryParse(axisTicksFontCSS).GDIObject(dpi)
-            Dim tickPen As Pen = Stroke.TryParse(tickStroke)
+            Dim tickFont As Font = css.GetFont(CSSFont.TryParse(axisTicksFontCSS))
+            Dim tickPen As Pen = css.GetPen(Stroke.TryParse(tickStroke))
 
             ' 将最大的统计数量设置为axis的最大值，可以让图表更加美观
             maxCount = ticks.Max
@@ -273,11 +274,11 @@ Namespace NCBIBlastResult
 
                     ' 绘制盒子
                     ' 得到盒子的宽和高
-                    Dim boxWidth = region.PlotRegion.Width - maxLabelWidth - 5
+                    Dim boxWidth = region.PlotRegion(css).Width - maxLabelWidth - 5
                     Dim boxHeight = totalHeight + boxStroke.Width * 2 + labelSize.Height
                     Dim boxLeft% = left + maxLabelWidth + 5
-                    Dim pos As New Point(boxLeft, top)
-                    Dim box As New Rectangle(pos, New Size(boxWidth, boxHeight))
+                    Dim pos As New PointF(boxLeft, top)
+                    Dim box As New RectangleF(pos, New SizeF(boxWidth, boxHeight))
 
                     ' 绘制盒子边框
                     Call g.DrawRectangle(boxStroke, box)

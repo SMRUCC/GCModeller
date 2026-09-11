@@ -42,10 +42,11 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -95,15 +96,15 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
         Dim IDFont = New Font(FontFace.MicrosoftYaHei, 12)
         Dim FontSize = MeasureMaxSize((From item In ReGen Select item.GeneID).ToArray, IDFont)
 
-        Using g As Graphics2D = New Size(Margin * 4 + InvokeDrawingLQuery.First.res.Width, Margin * 5 + (InvokeDrawingLQuery.First.res.Height + FontSize.Height + 5) * ReGen.Count).CreateGDIDevice
+        Using g As IGraphics = DriverLoad.CreateDefaultRasterGraphics(New Size(Margin * 4 + InvokeDrawingLQuery.First.res.Width, Margin * 5 + (InvokeDrawingLQuery.First.res.Height + FontSize.Height + 5) * ReGen.Count), Color.Transparent)
             For Each item In InvokeDrawingLQuery
-                Call g.Graphics.DrawString(item.GeneID, IDFont, Brushes.Black, New Point((g.Width - item.GeneID.MeasureSize(g, IDFont).Width) / 2, Y))
+                Call g.DrawString(item.GeneID, IDFont, Brushes.Black, New Point((g.Width - item.GeneID.MeasureSize(g, IDFont).Width) / 2, Y))
                 Y += FontSize.Height + 5
-                Call g.Graphics.DrawImage(item.res, Margin, Y)
+                Call g.DrawImage(item.res, Margin, Y)
                 Y += item.res.Height + 5
             Next
 
-            Return g.ImageResource
+            Return DirectCast(g, GdiRasterGraphics).ImageResource
         End Using
     End Function
 
@@ -142,11 +143,9 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
     End Function
 
     Private Function MeasureMaxSize(StringCol As String(), Font As Font) As Size
-        With New Size(1, 1).CreateGDIDevice
-            Dim LQuery = (From s As String In StringCol Select s.MeasureSize(.ByRef, Font)).ToArray
-            Dim sz As New Size((From item In LQuery Select item.Width).Max, (From item In LQuery Select item.Height).Max)
-            Return sz
-        End With
+        Dim LQuery = (From s As String In StringCol Select DriverLoad.MeasureTextSize(s, Font)).ToArray
+        Dim sz As New Size((From item In LQuery Select item.Width).Max, (From item In LQuery Select item.Height).Max)
+        Return sz
     End Function
 
     Private Function __directDrawing(data As NumericVector()) As Image
@@ -157,9 +156,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
         Dim TagDrawingFont As Font = New Font(FontFace.MicrosoftYaHei, 10)
         Dim StringSize As SizeF()
 
-        With New Size(1, 1).CreateGDIDevice
-            StringSize = (From s In data Select s.name.MeasureSize(.ByRef, TagDrawingFont)).ToArray
-        End With
+        StringSize = (From s In data Select DriverLoad.MeasureTextSize(s.name, TagDrawingFont)).ToArray
 
         Dim sX = (From sz In StringSize Select n = sz.Height).Max
 
@@ -171,7 +168,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
         Dim width As Integer = data.First.Length * PointWidth + 20 * Margin + sX
         Dim Height As Integer = data.Count * PointHeight + 2 * Margin
-        Dim g = (New Size(width, Height)).CreateGDIDevice '创建绘图设备
+        Dim g As IGraphics = DriverLoad.CreateDefaultRasterGraphics(New Size(width, Height), Color.Transparent) '创建绘图设备
 
         Dim Mappings = ColorMappings.GetColorRenderingProfiles
         Dim PointSize = New Size(PointWidth, PointHeight)
@@ -180,25 +177,25 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
         For i As Integer = 0 To data.Count - 1
             Dim Line = data(i)
 
-            Call g.Graphics.DrawString(Line.name, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(Margin, Y))
+            Call g.DrawString(Line.name, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(Margin, Y))
 
             X = Margin + sX + 20
 
             Dim Map = Mappings(i)
 
             For Each p As Double In Line.vector
-                Call g.Graphics.FillRectangle(New SolidBrush(Map.GetValue(p)), New Rectangle(New Point(X, Y), PointSize))
+                Call g.FillRectangle(New SolidBrush(Map.GetValue(p)), New Rectangle(New Point(X, Y), PointSize))
                 X += RegulationSerials.PointWidth
             Next
 
             Dim Avg As Double = (Map.Max - Map.Average) * 0.25 + Map.Average
 
-            Call g.Graphics.DrawString((From item In Map.Profiles Where item.Key > Avg Select item).ToArray.Count, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(X + 5, Y))
+            Call g.DrawString((From item In Map.Profiles Where item.Key > Avg Select item).ToArray.Count, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(X + 5, Y))
 
             Y += PointHeight
         Next
 
-        Return g.ImageResource
+        Return DirectCast(g, GdiRasterGraphics).ImageResource
     End Function
 
     Private Function CalculateOffset(data As NumericVector) As NumericVector

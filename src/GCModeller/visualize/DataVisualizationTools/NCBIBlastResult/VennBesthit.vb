@@ -45,7 +45,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -116,7 +116,7 @@ Namespace NCBIBlastResult
 
             Dim list As New List(Of HitCollection)
             Dim start = LinqAPI.DefaultFirst(Of HitCollection) _
- _
+                                                               _
                 () <= From hit As HitCollection
                       In bh.hits
                       Where String.Equals(hit.QueryName, range_start, StringComparison.OrdinalIgnoreCase)
@@ -127,26 +127,25 @@ Namespace NCBIBlastResult
             For i = i To bh.hits.Length - 1
                 Call list.Add(bh.hits(i))
             Next
-
-            Dim TagFont As Font = CSSFont.TryParse(tagFontCSS).GDIObject(dpi)
+            Dim css As CSSEnvirnment = Nothing
+            Dim TagFont As Font = css.GetFont(CSSFont.TryParse(tagFontCSS))
             Dim table = CreateAlphabetTagSerials(bh.hits.First.hits.Select(Function(h) h.tag).ToArray)
-            Dim maxIdLength = (From hits As HitCollection
+            Dim maxIdStr = (From hits As HitCollection
                                In list
-                               Let mat = {
+                            Let mat = {
                                    New String() {hits.QueryName},
                                    (From nnnnn In hits.hits Select nnnnn.hitName).ToArray
                                }
-                               Let id_cols As String() = mat.ToVector
-                               Select id_cols).ToVector _
-                                              .MaxLengthString _
-                                              .MeasureSize(New Size(1, 1).CreateGDIDevice, TagFont)
+                            Let id_cols As String() = mat.ToVector
+                            Select id_cols).ToVector.MaxLengthString
+            Dim maxIdLength = DriverLoad.MeasureTextSize(maxIdStr, TagFont)
 
             Dim dotSize As New Size(maxIdLength.Width + 5, maxIdLength.Height + 10)
             Dim devSize As New Size(
                 (list.First.hits.Count + 2) * dotSize.Width + 4 * Margin,
                 (list.Count + 8) * dotSize.Height + 2 * Margin + list.First.hits.Length * (maxIdLength.Height + 3))
 
-            Using g As Graphics2D = devSize.CreateGDIDevice()
+            Using g As IGraphics = DriverLoad.CreateDefaultRasterGraphics(devSize, Color.Transparent)
                 Dim X As Integer = Margin + maxIdLength.Width, Y As Integer = Margin * 1.3
                 Dim Colors = NCBIBlastResult.ColorSchema.IdentitiesChromatic
 
@@ -195,7 +194,7 @@ Namespace NCBIBlastResult
                     Call g.DrawString(Line.Name, TagFont, Brushes.Black, X + dotSize.Width + 10, Y + 3) : Y += dotSize.Height + 5
                 Next
 
-                Return g.ImageResource
+                Return DirectCast(g, GdiRasterGraphics).ImageResource
             End Using
         End Function
     End Module
