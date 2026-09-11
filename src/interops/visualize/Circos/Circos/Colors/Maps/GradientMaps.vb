@@ -49,6 +49,12 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports ColorPattern = Microsoft.VisualBasic.Imaging.ColorMap
+' 在 net10.0-windows 目标之下 System.Drawing 也会提供同名的类型，所以在这里显式指定使用兼容层的类型
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
 
 Namespace Colors
 
