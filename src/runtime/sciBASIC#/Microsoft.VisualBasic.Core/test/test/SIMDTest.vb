@@ -416,10 +416,31 @@ Module SIMDTest
         Dim a As Double() = {1.0, 5.0, -3.0, 8.0, 0.0, 2.0, 9.0}
         Dim b As Double() = {2.0, 5.0, 3.0, 1.0, 0.0, -2.0, 9.0}
 
-        Console.WriteLine("  [dbg] gt actual   = " & String.Join(",", SimdCompare.GreaterThan(Of Double)(a, b)))
-        Console.WriteLine("  [dbg] gt expected = " & String.Join(",", RefCmp(a, b, Function(x, y) x > y)))
-        Console.WriteLine("  [dbg] gt narrow   = " & String.Join(",", SimdCompare.GreaterThan(Of Double)({1.0, 2.0, 3.0}, {3.0, 2.0, 1.0})))
-        Console.WriteLine("  [dbg] gt empty    = " & String.Join(",", SimdCompare.GreaterThan(Of Double)(Array.Empty(Of Double)(), Array.Empty(Of Double)())))
+        ' 掩码通道定位必须是“按元素宽度”而不是“按固定整数宽度”，
+        ' 否则 Single/Integer(4 字节) 与 Short(2 字节) 会出现通道错位。
+        ' 这里对所有支持的类型 × 所有边界长度逐一校验。
+        For Each n As Integer In TestSizes()
+            Dim da As Double() = RandomData(n)
+            Dim db As Double() = RandomData(n)
+            Dim ia As Integer() = RandomIntegers(n)
+            Dim ib As Integer() = RandomIntegers(n)
+            Dim la As Long() = Array.ConvertAll(ia, Function(x) CLng(x))
+            Dim lb As Long() = Array.ConvertAll(ib, Function(x) CLng(x))
+            Dim sa As Short() = Array.ConvertAll(ia, Function(x) CShort(x))
+            Dim sb As Short() = Array.ConvertAll(ib, Function(x) CShort(x))
+            Dim fa As Single() = Array.ConvertAll(da, Function(x) CSng(x))
+            Dim fb As Single() = Array.ConvertAll(db, Function(x) CSng(x))
+            Dim tag As String = $"n={n}"
+
+            Check($"f64 gt cross-size  {tag}", SequenceEqual(RefCmp(da, db, Function(x, y) x > y), SimdCompare.GreaterThan(Of Double)(da, db)))
+            Check($"f64 eq cross-size  {tag}", SequenceEqual(RefCmp(da, db, Function(x, y) x = y), SimdCompare.Equal(Of Double)(da, db)))
+            Check($"f32 gt cross-size  {tag}", SequenceEqual(RefCmp(fa, fb, Function(x, y) x > y), SimdCompare.GreaterThan(Of Single)(fa, fb)))
+            Check($"f32 ne cross-size  {tag}", SequenceEqual(RefCmp(fa, fb, Function(x, y) x <> y), SimdCompare.NotEqual(Of Single)(fa, fb)))
+            Check($"i32 lt cross-size  {tag}", SequenceEqual(RefCmp(ia, ib, Function(x, y) x < y), SimdCompare.LessThan(Of Integer)(ia, ib)))
+            Check($"i32 ge cross-size  {tag}", SequenceEqual(RefCmp(ia, ib, Function(x, y) x >= y), SimdCompare.GreaterThanOrEqual(Of Integer)(ia, ib)))
+            Check($"i64 le cross-size  {tag}", SequenceEqual(RefCmp(la, lb, Function(x, y) x <= y), SimdCompare.LessThanOrEqual(Of Long)(la, lb)))
+            Check($"i16 eq cross-size  {tag}", SequenceEqual(RefCmp(sa, sb, Function(x, y) x = y), SimdCompare.Equal(Of Short)(sa, sb)))
+        Next
 
         Check("greater than", SequenceEqual(RefCmp(a, b, Function(x, y) x > y), SimdCompare.GreaterThan(Of Double)(a, b)))
         Check("less than", SequenceEqual(RefCmp(a, b, Function(x, y) x < y), SimdCompare.LessThan(Of Double)(a, b)))
@@ -437,8 +458,8 @@ Module SIMDTest
         Check("select equals max here", SequenceEqual(expectSelected, SimdEngine.Max(Of Double)(a, b)))
         Check("mask any", SimdCompare.Any(mask))
         Check("mask all", Not SimdCompare.All(mask))
-        Check("mask count", SimdCompare.CountTrue(mask) = 4)
-        Check("where compacts", SequenceEqual({1.0, -3.0, 8.0, 2.0}, SimdCompare.Where(mask, a)))
+        Check("mask count", SimdCompare.CountTrue(mask) = 2)
+        Check("where compacts", SequenceEqual({8.0, 2.0}, SimdCompare.Where(mask, a)))
         Check("empty compare", SimdCompare.GreaterThan(Of Double)(Array.Empty(Of Double)(), Array.Empty(Of Double)()).Length = 0)
     End Sub
 
@@ -575,6 +596,9 @@ Module SIMDTest
         Console.WriteLine("=========================================================")
         Console.WriteLine(" benchmark (best of 3 runs)")
         Console.WriteLine("=========================================================")
+        Console.WriteLine(" 标量基线为等价的朴素 for 循环；out-of-place 的标量基线同样使用")
+        Console.WriteLine(" GC.AllocateUninitializedArray，保证与向量版本口径一致。")
+        Console.WriteLine(" 就地(in-place)组的耗时不含结果数组分配，反映的是纯计算/内存带宽上限。")
 
         For Each n As Integer In {1000, 100000, 10000000}
             Dim a As Double() = RandomData(n)
@@ -583,6 +607,7 @@ Module SIMDTest
             Console.WriteLine()
             Console.WriteLine($"--- n = {n:#,##0} ---")
             Call BenchAdd(a, b)
+            Call BenchAddInPlace(a, b)
             Call BenchMultiplyScalar(a, 2.5)
             Call BenchSum(a)
             Call BenchDot(a, b)
@@ -593,15 +618,22 @@ Module SIMDTest
     End Sub
 
     Private Sub BenchAdd(a As Double(), b As Double())
-        Dim ts As Double = TimeBest(3, Sub() Call Ref(a, b, Function(x, y) x + y))
+        Dim ts As Double = TimeBest(3, Sub() Call ScalarAdd(a, b))
         Dim tv As Double = TimeBest(3, Sub() Call SimdEngine.Add(Of Double)(a, b))
         Dim tp As Double = TimeBest(3, Sub() Call SimdParallel.Add(a, b))
 
         WriteLine("add            ", ts, tv, tp)
     End Sub
 
+    Private Sub BenchAddInPlace(a As Double(), b As Double())
+        Dim ts As Double = TimeBest(3, Sub() Call ScalarAddInPlace(a, b))
+        Dim tv As Double = TimeBest(3, Sub() Call SimdEngine.AddInPlace(Of Double)(a, b))
+
+        WriteLine("add (in-place) ", ts, tv, Double.NaN, inPlace:=True)
+    End Sub
+
     Private Sub BenchMultiplyScalar(a As Double(), scalar As Double)
-        Dim ts As Double = TimeBest(3, Sub() Call Ref1(a, Function(x) x * scalar))
+        Dim ts As Double = TimeBest(3, Sub() Call ScalarMultiplyScalar(a, scalar))
         Dim tv As Double = TimeBest(3, Sub() Call SimdEngine.MultiplyScalar(Of Double)(scalar, a))
         Dim tp As Double = TimeBest(3, Sub() Call SimdParallel.MultiplyScalar(scalar, a))
 
@@ -623,6 +655,36 @@ Module SIMDTest
 
         WriteLine("dot            ", ts, tv, tp)
     End Sub
+
+#Region "scalar baselines for the benchmark"
+
+    Private Function ScalarAdd(a As Double(), b As Double()) As Double()
+        Dim out As Double() = GC.AllocateUninitializedArray(Of Double)(a.Length)
+
+        For i As Integer = 0 To a.Length - 1
+            out(i) = a(i) + b(i)
+        Next
+
+        Return out
+    End Function
+
+    Private Function ScalarMultiplyScalar(a As Double(), scalar As Double) As Double()
+        Dim out As Double() = GC.AllocateUninitializedArray(Of Double)(a.Length)
+
+        For i As Integer = 0 To a.Length - 1
+            out(i) = a(i) * scalar
+        Next
+
+        Return out
+    End Function
+
+    Private Sub ScalarAddInPlace(a As Double(), b As Double())
+        For i As Integer = 0 To a.Length - 1
+            a(i) += b(i)
+        Next
+    End Sub
+
+#End Region
 
     Private Function LoopDot(a As Double(), b As Double()) As Double
         Dim s As Double = 0
@@ -649,9 +711,15 @@ Module SIMDTest
         Return best
     End Function
 
-    Private Sub WriteLine(name As String, scalar As Double, vector As Double, parallel As Double)
-        Console.WriteLine($"  {name} scalar={scalar,10:N2}ms  simd={vector,10:N2}ms  parallel={parallel,10:N2}ms  " &
-                          $"speedup(simd)={scalar / std.Max(vector, 1.0E-06),6:N2}x  speedup(parallel)={scalar / std.Max(parallel, 1.0E-06),6:N2}x")
+    Private Sub WriteLine(name As String, scalar As Double, vector As Double, parallel As Double,
+                          Optional inPlace As Boolean = False)
+        If inPlace Then
+            Console.WriteLine($"  {name} scalar={scalar,10:N2}ms  simd={vector,10:N2}ms  " &
+                              $"speedup(simd)={scalar / std.Max(vector, 1.0E-06),6:N2}x")
+        Else
+            Console.WriteLine($"  {name} scalar={scalar,10:N2}ms  simd={vector,10:N2}ms  parallel={parallel,10:N2}ms  " &
+                              $"speedup(simd)={scalar / std.Max(vector, 1.0E-06),6:N2}x  speedup(parallel)={scalar / std.Max(parallel, 1.0E-06),6:N2}x")
+        End If
     End Sub
 
 #End Region
