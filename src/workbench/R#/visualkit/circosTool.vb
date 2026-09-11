@@ -32,7 +32,7 @@ Module circosTool
     End Function
 
     <ExportAPI("blastn_mapping")>
-    <RApiReturn(GetType(KaryotypeChromosomes))>
+    <RApiReturn(GetType(GenomeKaryotype))>
     Public Function FromBlastnMappings(source As Object, chrs As Object, Optional env As Environment = Nothing) As Object
         Dim blastn As PipeIterator(Of BlastnMapping) = pipeline.Stream(Of BlastnMapping)(source, env)
         Dim chrNts As PipeIterator(Of FastaSeq) = pipeline.Stream(Of FastaSeq)(chrs, env)
@@ -49,7 +49,7 @@ Module circosTool
     <ExportAPI("track_hits")>
     <RApiReturn(GetType(ValueTrackData))>
     Public Function HitsTracks(source As Object,
-                            karyotype As SkeletonInfo,
+                            karyotype As KaryotypeSkeleton,
                             Optional steps% = 2048, Optional env As Environment = Nothing) As Object
 
         Dim blastn As PipeIterator(Of BlastnMapping) = pipeline.Stream(Of BlastnMapping)(source, env)
