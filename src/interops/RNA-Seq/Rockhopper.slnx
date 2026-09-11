@@ -3,6 +3,17 @@
     <Platform Name="Any CPU" />
     <Platform Name="x64" />
   </Configurations>
+  <Folder Name="/assembler/">
+    <Project Path="../../GCModeller/analysis/SequenceToolkit/SequenceAlignment/SequenceAlignment.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/gr/network-visualization/Datavisualization.Network/network_graph-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
   <Folder Name="/framework/">
     <Project Path="../../runtime/sciBASIC#/Data/DataFrame/dataframework-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
@@ -18,6 +29,9 @@
     </Project>
   </Folder>
   <Project Path="../../GCModeller/core/Bio.Assembly/biocore-netcore5.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="RNA-seq.Data/RNA-seq.Data.NET5.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="Rockhopper/Rockhopper.vbproj">
