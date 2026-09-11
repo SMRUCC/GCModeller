@@ -45,6 +45,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
@@ -150,6 +151,35 @@ Namespace Configurations.Nodes.Plots
         Public Property rules As List(Of ConditionalRule)
 
         ''' <summary>
+        ''' 当前的这个绘图元素所属的 circos 顶层配置块的名称。
+        ''' (garantees only that the circos allowed top level blocks can be used, see 
+        ''' ``lib/Circos/Configuration.pm`` in the circos distribution: 
+        ''' ``my @ok = qw(ideogram colors fonts patterns image plots links highlights)``)
+        ''' </summary>
+        ''' <returns>
+        ''' ``plots``(默认值), ``links`` 或者 ``highlights``
+        ''' </returns>
+        Public Overridable ReadOnly Property BlockName As String Implements ITrackPlot.block
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return CircosBlocks.plots
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 当前的这个绘图元素在配置文件之中所使用的 XML 标签名
+        ''' (大部分的绘图元素都是``plot``标签，但是 link 使用的是``link``标签，
+        ''' highlight 在被输出到顶层 ``&lt;highlights>`` 块之中的时候使用的是``highlight``标签)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overridable ReadOnly Property ElementTag As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return "plot"
+            End Get
+        End Property
+
+        ''' <summary>
         ''' data文件夹之中的绘图数据
         ''' </summary>
         ''' <returns></returns>
@@ -169,7 +199,8 @@ Namespace Configurations.Nodes.Plots
 
         Public Overridable Function Build(IndentLevel As Integer, directory$) As String Implements ICircosDocument.Build
             Dim blanks As New String(" "c, IndentLevel)
-            Dim sb As New StringBuilder(blanks & "<plot>" & vbCrLf, 1024)
+            Dim tag As String = ElementTag
+            Dim sb As New StringBuilder(blanks & $"<{tag}>" & vbCrLf, 1024)
 
             Call sb.AppendLine()
             Call sb.AppendLine(String.Format("{0}#   --> ""{1}""", blanks, tracksData.GetType.FullName))
@@ -213,7 +244,7 @@ Namespace Configurations.Nodes.Plots
                 Next
             End If
 
-            Call sb.AppendLine(blanks & "</plot>")
+            Call sb.AppendLine(blanks & $"</{tag}>")
 
             Return sb.ToString
         End Function

@@ -68,6 +68,14 @@ Namespace TrackDatas
         Public Property comment As String Implements ITrackData.comment
 
         Public Overrides Function ToString() As String Implements ITrackData.GetLineData
+            ' link 是一个 Structure，其在使用默认构造函数创建的时候内部的两个数据点都是 Nothing，
+            ' 直接调用 ToString 会抛出 NRE，所以在这里给出一个明确的错误提示信息
+            If a Is Nothing OrElse b Is Nothing Then
+                Throw New InvalidOperationException(
+                    $"Incomplete link data: the {(If(a Is Nothing, "first", "second"))} end of the link data is not initialized! " &
+                    $"A link requires two registered genomic regions.")
+            End If
+
             Return a.ToString & " " & b.ToString
         End Function
     End Structure

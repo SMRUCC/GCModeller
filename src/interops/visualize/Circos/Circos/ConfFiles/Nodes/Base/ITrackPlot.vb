@@ -71,6 +71,19 @@ Namespace Configurations.Nodes.Plots
         <Circos> ReadOnly Property type As String
 
         ''' <summary>
+        ''' 当前的这个绘图元素所属的 circos 顶层配置块的名称
+        ''' </summary>
+        ''' <returns>
+        ''' 仅可以为 <see cref="CircosBlocks.plots"/>、<see cref="CircosBlocks.links"/> 
+        ''' 或者 <see cref="CircosBlocks.highlights"/> 这三个值之中的一个
+        ''' </returns>
+        ''' <remarks>
+        ''' ``link`` 不是合法的 ``&lt;plot>`` 类型，其必须被放置在顶层的 ``&lt;links>`` 块之中，
+        ''' 否则 circos 程序会报错退出
+        ''' </remarks>
+        ReadOnly Property block As String
+
+        ''' <summary>
         ''' 输入的路径会根据配置情况转换为相对路径或者绝对路径
         ''' </summary>
         ''' <returns></returns>

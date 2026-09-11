@@ -249,7 +249,7 @@ Namespace Configurations
                 If skeletonKaryotype Is Nothing Then
                     Return 0
                 End If
-                Return _skeletonKaryotype.size - skeletonKaryotype.loopHole
+                Return skeletonKaryotype.size - skeletonKaryotype.loopHole
             End Get
         End Property
 
@@ -280,12 +280,73 @@ Namespace Configurations
             Me.main = Me
         End Sub
 
-        Public Overloads Overrides Function Save(directory$, encoding As Encoding) As Boolean
-            Dim base = directory Or FilePath.ParentPath.AsDefault
-            Dim dataDIR As String = $"{base}/data/"
+        ''' <summary>
+        ''' 将输入的文件夹路径统一转换为使用``/``作为分隔符的相对路径或者绝对路径
+        ''' </summary>
+        ''' <param name="directory$"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 在旧的代码实现之中直接使用传入的<paramref name="directory"/>参数拼接子路径，
+        ''' 当调用方不传入任何参数的时候会拼出类似于``/data/xxxx.txt``这样的非法路径
+        ''' </remarks>
+        Public Shared Function NormalizeDirectory(directory$) As String
+            Dim dir$ = If(directory, "").Replace("\"c, "/"c).Trim
 
-            filePath = ($"{base}/{FileIO.FileSystem.GetFileInfo(filePath).Name}")
-            Call FileIO.FileSystem.CreateDirectory(dataDIR)
+            If String.IsNullOrEmpty(dir) Then
+                dir = FileIO.FileSystem.CurrentDirectory.Replace("\"c, "/"c)
+            End If
+
+            ' 去除末尾的路径分隔符，避免在拼接子路径的时候出现重复的分隔符
+            Do While dir.Length > 2 AndAlso dir.Last = "/"c
+                dir = dir.Substring(0, dir.Length - 1)
+            Loop
+
+            Return dir
+        End Function
+
+        Public Const FileName As String = "circos.conf"
+
+        ''' <summary>
+        ''' 创建指定文件所在的文件夹（如果文件夹不存在的话）
+        ''' </summary>
+        ''' <param name="file$"></param>
+        Private Shared Sub mkdir(file$)
+            Dim parent$ = System.IO.Path.GetDirectoryName(file.Replace("\"c, "/"c))
+
+            If Not String.IsNullOrEmpty(parent) Then
+                Call System.IO.Directory.CreateDirectory(parent)
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' ``./data/genome_skeleton.txt`` --> ``data/genome_skeleton.txt``
+        ''' </summary>
+        ''' <param name="url$"></param>
+        ''' <returns></returns>
+        Private Shared Function trimRelative(url$) As String
+            Dim path$ = If(url, "").Replace("\"c, "/"c).Trim
+
+            Do While path.StartsWith("./")
+                path = path.Substring(2)
+            Loop
+
+            Return path
+        End Function
+
+        Public Overloads Overrides Function Save(directory$, encoding As Encoding) As Boolean
+            Dim base As String = NormalizeDirectory(directory)
+            Dim dataDIR As String = $"{base}/data/"
+            Dim confName As String = System.IO.Path.GetFileName(
+                trimRelative(If(String.IsNullOrEmpty(filePath), FileName, filePath)))
+
+            If String.IsNullOrEmpty(confName) Then
+                confName = FileName
+            End If
+
+            Call System.IO.Directory.CreateDirectory(base)
+            Call System.IO.Directory.CreateDirectory(dataDIR)
+
+            filePath = $"{base}/{confName}"
 
             For Each i As SeqValue(Of ITrackPlot) In plotTracks.SeqIterator
                 Dim track As ITrackPlot = i.value
@@ -293,13 +354,23 @@ Namespace Configurations
 
                 ' 首先保存数据文件
                 track.file = path
-                track.Save($"{directory}/{path}", Encoding.ASCII)
+                track.Save($"{base}/{path}", Encoding.ASCII)
             Next
 
-            Call _skeletonKaryotype.Save($"{base}/{karyotype}", encoding:=Encoding.ASCII)
+            ' 基因组骨架信息可能为 Nothing，例如调用方直接使用外部已经存在的 karyotype 文件的情况
+            If Not skeletonKaryotype Is Nothing Then
+                Dim karyo As String = trimRelative(If(karyotype, ""))
+
+                If Not String.IsNullOrEmpty(karyo) Then
+                    Dim karyotypePath As String = $"{base}/{karyo}"
+
+                    Call mkdir(karyotypePath)
+                    Call skeletonKaryotype.Save(karyotypePath, encoding:=Encoding.ASCII)
+                End If
+            End If
 
             ' 最后在这里生成配置文件
-            Return Build(0, directory:=base).SaveTo(FilePath, Encoding.ASCII)
+            Return Build(0, directory:=base).SaveTo(filePath, Encoding.ASCII)
         End Function
 
         Public Overloads Shared Function CreateObject() As Circos

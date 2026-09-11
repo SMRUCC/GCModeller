@@ -66,10 +66,19 @@ Namespace Karyotype
         ''' <returns></returns>
         Public Overridable ReadOnly Property size As Integer
             Get
-                Return Aggregate karyo As Karyotype
-                       In karyos
-                       Let len As Integer = Math.Abs(karyo.end - karyo.start)
-                       Into Sum(len)
+                ' 使用 Long 累加之后再转换为 Integer，避免真核生物基因组（> 2^31）求总和的时候溢出
+                Dim genomeSize& = Aggregate karyo As Karyotype
+                                  In karyos.SafeQuery
+                                  Let len As Long = Math.Abs(CLng(karyo.end) - CLng(karyo.start))
+                                  Into Sum(len)
+
+                If genomeSize > Integer.MaxValue Then
+                    Throw New OverflowException(
+                        $"The genome size {genomeSize} nt is too large for the circos plot, " &
+                        "please reduce the resolution of your data (e.g. use a larger window size).")
+                End If
+
+                Return CInt(genomeSize)
             End Get
         End Property
 
@@ -115,7 +124,7 @@ Namespace Karyotype
         Public Function Build(IndentLevel As Integer, directory$) As String Implements ICircosDocNode.Build
             Dim sb As New StringBuilder
 
-            For Each chr As IKaryotype In karyos
+            For Each chr As IKaryotype In karyos.SafeQuery
                 Call sb.AppendLine(chr.GetData)
             Next
             For Each chr As IKaryotype In bands.SafeQuery
@@ -125,8 +134,14 @@ Namespace Karyotype
             Return sb.ToString
         End Function
 
-        Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Return Build(Scan0, directory:=Path.ParentPath).SaveTo(Path, encoding)
+        Public Function Save(filePath As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Dim parent$ = System.IO.Path.GetDirectoryName(filePath.Replace("\"c, "/"c))
+
+            If Not String.IsNullOrEmpty(parent) Then
+                Call System.IO.Directory.CreateDirectory(parent)
+            End If
+
+            Return Build(Scan0, directory:=parent).SaveTo(filePath, encoding)
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

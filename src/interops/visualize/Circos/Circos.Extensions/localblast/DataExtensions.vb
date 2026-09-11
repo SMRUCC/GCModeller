@@ -41,6 +41,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -110,8 +111,8 @@ Public Module DataExtensions
                Let loci As NucleotideLocation = x.value.MappingLocation
                Select New Band With {
                        .chrName = chr,
-                       .start = loci.Left,
-                       .end = loci.Right,
+                       .start = loci.left,
+                       .end = loci.right,
                        .color = "",
                        .bandX = "band" & x.i,
                        .bandY = "band" & x.i
@@ -128,9 +129,9 @@ Public Module DataExtensions
     End Function
 
     <Extension>
-    Public Function Hits(source As IEnumerable(Of BlastnMapping),
+    Public Iterator Function Hits(source As IEnumerable(Of BlastnMapping),
                             karyotype As Karyotype.SkeletonInfo,
-                            Optional steps% = 2048) As ValueTrackData()
+                            Optional steps% = 2048) As IEnumerable(Of ValueTrackData)
 
         Dim chrs As Dictionary(Of String, Karyotype.Karyotype) =
             karyotype.GetchrLabels(Function(x) x.chrLabel)
@@ -140,9 +141,9 @@ Public Module DataExtensions
                          Identity = x.identitiesValue,
                          chr = x.Reference.Split("."c).First
                      Group By chr Into Group
-        Dim list As New List(Of ValueTrackData)
+        Dim bar As ProgressBar = Nothing
 
-        For Each ch In LQuery
+        For Each ch In TqdmWrapper.WrapIterator(LQuery, bar:=bar)
             Dim chr As Karyotype.Karyotype = chrs(ch.chr)
             Dim idata As SeqValue(Of Value(Of Integer))() =
                 LinqAPI.Exec(Of SeqValue(Of Value(Of Integer))) <= From i As Integer
@@ -152,8 +153,10 @@ Public Module DataExtensions
                                                                        .value = New Value(Of Integer)
                                                                    }
 
+            Call bar.SetLabel(ch.chr)
+
             For Each reads In ch.Group
-                For i As Integer = reads.MappingLocation.Left To reads.MappingLocation.Right
+                For i As Integer = reads.MappingLocation.left To reads.MappingLocation.right
                     idata(i).value.Value += 1
                 Next
             Next
@@ -171,20 +174,19 @@ Public Module DataExtensions
                 }
             Next
 
-            list += From x As SeqValue(Of SeqValue(Of Value(Of Integer)))
-                    In tmp.SeqIterator
-                    Let left As Integer = x.value.i
-                    Select New ValueTrackData With {
-                        .chr = chr.chrName,
-                        .start = left,
-                        .end = left + steps,
-                        .value = x.value.value.Value
-                    }
+            For Each tick As ValueTrackData In From x As SeqValue(Of SeqValue(Of Value(Of Integer)))
+                             In tmp.SeqIterator
+                                               Let left As Integer = x.value.i
+                                               Select New ValueTrackData With {
+                                .chr = chr.chrName,
+                                .start = left,
+                                .end = left + steps,
+                                .value = x.value.value.Value
+                             }
 
-            Call Console.Write(".")
+                Yield tick
+            Next
         Next
-
-        Return list.ToArray
     End Function
 
     ''' <summary>

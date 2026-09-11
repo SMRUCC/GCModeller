@@ -70,9 +70,7 @@ Namespace Configurations.Nodes.Plots
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetProperties() As String()
-            Return SimpleConfig _
-                .GenerateConfigurations(Of HighLight)(Me) _
-                .ToArray
+            Return Me.GenerateConfigLines()
         End Function
     End Class
 End Namespace

@@ -86,6 +86,55 @@ Namespace Configurations
         End Function
 
         ''' <summary>
+        ''' 从 <see cref="SimpleConfig"/> 特性标记的属性生成 circos 配置文件的参数行
+        ''' </summary>
+        ''' <typeparam name="T">
+        ''' 请使用具体的类型，而不是基类型，否则反射只能够取到基类之中的属性集合
+        ''' </typeparam>
+        ''' <param name="target"></param>
+        ''' <param name="skipEmpty">
+        ''' 是否跳过值为空的属性行？默认为真。
+        ''' (``SimpleConfig.GenerateConfigurations`` 会原样输出所有的属性，包括那些值为空的
+        ''' 属性，这会生成类似于 ``genome = `` 这样的垃圾参数行)
+        ''' </param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function GenerateConfigLines(Of T As Class)(target As T, Optional skipEmpty As Boolean = True) As String()
+            Dim lines As String() = SimpleConfig _
+                .GenerateConfigurations(Of T)(target) _
+                .ToArray
+
+            If Not skipEmpty Then
+                Return lines
+            End If
+
+            Return lines _
+                .Where(Function(line) HasValue(line)) _
+                .ToArray
+        End Function
+
+        ''' <summary>
+        ''' 判断配置行是否携带了有效的参数值
+        ''' </summary>
+        ''' <param name="line">``name = value`` 格式的配置参数行</param>
+        ''' <returns></returns>
+        Private Function HasValue(line As String) As Boolean
+            If String.IsNullOrWhiteSpace(line) Then
+                Return False
+            End If
+
+            Dim assign As Integer = line.IndexOf("="c)
+
+            If assign <= 0 Then
+                Return False
+            End If
+
+            Dim value As String = line.Substring(assign + 1).Trim
+
+            Return Not String.IsNullOrEmpty(value)
+        End Function
+
+        ''' <summary>
         ''' Generates the docuemtn text data for write circos file.
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
@@ -99,7 +148,7 @@ Namespace Configurations
             Dim IndentBlanks As String = New String(" "c, indentLevel + 2)
             Dim sb As New StringBuilder(1024)
 
-            For Each strLine$ In SimpleConfig.GenerateConfigurations(Of T)(data)
+            For Each strLine$ In data.GenerateConfigLines()
                 Call sb.AppendLine($"{IndentBlanks}{strLine}")
             Next
 

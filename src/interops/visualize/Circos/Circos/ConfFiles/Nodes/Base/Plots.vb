@@ -110,9 +110,7 @@ Namespace Configurations.Nodes.Plots
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetProperties() As String()
-            Return SimpleConfig _
-                .GenerateConfigurations(Of HeatMap)(Me) _
-                .ToArray
+            Return Me.GenerateConfigLines()
         End Function
     End Class
 
@@ -169,9 +167,7 @@ Namespace Configurations.Nodes.Plots
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetProperties() As String()
-            Return SimpleConfig _
-                .GenerateConfigurations(Of Histogram)(Me) _
-                .ToArray
+            Return Me.GenerateConfigLines()
         End Function
     End Class
 
@@ -236,9 +232,7 @@ Namespace Configurations.Nodes.Plots
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetProperties() As String()
-            Return SimpleConfig _
-                .GenerateConfigurations(Of TextLabel)(Me) _
-                .ToArray
+            Return Me.GenerateConfigLines()
         End Function
     End Class
 End Namespace
