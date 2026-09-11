@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
@@ -134,7 +135,7 @@ Public Module GCPlot
                            Optional base$ = Nothing) As GraphicsData
 
         Dim ntArray As NamedValue(Of Double())() = LinqAPI.Exec(Of NamedValue(Of Double())) <=
- _
+                                                                                              _
             From seq As FastaSeq
             In mal
             Select New NamedValue(Of Double()) With {
@@ -166,14 +167,15 @@ Public Module GCPlot
             mapColors(Scan0) = base.ToColor
         End If
 
-        Call $"max:={v.Max}, min:={v.Min}".__DEBUG_ECHO
+        Call $"max:={v.Max}, min:={v.Min}".debug
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                Dim plotWidth = region.PlotRegion.Width
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim plotWidth = region.PlotRegion(css).Width
                 Dim y! = margin.Top
                 Dim deltaX! = plotWidth / lvMAT(Scan0).Value.Length
-                Dim deltaY! = region.PlotRegion.Height / lvMAT.Length
+                Dim deltaY! = region.PlotRegion(css).Height / lvMAT.Length
                 Dim plotTick As Boolean = True
 
                 For Each line As NamedValue(Of Integer()) In lvMAT

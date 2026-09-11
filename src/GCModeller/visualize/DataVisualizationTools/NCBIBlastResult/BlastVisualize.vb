@@ -1,63 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::a9394ea276b0ac9eb9ff505cf656999f, visualize\DataVisualizationTools\NCBIBlastResult\BlastVisualize.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BlastVisualize
-    ' 
-    '         Function: __COGsBrush, __createHits, AlignmentTableFromBlastn, AlignmentTableFromBlastX, ApplyDescription
-    '                   ApplyDescription2, CreateTableFromBlastOutput, ExportTableOrderByGI, GetColor, GetSubjectHitLocusID
-    '                   InternalShortID_s, (+2 Overloads) InvokeDrawing, LoadResult, PlotMap, ShortID
-    ' 
-    '         Sub: AssignCogClass
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BlastVisualize
+' 
+'         Function: __COGsBrush, __createHits, AlignmentTableFromBlastn, AlignmentTableFromBlastX, ApplyDescription
+'                   ApplyDescription2, CreateTableFromBlastOutput, ExportTableOrderByGI, GetColor, GetSubjectHitLocusID
+'                   InternalShortID_s, (+2 Overloads) InvokeDrawing, LoadResult, PlotMap, ShortID
+' 
+'         Sub: AssignCogClass
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -99,28 +101,28 @@ Namespace NCBIBlastResult
 
         <ExportAPI("Invoke.Drawing")>
         <Extension> Public Function InvokeDrawing(query As Query) As Image
-            Dim g = New Size(Margin * 3 + query.QueryLength, 2 * Margin + 100).CreateGDIDevice
+            Dim g As IGraphics = DriverLoad.CreateDefaultRasterGraphics(New Size(Margin * 3 + query.QueryLength, 2 * Margin + 100), Color.Transparent)
             Dim Y As Integer = Margin / 2
             Dim rect As New Rectangle(New Point(Margin, Y), New Size(query.QueryLength, 10))
             Y += rect.Height
             Dim font As New Font(FontFace.Ubuntu, 6, FontStyle.Regular)
 
-            Call g.Graphics.FillRectangle(Brushes.Black, rect)
+            Call g.FillRectangle(Brushes.Black, rect)
 
-            Dim sz = g.Graphics.MeasureString("0", font)
+            Dim sz = g.MeasureString("0", font)
 
             For i As Integer = 0 To query.QueryLength Step 10
                 If i Mod 50 = 0 Then
                     Dim YY As Integer = Y + 5
-                    Call g.Graphics.DrawLine(New Pen(Color.Black, 2), New Point(i + Margin, YY), New Point(i + Margin, Y))   ' 大标尺
-                    sz = g.Graphics.MeasureString(i, font)
-                    Call g.Graphics.DrawString(i, font, Brushes.Black, New Point(sz.Width / 2 + i + Margin, YY))
+                    Call g.DrawLine(New Pen(Color.Black, 2), New Point(i + Margin, YY), New Point(i + Margin, Y))   ' 大标尺
+                    sz = g.MeasureString(i, font)
+                    Call g.DrawString(i, font, Brushes.Black, New Point(sz.Width / 2 + i + Margin, YY))
                 Else
-                    Call g.Graphics.DrawLine(New Pen(Color.Gray, 1), New Point(i + Margin, Y + 3), New Point(i + Margin, Y)) ' 小标尺
+                    Call g.DrawLine(New Pen(Color.Gray, 1), New Point(i + Margin, Y + 3), New Point(i + Margin, Y)) ' 小标尺
                 End If
             Next
 
-            Call g.Graphics.DrawString($"({query.QueryLength})", font, Brushes.Black, New Point(query.QueryLength + Margin + 5, Y + 5))
+            Call g.DrawString($"({query.QueryLength})", font, Brushes.Black, New Point(query.QueryLength + Margin + 5, Y + 5))
 
             Y += (10 + sz.Height)
             font = New Font(FontFace.Ubuntu, 8, FontStyle.Regular)
@@ -128,17 +130,17 @@ Namespace NCBIBlastResult
             For Each hit In query.SubjectHits
                 Dim loci = hit.QueryLocation
 #If DEBUG Then
-                Call loci.__DEBUG_ECHO
+                Call loci.debug
 #End If
                 rect = New Rectangle(New Point(Margin + loci.left, Y), New Size(loci.FragmentSize, 10))
-                Call g.Graphics.FillRectangle(Brushes.Blue, rect)
-                Dim x As Integer = g.Graphics.MeasureString(hit.Name, font).Width
+                Call g.FillRectangle(Brushes.Blue, rect)
+                Dim x As Integer = g.MeasureString(hit.Name, font).Width
                 x = rect.Left + (rect.Width - x) / 2
-                Call g.Graphics.DrawString(hit.Name, font, brush:=Brushes.Gray, point:=New PointF(x, rect.Bottom + 2))
+                Call g.DrawString(hit.Name, font, brush:=Brushes.Gray, point:=New PointF(x, rect.Bottom + 2))
                 Y += 32
             Next
 
-            Return g.ImageResource
+            Return DirectCast(g, GdiRasterGraphics).ImageResource
         End Function
 
         <DataFrameColumn("margin")> Dim Margin As Integer = 100
@@ -176,9 +178,7 @@ Namespace NCBIBlastResult
         ''' </summary>
         ''' <param name="data"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        <ExportAPI("alignment_dump.def2id",
-                   Info:="if the export parameter is not empty then the function will export the entry information into the target directory.")>
+        ''' <remarks>if the export parameter is not empty then the function will export the entry information into the target directory.</remarks>
         Public Function ShortID(<Parameter("data.fasta")> data As FastaFile,
                                 <Parameter("dir.export",
                                            "if this dir path parameter is not empty then the function will export the entry information into the directory that this parameter specificed.")>
@@ -220,7 +220,11 @@ Namespace NCBIBlastResult
             Return fastaFile
         End Function
 
-        <ExportAPI("export.order.gi", Info:="Export the drawing order of the species hits on the graphics.")>
+        ''' <summary>
+        ''' Export the drawing order of the species hits on the graphics.
+        ''' </summary>
+        ''' <param name="Tab"></param>
+        ''' <returns></returns>
         Public Function ExportTableOrderByGI(Tab As AlignmentTable) As String()
             Return Tab.ExportOrderByGI
         End Function
@@ -252,8 +256,7 @@ Namespace NCBIBlastResult
         ''' <param name="table"></param>
         ''' <param name="info"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        <ExportAPI("alignment_table.id2def", Info:="Please notices that this function requires the target hit its subjectids property is just the locus tag value.")>
+        ''' <remarks>Please notices that this function requires the target hit its subjectids property is just the locus tag value.</remarks>
         Public Function ApplyDescription2(Table As AlignmentTable,
                                           info As IEnumerable(Of gbEntryBrief),
                                           Optional MaxLength As Integer = 0) As AlignmentTable
@@ -262,7 +265,11 @@ Namespace NCBIBlastResult
             Return Table
         End Function
 
-        <ExportAPI("read.txt.blast_result", Info:="Read the blast output table result text file which was download from the NCBI blast website.")>
+        ''' <summary>
+        ''' Read the blast output table result text file which was download from the NCBI blast website.
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
         Public Function LoadResult(path As String) As AlignmentTable
             Return AlignmentTableParser.LoadTable(path)
         End Function
@@ -294,7 +301,7 @@ Namespace NCBIBlastResult
                                          Return g.locus_id
                                      End Function)
             Dim ChunkBuffer As HitRecord() = LinqAPI.Exec(Of HitRecord) <=
- _
+                                                                          _
                 From EntryInfo
                 In LoadBlastOutput
                 Let hits As HitRecord() = __createHits(ORF, EntryInfo.Output)
@@ -465,9 +472,8 @@ CONTINUTE:
                                   <Parameter("Mapping.COG",
                                              "The column name of the cog class value in the excel table.")> Optional COG As String = "COG")
 
-            Dim DF As IO.DataFrame = IO.DataFrame.CreateObject(Mapping)
-            Dim CogValue As Dictionary(Of String, String) =
-                DF.CreateDataSource.ToDictionary(Function(x) x.Attribute(GeneID), Function(x) x(COG))
+            Dim DF As DataFrameResolver = DataFrameResolver.CreateObject(Mapping)
+            Dim CogValue As Dictionary(Of String, String) = DF.CreateDataSource.ToDictionary(Function(x) x.Attribute(GeneID), Function(x) x(COG))
 
             For Each gene As GeneBrief In PTT.Values
                 If CogValue.ContainsKey(gene.Synonym) Then
@@ -497,14 +503,14 @@ CONTINUTE:
                                      COGTextureMappings As Boolean,
                                      TextureSource$,
                                      ResourceIDMapping As Boolean,
-                                     g As Graphics2D,
+                                     g As IGraphics,
                                      MaxIDLength%) As ICOGsBrush
 
             Dim COGsColor As Dictionary(Of String, Brush) = Nothing
 
             If Not queryNoColor Then
                 Dim COGs$() = LinqAPI.Exec(Of String) <=
- _
+                                                        _
                     From gene As GeneBrief
                     In refQuery.GeneObjects
                     Where Not String.IsNullOrEmpty(gene.COG)
@@ -517,7 +523,7 @@ CONTINUTE:
                         COGsColor = RenderingColor.CategoryMapsTextures(categories:=COGs, textures:=TextureList)
                     Else
                         Dim TextureList = LinqAPI.Exec(Of NamedValue(Of Image)) <=
- _
+                                                                                  _
                             From path As String
                             In ls - l - r - {"*.bmp", "*.jpg", "*.png"} <= TextureSource
                             Select New NamedValue(Of Image) With {
@@ -563,9 +569,7 @@ CONTINUTE:
         ''' <param name="queryBrush">query基因组上面的基因的颜色画刷的来源，默认是使用内部的COG颜色</param>
         ''' <param name="QueryNoColor">如果这个参数为真，那么query的基因箭头矩形对象将不会有任何颜色</param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        <ExportAPI("Map.drawing",
-                   Info:="You can using the custom_order parameter to specific the order of the genome drawing on the visualized image. idType: 1 -> locusID; 2 -> geneName + id_number")>
+        ''' <remarks>You can using the custom_order parameter to specific the order of the genome drawing on the visualized image. idType: 1 -> locusID; 2 -> geneName + id_number</remarks>
         Public Function PlotMap(<Parameter("align.tab", "Blast result that you can download from NCBI blast website, or you also can generates from GCModeller.")> alignment As AlignmentTable,
                                 <Parameter("query.info", "The genome brief information of the query species.")> refQuery As PTT,
                                 <Parameter("custom.orders", "The custom order of the blast hits show on the graphics.")> Optional CustomOrder$() = Nothing,
@@ -586,7 +590,7 @@ CONTINUTE:
                                 <Parameter("ref.Brush")> Optional queryBrush As ICOGsBrush = Nothing, Optional margin% = 200) As Image
 
             If ScaleFactor <= 0 Then
-                Call VBDebugger.Warning($"The page scale factor value ""{ScaleFactor}"" is Zero or negative, reset to normal scale_factor=1")
+                Call VBDebugger.warning($"The page scale factor value ""{ScaleFactor}"" is Zero or negative, reset to normal scale_factor=1")
                 ScaleFactor = 1.0R
             End If
 
@@ -596,15 +600,20 @@ CONTINUTE:
                           Select hitData
                           Group By hitData.SubjectIDs Into Group).ToArray ' 为了保持原有的顺序，在这里不需要并行化拓展
             Dim drawingFont As New Font(FontFace.Ubuntu, FontSize)
-            Dim MaxIDLength As SizeF = spList _
-                .MaxLengthString(Function(sp) sp.SubjectIDs) _
-                .MeasureSize(New Size(1, 1).CreateGDIDevice, drawingFont, (ScaleFactor, ScaleFactor))
+            Dim MaxIDLength As SizeF = DriverLoad.MeasureTextSize(spList.MaxLengthString(Function(sp) sp.SubjectIDs), drawingFont).Scale(ScaleFactor)
             Dim MappingLength As Integer = queryLength * ConvertFactor
             Dim BlockSize As New Size(100, MaxIDLength.Height + 20)
+            Dim h As Single
+
+            If AltIDAnnotation Then
+                h = (DriverLoad.MeasureTextSize("0", drawingFont).Scale(ScaleFactor).Height + 3) * (spList.Length + 5)
+            Else
+                h = 0
+            End If
+
             Dim dSize As New Size With {
                 .Width = (margin * 2 + MappingLength + MaxIDLength.Width) * ScaleFactor,
-                .Height = (If(AltIDAnnotation,
-                    ("0".MeasureSize(New Size(1, 1).CreateGDIDevice, drawingFont, (ScaleFactor, ScaleFactor)).Height + 3) * (spList.Length + 5), 0) + margin + spList.Length * (MaxIDLength.Height + 5) + 10 * (BlockSize.Height + 8)) * ScaleFactor
+                .Height = (h + margin + spList.Length * (MaxIDLength.Height + 5) + 10 * (BlockSize.Height + 8)) * ScaleFactor
             }
             Dim X, Y As Integer
             Dim ColorSchema As RangeList(Of Double, NamedValue(Of Color))
@@ -638,7 +647,7 @@ CONTINUTE:
 
             Dim IDMethod As GetDrawingID = ModelAPI.GetMethod(idType)
 
-            Using device As Graphics2D = dSize.CreateGDIDevice
+            Using device As IGraphics = DriverLoad.CreateDefaultRasterGraphics(dSize, fill_color:=Color.Transparent)
 
                 If ScaleFactor <> 1.0R Then
                     Call device.ScaleTransform(ScaleFactor, ScaleFactor)
@@ -669,7 +678,7 @@ CONTINUTE:
 
                 With models
                     .genes = LinqAPI.Exec(Of GeneObject) <=
- _
+                                                           _
                         From ordered_geneObj As GeneObject
                         In .genes
                         Select ordered_geneObj
@@ -704,7 +713,7 @@ CONTINUTE:
                         End If
 
                         Left = .InvokeDrawing(
-                            device.Graphics,
+                            device,
                             New Point(Left, Height), NextLeft:=next_gene.Left, scaleFactor:=cfactor,
                             arrowRect:=Nothing,
                             IdDrawPositionDown:=False,
@@ -720,7 +729,7 @@ CONTINUTE:
                     models.Last.Color = Brushes.White
                 End If
                 Call models.Last.InvokeDrawing(
-                    device.Graphics,
+                    device,
                     New Point(Left, Height), NextLeft:=models.Length, scaleFactor:=cfactor,
                     arrowRect:=Nothing,
                     IdDrawPositionDown:=False,
@@ -755,47 +764,47 @@ CONTINUTE:
 
                 Dim internalGetColor = Function(hit As HitRecord) getSubjectHitColor(arg1:=getScore(hit), arg2:=ColorSchema)
                 Dim IDannos As New Dictionary(Of Integer, String)
+                Dim p_ID As Integer = 1
+                Dim proc As ProgressBar = Nothing
 
-                Using proc As New ProgressBar("Drawing alignment hit regions...", 1, CLS:=True)
-                    Dim pp As New ProgressProvider(proc, spList.Length)
-                    Dim p_ID As Integer = 1
+                Call "Drawing alignment hit regions...".debug
 
-                    For Each hit In spList
-                        Call proc.SetProgress(pp.StepProgress, details:=hit.SubjectIDs)
+                For Each hit In TqdmWrapper.Wrap(spList, bar:=proc)
+                    Call proc.SetLabel(hit.SubjectIDs)
 
-                        X = margin
-                        Y += BlockHeight + 4
+                    X = margin
+                    Y += BlockHeight + 4
 
-                        Call device.DrawLine(LinePen, X, Y, X + MappingLength, Y)
-                        If AltIDAnnotation Then '在hit的开始位置的前面使用数字进行标识，然后在最下面写上编号
-                            Call device.DrawString(p_ID, drawingFont, Brushes.Black, x:=10, y:=Y - MaxIDLength.Height / 2)
-                            Call IDannos.Add(p_ID, hit.SubjectIDs)
+                    Call device.DrawLine(LinePen, X, Y, X + MappingLength, Y)
+                    If AltIDAnnotation Then '在hit的开始位置的前面使用数字进行标识，然后在最下面写上编号
+                        Call device.DrawString(p_ID, drawingFont, Brushes.Black, x:=10, y:=Y - MaxIDLength.Height / 2)
+                        Call IDannos.Add(p_ID, hit.SubjectIDs)
 
-                            p_ID += 1
-                        Else
-                            Call device.DrawString(
+                        p_ID += 1
+                    Else
+                        Call device.DrawString(
                                 hit.SubjectIDs, drawingFont,
                                 Brushes.Black,
                                 X + MappingLength + 10,
                                 Y - MaxIDLength.Height / 2)
+                    End If
+
+                    For Each Segment As HitRecord In hit.Group
+                        Left = Segment.QueryStart
+                        Dim Right As Integer = Segment.QueryEnd
+
+                        If Left > Right Then
+                            Call Left.Swap(Right)
                         End If
 
-                        For Each Segment As HitRecord In hit.Group
-                            Left = Segment.QueryStart
-                            Dim Right As Integer = Segment.QueryEnd
+                        Dim Loci As Point = New Point(margin + Left * ConvertFactor, Y)
+                        Dim Block As Size = New Size(ConvertFactor * (Right - Left), BlockHeight)
+                        Dim hitColor As New SolidBrush(internalGetColor(Segment))
 
-                            If Left > Right Then
-                                Call Left.Swap(Right)
-                            End If
-
-                            Dim Loci As Point = New Point(margin + Left * ConvertFactor, Y)
-                            Dim Block As Size = New Size(ConvertFactor * (Right - Left), BlockHeight)
-                            Dim hitColor As New SolidBrush(internalGetColor(Segment))
-
-                            Call device.FillRectangle(hitColor, New Rectangle(Loci, Block))
-                        Next
+                        Call device.FillRectangle(hitColor, New Rectangle(Loci, Block))
                     Next
-                End Using
+                Next
+
 
                 X = margin + 30
                 Y += BlockHeight * 10
@@ -835,22 +844,22 @@ CONTINUTE:
                     Dim DeltaHeight% = 500
 
                     ' 如果目标基因组序列存在的话，还会在顶端绘制GCSkew的histgram图表
-                    Using g As Graphics2D = New Size(device.Width, device.Height + DeltaHeight).CreateGDIDevice
+                    Using g As IGraphics = DriverLoad.CreateDefaultRasterGraphics(New Size(device.Width, device.Height + DeltaHeight), Color.Transparent)
                         Dim hhh As Single = DeltaHeight + titleFontSize.Height + 30
 
-                        Call g.DrawImage(device.ImageResource, 0, DeltaHeight, device.Width, device.Height)
+                        Call g.DrawImage(DirectCast(device, GdiRasterGraphics).ImageResource, 0, DeltaHeight, device.Width, device.Height)
                         Call g.FillRectangle(Brushes.White, New Rectangle(New Point(), New Size(device.Width, hhh)))  ' 覆盖掉标题
 
                         ' 由于在绘图函数之中克隆了原来的图像，所以这里返回函数的结果，否则直接返回gdi设备之中的图形任然会缺失掉histogram图形的
                         Return GCSkew.InvokeDrawingGCContent(
-                            g.ImageResource,
+                            DirectCast(g, GdiRasterGraphics).ImageResource,
                             QueryNT,
                             New Point(margin, 0.95 * hhh),
                             Width:=QueryGenomeDrawingLength)
                     End Using
                 End If
 
-                Return device.ImageResource
+                Return DirectCast(device, GdiRasterGraphics).ImageResource
             End Using
         End Function
 

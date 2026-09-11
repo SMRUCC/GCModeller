@@ -41,18 +41,17 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace GeneticClock
 
     Public Class DrawingDevice
 
-        Public Shared Function DrawingSerialsLine(data As ColorProfile, Height As Integer, Scale As Integer) As System.Drawing.Image
+        Public Shared Function DrawingSerialsLine(data As ColorProfile, Height As Integer, Scale As Integer) As Image
             Dim Bitmap As Bitmap = New Bitmap(width:=data.Profiles.Count * Scale, height:=Height)
-            Using Gr As Graphics = Graphics.FromImage(Bitmap)
+            Using Gr As IGraphics = DriverLoad.CreateGraphicsDevice(Bitmap)
                 Dim Region As Rectangle = New Rectangle(New Point, Bitmap.Size)
                 Dim x As Integer = 1
 
@@ -79,17 +78,14 @@ Namespace GeneticClock
             Dim ColorRendering = New ColorRender(SerialsData.Skip(1).ToArray)
             Dim DataChunk = ColorRendering.GetColorRenderingProfiles
             Dim DrawingFont As Font = New Font("Ubuntu", 12)
-            Dim MaxSize As SizeF = (From item In DataChunk Select item.TagValue Order By Len(TagValue) Ascending).Last.MeasureSize(New Size(1, 1).CreateGDIDevice, DrawingFont)
+            Dim MaxSize As SizeF = DriverLoad.MeasureTextSize((From item As ColorProfile In DataChunk Select item.TagValue Order By Len(TagValue) Ascending).Last, DrawingFont)
             Dim Height As Integer = MaxSize.Height
             Dim ImageOffSet As Integer = MaxSize.Width + 20
             Dim Bitmap As Bitmap = New Bitmap(CInt(DataChunk.First.Profiles.Count * Scale + ImageOffSet + 0.5 * MaxSize.Width), Height * DataChunk.Count + Height * 4)
 
-            Using g As IGraphics = Bitmap.CreateCanvas2D(directAccess:=True)
+            Using g As IGraphics = DriverLoad.CreateGraphicsDevice(Bitmap, direct_access:=True)
                 Dim Region As New Rectangle(New Point, Bitmap.Size)
                 Dim y As Integer = 0
-
-                g.CompositingQuality = CompositingQuality.HighQuality
-                g.PixelOffsetMode = PixelOffsetMode.HighQuality
 
                 Call g.FillRectangle(Brushes.White, Region)
 
@@ -132,7 +128,7 @@ Namespace GeneticClock
                     x += DrawStep
                 Next
 
-                MaxSize = SerialsData.First.name.MeasureSize(g, DrawingFont)
+                MaxSize = g.MeasureString(SerialsData.First.name, DrawingFont)
                 Call g.DrawString(SerialsData.First.name, DrawingFont, Brushes.Black, New Point(x - 0.5 * DrawStep, y - 3 - MaxSize.Height / 2))
                 Call ColorRendering.GetDesityRule(50).DrawingDensityRule(g, New Point(ImageOffSet, y), DrawingFont, ImageWidth)
             End Using
