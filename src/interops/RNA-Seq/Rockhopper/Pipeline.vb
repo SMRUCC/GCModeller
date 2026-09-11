@@ -18,7 +18,7 @@ Imports System.Collections.Generic
 Imports System.Diagnostics
 Imports System.IO
 Imports System.Linq
-Imports Core
+Imports SMRUCC.genomics.SequenceModel.RNA_Seq.Rockhopper.Core
 
 ''' <summary>
 ''' Rockhopper 主流程。

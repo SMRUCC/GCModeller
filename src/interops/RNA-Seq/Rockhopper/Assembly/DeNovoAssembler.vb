@@ -21,7 +21,7 @@
 Imports System.Collections.Generic
 Imports System.Diagnostics
 Imports System.Linq
-Imports Core
+Imports SMRUCC.genomics.SequenceModel.RNA_Seq.Rockhopper.Core
 
 Namespace Assembly
 
