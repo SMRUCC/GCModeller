@@ -1,63 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::debaa0852b1ebd4f8997d33ccd5df1c3, RNA-Seq\Rockhopper\API\DataModels.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Operon
-    ' 
-    '         Properties: [Stop], Genes, NumberOfGenes, Start, Strand
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Transcripts
-    ' 
-    '         Properties: ATG, Expression, Is_sRNA, IsPredictedRNA, IsRNA
-    '                     Leaderless, Minus35BoxLoci, Name, Product, Strand
-    '                     Synonym, TGA, TranscriptLength, TSSs, TTSs
-    ' 
-    '         Function: FromReadsMap, GenerateTranscripts, GetTULoci, InterGenicTranscript
-    '         Enum Categories
-    ' 
-    '             asTSS, lmTSS, pmTSS, seTSS, sTSS
-    '             ULmTSS
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Function: Get5UTRLeader, GetLociStrand, GetPromoterBoxLoci, GetTSSLoci, GetTTSsLoci
-    '               ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Operon
+' 
+'         Properties: [Stop], Genes, NumberOfGenes, Start, Strand
+' 
+'         Function: ToString
+' 
+'     Class Transcripts
+' 
+'         Properties: ATG, Expression, Is_sRNA, IsPredictedRNA, IsRNA
+'                     Leaderless, Minus35BoxLoci, Name, Product, Strand
+'                     Synonym, TGA, TranscriptLength, TSSs, TTSs
+' 
+'         Function: FromReadsMap, GenerateTranscripts, GetTULoci, InterGenicTranscript
+'         Enum Categories
+' 
+'             asTSS, lmTSS, pmTSS, seTSS, sTSS
+'             ULmTSS
+' 
+' 
+' 
+'  
+' 
+'     Function: Get5UTRLeader, GetLociStrand, GetPromoterBoxLoci, GetTSSLoci, GetTTSsLoci
+'               ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -66,6 +66,10 @@ Imports System.Linq
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports LANS.SystemsBiology.ComponentModel.Loci
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace AnalysisAPI
 
@@ -78,7 +82,7 @@ Namespace AnalysisAPI
                 Return Genes.Count
             End Get
         End Property
-        <CollectionAttribute("Genes", ", ")> Public Property Genes As String()
+        <Collection("Genes", ", ")> Public Property Genes As String()
 
         Public Overrides Function ToString() As String
             Return $"[{Strand}]{Start},{[Stop]};    { String.Join(", ", Genes)}"
@@ -90,8 +94,7 @@ Namespace AnalysisAPI
     ''' </summary>
     Public Class Transcripts
 
-        Public Shared Function FromReadsMap(Map As TSSAR.Reads.GeneAssociationView(),
-                                            PTT As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT) As Transcripts()
+        Public Shared Function FromReadsMap(Map As TSSAR.Reads.GeneAssociationView(), PTT As PTT) As Transcripts()
 
             Dim LQuery = (From item In Map Select item, GeneID = item.AssociatedGene Group By GeneID Into Group).ToArray
             Dim Transcripts = (From Gene In LQuery
@@ -110,8 +113,7 @@ Namespace AnalysisAPI
         ''' </summary>
         ''' <param name="Map"></param>
         ''' <returns></returns>
-        Private Shared Function GenerateTranscripts(Map As TSSAR.Reads.GeneAssociationView(),
-                                                    PTT As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT) As Transcripts()
+        Private Shared Function GenerateTranscripts(Map As TSSAR.Reads.GeneAssociationView(), PTT As PTT) As Transcripts()
             Dim GenePTT = PTT.GeneObject(Map.First.AssociatedGene)
             '上游或者上游重叠为TSSs
             '下游重叠为TTS
@@ -230,10 +232,10 @@ Namespace AnalysisAPI
         ''' 获取这个Transcript的基因组之上的位置
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetTULoci() As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
+        Public Function GetTULoci() As NucleotideLocation
             Dim Start As Integer = If(TSSs = 0, ATG, TSSs) '有些TSS位点是预测不出来的，则使用ATG位点来替代
             Dim [Stop] As Integer = If(TTSs = 0, TGA, TTSs)
-            Dim Loci = New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(Start, [Stop], GetLociStrand)
+            Dim Loci = New NucleotideLocation(Start, [Stop], GetLociStrand)
             Return Loci
         End Function
 
@@ -319,7 +321,7 @@ Namespace AnalysisAPI
             sTSS
         End Enum
 
-        Public Function GetLociStrand() As LANS.SystemsBiology.ComponentModel.Loci.Strands
+        Public Function GetLociStrand() As Strands
             Return GetStrand(Me.Strand)
         End Function
 
@@ -330,27 +332,27 @@ Namespace AnalysisAPI
         ''' </summary>
         ''' <param name="Parser"></param>
         ''' <returns></returns>
-        Public Function Get5UTRLeader(Parser As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader) As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken
-            Dim Loci As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
+        Public Function Get5UTRLeader(Parser As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader) As FastaSeq
+            Dim Loci As NucleotideLocation
 
             If TSSs <= 0 OrElse Me.Leaderless OrElse ATG <= 0 Then
                 Return Nothing
             End If
 
             If GetStrand(Strand) = Strands.Forward Then
-                Loci = New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(TSSs, ATG)
+                Loci = New NucleotideLocation(TSSs, ATG)
             Else
-                Loci = New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(ATG, TSSs, True) '在正向链之上，则是相反的位置
+                Loci = New NucleotideLocation(ATG, TSSs, True) '在正向链之上，则是相反的位置
             End If
 
             Dim SequenceData As String = Parser.TryParse(Loci).SequenceData
-            Dim Fasta = New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With {
+            Dim Fasta = New FastaSeq With {
                              .SequenceData = SequenceData,
-                             .Attributes = {Synonym, Me.GetTULoci.ToString, "ATG=" & ATG, "TSSs=" & TSSs}}
+                             .Headers = {Synonym, Me.GetTULoci.ToString, "ATG=" & ATG, "TSSs=" & TSSs}}
             Return Fasta
         End Function
 
-        Public Function GetTSSLoci(Parser As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader) As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken
+        Public Function GetTSSLoci(Parser As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader) As FastaSeq
             If TSSs <= 0 Then
                 Return Nothing
             End If
@@ -361,9 +363,9 @@ Namespace AnalysisAPI
                     TSSs + 5,
                     GetStrand(Strand) = Strands.Reverse)
             Dim SequenceData As String = Parser.TryParse(Loci).SequenceData
-            Dim Fasta As New SequenceModel.FASTA.FastaToken With {
+            Dim Fasta As New FastaSeq With {
                 .SequenceData = SequenceData,
-                .Attributes = {Synonym, Me.GetTULoci.ToString, "TSSs=" & TSSs}
+                .Headers = {Synonym, Me.GetTULoci.ToString, "TSSs=" & TSSs}
             }
             Return Fasta
         End Function
@@ -372,24 +374,24 @@ Namespace AnalysisAPI
         ''' 解析出TGA到TTS之间的序列片段   3'UTR
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetTTSsLoci(Parser As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader) As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken
-            Dim Loci As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
+        Public Function GetTTSsLoci(Parser As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader) As FastaSeq
+            Dim Loci As NucleotideLocation
 
             If TTSs <= 0 OrElse TGA <= 0 Then
                 Return Nothing
             End If
 
             If GetStrand(Strand) = Strands.Forward Then
-                Loci = New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(TGA, TTSs) '假若是在正向链之上，则不做任何处理，首先是TGA，再到TTS
+                Loci = New NucleotideLocation(TGA, TTSs) '假若是在正向链之上，则不做任何处理，首先是TGA，再到TTS
             Else
-                Loci = New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(TTSs, TGA, True) '在正向链之上，则是相反的位置
+                Loci = New NucleotideLocation(TTSs, TGA, True) '在正向链之上，则是相反的位置
             End If
 
             Dim SequenceData As String = Parser.TryParse(Loci).SequenceData
-            Dim Fasta As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken =
-                New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With {
+            Dim Fasta As FastaSeq =
+                New FastaSeq With {
                     .SequenceData = SequenceData,
-                    .Attributes =
+                    .Headers =
                     {
                         Synonym,
                         Me.GetTULoci.ToString,
@@ -404,24 +406,24 @@ Namespace AnalysisAPI
         ''' -35区到-10区的序列片段
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetPromoterBoxLoci(Reader As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader) As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken
-            Dim Loci As LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation
+        Public Function GetPromoterBoxLoci(Reader As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader) As FastaSeq
+            Dim Loci As NucleotideLocation
 
             If TSSs <= 0 Then
                 Return Nothing
             End If
 
             If GetStrand(Strand) = Strands.Forward Then
-                Loci = New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(Minus35BoxLoci, TSSs, False) '假若是在正向链之上，则不做任何处理
+                Loci = New NucleotideLocation(Minus35BoxLoci, TSSs, False) '假若是在正向链之上，则不做任何处理
             Else
-                Loci = New LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation(TSSs, Minus35BoxLoci, True) '在正向链之上，-35区的位置是在TSS的下游的
+                Loci = New NucleotideLocation(TSSs, Minus35BoxLoci, True) '在正向链之上，-35区的位置是在TSS的下游的
             End If
 
             Dim SequenceData As String = Reader.TryParse(Loci).SequenceData
-            Dim Fasta As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken =
-                New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With {
+            Dim Fasta As FastaSeq =
+                New FastaSeq With {
                     .SequenceData = SequenceData,
-                    .Attributes =
+                    .Headers =
                     {
                         Synonym,
                         Me.GetTULoci.ToString,

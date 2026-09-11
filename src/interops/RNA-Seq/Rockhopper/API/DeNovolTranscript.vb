@@ -56,7 +56,7 @@ Namespace AnalysisAPI
             Dim LQuery = (From i As Integer In ChunkBuffer.Sequence.AsParallel
                           Let s As String = ChunkBuffer(i)
                           Let Tokens As String() = Strings.Split(s, vbTab)
-                          Select New LANS.SystemsBiology.SequenceModel.FASTA.FastaToken With
+                          Select New  FastaSeq  With
                               {.SequenceData = Tokens(0),
                                 .Attributes = New String() {$"hash={i}", $"Expression={Tokens(2)}"}}).ToArray
             Return CType(LQuery, LANS.SystemsBiology.SequenceModel.FASTA.FastaFile)

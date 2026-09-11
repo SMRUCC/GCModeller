@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::c2cdff0a52082964ff3f4d7e36146da7, RNA-Seq\Rockhopper\API\TSSsCategory.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module TSSsCategory
-    ' 
-    '     Function: [GetType], Category, CreateModel, GetCType, PutativemRNA
-    '     Enum GeneTypes
-    ' 
-    '         CDS, misc_RNA
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module TSSsCategory
+' 
+'     Function: [GetType], Category, CreateModel, GetCType, PutativemRNA
+'     Enum GeneTypes
+' 
+'         CDS, misc_RNA
+' 
+' 
+' 
+'  
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,12 +63,16 @@ Imports LANS.SystemsBiology.ComponentModel.Loci
 Imports Microsoft.VisualBasic.DocumentFormat.Csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel.RNA_Seq.Rockhopper.AnalysisAPI.Transcripts
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 
 ''' <summary>
 ''' 进行TSS位点的分类处理
 ''' </summary>
 ''' 
-<PackageNamespace("TSS.Category", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.ResearchTools)>
+<Package("TSS.Category", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.ResearchTools)>
 Public Module TSSsCategory
 
     ''' <summary>
@@ -92,19 +96,19 @@ Public Module TSSsCategory
 
         Dim Sequence As String = If(MTULoci.Strand = Strands.Forward,   '由于是假定的mrna，所以没有ATG和TGA了，这里只能使用TSS和TTS来推测
                                     Reader.GetSegmentSequence(Transcript.TSSs, Transcript.TTSs),   '正向序列
-                                    Reader.ReadComplement(Transcript.GetTULoci.Left, Transcript.TranscriptLength))  '反向互补
+                                    Reader.ReadComplement(Transcript.GetTULoci.left, Transcript.TranscriptLength))  '反向互补
         Dim ATG, TGA As Integer
 
         If Putative_mRNA(Nt:=Sequence, ATG:=ATG, TGA:=TGA, ORF:=Sequence) Then '计算出最长的目标片段中的ORF
 
             If Transcript.GetLociStrand = Strands.Forward Then
 
-                Transcript.ATG = ATG + MTULoci.Left
-                Transcript.TGA = ATG + MTULoci.Left + Len(Sequence)  '将相对位置转换为在整个基因组之中的绝对位置
+                Transcript.ATG = ATG + MTULoci.left
+                Transcript.TGA = ATG + MTULoci.left + Len(Sequence)  '将相对位置转换为在整个基因组之中的绝对位置
 
             Else
 
-                Transcript.ATG = MTULoci.Right - ATG
+                Transcript.ATG = MTULoci.right - ATG
                 Transcript.TGA = Transcript.ATG - Len(Sequence)
 
             End If
@@ -125,11 +129,11 @@ Public Module TSSsCategory
     ''' 
     <ExportAPI("Category")>
     Public Function Category(Transcript As Rockhopper.AnalysisAPI.Transcripts,
-                             PTT As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.PTT,
+                             PTT As PTT,
                              Reader As LANS.SystemsBiology.SequenceModel.NucleotideModels.SegmentReader,
-                             ByRef RelatedGene As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief) As Categories
+                             ByRef RelatedGene As GeneBrief) As Categories
 
-        Dim PTT_GeneObjects As System.Collections.Generic.IEnumerable(Of LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief) =
+        Dim PTT_GeneObjects As System.Collections.Generic.IEnumerable(Of GeneBrief) =
             PTT.GeneObjects
 
         If Transcript.Leaderless Then 'TSS位点和ATG重叠在一起了
@@ -154,8 +158,8 @@ Public Module TSSsCategory
             (TSSsCategory.PutativemRNA(Transcript, Reader) OrElse
             String.Equals(Transcript.Synonym, "putative mRNA")) Then '在进行从头装配的时候，程序认为这个对象是一个mRNA分子，但是在PTT之中找不到任何定义的，则认为是一个假定的mRNA分子
 
-            Dim pmRNALoci = LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation.CreateObject(Transcript.ATG, Transcript.TGA)
-            Dim ORF = (From Gene As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
+            Dim pmRNALoci = NucleotideLocation.CreateObject(Transcript.ATG, Transcript.TGA)
+            Dim ORF = (From Gene As GeneBrief
                        In PTT_GeneObjects
                        Where Gene.Location.Equals(pmRNALoci)'查找大概能和这个假定的mRNA的位置重叠在一起的基因
                        Select Gene).ToArray
@@ -165,8 +169,8 @@ Public Module TSSsCategory
                 RelatedGene = New Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief With {
                     .Synonym = "Putative mRNA",
                     .Location = New ComponentModel.Loci.NucleotideLocation With {
-                        .Left = Transcript.ATG,
-                        .Right = Transcript.TGA,
+                        .left = Transcript.ATG,
+                        .right = Transcript.TGA,
                         .Strand = Transcript.GetLociStrand
                     }
                 }
@@ -186,9 +190,9 @@ Public Module TSSsCategory
             Dim TSSsStrand = Transcript.GetLociStrand()  '这里只是说转录的rna分子应该和CDS重叠在一块，完全重叠（在内部）和部分重叠
             Dim LQuery = (From GeneObject In PTT_GeneObjects                                                              ' Sense TSS (seTSS) represent internal transcripts 
                           Let LociRelationship = GeneObject.Location.GetRelationship(TULoci)
-                          Where (LociRelationship =SegmentRelationships.Inside OrElse  '当前的这个Transcript和相关的蛋白质编码基因的关系是在内部或者部分重叠
-                              LociRelationship =SegmentRelationships.DownStreamOverlap OrElse
-                              LociRelationship =SegmentRelationships.DownStreamOverlap) AndAlso
+                          Where (LociRelationship = SegmentRelationships.Inside OrElse  '当前的这个Transcript和相关的蛋白质编码基因的关系是在内部或者部分重叠
+                              LociRelationship = SegmentRelationships.DownStreamOverlap OrElse
+                              LociRelationship = SegmentRelationships.DownStreamOverlap) AndAlso
                               GeneObject.Location.Strand = TSSsStrand   ' in the same orientation as, And located within, 
                           Select GeneObject).ToArray                                                                      ' protein-coding genes. 
             If Not LQuery.IsNullOrEmpty Then
@@ -231,8 +235,8 @@ Public Module TSSsCategory
         RelatedGene = New Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief With {
             .Synonym = "null",  '这个TSS位点找不到任何分类和相关的基因
             .Location = New ComponentModel.Loci.NucleotideLocation With {
-                .Left = -1,
-                .Right = -1,
+                .left = -1,
+                .right = -1,
                 .Strand = Strands.Unknown
             }
         }
@@ -275,10 +279,10 @@ Public Module TSSsCategory
     '         If(String.IsNullOrEmpty(Transcript.ATGDistance), -1, Val(Transcript.ATGDistance)),
     '        Transcript.gpStart,
     '        Transcript.gpStop,
-    '        LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation.GetStrand(Transcript.gStrand),
+    '         NucleotideLocation.GetStrand(Transcript.gStrand),
     '        Transcript.pStart,
     '        Transcript.pStop,
-    '         LANS.SystemsBiology.ComponentModel.Loci.NucleotideLocation.GetStrand(Transcript.Strand),
+    '          NucleotideLocation.GetStrand(Transcript.Strand),
     '         TSSsCategory.GetType(Transcript.Type),
     '         TSSsCategory.GetCType(Transcript.Category)
     '        }

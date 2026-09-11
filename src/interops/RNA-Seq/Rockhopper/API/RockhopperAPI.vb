@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::19fe48c2762d99521821375a4042ca99, RNA-Seq\Rockhopper\API\RockhopperAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module RockhopperAPI
-    ' 
-    '         Function: BatchAnalysis, CliCommon, DE_NOVO_ASSEMBLY, DifferentExpressionTesting, DifferentTSSs
-    '                   GenerateModelData, GenerateRow, GetTranscript, Install, KEGGAnalysis
-    '                   (+2 Overloads) LengthDistributions, LoadOperonsAsDoor, LoadTranscriptResult, OperonDiffTest, ParsingRegionSequence
-    '                   RockhopperExternalCli, SaveData, SaveDifferent, TransFasta, TransFastaBatch
-    '                   TSSsCategories
-    ' 
-    '         Sub: RunProgram
-    '         Structure GeneStructures
-    ' 
-    '             Properties: _5UTR, PromoterBox, TSSs, TTSs
-    ' 
-    '             Function: Load, (+2 Overloads) Save
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module RockhopperAPI
+' 
+'         Function: BatchAnalysis, CliCommon, DE_NOVO_ASSEMBLY, DifferentExpressionTesting, DifferentTSSs
+'                   GenerateModelData, GenerateRow, GetTranscript, Install, KEGGAnalysis
+'                   (+2 Overloads) LengthDistributions, LoadOperonsAsDoor, LoadTranscriptResult, OperonDiffTest, ParsingRegionSequence
+'                   RockhopperExternalCli, SaveData, SaveDifferent, TransFasta, TransFastaBatch
+'                   TSSsCategories
+' 
+'         Sub: RunProgram
+'         Structure GeneStructures
+' 
+'             Properties: _5UTR, PromoterBox, TSSs, TTSs
+' 
+'             Function: Load, (+2 Overloads) Save
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -69,10 +69,17 @@ Imports Microsoft.VisualBasic.DocumentFormat.Csv
 Imports LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat
 Imports LANS.SystemsBiology.Assembly.DOOR
 Imports LANS.SystemsBiology.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports Microsoft.VisualBasic.Data.Framework
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Assembly.DOOR
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 
 Namespace AnalysisAPI
 
-    <[PackageNamespace]("Rockhopper",
+    <[Package]("Rockhopper",
                         Description:="Computational analysis of bacterial RNA-Seq data",
                         Publisher:="McClure, R.<br />
 Balasubramanian, D.<br />
@@ -90,7 +97,7 @@ Tjaden, B.",
     Public Module RockhopperAPI
 
         <ExportAPI("Length-Distrib")>
-        Public Function LengthDistributions(Fasta As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Public Function LengthDistributions(Fasta As FastaFile) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
             Dim LQuery = (From Token In Fasta.AsParallel
                           Select Token.Length
                           Group Length By Length Into Count).ToArray.ToDictionary(Function(obj) obj.Length, elementSelector:=Function(obj) obj.Count)
@@ -117,7 +124,7 @@ Tjaden, B.",
                           In Entries.AsParallel
                           Select Entry.Name,
                               Parent = FileIO.FileSystem.GetDirectoryInfo(FileIO.FileSystem.GetParentPath(Entry.Path)).Name,
-                              distr = (From fa As FastaToken
+                              distr = (From fa As FastaSeq
                                        In Entry.Fasta
                                        Select fa.Length
                                        Group Length By Length Into Count) _
@@ -203,12 +210,11 @@ Tjaden, B.",
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Transfer the rockhopper de novol result as a fasta sequence file.
         ''' </summary>
         ''' <param name="denovol">Rockhopper de novol ===> transcripts.txt</param>
         ''' <returns></returns>
         ''' 
-        <ExportAPI("TransFasta", Info:="Transfer the rockhopper de novol result as a fasta sequence file.")>
         Public Function TransFasta(denovol As String, Optional Saved As String = "") As FastaFile
             Dim Fasta = Rockhopper.AnalysisAPI.DeNovolTranscript.LoadDocument(denovol)
             If Not String.IsNullOrEmpty(Saved) Then
@@ -218,7 +224,7 @@ Tjaden, B.",
         End Function
 
         ''' <summary>
-        ''' 从头装配
+        ''' DE NOVO ASSEMBLY WITH PAIRED-END READS, Computational analysis of bacterial RNA-Seq data. please notice that this function required of the java and rockhopper.jar program was installed on your computer system.
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks>
@@ -226,8 +232,6 @@ Tjaden, B.",
         '''
         ''' java Rockhopper &lt;options> aerobic_replicate1_pairedend1.fastq%aerobic_replicate1_pairedend2.fastq,aerobic_replicate2_pairedend1.fastq%aerobic_replicate2_pairedend2.fastq anaerobic_replicate1_pairedend1.fastq%anaerobic_replicate1_pairedend2.fastq,anaerobic_replicate2_pairedend1.fastq%anaerobic_replicate2_pairedend2.fastq
         ''' </remarks>
-        <ExportAPI("Rockhopper", Info:="DE NOVO ASSEMBLY WITH PAIRED-END READS, " &
-                                     "Computational analysis of bacterial RNA-Seq data. please notice that this function required of the java and rockhopper.jar program was installed on your computer system.")>
         Public Function DE_NOVO_ASSEMBLY(<Parameter("Fastaq")> Fastaq As IEnumerable(Of String()),
                                          <Parameter("Dir.Out", "The directory which is the data output dir of the rockhopper analysis")> Optional Output As String = "") As Integer
 
@@ -353,7 +357,9 @@ Tjaden, B.",
         ''' <param name="Condition1"></param>
         ''' <param name="Condition2"></param>
         ''' <returns></returns>
-        <ExportAPI("Diff.Operons", Info:="This function returns the operons genes where it is different between two conditions. If the return list is empty, that means the two condition prediction result is consists.")>
+        ''' <remarks>
+        ''' This function returns the operons genes where it is different between two conditions. If the return list is empty, that means the two condition prediction result is consists.
+        ''' </remarks>
         Public Function OperonDiffTest(Condition1 As DOOR, Condition2 As DOOR) As String()
             Dim Test1 = (From Operon In Condition1.DOOROperonView.Operons Select Operon.TestGuid Order By TestGuid Ascending).ToArray
             Dim Test2 = (From Operon In Condition2.DOOROperonView.Operons Select Operon.TestGuid Order By TestGuid Ascending).ToList
@@ -362,9 +368,14 @@ Tjaden, B.",
             Return LQuery
         End Function
 
-        <ExportAPI("RegionSequence.Parsed",
-                   Info:="If some sequence is not appeared in the output fasta, it may be the sequence length of the object is smaller then 6")>
-        Public Function ParsingRegionSequence(data As IEnumerable(Of Transcripts), Genome As FastaToken, Export As String) As Boolean
+        ''' <summary>
+        ''' If some sequence is not appeared in the output fasta, it may be the sequence length of the object is smaller then 6
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="Genome"></param>
+        ''' <param name="Export"></param>
+        ''' <returns></returns>
+        Public Function ParsingRegionSequence(data As IEnumerable(Of Transcripts), Genome As FastaSeq, Export As String) As Boolean
 
             Dim ASCII = System.Text.Encoding.ASCII
             Dim gStructure = New GeneStructures With {
@@ -378,10 +389,10 @@ Tjaden, B.",
 
         Public Structure GeneStructures : Implements ISaveHandle
 
-            Public Property PromoterBox As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
-            Public Property _5UTR As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
-            Public Property TTSs As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
-            Public Property TSSs As LANS.SystemsBiology.SequenceModel.FASTA.FastaFile
+            Public Property PromoterBox As FastaFile
+            Public Property _5UTR As FastaFile
+            Public Property TTSs As FastaFile
+            Public Property TSSs As FastaFile
 
             Public Function Save(Optional ExportDir As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
                 If encoding Is Nothing Then encoding = System.Text.Encoding.ASCII
@@ -397,10 +408,10 @@ Tjaden, B.",
 
             Public Shared Function Load(Dir As String) As GeneStructures
                 Dim gStructure As GeneStructures = New GeneStructures With {
-                    .PromoterBox = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(Dir & "/PromoterBox.fasta"),
-                    .TSSs = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(Dir & "/TSSs.fasta"),
-                    .TTSs = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(Dir & "/TTSs.fasta"),
-                    ._5UTR = LANS.SystemsBiology.SequenceModel.FASTA.FastaFile.Read(Dir & "/5_UTR.fasta")
+                    .PromoterBox = FastaFile.Read(Dir & "/PromoterBox.fasta"),
+                    .TSSs = FastaFile.Read(Dir & "/TSSs.fasta"),
+                    .TTSs = FastaFile.Read(Dir & "/TTSs.fasta"),
+                    ._5UTR = FastaFile.Read(Dir & "/5_UTR.fasta")
                 }
                 Return gStructure
             End Function
@@ -427,7 +438,7 @@ Tjaden, B.",
         <ExportAPI("Expr.Different")>
         Public Function DifferentExpressionTesting(Condition1 As System.Collections.Generic.IEnumerable(Of Transcripts),
                                                    Condition2 As System.Collections.Generic.IEnumerable(Of Transcripts),
-                                                   Genome As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken,
+                                                   Genome As FastaSeq,
                                                    Export As String) As Boolean
             Dim LQuery = (From Tr In Condition1.AsParallel Let Tr2 = GetTranscript(Tr.Synonym, Condition2)
                           Where Not Tr2 Is Nothing'生成用于进行差异表达计算
@@ -485,11 +496,11 @@ Tjaden, B.",
 
         <ExportAPI("KEGG.Different")>
         Public Function KEGGAnalysis(TSSS As IEnumerable(Of TSSsDifferent), KEGG As String) As DocumentStream.File
-            Return AnalysisAPI.TSSsAnalysis.KEGGDifferent(TSSS.ToArray, (From xml As String In FileIO.FileSystem.GetFiles(KEGG, FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel Select xml.LoadXml(Of LANS.SystemsBiology.Assembly.KEGG.DBGET.bGetObject.Pathway)).ToArray)
+            Return AnalysisAPI.TSSsAnalysis.KEGGDifferent(TSSS.ToArray, (From xml As String In FileIO.FileSystem.GetFiles(KEGG, FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel Select xml.LoadXml(Of bGetObject.Pathway)).ToArray)
         End Function
 
         <ExportAPI("TSSs.Category")>
-        Public Function TSSsCategories(TSSs As IEnumerable(Of Rockhopper.AnalysisAPI.Transcripts), PTT As PTT, Optional Fasta As FastaToken = Nothing) As DocumentStream.File
+        Public Function TSSsCategories(TSSs As IEnumerable(Of Rockhopper.AnalysisAPI.Transcripts), PTT As PTT, Optional Fasta As FastaSeq = Nothing) As DocumentStream.File
             Dim Reader As SegmentReader = Nothing
 
             If Not Fasta Is Nothing Then
@@ -497,10 +508,10 @@ Tjaden, B.",
             End If
 
             Dim LQuery = (From Transcript As Rockhopper.AnalysisAPI.Transcripts In TSSs.AsParallel
-                          Let GetCategory = Function() As KeyValuePair(Of Rockhopper.AnalysisAPI.Transcripts.Categories, LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief)
-                                                Dim RelatedGene As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief = Nothing
+                          Let GetCategory = Function() As KeyValuePair(Of Rockhopper.AnalysisAPI.Transcripts.Categories, GeneBrief)
+                                                Dim RelatedGene As GeneBrief = Nothing
                                                 Dim cat = TSSsCategory.Category(Transcript, PTT, Reader, RelatedGene)
-                                                Return New KeyValuePair(Of Rockhopper.AnalysisAPI.Transcripts.Categories, LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief)(cat, RelatedGene)
+                                                Return New KeyValuePair(Of Rockhopper.AnalysisAPI.Transcripts.Categories, GeneBrief)(cat, RelatedGene)
                                             End Function()
                           Select Loci = Transcript.GetTULoci.ToString,
                               Transcript.Synonym,
@@ -536,7 +547,7 @@ Tjaden, B.",
         Public Function BatchAnalysis(SourceDir As String,
                                       PTT As PTT,
                                       Door As DOOR,
-                                      Optional Fasta As FastaToken = Nothing,
+                                      Optional Fasta As FastaSeq = Nothing,
                                       Optional Split As Boolean = False) As DocumentStream.File
 
             Call Console.WriteLine("The target source directory is " & SourceDir)
@@ -567,8 +578,8 @@ Tjaden, B.",
                                 Let ChunkBuffer = (From Transcript As Rockhopper.AnalysisAPI.Transcripts In file.dataChunk.AsParallel
                                                    Let DoorObject = Door.GetGene(Transcript.Synonym)
                                                    Let predictedOperon = file.operon.Operon.GetGene(Transcript.Synonym)
-                                                   Let GetCategory = Function() As KeyValuePair(Of Rockhopper.AnalysisAPI.Transcripts.Categories, LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief)
-                                                                         Dim RelatedGene As LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief = Nothing
+                                                   Let GetCategory = Function() As KeyValuePair(Of Rockhopper.AnalysisAPI.Transcripts.Categories, GeneBrief)
+                                                                         Dim RelatedGene As GeneBrief = Nothing
                                                                          Dim cat = TSSsCategory.Category(Transcript, PTT, Reader, RelatedGene)
 #Const DEBUG = 1
 #If DEBUG Then
@@ -576,7 +587,7 @@ Tjaden, B.",
                                                                              Call Console.WriteLine($"[ERROR] null related gene data at {Transcript.ToString}// category ===> {cat.ToString}")
                                                                          End If
 #End If
-                                                                         Return New KeyValuePair(Of Rockhopper.AnalysisAPI.Transcripts.Categories, LANS.SystemsBiology.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief)(cat, RelatedGene)
+                                                                         Return New KeyValuePair(Of Rockhopper.AnalysisAPI.Transcripts.Categories, GeneBrief)(cat, RelatedGene)
                                                                      End Function()
                                                    Let CategoryEn = GetCategory.Key
                                                    Select Loci = Transcript.GetTULoci.ToString,

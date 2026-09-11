@@ -395,7 +395,7 @@ Namespace Java
             Me._name = ""
             Me.genome = ""
 
-            Dim Fasta As LANS.SystemsBiology.SequenceModel.FASTA.FastaToken = LANS.SystemsBiology.SequenceModel.FASTA.FastaToken.Load(fileName)
+            Dim Fasta As  FastaSeq  =  FastaSeq .Load(fileName)
             Me.genome = "?" & Fasta.SequenceData
 
             Dim parse_header As String() = StringSplit(Fasta.Title, "\|", True)

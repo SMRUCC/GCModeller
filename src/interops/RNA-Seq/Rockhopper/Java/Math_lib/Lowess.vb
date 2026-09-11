@@ -66,7 +66,7 @@ Imports Microsoft.VisualBasic
 ' 
 
 
-<PackageNamespace("Lowess",
+<Package("Lowess",
                   Description:=" * Copyright 2013 Brian Tjaden
  *
  * This file is part of Rockhopper.
@@ -96,8 +96,6 @@ Public Module Lowess
     ''' estimatad smooth values of y.
     ''' </summary>
     ''' 
-    <ExportAPI("lowess", Info:="Lowess smoother. Robust locally weighted regression.
-The lowess function fits a nonparametric regression curve to a scatterplot. x and y must be of equal length. Returns the estimatad smooth values of y.")>
     Public Function lowess(x As List(Of Long), y As List(Of Long)) As List(Of Long)
         Return lowess(x, y, 0.1, 1)
         ' Default parameters
@@ -114,10 +112,6 @@ The lowess function fits a nonparametric regression curve to a scatterplot. x an
     ''' at a cost to running time.
     ''' </summary>
     ''' 
-    <ExportAPI("lowess", Info:="Lowess smoother. Robust locally weighted regression.
-The lowess function fits a nonparametric regression curve to a scatterplot. x and y must be of equal length. Returns the estimatad smooth values of y.
-     
-A larger smoothing span results in a smoother curve. The number of iterations can be increased to improve robustness at a cost to running time.")>
     Public Function lowess(x As List(Of Long), y As List(Of Long), smoothingSpan As Double, iterations As Integer) As List(Of Long)
         If x.Count <> y.Count Then
             Output("Error - cannot compute lowess of two matrices with differing sizes." & vbLf)
