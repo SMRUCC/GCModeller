@@ -46,11 +46,65 @@ Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Namespace Configurations.Nodes.Plots
 
+    ''' <summary>
+    ''' Rules are used to dynamically alter the format of a data point, based on
+    ''' the value of the data point (or any other property of it).
+    '''
+    ''' Each rule has a condition expression; any plot parameter may be placed inside
+    ''' a rule to override the plot's default value for that parameter.
+    '''
+    ''' ```
+    ''' &lt;rules>
+    '''   &lt;rule>
+    '''     condition    = var(value) > 0.6
+    '''     color        = red
+    '''     fill_color   = red
+    '''   &lt;/rule>
+    ''' &lt;/rules>
+    ''' ```
+    ''' </summary>
     Public Class ConditionalRule : Inherits CircosDocument
         Implements ICircosDocNode
 
+        ''' <summary>
+        ''' The rule trigger expression.(例如 ``var(value) &gt; 0.6``)
+        ''' </summary>
+        ''' <returns></returns>
         <Circos> Public Property condition As String = "var(value) > 0.6"
+        ''' <summary>
+        ''' 设置为 ``1`` 的时候，当本规则被触发之后便不再继续测试后续的其它规则
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property flow As String = null
+        ''' <summary>
+        ''' Rules are triggered in the order they are defined; this parameter can be used
+        ''' to define the importance of a rule irrespective of its order in the block.
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property importance As String = null
+        ''' <summary>
+        ''' Whether the rule condition Is evaluated with Perl eval() 
+        ''' (``eval``, the Default) Or without it (``noeval``)
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property [type] As String = null
         <Circos> Public Property color As String = "red"
+        <Circos> Public Property fill_color As String = null
+        <Circos> Public Property stroke_color As String = null
+        <Circos> Public Property stroke_thickness As String = null
+        <Circos> Public Property thickness As String = null
+        <Circos> Public Property glyph As String = null
+        <Circos> Public Property glyph_size As String = null
+        ''' <summary>
+        ''' The z-depth of the data point, larger value means drawn later(on the top).
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property z As String = null
+        ''' <summary>
+        ''' The new value of the data point, this allows you to remap the value scale.
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property value As String = null
 
         Public Overrides Function Build(IndentLevel As Integer, directory$) As String
             Return Me.GenerateCircosDocumentElement("rule", IndentLevel, Nothing, directory)

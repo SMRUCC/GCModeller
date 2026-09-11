@@ -1,17 +1,19 @@
 Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Configurations.Nodes.Plots
 
     ''' <summary>
     ''' Tile tracks are the Circos equivalent of a genome browser.
     '''
-    ''' Which Is To say, the tile track show interval data And automatically place Multiple 
-    ''' intervals In vertical stacks so that they Do not overlap And do not extend outside the track.
+    ''' Which is to say, the tile track shows interval data and automatically places
+    ''' multiple intervals in vertical stacks so that they do not overlap and do not
+    ''' extend outside of the track.
     '''
-    ''' The tile track does Not take a value --- only a range.
+    ''' The tile track does not take a value --- only a range.
     '''
     ''' ```
-    ''' #chr start End [options]
+    ''' #chr start end [options]
     ''' chr12 1000 5000
     ''' ```
     ''' </summary>
@@ -29,35 +31,32 @@ Namespace Configurations.Nodes.Plots
         End Property
 
         ''' <summary>
-        ''' Whether the track overflows its reserved vertical space should all *layers* be full.
-        ''' 
-        ''' When layers_overflow = hide the default, any tile that is not 
-        ''' able to fit within the number of requested layers is hidden. 
-        ''' When layers_overflow = grow this restriction Is lifted And the tiles 
-        ''' continue To be stacked.
-        ''' </summary>
-        ''' <returns>``hide``(默认值) 或者 ``grow``</returns>
-        <Circos> Public Property layers_overflow As String = "hide"
-        ''' <summary>
-        ''' How are track dimensions interpreted?
-        '''
-        ''' This crop]): mismatched one Of Two options ``whratio``(default) Or ``widths``.
-        '''
-        ''' This parameter is used together with <see cref="layers"/>, in the default
-        ''' ``whratio`` mode each layer having a width-to-height ratio given by the
-        ''' remaining space.
-        ''' </summary>
-        ''' <returns></returns>
-        <Circos> Public Property layout_orientation_mode As String = "whratio"
-        ''' <summary>
-        ''' Number Of stacked layers Of tiles. When there is "too much" data many Tiles will 
-        ''' be stacked On top Of one another.
+        ''' Number of stacked layers of tiles. When there is "too much" data,
+        ''' many tiles will be stacked on top of one another.
         ''' </summary>
         ''' <returns></returns>
         <Circos> Public Property layers As String = "10"
         ''' <summary>
-        ''' Tile margin in radial direction, automatically applied from the
-        ''' ideogram radius向内 Correction 2 pixels outwards If you need more space.
+        ''' Whether the track overflows its reserved vertical space should all 
+        ''' <see cref="layers"/> be full.
+        '''
+        ''' + ``hide``(默认值): any tile that is not able to fit within the requested 
+        '''   number of layers is hidden.
+        ''' + ``grow``: this restriction is lifted and the tiles continue to be stacked.
+        ''' </summary>
+        ''' <returns>``hide`` 或者 ``grow``</returns>
+        <Circos> Public Property layers_overflow As String = "hide"
+        ''' <summary>
+        ''' How are the track dimensions interpreted?
+        '''
+        ''' One of two options: ``whratio``(default) or ``widths``. This parameter is
+        ''' used together with <see cref="layers"/>: in the default ``whratio`` mode
+        ''' each layer has a width-to-height ratio derived from the remaining radial space.
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property layout_orientation_mode As String = "whratio"
+        ''' <summary>
+        ''' Tile margin in the radial direction.(设置为``0``关闭)
         ''' </summary>
         ''' <returns></returns>
         <Circos> Public Property margin As String = "1u"
@@ -66,11 +65,6 @@ Namespace Configurations.Nodes.Plots
         ''' </summary>
         ''' <returns></returns>
         <Circos> Public Property padding As String = "3"
-        ''' <summary>
-        ''' Tile thickness (height), in pixels.
-        ''' </summary>
-        ''' <returns></returns>
-        <Circos> Public Property thickness As String = "10"
 
         Sub New(data As data(Of RegionTrackData))
             Call MyBase.New(data)
@@ -79,6 +73,7 @@ Namespace Configurations.Nodes.Plots
             fill_color = "grey"
             stroke_color = "vlgrey"
             stroke_thickness = "1"
+            thickness = "10"
             r1 = "0.55r"
             r0 = "0.40r"
             orientation = orientations.out

@@ -1,83 +1,62 @@
-﻿#Region "Microsoft.VisualBasic::4c4395fbd784c442aac0924165ac4423, visualize\Circos\Circos\ConfFiles\Nodes\Line\Line.vb"
+﻿Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+Namespace Configurations.Nodes.Plots.Lines
 
+    ''' <summary>
+    ''' Line plots are useful for showing values associated with a position on the
+    ''' ideogram, such as sequence conservation scores, or values derived from a
+    ''' sliding window scan of the genome.
+    '''
+    ''' Line plots use the same data format as scatter plots, histograms and heat maps.
+    '''
+    ''' ```
+    ''' #chr start end value [options]
+    ''' hs5 50 75 0.75
+    ''' ```
+    ''' </summary>
+    ''' <remarks>
+    ''' The default values of this plot are taken from the official template
+    ''' ``etc/tracks/line.conf`` in the circos distribution.
+    ''' </remarks>
+    Public Class LinePlot : Inherits TracksPlot(Of ValueTrackData)
 
+        <Circos> Public Overrides ReadOnly Property type As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return "line"
+            End Get
+        End Property
 
-    ' /********************************************************************************/
+        ''' <summary>
+        ''' The line color parameter
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property color As String = "black"
+        ''' <summary>
+        ''' 当相邻的数据点之间的间隔大于所给定的阈值的时候，不再将这些数据点连接起来
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' For example ``max_gap = 1u`` splits the line into separate segments whenever
+        ''' two neighbouring data points are separated by a gap larger than one chrom
+        ''' osome unit.
+        ''' </remarks>
+        <Circos> Public Property max_gap As String = null
 
-    ' Summaries:
+        Sub New(data As data(Of ValueTrackData))
+            Call MyBase.New(data)
 
-    ' 
-    ' /********************************************************************************/
+            ' 默认值取自 circos 发行版之中的 etc/tracks/line.conf
+            thickness = "1"
+            r1 = "0.69r"
+            r0 = "0.60r"
+            orientation = orientations.out
+        End Sub
 
-#End Region
-
-'Imports System.Text
-'Imports Microsoft.VisualBasic.ComponentModel.Settings
-'Imports Microsoft.VisualBasic
-'Imports SMRUCC.genomics.Visualize.Circos.Configurations
-
-'Namespace Configurations.Nodes.Plots.Lines
-
-'    Public Class Line : Inherits TracksPlot
-
-'        <Circos> Public Property color As String = "vdgrey"
-'        <Circos> Public Property max_gap As String = "1u"
-
-'        Public Property Backgrounds As List(Of Background)
-'        Public Property Axes As List(Of Axis)
-
-'        Public Sub New(Data As Karyotype.TrackDataDocument)
-'            Call MyBase.New(Data)
-
-'            Me.Axes = New List(Of Axis) From {New Axis}
-'            Me.Backgrounds = New List(Of Background) From {New Background}
-'        End Sub
-
-'        <Circos> Public Overrides ReadOnly Property type As String
-'            Get
-'                Return "line"
-'            End Get
-'        End Property
-
-'        Protected Overrides Function GeneratePlotsElementListChunk() As Dictionary(Of String, List(Of CircosDocument))
-'            Dim Dict = MyBase.GeneratePlotsElementListChunk
-'            If Dict.IsNullOrEmpty Then
-'                Dict = New Dictionary(Of String, List(Of CircosDocument))
-'            End If
-
-'            If Not Me.Axes.IsNullOrEmpty Then Call Dict.Add("axes", (From item In Me.Axes Select DirectCast(item, CircosDocument)).AsList)
-'            If Not Me.Backgrounds.IsNullOrEmpty Then Call Dict.Add("backgrounds", (From item In Me.Backgrounds Select DirectCast(item, CircosDocument)).AsList)
-
-'            Return Dict
-'        End Function
-
-'        Protected Overrides Function GetProperties() As String()
-'            Return SimpleConfig.GenerateConfigurations(Of Line)(Me)
-'        End Function
-'    End Class
-'End Namespace
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Protected Overrides Function GetProperties() As String()
+            Return Me.GenerateConfigLines()
+        End Function
+    End Class
+End Namespace

@@ -151,6 +151,19 @@ Namespace Configurations.Nodes.Plots
         Public Property rules As List(Of ConditionalRule)
 
         ''' <summary>
+        ''' ``&lt;axes>&lt;axis>&lt;/axis>&lt;/axes>``: The radial grid lines of this track.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property axes As List(Of Lines.Axis)
+
+        ''' <summary>
+        ''' ``&lt;backgrounds>&lt;background>&lt;/background>&lt;/backgrounds>``: 
+        ''' The colored background strips of this track.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property backgrounds As List(Of Lines.Background)
+
+        ''' <summary>
         ''' 当前的这个绘图元素所属的 circos 顶层配置块的名称。
         ''' (garantees only that the circos allowed top level blocks can be used, see 
         ''' ``lib/Circos/Configuration.pm`` in the circos distribution: 
@@ -256,18 +269,34 @@ Namespace Configurations.Nodes.Plots
         ''' <remarks></remarks>
         Protected MustOverride Function GetProperties() As String()
 
+        ''' <summary>
+        ''' 生成当前这个绘图元素之中的所有的子配置块(``&lt;rules>``、``&lt;axes>``、``&lt;backgrounds>``)
+        ''' </summary>
+        ''' <returns>当没有任何子块的时候返回 Nothing</returns>
         Protected Overridable Function GeneratePlotsElementListChunk() As Dictionary(Of String, List(Of CircosDocument))
-            If Not Me.rules.IsNullOrEmpty Then
-                Dim rules = From item As ConditionalRule
-                            In Me.rules
-                            Select DirectCast(item, CircosDocument)
+            Dim chunks As New Dictionary(Of String, List(Of CircosDocument))
 
-                Return New Dictionary(Of String, List(Of CircosDocument)) From {
-                    {"rules", rules.AsList}
-                }
-            Else
+            If Not Me.rules.IsNullOrEmpty Then
+                chunks("rules") = Me.rules _
+                    .Select(Function(rule) DirectCast(rule, CircosDocument)) _
+                    .AsList
+            End If
+            If Not Me.axes.IsNullOrEmpty Then
+                chunks("axes") = Me.axes _
+                    .Select(Function(axis) DirectCast(axis, CircosDocument)) _
+                    .AsList
+            End If
+            If Not Me.backgrounds.IsNullOrEmpty Then
+                chunks("backgrounds") = Me.backgrounds _
+                    .Select(Function(bg) DirectCast(bg, CircosDocument)) _
+                    .AsList
+            End If
+
+            If chunks.Count = 0 Then
                 Return Nothing
             End If
+
+            Return chunks
         End Function
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ICircosDocument.Save, ITrackPlot.Save

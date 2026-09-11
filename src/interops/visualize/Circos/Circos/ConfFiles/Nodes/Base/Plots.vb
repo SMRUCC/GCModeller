@@ -88,6 +88,17 @@ Namespace Configurations.Nodes.Plots
         ''' <returns></returns>
         <Circos> Public Property color As String = "hs1_a5,hs1_a4,hs1_a3,hs1_a2,hs1_a1,hs1"
         ''' <summary>
+        ''' Which value To use for the color assignment:
+        '''
+        ''' + ``0``(默认值): the absolute value given in the data file
+        ''' + ``1``: the value as a fraction Of the plot min/max
+        ''' + ``2``: the value as a fraction Of the track min/max
+        '''
+        ''' (see ``etc/tracks/heatmap.conf`` in the circos distribution)
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property color_mapping As String = "0"
+        ''' <summary>
         ''' If scale_log_base is used, the mapping is not linear, but a power law 
         '''
         ''' n = N * f**(1/scale_log_base)

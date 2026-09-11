@@ -79,13 +79,30 @@ Namespace TrackDatas
         ''' </summary>
         Dim glyph As String
         ''' <summary>
-        ''' Works on histogram
+        ''' Works on histogram (like <see cref="glyph"/>, this is one of the most common options)
         ''' </summary>
         Dim fill_color As String
         ''' <summary>
-        ''' Works on any <see cref="Trackdata"/> data type.
+        ''' The outline color of the data point.
+        ''' </summary>
+        Dim stroke_color As String
+        ''' <summary>
+        ''' The outline thickness of the data point, in pixels.
+        ''' </summary>
+        Dim stroke_thickness As String
+        ''' <summary>
+        ''' Works on any <see cref="TrackData"/> data type.
         ''' </summary>
         Dim URL As String
+        ''' <summary>
+        ''' The z-depth of the data point: the point with a larger z value is drawn later(on the top layer).
+        ''' </summary>
+        Dim z As String
+        ''' <summary>
+        ''' An optional unique secondary identifier of this data point, this value is
+        ''' only used by you to keep track of the source of each data point.
+        ''' </summary>
+        Dim id As String
 
         Public Overrides Function ToString() As String
             Dim s As New StringBuilder
@@ -93,6 +110,10 @@ Namespace TrackDatas
             Call attach(s, NameOf(glyph), glyph)
             Call attach(s, NameOf(glyph_size), glyph_size)
             Call attach(s, NameOf(fill_color), fill_color)
+            Call attach(s, NameOf(stroke_color), stroke_color)
+            Call attach(s, NameOf(stroke_thickness), stroke_thickness)
+            Call attach(s, NameOf(z), z)
+            Call attach(s, NameOf(id), id)
             Call attach(s, "url", URL)
 
             Return s.ToString
