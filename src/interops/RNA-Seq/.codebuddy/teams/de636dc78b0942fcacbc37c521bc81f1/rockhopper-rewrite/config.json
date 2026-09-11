@@ -20,6 +20,18 @@
       "name": "core-models",
       "role": "移植转录本与操纵子核心模型",
       "sessionId": "ca003af4f09b47eeaa0031efb479417c"
+    },
+    {
+      "memberId": "alignment@rockhopper-rewrite",
+      "name": "alignment",
+      "role": "实现 BWT/FM-index 比对模块",
+      "sessionId": "06982308d3ae4b44b52e861f04db2dbb"
+    },
+    {
+      "memberId": "denovo@rockhopper-rewrite",
+      "name": "denovo",
+      "role": "实现 de novo 组装模块",
+      "sessionId": "9a9ba8097b164cc2a6d33bd51dd77239"
     }
   ]
 }
