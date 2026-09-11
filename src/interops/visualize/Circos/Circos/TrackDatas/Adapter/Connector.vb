@@ -42,7 +42,11 @@
 
 Namespace TrackDatas
 
-    Public Class Connector : Inherits TrackDataDocument(Of RegionTrackData)
+    ''' <summary>
+    ''' The connector plot data document: ``chr start end``, the connector track does
+    ''' not take a value, only a genomic region.
+    ''' </summary>
+    Public Class ConnectorDocument : Inherits TrackDataDocument(Of RegionTrackData)
 
         Sub New(data As IEnumerable(Of RegionTrackData))
             Call MyBase.New(data)
