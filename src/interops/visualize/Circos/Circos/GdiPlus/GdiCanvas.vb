@@ -1,11 +1,5 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
-Imports IGraphics = Microsoft.VisualBasic.Imaging.IGraphics
-Imports Pen = Microsoft.VisualBasic.Imaging.Pen
-Imports Brush = Microsoft.VisualBasic.Imaging.Brush
-Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
-Imports Font = Microsoft.VisualBasic.Imaging.Font
-Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
 
 Namespace GdiPlus
 

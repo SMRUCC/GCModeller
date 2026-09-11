@@ -49,10 +49,6 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
-' 在 net10.0-windows 目标之下 System.Drawing 也会提供同名的类型，所以在这里显式指定使用兼容层的类型
-Imports Brush = Microsoft.VisualBasic.Imaging.Brush
-Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
-Imports Font = Microsoft.VisualBasic.Imaging.Font
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq

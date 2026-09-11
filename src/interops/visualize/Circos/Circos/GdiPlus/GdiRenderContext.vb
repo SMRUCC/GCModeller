@@ -1,9 +1,6 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports IGraphics = Microsoft.VisualBasic.Imaging.IGraphics
-Imports Font = Microsoft.VisualBasic.Imaging.Font
-Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
 Imports CircosDoc = SMRUCC.genomics.Visualize.Circos.Configurations.Circos
 
 Namespace GdiPlus
