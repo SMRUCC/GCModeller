@@ -115,7 +115,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
 
         'Public Shared Function CreateGeneCollection(Pathways As Pathway(),
         '                                            Genes As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Genes,
-        '                                            ProteinDomains As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        '                                            ProteinDomains As CSVFile ) As CSVFile 
         '    Dim List As List(Of String) = New List(Of String)
 
         '    For Each pwy In Pathways
@@ -124,7 +124,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
         '    Next
         '    List = List.Distinct.AsList
 
-        '    Dim File = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        '    Dim File = New CSVFile 
         '    Call File.AppendLine(New String() {"AccessionId", "Common_name", "Description", "Pfam_domains", "Sequence"})
         '    For Each Id In List
         '        Call File.AppendLine(ProteinDomains.FindAtColumn(KeyWord:=Id, Column:=0).First)

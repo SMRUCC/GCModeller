@@ -307,10 +307,10 @@ EXIT_:      Return DoorGene
         ''' <param name="KEGG"></param>
         ''' <returns></returns>
         Public Function KEGGDifferent(TSSs As TSSsDifferent(),
-                                      KEGG As bGetObject.Pathway()) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+                                      KEGG As bGetObject.Pathway()) As CSVFile 
             Dim data = (From item In TSSs Select IsTSSChnaged = item.TSSChanged, IsTTSChnaged = item.TTSChnaged, IsHaveBoth = item.HaveBoth, Gene = item).ToArray
             Dim HaveBoth = (From item In data Where item.IsHaveBoth Select item).ToArray
-            Dim Report As New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+            Dim Report As New CSVFile 
             Dim row As New RowObject
             Dim PwyClasses = LANS.SystemsBiology.Assembly.KEGG.DBGET.BriteHEntry.Pathway.LoadFromResource
             Dim kegg_dict = KEGG.ToDictionary(

@@ -76,6 +76,8 @@ Imports SMRUCC.genomics.Assembly.DOOR
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Analysis.RNA_Seq.TSSAR
+Imports CSVFile = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Namespace AnalysisAPI
 
@@ -97,13 +99,13 @@ Tjaden, B.",
     Public Module RockhopperAPI
 
         <ExportAPI("Length-Distrib")>
-        Public Function LengthDistributions(Fasta As FastaFile) As Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+        Public Function LengthDistributions(Fasta As FastaFile) As CSVFile
             Dim LQuery = (From Token In Fasta.AsParallel
                           Select Token.Length
                           Group Length By Length Into Count).ToArray.ToDictionary(Function(obj) obj.Length, elementSelector:=Function(obj) obj.Count)
             Dim Max = LQuery.Keys.Max
             Dim CsvRow = New String() {"Counts"}.Join((From i As Integer In Max.Sequence Select CStr(If(LQuery.ContainsKey(i), LQuery(key:=i), 0))).ToArray).ToCsvRow
-            Dim Csv = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
+            Dim Csv = New CSVFile
             Call Csv.Add(New String() {"Length"}.Join((From i As Integer In Max.Sequence Select CStr(i)).ToArray).ToCsvRow)
             Call Csv.Add(CsvRow)
             Return Csv
@@ -113,7 +115,7 @@ Tjaden, B.",
         Public Function LengthDistributions(<Parameter("Dir.Source")> DIR As String,
                                             <Parameter("Filter")> Optional FilterKey As String = "*.fasta",
                                             Optional Max As Integer = 1000,
-                                            Optional delta As Integer = 10) As DocumentStream.File
+                                            Optional delta As Integer = 10) As CSVFile
 
             Dim Entries = (From pathEntry As NamedValue(Of String)
                            In DIR.LoadEntryList(FilterKey).AsParallel
@@ -136,7 +138,7 @@ Tjaden, B.",
                                                   In x.distr
                                                   Select nnn.Key).Max).Max
             Max = If(mxTmp > Max, Max, mxTmp)
-            Dim Csv As New DocumentStream.File
+            Dim Csv As New CSVFile
             Dim temp As New List(Of String)
 
             For i As Integer = 0 To Max Step delta
@@ -165,7 +167,7 @@ Tjaden, B.",
         End Function
 
         <ExportAPI("CreateModel")>
-        Public Function GenerateModelData(data As IEnumerable(Of TSSAR.Reads.GeneAssociationView), PTT As PTT) As Transcripts()
+        Public Function GenerateModelData(data As IEnumerable(Of GeneAssociationView), PTT As PTT) As Transcripts()
             Return Transcripts.FromReadsMap(data, PTT)
         End Function
 
@@ -495,12 +497,12 @@ Tjaden, B.",
         End Function
 
         <ExportAPI("KEGG.Different")>
-        Public Function KEGGAnalysis(TSSS As IEnumerable(Of TSSsDifferent), KEGG As String) As DocumentStream.File
+        Public Function KEGGAnalysis(TSSS As IEnumerable(Of TSSsDifferent), KEGG As String) As CSVFile
             Return AnalysisAPI.TSSsAnalysis.KEGGDifferent(TSSS.ToArray, (From xml As String In FileIO.FileSystem.GetFiles(KEGG, FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel Select xml.LoadXml(Of bGetObject.Pathway)).ToArray)
         End Function
 
         <ExportAPI("TSSs.Category")>
-        Public Function TSSsCategories(TSSs As IEnumerable(Of Rockhopper.AnalysisAPI.Transcripts), PTT As PTT, Optional Fasta As FastaSeq = Nothing) As DocumentStream.File
+        Public Function TSSsCategories(TSSs As IEnumerable(Of Rockhopper.AnalysisAPI.Transcripts), PTT As PTT, Optional Fasta As FastaSeq = Nothing) As CSVFile
             Dim Reader As SegmentReader = Nothing
 
             If Not Fasta Is Nothing Then
@@ -548,7 +550,7 @@ Tjaden, B.",
                                       PTT As PTT,
                                       Door As DOOR,
                                       Optional Fasta As FastaSeq = Nothing,
-                                      Optional Split As Boolean = False) As DocumentStream.File
+                                      Optional Split As Boolean = False) As CSVFile
 
             Call Console.WriteLine("The target source directory is " & SourceDir)
 
@@ -643,7 +645,7 @@ Tjaden, B.",
                                 Let data = (From d As Integer In 500.Sequence Select distance = d, (From transcript In type.Group Where transcript.ATG_Dist = d Select 1).ToArray.Count).ToArray
                                 Let rowCells = New String() {type.CategoryEn.ToString}.Join((From nnn In data Select CStr(nnn.Count)).ToArray)
                                 Select rowCells.ToCsvRow).ToArray
-            Call CType(DistanceView, Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File).Save(SourceDir & "/DistanceView.csv", False)
+            Call CType(DistanceView, CSVFile).Save(SourceDir & "/DistanceView.csv", False)
             Call Console.WriteLine("Write summary result....")
 
             Dim CsvResult = ResultLQuery.ToCsvDoc(False)

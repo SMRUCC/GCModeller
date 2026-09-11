@@ -70,6 +70,7 @@ Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.Reads
 
 Namespace AnalysisAPI
 
@@ -94,7 +95,7 @@ Namespace AnalysisAPI
     ''' </summary>
     Public Class Transcripts
 
-        Public Shared Function FromReadsMap(Map As TSSAR.Reads.GeneAssociationView(), PTT As PTT) As Transcripts()
+        Public Shared Function FromReadsMap(Map As GeneAssociationView(), PTT As PTT) As Transcripts()
 
             Dim LQuery = (From item In Map Select item, GeneID = item.AssociatedGene Group By GeneID Into Group).ToArray
             Dim Transcripts = (From Gene In LQuery
@@ -104,7 +105,7 @@ Namespace AnalysisAPI
             Return Transcripts.ToArray
         End Function
 
-        Private Shared Function InterGenicTranscript(Map As TSSAR.Reads.GeneAssociationView()) As Transcripts()
+        Private Shared Function InterGenicTranscript(Map As GeneAssociationView()) As Transcripts()
             Return (From item In Map Select New Transcripts With {.Strand = If(item.POS < item.PNEXT, "+", "-"), .TSSs = item.POS, .Expression = item.NumberOfReads}).ToArray
         End Function
 
@@ -113,7 +114,7 @@ Namespace AnalysisAPI
         ''' </summary>
         ''' <param name="Map"></param>
         ''' <returns></returns>
-        Private Shared Function GenerateTranscripts(Map As TSSAR.Reads.GeneAssociationView(), PTT As PTT) As Transcripts()
+        Private Shared Function GenerateTranscripts(Map As GeneAssociationView(), PTT As PTT) As Transcripts()
             Dim GenePTT = PTT.GeneObject(Map.First.AssociatedGene)
             '上游或者上游重叠为TSSs
             '下游重叠为TTS
