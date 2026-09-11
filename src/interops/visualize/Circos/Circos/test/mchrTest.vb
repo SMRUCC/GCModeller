@@ -46,34 +46,58 @@ Imports SMRUCC.genomics.Visualize.Circos
 Imports SMRUCC.genomics.Visualize.Circos.Configurations
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype
+Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.NtProps
 
+''' <summary>
+''' 使用文档之中的工作流演示 circos 绘图的完整流程
+''' </summary>
+''' <remarks>
+''' 原来的演示代码所依赖的数据文件(``H:\5.14.circos\6.22\Af293.fna`` 等)已经不可用了，
+''' 所以这里改为使用 <see cref="DemoSyntheticData"/> 程序化生成的虚构数据。
+''' </remarks>
 Module Module1
 
-    Private Sub run()
-        Dim fas As New FastaFile("H:\5.14.circos\6.22\Af293.fna")
-        Dim maps As BlastnMapping() = "H:\5.14.circos\6.22\maps.MergeMappings-Trim.Full.Perfect.identities=0.9.Csv".LoadCsv(Of BlastnMapping)
-        Dim genome As GenomeKaryotype = ChromosomeGenerator.FromNts(fas)
-        Call genome.Save("x:/test.txt")
+    ''' <summary>
+    ''' 1. 创建 circos 文档对象
+    ''' 2. 通过适配器将生物信息学数据转换为 circos 之中的 tracks 对象
+    ''' 3. 保存 circos 文档
+    ''' 4. 通过命令行调用 circos 程序进行绘图
+    ''' </summary>
+    Private Sub run(Optional outDIR As String = "Z:\circos-test\mchr\")
+        ' 虚构的基因组序列数据
+        Dim genome As Dictionary(Of String, String) = DemoSyntheticData.Genome()
+        ' 基因组的骨架信息
+        Dim skeleton As GenomeKaryotype = DemoSyntheticData.Karyotype()
 
-        Dim circos As New Circos
-        circos.skeletonKaryotype = genome
+        Call skeleton.Save($"{Circos.NormalizeDirectory(outDIR)}/data/karyotype.txt")
+
+        Dim circos As New Configurations.Circos
+
+        circos.skeletonKaryotype = skeleton
+        circos.karyotype = "data/karyotype.txt"
         circos.includes.Add(New Configurations.IdeogramInclude(circos))
         circos.includes.Add(New Configurations.TicksInclude(circos))
 
-        circos.Ideogram.Ideogram.show_label = yes
+        circos.Ideogram.Ideogram.show_label = "yes"
         circos.Ideogram.Ideogram.Spacing.default = "0.2u"
         circos.chromosomes_units = "1000000"
 
-        Dim hhhh = Function() maps.Hits(circos.skeletonKaryotype)
-        Dim inn = hhhh.BeginInvoke(Nothing, Nothing)
+        ' GC 含量与 GC skew
+        Dim gc As ValueTrackData() = DemoSyntheticData.GCContent(genome)
+        Dim skew As ValueTrackData() = DemoSyntheticData.GCSkew(genome)
 
-        circos.AddTrack(New Histogram(New GCSkew(fas, karyotype:=circos.skeletonKaryotype, winSize:=4096, steps:=2048, isCircular:=True)))
-        circos.AddTrack(New Histogram(New GeneGCContent(genome:=fas, karyotype:=circos.skeletonKaryotype, winSize:=4096, steps:=2048, getValue:=Function(x) x.GC_AT)))
-        circos.AddTrack(New Histogram(New GradientMappings(maps.IdentitiesTracks(circos.skeletonKaryotype), "Jet")))
-        circos.AddTrack(New Histogram(New TrackDatas.TrackDataDocument(Of TrackDatas.ValueTrackData)(hhhh.EndInvoke(inn))))
+        circos.AddTrack(New Histogram(New TrackDataDocument(Of ValueTrackData)(gc)), autoLayout:=False)
+        circos.AddTrack(New Histogram(New TrackDataDocument(Of ValueTrackData)(skew)), autoLayout:=False)
+        ' 渐变色高亮映射
+        circos.AddTrack(New Highlight(New GradientMappings(gc, "Jet")), autoLayout:=False)
 
-        Call circos.Save("Z:\circos-test/")
+        Call CircosAPI.SetRadius(circos, rMax:=0.75, rMin:=0.35)
+
+        ' 保存配置文件并调用 circos 程序绘图
+        Dim result As CircosRenderResult = CircosRender.Render(circos, outDIR, outputFile:="mchr.png")
+
+        Call Console.WriteLine(result.ToString)
     End Sub
 End Module
