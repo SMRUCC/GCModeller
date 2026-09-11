@@ -48,7 +48,12 @@ Namespace Core
         ''' <summary>
         ''' 实验名称（由读段文件名推断）。
         ''' </summary>
+        Private _name As String
         Public ReadOnly Property Name As String
+            Get
+                Return _name
+            End Get
+        End Property
 
         ''' <summary>
         ''' Constructs a new Replicate object based on compressed sequencing reads.
