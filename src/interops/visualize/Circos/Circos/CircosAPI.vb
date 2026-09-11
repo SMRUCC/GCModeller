@@ -91,11 +91,11 @@ Public Module CircosAPI
     ''' <param name="width"></param>
     ''' <returns></returns>
     Public Function SetIdeogramWidth(idg As IdeogramInclude, width As Integer) As IdeogramInclude
-        idg.IdeogramInclude.thickness = width & "p"
+        idg.Ideogram.thickness = width & "p"
 
         If width = 0 Then
-            idg.IdeogramInclude.stroke_thickness = "0"
-            idg.IdeogramInclude.band_stroke_thickness = "0"
+            idg.Ideogram.stroke_thickness = "0"
+            idg.Ideogram.band_stroke_thickness = "0"
         End If
 
         Return idg
@@ -141,9 +141,9 @@ Public Module CircosAPI
     ''' 1/ideogram.radius
     ''' </remarks>
     Public Function SetIdeogramRadius(ideogram As IdeogramInclude, r As Double) As IdeogramInclude
-        Dim PreviousRadius As Double = Val(ideogram.IdeogramInclude.radius)
+        Dim PreviousRadius As Double = Val(ideogram.Ideogram.radius)
 
-        ideogram.IdeogramInclude.radius = r & "r"
+        ideogram.Ideogram.radius = r & "r"
 
         Dim IR As Double = r
         Dim Max As Double = (1 / r) * 0.825
@@ -693,12 +693,12 @@ SET_END:    Dim ends = i
     ''' <returns></returns>
     Public Function RemoveIdeogram(doc As Configurations.Circos) As Boolean
         Dim IdeogramInclude = (From include In doc.includes
-                        Where InStr(include.refPath, Configurations.IdeogramInclude.IdeogramConf, CompareMethod.Text) > 0
-                        Select DirectCast(include, Configurations.IdeogramInclude)).FirstOrDefault
+                        Where InStr(include.refPath, Configurations.Ideogram.IdeogramConf, CompareMethod.Text) > 0
+                        Select DirectCast(include, Configurations.Ideogram)).FirstOrDefault
         If IdeogramInclude Is Nothing Then
             Call $"Circos configuration file have no ideogram data".debug
         Else
-            IdeogramInclude.IdeogramInclude.thickness = "0p"
+            IdeogramInclude.Ideogram.thickness = "0p"
 
         End If
         Return True
