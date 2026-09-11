@@ -48,6 +48,7 @@
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\BIOM\BIOM\BIOM.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\Microbiome\Microbiome.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationTools\DataVisualizationTools.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\Library\shares\graphics.common_runtime\R_graphics.common_runtime.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\repository\HMP_client\HMP_client.NET5.vbproj" />
@@ -55,6 +56,7 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\UMAP\UMAP.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Visualization\data_visualize-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Visualizer\networkVisualizer.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\modules\ExperimentDesigner\designer-netcore5.vbproj" />
