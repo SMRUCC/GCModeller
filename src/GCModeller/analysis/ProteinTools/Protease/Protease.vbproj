@@ -11,6 +11,18 @@
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <Title>Protease Peptide Cleavage Simulator</Title>
+    <Description>Protein sequence analysis library that simulates proteolytic cleavage. It applies configurable protease cleavage rules over sliding windows of a protein sequence to locate cleavage sites, mirroring the PeptideCutter concept.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;protease;peptide-cleavage;protein-sequence;proteomics</PackageTags>
+    <PackageReleaseNotes>Implemented protease cleavage-rule scanning that locates peptide cut sites across protein sequences.</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -123,17 +135,45 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\workbench\modules\SeqFeature\SeqFeature\SeqFeature.vbproj">
-      <Project>{050fe13b-bcce-4ff7-86e2-48735543d7a4}</Project>
+      <Project>{050fe13b-bcce-4ff7-86e2-48735543d7a4}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>SeqFeature</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

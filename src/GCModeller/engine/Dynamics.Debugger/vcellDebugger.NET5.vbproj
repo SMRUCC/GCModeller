@@ -4,28 +4,32 @@
 		<RootNamespace>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics</RootNamespace>
     <TargetFrameworks>net10.0</TargetFrameworks>
 		<AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger</AssemblyName>
-		<Authors>xie.guigang@live.com</Authors>
-		<Company>sciBASIC.NET</Company>
+		<Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+		<Company>SMRUCC genomics institute</Company>
 		<Version>5.0.1.2389</Version>
 
 		<AssemblyVersion>5.33.*</AssemblyVersion>
 		<Deterministic>false</Deterministic>
 
-		<Copyright>GPL3</Copyright>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageProjectUrl>http://sciBASIC.NET</PackageProjectUrl>
+		<Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+		<PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
 		<PackageIcon>logo.png</PackageIcon>
-		<RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
+		<RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
 		<Platforms>AnyCPU;x64</Platforms>
 		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;CellaLAB-Desktop;nuget_release</Configurations>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Description>The core runtime module of sciBASIC# scientific computing project.</Description>
+		<Description>Debugging and visualization toolkit for the GCModeller cellular dynamics engine. Renders mass and reaction flux networks as graph models and generates per-region HTML model summary reports for inspecting a loaded virtual cell.</Description>
 		<PackageIconUrl />
 		<UseApplicationFramework>True</UseApplicationFramework>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>GCModeller Cellular Dynamics Debugger</Title>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;debugging;network-visualization;simulation</PackageTags>
+    <PackageReleaseNotes>Added the dynamics debugger with flux network visualization and model summary report generation.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -514,7 +518,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-				<None Include="..\..\..\..\images\logo.png">
+				<None Include="..\..\..\..\assets\logo.png">
 		  <Pack>True</Pack>
 		  <PackagePath></PackagePath>
 		</None>

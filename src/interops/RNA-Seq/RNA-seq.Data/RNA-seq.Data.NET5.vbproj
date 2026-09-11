@@ -8,12 +8,22 @@
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release;CellaLAB-Desktop;nuget_release</Configurations>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>RNA-seq and Next-Generation Sequencing Data Model</Title>
+    <Description>Data model and analysis toolkit for RNA-seq and NGS data, parsing FASTQ, SAM and BAM formats and supporting de Bruijn and overlap graph assembly. Provides read simulation, feature counting and gene expression quantification (TPM) utilities.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;rna-seq;fastq;sam-bam;genome-assembly;gene-expression</PackageTags>
+    <PackageReleaseNotes>Provides sequencing data parsing, assembly graph models and gene expression quantification for RNA-seq workflows.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -126,7 +136,7 @@
     <Compile Remove="Test\**" />
     <EmbeddedResource Remove="Test\**" />
     <None Remove="Test\**" />
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

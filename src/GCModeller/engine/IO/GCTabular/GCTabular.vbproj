@@ -12,6 +12,18 @@
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <Title>GCModeller GCTabular Model Format</Title>
+    <Description>The tabular CSV and Excel model file format and compiler for GCModeller virtual cell models. Builds cell system data models from BioCyc, KEGG and STRING sources and exports kinetics, annotation and interaction data as editable tables.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;tabular-data;file-format;model-compiler</PackageTags>
+    <PackageReleaseNotes>Delivered the GCTabular model format and compiler that emits editable CSV cell system model data.</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -336,75 +348,201 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
-      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
+      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Network.GraphTheory</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\Network.IO.Extensions.vbproj">
-      <Project>{78cb32e6-2904-41e7-acca-f1e2757bfa8e}</Project>
+      <Project>{78cb32e6-2904-41e7-acca-f1e2757bfa8e}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Network.IO.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\application.vnd.openxmlformats-officedocument.spreadsheetml.sheet.vbproj">
-      <Project>{e695d793-c970-422b-ba74-703ee43194fc}</Project>
+      <Project>{e695d793-c970-422b-ba74-703ee43194fc}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>application.vnd.openxmlformats-officedocument.spreadsheetml.sheet</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
-      <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
+      <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
-      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\data\STRING\STRING-db.vbproj">
-      <Project>{03565bd9-54dc-4e8f-a0e7-7d3ef10ee8d7}</Project>
+      <Project>{03565bd9-54dc-4e8f-a0e7-7d3ef10ee8d7}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>STRING-db</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\models\Networks\STRING\STRING.vbproj">
-      <Project>{d62f02e0-1b52-4837-af15-96c70d17d424}</Project>
+      <Project>{d62f02e0-1b52-4837-af15-96c70d17d424}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>STRING</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\models\SBML\SBML\SBML.vbproj">
-      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
+      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>SBML</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\interops\CARMEN\CARMEN.vbproj">
-      <Project>{5af62b58-443a-419e-90fe-0e8dafa71a51}</Project>
+      <Project>{5af62b58-443a-419e-90fe-0e8dafa71a51}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>CARMEN</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
-      <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
+      <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
-      <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
+      <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Toolkits.RNA-Seq</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\data\ExternalDBSource\DatabaseServices.vbproj">
-      <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
+      <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>DatabaseServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.vbproj">
-      <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}</Project>
+      <Project>{73d186dc-0557-4ed0-9ec7-428240e04517}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>GCModeller.Framework.Kernel_Driver</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Model\Model.vbproj">
-      <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
+      <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\GCMarkupLanguage\GCMarkupLanguage.vbproj">
-      <Project>{1ee7910d-9171-426f-b874-b935e633c419}</Project>
+      <Project>{1ee7910d-9171-426f-b874-b935e633c419}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>GCMarkupLanguage</Name>
     </ProjectReference>
   </ItemGroup>
@@ -418,4 +556,11 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

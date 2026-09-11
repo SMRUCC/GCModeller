@@ -15,6 +15,15 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>GCModeller Biological Database Repository (GenBank, KEGG, UniProt)</Title>
+    <Description>A bioinformatics data repository layer that indexes, caches and queries major biological reference databases. It provides readers and writers for NCBI GenBank/assembly summary, KEGG orthology, compound, reaction and pathway data, UniProt annotations, and SABIO-RK/Rhea reaction kinetics.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <PackageTags>gcmodeller;bioinformatics;genomics;kegg;genbank;uniprot;database</PackageTags>
+    <PackageReleaseNotes>Adds a unified repository layer for indexing and querying GenBank, KEGG, UniProt and reaction-kinetics reference databases.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -128,7 +137,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\images\logo.png">
+    <None Include="..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

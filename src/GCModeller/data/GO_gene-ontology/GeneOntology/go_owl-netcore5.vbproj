@@ -8,7 +8,6 @@
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit_win32;nuget_release</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Company>SMRUCC genomics institute</Company>
     <Product>GCModeller</Product>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
@@ -16,6 +15,15 @@
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>Gene Ontology OBO/OWL reader and DAG analysis toolkit</Title>
+    <Description>Reads Gene Ontology data in OBO, OWL and GAF formats and exposes GO terms as an in-memory directed acyclic graph. Supports ancestor/descendant queries, term propagation, GO term counting and enrichment statistics.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <PackageTags>gcmodeller;bioinformatics;genomics;gene-ontology;dag;annotation</PackageTags>
+    <PackageReleaseNotes>Provides OBO/OWL/GAF parsing with a memoized GO DAG for ancestor, descendant and enrichment analysis.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -110,7 +118,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

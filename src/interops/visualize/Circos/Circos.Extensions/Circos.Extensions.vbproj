@@ -12,6 +12,18 @@
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <Title>Circos Genome Visualization Data Extensions</Title>
+    <Description>Extension APIs that translate biological analysis results into Circos genome circle data. Builds karyotype and track data from BLAST alignment maps, virtual footprints, regulons and phenotype regulations, and provides delta-difference plots and annotation legends.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;circos;genome-visualization;blast;regulon</PackageTags>
+    <PackageReleaseNotes>Adds data-generation extensions that turn BLAST, virtual footprint and regulon results into Circos plot tracks.</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -290,67 +302,179 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
-      <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
+      <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>VirtualFootprint</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.InteractionModel\Bio.InteractionModel.vbproj">
-      <Project>{DF6469FA-36AC-4959-812F-8EBC54FAF7F3}</Project>
+      <Project>{DF6469FA-36AC-4959-812F-8EBC54FAF7F3}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Bio.InteractionModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\visualize\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
-      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
+      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
-      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
+      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>math-core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\Plots.vbproj">
-      <Project>{17f8e821-0a01-4975-9caa-ac95251226d5}</Project>
+      <Project>{17f8e821-0a01-4975-9caa-ac95251226d5}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Plots</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
-      <Project>{85e71b4b-9276-4ec8-aadc-c849205f1ea8}</Project>
+      <Project>{85e71b4b-9276-4ec8-aadc-c849205f1ea8}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Microsoft.VisualBasic.Imaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
-      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
+      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Network.GraphTheory</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
-      <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
+      <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>mime-htmls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
-      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.vbproj">
-      <Project>{E54C3DC8-66A0-4617-AFF8-D89457569723}</Project>
+      <Project>{E54C3DC8-66A0-4617-AFF8-D89457569723}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>DNA_Comparative</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\data\RegulonDatabase\RegulonDatabase.vbproj">
-      <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
+      <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\meme_suite\MEME\MEME.vbproj">
-      <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
+      <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>MEME</Name>
     </ProjectReference>
     <ProjectReference Include="..\Circos\Circos.vbproj">
-      <Project>{5bf44c97-b7a0-47d7-9622-2f2c0c4f31a9}</Project>
+      <Project>{5bf44c97-b7a0-47d7-9622-2f2c0c4f31a9}
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Circos</Name>
     </ProjectReference>
   </ItemGroup>
@@ -363,4 +487,11 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

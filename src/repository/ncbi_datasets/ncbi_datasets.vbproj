@@ -13,6 +13,18 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>NCBI Datasets REST API Client (OpenAPI 3.0)</Title>
+    <Description>A strongly typed asynchronous .NET client for the NCBI Datasets v2 REST API, generated from its OpenAPI 3.0 specification. It retrieves genome assemblies, genes, organelle metadata, download summaries and sequence reports.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;ncbi;rest-api;openapi</PackageTags>
+    <PackageReleaseNotes>Introduces an OpenAPI-derived asynchronous client for querying genomes, genes and metadata from the NCBI Datasets v2 API.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
@@ -29,4 +41,11 @@
     <ProjectReference Include="..\..\runtime\sciBASIC#\mime\text%yaml\text.yaml.vbproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

@@ -4,28 +4,32 @@
 		<RootNamespace>SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader</RootNamespace>
     <TargetFrameworks>net10.0</TargetFrameworks>
 		<AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader</AssemblyName>
-		<Authors>xie.guigang@live.com</Authors>
-		<Company>sciBASIC.NET</Company>
+		<Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+		<Company>SMRUCC genomics institute</Company>
 		<Version>5.0.1.2389</Version>
 
 		<Deterministic>false</Deterministic>
 
-		<Copyright>GPL3</Copyright>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageProjectUrl>http://sciBASIC.NET</PackageProjectUrl>
+		<Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+		<PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
 		<PackageIcon>logo.png</PackageIcon>
-		<RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
+		<RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
 		<Platforms>AnyCPU;x64</Platforms>
 		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;gcmodeller_desktop;CellaLAB-Desktop;nuget_release</Configurations>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Description>The core runtime module of sciBASIC# scientific computing project.</Description>
+		<Description>Loads a virtual cell component model into the GCModeller cellular dynamics engine. Converts genotype, phenotype and regulation data into a mass table and reaction channels, and drives the flux-based simulation kernel with knockout, culture medium and gene copy-number controls.</Description>
 		<PackageIconUrl />
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<UseApplicationFramework>True</UseApplicationFramework>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>GCModeller Virtual Cell Bootstrap Loader</Title>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;systems-biology;virtual-cell;simulation</PackageTags>
+    <PackageReleaseNotes>Added the virtual cell model bootstrap loader that builds the mass and flux network and runs the cellular dynamics engine.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -342,7 +346,7 @@
 
 	<ItemGroup>
 		
-		<None Include="..\..\..\..\images\logo.png">
+		<None Include="..\..\..\..\assets\logo.png">
 		  <Pack>True</Pack>
 		  <PackagePath></PackagePath>
 		</None>

@@ -9,17 +9,27 @@
     <OptionStrict>Off</OptionStrict>
     <OptionExplicit>On</OptionExplicit>
     <OptionInfer>On</OptionInfer>
-    <Description>Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)</Description>
+    <Description>A VB.NET implementation of the Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm) gene-finding tool. It combines ORF finding, coding-region scoring, RBS detection, start-codon and upstream models with unsupervised model training and dynamic-programming gene selection, writing GFF3, nucleotide/protein FASTA and score tables.</Description>
     <Version>1.0.0</Version>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyTitle>Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)</AssemblyTitle>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>Prodigal</Title>
+    <Title>Prodigal Prokaryotic Gene Prediction (VB.NET)</Title>
     <IncludeSymbols>True</IncludeSymbols>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Configurations>Debug;Release;Rsharp_app_release;nuget_release</Configurations>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;gene-prediction;prokaryote;metagenomics</PackageTags>
+    <PackageReleaseNotes>Implements the Prodigal prokaryotic gene-finding algorithm with unsupervised training and dynamic-programming gene selection.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
@@ -32,4 +42,11 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

@@ -7,25 +7,26 @@
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;Desktop;MEMI-Desktop;PlantMAT;nuget_release;CellaLAB-Desktop</Configurations>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>Assembly file I/O stream for the common biological database and common biological data models</Title>
-    <Description>Bio.Assembly: assembly file i/o stream for the common biological database and the common biological data models. This is the core library for the genome annotation in GCModeller.</Description>
+    <Title>GCModeller Bio.Assembly Core: Biological Data Models &amp; I/O</Title>
+    <Description>Assembly file I/O stream for common biological databases and shared biological data models. It is the foundational core library for genome annotation in GCModeller, providing the data structures and readers/writers on which the annotation and analysis modules are built.</Description>
     <Product>GCModeller</Product>
     <Company>SMRUCC genomics institute</Company>
-    <Authors>SMRUCC genomics</Authors>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
     <Version>10.5.3.8911</Version>
-    <Copyright>Copyright © SMRUCC genomics 2023</Copyright>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
     <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>gcmodeller;bioinformatics;genomics</PackageTags>
+    <PackageTags>gcmodeller;bioinformatics;genomics;file-io;data-models;core-library</PackageTags>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <UseApplicationFramework>True</UseApplicationFramework>
     <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageReleaseNotes>Provides the core biological data models and assembly file I/O streams used by GCModeller genome annotation.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -1493,7 +1494,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

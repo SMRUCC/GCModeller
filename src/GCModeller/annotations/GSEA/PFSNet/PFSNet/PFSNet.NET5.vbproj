@@ -13,6 +13,17 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>GCModeller PFS Network (PfsNET) Algorithm</Title>
+    <Description>Implements the PfsNET algorithm for large-scale network computation, detecting significant and consistent cellular subnetworks shared between two phenotypes or mutations. It computes fuzzy weights, masks a gene-gene interaction graph, scores subnetworks and evaluates significance via permutation tests.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;network-analysis;subnetwork;gene-interaction</PackageTags>
+    <PackageReleaseNotes>Implements the PfsNET algorithm to find significant and consistent gene subnetworks between two phenotypes or mutations.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -48,7 +59,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

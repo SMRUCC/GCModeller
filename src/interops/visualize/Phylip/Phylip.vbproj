@@ -12,6 +12,18 @@
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <Title>PHYLIP Phylogenetic Analysis and Tree Toolkit</Title>
+    <Description>Interop toolkit for the PHYLIP phylogenetics programs, invoking tools such as gendist to build distance matrices. Parses and manipulates phylogenetic trees in Newick, Nexus, NHX and phyloXML formats, supports rerooting and provides tree drawing and EvolView export.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;phylogenetics;phylip;phylogenetic-tree;newick;tree-visualization</PackageTags>
+    <PackageReleaseNotes>Provides PHYLIP program invocation plus phylogenetic tree parsing, manipulation and drawing capabilities.</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -306,27 +318,69 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
+      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>47_dotnet_ms-vb_data.framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
-      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
+      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>NCBI.Extensions.localblast</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\CRISPR\CRT\CRISPR.vbproj">
-      <Project>{8da3bd48-13da-4f7e-b9d3-b258eae76363}</Project>
+      <Project>{8da3bd48-13da-4f7e-b9d3-b258eae76363}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>CRISPR</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\localblast\venn\localblast.venn.vbproj">
-      <Project>{2e8a689a-3bec-4504-9d02-80082c732653}</Project>
+      <Project>{2e8a689a-3bec-4504-9d02-80082c732653}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>localblast.venn</Name>
     </ProjectReference>
   </ItemGroup>
@@ -339,4 +393,11 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

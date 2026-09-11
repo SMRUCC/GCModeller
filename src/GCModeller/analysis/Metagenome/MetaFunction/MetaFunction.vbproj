@@ -14,6 +14,17 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>Metagenome Function and Phenotype Annotation</Title>
+    <Description>Metagenomics functional annotation library that infers community function and phenotypes from 16S/OTU data and reference databases. It predicts KEGG KO metagenomes via PICRUSt, annotates antibiotic resistance (CARD/ARO) and virulence factors (VFDB), and predicts microbial traits through Traitar-style SVM phenotype models.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;metagenome;picrust;antibiotic-resistance;phenotype</PackageTags>
+    <PackageReleaseNotes>Added PICRUSt metagenome prediction together with CARD/VFDB resistance and virulence annotation and Traitar phenotype classifiers.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -51,7 +62,7 @@
     <Compile Remove="test\**" />
     <EmbeddedResource Remove="test\**" />
     <None Remove="test\**" />
-    <None Include="..\..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

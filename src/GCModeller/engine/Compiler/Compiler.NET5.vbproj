@@ -8,13 +8,23 @@
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release;nuget_release</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>GCModeller Virtual Cell Model Compiler</Title>
+    <Description>Compiles genome, metabolic and transcriptional regulation data into GCModeller virtual cell model files. Includes BioCyc and KEGG model compilers, an assembly-script DSL for building vcell assembly packages, and a kinetics modeller for reaction parameters.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;model-compiler;biocyc;kegg</PackageTags>
+    <PackageReleaseNotes>Delivered the virtual cell model compiler that assembles genome, metabolism and regulation data into model and assembly files.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -113,7 +123,7 @@
     <Compile Remove="Test\**" />
     <EmbeddedResource Remove="Test\**" />
     <None Remove="Test\**" />
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

@@ -12,10 +12,20 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
     <AssemblyTitle>Virtual Cell Component Model Repository</AssemblyTitle>
-    <Title>Virtual Cell Component Model Repository</Title>
+    <Title>GCModeller Virtual Cell Component Model</Title>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Description>Common biological component model types shared across GCModeller. It defines the cellular module together with genotype, phenotype, regulation, molecule and process descriptions used as a unified data representation for simulation and analysis.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;data-model;virtual-cell;systems-biology</PackageTags>
+    <PackageReleaseNotes>Provided the shared virtual cell component model types for genotypes, phenotypes and regulation networks.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -533,7 +543,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

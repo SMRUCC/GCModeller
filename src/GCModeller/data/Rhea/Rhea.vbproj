@@ -16,6 +16,15 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>Rhea biochemical reaction database RDF reader</Title>
+    <Description>Parses the Rhea reaction database RDF distribution into reaction and compound models, resolving directional and bidirectional reactions together with their EC numbers. Also reads BRENDA enzyme JSON data.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <PackageTags>gcmodeller;bioinformatics;genomics;rhea;reaction;rdf;enzyme</PackageTags>
+    <PackageReleaseNotes>Parses Rhea RDF reactions and compounds with EC numbers and BRENDA enzyme JSON data.</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
     <OutputPath>../../../../.nuget</OutputPath>
@@ -33,7 +42,7 @@
     <None Remove="test\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

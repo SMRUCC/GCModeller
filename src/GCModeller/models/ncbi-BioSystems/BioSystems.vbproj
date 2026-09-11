@@ -7,11 +7,21 @@
     <AssemblyName>SMRUCC.genomics.Model.BioSystems</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Configurations>Debug;Release;Rsharp_app_release;gcmodeller_desktop;nuget_release</Configurations>
     <PackageIcon>logo.png</PackageIcon>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>NCBI BioSystems Model Project</Title>
+    <Description>Model library for assembling NCBI BioSystems-style genome annotation projects. It converts GenBank records into protein annotation sets and packages proteins, FASTA sequences and Rhea-based metabolic enzyme networks into a portable HDSPack project archive that can be read back for downstream annotation, pathway and network analysis.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;ncbi-biosystems;genbank;annotation;hdspack</PackageTags>
+    <PackageReleaseNotes>Builds portable NCBI BioSystems genome annotation projects from GenBank, including protein annotations and Rhea metabolic enzyme networks.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
@@ -19,7 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

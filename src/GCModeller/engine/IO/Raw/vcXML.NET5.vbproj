@@ -4,28 +4,32 @@
 		<RootNamespace>SMRUCC.genomics.GCModeller.ModellingEngine.IO</RootNamespace>
     <TargetFrameworks>net10.0</TargetFrameworks>
 		<AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw</AssemblyName>
-		<Authors>xie.guigang@live.com</Authors>
-		<Company>sciBASIC.NET</Company>
+		<Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+		<Company>SMRUCC genomics institute</Company>
 		<Version>5.0.1.2389</Version>
 
 		<Deterministic>false</Deterministic>
 
-		<Copyright>GPL3</Copyright>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageProjectUrl>http://sciBASIC.NET</PackageProjectUrl>
+		<Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+		<PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
 		<PackageIcon>logo.png</PackageIcon>
-		<RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
+		<RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
 		<Platforms>AnyCPU;x64</Platforms>
 		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;gcmodeller_desktop;CellaLAB-Desktop;nuget_release</Configurations>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Description>GCModeller Virtual Cell Data I/O</Description>
+		<Description>Raw data input and output for the GCModeller virtual cell simulation. Reads and writes the vcXML mass-profile frame format, the HDS GCModeller raw data store and VCell matrix formats for simulation results.</Description>
 		<PackageIconUrl />
 		<UseApplicationFramework>True</UseApplicationFramework>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>GCModeller Virtual Cell Raw Data I/O</Title>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;data-io;binary-format;simulation</PackageTags>
+    <PackageReleaseNotes>Released the vcXML, HDS raw and VCell matrix readers and writers for virtual cell simulation data.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -501,7 +505,7 @@
 
 	<ItemGroup>
 		
-		<None Include="..\..\..\..\..\images\logo.png">
+		<None Include="..\..\..\..\..\assets\logo.png">
 		  <Pack>True</Pack>
 		  <PackagePath></PackagePath>
 		</None>

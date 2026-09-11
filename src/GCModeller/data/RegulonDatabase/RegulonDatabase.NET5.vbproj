@@ -14,6 +14,17 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>Prokaryotic transcriptional regulon database readers</Title>
+    <Description>Provides readers and models for prokaryotic transcriptional regulation databases including RegPrecise, RegulonDB and Regtransbase. Supports regulog/regulon retrieval, transcription factor family statistics and regulatory binding site export.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;regulon;transcription-factor;database</PackageTags>
+    <PackageReleaseNotes>Adds RegPrecise, RegulonDB and Regtransbase readers for bacterial regulons and regulatory sites.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -121,7 +132,7 @@
     <None Remove="RegulonDB\**" />
     <None Remove="Test\**" />
     <Compile Remove="Regtransbase\Regtransbase.vb" />
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

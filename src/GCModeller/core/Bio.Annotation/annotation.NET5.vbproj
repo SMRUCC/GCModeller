@@ -15,6 +15,15 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>GCModeller Genome Annotation Data Models (GFF/PTF)</Title>
+    <Description>Genome annotation file-format library that provides parsers, writers and data models for GFF and PTF annotation files. It exposes feature/region models, annotation tables linking genes to GO, EC, KO, UniProt, Pfam and eggNOG identifiers, plus ID mapping utilities used across GCModeller.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <PackageTags>gcmodeller;bioinformatics;genomics;annotation;gff;ptf;file-formats</PackageTags>
+    <PackageReleaseNotes>Adds parsers and writers for GFF and PTF genome annotation files with feature models and gene annotation tables.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -137,7 +146,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

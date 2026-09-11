@@ -10,8 +10,8 @@
     <PackageIconUrl />
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>SABIO-RK kinetic-laws parameter database</Title>
-    <Description>SABIO-RK kinetic-laws parameter database</Description>
-    <Copyright>Copyright © SMRUCC/GCModeller 2023</Copyright>
+    <Description>Reads and models enzyme kinetic law parameters from the SABIO-RK database. Parses SBML documents with MathML kinetic laws and dumps kinetic parameters, enzyme and modifier data into tabular or SBML form.</Description>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Company>SMRUCC genomics institute</Company>
@@ -20,6 +20,12 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <PackageTags>gcmodeller;bioinformatics;genomics;sabio-rk;kinetics;sbml</PackageTags>
+    <PackageReleaseNotes>Provides SABIO-RK kinetic law models and SBML MathML kinetic law parsing.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -117,7 +123,7 @@
     <Compile Remove="Test\**" />
     <EmbeddedResource Remove="Test\**" />
     <None Remove="Test\**" />
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

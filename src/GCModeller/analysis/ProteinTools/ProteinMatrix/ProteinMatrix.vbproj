@@ -3,21 +3,29 @@
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Model.MotifGraph.ProteinStructure</RootNamespace>
     <TargetFrameworks>net10.0</TargetFrameworks>
-    <Title>Protein Matrix Embedding Generator</Title>
-    <Description>Generates the protein secondary structure information embedding matrix data for run the CNN learning.</Description>
+    <Title>Protein Embedding Matrix and Family Clustering</Title>
+    <Description>Protein sequence feature-engineering library that generates embedding matrices for machine learning and performs unsupervised protein family clustering. It provides sequence-graph-transform (sgt) and genome metabolic TF-IDF embeddings, and scalable clustering pipelines including k-mer/TF-IDF/SVD/kNN/Louvain and a Linclust-style greedy-cover clustering with CD-HIT export.</Description>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;nuget_release</Configurations>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <UseApplicationFramework>True</UseApplicationFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Copyright>GCModeller</Copyright>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <AssemblyName>SMRUCC.genomics.Model.MotifGraph.ProteinStructure</AssemblyName>
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;protein-embedding;sequence-graph-transform;protein-family-clustering;machine-learning</PackageTags>
+    <PackageReleaseNotes>Released protein embedding generation plus Linclust and k-mer/TF-IDF/Louvain protein family clustering pipelines.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">
@@ -133,7 +141,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

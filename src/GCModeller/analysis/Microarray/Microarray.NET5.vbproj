@@ -13,6 +13,17 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>Microarray and Multi-Omics Differential Analysis</Title>
+    <Description>Microarray and omics analysis toolbox for differential expression, correlation and multi-omics integration. It provides DEG/DEP design and t-test/log2 fold-change statistics with edgeR export, Pearson/Spearman/SparCC/CCLasso correlation, SEM and PLS-PM causal modeling, GSEA/KOBAS/DAVID enrichment and DIABLO/MOFA/IMMO multi-block methods.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;microarray;differential-expression;multi-omics;correlation</PackageTags>
+    <PackageReleaseNotes>Expanded the microarray toolbox with SEM/PLS-PM causal modeling, SparCC/CCLasso correlation and DIABLO/MOFA/IMMO multi-omics integration.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -144,7 +155,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

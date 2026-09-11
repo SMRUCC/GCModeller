@@ -12,7 +12,7 @@
     <Nullable>Disable</Nullable>
     <InvariantGlobalization>true</InvariantGlobalization>
     <Version>1.0.0</Version>
-    <Description>基于广义反应规则的代谢网络逆向路径合成搜索（类逆合成分析：反应中心匹配+原子映射+束搜索+多维评分，纯 BCL，JSON 输出）</Description>
+    <Description>Retrosynthesis-style search engine that designs candidate biosynthetic pathways for a target molecule over a metabolic network. It combines generalized reaction rules with reaction-center SMARTS matching, atom mapping, beam search and multi-dimensional scoring (thermodynamics, enzyme availability, path length), emitting pathway results as JSON.</Description>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyTitle>Metabolic Pathway Router</AssemblyTitle>
     <Configurations>Debug;Release;Rsharp_app_release;nuget_release</Configurations>
@@ -21,6 +21,17 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>Retrosynthetic Metabolic Pathway Router</Title>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;metabolic-pathway;retrosynthesis;smiles;pathway-design</PackageTags>
+    <PackageReleaseNotes>Released a pure BCL retrosynthetic pathway router with generalized reaction rules, atom-mapped beam search and JSON pathway scoring output.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -71,4 +82,11 @@
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

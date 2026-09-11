@@ -3,20 +3,27 @@
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Analysis.HTS.GSVA</RootNamespace>
     <TargetFrameworks>net10.0</TargetFrameworks>
-    <Description>Gene set variation analysis</Description>
-    <PackageReleaseNotes>Gene set variation analysis</PackageReleaseNotes>
-    <PackageTags>GSVA</PackageTags>
+    <Description>Gene set variation analysis library that computes per-sample gene set enrichment scores across an expression matrix. It estimates gene densities with Gaussian or Poisson kernels (or direct ECDFs) and derives GSVA scores via a KS-test based running-sum approach, with method support for GSVA, PLAGE, ssGSEA and zscore.</Description>
+    <PackageReleaseNotes>Implements GSVA per-sample gene set variation scoring with kernel ECDF estimation and KS-test based enrichment.</PackageReleaseNotes>
+    <PackageTags>gcmodeller;bioinformatics;genomics;gsva;gene-set;rna-seq</PackageTags>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;CellaLAB-Desktop;nuget_release</Configurations>
     <AssemblyName>SMRUCC.genomics.Analysis.HTS.GSVA</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>GCModeller Gene Set Variation Analysis (GSVA)</Title>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -71,7 +78,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

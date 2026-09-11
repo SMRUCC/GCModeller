@@ -12,6 +12,18 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>Parallel NCBI LocalBLAST Batch Task Helper</Title>
+    <Description>Batch and parallel execution helpers for the NCBI localblast+ toolkit, driving blastn/blastx/blastp across many query or subject genomes. Handles best-hit and bidirectional best-hit parsing and export, MyvaCOG classification, SBH tabular data and Venn data construction.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;blast;parallel-computing;best-hit;batch-processing</PackageTags>
+    <PackageReleaseNotes>Adds multithreaded batch BLAST orchestration and best-hit/bidirectional best-hit export utilities.</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
     <OutputPath>../../../../.nuget</OutputPath>
@@ -63,4 +75,11 @@
     <ProjectReference Include="..\LocalBLAST\localblast.NET5.vbproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

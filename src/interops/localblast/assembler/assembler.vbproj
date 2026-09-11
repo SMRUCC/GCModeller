@@ -12,6 +12,18 @@
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <Title>De Novo Sequence Assembler and Reads Simulator</Title>
+    <Description>De novo genome assembly for sequencing reads, implementing a greedy shortest-common-superstring algorithm with AVL clustering and bit-parallel pairwise alignment. Also provides a read and fragment simulator for generating benchmark FASTA data.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;genome-assembly;de-novo-assembly;shortest-common-superstring;sequencing-simulation</PackageTags>
+    <PackageReleaseNotes>Implements greedy de novo sequence assembly and read simulation utilities for constructing contigs from FASTA reads.</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -206,25 +218,67 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj">
-      <Project>{0c52579a-4ba0-615c-472c-c3149ebcbd67}</Project>
+      <Project>{0c52579a-4ba0-615c-472c-c3149ebcbd67}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>annotation.NET5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj">
-      <Project>{e6075059-b6e2-8fe8-0c2c-a7a202da0f4a}</Project>
+      <Project>{e6075059-b6e2-8fe8-0c2c-a7a202da0f4a}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>biocore-netcore5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.NET5.vbproj">
-      <Project>{f6a772da-032e-c99a-9847-432cb34cb381}</Project>
+      <Project>{f6a772da-032e-c99a-9847-432cb34cb381}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>DynamicProgramming.NET5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
-      <Project>{d6a933d3-a04d-0d7b-c14a-d8f9a9f8fa51}</Project>
+      <Project>{d6a933d3-a04d-0d7b-c14a-d8f9a9f8fa51}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\LocalBLAST\localblast.NET5.vbproj">
-      <Project>{ed963278-68be-a1c7-b989-5dd34ce51c01}</Project>
+      <Project>{ed963278-68be-a1c7-b989-5dd34ce51c01}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>localblast.NET5</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

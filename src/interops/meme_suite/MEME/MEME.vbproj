@@ -12,6 +12,18 @@
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <Title>MEME Suite Motif Discovery Interop and Analysis</Title>
+    <Description>Interop and analysis layer for the MEME suite of motif discovery tools, wrapping MEME, MAST and TomTom command-line programs. Includes motif scanning, virtual footprint prediction, sequence logo rendering, motif similarity comparison and promoter/regulon parsing workflows.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;motif-discovery;transcription-factor;regulon;meme-suite</PackageTags>
+    <PackageReleaseNotes>Provides motif discovery, scanning and virtual footprint analysis workflows around the MEME suite programs.</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -368,23 +380,58 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.netcoreapp.vbproj">
-      <Project>{c7a02fdd-0f2d-3a24-df19-0ae641adc7bb}</Project>
+      <Project>{c7a02fdd-0f2d-3a24-df19-0ae641adc7bb}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>DNA_Comparative.netcoreapp</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj">
-      <Project>{6b8662d6-6ede-599b-ab66-6c8ebd7d06bc}</Project>
+      <Project>{6b8662d6-6ede-599b-ab66-6c8ebd7d06bc}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>biocore-netcore5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj">
-      <Project>{325eeff3-7735-e2ed-de19-7a1485b1bd93}</Project>
+      <Project>{325eeff3-7735-e2ed-de19-7a1485b1bd93}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>dataframework-netcore5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
-      <Project>{6a751aa8-8b8b-80f6-943f-b08dad71cb70}</Project>
+      <Project>{6a751aa8-8b8b-80f6-943f-b08dad71cb70}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MEME.DocParser\MEME.DocParser.vbproj">
-      <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
+      <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
       <Name>MEME.DocParser</Name>
     </ProjectReference>
   </ItemGroup>
@@ -396,4 +443,11 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

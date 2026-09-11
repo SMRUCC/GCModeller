@@ -8,12 +8,22 @@
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;nuget_release;CellaLAB-Desktop</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>Metagenome OTU/ASV Diversity and Taxonomy Analysis</Title>
+    <Description>Metagenomics analysis library for 16S/18S OTU and ASV tables covering taxonomic profiling and community ecology statistics. It implements alpha/beta and zeta diversity, weighted and unweighted UniFrac, enterotype clustering, rank-abundance, core-microbiome detection and k-mer/Kraken2 taxonomic classification with GAST, Greengenes, Mothur and SILVA reference support.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;metagenome;otu-table;diversity;taxonomy</PackageTags>
+    <PackageReleaseNotes>Expanded metagenome analysis with zeta diversity, UniFrac, enterotype clustering, core-microbiome detection and Kraken2 k-mer taxonomy classification.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -303,7 +313,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

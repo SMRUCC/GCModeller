@@ -16,6 +16,15 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>HTS Expression Matrix Data Model and Normalization</Title>
+    <Description>High-throughput sequencing expression matrix library providing the Matrix and DataFrameRow data model for gene-by-sample expression tables. It offers TPM, edgeR TMM, DESeq2 and quantile normalization, limma/DESeq2 differential-expression tables, and binary matrix IO with cross-batch merging.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <PackageTags>gcmodeller;bioinformatics;genomics;expression-matrix;normalization;rna-seq;deg</PackageTags>
+    <PackageReleaseNotes>Added the HTS gene expression matrix model with TPM, edgeR TMM, DESeq2 and quantile normalization plus limma and DESeq2 differential expression table support.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -629,7 +638,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

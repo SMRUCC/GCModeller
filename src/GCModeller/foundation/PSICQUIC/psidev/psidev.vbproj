@@ -8,17 +8,23 @@
     <Configurations>Debug;Release;Rsharp_app_release;nuget_release</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Title>Open source community providing Tools, standard formats and ontologies for manipulating molecular interaction data</Title>
-    <Description>Open source community providing Tools, standard formats and ontologies for manipulating molecular interaction data</Description>
-    <PackageTags>psidev</PackageTags>
-    <PackageReleaseNotes>psidev</PackageReleaseNotes>
+    <Title>PSI-MI Molecular Interaction Data Formats</Title>
+    <Description>Implementations of the PSI-MI (Proteomics Standards Initiative Molecular Interactions) standard formats. It provides MIF 2.5 and 3.0 XML schemas and a MITAB tabular parser for molecular interaction data exchange.</Description>
+    <PackageTags>gcmodeller;bioinformatics;genomics;psi-mi;molecular-interaction;mitab</PackageTags>
+    <PackageReleaseNotes>Released the PSI-MI MIF XML and MITAB parsers for standardized molecular interaction data.</PackageReleaseNotes>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
@@ -26,7 +32,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

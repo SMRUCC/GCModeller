@@ -4,29 +4,33 @@
 		<RootNamespace>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage</RootNamespace>
     <TargetFrameworks>net10.0</TargetFrameworks>
 		<AssemblyName>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage</AssemblyName>
-		<Authors>xie.guigang@live.com</Authors>
-		<Company>sciBASIC.NET</Company>
+		<Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+		<Company>SMRUCC genomics institute</Company>
 		<Version>5.0.1.2389</Version>
 
 		<AssemblyVersion>5.33.1.25</AssemblyVersion>
 		<Deterministic>false</Deterministic>
 
-		<Copyright>GPL3</Copyright>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageProjectUrl>http://sciBASIC.NET</PackageProjectUrl>
+		<Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+		<PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
 		<PackageIcon>logo.png</PackageIcon>
-		<RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
+		<RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
 		<Platforms>AnyCPU;x64</Platforms>
 		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;CellaLAB-Desktop;nuget_release</Configurations>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Description>The core runtime module of sciBASIC# scientific computing project.</Description>
+		<Description>Data definitions and I/O for the GCModeller GCMarkupLanguage virtual cell XML model format. Describes taxonomy, genome, transcript regulation and metabolic network structures used to represent a complete virtual cell.</Description>
 		<PackageIconUrl />
 		<UseApplicationFramework>True</UseApplicationFramework>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>GCModeller GCMarkupLanguage Virtual Cell Model</Title>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;xml;file-format;virtual-cell</PackageTags>
+    <PackageReleaseNotes>Added the GCMarkupLanguage virtual cell XML model format and its assembly serialization support.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -644,7 +648,7 @@
 
 	<ItemGroup>
 	
-		<None Include="..\..\..\..\..\images\logo.png">
+		<None Include="..\..\..\..\..\assets\logo.png">
 		  <Pack>True</Pack>
 		  <PackagePath></PackagePath>
 		</None>

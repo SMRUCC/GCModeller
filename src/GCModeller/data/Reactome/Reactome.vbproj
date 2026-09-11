@@ -4,7 +4,7 @@
 		<RootNamespace>SMRUCC.genomics.Data.Reactome</RootNamespace>
     <TargetFrameworks>net10.0</TargetFrameworks>
 		<AssemblyName>SMRUCC.genomics.Data.Reactome</AssemblyName>
-		<Authors>xie.guigang@live.com</Authors>
+		<Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
 		
 		<Deterministic>false</Deterministic>
 	
@@ -19,12 +19,20 @@
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <UseApplicationFramework>True</UseApplicationFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <PackageProjectUrl>https://gcmodeller.org</PackageProjectUrl>
-    <PackageLicenseExpression>gpl3</PackageLicenseExpression>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>    
+    <Title>Reactome pathway database model and API</Title>
+    <Description>Provides an object model for Reactome pathway data parsed from OWL/RDF documents, including pathways, reactions, metabolites and bio-systems. Includes pathway hierarchy utilities and a RESTful web API client.</Description>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;reactome;pathway;owl;rdf</PackageTags>
+    <PackageReleaseNotes>Loads Reactome OWL/RDF pathway data into object models with hierarchy and REST API support.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
@@ -572,7 +580,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="..\..\..\..\images\logo.png">
+	  <None Include="..\..\..\..\assets\logo.png">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>

@@ -13,6 +13,18 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>MetaEuk Eukaryotic Gene Prediction (VB.NET)</Title>
+    <Description>A VB.NET implementation of the MetaEuk eukaryotic gene prediction tool based on homology-driven exon chain optimization. Its pipeline performs six-frame translation, Smith-Waterman homology search against reference proteins, target-contig-strand grouping, dynamic-programming optimal exon selection, redundancy removal and same-strand conflict resolution, exporting protein FASTA, GFF3 and TSV.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;gene-prediction;eukaryote;homology</PackageTags>
+    <PackageReleaseNotes>Implements the MetaEuk homology-based eukaryotic gene prediction pipeline with dynamic-programming exon chain optimization.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
@@ -25,4 +37,11 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

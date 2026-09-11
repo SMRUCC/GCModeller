@@ -13,6 +13,18 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>De Novo Motif Finder (Gibbs, EM and MEME)</Title>
+    <Description>De novo motif discovery library that finds conserved motifs from FASTA sequence sets using Gibbs sampling, EM and MEME-style models. Supports seed scanning, consensus building and PWM export.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageTags>gcmodeller;bioinformatics;genomics;motif-discovery;gibbs-sampling;pwm;meme</PackageTags>
+    <PackageReleaseNotes>Adds Gibbs sampling and EM-based de novo motif discovery with PWM consensus generation from sequence sets.</PackageReleaseNotes>
   </PropertyGroup>
 
 
@@ -69,4 +81,11 @@
     <ProjectReference Include="..\SequencePatterns\SequencePatterns.NET5.vbproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

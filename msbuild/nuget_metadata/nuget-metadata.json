@@ -1,651 +1,135 @@
 {
-    "generatedFor":  "GCModeller nuget metadata",
-    "count":  129,
-    "projects":  [
-                     {
-                         "path":  "src/GCModeller/analysis/HTS_matrix/HTS_matrix-netcore5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.DataFrame",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/MetabolicRouter/RetroPath.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.RetroPath",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/Metagenome/MetaFunction/MetaFunction.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.Metagenome.MetaFunction",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/Metagenome/Metagenome/Metagenome.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.Metagenome",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/Metagenome/microbiomeGWAS/microbiomeGWAS.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.Metagenome.microbiomeGWAS",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/Microarray/Microarray.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.Microarray",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/Motifs/CRISPR/CRT/CRISPR.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.CRISPR.CRT",
-                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/Motifs/CRISPR/sgRNAcas/sgRNAcas.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas",
-                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/Motifs/MotifGraph/MotifGraph.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.MotifGraph",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/Motifs/PrimerDesigner/PrimerDesigner.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.PrimerDesigner",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/Motifs/VirtualFootprint/VirtualFootprint.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.Network.VirtualFootprint",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/OperonMapper/OperonMapper.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.OperonMapper",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/ProteinTools/Interactions.BioGRID/Interactions.BioGRID.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.ProteinTools.Interactions.BioGRID",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/ProteinTools/Protease/Protease.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.SequenceModel.Protease",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/ProteinTools/ProteinMatrix/ProteinMatrix.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.MotifGraph.ProteinStructure",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/ProteinTools/ProteinTools.Interactions/ProteinTools.Interactions.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.ProteinTools.Interactions",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/RNA-Seq/RNAExpression/RNAExpression.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/RNA-Seq/Toolkits.RNA-Seq.RTools/Toolkits.RNA-Seq.RTools.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.RNA_Seq.RTools",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/RNA-Seq/Toolkits.RNA-Seq/Toolkits.RNA-Seq.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.RNA_Seq",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/RNA-Seq/TSSAR/TSSAR.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.RNA_Seq.TSSAR",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/RNA-Seq/TSSsTools/TSSsTools.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/RNA-Seq/WGCNA/WGCNA.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/ClusterMatrix/ClusterMatrix.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.ClusterMatrix",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/ClusterMatrix/SeqFeature.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.SeqFeature",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/DNA_Comparative/DNA_Comparative.netcoreapp.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/gwANI/gwANI.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.gwANI",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/MotifFinder/MotifFinder.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/MotifScanner/MotifScanner.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/Pfam-HMM/PfamHMMScan/HMMER3.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.HMMER",
-                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/SequenceAlignment/SequenceAlignment.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceAlignment",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/SequenceLogo/SequenceLogo.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract/SequencePatterns.Abstract.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/SequencePatterns/SequencePatterns.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/analysis/SequenceToolkit/SNP/SNP.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SNP",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/Bifrost/MetaEuk/MetaEuk.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Annotation.MetaEuk",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/Bifrost/Prodigal/Prodigal.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Annotation.Prodigal",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/GO/GOAnalysis.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.GO",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/GPR/GPR.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.CompilerServices.GPRLink",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/GSEA/FELLA/FELLA.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.FELLA",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/GSEA/FisherCore/Fisher.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.GSEA",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions/GSEA.KB.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/GSEA/GSEA/gsea-netcore5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.GSEA",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/GSEA/GSVA/GSVA.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.GSVA",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/GSEA/PFSNet/PFSNet/PFSNet.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.PFSNet",
-                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/GSEA/PFSNet/PFSNet_visual/PFSNet_visual.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.PFSNet",
-                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/KEGG/KEGGAnalysis.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.KEGG",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/P-NET/P-NET/P-NET.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.P_NET",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/Proteomics/Proteomics.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.Proteomics",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/annotations/WGCNA/WGCNA/WGCNA.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.WGCNA",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/core/Bio.Annotation/annotation.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Annotation",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/core/Bio.Assembly/biocore-netcore5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/core/Bio.InteractionModel/InteractionModel.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.InteractionModel",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/BASys/BASys.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.BASys",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/ExternalDBSource/DatabaseServices.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/GO_gene-ontology/GeneOntology/go_owl-netcore5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.GeneOntology",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/GO_gene-ontology/GO_Annotation/GO_Annotation.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.GeneOntology.Annotation",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/GO_gene-ontology/obographs/obographs/obographs.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.GeneOntology.obographs",
-                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/KEGG/jp_kegg2.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.KEGG",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/RCSB PDB/RCSB PDB.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.RCSB.PDB",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/Reactome/Reactome.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.Reactome",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/RegulonDatabase/RegulonDatabase.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/Rhea/Rhea.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.Rhea",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/SABIO-RK/SABIO-RK.NET.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.SABIORK",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/STRING/STRING-db.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.STRING",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/data/Xfam/Pfam/Pfam.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.Xfam.Pfam",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/engine/BootstrapLoader/BootstrapLoader.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/engine/Compiler/Compiler.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Compiler",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/engine/CompilerServices/CompilerServices.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.CompilerServices",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/engine/Dynamics.Debugger/vcellDebugger.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/engine/Dynamics/Dynamics.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/engine/GCModeller.Framework.Kernel_Driver/GCModeller.Framework.Kernel_Driver.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Framework.Kernel_Driver",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/engine/GCModeller/GCModeller.ModellingEngine.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/engine/IO/GCMarkupLanguage/GCMarkupXML.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/engine/IO/GCTabular/GCTabular.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/engine/IO/Raw/vcXML.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.IO",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/engine/Model/Model.Core.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.Model",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/foundation/OBO_Foundry/obo_foundry-netcore5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.foundation.OBO_Foundry",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/foundation/PSICQUIC/psidev/psidev.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.foundation.psidev",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/BioCyc/BioCyc.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.BioCyc",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/BIOM/BIOM/BIOM.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.foundation.BIOM",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/GPML/PathVisio/GPML.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.PathVisio",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/ncbi-BioSystems/BioSystems.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.BioSystems",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/Networks/KEGG/KEGGNetwork.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.Network.KEGG",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/Networks/KEGGGraphVisualizer/KEGGGraphVisualizer.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/Networks/Microbiome/Microbiome.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.Network.Microbiome",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/Networks/Microbiome/Microbiome.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.Network.Microbiome",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/Networks/Network.BLAST/Network.BLAST.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.Network.BLAST",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/Networks/Network.Regulons/Network.Regulons.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.Network.Regulons",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/Networks/STRING/STRING.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.Network.STRING",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/RouterAdapter/RouterAdapter.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.Metabolic.RouterAdapter",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/SBML/Biopax/biopax-netcore5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.Biopax",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/models/SBML/SBML/sbml-netcore5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Model.SBML",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/sub-system/BNLearn/BNLearn.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.BNLearn",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/sub-system/CellPhenotype/CellPhenotype.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.CellPhenotype",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/sub-system/FBA/FBA.Core/FBA.Core.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.FBA",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/sub-system/GEARS/GEARS.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.GEARS",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/sub-system/Metaboliq/Metaboliq.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.Metaboliq",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/sub-system/PLAS.NET/SSystem/SSystem.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.SSystem",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/visualize/ChromosomeMap/ChromosomeMap.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Visualize.ChromosomeMap",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/visualize/ChromosomeMap/Data/Data.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Visualize.ChromosomeMap.Data",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/visualize/DataVisualizationExtensions/datavisual-netcore5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Visualize",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/visualize/DataVisualizationTools/DataVisualizationTools.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Visualize",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/GCModeller/visualize/SyntenyVisual/SyntenyVisual.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Visualize.SyntenyVisualize",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/localblast/assembler/assembler.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Interops.NCBI.Localblast.Assembler",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/localblast/LocalBLAST/localblast.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Interops.NCBI.Extensions",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/localblast/PanGenome/PanGenome.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Analysis.PanGenome",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/localblast/ParallelTask/ParallelTask.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Interops.NCBI.ParallelTask",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/meme_suite/MEME/MEME.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Interops.NBCR.MEME_Suite",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/meme_suite/meme_data/meme_data.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Interops.NBCR.MEME_Suite",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/meme_suite/TmoD/TmoD.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Interops.NBCR.MEME_Suite.TMoD",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/RNA-Seq/RNA-seq.Data/RNA-seq.Data.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.SequenceModel",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/visualize/Circos/Circos.Extensions/Circos.Extensions.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Visualize.Circos",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/visualize/Circos/Circos/Circos.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Visualize.Circos",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/visualize/Cytoscape/Cytoscape.App/Cytoscape.App.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Visualize.Cytoscape",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/visualize/Cytoscape/Cytoscape.Automation/Cytoscape.Automation.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Visualize.Cytoscape.Automation",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/visualize/Cytoscape/Cytoscape/Cytoscape.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Visualize.Cytoscape",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/interops/visualize/Phylip/Phylip.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Interops.Visualize.Phylip",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/repository/Bio.Repository/repository.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data",
-                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/repository/HMP_client/HMP_client.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.Repository.NIH.HMP",
-                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/repository/HMP_client/HMP_client.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.Repository.NIH.HMP",
-                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/repository/Model_Repository/Model_Repository.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.Model_Repository",
-                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/repository/Model_Repository/RQL/RQL.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.Model_Repository.RQL",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/repository/ncbi_datasets/ncbi_datasets.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.NCBI",
-                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/repository/nt/nt_repo.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.Data.Repository.NCBI",
-                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/workbench/modules/ExperimentDesigner/designer-netcore5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/workbench/modules/keggReport/keggReport.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.KEGGReport",
-                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/workbench/modules/Knowledge_base/Knowledge_base/kb.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.Knowledge_base",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/workbench/modules/Knowledge_base/ncbi_kb/ncbi_kb.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     },
-                     {
-                         "path":  "src/workbench/modules/SeqFeature/SeqFeature/SeqFeature.NET5.vbproj",
-                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.SeqFeature",
-                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
-                     }
-                 ]
+  "generatedFor": "GCModeller nuget metadata",
+  "count": 129,
+  "projects": [
+    { "path": "src/GCModeller/analysis/HTS_matrix/HTS_matrix-netcore5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.HTS.DataFrame", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "HTS Expression Matrix Data Model and Normalization", "description": "High-throughput sequencing expression matrix library providing the Matrix and DataFrameRow data model for gene-by-sample expression tables. It offers TPM, edgeR TMM, DESeq2 and quantile normalization, limma/DESeq2 differential-expression tables, and binary matrix IO with cross-batch merging.", "tags": "gcmodeller;bioinformatics;genomics;expression-matrix;normalization;rna-seq;deg", "releaseNotes": "Added the HTS gene expression matrix model with TPM, edgeR TMM, DESeq2 and quantile normalization plus limma and DESeq2 differential expression table support." },
+    { "path": "src/GCModeller/analysis/MetabolicRouter/RetroPath.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.RetroPath", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Retrosynthetic Metabolic Pathway Router", "description": "Retrosynthesis-style search engine that designs candidate biosynthetic pathways for a target molecule over a metabolic network. It combines generalized reaction rules with reaction-center SMARTS matching, atom mapping, beam search and multi-dimensional scoring (thermodynamics, enzyme availability, path length), emitting pathway results as JSON.", "tags": "gcmodeller;bioinformatics;genomics;metabolic-pathway;retrosynthesis;smiles;pathway-design", "releaseNotes": "Released a pure BCL retrosynthetic pathway router with generalized reaction rules, atom-mapped beam search and JSON pathway scoring output." },
+    { "path": "src/GCModeller/analysis/Metagenome/MetaFunction/MetaFunction.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.Metagenome.MetaFunction", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Metagenome Function and Phenotype Annotation", "description": "Metagenomics functional annotation library that infers community function and phenotypes from 16S/OTU data and reference databases. It predicts KEGG KO metagenomes via PICRUSt, annotates antibiotic resistance (CARD/ARO) and virulence factors (VFDB), and predicts microbial traits through Traitar-style SVM phenotype models.", "tags": "gcmodeller;bioinformatics;genomics;metagenome;picrust;antibiotic-resistance;phenotype", "releaseNotes": "Added PICRUSt metagenome prediction together with CARD/VFDB resistance and virulence annotation and Traitar phenotype classifiers." },
+    { "path": "src/GCModeller/analysis/Metagenome/Metagenome/Metagenome.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.Metagenome", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Metagenome OTU/ASV Diversity and Taxonomy Analysis", "description": "Metagenomics analysis library for 16S/18S OTU and ASV tables covering taxonomic profiling and community ecology statistics. It implements alpha/beta and zeta diversity, weighted and unweighted UniFrac, enterotype clustering, rank-abundance, core-microbiome detection and k-mer/Kraken2 taxonomic classification with GAST, Greengenes, Mothur and SILVA reference support.", "tags": "gcmodeller;bioinformatics;genomics;metagenome;otu-table;diversity;taxonomy", "releaseNotes": "Expanded metagenome analysis with zeta diversity, UniFrac, enterotype clustering, core-microbiome detection and Kraken2 k-mer taxonomy classification." },
+    { "path": "src/GCModeller/analysis/Metagenome/microbiomeGWAS/microbiomeGWAS.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.Metagenome.microbiomeGWAS", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Microbiome GWAS Host Genetic Association", "description": "Implements a microbiome genome-wide association analysis that links host genetic variants to microbiome composition. It provides generalized disequilibrium statistics (dExp1/dExp2) and PLINK genotype parsing to test genotype-microbiome associations.", "tags": "gcmodeller;bioinformatics;genomics;microbiome;gwas;host-genetics;genotype", "releaseNotes": "Released the microbiomeGWAS host-genotype association toolkit with generalized disequilibrium statistics and PLINK genotype parsing." },
+    { "path": "src/GCModeller/analysis/Microarray/Microarray.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.Microarray", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Microarray and Multi-Omics Differential Analysis", "description": "Microarray and omics analysis toolbox for differential expression, correlation and multi-omics integration. It provides DEG/DEP design and t-test/log2 fold-change statistics with edgeR export, Pearson/Spearman/SparCC/CCLasso correlation, SEM and PLS-PM causal modeling, GSEA/KOBAS/DAVID enrichment and DIABLO/MOFA/IMMO multi-block methods.", "tags": "gcmodeller;bioinformatics;genomics;microarray;differential-expression;multi-omics;correlation", "releaseNotes": "Expanded the microarray toolbox with SEM/PLS-PM causal modeling, SparCC/CCLasso correlation and DIABLO/MOFA/IMMO multi-omics integration." },
+    { "path": "src/GCModeller/analysis/Motifs/CRISPR/CRT/CRISPR.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.CRISPR.CRT", "logoRelative": "..\\..\\..\\..\\..\\..\\assets\\logo.png", "title": "CRISPR Locus Detection (CRT)", "description": "Genome scanning library that detects CRISPR loci by finding similarly spaced exact k-mer repeats and extending them to the true repeat length. It implements the CRT (CRISPR Recognition Tool) sliding-window and Boyer-Moore search strategy and outputs repeat and spacer loci with tabular and console reporting.", "tags": "gcmodeller;bioinformatics;genomics;crispr;crt;repeat-detection;genome-scan", "releaseNotes": "Implemented CRT-style CRISPR locus detection with k-mer repeat extension and tabular repeat and spacer locus reporting." },
+    { "path": "src/GCModeller/analysis/Motifs/CRISPR/sgRNAcas/sgRNAcas.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas", "logoRelative": "..\\..\\..\\..\\..\\..\\assets\\logo.png", "title": "CRISPR sgRNA Design and Off-Target Evaluation", "description": "Wraps the sgRNAcas9 tool suite to design CRISPR sgRNA with high specificity and to evaluate potential off-target cleavage sites. It exposes command-line APIs for sgRNA search, target sequence extraction, restriction-site checking and sgR primer generation via bundled Perl scripts and SeqMap.", "tags": "gcmodeller;bioinformatics;genomics;crispr;sgrna;off-target;guide-rna", "releaseNotes": "Added sgRNAcas9 integration for high-specificity sgRNA design, off-target evaluation and sgR primer generation." },
+    { "path": "src/GCModeller/analysis/Motifs/MotifGraph/MotifGraph.vbproj", "rootNamespace": "SMRUCC.genomics.Model.MotifGraph", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Sequence Motif Graph Vector Model", "description": "Machine learning feature library that encodes DNA, RNA or protein sequences as graph-based vectors for motif analysis. It builds composition, tuple, triple and tuple-distance graphs and exposes them as numeric vectors suitable for classification and clustering.", "tags": "gcmodeller;bioinformatics;genomics;motif;sequence-embedding;graph;feature-vector", "releaseNotes": "Released the sequence motif graph model with composition/tuple/triple and tuple-distance vector embeddings for machine learning." },
+    { "path": "src/GCModeller/analysis/Motifs/PrimerDesigner/PrimerDesigner.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.PrimerDesigner", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "PCR Primer Design and Restriction Enzyme Tools", "description": "Primer design toolkit that selects specific primer pairs using a genetic-algorithm style search with restriction-site constraints. It includes restriction enzyme slicing and translation, BLAST-hit based candidate region detection, and primer property (GC, Tm) evaluation.", "tags": "gcmodeller;bioinformatics;genomics;primer-design;pcr;restriction-enzyme;blast", "releaseNotes": "Added genetic-algorithm primer design, restriction enzyme slicing and BLAST-based candidate region detection." },
+    { "path": "src/GCModeller/analysis/Motifs/VirtualFootprint/VirtualFootprint.vbproj", "rootNamespace": "SMRUCC.genomics.Model.Network.VirtualFootprint", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Transcription Factor Binding Site and Virtual Footprint Model", "description": "Data model library for predicted transcription-factor binding sites and regulation footprints. It represents motif sites and regulator-target interactions as network edges and supports regulon definitions, KEGG module/class annotation and RegPrecise/RegulonDB scanning.", "tags": "gcmodeller;bioinformatics;genomics;tfbs;virtual-footprint;regulon;gene-regulation", "releaseNotes": "Released the virtual footprint and regulation footprint model with regulon, KEGG module annotation and RegPrecise scanning support." },
+    { "path": "src/GCModeller/analysis/OperonMapper/OperonMapper.vbproj", "rootNamespace": "SMRUCC.genomics.Model.OperonMapper", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Prokaryotic Operon Prediction Engine", "description": "Operon prediction library for prokaryotic genomes using hidden Markov models over intergenic and comparative-genomics features. It combines a UniOP intergenic-distance model, sequence signals (terminator/promoter), homology barcodes and functional annotation, then assembles operons via Viterbi decoding, and also provides HMM training from discretized feature scores.", "tags": "gcmodeller;bioinformatics;genomics;operon;hmm;gene-prediction;comparative-genomics", "releaseNotes": "Released the operon prediction engine with UniOP distance model, HMM integration and comparative-genomics operon assembly." },
+    { "path": "src/GCModeller/analysis/ProteinTools/Interactions.BioGRID/Interactions.BioGRID.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.ProteinTools.Interactions.BioGRID", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "BioGRID Interaction Database Parsers", "description": "Parser and data-model library for the BioGRID interaction database file formats. It reads PSI-MITAB, BioGRID TAB 2.0, chemical and post-translational-modification tables and projects them into typed interaction records with identifier normalization and selection helpers.", "tags": "gcmodeller;bioinformatics;genomics;protein-interaction;biogrid;mitab;ppi-data", "releaseNotes": "Added BioGRID PSI-MITAB, TAB2, chemical and PTM format parsers with identifier resolution helpers." },
+    { "path": "src/GCModeller/analysis/ProteinTools/Protease/Protease.vbproj", "rootNamespace": "SMRUCC.genomics.SequenceModel.Protease", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Protease Peptide Cleavage Simulator", "description": "Protein sequence analysis library that simulates proteolytic cleavage. It applies configurable protease cleavage rules over sliding windows of a protein sequence to locate cleavage sites, mirroring the PeptideCutter concept.", "tags": "gcmodeller;bioinformatics;genomics;protease;peptide-cleavage;protein-sequence;proteomics", "releaseNotes": "Implemented protease cleavage-rule scanning that locates peptide cut sites across protein sequences." },
+    { "path": "src/GCModeller/analysis/ProteinTools/ProteinMatrix/ProteinMatrix.vbproj", "rootNamespace": "SMRUCC.genomics.Model.MotifGraph.ProteinStructure", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Protein Embedding Matrix and Family Clustering", "description": "Protein sequence feature-engineering library that generates embedding matrices for machine learning and performs unsupervised protein family clustering. It provides sequence-graph-transform (sgt) and genome metabolic TF-IDF embeddings, and scalable clustering pipelines including k-mer/TF-IDF/SVD/kNN/Louvain and a Linclust-style greedy-cover clustering with CD-HIT export.", "tags": "gcmodeller;bioinformatics;genomics;protein-embedding;sequence-graph-transform;protein-family-clustering;machine-learning", "releaseNotes": "Released protein embedding generation plus Linclust and k-mer/TF-IDF/Louvain protein family clustering pipelines." },
+    { "path": "src/GCModeller/analysis/ProteinTools/ProteinTools.Interactions/ProteinTools.Interactions.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.ProteinTools.Interactions", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Protein-Protein Interaction Prediction Tools", "description": "Protein-protein interaction analysis library that predicts interaction partners from sequence alignments using a Bayesian network method. It builds Bayesian belief networks from aligned protein domains, wraps R bnlearn modelling and inference, and downloads and parses SwissTCS two-component system interaction data and iPfam PPI annotations.", "tags": "gcmodeller;bioinformatics;genomics;protein-interaction;bayesian-network;two-component-system;ppi-prediction", "releaseNotes": "Added Bayesian-network protein interaction inference with SwissTCS two-component system and iPfam PPI data support." },
+    { "path": "src/GCModeller/analysis/RNA-Seq/RNAExpression/RNAExpression.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.HTS", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "RNA-seq Feature Count to Expression Matrix", "description": "RNA-seq utility that converts feature-count results into normalized gene expression matrix data. It produces raw count, FPKM and TPM expression matrices as HTS data-frame objects for downstream differential-expression analysis.", "tags": "gcmodeller;bioinformatics;genomics;rna-seq;expression-matrix;fpkm;tpm", "releaseNotes": "Added conversion of RNA-seq feature counts into raw-count, FPKM and TPM expression matrices." },
+    { "path": "src/GCModeller/analysis/RNA-Seq/Toolkits.RNA-Seq.RTools/Toolkits.RNA-Seq.RTools.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.RNA_Seq.RTools", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "RNA-Seq R Analysis Toolkits (DESeq2, PfsNET, WGCNA)", "description": "R integration layer for RNA-Seq analysis in GCModeller that wraps Bioconductor packages through RDotNet. Provides DESeq2 differential expression, PfsNET pathway subnetwork scoring, WGCNA co-expression network invocation, and wavelet/BaSAR signal analysis.", "tags": "gcmodeller;bioinformatics;genomics;rna-seq;deseq2;wgcna;differential-expression;r-integration", "releaseNotes": "Adds integrated R-based RNA-Seq workflows for DESeq2 differential expression, PfsNET subnetwork analysis and WGCNA co-expression modelling." },
+    { "path": "src/GCModeller/analysis/RNA-Seq/Toolkits.RNA-Seq/Toolkits.RNA-Seq.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.RNA_Seq", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "RNA-Seq Analysis Toolkit (Expression Matrices & Co-expression)", "description": "Core RNA-Seq analysis toolkit that handles gene expression matrices (dataExprMAT), computes PCC/SPCC correlation matrices and infers co-expression and regulation networks, alongside gene prediction and operon parsing utilities.", "tags": "gcmodeller;bioinformatics;genomics;rna-seq;coexpression;correlation-matrix;transcriptome", "releaseNotes": "Introduces expression matrix and correlation-based co-expression and regulation network analysis utilities for transcriptome data." },
+    { "path": "src/GCModeller/analysis/RNA-Seq/TSSAR/TSSAR.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.RNA_Seq.TSSAR", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "TSSAR: dRNA-Seq Transcription Start Site Annotation", "description": "VB.NET port and invoke wrapper of the TSSAR regime that annotates transcription start sites from dRNA-seq data using a Skellam distribution with zero-inflated-Poisson regression. Maps SAM reads, associates them with genes and emits BED-style TSS output.", "tags": "gcmodeller;bioinformatics;genomics;rna-seq;tss;drna-seq;sam", "releaseNotes": "Implements dRNA-seq transcription start site annotation through the Skellam-distribution TSSAR workflow with SAM read mapping." },
+    { "path": "src/GCModeller/analysis/RNA-Seq/TSSsTools/TSSsTools.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "TSSs Tools: TSS and 5' UTR Identification from RNA-Seq", "description": "Utilities for identifying transcription start sites and 5' UTRs from RNA-Seq read mappings, counting strand-specific reads at each position and enriching shared start sites for downstream TSS analysis and plotting.", "tags": "gcmodeller;bioinformatics;genomics;rna-seq;tss;utr;reads-count", "releaseNotes": "Adds RNA-Seq strand-specific read counting and UTR/TSS identification utilities for transcription start site enrichment analysis." },
+    { "path": "src/GCModeller/analysis/RNA-Seq/WGCNA/WGCNA.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "WGCNA Weighted Gene Co-expression Network Analysis", "description": "GCModeller .NET module that drives WGCNA in R and parses the weighted gene co-expression network results. Loads TOM/module network exports, groups feature nodes by their modules and exposes the co-expression weight matrix.", "tags": "gcmodeller;bioinformatics;genomics;rna-seq;wgcna;coexpression;network", "releaseNotes": "Provides WGCNA co-expression network execution and module/TOM network result parsing for transcriptome analysis." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/ClusterMatrix/ClusterMatrix.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SequenceTools.ClusterMatrix", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Cluster Matrix: Sequence Clustering and Similarity Matrices", "description": "Builds homology clusters and similarity matrices from multiple-genome local BLAST best-hit results. Uses an AVL-tree protein comparer to group homologous sequences and scores pairwise similarity via Needleman-Wunsch/Smith-Waterman with K-Means clustering.", "tags": "gcmodeller;bioinformatics;genomics;clustering;sequence-similarity;localblast;kmeans", "releaseNotes": "Adds genome-scale protein homology clustering and Needleman-Wunsch/Smith-Waterman similarity matrix generation." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/ClusterMatrix/SeqFeature.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.Workbench.SeqFeature", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "SeqFeature: ASCII Sequence Feature Viewer", "description": "A lightweight helper for displaying sequence features or sites on short nucleotide and protein sequences as an aligned ASCII map, useful for visualizing cleavage, binding or annotation sites.", "tags": "gcmodeller;bioinformatics;genomics;sequence-feature;visualization;ascii", "releaseNotes": "Provides ASCII visualization of sequence feature sites aligned onto short nucleotide or protein sequences." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/DNA_Comparative/DNA_Comparative.netcoreapp.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Comparative DNA Analysis Across Diverse Genomes", "description": "Comparative genomics library that computes nucleotide sequence delta-similarity and genome signatures such as di-/tri-nucleotide bias and codon adaptation index (CAI) to measure relatedness between sequences and whole genomes.", "tags": "gcmodeller;bioinformatics;genomics;comparative-genomics;codon-usage;dinucleotide-bias;sequence-similarity", "releaseNotes": "Implements delta-similarity and genome signature (dinucleotide bias, CAI) calculations for comparative DNA analysis." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/gwANI/gwANI.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.gwANI", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "gwANI: Genome-Wide Average Nucleotide Identity", "description": "Calculates genome-wide average nucleotide identity (gwANI) between samples in a multi-FASTA alignment and outputs a pairwise percentage identity matrix. It is a managed port of the pANIto/gwANI tool.", "tags": "gcmodeller;bioinformatics;genomics;ani;genome-comparison;alignment", "releaseNotes": "Adds genome-wide average nucleotide identity (gwANI) computation with pairwise percentage identity matrix output." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/MotifFinder/MotifFinder.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "De Novo Motif Finder (Gibbs, EM and MEME)", "description": "De novo motif discovery library that finds conserved motifs from FASTA sequence sets using Gibbs sampling, EM and MEME-style models. Supports seed scanning, consensus building and PWM export.", "tags": "gcmodeller;bioinformatics;genomics;motif-discovery;gibbs-sampling;pwm;meme", "releaseNotes": "Adds Gibbs sampling and EM-based de novo motif discovery with PWM consensus generation from sequence sets." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/MotifScanner/MotifScanner.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Motif Scanner: PWM Motif Site Matching", "description": "Scans target nucleotide sequences with position weight matrices (PWM) and regular-expression patterns to locate transcription factor binding sites, computing log-odds scores, p-values and null score distributions.", "tags": "gcmodeller;bioinformatics;genomics;motif-scanning;tfbs;pwm;transcription-factor", "releaseNotes": "Introduces PWM and pattern-based motif scanning with log-odds scoring and statistical p-value estimation." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/Pfam-HMM/PfamHMMScan/HMMER3.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SequenceTools.HMMER", "logoRelative": "..\\..\\..\\..\\..\\..\\assets\\logo.png", "title": "Protein Annotation via HMMER3 Profile HMMs", "description": "Protein sequence annotation library built on HMMER3 profile hidden Markov models. Annotates proteins through Pfam families and KOfam (KO) assignments using E-value and bit-score thresholds, with profile HMM parsing and alignment tracing.", "tags": "gcmodeller;bioinformatics;genomics;hmmer;protein-annotation;pfam;kofam;profile-hmm", "releaseNotes": "Adds profile-HMM based protein annotation for Pfam families and KOfam KO assignments via HMMER3 models." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/SequenceAlignment/SequenceAlignment.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SequenceAlignment", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Sequence Alignment Tools (MSA, Smith-Waterman, DIAMOND)", "description": "Comprehensive sequence alignment toolkit offering multiple sequence alignment (center-star), Smith-Waterman and Needleman-Wunsch local/global alignment with BLOSUM scoring, DIAMOND-style blastp, CD-HIT clustering and siRNA target search.", "tags": "gcmodeller;bioinformatics;genomics;sequence-alignment;smith-waterman;msa;diamond;blosum", "releaseNotes": "Provides MSA, Smith-Waterman/Needleman-Wunsch, DIAMOND blastp and CD-HIT alignment capabilities in one toolkit." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/SequenceLogo/SequenceLogo.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Motif Pattern Sequence Logo Visualizer", "description": "Generates sequence logos for motif patterns and PWMs, rendering residue letter heights proportional to information content with configurable color schemes and Clustal-style visualization.", "tags": "gcmodeller;bioinformatics;genomics;sequence-logo;motif;visualization;pwm", "releaseNotes": "Adds motif and PWM sequence logo rendering with information-content scaling and customizable color schemas." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract/SequencePatterns.Abstract.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Sequence Patterns Abstract: Scanner Framework", "description": "Abstract foundation for sequence pattern scanning that defines the scanner interface, k-mer and residue probability models, and a parser for PROSITE-like motif pattern expressions and ranges.", "tags": "gcmodeller;bioinformatics;genomics;sequence-pattern;scanner;kmers;regex", "releaseNotes": "Defines the abstract sequence pattern scanner, k-mer probability models and motif expression parser." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/SequencePatterns/SequencePatterns.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Sequence Patterns: Motif, Repeat and Palindrome Search", "description": "Sequence pattern search toolkit for locating motifs, palindromes and mirror repeats, inverted and direct repeats, and microsatellite SSRs across nucleotide sequences, including DNA origami scaffold orthogonality analysis.", "tags": "gcmodeller;bioinformatics;genomics;sequence-pattern;palindrome;repeat;ssr;motif", "releaseNotes": "Implements motif, palindrome, repeat and SSR pattern search utilities for nucleotide sequence analysis." },
+    { "path": "src/GCModeller/analysis/SequenceToolkit/SNP/SNP.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SequenceTools.SNP", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "SNP Sites: Variant Calling from Multi-FASTA Alignments", "description": "Detects SNP sites from multi-FASTA alignments and exports them as FASTA, VCF or Phylip. Includes SNP annotation (codon and amino-acid changes) plus genotype and allele-frequency statistics in an snp-sites compatible workflow.", "tags": "gcmodeller;bioinformatics;genomics;snp;variant-calling;vcf;alignment;genotype", "releaseNotes": "Adds SNP site detection from alignments with VCF/Phylip output and genotype frequency analysis." },
+    { "path": "src/GCModeller/annotations/Bifrost/MetaEuk/MetaEuk.vbproj", "rootNamespace": "SMRUCC.genomics.Annotation.MetaEuk", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "MetaEuk Eukaryotic Gene Prediction (VB.NET)", "description": "A VB.NET implementation of the MetaEuk eukaryotic gene prediction tool based on homology-driven exon chain optimization. Its pipeline performs six-frame translation, Smith-Waterman homology search against reference proteins, target-contig-strand grouping, dynamic-programming optimal exon selection, redundancy removal and same-strand conflict resolution, exporting protein FASTA, GFF3 and TSV.", "tags": "gcmodeller;bioinformatics;genomics;gene-prediction;eukaryote;homology", "releaseNotes": "Implements the MetaEuk homology-based eukaryotic gene prediction pipeline with dynamic-programming exon chain optimization." },
+    { "path": "src/GCModeller/annotations/Bifrost/Prodigal/Prodigal.vbproj", "rootNamespace": "SMRUCC.genomics.Annotation.Prodigal", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Prodigal Prokaryotic Gene Prediction (VB.NET)", "description": "A VB.NET implementation of the Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm) gene-finding tool. It combines ORF finding, coding-region scoring, RBS detection, start-codon and upstream models with unsupervised model training and dynamic-programming gene selection, writing GFF3, nucleotide/protein FASTA and score tables.", "tags": "gcmodeller;bioinformatics;genomics;gene-prediction;prokaryote;metagenomics", "releaseNotes": "Implements the Prodigal prokaryotic gene-finding algorithm with unsupervised training and dynamic-programming gene selection." },
+    { "path": "src/GCModeller/annotations/GO/GOAnalysis.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.GO", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Gene Ontology Enrichment Analysis", "description": "Gene Ontology enrichment analysis module that treats each GO term as a cluster and computes enrichment over a genome background using the GO DAG for ontology term propagation. It produces enrichment results and publication-ready visualization such as catalog plots, namespace category plots and enrichment bubbles.", "tags": "gcmodeller;bioinformatics;genomics;gene-ontology;enrichment-analysis;visualization", "releaseNotes": "Adds GO term enrichment analysis against genome backgrounds with DAG ontology term propagation and enrichment plots." },
+    { "path": "src/GCModeller/annotations/GPR/GPR.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.CompilerServices.GPRLink", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Gene-Protein-Reaction Association Analysis", "description": "Associates genes with metabolic reactions and pathways to build gene-protein-reaction (GPR) links. It integrates co-expression, conserved synteny, operon context, pathway continuity, enzyme complex detection and gene fusion evidence to score and infer candidate gene-reaction associations.", "tags": "gcmodeller;bioinformatics;genomics;gpr;metabolic-network;gene-association", "releaseNotes": "Infers gene-protein-reaction associations by integrating co-expression, conserved synteny, operon context and enzyme-complex evidence." },
+    { "path": "src/GCModeller/annotations/GSEA/FELLA/FELLA.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.HTS.FELLA", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "FELLA KEGG Pathway Enrichment (Diffusion/PageRank)", "description": "Network-based enrichment analysis over a KEGG pathway graph. It builds the compound/gene/pathway graph and propagates input metabolite or gene sets using diffusion, PageRank and hypergeometric tests, computing null-distribution statistics and exporting enrichment results.", "tags": "gcmodeller;bioinformatics;genomics;pathway-enrichment;kegg;network-diffusion", "releaseNotes": "Implements network-based KEGG pathway enrichment using diffusion, PageRank and hypergeometric tests with null-distribution statistics." },
+    { "path": "src/GCModeller/annotations/GSEA/FisherCore/Fisher.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.HTS.GSEA", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Fisher Exact & GSEA Enrichment Core", "description": "Statistical core for gene-set enrichment analysis providing a Fisher's exact test enrichment engine and the classic GSEA enrichment score with permutation-based p-values. It also supplies background/knowledge-base clustering and ontology background helpers used by higher-level enrichment modules.", "tags": "gcmodeller;bioinformatics;genomics;enrichment-analysis;fisher-exact-test;gsea", "releaseNotes": "Provides Fisher exact test enrichment and GSEA enrichment score computation with permutation-based p-value estimation." },
+    { "path": "src/GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions/GSEA.KB.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller GSEA Knowledge Base Extensions", "description": "Extension module that builds GSEA background knowledge bases. It creates KEGG and GO enrichment backgrounds, metabolism enrichment networks and multiple-omics integration, applies MetPA pathway topology analysis for metabolomics, and reads KOBAS/BHH libraries for gene-set enrichment.", "tags": "gcmodeller;bioinformatics;genomics;gsea;knowledgebase;metabolomics", "releaseNotes": "Adds GSEA knowledge-base builders for KEGG/GO backgrounds, metabolism enrichment networks and MetPA pathway topology analysis." },
+    { "path": "src/GCModeller/annotations/GSEA/GSEA/gsea-netcore5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.HTS.GSEA", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Gene Set Enrichment Analysis Core", "description": "Core data models and knowledge-base layer for gene set enrichment analysis. It defines the Background/Cluster/BackgroundGene structures and provides importers that build GSEA backgrounds from KEGG and GO knowledge bases as well as KOBAS-format files (GCT, GMT, CLS).", "tags": "gcmodeller;bioinformatics;genomics;gsea;gene-set;kegg", "releaseNotes": "Provides the core GSEA gene-set background models and KEGG/GO/KOBAS knowledge-base importers." },
+    { "path": "src/GCModeller/annotations/GSEA/GSVA/GSVA.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.HTS.GSVA", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Gene Set Variation Analysis (GSVA)", "description": "Gene set variation analysis library that computes per-sample gene set enrichment scores across an expression matrix. It estimates gene densities with Gaussian or Poisson kernels (or direct ECDFs) and derives GSVA scores via a KS-test based running-sum approach, with method support for GSVA, PLAGE, ssGSEA and zscore.", "tags": "gcmodeller;bioinformatics;genomics;gsva;gene-set;rna-seq", "releaseNotes": "Implements GSVA per-sample gene set variation scoring with kernel ECDF estimation and KS-test based enrichment." },
+    { "path": "src/GCModeller/annotations/GSEA/PFSNet/PFSNet/PFSNet.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.PFSNet", "logoRelative": "..\\..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller PFS Network (PfsNET) Algorithm", "description": "Implements the PfsNET algorithm for large-scale network computation, detecting significant and consistent cellular subnetworks shared between two phenotypes or mutations. It computes fuzzy weights, masks a gene-gene interaction graph, scores subnetworks and evaluates significance via permutation tests.", "tags": "gcmodeller;bioinformatics;genomics;network-analysis;subnetwork;gene-interaction", "releaseNotes": "Implements the PfsNET algorithm to find significant and consistent gene subnetworks between two phenotypes or mutations." },
+    { "path": "src/GCModeller/annotations/GSEA/PFSNet/PFSNet_visual/PFSNet_visual.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.PFSNet", "logoRelative": "..\\..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller PFS Network Visualization", "description": "Visualization companion for the PfsNET subnetwork analysis. It renders phenotype subnetwork results as bubble plots and builds gene-gene interaction (ggi) network graph objects for comparing the two phenotypes.", "tags": "gcmodeller;bioinformatics;genomics;visualization;network;bubble-plot", "releaseNotes": "Adds bubble plots and network graph builders for visualizing PfsNET subnetwork comparison results." },
+    { "path": "src/GCModeller/annotations/KEGG/KEGGAnalysis.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.KEGG", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller KEGG Pathway Enrichment Analysis", "description": "KEGG pathway analysis module providing KO orthology profiling, KEGG pathway enrichment and visualization, a GSVA-based KEGG network, differentially expressed protein-to-KO heatmaps and pathway/reaction reconstruction ranking.", "tags": "gcmodeller;bioinformatics;genomics;kegg;pathway-enrichment;ko", "releaseNotes": "Adds KEGG pathway enrichment profiling, visualization and KO/pathway reconstruction analysis." },
+    { "path": "src/GCModeller/annotations/P-NET/P-NET/P-NET.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.HTS.P_NET", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller P-NET Biologically Informed Neural Network", "description": "Implements P-NET, a biologically informed deep neural network whose sparse connectivity is dictated by a biological pathway hierarchy loaded from GMT files. It provides masked dense layers, deep-supervision prediction heads, Adam training and interpretation via DeepLIFT and node importance.", "tags": "gcmodeller;bioinformatics;genomics;deep-learning;neural-network;pathway", "releaseNotes": "Implements the P-NET biologically informed sparse neural network with pathway-hierarchy connectivity and DeepLIFT-based interpretation." },
+    { "path": "src/GCModeller/annotations/Proteomics/Proteomics.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.HTS.Proteomics", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Proteomics Data Analysis", "description": "Proteomics data analysis library covering iTRAQ and label-free quantification workflows. It manages protein groups, annotates them with UniProt/KO/GO information, detects differentially expressed proteins via fold-change and t-tests, reads Perseus/UniProt data and produces analysis plots.", "tags": "gcmodeller;bioinformatics;genomics;proteomics;itraq;differential-expression", "releaseNotes": "Adds iTRAQ and label-free proteomics quantification, annotation and differential protein analysis with plots." },
+    { "path": "src/GCModeller/annotations/WGCNA/WGCNA/WGCNA.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.HTS.WGCNA", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Weighted Gene Co-expression Network Analysis", "description": "Weighted gene co-expression network analysis (WGCNA) library that constructs weighted co-expression networks using soft-thresholding and topological overlap, detects expression modules and computes module-phenotype correlations, module eigengenes, gene significance and module membership results.", "tags": "gcmodeller;bioinformatics;genomics;wgcna;co-expression;network", "releaseNotes": "Implements weighted gene co-expression network construction, module detection and module-phenotype correlation analysis." },
+    { "path": "src/GCModeller/core/Bio.Annotation/annotation.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Annotation", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Genome Annotation Data Models (GFF/PTF)", "description": "Genome annotation file-format library that provides parsers, writers and data models for GFF and PTF annotation files. It exposes feature/region models, annotation tables linking genes to GO, EC, KO, UniProt, Pfam and eggNOG identifiers, plus ID mapping utilities used across GCModeller.", "tags": "gcmodeller;bioinformatics;genomics;annotation;gff;ptf;file-formats", "releaseNotes": "Adds parsers and writers for GFF and PTF genome annotation files with feature models and gene annotation tables." },
+    { "path": "src/GCModeller/core/Bio.Assembly/biocore-netcore5.vbproj", "rootNamespace": "SMRUCC.genomics", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Bio.Assembly Core: Biological Data Models & I/O", "description": "Assembly file I/O stream for common biological databases and shared biological data models. It is the foundational core library for genome annotation in GCModeller, providing the data structures and readers/writers on which the annotation and analysis modules are built.", "tags": "gcmodeller;bioinformatics;genomics;file-io;data-models;core-library", "releaseNotes": "Provides the core biological data models and assembly file I/O streams used by GCModeller genome annotation." },
+    { "path": "src/GCModeller/core/Bio.InteractionModel/InteractionModel.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.InteractionModel", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Biological Interaction & Regulon Models", "description": "Model library for biological interaction networks and gene regulation. It defines generic directed interactions, protein interaction networks, relationship scoring and regulon/regulator-regulates abstractions together with regulation database interfaces.", "tags": "gcmodeller;bioinformatics;genomics;interaction-network;regulon;gene-regulation", "releaseNotes": "Adds models for biological interactions, protein interaction networks and regulon regulation relationships." },
+    { "path": "src/GCModeller/data/BASys/BASys.vbproj", "rootNamespace": "SMRUCC.genomics.Data.BASys", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "BASys bacterial genome annotation data reader", "description": "Parses the output of the BASys bacterial genome annotation system, including EC-number ecard files, the chromosome summary index page and gene brief tables. Exports the annotated genome as FASTA protein/nucleotide sequences, PTT and COG tables.", "tags": "gcmodeller;bioinformatics;genomics;annotation;prokaryote;fasta;basys", "releaseNotes": "Reads BASys annotation projects and exports protein, nucleotide, PTT and COG files." },
+    { "path": "src/GCModeller/data/ExternalDBSource/DatabaseServices.vbproj", "rootNamespace": "SMRUCC.genomics.Data", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "External biological database models and MySQL services", "description": "Provides data models, parsers and MySQL reflection services for a range of external biological databases. Covers ChEBI chemical structures and ontology, ExplorEnz enzyme nomenclature entries and MetaCyc/BioWarehouse relational schemas.", "tags": "gcmodeller;bioinformatics;genomics;database;chebi;metacyc;mysql", "releaseNotes": "Adds external database schema models and MySQL reflection services for ChEBI, ExplorEnz and MetaCyc." },
+    { "path": "src/GCModeller/data/GO_gene-ontology/GeneOntology/go_owl-netcore5.vbproj", "rootNamespace": "SMRUCC.genomics.Data.GeneOntology", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Gene Ontology OBO/OWL reader and DAG analysis toolkit", "description": "Reads Gene Ontology data in OBO, OWL and GAF formats and exposes GO terms as an in-memory directed acyclic graph. Supports ancestor/descendant queries, term propagation, GO term counting and enrichment statistics.", "tags": "gcmodeller;bioinformatics;genomics;gene-ontology;dag;annotation", "releaseNotes": "Provides OBO/OWL/GAF parsing with a memoized GO DAG for ancestor, descendant and enrichment analysis." },
+    { "path": "src/GCModeller/data/GO_gene-ontology/GO_Annotation/GO_Annotation.vbproj", "rootNamespace": "SMRUCC.genomics.Data.GeneOntology.Annotation", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Gene Ontology annotation from protein domain hits", "description": "Assigns Gene Ontology terms to proteins based on Pfam/InterPro domain analysis and cross-reference mapping. Includes Pfam-to-GO and KEGG-to-GO conversion utilities together with protein annotation cluster models.", "tags": "gcmodeller;bioinformatics;genomics;gene-ontology;annotation;pfam;interpro", "releaseNotes": "Annotates proteins with GO terms derived from Pfam/InterPro domain hits and cross-reference mappings." },
+    { "path": "src/GCModeller/data/GO_gene-ontology/obographs/obographs/obographs.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Data.GeneOntology.obographs", "logoRelative": "..\\..\\..\\..\\..\\..\\assets\\logo.png", "title": "Gene Ontology DAG graph visualization (obographs)", "description": "Builds and visualizes the Gene Ontology directed acyclic graph from GO term collections. Creates enriched network graphs with color-coded term values and renders GO enrichment results into publication-ready figures.", "tags": "gcmodeller;bioinformatics;genomics;gene-ontology;visualization;network", "releaseNotes": "Generates GO DAG network graphs and enrichment visualizations from GO term collections." },
+    { "path": "src/GCModeller/data/KEGG/jp_kegg2.vbproj", "rootNamespace": "SMRUCC.genomics.Data.KEGG", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "KEGG database MySQL schema models", "description": "Provides MySQL table mappings for the KEGG database, covering orthology and KO hierarchies, pathways, modules, reactions, compounds, enzymes, organisms and references. Includes SQL generation helpers and data dumping procedures.", "tags": "gcmodeller;bioinformatics;genomics;kegg;pathway;database", "releaseNotes": "Adds KEGG MySQL schema models for orthology, pathway, module, reaction and compound tables." },
+    { "path": "src/GCModeller/data/RCSB PDB/RCSB PDB.vbproj", "rootNamespace": "SMRUCC.genomics.Data.RCSB.PDB", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "RCSB PDB molecule structure model data reader", "description": "Parses macromolecular structure data from the RCSB Protein Data Bank, supporting both the legacy PDB fixed-column format and the PDBML/mmCIF XML format. Exposes atoms, sequences, ligands and header metadata together with PDBQt export for molecular docking.", "tags": "gcmodeller;bioinformatics;genomics;pdb;protein-structure;molecular", "releaseNotes": "Reads and writes PDB and PDBML structure files with atoms, sequences, ligands and PDBQt export." },
+    { "path": "src/GCModeller/data/Reactome/Reactome.vbproj", "rootNamespace": "SMRUCC.genomics.Data.Reactome", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Reactome pathway database model and API", "description": "Provides an object model for Reactome pathway data parsed from OWL/RDF documents, including pathways, reactions, metabolites and bio-systems. Includes pathway hierarchy utilities and a RESTful web API client.", "tags": "gcmodeller;bioinformatics;genomics;reactome;pathway;owl;rdf", "releaseNotes": "Loads Reactome OWL/RDF pathway data into object models with hierarchy and REST API support." },
+    { "path": "src/GCModeller/data/RegulonDatabase/RegulonDatabase.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Data", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Prokaryotic transcriptional regulon database readers", "description": "Provides readers and models for prokaryotic transcriptional regulation databases including RegPrecise, RegulonDB and Regtransbase. Supports regulog/regulon retrieval, transcription factor family statistics and regulatory binding site export.", "tags": "gcmodeller;bioinformatics;genomics;regulon;transcription-factor;database", "releaseNotes": "Adds RegPrecise, RegulonDB and Regtransbase readers for bacterial regulons and regulatory sites." },
+    { "path": "src/GCModeller/data/Rhea/Rhea.vbproj", "rootNamespace": "SMRUCC.genomics.Data.Rhea", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Rhea biochemical reaction database RDF reader", "description": "Parses the Rhea reaction database RDF distribution into reaction and compound models, resolving directional and bidirectional reactions together with their EC numbers. Also reads BRENDA enzyme JSON data.", "tags": "gcmodeller;bioinformatics;genomics;rhea;reaction;rdf;enzyme", "releaseNotes": "Parses Rhea RDF reactions and compounds with EC numbers and BRENDA enzyme JSON data." },
+    { "path": "src/GCModeller/data/SABIO-RK/SABIO-RK.NET.vbproj", "rootNamespace": "SMRUCC.genomics.Data.SABIORK", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "SABIO-RK kinetic-laws parameter database", "description": "Reads and models enzyme kinetic law parameters from the SABIO-RK database. Parses SBML documents with MathML kinetic laws and dumps kinetic parameters, enzyme and modifier data into tabular or SBML form.", "tags": "gcmodeller;bioinformatics;genomics;sabio-rk;kinetics;sbml", "releaseNotes": "Provides SABIO-RK kinetic law models and SBML MathML kinetic law parsing." },
+    { "path": "src/GCModeller/data/STRING/STRING-db.vbproj", "rootNamespace": "SMRUCC.genomics.Data.STRING", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "STRING protein-protein interaction network data reader", "description": "Reads STRING-db protein interaction data files, including detailed and full link score tables, link actions and coordinates. Builds interaction network graphs and provides PSI and web API models.", "tags": "gcmodeller;bioinformatics;genomics;string;ppi;network;interaction", "releaseNotes": "Parses STRING-db interaction link files and builds protein interaction network graphs." },
+    { "path": "src/GCModeller/data/Xfam/Pfam/Pfam.vbproj", "rootNamespace": "SMRUCC.genomics.Data.Xfam.Pfam", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Protein Pfam analysis tool", "description": "Provides a protein domain analysis pipeline based on Pfam, using local BLAST/diamond searches to annotate domain architecture. Includes PfamString representation, parallel motif alignment (MPAlignment) and Chou-Fasman secondary structure assignment.", "tags": "gcmodeller;bioinformatics;genomics;pfam;protein-domain;blast;alignment", "releaseNotes": "Annotates protein Pfam domains and computes domain architecture, motif alignment and secondary structure." },
+    { "path": "src/GCModeller/engine/BootstrapLoader/BootstrapLoader.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Virtual Cell Bootstrap Loader", "description": "Loads a virtual cell component model into the GCModeller cellular dynamics engine. Converts genotype, phenotype and regulation data into a mass table and reaction channels, and drives the flux-based simulation kernel with knockout, culture medium and gene copy-number controls.", "tags": "gcmodeller;bioinformatics;genomics;systems-biology;virtual-cell;simulation", "releaseNotes": "Added the virtual cell model bootstrap loader that builds the mass and flux network and runs the cellular dynamics engine." },
+    { "path": "src/GCModeller/engine/Compiler/Compiler.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.Compiler", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Virtual Cell Model Compiler", "description": "Compiles genome, metabolic and transcriptional regulation data into GCModeller virtual cell model files. Includes BioCyc and KEGG model compilers, an assembly-script DSL for building vcell assembly packages, and a kinetics modeller for reaction parameters.", "tags": "gcmodeller;bioinformatics;genomics;model-compiler;biocyc;kegg", "releaseNotes": "Delivered the virtual cell model compiler that assembles genome, metabolism and regulation data into model and assembly files." },
+    { "path": "src/GCModeller/engine/CompilerServices/CompilerServices.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.CompilerServices", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller VCell Model Compiler Services", "description": "Abstract base type library shared by the GCModeller virtual cell model compilers. It defines the generic compiler template, the model base type, model property metadata and the vcellkit XML serialization contract with compilation logging.", "tags": "gcmodeller;bioinformatics;genomics;compiler-framework;model-serialization", "releaseNotes": "Provided the abstract compiler and model base type library used by all GCModeller vcell model compilers." },
+    { "path": "src/GCModeller/engine/Dynamics.Debugger/vcellDebugger.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Cellular Dynamics Debugger", "description": "Debugging and visualization toolkit for the GCModeller cellular dynamics engine. Renders mass and reaction flux networks as graph models and generates per-region HTML model summary reports for inspecting a loaded virtual cell.", "tags": "gcmodeller;bioinformatics;genomics;debugging;network-visualization;simulation", "releaseNotes": "Added the dynamics debugger with flux network visualization and model summary report generation." },
+    { "path": "src/GCModeller/engine/Dynamics/Dynamics.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Cellular Dynamics Simulation Engine", "description": "The core reaction vessel and ODE solver of the GCModeller virtual cell engine. Models mass contents and reaction channels covering metabolism, transcription, translation and transport, and integrates mass dynamics with a parallel Runge-Kutta solver and enzyme kinetics.", "tags": "gcmodeller;bioinformatics;genomics;ode-solver;enzyme-kinetics;simulation", "releaseNotes": "Released the cellular dynamics engine kernel with parallel RK4 integration of mass reaction networks." },
+    { "path": "src/GCModeller/engine/GCModeller.Framework.Kernel_Driver/GCModeller.Framework.Kernel_Driver.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.Framework.Kernel_Driver", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Simulation Kernel Driver Framework", "description": "Generic driver framework for executing the GCModeller cellular simulation engine. Provides kernel drivers, reactor machine abstractions and data-acquisition adapters such as CSV and MySQL, together with an exported command-line API.", "tags": "gcmodeller;bioinformatics;genomics;kernel-driver;simulation;data-adapter", "releaseNotes": "Introduced the kernel driver framework that loads and runs the GCModeller simulation engine with pluggable data adapters." },
+    { "path": "src/GCModeller/engine/GCModeller/GCModeller.ModellingEngine.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.ModellingEngine", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Modelling Engine", "description": "The GCModeller virtual cell modelling engine and runtime environment. It encapsulates cell system object models, expression and metabolism subsystems, experiment control, data acquisition services and the finite-iteration computation kernel.", "tags": "gcmodeller;bioinformatics;genomics;simulation-engine;virtual-cell;systems-biology", "releaseNotes": "Released the GCModeller modelling engine providing the cell system runtime, experiment system and data acquisition services." },
+    { "path": "src/GCModeller/engine/IO/GCMarkupLanguage/GCMarkupXML.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller GCMarkupLanguage Virtual Cell Model", "description": "Data definitions and I/O for the GCModeller GCMarkupLanguage virtual cell XML model format. Describes taxonomy, genome, transcript regulation and metabolic network structures used to represent a complete virtual cell.", "tags": "gcmodeller;bioinformatics;genomics;xml;file-format;virtual-cell", "releaseNotes": "Added the GCMarkupLanguage virtual cell XML model format and its assembly serialization support." },
+    { "path": "src/GCModeller/engine/IO/GCTabular/GCTabular.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller GCTabular Model Format", "description": "The tabular CSV and Excel model file format and compiler for GCModeller virtual cell models. Builds cell system data models from BioCyc, KEGG and STRING sources and exports kinetics, annotation and interaction data as editable tables.", "tags": "gcmodeller;bioinformatics;genomics;tabular-data;file-format;model-compiler", "releaseNotes": "Delivered the GCTabular model format and compiler that emits editable CSV cell system model data." },
+    { "path": "src/GCModeller/engine/IO/Raw/vcXML.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.ModellingEngine.IO", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Virtual Cell Raw Data I/O", "description": "Raw data input and output for the GCModeller virtual cell simulation. Reads and writes the vcXML mass-profile frame format, the HDS GCModeller raw data store and VCell matrix formats for simulation results.", "tags": "gcmodeller;bioinformatics;genomics;data-io;binary-format;simulation", "releaseNotes": "Released the vcXML, HDS raw and VCell matrix readers and writers for virtual cell simulation data." },
+    { "path": "src/GCModeller/engine/Model/Model.Core.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.ModellingEngine.Model", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Virtual Cell Component Model", "description": "Common biological component model types shared across GCModeller. It defines the cellular module together with genotype, phenotype, regulation, molecule and process descriptions used as a unified data representation for simulation and analysis.", "tags": "gcmodeller;bioinformatics;genomics;data-model;virtual-cell;systems-biology", "releaseNotes": "Provided the shared virtual cell component model types for genotypes, phenotypes and regulation networks." },
+    { "path": "src/GCModeller/foundation/OBO_Foundry/obo_foundry-netcore5.vbproj", "rootNamespace": "SMRUCC.genomics.foundation.OBO_Foundry", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller OBO Foundry Ontology Library", "description": "OBO format ontology parser and tooling. It reads Open Biological and Biomedical Ontology files, extracts headers and terms, and builds ontology lineage trees through is_a relationships, with RDF/OWL support.", "tags": "gcmodeller;bioinformatics;genomics;ontology;obo;rdf", "releaseNotes": "Added the OBO Foundry reader and ontology tree builder for biological and biomedical ontologies." },
+    { "path": "src/GCModeller/foundation/PSICQUIC/psidev/psidev.vbproj", "rootNamespace": "SMRUCC.genomics.foundation.psidev", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "PSI-MI Molecular Interaction Data Formats", "description": "Implementations of the PSI-MI (Proteomics Standards Initiative Molecular Interactions) standard formats. It provides MIF 2.5 and 3.0 XML schemas and a MITAB tabular parser for molecular interaction data exchange.", "tags": "gcmodeller;bioinformatics;genomics;psi-mi;molecular-interaction;mitab", "releaseNotes": "Released the PSI-MI MIF XML and MITAB parsers for standardized molecular interaction data." },
+    { "path": "src/GCModeller/models/BioCyc/BioCyc.vbproj", "rootNamespace": "SMRUCC.genomics.Data.BioCyc", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "BioCyc Database Reader", "description": "Reader library for the BioCyc/MetaCyc/EcoCyc pathway-genome database (PGDB) flat-file format. It parses the BioCyc .dat attribute files for compounds, reactions, pathways, genes, proteins, regulation and species into strongly typed .NET models, exposed through a lazy-loading Workspace API together with the accompanying FASTA sequence data.", "tags": "gcmodeller;bioinformatics;genomics;biocyc;metacyc;pathway-database;flatfile-parser", "releaseNotes": "Adds strongly typed BioCyc/MetaCyc PGDB flat-file parsing with lazy Workspace access to compounds, reactions, pathways, genes and proteins." },
+    { "path": "src/GCModeller/models/BIOM/BIOM/BIOM.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.foundation.BIOM", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "The Biological Observation Matrix (BIOM) Format Project", "description": "Reader for the Biological Observation Matrix (BIOM) format used in microbiome and metagenomics studies. It parses BIOM v1.0 JSON as well as v2.0/v2.1 HDF5 files into a unified OTU-table dataset model, providing automatic version detection, sparse/dense matrix handling, row/column metadata and taxonomy information.", "tags": "gcmodeller;bioinformatics;genomics;biom-format;otu-table;hdf5;microbiome", "releaseNotes": "Supports reading BIOM v1.0 JSON and v2.0/v2.1 HDF5 files through a unified dataset model with automatic version detection." },
+    { "path": "src/GCModeller/models/GPML/PathVisio/GPML.vbproj", "rootNamespace": "SMRUCC.genomics.Model.PathVisio", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GPML: Graphical Pathway Markup Language for PathVisio (.gpml)", "description": "Parser for the PathVisio Graphical Pathway Markup Language (GPML) XML format. It deserialises .gpml pathway files into strongly typed data nodes, interactions, graphics and xrefs, and converts them into a NetworkGraph model for downstream network analysis and visualisation.", "tags": "gcmodeller;bioinformatics;genomics;pathvisio;gpml;pathway;xml", "releaseNotes": "Adds GPML pathway parsing and conversion of PathVisio pathway documents into graph models for analysis." },
+    { "path": "src/GCModeller/models/ncbi-BioSystems/BioSystems.vbproj", "rootNamespace": "SMRUCC.genomics.Model.BioSystems", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "NCBI BioSystems Model Project", "description": "Model library for assembling NCBI BioSystems-style genome annotation projects. It converts GenBank records into protein annotation sets and packages proteins, FASTA sequences and Rhea-based metabolic enzyme networks into a portable HDSPack project archive that can be read back for downstream annotation, pathway and network analysis.", "tags": "gcmodeller;bioinformatics;genomics;ncbi-biosystems;genbank;annotation;hdspack", "releaseNotes": "Builds portable NCBI BioSystems genome annotation projects from GenBank, including protein annotations and Rhea metabolic enzyme networks." },
+    { "path": "src/GCModeller/models/Networks/KEGG/KEGGNetwork.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Model.Network.KEGG", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "KEGG Network Builder", "description": "Generator of network models for KEGG metabolic pathways. It builds compound-reaction networks, enzyme-bridged reaction-class networks and KEGG reference pathway maps from KEGG data, including KO links, edge filtering, layout support and exports for cytoscape-style visualisation.", "tags": "gcmodeller;bioinformatics;genomics;kegg;metabolic-network;pathway;graph-model", "releaseNotes": "Generates KEGG metabolic pathway and reaction network models from compound id lists for visualisation and analysis." },
+    { "path": "src/GCModeller/models/Networks/KEGGGraphVisualizer/KEGGGraphVisualizer.vbproj", "rootNamespace": "SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "KEGG Pathway Graph Visualizer", "description": "Visualisation library for KEGG pathway network graphs. It renders functional enrichment networks and KEGG reference pathway maps into images using pluggable block or plain render styles, with colour mapping, layout algorithms and physics-based graph rendering.", "tags": "gcmodeller;bioinformatics;genomics;kegg;network-visualization;graph-rendering", "releaseNotes": "Adds image rendering of KEGG pathway and functional enrichment networks with configurable render styles." },
+    { "path": "src/GCModeller/models/Networks/Microbiome/Microbiome.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Model.Network.Microbiome", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Microbiome Metabolic Network Builder", "description": "Microbiome metabolic network modelling library for modern .NET. It builds nutritional complementation and competition networks between microbial genomes from UniProt and KEGG annotations, performs end-point metabolic analysis, computes KEGG pathway enrichment profiles and provides a UniProt taxonomy reference builder.", "tags": "gcmodeller;bioinformatics;genomics;microbiome;metagenomics;metabolic-network;uniprot", "releaseNotes": "Builds microbiome metabolic complementation and competition networks from UniProt/KEGG annotations with pathway profiling." },
+    { "path": "src/GCModeller/models/Networks/Microbiome/Microbiome.vbproj", "rootNamespace": "SMRUCC.genomics.Model.Network.Microbiome", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Microbiome Metabolic Network Library (.NET Framework)", "description": "The .NET Framework 4.8 build of the microbiome metabolic network library for the GCModeller desktop and Biodeep pipelines. It constructs nutritional complementation and competition networks between microbial genomes from UniProt/KEGG annotations and performs end-point metabolic and KEGG pathway profiling analysis.", "tags": "gcmodeller;bioinformatics;genomics;microbiome;desktop;metabolic-network;uniprot", "releaseNotes": "Provides the .NET Framework 4.8 desktop build of the microbiome metabolic complementation and pathway profiling library." },
+    { "path": "src/GCModeller/models/Networks/Network.BLAST/Network.BLAST.vbproj", "rootNamespace": "SMRUCC.genomics.Model.Network.BLAST", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "BLAST Biological Network Builder", "description": "Builder of biological networks from BLAST alignment results. It converts local BLAST/BLAST+ output, bidirectional best hits (BBH) and single best hits (SBH) into weighted gene-similarity networks, primarily for metagenomic and comparative-genomics studies.", "tags": "gcmodeller;bioinformatics;genomics;blast;metagenomics;biological-network", "releaseNotes": "Builds weighted gene-similarity networks from BLAST, BBH and SBH alignment results for metagenomic analysis." },
+    { "path": "src/GCModeller/models/Networks/Network.Regulons/Network.Regulons.vbproj", "rootNamespace": "SMRUCC.genomics.Model.Network.Regulons", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Gene Expression Regulation Network Builder", "description": "Builder of gene expression regulation networks and regulons (TRN). It computes cross-omics correlations between expression matrices to construct transcription regulatory networks, and exports motif/regulon TF-target graphs into Cytoscape XGMML format.", "tags": "gcmodeller;bioinformatics;genomics;gene-regulation;regulon;trn;correlation", "releaseNotes": "Builds gene expression regulatory networks from cross-omics correlation data and exports regulon graphs to XGMML." },
+    { "path": "src/GCModeller/models/Networks/STRING/STRING.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Model.Network.STRING", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "STRING-db Bacterial Signal Transduction Network", "description": "Builder of bacterial signal-transduction and functional networks based on STRING-db. It assembles two-component system (TCS), chemotaxis and transcription-factor interaction networks from STRING/UniProt data and renders functional enrichment networks of differentially expressed genes.", "tags": "gcmodeller;bioinformatics;genomics;string-db;protein-interaction;signal-transduction", "releaseNotes": "Constructs bacterial signal-transduction and functional enrichment networks from STRING-db interaction data." },
+    { "path": "src/GCModeller/models/RouterAdapter/RouterAdapter.vbproj", "rootNamespace": "SMRUCC.genomics.Model.Metabolic.RouterAdapter", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Metabolic Pathway Router", "description": "Adapter that connects BioCyc/MetaCyc pathway-genome databases to the RetroPath retrosynthesis engine. It mines generalised reaction rules via MCS atom mapping, builds chassis sink compound sets, and exposes a unified router interface for target-oriented retrosynthetic and source-directed synthesis pathway searches.", "tags": "gcmodeller;bioinformatics;genomics;retrosynthesis;metabolic-pathway;biocyc;cheminformatics", "releaseNotes": "Adapts BioCyc databases into RetroPath retrosynthetic pathway search through mined generalised reaction rules." },
+    { "path": "src/GCModeller/models/SBML/Biopax/biopax-netcore5.vbproj", "rootNamespace": "SMRUCC.genomics.Model.Biopax", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "BioPAX Level 3 OWL Pathway Data Model", "description": "Strongly typed object model and reader for BioPAX Level 3 biological pathway exchange data. It deserialises RDF/OWL XML documents such as Reactome and SMPDB exports into .NET classes covering pathways, biochemical reactions, proteins, small molecules, catalysis and xrefs.", "tags": "gcmodeller;bioinformatics;genomics;biopax;pathway;rdf;owl", "releaseNotes": "Reads BioPAX Level 3 RDF/OWL pathway documents into a strongly typed biological pathway data model." },
+    { "path": "src/GCModeller/models/SBML/SBML/sbml-netcore5.vbproj", "rootNamespace": "SMRUCC.genomics.Model.SBML", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "SBML Systems Biology Model Reader/Writer", "description": "Systems Biology Markup Language (SBML) reader/writer for computational models of biochemical reaction networks. It supports SBML Level 2 and Level 3 documents including compartments, species, reactions, kinetic laws, annotations and SBGN glyphs, with export helpers such as conversion to KEGG.", "tags": "gcmodeller;bioinformatics;genomics;sbml;systems-biology;model-exchange", "releaseNotes": "Provides SBML Level 2/3 model reading and writing with SBGN and KEGG export helpers." },
+    { "path": "src/GCModeller/sub-system/BNLearn/BNLearn.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.BNLearn", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Bayesian network learning for gene regulatory networks", "description": "Provides Bayesian network structure and parameter learning for gene regulatory network inference from expression data. Supports dynamic Bayesian networks, modular/WGCNA networks, probabilistic inference and in-silico gene knockout intervention analysis.", "tags": "gcmodeller;bioinformatics;genomics;bayesian-network;machine-learning;gene-regulation", "releaseNotes": "Adds Bayesian network structure and parameter learning with dynamic networks and virtual knockout inference." },
+    { "path": "src/GCModeller/sub-system/CellPhenotype/CellPhenotype.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.CellPhenotype", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Cellular metabolic network phenotype simulator", "description": "Simulates cellular metabolic network phenotypes from gene regulatory and expression data. Bridges WGCNA co-expression networks with dynamic Bayesian networks and computes metabolic network phenotype states through metabolic network solving.", "tags": "gcmodeller;bioinformatics;genomics;phenotype;metabolic-network;wgcna", "releaseNotes": "Simulates cellular metabolic phenotypes by bridging expression networks and metabolic network solving." },
+    { "path": "src/GCModeller/sub-system/FBA/FBA.Core/FBA.Core.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.FBA", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Flux Balance Analysis (FBA) metabolic flux solver", "description": "Implements flux balance analysis for genome-scale metabolic network models. Builds sparse stoichiometric matrices and solves the linear programming problem with an interior-point method to compute optimal metabolic flux distributions.", "tags": "gcmodeller;bioinformatics;genomics;fba;metabolic-model;linear-programming", "releaseNotes": "Solves genome-scale FBA problems using a sparse interior-point linear programming engine." },
+    { "path": "src/GCModeller/sub-system/GEARS/GEARS.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.GEARS", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GEARS graph neural network gene perturbation prediction", "description": "Implements the GEARS graph neural network model for predicting transcriptional responses to genetic perturbations. Builds gene regulatory graphs, performs edge-type-aware message passing and trains on Perturb-seq data to generalize to unseen perturbations.", "tags": "gcmodeller;bioinformatics;genomics;graph-neural-network;perturbation;deep-learning", "releaseNotes": "Adds a graph neural network pipeline for predicting gene expression changes from perturbations." },
+    { "path": "src/GCModeller/sub-system/Metaboliq/Metaboliq.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.Metaboliq", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Metaboliq liquid neural network metabolic kinetics", "description": "Models metabolic dynamics as a structured liquid neural network constrained by the metabolic network topology. Trains flux readouts on time-series metabolomics data and enforces thermodynamic feasibility of reaction directions.", "tags": "gcmodeller;bioinformatics;genomics;metabolic-network;liquid-neural-network;kinetics", "releaseNotes": "Adds a topology-constrained liquid neural network for metabolic kinetics with thermodynamic feasibility." },
+    { "path": "src/GCModeller/sub-system/PLAS.NET/SSystem/SSystem.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.SSystem", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "PLAS.NET biological system dynamics simulator", "description": "A system dynamics simulator for biological and metabolic models. Compiles SBML or script models into ODE equation systems and runs numerical simulations with perturbation experiments such as knockdowns, kicks and disturbances.", "tags": "gcmodeller;bioinformatics;genomics;system-dynamics;ode;simulation;sbml", "releaseNotes": "Compiles SBML and script models into ODE systems and runs biological system dynamics simulations." },
+    { "path": "src/GCModeller/visualize/ChromosomeMap/ChromosomeMap.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Visualize.ChromosomeMap", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Bacterial Chromosome Map Visualizer", "description": "Chromosome map visualiser for bacterial genomes. It draws circular and linear whole-genome maps from GenBank/PTT data, rendering genes, COG colour profiles, plasmid maps, motif foot-prints and mutation sites into publication-ready images.", "tags": "gcmodeller;bioinformatics;genomics;chromosome-map;genome-visualization;circos", "releaseNotes": "Renders bacterial chromosome, plasmid and motif footprint maps from genome annotation data." },
+    { "path": "src/GCModeller/visualize/ChromosomeMap/Data/Data.vbproj", "rootNamespace": "SMRUCC.genomics.Visualize.ChromosomeMap.Data", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Chromosome Map Data Loader", "description": "Data-loading support library for chromosome map visualisation. It reads RNA-seq alignment (SAM) read-coverage, transcription start sites, motif foot-prints and COG annotations and converts them into drawing-model layers consumed by the chromosome map renderer.", "tags": "gcmodeller;bioinformatics;genomics;chromosome-map;sam;read-coverage", "releaseNotes": "Loads SAM read coverage, TSS, motif and COG data as drawing layers for the chromosome map renderer." },
+    { "path": "src/GCModeller/visualize/DataVisualizationExtensions/datavisual-netcore5.vbproj", "rootNamespace": "SMRUCC.genomics.Visualize", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Genomics Data Visualization Extensions", "description": "Extended data-visualisation toolkit for genomics statistics on modern .NET. It produces catalog/COG profiling plots, volcano and differential-expression plots, enrichment bubble and heatmap charts, intersection/Upset plots and expression-pattern heatmaps for analysing omics results.", "tags": "gcmodeller;bioinformatics;genomics;data-visualization;plots;enrichment-analysis", "releaseNotes": "Adds a broad set of genomics visualisations including volcano, enrichment bubble/heatmap and Upset plots." },
+    { "path": "src/GCModeller/visualize/DataVisualizationTools/DataVisualizationTools.vbproj", "rootNamespace": "SMRUCC.genomics.Visualize", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Genome BLAST & Regulation Visualization Tools", "description": "Genome data-visualisation toolset (.NET Framework) for BLAST and gene-regulation analysis. It draws BLAST hit alignment tracks, ortholog Venn/best-hit diagrams and genetic-clock regulation series (Doppler offset) charts from genomic and expression data.", "tags": "gcmodeller;bioinformatics;genomics;data-visualization;blast;genetic-clock", "releaseNotes": "Provides BLAST alignment-track and genetic-clock regulation-series visualisations for genome analysis." },
+    { "path": "src/GCModeller/visualize/SyntenyVisual/SyntenyVisual.vbproj", "rootNamespace": "SMRUCC.genomics.Visualize.SyntenyVisualize", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Pan-genome Synteny Visualizer", "description": "Pan-genome synteny and colinearity visualisation library. It renders high-resolution genome collinearity plots from BLAST/NUCMER alignments using GDI+, with bezier or straight-line gene connections, multiple colour palettes and automatic multi-genome chromosome layout, exporting publication-quality PNG images.", "tags": "gcmodeller;bioinformatics;genomics;synteny;comparative-genomics;pan-genome;visualization", "releaseNotes": "Plots high-resolution genome synteny and collinearity diagrams with configurable themes and colour palettes." },
+    { "path": "src/interops/localblast/assembler/assembler.vbproj", "rootNamespace": "SMRUCC.genomics.Interops.NCBI.Localblast.Assembler", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "De Novo Sequence Assembler and Reads Simulator", "description": "De novo genome assembly for sequencing reads, implementing a greedy shortest-common-superstring algorithm with AVL clustering and bit-parallel pairwise alignment. Also provides a read and fragment simulator for generating benchmark FASTA data.", "tags": "gcmodeller;bioinformatics;genomics;genome-assembly;de-novo-assembly;shortest-common-superstring;sequencing-simulation", "releaseNotes": "Implements greedy de novo sequence assembly and read simulation utilities for constructing contigs from FASTA reads." },
+    { "path": "src/interops/localblast/LocalBLAST/localblast.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Interops.NCBI.Extensions", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "NCBI Local BLAST+ Interop and Functional Annotation Toolkit", "description": "Interop toolkit for the NCBI BLAST+ command-line programs, generating blastn/blastp/blastx/diamond commands and parsing BLAST outputs. Provides functional annotation pipelines (COG/KO), best-hit and bidirectional best-hit analysis, and web BLAST alignment table parsing.", "tags": "gcmodeller;bioinformatics;genomics;blast;sequence-alignment;functional-annotation;interop", "releaseNotes": "Provides the core local BLAST+ interop services for running searches and parsing their results into functional annotation pipelines." },
+    { "path": "src/interops/localblast/PanGenome/PanGenome.vbproj", "rootNamespace": "SMRUCC.genomics.Analysis.PanGenome", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "PanGenome Analysis Toolkit", "description": "Comparative pangenome analysis across multiple genomes, clustering genes into families and classifying core, soft-core, shell, cloud and species-specific genes. Computes gene presence/absence (PAV) matrices, copy-number variation, structural variation, collinearity blocks and genetic distance, with HTML report generation.", "tags": "gcmodeller;bioinformatics;genomics;pan-genome;gene-family;comparative-genomics;structural-variation", "releaseNotes": "Delivers an end-to-end pangenome analysis workflow with gene family classification, PAV/CNV/SV detection and HTML reporting." },
+    { "path": "src/interops/localblast/ParallelTask/ParallelTask.vbproj", "rootNamespace": "SMRUCC.genomics.Interops.NCBI.ParallelTask", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Parallel NCBI LocalBLAST Batch Task Helper", "description": "Batch and parallel execution helpers for the NCBI localblast+ toolkit, driving blastn/blastx/blastp across many query or subject genomes. Handles best-hit and bidirectional best-hit parsing and export, MyvaCOG classification, SBH tabular data and Venn data construction.", "tags": "gcmodeller;bioinformatics;genomics;blast;parallel-computing;best-hit;batch-processing", "releaseNotes": "Adds multithreaded batch BLAST orchestration and best-hit/bidirectional best-hit export utilities." },
+    { "path": "src/interops/meme_suite/MEME/MEME.vbproj", "rootNamespace": "SMRUCC.genomics.Interops.NBCR.MEME_Suite", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "MEME Suite Motif Discovery Interop and Analysis", "description": "Interop and analysis layer for the MEME suite of motif discovery tools, wrapping MEME, MAST and TomTom command-line programs. Includes motif scanning, virtual footprint prediction, sequence logo rendering, motif similarity comparison and promoter/regulon parsing workflows.", "tags": "gcmodeller;bioinformatics;genomics;motif-discovery;transcription-factor;regulon;meme-suite", "releaseNotes": "Provides motif discovery, scanning and virtual footprint analysis workflows around the MEME suite programs." },
+    { "path": "src/interops/meme_suite/meme_data/meme_data.vbproj", "rootNamespace": "SMRUCC.genomics.Interops.NBCR.MEME_Suite", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "MEME Suite Output Data Models and Parsers", "description": "Data models and parsers for the MEME suite output files, supporting MEME and MAST XML, text and HTML outputs plus TomTom results. Provides strongly-typed objects for motifs, sites, background models and scoring matrices.", "tags": "gcmodeller;bioinformatics;genomics;motif-discovery;file-parser;meme-suite;data-model", "releaseNotes": "Implements typed parsers for the MEME, MAST and TomTom output data files." },
+    { "path": "src/interops/meme_suite/TmoD/TmoD.vbproj", "rootNamespace": "SMRUCC.genomics.Interops.NBCR.MEME_Suite.TMoD", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "Tmod Toolbox of Motif Discovery Resource Wrapper", "description": "Wrapper for the Tmod (toolbox of motif discovery) program collection, bundling twelve de novo motif-finding executables as embedded resources. Releases the tools into a working session and supports batch MEME scanning, FASTA sub-sampling and motif-based sequence selection.", "tags": "gcmodeller;bioinformatics;genomics;motif-discovery;toolbox;batch-processing;meme", "releaseNotes": "Bundles and orchestrates the Tmod motif discovery programs with batch scanning and FASTA sub-sampling support." },
+    { "path": "src/interops/RNA-Seq/RNA-seq.Data/RNA-seq.Data.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.SequenceModel", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "RNA-seq and Next-Generation Sequencing Data Model", "description": "Data model and analysis toolkit for RNA-seq and NGS data, parsing FASTQ, SAM and BAM formats and supporting de Bruijn and overlap graph assembly. Provides read simulation, feature counting and gene expression quantification (TPM) utilities.", "tags": "gcmodeller;bioinformatics;genomics;rna-seq;fastq;sam-bam;genome-assembly;gene-expression", "releaseNotes": "Provides sequencing data parsing, assembly graph models and gene expression quantification for RNA-seq workflows." },
+    { "path": "src/interops/visualize/Circos/Circos.Extensions/Circos.Extensions.vbproj", "rootNamespace": "SMRUCC.genomics.Visualize.Circos", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Circos Genome Visualization Data Extensions", "description": "Extension APIs that translate biological analysis results into Circos genome circle data. Builds karyotype and track data from BLAST alignment maps, virtual footprints, regulons and phenotype regulations, and provides delta-difference plots and annotation legends.", "tags": "gcmodeller;bioinformatics;genomics;circos;genome-visualization;blast;regulon", "releaseNotes": "Adds data-generation extensions that turn BLAST, virtual footprint and regulon results into Circos plot tracks." },
+    { "path": "src/interops/visualize/Circos/Circos/Circos.vbproj", "rootNamespace": "SMRUCC.genomics.Visualize.Circos", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Circos Configuration Model and Rendering API", "description": "Configuration model and API for generating Circos genome circle plots. Builds circos configuration files including ideograms, karyotypes, ticks, highlights, links and track plots, offers color mapping schemes, and invokes the circos renderer.", "tags": "gcmodeller;bioinformatics;genomics;circos;genome-visualization;karyotype;visualization", "releaseNotes": "Implements the Circos configuration document model and rendering API for genome circle visualization." },
+    { "path": "src/interops/visualize/Cytoscape/Cytoscape.App/Cytoscape.App.vbproj", "rootNamespace": "SMRUCC.genomics.Visualize.Cytoscape", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Cytoscape Biological Network Model Builders", "description": "Generates Cytoscape network models from biological pathway and interaction data, covering KEGG PfsNET, MetaCyc pathways, protein interaction networks and SBML/FBA models. Provides gene-to-reaction assignment and shell-script APIs to export networks for Cytoscape.", "tags": "gcmodeller;bioinformatics;genomics;cytoscape;network-visualization;pathway;kegg;metacyc", "releaseNotes": "Builds and exports biological pathway and interaction networks in Cytoscape-ready formats." },
+    { "path": "src/interops/visualize/Cytoscape/Cytoscape.Automation/Cytoscape.Automation.vbproj", "rootNamespace": "SMRUCC.genomics.Visualize.Cytoscape.Automation", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Cytoscape cyREST Automation Client", "description": "Automation client for controlling a running Cytoscape instance through the cyREST REST API. Supports uploading networks in cyjs or SIF format, applying layouts, retrieving network views and saving or destroying sessions programmatically.", "tags": "gcmodeller;bioinformatics;genomics;cytoscape;rest-api;automation;network-visualization", "releaseNotes": "Enables programmatic control of Cytoscape via the cyREST automation API for network upload, layout and session management." },
+    { "path": "src/interops/visualize/Cytoscape/Cytoscape/Cytoscape.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Visualize.Cytoscape", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "Cytoscape Graph Data Model and File Format IO", "description": "Graph data model and file-format IO for Cytoscape, reading and writing XGMML, Cytoscape.js JSON (cyjs), SIF and CYS session files. Converts between generic network graphs and Cytoscape models with node and edge attributes, graphics and visual styles.", "tags": "gcmodeller;bioinformatics;genomics;cytoscape;network-graph;file-format;graph-serialization", "releaseNotes": "Implements Cytoscape network data models and serializers for XGMML, cyjs, SIF and session files." },
+    { "path": "src/interops/visualize/Phylip/Phylip.vbproj", "rootNamespace": "SMRUCC.genomics.Interops.Visualize.Phylip", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "PHYLIP Phylogenetic Analysis and Tree Toolkit", "description": "Interop toolkit for the PHYLIP phylogenetics programs, invoking tools such as gendist to build distance matrices. Parses and manipulates phylogenetic trees in Newick, Nexus, NHX and phyloXML formats, supports rerooting and provides tree drawing and EvolView export.", "tags": "gcmodeller;bioinformatics;genomics;phylogenetics;phylip;phylogenetic-tree;newick;tree-visualization", "releaseNotes": "Provides PHYLIP program invocation plus phylogenetic tree parsing, manipulation and drawing capabilities." },
+    { "path": "src/repository/Bio.Repository/repository.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Data", "logoRelative": "..\\..\\..\\assets\\logo.png", "title": "GCModeller Biological Database Repository (GenBank, KEGG, UniProt)", "description": "A bioinformatics data repository layer that indexes, caches and queries major biological reference databases. It provides readers and writers for NCBI GenBank/assembly summary, KEGG orthology, compound, reaction and pathway data, UniProt annotations, and SABIO-RK/Rhea reaction kinetics.", "tags": "gcmodeller;bioinformatics;genomics;kegg;genbank;uniprot;database", "releaseNotes": "Adds a unified repository layer for indexing and querying GenBank, KEGG, UniProt and reaction-kinetics reference databases." },
+    { "path": "src/repository/HMP_client/HMP_client.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.Data.Repository.NIH.HMP", "logoRelative": "..\\..\\..\\assets\\logo.png", "title": "NIH Human Microbiome Project (HMP) Data Client", "description": "A .NET client for downloading NIH Human Microbiome Project datasets. It parses manifest and sample-metadata TSV tables and downloads data files over HTTP or Aspera with MD5 integrity verification.", "tags": "gcmodeller;bioinformatics;genomics;microbiome;hmp;download", "releaseNotes": "Provides a .NET 5+ client for downloading NIH Human Microbiome Project datasets with manifest parsing and MD5 verification." },
+    { "path": "src/repository/HMP_client/HMP_client.vbproj", "rootNamespace": "SMRUCC.genomics.Data.Repository.NIH.HMP", "logoRelative": "..\\..\\..\\assets\\logo.png", "title": "NIH Human Microbiome Project (HMP) Data Client for .NET Framework", "description": "The .NET Framework 4.8 build of the NIH Human Microbiome Project data client. It parses dataset manifest and metadata tables and downloads files via HTTP or Aspera with MD5 checking.", "tags": "gcmodeller;bioinformatics;genomics;microbiome;hmp;net-framework", "releaseNotes": "Provides the .NET Framework 4.8 build of the NIH HMP dataset download client with manifest parsing and MD5 verification." },
+    { "path": "src/repository/Model_Repository/Model_Repository.vbproj", "rootNamespace": "SMRUCC.genomics.Data.Model_Repository", "logoRelative": "..\\..\\..\\assets\\logo.png", "title": "GCModeller Model Repository (MySQL/SQLite Backend)", "description": "A database-backed model repository for storing GCModeller reference data. It offers MySQL and SQLite indexing engines with tables for GenBank entries, RegPrecise regulons, UniProt records, filesystem objects and user security.", "tags": "gcmodeller;bioinformatics;genomics;database;mysql;sqlite;repository", "releaseNotes": "Delivers a MySQL/SQLite persistence repository for GenBank, RegPrecise, UniProt and user-security model data." },
+    { "path": "src/repository/Model_Repository/RQL/RQL.vbproj", "rootNamespace": "SMRUCC.genomics.Data.Model_Repository.RQL", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Repository Query Language (RQL)", "description": "A scriptable, LINQ-like query language for the GCModeller model repository database. Exposed as ShoalShell entry points, it performs SQL queries, GenBank import and lookup by locus or definition, user creation and table schema updates.", "tags": "gcmodeller;bioinformatics;genomics;query-language;sqlite;scripting", "releaseNotes": "Adds a scriptable RQL interface for SQL querying and GenBank import into the GCModeller repository database." },
+    { "path": "src/repository/ncbi_datasets/ncbi_datasets.vbproj", "rootNamespace": "SMRUCC.genomics.Data.NCBI", "logoRelative": "..\\..\\..\\assets\\logo.png", "title": "NCBI Datasets REST API Client (OpenAPI 3.0)", "description": "A strongly typed asynchronous .NET client for the NCBI Datasets v2 REST API, generated from its OpenAPI 3.0 specification. It retrieves genome assemblies, genes, organelle metadata, download summaries and sequence reports.", "tags": "gcmodeller;bioinformatics;genomics;ncbi;rest-api;openapi", "releaseNotes": "Introduces an OpenAPI-derived asynchronous client for querying genomes, genes and metadata from the NCBI Datasets v2 API." },
+    { "path": "src/repository/nt/nt_repo.vbproj", "rootNamespace": "SMRUCC.genomics.Data.Repository.NCBI", "logoRelative": "..\\..\\..\\assets\\logo.png", "title": "NCBI nt Sequence Database Index & Query Engine", "description": "An index and query engine for the NCBI nt BLAST sequence database. It builds title/header indexes for low-memory scanning, evaluates expression-based queries and exports matching sequences as FASTA, with MySQL tables for nt, taxonomy, gi2taxid and rank names.", "tags": "gcmodeller;bioinformatics;genomics;blast;nt-database;sequence-search", "releaseNotes": "Adds an index and expression-based search engine for the NCBI nt BLAST database that exports matched sequences as FASTA." },
+    { "path": "src/workbench/modules/ExperimentDesigner/designer-netcore5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Experiment Designer", "description": "An omics experiment-design model library for describing samples, groups and comparison analyses. It supports sample metadata and injection ordering, treatment-versus-control and time-series designs, group averaging and differential-expression (DEG) models.", "tags": "gcmodeller;bioinformatics;genomics;proteomics;experiment-design;differential-expression", "releaseNotes": "Provides experiment-design templates for sample grouping, control-vs-treatment comparisons and differential-expression modeling." },
+    { "path": "src/workbench/modules/keggReport/keggReport.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.Workbench.KEGGReport", "logoRelative": "..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller KEGG Pathway Report Renderer", "description": "A visualization library that renders KEGG pathway maps and KO networks into images. It converts KGML pathway definitions into network graphs, draws KO/node representations and generates batch pathway-map reports.", "tags": "gcmodeller;bioinformatics;genomics;kegg;pathway;visualization", "releaseNotes": "Adds KEGG KGML pathway-map and KO network rendering for batch pathway report generation." },
+    { "path": "src/workbench/modules/Knowledge_base/Knowledge_base/kb.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.Workbench.Knowledge_base", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Knowledge Base Text Mining", "description": "A text-mining and NLP toolkit for biological knowledge. It clusters gene names by dynamic-programming text similarity, extracts Wikipedia and Bing academic search content, and ranks abstract keywords via text-graph analysis.", "tags": "gcmodeller;bioinformatics;genomics;nlp;text-mining;knowledge-base", "releaseNotes": "Delivers gene-name similarity clustering and literature text-mining utilities for building biological knowledge bases." },
+    { "path": "src/workbench/modules/Knowledge_base/ncbi_kb/ncbi_kb.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "NCBI PubMed & MeSH Knowledge Base Data Reader", "description": "A data reader for the NCBI PubMed and MeSH knowledge bases. It queries NCBI E-utilities (esearch/efetch), parses PubMed XML and plain-text articles, reads MeSH descriptors and trees, and formats citations in AMA, APA, MLA and NLM styles.", "tags": "gcmodeller;bioinformatics;genomics;pubmed;mesh;literature", "releaseNotes": "Adds PubMed/MeSH parsing, NCBI E-utilities querying and multi-style citation formatting for literature knowledge bases." },
+    { "path": "src/workbench/modules/SeqFeature/SeqFeature/SeqFeature.NET5.vbproj", "rootNamespace": "SMRUCC.genomics.GCModeller.Workbench.SeqFeature", "logoRelative": "..\\..\\..\\..\\..\\assets\\logo.png", "title": "GCModeller Sequence Feature ASCII Viewer", "description": "A lightweight library that visualizes features (sites) on short nucleotide or protein sequences as an ASCII diagram. It groups sites by position and renders labeled feature tracks together with a sequence ruler.", "tags": "gcmodeller;bioinformatics;genomics;sequence-feature;visualization;ascii", "releaseNotes": "Adds ASCII rendering of sequence features and site positions for short sequences." }
+  ]
 }

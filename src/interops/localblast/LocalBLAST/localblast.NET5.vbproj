@@ -8,7 +8,6 @@
     <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;PlantMAT;CellaLAB-Desktop;nuget_release</Configurations>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <UseApplicationFramework>True</UseApplicationFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -16,6 +15,17 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>NCBI Local BLAST+ Interop and Functional Annotation Toolkit</Title>
+    <Description>Interop toolkit for the NCBI BLAST+ command-line programs, generating blastn/blastp/blastx/diamond commands and parsing BLAST outputs. Provides functional annotation pipelines (COG/KO), best-hit and bidirectional best-hit analysis, and web BLAST alignment table parsing.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageTags>gcmodeller;bioinformatics;genomics;blast;sequence-alignment;functional-annotation;interop</PackageTags>
+    <PackageReleaseNotes>Provides the core local BLAST+ interop services for running searches and parsing their results into functional annotation pipelines.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">
@@ -272,7 +282,7 @@
     <Compile Remove="Service References.obsolete\**" />
     <EmbeddedResource Remove="Service References.obsolete\**" />
     <None Remove="Service References.obsolete\**" />
-    <None Include="..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

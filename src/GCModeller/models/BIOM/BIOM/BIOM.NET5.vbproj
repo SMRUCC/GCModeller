@@ -8,19 +8,23 @@
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;nuget_release;CellaLAB-Desktop</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <AssemblyTitle>The Biological Observation Matrix (BIOM) Format Project http://biom-format.org</AssemblyTitle>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-    <Title>The Biological Observation Matrix (BIOM) Format Project http://biom-format.org</Title>
-    <Description>The Biological Observation Matrix (BIOM) Format Project http://biom-format.org</Description>
-    <Company>http://biom-format.org</Company>
+    <Title>The Biological Observation Matrix (BIOM) Format Project</Title>
+    <Description>Reader for the Biological Observation Matrix (BIOM) format used in microbiome and metagenomics studies. It parses BIOM v1.0 JSON as well as v2.0/v2.1 HDF5 files into a unified OTU-table dataset model, providing automatic version detection, sparse/dense matrix handling, row/column metadata and taxonomy information.</Description>
+    <Company>SMRUCC genomics institute</Company>
     <Product>GCModeller</Product>
-    <Copyright>Copyright © GPL3 2016</Copyright>
-    <PackageTags>biom-format</PackageTags>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <PackageTags>gcmodeller;bioinformatics;genomics;biom-format;otu-table;hdf5;microbiome</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <PackageReleaseNotes>Supports reading BIOM v1.0 JSON and v2.0/v2.1 HDF5 files through a unified dataset model with automatic version detection.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -318,7 +322,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

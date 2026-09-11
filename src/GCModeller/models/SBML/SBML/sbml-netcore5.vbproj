@@ -8,9 +8,8 @@
     <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;CellaLAB-Desktop;nuget_release</Configurations>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-    <Title>Systems Biology Markup Language File Stream</Title>
+    <Title>SBML Systems Biology Model Reader/Writer</Title>
     <UseApplicationFramework>True</UseApplicationFramework>
     <Company>SMRUCC genomics institute</Company>
     <Product>GCModeller</Product>
@@ -18,6 +17,14 @@
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Description>Systems Biology Markup Language (SBML) reader/writer for computational models of biochemical reaction networks. It supports SBML Level 2 and Level 3 documents including compartments, species, reactions, kinetic laws, annotations and SBGN glyphs, with export helpers such as conversion to KEGG.</Description>
+    <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SMRUCC/GCModeller.git</RepositoryUrl>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
+    <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
+    <PackageTags>gcmodeller;bioinformatics;genomics;sbml;systems-biology;model-exchange</PackageTags>
+    <PackageReleaseNotes>Provides SBML Level 2/3 model reading and writing with SBGN and KEGG export helpers.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -88,7 +95,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\..\images\logo.png">
+    <None Include="..\..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
