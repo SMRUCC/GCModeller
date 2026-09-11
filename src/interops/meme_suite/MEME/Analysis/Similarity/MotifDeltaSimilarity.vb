@@ -179,12 +179,6 @@ Namespace Analysis.Similarity
         ''' <param name="g"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("Motif.Delta", Info:="A measure of difference between two sequences f and g (from different organisms or from different regions of the same genome) 
-is the average absolute dinucleotide relative abundance difference calculated as
-<br /><br />
-<li>sigma(f, g) = (1/16)*∑|pXY(f)-pXY(g)|
-<br /><br />
-where the sum extends over all dinucleotides (abbreviated sigma-differences).")>
         Public Function Sigma(f As Motif, g As Motif) As Double
             Return Sigma(f.PspMatrix, g.PspMatrix)
         End Function
@@ -201,12 +195,6 @@ where the sum extends over all dinucleotides (abbreviated sigma-differences).")>
         ''' <param name="g"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("Motif.Delta", Info:="A measure of difference between two sequences f and g (from different organisms or from different regions of the same genome) 
-is the average absolute dinucleotide relative abundance difference calculated as
-<br /><br />
-<li>sigma(f, g) = (1/16)*∑|pXY(f)-pXY(g)|
-<br /><br />
-where the sum extends over all dinucleotides (abbreviated sigma-differences).")>
         Public Function Sigma(f As MotifPM(), g As MotifPM()) As Double
             Dim sum As Double
 
@@ -292,8 +280,6 @@ where the sum extends over all dinucleotides (abbreviated sigma-differences).")>
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("Motif.Dinucleotide.BIAS", Info:="Dinucleotide relative abundance values (dinucleotide bias) are assessed through the odds ratio p(XY) = f(XY)/f(X)f(Y), 
-where fX denotes the frequency of the nucleotide X and fXY is the frequency of the dinucleotide XY in the sequence under study.")>
         Public Function DinucleotideBIAS(Motif As MotifPM(), X As DNA, Y As DNA) As Double
             Dim Len As Integer = Motif.Length
             Dim diBias As Double = __counts(Motif, {X, Y}) / (Len - 1)

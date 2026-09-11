@@ -132,12 +132,12 @@ Namespace Analysis.FootprintTraceAPI
         ''' <returns>取决于参数<paramref name="direct"/>: True -> MAST_DIR/mast.xml; False -> MAST/DIR</returns>
         <ExportAPI("Res.PreCompile")>
         Public Function PreCompile(MEME_OUT As String, MAST_OUT As String, direct As Boolean) As Dictionary(Of String, String)
-            Call "Start to pre-compile meme_out resource...".__DEBUG_ECHO
+            Call "Start to pre-compile meme_out resource...".debug
 
             Dim memeText As IEnumerable(Of String) =
                 FileIO.FileSystem.GetFiles(MEME_OUT, FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
 
-            Call "files enumeration job done!, start to compile hash table...".__DEBUG_ECHO
+            Call "files enumeration job done!, start to compile hash table...".debug
 
             Dim LQuery = (From s As String In memeText.AsParallel
                           Let mast As String = __getPath(s, MAST_OUT)
@@ -146,7 +146,7 @@ Namespace Analysis.FootprintTraceAPI
                               mast).ToDictionary(Function(x) x.s,
                                                  Function(x) If(direct, x.mast & "/mast.xml", x.mast))
 
-            Call $"dataset(size:={LQuery.Count}), build done!".__DEBUG_ECHO
+            Call $"dataset(size:={LQuery.Count}), build done!".debug
 
             If LQuery.Count = 0 Then
                 Call VBDebugger.Warning("Resource compile failured! Probably you should using the '/Copys' CLI command before you are compile this motif information....")
@@ -446,7 +446,7 @@ Namespace Analysis.FootprintTraceAPI
                 Dim list As New List(Of MatchResult)
                 Dim dl As EventProc = blocks.LinqProc
 
-                Call $"There are {blocks.Length} data buffer objects...".__DEBUG_ECHO
+                Call $"There are {blocks.Length} data buffer objects...".debug
 
                 For Each block In blocks
                     list += block.__parallelBatch

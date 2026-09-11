@@ -96,7 +96,7 @@ Namespace Workflows.PromoterParser
                     Call RegulonParser(genome, outDIR)
                 End If
 
-                Call genome.genome.name.__DEBUG_ECHO
+                Call genome.genome.name.debug
             Next
 
             Return True

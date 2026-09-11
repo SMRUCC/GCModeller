@@ -103,7 +103,7 @@ Namespace Analysis
             If GeneObject.ContainsKey(site) Then
                 Return GeneObject(site)
             Else
-                Call $"Unable found gene information for {NameOf(site)}:={site}...".__DEBUG_ECHO
+                Call $"Unable found gene information for {NameOf(site)}:={site}...".debug
                 Return Nothing
             End If
         End Function

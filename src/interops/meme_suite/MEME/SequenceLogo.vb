@@ -89,7 +89,6 @@ Public Module SequenceLogoAPI
     ''' </summary>
     ''' <param name="Path"></param>
     ''' <returns></returns>
-    <ExportAPI("Load.MEME_Text.Motifs", Info:="Load the motif data from the meme text format calculation result")>
     Public Function LoadMotif(Path As String) As Motif()
         Dim data As Motif() = MEME.Text.Load(path:=Path)
         Return data
@@ -139,7 +138,7 @@ Public Module SequenceLogoAPI
             Dim Path As String = $"{outDIR}/{ID}.{Motif.Id}.png"
 
             Call res.Save(Path)
-            Call $"{Path.ToFileURL} saved....".__DEBUG_ECHO
+            Call $"{Path.ToFileURL} saved....".debug
         Next
 
         Return True

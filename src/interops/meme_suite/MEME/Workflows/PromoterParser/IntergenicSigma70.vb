@@ -273,7 +273,7 @@ PWM models were constructed For the most abundantly encountered motifs, includin
                                       Optional Length As Integer = 100,
                                       <Parameter("Dir.Export")> Optional EXPORT As String = "./") As Boolean
 
-            Call "Start to parsing furthur region sequence...".__DEBUG_ECHO
+            Call "Start to parsing furthur region sequence...".debug
 
             Dim LQuery = (From motif As Motif
                           In motifs.AsParallel
@@ -282,16 +282,16 @@ PWM models were constructed For the most abundantly encountered motifs, includin
                           Select motif,
                               regionFasta = genomeOS.Sigma70Parser(PTTPart, StrictOverlap, Length)).ToArray
 
-            Call $"[Job Done!] Saved data to location {EXPORT}".__DEBUG_ECHO
+            Call $"[Job Done!] Saved data to location {EXPORT}".debug
 
             For Each Motif In LQuery
                 Dim path As String = $"{EXPORT}/{Motif.motif.uid.NormalizePathString}.fasta"
-                Call Motif.regionFasta.Save(LineBreak:=-1,
-                                            Path:=path,
+                Call Motif.regionFasta.Save(lineBreak:=-1,
+                                            path:=path,
                                             encoding:=Encodings.ASCII)
             Next
 
-            Call "[Job Done!]".__DEBUG_ECHO
+            Call "[Job Done!]".debug
 
             Return True
         End Function

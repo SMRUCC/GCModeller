@@ -242,12 +242,12 @@ Nucleic Acids Res. 2005 Jul 1;33(Web Server issue):W438-41.",
             On Error Resume Next
 
             Call Settings.Session.Initialize()
-            Call $"Initialize scanning for the motifs in the GCModeller database....".__DEBUG_ECHO
+            Call $"Initialize scanning for the motifs in the GCModeller database....".debug
 
             Dim MotifDIR As String = GCModeller.FileSystem.GetMotifLDM
             Dim Motifs = FileIO.FileSystem.GetFiles(MotifDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
 
-            Call $"Load motifs @{MotifDIR.ToDIR_URL}...".__DEBUG_ECHO
+            Call $"Load motifs @{MotifDIR.ToDIR_URL}...".debug
 
             TomTOm.Motifs = (From xmlFile As String In Motifs.AsParallel
                              Let Id As String = BaseName(xmlFile)
@@ -255,7 +255,7 @@ Nucleic Acids Res. 2005 Jul 1;33(Web Server issue):W438-41.",
                                  motif = xmlFile.LoadXml(Of MotifScans.AnnotationModel)) _
                                 .ToDictionary(Function(x) x.Id, Function(x) x.motif)
 
-            Call $"{Motifs.Count} motifs loaded!".__DEBUG_ECHO
+            Call $"{Motifs.Count} motifs loaded!".debug
         End Sub
 
         ''' <summary>
@@ -330,7 +330,7 @@ comparison function for the construction of familial binding profiles.")>
         <ExportAPI("GET.Compare.Method")>
         Public Function GetMethod(method As Value(Of String)) As TomTOm.ColumnCompare
             If Not _compares.ContainsKey(method = method.Value.ToLower) Then
-                Call $"{NameOf(method)}:={method} is not available, using PCC method as default.".__DEBUG_ECHO
+                Call $"{NameOf(method)}:={method} is not available, using PCC method as default.".debug
                 method.Value = "pcc"
             End If
 

@@ -128,7 +128,7 @@ Namespace Workflows.PromoterParser
             Private Function __initX(locus As String) As String
                 Dim gene As OperonGene = __DOOR.GetGene(locus)
                 If gene Is Nothing Then
-                    Call $"locus_id {locus} not contains in database???".__DEBUG_ECHO
+                    Call $"locus_id {locus} not contains in database???".debug
                     Return locus
                 End If
                 Dim operon As Operon = __DOOR.DOOROperonView.GetOperon(gene.OperonID)

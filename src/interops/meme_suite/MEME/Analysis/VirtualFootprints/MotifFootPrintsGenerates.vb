@@ -387,7 +387,7 @@ Namespace Analysis.GenomeMotifFootPrints
                     '找得到对应的位点，则是一致的数据
                     Call DiffIdentity.Add(setValue(Site, data1Tag & Site.MotifId))
                     Call DiffIdentity.AddRange(LQuery)
-                    Call ("data identity at   ===> " & Site.ToString).__DEBUG_ECHO
+                    Call ("data identity at   ===> " & Site.ToString).debug
                 Else
                     Call DiffData.Add(setValue(Site, data1Tag & Site.MotifId))
                 End If
@@ -467,7 +467,7 @@ Namespace Analysis.GenomeMotifFootPrints
                 Me.PccMatrix = PccMatrix
 
                 If Not PccMatrix Is Nothing AndAlso PccMatrix.PCC_SPCC_MixedType Then
-                    Call "Target matrix is a mixed type matrix".__DEBUG_ECHO
+                    Call "Target matrix is a mixed type matrix".debug
                     GetValueMethod = AddressOf InternalGetMixedMATValue
                 Else
                     GetValueMethod = AddressOf InternalGetPccMATValue

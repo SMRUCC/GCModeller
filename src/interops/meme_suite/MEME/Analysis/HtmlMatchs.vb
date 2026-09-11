@@ -435,7 +435,7 @@ Namespace Analysis
                                         WGCNAWeights As WGCNAWeight) As MatchedResult
 
             If Not DOOR.HaveOperon(item.DoorId) Then
-                Call $"{item.DoorId} is not exists in the operons data!".__DEBUG_ECHO
+                Call $"{item.DoorId} is not exists in the operons data!".debug
             Else
                 item.OperonPromoter = DOOR(item.DoorId).InitialX.Synonym
             End If
@@ -553,7 +553,7 @@ Namespace Analysis
         ''' <remarks></remarks>
         <ExportAPI("Export.MEME_Result", Info:="Export all of the meme analysis data whitout any data filtering operations.")>
         Public Function Invoke(MEME_out As String, MAST_out As String, FastaFileDir As String, bh As String, Door As String, Regprecise_TFBS As String) As Integer
-            Call "Start to export meme analysis data...".__DEBUG_ECHO
+            Call "Start to export meme analysis data...".debug
 
             Dim ExportedData As String =
                 MAST.HTML.HtmlParser.Export(
@@ -579,7 +579,7 @@ Namespace Analysis
 
         Private Function __assignOperonInfo(item As MatchedResult, DOOR As OperonView) As MatchedResult
             If Not DOOR.HaveOperon(item.DoorId) Then
-                Call $"{item.DoorId} is not exists in the operons data!".__DEBUG_ECHO
+                Call $"{item.DoorId} is not exists in the operons data!".debug
             Else
                 item.OperonPromoter = DOOR(item.DoorId).InitialX.Synonym
             End If

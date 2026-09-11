@@ -208,7 +208,7 @@ Namespace Workflows.PromoterParser
                     Call saveFasta(Parser.GetRegionCollectionByLength(l), l)
                 Next
 
-                Call [mod].name.__DEBUG_ECHO
+                Call [mod].name.debug
             Next
         End Sub
 
@@ -401,7 +401,7 @@ Namespace Workflows.PromoterParser
                         Gene.dataExpr0(Experiment.Experiment) = Experiment.Levels(i)
                     Else
                         Try
-                            Call $"Null eror??? {Gene.locus_tag} {String.Join(",", (From token In Gene.dataExpr0 Select str = token.ToString).ToArray)}".__DEBUG_ECHO
+                            Call $"Null eror??? {Gene.locus_tag} {String.Join(",", (From token In Gene.dataExpr0 Select str = token.ToString).ToArray)}".debug
                         Catch ex As Exception
 
                         End Try

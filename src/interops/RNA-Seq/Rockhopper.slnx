@@ -21,6 +21,9 @@
     <Project Path="../../GCModeller/analysis/SequenceToolkit/SequenceAlignment/SequenceAlignment.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../GCModeller/analysis/SequenceToolkit/SequenceLogo/SequenceLogo.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract/SequencePatterns.Abstract.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>

@@ -262,7 +262,7 @@ Namespace Analysis.MotifScans
 
         Private Shared Function __getsVIMSSID(name As String, sites As Dictionary(Of String, Regprecise.FastaReaders.Site())) As Integer()
             If Not sites.ContainsKey(name) Then
-                ' Call $"Motif source site {name} was unable to found in pwm source!".__DEBUG_ECHO
+                ' Call $"Motif source site {name} was unable to found in pwm source!".debug
                 Return Nothing
             Else
                 Return sites(name).Select(Function(site) site.geneVIMSSId)
@@ -289,7 +289,7 @@ Namespace Analysis.MotifScans
             start -= OffSet
             If start <= 0 Then
                 start = 1
-                'Call $"{hit.pos} - {start} is not enough".__DEBUG_ECHO
+                'Call $"{hit.pos} - {start} is not enough".debug
             End If
 
             Dim site As String = Mid(sequence, start, length)
