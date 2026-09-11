@@ -1,4 +1,5 @@
 Imports System.Text
+Imports SMRUCC.genomics.Analysis.RNA_Seq.TSSAR.Models
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 ''' <summary>
@@ -64,23 +65,23 @@ Public Module TssClustering
     ''' 从同一个簇之中选出最显著的位点。
     ''' </summary>
     Private Function Best(cluster As List(Of TssSite), scoreMode As ScoreModes) As TssSite
-        Dim best As TssSite = cluster(0)
+        Dim selected As TssSite = cluster(0)
 
         For i As Integer = 1 To cluster.Count - 1
             Dim candidate As TssSite = cluster(i)
 
             If scoreMode = ScoreModes.PValue Then
-                If candidate.PValue < best.PValue Then
-                    best = candidate
+                If candidate.PValue < selected.PValue Then
+                    selected = candidate
                 End If
             Else
-                If candidate.PeakDifference > best.PeakDifference Then
-                    best = candidate
+                If candidate.PeakDifference > selected.PeakDifference Then
+                    selected = candidate
                 End If
             End If
         Next
 
-        Return best
+        Return selected
     End Function
 End Module
 

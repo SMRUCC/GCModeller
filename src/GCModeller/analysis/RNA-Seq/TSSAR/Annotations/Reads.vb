@@ -242,7 +242,7 @@ Public Module Reads
 
             Dim [Next] = Order(Next_P)
 
-            Do While [Next].POS - current.POS <= 3
+            Do While [Next].POS - current.POS <= offset
                 Call Order.RemoveAt(Next_P)
                 current.NumberOfReads += [Next].NumberOfReads
 
@@ -300,10 +300,26 @@ Public Module Reads
     End Function
 
     Private Function GetRelatedGenes(Genes As GeneBrief(), Read As ReadsGroupView) As Relationship(Of GeneBrief)()
-        'Dim Loci As Location = Read.Location
-        'Dim relates = Genes.GetRelatedGenes(Loci.Left, Loci.Right)
-        'Return relates
-        Throw New NotImplementedException
+        If Genes Is Nothing OrElse Read Is Nothing Then
+            Return New Relationship(Of GeneBrief)() {}
+        End If
+
+        Dim loci As New NucleotideLocation(Read.POS, Read.PNEXT, Read.Strand)
+        Dim result As New List(Of Relationship(Of GeneBrief))
+
+        For Each gene As GeneBrief In Genes
+            If gene Is Nothing OrElse gene.Location Is Nothing Then
+                Continue For
+            End If
+
+            Dim relation As SegmentRelationships = LocationDescriptions.GetLociRelations(gene.Location, loci)
+
+            If relation <> SegmentRelationships.Blank Then
+                result.Add(New Relationship(Of GeneBrief)(gene, relation))
+            End If
+        Next
+
+        Return result.ToArray()
     End Function
 
 End Module
