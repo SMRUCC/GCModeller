@@ -189,7 +189,7 @@ Namespace GdiPlus.Tracks
 
 #Region "heatmap"
 
-        Private Shared ReadOnly colorSplitter As New Regex("[\s,]+")
+        Private ReadOnly colorSplitter As New Regex("[\s,]+")
 
         Private Sub RenderHeatMap(ctx As GdiRenderContext, track As HeatMap, geo As TrackGeometry)
             Dim points As ValueTrackData() = DataOf(Of ValueTrackData)(track)

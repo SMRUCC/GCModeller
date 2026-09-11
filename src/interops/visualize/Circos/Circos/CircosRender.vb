@@ -1,4 +1,5 @@
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 
 Namespace Configurations
@@ -293,5 +294,49 @@ Namespace Configurations
                 outputDir:=base,
                 timeoutMs:=timeoutMs)
         End Function
+
+#Region "内置 GDI+ 绘图引擎（不依赖外部 circos 程序）"
+
+        ''' <summary>
+        ''' 使用内置的 GDI+ 绘图引擎直接将 circos 文档对象渲染为 PNG 图像。
+        ''' 
+        ''' 与 <see cref="Render(Circos, String, String, String, Integer)"/> 不同，这个重载不需要依赖
+        ''' 外部安装的 circos 程序（``circos.exe``/``perl``），而是直接在 .NET 环境之中完成绘图。
+        ''' 
+        ''' 请注意：GDI+ 绘图引擎仅在 Windows 平台之上可用。
+        ''' </summary>
+        ''' <param name="circos">circos 文档对象</param>
+        ''' <param name="outputFile">输出图像的文件路径（``*.png``），可以是一个相对于当前工作目录的路径</param>
+        ''' <param name="options">画布参数（宽度/高度/DPI），为空的时候使用文档配置或者默认值</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function RenderGdiPlus(circos As Circos,
+                                      outputFile As String,
+                                      Optional options As GdiPlus.GdiRenderOptions = Nothing) As CircosRenderResult
+
+            Return GdiPlus.GdiRender.Render(circos, outputFile, options)
+        End Function
+
+        ''' <summary>
+        ''' 使用内置的 GDI+ 绘图引擎直接将 circos 文档对象渲染为指定文件夹之中的 PNG 图像
+        ''' </summary>
+        ''' <param name="circos">circos 文档对象</param>
+        ''' <param name="directory">图像输出的文件夹</param>
+        ''' <param name="outputFile">输出图像的文件名（``*.png``）</param>
+        ''' <param name="options">画布参数（宽度/高度/DPI），为空的时候使用文档配置或者默认值</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function RenderGdiPlus(circos As Circos,
+                                      directory As String,
+                                      outputFile As String,
+                                      Optional options As GdiPlus.GdiRenderOptions = Nothing) As CircosRenderResult
+
+            Dim base$ = Circos.NormalizeDirectory(directory)
+
+            Return GdiPlus.GdiRender.Render(circos, $"{base}/{outputFile}", options)
+        End Function
+
+#End Region
+
     End Module
 End Namespace
