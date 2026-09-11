@@ -73,7 +73,7 @@ Namespace ncbi_datasets.Models
         ''' default 属性
         ''' </summary>
         <Field("default")>
-        Public Property Default As Object
+        Public Property [Default] As Object
 
     End Class
 

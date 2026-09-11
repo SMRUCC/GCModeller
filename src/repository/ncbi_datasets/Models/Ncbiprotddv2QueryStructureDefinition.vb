@@ -113,7 +113,7 @@ Namespace ncbi_datasets.Models
         ''' to 属性
         ''' </summary>
         <Field("to")>
-        Public Property To As Integer?
+        Public Property [To] As Integer?
 
     End Class
 

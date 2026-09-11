@@ -76,7 +76,7 @@ Namespace ncbi_datasets.Models
         ''' when 属性
         ''' </summary>
         <Field("when")>
-        Public Property When As String
+        Public Property [When] As String
 
     End Class
 

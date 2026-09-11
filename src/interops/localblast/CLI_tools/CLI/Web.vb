@@ -61,7 +61,8 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 
 Partial Module CLI
 
-    <ExportAPI("/Export.AlignmentTable", Usage:="/Export.AlignmentTable /in <alignment.txt> [/split /header.split /out <outDIR/file>]")>
+    <ExportAPI("/Export.AlignmentTable")>
+    <Usage("/Export.AlignmentTable /in <alignment.txt> [/split /header.split /out <outDIR/file>]")>
     <Description("Export the web alignment result file as csv table.")>
     <Group(CLIGrouping.WebTools)>
     Public Function ExportWebAlignmentTable(args As CommandLine) As Integer
@@ -89,8 +90,8 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Export.AlignmentTable.giList",
-               Usage:="/Export.AlignmentTable.giList /in <table.csv> [/out <gi.txt>]")>
+    <ExportAPI("/Export.AlignmentTable.giList")>
+    <Usage("/Export.AlignmentTable.giList /in <table.csv> [/out <gi.txt>]")>
     <Group(CLIGrouping.WebTools)>
     Public Function ParseAlignmentTableGIlist(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -106,7 +107,8 @@ Partial Module CLI
         Return list.FlushAllLines(out).CLICode
     End Function
 
-    <ExportAPI("/AlignmentTable.TopBest", Usage:="/AlignmentTable.TopBest /in <table.csv> [/out <out.csv>]")>
+    <ExportAPI("/AlignmentTable.TopBest")>
+    <Usage("/AlignmentTable.TopBest /in <table.csv> [/out <out.csv>]")>
     <Description("Export the top best hit result from the input web alignment table output.")>
     <Group(CLIGrouping.WebTools)>
     Public Function AlignmentTableTopBest(args As CommandLine) As Integer

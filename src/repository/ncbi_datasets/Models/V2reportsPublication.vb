@@ -82,7 +82,7 @@ Namespace ncbi_datasets.Models
         ''' date 属性
         ''' </summary>
         <Field("date")>
-        Public Property Date As String
+        Public Property [Date] As String
 
         ''' <summary>
         ''' authors 属性

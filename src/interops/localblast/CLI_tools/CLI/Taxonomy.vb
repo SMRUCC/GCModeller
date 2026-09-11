@@ -1,56 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::adce53ffebc725d131a4e12ae1f8cdfd, localblast\CLI_tools\CLI\Taxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 108
-    '    Code Lines: 93 (86.11%)
-    ' Comment Lines: 2 (1.85%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 13 (12.04%)
-    '     File Size: 5.15 KB
+' Summaries:
 
 
-    ' Module CLI
-    ' 
-    '     Function: AccessionList, GiList, ReadsOTU_Taxonomy
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 108
+'    Code Lines: 93 (86.11%)
+' Comment Lines: 2 (1.85%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 13 (12.04%)
+'     File Size: 5.15 KB
+
+
+' Module CLI
+' 
+'     Function: AccessionList, GiList, ReadsOTU_Taxonomy
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -64,7 +65,8 @@ Imports SMRUCC.genomics.Metagenomics
 
 Partial Module CLI
 
-    <ExportAPI("/ref.gi.list", Usage:="/ref.gi.list /in <blastnMaps.csv/DIR> [/out <out.csv>]")>
+    <ExportAPI("/ref.gi.list")>
+    <Usage("/ref.gi.list /in <blastnMaps.csv/DIR> [/out <out.csv>]")>
     <Group(CLIGrouping.TaxonomyTools)>
     Public Function GiList(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -80,7 +82,8 @@ Partial Module CLI
         Return list.FlushAllLines(out).CLICode
     End Function
 
-    <ExportAPI("/ref.acc.list", Usage:="/ref.acc.list /in <blastnMaps.csv/DIR> [/out <out.csv>]")>
+    <ExportAPI("/ref.acc.list")>
+    <Usage("/ref.acc.list /in <blastnMaps.csv/DIR> [/out <out.csv>]")>
     <Group(CLIGrouping.TaxonomyTools)>
     Public Function AccessionList(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -94,9 +97,9 @@ Partial Module CLI
         Return list.FlushAllLines(out).CLICode
     End Function
 
-    <ExportAPI("/Reads.OTU.Taxonomy",
-               Info:="If the blastnmapping data have the duplicated OTU tags, then this function will makes a copy of the duplicated OTU tag data. top-best data will not.",
-               Usage:="/Reads.OTU.Taxonomy /in <blastnMaps.csv> /OTU <OTU_data.csv> /tax <taxonomy:nodes/names> [/fill.empty /out <out.csv>]")>
+    <ExportAPI("/Reads.OTU.Taxonomy")>
+    <Description("If the blastnmapping data have the duplicated OTU tags, then this function will makes a copy of the duplicated OTU tag data. top-best data will not.")>
+    <Usage("/Reads.OTU.Taxonomy /in <blastnMaps.csv> /OTU <OTU_data.csv> /tax <taxonomy:nodes/names> [/fill.empty /out <out.csv>]")>
     <ArgumentAttribute("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(BlastnMapping)},
               Description:="This input data should have a column named ``taxid`` for the taxonomy information.")>

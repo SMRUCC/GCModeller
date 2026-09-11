@@ -76,7 +76,7 @@ Namespace ncbi_datasets.Models
         ''' end 属性
         ''' </summary>
         <Field("end")>
-        Public Property End As String
+        Public Property [End] As String
 
         ''' <summary>
         ''' orientation 属性

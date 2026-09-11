@@ -90,7 +90,7 @@ Namespace ncbi_datasets.Models
         ''' class 属性
         ''' </summary>
         <Field("class")>
-        Public Property Class As Object
+        Public Property [Class] As Object
 
         ''' <summary>
         ''' order 属性

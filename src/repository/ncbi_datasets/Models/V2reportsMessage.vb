@@ -70,7 +70,7 @@ Namespace ncbi_datasets.Models
         ''' error 属性
         ''' </summary>
         <Field("error")>
-        Public Property Error As Object
+        Public Property [Error] As Object
 
         ''' <summary>
         ''' warning 属性

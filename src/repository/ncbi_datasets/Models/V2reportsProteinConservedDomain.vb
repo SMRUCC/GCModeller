@@ -95,7 +95,7 @@ Namespace ncbi_datasets.Models
         ''' stop 属性
         ''' </summary>
         <Field("stop")>
-        Public Property Stop As Integer?
+        Public Property [Stop] As Integer?
 
         ''' <summary>
         ''' specific 属性
@@ -107,7 +107,7 @@ Namespace ncbi_datasets.Models
         ''' partial 属性
         ''' </summary>
         <Field("partial")>
-        Public Property Partial As Boolean?
+        Public Property [Partial] As Boolean?
 
         ''' <summary>
         ''' evalue 属性
