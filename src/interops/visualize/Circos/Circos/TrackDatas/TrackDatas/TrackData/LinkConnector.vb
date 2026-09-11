@@ -73,6 +73,9 @@ Namespace TrackDatas
         ''' <returns></returns>
         Public Property B As TrackData
 
+        Sub New()
+        End Sub
+
         ''' <summary>
         ''' 创建一条新的连接关系
         ''' </summary>
