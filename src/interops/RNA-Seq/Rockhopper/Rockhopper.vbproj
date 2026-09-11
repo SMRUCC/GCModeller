@@ -20,8 +20,6 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\..\meme_suite\MEME\MEME.vbproj" />
-    <ProjectReference Include="..\..\meme_suite\meme_data\meme_data.vbproj" />
   </ItemGroup>
 
   <ItemGroup>
