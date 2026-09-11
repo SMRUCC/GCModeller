@@ -61,7 +61,16 @@ Namespace Statistics
         ''' <param name="y">窗口内的观测计数。</param>
         ''' <returns>估计结果；<see cref="ZipEstimate.Converged"/> 为 ``False`` 表示不可建模。</returns>
         Public Function Fit(y As Double()) As ZipEstimate
-            Dim n As Integer = y.Length
+            Return Fit(y, y.Length)
+        End Function
+
+        ''' <summary>
+        ''' 对给定样本执行截距型 ZIP 模型的 EM 最大似然估计（指定有效长度）。
+        ''' </summary>
+        ''' <param name="y">观测计数缓冲区。</param>
+        ''' <param name="n">有效元素个数，用于复用缓冲区以避免频繁分配。</param>
+        ''' <returns>估计结果；<see cref="ZipEstimate.Converged"/> 为 ``False`` 表示不可建模。</returns>
+        Public Function Fit(y As Double(), n As Integer) As ZipEstimate
 
             If n = 0 Then
                 Return New ZipEstimate(0, 0, 0, False)
