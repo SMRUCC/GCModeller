@@ -18,6 +18,7 @@
 
 Imports System.Collections.Generic
 Imports System.Linq
+Imports SMRUCC.genomics.SequenceModel.RNA_Seq.Statistics
 Imports SMRUCC.genomics.SequenceModel.RNA_Seq.Rockhopper.Core
 
 Namespace Quantification
@@ -103,21 +104,13 @@ Namespace Quantification
         ''' 上四分位数（75% 分位，线性插值）。
         ''' </summary>
         ''' <remarks>
-        ''' 复刻原始 Rockhopper 对 "75% most expressed gene" 的取值；此处采用与
-        ''' 常见分位定义一致的线性插值，便于与低层统计函数复用。
+        ''' 复刻原始 Rockhopper 对 "75% most expressed gene" 的取值；
+        ''' 数学实现下沉到 RNA-seq.Data 的 <see cref="ExpressionNormalization.UpperQuartile"/>，
+        ''' 便于其它 RNA-seq 流程复用。
         ''' </remarks>
         Public Function UpperQuartile(values As IEnumerable(Of Long)) As Long
-            Dim sorted As Long() = values.OrderBy(Function(v) v).ToArray()
-            If sorted.Length = 0 Then Return 0
-            If sorted.Length = 1 Then Return sorted(0)
-
-            Dim rank As Double = 0.75 * (sorted.Length - 1)
-            Dim lo As Integer = CInt(System.Math.Floor(rank))
-            Dim hi As Integer = CInt(System.Math.Ceiling(rank))
-            If lo = hi Then Return sorted(lo)
-
-            Dim frac As Double = rank - lo
-            Return CLng(System.Math.Round(sorted(lo) + frac * (sorted(hi) - sorted(lo))))
+            Dim numbers As Double() = values.Select(Function(v) CDbl(v)).ToArray()
+            Return CLng(System.Math.Round(ExpressionNormalization.UpperQuartile(numbers)))
         End Function
 
     End Module

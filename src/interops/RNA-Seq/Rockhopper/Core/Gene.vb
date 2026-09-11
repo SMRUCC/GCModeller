@@ -682,15 +682,10 @@ Namespace Core
                         previousGenomeSizes += genome.NumGenes()
                     Next
 
-                    mergesort(pvalues, indices, genomeIndices, 0, totalGenes - 1)
-
-                    Dim previous_BH_value As Double = 0.0
-                    For k As Integer = 0 To pvalues.Length - 1
-                        Dim BH_value As Double = pvalues(k) * totalGenes / (k + 1)
-                        BH_value = System.Math.Min(BH_value, 1.0)
-                        BH_value = System.Math.Max(BH_value, previous_BH_value)
-                        previous_BH_value = BH_value
-                        genomes(genomeIndices(k)).GetGene(indices(k)).qValues(pValue_index) = BH_value
+                    ' Benjamini-Hochberg 校正（可复用实现位于 RNA-seq.Data 的 Statistics 模块）
+                    Dim q As Double() = ExpressionNormalization.BenjaminiHochberg(pvalues)
+                    For k As Integer = 0 To totalGenes - 1
+                        genomes(genomeIndices(k)).GetGene(indices(k)).qValues(pValue_index) = q(k)
                     Next
                     pValue_index += 1
                 Next
