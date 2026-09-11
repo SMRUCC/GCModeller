@@ -1,0 +1,651 @@
+{
+    "generatedFor":  "GCModeller nuget metadata",
+    "count":  129,
+    "projects":  [
+                     {
+                         "path":  "src/GCModeller/analysis/HTS_matrix/HTS_matrix-netcore5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.DataFrame",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/MetabolicRouter/RetroPath.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.RetroPath",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/Metagenome/MetaFunction/MetaFunction.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.Metagenome.MetaFunction",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/Metagenome/Metagenome/Metagenome.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.Metagenome",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/Metagenome/microbiomeGWAS/microbiomeGWAS.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.Metagenome.microbiomeGWAS",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/Microarray/Microarray.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.Microarray",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/Motifs/CRISPR/CRT/CRISPR.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.CRISPR.CRT",
+                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/Motifs/CRISPR/sgRNAcas/sgRNAcas.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.CRISPR.IBCB.sgRNAcas",
+                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/Motifs/MotifGraph/MotifGraph.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.MotifGraph",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/Motifs/PrimerDesigner/PrimerDesigner.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.PrimerDesigner",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/Motifs/VirtualFootprint/VirtualFootprint.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.Network.VirtualFootprint",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/OperonMapper/OperonMapper.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.OperonMapper",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/ProteinTools/Interactions.BioGRID/Interactions.BioGRID.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.ProteinTools.Interactions.BioGRID",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/ProteinTools/Protease/Protease.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.SequenceModel.Protease",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/ProteinTools/ProteinMatrix/ProteinMatrix.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.MotifGraph.ProteinStructure",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/ProteinTools/ProteinTools.Interactions/ProteinTools.Interactions.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.ProteinTools.Interactions",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/RNA-Seq/RNAExpression/RNAExpression.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/RNA-Seq/Toolkits.RNA-Seq.RTools/Toolkits.RNA-Seq.RTools.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.RNA_Seq.RTools",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/RNA-Seq/Toolkits.RNA-Seq/Toolkits.RNA-Seq.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.RNA_Seq",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/RNA-Seq/TSSAR/TSSAR.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.RNA_Seq.TSSAR",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/RNA-Seq/TSSsTools/TSSsTools.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.RNA_Seq.TSSsTools",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/RNA-Seq/WGCNA/WGCNA.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/ClusterMatrix/ClusterMatrix.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.ClusterMatrix",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/ClusterMatrix/SeqFeature.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.SeqFeature",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/DNA_Comparative/DNA_Comparative.netcoreapp.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/gwANI/gwANI.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.gwANI",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/MotifFinder/MotifFinder.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/MotifScanner/MotifScanner.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/Pfam-HMM/PfamHMMScan/HMMER3.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.HMMER",
+                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/SequenceAlignment/SequenceAlignment.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceAlignment",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/SequenceLogo/SequenceLogo.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract/SequencePatterns.Abstract.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/SequencePatterns/SequencePatterns.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/analysis/SequenceToolkit/SNP/SNP.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SequenceTools.SNP",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/Bifrost/MetaEuk/MetaEuk.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Annotation.MetaEuk",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/Bifrost/Prodigal/Prodigal.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Annotation.Prodigal",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/GO/GOAnalysis.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.GO",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/GPR/GPR.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.CompilerServices.GPRLink",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/GSEA/FELLA/FELLA.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.FELLA",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/GSEA/FisherCore/Fisher.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.GSEA",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions/GSEA.KB.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/GSEA/GSEA/gsea-netcore5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.GSEA",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/GSEA/GSVA/GSVA.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.GSVA",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/GSEA/PFSNet/PFSNet/PFSNet.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.PFSNet",
+                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/GSEA/PFSNet/PFSNet_visual/PFSNet_visual.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.PFSNet",
+                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/KEGG/KEGGAnalysis.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.KEGG",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/P-NET/P-NET/P-NET.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.P_NET",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/Proteomics/Proteomics.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.Proteomics",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/annotations/WGCNA/WGCNA/WGCNA.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.HTS.WGCNA",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/core/Bio.Annotation/annotation.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Annotation",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/core/Bio.Assembly/biocore-netcore5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/core/Bio.InteractionModel/InteractionModel.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.InteractionModel",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/BASys/BASys.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.BASys",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/ExternalDBSource/DatabaseServices.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/GO_gene-ontology/GeneOntology/go_owl-netcore5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.GeneOntology",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/GO_gene-ontology/GO_Annotation/GO_Annotation.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.GeneOntology.Annotation",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/GO_gene-ontology/obographs/obographs/obographs.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.GeneOntology.obographs",
+                         "logoRelative":  "..\\..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/KEGG/jp_kegg2.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.KEGG",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/RCSB PDB/RCSB PDB.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.RCSB.PDB",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/Reactome/Reactome.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.Reactome",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/RegulonDatabase/RegulonDatabase.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/Rhea/Rhea.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.Rhea",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/SABIO-RK/SABIO-RK.NET.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.SABIORK",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/STRING/STRING-db.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.STRING",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/data/Xfam/Pfam/Pfam.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.Xfam.Pfam",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/engine/BootstrapLoader/BootstrapLoader.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/engine/Compiler/Compiler.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Compiler",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/engine/CompilerServices/CompilerServices.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.CompilerServices",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/engine/Dynamics.Debugger/vcellDebugger.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/engine/Dynamics/Dynamics.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/engine/GCModeller.Framework.Kernel_Driver/GCModeller.Framework.Kernel_Driver.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Framework.Kernel_Driver",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/engine/GCModeller/GCModeller.ModellingEngine.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/engine/IO/GCMarkupLanguage/GCMarkupXML.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/engine/IO/GCTabular/GCTabular.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/engine/IO/Raw/vcXML.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.IO",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/engine/Model/Model.Core.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.ModellingEngine.Model",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/foundation/OBO_Foundry/obo_foundry-netcore5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.foundation.OBO_Foundry",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/foundation/PSICQUIC/psidev/psidev.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.foundation.psidev",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/BioCyc/BioCyc.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.BioCyc",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/BIOM/BIOM/BIOM.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.foundation.BIOM",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/GPML/PathVisio/GPML.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.PathVisio",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/ncbi-BioSystems/BioSystems.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.BioSystems",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/Networks/KEGG/KEGGNetwork.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.Network.KEGG",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/Networks/KEGGGraphVisualizer/KEGGGraphVisualizer.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/Networks/Microbiome/Microbiome.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.Network.Microbiome",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/Networks/Microbiome/Microbiome.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.Network.Microbiome",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/Networks/Network.BLAST/Network.BLAST.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.Network.BLAST",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/Networks/Network.Regulons/Network.Regulons.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.Network.Regulons",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/Networks/STRING/STRING.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.Network.STRING",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/RouterAdapter/RouterAdapter.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.Metabolic.RouterAdapter",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/SBML/Biopax/biopax-netcore5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.Biopax",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/models/SBML/SBML/sbml-netcore5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Model.SBML",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/sub-system/BNLearn/BNLearn.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.BNLearn",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/sub-system/CellPhenotype/CellPhenotype.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.CellPhenotype",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/sub-system/FBA/FBA.Core/FBA.Core.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.FBA",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/sub-system/GEARS/GEARS.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.GEARS",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/sub-system/Metaboliq/Metaboliq.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.Metaboliq",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/sub-system/PLAS.NET/SSystem/SSystem.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.SSystem",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/visualize/ChromosomeMap/ChromosomeMap.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Visualize.ChromosomeMap",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/visualize/ChromosomeMap/Data/Data.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Visualize.ChromosomeMap.Data",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/visualize/DataVisualizationExtensions/datavisual-netcore5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Visualize",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/visualize/DataVisualizationTools/DataVisualizationTools.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Visualize",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/GCModeller/visualize/SyntenyVisual/SyntenyVisual.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Visualize.SyntenyVisualize",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/localblast/assembler/assembler.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Interops.NCBI.Localblast.Assembler",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/localblast/LocalBLAST/localblast.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Interops.NCBI.Extensions",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/localblast/PanGenome/PanGenome.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Analysis.PanGenome",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/localblast/ParallelTask/ParallelTask.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Interops.NCBI.ParallelTask",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/meme_suite/MEME/MEME.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Interops.NBCR.MEME_Suite",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/meme_suite/meme_data/meme_data.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Interops.NBCR.MEME_Suite",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/meme_suite/TmoD/TmoD.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Interops.NBCR.MEME_Suite.TMoD",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/RNA-Seq/RNA-seq.Data/RNA-seq.Data.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.SequenceModel",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/visualize/Circos/Circos.Extensions/Circos.Extensions.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Visualize.Circos",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/visualize/Circos/Circos/Circos.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Visualize.Circos",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/visualize/Cytoscape/Cytoscape.App/Cytoscape.App.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Visualize.Cytoscape",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/visualize/Cytoscape/Cytoscape.Automation/Cytoscape.Automation.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Visualize.Cytoscape.Automation",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/visualize/Cytoscape/Cytoscape/Cytoscape.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Visualize.Cytoscape",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/interops/visualize/Phylip/Phylip.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Interops.Visualize.Phylip",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/repository/Bio.Repository/repository.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data",
+                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/repository/HMP_client/HMP_client.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.Repository.NIH.HMP",
+                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/repository/HMP_client/HMP_client.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.Repository.NIH.HMP",
+                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/repository/Model_Repository/Model_Repository.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.Model_Repository",
+                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/repository/Model_Repository/RQL/RQL.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.Model_Repository.RQL",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/repository/ncbi_datasets/ncbi_datasets.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.NCBI",
+                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/repository/nt/nt_repo.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.Data.Repository.NCBI",
+                         "logoRelative":  "..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/workbench/modules/ExperimentDesigner/designer-netcore5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/workbench/modules/keggReport/keggReport.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.KEGGReport",
+                         "logoRelative":  "..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/workbench/modules/Knowledge_base/Knowledge_base/kb.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.Knowledge_base",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/workbench/modules/Knowledge_base/ncbi_kb/ncbi_kb.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     },
+                     {
+                         "path":  "src/workbench/modules/SeqFeature/SeqFeature/SeqFeature.NET5.vbproj",
+                         "rootNamespace":  "SMRUCC.genomics.GCModeller.Workbench.SeqFeature",
+                         "logoRelative":  "..\\..\\..\\..\\..\\assets\\logo.png"
+                     }
+                 ]
+}
