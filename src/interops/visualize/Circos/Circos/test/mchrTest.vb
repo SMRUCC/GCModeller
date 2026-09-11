@@ -73,7 +73,7 @@ Module Module1
 
         Call skeleton.Save($"{Circos.NormalizeDirectory(outDIR)}/data/karyotype.txt")
 
-        Dim circos As New Configurations.Circos
+        Dim circos As Configurations.Circos = New Configurations.Circos()
 
         circos.skeletonKaryotype = skeleton
         circos.karyotype = "data/karyotype.txt"
