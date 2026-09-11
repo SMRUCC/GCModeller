@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Visualize.Circos.TrackDatas.ValueTrackData</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ValueTrackData {SMRUCC.genomics.Visualize.Circos.TrackDatas}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ValueTrackData</h2>
+
+        <h3>Description</h3>
+
+        <p>Tracks such As scatter plot, line plot, histogram Or heat map, associate a value With Each range. The input To this kind Of track would be
+
+
+<pre><code> # scatter, line, histogram And heat maps require a value
+ chr12 1000 5000 0.25</code></pre>
+
+
+<p>In addition to the chromosome, range And (if applicable) value, each data point can be annotated with formatting parameters that control how the point Is drawn. The parameters need to be compatible with the track type for which the file Is destined. Thus, a scatter plot data point might have
+
+
+<pre><code> chr12 1000 5000 0.25 glyph_size=10p,glyph=circle</code></pre>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Visualize.Circos.TrackDatas
+export class ValueTrackData extends <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/TrackDatas/TrackData.html">TrackData</a> {
+   chr: string;
+   comment: string;
+   end: integer;
+   formatting: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/TrackDatas/Formatting.html">Formatting</a>;
+   start: integer;
+   value: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/TrackDatas/TrackData.html">TrackData</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/TrackDatas/TrackData.html">TrackData</a></li>
+<li>use by <i>property</i> member <code>formatting</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/TrackDatas/Formatting.html">Formatting</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

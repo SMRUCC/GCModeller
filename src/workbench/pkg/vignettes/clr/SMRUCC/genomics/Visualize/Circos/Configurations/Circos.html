@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Visualize.Circos.Configurations.Circos</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Circos {SMRUCC.genomics.Visualize.Circos.Configurations}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Circos</h2>
+
+        <h3>Description</h3>
+
+        <p><code>circos.conf</code>
+
+
+<pre><code>                                     ____ _
+                                    / ___(_)_ __ ___ ___  ___
+                                   | |   | | '__/ __/ _ \/ __|
+                                   | |___| | | | (_| (_) \__ \
+                                    \____|_|_|  \___\___/|___/
+
+                                                round Is good
+
+ circos - generate circularly composited information graphics</code></pre>
+
+
+<p>(Circo基因组绘图程序的主配置文件)
+
+<p><img src="https://raw.githubusercontent.com/SMRUCC/GCModeller.Circos/master/manual/workflow.png" alt="" />
+
+<p>Typically a central configuration file which defines data track information (circos.conf) imports other configuration files that store parameters that change less frequently (tick marks, ideogram size, grid, etc).
+
+<p>Data for each data track Is stored in a file And the same file can be used for multiple tracks.
+
+
+<ul>
+<li><p>PNG image output Is ideal For immediate viewing, web-based reporting Or presentation.</li>
+<li><p>SVG output Is most suitable For generating very high resolution line art For publication And For customizing aspects Of the figure.</li>
+</ul>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Visualize.Circos.Configurations
+export class Circos extends <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosConfig.html">CircosConfig</a> {
+   chromosomes: string;
+   chromosomes_breaks: string;
+   # The color of each ideogram is taken from the karyotype file. To change it, use 'chromosomes_color'.
+   chromosomes_color: string;
+   # The default behaviour is to display all chromosomes defined in the karyotype file. In this example, I Select only a subset.
+   # 
+   # The 'chromosomes' parameter has several uses, and selecting which chromosomes To show Is one Of them. You can list them
+   # 
+   # 
+   # <pre><code> hs1;hs2;hs3;hs4</code></pre>
+   # 
+   # 
+   # Or provide a regular expression that selects them based On a successful match
+   # 
+   # 
+   # <pre><code> /hs[1-4]$/</code></pre>
+   # 
+   # 
+   # The <code>$</code> anchor Is necessary, otherwise chromosomes Like <em>hs10, hs11 And hs20</em> are also matched.
+   chromosomes_display_default: string;
+   chromosomes_order: string;
+   # The default radial position for all ideograms is set by 'radius' in the <code>&lt;ideogram&gt;</code> block (see ideogram.conf). To change the value For specific ideograms, use chromosomes_radius.
+   chromosomes_radius: string;
+   # By default, the scale progression is clockwise. You can set the Global angle progression Using 'angle_orientation' in the <code>&lt;image&gt;</code> block (clockwise Or counterclockwise). To reverse it For one Or several ideograms, use 'chromosomes-reverse'
+   chromosomes_reverse: string;
+   # The size of the ideogram on the figure can be adjusted using an absolute Or relative magnification. Absolute scaling,
+   # 
+   # 
+   # <pre><code> hs1=0.5</code></pre>
+   # 
+   # 
+   # shrinks Or expands the ideogram by a fixed factor. When the "r" suffix Is used, the magnification becomes relative To the circumference Of the figure. Thus,
+   # 
+   # 
+   # <pre><code> hs1=0.5r</code></pre>
+   # 
+   # 
+   # makes <code>hs1</code> To occupy 50% Of the figure. To uniformly distribute several ideogram within a fraction Of the figure, use a regular expression that selects the ideograms And the "rn" suffix (relative normalized).
+   # 
+   # 
+   # <pre><code> /hs[234]/=0.5Rn</code></pre>
+   # 
+   # 
+   # Will match <code>hs2, hs3, hs4</code> And divide them evenly into 50% Of the figure. Each ideogram will be about <strong>16%</strong> Of the figure.
+   chromosomes_scale: string;
+   # The chromosomes_unit value is used as a unit (suffix "u") to shorten values In other parts Of the configuration file. Some parameters, such As ideogram And tick spacing, accept "u" suffixes, so instead Of
+   # 
+   # 
+   # <pre><code> spacing = 10000000</code></pre>
+   # 
+   # 
+   # you can write
+   # 
+   # 
+   # <pre><code> spacing = 10u</code></pre>
+   chromosomes_units: string;
+   colors: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/OverwritesColors.html">OverwritesColors</a>;
+   filePath: string;
+   genome: string;
+   # 获取到被包含在主配置文件之中的 ideogram 配置块
+   Ideogram: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/IdeogramInclude.html">IdeogramInclude</a>;
+   includes: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosConfig.html">iterates(CircosConfig)</a>;
+   # The basically genome structure plots: Chromosome name, size and color definition.(基本的数据文件)
+   karyotype: string;
+   main: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Circos.html">Circos</a>;
+   MimeType: <a href="/vignettes/clr/Microsoft/VisualBasic/Net/Protocols/ContentTypes/ContentType.html">ContentType[]</a>;
+   # Gets the number of the tracks that defined in this circos model
+   numberOfTracks: integer;
+   # 内部元素是有顺序的区别的
+   Plots: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Plots/ITrackPlot.html">ITrackPlot[]</a>;
+   refPath: string;
+   show_heatmap: string;
+   show_heatmaps: string;
+   show_highlight: string;
+   show_highlights: string;
+   show_histogram: string;
+   show_line: string;
+   show_links: string;
+   show_scatter: string;
+   show_text: string;
+   show_tile: string;
+   # The genome size.(基因组的大小，当<a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Circos.html">Circos</a>.<a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Karyotype/KaryotypeSkeleton.html">skeletonKaryotype</a>为空值的时候返回数值0)
+   size: integer;
+   # 基因组的骨架信息
+   skeletonKaryotype: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Karyotype/KaryotypeSkeleton.html">KaryotypeSkeleton</a>;
+   track_start: string;
+   track_step: string;
+   track_width: string;
+   use_rules: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosConfig.html">CircosConfig</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosConfig.html">CircosConfig</a></li>
+<li>use by <i>property</i> member <code>colors</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/OverwritesColors.html">OverwritesColors</a></li>
+<li>use by <i>property</i> member <code>Ideogram</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/IdeogramInclude.html">IdeogramInclude</a></li>
+<li>use by <i>property</i> member <code>includes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosConfig.html">iterates(CircosConfig)</a></li>
+<li>use by <i>property</i> member <code>main</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Circos.html">Circos</a></li>
+<li>use by <i>property</i> member <code>MimeType</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Net/Protocols/ContentTypes/ContentType.html">ContentType</a></li>
+<li>use by <i>property</i> member <code>Plots</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Plots/ITrackPlot.html">ITrackPlot</a></li>
+<li>use by <i>property</i> member <code>skeletonKaryotype</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Karyotype/KaryotypeSkeleton.html">KaryotypeSkeleton</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

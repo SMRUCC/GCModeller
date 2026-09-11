@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.IdeogramBlock</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>IdeogramBlock {SMRUCC.genomics.Visualize.Circos.Configurations.Nodes}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>IdeogramBlock</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
+export class IdeogramBlock extends <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosDocument.html">CircosDocument</a> {
+   # <h1>cytogenetic bands</h1>
+   band_stroke_thickness: string;
+   # Ideograms can be drawn as filled, outlined, or both. When filled, the color will be taken from the last field In the karyotype file, Or Set by chromosomes_colors. Color names are discussed In
+   # 
+   # <a href="http://www.circos.ca/documentation/tutorials/configuration/configuration_files" title="http://www.circos.ca/documentation/tutorials/configuration/configuration_files">http://www.circos.ca/documentation/tutorials/configuration/configuration_files</a>
+   # 
+   # When <code>stroke_thickness=0p</code> Or If the parameter Is missing, the ideogram Is has no outline And the value Of stroke_color Is Not used.
+   fill: string;
+   # <h1>in order to fill the bands with the color defined in the karyotype</h1>
+   # 
+   # <h1>file you must set fill_bands</h1>
+   fill_bands: string;
+   # <h1>the default chromosome color is set here and any value</h1>
+   # 
+   # <h1>defined in the karyotype file overrides it</h1>
+   fill_color: string;
+   label_case: string;
+   # see <code>etc/fonts.conf</code> for list of font names
+   label_font: string;
+   label_parallel: string;
+   # if ideogram radius is constant, and you'd like labels close to image edge, use the <code>dims()</code> Function To access the size Of the image
+   # 
+   # <code>label_radius  = dims(image,radius) - 60p</code>
+   label_radius: string;
+   label_size: string;
+   # Fractional radius position of chromosome ideogram within image.
+   # 
+   # Spacing between ideograms. Suffix "r" denotes a relative value. It Is relative To circle circumference (e.g. space Is 0.5% Of circumference).
+   radius: string;
+   # <h1>show_bands determines whether the outline of cytogenetic bands</h1>
+   # 
+   # <h1>will be seen</h1>
+   show_bands: string;
+   show_label: string;
+   Spacing: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Spacing.html">Spacing</a>;
+   # <h1>ideogram border color</h1>
+   stroke_color: string;
+   stroke_thickness: string;
+   # thickness (px) of chromosome ideogram
+   # 
+   # Thickness of ideograms, which can be absolute (e.g. pixels, "p" suffix) Or relative ("r" suffix). When relative, it Is a fraction Of image radius.
+   thickness: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosDocument.html">CircosDocument</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosDocument.html">CircosDocument</a></li>
+<li>use by <i>property</i> member <code>Spacing</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Spacing.html">Spacing</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

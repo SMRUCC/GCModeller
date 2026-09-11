@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots.ITrackPlot</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ITrackPlot {SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ITrackPlot</h2>
+
+        <h3>Description</h3>
+
+        <p>Abstract model of the tracks plot
+
+<p>Using this interface to solved the problem of generics type
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
+export class ITrackPlot {
+   # 当前的这个绘图元素所属的 circos 顶层配置块的名称
+   block: string;
+   # 输入的路径会根据配置情况转换为相对路径或者绝对路径
+   file: string;
+   fill_color: string;
+   orientation: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Plots/Orientation.html">Orientation</a>;
+   # 圈内径(单位 r，请使用格式"&lt;double&gt;r")
+   r0: string;
+   # 圈外径(单位 r，请使用格式"&lt;double&gt;r")
+   r1: string;
+   stroke_color: string;
+   stroke_thickness: string;
+   thickness: string;
+   tracksData: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/TrackDatas/ITrackDataDocument.html">ITrackDataDocument</a>;
+   type: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>orientation</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Plots/Orientation.html">Orientation</a></li>
+<li>use by <i>property</i> member <code>tracksData</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/TrackDatas/ITrackDataDocument.html">ITrackDataDocument</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

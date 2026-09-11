@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel.OverwritesColors</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>OverwritesColors {SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>OverwritesColors</h2>
+
+        <h3>Description</h3>
+
+        <p>Use <code>@</code>P:SMRUCC.genomics.Visualize.Circos.Configurations.Circos.chromosomes_color```` to change the color Of the ideograms. This approach works well When the only thing you want To Do Is change the color Of the segments.
+
+<p>Another way To achieve this Is To actually redefine the colors which are used To color the ideograms. The benefit Of doing this Is that whenever you refer To the color (which you can use by Using the name Of the chromosome), you Get the custom value.
+
+<p>If you Then look In the human karyotype file linked To above, you'll see that Each chromosome's color is <code>chrN</code> where N is the number of the chromosome. Thus, hs1 has color chr1, hs2 has color chr2, And so On. For convenience, a color can be referenced Using 'chr' and 'hs' prefixes (chr1 And hs1 are the same color).
+
+<p>Colors are redefined by overwriting color definitions, which are found In the <code>&lt;colors&gt;</code> block. This block Is included below from the colors_fonts_patterns.conf file, which contains all the Default definitions. To overwrite colors, use a "*" suffix And provide a New value, which can be a lookup To another color.
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
+export class OverwritesColors extends <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosDistributed.html">CircosDistributed</a> {
+   colors: list;
+   filePath: string;
+   includes: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosConfig.html">iterates(CircosConfig)</a>;
+   main: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Circos.html">Circos</a>;
+   MimeType: <a href="/vignettes/clr/Microsoft/VisualBasic/Net/Protocols/ContentTypes/ContentType.html">ContentType[]</a>;
+   refPath: string;
+   section: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosDistributed.html">CircosDistributed</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosDistributed.html">CircosDistributed</a></li>
+<li>use by <i>property</i> member <code>colors</code>: list</li>
+<li>use by <i>property</i> member <code>includes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosConfig.html">iterates(CircosConfig)</a></li>
+<li>use by <i>property</i> member <code>main</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Circos.html">Circos</a></li>
+<li>use by <i>property</i> member <code>MimeType</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Net/Protocols/ContentTypes/ContentType.html">ContentType</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
