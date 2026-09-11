@@ -1,31 +1,35 @@
+Imports System.Runtime.CompilerServices
+
 Namespace Configurations.Nodes.Plots
 
     ''' <summary>
-    ''' Scatter plots are useful for showing the position of a probe, such As
+    ''' Scatter plots are useful for showing the position of a probe, such as
     ''' SNP data, on the genome.
     '''
-    ''' The scatter plot uses the same data format As line plots, histograms And heat maps.
+    ''' Scatter plots use the same data format as line plots, histograms and heat maps.
     '''
     ''' ```
-    ''' #chr start End value [options]
+    ''' #chr start end value [options]
     ''' hs5 50 75 0.75
     ''' ```
     ''' </summary>
     ''' <remarks>
-    ''' The size And shape Of the points are controlled by the *glyph* And
-    ''' *glyph_size* parameters. Circos distributions ship With a number Of
-    ''' glyphs shown In the etc/tracks/scatter.conf of the Circos distribution.
+    ''' The size and shape of the points are controlled by the ``glyph`` and
+    ''' ``glyph_size`` parameters.
     '''
-    ''' Glyph options are one Of 
+    ''' The available glyph shapes are: 
     ''' 
-    ''' + ``circle``, 
-    ''' + ``rectangle``, 
-    ''' + ``triangle``, 
-    ''' + ``cross``, 
-    ''' + ``plus``, 
-    ''' + ``square`` 
+    ''' + ``circle``
+    ''' + ``rectangle``
+    ''' + ``triangle``
+    ''' + ``cross``
+    ''' + ``plus``
+    ''' + ``square``
     '''
-    ''' and the glyph size parameter is given in pixels.
+    ''' (see the glyph reference in the circos tutorials for the complete list)
+    '''
+    ''' The default values of this plot are taken from the official template
+    ''' ``etc/tracks/scatter.conf`` in the circos distribution.
     ''' </remarks>
     Public Class ScatterPlot : Inherits TracksPlot(Of ValueTrackData)
 
@@ -47,43 +51,32 @@ Namespace Configurations.Nodes.Plots
         ''' <returns></returns>
         <Circos> Public Property glyph_size As String = "10"
         ''' <summary>
-        ''' The fill color of the glyph
-        ''' </summary>
-        ''' <returns></returns>
-        <Circos> Public Property fill_color As String = "grey"
-        ''' <summary>
-        ''' The outline (stroke) color of the glyph
-        ''' </summary>
-        ''' <returns></returns>
-        <Circos> Public Property stroke_color As String = "black"
-        ''' <summary>
-        ''' The outline (stroke) thickness of the glyph, use 0 to turn off the outline.
-        ''' </summary>
-        ''' <returns></returns>
-        <Circos> Public Property stroke_thickness As String = "0"
-        ''' <summary>
-        ''' The primary color parameter of the glyph.(和<see cref="fill_color"/>同义，二者任意一个即可)
+        ''' The primary color parameter of the glyph.
+        ''' (与继承得到的<see cref="TracksPlot(Of T).fill_color"/>是同义参数，二者使用任意一个即可)
         ''' </summary>
         ''' <returns></returns>
         <Circos> Public Property color As String = null
-
         ''' <summary>
-        ''' Do not connect plots if the gap Is larger than a limit. This limit Is set 
-        ''' by max_gap And Is useful to automatically skip gaps larger than a given size.
-        '''
-        ''' In this way it Isn't necessary to split data into blocks that reflect absense Of data 
-        ''' over a large region (e.g. centromere, heterochromatin) since the gap created by 
-        ''' missing data will automatically terminate draw枝条 And continue one河市.
+        ''' 当相邻的数据点之间的间隔大于所给定的阈值的时候，不再将这些数据点连接起来
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' For example ``max_gap = 1u`` is useful to automatically skip gaps larger than
+        ''' a given size, in this way it isn't necessary to split data into blocks that
+        ''' reflect absence of data over a large region (e.g. centromere, heterochromatin).
+        ''' </remarks>
         <Circos> Public Property max_gap As String = null
-
-        <Circos> Public Property r1 As String = "0.79r"
-        <Circos> Public Property r0 As String = "0.70r"
-        <Circos> Public Property orientation As orientations = orientations.out
 
         Sub New(data As data(Of ValueTrackData))
             Call MyBase.New(data)
+
+            ' 默认值取自 circos 发行版之中的 etc/tracks/scatter.conf
+            fill_color = "grey"
+            stroke_color = "black"
+            stroke_thickness = "0"
+            r1 = "0.79r"
+            r0 = "0.70r"
+            orientation = orientations.out
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
