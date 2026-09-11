@@ -184,8 +184,8 @@ Module Program
         Dim g As New Genome(folder)
 
         ' 无表达数据时，仅验证距离判据可以把相邻同链基因合并
-        Dim operons As List(Of Operon) = Operons.OperonPrediction.Predict(g, 0)
-        check("操纵子预测可运行", operons IsNot Nothing)
+        Dim operonList As List(Of Operon) = Operons.OperonPrediction.Predict(g, 0)
+        check("操纵子预测可运行", operonList IsNot Nothing)
 
         ' 距离 sigmoid 单调性
         Dim options As New Operons.OperonPredictionOptions()
@@ -203,11 +203,11 @@ Module Program
 
         Const transcript As String = "ATGCGTACGTTAGCCATGGTACCGATTACAGGCATCGGATCCGTTAGCATGCATACGTTGGCCAATTGCA"
         Const readLength As Integer = 40
-        Const step As Integer = 20
+        Const stride As Integer = 20
 
         Dim fastq As New List(Of String)()
         For copy As Integer = 1 To 6
-            For i As Integer = 0 To transcript.Length - readLength Step step
+            For i As Integer = 0 To transcript.Length - readLength Step stride
                 Dim read As String = transcript.Substring(i, readLength)
                 Call fastq.Add($"@read_{copy}_{i}")
                 Call fastq.Add(read)
