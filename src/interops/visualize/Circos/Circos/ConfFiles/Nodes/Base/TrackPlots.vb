@@ -66,10 +66,10 @@ Namespace Configurations.Nodes.Plots
         ''' <returns></returns>
         <Circos> Public Property file As String Implements ITrackPlot.file
             Get
-                Return Tools.TrimPath(tracksData.FileName)
+                Return Tools.TrimPath(tracksData.fileName)
             End Get
             Set(value As String)
-                tracksData.FileName = value
+                tracksData.fileName = value
             End Set
         End Property
 
@@ -199,6 +199,10 @@ Namespace Configurations.Nodes.Plots
 
         Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(Path, encoding.CodePage)
+        End Function
+
+        Public Function Save(file As IO.Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Throw New NotImplementedException()
         End Function
     End Class
 End Namespace

@@ -625,11 +625,11 @@ SET_END:    Dim ends = i
     ''' <param name="debug"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function WriteData(circos As Configurations.Circos,
+    Public Function WriteData(circos As Configurations.Circos, circosScriptPath As String,
                               Optional outDIR$ = "",
                               Optional debug As DebugGroups = DebugGroups.NULL) As String
 
-        Dim perlRun$ = GetCircosScript().CLIPath.Replace("\", "/")
+        Dim perlRun$ = circosScriptPath.CLIPath.Replace("\", "/")
         Dim conf$ = circos.filePath.CLIPath.Replace("\", "/")
 
         Call circos.Save(outDIR)
@@ -640,25 +640,6 @@ SET_END:    Dim ends = i
         Return circos.filePath
     End Function
 
-    ''' <summary>
-    ''' Gets the circos Perl script file location automatically by search on the file system.
-    ''' </summary>
-    ''' <returns></returns>
-    <ExportAPI("Circos.pl")>
-    Public Function GetCircosScript() As String
-        Dim libs = ProgramPathSearchTool.SearchDirectory("circos")
-
-        For Each directory As String In libs
-            Dim circos$() = ProgramPathSearchTool.SearchScriptFile(directory, "circos").ToArray
-
-            If Not circos.IsNullOrEmpty Then
-                Return circos.First
-            End If
-        Next
-
-        Return ""
-    End Function
-
     <ExportAPI("Ticks.ShowLabel")>
     Public Sub ShowTicksLabel(circos As Configurations.Circos, value As Boolean)
         If circos.includes.IsNullOrEmpty Then
@@ -666,10 +647,10 @@ SET_END:    Dim ends = i
         End If
 
         Dim ticks = LinqAPI.DefaultFirst(Of Ticks) <=
- _
+                                                     _
             From include As CircosConfig
             In circos.includes
-            Where InStr(include.RefPath, Configurations.Circos.TicksConf, CompareMethod.Text) > 0
+            Where InStr(include.refPath, Configurations.Circos.TicksConf, CompareMethod.Text) > 0
             Select DirectCast(include, Ticks)
 
         If Not ticks Is Nothing Then
@@ -741,10 +722,9 @@ SET_END:    Dim ends = i
     ''' </summary>
     ''' <param name="conf"></param>
     ''' <returns></returns>
-    Public Function Shell(Optional conf As String = "") As Boolean
+    Public Function Shell(circos As String, Optional conf As String = "") As Boolean
         Dim Directories = ProgramPathSearchTool.Which("perl")
         Dim Perl As String = ""
-        Dim Circos As String = GetCircosScript()
 
         For Each Dir As String In Directories
             Dim Files = ProgramPathSearchTool.Which("perl", {Dir})

@@ -44,6 +44,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -71,9 +72,9 @@ Namespace Colors
                                        Optional max As Double = 1,
                                        Optional offsetPercentage# = 0.06) As Image
 
-            Dim g As Graphics2D = New Size(1024, 300).CreateGDIDevice
+            Dim g As IGraphics = DriverLoad.CreateDefaultRasterGraphics(New Size(1024, 300), Color.Transparent)
             Dim titleFont As New Font(FontFace.MicrosoftYaHei, 64, FontStyle.Regular)
-            Dim sz As SizeF = g.Graphics.MeasureString(title, titleFont)
+            Dim sz As SizeF = g.MeasureString(title, titleFont)
 
             Call g.DrawString(title, titleFont, Brushes.Black, New Point)
 
@@ -113,8 +114,9 @@ Namespace Colors
 
             sz = g.MeasureString(sMax, ruleFont)
             Call g.DrawString(sMax, ruleFont, Brushes.Black, New Point(CInt(g.Width - sz.Width), Y + drHeight))
+            Call g.Flush()
 
-            Return g.ImageResource
+            Return DirectCast(g, GdiRasterGraphics).ImageResource
         End Function
 
         ''' <summary>
@@ -144,8 +146,7 @@ Namespace Colors
             Call mapLvs.Max.debug
             Call mapLvs.Min.debug
 
-            Dim mappings As Mappings() =
-                mapLvs.Select(AddressOf maps.CreateMaps).ToArray
+            Dim mappings As Mappings() = mapLvs.Select(AddressOf maps.CreateMaps).ToArray
             Return mappings
         End Function
     End Module

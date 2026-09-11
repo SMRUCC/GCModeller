@@ -167,5 +167,9 @@ Namespace Configurations.ComponentModel
         Public Function Save(directory$, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(directory, encoding.CodePage)
         End Function
+
+        Public Function Save(file As IO.Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Throw New NotImplementedException()
+        End Function
     End Class
 End Namespace
