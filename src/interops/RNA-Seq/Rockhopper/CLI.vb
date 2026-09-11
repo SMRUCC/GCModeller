@@ -252,9 +252,9 @@ Public Module CLI
 
 #Region "Parsing helpers"
 
-    Private Function requireValue(args As String(), i As Integer, option As String, expected As String) As String()
+    Private Function requireValue(args As String(), i As Integer, [option] As String, expected As String) As String()
         If i = args.Length - 1 OrElse (args(i + 1).StartsWith("-") AndAlso Not args(i + 1).StartsWith("-1")) Then
-            Throw New ArgumentException($"command line argument {option} must be followed by {expected}.")
+            Throw New ArgumentException($"command line argument {[option]} must be followed by {expected}.")
         End If
         Return splitList(args(i + 1))
     End Function
