@@ -82,16 +82,6 @@ Imports ColorPatterns = Microsoft.VisualBasic.Imaging.ColorMap
 
 Public Module CircosAPI
 
-    <ExportAPI("IdentityColors")>
-    Public Function IdentityColors([default] As String) As IdentityColors
-        Return New IdentityLevels([default])
-    End Function
-
-    <ExportAPI("IdentityColors")>
-    Public Function IdentityColors(min#, max#, Optional depth% = 10, Optional default$ = "Brown", Optional mapName$ = "Jet") As IdentityColors
-        Return New IdentityGradients(min, max, depth, [default], mapName)
-    End Function
-
     ''' <summary>
     ''' Invoke set the ideogram width in the circos plot drawing, if the width value is set to ZERO,
     ''' then the ideogram circle will be empty on the drawing but this is different with the ideogram
