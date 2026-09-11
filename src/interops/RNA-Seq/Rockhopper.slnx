@@ -4,6 +4,12 @@
     <Platform Name="x64" />
   </Configurations>
   <Folder Name="/assembler/">
+    <Project Path="../../GCModeller/analysis/RNA-Seq/RNAExpression/RNAExpression.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../GCModeller/analysis/RNA-Seq/TSSAR/TSSAR.vbproj" Id="18120be0-3fd5-4a07-93df-6ce3a8ed936d">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../GCModeller/analysis/SequenceToolkit/SequenceAlignment/SequenceAlignment.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
@@ -19,6 +25,9 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/DataMining/DynamicProgramming/DynamicProgramming.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math.Statistics/stats-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
