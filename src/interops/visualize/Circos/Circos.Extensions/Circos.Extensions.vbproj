@@ -14,6 +14,8 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
  
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+ 
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
 	</PropertyGroup>
   <ItemGroup>
     <Compile Remove="data\**" />

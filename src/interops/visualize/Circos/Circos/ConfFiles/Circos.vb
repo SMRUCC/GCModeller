@@ -228,7 +228,11 @@ Namespace Configurations
 
         ReadOnly plotTracks As New List(Of ITrackPlot)
 
-        Public ReadOnly Property IdeogramInclude As IdeogramInclude
+        ''' <summary>
+        ''' 获取到被包含在主配置文件之中的 ideogram 配置块
+        ''' </summary>
+        ''' <returns>当主配置文件之中并没有包含 ideogram 配置的时候返回 Nothing</returns>
+        Public ReadOnly Property Ideogram As IdeogramInclude
             Get
                 For Each include In Me.includes
                     If TypeOf include Is IdeogramInclude Then

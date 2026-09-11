@@ -628,7 +628,7 @@ SET_END:    Dim ends = i
         Return circos.filePath
     End Function
 
-    <ExportAPI("TicksInclude.ShowLabel")>
+    <ExportAPI("Ticks.ShowLabel")>
     Public Sub ShowTicksLabel(circos As Configurations.Circos, value As Boolean)
         If circos.includes.IsNullOrEmpty Then
             Return
@@ -646,7 +646,7 @@ SET_END:    Dim ends = i
 
             ticks.show_tick_labels = show
 
-            For Each tick As Nodes.TickBlock In ticks.TicksInclude.ticks
+            For Each tick As Nodes.TickBlock In ticks.Ticks.ticks
                 tick.show_label = show
             Next
         End If
@@ -657,7 +657,7 @@ SET_END:    Dim ends = i
     ''' </summary>
     ''' <param name="doc"></param>
     ''' <returns></returns>
-    <ExportAPI("TicksInclude.Remove")>
+    <ExportAPI("Ticks.Remove")>
     Public Function RemoveTicks(doc As Configurations.Circos) As Boolean
         Return __includesRemoveCommon(Configurations.Circos.TicksConf, doc)
     End Function
@@ -692,15 +692,16 @@ SET_END:    Dim ends = i
     ''' <param name="doc"></param>
     ''' <returns></returns>
     Public Function RemoveIdeogram(doc As Configurations.Circos) As Boolean
-        Dim IdeogramInclude = (From include In doc.includes
-                        Where InStr(include.refPath, Configurations.Ideogram.IdeogramConf, CompareMethod.Text) > 0
-                        Select DirectCast(include, Configurations.Ideogram)).FirstOrDefault
-        If IdeogramInclude Is Nothing Then
+        Dim ideogramInclude = (From include In doc.includes
+                               Where InStr(include.refPath, Configurations.IdeogramInclude.IdeogramConf, CompareMethod.Text) > 0
+                               Select DirectCast(include, Configurations.IdeogramInclude)).FirstOrDefault
+
+        If ideogramInclude Is Nothing Then
             Call $"Circos configuration file have no ideogram data".debug
         Else
-            IdeogramInclude.Ideogram.thickness = "0p"
-
+            ideogramInclude.Ideogram.thickness = "0p"
         End If
+
         Return True
     End Function
 
