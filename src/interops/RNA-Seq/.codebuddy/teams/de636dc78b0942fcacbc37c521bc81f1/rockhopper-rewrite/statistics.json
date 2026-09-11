@@ -16,5 +16,14 @@
     "content": "{\"type\":\"shutdown_request\",\"request_id\":\"shutdown-1789168604081\",\"reason\":\"Lowess.vb 与 NegativeBinomial.vb 已满足需求，ExpressionNormalization/SmoothDistribution 由主线补齐，请停止工作，不要再写入文件。\",\"from\":\"team-lead\",\"timestamp\":\"2026-09-11T23:16:44.081Z\"}",
     "timestamp": "2026-09-11T23:16:44.081Z",
     "read": false
+  },
+  {
+    "id": "nudge-1789168634082-yjom8k",
+    "from": "team-lead",
+    "to": "statistics",
+    "type": "message",
+    "content": "Reminder: a previous shutdown_request (request_id=shutdown-1789168604081) is still awaiting your response.\nPer the Shutdown Protocol, you MUST reply now with:\n  send_message(type='shutdown_response', approve=true, request_id='shutdown-1789168604081')\nIf you have unreported deliverables, send them via send_message first, then acknowledge.\nForce termination will occur shortly if no response is received.",
+    "timestamp": "2026-09-11T23:17:14.082Z",
+    "read": false
   }
 ]
