@@ -66,9 +66,6 @@ Namespace Assembly
         Public Property GenomeSize As Integer
         Public Property GenomeSizes As List(Of Integer)
 
-        ''' <summary>走链追踪剩余输出条数（仅 Verbose 时启用，用于诊断）。</summary>
-        Private _trace As Integer = 0
-
 #End Region
 
         Public Sub New(Optional conditionFiles As List(Of String) = Nothing,
@@ -207,7 +204,6 @@ Namespace Assembly
 
             Dim used As New HashSet(Of String)()
             Dim contigs As New List(Of String)()
-            If Verbose Then _trace = 90
 
             ' 以计数从高到低处理种子，保证先构建表达量最高的转录本
             Dim seeds As IEnumerable(Of String) = kmers.Where(Function(kv) kv.Value >= MinSeedExpression) _
@@ -260,11 +256,6 @@ Namespace Assembly
                 Next
 
                 If best Is Nothing Then Exit While
-
-                If _trace > 0 Then
-                    _trace -= 1
-                    Call Logging.Output($"[TRACE] {(If(forward, "F", "B"))} tail={tail} best={best} count={bestCount}{vbLf}")
-                End If
 
                 used.Add(best)
                 current = If(forward, current & best(best.Length - 1), best(0) & current)

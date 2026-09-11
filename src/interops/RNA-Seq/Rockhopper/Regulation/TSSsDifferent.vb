@@ -117,7 +117,7 @@ Namespace Regulation
             For Each t1 As TranscriptLoci In condition1
                 If String.IsNullOrEmpty(t1.GeneID) Then Continue For
 
-                Dim t2 As TranscriptLoci
+                Dim t2 As TranscriptLoci = Nothing
                 If Not index2.TryGetValue(t1.GeneID, t2) Then Continue For
 
                 Dim diff As New TSSsDifferent With {

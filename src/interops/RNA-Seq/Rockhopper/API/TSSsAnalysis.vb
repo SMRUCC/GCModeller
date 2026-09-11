@@ -129,8 +129,9 @@ Namespace AnalysisAPI
             For Each operon As Operon In Operons
                 If operon.Genes Is Nothing Then Continue For
                 For i As Integer = 0 To operon.Genes.Length - 1
+                    Dim geneName As String = operon.Genes(i)
                     Dim map As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief =
-                        PTT.GeneObjects.FirstOrDefault(Function(g) String.Equals(g.Gene, operon.Genes(i)))
+                        PTT.GeneObjects.FirstOrDefault(Function(g) String.Equals(g.Gene, geneName))
                     If map IsNot Nothing Then operon.Genes(i) = map.Synonym
                 Next
             Next

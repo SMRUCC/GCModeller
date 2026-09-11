@@ -239,7 +239,7 @@ Module Program
         Dim directAligner As New Alignment.Aligner({reference}, numThreads:=1)
         Dim directReads = FileIO.ReadsReader.ReadAll(readsPath).ToArray()
         Dim directHits = directAligner.AlignReads(directReads).ToArray()
-        Console.WriteLine($"  [DEBUG] reads={directReads.Length}, hits to truth transcript={directHits.Length}")
+        check("真实转录本可比对全部读段", directHits.Length = directReads.Length)
 
         ' 诊断：验证「组装得到的候选（= 真实转录本前 60 bp）」本身可被精确定位与比对
         Dim candidateSeq As String = transcript.Substring(0, 60)
@@ -247,18 +247,6 @@ Module Program
         Dim read1 As String = transcript.Substring(stride, readLength)
 
         Dim candFmi As New Alignment.FMIndex(candidateSeq)
-
-        ' 对照：已知可用的 52 bp 文本
-        Const okSeq As String = "ACGTACGTACGTTTGGCCAATTGGCCAAGGTTACGTACGTACGTACGTAA"
-        Dim okFmi As New Alignment.FMIndex(okSeq)
-        Dim okBs = okFmi.BackSearch("TTTGGCCAATT")
-        Console.WriteLine($"  [DEBUG] ok   count={okFmi.Count("TTTGGCCAATT")} bs={okBs.left},{okBs.right}")
-
-        Dim p10 As String = candidateSeq.Substring(0, 10)
-        Dim bs = candFmi.BackSearch(p10)
-        Console.WriteLine($"  [DEBUG] cand p10={p10} indexOf={candidateSeq.IndexOf(p10)} count={candFmi.Count(p10)} bs={bs.left},{bs.right}")
-        Console.WriteLine($"  [DEBUG] cand len={candidateSeq.Length} hasB=$:{candidateSeq.Contains("$"c)}")
-
         check("候选 FM-index 定位 10bp", candFmi.Locate(candidateSeq.Substring(0, 10), 1).Length = 1)
         check("候选 FM-index 定位 20bp", candFmi.Locate(candidateSeq.Substring(0, 20), 1).Length = 1)
         check("候选 FM-index 定位 read0", candFmi.Locate(read0, 1).Length = 1)

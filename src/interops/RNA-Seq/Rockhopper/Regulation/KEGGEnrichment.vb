@@ -25,7 +25,7 @@ Namespace Regulation
     ''' </summary>
     Public Class EnrichmentRow
 
-        ''' <summary>分组标题（例如 "TSSs & TTSs both changed:"）。</summary>
+        ''' <summary>分组标题（例如 TSSs 与 TTSs 同时改变时的标题）。</summary>
         Public Property Group As String
         ''' <summary>KEGG 通路编号。</summary>
         Public Property Pathway As String

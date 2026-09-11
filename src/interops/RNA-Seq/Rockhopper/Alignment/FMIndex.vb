@@ -55,7 +55,7 @@ Namespace Alignment
         Public Const SENTINEL As Char = "$"c
 
         Private ReadOnly augmented As String
-        Private ReadOnly sa As Integer()
+        Private ReadOnly saTable As Integer()
         Private ReadOnly bwt As String
         Private ReadOnly cTable As Integer()
         ''' <summary>检查点 Occ 表：occCheckpoint(alphaIndex)(block) 表示 BWT 前 block*INTERVAL 个字符中该字符的个数。</summary>
@@ -78,13 +78,13 @@ Namespace Alignment
             Me.augmented = text & SENTINEL
 
             ' 对 T$ 建立后缀数组
-            Me.sa = SuffixArray.Build(Me.augmented)
+            Me.saTable = SuffixArray.Build(Me.augmented)
 
             ' BWT
             Dim rows As Integer = Me.augmented.Length
             Dim bwtChars As Char() = New Char(rows - 1) {}
             For i As Integer = 0 To rows - 1
-                Dim p As Integer = sa(i)
+                Dim p As Integer = saTable(i)
                 bwtChars(i) = If(p = 0, SENTINEL, Me.augmented(p - 1))
             Next
             Me.bwt = New String(bwtChars)
@@ -195,7 +195,7 @@ Namespace Alignment
             Dim range = BackSearch(pattern)
             Dim hits As New List(Of Integer)()
             For i As Integer = range.left To range.right - 1
-                Dim position As Integer = sa(i)
+                Dim position As Integer = saTable(i)
                 If position >= Length Then Continue For ' 哨兵后缀
                 hits.Add(position + 1)
                 If maxHits > 0 AndAlso hits.Count >= maxHits Then Exit For
@@ -206,7 +206,7 @@ Namespace Alignment
         ''' <summary>后缀数组（只读，供候选定位使用；长度为 Length + 1）。</summary>
         Public ReadOnly Property Sa As Integer()
             Get
-                Return sa
+                Return saTable
             End Get
         End Property
 
