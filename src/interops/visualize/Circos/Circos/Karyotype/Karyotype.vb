@@ -106,9 +106,27 @@ Namespace Karyotype
         Public Property [end] As Integer Implements IKaryotype.end
         Public Property color As String Implements IKaryotype.color
 
+        ''' <summary>
+        ''' The karyotype file Is parsed by circos using the whitespace As the field delimiter,
+        ''' any whitespace inside the chromosome name/label will break the parser, so 在这里将其统一替换为下划线
+        ''' </summary>
+        ''' <param name="text$"></param>
+        ''' <returns></returns>
+        Friend Shared Function trimField(text$) As String
+            If String.IsNullOrEmpty(text) Then
+                Return ""
+            End If
+
+            Return New String(text _
+                .Select(Function(c)
+                            Return If(Char.IsWhiteSpace(c), "_"c, c)
+                        End Function) _
+                .ToArray)
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String Implements IKaryotype.GetData
-            Return $"chr - {chrName} {chrLabel} {start} {[end]} {color}"
+            Return $"chr - {trimField(chrName)} {trimField(chrLabel)} {start} {[end]} {trimField(color)}"
         End Function
     End Class
 
@@ -154,7 +172,7 @@ Namespace Karyotype
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetData() As String Implements IKaryotype.GetData
-            Return $"band {chrName} {bandX} {bandY} {start} {[end]} {color}"
+            Return $"band {trimField(chrName)} {trimField(bandX)} {trimField(bandY)} {start} {[end]} {trimField(color)}"
         End Function
     End Class
 End Namespace
