@@ -62,6 +62,14 @@ Namespace Assembly
                 End If
             Next
 
+            Call Logging.Output($"[MAP] candidates={replicons.Length}, reads={readArray.Length}, totalHits={counts.Sum()}{vbLf}")
+            If replicons.Length > 0 Then
+                Dim reference As String = Me.replicons(0).SequenceData
+                Call Logging.Output($"[MAP] replicon0 len={reference.Length} seq={reference}{vbLf}")
+                If readArray.Length > 0 Then Call Logging.Output($"[MAP] read0 len={readArray(0).Length} seq={readArray(0).Sequence}{vbLf}")
+                If readArray.Length > 1 Then Call Logging.Output($"[MAP] read1 len={readArray(1).Length} seq={readArray(1).Sequence}{vbLf}")
+            End If
+
             Dim totalMapped As Long = counts.Sum(Function(c) CLng(c))
             Dim results As New List(Of DeNovoTranscript)()
 

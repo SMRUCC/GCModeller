@@ -62,23 +62,25 @@ Module Program
         Dim fmi As New Alignment.FMIndex(replicon.SequenceData)
         check("FM-index 精确计数", fmi.Count("ACGTACGT") >= 2)
 
-        Dim hit As Integer() = fmi.Locate("TTTGGCCAATT", 1)
-        check("FM-index 定位", hit.Length = 1 AndAlso hit(0) = 11)
+        Const probe As String = "TTTGGCCAATT"
+        Dim expected As Integer = replicon.SequenceData.IndexOf(probe) + 1
+
+        Dim hit As Integer() = fmi.Locate(probe, 1)
+        check("FM-index 定位", hit.Length = 1 AndAlso hit(0) = expected)
 
         ' 精确匹配
         Dim aligner As New Alignment.Aligner({replicon}, numThreads:=1)
-        Dim exactRead As New FileIO.Read("r1", "TTTGGCCAATT")
-        Dim exactHits = aligner.AlignReads({exactRead}).ToArray()
-        check("精确匹配命中", exactHits.Length = 1 AndAlso exactHits(0).Position = 11 AndAlso Not exactHits(0).IsReverse)
+        Dim exactHits = aligner.AlignReads({New FileIO.Read("r1", probe)}).ToArray()
+        check("精确匹配命中", exactHits.Length = 1 AndAlso exactHits(0).Position = expected AndAlso Not exactHits(0).IsReverse)
 
         ' 含 1 个错配的读段（种子-延伸路径）
-        Dim mismatchRead As New FileIO.Read("r2", "TTTGGCCAACT")
-        Dim mismatchHits = aligner.AlignReads({mismatchRead}).ToArray()
+        Dim mismatchHits = aligner.AlignReads({New FileIO.Read("r2", "TTTGGCCAACT")}).ToArray()
         check("种子-延伸命中（1 错配）", mismatchHits.Length = 1)
 
-        ' 反向互补链
-        Dim rc As String = Alignment.Aligner.reverseComplement("TTTGGCCAATT")
-        Dim rcHits = aligner.AlignReads({New FileIO.Read("r3", rc)}).ToArray()
+        ' 反向互补链：构造一个正向不存在的读段，其反向互补在参考上唯一出现
+        Dim rcReplicon As New Replicon("rc_replicon", "GGGGGGTTTTTT")
+        Dim rcAligner As New Alignment.Aligner({rcReplicon}, numThreads:=1)
+        Dim rcHits = rcAligner.AlignReads({New FileIO.Read("r3", Alignment.Aligner.reverseComplement("GGGGGGTTTTTT"))}).ToArray()
         check("负链命中", rcHits.Length = 1 AndAlso rcHits(0).IsReverse)
     End Sub
 
@@ -227,9 +229,50 @@ Module Program
             .MinExpression = 2,
             .MinTranscriptLength = 60,
             .MinReadsMapping = 2,
-            .NumThreads = 1
+            .NumThreads = 1,
+            .Verbose = True
         }
         Call assembler.Run()
+
+        ' 诊断：直接用同一批读段比对到真实转录本，验证比对链路本身可用
+        Dim reference As New Replicon("truth", transcript)
+        Dim directAligner As New Alignment.Aligner({reference}, numThreads:=1)
+        Dim directReads = FileIO.ReadsReader.ReadAll(readsPath).ToArray()
+        Dim directHits = directAligner.AlignReads(directReads).ToArray()
+        Console.WriteLine($"  [DEBUG] reads={directReads.Length}, hits to truth transcript={directHits.Length}")
+
+        ' 诊断：验证「组装得到的候选（= 真实转录本前 60 bp）」本身可被精确定位与比对
+        Dim candidateSeq As String = transcript.Substring(0, 60)
+        Dim read0 As String = transcript.Substring(0, readLength)
+        Dim read1 As String = transcript.Substring(stride, readLength)
+
+        Dim candFmi As New Alignment.FMIndex(candidateSeq)
+
+        ' 对照：已知可用的 52 bp 文本
+        Const okSeq As String = "ACGTACGTACGTTTGGCCAATTGGCCAAGGTTACGTACGTACGTACGTAA"
+        Dim okFmi As New Alignment.FMIndex(okSeq)
+        Dim okBs = okFmi.BackSearch("TTTGGCCAATT")
+        Console.WriteLine($"  [DEBUG] ok   count={okFmi.Count("TTTGGCCAATT")} bs={okBs.left},{okBs.right}")
+
+        Dim p10 As String = candidateSeq.Substring(0, 10)
+        Dim bs = candFmi.BackSearch(p10)
+        Console.WriteLine($"  [DEBUG] cand p10={p10} indexOf={candidateSeq.IndexOf(p10)} count={candFmi.Count(p10)} bs={bs.left},{bs.right}")
+        Console.WriteLine($"  [DEBUG] cand len={candidateSeq.Length} hasB=$:{candidateSeq.Contains("$"c)}")
+
+        check("候选 FM-index 定位 10bp", candFmi.Locate(candidateSeq.Substring(0, 10), 1).Length = 1)
+        check("候选 FM-index 定位 20bp", candFmi.Locate(candidateSeq.Substring(0, 20), 1).Length = 1)
+        check("候选 FM-index 定位 read0", candFmi.Locate(read0, 1).Length = 1)
+        check("候选 FM-index 定位 read1", candFmi.Locate(read1, 1).Length = 1)
+
+        ' 后缀数组正确性（与暴力排序对照）
+        Dim saActual As Integer() = Alignment.SuffixArray.Build(candidateSeq)
+        Dim saExpected As Integer() = Enumerable.Range(0, candidateSeq.Length) _
+                                                .OrderBy(Function(i) candidateSeq.Substring(i), StringComparer.Ordinal) _
+                                                .ToArray()
+        check("后缀数组正确", saActual.SequenceEqual(saExpected))
+
+        Dim candAligner As New Alignment.Aligner({New Replicon("c", candidateSeq)}, numThreads:=1)
+        check("候选比对器命中 read0", candAligner.AlignReads({New FileIO.Read("x", read0)}).ToArray().Length = 1)
 
         Dim resultPath As String = Path.Combine(workspace, "transcripts.txt")
         check("transcripts.txt 已生成", File.Exists(resultPath))

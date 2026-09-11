@@ -3,17 +3,21 @@
 '  Rockhopper —— FM-index（BWT + C 表 + Occ 表）
 '
 '  严格对应论文中"Burrows-Wheeler 变换 + 全文后缀数组索引"的比对第一步：精确匹配。
-'  构建流程（与原始 Java/Replicon.vb 一致，但改为线性/近线性实现）：
-'    1) 对参考序列建立后缀数组 SA；
-'    2) BWT[i] = seq[SA[i] - 1]（SA[i] = 0 时取哨兵 '$'，其 ASCII 最小，作为隐含终止符）；
-'    3) C[c] = 字典序小于 c 的字符总数（严格小于）；
-'    4) Occ 表记录每个字符在 BWT 前缀中的出现次数，为节省内存采用**检查点(checkpoint)**
-'       存储，未检查点部分在查询时现场扫描。
 '
-'  反向搜索（backward search）：
-'    对模式串从右向左逐字符收缩区间 [left, right)：
+'  实现采用**显式哨兵**（explicit sentinel）形式，这是可证明正确的标准写法：
+'    1) 在参考序列 T 末尾追加唯一且字典序最小的哨兵 '$'，得到 T$（长度 n+1）；
+'    2) 对 T$ 建立后缀数组 SA（长度 n+1）；
+'    3) BWT[i] = T$[SA[i] - 1]（SA[i] = 0 时取哨兵 '$'）；
+'    4) C[c] = T$ 中字典序严格小于 c 的字符数（因此 C['$'] = 0）；
+'    5) Occ(c, i) = BWT 前 i 个字符中 c 的个数（采用检查点存储以节省内存）。
+'
+'  反向搜索（backward search）在行区间 [0, n+1) 上进行：
 '      left'  = C[c] + Occ(c, left)
 '      right' = C[c] + Occ(c, right)
+'
+'  注意：早期版本使用"隐式哨兵"（直接对 T 建 SA，并把 SA[i]=0 的行记为 '$'），
+'  这会使 C 表与后缀数组的排序不一致（被 '$' 替换掉的字符计数少 1），
+'  在部分输入上导致精确匹配失败；本实现已修正为显式哨兵。
 '
 ' /********************************************************************************/
 
@@ -38,16 +42,19 @@ Namespace Alignment
     End Interface
 
     ''' <summary>
-    ''' 基于 Burrows-Wheeler 变换的 FM-index。
+    ''' 基于 Burrows-Wheeler 变换的 FM-index（显式哨兵实现）。
     ''' </summary>
     Public Class FMIndex
         Implements IFmIndex
 
         ''' <summary>字母表（按 ASCII 升序；'$' 为哨兵，'^' 为歧义字符，均排在 A/C/G/T 之外）。</summary>
         Public Shared ReadOnly Alphabet As Char() = {"$"c, "A"c, "C"c, "G"c, "T"c, "^"c}
-        Private Const OCC_INTERVAL As Integer = 64
 
-        Private ReadOnly sequence As String
+        Private Const OCC_INTERVAL As Integer = 64
+        ''' <summary>哨兵字符。</summary>
+        Public Const SENTINEL As Char = "$"c
+
+        Private ReadOnly augmented As String
         Private ReadOnly sa As Integer()
         Private ReadOnly bwt As String
         Private ReadOnly cTable As Integer()
@@ -55,19 +62,30 @@ Namespace Alignment
         Private ReadOnly occCheckpoint As Integer()()
         Private ReadOnly charIndex As Integer()
 
-        ''' <summary>参考序列长度。</summary>
+        ''' <summary>参考序列长度（不含哨兵）。</summary>
         Public ReadOnly Property Length As Integer
 
+        ''' <summary>BWT 行数（= Length + 1）。</summary>
+        Public ReadOnly Property Rows As Integer
+            Get
+                Return Length + 1
+            End Get
+        End Property
+
         Public Sub New(sequence As String)
-            Me.sequence = If(sequence, "")
-            Me.Length = Me.sequence.Length
-            Me.sa = SuffixArray.Build(Me.sequence)
+            Dim text As String = If(sequence, "")
+            Me.Length = text.Length
+            Me.augmented = text & SENTINEL
+
+            ' 对 T$ 建立后缀数组
+            Me.sa = SuffixArray.Build(Me.augmented)
 
             ' BWT
-            Dim bwtChars As Char() = New Char(Length - 1) {}
-            For i As Integer = 0 To Length - 1
+            Dim rows As Integer = Me.augmented.Length
+            Dim bwtChars As Char() = New Char(rows - 1) {}
+            For i As Integer = 0 To rows - 1
                 Dim p As Integer = sa(i)
-                bwtChars(i) = If(p = 0, "$"c, Me.sequence(p - 1))
+                bwtChars(i) = If(p = 0, SENTINEL, Me.augmented(p - 1))
             Next
             Me.bwt = New String(bwtChars)
 
@@ -80,10 +98,10 @@ Namespace Alignment
                 charIndex(AscW(Alphabet(i))) = i
             Next
 
-            ' C 表：严格小于 c 的字符总数
+            ' C 表：T$ 中严格小于 c 的字符总数
             Dim counts As Integer() = New Integer(Alphabet.Length - 1) {}
-            For i As Integer = 0 To bwt.Length - 1
-                Dim a As Integer = indexOf(bwt(i))
+            For i As Integer = 0 To Me.augmented.Length - 1
+                Dim a As Integer = indexOf(Me.augmented(i))
                 If a >= 0 Then counts(a) += 1
             Next
             Me.cTable = New Integer(Alphabet.Length - 1) {}
@@ -94,13 +112,13 @@ Namespace Alignment
             Next
 
             ' Occ 检查点
-            Dim blocks As Integer = (Length \ OCC_INTERVAL) + 1
+            Dim blocks As Integer = (rows \ OCC_INTERVAL) + 1
             Me.occCheckpoint = New Integer(Alphabet.Length - 1)() {}
             For a As Integer = 0 To Alphabet.Length - 1
                 occCheckpoint(a) = New Integer(blocks) {}
             Next
             Dim cum As Integer() = New Integer(Alphabet.Length - 1) {}
-            For i As Integer = 0 To Length - 1
+            For i As Integer = 0 To rows - 1
                 If i Mod OCC_INTERVAL = 0 Then
                     Dim block As Integer = i \ OCC_INTERVAL
                     For a As Integer = 0 To Alphabet.Length - 1
@@ -110,8 +128,8 @@ Namespace Alignment
                 Dim ai As Integer = indexOf(bwt(i))
                 If ai >= 0 Then cum(ai) += 1
             Next
-            If Length Mod OCC_INTERVAL = 0 Then
-                Dim lastBlock As Integer = Length \ OCC_INTERVAL
+            If rows Mod OCC_INTERVAL = 0 Then
+                Dim lastBlock As Integer = rows \ OCC_INTERVAL
                 For a As Integer = 0 To Alphabet.Length - 1
                     occCheckpoint(a)(lastBlock) = cum(a)
                 Next
@@ -124,18 +142,18 @@ Namespace Alignment
             Return -1
         End Function
 
-        ''' <summary>Occ(c, i)：BWT 前 i 个字符（[0, i)）中字符 c 的个数。</summary>
-        Public Function Occ(c As Char, i As Integer) As Integer
+        ''' <summary>Occ(ch, i)：BWT 前 i 个字符（[0, i)）中字符 ch 的个数。</summary>
+        Public Function Occ(ch As Char, i As Integer) As Integer
             If i <= 0 Then Return 0
-            If i > Length Then i = Length
+            If i > Rows Then i = Rows
 
-            Dim a As Integer = indexOf(c)
+            Dim a As Integer = indexOf(ch)
             If a < 0 Then Return 0
 
             Dim block As Integer = i \ OCC_INTERVAL
             Dim count As Integer = occCheckpoint(a)(block)
             For j As Integer = block * OCC_INTERVAL To i - 1
-                If bwt(j) = c Then count += 1
+                If bwt(j) = ch Then count += 1
             Next
             Return count
         End Function
@@ -152,7 +170,7 @@ Namespace Alignment
             If String.IsNullOrEmpty(pattern) Then Return (0, 0)
 
             Dim left As Integer = 0
-            Dim right As Integer = Length
+            Dim right As Integer = Rows
             For i As Integer = pattern.Length - 1 To 0 Step -1
                 Dim c As Char = pattern(i)
                 If indexOf(c) < 0 Then Return (0, 0) ' 含有字母表外字符，精确匹配失败
@@ -169,16 +187,28 @@ Namespace Alignment
             Return range.right - range.left
         End Function
 
-        ''' <summary>定位模式串（1-based 起始坐标）。</summary>
+        ''' <summary>
+        ''' 定位模式串（1-based 起始坐标）。
+        ''' 哨兵对应的行（SA 值为 Length）会被跳过。
+        ''' </summary>
         Public Function Locate(pattern As String, Optional maxHits As Integer = 1) As Integer() Implements IFmIndex.Locate
             Dim range = BackSearch(pattern)
             Dim hits As New List(Of Integer)()
             For i As Integer = range.left To range.right - 1
-                hits.Add(sa(i) + 1)
+                Dim position As Integer = sa(i)
+                If position >= Length Then Continue For ' 哨兵后缀
+                hits.Add(position + 1)
                 If maxHits > 0 AndAlso hits.Count >= maxHits Then Exit For
             Next
             Return hits.ToArray
         End Function
+
+        ''' <summary>后缀数组（只读，供候选定位使用；长度为 Length + 1）。</summary>
+        Public ReadOnly Property Sa As Integer()
+            Get
+                Return sa
+            End Get
+        End Property
 
     End Class
 
