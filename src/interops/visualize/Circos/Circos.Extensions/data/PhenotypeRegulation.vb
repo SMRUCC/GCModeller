@@ -45,6 +45,8 @@
 
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.InteractionModel.Regulon
@@ -76,23 +78,23 @@ Namespace Documents.Karyotype
             Dim PathwayGenes = (From Pathway In Pathways
                                 Select PathwayId = Pathway.EntryId,
                                     PathwayGenesId = Pathway.GetPathwayGenes).ToArray
-            RegulatorFamilies = Regprecise.FamilyStatics2(Regulations)
+            ' RegulatorFamilies = Regprecise.FamilyStatics2(Regulations)
 
             Dim PathwayFunctions As Dictionary(Of String, BriteHEntry.Pathway) =
                 BriteHEntry.Pathway.LoadDictionary
 
             Dim LQuery = (From Pathway As bGetObject.Pathway
                           In Pathways.AsParallel
-                          Where Not Pathway.Genes.IsNullOrEmpty
+                          Where Not Pathway.genes.IsNullOrEmpty
                           Let PathwayId As String = Pathway.EntryId
                           Let [Class] As BriteHEntry.Pathway = PathwayFunctions(Regex.Match(PathwayId, "\d{5}").Value)
-                          Select Phenotype = [Class].Category,
+                          Select Phenotype = [Class].category,
                               AssociationGenes = Pathway.GetPathwayGenes).ToArray
             PhenoTypeAssociations = (From Phenotype As String
                                      In (From item In LQuery Select item.Phenotype Distinct).ToArray
                                      Let AssociatedGene As String() = (From item In LQuery
                                                                        Where String.Equals(Phenotype, item.Phenotype)
-                                                                       Select item.AssociationGenes).ToVector
+                                                                       Select item.AssociationGenes).IteratesALL.Keys
                                      Select New KeyValuePair(Of String, String())(Phenotype, AssociatedGene)).ToArray
             Me.Regulations = (From Regulator As String
                               In (From item In Regulations Select item.TFlocusId Distinct).ToArray

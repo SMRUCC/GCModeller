@@ -51,16 +51,6 @@ Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.NtProps
 
 Module Module1
 
-    Sub Main()
-        Try
-            Call run()
-        Catch ex As Exception
-            Call ex.PrintException
-        End Try
-
-        Pause()
-    End Sub
-
     Private Sub run()
         Dim fas As New FastaFile("H:\5.14.circos\6.22\Af293.fna")
         Dim maps As BlastnMapping() = "H:\5.14.circos\6.22\maps.MergeMappings-Trim.Full.Perfect.identities=0.9.Csv".LoadCsv(Of BlastnMapping)
@@ -81,7 +71,7 @@ Module Module1
 
         circos.AddTrack(New Histogram(New GCSkew(fas, karyotype:=circos.skeletonKaryotype, winSize:=4096, steps:=2048, isCircular:=True)))
         circos.AddTrack(New Histogram(New GeneGCContent(genome:=fas, karyotype:=circos.skeletonKaryotype, winSize:=4096, steps:=2048, getValue:=Function(x) x.GC_AT)))
-        circos.AddTrack(New Histogram(New GradientMappings(maps.IdentitiesTracks(circos.skeletonKaryotype), circos.skeletonKaryotype, "Jet", 4096)))
+        circos.AddTrack(New Histogram(New GradientMappings(maps.IdentitiesTracks(circos.skeletonKaryotype), "Jet")))
         circos.AddTrack(New Histogram(New TrackDatas.data(Of TrackDatas.ValueTrackData)(hhhh.EndInvoke(inn))))
 
         Call circos.Save("Z:\circos-test/")

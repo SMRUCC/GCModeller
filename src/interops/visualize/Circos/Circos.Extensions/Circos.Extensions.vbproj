@@ -16,12 +16,22 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
   <ItemGroup>
+    <Compile Remove="data\**" />
+    <EmbeddedResource Remove="data\**" />
+    <None Remove="data\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ExtensionsAPI.vb" />
+    <Compile Remove="NameExtensions.vb" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.InteractionModel\InteractionModel.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\plots-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Drawing-net4.8\Drawing-net4.8.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />

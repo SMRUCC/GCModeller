@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::c5151455371a53828f7d25ffa594e1e9, visualize\Circos\Circos.Extensions\data\DeltaDiff.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class DeltaDiff
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetEnumerator
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class DeltaDiff
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: GetEnumerator
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ListExtensions
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 Namespace Documents.Karyotype.NtProps
@@ -60,13 +61,13 @@ Namespace Documents.Karyotype.NtProps
             Dim SW = NT.ToArray.CreateSlideWindows(SlideWindowSize, Steps)
             Dim NT_Cache = New NucleicAcid(NT.ToArray)
             Dim ChunkBuffer = (From n In SW.AsParallel
-                               Select n.Left,
+                               Select n.left,
                                    d = Sigma(NT_Cache, New NucleotideModels.NucleicAcid(n.Items))
-                               Order By Left Ascending).ToArray
+                               Order By left Ascending).ToArray
 
             Dim LastSegment = SW.Last.Items.AsList
             Dim TempChunk As List(Of NucleotideModels.DNA)
-            Dim p As Long = SW.Last.Left
+            Dim p As Long = SW.Last.left
             Dim NT_Array = NT.ToArray
             Dim List = New List(Of Double)
 

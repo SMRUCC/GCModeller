@@ -42,7 +42,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -70,7 +70,6 @@ Public Module BlastResultExtensions
     ''' <param name="r1">The max radius of the alignment circles.</param>
     ''' <param name="rInner"></param>
     ''' <returns></returns>
-    <ExportAPI("Plots.Add.Blast_alignment", Info:="The blast result alignment will be mapping on the circos plot circle individual as the highlights element in the circos plot.")>
     Public Function GenerateBlastnAlignment(doc As Configurations.Circos,
                                             <Parameter("Table", "The ncbi blast alignment result table object which can be achive from the NCBI website.")>
                                             table As AlignmentTable,
@@ -148,8 +147,6 @@ Public Module BlastResultExtensions
     ''' <param name="COG"></param>
     ''' <param name="defaultColor"></param>
     ''' <returns></returns>
-    <ExportAPI("Plots.Genome_Circle.From.Objects",
-               Info:="Creates the circos gene circle from the PTT database which is defined in the *.ptt/*.rnt file, and you can download this directory from the NCBI FTP website.")>
     Public Function __createGenomeCircle(PTT As PTTDbLoader, COG As IEnumerable(Of MyvaCOG), Optional defaultColor As String = "blue") As PTTMarks
         Dim Data As New PTTMarks(PTT, COG.ToArray, defaultColor)
         Return Data

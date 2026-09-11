@@ -46,9 +46,9 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
-Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.Slicer
 Imports SMRUCC.genomics.Visualize.Circos.Colors
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas

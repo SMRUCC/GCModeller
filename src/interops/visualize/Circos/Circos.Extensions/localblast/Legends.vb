@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Visualize.Circos.Colors
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
@@ -70,13 +71,13 @@ then you can using this method to adding the legends on your circos plots image 
         Dim sz As SizeF
 
         If Not AlignmentData.IsNullOrEmpty Then
-            sz = AlignmentData.Keys.MaxLengthString.MeasureSize(New Size(1, 1).CreateGDIDevice, Font)
+            sz = DriverLoad.MeasureTextSize(AlignmentData.Keys.MaxLengthString, Font)
         Else
             sz = New SizeF(1, 20)
         End If
 
-        Dim device = (New SizeF(CircosImage.Width + 3 * Margin + sz.Width * 2, CInt(CircosImage.Height + Margin * 4))).CreateGDIDevice
-        Call device.Graphics.DrawImage(CircosImage, New Point(Margin, Margin))
+        Dim device = DriverLoad.CreateDefaultRasterGraphics(New Size(CircosImage.Width + 3 * Margin + sz.Width * 2, CInt(CircosImage.Height + Margin * 4)), Color.Transparent)
+        Call device.DrawImage(CircosImage, New Point(Margin, Margin))
 
         Dim refPt As Point = New Point(100, 100)
 
@@ -97,18 +98,18 @@ then you can using this method to adding the legends on your circos plots image 
             Dim X As Integer = CInt(device.Width - sz.Width - 2 * Margin)
             Dim ColorBlockSize As New SizeF(200, sz.Height)
 
-            Call device.Graphics.DrawString("Localblast Alignment Order:", Font, Brushes.Black, New Point(X, Y))
+            Call device.DrawString("Localblast Alignment Order:", Font, Brushes.Black, New Point(X, Y))
             Y += 2 * dh
 
             For Each ID As NamedValue(Of String) In AlignmentData
-                Call device.Graphics.DrawString(ID.Name, Font, Brushes.Black, New Point(X, Y))
-                Call device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New RectangleF(New PointF(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
+                Call device.DrawString(ID.Name, Font, Brushes.Black, New Point(X, Y))
+                Call device.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New RectangleF(New PointF(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
 
                 Y += dh + 3
             Next
         End If
 
-        Return device.ImageResource
+        Return DirectCast(device, GdiRasterGraphics).ImageResource
     End Function
 
     ''' <summary>
