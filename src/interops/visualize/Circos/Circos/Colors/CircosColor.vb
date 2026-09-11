@@ -45,7 +45,6 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -117,7 +116,7 @@ Namespace Colors
                                                       Function(x) x.Value)
             CircosColor.RGBColors.Add("black", Color.Black)
 
-            Call $"Circos color profiles init done!".__DEBUG_ECHO
+            Call $"Circos color profiles init done!".debug
 
             Return CircosColor.RGBColors
         End Function
@@ -182,7 +181,6 @@ Namespace Colors
         ''' </summary>
         ''' <param name="Name"></param>
         ''' <returns></returns>
-        <ExportAPI("From.Name", Info:="Gets the .NET color object from the circos color name. If the function failed, then the Color.Black value will be return.")>
         Public Function FromKnownColorName(Name As String) As Color
             Dim key As String = Name.ToLower
 
@@ -202,7 +200,6 @@ Namespace Colors
         ''' <param name="G"></param>
         ''' <param name="B"></param>
         ''' <returns></returns>
-        <ExportAPI("From.RGB", Info:="Gets circos color name from the .NET color object R,G,B value.")>
         Public Function FromRGB(R As Integer, G As Integer, B As Integer) As String
             Dim LQuery As String =
                 LinqAPI.DefaultFirst(Of String) <= From color As KeyValuePair(Of Color, String)
@@ -224,13 +221,18 @@ Namespace Colors
         ''' <param name="V"></param>
         ''' <returns></returns>
         ''' 
-        <ExportAPI("From.HSV", Info:="Gets circos color name from HSV color value.")>
         Public Function FromHsv(H As Double, S As Double, V As Double) As String
             Dim Color As Color = ColorFromHSV(H, S, V)
             Return FromRGB(Color.R, Color.G, Color.B)
         End Function
 
-        <ExportAPI("Color.From.HSV", Info:="Gets .NET color object from the hsv color value.")>
+        ''' <summary>
+        ''' Gets .NET color object from the hsv color value.
+        ''' </summary>
+        ''' <param name="hue"></param>
+        ''' <param name="saturation"></param>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
         Public Function ColorFromHSV(hue As Double, saturation As Double, value As Double) As Color
             Dim hi As Integer = Convert.ToInt32(Math.Floor(hue / 60)) Mod 6
             Dim f As Double = hue / 60 - Math.Floor(hue / 60)
@@ -262,9 +264,8 @@ Namespace Colors
         ''' </summary>
         ''' <param name="Color"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>Gets the Circos color name from the .NET color object RGB value.</remarks>
         ''' 
-        <ExportAPI("From.Color", Info:="Gets the Circos color name from the .NET color object RGB value.")>
         <Extension>
         Public Function FromColor(Color As Drawing.Color) As String
             Return FromRGB(Color.R, Color.G, Color.B)
@@ -278,7 +279,6 @@ Namespace Colors
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Color.Profiles", Info:="Mappings each item in the categories into the Circos color name to generates a color profiles for drawing the elements in the circos plot.")>
         <Extension> Public Function ColorProfiles(Of T)(categories As T()) As Dictionary(Of T, String)
             Dim Colors As String() = CircosColor.RGBColors.Keys.Shuffles
 
@@ -300,8 +300,6 @@ Namespace Colors
         ''' </summary>
         ''' <param name="categories"></param>
         ''' <returns></returns>
-        <ExportAPI("Color.Profiles",
-                   Info:="Mappings each item in the categories into the Circos color name to generates a color profiles for drawing the elements in the circos plot.")>
         <Extension> Public Function ColorProfiles(categories As IEnumerable(Of String)) As Dictionary(Of String, String)
             Return ColorProfiles(Of String)(categories.ToArray)
         End Function

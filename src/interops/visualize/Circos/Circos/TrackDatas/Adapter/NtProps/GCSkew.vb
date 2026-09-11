@@ -106,7 +106,7 @@ Namespace TrackDatas.NtProps
                 chr = chrs(chr)
                 list += trackValues(chr, means(raw), steps)
 
-                Call $" > {nt.Title}".__DEBUG_ECHO
+                Call $" > {nt.Title}".debug
             Next
 
             source = list

@@ -102,9 +102,6 @@ Public Module CircosAPI
     ''' <param name="idg"></param>
     ''' <param name="width"></param>
     ''' <returns></returns>
-    <ExportAPI("Set.Ideogram.Width", Info:="Invoke set the ideogram width in the circos plot drawing,
-if the width value is set to ZERO, then the ideogram circle will be empty on the drawing but this is
-different with the ideogram configuration document was not included in the circos main configuration.")>
     Public Function SetIdeogramWidth(idg As Ideogram, width As Integer) As Ideogram
         idg.Ideogram.thickness = width & "p"
 
@@ -122,7 +119,6 @@ different with the ideogram configuration document was not included in the circo
     ''' <param name="circos"></param>
     ''' <param name="name">The property name in the circos document object, case insensitive.</param>
     ''' <param name="value">String value of the circos document object property.</param>
-    <ExportAPI("SetValue", Info:="Invoke set of the property value in the circos document object.")>
     Public Sub setProperty(circos As Configurations.Circos,
                            <Parameter("Name", "The property name in the circos document object, case insensitive.")>
                            name As String,
@@ -131,7 +127,7 @@ different with the ideogram configuration document was not included in the circo
 
         Dim values As PropertyInfo() = circos.GetType().GetProperties(PublicProperty)
         Dim writer As PropertyInfo = LinqAPI.DefaultFirst(Of PropertyInfo) <=
- _
+                                                                             _
             From wp As PropertyInfo
             In values
             Where String.Equals(wp.Name, name, StringComparison.OrdinalIgnoreCase)
@@ -232,8 +228,6 @@ different with the ideogram configuration document was not included in the circo
     ''' <param name="Length"></param>
     ''' <param name="width"></param>
     ''' <returns></returns>
-    <ExportAPI("Plots.New.Seperator",
-               Info:="Creates a new seperator object in the circos plot with the specific width of the line, default is ZERO, not display.")>
     Public Function PlotsSeperatorLine(Length As Integer, Optional width As Integer = 0) As Nodes.Plots.SeperatorCircle
         Return New SeperatorCircle(Length, width)
     End Function
@@ -495,8 +489,6 @@ SET_END:    Dim ends = i
     ''' <param name="genome"></param>
     ''' <param name="defaultColor"></param>
     ''' <returns></returns>
-    <ExportAPI("Plots.Genome_Circle.From.GenbankDump",
-               Info:="Creates the circos outside gene circle from the export csv data of the genbank database file.")>
     Public Function CreateGenomeCircle(anno As IEnumerable(Of GeneTable), genome As FastaSeq, Optional defaultColor As String = "blue") As PTTMarks
         Dim track As New PTTMarks(anno.ToArray, genome, defaultColor)
         Return track
@@ -523,8 +515,6 @@ SET_END:    Dim ends = i
     ''' <param name="circos"></param>
     ''' <param name="track"></param>
     ''' <returns></returns>
-    <ExportAPI("Adds.Plots",
-               Info:="Adds a new circos plots element into the circos.conf object.")>
     Public Function AddPlotTrack(ByRef circos As Configurations.Circos, track As ITrackPlot) As Integer
         Call circos.AddTrack(track)
         Return circos.Plots.Length
@@ -591,7 +581,14 @@ SET_END:    Dim ends = i
         Return avgs
     End Function
 
-    <ExportAPI("Skeleton.From.Door", Info:="Creates the basic Karyotype document for the circos plot.")>
+    ''' <summary>
+    ''' Creates the basic Karyotype document for the circos plot.
+    ''' </summary>
+    ''' <param name="doc"></param>
+    ''' <param name="NT"></param>
+    ''' <param name="DOOR"></param>
+    ''' <param name="loophole"></param>
+    ''' <returns></returns>
     Public Function SkeletonFromDoor(doc As Configurations.Circos,
                                      NT As FastaSeq,
                                      <Parameter("Door.File", "The file path of the door operon prediction data.")> DOOR As String,
@@ -612,7 +609,7 @@ SET_END:    Dim ends = i
                                        Distinct).ToArray)
         Dim setValue = New SetValue(Of NamedTuple(Of String)) <= NameOf(NamedTuple(Of String).Name)
         Dim BandsData = LinqAPI.Exec(Of NamedTuple(Of String)) _
- _
+                                                               _
             () <= From obj
                   In LQuery
                   Select setValue(obj.band, Color(obj.COG))
@@ -720,13 +717,17 @@ SET_END:    Dim ends = i
         Return True
     End Function
 
-    <ExportAPI("Ideogram.Remove", Info:="Removes the ideogram plots element from the circos document node.")>
+    ''' <summary>
+    ''' Removes the ideogram plots element from the circos document node.
+    ''' </summary>
+    ''' <param name="doc"></param>
+    ''' <returns></returns>
     Public Function RemoveIdeogram(doc As Configurations.Circos) As Boolean
         Dim Ideogram = (From include In doc.includes
-                        Where InStr(include.RefPath, Configurations.Ideogram.IdeogramConf, CompareMethod.Text) > 0
+                        Where InStr(include.refPath, Configurations.Ideogram.IdeogramConf, CompareMethod.Text) > 0
                         Select DirectCast(include, Configurations.Ideogram)).FirstOrDefault
         If Ideogram Is Nothing Then
-            Call $"Circos configuration file have no ideogram data".__DEBUG_ECHO
+            Call $"Circos configuration file have no ideogram data".debug
         Else
             Ideogram.Ideogram.thickness = "0p"
 
@@ -734,20 +735,23 @@ SET_END:    Dim ends = i
         Return True
     End Function
 
-    <ExportAPI("Circos.Draw",
-               Info:="Invoke the Perl program to drawing the circos plots. before you can using this method, you should switch the terminal
-               work directory to the directory which contains the circos.conf plots configuration file.")>
+    ''' <summary>
+    ''' Invoke the Perl program to drawing the circos plots. before you can using this method, you should switch the terminal
+    ''' work directory to the directory which contains the circos.conf plots configuration file.
+    ''' </summary>
+    ''' <param name="conf"></param>
+    ''' <returns></returns>
     Public Function Shell(Optional conf As String = "") As Boolean
-        Dim Directories = ProgramPathSearchTool.SearchDirectory("perl", "")
+        Dim Directories = ProgramPathSearchTool.Which("perl")
         Dim Perl As String = ""
         Dim Circos As String = GetCircosScript()
 
         For Each Dir As String In Directories
-            Dim Files = ProgramPathSearchTool.SearchProgram(Dir, "perl").ToArray
+            Dim Files = ProgramPathSearchTool.Which("perl", {Dir})
 
-            If Not Files.IsNullOrEmpty Then
-                Perl = Files.First
-                Call $"Perl program find at ""{Perl.ToFileURL}""".__DEBUG_ECHO
+            If Not Files.StringEmpty Then
+                Perl = Files
+                Call $"Perl program find at ""{Perl.ToFileURL}""".debug
                 Exit For
             End If
         Next
@@ -761,13 +765,13 @@ SET_END:    Dim ends = i
             Return False
         End If
 
-        Call $"Circos script file found at ""{Circos.ToFileURL}""".__DEBUG_ECHO
+        Call $"Circos script file found at ""{Circos.ToFileURL}""".debug
 
         If String.IsNullOrEmpty(conf) Then
             conf = "./circos.conf"
         End If
 
-        Call $"Circos drawing configuration script found at ""{conf.ToFileURL}""".__DEBUG_ECHO
+        Call $"Circos drawing configuration script found at ""{conf.ToFileURL}""".debug
 
         Dim cmdl_argvs As String = String.Format("""{0}"" ""{1}""", Circos, conf)
         Dim Process As Process = New Process
@@ -777,7 +781,7 @@ SET_END:    Dim ends = i
         Process.StartInfo.UseShellExecute = False
 
         Call Process.Start()
-        Call $" system(""""{Perl}"" {cmdl_argvs}"")".__DEBUG_ECHO
+        Call $" system(""""{Perl}"" {cmdl_argvs}"")".debug
 
         Dim Reader As System.IO.StreamReader = Process.StandardOutput
 

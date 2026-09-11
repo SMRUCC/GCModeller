@@ -126,8 +126,6 @@ Namespace Colors
         ''' <param name="offset"></param>
         ''' <param name="replaceBase"></param>
         ''' <returns></returns>
-        <ExportAPI("Gradient.Mappings",
-                   Info:="Creates a scale gradient color mappings between a vector and the circos RGB color.")>
         <Extension>
         Public Function GradientMappings(values As IEnumerable(Of Double),
                                          Optional mapName As String = "Jet",
@@ -143,8 +141,8 @@ Namespace Colors
             Dim mapLvs = values.GenerateMapping(mapLevel)
             Dim maps As New LevelMapGenerator(values, mapName, mapLevel, offsetPercentage, replaceBase)
 
-            Call mapLvs.Max.__DEBUG_ECHO
-            Call mapLvs.Min.__DEBUG_ECHO
+            Call mapLvs.Max.debug
+            Call mapLvs.Min.debug
 
             Dim mappings As Mappings() =
                 mapLvs.Select(AddressOf maps.CreateMaps).ToArray

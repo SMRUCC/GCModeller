@@ -105,7 +105,7 @@ Namespace TrackDatas.Highlights
                                                Optional steps% = 0) As IEnumerable(Of ValueTrackData)
             Dim avgs As Double()
 
-            Call $"  >>{GetType(GradientMappings).FullName}   min= {values.Min};   max={values.Max};  @{mapName}".__DEBUG_ECHO
+            Call $"  >>{GetType(GradientMappings).FullName}   min= {values.Min};   max={values.Max};  @{mapName}".debug
 
             If winSize > 0 Then
                 Dim slids = values.CreateSlideWindows(winSize, extTails:=extTails)  '划窗平均值
