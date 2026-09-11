@@ -279,9 +279,24 @@ Namespace Configurations
             End Get
         End Property
 
+        ''' <summary>
+        ''' Creates a new empty circos document.
+        ''' </summary>
+        ''' <remarks>
+        ''' 在旧的实现之中只有 <see cref="CreateObject"/> 会初始化 <see cref="includes"/> 列表，
+        ''' 直接使用 ``New Circos()`` 所创建出来的对象的 <see cref="includes"/> 是 Nothing，
+        ''' 后续调用 ``circos.includes.Add`` 会直接抛出 NullReferenceException，
+        ''' 所以在这里将初始化逻辑移动到构造函数之中
+        ''' </remarks>
         Sub New()
             Call MyBase.New("circos.conf", Nothing)
+
             Me.main = Me
+            Me.includes = New List(Of CircosConfig) From {
+                CircosDistributed.ColorFontsPatterns,
+                CircosDistributed.HouseKeeping,
+                CircosDistributed.Image
+            }
         End Sub
 
         ''' <summary>
@@ -377,16 +392,13 @@ Namespace Configurations
             Return Build(0, directory:=base).SaveTo(filePath, Encoding.ASCII)
         End Function
 
+        ''' <summary>
+        ''' Creates a new circos document with the default distributed includes
+        ''' (``colors_fonts_patterns`` / ``housekeeping`` / ``image``).
+        ''' </summary>
+        ''' <returns></returns>
         Public Overloads Shared Function CreateObject() As Circos
-            Dim circos As New Circos With {
-                .includes = New List(Of CircosConfig)
-            }
-
-            Call circos.includes.Add(CircosDistributed.ColorFontsPatterns)
-            Call circos.includes.Add(CircosDistributed.HouseKeeping)
-            Call circos.includes.Add(CircosDistributed.Image)
-
-            Return circos
+            Return New Circos
         End Function
 
 #Region "默认的图形属性"
