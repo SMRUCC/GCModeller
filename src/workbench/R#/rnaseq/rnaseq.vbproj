@@ -20,8 +20,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\RNAExpression\RNAExpression.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\TSSAR\TSSAR.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\interops\RNA-Seq\RNA-seq.Data\RNA-seq.Data.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\interops\RNA-Seq\Rockhopper\Rockhopper.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
