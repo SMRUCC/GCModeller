@@ -71,7 +71,7 @@ Module Module1
         ' 基因组的骨架信息
         Dim skeleton As GenomeKaryotype = DemoSyntheticData.Karyotype()
 
-        Call skeleton.Save($"{Circos.NormalizeDirectory(outDIR)}/data/karyotype.txt")
+        Call skeleton.Save($"{Configurations.Circos.NormalizeDirectory(outDIR)}/data/karyotype.txt")
 
         Dim circos As Configurations.Circos = New Configurations.Circos()
 
