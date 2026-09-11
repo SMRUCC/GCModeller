@@ -47,8 +47,20 @@ Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 
 Module Tools
 
-    Public ReadOnly Property currentDIR As String =
-        FileIO.FileSystem.CurrentDirectory.Replace("\", "/") & "/"
+    ''' <summary>
+    ''' 取得当前的进程工作目录（每次调用时实时求值，不做缓存）
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 早期版本这里是一个模块级的 ``ReadOnly Property`` 字段，其值在类型初始化的那一刻就被固化，
+    ''' 当在同一个进程之中先后向不同的文件夹输出多份 circos 文档时会导致路径裁剪错乱，
+    ''' 所以在这里改为每次调用时实时读取。
+    ''' </remarks>
+    Public ReadOnly Property currentDIR As String
+        Get
+            Return FileIO.FileSystem.CurrentDirectory.Replace("\", "/").TrimEnd("/"c) & "/"
+        End Get
+    End Property
 
     ''' <summary>
     ''' 尝试创建相对路径
@@ -64,8 +76,30 @@ Module Tools
         Return TrimPath(url)
     End Function
 
-    Public Function TrimPath(url As String) As String
-        Dim refPath As String = url.Replace("\", "/").Replace(currentDIR, "")
+    ''' <summary>
+    ''' 如果给定的路径是<paramref name="baseDIR"/>之下的一个绝对路径，则将其裁剪为相对于<paramref name="baseDIR"/>的相对路径
+    ''' </summary>
+    ''' <param name="url">可以被转换为<code>/</code>风格的路径分隔符的文件路径</param>
+    ''' <param name="baseDIR">
+    ''' 参考的基准文件夹路径，如果这个参数为空值的话，则会使用当前的进程工作目录<see cref="currentDIR"/>作为基准
+    ''' </param>
+    ''' <returns></returns>
+    Public Function TrimPath(url As String, Optional baseDIR As String = Nothing) As String
+        If String.IsNullOrEmpty(url) Then
+            Return url
+        End If
+
+        Dim refPath As String = url.Replace("\", "/")
+        Dim root As String = If(
+            String.IsNullOrEmpty(baseDIR),
+            currentDIR,
+            baseDIR.Replace("\", "/").TrimEnd("/"c) & "/"
+        )
+
+        If refPath.StartsWith(root, StringComparison.OrdinalIgnoreCase) Then
+            refPath = refPath.Substring(root.Length)
+        End If
+
         Return refPath
     End Function
 

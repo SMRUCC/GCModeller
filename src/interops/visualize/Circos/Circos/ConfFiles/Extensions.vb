@@ -40,6 +40,7 @@
 
 #End Region
 
+Imports System.Globalization
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Settings
@@ -58,6 +59,30 @@ Namespace Configurations
         <Extension>
         Public Function CircosOption(b As Boolean) As String
             Return If(b, yes, no)
+        End Function
+
+        ''' <summary>
+        ''' 将数值格式化为 circos 配置文件之中可以被正确解析的字符串值
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' circos 是一个 perl 程序，其只能够接受小数点作为小数分隔符，
+        ''' 所以在这里必须使用 <see cref="CultureInfo.InvariantCulture"/>，
+        ''' 不可以直接使用 VB 之中的 ``CStr`` 运算符（在德语、简体中文等 locale 之下
+        ''' 会输出例如 ``0,5`` 这样的非法数值，导致 circos 解析失败）
+        ''' </remarks>
+        Public Function Num(value As Double) As String
+            Return value.ToString("0.######", CultureInfo.InvariantCulture)
+        End Function
+
+        ''' <summary>
+        ''' 将数值格式化为 circos 配置文件之中可以被正确解析的字符串值
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
+        Public Function Num(value As Integer) As String
+            Return value.ToString(CultureInfo.InvariantCulture)
         End Function
 
         ''' <summary>

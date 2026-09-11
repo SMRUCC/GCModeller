@@ -92,8 +92,45 @@ Namespace Configurations.Nodes.Plots
         ''' ideogram.
         ''' </remarks>
         <Circos> Public Property r0 As String = "0.6r" Implements ITrackPlot.r0
-        <Circos> Public Property max As String = "1"
-        <Circos> Public Property min As String = "0"
+        ''' <summary>
+        ''' 用户是否手工设置过<see cref="max"/>值？如果用户手工设置过，则在绘图的时候不再自动推断
+        ''' </summary>
+        Protected maxIsSet As Boolean = False
+        ''' <summary>
+        ''' 用户是否手工设置过<see cref="min"/>值？如果用户手工设置过，则在绘图的时候不再自动推断
+        ''' </summary>
+        Protected minIsSet As Boolean = False
+
+        Protected _max As String = "1"
+        Protected _min As String = "0"
+
+        ''' <summary>
+        ''' 自动推断出来的最大值不会被负值范围的附件性限制，用户手工赋值之后自动推断会被禁用
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property max As String
+            Get
+                Return _max
+            End Get
+            Set(value As String)
+                _max = value
+                maxIsSet = True
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 自动推断出来的最小值不会被负值范围的附件性限制，用户手工赋值之后自动推断会被禁用
+        ''' </summary>
+        ''' <returns></returns>
+        <Circos> Public Property min As String
+            Get
+                Return _min
+            End Get
+            Set(value As String)
+                _min = value
+                minIsSet = True
+            End Set
+        End Property
         <Circos> Public Overridable Property fill_color As String = "orange" Implements ITrackPlot.fill_color
         ''' <summary>
         ''' 圈的朝向，是<see cref="ORIENTATIONs.IN"/>向内还是<see cref="ORIENTATIONs.OUT"/>向外
@@ -138,15 +175,24 @@ Namespace Configurations.Nodes.Plots
             Call sb.AppendLine(String.Format("{0}#   --> ""{1}""", blanks, tracksData.GetType.FullName))
             Call sb.AppendLine()
 
-            If TypeOf tracksData.GetEnumerator.FirstOrDefault Is ValueTrackData Then
+            ' 只有在用户没有手工设置过 min/max 的情况下才依据绘图数据自动推断取值范围，
+            ' 否则用户手工写入的值会被覆盖掉
+            If Not maxIsSet OrElse Not minIsSet Then
                 Dim values As ValueTrackData() = tracksData _
                     .GetEnumerator _
-                    .Select(Function(o) TryCast(o, ValueTrackData)) _
+                    .OfType(Of ValueTrackData) _
                     .ToArray
-                Dim ranges As DoubleRange = TrackDatas.Ranges(values)
 
-                Me.max = CStr(ranges.Max)
-                Me.min = CStr(ranges.Min)
+                If values.Length > 0 Then
+                    Dim ranges As DoubleRange = TrackDatas.Ranges(values)
+
+                    If Not minIsSet Then
+                        _min = Num(ranges.Min)
+                    End If
+                    If Not maxIsSet Then
+                        _max = Num(ranges.Max)
+                    End If
+                End If
             End If
 
             For Each line As String In GetProperties()
