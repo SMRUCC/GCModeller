@@ -85,12 +85,12 @@ Namespace Regulation
                 End If
             Next
 
-            For Each group In flattened.GroupBy(Function(x) x.pathway).OrderByDescending(Function(g) g.Count())
+            For Each grp In flattened.GroupBy(Function(x) x.pathway).OrderByDescending(Function(g) g.Count())
                 rows.Add(New EnrichmentRow With {
                     .Group = groupTitle,
-                    .Pathway = group.Key,
-                    .Count = group.Count(),
-                    .Genes = group.Select(Function(x) x.gene).Distinct().ToArray()
+                    .Pathway = grp.Key,
+                    .Count = grp.Count(),
+                    .Genes = grp.Select(Function(x) x.gene).Distinct().ToArray()
                 })
             Next
 

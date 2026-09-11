@@ -30,7 +30,7 @@ Namespace AnalysisAPI
                                  Optional PutativeMRNA As Boolean = False) As Transcripts.Categories
 
             Dim loci As NucleotideLocation = Transcript.GetTULoci()
-            Dim category As Transcription.TssCategory = Transcription.TSSsCategory.Category(
+            Dim tssCategory As Transcription.TssCategory = Transcription.TSSsCategory.Category(
                 CInt(Transcript.TSSs),
                 CInt(Transcript.ATG),
                 CInt(Transcript.TGA),
@@ -42,7 +42,7 @@ Namespace AnalysisAPI
                 PutativeMRNA,
                 RelatedGene)
 
-            Return mapCategory(category)
+            Return mapCategory(tssCategory)
         End Function
 
         ''' <summary>转录本视图 → API 分类模型。</summary>

@@ -222,10 +222,10 @@ Namespace AnalysisAPI
         Private Function internalTrimHead(Fasta As FastaSeq()) As FastaFile
             If Fasta Is Nothing OrElse Fasta.Length = 0 Then Return New FastaFile()
 
-            Dim groups = Fasta.Where(Function(f) f.Headers IsNot Nothing AndAlso f.Headers.Length > 0) _
-                              .GroupBy(Function(f) f.Headers(0)).ToArray()
-            For Each group In groups
-                Dim items As FastaSeq() = group.ToArray()
+            Dim grpList = Fasta.Where(Function(f) f.Headers IsNot Nothing AndAlso f.Headers.Length > 0) _
+                               .GroupBy(Function(f) f.Headers(0)).ToArray()
+            For Each grp In grpList
+                Dim items As FastaSeq() = grp.ToArray()
                 If items.Length > 1 Then
                     For i As Integer = 0 To items.Length - 1
                         items(i).Headers(0) = items(i).Headers(0) & "-" & (i + 1)

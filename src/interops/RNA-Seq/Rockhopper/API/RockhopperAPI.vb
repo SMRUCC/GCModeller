@@ -201,7 +201,7 @@ Namespace AnalysisAPI
         ''' 由基因关联视图构造转录本模型（对应原始 Run.Analysis 的模型生成步骤）。
         ''' </summary>
         <ExportAPI("CreateModel")>
-        Public Function GenerateModelData(data As IEnumerable(Of Transcription.Transcript)) As Transcripts()
+        Public Function GenerateModelData(data As IEnumerable(Of Core.Transcript)) As Transcripts()
             Return data.Select(Function(t) New Transcripts With {
                 .TSSs = t.TSSs,
                 .ATG = t.ATG,
