@@ -18,5 +18,10 @@
     <PackageTags>gcmodeller;bioinformatics;genomics;data-visualization;blast;genetic-clock</PackageTags>
     <PackageReleaseNotes>Provides BLAST alignment-track and genetic-clock regulation-series visualisations for genome analysis.</PackageReleaseNotes>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
  
 </Project>
