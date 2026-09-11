@@ -2,6 +2,7 @@ Imports System.IO
 Imports SMRUCC.genomics.Visualize.Circos.Configurations
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots.Lines
+Imports SMRUCC.genomics.Visualize.Circos.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
 ''' <summary>
@@ -16,7 +17,7 @@ Public Module DemoGallery
     ''' <param name="skeleton">基因组的骨架信息</param>
     ''' <returns></returns>
     Public Function BaseDocument(outDIR As String,
-                                 Optional skeleton As Karyotype.KaryotypeSkeleton = Nothing,
+                                 Optional skeleton As KaryotypeSkeleton = Nothing,
                                  Optional showTicksLabel As Boolean = True) As Circos
 
         Dim circos As Circos = Circos.CreateObject()
