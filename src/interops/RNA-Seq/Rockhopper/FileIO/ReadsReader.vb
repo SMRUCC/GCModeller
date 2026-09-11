@@ -73,7 +73,7 @@ Namespace FileIO
         ''' 根据扩展名推断读段文件格式。
         ''' </summary>
         Public Function DetectFormat(path As String) As ReadFileFormat
-            Select Case Path.GetExtension(path).ToLowerInvariant
+            Select Case System.IO.Path.GetExtension(path).ToLowerInvariant
                 Case ".fastq", ".fq" : Return ReadFileFormat.FastQ
                 Case ".qseq" : Return ReadFileFormat.QSeq
                 Case ".fasta", ".fa", ".fna", ".fas" : Return ReadFileFormat.Fasta
@@ -91,7 +91,7 @@ Namespace FileIO
 
             Select Case format
                 Case ReadFileFormat.FastQ
-                    For Each read As FastQ In Stream.ReadAllLines(path)
+                    For Each read As FastQ In SMRUCC.genomics.SequenceModel.FQ.Stream.ReadAllLines(path)
                         Yield New Read(read.SEQ_ID, read.SequenceData, read.Quality)
                     Next
                 Case ReadFileFormat.QSeq

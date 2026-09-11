@@ -140,8 +140,8 @@ Namespace Alignment
             Return count
         End Function
 
-        ''' <summary>C(ch)：字典序严格小于 ch 的字符总数。</summary>
-        Public Function C(ch As Char) As Integer
+        ''' <summary>GetC(ch)：字典序严格小于 ch 的字符总数。</summary>
+        Public Function GetC(ch As Char) As Integer
             Dim a As Integer = indexOf(ch)
             If a < 0 Then Return 0
             Return cTable(a)
@@ -156,8 +156,8 @@ Namespace Alignment
             For i As Integer = pattern.Length - 1 To 0 Step -1
                 Dim c As Char = pattern(i)
                 If indexOf(c) < 0 Then Return (0, 0) ' 含有字母表外字符，精确匹配失败
-                left = C(c) + Occ(c, left)
-                right = C(c) + Occ(c, right)
+                left = GetC(c) + Occ(c, left)
+                right = GetC(c) + Occ(c, right)
                 If right <= left Then Return (0, 0)
             Next
             Return (left, right)

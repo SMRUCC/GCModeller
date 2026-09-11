@@ -43,7 +43,7 @@ Public Module CLI
             Return 1
         End If
 
-        Return Pipeline.RockhopperPipeline.Run(parameters)
+        Return RockhopperPipeline.Run(parameters)
     End Function
 
     ''' <summary>
@@ -89,11 +89,11 @@ Public Module CLI
                     i += 2
 
                 Case arg = "-L"
-                    p.Labels = splitList(requireValue(args, i, "-L", "a comma separated list of names for the conditions"))
+                    p.Labels = requireValue(args, i, "-L", "a comma separated list of names for the conditions")
                     i += 2
 
                 Case arg = "-o"
-                    p.OutputDirectory = requireValue(args, i, "-o", "the name of a directory")
+                    p.OutputDirectory = requireValue(args, i, "-o", "the name of a directory")(0)
                     i += 2
 
                 Case arg = "-v"
@@ -179,21 +179,21 @@ Public Module CLI
 
         ' 校验参考基因组目录
         If p.GenomeDirectories IsNot Nothing Then
-            For Each dir As String In p.GenomeDirectories
-                If Not Directory.Exists(dir) AndAlso Not File.Exists(dir) Then
-                    Throw New ArgumentException($"directory {dir} does not exist.")
+            For Each genomeDir As String In p.GenomeDirectories
+                If Not System.IO.Directory.Exists(genomeDir) AndAlso Not System.IO.File.Exists(genomeDir) Then
+                    Throw New ArgumentException($"directory {genomeDir} does not exist.")
                 End If
             Next
         End If
 
         ' 校验读段文件存在性，并识别双端数据
         For Each condition As String In p.ConditionFiles
-            For Each file As String In splitList(condition)
-                Dim mates As String() = file.Split("%"c)
-                If Not File.Exists(mates(0)) AndAlso Not Directory.Exists(mates(0)) Then
+            For Each readName As String In splitList(condition)
+                Dim mates As String() = readName.Split("%"c)
+                If Not System.IO.File.Exists(mates(0)) AndAlso Not System.IO.Directory.Exists(mates(0)) Then
                     Throw New ArgumentException($"file {mates(0)} does not exist.")
                 End If
-                If mates.Length > 1 AndAlso Not File.Exists(mates(1)) Then
+                If mates.Length > 1 AndAlso Not System.IO.File.Exists(mates(1)) Then
                     Throw New ArgumentException($"file {mates(1)} does not exist.")
                 End If
                 If mates.Length > 1 Then

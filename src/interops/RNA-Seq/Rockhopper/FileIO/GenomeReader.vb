@@ -30,9 +30,9 @@ Namespace FileIO
             Dim ptt As String = Nothing
             Dim rnt As String = Nothing
 
-            If Directory.Exists(directory) Then
-                For Each file As String In Directory.GetFiles(directory)
-                    Select Case Path.GetExtension(file).ToLowerInvariant
+            If System.IO.Directory.Exists(directory) Then
+                For Each file As String In System.IO.Directory.GetFiles(directory)
+                    Select Case System.IO.Path.GetExtension(file).ToLowerInvariant
                         Case ".fna" : fna = file
                         Case ".ptt" : ptt = file
                         Case ".rnt" : rnt = file
@@ -48,7 +48,7 @@ Namespace FileIO
         ''' </summary>
         ''' <exception cref="DirectoryNotFoundException">目录不存在时抛出。</exception>
         Public Function Load(directory As String) As Core.Genome
-            If Not Directory.Exists(directory) Then
+            If Not System.IO.Directory.Exists(directory) Then
                 Throw New DirectoryNotFoundException($"参考基因组目录不存在：{directory}")
             End If
             Return New Core.Genome(directory)

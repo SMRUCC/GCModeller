@@ -50,7 +50,7 @@ Namespace Alignment
     Public Class Aligner
 
         Private ReadOnly replicons As Core.Replicon()
-        Private ReadOnly indexes As FMIndex()
+        Private indexes As FMIndex()
 
 #Region "Options"
 
@@ -189,7 +189,7 @@ Namespace Alignment
                 End If
 
                 ' 第二步：种子-延伸
-                Dim hit As AlignmentHit = seedExtend(fmi, z, reference, seq, scores, maxMismatches, isReverse, read)
+                Dim hit As AlignmentHit = runSeedExtend(fmi, z, reference, seq, scores, maxMismatches, isReverse, read)
                 If hit IsNot Nothing Then
                     results.Add(hit)
                     If StopAfterOneHit Then Return results
@@ -202,7 +202,7 @@ Namespace Alignment
         ''' <summary>
         ''' 种子-延伸：取最小种子，定位候选位点，并在候选窗口内做质量感知 DP。
         ''' </summary>
-        Private Function seedExtend(fmi As FMIndex, z As Integer, reference As String, seq As String,
+        Private Function runSeedExtend(fmi As FMIndex, z As Integer, reference As String, seq As String,
                                     scores As Integer(), maxMismatches As Integer,
                                     isReverse As Boolean, read As FileIO.Read) As AlignmentHit
             Dim seedLen As Integer = System.Math.Max(1, CInt(System.Math.Floor(PercentSeedLength * seq.Length)))

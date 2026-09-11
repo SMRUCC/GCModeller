@@ -57,8 +57,8 @@ Namespace Core
                 directory += IO.Path.DirectorySeparatorChar
             End If
 
-            If Directory.Exists(directory) Then
-                For Each file As String In Directory.GetFiles(directory)
+            If System.IO.Directory.Exists(directory) Then
+                For Each file As String In System.IO.Directory.GetFiles(directory)
                     If file.EndsWith(".fna") Then genomeFileName = file
                     If file.EndsWith(".ptt") Then geneFileName = file
                     If file.EndsWith(".rnt") Then rnaFileName = file
@@ -356,7 +356,7 @@ Namespace Core
             Try
                 Me._formalGenomeName = FastaSeq.Load(genomeFileName).Title.Split(" "c)(0)
 
-                Using writer As New StreamWriter(GFF_fileName)
+                Using writer As New System.IO.StreamWriter(GFF_fileName)
                     writer.WriteLine("track name=Genes color=255,0,255")
                     writer.WriteLine("##gff-version 3")
                     writer.WriteLine($"##sequence-region {_formalGenomeName} 1 {genomeSize}")

@@ -70,7 +70,7 @@ Namespace Transcription
                 Dim startT As Integer = 0
                 Dim stopT As Integer = 0
 
-                If isExpressed(g, genomeSize, conditions, Function(c, r) avgCoverageOfGene(g, genomeSize, c, r)) Then
+                If isExpressed(g, genomeSize, conditions, Function(c, r) avgCoverageOfGene(g, genomeSize, conditions(c), r)) Then
                     startT = inferFivePrime(g, sameStrandNeighbors.upstream, genomeSize, conditions)
                     stopT = inferThreePrime(g, sameStrandNeighbors.downstream, genomeSize, conditions)
                 End If
