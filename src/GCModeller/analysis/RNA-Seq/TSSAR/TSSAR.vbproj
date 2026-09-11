@@ -18,6 +18,9 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;rna-seq;tss;drna-seq;sam</PackageTags>
     <PackageReleaseNotes>Implements dRNA-seq transcription start site annotation through the Skellam-distribution TSSAR workflow with SAM read mapping.</PackageReleaseNotes>
+    <TargetFramework>net10.0</TargetFramework>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
  
   <ItemGroup>
