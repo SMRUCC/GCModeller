@@ -8,6 +8,7 @@
     <ApplicationIcon>Rockhopper.ico</ApplicationIcon>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
    
   </PropertyGroup>
 
