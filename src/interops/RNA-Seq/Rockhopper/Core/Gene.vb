@@ -692,51 +692,6 @@ Namespace Core
             Next
         End Sub
 
-        ''' <summary>
-        ''' Mergesort parallel arrays a/b/c based on values in a.
-        ''' </summary>
-        Private Shared Sub mergesort(a As Double(), b As Integer(), c As Integer(), lo As Integer, hi As Integer)
-            If lo < hi Then
-                Dim q As Integer = (lo + hi) \ 2
-                mergesort(a, b, c, lo, q)
-                mergesort(a, b, c, q + 1, hi)
-                merge(a, b, c, lo, q, hi)
-            End If
-        End Sub
-
-        ''' <summary>
-        ''' Mergesort helper method.
-        ''' </summary>
-        Private Shared Sub merge(a As Double(), b As Integer(), c As Integer(), lo As Integer, q As Integer, hi As Integer)
-            Dim a1 As Double() = New Double(q - lo) {}
-            Dim a2 As Double() = New Double(hi - q - 1) {}
-            Dim b1 As Integer() = New Integer(q - lo) {}
-            Dim b2 As Integer() = New Integer(hi - q - 1) {}
-            Dim c1 As Integer() = New Integer(q - lo) {}
-            Dim c2 As Integer() = New Integer(hi - q - 1) {}
-
-            For i As Integer = 0 To a1.Length - 1
-                a1(i) = a(lo + i) : b1(i) = b(lo + i) : c1(i) = c(lo + i)
-            Next
-            For j As Integer = 0 To a2.Length - 1
-                a2(j) = a(q + 1 + j) : b2(j) = b(q + 1 + j) : c2(j) = c(q + 1 + j)
-            Next
-
-            Dim ii As Integer = 0
-            Dim jj As Integer = 0
-            For k As Integer = lo To hi
-                If ii >= a1.Length Then
-                    a(k) = a2(jj) : b(k) = b2(jj) : c(k) = c2(jj) : jj += 1
-                ElseIf jj >= a2.Length Then
-                    a(k) = a1(ii) : b(k) = b1(ii) : c(k) = c1(ii) : ii += 1
-                ElseIf a1(ii) <= a2(jj) Then
-                    a(k) = a1(ii) : b(k) = b1(ii) : c(k) = c1(ii) : ii += 1
-                Else
-                    a(k) = a2(jj) : b(k) = b2(jj) : c(k) = c2(jj) : jj += 1
-                End If
-            Next
-        End Sub
-
 #End Region
 
         ''' <summary>
