@@ -31,7 +31,7 @@ Namespace GdiPlus
                 options.Dpi)
             Me.Canvas = New GdiCanvas(Graphics, options.Padding)
             Me.Layout = New CircosLayout(circos, Canvas.ImageRadius)
-            Me.PixelScale = Math.Max(options.Width, options.Height) / 1000.0
+            Me.PixelScale = Canvas.ImageRadius / 1000.0
         End Sub
 
         ''' <summary>
@@ -48,7 +48,10 @@ Namespace GdiPlus
         Public Property IdeogramCenterRadius As Double = 0
 
         ''' <summary>
-        ''' ``p`` 单位的缩放系数（circos 之中 ``p`` 是相对于 1000px 参考图像尺寸的像素值）
+        ''' ``p`` 单位的缩放系数。
+        ''' 
+        ''' circos 之中的 ``p`` 是相对于参考图像半径（1000px）的像素值，
+        ''' 因此实际像素值 = 数值 * (当前图像半径 / 1000)
         ''' </summary>
         Public ReadOnly Property PixelScale As Double
 
