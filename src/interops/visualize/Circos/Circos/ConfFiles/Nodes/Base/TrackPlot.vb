@@ -148,20 +148,20 @@ Namespace Configurations.Nodes.Plots
         <Circos> Public Property stroke_thickness As String = "0" Implements ITrackPlot.stroke_thickness
         <Circos> Public Property stroke_color As String = "grey" Implements ITrackPlot.stroke_color
 
-        Public Property rules As List(Of ConditionalRule)
+        Public Property rules As List(Of ConditionalRule) Implements ITrackPlot.rules
 
         ''' <summary>
         ''' ``&lt;axes>&lt;axis>&lt;/axis>&lt;/axes>``: The radial grid lines of this track.
         ''' </summary>
         ''' <returns></returns>
-        Public Property axes As List(Of Lines.Axis)
+        Public Property axes As List(Of Lines.Axis) Implements ITrackPlot.axes
 
         ''' <summary>
         ''' ``&lt;backgrounds>&lt;background>&lt;/background>&lt;/backgrounds>``: 
         ''' The colored background strips of this track.
         ''' </summary>
         ''' <returns></returns>
-        Public Property backgrounds As List(Of Lines.Background)
+        Public Property backgrounds As List(Of Lines.Background) Implements ITrackPlot.backgrounds
 
         ''' <summary>
         ''' 当前的这个绘图元素所属的 circos 顶层配置块的名称。

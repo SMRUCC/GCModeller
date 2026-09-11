@@ -87,7 +87,10 @@ Namespace GdiPlus
                 innerR = 0
             End If
             If innerR > outerR Then
+                Dim swap As Double = innerR
+
                 innerR = outerR
+                outerR = swap
             End If
 
             ' 每 0.5 度一个采样点，同时限制最大点数

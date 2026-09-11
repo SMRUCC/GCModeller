@@ -114,6 +114,21 @@ Namespace Configurations.Nodes.Plots
         Property stroke_color As String
         Property thickness As String
 
+        ''' <summary>
+        ''' ``&lt;rules>`` 子块：条件着色规则
+        ''' </summary>
+        ReadOnly Property rules As List(Of ConditionalRule)
+
+        ''' <summary>
+        ''' ``&lt;axes>`` 子块：径向网格线
+        ''' </summary>
+        ReadOnly Property axes As List(Of Lines.Axis)
+
+        ''' <summary>
+        ''' ``&lt;backgrounds>`` 子块：背景色带
+        ''' </summary>
+        ReadOnly Property backgrounds As List(Of Lines.Background)
+
         ReadOnly Property tracksData As ITrackDataDocument
 
         Function Save(filePath As String, Encoding As Encoding) As Boolean

@@ -104,6 +104,21 @@ Namespace Karyotype
         End Property
 
         ''' <summary>
+        ''' 枚举出当前的这个圈图内的所有的 cytogenetic band 定义数据
+        ''' （用于内置的 GDI+ 绘图引擎绘制 band 色带）
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property BandData As Band()
+            Get
+                If bands Is Nothing Then
+                    Return New Band() {}
+                End If
+
+                Return bands.ToArray()
+            End Get
+        End Property
+
+        ''' <summary>
         ''' 只有一个基因组的时候可以调用这个方法
         ''' </summary>
         Protected Sub singleKaryotypeChromosome(Optional color As String = "black")
