@@ -45,22 +45,22 @@ Namespace GdiPlus.Tracks
             Call RenderBackgrounds(ctx, track, geo)
 
             If TypeOf track Is HeatMap Then
-                Call RenderHeatMap(ctx, DirectCast(track, HeatMap), geo)
+                Call RenderHeatMap(ctx, track, geo)
             ElseIf TypeOf track Is Highlight Then
                 Call RenderHighlight(ctx, track, geo)
             ElseIf TypeOf track Is Histogram Then
                 ' SeparatorCircle 继承自 Histogram，同样在这里处理
-                Call RenderHistogram(ctx, DirectCast(track, Histogram), geo)
+                Call RenderHistogram(ctx, track, geo)
             ElseIf TypeOf track Is LinePlot Then
-                Call RenderLine(ctx, DirectCast(track, LinePlot), geo)
+                Call RenderLine(ctx, track, geo)
             ElseIf TypeOf track Is ScatterPlot Then
-                Call RenderScatter(ctx, DirectCast(track, ScatterPlot), geo)
+                Call RenderScatter(ctx, track, geo)
             ElseIf TypeOf track Is TilePlot Then
-                Call RenderTile(ctx, DirectCast(track, TilePlot), geo)
+                Call RenderTile(ctx, track, geo)
             ElseIf TypeOf track Is Connector Then
-                Call RenderConnector(ctx, DirectCast(track, Connector), geo)
+                Call RenderConnector(ctx, track, geo)
             ElseIf TypeOf track Is TextLabel Then
-                Call RenderText(ctx, DirectCast(track, TextLabel), geo)
+                Call RenderText(ctx, track, geo)
             End If
 
             Call RenderAxes(ctx, track, geo)
@@ -114,7 +114,7 @@ Namespace GdiPlus.Tracks
 
         Private Function StrokeThicknessOf(track As ITrackPlot) As Double
             ' stroke_thickness 支持 "0" / "1" / "1p" 等形式
-            Return CircosUnits.ParseNumber((track.stroke_thickness OrElse "").TrimEnd("p"c), 0)
+            Return CircosUnits.ParseNumber(If(track.stroke_thickness, "").TrimEnd("p"c), 0)
         End Function
 
 #End Region
@@ -152,7 +152,7 @@ Namespace GdiPlus.Tracks
 
 #Region "histogram"
 
-        Private Sub RenderHistogram(ctx As GdiRenderContext, track As Histogram, geo As TrackGeometry)
+        Private Sub RenderHistogram(ctx As GdiRenderContext, track As ITrackPlot, geo As TrackGeometry)
             Dim points As ValueTrackData() = DataOf(Of ValueTrackData)(track)
             Dim fillDefault As Color = ctx.ColorOf(track.fill_color, Color.Gray)
             Dim strokeThickness As Double = StrokeThicknessOf(track)
@@ -191,10 +191,10 @@ Namespace GdiPlus.Tracks
 
         Private ReadOnly colorSplitter As New Regex("[\s,]+")
 
-        Private Sub RenderHeatMap(ctx As GdiRenderContext, track As HeatMap, geo As TrackGeometry)
+        Private Sub RenderHeatMap(ctx As GdiRenderContext, track As ITrackPlot, geo As TrackGeometry)
             Dim points As ValueTrackData() = DataOf(Of ValueTrackData)(track)
             Dim colors As String() = colorSplitter _
-                .Split(If(track.color, "")).Where(Function(s) s.Length > 0).ToArray()
+                .Split(If(DirectCast(track, HeatMap).color, "")).Where(Function(s) s.Length > 0).ToArray()
 
             If colors.Length = 0 Then
                 colors = {"red"}
@@ -220,16 +220,16 @@ Namespace GdiPlus.Tracks
                 If idx >= colors.Length Then idx = colors.Length - 1
                 If idx < 0 Then idx = 0
 
-                Dim fill As Color = RuleColorOf(ctx, track, pt.value)
+                Dim fill As Color? = RuleColorOf(ctx, track, pt.value)
 
                 If Not String.IsNullOrEmpty(pt.formatting.fill_color) Then
                     fill = ctx.ColorOf(pt.formatting.fill_color)
                 End If
-                If fill Is Nothing Then
+                If Not fill.HasValue Then
                     fill = ctx.ColorOf(colors(idx), Color.Gray)
                 End If
 
-                Call ctx.Canvas.FillAnnularSector(geo.InnerRadius, geo.OuterRadius, angle, sweep, fill)
+                Call ctx.Canvas.FillAnnularSector(geo.InnerRadius, geo.OuterRadius, angle, sweep, fill.Value)
 
                 If strokeThickness > 0 Then
                     Call ctx.Canvas.DrawArc(geo.OuterRadius, angle, sweep, ctx.ColorOf(track.stroke_color, Color.Gray), CSng(strokeThickness))
@@ -241,9 +241,9 @@ Namespace GdiPlus.Tracks
 
 #Region "line"
 
-        Private Sub RenderLine(ctx As GdiRenderContext, track As LinePlot, geo As TrackGeometry)
+        Private Sub RenderLine(ctx As GdiRenderContext, track As ITrackPlot, geo As TrackGeometry)
             Dim points As ValueTrackData() = DataOf(Of ValueTrackData)(track)
-            Dim color As Color = ctx.ColorOf(track.color, Color.Black)
+            Dim color As Color = ctx.ColorOf(DirectCast(track, LinePlot).color, Color.Black)
             Dim width As Double = ThicknessOf(ctx, track, 1)
 
             If width <= 0 Then width = 1
@@ -276,10 +276,11 @@ Namespace GdiPlus.Tracks
 
 #Region "scatter"
 
-        Private Sub RenderScatter(ctx As GdiRenderContext, track As ScatterPlot, geo As TrackGeometry)
+        Private Sub RenderScatter(ctx As GdiRenderContext, track As ITrackPlot, geo As TrackGeometry)
+            Dim scatter As ScatterPlot = DirectCast(track, ScatterPlot)
             Dim points As ValueTrackData() = DataOf(Of ValueTrackData)(track)
-            Dim defaultColor As Color = ctx.ColorOf(If(track.color, track.fill_color), Color.Gray)
-            Dim glyphSize As Double = CircosUnits.ParseNumber(track.glyph_size, 10)
+            Dim defaultColor As Color = ctx.ColorOf(If(scatter.color, track.fill_color), Color.Gray)
+            Dim glyphSize As Double = CircosUnits.ParseNumber(scatter.glyph_size, 10)
 
             If glyphSize <= 0 Then glyphSize = 10
 
@@ -308,7 +309,7 @@ Namespace GdiPlus.Tracks
 
 #Region "tile"
 
-        Private Sub RenderTile(ctx As GdiRenderContext, track As TilePlot, geo As TrackGeometry)
+        Private Sub RenderTile(ctx As GdiRenderContext, track As ITrackPlot, geo As TrackGeometry)
             Dim regions As RegionTrackData() = DataOf(Of RegionTrackData)(track)
             Dim fill As Color = ctx.ColorOf(track.fill_color, Color.Gray)
             Dim strokeThickness As Double = StrokeThicknessOf(track)
@@ -344,7 +345,7 @@ Namespace GdiPlus.Tracks
 
 #Region "connector"
 
-        Private Sub RenderConnector(ctx As GdiRenderContext, track As Connector, geo As TrackGeometry)
+        Private Sub RenderConnector(ctx As GdiRenderContext, track As ITrackPlot, geo As TrackGeometry)
             Dim regions As RegionTrackData() = DataOf(Of RegionTrackData)(track)
             Dim color As Color = ctx.ColorOf(track.fill_color, Color.Black)
             Dim width As Double = ThicknessOf(ctx, track, 1)
@@ -352,7 +353,7 @@ Namespace GdiPlus.Tracks
             If width <= 0 Then width = 1
 
             ' connector_dims = radius1_start,pad1,radius2_start,pad2,pad3
-            Dim dims As Double() = If(track.connector_dims, "") _
+            Dim dims As Double() = If(DirectCast(track, Connector).connector_dims, "") _
                 .Split(","c) _
                 .Select(Function(s) CircosUnits.ParseNumber(s, 0)) _
                 .ToArray()
@@ -384,10 +385,11 @@ Namespace GdiPlus.Tracks
 
 #Region "text"
 
-        Private Sub RenderText(ctx As GdiRenderContext, track As TextLabel, geo As TrackGeometry)
+        Private Sub RenderText(ctx As GdiRenderContext, track As ITrackPlot, geo As TrackGeometry)
+            Dim labelPlot As TextLabel = DirectCast(track, TextLabel)
             Dim labels As TextTrackData() = DataOf(Of TextTrackData)(track)
-            Dim color As Color = ctx.ColorOf(track.color, Color.Black)
-            Dim size As Double = CircosUnits.ParseNumber(track.label_size, 16)
+            Dim color As Color = ctx.ColorOf(labelPlot.color, Color.Black)
+            Dim size As Double = CircosUnits.ParseNumber(labelPlot.label_size, 16)
 
             If size <= 0 Then size = 16
 

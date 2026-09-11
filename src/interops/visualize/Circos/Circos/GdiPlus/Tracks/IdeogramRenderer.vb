@@ -1,5 +1,6 @@
 Imports System.Drawing
 Imports SMRUCC.genomics.Visualize.Circos.Configurations
+Imports SMRUCC.genomics.Visualize.Circos.Configurations.ComponentModel
 Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes
 Imports CircosDoc = SMRUCC.genomics.Visualize.Circos.Configurations.Circos
 
@@ -172,7 +173,7 @@ Namespace GdiPlus.Tracks
                 End If
 
                 Dim tickSize As Double = CircosUnits.ParseNumber(tick.size, CircosUnits.ParseNumber(block.size, 20))
-                Dim tickThickness As Double = CircosUnits.ParseNumber(tick.thickness, CircosUnits.ParseNumber(block.thickness, 3))
+                Dim tickThickness As Double = CircosUnits.ParseNumber(block.thickness, 3)
                 Dim tickColor As Color = ctx.ColorOf(tick.color, color)
                 Dim showTickLabel As Boolean = showLabels AndAlso CircosUnits.IsYes(tick.show_label)
                 Dim labelOffset As Double = CircosUnits.ParseNumber(
