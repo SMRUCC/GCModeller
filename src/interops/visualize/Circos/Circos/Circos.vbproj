@@ -26,6 +26,11 @@
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="..\..\..\..\..\assets\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
