@@ -718,72 +718,41 @@ SET_END:    Dim ends = i
     End Function
 
     ''' <summary>
-    ''' Invoke the Perl program to drawing the circos plots. before you can using this method, you should switch the terminal
-    ''' work directory to the directory which contains the circos.conf plots configuration file.
+    ''' Invoke the circos command line program for drawing the circos plots.
     ''' </summary>
-    ''' <param name="conf"></param>
+    ''' <param name="circos">
+    ''' The file path of the circos executable program. 
+    ''' 
+    ''' ### NOTICE
+    ''' 
+    ''' circos is a perl program, but on windows the perl interpreter is usually not installed.
+    ''' the official windows distribution provides a self-contained ``bin\circos.exe`` which
+    ''' already embeds the perl runtime, so this parameter should be the file path of that
+    ''' executable file, NOT the file path of the perl interpreter.
+    ''' 
+    ''' If this parameter is empty, then the <see cref="CircosRender.DefaultCircosExe"/> will be used.
+    ''' </param>
+    ''' <param name="conf">
+    ''' The file path of the ``circos.conf`` file, by default is the ``./circos.conf`` file
+    ''' in the current working directory.
+    ''' 
+    ''' Because circos uses a relative path to search for the data files, you should switch
+    ''' the terminal work directory to the directory which contains the circos.conf plots
+    ''' configuration file before invoke this method.
+    ''' </param>
     ''' <returns></returns>
-    Public Function Shell(circos As String, Optional conf As String = "") As Boolean
-        Dim Directories = ProgramPathSearchTool.Which("perl")
-        Dim Perl As String = ""
+    Public Function Shell(Optional circos As String = Nothing, Optional conf As String = "./circos.conf") As Boolean
+        Dim result As CircosRenderResult = CircosRender.Render(confFile:=conf, circosExe:=circos)
 
-        For Each Dir As String In Directories
-            Dim Files = ProgramPathSearchTool.Which("perl", {Dir})
-
-            If Not Files.StringEmpty Then
-                Perl = Files
-                Call $"Perl program find at ""{Perl.ToFileURL}""".debug
-                Exit For
-            End If
-        Next
-
-        If String.IsNullOrEmpty(Circos) Then
-            Call Console.WriteLine("System could not found the circos script!")
-            Return False
+        If Not String.IsNullOrWhiteSpace(result.StdOut) Then
+            Call Console.WriteLine(result.StdOut)
         End If
-        If String.IsNullOrEmpty(Perl) Then
-            Call Console.WriteLine("System could not found the perl location!")
-            Return False
+        If Not result.Success Then
+            Call Console.WriteLine(result.Message)
         End If
 
-        Call $"Circos script file found at ""{Circos.ToFileURL}""".debug
-
-        If String.IsNullOrEmpty(conf) Then
-            conf = "./circos.conf"
-        End If
-
-        Call $"Circos drawing configuration script found at ""{conf.ToFileURL}""".debug
-
-        Dim cmdl_argvs As String = String.Format("""{0}"" ""{1}""", Circos, conf)
-        Dim Process As Process = New Process
-        Process.StartInfo = New ProcessStartInfo(Perl, cmdl_argvs)
-        Process.StartInfo.RedirectStandardOutput = True
-        Process.StartInfo.CreateNoWindow = True
-        Process.StartInfo.UseShellExecute = False
-
-        Call Process.Start()
-        Call $" system(""""{Perl}"" {cmdl_argvs}"")".debug
-
-        Dim Reader As System.IO.StreamReader = Process.StandardOutput
-
-        Using PI = New CBusyIndicator(start:=True)
-            Call (Sub() Call __STDOUT_Threads(Reader)).BeginInvoke(Nothing, Nothing)
-            Call Process.WaitForExit()
-        End Using
-
-        Return True
+        Return result.Success
     End Function
-
-    Private Sub __STDOUT_Threads(Reader As System.IO.StreamReader)
-        Do While True
-
-            Dim STD As String = Reader.ReadLine
-            If Not String.IsNullOrEmpty(STD) Then
-                Call Console.WriteLine(STD)
-            End If
-            Call Threading.Thread.Sleep(1)
-        Loop
-    End Sub
 
     Public Const yes As String = "yes"
     Public Const no As String = "no"

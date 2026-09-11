@@ -85,9 +85,18 @@ Namespace Configurations.ComponentModel
 
         Public Property filePath As String Implements IFileReference.FilePath
 
+        ''' <summary>
+        ''' The circos configuration file is a plain text file
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property MimeType As ContentType() Implements IFileReference.MimeType
             Get
-                Throw New NotImplementedException()
+                Return {New ContentType With {
+                    .ContentType = "text/plain",
+                    .FileExt = ".conf",
+                    .MimeEntity = "circos configuration",
+                    .Name = "circos.conf"
+                }}
             End Get
         End Property
 
@@ -168,8 +177,21 @@ Namespace Configurations.ComponentModel
             Return Save(directory, encoding.CodePage)
         End Function
 
+        ''' <summary>
+        ''' Write the generated configuration document text into a given output stream.
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <param name="encoding"></param>
+        ''' <returns></returns>
         Public Function Save(file As IO.Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Throw New NotImplementedException()
+            Dim doc As String = build(indents:=Scan0, directory:=Tools.currentDIR)
+
+            Using writer As New IO.StreamWriter(file, encoding, 1024, leaveOpen:=True)
+                Call writer.Write(doc)
+                Call writer.Flush()
+            End Using
+
+            Return True
         End Function
     End Class
 End Namespace

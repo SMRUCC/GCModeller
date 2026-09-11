@@ -307,8 +307,19 @@ Namespace Configurations.Nodes.Plots
             Return Save(Path, encoding.CodePage)
         End Function
 
+        ''' <summary>
+        ''' Write the plot data document text into a given output stream.
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <param name="encoding"></param>
+        ''' <returns></returns>
         Public Function Save(file As IO.Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Throw New NotImplementedException()
+            Using writer As New IO.StreamWriter(file, encoding, 1024, leaveOpen:=True)
+                Call writer.Write(tracksData.GetDocumentText)
+                Call writer.Flush()
+            End Using
+
+            Return True
         End Function
     End Class
 End Namespace
