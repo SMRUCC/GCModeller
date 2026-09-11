@@ -64,7 +64,7 @@ Imports Oracle.Java.IO.Properties.Reflector
 ''' Validation of predicted sigma 70 promoters using TSSs
 ''' </summary>
 ''' 
-<[PackageNamespace]("Sigma70")>
+<[Package]("Sigma70")>
 Module TSSsValidation
 
     Public Class RockhopperGeneStructure : Inherits MEME_DIP

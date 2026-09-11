@@ -17,6 +17,12 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
+  <Project Path="../meme_suite/MEME/MEME.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="../meme_suite/meme_data/meme_data.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
   <Project Path="Rockhopper/Rockhopper.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
