@@ -1,6 +1,8 @@
 Imports System.Collections.Generic
 Imports SMRUCC.genomics.Visualize.Circos.Configurations
 Imports SMRUCC.genomics.Visualize.Circos.Karyotype
+' 项目根命名空间与文档类型同名，这里使用别名消除歧义
+Imports CircosDoc = SMRUCC.genomics.Visualize.Circos.Configurations.Circos
 
 Namespace GdiPlus
 
@@ -84,7 +86,7 @@ Namespace GdiPlus
             End Get
         End Property
 
-        Public Sub New(circos As Circos, imageRadius As Double)
+        Public Sub New(circos As CircosDoc, imageRadius As Double)
             Me.ImageRadius = imageRadius
             Me.Bands = New List(Of ChromosomeBand)
 
@@ -224,7 +226,7 @@ Namespace GdiPlus
         ''' <summary>
         ''' 解析 ``chromosomes`` 选择子。当 ``chromosomes_display_default`` 为 yes 的时候返回 Nothing（表示全部显示）
         ''' </summary>
-        Private Function parseChromosomes(circos As Circos) As Func(Of String, Boolean)
+        Private Function parseChromosomes(circos As CircosDoc) As Func(Of String, Boolean)
             If CircosUnits.IsYes(circos.chromosomes_display_default) Then
                 Return Nothing
             End If
