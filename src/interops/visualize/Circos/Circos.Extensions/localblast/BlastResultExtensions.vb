@@ -90,7 +90,7 @@ Public Module BlastResultExtensions
 
         For Each genome In alignment
             Dim Document As New BlastMaps(genome.Group.ToArray, Colors(i), Color)
-            Dim PlotElement As New HighLight(Document)
+            Dim PlotElement As New Highlight(Document)
 
             Call doc.AddTrack(PlotElement)
 

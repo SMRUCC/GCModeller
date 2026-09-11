@@ -99,10 +99,10 @@ Namespace TrackDatas.Highlights
 
         ''' <summary>
         ''' 直接从motif位点构建，这个模型并不显示标签信息
-        ''' 使用<see cref="HighLight"/>生成track数据
+        ''' 使用<see cref="Highlight"/>生成track数据
         ''' 
         ''' ```vbnet
-        ''' Dim track As New HighLight(New GeneMark(genes, colors))
+        ''' Dim track As New Highlight(New GeneMark(genes, colors))
         ''' ```
         ''' </summary>
         ''' <param name="sites"></param>
