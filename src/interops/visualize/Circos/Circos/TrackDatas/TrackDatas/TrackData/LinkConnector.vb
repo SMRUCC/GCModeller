@@ -60,25 +60,43 @@ Namespace TrackDatas
     ''' chr12 1000 5000 chr15 5000 7000
     ''' ```
     ''' </summary>
-    Public Structure link : Implements ITrackData
+    Public Class LinkData : Implements ITrackData
 
-        Dim a As TrackData
-        Dim b As TrackData
+        ''' <summary>
+        ''' 连接的第一个端点 ``CHR START END``
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property A As TrackData
+        ''' <summary>
+        ''' 连接的第二个端点 ``CHR START END``
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property B As TrackData
+
+        ''' <summary>
+        ''' 创建一条新的连接关系
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        Sub New(a As TrackData, b As TrackData)
+            Me.A = a
+            Me.B = b
+        End Sub
 
         Public Property comment As String Implements ITrackData.comment
 
         Public Overrides Function ToString() As String Implements ITrackData.GetLineData
-            ' link 是一个 Structure，其在使用默认构造函数创建的时候内部的两个数据点都是 Nothing，
-            ' 直接调用 ToString 会抛出 NRE，所以在这里给出一个明确的错误提示信息
-            If a Is Nothing OrElse b Is Nothing Then
+            ' 未初始化的连接会得到一个空的绘图数据行，circos 在读取到空行的时候会报错，
+            ' 所以在这里给出一个明确的错误提示信息
+            If A Is Nothing OrElse B Is Nothing Then
                 Throw New InvalidOperationException(
-                    $"Incomplete link data: the {(If(a Is Nothing, "first", "second"))} end of the link data is not initialized! " &
+                    $"Incomplete link data: the {(If(A Is Nothing, "first", "second"))} end of the link data is not initialized! " &
                     $"A link requires two registered genomic regions.")
             End If
 
-            Return a.ToString & " " & b.ToString
+            Return A.ToString & " " & B.ToString
         End Function
-    End Structure
+    End Class
 
     Public Structure Connection
         Implements ITrackData
