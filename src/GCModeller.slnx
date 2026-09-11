@@ -548,9 +548,6 @@
     <Project Path="GCModeller/annotations/Proteomics/Proteomics.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
-    <Project Path="GCModeller/annotations/WGCNA/WGCNA/WGCNA.vbproj">
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
     <Project Path="GCModeller/core/Bio.InteractionModel/InteractionModel.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
@@ -713,7 +710,14 @@
     <Project Path="workbench/modules/Knowledge_base/ncbi_kb/ncbi_kb.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+  </Folder>
+  <Folder Name="/nuget_packages/SeqFeature.NET5.vbproj/">
     <Project Path="workbench/modules/SeqFeature/SeqFeature/SeqFeature.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/nuget_packages/WGCNA.vbproj/">
+    <Project Path="GCModeller/annotations/WGCNA/WGCNA/WGCNA.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>

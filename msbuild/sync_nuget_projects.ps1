@@ -660,11 +660,31 @@ $stats = @{
     packagingAdded        = 0
     packagingUpdated      = 0
     packagingDupesRemoved = 0
+    namesIsolated         = 0
 }
 $report        = New-Object System.Collections.Generic.List[object]
 $slnxDirty     = $false
 $newFolderMade = $false
 $targetFolder  = $null
+
+# Microsoft.VisualStudio.SolutionPersistence refuses to load a solution in which
+# two projects that share the same solution folder also share the same *file
+# name* ("Project name 'X' already exists in the '/folder/' solution folder");
+# a broken solution makes Visual Studio show an empty solution tree. The
+# uniqueness check is scoped to the parent folder and ignores DisplayName, so a
+# colliding project has to be moved into its own sub folder instead.
+$claimedNames    = New-Object 'System.Collections.Generic.HashSet[string]' ([System.StringComparer]::OrdinalIgnoreCase)
+$nestedFolderMap = @{}
+
+function Get-SolutionFolderName([string]$absProjectPath) {
+    return [System.IO.Path]::GetFileNameWithoutExtension($absProjectPath)
+}
+
+function Get-SolutionFolderPath([string]$parentName, [string]$childName) {
+    $parent = $parentName.TrimEnd('/')
+    $child  = $childName.Trim('/')
+    return ($parent + '/' + $child + '/')
+}
 
 foreach ($file in $allProjects) {
     $stats.scanned++
@@ -725,13 +745,40 @@ foreach ($file in $allProjects) {
                     $targetFolder  = New-SolutionFolder $slnx $SolutionFolder
                     $newFolderMade = $true
                 }
+                # Seed the name bookkeeping with the projects the folder already
+                # holds so a name collision with an pre-existing entry is caught.
+                foreach ($existing in $targetFolder.SelectNodes('./Project')) {
+                    [void]$claimedNames.Add((Get-SolutionFolderName $existing.GetAttribute('Path')))
+                }
             }
-            Add-SolutionProject $slnx $targetFolder $slnxRel
+
+            $projectName = Get-SolutionFolderName $file.FullName
+            $folder      = $targetFolder
+            $folderNote  = ''
+
+            if (-not $claimedNames.Add($projectName)) {
+                # A sibling project already carries this name. Give the project
+                # its own solution sub folder: uniqueness only applies to direct
+                # siblings, so this keeps both projects in the solution.
+                $nestedName = Get-SolutionFolderPath $SolutionFolder $projectName
+                $nested     = $nestedFolderMap[$nestedName]
+                if ($null -eq $nested) {
+                    $nested = Find-SolutionFolder $slnx $nestedName
+                    if ($null -eq $nested) { $nested = New-SolutionFolder $slnx $nestedName }
+                    $nestedFolderMap[$nestedName] = $nested
+                    [void]$claimedNames.Add($projectName)   # reserve inside the new folder as well
+                }
+                $folder     = $nested
+                $folderNote = " -> ${nestedName}:duplicate project name"
+                $stats.namesIsolated++
+            }
+
+            Add-SolutionProject $slnx $folder $slnxRel
             $registered[$absKey] = $slnxRel
             $slnxDirty = $true
             $stats.slnxAdded++
             $slnxOp = 'added'
-            $ops += "[ADD] slnx($slnxRel)"
+            $ops += "[ADD] slnx($slnxRel)$folderNote"
         }
     }
 
@@ -865,6 +912,7 @@ Write-Host "=========== SUMMARY ===========" -ForegroundColor Cyan
 Write-Host ("vbproj scanned          : {0}" -f $stats.scanned)
 Write-Host ("matched (SMRUCC.genomics): {0}" -f $stats.matched)
 Write-Host ("added to solution       : {0}" -f $stats.slnxAdded)          -ForegroundColor Green
+Write-Host ("  name clashes isolated : {0}" -f $stats.namesIsolated)      -ForegroundColor $(if ($stats.namesIsolated) { 'Yellow' } else { 'DarkGray' })
 Write-Host ("projects modified       : {0}" -f $stats.projectsChanged)    -ForegroundColor Green
 Write-Host ("  Configurations patched: {0}" -f $stats.configurationsPatched)
 Write-Host ("  Platforms patched     : {0}" -f $stats.platformsPatched)
