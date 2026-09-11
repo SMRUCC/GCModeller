@@ -24,6 +24,7 @@
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
     <PackageTags>gcmodeller;bioinformatics;genomics;annotation;gff;ptf;file-formats</PackageTags>
     <PackageReleaseNotes>Adds parsers and writers for GFF and PTF genome annotation files with feature models and gene annotation tables.</PackageReleaseNotes>
+    <UseApplicationFramework>True</UseApplicationFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

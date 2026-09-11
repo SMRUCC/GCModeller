@@ -491,7 +491,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -655,7 +657,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
@@ -1127,7 +1131,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|x64" Project="mzkit_win32" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -1750,7 +1753,9 @@
       <BuildType Solution="MetaCardio|*" Project="mzkit" />
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -1780,7 +1785,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -1808,7 +1815,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
       <BuildType Solution="vcellkit|*" Project="Rsharp_app_release" />
@@ -1834,7 +1843,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -1897,7 +1908,9 @@
       <BuildType Solution="MetaCardio|*" Project="LipidSearch" />
       <BuildType Solution="mzkit_UnixDocker|*" Project="gcmodeller_desktop" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="NPSearch" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
       <BuildType Solution="vcellkit|*" Project="LipidSearch" />
@@ -1926,7 +1939,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
@@ -1956,7 +1971,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
@@ -1986,7 +2003,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -2016,7 +2035,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -2044,7 +2065,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
@@ -2074,7 +2097,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -2110,7 +2135,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|x64" Project="mzkit_win32" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -2186,7 +2210,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="Publish|*" Project="PlantMAT" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
       <BuildType Solution="vcellkit|*" Project="Debug" />
@@ -2215,7 +2241,10 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -2245,7 +2274,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -2272,7 +2303,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -2299,7 +2332,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="Publish|*" Project="PlantMAT" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
       <BuildType Solution="vcellkit|*" Project="Debug" />
@@ -2325,7 +2360,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -2352,7 +2389,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="Publish|*" Project="PlantMAT" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
       <BuildType Solution="vcellkit|*" Project="Debug" />
@@ -2378,7 +2417,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="Publish|*" Project="PlantMAT" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
       <BuildType Solution="vcellkit|*" Project="Debug" />
@@ -2404,7 +2445,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -2434,7 +2477,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
@@ -2464,7 +2509,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
@@ -2491,7 +2538,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -2521,7 +2570,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -2554,7 +2605,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -2587,7 +2640,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -2661,7 +2716,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|x64" Project="Release" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -2702,7 +2756,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
@@ -2823,7 +2879,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -2856,7 +2914,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -2919,7 +2979,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -2951,7 +3013,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -2983,7 +3047,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -3044,7 +3110,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="LipidSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="LipidSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="LipidSearch" />
+      <BuildType Solution="nuget_release|x86" Project="LipidSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -3081,7 +3149,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
       <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
-      <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -3119,7 +3186,9 @@
       <BuildType Solution="MetaCardio|*" Project="mzkit" />
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit_win32" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -3189,7 +3258,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -3219,7 +3290,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -3247,7 +3320,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="LipidSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="LipidSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="LipidSearch" />
+      <BuildType Solution="nuget_release|x86" Project="LipidSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -3280,7 +3355,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -3318,7 +3395,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|x64" Project="Release" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -3367,7 +3443,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|x64" Project="Release" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -3410,7 +3485,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -3480,7 +3557,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
       <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
-      <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -3524,7 +3600,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|x64" Project="mzkit_win32" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -3566,7 +3641,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|x64" Project="Release" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -3649,7 +3723,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="LipidSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="LipidSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="LipidSearch" />
+      <BuildType Solution="nuget_release|x86" Project="LipidSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -3681,7 +3757,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
       <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
-      <BuildType Solution="nuget_release|x64" Project="NPSearch" />
       <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Publish" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -3715,7 +3790,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -3751,7 +3828,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Debug" />
-      <BuildType Solution="nuget_release|x64" Project="mzkit_win32" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -3796,7 +3872,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
       <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
-      <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -3839,7 +3914,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -3869,7 +3946,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -3899,7 +3978,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -3928,7 +4009,9 @@
       <BuildType Solution="mzkit|*" Project="mzkit_win32" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -3958,7 +4041,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -4027,7 +4112,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|x64" Project="Release" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -4076,7 +4160,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|x64" Project="Release" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -4125,7 +4208,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|x64" Project="Release" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -4166,7 +4248,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -4207,7 +4291,6 @@
       <BuildType Solution="NPSearch|*" Project="Debug" />
       <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
       <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|x64" Project="Release" />
       <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
@@ -4280,7 +4363,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -4311,7 +4396,9 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -4341,7 +4428,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
@@ -4369,7 +4458,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
@@ -4397,7 +4488,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
@@ -4425,7 +4518,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
       <BuildType Solution="vcellkit|*" Project="Rsharp_app_release" />
@@ -4454,7 +4549,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -4486,7 +4583,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -4519,7 +4618,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -4549,7 +4650,9 @@
       <BuildType Solution="MetaCardio|*" Project="mzkit" />
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit_win32" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -4579,7 +4682,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -4609,7 +4714,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -4639,7 +4746,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -4669,7 +4778,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -4699,7 +4810,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -4744,7 +4857,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -4785,7 +4900,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|Any CPU" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|ARM32" Project="mzkit_win32" />
+      <BuildType Solution="nuget_release|x86" Project="mzkit_win32" />
       <BuildType Solution="PlantMAT|*" Project="Debug" />
       <BuildType Solution="Publish|*" Project="Debug" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -4813,7 +4930,9 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
       <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
       <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
       <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
@@ -4840,7 +4959,10 @@
       <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
       <BuildType Solution="mzkit_win32|*" Project="mzkit" />
       <BuildType Solution="node-debug|*" Project="NPSearch" />
-      <BuildType Solution="nuget_release|*" Project="NPSearch" />
+      <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+      <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+      <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="NPSearch" />
       <BuildType Solution="Publish|*" Project="PlantMAT" />
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
       <BuildType Solution="vcellkit|*" Project="Debug" />
@@ -4967,7 +5089,10 @@
     <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
     <BuildType Solution="mzkit_win32|*" Project="mzkit" />
     <BuildType Solution="node-debug|*" Project="NPSearch" />
-    <BuildType Solution="nuget_release|*" Project="NPSearch" />
+    <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
+    <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
+    <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
+    <BuildType Solution="nuget_release|x86" Project="NPSearch" />
     <BuildType Solution="PlantMAT|*" Project="Debug" />
     <BuildType Solution="Publish|*" Project="Debug" />
     <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
@@ -5003,10 +5128,7 @@
     <BuildType Solution="mzkit|*" Project="Debug" />
     <BuildType Solution="node-debug|*" Project="Debug" />
     <BuildType Solution="NPSearch|*" Project="Debug" />
-    <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
-    <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-    <BuildType Solution="nuget_release|x64" Project="Release" />
-    <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
+    <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
     <BuildType Solution="PlantMAT|*" Project="Debug" />
     <BuildType Solution="Publish|*" Project="Debug" />
     <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -5089,7 +5211,10 @@
     <BuildType Solution="mzkit|*" Project="Debug" />
     <BuildType Solution="node-debug|*" Project="Debug" />
     <BuildType Solution="NPSearch|*" Project="Debug" />
-    <BuildType Solution="nuget_release|*" Project="Release" />
+    <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+    <BuildType Solution="nuget_release|ARM32" Project="Release" />
+    <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
+    <BuildType Solution="nuget_release|x86" Project="Release" />
     <BuildType Solution="PlantMAT|*" Project="Release" />
     <BuildType Solution="Publish|*" Project="Release" />
     <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -5341,10 +5466,7 @@
     <BuildType Solution="mzkit|*" Project="Debug" />
     <BuildType Solution="node-debug|*" Project="Debug" />
     <BuildType Solution="NPSearch|*" Project="Debug" />
-    <BuildType Solution="nuget_release|Any CPU" Project="Rsharp_app_release" />
-    <BuildType Solution="nuget_release|ARM32" Project="Rsharp_app_release" />
-    <BuildType Solution="nuget_release|x64" Project="Release" />
-    <BuildType Solution="nuget_release|x86" Project="Rsharp_app_release" />
+    <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
     <BuildType Solution="PlantMAT|*" Project="Debug" />
     <BuildType Solution="Publish|*" Project="Debug" />
     <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
