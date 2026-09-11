@@ -37,4 +37,5 @@
   <Project Path="Rockhopper/Rockhopper.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="Rockhopper/test/test.vbproj" Id="6e0e6152-133e-4fdd-aa0e-79351528ebf6" />
 </Solution>
