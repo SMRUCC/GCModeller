@@ -1,0 +1,25 @@
+{
+  "name": "rockhopper-rewrite",
+  "mainConversationId": "de636dc78b0942fcacbc37c521bc81f1",
+  "workspacePath": "g:/GCModeller/src/interops/RNA-Seq",
+  "createdAt": "2026-09-11T23:05:02.950Z",
+  "options": {
+    "workspacePath": "g:/GCModeller/src/interops/RNA-Seq",
+    "isAutoTeam": false
+  },
+  "isAutoTeam": false,
+  "members": [
+    {
+      "memberId": "statistics@rockhopper-rewrite",
+      "name": "statistics",
+      "role": "在 RNA-seq.Data 中创建数学统计模块",
+      "sessionId": "6bed28e357354c2dafb15654d127700c"
+    },
+    {
+      "memberId": "core-models@rockhopper-rewrite",
+      "name": "core-models",
+      "role": "移植转录本与操纵子核心模型",
+      "sessionId": "ca003af4f09b47eeaa0031efb479417c"
+    }
+  ]
+}
