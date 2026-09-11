@@ -16,5 +16,14 @@
     "content": "状态同步请求（请简短回复，不要中断你正在进行的实现）：\n1) 当前进度百分比 / 已完成文件列表\n2) 尚未完成的部分\n3) 是否遇到阻塞（例如无法读取某个源文件、API 不确定）\n如果你已经完成，请直接给出交付回报（文件绝对路径 + 最终公开签名）。\n注意：请勿创建/修改 `Alignment/`、`Assembly/`、`Core/`、`FileIO/` 之外的文件；`Java/` 目录暂时保留不要删除。",
     "timestamp": "2026-09-11T23:10:35.549Z",
     "read": false
+  },
+  {
+    "id": "shutdown-1789168456234",
+    "from": "team-lead",
+    "to": "core-models",
+    "type": "shutdown_request",
+    "content": "{\"type\":\"shutdown_request\",\"request_id\":\"shutdown-1789168456234\",\"reason\":\"Core/Transcripts.vb 与 Core/Operons.vb 已由主线实现完成，为避免覆盖冲突，请立即停止并不再写入任何文件。\",\"from\":\"team-lead\",\"timestamp\":\"2026-09-11T23:14:16.234Z\"}",
+    "timestamp": "2026-09-11T23:14:16.234Z",
+    "read": false
   }
 ]
