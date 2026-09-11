@@ -160,6 +160,18 @@ Public Module DemoGallery
     End Function
 
     ''' <summary>
+    ''' 场景 6: 文档之中所描述的完整工作流(``mchrTest.vb``)
+    ''' </summary>
+    Public Function WorkflowDemo(outDIR As String) As CircosRenderResult
+        Call run(outDIR)
+
+        Return CircosRender.Render(
+            confFile:=$"{Circos.NormalizeDirectory(outDIR)}/circos.conf",
+            outputFile:="mchr.png",
+            outputDir:=outDIR)
+    End Function
+
+    ''' <summary>
     ''' 依次渲染所有的演示场景
     ''' </summary>
     Public Iterator Function RunAll(Optional root As String = "Z:\circos-test\") As IEnumerable(Of CircosRenderResult)
@@ -168,15 +180,15 @@ Public Module DemoGallery
             New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("allTracks", AddressOf AllTrackTypes),
             New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("links", AddressOf LinksBlockDemo),
             New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("highlights", AddressOf HighlightsBlockDemo),
-            New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("rules", AddressOf RulesAndAxes)
+            New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("rules", AddressOf RulesAndAxes),
+            New KeyValuePair(Of String, Func(Of String, CircosRenderResult))("mchr", AddressOf WorkflowDemo)
         }
 
         For Each scenario In scenarios
             Dim outDIR As String = Circos.NormalizeDirectory($"{root}/{scenario.Key}")
 
-            If Directory.Exists(outDIR) Then
-                Call Directory.Delete(outDIR, recursive:=True)
-            End If
+            ' 注意：这里不删除上一次运行所遗留下来的文件夹，
+            ' 否则当上一次的 circos 进程尚未完全退出的时候会出现文件夹被占用的异常
             Call Directory.CreateDirectory(outDIR)
 
             Console.WriteLine($"[{scenario.Key}] rendering...")

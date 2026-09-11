@@ -65,7 +65,7 @@ Module Module1
     ''' 3. 保存 circos 文档
     ''' 4. 通过命令行调用 circos 程序进行绘图
     ''' </summary>
-    Private Sub run(Optional outDIR As String = "Z:\circos-test\mchr\")
+    Public Sub run(Optional outDIR As String = "Z:\circos-test\mchr\")
         ' 虚构的基因组序列数据
         Dim genome As Dictionary(Of String, String) = DemoSyntheticData.Genome()
         ' 基因组的骨架信息
