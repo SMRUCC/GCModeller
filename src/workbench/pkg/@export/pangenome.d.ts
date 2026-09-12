@@ -28,16 +28,31 @@ declare namespace pangenome {
      * @param soft_core_threshold threshold value for identify the gene as soft core, thres value 1 means core genes
      * 
      * + default value Is ``0.95``.
+     * @param uniqueByAcc 
+     * + default value Is ``false``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function build_context(genomes: any, soft_core_threshold?: number, env?: object): object;
+   function build_context(genomes: any, soft_core_threshold?: number, uniqueByAcc?: boolean, env?: object): object;
+   /**
+   */
+   function curve_data(result: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function family_groups(cdhit: any, env?: object): any;
+   /**
+   */
+   function genetic_distance(result: object): any;
    /**
      * @param sep default value Is ``'.'``.
      * @param env default value Is ``null``.
    */
    function multiple_genome_alignment(aligns: any, sep?: string, env?: object): any;
+   /**
+   */
+   function pav_matrix(result: object): any;
    /**
      * @param index default value Is ``null``.
      * @param env default value Is ``null``.
