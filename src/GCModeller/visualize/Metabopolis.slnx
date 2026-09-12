@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/framework/">
+    <Project Path="../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj" />
+    <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj" />
+    <Project Path="../../runtime/sciBASIC#/gr/network-visualization/Datavisualization.Network/network_graph-netcore5.vbproj" />
+    <Project Path="../../runtime/sciBASIC#/gr/network-visualization/network_layout/network_layout.vbproj" />
+    <Project Path="../../runtime/sciBASIC#/gr/physics/physics-netcore5.vbproj" />
+    <Project Path="../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj" />
+  </Folder>
+  <Project Path="Metabopolis/Metabopolis.vbproj" />
+  <Project Path="Metabopolis/test/test.vbproj" />
+</Solution>
