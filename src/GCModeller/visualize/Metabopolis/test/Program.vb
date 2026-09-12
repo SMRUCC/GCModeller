@@ -77,20 +77,20 @@ Module Program
         Console.WriteLine("done.")
     End Sub
 
-    Private Sub RunBioCyc(directory As String, outDir As String, limit As Integer, width As Integer, height As Integer, iterations As Integer)
+    Private Sub RunBioCyc(pgdb As String, outDir As String, limit As Integer, width As Integer, height As Integer, iterations As Integer)
         Console.WriteLine("----------------------------------------------------------------")
         Console.WriteLine("[1/2] BioCyc -> Metabopolis")
         Console.WriteLine("----------------------------------------------------------------")
 
-        If Not Directory.Exists(directory) Then
-            Console.Error.WriteLine($"skip BioCyc: directory not found: {directory}")
+        If Not Directory.Exists(pgdb) Then
+            Console.Error.WriteLine($"skip BioCyc: directory not found: {pgdb}")
             Return
         End If
 
         Dim watch As Stopwatch = Stopwatch.StartNew()
 
         Try
-            Dim network As MetabolicNetwork = BioCycDataAdapter.Load(directory, New BioCycAdapterOptions With {
+            Dim network As MetabolicNetwork = BioCycDataAdapter.Load(pgdb, New BioCycAdapterOptions With {
                 .MaxReactions = limit,
                 .SkipUnassigned = True
             })
