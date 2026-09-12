@@ -282,8 +282,11 @@
 
   <ItemGroup>
     <Compile Remove="Service References.obsolete\**" />
+    <Compile Remove="test\**" />
     <EmbeddedResource Remove="Service References.obsolete\**" />
+    <EmbeddedResource Remove="test\**" />
     <None Remove="Service References.obsolete\**" />
+    <None Remove="test\**" />
   </ItemGroup>
 
   <ItemGroup>
