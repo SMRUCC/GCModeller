@@ -28,6 +28,7 @@ Imports Metabopolis.Floorplan
 Imports Metabopolis.Model
 Imports Metabopolis.Rendering
 Imports MetabopolisAdapter
+Imports Microsoft.VisualBasic.Imaging.Driver
 
 Module Program
 
@@ -36,6 +37,10 @@ Module Program
 
     Sub Main(args As String())
         Console.OutputEncoding = Encoding.UTF8
+
+        ' 注册 GDI 位图驱动（SVG 驱动在 imaging 内部，无需注册）。
+        ' 必须在任何绘图代码之前调用，否则 SavePng 会抛出缺少光栅驱动器的异常。
+        Call ImageDriver.Register()
 
         Dim biocycDir As String = ReadOption(args, "--biocyc", DefaultBioCyc)
         Dim sbmlFile As String = ReadOption(args, "--sbml", DefaultSbml)
