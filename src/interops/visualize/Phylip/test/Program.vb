@@ -438,6 +438,119 @@ Module Program
         End Try
     End Sub
 
+    ''' <summary>
+    ''' 验证 8 种布局样式均可渲染出非空 PNG，并覆盖「无分支长度」的 cladogram 退化情形。
+    ''' </summary>
+    Private Sub TestTreeDrawing(failures As List(Of String))
+        Console.WriteLine("=== Tree drawing ===")
+
+        Dim outputDir As String = IO.Path.Combine(IO.Path.GetTempPath(), "phylip_tree_drawing")
+        Dim created As New List(Of String)
+
+        Try
+            If IO.Directory.Exists(outputDir) Then
+                Call IO.Directory.Delete(outputDir, True)
+            End If
+
+            Call IO.Directory.CreateDirectory(outputDir)
+
+            ' 带分支长度与 bootstrap 支持度的树
+            Dim tree As New PhyloTree("drawing",
+                "((A:0.1,B:0.2)90:0.1,(C:0.15,D:0.25)55:0.12,(E:0.3,F:0.35)70:0.08);",
+                "newick")
+
+            If Not tree.treeDataValid Then
+                failures.Add("TreeDrawing: 测试用 Newick 树解析失败：" & tree.errorMessage)
+                Return
+            End If
+
+            For Each value As Object In [Enum].GetValues(GetType(TreePlotMode))
+                Dim mode As TreePlotMode = CType(value, TreePlotMode)
+                Dim options As TreeDrawingOptions = TreeDrawingOptions.Defaults(mode)
+
+                options.CanvasSize = New System.Drawing.Size(800, 600)
+                options.ShowBranchLength = True
+                options.ShowScaleBar = True
+                options.ShowTitle = True
+                options.Title = mode.ToString()
+                options.AlignLeafLabels = True
+
+                Dim path As String = IO.Path.Combine(outputDir, mode.ToString().ToLower() & ".png")
+
+                Try
+                    Dim image = TreeDrawing.GetImage(tree, options)
+
+                    If image Is Nothing Then
+                        failures.Add($"TreeDrawing[{mode}]: 未返回图像")
+                        Continue For
+                    End If
+
+                    If image.Width <> 800 OrElse image.Height <> 600 Then
+                        failures.Add($"TreeDrawing[{mode}]: 画布尺寸应为 800x600，实际 {image.Width}x{image.Height}")
+                    End If
+
+                    Call image.SaveAs(path)
+                    created.Add(path)
+
+                    If Not IO.File.Exists(path) Then
+                        failures.Add($"TreeDrawing[{mode}]: 未生成 PNG 文件")
+                    ElseIf New IO.FileInfo(path).Length <= 0 Then
+                        failures.Add($"TreeDrawing[{mode}]: PNG 文件为空")
+                    Else
+                        Console.WriteLine($"  {mode}: OK ({New IO.FileInfo(path).Length} bytes)")
+                    End If
+                Catch ex As Exception
+                    failures.Add($"TreeDrawing[{mode}]: {ex.Message}")
+                End Try
+            Next
+
+            ' 无分支长度的 cladogram 树：所有模式都不得抛异常
+            Dim cladogram As New PhyloTree("cladogram", "((A,B),(C,D),(E,F));", "newick")
+
+            For Each mode As TreePlotMode In {
+                    TreePlotMode.RECT_CLADOGRAM,
+                    TreePlotMode.RECT_PHYLOGRAM,
+                    TreePlotMode.SLANTED_CLADOGRAM_NORMAL,
+                    TreePlotMode.CIRCULAR_CLADOGRAM,
+                    TreePlotMode.CIRCULAR_PHYLOGRAM,
+                    TreePlotMode.RADIAL_CLADOGRAM}
+
+                Try
+                    Dim options As TreeDrawingOptions = TreeDrawingOptions.Defaults(mode)
+                    options.CanvasSize = New System.Drawing.Size(600, 600)
+
+                    Dim image = TreeDrawing.GetImage(cladogram, options)
+
+                    If image Is Nothing Then
+                        failures.Add($"TreeDrawing[cladogram/{mode}]: 未返回图像")
+                    End If
+                Catch ex As Exception
+                    failures.Add($"TreeDrawing[cladogram/{mode}]: {ex.Message}")
+                End Try
+            Next
+
+            Console.WriteLine("  cladogram (no branch length): OK")
+        Catch ex As Exception
+            failures.Add("TreeDrawing: " & ex.Message)
+        Finally
+            For Each path As String In created
+                Try
+                    If IO.File.Exists(path) Then
+                        Call IO.File.Delete(path)
+                    End If
+                Catch
+                End Try
+            Next
+
+            Try
+                If IO.Directory.Exists(outputDir) Then
+                    Call IO.Directory.Delete(outputDir, True)
+                End If
+            Catch
+            End Try
+        End Try
+    End Sub
+
     Private Function FindLeaf(tree As PhyloNode, id As String) As PhyloNode
         Return PhyloTreeFactory _
             .EnumerateLeaves(tree) _
