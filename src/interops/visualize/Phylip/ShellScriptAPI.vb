@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports CSVFile = Microsoft.VisualBasic.Data.Framework.IO.File
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -65,6 +65,8 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.Interops.Visualize.Phylip.MatrixFile
 Imports PathEntry = System.Collections.Generic.KeyValuePair(Of String, String)
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.Framework.IO
 
 <Package("Phylip.Matrix",
                     Cites:="PLOTREE, D. and D. PLOTGRAM (1989). ""PHYLIP-phylogeny inference package (version 3.2).""",
@@ -146,7 +148,7 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("MotifDist.Create")>
-    Public Function CreateMotifDist(dat As IO.File) As Gendist
+    Public Function CreateMotifDist(dat As CSVFile) As Gendist
         Return MatrixFile.Gendist.CreateMotifDistrMAT(dat)
     End Function
 
@@ -165,7 +167,12 @@ Public Module ShellScriptAPI
         Return mat.GenerateDocument.SaveTo(saveto)
     End Function
 
-    <ExportAPI("Load.NewickTree", Info:="Newick format tree is the phylip default output data format.")>
+    ''' <summary>
+    ''' Newick format tree is the phylip default output data format.
+    ''' </summary>
+    ''' <param name="tree"></param>
+    ''' <param name="Name"></param>
+    ''' <returns></returns>
     Public Function LoadNewickTree(tree As String, Optional Name As String = "Evol Tree") As Evolview.PhyloTree
         Dim TreeObject = New Evolview.PhyloTree(Name, tree, "newick")
         Return TreeObject
@@ -173,20 +180,20 @@ Public Module ShellScriptAPI
 
     <ExportAPI("Gendist.Create")>
     Public Function CreateGeneDist(path As String) As Gendist
-        Dim Csv = IO.File.Load(path)
+        Dim Csv = CSVFile.Load(path)
         Return MatrixFile.Gendist.CreateMotifDistrMAT(Csv)
     End Function
 
     <ExportAPI("Neighbor.Create")>
     Public Function CreateNeighborMatrixFromVennMatrix(path As String, Optional fastLoad As Boolean = True) As MatrixFile.NeighborMatrix
-        Call $"Start to load venn matrix data from file: {path.ToFileURL}".__DEBUG_ECHO
+        Call $"Start to load venn matrix data from file: {path.ToFileURL}".debug
 
-        Dim Csv As IO.File = If(fastLoad, FileLoader.FastLoad(path), IO.File.Load(path))
+        Dim Csv As CSVFile = If(fastLoad, FileLoader.FastLoad(path), CSVFile.Load(path))
 
-        Call $"Venn matrix data load Job done!".__DEBUG_ECHO
+        Call $"Venn matrix data load Job done!".debug
 
         path = $"{path}.Neighbor.csv"
-        Call $"Temp matrix was saved at {path.ToFileURL}".__DEBUG_ECHO
+        Call $"Temp matrix was saved at {path.ToFileURL}".debug
         Call Csv.Save(path, False)
 
         Return NeighborMatrixFromVennMatrix(Csv)
@@ -216,10 +223,10 @@ Public Module ShellScriptAPI
     End Function
 
     Private Function LoadXmlMeta(Path As PathEntry) As SpeciesBesthit
-        Call $"Start to load data from {Path.Value.ToFileURL}....".__DEBUG_ECHO
+        Call $"Start to load data from {Path.Value.ToFileURL}....".debug
         Dim Sw = Stopwatch.StartNew
         Dim Meta = Path.Value.LoadXml(Of SpeciesBesthit)
-        Call $"Data load done!  /// {Sw.ElapsedMilliseconds} ms.".__DEBUG_ECHO
+        Call $"Data load done!  /// {Sw.ElapsedMilliseconds} ms.".debug
 
         Return Meta
     End Function
@@ -236,8 +243,8 @@ Public Module ShellScriptAPI
     ''' <param name="besthit"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function __exportMatrix(besthit As SpeciesBesthit) As IO.File
-        Dim MAT As IO.File = New IO.File
+    Private Function __exportMatrix(besthit As SpeciesBesthit) As CSVFile
+        Dim MAT As CSVFile = New CSVFile
         Dim hits = besthit.InternalSort(False).ToArray
 
         hits = (From hit As HitCollection
@@ -247,11 +254,11 @@ Public Module ShellScriptAPI
 
         On Error Resume Next
 
-        Dim head As New IO.RowObject("QueryProtein" + hits.First.hits.ToList(Function(x) x.tag))  '生成表头
+        Dim head As New RowObject("QueryProtein" + hits.First.hits.ToList(Function(x) x.tag))  '生成表头
         MAT += head
 
         For Each hit As HitCollection In hits
-            Dim Row As New IO.RowObject(hit.QueryName + hit.hits.ToList(Function(x) CStr(x.identities)))
+            Dim Row As New RowObject(hit.QueryName + hit.hits.ToList(Function(x) CStr(x.identities)))
             MAT += Row
         Next
 
@@ -282,29 +289,29 @@ Public Module ShellScriptAPI
         Call DataDict.Remove(IndexKey)
 
         If MainData.hits.IsNullOrEmpty Then
-            Call $"The profile data of your key ""{MainIndex}"" ---> ""{MainData.sp}"" is null!".__DEBUG_ECHO
-            Call $"Thread exists...".__DEBUG_ECHO
+            Call $"The profile data of your key ""{MainIndex}"" ---> ""{MainData.sp}"" is null!".debug
+            Call $"Thread exists...".debug
             Return Nothing
         Else
-            Call $"Main index data has {MainData.hits.Length} hits...".__DEBUG_ECHO
+            Call $"Main index data has {MainData.hits.Length} hits...".debug
         End If
 
         If Limits > 1 Then
             Dim ChunTemp = __sort(DataDict, MainData)
             ChunTemp = ChunTemp.Take(Limits).ToArray
-            Call $"The output genome data was limited of counts {ChunTemp.Length}".__DEBUG_ECHO
+            Call $"The output genome data was limited of counts {ChunTemp.Length}".debug
             DataDict = ChunTemp.ToDictionary(Function(obj) obj.sp)
             MainData = MainData.Take(DataDict.Keys.ToArray)
         End If
 
-        Dim MAT As IO.File = __exportMatrix(MainData)
+        Dim MAT As CSVFile = __exportMatrix(MainData)
         Dim species As String() = (From hitData As Hit In MainData.hits.First.hits Select hitData.tag).ToArray
 
         For deltaInd As Integer = 0 To DataDict.Count - 1
             Dim subMain As SpeciesBesthit = DataDict.Values(deltaInd)
 
             If subMain.hits.IsNullOrEmpty Then
-                Call $"Profile data {subMain.sp} is null!".__DEBUG_ECHO
+                Call $"Profile data {subMain.sp} is null!".debug
                 Continue For
             Else
                 Call Console.WriteLine(" {0} > " & subMain.sp, deltaInd)
@@ -320,7 +327,7 @@ Public Module ShellScriptAPI
                                   speciesProfile = hit.hits.ToDictionary(Function(prot) prot.tag))
 
             For Each SubMainNotHitGene In notmatched  '竖直方向遍历第n列的基因号
-                Dim row As New IO.RowObject From {SubMainNotHitGene.QueryName}
+                Dim row As New RowObject From {SubMainNotHitGene.QueryName}
 
                 Call row.AddRange((From nnn In (deltaInd).Sequence Select "0").ToArray)
 
@@ -339,7 +346,7 @@ Public Module ShellScriptAPI
 
         Dim StringCollection = (From row In MAT Select row.ToArray).ToArray
         StringCollection = StringCollection.MatrixTranspose
-        MAT = New IO.File(From row In StringCollection Select CType(row, IO.RowObject))
+        MAT = New CSVFile(From row In StringCollection Select CType(row, RowObject))
 
         Return MatrixFile.Gendist.CreateMotifDistrMAT(MAT)
     End Function
@@ -371,7 +378,7 @@ Public Module ShellScriptAPI
     ''' <returns></returns>
     '''
     <ExportAPI("Neighbor.From.VennMatrix")>
-    Public Function NeighborMatrixFromVennMatrix(VennMatrix As IO.File) As MatrixFile.NeighborMatrix
+    Public Function NeighborMatrixFromVennMatrix(VennMatrix As CSVFile) As MatrixFile.NeighborMatrix
 
         Call Console.WriteLine("Start to preparing data matrix...")
 
@@ -383,13 +390,13 @@ Public Module ShellScriptAPI
                         genElements).ToArray
         '默认使用欧几里得距离
         '为了防止数据混乱，这里不再使用并行拓展，以保持两两对应的顺序
-        Dim Head As New IO.RowObject("" + (From sp In Data Select sp.ID).AsList)
-        Dim MatBuilder As IO.File = New IO.File + Head
+        Dim Head As New RowObject("" + (From sp In Data Select sp.ID).AsList)
+        Dim MatBuilder As CSVFile = New CSVFile + Head
 
         Call Console.WriteLine("Start to generate matrix file")
 
         For Each sp In Data
-            Dim row As New IO.RowObject
+            Dim row As New RowObject
             Call row.Add(sp.ID)
 
             For Each paired In Data '对角线是自己对自己，距离总是为零
@@ -451,10 +458,9 @@ Public Module ShellScriptAPI
     ''' <param name="overview"></param>
     ''' <returns></returns>
     <ExportAPI("MAT.From.Self.Overviews")>
-    Public Function SelfOverviewsMAT(overview As Overview) As IO.File
+    Public Function SelfOverviewsMAT(overview As Overview) As CSVFile
         Dim lstId As String() = overview.Queries.Select(Function(x) x.Id).ToArray
-        Dim MAT As IO.File =
-            New IO.File + "".Join(lstId)
+        Dim MAT As CSVFile = New CSVFile + "".Join(lstId)
 
         For Each query In overview.Queries
             Dim row As New List(Of Object)
@@ -466,7 +472,7 @@ Public Module ShellScriptAPI
                 Call row.Add(If(hist.ContainsKey(id), hist(id).identities, 0))
             Next
 
-            Call MAT.Add(New IO.RowObject(row))
+            Call MAT.Add(New RowObject(row))
         Next
 
         Return MAT

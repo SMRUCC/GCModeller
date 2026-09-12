@@ -42,26 +42,27 @@
 #End Region
 
 Imports System.Drawing
-Imports SMRUCC.genomics.Interops.Visualize.Phylip.Evolview
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
+Imports SMRUCC.genomics.Interops.Visualize.Phylip.Evolview
 
 Public Module TreeDrawing
 
     Dim pxPerBranchLength As Integer
     Dim pxPerHeight As Single = 10
 
-    Public Function InvokeDrawing(Tree As Evolview.PhyloTree) As System.Drawing.Image
-        Dim Gr = (New Size(10000, 10000)).CreateGDIDevice()
+    Public Function InvokeDrawing(Tree As Evolview.PhyloTree) As Image
+        Dim Gr = DriverLoad.CreateDefaultRasterGraphics(New Size(10000, 10000), Color.Transparent)
         Dim Font As New Font(FontFace.Ubuntu, 12)
         Dim RootXY As Point = New Point(Gr.Width / 2, Gr.Height / 2)
         Dim MinBranchLength As Double = (From n In Tree.AllNodes Where n.BranchLength <> 0S Select Math.Abs(n.BranchLength)).ToArray.Min * 1000
 
         pxPerBranchLength = 1 / MinBranchLength
 
-        Gr.Graphics.DrawLine(Pens.Black, RootXY.X, RootXY.Y, CInt(RootXY.X - pxPerBranchLength / 10 / 5), RootXY.Y)
+        Gr.DrawLine(Pens.Black, RootXY.X, RootXY.Y, CInt(RootXY.X - pxPerBranchLength / 10 / 5), RootXY.Y)
         Call __treeDrawing(Tree.RootNode, Gr, RootXY, Font)
 
-        Return Gr.ImageResource
+        Return DirectCast(Gr, GdiRasterGraphics).ImageResource
     End Function
 
     ''' <summary>
@@ -79,7 +80,7 @@ Public Module TreeDrawing
     '''                       --------------------------------|
     '''                                                       |---------------
     ''' </remarks>
-    Private Sub __treeDrawing(plNode As PhyloNode, LayerTree As Graphics2D, ParentXY As Point, Font As Font)
+    Private Sub __treeDrawing(plNode As PhyloNode, LayerTree As IGraphics, ParentXY As Point, Font As Font)
         Dim Px As Single = ParentXY.X
         Dim Py As Single = ParentXY.Y
         Dim vLevel As Single = plNode.LevelVertical
@@ -94,16 +95,16 @@ Public Module TreeDrawing
             Dim dY As Single = Py + (VL - vLevel) * pxPerHeight
             Dim CurrentXY As Point = New Drawing.Point(dX, dY)
 
-            Call LayerTree.Graphics.DrawPie(Pens.Black, New Rectangle(CurrentXY, New Size(2, 2)), 0, 360)
+            Call LayerTree.DrawPie(Pens.Black, New Rectangle(CurrentXY, New Size(2, 2)), 0, 360)
 
             If Node.IsFork Then  '分支节点，则绘制当前节点之外，还需要绘制子节点
                 Call __treeDrawing(Node, LayerTree, CurrentXY, Font)
             ElseIf Node.IsLeaf Then        '叶节点，则需要绘制编号
-                Call LayerTree.Graphics.DrawString(Node.ID, Font, Brushes.Black, New Point(CurrentXY.X + 10, CurrentXY.Y + 10))
+                Call LayerTree.DrawString(Node.ID, Font, Brushes.Black, New Point(CurrentXY.X + 10, CurrentXY.Y + 10))
             End If
 
             '绘制分支长度
-            Call LayerTree.Graphics.DrawString(HB, Font, Brushes.Black, New Point((Px + dX) / 2, dY))
+            Call LayerTree.DrawString(HB, Font, Brushes.Black, New Point((Px + dX) / 2, dY))
         Next
     End Sub
 End Module

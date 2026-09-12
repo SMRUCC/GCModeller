@@ -41,7 +41,7 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic.Data.csv
+Imports CSVFile = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Namespace MatrixFile
 
@@ -90,7 +90,7 @@ Namespace MatrixFile
             Return str.ToString
         End Function
 
-        Public Overloads Shared Function CreateObject(raw As IO.File) As NeighborMatrix
+        Public Overloads Shared Function CreateObject(raw As CSVFile) As NeighborMatrix
             Return CreateObject(Of NeighborMatrix)(raw)
         End Function
     End Class
