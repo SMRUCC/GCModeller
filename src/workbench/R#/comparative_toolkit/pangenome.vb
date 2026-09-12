@@ -283,43 +283,42 @@ Module pangenome
             ' 不需要先展开为 O(k^2) 个两两同源配对再逐个合并。
             ' 在上百个基因组的数据集上面，原来的做法会产生上亿个中间对象从而耗尽系统内存。
             Dim groups As New Dictionary(Of String, List(Of String))()
-            ' 只有跨基因组(replicon)的聚类才会产生同源关系，与原来的
-            ' BuildHomologyRelations 的行为保持一致（同一个replicon之内的旁系同源不会被合并）
-            Dim firstSlot As New Dictionary(Of String, String)()
-            Dim crossGenome As New HashSet(Of String)()
+            Dim sources As New Dictionary(Of String, List(Of String))()
             Dim genes As Integer = 0
 
             For Each slot As String In referenceMap.Keys
                 For Each term As RankTerm In referenceMap(slot)
                     Dim familyId As String = term.term
                     Dim members As List(Of String) = Nothing
+                    Dim memberSource As List(Of String) = Nothing
 
                     If Not groups.TryGetValue(familyId, members) Then
                         members = New List(Of String)()
-                        groups.Add(familyId, members)
-                        firstSlot.Add(familyId, slot)
-                    ElseIf firstSlot(familyId) <> slot Then
-                        crossGenome.Add(familyId)
+                        memberSource = New List(Of String)()
+
+                        Call groups.Add(familyId, members)
+                        Call sources.Add(familyId, memberSource)
+                    Else
+                        memberSource = sources(familyId)
                     End If
 
                     members.Add(term.queryName)
+                    memberSource.Add(slot)
                     genes += 1
                 Next
             Next
 
             Dim orthoGroups As New Dictionary(Of String, String())(groups.Count)
-            Dim n As Integer = 0
+            Dim orthoSources As New Dictionary(Of String, String())(groups.Count)
 
             For Each group As KeyValuePair(Of String, List(Of String)) In groups
-                If crossGenome.Contains(group.Key) Then
-                    orthoGroups.Add(group.Key, group.Value.ToArray())
-                    n += 1
-                End If
+                orthoGroups.Add(group.Key, group.Value.ToArray())
+                orthoSources.Add(group.Key, sources(group.Key).ToArray())
             Next
 
-            Call $"[pan-genome] {groups.Count} ortholog groups ({n} cross genome) of {genes} genes".debug
+            Call $"[pan-genome] {groups.Count} ortholog groups of {genes} genes".debug
 
-            Return pangenome.AnalyzePanGenome(orthoGroups)
+            Return pangenome.AnalyzePanGenome(orthoGroups, orthoSources)
         End If
 
         Return pangenome.AnalyzePanGenome(orthologDict)
