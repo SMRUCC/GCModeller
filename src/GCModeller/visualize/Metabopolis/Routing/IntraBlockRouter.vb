@@ -705,7 +705,8 @@ Namespace Routing
 
             Dim reach As HashSet(Of Integer) = flow.Reachable(source)
 
-            Trace($"reachable from source: {reach.Count}, sink reached: {reach.Contains(sink)}")
+            Trace($"reachable from source: {reach.Count}, sink reached: {reach.Contains(sink)}, " &
+                  $"nonfinite costs: {flow.NonFiniteCostArcs()}, cellW={cellW:0.###}, cellH={cellH:0.###}")
 
             Dim solution As FlowSolution = flow.Solve(source, sink)
 

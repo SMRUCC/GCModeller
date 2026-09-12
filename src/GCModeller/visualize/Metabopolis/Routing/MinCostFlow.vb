@@ -385,6 +385,25 @@ Namespace Routing
         End Function
 
         ''' <summary>
+        ''' 统计费用非有限值（NaN/Infinity）的弧数量（排障用）。
+        ''' </summary>
+        Public Function NonFiniteCostArcs() As Integer
+            Dim count_ As Integer = 0
+
+            For i As Integer = 0 To arcs.Count - 1 Step 2
+                If Not IsFinite(arcs(i).Cost) Then
+                    count_ += 1
+                End If
+            Next
+
+            Return count_
+        End Function
+
+        Private Shared Function IsFinite(value As Double) As Boolean
+            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
+        End Function
+
+        ''' <summary>
         ''' 沿残余容量大于 0 的弧做可达性遍历（排障用）。
         ''' </summary>
         Public Function Reachable(source As Integer) As HashSet(Of Integer)

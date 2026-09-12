@@ -1,58 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::7069787f65f1768d2e2c8e4c2987e0f3, localblast\PanGenome\Output\PanGenomeResult.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 77
-    '    Code Lines: 17 (22.08%)
-    ' Comment Lines: 50 (64.94%)
-    '    - Xml Docs: 90.00%
-    ' 
-    '   Blank Lines: 10 (12.99%)
-    '     File Size: 2.66 KB
+' Summaries:
 
 
-    ' Class PanGenomeResult
-    ' 
-    '     Properties: CloudGeneFamilies, CollinearBlocks, CoreGeneFamilies, DispensableGeneFamilies, GeneFamilies
-    '                 GeneticDistanceMatrix, PangenomeCurveData, PAVMatrix, ShellGeneFamilies, SingleCopyOrthologFamilies
-    '                 SoftCoreGeneFamilies, SpecificGeneFamilies, StructuralVariations, TotalGenesInGenomes
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 77
+'    Code Lines: 17 (22.08%)
+' Comment Lines: 50 (64.94%)
+'    - Xml Docs: 90.00%
+' 
+'   Blank Lines: 10 (12.99%)
+'     File Size: 2.66 KB
+
+
+' Class PanGenomeResult
+' 
+'     Properties: CloudGeneFamilies, CollinearBlocks, CoreGeneFamilies, DispensableGeneFamilies, GeneFamilies
+'                 GeneticDistanceMatrix, PangenomeCurveData, PAVMatrix, ShellGeneFamilies, SingleCopyOrthologFamilies
+'                 SoftCoreGeneFamilies, SpecificGeneFamilies, StructuralVariations, TotalGenesInGenomes
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework
@@ -181,6 +182,23 @@ Imports Microsoft.VisualBasic.Data.Framework
         Next
 
         Return df
+    End Function
+
+    ''' <summary>
+    ''' save current pan-genome analysis result object as zip archive file
+    ''' </summary>
+    ''' <param name="file"></param>
+    Public Sub Save(file As Stream)
+
+    End Sub
+
+    ''' <summary>
+    ''' load pan-genome analysis result data from a given zip archive file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    Public Shared Function LoadStream(file As Stream) As PanGenomeResult
+
     End Function
 
 End Class
