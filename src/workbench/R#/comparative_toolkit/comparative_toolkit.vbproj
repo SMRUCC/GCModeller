@@ -47,6 +47,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.netcoreapp.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequenceAlignment\SequenceAlignment.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
     <ProjectReference Include="..\..\..\interops\localblast\PanGenome\PanGenome.vbproj" />

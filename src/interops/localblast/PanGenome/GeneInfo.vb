@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::1594219b2dc66660b7946191cdc0f769, localblast\PanGenome\GeneInfo.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 78
-    '    Code Lines: 60 (76.92%)
-    ' Comment Lines: 7 (8.97%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 11 (14.10%)
-    '     File Size: 2.72 KB
+' Summaries:
 
 
-    ' Class GeneInfo
-    ' 
-    '     Properties: [End], Chromosome, GeneID, GenomeName, Length
-    '                 Start
-    ' 
-    '     Constructor: (+2 Overloads) Sub New
-    '     Function: CastTable, CreateGeneModel, GenomeSet, ToString
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 78
+'    Code Lines: 60 (76.92%)
+' Comment Lines: 7 (8.97%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 11 (14.10%)
+'     File Size: 2.72 KB
+
+
+' Class GeneInfo
+' 
+'     Properties: [End], Chromosome, GeneID, GenomeName, Length
+'                 Start
+' 
+'     Constructor: (+2 Overloads) Sub New
+'     Function: CastTable, CreateGeneModel, GenomeSet, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -83,8 +84,8 @@ Public Class GeneInfo : Implements INamedValue
     Sub New()
     End Sub
 
-    Sub New(gene As GeneTable)
-        GeneID = gene.locus_id
+    Sub New(gene As GeneTable, Optional locus_id As String = Nothing)
+        GeneID = If(locus_id, gene.locus_id)
         GenomeName = gene.species
         Chromosome = gene.replicon_accessionID
         Start = gene.left
@@ -111,6 +112,7 @@ Public Class GeneInfo : Implements INamedValue
         Next
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function GenomeSet(genomes As IEnumerable(Of GFFTable)) As Dictionary(Of String, GeneInfo())
         Return genomes _
             .ToDictionary(Function(gn) gn.species,
@@ -121,15 +123,23 @@ Public Class GeneInfo : Implements INamedValue
                           End Function)
     End Function
 
-    Public Shared Function CastTable(genomes As Dictionary(Of String, GeneTable())) As Dictionary(Of String, GeneInfo())
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function CastTable(genomes As Dictionary(Of String, GeneTable()), Optional uniqueByAccession As Boolean = False) As Dictionary(Of String, GeneInfo())
         Return genomes _
             .ToDictionary(Function(g) g.Key,
                           Function(g)
-                              Return (From gene As GeneTable
-                                      In g.Value
-                                      Group By gene.locus_id Into Group
-                                      Select New GeneInfo(Group.First)).ToArray
+                              Return uniqueGene(g.Value, uniqueByAccession).ToArray
                           End Function)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Shared Function uniqueGene(source As IEnumerable(Of GeneTable), uniqueByAccession As Boolean) As IEnumerable(Of GeneInfo)
+        Return From gene As GeneTable
+               In source
+               Let gene_id As String = If(uniqueByAccession, gene.locus_id & "." & gene.replicon_accessionID, gene.locus_id)
+               Group By gene_id Into Group
+               Let target = Group.First
+               Select New GeneInfo(target.gene, target.gene_id)
     End Function
 
 End Class

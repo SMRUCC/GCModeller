@@ -118,8 +118,8 @@ Public Class GenomeAnalyzer
         Call Me.New(genomes.Values.IteratesALL.MakeUniqueNames.ToDictionary(Function(gene) gene.GeneID), uf)
     End Sub
 
-    Sub New(genomes As Dictionary(Of String, GeneTable()), Optional uf As UnionFind = Nothing)
-        Call Me.New(GeneInfo.CastTable(genomes), uf)
+    Sub New(genomes As Dictionary(Of String, GeneTable()), Optional uf As UnionFind = Nothing, Optional uniqueByAccessionId As Boolean = False)
+        Call Me.New(GeneInfo.CastTable(genomes, uniqueByAccessionId), uf)
     End Sub
 
     Sub New(genomes As IEnumerable(Of GFFTable), Optional uf As UnionFind = Nothing)

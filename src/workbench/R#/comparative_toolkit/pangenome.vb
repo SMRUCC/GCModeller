@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.PanGenome
+Imports SMRUCC.genomics.Analysis.SequenceAlignment
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
@@ -153,6 +154,7 @@ Module pangenome
     <RApiReturn(GetType(GenomeAnalyzer))>
     Public Function build_context(<RRawVectorArgument> genomes As Object,
                                   Optional soft_core_threshold As Double = 0.95,
+                                  Optional uniqueByAcc As Boolean = False,
                                   Optional env As Environment = Nothing) As Object
 
         Dim pull As PipeIterator(Of GFFTable) = pipeline.Stream(Of GFFTable)(genomes, env, suppress:=True)
@@ -161,7 +163,7 @@ Module pangenome
         If Not pull.isError Then
             context = New GenomeAnalyzer(pull)
         ElseIf TypeOf genomes Is list Then
-            context = New GenomeAnalyzer(DirectCast(genomes, list).asGeneric(Of GeneTable())(env))
+            context = New GenomeAnalyzer(DirectCast(genomes, list).asGeneric(Of GeneTable())(env), uniqueByAccessionId:=uniqueByAcc)
         Else
             Dim pullGenes As PipeIterator(Of GeneTable) = pipeline.Stream(Of GeneTable)(genomes, env, suppress:=True)
 
@@ -175,7 +177,7 @@ Module pangenome
                                       Return g.ToArray
                                   End Function)
 
-                context = New GenomeAnalyzer(genomeGeneSet)
+                context = New GenomeAnalyzer(genomeGeneSet, uniqueByAccessionId:=uniqueByAcc)
             End If
         End If
 
@@ -206,6 +208,30 @@ Module pangenome
                                   Return a.Select(Function(i) i.Item2).ToArray
                               End Function))
         End If
+    End Function
+
+    <ExportAPI("family_groups")>
+    Public Function family_groups(<RRawVectorArgument(GetType(SimilarHit))> cdhit As Object, Optional env As Environment = Nothing) As Object
+        Dim families As PipeIterator(Of SimilarHit) = pipeline.Stream(Of SimilarHit)(cdhit, env)
+
+        If families.isError Then
+            Return families.getError
+        End If
+
+        Dim terms As New List(Of RankTerm)
+
+        For Each family As SimilarHit In families
+            Call terms.AddRange(From id As NamedValue(Of Double)
+                                In family.AsEnumerable
+                                Select New RankTerm With {
+                                    .queryName = id.Name,
+                                    .scores = {id.Value},
+                                    .source = {family.SeqID},
+                                    .term = family.SeqID
+                                })
+        Next
+
+        Return terms.ToArray
     End Function
 
     ''' <summary>

@@ -398,7 +398,7 @@ Module kmersTools
     ''' sequence collection.
     ''' </returns>
     <ExportAPI("cdhit_clusters")>
-    Public Function cdhit_clusters(<RRawVectorArgument> x As Object,
+    Public Function cdhit_clusters(<RRawVectorArgument(GetType(FastaSeq))> x As Object,
                                    Optional k As Integer = 12,
                                    Optional identities As Double = 0.8,
                                    Optional n_threads As Integer? = Nothing,
