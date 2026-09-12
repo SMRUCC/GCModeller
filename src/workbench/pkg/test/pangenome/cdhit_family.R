@@ -8,16 +8,16 @@ imports "pangenome" from "comparative_toolkit";
 let dir as string = ?"--dir" || stop("no analysis data provided!");
 let family_result = file.path(dir, "cdhit-family.json");
 let family_result = {
-    if (file.exists(family_result)) {
+    # if (file.exists(family_result)) {
         # use cache
-        jsonlite::fromJSON(family_result);
-    } else {
+    #     jsonlite::fromJSON(family_result, what = "cdhit-family");
+    # } else {
         let proteins = read.fasta(file.path(dir, "proteins.faa"));
         let cache_data = cdhit_clusters(proteins);
 
         writeLines(jsonlite::toJSON(cache_data), con = family_result);
         cache_data;
-    }
+    # }
 };
 let orth = multiple_genome_alignment( family_groups(family_result$clusters));
 let geneset = read_genetable(file.path(dir,"genes.csv"));

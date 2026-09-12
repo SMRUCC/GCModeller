@@ -91,6 +91,7 @@ Imports SeqMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 '''   family table.
 ''' </remarks>
 <Package("kmers")>
+<RTypeExport("cdhit-family", GetType(SimilarHit()))>
 Module kmersTools
 
     ''' <summary>
