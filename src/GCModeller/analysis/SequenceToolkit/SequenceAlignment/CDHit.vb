@@ -177,29 +177,25 @@ Public Class CDHit
     ''' </summary>
     ''' <returns></returns>
     Public Iterator Function FindSimilar(Optional threshold As Double = 0.8) As IEnumerable(Of SimilarHit)
-        ' 提前计算所有相似对，构建图结构
-        Dim adjList As New Dictionary(Of Integer, Dictionary(Of Integer, Double))()
-        Dim jaccardTh = LSHParameterEstimator.GetThresholdFromIdentity(threshold, k)
+        Dim sw As Stopwatch = Stopwatch.StartNew
+        ' 提前并行计算所有相似对，构建图结构
+        Dim jaccardTh As Double = LSHParameterEstimator.GetThresholdFromIdentity(threshold, k)
         Dim minHash = hash.minHash
         Dim seqPool = hash.seqPool
+        Dim graph As CDHitSimilarityGraph = CDHitLSH.BuildSimilarityGraph(minHash, jaccardTh, workerThreads)
 
-        For Each result As SimilarityIndex In LSH.FindSimilarItems(minHash, produceUniqueHit:=False)
-            If result.Similarity >= jaccardTh Then
-                ' 构建邻接表：u -> v 和 v -> u
-                If Not adjList.ContainsKey(result.U) Then adjList(result.U) = New Dictionary(Of Integer, Double)()
-                If Not adjList.ContainsKey(result.V) Then adjList(result.V) = New Dictionary(Of Integer, Double)()
+        Call $"[cdhit] similarity graph: {graph.Size} sequences have similar relations, elapsed {sw.ElapsedMilliseconds} ms".debug
 
-                adjList(result.U).Add(result.V, result.Similarity)
-                adjList(result.V).Add(result.U, result.Similarity)
-            End If
-        Next
+        sw.Restart()
 
-        ' 2. CD-HIT 核心：贪婪聚类
+        ' 2. CD-HIT 核心：贪婪聚类（必须串行）
         ' 标记是否已被归入某个簇
         Dim isClustered(seqPool.Length - 1) As Boolean
         Dim cluster As SimilarHit
+        Dim clusters As Integer = 0
 
-        For Each i As Integer In TqdmWrapper.Range(0, seqPool.Length)
+        ' 注意：代表序列不需要标记 isClustered(i)，因为循环只会按照下标递增的方向前进
+        For i As Integer = 0 To seqPool.Length - 1
             If isClustered(i) Then
                 ' 如果已经被归簇，跳过
                 Continue For
@@ -212,21 +208,23 @@ Public Class CDHit
             End If
 
             ' 遍历所有与 i 相似的邻居
-            If adjList.ContainsKey(i) Then
-                For Each neighbor In adjList(i).Keys
-                    If Not isClustered(neighbor) Then
-                        ' 这里可以加上阈值的二次确认，虽然 LSH 已经筛选过了
+            Dim neighbors As Dictionary(Of Integer, Double) = graph.Neighbors(i)
+
+            If neighbors IsNot Nothing Then
+                For Each neighbor As KeyValuePair(Of Integer, Double) In neighbors
+                    If Not isClustered(neighbor.Key) Then
                         ' CD-HIT 逻辑：将邻居标记为已归簇
-                        isClustered(neighbor) = True
-                        ' 记录相似度信息 (需要从之前的计算中获取，或重新计算)
-                        ' 为了简化示例，这里假设记录 ID 即可
-                        cluster.Similar.Add(seqPool(neighbor).Title, adjList(i)(neighbor))
+                        isClustered(neighbor.Key) = True
+                        cluster.Similar.Add(seqPool(neighbor.Key).Title, neighbor.Value)
                     End If
                 Next
             End If
 
+            clusters += 1
             Yield cluster
         Next
+
+        Call $"[cdhit] greedy clustering done: {clusters} clusters, elapsed {sw.ElapsedMilliseconds} ms".debug
     End Function
 
     Public Iterator Function NrSeqs(Optional threshold As Double = 0.8) As IEnumerable(Of FastaSeq)
