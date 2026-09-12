@@ -617,8 +617,60 @@ Namespace Skeleton
                 Next
             Next
 
+            ' 同一层上的节点按角度排序后在该层圆环上均匀重分布。
+            ' 原实现用「子树权重的角扇区中点」定位，深层且兄弟众多的层上会出现
+            ' 若干近乎重合的节点；后续消除重叠时，这些重合点会迫使整个布局被
+            ' 放大数百倍，最终所有街区在图面上小到看不见（密度崩塌）。
+            RedistributeRings(members, depth, positions)
+
             Return positions
         End Function
+
+        ''' <summary>把每个深度圆环上的节点按角度顺序均匀重排。</summary>
+        Private Sub RedistributeRings(members As List(Of String),
+                                      depth As Dictionary(Of String, Integer),
+                                      positions As Dictionary(Of String, PointF))
+
+            Dim rings As New Dictionary(Of Integer, List(Of String))()
+
+            For Each node As String In members
+                If Not positions.ContainsKey(node) Then
+                    Continue For
+                End If
+
+                Dim level As Integer = 0
+                depth.TryGetValue(node, level)
+
+                Dim bucket As List(Of String) = Nothing
+
+                If Not rings.TryGetValue(level, bucket) Then
+                    bucket = New List(Of String)()
+                    rings.Add(level, bucket)
+                End If
+
+                bucket.Add(node)
+            Next
+
+            For Each ring As KeyValuePair(Of Integer, List(Of String)) In rings
+                Dim radius As Double = ring.Key * RingStep
+
+                If ring.Key <= 0 OrElse radius <= 0 OrElse ring.Value.Count <= 1 Then
+                    Continue For
+                End If
+
+                Dim sorted As List(Of String) = ring.Value _
+                    .OrderBy(Function(n)
+                                 Dim pt As PointF = positions(n)
+                                 Return Math.Atan2(pt.Y, pt.X)
+                             End Function) _
+                    .ToList
+
+                For i As Integer = 0 To sorted.Count - 1
+                    Dim angle As Double = Math.PI * 2 * i / sorted.Count
+                    positions(sorted(i)) = New PointF(CSng(Math.Cos(angle) * radius), CSng(Math.Sin(angle) * radius))
+                Next
+            Next
+        End Sub
 
         ''' <summary>按候选边划分连通分量。</summary>
         Private Function FindComponents(nodes As String(), candidates As CategoryLink()) As List(Of List(Of String))

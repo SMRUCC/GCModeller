@@ -301,12 +301,18 @@ Namespace Floorplan
                     Next
                 Next
 
-                Dim positive As Double() = distances.Where(Function(d) d > 1E-06).ToArray()
+                Dim positive As Double() = distances.Where(Function(d) d > 1E-06).OrderBy(Function(d) d).ToArray()
 
                 If positive.Length > 0 Then
-                    Dim mean As Double = positive.Average()
-                    Dim want As Double = averageSize * 1.35
-                    scale = want / mean
+                    ' 用「最近邻距离」的低分位数作为基准，而不是平均距离：
+                    ' 平均距离被圆环上相距最远的两点主导，会让缩放系数偏小，
+                    ' 导致相邻街区一开始就大幅重叠，进而触发过度的全局放大。
+                    Dim index As Integer = Math.Min(positive.Length - 1,
+                                                    Math.Max(0, CInt(Math.Floor(positive.Length * 0.1))))
+                    Dim typical As Double = Math.Max(1E-06, positive(index))
+                    Dim want As Double = averageSize * 1.6
+
+                    scale = want / typical
                 End If
             End If
 
