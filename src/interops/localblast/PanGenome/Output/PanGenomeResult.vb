@@ -54,6 +54,8 @@
 #End Region
 
 Imports System.Runtime.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.Framework
 
 ''' <summary>
 ''' 分析结果存储结构（修改为支持多基因组）
@@ -128,5 +130,42 @@ Imports System.Runtime.Serialization
     ' 新增：遗传距离矩阵
     ' Key为 "GenomeA_vs_GenomeB"，Value为平均遗传距离
     Public Property GeneticDistanceMatrix As New Dictionary(Of String, Double)()
+
+    Public Function GetPAVMatrix() As DataFrame
+        Dim df As New DataFrame With {.rownames = PAVMatrix.Keys.ToArray}
+        Dim counter = PAVMatrix
+
+        For Each genome_id As String In TotalGenesInGenomes.Keys
+            Call df.add(genome_id, From family_id As String
+                                   In df.rownames
+                                   Let count = counter(family_id)
+                                   Select count.TryGetValue(genome_id))
+        Next
+
+        Return df
+    End Function
+
+    Public Function GetGeneticDistance() As DataFrame
+        Dim df As New DataFrame With {.rownames = TotalGenesInGenomes.Keys.ToArray}
+        Dim tuples = GeneticDistanceMatrix _
+            .Select(Function(d)
+                        Dim vs = d.Key.Split("_vs_")
+                        Return (a:=vs(0), b:=vs(1), d.Value)
+                    End Function) _
+            .GroupBy(Function(i) i.a) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.ToDictionary(Function(i) i.b, Function(i) i.Value)
+                          End Function)
+
+        For Each genome_id As String In df.rownames
+            Dim sin As Dictionary(Of String, Double) = tuples(genome_id)
+            Dim vec As Double() = sin.Takes(df.rownames).ToArray
+
+            Call df.add(genome_id, vec)
+        Next
+
+        Return df
+    End Function
 
 End Class

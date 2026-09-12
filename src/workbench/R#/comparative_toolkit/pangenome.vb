@@ -339,6 +339,22 @@ Module pangenome
         Return PanGenomeReportGenerator.GenerateReport(result, PanGenomeReportGenerator.DefaultHtmlTemplate)
     End Function
 
+    <ExportAPI("genetic_distance")>
+    Public Function GeneticDistance(result As PanGenomeResult) As Object
+        Return result.GetGeneticDistance
+    End Function
+
+    <ExportAPI("pav_matrix")>
+    Public Function pav_matrix(result As PanGenomeResult) As Object
+        Return result.GetPAVMatrix
+    End Function
+
+    <ExportAPI("curve_data")>
+    <RApiReturn(GetType(PangenomeCurveData))>
+    Public Function PangenomeCurveData(result As PanGenomeResult) As Object
+        Return result.PangenomeCurveData
+    End Function
+
     ''' <summary>
     ''' export structure variant result table
     ''' </summary>
