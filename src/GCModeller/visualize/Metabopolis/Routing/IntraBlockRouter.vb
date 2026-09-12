@@ -44,10 +44,10 @@ Namespace Routing
         Public Property MaxGridNodes As Integer = 900
 
         ''' <summary>车道生成的配对数量上限（性能保护）；其余配对走正交兜底折线。</summary>
-        Public Property MaxLanePairs As Integer = 400
+        Public Property MaxLanePairs As Integer = 1200
 
         ''' <summary>正交兜底折线的数量上限（性能保护）。</summary>
-        Public Property MaxFallbackLanes As Integer = 4000
+        Public Property MaxFallbackLanes As Integer = 6000
 
         ''' <summary>边权函数中的长度权重 p。</summary>
         Public Property LengthWeight As Double = 1.0
@@ -85,6 +85,19 @@ Namespace Routing
         ''' 因此这里改用确定性的环形散布作为兜底。
         ''' </remarks>
         Public Property MinHolaNodes As Integer = 6
+
+        ''' <summary>
+        ''' 单个「建筑块」允许容纳的最大节点数。
+        ''' </summary>
+        ''' <remarks>
+        ''' 论文要求街区继续被拆成多个建筑块；当一个连通分量特别大时
+        ''' （例如 SBML 的胞质区块包含数千个反应节点），必须把它切成若干块，
+        ''' 否则块内正交布局的规模会失控。
+        ''' </remarks>
+        Public Property MaxNodesPerBuilding As Integer = 240
+
+        ''' <summary>HOLA 允许处理的最大节点数；超过则改用确定性的网格散布。</summary>
+        Public Property MaxHolaNodes As Integer = 320
 
         Private _hola As HolaOptions
 
@@ -222,8 +235,9 @@ Namespace Routing
                 interior = Rect.FromSize(block.X, block.Y, Math.Max(8, block.Width), Math.Max(8, block.Height))
             End If
 
-            ' 子图的连通分量 —— 每个分量成为一个建筑块
-            Dim components As List(Of List(Of String)) = ConnectedComponents(graph)
+            ' 子图的连通分量 —— 每个分量成为一个建筑块；
+            ' 过大的分量再按 MaxNodesPerBuilding 切块，保证块内布局规模有界
+            Dim components As List(Of List(Of String)) = Chunk(ConnectedComponents(graph), Options.MaxNodesPerBuilding)
 
             Dim items As New List(Of TreeMapItem)()
 
@@ -283,6 +297,29 @@ Namespace Routing
             Return positions
         End Function
 
+        ''' <summary>把超过 <paramref name="maxSize"/> 的分量切成等大的块。</summary>
+        Private Shared Function Chunk(components As List(Of List(Of String)), maxSize As Integer) As List(Of List(Of String))
+            Dim limit As Integer = Math.Max(16, maxSize)
+            Dim result As New List(Of List(Of String))()
+
+            For Each component As List(Of String) In components
+                If component.Count <= limit Then
+                    result.Add(component)
+                    Continue For
+                End If
+
+                Dim offset As Integer = 0
+
+                While offset < component.Count
+                    Dim take As Integer = Math.Min(limit, component.Count - offset)
+                    result.Add(component.GetRange(offset, take))
+                    offset += take
+                End While
+            Next
+
+            Return result
+        End Function
+
         Private Shared Function SubGraphOf(graph As NetworkGraph, labels As List(Of String)) As NetworkGraph
             Dim extracted As New NetworkGraph()
             Dim inside As New HashSet(Of String)(labels, StringComparer.Ordinal)
@@ -336,10 +373,13 @@ Namespace Routing
             Dim result As New Dictionary(Of String, PointF)(StringComparer.Ordinal)
 
             If componentGraph.vertex IsNot Nothing AndAlso componentGraph.vertex.Any() Then
-                If componentGraph.graphEdges IsNot Nothing AndAlso
-                   componentGraph.graphEdges.Any() AndAlso
-                   componentGraph.vertex.Count() >= Options.MinHolaNodes Then
+                Dim nodeCount As Integer = componentGraph.vertex.Count()
+                Dim hasEdges As Boolean = componentGraph.graphEdges IsNot Nothing AndAlso componentGraph.graphEdges.Any()
 
+                If nodeCount > Options.MaxHolaNodes Then
+                    ' 规模超出 HOLA 的承受范围：用确定性的网格散布，保证耗时可控
+                    FallbackGrid(componentGraph)
+                ElseIf hasEdges AndAlso nodeCount >= Options.MinHolaNodes Then
                     If Not InvokeHola(componentGraph) Then
                         ' HOLA 对某些输入不适用，退化为环形散布
                         FallbackCircular(componentGraph)
@@ -375,6 +415,29 @@ Namespace Routing
 
                 If nodes(i).data IsNot Nothing Then
                     nodes(i).data.initialPostion = New FDGVector2(Math.Cos(angle) * radius, Math.Sin(angle) * radius)
+                End If
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 确定性网格散布：用于规模超出 HOLA 承受范围的超大分量。
+        ''' </summary>
+        Private Shared Sub FallbackGrid(componentGraph As NetworkGraph)
+            Dim nodes As Node() = componentGraph.vertex.SafeQuery.ToArray()
+
+            If nodes.Length = 0 Then
+                Return
+            End If
+
+            Dim columns As Integer = Math.Max(1, CInt(Math.Ceiling(Math.Sqrt(nodes.Length))))
+            Const spacing As Double = 24
+
+            For i As Integer = 0 To nodes.Length - 1
+                Dim row As Integer = i \ columns
+                Dim column As Integer = i Mod columns
+
+                If nodes(i).data IsNot Nothing Then
+                    nodes(i).data.initialPostion = New FDGVector2(column * spacing, row * spacing)
                 End If
             Next
         End Sub
