@@ -78,7 +78,10 @@ Public Class FeatureElement : Implements IReadOnlyId
 
     Default Public ReadOnly Property getValue(key As String) As ValueString()
         Get
-            Return attributes.TryGetValue(key)
+            ' mute:=True —— BioCyc 的 .dat 是稀疏的属性-值文件：某个条目缺少某个槽位
+            ' 是完全正常的，反射绑定会逐槽位查询。若不静默，DEBUG 下会为每个缺失槽位
+            ' 打印一条日志，既淹没控制台也严重拖慢整库解析。
+            Return attributes.TryGetValue(key, mute:=True)
         End Get
     End Property
 
