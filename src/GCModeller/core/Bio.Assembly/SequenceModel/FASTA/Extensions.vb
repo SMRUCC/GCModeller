@@ -128,11 +128,17 @@ Namespace SequenceModel.FASTA
             Dim unique As String() = titles.UniqueNames(duplicated:=duplicated)
 
             If Not duplicated.IsNullOrEmpty Then
-                Call $"found {duplicated.Length} duplicated fasta header: {duplicated.Concatenate}".warning
+                Call $"found {duplicated.Length} duplicated fasta header: {duplicated.Take(20).Concatenate}...".warning
             End If
 
             For i As Integer = 0 To all.Length - 1
-                Yield New FastaSeq(all(i).SequenceData, title:=unique(i))
+                If unique(i) = all(i).Title Then
+                    ' 绝大多数的序列标题都是没有冲突的，这个时候直接复用原来的序列对象即可，
+                    ' 避免在数百万条序列的数据集上面产生大量无意义的对象分配
+                    Yield all(i)
+                Else
+                    Yield New FastaSeq(all(i).SequenceData, title:=unique(i))
+                End If
             Next
         End Function
     End Module
