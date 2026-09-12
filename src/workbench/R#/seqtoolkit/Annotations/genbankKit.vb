@@ -220,6 +220,18 @@ Module genbankKit
         End If
     End Function
 
+    <ExportAPI("moltype")>
+    <RApiReturn(GetType(MolTypeEvidence))>
+    Public Function moltype(<RRawVectorArgument(GetType(GBFF.File))> gb As Object, Optional env As Environment = Nothing) As Object
+
+    End Function
+
+    <ExportAPI("assembly_level")>
+    <RApiReturn(GetType(AssemblyLevelEvidence))>
+    Public Function assembly_level(<RRawVectorArgument(GetType(GBFF.File))> gb As Object, Optional env As Environment = Nothing) As Object
+
+    End Function
+
     ''' <summary>
     ''' populate a list of genbank data objects from a given list of files or stream.
     ''' </summary>
