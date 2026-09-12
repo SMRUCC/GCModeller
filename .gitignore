@@ -575,3 +575,5 @@ src/.vs/GCModeller.slnx/v18/DocumentLayout.backup.json
 /src/interops/visualize/.vs/Phylip.slnx/v18/DocumentLayout.json
 src/GCModeller/visualize/Metabopolis/test/err.txt
 src/GCModeller/visualize/Metabopolis/test/log.txt
+src/GCModeller/visualize/log.txt
+src/GCModeller/visualize/err.txt
