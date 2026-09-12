@@ -241,58 +241,13 @@ Namespace Skeleton
                 ' 2. 生成树（带度数上限的 Kruskal）
                 Dim tree As List(Of SkeletonEdge) = BuildSpanningTree(group, subset, treeEdgeIds)
 
-                ' 3. 贪心扩展（平面 / 弦无 / 度<=4）
-                Dim adjacency As New Dictionary(Of String, List(Of String))(StringComparer.Ordinal)
-                Dim degree As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
-
-                For Each node As String In group
-                    adjacency(node) = New List(Of String)()
-                    degree(node) = 0
-                Next
-
-                For Each edge As SkeletonEdge In tree
-                    Link(adjacency, degree, edge)
-                Next
-
-                Dim greedily As New List(Of SkeletonEdge)()
-
-                For Each link_ As CategoryLink In subset
-                    Dim edge As New SkeletonEdge With {
-                        .Source = link_.Source,
-                        .Target = link_.Target,
-                        .Weight = link_.Weight,
-                        .SharedMetabolites = link_.SharedMetabolites,
-                        .IsTreeEdge = False
-                    }
-
-                    If treeEdgeIds.Contains(edge.Id) Then
-                        Continue For
-                    End If
-
-                    If degree(edge.Source) >= MaxDegree OrElse degree(edge.Target) >= MaxDegree Then
-                        Continue For
-                    End If
-
-                    If Not IsDifferentTwoEdgeComponent(group, adjacency, edge.Source, edge.Target) Then
-                        Continue For
-                    End If
-
-                    If Not CanBeDrawnWithoutCrossing(accepted, tree, greedily, positions, group, subset, edge) Then
-                        ' 位置表尚未建立时（首次布局之前）直接接受，稍后统一校验
-                        Continue For
-                    End If
-
-                    Link(adjacency, degree, edge)
-                    greedily.Add(edge)
-                Next
-
-                ' 4. 该分量的无交叉初始布局（径向树布局，树必然可无交叉绘制）
+                ' 3. 该分量的无交叉初始布局（径向树布局，树边必然可无交叉绘制）
                 Dim localPositions As Dictionary(Of String, PointF) = RadialTreeLayout(group, tree)
 
-                ' 5. 用真实坐标重新执行一次贪心扩展（几何校验依赖坐标）
-                Dim finalEdges As List(Of SkeletonEdge) = GreedyExtend(group, subset, tree, treeEdgeIds, localPositions)
+                ' 4. 以真实坐标为参照执行贪心扩展（平面 / 弦无 / 度<=4）
+                Dim extraEdges As List(Of SkeletonEdge) = GreedyExtend(group, subset, tree, treeEdgeIds, localPositions)
 
-                For Each edge As SkeletonEdge In finalEdges
+                For Each edge As SkeletonEdge In extraEdges
                     accepted.Add(edge)
                 Next
 
@@ -300,14 +255,12 @@ Namespace Skeleton
                 Dim minX As Double = Double.MaxValue
                 Dim maxX As Double = Double.MinValue
                 Dim minY As Double = Double.MaxValue
-                Dim maxY As Double = Double.MinValue
 
                 For Each node As String In group
                     Dim pt As PointF = localPositions(node)
                     minX = Math.Min(minX, pt.X)
                     maxX = Math.Max(maxX, pt.X)
                     minY = Math.Min(minY, pt.Y)
-                    maxY = Math.Max(maxY, pt.Y)
                 Next
 
                 For Each node As String In group
@@ -316,8 +269,6 @@ Namespace Skeleton
                 Next
 
                 offsetX += (maxX - minX) + RingStep * 2
-                ' maxY/minY 保留给将来竖直方向的分量打包使用
-                Dim unused As Double = maxY - minY
             Next
 
             Return New SkeletonResult With {
@@ -383,9 +334,7 @@ Namespace Skeleton
                 occupied.Add(edge.Id)
             Next
 
-            Dim result As New List(Of SkeletonEdge)(acceptedExtra)
-
-            Return result
+            Return acceptedExtra
         End Function
 
         Private Shared Function CrossesAny(tree As List(Of SkeletonEdge),
@@ -624,12 +573,14 @@ Namespace Skeleton
 
             positions(root) = New PointF(0, 0)
 
-            Dim angle As New Dictionary(Of String, (start As Double, [end] As Double))(StringComparer.Ordinal)
-            angle(root) = (0.0, Math.PI * 2)
+            Dim angleStart As New Dictionary(Of String, Double)(StringComparer.Ordinal)
+            Dim angleEnd As New Dictionary(Of String, Double)(StringComparer.Ordinal)
+            angleStart(root) = 0.0
+            angleEnd(root) = Math.PI * 2
 
             For i As Integer = 0 To order.Count - 1
                 Dim u As String = order(i)
-                Dim span As Double = angle(u).[end] - angle(u).start
+                Dim span As Double = angleEnd(u) - angleStart(u)
                 Dim childList As New List(Of String)()
 
                 For Each v As String In adjacency(u)
@@ -648,14 +599,15 @@ Namespace Skeleton
                     total += weight(v)
                 Next
 
-                Dim cursor As Double = angle(u).start
+                Dim cursor As Double = angleStart(u)
 
                 For Each v As String In childList
                     Dim part As Double = span * weight(v) / total
-                    angle(v) = (cursor, cursor + part)
+                    angleStart(v) = cursor
+                    angleEnd(v) = cursor + part
                     cursor += part
 
-                    Dim mid As Double = (angle(v).start + angle(v).[end]) / 2.0
+                    Dim mid As Double = (angleStart(v) + angleEnd(v)) / 2.0
                     Dim radius As Double = depth(v) * RingStep
                     positions(v) = New PointF(CSng(Math.Cos(mid) * radius), CSng(Math.Sin(mid) * radius))
                 Next
@@ -830,20 +782,6 @@ Namespace Skeleton
 
         Private Shared Function Cross(o As PointF, a As PointF, b As PointF) As Double
             Return (CDbl(a.X) - o.X) * (CDbl(b.Y) - o.Y) - (CDbl(a.Y) - o.Y) * (CDbl(b.X) - o.X)
-        End Function
-
-        ''' <summary>
-        ''' 占位检查：在 GreedyExtend 之前的那一轮贪心扩展只做结构校验，
-        ''' 该函数始终返回 False（结构校验通过即接受），真正的几何校验在 GreedyExtend 中完成。
-        ''' </summary>
-        Private Function CanBeDrawnWithoutCrossing(accepted As List(Of SkeletonEdge),
-                                                   tree As List(Of SkeletonEdge),
-                                                   greedily As List(Of SkeletonEdge),
-                                                   positions As Dictionary(Of String, PointF),
-                                                   group As List(Of String),
-                                                   subset As CategoryLink(),
-                                                   edge As SkeletonEdge) As Boolean
-            Return True
         End Function
 
     End Class
