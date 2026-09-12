@@ -228,7 +228,9 @@ Namespace Level3
                                 Dim name = tokens(tokens.Length - 2)
                                 Dim id = tokens(tokens.Length - 1)
 
-                                Return New DBLink(dbnames.TryGetValue(name, [default]:=name), id)
+                                ' mute:=True —— 未登记的外部数据库名是常态（每份 SBML 都会带若干种），
+                                ' 否则 DEBUG 下会为每一条交叉引用打一条日志，拖慢整库解析
+                                Return New DBLink(dbnames.TryGetValue(name, [default]:=name, mute:=True), id)
                             End Function) _
                     .ToArray
             End Get

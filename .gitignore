@@ -573,3 +573,5 @@ src/.vs/GCModeller.slnx/v18/DocumentLayout.backup.json
 /src/GCModeller/analysis/RNA-Seq/.vs/TSSAR.slnx/v18/DocumentLayout.json
 /src/interops/visualize/.vs/Phylip.slnx/v18/DocumentLayout.backup.json
 /src/interops/visualize/.vs/Phylip.slnx/v18/DocumentLayout.json
+src/GCModeller/visualize/Metabopolis/test/err.txt
+src/GCModeller/visualize/Metabopolis/test/log.txt
