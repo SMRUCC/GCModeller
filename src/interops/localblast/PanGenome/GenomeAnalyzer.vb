@@ -693,7 +693,7 @@ Public Class GenomeAnalyzer
             Return
         End If
 
-        Dim maps(totalGenomes - 1) As Dictionary(Of Integer, Integer)()
+        Dim maps(totalGenomes - 1) As Dictionary(Of Integer, Integer)
 
         familyToGene = maps
 
