@@ -1516,12 +1516,17 @@
 
         // 6. 遗传距离热图
         function initDistanceHeatmap() {
-            const chart = echarts.init(document.getElementById('distanceHeatmap'));
+            const dom = document.getElementById('distanceHeatmap');
 
             if (!geneticDistanceData.genomes || geneticDistanceData.genomes.length === 0) {
-                document.getElementById('distanceHeatmap').innerHTML = '<p class="no-data">遗传距离数据不可用</p>';
+                dom.innerHTML = '<p class="no-data">遗传距离数据不可用</p>';
                 return null;
             }
+
+            // 基因组数量越多，热图越需要更高的展示区域
+            dom.style.height = autoHeatmapHeight(geneticDistanceData.genomes.length, 22, 400) + 'px';
+
+            const chart = echarts.init(dom);
 
             const data = [];
             geneticDistanceData.data.forEach((row, i) => {
@@ -1598,15 +1603,392 @@
             return chart;
         }
 
+        // ============================================
+        // 7. 基因组基本信息统计：表格渲染 + 名称搜索 + 基因总数直方图
+        // ============================================
+        let genomeHistogramSelection = null;   // Set<string> | null
+
+        function renderGenomeStatsTable() {
+            const tbody = document.getElementById('genomeStatsBody');
+            if (!tbody) return;
+
+            const fragment = document.createDocumentFragment();
+
+            genomeStatsData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.dataset.genome = row.name;
+
+                const tdName = document.createElement('td');
+                tdName.className = 'genome-name';
+                tdName.textContent = row.name;
+
+                const tdGene = document.createElement('td');
+                tdGene.textContent = row.geneCount;
+
+                const tdSpecific = document.createElement('td');
+                tdSpecific.textContent = row.specificCount;
+
+                const tdRatio = document.createElement('td');
+                tdRatio.textContent = (row.coreRatio || 0).toFixed(2) + '%';
+
+                tr.append(tdName, tdGene, tdSpecific, tdRatio);
+                fragment.appendChild(tr);
+            });
+
+            tbody.innerHTML = '';
+            tbody.appendChild(fragment);
+        }
+
+        function applyGenomeFilter() {
+            const searchEl = document.getElementById('genomeSearch');
+            const keyword = searchEl ? searchEl.value.trim().toLowerCase() : '';
+            const rows = document.querySelectorAll('#genomeStatsBody tr');
+            let visible = 0;
+
+            rows.forEach(tr => {
+                const name = tr.dataset.genome || '';
+                let matched = !keyword || name.toLowerCase().indexOf(keyword) >= 0;
+
+                if (matched && genomeHistogramSelection) {
+                    matched = genomeHistogramSelection.has(name);
+                }
+
+                tr.style.display = matched ? '' : 'none';
+                if (matched) visible += 1;
+            });
+
+            const counter = document.getElementById('genomeStatsCount');
+            if (counter) {
+                counter.textContent = `显示 ${visible} / 共 ${genomeStatsData.length}`;
+            }
+        }
+
+        function bindGenomeSearch() {
+            const searchEl = document.getElementById('genomeSearch');
+            if (!searchEl) return;
+
+            searchEl.addEventListener('input', applyGenomeFilter);
+        }
+
+        function initGeneCountHistogram() {
+            const dom = document.getElementById('geneCountHistogram');
+            if (!dom) return null;
+
+            if (genomeStatsData.length === 0) {
+                dom.innerHTML = '<p class="no-data">无基因组数据</p>';
+                return null;
+            }
+
+            const chart = echarts.init(dom);
+            const BIN_COUNT = 20;
+
+            let min = Infinity;
+            let max = -Infinity;
+
+            genomeStatsData.forEach(row => {
+                if (row.geneCount < min) min = row.geneCount;
+                if (row.geneCount > max) max = row.geneCount;
+            });
+
+            const span = max - min;
+            const binWidth = span > 0 ? span / BIN_COUNT : 1;
+            const bins = [];
+
+            for (let i = 0; i < BIN_COUNT; i++) {
+                const lo = min + i * binWidth;
+                const hi = i === BIN_COUNT - 1 ? max : lo + binWidth;
+                bins.push({ lo: lo, hi: hi, names: [] });
+            }
+
+            genomeStatsData.forEach(row => {
+                let idx = span > 0 ? Math.floor((row.geneCount - min) / binWidth) : 0;
+                if (idx < 0) idx = 0;
+                if (idx >= BIN_COUNT) idx = BIN_COUNT - 1;
+                bins[idx].names.push(row.name);
+            });
+
+            const labels = bins.map(bin => `${Math.round(bin.lo)} ~ ${Math.round(bin.hi)}`);
+
+            let selectedBin = -1;
+
+            function seriesData() {
+                return bins.map((bin, i) => ({
+                    value: bin.names.length,
+                    itemStyle: {
+                        color: i === selectedBin
+                            ? '#f59e0b'
+                            : {
+                                type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+                                colorStops: [
+                                    { offset: 0, color: '#3b82f6' },
+                                    { offset: 1, color: '#10b981' }
+                                ]
+                            }
+                    }
+                }));
+            }
+
+            const option = {
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: '#1a2332',
+                    borderColor: '#2d3748',
+                    textStyle: { color: '#f1f5f9' },
+                    axisPointer: { type: 'shadow' },
+                    formatter: function (params) {
+                        const bin = bins[params[0].dataIndex];
+                        return `基因总数 ${Math.round(bin.lo)} ~ ${Math.round(bin.hi)}<br/>基因组数: ${bin.names.length}`;
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    top: '12%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    name: '基因总数',
+                    nameTextStyle: chartTextStyle,
+                    data: labels,
+                    axisLabel: Object.assign({ rotate: 45, fontSize: 10 }, chartTextStyle),
+                    axisLine: { lineStyle: { color: '#2d3748' } }
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '基因组数',
+                    nameTextStyle: chartTextStyle,
+                    axisLabel: chartTextStyle,
+                    axisLine: { lineStyle: { color: '#2d3748' } },
+                    splitLine: { lineStyle: { color: '#2d3748', type: 'dashed' } }
+                },
+                series: [{
+                    type: 'bar',
+                    data: seriesData(),
+                    barWidth: '60%',
+                    itemStyle: { borderRadius: [4, 4, 0, 0] },
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+            };
+
+            chart.setOption(option);
+
+            chart.on('click', function (params) {
+                const idx = params.dataIndex;
+
+                if (selectedBin === idx) {
+                    // 再次点击同一柱子 -> 取消筛选
+                    selectedBin = -1;
+                    genomeHistogramSelection = null;
+                } else {
+                    selectedBin = idx;
+                    genomeHistogramSelection = new Set(bins[idx].names);
+                }
+
+                chart.setOption({ series: [{ data: seriesData() }] });
+                applyGenomeFilter();
+            });
+
+            return chart;
+        }
+
+        // ============================================
+        // 8. 共线性可视化：基因组×基因组共线基因对矩阵 + Top 区块条形图
+        // ============================================
+        function initCollinearityHeatmap() {
+            const dom = document.getElementById('collinearityHeatmap');
+            if (!dom) return null;
+
+            const genomes = collinearityData.genomes || [];
+
+            if (genomes.length === 0) {
+                dom.innerHTML = '<p class="no-data">未检测到共线性数据</p>';
+                return null;
+            }
+
+            dom.style.height = autoHeatmapHeight(genomes.length, 22, 420) + 'px';
+
+            const chart = echarts.init(dom);
+            const data = [];
+            let maxValue = 0;
+
+            for (let i = 0; i < genomes.length; i++) {
+                for (let j = 0; j < genomes.length; j++) {
+                    const value = (collinearityData.matrix[i] || [])[j] || 0;
+                    if (value > maxValue) maxValue = value;
+                    data.push([j, i, value]);
+                }
+            }
+
+            if (maxValue <= 0) maxValue = 1;
+
+            const option = {
+                tooltip: {
+                    position: 'top',
+                    backgroundColor: '#1a2332',
+                    borderColor: '#2d3748',
+                    textStyle: { color: '#f1f5f9' },
+                    formatter: function (params) {
+                        const col = params.data[0];
+                        const row = params.data[1];
+                        return `${genomes[row]} ↔ ${genomes[col]}<br/>共线基因对: ${params.data[2]}`;
+                    }
+                },
+                grid: {
+                    left: '18%',
+                    right: '8%',
+                    bottom: '18%',
+                    top: '5%'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: genomes,
+                    splitArea: { show: true },
+                    axisLabel: { color: '#94a3b8', rotate: 45, fontSize: 9 },
+                    axisLine: { lineStyle: { color: '#2d3748' } }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: genomes,
+                    splitArea: { show: true },
+                    axisLabel: { color: '#94a3b8', fontSize: 9 },
+                    axisLine: { lineStyle: { color: '#2d3748' } }
+                },
+                visualMap: {
+                    min: 0,
+                    max: maxValue,
+                    calculable: true,
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: '2%',
+                    inRange: {
+                        color: ['#1a2332', '#164e63', '#0e7490', '#06b6d4', '#22d3ee', '#67e8f9']
+                    },
+                    textStyle: chartTextStyle
+                },
+                series: [{
+                    type: 'heatmap',
+                    data: data,
+                    label: { show: false },
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+            };
+
+            chart.setOption(option);
+            return chart;
+        }
+
+        function initCollinearityBarChart() {
+            const dom = document.getElementById('collinearityBarChart');
+            if (!dom) return null;
+
+            // 横向条形图的类别顺序是从下往上的，这里反转一次使得区块基因对数最多的显示在最上方
+            const blocks = (collinearityData.blocks || []).slice().reverse();
+
+            if (blocks.length === 0) {
+                dom.innerHTML = '<p class="no-data">未检测到共线性区块</p>';
+                return null;
+            }
+
+            dom.style.height = Math.max(320, blocks.length * 30 + 80) + 'px';
+
+            const chart = echarts.init(dom);
+            const labels = blocks.map(b => `${b.genome1} ↔ ${b.genome2}`);
+
+            const option = {
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: '#1a2332',
+                    borderColor: '#2d3748',
+                    textStyle: { color: '#f1f5f9' },
+                    axisPointer: { type: 'shadow' },
+                    formatter: function (params) {
+                        const block = blocks[params[0].dataIndex];
+                        return `${block.genome1} ↔ ${block.genome2}<br/>${block.chr1} ↔ ${block.chr2}<br/>共线基因对: ${block.pairs}`;
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '12%',
+                    bottom: '3%',
+                    top: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    name: '共线基因对',
+                    nameTextStyle: chartTextStyle,
+                    axisLabel: chartTextStyle,
+                    axisLine: { lineStyle: { color: '#2d3748' } },
+                    splitLine: { lineStyle: { color: '#2d3748', type: 'dashed' } }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: labels,
+                    axisLabel: {
+                        color: '#94a3b8',
+                        fontSize: 10,
+                        width: 220,
+                        overflow: 'truncate'
+                    },
+                    axisLine: { lineStyle: { color: '#2d3748' } }
+                },
+                series: [{
+                    type: 'bar',
+                    data: blocks.map(b => b.pairs),
+                    barWidth: '55%',
+                    itemStyle: {
+                        borderRadius: [0, 6, 6, 0],
+                        color: {
+                            type: 'linear', x: 0, y: 0, x2: 1, y2: 0,
+                            colorStops: [
+                                { offset: 0, color: '#10b981' },
+                                { offset: 1, color: '#3b82f6' }
+                            ]
+                        }
+                    },
+                    label: { show: true, position: 'right', color: '#94a3b8', fontSize: 10 }
+                }]
+            };
+
+            chart.setOption(option);
+            return chart;
+        }
+
         // 初始化所有图表
         document.addEventListener('DOMContentLoaded', function () {
+            renderGenomeStatsTable();
+            bindGenomeSearch();
+            applyGenomeFilter();
+
+            setTruncateNote('pavHeatmapNote', pavData.truncated,
+                `为保证渲染性能，PAV 热图抽样展示了 ${pavData.families.length} 个基因家族 / ${pavData.genomes.length} 个基因组。`);
+            setTruncateNote('distanceHeatmapNote', geneticDistanceData.truncated,
+                `为保证渲染性能，遗传距离热图抽样展示了 ${geneticDistanceData.genomes.length} 个基因组。`);
+            setTruncateNote('collinearityNote', collinearityData.truncated,
+                `为保证渲染性能，共线性矩阵仅展示了参与共线性最多的 ${collinearityData.genomes.length} 个基因组。`);
+
             const charts = [
                 initPieChart(),
                 initBarChart(),
                 initCurveChart(),
+                initGeneCountHistogram(),
                 initPAVHeatmap(),
                 initSVChart(),
-                initDistanceHeatmap()
+                initDistanceHeatmap(),
+                initCollinearityHeatmap(),
+                initCollinearityBarChart()
             ];
 
             // 响应式
