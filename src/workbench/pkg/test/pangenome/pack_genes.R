@@ -14,6 +14,8 @@ let get_proteins = function(gb) {
 let targets = open.fasta(file.path(result,"proteins.faa"), read=  FALSE);
 
 for(let gb in gbff |> take(500)) {
+    print(accession_id(gb));
+    
     table = c(table, as_tabular(gb));
     write.fasta(get_proteins(gb), file = targets, filter.empty = TRUE);
 }
