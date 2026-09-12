@@ -212,6 +212,88 @@ Namespace Evolview
             ' if tree is valid
         End Sub
 
+        ''' <summary>
+        ''' 由算法直接构建的 <see cref="PhyloNode"/> 拓扑构建一棵系统发育树对象。
+        ''' 该构造函数会重建节点的关键变量（距离根的距离、到叶节点的最大距离、水平/垂直层级以及内部哈希索引），
+        ''' 从而使得由算法生成的树同样可以使用 <see cref="toTreeString"/> 输出 Newick 文本。
+        ''' </summary>
+        ''' <param name="name">树的名称</param>
+        ''' <param name="root">算法计算得到的根节点（内部节点或者无根树的三叉根节点）</param>
+        Private Sub New(name As String, root As PhyloNode)
+            Me._TreeName = name
+            Me._InternalTreeStringData = ""
+            Me._TreeFormat = "newick"
+            Me._RootNode = root
+
+            ' 字段初始化器在构造函数体执行之前已经建立了一批容器，这里先清空再由算法拓扑重建
+            Call Me._AllNodes.Clear()
+            Call Me._LeafNodes.Clear()
+            Call Me._hashID2Nodes.Clear()
+            Call Me._hsInternalID2ExternalID.Clear()
+
+            Me.serial_internal_node = 0
+            Me.serial_leaf_node = 0
+
+            Call __normalizeNode(root, Nothing)
+
+            Me._RootNode = root
+            root.IsRoot = True
+            root.Parent = Nothing
+
+            Call Me.reMakeEssentialVariables(root, 0)
+
+            Me.isValidDataset = Me._AllNodes.Count >= 3
+            Me.isTreeEndWithSemiColon = True
+            Me.HasBranchLength = Me.HasBranchLength()
+            Me.reCalcDistanceToRoot()
+            Me.reCalcMaxDistanceToTip()
+            Me.InternalReCalcLevels()
+        End Sub
+
+        ''' <summary>
+        ''' 规范化由算法构建的节点：补全空白的内部编号，并依据子节点关系修正 <see cref="PhyloNode.IsLeaf"/> /
+        ''' <see cref="PhyloNode.IsRoot"/> 以及父节点引用。
+        ''' </summary>
+        Private Sub __normalizeNode(node As PhyloNode, parent As PhyloNode)
+            node.Parent = parent
+            node.IsLeaf = node.Descendents.Count = 0
+            node.IsRoot = parent Is Nothing
+
+            If String.IsNullOrEmpty(node.InternalID) Then
+                If node.IsLeaf Then
+                    Me.serial_leaf_node += 1
+                    node.InternalID = "LEF_" & Me.serial_leaf_node
+                Else
+                    Me.serial_internal_node += 1
+                    node.InternalID = "INT" & Me.serial_internal_node
+                End If
+            End If
+
+            If node.ID Is Nothing Then
+                node.ID = ""
+            End If
+
+            For Each child As PhyloNode In node.Descendents
+                Call __normalizeNode(child, node)
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 标记当前树包含 bootstrap 支持度数据，从而允许 <see cref="toTreeString"/> 输出内部节点的支持度。
+        ''' </summary>
+        Friend Sub MarkBootstrapScores()
+            Me.hasBootStrap = True
+        End Sub
+
+        ''' <summary>
+        ''' 由算法计算得到的树拓扑（<see cref="PhyloNode"/> 根节点）构建 <see cref="PhyloTree"/> 对象。
+        ''' </summary>
+        ''' <param name="name">树的名称</param>
+        ''' <param name="root">算法计算得到的根节点</param>
+        Friend Shared Function FromNodes(name As String, root As PhyloNode) As PhyloTree
+            Return New PhyloTree(name, root)
+        End Function
+
         Private Sub InternalReDoID2Node()
             Dim i As Integer = 1
 

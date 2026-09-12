@@ -316,19 +316,32 @@ Namespace Evolview
         ''' make a new copy of current node
         ''' </summary>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' 这里返回的是当前节点以及其所有子树节点的**深拷贝**：原实现只是复制了
+        ''' <see cref="Descendents"/> 的引用，导致克隆出来的树共享子树，无法用于
+        ''' 树搜索（NNI/SPR）中的拓扑状态保存与回滚。
+        ''' </remarks>
         Public Function Clone() As PhyloNode
             Dim NewNode As New PhyloNode()
 
             NewNode.BootStrap = BootStrap
             NewNode.BranchLength = BranchLength
-            NewNode.Descendents = Descendents
-            ' this isn't clone yet
             NewNode.Description = Description
             NewNode.ID = ID
             NewNode.InternalID = InternalID
-            NewNode.Parent = _Parent
-            ' this isn't clone yet
+            NewNode.IsLeaf = IsLeaf
+            NewNode.IsRoot = IsRoot
+            NewNode.MaxDistanceToTip = MaxDistanceToTip
+            NewNode.BranchLengthToRoot = BranchLengthToRoot
+            NewNode.LevelHorizontal = LevelHorizontal
+            NewNode.LevelVertical = LevelVertical
+            NewNode.AdditionalAttributs = AdditionalAttributs
+
+            ' 递归复制子树（AddDescendent 会自动设置 Parent 引用）
+            For Each child As PhyloNode In Descendents
+                Call NewNode.AddDescendent(child.Clone())
+            Next
+
             Return NewNode
         End Function
 
