@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::bfed5e835073e51a3db6e1fef161cb34, R#\comparative_toolkit\pangenome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 242
-    '    Code Lines: 182 (75.21%)
-    ' Comment Lines: 16 (6.61%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 44 (18.18%)
-    '     File Size: 10.39 KB
+' Summaries:
 
 
-    ' Module pangenome
-    ' 
-    '     Function: analysis, build_context, pav_df, pav_table, report_html
-    '               set_ortho_group, set_sourceID, sv_df, sv_table
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 242
+'    Code Lines: 182 (75.21%)
+' Comment Lines: 16 (6.61%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 44 (18.18%)
+'     File Size: 10.39 KB
+
+
+' Module pangenome
+' 
+'     Function: analysis, build_context, pav_df, pav_table, report_html
+'               set_ortho_group, set_sourceID, sv_df, sv_table
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.ApplicationServices
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
@@ -70,6 +70,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' pan-genome analysis toolkit
@@ -82,7 +83,21 @@ Module pangenome
     Sub Main()
         Call Converts.makeDataframe.addHandler(GetType(PAVTable()), AddressOf pav_df)
         Call Converts.makeDataframe.addHandler(GetType(SVTable()), AddressOf sv_df)
+
+        Call RInternal.generic.add("writeBin", GetType(PanGenomeResult), AddressOf SaveResult)
+        Call RInternal.generic.add("readBin.pangenome", GetType(Stream), AddressOf LoadResultData)
     End Sub
+
+    Public Function SaveResult(result As PanGenomeResult, args As list, env As Environment) As Object
+        Dim con As Stream = args!con
+        Call result.Save(con)
+        Call con.Flush()
+        Return True
+    End Function
+
+    Public Function LoadResultData(s As Stream, args As list, env As Environment) As Object
+        Return PanGenomeResult.LoadStream(s)
+    End Function
 
     <RGenericOverloads("as.data.frame")>
     Private Function sv_df(sv As SVTable(), args As list, env As Environment) As dataframe

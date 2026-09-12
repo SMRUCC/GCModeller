@@ -24,6 +24,9 @@ let geneset = read_genetable(file.path(dir,"genes.csv"));
 let context = build_context(geneset,uniqueByAcc=TRUE);
 let result = pangenome::analysis(context, orth);
 
+writeBin(result, con = file.path(dir, "result.zip"));
+result = readBin(con =file.path(dir, "result.zip"), what = "pangenome");
+
 write.csv(genetic_distance(result), file = file.path(dir, "genetic_distance.csv"));
 write.csv(pav_matrix(result), file = file.path(dir, "pav_matrix.csv"));
 write.csv(curve_data(result), file = file.path(dir, "pangenome_curve.csv"));
