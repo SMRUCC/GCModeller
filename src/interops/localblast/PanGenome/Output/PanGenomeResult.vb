@@ -147,19 +147,34 @@ Imports Microsoft.VisualBasic.Data.Framework
 
     Public Function GetGeneticDistance() As DataFrame
         Dim df As New DataFrame With {.rownames = TotalGenesInGenomes.Keys.ToArray}
-        Dim tuples = GeneticDistanceMatrix _
-            .Select(Function(d)
-                        Dim vs = d.Key.Split("_vs_")
-                        Return (a:=vs(0), b:=vs(1), d.Value)
-                    End Function) _
-            .GroupBy(Function(i) i.a) _
-            .ToDictionary(Function(a) a.Key,
-                          Function(a)
-                              Return a.ToDictionary(Function(i) i.b, Function(i) i.Value)
-                          End Function)
+        ' 距离矩阵是对称的：GenomeA_vs_GenomeB 与 GenomeB_vs_GenomeA 的距离值是一样的，
+        ' 这里需要把两个方向都建立索引，否则导出来的矩阵会只有一半的数据，另一半全都是0
+        Dim tuples As New Dictionary(Of String, Dictionary(Of String, Double))()
+
+        For Each d As KeyValuePair(Of String, Double) In GeneticDistanceMatrix
+            Dim vs As String() = d.Key.Split({"_vs_"}, StringSplitOptions.None)
+
+            If vs.Length <> 2 Then
+                Continue For
+            End If
+            If Not tuples.ContainsKey(vs(0)) Then
+                tuples.Add(vs(0), New Dictionary(Of String, Double)())
+            End If
+            If Not tuples.ContainsKey(vs(1)) Then
+                tuples.Add(vs(1), New Dictionary(Of String, Double)())
+            End If
+
+            tuples(vs(0))(vs(1)) = d.Value
+            tuples(vs(1))(vs(0)) = d.Value
+        Next
 
         For Each genome_id As String In df.rownames
             Dim sin As Dictionary(Of String, Double) = tuples.TryGetValue(genome_id)
+
+            If sin Is Nothing Then
+                sin = New Dictionary(Of String, Double)()
+            End If
+
             Dim vec As Double() = sin.Takes(df.rownames).ToArray
 
             Call df.add(genome_id, vec)
