@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.GenomeMolType</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GenomeMolType {SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GenomeMolType</h2>
+
+        <h3>Description</h3>
+
+        <p>The molecule type of the target genbank record.(目标genbank记录所描述的分子的类型)
+
+<p>判定策略参考 moltype.md 文档：source 限定符(结构化) &gt; mol_type 语义 &gt; DEFINITION/KEYWORDS 关键词(自由文本兜底) &gt; Unknown。
+
+<p>注意 /mol_type 只区分 DNA/RNA，不区分核基因组/质粒/细胞器：INSDC 明确规定 organelle 与 plasmid DNA 也使用 genomic DNA，所以不能够依赖这个限定符做分子定位的判定。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF
+export class GenomeMolType extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 无法判定目标记录的分子类型，需要人工核查
+   Unknown: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a> = 0;
+
+   # 核基因组：染色体基因组或者WGS组装的基因组序列
+   Nuclear: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a> = 1;
+
+   # 质粒基因组
+   Plasmid: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a> = 2;
+
+   # 线粒体基因组(含kinetoplast)
+   Mitochondrion: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a> = 3;
+
+   # 质体基因组：叶绿体chloroplast / apicoplast / chromatophore / nitroplast等
+   Chloroplast: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a> = 4;
+
+   # 其他的细胞器基因组，例如hydrogenosome / nucleomorph等
+   OtherOrganelle: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a> = 5;
+
+   # 病毒(含噬菌体)基因组
+   ViralGenome: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a> = 6;
+
+   # RNA基因组
+   RnaGenomic: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a> = 7;
+
+   # 转录本或者其他非基因组RNA：mRNA/tRNA/rRNA/ncRNA等
+   Transcript: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a> = 8;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Unknown</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a></li>
+<li>use by <i>field</i> member <code>Nuclear</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a></li>
+<li>use by <i>field</i> member <code>Plasmid</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a></li>
+<li>use by <i>field</i> member <code>Mitochondrion</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a></li>
+<li>use by <i>field</i> member <code>Chloroplast</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a></li>
+<li>use by <i>field</i> member <code>OtherOrganelle</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a></li>
+<li>use by <i>field</i> member <code>ViralGenome</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a></li>
+<li>use by <i>field</i> member <code>RnaGenomic</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a></li>
+<li>use by <i>field</i> member <code>Transcript</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeMolType.html">GenomeMolType</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

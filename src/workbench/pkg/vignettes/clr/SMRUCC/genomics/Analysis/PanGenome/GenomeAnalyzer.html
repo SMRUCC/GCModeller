@@ -22,7 +22,16 @@
 
         <h3>Description</h3>
 
-        
+        <p>泛基因组分析器
+
+<p>整个分析过程被重构为：
+
+
+<ol>
+<li><p>索引化：在分析开始之前，一次性把所有的字符串主键（基因ID、基因组名、家族ID） 映射为连续的整数下标，后续的热循环全部在并行数组(integer)上进行， 避免上百万次的字符串哈希查找；</li>
+<li><p>去二次化：直系同源分组（例如cd-hit的cluster）直接做 k-1 次并查集合并， 不再生成 O(k^2) 的两两配对中间对象；共线性分析不再对每个基因组对做全基因表扫描； 泛基因组曲线由 O(迭代数 x 基因组数 x 家族数) 的全表扫描改为 O(迭代数 x 基因数) 的增量计数；</li>
+<li><p>并行化：家族聚类之后相互独立的计算单元（基因家族、基因组对、蒙特卡洛迭代） 全部通过 @<code>T:System.Threading.Tasks.Parallel</code> 做数据并行。</li>
+</ol>
 
         <h3>Declare</h3>        
 
@@ -33,7 +42,11 @@ export class GenomeAnalyzer {
    CNV_Gain_Factor: double;
    CNV_Loss_Factor: double;
    CoreThreshold: double;
+   # 泛基因组曲线的蒙特卡洛模拟迭代次数
+   CurveIterations: integer;
    MinCollinearGenes: integer;
+   # 是否在共线性结果之中保留逐基因的同源配对数据？
+   RetainOrthologyLinks: boolean;
    ShellThreshold: double;
    SoftCoreThreshold: double;
 }

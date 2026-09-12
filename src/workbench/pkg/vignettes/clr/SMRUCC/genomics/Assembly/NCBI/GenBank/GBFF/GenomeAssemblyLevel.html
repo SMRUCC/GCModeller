@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.GenomeAssemblyLevel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GenomeAssemblyLevel {SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GenomeAssemblyLevel</h2>
+
+        <h3>Description</h3>
+
+        <p>The genome assembly level of the target genbank record.(目标genbank记录所对应的基因组组装水平)
+
+<p>判定策略参考 complete_genome.md 文档，按照可靠性从高到低组合： WGS accession 格式 &gt; 草图关键词(contig/scaffold/draft/shotgun) &gt; 完整信号(Genome Representation :: Full / DEFINITION complete / Finishing Goal) &gt; assembly_gap &gt; /chromosome 限定符。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF
+export class GenomeAssemblyLevel extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 无法判定目标记录的组装水平，需要人工核查
+   Unknown: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeAssemblyLevel.html">GenomeAssemblyLevel</a> = 0;
+
+   # 完整组装：COMMENT 之中声明了 Genome Representation :: Full，或者 DEFINITION 之中 声明了 complete genome / complete sequence
+   CompleteGenome: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeAssemblyLevel.html">GenomeAssemblyLevel</a> = 1;
+
+   # 染色体级组装：并没有明确的 complete 声明，但是存在有 /chromosome 限定符， 例如ENA风格的 "genome assembly, chromosome: I" 记录
+   ChromosomeLevel: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeAssemblyLevel.html">GenomeAssemblyLevel</a> = 2;
+
+   # scaffold 级别的草图组装，包含WGS记录与声明了 scaffold/draft/shotgun 的记录
+   Scaffold: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeAssemblyLevel.html">GenomeAssemblyLevel</a> = 3;
+
+   # contig 级别的草图组装
+   Contig: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeAssemblyLevel.html">GenomeAssemblyLevel</a> = 4;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Unknown</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeAssemblyLevel.html">GenomeAssemblyLevel</a></li>
+<li>use by <i>field</i> member <code>CompleteGenome</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeAssemblyLevel.html">GenomeAssemblyLevel</a></li>
+<li>use by <i>field</i> member <code>ChromosomeLevel</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeAssemblyLevel.html">GenomeAssemblyLevel</a></li>
+<li>use by <i>field</i> member <code>Scaffold</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeAssemblyLevel.html">GenomeAssemblyLevel</a></li>
+<li>use by <i>field</i> member <code>Contig</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/GenomeAssemblyLevel.html">GenomeAssemblyLevel</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

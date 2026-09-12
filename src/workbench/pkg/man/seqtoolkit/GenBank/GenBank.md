@@ -9,6 +9,8 @@ NCBI genbank assembly file I/O toolkit
 + [read_genetable](GenBank/read_genetable.1) 
 + [accession_id](GenBank/accession_id.1) get current genbank assembly accession id
 + [is.plasmid](GenBank/is.plasmid.1) check of the given genbank assembly is the data source of a plasmid or not?
++ [moltype](GenBank/moltype.1) 
++ [assembly_level](GenBank/assembly_level.1) 
 + [load_genbanks](GenBank/load_genbanks.1) populate a list of genbank data objects from a given list of files or stream.
 + [write.genbank](GenBank/write.genbank.1) save the modified genbank file
 + [as.genbank](GenBank/as.genbank.1) converts tabular data file to genbank assembly object

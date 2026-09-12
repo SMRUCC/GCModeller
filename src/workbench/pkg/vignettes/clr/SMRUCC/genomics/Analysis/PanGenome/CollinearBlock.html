@@ -32,8 +32,12 @@
 export class CollinearBlock {
    Chr1: string;
    Chr2: string;
+   # 区块内的同源基因对数量（自动兼容摘要模式）
+   GenePairCount: integer;
    Genome1: string;
    Genome2: string;
+   # 区块内的同源基因对数量，当 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/CollinearBlock.html">CollinearBlock</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/OrthologyLink.html">OrthologyLinks</a> 为 Nothing 的时候使用这个属性做统计
+   LinkCount: integer;
    # 区块包含的基因对
    OrthologyLinks: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/OrthologyLink.html">OrthologyLink[]</a>;
    # TODO: 评估指标：得分或E-value

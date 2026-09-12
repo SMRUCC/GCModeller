@@ -4,6 +4,7 @@
 load_genbanks \- populate a list of genbank data objects from a given list of files or stream.
 .SH SYNOPSIS
 \fIload_genbanks(\fBfiles\fR as any, 
+\fBextract_genomics\fR as boolean = FALSE, 
 \fBautoClose\fR as boolean = TRUE, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
@@ -13,6 +14,12 @@ populate a list of genbank data objects from a given list of files or stream.
 .SH OPTIONS
 .PP
 \fBfiles\fB \fR\- a list of files or file stream. 
+.PP
+.PP
+\fBextract_genomics\fB \fR\- 
+ only returns the genomics chromosome data? set this parameter value to TRUE will filter out the plasmid, mitochondrion, plastid type sequence data.
+ set this parameter value to TRUE if use this data source for pan-genome analysis.
+. 
 .PP
 .PP
 \fBautoClose\fB \fR\- 

@@ -68,6 +68,10 @@ declare namespace GenBank {
    */
    function as_tabular(gbff: object, ORF?: boolean): object;
    /**
+     * @param env default value Is ``null``.
+   */
+   function assembly_level(gb: any, env?: object): object;
+   /**
     * enumerate all features in the given NCBI genbank database object
     * 
     * 
@@ -170,6 +174,10 @@ declare namespace GenBank {
     * > this function supports of read assembly data directly from *.gz genbank archive file.
     * 
      * @param files a list of files or file stream
+     * @param extract_genomics only returns the genomics chromosome data? set this parameter value to TRUE will filter out the plasmid, mitochondrion, plastid type sequence data.
+     *  set this parameter value to TRUE if use this data source for pan-genome analysis.
+     * 
+     * + default value Is ``false``.
      * @param autoClose auto close of the @``T:System.IO.Stream`` if the **`files`** contains stream object?
      * 
      * + default value Is ``true``.
@@ -177,7 +185,11 @@ declare namespace GenBank {
      * 
      * + default value Is ``null``.
    */
-   function load_genbanks(files: any, autoClose?: boolean, env?: object): object;
+   function load_genbanks(files: any, extract_genomics?: boolean, autoClose?: boolean, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function moltype(gb: any, env?: object): object;
    /**
     * get, add or replace the genome origin fasta sequence in the given genbank assembly file.
     * 
