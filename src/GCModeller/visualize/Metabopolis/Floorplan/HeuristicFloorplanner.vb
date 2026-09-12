@@ -177,6 +177,7 @@ Namespace Floorplan
         ''' </summary>
         Public Function Run() As FloorplanResult
             BuildInitialLayout()
+            SeparateByScaling()
             ResolveAllOverlaps()
             ReportNonFiniteBlocks("after initialization")
 
@@ -427,6 +428,40 @@ Namespace Floorplan
             path.Reverse()
             Return path
         End Function
+
+        ''' <summary>
+        ''' 初始布局的重叠消除：整体等比放大，直到没有任何街区重叠。
+        ''' </summary>
+        ''' <remarks>
+        ''' 骨架初始布局只保证「无交叉」，并不保证按区块尺寸放大后仍互不重叠。
+        ''' 对数百个街区而言，单纯依靠逐对推出（push-out）容易在局部来回震荡；
+        ''' 而整体等比放大只会增加中心距、不改变区块尺寸，因此一定能在有限步内
+        ''' 把重叠全部消除，是最稳妥的初始化手段。
+        ''' </remarks>
+        Private Sub SeparateByScaling()
+            Const factor As Double = 1.2
+            Const maxAttempts As Integer = 40
+
+            For attempt As Integer = 1 To maxAttempts
+                If CountOverlaps() = 0 Then
+                    If Options.Verbose AndAlso attempt > 1 Then
+                        Console.WriteLine($"[floorplan] separated initial blocks after {attempt - 1} scaling step(s)")
+                    End If
+
+                    Return
+                End If
+
+                For Each id As String In order
+                    Dim rect As Rect = blocks(id)
+                    rect.X *= factor
+                    rect.Y *= factor
+                Next
+            Next
+
+            If Options.Verbose Then
+                Console.WriteLine($"[floorplan] still {CountOverlaps()} overlaps after scaling; fall back to push-out")
+            End If
+        End Sub
 
         ''' <summary>
         ''' 全局重叠修复：反复把「较轻」的街区从重叠中推出。
