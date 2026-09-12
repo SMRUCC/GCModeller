@@ -16,7 +16,6 @@ Namespace Evolview.Drawing
         Private ReadOnly _tree As PhyloTree
         Private ReadOnly _options As TreeDrawingOptions
 
-        Private ReadOnly _ownedFonts As New List(Of Font)
         Private ReadOnly _penCache As New Dictionary(Of Integer, Pen)
         Private ReadOnly _brushCache As New Dictionary(Of Integer, SolidBrush)
 
@@ -415,10 +414,8 @@ Namespace Evolview.Drawing
                 Return font
             End If
 
-            Dim created As Font = DrawingHelper.CreateFont(FontFace.SegoeUI, size)
-            _ownedFonts.Add(created)
-
-            Return created
+            ' 注意：Microsoft.VisualBasic.Imaging.Font 不实现 IDisposable，无需（也无法）释放
+            Return DrawingHelper.CreateFont(FontFace.SegoeUI, size)
         End Function
 
         Private Function GetPen(color As Color) As Pen
@@ -454,13 +451,6 @@ Namespace Evolview.Drawing
                 Return
             End If
 
-            For Each font As Font In _ownedFonts
-                Try
-                    font.Dispose()
-                Catch
-                End Try
-            Next
-
             For Each pen As Pen In _penCache.Values
                 Try
                     pen.Dispose()
@@ -475,7 +465,6 @@ Namespace Evolview.Drawing
                 End Try
             Next
 
-            _ownedFonts.Clear()
             _penCache.Clear()
             _brushCache.Clear()
             _disposed = True

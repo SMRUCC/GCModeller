@@ -46,6 +46,7 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Interops.Visualize.Phylip.Evolview.Drawing
 
 ''' <summary>
 '''
@@ -85,6 +86,45 @@ Module CRISPRPhylogeneticTree
     <ExportAPI("invoke.tree_drawing")>
     Public Function InvokeTreeDrawing(tree As Evolview.PhyloTree) As Image
         Return TreeDrawing.InvokeDrawing(tree)
+    End Function
+
+    ''' <summary>
+    ''' 使用指定的布局样式（<see cref="Evolview.TreePlotMode"/>，共 8 种）与画布尺寸绘制进化树。
+    ''' </summary>
+    ''' <param name="tree">待绘制的进化树</param>
+    ''' <param name="mode">布局样式</param>
+    ''' <param name="width">画布宽度（像素）</param>
+    ''' <param name="height">画布高度（像素）</param>
+    ''' <param name="showLeafLabels">是否显示叶标签</param>
+    ''' <param name="showBootstrap">是否显示 bootstrap 支持度</param>
+    ''' <param name="showBranchLength">是否显示分支长度</param>
+    ''' <param name="showScaleBar">是否显示分支长度比例尺</param>
+    ''' <param name="title">标题；为空则不显示标题</param>
+    ''' <remarks>
+    ''' 调用前宿主必须注册光栅图形驱动：
+    ''' <c>Microsoft.VisualBasic.Imaging.Driver.ImageDriver.Register()</c>
+    ''' </remarks>
+    <ExportAPI("invoke.tree_drawing_style")>
+    Public Function InvokeTreeDrawing(tree As Evolview.PhyloTree,
+                                      mode As Evolview.TreePlotMode,
+                                      Optional width As Integer = 1200,
+                                      Optional height As Integer = 900,
+                                      Optional showLeafLabels As Boolean = True,
+                                      Optional showBootstrap As Boolean = True,
+                                      Optional showBranchLength As Boolean = False,
+                                      Optional showScaleBar As Boolean = False,
+                                      Optional title As String = Nothing) As Image
+
+        Dim options As TreeDrawingOptions = TreeDrawingOptions.Defaults(mode)
+        options.CanvasSize = New System.Drawing.Size(width, height)
+        options.ShowLeafLabels = showLeafLabels
+        options.ShowBootstrap = showBootstrap
+        options.ShowBranchLength = showBranchLength
+        options.ShowScaleBar = showScaleBar
+        options.ShowTitle = Not String.IsNullOrEmpty(title)
+        options.Title = title
+
+        Return TreeDrawing.InvokeDrawing(tree, options)
     End Function
 
     ''' <summary>

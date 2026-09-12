@@ -1,4 +1,7 @@
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports SMRUCC.genomics.Interops.Visualize.Phylip
+Imports SMRUCC.genomics.Interops.Visualize.Phylip.Evolview.Drawing
 Imports SMRUCC.genomics.Interops.Visualize.Phylip.Evolution
 Imports SMRUCC.genomics.Interops.Visualize.Phylip.Evolution.Bootstrap
 Imports SMRUCC.genomics.Interops.Visualize.Phylip.Evolution.Distance
@@ -34,6 +37,7 @@ Module Program
         Call TestBayesian(failures)
         Call TestBootstrap(failures)
         Call TestFastaWorkflow(failures)
+        Call TestTreeDrawing(failures)
 
         Console.WriteLine()
 
