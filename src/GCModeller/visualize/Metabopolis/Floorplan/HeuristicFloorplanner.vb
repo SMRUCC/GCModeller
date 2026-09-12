@@ -66,7 +66,7 @@ Namespace Floorplan
         Public Property AnnealIterations As Integer = 6000
 
         ''' <summary>重叠修复的最大迭代次数。</summary>
-        Public Property RepairIterations As Integer = 400
+        Public Property RepairIterations As Integer = 150
 
         ''' <summary>扰动步长相对于平均街区尺寸的比例。</summary>
         Public Property JitterScale As Double = 0.35
@@ -564,19 +564,6 @@ Namespace Floorplan
             Return AcceptByTemperature(cost, temperature)
         End Function
 
-        Private Shared Function OppositeSide(side As AttachSide) As AttachSide
-            Select Case side
-                Case AttachSide.Left
-                    Return AttachSide.Right
-                Case AttachSide.Right
-                    Return AttachSide.Left
-                Case AttachSide.Top
-                    Return AttachSide.Bottom
-                Case Else
-                    Return AttachSide.Top
-            End Select
-        End Function
-
         ''' <summary>
         ''' 抖动移动：小幅平移一个街区，用于跳出局部最优。
         ''' </summary>
@@ -698,17 +685,15 @@ Namespace Floorplan
             Dim inside As Boolean = False
             Dim count As Integer = polygon.Count
 
-            For i As Integer = 0, j As Integer = count - 1 To 0 Step 0
+            For i As Integer = 0 To count - 1
                 Dim pi As PointF = polygon(i)
+                Dim j As Integer = If(i = 0, count - 1, i - 1)
                 Dim pj As PointF = polygon(j)
 
                 If ((pi.Y > y) <> (pj.Y > y)) AndAlso
                    (x < (pj.X - pi.X) * (y - pi.Y) / (pj.Y - pi.Y) + pi.X) Then
                     inside = Not inside
                 End If
-
-                i += 1
-                j = i - 1
             Next
 
             Return inside
@@ -764,7 +749,6 @@ Namespace Floorplan
                 ' 向右
                 If rect.Width / Math.Max(1E-06, rect.Height) <= ratio0 * limit Then
                     Dim bound As Double = domain.P
-                    Dim overlapY As Boolean = False
 
                     For Each otherId As String In order
                         If String.Equals(otherId, id, StringComparison.Ordinal) Then
@@ -775,7 +759,6 @@ Namespace Floorplan
 
                         If other.Y < rect.Q AndAlso rect.Y < other.Q AndAlso other.X >= rect.P - 0.5 Then
                             bound = Math.Min(bound, other.X)
-                            overlapY = True
                         End If
                     Next
 
@@ -784,8 +767,6 @@ Namespace Floorplan
                     If delta > 0 Then
                         rect.Width += delta
                     End If
-
-                    Dim unusedRight As Boolean = overlapY
                 End If
 
                 ' 向上

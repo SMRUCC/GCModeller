@@ -180,9 +180,9 @@ Namespace Floorplan
 
         ''' <summary>按方位取线段。</summary>
         Public Function Segment(side As AttachSide) As AttachmentSegment
-            For Each segment As AttachmentSegment In Segments
-                If segment.Side = side Then
-                    Return segment
+            For Each hit As AttachmentSegment In Segments
+                If hit.Side = side Then
+                    Return hit
                 End If
             Next
 
@@ -219,13 +219,13 @@ Namespace Floorplan
         ''' 把参考点吸附到指定方位线段上（论文中的「强制参考点落在其中一条线段上」）。
         ''' </summary>
         Public Function Snap(side As AttachSide, x As Double, y As Double) As PointF
-            Dim segment As AttachmentSegment = Segment(side)
+            Dim hit As AttachmentSegment = Segment(side)
 
-            If segment Is Nothing Then
+            If hit Is Nothing Then
                 Return New PointF(CSng(x), CSng(y))
             End If
 
-            Return segment.Snap(x, y)
+            Return hit.Snap(x, y)
         End Function
 
         Public Overrides Function ToString() As String
