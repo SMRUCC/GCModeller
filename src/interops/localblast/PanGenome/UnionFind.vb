@@ -72,21 +72,75 @@ Public Class UnionFind
     End Sub
 
     ''' <summary>
+    ''' 批量添加元素（用于一次性初始化上百万个基因节点）
+    ''' </summary>
+    ''' <param name="elements"></param>
+    Public Sub AddElements(elements As IEnumerable(Of String))
+        For Each element As String In elements
+            If Not parent.ContainsKey(element) Then
+                parent.Add(element, element)
+            End If
+        Next
+    End Sub
+
+    ''' <summary>
     ''' 查找根节点
     ''' </summary>
     ''' <param name="element"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 这里使用迭代的方式做路径压缩，而不是递归：
+    ''' 在处理上百万个基因的时候，合并链可能会非常深，递归版本有栈溢出的风险。
+    ''' </remarks>
     Public Function Find(element As String) As String
         If Not parent.ContainsKey(element) Then
             Return Nothing
         End If
 
-        ' 路径压缩
-        If parent(element) <> element Then
-            parent(element) = Find(parent(element))
-        End If
-        Return parent(element)
+        ' 1. 先定位到根节点
+        Dim root As String = element
+
+        Do While parent(root) <> root
+            root = parent(root)
+        Loop
+
+        ' 2. 路径压缩（迭代实现）
+        Dim cur As String = element
+
+        Do While parent(cur) <> root
+            Dim nxt As String = parent(cur)
+            parent(cur) = root
+            cur = nxt
+        Loop
+
+        Return root
     End Function
+
+    ''' <summary>
+    ''' 将一个直系同源分组（例如cd-hit的一个cluster）内的所有基因直接合并为同一个基因家族
+    ''' </summary>
+    ''' <param name="genes">同一个分组内的基因ID列表</param>
+    ''' <remarks>
+    ''' 一个包含k个基因的分组只需要 k-1 次合并操作即可完成聚类，
+    ''' 不需要先生成 O(k^2) 个两两配对关系再逐个合并，可以节省大量的内存与计算时间。
+    ''' 
+    ''' 注意：只有已经通过 <see cref="AddElement(String)"/> 注册过的基因才会参与合并，
+    ''' 未知的基因ID会被忽略掉（与BBH路径的行为保持一致）。
+    ''' </remarks>
+    Public Sub UnionRange(genes As IEnumerable(Of String))
+        Dim refer As String = Nothing
+
+        For Each gene As String In genes
+            If Not parent.ContainsKey(gene) Then
+                Continue For
+            End If
+            If refer Is Nothing Then
+                refer = gene
+            Else
+                Call Union(refer, gene)
+            End If
+        Next
+    End Sub
 
     ''' <summary>
     ''' 合并两个集合

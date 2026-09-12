@@ -67,12 +67,39 @@ Public Class CollinearBlock
     ''' 区块包含的基因对
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 在基因组数量非常多的情况下（例如上百个基因组的两两比较），
+    ''' 逐基因的共线性配对数据会占用非常巨大的内存，这个时候会通过
+    ''' <see cref="GenomeAnalyzer.RetainOrthologyLinks"/> 关闭掉这个属性的输出，
+    ''' 只保留 <see cref="LinkCount"/> 统计数值。
+    ''' </remarks>
     Public Property OrthologyLinks As OrthologyLink()
+
+    ''' <summary>
+    ''' 区块内的同源基因对数量，当 <see cref="OrthologyLinks"/> 为 Nothing 的时候使用这个属性做统计
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property LinkCount As Integer
+
     ''' <summary>
     ''' TODO: 评估指标：得分或E-value
     ''' </summary>
     ''' <returns></returns>
     Public Property Score As Double
+
+    ''' <summary>
+    ''' 区块内的同源基因对数量（自动兼容摘要模式）
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property GenePairCount As Integer
+        Get
+            If OrthologyLinks Is Nothing Then
+                Return LinkCount
+            Else
+                Return OrthologyLinks.Length
+            End If
+        End Get
+    End Property
 
     Sub New()
     End Sub
@@ -83,6 +110,22 @@ Public Class CollinearBlock
         Chr1 = source.Chr1
         Chr2 = source.Chr2
         OrthologyLinks = links.ToArray
+        LinkCount = OrthologyLinks.Length
+        Score = source.Score
+    End Sub
+
+    ''' <summary>
+    ''' 构造一个仅包含统计信息的共线性区块摘要（不保存逐基因的同源配对数据）
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <param name="linkCount">区块内的同源基因对数量</param>
+    Friend Sub New(source As CollinearBlock, linkCount As Integer)
+        Genome1 = source.Genome1
+        Genome2 = source.Genome2
+        Chr1 = source.Chr1
+        Chr2 = source.Chr2
+        OrthologyLinks = Nothing
+        LinkCount = linkCount
         Score = source.Score
     End Sub
 
