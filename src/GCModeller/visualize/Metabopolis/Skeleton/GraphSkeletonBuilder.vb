@@ -712,7 +712,7 @@ Namespace Skeleton
 
                         componentOf(v) = current
                         stack.Push(v)
-                    End While
+                    Next
                 End While
 
                 current += 1
