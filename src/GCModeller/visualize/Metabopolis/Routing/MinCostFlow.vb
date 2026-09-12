@@ -166,7 +166,7 @@ Namespace Routing
             While cursor <> Source
                 Dim arcIndex As Integer = predecessorArc(cursor)
                 reversed.Add(arcIndex)
-                cursor = Arcs(arcIndex ^ 1).[To]
+                cursor = Arcs(arcIndex Xor 1).[To]
             End While
 
             reversed.Reverse()
@@ -206,6 +206,9 @@ Namespace Routing
             heads.Add(New List(Of Integer)())
             Return heads.Count - 1
         End Function
+
+        ''' <summary>是否输出求解过程日志（排障用）。</summary>
+        Public Property Verbose As Boolean = False
 
         ''' <summary>批量新增节点。</summary>
         Public Sub AddNodes(count As Integer)
@@ -327,6 +330,20 @@ Namespace Routing
                     Next
                 End While
 
+                If Verbose AndAlso totalFlow = 0 Then
+                    Dim reached As Integer = 0
+
+                    For i As Integer = 0 To count - 1
+                        If visited(i) Then
+                            reached += 1
+                        End If
+                    Next
+
+                    Console.Out.WriteLine(
+                        $"[mcmf] src={source} sink={sink} visited={reached}/{count} " &
+                        $"prev(sink)={previous(sink)} dist(sink)={distance(sink)} potential(sink)={potential(sink)}")
+                End If
+
                 If previous(sink) < 0 OrElse distance(sink) = infinity Then
                     Exit Do
                 End If
@@ -352,9 +369,13 @@ Namespace Routing
                     End If
 
                     bottleneck = Math.Min(bottleneck, arcs(arcIndex).Residual)
-                    cursor = arcs(arcIndex ^ 1).[To]
+                    cursor = arcs(arcIndex Xor 1).[To]
                     steps += 1
                 End While
+
+                If Verbose AndAlso totalFlow = 0 Then
+                    Console.Out.WriteLine($"[mcmf] walk: bottleneck={bottleneck} cursor={cursor} source={source} steps={steps}")
+                End If
 
                 If bottleneck <= 0 OrElse cursor <> source Then
                     Exit Do
@@ -366,9 +387,9 @@ Namespace Routing
                 While cursor <> source
                     Dim arcIndex As Integer = previous(cursor)
                     arcs(arcIndex).Flow += bottleneck
-                    arcs(arcIndex ^ 1).Flow -= bottleneck
+                    arcs(arcIndex Xor 1).Flow -= bottleneck
                     totalCost += bottleneck * arcs(arcIndex).Cost
-                    cursor = arcs(arcIndex ^ 1).[To]
+                    cursor = arcs(arcIndex Xor 1).[To]
                 End While
 
                 totalFlow += bottleneck

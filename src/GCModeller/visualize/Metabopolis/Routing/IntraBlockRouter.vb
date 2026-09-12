@@ -708,6 +708,8 @@ Namespace Routing
             Trace($"reachable from source: {reach.Count}, sink reached: {reach.Contains(sink)}, " &
                   $"nonfinite costs: {flow.NonFiniteCostArcs()}, cellW={cellW:0.###}, cellH={cellH:0.###}")
 
+            flow.Verbose = Options.Verbose
+
             Dim solution As FlowSolution = flow.Solve(source, sink)
 
             Trace($"flow solved: {solution.Flow} units, cost={solution.Cost:0.##}")

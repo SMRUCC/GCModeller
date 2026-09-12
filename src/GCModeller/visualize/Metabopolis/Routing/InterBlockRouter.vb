@@ -173,7 +173,7 @@ Namespace Routing
                 End If
 
                 For Each corner As ValueTuple(Of Integer, Double) In NearestFreeCorners(junction.Point, extent, blocked, gridNode, gridPoint, rows, cols, cellW, cellH)
-                    flow.AddEdge(item.Key, corner.Item1, Options.MaxCapacity, corner.Item2 * Options.LengthWeight)
+                    flow.AddEdge(item.Value, corner.Item1, Options.MaxCapacity, corner.Item2 * Options.LengthWeight)
                 Next
             Next
 
