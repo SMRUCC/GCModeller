@@ -70,10 +70,18 @@ Namespace Routing
         ''' 权重小于等于 0 的条目会被赋予一个极小权重，保证每个条目都能分到面积。
         ''' </remarks>
         Public Function Partition(area As Rect, items As IEnumerable(Of TreeMapItem)) As TreeMapCell()
-            Dim list As List(Of TreeMapItem) = items.SafeQuery _
-                .Where(Function(i) i IsNot Nothing AndAlso Not String.IsNullOrEmpty(i.Id)) _
-                .Select(Function(i) New TreeMapItem With {.Id = i.Id, .Weight = Math.Max(1E-06, i.Weight)})
-                .ToList
+            Dim list As New List(Of TreeMapItem)()
+
+            For Each item As TreeMapItem In items.SafeQuery
+                If item Is Nothing OrElse String.IsNullOrEmpty(item.Id) Then
+                    Continue For
+                End If
+
+                list.Add(New TreeMapItem With {
+                    .Id = item.Id,
+                    .Weight = Math.Max(1E-06, item.Weight)
+                })
+            Next
 
             Dim result As New List(Of TreeMapCell)()
 

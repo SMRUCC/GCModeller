@@ -328,6 +328,11 @@ Namespace Model
         ''' <summary>是否为有向边（不可逆反应产生的车道为有向）。</summary>
         Public Property IsDirected As Boolean
 
+        ''' <summary>
+        ''' 是否为块间路由（跨街区的连接）；False 表示街区内部的局部车道。
+        ''' </summary>
+        Public Property IsInterBlock As Boolean
+
         ''' <summary>显示标签（通常为代谢物名称）。</summary>
         Public Property Label As String
 

@@ -245,28 +245,56 @@ Namespace Routing
         ''' <summary>
         ''' 求解从 source 到 sink 的最小费用最大流。
         ''' </summary>
+        ''' <remarks>
+        ''' 使用 successive shortest path：每次用「Dijkstra + 势能（Johnson 重赋权）」
+        ''' 求一条费用最小的增广路，再沿瓶颈容量增广。所有初始弧费用均非负，
+        ''' 因此势能初值取 0 即为可行势能；反向弧的负费用由势能校正后仍非负，
+        ''' 所以可以安全地用 Dijkstra 而不是 SPFA —— 这是大规模网格网络必需的性能保证。
+        ''' </remarks>
         Public Function Solve(source As Integer, sink As Integer, Optional maxFlow As Integer = Integer.MaxValue) As FlowSolution
+            Dim count As Integer = heads.Count
+
+            If count = 0 Then
+                Return New FlowSolution With {
+                    .Arcs = arcs,
+                    .Heads = heads,
+                    .Source = source,
+                    .Sink = sink,
+                    .Flow = 0,
+                    .Cost = 0
+                }
+            End If
+
             Dim totalFlow As Integer = 0
             Dim totalCost As Double = 0
 
-            Do
-                Dim distance As New Dictionary(Of Integer, Double)()
-                Dim inQueue As New HashSet(Of Integer)()
-                Dim predecessor As New Dictionary(Of Integer, Integer)()
-                Dim queue As New Queue(Of Integer)()
+            Dim potential(count - 1) As Double
+            Dim distance(count - 1) As Double
+            Dim previous(count - 1) As Integer
+            Dim visited(count - 1) As Boolean
 
-                For i As Integer = 0 To heads.Count - 1
-                    distance(i) = Double.PositiveInfinity
+            Const infinity As Double = Double.MaxValue
+
+            Do
+                For i As Integer = 0 To count - 1
+                    distance(i) = infinity
+                    previous(i) = -1
+                    visited(i) = False
                 Next
 
                 distance(source) = 0
-                queue.Enqueue(source)
-                inQueue.Add(source)
 
-                ' SPFA：允许负费用反向弧参与最短路
+                Dim queue As New PriorityQueue(Of Integer, Double)()
+                queue.Enqueue(source, 0)
+
                 While queue.Count > 0
                     Dim u As Integer = queue.Dequeue()
-                    inQueue.Remove(u)
+
+                    If visited(u) Then
+                        Continue While
+                    End If
+
+                    visited(u) = True
 
                     For Each arcIndex As Integer In heads(u)
                         Dim arc As FlowArc = arcs(arcIndex)
@@ -275,29 +303,46 @@ Namespace Routing
                             Continue For
                         End If
 
-                        Dim nd As Double = distance(u) + arc.Cost
+                        ' 约化费用 = 原费用 + 势能差（非负）
+                        Dim reduced As Double = arc.Cost + potential(u) - potential(arc.[To])
+
+                        If reduced < 0 Then
+                            reduced = 0
+                        End If
+
+                        Dim nd As Double = distance(u) + reduced
 
                         If nd < distance(arc.[To]) - 1E-09 Then
                             distance(arc.[To]) = nd
-                            predecessor(arc.[To]) = arcIndex
-
-                            If inQueue.Add(arc.[To]) Then
-                                queue.Enqueue(arc.[To])
-                            End If
+                            previous(arc.[To]) = arcIndex
+                            queue.Enqueue(arc.[To], nd)
                         End If
                     Next
                 End While
 
-                If Not predecessor.ContainsKey(sink) Then
+                If previous(sink) < 0 OrElse distance(sink) = infinity Then
                     Exit Do
                 End If
+
+                ' 更新势能；不可达节点保持原值
+                For i As Integer = 0 To count - 1
+                    If distance(i) < infinity Then
+                        potential(i) += distance(i)
+                    End If
+                Next
 
                 ' 找瓶颈容量
                 Dim bottleneck As Integer = maxFlow - totalFlow
                 Dim cursor As Integer = sink
 
                 While cursor <> source
-                    Dim arcIndex As Integer = predecessor(cursor)
+                    Dim arcIndex As Integer = previous(cursor)
+
+                    If arcIndex < 0 Then
+                        bottleneck = 0
+                        Exit While
+                    End If
+
                     bottleneck = Math.Min(bottleneck, arcs(arcIndex).Residual)
                     cursor = arcs(arcIndex ^ 1).[To]
                 End While
@@ -310,7 +355,7 @@ Namespace Routing
                 cursor = sink
 
                 While cursor <> source
-                    Dim arcIndex As Integer = predecessor(cursor)
+                    Dim arcIndex As Integer = previous(cursor)
                     arcs(arcIndex).Flow += bottleneck
                     arcs(arcIndex ^ 1).Flow -= bottleneck
                     totalCost += bottleneck * arcs(arcIndex).Cost
