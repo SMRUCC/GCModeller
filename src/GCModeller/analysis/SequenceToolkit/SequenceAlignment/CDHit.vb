@@ -52,6 +52,8 @@
 
 #End Region
 
+Imports System.Diagnostics
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.HashMaps.MinHash
@@ -76,21 +78,71 @@ Public Class CDHit
     ''' nucleotide - k=12nt
     ''' genomics - k=31nt
     ''' </param>
-    Sub New(Optional k As Integer = 12, Optional n_threads As Integer? = 16)
+    ''' <param name="n_threads">
+    ''' 用于并行计算的工作线程数量；在没有指定的时候会按照当前机器的CPU核数来自动选取
+    ''' </param>
+    Sub New(Optional k As Integer = 12, Optional n_threads As Integer? = Nothing)
         Me.k = k
-        Me.threads = threads
+        ' 修复：原来的代码是 Me.threads = threads（字段自赋值），导致 n_threads 参数被完全丢弃，
+        ' CDHashTask 只会回退到 VectorTask.n_threads（默认值4）个工作线程。
+        Me.threads = If(n_threads.HasValue, n_threads.Value, Environment.ProcessorCount)
     End Sub
+
+    ''' <summary>
+    ''' 实际用于并行计算的工作线程数量
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property workerThreads As Integer
+        Get
+            Return If(threads.HasValue, threads.Value, 1)
+        End Get
+    End Property
 
     Public Function GetSequencePool() As FastaSeq()
         Return hash.seqPool
     End Function
 
     Public Function Setup(seqs As IEnumerable(Of FastaSeq)) As CDHit
-        Dim unique As IEnumerable(Of FastaSeq) = (From seq As FastaSeq In seqs Order By seq.Length Descending).UniqueTitle
+        Dim sw As Stopwatch = Stopwatch.StartNew
+        Dim pool As FastaSeq() = seqs.SafeQuery.ToArray
+        Dim n As Integer = pool.Length
+        Dim lengths As Integer() = New Integer(n - 1) {}
+        Dim order As Integer() = New Integer(n - 1) {}
+
+        For i As Integer = 0 To n - 1
+            lengths(i) = pool(i).Length
+            order(i) = i
+        Next
+
+        ' 按照序列长度降序排序，并且使用原始下标作为tie-breaker：
+        ' 这样子在不使用LINQ委派的同时仍然保持了与 OrderBy 一致的稳定性
+        Call Array.Sort(order, New Comparison(Of Integer)(
+            Function(a As Integer, b As Integer) As Integer
+                Dim c As Integer = lengths(b).CompareTo(lengths(a))
+
+                If c = 0 Then
+                    Return a.CompareTo(b)
+                Else
+                    Return c
+                End If
+            End Function))
+
+        Dim sorted As FastaSeq() = New FastaSeq(n - 1) {}
+
+        For i As Integer = 0 To n - 1
+            sorted(i) = pool(order(i))
+        Next
+
+        Call $"[cdhit] setup: {n} sequences sorted by length, elapsed {sw.ElapsedMilliseconds} ms".debug
+
+        sw.Restart()
+
+        Dim unique As IEnumerable(Of FastaSeq) = sorted.UniqueTitle
 
         Call "run data setup...".info
         hash = New CDHashTask(unique.ToArray, workers:=threads) With {.k = k}
 
+        Call $"[cdhit] make unique sequence pool, elapsed {sw.ElapsedMilliseconds} ms; run min-hash in parallel with {workerThreads} threads...".debug
         Call "create min hash sequence data in parallel".info
         Call hash.Run()
         Call "make hash job done!".info
