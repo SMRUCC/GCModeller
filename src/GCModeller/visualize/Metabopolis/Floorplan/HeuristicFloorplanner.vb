@@ -1004,19 +1004,21 @@ Namespace Floorplan
         End Sub
 
         ''' <summary>
-        ''' 把明显远离布局重心的街区朝重心收拢，直到贴住其它街区为止。
+        ''' 收拢布局：反复把每个街区尽力拉向整体重心，直到无法再靠近。
         ''' </summary>
         ''' <remarks>
-        ''' 模拟退火只能沿着骨架边做局部调整，个别弱连接的类别可能被留在很远处。
-        ''' 最终归一化是按外接矩形缩放的，只要有一两个离群街区，整张图就会被压缩得很小。
-        ''' 这里用二分法沿「指向重心」的方向推进，并始终保证不与其它街区重叠。
+        ''' 两个动机：
+        '''   1. 模拟退火只能沿骨架边做局部调整，弱连接的类别常被留在很远处，
+        '''      而最终归一化按外接矩形缩放 —— 只要有一两个离群街区，整张图就被压得很小；
+        '''   2. 论文 CS1「紧凑」要求最大化屏幕利用率，这里用几何收拢直接逼近该目标。
+        ''' 每次推进都用二分法取「刚好不重叠」的最大位移，因此 CH2 无重叠始终成立。
         ''' </remarks>
         Private Sub CompactOutliers()
             If order.Length <= 2 Then
                 Return
             End If
 
-            Const maxPasses As Integer = 6
+            Const maxPasses As Integer = 10
 
             For pass As Integer = 1 To maxPasses
                 Dim cx As Double = 0
@@ -1031,29 +1033,20 @@ Namespace Floorplan
                 cx /= order.Length
                 cy /= order.Length
 
-                Dim distances As New List(Of ValueTuple(Of String, Double))()
-
-                For Each id As String In order
-                    Dim center As PointF = blocks(id).Center
-                    Dim dx As Double = center.X - cx
-                    Dim dy As Double = center.Y - cy
-                    distances.Add((id, Math.Sqrt(dx * dx + dy * dy)))
-                Next
-
-                Dim sorted As ValueTuple(Of String, Double)() = distances _
-                    .OrderBy(Function(t) t.Item2) _
+                ' 从离重心最远的街区开始收拢，先解决离群点
+                Dim sorted As String() = order _
+                    .OrderByDescending(Function(id)
+                                           Dim center As PointF = blocks(id).Center
+                                           Dim dx As Double = center.X - cx
+                                           Dim dy As Double = center.Y - cy
+                                           Return dx * dx + dy * dy
+                                       End Function) _
                     .ToArray()
 
-                Dim median As Double = sorted(sorted.Length \ 2).Item2
-                Dim threshold As Double = Math.Max(median * 2.5, averageSize * 2)
                 Dim moved As Integer = 0
 
-                For i As Integer = sorted.Length - 1 To 0 Step -1
-                    If sorted(i).Item2 <= threshold Then
-                        Exit For
-                    End If
-
-                    If PullToward(sorted(i).Item1, cx, cy) Then
+                For Each id As String In sorted
+                    If PullToward(id, cx, cy) Then
                         moved += 1
                     End If
                 Next
