@@ -178,6 +178,7 @@ Namespace Floorplan
         Public Function Run() As FloorplanResult
             BuildInitialLayout()
             SeparateByScaling()
+            NormalizeScale()
             ResolveAllOverlaps()
             ReportNonFiniteBlocks("after initialization")
 
@@ -221,6 +222,10 @@ Namespace Floorplan
 
             ' 第二轮：尺寸微调（FH1/FH2/FS1/FS2）
             AdjustSizes()
+
+            ' 扩张是启发式的，可能残留少量接触误差；CH2「无重叠」是硬约束，
+            ' 因此这里再跑一次重叠修复，保证输出一定满足无重叠
+            ResolveAllOverlaps()
             SanitizeBlocks()
 
             Dim overlaps As Integer = CountOverlaps()
@@ -461,6 +466,51 @@ Namespace Floorplan
             If Options.Verbose Then
                 Console.WriteLine($"[floorplan] still {CountOverlaps()} overlaps after scaling; fall back to push-out")
             End If
+        End Sub
+
+        ''' <summary>
+        ''' 把初始布局的整体尺度收敛回「与街区总面积相称」的量级。
+        ''' </summary>
+        ''' <remarks>
+        ''' SeparateByScaling 为了让数百个街区互不重叠，可能把坐标放大几百倍。
+        ''' 这会让 SA 的抖动步长相对布局尺度变得微不足道（邻域搜索失效），
+        ''' 也会让目标函数的数值量级失真。
+        ''' 注意必须是「位置 + 尺寸」一起等比缩放：只缩放位置会压缩街区之间的
+        ''' 间距却保留街区尺寸，从而凭空制造出大量重叠。
+        ''' </remarks>
+        Private Sub NormalizeScale()
+            Dim extent As Rect = Nothing
+            Dim area As Double = 0
+
+            For Each rect As Rect In blocks.Values
+                If extent Is Nothing Then
+                    extent = rect.Clone()
+                Else
+                    extent = extent.Union(rect)
+                End If
+
+                area += rect.Area
+            Next
+
+            If extent Is Nothing Then
+                Return
+            End If
+
+            Dim current As Double = Math.Sqrt(Math.Max(1E-06, extent.Width * extent.Height))
+            Dim target As Double = Math.Sqrt(Math.Max(1E-06, area)) * 2.5
+
+            If current <= target Then
+                Return
+            End If
+
+            Dim factor As Double = target / current
+
+            For Each rect As Rect In blocks.Values
+                rect.X *= factor
+                rect.Y *= factor
+                rect.Width *= factor
+                rect.Height *= factor
+            Next
         End Sub
 
         ''' <summary>
@@ -822,6 +872,8 @@ Namespace Floorplan
             Dim maxArea As Double = rect.Area * limit * limit
 
             For pass As Integer = 1 To 2
+                Dim before As Rect = rect.Clone()
+
                 ' 向右
                 If rect.Width / Math.Max(1E-06, rect.Height) <= ratio0 * limit Then
                     Dim bound As Double = domain.P
@@ -915,8 +967,34 @@ Namespace Floorplan
                         rect.Height += delta
                     End If
                 End If
+
+                ' CH2「无重叠」是硬约束：扩张只是启发式的面积最大化，
+                ' 若本轮扩张让街区与其它街区重叠，则整轮回退（FH1/FH2 优先于 FS1）
+                If OverlapsAny(id) Then
+                    rect.X = before.X
+                    rect.Y = before.Y
+                    rect.Width = before.Width
+                    rect.Height = before.Height
+                End If
             Next
         End Sub
+
+        ''' <summary>判断某个街区当前是否与任何其它街区重叠。</summary>
+        Private Function OverlapsAny(id As String) As Boolean
+            Dim rect As Rect = blocks(id)
+
+            For Each otherId As String In order
+                If String.Equals(otherId, id, StringComparison.Ordinal) Then
+                    Continue For
+                End If
+
+                If rect.OverlapArea(blocks(otherId)) > 0 Then
+                    Return True
+                End If
+            Next
+
+            Return False
+        End Function
 
         ''' <summary>把扩张量同时限制在「障碍物边界」与「面积上限」之内。</summary>
         Private Shared Function ClampGrowth(obstacleDelta As Double, areaDelta As Double) As Double

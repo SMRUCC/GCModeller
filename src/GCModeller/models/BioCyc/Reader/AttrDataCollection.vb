@@ -132,7 +132,7 @@ Public Class AttrDataCollection(Of T As Model) : Implements Enumeration(Of T)
         ' 预热一次反序列化：反射相关的类型缓存是惰性初始化的共享状态，
         ' 若直接在下面的 PLINQ 里并发首次访问，会偶发 NullReferenceException
         If dataFile.features.Length > 0 Then
-            Call writer.Deserize(dataFile.features(Scan0).value)
+            Call writer.Deserize(dataFile.features(0))
         End If
 
         Dim data As T() = (From a As SeqValue(Of FeatureElement)
