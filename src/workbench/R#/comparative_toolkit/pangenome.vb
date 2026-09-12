@@ -199,7 +199,7 @@ Module pangenome
             Return New list(hits _
                 .Select(Function(h)
                             Dim qid As NamedValue(Of String) = h.queryName.GetTagValue(sep)
-                            h.queryName = qid.Name
+                            ' h.queryName = qid.Name
                             Return (genome:=qid.Value, h)
                         End Function) _
                 .GroupBy(Function(a) a.genome) _
