@@ -30,11 +30,13 @@ declare namespace pangenome {
      * + default value Is ``0.95``.
      * @param uniqueByAcc 
      * + default value Is ``false``.
+     * @param min_genome_size 
+     * + default value Is ``-1``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function build_context(genomes: any, soft_core_threshold?: number, uniqueByAcc?: boolean, env?: object): object;
+   function build_context(genomes: any, soft_core_threshold?: number, uniqueByAcc?: boolean, min_genome_size?: object, env?: object): object;
    /**
    */
    function curve_data(result: object): object;
