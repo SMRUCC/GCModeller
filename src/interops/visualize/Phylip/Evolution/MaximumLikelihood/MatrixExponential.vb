@@ -1,4 +1,5 @@
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.Decomposition
 
 Namespace Evolution.MaximumLikelihood
 
@@ -58,19 +59,22 @@ Namespace Evolution.MaximumLikelihood
             Next
 
             ' B(i,j) = S(i,j) * sqrt(pi_i * pi_j)
-            Dim bmat(n - 1, n - 1) As Double
+            Dim bmat(n - 1)() As Double
 
             For i As Integer = 0 To n - 1
+                bmat(i) = New Double(n - 1) {}
+
                 For j As Integer = 0 To n - 1
                     If i <> j Then
-                        bmat(i, j) = exchangeability(i)(j) * sqrtPi(i) * sqrtPi(j)
+                        bmat(i)(j) = exchangeability(i)(j) * sqrtPi(i) * sqrtPi(j)
                     End If
                 Next
             Next
 
-            Dim eigen = MatrixOps.JacobiEigen(bmat)
-            Dim lambda As Double() = eigen.eigenvalues
-            Dim u As Double(,) = eigen.eigenvectors
+            ' 对称矩阵的特征分解（JAMA 移植的 tred2/tql2）
+            Dim eigen As EigenvalueDecomposition = New NumericMatrix(bmat).Eigen()
+            Dim lambda As Double() = eigen.RealEigenvalues
+            Dim u As NumericMatrix = eigen.V
 
             Dim a(n - 1)() As Double
             Dim b(n - 1)() As Double

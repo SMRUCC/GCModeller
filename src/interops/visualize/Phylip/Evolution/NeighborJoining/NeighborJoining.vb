@@ -107,8 +107,8 @@ Namespace Evolution.NeighborJoining
                 nextIndex += 1
 
                 Dim parent As New PhyloNode With {.ID = "", .IsLeaf = False, .IsRoot = False}
-                nodes(ia_).BranchLength = CSng(li)
-                nodes(ib_).BranchLength = CSng(lj)
+                nodes(ia_).BranchLength = CSng(CleanLength(li))
+                nodes(ib_).BranchLength = CSng(CleanLength(lj))
                 Call parent.AddDescendent(nodes(ia_))
                 Call parent.AddDescendent(nodes(ib_))
                 nodes.Add(parent)
@@ -145,9 +145,9 @@ Namespace Evolution.NeighborJoining
                     Dim dps As Double = d(p)(s)
                     Dim dqs As Double = d(q)(s)
 
-                    nodes(p).BranchLength = CSng(0.5 * (dpq + dps - dqs))
-                    nodes(q).BranchLength = CSng(0.5 * (dpq + dqs - dps))
-                    nodes(s).BranchLength = CSng(0.5 * (dps + dqs - dpq))
+                    nodes(p).BranchLength = CSng(CleanLength(0.5 * (dpq + dps - dqs)))
+                    nodes(q).BranchLength = CSng(CleanLength(0.5 * (dpq + dqs - dps)))
+                    nodes(s).BranchLength = CSng(CleanLength(0.5 * (dps + dqs - dpq)))
 
                     Dim root As New PhyloNode With {.ID = "", .IsLeaf = False, .IsRoot = True}
                     Call root.AddDescendent(nodes(p))
@@ -161,8 +161,8 @@ Namespace Evolution.NeighborJoining
                     Dim q As Integer = active(1)
                     Dim half As Double = d(p)(q) / 2.0
 
-                    nodes(p).BranchLength = CSng(half)
-                    nodes(q).BranchLength = CSng(half)
+                    nodes(p).BranchLength = CSng(CleanLength(half))
+                    nodes(q).BranchLength = CSng(CleanLength(half))
 
                     Dim root As New PhyloNode With {.ID = "", .IsLeaf = False, .IsRoot = True}
                     Call root.AddDescendent(nodes(p))
@@ -186,6 +186,17 @@ Namespace Evolution.NeighborJoining
                               Optional model As DistanceModel = DistanceModel.PoissonCorrection) As PhyloNode
 
             Return Build(SequenceDistance.PairwiseMatrix(matrix, model))
+        End Function
+
+        ''' <summary>
+        ''' 清除浮点运算产生的极小数值（例如 1E-17），使得输出结果中不会出现无意义的“伪分支”。
+        ''' </summary>
+        Private Function CleanLength(value As Double) As Double
+            If Math.Abs(value) < 1.0E-09 Then
+                Return 0
+            End If
+
+            Return value
         End Function
     End Module
 

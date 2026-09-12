@@ -65,27 +65,35 @@ Namespace Evolution.Bootstrap
 
             Dim siteCount As Integer = matrix.SiteCount
             Dim replicateSplits(replicates - 1) As Dictionary(Of String, Integer)
+            Dim replicateSuccess(replicates - 1) As Boolean
 
             Dim runReplicate As Action(Of Integer) =
                 Sub(index As Integer)
-                    Dim rand As New Random(options.Seed + index * 7919 + 13)
-                    Dim indices(siteCount - 1) As Integer
+                    Try
+                        Dim rand As New Random(options.Seed + index * 7919 + 13)
+                        Dim indices(siteCount - 1) As Integer
 
-                    For k As Integer = 0 To siteCount - 1
-                        indices(k) = rand.Next(siteCount)
-                    Next
+                        For k As Integer = 0 To siteCount - 1
+                            indices(k) = rand.Next(siteCount)
+                        Next
 
-                    Dim resampled As CharacterMatrix = matrix.SubColumns(indices)
-                    Dim tree As PhyloNode = TreeBuilder.Build(resampled, algorithm, options)
-                    Dim splits As New Dictionary(Of String, Integer)
+                        Dim resampled As CharacterMatrix = matrix.SubColumns(indices)
+                        Dim tree As PhyloNode = TreeBuilder.Build(resampled, algorithm, options)
+                        Dim splits As New Dictionary(Of String, Integer)
 
-                    For Each key As String In PhyloTreeFactory.AllSplits(tree).Keys
-                        Dim count As Integer = 0
-                        splits.TryGetValue(key, count)
-                        splits(key) = count + 1
-                    Next
+                        For Each key As String In PhyloTreeFactory.AllSplits(tree).Keys
+                            Dim count As Integer = 0
+                            splits.TryGetValue(key, count)
+                            splits(key) = count + 1
+                        Next
 
-                    replicateSplits(index) = splits
+                        replicateSplits(index) = splits
+                        replicateSuccess(index) = True
+                    Catch ex As Exception
+                        ' 某些重采样数据可能不包含足够的信息位点（例如最大简约法），此时跳过该次重采样
+                        Console.WriteLine($"[Bootstrap] replicate {index} skipped: {ex.Message} @ {ex.StackTrace}")
+                        replicateSplits(index) = New Dictionary(Of String, Integer)
+                    End Try
                 End Sub
 
             If parallel AndAlso replicates > 1 Then
@@ -112,15 +120,20 @@ Namespace Evolution.Bootstrap
             Next
 
             Dim support As New Dictionary(Of String, Double)
+            Dim successful As Integer = replicateSuccess.Count(Function(ok) ok)
+
+            If successful < 1 Then
+                successful = 1
+            End If
 
             For Each kv As KeyValuePair(Of String, Integer) In counts
-                support(kv.Key) = kv.Value / replicates
+                support(kv.Key) = kv.Value / successful
             Next
 
             ' 将支持度写回参考树的内部节点
-            Call PhyloTreeFactory.TransferSupport(referenceTree, counts, replicates)
+            Call PhyloTreeFactory.TransferSupport(referenceTree, counts, successful)
 
-            Console.WriteLine($"[Bootstrap] done, {counts.Count} splits supported")
+            Console.WriteLine($"[Bootstrap] done, {counts.Count} splits supported ({successful}/{replicates} replicates succeeded)")
 
             Return New BootstrapResult With {
                 .Tree = referenceTree,
