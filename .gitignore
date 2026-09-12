@@ -617,3 +617,9 @@ src/GCModeller/visualize/Metabopolis/test/errJ.txt
 src/GCModeller/visualize/Metabopolis/test/errK.txt
 src/GCModeller/visualize/Metabopolis/test/logJ.txt
 src/GCModeller/visualize/Metabopolis/test/logK.txt
+src/interops/localblast/PanGenome/test/_shot_col.png
+src/interops/localblast/PanGenome/test/_shot_col2.png
+src/interops/localblast/PanGenome/test/_shot_col3.png
+src/interops/localblast/PanGenome/test/_shot_colbar.png
+src/interops/localblast/PanGenome/test/_shot_hist.png
+src/interops/localblast/PanGenome/test/_shot_stats.png
