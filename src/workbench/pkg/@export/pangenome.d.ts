@@ -34,6 +34,11 @@ declare namespace pangenome {
    */
    function build_context(genomes: any, soft_core_threshold?: number, env?: object): object;
    /**
+     * @param sep default value Is ``'.'``.
+     * @param env default value Is ``null``.
+   */
+   function multiple_genome_alignment(aligns: any, sep?: string, env?: object): any;
+   /**
      * @param index default value Is ``null``.
      * @param env default value Is ``null``.
    */

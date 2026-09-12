@@ -114,6 +114,12 @@ export class Circos extends <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Ci
    chromosomes_units: string;
    colors: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/OverwritesColors.html">OverwritesColors</a>;
    filePath: string;
+   # 内置 GDI+ 绘图引擎所使用的 DPI（同样不会参与 <code>circos.conf</code> 的序列化输出，仅用于 <code>GdiPlus.GdiRender</code>）
+   GdiPlusDpi: integer;
+   # 内置 GDI+ 绘图引擎所使用的画布尺寸。
+   # 
+   # 这个属性没有使用 <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/CircosAttribute.html">CircosAttribute</a> 标记，所以它<strong>不会</strong>被序列化到 <code>circos.conf</code> 配置文件之中（不会影响到命令行调用 circos 的既有流程）， 仅用于 <code>GdiPlus.GdiRender</code> 在没有显式指定渲染参数的时候确定输出图像的尺寸。
+   GdiPlusImageSize: <a href="/vignettes/clr/System/Drawing/Size.html">Size</a>;
    genome: string;
    # 获取到被包含在主配置文件之中的 ideogram 配置块
    Ideogram: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/IdeogramInclude.html">IdeogramInclude</a>;
@@ -154,6 +160,7 @@ export class Circos extends <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Ci
         <ol>
 <li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosConfig.html">CircosConfig</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosConfig.html">CircosConfig</a></li>
 <li>use by <i>property</i> member <code>colors</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/OverwritesColors.html">OverwritesColors</a></li>
+<li>use by <i>property</i> member <code>GdiPlusImageSize</code>: <a href="/vignettes/clr/System/Drawing/Size.html">Size</a></li>
 <li>use by <i>property</i> member <code>Ideogram</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/IdeogramInclude.html">IdeogramInclude</a></li>
 <li>use by <i>property</i> member <code>includes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosConfig.html">iterates(CircosConfig)</a></li>
 <li>use by <i>property</i> member <code>main</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Circos.html">Circos</a></li>

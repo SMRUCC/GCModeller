@@ -32,6 +32,10 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 export class ITrackPlot {
+   # <code>&lt;axes&gt;</code> 子块：径向网格线
+   axes: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Plots/Lines/Axis.html">iterates(Axis)</a>;
+   # <code>&lt;backgrounds&gt;</code> 子块：背景色带
+   backgrounds: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Plots/Lines/Background.html">iterates(Background)</a>;
    # 当前的这个绘图元素所属的 circos 顶层配置块的名称
    block: string;
    # 输入的路径会根据配置情况转换为相对路径或者绝对路径
@@ -42,6 +46,8 @@ export class ITrackPlot {
    r0: string;
    # 圈外径(单位 r，请使用格式"&lt;double&gt;r")
    r1: string;
+   # <code>&lt;rules&gt;</code> 子块：条件着色规则
+   rules: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Plots/ConditionalRule.html">iterates(ConditionalRule)</a>;
    stroke_color: string;
    stroke_thickness: string;
    thickness: string;
@@ -54,7 +60,10 @@ export class ITrackPlot {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>axes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Plots/Lines/Axis.html">iterates(Axis)</a></li>
+<li>use by <i>property</i> member <code>backgrounds</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Plots/Lines/Background.html">iterates(Background)</a></li>
 <li>use by <i>property</i> member <code>orientation</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Plots/Orientation.html">Orientation</a></li>
+<li>use by <i>property</i> member <code>rules</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Nodes/Plots/ConditionalRule.html">iterates(ConditionalRule)</a></li>
 <li>use by <i>property</i> member <code>tracksData</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/TrackDatas/ITrackDataDocument.html">ITrackDataDocument</a></li>
 </ol>
 

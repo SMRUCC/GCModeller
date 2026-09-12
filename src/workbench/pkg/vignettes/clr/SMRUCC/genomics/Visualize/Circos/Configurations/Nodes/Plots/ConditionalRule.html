@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots.ConditionalRule</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ConditionalRule {SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ConditionalRule</h2>
+
+        <h3>Description</h3>
+
+        <p>Rules are used to dynamically alter the format of a data point, based on the value of the data point (or any other property of it).
+
+<p>Each rule has a condition expression; any plot parameter may be placed inside a rule to override the plot's default value for that parameter.
+
+
+<pre><code> &lt;rules&gt;
+   &lt;rule&gt;
+     condition    = var(value) &gt; 0.6
+     color        = red
+     fill_color   = red
+   &lt;/rule&gt;
+ &lt;/rules&gt;</code></pre>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
+export class ConditionalRule extends <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosDocument.html">CircosDocument</a> {
+   color: string;
+   # The rule trigger expression.(例如 <code>var(value) &gt; 0.6</code>)
+   condition: string;
+   fill_color: string;
+   # 设置为 <code>1</code> 的时候，当本规则被触发之后便不再继续测试后续的其它规则
+   flow: string;
+   glyph: string;
+   glyph_size: string;
+   # Rules are triggered in the order they are defined; this parameter can be used to define the importance of a rule irrespective of its order in the block.
+   importance: string;
+   stroke_color: string;
+   stroke_thickness: string;
+   thickness: string;
+   # Whether the rule condition Is evaluated with Perl eval() (<code>eval</code>, the Default) Or without it (<code>noeval</code>)
+   type: string;
+   # The new value of the data point, this allows you to remap the value scale.
+   value: string;
+   # The z-depth of the data point, larger value means drawn later(on the top).
+   z: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosDocument.html">CircosDocument</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/ComponentModel/CircosDocument.html">CircosDocument</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
