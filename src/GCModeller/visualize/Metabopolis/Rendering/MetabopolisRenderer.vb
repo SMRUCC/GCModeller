@@ -245,7 +245,9 @@ Namespace Rendering
             Dim stroke As New Pen(Color.FromArgb(200, 120, 70, 20), 0.9F)
 
             For Each junction As Junction In layout.Junctions.SafeQuery
-                Dim radius As Single = CSng(Math.Max(2.2, 2.0 + junction.Degree * 0.35))
+                ' 半径随枢纽度增长，但必须有上限：跨类别极多的代谢物（如 ATP）
+                ' 度数可达数百，若不封顶会画出巨大的橙色圆斑盖住整张图
+                Dim radius As Single = CSng(Math.Min(6.0, Math.Max(2.2, 2.0 + junction.Degree * 0.35)))
                 ig.DrawCircle(junction.Point, Theme.JunctionColor, stroke, radius)
 
                 If Options.DrawJunctionLabels Then

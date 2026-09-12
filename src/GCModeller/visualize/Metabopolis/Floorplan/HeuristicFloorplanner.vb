@@ -77,6 +77,16 @@ Namespace Floorplan
         ''' <summary>尺寸微调阶段地图域的扩张边距（相对于布局对角线）。</summary>
         Public Property DomainMarginRatio As Double = 0.12
 
+        ''' <summary>
+        ''' 地图域的目标长宽比（默认与输出画布一致的 4/3）。
+        ''' </summary>
+        ''' <remarks>
+        ''' FS1「面积最大化」是让街区向地图域边界扩张。若把地图域直接取成当前布局
+        ''' 的外接矩形，则无论怎么扩张都只是按比例放大，屏幕利用率不会变好；
+        ''' 因此这里按目标长宽比构造一个包含当前布局的域，让扩张真正朝画布形状展开。
+        ''' </remarks>
+        Public Property DomainAspectRatio As Double = 4.0 / 3.0
+
         ''' <summary>随机种子；0 表示按时间自动生成。</summary>
         Public Property RandomSeed As Integer = 0
 
@@ -732,14 +742,25 @@ Namespace Floorplan
                 End If
             Next
 
-            Dim diagonal As Double = Math.Sqrt(extent.Width ^ 2 + extent.Height ^ 2)
+            Dim diagonal As Double = Math.Sqrt(extent.Width * extent.Width + extent.Height * extent.Height)
             Dim margin As Double = diagonal * Options.DomainMarginRatio
 
+            Dim width As Double = extent.Width + 2 * margin
+            Dim height As Double = extent.Height + 2 * margin
+            Dim target As Double = Math.Max(0.1, Options.DomainAspectRatio)
+
+            ' 按目标长宽比放大较短的一边，并保持当前布局居中
+            If width / Math.Max(1E-06, height) < target Then
+                width = height * target
+            Else
+                height = width / target
+            End If
+
             Dim domain As New Rect With {
-                .X = extent.X - margin,
-                .Y = extent.Y - margin,
-                .Width = extent.Width + 2 * margin,
-                .Height = extent.Height + 2 * margin
+                .X = extent.Center.X - width / 2.0,
+                .Y = extent.Center.Y - height / 2.0,
+                .Width = width,
+                .Height = height
             }
 
             ' 先扩张大区块（面积权重高），符合 FS1「提高屏幕利用率」的意图
