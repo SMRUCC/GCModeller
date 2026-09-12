@@ -1,48 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::66f4422542f9d954a507593678bf27b8, analysis\Motifs\CRISPR\CRT\Output\TabularDumps.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module TabularDumps
-    ' 
-    '         Function: __isLocatedInConserved, BatchExportCsv, BatchTrimConserved, Export, (+2 Overloads) RemoveConserved
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module TabularDumps
+' 
+'         Function: __isLocatedInConserved, BatchExportCsv, BatchTrimConserved, Export, (+2 Overloads) RemoveConserved
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -51,6 +50,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.gbExportService
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
+Imports CSVFile = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Namespace Output
 
@@ -125,9 +125,7 @@ Namespace Output
         ''' <param name="besthit_source">这个是最佳双向比对的输出文件夹</param>
         ''' <param name="EXPORT"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        <ExportAPI("batch.trim_conserved",
-                   Info:="Please make sure the filename is the same between the scan_source folder and besthit_source folder!! or the result file will not be proceeded.")>
+        ''' <remarks>Please make sure the filename is the same between the scan_source folder and besthit_source folder!! or the result file will not be proceeded.</remarks>
         Public Function BatchTrimConserved(scan$, besthit_source$, CDS_info As IEnumerable(Of GeneTable), EXPORT$) As GenomeScanResult()
             Dim ScanningResults = (From path
                                    In scan.LoadSourceEntryList("*.xml")
@@ -183,8 +181,8 @@ Namespace Output
         End Function
 
         <ExportAPI("export.csv")>
-        Public Function Export(dat As IEnumerable(Of SearchingModel.CRISPR)) As IO.File
-            Dim out As New IO.File
+        Public Function Export(dat As IEnumerable(Of SearchingModel.CRISPR)) As CSVFile
+            Dim out As New CSVFile
 
             out += {"Position", "Repeats", "Spacer Sequence", "Repeat Length", "Spacer Length"}
             out += {""}

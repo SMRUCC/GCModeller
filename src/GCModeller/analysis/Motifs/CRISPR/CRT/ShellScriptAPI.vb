@@ -110,7 +110,12 @@ Public Module ShellScriptAPI
 
     Dim _innerSeacher As New BoyerMooreAlgorithmSearcher
 
-    <ExportAPI("Boyer_Moore_pattern_exists", Info:="The subject parameter is the pattern that which will be search in the query")>
+    ''' <summary>
+    ''' The subject parameter is the pattern that which will be search in the query
+    ''' </summary>
+    ''' <param name="query"></param>
+    ''' <param name="subject"></param>
+    ''' <returns></returns>
     Public Function BoyerMoore(query As String, subject As String) As Boolean
         Return _innerSeacher.BoyerMooreSearch(query, pattern:=subject) > -1
     End Function

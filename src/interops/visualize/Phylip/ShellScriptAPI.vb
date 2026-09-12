@@ -48,25 +48,22 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Data.csv
-Imports CSVFile = Microsoft.VisualBasic.Data.Framework.IO.File
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.Interops.Visualize.Phylip.MatrixFile
+Imports CSVFile = Microsoft.VisualBasic.Data.Framework.IO.File
 Imports PathEntry = System.Collections.Generic.KeyValuePair(Of String, String)
-Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
-Imports Microsoft.VisualBasic.Data.Framework.IO
 
 <Package("Phylip.Matrix",
                     Cites:="PLOTREE, D. and D. PLOTGRAM (1989). ""PHYLIP-phylogeny inference package (version 3.2).""",
@@ -283,7 +280,7 @@ Public Module ShellScriptAPI
         Call Console.WriteLine("Limits " & Limits)
 
         Dim DataDict = MetaSource.Shuffles.ToDictionary(Function(item) item.sp)
-        Dim IndexKey = DataDict.Keys(VennDataModel.__parserIndex(DataDict, MainIndex))
+        Dim IndexKey As String = Nothing  ' DataDict.Keys(VennDataModel.__parserIndex(DataDict, MainIndex))
         Dim MainData = DataDict(IndexKey)
 
         Call DataDict.Remove(IndexKey)

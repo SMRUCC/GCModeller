@@ -35,6 +35,9 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
+  <Project Path="../../GCModeller/analysis/Motifs/CRISPR/CRT/CRISPR.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
   <Project Path="../../GCModeller/core/Bio.Assembly/biocore-netcore5.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
