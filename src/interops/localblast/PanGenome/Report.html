@@ -1130,18 +1130,63 @@
     </div>
 
     <script>
-        // 数据定义
-        const pieChartData = {$PIE_CHART_DATA};
-        const pangenomeCurveData = {$PANGENOME_CURVE_DATA};
-        const pavData = {$PAV_MATRIX_DATA};
-        const geneticDistanceData = {$GENETIC_DISTANCE_DATA};
-        const svStatsData = {$SV_STATS_DATA};
+        // ============================================
+        // 数据读取：所有数据均以 JSON 形式内嵌在 head 的
+        // <script type="application/json" id="..."> 标签之中
+        // ============================================
+        function readJsonData(id) {
+            const el = document.getElementById(id);
+            if (!el) return null;
+
+            const text = (el.textContent || '').trim();
+            if (!text) return null;
+
+            try {
+                return JSON.parse(text);
+            } catch (err) {
+                console.error('解析内嵌JSON数据失败: ' + id, err);
+                return null;
+            }
+        }
+
+        const genomeStatsData = readJsonData('genome-stats-data') || [];
+        const pieChartData = readJsonData('pie-chart-data') || [];
+        const pangenomeCurveData = readJsonData('pangenome-curve-data')
+            || { genomeCounts: [], panGenes: [], coreGenes: [] };
+        const pavData = readJsonData('pav-matrix-data')
+            || { genomes: [], families: [], matrix: [], truncated: false };
+        const geneticDistanceData = readJsonData('genetic-distance-data')
+            || { genomes: [], data: [], truncated: false };
+        const svStatsData = readJsonData('sv-stats-data') || [];
+        const collinearityData = readJsonData('collinearity-data')
+            || { genomes: [], matrix: [], blocks: [], truncated: false };
 
         // ECharts 通用配置
         const chartTextStyle = {
             color: '#94a3b8',
             fontFamily: 'Noto Sans SC, sans-serif'
         };
+
+        // 热图高度策略：按类别数量自动增高，内层图表可以增长到 6000px，
+        // 外层 .chart-scroll 容器封顶 1600px 并在超出时内部滚动
+        const HEATMAP_MAX_INNER_HEIGHT = 6000;
+
+        function autoHeatmapHeight(count, cellSize, minHeight) {
+            const height = Math.round(count * cellSize);
+            return Math.max(minHeight, Math.min(HEATMAP_MAX_INNER_HEIGHT, height));
+        }
+
+        function setTruncateNote(id, truncated, message) {
+            const el = document.getElementById(id);
+            if (!el) return;
+
+            if (truncated) {
+                el.textContent = message;
+                el.style.display = '';
+            } else {
+                el.style.display = 'none';
+            }
+        }
 
         // 1. 基因家族分布饼图
         function initPieChart() {
@@ -1184,7 +1229,11 @@
                     labelLine: {
                         show: false
                     },
-                    data: pieChartData
+                    data: pieChartData.map(d => ({
+                        name: d.name,
+                        value: d.value,
+                        itemStyle: { color: d.color }
+                    }))
                 }]
             };
             chart.setOption(option);
@@ -1223,7 +1272,10 @@
                 },
                 series: [{
                     type: 'bar',
-                    data: pieChartData,
+                    data: pieChartData.map(d => ({
+                        value: d.value,
+                        itemStyle: { color: d.color }
+                    })),
                     barWidth: '50%',
                     itemStyle: {
                         borderRadius: [6, 6, 0, 0]
