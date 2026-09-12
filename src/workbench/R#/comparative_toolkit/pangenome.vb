@@ -56,6 +56,7 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -171,15 +172,21 @@ Module pangenome
     Public Function build_context(<RRawVectorArgument> genomes As Object,
                                   Optional soft_core_threshold As Double = 0.95,
                                   Optional uniqueByAcc As Boolean = False,
+                                  Optional min_genome_size As Integer = -1,
                                   Optional env As Environment = Nothing) As Object
 
         Dim pull As PipeIterator(Of GFFTable) = pipeline.Stream(Of GFFTable)(genomes, env, suppress:=True)
         Dim context As GenomeAnalyzer
 
         If Not pull.isError Then
-            context = New GenomeAnalyzer(pull)
+            context = New GenomeAnalyzer(From genome In pull Where genome.features.Length > min_genome_size)
         ElseIf TypeOf genomes Is list Then
-            context = New GenomeAnalyzer(DirectCast(genomes, list).asGeneric(Of GeneTable())(env), uniqueByAccessionId:=uniqueByAcc)
+            Dim filterGenomes = DirectCast(genomes, list) _
+                .asGeneric(Of GeneTable())(env) _
+                .Where(Function(genome) genome.Size > min_genome_size) _
+                .ToDictionary
+
+            context = New GenomeAnalyzer(filterGenomes, uniqueByAccessionId:=uniqueByAcc)
         Else
             Dim pullGenes As PipeIterator(Of GeneTable) = pipeline.Stream(Of GeneTable)(genomes, env, suppress:=True)
 
@@ -192,6 +199,7 @@ Module pangenome
                                Return Not (a.replicon_accessionID.StringEmpty OrElse a.species.StringEmpty)
                            End Function) _
                     .GroupBy(Function(g) g.replicon_accessionID) _
+                    .Where(Function(genome) genome.Count > min_genome_size) _
                     .ToDictionary(Function(g) g.Key,
                                   Function(g)
                                       Return g.ToArray

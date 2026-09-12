@@ -231,7 +231,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 #End Region
 
         ''' <summary>
-        ''' Genome size
+        ''' Genome size in bp
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Size As Long
