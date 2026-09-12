@@ -745,6 +745,11 @@ Namespace Floorplan
             Dim ratio0 As Double = rect.Width / Math.Max(1E-06, rect.Height)
             Dim limit As Double = Math.Max(1.0, Options.GrowthLimitRatio)
 
+            ' FS1 面积最大化必须与 FS2「区块自身长宽比不剧烈变化」共同约束：
+            ' 两个轴各最多放大 limit 倍，即面积最多放大 limit² 倍。
+            ' 否则权重极小的街区会被一路扩张到地图边界，破坏「面积正比于类别规模」。
+            Dim maxArea As Double = rect.Area * limit * limit
+
             For pass As Integer = 1 To 2
                 ' 向右
                 If rect.Width / Math.Max(1E-06, rect.Height) <= ratio0 * limit Then
@@ -762,7 +767,7 @@ Namespace Floorplan
                         End If
                     Next
 
-                    Dim delta As Double = bound - rect.P
+                    Dim delta As Double = ClampGrowth(bound - rect.P, maxArea / Math.Max(1E-06, rect.Height) - rect.Width)
 
                     If delta > 0 Then
                         rect.Width += delta
@@ -785,7 +790,7 @@ Namespace Floorplan
                         End If
                     Next
 
-                    Dim delta As Double = bound - rect.Q
+                    Dim delta As Double = ClampGrowth(bound - rect.Q, maxArea / Math.Max(1E-06, rect.Width) - rect.Height)
 
                     If delta > 0 Then
                         rect.Height += delta
@@ -808,7 +813,7 @@ Namespace Floorplan
                         End If
                     Next
 
-                    Dim delta As Double = rect.X - bound
+                    Dim delta As Double = ClampGrowth(rect.X - bound, maxArea / Math.Max(1E-06, rect.Height) - rect.Width)
 
                     If delta > 0 Then
                         rect.X -= delta
@@ -832,7 +837,7 @@ Namespace Floorplan
                         End If
                     Next
 
-                    Dim delta As Double = rect.Y - bound
+                    Dim delta As Double = ClampGrowth(rect.Y - bound, maxArea / Math.Max(1E-06, rect.Width) - rect.Height)
 
                     If delta > 0 Then
                         rect.Y -= delta
@@ -841,6 +846,15 @@ Namespace Floorplan
                 End If
             Next
         End Sub
+
+        ''' <summary>把扩张量同时限制在「障碍物边界」与「面积上限」之内。</summary>
+        Private Shared Function ClampGrowth(obstacleDelta As Double, areaDelta As Double) As Double
+            If obstacleDelta <= 0 Then
+                Return 0
+            End If
+
+            Return Math.Min(obstacleDelta, Math.Max(0, areaDelta))
+        End Function
 
         Private Function WeightOf(id As String) As Double
             Dim cat As Category = network.GetCategory(id)
