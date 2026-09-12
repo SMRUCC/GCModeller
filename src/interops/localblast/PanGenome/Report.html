@@ -1080,7 +1080,7 @@
             </div>
 
             <div class="chart-container">
-                <h3 class="chart-title">Top 共线性区块</h3>
+                <h3 class="chart-title">Top 共线性基因组对</h3>
                 <div id="collinearityBarChart" style="height: 420px;"></div>
             </div>
         </section>
@@ -1806,6 +1806,7 @@
             if (!dom) return null;
 
             const genomes = collinearityData.genomes || [];
+            const metricLabel = collinearityData.metricLabel || '共线基因对';
 
             if (genomes.length === 0) {
                 dom.innerHTML = '<p class="no-data">未检测到共线性数据</p>';
@@ -1837,7 +1838,7 @@
                     formatter: function (params) {
                         const col = params.data[0];
                         const row = params.data[1];
-                        return `${genomes[row]} ↔ ${genomes[col]}<br/>共线基因对: ${params.data[2]}`;
+                        return `${genomes[row]} ↔ ${genomes[col]}<br/>${metricLabel}: ${params.data[2]}`;
                     }
                 },
                 grid: {
@@ -1893,18 +1894,20 @@
             const dom = document.getElementById('collinearityBarChart');
             if (!dom) return null;
 
-            // 横向条形图的类别顺序是从下往上的，这里反转一次使得区块基因对数最多的显示在最上方
-            const blocks = (collinearityData.blocks || []).slice().reverse();
+            const metricLabel = collinearityData.metricLabel || '共线基因对';
 
-            if (blocks.length === 0) {
-                dom.innerHTML = '<p class="no-data">未检测到共线性区块</p>';
+            // 横向条形图的类别顺序是从下往上的，这里反转一次使得统计值最高的显示在最上方
+            const pairs = (collinearityData.pairs || []).slice().reverse();
+
+            if (pairs.length === 0) {
+                dom.innerHTML = '<p class="no-data">未检测到共线性数据</p>';
                 return null;
             }
 
-            dom.style.height = Math.max(320, blocks.length * 30 + 80) + 'px';
+            dom.style.height = Math.max(320, pairs.length * 30 + 80) + 'px';
 
             const chart = echarts.init(dom);
-            const labels = blocks.map(b => `${b.genome1} ↔ ${b.genome2}`);
+            const labels = pairs.map(p => `${p.genome1} ↔ ${p.genome2}`);
 
             const option = {
                 tooltip: {
@@ -1914,8 +1917,10 @@
                     textStyle: { color: '#f1f5f9' },
                     axisPointer: { type: 'shadow' },
                     formatter: function (params) {
-                        const block = blocks[params[0].dataIndex];
-                        return `${block.genome1} ↔ ${block.genome2}<br/>${block.chr1} ↔ ${block.chr2}<br/>共线基因对: ${block.pairs}`;
+                        const pair = pairs[params[0].dataIndex];
+                        const chromosomes = pair.chromosomes ? `<br/>染色体: ${pair.chromosomes}` : '';
+
+                        return `${pair.genome1} ↔ ${pair.genome2}${chromosomes}<br/>${metricLabel}: ${pair.value}<br/>共线性区块数: ${pair.blocks}`;
                     }
                 },
                 grid: {
@@ -1927,7 +1932,7 @@
                 },
                 xAxis: {
                     type: 'value',
-                    name: '共线基因对',
+                    name: metricLabel,
                     nameTextStyle: chartTextStyle,
                     axisLabel: chartTextStyle,
                     axisLine: { lineStyle: { color: '#2d3748' } },
@@ -1946,7 +1951,7 @@
                 },
                 series: [{
                     type: 'bar',
-                    data: blocks.map(b => b.pairs),
+                    data: pairs.map(p => p.value),
                     barWidth: '55%',
                     itemStyle: {
                         borderRadius: [0, 6, 6, 0],
@@ -1976,8 +1981,17 @@
                 `为保证渲染性能，PAV 热图抽样展示了 ${pavData.families.length} 个基因家族 / ${pavData.genomes.length} 个基因组。`);
             setTruncateNote('distanceHeatmapNote', geneticDistanceData.truncated,
                 `为保证渲染性能，遗传距离热图抽样展示了 ${geneticDistanceData.genomes.length} 个基因组。`);
-            setTruncateNote('collinearityNote', collinearityData.truncated,
-                `为保证渲染性能，共线性矩阵仅展示了参与共线性最多的 ${collinearityData.genomes.length} 个基因组。`);
+            const collinearityNote = document.getElementById('collinearityNote');
+            if (collinearityNote) {
+                let message = `热图与排行所用的统计指标：${collinearityData.metricLabel || '共线基因对'}。`;
+
+                if (collinearityData.truncated) {
+                    message += `为保证渲染性能，仅展示参与共线性最多的 ${collinearityData.genomes.length} 个基因组。`;
+                }
+
+                collinearityNote.textContent = message;
+                collinearityNote.style.display = '';
+            }
 
             const charts = [
                 initPieChart(),

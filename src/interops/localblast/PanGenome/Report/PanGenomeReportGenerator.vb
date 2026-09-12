@@ -52,9 +52,18 @@ Public Module PanGenomeReportGenerator
     ''' </summary>
     Const MaxCollinearityGenomes As Integer = 60
     ''' <summary>
-    ''' 共线性区块条形图最多展示的区块数量
+    ''' 共线性条形图最多展示的基因组对数量
     ''' </summary>
-    Const MaxCollinearityBlocks As Integer = 20
+    Const MaxCollinearityPairs As Integer = 20
+
+    ''' <summary>
+    ''' 共线性统计指标：共线基因对数量
+    ''' </summary>
+    Const CollinearMetric_Pairs As String = "共线基因对"
+    ''' <summary>
+    ''' 共线性统计指标：共线性区块数量
+    ''' </summary>
+    Const CollinearMetric_Blocks As String = "共线性区块数"
     ''' <summary>
     ''' 遗传距离热图最多展示的基因组数量
     ''' </summary>
@@ -431,25 +440,32 @@ Public Module PanGenomeReportGenerator
     End Function
 
     ''' <summary>
-    ''' 构建共线性结果的可视化数据（基因组×基因组共线基因对矩阵 + Top区块列表）
+    ''' 构建共线性结果的可视化数据（基因组×基因组共线性矩阵 + Top 基因组对排行）
     ''' </summary>
     ''' <remarks>
     ''' 这里只依赖 <see cref="CollinearBlock.GenePairCount"/> 区块统计信息，
     ''' 因此在基因组数量超过阈值、逐基因的同源配对数据被关闭
     ''' （<see cref="GenomeAnalyzer.RetainOrthologyLinks"/> = False）的时候依然可以正常展示。
+    ''' 
+    ''' 统计指标优先使用区块之内的共线基因对数量；部分历史归档之中区块的基因对数量全部为0，
+    ''' 这个时候自动退化为使用共线性区块个数作为指标，保证可视化结果依然是有意义的。
     ''' </remarks>
     Private Function BuildCollinearityData(result As PanGenomeResult) As CollinearityDataset
         If result.CollinearBlocks Is Nothing OrElse result.CollinearBlocks.Length = 0 Then
             Return New CollinearityDataset With {
                 .genomes = New String() {},
                 .matrix = New Double()() {},
-                .blocks = New CollinearBlockItem() {},
+                .metricLabel = CollinearMetric_Pairs,
+                .pairs = New CollinearPairItem() {},
                 .truncated = False
             }
         End If
 
+        Dim useBlocks As Boolean = result.CollinearBlocks.Sum(Function(b) CLng(b.GenePairCount)) = 0
+
         Dim pairTotals As New Dictionary(Of String, Dictionary(Of String, Integer))()
-        Dim genomeTotals As New Dictionary(Of String, Integer)()
+        Dim blockTotals As New Dictionary(Of String, Dictionary(Of String, Integer))()
+        Dim chrPairs As New Dictionary(Of String, Dictionary(Of String, String))()
 
         For Each block As CollinearBlock In result.CollinearBlocks
             Dim g1 As String = block.Genome1
@@ -459,13 +475,23 @@ Public Module PanGenomeReportGenerator
                 Continue For
             End If
 
-            Dim pairs As Integer = block.GenePairCount
+            Dim genePairs As Integer = block.GenePairCount
 
-            Call AddPairTotal(pairTotals, g1, g2, pairs)
-            Call AddPairTotal(pairTotals, g2, g1, pairs)
+            Call AddPairTotal(pairTotals, g1, g2, genePairs)
+            Call AddPairTotal(pairTotals, g2, g1, genePairs)
+            Call AddPairTotal(blockTotals, g1, g2, 1)
+            Call AddPairTotal(blockTotals, g2, g1, 1)
 
-            genomeTotals(g1) = GetOrZero(genomeTotals, g1) + pairs
-            genomeTotals(g2) = GetOrZero(genomeTotals, g2) + pairs
+            Call SetChrPair(chrPairs, g1, g2, $"{block.Chr1} ↔ {block.Chr2}")
+            Call SetChrPair(chrPairs, g2, g1, $"{block.Chr1} ↔ {block.Chr2}")
+        Next
+
+        Dim metricTotals As Dictionary(Of String, Dictionary(Of String, Integer)) = If(useBlocks, blockTotals, pairTotals)
+        Dim metricLabel As String = If(useBlocks, CollinearMetric_Blocks, CollinearMetric_Pairs)
+        Dim genomeTotals As New Dictionary(Of String, Integer)()
+
+        For Each kvp As KeyValuePair(Of String, Dictionary(Of String, Integer)) In metricTotals
+            genomeTotals(kvp.Key) = kvp.Value.Values.Sum()
         Next
 
         ' 只保留参与过共线性的基因组，按照参与总量降序取Top-N，
@@ -483,45 +509,48 @@ Public Module PanGenomeReportGenerator
                             .Select(Function(c)
                                         If r = c Then
                                             Return 0.0
-                                        End If
-
-                                        Dim row As Dictionary(Of String, Integer) = Nothing
-
-                                        If pairTotals.TryGetValue(r, row) AndAlso row.ContainsKey(c) Then
-                                            Return CDbl(row(c))
                                         Else
-                                            Return 0.0
+                                            Return CDbl(GetNestedValue(metricTotals, r, c))
                                         End If
                                     End Function) _
                             .ToArray
                     End Function) _
             .ToArray
 
-        Dim blocks As CollinearBlockItem() = result.CollinearBlocks _
-            .Where(Function(b) Not String.IsNullOrEmpty(b.Genome1) AndAlso Not String.IsNullOrEmpty(b.Genome2)) _
-            .OrderByDescending(Function(b) b.GenePairCount) _
-            .Take(MaxCollinearityBlocks) _
-            .Select(Function(b)
-                        Return New CollinearBlockItem With {
-                            .genome1 = b.Genome1,
-                            .genome2 = b.Genome2,
-                            .chr1 = b.Chr1,
-                            .chr2 = b.Chr2,
-                            .pairs = b.GenePairCount
-                        }
-                    End Function) _
+        ' 排行数据按照基因组对聚合，只取字典序较小的一个方向以避免重复
+        Dim ranked As New List(Of CollinearPairItem)()
+
+        For Each a As KeyValuePair(Of String, Dictionary(Of String, Integer)) In metricTotals
+            For Each b As KeyValuePair(Of String, Integer) In a.Value
+                If b.Value > 0 AndAlso String.Compare(a.Key, b.Key, StringComparison.Ordinal) < 0 Then
+                    Call ranked.Add(New CollinearPairItem With {
+                        .genome1 = a.Key,
+                        .genome2 = b.Key,
+                        .value = CDbl(b.Value),
+                        .blocks = GetNestedValue(blockTotals, a.Key, b.Key),
+                        .chromosomes = GetChrPair(chrPairs, a.Key, b.Key)
+                    })
+                End If
+            Next
+        Next
+
+        Dim topPairs As CollinearPairItem() = ranked _
+            .OrderByDescending(Function(p) p.value) _
+            .ThenBy(Function(p) p.genome1) _
+            .Take(MaxCollinearityPairs) _
             .ToArray
 
         Return New CollinearityDataset With {
             .genomes = selected,
             .matrix = matrix,
-            .blocks = blocks,
+            .metricLabel = metricLabel,
+            .pairs = topPairs,
             .truncated = genomeTotals.Count > selected.Length
         }
     End Function
 
     Private Sub AddPairTotal(totals As Dictionary(Of String, Dictionary(Of String, Integer)),
-                             g1 As String, g2 As String, pairs As Integer)
+                             g1 As String, g2 As String, value As Integer)
         Dim row As Dictionary(Of String, Integer) = Nothing
 
         If Not totals.TryGetValue(g1, row) Then
@@ -529,8 +558,43 @@ Public Module PanGenomeReportGenerator
             totals.Add(g1, row)
         End If
 
-        row(g2) = GetOrZero(row, g2) + pairs
+        row(g2) = GetOrZero(row, g2) + value
     End Sub
+
+    Private Sub SetChrPair(table As Dictionary(Of String, Dictionary(Of String, String)),
+                           g1 As String, g2 As String, chromosomes As String)
+        Dim row As Dictionary(Of String, String) = Nothing
+
+        If Not table.TryGetValue(g1, row) Then
+            row = New Dictionary(Of String, String)()
+            table.Add(g1, row)
+        End If
+
+        row(g2) = chromosomes
+    End Sub
+
+    Private Function GetNestedValue(totals As Dictionary(Of String, Dictionary(Of String, Integer)),
+                                    a As String, b As String) As Integer
+        Dim row As Dictionary(Of String, Integer) = Nothing
+
+        If totals.TryGetValue(a, row) AndAlso row.ContainsKey(b) Then
+            Return row(b)
+        Else
+            Return 0
+        End If
+    End Function
+
+    Private Function GetChrPair(table As Dictionary(Of String, Dictionary(Of String, String)),
+                                a As String, b As String) As String
+        Dim row As Dictionary(Of String, String) = Nothing
+        Dim text As String = Nothing
+
+        If table.TryGetValue(a, row) AndAlso row.TryGetValue(b, text) Then
+            Return text
+        Else
+            Return ""
+        End If
+    End Function
 
 #End Region
 

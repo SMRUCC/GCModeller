@@ -99,26 +99,42 @@ Public Class GeneticDistanceDataset
 End Class
 
 ''' <summary>
-''' 共线性区块的展示数据项
+''' 共线性基因组对的展示数据项
 ''' </summary>
-Public Class CollinearBlockItem
+Public Class CollinearPairItem
 
     Public Property genome1 As String
     Public Property genome2 As String
-    Public Property chr1 As String
-    Public Property chr2 As String
-    Public Property pairs As Integer
+    ''' <summary>
+    ''' 基因组对之间的共线性统计值，指标含义由 <see cref="CollinearityDataset.metricLabel"/> 说明
+    ''' </summary>
+    Public Property value As Double
+    ''' <summary>
+    ''' 基因组对之间的共线性区块个数
+    ''' </summary>
+    Public Property blocks As Integer
+    ''' <summary>
+    ''' 参与的染色体对摘要
+    ''' </summary>
+    Public Property chromosomes As String
 
 End Class
 
 ''' <summary>
-''' 共线性结果的可视化数据：基因组×基因组共线基因对矩阵 + Top 区块列表
+''' 共线性结果的可视化数据：基因组×基因组共线性矩阵 + Top 基因组对排行
 ''' </summary>
 Public Class CollinearityDataset
 
     Public Property genomes As String()
+    ''' <summary>
+    ''' 对称的共线性统计矩阵，单元格含义由 <see cref="metricLabel"/> 说明
+    ''' </summary>
     Public Property matrix As Double()()
-    Public Property blocks As CollinearBlockItem()
+    ''' <summary>
+    ''' 矩阵与排行所使用的统计指标名称（共线基因对 / 共线性区块数）
+    ''' </summary>
+    Public Property metricLabel As String
+    Public Property pairs As CollinearPairItem()
     ''' <summary>
     ''' 是否因为规模上限而只展示了部分基因组
     ''' </summary>
