@@ -236,8 +236,6 @@ Namespace Preprocess
                 .ToArray
         End Function
 
-        Private Shared ReadOnly EmptyRoles As New Dictionary(Of String, MetaboliteRole)(StringComparer.Ordinal)
-
         Private Sub EnsureRoleIndex(network As MetabolicNetwork)
             If _roleIndex IsNot Nothing Then
                 Return
