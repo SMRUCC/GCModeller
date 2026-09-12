@@ -58,17 +58,23 @@ Namespace Evolution.MaximumLikelihood
                 sqrtPi(i) = Math.Sqrt(pi(i))
             Next
 
-            ' B(i,j) = S(i,j) * sqrt(pi_i * pi_j)
+            ' B(i,j) = S(i,j) * sqrt(pi_i * pi_j)（i ≠ j），对角线保持与 Q 一致
+            ' B(i,i) = Q(i,i) = -Σ_{j≠i} S(i,j) π_j
             Dim bmat(n - 1)() As Double
 
             For i As Integer = 0 To n - 1
                 bmat(i) = New Double(n - 1) {}
 
+                Dim diagonal As Double = 0
+
                 For j As Integer = 0 To n - 1
                     If i <> j Then
                         bmat(i)(j) = exchangeability(i)(j) * sqrtPi(i) * sqrtPi(j)
+                        diagonal += exchangeability(i)(j) * pi(j)
                     End If
                 Next
+
+                bmat(i)(i) = -diagonal
             Next
 
             ' 对称矩阵的特征分解（JAMA 移植的 tred2/tql2）

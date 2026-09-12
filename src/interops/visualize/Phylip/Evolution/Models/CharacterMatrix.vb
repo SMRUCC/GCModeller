@@ -182,17 +182,27 @@ Namespace Evolution.Models
         ''' Bootstrap 重采样支持：按照给定的位点索引序列（可重复）抽取列，构建新的字符矩阵。
         ''' </summary>
         Public Function SubColumns(indices As Integer()) As CharacterMatrix
-            Dim states(SequenceCount - 1)() As Integer
-            Dim aligned(SequenceCount - 1) As String
+            Dim source As Integer()() = Me.States
 
-            For i As Integer = 0 To SequenceCount - 1
+            If source Is Nothing Then
+                Throw New InvalidOperationException("位点矩阵的状态编码数据缺失，无法执行列重采样！")
+            End If
+
+            Dim states(source.Length - 1)() As Integer
+            Dim aligned(source.Length - 1) As String
+
+            For i As Integer = 0 To source.Length - 1
                 Dim row(indices.Length - 1) As Integer
                 Dim sb As New StringBuilder(indices.Length)
+                Dim alphabet As Char() = CharacterSet.Alphabet
 
                 For j As Integer = 0 To indices.Length - 1
                     Dim site As Integer = indices(j)
-                    row(j) = States(i)(site)
-                    sb.Append(AlignedSequences(i)(site))
+                    Dim state As Integer = source(i)(site)
+
+                    row(j) = state
+                    ' 由状态编码还原字符（缺失状态记为 gap），避免依赖原始对齐字符串
+                    sb.Append(If(state >= 0 AndAlso state < alphabet.Length, alphabet(state), "-"c))
                 Next
 
                 states(i) = row

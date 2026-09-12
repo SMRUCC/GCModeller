@@ -343,7 +343,7 @@ Module Program
             Dim matrix As CharacterMatrix = ExampleMatrix()
 
             ' 距离法 bootstrap
-            Dim nj As BootstrapResult = BsRunner.Run(matrix, EvolutionAlgorithm.NeighborJoining, replicates:=20, referenceTree:=Nothing)
+            Dim nj As BootstrapResult = BsRunner.Run(matrix, EvolutionAlgorithm.NeighborJoining, replicates:=20)
             Console.WriteLine($"  NJ bootstrap splits: {nj.SplitSupport.Count}")
             Console.WriteLine("  newick: " & PhyloTreeFactory.CreateNewick(nj.Tree))
 
