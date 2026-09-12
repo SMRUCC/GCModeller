@@ -67,6 +67,9 @@ Namespace Routing
         ''' <summary>每个街区内最多放置的边界枢纽数量。</summary>
         Public Property MaxJunctionsPerBlock As Integer = 48
 
+        ''' <summary>是否输出块内路由的阶段日志（大规模网络排障用）。</summary>
+        Public Property Verbose As Boolean = True
+
         ''' <summary>
         ''' 调用 HOLA 做正交布局所需的最小节点数。
         ''' </summary>
@@ -582,6 +585,8 @@ Namespace Routing
             Dim cellW As Double = interior.Width / cols
             Dim cellH As Double = interior.Height / rows
 
+            Trace($"grid {cols}x{rows} step={step_:0.##} pairs={pairs.Count}")
+
             ' 3. 流网络
             Dim flow As New MinCostFlow()
             Dim source As Integer = flow.AddNode()
@@ -695,7 +700,16 @@ Namespace Routing
             Next
 
             ' 8. 求解并抽取车道
+            Trace($"solving flow: {flow.NodeCount} nodes / {flow.ArcCount \ 2} edges " &
+                  $"(junctions={junctionId.Count}, reactions={reactionId.Count})")
+
+            Dim reach As HashSet(Of Integer) = flow.Reachable(source)
+
+            Trace($"reachable from source: {reach.Count}, sink reached: {reach.Contains(sink)}")
+
             Dim solution As FlowSolution = flow.Solve(source, sink)
+
+            Trace($"flow solved: {solution.Flow} units, cost={solution.Cost:0.##}")
             Dim routes As New List(Of RoutePolyline)()
             Dim counter As Integer = 0
 
@@ -818,8 +832,17 @@ Namespace Routing
                 Next
             Next
 
+            Trace($"lanes: {routes.Count} (routed {solution.Flow}, fallback {fallbacks})")
+
             Return routes.ToArray
         End Function
+
+        Private Sub Trace(message As String)
+            If Options.Verbose Then
+                Console.Out.WriteLine($"[intra] {message}")
+                Console.Out.Flush()
+            End If
+        End Sub
 
         Private Shared Function Invert(table As Dictionary(Of String, Integer)) As Dictionary(Of Integer, String)
             Dim result As New Dictionary(Of Integer, String)()

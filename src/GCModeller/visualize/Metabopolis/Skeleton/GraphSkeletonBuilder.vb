@@ -334,7 +334,11 @@ Namespace Skeleton
                 occupied.Add(edge.Id)
             Next
 
-            Return acceptedExtra
+            ' 生成树 + 贪心扩展出来的边共同构成最终骨架
+            Dim result As New List(Of SkeletonEdge)(tree)
+            result.AddRange(acceptedExtra)
+
+            Return result
         End Function
 
         Private Shared Function CrossesAny(tree As List(Of SkeletonEdge),

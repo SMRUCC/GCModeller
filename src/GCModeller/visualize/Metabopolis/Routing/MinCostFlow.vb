@@ -304,6 +304,12 @@ Namespace Routing
                             Continue For
                         End If
 
+                        ' 已经定型（出队过）的节点不再松弛：
+                        ' 否则前驱图可能出现环，回溯增广路时会死循环
+                        If visited(arc.[To]) Then
+                            Continue For
+                        End If
+
                         ' 约化费用 = 原费用 + 势能差（非负）
                         Dim reduced As Double = arc.Cost + potential(u) - potential(arc.[To])
 
@@ -332,11 +338,12 @@ Namespace Routing
                     End If
                 Next
 
-                ' 找瓶颈容量
+                ' 找瓶颈容量；steps 是防御性的步数上限，避免前驱链异常时死循环
                 Dim bottleneck As Integer = maxFlow - totalFlow
                 Dim cursor As Integer = sink
+                Dim steps As Integer = 0
 
-                While cursor <> source
+                While cursor <> source AndAlso steps <= count
                     Dim arcIndex As Integer = previous(cursor)
 
                     If arcIndex < 0 Then
@@ -346,9 +353,10 @@ Namespace Routing
 
                     bottleneck = Math.Min(bottleneck, arcs(arcIndex).Residual)
                     cursor = arcs(arcIndex ^ 1).[To]
+                    steps += 1
                 End While
 
-                If bottleneck <= 0 Then
+                If bottleneck <= 0 OrElse cursor <> source Then
                     Exit Do
                 End If
 
@@ -374,6 +382,31 @@ Namespace Routing
                 .Flow = totalFlow,
                 .Cost = totalCost
             }
+        End Function
+
+        ''' <summary>
+        ''' 沿残余容量大于 0 的弧做可达性遍历（排障用）。
+        ''' </summary>
+        Public Function Reachable(source As Integer) As HashSet(Of Integer)
+            Dim result As New HashSet(Of Integer)()
+            Dim stack As New Stack(Of Integer)()
+
+            stack.Push(source)
+            result.Add(source)
+
+            While stack.Count > 0
+                Dim u As Integer = stack.Pop()
+
+                For Each arcIndex As Integer In heads(u)
+                    Dim arc As FlowArc = arcs(arcIndex)
+
+                    If arc.Residual > 0 AndAlso result.Add(arc.[To]) Then
+                        stack.Push(arc.[To])
+                    End If
+                Next
+            End While
+
+            Return result
         End Function
 
         Public Overrides Function ToString() As String

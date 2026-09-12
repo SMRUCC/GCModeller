@@ -120,6 +120,11 @@ Public Class MetabopolisLayout
         Dim junctionIndex As New Dictionary(Of String, Junction)(StringComparer.Ordinal)
 
         For Each category As Category In network.Categories.SafeQuery
+            If opts.Verbose Then
+                Console.Out.WriteLine($"[metabopolis] intra-block: {category.Id} ({category.ReactionCount} reactions)")
+                Console.Out.Flush()
+            End If
+
             Dim result As BlockRoutingResult = intra.Route(category.Id)
 
             buildings.AddRange(result.Buildings.SafeQuery)
