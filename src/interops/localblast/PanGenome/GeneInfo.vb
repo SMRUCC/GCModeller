@@ -140,7 +140,7 @@ Public Class GeneInfo : Implements INamedValue
                Group By gene_id Into Group
                Let target = Group.First
                Let genomeName As String = If(uniqueByAccession, target.gene.species & "." & target.gene.replicon_accessionID, target.gene.species)
-               Select New GeneInfo(target.gene, target.gene_id, genomeName)
+               Select New GeneInfo(target.gene, target.gene_id, genome_name:=Nothing)
     End Function
 
 End Class
