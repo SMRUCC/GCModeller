@@ -6,20 +6,20 @@ imports "kmers" from "seqtoolkit";
 imports "pangenome" from "comparative_toolkit";
 
 let dir as string = ?"--dir" || stop("no analysis data provided!");
-let family_result = file.path(dir, "cdhit-family.json");
+let family_json = file.path(dir, "cdhit-family.json");
 let family_result = {
-    if (file.exists(family_result)) {
+    if (file.exists(family_json )) {
         # use cache
-        jsonlite::fromJSON(family_result, what = "cdhit-family");
+        jsonlite::fromJSON(family_json , what = "cdhit-family");
     } else {
         let proteins = read.fasta(file.path(dir, "proteins.faa"));
         let cache_data = cdhit_clusters(proteins);
 
-        writeLines(jsonlite::toJSON(cache_data), con = family_result);
-        cache_data;
+        writeLines(jsonlite::toJSON(cache_data$clusters), con = family_json );
+        cache_data$clusters;
     }
 };
-let orth = multiple_genome_alignment( family_groups(family_result$clusters));
+let orth = multiple_genome_alignment( family_groups(family_result));
 let geneset = read_genetable(file.path(dir,"genes.csv"));
 let context = build_context(geneset,uniqueByAcc=TRUE);
 let result = pangenome::analysis(context, orth);

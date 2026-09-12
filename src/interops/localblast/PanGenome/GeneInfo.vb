@@ -84,9 +84,9 @@ Public Class GeneInfo : Implements INamedValue
     Sub New()
     End Sub
 
-    Sub New(gene As GeneTable, Optional locus_id As String = Nothing)
+    Sub New(gene As GeneTable, Optional locus_id As String = Nothing, Optional genome_name As String = Nothing)
         GeneID = If(locus_id, gene.locus_id)
-        GenomeName = gene.species
+        GenomeName = If(genome_name, gene.species)
         Chromosome = gene.replicon_accessionID
         Start = gene.left
         [End] = gene.right
@@ -139,7 +139,8 @@ Public Class GeneInfo : Implements INamedValue
                Let gene_id As String = If(uniqueByAccession, gene.locus_id & "." & gene.replicon_accessionID, gene.locus_id)
                Group By gene_id Into Group
                Let target = Group.First
-               Select New GeneInfo(target.gene, target.gene_id)
+               Let genomeName As String = If(uniqueByAccession, target.gene.species & "." & target.gene.replicon_accessionID, target.gene.species)
+               Select New GeneInfo(target.gene, target.gene_id, genomeName)
     End Function
 
 End Class
