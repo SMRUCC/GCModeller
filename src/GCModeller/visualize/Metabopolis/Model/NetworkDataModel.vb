@@ -251,17 +251,17 @@ Namespace Model
                     End If
 
                     For Each cpd As String In cat.MetaboliteIds
-                        Dim set As HashSet(Of String) = Nothing
-                        If Not buffer.TryGetValue(cpd, set) Then
-                            set = New HashSet(Of String)(StringComparer.Ordinal)
-                            buffer.Add(cpd, set)
+                        Dim bucket As HashSet(Of String) = Nothing
+                        If Not buffer.TryGetValue(cpd, bucket) Then
+                            bucket = New HashSet(Of String)(StringComparer.Ordinal)
+                            buffer.Add(cpd, bucket)
                         End If
 
-                        set.Add(cat.Id)
+                        bucket.Add(cat.Id)
                     Next
                 Next
 
-                _metaboliteCategories = New Dictionary(Of String, String[])(StringComparer.Ordinal)
+                _metaboliteCategories = New Dictionary(Of String, String())(StringComparer.Ordinal)
 
                 For Each item As KeyValuePair(Of String, HashSet(Of String)) In buffer
                     _metaboliteCategories.Add(item.Key, item.Value.OrderBy(Function(s) s).ToArray)

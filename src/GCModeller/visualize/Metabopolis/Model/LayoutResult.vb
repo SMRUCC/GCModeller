@@ -13,6 +13,7 @@
 ' 这些类型同时提供 JSON 快照能力，便于回归对比与调试。
 ' ============================================================================
 
+Imports System.Drawing
 Imports System.IO
 Imports System.Text
 Imports System.Text.Json
@@ -25,24 +26,25 @@ Namespace Model
     ''' 两个类别之间代谢物角色组合的九种编码（论文 Figure 4b）。
     ''' </summary>
     ''' <remarks>
-    ''' 一个连接两个类别的代谢物，在源类别中可能是产物/底物/两者兼有，
+    ''' 一个连接两个类别的代谢物，在源类别中可能是底物/产物/两者兼有，
     ''' 在目标类别中同样有三种可能，总计 3 × 3 = 9 种组合。
-    ''' 枚举值 = 源类别角色 * 3 + 目标类别角色。
+    ''' 枚举值 = 源类别角色序号 * 3 + 目标类别角色序号，
+    ''' 其中角色序号为：底物=0、产物=1、两者兼有=2。
     ''' </remarks>
     Public Enum EdgeRole As Integer
 
-        ''' <summary>源类别中为产物，目标类别中为底物。</summary>
-        ProductToReactant = 0
-        ''' <summary>源类别中为产物，目标类别中为产物。</summary>
-        ProductToProduct = 1
-        ''' <summary>源类别中为产物，目标类别中两者兼有。</summary>
-        ProductToBoth = 2
         ''' <summary>源类别中为底物，目标类别中为底物。</summary>
-        ReactantToReactant = 3
+        ReactantToReactant = 0
         ''' <summary>源类别中为底物，目标类别中为产物。</summary>
-        ReactantToProduct = 4
+        ReactantToProduct = 1
         ''' <summary>源类别中为底物，目标类别中两者兼有。</summary>
-        ReactantToBoth = 5
+        ReactantToBoth = 2
+        ''' <summary>源类别中为产物，目标类别中为底物。</summary>
+        ProductToReactant = 3
+        ''' <summary>源类别中为产物，目标类别中为产物。</summary>
+        ProductToProduct = 4
+        ''' <summary>源类别中为产物，目标类别中两者兼有。</summary>
+        ProductToBoth = 5
         ''' <summary>源类别中两者兼有，目标类别中为底物。</summary>
         BothToReactant = 6
         ''' <summary>源类别中两者兼有，目标类别中为产物。</summary>
@@ -459,23 +461,23 @@ Namespace Model
         ''' 保证不同规模的数据集都能落在可视区域内。
         ''' </remarks>
         Public Sub Normalize(margin As Double)
-            Dim bounds As Rect = Bounds()
+            Dim extent As Rect = Bounds()
 
-            If bounds Is Nothing OrElse bounds.Width <= 0 OrElse bounds.Height <= 0 Then
+            If extent Is Nothing OrElse extent.Width <= 0 OrElse extent.Height <= 0 Then
                 Return
             End If
 
             Dim targetWidth As Double = Math.Max(1, CanvasWidth - 2 * margin)
             Dim targetHeight As Double = Math.Max(1, CanvasHeight - 2 * margin)
-            Dim scale As Double = Math.Min(targetWidth / bounds.Width, targetHeight / bounds.Height)
+            Dim scale As Double = Math.Min(targetWidth / extent.Width, targetHeight / extent.Height)
 
             ' 布局坐标放大/缩小，并整体平移，使外接矩形贴合画布
-            Dim ox As Double = margin + (targetWidth - bounds.Width * scale) / 2.0
-            Dim oy As Double = margin + (targetHeight - bounds.Height * scale) / 2.0
+            Dim ox As Double = margin + (targetWidth - extent.Width * scale) / 2.0
+            Dim oy As Double = margin + (targetHeight - extent.Height * scale) / 2.0
 
             For Each block As BlockLayout In Blocks.SafeQuery
-                Dim nx As Double = ox + (block.X - bounds.X) * scale
-                Dim ny As Double = oy + (block.Y - bounds.Y) * scale
+                Dim nx As Double = ox + (block.X - extent.X) * scale
+                Dim ny As Double = oy + (block.Y - extent.Y) * scale
                 block.Width *= scale
                 block.Height *= scale
                 block.X = nx
@@ -483,8 +485,8 @@ Namespace Model
             Next
 
             For Each bldg As BuildingBlock In Buildings.SafeQuery
-                Dim nx As Double = ox + (bldg.X - bounds.X) * scale
-                Dim ny As Double = oy + (bldg.Y - bounds.Y) * scale
+                Dim nx As Double = ox + (bldg.X - extent.X) * scale
+                Dim ny As Double = oy + (bldg.Y - extent.Y) * scale
                 bldg.Width *= scale
                 bldg.Height *= scale
                 bldg.X = nx
@@ -492,8 +494,8 @@ Namespace Model
             Next
 
             For Each junction As Junction In Junctions.SafeQuery
-                junction.X = ox + (junction.X - bounds.X) * scale
-                junction.Y = oy + (junction.Y - bounds.Y) * scale
+                junction.X = ox + (junction.X - extent.X) * scale
+                junction.Y = oy + (junction.Y - extent.Y) * scale
             Next
 
             For Each route As RoutePolyline In Routes.SafeQuery
@@ -502,8 +504,8 @@ Namespace Model
                         Continue For
                     End If
 
-                    pt(0) = ox + (pt(0) - bounds.X) * scale
-                    pt(1) = oy + (pt(1) - bounds.Y) * scale
+                    pt(0) = ox + (pt(0) - extent.X) * scale
+                    pt(1) = oy + (pt(1) - extent.Y) * scale
                 Next
             Next
         End Sub
@@ -528,7 +530,7 @@ Namespace Model
 
         ''' <summary>写出 JSON 快照。</summary>
         Public Function ToJson(path As String) As NetworkLayout
-            Dim dir As String = Path.GetDirectoryName(Path.GetFullPath(path))
+            Dim dir As String = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(path))
 
             If Not String.IsNullOrEmpty(dir) AndAlso Not Directory.Exists(dir) Then
                 Directory.CreateDirectory(dir)
