@@ -187,6 +187,7 @@ Module pangenome
                 Return pull.getError
             Else
                 Dim genomeGeneSet As Dictionary(Of String, GeneTable()) = pullGenes _
+                    .Where(Function(a) Not a.replicon_accessionID.StringEmpty) _
                     .GroupBy(Function(g) g.replicon_accessionID) _
                     .ToDictionary(Function(g) g.Key,
                                   Function(g)
