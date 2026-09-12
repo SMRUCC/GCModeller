@@ -5,7 +5,7 @@ imports "bioseq.fasta" from "seqtoolkit";
 
 let src = ?"--genbank" || stop("no genbank source was provided!");
 let result = ?"--out" || file.path(src, "result");
-let gbff = load_genbanks( list.files(src,"*.gbff" ));
+let gbff = load_genbanks( list.files(src,"*.gbff" ), extract_genomics = TRUE);
 let table = c();
 let get_proteins = function(gb) {
     protein_seqs(gb, title = "<locus_tag>.<gb_asm_id>");
