@@ -159,7 +159,7 @@ Imports Microsoft.VisualBasic.Data.Framework
                           End Function)
 
         For Each genome_id As String In df.rownames
-            Dim sin As Dictionary(Of String, Double) = tuples(genome_id)
+            Dim sin As Dictionary(Of String, Double) = tuples.TryGetValue(genome_id)
             Dim vec As Double() = sin.Takes(df.rownames).ToArray
 
             Call df.add(genome_id, vec)

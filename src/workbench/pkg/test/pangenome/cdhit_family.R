@@ -4,7 +4,7 @@ imports "bioseq.fasta" from "seqtoolkit";
 imports "kmers" from "seqtoolkit";
 imports "pangenome" from "comparative_toolkit";
 
-let dir = "K:\pangenome\Candidozyma_auris\result";
+let dir as string = ?"--dir" || stop("no analysis data provided!");
 let proteins = read.fasta(file.path(dir, "proteins.faa"));
 let family_result = cdhit_clusters(proteins);
 let orth = multiple_genome_alignment( family_groups(family_result$clusters));
