@@ -223,6 +223,9 @@ Module genbankKit
     ''' populate a list of genbank data objects from a given list of files or stream.
     ''' </summary>
     ''' <param name="files">a list of files or file stream</param>
+    ''' <param name="extract_genomics">
+    ''' only returns the genomics chromosome data? set this parameter value to TRUE will filter out the plasmid, mitochondrion, plastid type sequence data.
+    ''' </param>
     ''' <param name="autoClose">
     ''' auto close of the <see cref="Stream"/> if the <paramref name="files"/> contains stream object?
     ''' </param>
@@ -235,6 +238,7 @@ Module genbankKit
     <RApiReturn(GetType(GBFF.File))>
     Public Function populateGenbanks(<RRawVectorArgument>
                                      files As Object,
+                                     Optional extract_genomics As Boolean = False,
                                      Optional autoClose As Boolean = True,
                                      Optional env As Environment = Nothing) As Object
         If files Is Nothing Then
