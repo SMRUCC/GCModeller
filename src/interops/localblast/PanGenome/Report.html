@@ -1373,7 +1373,19 @@
 
         // 4. PAV 热图
         function initPAVHeatmap() {
-            const chart = echarts.init(document.getElementById('pavHeatmap'));
+            const dom = document.getElementById('pavHeatmap');
+
+            if (pavData.families.length === 0 || pavData.genomes.length === 0) {
+                dom.innerHTML = '<p class="no-data">PAV 矩阵数据不可用</p>';
+                return null;
+            }
+
+            // 基因组数量越多，热图越宽，适当增加高度以保持单元格的可读性；
+            // 高度超出 .chart-scroll 的封顶值时会自动在容器内滚动
+            dom.style.height = autoHeatmapHeight(
+                Math.max(pavData.families.length, pavData.genomes.length), 18, 500) + 'px';
+
+            const chart = echarts.init(dom);
 
             const data = [];
             pavData.matrix.forEach((row, i) => {
@@ -1467,7 +1479,11 @@
                     type: 'pie',
                     radius: ['50%', '75%'],
                     center: ['50%', '50%'],
-                    data: svStatsData,
+                    data: svStatsData.map(d => ({
+                        name: d.name,
+                        value: d.value,
+                        itemStyle: { color: d.color }
+                    })),
                     label: {
                         show: true,
                         formatter: '{b}\n{c}',
