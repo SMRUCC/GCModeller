@@ -472,6 +472,12 @@ Namespace Model
                 Return
             End If
 
+            ' 几何异常（NaN/Infinity）时不做归一化，避免把错误放大到整张图
+            If Double.IsNaN(extent.Width) OrElse Double.IsInfinity(extent.Width) OrElse
+               Double.IsNaN(extent.Height) OrElse Double.IsInfinity(extent.Height) Then
+                Return
+            End If
+
             Dim targetWidth As Double = Math.Max(1, CanvasWidth - 2 * margin)
             Dim targetHeight As Double = Math.Max(1, CanvasHeight - 2 * margin)
             Dim scale As Double = Math.Min(targetWidth / extent.Width, targetHeight / extent.Height)

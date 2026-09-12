@@ -168,6 +168,7 @@ Namespace Floorplan
         Public Function Run() As FloorplanResult
             BuildInitialLayout()
             ResolveAllOverlaps()
+            ReportNonFiniteBlocks("after initialization")
 
             Dim cost As Double = EvaluateCost()
             Dim bestCost As Double = cost
@@ -209,6 +210,7 @@ Namespace Floorplan
 
             ' 第二轮：尺寸微调（FH1/FH2/FS1/FS2）
             AdjustSizes()
+            SanitizeBlocks()
 
             Dim overlaps As Integer = CountOverlaps()
 
@@ -478,6 +480,12 @@ Namespace Floorplan
         ''' 尝试把 blockId 移动到 proposed，并修复重叠；失败则回退。
         ''' </summary>
         Private Function TryApplyMove(blockId As String, proposed As Rect) As Boolean
+            ' 几何有限性前置校验：非有限的坐标会让代价函数变成 NaN，
+            ' 进而毒化整个模拟退火的收敛过程
+            If Not IsFinite(proposed) Then
+                Return False
+            End If
+
             Dim original As Rect = blocks(blockId).Clone()
             blocks(blockId) = proposed
 
@@ -890,6 +898,65 @@ Namespace Floorplan
 
             Return count
         End Function
+
+        ''' <summary>判断矩形的四个分量是否都是有限值。</summary>
+        Private Shared Function IsFinite(rect As Rect) As Boolean
+            If rect Is Nothing Then
+                Return False
+            End If
+
+            Return IsFiniteValue(rect.X) AndAlso IsFiniteValue(rect.Y) AndAlso
+                   IsFiniteValue(rect.Width) AndAlso IsFiniteValue(rect.Height)
+        End Function
+
+        Private Shared Function IsFiniteValue(value As Double) As Boolean
+            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
+        End Function
+
+        ''' <summary>排障用：输出非有限坐标的街区。</summary>
+        Private Sub ReportNonFiniteBlocks(stage As String)
+            Dim bad As New List(Of String)()
+
+            For Each item As KeyValuePair(Of String, Rect) In blocks
+                If Not IsFinite(item.Value) Then
+                    bad.Add(item.Key)
+                End If
+            Next
+
+            If bad.Count > 0 AndAlso Options.Verbose Then
+                Console.WriteLine($"[floorplan] non-finite blocks {stage}: {bad.Count} (e.g. {String.Join(", ", bad.Take(5))})")
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 兜底修复：把仍然非有限的街区替换成按权重计算的最小矩形。
+        ''' </summary>
+        Private Sub SanitizeBlocks()
+            Dim repaired As Integer = 0
+
+            For Each id As String In order
+                Dim rect As Rect = blocks(id)
+
+                If IsFinite(rect) Then
+                    Continue For
+                End If
+
+                Dim size As Double = Math.Max(Options.MinBlockWidth,
+                                              Math.Sqrt(Math.Max(1.0, WeightOf(id)) * Options.AreaPerWeight))
+                Dim radius As Double = Options.MinBlockWidth * (2 + repaired Mod 16)
+                Dim angle As Double = Math.PI * 2 * (repaired Mod 32) / 32.0
+
+                blocks(id) = Rect.FromSize(Math.Cos(angle) * radius,
+                                           Math.Sin(angle) * radius,
+                                           size,
+                                           size / Math.Max(0.1, Options.TargetAspectRatio))
+                repaired += 1
+            Next
+
+            If repaired > 0 AndAlso Options.Verbose Then
+                Console.WriteLine($"[floorplan] repaired {repaired} non-finite blocks")
+            End If
+        End Sub
 
         Private Function CloneBlocks() As Dictionary(Of String, Rect)
             Dim copy As New Dictionary(Of String, Rect)(StringComparer.Ordinal)

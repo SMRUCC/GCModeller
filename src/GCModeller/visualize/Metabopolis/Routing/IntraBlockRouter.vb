@@ -175,7 +175,7 @@ Namespace Routing
             Dim buildings As New List(Of BuildingBlock)()
             Dim junctions As New List(Of Junction)()
 
-            If graph.vertex Is Nothing OrElse Not graph.vertex.Any Then
+            If graph.vertex Is Nothing OrElse Not graph.vertex.Any OrElse Not IsFinite(block) Then
                 Return New BlockRoutingResult With {
                     .CategoryId = categoryId,
                     .Buildings = New BuildingBlock() {},
@@ -574,6 +574,11 @@ Namespace Routing
                 Return New RoutePolyline() {}
             End If
 
+            ' 尺寸上限保护：几何异常（NaN/Infinity 或超大尺寸）会让网格步长循环失控
+            If Not IsFinite(interior) OrElse interior.Width > MaxDimension OrElse interior.Height > MaxDimension Then
+                Return New RoutePolyline() {}
+            End If
+
             Dim step_ As Double = Options.GridStep
 
             While ((interior.Width \ step_) + 1) * ((interior.Height \ step_) + 1) > Options.MaxGridNodes
@@ -846,6 +851,22 @@ Namespace Routing
                 Console.Out.Flush()
             End If
         End Sub
+
+        ''' <summary>几何尺寸的合理上限（像素）；超过这个量级说明上游几何已经异常。</summary>
+        Private Const MaxDimension As Double = 1.0E+08
+
+        Private Shared Function IsFinite(rect As Rect) As Boolean
+            If rect Is Nothing Then
+                Return False
+            End If
+
+            Return IsFinite(rect.X) AndAlso IsFinite(rect.Y) AndAlso
+                   IsFinite(rect.Width) AndAlso IsFinite(rect.Height)
+        End Function
+
+        Private Shared Function IsFinite(value As Double) As Boolean
+            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
+        End Function
 
         Private Shared Function Invert(table As Dictionary(Of String, Integer)) As Dictionary(Of Integer, String)
             Dim result As New Dictionary(Of Integer, String)()
