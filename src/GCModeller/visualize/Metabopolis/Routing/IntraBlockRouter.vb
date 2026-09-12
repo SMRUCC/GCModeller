@@ -67,8 +67,14 @@ Namespace Routing
         ''' <summary>每个街区内最多放置的边界枢纽数量。</summary>
         Public Property MaxJunctionsPerBlock As Integer = 48
 
-        ''' <summary>是否输出块内路由的阶段日志（大规模网络排障用）。</summary>
-        Public Property Verbose As Boolean = True
+        ''' <summary>
+        ''' 是否输出块内路由的阶段日志（大规模网络排障用）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 关闭时同时会静音 HOLA 的逐分量进度输出：块内布局会在每个街区的
+        ''' 每个连通分量上调用一次 HOLA，成百上千次调用会把控制台刷屏。
+        ''' </remarks>
+        Public Property Verbose As Boolean = False
 
         ''' <summary>
         ''' 调用 HOLA 做正交布局所需的最小节点数。
@@ -301,6 +307,31 @@ Namespace Routing
         ''' <summary>
         ''' 调用 HOLA 做紧凑正交布局，返回节点标签到局部坐标的映射。
         ''' </summary>
+        ''' <summary>
+        ''' 调用 HOLA；失败时返回 False 由调用方退化为环形散布。
+        ''' </summary>
+        ''' <remarks>
+        ''' HOLA 内部用 <c>Console.WriteLine</c> 输出每个分量的进度。块内布局会为
+        ''' 每个街区的每个连通分量各调用一次，规模大时会产生数千行日志；
+        ''' 因此在非 verbose 模式下临时把标准输出重定向到空写入器。
+        ''' </remarks>
+        Private Function InvokeHola(componentGraph As NetworkGraph) As Boolean
+            Dim original As System.IO.TextWriter = Console.Out
+
+            If Not Options.Verbose Then
+                Console.SetOut(System.IO.TextWriter.Null)
+            End If
+
+            Try
+                Call HOLA.DoLayout(componentGraph, Options.Hola)
+                Return True
+            Catch ex As Exception
+                Return False
+            Finally
+                Console.SetOut(original)
+            End Try
+        End Function
+
         Private Function OrthogonalLayout(componentGraph As NetworkGraph) As Dictionary(Of String, PointF)
             Dim result As New Dictionary(Of String, PointF)(StringComparer.Ordinal)
 
@@ -309,12 +340,10 @@ Namespace Routing
                    componentGraph.graphEdges.Any() AndAlso
                    componentGraph.vertex.Count() >= Options.MinHolaNodes Then
 
-                    Try
-                        Call HOLA.DoLayout(componentGraph, Options.Hola)
-                    Catch ex As Exception
+                    If Not InvokeHola(componentGraph) Then
                         ' HOLA 对某些输入不适用，退化为环形散布
                         FallbackCircular(componentGraph)
-                    End Try
+                    End If
                 Else
                     FallbackCircular(componentGraph)
                 End If
@@ -579,14 +608,11 @@ Namespace Routing
                 Return New RoutePolyline() {}
             End If
 
-            Dim step_ As Double = Options.GridStep
-
-            While ((interior.Width \ step_) + 1) * ((interior.Height \ step_) + 1) > Options.MaxGridNodes
-                step_ *= 1.5
-            End While
-
-            Dim cols As Integer = Math.Max(1, CInt(interior.Width \ step_))
-            Dim rows As Integer = Math.Max(1, CInt(interior.Height \ step_))
+            ' 由目标节点数直接解析出步长，避免迭代放大导致整数溢出
+            Dim step_ As Double = Math.Max(Options.GridStep,
+                                           Math.Sqrt(interior.Width * interior.Height / Math.Max(1, Options.MaxGridNodes)))
+            Dim cols As Integer = Math.Max(1, Math.Min(MaxGridDimension, CInt(Math.Floor(interior.Width / step_))))
+            Dim rows As Integer = Math.Max(1, Math.Min(MaxGridDimension, CInt(Math.Floor(interior.Height / step_))))
             Dim cellW As Double = interior.Width / cols
             Dim cellH As Double = interior.Height / rows
 
@@ -854,6 +880,9 @@ Namespace Routing
 
         ''' <summary>几何尺寸的合理上限（像素）；超过这个量级说明上游几何已经异常。</summary>
         Private Const MaxDimension As Double = 1.0E+08
+
+        ''' <summary>单边网格数量的硬上限，防止异常几何导致整数溢出。</summary>
+        Private Const MaxGridDimension As Integer = 4096
 
         Private Shared Function IsFinite(rect As Rect) As Boolean
             If rect Is Nothing Then

@@ -104,15 +104,16 @@ Namespace Routing
                 Return New RoutePolyline() {}
             End If
 
-            ' 1. 全局道路网格
-            Dim step_ As Double = Options.GridStep
+            ' 几何异常保护：非有限或超大尺寸的布局直接跳过块间路由
+            If Not IsFinite(extent) OrElse extent.Width > MaxDimension OrElse extent.Height > MaxDimension Then
+                Return New RoutePolyline() {}
+            End If
 
-            While ((extent.Width \ step_) + 1) * ((extent.Height \ step_) + 1) > Options.MaxGridNodes
-                step_ *= 1.5
-            End While
-
-            Dim cols As Integer = Math.Max(1, CInt(extent.Width \ step_))
-            Dim rows As Integer = Math.Max(1, CInt(extent.Height \ step_))
+            ' 1. 全局道路网格：由目标节点数直接解析出步长，避免迭代放大导致整数溢出
+            Dim step_ As Double = Math.Max(Options.GridStep,
+                                           Math.Sqrt(extent.Width * extent.Height / Math.Max(1, Options.MaxGridNodes)))
+            Dim cols As Integer = Math.Max(1, Math.Min(MaxGridDimension, CInt(Math.Floor(extent.Width / step_))))
+            Dim rows As Integer = Math.Max(1, Math.Min(MaxGridDimension, CInt(Math.Floor(extent.Height / step_))))
             Dim cellW As Double = extent.Width / cols
             Dim cellH As Double = extent.Height / rows
 
@@ -439,6 +440,24 @@ Namespace Routing
             Next
 
             Return result
+        End Function
+
+        ''' <summary>几何尺寸的合理上限（像素）。</summary>
+        Private Const MaxDimension As Double = 1.0E+08
+
+        Private Const MaxGridDimension As Integer = 4096
+
+        Private Shared Function IsFinite(rect As Rect) As Boolean
+            If rect Is Nothing Then
+                Return False
+            End If
+
+            Return IsFinite(rect.X) AndAlso IsFinite(rect.Y) AndAlso
+                   IsFinite(rect.Width) AndAlso IsFinite(rect.Height)
+        End Function
+
+        Private Shared Function IsFinite(value As Double) As Boolean
+            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
         End Function
 
     End Class

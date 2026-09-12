@@ -234,7 +234,14 @@ Namespace Floorplan
             Dim totalSize As Double = 0
 
             For Each cat As Category In network.Categories.SafeQuery
-                Dim weight As Double = Math.Max(1.0, cat.Weight)
+                Dim rawWeight As Double = cat.Weight
+
+                If Double.IsNaN(rawWeight) OrElse Double.IsInfinity(rawWeight) Then
+                    ' 权重异常时退化为 1，避免 NaN 一路传播到矩形几何
+                    rawWeight = 1
+                End If
+
+                Dim weight As Double = Math.Max(1.0, rawWeight)
                 Dim area As Double = weight * Options.AreaPerWeight
                 Dim height As Double = Math.Sqrt(area / ratio)
                 Dim width As Double = height * ratio
@@ -866,7 +873,16 @@ Namespace Floorplan
 
         Private Function WeightOf(id As String) As Double
             Dim cat As Category = network.GetCategory(id)
-            Return If(cat Is Nothing, 1.0, Math.Max(1.0, cat.Weight))
+
+            If cat Is Nothing Then
+                Return 1.0
+            End If
+
+            If Double.IsNaN(cat.Weight) OrElse Double.IsInfinity(cat.Weight) Then
+                Return 1.0
+            End If
+
+            Return Math.Max(1.0, cat.Weight)
         End Function
 
         Private Function CountOverlaps() As Integer

@@ -689,7 +689,15 @@ Namespace Model
                     Continue For
                 End If
 
-                Dim n As Double = If(item.Stoichiometry <= 0, 1, item.Stoichiometry)
+                ' 化学计量数可能是 NaN/Infinity（数据源解析异常）或者缺失，
+                ' 这类值会沿着「类别权重 -> 区块面积」一路污染成 NaN 几何，
+                ' 因此在这里统一兜底为 1
+                Dim n As Double = item.Stoichiometry
+
+                If Double.IsNaN(n) OrElse Double.IsInfinity(n) OrElse n <= 0 Then
+                    n = 1
+                End If
+
                 sum += n
             Next
 
