@@ -167,34 +167,16 @@ Public Module PanGenomeReportGenerator
         sb.AppendLine("<thead><tr><th>基因组名称</th><th>基因总数</th><th>特有基因数</th><th>核心基因占比</th></tr></thead>")
         sb.AppendLine("<tbody>")
 
-        For Each kvp In result.TotalGenesInGenomes.OrderBy(Function(x) x.Key)
-            Dim genomeName As String = kvp.Key
-            Dim geneCount As Integer = kvp.Value
+        ' 预先统计好每一个基因组在特有基因家族/核心基因家族之中出现的数量，
+        ' 避免下面的循环退化成 O(基因组数 x 家族数) 的字典查找
+        Dim genomeNames As String() = result.TotalGenesInGenomes.Keys.OrderBy(Function(x) x).ToArray()
+        Dim specificCounts As Dictionary(Of String, Integer) = CountFamiliesPerGenome(result, result.SpecificGeneFamilies, genomeNames)
+        Dim coreCounts As Dictionary(Of String, Integer) = CountFamiliesPerGenome(result, result.CoreGeneFamilies, genomeNames)
 
-            ' 计算特有基因数
-            Dim specificInGenome As Integer = 0
-            If result.SpecificGeneFamilies IsNot Nothing Then
-                For Each familyId In result.SpecificGeneFamilies
-                    If result.PAVMatrix.ContainsKey(familyId) AndAlso result.PAVMatrix(familyId).ContainsKey(genomeName) Then
-                        If result.PAVMatrix(familyId)(genomeName) > 0 Then
-                            specificInGenome += 1
-                        End If
-                    End If
-                Next
-            End If
-
-            ' 计算核心基因占比
-            Dim coreCount As Integer = 0
-            If result.CoreGeneFamilies IsNot Nothing Then
-                For Each familyId In result.CoreGeneFamilies
-                    If result.PAVMatrix.ContainsKey(familyId) AndAlso result.PAVMatrix(familyId).ContainsKey(genomeName) Then
-                        If result.PAVMatrix(familyId)(genomeName) > 0 Then
-                            coreCount += 1
-                        End If
-                    End If
-                Next
-            End If
-
+        For Each genomeName As String In genomeNames
+            Dim geneCount As Integer = result.TotalGenesInGenomes(genomeName)
+            Dim specificInGenome As Integer = specificCounts(genomeName)
+            Dim coreCount As Integer = coreCounts(genomeName)
             Dim coreRatio As Double = If(geneCount > 0, coreCount / geneCount * 100, 0)
 
             sb.AppendLine($"<tr><td class=""genome-name"">{genomeName}</td><td>{geneCount}</td><td>{specificInGenome}</td><td>{coreRatio:F2}%</td></tr>")
@@ -202,6 +184,49 @@ Public Module PanGenomeReportGenerator
 
         sb.AppendLine("</tbody></table>")
         Return sb.ToString()
+    End Function
+
+    ''' <summary>
+    ''' 统计每一个基因组在给定的基因家族集合之中出现的家族数量
+    ''' </summary>
+    ''' <param name="result"></param>
+    ''' <param name="families">目标基因家族ID列表（例如特有基因家族、核心基因家族）</param>
+    ''' <param name="genomeNames">全部的基因组名称</param>
+    ''' <returns>Key为基因组名称，Value为该基因组在<paramref name="families"/>之中出现的家族数量</returns>
+    ''' <remarks>
+    ''' 原来的实现是 "基因组 x 家族" 的双重循环，在上百个基因组、十几万个基因家族的数据集
+    ''' 上面会退化成上千万次的字典查找。这里反过来只遍历每一个家族的PAV行，
+    ''' 复杂度降低为 O(家族数 x 该家族出现的基因组数)。
+    ''' </remarks>
+    Private Function CountFamiliesPerGenome(result As PanGenomeResult,
+                                            families As String(),
+                                            genomeNames As String()) As Dictionary(Of String, Integer)
+
+        Dim counts As New Dictionary(Of String, Integer)()
+
+        For Each name As String In genomeNames
+            counts.Add(name, 0)
+        Next
+
+        If families.IsNullOrEmpty Then
+            Return counts
+        End If
+
+        For Each familyId As String In families
+            Dim pavRow As Dictionary(Of String, Integer) = Nothing
+
+            If Not result.PAVMatrix.TryGetValue(familyId, pavRow) OrElse pavRow Is Nothing Then
+                Continue For
+            End If
+
+            For Each kvp As KeyValuePair(Of String, Integer) In pavRow
+                If kvp.Value > 0 AndAlso counts.ContainsKey(kvp.Key) Then
+                    counts(kvp.Key) += 1
+                End If
+            Next
+        Next
+
+        Return counts
     End Function
 
     ''' <summary>
