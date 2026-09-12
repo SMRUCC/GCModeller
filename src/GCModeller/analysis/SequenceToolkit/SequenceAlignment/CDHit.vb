@@ -144,7 +144,7 @@ Public Class CDHit
 
         Call $"[cdhit] make unique sequence pool, elapsed {sw.ElapsedMilliseconds} ms; run min-hash in parallel with {workerThreads} threads...".debug
         Call "create min hash sequence data in parallel".info
-        Call hash.Run()
+        Call hash.RunDynamic()
         Call "make hash job done!".info
 
         Return Me
@@ -178,53 +178,65 @@ Public Class CDHit
     ''' <returns></returns>
     Public Iterator Function FindSimilar(Optional threshold As Double = 0.8) As IEnumerable(Of SimilarHit)
         Dim sw As Stopwatch = Stopwatch.StartNew
-        ' 提前并行计算所有相似对，构建图结构
         Dim jaccardTh As Double = LSHParameterEstimator.GetThresholdFromIdentity(threshold, k)
         Dim minHash = hash.minHash
         Dim seqPool = hash.seqPool
-        Dim graph As CDHitSimilarityGraph = CDHitLSH.BuildSimilarityGraph(minHash, jaccardTh, workerThreads)
+        Dim n As Integer = seqPool.Length
+        ' 只需要建立LSH分桶索引，不需要提前物化数十亿条的相似序列对
+        Dim buckets As CDHitLSHBuckets = CDHitLSH.BuildBuckets(minHash, workerThreads)
 
-        Call $"[cdhit] similarity graph: {graph.Size} sequences have similar relations, elapsed {sw.ElapsedMilliseconds} ms".debug
+        Call $"[cdhit] LSH buckets ready, elapsed {sw.ElapsedMilliseconds} ms".debug
 
         sw.Restart()
 
         ' 2. CD-HIT 核心：贪婪聚类（必须串行）
         ' 标记是否已被归入某个簇
-        Dim isClustered(seqPool.Length - 1) As Boolean
-        Dim cluster As SimilarHit
+        Dim isClustered(n - 1) As Boolean
+        ' 候选序列去重：同一条序列可能在当前代表序列的多个波段桶里面重复出现
+        Dim visited(n - 1) As Integer
+        Dim visitMark As Integer = 0
         Dim clusters As Integer = 0
+        Dim relations As Long = 0
 
         ' 注意：代表序列不需要标记 isClustered(i)，因为循环只会按照下标递增的方向前进
-        For i As Integer = 0 To seqPool.Length - 1
+        For i As Integer = 0 To n - 1
             If isClustered(i) Then
                 ' 如果已经被归簇，跳过
                 Continue For
-            Else
-                ' i 作为代表序列
-                cluster = New SimilarHit With {
-                    .SeqID = seqPool(i).Title,
-                    .Similar = New Dictionary(Of String, Double)
-                }
             End If
 
-            ' 遍历所有与 i 相似的邻居
-            Dim neighbors As Dictionary(Of Integer, Double) = graph.Neighbors(i)
+            ' i 作为代表序列
+            Dim cluster As New SimilarHit With {
+                .SeqID = seqPool(i).Title,
+                .Similar = New Dictionary(Of String, Double)()
+            }
 
-            If neighbors IsNot Nothing Then
-                For Each neighbor As KeyValuePair(Of Integer, Double) In neighbors
-                    If Not isClustered(neighbor.Key) Then
+            visitMark += 1
+
+            For band As Integer = 0 To buckets.NumBands - 1
+                For Each candidate As Integer In buckets.BucketMembers(i, band)
+                    If isClustered(candidate) OrElse visited(candidate) = visitMark Then
+                        Continue For
+                    End If
+
+                    visited(candidate) = visitMark
+
+                    Dim similarity As Double = CDHitLSH.SignatureSimilarity(minHash(i).Signature, minHash(candidate).Signature)
+
+                    If similarity >= jaccardTh Then
                         ' CD-HIT 逻辑：将邻居标记为已归簇
-                        isClustered(neighbor.Key) = True
-                        cluster.Similar.Add(seqPool(neighbor.Key).Title, neighbor.Value)
+                        isClustered(candidate) = True
+                        cluster.Similar.Add(seqPool(candidate).Title, similarity)
+                        relations += 1
                     End If
                 Next
-            End If
+            Next
 
             clusters += 1
             Yield cluster
         Next
 
-        Call $"[cdhit] greedy clustering done: {clusters} clusters, elapsed {sw.ElapsedMilliseconds} ms".debug
+        Call $"[cdhit] greedy clustering done: {clusters} clusters, {relations} similar relations, elapsed {sw.ElapsedMilliseconds} ms".debug
     End Function
 
     Public Iterator Function NrSeqs(Optional threshold As Double = 0.8) As IEnumerable(Of FastaSeq)
