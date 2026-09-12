@@ -60,6 +60,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
@@ -114,7 +115,7 @@ Public Class GenomeAnalyzer
     End Sub
 
     Sub New(genomes As Dictionary(Of String, GeneInfo()), Optional uf As UnionFind = Nothing)
-        Call Me.New(genomes.Values.IteratesALL.ToDictionary(Function(gene) gene.GeneID), uf)
+        Call Me.New(genomes.Values.IteratesALL.MakeUniqueNames.ToDictionary(Function(gene) gene.GeneID), uf)
     End Sub
 
     Sub New(genomes As Dictionary(Of String, GeneTable()), Optional uf As UnionFind = Nothing)

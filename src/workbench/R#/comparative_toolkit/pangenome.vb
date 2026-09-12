@@ -194,16 +194,17 @@ Module pangenome
         If hits.isError Then
             Return hits.getError
         Else
-            Return hits.Select(Function(h)
-                                   Dim qid As NamedValue(Of String) = h.queryName.GetTagValue(sep)
-                                   h.queryName = qid.Name
-                                   Return (genome:=qid.Value, h)
-                               End Function) _
-                       .GroupBy(Function(a) a.genome) _
-                       .ToDictionary(Function(a) a.Key,
-                                     Function(a)
-                                         Return a.Select(Function(i) i.Item2).ToArray
-                                     End Function)
+            Return New list(hits _
+                .Select(Function(h)
+                            Dim qid As NamedValue(Of String) = h.queryName.GetTagValue(sep)
+                            h.queryName = qid.Name
+                            Return (genome:=qid.Value, h)
+                        End Function) _
+                .GroupBy(Function(a) a.genome) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.Select(Function(i) i.Item2).ToArray
+                              End Function))
         End If
     End Function
 
