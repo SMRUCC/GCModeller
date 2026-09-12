@@ -268,7 +268,9 @@ Module genbankKit
                 In source
                 Let asmLevel = gb.GetAssemblyLevel
                 Where gb.GetMolType = GenomeMolType.Nuclear AndAlso
-                    (asmLevel = GenomeAssemblyLevel.CompleteGenome OrElse asmLevel = GenomeAssemblyLevel.ChromosomeLevel)
+                    (asmLevel = GenomeAssemblyLevel.CompleteGenome OrElse asmLevel = GenomeAssemblyLevel.ChromosomeLevel
+                )
+                Select gb
             )
         Else
             Return pipeline.CreateFromPopulator(source)
