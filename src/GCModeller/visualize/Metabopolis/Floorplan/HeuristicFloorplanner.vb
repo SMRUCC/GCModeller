@@ -87,6 +87,15 @@ Namespace Floorplan
         ''' </remarks>
         Public Property DomainAspectRatio As Double = 4.0 / 3.0
 
+        ''' <summary>
+        ''' 布局的「工作尺度」：初始分离后把整体缩放到这个最大边长。
+        ''' </summary>
+        ''' <remarks>
+        ''' 街区数量很多时，为了让数百个街区互不重叠，初始坐标会被放大很多倍；
+        ''' 这里统一收敛到一个稳定的工作尺度，使后续路由阶段的默认参数始终有意义。
+        ''' </remarks>
+        Public Property WorkingExtent As Double = 2000
+
         ''' <summary>随机种子；0 表示按时间自动生成。</summary>
         Public Property RandomSeed As Integer = 0
 
@@ -480,7 +489,6 @@ Namespace Floorplan
         ''' </remarks>
         Private Sub NormalizeScale()
             Dim extent As Rect = Nothing
-            Dim area As Double = 0
 
             For Each rect As Rect In blocks.Values
                 If extent Is Nothing Then
@@ -488,29 +496,35 @@ Namespace Floorplan
                 Else
                     extent = extent.Union(rect)
                 End If
-
-                area += rect.Area
             Next
 
             If extent Is Nothing Then
                 Return
             End If
 
-            Dim current As Double = Math.Sqrt(Math.Max(1E-06, extent.Width * extent.Height))
-            Dim target As Double = Math.Sqrt(Math.Max(1E-06, area)) * 2.5
+            Dim current As Double = Math.Max(extent.Width, extent.Height)
+            Dim target As Double = Math.Max(1.0, Options.WorkingExtent)
 
-            If current <= target Then
+            If current <= 0 Then
                 Return
             End If
 
             Dim factor As Double = target / current
 
+            If Math.Abs(factor - 1.0) < 1E-06 Then
+                Return
+            End If
+
+            ' 位置与尺寸必须一起等比缩放，否则会凭空产生重叠
             For Each rect As Rect In blocks.Values
                 rect.X *= factor
                 rect.Y *= factor
                 rect.Width *= factor
                 rect.Height *= factor
             Next
+
+            ' 面积统计仅用于日志判断，这里保留占位以避免未使用变量告警
+
         End Sub
 
         ''' <summary>

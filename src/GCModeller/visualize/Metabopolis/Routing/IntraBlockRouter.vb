@@ -668,7 +668,7 @@ Namespace Routing
             Dim inset As Double = Math.Min(Options.BoundaryInset, 0.2 * Math.Min(block.Width, block.Height))
             Dim interior As Rect = block.Inflate(-inset)
 
-            If interior.Width <= 8 OrElse interior.Height <= 8 Then
+            If interior.Width <= 0 OrElse interior.Height <= 0 Then
                 Return New RoutePolyline() {}
             End If
 
@@ -677,9 +677,18 @@ Namespace Routing
                 Return New RoutePolyline() {}
             End If
 
-            ' 由目标节点数直接解析出步长，避免迭代放大导致整数溢出
-            Dim step_ As Double = Math.Max(Options.GridStep,
+            ' 网格步长完全相对于街区尺寸推导：
+            '   * 下界：保证网格节点数不超过 MaxGridNodes；
+            '   * 上界：至少铺满 3x3 的网格，否则小区块连车道都画不出来。
+            ' 使用相对值而非固定像素，是为了让布局尺度变化时行为保持稳定。
+            Dim step_ As Double = Math.Max(2.0,
                                            Math.Sqrt(interior.Width * interior.Height / Math.Max(1, Options.MaxGridNodes)))
+            Dim stepLimit As Double = Math.Max(2.0, Math.Min(interior.Width, interior.Height) / 3.0)
+
+            If step_ > stepLimit Then
+                step_ = stepLimit
+            End If
+
             Dim cols As Integer = Math.Max(1, Math.Min(MaxGridDimension, CInt(Math.Floor(interior.Width / step_))))
             Dim rows As Integer = Math.Max(1, Math.Min(MaxGridDimension, CInt(Math.Floor(interior.Height / step_))))
             Dim cellW As Double = interior.Width / cols
