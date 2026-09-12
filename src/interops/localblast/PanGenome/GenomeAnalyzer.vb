@@ -348,12 +348,23 @@ Public Class GenomeAnalyzer
     ''' 一个包含k个基因的家族只需要 k-1 次并查集合并操作，
     ''' 不需要先展开为 O(k^2) 个两两配对关系。
     ''' </param>
+    ''' <param name="orthoSources">
+    ''' 与<paramref name="orthoGroups"/>一一对应的基因来源（一般是replicon编号），
+    ''' 用于保持与BBH路径一致的行为：同一个来源之内的基因不会被合并到同一个家族之中。
+    ''' </param>
     ''' <returns>分析结果对象</returns>
-    Public Function AnalyzePanGenome(orthoGroups As Dictionary(Of String, String())) As PanGenomeResult
+    Public Function AnalyzePanGenome(orthoGroups As Dictionary(Of String, String()),
+                                     Optional orthoSources As Dictionary(Of String, String()) = Nothing) As PanGenomeResult
         Dim sw As Stopwatch = Stopwatch.StartNew
 
         For Each group As KeyValuePair(Of String, String()) In orthoGroups
-            Call uf.UnionRange(group.Value)
+            Dim sources As String() = Nothing
+
+            If orthoSources IsNot Nothing AndAlso orthoSources.ContainsKey(group.Key) Then
+                sources = orthoSources(group.Key)
+            End If
+
+            Call uf.UnionRange(group.Value, sources)
         Next
 
         Call $"[pan-genome] merge {orthoGroups.Count} ortholog groups, elapsed {sw.ElapsedMilliseconds} ms".debug
@@ -457,14 +468,12 @@ Public Class GenomeAnalyzer
                                    End If
                                Next
 
-                               ' 稀疏行：只保存非零的拷贝数
-                               ' 所有的读取端(PAVTable/GetPAVMatrix/报告)对缺失的键都是当作0来处理的
-                               Dim row As New Dictionary(Of String, Integer)(If(presence > 0, presence, 1))
+                               ' 注意：PAV的每一行都必须包含全部的基因组键，
+                               ' 否则R#脚本在导出表格的时候会把缺失的键当作空值(NA)而不是0来处理
+                               Dim row As New Dictionary(Of String, Integer)(N)
 
                                For g = 0 To N - 1
-                                   If counts(g) > 0 Then
-                                       row.Add(genomeList(g), counts(g))
-                                   End If
+                                   row.Add(genomeList(g), counts(g))
                                Next
 
                                pavRows(k) = row

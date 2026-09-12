@@ -143,6 +143,68 @@ Public Class UnionFind
     End Sub
 
     ''' <summary>
+    ''' 将一个直系同源分组（例如cd-hit的一个cluster）内的所有基因合并为同一个基因家族
+    ''' </summary>
+    ''' <param name="genes">分组内的基因ID，顺序与原始的两两配对枚举顺序保持一致</param>
+    ''' <param name="sources">
+    ''' 每一个基因所属的比对来源（一般是replicon编号）。只有来源不同的基因之间才会被合并，
+    ''' 同一个来源之内的基因（旁系同源）不会被合并到同一个家族之中，
+    ''' 这样子可以和 <see cref="OrthoGroupsHelper.BuildHomologyRelations(Of T)"/> 的行为保持一致。
+    ''' </param>
+    ''' <remarks>
+    ''' 一个包含k个基因的分组只需要 k-1 次合并操作即可完成聚类，
+    ''' 不需要先生成 O(k^2) 个两两配对关系再逐个合并。
+    ''' </remarks>
+    Public Sub UnionRange(genes As String(), Optional sources As String() = Nothing)
+        If genes Is Nothing OrElse genes.Length < 2 Then
+            Return
+        End If
+
+        If sources Is Nothing OrElse sources.Length <> genes.Length Then
+            Call UnionRange(DirectCast(genes, IEnumerable(Of String)))
+            Return
+        End If
+
+        Dim i As Integer
+        Dim i0 As Integer = -1
+        Dim j0 As Integer = -1
+
+        ' 第一个参与合并的基因（必须是已经注册过的基因）
+        For i = 0 To genes.Length - 1
+            If parent.ContainsKey(genes(i)) Then
+                i0 = i
+                Exit For
+            End If
+        Next
+        If i0 < 0 Then
+            Return
+        End If
+
+        ' 家族ID（并查集的根）取枚举顺序之中第一个与首个基因来源不同的基因
+        For i = i0 + 1 To genes.Length - 1
+            If parent.ContainsKey(genes(i)) AndAlso sources(i) <> sources(i0) Then
+                j0 = i
+                Exit For
+            End If
+        Next
+        If j0 < 0 Then
+            ' 分组内的所有基因都来源于同一个基因组，不存在跨基因组的同源关系
+            Return
+        End If
+
+        Dim root As String = genes(j0)
+
+        ' 先让root赢一次把它的rank提升上去，之后的所有基因都会被挂载到它的下面
+        Call Union(genes(i0), root)
+
+        For i = 0 To genes.Length - 1
+            If i <> j0 Then
+                Call Union(root, genes(i))
+            End If
+        Next
+    End Sub
+
+    ''' <summary>
     ''' 合并两个集合
     ''' </summary>
     ''' <param name="referID">推荐使用参考基因ID，这样子比较容易生成有意义的家族ID</param>
