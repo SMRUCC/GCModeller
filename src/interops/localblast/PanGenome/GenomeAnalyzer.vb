@@ -371,7 +371,12 @@ Public Class GenomeAnalyzer
                     Dim targetOrthos = orthoLookup(g1Gene.GeneID) _
                         .Where(Function(o)
                                    Dim otherId = If(o.QueryName = g1Gene.GeneID, o.HitName, o.QueryName)
-                                   Return geneAnnotations(otherId).GenomeName = g2
+
+                                   If geneAnnotations.ContainsKey(otherId) Then
+                                       Return geneAnnotations(otherId).GenomeName = g2
+                                   Else
+                                       Return False
+                                   End If
                                End Function) _
                         .ToList()
 
