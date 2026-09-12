@@ -59,6 +59,10 @@
 
 #End Region
 
+Imports System.Diagnostics
+Imports System.Numerics
+Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
@@ -70,18 +74,70 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports rand = Microsoft.VisualBasic.Math.RandomExtensions
 
+''' <summary>
+''' 泛基因组分析器
+''' </summary>
+''' <remarks>
+''' 整个分析过程被重构为：
+''' 
+''' 1. 索引化：在分析开始之前，一次性把所有的字符串主键（基因ID、基因组名、家族ID）
+'''    映射为连续的整数下标，后续的热循环全部在并行数组(<see cref="Integer"/>)上进行，
+'''    避免上百万次的字符串哈希查找；
+''' 2. 去二次化：直系同源分组（例如cd-hit的cluster）直接做 k-1 次并查集合并，
+'''    不再生成 O(k^2) 的两两配对中间对象；共线性分析不再对每个基因组对做全基因表扫描；
+'''    泛基因组曲线由 O(迭代数 x 基因组数 x 家族数) 的全表扫描改为 O(迭代数 x 基因数) 的增量计数；
+''' 3. 并行化：家族聚类之后相互独立的计算单元（基因家族、基因组对、蒙特卡洛迭代）
+'''    全部通过 <see cref="Parallel"/> 做数据并行。
+''' </remarks>
 Public Class GenomeAnalyzer
 
-    Dim genomeNames As New HashSet(Of String)()
-    Dim genomeGeneSets As New Dictionary(Of String, HashSet(Of String))()
+    ''' <summary>
+    ''' 当基因组的数量超过这个阈值的时候，共线性结果中将只会保留区块的统计信息，
+    ''' 不再保留逐基因的同源配对数据，以避免占用过大的内存
+    ''' </summary>
+    Const MaxRetainLinkGenomes As Integer = 32
+
+    ReadOnly genomeNames As New HashSet(Of String)()
     Dim result As New PanGenomeResult()
     Dim uf As UnionFind
 
     ''' <summary>
     ''' 全局基因注释字典（用于查询基因所属基因组）
     ''' </summary>
-    Dim geneAnnotations As Dictionary(Of String, GeneInfo)
+    ReadOnly geneAnnotations As Dictionary(Of String, GeneInfo)
     Dim totalGenomes As Integer
+
+#Region "整数索引化的分析上下文"
+
+    ''' <summary>下标 -> 基因ID</summary>
+    Dim geneIds As String()
+    ''' <summary>基因ID -> 下标</summary>
+    Dim geneIndex As Dictionary(Of String, Integer)
+    ''' <summary>下标 -> 所属基因组下标</summary>
+    Dim geneGenome As Integer()
+    Dim geneChr As String()
+    Dim geneStart As Integer()
+    Dim geneEnd As Integer()
+
+    ''' <summary>有序的基因组名称列表</summary>
+    Dim genomeList As String()
+    Dim genomeIndex As Dictionary(Of String, Integer)
+    ''' <summary>每个基因组内按照(染色体, 起始位点)排序好的基因下标，只排序一次供所有算法复用</summary>
+    Dim genomeGenes As Integer()()
+
+    ''' <summary>下标 -> 家族ID</summary>
+    Dim familyIds As String()
+    ''' <summary>家族下标 -> 该家族内的基因下标</summary>
+    Dim familyMembers As Integer()()
+    ''' <summary>家族下标 -> 该家族内的基因ID</summary>
+    Dim familyGeneIds As String()()
+    ''' <summary>基因下标 -> 家族下标（-1表示未聚类）</summary>
+    Dim geneFamily As Integer()
+
+    ''' <summary>基因组下标 -> (家族下标 -> 该基因组内的唯一基因下标，多拷贝或者不存在为-1)</summary>
+    Dim familyToGene As Dictionary(Of Integer, Integer)()
+
+#End Region
 
     Public Property CoreThreshold As Double = 1.0  ' 100%
     Public Property SoftCoreThreshold As Double = 0.95  ' 95% 
@@ -91,27 +147,35 @@ Public Class GenomeAnalyzer
     Public Property MinCollinearGenes As Integer = 5
 
     ''' <summary>
+    ''' 是否在共线性结果之中保留逐基因的同源配对数据？
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 在基因组数量非常多的时候（例如几百个基因组的两两比较），同源配对的数据量是
+    ''' O(N^2 x 平均每基因组基因数)，会占用非常巨大的内存。默认情况下当基因组数量
+    ''' 大于 <see cref="MaxRetainLinkGenomes"/> 的时候这个开关会被自动关闭，
+    ''' 只保留 <see cref="CollinearBlock.LinkCount"/> 统计信息。
+    ''' </remarks>
+    Public Property RetainOrthologyLinks As Boolean = True
+
+    ''' <summary>
+    ''' 泛基因组曲线的蒙特卡洛模拟迭代次数
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property CurveIterations As Integer = 100
+
+    ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="geneAnnotations">
     ''' 所有基因的详细信息字典，Key为GeneID
     ''' </param>
     Sub New(geneAnnotations As Dictionary(Of String, GeneInfo), Optional uf As UnionFind = Nothing)
-        ' 0. 预处理：构建基因组列表和基因集合
-        For Each geneKvp In geneAnnotations
-            Dim gInfo = geneKvp.Value
-            genomeNames.Add(gInfo.GenomeName)
-
-            If Not genomeGeneSets.ContainsKey(gInfo.GenomeName) Then
-                genomeGeneSets.Add(gInfo.GenomeName, New HashSet(Of String)())
-            End If
-            genomeGeneSets(gInfo.GenomeName).Add(gInfo.GeneID)
-        Next
-
-        Me.totalGenomes = genomeNames.Count
         Me.geneAnnotations = geneAnnotations
+        Me.uf = If(uf, New UnionFind)
 
-        Call Initialize(uf)
+        Call BuildIndex()
+        Call Initialize()
     End Sub
 
     Sub New(genomes As Dictionary(Of String, GeneInfo()), Optional uf As UnionFind = Nothing)
@@ -126,24 +190,96 @@ Public Class GenomeAnalyzer
         Call Me.New(GeneInfo.GenomeSet(genomes), uf)
     End Sub
 
-    Private Sub Initialize(uf As UnionFind)
-        Me.uf = If(uf, New UnionFind)
-        Me.SetGenesElements(geneAnnotations.Keys)
+    ''' <summary>
+    ''' 一次性构建好所有的整数索引，后续的分析过程将不再需要针对上百万个基因
+    ''' 反复做字符串哈希查找
+    ''' </summary>
+    Private Sub BuildIndex()
+        Dim n As Integer = geneAnnotations.Count
+        Dim sw As Stopwatch = Stopwatch.StartNew
 
-        ' 统计总数
-        For Each kvp In genomeGeneSets
-            Call result.TotalGenesInGenomes.Add(kvp.Key, kvp.Value.Count)
+        geneIds = New String(n - 1) {}
+        geneIndex = New Dictionary(Of String, Integer)(n)
+        geneGenome = New Integer(n - 1) {}
+        geneChr = New String(n - 1) {}
+        geneStart = New Integer(n - 1) {}
+        geneEnd = New Integer(n - 1) {}
+        genomeIndex = New Dictionary(Of String, Integer)()
+
+        Dim buckets As New Dictionary(Of Integer, List(Of Integer))()
+        Dim i As Integer = 0
+
+        For Each geneKvp As KeyValuePair(Of String, GeneInfo) In geneAnnotations
+            Dim gInfo As GeneInfo = geneKvp.Value
+            Dim gi As Integer
+
+            If Not genomeIndex.ContainsKey(gInfo.GenomeName) Then
+                gi = genomeIndex.Count
+                genomeIndex.Add(gInfo.GenomeName, gi)
+                genomeNames.Add(gInfo.GenomeName)
+                buckets.Add(gi, New List(Of Integer)(512))
+            Else
+                gi = genomeIndex(gInfo.GenomeName)
+            End If
+
+            geneIds(i) = gInfo.GeneID
+            geneIndex(gInfo.GeneID) = i
+            geneGenome(i) = gi
+            geneChr(i) = gInfo.Chromosome
+            geneStart(i) = gInfo.Start
+            geneEnd(i) = gInfo.[End]
+            buckets(gi).Add(i)
+
+            i += 1
         Next
+
+        totalGenomes = genomeNames.Count
+        genomeList = genomeNames.ToArray()
+        genomeGenes = New Integer(totalGenomes - 1)() {}
+
+        Dim cmp As New Comparison(Of Integer)(AddressOf CompareGeneLocus)
+
+        For Each kvp As KeyValuePair(Of Integer, List(Of Integer)) In buckets
+            Dim genesOfGenome As Integer() = kvp.Value.ToArray()
+
+            ' 按照(染色体, 起始位点)排序，共线性分析依赖于这个顺序
+            Call Array.Sort(genesOfGenome, cmp)
+
+            genomeGenes(kvp.Key) = genesOfGenome
+            result.TotalGenesInGenomes.Add(genomeList(kvp.Key), genesOfGenome.Length)
+        Next
+
+        Call $"[pan-genome] index {n} genes of {totalGenomes} genomes, elapsed {sw.ElapsedMilliseconds} ms".debug
+    End Sub
+
+    ''' <summary>
+    ''' 基因组内的基因排序比较函数：先按照染色体，再按照起始位点
+    ''' </summary>
+    Private Function CompareGeneLocus(a As Integer, b As Integer) As Integer
+        Dim c As Integer = String.CompareOrdinal(geneChr(a), geneChr(b))
+
+        If c = 0 Then
+            Return geneStart(a).CompareTo(geneStart(b))
+        Else
+            Return c
+        End If
+    End Function
+
+    Private Sub Initialize()
+        ' 默认在大基因组集合上面关闭逐基因的共线性配对输出
+        Me.RetainOrthologyLinks = totalGenomes <= MaxRetainLinkGenomes
+        Me.SetGenesElements(geneIds)
     End Sub
 
     Private Sub SetGenesElements(gene_ids As IEnumerable(Of String))
         ' 初始化所有基因
-        For Each geneId As String In gene_ids
-            Call uf.AddElement(geneId)
-        Next
+        Call uf.AddElements(gene_ids)
     End Sub
 
-    Private Function MakeFamilyMapping(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As Dictionary(Of String, List(Of String))
+    ''' <summary>
+    ''' 通过BBH两两比对结果建立基因家族（并查集合并）
+    ''' </summary>
+    Private Sub MakeFamilyMapping(orthologDict As Dictionary(Of String, BiDirectionalBesthit()))
         ' 建立连接
         For Each kvp In orthologDict
             For Each ortho In kvp.Value
@@ -152,100 +288,262 @@ Public Class GenomeAnalyzer
                 End If
             Next
         Next
+    End Sub
 
-        ' 构建家族映射
-        Return uf.GetClusters
-    End Function
+    ''' <summary>
+    ''' 从并查集之中提取出基因家族，并且建立家族的整数索引
+    ''' </summary>
+    Private Sub BuildFamilyIndex()
+        Dim clusters As Dictionary(Of String, List(Of String)) = uf.GetClusters
+        Dim f As Integer = 0
+
+        familyIds = New String(clusters.Count - 1) {}
+        familyMembers = New Integer(clusters.Count - 1)() {}
+        familyGeneIds = New String(clusters.Count - 1)() {}
+        geneFamily = New Integer(geneIds.Length - 1) {}
+
+        For i As Integer = 0 To geneFamily.Length - 1
+            geneFamily(i) = -1
+        Next
+
+        For Each kvp As KeyValuePair(Of String, List(Of String)) In clusters
+            Dim members As New List(Of Integer)(kvp.Value.Count)
+
+            For Each geneId As String In kvp.Value
+                Dim gi As Integer = -1
+
+                If geneIndex.TryGetValue(geneId, gi) Then
+                    members.Add(gi)
+                    geneFamily(gi) = f
+                End If
+            Next
+
+            familyIds(f) = kvp.Key
+            familyMembers(f) = members.ToArray()
+            familyGeneIds(f) = kvp.Value.ToArray()
+
+            f += 1
+        Next
+    End Sub
 
     ''' <summary>
     ''' 执行泛基因组分析的主函数
     ''' </summary>
-    ''' <param name="orthologDict">直系同源比对结果</param>
+    ''' <param name="orthologDict">直系同源比对结果（BBH）</param>
     ''' <returns>分析结果对象</returns>
     Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As PanGenomeResult
-        Dim dispensableGeneFamilies As New List(Of String)
-        Dim coreGeneFamilies As New List(Of String)
-        Dim singleCopyOrthologFamilies As New List(Of String)
-        Dim specificGeneFamilies As New List(Of String)
-        Dim familyMap As Dictionary(Of String, List(Of String)) = MakeFamilyMapping(orthologDict)
-        Dim strictSingleCopy As Boolean = False
+        Dim sw As Stopwatch = Stopwatch.StartNew
 
-        ' ==========================================
-        ' 步骤 2: 分类分析与 PAV 矩阵构建
-        ' ==========================================
-        For Each family In TqdmWrapper.Wrap(familyMap)
-            Dim familyId As String = family.Key
-            Dim genes As String() = family.Value.ToArray
-            ' 构建PAV行
-            Dim pavRow As New Dictionary(Of String, Integer)()
-            Dim presenceCount As Integer = 0
-            ' 先按基因组分组
-            Dim genesByGenome = genes.GroupBy(Function(g) geneAnnotations(g).GenomeName).ToDictionary(Function(a) a.Key)
+        Call MakeFamilyMapping(orthologDict)
+        Call $"[pan-genome] merge {orthologDict.Values.Sum(Function(a) a.Length)} BBH links, elapsed {sw.ElapsedMilliseconds} ms".debug
 
-            For Each gName In genomeNames
-                ' 计算该家族在当前基因组中的拷贝数
-                Dim n As Integer = If(genesByGenome.ContainsKey(gName), genesByGenome(gName).Count(), 0)
-                pavRow.Add(gName, n)
-                If n > 0 Then presenceCount += 1
-            Next
+        Return RunAnalysis(orthologDict)
+    End Function
 
-            Call result.GeneFamilies.Add(familyId, genes)
-            Call result.PAVMatrix.Add(familyId, pavRow)
+    ''' <summary>
+    ''' 执行泛基因组分析的主函数（直接基于直系同源分组，例如cd-hit的聚类结果）
+    ''' </summary>
+    ''' <param name="orthoGroups">
+    ''' Key为家族/聚类ID，Value为该家族之内的基因ID集合。
+    ''' 一个包含k个基因的家族只需要 k-1 次并查集合并操作，
+    ''' 不需要先展开为 O(k^2) 个两两配对关系。
+    ''' </param>
+    ''' <returns>分析结果对象</returns>
+    Public Function AnalyzePanGenome(orthoGroups As Dictionary(Of String, String())) As PanGenomeResult
+        Dim sw As Stopwatch = Stopwatch.StartNew
 
-            ' 分类逻辑
-            If presenceCount = totalGenomes Then
-                Call coreGeneFamilies.Add(familyId)
-
-                ' 单拷贝判断
-                If strictSingleCopy Then
-                    If pavRow.Values.All(Function(c) c = 1) Then
-                        singleCopyOrthologFamilies.Add(familyId)
-                    End If
-                Else
-                    If pavRow.Values.All(Function(c) c < 5) Then
-                        singleCopyOrthologFamilies.Add(familyId)
-                    End If
-                End If
-            ElseIf presenceCount = 1 Then
-                specificGeneFamilies.Add(familyId)
-                dispensableGeneFamilies.Add(familyId)
-            Else
-                dispensableGeneFamilies.Add(familyId)
-            End If
+        For Each group As KeyValuePair(Of String, String()) In orthoGroups
+            Call uf.UnionRange(group.Value)
         Next
 
-        result.SpecificGeneFamilies = specificGeneFamilies.ToArray
-        result.SingleCopyOrthologFamilies = singleCopyOrthologFamilies.ToArray
-        result.DispensableGeneFamilies = dispensableGeneFamilies.ToArray
-        result.CoreGeneFamilies = coreGeneFamilies.ToArray
+        Call $"[pan-genome] merge {orthoGroups.Count} ortholog groups, elapsed {sw.ElapsedMilliseconds} ms".debug
 
-        Call CategorizeGeneFamilies(result, totalGenomes)
+        Return RunAnalysis(Nothing)
+    End Function
 
-        If result.SingleCopyOrthologFamilies.IsNullOrEmpty Then
-            Call CalculatePanGenomeJaccardDistance(familyMap)
-        Else
-            Call CalculateGeneticDistance(orthologDict, genomeNames.ToList())
+    ''' <summary>
+    ''' 家族聚类完成之后的所有分析步骤
+    ''' </summary>
+    Private Function RunAnalysis(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As PanGenomeResult
+        Dim sw As Stopwatch = Stopwatch.StartNew
+        Dim F As Integer
+        Dim N As Integer = totalGenomes
+
+        Call BuildFamilyIndex()
+
+        F = familyIds.Length
+
+        Call $"[pan-genome] build {F} gene families from {geneIds.Length} genes / {N} genomes, elapsed {sw.ElapsedMilliseconds} ms".debug
+
+        If F = 0 OrElse N = 0 Then
+            Call "[pan-genome] empty gene set, analysis terminated!".warning
+            Return result
         End If
+
+        ' ==========================================
+        ' 步骤 1+2: PAV 矩阵构建与基因家族分类（并行）
+        ' ==========================================
+        sw.Restart()
+        Call BuildPAVAndClassify(F, N)
+        Call $"[pan-genome] PAV matrix + family categorize done, {F} families, elapsed {sw.ElapsedMilliseconds} ms".debug
+
+        ' ==========================================
+        ' 步骤 3: 遗传距离矩阵
+        ' ==========================================
+        sw.Restart()
+
+        If orthologDict Is Nothing OrElse result.SingleCopyOrthologFamilies.IsNullOrEmpty Then
+            Call CalculatePanGenomeJaccardDistance()
+        Else
+            Call CalculateGeneticDistance(orthologDict, genomeList.ToList())
+        End If
+
+        Call $"[pan-genome] genetic distance matrix done, {result.GeneticDistanceMatrix.Count} pairs, elapsed {sw.ElapsedMilliseconds} ms".debug
 
         ' ==========================================
         ' 步骤 4: 共线性分析
         ' ==========================================
-        ' 针对每一对基因组，寻找共线性区块
-        result.CollinearBlocks = CalculateCollinearity(orthologDict, genomeNames.ToList()).ToArray
-        ' ==========================================
-        ' 步骤 5: 结构变异检测 (新增)
-        ' ==========================================
-        result.StructuralVariations = DetectStructuralVariations(genomeNames.ToList()).ToArray
+        sw.Restart()
+        result.CollinearBlocks = CalculateCollinearity(orthologDict)
+        Call $"[pan-genome] collinearity done, {result.CollinearBlocks.Length} blocks (retain links: {RetainOrthologyLinks}), elapsed {sw.ElapsedMilliseconds} ms".debug
 
         ' ==========================================
-        ' 步骤 3: 泛基因组曲线计算
+        ' 步骤 5: 结构变异检测
         ' ==========================================
-        ' 算法：使用排列组合（若基因组数量<10）或多次随机抽样计算平均值
-        ' 这里实现随机抽样模拟方法，适用于任意数量基因组
-        result.PangenomeCurveData = CalculatePangenomeCurve(genomeNames.ToList(), 100).ToArray
+        sw.Restart()
+        result.StructuralVariations = DetectStructuralVariations()
+        Call $"[pan-genome] structural variation done, {result.StructuralVariations.Length} events, elapsed {sw.ElapsedMilliseconds} ms".debug
+
+        ' ==========================================
+        ' 步骤 6: 泛基因组曲线计算
+        ' ==========================================
+        sw.Restart()
+        result.PangenomeCurveData = CalculatePangenomeCurve(CurveIterations)
+        Call $"[pan-genome] pangenome curve done, elapsed {sw.ElapsedMilliseconds} ms".debug
 
         Return result
     End Function
+
+    ''' <summary>
+    ''' 并行构建PAV矩阵并同时对基因家族做分类
+    ''' </summary>
+    Private Sub BuildPAVAndClassify(F As Integer, N As Integer)
+        Dim pavRows As Dictionary(Of String, Integer)() = New Dictionary(Of String, Integer)(F - 1) {}
+        Dim isCore As Boolean() = New Boolean(F - 1) {}
+        Dim isSoftCore As Boolean() = New Boolean(F - 1) {}
+        Dim isShell As Boolean() = New Boolean(F - 1) {}
+        Dim isCloud As Boolean() = New Boolean(F - 1) {}
+        Dim isSpecific As Boolean() = New Boolean(F - 1) {}
+        Dim isDispensable As Boolean() = New Boolean(F - 1) {}
+        Dim isSingleCopy As Boolean() = New Boolean(F - 1) {}
+        Dim strictSingleCopy As Boolean = False
+        Dim coreThreshold As Double = Me.CoreThreshold
+        Dim softCore As Double = Me.SoftCoreThreshold
+        Dim shell As Double = Me.ShellThreshold
+
+        Parallel.For(0, F, Sub(k As Integer)
+                               Dim members As Integer() = familyMembers(k)
+                               Dim counts As Integer() = New Integer(N - 1) {}
+                               Dim presence As Integer = 0
+                               Dim g As Integer
+
+                               For Each gi As Integer In members
+                                   counts(geneGenome(gi)) += 1
+                               Next
+
+                               For g = 0 To N - 1
+                                   If counts(g) > 0 Then
+                                       presence += 1
+                                   End If
+                               Next
+
+                               ' 稀疏行：只保存非零的拷贝数
+                               ' 所有的读取端(PAVTable/GetPAVMatrix/报告)对缺失的键都是当作0来处理的
+                               Dim row As New Dictionary(Of String, Integer)(If(presence > 0, presence, 1))
+
+                               For g = 0 To N - 1
+                                   If counts(g) > 0 Then
+                                       row.Add(genomeList(g), counts(g))
+                                   End If
+                               Next
+
+                               pavRows(k) = row
+
+                               Dim ratio As Double = presence / N
+
+                               isDispensable(k) = (presence < N)
+                               isSpecific(k) = (presence = 1)
+
+                               If ratio = coreThreshold Then
+                                   isCore(k) = True
+                               ElseIf ratio >= softCore AndAlso ratio < coreThreshold Then
+                                   isSoftCore(k) = True
+                               ElseIf ratio >= shell AndAlso ratio < softCore Then
+                                   isShell(k) = True
+                               Else
+                                   isCloud(k) = True
+                               End If
+
+                               If presence = N Then
+                                   ' 单拷贝判断
+                                   If strictSingleCopy Then
+                                       Dim allOne As Boolean = True
+
+                                       For g = 0 To N - 1
+                                           If counts(g) <> 1 Then
+                                               allOne = False
+                                               Exit For
+                                           End If
+                                       Next
+
+                                       isSingleCopy(k) = allOne
+                                   Else
+                                       Dim allSmall As Boolean = True
+
+                                       For g = 0 To N - 1
+                                           If counts(g) >= 5 Then
+                                               allSmall = False
+                                               Exit For
+                                           End If
+                                       Next
+
+                                       isSingleCopy(k) = allSmall
+                                   End If
+                               End If
+                           End Sub)
+
+        ' 按照家族下标的顺序写入结果，保证输出顺序是确定的
+        Dim coreList As New List(Of String)()
+        Dim softCoreList As New List(Of String)()
+        Dim shellList As New List(Of String)()
+        Dim cloudList As New List(Of String)()
+        Dim specificList As New List(Of String)()
+        Dim dispensableList As New List(Of String)()
+        Dim singleList As New List(Of String)()
+
+        For k As Integer = 0 To F - 1
+            Dim id As String = familyIds(k)
+
+            Call result.GeneFamilies.Add(id, familyGeneIds(k))
+            Call result.PAVMatrix.Add(id, pavRows(k))
+
+            If isCore(k) Then coreList.Add(id)
+            If isSoftCore(k) Then softCoreList.Add(id)
+            If isShell(k) Then shellList.Add(id)
+            If isCloud(k) Then cloudList.Add(id)
+            If isSpecific(k) Then specificList.Add(id)
+            If isDispensable(k) Then dispensableList.Add(id)
+            If isSingleCopy(k) Then singleList.Add(id)
+        Next
+
+        result.CoreGeneFamilies = coreList.ToArray
+        result.SoftCoreGeneFamilies = softCoreList.ToArray
+        result.ShellGeneFamilies = shellList.ToArray
+        result.CloudGeneFamilies = cloudList.ToArray
+        result.SpecificGeneFamilies = specificList.ToArray
+        result.DispensableGeneFamilies = dispensableList.ToArray
+        result.SingleCopyOrthologFamilies = singleList.ToArray
+    End Sub
 
     ''' <summary>
     ''' 计算特定基因家族在特定基因组中的拷贝数
@@ -255,13 +553,24 @@ Public Class GenomeAnalyzer
     ''' <returns>拷贝数</returns>
     Public Function CalculateCopyNumber(familyGenes As List(Of String), targetGenomeName As String) As Integer
         Dim count As Integer = 0
+        Dim target As Integer = -1
+
+        If genomeIndex IsNot Nothing AndAlso genomeIndex.ContainsKey(targetGenomeName) Then
+            target = genomeIndex(targetGenomeName)
+        End If
+
+        If target < 0 Then
+            Return 0
+        End If
 
         ' 遍历该家族内的每一个基因
         For Each geneId In familyGenes
+            Dim gi As Integer = -1
+
             ' 安全校验：确保基因ID存在于注释信息中
-            If geneAnnotations.ContainsKey(geneId) Then
+            If geneIndex.TryGetValue(geneId, gi) Then
                 ' 判断该基因是否属于目标基因组
-                If geneAnnotations(geneId).GenomeName = targetGenomeName Then
+                If geneGenome(gi) = target Then
                     count += 1
                 End If
             End If
@@ -273,170 +582,317 @@ Public Class GenomeAnalyzer
     ''' <summary>
     ''' 计算泛基因组曲线（基于蒙特卡洛模拟）
     ''' </summary>
-    Private Iterator Function CalculatePangenomeCurve(genomeList As List(Of String), iterations As Integer) As IEnumerable(Of PangenomeCurveData)
-        ' 曲线点：Key为加入的基因组数量，Value为(总基因平均, 核心基因平均)
-        Dim curvePoints As New Dictionary(Of Integer, (SumPan As Long, SumCore As Long, Count As Integer))
+    ''' <remarks>
+    ''' 原来的实现在每一次迭代的每一个基因组上面都要对全部基因家族做一次LINQ全表扫描，
+    ''' 复杂度为 O(迭代数 x 基因组数 x 家族数)。
+    ''' 
+    ''' 这里改为增量计数：为每一次迭代维护一个家族计数器，加入第 i 个基因组的时候，
+    ''' 该基因组的家族集合 S 之内：
+    ''' 
+    '''   * 计数为0的家族 -> 泛基因组大小 +1；
+    '''   * 计数为i的家族 -> 说明该家族在已经加入的i个基因组之中都存在，
+    '''     加入当前基因组之后仍然为核心基因，核心基因数量就是这类家族的数量。
+    ''' 
+    ''' 复杂度降低为 O(迭代数 x 基因总数)。
+    ''' </remarks>
+    Private Function CalculatePangenomeCurve(iterations As Integer) As PangenomeCurveData()
+        Dim N As Integer = totalGenomes
+        Dim F As Integer = familyIds.Length
 
-        ' 模拟 iterations 次
-        For Each i As Integer In TqdmWrapper.Range(0, iterations)
-            ' 随机打乱基因组顺序
-            Dim shuffled = genomeList.OrderBy(Function(x) rand.NextDouble()).ToList()
-            Dim currentPanGenes As New HashSet(Of String)()
-            ' 初始化为第一个基因组的所有基因
-            Dim currentCoreCandidates As HashSet(Of String) = Nothing
+        If N = 0 OrElse F = 0 Then
+            Return New PangenomeCurveData() {}
+        End If
 
-            ' 逐个添加基因组
-            For [step] As Integer = 0 To shuffled.Count - 1
-                Dim gName = shuffled([step])
-                Dim genesInGenome = result.PAVMatrix.Where(Function(pav) pav.Value(gName) > 0).Select(Function(pav) pav.Key).ToList()
+        ' 每个基因组去重之后的家族下标集合
+        Dim genomeFams As Integer()() = New Integer(N - 1)() {}
 
-                ' 更新Pan基因集合 (并集)
-                For Each gId As String In genesInGenome
-                    currentPanGenes.Add(gId)
-                Next
+        Parallel.For(0, N, Sub(g As Integer)
+                               Dim seen As New HashSet(Of Integer)()
 
-                ' 更新Core基因集合 (交集)
-                If [step] = 0 Then
-                    currentCoreCandidates = New HashSet(Of String)(genesInGenome)
-                Else
-                    currentCoreCandidates.IntersectWith(genesInGenome)
-                End If
+                               For Each gi As Integer In genomeGenes(g)
+                                   Dim famIdx As Integer = geneFamily(gi)
 
-                ' 记录数据
-                Dim n = [step] + 1
-                If Not curvePoints.ContainsKey(n) Then
-                    curvePoints.Add(n, (0, 0, 0))
-                End If
-                Dim prev = curvePoints(n)
-                curvePoints(n) = (prev.SumPan + currentPanGenes.Count, prev.SumCore + currentCoreCandidates.Count, prev.Count + 1)
+                                   If famIdx >= 0 Then
+                                       seen.Add(famIdx)
+                                   End If
+                               Next
+
+                               genomeFams(g) = seen.ToArray()
+                           End Sub)
+
+        ' 预先生成随机排列，保证并行模拟的结果是可以复现的
+        Dim perms As Integer()() = New Integer(iterations - 1)() {}
+        Dim rnd As New Random(20260101)
+
+        For it As Integer = 0 To iterations - 1
+            Dim ord As Integer() = New Integer(N - 1) {}
+
+            For i As Integer = 0 To N - 1
+                ord(i) = i
             Next
+            For i As Integer = N - 1 To 1 Step -1
+                Dim j As Integer = rnd.Next(i + 1)
+                Dim tmp As Integer = ord(i)
+
+                ord(i) = ord(j)
+                ord(j) = tmp
+            Next
+
+            perms(it) = ord
         Next
+
+        Dim sumPan As Long() = New Long(N - 1) {}
+        Dim sumCore As Long() = New Long(N - 1) {}
+
+        Parallel.For(0, iterations, Sub(it As Integer)
+                                        Dim cnt As Integer() = New Integer(F - 1) {}
+                                        Dim ord As Integer() = perms(it)
+                                        Dim pan As Integer = 0
+
+                                        For [step] As Integer = 0 To N - 1
+                                            Dim fams As Integer() = genomeFams(ord([step]))
+                                            Dim core As Integer = 0
+
+                                            For Each famIdx As Integer In fams
+                                                Dim c As Integer = cnt(famIdx)
+
+                                                If c = 0 Then
+                                                    pan += 1
+                                                End If
+                                                If c = [step] Then
+                                                    core += 1
+                                                End If
+
+                                                cnt(famIdx) = c + 1
+                                            Next
+
+                                            Call Interlocked.Add(sumPan([step]), pan)
+                                            Call Interlocked.Add(sumCore([step]), core)
+                                        Next
+                                    End Sub)
 
         ' 计算平均值并填充结果
-        For i As Integer = 1 To genomeList.Count
-            If curvePoints.ContainsKey(i) Then
-                Dim stat = curvePoints(i)
-                Dim avgPan = stat.SumPan / stat.Count
-                Dim avgCore = stat.SumCore / stat.Count
+        Dim curve As PangenomeCurveData() = New PangenomeCurveData(N - 1) {}
 
-                Yield New PangenomeCurveData With {
-                    .GenomeCount = i,
-                    .TotalGenes = CInt(avgPan),
-                    .CoreGenes = CInt(avgCore)
-                }
-            End If
+        For i As Integer = 0 To N - 1
+            curve(i) = New PangenomeCurveData With {
+                .GenomeCount = i + 1,
+                .TotalGenes = CInt(sumPan(i) / iterations),
+                .CoreGenes = CInt(sumCore(i) / iterations)
+            }
         Next
+
+        Return curve
     End Function
 
     ''' <summary>
-    ''' 计算基因组间的共线性区块（简化版算法：滑动窗口聚类）
+    ''' 建立 基因组 -> (家族 -> 基因) 的映射，用于快速的查找某个家族在某个基因组内的唯一同源基因
     ''' </summary>
-    Private Iterator Function CalculateCollinearity(orthologDict As Dictionary(Of String, BiDirectionalBesthit()), genomeList As List(Of String)) As IEnumerable(Of CollinearBlock)
-        ' 1. 重新整理Ortholog关系：建立 GeneID -> List<Ortholog> 的映射
-        Dim orthoLookup As New Dictionary(Of String, List(Of BiDirectionalBesthit))()
-        For Each orthos In orthologDict.Values
-            For Each o In orthos
-                If Not orthoLookup.ContainsKey(o.QueryName) Then orthoLookup.Add(o.QueryName, New List(Of BiDirectionalBesthit)())
-                If Not orthoLookup.ContainsKey(o.HitName) Then orthoLookup.Add(o.HitName, New List(Of BiDirectionalBesthit)())
-                orthoLookup(o.QueryName).Add(o)
-                orthoLookup(o.HitName).Add(o)
+    Private Sub BuildFamilyToGeneMap()
+        If familyToGene IsNot Nothing Then
+            Return
+        End If
+
+        Dim maps(totalGenomes - 1) As Dictionary(Of Integer, Integer)()
+
+        familyToGene = maps
+
+        Parallel.For(0, totalGenomes, Sub(g As Integer)
+                                          Dim genes As Integer() = genomeGenes(g)
+                                          Dim map As New Dictionary(Of Integer, Integer)(genes.Length)
+
+                                          For Each gi As Integer In genes
+                                              Dim famIdx As Integer = geneFamily(gi)
+
+                                              If famIdx < 0 Then
+                                                  Continue For
+                                              End If
+                                              If map.ContainsKey(famIdx) Then
+                                                  ' 该家族在这个基因组内存在多个拷贝，标记为非单拷贝
+                                                  map(famIdx) = -1
+                                              Else
+                                                  map.Add(famIdx, gi)
+                                              End If
+                                          Next
+
+                                          familyToGene(g) = map
+                                      End Sub)
+    End Sub
+
+    ''' <summary>
+    ''' 计算基因组间的共线性区块（并行版）
+    ''' </summary>
+    ''' <param name="orthologDict">
+    ''' BBH两两比对结果；如果这个参数为空，则直接基于基因家族索引推导同源关系
+    ''' </param>
+    ''' <remarks>
+    ''' 原来的实现对每一个基因组对都做了一次全基因表的扫描与排序，
+    ''' 复杂度为 O(N^2 x 基因总数)，在几百个基因组的数据集上面是不可用的。
+    ''' 这里改为：基因按照基因组预分组并且只排序一次；同源关系通过预建的
+    ''' 家族索引做 O(1) 查找；基因组对之间并行处理，处理完之后立即丢弃中间结果。
+    ''' </remarks>
+    Private Function CalculateCollinearity(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As CollinearBlock()
+        Dim N As Integer = totalGenomes
+
+        If N < 2 Then
+            Return New CollinearBlock() {}
+        End If
+
+        ' BBH路径：保留基于真实比对配对的共线性语义
+        Dim orthoLookup As Dictionary(Of String, List(Of BiDirectionalBesthit)) = Nothing
+
+        If orthologDict IsNot Nothing Then
+            orthoLookup = New Dictionary(Of String, List(Of BiDirectionalBesthit))()
+
+            For Each orthos In orthologDict.Values
+                For Each o In orthos
+                    If Not orthoLookup.ContainsKey(o.QueryName) Then orthoLookup.Add(o.QueryName, New List(Of BiDirectionalBesthit)())
+                    If Not orthoLookup.ContainsKey(o.HitName) Then orthoLookup.Add(o.HitName, New List(Of BiDirectionalBesthit)())
+                    orthoLookup(o.QueryName).Add(o)
+                    orthoLookup(o.HitName).Add(o)
+                Next
             Next
+        Else
+            ' 分组路径：直接由基因家族索引推导同源关系
+            Call BuildFamilyToGeneMap()
+        End If
+
+        Dim blocksOfGenome(N - 1) As List(Of CollinearBlock)
+
+        ' 以第一个基因组为外层做并行，保证最后合并出来的区块顺序是确定的
+        Parallel.For(0, N - 1, Sub(i As Integer)
+                                   Dim list As New List(Of CollinearBlock)()
+
+                                   For j As Integer = i + 1 To N - 1
+                                       For Each block As CollinearBlock In CalculatePairCollinearity(i, j, orthoLookup)
+                                           list.Add(block)
+                                       Next
+                                   Next
+
+                                   blocksOfGenome(i) = list
+                               End Sub)
+
+        Dim all As New List(Of CollinearBlock)()
+
+        For i As Integer = 0 To N - 1
+            If blocksOfGenome(i) IsNot Nothing Then
+                all.AddRange(blocksOfGenome(i))
+            End If
         Next
 
-        ' 2. 遍历所有基因组对 (Genome1 vs Genome2)
-        For Each i As Integer In TqdmWrapper.Range(0, genomeList.Count)
-            For j As Integer = i + 1 To genomeList.Count - 1
-                Dim g1 = genomeList(i)
-                Dim g2 = genomeList(j)
+        Return all.ToArray()
+    End Function
 
-                ' 获取g1的所有基因并按染色体和位置排序
-                Dim g1Genes = geneAnnotations.Values.AsParallel.Where(Function(g) g.GenomeName = g1).OrderBy(Function(g) g.Chromosome).ThenBy(Function(g) g.Start).AsList()
+    ''' <summary>
+    ''' 计算一对基因组之间的共线性区块
+    ''' </summary>
+    Private Iterator Function CalculatePairCollinearity(i As Integer, j As Integer,
+                                                        orthoLookup As Dictionary(Of String, List(Of BiDirectionalBesthit))) As IEnumerable(Of CollinearBlock)
 
-                ' 寻找共线性区块
-                ' 简单策略：寻找连续的共线性基因对
-                Dim currentBlock As New CollinearBlock() With {
-                    .Genome1 = g1,
-                    .Genome2 = g2
-                }
-                Dim orthologyLinks As New List(Of OrthologyLink)
+        Dim links As New List(Of OrthologyLink)()
+        Dim queryIdx As New List(Of Integer)()
+        Dim g1Genes As Integer() = genomeGenes(i)
+        Dim chr1 As String = Nothing
+        Dim chr2 As String = Nothing
 
-                ' 滑动窗口或简单的连续性检查
-                ' 这里演示一种简单逻辑：如果相邻的基因在g2中也相邻或距离很近，则认为共线性延续
-                ' 实际工具通常使用更复杂的算法(如DAGchainer)，这里仅演示逻辑
+        If orthoLookup Is Nothing Then
+            ' 基于基因家族索引：查找该家族在基因组j内的唯一基因
+            Dim map2 As Dictionary(Of Integer, Integer) = familyToGene(j)
 
-                For Each g1Gene In g1Genes
-                    If Not orthoLookup.ContainsKey(g1Gene.GeneID) Then Continue For
+            For Each gi As Integer In g1Genes
+                Dim famIdx As Integer = geneFamily(gi)
 
-                    ' 找到该基因在g2中的同源基因
-                    Dim targetOrthos = orthoLookup(g1Gene.GeneID) _
-                        .Where(Function(o)
-                                   Dim otherId = If(o.QueryName = g1Gene.GeneID, o.HitName, o.QueryName)
+                If famIdx < 0 Then
+                    Continue For
+                End If
 
-                                   If geneAnnotations.ContainsKey(otherId) Then
-                                       Return geneAnnotations(otherId).GenomeName = g2
-                                   Else
-                                       Return False
-                                   End If
-                               End Function) _
-                        .ToList()
+                Dim gj As Integer = -1
 
-                    ' 为了简化，这里只处理一对一的情况
-                    If targetOrthos.Count = 1 Then
-                        Dim o = targetOrthos(0)
-                        Dim g2GeneId = If(o.QueryName = g1Gene.GeneID, o.HitName, o.QueryName)
-                        Dim g2Info = geneAnnotations(g2GeneId)
+                If map2.TryGetValue(famIdx, gj) AndAlso gj >= 0 Then
+                    links.Add(New OrthologyLink(geneIds(gi), geneIds(gj)))
+                    queryIdx.Add(gi)
+                    chr1 = geneChr(gi)
+                    chr2 = geneChr(gj)
+                End If
+            Next
+        Else
+            ' BBH路径：只有存在唯一一条指向基因组j的比对记录的时候才认为是1:1的同源基因
+            For Each gi As Integer In g1Genes
+                Dim geneId As String = geneIds(gi)
+                Dim orthos As List(Of BiDirectionalBesthit) = Nothing
 
-                        ' 检查是否与上一个块连续 (简化版逻辑)
-                        ' 实际开发中需要更复杂的动态规划算法
-                        ' 这里简单地将每一对加入到块中（实际应用中需要过滤噪声）
-                        orthologyLinks.Add(New OrthologyLink(g1Gene.GeneID, g2GeneId))
-                        currentBlock.Chr1 = g1Gene.Chromosome
-                        currentBlock.Chr2 = g2Info.Chromosome
+                If Not orthoLookup.TryGetValue(geneId, orthos) Then
+                    Continue For
+                End If
+
+                Dim hit As Integer = -1
+                Dim n As Integer = 0
+
+                For Each o As BiDirectionalBesthit In orthos
+                    Dim otherId As String = If(o.QueryName = geneId, o.HitName, o.QueryName)
+                    Dim oj As Integer = -1
+
+                    If geneIndex.TryGetValue(otherId, oj) AndAlso geneGenome(oj) = j Then
+                        hit = oj
+                        n += 1
                     End If
                 Next
 
-                ' 仅保留有意义的共线性区块 (例如包含 > 5个基因对)
-                If orthologyLinks.Count > 0 Then
-                    ' 实际上这里应该对Block进行切割，因为一个Block可能跨越不同染色体
-                    ' 这里仅作为示例代码，不实现复杂的切割逻辑
-                    ' TODO: Block切割
-                    currentBlock.OrthologyLinks = orthologyLinks.ToArray
-
-                    For Each subBlock As CollinearBlock In SplitBlockByChromosome(currentBlock)
-                        Yield subBlock
-                    Next
+                If n = 1 Then
+                    links.Add(New OrthologyLink(geneId, geneIds(hit)))
+                    queryIdx.Add(gi)
+                    chr1 = geneChr(gi)
+                    chr2 = geneChr(hit)
                 End If
             Next
-        Next
-    End Function
+        End If
 
-    ''' <summary>
-    ''' 检测染色体切换时自动切割区块
-    ''' </summary>
-    ''' <param name="block"></param>
-    ''' <returns></returns>
-    Private Iterator Function SplitBlockByChromosome(block As CollinearBlock) As IEnumerable(Of CollinearBlock)
-        Dim currentSubBlock As New List(Of OrthologyLink)()
+        If links.Count = 0 Then
+            Return
+        End If
+
+        Dim block As New CollinearBlock() With {
+            .Genome1 = genomeList(i),
+            .Genome2 = genomeList(j),
+            .Chr1 = chr1,
+            .Chr2 = chr2
+        }
+
+        ' 按照染色体切换自动切割区块
+        Dim subBlock As New List(Of OrthologyLink)()
         Dim lastChr As String = Nothing
+        Dim p As Integer
 
-        For Each link In block.OrthologyLinks
-            Dim currentChr = geneAnnotations(link.Tuple(0)).Chromosome
+        For p = 0 To links.Count - 1
+            Dim currentChr As String = geneChr(queryIdx(p))
 
             If lastChr IsNot Nothing AndAlso currentChr <> lastChr Then
                 ' 染色体切换，切割区块
-                If currentSubBlock.Count >= MinCollinearGenes Then
-                    Yield New CollinearBlock(block, currentSubBlock)
+                If subBlock.Count >= MinCollinearGenes Then
+                    Yield MakeCollinearBlock(block, subBlock)
                 End If
-                currentSubBlock.Clear()
+
+                subBlock.Clear()
             End If
 
-            currentSubBlock.Add(link)
+            subBlock.Add(links(p))
             lastChr = currentChr
         Next
 
         ' 保存最后一个子区块
-        If currentSubBlock.Count >= MinCollinearGenes Then
-            Yield New CollinearBlock(block, currentSubBlock)
+        If subBlock.Count >= MinCollinearGenes Then
+            Yield MakeCollinearBlock(block, subBlock)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' 生成共线性区块；在不保留逐基因配对数据的模式下只生成统计摘要
+    ''' </summary>
+    Private Function MakeCollinearBlock(source As CollinearBlock, links As List(Of OrthologyLink)) As CollinearBlock
+        If RetainOrthologyLinks Then
+            Return New CollinearBlock(source, links)
+        Else
+            Return New CollinearBlock(source, links.Count)
         End If
     End Function
 
@@ -463,173 +919,166 @@ Public Class GenomeAnalyzer
     End Function
 
     ''' <summary>
-    ''' 基于泛基因组聚类结果和共线性分析结构变异
+    ''' 基于泛基因组聚类结果和共线性分析结构变异（并行版）
     ''' </summary>
     ''' <remarks>
     ''' 这个函数要求在调用前需要完成共线性检测计算
     ''' </remarks>
-    Private Iterator Function DetectStructuralVariations(genomeNames As List(Of String)) As IEnumerable(Of StructuralVariation)
-        Dim svIdCounter As Integer = 0
+    Private Function DetectStructuralVariations() As StructuralVariation()
+        Dim F As Integer = familyIds.Length
+        Dim N As Integer = totalGenomes
+
+        If F = 0 Then
+            Return New StructuralVariation() {}
+        End If
+
+        Dim perFamily As List(Of StructuralVariation)() = New List(Of StructuralVariation)(F - 1)() {}
+        Dim cnvGain As Double = Me.CNV_Gain_Factor
+        Dim cnvLoss As Double = Me.CNV_Loss_Factor
 
         ' =========================================
-        ' 1. 基于 PAV 和 CNV 的检测
+        ' 1. 基于 PAV 和 CNV 的检测（按基因家族并行）
         ' =========================================
-        ' 定义“核心拷贝数”：大多数基因组在该家族中的拷贝数模式
-        ' 或者简单定义：如果大多数基因组都有，则定义为“存在”
+        Parallel.For(0, F, Sub(k As Integer)
+                               Dim members As Integer() = familyMembers(k)
+                               Dim genes As String() = familyGeneIds(k)
+                               Dim counts As Integer() = New Integer(N - 1) {}
+                               Dim presence As Integer = 0
 
-        For Each familyKvp In TqdmWrapper.Wrap(result.GeneFamilies)
-            Dim familyId = familyKvp.Key
-            Dim genes = familyKvp.Value
-            Dim pavRow = result.PAVMatrix(familyId)
+                               For Each gi As Integer In members
+                                   counts(geneGenome(gi)) += 1
+                               Next
+                               For g As Integer = 0 To N - 1
+                                   If counts(g) > 0 Then
+                                       presence += 1
+                                   End If
+                               Next
 
-            ' 计算平均拷贝数（排除0）作为基准，或者以众数为基准
-            ' 这里简化逻辑：如果 >50% 的基因组有该基因，则认为它是“潜在核心”
-            Dim presenceCount = pavRow.Values.Where(Function(c) c > 0).Count()
-            Dim isCoreFamily = (presenceCount > genomeNames.Count / 2)
-            Dim nonZeroCopies = pavRow.Values.Where(Function(c) c > 0).ToList()
-            Dim medianCopy = If(nonZeroCopies.Any, nonZeroCopies.Median, 0)
+                               ' 计算平均拷贝数（排除0）作为基准，或者以众数为基准
+                               ' 这里简化逻辑：如果 >50% 的基因组有该基因，则认为它是“潜在核心”
+                               Dim isCoreFamily As Boolean = (presence > N / 2)
+                               Dim nonZeroCopies As New List(Of Integer)(presence)
 
-            ' lookup each genome for this gene family
-            For Each gName As String In genomeNames
-                Dim copyNum = pavRow(gName)
+                               For g As Integer = 0 To N - 1
+                                   If counts(g) > 0 Then
+                                       nonZeroCopies.Add(counts(g))
+                                   End If
+                               Next
 
-                ' --- 情况 A: 缺失 ---
-                ' 如果该家族在其他大部分基因组中存在，但在此基因组中为0
-                If isCoreFamily AndAlso copyNum = 0 Then
-                    svIdCounter += 1
-                    Yield New StructuralVariation With {
-                        .SV_ID = "SV_" & svIdCounter,
-                        .Type = SVType.PAV_Absence,
-                        .GenomeName = gName,
-                        .FamilyID = familyId,
-                        .Description = $"Genome {gName} lacks gene family {familyId} which is present in most genomes.",
-                        .RelatedGenes = genes,' 列出家族所有基因供参考
-                        .CopyNumber = copyNum,
-                        .Median = medianCopy
-                    }
-                End If
+                               Dim medianCopy As Double = If(nonZeroCopies.Count > 0, nonZeroCopies.Median, 0)
+                               Dim local As List(Of StructuralVariation) = Nothing
 
-                ' --- 情况 B: 特有/获得 ---
-                ' 如果该家族仅在极少基因组中存在（特异性基因），且当前基因组有
-                If Not isCoreFamily AndAlso presenceCount <= 2 AndAlso copyNum > 0 Then
-                    svIdCounter += 1
-                    Yield New StructuralVariation With {
-                        .SV_ID = "SV_" & svIdCounter,
-                        .Type = SVType.PAV_Presence,
-                        .GenomeName = gName,
-                        .FamilyID = familyId,
-                        .Description = $"Genome {gName} contains unique gene family {familyId}.",
-                        .RelatedGenes = genes.Where(Function(g) geneAnnotations(g).GenomeName = gName).ToArray,
-                        .CopyNumber = copyNum,
-                        .Median = medianCopy
-                    }
-                End If
+                               ' lookup each genome for this gene family
+                               For g As Integer = 0 To N - 1
+                                   Dim gName As String = genomeList(g)
+                                   Dim copyNum As Integer = counts(g)
 
-                ' --- 情况 C: 拷贝数变异 (CNV) ---
-                ' 如果家族普遍存在，计算“正常”拷贝数（例如中位数）
-                If isCoreFamily AndAlso copyNum > 0 Then
-                    ' 如果拷贝数显著高于中位数（如 >= 2倍），视为扩增
-                    If copyNum >= medianCopy * 2 AndAlso copyNum > 1 Then
-                        svIdCounter += 1
-                        Yield New StructuralVariation With {
-                            .SV_ID = "SV_" & svIdCounter,
-                            .Type = SVType.CNV_Gain,
-                            .GenomeName = gName,
-                            .FamilyID = familyId,
-                            .Description = $"Copy number expansion in {gName} (Copy: {copyNum}, Median: {medianCopy}).",
-                            .RelatedGenes = genes.Where(Function(g) geneAnnotations(g).GenomeName = gName).ToArray,
-                            .CopyNumber = copyNum,
-                            .Median = medianCopy
-                        }
-                    ElseIf copyNum > 0 AndAlso medianCopy > 1 AndAlso copyNum <= medianCopy * CNV_Loss_Factor Then
-                        svIdCounter += 1
-                        Yield New StructuralVariation With {
-                            .SV_ID = "SV_" & svIdCounter,
-                            .Type = SVType.CNV_Loss,
-                            .GenomeName = gName,
-                            .FamilyID = familyId,
-                            .Description = $"Copy number loss in {gName} (Copy: {copyNum}, Median: {medianCopy:F1}).",
-                            .CopyNumber = copyNum,
-                            .Median = medianCopy
-                        }
-                    End If
-                End If
-            Next
+                                   ' --- 情况 A: 缺失 ---
+                                   If isCoreFamily AndAlso copyNum = 0 Then
+                                       If local Is Nothing Then local = New List(Of StructuralVariation)()
+
+                                       local.Add(New StructuralVariation With {
+                                           .Type = SVType.PAV_Absence,
+                                           .GenomeName = gName,
+                                           .FamilyID = familyIds(k),
+                                           .Description = $"Genome {gName} lacks gene family {familyIds(k)} which is present in most genomes.",
+                                           .RelatedGenes = genes,
+                                           .CopyNumber = copyNum,
+                                           .Median = medianCopy
+                                       })
+                                   End If
+
+                                   ' --- 情况 B: 特有/获得 ---
+                                   If Not isCoreFamily AndAlso presence <= 2 AndAlso copyNum > 0 Then
+                                       If local Is Nothing Then local = New List(Of StructuralVariation)()
+
+                                       local.Add(New StructuralVariation With {
+                                           .Type = SVType.PAV_Presence,
+                                           .GenomeName = gName,
+                                           .FamilyID = familyIds(k),
+                                           .Description = $"Genome {gName} contains unique gene family {familyIds(k)}.",
+                                           .RelatedGenes = GenesOfGenome(members, g),
+                                           .CopyNumber = copyNum,
+                                           .Median = medianCopy
+                                       })
+                                   End If
+
+                                   ' --- 情况 C: 拷贝数变异 (CNV) ---
+                                   If isCoreFamily AndAlso copyNum > 0 Then
+                                       If copyNum >= medianCopy * 2 AndAlso copyNum > 1 Then
+                                           If local Is Nothing Then local = New List(Of StructuralVariation)()
+
+                                           local.Add(New StructuralVariation With {
+                                               .Type = SVType.CNV_Gain,
+                                               .GenomeName = gName,
+                                               .FamilyID = familyIds(k),
+                                               .Description = $"Copy number expansion in {gName} (Copy: {copyNum}, Median: {medianCopy}).",
+                                               .RelatedGenes = GenesOfGenome(members, g),
+                                               .CopyNumber = copyNum,
+                                               .Median = medianCopy
+                                           })
+                                       ElseIf copyNum > 0 AndAlso medianCopy > 1 AndAlso copyNum <= medianCopy * cnvLoss Then
+                                           If local Is Nothing Then local = New List(Of StructuralVariation)()
+
+                                           local.Add(New StructuralVariation With {
+                                               .Type = SVType.CNV_Loss,
+                                               .GenomeName = gName,
+                                               .FamilyID = familyIds(k),
+                                               .Description = $"Copy number loss in {gName} (Copy: {copyNum}, Median: {medianCopy:F1}).",
+                                               .CopyNumber = copyNum,
+                                               .Median = medianCopy
+                                           })
+                                       End If
+                                   End If
+                               Next
+
+                               perFamily(k) = local
+                           End Sub)
+
+        Dim all As New List(Of StructuralVariation)()
+
+        ' 按照家族下标顺序合并，保证 SV_ID 的编号是可以复现的
+        For k As Integer = 0 To F - 1
+            If perFamily(k) IsNot Nothing Then
+                all.AddRange(perFamily(k))
+            End If
+        Next
+        For i As Integer = 0 To all.Count - 1
+            all(i).SV_ID = "SV_" & (i + 1)
         Next
 
         ' =========================================
         ' 2. 基于共线性的 SV 检测 (简易版)
         ' =========================================
-        ' 遍历之前计算的共线性区块，寻找断裂点
-        ' 注意：这部分通常需要比较复杂的算法，这里演示如何利用已有的 CollinearBlocks
-        ' 实际上，真正的 SV 检测通常是在构建共线性之前，通过扫描基因组窗口来做
-
-        ' 这里补充一种思路：如果在染色体上，原本应该连续的同源基因对出现了跳跃，则标记为 Break
-        ' 由于之前的 CollinearBlocks 是正向的，我们可以检查“落单”的基因
         If result.CollinearBlocks IsNot Nothing Then
-            ' (此处仅为逻辑占位，实际工程中建议使用专门的SV caller如MUMmer的show-diff)
             For Each block As CollinearBlock In result.CollinearBlocks
                 If block.Chr1 <> block.Chr2 Then
                     ' 检测易位事件
-                    Yield New StructuralVariation With {
+                    all.Add(New StructuralVariation With {
                         .Type = SVType.Collinearity_Break,
                         .Description = $"Translocation: {block.Chr1} -> {block.Chr2}"
-                    }
+                    })
                 End If
             Next
         End If
+
+        Return all.ToArray()
     End Function
 
     ''' <summary>
-    ''' 执行扩展的基因家族分类
+    ''' 取出基因家族之内属于某一个基因组的基因ID
     ''' </summary>
-    Private Sub CategorizeGeneFamilies(result As PanGenomeResult, totalGenomes As Integer)
-        Dim coreGeneFamilies As New List(Of String)
-        Dim specificGeneFamilies As New List(Of String)
-        Dim softCoreGeneFamilies As New List(Of String)
-        Dim shellGeneFamilies As New List(Of String)
-        Dim cloudGeneFamilies As New List(Of String)
+    Private Function GenesOfGenome(members As Integer(), g As Integer) As String()
+        Dim list As New List(Of String)()
 
-        For Each familyKvp In TqdmWrapper.Wrap(result.GeneFamilies)
-            Dim familyId = familyKvp.Key
-            Dim pavRow = result.PAVMatrix(familyId)
-
-            ' 计算该家族在多少个基因组中存在
-            Dim presenceCount = pavRow.Values.Where(Function(c) c > 0).Count()
-            Dim presenceRatio = presenceCount / totalGenomes
-
-            ' 5. 特异基因 (云基因的特例)
-            If presenceCount = 1 Then
-                specificGeneFamilies.Add(familyId)
-            End If
-
-            ' 分类判断
-            If presenceRatio = CoreThreshold Then
-                ' 1. 核心基因
-                coreGeneFamilies.Add(familyId)
-
-            ElseIf presenceRatio >= SoftCoreThreshold AndAlso presenceRatio < CoreThreshold Then
-                ' 2. 软核心基因
-                softCoreGeneFamilies.Add(familyId)
-
-            ElseIf presenceRatio >= ShellThreshold AndAlso presenceRatio < SoftCoreThreshold Then
-                ' 3. 壳基因
-                shellGeneFamilies.Add(familyId)
-
-            Else
-                ' presenceRatio < shellThreshold
-                ' 4. 云基因
-                Call cloudGeneFamilies.Add(familyId)
+        For Each gi As Integer In members
+            If geneGenome(gi) = g Then
+                list.Add(geneIds(gi))
             End If
         Next
 
-        result.CloudGeneFamilies = cloudGeneFamilies.ToArray
-        result.ShellGeneFamilies = shellGeneFamilies.ToArray
-        result.SoftCoreGeneFamilies = softCoreGeneFamilies.ToArray
-        result.CoreGeneFamilies = coreGeneFamilies.ToArray
-        result.SpecificGeneFamilies = specificGeneFamilies.ToArray
-
-    End Sub
+        Return list.ToArray()
+    End Function
 
     ''' <summary>
     ''' 辅助函数：生成唯一的基因组对Key（无论顺序）
@@ -647,84 +1096,94 @@ Public Class GenomeAnalyzer
     End Function
 
     ''' <summary>
-    ''' 基于泛基因组基因家族计算基因组间的 Jaccard 遗传距离矩阵
+    ''' 基于泛基因组基因家族计算基因组间的 Jaccard 遗传距离矩阵（位图 + 并行）
     ''' </summary>
-    ''' <param name="clusters">
-    ''' 从并查集提取 "基因 -> 家族ID" 的映射关系
-    ''' </param>
-    Private Sub CalculatePanGenomeJaccardDistance(clusters As Dictionary(Of String, List(Of String)))
-        Dim geneToFamily As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+    ''' <remarks>
+    ''' 使用位图(bitmap)来表示每一个基因组的基因家族集合，
+    ''' 两个基因组之间的交集大小可以通过位图的 AND + popcount 在 O(家族数/64) 之内得到，
+    ''' 相比原来的 HashSet 遍历要快一个数量级，并且内存占用也很小。
+    ''' </remarks>
+    Private Sub CalculatePanGenomeJaccardDistance()
+        Dim N As Integer = totalGenomes
+        Dim F As Integer = familyIds.Length
 
-        For Each kvp In clusters
-            Dim familyId = kvp.Key
-            ' 将该家族下的所有基因映射到该家族ID
-            For Each geneId In kvp.Value
-                If Not geneToFamily.ContainsKey(geneId) Then
-                    geneToFamily.Add(geneId, familyId)
-                End If
-            Next
+        If N < 2 OrElse F = 0 Then
+            result.GeneticDistanceMatrix = New Dictionary(Of String, Double)()
+            Return
+        End If
+
+        Dim words As Integer = (F + 63) \ 64
+        Dim bits As ULong()() = New ULong(N - 1)() {}
+        Dim sizes As Integer() = New Integer(N - 1) {}
+
+        ' 1. 将 "基因组 -> 基因集合" 转换为 "基因组 -> 基因家族位图"
+        Parallel.For(0, N, Sub(g As Integer)
+                               Dim b As ULong() = New ULong(words - 1) {}
+                               Dim count As Integer = 0
+
+                               For Each gi As Integer In genomeGenes(g)
+                                   Dim f As Integer = geneFamily(gi)
+
+                                   If f < 0 Then
+                                       Continue For
+                                   End If
+
+                                   Dim w As Integer = f \ 64
+                                   Dim mask As ULong = 1UL << (f Mod 64)
+
+                                   If (b(w) And mask) = 0UL Then
+                                       b(w) = b(w) Or mask
+                                       count += 1
+                                   End If
+                               Next
+
+                               bits(g) = b
+                               sizes(g) = count
+                           End Sub)
+
+        ' 2. 两两计算 Jaccard 距离
+        Dim npairs As Integer = N * (N - 1) \ 2
+        Dim keys As String() = New String(npairs - 1) {}
+        Dim values As Double() = New Double(npairs - 1) {}
+        Dim offsets As Integer() = New Integer(N - 1) {}
+
+        For i As Integer = 0 To N - 1
+            offsets(i) = i * N - (i * (i + 1)) \ 2
         Next
 
-        ' 2. 将 "基因组 -> 基因集合" 转换为 "基因组 -> 基因家族集合"
-        Dim genomeFamilySets As New Dictionary(Of String, HashSet(Of String))(StringComparer.OrdinalIgnoreCase)
+        Parallel.For(0, N - 1, Sub(i As Integer)
+                                   Dim off As Integer = offsets(i)
+                                   Dim a As ULong() = bits(i)
 
-        For Each kvp In genomeGeneSets
-            Dim genomeName = kvp.Key
-            Dim genes = kvp.Value
-            Dim families As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+                                   For j As Integer = i + 1 To N - 1
+                                       Dim b As ULong() = bits(j)
+                                       Dim intersectionCount As Integer = 0
 
-            For Each geneId In genes
-                ' 注意：如果某个基因没有成功聚类（孤儿基因），这里会找不到，直接跳过
-                ' 在泛基因组分析中，通常只计算被归入家族的基因
-                If geneToFamily.ContainsKey(geneId) Then
-                    families.Add(geneToFamily(geneId))
-                End If
-            Next
+                                       For w As Integer = 0 To words - 1
+                                           intersectionCount += BitOperations.PopCount(a(w) And b(w))
+                                       Next
 
-            genomeFamilySets.Add(genomeName, families)
-        Next
+                                       ' 计算并集大小: |A ∪ B| = |A| + |B| - |A ∩ B|
+                                       Dim unionCount As Integer = sizes(i) + sizes(j) - intersectionCount
+                                       Dim jaccardDistance As Double
 
-        ' 3. 初始化距离矩阵
-        result.GeneticDistanceMatrix = New Dictionary(Of String, Double)()
-        Dim genomeNames = genomeGeneSets.Keys.ToList()
+                                       If unionCount > 0 Then
+                                           jaccardDistance = 1.0 - (CDbl(intersectionCount) / CDbl(unionCount))
+                                       Else
+                                           jaccardDistance = 0.0
+                                       End If
 
-        ' 4. 两两计算 Jaccard 距离
-        For i As Integer = 0 To genomeNames.Count - 1
-            For j As Integer = i + 1 To genomeNames.Count - 1
-                Dim g1 = genomeNames(i)
-                Dim g2 = genomeNames(j)
+                                       keys(off) = OrderKey(genomeList(i), genomeList(j))
+                                       values(off) = jaccardDistance
+                                       off += 1
+                                   Next
+                               End Sub)
 
-                Dim set1 = genomeFamilySets(g1)
-                Dim set2 = genomeFamilySets(g2)
+        ' 3. 按照确定的顺序写入结果矩阵
+        result.GeneticDistanceMatrix = New Dictionary(Of String, Double)(npairs)
 
-                ' 性能优化：确保 set1 是较小的集合，以减少 HashSet.Contains 的调用次数
-                Dim smallerSet As HashSet(Of String) = If(set1.Count <= set2.Count, set1, set2)
-                Dim largerSet As HashSet(Of String) = If(set1.Count <= set2.Count, set2, set1)
-
-                ' 计算交集大小
-                Dim intersectionCount As Integer = 0
-                For Each familyId In smallerSet
-                    If largerSet.Contains(familyId) Then
-                        intersectionCount += 1
-                    End If
-                Next
-
-                ' 计算并集大小: |A ∪ B| = |A| + |B| - |A ∩ B|
-                Dim unionCount As Integer = set1.Count + set2.Count - intersectionCount
-
-                ' 计算 Jaccard 距离 = 1 - (交集 / 并集)
-                Dim jaccardDistance As Double = 0.0
-                If unionCount > 0 Then
-                    jaccardDistance = 1.0 - (CDbl(intersectionCount) / CDbl(unionCount))
-                Else
-                    ' 如果两个基因组都没有被分配到任何家族（极端情况），距离设为 0
-                    jaccardDistance = 0.0
-                End If
-
-                ' 存入矩阵 (使用之前定义的 OrderKey 保证键的顺序一致性)
-                Dim key = OrderKey(g1, g2)
-                result.GeneticDistanceMatrix.Add(key, jaccardDistance)
-            Next
+        For i As Integer = 0 To npairs - 1
+            result.GeneticDistanceMatrix.Add(keys(i), values(i))
         Next
     End Sub
 
@@ -732,18 +1191,6 @@ Public Class GenomeAnalyzer
     ''' 基于直系同源比对计算基因组间的遗传距离矩阵
     ''' </summary>
     Private Sub CalculateGeneticDistance(orthologDict As Dictionary(Of String, BiDirectionalBesthit()), genomeNames As List(Of String))
-        ' 1. 构建基因组对的比对结果缓存
-        ' Key: "G1_vs_G2", Value: List(Of Ortholog)
-        Dim pairwiseOrthologs As New Dictionary(Of String, List(Of Ortholog))()
-
-        ' 初始化所有可能的基因组对
-        For i = 0 To genomeNames.Count - 1
-            For j = i + 1 To genomeNames.Count - 1
-                Dim key = OrderKey(genomeNames(i), genomeNames(j))
-                pairwiseOrthologs.Add(key, New List(Of Ortholog)())
-            Next
-        Next
-
         ' 仅使用单拷贝直系同源基因 计算平均距离
         ' 这在进化分析中是金标准。
 
@@ -756,18 +1203,19 @@ Public Class GenomeAnalyzer
             Next
         Next
 
+        result.GeneticDistanceMatrix = New Dictionary(Of String, Double)()
+
         ' 2. 遍历所有单拷贝家族
-        For Each familyId In TqdmWrapper.Wrap(result.SingleCopyOrthologFamilies)
-            Dim genes = result.GeneFamilies(familyId)
+        For Each familyId As String In TqdmWrapper.Wrap(result.SingleCopyOrthologFamilies)
+            Dim genes As String() = result.GeneFamilies(familyId)
 
             ' 单拷贝家族中只有 N 个基因 (N=基因组数)
             ' 我们需要找到这 N 个基因两两之间的 Ortholog 记录
             ' 实际上，单拷贝家族意味着两两之间必然有 RBH 关系
-
-            For i = 0 To genes.Count - 1
-                For j = i + 1 To genes.Count - 1
-                    Dim g1 = genes(i)
-                    Dim g2 = genes(j)
+            For i As Integer = 0 To genes.Count - 1
+                For j As Integer = i + 1 To genes.Count - 1
+                    Dim g1 As String = genes(i)
+                    Dim g2 As String = genes(j)
 
                     ' 查找它们之间的 Ortholog 记录
                     ' 因为是 RBH，g1 和 g2 必然在同一个 Ortholog 对象中
@@ -776,24 +1224,19 @@ Public Class GenomeAnalyzer
                         Dim target = If(o.QueryName = g1, o.HitName, o.QueryName)
 
                         If target = g2 Then
-                            ' 找到了配对
-                            If Not geneAnnotations.ContainsKey(g1) OrElse Not geneAnnotations.ContainsKey(g2) Then
+                            Dim i1 As Integer = -1
+                            Dim i2 As Integer = -1
+
+                            If Not geneIndex.TryGetValue(g1, i1) OrElse Not geneIndex.TryGetValue(g2, i2) Then
                                 Continue For
                             End If
 
-                            Dim gName1 = geneAnnotations(g1).GenomeName
-                            Dim gName2 = geneAnnotations(g2).GenomeName
-
-                            ' 这里的命名解析需根据实际情况调整，这里演示逻辑
-                            ' 更好的方式是查 geneAnnotations
-                            ' Dim info1 = geneAnnotations(g1) ...
-
-                            Dim key = OrderKey(gName1, gName2)
+                            Dim gName1 As String = genomeList(geneGenome(i1))
+                            Dim gName2 As String = genomeList(geneGenome(i2))
+                            Dim key As String = OrderKey(gName1, gName2)
 
                             ' 记录距离 (1 - Identity)
-                            ' 假设 identities1 是 g1 相对于 g2 的一致性
-                            ' 如果 orthologDict 中没有明确的基因组方向，取平均值
-                            Dim dist = 1.0 - ((o.forward + o.reverse) / 2.0)
+                            Dim dist As Double = 1.0 - ((o.forward + o.reverse) / 2.0)
 
                             If Not result.GeneticDistanceMatrix.ContainsKey(key) Then
                                 result.GeneticDistanceMatrix.Add(key, 0)
@@ -807,16 +1250,13 @@ Public Class GenomeAnalyzer
         Next
 
         ' 3. 计算平均值
-        ' 这里需要知道每对基因组比较了多少个基因。
-        ' 简化处理：我们可以用一个辅助字典记录计数，这里略。
-        ' 下面提供一个简化版的除以单拷贝基因总数的逻辑。
+        Dim singleCopyCount As Integer = result.SingleCopyOrthologFamilies.Length
 
-        Dim singleCopyCount = result.SingleCopyOrthologFamilies.Count
         If singleCopyCount > 0 Then
-            Dim keys = result.GeneticDistanceMatrix.Keys.ToList()
-            For Each k In keys
+            Dim keys As List(Of String) = result.GeneticDistanceMatrix.Keys.ToList()
+
+            For Each k As String In keys
                 ' 每对基因组在每个单拷贝家族中都会贡献一次距离
-                ' 所以除以 singleCopyCount
                 result.GeneticDistanceMatrix(k) /= singleCopyCount
             Next
         End If

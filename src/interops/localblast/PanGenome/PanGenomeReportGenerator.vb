@@ -397,7 +397,7 @@ Public Module PanGenomeReportGenerator
         sb.AppendLine($"<div class='stat-card'><span class='stat-value'>{result.CollinearBlocks.Length}</span><span class='stat-label'>共线性区块总数</span></div>")
 
         ' 统计基因对数量
-        Dim totalPairs As Integer = result.CollinearBlocks.Sum(Function(b) If(b.OrthologyLinks IsNot Nothing, b.OrthologyLinks.Length, 0))
+        Dim totalPairs As Integer = result.CollinearBlocks.Sum(Function(b) b.GenePairCount)
         sb.AppendLine($"<div class='stat-card'><span class='stat-value'>{totalPairs}</span><span class='stat-label'>同源基因对总数</span></div>")
 
         ' 统计涉及的基因组对
@@ -412,7 +412,7 @@ Public Module PanGenomeReportGenerator
         sb.AppendLine("<tbody>")
 
         For Each block In result.CollinearBlocks.Take(20)
-            Dim pairCount As Integer = If(block.OrthologyLinks IsNot Nothing, block.OrthologyLinks.Length, 0)
+            Dim pairCount As Integer = block.GenePairCount
             sb.AppendLine($"<tr><td>{block.Genome1} ↔ {block.Genome2}</td><td>{block.Chr1} ↔ {block.Chr2}</td><td>{pairCount}</td></tr>")
         Next
 
