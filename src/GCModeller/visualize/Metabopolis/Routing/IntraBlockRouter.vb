@@ -229,7 +229,11 @@ Namespace Routing
                                          buildings As List(Of BuildingBlock)) As Dictionary(Of String, PointF)
 
             Dim positions As New Dictionary(Of String, PointF)(StringComparer.Ordinal)
-            Dim interior As Rect = block.Inflate(-Options.BoundaryInset)
+
+            ' 边界收缩量按街区尺寸自适应：floor-planning 输出的坐标尺度由输入规模决定，
+            ' 固定的像素常数在数百个街区时会把小区块的内部区域压缩到消失
+            Dim inset As Double = Math.Min(Options.BoundaryInset, 0.2 * Math.Min(block.Width, block.Height))
+            Dim interior As Rect = block.Inflate(-inset)
 
             If interior.Width <= 8 OrElse interior.Height <= 8 Then
                 interior = Rect.FromSize(block.X, block.Y, Math.Max(8, block.Width), Math.Max(8, block.Height))
@@ -248,7 +252,8 @@ Namespace Routing
                 })
             Next
 
-            Dim cells As TreeMapCell() = TreeMapPartition.Shrink(TreeMapPartition.Partition(interior, items), Options.BuildingGap)
+            Dim gap As Double = Math.Min(Options.BuildingGap, 0.08 * Math.Min(interior.Width, interior.Height))
+            Dim cells As TreeMapCell() = TreeMapPartition.Shrink(TreeMapPartition.Partition(interior, items), gap)
 
             For i As Integer = 0 To components.Count - 1
                 Dim cell As TreeMapCell = If(i < cells.Length, cells(i), Nothing)
@@ -521,7 +526,7 @@ Namespace Routing
                 bucket.Add(copy)
             Next
 
-            Const pad As Double = 10
+            Dim pad As Double = Math.Min(10.0, 0.15 * Math.Min(block.Width, block.Height))
 
             For Each item As KeyValuePair(Of Integer, List(Of MetaboliteCopy)) In bySide
                 Dim side As Integer = item.Key
@@ -660,7 +665,8 @@ Namespace Routing
             End If
 
             ' 2. 道路网格
-            Dim interior As Rect = block.Inflate(-Options.BoundaryInset)
+            Dim inset As Double = Math.Min(Options.BoundaryInset, 0.2 * Math.Min(block.Width, block.Height))
+            Dim interior As Rect = block.Inflate(-inset)
 
             If interior.Width <= 8 OrElse interior.Height <= 8 Then
                 Return New RoutePolyline() {}

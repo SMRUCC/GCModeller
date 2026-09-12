@@ -603,3 +603,5 @@ src/GCModeller/visualize/Metabopolis/test/logC.txt
 src/GCModeller/visualize/Metabopolis/test/errC.txt
 src/GCModeller/visualize/Metabopolis/test/logD.txt
 src/GCModeller/visualize/Metabopolis/test/errA.txt
+src/GCModeller/visualize/Metabopolis/test/logE.txt
+src/GCModeller/visualize/Metabopolis/test/errE.txt
