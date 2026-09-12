@@ -57,6 +57,9 @@ Module gbMolTypeTest
     Sub Main1(Optional dirs As String() = Nothing)
         Dim files As New List(Of String)
         Dim summary As New Dictionary(Of GenomeMolType, Integer)
+        Dim levelSummary As New Dictionary(Of GenomeAssemblyLevel, Integer)
+        Dim completeChromosomes As Integer = 0
+        Dim totalRecords As Integer = 0
 
         If dirs Is Nothing Then
             dirs = genbankDirs
@@ -92,13 +95,28 @@ Module gbMolTypeTest
                     definition = definition.Substring(0, 60) & "..."
                 End If
 
-                Call Console.WriteLine($"[{evidence.Type,-15}] {locus,-16} len={length,-10} {definition,-63} <{evidence.Source}: {evidence.Hit}>")
+                Dim assembly As AssemblyLevelEvidence = gb.GetAssemblyLevelEvidence()
+                Dim isComplete As Boolean = gb.IsCompleteChromosome()
+
+                totalRecords += 1
+
+                Call Console.WriteLine($"[{evidence.Type,-15}] [{assembly.Level,-16}] {If(isComplete, "Y", ".")} {locus,-16} len={length,-10} {definition,-63} <{evidence.Source}: {evidence.Hit}> | <{assembly.Source}: {assembly.Hit}>")
 
                 If Not summary.ContainsKey(evidence.Type) Then
                     summary(evidence.Type) = 0
                 End If
 
                 summary(evidence.Type) += 1
+
+                If Not levelSummary.ContainsKey(assembly.Level) Then
+                    levelSummary(assembly.Level) = 0
+                End If
+
+                levelSummary(assembly.Level) += 1
+
+                If isComplete Then
+                    completeChromosomes += 1
+                End If
             Next
 
             Call Console.WriteLine($"[{i + 1}/{files.Count}] {System.IO.Path.GetFileName(path)} -> records: {records}")
@@ -112,6 +130,18 @@ Module gbMolTypeTest
         For Each type As GenomeMolType In summary.Keys.OrderBy(Function(t) t)
             Call Console.WriteLine($"{type,-16}{summary(type),10}")
         Next
+
+        Call Console.WriteLine()
+        Call Console.WriteLine("================= assembly level =================")
+        Call Console.WriteLine($"{"level",-18}{"records",10}")
+        Call Console.WriteLine(New String("-"c, 28))
+
+        For Each level As GenomeAssemblyLevel In levelSummary.Keys.OrderBy(Function(t) t)
+            Call Console.WriteLine($"{level,-18}{levelSummary(level),10}")
+        Next
+
+        Call Console.WriteLine()
+        Call Console.WriteLine($"complete chromosome genome records: {completeChromosomes}/{totalRecords}")
 
         Pause()
     End Sub
