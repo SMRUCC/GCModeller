@@ -514,6 +514,7 @@ Namespace Routing
 
             ' 1. 收集「 реакции ↔ 枢纽」配对
             Dim pairs As New List(Of LanePair)()
+            Dim hubsByReaction As New Dictionary(Of String, List(Of String))(StringComparer.Ordinal)
             Dim demandByReaction As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
             Dim supplyByHub As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
             Dim reachedLimit As Boolean = False
@@ -542,6 +543,7 @@ Namespace Routing
                     pairs.Add(New LanePair With {.Reaction = rxnNode.NodeId, .Hub = cpdId})
                     Bump(demandByReaction, rxnNode.NodeId)
                     Bump(supplyByHub, cpdId)
+                    AppendHub(hubsByReaction, rxnNode.NodeId, cpdId)
                 Next
             Next
 
@@ -743,6 +745,66 @@ Namespace Routing
                     label:=junction.Label))
             Next
 
+            ' 9. 未被流网络服务的配对退化为正交折线。
+            '    论文用最小费用流求最优车道，但道路容量有限；超出容量的配对
+            '    用「水平-垂直」两段直角折线兜底，保证每条连接都能被画出来。
+            Dim receivedByReaction As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
+
+            For Each route As RoutePolyline In routes
+                Bump(receivedByReaction, route.TargetId)
+            Next
+
+            Dim fallbacks As Integer = 0
+
+            For Each item As KeyValuePair(Of String, List(Of String)) In hubsByReaction
+                If fallbacks >= Options.MaxFallbackLanes Then
+                    Exit For
+                End If
+
+                Dim received As Integer = 0
+                receivedByReaction.TryGetValue(item.Key, received)
+
+                Dim hubs As List(Of String) = item.Value
+
+                For i As Integer = received To hubs.Count - 1
+                    If fallbacks >= Options.MaxFallbackLanes Then
+                        Exit For
+                    End If
+
+                    Dim target As Integer
+                    Dim targetPoint As PointF = Nothing
+                    Dim junction As Junction = Nothing
+
+                    If Not reactionId.TryGetValue(item.Key, target) Then
+                        Exit For
+                    End If
+
+                    If Not reactionPoint.TryGetValue(target, targetPoint) Then
+                        Exit For
+                    End If
+
+                    If Not junctionNodes.TryGetValue(hubs(i), junction) Then
+                        Continue For
+                    End If
+
+                    Dim elbow As New PointF(targetPoint.X, CSng(junction.Y))
+                    Dim model As MetabolicReaction = network.GetReaction(item.Key.Substring(2))
+                    counter += 1
+
+                    routes.Add(RoutePolyline.Create(
+                        id:=$"L:{categoryId}:{counter}",
+                        sourceId:=hubs(i),
+                        targetId:=item.Key,
+                        metaboliteId:=hubs(i),
+                        role:=EdgeRole.ReactantToReactant,
+                        directed:=Not (model IsNot Nothing AndAlso model.is_reversible),
+                        points:=New PointF() {junction.Point, elbow, targetPoint},
+                        label:=junction.Label))
+
+                    fallbacks += 1
+                Next
+            Next
+
             Return routes.ToArray
         End Function
 
@@ -760,6 +822,17 @@ Namespace Routing
             Dim value As Integer = 0
             table.TryGetValue(key, value)
             table(key) = value + 1
+        End Sub
+
+        Private Shared Sub AppendHub(table As Dictionary(Of String, List(Of String)), key As String, value As String)
+            Dim bucket As List(Of String) = Nothing
+
+            If Not table.TryGetValue(key, bucket) Then
+                bucket = New List(Of String)()
+                table.Add(key, bucket)
+            End If
+
+            bucket.Add(value)
         End Sub
 
         ''' <summary>
