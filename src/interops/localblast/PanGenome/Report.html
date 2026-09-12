@@ -518,6 +518,90 @@
             font-style: italic;
         }
 
+        /* 数据表滚动容器 */
+        .table-scroll {
+            max-height: 480px;
+            overflow-y: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+        }
+
+        .table-scroll .data-table {
+            overflow: visible;
+            border: none;
+            border-radius: 0;
+        }
+
+        .table-scroll .data-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: var(--bg-secondary);
+        }
+
+        /* 统计面板工具栏 */
+        .stats-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1 1 260px;
+            max-width: 420px;
+            padding: 10px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
+
+        .search-box svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .search-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9375rem;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .stats-count {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* 图表滚动容器：热图高度超出封顶值时在容器内滚动 */
+        .chart-scroll {
+            max-height: 1600px;
+            overflow: auto;
+            border-radius: 8px;
+        }
+
         /* 分类详细 */
         .category-breakdown {
             display: grid;
@@ -696,6 +780,16 @@
             }
         }
     </style>
+
+    <!-- 报告数据：全部由报告生成器序列化后填充到下面的 JSON 脚本标签之中，
+         页面脚本通过 document.getElementById(...) 读取，不再直接拼接进 JavaScript 代码 -->
+    <script type="application/json" id="genome-stats-data">{$GENOME_STATS_DATA}</script>
+    <script type="application/json" id="pie-chart-data">{$PIE_CHART_DATA}</script>
+    <script type="application/json" id="pangenome-curve-data">{$PANGENOME_CURVE_DATA}</script>
+    <script type="application/json" id="pav-matrix-data">{$PAV_MATRIX_DATA}</script>
+    <script type="application/json" id="genetic-distance-data">{$GENETIC_DISTANCE_DATA}</script>
+    <script type="application/json" id="sv-stats-data">{$SV_STATS_DATA}</script>
+    <script type="application/json" id="collinearity-data">{$COLLINEARITY_DATA}</script>
 </head>
 
 <body>
@@ -773,9 +867,40 @@
                 </div>
             </div>
 
-            <!-- 基因组统计表 -->
+            <!-- 基因组统计表：表格行由前端脚本从内嵌 JSON 数据渲染 -->
             <h3 class="chart-title">基因组基本信息统计</h3>
-            {$GENOME_STATS_TABLE}
+            <div class="stats-toolbar">
+                <label class="search-box" for="genomeSearch">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="genomeSearch" autocomplete="off" placeholder="按基因组名称搜索...">
+                </label>
+                <span class="stats-count" id="genomeStatsCount"></span>
+            </div>
+            <div class="table-scroll">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>基因组名称</th>
+                            <th>基因总数</th>
+                            <th>特有基因数</th>
+                            <th>核心基因占比</th>
+                        </tr>
+                    </thead>
+                    <tbody id="genomeStatsBody"></tbody>
+                </table>
+            </div>
+
+            <div class="chart-container" style="margin-top: 24px;">
+                <h3 class="chart-title">基因总数分布直方图（20 bins）</h3>
+                <div class="chart-wrapper chart-small" id="geneCountHistogram"></div>
+                <p class="table-note" style="margin-top: 12px;">
+                    点击直方图柱子可以筛选该基因总数区间内的基因组，再次点击同一柱子即可取消筛选。
+                </p>
+            </div>
         </section>
 
         <!-- 第二章：基因家族分类 -->
@@ -899,7 +1024,10 @@
 
             <div class="chart-container">
                 <h3 class="chart-title">基因家族 PAV 热图</h3>
-                <div class="chart-wrapper" id="pavHeatmap" style="height: 500px;"></div>
+                <div class="chart-scroll">
+                    <div class="chart-wrapper" id="pavHeatmap" style="height: 500px;"></div>
+                </div>
+                <p class="table-note" id="pavHeatmapNote" style="display: none; margin-top: 16px;"></p>
             </div>
         </section>
 
@@ -942,6 +1070,19 @@
             </div>
 
             {$COLLINEARITY_STATS}
+
+            <div class="chart-container" style="margin-top: 24px;">
+                <h3 class="chart-title">基因组间共线性矩阵热图</h3>
+                <div class="chart-scroll">
+                    <div id="collinearityHeatmap" style="height: 420px;"></div>
+                </div>
+                <p class="table-note" id="collinearityNote" style="display: none; margin-top: 16px;"></p>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Top 共线性区块</h3>
+                <div id="collinearityBarChart" style="height: 420px;"></div>
+            </div>
         </section>
 
         <!-- 第七章：遗传距离 -->
@@ -959,7 +1100,10 @@
 
             <div class="chart-container">
                 <h3 class="chart-title">基因组间遗传距离热图</h3>
-                <div class="chart-wrapper" id="distanceHeatmap"></div>
+                <div class="chart-scroll">
+                    <div class="chart-wrapper" id="distanceHeatmap" style="height: 400px;"></div>
+                </div>
+                <p class="table-note" id="distanceHeatmapNote" style="display: none; margin-top: 16px;"></p>
             </div>
         </section>
 
