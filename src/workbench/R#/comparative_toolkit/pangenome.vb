@@ -55,6 +55,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.PanGenome
@@ -154,20 +155,56 @@ Module pangenome
                                   Optional soft_core_threshold As Double = 0.95,
                                   Optional env As Environment = Nothing) As Object
 
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of GFFTable)(genomes, env, suppress:=True)
+        Dim pull As PipeIterator(Of GFFTable) = pipeline.Stream(Of GFFTable)(genomes, env, suppress:=True)
         Dim context As GenomeAnalyzer
 
         If Not pull.isError Then
-            context = New GenomeAnalyzer(pull.populates(Of GFFTable)(env))
+            context = New GenomeAnalyzer(pull)
         ElseIf TypeOf genomes Is list Then
-            context = New GenomeAnalyzer(DirectCast(genomes, list).AsGeneric(Of GeneTable())(env))
+            context = New GenomeAnalyzer(DirectCast(genomes, list).asGeneric(Of GeneTable())(env))
         Else
-            Return pull.getError
+            Dim pullGenes As PipeIterator(Of GeneTable) = pipeline.Stream(Of GeneTable)(genomes, env, suppress:=True)
+
+            If pullGenes.isError Then
+                Return pull.getError
+            Else
+                Dim genomeGeneSet As Dictionary(Of String, GeneTable()) = pullGenes _
+                    .GroupBy(Function(g) g.replicon_accessionID) _
+                    .ToDictionary(Function(g) g.Key,
+                                  Function(g)
+                                      Return g.ToArray
+                                  End Function)
+
+                context = New GenomeAnalyzer(genomeGeneSet)
+            End If
         End If
 
         context.SoftCoreThreshold = soft_core_threshold
 
         Return context
+    End Function
+
+    <ExportAPI("multiple_genome_alignment")>
+    Public Function ParseMultipleGenomeAlignment(<RRawVectorArgument(GetType(RankTerm))> aligns As Object,
+                                                 Optional sep As String = ".",
+                                                 Optional env As Environment = Nothing) As Object
+
+        Dim hits As PipeIterator(Of RankTerm) = pipeline.Stream(Of RankTerm)(aligns, env)
+
+        If hits.isError Then
+            Return hits.getError
+        Else
+            Return hits.Select(Function(h)
+                                   Dim qid As NamedValue(Of String) = h.queryName.GetTagValue(sep)
+                                   h.queryName = qid.Name
+                                   Return (genome:=qid.Value, h)
+                               End Function) _
+                       .GroupBy(Function(a) a.genome) _
+                       .ToDictionary(Function(a) a.Key,
+                                     Function(a)
+                                         Return a.Select(Function(i) i.Item2).ToArray
+                                     End Function)
+        End If
     End Function
 
     ''' <summary>
