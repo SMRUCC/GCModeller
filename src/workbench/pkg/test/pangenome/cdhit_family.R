@@ -1,12 +1,24 @@
 require(GCModeller);
+require(jsonlite);
 
 imports "bioseq.fasta" from "seqtoolkit";
 imports "kmers" from "seqtoolkit";
 imports "pangenome" from "comparative_toolkit";
 
 let dir as string = ?"--dir" || stop("no analysis data provided!");
-let proteins = read.fasta(file.path(dir, "proteins.faa"));
-let family_result = cdhit_clusters(proteins);
+let family_result = file.path(dir, "cdhit-family.json");
+let family_result = {
+    if (file.exists(family_result)) {
+        # use cache
+        jsonlite::fromJSON(family_result);
+    } else {
+        let proteins = read.fasta(file.path(dir, "proteins.faa"));
+        let cache_data = cdhit_clusters(proteins);
+
+        writeLines(jsonlite::toJSON(cache_data), con = family_result);
+        cache_data;
+    }
+};
 let orth = multiple_genome_alignment( family_groups(family_result$clusters));
 let geneset = read_genetable(file.path(dir,"genes.csv"));
 let context = build_context(geneset,uniqueByAcc=TRUE);
