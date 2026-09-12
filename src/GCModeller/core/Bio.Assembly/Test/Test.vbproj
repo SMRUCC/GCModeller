@@ -7,7 +7,7 @@
        <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
     <UseApplicationFramework>False</UseApplicationFramework>
-    <StartupObject>test.kgml_test</StartupObject>
+    <StartupObject>test.gbMolTypeTest</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
