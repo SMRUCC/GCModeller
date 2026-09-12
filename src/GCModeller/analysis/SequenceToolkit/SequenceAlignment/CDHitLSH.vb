@@ -93,9 +93,11 @@ Friend NotInheritable Class CDHitLSH
                               Dim val As UInteger = signature(offset + r)
                               Dim p As Integer = r * 4
 
-                              buffer(p) = CByte(val)
-                              buffer(p + 1) = CByte(val >> 8)
-                              buffer(p + 2) = CByte(val >> 16)
+                              ' 注意：这里使用掩码之后再做CByte转换，因为CByte在默认的整数溢出检查之下
+                              ' 对于数值大于255的输入是会抛出异常的
+                              buffer(p) = CByte(val And &HFFUI)
+                              buffer(p + 1) = CByte((val >> 8) And &HFFUI)
+                              buffer(p + 2) = CByte((val >> 16) And &HFFUI)
                               buffer(p + 3) = CByte(val >> 24)
                           Next
 
