@@ -58,6 +58,8 @@ Namespace Evolview.Drawing
         Public Property LeafColor As Color = Color.Black
         ''' <summary>节点标记颜色</summary>
         Public Property NodeColor As Color = Color.Black
+        ''' <summary>标题文字颜色</summary>
+        Public Property TitleColor As Color = Color.Black
 
         ''' <summary>
         ''' 是否使用 <see cref="PhyloNode"/> 上通过 <see cref="TreeDecoType"/> 设置的颜色集
@@ -159,6 +161,7 @@ Namespace Evolview.Drawing
                 .BranchColor = BranchColor,
                 .LeafColor = LeafColor,
                 .NodeColor = NodeColor,
+                .TitleColor = TitleColor,
                 .UseNodeColors = UseNodeColors,
                 .ActiveColorSetID = ActiveColorSetID,
                 .BranchWidth = BranchWidth,
