@@ -33,6 +33,12 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+
+  <!-- 内置的氨基酸经验替换模型数据（Dayhoff / JTT / WAG / LG），格式为 190 个下三角速率值 + 20 个平衡频率 -->
+  <ItemGroup>
+    <None Remove="Evolution\MaximumLikelihood\Models\Data\*.dat" />
+    <EmbeddedResource Include="Evolution\MaximumLikelihood\Models\Data\*.dat" />
+  </ItemGroup>
  
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\CRISPR\CRT\CRISPR.vbproj" />
