@@ -1,14 +1,16 @@
 Imports System.Drawing
+Imports Microsoft.VisualBasic.Imaging
 
 Namespace Evolview.Drawing
 
     ''' <summary>
-    ''' 进化树绘制的配置项：布局样式、画布与边距、字体、颜色与线宽、显示开关、
+    ''' 进化树绘制的配置项：布局样式、画布与留白、字体、颜色与线宽、显示开关、
     ''' 圆形布局的起止角参数以及缩放策略。
     ''' </summary>
     ''' <remarks>
     ''' 该类只描述「画什么、怎么画」的参数，不参与几何计算与绘制本身；
     ''' 与之配套的几何计算见 <see cref="TreeLayoutEngine"/>，绘制见 <see cref="TreeRenderer"/>。
+    ''' 字体类型为 <see cref="Microsoft.VisualBasic.Imaging.Font"/>。
     ''' </remarks>
     Public Class TreeDrawingOptions
 
@@ -22,10 +24,28 @@ Namespace Evolview.Drawing
         ''' </summary>
         Public Property CanvasSize As Size = New Size(1200, 900)
 
-        ''' <summary>
-        ''' 画布四周的留白
-        ''' </summary>
-        Public Property Padding As System.Drawing.Padding = New System.Drawing.Padding(60)
+        ''' <summary>左留白（像素）</summary>
+        Public Property MarginLeft As Integer = 60
+        ''' <summary>上留白（像素）</summary>
+        Public Property MarginTop As Integer = 60
+        ''' <summary>右留白（像素）</summary>
+        Public Property MarginRight As Integer = 60
+        ''' <summary>下留白（像素）</summary>
+        Public Property MarginBottom As Integer = 60
+
+        ''' <summary>水平方向留白合计</summary>
+        Public ReadOnly Property MarginHorizontal As Integer
+            Get
+                Return MarginLeft + MarginRight
+            End Get
+        End Property
+
+        ''' <summary>垂直方向留白合计</summary>
+        Public ReadOnly Property MarginVertical As Integer
+            Get
+                Return MarginTop + MarginBottom
+            End Get
+        End Property
 
         ''' <summary>
         ''' 画布 DPI
@@ -62,8 +82,8 @@ Namespace Evolview.Drawing
         Public Property TitleColor As Color = Color.Black
 
         ''' <summary>
-        ''' 是否使用 <see cref="PhyloNode"/> 上通过 <see cref="TreeDecoType"/> 设置的颜色集
-        ''' （分支色 / 叶文字色 / 叶背景色）。为 False 时全部使用本配置的默认色。
+        ''' 是否使用 <see cref="PhyloNode"/> 上通过颜色集设置的分支色 / 叶文字色 / 叶背景色。
+        ''' 为 False 时全部使用本配置的默认色。
         ''' </summary>
         Public Property UseNodeColors As Boolean = True
 
@@ -151,7 +171,10 @@ Namespace Evolview.Drawing
             Return New TreeDrawingOptions With {
                 .Mode = Mode,
                 .CanvasSize = CanvasSize,
-                .Padding = Padding,
+                .MarginLeft = MarginLeft,
+                .MarginTop = MarginTop,
+                .MarginRight = MarginRight,
+                .MarginBottom = MarginBottom,
                 .Dpi = Dpi,
                 .Background = Background,
                 .LeafFont = LeafFont,

@@ -306,7 +306,7 @@ Namespace Evolview.Drawing
             Dim measure As New TextMeasureCache(g)
             Dim size As SizeF = measure.Measure(_options.Title, _titleFont)
             Dim x As Single = (_options.CanvasSize.Width - size.Width) / 2
-            Dim y As Single = Math.Max(4, _options.Padding.Top / 3)
+            Dim y As Single = Math.Max(4, _options.MarginTop / 3)
 
             Call g.DrawString(_options.Title, _titleFont, GetBrush(_options.TitleColor), x, y)
         End Sub
@@ -329,8 +329,8 @@ Namespace Evolview.Drawing
                 Return
             End If
 
-            Dim x0 As Single = _options.Padding.Left
-            Dim y0 As Single = _options.CanvasSize.Height - Math.Max(6, _options.Padding.Bottom / 2)
+            Dim x0 As Single = _options.MarginLeft
+            Dim y0 As Single = _options.CanvasSize.Height - Math.Max(6, _options.MarginBottom / 2)
 
             Call g.DrawLine(GetPen(_options.BranchColor), x0, y0, x0 + pixels, y0)
 

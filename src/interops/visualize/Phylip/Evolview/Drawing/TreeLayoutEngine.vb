@@ -153,8 +153,8 @@ Namespace Evolview.Drawing
 
             ' ---- 2. 缩放 ----
             Dim labelSpace As Single = If(options.ShowLeafLabels, maxLabelWidth + options.LabelGap, 0)
-            Dim availableWidth As Double = options.CanvasSize.Width - options.Padding.Horizontal - labelSpace
-            Dim availableHeight As Double = options.CanvasSize.Height - options.Padding.Vertical
+            Dim availableWidth As Double = options.CanvasSize.Width - options.MarginHorizontal - labelSpace
+            Dim availableHeight As Double = options.CanvasSize.Height - options.MarginVertical
 
             Dim pxPerX As Double
             Dim pxPerY As Double
@@ -176,10 +176,10 @@ Namespace Evolview.Drawing
 
             ' SLANTED_CLADOGRAM_NORMAL：内部节点的 X 由其首末叶的垂直跨度与全局倾角决定
             If options.Mode = TreePlotMode.SLANTED_CLADOGRAM_NORMAL Then
-                Dim leafX As Double = options.Padding.Left + xExtent * pxPerX
-                Dim rootY As Double = options.Padding.Top + (root.LevelVertical - 0.5) * pxPerY
-                Dim firstLeafY As Double = options.Padding.Top + 0.5 * pxPerY
-                Dim run As Double = Math.Max(1.0E-06, leafX - options.Padding.Left)
+                Dim leafX As Double = options.MarginLeft + xExtent * pxPerX
+                Dim rootY As Double = options.MarginTop + (root.LevelVertical - 0.5) * pxPerY
+                Dim firstLeafY As Double = options.MarginTop + 0.5 * pxPerY
+                Dim run As Double = Math.Max(1.0E-06, leafX - options.MarginLeft)
                 Dim inclination As Double = Math.Atan(Math.Abs(rootY - firstLeafY) / run)
 
                 ' 倾角过小时 tan 趋于 0，会导致内部节点 X 发散，这里给出下限
@@ -199,8 +199,8 @@ Namespace Evolview.Drawing
 
             ' ---- 3. 映射到画布 ----
             For Each node As PhyloNode In nodes
-                Dim x As Single = CSng(options.Padding.Left + unitX(node) * pxPerX)
-                Dim y As Single = CSng(options.Padding.Top + (unitY(node) - 0.5) * pxPerY)
+                Dim x As Single = CSng(options.MarginLeft + unitX(node) * pxPerX)
+                Dim y As Single = CSng(options.MarginTop + (unitY(node) - 0.5) * pxPerY)
 
                 result.Nodes(node) = New NodeLayout With {
                     .Node = node,
@@ -337,11 +337,11 @@ Namespace Evolview.Drawing
 
             ' ---- 2. 缩放与圆心 ----
             Dim labelSpace As Single = If(options.ShowLeafLabels, maxLabelWidth + options.LabelGap, 0) + fontHeight
-            Dim contentWidth As Double = options.CanvasSize.Width - options.Padding.Horizontal
-            Dim contentHeight As Double = options.CanvasSize.Height - options.Padding.Vertical
+            Dim contentWidth As Double = options.CanvasSize.Width - options.MarginHorizontal
+            Dim contentHeight As Double = options.CanvasSize.Height - options.MarginVertical
             Dim center As New PointF(
-                CSng(options.Padding.Left + contentWidth / 2),
-                CSng(options.Padding.Top + contentHeight / 2))
+                CSng(options.MarginLeft + contentWidth / 2),
+                CSng(options.MarginTop + contentHeight / 2))
 
             Dim availableRadius As Double = Math.Min(contentWidth, contentHeight) / 2 - labelSpace
 
