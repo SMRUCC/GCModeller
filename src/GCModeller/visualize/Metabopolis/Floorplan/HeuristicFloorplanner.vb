@@ -72,7 +72,7 @@ Namespace Floorplan
         Public Property JitterScale As Double = 0.35
 
         ''' <summary>尺寸微调时允许的长宽比偏离倍数。</summary>
-        Public Property GrowthLimitRatio As Double = 2.0
+        Public Property GrowthLimitRatio As Double = 1.35
 
         ''' <summary>尺寸微调阶段地图域的扩张边距（相对于布局对角线）。</summary>
         Public Property DomainMarginRatio As Double = 0.12

@@ -245,9 +245,10 @@ Namespace Rendering
             Dim stroke As New Pen(Color.FromArgb(200, 120, 70, 20), 0.9F)
 
             For Each junction As Junction In layout.Junctions.SafeQuery
-                ' 半径随枢纽度增长，但必须有上限：跨类别极多的代谢物（如 ATP）
-                ' 度数可达数百，若不封顶会画出巨大的橙色圆斑盖住整张图
-                Dim radius As Single = CSng(Math.Min(6.0, Math.Max(2.2, 2.0 + junction.Degree * 0.35)))
+                ' 半径随枢纽度增长，但上下都必须收紧：度数可达数百的代谢物（如 ATP）
+                ' 若不封顶会画出巨大的橙色圆斑盖住整张图；而在类别数很多、街区很小时，
+                ' 过大半径又会让枢纽点盖住街区本身
+                Dim radius As Single = CSng(Math.Min(3.5, Math.Max(1.4, 1.4 + junction.Degree * 0.2)))
                 ig.DrawCircle(junction.Point, Theme.JunctionColor, stroke, radius)
 
                 If Options.DrawJunctionLabels Then
