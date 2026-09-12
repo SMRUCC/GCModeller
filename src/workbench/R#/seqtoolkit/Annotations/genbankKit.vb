@@ -70,6 +70,7 @@ Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -195,7 +196,7 @@ Module genbankKit
             Return Nothing
         ElseIf TypeOf gb Is list Then
             Return DirectCast(gb, list) _
-                .AsGeneric(Of GBFF.File)(env) _
+                .asGeneric(Of GBFF.File)(env) _
                 .ToDictionary(Function(a) a.Key,
                               Function(a)
                                   Return CObj(a.Value.isPlasmid)
@@ -225,6 +226,7 @@ Module genbankKit
     ''' <param name="files">a list of files or file stream</param>
     ''' <param name="extract_genomics">
     ''' only returns the genomics chromosome data? set this parameter value to TRUE will filter out the plasmid, mitochondrion, plastid type sequence data.
+    ''' set this parameter value to TRUE if use this data source for pan-genome analysis.
     ''' </param>
     ''' <param name="autoClose">
     ''' auto close of the <see cref="Stream"/> if the <paramref name="files"/> contains stream object?
@@ -245,8 +247,20 @@ Module genbankKit
             Return RInternal.debug.stop("the required file list can not be nothing!", env)
         End If
 
+        Dim source As IEnumerable(Of GBFF.File) = Populates(files, autoClose, env)
+
         ' CLRIterator
-        Return pipeline.CreateFromPopulator(Populates(files, autoClose, env))
+        If extract_genomics Then
+            Return pipeline.CreateFromPopulator(
+                From gb As GBFF.File
+                In source
+                Let asmLevel = gb.GetAssemblyLevel
+                Where gb.GetMolType = GenomeMolType.Nuclear AndAlso
+                    (asmLevel = GenomeAssemblyLevel.CompleteGenome OrElse asmLevel = GenomeAssemblyLevel.ChromosomeLevel)
+            )
+        Else
+            Return pipeline.CreateFromPopulator(source)
+        End If
     End Function
 
     Private Iterator Function Populates(files As Object, autoClose As Boolean, env As Environment) As IEnumerable(Of GBFF.File)
