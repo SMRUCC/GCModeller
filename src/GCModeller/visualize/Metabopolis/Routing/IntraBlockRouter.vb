@@ -40,11 +40,14 @@ Namespace Routing
         ''' <summary>每条网格道路允许通过的车道数上限（论文中的容量限制）。</summary>
         Public Property LaneCapacity As Integer = 2
 
-        ''' <summary>单个建筑块的网格节点上限（超出则自动放大步长）。</summary>
-        Public Property MaxGridNodes As Integer = 6000
+        ''' <summary>单个街区的网格节点上限（超出则自动放大步长）。</summary>
+        Public Property MaxGridNodes As Integer = 900
 
-        ''' <summary>车道生成的配对数量上限（性能保护）。</summary>
-        Public Property MaxLanePairs As Integer = 4000
+        ''' <summary>车道生成的配对数量上限（性能保护）；其余配对走正交兜底折线。</summary>
+        Public Property MaxLanePairs As Integer = 400
+
+        ''' <summary>正交兜底折线的数量上限（性能保护）。</summary>
+        Public Property MaxFallbackLanes As Integer = 4000
 
         ''' <summary>边权函数中的长度权重 p。</summary>
         Public Property LengthWeight As Double = 1.0

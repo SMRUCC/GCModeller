@@ -32,16 +32,16 @@ Namespace Routing
         Public Property GridStep As Double = 26
 
         ''' <summary>全局网格节点上限（超出则自动放大步长）。</summary>
-        Public Property MaxGridNodes As Integer = 40000
+        Public Property MaxGridNodes As Integer = 12000
 
         ''' <summary>每条全局道路的容量上限（论文中的 MAX_CAPACITY）。</summary>
         Public Property MaxCapacity As Integer = 6
 
         ''' <summary>参与块间路由的枢纽代谢物数量上限（性能保护）。</summary>
-        Public Property MaxHubMetabolites As Integer = 400
+        Public Property MaxHubMetabolites As Integer = 200
 
         ''' <summary>块间路由的配对数量上限（性能保护）。</summary>
-        Public Property MaxPairs As Integer = 900
+        Public Property MaxPairs As Integer = 400
 
         ''' <summary>网格道路的长度权重。</summary>
         Public Property LengthWeight As Double = 1.0

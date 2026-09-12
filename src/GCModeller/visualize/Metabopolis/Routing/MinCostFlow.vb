@@ -14,6 +14,7 @@
 ' 每次用 SPFA 求一条费用最小的增广路，沿瓶颈容量增广，直到无增广路为止。
 ' ============================================================================
 
+Imports System.Collections.Generic
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 
