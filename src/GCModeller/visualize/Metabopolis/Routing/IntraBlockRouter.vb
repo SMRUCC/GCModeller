@@ -67,6 +67,16 @@ Namespace Routing
         ''' <summary>每个街区内最多放置的边界枢纽数量。</summary>
         Public Property MaxJunctionsPerBlock As Integer = 48
 
+        ''' <summary>
+        ''' 调用 HOLA 做正交布局所需的最小节点数。
+        ''' </summary>
+        ''' <remarks>
+        ''' HOLA 面向「分层」图设计：极小或退化的分量（例如 2~3 个节点的链）
+        ''' 既没有可分层的结构，也可能让松弛阶段无法收敛，
+        ''' 因此这里改用确定性的环形散布作为兜底。
+        ''' </remarks>
+        Public Property MinHolaNodes As Integer = 6
+
         Private _hola As HolaOptions
 
         ''' <summary>HOLA 正交布局参数。</summary>
@@ -291,12 +301,15 @@ Namespace Routing
         Private Function OrthogonalLayout(componentGraph As NetworkGraph) As Dictionary(Of String, PointF)
             Dim result As New Dictionary(Of String, PointF)(StringComparer.Ordinal)
 
-            If componentGraph.vertex IsNot Nothing AndAlso componentGraph.vertex.Any Then
-                If componentGraph.graphEdges IsNot Nothing AndAlso componentGraph.graphEdges.Any Then
+            If componentGraph.vertex IsNot Nothing AndAlso componentGraph.vertex.Any() Then
+                If componentGraph.graphEdges IsNot Nothing AndAlso
+                   componentGraph.graphEdges.Any() AndAlso
+                   componentGraph.vertex.Count() >= Options.MinHolaNodes Then
+
                     Try
                         Call HOLA.DoLayout(componentGraph, Options.Hola)
                     Catch ex As Exception
-                        ' HOLA 对退化输入（例如单点分量）可能不适用，退化为环形散布
+                        ' HOLA 对某些输入不适用，退化为环形散布
                         FallbackCircular(componentGraph)
                     End Try
                 Else

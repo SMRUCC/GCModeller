@@ -331,7 +331,9 @@ Namespace Preprocess
                     .label = rxn.ReactionId,
                     .size = New Double() {6, 6},
                     .mass = 1.0,
-                    .origID = rxn.ReactionId
+                    .origID = rxn.ReactionId,
+                    .weights = New Double() {},
+                    .neighbours = New Integer() {}
                 })
 
                 node.SetMetadata("kind", "reaction")
@@ -346,7 +348,9 @@ Namespace Preprocess
                     .label = If(cpd Is Nothing, copy.MetaboliteId, If(cpd.name, copy.MetaboliteId)),
                     .size = New Double() {radius, radius},
                     .mass = If(copy.IsHub, 2.0, 1.0),
-                    .origID = copy.MetaboliteId
+                    .origID = copy.MetaboliteId,
+                    .weights = New Double() {},
+                    .neighbours = New Integer() {}
                 })
 
                 node.SetMetadata("kind", "metabolite")
