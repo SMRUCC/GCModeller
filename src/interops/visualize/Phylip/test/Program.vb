@@ -444,7 +444,7 @@ Module Program
     Private Sub TestTreeDrawing(failures As List(Of String))
         Console.WriteLine("=== Tree drawing ===")
 
-        Dim outputDir As String = IO.Path.Combine(IO.Path.GetTempPath(), "phylip_tree_drawing")
+        Dim outputDir As String = IO.Path.Combine(App.HOME, "phylip_tree_drawing")
         Dim created As New List(Of String)
 
         Try
@@ -536,7 +536,7 @@ Module Program
             For Each path As String In created
                 Try
                     If IO.File.Exists(path) Then
-                        Call IO.File.Delete(path)
+                        '  Call IO.File.Delete(path)
                     End If
                 Catch
                 End Try
@@ -544,7 +544,7 @@ Module Program
 
             Try
                 If IO.Directory.Exists(outputDir) Then
-                    Call IO.Directory.Delete(outputDir, True)
+                    ' Call IO.Directory.Delete(outputDir, True)
                 End If
             Catch
             End Try
