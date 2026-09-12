@@ -609,3 +609,7 @@ src/GCModeller/visualize/Metabopolis/test/errF.txt
 src/GCModeller/visualize/Metabopolis/test/logF.txt
 src/GCModeller/visualize/Metabopolis/test/errG.txt
 src/GCModeller/visualize/Metabopolis/test/logG.txt
+src/GCModeller/visualize/Metabopolis/test/logI.txt
+src/GCModeller/visualize/Metabopolis/test/logH.txt
+src/GCModeller/visualize/Metabopolis/test/errI.txt
+src/GCModeller/visualize/Metabopolis/test/errH.txt

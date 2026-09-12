@@ -229,6 +229,10 @@ Namespace Floorplan
             blocks = best
             cost = EvaluateCost()
 
+            ' 收敛离群街区：个别被留在远处的街区会把外接矩形撑大，
+            ' 归一化到画布后所有街区都会被迫缩小
+            CompactOutliers()
+
             ' 第二轮：尺寸微调（FH1/FH2/FS1/FS2）
             AdjustSizes()
 
@@ -998,6 +1002,107 @@ Namespace Floorplan
                 End If
             Next
         End Sub
+
+        ''' <summary>
+        ''' 把明显远离布局重心的街区朝重心收拢，直到贴住其它街区为止。
+        ''' </summary>
+        ''' <remarks>
+        ''' 模拟退火只能沿着骨架边做局部调整，个别弱连接的类别可能被留在很远处。
+        ''' 最终归一化是按外接矩形缩放的，只要有一两个离群街区，整张图就会被压缩得很小。
+        ''' 这里用二分法沿「指向重心」的方向推进，并始终保证不与其它街区重叠。
+        ''' </remarks>
+        Private Sub CompactOutliers()
+            If order.Length <= 2 Then
+                Return
+            End If
+
+            Const maxPasses As Integer = 6
+
+            For pass As Integer = 1 To maxPasses
+                Dim cx As Double = 0
+                Dim cy As Double = 0
+
+                For Each id As String In order
+                    Dim center As PointF = blocks(id).Center
+                    cx += center.X
+                    cy += center.Y
+                Next
+
+                cx /= order.Length
+                cy /= order.Length
+
+                Dim distances As New List(Of ValueTuple(Of String, Double))()
+
+                For Each id As String In order
+                    Dim center As PointF = blocks(id).Center
+                    Dim dx As Double = center.X - cx
+                    Dim dy As Double = center.Y - cy
+                    distances.Add((id, Math.Sqrt(dx * dx + dy * dy)))
+                Next
+
+                Dim sorted As ValueTuple(Of String, Double)() = distances _
+                    .OrderBy(Function(t) t.Item2) _
+                    .ToArray()
+
+                Dim median As Double = sorted(sorted.Length \ 2).Item2
+                Dim threshold As Double = Math.Max(median * 2.5, averageSize * 2)
+                Dim moved As Integer = 0
+
+                For i As Integer = sorted.Length - 1 To 0 Step -1
+                    If sorted(i).Item2 <= threshold Then
+                        Exit For
+                    End If
+
+                    If PullToward(sorted(i).Item1, cx, cy) Then
+                        moved += 1
+                    End If
+                Next
+
+                If moved = 0 Then
+                    Exit For
+                End If
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 把单个街区沿指向目标点的方向推进到「刚好不重叠」的位置。
+        ''' </summary>
+        Private Function PullToward(id As String, cx As Double, cy As Double) As Boolean
+            Dim rect As Rect = blocks(id)
+            Dim originX As Double = rect.X
+            Dim originY As Double = rect.Y
+            Dim targetX As Double = cx - rect.Width / 2.0
+            Dim targetY As Double = cy - rect.Height / 2.0
+
+            Dim low As Double = 0
+            Dim high As Double = 1.0
+            Dim best As Double = 0
+
+            ' 二分最大的可行推进比例
+            For iteration As Integer = 1 To 12
+                Dim mid As Double = (low + high) / 2.0
+                rect.X = originX + (targetX - originX) * mid
+                rect.Y = originY + (targetY - originY) * mid
+
+                If OverlapsAny(id) Then
+                    high = mid
+                Else
+                    low = mid
+                    best = mid
+                End If
+            Next
+
+            rect.X = originX + (targetX - originX) * best
+            rect.Y = originY + (targetY - originY) * best
+
+            If best <= 0.001 Then
+                rect.X = originX
+                rect.Y = originY
+                Return False
+            End If
+
+            Return True
+        End Function
 
         ''' <summary>判断某个街区当前是否与任何其它街区重叠。</summary>
         Private Function OverlapsAny(id As String) As Boolean
