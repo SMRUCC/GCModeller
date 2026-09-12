@@ -428,7 +428,7 @@ Public Class GenomeAnalyzer
     ''' 并行构建PAV矩阵并同时对基因家族做分类
     ''' </summary>
     Private Sub BuildPAVAndClassify(F As Integer, N As Integer)
-        Dim pavRows As Dictionary(Of String, Integer)() = New Dictionary(Of String, Integer)(F - 1) {}
+        Dim pavRows(F - 1) As Dictionary(Of String, Integer)
         Dim isCore As Boolean() = New Boolean(F - 1) {}
         Dim isSoftCore As Boolean() = New Boolean(F - 1) {}
         Dim isShell As Boolean() = New Boolean(F - 1) {}
@@ -932,7 +932,7 @@ Public Class GenomeAnalyzer
             Return New StructuralVariation() {}
         End If
 
-        Dim perFamily As List(Of StructuralVariation)() = New List(Of StructuralVariation)(F - 1)() {}
+        Dim perFamily(F - 1) As List(Of StructuralVariation)
         Dim cnvGain As Double = Me.CNV_Gain_Factor
         Dim cnvLoss As Double = Me.CNV_Loss_Factor
 
@@ -1122,14 +1122,14 @@ Public Class GenomeAnalyzer
                                Dim count As Integer = 0
 
                                For Each gi As Integer In genomeGenes(g)
-                                   Dim f As Integer = geneFamily(gi)
+                                   Dim famIdx As Integer = geneFamily(gi)
 
-                                   If f < 0 Then
+                                   If famIdx < 0 Then
                                        Continue For
                                    End If
 
-                                   Dim w As Integer = f \ 64
-                                   Dim mask As ULong = 1UL << (f Mod 64)
+                                   Dim w As Integer = famIdx \ 64
+                                   Dim mask As ULong = 1UL << (famIdx Mod 64)
 
                                    If (b(w) And mask) = 0UL Then
                                        b(w) = b(w) Or mask
