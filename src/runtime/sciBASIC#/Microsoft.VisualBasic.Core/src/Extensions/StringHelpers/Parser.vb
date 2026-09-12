@@ -350,7 +350,11 @@ Public Module PrimitiveParser
         {"error", False}, {"err", False},
         {"f", False}, {"false", False},
         {"0", False},
-        {"n", False}, {"no", False}
+        {"n", False}, {"no", False},
+        ' 数据文件里常见的「空值」字面量：识别为 False 而不是未定义值，
+        ' 否则每次解析都会在 DEBUG 下打一条日志（BioCyc 的布尔槽位大量使用 nil）
+        {"nil", False}, {"null", False}, {"none", False},
+        {"n/a", False}, {"na", False}, {"unknown", False}
     }
 
     ''' <summary>
