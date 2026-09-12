@@ -54,6 +54,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
@@ -277,17 +278,48 @@ Module pangenome
         Next
 
         If Not referenceMap.IsNullOrEmpty Then
-            Dim linkSet = OrthoGroupsHelper.BuildHomologyRelations(referenceMap) _
-                .GroupBy(Function(a) $"{a.GenomeA}_vs_{a.GenomeB}") _
-                .ToArray
+            ' 直接基于直系同源分组（例如cd-hit的cluster）建立基因家族：
+            ' 一个包含k个基因的家族只需要 k-1 次并查集合并操作即可完成聚类，
+            ' 不需要先展开为 O(k^2) 个两两同源配对再逐个合并。
+            ' 在上百个基因组的数据集上面，原来的做法会产生上亿个中间对象从而耗尽系统内存。
+            Dim groups As New Dictionary(Of String, List(Of String))()
+            ' 只有跨基因组(replicon)的聚类才会产生同源关系，与原来的
+            ' BuildHomologyRelations 的行为保持一致（同一个replicon之内的旁系同源不会被合并）
+            Dim firstSlot As New Dictionary(Of String, String)()
+            Dim crossGenome As New HashSet(Of String)()
+            Dim genes As Integer = 0
 
-            orthologDict = linkSet _
-                .ToDictionary(Function(group) group.Key,
-                              Function(group)
-                                  Return (From link As HomologyPair
-                                          In group
-                                          Select link.CreateAlignmentHit).ToArray
-                              End Function)
+            For Each slot As String In referenceMap.Keys
+                For Each term As RankTerm In referenceMap(slot)
+                    Dim familyId As String = term.term
+                    Dim members As List(Of String) = Nothing
+
+                    If Not groups.TryGetValue(familyId, members) Then
+                        members = New List(Of String)()
+                        groups.Add(familyId, members)
+                        firstSlot.Add(familyId, slot)
+                    ElseIf firstSlot(familyId) <> slot Then
+                        crossGenome.Add(familyId)
+                    End If
+
+                    members.Add(term.queryName)
+                    genes += 1
+                Next
+            Next
+
+            Dim orthoGroups As New Dictionary(Of String, String())(groups.Count)
+            Dim n As Integer = 0
+
+            For Each group As KeyValuePair(Of String, List(Of String)) In groups
+                If crossGenome.Contains(group.Key) Then
+                    orthoGroups.Add(group.Key, group.Value.ToArray())
+                    n += 1
+                End If
+            Next
+
+            Call $"[pan-genome] {groups.Count} ortholog groups ({n} cross genome) of {genes} genes".debug
+
+            Return pangenome.AnalyzePanGenome(orthoGroups)
         End If
 
         Return pangenome.AnalyzePanGenome(orthologDict)
