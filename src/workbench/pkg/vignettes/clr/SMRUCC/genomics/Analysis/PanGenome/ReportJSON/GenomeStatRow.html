@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.PanGenome.ReportJSON.GenomeStatRow</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GenomeStatRow {SMRUCC.genomics.Analysis.PanGenome.ReportJSON}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GenomeStatRow</h2>
+
+        <h3>Description</h3>
+
+        <p>泛基因组报告页面所使用的 JSON 数据模型。
+
+<p>这些类型会通过 <a href="/vignettes/clr/Microsoft/VisualBasic/Serialization/JSON/JsonContract.html">JsonContract</a> 被序列化为 内嵌到 HTML 页面之中的 JSON 数据。属性名称即为前端 JavaScript 读取时使用的键名， 因此这里刻意采用 camelCase 命名，以保持与模板脚本中的读取代码一致。
+
+<p>注意：<a href="/vignettes/clr/System/Runtime/Serialization/Json/DataContractJsonSerializer.html">DataContractJsonSerializer</a> 不支持匿名类型， 所以这里必须使用具名的 Public 类型；同时只有 Public 属性(不含字段)会被序列化。
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.PanGenome.ReportJSON
+export class GenomeStatRow {
+   coreRatio: double;
+   geneCount: integer;
+   name: string;
+   specificCount: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.PanGenome.ReportJSON.PCAScatterDataset</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PCAScatterDataset {SMRUCC.genomics.Analysis.PanGenome.ReportJSON}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PCAScatterDataset</h2>
+
+        <h3>Description</h3>
+
+        <p>PAV矩阵的PCA分析结果数据（用于三维散点图）
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.PanGenome.ReportJSON
+export class PCAScatterDataset {
+   # 着色维度的标题
+   colorLabel: string;
+   # 各主成分的方差贡献率（百分比）
+   explained: double;
+   # 实际参与PCA分析的基因家族数量
+   familyCount: integer;
+   # 坐标轴标题，例如 PC1 (42.51%)
+   pc1Label: string;
+   pc2Label: string;
+   pc3Label: string;
+   points: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/ReportJSON/PCAPoint.html">PCAPoint[]</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>points</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/ReportJSON/PCAPoint.html">PCAPoint</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
