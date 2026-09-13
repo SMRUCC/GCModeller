@@ -68,6 +68,17 @@ declare namespace pangenome {
    */
    function report_html(result: object): string;
    /**
+    * 
+    * 
+     * @param result -
+     * @return a tuple list that contains three elements:
+     *  
+     *  1. ``stats``: @``T:SMRUCC.genomics.Analysis.PanGenome.ReportJSON.GenomeStatRow``
+     *  2. ``pca``: @``T:SMRUCC.genomics.Analysis.PanGenome.ReportJSON.PCAScatterDataset``
+     *  3. ``entropy``: @``T:SMRUCC.genomics.Analysis.PanGenome.ReportJSON.GenomeEntropyDataset``
+   */
+   function scatter_set(result: object): object;
+   /**
     * set orthology group for make gene family
     * 
     * 

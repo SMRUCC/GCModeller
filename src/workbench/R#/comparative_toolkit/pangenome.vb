@@ -58,6 +58,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.PanGenome
@@ -70,6 +71,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
@@ -178,19 +180,32 @@ Module pangenome
     Public Function build_context(<RRawVectorArgument> genomes As Object,
                                   Optional soft_core_threshold As Double = 0.95,
                                   Optional uniqueByAcc As Boolean = False,
-                                  Optional min_genome_size As Integer = -1,
+                                  <RRawVectorArgument(TypeCodes.integer)>
+                                  Optional genome_size As Object = Nothing,
                                   Optional env As Environment = Nothing) As Object
 
         Dim pull As PipeIterator(Of GFFTable) = pipeline.Stream(Of GFFTable)(genomes, env, suppress:=True)
         Dim context As GenomeAnalyzer
+        Dim sizeRange As IntRange = Nothing
+
+        If Not genome_size Is Nothing Then
+            sizeRange = New IntRange(CLRVector.asInteger(genome_size))
+        End If
 
         If Not pull.isError Then
-            context = New GenomeAnalyzer(From genome In pull Where genome.features.Length > min_genome_size)
+            If sizeRange Is Nothing Then
+                context = New GenomeAnalyzer(pull)
+            Else
+                context = New GenomeAnalyzer(From genome In pull Where sizeRange.IsInside(genome.features.Length))
+            End If
         ElseIf TypeOf genomes Is list Then
-            Dim filterGenomes = DirectCast(genomes, list) _
-                .asGeneric(Of GeneTable())(env) _
-                .Where(Function(genome) genome.Size > min_genome_size) _
-                .ToDictionary
+            Dim filterGenomes = DirectCast(genomes, list).asGeneric(Of GeneTable())(env)
+
+            If sizeRange IsNot Nothing Then
+                filterGenomes = filterGenomes _
+                    .Where(Function(genome) sizeRange.IsInside(genome.Size)) _
+                    .ToDictionary
+            End If
 
             context = New GenomeAnalyzer(filterGenomes, uniqueByAccessionId:=uniqueByAcc)
         Else
@@ -199,13 +214,19 @@ Module pangenome
             If pullGenes.isError Then
                 Return pull.getError
             Else
+                Dim filter As IntRange = sizeRange
+
+                If filter Is Nothing Then
+                    filter = New IntRange(Integer.MinValue, Integer.MaxValue)
+                End If
+
                 Dim genomeGeneSet As Dictionary(Of String, GeneTable()) = pullGenes _
                     .AsParallel _
                     .Where(Function(a)
                                Return Not (a.replicon_accessionID.StringEmpty OrElse a.species.StringEmpty)
                            End Function) _
                     .GroupBy(Function(g) g.replicon_accessionID) _
-                    .Where(Function(genome) genome.Count > min_genome_size) _
+                    .Where(Function(genome) filter.IsInside(genome.Count)) _
                     .ToDictionary(Function(g) g.Key,
                                   Function(g)
                                       Return g.GroupBy(Function(a) a.locus_id).Select(Function(d) d.First).ToArray
