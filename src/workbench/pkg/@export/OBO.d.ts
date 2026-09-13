@@ -37,7 +37,7 @@ declare namespace OBO {
    /**
     * 
     * 
-     * @param term ``@``P:SMRUCC.genomics.Data.GeneOntology.obographs.DAGTree.dag```` which could be build from the ``ontologyTree`` function.
+     * @param term ``[DAGTree.dag](cref:P:SMRUCC.genomics.Data.GeneOntology.obographs.DAGTree.dag)`` which could be build from the ``ontologyTree`` function.
    */
    function lineage_term(term: object): object;
    /**
@@ -46,13 +46,13 @@ declare namespace OBO {
    /**
     * 
     * 
-     * @param tree ``@``P:SMRUCC.genomics.Data.GeneOntology.obographs.DAGTree.dag```` which could be build from the ``ontologyTree`` function.
+     * @param tree ``[DAGTree.dag](cref:P:SMRUCC.genomics.Data.GeneOntology.obographs.DAGTree.dag)`` which could be build from the ``ontologyTree`` function.
    */
    function ontologyLeafs(tree: object): object;
    /**
     * 
     * 
-     * @param tree ``@``P:SMRUCC.genomics.Data.GeneOntology.obographs.DAGTree.dag```` which could be build from the ``ontologyTree`` function.
+     * @param tree ``[DAGTree.dag](cref:P:SMRUCC.genomics.Data.GeneOntology.obographs.DAGTree.dag)`` which could be build from the ``ontologyTree`` function.
    */
    function ontologyNodes(tree: object): object;
    /**

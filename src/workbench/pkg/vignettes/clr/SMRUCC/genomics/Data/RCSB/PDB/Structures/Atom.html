@@ -22,11 +22,11 @@
 
         <h3>Description</h3>
 
-        <p>The unified molecular atom model for the PDB/SDF structure readers.
+        <p>The unified molecular atom model for the PDB/SDF structure readers.</p>
 
-<p>This class is the single merged atom model of this library: it only carries the general physico-chemical fields (coordinates, element, partial charge, residue and chain annotations). Domain specific fields (e.g. the AutoDock Vina atom typing) should be placed on a derived type instead of polluting this base model.
+<p>This class is the single merged atom model of this library: it only carries the general physico-chemical fields (coordinates, element, partial charge, residue and chain annotations). Domain specific fields (e.g. the AutoDock Vina atom typing) should be placed on a derived type instead of polluting this base model.</p>
 
-<p>Both of the legacy keyword level atom models (<a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/AtomUnit.html">AtomUnit</a> for <code>ATOM</code> records and @<code>T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.HETATM.HETATMRecord</code> for <code>HETATM</code> records) are inherited from this class, so that the fixed-column parsing logic can be shared in one place.
+<p>Both of the legacy keyword level atom models (<a href="cref:T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.AtomUnit">AtomUnit</a> for <code>ATOM</code> records and <a href="cref:T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.HETATM.HETATMRecord">HETATMRecord</a> for <code>HETATM</code> records) are inherited from this class, so that the fixed-column parsing logic can be shared in one place.</p>
 
         <h3>Declare</h3>        
 

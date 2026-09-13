@@ -17,7 +17,7 @@ run the CD-HIT like sequence clustering and then export the cluster
 .PP
 \fBx\fB \fR\- 
  a collection of the sequence data for run the clustering, which can be a 
- @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a vector of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR 
+ [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a vector of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) 
  object, or a character vector of the raw sequence data.
 . 
 .PP
@@ -49,15 +49,15 @@ run the CD-HIT like sequence clustering and then export the cluster
 .PP
 a tuple list that contains the data slots:
  
- - family: a vector of the @\fBT:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.FamilyExports\fR object, each 
+ - family: a vector of the [FamilyExports](cref:T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.FamilyExports) object, each 
    element is the summary data of one cluster: the \fBfamily_id\fR, the 
    \fBmembers\fR cluster size, and the \fBrepresentative\fR/\fBrep_seq\fR data of 
    the representative sequence;
- - sequence: a vector of the @\fBT:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.SequenceCluster\fR object, each 
+ - sequence: a vector of the [SequenceCluster](cref:T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.SequenceCluster) object, each 
    element is the data of one cluster member: the \fBseq_title\fR, the 
    \fBfamily_id\fR, the \fBscore\fR identity to the cluster representative and 
    the \fBseq\fR sequence data;
- - clusters: a vector of the @\fBT:SMRUCC.genomics.Analysis.SequenceAlignment.SimilarHit\fR object, which is the 
+ - clusters: a vector of the [SimilarHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.SimilarHit) object, which is the 
    raw cluster result of the CD-HIT like clustering: the \fBSeqID\fR is the 
    representative sequence of the cluster and the \fBSimilar\fR property is 
    the identity score of each cluster member to the representative 

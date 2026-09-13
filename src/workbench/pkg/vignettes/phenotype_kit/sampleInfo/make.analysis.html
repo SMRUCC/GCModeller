@@ -35,24 +35,24 @@
         <table>
             
 <dt>sampleinfo</dt>
-<dd><p>a vector of the @<code>T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo. [as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
+<dd><p>a vector of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> sample information data. [as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
 
 
 <dt>control</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the sample group label of the control group. [as string]</p></dd>
 
 
 <dt>treatment</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the sample group label of the treatment(the experiment) group. [as string]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>the samples of the control group will be placed at the first in the generated analysis design object, and the samples of the treatment group will be placed after the control group, so that the order of the sample groups in the generated analysis design object is <code>control vs treatment</code>.
+        <p>the samples of the control group will be placed at the first in the generated analysis design object, and the samples of the treatment group will be placed after the control group, so that the order of the sample groups in the generated analysis design object is <code>control vs treatment</code>.</p>
 
-<p>the generated analysis design object can be used by the limma analysis api(<code>limma</code>) or the t-test analysis api(<code>deg.t.test</code>) for run the different expression analysis.
+<p>the generated analysis design object can be used by the limma analysis api(<code>limma</code>) or the t-test analysis api(<code>deg.t.test</code>) for run the different expression analysis.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -60,7 +60,7 @@
 
         <h3>Value</h3>
 
-        <p>a <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/DataAnalysis.html">DataAnalysis</a> analysis design object that only contains the samples of the given control group and treatment group, the other sample groups in the input sample information data will be ignored.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/DataAnalysis.html">DataAnalysis</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DataAnalysis">DataAnalysis</a> analysis design object that only contains the samples of the given control group and treatment group, the other sample groups in the input sample information data will be ignored.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/DataAnalysis.html">DataAnalysis</a></li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

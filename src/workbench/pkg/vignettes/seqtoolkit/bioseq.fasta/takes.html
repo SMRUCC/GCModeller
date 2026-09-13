@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>the sequence id
+        <p>the sequence id</p>
 
         <h3>Usage</h3>
 
@@ -35,15 +35,15 @@
         <table>
             
 <dt>x</dt>
-<dd><p>a fasta sequence collection for make the subset, which can be a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+<dd><p>a fasta sequence collection for make the subset, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a character vector of the raw sequence data.</p></dd>
 
 
 <dt>gene.ids</dt>
-<dd><p>a character vector of the sequence id for takes the sequence subset, the sequence id is the first token of the fasta headers title text, which is splitted by the space, <code>|</code>, <code>(</p></dd>
+<dd><p>a character vector of the sequence id for takes the sequence subset, the sequence id is the first token of the fasta headers title text, which is splitted by the space, <code>|</code>, <code>(</code> or the TAB character.</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -58,9 +58,9 @@
 
         <h3>Value</h3>
 
-        <p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> sequence object that its sequence id is in the given id set;
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> sequence object that its sequence id is in the given id set;</p>
 
-<p>this function returns a R# error message object if the input sequence data can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
+<p>this function returns a R# error message object if the input sequence data can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

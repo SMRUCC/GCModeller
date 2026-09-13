@@ -8,7 +8,7 @@
  * GCModeller DEG experiment analysis designer toolkit
  * 
  * > This R# package module provides the toolkit for create and manipulate the 
- * >  experiment sample information data(@``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo``), which is the 
+ * >  experiment sample information data([SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo)), which is the 
  * >  experiment design data of the different expression analysis:
  * >  
  * >  + create the sample information data: ``sampleInfo``, 
@@ -35,7 +35,7 @@ declare namespace sampleInfo {
     * >  label in the formula is not required to be a R# symbol.
     * 
      * @param sampleinfo the sample information data, which can be a vector of the 
-     *  @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` object or a pipeline object that produces a set of 
+     *  [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object or a pipeline object that produces a set of 
      *  the sample information data.
      * @param designs a tuple list of the experiment design formula: the slot key of the list is 
      *  the label of the new sample group and the slot value is a formula 
@@ -47,7 +47,7 @@ declare namespace sampleInfo {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a new vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` object: the sample groups that 
+     * @return a new vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object: the sample groups that 
      *  are described in the given design formula will be replaced with the new 
      *  generated sample groups, and the other sample groups that are not 
      *  referenced in the design formula will be kept as is;
@@ -68,11 +68,11 @@ declare namespace sampleInfo {
        * >  this api can be used as a property setter in R# environment: the color of 
        * >  each sample group can be overwritten via the value assign syntax:
        * >  
-       * >  ```r
+       * > ```r
        * >  group.colors(samples) <- "Set1:c8";
        * >  ```
        * 
-        * @param sampleinfo a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` sample information data.
+        * @param sampleinfo a vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) sample information data.
         * @param colorSet a new color set for assign to each sample group, which can be a character 
         *  vector of the html color code or the color palette name, the ``Paper`` 
         *  color set will be used if this color set parameter can not be recognized.
@@ -111,13 +111,13 @@ declare namespace sampleInfo {
         * @param raw_list returns the group result as a raw tuple list object(the slot key of the 
         *  list is the group label and the slot value is a character vector of the 
         *  sample label)? if this parameter is FALSE, then a vector of the 
-        *  @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` object will be returned.
+        *  [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object will be returned.
         * 
         * + default value Is ``true``.
         * @return a tuple list of the guessed sample groups, or a vector of the 
-        *  @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` object when the ``raw_list`` parameter is FALSE.
+        *  [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object when the ``raw_list`` parameter is FALSE.
         *  
-        *  the generated @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` object will be assigned with a 
+        *  the generated [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object will be assigned with a 
         *  default color from the ``Paper`` color set, and the ``shape`` property is 
         *  set as ``circle``, the ``batch`` property is set as 1 and the 
         *  ``injectionOrder`` property is the index order of the sample in the 
@@ -138,10 +138,10 @@ declare namespace sampleInfo {
        * >  api(``limma``) or the t-test analysis api(``deg.t.test``) for run the 
        * >  different expression analysis.
        * 
-        * @param sampleinfo a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` sample information data.
+        * @param sampleinfo a vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) sample information data.
         * @param control the sample group label of the control group.
         * @param treatment the sample group label of the treatment(the experiment) group.
-        * @return a @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DataAnalysis`` analysis design object that only contains the 
+        * @return a [DataAnalysis](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DataAnalysis) analysis design object that only contains the 
         *  samples of the given control group and treatment group, the other sample 
         *  groups in the input sample information data will be ignored.
       */
@@ -155,12 +155,12 @@ declare namespace sampleInfo {
        * 
         * @param x a gene expression matrix object, the gene feature rows of this matrix will 
         *  be used as the data features of the generated dataset.
-        * @param sampleinfo a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` sample information data: the 
+        * @param sampleinfo a vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) sample information data: the 
         *  ``ID`` property of the sample data should be matched with the sample columns 
         *  of the given expression matrix, and the ``sample_info`` property of the 
         *  sample data will be used as the class label of the generated dataset 
         *  entities.
-        * @return a vector of the @``T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel`` data entity: the ``ID`` 
+        * @return a vector of the [EntityClusterModel](cref:T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel) data entity: the ``ID`` 
         *  property is the sample id, the ``Cluster`` property is the sample group 
         *  label and the ``Properties`` property is the expression value of each gene 
         *  feature in the corresponding sample.
@@ -185,7 +185,7 @@ declare namespace sampleInfo {
         *  helpful for make the sample id as a valid R# symbol name.
         * 
         * + default value Is ``false``.
-        * @return a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` object that is loaded from the 
+        * @return a vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object that is loaded from the 
         *  given table file.
         *  
         *  NOTE: the first column of the table file will be used as the ``ID`` 
@@ -199,9 +199,9 @@ declare namespace sampleInfo {
     * group the sample information data by the sample group label
     * 
     * 
-     * @param x a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` sample information data.
+     * @param x a vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) sample information data.
      * @return a tuple list of the sample groups: the slot key of the list is the sample 
-     *  group label and the slot value is a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` 
+     *  group label and the slot value is a vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) 
      *  object that belongs to the corresponding sample group, the sample groups in 
      *  the generated list object are sorted by the group label in ascending order.
    */
@@ -211,7 +211,7 @@ declare namespace sampleInfo {
     * 
     * 
      * @param sampleinfo the sample information data, which can be a vector of the 
-     *  @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` object or a pipeline object that produces a set of 
+     *  [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object or a pipeline object that produces a set of 
      *  the sample information data.
      * @param groups a character vector of the sample group label for get the sample id list.
      * @param env the R# runtime environment object.
@@ -237,7 +237,7 @@ declare namespace sampleInfo {
            * @param dir a directory path that contains a set of the text files: each text file is a 
            *  sample group and the file basename is used as the sample group label, each 
            *  line in the text file is a sample id of the corresponding sample group.
-           * @return a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` sample information data that is 
+           * @return a vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) sample information data that is 
            *  created from the text files in the given directory: the ``ID`` and the 
            *  ``sample_name`` property of the generated sample data is the sample id, the 
            *  ``sample_info`` property is the file basename and the ``injectionOrder`` 
@@ -272,7 +272,7 @@ declare namespace sampleInfo {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` sample information data, the 
+     * @return a vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) sample information data, the 
      *  ``shape`` property of the generated sample data is set as ``circle``;
      *  
      *  this function returns NULL if the input sample id vector or the sample group 
@@ -291,7 +291,7 @@ declare namespace sampleInfo {
     * >  these sample data will be merged into the same sample group.
     * 
      * @param sampleinfo the sample information data, which can be a vector of the 
-     *  @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` object or a pipeline object that produces a set of 
+     *  [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object or a pipeline object that produces a set of 
      *  the sample information data.
      * @param find a character vector of the text pattern for search in the sample group label 
      *  of each sample data.
@@ -300,7 +300,7 @@ declare namespace sampleInfo {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a new vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` object that the ``sample_info`` 
+     * @return a new vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object that the ``sample_info`` 
      *  group label of each sample data has been replaced;
      *  
      *  this function returns a R# error message object if the input data can not be 
@@ -315,10 +315,10 @@ declare namespace sampleInfo {
     * >  random manner, which is helpful for the random color assignment or the 
     * >  permutation test of the sample groups.
     * 
-     * @param x a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` sample information data.
+     * @param x a vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) sample information data.
      * @return a tuple list of the sample groups in a random order: the slot key of the 
      *  list is the sample group label and the slot value is a vector of the 
-     *  @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` object that belongs to the corresponding sample 
+     *  [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object that belongs to the corresponding sample 
      *  group.
    */
    function shuffle_groups(x: object): object;
@@ -328,7 +328,7 @@ declare namespace sampleInfo {
        * 
        * > You also can save the sampleinfo data directly via the ``write.csv`` function.
        * 
-        * @param sampleinfo a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` sample information data for save 
+        * @param sampleinfo a vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) sample information data for save 
         *  into the target csv table file.
         * @param file the file path of the generated sample information csv table file.
         * @return a boolean value for indicates that the sample information data has been 

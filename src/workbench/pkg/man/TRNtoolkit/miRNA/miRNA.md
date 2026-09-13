@@ -11,7 +11,7 @@ miRNA/siRNA target gene prediction toolkit
 >  + ``intersect_targets``: take the intersection of the two algorithm result for 
 >    create the high confidence target site set.
 >  
->  the generated match result is a collection of the @``T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit`` 
+>  the generated match result is a collection of the [siRNAHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit) 
 >  object, which can be converted to a data frame via the ``as.data.frame`` api, 
 >  or be saved as a csv table file via the ``write.csv`` api.
 

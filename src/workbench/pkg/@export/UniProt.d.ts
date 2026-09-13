@@ -110,7 +110,7 @@ declare namespace uniprot {
        * populate all protein fasta sequence from the given uniprot database reader
        * 
        * 
-        * @param uniprot a collection of the uniprot protein @``T:SMRUCC.genomics.Assembly.Uniprot.XML.entry`` data.
+        * @param uniprot a collection of the uniprot protein [entry](cref:T:SMRUCC.genomics.Assembly.Uniprot.XML.entry) data.
         * @param extractAll populate the sequence with all uniprot accession id
         * 
         * + default value Is ``false``.
@@ -132,7 +132,7 @@ declare namespace uniprot {
         * @param env -
         * 
         * + default value Is ``null``.
-        * @return a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` that export from the given protein set.
+        * @return a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) that export from the given protein set.
         *  
         *  the generated fasta sequence header title in format: ``uniprot_id|db_xref|protein function``.
         *  the db_xref is optional if the parameter "db_xref" is not be omited.

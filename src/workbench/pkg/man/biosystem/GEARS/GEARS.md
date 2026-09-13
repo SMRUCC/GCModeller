@@ -12,8 +12,8 @@ GEARS: the graph neural network based in silico perturbation prediction toolkit
 >  + ``training_set``: set the Perturb-seq training sample set of the GEARS model;
 >  + ``train``: train the GEARS model with the given training sample set.
 >  
->  the trained @``T:SMRUCC.genomics.Analysis.GEARS.GEARS`` model object implements the 
->  @``T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment`` interface, so that it can be used 
+>  the trained [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) model object implements the 
+>  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment) interface, so that it can be used 
 >  by the ``knockouts``, ``overexpress`` and ``knockdown`` api of the ``bnlearn`` 
 >  package module, and the perturbation result can be exported via the 
 >  ``make_exports`` api.

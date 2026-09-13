@@ -15,7 +15,7 @@ cut part of the sequence
 .PP
 \fBseq\fB \fR\- 
  the target sequence data source, which can be a single 
- @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR 
+ [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) 
  object, or a character vector of the raw sequence data.
 . 
 .PP
@@ -23,14 +23,14 @@ cut part of the sequence
 \fBloci\fB \fR\- 
  the location region data for make cut of the sequence site, data model could be:
  
- 1. for nucleotide sequence, @\fBT:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation\fR should be used,
- 2. for general sequence data, @\fBT:SMRUCC.genomics.ComponentModel.Loci.Location\fR should be used.
+ 1. for nucleotide sequence, [NucleotideLocation](cref:T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation) should be used,
+ 2. for general sequence data, [Location](cref:T:SMRUCC.genomics.ComponentModel.Loci.Location) should be used.
 . 
 .PP
 .PP
 \fBnt_auto_reverse\fB \fR\- 
  make auto reverse of the nucleotide sequence if the given location is on 
- the @\fBF:SMRUCC.genomics.ComponentModel.Loci.Strands.Reverse\fR direction.
+ the [Strands.Reverse](cref:F:SMRUCC.genomics.ComponentModel.Loci.Strands.Reverse) direction.
 . 
 .PP
 .PP
@@ -38,8 +38,8 @@ cut part of the sequence
 .PP
 .SH VALUE
 .PP
-a new @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object of the cut sequence fragment if the 
- input is a single sequence object, or a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object of 
+a new [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object of the cut sequence fragment if the 
+ input is a single sequence object, or a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object of 
  the cut sequence fragments of each input sequence if the input is a 
  sequence collection;
  

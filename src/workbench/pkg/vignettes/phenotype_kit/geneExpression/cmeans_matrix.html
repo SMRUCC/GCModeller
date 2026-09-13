@@ -38,23 +38,23 @@
         <table>
             
 <dt>pattern</dt>
-<dd><p>the cmeans clustering result, which can be an <a href="/vignettes/clr/SMRUCC/genomics/Visualize/ExpressionPattern/ExpressionPattern.html">ExpressionPattern</a> object, a data frame object of the membership matrix, or a pipeline object that produces a set of the @<code>T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel</p></dd>
+<dd><p>the cmeans clustering result, which can be an <a href="cref:T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern">ExpressionPattern</a> object, a data frame object of the membership matrix, or a pipeline object that produces a set of the <a href="cref:T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel">EntityClusterModel</a> cluster model data.</p></dd>
 
 
 <dt>memberCutoff</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the membership cutoff value for assign a gene feature into the target cluster: the gene feature will be assigned into the cluster if its membership value is greater than this threshold ratio of the max membership value of the corresponding cluster. [as double]</p></dd>
 
 
 <dt>empty.shared</dt>
-<dd><p>how many clusters will be assigned to a gene feature when there is no cluster that its membership value is greater than the <code>memberCutoff. [as integer]</p></dd>
+<dd><p>how many clusters will be assigned to a gene feature when there is no cluster that its membership value is greater than the <code>memberCutoff</code> threshold. [as integer]</p></dd>
 
 
 <dt>max.cluster.shared</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the max cluster numbers that a gene feature can be assigned into. [as integer]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -69,9 +69,9 @@
 
         <h3>Value</h3>
 
-        <p>a vector of the <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/ComponentModel/EntityModels/EntityClusterModel.html">EntityClusterModel</a> cluster model data: the <code>ID</code> property is the gene feature id, the <code>Properties</code> property is the membership value of the gene feature to each cluster(<code>#1</code>, <code>#2</code>, ...), and the <code>Cluster</code> property is the cluster tag that the gene feature has been assigned into(multiple cluster tags are joined by the <code>;</code> character);
+        <p>a vector of the <a href="cref:T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel">EntityClusterModel</a> cluster model data: the <code>ID</code> property is the gene feature id, the <code>Properties</code> property is the membership value of the gene feature to each cluster(<code>#1</code>, <code>#2</code>, ...), and the <code>Cluster</code> property is the cluster tag that the gene feature has been assigned into(multiple cluster tags are joined by the <code>;</code> character);</p>
 
-<p>this function returns a R# error message object if the input data can not be cast to a collection of the cluster model data.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/ComponentModel/EntityModels/EntityClusterModel.html">EntityClusterModel</a></li></ul>
+<p>this function returns a R# error message object if the input data can not be cast to a collection of the cluster model data.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/ComponentModel/EntityModels/EntityClusterModel.html">EntityClusterModel</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

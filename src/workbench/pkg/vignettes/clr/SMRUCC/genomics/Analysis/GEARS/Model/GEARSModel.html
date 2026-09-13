@@ -22,13 +22,35 @@
 
         <h3>Description</h3>
 
-        <p>GEARS 模型：面向基因表达调控网络虚拟扰动的图神经网络
+        <p>GEARS 模型：面向基因表达调控网络虚拟扰动的图神经网络</p>
 
-<p>本类型把 readme 的 Step 2 ~ Step 4 编排为一个可端到端训练的模型：
+<p>本类型把 readme 的 Step 2 ~ Step 4 编排为一个可端到端训练的模型：</p>
 
-<p>Step 2 节点特征与扰动编码： h_i^(0) = [ x̄_i ‖ p_i ‖ e_i ‖ z_pert ]， 其中 x̄ 为 control 基线表达（建议先做 Z-score 标准化）、p 为扰动 multi-hot 标记、 e 为可学习的基因身份嵌入、z_pert 为被扰动基因集合经 Deep Sets 均值池化得到的全局扰动向量。 Step 3 多层消息传递：堆叠若干 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Layers/GEARSConvLayer.html">GEARSConvLayer</a>， 每层沿调控图入边做边类型感知聚合，L 层对应 L-hop 的间接调控效应。 Step 4 解码预测：解码器把最终节点嵌入映射为 Δ表达， 最终预测表达为 x̂^pert = x̄^control + Δx̂。
 
-<p>扰动标记 p 的取值由调用方给出（GEARS 门面类会按 InterventionMode 把被扰动基因的表达值改写后一并编码进 x̄ 通道）， 因此同一个模型可以同时支持单基因与多基因组合扰动。
+<ol>
+<li>Step 2 节点特征与扰动编码：</li>
+</ol>
+
+
+<p><code>h_i^(0) = [ x̄_i ‖ p_i ‖ e_i ‖ z_pert ]</code>， 其中 x̄ 为 control 基线表达（建议先做 Z-score 标准化）、p 为扰动 multi-hot 标记、 e 为可学习的基因身份嵌入、z_pert 为被扰动基因集合经 Deep Sets 均值池化得到的全局扰动向量。</p>
+
+
+<ol start="2">
+<li>Step 3 多层消息传递：堆叠若干 <a href="cref:T:SMRUCC.genomics.Analysis.GEARS.Layers.GEARSConvLayer">GEARSConvLayer</a>，</li>
+</ol>
+
+
+<p>每层沿调控图入边做边类型感知聚合，L 层对应 L-hop 的间接调控效应。</p>
+
+
+<ol start="3">
+<li>Step 4 解码预测：解码器把最终节点嵌入映射为 Δ表达，</li>
+</ol>
+
+
+<p>最终预测表达为 <code>x̂^pert = x̄^control + Δx̂</code>。</p>
+
+<p>扰动标记 <code>p</code> 的取值由调用方给出（GEARS 门面类会按 <code>InterventionMode</code> 把被扰动基因的表达值改写后一并编码进 x̄ 通道）， 因此同一个模型可以同时支持单基因与多基因组合扰动。</p>
 
         <h3>Declare</h3>        
 

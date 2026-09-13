@@ -44,19 +44,19 @@
         <table>
             
 <dt>blastn</dt>
-<dd><p>由 <code>parse_blastn</code> 或 <code>mirna_blastn</p></dd>
+<dd><p>由 <code>parse_blastn</code> 或 <code>mirna_blastn</code> 解析出的 HSP 集合。</p></dd>
 
 
 <dt>evalueCutoff</dt>
-<dd><p>BLAST e-value 预筛阈值（与 blastn 命令行 -evalue 同量级）。 注意它与 <code>maxExpectation. [as double]</p></dd>
+<dd><p>BLAST e-value 预筛阈值（与 blastn 命令行 -evalue 同量级）。 注意它与 <code>maxExpectation</code> 量纲不同：前者是 BLAST 统计显著性，后者是打分期望值。. [as double]</p></dd>
 
 
 <dt>maxExpectation</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>psRNATarget 期望分上限（越低越好）。. [as double]</p></dd>
 
 
 <dt>minHitLength</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>最小 HSP 长度。. [as integer]</p></dd>
 
         </table>
 

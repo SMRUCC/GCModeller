@@ -22,18 +22,18 @@
 
         <h3>Description</h3>
 
-        <p>GO DAG graph
+        <p>GO DAG graph</p>
 
 <h6>关于祖先/子孙索引的算法说明</h6>
 
-<p>GO 的本体是一个有向无环图(DAG)，一个子条目可能同时拥有多个父条目， 所以从任意一个条目出发向上的路径数量是<strong>指数级</strong>的。旧版本的 @<code>M:SMRUCC.genomics.Data.GeneOntology.DAG.Graph.Family(System.String)</code> 会枚举出所有的祖先路径，而 @<code>M:SMRUCC.genomics.Data.GeneOntology.DAG.Builder.CreateClusterMembers(SMRUCC.genomics.Data.GeneOntology.DAG.Graph)</code> 又会对每一个条目都调用一次 该函数，导致在完整的 <code>go.obo</code>(约5万条目)上面构建时会直接卡死或者内存溢出。
+<p>GO 的本体是一个有向无环图(DAG)，一个子条目可能同时拥有多个父条目， 所以从任意一个条目出发向上的路径数量是<strong>指数级</strong>的。旧版本的 <a href="cref:M:SMRUCC.genomics.Data.GeneOntology.DAG.Graph.Family(System.String)">Graph.Family()</a> 会枚举出所有的祖先路径，而 <a href="cref:M:SMRUCC.genomics.Data.GeneOntology.DAG.Builder.CreateClusterMembers(SMRUCC.genomics.Data.GeneOntology.DAG.Graph)">Builder.CreateClusterMembers()</a> 又会对每一个条目都调用一次 该函数，导致在完整的 <code>go.obo</code>(约5万条目)上面构建时会直接卡死或者内存溢出。</p>
 
-<p>这里改为：
+<p>这里改为：</p>
 
 
 <ol>
-<li><p>通过记忆化(memoization)的DFS计算出每一个条目的<strong>祖先集合</strong>(去重，不带路径信息)， 复杂度由指数级降低为 <code>O(N * A)</code>；</li>
-<li><p>子孙索引由祖先集合<strong>单次反查聚合</strong>得到，并且是惰性构建的，即只有真的 需要用到的时候才会去计算。</li>
+<li>通过记忆化(memoization)的DFS计算出每一个条目的<strong>祖先集合</strong>(去重，不带路径信息)， 复杂度由指数级降低为 <code>O(N * A)</code>；</li>
+<li>子孙索引由祖先集合<strong>单次反查聚合</strong>得到，并且是惰性构建的，即只有真的 需要用到的时候才会去计算。</li>
 </ol>
 
         <h3>Declare</h3>        

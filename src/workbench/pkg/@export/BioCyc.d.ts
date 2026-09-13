@@ -32,8 +32,8 @@ declare namespace BioCyc {
     * get formula string of the given object model
     * 
     * 
-     * @param x 1. for @``T:SMRUCC.genomics.Data.BioCyc.compounds`` model, get molecular formula string
-     *  2. for @``T:SMRUCC.genomics.Data.BioCyc.reactions`` model, get the reaction equation string.
+     * @param x 1. for [compounds](cref:T:SMRUCC.genomics.Data.BioCyc.compounds) model, get molecular formula string
+     *  2. for [reactions](cref:T:SMRUCC.genomics.Data.BioCyc.reactions) model, get the reaction equation string.
      * @param env -
      * 
      * + default value Is ``null``.

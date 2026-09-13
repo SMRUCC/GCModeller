@@ -162,11 +162,18 @@ declare namespace WGCNA {
        * 
        * > imports a network edge table file that export from WGCNA TOM module, with data headers: 
        * >  
+       * > 
+       * > 
        * >  fromNode
+       * > 
        * >  toNode
+       * > 
        * >  weight
+       * > 
        * >  direction
+       * > 
        * >  fromAltName
+       * > 
        * >  toAltName
        * 
         * @param file -

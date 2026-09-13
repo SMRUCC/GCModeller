@@ -12,7 +12,7 @@ MetaEuk: the homology based eukaryotic gene prediction
 .SH OPTIONS
 .PP
 \fBx\fB \fR\- 
- a \fBmetaeuk_config\fR object(@\fBT:SMRUCC.genomics.Annotation.MetaEuk.MetaEukConfig\fR) that carries 
+ a \fBmetaeuk_config\fR object([MetaEukConfig](cref:T:SMRUCC.genomics.Annotation.MetaEuk.MetaEukConfig)) that carries 
  all of the required data and parameters for run the metaeuk gene 
  prediction: the contigs assembly fasta file path(\fBContigsFile\fR), the 
  reference protein fasta file path(\fBReferenceFile\fR), the output file 
@@ -27,7 +27,7 @@ MetaEuk: the homology based eukaryotic gene prediction
 .SH VALUE
 .PP
 a collection of the gene prediction result: each element in the 
- collection(@\fBT:SMRUCC.genomics.Annotation.MetaEuk.GenePrediction\fR) is a predicted gene that its 
+ collection([GenePrediction](cref:T:SMRUCC.genomics.Annotation.MetaEuk.GenePrediction)) is a predicted gene that its 
  exons are chained from the homology hits of the reference protein 
  database.
  

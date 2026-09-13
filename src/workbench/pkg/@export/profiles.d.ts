@@ -101,7 +101,7 @@ declare namespace profiles {
           * Create catalog profiles data for GO enrichment result its data visualization.
           * 
           * 
-           * @param enrichments the kobas @``T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm`` or gcmodeller @``T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult``.
+           * @param enrichments the kobas [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) or gcmodeller [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult).
            * @param goDb -
            * @param top display the top n enriched GO terms.
            * 

@@ -22,7 +22,9 @@
 
         <h3>Description</h3>
 
-        
+        <p>泛基因组曲线之上的一个数据点：表示在加入<a href="cref:P:SMRUCC.genomics.Analysis.PanGenome.PangenomeCurveData.GenomeCount">PangenomeCurveData.GenomeCount</a>个基因组的时候， 泛基因组(全部基因家族)、核心基因家族以及软核心基因家族的规模</p>
+
+<p>核心基因要求在已经加入的基因组之中全部都出现，判定条件非常严格， 在基因组数量增加的时候核心基因的数量会迅速衰减到零； 软核心基因只要求出现比例不低于分析上下文所设定的阈值(<a href="cref:P:SMRUCC.genomics.Analysis.PanGenome.GenomeAnalyzer.SoftCoreThreshold">GenomeAnalyzer.SoftCoreThreshold</a>)， 因此能够更好地反映基因组数量增加的时候仍然高度保守的那一部分基因。</p>
 
         <h3>Declare</h3>        
 
@@ -30,8 +32,13 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.PanGenome
 export class PangenomeCurveData {
+   # 核心基因家族的数量（在所有已经加入的基因组之中都存在）
    CoreGenes: integer;
+   # 已经加入的基因组的数量
    GenomeCount: integer;
+   # 软核心基因家族的数量（在已经加入的基因组之中的出现比例不低于软核心阈值）
+   SoftCoreGenes: integer;
+   # 泛基因组的大小（出现过的全部基因家族数量）
    TotalGenes: integer;
 }
 </code>

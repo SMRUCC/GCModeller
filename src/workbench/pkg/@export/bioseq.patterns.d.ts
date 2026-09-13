@@ -24,11 +24,11 @@ declare namespace bioseq.patterns {
         * 
         * + default value Is ``null``.
         * @return the sequence graph embedding vector data is generates from different method 
-        *  based on the **`mol_type`** data:
+        *  based on the **mol_type** data:
         *  
-        *  + @``F:SMRUCC.genomics.SequenceModel.SeqTypes.DNA``: @``M:SMRUCC.genomics.Model.MotifGraph.Builder.DNAGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)``
-        *  + @``F:SMRUCC.genomics.SequenceModel.SeqTypes.Protein``: @``M:SMRUCC.genomics.Model.MotifGraph.Builder.PolypeptideGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)``
-        *  + @``F:SMRUCC.genomics.SequenceModel.SeqTypes.RNA``: @``M:SMRUCC.genomics.Model.MotifGraph.Builder.RNAGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)``
+        *  + [SeqTypes.DNA](cref:F:SMRUCC.genomics.SequenceModel.SeqTypes.DNA): [Builder.DNAGraph()](cref:M:SMRUCC.genomics.Model.MotifGraph.Builder.DNAGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq))
+        *  + [SeqTypes.Protein](cref:F:SMRUCC.genomics.SequenceModel.SeqTypes.Protein): [Builder.PolypeptideGraph()](cref:M:SMRUCC.genomics.Model.MotifGraph.Builder.PolypeptideGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq))
+        *  + [SeqTypes.RNA](cref:F:SMRUCC.genomics.SequenceModel.SeqTypes.RNA): [Builder.RNAGraph()](cref:M:SMRUCC.genomics.Model.MotifGraph.Builder.RNAGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq))
       */
       function seq_graph(fasta: any, mol_type?: object, parallel?: boolean, env?: object): object;
    }
@@ -101,7 +101,7 @@ declare namespace bioseq.patterns {
        * Find target loci site based on the given motif model
        * 
        * 
-        * @param motif could be @``T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif`` or @``T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif``
+        * @param motif could be [SequenceMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif) or [MSAMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif)
         * @param target a collection of fasta sequence
         * @param cutoff 
         * + default value Is ``0.6``.
@@ -177,7 +177,7 @@ declare namespace bioseq.patterns {
       /**
        * read sequence motif json file.
        * 
-       * > apply for search by @``M:seqtoolkit.patterns.matchSites(System.Object,System.Object,System.Double,System.Double,System.Double,System.Double,System.Boolean,System.String,SMRUCC.Rsharp.Runtime.Environment)``
+       * > apply for search by [patterns.matchSites()](cref:M:seqtoolkit.patterns.matchSites(System.Object,System.Object,System.Double,System.Double,System.Double,System.Double,System.Boolean,System.String,SMRUCC.Rsharp.Runtime.Environment))
        * 
         * @param file -
       */

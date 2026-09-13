@@ -66,18 +66,18 @@ table caption {font-size:14px;font-weight:bolder;}
                                <br /><br /><span style="color: green;">#' Bayesian network learning and the in silico gene perturbation toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "bnlearn"</span><span style="color: blue;"> from</span><span style="color: brown"> "biosystem"</span>;
                            </code>
     </p>
-    <p><p>Bayesian network learning and the in silico gene perturbation toolkit</p>
+    <p><p>Bayesian network learning and the in silico gene perturbation toolkit</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           <p>This R# package module provides the toolkit for learn the gene regulatory bayesian network from the gene expression data, and then run the in silico gene perturbation experiment based on the learned network model:
+                           <p>This R# package module provides the toolkit for learn the gene regulatory bayesian network from the gene expression data, and then run the in silico gene perturbation experiment based on the learned network model:</p>
 
 
 <ul>
-<li><p><code>prior_network</code> and <code>as.prior_net</code>: create the prior knowledge regulatory network(TF -&gt; target gene) which is used as the whitelist of the network structure learning;</li>
-<li><p><code>bnlearn</code>: learn the network structure(MMHC algorithm with the whitelist prior) and the network parameters(Gaussian bayesian network MLE);</li>
-<li><p><code>knockouts</code>, <code>overexpress</code> and <code>knockdown</code>: run the in silico gene perturbation experiment on the learned network model;</li>
-<li><p><code>make_exports</code>: export the perturbation experiment result as a set of the csv table files;</li>
-<li><p><code>save_model</code>: save the learned bayesian network model as the tsv table files.</li>
+<li><code>prior_network</code> and <code>as.prior_net</code>: create the prior knowledge regulatory network(TF -&gt; target gene) which is used as the whitelist of the network structure learning;</li>
+<li><code>bnlearn</code>: learn the network structure(MMHC algorithm with the whitelist prior) and the network parameters(Gaussian bayesian network MLE);</li>
+<li><code>knockouts</code>, <code>overexpress</code> and <code>knockdown</code>: run the in silico gene perturbation experiment on the learned network model;</li>
+<li><code>make_exports</code>: export the perturbation experiment result as a set of the csv table files;</li>
+<li><code>save_model</code>: save the learned bayesian network model as the tsv table files.</li>
 </ul>
                            </p>
     </blockquote>
@@ -88,7 +88,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="struct_learn_params">
     <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/StructureLearning/StructureLearningParams.html">struct_learn_params: StructureLearningParams</a>
   </td>
-  <td><p>结构学习参数</td>
+  <td><p>结构学习参数</p></td>
 </tr>
 <tr>
   <td id="knowledges">
@@ -100,7 +100,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="modular_network">
     <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ModularNetwork/ModularNetworkPipeline.html">modular_network: ModularNetworkPipeline</a>
   </td>
-  <td><p>基于 WGCNA 模块划分的贝叶斯子网络训练 + 全局虚拟扰动流水线</td>
+  <td><p>基于 WGCNA 模块划分的贝叶斯子网络训练 + 全局虚拟扰动流水线</p></td>
 </tr>
 <tr>
   <td id="modular_bayesian">
@@ -112,7 +112,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="bnlearn">
     <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">bnlearn: BNLearnWorkflow</a>
   </td>
-  <td><p>BNLearn 工作流 —— 基因表达调控网络建模与虚拟干扰分析</td>
+  <td><p>BNLearn 工作流 —— 基因表达调控网络建模与虚拟干扰分析</p></td>
 </tr></tbody>
       </table>
       <br />
@@ -123,19 +123,19 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="bnlearn">
     <a href="./bnlearn/bnlearn.html">bnlearn</a>
   </td>
-  <td><p>learn the gene regulatory bayesian network from the gene expression data</td>
+  <td><p>learn the gene regulatory bayesian network from the gene expression data</p></td>
 </tr>
 <tr>
   <td id="read_module_assignment">
     <a href="./bnlearn/read_module_assignment.html">read_module_assignment</a>
   </td>
-  <td><p>read WGCNA module color assignment result table</td>
+  <td><p>read WGCNA module color assignment result table</p></td>
 </tr>
 <tr>
   <td id="wildtype_baseline">
     <a href="./bnlearn/wildtype_baseline.html">wildtype_baseline</a>
   </td>
-  <td><p>set wildtype baseline</td>
+  <td><p>set wildtype baseline</p></td>
 </tr>
 <tr>
   <td id="modular_intervene">
@@ -153,43 +153,43 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="as.prior_net">
     <a href="./bnlearn/as.prior_net.html">as.prior_net</a>
   </td>
-  <td><p>build prior network object based on a given vector of the knowledge network edges data</td>
+  <td><p>build prior network object based on a given vector of the knowledge network edges data</p></td>
 </tr>
 <tr>
   <td id="prior_network">
     <a href="./bnlearn/prior_network.html">prior_network</a>
   </td>
-  <td><p>create prior knowledge netwoek edges from the given vector data</td>
+  <td><p>create prior knowledge netwoek edges from the given vector data</p></td>
 </tr>
 <tr>
   <td id="knockouts">
     <a href="./bnlearn/knockouts.html">knockouts</a>
   </td>
-  <td><p>run the in silico gene knockout experiment on the given network model</td>
+  <td><p>run the in silico gene knockout experiment on the given network model</p></td>
 </tr>
 <tr>
   <td id="overexpress">
     <a href="./bnlearn/overexpress.html">overexpress</a>
   </td>
-  <td><p>run the in silico gene overexpression experiment on the given network model</td>
+  <td><p>run the in silico gene overexpression experiment on the given network model</p></td>
 </tr>
 <tr>
   <td id="knockdown">
     <a href="./bnlearn/knockdown.html">knockdown</a>
   </td>
-  <td><p>run the in silico gene knockdown experiment on the given network model</td>
+  <td><p>run the in silico gene knockdown experiment on the given network model</p></td>
 </tr>
 <tr>
   <td id="make_exports">
     <a href="./bnlearn/make_exports.html">make_exports</a>
   </td>
-  <td><p>export the virtual permutation result as csv table files</td>
+  <td><p>export the virtual permutation result as csv table files</p></td>
 </tr>
 <tr>
   <td id="save_model">
     <a href="./bnlearn/save_model.html">save_model</a>
   </td>
-  <td><p>save bnlearn model</td>
+  <td><p>save bnlearn model</p></td>
 </tr></tbody>
       </table>
     </div>

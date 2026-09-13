@@ -24,7 +24,7 @@ declare namespace metabolism {
     * 
      * @param reference the kegg reference maps
      * @param reactions a list of the kegg reaction data models
-     * @param annotations the @``T:SMRUCC.genomics.Annotation.Ptf.ProteinAnnotation`` data stream with kegg ontology('ko' attribute) id.
+     * @param annotations the [ProteinAnnotation](cref:T:SMRUCC.genomics.Annotation.Ptf.ProteinAnnotation) data stream with kegg ontology('ko' attribute) id.
      * @param min_cov coverage cutoff of the ratio of annotation protein hit against the all proteins on the pathway map
      * 
      * + default value Is ``0.3``.

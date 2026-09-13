@@ -37,26 +37,26 @@
         <table>
             
 <dt>x</dt>
-<dd><p>the target MAGs contigs assembly sequence for run the gene prediction, which can be a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+<dd><p>the target MAGs contigs assembly sequence for run the gene prediction, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a file path of the fasta sequence file, or even a character vector of the raw sequence data.</p></dd>
 
 
 <dt>min.ORF.len</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the minimum ORF length in bp of the predicted gene, any of the candidate ORF that its length is less than this threshold value will be ignored in the gene prediction. [as integer]</p></dd>
 
 
 <dt>model</dt>
-<dd><p>the prodigal training model, which is the output of the <code>prodigal_training. [as <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a>]</p></dd>
+<dd><p>the prodigal training model, which is the output of the <code>prodigal_training</code> function. If this parameter is nothing(the default value), then the model will be trained from the input contigs assembly sequence in an unsupervised manner automatically. [as <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a>]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>The prodigal gene prediction pipeline is implemented in an ab-initio manner: a training model will be learned from the input contigs assembly sequence at first(when the <code>model</code> parameter is not specified), and then the gene finding algorithm is running based on the dynamic programming score of the coding/non-coding hexamer and the RBS motif of the trained model.
+        <p>The prodigal gene prediction pipeline is implemented in an ab-initio manner: a training model will be learned from the input contigs assembly sequence at first(when the <code>model</code> parameter is not specified), and then the gene finding algorithm is running based on the dynamic programming score of the coding/non-coding hexamer and the RBS motif of the trained model.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -64,9 +64,9 @@
 
         <h3>Value</h3>
 
-        <p>a collection of the gene prediction result: each element in the collection(<a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/PredictionResult.html">PredictionResult</a>) is the gene prediction result of the corresponding contigs sequence in the input fasta sequence data.
+        <p>a collection of the gene prediction result: each element in the collection(<a href="cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult">PredictionResult</a>) is the gene prediction result of the corresponding contigs sequence in the input fasta sequence data.</p>
 
-<p>this function returns a R# error message object if the input sequence data is nothing or can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/PredictionResult.html">PredictionResult</a></li></ul>
+<p>this function returns a R# error message object if the input sequence data is nothing or can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/PredictionResult.html">PredictionResult</a></li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

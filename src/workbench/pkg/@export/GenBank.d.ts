@@ -94,7 +94,7 @@ declare namespace GenBank {
     * >  
     * >  if you encounter this error while build sequence index by using salmon tool, please set the ``unique.names`` parameter to TRUE
     * >  
-    * >  ```
+    * > ```
     * >  counted k-mers for 110000 transcripts[2026-01-06 15:08:42.160] [puff::index::jointLog] [error] In FixFasta, two references with the same name but different sequences: AM295250.SCA_1840. We require that all input records have a unique name up to the first whitespace (or user-provided separator) character.
     * >  ```
     * 
@@ -178,7 +178,7 @@ declare namespace GenBank {
      *  set this parameter value to TRUE if use this data source for pan-genome analysis.
      * 
      * + default value Is ``false``.
-     * @param autoClose auto close of the @``T:System.IO.Stream`` if the **`files`** contains stream object?
+     * @param autoClose auto close of the [Stream](cref:T:System.IO.Stream) if the **files** contains stream object?
      * 
      * + default value Is ``true``.
      * @param env -
@@ -201,7 +201,7 @@ declare namespace GenBank {
      * @param mol_type -
      * 
      * + default value Is ``'genomic DNA'``.
-     * @return if the ``**`nt`**`` parameter is nothing, 
+     * @return if the ``**nt**`` parameter is nothing, 
      *  means get fasta sequence, otherwise is add/update fasta 
      *  sequence in the genbank assembly, the returns type of 
      *  the api will change from the getted fasta sequence to 

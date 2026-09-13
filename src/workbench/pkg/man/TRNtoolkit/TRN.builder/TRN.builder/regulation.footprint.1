@@ -16,14 +16,14 @@ create the regulation footprint(regulation network edges) from the regulator
 .PP
 \fBregulators\fB \fR\- 
  the regulator mapping data, which can be a vector of the 
- @\fBT:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit\fR object(the bbh best hit mapping result of the 
+ [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit) object(the bbh best hit mapping result of the 
  regulator protein to the target genome), or a pipeline object that produces a 
- set of the @\fBT:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit\fR data.
+ set of the [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit) data.
 . 
 .PP
 .PP
 \fBmotifLocis\fB \fR\- 
- a vector of the @\fBT:SMRUCC.genomics.Data.Regprecise.FootprintSite\fR motif site data, which could be 
+ a vector of the [FootprintSite](cref:T:SMRUCC.genomics.Data.Regprecise.FootprintSite) motif site data, which could be 
  loaded from a csv table file via the \fBread.footprints\fR api: the \fBsrc\fR 
  property of the site data is the transcription factor family name set of the 
  corresponding motif site and the \fBgene\fR property is the regulated target 
@@ -32,7 +32,7 @@ create the regulation footprint(regulation network edges) from the regulator
 .PP
 .PP
 \fBregprecise\fB \fR\- 
- the regprecise regulon database object(@\fBT:SMRUCC.genomics.Data.Regprecise.TranscriptionFactors\fR), 
+ the regprecise regulon database object([TranscriptionFactors](cref:T:SMRUCC.genomics.Data.Regprecise.TranscriptionFactors)), 
  which provides the regulator information(the effector, the regulation mode, 
  the regulog, the biological process, etc) of each transcription factor 
  family.
@@ -44,7 +44,7 @@ create the regulation footprint(regulation network edges) from the regulator
 .SH VALUE
 .PP
 a pipeline object of the 
- @\fBT:SMRUCC.genomics.Data.Regprecise.RegulationFootprint\fR regulation 
+ [RegulationFootprint](cref:T:SMRUCC.genomics.Data.Regprecise.RegulationFootprint) regulation 
  network edge data: each edge is a regulation of one regulator to one target 
  gene, which is created by mapping the motif site to the regulator of the 
  corresponding transcription factor family in the regprecise database, the 
@@ -53,7 +53,7 @@ a pipeline object of the
  
  this function returns NULL if the given regulator mapping data is nothing, or 
  a R# error message object if the given regulator data is not a collection of 
- the @\fBT:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit\fR data.
+ the [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit) data.
 .PP
 .SH DETAILS
 .PP
@@ -63,7 +63,7 @@ only the regulator of the \fBTF\fR type in the regprecise database will be used
  the \fB/\fR or the \fB\\fR character.
  
  the regulator mapping is created by the bbh best hit: the \fBHitName\fR of the 
- @\fBT:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit\fR data is mapped to the regprecise regulator via its 
+ [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit) data is mapped to the regprecise regulator via its 
  locus id(the text after the last \fB:\fR character), and the \fBQueryName\fR is 
  used as the regulator gene id in the target genome.
 .PP

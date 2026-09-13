@@ -36,25 +36,25 @@
         <table>
             
 <dt>seq</dt>
-<dd><p>the target sequence data source, which can be a single <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> object, a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+<dd><p>the target sequence data source, which can be a single <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a character vector of the raw sequence data.</p></dd>
 
 
 <dt>loci</dt>
-<dd><p>the location region data for make cut of the sequence site, data model could be:
+<dd><p>the location region data for make cut of the sequence site, data model could be:</p>
 
 
 <ol>
-<li><p>for nucleotide sequence, <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a> should be used,</li>
-<li><p>for general sequence data, <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a> should be used.</li>
+<li>for nucleotide sequence, <a href="cref:T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation">NucleotideLocation</a> should be used,</li>
+<li>for general sequence data, <a href="cref:T:SMRUCC.genomics.ComponentModel.Loci.Location">Location</a> should be used.</li>
 </p></dd>
 
 
 <dt>nt.auto.reverse</dt>
-<dd><p>make auto reverse of the nucleotide sequence if the given location is on the @<code>F:SMRUCC.genomics.ComponentModel.Loci.Strands.Reverse. [as boolean]</p></dd>
+<dd><p>make auto reverse of the nucleotide sequence if the given location is on the <a href="cref:F:SMRUCC.genomics.ComponentModel.Loci.Strands.Reverse">Strands.Reverse</a> direction. [as boolean]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -69,9 +69,9 @@
 
         <h3>Value</h3>
 
-        <p>a new <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> object of the cut sequence fragment if the input is a single sequence object, or a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object of the cut sequence fragments of each input sequence if the input is a sequence collection;
+        <p>a new <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object of the cut sequence fragment if the input is a single sequence object, or a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object of the cut sequence fragments of each input sequence if the input is a sequence collection;</p>
 
-<p>this function returns a R# error message object if the given location information is nothing, or the input sequence data can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+<p>this function returns a R# error message object if the given location information is nothing, or the input sequence data can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -30,7 +30,8 @@
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>build_context</strong>(<i>genomes</i>,
     <i>soft.core.threshold</i> = <span style='color: green;'>0.95</span>,
     <i>uniqueByAcc</i> = <span style='color: blue !important;'>FALSE</span>,
-    <i>genome.size</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+    <i>genome.size</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>sv.cluster.count</i> = <span style='color: green;'>4</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -38,11 +39,11 @@
         <table>
             
 <dt>genomes</dt>
-<dd><p></p></dd>
+<dd><p>should be a collection of the genome GFF3 feature tables</p></dd>
 
 
 <dt>soft.core.threshold</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>threshold value for identify the gene as soft core, thres value 1 means core genes. [as double]</p></dd>
 
 
 <dt>env</dt>

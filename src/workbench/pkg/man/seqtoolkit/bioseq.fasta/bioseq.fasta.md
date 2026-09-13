@@ -13,7 +13,7 @@ Fasta sequence toolkit
 >    ``seq_formula``, ``seq_vector``, ``cut_seq.linear``, etc.
 >  
 >  The fasta sequence data object in R# environment is a tuple list that its 
->  element type is @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq``, which can be cast to a data frame 
+>  element type is [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq), which can be cast to a data frame 
 >  via the ``as.data.frame`` api, or be printed to the console with a pretty 
 >  format via the registered console formatter.
 

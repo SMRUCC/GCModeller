@@ -37,37 +37,37 @@
         <table>
             
 <dt>results</dt>
-<dd><p>a collection of the in silico perturbation result, which can be a vector of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a> object, or a pipeline object that produces a set of the @<code>T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult</p></dd>
+<dd><p>a collection of the in silico perturbation result, which can be a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult">InterventionResult</a> object, or a pipeline object that produces a set of the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult">InterventionResult</a> data.</p></dd>
 
 
 <dt>dir</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the output directory for save the generated csv table files, this directory will be created if it is not exists. [as string]</p></dd>
 
 
 <dt>pathway.info</dt>
-<dd><p>an optional tuple list of the @<code>T:SMRUCC.genomics.MetabolicModel.MetabolicPathway. [as list]</p></dd>
+<dd><p>an optional tuple list of the <a href="cref:T:SMRUCC.genomics.MetabolicModel.MetabolicPathway">MetabolicPathway</a> knowledge data: the slot key of the list is the pathway id and the slot value is the corresponding pathway object, this parameter is used for run the pathway level analysis of the perturbation result. [as list]</p></dd>
 
 
 <dt>top.n</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the top n affected genes for export in the intervention ranking table, by default is 50. [as integer]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>the generated csv table files in the given output directory:
+        <p>the generated csv table files in the given output directory:</p>
 
 
 <ul>
-<li><p><code>foldchange_matrix.csv</code>, <code>percentchange_matrix.csv</code>, <code>significance_matrix.csv</code>, <code>zscore_matrix.csv</code>, <code>wildtype_means_matrix.csv</code>, <code>mutant_means_matrix.csv</code>;</li>
-<li><p><code>comprehensive_comparison.csv</code>, <code>condition_similarity.csv</code>;</li>
-<li><p><code>intervention_ranking.csv</code>: the top n affected genes of each perturbation condition;</li>
-<li><p><code>pathway_summary.csv</code> and <code>cross_impact_matrix.csv</code>: these two table files will be generated only when the <code>pathway_info</code> parameter is provided.</li>
+<li><code>foldchange_matrix.csv</code>, <code>percentchange_matrix.csv</code>, <code>significance_matrix.csv</code>, <code>zscore_matrix.csv</code>, <code>wildtype_means_matrix.csv</code>, <code>mutant_means_matrix.csv</code>;</li>
+<li><code>comprehensive_comparison.csv</code>, <code>condition_similarity.csv</code>;</li>
+<li><code>intervention_ranking.csv</code>: the top n affected genes of each perturbation condition;</li>
+<li><code>pathway_summary.csv</code> and <code>cross_impact_matrix.csv</code>: these two table files will be generated only when the <code>pathway_info</code> parameter is provided.</li>
 </ul>
 
         <h3 style="display: block">Authors</h3>
@@ -76,9 +76,9 @@
 
         <h3>Value</h3>
 
-        <p>TRUE will be returns if all of the result table files have been exported into the given directory successfully;
+        <p>TRUE will be returns if all of the result table files have been exported into the given directory successfully;</p>
 
-<p>this function returns a R# error message object if the given data can not be cast to a collection of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/InterventionResult.html">InterventionResult</a> data.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+<p>this function returns a R# error message object if the given data can not be cast to a collection of the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult">InterventionResult</a> data.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

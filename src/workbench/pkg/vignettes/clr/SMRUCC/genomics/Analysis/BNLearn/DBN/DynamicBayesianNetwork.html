@@ -22,33 +22,33 @@
 
         <h3>Description</h3>
 
-        <p>Dynamic Bayesian Network for gene regulatory network simulation.
+        <p>Dynamic Bayesian Network for gene regulatory network simulation.</p>
 
-<p>This DBN implements a 2-slice temporal Bayesian network (2TBN) where:
+<p>This DBN implements a 2-slice temporal Bayesian network (2TBN) where:</p>
 
 
 <ul>
-<li><p>Gene/operon expression at time t+1 depends on TF and metabolite states at time t</li>
-<li><p>TF states are provided as evidence from the ODE solver (TF protein/RNA abundance)</li>
-<li><p>Metabolite concentrations are provided as evidence from the ODE solver</li>
+<li>Gene/operon expression at time t+1 depends on TF and metabolite states at time t</li>
+<li>TF states are provided as evidence from the ODE solver (TF protein/RNA abundance)</li>
+<li>Metabolite concentrations are provided as evidence from the ODE solver</li>
 </ul>
 
 
-<p>The DBN supports two modes:
+<p>The DBN supports two modes:</p>
 
 
 <ol>
-<li><p>Topology-only mode: Uses RegulatoryLink topology to initialize CPTs based on biological heuristics (activator/inhibitor effects via noisy-OR/AND gates). No RNAseq data required.</li>
-<li><p>Data-fitting mode: Uses RNAseq time-series data to learn CPT parameters, with the topology-based CPTs serving as a Dirichlet prior.</li>
+<li>Topology-only mode: Uses RegulatoryLink topology to initialize CPTs based on biological heuristics (activator/inhibitor effects via noisy-OR/AND gates). No RNAseq data required.</li>
+<li>Data-fitting mode: Uses RNAseq time-series data to learn CPT parameters, with the topology-based CPTs serving as a Dirichlet prior.</li>
 </ol>
 
 
-<p>Coupling with metabolic network ODEs:
+<p>Coupling with metabolic network ODEs:</p>
 
 
 <ul>
-<li><p>DBN -&gt; ODEs: Predicted gene states are mapped to RNA transcript abundance change rates (expected transcription rate), which serve as transcription rate terms in the ODEs: dR/dt = k_synthesis <em> rate - k_degradation </em> R</li>
-<li><p>ODEs -&gt; DBN: Metabolite concentrations and TF abundances from the ODEs are discretized (Low/Medium/High) and used as evidence for DBN inference.</li>
+<li>DBN -&gt; ODEs: Predicted gene states are mapped to RNA transcript abundance change rates (expected transcription rate), which serve as transcription rate terms in the ODEs: dR/dt = k_synthesis <em> rate - k_degradation </em> R</li>
+<li>ODEs -&gt; DBN: Metabolite concentrations and TF abundances from the ODEs are discretized (Low/Medium/High) and used as evidence for DBN inference.</li>
 </ul>
 
         <h3>Declare</h3>        

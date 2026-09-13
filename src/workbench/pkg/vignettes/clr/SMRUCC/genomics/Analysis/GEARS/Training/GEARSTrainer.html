@@ -22,11 +22,21 @@
 
         <h3>Description</h3>
 
-        <p>GEARS 模型训练器
+        <p>GEARS 模型训练器</p>
 
-<p>训练流程严格对应 readme §7.2 的伪代码： 构建扰动标记 p（组合扰动为 multi-hot）；构建初始节点特征 h0 = [x̄ ‖ p ‖ e ‖ z_pert]；多层消息传递；解码得到 Δ 预测，损失取 MSE(Δ̂, Δ)；反向传播并用 Adam 更新参数。
+<p>训练流程严格对应 readme §7.2 的伪代码：</p>
 
-<p>归一化约定：输入表达按基因做 Z-score（减 controlMean 除 controlSD）， Δ 标签同样除以 controlSD。预测时把 Δ̂ 乘回 controlSD 即可还原到原始表达尺度。
+
+<ol>
+<li>构建扰动标记 <code>p</code>（组合扰动为 multi-hot）；</li>
+<li>构建初始节点特征 <code>h0 = [x̄ ‖ p ‖ e ‖ z_pert]</code>；</li>
+<li>多层消息传递；</li>
+<li>解码得到 Δ 预测，损失取 MSE(Δ̂, Δ)；</li>
+<li>反向传播并用 Adam 更新参数。</li>
+</ol>
+
+
+<p>归一化约定：输入表达按基因做 Z-score（减 <code>controlMean</code> 除 <code>controlSD</code>）， Δ 标签同样除以 <code>controlSD</code>。预测时把 Δ̂ 乘回 <code>controlSD</code> 即可还原到原始表达尺度。</p>
 
         <h3>Declare</h3>        
 

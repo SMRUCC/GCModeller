@@ -21,7 +21,7 @@ declare namespace FastQ {
     * Do short reads assembling
     * 
     * 
-     * @param reads should be a set of the sequence data, example as a collection of @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` data.
+     * @param reads should be a set of the sequence data, example as a collection of [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) data.
      * @param env -
      * 
      * + default value Is ``null``.
@@ -56,11 +56,11 @@ declare namespace FastQ {
     *  code equal to its value + 33.
     * 
     * 
-     * @param q should be one or more @``T:SMRUCC.genomics.SequenceModel.FQ.FastQ`` sequence data
+     * @param q should be one or more [FastQ](cref:T:SMRUCC.genomics.SequenceModel.FQ.FastQ) sequence data
      * @param env -
      * 
      * + default value Is ``null``.
-     * @return the quality score data of each @``T:SMRUCC.genomics.SequenceModel.FQ.FastQ`` sequence data.
+     * @return the quality score data of each [FastQ](cref:T:SMRUCC.genomics.SequenceModel.FQ.FastQ) sequence data.
    */
    function quality_score(q: any, env?: object): number;
    /**

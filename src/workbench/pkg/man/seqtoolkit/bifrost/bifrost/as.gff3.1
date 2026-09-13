@@ -20,7 +20,7 @@ cast the gene prediction result as GFF3 table format
 .PP
 .SH VALUE
 .PP
-a @\fBT:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable\fR object that contains all of the predicted genes 
+a [GFFTable](cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable) object that contains all of the predicted genes 
  as the \fBCDS\fR feature, the score of each feature is the total score of 
  the corresponding predicted gene, and the score details are stored in the 
  attributes of the feature, example as \fBstart_codon\fR, \fBrbs_motif\fR, 
@@ -28,7 +28,7 @@ a @\fBT:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTa
  \fBpartial\fR.
  
  this function returns a R# error message object if the input data can not 
- be cast to a collection of the @\fBT:SMRUCC.genomics.Annotation.Prodigal.PredictionResult\fR object.
+ be cast to a collection of the [PredictionResult](cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult) object.
 .PP
 .SH SEE ALSO
 bifrost

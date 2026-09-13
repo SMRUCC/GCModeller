@@ -14,7 +14,7 @@ declare namespace GSVA {
     * 
     * 
      * @param gsva the gsva analysis result
-     * @param compares the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DataAnalysis`` comparision collection
+     * @param compares the [DataAnalysis](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DataAnalysis) comparision collection
    */
    function diff(gsva: object, compares: object): object;
    /**
@@ -37,7 +37,7 @@ declare namespace GSVA {
     * >  for microarray and RNA-Seq data. BMC Bioinformatics, 14:7, 2013.
     * 
      * @param expr A raw gene expression data matrix object
-     * @param geneSet A gsea enrichment @``T:SMRUCC.genomics.Analysis.HTS.GSEA.Background`` model
+     * @param geneSet A gsea enrichment [Background](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background) model
      * @param name_suffix append the pathway name to the map id as suffix?
      * 
      * + default value Is ``false``.

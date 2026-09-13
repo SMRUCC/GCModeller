@@ -14,7 +14,7 @@ declare namespace annotation.workflow {
     * make filter of the blast best hits via the given parameter combinations
     * 
     * 
-     * @param besthits is a collection of the blastp/blastn parsed result: @``T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit``
+     * @param besthits is a collection of the blastp/blastn parsed result: [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)
      * @param evalue new cutoff value of the evalue for make filter of the given hits collection
      * 
      * + default value Is ``null``.

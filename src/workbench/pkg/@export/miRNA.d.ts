@@ -17,7 +17,7 @@
  * >  + ``intersect_targets``: take the intersection of the two algorithm result for 
  * >    create the high confidence target site set.
  * >  
- * >  the generated match result is a collection of the @``T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit`` 
+ * >  the generated match result is a collection of the [siRNAHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit) 
  * >  object, which can be converted to a data frame via the ``as.data.frame`` api, 
  * >  or be saved as a csv table file via the ``write.csv`` api.
 */
@@ -58,9 +58,9 @@ declare namespace miRNA {
     * 
     * 
      * @param psRNATarget the target site match result of the psRNATarget algorithm, which is a 
-     *  collection of the @``T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit`` data.
+     *  collection of the [siRNAHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit) data.
      * @param TargetFinder the target site match result of the TargetFinder algorithm, which is a 
-     *  collection of the @``T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit`` data.
+     *  collection of the [siRNAHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit) data.
      * @param site_tolerance the coordinate alignment tolerance(in nt) of the target site location on the 
      *  mRNA sequence: two match result will be treated as the same target site if 
      *  their site interval is overlapped with each other in this tolerance range, by 
@@ -70,7 +70,7 @@ declare namespace miRNA {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a vector of the @``T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit`` high confidence target site data: the 
+     * @return a vector of the [siRNAHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit) high confidence target site data: the 
      *  match result that is reported by both of the psRNATarget and the 
      *  TargetFinder algorithm.
      *  
@@ -84,7 +84,7 @@ declare namespace miRNA {
      *  and the penalty score of the TargetFinder;
      *  
      *  this function returns a R# error message object if the input data can not be 
-     *  cast to a collection of the @``T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit`` data.
+     *  cast to a collection of the [siRNAHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit) data.
    */
    function intersect_targets(psRNATarget: any, TargetFinder: any, site_tolerance?: object, env?: object): object;
    /**
@@ -115,7 +115,7 @@ declare namespace miRNA {
      * + default value Is ``null``.
      * @return a set of the miRNA to target gene matches result, a match result network edges with match score as weights
      *  
-     *  each @``T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit`` object in the generated result collection is a 
+     *  each [siRNAHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit) object in the generated result collection is a 
      *  match of one miRNA sequence to one target site of the candidate mRNA 
      *  sequence: the ``miRNA`` and the ``Target`` property is the sequence id of the 
      *  small RNA and the target mRNA, the ``StartSite``/``EndSite`` property is the 
@@ -150,8 +150,8 @@ declare namespace miRNA {
      *  this cutoff will be ignored(the expectation value is the lower the better).
      * 
      * + default value Is ``5``.
-     * @return a @``T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.psRNATarget`` algorithm object, which implements the 
-     *  @``T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.miRNAMapper`` interface, so that it can be used by the 
+     * @return a [psRNATarget](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.psRNATarget) algorithm object, which implements the 
+     *  [miRNAMapper](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.miRNAMapper) interface, so that it can be used by the 
      *  ``miRNA_targets`` api for run the target site match.
    */
    function psRNATarget(version?: object, max_expectation?: number): object;
@@ -166,8 +166,8 @@ declare namespace miRNA {
      *  mode.
      * 
      * + default value Is ``5``.
-     * @return a @``T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.TargetFinder`` 
-     *  algorithm object, which implements the @``T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.miRNAMapper`` interface, so 
+     * @return a [TargetFinder](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.TargetFinder) 
+     *  algorithm object, which implements the [miRNAMapper](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.miRNAMapper) interface, so 
      *  that it can be used by the ``miRNA_targets`` api for run the target site 
      *  match.
    */

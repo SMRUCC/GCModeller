@@ -38,30 +38,30 @@
         <table>
             
 <dt>nt</dt>
-<dd><p>The given fasta collection, which can be a single <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> object, a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+<dd><p>The given fasta collection, which can be a single <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a character vector of the raw nucleotide sequence data.</p></dd>
 
 
 <dt>table</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/Translation/GeneticCodes.html">GeneticCodes</a>]</p></dd>
+<dd><p>The genetic code for translation table. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/Translation/GeneticCodes.html">GeneticCodes</a>]</p></dd>
 
 
 <dt>bypassStop</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>Try ignores of the stop codon. [as boolean]</p></dd>
 
 
 <dt>checkNt</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>check the input nucleotide sequence data is a valid nucleotide sequence? if this parameter is TRUE and the input sequence data contains the invalid nucleotide letters, then an error will be thrown. [as boolean]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>when the <code>bypassStop</code> parameter is TRUE and there are some invalid gene sequence that contains the stop codon symbol in the translated protein sequence, a warning message will be pushed into the R# environment message buffer.
+        <p>when the <code>bypassStop</code> parameter is TRUE and there are some invalid gene sequence that contains the stop codon symbol in the translated protein sequence, a warning message will be pushed into the R# environment message buffer.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -69,9 +69,9 @@
 
         <h3>Value</h3>
 
-        <p>a protein <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> object if the input is a single nucleotide sequence, or a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> protein sequence collection if the input is a collection of the nucleotide sequence data;
+        <p>a protein <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object if the input is a single nucleotide sequence, or a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> protein sequence collection if the input is a collection of the nucleotide sequence data;</p>
 
-<p>this function returns a R# error message object if the input sequence data can not be cast to a nucleotide fasta sequence collection.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+<p>this function returns a R# error message object if the input sequence data can not be cast to a nucleotide fasta sequence collection.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -36,19 +36,19 @@
         <table>
             
 <dt>x</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+<dd><p>a gene expression matrix object. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
 
 
 <dt>sampleinfo</dt>
-<dd><p>the sample time-series information data, which can be a vector of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> object, a dataframe object or a pipeline object that produces a set of the @<code>T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo</p></dd>
+<dd><p>the sample time-series information data, which can be a vector of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> object, a dataframe object or a pipeline object that produces a set of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> data.</p></dd>
 
 
 <dt>sample</dt>
-<dd><p>the property name of the time point information in the given <code>sampleinfo</code> data, by default is the <code>sample. [as string]</p></dd>
+<dd><p>the property name of the time point information in the given <code>sampleinfo</code> data, by default is the <code>sample</code> property. [as string]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -63,9 +63,9 @@
 
         <h3>Value</h3>
 
-        <p>a new expression matrix object that each sample column is the sum value(AUC) of the sample columns in the corresponding time point, the tag of the generated matrix is <code>AUC(time)</code>;
+        <p>a new expression matrix object that each sample column is the sum value(AUC) of the sample columns in the corresponding time point, the tag of the generated matrix is <code>AUC(time)</code>;</p>
 
-<p>this function returns a R# error message object if the given sample information data can not be cast to a collection of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> data.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+<p>this function returns a R# error message object if the given sample information data can not be cast to a collection of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> data.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

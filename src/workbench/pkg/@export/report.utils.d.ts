@@ -101,7 +101,7 @@ declare namespace report.utils {
         * + default value Is ``'red'``.
         * @return a tuple list that contains the highlight information, such as:
         *  
-        *  ```r
+        * ```r
         *  list(K00001 = "blue", K00002 = "red", C00001 = "green");
         *  ```
       */

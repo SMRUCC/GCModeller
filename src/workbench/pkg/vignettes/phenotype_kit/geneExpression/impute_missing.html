@@ -36,18 +36,18 @@
         <table>
             
 <dt>x</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+<dd><p>an expression matrix object that may contains zero. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
 
 
 <dt>by.features</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>fill the missing value by the gene feature rows or by the sample columns? by default is fill the missing value by the sample columns. [as boolean]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>the missing value(the ZERO value or the NaN value) will be filled with the half of the minimum positive value of the corresponding sample column(or gene feature row when the <code>by_features</code> parameter is TRUE), if there is no positive value in the target sample column, then ZERO will be used.
+        <p>the missing value(the ZERO value or the NaN value) will be filled with the half of the minimum positive value of the corresponding sample column(or gene feature row when the <code>by_features</code> parameter is TRUE), if there is no positive value in the target sample column, then ZERO will be used.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -55,7 +55,7 @@
 
         <h3>Value</h3>
 
-        <p>An expression data matrix with missing data filled<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+        <p>An expression data matrix with missing data filled</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

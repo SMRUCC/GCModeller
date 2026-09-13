@@ -22,9 +22,9 @@
 
         <h3>Description</h3>
 
-        <p>Loci segment location information on an nucleotide sequence, this object added an <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>.<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strand</a> information on <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a> data.
+        <p>Loci segment location information on an nucleotide sequence, this object added an <a href="cref:P:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation.Strand">NucleotideLocation.Strand</a> information on <a href="cref:T:SMRUCC.genomics.ComponentModel.Loci.Location">Location</a> data.</p>
 
-<p>(会自动根据LEFT和RIGHT的值来修正属性值)
+<p>(会自动根据LEFT和RIGHT的值来修正属性值)</p>
 
         <h3>Declare</h3>        
 
@@ -33,7 +33,7 @@
 # namespace SMRUCC.genomics.ComponentModel.Loci
 export class NucleotideLocation extends <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a> {
    Center: integer;
-   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>: 实际的物理上面的位置，与核酸链的方向相关， (假若需要使用原始的位置数据，则请使用<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">left</a>或者<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">right</a>属性， 这两个属性值是和具体的链的方向无关的)
+   # <a href="cref:T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation">NucleotideLocation</a>: 实际的物理上面的位置，与核酸链的方向相关， (假若需要使用原始的位置数据，则请使用<a href="cref:P:SMRUCC.genomics.ComponentModel.Loci.Location.left">Location.left</a>或者<a href="cref:P:SMRUCC.genomics.ComponentModel.Loci.Location.right">Location.right</a>属性， 这两个属性值是和具体的链的方向无关的)
    Ends: integer;
    FragmentSize: integer;
    Interval: integer;
@@ -44,7 +44,7 @@ export class NucleotideLocation extends <a href="/vignettes/clr/SMRUCC/genomics/
    Max: integer;
    Min: integer;
    right: integer;
-   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>: 实际的物理上面的位置，与核酸链的方向相关， (假若需要使用原始的位置数据，则请使用<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">left</a>或者<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">right</a>属性， 这两个属性值是和具体的链的方向无关的)
+   # <a href="cref:T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation">NucleotideLocation</a>: 实际的物理上面的位置，与核酸链的方向相关， (假若需要使用原始的位置数据，则请使用<a href="cref:P:SMRUCC.genomics.ComponentModel.Loci.Location.left">Location.left</a>或者<a href="cref:P:SMRUCC.genomics.ComponentModel.Loci.Location.right">Location.right</a>属性， 这两个属性值是和具体的链的方向无关的)
    Start: integer;
    # 这个位点在哪一条DNA核酸链
    # 

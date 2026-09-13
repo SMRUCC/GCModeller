@@ -35,22 +35,22 @@
         <table>
             
 <dt>x</dt>
-<dd><p>the gene expression matrix object of the Perturb-seq experiment data, which could be loaded from a csv table file via the <code>geneExpression::load.expr. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+<dd><p>the gene expression matrix object of the Perturb-seq experiment data, which could be loaded from a csv table file via the <code>geneExpression::load.expr</code> api. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
 
 
 <dt>prior</dt>
-<dd><p>the prior knowledge regulatory network object, which could be created by the <code>bnlearn::as.prior_net. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>]</p></dd>
+<dd><p>the prior knowledge regulatory network object, which could be created by the <code>bnlearn::as.prior_net</code> api: only the gene that is described in this prior network could be mapped into the gene regulatory graph of the GEARS model. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>]</p></dd>
 
 
 <dt>config</dt>
-<dd><p>the hyper parameter configuration of the GEARS model, which could be created via the <code>new("GEARS_opts"). [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARSConfig.html">GEARSConfig</a>]</p></dd>
+<dd><p>the hyper parameter configuration of the GEARS model, which could be created via the <code>new("GEARS_opts")</code> syntax in R# environment: the embedding dimension, the hidden layer dimension, the graph convolution layer numbers, the activation function, the learning rate, the epochs, etc. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARSConfig.html">GEARSConfig</a>]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a> implements of the interface <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/InsilicoPerturbationExperiment.html">InsilicoPerturbationExperiment</a>, which could be used as the virtual perturbation experiment container for run knockouts/overexpress/knockdown experiments
+        <p><a href="cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS">GEARS</a> implements of the interface <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a>, which could be used as the virtual perturbation experiment container for run knockouts/overexpress/knockdown experiments</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -58,7 +58,7 @@
 
         <h3>Value</h3>
 
-        <p>a new <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a> model object that the gene regulatory graph has been created from the given prior network and expression data, the training sample set should be set via the <code>training_set</code> api at first and then the model can be trained via the <code>train</code> api.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a></li></ul>
+        <p>a new <a href="cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS">GEARS</a> model object that the gene regulatory graph has been created from the given prior network and expression data, the training sample set should be set via the <code>training_set</code> api at first and then the model can be trained via the <code>train</code> api.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a></li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

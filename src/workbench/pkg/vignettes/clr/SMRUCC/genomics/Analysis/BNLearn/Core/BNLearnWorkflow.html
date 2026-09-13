@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>BNLearn 工作流 —— 基因表达调控网络建模与虚拟干扰分析
+        <p>BNLearn 工作流 —— 基因表达调控网络建模与虚拟干扰分析</p>
 
         <h3>Declare</h3>        
 
@@ -34,7 +34,7 @@ export class BNLearnWorkflow {
    ExpressionData: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/GeneExpressionData.html">GeneExpressionData</a>;
    # 观测证据：按基因名对齐后仅保留与训练网络重叠的（基因名 → 表达值）。 供"观测证据模式"虚拟扰动使用（在给定表达水平条件下做 do-演算）。
    ExternalEvidence: list;
-   # 外部导入的新基因表达水平（单样本向量，基因名 → 表达值）。 通过 @<code>M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.SetExternalExpression(System.Collections.Generic.Dictionary{System.String,System.Double})</code> 设置，通常来自用户新检测的转录组。 设置时仅保留与训练网络重叠的基因，并自动派生观测证据与动态初始状态。
+   # 外部导入的新基因表达水平（单样本向量，基因名 → 表达值）。 通过 <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.SetExternalExpression(System.Collections.Generic.Dictionary{System.String,System.Double})">BNLearnWorkflow.SetExternalExpression()</a> 设置，通常来自用户新检测的转录组。 设置时仅保留与训练网络重叠的基因，并自动派生观测证据与动态初始状态。
    ExternalExpression: list;
    # 动态初始状态：按训练网络节点序排列的外部表达向量。 供"动态初始状态模式"虚拟扰动使用（作为级联模拟起点）。 仅重叠基因位置被外部值覆盖，未覆盖位置保持训练数据均值。
    ExternalInitialState: double;
@@ -50,13 +50,13 @@ export class BNLearnWorkflow {
    PriorNetwork: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>;
    # 随机种子
    RandomSeed: integer;
-   # 虚拟扰动 Strict 模式开关（透传给内部创建的 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Intervention/BnInterventionAnalyzer.html">BnInterventionAnalyzer</a>，默认 True）。 True: @<code>M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.KnockoutGene(System.String,System.Int32)</code> / @<code>M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.OverexpressGene(System.String,System.Int32)</code> / @<code>M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.KnockDownGene(System.String,System.Int32)</code> / @<code>M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.DynamicKnockout(System.String,System.Int32,System.Int32)</code> 等扰动函数在找不到目标基因时抛出错误； False: 在终端打印一条警告消息，不执行虚拟扰动，直接以野生型数据作为扰动结果返回 并将结果的 Undefined 标记为 True。
+   # 虚拟扰动 Strict 模式开关（透传给内部创建的 <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.BnInterventionAnalyzer">BnInterventionAnalyzer</a>，默认 True）。 True: <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.KnockoutGene(System.String,System.Int32)">BNLearnWorkflow.KnockoutGene()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.OverexpressGene(System.String,System.Int32)">BNLearnWorkflow.OverexpressGene()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.KnockDownGene(System.String,System.Int32)">BNLearnWorkflow.KnockDownGene()</a> / <a href="cref:M:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.DynamicKnockout(System.String,System.Int32,System.Int32)">BNLearnWorkflow.DynamicKnockout()</a> 等扰动函数在找不到目标基因时抛出错误； False: 在终端打印一条警告消息，不执行虚拟扰动，直接以野生型数据作为扰动结果返回 并将结果的 Undefined 标记为 True。
    Strict: boolean;
    # 结构学习参数
    StructureParams: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/StructureLearning/StructureLearningParams.html">StructureLearningParams</a>;
    # 结构学习结果
    StructureResult: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/StructureLearning/StructureLearningResult.html">StructureLearningResult</a>;
-   # 获取动态贝叶斯网络模型中被建模的目标基因 ID 集合 （即 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BayesianNetwork.html">FittedNetwork</a> 全部节点的基因名，按网络节点顺序排列）。 结构学习尚未完成（<a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a>.<a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BayesianNetwork.html">FittedNetwork</a> 为空）时返回空数组而不抛出错误。
+   # 获取动态贝叶斯网络模型中被建模的目标基因 ID 集合 （即 <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.FittedNetwork">BNLearnWorkflow.FittedNetwork</a> 全部节点的基因名，按网络节点顺序排列）。 结构学习尚未完成（<a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow.FittedNetwork">BNLearnWorkflow.FittedNetwork</a> 为空）时返回空数组而不抛出错误。
    TargetGenes: string;
 }
 </code>

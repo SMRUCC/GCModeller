@@ -18,8 +18,8 @@
  * >  + ``training_set``: set the Perturb-seq training sample set of the GEARS model;
  * >  + ``train``: train the GEARS model with the given training sample set.
  * >  
- * >  the trained @``T:SMRUCC.genomics.Analysis.GEARS.GEARS`` model object implements the 
- * >  @``T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment`` interface, so that it can be used 
+ * >  the trained [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) model object implements the 
+ * >  [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment) interface, so that it can be used 
  * >  by the ``knockouts``, ``overexpress`` and ``knockdown`` api of the ``bnlearn`` 
  * >  package module, and the perturbation result can be exported via the 
  * >  ``make_exports`` api.
@@ -28,7 +28,7 @@ declare namespace GEARS {
    /**
     * create a new GEARS model
     * 
-    * > @``T:SMRUCC.genomics.Analysis.GEARS.GEARS`` implements of the interface @``T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment``, which could be used as the virtual perturbation experiment container for run knockouts/overexpress/knockdown experiments
+    * > [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) implements of the interface [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment), which could be used as the virtual perturbation experiment container for run knockouts/overexpress/knockdown experiments
     * 
      * @param x the gene expression matrix object of the Perturb-seq experiment data, which 
      *  could be loaded from a csv table file via the 
@@ -40,7 +40,7 @@ declare namespace GEARS {
      *  via the ``new("GEARS_opts")`` syntax in R# environment: the embedding 
      *  dimension, the hidden layer dimension, the graph convolution layer numbers, 
      *  the activation function, the learning rate, the epochs, etc.
-     * @return a new @``T:SMRUCC.genomics.Analysis.GEARS.GEARS`` model object that the gene regulatory graph has 
+     * @return a new [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) model object that the gene regulatory graph has 
      *  been created from the given prior network and expression data, the training 
      *  sample set should be set via the ``training_set`` api at first and then the 
      *  model can be trained via the ``train`` api.
@@ -58,9 +58,9 @@ declare namespace GEARS {
     * >  no gene of the prior network could be mapped into the gene expression 
     * >  matrix.
     * 
-     * @param gears a @``T:SMRUCC.genomics.Analysis.GEARS.GEARS`` model object that is created by the ``GEARS::new`` api, 
+     * @param gears a [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) model object that is created by the ``GEARS::new`` api, 
      *  and the training sample set has been set via the ``training_set`` api.
-     * @return the input @``T:SMRUCC.genomics.Analysis.GEARS.GEARS`` model object that has been trained, which can 
+     * @return the input [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) model object that has been trained, which can 
      *  be used for run the in silico gene perturbation experiment via the 
      *  ``knockouts``, ``overexpress`` and ``knockdown`` api of the ``bnlearn`` 
      *  package module.
@@ -73,7 +73,7 @@ declare namespace GEARS {
     * >  the GEARS model will be recomputed from the given control sample columns, so 
     * >  that this api should be called before the ``train`` api.
     * 
-     * @param gears a @``T:SMRUCC.genomics.Analysis.GEARS.GEARS`` model object that is created by the ``GEARS::new`` 
+     * @param gears a [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) model object that is created by the ``GEARS::new`` 
      *  api.
      * @param x the gene expression matrix object of the Perturb-seq experiment data, which 
      *  should contains both of the control sample columns and the perturbed sample 
@@ -82,7 +82,7 @@ declare namespace GEARS {
      *  expression matrix: the mean value and the standard deviation of these control 
      *  sample columns will be used as the shared wildtype baseline of the model 
      *  training, at least two control sample columns are required.
-     * @param perturbed a collection of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` sample information data of the 
+     * @param perturbed a collection of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) sample information data of the 
      *  perturbed samples: the ``ID`` property of the sample data should be matched 
      *  with the sample column of the given expression matrix, the perturbed gene id 
      *  set of each sample is stored as a json string array in the ``metadata`` 
@@ -93,11 +93,11 @@ declare namespace GEARS {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return the input @``T:SMRUCC.genomics.Analysis.GEARS.GEARS`` model object that the training sample set has 
+     * @return the input [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) model object that the training sample set has 
      *  been set;
      *  
      *  this function returns a R# error message object if the given perturbed sample 
-     *  data can not be cast to a collection of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` data.
+     *  data can not be cast to a collection of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) data.
    */
    function training_set(gears: object, x: object, controls: any, perturbed: any, env?: object): object;
 }

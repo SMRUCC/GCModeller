@@ -36,19 +36,19 @@
         <table>
             
 <dt>sgt</dt>
-<dd><p>the sequence graph transform algorithm object, which is created by the <code>seq_sgt. [as <a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/CreateMatrix.html">CreateMatrix</a>]</p></dd>
+<dd><p>the sequence graph transform algorithm object, which is created by the <code>seq_sgt</code> api in this package module. [as <a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/CreateMatrix.html">CreateMatrix</a>]</p></dd>
 
 
 <dt>seqs</dt>
-<dd><p>a fasta sequence collection for make the sequence embedding, which can be a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+<dd><p>a fasta sequence collection for make the sequence embedding, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a character vector of the raw sequence data.</p></dd>
 
 
 <dt>as.dataframe</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>when there are multiple sequence in the input sequence collection: cast the embedding matrix as a data frame object? if this parameter is FALSE(the default value), then a named list of the embedding vector will be returned for each sequence. [as boolean]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -63,7 +63,7 @@
 
         <h3>Value</h3>
 
-        <p>a numeric vector of the embedding result if there is only one sequence in the input sequence collection, or a data frame object(each row is the embedding vector of one sequence, and the column names are <code>v1</code>, <code>v2</code>, ...) when the <code>as_dataframe</code> parameter is TRUE, or a named list of the embedding vector of each sequence.<h4>clr value class</h4><ul><li>double</li></ul>
+        <p>a numeric vector of the embedding result if there is only one sequence in the input sequence collection, or a data frame object(each row is the embedding vector of one sequence, and the column names are <code>v1</code>, <code>v2</code>, ...) when the <code>as_dataframe</code> parameter is TRUE, or a named list of the embedding vector of each sequence.</p><h4>clr value class</h4><ul><li>double</li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

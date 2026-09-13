@@ -36,15 +36,15 @@
         <table>
             
 <dt>file</dt>
-<dd><p></p></dd>
+<dd><p>the file path of the binary expression matrix data file, or a file stream object of the target binary matrix data.</p></dd>
 
 
 <dt>lazy</dt>
-<dd><p>load the binary matrix data in a lazy stream reader mode? if this parameter is TRUE, then a @<code>T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader. [as boolean]</p></dd>
+<dd><p>load the binary matrix data in a lazy stream reader mode? if this parameter is TRUE, then a <a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader">HTSMatrixReader</a> object will be returned instead of loading all of the matrix data into the memory at once, which is helpful for read a huge binary matrix data file. [as boolean]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -59,9 +59,9 @@
 
         <h3>Value</h3>
 
-        <p>a HTS data matrix of samples in column and gene features in row, or a lazy <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/HTSMatrixReader.html">HTSMatrixReader</a> matrix reader object when the <code>lazy</code> parameter is TRUE;
+        <p>a HTS data matrix of samples in column and gene features in row, or a lazy <a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader">HTSMatrixReader</a> matrix reader object when the <code>lazy</code> parameter is TRUE;</p>
 
-<p>this function returns a R# error message object if the given file can not be opened for read.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/HTSMatrixReader.html">HTSMatrixReader</a></li></ul>
+<p>this function returns a R# error message object if the given file can not be opened for read.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/HTSMatrixReader.html">HTSMatrixReader</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

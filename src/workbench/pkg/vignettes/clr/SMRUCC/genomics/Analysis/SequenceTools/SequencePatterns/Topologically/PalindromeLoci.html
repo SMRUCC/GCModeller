@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>Mirror 或者 Palindrome 位点的搜索结果的csv文件存储模型
+        <p>Mirror 或者 Palindrome 位点的搜索结果的csv文件存储模型</p>
 
         <h3>Declare</h3>        
 
@@ -35,15 +35,15 @@ export class PalindromeLoci extends <a href="/vignettes/clr/SMRUCC/genomics/Sequ
    # 特殊的位点序列
    Loci: string;
    Mirror: integer;
-   # 和<a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Topologically/PalindromeLoci.html">PalindromeLoci</a>.<a href="#">Loci</a>相对应的反向序列
+   # 和<a href="cref:P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci.Loci">PalindromeLoci.Loci</a>相对应的反向序列
    MirrorSite: string;
-   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">right</a>
+   # <a href="cref:P:SMRUCC.genomics.ComponentModel.Loci.Location.right">Location.right</a>
    PalEnd: integer;
-   # 回文序列，在生成Mirror镜像位点数据的时候是使用这个和<a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Topologically/PalindromeLoci.html">PalindromeLoci</a>.<a href="#">Loci</a>组合产生的
+   # 回文序列，在生成Mirror镜像位点数据的时候是使用这个和<a href="cref:P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci.Loci">PalindromeLoci.Loci</a>组合产生的
    Palindrome: string;
-   # sequence data for loci value @<code>P:SMRUCC.genomics.SequenceModel.NucleotideModels.Contig.MappingLocation(System.Boolean)</code>. (理论上这个序列属性的值应该是等于<a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Topologically/PalindromeLoci.html">PalindromeLoci</a>.<a href="#">Loci</a> + <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Topologically/PalindromeLoci.html">PalindromeLoci</a>.<a href="#">MirrorSite</a>)
+   # sequence data for loci value <a href="cref:P:SMRUCC.genomics.SequenceModel.NucleotideModels.Contig.MappingLocation(System.Boolean)">Contig.MappingLocation</a>. (理论上这个序列属性的值应该是等于<a href="cref:P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci.Loci">PalindromeLoci.Loci</a> + <a href="cref:P:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.PalindromeLoci.MirrorSite">PalindromeLoci.MirrorSite</a>)
    SequenceData: string;
-   # <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a>.<a href="#">left</a>
+   # <a href="cref:P:SMRUCC.genomics.ComponentModel.Loci.Location.left">Location.left</a>
    Start: integer;
 }
 </code>

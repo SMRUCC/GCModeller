@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>Describes a UniProtKB entry. (因为<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="#">accessions</a>可能会出现多个值，所以会需要使用 <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">ShadowCopy</a>函数来解决实体多态的问题。 经过shadow copy之后可以使用主键@<code>P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.accession</code>来创建字典)
+        <p>Describes a UniProtKB entry. (因为<a href="cref:P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.accessions">entry.accessions</a>可能会出现多个值，所以会需要使用 <a href="cref:M:SMRUCC.genomics.Assembly.Uniprot.XML.entry.ShadowCopy">entry.ShadowCopy()</a>函数来解决实体多态的问题。 经过shadow copy之后可以使用主键<a href="cref:P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.accession">entry.accession</a>来创建字典)</p>
 
         <h3>Declare</h3>        
 
@@ -32,12 +32,12 @@
 export class entry {
    # 蛋白质的唯一标识符，可以用作为字典的键名
    accessions: string;
-   # indexed by <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/comment.html">comment</a>.<a href="#">type</a>
+   # indexed by <a href="cref:P:SMRUCC.genomics.Assembly.Uniprot.XML.comment.type">comment.type</a>
    CommentList: list;
    comments: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/comment.html">comment[]</a>;
    created: string;
    dataset: string;
-   # Dictionary table can be read from <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="#">xrefs</a> property
+   # Dictionary table can be read from <a href="cref:P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.xrefs">entry.xrefs</a> property
    dbReferences: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/dbReference.html">dbReference[]</a>;
    features: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/feature.html">feature[]</a>;
    gene: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/gene.html">gene</a>;
@@ -51,7 +51,7 @@ export class entry {
    # 当前的这个蛋白质的蛋白序列，在Uniprot数据库之中，蛋白记录只有蛋白序列 没有核酸序列，如果需要核酸序列，则会需要通过accession编号从nt库之中 提取出来
    sequence: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/sequence.html">sequence</a>;
    version: string;
-   # <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/dbReference.html">dbReferences</a> table
+   # <a href="cref:P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.dbReferences">entry.dbReferences</a> table
    xrefs: list;
 }
 </code>

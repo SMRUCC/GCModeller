@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>&lt;br /&gt; This function performs clustering analysis of time course data
+        <p>&lt;br /&gt; This function performs clustering analysis of time course data</p>
 
         <h3>Usage</h3>
 
@@ -55,91 +55,91 @@
         <table>
             
 <dt>matrix</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+<dd><p>A gene expression data matrix object. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
 
 
 <dt>nsize</dt>
-<dd><p></p></dd>
+<dd><p>the layout of the cmeans clustering visualization</p></dd>
 
 
 <dt>threshold</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the cmeans threshold. [as double]</p></dd>
 
 
 <dt>plotSize</dt>
-<dd><p></p></dd>
+<dd><p>the image size of the cmeans plot</p></dd>
 
 
 <dt>colorSet</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the color palatte name. [as string]</p></dd>
 
 
 <dt>fuzzification</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>cmeans fuzzification parameter. [as double]</p></dd>
 
 
 <dt>memberCutoff</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the cmeans membership cutoff value for create a molecule cluster. [as double]</p></dd>
 
 
 <dt>empty.shared</dt>
-<dd><p>how many clusters will be assigned to a gene feature when there is no cluster that its membership value is greater than the <code>memberCutoff. [as integer]</p></dd>
+<dd><p>how many clusters will be assigned to a gene feature when there is no cluster that its membership value is greater than the <code>memberCutoff</code> threshold. [as integer]</p></dd>
 
 
 <dt>max.cluster.shared</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the max cluster numbers that a gene feature can be assigned into. [as integer]</p></dd>
 
 
 <dt>xlab</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the x axis label text of the cmeans pattern plot. [as string]</p></dd>
 
 
 <dt>ylab</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the y axis label text of the cmeans pattern plot. [as string]</p></dd>
 
 
 <dt>top.members</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the ratio of the top members of each cluster for draw the expression pattern lines in the cmeans pattern plot. [as double]</p></dd>
 
 
 <dt>margin</dt>
-<dd><p></p></dd>
+<dd><p>the plot padding css style of the cmeans pattern plot.</p></dd>
 
 
 <dt>cluster.label.css</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the css style of the cluster label text. [as string]</p></dd>
 
 
 <dt>legend.title.css</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the css style of the legend title text. [as string]</p></dd>
 
 
 <dt>legend.tick.css</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the css style of the legend tick text. [as string]</p></dd>
 
 
 <dt>axis.tick.css</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the css style of the axis tick text. [as string]</p></dd>
 
 
 <dt>axis.label.css</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the css style of the axis label text. [as string]</p></dd>
 
 
 <dt>grid.fill</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the background fill color of the plot grid. [as string]</p></dd>
 
 
 <dt>grid.draw</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>draw the plot grid lines or not?. [as boolean]</p></dd>
 
 
 <dt>x.lab.rotate</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the rotate angle of the x axis label text. [as double]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -154,18 +154,18 @@
 
         <h3>Value</h3>
 
-        <p>this function returns a tuple list that contains the pattern cluster matrix and the cmeans pattern plots.
+        <p>this function returns a tuple list that contains the pattern cluster matrix and the cmeans pattern plots.</p>
 
 
 <ol>
-<li><p>'pattern' is a vector of the <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/ComponentModel/EntityModels/EntityClusterModel.html">EntityClusterModel</a> data that contains the object cluster patterns</li>
-<li><p>'image' is a bitmap image that plot based on the object cluster patterns data.</li>
-<li><p>'pdf' is a pdf image that could be edit</li>
-<li><p>'cmeans' is the raw <a href="/vignettes/clr/SMRUCC/genomics/Visualize/ExpressionPattern/ExpressionPattern.html">ExpressionPattern</a> object of the cmeans clustering result</li>
+<li>'pattern' is a vector of the <a href="cref:T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel">EntityClusterModel</a> data that contains the object cluster patterns</li>
+<li>'image' is a bitmap image that plot based on the object cluster patterns data.</li>
+<li>'pdf' is a pdf image that could be edit</li>
+<li>'cmeans' is the raw <a href="cref:T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern">ExpressionPattern</a> object of the cmeans clustering result</li>
 </ol>
 
 
-<p>NULL will be returns if the given expression matrix is empty.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+<p>NULL will be returns if the given expression matrix is empty.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

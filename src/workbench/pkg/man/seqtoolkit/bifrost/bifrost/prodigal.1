@@ -15,8 +15,8 @@ Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)
 .PP
 \fBx\fB \fR\- 
  the target MAGs contigs assembly sequence for run the gene prediction, 
- which can be a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a collection of the 
- @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, or a file path of the fasta sequence file, 
+ which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+ [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a file path of the fasta sequence file, 
  or even a character vector of the raw sequence data.
 . 
 .PP
@@ -41,7 +41,7 @@ Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)
 .SH VALUE
 .PP
 a collection of the gene prediction result: each element in the 
- collection(@\fBT:SMRUCC.genomics.Annotation.Prodigal.PredictionResult\fR) is the gene prediction result 
+ collection([PredictionResult](cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult)) is the gene prediction result 
  of the corresponding contigs sequence in the input fasta sequence data.
  
  this function returns a R# error message object if the input sequence 

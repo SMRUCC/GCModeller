@@ -73,7 +73,7 @@ declare namespace ptf {
     * load the cross reference id set
     * 
     * 
-     * @param ptf a collection of the protein annotation data or the @``T:Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem.StreamPack`` database connection
+     * @param ptf a collection of the protein annotation data or the [StreamPack](cref:T:Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem.StreamPack) database connection
      * @param database the database name
      * @param flip 
      * + default value Is ``false``.

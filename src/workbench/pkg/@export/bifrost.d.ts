@@ -32,19 +32,19 @@ declare namespace bifrost {
        * 
        * 
         * @param x the gene prediction result, which can be the output of the "prodigal" 
-        *  function, or a pipeline that produces @``T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult`` 
+        *  function, or a pipeline that produces [PredictionResult](cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult) 
         *  objects.
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` nucleotide sequence data, one 
+        * @return a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) nucleotide sequence data, one 
         *  sequence object for each of the predicted gene, the sequence data is the 
         *  nucleotide sequence of the corresponding predicted gene region on the 
         *  contigs assembly sequence, and the sequence title is formatted as: 
         *  ``{seq_id}_{gene_index} {start-end(strand)} ID=gene_{gene_index};partial={partial_type}``.
         *  
         *  this function returns a R# error message object if the input data can not 
-        *  be cast to a collection of the @``T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult`` object.
+        *  be cast to a collection of the [PredictionResult](cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult) object.
       */
       function genes(x: any, env?: object): object;
       /**
@@ -55,7 +55,7 @@ declare namespace bifrost {
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return a @``T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable`` object that contains all of the predicted genes 
+        * @return a [GFFTable](cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable) object that contains all of the predicted genes 
         *  as the ``CDS`` feature, the score of each feature is the total score of 
         *  the corresponding predicted gene, and the score details are stored in the 
         *  attributes of the feature, example as ``start_codon``, ``rbs_motif``, 
@@ -63,7 +63,7 @@ declare namespace bifrost {
         *  ``partial``.
         *  
         *  this function returns a R# error message object if the input data can not 
-        *  be cast to a collection of the @``T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult`` object.
+        *  be cast to a collection of the [PredictionResult](cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult) object.
       */
       function gff3(x: any, env?: object): object;
       /**
@@ -71,19 +71,19 @@ declare namespace bifrost {
        * 
        * 
         * @param x the gene prediction result, which can be the output of the "prodigal" 
-        *  function, or a pipeline that produces @``T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult`` 
+        *  function, or a pipeline that produces [PredictionResult](cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult) 
         *  objects.
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` protein sequence data, one 
+        * @return a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) protein sequence data, one 
         *  sequence object for each of the predicted gene, the protein sequence is 
         *  translated from the corresponding predicted gene nucleotide sequence, 
         *  and the sequence title is formatted as: 
         *  ``{seq_id}_{gene_index} {start-end(strand)} ID=gene_{gene_index};partial={partial_type}``.
         *  
         *  this function returns a R# error message object if the input data can not 
-        *  be cast to a collection of the @``T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult`` object.
+        *  be cast to a collection of the [PredictionResult](cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult) object.
       */
       function proteins(x: any, env?: object): object;
    }
@@ -104,7 +104,7 @@ declare namespace bifrost {
     * >  "there is no MAGs contigs assembly sequence input!", please run this 
     * >  metaeuk gene prediction program from the commandline at this moment.
     * 
-     * @param x a ``metaeuk_config`` object(@``T:SMRUCC.genomics.Annotation.MetaEuk.MetaEukConfig``) that carries 
+     * @param x a ``metaeuk_config`` object([MetaEukConfig](cref:T:SMRUCC.genomics.Annotation.MetaEuk.MetaEukConfig)) that carries 
      *  all of the required data and parameters for run the metaeuk gene 
      *  prediction: the contigs assembly fasta file path(``ContigsFile``), the 
      *  reference protein fasta file path(``ReferenceFile``), the output file 
@@ -115,7 +115,7 @@ declare namespace bifrost {
      * 
      * + default value Is ``null``.
      * @return a collection of the gene prediction result: each element in the 
-     *  collection(@``T:SMRUCC.genomics.Annotation.MetaEuk.GenePrediction``) is a predicted gene that its 
+     *  collection([GenePrediction](cref:T:SMRUCC.genomics.Annotation.MetaEuk.GenePrediction)) is a predicted gene that its 
      *  exons are chained from the homology hits of the reference protein 
      *  database.
      *  
@@ -135,8 +135,8 @@ declare namespace bifrost {
     * >  model.
     * 
      * @param x the target MAGs contigs assembly sequence for run the gene prediction, 
-     *  which can be a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a collection of the 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a file path of the fasta sequence file, 
+     *  which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+     *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a file path of the fasta sequence file, 
      *  or even a character vector of the raw sequence data.
      * @param min_ORF_len the minimum ORF length in bp of the predicted gene, any of the candidate 
      *  ORF that its length is less than this threshold value will be ignored in 
@@ -153,7 +153,7 @@ declare namespace bifrost {
      * 
      * + default value Is ``null``.
      * @return a collection of the gene prediction result: each element in the 
-     *  collection(@``T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult``) is the gene prediction result 
+     *  collection([PredictionResult](cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult)) is the gene prediction result 
      *  of the corresponding contigs sequence in the input fasta sequence data.
      *  
      *  this function returns a R# error message object if the input sequence 
@@ -166,13 +166,13 @@ declare namespace bifrost {
     * 
      * @param x input target fasta sequence collection for make prodigal training, it 
      *  should be a set of the genomics contigs assembly sequence, which can be 
-     *  a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a collection of the 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a file path of the fasta sequence file, 
+     *  a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+     *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a file path of the fasta sequence file, 
      *  or even a character vector of the raw sequence data.
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a trained ``prodigal`` @``T:SMRUCC.genomics.Annotation.Prodigal.TrainingModel`` object, which can be 
+     * @return a trained ``prodigal`` [TrainingModel](cref:T:SMRUCC.genomics.Annotation.Prodigal.TrainingModel) object, which can be 
      *  used for the gene prediction of the other genomics contigs assembly 
      *  sequence that come from the same or a close related species, via the 
      *  ``model`` parameter of the ``prodigal`` function.

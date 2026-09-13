@@ -15,9 +15,9 @@ Do translation of the nt sequence to protein sequence
 .SH OPTIONS
 .PP
 \fBnt\fB \fR\- 
- The given fasta collection, which can be a single @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR 
- object, a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a collection of the 
- @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, or a character vector of the raw nucleotide 
+ The given fasta collection, which can be a single [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) 
+ object, a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+ [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw nucleotide 
  sequence data.
 . 
 .PP
@@ -41,8 +41,8 @@ Do translation of the nt sequence to protein sequence
 .PP
 .SH VALUE
 .PP
-a protein @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object if the input is a single nucleotide 
- sequence, or a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR protein sequence collection if the 
+a protein [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object if the input is a single nucleotide 
+ sequence, or a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) protein sequence collection if the 
  input is a collection of the nucleotide sequence data;
  
  this function returns a R# error message object if the input sequence data 

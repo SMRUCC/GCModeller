@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">QueryName</a> and <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">HitName</a>
+        <p><a href="cref:P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract.I_BlastQueryHit.QueryName">I_BlastQueryHit.QueryName</a> and <a href="cref:P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract.I_BlastQueryHit.HitName">I_BlastQueryHit.HitName</a></p>
 
         <h3>Declare</h3>        
 
@@ -32,11 +32,11 @@
 export class I_BlastQueryHit {
    # 会忽略掉基因号ID的先后顺序的，重新按照字符先后进行排序
    BBH_ID: string;
-   # The functional description of <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">HitName</a>
+   # The functional description of <a href="cref:P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract.I_BlastQueryHit.HitName">I_BlastQueryHit.HitName</a>
    description: string;
    # The subject hit.
    HitName: string;
-   # 仅仅是依靠对HitName的判断来使用这个属性了解<a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">QueryName</a>是否已经和<a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">HitName</a>比对上了
+   # 仅仅是依靠对HitName的判断来使用这个属性了解<a href="cref:P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract.I_BlastQueryHit.QueryName">I_BlastQueryHit.QueryName</a>是否已经和<a href="cref:P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract.I_BlastQueryHit.HitName">I_BlastQueryHit.HitName</a>比对上了
    isMatched: boolean;
    isSelfHit: boolean;
    # The query source.

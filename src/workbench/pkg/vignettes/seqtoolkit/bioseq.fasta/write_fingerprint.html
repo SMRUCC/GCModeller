@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>collection, and then write the generated fingerprint data into the target &lt;br /&gt; fingerprint matrix file
+        <p>collection, and then write the generated fingerprint data into the target &lt;br /&gt; fingerprint matrix file</p>
 
         <h3>Usage</h3>
 
@@ -36,26 +36,26 @@
         <table>
             
 <dt>file</dt>
-<dd><p>a <a href="/vignettes/clr/SMRUCC/genomics/Model/OperonMapper/FingerprintMatrixWriter.html">FingerprintMatrixWriter</a> object that is created by the <code>open.fingerprint_writer. [as <a href="/vignettes/clr/SMRUCC/genomics/Model/OperonMapper/FingerprintMatrixWriter.html">FingerprintMatrixWriter</a>]</p></dd>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.Model.OperonMapper.FingerprintMatrixWriter">FingerprintMatrixWriter</a> object that is created by the <code>open.fingerprint_writer</code> api. [as <a href="/vignettes/clr/SMRUCC/genomics/Model/OperonMapper/FingerprintMatrixWriter.html">FingerprintMatrixWriter</a>]</p></dd>
 
 
 <dt>seqs</dt>
-<dd><p>a nucleotide fasta sequence collection for make the sequence fingerprint data, which can be a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+<dd><p>a nucleotide fasta sequence collection for make the sequence fingerprint data, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a character vector of the raw sequence data.</p></dd>
 
 
 <dt>debug</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>only make the fingerprint data of the first n sequence for debug test? a negative value means that all of the input sequence will be processed. [as integer]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>the fasta headers title of the input sequence data should be formatted as: <code>{gb_acc}.{locus_tag} {left} {right} {strand}|{biom_string}</code>, the <code>strand</code> token should be <code>forward</code> or <code>reverse</code>, or the target sequence will be skipped with a warning message.
+        <p>the fasta headers title of the input sequence data should be formatted as: <code>{gb_acc}.{locus_tag} {left} {right} {strand}|{biom_string}</code>, the <code>strand</code> token should be <code>forward</code> or <code>reverse</code>, or the target sequence will be skipped with a warning message.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -63,9 +63,9 @@
 
         <h3>Value</h3>
 
-        <p>the input <a href="/vignettes/clr/SMRUCC/genomics/Model/OperonMapper/FingerprintMatrixWriter.html">FingerprintMatrixWriter</a> object, so that this api can be used in a pipeline manner;
+        <p>the input <a href="cref:T:SMRUCC.genomics.Model.OperonMapper.FingerprintMatrixWriter">FingerprintMatrixWriter</a> object, so that this api can be used in a pipeline manner;</p>
 
-<p>this function returns a R# error message object if the input sequence data can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/OperonMapper/FingerprintMatrixWriter.html">FingerprintMatrixWriter</a></li></ul>
+<p>this function returns a R# error message object if the input sequence data can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/OperonMapper/FingerprintMatrixWriter.html">FingerprintMatrixWriter</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

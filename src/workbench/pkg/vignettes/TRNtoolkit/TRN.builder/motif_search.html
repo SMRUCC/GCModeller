@@ -42,45 +42,45 @@
         <table>
             
 <dt>db</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/PWMDatabase.html">PWMDatabase</a>]</p></dd>
+<dd><p>the position weight matrix(PWM) motif database object, which contains the motif model of each transcription factor family. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/PWMDatabase.html">PWMDatabase</a>]</p></dd>
 
 
 <dt>search.regions</dt>
-<dd><p>the sequence regions for run the motif site scan, which can be a fasta sequence collection, a @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile</p></dd>
+<dd><p>the sequence regions for run the motif site scan, which can be a fasta sequence collection, a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object or a character vector of the raw sequence data, each sequence is a candidate promoter/upstream sequence region of one gene.</p></dd>
 
 
 <dt>family</dt>
-<dd><p></p></dd>
+<dd><p>an optional character vector of the transcription factor family name for restrict the motif scan: only the motif model of the given families will be used for the scan, all of the motif models in the database will be used if this parameter is not specified.</p></dd>
 
 
 <dt>pval.cutoff</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the p-value cutoff of the motif site match: the candidate site that its match p-value is greater than this cutoff will be ignored, by default is 0.05. [as double]</p></dd>
 
 
 <dt>minW</dt>
-<dd><p>the minimum score ratio cutoff of the motif site match, by default is 0.85.
+<dd><p>the minimum score ratio cutoff of the motif site match, by default is 0.85.</p>
 
-<p>NOTE: this parameter is not applied by the current implementation, the motif site match result is filtered by the <code>pval_cutoff</code> and the <code>top. [as double]</p></dd>
+<p>NOTE: this parameter is not applied by the current implementation, the motif site match result is filtered by the <code>pval_cutoff</code> and the <code>top</code> parameter only. [as double]</p></dd>
 
 
 <dt>top</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the top n best matched site of each motif model on each sequence region, by default is 3. [as integer]</p></dd>
 
 
 <dt>bg</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/BackgroundModel.html">BackgroundModel</a>]</p></dd>
+<dd><p>the background model of the motif site scan, the uniform background model will be used if this parameter is not specified. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/BackgroundModel.html">BackgroundModel</a>]</p></dd>
 
 
 <dt>scan.reverse</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>scan the motif site on the reverse complement strand of the sequence region or not? by default is TRUE. [as boolean]</p></dd>
 
 
 <dt>tqdm.bar</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>display the progress bar of the motif site scan task on the console? by default is TRUE. [as boolean]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -95,9 +95,9 @@
 
         <h3>Value</h3>
 
-        <p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/MotifMatch.html">MotifMatch</a> motif site match result: the <code>title</code> property is the sequence title of the corresponding sequence region, the <code>motif</code> property is the matched motif model, the <code>start</code>, <code>ends</code>, <code>strand</code> and <code>segment</code> property is the location and the sequence data of the matched site, and the <code>score1</code>, <code>score2</code> and <code>pvalue</code> property is the match score data;
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch">MotifMatch</a> motif site match result: the <code>title</code> property is the sequence title of the corresponding sequence region, the <code>motif</code> property is the matched motif model, the <code>start</code>, <code>ends</code>, <code>strand</code> and <code>segment</code> property is the location and the sequence data of the matched site, and the <code>score1</code>, <code>score2</code> and <code>pvalue</code> property is the match score data;</p>
 
-<p>this function returns a R# error message object if the given sequence source can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/MotifMatch.html">MotifMatch</a></li></ul>
+<p>this function returns a R# error message object if the given sequence source can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/MotifMatch.html">MotifMatch</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

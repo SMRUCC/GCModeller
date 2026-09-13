@@ -83,7 +83,7 @@ declare namespace repository {
    function keggMap(id: string, name: string, description: string, img: string, url: string, area: object): object;
    module load {
       /**
-       * load repository of kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound``.
+       * load repository of kegg [Compound](cref:T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound).
        * 
        * 
         * @param repository -
@@ -96,23 +96,23 @@ declare namespace repository {
       */
       function compounds(repository: any, rawList?: boolean, ignoreGlycan?: boolean, env?: object): object|object;
       /**
-       * load list of kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map``.
+       * load list of kegg reference [Map](cref:T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map).
        * 
        * 
         * @param repository repository data source could be:
         *  
-        *  1. a directory of repository data for kegg reference @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map``.
+        *  1. a directory of repository data for kegg reference [Map](cref:T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map).
         *  2. a file stream for the map vector in messagepack or HDS pack format
         * @param rawMaps 
         * + default value Is ``true``.
         * @return a kegg reference map object vector, which can be indexed 
-        *  via @``P:SMRUCC.genomics.ComponentModel.Annotation.PathwayBrief.EntryId``.
+        *  via [PathwayBrief.EntryId](cref:P:SMRUCC.genomics.ComponentModel.Annotation.PathwayBrief.EntryId).
         *  
-        *  the data type will be dertermined by the **`rawMaps`** parameter:
+        *  the data type will be dertermined by the **rawMaps** parameter:
         *  
-        *  1. for raw maps TRUE: a vector of the @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map`` object will be returns
+        *  1. for raw maps TRUE: a vector of the [Map](cref:T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map) object will be returns
         *  2. for raw maps FALSE: a wrapper of the kegg map collection 
-        *     @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.MapRepository`` will be generates from this function
+        *     [MapRepository](cref:T:SMRUCC.genomics.Assembly.KEGG.WebServices.MapRepository) will be generates from this function
       */
       function maps(repository: any, rawMaps?: boolean): object|object;
       /**

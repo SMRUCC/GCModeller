@@ -32,11 +32,28 @@ declare namespace pangenome {
      * + default value Is ``false``.
      * @param genome_size 
      * + default value Is ``null``.
+     * @param sv_cluster_count 
+     * + default value Is ``4``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function build_context(genomes: any, soft_core_threshold?: number, uniqueByAcc?: boolean, genome_size?: any, env?: object): object;
+   function build_context(genomes: any, soft_core_threshold?: number, uniqueByAcc?: boolean, genome_size?: any, sv_cluster_count?: object, env?: object): object;
+   /**
+    * export the gene family distribution percent matrix
+    *  (rows are genomes plus one average row, columns are the four family categories)
+    * 
+    * 
+     * @param result -
+     * @param by the statistics caliber: ``gene`` for the gene(copy number) based percent (default),
+     *  or ``family`` for the family count based percent.
+     * 
+     * + default value Is ``'gene'``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function category_percent_matrix(result: object, by?: string, env?: object): any;
    /**
    */
    function curve_data(result: object): object;
@@ -73,9 +90,9 @@ declare namespace pangenome {
      * @param result -
      * @return a tuple list that contains three elements:
      *  
-     *  1. ``stats``: @``T:SMRUCC.genomics.Analysis.PanGenome.ReportJSON.GenomeStatRow``
-     *  2. ``pca``: @``T:SMRUCC.genomics.Analysis.PanGenome.ReportJSON.PCAScatterDataset``
-     *  3. ``entropy``: @``T:SMRUCC.genomics.Analysis.PanGenome.ReportJSON.GenomeEntropyDataset``
+     *  1. ``stats``: [GenomeStatRow](cref:T:SMRUCC.genomics.Analysis.PanGenome.ReportJSON.GenomeStatRow)
+     *  2. ``pca``: [PCAScatterDataset](cref:T:SMRUCC.genomics.Analysis.PanGenome.ReportJSON.PCAScatterDataset)
+     *  3. ``entropy``: [GenomeEntropyDataset](cref:T:SMRUCC.genomics.Analysis.PanGenome.ReportJSON.GenomeEntropyDataset)
    */
    function scatter_set(result: object): object;
    /**
@@ -97,6 +114,32 @@ declare namespace pangenome {
      * @param source_name -
    */
    function source_id(genome: object, source_name: string): object;
+   /**
+    * export the SV CopyNumber matrix of the structural variations
+    *  (rows are gene families which have at least one SV event, columns are genomes)
+    * 
+    * 
+     * @param result -
+   */
+   function sv_copy_number_matrix(result: object): any;
+   /**
+    * get the SV structural variation information entropy scatter data and the kmeans clustering result
+    * 
+    * 
+     * @param result -
+     * @param cluster_count the k value of the kmeans clustering, default is 4
+     * 
+     * + default value Is ``4``.
+   */
+   function sv_entropy(result: object, cluster_count?: object): object;
+   /**
+    * export the SV Median matrix of the structural variations
+    *  (rows are gene families which have at least one SV event, columns are genomes)
+    * 
+    * 
+     * @param result -
+   */
+   function sv_median_matrix(result: object): any;
    /**
     * export structure variant result table
     * 

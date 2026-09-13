@@ -36,15 +36,15 @@
         <table>
             
 <dt>seqs</dt>
-<dd><p>a fasta sequence collection for evaluate the molecule mass, which can be a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+<dd><p>a fasta sequence collection for evaluate the molecule mass, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a character vector of the raw sequence data.</p></dd>
 
 
 <dt>type</dt>
-<dd><p>the molecule type of the input sequence data, if this parameter is not specified(@<code>F:SMRUCC.genomics.SequenceModel.SeqTypes.Unknown. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/SeqTypes.html">SeqTypes</a>]</p></dd>
+<dd><p>the molecule type of the input sequence data, if this parameter is not specified(<a href="cref:F:SMRUCC.genomics.SequenceModel.SeqTypes.Unknown">SeqTypes.Unknown</a>), then the molecule type will be evaluated from the input sequence data automatically: the most common sequence type of the input sequence collection will be used. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/SeqTypes.html">SeqTypes</a>]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -59,7 +59,7 @@
 
         <h3>Value</h3>
 
-        <p>a number value of the molecule mass if there is only one sequence in the input sequence collection, or a named list of the molecule mass value of each sequence if there are multiple sequence in the input sequence collection, the name of the list element is the fasta title of the corresponding sequence.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>a number value of the molecule mass if there is only one sequence in the input sequence collection, or a named list of the molecule mass value of each sequence if there are multiple sequence in the input sequence collection, the name of the list element is the fasta title of the corresponding sequence.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

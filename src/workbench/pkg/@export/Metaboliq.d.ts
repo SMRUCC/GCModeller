@@ -18,7 +18,7 @@ declare namespace Metaboliq {
      * @param enzymeSeries -
      * @param boundarySeries -
      * @param fluxTruth -
-     * @return get training loss @``T:SMRUCC.genomics.Analysis.Metaboliq.EpochLoss`` vector data via attr(x, "loss")
+     * @return get training loss [EpochLoss](cref:T:SMRUCC.genomics.Analysis.Metaboliq.EpochLoss) vector data via attr(x, "loss")
    */
    function fit(model: object, config: object, times: any, observed: object, enzymeSeries: object, boundarySeries: object, fluxTruth: object): object;
    /**

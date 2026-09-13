@@ -36,11 +36,11 @@
         <table>
             
 <dt>x</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+<dd><p>a gene expression matrix object. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
 
 
 <dt>byrow</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>default by gene feature row means merge the duplicated genes with the idential gene id as tag. otherwise will merge the duplicated samples with the identical sample id name. [as boolean]</p></dd>
 
         </table>
 
@@ -55,9 +55,9 @@
 
         <h3>Value</h3>
 
-        <p>a new expression matrix object that the duplicated gene feature rows have been merged into a single row via the sum value, the tag of the generated matrix is formatted as <code>aggregate({tag})</code>.
+        <p>a new expression matrix object that the duplicated gene feature rows have been merged into a single row via the sum value, the tag of the generated matrix is formatted as <code>aggregate({tag})</code>.</p>
 
-<p>NOTE: the merge of the duplicated sample columns(the <code>byrow</code> parameter is FALSE) is not implemented at this moment, an <a href="/vignettes/clr/System/NotImplementedException.html">NotImplementedException</a> will be thrown for such kind of the operation.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+<p>NOTE: the merge of the duplicated sample columns(the <code>byrow</code> parameter is FALSE) is not implemented at this moment, an <a href="cref:T:System.NotImplementedException">NotImplementedException</a> will be thrown for such kind of the operation.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

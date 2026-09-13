@@ -39,31 +39,31 @@
         <table>
             
 <dt>ID</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the sample id in the raw data files. [as string]</p></dd>
 
 
 <dt>sample.name</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the sample name label for display, this character vector could be nothing, then the generated sample display name will be replaced with the input sample id. [as string]</p></dd>
 
 
 <dt>sample.info</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the sample group information. [as string]</p></dd>
 
 
 <dt>color</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the color of each sample, this parameter could be nothing, then the color of the generated sample data will not be assigned. [as string]</p></dd>
 
 
 <dt>batch</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the experiment batch id of each sample, the default batch id of each sample is 1. [as integer]</p></dd>
 
 
 <dt>inject.order</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the sample injection order of each sample, the default injection order of each sample is its index order in the input sample id vector. [as integer]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -78,9 +78,9 @@
 
         <h3>Value</h3>
 
-        <p>a vector of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> sample information data, the <code>shape</code> property of the generated sample data is set as <code>circle</code>;
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> sample information data, the <code>shape</code> property of the generated sample data is set as <code>circle</code>;</p>
 
-<p>this function returns NULL if the input sample id vector or the sample group information vector is nothing, or a R# error message object if the size of the input vectors is not agreed with each other: the size of the <code>sample_name</code> should be equals to the size of the <code>ID</code>, and the size of the <code>sample_info</code> should be 1(a single group label for all samples) or equals to the size of the <code>ID</code>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
+<p>this function returns NULL if the input sample id vector or the sample group information vector is nothing, or a R# error message object if the size of the input vectors is not agreed with each other: the size of the <code>sample_name</code> should be equals to the size of the <code>ID</code>, and the size of the <code>sample_info</code> should be 1(a single group label for all samples) or equals to the size of the <code>ID</code>.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

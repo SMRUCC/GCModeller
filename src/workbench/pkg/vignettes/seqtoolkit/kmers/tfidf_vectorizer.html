@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>model
+        <p>model</p>
 
         <h3>Usage</h3>
 
@@ -38,32 +38,32 @@
         <table>
             
 <dt>x</dt>
-<dd><p>should be a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+<dd><p>should be a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> sequence collection</p></dd>
 
 
 <dt>type</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/SeqTypes.html">SeqTypes</a>]</p></dd>
+<dd><p>the sequence data type, default is protein sequence. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/SeqTypes.html">SeqTypes</a>]</p></dd>
 
 
 <dt>k</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the length of the k-mers. [as integer]</p></dd>
 
 
 <dt>L2.norm</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>do L2 normalized of the generated matrix data?. [as boolean]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>make sequence embedding via TF-IDF algorithm which is implemented via <a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/KmerTFIDFVectorizer.html">KmerTFIDFVectorizer</a>
+        <p>make sequence embedding via TF-IDF algorithm which is implemented via <a href="cref:T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.KmerTFIDFVectorizer">KmerTFIDFVectorizer</a></p>
 
-<p>the generated embedding vector of each sequence will be normalized to an unit vector when the <code>L2_norm</code> parameter is TRUE, which is helpful for the cosine similarity or euclidean distance measurement between the embedding vectors of the different length sequences.
+<p>the generated embedding vector of each sequence will be normalized to an unit vector when the <code>L2_norm</code> parameter is TRUE, which is helpful for the cosine similarity or euclidean distance measurement between the embedding vectors of the different length sequences.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -71,9 +71,9 @@
 
         <h3>Value</h3>
 
-        <p>a data frame object: each row is a sequence in the input sequence collection(the row name is the fasta title of the corresponding sequence), and each column is a k-mer term, the cell value is the TF-IDF weight of the corresponding k-mer in the corresponding sequence.
+        <p>a data frame object: each row is a sequence in the input sequence collection(the row name is the fasta title of the corresponding sequence), and each column is a k-mer term, the cell value is the TF-IDF weight of the corresponding k-mer in the corresponding sequence.</p>
 
-<p>this function returns NULL if the input data can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+<p>this function returns NULL if the input data can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

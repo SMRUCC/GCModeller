@@ -16,7 +16,7 @@ create the abundance matrix from a collection of the metagenomics
 \fBsamples\fB \fR\- 
  a tuple list of the abundance data: the slot key of the list is the sample 
  id and the slot value is the abundance data of the corresponding sample, 
- which can be a collection of the @\fBT:SMRUCC.genomics.ComponentModel.IExpressionValue\fR object, a 
+ which can be a collection of the [IExpressionValue](cref:T:SMRUCC.genomics.ComponentModel.IExpressionValue) object, a 
  tuple list of the numeric value, or a dictionary object of the abundance 
  data(the dictionary key is the taxonomy id and the value is the abundance 
  value).
@@ -34,7 +34,7 @@ create the abundance matrix from a collection of the metagenomics
 .PP
 .SH VALUE
 .PP
-a @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix\fR abundance 
+a [Matrix](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix) abundance 
  matrix object that the rows are the 
  taxonomy features and the columns are the input samples.
 .PP
@@ -42,7 +42,7 @@ a @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix\fR abundance
 .PP
 a warning message will be pushed into the R# environment message buffer if 
  the abundance data of some sample is nothing, and such kind of the sample 
- will be skipped, an @\fBT:System.NotImplementedException\fR will be thrown if 
+ will be skipped, an [NotImplementedException](cref:T:System.NotImplementedException) will be thrown if 
  the input data is not a tuple list object or the abundance data type is not 
  supported.
 .PP

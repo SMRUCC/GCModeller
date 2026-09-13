@@ -15,7 +15,7 @@ Set the training sample set
 .SH OPTIONS
 .PP
 \fBgears\fB \fR\- 
- a @\fBT:SMRUCC.genomics.Analysis.GEARS.GEARS\fR model object that is created by the \fBGEARS::new\fR 
+ a [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) model object that is created by the \fBGEARS::new\fR 
  api.
 . 
 .PP
@@ -36,7 +36,7 @@ Set the training sample set
 .PP
 .PP
 \fBperturbed\fB \fR\- 
- a collection of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR sample information data of the 
+ a collection of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) sample information data of the 
  perturbed samples: the \fBID\fR property of the sample data should be matched 
  with the sample column of the given expression matrix, the perturbed gene id 
  set of each sample is stored as a json string array in the \fBmetadata\fR 
@@ -51,11 +51,11 @@ Set the training sample set
 .PP
 .SH VALUE
 .PP
-the input @\fBT:SMRUCC.genomics.Analysis.GEARS.GEARS\fR model object that the training sample set has 
+the input [GEARS](cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS) model object that the training sample set has 
  been set;
  
  this function returns a R# error message object if the given perturbed sample 
- data can not be cast to a collection of the @\fBT:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo\fR data.
+ data can not be cast to a collection of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) data.
 .PP
 .SH DETAILS
 .PP

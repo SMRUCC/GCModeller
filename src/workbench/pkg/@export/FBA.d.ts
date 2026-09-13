@@ -14,8 +14,8 @@ declare namespace FBA {
     * 
     * > the flux matrix encoded as the general lpp model via:
     * >  
-    * >  1. mapping the flux as the @``P:Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.LPPModel.variables``
-    * >  2. mapping the compound and flux coefficient factor as the @``P:Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.LPPModel.constraintCoefficients`` data.
+    * >  1. mapping the flux as the [LPPModel.variables](cref:P:Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.LPPModel.variables)
+    * >  2. mapping the compound and flux coefficient factor as the [LPPModel.constraintCoefficients](cref:P:Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.LPPModel.constraintCoefficients) data.
     * 
      * @param model -
      * @param name -
@@ -34,14 +34,14 @@ declare namespace FBA {
      *  + objective, target objective function value
      *  + flux, the flux distribution result tuple list, key name is the flux id and the value is the flux value. 
      *  
-     *  additional, the original .NET CLR @``T:Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.LPPSolution`` object is attached inside the result object attribute ``lpp``, which could be get from the result object via ``attr(x)`` function..
+     *  additional, the original .NET CLR [LPPSolution](cref:T:Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.LPPSolution) object is attached inside the result object attribute ``lpp``, which could be get from the result object via ``attr(x)`` function..
    */
    function lpsolve(model: object): object;
    /**
     * create FBA model matrix
     * 
     * 
-     * @param model should be a GCModeller @``T:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.VirtualCell`` or @``T:SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.CellularModule`` model object, or a collection of the kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction``.
+     * @param model should be a GCModeller [VirtualCell](cref:T:SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.VirtualCell) or [CellularModule](cref:T:SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.CellularModule) model object, or a collection of the kegg [Reaction](cref:T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction).
      * @param terms 
      * + default value Is ``null``.
      * @param env -

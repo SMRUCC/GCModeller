@@ -35,15 +35,15 @@
         <table>
             
 <dt>sampleinfo</dt>
-<dd><p>the sample information data, which can be a vector of the @<code>T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo</p></dd>
+<dd><p>the sample information data, which can be a vector of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> object or a pipeline object that produces a set of the sample information data.</p></dd>
 
 
 <dt>groups</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>a character vector of the sample group label for get the sample id list. [as string]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -58,9 +58,9 @@
 
         <h3>Value</h3>
 
-        <p>a character vector of the sample id that belongs to the given sample groups, the sample id of all of the given sample groups will be merged into a single character vector in the order of the given group label vector;
+        <p>a character vector of the sample id that belongs to the given sample groups, the sample id of all of the given sample groups will be merged into a single character vector in the order of the given group label vector;</p>
 
-<p>this function returns a R# error message object if the input data can not be cast to a collection of the sample information data.<h4>clr value class</h4><ul><li>string</li></ul>
+<p>this function returns a R# error message object if the input data can not be cast to a collection of the sample information data.</p><h4>clr value class</h4><ul><li>string</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

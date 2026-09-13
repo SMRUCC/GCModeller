@@ -27,7 +27,7 @@ scan the TF binding site motif on the given sequence regions
 .PP
 \fBsearch_regions\fB \fR\- 
  the sequence regions for run the motif site scan, which can be a fasta 
- sequence collection, a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object or a character vector 
+ sequence collection, a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object or a character vector 
  of the raw sequence data, each sequence is a candidate promoter/upstream 
  sequence region of one gene.
 . 
@@ -85,7 +85,7 @@ scan the TF binding site motif on the given sequence regions
 .PP
 .SH VALUE
 .PP
-a vector of the @\fBT:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch\fR motif site match result: the 
+a vector of the [MotifMatch](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch) motif site match result: the 
  \fBtitle\fR property is the sequence title of the corresponding sequence 
  region, the \fBmotif\fR property is the matched motif model, the \fBstart\fR, 
  \fBends\fR, \fBstrand\fR and \fBsegment\fR property is the location and the 

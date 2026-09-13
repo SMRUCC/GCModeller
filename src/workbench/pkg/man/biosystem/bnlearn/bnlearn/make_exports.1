@@ -16,8 +16,8 @@ export the virtual permutation result as csv table files
 .PP
 \fBresults\fB \fR\- 
  a collection of the in silico perturbation result, which can be a vector of 
- the @\fBT:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult\fR object, or a pipeline object that 
- produces a set of the @\fBT:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult\fR data.
+ the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object, or a pipeline object that 
+ produces a set of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) data.
 . 
 .PP
 .PP
@@ -28,7 +28,7 @@ export the virtual permutation result as csv table files
 .PP
 .PP
 \fBpathway_info\fB \fR\- 
- an optional tuple list of the @\fBT:SMRUCC.genomics.MetabolicModel.MetabolicPathway\fR knowledge data: 
+ an optional tuple list of the [MetabolicPathway](cref:T:SMRUCC.genomics.MetabolicModel.MetabolicPathway) knowledge data: 
  the slot key of the list is the pathway id and the slot value is the 
  corresponding pathway object, this parameter is used for run the pathway 
  level analysis of the perturbation result.
@@ -49,7 +49,7 @@ TRUE will be returns if all of the result table files have been exported
  into the given directory successfully;
  
  this function returns a R# error message object if the given data can not be 
- cast to a collection of the @\fBT:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult\fR data.
+ cast to a collection of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) data.
 .PP
 .SH DETAILS
 .PP

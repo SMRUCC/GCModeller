@@ -13,7 +13,7 @@ declare namespace microbiome {
       /**
        * build PICRUSt binary database file
        * 
-       * > write the data matrix via @``T:SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt.MetaBinaryWriter``
+       * > write the data matrix via [MetaBinaryWriter](cref:T:SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt.MetaBinaryWriter)
        * 
         * @param ggtax A helper table gg_13_8_99.gg.tax for make OTU id mapping to taxonomy information
         * @param copyNumbers_16s a list of the 16s RNA copy number, [#OTU_IDs => 16S_rRNA_Count]
@@ -52,7 +52,7 @@ declare namespace microbiome {
       /**
        * evaluate the similarity of two taxonomy data vector
        * 
-       * > compares on a specific @``T:SMRUCC.genomics.Metagenomics.TaxonomyRanks``
+       * > compares on a specific [TaxonomyRanks](cref:T:SMRUCC.genomics.Metagenomics.TaxonomyRanks)
        * 
         * @param v1 the names of the list should be the BIOM taxonomy string, 
         *  content value of the list is the relative abundance data.
@@ -96,7 +96,7 @@ declare namespace microbiome {
      *  1. the colnames should be the sample name, and the column field value is the relative abundance value of each otu in each sample
      *  2. the rows in this dataframe should be the otu expression value across samples
      *  
-     *  the GCModeller internal @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix`` is also avaiable 
+     *  the GCModeller internal [Matrix](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix) is also avaiable 
      *  for this parameter.
      * @param env 
      * + default value Is ``null``.
@@ -119,7 +119,7 @@ declare namespace microbiome {
         * + default value Is ``false``.
         * @param env 
         * + default value Is ``null``.
-        * @return a tuple list of the @``T:SMRUCC.genomics.Analysis.Metagenome.RankLevelView`` in different taxonomy
+        * @return a tuple list of the [RankLevelView](cref:T:SMRUCC.genomics.Analysis.Metagenome.RankLevelView) in different taxonomy
         *  rank levels.
       */
       function rank_table(otus: any, as_matrix?: boolean, env?: object): object|object;

@@ -35,24 +35,24 @@
         <table>
             
 <dt>file</dt>
-<dd><p>the motif database source:
+<dd><p>the motif database source:</p>
 
 
 <ol>
-<li><p>a directory path that contains a set of the MEME format motif files (*.meme), then a <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Motif/MEMEMotifRepository.html">MEMEMotifRepository</a> object will be created from this directory;</li>
-<li><p>a file path or a file stream object of the binary motif database file, then the database will be opened from the given data stream in read only mode.</li>
+<li>a directory path that contains a set of the MEME format motif files (*.meme), then a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MEMEMotifRepository">MEMEMotifRepository</a> object will be created from this directory;</li>
+<li>a file path or a file stream object of the binary motif database file, then the database will be opened from the given data stream in read only mode.</li>
 </p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>NOTE: the <code>db</code> parameter of the <code>motif_search</code> api requires a <code>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase</code> object, but this function returns a <code>MEMEMotifRepository</code> or a <code>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.PWMDatabase</code> object, so the database object that is created by this api can not be consumed by the <code>motif_search</code> api directly at this moment.
+        <p>NOTE: the <code>db</code> parameter of the <code>motif_search</code> api requires a <code>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase</code> object, but this function returns a <code>MEMEMotifRepository</code> or a <code>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.PWMDatabase</code> object, so the database object that is created by this api can not be consumed by the <code>motif_search</code> api directly at this moment.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -60,9 +60,9 @@
 
         <h3>Value</h3>
 
-        <p>a motif database object for get the position weight matrix data of each transcription factor family, which could be used by the <code>motif_search</code> api for run the TFBS motif site scan;
+        <p>a motif database object for get the position weight matrix data of each transcription factor family, which could be used by the <code>motif_search</code> api for run the TFBS motif site scan;</p>
 
-<p>this function returns a R# error message object if the given motif database file can not be opened for read.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/PWMDatabase.html">PWMDatabase</a></li></ul>
+<p>this function returns a R# error message object if the given motif database file can not be opened for read.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/PWMDatabase.html">PWMDatabase</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

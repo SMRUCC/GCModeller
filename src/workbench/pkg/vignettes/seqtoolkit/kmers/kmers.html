@@ -35,11 +35,11 @@
         <table>
             
 <dt>seq</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the raw sequence data text. [as string]</p></dd>
 
 
 <dt>k</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the length of the k-mer sequence fragment. [as integer]</p></dd>
 
         </table>
 
@@ -54,9 +54,9 @@
 
         <h3>Value</h3>
 
-        <p>a character vector of the k-mer sequence fragments, which is generated from the given sequence data via a sliding window of size <code>k</code>, and the step size of the sliding window is just one char, so that all of the generated k-mer fragments are overlapped with each other.
+        <p>a character vector of the k-mer sequence fragments, which is generated from the given sequence data via a sliding window of size <code>k</code>, and the step size of the sliding window is just one char, so that all of the generated k-mer fragments are overlapped with each other.</p>
 
-<p>an empty character vector will be returned if the value of the <code>k</code> parameter is greater than the length of the input sequence data.<h4>clr value class</h4><ul><li>string</li></ul>
+<p>an empty character vector will be returned if the value of the <code>k</code> parameter is greater than the length of the input sequence data.</p><h4>clr value class</h4><ul><li>string</li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

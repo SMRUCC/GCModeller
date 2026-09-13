@@ -15,13 +15,13 @@ create a sequence region slicer for cut a specific sequence region from
 \fBfa\fB \fR\- 
  the target sequence data source, which can be:
  
- 1. a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence object, then a 
-    @\fBT:SMRUCC.genomics.SequenceModel.Slicer.FastaSlicer\fR will be created;
- 2. a chromosome or contigs sequence object(@\fBT:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta\fR) 
+ 1. a [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object, then a 
+    [FastaSlicer](cref:T:SMRUCC.genomics.SequenceModel.Slicer.FastaSlicer) will be created;
+ 2. a chromosome or contigs sequence object([ChunkedNtFasta](cref:T:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta)) 
     that is read from the genome assembly sequence file via the 
-    \fBread_assembly\fR api, then a @\fBT:SMRUCC.genomics.SequenceModel.Slicer.ChunkSlicer\fR will be created;
+    \fBread_assembly\fR api, then a [ChunkSlicer](cref:T:SMRUCC.genomics.SequenceModel.Slicer.ChunkSlicer) will be created;
  3. a ncbi genbank database file object(\fBGBFF.File\fR), then a 
-    @\fBT:SMRUCC.genomics.SequenceModel.Slicer.GenBankSlicer\fR will be created.
+    [GenBankSlicer](cref:T:SMRUCC.genomics.SequenceModel.Slicer.GenBankSlicer) will be created.
 . 
 .PP
 .PP
@@ -29,7 +29,7 @@ create a sequence region slicer for cut a specific sequence region from
 .PP
 .SH VALUE
 .PP
-an @\fBT:SMRUCC.genomics.SequenceModel.Slicer.ISlicer\fR object for slice the sequence region from the 
+an [ISlicer](cref:T:SMRUCC.genomics.SequenceModel.Slicer.ISlicer) object for slice the sequence region from the 
  given sequence data source;
  
  this function returns a R# error message object if the given sequence data 

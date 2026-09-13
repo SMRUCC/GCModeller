@@ -42,7 +42,7 @@ declare namespace causal_modeling {
    /**
     * 
     * 
-     * @param manifest_names a set of the feature id for make the manifest symbol to the latent definition or a vector of the @``T:SMRUCC.genomics.Analysis.Microarray.LatentSymbol``
+     * @param manifest_names a set of the feature id for make the manifest symbol to the latent definition or a vector of the [LatentSymbol](cref:T:SMRUCC.genomics.Analysis.Microarray.LatentSymbol)
      * @param latent_name -
      * 
      * + default value Is ``null``.

@@ -65,7 +65,7 @@ declare namespace PFSNet {
       /**
        * 
        * 
-        * @param ggi a collection of the interaction data, should be a collection of @``T:SMRUCC.genomics.Analysis.PFSNet.DataStructure.GraphEdge`` data.
+        * @param ggi a collection of the interaction data, should be a collection of [GraphEdge](cref:T:SMRUCC.genomics.Analysis.PFSNet.DataStructure.GraphEdge) data.
         * @param file -
         * @param env -
         * 

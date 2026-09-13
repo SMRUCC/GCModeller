@@ -32,7 +32,7 @@ declare namespace magnitude {
    }
    module TrIQ {
       /**
-       * Apply @``T:Microsoft.VisualBasic.Math.Distributions.TrIQ`` cutoff for each sample
+       * Apply [TrIQ](cref:T:Microsoft.VisualBasic.Math.Distributions.TrIQ) cutoff for each sample
        * 
        * 
         * @param mat -

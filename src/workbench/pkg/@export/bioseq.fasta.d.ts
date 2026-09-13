@@ -19,7 +19,7 @@
  * >    ``seq_formula``, ``seq_vector``, ``cut_seq.linear``, etc.
  * >  
  * >  The fasta sequence data object in R# environment is a tuple list that its 
- * >  element type is @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq``, which can be cast to a data frame 
+ * >  element type is [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq), which can be cast to a data frame 
  * >  via the ``as.data.frame`` api, or be printed to the console with a pretty 
  * >  format via the registered console formatter.
 */
@@ -31,11 +31,11 @@ declare namespace bioseq.fasta {
        * 
         * @param x any type of sequence collection, which can be:
         *  
-        *  1. a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object or a collection of the 
-        *     @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object;
-        *  2. a multiple sequence alignment result(@``T:SMRUCC.genomics.Analysis.SequenceAlignment.MSA.MSAOutput``);
-        *  3. a set of the @``T:SMRUCC.genomics.SequenceModel.NucleotideModels.SimpleSegment`` sequence segment object;
-        *  4. a sequence motif object(@``T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif``);
+        *  1. a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object or a collection of the 
+        *     [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object;
+        *  2. a multiple sequence alignment result([MSAOutput](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.MSA.MSAOutput));
+        *  3. a set of the [SimpleSegment](cref:T:SMRUCC.genomics.SequenceModel.NucleotideModels.SimpleSegment) sequence segment object;
+        *  4. a sequence motif object([SequenceMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif));
         *  5. a ncbi genbank feature object(``Feature``) for extract the nucleotide 
         *     sequence data of the target feature site;
         *  6. a fastq sequence collection or a character vector of the raw sequence 
@@ -43,7 +43,7 @@ declare namespace bioseq.fasta {
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` sequence collection object that created from the 
+        * @return a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) sequence collection object that created from the 
         *  given sequence data source;
         *  
         *  this function returns a R# error message object if the input data source 
@@ -72,21 +72,21 @@ declare namespace bioseq.fasta {
        * 
        * 
         * @param seq the target sequence data source, which can be a single 
-        *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` 
+        *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) 
         *  object, or a character vector of the raw sequence data.
         * @param loci the location region data for make cut of the sequence site, data model could be:
         *  
-        *  1. for nucleotide sequence, @``T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation`` should be used,
-        *  2. for general sequence data, @``T:SMRUCC.genomics.ComponentModel.Loci.Location`` should be used.
+        *  1. for nucleotide sequence, [NucleotideLocation](cref:T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation) should be used,
+        *  2. for general sequence data, [Location](cref:T:SMRUCC.genomics.ComponentModel.Loci.Location) should be used.
         * @param nt_auto_reverse make auto reverse of the nucleotide sequence if the given location is on 
-        *  the @``F:SMRUCC.genomics.ComponentModel.Loci.Strands.Reverse`` direction.
+        *  the [Strands.Reverse](cref:F:SMRUCC.genomics.ComponentModel.Loci.Strands.Reverse) direction.
         * 
         * + default value Is ``false``.
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return a new @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object of the cut sequence fragment if the 
-        *  input is a single sequence object, or a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object of 
+        * @return a new [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object of the cut sequence fragment if the 
+        *  input is a single sequence object, or a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object of 
         *  the cut sequence fragments of each input sequence if the input is a 
         *  sequence collection;
         *  
@@ -104,11 +104,11 @@ declare namespace bioseq.fasta {
        * >  data of the given fasta sequence object can be overwritten via the value 
        * >  assign syntax:
        * >  
-       * >  ```r
+       * > ```r
        * >  fasta.headers(seq) <- c("seq_id", "description");
        * >  ```
        * 
-        * @param fa a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence object for get or set the headers title 
+        * @param fa a [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object for get or set the headers title 
         *  data.
         * @param headers a character vector of the new fasta headers data for overwrite the headers 
         *  data of the given sequence object. If this parameter is not specified(or is 
@@ -124,8 +124,8 @@ declare namespace bioseq.fasta {
        * get the fasta titles from a collection of fasta sequence
        * 
        * 
-        * @param fa a fasta sequence collection, which can be a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, 
-        *  a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a character vector of 
+        * @param fa a fasta sequence collection, which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, 
+        *  a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of 
         *  the raw sequence data.
         * @param env the R# runtime environment object.
         * 
@@ -142,7 +142,7 @@ declare namespace bioseq.fasta {
     * >  will be renamed automatically by appending an unique numeric suffix.
     * 
      * @param x a fasta sequence collection for make the sequence index, which can be a 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` 
+     *  [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) 
      *  object, or a character vector of the raw sequence data.
      * @param ids a character vector of the index key of each sequence, the length of this 
      *  vector should be equals to the size of the input sequence collection. If 
@@ -153,7 +153,7 @@ declare namespace bioseq.fasta {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a named list of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence object, the name of the 
+     * @return a named list of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object, the name of the 
      *  list element is the corresponding index key of the sequence, so that we can 
      *  get the target sequence object by the index key directly.
      *  
@@ -170,19 +170,19 @@ declare namespace bioseq.fasta {
     * >  fingerprints that their similarity is greater than 0.6 will be treated as 
     * >  the neighbours of each other.
     * 
-     * @param fingerprints a collection of the @``T:SMRUCC.genomics.Model.OperonMapper.NTCluster`` sequence fingerprint data, which 
+     * @param fingerprints a collection of the [NTCluster](cref:T:SMRUCC.genomics.Model.OperonMapper.NTCluster) sequence fingerprint data, which 
      *  can be the output of the ``read.fingerprint_bson`` api, or a pipeline object 
-     *  that produces a set of the @``T:SMRUCC.genomics.Model.OperonMapper.NTCluster`` fingerprint data.
+     *  that produces a set of the [NTCluster](cref:T:SMRUCC.genomics.Model.OperonMapper.NTCluster) fingerprint data.
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a vector of the @``T:SMRUCC.genomics.Model.OperonMapper.NTCluster`` fingerprint data that the ``cluster`` 
+     * @return a vector of the [NTCluster](cref:T:SMRUCC.genomics.Model.OperonMapper.NTCluster) fingerprint data that the ``cluster`` 
      *  property of the fingerprint object has been assigned with the cluster id of 
      *  the corresponding cluster: the fingerprints are grouped by the cluster id, 
      *  and the clusters are sorted by the cluster size in descending order;
      *  
      *  this function returns a R# error message object if the input data can not be 
-     *  cast to a collection of the @``T:SMRUCC.genomics.Model.OperonMapper.NTCluster`` fingerprint data.
+     *  cast to a collection of the [NTCluster](cref:T:SMRUCC.genomics.Model.OperonMapper.NTCluster) fingerprint data.
    */
    function make_clusterTree(fingerprints: any, env?: object): object;
    /**
@@ -190,11 +190,11 @@ declare namespace bioseq.fasta {
     * 
     * 
      * @param seqs a fasta sequence collection for evaluate the molecule mass, which can be 
-     *  a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a collection of the 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a character vector of the raw sequence 
+     *  a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+     *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw sequence 
      *  data.
      * @param type the molecule type of the input sequence data, if this parameter is not 
-     *  specified(@``F:SMRUCC.genomics.SequenceModel.SeqTypes.Unknown``), then the molecule type will be 
+     *  specified([SeqTypes.Unknown](cref:F:SMRUCC.genomics.SequenceModel.SeqTypes.Unknown)), then the molecule type will be 
      *  evaluated from the input sequence data automatically: the most common 
      *  sequence type of the input sequence collection will be used.
      * 
@@ -214,13 +214,13 @@ declare namespace bioseq.fasta {
        * Do multiple sequence alignment
        * 
        * 
-        * @param seqs A fasta sequence collection, which can be a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, 
-        *  a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a character vector of 
+        * @param seqs A fasta sequence collection, which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, 
+        *  a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of 
         *  the raw sequence data.
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return an @``T:SMRUCC.genomics.Analysis.SequenceAlignment.MSA.MSAOutput`` object that contains the multiple sequence 
+        * @return an [MSAOutput](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.MSA.MSAOutput) object that contains the multiple sequence 
         *  alignment result: the aligned sequence data of each input sequence and the 
         *  alignment cost value.
       */
@@ -248,8 +248,8 @@ declare namespace bioseq.fasta {
         * 
         * + default value Is ``null``.
         * @return a lazy collection of the fasta sequence data(a pipeline object of the 
-        *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence data) when the ``read`` parameter is TRUE, 
-        *  or a fasta stream writer(@``T:SMRUCC.genomics.SequenceModel.FASTA.StreamWriter``) 
+        *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence data) when the ``read`` parameter is TRUE, 
+        *  or a fasta stream writer([StreamWriter](cref:T:SMRUCC.genomics.SequenceModel.FASTA.StreamWriter)) 
         *  object for write the sequence data into the target file in a stream manner 
         *  when the ``read`` parameter is FALSE.
       */
@@ -264,7 +264,7 @@ declare namespace bioseq.fasta {
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return a @``T:SMRUCC.genomics.Model.OperonMapper.FingerprintMatrixWriter`` object for write the sequence 
+        * @return a [FingerprintMatrixWriter](cref:T:SMRUCC.genomics.Model.OperonMapper.FingerprintMatrixWriter) object for write the sequence 
         *  fingerprint data into the target file in a stream manner, which can be used 
         *  by the ``write_fingerprint`` api;
         *  
@@ -280,7 +280,7 @@ declare namespace bioseq.fasta {
        * 
         * @param x a character vector of the fasta sequence text data, each element in the 
         *  given character vector is one line of the fasta document text.
-        * @return a vector of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence object that parsed from 
+        * @return a vector of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object that parsed from 
         *  the given fasta document text data.
       */
       function fasta(x: any): object;
@@ -292,15 +292,15 @@ declare namespace bioseq.fasta {
        * 
         * @param file the file path of the fasta sequence file for read the sequence data.
         * @param lazyStream read the fasta sequence data in a lazy stream mode? if this parameter is 
-        *  TRUE, then a pipeline object of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence data 
+        *  TRUE, then a pipeline object of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence data 
         *  will be returned, which is helpful for read a huge fasta sequence file 
         *  without loading all of the sequence data into the memory at once.
         * 
         * + default value Is ``false``.
         * @return A collection of the fasta sequence object: a vector of the 
-        *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object that contains all of the sequence data in 
+        *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object that contains all of the sequence data in 
         *  the given fasta file, or a lazy pipeline object of the 
-        *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence data when the ``lazyStream`` parameter is 
+        *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence data when the ``lazyStream`` parameter is 
         *  TRUE.
       */
       function fasta(file: string, lazyStream?: boolean): object;
@@ -315,7 +315,7 @@ declare namespace bioseq.fasta {
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return a pipeline object of the @``T:SMRUCC.genomics.Model.OperonMapper.NTCluster`` sequence fingerprint data;
+        * @return a pipeline object of the [NTCluster](cref:T:SMRUCC.genomics.Model.OperonMapper.NTCluster) sequence fingerprint data;
         *  
         *  this function returns a R# error message object if the given file can not be 
         *  opened for read.
@@ -330,7 +330,7 @@ declare namespace bioseq.fasta {
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object that read from the given sequence file;
+        * @return a [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object that read from the given sequence file;
         *  
         *  this function returns a R# error message object if the given file is not a 
         *  valid fasta sequence file or a genbank database file.
@@ -342,7 +342,7 @@ declare namespace bioseq.fasta {
     * 
     * > unlike the ``read.fasta`` api, this function reads the whole genome 
     * >  sequence in a chunked manner: the sequence data of each chromosome is 
-    * >  stored as a @``T:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta`` object, so that we can slice a 
+    * >  stored as a [ChunkedNtFasta](cref:T:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta) object, so that we can slice a 
     * >  sequence region from a huge chromosome sequence in a memory efficient 
     * >  manner via the ``slicer`` api.
     * 
@@ -351,7 +351,7 @@ declare namespace bioseq.fasta {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a named list of the @``T:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta`` chunk sequence object, 
+     * @return a named list of the [ChunkedNtFasta](cref:T:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta) chunk sequence object, 
      *  the name of the list element is the fasta title of the corresponding 
      *  chromosome or contigs sequence.
      *  
@@ -364,7 +364,7 @@ declare namespace bioseq.fasta {
     * 
     * 
      * @param file the file path of the stockholm format multiple sequence alignment file.
-     * @return a vector of the @``T:SMRUCC.genomics.Analysis.SequenceAlignment.MSA.Tabular.Stockholm`` alignment object that contains the 
+     * @return a vector of the [Stockholm](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.MSA.Tabular.Stockholm) alignment object that contains the 
      *  aligned sequence data of the target stockholm file.
    */
    function read_stockholm(file: string): object;
@@ -373,11 +373,11 @@ declare namespace bioseq.fasta {
     * 
     * 
      * @param seqs a fasta sequence collection for evaluate the chemical formula, which can 
-     *  be a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a collection of the 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a character vector of the raw sequence 
+     *  be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+     *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw sequence 
      *  data.
      * @param type the molecule type of the input sequence data, if this parameter is not 
-     *  specified(@``F:SMRUCC.genomics.SequenceModel.SeqTypes.Unknown``), then the molecule type will be 
+     *  specified([SeqTypes.Unknown](cref:F:SMRUCC.genomics.SequenceModel.SeqTypes.Unknown)), then the molecule type will be 
      *  evaluated from the input sequence data automatically: the most common 
      *  sequence type of the input sequence collection will be used.
      * 
@@ -413,7 +413,7 @@ declare namespace bioseq.fasta {
      *  length.
      * 
      * + default value Is ``false``.
-     * @return a @``T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.CreateMatrix`` algorithm object for embedding the given 
+     * @return a [CreateMatrix](cref:T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.CreateMatrix) algorithm object for embedding the given 
      *  sequence data as a numeric vector, which can be applied on a collection 
      *  of the sequence data via the ``seq_vector`` api.
    */
@@ -425,8 +425,8 @@ declare namespace bioseq.fasta {
      * @param sgt the sequence graph transform algorithm object, which is created by the 
      *  ``seq_sgt`` api in this package module.
      * @param seqs a fasta sequence collection for make the sequence embedding, which can be 
-     *  a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a collection of the 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a character vector of the raw sequence 
+     *  a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+     *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw sequence 
      *  data.
      * @param as_dataframe when there are multiple sequence in the input sequence collection: cast 
      *  the embedding matrix as a data frame object? if this parameter is FALSE(the 
@@ -448,7 +448,7 @@ declare namespace bioseq.fasta {
     * get the sequence length
     * 
     * 
-     * @param fa a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence object for measure the sequence length.
+     * @param fa a [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object for measure the sequence length.
      * @return the sequence length in chars of the given fasta sequence data, ZERO will 
      *  be returned when the given sequence object is nothing.
    */
@@ -463,17 +463,17 @@ declare namespace bioseq.fasta {
     * 
      * @param fa the target sequence data source, which can be:
      *  
-     *  1. a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence object, then a 
-     *     @``T:SMRUCC.genomics.SequenceModel.Slicer.FastaSlicer`` will be created;
-     *  2. a chromosome or contigs sequence object(@``T:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta``) 
+     *  1. a [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object, then a 
+     *     [FastaSlicer](cref:T:SMRUCC.genomics.SequenceModel.Slicer.FastaSlicer) will be created;
+     *  2. a chromosome or contigs sequence object([ChunkedNtFasta](cref:T:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta)) 
      *     that is read from the genome assembly sequence file via the 
-     *     ``read_assembly`` api, then a @``T:SMRUCC.genomics.SequenceModel.Slicer.ChunkSlicer`` will be created;
+     *     ``read_assembly`` api, then a [ChunkSlicer](cref:T:SMRUCC.genomics.SequenceModel.Slicer.ChunkSlicer) will be created;
      *  3. a ncbi genbank database file object(``GBFF.File``), then a 
-     *     @``T:SMRUCC.genomics.SequenceModel.Slicer.GenBankSlicer`` will be created.
+     *     [GenBankSlicer](cref:T:SMRUCC.genomics.SequenceModel.Slicer.GenBankSlicer) will be created.
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return an @``T:SMRUCC.genomics.SequenceModel.Slicer.ISlicer`` object for slice the sequence region from the 
+     * @return an [ISlicer](cref:T:SMRUCC.genomics.SequenceModel.Slicer.ISlicer) object for slice the sequence region from the 
      *  given sequence data source;
      *  
      *  this function returns a R# error message object if the given sequence data 
@@ -486,7 +486,7 @@ declare namespace bioseq.fasta {
     * 
     * 
      * @param x a fasta sequence collection for make the subset, which can be a 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` 
+     *  [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) 
      *  object, or a character vector of the raw sequence data.
      * @param gene_ids a character vector of the sequence id for takes the sequence subset, the 
      *  sequence id is the first token of the fasta headers title text, which is 
@@ -494,7 +494,7 @@ declare namespace bioseq.fasta {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a vector of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence object that its sequence id 
+     * @return a vector of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object that its sequence id 
      *  is in the given id set;
      *  
      *  this function returns a R# error message object if the input sequence data 
@@ -509,9 +509,9 @@ declare namespace bioseq.fasta {
     * >  sequence, a warning message will be pushed into the R# environment message 
     * >  buffer.
     * 
-     * @param nt The given fasta collection, which can be a single @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` 
-     *  object, a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a collection of the 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a character vector of the raw nucleotide 
+     * @param nt The given fasta collection, which can be a single [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) 
+     *  object, a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+     *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw nucleotide 
      *  sequence data.
      * @param table The genetic code for translation table.
      * 
@@ -527,8 +527,8 @@ declare namespace bioseq.fasta {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a protein @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object if the input is a single nucleotide 
-     *  sequence, or a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` protein sequence collection if the 
+     * @return a protein [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object if the input is a single nucleotide 
+     *  sequence, or a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) protein sequence collection if the 
      *  input is a collection of the nucleotide sequence data;
      *  
      *  this function returns a R# error message object if the input sequence data 
@@ -541,10 +541,10 @@ declare namespace bioseq.fasta {
        * 
        * 
         * @param seq the fasta sequence data for write into the target file, which can be a 
-        *  single @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a 
-        *  collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, a character vector of the 
+        *  single [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a 
+        *  collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, a character vector of the 
         *  raw sequence data, a fastq sequence collection, or a pipeline object that 
-        *  produces a set of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence data.
+        *  produces a set of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence data.
         * @param file the output target: a file path of the generated fasta sequence file, a file 
         *  stream object, or a fasta stream writer object that is created by the 
         *  ``open.fasta`` api in write mode.
@@ -583,11 +583,11 @@ declare namespace bioseq.fasta {
     * >  ``strand`` token should be ``forward`` or ``reverse``, or the target 
     * >  sequence will be skipped with a warning message.
     * 
-     * @param file a @``T:SMRUCC.genomics.Model.OperonMapper.FingerprintMatrixWriter`` object that is created by the 
+     * @param file a [FingerprintMatrixWriter](cref:T:SMRUCC.genomics.Model.OperonMapper.FingerprintMatrixWriter) object that is created by the 
      *  ``open.fingerprint_writer`` api.
      * @param seqs a nucleotide fasta sequence collection for make the sequence fingerprint 
-     *  data, which can be a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a collection of the 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a character vector of the raw sequence 
+     *  data, which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+     *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw sequence 
      *  data.
      * @param debug only make the fingerprint data of the first n sequence for debug test? a 
      *  negative value means that all of the input sequence will be processed.
@@ -596,7 +596,7 @@ declare namespace bioseq.fasta {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return the input @``T:SMRUCC.genomics.Model.OperonMapper.FingerprintMatrixWriter`` object, so that this api can 
+     * @return the input [FingerprintMatrixWriter](cref:T:SMRUCC.genomics.Model.OperonMapper.FingerprintMatrixWriter) object, so that this api can 
      *  be used in a pipeline manner;
      *  
      *  this function returns a R# error message object if the input sequence data 

@@ -22,51 +22,51 @@
 
         <h3>Description</h3>
 
-        <p>Blastn Mapping for fastaq
+        <p>Blastn Mapping for fastaq</p>
 
 <h5>BLAST word-size</h5>
 
-<p>Length of an exact sequence match, as start region for the final alignment
+<p>Length of an exact sequence match, as start region for the final alignment</p>
 
 
 <pre><code> blastn -query genes.ffn -subject genome.fna -word_size 11</code></pre>
 
 
-<p>A BLAST search starts With finding a perfect sequence match Of length given by -word_size. This initial region Of an exact sequence match Is Then extended In both direction allowing gaps And substitutions based On the scoring thresholds.
+<p>A BLAST search starts With finding a perfect sequence match Of length given by -word_size. This initial region Of an exact sequence match Is Then extended In both direction allowing gaps And substitutions based On the scoring thresholds.</p>
 
-<p>Changing the initial word-size can help To find more, but less accurate hits; Or To limit the results To almost perfect hits.
-
-
-<ul>
-<li><p>Decreasing the word-size will increase the number Of detected homologous sequences, but hits</li>
-</ul>
-
-
-<p>can include alignments Of higher fragmentation due To gaps And substitutions (example: search for homologous genes between distant species, see also: -task blastn)
+<p>Changing the initial word-size can help To find more, but less accurate hits; Or To limit the results To almost perfect hits.</p>
 
 
 <ul>
-<li><p>Increasing the word-size will give less hits As it requires a longer continuous regions Of</li>
+<li>Decreasing the word-size will increase the number Of detected homologous sequences, but hits</li>
 </ul>
 
 
-<p>exact match. If the word-size Is chosen To be almost the size Of the query, BLAST will search For almost exact matches (example: search for location of gene sequences in the original genome of the gene)
-
-<p>For Short sequences, word-size must be less than half the query length, otherwise reliable hits can be missed.
-
-<p>Default word-sizes
+<p>can include alignments Of higher fragmentation due To gaps And substitutions (example: search for homologous genes between distant species, see also: -task blastn)</p>
 
 
 <ul>
-<li><p>nucleotide sequence search blastn With Default megablast (bastn): <code>-word_size 28</code></li>
-<li><p>nucleotide sequence search blastn only (bastn -task blastn): <code>-word_size 11</code></li>
-<li><p>amino acid search (blastp): <code>-word_size 3</code></li>
+<li>Increasing the word-size will give less hits As it requires a longer continuous regions Of</li>
 </ul>
 
 
-<p>Setting the word-size To a very low value (-word_size 5) makes a blastn search very slow.
+<p>exact match. If the word-size Is chosen To be almost the size Of the query, BLAST will search For almost exact matches (example: search for location of gene sequences in the original genome of the gene)</p>
 
-<p>如果做motif位点搜索，因为motif序列通常比较短，并且有些区域差异很大，所以word size可以设置的比较小
+<p>For Short sequences, word-size must be less than half the query length, otherwise reliable hits can be missed.</p>
+
+<p>Default word-sizes</p>
+
+
+<ul>
+<li>nucleotide sequence search blastn With Default megablast (bastn): <code>-word_size 28</code></li>
+<li>nucleotide sequence search blastn only (bastn -task blastn): <code>-word_size 11</code></li>
+<li>amino acid search (blastp): <code>-word_size 3</code></li>
+</ul>
+
+
+<p>Setting the word-size To a very low value (-word_size 5) makes a blastn search very slow.</p>
+
+<p>如果做motif位点搜索，因为motif序列通常比较短，并且有些区域差异很大，所以word size可以设置的比较小</p>
 
         <h3>Declare</h3>        
 
@@ -86,7 +86,7 @@ export class BlastnMapping extends <a href="/vignettes/clr/SMRUCC/genomics/Seque
    # Perfect?
    PerfectAlignment: boolean;
    QueryLeft: integer;
-   # Length of <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/NtMapping/BlastnMapping.html">BlastnMapping</a>.<a href="#">ReadQuery</a>
+   # Length of <a href="cref:P:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping.BlastnMapping.ReadQuery">BlastnMapping.ReadQuery</a>
    QueryLength: integer;
    QueryRight: integer;
    QueryStrand: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a>;

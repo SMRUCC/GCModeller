@@ -22,15 +22,30 @@
 
         <h3>Description</h3>
 
-        <p>GEARS：基于图神经网络的基因表达调控网络虚拟扰动实验
+        <p>GEARS：基于图神经网络的基因表达调控网络虚拟扰动实验</p>
 
-<p>本类是整个算法的门面（facade），把 readme 中的五个步骤串联为一条完整的实验流水线：
+<p>本类是整个算法的门面（facade），把 readme 中的五个步骤串联为一条完整的实验流水线：</p>
 
-<p>Step 1：由先验调控网络 @<code>F:SMRUCC.genomics.Analysis.GEARS.GEARS.priorNetwork</code> 构建基因-基因调控图（<a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/Graph/GeneRegulatoryGraph.html">GeneRegulatoryGraph</a>）；Step 2：以 control 基线表达 + 基因身份嵌入 + 扰动标记 + 扰动集合向量构成初始节点特征；Step 3：多层边类型感知消息传递，让扰动信号沿调控边向下游级联传播；Step 4：解码器输出 Δ表达，预测 x̂^pert = x^input + Δx̂；Step 5：用（仿真或实测的）Perturb-seq 样本做监督训练，之后即可泛化到未见过的扰动。
 
-<p>使用方式： ' Dim gears As New GEARS(exprData, priorNetwork) Dim ko = gears.KnockoutGene("codY") Dim combo = gears.PredictCombination({"codY", "luxR"}, InterventionMode.Knockout) '
+<ol>
+<li>Step 1：由先验调控网络 <a href="cref:F:SMRUCC.genomics.Analysis.GEARS.GEARS.priorNetwork">GEARS.priorNetwork</a> 构建基因-基因调控图（<a href="cref:T:SMRUCC.genomics.Analysis.GEARS.Graph.GeneRegulatoryGraph">GeneRegulatoryGraph</a>）；</li>
+<li>Step 2：以 control 基线表达 + 基因身份嵌入 + 扰动标记 + 扰动集合向量构成初始节点特征；</li>
+<li>Step 3：多层边类型感知消息传递，让扰动信号沿调控边向下游级联传播；</li>
+<li>Step 4：解码器输出 Δ表达，预测 <code>x̂^pert = x^input + Δx̂</code>；</li>
+<li>Step 5：用（仿真或实测的）Perturb-seq 样本做监督训练，之后即可泛化到未见过的扰动。</li>
+</ol>
 
-<p>本类实现了 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/InsilicoPerturbationExperiment.html">InsilicoPerturbationExperiment</a> 接口， 因此可以与 BNLearn 中已有的贝叶斯网络虚拟扰动实现互换使用。
+
+<p>使用方式：</p>
+
+
+<pre><code> Dim gears As New GEARS(exprData, priorNetwork)
+ Dim ko = gears.KnockoutGene("codY")
+ Dim combo = gears.PredictCombination({"codY", "luxR"}, InterventionMode.Knockout)
+ </code></pre>
+
+
+<p>本类实现了 <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a> 接口， 因此可以与 BNLearn 中已有的贝叶斯网络虚拟扰动实现互换使用。</p>
 
         <h3>Declare</h3>        
 

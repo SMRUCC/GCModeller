@@ -72,7 +72,7 @@ declare namespace proteinKit {
     * 
     * 
      * @param prot a collection of the protein sequence data
-     * @param polyaa returns @``T:SMRUCC.genomics.ProteinModel.ChouFasmanRules.StructuralAnnotation`` clr object model if this parameter is set TRUE, otherwise returns 
+     * @param polyaa returns [StructuralAnnotation](cref:T:SMRUCC.genomics.ProteinModel.ChouFasmanRules.StructuralAnnotation) clr object model if this parameter is set TRUE, otherwise returns 
      *  the string representitive of the chou-fasman structure information.
      * 
      * + default value Is ``false``.
@@ -116,7 +116,7 @@ declare namespace proteinKit {
      * @param env The R runtime environment for error handling and resource cleanup.
      * 
      * + default value Is ``null``.
-     * @return Returns a single @``T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer.KMerGraph`` for single sequence input. Returns a named list 
+     * @return Returns a single [KMerGraph](cref:T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer.KMerGraph) for single sequence input. Returns a named list 
      *  of KMerGraph objects for multiple sequences. Returns error message for invalid inputs.
    */
    function kmer_graph(prot: any, k?: object, env?: object): object;
@@ -163,7 +163,7 @@ declare namespace proteinKit {
         * @param env The R runtime environment for error handling and resource management.
         * 
         * + default value Is ``null``.
-        * @return Returns a parsed @``T:SMRUCC.genomics.Data.RCSB.PDB.PDB`` object if successful. Returns a @``T:SMRUCC.Rsharp.Runtime.Components.Message`` 
+        * @return Returns a parsed [PDB](cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB) object if successful. Returns a [Message](cref:T:SMRUCC.Rsharp.Runtime.Components.Message) 
         *  error object if file loading fails due to invalid path or format issues.
       */
       function pdb(file: any, safe?: boolean, env?: object): object;

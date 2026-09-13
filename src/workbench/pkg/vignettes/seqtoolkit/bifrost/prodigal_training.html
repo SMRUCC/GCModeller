@@ -35,11 +35,11 @@
         <table>
             
 <dt>x</dt>
-<dd><p>input target fasta sequence collection for make prodigal training, it should be a set of the genomics contigs assembly sequence, which can be a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a collection of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+<dd><p>input target fasta sequence collection for make prodigal training, it should be a set of the genomics contigs assembly sequence, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a file path of the fasta sequence file, or even a character vector of the raw sequence data.</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -54,9 +54,9 @@
 
         <h3>Value</h3>
 
-        <p>a trained <code>prodigal</code> <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a> object, which can be used for the gene prediction of the other genomics contigs assembly sequence that come from the same or a close related species, via the <code>model</code> parameter of the <code>prodigal</code> function.
+        <p>a trained <code>prodigal</code> <a href="cref:T:SMRUCC.genomics.Annotation.Prodigal.TrainingModel">TrainingModel</a> object, which can be used for the gene prediction of the other genomics contigs assembly sequence that come from the same or a close related species, via the <code>model</code> parameter of the <code>prodigal</code> function.</p>
 
-<p>this function returns a R# error message object if the input sequence data is nothing or can not be cast to a fasta sequence collection.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a></li></ul>
+<p>this function returns a R# error message object if the input sequence data is nothing or can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a></li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

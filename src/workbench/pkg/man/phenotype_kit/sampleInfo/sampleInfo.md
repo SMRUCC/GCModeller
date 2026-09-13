@@ -2,7 +2,7 @@
 
 GCModeller DEG experiment analysis designer toolkit
 > This R# package module provides the toolkit for create and manipulate the 
->  experiment sample information data(@``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo``), which is the 
+>  experiment sample information data([SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo)), which is the 
 >  experiment design data of the different expression analysis:
 >  
 >  + create the sample information data: ``sampleInfo``, 

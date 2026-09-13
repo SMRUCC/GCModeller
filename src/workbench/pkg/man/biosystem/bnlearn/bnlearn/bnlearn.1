@@ -19,13 +19,13 @@ learn the gene regulatory bayesian network from the gene expression data
 .SH OPTIONS
 .PP
 \fBexprData\fB \fR\- 
- the gene expression matrix object, could be load from csv file via \fBgeneExpression::load.expr\fR api, or the @\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.GeneExpressionData\fR matrix
+ the gene expression matrix object, could be load from csv file via \fBgeneExpression::load.expr\fR api, or the [GeneExpressionData](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.GeneExpressionData) matrix
 . 
 .PP
 .PP
 \fBpriorNet\fB \fR\- 
  a collection of the prior knowledge regulatory edge data 
- (@\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge\fR), which is used as the whitelist of the 
+ ([RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge)), which is used as the whitelist of the 
  network structure learning: only the regulation relation that is described 
  in this prior network will be considered in the structure learning.
  
@@ -57,15 +57,15 @@ learn the gene regulatory bayesian network from the gene expression data
 .PP
 .SH VALUE
 .PP
-a @\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow\fR object that contains the learned bayesian 
+a [BNLearnWorkflow](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow) object that contains the learned bayesian 
  network model, which implements the 
- @\fBT:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment\fR interface, so that it can be 
+ [InsilicoPerturbationExperiment](cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment) interface, so that it can be 
  used by the \fBknockouts\fR, \fBoverexpress\fR and \fBknockdown\fR api for run 
  the in silico gene perturbation experiment;
  
  this function returns a R# error message object if the given prior network 
  data can not be cast to a collection of the 
- @\fBT:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge\fR data.
+ [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) data.
 .PP
 .SH DETAILS
 .PP

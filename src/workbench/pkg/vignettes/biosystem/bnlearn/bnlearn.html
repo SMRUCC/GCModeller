@@ -42,39 +42,39 @@
         <table>
             
 <dt>exprData</dt>
-<dd><p>the gene expression matrix object, could be load from csv file via <code>geneExpression::load.expr</code> api, or the @<code>T:SMRUCC.genomics.Analysis.BNLearn.Core.GeneExpressionData</p></dd>
+<dd><p>the gene expression matrix object, could be load from csv file via <code>geneExpression::load.expr</code> api, or the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.GeneExpressionData">GeneExpressionData</a> matrix</p></dd>
 
 
 <dt>priorNet</dt>
-<dd><p>a collection of the prior knowledge regulatory edge data (<a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a>), which is used as the whitelist of the network structure learning: only the regulation relation that is described in this prior network will be considered in the structure learning.
+<dd><p>a collection of the prior knowledge regulatory edge data (<a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge">RegulatoryEdge</a>), which is used as the whitelist of the network structure learning: only the regulation relation that is described in this prior network will be considered in the structure learning.</p>
 
-</p></dd>
+<p>this parameter is optional, the network structure will be learned from the expression data alone if the prior network is not provided.</p></dd>
 
 
 <dt>max.itrs</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the max iteration numbers of the network structure learning, by default is 500. [as integer]</p></dd>
 
 
 <dt>strict</dt>
-<dd><p>the strict option of the in silico perturbation experiment: if this parameter is TRUE, then an error will be thrown when the target gene of the perturbation is missing from the learned network; if this parameter is FALSE, then a warning message will be printed and the wildtype expression data will be returned as the perturbation result with the <code>Undefined</code> flag marked as TRUE.
+<dd><p>the strict option of the in silico perturbation experiment: if this parameter is TRUE, then an error will be thrown when the target gene of the perturbation is missing from the learned network; if this parameter is FALSE, then a warning message will be printed and the wildtype expression data will be returned as the perturbation result with the <code>Undefined</code> flag marked as TRUE.</p>
 
-. [as boolean]</p></dd>
+<p>if this parameter is not specified, then the strict option of the R# runtime environment will be used. [as boolean]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>this function runs the network learning in two steps:
+        <p>this function runs the network learning in two steps:</p>
 
 
 <ol>
-<li><p>the structure learning: the MMHC algorithm with the whitelist prior network;</li>
-<li><p>the parameter learning: the maximum likelihood estimation(MLE) of the Gaussian bayesian network.</li>
+<li>the structure learning: the MMHC algorithm with the whitelist prior network;</li>
+<li>the parameter learning: the maximum likelihood estimation(MLE) of the Gaussian bayesian network.</li>
 </ol>
 
         <h3 style="display: block">Authors</h3>
@@ -83,9 +83,9 @@
 
         <h3>Value</h3>
 
-        <p>a <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a> object that contains the learned bayesian network model, which implements the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/InsilicoPerturbationExperiment.html">InsilicoPerturbationExperiment</a> interface, so that it can be used by the <code>knockouts</code>, <code>overexpress</code> and <code>knockdown</code> api for run the in silico gene perturbation experiment;
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow">BNLearnWorkflow</a> object that contains the learned bayesian network model, which implements the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a> interface, so that it can be used by the <code>knockouts</code>, <code>overexpress</code> and <code>knockdown</code> api for run the in silico gene perturbation experiment;</p>
 
-<p>this function returns a R# error message object if the given prior network data can not be cast to a collection of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">RegulatoryEdge</a> data.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ModularNetwork/BlockBayesianNetwork.html">BlockBayesianNetwork</a></li></ul>
+<p>this function returns a R# error message object if the given prior network data can not be cast to a collection of the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge">RegulatoryEdge</a> data.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ModularNetwork/BlockBayesianNetwork.html">BlockBayesianNetwork</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

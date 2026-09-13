@@ -14,9 +14,9 @@ generate sequence k-mer count data matrix
 .PP
 \fBx\fB \fR\- 
  a collection of the sequence data, which can be a fasta sequence 
- collection(@\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR, @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR), a fastq 
- sequence collection(@\fBT:SMRUCC.genomics.SequenceModel.FQ.FastQFile\fR) or any other 
- @\fBT:SMRUCC.genomics.SequenceModel.FASTA.IFastaProvider\fR sequence data model, or a pipeline object 
+ collection([FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq), [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile)), a fastq 
+ sequence collection([FastQFile](cref:T:SMRUCC.genomics.SequenceModel.FQ.FastQFile)) or any other 
+ [IFastaProvider](cref:T:SMRUCC.genomics.SequenceModel.FASTA.IFastaProvider) sequence data model, or a pipeline object 
  that produces a set of the sequence data.
 . 
 .PP
@@ -30,7 +30,7 @@ generate sequence k-mer count data matrix
 .PP
 .SH VALUE
 .PP
-a @\fBT:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix\fR k-mer count matrix object: each row in this 
+a [Matrix](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix) k-mer count matrix object: each row in this 
  matrix is a sequence in the input sequence collection(the row name is 
  the sequence title), and each column is a k-mer feature(the \fBsampleID\fR 
  property of the generated matrix is the k-mer alphabet sorted in 

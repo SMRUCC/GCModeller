@@ -43,14 +43,14 @@ declare namespace background {
         * + default value Is ``'n/a'``.
         * @param omics Create a enrichment background model for run multiple omics data analysis?
         *  this parameter is only works for the kegg pathway model where you are 
-        *  speicifc via the **`clusters`** parameter.
+        *  speicifc via the **clusters** parameter.
         * 
         * + default value Is ``null``.
-        * @param filter_compoundId do compound id filtering when target model is **`omics`**?
+        * @param filter_compoundId do compound id filtering when target model is **omics**?
         *  (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)
         * 
         * + default value Is ``true``.
-        * @param kegg_code the kegg organism code when the given **`clusters`** collection is
+        * @param kegg_code the kegg organism code when the given **clusters** collection is
         *  a collection of the pathway object.
         * 
         * + default value Is ``null``.
@@ -72,7 +72,7 @@ declare namespace background {
         * @return a tuple list object that contains the gene set information,
         *  data result in format like:
         *  
-        *  ```r
+        * ```r
         *  list(
         *      "cluster id 1" = c("gene id", "gene id", ...),
         *      "cluster id 2" = c("gene id", "gene id", ...),
@@ -249,7 +249,7 @@ declare namespace background {
         * + default value Is ``false``.
         * @param env 
         * + default value Is ``null``.
-        * @return a character vector of the intersected gene id set or the cluster id set based on the option of parameter **`get_clusterID`**.
+        * @return a character vector of the intersected gene id set or the cluster id set based on the option of parameter **get_clusterID**.
       */
       function intersects(cluster: any, geneSet: string, isLocusTag?: boolean, get_clusterID?: boolean, term_map?: boolean, id_map?: boolean, env?: object): string;
    }
@@ -337,10 +337,10 @@ declare namespace background {
     * Create the gsea background model for metabolism analysis
     * 
     * 
-     * @param kegg the kegg @``T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway`` model collection of current organism or 
-     *  the KEGG @``T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map`` data collection.
+     * @param kegg the kegg [Pathway](cref:T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway) model collection of current organism or 
+     *  the KEGG [Map](cref:T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map) data collection.
      *  andalso could be a tuple list of the idset.
-     * @param reactions A collection of the reference @``T:SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork.ReactionTable`` model 
+     * @param reactions A collection of the reference [ReactionTable](cref:T:SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork.ReactionTable) model 
      *  data for build the metabolism network
      * @param org_name -
      * 

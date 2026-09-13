@@ -53,7 +53,7 @@ declare namespace geneExpression {
      *  
      *  NOTE: the merge of the duplicated sample columns(the ``byrow`` parameter is 
      *  FALSE) is not implemented at this moment, an 
-     *  @``T:System.NotImplementedException`` will be thrown for such kind of the 
+     *  [NotImplementedException](cref:T:System.NotImplementedException) will be thrown for such kind of the 
      *  operation.
    */
    function aggregate(x: object, byrow?: boolean): any;
@@ -97,13 +97,13 @@ declare namespace geneExpression {
        * 
        * > a warning message will be pushed into the R# environment message buffer if 
        * >  the abundance data of some sample is nothing, and such kind of the sample 
-       * >  will be skipped, an @``T:System.NotImplementedException`` will be thrown if 
+       * >  will be skipped, an [NotImplementedException](cref:T:System.NotImplementedException) will be thrown if 
        * >  the input data is not a tuple list object or the abundance data type is not 
        * >  supported.
        * 
         * @param samples a tuple list of the abundance data: the slot key of the list is the sample 
         *  id and the slot value is the abundance data of the corresponding sample, 
-        *  which can be a collection of the @``T:SMRUCC.genomics.ComponentModel.IExpressionValue`` object, a 
+        *  which can be a collection of the [IExpressionValue](cref:T:SMRUCC.genomics.ComponentModel.IExpressionValue) object, a 
         *  tuple list of the numeric value, or a dictionary object of the abundance 
         *  data(the dictionary key is the taxonomy id and the value is the abundance 
         *  value).
@@ -115,7 +115,7 @@ declare namespace geneExpression {
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return a @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix`` abundance 
+        * @return a [Matrix](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix) abundance 
         *  matrix object that the rows are the 
         *  taxonomy features and the columns are the input samples.
       */
@@ -137,7 +137,7 @@ declare namespace geneExpression {
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DEGModel`` deg result data that is created from 
+        * @return a vector of the [DEGModel](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DEGModel) deg result data that is created from 
         *  the given dataframe columns;
         *  
         *  this function returns a R# error message object if the input data is not a 
@@ -194,9 +194,9 @@ declare namespace geneExpression {
     * 
     * 
      * @param pattern the cmeans clustering result, which can be an 
-     *  @``T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern`` object, a data frame object of the 
+     *  [ExpressionPattern](cref:T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern) object, a data frame object of the 
      *  membership matrix, or a pipeline object that produces a set of the 
-     *  @``T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel`` cluster model data.
+     *  [EntityClusterModel](cref:T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel) cluster model data.
      * @param memberCutoff the membership cutoff value for assign a gene feature into the target 
      *  cluster: the gene feature will be assigned into the cluster if its 
      *  membership value is greater than this threshold ratio of the max membership 
@@ -214,7 +214,7 @@ declare namespace geneExpression {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a vector of the @``T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel`` cluster model data: the 
+     * @return a vector of the [EntityClusterModel](cref:T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel) cluster model data: the 
      *  ``ID`` property is the gene feature id, the ``Properties`` property is the 
      *  membership value of the gene feature to each cluster(``#1``, ``#2``, ...), 
      *  and the ``Cluster`` property is the cluster tag that the gene feature has 
@@ -230,7 +230,7 @@ declare namespace geneExpression {
        * set deg class label
        * 
        * 
-        * @param deg a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DEGModel`` deg result data for set the class 
+        * @param deg a vector of the [DEGModel](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DEGModel) deg result data for set the class 
         *  label.
         * @param class_labels set deg class label manually;
         *  
@@ -248,7 +248,7 @@ declare namespace geneExpression {
         * @param pval_cutoff the p-value cutoff value for evaluate the deg class label.
         * 
         * + default value Is ``0.05``.
-        * @return a new vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DEGModel`` deg result data that the 
+        * @return a new vector of the [DEGModel](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.DEGModel) deg result data that the 
         *  ``class`` property of each deg data has been assigned.
       */
       function class(deg: object, class_labels?: any, logFC?: number, pval_cutoff?: number): object;
@@ -274,7 +274,7 @@ declare namespace geneExpression {
            * @param env the R# runtime environment object.
            * 
            * + default value Is ``null``.
-           * @return a vector of the @``T:SMRUCC.genomics.Analysis.HTS.Proteomics.DEP_iTraq`` deg result data of the t-test 
+           * @return a vector of the [DEP_iTraq](cref:T:SMRUCC.genomics.Analysis.HTS.Proteomics.DEP_iTraq) deg result data of the t-test 
            *  analysis, which is filtered by the given log2FC, p-value and FDR cutoff 
            *  value.
          */
@@ -318,7 +318,7 @@ declare namespace geneExpression {
      * @param sampleinfo the sample group information data: the gene expression value of the sample 
      *  columns in the same sample group will be averaged at first, and then the 
      *  ranking is evaluated based on the averaged value of each sample group.
-     * @return a vector of the @``M:phenotype_kit.geneExpression.ranking(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo[])`` data object: the abundance ranking of 
+     * @return a vector of the [geneExpression.ranking()](cref:M:phenotype_kit.geneExpression.ranking(SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix,SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo[])) data object: the abundance ranking of 
      *  each gene feature in each sample group.
    */
    function expr_ranking(x: object, sampleinfo: object): object;
@@ -329,7 +329,7 @@ declare namespace geneExpression {
        * 
        * 
         * @param matrix the gene expression matrix object which could be generated by 
-        *  @``M:phenotype_kit.geneExpression.loadExpression(System.Object,System.String[],System.Boolean,System.Boolean,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)`` api.
+        *  [geneExpression.loadExpression()](cref:M:phenotype_kit.geneExpression.loadExpression(System.Object,System.String[],System.Boolean,System.Boolean,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)) api.
         * @param dim the partition matrix size, it is recommended 
         *  that width should be equals to the height of the partition 
         *  matrix.
@@ -344,7 +344,7 @@ declare namespace geneExpression {
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
-        * @return an @``T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern`` object that contains the cmeans 
+        * @return an [ExpressionPattern](cref:T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern) object that contains the cmeans 
         *  clustering result of the input gene expression data: the partition 
         *  patterns of the expression data and the membership value of each gene 
         *  feature to each pattern.
@@ -361,7 +361,7 @@ declare namespace geneExpression {
         * @param threshold the cmeans threshold parameter
         * 
         * + default value Is ``0.001``.
-        * @return an @``T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern`` object that the gene expression data 
+        * @return an [ExpressionPattern](cref:T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern) object that the gene expression data 
         *  has been partitioned into 3 clusters.
       */
       function cmeans3D(matrix: object, fuzzification?: number, threshold?: number): object;
@@ -393,8 +393,8 @@ declare namespace geneExpression {
      * 
      * + default value Is ``null``.
      * @param exclude matrix a subset of the data matrix excepts the 
-     *  input **`geneId`** features or just make a subset which 
-     *  just contains the input **`geneId`** features.
+     *  input **geneId** features or just make a subset which 
+     *  just contains the input **geneId** features.
      * 
      * + default value Is ``false``.
      * @param env the R# runtime environment object.
@@ -461,7 +461,7 @@ declare namespace geneExpression {
      *  data collection;
      *  
      *  this function returns a R# error message object if the input data can not 
-     *  be cast to a collection of the @``T:SMRUCC.genomics.Analysis.HTS.Proteomics.DEP_iTraq`` data.
+     *  be cast to a collection of the [DEP_iTraq](cref:T:SMRUCC.genomics.Analysis.HTS.Proteomics.DEP_iTraq) data.
    */
    function geneId(x: any, set_id?: any, env?: object): string;
    /**
@@ -495,7 +495,7 @@ declare namespace geneExpression {
     * 
     * 
      * @param x a collection of the gene expression matrix object for merge, which can be a 
-     *  vector of the @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix`` 
+     *  vector of the [Matrix](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix) 
      *  object or a pipeline object that 
      *  produces a set of the expression matrix data.
      * @param strict if this parameter is TRUE, then an error will be thrown when the sample id 
@@ -542,7 +542,7 @@ declare namespace geneExpression {
      * @param design the experiment design data of the RNA-seq dataset, which describes the 
      *  sample group information and the linear model design of the limma 
      *  analysis.
-     * @return a vector of the @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable`` differential expression analysis 
+     * @return a vector of the [LimmaTable](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable) differential expression analysis 
      *  result: the ``logFC``, ``AveExpr``, ``t``, ``P_Value``, ``adj_P_Val`` and 
      *  ``B`` data of each gene feature.
    */
@@ -552,7 +552,7 @@ declare namespace geneExpression {
     * 
     * 
      * @param x the limma result data, which can be a vector of the 
-     *  @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable`` object, a pipeline object of the limma result, or 
+     *  [LimmaTable](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable) object, a pipeline object of the limma result, or 
      *  a tuple list of the multiple limma result groups(the slot value of the list 
      *  is the limma result of one group).
      * @param top take the top n genes of the impact sort result, by default is all of the 
@@ -577,14 +577,14 @@ declare namespace geneExpression {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a vector of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.ImpactResult`` data object that is sorted by 
+     * @return a vector of the [ImpactResult](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.ImpactResult) data object that is sorted by 
      *  the impact value in descending order: the ``total`` impact value of each 
      *  gene across all of the input limma result groups, the ``max`` impact value 
      *  and the corresponding ``top_group``, and the class label and the name of 
      *  each gene if the ``class``/``names`` parameter is provided;
      *  
      *  this function returns a R# error message object if the input data can not 
-     *  be cast to a collection of the @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable`` data.
+     *  be cast to a collection of the [LimmaTable](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable) data.
    */
    function limma_impactsort(x: any, top?: object, logfc_impact?: boolean, class?: object, names?: object, env?: object): object;
    /**
@@ -598,7 +598,7 @@ declare namespace geneExpression {
      * @param pval a numeric vector of the p-value.
      * @param adj_pval a numeric vector of the adjusted p-value.
      * @param b a numeric vector of the log-odds value(B statistic).
-     * @return a vector of the @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable`` object that is created from the 
+     * @return a vector of the [LimmaTable](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable) object that is created from the 
      *  given column data, all of the input column vectors should be in the same 
      *  size as the input gene id vector.
    */
@@ -641,7 +641,7 @@ declare namespace geneExpression {
         * @param file the file path of the binary expression matrix data file, or a file stream 
         *  object of the target binary matrix data.
         * @param lazy load the binary matrix data in a lazy stream reader mode? if this 
-        *  parameter is TRUE, then a @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader`` object will be 
+        *  parameter is TRUE, then a [HTSMatrixReader](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader) object will be 
         *  returned instead of loading all of the matrix data into the memory at 
         *  once, which is helpful for read a huge binary matrix data file.
         * 
@@ -650,7 +650,7 @@ declare namespace geneExpression {
         * 
         * + default value Is ``null``.
         * @return a HTS data matrix of samples in column and gene features in row, or a lazy 
-        *  @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader`` matrix reader object when the ``lazy`` 
+        *  [HTSMatrixReader](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixReader) matrix reader object when the ``lazy`` 
         *  parameter is TRUE;
         *  
         *  this function returns a R# error message object if the given file can not 
@@ -662,7 +662,7 @@ declare namespace geneExpression {
        * 
        * 
         * @param mat a gene expression matrix object for create the lazy data viewer.
-        * @return an @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixViewer`` object that provides the random access 
+        * @return an [HTSMatrixViewer](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.HTSMatrixViewer) object that provides the random access 
         *  of the gene expression data in the input matrix object without keeps all 
         *  of the data in the memory.
       */
@@ -702,7 +702,7 @@ declare namespace geneExpression {
     * get matrix summary information
     * 
     * > the summary information of a csv/tsv/xls table file is not implemented at 
-    * >  this moment, an @``T:System.NotImplementedException`` will be thrown for 
+    * >  this moment, an [NotImplementedException](cref:T:System.NotImplementedException) will be thrown for 
     * >  such kind of the input file.
     * 
      * @param file could be a file path or the HTS matrix data object
@@ -713,8 +713,8 @@ declare namespace geneExpression {
      *  2. geneID: a character vector that contains the matrix gene features information(row features name)
      *  3. tag: the matrix source tag label, could be the file basename if the given input file is a file path to the matrix.
      *  
-     *  if the input **`file`** object is a 
-     *  @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix`` expression 
+     *  if the input **file** object is a 
+     *  [Matrix](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix) expression 
      *  matrix object, then an additional ``mad`` data slot will be 
      *  added into the result list: the MAD value of each gene feature row.
    */
@@ -737,7 +737,7 @@ declare namespace geneExpression {
     * get the top n representatives genes in each expression pattern
     * 
     * 
-     * @param pattern an @``T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern`` object of the cmeans clustering result.
+     * @param pattern an [ExpressionPattern](cref:T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern) object of the cmeans clustering result.
      * @param top top n cmeans membership items
      * 
      * + default value Is ``3``.
@@ -839,10 +839,10 @@ declare namespace geneExpression {
      * @return this function returns a tuple list that contains the pattern 
      *  cluster matrix and the cmeans pattern plots.
      *  
-     *  1. 'pattern' is a vector of the @``T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel`` data that contains the object cluster patterns
+     *  1. 'pattern' is a vector of the [EntityClusterModel](cref:T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel) data that contains the object cluster patterns
      *  2. 'image' is a bitmap image that plot based on the object cluster patterns data.
      *  3. 'pdf' is a pdf image that could be edit
-     *  4. 'cmeans' is the raw @``T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern`` object of the cmeans clustering result
+     *  4. 'cmeans' is the raw [ExpressionPattern](cref:T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern) object of the cmeans clustering result
      *  
      *  NULL will be returns if the given expression matrix is empty.
    */
@@ -867,7 +867,7 @@ declare namespace geneExpression {
     * 
      * @param file the file path of the limma result table file, which is usually generated 
      *  by the R limma package.
-     * @return a vector of the @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable`` differential expression analysis 
+     * @return a vector of the [LimmaTable](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable) differential expression analysis 
      *  result data.
    */
    function read_limma(file: string): object;
@@ -880,11 +880,11 @@ declare namespace geneExpression {
      * @param file a binary data pack file that contains the expression pattern raw data.
      *  if this file is given by a csv file, then this csv file should be the cmeans cluster 
      *  membership matrix outtput.
-     * @param samples should be a csv file path to the sample matrix data if the input **`file`**
+     * @param samples should be a csv file path to the sample matrix data if the input **file**
      *  is a csv membership matrix file.
      * 
      * + default value Is ``null``.
-     * @return an @``T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern`` object that read from the given binary 
+     * @return an [ExpressionPattern](cref:T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern) object that read from the given binary 
      *  data pack file or the csv membership matrix file.
    */
    function readPattern(file: string, samples?: string): object;
@@ -910,8 +910,8 @@ declare namespace geneExpression {
     * 
      * @param x a gene expression matrix object
      * @param sampleinfo the sample time-series information data, which can be a vector of the 
-     *  @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` object, a dataframe object or a pipeline object 
-     *  that produces a set of the @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` data.
+     *  [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object, a dataframe object or a pipeline object 
+     *  that produces a set of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) data.
      * @param sample the property name of the time point information in the given 
      *  ``sampleinfo`` data, by default is the ``sample`` property.
      * 
@@ -925,7 +925,7 @@ declare namespace geneExpression {
      *  
      *  this function returns a R# error message object if the given sample 
      *  information data can not be cast to a collection of the 
-     *  @``T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo`` data.
+     *  [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) data.
    */
    function sample_auc(x: object, sampleinfo: any, sample?: string, env?: object): any;
    /**
@@ -943,10 +943,10 @@ declare namespace geneExpression {
      * 
      * + default value Is ``null``.
      * @return this function will get sample_id character vector from the input matrix if the 
-     *  **`sample_ids`** parameter is missing, otherwise it will set the new 
+     *  **sample_ids** parameter is missing, otherwise it will set the new 
      *  sample id list to the input matrix object and return the modified matrix object.
      *  
-     *  if the input **`x`** object is not a valid gene expression matrix object,
+     *  if the input **x** object is not a valid gene expression matrix object,
      *  then a error message object will be returned.
    */
    function sample_id(x: any, sample_ids?: string, env?: object): object|object|string;
@@ -954,7 +954,7 @@ declare namespace geneExpression {
     * save the cmeans expression pattern result to local file
     * 
     * 
-     * @param pattern an @``T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern`` object that is created by the 
+     * @param pattern an [ExpressionPattern](cref:T:SMRUCC.genomics.Visualize.ExpressionPattern.ExpressionPattern) object that is created by the 
      *  ``expression.cmeans_pattern`` or ``peakCMeans`` api.
      * @param file the file path of the binary data pack file for save the expression pattern 
      *  result.
@@ -977,7 +977,7 @@ declare namespace geneExpression {
      *  modified;
      *  
      *  if the size of the given gene id vector is not equals to the feature row 
-     *  numbers of the input matrix, or the input **`x`** object is 
+     *  numbers of the input matrix, or the input **x** object is 
      *  not a valid gene expression matrix object, then a R# error message object 
      *  will be returned.
    */
@@ -1089,7 +1089,7 @@ declare namespace geneExpression {
        * 
         * @param expr The gene expression matrix object
         * @param file The file path to a csv matrix file that used 
-        *  for export the given **`expr`** matrix data.
+        *  for export the given **expr** matrix data.
         * @param id The string content inside the first cell
         * 
         * + default value Is ``'geneID'``.
@@ -1110,7 +1110,7 @@ declare namespace geneExpression {
     *  be applied to covert the expression values to 
     *  z-scores by performing the following formula:
     *  
-    *  ```
+    * ```
     *  z = (x - u) / sd
     *  ```
     *  

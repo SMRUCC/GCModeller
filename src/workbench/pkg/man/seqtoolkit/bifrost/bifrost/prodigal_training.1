@@ -14,8 +14,8 @@ Train the gene prediction model in an unsupervised manner
 \fBx\fB \fR\- 
  input target fasta sequence collection for make prodigal training, it 
  should be a set of the genomics contigs assembly sequence, which can be 
- a @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaFile\fR object, a collection of the 
- @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR object, or a file path of the fasta sequence file, 
+ a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+ [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a file path of the fasta sequence file, 
  or even a character vector of the raw sequence data.
 . 
 .PP
@@ -24,7 +24,7 @@ Train the gene prediction model in an unsupervised manner
 .PP
 .SH VALUE
 .PP
-a trained \fBprodigal\fR @\fBT:SMRUCC.genomics.Annotation.Prodigal.TrainingModel\fR object, which can be 
+a trained \fBprodigal\fR [TrainingModel](cref:T:SMRUCC.genomics.Annotation.Prodigal.TrainingModel) object, which can be 
  used for the gene prediction of the other genomics contigs assembly 
  sequence that come from the same or a close related species, via the 
  \fBmodel\fR parameter of the \fBprodigal\fR function.

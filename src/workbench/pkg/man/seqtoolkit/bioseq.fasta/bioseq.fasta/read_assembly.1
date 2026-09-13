@@ -21,7 +21,7 @@ read genome assembly fasta sequence file
 .PP
 .SH VALUE
 .PP
-a named list of the @\fBT:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta\fR chunk sequence object, 
+a named list of the [ChunkedNtFasta](cref:T:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta) chunk sequence object, 
  the name of the list element is the fasta title of the corresponding 
  chromosome or contigs sequence.
  
@@ -32,7 +32,7 @@ a named list of the @\fBT:SMRUCC.genomics.SequenceModel.NucleotideModels.Chunked
 .PP
 unlike the \fBread.fasta\fR api, this function reads the whole genome 
  sequence in a chunked manner: the sequence data of each chromosome is 
- stored as a @\fBT:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta\fR object, so that we can slice a 
+ stored as a [ChunkedNtFasta](cref:T:SMRUCC.genomics.SequenceModel.NucleotideModels.ChunkedNtFasta) object, so that we can slice a 
  sequence region from a huge chromosome sequence in a memory efficient 
  manner via the \fBslicer\fR api.
 .PP

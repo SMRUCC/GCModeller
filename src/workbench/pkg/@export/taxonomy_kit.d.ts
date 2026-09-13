@@ -55,7 +55,7 @@ declare namespace taxonomy_kit {
         * @param env -
         * 
         * + default value Is ``null``.
-        * @return a vector of @``T:SMRUCC.genomics.Metagenomics.Taxonomy`` object.
+        * @return a vector of [Taxonomy](cref:T:SMRUCC.genomics.Metagenomics.Taxonomy) object.
       */
       function parse(taxonomy: any, env?: object): object;
    }
@@ -86,7 +86,7 @@ declare namespace taxonomy_kit {
        * > Builds the following dictionnary from NCBI taxonomy ``nodes.dmp`` and ``names.dmp``
        * >  files 
        * >  
-       * >  ```json 
+       * > ```json 
        * >  { Taxid namedtuple('Node', ['name', 'rank', 'parent', 'children']
        * >      } 
        * >  ``` 
@@ -131,7 +131,7 @@ declare namespace taxonomy_kit {
     * get taxonomy name
     * 
     * 
-     * @param taxonomy a collection of @``T:SMRUCC.genomics.Metagenomics.Taxonomy`` model object
+     * @param taxonomy a collection of [Taxonomy](cref:T:SMRUCC.genomics.Metagenomics.Taxonomy) model object
      * @param rank a specific taxonomy rank level for get the label names
      * 
      * + default value Is ``null``.

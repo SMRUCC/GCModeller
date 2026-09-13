@@ -39,31 +39,31 @@
         <table>
             
 <dt>seq</dt>
-<dd><p>the fasta sequence data for write into the target file, which can be a single <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> object, a <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a> object, a collection of the <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> object, a character vector of the raw sequence data, a fastq sequence collection, or a pipeline object that produces a set of the @<code>T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</p></dd>
+<dd><p>the fasta sequence data for write into the target file, which can be a single <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, a character vector of the raw sequence data, a fastq sequence collection, or a pipeline object that produces a set of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> sequence data.</p></dd>
 
 
 <dt>file</dt>
-<dd><p>the output target: a file path of the generated fasta sequence file, a file stream object, or a fasta stream writer object that is created by the <code>open.fasta</p></dd>
+<dd><p>the output target: a file path of the generated fasta sequence file, a file stream object, or a fasta stream writer object that is created by the <code>open.fasta</code> api in write mode.</p></dd>
 
 
 <dt>lineBreak</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>The sequence length in one line, negative value or ZERo means no line break. [as integer]</p></dd>
 
 
 <dt>delimiter</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the delimiter character for merge the fasta headers title of the sequence data. [as string]</p></dd>
 
 
 <dt>filter.empty</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>skip write sequence if the sequence object has no sequence data. [as boolean]</p></dd>
 
 
 <dt>encoding</dt>
-<dd><p>[as <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a>]</p></dd>
+<dd><p>The text encoding value of the generated fasta file. [as <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a>]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -78,9 +78,9 @@
 
         <h3>Value</h3>
 
-        <p>a boolean value of the file save result: TRUE means the sequence data has been written into the target file successfully;
+        <p>a boolean value of the file save result: TRUE means the sequence data has been written into the target file successfully;</p>
 
-<p>this function returns a R# error message object if the given sequence data can not be cast to a fasta sequence collection, or the target file can not be opened for write.<h4>clr value class</h4><ul><li>boolean</li></ul>
+<p>this function returns a R# error message object if the given sequence data can not be cast to a fasta sequence collection, or the target file can not be opened for write.</p><h4>clr value class</h4><ul><li>boolean</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

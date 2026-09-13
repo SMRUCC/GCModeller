@@ -32,7 +32,7 @@ declare namespace genomics_context {
     * filter genes by given strand direction
     * 
     * 
-     * @param genes a collection of the gene model object which is subclass of @``T:SMRUCC.genomics.ComponentModel.Annotation.IGeneBrief``
+     * @param genes a collection of the gene model object which is subclass of [IGeneBrief](cref:T:SMRUCC.genomics.ComponentModel.Annotation.IGeneBrief)
      * @param strand the nucleotide sequence strand direction, value could be +, -, forward, reverse.
      * 
      * + default value Is ``'+'``.

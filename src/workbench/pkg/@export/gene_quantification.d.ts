@@ -13,7 +13,7 @@ declare namespace gene_quantification {
     * make normalize of the feature counts data as TPM expression value
     * 
     * 
-     * @param counts A collection of the gene @``T:SMRUCC.genomics.SequenceModel.SAM.featureCount.featureCounts`` data.
+     * @param counts A collection of the gene [featureCounts](cref:T:SMRUCC.genomics.SequenceModel.SAM.featureCount.featureCounts) data.
      * @param env The R environment.
      * 
      * + default value Is ``null``.

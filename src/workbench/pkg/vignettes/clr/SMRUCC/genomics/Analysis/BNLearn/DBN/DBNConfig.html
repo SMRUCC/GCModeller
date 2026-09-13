@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>Configuration options for the Dynamic Bayesian Network. Controls discretization thresholds, smoothing, transcription rate mapping, etc.
+        <p>Configuration options for the Dynamic Bayesian Network. Controls discretization thresholds, smoothing, transcription rate mapping, etc.</p>
 
         <h3>Declare</h3>        
 
@@ -34,7 +34,7 @@ export class DBNConfig {
    # 
    # 得分由 noisy-OR 组合得到，父节点数为 P 时单个父节点由 Medium 变 Low 只会让得分变动约 0.5^P（P=8 时约 0.06）。若沿用较宽的区间（0.34/0.66， 区间宽度 0.32），单基因敲降带来的得分变化远不足以跨越区间， 所有基因都会被钉死在 Medium，虚拟扰动也就观测不到任何响应。 默认取 0.42/0.58（区间宽度 0.16），使单基因扰动能够跨越状态边界。
    ActivationHighThreshold: double;
-   # 激活得分判定为"低表达"的上限（默认 0.42），见 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/DBN/DBNConfig.html">DBNConfig</a>.<a href="#">ActivationHighThreshold</a>。
+   # 激活得分判定为"低表达"的上限（默认 0.42），见 <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.DBN.DBNConfig.ActivationHighThreshold">DBNConfig.ActivationHighThreshold</a>。
    ActivationLowThreshold: double;
    # Transcription rate for "Medium" expression state (basal)
    BasalTranscriptionRate: double;
@@ -66,7 +66,7 @@ export class DBNConfig {
    MaxParents: integer;
    # 每个节点（基因）的离散化阈值：key = 节点 ID，value = (low_threshold, high_threshold)。
    # 
-   # 默认阈值 <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/DBN/DBNConfig.html">DBNConfig</a>.<a href="#">LowThreshold</a> / <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/DBN/DBNConfig.html">DBNConfig</a>.<a href="#">HighThreshold</a>（0.33 / 0.66）是按 "已归一化到 [0,1] 的数据"设计的；而时间序列常常是原始 log1p 表达值（量级 0~10+）， 此时几乎所有基因都会被判为 High，导致学习到的 CPT 与推理证据都严重偏向 High。
+   # 默认阈值 <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.DBN.DBNConfig.LowThreshold">DBNConfig.LowThreshold</a> / <a href="cref:P:SMRUCC.genomics.Analysis.BNLearn.DBN.DBNConfig.HighThreshold">DBNConfig.HighThreshold</a>（0.33 / 0.66）是按 "已归一化到 [0,1] 的数据"设计的；而时间序列常常是原始 log1p 表达值（量级 0~10+）， 此时几乎所有基因都会被判为 High，导致学习到的 CPT 与推理证据都严重偏向 High。
    # 
    # 由训练流程按数据的经验分位数填好该字典后，参数学习（LearnParameters）与 推理（PredictNextState）都会经 GetThresholds 命中这里，保证两侧使用同一套阈值。
    NodeThresholds: list;

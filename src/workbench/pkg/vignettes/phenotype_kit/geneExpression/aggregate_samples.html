@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>&lt;br /&gt; this method can be apply for reduce data size when create some plot for &lt;br /&gt; visualize the gene expression patterns across the sample groups.
+        <p>&lt;br /&gt; this method can be apply for reduce data size when create some plot for &lt;br /&gt; visualize the gene expression patterns across the sample groups.</p>
 
         <h3>Usage</h3>
 
@@ -35,15 +35,15 @@
         <table>
             
 <dt>matrix</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+<dd><p>a gene expression matrix object. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
 
 
 <dt>groups</dt>
-<dd><p>[as list]</p></dd>
+<dd><p>a tuple list of the sample group information: the slot key of the list is the sample group label and the slot value is a character vector of the sample id that belongs to the corresponding sample group. [as list]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -58,9 +58,9 @@
 
         <h3>Value</h3>
 
-        <p>a new expression matrix object that each sample column is the sum value of the sample columns in the corresponding sample group;
+        <p>a new expression matrix object that each sample column is the sum value of the sample columns in the corresponding sample group;</p>
 
-<p>this function returns a R# error message object if the given sample group information is empty.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+<p>this function returns a R# error message object if the given sample group information is empty.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

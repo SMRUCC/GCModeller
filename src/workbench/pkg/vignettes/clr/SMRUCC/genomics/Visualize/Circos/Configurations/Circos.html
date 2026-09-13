@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p><code>circos.conf</code>
+        <p><code>circos.conf</code></p>
 
 
 <pre><code>                                     ____ _
@@ -36,18 +36,18 @@
  circos - generate circularly composited information graphics</code></pre>
 
 
-<p>(Circo基因组绘图程序的主配置文件)
+<p>(Circo基因组绘图程序的主配置文件)</p>
 
-<p><img src="https://raw.githubusercontent.com/SMRUCC/GCModeller.Circos/master/manual/workflow.png" alt="" />
+<p><img src="https://raw.githubusercontent.com/SMRUCC/GCModeller.Circos/master/manual/workflow.png" alt="" /></p>
 
-<p>Typically a central configuration file which defines data track information (circos.conf) imports other configuration files that store parameters that change less frequently (tick marks, ideogram size, grid, etc).
+<p>Typically a central configuration file which defines data track information (circos.conf) imports other configuration files that store parameters that change less frequently (tick marks, ideogram size, grid, etc).</p>
 
-<p>Data for each data track Is stored in a file And the same file can be used for multiple tracks.
+<p>Data for each data track Is stored in a file And the same file can be used for multiple tracks.</p>
 
 
 <ul>
-<li><p>PNG image output Is ideal For immediate viewing, web-based reporting Or presentation.</li>
-<li><p>SVG output Is most suitable For generating very high resolution line art For publication And For customizing aspects Of the figure.</li>
+<li>PNG image output Is ideal For immediate viewing, web-based reporting Or presentation.</li>
+<li>SVG output Is most suitable For generating very high resolution line art For publication And For customizing aspects Of the figure.</li>
 </ul>
 
         <h3>Declare</h3>        
@@ -118,7 +118,7 @@ export class Circos extends <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Ci
    GdiPlusDpi: integer;
    # 内置 GDI+ 绘图引擎所使用的画布尺寸。
    # 
-   # 这个属性没有使用 <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/CircosAttribute.html">CircosAttribute</a> 标记，所以它<strong>不会</strong>被序列化到 <code>circos.conf</code> 配置文件之中（不会影响到命令行调用 circos 的既有流程）， 仅用于 <code>GdiPlus.GdiRender</code> 在没有显式指定渲染参数的时候确定输出图像的尺寸。
+   # 这个属性没有使用 <a href="cref:T:SMRUCC.genomics.Visualize.Circos.Configurations.CircosAttribute">CircosAttribute</a> 标记，所以它<strong>不会</strong>被序列化到 <code>circos.conf</code> 配置文件之中（不会影响到命令行调用 circos 的既有流程）， 仅用于 <code>GdiPlus.GdiRender</code> 在没有显式指定渲染参数的时候确定输出图像的尺寸。
    GdiPlusImageSize: <a href="/vignettes/clr/System/Drawing/Size.html">Size</a>;
    genome: string;
    # 获取到被包含在主配置文件之中的 ideogram 配置块
@@ -143,7 +143,7 @@ export class Circos extends <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Ci
    show_scatter: string;
    show_text: string;
    show_tile: string;
-   # The genome size.(基因组的大小，当<a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Configurations/Circos.html">Circos</a>.<a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Karyotype/KaryotypeSkeleton.html">skeletonKaryotype</a>为空值的时候返回数值0)
+   # The genome size.(基因组的大小，当<a href="cref:P:SMRUCC.genomics.Visualize.Circos.Configurations.Circos.skeletonKaryotype">Circos.skeletonKaryotype</a>为空值的时候返回数值0)
    size: integer;
    # 基因组的骨架信息
    skeletonKaryotype: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Circos/Karyotype/KaryotypeSkeleton.html">KaryotypeSkeleton</a>;

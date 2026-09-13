@@ -102,7 +102,7 @@ declare namespace kmers {
     * 
     * 
      * @param x a collection of the sequence data for run the clustering, which can be a 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a vector of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` 
+     *  [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a vector of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) 
      *  object, or a character vector of the raw sequence data.
      * @param k the k-mer size for build the min-hash sketch of the sequence data: 
      *  
@@ -124,15 +124,15 @@ declare namespace kmers {
      * + default value Is ``null``.
      * @return a tuple list that contains the data slots:
      *  
-     *  - family: a vector of the @``T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.FamilyExports`` object, each 
+     *  - family: a vector of the [FamilyExports](cref:T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.FamilyExports) object, each 
      *    element is the summary data of one cluster: the ``family_id``, the 
      *    ``members`` cluster size, and the ``representative``/``rep_seq`` data of 
      *    the representative sequence;
-     *  - sequence: a vector of the @``T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.SequenceCluster`` object, each 
+     *  - sequence: a vector of the [SequenceCluster](cref:T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.SequenceCluster) object, each 
      *    element is the data of one cluster member: the ``seq_title``, the 
      *    ``family_id``, the ``score`` identity to the cluster representative and 
      *    the ``seq`` sequence data;
-     *  - clusters: a vector of the @``T:SMRUCC.genomics.Analysis.SequenceAlignment.SimilarHit`` object, which is the 
+     *  - clusters: a vector of the [SimilarHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.SimilarHit) object, which is the 
      *    raw cluster result of the CD-HIT like clustering: the ``SeqID`` is the 
      *    representative sequence of the cluster and the ``Similar`` property is 
      *    the identity score of each cluster member to the representative 
@@ -151,7 +151,7 @@ declare namespace kmers {
     * >  based on the min-hash similarity of the k-mer sketch of each sequence.
     * 
      * @param x a collection of the sequence data for run the clustering, which can be a 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a vector of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` 
+     *  [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a vector of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) 
      *  object, or a character vector of the raw sequence data.
      * @param k the k-mer size for build the min-hash sketch of the sequence data: 
      *  
@@ -171,7 +171,7 @@ declare namespace kmers {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a vector of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence object: the 
+     * @return a vector of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object: the 
      *  representative sequence of each cluster. For a cluster that contains 
      *  multiple sequence members, the fasta headers of the representative 
      *  sequence is formatted as: the representative sequence title, 
@@ -246,9 +246,9 @@ declare namespace kmers {
     * 
     * 
      * @param x a collection of the sequence data, which can be a fasta sequence 
-     *  collection(@``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq``, @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile``), a fastq 
-     *  sequence collection(@``T:SMRUCC.genomics.SequenceModel.FQ.FastQFile``) or any other 
-     *  @``T:SMRUCC.genomics.SequenceModel.FASTA.IFastaProvider`` sequence data model, or a pipeline object 
+     *  collection([FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq), [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile)), a fastq 
+     *  sequence collection([FastQFile](cref:T:SMRUCC.genomics.SequenceModel.FQ.FastQFile)) or any other 
+     *  [IFastaProvider](cref:T:SMRUCC.genomics.SequenceModel.FASTA.IFastaProvider) sequence data model, or a pipeline object 
      *  that produces a set of the sequence data.
      * @param k the length of the k-mer sequence fragment for make the count.
      * 
@@ -256,7 +256,7 @@ declare namespace kmers {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a @``T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix`` k-mer count matrix object: each row in this 
+     * @return a [Matrix](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix) k-mer count matrix object: each row in this 
      *  matrix is a sequence in the input sequence collection(the row name is 
      *  the sequence title), and each column is a k-mer feature(the ``sampleID`` 
      *  property of the generated matrix is the k-mer alphabet sorted in 
@@ -341,9 +341,9 @@ declare namespace kmers {
     * >  api just encodes the k-mer composition of the sequence data as a binary 
     * >  vector, i.e. the presence or absence of each k-mer term.
     * 
-     * @param x should be a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence 
-     *  collection, which can be a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object, a vector of 
-     *  the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` object, or a character vector of the raw 
+     * @param x should be a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence 
+     *  collection, which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a vector of 
+     *  the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw 
      *  sequence data.
      * @param type the sequence data type, default is protein sequence. If the sequence type 
      *  is not protein, then the input sequence data will be canonicalized as the 
@@ -408,14 +408,14 @@ declare namespace kmers {
     * make the sequence embedding via the TF-IDF weight of the bag-of-k-mers 
     *  model
     * 
-    * > make sequence embedding via TF-IDF algorithm which is implemented via @``T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.KmerTFIDFVectorizer``
+    * > make sequence embedding via TF-IDF algorithm which is implemented via [KmerTFIDFVectorizer](cref:T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.KmerTFIDFVectorizer)
     * >  
     * >  the generated embedding vector of each sequence will be normalized to an 
     * >  unit vector when the ``L2_norm`` parameter is TRUE, which is helpful for 
     * >  the cosine similarity or euclidean distance measurement between the 
     * >  embedding vectors of the different length sequences.
     * 
-     * @param x should be a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence collection
+     * @param x should be a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence collection
      * @param type the sequence data type, default is protein sequence
      * 
      * + default value Is ``null``.

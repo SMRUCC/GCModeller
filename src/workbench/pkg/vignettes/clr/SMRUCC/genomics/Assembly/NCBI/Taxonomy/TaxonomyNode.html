@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>The tree node calculation model for <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/NcbiTaxonomyTree.html">NcbiTaxonomyTree</a>, a labeled tree node for a specific ncbi taxid.
+        <p>The tree node calculation model for <a href="cref:T:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree">NcbiTaxonomyTree</a>, a labeled tree node for a specific ncbi taxid.</p>
 
         <h3>Declare</h3>        
 
@@ -33,11 +33,11 @@ export class TaxonomyNode {
    children: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
    # the scientific name of current taxonomy node
    name: string;
-   # get size of list <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/TaxonomyNode.html">TaxonomyNode</a>.<a href="/vignettes/clr/System/String.html">children</a>
+   # get size of list <a href="cref:P:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode.children">TaxonomyNode.children</a>
    nchilds: integer;
-   # 当前的节点的父节点的编号: <code>@</code>P:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode.taxid````
+   # 当前的节点的父节点的编号: <code>[TaxonomyNode.taxid](cref:P:SMRUCC.genomics.Assembly.NCBI.Taxonomy.TaxonomyNode.taxid)</code>
    parent: string;
-   # One of the value in array collection <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/NcbiTaxonomyTree.html">NcbiTaxonomyTree</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/Collection/Index`1.html">stdranks</a>. (当前节点的分类等级)
+   # One of the value in array collection <a href="cref:F:SMRUCC.genomics.Assembly.NCBI.Taxonomy.NcbiTaxonomyTree.stdranks">NcbiTaxonomyTree.stdranks</a>. (当前节点的分类等级)
    rank: string;
    # the NCBI taxonomy id
    taxid: integer;

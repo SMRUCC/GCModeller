@@ -12,6 +12,10 @@ pan-genome analysis toolkit
 + [report_html](pangenome/report_html.1) generates the html report text for the pan-genome analysis result
 + [genetic_distance](pangenome/genetic_distance.1) 
 + [pav_matrix](pangenome/pav_matrix.1) 
++ [sv_copy_number_matrix](pangenome/sv_copy_number_matrix.1) export the SV CopyNumber matrix of the structural variations
++ [sv_median_matrix](pangenome/sv_median_matrix.1) export the SV Median matrix of the structural variations
++ [category_percent_matrix](pangenome/category_percent_matrix.1) export the gene family distribution percent matrix
++ [sv_entropy](pangenome/sv_entropy.1) get the SV structural variation information entropy scatter data and the kmeans clustering result
 + [curve_data](pangenome/curve_data.1) 
 + [sv_table](pangenome/sv_table.1) export structure variant result table
 + [pav_table](pangenome/pav_table.1) 

@@ -15,7 +15,7 @@ make the sequence embedding via the TF-IDF weight of the bag-of-k-mers
 .PP
 .SH OPTIONS
 .PP
-\fBx\fB \fR\- should be a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence collection. 
+\fBx\fB \fR\- should be a collection of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence collection. 
 .PP
 .PP
 \fBtype\fB \fR\- the sequence data type, default is protein sequence. 
@@ -41,7 +41,7 @@ a data frame object: each row is a sequence in the input sequence
 .PP
 .SH DETAILS
 .PP
-make sequence embedding via TF-IDF algorithm which is implemented via @\fBT:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.KmerTFIDFVectorizer\fR
+make sequence embedding via TF-IDF algorithm which is implemented via [KmerTFIDFVectorizer](cref:T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.KmerTFIDFVectorizer)
  
  the generated embedding vector of each sequence will be normalized to an 
  unit vector when the \fBL2_norm\fR parameter is TRUE, which is helpful for 

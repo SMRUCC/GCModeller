@@ -36,24 +36,24 @@
         <table>
             
 <dt>sampleinfo</dt>
-<dd><p>the sample information data, which can be a vector of the @<code>T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo</p></dd>
+<dd><p>the sample information data, which can be a vector of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> object or a pipeline object that produces a set of the sample information data.</p></dd>
 
 
 <dt>designs</dt>
-<dd><p>a tuple list of the experiment design formula: the slot key of the list is the label of the new sample group and the slot value is a formula expression that describes the merge of the original sample groups, example as <code>list(A = B + C + D)</code> means that the sample groups <code>B</code>, <code>C</code> and <code>D</code> will be merged into a new sample group <code>A. [as list]</p></dd>
+<dd><p>a tuple list of the experiment design formula: the slot key of the list is the label of the new sample group and the slot value is a formula expression that describes the merge of the original sample groups, example as <code>list(A = B + C + D)</code> means that the sample groups <code>B</code>, <code>C</code> and <code>D</code> will be merged into a new sample group <code>A</code>. [as list]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>the sample information data(the <code>ID</code>, <code>sample_name</code>, <code>color</code>, <code>shape</code>, <code>batch</code> and <code>injectionOrder</code> property) of the merged samples will be kept as is, only the <code>sample_info</code> group label will be replaced with the new group label.
+        <p>the sample information data(the <code>ID</code>, <code>sample_name</code>, <code>color</code>, <code>shape</code>, <code>batch</code> and <code>injectionOrder</code> property) of the merged samples will be kept as is, only the <code>sample_info</code> group label will be replaced with the new group label.</p>
 
-<p>the design formula expression is a lazy expression, so that the sample group label in the formula is not required to be a R# symbol.
+<p>the design formula expression is a lazy expression, so that the sample group label in the formula is not required to be a R# symbol.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -61,9 +61,9 @@
 
         <h3>Value</h3>
 
-        <p>a new vector of the <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a> object: the sample groups that are described in the given design formula will be replaced with the new generated sample groups, and the other sample groups that are not referenced in the design formula will be kept as is;
+        <p>a new vector of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> object: the sample groups that are described in the given design formula will be replaced with the new generated sample groups, and the other sample groups that are not referenced in the design formula will be kept as is;</p>
 
-<p>this function returns a R# error message object if the input data can not be cast to a collection of the sample information data, or the given design formula is invalid.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
+<p>this function returns a R# error message object if the input data can not be cast to a collection of the sample information data, or the given design formula is invalid.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

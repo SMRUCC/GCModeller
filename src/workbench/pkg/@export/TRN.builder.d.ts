@@ -29,7 +29,7 @@ declare namespace TRN.builder {
      * @param db the position weight matrix(PWM) motif database object, which contains the 
      *  motif model of each transcription factor family.
      * @param search_regions the sequence regions for run the motif site scan, which can be a fasta 
-     *  sequence collection, a @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile`` object or a character vector 
+     *  sequence collection, a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object or a character vector 
      *  of the raw sequence data, each sequence is a candidate promoter/upstream 
      *  sequence region of one gene.
      * @param family an optional character vector of the transcription factor family name for 
@@ -69,7 +69,7 @@ declare namespace TRN.builder {
      * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
-     * @return a vector of the @``T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch`` motif site match result: the 
+     * @return a vector of the [MotifMatch](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch) motif site match result: the 
      *  ``title`` property is the sequence title of the corresponding sequence 
      *  region, the ``motif`` property is the matched motif model, the ``start``, 
      *  ``ends``, ``strand`` and ``segment`` property is the location and the 
@@ -93,7 +93,7 @@ declare namespace TRN.builder {
      * @param file the motif database source:
      *  
      *  1. a directory path that contains a set of the MEME format motif files 
-     *     (*.meme), then a @``T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MEMEMotifRepository`` object will be created 
+     *     (*.meme), then a [MEMEMotifRepository](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MEMEMotifRepository) object will be created 
      *     from this directory;
      *  2. a file path or a file stream object of the binary motif database file, 
      *     then the database will be opened from the given data stream in read only 
@@ -116,7 +116,7 @@ declare namespace TRN.builder {
        * 
         * @param file the file path of the footprint site csv table file, which contains the 
         *  motif site location data and the downstream gene information of each site.
-        * @return a vector of the @``T:SMRUCC.genomics.Data.Regprecise.FootprintSite`` object that is loaded from the 
+        * @return a vector of the [FootprintSite](cref:T:SMRUCC.genomics.Data.Regprecise.FootprintSite) object that is loaded from the 
         *  given csv table file.
       */
       function footprints(file: string): object;
@@ -126,7 +126,7 @@ declare namespace TRN.builder {
        * 
         * @param file the file path of the regulation footprint csv table file, which could be 
         *  created by the ``write.regulations`` api.
-        * @return a vector of the @``T:SMRUCC.genomics.Data.Regprecise.RegulationFootprint`` 
+        * @return a vector of the [RegulationFootprint](cref:T:SMRUCC.genomics.Data.Regprecise.RegulationFootprint) 
         *  object that is loaded from the given csv table file, each object is a 
         *  regulation network edge of the regulator to its regulated target gene.
       */
@@ -143,20 +143,20 @@ declare namespace TRN.builder {
        * >  the ``/`` or the ``\`` character.
        * >  
        * >  the regulator mapping is created by the bbh best hit: the ``HitName`` of the 
-       * >  @``T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit`` data is mapped to the regprecise regulator via its 
+       * >  [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit) data is mapped to the regprecise regulator via its 
        * >  locus id(the text after the last ``:`` character), and the ``QueryName`` is 
        * >  used as the regulator gene id in the target genome.
        * 
         * @param regulators the regulator mapping data, which can be a vector of the 
-        *  @``T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit`` object(the bbh best hit mapping result of the 
+        *  [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit) object(the bbh best hit mapping result of the 
         *  regulator protein to the target genome), or a pipeline object that produces a 
-        *  set of the @``T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit`` data.
-        * @param motifLocis a vector of the @``T:SMRUCC.genomics.Data.Regprecise.FootprintSite`` motif site data, which could be 
+        *  set of the [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit) data.
+        * @param motifLocis a vector of the [FootprintSite](cref:T:SMRUCC.genomics.Data.Regprecise.FootprintSite) motif site data, which could be 
         *  loaded from a csv table file via the ``read.footprints`` api: the ``src`` 
         *  property of the site data is the transcription factor family name set of the 
         *  corresponding motif site and the ``gene`` property is the regulated target 
         *  gene of the site.
-        * @param regprecise the regprecise regulon database object(@``T:SMRUCC.genomics.Data.Regprecise.TranscriptionFactors``), 
+        * @param regprecise the regprecise regulon database object([TranscriptionFactors](cref:T:SMRUCC.genomics.Data.Regprecise.TranscriptionFactors)), 
         *  which provides the regulator information(the effector, the regulation mode, 
         *  the regulog, the biological process, etc) of each transcription factor 
         *  family.
@@ -164,7 +164,7 @@ declare namespace TRN.builder {
         * 
         * + default value Is ``null``.
         * @return a pipeline object of the 
-        *  @``T:SMRUCC.genomics.Data.Regprecise.RegulationFootprint`` regulation 
+        *  [RegulationFootprint](cref:T:SMRUCC.genomics.Data.Regprecise.RegulationFootprint) regulation 
         *  network edge data: each edge is a regulation of one regulator to one target 
         *  gene, which is created by mapping the motif site to the regulator of the 
         *  corresponding transcription factor family in the regprecise database, the 
@@ -173,7 +173,7 @@ declare namespace TRN.builder {
         *  
         *  this function returns NULL if the given regulator mapping data is nothing, or 
         *  a R# error message object if the given regulator data is not a collection of 
-        *  the @``T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit`` data.
+        *  the [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit) data.
       */
       function footprint(regulators: any, motifLocis: object, regprecise: object, env?: object): object;
    }
@@ -183,7 +183,7 @@ declare namespace TRN.builder {
        * 
        * 
         * @param regulationFootprints the regulation network edge data for save, which can be a vector of the 
-        *  @``T:SMRUCC.genomics.Data.Regprecise.RegulationFootprint`` object, or 
+        *  [RegulationFootprint](cref:T:SMRUCC.genomics.Data.Regprecise.RegulationFootprint) object, or 
         *  a pipeline object that produces a set of the regulation footprint data.
         * @param file the file path of the generated regulation footprint csv 
         *  table file.

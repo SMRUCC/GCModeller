@@ -38,15 +38,15 @@
         <table>
             
 <dt>moltype</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/SeqTypes.html">SeqTypes</a>]</p></dd>
+<dd><p>the molecule type of the target sequence data for make the sequence embedding: protein, DNA or RNA sequence. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/SeqTypes.html">SeqTypes</a>]</p></dd>
 
 
 <dt>kappa</dt>
-<dd><p>[as double]</p></dd>
+<dd><p>the decay factor of the sequence graph transform algorithm, the smaller value of this parameter makes the far distance k-mer composition weight less. [as double]</p></dd>
 
 
 <dt>lengthsensitive</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>is the generated embedding vector sensitive to the sequence length? if this parameter is FALSE(the default value), then the embedding vector will be normalized by the sequence length, so that two sequences with the same k-mer composition but different lengths get the same embedding vector; if this parameter is TRUE, then the vector norm value grows with the sequence length. [as boolean]</p></dd>
 
         </table>
 
@@ -61,7 +61,7 @@
 
         <h3>Value</h3>
 
-        <p>a <a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/CreateMatrix.html">CreateMatrix</a> algorithm object for embedding the given sequence data as a numeric vector, which can be applied on a collection of the sequence data via the <code>seq_vector</code> api.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/CreateMatrix.html">CreateMatrix</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.CreateMatrix">CreateMatrix</a> algorithm object for embedding the given sequence data as a numeric vector, which can be applied on a collection of the sequence data via the <code>seq_vector</code> api.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/CreateMatrix.html">CreateMatrix</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

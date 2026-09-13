@@ -48,7 +48,7 @@ declare namespace visualPlot {
      *  the row names in the dataframe is the molecule name labels and 
      *  all the column fields should be the expression value in different 
      *  samples.
-     * @param metadata the metadata for the molecules of given expression data **`x`**, should contains the metadata fields of:
+     * @param metadata the metadata for the molecules of given expression data **x**, should contains the metadata fields of:
      *  
      *  1. class: a character vector of the kegg class labels, example as pathway names, module names, or orthology labels
      *  2. logp: a numeric vector of the multiple group ANOVA test pvalue its log transform result of the molecules
