@@ -141,3 +141,56 @@ Public Class CollinearityDataset
     Public Property truncated As Boolean
 
 End Class
+
+''' <summary>
+''' PAV矩阵PCA三维散点图中的单个样本点（一个基因组）
+''' </summary>
+Public Class PCAPoint
+
+    Public Property name As String
+    ''' <summary>
+    ''' 第一主成分得分
+    ''' </summary>
+    Public Property pc1 As Double
+    ''' <summary>
+    ''' 第二主成分得分
+    ''' </summary>
+    Public Property pc2 As Double
+    ''' <summary>
+    ''' 第三主成分得分
+    ''' </summary>
+    Public Property pc3 As Double
+    ''' <summary>
+    ''' 该基因组的核心基因占比（散点图的着色维度）
+    ''' </summary>
+    Public Property coreRatio As Double
+    Public Property geneCount As Integer
+
+End Class
+
+''' <summary>
+''' PAV矩阵的PCA分析结果数据（用于三维散点图）
+''' </summary>
+Public Class PCAScatterDataset
+
+    Public Property points As PCAPoint()
+    ''' <summary>
+    ''' 坐标轴标题，例如 <c>PC1 (42.51%)</c>
+    ''' </summary>
+    Public Property pc1Label As String
+    Public Property pc2Label As String
+    Public Property pc3Label As String
+    ''' <summary>
+    ''' 着色维度的标题
+    ''' </summary>
+    Public Property colorLabel As String
+    ''' <summary>
+    ''' 实际参与PCA分析的基因家族数量
+    ''' </summary>
+    Public Property familyCount As Integer
+    ''' <summary>
+    ''' 各主成分的方差贡献率（百分比）
+    ''' </summary>
+    Public Property explained As Double()
+
+End Class

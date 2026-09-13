@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>泛基因组分析报告</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- echarts-gl: 提供 grid3D / scatter3D 等三维图表能力，必须置于 echarts 核心脚本之后 -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts-gl@2.0.9/dist/echarts-gl.min.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
         rel="stylesheet">
@@ -893,6 +895,7 @@
     <script type="application/json" id="pie-chart-data">{$PIE_CHART_DATA}</script>
     <script type="application/json" id="pangenome-curve-data">{$PANGENOME_CURVE_DATA}</script>
     <script type="application/json" id="pav-matrix-data">{$PAV_MATRIX_DATA}</script>
+    <script type="application/json" id="pca-data">{$PCA_DATA}</script>
     <script type="application/json" id="genetic-distance-data">{$GENETIC_DISTANCE_DATA}</script>
     <script type="application/json" id="sv-stats-data">{$SV_STATS_DATA}</script>
     <script type="application/json" id="collinearity-data">{$COLLINEARITY_DATA}</script>
@@ -1138,6 +1141,13 @@
                     <a href="javascript:void(0)" class="heatmap-link" data-heatmap="pavHeatmap">查看完整热图 ↗</a>
                 </p>
             </div>
+
+            <!-- PAV 矩阵的 PCA 三维散点图 -->
+            <div class="chart-container">
+                <h3 class="chart-title">PAV 矩阵 PCA 三维散点图</h3>
+                <div class="chart-wrapper" id="pcaScatter3D" style="height: 600px;"></div>
+                <p class="table-note" id="pcaScatterNote" style="display: none; margin-top: 16px;"></p>
+            </div>
         </section>
 
         <!-- 第五章：结构变异 -->
@@ -1283,6 +1293,11 @@
             || { genomeCounts: [], panGenes: [], coreGenes: [] };
         const pavData = readJsonData('pav-matrix-data')
             || { genomes: [], families: [], matrix: [], truncated: false };
+        const pcaData = readJsonData('pca-data')
+            || {
+                points: [], pc1Label: 'PC1', pc2Label: 'PC2', pc3Label: 'PC3',
+                colorLabel: '核心基因占比 (%)', familyCount: 0, explained: []
+            };
         const geneticDistanceData = readJsonData('genetic-distance-data')
             || { genomes: [], data: [], truncated: false };
         const svStatsData = readJsonData('sv-stats-data') || [];
@@ -2219,6 +2234,166 @@
             return chart;
         }
 
+        // ============================================
+        // 9. PAV 矩阵的 PCA 三维散点图（需要 echarts-gl 扩展）
+        // ============================================
+        function initPCAScatter3D() {
+            const dom = document.getElementById('pcaScatter3D');
+            if (!dom) return null;
+
+            const points = pcaData.points || [];
+
+            if (points.length === 0) {
+                dom.innerHTML = '<p class="no-data">PCA 数据不可用（需要至少 3 个基因组且存在有效的基因家族）</p>';
+                return null;
+            }
+
+            // 三维散点图依赖 echarts-gl 扩展，扩展缺失或者浏览器没有 WebGL 能力时降级显示
+            if (typeof echarts === 'undefined' || !echarts.gl) {
+                dom.innerHTML = '<p class="no-data">三维散点图需要 echarts-gl 扩展，当前未能加载</p>';
+                return null;
+            }
+
+            const chart = echarts.init(dom);
+
+            // 数据项: [PC1, PC2, PC3, 核心基因占比, 基因总数]
+            const data = points.map(p => [p.pc1, p.pc2, p.pc3, p.coreRatio || 0, p.geneCount || 0]);
+
+            // 默认按照核心基因占比着色；当该维度在整个数据集上为常量的时候
+            // （例如归档结果之中没有核心基因家族），退化为按照基因总数着色，
+            // 避免出现所有散点同色的无信息图。实际使用的维度会在图下的说明之中注明。
+            let colorDimension = 3;
+            let colorLabel = pcaData.colorLabel || '核心基因占比 (%)';
+            let minColor = Infinity;
+            let maxColor = -Infinity;
+
+            points.forEach(p => {
+                const ratio = p.coreRatio || 0;
+                if (ratio < minColor) minColor = ratio;
+                if (ratio > maxColor) maxColor = ratio;
+            });
+
+            if (!(maxColor > minColor)) {
+                colorDimension = 4;
+                colorLabel = '基因总数';
+                minColor = Infinity;
+                maxColor = -Infinity;
+
+                points.forEach(p => {
+                    const genes = p.geneCount || 0;
+                    if (genes < minColor) minColor = genes;
+                    if (genes > maxColor) maxColor = genes;
+                });
+            }
+
+            if (!isFinite(minColor)) minColor = 0;
+            if (!isFinite(maxColor) || maxColor <= minColor) maxColor = minColor + 1;
+
+            const option = {
+                tooltip: {
+                    backgroundColor: '#1a2332',
+                    borderColor: '#2d3748',
+                    textStyle: { color: '#f1f5f9' },
+                    formatter: function (params) {
+                        const p = points[params.dataIndex];
+
+                        return `${p.name}<br/>${pcaData.pc1Label}: ${p.pc1.toFixed(4)}`
+                            + `<br/>${pcaData.pc2Label}: ${p.pc2.toFixed(4)}`
+                            + `<br/>${pcaData.pc3Label}: ${p.pc3.toFixed(4)}`
+                            + `<br/>${pcaData.colorLabel}: ${(p.coreRatio || 0).toFixed(2)}`
+                            + `<br/>基因总数: ${p.geneCount}`;
+                    }
+                },
+                visualMap: {
+                    min: minColor,
+                    max: maxColor,
+                    dimension: colorDimension,
+                    precision: 2,
+                    calculable: true,
+                    orient: 'vertical',
+                    right: '4%',
+                    top: 'center',
+                    text: [colorLabel, ''],
+                    inRange: {
+                        color: ['#10b981', '#22d3ee', '#3b82f6', '#8b5cf6', '#f43f5e']
+                    },
+                    textStyle: chartTextStyle
+                },
+                xAxis3D: {
+                    type: 'value',
+                    name: pcaData.pc1Label,
+                    axisLabel: { color: '#94a3b8', fontSize: 10 },
+                    axisLine: { lineStyle: { color: '#2d3748' } }
+                },
+                yAxis3D: {
+                    type: 'value',
+                    name: pcaData.pc2Label,
+                    axisLabel: { color: '#94a3b8', fontSize: 10 },
+                    axisLine: { lineStyle: { color: '#2d3748' } }
+                },
+                zAxis3D: {
+                    type: 'value',
+                    name: pcaData.pc3Label,
+                    axisLabel: { color: '#94a3b8', fontSize: 10 },
+                    axisLine: { lineStyle: { color: '#2d3748' } }
+                },
+                grid3D: {
+                    boxWidth: 120,
+                    boxDepth: 120,
+                    boxHeight: 80,
+                    axisLabel: { color: '#94a3b8', fontSize: 10 },
+                    axisLine: { lineStyle: { color: '#2d3748' } },
+                    splitLine: { lineStyle: { color: '#2d3748', opacity: 0.4 } },
+                    axisPointer: { show: false },
+                    light: {
+                        main: { intensity: 1.2, shadow: true },
+                        ambient: { intensity: 0.3 }
+                    },
+                    viewControl: {
+                        autoRotate: false,
+                        distance: 230,
+                        alpha: 20,
+                        beta: 30
+                    }
+                },
+                series: [{
+                    type: 'scatter3D',
+                    data: data,
+                    symbolSize: 10,
+                    itemStyle: { opacity: 0.9, borderWidth: 0 },
+                    emphasis: {
+                        itemStyle: { borderColor: '#f1f5f9', borderWidth: 2 }
+                    }
+                }]
+            };
+
+            try {
+                chart.setOption(option);
+            } catch (err) {
+                console.error('PCA 三维散点图渲染失败', err);
+
+                chart.dispose();
+                dom.innerHTML = '<p class="no-data">PCA 三维散点图渲染失败，可能是当前浏览器不支持 WebGL</p>';
+
+                return null;
+            }
+
+            const note = document.getElementById('pcaScatterNote');
+
+            if (note) {
+                const explained = (pcaData.explained || [])
+                    .map(v => v.toFixed(2) + '%')
+                    .join(' / ');
+
+                note.textContent = `基于基因总数最多的 ${pcaData.familyCount} 个基因家族做主成分分析；`
+                    + `各主成分方差贡献率：${explained || '未知'}；`
+                    + `散点颜色表示${colorLabel}；鼠标拖拽可旋转、滚轮可缩放。`;
+                note.style.display = '';
+            }
+
+            return chart;
+        }
+
         // 初始化所有图表
         document.addEventListener('DOMContentLoaded', function () {
             renderGenomeStatsTable();
@@ -2247,6 +2422,7 @@
                 initCurveChart(),
                 initGeneCountHistogram(),
                 initPAVHeatmap(),
+                initPCAScatter3D(),
                 initSVChart(),
                 initDistanceHeatmap(),
                 initCollinearityHeatmap(),
