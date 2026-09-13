@@ -521,7 +521,7 @@
         /* 数据表滚动容器 */
         .table-scroll {
             max-height: 480px;
-            overflow-y: auto;
+            overflow: auto;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
@@ -1176,6 +1176,41 @@
             return Math.max(minHeight, Math.min(HEATMAP_MAX_INNER_HEIGHT, height));
         }
 
+        // 基因组名称通常共享很长的公共前缀（例如 "Saccharomyces cerevisiae (brewer's yeast) "），
+        // 直接展示会导致坐标轴标签被截断后完全无法区分，这里在显示的时候剥离掉公共前缀
+        function commonPrefixOf(list) {
+            if (!list || list.length === 0) return '';
+
+            let prefix = list[0];
+
+            for (let i = 1; i < list.length; i++) {
+                const name = list[i];
+                const max = Math.min(prefix.length, name.length);
+                let j = 0;
+
+                while (j < max && prefix[j] === name[j]) j++;
+
+                prefix = prefix.substring(0, j);
+                if (!prefix) break;
+            }
+
+            return prefix;
+        }
+
+        function stripLabel(name, prefix) {
+            if (!prefix || prefix.length < 3) return name;
+
+            const rest = name.substring(prefix.length).replace(/^[\s\-–—:;,()|]+/, '');
+
+            return rest.length > 0 ? rest : name;
+        }
+
+        function displayLabelsOf(names) {
+            const prefix = commonPrefixOf(names);
+
+            return names.map(name => stripLabel(name, prefix));
+        }
+
         function setTruncateNote(id, truncated, message) {
             const el = document.getElementById(id);
             if (!el) return;
@@ -1385,6 +1420,7 @@
             dom.style.height = autoHeatmapHeight(
                 Math.max(pavData.families.length, pavData.genomes.length), 18, 500) + 'px';
 
+            const displayGenomes = displayLabelsOf(pavData.genomes);
             const chart = echarts.init(dom);
 
             const data = [];
@@ -1412,7 +1448,7 @@
                 },
                 xAxis: {
                     type: 'category',
-                    data: pavData.genomes,
+                    data: displayGenomes,
                     splitArea: { show: true },
                     axisLabel: {
                         color: '#94a3b8',
@@ -1526,6 +1562,7 @@
             // 基因组数量越多，热图越需要更高的展示区域
             dom.style.height = autoHeatmapHeight(geneticDistanceData.genomes.length, 22, 400) + 'px';
 
+            const displayGenomes = displayLabelsOf(geneticDistanceData.genomes);
             const chart = echarts.init(dom);
 
             const data = [];
@@ -1553,7 +1590,7 @@
                 },
                 xAxis: {
                     type: 'category',
-                    data: geneticDistanceData.genomes,
+                    data: displayGenomes,
                     splitArea: { show: true },
                     axisLabel: {
                         color: '#94a3b8',
@@ -1563,7 +1600,7 @@
                 },
                 yAxis: {
                     type: 'category',
-                    data: geneticDistanceData.genomes,
+                    data: displayGenomes,
                     splitArea: { show: true },
                     axisLabel: { color: '#94a3b8' },
                     axisLine: { lineStyle: { color: '#2d3748' } }
@@ -1807,6 +1844,7 @@
 
             const genomes = collinearityData.genomes || [];
             const metricLabel = collinearityData.metricLabel || '共线基因对';
+            const displayGenomes = displayLabelsOf(genomes);
 
             if (genomes.length === 0) {
                 dom.innerHTML = '<p class="no-data">未检测到共线性数据</p>';
@@ -1849,14 +1887,14 @@
                 },
                 xAxis: {
                     type: 'category',
-                    data: genomes,
+                    data: displayGenomes,
                     splitArea: { show: true },
                     axisLabel: { color: '#94a3b8', rotate: 45, fontSize: 9 },
                     axisLine: { lineStyle: { color: '#2d3748' } }
                 },
                 yAxis: {
                     type: 'category',
-                    data: genomes,
+                    data: displayGenomes,
                     splitArea: { show: true },
                     axisLabel: { color: '#94a3b8', fontSize: 9 },
                     axisLine: { lineStyle: { color: '#2d3748' } }
@@ -1907,7 +1945,9 @@
             dom.style.height = Math.max(320, pairs.length * 30 + 80) + 'px';
 
             const chart = echarts.init(dom);
-            const labels = pairs.map(p => `${p.genome1} ↔ ${p.genome2}`);
+            const prefix1 = commonPrefixOf(pairs.map(p => p.genome1));
+            const prefix2 = commonPrefixOf(pairs.map(p => p.genome2));
+            const labels = pairs.map(p => `${stripLabel(p.genome1, prefix1)} ↔ ${stripLabel(p.genome2, prefix2)}`);
 
             const option = {
                 tooltip: {
