@@ -939,6 +939,10 @@
     <script type="application/json" id="genetic-distance-data">{$GENETIC_DISTANCE_DATA}</script>
     <script type="application/json" id="sv-stats-data">{$SV_STATS_DATA}</script>
     <script type="application/json" id="collinearity-data">{$COLLINEARITY_DATA}</script>
+    <script type="application/json" id="category-percent-data">{$CATEGORY_PERCENT_DATA}</script>
+    <script type="application/json" id="sv-copy-number-matrix-data">{$SV_COPY_NUMBER_MATRIX_DATA}</script>
+    <script type="application/json" id="sv-median-matrix-data">{$SV_MEDIAN_MATRIX_DATA}</script>
+    <script type="application/json" id="sv-entropy-data">{$SV_ENTROPY_DATA}</script>
 </head>
 
 <body>
@@ -1170,6 +1174,26 @@
                     <div class="chart-wrapper" id="barChart"></div>
                 </div>
             </div>
+
+            <!-- 按单个基因组内的占比口径统计的分布比例图 -->
+            <div class="section-description" style="margin-top: 28px;">
+                <p>上方的两张图统计的是基因家族的<strong>绝对数量</strong>。当基因组数量很多的时候，壳基因与云基因会因为基因组数量的累加而在数量上远远超过核心基因与软核心基因，但是从单个基因组内部来看，它们的占比其实并不高。</p>
+                <p>下面两张图改用<strong>单个基因组内部的占比</strong>口径：先分别计算每一个基因组之内四类基因的占比，再对全部基因组取平均值，这样就能够消除基因组数量对绝对数量的放大效应。由于四个类别构成一个完整的划分，四类占比之和接近 100%。</p>
+                <div class="method-note">
+                    <strong>两种口径：</strong>「按基因数」= 该类别家族在某个基因组内的拷贝数之和 ÷ 该基因组的基因总数；「按家族个数」= 该类别在某个基因组内出现的家族个数 ÷ 该基因组内出现的家族总数。两种口径都会在下方展示，并与上方的绝对数量图形成对比。
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-container">
+                    <h3 class="chart-title">基因家族分布比例饼图（按基因数）</h3>
+                    <div class="chart-wrapper" id="pieChartPercent"></div>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">基因家族分布比例条形图（按家族个数）</h3>
+                    <div class="chart-wrapper" id="barChartPercent"></div>
+                </div>
+            </div>
         </section>
 
         <!-- 第三章：泛基因组曲线 -->
@@ -1179,15 +1203,16 @@
                 <h2 class="section-title">泛基因组曲线</h2>
             </div>
             <div class="section-description">
-                <p>泛基因组曲线展示了随着基因组数量增加，核心基因组和泛基因组大小的变化趋势。</p>
+                <p>泛基因组曲线展示了随着基因组数量增加，泛基因组、核心基因组与软核心基因组大小的变化趋势。</p>
                 <p>如果泛基因组曲线持续上升，说明该物种具有开放的泛基因组，可能存在大量可变基因；如果曲线趋于平稳，则说明泛基因组接近闭合。</p>
+                <p><strong>核心基因</strong>要求在已经加入的全部基因组之中都存在（出现比例 100%），判定条件非常严格，因此在基因组数量增加的时候会迅速衰减到零；<strong>软核心基因</strong>只要求出现比例不低于软核心阈值（默认为 95%，本次分析由脚本参数决定），能够更真实地反映在群体之中仍然高度保守的那一部分基因，曲线通常可以维持在一个可观的水平之上。</p>
                 <div class="method-note">
-                    <strong>计算方法：</strong>采用蒙特卡洛模拟方法，对基因组进行多次随机排序，计算不同基因组组合数量下的核心基因和泛基因组大小平均值，减少抽样偏差。
+                    <strong>计算方法：</strong>采用蒙特卡洛模拟方法，对基因组进行多次随机排序，计算不同基因组组合数量下的泛基因组、核心基因和软核心基因大小的平均值，减少抽样偏差。
                 </div>
             </div>
 
             <div class="chart-container">
-                <h3 class="chart-title">泛基因组与核心基因组曲线</h3>
+                <h3 class="chart-title">泛基因组 · 核心基因组 · 软核心基因组曲线</h3>
                 <div class="chart-wrapper" id="curveChart"></div>
             </div>
         </section>
@@ -1247,6 +1272,82 @@
 
             <div class="stats-grid" id="svStatsContainer">
                 <!-- SV统计将由JS生成 -->
+            </div>
+
+            <!-- SV CopyNumber 矩阵热图：行=基因家族，列=基因组 -->
+            <div class="chart-container" style="margin-top: 24px;">
+                <h3 class="chart-title">基因家族 SV CopyNumber 矩阵热图</h3>
+                <div class="heatmap-frame">
+                    <div id="svCopyNumberHeatmap"></div>
+                </div>
+                <p class="table-note" id="svCopyNumberNote" style="display: none; margin-top: 16px;"></p>
+                <p class="heatmap-actions">
+                    <a href="javascript:void(0)" class="heatmap-link" data-heatmap="svCopyNumberHeatmap">查看完整热图 ↗</a>
+                </p>
+            </div>
+
+            <!-- SV Median 矩阵热图：行=基因家族，列=基因组 -->
+            <div class="chart-container">
+                <h3 class="chart-title">基因家族 SV Median 矩阵热图</h3>
+                <div class="heatmap-frame">
+                    <div id="svMedianHeatmap"></div>
+                </div>
+                <p class="table-note" id="svMedianNote" style="display: none; margin-top: 16px;"></p>
+                <p class="heatmap-actions">
+                    <a href="javascript:void(0)" class="heatmap-link" data-heatmap="svMedianHeatmap">查看完整热图 ↗</a>
+                </p>
+            </div>
+
+            <!-- SV 信息熵散点图 + KMeans 聚类 -->
+            <div class="chart-container">
+                <h3 class="chart-title">基因家族 SV 信息熵散点图（CopyNumber 熵 × Median 熵 · KMeans 聚类）</h3>
+                <div class="chart-wrapper" id="svEntropyScatter" style="height: 560px;"></div>
+                <p class="table-note" id="svEntropyNote" style="display: none; margin-top: 16px;"></p>
+
+                <div class="chart-caption">
+                    <span class="caption-title">图注 · 如何解读这张散点图</span>
+                    <p>
+                        把基因家族层面的结构变异特征转化为信息熵，可以同时刻画一个家族在群体之中的
+                        <strong>拷贝数多样性</strong>与<strong>结构形态多样性</strong>。对上方两个矩阵逐行（逐家族）计算香农信息熵：
+                        <span class="formula">Hcn = −Σ pi·log(pi)，pi = CNi / ΣCN</span>（SV CopyNumber 熵，衡量拷贝数在各个
+                        基因组之间分布的均匀性），以及 <span class="formula">Hmed = −Σ pv·log(pv)</span>
+                        （SV Median 熵，以 Median 的精确取值作为离散类别统计频率，衡量 SV 结构特征在群体之中的离散程度）。
+                        每个散点代表一个基因家族，X 轴为 Hcn、Y 轴为 Hmed，颜色为 KMeans 聚类得到的簇。
+                    </p>
+                    <p>
+                        <strong>象限 I · 低 Hcn + 低 Hmed ——「僵化 / 保守型」：</strong>拷贝数在群体中高度一致，SV 的结构形态也高度统一。
+                        通常是核心管家基因，或者受到极强纯化选择的基因：它们对剂量极其敏感，任何拷贝数变异或结构改变都会导致
+                        严重的适合度下降；也可能代表物种分化之前就已经固定下来的古老 SV。
+                    </p>
+                    <p>
+                        <strong>象限 II · 高 Hcn + 低 Hmed ——「剂量调谐型」：</strong>SV 的结构形态一致（每次缺失/扩增的片段长度与边界都相同），
+                        但不同基因组中这类 SV 的拷贝数差异巨大。通常指示由特定转座子（TE）或串联重复序列驱动的扩增/收缩：
+                        重组模板固定（如非等位同源重组 NAHR），基因组通过调节拷贝数来改变基因剂量以适应不同的环境压力，
+                        典型代表是抗病基因（NLR）家族与细胞色素 P450 家族。
+                    </p>
+                    <p>
+                        <strong>象限 III · 高 Hcn + 高 Hmed ——「混沌 / 快速进化型」：</strong>不仅拷贝数在不同个体中变化多端，
+                        每次 SV 重组的断裂点与尺寸也各不相同。这些家族处于极强的正向选择或中性漂变之下，往往是与环境适应性
+                        高度相关的附属基因：基因组在这里就像一个「试验场」，通过 NHEJ / MMEJ 等容错性极高的机制不断产生结构
+                        多样的新拷贝，以期获得新的功能。
+                    </p>
+                    <p>
+                        <strong>象限 IV · 低 Hcn + 高 Hmed ——「结构微调型」：</strong>拷贝数相对稳定（通常固定为 1 或 2 个），
+                        但该位点的 SV 结构形态在不同基因组中各不相同。通常指示基因融合/嵌合或结构域重排：基因的数量没有变化，
+                        但通过不同的 SV 断裂点产生了不同的蛋白质结构域组合，在受体结合特异性的微调之中比较常见。
+                    </p>
+                    <p>
+                        <strong>宏观价值：</strong>传统的 PAV 分析只关注基因的「有」或「无」，本分析把 SV 的「数量」与「结构」
+                        解耦，可以判断某个基因家族的演化究竟是被剂量选择主导（象限 II），还是被结构创新主导（象限 III / IV）；
+                        高 Hcn + 高 Hmed 的家族所在的基因组区域往往是重组热点或者结构极不稳定的区域，可作为基因组
+                        「可塑性区」的候选位点，适合进一步做 GO / KEGG 富集与染色体定位验证。
+                    </p>
+                    <p>
+                        <strong>实施口径：</strong>只有存在 SV 事件的基因家族才会进入矩阵；为了降低数据稀疏性带来的噪声，
+                        聚类之前过滤掉了出现频率低于 5% 的基因家族，并对两个信息熵做了 Z-score 标准化（防止方差大的维度
+                        主导聚类结果），KMeans 的簇数默认为 4（对应上述四个象限）。
+                    </p>
+                </div>
             </div>
         </section>
 
@@ -1365,7 +1466,7 @@
         const genomeStatsData = readJsonData('genome-stats-data') || [];
         const pieChartData = readJsonData('pie-chart-data') || [];
         const pangenomeCurveData = readJsonData('pangenome-curve-data')
-            || { genomeCounts: [], panGenes: [], coreGenes: [] };
+            || { genomeCounts: [], panGenes: [], coreGenes: [], softCoreGenes: [] };
         const pavData = readJsonData('pav-matrix-data')
             || { genomes: [], families: [], matrix: [], truncated: false };
         const pcaData = readJsonData('pca-data')
@@ -1386,6 +1487,22 @@
         const svStatsData = readJsonData('sv-stats-data') || [];
         const collinearityData = readJsonData('collinearity-data')
             || { genomes: [], matrix: [], blocks: [], truncated: false };
+        const categoryPercentData = readJsonData('category-percent-data')
+            || {
+                categories: [], colors: [], genomes: [],
+                byGeneCount: [], byFamilyCount: [],
+                genomeByGeneCount: [], genomeByFamilyCount: []
+            };
+        const svCopyNumberMatrixData = readJsonData('sv-copy-number-matrix-data')
+            || { families: [], genomes: [], matrix: [], metricLabel: 'SV CopyNumber', truncated: false };
+        const svMedianMatrixData = readJsonData('sv-median-matrix-data')
+            || { families: [], genomes: [], matrix: [], metricLabel: 'SV Median', truncated: false };
+        const svEntropyData = readJsonData('sv-entropy-data')
+            || {
+                points: [], clusters: [], familyCount: 0, filteredCount: 0, clusterCount: 0,
+                copyNumberEntropyLabel: 'CopyNumber 熵 Hcn', medianEntropyLabel: 'Median 熵 Hmed',
+                genomeCount: 0
+            };
 
         // ECharts 通用配置
         const chartTextStyle = {
@@ -1634,7 +1751,7 @@
                     textStyle: { color: '#f1f5f9' }
                 },
                 legend: {
-                    data: ['泛基因组', '核心基因组'],
+                    data: ['泛基因组', '核心基因组', '软核心基因组'],
                     textStyle: chartTextStyle,
                     top: '5%'
                 },
@@ -1701,10 +1818,187 @@
                                 ]
                             }
                         }
+                    },
+                    {
+                        name: '软核心基因组',
+                        type: 'line',
+                        data: pangenomeCurveData.softCoreGenes || [],
+                        smooth: true,
+                        symbol: 'triangle',
+                        symbolSize: 8,
+                        lineStyle: { color: '#22d3ee', width: 3 },
+                        itemStyle: { color: '#22d3ee' },
+                        areaStyle: {
+                            color: {
+                                type: 'linear',
+                                x: 0, y: 0, x2: 0, y2: 1,
+                                colorStops: [
+                                    { offset: 0, color: 'rgba(34, 211, 238, 0.3)' },
+                                    { offset: 1, color: 'rgba(34, 211, 238, 0.05)' }
+                                ]
+                            }
+                        }
                     }
                 ]
             };
             chart.setOption(option);
+            return chart;
+        }
+
+        // 3.1 基因家族分布比例（按单个基因组内占比统计的两种口径）
+        function initCategoryPercentPie() {
+            const dom = document.getElementById('pieChartPercent');
+            if (!dom) return null;
+
+            const categories = categoryPercentData.categories || [];
+            const values = categoryPercentData.byGeneCount || [];
+            const colors = categoryPercentData.colors || [];
+
+            if (categories.length === 0 || values.length === 0) {
+                dom.innerHTML = '<p class="no-data">分布比例数据不可用</p>';
+                return null;
+            }
+
+            if (typeof echarts === 'undefined') {
+                dom.innerHTML = '<p class="no-data">ECharts 未能加载，无法渲染分布比例饼图</p>';
+                return null;
+            }
+
+            const data = categories.map((name, i) => ({
+                name: name,
+                value: Number((values[i] || 0).toFixed(4)),
+                itemStyle: { color: colors[i] }
+            }));
+
+            // 取占比最大的类别作为环图中心的锚点数字，方便一眼看出主导类别
+            let anchor = data[0];
+            data.forEach(item => {
+                if (item.value > anchor.value) anchor = item;
+            });
+
+            const chart = echarts.init(dom);
+            chart.setOption({
+                tooltip: {
+                    trigger: 'item',
+                    backgroundColor: '#1a2332',
+                    borderColor: '#2d3748',
+                    textStyle: { color: '#f1f5f9' },
+                    formatter: function (params) {
+                        return `${params.name}<br/>平均占比: ${params.value.toFixed(2)}%`;
+                    }
+                },
+                legend: {
+                    orient: 'vertical',
+                    right: '4%',
+                    top: 'center',
+                    textStyle: chartTextStyle,
+                    data: categories
+                },
+                series: [{
+                    type: 'pie',
+                    radius: ['50%', '75%'],
+                    center: ['38%', '52%'],
+                    avoidLabelOverlap: true,
+                    itemStyle: {
+                        borderColor: '#0b1120',
+                        borderWidth: 2
+                    },
+                    label: {
+                        color: '#f1f5f9',
+                        formatter: '{b}\n{d}%'
+                    },
+                    labelLine: { lineStyle: { color: '#2d3748' } },
+                    emphasis: {
+                        label: { fontSize: 14, fontWeight: 'bold' },
+                        itemStyle: { shadowBlur: 12, shadowColor: 'rgba(34, 211, 238, 0.4)' }
+                    },
+                    data: data
+                }]
+            });
+
+            return chart;
+        }
+
+        // 3.2 基因家族分布比例条形图（按家族个数口径）
+        function initCategoryPercentBar() {
+            const dom = document.getElementById('barChartPercent');
+            if (!dom) return null;
+
+            const categories = categoryPercentData.categories || [];
+            const values = categoryPercentData.byFamilyCount || [];
+            const colors = categoryPercentData.colors || [];
+
+            if (categories.length === 0 || values.length === 0) {
+                dom.innerHTML = '<p class="no-data">分布比例数据不可用</p>';
+                return null;
+            }
+
+            if (typeof echarts === 'undefined') {
+                dom.innerHTML = '<p class="no-data">ECharts 未能加载，无法渲染分布比例条形图</p>';
+                return null;
+            }
+
+            // 横向条形图的类别顺序是从下往上的，这里反转一次让占比最高的显示在最上方
+            const ordered = categories
+                .map((name, i) => ({ name: name, value: values[i] || 0, color: colors[i] }))
+                .reverse();
+
+            const chart = echarts.init(dom);
+            chart.setOption({
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' },
+                    backgroundColor: '#1a2332',
+                    borderColor: '#2d3748',
+                    textStyle: { color: '#f1f5f9' },
+                    formatter: function (params) {
+                        const item = params[0];
+
+                        return `${item.name}<br/>平均占比: ${item.value.toFixed(2)}%`;
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '12%',
+                    bottom: '3%',
+                    top: '5%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    name: '占比 (%)',
+                    nameTextStyle: chartTextStyle,
+                    axisLabel: chartTextStyle,
+                    axisLine: { lineStyle: { color: '#2d3748' } },
+                    splitLine: { lineStyle: { color: '#2d3748', type: 'dashed' } }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: ordered.map(item => item.name),
+                    axisLabel: chartTextStyle,
+                    axisLine: { lineStyle: { color: '#2d3748' } }
+                },
+                series: [{
+                    type: 'bar',
+                    data: ordered.map(item => ({
+                        value: Number(item.value.toFixed(4)),
+                        itemStyle: { color: item.color, borderRadius: [0, 4, 4, 0] }
+                    })),
+                    barWidth: '55%',
+                    label: {
+                        show: true,
+                        position: 'right',
+                        color: '#f1f5f9',
+                        formatter: function (params) {
+                            return `${params.value.toFixed(2)}%`;
+                        }
+                    },
+                    emphasis: {
+                        itemStyle: { shadowBlur: 10, shadowColor: 'rgba(34, 211, 238, 0.35)' }
+                    }
+                }]
+            });
+
             return chart;
         }
 
@@ -2135,6 +2429,238 @@
                 chart.setOption({ series: [{ data: seriesData() }] });
                 applyGenomeFilter();
             });
+
+            return chart;
+        }
+
+        // ============================================
+        // 7.1 SV 矩阵热图（行=基因家族，列=基因组）
+        // ============================================
+        function initSVHeatmap(domId, dataset, title, colorRange, noteId) {
+            const dom = document.getElementById(domId);
+            if (!dom) return null;
+
+            if (!dataset.families || dataset.families.length === 0 || !dataset.genomes || dataset.genomes.length === 0) {
+                dom.innerHTML = '<p class="no-data">未检测到可构建矩阵的结构变异事件</p>';
+                return null;
+            }
+
+            if (typeof echarts === 'undefined') {
+                dom.innerHTML = '<p class="no-data">ECharts 未能加载，无法渲染 SV 矩阵热图</p>';
+                return null;
+            }
+
+            const displayGenomes = displayLabelsOf(dataset.genomes);
+            const data = [];
+            let maxValue = 0;
+
+            dataset.matrix.forEach((row, i) => {
+                row.forEach((value, j) => {
+                    if (value > maxValue) maxValue = value;
+                    data.push([j, i, value]);
+                });
+            });
+
+            if (maxValue <= 0) maxValue = 1;
+
+            function buildOption() {
+                return {
+                    tooltip: {
+                        position: 'top',
+                        backgroundColor: '#1a2332',
+                        borderColor: '#2d3748',
+                        textStyle: { color: '#f1f5f9' },
+                        formatter: function (params) {
+                            return `${dataset.families[params.data[1]]}<br/>${dataset.genomes[params.data[0]]}<br/>`
+                                + `${dataset.metricLabel}: ${params.data[2]}`;
+                        }
+                    },
+                    grid: {
+                        left: '18%',
+                        right: '8%',
+                        bottom: '16%',
+                        top: '5%'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: displayGenomes,
+                        splitArea: { show: true },
+                        axisLabel: { color: '#94a3b8', rotate: 45, fontSize: 9 },
+                        axisLine: { lineStyle: { color: '#2d3748' } }
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: dataset.families,
+                        splitArea: { show: true },
+                        axisLabel: { color: '#94a3b8', fontSize: 9 },
+                        axisLine: { lineStyle: { color: '#2d3748' } }
+                    },
+                    visualMap: {
+                        min: 0,
+                        max: maxValue,
+                        calculable: true,
+                        orient: 'horizontal',
+                        left: 'center',
+                        bottom: '2%',
+                        inRange: { color: colorRange },
+                        textStyle: chartTextStyle
+                    },
+                    series: [{
+                        type: 'heatmap',
+                        data: data,
+                        label: { show: false },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }]
+                };
+            }
+
+            registerHeatmap(domId, title, buildOption);
+
+            const chart = echarts.init(dom);
+            chart.setOption(buildOption());
+
+            setTruncateNote(noteId, dataset.truncated,
+                `为保证渲染性能，热图抽样展示了 ${dataset.families.length} 个基因家族 / ${dataset.genomes.length} 个基因组；`
+                + `完整的矩阵可以通过导出接口保存为 CSV。`);
+
+            return chart;
+        }
+
+        function initSVCopyNumberHeatmap() {
+            return initSVHeatmap('svCopyNumberHeatmap', svCopyNumberMatrixData,
+                '基因家族 SV CopyNumber 矩阵热图',
+                ['#1a2332', '#164e63', '#0e7490', '#06b6d4', '#22d3ee', '#67e8f9'],
+                'svCopyNumberNote');
+        }
+
+        function initSVMedianHeatmap() {
+            return initSVHeatmap('svMedianHeatmap', svMedianMatrixData,
+                '基因家族 SV Median 矩阵热图',
+                ['#1a2332', '#312e81', '#4338ca', '#6366f1', '#a78bfa', '#c4b5fd'],
+                'svMedianNote');
+        }
+
+        // ============================================
+        // 7.2 SV 信息熵散点图 + KMeans 聚类
+        // ============================================
+        function initSVEntropyScatter() {
+            const dom = document.getElementById('svEntropyScatter');
+            if (!dom) return null;
+
+            const points = svEntropyData.points || [];
+
+            if (points.length === 0) {
+                dom.innerHTML = '<p class="no-data">SV 信息熵数据不可用（没有足够的结构变异事件）</p>';
+                return null;
+            }
+
+            if (typeof echarts === 'undefined') {
+                dom.innerHTML = '<p class="no-data">ECharts 未能加载，无法渲染 SV 信息熵散点图</p>';
+                return null;
+            }
+
+            // 固定色轮：按照簇编号着色，保证同一个簇在多次渲染之中的颜色一致
+            const palette = ['#22d3ee', '#3b82f6', '#f59e0b', '#8b5cf6', '#10b981', '#f43f5e', '#eab308', '#14b8a6'];
+            const clusterIds = [];
+            const groups = {};
+
+            points.forEach(p => {
+                const key = p.cluster || 0;
+
+                if (!groups[key]) {
+                    groups[key] = [];
+                    clusterIds.push(key);
+                }
+
+                groups[key].push(p);
+            });
+
+            clusterIds.sort((a, b) => a - b);
+
+            const summaries = {};
+            (svEntropyData.clusters || []).forEach(c => { summaries[c.cluster] = c; });
+
+            const series = clusterIds.map((id, i) => {
+                const summary = summaries[id];
+
+                return {
+                    name: `簇 ${id}${summary && summary.label ? ' · ' + summary.label : ''}`,
+                    type: 'scatter',
+                    symbolSize: 10,
+                    itemStyle: { color: palette[i % palette.length], opacity: 0.85 },
+                    emphasis: { itemStyle: { borderColor: '#f1f5f9', borderWidth: 2 } },
+                    // 数据项: [标准化CopyNumber熵, 标准化Median熵, 家族ID, 原始Hcn, 原始Hmed, 出现基因组数, 簇编号]
+                    data: groups[id].map(p => [
+                        p.zCopyNumber, p.zMedian, p.name, p.hCopyNumber, p.hMedian, p.presentGenomes, p.cluster || 0
+                    ])
+                };
+            });
+
+            const chart = echarts.init(dom);
+
+            chart.setOption({
+                tooltip: {
+                    backgroundColor: '#1a2332',
+                    borderColor: '#2d3748',
+                    textStyle: { color: '#f1f5f9' },
+                    formatter: function (params) {
+                        const d = params.data;
+
+                        return `<strong>${d[2]}</strong><br/>`
+                            + `${svEntropyData.copyNumberEntropyLabel}: ${d[3].toFixed(4)} (z=${d[0].toFixed(3)})<br/>`
+                            + `${svEntropyData.medianEntropyLabel}: ${d[4].toFixed(4)} (z=${d[1].toFixed(3)})<br/>`
+                            + `存在SV事件的基因组数: ${d[5]}<br/>`
+                            + `聚类簇: ${d[6]}`;
+                    }
+                },
+                legend: {
+                    type: 'scroll',
+                    top: '2%',
+                    textStyle: chartTextStyle
+                },
+                grid: {
+                    left: '8%',
+                    right: '6%',
+                    bottom: '10%',
+                    top: '16%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    name: `${svEntropyData.copyNumberEntropyLabel} (Z-score)`,
+                    nameTextStyle: chartTextStyle,
+                    nameLocation: 'middle',
+                    nameGap: 30,
+                    axisLabel: chartTextStyle,
+                    axisLine: { lineStyle: { color: '#2d3748' } },
+                    splitLine: { lineStyle: { color: '#2d3748', type: 'dashed', opacity: 0.5 } }
+                },
+                yAxis: {
+                    type: 'value',
+                    name: `${svEntropyData.medianEntropyLabel} (Z-score)`,
+                    nameTextStyle: chartTextStyle,
+                    axisLabel: chartTextStyle,
+                    axisLine: { lineStyle: { color: '#2d3748' } },
+                    splitLine: { lineStyle: { color: '#2d3748', type: 'dashed', opacity: 0.5 } }
+                },
+                series: series
+            });
+
+            const note = document.getElementById('svEntropyNote');
+
+            if (note) {
+                const filtered = svEntropyData.filteredCount || 0;
+
+                note.textContent = `共 ${svEntropyData.familyCount} 个基因家族参与聚类（来自 ${svEntropyData.genomeCount} 个基因组），`
+                    + `因出现频率低于 5% 而过滤掉 ${filtered} 个家族；`
+                    + `点击图例可以按簇显示/隐藏散点，悬浮散点可以查看家族 ID 与两个原始熵值。`;
+                note.style.display = '';
+            }
 
             return chart;
         }
@@ -2631,12 +3157,17 @@
             const charts = [
                 initPieChart(),
                 initBarChart(),
+                initCategoryPercentPie(),
+                initCategoryPercentBar(),
                 initCurveChart(),
                 initGeneCountHistogram(),
                 initGenomeEntropyScatter3D(),
                 initPAVHeatmap(),
                 initPCAScatter3D(),
                 initSVChart(),
+                initSVCopyNumberHeatmap(),
+                initSVMedianHeatmap(),
+                initSVEntropyScatter(),
                 initDistanceHeatmap(),
                 initCollinearityHeatmap(),
                 initCollinearityBarChart()

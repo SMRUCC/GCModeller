@@ -92,6 +92,7 @@ Module pangenome
         Call Converts.makeDataframe.addHandler(GetType(GenomeStatRow()), AddressOf stats_frame)
         Call Converts.makeDataframe.addHandler(GetType(PCAScatterDataset), AddressOf pca_frame)
         Call Converts.makeDataframe.addHandler(GetType(GenomeEntropyDataset), AddressOf entropy_frame)
+        Call Converts.makeDataframe.addHandler(GetType(SVDomainEntropyDataset), AddressOf sv_entropy_frame)
 
         Call RInternal.generic.add("writeBin", GetType(PanGenomeResult), AddressOf SaveResult)
         Call RInternal.generic.add("readBin.pangenome", GetType(Stream), AddressOf LoadResultData)
@@ -182,6 +183,7 @@ Module pangenome
                                   Optional uniqueByAcc As Boolean = False,
                                   <RRawVectorArgument(TypeCodes.integer)>
                                   Optional genome_size As Object = Nothing,
+                                  Optional sv_cluster_count As Integer = 4,
                                   Optional env As Environment = Nothing) As Object
 
         Dim pull As PipeIterator(Of GFFTable) = pipeline.Stream(Of GFFTable)(genomes, env, suppress:=True)
@@ -238,6 +240,8 @@ Module pangenome
         End If
 
         context.SoftCoreThreshold = soft_core_threshold
+        ' SV信息熵散点图的KMeans簇数（默认4，对应四类进化模式象限）
+        context.SVClusterCount = sv_cluster_count
 
         Return context
     End Function
@@ -455,6 +459,34 @@ Module pangenome
     End Function
 
     ''' <summary>
+    ''' SV结构变异的信息熵散点图与KMeans聚类结果转换为表格（行=基因家族）
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    <RGenericOverloads("as.data.frame")>
+    Public Function sv_entropy_frame(data As SVDomainEntropyDataset, args As list, env As Environment) As dataframe
+        Dim points As SVDomainEntropyPoint() = If(data Is Nothing, Nothing, data.points)
+        Dim df As New dataframe With {
+            .rownames = If(points Is Nothing, New String() {}, points.Keys.ToArray),
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        If points.IsNullOrEmpty Then
+            Return df
+        End If
+
+        Call df.add("h_copy_number", From x In points Select x.hCopyNumber)
+        Call df.add("h_median", From x In points Select x.hMedian)
+        Call df.add("z_copy_number", From x In points Select x.zCopyNumber)
+        Call df.add("z_median", From x In points Select x.zMedian)
+        Call df.add("present_genomes", From x In points Select x.presentGenomes)
+        Call df.add("cluster", From x In points Select x.cluster)
+
+        Return df
+    End Function
+
+    ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="result"></param>
@@ -468,9 +500,12 @@ Module pangenome
     <ExportAPI("scatter_set")>
     <RApiReturn("stats", "pca", "entropy")>
     Public Function scatter_set(result As PanGenomeResult) As Object
-        Dim stats As GenomeStatRow() = result.BuildGenomeStats
-        Dim pca As PCAScatterDataset = result.BuildPCAData(stats)
-        Dim entropy As GenomeEntropyDataset = result.BuildGenomeEntropyData(stats)
+        ' 这三份统计数据在分析阶段就已经算好并且缓存到结果对象之中了，
+        ' 这里直接取用缓存副本即可，不需要再重新计算一遍；
+        ' 只有在缓存为空的时候（例如从旧版本的归档文件之中加载出来的结果）才会重新计算并回填。
+        Dim stats As GenomeStatRow() = result.GetGenomeStats
+        Dim pca As PCAScatterDataset = result.GetPCAData
+        Dim entropy As GenomeEntropyDataset = result.GetGenomeEntropyData
 
         Return New list(slot("stats") = stats,
                         slot("pca") = pca,
@@ -495,6 +530,81 @@ Module pangenome
     <ExportAPI("pav_matrix")>
     Public Function pav_matrix(result As PanGenomeResult) As Object
         Return result.GetPAVMatrix
+    End Function
+
+    ''' <summary>
+    ''' export the SV CopyNumber matrix of the structural variations
+    ''' (rows are gene families which have at least one SV event, columns are genomes)
+    ''' </summary>
+    ''' <param name="result"></param>
+    ''' <returns></returns>
+    <ExportAPI("sv_copy_number_matrix")>
+    Public Function sv_copy_number_matrix(result As PanGenomeResult) As Object
+        If result Is Nothing Then
+            Return Nothing
+        End If
+
+        Return result.GetSVCopyNumberMatrix
+    End Function
+
+    ''' <summary>
+    ''' export the SV Median matrix of the structural variations
+    ''' (rows are gene families which have at least one SV event, columns are genomes)
+    ''' </summary>
+    ''' <param name="result"></param>
+    ''' <returns></returns>
+    <ExportAPI("sv_median_matrix")>
+    Public Function sv_median_matrix(result As PanGenomeResult) As Object
+        If result Is Nothing Then
+            Return Nothing
+        End If
+
+        Return result.GetSVMedianMatrix
+    End Function
+
+    ''' <summary>
+    ''' export the gene family distribution percent matrix
+    ''' (rows are genomes plus one average row, columns are the four family categories)
+    ''' </summary>
+    ''' <param name="result"></param>
+    ''' <param name="by">
+    ''' the statistics caliber: ``gene`` for the gene(copy number) based percent (default),
+    ''' or ``family`` for the family count based percent.
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("category_percent_matrix")>
+    Public Function category_percent_matrix(result As PanGenomeResult,
+                                            Optional by As String = "gene",
+                                            Optional env As Environment = Nothing) As Object
+
+        If result Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim byFamilies As Boolean =
+            String.Equals(by, "family", StringComparison.OrdinalIgnoreCase) OrElse
+            String.Equals(by, "families", StringComparison.OrdinalIgnoreCase)
+
+        Return result.GetCategoryPercentMatrix(byFamilies)
+    End Function
+
+    ''' <summary>
+    ''' get the SV structural variation information entropy scatter data and the kmeans clustering result
+    ''' </summary>
+    ''' <param name="result"></param>
+    ''' <param name="cluster_count">the k value of the kmeans clustering, default is 4</param>
+    ''' <returns></returns>
+    <ExportAPI("sv_entropy")>
+    <RApiReturn(GetType(SVDomainEntropyDataset))>
+    Public Function sv_entropy(result As PanGenomeResult,
+                               Optional cluster_count As Integer = SVDomainEntropy.DefaultClusterCount) As SVDomainEntropyDataset
+
+        If result Is Nothing Then
+            Return Nothing
+        End If
+
+        Return result.GetSVEntropy(cluster_count)
     End Function
 
     <ExportAPI("curve_data")>

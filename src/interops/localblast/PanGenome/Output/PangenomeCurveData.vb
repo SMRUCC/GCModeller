@@ -45,7 +45,7 @@
 
     ' Class PangenomeCurveData
     ' 
-    '     Properties: CoreGenes, GenomeCount, TotalGenes
+    '     Properties: CoreGenes, GenomeCount, SoftCoreGenes, TotalGenes
     ' 
     '     Function: ToString
     ' 
@@ -53,14 +53,42 @@
 
 #End Region
 
+''' <summary>
+''' 泛基因组曲线之上的一个数据点：表示在加入<see cref="GenomeCount"/>个基因组的时候，
+''' 泛基因组(全部基因家族)、核心基因家族以及软核心基因家族的规模
+''' </summary>
+''' <remarks>
+''' 核心基因要求在已经加入的基因组之中全部都出现，判定条件非常严格，
+''' 在基因组数量增加的时候核心基因的数量会迅速衰减到零；
+''' 软核心基因只要求出现比例不低于分析上下文所设定的阈值(<see cref="GenomeAnalyzer.SoftCoreThreshold"/>)，
+''' 因此能够更好地反映基因组数量增加的时候仍然高度保守的那一部分基因。
+''' </remarks>
 Public Class PangenomeCurveData
 
+    ''' <summary>
+    ''' 已经加入的基因组的数量
+    ''' </summary>
+    ''' <returns></returns>
     Public Property GenomeCount As Integer
+    ''' <summary>
+    ''' 泛基因组的大小（出现过的全部基因家族数量）
+    ''' </summary>
+    ''' <returns></returns>
     Public Property TotalGenes As Integer
+    ''' <summary>
+    ''' 核心基因家族的数量（在所有已经加入的基因组之中都存在）
+    ''' </summary>
+    ''' <returns></returns>
     Public Property CoreGenes As Integer
 
+    ''' <summary>
+    ''' 软核心基因家族的数量（在已经加入的基因组之中的出现比例不低于软核心阈值）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property SoftCoreGenes As Integer
+
     Public Overrides Function ToString() As String
-        Return $"({GenomeCount}, [total:{TotalGenes}, core:{CoreGenes}])"
+        Return $"({GenomeCount}, [total:{TotalGenes}, core:{CoreGenes}, softcore:{SoftCoreGenes}])"
     End Function
 
 End Class

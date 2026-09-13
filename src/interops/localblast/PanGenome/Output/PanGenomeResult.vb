@@ -61,6 +61,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.PanGenome.ReportJSON
 
 ''' <summary>
 ''' 分析结果存储结构（修改为支持多基因组）
@@ -136,6 +137,52 @@ Imports Microsoft.VisualBasic.Linq
     ' Key为 "GenomeA_vs_GenomeB"，Value为平均遗传距离
     Public Property GeneticDistanceMatrix As New Dictionary(Of String, Double)()
 
+    ' ==========================================
+    ' 新增：在分析阶段就预先计算好、供报告与外部脚本复用的统计数据缓存。
+    ' 这些属性为 Nothing 的时候表示还没有计算过，由对应的取数方法惰性计算之后回填；
+    ' 这样可以避免"生成HTML报告"与"外部脚本再次获取散点数据"这两个流程重复做同样的计算。
+    ' ==========================================
+
+    ''' <summary>
+    ''' 基因组基本信息统计（基因总数/特有基因数/核心基因占比）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property GenomeStats As GenomeStatRow()
+    ''' <summary>
+    ''' PAV矩阵的PCA降维散点数据
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property PCAData As PCAScatterDataset
+    ''' <summary>
+    ''' 基因组存在/缺失均衡度的香农信息熵散点数据
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property GenomeEntropyData As GenomeEntropyDataset
+
+    ''' <summary>
+    ''' 基因家族分布比例统计（按基因数与按家族个数两种口径）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property CategoryPercent As CategoryPercentDataset
+
+    ''' <summary>
+    ''' SV结构变异的信息熵散点图与KMeans聚类结果
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property SVEntropy As SVDomainEntropyDataset
+
+    ''' <summary>
+    ''' SV结构变异的 CopyNumber / Median 矩阵缓存
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 这两个矩阵可以完全由 <see cref="StructuralVariations"/> 与 <see cref="TotalGenesInGenomes"/>
+    ''' 确定性地重建出来，因此不写入归档文件之中
+    ''' （在基因组数量非常多的时候，这两个矩阵的文本量会达到数百MB），
+    ''' 而是由 <see cref="SVMatrixPair"/> 在首次被访问的时候惰性重建之后缓存下来。
+    ''' </remarks>
+    Friend Property SVMatrices As SVMatrixPair
+
     Public Function GetPAVMatrix() As DataFrame
         Dim df As New DataFrame With {.rownames = PAVMatrix.Keys.ToArray}
         Dim counter = PAVMatrix
@@ -189,6 +236,115 @@ Imports Microsoft.VisualBasic.Linq
     End Function
 
     ''' <summary>
+    ''' SV结构变异的 CopyNumber 矩阵（行=存在SV事件的基因家族，列=全部基因组，没有SV事件的单元格为0）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function GetSVCopyNumberMatrix() As DataFrame
+        Return GetSVMatrix(useMedian:=False)
+    End Function
+
+    ''' <summary>
+    ''' SV结构变异的 Median 矩阵（行=存在SV事件的基因家族，列=全部基因组，没有SV事件的单元格为0）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function GetSVMedianMatrix() As DataFrame
+        Return GetSVMatrix(useMedian:=True)
+    End Function
+
+    ''' <summary>
+    ''' 把SV矩阵转换为 <see cref="DataFrame"/>，方便R#脚本通过 write.csv 保存为矩阵文件
+    ''' </summary>
+    ''' <param name="useMedian">True取Median矩阵，False取CopyNumber矩阵</param>
+    Private Function GetSVMatrix(useMedian As Boolean) As DataFrame
+        Dim pair As SVMatrixPair = GetSVMatrices()
+        Dim df As New DataFrame()
+
+        If pair Is Nothing OrElse pair.Families Is Nothing OrElse pair.Families.Length = 0 Then
+            Return df
+        End If
+
+        df.rownames = pair.Families
+
+        Dim source As Double()() = If(useMedian, pair.Median, pair.CopyNumber)
+
+        For g As Integer = 0 To pair.Genomes.Length - 1
+            Dim column As Integer = g
+
+            Call df.add(pair.Genomes(column),
+                        source _
+                            .Select(Function(row) If(row Is Nothing, 0.0, row(column))) _
+                            .ToArray)
+        Next
+
+        Return df
+    End Function
+
+    ''' <summary>
+    ''' 比例明细矩阵之中代表"全部基因组平均值"的那一行的行名
+    ''' </summary>
+    Const CategoryPercentMeanRow As String = "average"
+
+    ''' <summary>
+    ''' 基因家族分布比例的明细矩阵（行=每个基因组 + 一行平均值，列=四个家族类别）
+    ''' </summary>
+    ''' <param name="byFamilies">
+    ''' True 使用"按家族个数"口径（该类别在基因组内出现的家族数 ÷ 出现的家族总数），
+    ''' False 使用"按基因数"口径（该类别的拷贝数之和 ÷ 该基因组的基因总数）
+    ''' </param>
+    ''' <returns>单元格数值为百分比（0-100）</returns>
+    Public Function GetCategoryPercentMatrix(Optional byFamilies As Boolean = False) As DataFrame
+        Dim data As CategoryPercentDataset = Me.CategoryPercent
+        Dim df As New DataFrame()
+
+        If data Is Nothing OrElse data.categories Is Nothing OrElse data.categories.Length = 0 Then
+            Return df
+        End If
+
+        Dim matrix As Double()() = If(byFamilies, data.genomeByFamilyCount, data.genomeByGeneCount)
+        Dim means As Double() = If(byFamilies, data.byFamilyCount, data.byGeneCount)
+        Dim rownames As New List(Of String)()
+        Dim rows As New List(Of Double())()
+
+        For g As Integer = 0 To data.genomes.TryCount - 1
+            Dim column As Integer = g
+            Dim row As Double() = New Double(data.categories.Length - 1) {}
+
+            For i As Integer = 0 To row.Length - 1
+                If matrix IsNot Nothing AndAlso i < matrix.Length AndAlso
+                   matrix(i) IsNot Nothing AndAlso column < matrix(i).Length Then
+
+                    row(i) = matrix(i)(column)
+                End If
+            Next
+
+            Call rownames.Add(data.genomes(column))
+            Call rows.Add(row)
+        Next
+
+        ' 追加一行全部基因组的平均值，方便直接与报告页面上的比例图对照
+        Dim meanRow As Double() = New Double(data.categories.Length - 1) {}
+
+        For i As Integer = 0 To meanRow.Length - 1
+            If means IsNot Nothing AndAlso i < means.Length Then
+                meanRow(i) = means(i)
+            End If
+        Next
+
+        Call rownames.Add(CategoryPercentMeanRow)
+        Call rows.Add(meanRow)
+
+        df.rownames = rownames.ToArray
+
+        For i As Integer = 0 To data.categories.Length - 1
+            Dim column As Integer = i
+
+            Call df.add(data.categories(column), rows.Select(Function(row) row(column)).ToArray)
+        Next
+
+        Return df
+    End Function
+
+    ''' <summary>
     ''' save current pan-genome analysis result object as zip archive file
     ''' </summary>
     ''' <param name="file"></param>
@@ -205,9 +361,17 @@ Imports Microsoft.VisualBasic.Linq
     ''' + pav:               家族ID / 稀疏的拷贝数（只保存非零值）
     ''' + curve:             泛基因组曲线
     ''' + distance:          遗传距离矩阵
-    ''' + collinear:         共线性区块统计
+    ''' + collinear:         共线性区块统计（包含区块在两个基因组之上的起止坐标）
     ''' + collinear.links:   共线性区块之内的逐基因同源配对（仅当保留了配对数据时存在）
     ''' + sv:                结构变异事件
+    ''' + genome.stats:      基因组基本信息统计
+    ''' + pca:               PAV矩阵的PCA降维散点数据
+    ''' + entropy:           基因组存在/缺失均衡度熵散点数据
+    ''' + category.percent:  基因家族分布比例（两种口径，含逐基因组明细）
+    ''' + sv.entropy:        SV结构变异的信息熵散点图与KMeans聚类结果
+    ''' 
+    ''' 注意：SV的 CopyNumber / Median 矩阵没有写入归档，因为它们可以由 sv 条目
+    ''' 与基因组列表确定性地重建出来；在基因组数量非常多的时候这两个矩阵的文本量会达到数百MB。
     ''' </remarks>
     Public Sub Save(file As Stream)
         Using zip As New ZipArchive(file, ZipArchiveMode.Create, leaveOpen:=True)
@@ -221,6 +385,11 @@ Imports Microsoft.VisualBasic.Linq
             Call WriteSection(zip, EntryCollinear, AddressOf WriteCollinearBlocks)
             Call WriteSection(zip, EntryCollinearLinks, AddressOf WriteCollinearLinks)
             Call WriteSection(zip, EntrySV, AddressOf WriteStructuralVariations)
+            Call WriteSection(zip, EntryGenomeStats, AddressOf WriteGenomeStats)
+            Call WriteSection(zip, EntryPCA, AddressOf WritePCAData)
+            Call WriteSection(zip, EntryEntropy, AddressOf WriteGenomeEntropyData)
+            Call WriteSection(zip, EntryCategoryPercent, AddressOf WriteCategoryPercent)
+            Call WriteSection(zip, EntrySVEntropy, AddressOf WriteSVEntropy)
         End Using
 
         Call file.Flush()
@@ -238,7 +407,7 @@ Imports Microsoft.VisualBasic.Linq
             Dim manifest As Dictionary(Of String, String) = ReadManifest(zip)
             Dim version As String = Nothing
 
-            If Not manifest.TryGetValue("version", version) OrElse version <> ArchiveVersion Then
+            If Not manifest.TryGetValue("version", version) OrElse Not IsSupportedVersion(version) Then
                 Throw New InvalidDataException($"invalid pan-genome result archive version: '{version}', expected: '{ArchiveVersion}'!")
             End If
 
@@ -253,14 +422,40 @@ Imports Microsoft.VisualBasic.Linq
             Call ReadGeneticDistance(zip, result)
             Call ReadCollinearBlocks(zip, result)
             Call ReadStructuralVariations(zip, result)
+            Call ReadGenomeStats(zip, result)
+            Call ReadPCAData(zip, result)
+            Call ReadGenomeEntropyData(zip, result)
+            Call ReadCategoryPercent(zip, result)
+            Call ReadSVEntropy(zip, result)
         End Using
 
         Return result
     End Function
 
+    ''' <summary>
+    ''' 判断归档文件的格式版本是否可以被当前版本的代码读取
+    ''' </summary>
+    ''' <param name="version">归档文件的 manifest 条目之中记录的版本号</param>
+    ''' <remarks>
+    ''' 新版本的归档增加了统计数据缓存、类别占比、共线性区块坐标以及SV信息熵等内容；
+    ''' 为了保持对历史分析结果的兼容性，旧版本的归档依然可以被读取，
+    ''' 只不过缺失的条目会以空值的形式保留下来（需要的时候由对应的取数方法重新计算）。
+    ''' </remarks>
+    Private Shared Function IsSupportedVersion(version As String) As Boolean
+        If String.IsNullOrEmpty(version) Then
+            Return False
+        End If
+
+        Return version = ArchiveVersion OrElse version = ArchiveVersionV1
+    End Function
+
 #Region "archive helpers"
 
-    Const ArchiveVersion As String = "pangenome-result/1.0"
+    Const ArchiveVersion As String = "pangenome-result/2.0"
+    ''' <summary>
+    ''' 旧版本的归档格式：这个版本之中没有统计数据缓存、类别占比、共线性区块坐标以及SV信息熵这些条目
+    ''' </summary>
+    Const ArchiveVersionV1 As String = "pangenome-result/1.0"
 
     Const EntryManifest As String = "manifest"
     Const EntryGenomes As String = "genomes"
@@ -272,6 +467,21 @@ Imports Microsoft.VisualBasic.Linq
     Const EntryCollinear As String = "collinear"
     Const EntryCollinearLinks As String = "collinear.links"
     Const EntrySV As String = "sv"
+    ''' <summary>基因组基本信息统计</summary>
+    Const EntryGenomeStats As String = "genome.stats"
+    ''' <summary>PAV矩阵的PCA降维散点数据</summary>
+    Const EntryPCA As String = "pca"
+    ''' <summary>基因组存在/缺失均衡度熵散点数据</summary>
+    Const EntryEntropy As String = "entropy"
+    ''' <summary>基因家族分布比例（两种口径）</summary>
+    Const EntryCategoryPercent As String = "category.percent"
+    ''' <summary>SV结构变异的信息熵散点图与聚类结果</summary>
+    Const EntrySVEntropy As String = "sv.entropy"
+
+    ''' <summary>
+    ''' 元数据行的行首标记：条目之内以这个标记开头的行不是数据行，而是 Key/Value 形式的元数据
+    ''' </summary>
+    Const MetaMark As String = "#"
 
     Shared ReadOnly Utf8NoBom As New UTF8Encoding(encoderShouldEmitUTF8Identifier:=False)
     Shared ReadOnly SepChar As Char = ChrW(9)
@@ -452,6 +662,11 @@ Imports Microsoft.VisualBasic.Linq
         Call w.WriteLine(JoinRow("sv", StructuralVariations.TryCount.ToString(CultureInfo.InvariantCulture)))
         Call w.WriteLine(JoinRow("distance", GeneticDistanceMatrix.Count.ToString(CultureInfo.InvariantCulture)))
         Call w.WriteLine(JoinRow("curve", PangenomeCurveData.TryCount.ToString(CultureInfo.InvariantCulture)))
+        Call w.WriteLine(JoinRow("stats", GenomeStats.TryCount.ToString(CultureInfo.InvariantCulture)))
+        Call w.WriteLine(JoinRow("pca", If(PCAData Is Nothing, 0, PCAData.points.TryCount).ToString(CultureInfo.InvariantCulture)))
+        Call w.WriteLine(JoinRow("entropy", If(GenomeEntropyData Is Nothing, 0, GenomeEntropyData.points.TryCount).ToString(CultureInfo.InvariantCulture)))
+        Call w.WriteLine(JoinRow("percent", If(CategoryPercent Is Nothing, 0, CategoryPercent.categories.TryCount).ToString(CultureInfo.InvariantCulture)))
+        Call w.WriteLine(JoinRow("sv.entropy", If(SVEntropy Is Nothing, 0, SVEntropy.points.TryCount).ToString(CultureInfo.InvariantCulture)))
     End Sub
 
     Private Sub WriteGenomeSizes(w As StreamWriter)
@@ -530,7 +745,8 @@ Imports Microsoft.VisualBasic.Linq
         For Each point As PangenomeCurveData In PangenomeCurveData.SafeQuery
             Call w.WriteLine(JoinRow(point.GenomeCount.ToString(CultureInfo.InvariantCulture),
                                      point.TotalGenes.ToString(CultureInfo.InvariantCulture),
-                                     point.CoreGenes.ToString(CultureInfo.InvariantCulture)))
+                                     point.CoreGenes.ToString(CultureInfo.InvariantCulture),
+                                     point.SoftCoreGenes.ToString(CultureInfo.InvariantCulture)))
         Next
     End Sub
 
@@ -547,7 +763,11 @@ Imports Microsoft.VisualBasic.Linq
                                      nil(block.Chr1),
                                      nil(block.Chr2),
                                      block.GenePairCount.ToString(CultureInfo.InvariantCulture),
-                                     formatNumber(block.Score)))
+                                     formatNumber(block.Score),
+                                     block.Start1.ToString(CultureInfo.InvariantCulture),
+                                     block.End1.ToString(CultureInfo.InvariantCulture),
+                                     block.Start2.ToString(CultureInfo.InvariantCulture),
+                                     block.End2.ToString(CultureInfo.InvariantCulture)))
         Next
     End Sub
 
@@ -589,6 +809,200 @@ Imports Microsoft.VisualBasic.Linq
         Else
             Return String.Join(";"c, genes)
         End If
+    End Function
+
+    ''' <summary>
+    ''' 写出基因组基本信息统计
+    ''' </summary>
+    Private Sub WriteGenomeStats(w As StreamWriter)
+        Dim stats As GenomeStatRow() = Me.GenomeStats
+
+        Call WriteMeta(w, "count", stats.TryCount.ToString(CultureInfo.InvariantCulture))
+
+        For Each stat As GenomeStatRow In stats.SafeQuery
+            Call w.WriteLine(JoinRow(nil(stat.name),
+                                     stat.geneCount.ToString(CultureInfo.InvariantCulture),
+                                     stat.specificCount.ToString(CultureInfo.InvariantCulture),
+                                     formatNumber(stat.coreRatio)))
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 写出PAV矩阵的PCA降维散点数据
+    ''' </summary>
+    Private Sub WritePCAData(w As StreamWriter)
+        Dim data As PCAScatterDataset = Me.PCAData
+
+        If data Is Nothing Then
+            Call WriteMeta(w, "count", "0")
+            Return
+        End If
+
+        Call WriteMeta(w, "pc1Label", nil(data.pc1Label))
+        Call WriteMeta(w, "pc2Label", nil(data.pc2Label))
+        Call WriteMeta(w, "pc3Label", nil(data.pc3Label))
+        Call WriteMeta(w, "colorLabel", nil(data.colorLabel))
+        Call WriteMeta(w, "familyCount", data.familyCount.ToString(CultureInfo.InvariantCulture))
+        Call WriteMeta(w, "explained", joinNumbers(data.explained))
+        Call WriteMeta(w, "count", data.points.TryCount.ToString(CultureInfo.InvariantCulture))
+
+        For Each point As PCAPoint In data.points.SafeQuery
+            Call w.WriteLine(JoinRow(nil(point.name),
+                                     formatNumber(point.pc1),
+                                     formatNumber(point.pc2),
+                                     formatNumber(point.pc3),
+                                     formatNumber(point.coreRatio),
+                                     point.geneCount.ToString(CultureInfo.InvariantCulture)))
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 写出基因组存在/缺失均衡度的香农信息熵散点数据
+    ''' </summary>
+    Private Sub WriteGenomeEntropyData(w As StreamWriter)
+        Dim data As GenomeEntropyDataset = Me.GenomeEntropyData
+
+        If data Is Nothing Then
+            Call WriteMeta(w, "count", "0")
+            Return
+        End If
+
+        Call WriteMeta(w, "entropyLabel", nil(data.entropyLabel))
+        Call WriteMeta(w, "specificRatioLabel", nil(data.specificRatioLabel))
+        Call WriteMeta(w, "coreRatioLabel", nil(data.coreRatioLabel))
+        Call WriteMeta(w, "familyCount", data.familyCount.ToString(CultureInfo.InvariantCulture))
+        Call WriteMeta(w, "count", data.points.TryCount.ToString(CultureInfo.InvariantCulture))
+
+        For Each point As GenomeEntropyPoint In data.points.SafeQuery
+            Call w.WriteLine(JoinRow(nil(point.name),
+                                     formatNumber(point.entropy),
+                                     point.presentFamilies.ToString(CultureInfo.InvariantCulture),
+                                     point.absentFamilies.ToString(CultureInfo.InvariantCulture),
+                                     formatNumber(point.specificRatio),
+                                     formatNumber(point.coreRatio),
+                                     point.geneCount.ToString(CultureInfo.InvariantCulture)))
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 写出基因家族分布比例（两种口径的平均值 + 逐基因组明细）
+    ''' </summary>
+    Private Sub WriteCategoryPercent(w As StreamWriter)
+        Dim data As CategoryPercentDataset = Me.CategoryPercent
+
+        If data Is Nothing Then
+            Call WriteMeta(w, "count", "0")
+            Return
+        End If
+
+        Call WriteMeta(w, "categories", joinList(data.categories))
+        Call WriteMeta(w, "colors", joinList(data.colors))
+        Call WriteMeta(w, "genomes", joinList(data.genomes))
+        Call WriteMeta(w, "byGeneCount", joinNumbers(data.byGeneCount))
+        Call WriteMeta(w, "byFamilyCount", joinNumbers(data.byFamilyCount))
+        Call WriteMeta(w, "count", data.categories.TryCount.ToString(CultureInfo.InvariantCulture))
+
+        Call writePercentMatrix(w, "gene", data.genomeByGeneCount)
+        Call writePercentMatrix(w, "family", data.genomeByFamilyCount)
+    End Sub
+
+    ''' <summary>
+    ''' 写出一个 [类别][基因组] 的百分比明细矩阵：每一个类别一行，第一列是口径的标记
+    ''' </summary>
+    Private Shared Sub writePercentMatrix(w As StreamWriter, kind As String, matrix As Double()())
+        For Each row As Double() In matrix.SafeQuery
+            Dim values As String() = New String(row.Length) {}
+
+            values(0) = kind
+
+            For i As Integer = 0 To row.Length - 1
+                values(i + 1) = formatNumber(row(i))
+            Next
+
+            Call w.WriteLine(JoinRow(values))
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 写出SV结构变异的信息熵散点图与KMeans聚类结果
+    ''' </summary>
+    Private Sub WriteSVEntropy(w As StreamWriter)
+        Dim data As SVDomainEntropyDataset = Me.SVEntropy
+
+        If data Is Nothing Then
+            Call WriteMeta(w, "pointCount", "0")
+            Return
+        End If
+
+        Call WriteMeta(w, "genomeCount", data.genomeCount.ToString(CultureInfo.InvariantCulture))
+        Call WriteMeta(w, "familyCount", data.familyCount.ToString(CultureInfo.InvariantCulture))
+        Call WriteMeta(w, "filteredCount", data.filteredCount.ToString(CultureInfo.InvariantCulture))
+        Call WriteMeta(w, "clusterCount", data.clusterCount.ToString(CultureInfo.InvariantCulture))
+        Call WriteMeta(w, "copyNumberEntropyLabel", nil(data.copyNumberEntropyLabel))
+        Call WriteMeta(w, "medianEntropyLabel", nil(data.medianEntropyLabel))
+        Call WriteMeta(w, "pointCount", data.points.TryCount.ToString(CultureInfo.InvariantCulture))
+
+        For Each point As SVDomainEntropyPoint In data.points.SafeQuery
+            Call w.WriteLine(JoinRow("point",
+                                     nil(point.name),
+                                     formatNumber(point.hCopyNumber),
+                                     formatNumber(point.hMedian),
+                                     formatNumber(point.zCopyNumber),
+                                     formatNumber(point.zMedian),
+                                     point.presentGenomes.ToString(CultureInfo.InvariantCulture),
+                                     point.cluster.ToString(CultureInfo.InvariantCulture)))
+        Next
+
+        For Each cluster As SVEntropyCluster In data.clusters.SafeQuery
+            Call w.WriteLine(JoinRow("cluster",
+                                     cluster.cluster.ToString(CultureInfo.InvariantCulture),
+                                     cluster.size.ToString(CultureInfo.InvariantCulture),
+                                     formatNumber(cluster.meanCopyNumberEntropy),
+                                     formatNumber(cluster.meanMedianEntropy),
+                                     nil(cluster.label)))
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 写出一个元数据行（Key/Value）
+    ''' </summary>
+    Private Shared Sub WriteMeta(w As StreamWriter, key As String, value As String)
+        Call w.WriteLine(JoinRow(MetaMark, key, value))
+    End Sub
+
+    Private Shared Function joinList(items As String()) As String
+        If items Is Nothing Then
+            Return ""
+        Else
+            Return String.Join(";"c, items)
+        End If
+    End Function
+
+    Private Shared Function joinNumbers(numbers As Double()) As String
+        If numbers Is Nothing Then
+            Return ""
+        Else
+            Return String.Join(";"c, numbers.Select(AddressOf formatNumber))
+        End If
+    End Function
+
+    Private Shared Function splitList(text As String) As String()
+        If String.IsNullOrEmpty(text) Then
+            Return New String() {}
+        Else
+            Return text.Split(";"c)
+        End If
+    End Function
+
+    Private Shared Function splitNumbers(text As String) As Double()
+        Dim items As String() = splitList(text)
+        Dim numbers As Double() = New Double(items.Length - 1) {}
+
+        For i As Integer = 0 To items.Length - 1
+            numbers(i) = parseNumber(items(i))
+        Next
+
+        Return numbers
     End Function
 
 #End Region
@@ -701,11 +1115,13 @@ Imports Microsoft.VisualBasic.Linq
         Dim points As New List(Of PangenomeCurveData)()
 
         For Each row As String() In ReadSection(zip, EntryCurve)
+            ' 旧版本(1.0)的归档之中只有3列，没有软核心这一列，读取的时候按照0来处理
             If row.Length >= 3 Then
                 Call points.Add(New PangenomeCurveData With {
                     .GenomeCount = parseInt(row(0)),
                     .TotalGenes = parseInt(row(1)),
-                    .CoreGenes = parseInt(row(2))
+                    .CoreGenes = parseInt(row(2)),
+                    .SoftCoreGenes = If(row.Length >= 4, parseInt(row(3)), 0)
                 })
             End If
         Next
@@ -729,6 +1145,7 @@ Imports Microsoft.VisualBasic.Linq
         Dim blocks As New List(Of CollinearBlock)()
 
         For Each row As String() In ReadSection(zip, EntryCollinear)
+            ' 旧版本(1.0)的归档之中没有区块的起止坐标，读取的时候按照0来处理
             If row.Length >= 6 Then
                 Call blocks.Add(New CollinearBlock With {
                     .Genome1 = nil(row(0)),
@@ -736,7 +1153,11 @@ Imports Microsoft.VisualBasic.Linq
                     .Chr1 = nil(row(2)),
                     .Chr2 = nil(row(3)),
                     .LinkCount = parseInt(row(4)),
-                    .Score = parseNumber(row(5))
+                    .Score = parseNumber(row(5)),
+                    .Start1 = If(row.Length >= 10, parseInt(row(6)), 0),
+                    .End1 = If(row.Length >= 10, parseInt(row(7)), 0),
+                    .Start2 = If(row.Length >= 10, parseInt(row(8)), 0),
+                    .End2 = If(row.Length >= 10, parseInt(row(9)), 0)
                 })
             End If
         Next
@@ -808,6 +1229,275 @@ Imports Microsoft.VisualBasic.Linq
         Next
 
         result.StructuralVariations = events.ToArray()
+    End Sub
+
+    ''' <summary>
+    ''' 读取条目之内的元数据行（只处理以 <see cref="MetaMark"/> 开头的行）
+    ''' </summary>
+    Private Shared Function ReadMeta(rows As String()()) As Dictionary(Of String, String)
+        Dim meta As New Dictionary(Of String, String)()
+
+        For Each row As String() In rows
+            If row.Length >= 3 AndAlso row(0) = MetaMark Then
+                meta(row(1)) = row(2)
+            End If
+        Next
+
+        Return meta
+    End Function
+
+    Private Shared Function metaValue(meta As Dictionary(Of String, String), key As String) As String
+        Dim value As String = Nothing
+
+        If meta.TryGetValue(key, value) Then
+            Return nil(value)
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Shared Function metaInt(meta As Dictionary(Of String, String), key As String) As Integer
+        Dim value As String = Nothing
+
+        If meta.TryGetValue(key, value) Then
+            Return parseInt(value)
+        Else
+            Return 0
+        End If
+    End Function
+
+    Private Shared Function metaList(meta As Dictionary(Of String, String), key As String) As String()
+        Dim value As String = Nothing
+
+        If meta.TryGetValue(key, value) Then
+            Return splitList(value)
+        Else
+            Return New String() {}
+        End If
+    End Function
+
+    Private Shared Function metaNumbers(meta As Dictionary(Of String, String), key As String) As Double()
+        Dim value As String = Nothing
+
+        If meta.TryGetValue(key, value) Then
+            Return splitNumbers(value)
+        Else
+            Return New Double() {}
+        End If
+    End Function
+
+    ''' <summary>
+    ''' 读取基因组基本信息统计
+    ''' </summary>
+    Private Shared Sub ReadGenomeStats(zip As ZipArchive, result As PanGenomeResult)
+        ' 条目不存在（旧版本的归档）：保持为Nothing，由取数方法在需要的时候重新计算
+        If zip.GetEntry(EntryGenomeStats) Is Nothing Then
+            Return
+        End If
+
+        Dim stats As New List(Of GenomeStatRow)()
+
+        For Each row As String() In ReadSection(zip, EntryGenomeStats)
+            If row.Length >= 4 AndAlso row(0) <> MetaMark Then
+                Call stats.Add(New GenomeStatRow With {
+                    .name = nil(row(0)),
+                    .geneCount = parseInt(row(1)),
+                    .specificCount = parseInt(row(2)),
+                    .coreRatio = parseNumber(row(3))
+                })
+            End If
+        Next
+
+        If stats.Count = 0 Then
+            Return
+        End If
+
+        result.GenomeStats = stats.ToArray()
+    End Sub
+
+    ''' <summary>
+    ''' 读取PAV矩阵的PCA降维散点数据
+    ''' </summary>
+    Private Shared Sub ReadPCAData(zip As ZipArchive, result As PanGenomeResult)
+        If zip.GetEntry(EntryPCA) Is Nothing Then
+            Return
+        End If
+
+        Dim rows As String()() = ReadSection(zip, EntryPCA).ToArray
+        Dim meta As Dictionary(Of String, String) = ReadMeta(rows)
+        Dim points As New List(Of PCAPoint)()
+
+        For Each row As String() In rows
+            If row.Length >= 6 AndAlso row(0) <> MetaMark Then
+                Call points.Add(New PCAPoint With {
+                    .name = nil(row(0)),
+                    .pc1 = parseNumber(row(1)),
+                    .pc2 = parseNumber(row(2)),
+                    .pc3 = parseNumber(row(3)),
+                    .coreRatio = parseNumber(row(4)),
+                    .geneCount = parseInt(row(5))
+                })
+            End If
+        Next
+
+        If points.Count = 0 Then
+            Return
+        End If
+
+        result.PCAData = New PCAScatterDataset With {
+            .points = points.ToArray,
+            .pc1Label = metaValue(meta, "pc1Label"),
+            .pc2Label = metaValue(meta, "pc2Label"),
+            .pc3Label = metaValue(meta, "pc3Label"),
+            .colorLabel = metaValue(meta, "colorLabel"),
+            .familyCount = metaInt(meta, "familyCount"),
+            .explained = metaNumbers(meta, "explained")
+        }
+    End Sub
+
+    ''' <summary>
+    ''' 读取基因组存在/缺失均衡度的香农信息熵散点数据
+    ''' </summary>
+    Private Shared Sub ReadGenomeEntropyData(zip As ZipArchive, result As PanGenomeResult)
+        If zip.GetEntry(EntryEntropy) Is Nothing Then
+            Return
+        End If
+
+        Dim rows As String()() = ReadSection(zip, EntryEntropy).ToArray
+        Dim meta As Dictionary(Of String, String) = ReadMeta(rows)
+        Dim points As New List(Of GenomeEntropyPoint)()
+
+        For Each row As String() In rows
+            If row.Length >= 7 AndAlso row(0) <> MetaMark Then
+                Call points.Add(New GenomeEntropyPoint With {
+                    .name = nil(row(0)),
+                    .entropy = parseNumber(row(1)),
+                    .presentFamilies = parseInt(row(2)),
+                    .absentFamilies = parseInt(row(3)),
+                    .specificRatio = parseNumber(row(4)),
+                    .coreRatio = parseNumber(row(5)),
+                    .geneCount = parseInt(row(6))
+                })
+            End If
+        Next
+
+        If points.Count = 0 Then
+            Return
+        End If
+
+        result.GenomeEntropyData = New GenomeEntropyDataset With {
+            .points = points.ToArray,
+            .entropyLabel = metaValue(meta, "entropyLabel"),
+            .specificRatioLabel = metaValue(meta, "specificRatioLabel"),
+            .coreRatioLabel = metaValue(meta, "coreRatioLabel"),
+            .familyCount = metaInt(meta, "familyCount")
+        }
+    End Sub
+
+    ''' <summary>
+    ''' 读取基因家族分布比例（两种口径的平均值 + 逐基因组明细）
+    ''' </summary>
+    Private Shared Sub ReadCategoryPercent(zip As ZipArchive, result As PanGenomeResult)
+        If zip.GetEntry(EntryCategoryPercent) Is Nothing Then
+            Return
+        End If
+
+        Dim rows As String()() = ReadSection(zip, EntryCategoryPercent).ToArray
+        Dim meta As Dictionary(Of String, String) = ReadMeta(rows)
+        Dim categories As String() = metaList(meta, "categories")
+        Dim byGene As New List(Of Double())()
+        Dim byFamily As New List(Of Double())()
+
+        If categories.Length = 0 Then
+            Return
+        End If
+
+        For Each row As String() In rows
+            If row.Length < 2 OrElse row(0) = MetaMark Then
+                Continue For
+            End If
+
+            Dim values As Double() = New Double(row.Length - 2) {}
+
+            For i As Integer = 1 To row.Length - 1
+                values(i - 1) = parseNumber(row(i))
+            Next
+
+            Select Case row(0)
+                Case "gene" : Call byGene.Add(values)
+                Case "family" : Call byFamily.Add(values)
+            End Select
+        Next
+
+        result.CategoryPercent = New CategoryPercentDataset With {
+            .categories = categories,
+            .colors = metaList(meta, "colors"),
+            .genomes = metaList(meta, "genomes"),
+            .byGeneCount = metaNumbers(meta, "byGeneCount"),
+            .byFamilyCount = metaNumbers(meta, "byFamilyCount"),
+            .genomeByGeneCount = byGene.ToArray,
+            .genomeByFamilyCount = byFamily.ToArray
+        }
+    End Sub
+
+    ''' <summary>
+    ''' 读取SV结构变异的信息熵散点图与KMeans聚类结果
+    ''' </summary>
+    Private Shared Sub ReadSVEntropy(zip As ZipArchive, result As PanGenomeResult)
+        If zip.GetEntry(EntrySVEntropy) Is Nothing Then
+            Return
+        End If
+
+        Dim rows As String()() = ReadSection(zip, EntrySVEntropy).ToArray
+        Dim meta As Dictionary(Of String, String) = ReadMeta(rows)
+        Dim points As New List(Of SVDomainEntropyPoint)()
+        Dim clusters As New List(Of SVEntropyCluster)()
+
+        For Each row As String() In rows
+            If row.Length = 0 OrElse row(0) = MetaMark Then
+                Continue For
+            End If
+
+            Select Case row(0)
+                Case "point"
+                    If row.Length >= 8 Then
+                        Call points.Add(New SVDomainEntropyPoint With {
+                            .name = nil(row(1)),
+                            .hCopyNumber = parseNumber(row(2)),
+                            .hMedian = parseNumber(row(3)),
+                            .zCopyNumber = parseNumber(row(4)),
+                            .zMedian = parseNumber(row(5)),
+                            .presentGenomes = parseInt(row(6)),
+                            .cluster = parseInt(row(7))
+                        })
+                    End If
+                Case "cluster"
+                    If row.Length >= 6 Then
+                        Call clusters.Add(New SVEntropyCluster With {
+                            .cluster = parseInt(row(1)),
+                            .size = parseInt(row(2)),
+                            .meanCopyNumberEntropy = parseNumber(row(3)),
+                            .meanMedianEntropy = parseNumber(row(4)),
+                            .label = nil(row(5))
+                        })
+                    End If
+            End Select
+        Next
+
+        If points.Count = 0 Then
+            Return
+        End If
+
+        result.SVEntropy = New SVDomainEntropyDataset With {
+            .points = points.ToArray,
+            .clusters = clusters.ToArray,
+            .familyCount = metaInt(meta, "familyCount"),
+            .filteredCount = metaInt(meta, "filteredCount"),
+            .clusterCount = metaInt(meta, "clusterCount"),
+            .copyNumberEntropyLabel = metaValue(meta, "copyNumberEntropyLabel"),
+            .medianEntropyLabel = metaValue(meta, "medianEntropyLabel"),
+            .genomeCount = metaInt(meta, "genomeCount")
+        }
     End Sub
 
 #End Region

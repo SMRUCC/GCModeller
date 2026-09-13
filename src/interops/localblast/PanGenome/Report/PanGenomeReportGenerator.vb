@@ -80,6 +80,23 @@ Public Module PanGenomeReportGenerator
     ''' </summary>
     Const MaxPAVGenomes As Integer = 120
 
+    ''' <summary>
+    ''' SV CopyNumber 矩阵热图的单元格含义
+    ''' </summary>
+    Const SV_MetricCopyNumber As String = "SV CopyNumber"
+    ''' <summary>
+    ''' SV Median 矩阵热图的单元格含义
+    ''' </summary>
+    Const SV_MetricMedian As String = "SV Median"
+    ''' <summary>
+    ''' SV热图最多展示的基因家族数量
+    ''' </summary>
+    Const MaxSVHeatmapFamilies As Integer = 120
+    ''' <summary>
+    ''' SV热图最多展示的基因组数量
+    ''' </summary>
+    Const MaxSVHeatmapGenomes As Integer = 120
+
     Public ReadOnly Property DefaultHtmlTemplate As String
         Get
             Return DefaultTemplate.ResourceManager.GetString("Report")
@@ -147,15 +164,16 @@ Public Module PanGenomeReportGenerator
         ' ============================================
         ' 3. ECharts 数据 - 基因组基本信息统计（由前端渲染表格与直方图）
         ' ============================================
-        ' 基因组统计只需要计算一次：既用于前端的统计表格/直方图，也用于PCA散点图的着色维度
-        Dim genomeStats As GenomeStatRow() = BuildGenomeStats(result)
-
-        sb.Replace("{$GENOME_STATS_DATA}", SerializeData(genomeStats))
+        ' 基因组统计只需要计算一次：既用于前端的统计表格/直方图，也用于PCA散点图的着色维度。
+        ' 这三份统计数据在分析阶段就已经算好并缓存到结果对象之中了（见GenomeAnalyzer的步骤7），
+        ' 这里直接取用缓存的副本即可；只有在缓存为空的时候（例如加载了旧版本的归档文件）
+        ' 才会重新计算一次并回填。
+        sb.Replace("{$GENOME_STATS_DATA}", SerializeData(result.GetGenomeStats()))
 
         ' ============================================
         ' 3.1 基因组三维散点图（基因存在/缺失均衡度熵 / 特有基因占比 / 核心基因占比）
         ' ============================================
-        sb.Replace("{$GENOME_ENTROPY_DATA}", SerializeData(BuildGenomeEntropyData(result, genomeStats)))
+        sb.Replace("{$GENOME_ENTROPY_DATA}", SerializeData(result.GetGenomeEntropyData()))
 
         ' ============================================
         ' 4. ECharts 数据 - 基因家族饼图
@@ -175,7 +193,7 @@ Public Module PanGenomeReportGenerator
         ' ============================================
         ' 6.1 PAV 矩阵的 PCA 分析（三维散点图）
         ' ============================================
-        sb.Replace("{$PCA_DATA}", SerializeData(BuildPCAData(result, genomeStats)))
+        sb.Replace("{$PCA_DATA}", SerializeData(result.GetPCAData()))
 
         ' ============================================
         ' 7. 遗传距离矩阵
@@ -186,6 +204,18 @@ Public Module PanGenomeReportGenerator
         ' 8. 结构变异统计
         ' ============================================
         sb.Replace("{$SV_STATS_DATA}", SerializeData(BuildSVStatsData(result)))
+
+        ' ============================================
+        ' 8.1 基因家族分布比例（按基因数 / 按家族个数两种口径）
+        ' ============================================
+        sb.Replace("{$CATEGORY_PERCENT_DATA}", SerializeData(BuildCategoryPercentData(result)))
+
+        ' ============================================
+        ' 8.2 SV 矩阵热图与信息熵散点图
+        ' ============================================
+        sb.Replace("{$SV_COPY_NUMBER_MATRIX_DATA}", SerializeData(BuildSVMatrixData(result, SV_MetricCopyNumber, useMedian:=False)))
+        sb.Replace("{$SV_MEDIAN_MATRIX_DATA}", SerializeData(BuildSVMatrixData(result, SV_MetricMedian, useMedian:=True)))
+        sb.Replace("{$SV_ENTROPY_DATA}", SerializeData(BuildSVEntropyData(result)))
 
         ' ============================================
         ' 9. 共线性区块统计与可视化数据
@@ -292,15 +322,137 @@ Public Module PanGenomeReportGenerator
             Return New PangenomeCurveDataset With {
                 .genomeCounts = New Integer() {},
                 .panGenes = New Integer() {},
-                .coreGenes = New Integer() {}
+                .coreGenes = New Integer() {},
+                .softCoreGenes = New Integer() {}
             }
         End If
 
         Return New PangenomeCurveDataset With {
             .genomeCounts = result.PangenomeCurveData.Select(Function(d) d.GenomeCount).ToArray,
             .panGenes = result.PangenomeCurveData.Select(Function(d) d.TotalGenes).ToArray,
-            .coreGenes = result.PangenomeCurveData.Select(Function(d) d.CoreGenes).ToArray
+            .coreGenes = result.PangenomeCurveData.Select(Function(d) d.CoreGenes).ToArray,
+            .softCoreGenes = result.PangenomeCurveData.Select(Function(d) d.SoftCoreGenes).ToArray
         }
+    End Function
+
+    ''' <summary>
+    ''' 基因家族分布比例的绘图数据（直接复用分析阶段缓存好的统计结果）
+    ''' </summary>
+    ''' <remarks>
+    ''' 由于核心/软核心/壳/云这四个类别构成了一个完整的划分，
+    ''' 因此"按基因数"与"按家族个数"两种口径之下的四类占比加和都接近100%。
+    ''' </remarks>
+    Private Function BuildCategoryPercentData(result As PanGenomeResult) As CategoryPercentDataset
+        If result.CategoryPercent IsNot Nothing Then
+            Return result.CategoryPercent
+        End If
+
+        Return New CategoryPercentDataset With {
+            .categories = New String() {},
+            .colors = New String() {},
+            .genomes = New String() {},
+            .byGeneCount = New Double() {},
+            .byFamilyCount = New Double() {},
+            .genomeByGeneCount = New Double()() {},
+            .genomeByFamilyCount = New Double()() {}
+        }
+    End Function
+
+    ''' <summary>
+    ''' 构建SV矩阵的热图绘图数据（行=基因家族，列=基因组）
+    ''' </summary>
+    ''' <param name="result">泛基因组分析结果</param>
+    ''' <param name="metricLabel">单元格数值的含义说明</param>
+    ''' <param name="useMedian">True取Median矩阵，False取CopyNumber矩阵</param>
+    ''' <remarks>
+    ''' 为了避免生成的JSON过于庞大，这里对基因家族行与基因组列都按照等间距的方式做了抽样，
+    ''' 并通过 <c>truncated</c> 标志提示前端；完整的矩阵由R#脚本通过导出接口获取。
+    ''' </remarks>
+    Private Function BuildSVMatrixData(result As PanGenomeResult, metricLabel As String, useMedian As Boolean) As SVMatrixDataset
+        Dim pair As SVMatrixPair = result.GetSVMatrices
+
+        If pair Is Nothing OrElse pair.Families Is Nothing OrElse pair.Families.Length = 0 Then
+            Return New SVMatrixDataset With {
+                .families = New String() {},
+                .genomes = New String() {},
+                .matrix = New Double()() {},
+                .metricLabel = metricLabel,
+                .truncated = False
+            }
+        End If
+
+        Dim familyRows As Integer() = SampleIndexes(pair.Families.Length, MaxSVHeatmapFamilies)
+        Dim genomeCols As Integer() = SampleIndexes(pair.Genomes.Length, MaxSVHeatmapGenomes)
+        Dim source As Double()() = If(useMedian, pair.Median, pair.CopyNumber)
+
+        Dim matrix As Double()() = familyRows _
+            .Select(Function(r)
+                        Return genomeCols _
+                            .Select(Function(c)
+                                        Dim row As Double() = source(r)
+
+                                        Return If(row Is Nothing, 0.0, row(c))
+                                    End Function) _
+                            .ToArray
+                    End Function) _
+            .ToArray
+
+        Return New SVMatrixDataset With {
+            .families = familyRows.Select(Function(i) pair.Families(i)).ToArray,
+            .genomes = genomeCols.Select(Function(i) pair.Genomes(i)).ToArray,
+            .matrix = matrix,
+            .metricLabel = metricLabel,
+            .truncated = pair.Families.Length > familyRows.Length OrElse pair.Genomes.Length > genomeCols.Length
+        }
+    End Function
+
+    ''' <summary>
+    ''' SV结构变异的信息熵散点图与聚类结果
+    ''' </summary>
+    Private Function BuildSVEntropyData(result As PanGenomeResult) As SVDomainEntropyDataset
+        Dim data As SVDomainEntropyDataset = result.GetSVEntropy
+
+        If data IsNot Nothing Then
+            Return data
+        End If
+
+        Return New SVDomainEntropyDataset With {
+            .points = New SVDomainEntropyPoint() {},
+            .clusters = New SVEntropyCluster() {},
+            .familyCount = 0,
+            .filteredCount = 0,
+            .clusterCount = 0,
+            .copyNumberEntropyLabel = "",
+            .medianEntropyLabel = "",
+            .genomeCount = 0
+        }
+    End Function
+
+    ''' <summary>
+    ''' 等间距地取出最多 <paramref name="maxCount"/> 个下标，保证抽样结果是确定性的
+    ''' </summary>
+    Private Function SampleIndexes(total As Integer, maxCount As Integer) As Integer()
+        If total <= 0 Then
+            Return New Integer() {}
+        End If
+        If total <= maxCount Then
+            Dim all As Integer() = New Integer(total - 1) {}
+
+            For i As Integer = 0 To total - 1
+                all(i) = i
+            Next
+
+            Return all
+        End If
+
+        Dim sampled As Integer() = New Integer(maxCount - 1) {}
+        Dim stepSize As Double = total / CDbl(maxCount)
+
+        For i As Integer = 0 To maxCount - 1
+            sampled(i) = CInt(Math.Floor(i * stepSize))
+        Next
+
+        Return sampled
     End Function
 
     ''' <summary>
@@ -613,19 +765,26 @@ Public Module PanGenomeReportGenerator
         ' 列出主要共线性区块（按照基因对数降序）
         sb.AppendLine("<div class='table-scroll' style='max-height: 420px;'>")
         sb.AppendLine("<table class='data-table'>")
-        sb.AppendLine("<thead><tr><th>基因组对</th><th>染色体</th><th>基因对数</th></tr></thead>")
+        sb.AppendLine("<thead><tr><th>基因组对</th><th>染色体</th><th>区块坐标</th><th>基因对数</th></tr></thead>")
         sb.AppendLine("<tbody>")
 
         For Each block In result.CollinearBlocks _
                 .OrderByDescending(Function(b) b.GenePairCount) _
                 .Take(20)
             Dim pairCount As Integer = block.GenePairCount
-            sb.AppendLine($"<tr><td>{H(block.Genome1)} ↔ {H(block.Genome2)}</td><td>{H(block.Chr1)} ↔ {H(block.Chr2)}</td><td>{pairCount}</td></tr>")
+            sb.AppendLine($"<tr><td>{H(block.Genome1)} ↔ {H(block.Genome2)}</td><td>{H(block.Chr1)} ↔ {H(block.Chr2)}</td><td class='gene-list'>{H(BlockLocus(block))}</td><td>{pairCount}</td></tr>")
         Next
 
         sb.AppendLine("</tbody></table>")
         sb.AppendLine("</div>")
         Return sb.ToString()
+    End Function
+
+    ''' <summary>
+    ''' 生成共线性区块在两个基因组之上所覆盖的坐标摘要文本（用于共线性绘图时的定位参考）
+    ''' </summary>
+    Private Function BlockLocus(block As CollinearBlock) As String
+        Return $"{block.Chr1}:{block.Start1}-{block.End1} ↔ {block.Chr2}:{block.Start2}-{block.End2}"
     End Function
 
     ''' <summary>

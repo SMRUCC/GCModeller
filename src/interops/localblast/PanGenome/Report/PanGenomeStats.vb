@@ -379,4 +379,63 @@ Public Module PanGenomeStats
             Return empty
         End Try
     End Function
+
+#Region "统计数据的缓存取数接口"
+
+    ''' <summary>
+    ''' 获取基因组基本信息统计：优先复用分析阶段已经缓存好的结果，
+    ''' 只有在缓存为空的时候才重新计算一次并且回填到结果对象之中
+    ''' </summary>
+    ''' <param name="result">泛基因组分析结果</param>
+    ''' <remarks>
+    ''' 这三份统计数据既要在生成HTML报告的时候使用，也会被外部脚本(R#的scatter_set)单独取用，
+    ''' 如果每次都重新计算一遍的话，在最坏的情况下整个流程会重复计算两次；
+    ''' 因此在分析阶段就一次性算好并保存到 <see cref="PanGenomeResult"/> 之中。
+    ''' </remarks>
+    <Extension>
+    Public Function GetGenomeStats(result As PanGenomeResult) As GenomeStatRow()
+        If result Is Nothing Then
+            Return Nothing
+        End If
+        If result.GenomeStats Is Nothing Then
+            result.GenomeStats = result.BuildGenomeStats
+        End If
+
+        Return result.GenomeStats
+    End Function
+
+    ''' <summary>
+    ''' 获取PAV矩阵的PCA降维散点数据（为空的时候惰性计算并回填）
+    ''' </summary>
+    ''' <param name="result">泛基因组分析结果</param>
+    <Extension>
+    Public Function GetPCAData(result As PanGenomeResult) As PCAScatterDataset
+        If result Is Nothing Then
+            Return Nothing
+        End If
+        If result.PCAData Is Nothing Then
+            result.PCAData = result.BuildPCAData(result.GetGenomeStats)
+        End If
+
+        Return result.PCAData
+    End Function
+
+    ''' <summary>
+    ''' 获取基因组存在/缺失均衡度的香农信息熵散点数据（为空的时候惰性计算并回填）
+    ''' </summary>
+    ''' <param name="result">泛基因组分析结果</param>
+    <Extension>
+    Public Function GetGenomeEntropyData(result As PanGenomeResult) As GenomeEntropyDataset
+        If result Is Nothing Then
+            Return Nothing
+        End If
+        If result.GenomeEntropyData Is Nothing Then
+            result.GenomeEntropyData = result.BuildGenomeEntropyData(result.GetGenomeStats)
+        End If
+
+        Return result.GenomeEntropyData
+    End Function
+
+#End Region
+
 End Module

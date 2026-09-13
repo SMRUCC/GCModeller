@@ -70,6 +70,7 @@ Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
+Imports SMRUCC.genomics.Analysis.PanGenome.ReportJSON
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports rand = Microsoft.VisualBasic.Math.RandomExtensions
@@ -96,6 +97,30 @@ Public Class GenomeAnalyzer
     ''' 不再保留逐基因的同源配对数据，以避免占用过大的内存
     ''' </summary>
     Const MaxRetainLinkGenomes As Integer = 32
+
+#Region "基因家族类别"
+
+    ''' <summary>家族类别：核心基因（在所有基因组之中都存在）</summary>
+    Const CategoryCore As Integer = 0
+    ''' <summary>家族类别：软核心基因（出现比例不低于软核心阈值）</summary>
+    Const CategorySoftCore As Integer = 1
+    ''' <summary>家族类别：壳基因</summary>
+    Const CategoryShell As Integer = 2
+    ''' <summary>家族类别：云基因</summary>
+    Const CategoryCloud As Integer = 3
+    ''' <summary>基因家族的类别数量</summary>
+    Const CategoryCount As Integer = 4
+
+    ''' <summary>
+    ''' 四个家族类别的名称，顺序与 <see cref="CategoryCore"/> 等类别下标一致
+    ''' </summary>
+    Shared ReadOnly CategoryNames As String() = {"核心基因", "软核心基因", "壳基因", "云基因"}
+    ''' <summary>
+    ''' 四个家族类别的配色，与报告页面上的饼图/条形图保持一致
+    ''' </summary>
+    Shared ReadOnly CategoryColors As String() = {"#10b981", "#3b82f6", "#f59e0b", "#8b5cf6"}
+
+#End Region
 
     ReadOnly genomeNames As New HashSet(Of String)()
     Dim result As New PanGenomeResult()
@@ -163,6 +188,12 @@ Public Class GenomeAnalyzer
     ''' </summary>
     ''' <returns></returns>
     Public Property CurveIterations As Integer = 100
+
+    ''' <summary>
+    ''' SV结构变异的信息熵散点图所使用的KMeans簇数（默认4，对应四类进化模式象限）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property SVClusterCount As Integer = SVDomainEntropy.DefaultClusterCount
 
     ''' <summary>
     ''' 
@@ -432,11 +463,31 @@ Public Class GenomeAnalyzer
         result.PangenomeCurveData = CalculatePangenomeCurve(CurveIterations)
         Call $"[pan-genome] pangenome curve done, elapsed {sw.ElapsedMilliseconds} ms".debug
 
+        ' ==========================================
+        ' 步骤 7: 统计汇总
+        ' ==========================================
+        ' 基因组基本信息统计、PAV矩阵的PCA散点数据、存在/缺失均衡度熵散点数据
+        ' 既要在生成HTML报告的时候使用，也会被外部脚本单独取用，
+        ' 这里在分析阶段一次性算好并缓存到结果对象之中，避免重复计算
+        sw.Restart()
+        Call result.GetGenomeStats()
+        Call result.GetPCAData()
+        Call result.GetGenomeEntropyData()
+        Call $"[pan-genome] genome statistics cached, {result.GenomeStats.Length} genomes x {result.GenomeEntropyData.familyCount} families, elapsed {sw.ElapsedMilliseconds} ms".debug
+
+        ' ==========================================
+        ' 步骤 8: SV结构变异的信息熵与聚类分析
+        ' ==========================================
+        sw.Restart()
+        Call result.GetSVEntropy(Me.SVClusterCount)
+        Call $"[pan-genome] SV entropy cached, {result.SVEntropy.points.TryCount} families in {result.SVEntropy.clusterCount} clusters, elapsed {sw.ElapsedMilliseconds} ms".debug
+
         Return result
     End Function
 
     ''' <summary>
-    ''' 并行构建PAV矩阵并同时对基因家族做分类
+    ''' 并行构建PAV矩阵、同时对基因家族做分类，
+    ''' 并且顺带统计四个类别在各个基因组之内的占比（两种口径）
     ''' </summary>
     Private Sub BuildPAVAndClassify(F As Integer, N As Integer)
         Dim pavRows(F - 1) As Dictionary(Of String, Integer)
@@ -452,74 +503,107 @@ Public Class GenomeAnalyzer
         Dim softCore As Double = Me.SoftCoreThreshold
         Dim shell As Double = Me.ShellThreshold
 
+        ' 线程本地的类别占比累加器：一共 CategoryCount * 2 行 x N 列，全部使用整数累加
+        ' 
+        '   行 0..3  -> 四个类别在各个基因组上面的"拷贝数之和"（口径一：按基因数）
+        '   行 4..7  -> 四个类别在各个基因组上面"出现的家族个数"（口径二：按家族个数）
+        ' 
+        ' 因为每一个家族必然属于且仅属于这四个类别之一，
+        ' 所以在每个基因组上面把四个类别加起来就可以得到该口径的分母，不需要额外的累加器。
+        Dim slotCount As Integer = CategoryCount * 2
+        Dim totals As Integer()() = New Integer(slotCount - 1)() {}
+
+        For r As Integer = 0 To slotCount - 1
+            totals(r) = New Integer(N - 1) {}
+        Next
+
+        ' 注意：这里不使用 Parallel.For 的线程本地状态重载，因为VB编译器无法为该重载
+        ' 推断出数组类型的泛型参数；累加操作只会发生在"该基因组之内存在该基因"的单元格上面，
+        ' 总的原子操作次数等于基因总数(而不是 家族数 x 基因组数)，因此Interlocked的开销可以忽略。
         Parallel.For(0, F, Sub(k As Integer)
-                               Dim members As Integer() = familyMembers(k)
-                               Dim counts As Integer() = New Integer(N - 1) {}
-                               Dim presence As Integer = 0
-                               Dim g As Integer
+                Dim members As Integer() = familyMembers(k)
+                Dim counts As Integer() = New Integer(N - 1) {}
+                Dim presence As Integer = 0
+                Dim g As Integer
 
-                               For Each gi As Integer In members
-                                   counts(geneGenome(gi)) += 1
-                               Next
+                For Each gi As Integer In members
+                    counts(geneGenome(gi)) += 1
+                Next
 
-                               For g = 0 To N - 1
-                                   If counts(g) > 0 Then
-                                       presence += 1
-                                   End If
-                               Next
+                For g = 0 To N - 1
+                    If counts(g) > 0 Then
+                        presence += 1
+                    End If
+                Next
 
-                               ' 注意：PAV的每一行都必须包含全部的基因组键，
-                               ' 否则R#脚本在导出表格的时候会把缺失的键当作空值(NA)而不是0来处理
-                               Dim row As New Dictionary(Of String, Integer)(N)
+                Dim ratio As Double = presence / N
+                Dim category As Integer = CategoryCloud
 
-                               For g = 0 To N - 1
-                                   row.Add(genomeList(g), counts(g))
-                               Next
+                isDispensable(k) = (presence < N)
+                isSpecific(k) = (presence = 1)
 
-                               pavRows(k) = row
+                If ratio = coreThreshold Then
+                    isCore(k) = True
+                    category = CategoryCore
+                ElseIf ratio >= softCore AndAlso ratio < coreThreshold Then
+                    isSoftCore(k) = True
+                    category = CategorySoftCore
+                ElseIf ratio >= shell AndAlso ratio < softCore Then
+                    isShell(k) = True
+                    category = CategoryShell
+                Else
+                    isCloud(k) = True
+                    category = CategoryCloud
+                End If
 
-                               Dim ratio As Double = presence / N
+                ' 注意：PAV的每一行都必须包含全部的基因组键，
+                ' 否则R#脚本在导出表格的时候会把缺失的键当作空值(NA)而不是0来处理
+                Dim row As New Dictionary(Of String, Integer)(N)
+                Dim geneSlot As Integer() = totals(category)
+                Dim familySlot As Integer() = totals(category + CategoryCount)
 
-                               isDispensable(k) = (presence < N)
-                               isSpecific(k) = (presence = 1)
+                For g = 0 To N - 1
+                    Dim copyNumber As Integer = counts(g)
 
-                               If ratio = coreThreshold Then
-                                   isCore(k) = True
-                               ElseIf ratio >= softCore AndAlso ratio < coreThreshold Then
-                                   isSoftCore(k) = True
-                               ElseIf ratio >= shell AndAlso ratio < softCore Then
-                                   isShell(k) = True
-                               Else
-                                   isCloud(k) = True
-                               End If
+                    row.Add(genomeList(g), copyNumber)
 
-                               If presence = N Then
-                                   ' 单拷贝判断
-                                   If strictSingleCopy Then
-                                       Dim allOne As Boolean = True
+                    If copyNumber > 0 Then
+                        ' 口径一：累加该基因组之内属于这个类别的基因(拷贝数)数量
+                        Call Interlocked.Add(geneSlot(g), copyNumber)
+                        ' 口径二：累加该基因组之内属于这个类别的家族个数
+                        Call Interlocked.Add(familySlot(g), 1)
+                    End If
+                Next
 
-                                       For g = 0 To N - 1
-                                           If counts(g) <> 1 Then
-                                               allOne = False
-                                               Exit For
-                                           End If
-                                       Next
+                pavRows(k) = row
 
-                                       isSingleCopy(k) = allOne
-                                   Else
-                                       Dim allSmall As Boolean = True
+                If presence = N Then
+                    ' 单拷贝判断
+                    If strictSingleCopy Then
+                        Dim allOne As Boolean = True
 
-                                       For g = 0 To N - 1
-                                           If counts(g) >= 5 Then
-                                               allSmall = False
-                                               Exit For
-                                           End If
-                                       Next
+                        For g = 0 To N - 1
+                            If counts(g) <> 1 Then
+                                allOne = False
+                                Exit For
+                            End If
+                        Next
 
-                                       isSingleCopy(k) = allSmall
-                                   End If
-                               End If
-                           End Sub)
+                        isSingleCopy(k) = allOne
+                    Else
+                        Dim allSmall As Boolean = True
+
+                        For g = 0 To N - 1
+                            If counts(g) >= 5 Then
+                                allSmall = False
+                                Exit For
+                            End If
+                        Next
+
+                        isSingleCopy(k) = allSmall
+                    End If
+                End If
+            End Sub)
 
         ' 按照家族下标的顺序写入结果，保证输出顺序是确定的
         Dim coreList As New List(Of String)()
@@ -552,6 +636,66 @@ Public Class GenomeAnalyzer
         result.SpecificGeneFamilies = specificList.ToArray
         result.DispensableGeneFamilies = dispensableList.ToArray
         result.SingleCopyOrthologFamilies = singleList.ToArray
+
+        Call BuildCategoryPercent(totals, N)
+    End Sub
+
+    ''' <summary>
+    ''' 计算四个基因家族类别在各个基因组之内的占比（两种口径）以及全部基因组的平均值
+    ''' </summary>
+    ''' <param name="totals">
+    ''' 类别占比累加器：行 0..3 是四个类别的拷贝数之和，行 4..7 是四个类别出现的家族个数
+    ''' </param>
+    ''' <param name="N">基因组数量</param>
+    ''' <remarks>
+    ''' 当基因组的数量非常多的时候，壳基因与云基因会因为基因组数量的累加而在绝对数量上面
+    ''' 远远超过核心基因与软核心基因；但是它们在单个基因组内部的占比其实并不高。
+    ''' 这里通过"单个基因组内部的占比"这个口径来消除基因组数量对绝对数量的放大效应。
+    ''' </remarks>
+    Private Sub BuildCategoryPercent(totals As Integer()(), N As Integer)
+        Dim byGene As Double()() = New Double(CategoryCount - 1)() {}      ' [类别][基因组]
+        Dim byFamily As Double()() = New Double(CategoryCount - 1)() {}    ' [类别][基因组]
+        Dim geneMean As Double() = New Double(CategoryCount - 1) {}
+        Dim familyMean As Double() = New Double(CategoryCount - 1) {}
+        Dim c As Integer
+        Dim g As Integer
+
+        For c = 0 To CategoryCount - 1
+            byGene(c) = New Double(N - 1) {}
+            byFamily(c) = New Double(N - 1) {}
+        Next
+
+        For g = 0 To N - 1
+            Dim geneTotal As Integer = 0
+            Dim familyTotal As Integer = 0
+
+            For c = 0 To CategoryCount - 1
+                geneTotal += totals(c)(g)
+                familyTotal += totals(c + CategoryCount)(g)
+            Next
+
+            For c = 0 To CategoryCount - 1
+                byGene(c)(g) = If(geneTotal > 0, totals(c)(g) / geneTotal * 100, 0)
+                byFamily(c)(g) = If(familyTotal > 0, totals(c + CategoryCount)(g) / familyTotal * 100, 0)
+            Next
+        Next
+
+        For c = 0 To CategoryCount - 1
+            geneMean(c) = byGene(c).Average
+            familyMean(c) = byFamily(c).Average
+        Next
+
+        result.CategoryPercent = New CategoryPercentDataset With {
+            .categories = CategoryNames,
+            .genomes = genomeList,
+            .byGeneCount = geneMean,
+            .byFamilyCount = familyMean,
+            .genomeByGeneCount = byGene,
+            .genomeByFamilyCount = byFamily,
+            .colors = CategoryColors
+        }
+
+        Call $"[pan-genome] family distribution percent done, avg by genes = [{geneMean.Select(Function(x) x.ToString("F2")).JoinBy(", ")}], avg by families = [{familyMean.Select(Function(x) x.ToString("F2")).JoinBy(", ")}]".debug
     End Sub
 
     ''' <summary>
@@ -600,7 +744,14 @@ Public Class GenomeAnalyzer
     ''' 
     '''   * 计数为0的家族 -> 泛基因组大小 +1；
     '''   * 计数为i的家族 -> 说明该家族在已经加入的i个基因组之中都存在，
-    '''     加入当前基因组之后仍然为核心基因，核心基因数量就是这类家族的数量。
+    '''     加入当前基因组之后仍然为核心基因，核心基因数量就是这类家族的数量；
+    '''   * 计数加一之后不低于 ceil(软核心阈值 x (i+1)) 的家族 -> 说明该家族在目前
+    '''     已经加入的 i+1 个基因组之中的出现比例不低于软核心阈值，依然属于软核心基因。
+    ''' 
+    ''' 核心基因的判定条件(S=100%)非常严格，在基因组数量增加的时候核心基因的数量
+    ''' 会迅速衰减到零；软核心基因只要求出现比例不低于阈值(<see cref="SoftCoreThreshold"/>，
+    ''' 默认为95%，可以通过R#脚本的build_context接口调整)，因此软核心曲线在基因组数量
+    ''' 增加的时候依然能够保持在一个可观的水平上面。
     ''' 
     ''' 复杂度降低为 O(迭代数 x 基因总数)。
     ''' </remarks>
@@ -652,6 +803,8 @@ Public Class GenomeAnalyzer
 
         Dim sumPan As Long() = New Long(N - 1) {}
         Dim sumCore As Long() = New Long(N - 1) {}
+        Dim sumSoftCore As Long() = New Long(N - 1) {}
+        Dim softCore As Double = Me.SoftCoreThreshold
 
         Parallel.For(0, iterations, Sub(it As Integer)
                                         Dim cnt As Integer() = New Integer(F - 1) {}
@@ -661,6 +814,13 @@ Public Class GenomeAnalyzer
                                         For [step] As Integer = 0 To N - 1
                                             Dim fams As Integer() = genomeFams(ord([step]))
                                             Dim core As Integer = 0
+                                            Dim soft As Integer = 0
+                                            ' 加入当前这个基因组之后总共已经有 step+1 个基因组了，
+                                            ' 一个家族在这 step+1 个基因组之中的出现次数不低于softCeil的时候，
+                                            ' 就认为它在这个阶段依然是软核心基因。
+                                            ' 使用Math.Min兜底是为了在阈值被设置为1.0以上(或者浮点误差)的时候不会越界，
+                                            ' 这样core(H=100%)永远是soft core的一个子集。
+                                            Dim softCeil As Integer = Math.Min(CInt(Math.Ceiling(softCore * ([step] + 1))), [step] + 1)
 
                                             For Each famIdx As Integer In fams
                                                 Dim c As Integer = cnt(famIdx)
@@ -671,12 +831,16 @@ Public Class GenomeAnalyzer
                                                 If c = [step] Then
                                                     core += 1
                                                 End If
+                                                If (c + 1) >= softCeil Then
+                                                    soft += 1
+                                                End If
 
                                                 cnt(famIdx) = c + 1
                                             Next
 
                                             Call Interlocked.Add(sumPan([step]), pan)
                                             Call Interlocked.Add(sumCore([step]), core)
+                                            Call Interlocked.Add(sumSoftCore([step]), soft)
                                         Next
                                     End Sub)
 
@@ -687,7 +851,8 @@ Public Class GenomeAnalyzer
             curve(i) = New PangenomeCurveData With {
                 .GenomeCount = i + 1,
                 .TotalGenes = CInt(sumPan(i) / iterations),
-                .CoreGenes = CInt(sumCore(i) / iterations)
+                .CoreGenes = CInt(sumCore(i) / iterations),
+                .SoftCoreGenes = CInt(sumSoftCore(i) / iterations)
             }
         Next
 
@@ -800,6 +965,9 @@ Public Class GenomeAnalyzer
 
         Dim links As New List(Of OrthologyLink)()
         Dim queryIdx As New List(Of Integer)()
+        ' 与links一一对应的基因组j侧基因下标，
+        ' 在切分区块的时候用于计算区块在基因组j之上的坐标范围
+        Dim hitIdx As New List(Of Integer)()
         Dim g1Genes As Integer() = genomeGenes(i)
         Dim chr1 As String = Nothing
         Dim chr2 As String = Nothing
@@ -820,6 +988,7 @@ Public Class GenomeAnalyzer
                 If map2.TryGetValue(famIdx, gj) AndAlso gj >= 0 Then
                     links.Add(New OrthologyLink(geneIds(gi), geneIds(gj)))
                     queryIdx.Add(gi)
+                    hitIdx.Add(gj)
                     chr1 = geneChr(gi)
                     chr2 = geneChr(gj)
                 End If
@@ -850,6 +1019,7 @@ Public Class GenomeAnalyzer
                 If n = 1 Then
                     links.Add(New OrthologyLink(geneId, geneIds(hit)))
                     queryIdx.Add(gi)
+                    hitIdx.Add(hit)
                     chr1 = geneChr(gi)
                     chr2 = geneChr(hit)
                 End If
@@ -869,6 +1039,8 @@ Public Class GenomeAnalyzer
 
         ' 按照染色体切换自动切割区块
         Dim subBlock As New List(Of OrthologyLink)()
+        Dim subQuery As New List(Of Integer)()
+        Dim subHit As New List(Of Integer)()
         Dim lastChr As String = Nothing
         Dim p As Integer
 
@@ -878,31 +1050,85 @@ Public Class GenomeAnalyzer
             If lastChr IsNot Nothing AndAlso currentChr <> lastChr Then
                 ' 染色体切换，切割区块
                 If subBlock.Count >= MinCollinearGenes Then
-                    Yield MakeCollinearBlock(block, subBlock)
+                    Yield MakeCollinearBlock(block, subBlock, subQuery, subHit)
                 End If
 
                 subBlock.Clear()
+                subQuery.Clear()
+                subHit.Clear()
             End If
 
             subBlock.Add(links(p))
+            subQuery.Add(queryIdx(p))
+            subHit.Add(hitIdx(p))
             lastChr = currentChr
         Next
 
         ' 保存最后一个子区块
         If subBlock.Count >= MinCollinearGenes Then
-            Yield MakeCollinearBlock(block, subBlock)
+            Yield MakeCollinearBlock(block, subBlock, subQuery, subHit)
         End If
     End Function
 
     ''' <summary>
     ''' 生成共线性区块；在不保留逐基因配对数据的模式下只生成统计摘要
     ''' </summary>
-    Private Function MakeCollinearBlock(source As CollinearBlock, links As List(Of OrthologyLink)) As CollinearBlock
+    ''' <param name="source">包含基因组名称与染色体信息的区块模板</param>
+    ''' <param name="links">区块之内的同源基因对</param>
+    ''' <param name="queryIdx">与<paramref name="links"/>一一对应的基因组1侧基因下标</param>
+    ''' <param name="hitIdx">与<paramref name="links"/>一一对应的基因组2侧基因下标</param>
+    ''' <remarks>
+    ''' 区块在两个基因组之上所覆盖的坐标范围由区块内所有基因的最小起始位点与最大终止位点决定，
+    ''' 不论是否保留逐基因的同源配对数据，坐标范围都会被写入结果之中，
+    ''' 这样子后续就可以直接使用这些坐标来绘制共线性点图或者带状图了。
+    ''' </remarks>
+    Private Function MakeCollinearBlock(source As CollinearBlock,
+                                        links As List(Of OrthologyLink),
+                                        queryIdx As List(Of Integer),
+                                        hitIdx As List(Of Integer)) As CollinearBlock
+
+        Dim range As CollinearRange = GetBlockRange(queryIdx, hitIdx)
+
         If RetainOrthologyLinks Then
-            Return New CollinearBlock(source, links)
+            Return New CollinearBlock(source, links, range)
         Else
-            Return New CollinearBlock(source, links.Count)
+            Return New CollinearBlock(source, links.Count, range)
         End If
+    End Function
+
+    ''' <summary>
+    ''' 计算共线性区块在两个基因组之上所覆盖的坐标范围
+    ''' </summary>
+    ''' <param name="queryIdx">区块之内的基因组1侧基因下标</param>
+    ''' <param name="hitIdx">区块之内的基因组2侧基因下标</param>
+    Private Function GetBlockRange(queryIdx As List(Of Integer), hitIdx As List(Of Integer)) As CollinearRange
+        Dim range As New CollinearRange()
+
+        If queryIdx.Count = 0 Then
+            Return range
+        End If
+
+        Dim start1 As Integer = Integer.MaxValue
+        Dim end1 As Integer = Integer.MinValue
+        Dim start2 As Integer = Integer.MaxValue
+        Dim end2 As Integer = Integer.MinValue
+
+        For i As Integer = 0 To queryIdx.Count - 1
+            Dim gi As Integer = queryIdx(i)
+            Dim gj As Integer = hitIdx(i)
+
+            If geneStart(gi) < start1 Then start1 = geneStart(gi)
+            If geneEnd(gi) > end1 Then end1 = geneEnd(gi)
+            If geneStart(gj) < start2 Then start2 = geneStart(gj)
+            If geneEnd(gj) > end2 Then end2 = geneEnd(gj)
+        Next
+
+        range.Start1 = start1
+        range.End1 = end1
+        range.Start2 = start2
+        range.End2 = end2
+
+        Return range
     End Function
 
     ''' <summary>

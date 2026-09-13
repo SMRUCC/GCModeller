@@ -101,6 +101,47 @@ Public Class CollinearBlock
         End Get
     End Property
 
+    ''' <summary>
+    ''' 区块在基因组1的 <see cref="Chr1"/> 之上的起始位点（区块内所有基因的最小起始位点）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Start1 As Integer
+    ''' <summary>
+    ''' 区块在基因组1的 <see cref="Chr1"/> 之上的终止位点（区块内所有基因的最大终止位点）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property End1 As Integer
+    ''' <summary>
+    ''' 区块在基因组2的 <see cref="Chr2"/> 之上的起始位点（区块内所有基因的最小起始位点）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Start2 As Integer
+    ''' <summary>
+    ''' 区块在基因组2的 <see cref="Chr2"/> 之上的终止位点（区块内所有基因的最大终止位点）
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property End2 As Integer
+
+    ''' <summary>
+    ''' 区块在基因组1之上的长度（bp），没有坐标信息的时候返回0
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property Length1 As Integer
+        Get
+            Return Math.Max(0, End1 - Start1 + 1)
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 区块在基因组2之上的长度（bp），没有坐标信息的时候返回0
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property Length2 As Integer
+        Get
+            Return Math.Max(0, End2 - Start2 + 1)
+        End Get
+    End Property
+
     Sub New()
     End Sub
 
@@ -129,4 +170,51 @@ Public Class CollinearBlock
         Score = source.Score
     End Sub
 
+    ''' <summary>
+    ''' 构造一个包含起止坐标信息的共线性区块
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <param name="links">区块之内的同源基因对</param>
+    ''' <param name="range">区块在两个基因组之上的坐标范围</param>
+    ''' <remarks>
+    ''' 坐标信息(两个方向上基因的最小起始位点与最大终止位点)是共线性绘图
+    ''' (点图、带状图)所必须的；在基因组数量很多、逐基因配对数据被关闭的
+    ''' 摘要模式下面，坐标信息依然会被完整保留下来。
+    ''' </remarks>
+    Friend Sub New(source As CollinearBlock, links As IEnumerable(Of OrthologyLink), range As CollinearRange)
+        Call Me.New(source, links)
+
+        Start1 = range.Start1
+        End1 = range.End1
+        Start2 = range.Start2
+        End2 = range.End2
+    End Sub
+
+    ''' <summary>
+    ''' 构造一个仅包含统计信息与坐标范围的共线性区块摘要
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <param name="linkCount">区块内的同源基因对数量</param>
+    ''' <param name="range">区块在两个基因组之上的坐标范围</param>
+    Friend Sub New(source As CollinearBlock, linkCount As Integer, range As CollinearRange)
+        Call Me.New(source, linkCount)
+
+        Start1 = range.Start1
+        End1 = range.End1
+        Start2 = range.Start2
+        End2 = range.End2
+    End Sub
+
 End Class
+
+''' <summary>
+''' 共线性区块在两个基因组之上所覆盖的坐标范围
+''' </summary>
+Public Structure CollinearRange
+
+    Public Property Start1 As Integer
+    Public Property End1 As Integer
+    Public Property Start2 As Integer
+    Public Property End2 As Integer
+
+End Structure
