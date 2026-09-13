@@ -595,11 +595,117 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* 图表滚动容器：热图高度超出封顶值时在容器内滚动 */
-        .chart-scroll {
-            max-height: 1600px;
-            overflow: auto;
+        /* 热图固定高度容器（不出现滚动条），完整热图通过下方链接在全屏模态框中查看 */
+        .heatmap-frame {
+            width: 100%;
+            height: 800px;
             border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .heatmap-frame > div {
+            width: 100%;
+            height: 100%;
+        }
+
+        .heatmap-actions {
+            margin-top: 12px;
+            text-align: right;
+        }
+
+        .heatmap-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding-bottom: 2px;
+            color: var(--accent-emerald);
+            font-size: 0.875rem;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(16, 185, 129, 0.5);
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .heatmap-link:hover {
+            color: #34d399;
+            border-color: #34d399;
+        }
+
+        /* 全屏热图模态框 */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            padding: 24px;
+            background: rgba(5, 8, 15, 0.85);
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-overlay.is-open {
+            display: flex;
+        }
+
+        .modal-dialog {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-shrink: 0;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .modal-body {
+            flex: 1;
+            min-height: 0;
+            padding: 12px;
+        }
+
+        #heatmapModalChart {
+            width: 100%;
+            height: 100%;
         }
 
         /* 分类详细 */
@@ -1167,13 +1273,13 @@
             fontFamily: 'Noto Sans SC, sans-serif'
         };
 
-        // 热图高度策略：按类别数量自动增高，内层图表可以增长到 6000px，
-        // 外层 .chart-scroll 容器封顶 1600px 并在超出时内部滚动
-        const HEATMAP_MAX_INNER_HEIGHT = 6000;
+        // 热图展示策略：页面中的热图使用固定高度(.heatmap-frame)展示，
+        // 完整热图通过在热图下方点击链接弹出的全屏模态框查看
+        const heatmapRegistry = {};
+        let heatmapModalChart = null;
 
-        function autoHeatmapHeight(count, cellSize, minHeight) {
-            const height = Math.round(count * cellSize);
-            return Math.max(minHeight, Math.min(HEATMAP_MAX_INNER_HEIGHT, height));
+        function registerHeatmap(id, title, buildOption) {
+            heatmapRegistry[id] = { title: title, buildOption: buildOption };
         }
 
         // 基因组名称通常共享很长的公共前缀（例如 "Saccharomyces cerevisiae (brewer's yeast) "），
@@ -1221,6 +1327,82 @@
             } else {
                 el.style.display = 'none';
             }
+        }
+
+        // ============================================
+        // 全屏热图模态框
+        // ============================================
+        function openHeatmapModal(id) {
+            const entry = heatmapRegistry[id];
+            if (!entry) return;
+
+            const overlay = document.getElementById('heatmapModal');
+            const titleEl = document.getElementById('heatmapModalTitle');
+            const chartDom = document.getElementById('heatmapModalChart');
+
+            if (!overlay || !chartDom) return;
+
+            if (titleEl) titleEl.textContent = entry.title;
+
+            overlay.classList.add('is-open');
+            overlay.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+
+            // 模态框显示之后图表容器才有实际尺寸，需要等到下一次布局再初始化
+            window.requestAnimationFrame(function () {
+                if (heatmapModalChart) {
+                    heatmapModalChart.dispose();
+                    heatmapModalChart = null;
+                }
+
+                heatmapModalChart = echarts.init(chartDom);
+                heatmapModalChart.setOption(entry.buildOption());
+            });
+        }
+
+        function closeHeatmapModal() {
+            const overlay = document.getElementById('heatmapModal');
+
+            if (overlay) {
+                overlay.classList.remove('is-open');
+                overlay.setAttribute('aria-hidden', 'true');
+            }
+
+            document.body.classList.remove('modal-open');
+
+            if (heatmapModalChart) {
+                heatmapModalChart.dispose();
+                heatmapModalChart = null;
+            }
+        }
+
+        function bindHeatmapModal() {
+            document.querySelectorAll('.heatmap-link').forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    openHeatmapModal(link.dataset.heatmap);
+                });
+            });
+
+            const overlay = document.getElementById('heatmapModal');
+            const closeBtn = document.getElementById('heatmapModalClose');
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeHeatmapModal);
+            }
+
+            if (overlay) {
+                // 点击模态框背景区域关闭
+                overlay.addEventListener('click', function (event) {
+                    if (event.target === overlay) closeHeatmapModal();
+                });
+            }
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape' && overlay && overlay.classList.contains('is-open')) {
+                    closeHeatmapModal();
+                }
+            });
         }
 
         // 1. 基因家族分布饼图
@@ -1415,83 +1597,83 @@
                 return null;
             }
 
-            // 基因组数量越多，热图越宽，适当增加高度以保持单元格的可读性；
-            // 高度超出 .chart-scroll 的封顶值时会自动在容器内滚动
-            dom.style.height = autoHeatmapHeight(
-                Math.max(pavData.families.length, pavData.genomes.length), 18, 500) + 'px';
-
             const displayGenomes = displayLabelsOf(pavData.genomes);
-            const chart = echarts.init(dom);
-
             const data = [];
+
             pavData.matrix.forEach((row, i) => {
                 row.forEach((value, j) => {
                     data.push([j, i, value]);
                 });
             });
 
-            const option = {
-                tooltip: {
-                    position: 'top',
-                    backgroundColor: '#1a2332',
-                    borderColor: '#2d3748',
-                    textStyle: { color: '#f1f5f9' },
-                    formatter: function (params) {
-                        return `${pavData.families[params.data[1]]}<br/>${pavData.genomes[params.data[0]]}: ${params.data[2]}`;
-                    }
-                },
-                grid: {
-                    left: '15%',
-                    right: '5%',
-                    bottom: '15%',
-                    top: '5%'
-                },
-                xAxis: {
-                    type: 'category',
-                    data: displayGenomes,
-                    splitArea: { show: true },
-                    axisLabel: {
-                        color: '#94a3b8',
-                        rotate: 45,
-                        fontSize: 10
-                    },
-                    axisLine: { lineStyle: { color: '#2d3748' } }
-                },
-                yAxis: {
-                    type: 'category',
-                    data: pavData.families,
-                    splitArea: { show: true },
-                    axisLabel: {
-                        color: '#94a3b8',
-                        fontSize: 9
-                    },
-                    axisLine: { lineStyle: { color: '#2d3748' } }
-                },
-                visualMap: {
-                    min: 0,
-                    max: 5,
-                    calculable: true,
-                    orient: 'horizontal',
-                    left: 'center',
-                    bottom: '2%',
-                    inRange: {
-                        color: ['#1a2332', '#164e63', '#0e7490', '#06b6d4', '#22d3ee', '#67e8f9']
-                    },
-                    textStyle: chartTextStyle
-                },
-                series: [{
-                    type: 'heatmap',
-                    data: data,
-                    label: { show: false },
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+            function buildOption() {
+                return {
+                    tooltip: {
+                        position: 'top',
+                        backgroundColor: '#1a2332',
+                        borderColor: '#2d3748',
+                        textStyle: { color: '#f1f5f9' },
+                        formatter: function (params) {
+                            return `${pavData.families[params.data[1]]}<br/>${pavData.genomes[params.data[0]]}: ${params.data[2]}`;
                         }
-                    }
-                }]
-            };
-            chart.setOption(option);
+                    },
+                    grid: {
+                        left: '15%',
+                        right: '5%',
+                        bottom: '15%',
+                        top: '5%'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: displayGenomes,
+                        splitArea: { show: true },
+                        axisLabel: {
+                            color: '#94a3b8',
+                            rotate: 45,
+                            fontSize: 10
+                        },
+                        axisLine: { lineStyle: { color: '#2d3748' } }
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: pavData.families,
+                        splitArea: { show: true },
+                        axisLabel: {
+                            color: '#94a3b8',
+                            fontSize: 9
+                        },
+                        axisLine: { lineStyle: { color: '#2d3748' } }
+                    },
+                    visualMap: {
+                        min: 0,
+                        max: 5,
+                        calculable: true,
+                        orient: 'horizontal',
+                        left: 'center',
+                        bottom: '2%',
+                        inRange: {
+                            color: ['#1a2332', '#164e63', '#0e7490', '#06b6d4', '#22d3ee', '#67e8f9']
+                        },
+                        textStyle: chartTextStyle
+                    },
+                    series: [{
+                        type: 'heatmap',
+                        data: data,
+                        label: { show: false },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }]
+                };
+            }
+
+            registerHeatmap('pavHeatmap', '基因家族 PAV 热图', buildOption);
+
+            const chart = echarts.init(dom);
+            chart.setOption(buildOption());
             return chart;
         }
 
@@ -1559,84 +1741,86 @@
                 return null;
             }
 
-            // 基因组数量越多，热图越需要更高的展示区域
-            dom.style.height = autoHeatmapHeight(geneticDistanceData.genomes.length, 22, 400) + 'px';
-
             const displayGenomes = displayLabelsOf(geneticDistanceData.genomes);
-            const chart = echarts.init(dom);
-
             const data = [];
+
             geneticDistanceData.data.forEach((row, i) => {
                 row.forEach((value, j) => {
                     data.push([i, j, value]);
                 });
             });
 
-            const option = {
-                tooltip: {
-                    position: 'top',
-                    backgroundColor: '#1a2332',
-                    borderColor: '#2d3748',
-                    textStyle: { color: '#f1f5f9' },
-                    formatter: function (params) {
-                        return `${geneticDistanceData.genomes[params.data[0]]} -${geneticDistanceData.genomes[params.data[1]]}<br/>距离: ${params.data[2].toFixed(4)}`;
-                    }
-                },
-                grid: {
-                    left: '15%',
-                    right: '10%',
-                    bottom: '15%',
-                    top: '10%'
-                },
-                xAxis: {
-                    type: 'category',
-                    data: displayGenomes,
-                    splitArea: { show: true },
-                    axisLabel: {
-                        color: '#94a3b8',
-                        rotate: 45
-                    },
-                    axisLine: { lineStyle: { color: '#2d3748' } }
-                },
-                yAxis: {
-                    type: 'category',
-                    data: displayGenomes,
-                    splitArea: { show: true },
-                    axisLabel: { color: '#94a3b8' },
-                    axisLine: { lineStyle: { color: '#2d3748' } }
-                },
-                visualMap: {
-                    min: 0,
-                    max: 0.5,
-                    calculable: true,
-                    orient: 'vertical',
-                    right: '2%',
-                    top: 'center',
-                    inRange: {
-                        color: ['#10b981', '#fbbf24', '#f97316', '#ef4444']
-                    },
-                    textStyle: chartTextStyle
-                },
-                series: [{
-                    type: 'heatmap',
-                    data: data,
-                    label: {
-                        show: geneticDistanceData.genomes.length <= 8,
-                        color: '#f1f5f9',
-                        fontSize: 10,
+            function buildOption() {
+                return {
+                    tooltip: {
+                        position: 'top',
+                        backgroundColor: '#1a2332',
+                        borderColor: '#2d3748',
+                        textStyle: { color: '#f1f5f9' },
                         formatter: function (params) {
-                            return params.data[2].toFixed(3);
+                            return `${geneticDistanceData.genomes[params.data[0]]} -${geneticDistanceData.genomes[params.data[1]]}<br/>距离: ${params.data[2].toFixed(4)}`;
                         }
                     },
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    grid: {
+                        left: '15%',
+                        right: '10%',
+                        bottom: '15%',
+                        top: '10%'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: displayGenomes,
+                        splitArea: { show: true },
+                        axisLabel: {
+                            color: '#94a3b8',
+                            rotate: 45
+                        },
+                        axisLine: { lineStyle: { color: '#2d3748' } }
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: displayGenomes,
+                        splitArea: { show: true },
+                        axisLabel: { color: '#94a3b8' },
+                        axisLine: { lineStyle: { color: '#2d3748' } }
+                    },
+                    visualMap: {
+                        min: 0,
+                        max: 0.5,
+                        calculable: true,
+                        orient: 'vertical',
+                        right: '2%',
+                        top: 'center',
+                        inRange: {
+                            color: ['#10b981', '#fbbf24', '#f97316', '#ef4444']
+                        },
+                        textStyle: chartTextStyle
+                    },
+                    series: [{
+                        type: 'heatmap',
+                        data: data,
+                        label: {
+                            show: geneticDistanceData.genomes.length <= 8,
+                            color: '#f1f5f9',
+                            fontSize: 10,
+                            formatter: function (params) {
+                                return params.data[2].toFixed(3);
+                            }
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
                         }
-                    }
-                }]
-            };
-            chart.setOption(option);
+                    }]
+                };
+            }
+
+            registerHeatmap('distanceHeatmap', '基因组间遗传距离热图', buildOption);
+
+            const chart = echarts.init(dom);
+            chart.setOption(buildOption());
             return chart;
         }
 
@@ -1851,9 +2035,6 @@
                 return null;
             }
 
-            dom.style.height = autoHeatmapHeight(genomes.length, 22, 420) + 'px';
-
-            const chart = echarts.init(dom);
             const data = [];
             let maxValue = 0;
 
@@ -1867,64 +2048,69 @@
 
             if (maxValue <= 0) maxValue = 1;
 
-            const option = {
-                tooltip: {
-                    position: 'top',
-                    backgroundColor: '#1a2332',
-                    borderColor: '#2d3748',
-                    textStyle: { color: '#f1f5f9' },
-                    formatter: function (params) {
-                        const col = params.data[0];
-                        const row = params.data[1];
-                        return `${genomes[row]} ↔ ${genomes[col]}<br/>${metricLabel}: ${params.data[2]}`;
-                    }
-                },
-                grid: {
-                    left: '18%',
-                    right: '8%',
-                    bottom: '18%',
-                    top: '5%'
-                },
-                xAxis: {
-                    type: 'category',
-                    data: displayGenomes,
-                    splitArea: { show: true },
-                    axisLabel: { color: '#94a3b8', rotate: 45, fontSize: 9 },
-                    axisLine: { lineStyle: { color: '#2d3748' } }
-                },
-                yAxis: {
-                    type: 'category',
-                    data: displayGenomes,
-                    splitArea: { show: true },
-                    axisLabel: { color: '#94a3b8', fontSize: 9 },
-                    axisLine: { lineStyle: { color: '#2d3748' } }
-                },
-                visualMap: {
-                    min: 0,
-                    max: maxValue,
-                    calculable: true,
-                    orient: 'horizontal',
-                    left: 'center',
-                    bottom: '2%',
-                    inRange: {
-                        color: ['#1a2332', '#164e63', '#0e7490', '#06b6d4', '#22d3ee', '#67e8f9']
-                    },
-                    textStyle: chartTextStyle
-                },
-                series: [{
-                    type: 'heatmap',
-                    data: data,
-                    label: { show: false },
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+            function buildOption() {
+                return {
+                    tooltip: {
+                        position: 'top',
+                        backgroundColor: '#1a2332',
+                        borderColor: '#2d3748',
+                        textStyle: { color: '#f1f5f9' },
+                        formatter: function (params) {
+                            const col = params.data[0];
+                            const row = params.data[1];
+                            return `${genomes[row]} ↔ ${genomes[col]}<br/>${metricLabel}: ${params.data[2]}`;
                         }
-                    }
-                }]
-            };
+                    },
+                    grid: {
+                        left: '18%',
+                        right: '8%',
+                        bottom: '18%',
+                        top: '5%'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: displayGenomes,
+                        splitArea: { show: true },
+                        axisLabel: { color: '#94a3b8', rotate: 45, fontSize: 9 },
+                        axisLine: { lineStyle: { color: '#2d3748' } }
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: displayGenomes,
+                        splitArea: { show: true },
+                        axisLabel: { color: '#94a3b8', fontSize: 9 },
+                        axisLine: { lineStyle: { color: '#2d3748' } }
+                    },
+                    visualMap: {
+                        min: 0,
+                        max: maxValue,
+                        calculable: true,
+                        orient: 'horizontal',
+                        left: 'center',
+                        bottom: '2%',
+                        inRange: {
+                            color: ['#1a2332', '#164e63', '#0e7490', '#06b6d4', '#22d3ee', '#67e8f9']
+                        },
+                        textStyle: chartTextStyle
+                    },
+                    series: [{
+                        type: 'heatmap',
+                        data: data,
+                        label: { show: false },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }]
+                };
+            }
 
-            chart.setOption(option);
+            registerHeatmap('collinearityHeatmap', '基因组间共线性矩阵热图', buildOption);
+
+            const chart = echarts.init(dom);
+            chart.setOption(buildOption());
             return chart;
         }
 
