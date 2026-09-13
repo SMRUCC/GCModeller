@@ -631,7 +631,9 @@ Module workflows
     <RApiReturn(GetType(DiamondAnnotation))>
     Public Function read_m8(file As String,
                             Optional stream As Boolean = False,
-                            Optional filter As String = "unknown") As Object
+                            Optional filter As String = "unknown",
+                            Optional parseHitId As Integer = -1,
+                            Optional hitIdDeli As String = "|") As Object
 
         Dim source As IEnumerable(Of DiamondAnnotation) = DiamondM8Parser.ParseFile(file)
         Dim output As IEnumerable(Of DiamondAnnotation)
@@ -645,6 +647,22 @@ Module workflows
             output = source
         End If
 
+        If parseHitId > -1 Then
+            Return wrap(
+                (Iterator Function() As IEnumerable(Of DiamondAnnotation)
+                     For Each diamond As DiamondAnnotation In output
+                         Dim hitId As String = diamond.SseqId
+                         hitId = hitId.Split(hitIdDeli).ElementAtOrDefault(parseHitId)
+                         diamond.SseqId = If(hitId, "")
+                         Yield diamond
+                     Next
+                 End Function)(), stream)
+        Else
+            Return wrap(output, stream)
+        End If
+    End Function
+
+    Private Function wrap(output As IEnumerable(Of DiamondAnnotation), stream As Boolean) As Object
         If stream Then
             Return output.as_iterator
         Else
