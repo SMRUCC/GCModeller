@@ -4455,7 +4455,10 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
@@ -5001,6 +5004,7 @@
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Release" />
       <BuildType Solution="vcellkit|*" Project="Release" />
       <BuildType Solution="Voyager1|*" Project="Release" />
+      <Platform Solution="nuget_release|x64" Project="x64" />
       <Platform Solution="Rsharp_app_release|x64" Project="x64" />
     </Project>
     <Project Path="../GCModeller/visualize/SyntenyVisual/SyntenyVisual.vbproj">
@@ -5090,7 +5094,10 @@
       <BuildType Solution="mzkit|*" Project="Debug" />
       <BuildType Solution="node-debug|*" Project="Debug" />
       <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="nuget_release|Any CPU" Project="Release" />
+      <BuildType Solution="nuget_release|ARM32" Project="Release" />
+      <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|x86" Project="Release" />
       <BuildType Solution="PlantMAT|*" Project="Release" />
       <BuildType Solution="Publish|*" Project="Release" />
       <BuildType Solution="Rsharp_app_release|Any CPU" Project="Release" />
