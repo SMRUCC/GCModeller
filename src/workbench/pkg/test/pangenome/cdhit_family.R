@@ -38,4 +38,17 @@ write.csv(pav_matrix(result), file = file.path(dir, "pav_matrix.csv"));
 write.csv(curve_data(result), file = file.path(dir, "pangenome_curve.csv"));
 write.csv(sv_table(result ), file = file.path(dir, "sv_table.csv" ));
 write.csv(pav_table(result), file = file.path(dir,"pav_table.csv"));
+
+# SV structural variation matrices: rows are gene families, columns are genomes
+write.csv(sv_copy_number_matrix(result), file = file.path(dir, "sv_copy_number_matrix.csv"));
+write.csv(sv_median_matrix(result), file = file.path(dir, "sv_median_matrix.csv"));
+
+# gene family distribution percent matrix, by two calibers:
+# "gene" = copy number based, "family" = family count based
+write.csv(category_percent_matrix(result, by = "gene"), file = file.path(dir, "category_percent_gene.csv"));
+write.csv(category_percent_matrix(result, by = "family"), file = file.path(dir, "category_percent_family.csv"));
+
+# SV information entropy scatter data with the kmeans clustering result
+write.csv(as.data.frame(sv_entropy(result)), file = file.path(dir, "sv_entropy.csv"));
+
 writeLines(report_html(result), con = file.path(dir,"result.html"));
