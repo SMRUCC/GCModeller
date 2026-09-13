@@ -13,7 +13,7 @@ let family_result = {
         jsonlite::fromJSON(family_json , what = "cdhit-family");
     } else {
         let proteins = read.fasta(file.path(dir, "proteins.faa"));
-        let cache_data = cdhit_clusters(proteins);
+        let cache_data = cdhit_clusters(proteins, identities = 0.6);
 
         writeLines(jsonlite::toJSON(cache_data$clusters), con = family_json );
         cache_data$clusters;
@@ -21,11 +21,17 @@ let family_result = {
 };
 let orth = multiple_genome_alignment( family_groups(family_result));
 let geneset = read_genetable(file.path(dir,"genes.csv"));
-let context = build_context(geneset,uniqueByAcc=TRUE);
+let context = build_context(geneset,soft_core_threshold = 0.8,genome_size = c(2000,8000), uniqueByAcc=TRUE);
 let result = pangenome::analysis(context, orth);
 
 writeBin(result, con = file.path(dir, "result.zip"));
 result = readBin(con =file.path(dir, "result.zip"), what = "pangenome");
+
+let scatter = pangenome::scatter_set(result);
+
+write.csv(as.data.frame(scatter$stats), file = file.path(dir, "genome_stats.csv"));
+write.csv(as.data.frame(scatter$pca), file = file.path(dir, "pav_pca.csv"));
+write.csv(as.data.frame(scatter$entropy), file = file.path(dir, "pav_entropy.csv"));
 
 write.csv(genetic_distance(result), file = file.path(dir, "genetic_distance.csv"));
 write.csv(pav_matrix(result), file = file.path(dir, "pav_matrix.csv"));

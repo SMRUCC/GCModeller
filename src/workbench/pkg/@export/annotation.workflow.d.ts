@@ -172,8 +172,12 @@ declare namespace annotation.workflow {
      * + default value Is ``false``.
      * @param filter 
      * + default value Is ``'unknown'``.
+     * @param parseHitId 
+     * + default value Is ``-1``.
+     * @param hitIdDeli 
+     * + default value Is ``'|'``.
    */
-   function read_m8(file: string, stream?: boolean, filter?: string): object;
+   function read_m8(file: string, stream?: boolean, filter?: string, parseHitId?: object, hitIdDeli?: string): object;
    /**
     * removes protein suffix id
     * 
