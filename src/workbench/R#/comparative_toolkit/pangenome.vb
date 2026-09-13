@@ -221,12 +221,13 @@ Module pangenome
                 End If
 
                 Dim genomeGeneSet As Dictionary(Of String, GeneTable()) = pullGenes _
-                    .AsParallel _
                     .Where(Function(a)
                                Return Not (a.replicon_accessionID.StringEmpty OrElse a.species.StringEmpty)
                            End Function) _
-                    .GroupBy(Function(g) g.replicon_accessionID) _
-                    .Where(Function(genome) filter.IsInside(genome.Count)) _
+                    .GroupBy(Function(g) g.species) _
+                    .Where(Function(genome)
+                               Return filter.IsInside(genome.Count)
+                           End Function) _
                     .ToDictionary(Function(g) g.Key,
                                   Function(g)
                                       Return g.GroupBy(Function(a) a.locus_id).Select(Function(d) d.First).ToArray
