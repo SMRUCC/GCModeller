@@ -202,7 +202,7 @@ Module pangenome
                     .Where(Function(genome) genome.Count > min_genome_size) _
                     .ToDictionary(Function(g) g.Key,
                                   Function(g)
-                                      Return g.ToArray
+                                      Return g.GroupBy(Function(a) a.locus_id).Select(Function(d) d.First).ToArray
                                   End Function)
 
                 context = New GenomeAnalyzer(genomeGeneSet, uniqueByAccessionId:=uniqueByAcc)
