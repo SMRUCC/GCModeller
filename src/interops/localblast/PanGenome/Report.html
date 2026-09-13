@@ -2253,11 +2253,15 @@
                 initCollinearityBarChart()
             ];
 
+            bindHeatmapModal();
+
             // 响应式
             window.addEventListener('resize', function () {
                 charts.forEach(chart => {
                     if (chart) chart.resize();
                 });
+
+                if (heatmapModalChart) heatmapModalChart.resize();
             });
         });
     </script>
