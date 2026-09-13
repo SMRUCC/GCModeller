@@ -26,19 +26,8 @@
     <PackageReleaseNotes>Adds a broad set of genomics visualisations including volcano, enrichment bubble/heatmap and Upset plots.</PackageReleaseNotes>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Visualize.Extensions.xml</DocumentationFile>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <DefineConstants>netcore5=1</DefineConstants>
-  </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>SMRUCC.genomics.Visualize.Extensions.xml</DocumentationFile>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <DefineConstants>netcore5=1</DefineConstants>
-  </PropertyGroup>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>SMRUCC.genomics.Visualize.Extensions.xml</DocumentationFile>

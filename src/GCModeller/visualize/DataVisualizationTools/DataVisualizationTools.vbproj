@@ -18,7 +18,7 @@
     <PackageTags>gcmodeller;bioinformatics;genomics;data-visualization;blast;genetic-clock</PackageTags>
     <PackageReleaseNotes>Provides BLAST alignment-track and genetic-clock regulation-series visualisations for genome analysis.</PackageReleaseNotes>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <Configurations>nuget_release;Debug;Release;Rsharp_app_release</Configurations>
     <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>

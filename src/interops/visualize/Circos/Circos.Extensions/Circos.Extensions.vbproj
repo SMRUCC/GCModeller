@@ -15,7 +15,7 @@
  
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
  
-    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <Configurations>nuget_release;Debug;Release;Rsharp_app_release</Configurations>
 	</PropertyGroup>
   <ItemGroup>
     <Compile Remove="data\**" />

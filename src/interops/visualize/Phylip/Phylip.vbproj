@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Interops.Visualize.Phylip</RootNamespace>
-   
+    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit_win32;CellaLAB-Desktop;nuget_release</Configurations>
     <Title>PHYLIP Phylogenetic Analysis and Tree Toolkit</Title>
     <Description>Interop toolkit for the PHYLIP phylogenetics programs, invoking tools such as gendist to build distance matrices. Parses and manipulates phylogenetic trees in Newick, Nexus, NHX and phyloXML formats, supports rerooting and provides tree drawing and EvolView export.</Description>
     <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
