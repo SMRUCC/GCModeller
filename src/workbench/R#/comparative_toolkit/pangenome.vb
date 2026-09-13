@@ -61,12 +61,14 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.PanGenome
+Imports SMRUCC.genomics.Analysis.PanGenome.ReportJSON
 Imports SMRUCC.genomics.Analysis.SequenceAlignment
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -84,6 +86,10 @@ Module pangenome
     Sub Main()
         Call Converts.makeDataframe.addHandler(GetType(PAVTable()), AddressOf pav_df)
         Call Converts.makeDataframe.addHandler(GetType(SVTable()), AddressOf sv_df)
+
+        Call Converts.makeDataframe.addHandler(GetType(GenomeStatRow()), AddressOf stats_frame)
+        Call Converts.makeDataframe.addHandler(GetType(PCAScatterDataset), AddressOf pca_frame)
+        Call Converts.makeDataframe.addHandler(GetType(GenomeEntropyDataset), AddressOf entropy_frame)
 
         Call RInternal.generic.add("writeBin", GetType(PanGenomeResult), AddressOf SaveResult)
         Call RInternal.generic.add("readBin.pangenome", GetType(Stream), AddressOf LoadResultData)
@@ -385,6 +391,68 @@ Module pangenome
     Public Function set_sourceID(genome As GFFTable, <RByRefValueAssign> source_name As String) As GFFTable
         genome.species = source_name
         Return genome
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function stats_frame(stats As GenomeStatRow(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.rownames = stats.Keys, .columns = New Dictionary(Of String, Array)}
+
+        Call df.add("gene_count", From genome In stats Select genome.geneCount)
+        Call df.add("specific_count", From genome In stats Select genome.specificCount)
+        Call df.add("core_ratio", From genome In stats Select genome.coreRatio)
+
+        Return df
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function pca_frame(pca As PCAScatterDataset, args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.rownames = pca.points.Keys, .columns = New Dictionary(Of String, Array)}
+
+        Call df.add("pc1", From genome In pca.points Select genome.pc1)
+        Call df.add("pc2", From genome In pca.points Select genome.pc2)
+        Call df.add("pc3", From genome In pca.points Select genome.pc3)
+
+        Call df.add("core_ratio", From genome In pca.points Select genome.coreRatio)
+        Call df.add("gene_count", From genome In pca.points Select genome.geneCount)
+
+        Return df
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function entropy_frame(entropyData As GenomeEntropyDataset, args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.rownames = entropyData.points.Keys, .columns = New Dictionary(Of String, Array)}
+
+        Call df.add("entropy", From genome In entropyData.points Select genome.entropy)
+        Call df.add("present_families", From genome In entropyData.points Select genome.presentFamilies)
+        Call df.add("absent_families", From genome In entropyData.points Select genome.absentFamilies)
+        Call df.add("specific_ratio", From genome In entropyData.points Select genome.specificRatio)
+        Call df.add("core_ratio", From genome In entropyData.points Select genome.coreRatio)
+        Call df.add("gene_count", From genome In entropyData.points Select genome.geneCount)
+
+        Return df
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="result"></param>
+    ''' <returns>
+    ''' a tuple list that contains three elements:
+    ''' 
+    ''' 1. ``stats``: <see cref="GenomeStatRow"/>
+    ''' 2. ``pca``: <see cref="PCAScatterDataset"/>
+    ''' 3. ``entropy``: <see cref="GenomeEntropyDataset"/>
+    ''' </returns>
+    <ExportAPI("scatter_set")>
+    <RApiReturn("stats", "pca", "entropy")>
+    Public Function scatter_set(result As PanGenomeResult) As Object
+        Dim stats As GenomeStatRow() = result.BuildGenomeStats
+        Dim pca As PCAScatterDataset = result.BuildPCAData(stats)
+        Dim entropy As GenomeEntropyDataset = result.BuildGenomeEntropyData(stats)
+
+        Return New list(slot("stats") = stats,
+                        slot("pca") = pca,
+                        slot("entropy") = entropy)
     End Function
 
     ''' <summary>

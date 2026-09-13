@@ -27,6 +27,8 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+
 Namespace ReportJSON
 
     ''' <summary>
@@ -40,9 +42,9 @@ Namespace ReportJSON
     ''' 注意：<see cref="System.Runtime.Serialization.Json.DataContractJsonSerializer"/> 不支持匿名类型，
     ''' 所以这里必须使用具名的 Public 类型；同时只有 Public 属性(不含字段)会被序列化。
     ''' </remarks>
-    Public Class GenomeStatRow
+    Public Class GenomeStatRow : Implements INamedValue
 
-        Public Property name As String
+        Public Property name As String Implements INamedValue.Key
         Public Property geneCount As Integer
         Public Property specificCount As Integer
         Public Property coreRatio As Double
@@ -147,9 +149,9 @@ Namespace ReportJSON
     ''' <summary>
     ''' PAV矩阵PCA三维散点图中的单个样本点（一个基因组）
     ''' </summary>
-    Public Class PCAPoint
+    Public Class PCAPoint : Implements INamedValue
 
-        Public Property name As String
+        Public Property name As String Implements INamedValue.Key
         ''' <summary>
         ''' 第一主成分得分
         ''' </summary>
@@ -200,9 +202,9 @@ Namespace ReportJSON
     ''' <summary>
     ''' 基因组级别的三维散点图数据点（一个基因组）
     ''' </summary>
-    Public Class GenomeEntropyPoint
+    Public Class GenomeEntropyPoint : Implements INamedValue
 
-        Public Property name As String
+        Public Property name As String Implements INamedValue.Key
         ''' <summary>
         ''' 基因存在/缺失均衡度的香农信息熵 H = -(p*log(p) + (1-p)*log(1-p))
         ''' </summary>

@@ -1,4 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.ANOVA
 Imports SMRUCC.genomics.Analysis.PanGenome.ReportJSON
 
 Public Module PanGenomeStats
@@ -210,5 +212,171 @@ Public Module PanGenomeStats
         Dim q As Double = 1 - p
 
         Return -(p * Math.Log(p) + q * Math.Log(q))
+    End Function
+
+    ''' <summary>
+    ''' 取出某一个主成分的得分向量；长度与基因组数量不一致的时候返回Nothing
+    ''' </summary>
+    Private Function GetPCVector(score As DataFrame, component As String, expectedSize As Integer) As Double()
+        Dim feature As FeatureVector = score(component)
+
+        If feature Is Nothing OrElse feature.vector Is Nothing OrElse feature.vector.Length <> expectedSize Then
+            Return Nothing
+        End If
+
+        Dim values As New List(Of Double)(expectedSize)
+
+        For Each item As Object In feature.vector
+            Call values.Add(CDbl(item))
+        Next
+
+        Return values.ToArray
+    End Function
+
+    ''' <summary>
+    ''' 生成坐标轴标题，例如 <c>PC1 (42.51%)</c>
+    ''' </summary>
+    Private Function ComponentLabel(component As String, explained As Double(), index As Integer) As String
+        If explained IsNot Nothing AndAlso index < explained.Length Then
+            Return $"{component} ({explained(index):F2}%)"
+        Else
+            Return component
+        End If
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Function GetOrZeroDouble(table As Dictionary(Of String, Double), key As String) As Double
+        Dim value As Double = 0
+
+        Call table.TryGetValue(key, value)
+
+        Return value
+    End Function
+
+    ''' <summary>
+    ''' PCA降维的目标维度
+    ''' </summary>
+    Const PCA_Dimensions As Integer = 3
+    ''' <summary>
+    ''' PCA散点图的着色维度标题
+    ''' </summary>
+    Const PCA_ColorLabel As String = "核心基因占比 (%)"
+
+    ''' <summary>
+    ''' PAV矩阵的PCA分析：取基因总数最多的前<paramref name="MaxPCAFamilies"/>个基因家族构建PAV子矩阵，
+    ''' 以基因组为样本、基因家族为特征，降维到<see cref="PCA_Dimensions"/>个维度
+    ''' </summary>
+    ''' <param name="result">泛基因组分析结果</param>
+    ''' <param name="stats">
+    ''' 基因组基本信息统计，提供核心基因占比作为散点图的着色维度
+    ''' </param>
+    ''' <param name="MaxPCAFamilies">
+    ''' PCA分析所使用的基因家族数量上限（按照家族的基因总数降序取Top-N）
+    ''' </param>
+    ''' <remarks>
+    ''' 任何数据不足或者计算失败的情况都会返回一个空的数据集，由前端显示"数据不可用"，
+    ''' 保证PCA分析的失败不会导致整个报告的生成过程失败。
+    ''' </remarks>
+    ''' 
+    <Extension>
+    Public Function BuildPCAData(result As PanGenomeResult, stats As GenomeStatRow(), Optional MaxPCAFamilies As Integer = 5000) As PCAScatterDataset
+        Dim empty As New PCAScatterDataset With {
+            .points = New PCAPoint() {},
+            .pc1Label = "PC1",
+            .pc2Label = "PC2",
+            .pc3Label = "PC3",
+            .colorLabel = PCA_ColorLabel,
+            .familyCount = 0,
+            .explained = New Double() {}
+        }
+        Dim genomeNames As String() = result.TotalGenesInGenomes.Keys.OrderBy(Function(x) x).ToArray()
+
+        ' PCA.vb 在样本数不足的时候会自动下调maxPC，这里提前做一次保护
+        If genomeNames.Length < PCA_Dimensions Then
+            Return empty
+        End If
+
+        ' 按照家族的基因总数降序取Top-N；同分的时候以家族ID次序稳定化，保证多次生成的结果是可复现的
+        Dim families As String() = result.GeneFamilies _
+            .Where(Function(kv) result.PAVMatrix.ContainsKey(kv.Key)) _
+            .OrderByDescending(Function(kv) kv.Value.Length) _
+            .ThenBy(Function(kv) kv.Key, StringComparer.Ordinal) _
+            .Take(MaxPCAFamilies) _
+            .Select(Function(kv) kv.Key) _
+            .ToArray()
+
+        If families.Length = 0 Then
+            Return empty
+        End If
+
+        Try
+            ' 注意：PrincipalComponentAnalysis 会原地修改输入的数值数组，
+            ' 因此这里必须新建一个DataFrame，不可以复用 result.GetPAVMatrix() 的结果，
+            ' 否则会污染后续的PAV热图与PAV表格数据
+            Dim df As New DataFrame With {.rownames = genomeNames}
+
+            For Each familyId As String In families
+                Dim pavRow As Dictionary(Of String, Integer) = result.PAVMatrix(familyId)
+
+                Call df.add(familyId,
+                            genomeNames _
+                                .Select(Function(genome) CDbl(If(pavRow.ContainsKey(genome), pavRow(genome), 0))) _
+                                .ToArray)
+            Next
+
+            Dim stat As StatisticsObject = df.CommonDataSet()
+            Dim pcaResult As MultivariateAnalysisResult = PCA.PrincipalComponentAnalysis(stat, maxPC:=PCA_Dimensions)
+            Dim score As DataFrame = pcaResult.GetPCAScore()
+            Dim components As String() = score.featureNames
+
+            If components Is Nothing OrElse components.Length < PCA_Dimensions Then
+                Call Debug.WriteLine($"[pangenome] PCA got only {If(components Is Nothing, 0, components.Length)} components, skip PCA chart.")
+
+                Return empty
+            End If
+
+            ' 得分向量的顺序与输入DataFrame的行顺序(即genomeNames)一致
+            Dim pc1 As Double() = GetPCVector(score, components(0), genomeNames.Length)
+            Dim pc2 As Double() = GetPCVector(score, components(1), genomeNames.Length)
+            Dim pc3 As Double() = GetPCVector(score, components(2), genomeNames.Length)
+
+            If pc1 Is Nothing OrElse pc2 Is Nothing OrElse pc3 Is Nothing Then
+                Return empty
+            End If
+
+            Dim coreRatios As Dictionary(Of String, Double) = stats _
+                .GroupBy(Function(r) r.name) _
+                .ToDictionary(Function(g) g.Key, Function(g) g.First.coreRatio)
+            Dim points As PCAPoint() = genomeNames _
+                .Select(Function(genome, i)
+                            Return New PCAPoint With {
+                                .name = genome,
+                                .pc1 = pc1(i),
+                                .pc2 = pc2(i),
+                                .pc3 = pc3(i),
+                                .coreRatio = GetOrZeroDouble(coreRatios, genome),
+                                .geneCount = result.TotalGenesInGenomes(genome)
+                            }
+                        End Function) _
+                .ToArray
+
+            Dim explained As Double() = pcaResult.Contributions.Take(PCA_Dimensions).ToArray
+
+            Call $"[pangenome] PCA done: {points.Length} genomes x {families.Length} families, variance = {explained.Select(Function(x) x.ToString("F2")).JoinBy(", ")}%".debug
+
+            Return New PCAScatterDataset With {
+                .points = points,
+                .pc1Label = ComponentLabel(components(0), explained, 0),
+                .pc2Label = ComponentLabel(components(1), explained, 1),
+                .pc3Label = ComponentLabel(components(2), explained, 2),
+                .colorLabel = PCA_ColorLabel,
+                .familyCount = families.Length,
+                .explained = explained
+            }
+        Catch ex As Exception
+            Call Debug.WriteLine($"[pangenome] PCA analysis failed: {ex.Message}")
+
+            Return empty
+        End Try
     End Function
 End Module
