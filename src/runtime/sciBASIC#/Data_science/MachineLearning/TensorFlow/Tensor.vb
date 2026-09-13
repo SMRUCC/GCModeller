@@ -121,6 +121,39 @@ Public Class Tensor : Implements ICloneable, IDisposable
     ''' <summary>切换计算后端时使用的同步根对象</summary>
     Public Shared ReadOnly SyncRoot As New Object()
 
+    ''' <summary>
+    ''' 全局的设备端缓存纪元号。
+    ''' </summary>
+    ''' <remarks>
+    ''' 后端（例如 CUDA）会把张量的主机数据上传到显存并做 LRU 缓存，缓存键是
+    ''' "主机数组引用 + <see cref="Version"/>"。当调用方<b>绕过</b> Tensor 的索引器 /
+    ''' <c>SetValue</c>，直接就地修改了底层 <c>Double()</c> 数组（典型例子是 CNN 的
+    ''' 训练器直接改写权重数组）时，张量自身无从感知，显存副本会一直停留在旧值上，
+    ''' 导致后续计算静默使用过期数据。
+    '''
+    ''' 这类调用方在修改完成之后必须调用一次 <see cref="InvalidateAllDeviceCaches"/>，
+    ''' 让所有张量的缓存副本失效（<see cref="Version"/> 会随之改变）。
+    ''' </remarks>
+    Private Shared _deviceEpoch As Long = 0
+
+    ''' <summary>当前的全局设备端缓存纪元号</summary>
+    Public Shared ReadOnly Property DeviceEpoch As Long
+        Get
+            Return System.Threading.Interlocked.Read(_deviceEpoch)
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 让所有张量的设备端缓存副本失效。
+    ''' </summary>
+    ''' <remarks>
+    ''' 仅在"绕过 Tensor 的索引器直接就地修改底层数组"之后需要调用；
+    ''' 通过索引器 / <c>SetValue</c> 的写入会自动使该张量自身的缓存失效，无需调用本方法。
+    ''' </remarks>
+    Public Shared Sub InvalidateAllDeviceCaches()
+        System.Threading.Interlocked.Increment(_deviceEpoch)
+    End Sub
+
 #End Region
 
 #Region "属性"
@@ -198,9 +231,14 @@ Public Class Tensor : Implements ICloneable, IDisposable
     ''' <summary>
     ''' 数据版本号（只读）。任何原地写入都会使其自增，供设备端缓存判断失效。
     ''' </summary>
+    ''' <remarks>
+    ''' 返回值 = 本实例自身的写入计数 + <see cref="DeviceEpoch"/>。
+    ''' 加上全局纪元是为了覆盖"绕过 Tensor 直接就地修改底层数组"的场景
+    ''' （见 <see cref="InvalidateAllDeviceCaches"/>）。
+    ''' </remarks>
     Public ReadOnly Property Version As Long
         Get
-            Return _version
+            Return _version + DeviceEpoch
         End Get
     End Property
 
@@ -273,6 +311,23 @@ Public Class Tensor : Implements ICloneable, IDisposable
 #End Region
 
 #Region "构造函数"
+
+    ''' <summary>
+    ''' 创建一个空的张量（形状为 {0}、不含数据）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 该重载的唯一用途是给反射式反序列化（<c>Activator.CreateInstance</c>，见
+    ''' <c>Microsoft.VisualBasic.Serialization.BinaryDumping</c> 的 <c>ObjectInputStream</c>）
+    ''' 提供一个真正的无参构造函数：实例化之后由反序列化流程直接填充字段，
+    ''' 因此这里只做能够安全通过 <see cref="UpdateDimProds"/> 的最小初始化。
+    ''' </remarks>
+    Public Sub New()
+        Me._Shape = New Integer() {0}
+        _Data = New Double() {}
+
+        ' 初始化维度乘积数组
+        Call UpdateDimProds()
+    End Sub
 
     ''' <summary>
     ''' 创建指定形状的张量，并用零初始化
@@ -448,6 +503,53 @@ Public Class Tensor : Implements ICloneable, IDisposable
 #End Region
 
 #Region "静态工厂方法"
+
+    ''' <summary>
+    ''' 直接使用给定的数据数组创建张量（<b>不做数据拷贝</b>）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 与 <c>New(data, shape)</c> 的区别在于本方法<b>不会克隆</b> <paramref name="data"/>：
+    ''' 张量与调用方共享同一份底层存储，任一侧的就地修改都会立刻反映到另一侧，
+    ''' 因此它适合"把已有的 <c>Double()</c> 缓冲区包装成张量视图"的场景
+    ''' （例如 CNN 把 <c>DataBlock</c> 的权重数组交给张量算子参与计算）。
+    ''' 需要独立副本时请使用构造函数。
+    ''' </remarks>
+    ''' <param name="data">底层数据数组，长度必须与 <paramref name="shape"/> 的乘积一致</param>
+    ''' <param name="shape">张量形状</param>
+    Public Shared Function Wrap(data As Double(), ParamArray shape As Integer()) As Tensor
+        If data Is Nothing Then
+            Throw New ArgumentNullException(NameOf(data))
+        End If
+
+        Dim expectedSize = shape.Aggregate(1, Function(a, b) a * b)
+
+        If data.Length <> expectedSize Then
+            Throw New ArgumentException($"Data length {data.Length} does not match shape {String.Join(",", shape)}")
+        End If
+
+        Dim t As New Tensor()
+        t._Data = data
+        t._Shape = CType(shape.Clone(), Integer())
+
+        ' 初始化维度乘积数组
+        Call t.UpdateDimProds()
+
+        Return t
+    End Function
+
+    ''' <summary>
+    ''' 用已有张量的底层存储与指定形状再创建一个张量视图（零拷贝 reshape）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 元素总数必须保持不变，否则抛 <see cref="ArgumentException"/>。
+    ''' </remarks>
+    Public Shared Function Wrap(source As Tensor, ParamArray shape As Integer()) As Tensor
+        If source Is Nothing Then
+            Throw New ArgumentNullException(NameOf(source))
+        End If
+
+        Return Wrap(source.Data, shape)
+    End Function
 
     ''' <summary>
     ''' 从二维数组创建张量
