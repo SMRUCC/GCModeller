@@ -418,7 +418,11 @@ Public Module SVDomainEntropy
         Dim singles As New List(Of KMeansCluster(Of SVEntropyEntity))()
 
         For Each cluster As KMeansCluster(Of SVEntropyEntity) In raw
-            Call singles.Add(cluster)
+            ' 在数据高度集中的时候KMeans有可能会产生一些没有任何成员的簇，
+            ' 这些空的簇不参与簇编号的排名，否则报告与CSV之中会出现长度为0的簇
+            If cluster.NumOfEntity > 0 Then
+                Call singles.Add(cluster)
+            End If
         Next
 
         If singles.Count = 0 Then
@@ -568,28 +572,35 @@ Public Module SVDomainEntropy
     ''' <param name="row">某一行SV Median矩阵的数值（列=基因组）</param>
     ''' <remarks>
     ''' 本项目之中的 Median 是"拷贝数中位数"，取值是很小的离散值（0/1/2/3...）而不是bp长度，
-    ''' 因此不需要像 sv_entropy.md 之中建议的那样先做分箱，直接使用精确取值作为类别即可，
-    ''' 这样子与 CopyNumber 熵的口径也保持了一致。
+    ''' 因此不需要像 sv_entropy.md 之中建议的那样先做分箱，直接使用精确取值作为类别即可。
     ''' 
-    ''' 只有真正存在SV事件的列（取值大于0）才会参与频率统计：
-    ''' "没有SV事件"并不是一种结构特征，与 CopyNumber 熵的处理方式保持一致。
+    ''' 行内为0的单元格表示该基因组没有对应的SV事件，它同样是一种"结构状态"，
+    ''' 因此这里会把0也作为一个离散类别参与频率统计。
+    ''' 
+    ''' 注意：在当前的结构变异数据模型之中，同一个基因家族的所有SV事件共享同一个
+    ''' Median 值（Median 是"该家族在有SV事件的基因组之中的拷贝数中位数"，是家族级别的常量），
+    ''' 因此这一行的取值实际上只有 {0, median} 两种，Median 熵刻画的是
+    ''' "SV 状态在各个基因组之间分布的均衡程度"：
+    ''' 
+    '''   * 熵越高 -> 该家族的SV事件既不是普遍存在、也不是普遍缺失（高度多态）；
+    '''   * 熵越低 -> 该家族的SV状态在所有基因组之中高度一致（几乎全部有、或者几乎没有）。
+    ''' 
+    ''' 如果后续在SV检出的上游把每个基因组各自的SV尺寸/断裂点记录下来，
+    ''' 这个熵就会退化为 sv_entropy.md 之中所描述的"结构特征的离散程度"，无需修改本模块。
     ''' </remarks>
     Private Function EntropyOfCategories(row As Double()) As Double
-        Dim freq As New Dictionary(Of Double, Integer)()
-        Dim n As Integer = 0
-
-        For Each v As Double In row
-            If v > 0 Then
-                Dim c As Integer = 0
-
-                freq(v) = If(freq.TryGetValue(v, c), c + 1, 1)
-                n += 1
-            End If
-        Next
-
-        If n <= 0 Then
+        If row.Length = 0 Then
             Return 0
         End If
+
+        Dim freq As New Dictionary(Of Double, Integer)()
+        Dim n As Integer = row.Length
+
+        For Each v As Double In row
+            Dim c As Integer = 0
+
+            freq(v) = If(freq.TryGetValue(v, c), c + 1, 1)
+        Next
 
         Dim h As Double = 0
 

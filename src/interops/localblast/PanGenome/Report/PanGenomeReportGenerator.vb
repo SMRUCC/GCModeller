@@ -96,6 +96,15 @@ Public Module PanGenomeReportGenerator
     ''' SV热图最多展示的基因组数量
     ''' </summary>
     Const MaxSVHeatmapGenomes As Integer = 120
+    ''' <summary>
+    ''' SV信息熵散点图最多展示的基因家族数量
+    ''' </summary>
+    ''' <remarks>
+    ''' 在上百个基因组的数据集上面，逐家族的全部散点会让内嵌的JSON达到十几MB，
+    ''' 因此超过这个上限的时候只等间距抽样展示一部分（完整的聚类结果依然保存在分析结果之中，
+    ''' 可以通过R#导出接口获取）。
+    ''' </remarks>
+    Const MaxSVEntropyPoints As Integer = 30000
 
     Public ReadOnly Property DefaultHtmlTemplate As String
         Get
@@ -412,19 +421,59 @@ Public Module PanGenomeReportGenerator
     Private Function BuildSVEntropyData(result As PanGenomeResult) As SVDomainEntropyDataset
         Dim data As SVDomainEntropyDataset = result.GetSVEntropy
 
-        If data IsNot Nothing Then
-            Return data
+        If data Is Nothing Then
+            Return New SVDomainEntropyDataset With {
+                .points = New SVDomainEntropyPoint() {},
+                .clusters = New SVEntropyCluster() {},
+                .familyCount = 0,
+                .filteredCount = 0,
+                .clusterCount = 0,
+                .copyNumberEntropyLabel = "",
+                .medianEntropyLabel = "",
+                .genomeCount = 0
+            }
+        End If
+
+        Dim points As SVDomainEntropyPoint() = data.points.SafeQuery.ToArray
+
+        ' 基因家族数量非常多的时候只等间距抽样展示一部分散点，
+        ' 避免内嵌的JSON过于庞大而拖慢报告页面的加载
+        If points.Length > MaxSVEntropyPoints Then
+            points = SampleIndexes(points.Length, MaxSVEntropyPoints) _
+                .Select(Function(i) points(i)) _
+                .ToArray
         End If
 
         Return New SVDomainEntropyDataset With {
-            .points = New SVDomainEntropyPoint() {},
-            .clusters = New SVEntropyCluster() {},
-            .familyCount = 0,
-            .filteredCount = 0,
-            .clusterCount = 0,
-            .copyNumberEntropyLabel = "",
-            .medianEntropyLabel = "",
-            .genomeCount = 0
+            .points = points.Select(AddressOf RoundEntropyPoint).ToArray,
+            .clusters = data.clusters,
+            .familyCount = data.familyCount,
+            .filteredCount = data.filteredCount,
+            .clusterCount = data.clusterCount,
+            .copyNumberEntropyLabel = data.copyNumberEntropyLabel,
+            .medianEntropyLabel = data.medianEntropyLabel,
+            .genomeCount = data.genomeCount
+        }
+    End Function
+
+    ''' <summary>
+    ''' 截断信息熵散点数据的浮点精度
+    ''' </summary>
+    ''' <param name="point"></param>
+    ''' <remarks>
+    ''' 页面上绘图只需要6位小数的精度，而默认的序列化会写出17位有效数字，
+    ''' 在上万个基因家族的时候会白白增加一倍以上的页面体积。
+    ''' 完整的精度依然保存在分析结果对象与归档文件之中，不影响导出为CSV的数据。
+    ''' </remarks>
+    Private Function RoundEntropyPoint(point As SVDomainEntropyPoint) As SVDomainEntropyPoint
+        Return New SVDomainEntropyPoint With {
+            .name = point.name,
+            .hCopyNumber = Math.Round(point.hCopyNumber, 6),
+            .hMedian = Math.Round(point.hMedian, 6),
+            .zCopyNumber = Math.Round(point.zCopyNumber, 6),
+            .zMedian = Math.Round(point.zMedian, 6),
+            .presentGenomes = point.presentGenomes,
+            .cluster = point.cluster
         }
     End Function
 

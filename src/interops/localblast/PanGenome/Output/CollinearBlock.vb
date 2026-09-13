@@ -45,10 +45,11 @@
 
     ' Class CollinearBlock
     ' 
-    '     Properties: Chr1, Chr2, Genome1, Genome2, OrthologyLinks
-    '                 Score
+    '     Properties: Chr1, Chr2, End1, End2, GenePairCount, Genome1, Genome2
+    '                 Length1, Length2, LinkCount, OrthologyLinks, Score
+    '                 Start1, Start2
     ' 
-    '     Constructor: (+2 Overloads) Sub New
+    '     Constructor: (+4 Overloads) Sub New
     ' 
     ' /********************************************************************************/
 
@@ -57,6 +58,11 @@
 ''' <summary>
 ''' 共线性区块定义
 ''' </summary>
+''' <remarks>
+''' 区块除了记录参与共线性的两个基因组/染色体之外，还会记录区块在这两条染色体之上
+''' 所覆盖的起止坐标(<see cref="Start1"/> / <see cref="End1"/> / <see cref="Start2"/> / <see cref="End2"/>，
+''' 分别取区块内所有基因的最小起始位点与最大终止位点)，这样子就可以直接用于共线性绘图。
+''' </remarks>
 Public Class CollinearBlock
 
     Public Property Genome1 As String
