@@ -520,6 +520,45 @@
             font-style: italic;
         }
 
+        /* 图表图注：说明图表所用的统计指标及其生物学意义 */
+        .chart-caption {
+            margin-top: 20px;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-blue);
+            border-radius: 0 12px 12px 0;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.8;
+        }
+
+        .chart-caption .caption-title {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .chart-caption p {
+            margin-bottom: 8px;
+        }
+
+        .chart-caption p:last-child {
+            margin-bottom: 0;
+        }
+
+        .chart-caption .formula {
+            display: inline-block;
+            padding: 2px 8px;
+            margin: 0 2px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--accent-emerald);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8125rem;
+        }
+
         /* 数据表滚动容器 */
         .table-scroll {
             max-height: 480px;
@@ -896,6 +935,7 @@
     <script type="application/json" id="pangenome-curve-data">{$PANGENOME_CURVE_DATA}</script>
     <script type="application/json" id="pav-matrix-data">{$PAV_MATRIX_DATA}</script>
     <script type="application/json" id="pca-data">{$PCA_DATA}</script>
+    <script type="application/json" id="genome-entropy-data">{$GENOME_ENTROPY_DATA}</script>
     <script type="application/json" id="genetic-distance-data">{$GENETIC_DISTANCE_DATA}</script>
     <script type="application/json" id="sv-stats-data">{$SV_STATS_DATA}</script>
     <script type="application/json" id="collinearity-data">{$COLLINEARITY_DATA}</script>
@@ -1009,6 +1049,41 @@
                 <p class="table-note" style="margin-top: 12px;">
                     点击直方图柱子可以筛选该基因总数区间内的基因组，再次点击同一柱子即可取消筛选。
                 </p>
+            </div>
+
+            <!-- 基因组三维散点图：存在/缺失均衡度 · 特有基因占比 · 核心基因占比 -->
+            <div class="chart-container">
+                <h3 class="chart-title">基因组三维特征散点图（存在/缺失均衡度 · 特有基因占比 · 核心基因占比）</h3>
+                <div class="chart-wrapper" id="genomeEntropyScatter3D" style="height: 600px;"></div>
+                <p class="table-note" id="genomeEntropyNote" style="display: none; margin-top: 16px;"></p>
+
+                <div class="chart-caption">
+                    <span class="caption-title">图注 · 基因存在/缺失均衡度（香农信息熵）</span>
+                    <p>
+                        设泛基因组共有 <strong>N</strong> 个基因家族，某个基因组中存在 <strong>K</strong> 个、缺失
+                        <strong>N − K</strong> 个，则该基因组「存在/缺失」两种状态的概率分布的信息熵为
+                        <span class="formula">H = −(p·log p + (1 − p)·log(1 − p))</span>，其中
+                        <span class="formula">p = K / N</span>。本报告采用自然对数，H 越大表示该基因组在「存在」与
+                        「缺失」之间越均衡，H 越小表示越偏向其中一侧。
+                    </p>
+                    <p>
+                        <strong>基因组可塑性的代理指标：</strong>在大多数泛基因组中核心基因占绝对多数，因此 p 通常很大
+                        （例如 0.8 以上）。若某个基因组的 p 偏离 0.5 越多（即缺失了大量非必需基因），其熵值越低；反之，
+                        若该基因组通过水平基因转移（HGT）等方式获取了大量附属基因，使得「存在」与「缺失」的比例相对均衡，
+                        其熵值会升高。
+                    </p>
+                    <p>
+                        <strong>识别极端基因组：</strong>熵值极低的基因组往往代表生活在高度稳定、封闭环境中的内生菌或
+                        专性寄生菌（经历了大量基因丢失、基因组缩减）；而熵值较高的基因组则可能是生活在复杂环境
+                        （如土壤、肠道）中、拥有庞大附属基因库以适应多变环境的泛化种，这些基因组通常也是群体中
+                        「高度可塑型」的成员。
+                    </p>
+                    <p>
+                        图中每个散点代表一个基因组：<strong>X 轴</strong>为基因存在/缺失均衡度 H，<strong>Y 轴</strong>
+                        为该基因组特有基因数占其基因总数的比例，<strong>Z 轴</strong>为核心基因占比；图形可拖拽旋转、滚轮缩放，
+                        据此可以在「核心保守型」与「高度可塑型」基因组之间快速定位群体中的极端成员。
+                    </p>
+                </div>
             </div>
         </section>
 
@@ -1297,6 +1372,14 @@
             || {
                 points: [], pc1Label: 'PC1', pc2Label: 'PC2', pc3Label: 'PC3',
                 colorLabel: '核心基因占比 (%)', familyCount: 0, explained: []
+            };
+        const genomeEntropyData = readJsonData('genome-entropy-data')
+            || {
+                points: [],
+                entropyLabel: '基因存在/缺失均衡度 H',
+                specificRatioLabel: '特有基因占比 (%)',
+                coreRatioLabel: '核心基因占比 (%)',
+                familyCount: 0
             };
         const geneticDistanceData = readJsonData('genetic-distance-data')
             || { genomes: [], data: [], truncated: false };
@@ -2248,9 +2331,10 @@
                 return null;
             }
 
-            // 三维散点图依赖 echarts-gl 扩展，扩展缺失或者浏览器没有 WebGL 能力时降级显示
-            if (typeof echarts === 'undefined' || !echarts.gl) {
-                dom.innerHTML = '<p class="no-data">三维散点图需要 echarts-gl 扩展，当前未能加载</p>';
+            // 三维散点图依赖 echarts-gl 扩展，这里不做版本相关的特性探测，
+            // 而是在渲染完成之后校验 grid3D 是否真正生效，扩展缺失或者浏览器不支持 WebGL 时降级显示
+            if (typeof echarts === 'undefined') {
+                dom.innerHTML = '<p class="no-data">ECharts 未能加载，无法渲染 PCA 散点图</p>';
                 return null;
             }
 
@@ -2378,6 +2462,14 @@
                 return null;
             }
 
+            // grid3D 组件没有生效说明 echarts-gl 扩展没有被正确加载
+            if (!(chart.getOption().grid3D || []).length) {
+                chart.dispose();
+                dom.innerHTML = '<p class="no-data">三维散点图需要 echarts-gl 扩展，当前未能加载</p>';
+
+                return null;
+            }
+
             const note = document.getElementById('pcaScatterNote');
 
             if (note) {
@@ -2388,6 +2480,126 @@
                 note.textContent = `基于基因总数最多的 ${pcaData.familyCount} 个基因家族做主成分分析；`
                     + `各主成分方差贡献率：${explained || '未知'}；`
                     + `散点颜色表示${colorLabel}；鼠标拖拽可旋转、滚轮可缩放。`;
+                note.style.display = '';
+            }
+
+            return chart;
+        }
+
+        // ============================================
+        // 10. 基因组三维特征散点图
+        //     (基因存在/缺失均衡度熵 · 特有基因占比 · 核心基因占比)
+        // ============================================
+        function initGenomeEntropyScatter3D() {
+            const dom = document.getElementById('genomeEntropyScatter3D');
+            if (!dom) return null;
+
+            const points = genomeEntropyData.points || [];
+
+            if (points.length === 0) {
+                dom.innerHTML = '<p class="no-data">三维散点图数据不可用（缺少基因家族或者基因组数据）</p>';
+                return null;
+            }
+
+            if (typeof echarts === 'undefined') {
+                dom.innerHTML = '<p class="no-data">ECharts 未能加载，无法渲染三维散点图</p>';
+                return null;
+            }
+
+            const chart = echarts.init(dom);
+
+            // 数据项: [存在/缺失均衡度熵 H, 特有基因占比, 核心基因占比]
+            const data = points.map(p => [p.entropy, p.specificRatio, p.coreRatio]);
+
+            const option = {
+                tooltip: {
+                    backgroundColor: '#1a2332',
+                    borderColor: '#2d3748',
+                    textStyle: { color: '#f1f5f9' },
+                    formatter: function (params) {
+                        const p = points[params.dataIndex];
+
+                        return `${p.name}`
+                            + `<br/>${genomeEntropyData.entropyLabel}: ${p.entropy.toFixed(4)}`
+                            + `<br/>存在基因家族: ${p.presentFamilies} / 缺失: ${p.absentFamilies}`
+                            + `<br/>${genomeEntropyData.specificRatioLabel}: ${(p.specificRatio || 0).toFixed(2)}`
+                            + `<br/>${genomeEntropyData.coreRatioLabel}: ${(p.coreRatio || 0).toFixed(2)}`
+                            + `<br/>基因总数: ${p.geneCount}`;
+                    }
+                },
+                xAxis3D: {
+                    type: 'value',
+                    name: genomeEntropyData.entropyLabel,
+                    axisLabel: { color: '#94a3b8', fontSize: 10 },
+                    axisLine: { lineStyle: { color: '#2d3748' } }
+                },
+                yAxis3D: {
+                    type: 'value',
+                    name: genomeEntropyData.specificRatioLabel,
+                    axisLabel: { color: '#94a3b8', fontSize: 10 },
+                    axisLine: { lineStyle: { color: '#2d3748' } }
+                },
+                zAxis3D: {
+                    type: 'value',
+                    name: genomeEntropyData.coreRatioLabel,
+                    axisLabel: { color: '#94a3b8', fontSize: 10 },
+                    axisLine: { lineStyle: { color: '#2d3748' } }
+                },
+                grid3D: {
+                    boxWidth: 120,
+                    boxDepth: 120,
+                    boxHeight: 80,
+                    axisLabel: { color: '#94a3b8', fontSize: 10 },
+                    axisLine: { lineStyle: { color: '#2d3748' } },
+                    splitLine: { lineStyle: { color: '#2d3748', opacity: 0.4 } },
+                    axisPointer: { show: false },
+                    light: {
+                        main: { intensity: 1.2, shadow: true },
+                        ambient: { intensity: 0.3 }
+                    },
+                    viewControl: {
+                        autoRotate: false,
+                        distance: 230,
+                        alpha: 20,
+                        beta: 30
+                    }
+                },
+                series: [{
+                    type: 'scatter3D',
+                    data: data,
+                    symbolSize: 10,
+                    itemStyle: { opacity: 0.9, borderWidth: 0, color: '#10b981' },
+                    emphasis: {
+                        itemStyle: { borderColor: '#f1f5f9', borderWidth: 2 }
+                    }
+                }]
+            };
+
+            try {
+                chart.setOption(option);
+            } catch (err) {
+                console.error('基因组三维散点图渲染失败', err);
+
+                chart.dispose();
+                dom.innerHTML = '<p class="no-data">三维散点图渲染失败，可能是当前浏览器不支持 WebGL</p>';
+
+                return null;
+            }
+
+            // grid3D 组件没有生效说明 echarts-gl 扩展没有被正确加载
+            if (!(chart.getOption().grid3D || []).length) {
+                chart.dispose();
+                dom.innerHTML = '<p class="no-data">三维散点图需要 echarts-gl 扩展，当前未能加载</p>';
+
+                return null;
+            }
+
+            const note = document.getElementById('genomeEntropyNote');
+
+            if (note) {
+                note.textContent = `本图基于完整的 PAV 矩阵（泛基因组共 ${genomeEntropyData.familyCount} 个基因家族）`
+                    + `为 ${points.length} 个基因组分别计算上述三个维度；`
+                    + `鼠标拖拽可旋转、滚轮可缩放。`;
                 note.style.display = '';
             }
 
@@ -2421,6 +2633,7 @@
                 initBarChart(),
                 initCurveChart(),
                 initGeneCountHistogram(),
+                initGenomeEntropyScatter3D(),
                 initPAVHeatmap(),
                 initPCAScatter3D(),
                 initSVChart(),

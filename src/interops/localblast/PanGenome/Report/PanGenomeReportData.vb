@@ -194,3 +194,49 @@ Public Class PCAScatterDataset
     Public Property explained As Double()
 
 End Class
+
+''' <summary>
+''' 基因组级别的三维散点图数据点（一个基因组）
+''' </summary>
+Public Class GenomeEntropyPoint
+
+    Public Property name As String
+    ''' <summary>
+    ''' 基因存在/缺失均衡度的香农信息熵 H = -(p*log(p) + (1-p)*log(1-p))
+    ''' </summary>
+    Public Property entropy As Double
+    ''' <summary>
+    ''' 该基因组之中存在的基因家族数量 K
+    ''' </summary>
+    Public Property presentFamilies As Integer
+    ''' <summary>
+    ''' 该基因组之中缺失的基因家族数量 N - K
+    ''' </summary>
+    Public Property absentFamilies As Integer
+    ''' <summary>
+    ''' 特有基因数 / 基因总数（百分比）
+    ''' </summary>
+    Public Property specificRatio As Double
+    ''' <summary>
+    ''' 核心基因占比（百分比）
+    ''' </summary>
+    Public Property coreRatio As Double
+    Public Property geneCount As Integer
+
+End Class
+
+''' <summary>
+''' 基因组级别的三维散点图数据（均衡度熵 / 特有基因占比 / 核心基因占比）
+''' </summary>
+Public Class GenomeEntropyDataset
+
+    Public Property points As GenomeEntropyPoint()
+    Public Property entropyLabel As String
+    Public Property specificRatioLabel As String
+    Public Property coreRatioLabel As String
+    ''' <summary>
+    ''' 泛基因组的基因家族总数 N
+    ''' </summary>
+    Public Property familyCount As Integer
+
+End Class
