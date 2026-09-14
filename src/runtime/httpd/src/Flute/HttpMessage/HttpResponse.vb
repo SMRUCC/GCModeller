@@ -68,11 +68,13 @@
 #End Region
 
 Imports System.IO
+Imports System.IO.Compression
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Threading
 Imports Flute.Http.Configurations
+Imports Flute.Http.Core.Message.HttpHeader
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.C
@@ -190,6 +192,172 @@ Namespace Core.Message
                 Call response.Flush()
             End Using
         End Sub
+
+        ''' <summary>
+        ''' the fallback of the <see cref="Configuration.gzip_min_size"/> server
+        ''' option, used when no configuration instance is available.
+        ''' </summary>
+        Const DEFAULT_GZIP_MIN_SIZE As Integer = 1024
+
+        ''' <summary>
+        ''' write a complete response body in one shot: the payload is gzip
+        ''' compressed when the client has announced that it accepts the gzip
+        ''' encoding and the mime type is compressible, so that the
+        ''' <c>Content-Length</c> header always describes the bytes which are
+        ''' actually written to the client.
+        ''' </summary>
+        ''' <param name="data">the raw response body.</param>
+        ''' <param name="mimeType">the mime type of the response body, e.g. ``application/json``.</param>
+        ''' <remarks>
+        ''' the <c>Content-Encoding</c> and the <c>Vary</c> response headers are
+        ''' registered when (and only when) the payload was compressed.
+        ''' </remarks>
+        Public Sub WriteContent(data As Byte(), mimeType As String)
+            Dim body As Byte() = compress(data, mimeType)
+
+            m_writeData = True
+            m_writeHTML = True
+
+            Call WriteHttp(New Content With {.length = body.Length, .type = mimeType})
+            Call response.BaseStream.Write(body, Scan0, body.Length)
+            Call response.Flush()
+        End Sub
+
+        ''' <summary>
+        ''' compress the given response body with gzip when it is worth it, and
+        ''' register the <c>Content-Encoding</c> / <c>Vary</c> response headers
+        ''' on success.
+        ''' </summary>
+        ''' <param name="data">the raw response body.</param>
+        ''' <param name="mime">the mime type of the response body.</param>
+        ''' <returns>
+        ''' the gzip compressed payload, or the untouched <paramref name="data"/>
+        ''' when the compression is disabled, was not negotiated by the client,
+        ''' does not apply to the mime type or does not shrink the payload.
+        ''' </returns>
+        ''' <remarks>
+        ''' this function must be called before <see cref="WriteHttp(Content)"/>,
+        ''' as the custom headers are flushed together with the http header
+        ''' block.
+        ''' </remarks>
+        Private Function compress(data As Byte(), mime As String) As Byte()
+            If data Is Nothing OrElse data.Length = 0 Then
+                Return data
+            End If
+            If settings Is Nothing OrElse Not settings.gzip_enabled Then
+                Return data
+            End If
+            If data.Length < minGZipSize Then
+                Return data
+            End If
+            If Not acceptGZip() OrElse Not isCompressible(mime) Then
+                Return data
+            End If
+
+            Dim packed As Byte()
+
+            Using buffer As New MemoryStream()
+                Using gzip As New GZipStream(buffer, CompressionMode.Compress, leaveOpen:=True)
+                    Call gzip.Write(data, Scan0, data.Length)
+                End Using
+
+                packed = buffer.ToArray()
+            End Using
+
+            ' never send a payload which is larger than the original one
+            If packed.Length >= data.Length Then
+                Return data
+            End If
+
+            Call AddCustomHttpHeader(Flute.Http.Core.Message.HttpHeader.ResponseHeaders.ContentEncoding, "gzip")
+            Call AddCustomHttpHeader(Flute.Http.Core.Message.HttpHeader.ResponseHeaders.Vary, RequestHeaders.AcceptEncoding)
+
+            Return packed
+        End Function
+
+        ''' <summary>
+        ''' the smallest response body size in bytes that is worth a gzip
+        ''' compression, taken from the server configuration.
+        ''' </summary>
+        ''' <returns>the size threshold in bytes.</returns>
+        Private ReadOnly Property minGZipSize As Integer
+            Get
+                If settings Is Nothing OrElse settings.gzip_min_size <= 0 Then
+                    Return DEFAULT_GZIP_MIN_SIZE
+                Else
+                    Return settings.gzip_min_size
+                End If
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' test whether the client has announced that it is able to decode a
+        ''' gzip compressed response body.
+        ''' </summary>
+        ''' <returns><c>True</c> when the ``Accept-Encoding`` request header contains gzip.</returns>
+        Private Function acceptGZip() As Boolean
+            Dim encoding As String = Nothing
+
+            If m_requestHeaders Is Nothing Then
+                Return False
+            End If
+            If Not m_requestHeaders.TryGetValue(RequestHeaders.AcceptEncoding, encoding) Then
+                Return False
+            End If
+            If encoding.StringEmpty Then
+                Return False
+            End If
+
+            ' an explicit ``gzip;q=0`` means that the client refuses gzip
+            If encoding.IndexOf("gzip;q=0", StringComparison.OrdinalIgnoreCase) >= 0 Then
+                Return False
+            End If
+
+            Return encoding.IndexOf("gzip", StringComparison.OrdinalIgnoreCase) >= 0
+        End Function
+
+        ''' <summary>
+        ''' test whether the given mime type is worth a gzip compression: the
+        ''' text based payloads are compressed, the already compressed binaries
+        ''' (images, fonts, zip like packages) are not.
+        ''' </summary>
+        ''' <param name="mime">the mime type of the response body, the optional
+        ''' parameters (e.g. ``; charset=utf-8``) are ignored.</param>
+        ''' <returns><c>True</c> when the payload of this mime type should be compressed.</returns>
+        Private Shared Function isCompressible(mime As String) As Boolean
+            If mime.StringEmpty Then
+                Return False
+            End If
+
+            mime = mime.ToLowerInvariant()
+
+            ' strip the parameters, e.g. "text/html; charset=utf-8"
+            Dim i As Integer = mime.IndexOf(";"c)
+
+            If i > 0 Then
+                mime = mime.Substring(0, i).Trim()
+            End If
+
+            If mime.StartsWith("text/") Then
+                Return True
+            End If
+
+            Select Case mime
+                Case "application/json",
+                     "application/xml",
+                     "application/xhtml+xml",
+                     "application/javascript",
+                     "application/x-javascript",
+                     "application/xslt+xml",
+                     "application/xsl",
+                     "image/svg+xml"
+                    Return True
+                Case Else
+                    Return mime.EndsWith("+json") OrElse
+                           mime.EndsWith("+xml") OrElse
+                           mime.Contains("javascript")
+            End Select
+        End Function
 
         ''' <summary>
         ''' write an html string to the response, emitting the http header
@@ -339,6 +507,7 @@ Namespace Core.Message
 
             If Not m_writeData Then
                 m_writeData = True
+                bytes = compress(bytes, MIME.Json)
                 Call WriteHttp(New Content With {.length = bytes.Length, .type = MIME.Json})
             End If
 
@@ -454,6 +623,7 @@ Namespace Core.Message
 
             If Not m_writeData Then
                 m_writeData = True
+                bytes = compress(bytes, MIME.Html)
                 Call WriteHttp(New Content With {.length = bytes.Length, .type = MIME.Html})
             End If
 

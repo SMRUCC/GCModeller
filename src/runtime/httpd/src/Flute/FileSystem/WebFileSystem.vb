@@ -62,6 +62,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Flute.Http.Core
 Imports Flute.Http.Core.Message
+Imports Flute.Http.Core.Message.HttpHeader
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Net.Http
@@ -80,6 +81,25 @@ Namespace FileSystem
         ''' the set of file system roots that this listener serves files from.
         ''' </summary>
         Public Property fs As FileSystem()
+
+        ''' <summary>
+        ''' the max-age in seconds that is advertised to the browser for the static
+        ''' files which are served by this listener. the browser is allowed to
+        ''' reuse its cached copy of such a resource without asking the server
+        ''' again until the age expires. a value which is less than or equals to
+        ''' zero (the default) disables the cache headers completely.
+        ''' </summary>
+        ''' <returns>the cache life time of the static resources in seconds.</returns>
+        Public Property CacheMaxAge As Integer
+
+        ''' <summary>
+        ''' an optional white list of the file extensions (with the leading dot,
+        ''' for example ``.js``) which are allowed to receive the cache headers
+        ''' of <see cref="CacheMaxAge"/>. an empty set (the default) means that
+        ''' every static file of this listener is cacheable.
+        ''' </summary>
+        ''' <returns>the cacheable file extension set.</returns>
+        Public Property CacheExtensions As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
 
         ''' <summary>
         ''' the first (primary) file system's root environment, exposed as the web
@@ -136,11 +156,11 @@ Namespace FileSystem
             Dim path As String = CommonGetPath(request)
 
             If _fs.Length = 1 Then
-                Call HostStaticFile(_fs(0), path, response)
+                Call HostStaticFile(_fs(0), path, response, CacheMaxAge, CacheExtensions)
             Else
                 For Each dir As FileSystem In fs
                     If dir.FileExists(path) Then
-                        Call HostStaticFile(dir, request, response)
+                        Call HostStaticFile(dir, request, response, CacheMaxAge, CacheExtensions)
                         Exit For
                     End If
                 Next
@@ -192,7 +212,9 @@ Namespace FileSystem
         ''' </summary>
         Const STREAM_THRESHOLD% = ByteSize.MB
 
-        Private Shared Sub HostStaticFile(ByRef fs As FileSystem, ByRef path As String, ByRef response As HttpResponse)
+        Private Shared Sub HostStaticFile(ByRef fs As FileSystem, ByRef path As String, ByRef response As HttpResponse,
+                                          Optional cacheMaxAge As Integer = 0,
+                                          Optional cacheExtensions As ICollection(Of String) = Nothing)
             ' security: prevent path traversal (../) attacks by ensuring the
             ' resolved physical path stays inside the wwwroot directory.
             If ContainsPathTraversal(path) Then
@@ -205,17 +227,16 @@ Namespace FileSystem
 
             response.AccessControlAllowOrigin = "*"
 
-            If fileSize <= STREAM_THRESHOLD Then
-                ' small file: read fully into memory and send
-                Dim res As Byte() = fs.GetByteBuffer(path)
-                Dim content As New Content With {
-                    .type = mime.MIMEType,
-                    .length = res.Length
-                }
+            ' tell the browser how long the local copy of this static resource
+            ' may be reused before it asks the server again.
+            Call applyCacheHeaders(path, response, cacheMaxAge, cacheExtensions)
 
-                response _
-                    .WriteHttp(content) _
-                    .SendData(res)
+            If fileSize <= STREAM_THRESHOLD Then
+                ' small file: read fully into memory and send; the payload is
+                ' gzip compressed when the client has asked for it.
+                Dim res As Byte() = fs.GetByteBuffer(path)
+
+                Call response.WriteContent(res, mime.MIMEType)
 
                 Erase res
             Else
@@ -244,14 +265,52 @@ Namespace FileSystem
         ''' <param name="fs">the file system to serve the resource from.</param>
         ''' <param name="request">the incoming http request.</param>
         ''' <param name="response">the response to write the file to.</param>
-        Public Shared Sub HostStaticFile(fs As FileSystem, request As HttpRequest, response As HttpResponse)
+        Public Shared Sub HostStaticFile(fs As FileSystem, request As HttpRequest, response As HttpResponse,
+                                         Optional cacheMaxAge As Integer = 0,
+                                         Optional cacheExtensions As ICollection(Of String) = Nothing)
             Dim path As String = CommonGetPath(request)
 
             If fs.FileExists(path) Then
-                Call HostStaticFile(fs, path, response)
+                Call HostStaticFile(fs, path, response, cacheMaxAge, cacheExtensions)
             Else
                 Call response.WriteError(HTTP_RFC.RFC_NOT_FOUND, "404 NOT FOUND: " & path.Replace("<", "&lt;"))
             End If
+        End Sub
+
+        ''' <summary>
+        ''' tell the browser that the requested static resource may be served
+        ''' from its own local cache for <paramref name="maxAge"/> seconds, so
+        ''' that the resource is not requested again before the cache expires.
+        ''' </summary>
+        ''' <param name="path">the requested resource path, used by the extension filter.</param>
+        ''' <param name="response">the response to write the cache headers to.</param>
+        ''' <param name="maxAge">the cache life time in seconds; a value which is less than
+        ''' or equals to zero disables the cache headers.</param>
+        ''' <param name="extensions">an optional white list of the cacheable file extensions
+        ''' (with the leading dot); <c>Nothing</c> or an empty collection means that every
+        ''' static file is cacheable.</param>
+        ''' <remarks>
+        ''' the headers are registered as custom headers, they must be written
+        ''' before the http header block is terminated by
+        ''' <see cref="HttpResponse.WriteHttp(Content)"/>.
+        ''' </remarks>
+        Private Shared Sub applyCacheHeaders(path As String, response As HttpResponse,
+                                             maxAge As Integer,
+                                             extensions As ICollection(Of String))
+            If maxAge <= 0 Then
+                Return
+            End If
+
+            If extensions IsNot Nothing AndAlso extensions.Count > 0 Then
+                Dim suffix As String = IO.Path.GetExtension(path)
+
+                If suffix.StringEmpty OrElse Not extensions.Contains(suffix) Then
+                    Return
+                End If
+            End If
+
+            Call response.AddCustomHttpHeader(Flute.Http.Core.Message.HttpHeader.ResponseHeaders.CacheControl, $"public, max-age={maxAge}")
+            Call response.AddCustomHttpHeader(Flute.Http.Core.Message.HttpHeader.ResponseHeaders.Expires, DateTime.UtcNow.AddSeconds(maxAge).ToString("R"))
         End Sub
 
         ''' <summary>

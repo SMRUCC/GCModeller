@@ -117,6 +117,12 @@ Namespace Configurations
         <Description("the maximum allowed size in bytes of a single HTTP request body for POST/PUT/PATCH, default 16MB. A value which is less than or equals to zero keeps the built-in default.")>
         Public Property max_post_size As Integer = 16 * 1024 * 1024
 
+        <Description("a logical value for enable the gzip compression of the compressible HTTP response bodies. The compression is only applied when the client announces 'Accept-Encoding: gzip', default is enabled.")>
+        Public Property gzip_enabled As Boolean = True
+
+        <Description("the minimum size in bytes of a response body that is worth a gzip compression, default 1024. The smaller responses are sent as-is.")>
+        Public Property gzip_min_size As Integer = 1024
+
         ''' <summary>
         ''' get the websocket sub-protocol name list from the
         ''' <see cref="websocket_subprotocols"/> configuration value.
