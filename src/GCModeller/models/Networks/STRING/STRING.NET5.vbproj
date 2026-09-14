@@ -25,10 +25,12 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;string-db;protein-interaction;signal-transduction</PackageTags>
     <PackageReleaseNotes>Constructs bacterial signal-transduction and functional enrichment networks from STRING-db interaction data.</PackageReleaseNotes>
+    <Version>1.0.9753.39595</Version>
+    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
-    <OutputPath>../../../../../.nuget</OutputPath>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

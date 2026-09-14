@@ -25,10 +25,12 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;kegg;network-visualization;graph-rendering</PackageTags>
     <PackageReleaseNotes>Adds image rendering of KEGG pathway and functional enrichment networks with configurable render styles.</PackageReleaseNotes>
+    <Version>1.0.9753.39595</Version>
+    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
-    <OutputPath>../../../../../.nuget</OutputPath>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

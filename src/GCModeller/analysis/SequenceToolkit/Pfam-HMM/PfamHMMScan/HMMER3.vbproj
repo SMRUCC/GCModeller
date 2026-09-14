@@ -25,10 +25,12 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;hmmer;protein-annotation;pfam;kofam;profile-hmm</PackageTags>
     <PackageReleaseNotes>Adds profile-HMM based protein annotation for Pfam families and KOfam KO assignments via HMMER3 models.</PackageReleaseNotes>
+    <Version>1.0.9753.39595</Version>
+    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
-    <OutputPath>../../../../../../.nuget</OutputPath>
+    <OutputPath>../../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

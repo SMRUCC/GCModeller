@@ -26,6 +26,8 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;motif-scanning;tfbs;pwm;transcription-factor</PackageTags>
     <PackageReleaseNotes>Introduces PWM and pattern-based motif scanning with log-odds scoring and statistical p-value estimation.</PackageReleaseNotes>
+    <Version>1.0.9753.39595</Version>
+    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
   </PropertyGroup>
 
 
@@ -41,7 +43,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
-    <OutputPath>../../../../../.nuget</OutputPath>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
 

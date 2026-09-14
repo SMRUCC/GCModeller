@@ -12,7 +12,7 @@
     <Product>GCModeller</Product>
     <Company>SMRUCC genomics institute</Company>
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
-    <Version>10.5.3.8911</Version>
+    <Version>10.5.9753.39595</Version>
     <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
     <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
@@ -27,6 +27,7 @@
     <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageReleaseNotes>Provides the core biological data models and assembly file I/O streams used by GCModeller genome annotation.</PackageReleaseNotes>
+    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -100,7 +101,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
     <DocumentationFile>SMRUCC.genomics.Core.xml</DocumentationFile>
-    <OutputPath>../../../../.nuget</OutputPath>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PlantMAT|x64'">
@@ -341,6 +342,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net6.0-windows|x64'">
@@ -369,6 +371,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net6.0|x64'">
@@ -397,6 +400,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net48|x64'">
@@ -1456,6 +1460,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net8.0|x64'">
@@ -1463,6 +1468,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net10.0|x64'">
@@ -1470,6 +1476,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net10.0-windows|x64'">
@@ -1477,6 +1484,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

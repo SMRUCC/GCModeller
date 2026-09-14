@@ -33,6 +33,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;reactome;pathway;owl;rdf</PackageTags>
     <PackageReleaseNotes>Loads Reactome OWL/RDF pathway data into object models with hierarchy and REST API support.</PackageReleaseNotes>
+		<Version>1.0.9753.39595</Version>
+		<AssemblyVersion>1.0.9753.39595</AssemblyVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
@@ -539,16 +541,19 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net6.0-windows|x64'">
 	  <DebugType>full</DebugType>
 	  <DefineTrace>True</DefineTrace>
+	  <OutputPath>../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net6.0|x64'">
 	  <DebugType>full</DebugType>
 	  <DefineTrace>True</DefineTrace>
+	  <OutputPath>../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net48|x64'">
 	  <DebugType>full</DebugType>
 	  <DefineTrace>True</DefineTrace>
+	  <OutputPath>../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net6.0-windows|x86'">
@@ -567,7 +572,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
-	  <OutputPath>../../../../.nuget</OutputPath>
+	  <OutputPath>../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>

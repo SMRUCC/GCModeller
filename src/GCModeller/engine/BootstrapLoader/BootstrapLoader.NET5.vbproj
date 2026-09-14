@@ -6,7 +6,7 @@
 		<AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader</AssemblyName>
 		<Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
 		<Company>SMRUCC genomics institute</Company>
-		<Version>5.0.1.2389</Version>
+		<Version>5.0.9753.39595</Version>
 
 		<Deterministic>false</Deterministic>
 
@@ -30,6 +30,7 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;systems-biology;virtual-cell;simulation</PackageTags>
     <PackageReleaseNotes>Added the virtual cell model bootstrap loader that builds the mass and flux network and runs the cellular dynamics engine.</PackageReleaseNotes>
+		<AssemblyVersion>1.0.9753.39595</AssemblyVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -341,7 +342,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
-	  <OutputPath>../../../../.nuget</OutputPath>
+	  <OutputPath>../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>

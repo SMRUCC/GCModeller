@@ -25,10 +25,12 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;tfbs;virtual-footprint;regulon;gene-regulation</PackageTags>
     <PackageReleaseNotes>Released the virtual footprint and regulation footprint model with regulon, KEGG module annotation and RegPrecise scanning support.</PackageReleaseNotes>
+    <Version>1.0.9753.39595</Version>
+    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
-    <OutputPath>../../../../../.nuget</OutputPath>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\..\..\..\assets\logo.png">

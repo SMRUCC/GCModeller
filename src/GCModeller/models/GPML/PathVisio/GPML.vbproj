@@ -25,10 +25,12 @@
     <Company>SMRUCC genomics institute</Company>
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;pathvisio;gpml;pathway;xml</PackageTags>
+    <Version>1.0.9753.39595</Version>
+    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
-    <OutputPath>../../../../../.nuget</OutputPath>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

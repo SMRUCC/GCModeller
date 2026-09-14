@@ -25,6 +25,8 @@
     <PackageTags>gcmodeller;bioinformatics;genomics;annotation;gff;ptf;file-formats</PackageTags>
     <PackageReleaseNotes>Adds parsers and writers for GFF and PTF genome annotation files with feature models and gene annotation tables.</PackageReleaseNotes>
     <UseApplicationFramework>True</UseApplicationFramework>
+    <Version>1.0.9753.39595</Version>
+    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -137,7 +139,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1</DefineConstants>
-    <OutputPath>../../../../.nuget</OutputPath>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
