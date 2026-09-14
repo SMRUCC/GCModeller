@@ -26,6 +26,7 @@
     <PackageReleaseNotes>Adds a broad set of genomics visualisations including volcano, enrichment bubble/heatmap and Upset plots.</PackageReleaseNotes>
     <Version>1.0.9753.39595</Version>
     <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
 

@@ -26,6 +26,7 @@
     <PackageReleaseNotes>Renders bacterial chromosome, plasmid and motif footprint maps from genome annotation data.</PackageReleaseNotes>
     <Version>1.0.9753.39595</Version>
     <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

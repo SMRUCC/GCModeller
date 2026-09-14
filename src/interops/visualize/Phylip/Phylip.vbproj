@@ -21,6 +21,7 @@
     <Platforms>AnyCPU;x64</Platforms>
     <Version>1.0.9753.39595</Version>
     <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
+    <AssemblyName>SMRUCC.genomics.Interops.Visualize.Phylip</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
