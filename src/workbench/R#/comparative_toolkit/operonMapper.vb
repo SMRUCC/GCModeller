@@ -43,7 +43,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.ComparativeGenomics.OperonMapper
+Imports SMRUCC.genomics.Model.OperonMapper
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 
@@ -51,18 +51,18 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Module operonMapper
 
     Sub New()
-        Call Internal.Object.Converts.addHandler(GetType(OperonRow()), AddressOf operonTable)
+        Call Internal.Object.Converts.addHandler(GetType(ODBOperon()), AddressOf operonTable)
     End Sub
 
-    Private Function operonTable(rows As OperonRow(), args As list, env As Environment) As dataframe
+    Private Function operonTable(rows As ODBOperon(), args As list, env As Environment) As dataframe
         Dim cols As New Dictionary(Of String, Array)
 
-        cols(NameOf(OperonRow.koid)) = rows.Select(Function(a) a.koid).ToArray
-        cols(NameOf(OperonRow.name)) = rows.Select(Function(a) a.name).ToArray
-        cols(NameOf(OperonRow.org)) = rows.Select(Function(a) a.org).ToArray
-        cols(NameOf(OperonRow.op)) = rows.Select(Function(a) a.op.JoinBy(", ")).ToArray
-        cols(NameOf(OperonRow.definition)) = rows.Select(Function(a) a.definition).ToArray
-        cols(NameOf(OperonRow.source)) = rows.Select(Function(a) a.source).ToArray
+        cols(NameOf(ODBOperon.koid)) = rows.Select(Function(a) a.koid).ToArray
+        cols(NameOf(ODBOperon.name)) = rows.Select(Function(a) a.name).ToArray
+        cols(NameOf(ODBOperon.org)) = rows.Select(Function(a) a.org).ToArray
+        cols(NameOf(ODBOperon.op)) = rows.Select(Function(a) a.op.JoinBy(", ")).ToArray
+        cols(NameOf(ODBOperon.definition)) = rows.Select(Function(a) a.definition).ToArray
+        cols(NameOf(ODBOperon.source)) = rows.Select(Function(a) a.source).ToArray
 
         Return New dataframe With {
             .columns = cols,
@@ -71,7 +71,21 @@ Module operonMapper
     End Function
 
     <ExportAPI("known_operons")>
-    Public Function knownOperons() As OperonRow()
-        Return OperonRow.LoadInternalResource.ToArray
+    Public Function knownOperons() As ODBOperon()
+        Return ODBOperon.LoadInternalResource.ToArray
+    End Function
+
+    ''' <summary>
+    ''' load operon set data from the ODB database
+    ''' </summary>
+    ''' <param name="file">dataset text file that download from https://operondb.jp/</param>
+    ''' <returns></returns>
+    <ExportAPI("operon_set")>
+    Public Function operon_set(Optional file As String = Nothing) As ODBOperon()
+        If file.StringEmpty(, True) Then
+            Return ODBOperon.LoadInternalResource.ToArray
+        Else
+            Return ODBOperon.Load(file).ToArray
+        End If
     End Function
 End Module

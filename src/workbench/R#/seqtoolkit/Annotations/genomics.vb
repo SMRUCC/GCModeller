@@ -68,7 +68,6 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
-Imports SMRUCC.genomics.Model.OperonMapper
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize.SyntenyVisualize
 Imports SMRUCC.Rsharp.Runtime
@@ -323,20 +322,6 @@ Module genomics
         End If
 
         Return 0
-    End Function
-
-    ''' <summary>
-    ''' load operon set data from the ODB database
-    ''' </summary>
-    ''' <param name="file">dataset text file that download from https://operondb.jp/</param>
-    ''' <returns></returns>
-    <ExportAPI("operon_set")>
-    Public Function operon_set(Optional file As String = Nothing) As ODBOperon()
-        If file.StringEmpty(, True) Then
-            Return ODBOperon.LoadInternalResource.ToArray
-        Else
-            Return ODBOperon.Load(file).ToArray
-        End If
     End Function
 
     <ExportAPI("read.nucmer")>
