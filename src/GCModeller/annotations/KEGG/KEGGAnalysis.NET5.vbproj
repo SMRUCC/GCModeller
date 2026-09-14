@@ -22,8 +22,8 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;kegg;pathway-enrichment;ko</PackageTags>
     <PackageReleaseNotes>Adds KEGG pathway enrichment profiling, visualization and KO/pathway reconstruction analysis.</PackageReleaseNotes>
-    <Version>1.0.9753.39595</Version>
-    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
+    <Version>1.0.9753.40023</Version>
+    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -6,7 +6,7 @@
 		<AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw</AssemblyName>
 		<Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
 		<Company>SMRUCC genomics institute</Company>
-		<Version>5.0.9753.39595</Version>
+		<Version>5.0.9753.40023</Version>
 
 		<Deterministic>false</Deterministic>
 
@@ -30,7 +30,7 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;data-io;binary-format;simulation</PackageTags>
     <PackageReleaseNotes>Released the vcXML, HDS raw and VCell matrix readers and writers for virtual cell simulation data.</PackageReleaseNotes>
-		<AssemblyVersion>1.0.9753.39595</AssemblyVersion>
+		<AssemblyVersion>1.0.9753.40023</AssemblyVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

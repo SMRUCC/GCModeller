@@ -24,8 +24,8 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;deep-learning;neural-network;pathway</PackageTags>
     <PackageReleaseNotes>Implements the P-NET biologically informed sparse neural network with pathway-hierarchy connectivity and DeepLIFT-based interpretation.</PackageReleaseNotes>
-    <Version>1.0.9753.39595</Version>
-    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
+    <Version>1.0.9753.40023</Version>
+    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">

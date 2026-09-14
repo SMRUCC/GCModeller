@@ -24,8 +24,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;gene-ontology;enrichment-analysis;visualization</PackageTags>
     <PackageReleaseNotes>Adds GO term enrichment analysis against genome backgrounds with DAG ontology term propagation and enrichment plots.</PackageReleaseNotes>
-    <Version>1.0.9753.39595</Version>
-    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
+    <Version>1.0.9753.40023</Version>
+    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

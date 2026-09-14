@@ -23,8 +23,8 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;nlp;text-mining;knowledge-base</PackageTags>
     <PackageReleaseNotes>Delivers gene-name similarity clustering and literature text-mining utilities for building biological knowledge bases.</PackageReleaseNotes>
-    <Version>1.0.9753.39595</Version>
-    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
+    <Version>1.0.9753.40023</Version>
+    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

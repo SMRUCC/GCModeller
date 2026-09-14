@@ -26,8 +26,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;data-model;virtual-cell;systems-biology</PackageTags>
     <PackageReleaseNotes>Provided the shared virtual cell component model types for genotypes, phenotypes and regulation networks.</PackageReleaseNotes>
-    <Version>1.0.9753.39595</Version>
-    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
+    <Version>1.0.9753.40023</Version>
+    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

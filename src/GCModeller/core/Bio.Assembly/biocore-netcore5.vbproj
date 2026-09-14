@@ -12,7 +12,7 @@
     <Product>GCModeller</Product>
     <Company>SMRUCC genomics institute</Company>
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
-    <Version>10.5.9753.39595</Version>
+    <Version>10.5.9753.40023</Version>
     <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
     <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
@@ -27,7 +27,7 @@
     <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageReleaseNotes>Provides the core biological data models and assembly file I/O streams used by GCModeller genome annotation.</PackageReleaseNotes>
-    <AssemblyVersion>1.0.9753.39595</AssemblyVersion>
+    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
