@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Microsoft.VisualBasic.DeepLearning.SpikingNeuralNetwork</RootNamespace>
+    <OptionStrict>Off</OptionStrict>
+    <OptionExplicit>On</OptionExplicit>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Microsoft.VisualBasic.DeepLearning.SpikingNeuralNetwork</AssemblyName>
+    <NoWarn>42016,41999,42004,42032</NoWarn>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit;mzkit_win32;gcmodeller_desktop;nuget_release;MEMI-Desktop</Configurations>
+    <AssemblyTitle>Spiking Neural Network  ·  LIF + SurrogateGrad + STDP</AssemblyTitle>
+    <UseApplicationFramework>True</UseApplicationFramework>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Spiking Neural Network  ·  LIF + SurrogateGrad + STDP</Title>
+    <PackageTags>deep learning;spiking Neural Network;LIF;Surrogate-grad;STDP;tensor;tensorflow</PackageTags>
+    <OutputPath>../../../.nuget/</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\TensorFlow\TensorFlow.vbproj" />
+  </ItemGroup>
+
+</Project>
