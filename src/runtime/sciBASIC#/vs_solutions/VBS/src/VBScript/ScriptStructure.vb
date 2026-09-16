@@ -161,6 +161,8 @@ Namespace Script
             ReadOnly _stack As New Stack(Of String)
             ReadOnly _buffer As New List(Of String)
             Dim _bufferKind As Kind = Kind.None
+            ''' <summary>当前函数块的原始签名行(顶层 Sub / Function)</summary>
+            Dim _signature As String = Nothing
 
             Private Enum Kind
                 None
@@ -210,7 +212,8 @@ Namespace Script
                     Call _stack.Push(bt.ToLower)
                     _bufferKind = Kind.Function
 
-                    ' 顶层函数签名重构为匿名函数签名
+                    ' 保留原始签名(工程代码发射器需要), 同时把签名重构为匿名函数签名
+                    _signature = t
                     Call _buffer.Add(ToLambdaSignature(t))
                 ElseIf IsLambdaBlockStart(t, bt) Then
                     ' 顶层多行lambda赋值语句, 保留结构
@@ -254,9 +257,16 @@ Namespace Script
 
                 Dim blockCode As String = String.Join(vbLf, _buffer)
                 Dim kind As Kind = _bufferKind
+                Dim signature As String = _signature
 
                 Call _buffer.Clear()
                 _bufferKind = Kind.None
+                _signature = Nothing
+
+                If kind = Kind.Function Then
+                    Call AddFunction(blockCode, signature)
+                    Return
+                End If
 
                 Select Case kind
                     Case Kind.Type : Call Result.TypeBlocks.Add(blockCode)
@@ -287,19 +297,18 @@ Namespace Script
             End Sub
 
             ''' <summary>追加一个顶层函数块(匿名函数形式, 同时保留原始签名)</summary>
-            Private Sub AddFunction(blockCode As String)
+            Private Sub AddFunction(blockCode As String, signature As String)
                 Dim lines As String() = blockCode.Split(vbLf)
-
-                Call Result.Functions.Add(New ScriptFunctionBlock With {
+                Dim func As New ScriptFunctionBlock With {
                     .Name = FunctionNameOf(lines(0)),
-                    .Signature = _signature
-                })
-
-                Dim func As ScriptFunctionBlock = Result.Functions(Result.Functions.Count - 1)
+                    .Signature = If(signature, lines(0))
+                }
 
                 For Each line As String In lines
                     Call func.Lines.Add(line)
                 Next
+
+                Call Result.Functions.Add(func)
             End Sub
         End Class
 
