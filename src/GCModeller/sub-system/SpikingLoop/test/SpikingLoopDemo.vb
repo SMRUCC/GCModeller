@@ -209,7 +209,7 @@ Module SpikingLoopDemo
         ' ==================== [5/8] P5-1 表达预测精度 ====================
         Section("5/8 · P5-1 表达预测精度")
         Dim metrics = loop_.Evaluate()
-        Console.WriteLine($"  模型  : {metrics}")
+        Console.WriteLine($"  模型（整条轨迹，含训练+验证窗口）: {metrics}")
         Console.WriteLine($"  逐基因: 平均 PCC = {metrics.MeanGenePcc:F4}，平均 R² = {metrics.MeanGeneR2:F4}，" &
                           $"PCC ≥ 0.6 的基因 {metrics.GenesAbovePcc(0.6)}/{loop_.Trajectory.NumGenes}")
 
@@ -682,6 +682,7 @@ Module SpikingLoopDemo
             .SparsityBeta = source.SparsityBeta,
             .TrainSplit = source.TrainSplit,
             .EarlyStopPatience = source.EarlyStopPatience,
+            .RestoreBestWeights = source.RestoreBestWeights,
             .PrintEvery = source.PrintEvery,
             .FrozenWeights = source.FrozenWeights,
             .EnforceMaskAfterUpdate = source.EnforceMaskAfterUpdate,

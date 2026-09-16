@@ -91,15 +91,29 @@ Namespace Training
         ''' <summary>总耗时（毫秒）</summary>
         Public Property ElapsedMs As Long
 
+        ''' <summary>是否已把参数回滚到验证损失最优的轮次</summary>
+        Public Property BestWeightsRestored As Boolean
+
+        ''' <summary>最后一轮的验证损失（与 <see cref="BestValidationLoss"/> 对比可判断过拟合程度）</summary>
+        Public Property FinalValidationLoss As Double = Double.NaN
+
         Public Overrides Function ToString() As String
-            Return $"TrainingResult(epochs={History.Count}, best@{(If(BestEpoch < 0, "-", BestEpoch.ToString()))}, " &
-                   $"val={BestValidationLoss:F6}, valPCC={BestValidationPcc:F4}, earlyStop={StoppedEarly}, {ElapsedMs} ms)"
+            Dim restore = If(BestWeightsRestored, "已回滚至最优轮", "保持最后一轮")
+            Return $"TrainingResult(epochs={History.Count}, best@{If(BestEpoch < 0, "-", BestEpoch.ToString())}, " &
+                   $"val={BestValidationLoss:F6}, valPCC={BestValidationPcc:F4}, earlyStop={StoppedEarly}, " &
+                   $"{restore}, {ElapsedMs} ms)"
         End Function
 
     End Class
 
     ''' <summary>SNN-GRN 训练器（代理梯度 + BPTT + Adam）</summary>
     Public Class SNNGRNTrainer
+
+        ''' <summary>
+        ''' 允许"按验证损失回滚最优轮次"所需的最少验证窗口数。
+        ''' 低于该值时验证指标本身噪声过大，回滚可能选中欠训练的早期轮次。
+        ''' </summary>
+        Public Const MinWindowsForBestEpochSelection As Integer = 10
 
         Private ReadOnly _model As SNNGRNModel
         Private ReadOnly _config As SpikingLoopConfig
@@ -166,6 +180,7 @@ Namespace Training
 
             Dim best = Double.NaN
             Dim patienceLeft = _config.EarlyStopPatience
+            Dim snapshot As (w As Double(), rw As Double(), rb As Double()) = (Nothing, Nothing, Nothing)
 
             For epoch = 1 To _config.Epochs
                 Dim record = TrainEpoch(epoch)
@@ -185,6 +200,12 @@ Namespace Training
                         result.BestValidationLoss = record.ValidationLoss
                         result.BestValidationPcc = record.ValidationPcc
                         patienceLeft = _config.EarlyStopPatience
+
+                        If _config.RestoreBestWeights Then
+                            snapshot = (_model.Layer.Weight.ToDoubleArray(),
+                                        _model.Readout.Weight.ToDoubleArray(),
+                                        _model.Readout.Bias.ToDoubleArray())
+                        End If
                     ElseIf _config.EarlyStopPatience > 0 Then
                         patienceLeft -= 1
                         If patienceLeft <= 0 Then
@@ -203,8 +224,40 @@ Namespace Training
 
             watch.Stop()
             result.ElapsedMs = watch.ElapsedMilliseconds
-            result.FinalTrainLoss = If(result.History.Count = 0, Double.NaN,
-                                       result.History(result.History.Count - 1).TrainLoss)
+
+            If result.History.Count > 0 Then
+                Dim last = result.History(result.History.Count - 1)
+                result.FinalTrainLoss = last.TrainLoss
+                result.FinalValidationLoss = last.ValidationLoss
+            Else
+                result.FinalTrainLoss = Double.NaN
+            End If
+
+            ' ---- 回滚到验证损失最优的轮次 ----
+            ' 仅在验证窗足够多时才回滚：验证集只有几~十几个窗口时，"按验证损失挑轮次"的
+            ' 选择噪声会大于收益——被选中的可能是欠训练的早期轮次，导致整体指标反而变差。
+            If _config.RestoreBestWeights AndAlso snapshot.w IsNot Nothing Then
+                If ValidationWindows >= MinWindowsForBestEpochSelection Then
+                    RestoreWeights(snapshot.w, snapshot.rw, snapshot.rb)
+                    result.BestWeightsRestored = True
+                ElseIf _config.Verbose Then
+                    Dim skip = $"[SpikingLoop] 验证集仅 {ValidationWindows} 个窗口（< {MinWindowsForBestEpochSelection}），" &
+                               "按验证损失挑选轮次的噪声过大，已跳过参数回滚；最终指标对应最后一轮" &
+                               "（可在配置中增大 NumBins 或降低 TrainSplit 以扩大验证集）"
+                    Call skip.info
+                End If
+            End If
+
+            ' ---- 过拟合诊断：小样本场景下最容易被忽视的失败模式 ----
+            If _config.Verbose AndAlso Not Double.IsNaN(result.FinalValidationLoss) AndAlso
+               Not Double.IsNaN(result.BestValidationLoss) AndAlso
+               result.FinalValidationLoss > result.BestValidationLoss * 1.5 Then
+                Dim advice = $"[SpikingLoop] 过拟合提示：最优验证损失 {result.BestValidationLoss:F6}（第 {result.BestEpoch} 轮）" &
+                             $"明显优于最后一轮 {result.FinalValidationLoss:F6}；已" &
+                             $"{If(result.BestWeightsRestored, "回滚参数到最优轮", "未回滚（RestoreBestWeights=False）")}。" &
+                             "可减小 Epochs、增大 PriorRegAlpha/SparsityBeta，或增加训练数据（更多伪时间分箱）"
+                Call advice.warning
+            End If
 
             ' 收敛性诊断：readme P3 的经验目标是验证集 PCC > 0.6
             If _config.Verbose Then
@@ -340,6 +393,21 @@ Namespace Training
 
             Return (Tensor.Wrap(xd, count, n), Tensor.Wrap(yd, count, n))
         End Function
+
+        ''' <summary>
+        ''' 把参数就地回滚到快照。绕过 Tensor 索引器写入底层数组后，
+        ''' 按既有设备端缓存契约调用 <see cref="Tensor.MarkHostModified"/> 声明主机数据已修改。
+        ''' </summary>
+        Private Sub RestoreWeights(w As Double(), readoutW As Double(), readoutB As Double())
+            Array.Copy(w, _model.Layer.Weight.Data, w.Length)
+            _model.Layer.Weight.MarkHostModified()
+
+            Array.Copy(readoutW, _model.Readout.Weight.Data, readoutW.Length)
+            _model.Readout.Weight.MarkHostModified()
+
+            Array.Copy(readoutB, _model.Readout.Bias.Data, readoutB.Length)
+            _model.Readout.Bias.MarkHostModified()
+        End Sub
 
         Private Shared Function MeanFiringRate(sHistory As List(Of Tensor)) As Double
             If sHistory Is Nothing OrElse sHistory.Count = 0 Then Return 0.0

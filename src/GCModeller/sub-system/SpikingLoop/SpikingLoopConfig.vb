@@ -198,6 +198,14 @@ Public Class SpikingLoopConfig
     ''' <summary>验证集连续多少轮无改善即早停（0 = 不早停）</summary>
     Public Property EarlyStopPatience As Integer = 0
 
+    ''' <summary>
+    ''' 训练结束后是否把参数回滚到"验证损失最优"的那一轮。
+    ''' True（默认）：报告与导出的指标对应最优模型；否则对应最后一轮。
+    ''' 小样本场景下（训练窗口仅十几~几十个）模型极易过拟合，
+    ''' 若不回滚，最终指标会明显差于训练过程中出现过的最好水平。
+    ''' </summary>
+    Public Property RestoreBestWeights As Boolean = True
+
     ''' <summary>每隔多少轮输出一次训练日志</summary>
     Public Property PrintEvery As Integer = 20
 
