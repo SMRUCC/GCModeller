@@ -270,6 +270,9 @@ Public Class SpikingNetwork
         Select Case Encoding
             Case SpikeEncoding.RateCoding
                 Return SpikeEncoders.RateEncode(x, TimeSteps, Rng)
+            Case SpikeEncoding.DirectCurrent
+                ' 直接电流注入：每步注入同一连续电流（不做脉冲采样）
+                Return SpikeEncoders.DirectCurrentEncode(x, TimeSteps)
             Case Else
                 Return SpikeEncoders.LatencyEncode(x, TimeSteps)
         End Select
