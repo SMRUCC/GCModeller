@@ -256,21 +256,20 @@ Namespace Script
                 End If
 
                 Dim blockCode As String = String.Join(vbLf, _buffer)
-                Dim kind As Kind = _bufferKind
+                Dim blockKind As Kind = _bufferKind
                 Dim signature As String = _signature
 
                 Call _buffer.Clear()
                 _bufferKind = Kind.None
                 _signature = Nothing
 
-                If kind = Kind.Function Then
+                If blockKind = Kind.Function Then
                     Call AddFunction(blockCode, signature)
                     Return
                 End If
 
-                Select Case kind
+                Select Case blockKind
                     Case Kind.Type : Call Result.TypeBlocks.Add(blockCode)
-                    Case Kind.Function : Call AddFunction(blockCode)
                     Case Else : Call AddStatementBlock(blockCode)
                 End Select
             End Sub
@@ -329,7 +328,7 @@ Namespace Script
 
         ''' <summary>判断顶层代码行是否为类型定义块开始</summary>
         Friend Shared Function IsTypeBlockStart(line As String, ByRef blockType As String) As Boolean
-            Dim m As Match = Regex.Match(line, "^(?:(public|private|friend|protected|partial|shared|mustinherit|notinheritable)\s+)*(?<kind>class|structure|interface|enum)\s+", RegexOptions.IgnoreCase)
+            Dim m As Match = Regex.Match(line, "^(?:(public|private|friend|protected|partial|shared|mustinherit|notinheritable)\s+)*(?<kind>class|structure|interface|enum|module)\s+", RegexOptions.IgnoreCase)
 
             If m.Success Then
                 blockType = m.Groups("kind").Value.ToLower

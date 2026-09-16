@@ -52,6 +52,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.NuGet
 Imports Microsoft.VisualBasic.CommandLine
 
 Namespace Script
@@ -72,8 +73,38 @@ Namespace Script
         ''' </summary>
         Public Property Metadata As ScriptMetadata
 
-        ''' <summary>#include所引用的外部程序集路径列表(统一为绝对路径)</summary>
+        ''' <summary>
+        ''' #include所引用的外部程序集路径列表(统一为绝对路径)。
+        ''' nuget 包解析出的资产与脚本引用转发的依赖也一并汇入本列表。
+        ''' </summary>
         Public Property [Imports] As List(Of String)
+
+        ''' <summary>被 #include 引入的其它脚本(递归展开后的有序列表)</summary>
+        Public Property ScriptIncludes As List(Of IncludedScript)
+
+        ''' <summary>#include 引入的 nuget 包及其解析出的资产(根包 + 全部传递依赖)</summary>
+        Public Property NuGetPackages As List(Of NuGetPackage)
+
+        ''' <summary>
+        ''' 送入 Roslyn <c>MetadataReference</c> 与运行期 ALC 探测的全部 dll 绝对路径
+        ''' (dll include + nuget 资产 + 脚本转发依赖), 等价于 <see cref="Imports"/>。
+        ''' </summary>
+        Public ReadOnly Property ResolvedAssemblies As List(Of String)
+            Get
+                Return [Imports]
+            End Get
+        End Property
+
+        ''' <summary>#include 解析过程中的告警信息(未解析的目标等)</summary>
+        Public Property IncludeWarnings As List(Of String)
+
+        ''' <summary>与 #include 一致的相对路径搜索目录(按优先级排列)</summary>
+        Public Property SearchRoots As String()
+
+        ''' <summary>
+        ''' 文本预处理(移除 #include 行、展开 ?args / let / 元组分解)之后的脚本代码。
+        ''' </summary>
+        Public Property PreprocessedCode As String
 
         ''' <summary>重构之后的可以直接被Roslyn编译的完整VB.NET源代码</summary>
         Public Property GeneratedCode As String
