@@ -502,16 +502,38 @@ Namespace Script
             Return names.ToArray()
         End Function
 
-        ''' <summary>按顶层逗号切分(不切括号内的逗号)</summary>
+        ''' <summary>
+        ''' 按顶层逗号切分: 不切圆括号/花括号内部的逗号, 也不切字符串字面量内部的逗号。
+        ''' </summary>
+        ''' <remarks>
+        ''' 花括号用于数组字面量(例如 <c>Dim items As String() = {"a", "b"}</c>),
+        ''' 字符串字面量之中的逗号同样不能作为声明项的分隔符;
+        ''' VB 字符串之中使用两个连续的双引号表示一个双引号字符,
+        ''' 因此简单地逐字符翻转"是否处于字符串内部"即可正确处理转义。
+        ''' </remarks>
         Friend Shared Function SplitTopLevel(s As String) As String()
             Dim parts As New List(Of String)
             Dim depth As Integer = 0
             Dim start As Integer = 0
+            Dim inString As Boolean = False
 
             For i As Integer = 0 To s.Length - 1
-                Select Case s(i)
-                    Case "("c : depth += 1
-                    Case ")"c : depth -= 1
+                Dim ch As Char = s(i)
+
+                If ch = """"c Then
+                    inString = Not inString
+                    Continue For
+                End If
+
+                If inString Then
+                    Continue For
+                End If
+
+                Select Case ch
+                    Case "("c, "{"c
+                        depth += 1
+                    Case ")"c, "}"c
+                        depth -= 1
                     Case ","c
                         If depth = 0 Then
                             Call parts.Add(s.Substring(start, i - start))

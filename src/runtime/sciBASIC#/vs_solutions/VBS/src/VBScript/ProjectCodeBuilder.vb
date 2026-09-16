@@ -125,7 +125,13 @@ Namespace Script
             Call sb.AppendLine()
             Call sb.AppendLine("        ''' <summary>由脚本顶层的可执行语句生成的程序入口</summary>")
             Call sb.AppendLine("        Public Function Main(argv As String()) As Integer")
-            Call sb.AppendLine($"            {CommandLineField} = CommandLine.BuildFromArguments(argv, NoSubCommand:=False)")
+            Call sb.AppendLine("            If argv Is Nothing Then")
+            Call sb.AppendLine("                argv = New String() {}")
+            Call sb.AppendLine("            End If")
+            Call sb.AppendLine()
+            ' NoSubCommand:=True: 生成的可执行程序没有"子命令"概念, 全部词元都是参数,
+            ' 这样脚本之中的 ?"--x" 与以脚本方式运行时保持一致的取值语义。
+            Call sb.AppendLine($"            {CommandLineField} = CommandLine.BuildFromArguments(argv, NoSubCommand:=True)")
             Call sb.AppendLine()
 
             For slot As Integer = 0 To _syntax.Slots.Count - 1
@@ -148,6 +154,8 @@ Namespace Script
                 For i As Integer = 0 To func.Lines.Count - 1
                     If i = 0 Then
                         Call sb.AppendLine("        " & ToModuleSignature(func.Signature))
+                    ElseIf String.IsNullOrWhiteSpace(func.Lines(i)) Then
+                        Call sb.AppendLine()
                     Else
                         Call sb.AppendLine("        " & func.Lines(i))
                     End If
@@ -162,7 +170,9 @@ Namespace Script
                 Dim lines As String() = typeBlock.Split(vbLf)
 
                 For i As Integer = 0 To lines.Length - 1
-                    If i = 0 Then
+                    If String.IsNullOrWhiteSpace(lines(i)) Then
+                        Call sb.AppendLine()
+                    ElseIf i = 0 Then
                         Call sb.AppendLine("    " & ScriptRefactor.NormalizeTypeAccess(lines(i)))
                     Else
                         Call sb.AppendLine("    " & lines(i))
@@ -202,24 +212,26 @@ Namespace Script
         ''' </summary>
         Private Function BuildIncludedSources() As IEnumerable(Of ProjectSourceFile)
             Dim used As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+            Dim sources As New List(Of ProjectSourceFile)
 
             For Each script As IncludedScript In _parse.ScriptIncludes
                 Dim original As String = Path.GetFileName(script.FilePath)
                 Dim fileName As String = original
                 Dim index As Integer = 1
 
+                ' 不同目录下的同名脚本需要改名以避免相互覆盖
                 While Not used.Add(fileName)
                     index += 1
                     fileName = Path.GetFileNameWithoutExtension(original) & index & ".vb"
                 End While
 
-                Call _parse.ScriptIncludes.ToString()
-
-                Yield New ProjectSourceFile With {
+                Call sources.Add(New ProjectSourceFile With {
                     .FileName = fileName,
                     .Code = ScriptRefactor.PreprocessText(File.ReadAllText(script.FilePath))
-                }
+                })
             Next
+
+            Return sources
         End Function
 
         ' ==================================================================

@@ -106,16 +106,9 @@ Namespace Script
                 Call sb.AppendLine()
             End If
 
-            Call sb.AppendLine($"Imports {GetType(CommandLine).Namespace}")
-            Call sb.AppendLine($"Imports Microsoft.VisualBasic")
-            Call sb.AppendLine($"Imports System.Linq")
-            Call sb.AppendLine($"Imports System")
-            Call sb.AppendLine($"Imports System.Collections")
-            Call sb.AppendLine($"Imports System.Collections.Generic")
-            Call sb.AppendLine($"Imports System.Data")
-            Call sb.AppendLine($"Imports System.Diagnostics")
-            Call sb.AppendLine($"Imports System.Threading.Tasks")
-            Call sb.AppendLine($"Imports System.Xml.Linq")
+            For Each line As String In DefaultImports()
+                Call sb.AppendLine(line)
+            Next
 
             Call AppendAssemblyAttributes(sb)
 
@@ -174,10 +167,28 @@ Namespace Script
         End Function
 
         ''' <summary>
+        ''' 脚本引擎自动注入的固定 Imports(运行期发射与工程期发射共用)。
+        ''' </summary>
+        Friend Shared Function DefaultImports() As String()
+            Return {
+                $"Imports {GetType(CommandLine).Namespace}",
+                "Imports Microsoft.VisualBasic",
+                "Imports System.Linq",
+                "Imports System",
+                "Imports System.Collections",
+                "Imports System.Collections.Generic",
+                "Imports System.Data",
+                "Imports System.Diagnostics",
+                "Imports System.Threading.Tasks",
+                "Imports System.Xml.Linq"
+            }
+        End Function
+
+        ''' <summary>
         ''' 顶层类型只允许 <c>Friend</c>/<c>Public</c>, 因此把类型声明行上的
         ''' <c>Private</c> 规范化为 <c>Friend</c>(仅作用于类型声明行, 不影响类型成员)。
         ''' </summary>
-        Private Shared Function NormalizeTypeAccess(declaration As String) As String
+        Friend Shared Function NormalizeTypeAccess(declaration As String) As String
             Return Regex.Replace(declaration, "^\s*Private\s+", "Friend ", RegexOptions.IgnoreCase)
         End Function
 

@@ -210,9 +210,11 @@ Namespace VBProj.NuGet
                     Throw New NuGetException($"nuget 包 '{packageId}@{ver}' 中找不到 .nuspec 描述文件: {url}")
                 End If
 
+                ' 安装标记: 必须与 NuGet 自己的格式兼容 —— 当前版本的 NuGet restore
+                ' 会反序列化该文件, 并且要求 contentHash 属性存在(缺失时 restore 直接报错)。
                 Call File.WriteAllText(
                     Path.Combine(staging, InstallMarker),
-                    "{""version"":2,""source"":""" & url & """}")
+                    "{""version"":2,""contentHash"":""" & ContentHash(nupkg) & """,""source"":""" & url & """}")
 
                 If Directory.Exists(folder) Then
                     ' 已有半成品目录(缺少安装标记), 直接替换
@@ -232,6 +234,17 @@ Namespace VBProj.NuGet
                 End If
             End Try
         End Sub
+
+        ''' <summary>
+        ''' 计算 nupkg 的内容哈希(base64 编码的 SHA512), 用于写入 NuGet 兼容的安装标记。
+        ''' </summary>
+        Private Shared Function ContentHash(nupkg As String) As String
+            Using sha As System.Security.Cryptography.SHA512 = System.Security.Cryptography.SHA512.Create()
+                Using stream As New FileStream(nupkg, FileMode.Open, FileAccess.Read, FileShare.Read)
+                    Return Convert.ToBase64String(sha.ComputeHash(stream))
+                End Using
+            End Using
+        End Function
 
         Private Sub Download(url As String, target As String)
             Try

@@ -62,7 +62,7 @@ Namespace Script
                 .ScriptIncludes = includes.Scripts,
                 .NuGetPackages = includes.NuGetPackages,
                 .IncludeWarnings = includes.Warnings,
-                .SearchRoots = searchRoots,
+                .SearchRoots = magicRoots,
                 .PreprocessedCode = preprocessed,
                 .GeneratedCode = code
             }
