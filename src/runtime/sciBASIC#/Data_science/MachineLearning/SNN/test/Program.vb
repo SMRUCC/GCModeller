@@ -24,11 +24,12 @@ Module Program
 
         ' GradientSelfCheck()
         ' Console.WriteLine()
-        SparseDemo()
-        Console.WriteLine()
-        SupervisedDemo()
-        Console.WriteLine()
-        SparseCudaDemo()
+        ' SparseDemo()
+        ' Console.WriteLine()
+        ' SupervisedDemo()
+        ' Console.WriteLine()
+        ' SparseCudaDemo()
+        RecurrentLayerSelfCheck()
         '  Console.WriteLine()
         ' StdpDemo()
 
