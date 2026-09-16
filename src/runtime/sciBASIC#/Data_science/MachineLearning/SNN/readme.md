@@ -240,3 +240,101 @@ def simulate_T_steps(inputs, W1, W2, T, beta, threshold):
 **ANN-to-SNN 转换的替代路径**：若不想手写替代梯度，可以先用 TF 训练一个 ReLU ANN，再通过权重归一化将其转换为 SNN，这在 TF 下实现门槛更低，但推理延迟较长。
 **XLA 加速**：对图模式下使用 `tf.while_loop` 的实现，可以启用 `jit_compile=True` 让 XLA 编译器融合算子，显著提升时间步循环的执行效率。
 总体而言，TF 下实现 SNN 的推荐路径是：**Eager 模式 + Python for 循环 + `@tf.custom_gradient` 替代梯度 + Keras Layer 封装**，这套组合在开发效率与性能之间取得较好平衡，代码结构也最接近 snnTorch 的使用习惯，便于后续迁移到 PyTorch 生态。
+
+---
+
+# 稀疏自定义连接：加载真实突触连接组（FlyWire 风格）
+
+前面各模块中，`SpikingNetwork.AddLayer()` 构建的是**全连接** LIF 层（稠密权重矩阵 `[in, units]`），适合手写的小规模网络。但要仿真真实大脑（例如 FlyWire 果蝇脑，十万级神经元、千万级突触），稠密矩阵在内存与算力上都完全不可行——真实连接组是**高度稀疏**的：每个神经元平均只与数百个神经元相连。
+
+为此，本库新增了稀疏自定义连接能力：神经元之间的连接关系与强度完全由用户给定的**稀疏突触矩阵**决定，网络在同一层的神经元之间（含**循环连接**与**自反馈**）按生物突触结构逐时间步传播脉冲。
+
+## 一、稀疏连接的数据模型（CSR）
+
+新增 `SparseMatrix`（`SparseMatrix.vb`），采用 **CSR（Compressed Sparse Row）** 存储：
+
+- 约定 `W[pre, post]`：**行 = 突触前神经元（pre）**，**列 = 突触后神经元（post）**；
+- 内部存储 `rowPtr / colIdx / values` 三个数组，仅保存非零边；
+- `FromTriplets(pre[], post[], weight[], rows, columns)` 由三元组建矩阵。它采用**两次稳定计数排序**（先按列、再按行）得到 `(row, col)` 字典序，再线性合并重复边——相同 `(pre, post)` 的边**按权重累加**。整体复杂度 `O(nnz + rows + columns)`，不使用哈希字典，避免千万级突触下巨大的内存开销；
+- `SpMM(dense)` 计算稀疏 × 稠密：`X[batch, Rows] · W[Rows, Columns] → [batch, Columns]`，热路径直接操作底层 `Double()` 数组，并对 0/1 脉冲输入跳过零源以进一步加速。
+
+## 二、权重归一化
+
+真实连接组的权重通常是**突触计数**（syn_count），量级随神经元扇入/扇出剧烈变化，直接使用会导致膜电位尺度过大或过小。`SparseNormalization` 提供四种处理方式：
+
+| 方式 | 含义 | 适用场景 |
+|------|------|---------|
+| `None` | 保留原始突触计数 | 需要保留绝对强度、自行控制阈值时 |
+| `FanIn` | 按列（突触后）归一化：每个突触后神经元的入边权重和为 1 | **默认值**，最常用的 SNN 归一化 |
+| `FanOut` | 按行（突触前）归一化：每个突触前神经元的出边权重和为 1 | 关注发放守恒时 |
+| `GlobalMax` | 按全局最大（绝对）权重缩放 | 保持相对比例的整体缩放 |
+
+## 三、单层稀疏递归仿真
+
+新增 `SparseLIFLayer`（`SparseLIFLayer.vb`），复用与稠密 `LIFLayer` 完全相同的 LIF 四阶段动态，只是把输入电流改成**递归形式**：
+
+```
+I_rec[t] = W · S[t−1]          递归输入：上一时刻脉冲经稀疏矩阵回灌（含循环连接与自反馈）
+I[t]     = I_ext[t] + I_rec[t] 叠加外部注入电流
+U[t]     = β·H[t−1] + I[t]     泄漏积分
+S[t]     = Θ(U[t] − U_thr)     阈值触发（二值脉冲）
+H[t]     = 复位(U[t], S[t])    发放后复位
+```
+
+由于 `S[t−1]` 作为跨时间步状态，本层天然是一个脉冲递归网络，对连接矩阵中存在的循环连接与自反馈均正确建模——这正是真实连接组仿真的核心。
+
+## 四、用法示例
+
+```vb
+Imports Microsoft.VisualBasic.DeepLearning.SpikingNeuralNetwork
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+
+' 1) 准备 FlyWire 风格三元组：pre / post 为神经元索引，weight 为突触计数
+Dim pre() As Integer = {0, 1, 2, 5, 5, ...}
+Dim post() As Integer = {3, 3, 7, 9, 9, ...}
+Dim weight() As Double = {12.0, 4.0, 8.0, 3.0, 6.0, ...}
+
+Dim N = 140000            ' 神经元总数
+Dim T = 50                ' 仿真时间步
+
+' 2) 构建网络并配置单层稀疏层（自动完成三元组→CSR + 扇入归一化）
+Dim net As New SpikingNetwork(N, T, SpikeEncoding.RateCoding)
+net.AddSparseLayer(pre, post, weight, N,
+                   normalization:=SparseNormalization.FanIn,
+                   beta:=0.9, threshold:=1.0)
+
+' 3) 前向仿真：输入经频率编码后注入，返回各神经元在 T 步内的脉冲计数
+Dim x = New Tensor(inputVec, 1, N)          ' 输入维度需等于 N（或提供 inputMap）
+Dim counts = net.ForwardSpikes(x)           ' counts: [1, N]
+
+' 4) 读取轨迹：每个时间步的输出脉冲 [batch, N]
+Dim sHist = net.SparseLayer.SHistory
+```
+
+### 输入注入映射（inputMap）
+
+当编码特征的维度小于神经元总数时，可用 `inputMap` 把第 `f` 个特征注入到指定神经元：
+
+```vb
+' 8 个输入特征 → 注入到神经元 4..11
+Dim inputMap() As Integer = {4, 5, 6, 7, 8, 9, 10, 11}
+Dim net As New SpikingNetwork(8, 30, SpikeEncoding.RateCoding)
+net.AddSparseLayer(pre, post, weight, N, inputMap:=inputMap)
+```
+
+若省略 `inputMap`，则要求 `inputSize = N`（特征与神经元 1:1 对应）。
+
+## 五、内存与性能
+
+- 复杂度：`SpMM` 为 `O(nnz × batch)`/步，整段仿真 `O(T × nnz × batch)`；
+- 内存：`O(nnz + 逐步中间张量)`。以 FlyWire 量级（nnz ≈ 千万）为例，CSR 仅需约 `nnz×(4+4+8) ≈ 160 MB`，而稠密矩阵将需要 `140000² × 8 ≈ 157 TB`——CSR 是唯一可行选择；
+- 建议：仿真前固定 `batch`，并尽量使用 `SpikeEncoding.LatencyCoding`（每特征至多 1 个脉冲）以降低注入量。
+
+## 六、限制与兼容性
+
+- 稀疏连接层**仅支持前向仿真**（权重固定）。对稀疏网络调用 `TrainStep` / `ComputeGradients` 会抛出 `NotSupportedException`，明确提示"稀疏连接层当前仅支持前向仿真"，避免静默给出错误梯度；
+- 稀疏层与全连接层**互斥**：已调用 `AddSparseLayer` 后不能再 `AddLayer`，反之亦然；
+- 原有全连接多层网络的构建、BPTT 训练与推理行为**完全不变**（见 `test/test1.vb`、`self_test.vb` 仍通过）；
+- 稀疏连接矩阵必须为**方阵**（pre/post 为同一神经元群）。
+
+`test/test3.vb` 提供了完整可运行示例：包含 `SparseMatrix.SpMM` 与稠密 `MatMul` 的对拍自检、单层稀疏递归网络（含自反馈）的脉冲动力学仿真，以及 `inputMap` 注入演示。
