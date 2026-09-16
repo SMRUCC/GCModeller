@@ -166,43 +166,82 @@ Namespace VBProj.NuGet
         End Sub
 
         ''' <summary>
-        ''' 在全部已有约束下选择版本: 优先"满足约束最多"的版本, 同级取最高版本。
+        ''' 在全部已有约束下选择版本。
         ''' </summary>
+        ''' <remarks>
+        ''' 与 NuGet 的解析规则保持一致:
+        ''' <list type="bullet">
+        ''' <item>没有任何版本约束(例如 <c>#include "pkg"</c>)时, 取<b>最新稳定版</b>;</item>
+        ''' <item>存在版本约束时, 取<b>满足全部约束的最低版本</b> —— 这可以避免同一个包被
+        ''' 多个依赖要求时把不同大版本的组件混用在一起(例如宿主包是 8.x, 却选到 10.x 的依赖);</item>
+        ''' <item>约束之间无法同时满足时, 退化为"满足最多约束的最低版本", 保证解析过程仍然收敛。</item>
+        ''' </list>
+        ''' 另外, 若约束的下/上界本身是 prerelease 版本(例如精确锁定 <c>1.0.0-beta</c>),
+        ''' 则会自动放开 prerelease 过滤, 否则锁定 prerelease 的写法永远无法命中。
+        ''' </remarks>
         Private Function SelectVersion(packageId As String, constraints As List(Of VersionRange)) As NuGetVersion
             Dim versions As NuGetVersion() = Client.GetVersions(packageId)
-            Dim best As NuGetVersion = Nothing
-            Dim bestScore As Integer = -1
+            Dim active As VersionRange() = constraints.Where(Function(c) Not IsUnconstrained(c)).ToArray()
+            Dim allowPrerelease As Boolean = AllowPrerelease OrElse active.Any(AddressOf HasPrereleaseBound)
 
-            For Each version As NuGetVersion In versions
-                If version.IsPrerelease AndAlso Not AllowPrerelease Then
-                    Continue For
-                End If
+            ' 无版本约束 => 最新稳定版
+            If active.Length = 0 Then
+                Dim stable As NuGetVersion() = versions.Where(Function(v) Not v.IsPrerelease).ToArray()
 
-                ' 注意: 不能使用 List.Count(predicate) —— VB 会把 List(Of T).Count 属性
-                ' 视作实例成员而屏蔽 System.Linq 的 Count 扩展方法, 因此改用 Where(...).Count()
-                Dim score As Integer = constraints.Where(Function(c) c.Satisfies(version)).Count()
-
-                If score = 0 Then
-                    Continue For
-                End If
-
-                If score > bestScore Then
-                    bestScore = score
-                    best = version
-                ElseIf score = bestScore AndAlso best IsNot Nothing AndAlso version.CompareTo(best) > 0 Then
-                    ' versions 已按降序排列, 这里只是防御性写法
-                    best = version
-                End If
-            Next
-
-            If best Is Nothing Then
-                Throw New NuGetException(
-                    $"nuget 包 '{packageId}' 不存在满足依赖约束的版本" & vbCrLf &
-                    $"约束条件: {String.Join("; ", constraints)}" & vbCrLf &
-                    $"可用版本: {String.Join(", ", versions.Take(10).Select(Function(v) v.ToString()))}")
+                Return If(stable.Length > 0, stable(0), versions(0))
             End If
 
-            Return best
+            Dim candidates As NuGetVersion() = versions _
+                .Where(Function(v) allowPrerelease OrElse Not v.IsPrerelease) _
+                .OrderBy(Function(v) v) _
+                .ToArray()
+
+            ' 满足全部约束的最低版本
+            Dim best As NuGetVersion = candidates.FirstOrDefault(
+                Function(v) active.All(Function(c) c.Satisfies(v)))
+
+            If best IsNot Nothing Then
+                Return best
+            End If
+
+            ' 约束冲突: 满足约束数量最多(并列时取最低)的版本
+            Dim scored = candidates _
+                .Select(Function(v) New With {
+                    .Version = v,
+                    .Score = active.Where(Function(c) c.Satisfies(v)).Count()
+                }) _
+                .Where(Function(item) item.Score > 0) _
+                .OrderByDescending(Function(item) item.Score) _
+                .ThenBy(Function(item) item.Version) _
+                .ToArray()
+
+            If scored.Length > 0 Then
+                Return scored(0).Version
+            End If
+
+            Throw New NuGetException(
+                $"nuget 包 '{packageId}' 不存在满足依赖约束的版本" & vbCrLf &
+                $"约束条件: {String.Join("; ", active.Select(Function(r) r.ToString()).ToArray())}" & vbCrLf &
+                $"可用版本: {String.Join(", ", versions.Take(10).Select(Function(v) v.ToString()))}")
+        End Function
+
+        ''' <summary>该版本范围是否未施加任何约束</summary>
+        Private Shared Function IsUnconstrained(range As VersionRange) As Boolean
+            If range Is Nothing Then
+                Return True
+            End If
+
+            Return range.MinVersion Is Nothing AndAlso range.MaxVersion Is Nothing
+        End Function
+
+        ''' <summary>该版本范围的边界是否为 prerelease 版本</summary>
+        Private Shared Function HasPrereleaseBound(range As VersionRange) As Boolean
+            If range Is Nothing Then
+                Return False
+            End If
+
+            Return (range.MinVersion IsNot Nothing AndAlso range.MinVersion.IsPrerelease) OrElse
+                (range.MaxVersion IsNot Nothing AndAlso range.MaxVersion.IsPrerelease)
         End Function
 
         ''' <summary>把包取到本地缓存, 读取 nuspec, 解析依赖与资产</summary>
