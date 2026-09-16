@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>Flute.Http</RootNamespace>
@@ -8,10 +8,14 @@
     <Configurations>Debug;Release;Rsharp_app_release;PlantMAT;mzkit_win32;LipidSearch;gcmodeller_desktop;MEMI-Desktop;CellaLAB-Desktop</Configurations>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>A simple http server implements</Title>
+    <Title>A simple lightway http server implements</Title>
     <UseApplicationFramework>True</UseApplicationFramework>
-    <PackageIcon>icons8-html-96.png</PackageIcon>
+    <PackageIcon></PackageIcon>
     <PackageOutputPath>..\..\.nuget\</PackageOutputPath>
+    <PackageTags>http;websocket;rest api</PackageTags>
+    <PackageLicenseExpression>mit</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -1258,13 +1262,6 @@
     <DebugType>portable</DebugType>
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\..\.nuget\icons8-html-96.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
