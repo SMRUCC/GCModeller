@@ -8,10 +8,6 @@
 	path = src/runtime/R/Rnotebook
 	url = https://github.com/rsharp-lang/Rnb.git
 	ignore = all
-[submodule "src/workbench/win32_desktop"]
-	path = src/workbench/win32_desktop
-	url = https://github.com/SMRUCC/GCModeller-workbench.git
-	ignore = all
 [submodule "src/runtime/enigma"]
 	path = src/runtime/enigma
 	url = https://github.com/rsharp-lang/enigma.git
