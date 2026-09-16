@@ -45,6 +45,13 @@ Namespace Graph
         ''' <summary>逐边置信度 [N, N]：TF-Target 用调控证据置信度，WGCNA 边用共表达关联强度</summary>
         Public ReadOnly Property Confidence As Tensor
 
+        ''' <summary>
+        ''' <b>仅</b> TF-Target 骨架边的掩码 [N, N]（1 = 已知调控关系，不含 WGCNA 补充的弱连接）。
+        ''' 供 readme 五.2 的调控关系合理性评估使用："学习到的权重与已知 TF-Target 集合对比"，
+        ''' 正例必须限定为"已知调控关系"，否则把共表达边也算成正例会让 AUROC 失去意义。
+        ''' </summary>
+        Public ReadOnly Property Skeleton As Tensor
+
 #End Region
 
 #Region "统计"
@@ -63,7 +70,8 @@ Namespace Graph
 
         Public Sub New(geneNames As String(), adjacency As Tensor, wInit As Tensor, mask As Tensor,
                        confidence As Tensor, numPriorEdges As Integer, numWgcnaEdges As Integer,
-                       Optional numSkippedEdges As Integer = 0)
+                       Optional numSkippedEdges As Integer = 0,
+                       Optional skeleton As Tensor = Nothing)
 
             Me.GeneNames = geneNames
             Me.Adjacency = adjacency
@@ -74,6 +82,8 @@ Namespace Graph
             Me.NumWgcnaEdges = numWgcnaEdges
             Me.NumSkippedEdges = numSkippedEdges
             Me.Units = If(geneNames Is Nothing, 0, geneNames.Length)
+            ' 未显式提供骨架掩码时退化为"全部已知边"，保证评估仍可运行
+            Me.Skeleton = If(skeleton, mask)
         End Sub
 
         ''' <summary>邻接矩阵中的突触总数（有向边数）</summary>

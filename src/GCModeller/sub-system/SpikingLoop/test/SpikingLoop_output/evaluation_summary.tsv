@@ -1,0 +1,26 @@
+﻿# SpikingLoop 评估摘要
+genes	200
+pseudotime_bins	24
+pseudotime_source	SampleName
+prior_edges_tf_target	221
+prior_edges_wgcna	3160
+synapses	3381
+density	0.084525
+train_windows	18
+validation_windows	5
+mse_final_train	9.25924E-05
+best_epoch	7
+r2_global	0.656095
+pcc_global	0.855489
+rmse_global	0.130885
+mae_global	0.042038
+pcc_mean_per_gene	0.88911
+genes_pcc_above_0.6	181
+link_auroc	1
+link_auprc	1
+link_topk_precision	0.06
+link_topk_recall	0.0135747
+perturbation_direction_consistency	0.564417
+perturbation_direction_edges	92/163
+perturbation_onsets_spearman	0.0434435
+perturbation_upstream_first	True

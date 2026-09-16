@@ -211,11 +211,35 @@ Public Class SpikingLoopConfig
 
 #Region "四 · 虚拟扰动"
 
-    ''' <summary>虚拟扰动的模拟时间步数</summary>
+    ''' <summary>虚拟扰动的模拟时间步数（可长于训练时的窗口，用于观察长时间演化）</summary>
     Public Property PerturbationSteps As Integer = 16
 
-    ''' <summary>扰动注入的起始步数（readme 四：通常只在 t=0 或起始阶段注入）</summary>
-    Public Property PerturbationInjectSteps As Integer = 1
+    ''' <summary>
+    ''' 虚拟扰动闭环是否跨决策步保持膜电位。
+    ''' False（默认）：每个决策步都按训练协议从当前表达状态重新初始化膜电位，
+    '''               闭环退化为"学到的一步预测映射反复迭代"，数值良态（推荐）；
+    ''' True ：膜电位跨步携带（原生有状态动力学），但等效增益可能 &gt; 1 而发散，
+    '''        需用 PerturbationTrajectory.ClampRatio 监控。
+    ''' </summary>
+    Public Property PerturbationCarryMembrane As Boolean = False
+
+    ''' <summary>
+    ''' 闭环迭代的松弛系数 η ∈ (0,1]：state ← state + η·(f(state) − state)。
+    ''' 1.0（默认）= 严格迭代学到的一步预测映射（readme 四的原始语义）。
+    ''' 取小于 1 会阻尼每步更新，等价于"用更小的有效伪时间步长积分"——
+    ''' 当一步预测误差在多次迭代中被放大（ClampRatio 偏高）时，它是让闭环保持
+    ''' 良态的最直接手段（readme 3.3 也提示 τ_m/步长需要作为超参数调优）。
+    ''' </summary>
+    Public Property PerturbationRelaxation As Double = 1.0
+
+    ''' <summary>
+    ''' 每个决策步内注入扰动的内层时间步数。
+    ''' 0（默认）= 在整个决策窗口内持续注入——重复注入是必要的：每当表达状态被重新
+    ''' 编码为输入电流，被敲除基因的电流就会"复活"、被过表达基因的增益也会失效，
+    ''' 因此只有每步重新施加才能表达"持续敲除/持续过表达"的语义。
+    ''' 设为正数则只在每个决策步的前 N 个内层时间步注入（readme 四的"仅起始阶段注入"）。
+    ''' </summary>
+    Public Property PerturbationInjectSteps As Integer = 0
 
 #End Region
 
@@ -248,6 +272,10 @@ Public Class SpikingLoopConfig
         End If
         If TrainSplit <= 0.0 OrElse TrainSplit >= 1.0 Then
             Throw New ArgumentException($"TrainSplit 必须落在 (0,1) 区间（当前 {TrainSplit}）")
+        End If
+        If PerturbationRelaxation <= 0.0 OrElse PerturbationRelaxation > 1.0 Then
+            Throw New ArgumentException(
+                $"PerturbationRelaxation 必须落在 (0,1] 区间（当前 {PerturbationRelaxation}）")
         End If
         If NumBins <= (SimulationSteps + Horizon) Then
             warns.Add($"NumBins({NumBins}) 过小：可用训练窗口仅 {NumBins - Horizon} 个，建议增大分箱数")

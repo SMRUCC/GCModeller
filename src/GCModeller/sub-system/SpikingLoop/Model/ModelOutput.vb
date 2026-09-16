@@ -7,6 +7,7 @@
 '   · 扰动引擎  需要 YHat（作为下一决策步的输入估计）与 HLast（跨步保持膜电位）
 ' ============================================================================
 
+Imports Microsoft.VisualBasic.DeepLearning.SpikingNeuralNetwork
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 
 Namespace Model

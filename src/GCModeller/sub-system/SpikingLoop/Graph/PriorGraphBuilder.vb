@@ -73,6 +73,7 @@ Namespace Graph
             Dim W(n - 1, n - 1) As Double
             Dim M(n - 1, n - 1) As Double
             Dim C(n - 1, n - 1) As Double
+            Dim K(n - 1, n - 1) As Double   ' K = 仅 TF-Target 骨架（评估用的已知调控关系集合）
 
             ' ---------- 第一步：TF-Target 有向边（基础骨架） ----------
             Dim numPriorEdges = 0
@@ -109,6 +110,7 @@ Namespace Graph
 
                 A(fromIdx, toIdx) = 1.0
                 M(fromIdx, toIdx) = 1.0
+                K(fromIdx, toIdx) = 1.0
                 C(fromIdx, toIdx) = conf
                 W(fromIdx, toIdx) = sign * std.Max(conf, wgcnaWeight)
                 numPriorEdges += 1
@@ -159,7 +161,8 @@ Namespace Graph
                 Tensor.Wrap(OneDim(C), n, n),
                 numPriorEdges,
                 numWgcnaEdges,
-                skipped)
+                skipped,
+                Tensor.Wrap(OneDim(K), n, n))
         End Function
 
 #Region "辅助"
