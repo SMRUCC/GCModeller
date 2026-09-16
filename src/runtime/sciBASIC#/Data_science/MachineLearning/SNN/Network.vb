@@ -334,6 +334,9 @@ Public Class SpikingNetwork
             Next
         Next
 
+        ' 绕过索引器就地写入：声明主机数据已修改，使设备端缓存失效
+        counts.MarkHostModified()
+
         Return counts
     End Function
 
@@ -363,6 +366,9 @@ Public Class SpikingNetwork
                 End If
             Next
         Next
+
+        ' 绕过索引器就地写入：声明主机数据已修改，使设备端缓存失效
+        ext.MarkHostModified()
 
         Return ext
     End Function

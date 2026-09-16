@@ -81,6 +81,8 @@ Namespace GPUTensor
         Public Const RowArgMin As String = "tensorRowArgMinKernel"
         ''' <summary>双精度分块矩阵乘 C(m x n) = A(m x k) * B(k x n)</summary>
         Public Const GemmDouble As String = "tensorGemmDoubleKernel"
+        ''' <summary>CSR 稀疏 × 稠密（Kernels\spmm.cu）</summary>
+        Public Const SpmmCsr As String = "tensorSpmmCsrKernel"
 
         ' ---- 卷积与池化（Kernels\conv.cu / Kernels\pool.cu）----
         ''' <summary>卷积前向（NHWC）</summary>

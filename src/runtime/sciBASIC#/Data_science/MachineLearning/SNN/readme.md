@@ -338,3 +338,104 @@ net.AddSparseLayer(pre, post, weight, N, inputMap:=inputMap)
 - 稀疏连接矩阵必须为**方阵**（pre/post 为同一神经元群）。
 
 `test/test3.vb` 提供了完整可运行示例：包含 `SparseMatrix.SpMM` 与稠密 `MatMul` 的对拍自检、单层稀疏递归网络（含自反馈）的脉冲动力学仿真，以及 `inputMap` 注入演示。
+
+---
+
+# CUDA 加速：让稀疏连接组仿真跑在 GPU 上
+
+前面的稀疏仿真默认在 CPU 上执行。当连接组规模达到 FlyWire 量级（十万级神经元、千万级突触）时，可以通过 GPU 加速。
+
+## 一、设计：把稀疏乘法接入可插拔后端
+
+`Tensor` 本就有一套**可插拔计算后端**机制：`Tensor.computeKernel`（契约 `ITensorCompute`）默认是 SIMD CPU 实现，`CudaTensor.Register()` 会一次性切换为 CUDA GPU 实现。
+
+为此我们为后端契约补上了**稀疏算子**：
+
+| 组件 | 位置 | 作用 |
+|------|------|------|
+| `SparseCsr` | `TensorFlow/Compute/SparseCsr.vb` | CSR 稀疏矩阵载体（行指针 / 列索引 / 权重 + 版本号），跨后端传输与显存缓存的依据 |
+| `ITensorCompute.SpMM(csr, dense)` | `TensorFlow/Compute/ITensorCompute.vb` | 稀疏 × 稠密算子契约 |
+| `TensorComputeBase.SpMM` | `TensorFlow/Compute/TensorComputeBase.vb` | 默认主机实现（SIMD / CUDA / 标量后端自动继承） |
+| `CudaTensor.SpMM` + `spmm.cu` | `cuda/ILCudaTensor/` | CUDA 内核：按 `(batch, row)` 行并行，输出 `atomicAdd` 累加 |
+
+`SparseMatrix.SpMM` 本身不含计算逻辑，只是**委托**给当前后端：
+
+```vb
+Return Tensor.computeKernel.SpMM(_csr, dense)
+```
+
+因此 CPU ↔ GPU 的切换对上层完全透明。
+
+> 注意：**SNN 主库不依赖 CUDA**（依赖方向仍是 CUDA → TensorFlow）。只有需要 GPU 的调用方（驱动/测试工程）才引用 `ILCudaTensor`。
+
+## 二、用法
+
+```vb
+Imports Microsoft.VisualBasic.Computing.ILCuda.GPUTensor
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.DeepLearning.SpikingNeuralNetwork
+
+' 1) 构建稀疏网络（与 CPU 用法完全一致）
+Dim net As New SpikingNetwork(N, T, SpikeEncoding.RateCoding)
+net.AddSparseLayer(pre, post, weight, N,
+                   normalization:=SparseNormalization.FanIn,
+                   beta:=0.9, threshold:=1.0)
+
+' 2) 尝试切换到 CUDA 后端；失败则保持 CPU（不会抛异常）
+If CudaTensor.Register() Then
+    Console.WriteLine($"后端 = {Tensor.computeKernel.Name}")   ' → CUDA
+End If
+
+' 3) 之后同样的调用就自动走 GPU 的稀疏内核
+Dim counts = net.ForwardSpikes(x)
+
+' 4) 用完可切回 CPU
+CudaTensor.Unregister()
+```
+
+## 三、阈值与回退策略
+
+| 属性 | 默认 | 含义 |
+|------|------|------|
+| `CudaTensor.MinSparseNnz` | 65536 | 稀疏矩阵非零数小于此值时 SpMM 回退 CPU（避免显存往返倒挂） |
+| `CudaTensor.MinGpuElements` | 4096 | 逐元素算子走 GPU 的最小元素数 |
+
+**只把 SpMM 放 GPU、LIF 留在 CPU**：把 `MinGpuElements` 调到极大（如 `Integer.MaxValue`），逐元素算子（泄漏积分、复位、注入）就会回退 CPU，只有稀疏 SpMM 走 GPU，从而避免每步逐元素算子的 PCIe 往返：
+
+```vb
+Dim saved = CudaTensor.MinGpuElements
+CudaTensor.MinGpuElements = Integer.MaxValue   ' LIF 留在 CPU
+CudaTensor.MinSparseNnz = 1                    ' 让 SpMM 走 GPU
+' ... 仿真 ...
+CudaTensor.MinGpuElements = saved
+```
+
+内核不可用（如 `atomicAdd(double)` 需要 sm_60+，或 NVRTC 编译失败）时，`CudaTensor` 会检测不到内核并**自动回退 CPU**，不会中断仿真。
+
+## 四、缓存失效契约（务必遵守）
+
+GPU 后端以「**主机数组引用 + 版本号**」缓存显存副本。任何**绕过 `Tensor` 索引器**的就地写入都必须声明失效，否则设备端会继续复用旧副本（静默错误）：
+
+| 场景 | 需要调用 |
+|------|---------|
+| 就地修改 `Tensor.Data` | `tensor.MarkHostModified()`（或全局 `Tensor.InvalidateAllDeviceCaches()`） |
+| 就地修改 `SparseCsr.Values` / `SparseMatrix.Normalize` | `SparseCsr.MarkModified()`（`Normalize` 内部已自动调用） |
+
+SNN 内部已按此契约处理：`Network.ForwardSparse` 的计数累加与 `ScatterInput` 的注入散射在写完后都会 `MarkHostModified()`。
+
+## 五、性能与显存
+
+- **显存占用**：CSR 三数组为 `nnz × (4 + 4 + 8)` 字节；FlyWire 量级（nnz ≈ 千万）约 160 MB。CSR 会**常驻显存**（按引用 + 版本缓存，LRU，容量上限 `DefaultCacheBytes` = 1 GiB），并**显式释放**（ILCuda 显存无终结器）。
+- **每步传输**：上传 `S`（`batch × N × 8`）+ 回读结果（`batch × Columns × 8`）。`N = 14万, batch = 1` 时约 1.1 MB/次。
+- **一个重要的性能事实**：脉冲输入**高度稀疏**，CPU 的 SpMM 会**跳过零源**（`xv = 0`），因此在中低发放率下 CPU 相当有竞争力；GPU 每次调用有固定开销（内核启动 + 显存往返，约 0.6 ~ 1 ms/步），需要足够大的「每步非零计算量」（**高发放率 × 大规模 nnz**）才能摊薄。
+  - 裸内核基准（`ILCudaTensor/test`）：`nnz = 1.28M`、稠密输入时 SpMM 加速约 **4.7×**；
+  - 端到端（`SNN/test` Part 4）：小/中规模、稀疏发放时 GPU 未必更快 —— 这是预期行为，建议按实际发放率实测后再决定是否启用。
+
+## 六、验证
+
+| 测试 | 内容 |
+|------|------|
+| `cuda/ILCudaTensor/test/Program.vb` | 稀疏 SpMM 的 CPU vs CUDA 逐元素对拍、`MarkModified` 后显存缓存同步、稀疏 SpMM 性能参考 |
+| `SNN/test/test4.vb` | 同一稀疏网络的 CPU / GPU 端到端前向对拍（`LatencyCoding` 确定性编码保证输入一致），并在无 CUDA 时安全跳过 |
+
+两者均未破坏既有断言与演示（全连接训练、`SparseDemo` 等照常通过）。

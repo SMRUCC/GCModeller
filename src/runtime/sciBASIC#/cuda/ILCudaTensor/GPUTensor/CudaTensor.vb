@@ -121,6 +121,12 @@ Namespace GPUTensor
         ''' <summary>矩阵乘走到 GPU 的最小规模（m * k * n）</summary>
         Public Shared Property MinGemmElements As Integer = 65536
 
+        ''' <summary>
+        ''' 稀疏 SpMM 走到 GPU 的最小非零元素数（nnz）。
+        ''' 连接规模过小时显存拷贝/启动开销会倒挂，回退 CPU 反而更快。
+        ''' </summary>
+        Public Shared Property MinSparseNnz As Integer = 65536
+
         ''' <summary>最近一次 <see cref="Register"/> 失败的原因</summary>
         Public Shared Property LastError As String
 
@@ -135,12 +141,14 @@ Namespace GPUTensor
 
         Private ReadOnly _engine As ILCudaRuntime.CudaEngine
         Private ReadOnly _cache As DeviceCache(Of Double)
+        Private ReadOnly _csrCache As SparseCsrCache
 
         Public Sub New(engine As ILCudaRuntime.CudaEngine, Optional cacheBytes As Long = DefaultCacheBytes)
             If engine Is Nothing Then Throw New ArgumentNullException(NameOf(engine))
 
             _engine = engine
             _cache = New DeviceCache(Of Double)(cacheBytes)
+            _csrCache = New SparseCsrCache(cacheBytes)
         End Sub
 
         Public Overrides ReadOnly Property Name As String = "CUDA"
@@ -565,6 +573,51 @@ Namespace GPUTensor
         End Function
 
         ''' <summary>
+        ''' 稀疏（CSR）× 稠密矩阵乘：dense[batch, Rows] · W[Rows, Columns] → [batch, Columns]。
+        ''' </summary>
+        ''' <remarks>
+        ''' CSR 三个数组按 <see cref="tfCompute.SparseCsr"/> 的引用与版本常驻显存；
+        ''' 内核为 Kernels\spmm.cu 的 <c>tensorSpmmCsrKernel</c>（按 (batch,row) 行并行，
+        ''' 输出用 atomicAdd(double) 累加，需 sm_60 及以上）。
+        ''' 无连接、规模过小、或内核不可用（NVRTC 编译失败）时自动回退 CPU 实现。
+        ''' </remarks>
+        Public Overrides Function SpMM(csr As tfCompute.SparseCsr, dense As tf.Tensor) As tf.Tensor
+            If csr Is Nothing Then Throw New ArgumentNullException(NameOf(csr))
+            If dense Is Nothing Then Throw New ArgumentNullException(NameOf(dense))
+            If dense.Rank <> 2 OrElse dense.Shape(1) <> csr.Rows Then
+                Throw New ArgumentException(
+                    $"SpMM 输入形状应为 [batch, {csr.Rows}]，实际 [{String.Join(",", dense.Shape)}]")
+            End If
+
+            ' 无连接 / 规模过小 → CPU 兜底（同时避免空显存缓冲分配）
+            If csr.NonZeros <= 0 OrElse csr.NonZeros < MinSparseNnz Then
+                Return MyBase.SpMM(csr, dense)
+            End If
+
+            Dim kernel = TryKernel(TensorKernelNames.SpmmCsr)
+            If kernel Is Nothing Then Return MyBase.SpMM(csr, dense)
+
+            Dim batch = dense.Shape(0)
+            Dim rows = csr.Rows
+            Dim columns = csr.Columns
+
+            ' CSR 数组常驻显存；dense 复用通用张量显存缓存
+            Dim csrBuf = _csrCache.GetBuffers(_engine, csr)
+            Dim ddense = Device(dense)
+
+            Using dOut As New ILCudaRuntime.DeviceBuffer(Of Double)(batch * columns)
+                ' 内核用 atomicAdd 累加到输出，启动前必须清零
+                dOut.Fill(0.0)
+
+                kernel.Launch(ILCudaRuntime.LaunchPlanner.For1D(batch * rows, 256),
+                              csrBuf.RowPtr, csrBuf.ColIdx, csrBuf.Values,
+                              ddense, dOut, rows, columns, batch)
+
+                Return Wrap(dOut.Read(), New Integer() {batch, columns})
+            End Using
+        End Function
+
+        ''' <summary>
         ''' 二维转置：由 IL2Cuda 生成的 Grid2D double 内核完成，
         ''' 输出 (C, R) 的第 (i, j) 个元素 = 输入 (R, C) 的第 (j, i) 个元素。
         ''' </summary>
@@ -886,6 +939,7 @@ Namespace GPUTensor
 #Region "资源释放"
 
         Public Sub Dispose() Implements IDisposable.Dispose
+            _csrCache.Dispose()
             _cache.Dispose()
             _engine.Dispose()
         End Sub

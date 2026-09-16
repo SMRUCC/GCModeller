@@ -31,6 +31,11 @@
     <EmbeddedResource Include="Kernels\tensor.cu" />
     <EmbeddedResource Include="Kernels\gemm.cu" />
     <!--
+      CSR 稀疏 × 稠密内核（double）：脉冲神经网络加载真实突触连接组
+      （FlyWire 等）时的核心算子，行并行 + atomicAdd(double)。
+    -->
+    <EmbeddedResource Include="Kernels\spmm.cu" />
+    <!--
       手写卷积 / 池化内核（double, NHWC）：前向 + 反向（gradInput / gradFilter /
       gradBias / pool argMax 散射）。同样以内嵌资源分发并在 Register 时注入。
     -->

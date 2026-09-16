@@ -152,6 +152,21 @@ Namespace Compute
         Function MatMul(a As Tensor, b As Tensor) As Tensor
         Function Transpose(t As Tensor) As Tensor
 
+        ''' <summary>
+        ''' 稀疏 × 稠密矩阵乘法：<c>dense[batch, Rows] · W[Rows, Columns] → [batch, Columns]</c>。
+        ''' </summary>
+        ''' <param name="csr">
+        ''' CSR 稀疏连接矩阵（行 = 突触前，列 = 突触后）。SDK 后端可据此把 CSR 数组
+        ''' 常驻显存并按 <see cref="SparseCsr.Version"/> 判定失效。
+        ''' </param>
+        ''' <param name="dense">稠密张量 <c>[batch, csr.Rows]</c>（例如上一时刻的脉冲矩阵）</param>
+        ''' <returns>稠密张量 <c>[batch, csr.Columns]</c></returns>
+        ''' <remarks>
+        ''' 这是脉冲神经网络加载真实突触连接组（如 FlyWire，十万级神经元 / 千万级突触）
+        ''' 的核心算子：稠密矩阵在此规模下不可行，必须走稀疏路径。
+        ''' </remarks>
+        Function SpMM(csr As SparseCsr, dense As Tensor) As Tensor
+
 #End Region
 
 #Region "卷积与池化"

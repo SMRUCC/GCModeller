@@ -5,6 +5,7 @@
 ' Part 1  替代梯度监督学习 —— 双层 LIF 网络分类 3 类高斯团簇（Rate Coding）
 ' Part 2  STDP 无监督学习  —— 赢者通吃 + 脉冲时序可塑性，神经元自发分化
 ' Part 3  稀疏自定义连接    —— FlyWire 风格 (pre,post,weight) 三元组驱动单层稀疏递归仿真
+' Part 4  稀疏仿真 CUDA 对拍 —— 同一稀疏网络在 CPU / GPU 后端下的前向结果一致性验证
 ' ============================================================================
 
 Imports System.Text
@@ -26,6 +27,8 @@ Module Program
         SparseDemo()
         Console.WriteLine()
         SupervisedDemo()
+        Console.WriteLine()
+        SparseCudaDemo()
         '  Console.WriteLine()
         ' StdpDemo()
 

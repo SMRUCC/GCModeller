@@ -15,9 +15,12 @@
 '       再线性合并重复边（同 (pre,post) 权重累加）。整体复杂度 O(nnz + rows + columns)，
 '       不使用哈希字典，避免千万级突触下的巨大内存开销。
 ' 前向：SpMM 计算稀疏 × 稠密：X[batch, Rows] · W[Rows, Columns] → [batch, Columns]。
+'       计算本身委托给当前张量计算后端（Tensor.computeKernel）——默认 CPU 标量实现，
+'       注册 CUDA 后自动走 GPU 稀疏内核（见 cuda/ILCudaTensor/Kernels/spmm.cu）。
 ' ============================================================================
 
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
 Imports std = System.Math
 
 ''' <summary>突触权重归一化方式</summary>
@@ -42,6 +45,13 @@ Public Class SparseMatrix
     Private ReadOnly _rowPtr As Integer()
     Private ReadOnly _colIdx As Integer()
     Private ReadOnly _values As Double()
+
+    ''' <summary>
+    ''' CSR 计算载体（零拷贝包装 <c>_rowPtr/_colIdx/_values</c>）。
+    ''' 稀疏乘法委托给 <see cref="Tensor.computeKernel"/> 时传递它；
+    ''' 权重就地修改后必须通过 <see cref="SparseCsr.MarkModified"/> 声明失效。
+    ''' </summary>
+    Private ReadOnly _csr As SparseCsr
 
     ''' <summary>突触前神经元数量（矩阵行数）</summary>
     Public ReadOnly Property Rows As Integer
@@ -92,6 +102,7 @@ Public Class SparseMatrix
         _rowPtr = rowPtr
         _colIdx = colIdx
         _values = values
+        _csr = New SparseCsr(rows, columns, rowPtr, colIdx, values)
     End Sub
 
 #Region "构建"
@@ -268,6 +279,9 @@ Public Class SparseMatrix
             Case Else
                 Throw New ArgumentOutOfRangeException(NameOf(mode))
         End Select
+
+        ' 权重已就地修改：使设备端（GPU）缓存的 CSR 副本失效
+        _csr.MarkModified()
     End Sub
 
 #End Region
@@ -276,7 +290,11 @@ Public Class SparseMatrix
 
     ''' <summary>
     ''' 稀疏 × 稠密矩阵乘法：X[batch, Rows] · W[Rows, Columns] → [batch, Columns]。
-    ''' 热路径直接操作底层数组；对脉冲输入（0/1）跳过零源以利用稀疏性。
+    '''
+    ''' 实际计算委托给当前生效的张量计算后端（<c>Tensor.computeKernel</c>）：
+    ''' 默认走 CPU 标量实现；若调用方已调用 <c>CudaTensor.Register()</c>，
+    ''' 则自动走 CUDA CSR-SpMM 内核（cuda/ILCudaTensor/Kernels/spmm.cu）。
+    ''' 无连接 / 规模过小 / 内核不可用时后端内部会回退 CPU，语义保持一致。
     ''' </summary>
     Public Function SpMM(dense As Tensor) As Tensor
         If dense Is Nothing Then
@@ -287,45 +305,12 @@ Public Class SparseMatrix
                 $"SpMM 输入形状应为 [batch, {_rows}]，实际 [{String.Join(",", dense.Shape)}]")
         End If
 
-        Dim batch = dense.Shape(0)
-        Dim result = New Tensor(batch, _columns)
-
-        Dim xd = dense.Data
-        Dim od = result.Data
-        Dim rp = _rowPtr
-        Dim ci = _colIdx
-        Dim vv = _values
-        Dim cols = _columns
-        Dim rows = _rows
-
-        For b = 0 To batch - 1
-            Dim bo = b * cols
-            Dim ro = b * rows
-            For r = 0 To rows - 1
-                Dim xv = xd(ro + r)
-                If xv = 0.0 Then Continue For    ' 脉冲输入高度稀疏：跳过零源
-                Dim k = rp(r)
-                Dim kEnd = rp(r + 1)
-                While k < kEnd
-                    od(bo + ci(k)) += xv * vv(k)
-                    k += 1
-                End While
-            Next
-        Next
-
-        Return result
+        Return Tensor.computeKernel.SpMM(_csr, dense)
     End Function
 
     ''' <summary>转成稠密张量（仅供小规模校验/调试，大规模连接组下请勿调用）</summary>
     Public Function ToDense() As Tensor
-        Dim t = New Tensor(_rows, _columns)
-        Dim d = t.Data
-        For r = 0 To _rows - 1
-            For k = _rowPtr(r) To _rowPtr(r + 1) - 1
-                d(r * _columns + _colIdx(k)) += _values(k)
-            Next
-        Next
-        Return t
+        Return _csr.ToDense()
     End Function
 
 #End Region

@@ -288,6 +288,54 @@ Namespace Compute
             Return result
         End Function
 
+        ''' <summary>
+        ''' 稀疏 × 稠密的主机（标量）实现：dense[batch, Rows] · W[Rows, Columns] → [batch, Columns]。
+        ''' </summary>
+        ''' <remarks>
+        ''' 热路径直接操作底层数组，并对 0/1 脉冲输入跳过零源以利用稀疏性。
+        ''' 有 CUDA 内核的后端（CudaTensor）会覆盖本方法。
+        ''' </remarks>
+        Public Overridable Function SpMM(csr As SparseCsr, dense As Tensor) As Tensor Implements ITensorCompute.SpMM
+            If csr Is Nothing Then
+                Throw New ArgumentNullException(NameOf(csr))
+            End If
+            If dense Is Nothing Then
+                Throw New ArgumentNullException(NameOf(dense))
+            End If
+            If dense.Rank <> 2 OrElse dense.Shape(1) <> csr.Rows Then
+                Throw New ArgumentException(
+                    $"SpMM 输入形状应为 [batch, {csr.Rows}]，实际 [{String.Join(",", dense.Shape)}]")
+            End If
+
+            Dim batch = dense.Shape(0)
+            Dim rows = csr.Rows
+            Dim cols = csr.Columns
+            Dim rp = csr.RowPointers
+            Dim ci = csr.ColumnIndices
+            Dim vv = csr.Values
+
+            Dim result = New Tensor(batch, cols)
+            Dim xd = dense.Data
+            Dim od = result.Data
+
+            For b As Integer = 0 To batch - 1
+                Dim bo = b * cols
+                Dim ro = b * rows
+                For r As Integer = 0 To rows - 1
+                    Dim xv = xd(ro + r)
+                    If xv = 0.0 Then Continue For    ' 脉冲输入高度稀疏：跳过零源
+                    Dim k = rp(r)
+                    Dim kEnd = rp(r + 1)
+                    While k < kEnd
+                        od(bo + ci(k)) += xv * vv(k)
+                        k += 1
+                    End While
+                Next
+            Next
+
+            Return result
+        End Function
+
         Public Overridable Function Transpose(t As Tensor) As Tensor Implements ITensorCompute.Transpose
             If t.Rank <> 2 Then
                 Throw New ArgumentException("只支持二维张量转置")
