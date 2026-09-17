@@ -25,6 +25,21 @@ Public Module ProgramMilp
             Select Case args(0).ToLowerInvariant()
                 Case "selftest"
                     Return MilpSelfTest.RunAll()
+                Case "simd"
+                    ' Vector / NumericMatrix SIMD 重构的正确性验证
+                    Return VectorMatrixSimdTest.RunAll()
+                Case "simd-bench"
+                    ' 标量 vs SIMD 的耗时与加速比基准
+                    Return SimdBenchmark.RunAll()
+                Case "simd-all"
+                    Dim simdCode As Integer = VectorMatrixSimdTest.RunAll()
+
+                    Console.WriteLine()
+                    Console.WriteLine()
+
+                    Dim benchCode As Integer = SimdBenchmark.RunAll()
+
+                    Return If(simdCode <> 0 OrElse benchCode <> 0, 1, 0)
                 Case "lpp"
                     ' 保持对既有 LP 求解器演示入口的访问（自 test.vbproj 的启动对象切换之后）
                     Return ProgramLpp.Main(New String() {})
