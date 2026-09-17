@@ -5,12 +5,14 @@
     <OutputType>Library</OutputType>
     <StartupObject>
     </StartupObject>
-    <RootNamespace>mHG</RootNamespace>
-    <AssemblyName>mHG</AssemblyName>
+    <RootNamespace>Microsoft.VisualBasic.Math.Statistics.Hypothesis.mHG</RootNamespace>
+    <AssemblyName>Microsoft.VisualBasic.Math.Statistics.Hypothesis.mHG</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <TargetFramework>net10.0</TargetFramework>
     <UseApplicationFramework>True</UseApplicationFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <AssemblyTitle>Minimum-hypergeometric test</AssemblyTitle>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
 
   
   </PropertyGroup>

@@ -73,7 +73,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-Imports VisualBasic = Microsoft.VisualBasic.Language.Runtime
+Imports VB = Microsoft.VisualBasic.Language.Runtime
 
 ' author: Kobi Perl
 ' Based On the following thesis:
@@ -130,7 +130,7 @@ Public Module mHGtest
             .b = mHGstatisticinfo.b  ' Not an official field Of htest        
         }
 
-        With New VisualBasic
+        With New VB
             result.statistic = list(!mHG = mHGstatisticinfo.mHG).AsNumeric
             result.parameters = list(!N = N, !B = B, !n_max = n_max).AsNumeric
         End With
