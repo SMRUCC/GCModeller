@@ -162,14 +162,14 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
 
     Dim m_childs As New List(Of Cluster)
 
+    Private m_leafNames As List(Of String) = Nothing
+
     ''' <summary>
     ''' Gets the list of leaf names contained within this cluster's subtree.
     ''' For leaf clusters, this list contains the cluster's own name. For internal clusters,
     ''' it accumulates the names of all descendant leaf nodes.
     ''' </summary>
     ''' <returns>A <see cref="List(Of String)"/>  containing the names of all leaf nodes in this subtree.</returns>
-    Private m_leafNames As List(Of String) = Nothing
-
     Public ReadOnly Property LeafNames As List(Of String)
         Get
             ' 惰性计算：叶节点即自身名称，内部节点递归合并子节点的叶名。
@@ -239,7 +239,7 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
 
     ''' <summary>
     ''' 供 <see cref="HierarchyTreeNode.Agglomerate"/> 在合并时 O(1) 写入新簇的叶节点数量，
-    ''' 避免 <see cref="Leafs"/> 在 <see cref="NumericTableExtensions.cutTree"/>、<see cref="OrderLeafs"/>
+    ''' 避免 <see cref="Leafs"/> 在树切分（cutTree）、<see cref="OrderLeafs"/>
     ''' 以及树图绘制过程中被反复递归重算。
     ''' </summary>
     Friend WriteOnly Property LeafCount As Integer
