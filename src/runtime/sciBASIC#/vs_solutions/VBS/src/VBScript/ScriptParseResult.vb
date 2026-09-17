@@ -87,7 +87,7 @@ Namespace Script
 
         ''' <summary>
         ''' 送入 Roslyn <c>MetadataReference</c> 与运行期 ALC 探测的全部 dll 绝对路径
-        ''' (dll include + nuget 资产 + 脚本转发依赖), 等价于 <see cref="Imports"/>。
+        ''' (dll include + nuget 资产 + 脚本转发依赖), 等价于 <see cref="ScriptParseResult.Imports"/>。
         ''' </summary>
         Public ReadOnly Property ResolvedAssemblies As List(Of String)
             Get

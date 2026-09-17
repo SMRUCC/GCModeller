@@ -650,7 +650,7 @@ Namespace GPUTensor
 #Region "卷积与池化（手写内核：Kernels\conv.cu / Kernels\pool.cu）"
 
         ''' <summary>卷积/池化的输出边长: (input + 2*padding - kernel) / stride + 1</summary>
-        Private Shared Function ConvOutSize(inputSize As Integer, kernelSize As Integer,
+        Private Overloads Shared Function ConvOutSize(inputSize As Integer, kernelSize As Integer,
                                             stride As Integer, padding As Integer) As Integer
             Return (inputSize + 2 * padding - kernelSize) \ stride + 1
         End Function
