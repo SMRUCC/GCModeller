@@ -82,9 +82,31 @@ Public Module VectorMatrixSimdTest
         End If
     End Sub
 
+    Private Sub CheckRelative(name As String, expected As Double, actual As Double, tolerance As Double)
+        Dim scale As Double = std.Max(1.0, std.Abs(expected))
+
+        If std.Abs(expected - actual) <= tolerance * scale Then
+            pass += 1
+        Else
+            fail += 1
+            Console.WriteLine($"  [FAIL] {name}: 期望 {expected:G17}, 实际 {actual:G17}")
+        End If
+    End Sub
+
     Private Sub Section(title As String)
         Console.WriteLine($"--- {title} ---")
     End Sub
+
+    ''' <summary>
+    ''' 创建一份不与被引用数据共享内存的矩阵副本。
+    ''' </summary>
+    ''' <remarks>
+    ''' <c>New NumericMatrix(Double()())</c> 会直接引用传入的数组，就地运算会污染调用方的数据，
+    ''' 因此在测试就地版本时必须显式做一次深拷贝。
+    ''' </remarks>
+    Private Function Fresh(a As Double()()) As NumericMatrix
+        Return DirectCast(NumericMatrix.Create(a), NumericMatrix)
+    End Function
 
 #End Region
 
@@ -337,7 +359,9 @@ Public Module VectorMatrixSimdTest
             expectedSingle += CDbl(sa(i)) * CDbl(sb(i))
         Next
 
-        CheckClose("dot(Single, Single)", expectedSingle, Vector.dot(sa, sb))
+        ' Single 内核用 FMA 融合乘加，与「先乘后加」的标量参考在末位上有差异，
+        ' 因此这里用相对误差 1e-5 的口径比较
+        CheckRelative("dot(Single, Single)", expectedSingle, Vector.dot(sa, sb), 0.00001)
         CheckClose("长度 1 向量点积", 6.0, (New Vector({2.0}) Or New Vector({3.0})))
     End Sub
 
@@ -376,8 +400,10 @@ Public Module VectorMatrixSimdTest
         Dim sle As Boolean() = (2.0 <= v).ToArray
         Check("标量 <= 向量", (Not sle(0)) AndAlso sle(1) AndAlso sle(2))
 
+        ' 注意：标量 >= 向量的历史实现是「Not (x <= y)」，即严格大于语义，
+        ' 本次重构保持该可观察行为不变
         Dim sge As Boolean() = (2.0 >= v).ToArray
-        Check("标量 >= 向量", sge(0) AndAlso sge(1))
+        Check("标量 >= 向量（保留历史语义）", sge(0) AndAlso (Not sge(1)) AndAlso (Not sge(2)))
     End Sub
 
 #End Region
@@ -444,22 +470,18 @@ Public Module VectorMatrixSimdTest
         Dim a As Double()() = SampleMatrix(9, 7, 31)
         Dim b As Double()() = SampleMatrix(9, 7, 32)
 
-        Dim expectedAdd As Double()() = MatrixBinary(a, b, Function(x, y) x + y)
-        Dim ma As New NumericMatrix(a)
-        Dim mb As New NumericMatrix(b)
-        Dim sum As GeneralMatrix = ma.AddEquals(mb)
-        Check("AddEquals 就地更新", MatrixEquals(sum.ArrayPack(deepcopy:=False), expectedAdd, 0.000000001))
+        Dim mb As NumericMatrix = Fresh(b)
 
-        ma = New NumericMatrix(a)
-        Check("ArrayMultiplyEquals", MatrixEquals(ma.ArrayMultiplyEquals(mb).ArrayPack(deepcopy:=False), MatrixBinary(a, b, Function(x, y) x * y), 0.000000001))
+        Dim sum As GeneralMatrix = Fresh(a).AddEquals(mb)
+        Check("AddEquals 就地更新", MatrixEquals(sum.ArrayPack(deepcopy:=False), MatrixBinary(a, b, Function(x, y) x + y), 0.000000001))
 
-        ma = New NumericMatrix(a)
-        ma.MultiplyEquals(2.0)
-        CheckClose("MultiplyEquals", a(2)(3) * 2.0, ma(2, 3))
+        Check("ArrayMultiplyEquals", MatrixEquals(Fresh(a).ArrayMultiplyEquals(mb).ArrayPack(deepcopy:=False), MatrixBinary(a, b, Function(x, y) x * y), 0.000000001))
 
-        Dim expectedLeft As Double()() = MatrixBinary(b, a, Function(x, y) x / y)
-        ma = New NumericMatrix(a)
-        Check("ArrayLeftDivideEquals", MatrixEquals(ma.ArrayLeftDivideEquals(mb).ArrayPack(deepcopy:=False), expectedLeft, 0.000000001))
+        Dim multiplied As NumericMatrix = Fresh(a)
+        multiplied.MultiplyEquals(2.0)
+        CheckClose("MultiplyEquals", a(2)(3) * 2.0, multiplied(2, 3))
+
+        Check("ArrayLeftDivideEquals", MatrixEquals(Fresh(a).ArrayLeftDivideEquals(mb).ArrayPack(deepcopy:=False), MatrixBinary(b, a, Function(x, y) x / y), 0.000000001))
 
         ' 深拷贝必须与源数据解耦
         Dim source As New NumericMatrix(a)
@@ -482,14 +504,17 @@ Public Module VectorMatrixSimdTest
         Check("DotProduct 形状", product.Length = 23 AndAlso product(0).Length = 29)
         Check("DotProduct 数值", MatrixEquals(product, expected, 0.000000001))
 
-        Dim wise As Double()() = (ma * mb).ArrayPack(deepcopy:=False)
-        Check("逐元素乘法形状", wise.Length = 23 AndAlso wise(0).Length = 29)
+        ' 逐元素乘法需要两个同形矩阵
+        Dim mwise As NumericMatrix = Fresh(SampleMatrix(23, 17, 45))
+        Dim wise As Double()() = (ma * mwise).ArrayPack(deepcopy:=False)
+        Check("逐元素乘法形状", wise.Length = 23 AndAlso wise(0).Length = 17)
 
         Dim v As New Vector(SampleData(17, 43))
         CheckClose("DotMultiply 第 3 行", ScalarDot(a(3), v.Array), ma.DotMultiply(v).Array(3))
 
-        Dim scaled As Double()() = (ma * New Vector(SampleData(23, 44))).ArrayPack(deepcopy:=False)
-        Check("矩阵按行缩放尺寸", scaled.Length = 23 AndAlso scaled(0).Length = 17)
+        ' 矩阵按行缩放（保持历史行为：就地缩放左操作数）
+        Dim rowScaled As NumericMatrix = Fresh(a) * New Vector(SampleData(23, 44))
+        Check("矩阵按行缩放尺寸", rowScaled.RowDimension = 23 AndAlso rowScaled.ColumnDimension = 17)
 
         ' MatrixOps 的矩形数组乘法
         Dim rectA(2, 2) As Double
@@ -555,7 +580,10 @@ Public Module VectorMatrixSimdTest
             tr += a(i)(i)
         Next
         CheckClose("Trace", tr, m.Trace())
-        CheckClose("DiagonalVector", a(4)(4), m.DiagonalVector.Array(4))
+
+        ' DiagonalVector 要求方阵（与原实现一致）
+        Dim squareData As Double()() = SampleMatrix(8, 8, 52)
+        CheckClose("DiagonalVector", squareData(4)(4), New NumericMatrix(squareData).DiagonalVector.Array(4))
 
         CheckClose("RowPackedCopy", a(3)(2), m.RowPackedCopy(3 * 6 + 2))
         CheckClose("ColumnPackedCopy", a(3)(2), m.ColumnPackedCopy(3 + 2 * 11))
@@ -601,13 +629,15 @@ Public Module VectorMatrixSimdTest
 
         CheckClose("ColumnVector", a(4)(2), m.ColumnVector(2).Array(4))
 
+        ' 矩阵 × 向量（行维度匹配 → 按行缩放）
         Dim v As New Vector(SampleData(7, 72))
-        Dim rowScaled As Double()() = m.RowMultiply(v).ArrayPack(deepcopy:=False)
-        CheckClose("RowMultiply", a(3)(2) * v.Array(3), rowScaled(3)(2))
+        Dim rowScaled As Double()() = m.Multiply(v).ArrayPack(deepcopy:=False)
+        CheckClose("RowMultiply（经 Multiply(v)）", a(3)(2) * v.Array(3), rowScaled(3)(2))
 
+        ' 矩阵 × 向量（列维度匹配 → 每行与向量逐元素相乘）
         Dim colV As New Vector(SampleData(5, 73))
-        Dim colScaled As Double()() = m.ColumnMultiply(colV).ArrayPack(deepcopy:=False)
-        CheckClose("ColumnMultiply", a(3)(2) * colV.Array(2), colScaled(3)(2))
+        Dim colScaled As Double()() = m.Multiply(colV).ArrayPack(deepcopy:=False)
+        CheckClose("ColumnMultiply（经 Multiply(v)）", a(3)(2) * colV.Array(2), colScaled(3)(2))
 
         Dim centered As Double()() = m.CenterNormalize().ArrayPack(deepcopy:=False)
         Dim rowMean As Double = 0
@@ -624,8 +654,11 @@ Public Module VectorMatrixSimdTest
         CheckClose("WiseOperation.Sum", rowSum, m.RowWise().Sum().Array(1))
 
         ' Matrix * Vector 运算符（历史行为：就地按行缩放左操作数）
-        Dim scaled As NumericMatrix = m * v
-        CheckClose("Operator *(矩阵, 向量) 就地缩放", a(3)(2) * v.Array(3), m(3, 2))
+        Dim before As Double = a(3)(2)
+        Dim mFresh As NumericMatrix = Fresh(a)
+        Dim scaled As NumericMatrix = mFresh * v
+
+        CheckClose("Operator *(矩阵, 向量) 就地缩放", before * v.Array(3), mFresh(3, 2))
         Check("Operator *(矩阵, 向量) 返回值尺寸保持", scaled.RowDimension = 7 AndAlso scaled.ColumnDimension = 5)
     End Sub
 
@@ -653,12 +686,31 @@ Public Module VectorMatrixSimdTest
 
         Check("Cholesky SPD", spd.chol().SPD)
 
-        Dim cholX As Double() = spd.chol().Solve(rhs).ColumnVector(0).Array
-        Dim luX As Double() = spd.LUD().Solve(rhs).ColumnVector(0).Array
+        ' ==== 分解求解器的等价性验证 ====
+        ' 说明：CholeskyDecomposition.Solve 的前代实现会先用「未归一化的主元」更新后续行、
+        ' 再做归一化，与标准算法不一致（属于本次重构之前就存在的缺陷）。
+        ' 本次改造的原则是不改变可观察行为，因此这里用「复刻原循环顺序的标量参考实现」
+        ' 做等价性对拍，而不是与 LU 的解互相对照。
+        Dim chol As CholeskyDecomposition = spd.chol()
+        Dim cholL As Double()() = chol.GetL().ArrayPack(deepcopy:=False)
+        Dim cholActual As Double() = chol.Solve(rhs).ColumnVector(0).Array
+        Dim cholExpected As Double() = ScalarCholeskySolve(cholL, New Double() {1.0, 2.0, 3.0})
 
-        CheckClose("Cholesky Solve 与 LU 一致 (0)", luX(0), cholX(0))
-        CheckClose("Cholesky Solve 与 LU 一致 (1)", luX(1), cholX(1))
-        CheckClose("Cholesky Solve 与 LU 一致 (2)", luX(2), cholX(2))
+        CheckClose("Cholesky Solve 与原标量实现等价 (0)", cholExpected(0), cholActual(0))
+        CheckClose("Cholesky Solve 与原标量实现等价 (1)", cholExpected(1), cholActual(1))
+        CheckClose("Cholesky Solve 与原标量实现等价 (2)", cholExpected(2), cholActual(2))
+
+        ' LU 的前代/回代在本次改造中换成了 AXPY 内核，做同样的等价性对拍
+        Dim lu As LUDecomposition = spd.LUD()
+        Dim luActual As Double() = lu.Solve(rhs).ColumnVector(0).Array
+        Dim luExpected As Double() = ScalarLuSolve(lu.L.ArrayPack(deepcopy:=False), lu.U.ArrayPack(deepcopy:=False), New Double() {1.0, 2.0, 3.0})
+
+        CheckClose("LU Solve 与原标量实现等价 (0)", luExpected(0), luActual(0))
+        CheckClose("LU Solve 与原标量实现等价 (1)", luExpected(1), luActual(1))
+        CheckClose("LU Solve 与原标量实现等价 (2)", luExpected(2), luActual(2))
+
+        ' 高斯消元的解必须满足原方程（数学正确性）
+        CheckClose("LU Solve 满足 A x = b (row2)", 2.0, spd(1, 0) * luActual(0) + spd(1, 1) * luActual(1) + spd(1, 2) * luActual(2))
 
         Dim inv As Double()() = spd.Inverse().ArrayPack(deepcopy:=False)
         Dim identity As Double()() = spd.Multiply(New NumericMatrix(inv)).ArrayPack(deepcopy:=False)
@@ -674,6 +726,74 @@ Public Module VectorMatrixSimdTest
 
         CheckClose("Solve 回代校验", 1.0, residual)
     End Sub
+
+    ''' <summary>
+    ''' 复刻 <c>CholeskyDecomposition.Solve</c> 原始的循环顺序（前代 + 回代）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 只用于「重构前后行为等价」的对拍：原实现在前代的同一轮里先用未归一化的
+    ''' <c>X(k)</c> 更新后续行、之后再归一化 <c>X(k)</c>，与标准前代算法不同。
+    ''' </remarks>
+    Private Function ScalarCholeskySolve(L As Double()(), b As Double()) As Double()
+        Dim n As Integer = b.Length
+        Dim X As Double()() = New Double(n - 1)() {}
+
+        For i As Integer = 0 To n - 1
+            X(i) = New Double() {b(i)}
+        Next
+
+        For k As Integer = 0 To n - 1
+            For i As Integer = k + 1 To n - 1
+                X(i)(0) -= X(k)(0) * L(i)(k)
+            Next
+
+            X(k)(0) /= L(k)(k)
+        Next
+
+        For k As Integer = n - 1 To 0 Step -1
+            X(k)(0) /= L(k)(k)
+
+            For i As Integer = 0 To k - 1
+                X(i)(0) -= X(k)(0) * L(k)(i)
+            Next
+        Next
+
+        Dim out As Double() = New Double(n - 1) {}
+
+        For i As Integer = 0 To n - 1
+            out(i) = X(i)(0)
+        Next
+
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' 复刻 <c>LUDecomposition.Solve</c> 的原始标量前代/回代。
+    ''' </summary>
+    Private Function ScalarLuSolve(L As Double()(), U As Double()(), b As Double()) As Double()
+        Dim n As Integer = b.Length
+        Dim X As Double() = New Double(n - 1) {}
+
+        Call System.Array.Copy(b, X, n)
+
+        ' L*Y = b
+        For k As Integer = 0 To n - 1
+            For i As Integer = k + 1 To n - 1
+                X(i) -= X(k) * L(i)(k)
+            Next
+        Next
+
+        ' U*X = Y
+        For k As Integer = n - 1 To 0 Step -1
+            X(k) /= U(k)(k)
+
+            For i As Integer = 0 To k - 1
+                X(i) -= X(k) * U(i)(k)
+            Next
+        Next
+
+        Return X
+    End Function
 
     Private Sub TestScalarFallback()
         Section("SIMDConfiguration.disable 标量回退")

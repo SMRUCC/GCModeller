@@ -892,7 +892,8 @@ Namespace LinearAlgebra
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator <=(x#, y As Vector) As BooleanVector
-            Return New BooleanVector(SimdCompare.LessThanOrEqual(y.buffer, x))
+            ' 语义是 x <= y(i)，等价于内核里的 y(i) >= x
+            Return New BooleanVector(SimdCompare.GreaterThanOrEqual(y.buffer, x))
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

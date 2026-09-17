@@ -75,7 +75,7 @@ Namespace Hierarchy
         ''' <summary>
         ''' O(1) 按键查找：<see cref="HashCodePair"/> 组合键 -> 链接
         ''' </summary>
-        Dim linkTable As New Dictionary(Of ULong, HierarchyLink)
+        Dim linkTable As New Dictionary(Of ULong, HierarchyLink)(New LinkKeyComparer)
 
         ''' <summary>
         ''' 数组式二叉最小堆，按 <see cref="HierarchyTreeNode.LinkageDistance"/> 维护堆序。
@@ -92,6 +92,48 @@ Namespace Hierarchy
         ''' </para>
         ''' </summary>
         Dim heap As New List(Of HierarchyLink)
+
+        ''' <summary>
+        ''' 堆中已经失效、但仍未被弹出的陈旧条目数量。
+        ''' 当其超过存活链接数时触发一次堆压缩，以维持 <see cref="heap"/> 的规模与缓存友好性
+        ''' （这是惰性删除策略的代价）。
+        ''' </summary>
+        Dim staleCount As Integer = 0
+
+#Region "Link hash key comparer"
+
+        ''' <summary>
+        ''' 链接键（<see cref="HashCodePair"/>）的字典比较器。
+        ''' 
+        ''' <para>
+        ''' 链接键由两个簇 ID 位拼接而成（<c>(min &lt;&lt; 32) | max</c>）。由于簇 ID 的取值较小，
+        ''' 拼接结果的高/低 32 位都集中在很窄的数值范围内；若直接使用 <see cref="UInt64.GetHashCode"/>
+        ''' （其实现为高 32 位与低 32 位异或），得到的哈希码会几乎全部落在 <c>[0, 2^k)</c> 的小区间内，
+        ''' 导致哈希桶严重冲突、单次查找退化为近似线性扫描。
+        ''' 这里改用 64 位 avalanche mix 打散哈希码，保持位拼接键无冲突的同时恢复 O(1) 查找。
+        ''' </para>
+        ''' </summary>
+        Private Class LinkKeyComparer : Implements IEqualityComparer(Of ULong)
+
+            Public Overloads Function Equals(a As ULong, b As ULong) As Boolean Implements IEqualityComparer(Of ULong).Equals
+                Return a = b
+            End Function
+
+            Public Overloads Function GetHashCode(key As ULong) As Integer Implements IEqualityComparer(Of ULong).GetHashCode
+                ' 拆出高/低 32 位（两个簇 ID），分别做乘法扰动后再混合。
+                ' 乘法因子与操作数范围经过约束，保证不会触发 VB 的整数溢出检查（两个乘积均 < 2^63）。
+                Dim hi As ULong = key >> 32
+                Dim lo As ULong = key And &HFFFFFFFFUL
+                Dim h As ULong = (hi * 2654435761UL) Xor (lo * 2246822519UL)
+
+                h = h Xor (h >> 27)
+                h = h Xor (h << 31)
+
+                Return CInt(h And &H7FFFFFFFUL)
+            End Function
+        End Class
+
+#End Region
 
         ''' <summary>
         ''' Peak into the minimum distance
@@ -189,6 +231,7 @@ Namespace Hierarchy
         Private Sub CleanStale()
             Do While heap.Count > 0 AndAlso heap(Scan0).removed
                 Call PopRoot()
+                staleCount -= 1
             Loop
         End Sub
 
@@ -296,9 +339,30 @@ Namespace Hierarchy
             ' O(1) 惰性删除：仅移出字典并打标记，堆中的陈旧条目留待出堆时跳过
             Call linkTable.Remove(removed.HashKey)
             removed.removed = True
+            staleCount += 1
+
+            ' 陈旧条目超过存活链接数时压缩一次堆，
+            ' 避免堆无限膨胀（既抬高 log 因子，也让每次比较都发生缓存缺失）
+            If staleCount > linkTable.Count Then
+                Call Compact()
+            End If
 
             Return True
         End Function
+
+        ''' <summary>
+        ''' 丢弃堆中所有已失效的陈旧条目并重新建堆（O(m)）
+        ''' </summary>
+        Private Sub Compact()
+            heap.Clear()
+
+            For Each link As HierarchyLink In linkTable.Values
+                heap.Add(link)
+            Next
+
+            Call Heapify()
+            staleCount = 0
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Sort()
