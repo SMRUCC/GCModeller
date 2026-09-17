@@ -392,7 +392,7 @@ Namespace LinearAlgebra
         ''' <param name="startIndex">The starting index in destination at which to begin the copy operation.</param>
         Public Sub CopyTo(ByRef destination As Double(), startIndex As Integer)
             ' 同类型连续内存的搬运走运行时的 block copy，比标量循环少一个逐元素下标计算
-            Call Array.Copy(buffer, 0, destination, startIndex, buffer.Length)
+            Call System.Array.Copy(buffer, 0, destination, startIndex, buffer.Length)
         End Sub
 
         ''' <summary>
@@ -424,7 +424,7 @@ Namespace LinearAlgebra
         ''' <param name="startIndex">the start index of the data in current vector</param>
         ''' <param name="count">the number of the data elements copy from the source data</param>
         Public Sub CopyFrom(ByRef source As Double(), startIndex As Integer, count As Integer)
-            Call Array.Copy(source, 0, buffer, startIndex, count)
+            Call System.Array.Copy(source, 0, buffer, startIndex, count)
         End Sub
 
 #Region "Operators"
@@ -776,7 +776,7 @@ Namespace LinearAlgebra
             'Next
 
             'Return v2
-            Return New Vector(SimdEngine.Negate(Of Double)(v1.buffer))
+            Return New Vector(SimdMath.Negate(Of Double)(v1.buffer))
         End Operator
 
         ''' <summary>
@@ -1037,10 +1037,8 @@ Namespace LinearAlgebra
             'Next
 
             'Return sum
-            Dim prod As Double() = SIMD.Multiply.f64_op_multiply_f64(lhs, rhs)
-            Dim sum As Double = prod.Sum
-
-            Return sum
+            ' 直接走并行 SIMD 点积内核，省掉原先物化整个乘积数组的开销
+            Return SimdParallel.Dot(lhs, rhs)
         End Function
 
         ''' <summary>
@@ -1050,10 +1048,8 @@ Namespace LinearAlgebra
         ''' <param name="rhs"></param>
         ''' <returns></returns>
         Public Shared Function dot(ByRef lhs As Single(), ByRef rhs As Single()) As Double
-            Dim prod As Single() = SIMD.Multiply.f32_op_multiply_f32(lhs, rhs)
-            Dim sum As Double = prod.Sum
-
-            Return sum
+            ' FMA 融合乘加，并以 Double 累加，降低长向量的累积误差
+            Return SIMDIntrinsics.DotFma(lhs, rhs)
         End Function
 
         ''' <summary>
