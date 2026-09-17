@@ -98,7 +98,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
             Dim res As BsResult = simplex.Solve(Nothing, Nothing, options.LpIterationLimit)
             lpSolves += 1
 
-            If res.Status = BsStatus.Infeasible Then Return Finish(MilpStatus.Infeasible, "根 LP 松弛不可行。")
+            If res.Status = BsStatus.Infeasible Then Return Finish(MilpStatus.Infeasible, $"根 LP 松弛不可行：{res.StatusText}")
             If res.Status = BsStatus.Unbounded Then Return Finish(MilpStatus.Unbounded, "根 LP 松弛无界（存在无界下降射线）。")
             If Not res.IsOptimal Then Return Finish(MilpStatus.Error, $"根 LP 松弛未收敛：{res.StatusText}")
 

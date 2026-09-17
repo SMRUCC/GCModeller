@@ -293,9 +293,17 @@ Public Module MilpSelfTest
         Check(withCut.CutsAdded >= 0, "割平面统计可读", $"cuts={withCut.CutsAdded}")
         Check(withCut.LpSolves >= 1, "LP 求解次数统计", $"lp={withCut.LpSolves}")
 
-        ' 生产计划：LP 松弛是分数（21 > 20），必须靠分支/割才能得到整数最优
+        ' 生产计划：LP 松弛是分数（x=3, y=1.5 → 21），根节点 GMI 割应实际生成
         Dim prod = MilpSolver.Solve(ProductionModel())
         Check(System.Math.Abs(prod.ObjectiveValue - 20.0) < 0.000001, "整数间隙问题仍得整数最优", $"obj={prod.ObjectiveValue:G8}")
+        Check(prod.CutsAdded > 0, "分数根松弛 → GMI 割实际生成", $"cuts={prod.CutsAdded}")
+        Check(prod.RootRelaxation.HasValue AndAlso prod.RootRelaxation.Value > 20.5,
+              "根 LP 松弛严格优于整数最优（存在整数间隙）",
+              $"root={If(prod.RootRelaxation.HasValue, prod.RootRelaxation.Value.ToString("G8"), "n/a")}")
+        Check(prod.RelativeGap < 0.0001, "最终相对间隙 ≈ 0", $"gap={prod.RelativeGap:E3}")
+
+        ' 指派问题的约束矩阵是全幺模的 → 根松弛天然整数，不应产生割（对照）
+        Check(withCut.CutsAdded = 0, "全幺模问题根松弛整数（无需割）", $"cuts={withCut.CutsAdded}")
     End Sub
 
     ' ==================================================================

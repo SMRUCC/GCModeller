@@ -348,8 +348,10 @@ Namespace LinearAlgebra.LinearProgramming.MILP
             Dim b2(newRows - 1) As Double
             Array.Copy(b, b2, Rows)
 
+            ' gamma 可能只覆盖"追加本割之前"的列空间（同一轮追加多条割时），
+            ' 缺失的新松弛列系数视为 0。
             For k As Integer = 0 To Cols - 1
-                A2(Rows, k) = gamma(k)
+                If k < gamma.Length Then A2(Rows, k) = gamma(k)
             Next
 
             Dim slackIdx As Integer = Cols

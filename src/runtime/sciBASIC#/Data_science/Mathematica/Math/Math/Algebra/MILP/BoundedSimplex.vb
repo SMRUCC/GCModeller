@@ -103,6 +103,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         Private fac As LuFactorization
         Private phaseOne As Boolean
         Private iters As Integer
+        Private diagnostic As String = ""
 
         Public Sub New(A As Double(,), b As Double(), c As Double(), l As Double(), u As Double(),
                        Optional tolP As Double = 0.0000001,
@@ -199,6 +200,14 @@ Namespace LinearAlgebra.LinearProgramming.MILP
             Return If(phaseOne, 1.0, 0.0)
         End Function
 
+        ''' <summary>
+        ''' 工作列在当前阶段的目标系数：Phase 1 的目标是 Σ 人工变量，故工作列成本为 0；
+        ''' Phase 2 使用真实目标系数。
+        ''' </summary>
+        Private Function WorkCost(j As Integer) As Double
+            Return If(phaseOne, 0.0, c(j))
+        End Function
+
         Private Function BasisColumn(bj As Integer) As Double()
             Dim col(m - 1) As Double
 
@@ -252,7 +261,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
             For k As Integer = 0 To m - 1
                 Dim bj As Integer = basis(k)
 
-                v += If(bj >= 0, c(bj), ArtCost(bj)) * xB(k)
+                v += If(bj >= 0, WorkCost(bj), ArtCost(bj)) * xB(k)
             Next
 
             Return v
@@ -294,16 +303,23 @@ Namespace LinearAlgebra.LinearProgramming.MILP
             End If
 
             Dim st2 = RunPrimal(maxIter)
+
+            If st2 = BsStatus.MaxIter Then
+                diagnostic = $"Phase2 原始单纯形迭代超限（{iters} 次），基规模 {m}×{n}"
+            End If
+
             Return MakeResult(st2, StatusMessage(st2))
         End Function
 
         Private Function StatusMessage(st As BsStatus) As String
+            Dim detail As String = If(diagnostic.StringEmpty, "", $"（{diagnostic}）")
+
             Select Case st
                 Case BsStatus.Optimal : Return "最优"
-                Case BsStatus.Infeasible : Return "LP 不可行"
-                Case BsStatus.Unbounded : Return "LP 无界（存在无阻挡下降射线）"
-                Case BsStatus.MaxIter : Return "迭代数超限未收敛"
-                Case Else : Return "数值失败（基矩阵奇异）"
+                Case BsStatus.Infeasible : Return "LP 不可行" & detail
+                Case BsStatus.Unbounded : Return "LP 无界（存在无阻挡下降射线）" & detail
+                Case BsStatus.MaxIter : Return "迭代数超限未收敛" & detail
+                Case Else : Return "数值失败（基矩阵奇异）" & detail
             End Select
         End Function
 
@@ -420,7 +436,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
 
             For k As Integer = 0 To m - 1
                 Dim bj As Integer = basis(k)
-                cB(k) = If(bj >= 0, c(bj), ArtCost(bj))
+                cB(k) = If(bj >= 0, WorkCost(bj), ArtCost(bj))
             Next
 
             y = LinAlg.LuSolveT(fac, cB)
@@ -429,7 +445,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
 
             ' ---- d_j = c_j − yᵀA_j ----
             For j As Integer = 0 To n - 1
-                Dim s As Double = c(j)
+                Dim s As Double = WorkCost(j)
 
                 For i As Integer = 0 To m - 1
                     s -= A(i, j) * y(i)
@@ -465,9 +481,20 @@ Namespace LinearAlgebra.LinearProgramming.MILP
 
             Dim st = RunPrimal(maxIter)
 
-            If st = BsStatus.MaxIter Then Return BsStatus.MaxIter
-            If st = BsStatus.NumericFail Then Return BsStatus.NumericFail
-            If st = BsStatus.Unbounded Then Return BsStatus.MaxIter
+            If st = BsStatus.MaxIter Then
+                diagnostic = $"Phase1 原始单纯形迭代超限（{iters} 次）"
+                Return BsStatus.MaxIter
+            End If
+
+            If st = BsStatus.NumericFail Then
+                diagnostic = "Phase1 基矩阵分解奇异"
+                Return BsStatus.NumericFail
+            End If
+
+            If st = BsStatus.Unbounded Then
+                diagnostic = $"Phase1 目标意外无界（{iters} 次迭代）"
+                Return BsStatus.MaxIter
+            End If
 
             If Not Refresh() Then Return BsStatus.NumericFail
 
@@ -483,7 +510,16 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                 bNorm += std.Abs(b(i))
             Next
 
-            If artSum > tolP * bNorm Then Return BsStatus.Infeasible
+            If artSum > tolP * bNorm Then
+                Dim posCount As Integer = 0
+
+                For k As Integer = 0 To m - 1
+                    If basis(k) < 0 AndAlso xB(k) > tolP Then posCount += 1
+                Next
+
+                diagnostic = $"Phase1 人工残量 {artSum:G6}，正人工基变量 {posCount}/{m}，迭代 {iters}"
+                Return BsStatus.Infeasible
+            End If
 
             ' ---- 把人工变量逐个换出（冗余行的人工留在基中并固定为 0）----
             Dim moved As Boolean = True
@@ -568,7 +604,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
 
                     Dim sigmaJ As Double = If(atUpper(j), -1.0, 1.0)
                     Dim rc As Double = d(j) * sigmaJ
-                    Dim thr As Double = -tolD * (1.0 + std.Abs(c(j)))
+                    Dim thr As Double = -tolD * (1.0 + std.Abs(WorkCost(j)))
 
                     If rc < thr Then
                         If bland Then
