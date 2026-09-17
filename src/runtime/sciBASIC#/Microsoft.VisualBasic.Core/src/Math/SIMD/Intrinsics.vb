@@ -76,9 +76,11 @@ Namespace Math.SIMD
     ''' 增加代码量而不会提升吞吐。
     ''' </para>
     ''' <para>
-    ''' 所有的 FMA 内核都会在运行期检查 <see cref="SimdCapabilities.IsFma"/>：
-    ''' 当处理器不支持 FMA 时自动退回到等价的
-    ''' <see cref="SimdEngine"/> 实现，因此这些函数在任何平台上都是安全的。
+    ''' 所有的 FMA 内核都会在运行期同时检查 <see cref="SimdCapabilities.IsFma"/> 与
+    ''' <see cref="SIMDEnvironment.IsEnabled"/>：前者保证处理器确实有 FMA 指令，
+    ''' 后者保证 <see cref="SIMDConfiguration.disable"/> 这个全局逃生开关依然有效。
+    ''' 任一条件不满足时会退回到等价的 <see cref="SimdEngine"/> /
+    ''' <see cref="SimdReduce"/> 实现，因此这些函数在任何平台与任何配置下都是安全的。
     ''' </para>
     ''' <para>
     ''' 与旧实现的关键差别：这里使用批量装载/存储
@@ -191,7 +193,7 @@ Namespace Math.SIMD
 
             Dim len As Integer = v1.Length
             If len = 0 Then Return 0.0
-            If Not SimdCapabilities.IsFma Then
+            If Not SimdCapabilities.IsFma OrElse Not SIMDEnvironment.IsEnabled Then
                 Return SimdReduce.Dot(v1, v2)
             End If
 
@@ -244,7 +246,7 @@ Namespace Math.SIMD
 
             Dim len As Integer = v1.Length
             If len = 0 Then Return 0.0
-            If Not SimdCapabilities.IsFma Then
+            If Not SimdCapabilities.IsFma OrElse Not SIMDEnvironment.IsEnabled Then
                 Return SimdReduce.Dot(v1, v2)
             End If
 
@@ -289,7 +291,7 @@ Namespace Math.SIMD
         Public Shared Function SumSquaresFma(v As Double()) As Double
             If v Is Nothing Then Throw New ArgumentNullException(NameOf(v))
             If v.Length = 0 Then Return 0.0
-            If Not SimdCapabilities.IsFma Then
+            If Not SimdCapabilities.IsFma OrElse Not SIMDEnvironment.IsEnabled Then
                 Return SimdReduce.SumSquares(v)
             End If
 
@@ -347,7 +349,7 @@ Namespace Math.SIMD
 
             Dim len As Integer = x.Length
             If len = 0 Then Return Array.Empty(Of Double)()
-            If Not SimdCapabilities.IsFma Then
+            If Not SimdCapabilities.IsFma OrElse Not SIMDEnvironment.IsEnabled Then
                 Return SimdEngine.Add(Of Double)(SimdEngine.MultiplyScalar(Of Double)(alpha, x), y)
             End If
 
@@ -396,7 +398,7 @@ Namespace Math.SIMD
                 Throw New ArgumentException($"vector size not agree: {x.Length} vs {len}!")
             End If
 
-            If Not SimdCapabilities.IsFma Then
+            If Not SimdCapabilities.IsFma OrElse Not SIMDEnvironment.IsEnabled Then
                 ' 无 FMA 时退化为“先数乘再就地累加”，仍然是向量化路径
                 Dim scaled As Double() = SimdEngine.MultiplyScalar(Of Double)(alpha, x)
 
@@ -429,7 +431,7 @@ Namespace Math.SIMD
 
             Dim len As Integer = v1.Length
             If len = 0 Then Return Array.Empty(Of Double)()
-            If Not SimdCapabilities.IsFma Then
+            If Not SimdCapabilities.IsFma OrElse Not SIMDEnvironment.IsEnabled Then
                 Return SimdEngine.Add(Of Double)(SimdEngine.Multiply(Of Double)(v1, v2), acc)
             End If
 
