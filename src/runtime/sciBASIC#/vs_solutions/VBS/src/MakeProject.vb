@@ -1,8 +1,5 @@
-Imports System.Collections.Generic
 Imports System.ComponentModel
-Imports System.Diagnostics
 Imports System.IO
-Imports System.Linq
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.NuGet
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.ProjectXml

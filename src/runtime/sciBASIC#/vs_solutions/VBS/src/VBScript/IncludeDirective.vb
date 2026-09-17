@@ -1,4 +1,3 @@
-Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.NuGet
