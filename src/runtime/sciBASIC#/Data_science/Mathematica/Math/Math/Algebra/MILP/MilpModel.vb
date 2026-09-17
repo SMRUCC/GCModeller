@@ -28,7 +28,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         ''' <summary>连续变量（可取实数）</summary>
         Continuous = 0
         ''' <summary>一般整数变量</summary>
-        Integer = 1
+        GeneralInteger = 1
         ''' <summary>二进制（0/1）变量</summary>
         Binary = 2
 
@@ -61,7 +61,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         ''' </summary>
         Public ReadOnly Property IsInteger As Boolean
             Get
-                Return VarType = MilpVarType.Integer OrElse VarType = MilpVarType.Binary
+                Return VarType = MilpVarType.GeneralInteger OrElse VarType = MilpVarType.Binary
             End Get
         End Property
 
@@ -87,8 +87,8 @@ Namespace LinearAlgebra.LinearProgramming.MILP
     ''' 建模 API 采用流式写法，便于构造演示与测试问题：
     ''' <code>
     ''' Dim m As New MilpModel With {.ObjectiveSense = "max"}
-    ''' m.AddVariable("x", 3).AddVariable("y", 5, MilpVarType.Integer)
-    ''' m.AddConstraint(New Dictionary(Of String, Double) From {{"x", 1}, {"y", 2}}, "<=", 10)
+    ''' m.AddVariable("x", 3).AddVariable("y", 5, MilpVarType.GeneralInteger)
+    ''' m.AddConstraint(New Dictionary(Of String, Double) From {{"x", 1}, {"y", 2}}, "&lt;=", 10)
     ''' </code>
     ''' </remarks>
     Public Class MilpModel
@@ -222,10 +222,6 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                     Return $"约束 #{k + 1} 的运算符非法: {con.Op}"
                 End If
 
-                If con.Rhs Is Nothing AndAlso False Then
-                    Return Nothing
-                End If
-
                 If Double.IsNaN(con.Rhs) Then
                     Return $"约束 #{k + 1} 的右端项为 NaN。"
                 End If
@@ -263,7 +259,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{ObjectiveSense} {Variables.Count} vars ({Variables.Count(Function(v) v.IsInteger)} integer), {Constraints.Count} constraints"
+            Return $"{ObjectiveSense} {Variables.Count} vars ({Variables.Where(Function(v) v.IsInteger).Count()} integer), {Constraints.Count} constraints"
         End Function
 
     End Class
