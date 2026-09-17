@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>Flute.SessionManager</RootNamespace>
@@ -11,7 +11,7 @@
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Configurations>Debug;Release;MEMI-Desktop;CellaLAB-Desktop;Rsharp_app_release</Configurations>
-    <PackageIcon>icons8-html-96.png</PackageIcon>
+    <PackageIcon></PackageIcon>
     <PackageOutputPath>..\..\..\.nuget\</PackageOutputPath>
   </PropertyGroup>
 
@@ -188,13 +188,6 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\..\.nuget\icons8-html-96.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
