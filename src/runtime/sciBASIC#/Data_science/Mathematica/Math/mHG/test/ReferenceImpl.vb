@@ -11,6 +11,9 @@ Imports System.Linq
 '''   of the ratio-based dynamic programming used by the library;
 ''' + the p-value is obtained by brute force enumeration of all the ``C(N, B)`` rearrangements
 '''   of the ranked binary list instead of the R-separation-line / ``pi_r`` dynamic programming.
+'''
+''' NOTE: VisualBasic identifiers are case-insensitive, so the parameter names used here
+''' deliberately avoid the ``N``/``n`` and ``B``/``b`` pairs.
 ''' </summary>
 Public Module ReferenceImpl
 
@@ -54,27 +57,31 @@ Public Module ReferenceImpl
     End Function
 
     ''' <summary>
-    ''' The hypergeometric probability mass function ``P(X = b)`` for the urn
-    ''' containing ``N`` balls among which ``B`` are black, ``n`` draws.
+    ''' The hypergeometric probability mass function ``P(X = hits)`` for the urn
+    ''' containing ``numBalls`` balls among which ``numBlack`` are black, ``draws`` draws.
     ''' </summary>
-    Public Function HypergeometricPmf(b As Integer, N As Integer, B As Integer, n As Integer) As Double
-        Dim lo As Integer = System.Math.Max(0, n - (N - B))
-        Dim hi As Integer = System.Math.Min(n, B)
+    Public Function HypergeometricPmf(hits As Integer, numBalls As Integer,
+                                      numBlack As Integer, draws As Integer) As Double
+        Dim lo As Integer = System.Math.Max(0, draws - (numBalls - numBlack))
+        Dim hi As Integer = System.Math.Min(draws, numBlack)
 
-        If b < lo OrElse b > hi Then
+        If hits < lo OrElse hits > hi Then
             Return 0.0
         End If
 
-        Return System.Math.Exp(LogChoose(B, b) + LogChoose(N - B, n - b) - LogChoose(N, n))
+        Return System.Math.Exp(LogChoose(numBlack, hits) +
+                               LogChoose(numBalls - numBlack, draws - hits) -
+                               LogChoose(numBalls, draws))
     End Function
 
     ''' <summary>
-    ''' The hypergeometric tail ``P(X &gt;= b)``, which equals to the R expression
-    ''' ``phyper(b - 1, B, N - B, n, lower.tail = FALSE)``.
+    ''' The hypergeometric tail ``P(X &gt;= hits)``, which equals to the R expression
+    ''' ``phyper(hits - 1, B, N - B, n, lower.tail = FALSE)``.
     ''' </summary>
-    Public Function HypergeometricTail(b As Integer, N As Integer, B As Integer, n As Integer) As Double
-        Dim lo As Integer = System.Math.Max(b, 0)
-        Dim hi As Integer = System.Math.Min(n, B)
+    Public Function HypergeometricTail(hits As Integer, numBalls As Integer,
+                                       numBlack As Integer, draws As Integer) As Double
+        Dim lo As Integer = System.Math.Max(hits, 0)
+        Dim hi As Integer = System.Math.Min(draws, numBlack)
 
         If lo > hi Then
             Return 0.0
@@ -83,7 +90,9 @@ Public Module ReferenceImpl
         Dim logs As New List(Of Double)
 
         For k As Integer = lo To hi
-            logs.Add(LogChoose(B, k) + LogChoose(N - B, n - k) - LogChoose(N, n))
+            logs.Add(LogChoose(numBlack, k) +
+                     LogChoose(numBalls - numBlack, draws - k) -
+                     LogChoose(numBalls, draws))
         Next
 
         ' numeric stable log-sum-exp
@@ -112,31 +121,32 @@ Public Module ReferenceImpl
     ''' <summary>
     ''' The mHG statistic computed straight from its definition, without any dynamic programming:
     '''
-    ''' ``min over 1 &lt;= n &lt;= n_max of P(X &gt;= b_n)``, where ``b_n`` is the number of
-    ''' ones among the first ``n`` elements of the ranked list.
+    ''' ``min over 1 &lt;= cutoff &lt;= n_max of P(X &gt;= hits)``, where ``hits`` is the number of
+    ''' ones among the first ``cutoff`` elements of the ranked list.
     ''' </summary>
-    Public Function mHGStatisticSimple(lambdas As Integer(), Optional n_max As Integer = -1) As (mhg As Double, n As Integer, b As Integer)
-        Dim N As Integer = lambdas.Length
-        Dim B As Integer = lambdas.Sum
+    Public Function mHGStatisticSimple(lambdas As Integer(),
+                                       Optional n_max As Integer = -1) As (mhg As Double, n As Integer, b As Integer)
+        Dim numBalls As Integer = lambdas.Length
+        Dim numBlack As Integer = lambdas.Sum
 
         If n_max < 0 Then
-            n_max = N
+            n_max = numBalls
         End If
 
         Dim mhg As Double = 1
         Dim bestN As Integer = 0
         Dim bestB As Integer = 0
-        Dim b As Integer = 0
+        Dim hits As Integer = 0
 
-        For n As Integer = 1 To n_max
-            b += lambdas(n - 1)
+        For cutoff As Integer = 1 To n_max
+            hits += lambdas(cutoff - 1)
 
-            Dim hgt As Double = HypergeometricTail(b, N, B, n)
+            Dim hgt As Double = HypergeometricTail(hits, numBalls, numBlack, cutoff)
 
             If hgt < mhg Then
                 mhg = hgt
-                bestN = n
-                bestB = b
+                bestN = cutoff
+                bestB = hits
             End If
         Next
 
@@ -182,20 +192,21 @@ Public Module ReferenceImpl
     ''' The exact mHG p-value obtained by enumerating every rearrangement of the ranked binary
     ''' list: ``count(statistic &lt;= observed) / C(N, B)``.
     ''' </summary>
-    Public Function ExactPermutationPValue(lambdas As Integer(), Optional n_max As Integer = -1) As Double
-        Dim N As Integer = lambdas.Length
-        Dim B As Integer = lambdas.Sum
+    Public Function ExactPermutationPValue(lambdas As Integer(),
+                                           Optional n_max As Integer = -1) As Double
+        Dim numBalls As Integer = lambdas.Length
+        Dim numBlack As Integer = lambdas.Sum
 
         If n_max < 0 Then
-            n_max = N
+            n_max = numBalls
         End If
 
         Dim observed As Double = mHGStatisticSimple(lambdas, n_max).mhg
-        Dim count As Long = 0
-        Dim total As Long = 0
+        Dim hitCount As Long = 0
+        Dim totalCount As Long = 0
 
-        For Each ones As Integer() In Combinations(N, B)
-            Dim arrangement As Integer() = New Integer(N - 1) {}
+        For Each ones As Integer() In Combinations(numBalls, numBlack)
+            Dim arrangement As Integer() = New Integer(numBalls - 1) {}
 
             For Each i As Integer In ones
                 arrangement(i) = 1
@@ -204,13 +215,13 @@ Public Module ReferenceImpl
             Dim statistic As Double = mHGStatisticSimple(arrangement, n_max).mhg
 
             If statistic <= (observed + EPSILON) Then
-                count += 1
+                hitCount += 1
             End If
 
-            total += 1
+            totalCount += 1
         Next
 
-        Return CDbl(count) / CDbl(total)
+        Return CDbl(hitCount) / CDbl(totalCount)
     End Function
 
 #End Region
@@ -240,16 +251,16 @@ Public Module ReferenceImpl
     End Class
 
     ''' <summary>
-    ''' shuffle ``B`` ones into a list of ``N`` elements.
+    ''' shuffle ``numBlack`` ones into a list of ``numBalls`` elements.
     ''' </summary>
-    Public Function RandomLambdas(N As Integer, B As Integer, rnd As Lcg) As Integer()
-        Dim x As Integer() = New Integer(N - 1) {}
+    Public Function RandomLambdas(numBalls As Integer, numBlack As Integer, rnd As Lcg) As Integer()
+        Dim x As Integer() = New Integer(numBalls - 1) {}
 
-        For i As Integer = 0 To B - 1
+        For i As Integer = 0 To numBlack - 1
             x(i) = 1
         Next
 
-        For i As Integer = N - 1 To 1 Step -1
+        For i As Integer = numBalls - 1 To 1 Step -1
             Dim j As Integer = rnd.Next(i + 1)
             Dim tmp As Integer = x(i)
             x(i) = x(j)
@@ -261,15 +272,15 @@ Public Module ReferenceImpl
 
     ''' <summary>
     ''' A "biased towards the top" ranked binary list, simulating a GO term whose annotated
-    ''' genes are enriched among the top ranked (e.g. differential expressed) genes.
+    ''' genes are enriched among the top ranked (e.g. differentially expressed) genes.
     ''' </summary>
-    Public Function EnrichedLambdas(N As Integer, B As Integer, rnd As Lcg) As Integer()
-        Dim x As Integer() = New Integer(N - 1) {}
+    Public Function EnrichedLambdas(numBalls As Integer, numBlack As Integer, rnd As Lcg) As Integer()
+        Dim x As Integer() = New Integer(numBalls - 1) {}
         Dim placed As Integer = 0
         Dim i As Integer = 0
 
-        While placed < B AndAlso i < N
-            Dim p As Double = If(i < (N \ 2), 0.35, 0.15)
+        While placed < numBlack AndAlso i < numBalls
+            Dim p As Double = If(i < (numBalls \ 2), 0.13, 0.07)
 
             If rnd.NextDouble() < p Then
                 x(i) = 1
@@ -279,9 +290,9 @@ Public Module ReferenceImpl
             i += 1
         End While
 
-        Dim k As Integer = N - 1
+        Dim k As Integer = numBalls - 1
 
-        While placed < B AndAlso k >= 0
+        While placed < numBlack AndAlso k >= 0
             If x(k) = 0 Then
                 x(k) = 1
                 placed += 1

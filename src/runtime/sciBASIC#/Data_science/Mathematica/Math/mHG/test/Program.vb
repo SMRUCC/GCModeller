@@ -64,27 +64,27 @@ Module Program
     Private Sub runRatioTests()
         section("1. d_ratio / v_ratio  vs  an independent hypergeometric PDF ratio")
 
-        Const N As Integer = 100
-        Const B As Integer = 40
+        Const numBalls As Integer = 100
+        Const numBlack As Integer = 40
 
-        For n As Integer = 1 To N - 1
-            Dim lo As Integer = System.Math.Max(1, B + n - N + 1)
-            Dim hi As Integer = System.Math.Min(n, B)
+        For draws As Integer = 1 To numBalls - 1
+            Dim lo As Integer = System.Math.Max(1, numBlack + draws - numBalls + 1)
+            Dim hi As Integer = System.Math.Min(draws, numBlack)
 
-            For b As Integer = lo To hi
-                Dim dPrev As Double = ReferenceImpl.HypergeometricPmf(b - 1, N, B, n - 1)
-                Dim pmf As Double = ReferenceImpl.HypergeometricPmf(b, N, B, n)
+            For hits As Integer = lo To hi
+                Dim dPrev As Double = ReferenceImpl.HypergeometricPmf(hits - 1, numBalls, numBlack, draws - 1)
+                Dim pmf As Double = ReferenceImpl.HypergeometricPmf(hits, numBalls, numBlack, draws)
 
                 If dPrev > 1.0E-200 Then
-                    checkDouble($"d_ratio(n={n}, b={b})",
-                                pmf / dPrev, mHGImpl.d_ratio(n, b, N, B), 1.0E-9)
+                    checkDouble($"d_ratio(n={draws}, b={hits})",
+                                pmf / dPrev, mHGImpl.d_ratio(draws, hits, numBalls, numBlack), 1.0E-9)
                 End If
 
-                Dim vPrev As Double = ReferenceImpl.HypergeometricPmf(b, N, B, n - 1)
+                Dim vPrev As Double = ReferenceImpl.HypergeometricPmf(hits, numBalls, numBlack, draws - 1)
 
                 If vPrev > 1.0E-200 Then
-                    checkDouble($"v_ratio(n={n}, b={b})",
-                                pmf / vPrev, mHGImpl.v_ratio(n, b, N, B), 1.0E-9)
+                    checkDouble($"v_ratio(n={draws}, b={hits})",
+                                pmf / vPrev, mHGImpl.v_ratio(draws, hits, numBalls, numBlack), 1.0E-9)
                 End If
             Next
         Next
@@ -152,7 +152,7 @@ Module Program
                  {0, 0, 0})
 
         checkPiR("N=10, B=3, line=[7,7,7,7]", 10, 3,
-                 zeros(5, 5),
+                 zeros(9, 5),
                  {7, 7, 7, 7})
 
         checkPiR("N=3, B=1, line=[0,2]", 3, 1,
@@ -296,7 +296,8 @@ Module Program
         checkPValue(6, 2, 5, 1.0 / 3.0, 2.0 / 5.0)
         checkPValue(6, 2, 5, 2.0 / 5.0, 8.0 / 15.0)
         checkPValue(6, 2, 5, 0.6, 2.0 / 3.0)
-        checkPValue(6, 2, 5, 0.8, 0.8)
+        checkPValue(6, 2, 5, 2.0 / 3.0, 0.8)
+        checkPValue(6, 2, 5, 0.8, 13.0 / 15.0)
         checkPValue(6, 2, 5, 14.0 / 15.0, 14.0 / 15.0)
     End Sub
 
@@ -315,7 +316,7 @@ Module Program
             Dim actual = mHGImpl.mHGstatisticcalc(vec(lambdas))
 
             checkDouble($"random(100, 40) #{trial} :: statistic",
-                        expected.mhg, actual.mHG, 1.0E-9)
+                        expected.mhg, actual.mHG, 0.000000001)
             checkInt($"random(100, 40) #{trial} :: n", expected.n, CInt(actual.n))
             checkInt($"random(100, 40) #{trial} :: b", expected.b, CInt(actual.b))
         Next
@@ -329,7 +330,7 @@ Module Program
         Dim expectedSparse = ReferenceImpl.mHGStatisticSimple(sparse)
         Dim actualSparse = mHGImpl.mHGstatisticcalc(vec(sparse))
 
-        checkDouble("sparse(500, 2) :: statistic", expectedSparse.mhg, actualSparse.mHG, 1.0E-12)
+        checkDouble("sparse(500, 2) :: statistic", expectedSparse.mhg, actualSparse.mHG, 0.000000000001)
         checkInt("sparse(500, 2) :: n", expectedSparse.n, CInt(actualSparse.n))
         checkInt("sparse(500, 2) :: b", expectedSparse.b, CInt(actualSparse.b))
     End Sub
@@ -390,7 +391,7 @@ Module Program
     End Sub
 
     Private Sub checkDouble(name As String, expected As Double, actual As Double,
-                            Optional tolerance# = 1.0E-9)
+                            Optional tolerance# = 0.000000001)
         testCount += 1
 
         Dim diff# = System.Math.Abs(expected - actual)
@@ -444,25 +445,26 @@ Module Program
         Return m
     End Function
 
-    Private Sub checkHGRow(label As String, m As Integer, n As Integer, b_n As Integer,
-                           N As Integer, B As Integer)
+    Private Sub checkHGRow(label As String, m As Integer, cutoff As Integer, b_n As Integer,
+                           numBalls As Integer, numBlack As Integer)
         ' R: HG_row_m[1:b_n] <- dhyper(0:(b_n - 1), B, N - B, m)
-        Dim rowM As New Vector(b_n)
+        ' the row must hold b_n + 1 cells, because the diagonal recurrence also writes HG_row_m[b_n + 1]
+        Dim rowM As New Vector(b_n + 1)
 
         For j As Integer = 0 To b_n - 1
-            rowM(j) = ReferenceImpl.HypergeometricPmf(j, N, B, m)
+            rowM(j) = ReferenceImpl.HypergeometricPmf(j, numBalls, numBlack, m)
         Next
 
         ' R: HG_row_n[1:(b_n + 1)] <- dhyper(0:b_n, B, N - B, n)
         Dim expected As New Vector(b_n + 1)
 
         For j As Integer = 0 To b_n
-            expected(j) = ReferenceImpl.HypergeometricPmf(j, N, B, n)
+            expected(j) = ReferenceImpl.HypergeometricPmf(j, numBalls, numBlack, cutoff)
         Next
 
         ' NOTE: both calculators update the given row in place, hence the copies.
-        Dim rowIter As Vector = mHGImpl.HG_row_ncalc.iter(New Vector(rowM), m, n, b_n, N, B)
-        Dim rowRecur As Vector = mHGImpl.HG_row_ncalc.recur(New Vector(rowM), m, n, b_n, N, B)
+        Dim rowIter As Vector = mHGImpl.HG_row_ncalc.iter(New Vector(rowM), m, cutoff, b_n, numBalls, numBlack)
+        Dim rowRecur As Vector = mHGImpl.HG_row_ncalc.recur(New Vector(rowM), m, cutoff, b_n, numBalls, numBlack)
 
         For j As Integer = 0 To b_n
             checkDouble($"{label} :: iter(j={j})", expected(j), rowIter(j), 1.0E-9)
