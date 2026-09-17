@@ -483,7 +483,8 @@ Namespace Math.SIMD
         ''' </summary>
         ''' <remarks>
         ''' 逐行累加绝对值，列方向仍然按 <c>[0, rows)</c> 的顺序累加，
-        ''' 因此结果与原实现逐位一致（不存在归约重排）。
+        ''' 因此结果与原实现逐位一致（不存在归约重排）；
+        ''' 累加过程使用就地内核，不需要为每一行生成绝对值临时数组。
         ''' </remarks>
         Public Shared Function Norm1(a As Double()()) As Double
             Call CheckNull(a, NameOf(a))
@@ -497,7 +498,7 @@ Namespace Math.SIMD
             Dim acc As Double() = SimdEngine.NewArray(Of Double)(cols)
 
             For i As Integer = 0 To rows - 1
-                Call SimdEngine.AddInPlace(Of Double)(acc, SimdMath.Abs(Of Double)(a(i)))
+                Call SimdEngine.AddAbsInPlace(acc, a(i))
             Next
 
             Return SimdReduce.Max(acc)
@@ -522,8 +523,15 @@ Namespace Math.SIMD
         ''' Frobenius 范数：<c>SQRT(SUM(a(i)(j) ^ 2))</c>。
         ''' </summary>
         ''' <remarks>
-        ''' 为保持与原先 <c>Hypot</c> 逐步缩放实现一致的抗上溢能力，这里先取矩阵的
-        ''' 最大绝对值作为缩放因子：<c>scale * SQRT(SUM((a / scale) ^ 2))</c>。
+        ''' <para>
+        ''' 与原先 <c>Hypot</c> 逐步缩放实现一样具备抗上溢能力：先用
+        ''' <see cref="SimdReduce.MaxAbs(Double(), Integer, Integer)"/> 探测矩阵的最大绝对值，
+        ''' 只有当它大到平方和可能上溢时（<c>&gt;= 1E+150</c>）才切换到缩放路径。
+        ''' </para>
+        ''' <para>
+        ''' 常规量级的数据直接累加平方和，因此热路径上没有任何逐行临时数组；
+        ''' 这也让常见的 <c>NormF</c> 调用不再是「每行两次分配」的形态。
+        ''' </para>
         ''' </remarks>
         Public Shared Function NormF(a As Double()()) As Double
             Call CheckNull(a, NameOf(a))
@@ -533,18 +541,28 @@ Namespace Math.SIMD
             For i As Integer = 0 To a.Length - 1
                 If RowLength(a, i) = 0 Then Continue For
 
-                scale = std.Max(scale, SimdReduce.Max(SimdMath.Abs(Of Double)(a(i))))
+                scale = std.Max(scale, SimdReduce.MaxAbs(a(i)))
             Next
 
             If scale = 0.0 Then Return 0.0
             If Double.IsInfinity(scale) Then Return Double.PositiveInfinity
             If Double.IsNaN(scale) Then Return Double.NaN
 
+            ' 平方和的上溢保护阈值（Double.MaxValue 的平方根量级）
+            Const overflowGuard As Double = 1.0E+150
+
             Dim sumSq As Double = 0
 
-            For i As Integer = 0 To a.Length - 1
-                If RowLength(a, i) = 0 Then Continue For
+            If scale < overflowGuard Then
+                For i As Integer = 0 To a.Length - 1
+                    sumSq += SimdReduce.SumSquares(a(i))
+                Next
 
+                Return std.Sqrt(sumSq)
+            End If
+
+            ' 极端量级：先缩放再累加，避免中间结果上溢
+            For i As Integer = 0 To a.Length - 1
                 sumSq += SimdReduce.SumSquares(SimdEngine.DivideScalar(a(i), scale))
             Next
 

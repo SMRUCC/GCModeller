@@ -178,6 +178,10 @@ Namespace Math.SIMD
         ''' <param name="v1"></param>
         ''' <param name="v2"></param>
         ''' <returns><c>SUM(v1(i) * v2(i))</c></returns>
+        ''' <remarks>
+        ''' 与 <see cref="SumSquaresFma(Double())"/> 一样使用 4 路独立累加器来打断
+        ''' FMA 的依赖链；归约顺序不同会带来 ULP 级差异。
+        ''' </remarks>
         Public Shared Function DotFma(v1 As Double(), v2 As Double()) As Double
             If v1 Is Nothing Then Throw New ArgumentNullException(NameOf(v1))
             If v2 Is Nothing Then Throw New ArgumentNullException(NameOf(v2))
@@ -192,19 +196,33 @@ Namespace Math.SIMD
             End If
 
             Dim count As Integer = Vector256(Of Double).Count
-            Dim acc As Vector256(Of Double) = Vector256(Of Double).Zero
+            Dim step4 As Integer = count * 4
+            Dim acc0 As Vector256(Of Double) = Vector256(Of Double).Zero
+            Dim acc1 As Vector256(Of Double) = Vector256(Of Double).Zero
+            Dim acc2 As Vector256(Of Double) = Vector256(Of Double).Zero
+            Dim acc3 As Vector256(Of Double) = Vector256(Of Double).Zero
             Dim i As Integer = 0
 
-            If len >= count Then
-                Dim last As Integer = len - count
+            If len >= step4 Then
+                Dim last4 As Integer = len - step4
 
-                Do While i <= last
-                    acc = Fma.MultiplyAdd(Load4(v1, i), Load4(v2, i), acc)
-                    i += count
+                Do While i <= last4
+                    acc0 = Fma.MultiplyAdd(Load4(v1, i), Load4(v2, i), acc0)
+                    acc1 = Fma.MultiplyAdd(Load4(v1, i + count), Load4(v2, i + count), acc1)
+                    acc2 = Fma.MultiplyAdd(Load4(v1, i + count * 2), Load4(v2, i + count * 2), acc2)
+                    acc3 = Fma.MultiplyAdd(Load4(v1, i + count * 3), Load4(v2, i + count * 3), acc3)
+                    i += step4
                 Loop
             End If
 
-            Dim sum As Double = HorizontalSum4(acc)
+            ' 不足 4 路的整块继续用单路累加
+            Do While i <= len - count
+                acc0 = Fma.MultiplyAdd(Load4(v1, i), Load4(v2, i), acc0)
+                i += count
+            Loop
+
+            Dim sum As Double = HorizontalSum4(
+                Vector256.Add(Vector256.Add(acc0, acc1), Vector256.Add(acc2, acc3)))
 
             Do While i < len
                 sum += v1(i) * v2(i)
@@ -256,6 +274,18 @@ Namespace Math.SIMD
         ''' <summary>
         ''' 平方和：<c>SUM(v(i) ^ 2)</c>，使用 FMA 融合乘加。
         ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' 使用 <b>4 路独立累加器</b>：FMA 的延时约为 4 个周期，若只用一个累加器，
+        ''' 整个循环会被这条依赖链串行化，吞吐无法超过「1 条 FMA / 4 周期」；
+        ''' 4 路累加器让乱序执行可以同时保持多条 FMA 在飞，长数组上能拿到接近
+        ''' 3~4 倍的额外提升（这也是 <see cref="SimdReduce.SumSquares(Double())"/>
+        ''' 采用同样策略的原因）。
+        ''' </para>
+        ''' <para>
+        ''' 归约顺序与单累加器版本不同，因此结果可能存在浮点末位（ULP）级差异。
+        ''' </para>
+        ''' </remarks>
         Public Shared Function SumSquaresFma(v As Double()) As Double
             If v Is Nothing Then Throw New ArgumentNullException(NameOf(v))
             If v.Length = 0 Then Return 0.0
@@ -265,19 +295,40 @@ Namespace Math.SIMD
 
             Dim len As Integer = v.Length
             Dim count As Integer = Vector256(Of Double).Count
-            Dim acc As Vector256(Of Double) = Vector256(Of Double).Zero
+            Dim step4 As Integer = count * 4
+            Dim acc0 As Vector256(Of Double) = Vector256(Of Double).Zero
+            Dim acc1 As Vector256(Of Double) = Vector256(Of Double).Zero
+            Dim acc2 As Vector256(Of Double) = Vector256(Of Double).Zero
+            Dim acc3 As Vector256(Of Double) = Vector256(Of Double).Zero
             Dim i As Integer = 0
 
-            If len >= count Then
-                Dim last As Integer = len - count
+            If len >= step4 Then
+                Dim last4 As Integer = len - step4
 
-                Do While i <= last
-                    acc = Fma.MultiplyAdd(Load4(v, i), Load4(v, i), acc)
-                    i += count
+                Do While i <= last4
+                    Dim x0 As Vector256(Of Double) = Load4(v, i)
+                    Dim x1 As Vector256(Of Double) = Load4(v, i + count)
+                    Dim x2 As Vector256(Of Double) = Load4(v, i + count * 2)
+                    Dim x3 As Vector256(Of Double) = Load4(v, i + count * 3)
+
+                    acc0 = Fma.MultiplyAdd(x0, x0, acc0)
+                    acc1 = Fma.MultiplyAdd(x1, x1, acc1)
+                    acc2 = Fma.MultiplyAdd(x2, x2, acc2)
+                    acc3 = Fma.MultiplyAdd(x3, x3, acc3)
+                    i += step4
                 Loop
             End If
 
-            Dim sum As Double = HorizontalSum4(acc)
+            ' 不足 4 路的整块继续用单路累加
+            Do While i <= len - count
+                Dim x As Vector256(Of Double) = Load4(v, i)
+
+                acc0 = Fma.MultiplyAdd(x, x, acc0)
+                i += count
+            Loop
+
+            Dim sum As Double = HorizontalSum4(
+                Vector256.Add(Vector256.Add(acc0, acc1), Vector256.Add(acc2, acc3)))
 
             Do While i < len
                 sum += v(i) * v(i)

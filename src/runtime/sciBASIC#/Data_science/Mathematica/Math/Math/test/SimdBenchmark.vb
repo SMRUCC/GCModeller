@@ -13,9 +13,10 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports SimdCapabilities = Microsoft.VisualBasic.Math.SIMD.SimdCapabilities
 Imports SimdEngine = Microsoft.VisualBasic.Math.SIMD.SimdEngine
-Imports SimdMatrix = Microsoft.VisualBasic.Math.SIMD.SimdMatrix
 Imports SimdParallel = Microsoft.VisualBasic.Math.SIMD.SimdParallel
+Imports SimdReduce = Microsoft.VisualBasic.Math.SIMD.SimdReduce
 Imports SIMDEnvironment = Microsoft.VisualBasic.Math.SIMD.SIMDEnvironment
+Imports SIMDIntrinsics = Microsoft.VisualBasic.Math.SIMD.SIMDIntrinsics
 Imports std = System.Math
 
 Public Module SimdBenchmark
@@ -41,11 +42,19 @@ Public Module SimdBenchmark
         Dim a As Double() = Fill(len, 1.25)
         Dim b As Double() = Fill(len, 0.75)
 
-        Console.WriteLine("--- 向量运算（长度 = 1,048,579） ---")
-        Bench("逐元素加法", Function() ScalarVectorAdd(a, b), Function() ChecksumFromVector(New Vector(a) + New Vector(b)))
-        Bench("点积", Function() ScalarDot(a, b), Function() Vector.dot(a, b))
-        Bench("平方和（Mod）", Function() ScalarDot(a, a), Function() New Vector(a).Mod)
-        Bench("L2 范数", Function() std.Sqrt(ScalarDot(a, a)), Function() New Vector(a).SumMagnitude)
+        Console.WriteLine("--- 向量内核（长度 = 1,048,579） ---")
+        Bench("逐元素加法", Function() ScalarVectorAdd(a, b), Function() Checksum(SimdEngine.Add(Of Double)(a, b)))
+        Bench("点积", Function() ScalarDot(a, b), Function() SimdParallel.Dot(a, b))
+        Bench("平方和", Function() ScalarDot(a, a), Function() SimdReduce.SumSquares(a))
+        Bench("平方和（FMA 4 路）", Function() ScalarDot(a, a), Function() SIMDIntrinsics.SumSquaresFma(a))
+        Bench("点积（FMA 4 路）", Function() ScalarDot(a, b), Function() SIMDIntrinsics.DotFma(a, b))
+        Bench("L2 范数", Function() std.Sqrt(ScalarDot(a, a)), Function() SimdParallel.L2Norm(a))
+        Console.WriteLine()
+
+        Console.WriteLine("--- 上层 Vector 对象（含对象构造与物化开销） ---")
+        Bench("Vector + Vector", Function() ScalarVectorAdd(a, b), Function() ChecksumFromVector(New Vector(a) + New Vector(b)))
+        Bench("Vector.Mod", Function() ScalarDot(a, a), Function() New Vector(a).Mod)
+        Bench("Vector.SumMagnitude", Function() std.Sqrt(ScalarDot(a, a)), Function() New Vector(a).SumMagnitude)
         Console.WriteLine()
 
         Const order As Integer = 1024

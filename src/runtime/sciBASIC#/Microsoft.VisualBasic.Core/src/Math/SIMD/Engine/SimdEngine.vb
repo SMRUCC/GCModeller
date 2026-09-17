@@ -72,6 +72,7 @@
 
 Imports System.Numerics
 Imports System.Runtime.CompilerServices
+Imports std = System.Math
 
 Namespace Math.SIMD
 
@@ -498,6 +499,41 @@ Namespace Math.SIMD
         ''' </summary>
         Public Shared Function SubtractInPlace(Of T As Structure)(v As T(), operand As T()) As T()
             Return InPlace(Of T)(v, operand, Function(a, b) Vector.Subtract(Of T)(a, b))
+        End Function
+
+        ''' <summary>
+        ''' 就地累加绝对值：<c>v(i) += |operand(i)|</c>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 用于逐行累加绝对值的归约（例如 1-范数）：相比「先 <c>SimdMath.Abs</c> 生成
+        ''' 临时数组再 <c>AddInPlace</c>」少了一整行数据的分配与往返读写。
+        ''' </remarks>
+        Public Shared Function AddAbsInPlace(v As Double(), operand As Double()) As Double()
+            v = CheckArgument(v, NameOf(v))
+            operand = CheckArgument(operand, NameOf(operand))
+
+            Dim len As Integer = v.Length
+            If len = 0 Then Return v
+
+            Dim count As Integer = Vector(Of Double).Count
+            Dim i As Integer = 0
+
+            If CanVectorize(Of Double)(len) Then
+                ' 就地运算不能使用重叠末块
+                Do While i <= len - count
+                    Vector.Add(Of Double)(
+                        New Vector(Of Double)(v, i),
+                        Vector.Abs(Of Double)(New Vector(Of Double)(operand, i))).CopyTo(v, i)
+                    i += count
+                Loop
+            End If
+
+            Do While i < len
+                v(i) += std.Abs(operand(i))
+                i += 1
+            Loop
+
+            Return v
         End Function
 
         ''' <summary>

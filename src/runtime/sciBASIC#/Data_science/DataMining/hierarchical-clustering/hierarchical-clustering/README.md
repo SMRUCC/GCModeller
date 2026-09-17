@@ -30,6 +30,52 @@ Dim cf As New CFTree(maxNodeEntries:=50, distThreshold:=0.5)
 Call cf.insertEntry(New Double() {1.0, 2.0, 3.0})
 ```
 
+## NumericTable entry points
+The unified 2D-table facade (in `NumericTableExtensions`) provides two channels:
+
+| Channel | Input | Entry points | Notes |
+|---|---|---|---|
+| Exact | **distance matrix** (square `NumericTable`) | `distanceMatrix()`, then `hca()` / `hcut(k)` / `hcut(threshold)` | Builds the full `n x n` distance matrix and `O(n^2)` linkages; suitable for small/medium `n`. |
+| Approximate (BIRCH) | **feature table** | `hcaApprox()` / `hcutApprox(k)` / `hcutApprox(threshold)` | Compresses `n` samples into `m` sub-clusters first; **never materialises the `n x n` distance matrix**. Intended for `n > 20000`. |
+
+```vbnet
+Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
+Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.BIRCH
+
+' exact channel (feature table -> distance matrix -> dendrogram)
+Dim dist = x.distanceMatrix()
+Dim tree = dist.hca()
+Dim flat = dist.hcut(k:=3)
+
+' approximate channel for large data sets (feature table -> BIRCH -> dendrogram)
+Dim options As New BirchOptions With {
+    .targetSubclusters = 2000,   ' m, controls the compression ratio
+    .maxNodeEntries = 50,        ' BIRCH parameter B
+    .silent = True
+}
+Dim approxTree = x.hcaApprox(options)
+Dim approxFlat = x.hcutApprox(k:=6, options:=options)
+```
+
+`BirchOptions.threshold` may be set explicitly; when left at `<= 0` the radius is derived
+automatically (exponential growth + binary refinement) so that the number of sub-clusters
+stays near `targetSubclusters`. Because the second stage only ever sees `m` centroids,
+memory and time scale with `m` rather than with `n`.
+
+## Performance notes
+- `DistanceMap` is an indexed binary min-heap with lazy deletion and periodic compaction:
+  link removal is `O(1)`, insertion/minimum extraction is `O(log m)`. The previous
+  sorted-list implementation performed a linear scan on every removal and re-sorted the
+  whole link table on every merge, which made the agglomerative stage roughly `O(n^4)`.
+- `HierarchyBuilder.Agglomerate` updates the link table in place (no per-iteration PLINQ,
+  no per-cluster temporary collections, no per-iteration sort).
+- Link hash keys are derived from a monotonic integer `Cluster.Id` (bit-packed, collision
+  free) with an avalanche-mixing comparer, instead of hashing/compare cluster names.
+- `Cluster.Leafs` is cached incrementally during merges, and `Cluster.LeafNames` is computed
+  lazily on first access (previously it was copied eagerly on every merge, `O(n^2)`).
+- The BIRCH pre-clustering path disables the periodic memory-limit rebuild by default and no
+  longer forces blocking `GC.Collect()` calls during root splits / tree rebuilds.
+
 ## Package
 - Assembly: `Microsoft.VisualBasic.DataMining.HierarchicalClustering`
 - TargetFramework: `net10.0`
