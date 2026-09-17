@@ -33,6 +33,18 @@ declare namespace sigma_difference {
       */
       function CAI(genes: object, WorkTemp?: string): object;
    }
+   /**
+    * Using the DNA segment between the ``dnaA`` and ``gyrB`` as the reference rule.
+    * 
+    * 
+     * @param nt a fasta sequence object or NCBI genbank database object.
+     * @param context -
+     * 
+     * + default value Is ``null``.
+     * @param env 
+     * + default value Is ``null``.
+   */
+   function dnaA_gyrB(nt: any, context?: object, env?: object): object;
    module genome {
       /**
        * 并行版本的计算函数
@@ -103,6 +115,30 @@ declare namespace sigma_difference {
       */
       function delta_source(source: string, query: object, render_source: string, saveto: string, samples?: object): boolean;
    }
+   module seq {
+      /**
+       * Create a distance matrix for a given sequence collection
+       * 
+       * 
+        * @param seqs -
+      */
+      function dist(seqs: any): object;
+   }
+   /**
+    * A measure of difference between two sequences f and g (from different organisms or from different regions of the same genome) 
+    *  is the average absolute dinucleotide relative abundance difference calculated as
+    * 
+    * ```
+    *  sigma(f, g) = (1/16)*∑|pXY(f)-pXY(g)|
+    *  ```
+    *  
+    *  where the sum extends over all dinucleotides (abbreviated sigma-differences).
+    * 
+    * 
+     * @param f -
+     * @param g -
+   */
+   function sigma(f: object, g: object): object;
    module sigma_diff {
       /**
        * 

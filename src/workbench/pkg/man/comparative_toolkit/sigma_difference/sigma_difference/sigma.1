@@ -1,0 +1,33 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "sigma" "sigma"
+.SH NAME
+sigma \- A measure of difference between two sequences f and g (from different organisms or from different regions of the same genome)
+.SH SYNOPSIS
+\fIsigma(\fBf\fR as <generic> FastaSeq, 
+\fBg\fR as <generic> FastaSeq);\fR
+.SH DESCRIPTION
+.PP
+A measure of difference between two sequences f and g (from different organisms or from different regions of the same genome) 
+ is the average absolute dinucleotide relative abundance difference calculated as
+
+\fB
+ sigma(f, g) = (1/16)*∑|pXY(f)-pXY(g)|
+ \fR`
+ 
+ where the sum extends over all dinucleotides (abbreviated sigma-differences).
+.PP
+.SH OPTIONS
+.PP
+\fBf\fB \fR\- -. 
+.PP
+.PP
+\fBg\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

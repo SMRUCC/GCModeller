@@ -16,3 +16,6 @@ Calculates the nucleotide sequence Delta similarity to measure how closed betwee
 + [Partition.Similarity.Calculates](sigma_difference/Partition.Similarity.Calculates.1) 计算基因组之中的不同的功能分段之间的同质性
 + [Partitions.Creates](sigma_difference/Partitions.Creates.1) 
 + [measure_homogeneity](sigma_difference/measure_homogeneity.1) measuring the homogeneity property using a specific rule 
++ [seq.dist](sigma_difference/seq.dist.1) Create a distance matrix for a given sequence collection
++ [sigma](sigma_difference/sigma.1) A measure of difference between two sequences f and g (from different organisms or from different regions of the same genome) 
++ [dnaA_gyrB](sigma_difference/dnaA_gyrB.1) Using the DNA segment between the ``dnaA`` and ``gyrB`` as the reference rule.
