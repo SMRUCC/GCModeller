@@ -64,6 +64,8 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         Public Property LpSolves As Integer
         Public Property CutsAdded As Integer
         Public Property HeuristicSolutions As Integer
+        ''' <summary>因 LP 数值失败（冷启动也无法求解）而被丢弃的子树数量；&gt; 0 时最优性未被证明</summary>
+        Public Property DroppedNodes As Integer = 0
         ''' <summary>根节点 LP 松弛在原始方向下的目标值（Nothing 表示未求解）</summary>
         Public Property RootRelaxation As Double? = Nothing
         ''' <summary>是否在根节点即得到整数可行解</summary>
@@ -155,6 +157,10 @@ Namespace LinearAlgebra.LinearProgramming.MILP
 
             sb.AppendLine($"统计: 节点 {NodesExplored}，LP 求解 {LpSolves}，割平面 {CutsAdded}，" &
                           $"启发式可行解 {HeuristicSolutions}，耗时 {ElapsedMilliseconds} ms")
+
+            If DroppedNodes > 0 Then
+                sb.AppendLine($"警告: {DroppedNodes} 个节点因 LP 数值失败被丢弃，最优性未被证明。")
+            End If
 
             Return sb.ToString()
         End Function

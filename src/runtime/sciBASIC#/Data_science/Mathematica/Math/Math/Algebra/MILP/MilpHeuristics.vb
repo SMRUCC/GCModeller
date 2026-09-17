@@ -56,6 +56,25 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         End Function
 
         ''' <summary>
+        ''' 按变量索引顺序挑选第一个分数整数变量对应的工作列；没有则返回 −1。
+        ''' </summary>
+        Public Function FirstFractionalWorkColumn(form As MilpLpForm, x As Double(), tol As Double) As Integer
+            For Each j As Integer In form.IntegerVariables
+                Dim cols As Integer() = form.VariableColumns(j)
+
+                If cols.Length <> 1 Then Continue For
+
+                Dim k As Integer = cols(0)
+                Dim v As Double = form.ColumnShift(k) + form.ColumnSign(k) * x(k)
+                Dim frac As Double = v - std.Floor(v)
+
+                If frac > tol AndAlso frac < 1.0 - tol Then Return k
+            Next
+
+            Return -1
+        End Function
+
+        ''' <summary>
         ''' 检查工作解是否满足全部等式约束与变量界（整数性由调用方保证）。
         ''' </summary>
         Public Function Feasible(form As MilpLpForm, x As Double(), tol As Double) As Boolean

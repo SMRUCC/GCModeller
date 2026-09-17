@@ -48,6 +48,7 @@ Public Module MilpSelfTest
         T9()
         T10()
         T11()
+        T12()
 
         Console.WriteLine($"=== {If(failures = 0, "ALL TESTS PASSED", failures & " TEST(S) FAILED")} ===")
 
@@ -411,6 +412,111 @@ Public Module MilpSelfTest
         Next
 
         Check(ok, "全部模型的可行性 / 整数性 / 目标对账")
+    End Sub
+
+    ' ==================================================================
+    ' T12：分支规则 / 节点选择规则一致性
+    ' ==================================================================
+
+    ''' <summary>
+    ''' 30 件 0/1 背包的实例数据（固定随机种子；容量取整以便用 DP 精确校验）。
+    ''' </summary>
+    Friend Function Knapsack30Data() As (weights As Integer(), values As Double(), capacity As Integer)
+        Dim rng As New System.Random(7)
+        Dim n As Integer = 30
+        Dim weights(n - 1) As Integer
+        Dim values(n - 1) As Double
+        Dim total As Integer = 0
+
+        For i As Integer = 0 To n - 1
+            weights(i) = rng.Next(2, 30)
+            values(i) = System.Math.Round(weights(i) * (1.0 + 0.6 * rng.NextDouble()), 2)
+            total += weights(i)
+        Next
+
+        Dim capacity As Integer = CInt(System.Math.Floor(total * 0.4))
+
+        Return (weights, values, capacity)
+    End Function
+
+    ''' <summary>由实例数据构造 30 件 0/1 背包 MILP 模型。</summary>
+    Friend Function Knapsack30Model() As MilpModel
+        Dim d = Knapsack30Data()
+
+        Return KnapsackModelOf(d.weights, d.values, d.capacity)
+    End Function
+
+    Friend Function KnapsackModelOf(weights As Integer(), values As Double(), capacity As Integer) As MilpModel
+        Dim model As New MilpModel With {.ObjectiveSense = "max"}
+        Dim row As New Dictionary(Of String, Double)()
+
+        For i As Integer = 0 To weights.Length - 1
+            model.AddVariable($"x{i + 1}", values(i), MilpVarType.Binary)
+            row($"x{i + 1}") = weights(i)
+        Next
+
+        model.AddConstraint(row, "<=", capacity)
+
+        Return model
+    End Function
+
+    ''' <summary>
+    ''' 0/1 背包精确解（一维动态规划，独立于 MILP 求解器的对照实现）。
+    ''' 要求重量与容量为正整数。
+    ''' </summary>
+    Friend Function KnapsackDPExact(weights As Integer(), values As Double(), capacity As Integer) As Double
+        Dim dp(capacity) As Double
+
+        For i As Integer = 0 To weights.Length - 1
+            Dim w As Integer = weights(i)
+
+            For c As Integer = capacity To w Step -1
+                Dim candidate As Double = dp(c - w) + values(i)
+
+                If candidate > dp(c) Then dp(c) = candidate
+            Next
+        Next
+
+        Return dp(capacity)
+    End Function
+
+    Private Sub T12()
+        Dim data = Knapsack30Data()
+        Dim exact As Double = KnapsackDPExact(data.weights, data.values, data.capacity)
+
+        Console.WriteLine($"-- T12 分支规则 / 节点规则一致性（30 件背包，DP 精确解 {exact:G8}）--")
+
+        Dim combos As (BranchRule, NodeRule)() = {
+            (BranchRule.MostFractional, NodeRule.BestBound),
+            (BranchRule.FirstFractional, NodeRule.DepthFirst),
+            (BranchRule.PseudoCost, NodeRule.BestBound),
+            (BranchRule.PseudoCost, NodeRule.DepthFirst)
+        }
+
+        For Each c In combos
+            Dim model = Knapsack30Model()
+
+            Dim sol = MilpSolver.Solve(model, New MilpOptions With {
+                .Branch = c.Item1,
+                .Node = c.Item2,
+                .MaxSeconds = 120
+            })
+
+            Dim objectiveOk As Boolean = sol.Status = MilpStatus.Optimal AndAlso
+                                          System.Math.Abs(sol.ObjectiveValue - exact) < 0.005
+            Dim feasibleOk As Boolean = sol.Solution IsNot Nothing AndAlso
+                                        ProgramMilp.Verify(model, sol, System.IO.TextWriter.Null) AndAlso
+                                        IsIntegral(model, sol)
+
+            Check(objectiveOk AndAlso feasibleOk AndAlso sol.DroppedNodes = 0,
+                  $"分支={c.Item1}, 节点={c.Item2}",
+                  $"状态={sol.StatusText()}，obj={sol.ObjectiveValue:G8}，节点={sol.NodesExplored}，" &
+                  $"割={sol.CutsAdded}，LP={sol.LpSolves}，丢弃={sol.DroppedNodes}，{sol.ElapsedMilliseconds}ms")
+
+            If Not objectiveOk Then
+                Console.WriteLine($"      诊断日志: {sol.Log.Replace(vbLf, " | ")}")
+            End If
+        Next
     End Sub
 
     ' ==================================================================

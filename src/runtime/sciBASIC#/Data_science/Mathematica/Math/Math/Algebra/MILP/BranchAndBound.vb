@@ -43,6 +43,14 @@ Namespace LinearAlgebra.LinearProgramming.MILP
             Public Property Depth As Integer
             Public Property Id As Integer
 
+            ' ---- 伪成本统计用（生成该节点时的分支信息）----
+            ''' <summary>生成该节点时分支的原始变量索引；根节点为 −1</summary>
+            Public Property BranchVar As Integer = -1
+            ''' <summary>是否为向上分支（x ≥ ⌈v⌉）</summary>
+            Public Property BranchUp As Boolean = False
+            ''' <summary>父节点的界（用于计算分支带来的界退化）</summary>
+            Public Property ParentBound As Double = 0.0
+
         End Class
 
         Private ReadOnly form As MilpLpForm
@@ -59,6 +67,8 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         Private heuristicsHits As Integer = 0
         Private nodesExplored As Integer = 0
         Private nextId As Integer = 0
+        ''' <summary>因 LP 数值失败（冷启动也无法求解）而被丢弃的子树数量</summary>
+        Private droppedByNumeric As Integer = 0
 
         Private bestX As Double() = Nothing
         Private bestInternal As Double = Double.PositiveInfinity
@@ -68,12 +78,30 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         Private stopStatus As MilpStatus = MilpStatus.Optimal
         Private stopMessage As String = ""
 
+        ''' <summary>伪成本状态：按原始变量累计"分支单位取整距离引起的界退化"</summary>
+        Private ReadOnly pcDown As Double()
+        Private ReadOnly pcUp As Double()
+        Private ReadOnly pcDownCount As Integer()
+        Private ReadOnly pcUpCount As Integer()
+
         Public Sub New(form As MilpLpForm, options As MilpOptions, log As List(Of String), watch As Stopwatch)
             Me.form = form
             Me.options = options
             Me.log = log
             Me.watch = watch
             Me.tol = options.FeasibilityTolerance
+
+            Dim n As Integer = form.OriginalVariableCount
+
+            pcDown = New Double(n - 1) {}
+            pcUp = New Double(n - 1) {}
+            pcDownCount = New Integer(n - 1) {}
+            pcUpCount = New Integer(n - 1) {}
+
+            For j As Integer = 0 To n - 1
+                pcDown(j) = 1.0
+                pcUp(j) = 1.0
+            Next
         End Sub
 
         ' ====================================================================
@@ -164,6 +192,10 @@ Namespace LinearAlgebra.LinearProgramming.MILP
 
                 ' 按界剪枝
                 If bestX IsNot Nothing AndAlso node.Bound >= bestInternal - options.AbsoluteGap Then
+                    If options.Verbose Then
+                        log.Add($"    剪枝 节点#{node.Id} 深度{node.Depth} 界{node.Bound:G8} vs incumbent {bestInternal:G8}")
+                    End If
+
                     Continue While
                 End If
 
@@ -176,6 +208,13 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                 Dim r As BsResult = simplex.Solve(node.Basis, node.AtUpper, options.LpIterationLimit)
                 lpSolves += 1
 
+                If Not r.IsOptimal Then
+                    ' 热启动（对偶单纯形）失败 → 冷启动兜底重解，避免把"数值失败"
+                    ' 误判为不可行而静默丢弃子树（这会破坏最优性证明）。
+                    r = simplex.Solve(Nothing, Nothing, options.LpIterationLimit)
+                    lpSolves += 1
+                End If
+
                 If r.Status = BsStatus.Infeasible Then Continue While
 
                 If r.Status = BsStatus.Unbounded Then
@@ -184,16 +223,22 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                     Exit While
                 End If
 
-                If Not r.IsOptimal Then Continue While     ' 数值失败/迭代超限 → 剪掉该节点
+                If Not r.IsOptimal Then
+                    ' 冷启动仍失败：该子树无法证明，记录下来（最终不宣称最优）
+                    droppedByNumeric += 1
+                    Continue While
+                End If
 
                 Dim nodeBound As Double = form.InternalObjective(r.X)
+
+                UpdatePseudoCost(node, nodeBound)
 
                 If bestX IsNot Nothing AndAlso nodeBound >= bestInternal - options.AbsoluteGap Then
                     Continue While
                 End If
 
                 ' ---------- 整数可行性 ----------
-                Dim k As Integer = MilpHeuristics.PickFractionalWorkColumn(form, r.X, options.IntegerTolerance)
+                Dim k As Integer = PickBranchColumn(r)
 
                 If k < 0 Then
                     RecordIncumbent(r.X)
@@ -218,8 +263,15 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                 If up <= xj + 1.0E-12 Then up = xj + 1.0
 
                 Dim pushed As Boolean = False
-                pushed = pushed OrElse PushChild(node, k, j, ob.lo, down, nodeBound, r)
-                pushed = pushed OrElse PushChild(node, k, j, up, ob.hi, nodeBound, r)
+                Dim pushDown As Boolean = PushChild(node, k, j, ob.lo, down, False, nodeBound, r)
+                Dim pushUp As Boolean = PushChild(node, k, j, up, ob.hi, True, nodeBound, r)
+
+                pushed = pushDown OrElse pushUp
+
+                If options.Verbose Then
+                    log.Add($"    节点#{node.Id} 深度{node.Depth} 界{nodeBound:G8} → 分支 var{j} 值{xj:G10} " &
+                            $"[≤{down:G6}:{If(pushDown, "推", "跳过")} ≥{up:G6}:{If(pushUp, "推", "跳过")}] 开集{open.Count}")
+                End If
 
                 If Not pushed Then
                     ' 分支未能收紧任何一侧（数值退化）→ 该节点视为叶子
@@ -230,6 +282,12 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                     End If
                 End If
             End While
+
+            ' ---------- 搜索摘要（始终记录，便于诊断）----------
+            log.Add($"  搜索结束: 节点 {nodesExplored}，开集 {open.Count}，LP 求解 {lpSolves}，" &
+                    $"incumbent {(If(bestX Is Nothing, "无", BestOriginalValue().ToString("G8")))}，" &
+                    $"全局界 {(If(Double.IsNaN(GlobalBoundInternal()), "n/a", (form.ObjOffset + form.Sigma * GlobalBoundInternal()).ToString("G8")))}，" &
+                    $"丢弃 {droppedByNumeric}")
 
             ' ---------- 结果状态 ----------
             Dim status As MilpStatus
@@ -416,7 +474,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         ''' 按 [newLower, newUpper]（原始变量界）生成子节点；若界未收紧则返回 False。
         ''' </summary>
         Private Function PushChild(parent As Node, workCol As Integer, varIndex As Integer,
-                                   newLower As Double, newUpper As Double,
+                                   newLower As Double, newUpper As Double, branchUp As Boolean,
                                    parentBound As Double, parentRes As BsResult) As Boolean
 
             Dim wb = form.WorkBoundsFor(varIndex, newLower, newUpper)
@@ -441,11 +499,90 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                 .Basis = parentRes.Basis,
                 .AtUpper = parentRes.AtUpper,
                 .Depth = parent.Depth + 1,
-                .Id = TakeId()
+                .Id = TakeId(),
+                .BranchVar = varIndex,
+                .BranchUp = branchUp,
+                .ParentBound = parentBound
             })
 
             Return True
         End Function
+
+        ' ====================================================================
+        ' 分支变量选择（most-fractional / first-fractional / 伪成本）
+        ' ====================================================================
+
+        Private Function PickBranchColumn(r As BsResult) As Integer
+            Select Case options.Branch
+                Case BranchRule.FirstFractional
+                    Return MilpHeuristics.FirstFractionalWorkColumn(form, r.X, options.IntegerTolerance)
+
+                Case BranchRule.PseudoCost
+                    Return PickByPseudoCost(r)
+
+                Case Else
+                    Return MilpHeuristics.PickFractionalWorkColumn(form, r.X, options.IntegerTolerance)
+            End Select
+        End Function
+
+        ''' <summary>
+        ''' 伪成本分支：score = min(Δdown·pcDown, Δup·pcUp)，取 score 最大者
+        ''' （两方向都"贵"的变量优先分支；pc 初值为 1，随观测更新）。
+        ''' </summary>
+        Private Function PickByPseudoCost(r As BsResult) As Integer
+            Dim bestK As Integer = -1
+            Dim bestScore As Double = Double.NegativeInfinity
+
+            For Each j As Integer In form.IntegerVariables
+                Dim cols As Integer() = form.VariableColumns(j)
+
+                If cols.Length <> 1 Then Continue For
+
+                Dim k As Integer = cols(0)
+                Dim v As Double = form.ColumnShift(k) + form.ColumnSign(k) * r.X(k)
+                Dim frac As Double = v - std.Floor(v)
+
+                If frac <= options.IntegerTolerance OrElse frac >= 1.0 - options.IntegerTolerance Then Continue For
+
+                Dim downDist As Double = frac
+                Dim upDist As Double = 1.0 - frac
+                Dim pcD As Double = pcDown(j) / std.Max(1, pcDownCount(j))
+                Dim pcU As Double = pcUp(j) / std.Max(1, pcUpCount(j))
+                Dim score As Double = std.Min(downDist * pcD, upDist * pcU)
+
+                If score > bestScore Then
+                    bestScore = score
+                    bestK = k
+                End If
+            Next
+
+            If bestK < 0 Then
+                Return MilpHeuristics.PickFractionalWorkColumn(form, r.X, options.IntegerTolerance)
+            End If
+
+            Return bestK
+        End Function
+
+        ''' <summary>用子节点实际界退化更新伪成本统计。</summary>
+        Private Sub UpdatePseudoCost(node As Node, nodeBound As Double)
+            If node.BranchVar < 0 Then Return
+
+            Dim j As Integer = node.BranchVar
+
+            If j < 0 OrElse j >= pcDown.Length Then Return
+
+            Dim delta As Double = nodeBound - node.ParentBound
+
+            If delta < 0.0 OrElse Double.IsNaN(delta) Then delta = 0.0
+
+            If node.BranchUp Then
+                pcUp(j) += delta
+                pcUpCount(j) += 1
+            Else
+                pcDown(j) += delta
+                pcDownCount(j) += 1
+            End If
+        End Sub
 
         ' ====================================================================
         ' 无约束特例与结果封装
@@ -471,6 +608,12 @@ Namespace LinearAlgebra.LinearProgramming.MILP
         End Function
 
         Private Function Finish(status As MilpStatus, message As String) As MilpSolution
+            ' 有子树因数值失败被丢弃时，不能宣称"已证明最优"
+            If droppedByNumeric > 0 AndAlso status = MilpStatus.Optimal Then
+                status = MilpStatus.Error
+                message = $"{droppedByNumeric} 个节点因 LP 数值失败被丢弃，最优性未被证明（返回当前最优可行解）。"
+            End If
+
             Dim objVal As Double = Double.NaN
             Dim bound As Double = Double.NaN
             Dim gap As Double = Double.PositiveInfinity
@@ -500,6 +643,7 @@ Namespace LinearAlgebra.LinearProgramming.MILP
             sol.LpSolves = lpSolves
             sol.CutsAdded = cutsAdded
             sol.HeuristicSolutions = heuristicsHits
+            sol.DroppedNodes = droppedByNumeric
             sol.RootRelaxation = rootRelax
             sol.IncumbentAtRoot = incumbentAtRoot
             sol.ElapsedMilliseconds = watch.ElapsedMilliseconds

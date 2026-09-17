@@ -4,7 +4,9 @@
 ' 用法：
 '   dotnet run                 运行全部演示（默认 demo）
 '   dotnet run -- demo         同上
-'   dotnet run -- selftest     内置自检（与暴力枚举/已知最优对拍）
+'   dotnet run -- selftest     内置自检（与暴力枚举 / DP 精确解 / 已知最优对拍）
+'   dotnet run -- lpp          既有 IPM+Crossover 线性规划演示
+'   dotnet run -- lpp-selftest 既有线性规划自检
 '
 ' 演示覆盖：0/1 背包、一般整数生产计划、设施选址（二进制 + 连续）、
 ' 指派问题、连续+整数混合（= 与 ≥ 约束）、不可行、无界，
@@ -19,8 +21,16 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming.MILP
 Public Module ProgramMilp
 
     Public Function Main(args As String()) As Integer
-        If args.Length > 0 AndAlso args(0).Equals("selftest", System.StringComparison.OrdinalIgnoreCase) Then
-            Return MilpSelfTest.RunAll()
+        If args.Length > 0 Then
+            Select Case args(0).ToLowerInvariant()
+                Case "selftest"
+                    Return MilpSelfTest.RunAll()
+                Case "lpp"
+                    ' 保持对既有 LP 求解器演示入口的访问（自 test.vbproj 的启动对象切换之后）
+                    Return ProgramLpp.Main(New String() {})
+                Case "lpp-selftest"
+                    Return ProgramLpp.Main(New String() {"selftest"})
+            End Select
         End If
 
         RunDemos()
@@ -193,25 +203,11 @@ Public Module ProgramMilp
     ' 演示 8：稍大规模 0/1 背包（30 件，展示割平面 / 启发式效果）
     ' ------------------------------------------------------------------
     Private Sub DemoLargeKnapsack()
-        Dim rng As New System.Random(7)
-        Dim n As Integer = 30
-        Dim model As New MilpModel With {.ObjectiveSense = "max"}
-        Dim row As New Dictionary(Of String, Double)()
-        Dim capacity As Double = 0
+        Dim data = MilpSelfTest.Knapsack30Data()
+        Dim model = MilpSelfTest.KnapsackModelOf(data.weights, data.values, data.capacity)
+        Dim exact As Double = MilpSelfTest.KnapsackDPExact(data.weights, data.values, data.capacity)
 
-        For i As Integer = 1 To n
-            Dim weight As Double = rng.Next(2, 30)
-            Dim value As Double = System.Math.Round(weight * (1.0 + 0.6 * rng.NextDouble()), 2)
-
-            model.AddVariable($"x{i}", value, MilpVarType.Binary)
-            row($"x{i}") = weight
-            capacity += weight
-        Next
-
-        capacity = System.Math.Round(capacity * 0.4, 1)
-        model.AddConstraint(row, "<=", capacity)
-
-        RunAndReport($"演示 8：30 件 0/1 背包（容量 {capacity}，LP 松弛通常含分数解 → 检验分支定界）", model)
+        RunAndReport($"演示 8：30 件 0/1 背包（容量 {data.capacity}，动态规划精确解 {exact:G8} → 与分支定界结果对拍）", model)
     End Sub
 
     ' ==================================================================
