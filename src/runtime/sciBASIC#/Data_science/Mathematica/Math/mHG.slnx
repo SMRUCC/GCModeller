@@ -10,6 +10,9 @@
     <Platform Solution="Debug|ARM32" Project="x64" />
     <Platform Solution="Release|ARM32" Project="ARM32" />
   </Project>
+  <Project Path="Math/Math.NET5.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
   <Project Path="mHG/mHG.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
