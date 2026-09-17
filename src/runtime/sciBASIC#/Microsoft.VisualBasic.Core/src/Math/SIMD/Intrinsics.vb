@@ -323,6 +323,52 @@ Namespace Math.SIMD
         End Function
 
         ''' <summary>
+        ''' 就地 AXPY：<c>y(i) += alpha * x(i)</c>，使用 FMA 融合乘加。
+        ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' 这是矩阵分解/求解器里出现频率最高的一类 BLAS-1 操作（列消元、Gram-Schmidt
+        ''' 正交化、秩一更新的行部分），就地更新可以避免为每次迭代分配临时数组。
+        ''' </para>
+        ''' <para>
+        ''' <b>为什么不使用“末块与末尾重叠”的技巧</b>：输入与输出共用同一块内存，
+        ''' 重叠部分会把已经更新过的元素再算一次，因此尾块退化为单通道逐元素计算。
+        ''' </para>
+        ''' </remarks>
+        Public Shared Sub AxpyInPlace(alpha As Double, x As Double(), y As Double())
+            If x Is Nothing Then Throw New ArgumentNullException(NameOf(x))
+            If y Is Nothing Then Throw New ArgumentNullException(NameOf(y))
+
+            Dim len As Integer = y.Length
+            If len = 0 Then Return
+            If x.Length <> len Then
+                Throw New ArgumentException($"vector size not agree: {x.Length} vs {len}!")
+            End If
+
+            If Not SimdCapabilities.IsFma Then
+                ' 无 FMA 时退化为“先数乘再就地累加”，仍然是向量化路径
+                Dim scaled As Double() = SimdEngine.MultiplyScalar(Of Double)(alpha, x)
+
+                Call SimdEngine.AddInPlace(Of Double)(y, scaled)
+                Return
+            End If
+
+            Dim count As Integer = Vector256(Of Double).Count
+            Dim a As Vector256(Of Double) = Vector256.Create(Of Double)(alpha)
+            Dim i As Integer = 0
+
+            Do While i <= len - count
+                Call Store4(Fma.MultiplyAdd(a, Load4(x, i), Load4(y, i)), y, i)
+                i += count
+            Loop
+
+            Do While i < len
+                y(i) += alpha * x(i)
+                i += 1
+            Loop
+        End Sub
+
+        ''' <summary>
         ''' 融合乘加：<c>out(i) = v1(i) * v2(i) + acc(i)</c>
         ''' </summary>
         Public Shared Function MultiplyAdd(v1 As Double(), v2 As Double(), acc As Double()) As Double()
