@@ -233,6 +233,15 @@ Namespace LinearAlgebra.LinearProgramming.MILP
             Return ObjOffset + Sigma * InternalObjective(xWork)
         End Function
 
+        ''' <summary>工作列绑定的原始变量是否为整数（松弛/剩余列为 False）。</summary>
+        Public Function IsIntegerColumn(k As Integer) As Boolean
+            Dim j As Integer = _colOrig(k)
+
+            If j < 0 Then Return False
+
+            Return _types(j) = MilpVarType.GeneralInteger OrElse _types(j) = MilpVarType.Binary
+        End Function
+
         ''' <summary>内部 min 方向目标值。</summary>
         Public Function InternalObjective(xWork As Double()) As Double
             Dim s As Double = 0.0
@@ -591,7 +600,8 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                         Dim newUb As Double = ub(j)
 
                         If op = "<=" OrElse op = "=" Then
-                            Dim bound As Double = rhs(i) - minOther
+                            ' a·x_k ≤ rhs − minOther  ⇒  按 a 的符号定向收紧（务必除以 a）
+                            Dim bound As Double = (rhs(i) - minOther) / a
 
                             If a > 0 Then
                                 If bound < newUb Then newUb = bound
@@ -601,7 +611,8 @@ Namespace LinearAlgebra.LinearProgramming.MILP
                         End If
 
                         If op = ">=" OrElse op = "=" Then
-                            Dim bound As Double = rhs(i) - maxOther
+                            ' a·x_k ≥ rhs − maxOther  ⇒  按 a 的符号定向收紧（务必除以 a）
+                            Dim bound As Double = (rhs(i) - maxOther) / a
 
                             If a > 0 Then
                                 If bound > newLb Then newLb = bound
