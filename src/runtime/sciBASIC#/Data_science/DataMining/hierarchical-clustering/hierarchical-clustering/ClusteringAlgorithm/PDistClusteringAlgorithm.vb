@@ -140,8 +140,8 @@ Public Class PDistClusteringAlgorithm
         Dim clusters As New List(Of Cluster)
 
         For Each clusterName As String In clusterNames
+            ' 叶节点的 LeafNames 由 Cluster 惰性计算为 [Name]，无需在此重复添加
             Dim cluster As New Cluster(clusterName)
-            cluster.AddLeafName(clusterName)
             clusters.Add(cluster)
         Next
 
