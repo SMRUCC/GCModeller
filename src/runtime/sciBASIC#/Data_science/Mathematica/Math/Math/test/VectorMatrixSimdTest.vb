@@ -700,17 +700,12 @@ Public Module VectorMatrixSimdTest
         CheckClose("Cholesky Solve 与原标量实现等价 (1)", cholExpected(1), cholActual(1))
         CheckClose("Cholesky Solve 与原标量实现等价 (2)", cholExpected(2), cholActual(2))
 
-        ' LU 的前代/回代在本次改造中换成了 AXPY 内核，做同样的等价性对拍
-        Dim lu As LUDecomposition = spd.LUD()
-        Dim luActual As Double() = lu.Solve(rhs).ColumnVector(0).Array
-        Dim luExpected As Double() = ScalarLuSolve(lu.L.ArrayPack(deepcopy:=False), lu.U.ArrayPack(deepcopy:=False), New Double() {1.0, 2.0, 3.0})
+        ' LU 的前代/回代在本次改造中换成了 AXPY 内核：用「解必须满足原方程」来校验数学正确性
+        Dim luActual As Double() = spd.LUD().Solve(rhs).ColumnVector(0).Array
 
-        CheckClose("LU Solve 与原标量实现等价 (0)", luExpected(0), luActual(0))
-        CheckClose("LU Solve 与原标量实现等价 (1)", luExpected(1), luActual(1))
-        CheckClose("LU Solve 与原标量实现等价 (2)", luExpected(2), luActual(2))
-
-        ' 高斯消元的解必须满足原方程（数学正确性）
+        CheckClose("LU Solve 满足 A x = b (row1)", 1.0, spd(0, 0) * luActual(0) + spd(0, 1) * luActual(1) + spd(0, 2) * luActual(2))
         CheckClose("LU Solve 满足 A x = b (row2)", 2.0, spd(1, 0) * luActual(0) + spd(1, 1) * luActual(1) + spd(1, 2) * luActual(2))
+        CheckClose("LU Solve 满足 A x = b (row3)", 3.0, spd(2, 0) * luActual(0) + spd(2, 1) * luActual(1) + spd(2, 2) * luActual(2))
 
         Dim inv As Double()() = spd.Inverse().ArrayPack(deepcopy:=False)
         Dim identity As Double()() = spd.Multiply(New NumericMatrix(inv)).ArrayPack(deepcopy:=False)
@@ -765,34 +760,6 @@ Public Module VectorMatrixSimdTest
         Next
 
         Return out
-    End Function
-
-    ''' <summary>
-    ''' 复刻 <c>LUDecomposition.Solve</c> 的原始标量前代/回代。
-    ''' </summary>
-    Private Function ScalarLuSolve(L As Double()(), U As Double()(), b As Double()) As Double()
-        Dim n As Integer = b.Length
-        Dim X As Double() = New Double(n - 1) {}
-
-        Call System.Array.Copy(b, X, n)
-
-        ' L*Y = b
-        For k As Integer = 0 To n - 1
-            For i As Integer = k + 1 To n - 1
-                X(i) -= X(k) * L(i)(k)
-            Next
-        Next
-
-        ' U*X = Y
-        For k As Integer = n - 1 To 0 Step -1
-            X(k) /= U(k)(k)
-
-            For i As Integer = 0 To k - 1
-                X(i) -= X(k) * U(i)(k)
-            Next
-        Next
-
-        Return X
     End Function
 
     Private Sub TestScalarFallback()
