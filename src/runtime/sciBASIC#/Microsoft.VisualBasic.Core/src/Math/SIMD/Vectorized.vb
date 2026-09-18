@@ -36,6 +36,12 @@ Namespace Math.SIMD.Vectorization
     ''' <b>长度契约</b>: 向量⊕向量运算假设两侧长度一致, 与 <see cref="SimdEngine"/> 保持一致,
     ''' 不额外做长度校验(长度不足时由运行时自身的边界检查抛出)。
     ''' </para>
+    ''' <para>
+    ''' <b>词汇完整性</b>: 本模块按「数值类型 × 运算形态」把词汇一次性补全, 因此其中
+    ''' <c>VecSquare</c> 与 <c>VecReciprocal</c> 目前没有对应的改写来源
+    ''' (脚本里的 <c>v * v</c> / <c>1 / v</c> 分别被发射为 <c>VecMultiply</c> / <c>VecScalarDivide</c>,
+    ''' 以保持 VB 的逐元素类型语义), 它们作为词汇表的一部分保留, 供脚本直接调用。
+    ''' </para>
     ''' </remarks>
     Public Module Vectorized
 

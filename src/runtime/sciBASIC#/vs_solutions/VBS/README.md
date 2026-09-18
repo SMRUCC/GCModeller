@@ -15,6 +15,9 @@ vbs ./run.vb --a=123 --flag
 # 调试模式: 在控制台打印重构后生成的完整可编译代码, 并以 Debug 模式编译
 vbs ./run.vb --verbose
 
+# 关闭数值向量的自动向量化改写
+vbs ./run.vb --no-vectorize
+
 # 就地转换为正式的 vbproj 工程(并执行 dotnet build 验证)
 vbs make-project ./run.vb
 ```
@@ -43,7 +46,7 @@ End Using
 
 整个执行流水线分为四个阶段：
 
-1. **解析**(`VBScript.ParseScript`)：读取源码，解析 `#include` 引用的外部依赖（dll / 其它脚本 / nuget 包，含递归展开与 nuget 传递依赖解析），解析 `#package/#author/#title/#version` 程序集元数据指令，并进行文本预处理（移除 `#include` 行、展开命令行参数语法、展开 `let` 动态类型声明、展开元组分解语法）；
+1. **解析**(`VBScript.ParseScript`)：读取源码，解析 `#include` 引用的外部依赖（dll / 其它脚本 / nuget 包，含递归展开与 nuget 传递依赖解析），解析 `#package/#author/#title/#version` 程序集元数据指令，并进行文本预处理（移除 `#include` 行、展开命令行参数语法、展开 `let` 动态类型声明、展开元组分解语法、数值向量化改写）；
 2. **结构重构**(`ScriptRefactor.Refactor`)：逐行扫描代码，利用块栈分离出类型定义块、顶层函数、顶层控制流块与顶层语句，将顶层函数重写为匿名函数并求解其在 `Main` 中的落位，最终组装为固定容器结构；
 3. **内存编译**(`DynamicDll.CompileScript`)：基于 Roslyn 将生成的代码编译为 `DynamicallyLinkedLibrary`，IL 与 PDB 均直接发射到内存流中；
 4. **反射执行**(`ScriptRuntime.Run`)：在可回收的 `ScriptLoadContext`(自定义 `AssemblyLoadContext`) 中加载 assembly，通过反射调用 `DynamicDll.Program.Main(args As CommandLine)`，`Dispose` 时卸载整个加载上下文。
@@ -376,6 +379,147 @@ For Each dll In Includes()
     Call Console.WriteLine(dll)
 Next
 ```
+
+#### 10. 向量化计算
+
+脚本中声明为**数值数组**的变量在参与数学运算时，引擎会在重构阶段自动把标量写法展开为等价的
+逐元素(SIMD)调用，脚本作者不需要手写 `For` 循环：
+
+```vbnet
+Dim x = {1, 2, 3, 4, 5}
+Dim y = {2, 3, 4, 5, 1}
+
+Dim sum = x + 5                 ' => VecAddScalar(Of Integer)(x, 5)
+Dim z = (x * y + 6) / (x + y)   ' 整棵表达式树一次性展开
+```
+
+`--verbose` 打印出来的重构结果：
+
+```vbnet
+Dim sum = VecAddScalar(Of Integer)(x, 5)
+Dim z = VecDivide(
+            VecConvert(Of Integer, Double)(VecAddScalar(Of Integer)(VecMultiply(Of Integer)(x, y), 6)),
+            VecConvert(Of Integer, Double)(VecAdd(Of Integer)(x, y)))
+```
+
+后端是 `Microsoft.VisualBasic.Runtime` 之中的
+`Microsoft.VisualBasic.Math.SIMD.Vectorization.Vectorized` 模块，底层为
+`System.Numerics.Vector`(SSE2/AVX/ARM Advanced SIMD)与 `SimdMath` 的硬件内联内核
+(`SimdEngine` / `SimdMath` / `SimdReduce`)。
+
+##### 10.1 数值向量的识别规则
+
+| 写法 | 判定 |
+|------|------|
+| `Dim x As Integer()` / `Dim x As Double()` | 数值向量(一维数组) |
+| `Dim x(10) As Integer` | 数值向量 |
+| `Dim x = {1, 2, 3}` | 由字面量推断，本例得 `Integer()` |
+| `Dim x = {1, 2.5}` | 取公共数值类型，本例得 `Double()` |
+| `Dim x = New Double(4) {}` / `New Integer() {...}` | 数值向量 |
+| `Function F(x As Double(), y As Integer)` 的参数 | 数值向量 |
+| 改写产生的向量结果(如 `Dim z = x / y` 之后的 `z`) | 继续登记，后续语句可继续向量化 |
+
+只支持 `Short` / `Integer` / `Long` / `Single` / `Double` 五种元素类型；
+`Byte`/`SByte`/`UShort`/`UInteger`/`ULong`/`Decimal`、多维数组、交错数组与 `List(Of T)` 一律**不**参与改写。
+
+##### 10.2 运算符与结果类型(严格遵循 VB 逐元素语义)
+
+| 运算符 | 结果元素类型 | 示例 |
+|--------|--------------|------|
+| `+ - * Mod` | 两侧的公共数值类型(`Double > Single > Long > Integer > Short`) | `Integer() + 5` 得 `Integer()` |
+| `/` | `Single / Single` 得 `Single`，其余一律 `Double` | `Integer() / Integer()` 得 `Double()` |
+| `^` | 恒为 `Double` | `Integer() ^ 2` 得 `Double()` |
+| `\` | 整型(`Integer`/`Long`) | `Integer() \ 2` 得 `Integer()` |
+| 一元 `-` | 与操作数同类型 | `-x` |
+| 标量在左 | 交换律运算按等价形式改写，非交换律保持语义 | `100 - x`、`100 / x`、`x Mod 3`、`2 ^ x` |
+
+元素类型不一致时改写器会自动插入逐元素转换：`Short() + Integer()` 会先
+`VecConvert(Of Short, Integer)(...)` 再运算，因此结果与「把同一个表达式逐元素地用标量 VB 语法算一遍」
+完全等价。
+
+> 唯一的已知轻微偏差：VB 之中 `Short \ Short` 的结果是 `Short`，而向量化版本统一提升为 `Integer`。
+> 该偏差只影响元素类型的静态声明，不改变数值结果。
+
+##### 10.3 逐元素数学函数
+
+| 函数 | 展开形态 |
+|------|----------|
+| `Math.Abs(v)` | `VecAbs(Of T)(v)` |
+| `Math.Sqrt/Exp/Log(v)` | `VecSqrt` / `VecExp` / `VecLog`(整型向量先提升为 `Double()`) |
+| `Math.Log(v, base)` | `VecLog(<Double()>, base)` |
+| `Math.Sign(v)` | `VecSign`(Double/Single) 或 `VecMap`(整型) |
+| `Math.Floor/Ceiling/Truncate(v)` | `VecFloor` / `VecCeiling` / `VecTruncate`(仅 Double/Single) |
+| `Math.Sin/Cos/Tan/Asin/Acos/Atan/Round/Log10(v)` | `VecMap(Of K, Double)(v, Function(__v As K) Math.Sin(__v))` |
+| `Math.Pow(a, b)` | 与 `a ^ b` 相同 |
+
+函数名可以写成 `Math.Sqrt(v)`，也可以(`Imports System.Math` 之后)写成裸名 `Sqrt(v)`；
+若脚本自身定义了同名函数，裸名写法**不会**被改写。
+
+##### 10.4 聚合归约
+
+| 写法 | 展开形态 | 结果类型 |
+|------|----------|----------|
+| `x.Sum()` | `VecSum(x)` | 与元素类型相同 |
+| `x.Average()` / `x.Mean()` | `VecMean(x)` | 整型输入得 `Double`；`Single` 得 `Single` |
+| `x.Min()` / `x.Max()` | `VecMin(x)` / `VecMax(x)` | 与元素类型相同 |
+| `x.Product()` | `VecProduct(x)` | 与元素类型相同 |
+| `x.Count()` | `VecCount(Of T)(x)` | `Integer` |
+
+归约走 `SimdReduce` 的**顺序**内核而不是 `SimdParallel` 的分块并行，以保证浮点结果可复现。
+
+##### 10.5 关闭向量化
+
+```bash
+# 单次关闭(按次)
+vbs ./run.vb --no-vectorize
+vbs make-project ./run.vb --no-vectorize
+```
+
+```vbnet
+#no-vectorize      ' 脚本级关闭: 写在脚本头部
+#vectorize         ' 也可以重新打开(等价于 #vectorize on)
+```
+
+关闭之后脚本保持原有代码形态：数组运算必须手写循环，`x(i)` 这类下标访问也不会被误解为向量运算。
+`--verbose` 模式下会明确打印 `----- vectorization: disabled -----`。
+
+##### 10.6 保守策略与已知局限
+
+改写只依据脚本**自身**的声明做浅层类型推断：不解析 `#include` 进来的程序集、不建立 Roslyn
+`SemanticModel`、不做数据流分析。任何一次推断不确定就**放弃改写该表达式**
+(于是保持原有行为 —— 而这类写法在本功能引入之前本来就无法编译，因此不存在行为回归)：
+
+- 未知标识符、成员访问(`obj.Value`)、下标访问(`x(0)`)；
+- 跨物理行的表达式续行(使用 `_` 或括号换行)；
+- 物理行本身语法不完整(块首行 `If ... Then`、块尾行 `Next`/`End If` 等，这些行里没有可改写的表达式)；
+- 同一名称在不同作用域被声明为不同的数值类型 —— 该名称会被永久排除，避免误改写。
+
+`--verbose` 会打印改写点数量、识别到的向量变量，以及「引用了已知向量却未能改写」的行清单，便于排查。
+
+被 `#include` 引入的脚本**不参与**向量化：它们只允许包含 `Imports` 与类型定义，且工程期会被写成
+独立文件(看不到向量化所需的 `Imports`)，两条发射路径都统一跳过。
+
+改写生成的是嵌套调用形式，每个中间结果会分配一个数组；运行时的
+`SimdEngine.AddInPlace` / `SubtractInPlace` / `MultiplyInPlace` 已经具备「就地计算、表达式融合」
+的扩展点，可作为后续优化方向。另外，标量操作数依赖生成代码的 `Option Strict Off` 做隐式数值转换
+(运行期与工程期两条路径都固定为 `Option Strict Off`)。
+
+#### 11. 向量化运算参考表
+
+改写器发射的全部调用都指向运行时同一个模块
+`Microsoft.VisualBasic.Math.SIMD.Vectorization.Vectorized`(统一使用 `Vec*` 前缀)：
+
+| 分组 | 成员 |
+|------|------|
+| 向量 ⊕ 向量 | `VecAdd` / `VecSubtract` / `VecMultiply` / `VecDivide` / `VecIntegerDivide` / `VecModulo` / `VecPower` |
+| 向量 ⊕ 标量 | `VecAddScalar` / `VecSubtractScalar` / `VecScalarSubtract` / `VecMultiplyScalar` / `VecDivideScalar` / `VecScalarDivide` / `VecIntegerDivideScalar` / `VecScalarIntegerDivide` / `VecModuloScalar` / `VecScalarModulo` / `VecPowerScalar` / `VecScalarPower` |
+| 一元 | `VecNegate` / `VecAbs` / `VecSquare` / `VecSqrt` / `VecExp` / `VecLog` / `VecSign` / `VecFloor` / `VecCeiling` / `VecTruncate` / `VecReciprocal` |
+| 映射与转换 | `VecMap` / `VecConvert` |
+| 归约 | `VecSum` / `VecMean` / `VecMin` / `VecMax` / `VecProduct` / `VecCount` |
+
+`VecSquare` / `VecReciprocal` 目前没有对应的改写来源(脚本里的 `v * v` / `1 / v` 会被发射为
+`VecMultiply` / `VecScalarDivide`，以保持 VB 的逐元素类型语义)，它们作为词汇表的一部分保留，
+脚本也可以直接调用。
 
 ## 转换为正式的 vbproj 工程(make-project)
 

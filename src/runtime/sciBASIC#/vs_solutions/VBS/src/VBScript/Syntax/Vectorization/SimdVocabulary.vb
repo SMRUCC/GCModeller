@@ -44,7 +44,14 @@ Namespace Script
     ''' </remarks>
     Public Module SimdVocabulary
 
-        ''' <summary>需要显式写出**一个**类型实参的泛型目标成员</summary>
+        ''' <summary>
+        ''' 需要显式写出**一个**类型实参的泛型目标成员。
+        ''' </summary>
+        ''' <remarks>
+        ''' 这里只登记「会被实际发射」的泛型成员。
+        ''' <c>VecMap</c> / <c>VecConvert</c> 虽然也是泛型, 但它们需要**两个**类型实参,
+        ''' 由 <see cref="MapCall"/> / <see cref="ConvertCall"/> 自行写出, 故不在此登记。
+        ''' </remarks>
         Private ReadOnly GenericTargets As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase) From {
             "VecAdd",
             "VecSubtract",
@@ -55,7 +62,6 @@ Namespace Script
             "VecScalarSubtract",
             "VecNegate",
             "VecAbs",
-            "VecSquare",
             "VecCount"
         }
 
