@@ -23,6 +23,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XGBoostDataSet", "XGBoostDa
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "stats-netcore5", "..\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj", "{8B29EB24-E1C5-5A41-B249-6FBD390386AE}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ML_SHAP", "ML_SHAP\ML_SHAP.vbproj", "{E7B65C88-108D-40CC-BA48-2D121E271334}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -293,6 +295,34 @@ Global
 		{8B29EB24-E1C5-5A41-B249-6FBD390386AE}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
 		{8B29EB24-E1C5-5A41-B249-6FBD390386AE}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
 		{8B29EB24-E1C5-5A41-B249-6FBD390386AE}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Debug|x64.ActiveCfg = Debug|x64
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Debug|x64.Build.0 = Debug|x64
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.LipidSearch|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.LipidSearch|Any CPU.Build.0 = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.LipidSearch|x64.ActiveCfg = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.LipidSearch|x64.Build.0 = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.mzkit|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.mzkit|Any CPU.Build.0 = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.mzkit|x64.ActiveCfg = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.mzkit|x64.Build.0 = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.NPSearch|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.NPSearch|Any CPU.Build.0 = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.NPSearch|x64.ActiveCfg = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.NPSearch|x64.Build.0 = Debug|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.PlantMAT|Any CPU.ActiveCfg = Release|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.PlantMAT|Any CPU.Build.0 = Release|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.PlantMAT|x64.ActiveCfg = Release|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.PlantMAT|x64.Build.0 = Release|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Release|x64.ActiveCfg = Release|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Release|x64.Build.0 = Release|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Rsharp_app_release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Rsharp_app_release|x64.ActiveCfg = Release|Any CPU
+		{E7B65C88-108D-40CC-BA48-2D121E271334}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
