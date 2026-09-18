@@ -54,7 +54,7 @@ todos:
 ## 已确认的边界
 
 | 边界 | 结论 |
-|---|---|
+| --- | --- |
 | `@` 语义 | 数组投影 + 多属性投影；**不含**标量对象形态（标量请直接写 `obj.x`） |
 | 无法判定时 | **不展开**（保留原文报错），不做类型猜测 |
 | 与 `--no-vectorize` 关系 | **不关闭** `@` 展开 |
@@ -187,7 +187,7 @@ e:/codebuddy/GCModeller/src/runtime/sciBASIC#/vs_solutions/VBS/
 
 仅列出跨模块需要精确约定的两处接口：
 
-```vbnet
+```
 ' 类型模型扩展(VectorType.vb): 第三个参数带默认值 => 既有调用点全部源码兼容
 Public Structure ValueTypeInfo
     Public ReadOnly Kind As NumericKind
@@ -206,7 +206,7 @@ Public Structure ValueTypeInfo
 End Structure
 ```
 
-```vbnet
+```
 ' 对象成员表(ObjectMemberTable.vb)
 Public Class ObjectMemberTable
     ''' <summary>由类型块原文(主脚本 TypeBlocks + #include 引入脚本 TypeBlocks)构建成员表</summary>
@@ -236,11 +236,10 @@ End Module
 - Purpose: 实施阶段做两轮只读核查。第一轮：核对 `TypeBlockSyntax.Members` 下的节点类型（`PropertyStatementSyntax` / `FieldDeclarationSyntax`）与本计划假设一致，并给出本仓中「自动属性 / 字段 / 完整属性 / 索引属性」在语法树里的实际节点类型清单，避免类型名或属性名假设错误。第二轮（完成后）：逐条核对本次新增调用点与签名（`PreprocessText` 新参数、`Vectorization.Expand` 新参数、`VectorizationReport.Projections`、`ObjectMemberTable.Create`/`TryGetMember`、`PropertyProjection.Expand`、`VectorRewriter` 构造函数）在仓库内无遗漏、无签名不匹配，并复核 `New ValueTypeInfo(...)` 既有点位仍全部兼容。
 - Expected outcome: 产出「Roslyn 节点类型 ↔ 声明形态」对照结论与「新增成员 ↔ 调用点」清单，使类型假设错误、参数遗漏、签名不匹配在提交前被消除。
 
-
 ## Agent Extensions
 
 ### SubAgent
 
 - **code-explorer**
-  - Purpose: 两轮只读核查。第一轮在实现前核对 `TypeBlockSyntax.Members` 的节点形态（`PropertyStatementSyntax`/`FieldDeclarationSyntax`，含自动属性、字段、完整属性、索引属性）与计划假设一致；第二轮在实现后逐条核对本次新增的签名与全部调用点（`PreprocessText`/`Vectorization.Expand`/`VectorizationReport.Projections`/`ObjectMemberTable.Create`/`PropertyProjection.Expand`/改写器构造函数），并复核既有 `New ValueTypeInfo(...)` 调用点兼容性。
-  - Expected outcome: 产出「Roslyn 节点类型 ↔ VB 声明形态」对照表与「新增成员 ↔ 调用点」清单，消除类型假设错误、参数遗漏与签名不匹配。
+- Purpose: 两轮只读核查。第一轮在实现前核对 `TypeBlockSyntax.Members` 的节点形态（`PropertyStatementSyntax`/`FieldDeclarationSyntax`，含自动属性、字段、完整属性、索引属性）与计划假设一致；第二轮在实现后逐条核对本次新增的签名与全部调用点（`PreprocessText`/`Vectorization.Expand`/`VectorizationReport.Projections`/`ObjectMemberTable.Create`/`PropertyProjection.Expand`/改写器构造函数），并复核既有 `New ValueTypeInfo(...)` 调用点兼容性。
+- Expected outcome: 产出「Roslyn 节点类型 ↔ VB 声明形态」对照表与「新增成员 ↔ 调用点」清单，消除类型假设错误、参数遗漏与签名不匹配。
