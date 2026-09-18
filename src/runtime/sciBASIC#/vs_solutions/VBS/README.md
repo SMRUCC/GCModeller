@@ -624,7 +624,11 @@ End Using   ' Dispose后动态加载的assembly会被卸载
 | `src/VBScript/LetStatement.vb` | `let` 动态类型声明展开，并区分 LINQ 查询之中的 `Let` 子句 |
 | `src/VBScript/Magics.vb` | 脚本上下文魔法方法源码生成器(运行期注入 / 工程期物化为源码文件) |
 | `src/VBScript/TupleDestructuring.vb` | 元组分解语法展开 |
-| `src/VBScript/ScriptParseResult.vb` | 解析结果数据对象(程序集元数据、引入的脚本与 nuget 包、解析后的程序集列表) |
+| `src/VBScript/Syntax/Vectorization/Vectorization.vb` | **向量化预处理阶段入口**：`#no-vectorize` / `#vectorize` 指令处理、逐行驱动、改写报告 |
+| `src/VBScript/Syntax/Vectorization/VectorType.vb` | 数值类型模型与 VB 逐元素类型提升规则(`Promote` / `DivideKind` / `PowerKind` / `IntegerDivideKind` / `ModuloKind`) |
+| `src/VBScript/Syntax/Vectorization/VectorExpressionRewriter.vb` | 向量化改写核心：基于 Roslyn 的语句解析与浅层类型推断、识别数组字面量、按字符区间回写原行 |
+| `src/VBScript/Syntax/Vectorization/SimdVocabulary.vb` | 运算符/数学函数/聚合归约 → `Vec*` 调用的映射与文本发射(含 `VecConvert` 的插入位置决策) |
+| `src/VBScript/ScriptParseResult.vb` | 解析结果数据对象(程序集元数据、引入的脚本与 nuget 包、解析后的程序集列表、向量化开关) |
 | `src/VBScript/ScriptRuntime.vb` | 脚本运行时：封装动态 assembly 的执行与卸载(`IDisposable`) |
 
 nuget 客户端位于 `dev/VisualStudio` 项目的 `VBProject/NuGet/` 目录(命名空间 `VBProj.NuGet`)，
@@ -637,3 +641,16 @@ nuget 客户端位于 `dev/VisualStudio` 项目的 `VBProject/NuGet/` 目录(命
 | `NuGetClient.vb` | nuget.org flat-container 客户端：版本索引、nupkg 流式下载、全局包目录缓存复用与原子写入 |
 | `NuGetResolver.vb` | nuspec 依赖组解析、传递依赖广度优先展开、版本冲突消解与资产(lib/runtimes)选择 |
 | `NuGetPackage.vb` | 解析结果模型(包/依赖/资产)与 nuget 相关异常类型 |
+
+向量化的运行期后端位于 sciBASIC 运行时(`Microsoft.VisualBasic.Runtime`)之中：
+
+| 文件 | 职责 |
+|------|------|
+| `Microsoft.VisualBasic.Core/src/Math/SIMD/Vectorized.vb` | 向量化运算词汇表(`Namespace Math.SIMD.Vectorization` + `Public Module Vectorized`，全 `Vec*` 成员)：把「数值类型 × 运算形态」一次补全，内部转调既有 SIMD 内核(`SimdEngine` / `SimdMath` / `SimdReduce`)，框架/硬件无内核的运算(整除 `\`、取余 `Mod`、乘积归约、逐元素映射)退化为标量循环 |
+
+> 为什么改写器不复用 `SimdExtensions` 的 `Simd*` 成员：VB 对「两个已导入模块之中的同名成员」
+> 会直接报 `BC30562`(名称不明确)，即使签名不同、即使调用处写了显式泛型实参也无法化解。
+> 因此词汇表统一使用 `Vec*` 前缀，并被刻意放在 `Math.SIMD.Vectorization` 子命名空间 ——
+> 生成代码只需要 `Imports Microsoft.VisualBasic.Math.SIMD.Vectorization` 一条导入语句，
+> 既看不到 `SimdExtensions`，也不会把 `Math.SIMD` 之中那些泛化命名的历史门面类
+> (`Add`/`Subtract`/`Multiply`/`Divide`/`Modulo`/`Exponent`)带进脚本作用域。
