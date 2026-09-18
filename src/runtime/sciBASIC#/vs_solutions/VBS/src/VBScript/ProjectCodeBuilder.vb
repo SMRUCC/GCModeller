@@ -121,6 +121,11 @@ Namespace Script
             Next
 
             Call sb.AppendLine()
+
+            ' 与运行期发射保持一致: 让生成的工程里也可以直接调用 print(...) 调试数据
+            Call ScriptRefactor.AppendPrintForwarder(sb)
+
+            Call sb.AppendLine()
             Call sb.AppendLine("        ''' <summary>由脚本顶层的可执行语句生成的程序入口</summary>")
             Call sb.AppendLine("        Public Function Main(argv As String()) As Integer")
             Call sb.AppendLine("            If argv Is Nothing Then")

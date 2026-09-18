@@ -148,6 +148,10 @@ Namespace Script
 
             Call sb.AppendLine($"    Module {ModuleName}")
             Call sb.AppendLine()
+
+            Call AppendPrintForwarder(sb)
+
+            Call sb.AppendLine()
             Call sb.AppendLine($"        Public Function {MainName}(args As CommandLine) As Integer")
 
             ' 槽位 -1: 不依赖任何顶层变量与其它顶层函数的匿名函数, 放在最前面
@@ -216,6 +220,74 @@ Namespace Script
 
             Return list.ToArray()
         End Function
+
+        ''' <summary>
+        ''' 脚本引擎注入的调试打印入口 <c>print</c> 的转发函数源码(运行期发射与工程期发射共用)。
+        ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' <b>为什么不直接 <c>Imports Microsoft.VisualBasic.Printing</c> 之后让脚本调用</b>:
+        ''' 在生成代码的导入作用域之中, <c>Print</c> 这个名字已经被 VB 运行时的
+        ''' <c>Microsoft.VisualBasic.FileSystem</c>(文件号重载)以及本框架的
+        ''' <c>Microsoft.VisualBasic.CommandLine.CLITools</c> 同时导出。VB 对"两个已导入模块
+        ''' 之中的同名成员"会直接报 <c>BC30561</c>(名称不明确), 实测
+        ''' <c>print(1)</c> / <c>print("a")</c> / <c>print(2.5)</c> 全部无法编译 ——
+        ''' 也就是说 <c>print</c> 这个名字在脚本作用域之中本来就是不可用的。
+        ''' 再增加一条 Imports 只会让二义变成三方二义, 所以导入这条路是走不通的。
+        ''' </para>
+        ''' <para>
+        ''' <b>解决办法</b>: 反过来利用 VB 的名字查找顺序 —— "本类型(Module)自身的成员"
+        ''' 优先于"已导入命名空间之中的成员"。因此这里把 <c>print</c> 声明为脚本
+        ''' <c>Module Program</c> 自己的成员, 一次性把上述两个同名成员全部遮蔽掉;
+        ''' 脚本的顶层语句与匿名函数都在这个 Module 之内, 因此都能看到它。
+        ''' </para>
+        ''' <para>
+        ''' 转发目标是运行时的 <c>Microsoft.VisualBasic.Printing.Print.print(data As Object, ...)</c>
+        ''' (全限定调用, 从而不需要在生成代码里再增加 Imports 而引入新的二义):
+        ''' 脚本是一种动态场景(<c>let</c> 得到 <see cref="Object"/>, 集合类型各不相同),
+        ''' 所以只暴露一个 <see cref="Object"/> 形参, 由运行期按实际类型分派到
+        ''' 二维表 / 集合 / 标量三种格式。
+        ''' </para>
+        ''' <para>
+        ''' 参数名与缺省值(<c>width=80</c>、<c>digits=7</c>)与运行时定义保持一致,
+        ''' 脚本可以直接写 <c>print(x)</c> 或 <c>print(x, width:=40)</c>。
+        ''' </para>
+        ''' </remarks>
+        Friend Shared Function PrintForwarder() As String()
+            Return {
+                "''' <summary>",
+                "''' 数据打印: 按 GNU R 的向量/表格格式输出数据(二维表 / 集合 / 标量)。",
+                "''' </summary>",
+                "''' <param name=""data"">要打印的数据</param>",
+                "''' <param name=""output"">输出设备, 缺省为控制台</param>",
+                "''' <param name=""width"">集合折行的每行最大字符数, 缺省 80; 非正数表示不折行</param>",
+                "''' <param name=""digits"">浮点数的有效数字位数, 缺省 7</param>",
+                "Public Sub print(data As Object,",
+                "                 Optional output As System.IO.TextWriter = Nothing,",
+                "                 Optional width As Integer = 80,",
+                "                 Optional digits As Integer = 7)",
+                "",
+                "    Call Microsoft.VisualBasic.Printing.Print.print(data, output, width, digits)",
+                "End Sub"
+            }
+        End Function
+
+        ''' <summary>
+        ''' 把 <see cref="PrintForwarder"/> 的源码按脚本 Module 成员的缩进(8 空格)写入生成代码。
+        ''' </summary>
+        ''' <param name="sb">生成代码缓冲区</param>
+        ''' <remarks>
+        ''' 空行不补缩进, 避免生成文件中出现只有空格的"脏行"。
+        ''' </remarks>
+        Friend Shared Sub AppendPrintForwarder(sb As StringBuilder)
+            For Each line As String In PrintForwarder()
+                If line.Length = 0 Then
+                    Call sb.AppendLine()
+                Else
+                    Call sb.AppendLine("        " & line)
+                End If
+            Next
+        End Sub
 
         ''' <summary>
         ''' 顶层类型只允许 <c>Friend</c>/<c>Public</c>, 因此把类型声明行上的

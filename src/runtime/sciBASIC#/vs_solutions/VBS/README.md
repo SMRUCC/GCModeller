@@ -593,6 +593,122 @@ Dim z = list@x + {2, 3, 4, 5, 6, 7, 8, 9}
     object types: CLRObjectType
 ```
 
+#### 13. 数据打印(print)
+
+脚本里可以直接调用引擎注入的 `print(...)`，按 **GNU R 的格式**打印数据，用于调试：
+
+```vbnet
+Dim x = {1, 3, 24, 23, 4, 23}
+Call print(x)
+' [1]  1  3 24 23  4 23
+
+Dim y As New List(Of Double) From {1, 3, 24, 23, 4, 23}
+Call print(y)                  ' [1]  1  3 24 23  4 23(数组与 List 都可以)
+```
+
+方括号之中是**本行第一个元素的下标**(与 GNU R 一致，而不是元素个数)；超过宽度(缺省 80 字符)时
+自动折行，续行带自己的起始下标；`width` 与 `digits` 都是具名可选参数：
+
+```vbnet
+Call print(Enumerable.Range(1, 40))
+'  [1]  1  2  3  4 ... 25
+' [26] 26 27 28 29 ... 40
+
+Call print(Enumerable.Range(1, 40), width:=24)      ' 每行 6 个
+Call print(New Double() {1 / 3, Math.PI}, digits:=3)   ' [1] 0.333  3.14
+```
+
+##### 13.1 元素类型的格式化规则
+
+| 元素类型 | 输出 | 对齐 |
+|----------|------|------|
+| `Integer` / `Byte` / `Short` / `Long` / `UInteger` / `ULong` / `Decimal` | 整数文本 | 右 |
+| `Single` / `Double` | 按有效数字位数截断(缺省 7 位，对应 R 的 `options(digits=7)`)；`NaN` / `Inf` / `-Inf` 用 R 的写法 | 右 |
+| `Boolean` | `True` / `False` | 右 |
+| `String` / `Char` | 带双引号的字面量 | 左 |
+| `Enum` | `ToString` 之后按字符串向量打印(带双引号) | 左 |
+| 其它 | `ToString` | 左 |
+
+集合之中的 `Nothing` 元素打印为 `NA`，`Nothing` 对象打印为 `NULL`，空集合按 R 的写法打印为
+`numeric(0)` / `character(0)` / `logical(0)`；元素本身也是集合时(例如 `Double()()` 或者
+`List(Of List(Of Double))`)按 R 的 list 格式打印：
+
+```vbnet
+Call print({New Double() {1, 2}, New Double() {3, 4}})
+' [[1]]
+' [1] 1 2
+'
+' [[2]]
+' [1] 3 4
+```
+
+##### 13.2 打印 NumericTable
+
+`NumericTable`(相当于 R 之中的 data.frame)按**带边框的表格**打印：表头由特征列名与标签列名组成，
+首列是行名(缺失时自动生成 `1..n`)，列名缺失或长度不匹配时按 R 的习惯生成 `V1..Vn` / `L1..Lk`
+占位列名；行名一列左对齐，数值列右对齐。
+
+```vbnet
+Imports Microsoft.VisualBasic.Data      ' NumericTable 所在的命名空间
+
+Dim tbl = NumericTable.FromRows(
+    {"s1", "s2", "s3"},
+    {New Double() {1, 4}, New Double() {2, 5}, New Double() {3, 6}},
+    {"x", "y"})
+
+Call tbl.SetLabel("cluster", {0, 0, 1})
+
+Call print(tbl)
+' +----+---+---+---------+
+' |    | x | y | cluster |
+' +----+---+---+---------+
+' | s1 | 1 | 4 |       0 |
+' +----+---+---+---------+
+' | s2 | 2 | 5 |       0 |
+' +----+---+---+---------+
+' | s3 | 3 | 6 |       1 |
+' +----+---+---+---------+
+```
+
+##### 13.3 运行期类型分派
+
+脚本之中的变量常常是 `let` 声明的 `Object`(或者各不相同的集合类型)，因此 `print` 只有一个
+`data As Object` 形参，由**运行期**按实际类型分派：**二维表 → 表格；集合 → R 向量；其它 → R 标量**。
+
+```vbnet
+Call print(42)                ' [1] 42
+Call print(1.0 / 3)           ' [1] 0.3333333
+Call print("done")            ' [1] "done"
+Call print(True)              ' [1] True
+
+let t = tbl
+Call print(t)                 ' 与 print(tbl) 输出一致
+```
+
+需要拿到字符串而不是直接输出时，可以调用运行时的 `ToText`：
+
+```vbnet
+Dim text = Microsoft.VisualBasic.Printing.Print.ToText(New Double() {1, 2, 3})
+' text = "[1] 1 2 3"
+```
+
+##### 13.4 实现说明
+
+- 运行时实现是 sciBASIC 运行时的 `Microsoft.VisualBasic.Printing.Print` 模块(格式化内核为
+  `Microsoft.VisualBasic.Printing.RFormat`)。以库的方式使用时，`Imports Microsoft.VisualBasic.Printing`
+  之后调用 `Print(data)` / `ToText(data)` 即可；
+- 脚本之中的 `print` 是**宿主注入的一个转发函数**(`ScriptRefactor.PrintForwarder`)，
+  运行期与工程期(`make-project`)两条发射路径都会注入。
+  之所以必须注入而不能简单地 `Imports Microsoft.VisualBasic.Printing`：在生成代码的导入作用域
+  之中，`Print` 这个名字已经被 VB 运行时的 `Microsoft.VisualBasic.FileSystem`(文件号重载)与本框架的
+  `Microsoft.VisualBasic.CommandLine.CLITools` 同时导出，而 VB 对"两个已导入模块之中的同名成员"
+  会直接报 `BC30561`(名称不明确) —— 实测 `print(1)` / `print("a")` / `print(2.5)` 全都无法编译，
+  也就是说 `print` 这个名字本来在脚本作用域之中就是不可用的；再增加一条 Imports 只会让二义变成三方二义；
+- 解决办法是利用 VB 的名字查找顺序："本类型(Module)自身的成员"优先于"已导入命名空间之中的成员"。
+  因此宿主把 `print` 声明为脚本 `Module Program` 自己的成员，一次性把上述同名成员全部遮蔽掉；
+  转发目标固定为 `Microsoft.VisualBasic.Printing.Print.print(data As Object, ...)`(全限定调用，
+  因此生成代码里不需要再增加 Imports)。
+
 ## 转换为正式的 vbproj 工程(make-project)
 
 脚本调试完成之后，可以用 `make-project` 子命令把它**就地**转换为一个正式的 VB.NET 工程：
@@ -691,7 +807,7 @@ End Using   ' Dispose后动态加载的assembly会被卸载
 | `src/VBScript/VBScript.vb` | 脚本解析入口：串联 `#include` 解析 -> 元数据解析 -> 代码重构 |
 | `src/VBScript/IncludeDirective.vb` | `#include` 指令模型与解析器：dll / 脚本 / nuget 三类目标的判别、脚本引用的递归展开与合法性校验 |
 | `src/VBScript/ScriptStructure.vb` | 脚本静态结构模型与逐行块扫描器(头部语句/类型定义块/顶层函数块/顶层语句槽位) |
-| `src/VBScript/ScriptRefactor.vb` | 文本预处理与**运行期**代码发射器：顶层函数重写为匿名函数、按依赖求解落位、组装固定容器结构 |
+| `src/VBScript/ScriptRefactor.vb` | 文本预处理与**运行期**代码发射器：顶层函数重写为匿名函数、按依赖求解落位、组装固定容器结构；并注入 `print` 调试打印转发函数(遮蔽 VB 运行时的同名成员，见"脚本语法-13") |
 | `src/VBScript/ProjectCodeBuilder.vb` | **工程期**代码发射器：标准 `Main` 入口、顶层函数还原为模块级 `Private Function/Sub`、捕获变量提升为字段 |
 | `src/VBScript/ScriptMetadata.vb` | 程序集元数据指令(`#package/#author/#title/#version`)解析与 assembly 特性生成 |
 | `src/VBScript/LetStatement.vb` | `let` 动态类型声明展开，并区分 LINQ 查询之中的 `Let` 子句 |
@@ -729,3 +845,10 @@ nuget 客户端位于 `dev/VisualStudio` 项目的 `VBProject/NuGet/` 目录(命
 > 生成代码只需要 `Imports Microsoft.VisualBasic.Math.SIMD.Vectorization` 一条导入语句，
 > 既看不到 `SimdExtensions`，也不会把 `Math.SIMD` 之中那些泛化命名的历史门面类
 > (`Add`/`Subtract`/`Multiply`/`Divide`/`Modulo`/`Exponent`)带进脚本作用域。
+
+数据打印(`print`)的运行期实现同样位于 sciBASIC 运行时之中：
+
+| 文件 | 职责 |
+|------|------|
+| `Microsoft.VisualBasic.Core/src/Printing/Print.vb` | `Printing.Print` 公开 API：集合的 R 向量打印、`NumericTable` 的表格打印、按运行时类型分派的 `print(data As Object, ...)` 与 `ToText(...)` |
+| `Microsoft.VisualBasic.Core/src/Printing/RFormat.vb` | R 风格格式化内核：元素/数值格式化、折行与行首下标对齐、嵌套集合的 list 格式、`ConsoleTableBuilder` 表格渲染 |
