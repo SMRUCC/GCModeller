@@ -324,6 +324,26 @@ Module bnlearn
                                           Optional result As Object = Nothing,
                                           Optional env As Environment = Nothing) As Object
 
+        '  Error in <globalEnvironment> -> InitializeEnvironment -> "export_modular_response"(&net_model, "result" <- &permuta...) -> export_modular_response
+        '   1. InvalidCastException: Unable to cast object of type 'SMRUCC.Rsharp.Runtime.Internal.Object.PipeIterator`1[SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.GlobalPerturbationResult]' to type 'System.Collections.Generic.IReadOnlyCollection`1[SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.GlobalPerturbationResult]'.
+        '   2. stackFrames:
+        '    at biosystem.bnlearn.exportModularResponse(Object x, String outputdir, Object result, Environment env)
+        '    at System.RuntimeMethodHandle.InvokeMethod(ObjectHandleOnStack target, Void** arguments, ObjectHandleOnStack sig, BOOL isConstructor, ObjectHandleOnStack result)
+        '    at System.RuntimeMethodHandle.InvokeMethod(ObjectHandleOnStack target, Void** arguments, ObjectHandleOnStack sig, BOOL isConstructor, ObjectHandleOnStack result)
+        '    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+        '    at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+
+        '    Call bnlearn::"export_modular_response"(&net_model,
+        '          "result" <- &permutation,
+        '          "outputdir" <- Call "here"("permutation_test/"),
+        '          "top_n" <- 1000)
+        '    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        ' bnlearn.R#_clr_interop::.export_modular_response at [biosystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]:line &Hx0bc26526c
+        ' SMRUCC/R#.call_function."export_modular_response"(&net_model, "result" <- &permuta...) at bnlearn.R:line 44
+        ' SMRUCC/R#.n/a.InitializeEnvironment at bnlearn.R:line 0
+        ' SMRUCC/R#.global.<globalEnvironment> at <globalEnvironment>:line n/a
+
         If TypeOf x Is BlockResponseResult Then
             Call DirectCast(x, BlockResponseResult).SaveModularResults(outputdir)
         ElseIf TypeOf x Is ModularNetworkPipeline Then
@@ -332,7 +352,7 @@ Module bnlearn
             If pull.isError Then
                 Return pull.getError
             Else
-                Call DirectCast(x, ModularNetworkPipeline).SaveResults(pull, outputdir)
+                Call DirectCast(x, ModularNetworkPipeline).SaveResults(pull.ToArray, outputdir)
             End If
         Else
             Return Message.InCompatibleType(GetType(ModularNetworkPipeline), x.GetType, env)
