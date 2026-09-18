@@ -46,17 +46,32 @@ Namespace Data
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Create a numeric table by columns
         ''' </summary>
-        ''' <param name="cols"></param>
+        ''' <param name="cols">value cast rules:
+        ''' 
+        ''' 1. any numeric type: double
+        ''' 2. boolean: 1 = true, 0 = false
+        ''' 3. enum type(option 1): enum base type to double
+        ''' 4. enum type(option 2), string, char type: make binary
+        ''' </param>
         ''' <returns></returns>
         ''' <example>
         ''' Dim x = dataframe(
         '''    name("field1") = {1,3,5,7,9},
         '''    name("field2") = {2,4,6,8,0},
         '''    name("flags") = {True, False, True, True, False},
+        '''    name("factors") = {"a","b","c","c","b"},
         '''    name("label:class") = {1,2,2,2,3}
         ''' )
+        ''' 
+        ''' ' field1: integer cast to double
+        ''' ' field2: integer cast to double
+        ''' ' flags: boolean map to double
+        ''' ' factors: factor binarized, make columns
+        ''' '    factors:a  {1,0,0,0,0}
+        ''' '    factors:b  {0,1,0,0,1}
+        ''' '    factors:c  {0,0,1,1,0}
         ''' </example>
         Public Function dataframe(ParamArray cols As ArgumentReference()) As NumericTable
 
