@@ -15,7 +15,7 @@ Namespace Evaluation
     Public Class RegressionResult : Implements IEvaluationResult
         Implements IRocResult
 
-        Public Property Name As String
+        Public Property Name As String Implements IEvaluationResult.Name
 
         ''' <summary>
         ''' 模型的回归预测值。
@@ -46,6 +46,8 @@ Namespace Evaluation
         ''' </summary>
         ''' <returns></returns>
         Public Property LabelRange As DoubleRange
+
+        Private _curve As RocCurve
 
         Public ReadOnly Property Kind As ResultKinds Implements IEvaluationResult.Kind
             Get
@@ -88,7 +90,11 @@ Namespace Evaluation
         ''' </summary>
         ''' <returns></returns>
         Public Function Curve() As RocCurve Implements IRocResult.Curve
-            Return RocCurve.Create(RegressionROC.ROC(Predictions, Actuals, LabelRange, Eps, SweepSteps))
+            If _curve Is Nothing Then
+                _curve = RocCurve.Create(RegressionROC.ROC(Predictions, Actuals, LabelRange, Eps, SweepSteps))
+            End If
+
+            Return _curve
         End Function
 
         ''' <summary>

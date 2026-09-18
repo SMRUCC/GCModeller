@@ -271,7 +271,7 @@ Namespace Evaluation
                 Return 0
             End If
 
-            Dim centroids As Dictionary(Of Integer, Double()) = Centroids(features, labels)
+            Dim clusterCentroids As Dictionary(Of Integer, Double()) = Centroids(features, labels)
             Dim scatter As New Dictionary(Of Integer, Double)()
             Dim keys As Integer() = groups.Keys.ToArray
 
@@ -279,7 +279,7 @@ Namespace Evaluation
                 Dim sum As Double = 0
 
                 For Each index As Integer In groups(key)
-                    sum += Distance(features(index), centroids(key))
+                    sum += Distance(features(index), clusterCentroids(key))
                 Next
 
                 scatter(key) = sum / groups(key).Count
@@ -295,7 +295,7 @@ Namespace Evaluation
                         Continue For
                     End If
 
-                    Dim separation As Double = Distance(centroids(key), centroids(other))
+                    Dim separation As Double = Distance(clusterCentroids(key), clusterCentroids(other))
 
                     If separation = 0 Then
                         Continue For
@@ -344,12 +344,12 @@ Namespace Evaluation
                 overall(j) /= n
             Next
 
-            Dim centroids As Dictionary(Of Integer, Double()) = Centroids(features, labels)
+            Dim clusterCentroids As Dictionary(Of Integer, Double()) = Centroids(features, labels)
             Dim ssb As Double = 0
             Dim ssw As Double = 0
 
             For Each cluster As KeyValuePair(Of Integer, List(Of Integer)) In groups
-                Dim centroid As Double() = centroids(cluster.Key)
+                Dim centroid As Double() = clusterCentroids(cluster.Key)
                 Dim between As Double = 0
 
                 For j As Integer = 0 To dims - 1

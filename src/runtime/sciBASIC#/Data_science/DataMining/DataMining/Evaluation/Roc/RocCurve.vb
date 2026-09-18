@@ -8,8 +8,8 @@ Namespace Evaluation
     ''' 统一的 ROC 曲线模型：<see cref="Evaluation"/> 模块之中唯一的曲线结果载体。
     ''' 
     ''' 一条 ROC 曲线由若干 <see cref="Validation"/> 阈值点组成（按 ``FPR`` 升序排列），
-    ''' 并附带由 <see cref="Auc.Trapezoid(IEnumerable(Of Validation))"/> 计算出来的曲线下面积
-    ''' 以及 <see cref="Auc.BestThreshold(IEnumerable(Of Validation))"/> 给出的最佳阈值下标。
+    ''' 并附带由 <see cref="RocAuc.Trapezoid(IEnumerable(Of Validation))"/> 计算出来的曲线下面积
+    ''' 以及 <see cref="RocAuc.BestThreshold(IEnumerable(Of Validation))"/> 给出的最佳阈值下标。
     ''' </summary>
     Public Class RocCurve
 
@@ -87,8 +87,8 @@ Namespace Evaluation
 
             Return New RocCurve With {
                 .Points = array,
-                .AUC = Auc.Trapezoid(array),
-                .BestIndex = Auc.BestThreshold(array)
+                .AUC = RocAuc.Trapezoid(array),
+                .BestIndex = RocAuc.BestThreshold(array)
             }
         End Function
 

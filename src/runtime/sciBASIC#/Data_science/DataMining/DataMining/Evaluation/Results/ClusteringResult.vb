@@ -12,7 +12,7 @@ Namespace Evaluation
     ''' </summary>
     Public Class ClusteringResult : Implements IEvaluationResult
 
-        Public Property Name As String
+        Public Property Name As String Implements IEvaluationResult.Name
 
         ''' <summary>
         ''' 行主序的特征矩阵 ``features(sample)(feature)``。

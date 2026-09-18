@@ -183,10 +183,10 @@ Namespace Evaluation
         End Function
 
         ''' <summary>
-        ''' 精确的秩和 AUC（委托到统一核心 <see cref="Auc.RankAUC(Double(), Double(), Double)"/>）。
+        ''' 精确的秩和 AUC（委托到统一核心 <see cref="RocAuc.RankAUC(Double(), Double(), Double)"/>）。
         ''' </summary>
         Public Shared Function auc(pred As Double(), label As Double()) As Double
-            Return Auc.RankAUC(pred, label)
+            Return RocAuc.RankAUC(pred, label)
         End Function
 
         ''' <summary>

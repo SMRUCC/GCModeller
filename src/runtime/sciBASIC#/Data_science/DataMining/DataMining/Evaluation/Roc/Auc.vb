@@ -24,7 +24,7 @@ Namespace Evaluation
     ''' 
     ''' 两者共享同一套并列分数（ties）处理与归一化约定，因此在分数取值唯一时数值相等。
     ''' </summary>
-    Public Module Auc
+    Public Module RocAuc
 
         ''' <summary>
         ''' 精确的秩和 AUC（Mann–Whitney U 统计量）。
@@ -225,6 +225,8 @@ Namespace Evaluation
 
         ''' <summary>
         ''' 兼容旧签名：现由 <see cref="BestThreshold(IEnumerable(Of Validation))"/> 统一实现。
+        ''' （注意：本模块命名为 <c>RocAuc</c> 而不是 <c>Auc</c>，以避免与既有公开成员
+        ''' ``Metric.auc`` / ``ROC.AUC`` / ``Validation.AUC`` 发生 VB 不区分大小写的名称冲突。）
         ''' </summary>
         ''' <param name="TPR">真阳性率（Sensibility）序列</param>
         ''' <param name="FPR">假阳性率序列</param>

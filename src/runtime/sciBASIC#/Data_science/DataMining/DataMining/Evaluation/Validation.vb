@@ -261,13 +261,13 @@ Namespace Evaluation
         Shared ReadOnly normalRange As [Default](Of Sequence) = New Sequence(0, 1, 10000)
 
         ''' <summary>
-        ''' ROC 曲线下面积（梯形法）。统一委托到 <see cref="Auc.Trapezoid(IEnumerable(Of Validation))"/>。
+        ''' ROC 曲线下面积（梯形法）。统一委托到 <see cref="RocAuc.Trapezoid(IEnumerable(Of Validation))"/>。
         ''' </summary>
         ''' <param name="validates"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function AUC(validates As IEnumerable(Of Validation)) As Double
-            Return Auc.Trapezoid(validates)
+            Return RocAuc.Trapezoid(validates)
         End Function
 
         ''' <summary>

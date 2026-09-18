@@ -17,7 +17,7 @@ Namespace Evaluation
         ''' 结果名字。
         ''' </summary>
         ''' <returns></returns>
-        Public Property Name As String
+        Public Property Name As String Implements IEvaluationResult.Name
 
         ''' <summary>
         ''' 模型的连续打分（分数越大越倾向于正类）。

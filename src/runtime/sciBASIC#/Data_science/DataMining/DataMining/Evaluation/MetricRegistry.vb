@@ -145,7 +145,7 @@ Namespace Evaluation
 
 #Region "built-in metrics"
 
-        Private Function ClassificationMetrics() As NamedMetric()
+        Private Shared Function ClassificationMetrics() As NamedMetric()
             Return {
                 New NamedMetric With {
                     .Name = "acc",
@@ -193,7 +193,7 @@ Namespace Evaluation
                     .Name = "auc",
                     .Kind = ResultKinds.classification,
                     .Description = "精确秩和 AUC",
-                    .Evaluate = Function(r) Auc.RankAUC(CType(r, ClassificationResult).Scores, CType(r, ClassificationResult).PositiveLabels)
+                    .Evaluate = Function(r) RocAuc.RankAUC(CType(r, ClassificationResult).Scores, CType(r, ClassificationResult).PositiveLabels)
                 },
                 New NamedMetric With {
                     .Name = "auc_curve",
@@ -222,7 +222,7 @@ Namespace Evaluation
             }
         End Function
 
-        Private Function RegressionMetrics() As NamedMetric()
+        Private Shared Function RegressionMetrics() As NamedMetric()
             Return {
                 New NamedMetric With {
                     .Name = "mse",
@@ -257,7 +257,7 @@ Namespace Evaluation
             }
         End Function
 
-        Private Function ClusteringMetrics() As NamedMetric()
+        Private Shared Function ClusteringMetrics() As NamedMetric()
             Return {
                 New NamedMetric With {
                     .Name = "silhouette",
@@ -314,14 +314,14 @@ Namespace Evaluation
 
 #Region "helpers"
 
-        Private Function BinaryLabels(result As ClassificationResult) As Double()
+        Private Shared Function BinaryLabels(result As ClassificationResult) As Double()
             Return result.PositiveLabels.Select(Function(b) If(b, 1.0, 0.0)).ToArray
         End Function
 
         ''' <summary>
         ''' 计算外部聚类指标；当没有提供真值标签的时候返回 ``NaN``。
         ''' </summary>
-        Private Function External(result As ClusteringResult, evaluate As Func(Of ClusteringResult, Double)) As Double
+        Private Shared Function External(result As ClusteringResult, evaluate As Func(Of ClusteringResult, Double)) As Double
             If result.HasGroundTruth Then
                 Return evaluate(result)
             Else
@@ -329,11 +329,11 @@ Namespace Evaluation
             End If
         End Function
 
-        Private Function Silhouette(result As ClusteringResult) As Double
+        Private Shared Function Silhouette(result As ClusteringResult) As Double
             Return ClusteringIndices.Silhouette(result.Features, result.ClusterLabels, result.MaxPoints)
         End Function
 
-        Private Function MatthewsCorrelationCoefficient(confusion As Validation) As Double
+        Private Shared Function MatthewsCorrelationCoefficient(confusion As Validation) As Double
             Dim tp As Double = confusion.TP
             Dim tn As Double = confusion.TN
             Dim fp As Double = confusion.FP

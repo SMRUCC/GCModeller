@@ -69,7 +69,7 @@ Namespace Evaluation
         ''' <returns></returns>
         <Extension>
         Public Function AUC(validates As IEnumerable(Of Validation)) As Double
-            Return Auc.Trapezoid(validates)
+            Return RocAuc.Trapezoid(validates)
         End Function
 
         ''' <summary>
@@ -83,7 +83,7 @@ Namespace Evaluation
                 Return Double.NaN
             End If
 
-            Return Auc.Trapezoid(TPR.Array, FPR.Array)
+            Return RocAuc.Trapezoid(TPR.Array, FPR.Array)
         End Function
 
         ''' <summary>
@@ -93,7 +93,7 @@ Namespace Evaluation
         ''' <param name="actuals"></param>
         ''' <returns></returns>
         Public Function AUC(predicts As Double(), actuals As Double()) As Double
-            Return Auc.RankAUC(predicts, actuals)
+            Return RocAuc.RankAUC(predicts, actuals)
         End Function
 
         ''' <summary>
@@ -102,9 +102,9 @@ Namespace Evaluation
         ''' <param name="TPR">真阳性率序列</param>
         ''' <param name="FPR">假阳性率序列</param>
         ''' <returns></returns>
-        <Obsolete("请改用 Auc.BestThreshold(curve As IEnumerable(Of Validation))。")>
+        <Obsolete("请改用 RocAuc.BestThreshold(curve As IEnumerable(Of Validation))。")>
         Public Function BestThreshold(TPR As Vector, FPR As Vector) As Integer
-            Return Auc.BestThreshold(TPR, FPR)
+            Return RocAuc.BestThreshold(TPR, FPR)
         End Function
 
         ''' <summary>
@@ -131,7 +131,7 @@ Namespace Evaluation
 
                 Yield New NamedValue(Of Double) With {
                     .Name = names(i),
-                    .Value = Auc.RankAUC(predicts, actuals)
+                    .Value = RocAuc.RankAUC(predicts, actuals)
                 }
             Next
 #Enable Warning
