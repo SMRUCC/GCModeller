@@ -102,6 +102,15 @@ Public Class LinearShapModel
         Return features.Select(Function(row) fitted.GetY(row)).ToArray
     End Function
 
+    ''' <summary>
+    ''' 模型在单个样本上的原始输出。
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    Public Function Output(x As Double()) As Double
+        Return Fitted.GetY(x)
+    End Function
+
     Public Function PredictResult() As ModelPrediction
         Return New ModelPrediction With {
             .ModelName = Name,

@@ -56,22 +56,21 @@ Public Class RanFogShapModel
         Dim branchLimit As Integer = If(maxBranch <= 0, 256, maxBranch)
         Dim mtrySize As Integer = If(mtry <= 0, System.Math.Max(1, CInt(System.Math.Sqrt(dataset.Width))), mtry)
 
-        Dim forest As New rf.RanFog With {
-            .max_tree = treeCount,
-            .max_branch = branchLimit,
-            .mtry = mtrySize,
-            ' 对 0/1 目标而言，方差下降等价于基尼/信息增益的划分准则
-            .LF_c = rf.LF_c.Mean_Squared_Error
-        }
+        Dim forest As New rf.RanFog()
+        Dim trainingData As New rf.Data()
 
-        Dim train As New rf.Data With {
-            .ID = dataset.IDs,
-            .phenotype = dataset.Labels,
-            .Genotype = dataset.Features,
-            .attributeNames = dataset.FeatureNames
-        }
+        forest.max_tree = treeCount
+        forest.max_branch = branchLimit
+        forest.mtry = mtrySize
+        ' 对 0/1 目标而言，方差下降等价于基尼/信息增益的划分准则
+        forest.LF_c = rf.LF_c.Mean_Squared_Error
 
-        Call forest.Run(train)
+        trainingData.ID = dataset.IDs
+        trainingData.phenotype = dataset.Labels
+        trainingData.Genotype = dataset.Features
+        trainingData.attributeNames = dataset.FeatureNames
+
+        Call forest.Run(trainingData)
 
         Return New RanFogShapModel With {
             .Forest = forest,
@@ -89,6 +88,15 @@ Public Class RanFogShapModel
         Return Forest.Predict(features)
     End Function
 
+    ''' <summary>
+    ''' 模型在单个样本上的原始输出。
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    Public Function Output(x As Double()) As Double
+        Return Predict(New Double()() {x})(0)
+    End Function
+
     Public Function PredictResult() As ModelPrediction
         Return New ModelPrediction With {
             .ModelName = Name,
@@ -103,17 +111,24 @@ Public Class RanFogShapModel
     ''' <summary>
     ''' 构建随机森林的 TreeSHAP 解释器（多棵树贡献求和）。
     ''' </summary>
+    ''' <remarks>
+    ''' <see cref="rf.RanFog.Predict"/> 返回的是所有树叶值的平均值，
+    ''' 而 TreeSHAP 的贡献是多棵树相加，因此这里必须把每一棵树的叶值
+    ''' 按照 ``1/树的数量`` 进行缩放，才能保证
+    ''' ``sum(contributions) + baseline = 森林预测值`` 成立。
+    ''' </remarks>
     ''' <returns></returns>
     Public Function BuildExplainer() As IShapExplainer
         Dim trees As New List(Of PkTree)()
         Dim globalMean As Double = If(Training.Labels.Length > 0, Training.Labels.Average(), 0)
+        Dim scale As Double = 1.0 / System.Math.Max(1, Forest.Trees.Count)
 
         For Each snapshot As rf.Branch() In Forest.Trees
             If snapshot Is Nothing OrElse snapshot.Length = 0 Then
                 Continue For
             End If
 
-            Dim tree As PkNode = BuildNode(snapshot, 0, globalMean, New HashSet(Of Integer)())
+            Dim tree As PkNode = BuildNode(snapshot, 0, globalMean, scale, New HashSet(Of Integer)())
             trees.Add(New PkTree(tree))
         Next
 

@@ -234,7 +234,9 @@ Namespace RandomForests
                         End If
                         '}
                     Next
-                    If node <> N_attributes Then 'Create a new branch, only if MSE of the previous branch is minimized
+                    ' 只有在分支数组之中还有空间容纳两个子节点的时候才进行分裂，
+                    ' 否则让当前节点保持为叶节点，避免数组越界访问
+                    If node <> N_attributes AndAlso n_branch + 2 < max_branch Then 'Create a new branch, only if MSE of the previous branch is minimized
                         Selected(node) += 1
                         SNP_tree.Add(node) 'add the selected SNP to the end of the list
 

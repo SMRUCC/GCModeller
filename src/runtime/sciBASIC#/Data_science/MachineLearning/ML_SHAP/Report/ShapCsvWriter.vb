@@ -3,6 +3,7 @@
 Imports System.Globalization
 Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.Math.Statistics.ShapleyValue
 
 ''' <summary>
 ''' 把 SHAP 分析结果导出为 CSV 文件。
@@ -19,10 +20,10 @@ Public Module ShapCsvWriter
     ''' <param name="result">SHAP 分析结果</param>
     ''' <param name="path">输出文件路径</param>
     Public Sub WriteExplanations(result As ShapAnalysisResult, path As String)
-        Dim directory As String = IO.Path.GetDirectoryName(path)
+        Dim folder As String = IO.Path.GetDirectoryName(path)
 
-        If Not String.IsNullOrEmpty(directory) AndAlso Not Directory.Exists(directory) Then
-            Call Directory.CreateDirectory(directory)
+        If Not String.IsNullOrEmpty(folder) AndAlso Not IO.Directory.Exists(folder) Then
+            Call IO.Directory.CreateDirectory(folder)
         End If
 
         Using writer As New StreamWriter(path, False, New UTF8Encoding(False))
@@ -42,10 +43,10 @@ Public Module ShapCsvWriter
     ''' <param name="result">SHAP 分析结果</param>
     ''' <param name="path">输出文件路径</param>
     Public Sub WriteGlobalImportance(result As ShapAnalysisResult, path As String)
-        Dim directory As String = IO.Path.GetDirectoryName(path)
+        Dim folder As String = IO.Path.GetDirectoryName(path)
 
-        If Not String.IsNullOrEmpty(directory) AndAlso Not Directory.Exists(directory) Then
-            Call Directory.CreateDirectory(directory)
+        If Not String.IsNullOrEmpty(folder) AndAlso Not IO.Directory.Exists(folder) Then
+            Call IO.Directory.CreateDirectory(folder)
         End If
 
         Using writer As New StreamWriter(path, False, New UTF8Encoding(False))

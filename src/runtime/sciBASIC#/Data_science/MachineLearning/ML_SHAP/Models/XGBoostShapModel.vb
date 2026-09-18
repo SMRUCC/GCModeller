@@ -83,11 +83,20 @@ Public Class XGBoostShapModel
     ''' <param name="features"></param>
     ''' <returns></returns>
     Public Function Predict(features As Double()()) As Double()
-        Dim single As Single()() = features _
+        Dim singleFeatures As Single()() = features _
             .Select(Function(row) row.Select(Function(d) CSng(d)).ToArray()) _
             .ToArray
 
-        Return Model.predict(single)
+        Return Model.predict(singleFeatures)
+    End Function
+
+    ''' <summary>
+    ''' 模型在单个样本上的原始输出。
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    Public Function Output(x As Double()) As Double
+        Return Predict(New Double()() {x})(0)
     End Function
 
     Public Function PredictResult() As ModelPrediction
@@ -154,10 +163,10 @@ Public Class XGBoostShapModel
             Return PkNode.leaf(1, 0)
         End If
 
-        Dim cover As Double = Cover(node)
+        Dim nodeCover As Double = Cover(node)
 
         If node.is_leaf Then
-            Return PkNode.leaf(cover, node.leafValue * eta)
+            Return PkNode.leaf(nodeCover, node.leafValue * eta)
         End If
 
         Dim left As xgb.TreeNode = node.left_child
@@ -165,10 +174,10 @@ Public Class XGBoostShapModel
 
         If left Is Nothing OrElse right Is Nothing Then
             ' 仅含缺失值分支或者结构异常的节点，回退为叶节点
-            Return PkNode.leaf(cover, 0)
+            Return PkNode.leaf(nodeCover, 0)
         End If
 
-        Return PkNode.split(cover,
+        Return PkNode.split(nodeCover,
                             node.split_feature,
                             node.split_threshold,
                             BuildNode(left, eta),
