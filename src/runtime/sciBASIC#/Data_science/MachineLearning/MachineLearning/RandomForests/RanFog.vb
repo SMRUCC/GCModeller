@@ -128,6 +128,19 @@ Namespace RandomForests
         ''' </remarks>
         Public Property Selected As Integer()
 
+        ''' <summary>
+        ''' The trained tree structures of the current forest.
+        ''' 
+        ''' Each element is a trimmed branch array holding ``n_branch + 1`` nodes,
+        ''' and the node indices stored in <see cref="Branch.Child1"/> /
+        ''' <see cref="Branch.Child2"/> refer to the position inside the same array.
+        ''' The array is kept after <see cref="Run"/> returns so that downstream
+        ''' analysis (for example TreeSHAP based model interpretation) can walk
+        ''' the actual trees instead of treating the forest as a black box.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Trees As New List(Of Branch())
+
         Private Function Tree(n_tree As Integer, train As Data, GEBV As Double()(), ByRef MSE_oob_ave As Double) As (Double, Double)
             'Variables involved in the trees
             Dim mean_j, minLoss, MSE_tree, MSEval_tree, node_mse, temp As Double
@@ -181,7 +194,10 @@ Namespace RandomForests
             '    branch_tst(n_branch).list.Insert(i, i)
             'Next
             'Construct the tree. Grow branches until size<5 or not better classification is achieved	
-            For k = 0 To n_branch + 1 - 1
+            ' NOTE: the number of branches grows while the tree is being built,
+            ' therefore the loop condition must be re-evaluated on each iteration.
+            k = 0
+            While k <= n_branch AndAlso k < max_branch
                 If branch(k).list.Count > 5 Then 'Minimum size=5
                     node = N_attributes
                     minLoss = Double.MaxValue
@@ -289,7 +305,8 @@ Namespace RandomForests
                     '    Next
                     'End If
                 End If 'checking branch size
-            Next 'for over n_branch
+                k += 1
+            End While 'for over n_branch
 
             'Construct the oob-tree following nodes selected previously, and calculate miss-classification rate in the oob sample
             MSE_oob = 0
@@ -369,6 +386,21 @@ Namespace RandomForests
             'Console.WriteLine("Iteration #" & n_tree + 1 & ";MSE in testing set=" & MSEval_tree / N_tst)
             VBDebugger.EchoLine("average Loss Function in OOB=" & MSE_oob_ave / CSng(n_tree + 1) & "; N_oob=" & N_oob)
 
+            ' Snapshot the trained tree structure before the local branch array
+            ' goes out of scope. The cached mean phenotype of each node is used
+            ' as the leaf value during prediction and TreeSHAP interpretation.
+            Dim snapshot As Branch() = New Branch(n_branch) {}
+
+            For n As Integer = 0 To n_branch
+                snapshot(n) = branch(n)
+
+                If snapshot(n).list.Count > 0 Then
+                    Call snapshot(n).getMean(train.phenotype)
+                End If
+            Next
+
+            Call Trees.Add(snapshot)
+
             Return (MSE_oob_ave / CSng(n_tree + 1), MSE_oob)
             ' outTreeTest.WriteLine(MSEval_tree / N_tst)
         End Function
@@ -424,6 +456,9 @@ Namespace RandomForests
             ' number of times SNPs are selected
             Selected = New Integer(train.N_attributes - 1) {}
 
+            ' reset the trained tree structures from a previous run
+            Trees = New List(Of Branch())
+
             ' %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
             While n_tree < max_tree
@@ -454,6 +489,45 @@ Namespace RandomForests
             VBDebugger.EchoLine("by Oscar Gonzalez-Recio (2019) ")
 
             Return New Result With {.Model = Me, .outGEBV = outEGBV.ToArray, .data = train}
+        End Function
+
+        ''' <summary>
+        ''' Predict the phenotype values of the given samples by averaging the
+        ''' leaf values over all of the trees in the current forest.
+        ''' </summary>
+        ''' <param name="Genotype">
+        ''' the feature matrix, each row is one sample. The feature order must be
+        ''' identical to the one used during training.
+        ''' </param>
+        ''' <returns>the predicted phenotype value for each sample</returns>
+        Public Function Predict(Genotype As Double()()) As Double()
+            Dim pred As Double() = New Double(Genotype.Length - 1) {}
+
+            If Trees.Count = 0 Then
+                Return pred
+            End If
+
+            For i As Integer = 0 To Genotype.Length - 1
+                Dim sum As Double = 0
+
+                For Each tree As Branch() In Trees
+                    Dim node As Integer = 0
+
+                    While tree(node).status <> "F"
+                        If Genotype(i)(tree(node).Feature) <= tree(node).mean_snp Then
+                            node = tree(node).Child1
+                        Else
+                            node = tree(node).Child2
+                        End If
+                    End While
+
+                    sum += tree(node).mean
+                Next
+
+                pred(i) = sum / Trees.Count
+            Next
+
+            Return pred
         End Function
     End Class
 

@@ -58,14 +58,28 @@ Namespace RandomForests
 
     Public Class Branch
 
-        Friend mean, mean_snp As Double
-        Friend class_val As Integer
+        ''' <summary>
+        ''' the cached mean phenotype of the samples falling into this branch.
+        ''' For a leaf branch it is exactly the leaf value used for prediction.
+        ''' </summary>
+        Public mean, mean_snp As Double
+        Public class_val As Integer
         ''' <summary>
         ''' 'F' for final branch
         ''' </summary>
-        Friend status As String = " "
-        Friend Feature, Child1, Child2, Parent As Integer
-        Friend list As New List(Of Integer)()
+        Public status As String = " "
+        ''' <summary>
+        ''' the splitting feature index and the child branch indices.
+        ''' <see cref="Child1"/> takes the samples whose feature value is
+        ''' less than or equals to <see cref="mean_snp"/>, and
+        ''' <see cref="Child2"/> takes the remaining samples.
+        ''' </summary>
+        Public Feature, Child1, Child2, Parent As Integer
+        ''' <summary>
+        ''' the sample indices (pointing to the training set) of this branch.
+        ''' Its ``Count`` value is used as the node cover for TreeSHAP.
+        ''' </summary>
+        Public list As New List(Of Integer)()
 
         ''' <summary>
         ''' This method returns the SNP for a given position.
