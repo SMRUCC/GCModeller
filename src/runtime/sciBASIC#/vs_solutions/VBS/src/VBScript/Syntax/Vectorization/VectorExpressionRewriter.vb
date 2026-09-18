@@ -89,6 +89,10 @@ Namespace Script
                 Return line
             End If
 
+            ' 记录本行处理**之前**就已经登记的向量名: 跳过报告只依据它们,
+            ' 否则"本行自己声明的向量"会让声明行自己也被报成"未能改写"。
+            Dim knownBefore As String() = VectorNames
+
             ' 1. 函数签名: 登记向量参数与函数名(签名行本身不是语句, 解析会失败)
             Call RegisterParameters(line)
             Call RegisterFunctionName(line)
@@ -97,7 +101,7 @@ Namespace Script
             Dim statements As List(Of StatementSyntax) = ParseStatementsOfLine(line)
 
             If statements.Count = 0 Then
-                Call ReportSkipped(line, report)
+                Call ReportSkipped(line, report, knownBefore)
                 Return line
             End If
 
@@ -485,6 +489,7 @@ Namespace Script
         ''' </summary>
         Private Function InferArrayLiteral(literal As CollectionInitializerSyntax) As ValueTypeInfo
             Dim kind As NumericKind = NumericKind.Unknown
+            Dim first As Boolean = True
 
             For Each element As ExpressionSyntax In literal.Initializers
                 Dim item As ValueTypeInfo = InferType(element)
@@ -494,7 +499,14 @@ Namespace Script
                     Return New ValueTypeInfo()
                 End If
 
-                kind = VectorType.Promote(kind, item.Kind)
+                ' 注意: 不能用 Promote 直接累加 —— 它对 Unknown 的语义是"传染",
+                ' 而这里 Unknown 是"尚未有第一个元素"的初始状态。
+                If first Then
+                    kind = item.Kind
+                    first = False
+                Else
+                    kind = VectorType.Promote(kind, item.Kind)
+                End If
             Next
 
             If kind = NumericKind.Unknown Then
