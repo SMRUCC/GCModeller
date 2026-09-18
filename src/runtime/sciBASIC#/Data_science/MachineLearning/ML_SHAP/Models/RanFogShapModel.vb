@@ -146,15 +146,16 @@ Public Class RanFogShapModel
     Private Shared Function BuildNode(branches As rf.Branch(),
                                       index As Integer,
                                       fallback As Double,
+                                      scale As Double,
                                       visited As HashSet(Of Integer)) As PkNode
 
         If index < 0 OrElse index >= branches.Length Then
-            Return PkNode.leaf(1, fallback)
+            Return PkNode.leaf(1, fallback * scale)
         End If
 
         If Not visited.Add(index) Then
             ' 防御性处理：避免畸形结构导致的无限递归
-            Return PkNode.leaf(1, fallback)
+            Return PkNode.leaf(1, fallback * scale)
         End If
 
         Dim node As rf.Branch = branches(index)
@@ -162,7 +163,7 @@ Public Class RanFogShapModel
         Dim ownMean As Double = If(cover > 0, node.mean, fallback)
 
         If node.status = "F" OrElse cover <= 0 Then
-            Return PkNode.leaf(System.Math.Max(1.0, cover), ownMean)
+            Return PkNode.leaf(System.Math.Max(1.0, cover), ownMean * scale)
         End If
 
         Dim leftIndex As Integer = node.Child1
@@ -170,21 +171,21 @@ Public Class RanFogShapModel
 
         If leftIndex < 0 OrElse leftIndex >= branches.Length OrElse
            rightIndex < 0 OrElse rightIndex >= branches.Length Then
-            Return PkNode.leaf(System.Math.Max(1.0, cover), ownMean)
+            Return PkNode.leaf(System.Math.Max(1.0, cover), ownMean * scale)
         End If
 
         Dim leftNode As rf.Branch = branches(leftIndex)
         Dim rightNode As rf.Branch = branches(rightIndex)
 
         If leftNode.list.Count <= 0 OrElse rightNode.list.Count <= 0 Then
-            Return PkNode.leaf(System.Math.Max(1.0, cover), ownMean)
+            Return PkNode.leaf(System.Math.Max(1.0, cover), ownMean * scale)
         End If
 
         Return PkNode.split(cover,
                             node.Feature,
                             node.mean_snp,
-                            BuildNode(branches, leftIndex, ownMean, visited),
-                            BuildNode(branches, rightIndex, ownMean, visited))
+                            BuildNode(branches, leftIndex, ownMean, scale, visited),
+                            BuildNode(branches, rightIndex, ownMean, scale, visited))
     End Function
 
 End Class

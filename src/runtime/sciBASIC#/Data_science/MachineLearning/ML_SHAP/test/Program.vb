@@ -145,7 +145,12 @@ Module Program
         Dim first As ShapExplanation = result.Explanations(0)
         Dim reconstructed As Double = first.Baseline + first.Contributions.Sum()
 
-        Console.WriteLine($"  单样本解释 [{first.ID}]: output={first.Output.ToString("G6", invariant)}, baseline+sum(phi)={reconstructed.ToString("G6", invariant)}")
+        Console.WriteLine($"  单样本解释 [{first.ID}]: baseline+sum(phi)={reconstructed.ToString("G6", invariant)}, 模型输出={first.Output.ToString("G6", invariant)}")
+
+        If dataset.IsCategorical AndAlso System.Math.Abs(reconstructed - first.Output) > 0.000001 Then
+            Console.WriteLine($"    (注: 分类模型输出经过 sigmoid 变换, sigmoid(baseline+sum(phi))={LinearShapExplainer.Sigmoid(reconstructed).ToString("G6", invariant)})")
+        End If
+
         Console.WriteLine("    贡献 Top-3:")
 
         For Each item In first.Ranked().Take(3)
