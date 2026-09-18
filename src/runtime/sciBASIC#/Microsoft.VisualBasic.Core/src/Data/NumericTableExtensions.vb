@@ -53,7 +53,9 @@ Namespace Data
         ''' 1. any numeric type: double
         ''' 2. boolean: 1 = true, 0 = false
         ''' 3. enum type(option 1): enum base type to double
-        ''' 4. enum type(option 2), string, char type: make binary
+        ''' 4. enum type(option 2), string, char type: make binary columns
+        ''' 
+        ''' collection type of the column field maybe array, list, linq enumerable
         ''' </param>
         ''' <returns></returns>
         ''' <example>
