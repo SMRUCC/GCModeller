@@ -184,10 +184,8 @@ Namespace Script
         ''' 脚本引擎自动注入的固定 Imports(运行期发射与工程期发射共用)。
         ''' </summary>
         ''' <param name="withSimd">
-        ''' 是否注入 <c>Microsoft.VisualBasic.Math.SIMD</c>。
-        ''' 只有脚本确实发生了向量化改写时才需要: 该命名空间除了 <c>Simd*</c> 系列成员之外,
-        ''' 还包含 <c>Add</c>/<c>Subtract</c>/<c>Multiply</c>/<c>Divide</c> 等泛型名称的历史门面类,
-        ''' 无条件引入会在脚本自身定义了同名类型时造成二义性, 因此按需注入。
+        ''' 是否注入向量化运算所需的命名空间(<c>Microsoft.VisualBasic.Math.SIMD.Vectorization</c>)。
+        ''' 只有脚本确实发生了向量化改写时才需要, 从而让未使用向量化的脚本不受任何影响。
         ''' </param>
         Friend Shared Function DefaultImports(Optional withSimd As Boolean = False) As String()
             Dim list As New List(Of String) From {
@@ -204,7 +202,7 @@ Namespace Script
             }
 
             If withSimd Then
-                Call list.Add("Imports Microsoft.VisualBasic.Math.SIMD")
+                Call list.Add($"Imports {SimdVocabulary.SimdNamespace}")
             End If
 
             Return list.ToArray()

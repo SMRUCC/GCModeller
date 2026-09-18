@@ -18,55 +18,52 @@ Namespace Script
     End Structure
 
     ''' <summary>
-    ''' 「向量表达式 → 运行时 <c>Microsoft.VisualBasic.Math.SIMD</c> 调用」的映射与发射。
+    ''' 「向量表达式 → 运行时 <c>Microsoft.VisualBasic.Math.SIMD.Vectorization.Vectorized</c> 调用」的映射与发射。
     ''' </summary>
     ''' <remarks>
     ''' <para>
     ''' 本模块只负责**纯文本发射**, 不依赖 Roslyn: 输入是运算符/函数名与已经渲染好的操作数,
-    ''' 输出是可以直接写进生成代码的 VB 调用表达式。语法树的解析与类型推断由
+    ''' 输出是可以直接写进生成代码的 VB 调用表达式。语法树解析与类型推断由
     ''' <see cref="VectorExpressionRewriter"/> 负责, 两者职责分离。
     ''' </para>
     ''' <para>
-    ''' <b>发射形态的约定</b>:
-    ''' <list type="bullet">
-    ''' <item>
-    ''' 目标方法是 <b>具体</b> 重载时(例如 <c>SimdAdd(Double(), Double())</c>、<c>SimdModulo(Integer(), Integer())</c>)
-    ''' 不写类型实参;</item>
-    ''' <item>
-    ''' 目标方法是 <b>泛型</b> 入口时(例如 <c>SimdAddScalar(Of T)</c>、<c>SimdAbs(Of T)</c>、<c>SimdConvert(Of TIn, TOut)</c>)
-    ''' 一律显式写出类型实参 —— 显式类型实参会让重载解析只保留泛型候选,
-    ''' 从根本上规避「新增泛型重载与既有具体重载产生二义性」的风险;</item>
-    ''' <item>
-    ''' 唯一的例外是 <c>SimdMultiplyScalar</c> + <see cref="NumericKind.Double"/>:
-    ''' 运行时的具体重载走 <c>SimdParallel</c> 分块并行, 优于泛型入口的单线程内核,
-    ''' 因此这一种情形刻意不写类型实参, 让具体重载胜出。</item>
-    ''' </list>
+    ''' <b>术语表是唯一的</b>: 所有发射目标都以 <c>Vec</c> 为前缀、且全部来自运行时的同一个模块
+    ''' <c>Vectorized</c>。这样做的原因是 VB 对「两个已导入模块之中的同名成员」会直接报
+    ''' <c>BC30562</c>(名称不明确), 无法通过重载解析化解 ——
+    ''' 因此既不能复用 <c>SimdExtensions</c> 的 <c>Simd*</c> 名字, 也不能把两套名字混用。
+    ''' </para>
+    ''' <para>
+    ''' <b>类型实参规则</b>: 目标成员是泛型时一律显式写出类型实参
+    ''' (显式实参让重载解析只保留泛型候选, 语义完全确定);
+    ''' 目标成员是具体重载时一律不写。
     ''' </para>
     ''' <para>
     ''' <b>类型对齐</b>: VB 对数组不存在逐元素转换, 因此当某个向量操作数的元素类型
-    ''' 与运算的目标类型不一致时, 必须在它外面包一层 <c>SimdConvert(Of TIn, TOut)</c>。
+    ''' 与运算的目标类型不一致时, 必须在它外面包一层 <c>VecConvert(Of TIn, TOut)</c>。
     ''' </para>
     ''' </remarks>
     Public Module SimdVocabulary
 
-        ''' <summary>需要显式写出类型实参的泛型目标方法</summary>
+        ''' <summary>需要显式写出**一个**类型实参的泛型目标成员</summary>
         Private ReadOnly GenericTargets As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase) From {
-            "SimdAddScalar",
-            "SimdSubtractScalar",
-            "SimdMultiplyScalar",
-            "SimdScalarSubtract",
-            "SimdNegate",
-            "SimdAbs",
-            "SimdSquare",
-            "SimdCount"
+            "VecAdd",
+            "VecSubtract",
+            "VecMultiply",
+            "VecAddScalar",
+            "VecSubtractScalar",
+            "VecMultiplyScalar",
+            "VecScalarSubtract",
+            "VecNegate",
+            "VecAbs",
+            "VecSquare",
+            "VecCount"
         }
 
         ''' <summary>
-        ''' 逐元素数学函数名 → 支持改写。
+        ''' 可被逐元素化的 <c>System.Math</c> 同名一元函数。
         ''' </summary>
         ''' <remarks>
-        ''' 只登记「语义与 <c>System.Math</c> 同名函数一致、且可以被逐元素化」的一元函数;
-        ''' <c>Pow</c> 是二元的, 会被当作 <c>^</c> 运算符处理。
+        ''' 只登记「语义可以被逐元素化」的函数; <c>Pow</c> 是二元的, 会被当作 <c>^</c> 运算符处理。
         ''' </remarks>
         Private ReadOnly MathFunctions As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase) From {
             "Abs", "Sqrt", "Exp", "Log", "Log10", "Sign",
@@ -80,10 +77,13 @@ Namespace Script
             "Sum", "Mean", "Average", "Min", "Max", "Product", "Count"
         }
 
+        ''' <summary>发射代码所需的运行时命名空间</summary>
+        Public Const SimdNamespace As String = "Microsoft.VisualBasic.Math.SIMD.Vectorization"
+
 #Region "运算符"
 
         ''' <summary>
-        ''' 生成一个二元算术/比较运算的向量化调用文本; 不支持改写时返回 <c>Nothing</c>。
+        ''' 生成一个二元算术运算的向量化调用文本; 不支持改写时返回 <c>Nothing</c>。
         ''' </summary>
         ''' <param name="op">VB 运算符文本(<c>+ - * / \ Mod ^</c>)</param>
         Public Function EmitBinary(op As String, left As VectorOperand, right As VectorOperand) As String
@@ -113,14 +113,14 @@ Namespace Script
             Dim vr As String = Coerce(right, target)
 
             ' 交换律运算在「标量在左」时把向量换到第一个实参位置
-            ' (SimdAddScalar / SimdMultiplyScalar 的向量参数在第一位)
+            ' (VecAddScalar / VecMultiplyScalar 的向量参数在第一位)
             If Not left.Type.IsVector AndAlso (op = "+" OrElse op = "*") Then
                 Dim swap As String = vl
                 vl = vr
                 vr = swap
             End If
 
-            Return Invoke(method, target, {vl, vr})
+            Return InvokeTarget(method, target, {vl, vr})
         End Function
 
         ''' <summary>生成一元取负的向量化调用文本; 不支持改写时返回 <c>Nothing</c></summary>
@@ -129,7 +129,7 @@ Namespace Script
                 Return Nothing
             End If
 
-            Return Invoke("SimdNegate", operand.Type.Kind, {operand.Text})
+            Return InvokeTarget("VecNegate", operand.Type.Kind, {operand.Text})
         End Function
 
         ''' <summary>运算符 → 逐元素结果元素类型</summary>
@@ -144,63 +144,61 @@ Namespace Script
             End Select
         End Function
 
-        ''' <summary>运算符 + 操作数形态 → 运行时方法名</summary>
+        ''' <summary>运算符 + 操作数形态 → 运行时成员名</summary>
         Private Function MethodName(op As String, leftVector As Boolean, rightVector As Boolean) As String
             Dim both As Boolean = leftVector AndAlso rightVector
 
             Select Case op
                 Case "+"
-                    Return If(both, "SimdAdd", "SimdAddScalar")
+                    Return If(both, "VecAdd", "VecAddScalar")
                 Case "*"
-                    Return If(both, "SimdMultiply", "SimdMultiplyScalar")
+                    Return If(both, "VecMultiply", "VecMultiplyScalar")
                 Case "-"
-                    If both Then Return "SimdSubtract"
-                    Return If(leftVector, "SimdSubtractScalar", "SimdScalarSubtract")
+                    If both Then Return "VecSubtract"
+                    Return If(leftVector, "VecSubtractScalar", "VecScalarSubtract")
                 Case "/"
-                    If both Then Return "SimdDivide"
-                    Return If(leftVector, "SimdDivideScalar", "SimdScalarDivide")
+                    If both Then Return "VecDivide"
+                    Return If(leftVector, "VecDivideScalar", "VecScalarDivide")
                 Case "\"
-                    If both Then Return "SimdIntegerDivide"
-                    Return If(leftVector, "SimdIntegerDivideScalar", "SimdScalarIntegerDivide")
+                    If both Then Return "VecIntegerDivide"
+                    Return If(leftVector, "VecIntegerDivideScalar", "VecScalarIntegerDivide")
                 Case "Mod"
-                    If both Then Return "SimdModulo"
-                    Return If(leftVector, "SimdModuloScalar", "SimdScalarModulo")
+                    If both Then Return "VecModulo"
+                    Return If(leftVector, "VecModuloScalar", "VecScalarModulo")
                 Case "^"
-                    If both Then Return "SimdPower"
-                    Return If(leftVector, "SimdPowerScalar", "SimdScalarPower")
+                    If both Then Return "VecPower"
+                    Return If(leftVector, "VecPowerScalar", "VecScalarPower")
                 Case Else
                     Return Nothing
             End Select
         End Function
 
-        ''' <summary>把操作数的元素类型对齐到目标类型(必要时插入 SimdConvert)</summary>
+        ''' <summary>把操作数的元素类型对齐到目标类型(必要时插入 VecConvert)</summary>
         Private Function Coerce(operand As VectorOperand, target As NumericKind) As String
             If operand.Type.IsVector AndAlso operand.Type.Kind <> target Then
-                Return $"SimdConvert(Of {VectorType.DisplayName(operand.Type.Kind)}, {VectorType.DisplayName(target)})({operand.Text})"
+                Return ConvertCall(operand.Text, operand.Type.Kind, target)
             End If
 
             ' 标量一律交给生成代码的隐式数值转换(生成代码固定为 Option Strict Off)
             Return operand.Text
         End Function
 
-        ''' <summary>按目标方法是否泛型入口, 决定是否写出显式类型实参</summary>
-        Private Function Invoke(method As String, target As NumericKind, args As String()) As String
-            If NeedsTypeArgument(method, target) Then
+        ''' <summary>生成一次显式的逐元素类型转换调用</summary>
+        Private Function ConvertCall(text As String, sourceKind As NumericKind, target As NumericKind) As String
+            If sourceKind = target Then
+                Return text
+            End If
+
+            Return $"VecConvert(Of {VectorType.DisplayName(sourceKind)}, {VectorType.DisplayName(target)})({text})"
+        End Function
+
+        ''' <summary>按目标成员是否为泛型入口, 决定是否写出显式类型实参</summary>
+        Private Function InvokeTarget(method As String, target As NumericKind, args As String()) As String
+            If GenericTargets.Contains(method) Then
                 Return $"{method}(Of {VectorType.DisplayName(target)})({String.Join(", ", args)})"
             Else
                 Return $"{method}({String.Join(", ", args)})"
             End If
-        End Function
-
-        Private Function NeedsTypeArgument(method As String, target As NumericKind) As Boolean
-            ' 例外: Double 的向量乘标量保留具体重载, 以继续走 SimdParallel 的分块并行
-            If String.Equals(method, "SimdMultiplyScalar", StringComparison.OrdinalIgnoreCase) AndAlso
-               target = NumericKind.Double Then
-
-                Return False
-            End If
-
-            Return GenericTargets.Contains(method)
         End Function
 
 #End Region
@@ -216,9 +214,9 @@ Namespace Script
         ''' 聚合归约的结果类型(用于类型传播); 不支持该(归约, 元素类型)组合时返回 Unknown。
         ''' </summary>
         ''' <remarks>
-        ''' 与运行时实际提供的 <c>Simd</c> 归约重载严格对应:
-        ''' <c>Mean</c> 在运行时没有 <c>Short</c> 形态(而 VB/LINQ 也没有),
-        ''' 因此对 <c>Short</c> 返回 Unknown 以避免发射出无法编译的调用。
+        ''' 与运行时 <c>Vectorized</c> 模块实际提供的重载严格对应:
+        ''' <c>Mean</c> 没有 <c>Short</c> 形态(VB/LINQ 也没有), 因此对 <c>Short</c> 返回 Unknown,
+        ''' 避免发射出无法编译的调用。
         ''' </remarks>
         Public Function ReduceResult(name As String, kind As NumericKind) As ValueTypeInfo
             If kind = NumericKind.Unknown Then
@@ -253,12 +251,12 @@ Namespace Script
             End If
 
             Select Case name.ToLower()
-                Case "sum" : Return $"SimdSum({operand.Text})"
-                Case "mean", "average" : Return $"SimdMean({operand.Text})"
-                Case "min" : Return $"SimdMin({operand.Text})"
-                Case "max" : Return $"SimdMax({operand.Text})"
-                Case "product" : Return $"SimdProduct({operand.Text})"
-                Case "count" : Return $"SimdCount(Of {VectorType.DisplayName(operand.Type.Kind)})({operand.Text})"
+                Case "sum" : Return $"VecSum({operand.Text})"
+                Case "mean", "average" : Return $"VecMean({operand.Text})"
+                Case "min" : Return $"VecMin({operand.Text})"
+                Case "max" : Return $"VecMax({operand.Text})"
+                Case "product" : Return $"VecProduct({operand.Text})"
+                Case "count" : Return $"VecCount(Of {VectorType.DisplayName(operand.Type.Kind)})({operand.Text})"
                 Case Else : Return Nothing
             End Select
         End Function
@@ -276,11 +274,11 @@ Namespace Script
         ''' 逐元素数学函数的结果类型(用于类型传播); 不支持该(函数, 参数类型)组合时返回 Unknown。
         ''' </summary>
         ''' <remarks>
-        ''' 与运行时实际提供的重载严格对应:
+        ''' 与运行时的重载严格对应:
         ''' <c>Sqrt</c>/<c>Exp</c>/<c>Log</c>/<c>Floor</c>/<c>Ceiling</c>/<c>Truncate</c>
-        ''' 在运行时只有 <see cref="NumericKind.Double"/>/<see cref="NumericKind.Single"/> 形态,
-        ''' 整数向量会先被 <c>SimdConvert</c> 提升为 <c>Double</c>;
-        ''' 三角函数与 <c>Round</c> 没有专用内核, 统一通过 <c>SimdMap</c> 输出 <c>Double</c>。
+        ''' 只有 <see cref="NumericKind.Double"/>/<see cref="NumericKind.Single"/> 形态,
+        ''' 整数向量会先被 <c>VecConvert</c> 提升为 <c>Double</c>;
+        ''' 三角函数与 <c>Round</c> 没有专用内核, 统一通过 <c>VecMap</c> 输出 <c>Double</c>。
         ''' </remarks>
         Public Function MathResult(name As String, argType As ValueTypeInfo, argCount As Integer) As ValueTypeInfo
             If Not argType.IsKnown Then
@@ -349,54 +347,54 @@ Namespace Script
             Dim first As String = args(0)
 
             If kind <> NumericKind.Double AndAlso kind <> NumericKind.Single Then
-                first = ConvertElement(args(0), kind, NumericKind.Double)
+                first = ConvertCall(args(0), kind, NumericKind.Double)
                 effKind = NumericKind.Double
             End If
 
             Select Case name.ToLower()
                 Case "abs"
-                    Return $"SimdAbs(Of {VectorType.DisplayName(kind)})({args(0)})"
+                    Return $"VecAbs(Of {VectorType.DisplayName(kind)})({args(0)})"
 
                 Case "sqrt"
-                    Return $"SimdSqrt({first})"
+                    Return $"VecSqrt({first})"
 
                 Case "exp"
-                    Return $"SimdExp({first})"
+                    Return $"VecExp({first})"
 
                 Case "log"
                     If args.Length = 2 Then
-                        ' SimdLog(v As Double(), base As Double) 只提供 Double 形态
-                        Return $"SimdLog({ConvertElement(args(0), kind, NumericKind.Double)}, {args(1)})"
+                        ' VecLog(v As Double(), baseValue As Double) 只提供 Double 形态
+                        Return $"VecLog({ConvertCall(args(0), kind, NumericKind.Double)}, {args(1)})"
                     End If
 
-                    Return $"SimdLog({first})"
+                    Return $"VecLog({first})"
 
                 Case "sign"
                     If kind = NumericKind.Single OrElse kind = NumericKind.Double Then
-                        Return $"SimdSign({args(0)})"
+                        Return $"VecSign({args(0)})"
                     End If
 
-                    ' Math.Sign 对整型返回同宽整型, 通过 SimdMap 逐元素调用
+                    ' Math.Sign 对整型返回同宽整型, 通过 VecMap 逐元素调用
                     Return MapCall(kind, result.Kind, args(0), "Sign")
 
                 Case "floor"
-                    Return $"SimdFloor({first})"
+                    Return $"VecFloor({first})"
 
                 Case "ceiling"
-                    Return $"SimdCeiling({first})"
+                    Return $"VecCeiling({first})"
 
                 Case "truncate"
-                    Return $"SimdTruncate({first})"
+                    Return $"VecTruncate({first})"
 
                 Case Else
-                    ' 没有专用 SIMD 内核的函数(三角函数、Round、Log10)统一走 SimdMap
+                    ' 没有专用 SIMD 内核的函数(三角函数、Round、Log10)统一走 VecMap
                     Return MapCall(effKind, NumericKind.Double, first, name)
             End Select
         End Function
 
         ''' <summary>
-        ''' 生成 <c>SimdMap</c> 形式的逐元素函数调用:
-        ''' <c>SimdMap(Of K, R)(v, Function(x As K) Math.F(x))</c>。
+        ''' 生成 <c>VecMap</c> 形式的逐元素函数调用:
+        ''' <c>VecMap(Of K, R)(v, Function(__v As K) Math.F(__v))</c>。
         ''' </summary>
         ''' <remarks>
         ''' lambda 显式声明参数类型, 使两个泛型实参都能被确定地绑定;
@@ -408,16 +406,7 @@ Namespace Script
             Dim k As String = VectorType.DisplayName(kind)
             Dim r As String = VectorType.DisplayName(result)
 
-            Return $"SimdMap(Of {k}, {r})({arg}, Function(__v As {k}) Math.{functionName}(__v))"
-        End Function
-
-        ''' <summary>在元素类型不一致的一侧插入显式的逐元素类型转换</summary>
-        Private Function ConvertElement(text As String, sourceKind As NumericKind, target As NumericKind) As String
-            If sourceKind = target Then
-                Return text
-            End If
-
-            Return $"SimdConvert(Of {VectorType.DisplayName(sourceKind)}, {VectorType.DisplayName(target)})({text})"
+            Return $"VecMap(Of {k}, {r})({arg}, Function(__v As {k}) Math.{functionName}(__v))"
         End Function
 
 #End Region
