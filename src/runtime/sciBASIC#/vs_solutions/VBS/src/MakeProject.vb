@@ -70,11 +70,8 @@ Module MakeProject
                 Call Console.WriteLine($"    提升字段    : {String.Join(", ", builder.PromotedVariables)}")
             End If
 
-            If script.Vectorized Then
-                Call Console.WriteLine("    向量化改写  : 已启用")
-            ElseIf Not script.VectorizeEnabled Then
-                Call Console.WriteLine("    向量化改写  : 已关闭")
-            End If
+            Call Console.WriteLine($"    向量化改写  : {If(script.VectorizeEnabled, "已启用", "已关闭(SIMD)")}" &
+                                   $" (SIMD {If(script.Vectorized, "已生效", "未生效")}, @ 投影 {script.Projections} 处)")
 
             If script.ScriptIncludes.Count > 0 Then
                 Call Console.WriteLine($"    引入脚本    : {script.ScriptIncludes.Count} 个")

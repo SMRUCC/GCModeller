@@ -34,9 +34,23 @@ Namespace Script
         ''' <summary>是否为一维数值数组(即"数值向量")</summary>
         Public ReadOnly IsVector As Boolean
 
-        Public Sub New(kind As NumericKind, isVector As Boolean)
+        ''' <summary>
+        ''' 元素(或标量)的**具名类型**(简单名); 只有非数值类型才会有值, 例如
+        ''' <c>Class CLRObjectType</c> 的数组得到 <c>ElementName="CLRObjectType"</c>。
+        ''' </summary>
+        ''' <remarks>
+        ''' <c>@</c> 数组投影运算符需要它: 先由 <see cref="ObjectMemberTable"/> 按类型名查到成员表,
+        ''' 才能知道 <c>list@x</c> 投影出来的元素是什么类型。
+        ''' </remarks>
+        Public ReadOnly ElementName As String
+
+        ''' <param name="kind">数值类型; 非数值类型传 <see cref="NumericKind.Unknown"/></param>
+        ''' <param name="isVector">是否为一维数组</param>
+        ''' <param name="elementName">具名类型(简单名), 没有则为 <c>Nothing</c></param>
+        Public Sub New(kind As NumericKind, isVector As Boolean, Optional elementName As String = Nothing)
             Me.Kind = kind
             Me.IsVector = isVector
+            Me.ElementName = elementName
         End Sub
 
         ''' <summary>是否为可参与向量化的数值向量</summary>
@@ -53,15 +67,31 @@ Namespace Script
             End Get
         End Property
 
-        ''' <summary>是否为"确定不是数值"的已知类型</summary>
+        ''' <summary>
+        ''' 是否为"可具名的对象向量"—— 即 <c>@</c> 数组投影运算符可能作用的接收者。
+        ''' </summary>
+        ''' <remarks>
+        ''' 这里只做**形状**判断(一维数组 + 非数值 + 元素类型有名字), 不查询成员表;
+        ''' 「该类型确实声明了所请求的成员」由调用方的
+        ''' <see cref="ObjectMemberTable.TryGetMember"/> 把关。
+        ''' </remarks>
+        Public ReadOnly Property IsObjectVector As Boolean
+            Get
+                Return IsVector AndAlso Kind = NumericKind.Unknown AndAlso Not String.IsNullOrEmpty(ElementName)
+            End Get
+        End Property
+
+        ''' <summary>是否为"确定类型"的取值(数值已知, 或者具名类型已知)</summary>
         Public ReadOnly Property IsKnown As Boolean
             Get
-                Return Kind <> NumericKind.Unknown
+                Return Kind <> NumericKind.Unknown OrElse Not String.IsNullOrEmpty(ElementName)
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return VectorType.DisplayName(Kind) & If(IsVector, "()", "")
+            Dim name As String = If(String.IsNullOrEmpty(ElementName), VectorType.DisplayName(Kind), ElementName)
+
+            Return name & If(IsVector, "()", "")
         End Function
     End Structure
 
@@ -148,6 +178,54 @@ Namespace Script
             End If
 
             Return Aliases.TryGetValue(typeName.Trim(), kind)
+        End Function
+
+        ''' <summary>
+        ''' 从 VB 类型名文本中取出**简单名**(去掉命名空间限定、泛型实参与数组记号),
+        ''' 用作 <see cref="ValueTypeInfo.ElementName"/> 的键。
+        ''' </summary>
+        ''' <remarks>
+        ''' 例: <c>Model.Person</c> → <c>Person</c>; <c>List(Of Integer)</c> → <c>List</c>;
+        ''' <c>Foo()</c> → <c>Foo</c>; <c>Foo(,)</c> → <c>Foo</c>。
+        ''' 取不出合法的标识符时返回 <c>Nothing</c>。
+        ''' </remarks>
+        Public Function SimpleTypeName(raw As String) As String
+            If String.IsNullOrEmpty(raw) Then
+                Return Nothing
+            End If
+
+            Dim text As String = raw.Trim()
+
+            ' 去掉泛型实参: List(Of Integer) -> List
+            Dim generic As Integer = text.IndexOf("("c)
+
+            If generic >= 0 Then
+                text = text.Substring(0, generic)
+            End If
+
+            text = text.Trim()
+
+            ' 去掉嵌套限定: Model.Person -> Person
+            Dim dot As Integer = text.LastIndexOf("."c)
+
+            If dot >= 0 Then
+                text = text.Substring(dot + 1)
+            End If
+
+            text = text.Trim()
+
+            ' 具名类型必须是合法标识符
+            If text.Length = 0 OrElse Not Char.IsLetter(text(0)) AndAlso text(0) <> "_"c Then
+                Return Nothing
+            End If
+
+            For Each c As Char In text
+                If Not Char.IsLetterOrDigit(c) AndAlso c <> "_"c Then
+                    Return Nothing
+                End If
+            Next
+
+            Return text
         End Function
 
         ''' <summary>数值类型的 VB 显示名</summary>

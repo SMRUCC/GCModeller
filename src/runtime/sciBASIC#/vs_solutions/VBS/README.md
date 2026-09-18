@@ -46,7 +46,7 @@ End Using
 
 整个执行流水线分为四个阶段：
 
-1. **解析**(`VBScript.ParseScript`)：读取源码，解析 `#include` 引用的外部依赖（dll / 其它脚本 / nuget 包，含递归展开与 nuget 传递依赖解析），解析 `#package/#author/#title/#version` 程序集元数据指令，并进行文本预处理（移除 `#include` 行、展开命令行参数语法、展开 `let` 动态类型声明、展开元组分解语法、数值向量化改写）；
+1. **解析**(`VBScript.ParseScript`)：读取源码，解析 `#include` 引用的外部依赖（dll / 其它脚本 / nuget 包，含递归展开与 nuget 传递依赖解析），解析 `#package/#author/#title/#version` 程序集元数据指令，并进行文本预处理（移除 `#include` 行、展开命令行参数语法、展开 `let` 动态类型声明、展开元组分解语法、展开 `@` 数组投影、数值向量化改写）；
 2. **结构重构**(`ScriptRefactor.Refactor`)：逐行扫描代码，利用块栈分离出类型定义块、顶层函数、顶层控制流块与顶层语句，将顶层函数重写为匿名函数并求解其在 `Main` 中的落位，最终组装为固定容器结构；
 3. **内存编译**(`DynamicDll.CompileScript`)：基于 Roslyn 将生成的代码编译为 `DynamicallyLinkedLibrary`，IL 与 PDB 均直接发射到内存流中；
 4. **反射执行**(`ScriptRuntime.Run`)：在可回收的 `ScriptLoadContext`(自定义 `AssemblyLoadContext`) 中加载 assembly，通过反射调用 `DynamicDll.Program.Main(args As CommandLine)`，`Dispose` 时卸载整个加载上下文。
@@ -521,6 +521,78 @@ vbs make-project ./run.vb --no-vectorize
 `VecMultiply` / `VecScalarDivide`，以保持 VB 的逐元素类型语义)，它们作为词汇表的一部分保留，
 脚本也可以直接调用。
 
+#### 12. @ 数组投影运算符
+
+对**对象数组**可以用 Perl 风格的 `@` 直接把成员投影成一个新数组：
+
+```vbnet
+Class CLRObjectType
+    Property x As Double
+    Property y As String
+End Class
+
+Dim list As CLRObjectType() = { ... }
+
+Dim x = list@x                                  ' => Double()
+Dim y = list@y                                  ' => String()
+
+Dim z = list@x + {2, 3, 4, 5, 6, 7, 8, 9}
+' => Dim z = VecAdd(list.Select(Function(__vbs_o) __vbs_o.x).ToArray(),
+'                   VecConvert(Of Integer, Double)({2, 3, 4, 5, 6, 7, 8, 9}))
+```
+
+展开规则：
+
+| 写法 | 展开结果 | 结果类型 |
+|------|----------|----------|
+| `list@x` | `list.Select(Function(__vbs_o) __vbs_o.x).ToArray()` | 成员类型的数组(`Double()`)，**可参与向量化** |
+| `list@{x, y}` | `list.Select(Function(__vbs_o) New With {.x = __vbs_o.x, .y = __vbs_o.y}).ToArray()` | 匿名类型数组，**不参与向量化** |
+| `list@{x}` | 同上(花括号形式一律给出匿名类型数组) | 匿名类型数组 |
+| `list@inner@x` | 逐级投影：`...Select(...__vbs_o.inner).ToArray().Select(...__vbs_o.x).ToArray()` | 链式，逐级解析元素类型 |
+| `list@x.Sum()` | `VecSum(list.Select(Function(__vbs_o) __vbs_o.x).ToArray())` | 投影结果上的成员调用照常处理 |
+
+关键性质：
+
+- **`@` 是语法糖，始终生效**：与 `let`、元组分解同级。`--no-vectorize` / `#no-vectorize`
+  **只**关闭 SIMD 算术改写，`@` 照常展开(于是关闭之后数组聚合要写 LINQ 形式 `values.Sum()`)；
+- **投影结果自动接入向量化**：`list@x` 得到的就是普通一维数组，因此第 10 节的全部能力
+  (向量算术、标量广播、VB 类型提升、逐元素数学函数、聚合归约)都自动适用；
+- **手写形式同样被识别**：脚本里直接写 `list.Select(Function(o) o.x).ToArray()` 与 `list@x` 等价，
+  也会被向量化。
+
+##### 12.1 成员类型从哪里来
+
+引擎用 Roslyn 解析**主脚本**以及**被 `#include` 引入脚本**的 `Class`/`Structure` 定义块
+(`Property x As Double`、`Public x As String`、`Dim x As Double`、带 `Get`/`Set` 的属性块都支持)，
+得到「类型名 → 成员名 → 成员类型」的成员表，据此决定 `list@x` 的元素类型。
+只有带**显式 `As` 类型子句**的成员才会被登记。
+
+##### 12.2 保守策略(不展开的情形)
+
+只有「左侧元素类型能从脚本声明解析出来 **且** 该类型确实声明了所请求的成员」才展开；
+任何一项不确定都**不生成猜测性代码**，该 `@` 原样保留(脚本按原有方式报语法错误)。
+判别粒度是逐个 `@`。典型的不展开情形：
+
+| 情形 | 例子 |
+|------|------|
+| 左侧变量没有显式元素类型(函数返回类型不追踪) | `Dim l = GetList()` 之后的 `l@x` |
+| 元素类型来自 `#include` 的 **dll 程序集**(只解析脚本内的类型定义) | `Dim p As Person()` 而 `Person` 定义在 dll 里 |
+| 成员不存在，或成员没有类型子句 | `list@notExist` |
+| 左侧不是标识符点号链 | `GetList()@x`、`list(0)@x` |
+| 标量对象(请直接写 `obj.x`) | `obj@x` |
+| 跨物理行的表达式续行 | `@` 落在被续行的部分 |
+
+`@` 出现在字符串字面量、行尾注释，以及 `1.5@` 这类 Decimal 类型字符位置时**都不会**被展开
+(字符串插值 `$"..."` 内部目前也不支持)。
+
+`--verbose` 会打印 `@` 投影次数与「已解析出成员表的类型名」，便于确认某个类型为什么没有生效：
+
+```text
+----- vectorization: 2 处 SIMD 改写, 4 处 @ 投影, 5 个向量变量 -----
+    vectors: list, x, y, z, scaled
+    object types: CLRObjectType
+```
+
 ## 转换为正式的 vbproj 工程(make-project)
 
 脚本调试完成之后，可以用 `make-project` 子命令把它**就地**转换为一个正式的 VB.NET 工程：
@@ -535,6 +607,7 @@ vbs make-project ./run.vb [--verbose] [--no-build] [--force] [--runtime <dll>]
 | `--no-build` | 只生成工程文件，不执行构建验证 |
 | `--force` | 覆盖已经存在的工程(会先清空 `src/` 目录) |
 | `--runtime <dll>` | 指定 sciBASIC 运行时程序集(`Microsoft.VisualBasic.Runtime.dll`)，默认为引擎自身使用的副本 |
+| `--no-vectorize` | 关闭数值向量的自动向量化改写(`@` 投影仍然生效) |
 
 ### 产出
 
@@ -626,7 +699,9 @@ End Using   ' Dispose后动态加载的assembly会被卸载
 | `src/VBScript/TupleDestructuring.vb` | 元组分解语法展开 |
 | `src/VBScript/Syntax/Vectorization/Vectorization.vb` | **向量化预处理阶段入口**：`#no-vectorize` / `#vectorize` 指令处理、逐行驱动、改写报告 |
 | `src/VBScript/Syntax/Vectorization/VectorType.vb` | 数值类型模型与 VB 逐元素类型提升规则(`Promote` / `DivideKind` / `PowerKind` / `IntegerDivideKind` / `ModuloKind`) |
-| `src/VBScript/Syntax/Vectorization/VectorExpressionRewriter.vb` | 向量化改写核心：基于 Roslyn 的语句解析与浅层类型推断、识别数组字面量、按字符区间回写原行 |
+| `src/VBScript/Syntax/Vectorization/ObjectMemberTable.vb` | 用 Roslyn 解析脚本类型定义块，得到「类型名 → 成员名 → 成员类型」的成员表，供 `@` 投影解析元素类型 |
+| `src/VBScript/Syntax/Vectorization/PropertyProjection.vb` | `@` 数组投影运算符的文本级展开(掩码字符串/注释、单成员/多成员/链式、类型不可解析时不展开) |
+| `src/VBScript/Syntax/Vectorization/VectorExpressionRewriter.vb` | 向量化改写核心：基于 Roslyn 的语句解析与浅层类型推断、识别数组字面量与投影形式、按字符区间回写原行 |
 | `src/VBScript/Syntax/Vectorization/SimdVocabulary.vb` | 运算符/数学函数/聚合归约 → `Vec*` 调用的映射与文本发射(含 `VecConvert` 的插入位置决策) |
 | `src/VBScript/ScriptParseResult.vb` | 解析结果数据对象(程序集元数据、引入的脚本与 nuget 包、解析后的程序集列表、向量化开关) |
 | `src/VBScript/ScriptRuntime.vb` | 脚本运行时：封装动态 assembly 的执行与卸载(`IDisposable`) |

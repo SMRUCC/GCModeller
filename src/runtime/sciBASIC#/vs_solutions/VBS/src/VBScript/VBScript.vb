@@ -53,7 +53,10 @@ Namespace Script
             Dim magicRoots As String() = includes.MergeSearchRoots(searchRoots).ToArray()
             Dim magicSnippets As IEnumerable(Of String) = Magics.Build(fullScript, metadata, includes.Assemblies, magicRoots)
             Dim vectorReport As New VectorizationReport()
-            Dim preprocessed As String = ScriptRefactor.PreprocessText(source, vectorize:=vectorize, report:=vectorReport)
+            Dim preprocessed As String = ScriptRefactor.PreprocessText(source,
+                                                                      vectorize:=vectorize,
+                                                                      report:=vectorReport,
+                                                                      extraTypeBlocks:=includes.TypeBlocks)
             Dim hasVectorCode As Boolean = vectorReport.Rewritten > 0
             Dim code As String = New ScriptRefactor(metadata, magicSnippets, includes) _
                 .RefactorPreprocessed(preprocessed, withSimd:=hasVectorCode)
@@ -75,6 +78,7 @@ Namespace Script
                 .SearchRoots = magicRoots,
                 .VectorizeEnabled = vectorize,
                 .Vectorized = hasVectorCode,
+                .Projections = vectorReport.Projections,
                 .PreprocessedCode = preprocessed,
                 .GeneratedCode = code
             }
@@ -82,17 +86,24 @@ Namespace Script
 
         ''' <summary>在 verbose 模式下输出向量化改写统计与未能改写的可疑行</summary>
         Private Sub PrintVectorization(report As VectorizationReport, enabled As Boolean)
-            If Not enabled Then
-                Call Console.WriteLine("----- vectorization: disabled -----")
-                Return
-            End If
-
             Dim vectors As String() = report.Vectors.Distinct().ToArray()
 
-            Call Console.WriteLine($"----- vectorization: {report.Rewritten} 处改写, {vectors.Length} 个向量变量 -----")
+            If enabled Then
+                Call Console.WriteLine($"----- vectorization: {report.Rewritten} 处 SIMD 改写, " &
+                                       $"{report.Projections} 处 @ 投影, {vectors.Length} 个向量变量 -----")
+            Else
+                Call Console.WriteLine("----- vectorization: disabled " &
+                                       $"(@ 投影仍然生效, {report.Projections} 处) -----")
+            End If
 
             If vectors.Length > 0 Then
                 Call Console.WriteLine("    vectors: " & String.Join(", ", vectors))
+            End If
+
+            Dim objectTypes As String() = report.ObjectTypes.Distinct().ToArray()
+
+            If objectTypes.Length > 0 Then
+                Call Console.WriteLine("    object types: " & String.Join(", ", objectTypes))
             End If
 
             If report.Skipped.Count > 0 Then

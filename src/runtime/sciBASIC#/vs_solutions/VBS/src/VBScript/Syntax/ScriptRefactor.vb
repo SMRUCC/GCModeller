@@ -54,12 +54,18 @@ Namespace Script
         ''' </summary>
         ''' <param name="source">脚本源代码</param>
         ''' <param name="vectorize">
-        ''' 是否启用向量化改写; 脚本头部的 <c>#no-vectorize</c> 指令优先级更高
+        ''' 是否启用向量化改写; 脚本头部的 <c>#no-vectorize</c> 指令优先级更高。
+        ''' 该开关不影响 <c>@</c> 数组投影的展开(那是语法糖, 始终生效)。
         ''' </param>
         ''' <param name="report">可选的向量化改写报告</param>
+        ''' <param name="extraTypeBlocks">
+        ''' 额外参与 <c>@</c> 元素类型解析的类型定义块(被 <c>#include</c> 引入脚本所贡献的
+        ''' <see cref="IncludeSet.TypeBlocks"/>)
+        ''' </param>
         Public Shared Function PreprocessText(source As String,
                                               Optional vectorize As Boolean = True,
-                                              Optional report As VectorizationReport = Nothing) As String
+                                              Optional report As VectorizationReport = Nothing,
+                                              Optional extraTypeBlocks As IEnumerable(Of String) = Nothing) As String
 
             Dim code As String = Regex.Replace(source, "^\s*#include\s+""[^""]*""\s*$", "", RegexOptions.IgnoreCase Or RegexOptions.Multiline)
 
@@ -68,8 +74,8 @@ Namespace Script
             ' let x = ... => Dim x As Object = ... (不会改写 LINQ 查询之中的 Let 子句)
             code = LetStatement.Expand(code)
             code = TupleDestructuring.Expand(code)
-            ' 数值向量的算术表达式 => 等价的逐元素 SIMD 调用
-            code = Vectorization.Expand(code, enabled:=vectorize, report:=report)
+            ' @ 数组投影展开 + 数值向量的算术表达式 => 等价的逐元素 SIMD 调用
+            code = Vectorization.Expand(code, enabled:=vectorize, report:=report, extraTypeBlocks:=extraTypeBlocks)
 
             Return code
         End Function
@@ -83,7 +89,10 @@ Namespace Script
         ''' </summary>
         Public Function Refactor(source As String) As String
             Dim report As New VectorizationReport()
-            Dim code As String = PreprocessText(source, vectorize:=True, report:=report)
+            Dim code As String = PreprocessText(source,
+                                               vectorize:=True,
+                                               report:=report,
+                                               extraTypeBlocks:=_includeTypes)
 
             Return RefactorPreprocessed(code, withSimd:=report.Rewritten > 0)
         End Function

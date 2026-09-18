@@ -109,9 +109,14 @@ Namespace Script
 
         ''' <summary>
         ''' 预处理阶段是否**确实**发生了向量化改写。
-        ''' 生成代码只有在为 <c>True</c> 时才需要注入 <c>Microsoft.VisualBasic.Math.SIMD</c> 的 Imports。
+        ''' 生成代码只有在为 <c>True</c> 时才需要注入 SIMD 的 Imports。
         ''' </summary>
         Public Property Vectorized As Boolean
+
+        ''' <summary>
+        ''' <c>@</c> 数组投影运算符被展开的次数(<c>@</c> 是语法糖, 与 <see cref="VectorizeEnabled"/> 无关)
+        ''' </summary>
+        Public Property Projections As Integer
 
         ''' <summary>
         ''' 文本预处理(移除 #include 行、展开 ?args / let / 元组分解 / 向量化)之后的脚本代码。

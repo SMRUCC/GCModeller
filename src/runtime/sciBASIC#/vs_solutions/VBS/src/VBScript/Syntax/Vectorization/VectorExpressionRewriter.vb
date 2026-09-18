@@ -51,6 +51,18 @@ Namespace Script
             "^\s*(?:(?:public|private|friend|protected|shared|static|overloads|overrides)\s+)*(?:function|sub)\s+(?<name>[A-Za-z_]\w*)",
             RegexOptions.IgnoreCase)
 
+        ''' <summary>
+        ''' 语法不完整的声明行: <c>Dim name [(bounds)] As Type</c>(只取显式给出的类型)。
+        ''' </summary>
+        ''' <remarks>
+        ''' 仅用于 Roslyn 无法解析整行的情形(典型是跨行的数组字面量),
+        ''' 因此刻意只接受"单个变量 + 显式 As 子句"这一最简形态, 其余一律不登记。
+        ''' </remarks>
+        Private ReadOnly IncompleteDeclarationPattern As New Regex(
+            "^\s*(?:dim|const)\s+(?<name>[A-Za-z_]\w*)\s*(?<bounds>\([^)]*\))?\s+As\s+" &
+            "(?<type>[A-Za-z_][\w\.]*(?:\s*\(\s*,?\s*\))?)",
+            RegexOptions.IgnoreCase)
+
         ''' <summary>变量名 → 浅层类型(只登记类型确定的名称)</summary>
         Private ReadOnly _types As New Dictionary(Of String, ValueTypeInfo)(StringComparer.OrdinalIgnoreCase)
 
@@ -59,6 +71,24 @@ Namespace Script
 
         ''' <summary>脚本自身(或 lambda 赋值)定义过的函数名: 不做逐元素数学函数改写</summary>
         Private ReadOnly _functions As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+        ''' <summary>脚本(含被 #include 引入脚本)所声明类型的成员表</summary>
+        Private ReadOnly _members As ObjectMemberTable
+
+        ''' <summary><c>@</c> 数组投影运算符的文本级展开器</summary>
+        Private ReadOnly _projection As PropertyProjection
+
+        ''' <summary>
+        ''' 创建一个改写器。
+        ''' </summary>
+        ''' <param name="members">
+        ''' 脚本(含被 <c>#include</c> 引入脚本)所声明类型的成员表;
+        ''' 为 <c>Nothing</c> 时视为"没有任何已知类型", 此时 <c>@</c> 投影不会展开。
+        ''' </param>
+        Public Sub New(Optional members As ObjectMemberTable = Nothing)
+            _members = If(members, ObjectMemberTable.FromTypeBlocks(Nothing))
+            _projection = New PropertyProjection(_members)
+        End Sub
 
         ''' <summary>当前已知的向量变量名(供跳过报告与内部使用)</summary>
         Public ReadOnly Property VectorNames As String()
@@ -75,9 +105,19 @@ Namespace Script
         ' ==================================================================
 
         ''' <summary>
-        ''' 对一行脚本源码做向量化改写; 无法处理时原样返回。
+        ''' 对一行脚本源码做处理: <c>@</c> 数组投影展开(始终执行) + (可选的)SIMD 向量化改写。
         ''' </summary>
-        Public Function RewriteLine(line As String, report As VectorizationReport) As String
+        ''' <param name="line">一行脚本源码</param>
+        ''' <param name="report">改写报告(可以为 Nothing)</param>
+        ''' <param name="withSimd">
+        ''' 是否继续做 SIMD 算术改写。为 <c>False</c> 时仍然执行 <c>@</c> 展开与类型登记 ——
+        ''' <c>@</c> 是语法糖(与 <c>let</c>、元组分解同级), 与 <c>--no-vectorize</c> 无关;
+        ''' 但此时仍要登记类型, 否则后续行上的 <c>@</c> 会因为 ElementName 未知而无法展开。
+        ''' </param>
+        Public Function RewriteLine(line As String,
+                                    report As VectorizationReport,
+                                    Optional withSimd As Boolean = True) As String
+
             If String.IsNullOrWhiteSpace(line) Then
                 Return line
             End If
@@ -93,6 +133,14 @@ Namespace Script
             ' 否则"本行自己声明的向量"会让声明行自己也被报成"未能改写"。
             Dim knownBefore As String() = VectorNames
 
+            ' 0. @ 数组投影展开(语法糖, 不受 --no-vectorize 影响)
+            Dim source As String = line
+
+            line = _projection.ExpandLine(line, _types, report)
+
+            ' 已经做过投影展开的行不应再被报成"未能改写"
+            Dim projected As Boolean = Not String.Equals(line, source, StringComparison.Ordinal)
+
             ' 1. 函数签名: 登记向量参数与函数名(签名行本身不是语句, 解析会失败)
             Call RegisterParameters(line)
             Call RegisterFunctionName(line)
@@ -101,7 +149,13 @@ Namespace Script
             Dim statements As List(Of StatementSyntax) = ParseStatementsOfLine(line)
 
             If statements.Count = 0 Then
-                Call ReportSkipped(line, report, knownBefore)
+                ' 整行语法不完整(典型: 跨行的数组字面量/表达式): 无法改写, 但仍尽量登记显式类型
+                Call TryRegisterIncompleteDeclaration(line)
+
+                If Not projected Then
+                    Call ReportSkipped(line, report, knownBefore)
+                End If
+
                 Return line
             End If
 
@@ -117,6 +171,15 @@ Namespace Script
                 Call RegisterDeclarations(stmt)
                 Call accepted.Add(stmt)
             Next
+
+            If accepted.Count = 0 Then
+                ' 本行的语句全都带诊断信息(跨行声明) => 走降级登记
+                Call TryRegisterIncompleteDeclaration(line)
+            End If
+
+            If Not withSimd Then
+                Return line
+            End If
 
             ' 4. 再右到左渲染并回写, 保证左侧语句的字符偏移在替换后依然有效
             Dim text As String = line
@@ -137,10 +200,17 @@ Namespace Script
             Next
 
             If modified Then
+                If report IsNot Nothing Then
+                    report.Rewritten += 1
+                End If
+
                 Return text
             End If
 
-            Call ReportSkipped(line, report, knownBefore)
+            If Not projected Then
+                Call ReportSkipped(line, report, knownBefore)
+            End If
+
             Return line
         End Function
 
@@ -445,7 +515,7 @@ Namespace Script
 
             Select Case expr.Kind
                 Case SyntaxKind.IdentifierName
-                    Dim info As ValueTypeInfo
+                    Dim info As ValueTypeInfo = Nothing
 
                     If _types.TryGetValue(DirectCast(expr, IdentifierNameSyntax).Identifier.ValueText, info) Then
                         Return info
@@ -527,7 +597,9 @@ Namespace Script
             Dim creation As ArrayCreationExpressionSyntax = TryCast(expr, ArrayCreationExpressionSyntax)
 
             If creation IsNot Nothing Then
-                Return InferCreatedArray(creation.Type, hasBounds:=True)
+                Return InferCreatedArray(creation.Type,
+                                         hasBounds:=True,
+                                         isInitialized:=creation.Initializer IsNot Nothing)
             End If
 
             Dim [new] As ObjectCreationExpressionSyntax = TryCast(expr, ObjectCreationExpressionSyntax)
@@ -540,11 +612,11 @@ Namespace Script
                                        ([new].ArgumentList IsNot Nothing AndAlso
                                         [new].ArgumentList.Arguments.Count > 0)
 
-            Return InferCreatedArray([new].Type, hasBounds)
+            Return InferCreatedArray([new].Type, hasBounds, [new].Initializer IsNot Nothing)
         End Function
 
-        Private Function InferCreatedArray(type As TypeSyntax, hasBounds As Boolean) As ValueTypeInfo
-            ' New Integer() 这类写法: 类型本身已经是数组类型
+        Private Function InferCreatedArray(type As TypeSyntax, hasBounds As Boolean, isInitialized As Boolean) As ValueTypeInfo
+            ' New Integer() {} / New Foo() 这类写法: 类型本身已经是数组类型
             Dim array As ArrayTypeSyntax = TryCast(type, ArrayTypeSyntax)
 
             If array IsNot Nothing Then
@@ -558,7 +630,19 @@ Namespace Script
             Dim kind As NumericKind
 
             If VectorType.TryParseKind(type.ToString(), kind) Then
+                ' New Double(4) {} : 数值元素类型 + 数组上界
                 Return New ValueTypeInfo(kind, True)
+            End If
+
+            ' New Foo() {..} : 具名类型 + 花括号初始化器 => 该类型的数组。
+            ' 注意: New Foo(1) 之中的实参是构造实参而不是数组上界, 因此必须要求 isInitialized;
+            ' 同时排除泛型类型(New List(Of Integer) From {..} 是集合而不是数组)。
+            If isInitialized AndAlso TryCast(type, GenericNameSyntax) Is Nothing Then
+                Dim name As String = VectorType.SimpleTypeName(type.ToString())
+
+                If name IsNot Nothing Then
+                    Return New ValueTypeInfo(NumericKind.Unknown, True, name)
+                End If
             End If
 
             Return New ValueTypeInfo()
@@ -592,6 +676,14 @@ Namespace Script
         End Function
 
         Private Function InferInvocation(invocation As InvocationExpressionSyntax) As ValueTypeInfo
+            ' 数组投影: X.Select(Function(o) o.m).ToArray()
+            ' 既覆盖 `@` 展开之后的表达式, 也覆盖脚本作者手写的同一形式
+            Dim projected As ValueTypeInfo = Nothing
+
+            If TryInferProjection(invocation, projected) Then
+                Return projected
+            End If
+
             ' 聚合归约
             Dim receiver As ExpressionSyntax = Nothing
             Dim reduceName As String = Nothing
@@ -632,6 +724,163 @@ Namespace Script
             Return New ValueTypeInfo()
         End Function
 
+        ''' <summary>lambda 参数名(取参数文本的首个标识符; 忽略 <c>ByVal</c> 等修饰符与类型子句)</summary>
+        Private ReadOnly LambdaParameterPattern As New Regex("^\s*(?:(?:byval|byref)\s+)*(?<name>[A-Za-z_]\w*)", RegexOptions.IgnoreCase)
+
+        ''' <summary>
+        ''' 识别 <c>X.Select(Function(o) o.member).ToArray()</c> 形式的数组投影。
+        ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' 这条规则同时服务两件事:
+        ''' <list type="bullet">
+        ''' <item><c>@</c> 运算符展开之后的表达式必须被识别为「元素类型已知的向量」, 才能继续参与 SIMD;</item>
+        ''' <item>脚本作者手写的同一形式也能被向量化(它与逐元素运算语义等价)。</item>
+        ''' </list>
+        ''' </para>
+        ''' <para>
+        ''' 只识别**单行** lambda: <c>@</c> 展开生成的就是单行形式,
+        ''' 多行 lambda 无法从语法树上直接取到 body 表达式, 一律放弃(保守)。
+        ''' 单成员投影给出该成员的声明类型; <c>New With {...}</c> 多成员投影得到匿名类型数组,
+        ''' 没有可命名的元素类型, 因此返回 <see cref="NumericKind.Unknown"/> ——
+        ''' 既不参与 SIMD, 也无法继续用 <c>@</c> 取成员。
+        ''' </para>
+        ''' </remarks>
+        Private Function TryInferProjection(invocation As InvocationExpressionSyntax, ByRef info As ValueTypeInfo) As Boolean
+            info = New ValueTypeInfo()
+
+            ' ---- 形如 xxx.ToArray() ----
+            Dim toArray As MemberAccessExpressionSyntax = TryCast(invocation.Expression, MemberAccessExpressionSyntax)
+
+            If toArray Is Nothing OrElse
+               Not String.Equals(toArray.Name.Identifier.ValueText, "ToArray", StringComparison.OrdinalIgnoreCase) Then
+
+                Return False
+            End If
+
+            If invocation.ArgumentList Is Nothing OrElse invocation.ArgumentList.Arguments.Count <> 0 Then
+                Return False
+            End If
+
+            ' ---- 形如 xxx.Select(<lambda>) ----
+            Dim selectCall As InvocationExpressionSyntax = TryCast(toArray.Expression, InvocationExpressionSyntax)
+
+            If selectCall Is Nothing Then
+                Return False
+            End If
+
+            Dim selectMember As MemberAccessExpressionSyntax = TryCast(selectCall.Expression, MemberAccessExpressionSyntax)
+
+            If selectMember Is Nothing OrElse
+               Not String.Equals(selectMember.Name.Identifier.ValueText, "Select", StringComparison.OrdinalIgnoreCase) Then
+
+                Return False
+            End If
+
+            If selectCall.ArgumentList Is Nothing OrElse selectCall.ArgumentList.Arguments.Count <> 1 Then
+                Return False
+            End If
+
+            ' ---- 被投影的集合必须是"具名类型的一维数组" ----
+            Dim source As ValueTypeInfo = InferType(selectMember.Expression)
+
+            If Not source.IsObjectVector Then
+                Return False
+            End If
+
+            ' ---- lambda 必须是单行且只有一个参数 ----
+            Dim lambda As SingleLineLambdaExpressionSyntax = TryCast(selectCall.ArgumentList.Arguments(0).GetExpression(),
+                                                                     SingleLineLambdaExpressionSyntax)
+
+            If lambda Is Nothing Then
+                Return False
+            End If
+
+            Dim parameters As ParameterListSyntax = lambda.DescendantNodes() _
+                .OfType(Of ParameterListSyntax)() _
+                .FirstOrDefault()
+
+            If parameters Is Nothing OrElse parameters.Parameters.Count <> 1 Then
+                Return False
+            End If
+
+            Dim parameter As Match = LambdaParameterPattern.Match(parameters.Parameters(0).ToString())
+
+            If Not parameter.Success Then
+                Return False
+            End If
+
+            Dim parameterName As String = parameter.Groups("name").Value
+            Dim body As ExpressionSyntax = TryCast(lambda.Body, ExpressionSyntax)
+
+            If body Is Nothing Then
+                Return False
+            End If
+
+            ' ---- 单成员投影: Function(o) o.member ----
+            Dim memberAccess As MemberAccessExpressionSyntax = TryCast(body, MemberAccessExpressionSyntax)
+
+            If memberAccess IsNot Nothing Then
+                Return TryResolveProjectedMember(source.ElementName, memberAccess, parameterName, info)
+            End If
+
+            ' ---- 多成员投影: Function(o) New With {.a = o.a, .b = o.b} ----
+            If body.Kind <> SyntaxKind.AnonymousObjectCreationExpression Then
+                Return False
+            End If
+
+            Dim accessed As MemberAccessExpressionSyntax() = body _
+                .DescendantNodes() _
+                .OfType(Of MemberAccessExpressionSyntax)() _
+                .ToArray()
+
+            If accessed.Length = 0 Then
+                Return False
+            End If
+
+            For Each member As MemberAccessExpressionSyntax In accessed
+                Dim ignored As New ValueTypeInfo()
+
+                If Not TryResolveProjectedMember(source.ElementName, member, parameterName, ignored) Then
+                    Return False
+                End If
+            Next
+
+            ' 匿名类型数组: 没有可命名的元素类型
+            info = New ValueTypeInfo()
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 校验一次成员访问确实取自 lambda 参数, 且该成员在来源类型之中声明过;
+        ''' 通过时给出投影结果的向量类型(<c>member()</c>)。
+        ''' </summary>
+        Private Function TryResolveProjectedMember(sourceType As String,
+                                                   memberAccess As MemberAccessExpressionSyntax,
+                                                   parameterName As String,
+                                                   ByRef info As ValueTypeInfo) As Boolean
+
+            info = New ValueTypeInfo()
+
+            If Not String.Equals(memberAccess.Expression.ToString().Trim(), parameterName, StringComparison.Ordinal) Then
+                Return False
+            End If
+
+            Dim memberInfo As ValueTypeInfo = Nothing
+
+            If Not _members.TryGetMember(sourceType, memberAccess.Name.Identifier.ValueText, memberInfo) Then
+                Return False
+            End If
+
+            If memberInfo.IsVector Then
+                ' 成员本身是数组 => 投影结果是交错数组, 无法继续推断(仍可展开, 但类型未知)
+                Return False
+            End If
+
+            info = New ValueTypeInfo(memberInfo.Kind, True, memberInfo.ElementName)
+            Return True
+        End Function
+
         ''' <summary>二元运算符语法种类 → VB 运算符文本</summary>
         Private Shared Function OperatorText(binary As BinaryExpressionSyntax) As String
             Select Case binary.Kind
@@ -649,6 +898,37 @@ Namespace Script
         ' ==================================================================
         ' 声明登记
         ' ==================================================================
+
+        ''' <summary>
+        ''' 语法不完整的声明行(跨行的表达式/数组字面量)的类型登记降级路径。
+        ''' </summary>
+        ''' <remarks>
+        ''' 该行放不出语法树, 因此**不能**改写; 但仍要尽量登记 <c>As</c> 子句显式给出的类型 ——
+        ''' 否则 <c>Dim list As Foo() = {</c> 这样的跨行声明会让 <c>list</c> 一直处于"类型未知",
+        ''' 导致后续行的 <c>@</c> 投影无法展开(而不是无法向量化)。
+        ''' 只接受「单个变量 + 显式 As 子句」, 因此不会把不完整的初始值猜成类型。
+        ''' </remarks>
+        Private Sub TryRegisterIncompleteDeclaration(line As String)
+            Dim m As Match = IncompleteDeclarationPattern.Match(PropertyProjection.MaskLiterals(line))
+
+            If Not m.Success Then
+                Return
+            End If
+
+            Dim typeText As String = m.Groups("type").Value
+            Dim declared As ValueTypeInfo = ObjectMemberTable.ParseTypeText(typeText, isVector:=typeText.IndexOf("("c) >= 0)
+
+            If Not declared.IsKnown Then
+                Return
+            End If
+
+            ' Dim x(5) As Foo => Foo()
+            If m.Groups("bounds").Success AndAlso Not declared.IsVector Then
+                declared = New ValueTypeInfo(declared.Kind, True, declared.ElementName)
+            End If
+
+            Call SetType(m.Groups("name").Value, declared)
+        End Sub
 
         ''' <summary>登记语句中声明的变量类型, 并撤销"被重新赋值为标量"的向量登记</summary>
         Private Sub RegisterDeclarations(stmt As StatementSyntax)
@@ -689,7 +969,7 @@ Namespace Script
             End If
 
             ' 原本登记为向量, 现在被整体赋值为标量 => 撤销登记, 避免后续误改写
-            Dim existing As ValueTypeInfo
+            Dim existing As ValueTypeInfo = Nothing
 
             If _types.TryGetValue(target.Identifier.ValueText, existing) AndAlso existing.IsVector Then
                 Call _types.Remove(target.Identifier.ValueText)
@@ -713,7 +993,8 @@ Namespace Script
 
                 If declared.IsKnown Then
                     If hasBounds AndAlso Not declared.IsVector Then
-                        Return New ValueTypeInfo(declared.Kind, True)
+                        ' Dim x(5) As Foo => Foo()
+                        Return New ValueTypeInfo(declared.Kind, True, declared.ElementName)
                     End If
 
                     Return declared
@@ -732,48 +1013,20 @@ Namespace Script
             Return New ValueTypeInfo()
         End Function
 
+        ''' <summary>
+        ''' 解析 <c>As ...</c> 子句(含 <c>As New ...</c>)给出的类型。
+        ''' </summary>
+        ''' <remarks>
+        ''' 规则与 <see cref="ObjectMemberTable.ResolveAsClause"/> 完全一致 —— 类型解析必须只有一处实现,
+        ''' 否则「变量声明的类型」与「类型成员的声明类型」会因规则不同而互相矛盾。
+        ''' </remarks>
         Private Function ResolveAsClause(asClause As AsClauseSyntax) As ValueTypeInfo
-            Dim simple As SimpleAsClauseSyntax = TryCast(asClause, SimpleAsClauseSyntax)
-
-            If simple IsNot Nothing Then
-                Return ResolveTypeSyntax(simple.Type)
-            End If
-
-            Dim asNew As AsNewClauseSyntax = TryCast(asClause, AsNewClauseSyntax)
-
-            If asNew IsNot Nothing AndAlso asNew.NewExpression IsNot Nothing Then
-                Return ResolveTypeSyntax(asNew.NewExpression.Type)
-            End If
-
-            Return New ValueTypeInfo()
+            Return ObjectMemberTable.ResolveAsClause(asClause)
         End Function
 
-        ''' <summary>解析一个类型语法: 只接受一维数值数组与数值标量</summary>
+        ''' <summary>解析一个类型语法: 只接受一维数组与标量(数值类型或具名类型)</summary>
         Private Function ResolveTypeSyntax(type As TypeSyntax) As ValueTypeInfo
-            Dim array As ArrayTypeSyntax = TryCast(type, ArrayTypeSyntax)
-
-            If array IsNot Nothing Then
-                ' 只支持一维数组; 交错数组/多维数组一律放弃
-                If array.RankSpecifiers.Count <> 1 OrElse array.RankSpecifiers(0).Rank <> 1 Then
-                    Return New ValueTypeInfo()
-                End If
-
-                Dim kind As NumericKind
-
-                If VectorType.TryParseKind(array.ElementType.ToString(), kind) Then
-                    Return New ValueTypeInfo(kind, True)
-                End If
-
-                Return New ValueTypeInfo()
-            End If
-
-            Dim scalar As NumericKind
-
-            If VectorType.TryParseKind(type.ToString(), scalar) Then
-                Return New ValueTypeInfo(scalar, False)
-            End If
-
-            Return New ValueTypeInfo()
+            Return ObjectMemberTable.ResolveType(type)
         End Function
 
         ''' <summary>登记名称的类型; 同名不同类型时记入冲突名单并永久排除</summary>
@@ -782,11 +1035,15 @@ Namespace Script
                 Return
             End If
 
-            Dim existing As ValueTypeInfo
+            Dim existing As ValueTypeInfo = Nothing
 
             If _types.TryGetValue(name, existing) Then
-                If existing.Kind <> info.Kind OrElse existing.IsVector <> info.IsVector Then
-                    ' 不同作用域下同名变量类型不一致 => 之后一律不改写该名称
+                ' 数值类型、维度或具名类型任一不同, 都视为"同名不同型" —— 之后一律不改写该名称。
+                ' 具名类型也必须参与比较: @ 投影正是依赖 ElementName 去查成员表的。
+                If existing.Kind <> info.Kind OrElse
+                   existing.IsVector <> info.IsVector OrElse
+                   Not String.Equals(existing.ElementName, info.ElementName, StringComparison.OrdinalIgnoreCase) Then
+
                     Call _types.Remove(name)
                     Call _conflicts.Add(name)
                 End If
