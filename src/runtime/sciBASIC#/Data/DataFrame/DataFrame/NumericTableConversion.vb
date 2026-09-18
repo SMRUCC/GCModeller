@@ -28,7 +28,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data
 
 ''' <summary>
 ''' <see cref="NumericTable"/> 与 <see cref="DataFrame"/> 之间的相互转换。

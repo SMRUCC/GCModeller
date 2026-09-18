@@ -28,6 +28,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 
@@ -39,6 +40,27 @@ Namespace Data
     ''' </summary>
     <HideModuleName>
     Public Module NumericTableExtensions
+
+        Public Function name(x As String) As ArgumentReference
+            Return New ArgumentReference With {.name = x}
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="cols"></param>
+        ''' <returns></returns>
+        ''' <example>
+        ''' Dim x = dataframe(
+        '''    name("field1") = {1,3,5,7,9},
+        '''    name("field2") = {2,4,6,8,0},
+        '''    name("flags") = {True, False, True, True, False},
+        '''    name("label:class") = {1,2,2,2,3}
+        ''' )
+        ''' </example>
+        Public Function dataframe(ParamArray cols As ArgumentReference()) As NumericTable
+
+        End Function
 
         ''' <summary>
         ''' 获取行主序的特征矩阵。默认直接返回表内部的矩阵引用以避免不必要的拷贝，
