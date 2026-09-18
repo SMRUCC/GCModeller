@@ -140,7 +140,7 @@ Namespace Script
                 Return text
             End If
 
-            Call ReportSkipped(line, report)
+            Call ReportSkipped(line, report, knownBefore)
             Return line
         End Function
 
