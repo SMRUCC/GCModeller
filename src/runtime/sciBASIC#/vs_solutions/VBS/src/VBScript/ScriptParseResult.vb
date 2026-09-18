@@ -102,7 +102,19 @@ Namespace Script
         Public Property SearchRoots As String()
 
         ''' <summary>
-        ''' 文本预处理(移除 #include 行、展开 ?args / let / 元组分解)之后的脚本代码。
+        ''' 本次解析是否启用了向量化改写(命令行 <c>--no-vectorize</c> 或脚本头部的
+        ''' <c>#no-vectorize</c> 都会使其为 <c>False</c>)。
+        ''' </summary>
+        Public Property VectorizeEnabled As Boolean
+
+        ''' <summary>
+        ''' 预处理阶段是否**确实**发生了向量化改写。
+        ''' 生成代码只有在为 <c>True</c> 时才需要注入 <c>Microsoft.VisualBasic.Math.SIMD</c> 的 Imports。
+        ''' </summary>
+        Public Property Vectorized As Boolean
+
+        ''' <summary>
+        ''' 文本预处理(移除 #include 行、展开 ?args / let / 元组分解 / 向量化)之后的脚本代码。
         ''' </summary>
         Public Property PreprocessedCode As String
 

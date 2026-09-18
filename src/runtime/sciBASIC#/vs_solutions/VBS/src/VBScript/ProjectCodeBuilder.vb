@@ -105,7 +105,7 @@ Namespace Script
                 Call sb.AppendLine()
             End If
 
-            For Each line As String In ScriptRefactor.DefaultImports()
+            For Each line As String In ScriptRefactor.DefaultImports(_parse.Vectorized)
                 Call sb.AppendLine(line)
             Next
 
@@ -208,6 +208,12 @@ Namespace Script
         ''' 被 <c>#include</c> 引入的脚本各自成为独立的源码文件:
         ''' 文件头仍旧携带自身的 Imports, 类型定义直接位于工程命名空间之中。
         ''' </summary>
+        ''' <remarks>
+        ''' 这里刻意**关闭**向量化改写: 运行期路径之中被引入脚本的类型定义是原样复制进生成代码的,
+        ''' 而工程期会把每个被引入脚本单独写成一个文件 —— 单独的文件只有它自己的 Imports,
+        ''' 无法看到 <c>Microsoft.VisualBasic.Math.SIMD</c>。两条路径都保持"被引入脚本不做向量化",
+        ''' 才能保证行为一致。
+        ''' </remarks>
         Private Function BuildIncludedSources() As IEnumerable(Of ProjectSourceFile)
             Dim used As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
             Dim sources As New List(Of ProjectSourceFile)
@@ -225,7 +231,7 @@ Namespace Script
 
                 Call sources.Add(New ProjectSourceFile With {
                     .FileName = fileName,
-                    .Code = ScriptRefactor.PreprocessText(File.ReadAllText(script.FilePath))
+                    .Code = ScriptRefactor.PreprocessText(File.ReadAllText(script.FilePath), vectorize:=False)
                 })
             Next
 

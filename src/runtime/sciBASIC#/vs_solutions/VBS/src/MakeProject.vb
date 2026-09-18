@@ -40,12 +40,13 @@ Module MakeProject
         Dim noBuild As Boolean = cmdl("--no-build")
         Dim force As Boolean = cmdl("--force")
         Dim runtime As String = cmdl("--runtime")
+        Dim vectorize As Boolean = Not cmdl("--no-vectorize")
 
         Try
             Call Console.WriteLine("---------- make-project ----------")
 
             ' ---- Step1: 解析脚本 ----
-            Dim script As ScriptParseResult = VBScript.ParseScript(scriptFile, verbose)
+            Dim script As ScriptParseResult = VBScript.ParseScript(scriptFile, verbose, vectorize)
 
             Dim scriptPath As String = Path.GetFullPath(scriptFile)
             Dim projectDir As String = Path.GetDirectoryName(scriptPath)
@@ -67,6 +68,12 @@ Module MakeProject
 
             If builder.PromotedVariables.Length > 0 Then
                 Call Console.WriteLine($"    提升字段    : {String.Join(", ", builder.PromotedVariables)}")
+            End If
+
+            If script.Vectorized Then
+                Call Console.WriteLine("    向量化改写  : 已启用")
+            ElseIf Not script.VectorizeEnabled Then
+                Call Console.WriteLine("    向量化改写  : 已关闭")
             End If
 
             If script.ScriptIncludes.Count > 0 Then
@@ -130,7 +137,7 @@ Module MakeProject
     End Function
 
     Private Sub PrintUsage()
-        Call Console.WriteLine("vbs make-project </path/to/script.vb> [--verbose] [--no-build] [--force] [--runtime <sciBASIC runtime dll>]")
+        Call Console.WriteLine("vbs make-project </path/to/script.vb> [--verbose] [--no-build] [--force] [--runtime <sciBASIC runtime dll>] [--no-vectorize]")
         Call Console.WriteLine()
         Call Console.WriteLine("    把一个 vb 脚本就地转换为正式的 vbproj 工程(默认在生成之后执行 dotnet build 验证)")
         Call Console.WriteLine()
@@ -138,6 +145,7 @@ Module MakeProject
         Call Console.WriteLine("    --no-build       只生成工程文件, 不执行构建验证")
         Call Console.WriteLine("    --force          覆盖已经存在的工程(会先清空 src/ 目录)")
         Call Console.WriteLine("    --runtime <dll>  指定 sciBASIC 运行时程序集(Microsoft.VisualBasic.Runtime.dll)")
+        Call Console.WriteLine("    --no-vectorize   关闭数值向量的自动向量化改写")
     End Sub
 
     ' ==================================================================

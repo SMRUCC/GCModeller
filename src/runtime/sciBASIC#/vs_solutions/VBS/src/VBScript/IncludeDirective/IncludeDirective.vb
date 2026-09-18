@@ -323,7 +323,9 @@ Namespace Script
             Call _expanding.Add(scriptFile)
 
             Try
-                Dim code As String = ScriptRefactor.PreprocessText(source)
+                ' 被引入脚本不做向量化改写: 其类型定义会被原样并入主脚本,
+                ' 而它自身的文件头并不会带上 SIMD 的 Imports(工程期路径尤其如此)。
+                Dim code As String = ScriptRefactor.PreprocessText(source, vectorize:=False)
                 Dim syntax As ScriptStructure = ScriptStructure.Scan(code)
 
                 If syntax.Functions.Count > 0 Then

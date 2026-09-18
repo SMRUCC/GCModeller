@@ -13,7 +13,13 @@ Namespace Script
         ''' </summary>
         ''' <param name="scriptFile">.vb脚本源代码文件路径</param>
         ''' <param name="verbose">是否输出 #include 解析与代码重构的细节</param>
-        Public Function ParseScript(scriptFile As String, Optional verbose As Boolean = False) As ScriptParseResult
+        ''' <param name="vectorize">
+        ''' 是否启用向量化改写(命令行 <c>--no-vectorize</c> 传入 False);
+        ''' 脚本头部的 <c>#no-vectorize</c> 指令优先级更高
+        ''' </param>
+        Public Function ParseScript(scriptFile As String,
+                                    Optional verbose As Boolean = False,
+                                    Optional vectorize As Boolean = True) As ScriptParseResult
             If Not File.Exists(scriptFile) Then
                 Throw New FileNotFoundException("脚本源文件不存在: " & scriptFile, scriptFile)
             End If
@@ -46,10 +52,14 @@ Namespace Script
             ' 魔法方法与 #include 采用一致的相对路径搜索顺序(nuget 包目录追加在末尾)
             Dim magicRoots As String() = includes.MergeSearchRoots(searchRoots).ToArray()
             Dim magicSnippets As IEnumerable(Of String) = Magics.Build(fullScript, metadata, includes.Assemblies, magicRoots)
-            Dim preprocessed As String = ScriptRefactor.PreprocessText(source)
-            Dim code As String = New ScriptRefactor(metadata, magicSnippets, includes).RefactorPreprocessed(preprocessed)
+            Dim vectorReport As New VectorizationReport()
+            Dim preprocessed As String = ScriptRefactor.PreprocessText(source, vectorize:=vectorize, report:=vectorReport)
+            Dim hasVectorCode As Boolean = vectorReport.Rewritten > 0
+            Dim code As String = New ScriptRefactor(metadata, magicSnippets, includes) _
+                .RefactorPreprocessed(preprocessed, withSimd:=hasVectorCode)
 
             If verbose Then
+                Call PrintVectorization(vectorReport, vectorize)
                 Call Console.WriteLine("----- generated code -----")
                 Call Console.WriteLine(code)
             End If
@@ -63,9 +73,35 @@ Namespace Script
                 .NuGetPackages = includes.NuGetPackages,
                 .IncludeWarnings = includes.Warnings,
                 .SearchRoots = magicRoots,
+                .VectorizeEnabled = vectorize,
+                .Vectorized = hasVectorCode,
                 .PreprocessedCode = preprocessed,
                 .GeneratedCode = code
             }
         End Function
+
+        ''' <summary>在 verbose 模式下输出向量化改写统计与未能改写的可疑行</summary>
+        Private Sub PrintVectorization(report As VectorizationReport, enabled As Boolean)
+            If Not enabled Then
+                Call Console.WriteLine("----- vectorization: disabled -----")
+                Return
+            End If
+
+            Dim vectors As String() = report.Vectors.Distinct().ToArray()
+
+            Call Console.WriteLine($"----- vectorization: {report.Rewritten} 处改写, {vectors.Length} 个向量变量 -----")
+
+            If vectors.Length > 0 Then
+                Call Console.WriteLine("    vectors: " & String.Join(", ", vectors))
+            End If
+
+            If report.Skipped.Count > 0 Then
+                Call Console.WriteLine("    skipped:")
+
+                For Each line As String In report.Skipped.Distinct()
+                    Call Console.WriteLine("      ! " & line)
+                Next
+            End If
+        End Sub
     End Module
 End Namespace

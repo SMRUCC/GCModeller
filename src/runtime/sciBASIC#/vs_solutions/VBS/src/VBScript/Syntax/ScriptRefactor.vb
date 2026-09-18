@@ -49,10 +49,18 @@ Namespace Script
         ' ==================================================================
 
         ''' <summary>
-        ''' 移除 #include 元数据行, 展开命令行参数语法、let 声明与元组分解语法。
+        ''' 移除 #include 元数据行, 展开命令行参数语法、let 声明与元组分解语法, 并做向量化改写。
         ''' 预处理是纯文本变换, 因此可以被运行期与工程期两条发射路径共用。
         ''' </summary>
-        Public Shared Function PreprocessText(source As String) As String
+        ''' <param name="source">脚本源代码</param>
+        ''' <param name="vectorize">
+        ''' 是否启用向量化改写; 脚本头部的 <c>#no-vectorize</c> 指令优先级更高
+        ''' </param>
+        ''' <param name="report">可选的向量化改写报告</param>
+        Public Shared Function PreprocessText(source As String,
+                                              Optional vectorize As Boolean = True,
+                                              Optional report As VectorizationReport = Nothing) As String
+
             Dim code As String = Regex.Replace(source, "^\s*#include\s+""[^""]*""\s*$", "", RegexOptions.IgnoreCase Or RegexOptions.Multiline)
 
             ' ?"--a" => args("--a")
@@ -60,6 +68,8 @@ Namespace Script
             ' let x = ... => Dim x As Object = ... (不会改写 LINQ 查询之中的 Let 子句)
             code = LetStatement.Expand(code)
             code = TupleDestructuring.Expand(code)
+            ' 数值向量的算术表达式 => 等价的逐元素 SIMD 调用
+            code = Vectorization.Expand(code, enabled:=vectorize, report:=report)
 
             Return code
         End Function
@@ -72,22 +82,27 @@ Namespace Script
         ''' 对脚本源代码进行重构, 生成运行期可直接编译的完整代码。
         ''' </summary>
         Public Function Refactor(source As String) As String
-            Return RefactorPreprocessed(PreprocessText(source))
+            Dim report As New VectorizationReport()
+            Dim code As String = PreprocessText(source, vectorize:=True, report:=report)
+
+            Return RefactorPreprocessed(code, withSimd:=report.Rewritten > 0)
         End Function
 
         ''' <summary>
         ''' 对<b>已经过 <see cref="PreprocessText"/> 处理</b>的脚本代码进行重构。
         ''' </summary>
-        Public Function RefactorPreprocessed(code As String) As String
+        ''' <param name="code">已预处理的脚本代码</param>
+        ''' <param name="withSimd">生成代码是否需要 <c>Microsoft.VisualBasic.Math.SIMD</c> 的 Imports</param>
+        Public Function RefactorPreprocessed(code As String, Optional withSimd As Boolean = False) As String
             Dim syntax As ScriptStructure = ScriptStructure.Scan(code)
 
             Call syntax.ResolveFunctionSlots()
 
-            Return BuildCode(syntax)
+            Return BuildCode(syntax, withSimd)
         End Function
 
         ''' <summary>组装为 固定Namespace + Module + Main 的完整可编译代码</summary>
-        Private Function BuildCode(syntax As ScriptStructure) As String
+        Private Function BuildCode(syntax As ScriptStructure, withSimd As Boolean) As String
             Dim sb As New StringBuilder()
 
             Call sb.AppendLine("Option Strict Off")
@@ -105,7 +120,7 @@ Namespace Script
                 Call sb.AppendLine()
             End If
 
-            For Each line As String In DefaultImports()
+            For Each line As String In DefaultImports(withSimd)
                 Call sb.AppendLine(line)
             Next
 
@@ -168,8 +183,14 @@ Namespace Script
         ''' <summary>
         ''' 脚本引擎自动注入的固定 Imports(运行期发射与工程期发射共用)。
         ''' </summary>
-        Friend Shared Function DefaultImports() As String()
-            Return {
+        ''' <param name="withSimd">
+        ''' 是否注入 <c>Microsoft.VisualBasic.Math.SIMD</c>。
+        ''' 只有脚本确实发生了向量化改写时才需要: 该命名空间除了 <c>Simd*</c> 系列成员之外,
+        ''' 还包含 <c>Add</c>/<c>Subtract</c>/<c>Multiply</c>/<c>Divide</c> 等泛型名称的历史门面类,
+        ''' 无条件引入会在脚本自身定义了同名类型时造成二义性, 因此按需注入。
+        ''' </param>
+        Friend Shared Function DefaultImports(Optional withSimd As Boolean = False) As String()
+            Dim list As New List(Of String) From {
                 $"Imports {GetType(CommandLine).Namespace}",
                 "Imports Microsoft.VisualBasic",
                 "Imports System.Linq",
@@ -181,6 +202,12 @@ Namespace Script
                 "Imports System.Threading.Tasks",
                 "Imports System.Xml.Linq"
             }
+
+            If withSimd Then
+                Call list.Add("Imports Microsoft.VisualBasic.Math.SIMD")
+            End If
+
+            Return list.ToArray()
         End Function
 
         ''' <summary>
