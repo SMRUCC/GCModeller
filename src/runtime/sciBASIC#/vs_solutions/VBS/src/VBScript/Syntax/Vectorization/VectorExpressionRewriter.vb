@@ -913,15 +913,15 @@ Namespace Script
         End Function
 
         ''' <summary>
-        ''' 记录一行"疑似应该被改写但未能改写"的代码: 只有该行确实引用了已知的向量变量时才记录,
-        ''' 避免把与向量化无关的语法(块首行、块尾行等)全部塞进报告。
+        ''' 记录一行"疑似应该被改写但未能改写"的代码: 只有该行确实引用了**本行之前**已登记的
+        ''' 向量变量时才记录, 避免把与向量化无关的语法(块首行、块尾行、纯声明行)全塞进报告。
         ''' </summary>
-        Private Sub ReportSkipped(line As String, report As VectorizationReport)
+        Private Shared Sub ReportSkipped(line As String, report As VectorizationReport, knownNames As String())
             If report Is Nothing Then
                 Return
             End If
 
-            For Each name As String In _types.Keys
+            For Each name As String In knownNames
                 If Regex.IsMatch(line, "\b" & Regex.Escape(name) & "\b", RegexOptions.IgnoreCase) Then
                     Call report.Skipped.Add(line.Trim())
                     Return
