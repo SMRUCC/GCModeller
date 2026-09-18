@@ -80,8 +80,13 @@ Public Module SimdBenchmark
         BenchApi("NormF", Function() ma.NormF())
         Console.WriteLine()
 
-        Console.WriteLine($"--- 矩阵乘法（{order} x {order}） ---")
-        BenchApi("DotProduct", Function() ChecksumFromMatrix(ma.Multiply(ma)))
+        ' 矩阵乘法：小规模时每个点积的调用开销占比高，
+        ' 规模跨过 SimdParallel 的并行阈值后才能真正体现「并行 + FMA」的收益
+        Const mulOrder As Integer = 384
+        Dim ka As New NumericMatrix(FillSquare(mulOrder, 1.25))
+
+        Console.WriteLine($"--- 矩阵乘法（{mulOrder} x {mulOrder} x {mulOrder}） ---")
+        BenchApi("DotProduct", Function() ChecksumFromMatrix(ka.Multiply(ka)))
         Console.WriteLine()
 
         ' ---- 并行加速（只对比 SimdParallel 的开关） ----

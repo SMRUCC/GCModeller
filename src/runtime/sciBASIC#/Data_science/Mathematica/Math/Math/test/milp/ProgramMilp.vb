@@ -40,6 +40,11 @@ Public Module ProgramMilp
                     Dim benchCode As Integer = SimdBenchmark.RunAll()
 
                     Return If(simdCode <> 0 OrElse benchCode <> 0, 1, 0)
+                Case "svd"
+                    ' 既有 TruncatedSVD 对拍测试（覆盖 SVD/NumericMatrix 的数值路径）
+                    TruncatedSVDTest.Main()
+
+                    Return 0
                 Case "lpp"
                     ' 保持对既有 LP 求解器演示入口的访问（自 test.vbproj 的启动对象切换之后）
                     Return ProgramLpp.Main(New String() {})
