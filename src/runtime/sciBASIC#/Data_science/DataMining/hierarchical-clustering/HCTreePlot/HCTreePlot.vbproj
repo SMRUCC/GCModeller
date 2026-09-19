@@ -20,7 +20,8 @@
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
-    <PackageTags>scibasic;dendrogram;visualization;hierarchical-clustering;plot</PackageTags>
+    <PackageTags>scibasic;dendrogram;radial-tree;visualization;hierarchical-clustering;plot;tree-layout</PackageTags>
+    <PackageReleaseNotes>Dendrogram and radial tree plotting for sciBASIC#. It renders hierarchical clustering results as publication ready graphics: vertical dendrograms (Dendrogram), circular and radial layouts (Circular, RadialDendrogram), and horizon or right-to-left panels (Horizon, HorizonRightToLeft), with class colour legends, leaf labels and rulers driven by the shared layout models (Layouts) and the panel base types (DendrogramPanel, DendrogramPanelV2). The package consumes the cluster trees produced by the hierarchical clustering engine and is the standard way to inspect clustering results visually.</PackageReleaseNotes>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageIcon>logo-knot.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
