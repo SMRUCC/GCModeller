@@ -61,8 +61,9 @@ Public Class ConservedSyntenyAnalyzer
             ' 修复：原实现未做除零保护
             If denominator <= 0 Then Continue For
 
-            Dim overlap As Integer = windowSet.Count(
-                Function(id) geneIds.Contains(id, StringComparer.OrdinalIgnoreCase))
+            Dim overlap As Integer = windowSet _
+                .Where(Function(id) geneIds.Contains(id, StringComparer.OrdinalIgnoreCase)) _
+                .Count()
             Dim similarity As Double = CDbl(overlap) / denominator
 
             If similarity >= opt.SyntenySimilarityThreshold AndAlso similarity > bestSimilarity Then

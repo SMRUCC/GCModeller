@@ -171,11 +171,11 @@ Public Class ContextIndices
                         If String.Equals(upstream.id, downstream.id, StringComparison.OrdinalIgnoreCase) Then Continue For
 
                         Dim products As String() = SafeCompounds(upstream.right)
-                        Dim shared As Integer = products.Intersect(substrates, StringComparer.OrdinalIgnoreCase).Count()
-                        If shared = 0 Then Continue For
+                        Dim overlap As Integer = products.Intersect(substrates, StringComparer.OrdinalIgnoreCase).Count()
+                        If overlap = 0 Then Continue For
 
                         Dim denominator As Integer = Math.Max(products.Length, substrates.Length)
-                        Dim coverage As Double = If(denominator = 0, 0, CDbl(shared) / denominator)
+                        Dim coverage As Double = If(denominator = 0, 0, CDbl(overlap) / denominator)
 
                         If Not ReactionNeighbours.ContainsKey(upstream.id) Then
                             ReactionNeighbours(upstream.id) = New List(Of ReactionLink)
@@ -322,7 +322,7 @@ Public Class ContextIndices
         Dim frontier As New List(Of String) From {fromId}
 
         For depth As Integer = 1 To maxDepth
-            Dim next As New List(Of String)
+            Dim pending As New List(Of String)
 
             For Each current As String In frontier
                 Dim links As List(Of ReactionLink) = Nothing
@@ -334,12 +334,12 @@ Public Class ContextIndices
 
                     If String.Equals(link.ReactionID, toId, StringComparison.OrdinalIgnoreCase) Then Return depth
 
-                    next.Add(link.ReactionID)
+                    pending.Add(link.ReactionID)
                 Next
             Next
 
-            If next.Count = 0 Then Return -1
-            frontier = next
+            If pending.Count = 0 Then Return -1
+            frontier = pending
         Next
 
         Return -1

@@ -239,7 +239,10 @@ Namespace ComponentModel.Activations
         ''' 将文本表达式解析为激活函数的模型
         ''' </summary>
         ''' <param name="expression">这个字符串表达式应该是<see cref="IActivationFunction.ToString()"/>的函数输出结果字符串</param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' An <see cref="ActiveFunction"/> data model which is parsed from the 
+        ''' given text <paramref name="expression"/>.
+        ''' </returns>
         Public Shared Function Parse(expression As String) As ActiveFunction
             Dim func As NamedValue(Of String) = expression.GetTagValue("(", trim:=True)
 

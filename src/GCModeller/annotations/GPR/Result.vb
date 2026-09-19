@@ -110,7 +110,7 @@ Public Class GeneAssociation : Implements INamedValue
     ''' </summary>
     Public ReadOnly Property MappedLinks As Integer
         Get
-            Return Reactions.Values.Count(Function(r) Not r.Unmapped)
+            Return Reactions.Values.Where(Function(r) Not r.Unmapped).Count()
         End Get
     End Property
 

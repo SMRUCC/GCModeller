@@ -25,6 +25,16 @@
     <PackageReleaseNotes>Infers gene-protein-reaction associations by integrating co-expression, conserved synteny, operon context and enzyme-complex evidence.</PackageReleaseNotes>
     <Version>1.0.9753.40023</Version>
     <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <!--
+      开启 Option Strict On 以从编译期根除"能编译、运行时崩溃"这一类缺陷：
+      历史版本中存在把 ConservedCluster 当作集合传给 Intersect、
+      以及 GetGeneReactions 声明返回 IEnumerable(Of MetabolicReaction)
+      而实际返回 GeneAssociation 等类型错配问题。
+    -->
+    <OptionStrict>On</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

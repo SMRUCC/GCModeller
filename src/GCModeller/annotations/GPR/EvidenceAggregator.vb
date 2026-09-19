@@ -18,10 +18,10 @@ Imports System.Runtime.CompilerServices
 Public Module EvidenceAggregator
 
     ''' <summary>
-    ''' 聚合证据得到最终分数（默认上限为 1.0）
+    ''' 合并证据得到最终分数（默认上限为 1.0）
     ''' </summary>
     <Extension>
-    Public Function Aggregate(evidences As IEnumerable(Of AssociationEvidence), Optional scoreCap As Double = 1.0) As Double
+    Public Function Combine(evidences As IEnumerable(Of AssociationEvidence), Optional scoreCap As Double = 1.0) As Double
         If evidences Is Nothing Then Return 0
 
         Dim remain As Double = 1.0

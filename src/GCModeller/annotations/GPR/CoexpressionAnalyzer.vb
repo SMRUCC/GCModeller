@@ -80,9 +80,11 @@ Public Class CoexpressionAnalyzer
             })
         Next
 
+        ' 注意：本文件引入了 Microsoft.VisualBasic.Math 命名空间，
+        ' 因此这里的 Math 必须显式限定为 System.Math，否则会解析到命名空间上。
         Return results _
             .OrderByDescending(Function(p) p.Correlation) _
-            .Take(Math.Max(0, maxItems)) _
+            .Take(System.Math.Max(0, maxItems)) _
             .ToArray
     End Function
 

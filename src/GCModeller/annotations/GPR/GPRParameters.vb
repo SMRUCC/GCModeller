@@ -10,9 +10,12 @@ Public Class GPRParameters
 #Region "直接证据"
 
     ''' <summary>
-    ''' 基因 EC 编号与反应 EC 编号直接匹配时的证据权重（满分）
+    ''' 基因 EC 编号与反应 EC 编号直接匹配时的证据权重。
+    ''' 
+    ''' 默认取 0.9 而不是 1.0：EC 注释本身存在错误标注的可能，因此保留 0.1 的不确定性，
+    ''' 允许操纵子、共表达等其它独立证据把这个分数进一步提升到 1.0。
     ''' </summary>
-    Public Property DirectMatchScore As Double = 1.0
+    Public Property DirectMatchScore As Double = 0.9
 
 #End Region
 
