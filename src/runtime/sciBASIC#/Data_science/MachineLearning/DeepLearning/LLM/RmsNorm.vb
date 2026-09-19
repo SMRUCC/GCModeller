@@ -191,6 +191,19 @@ Namespace LLM
             Return dx
         End Function
 
+        ''' <summary>
+        ''' 把 γ 登记进参数集。
+        ''' </summary>
+        ''' <param name="registry">目标参数集</param>
+        ''' <param name="prefix">参数名前缀</param>
+        ''' <param name="weightDecay">
+        ''' 权重衰减系数。RMSNorm 的 γ 承担的是"逐维尺度控制"而非知识强度，
+        ''' 惯例上不对它施加权重衰减，因此默认 0。
+        ''' </param>
+        Public Sub RegisterParameters(registry As ParameterSet, prefix As String, Optional weightDecay As Double = 0.0)
+            Call registry.Add(prefix & ".gamma", Gamma, weightDecay)
+        End Sub
+
         ''' <summary>清零 γ 的梯度累加器。</summary>
         Public Sub ZeroGradients()
             _gammaOptimizer.ZeroGrad()
