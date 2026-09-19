@@ -40,13 +40,16 @@ Public Module EvidenceAggregator
 
         Dim gain As Double = AssociationEvidence.Normalize(corroborationGain)
         Dim remain As Double = 1.0
+        Dim items As AssociationEvidence() = evidences.ToArray()
 
-        For Each group In evidences.GroupBy(Function(e) e.Kind)
-            Dim items As AssociationEvidence() = group.ToArray()
-            Dim strongest As Double = items.Select(Function(e) e.Contribution).Max()
+        ' 注意：这里不使用 GroupBy，因为 VB 中的 Group By 属于上下文关键字，
+        ' 与本仓库 Microsoft.VisualBasic.Linq 里同名的 Group 扩展混用时容易产生歧义。
+        For Each kind As EvidenceKind In items.Select(Function(e) e.Kind).Distinct()
+            Dim group As AssociationEvidence() = items.Where(Function(e) e.Kind = kind).ToArray()
+            Dim strongest As Double = group.Select(Function(e) e.Contribution).Max()
 
             ' 同类证据的旁证增益必须有界，避免"邻居越多分数越接近 1"
-            Dim factor As Double = 1.0 + Math.Min(0.5, gain * (items.Length - 1))
+            Dim factor As Double = 1.0 + Math.Min(0.5, gain * (group.Length - 1))
             Dim contribution As Double = Math.Min(1.0, strongest * factor)
 
             If contribution >= 1.0 Then Return Clamp(1.0, scoreCap)
