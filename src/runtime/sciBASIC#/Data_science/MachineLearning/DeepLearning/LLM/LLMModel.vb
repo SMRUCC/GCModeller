@@ -254,7 +254,7 @@ Namespace LLM
             Next
 
             Dim normOutput = _finalNorm.Forward(h)
-            Dim logits = LinearTransposed(normOutput, TokenEmbedding)
+            Dim logits = LinearTransposed(normOutput)
 
             _lastForward = New ForwardCache With {
                 .Ids = ids,
@@ -335,19 +335,40 @@ Namespace LLM
         End Function
 
         ''' <summary>
-        ''' 把 <c>[.., dModel]</c> 的张量投影到词表：<c>logits = x · Wᵀ</c>。
+        ''' 输出层权重的转置 <c>Eᵀ [dModel, Vocab]</c>，按 <see cref="Tensor.Version"/> 缓存。
         ''' </summary>
         ''' <remarks>
-        ''' 这里依赖后端先转置再乘：<c>x · Wᵀ = x · (Wᵀ)</c>。词表维度极大，因此这一步
-        ''' 是整个模型里最重的矩阵乘；GPU 后端（<c>CudaTensor.Register()</c>）会在
-        ''' 该规模上自动接管。
+        ''' 这是一个很实在的推理优化：转置矩阵有 <c>dModel × Vocab</c> 个元素
+        ''' （12.8 万词表下约 1650 万），而它在整个生成过程中是<b>常量</b>。
+        ''' 每步都重转一次的话，"跨步随机写 1650 万次"的开销会远超过小 batch 下真正的
+        ''' 矩阵乘，把 KV Cache 带来的复杂度收益完全淹没 —— 表现为"有没有缓存耗时差不多"。
+        ''' 训练时权重每步都变（<c>AdamW</c> 更新后会递增版本号），缓存自然失效。
         ''' </remarks>
-        Private Shared Function LinearTransposed(x As Tensor, weight As Tensor) As Tensor
-            Dim rows = x.Length \ x.Shape(x.Rank - 1)
-            Dim x2 = Tensor.Wrap(x.Data, rows, x.Shape(x.Rank - 1))
-            Dim wT = Tensor.computeKernel.Transpose(weight)
+        Private Function TransposedEmbedding() As Tensor
+            If _lmHeadTransposed Is Nothing OrElse _lmHeadVersion <> TokenEmbedding.Version Then
+                _lmHeadTransposed = Tensor.computeKernel.Transpose(TokenEmbedding)
+                _lmHeadVersion = TokenEmbedding.Version
+            End If
 
-            Return Tensor.computeKernel.MatMul(x2, wT)
+            Return _lmHeadTransposed
+        End Function
+
+        Private _lmHeadTransposed As Tensor
+        Private _lmHeadVersion As Long = -1L
+
+        ''' <summary>
+        ''' 把 <c>[.., dModel]</c> 的张量投影到词表：<c>logits = x · Eᵀ</c>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 词表维度极大，因此这一步是整个模型里最重的矩阵乘；GPU 后端
+        ''' （<c>CudaTensor.Register()</c>）会在该规模上自动接管。
+        ''' </remarks>
+        Private Function LinearTransposed(x As Tensor) As Tensor
+            Dim width = x.Shape(x.Rank - 1)
+            Dim rows = x.Length \ width
+            Dim x2 = Tensor.Wrap(x.Data, rows, width)
+
+            Return Tensor.computeKernel.MatMul(x2, TransposedEmbedding())
         End Function
 
 #End Region
@@ -523,8 +544,7 @@ Namespace LLM
             Call Array.Copy(h.Data, (seqLen - 1) * d, last.Data, 0, d)
             Call last.MarkHostModified()
 
-            Dim eT = Tensor.computeKernel.Transpose(TokenEmbedding)
-            Dim logits = Tensor.computeKernel.MatMul(last, eT)
+            Dim logits = Tensor.computeKernel.MatMul(last, TransposedEmbedding())
 
             Return CType(logits.Data.Clone(), Double())
         End Function
