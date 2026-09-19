@@ -1,66 +1,20 @@
-﻿#Region "Microsoft.VisualBasic::e969a6c1cbc49a27976c3dcaaa49f5eb, Data_science\MachineLearning\DeepLearning\Transformer\DecoderLayer.vb"
+﻿' ---------------------------------------------------------------------------
+' DecoderLayer —— 解码器单层：掩码自注意力 + 交叉注意力 + 前馈网络
+'
+' 三条子层均为「残差 + LayerNorm」。迁移要点：
+'   * 每个子层的 AddNorm 统计量与前向输出都要缓存；
+'   * 反向阶段逆序回传，交叉注意力会把梯度同时回传到 encoderOutput；
+'   * 由于解码是按词逐步进行的，本层的前向缓存会被覆盖，
+'     因此调用方（DecoderStack / TransformerModel）必须保存每一步的缓存副本。
+' ---------------------------------------------------------------------------
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 70
-    '    Code Lines: 50 (71.43%)
-    ' Comment Lines: 3 (4.29%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 17 (24.29%)
-    '     File Size: 3.33 KB
-
-
-    '     Class DecoderLayer
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Decode
-    ' 
-    '         Sub: MakeTrainingStep, SetDropoutNodes
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.AutomaticDifferentiation
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Transformer
+
     Public Class DecoderLayer
+
         Private embeddingSize As Integer
 
         Private mha As MultiHeadAttention
@@ -69,6 +23,35 @@ Namespace Transformer
 
         Private dropoutMask1, dropoutMask2, dropoutMask3 As Boolean()
         Private dropoutRate As Double = 0
+
+        ''' <summary>前向传播的中间量缓存，供反向传播使用。</summary>
+        Public Class Cache
+            Public Input As Tensor
+            Public MaskedAttention As Tensor
+            Public MaskedAttentionDropped As Tensor
+            Public Normalized1 As Tensor
+            Public Norm1Mean As Double()
+            Public Norm1InvStd As Double()
+            Public CrossAttention As Tensor
+            Public CrossAttentionDropped As Tensor
+            Public Normalized2 As Tensor
+            Public Norm2Mean As Double()
+            Public Norm2InvStd As Double()
+            Public FeedForwardOutput As Tensor
+            Public FeedForwardDropped As Tensor
+            Public Norm3Mean As Double()
+            Public Norm3InvStd As Double()
+            Public DropoutApplied As Boolean
+        End Class
+
+        Private _lastCache As Cache
+
+        ''' <summary>最近一次 <see cref="Decode"/> 的中间量缓存。</summary>
+        Public ReadOnly Property LastCache As Cache
+            Get
+                Return _lastCache
+            End Get
+        End Property
 
         Public Sub New(embeddingSize As Integer, dk As Integer, dv As Integer, h As Integer, dff As Integer)
             Me.embeddingSize = embeddingSize
@@ -83,22 +66,110 @@ Namespace Transformer
         End Sub
 
         Public Function Decode(encoderOutput As Tensor, decoderInput As Tensor, isTraining As Boolean) As Tensor
+            Dim dropoutApplied = isTraining AndAlso dropoutRate > 0
+
             ' Masked multi headed attention
             Dim maskedAttentionFilteredData = mha_masked.Update(decoderInput)
-            If isTraining AndAlso dropoutRate > 0 Then maskedAttentionFilteredData = maskedAttentionFilteredData.Dropout(dropoutMask1, dropoutRate)
-            maskedAttentionFilteredData = Tensor.AddNorm(decoderInput, maskedAttentionFilteredData)
+            Dim maskedAttentionDropped = maskedAttentionFilteredData
+
+            If dropoutApplied Then maskedAttentionDropped = TensorOps.DropoutMask(maskedAttentionDropped, dropoutMask1, dropoutRate)
+
+            Dim mean1 As Double() = Nothing, invStd1 As Double() = Nothing
+            Dim normalized1 = TensorOps.AddNormForward(decoderInput, maskedAttentionDropped, mean1, invStd1)
 
             ' Multi headed attention
-            Dim attentionFilteredData = mha.Update(encoderOutput, maskedAttentionFilteredData)
-            If isTraining AndAlso dropoutRate > 0 Then attentionFilteredData = attentionFilteredData.Dropout(dropoutMask2, dropoutRate)
-            attentionFilteredData = Tensor.AddNorm(maskedAttentionFilteredData, attentionFilteredData)
+            Dim attentionFilteredData = mha.Update(encoderOutput, normalized1)
+            Dim attentionDropped = attentionFilteredData
+
+            If dropoutApplied Then attentionDropped = TensorOps.DropoutMask(attentionDropped, dropoutMask2, dropoutRate)
+
+            Dim mean2 As Double() = Nothing, invStd2 As Double() = Nothing
+            Dim normalized2 = TensorOps.AddNormForward(normalized1, attentionDropped, mean2, invStd2)
 
             ' Feed forward neural network
-            Dim feedForwardOutput = ff.FeedForward(attentionFilteredData)
-            If isTraining AndAlso dropoutRate > 0 Then feedForwardOutput = feedForwardOutput.Dropout(dropoutMask3, dropoutRate)
-            feedForwardOutput = Tensor.AddNorm(attentionFilteredData, feedForwardOutput)
+            Dim feedForwardOutput = ff.FeedForward(normalized2)
+            Dim feedForwardDropped = feedForwardOutput
 
-            Return feedForwardOutput
+            If dropoutApplied Then feedForwardDropped = TensorOps.DropoutMask(feedForwardDropped, dropoutMask3, dropoutRate)
+
+            Dim mean3 As Double() = Nothing, invStd3 As Double() = Nothing
+            Dim output = TensorOps.AddNormForward(normalized2, feedForwardDropped, mean3, invStd3)
+
+            _lastCache = New Cache With {
+                .Input = decoderInput,
+                .MaskedAttention = maskedAttentionFilteredData,
+                .MaskedAttentionDropped = maskedAttentionDropped,
+                .Normalized1 = normalized1,
+                .Norm1Mean = mean1,
+                .Norm1InvStd = invStd1,
+                .CrossAttention = attentionFilteredData,
+                .CrossAttentionDropped = attentionDropped,
+                .Normalized2 = normalized2,
+                .Norm2Mean = mean2,
+                .Norm2InvStd = invStd2,
+                .FeedForwardOutput = feedForwardOutput,
+                .FeedForwardDropped = feedForwardDropped,
+                .Norm3Mean = mean3,
+                .Norm3InvStd = invStd3,
+                .DropoutApplied = dropoutApplied
+            }
+
+            Return output
+        End Function
+
+        ''' <summary>
+        ''' 反向传播：返回对 <c>decoderInput</c> 的梯度，
+        ''' 并通过 <paramref name="dEncoderOutput"/> 累加对 encoder 输出的梯度。
+        ''' </summary>
+        Public Function Backward(cache As Cache, dOut As Tensor, ByRef dEncoderOutput As Tensor) As Tensor
+            If cache Is Nothing Then Throw New InvalidOperationException("必须先执行前向传播才能反向传播")
+
+            ' 第三个 AddNorm：output = AddNorm(normalized2, feedForwardDropped)
+            Dim dx3 = TensorOps.AddNormBackward(dOut, cache.Normalized2, cache.FeedForwardDropped, cache.Norm3Mean, cache.Norm3InvStd)
+            Dim dFeedForwardDropped = TensorOps.CloneTensor(dx3)
+            Dim dNormalized2 = dx3
+
+            Dim dFeedForward = dFeedForwardDropped
+
+            If cache.DropoutApplied Then dFeedForward = TensorOps.DropoutMaskBackward(dFeedForward, dropoutMask3, dropoutRate)
+
+            Call TensorOps.Accumulate(dNormalized2, ff.Backward(dFeedForward))
+
+            ' 第二个 AddNorm：normalized2 = AddNorm(normalized1, attentionDropped)
+            Dim dx2 = TensorOps.AddNormBackward(dNormalized2, cache.Normalized1, cache.CrossAttentionDropped, cache.Norm2Mean, cache.Norm2InvStd)
+            Dim dAttentionDropped = TensorOps.CloneTensor(dx2)
+            Dim dNormalized1 = dx2
+
+            Dim dAttention = dAttentionDropped
+
+            If cache.DropoutApplied Then dAttention = TensorOps.DropoutMaskBackward(dAttention, dropoutMask2, dropoutRate)
+
+            Dim dFromEncoder As Tensor = Nothing
+
+            Call TensorOps.Accumulate(dNormalized1, mha.Backward(dAttention, dFromEncoder))
+
+            If dFromEncoder IsNot Nothing Then
+                If dEncoderOutput Is Nothing Then
+                    dEncoderOutput = dFromEncoder
+                Else
+                    Call TensorOps.Accumulate(dEncoderOutput, dFromEncoder)
+                End If
+            End If
+
+            ' 第一个 AddNorm：normalized1 = AddNorm(decoderInput, maskedAttentionDropped)
+            Dim dx1 = TensorOps.AddNormBackward(dNormalized1, cache.Input, cache.MaskedAttentionDropped, cache.Norm1Mean, cache.Norm1InvStd)
+            Dim dMaskedAttentionDropped = TensorOps.CloneTensor(dx1)
+            Dim dDecoderInput = dx1
+
+            Dim dMaskedAttention = dMaskedAttentionDropped
+
+            If cache.DropoutApplied Then dMaskedAttention = TensorOps.DropoutMaskBackward(dMaskedAttention, dropoutMask1, dropoutRate)
+
+            Dim unused As Tensor = Nothing
+
+            Call TensorOps.Accumulate(dDecoderInput, mha_masked.Backward(dMaskedAttention, unused))
+
+            Return dDecoderInput
         End Function
 
         Public Sub SetDropoutNodes(dropoutRate As Double)
@@ -116,6 +187,13 @@ Namespace Transformer
                 dropoutMask3(i) = False
                 If randf.NextDouble < dropoutRate Then dropoutMask3(i) = True
             Next
+        End Sub
+
+        ''' <summary>清零本层所有参数的梯度累加器。</summary>
+        Public Sub ZeroGradients()
+            mha_masked.ZeroGradients()
+            mha.ZeroGradients()
+            ff.ZeroGradients()
         End Sub
 
         Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)

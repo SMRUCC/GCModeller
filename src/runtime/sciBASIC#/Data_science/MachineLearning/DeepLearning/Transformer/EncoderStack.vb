@@ -1,62 +1,11 @@
-﻿#Region "Microsoft.VisualBasic::289993723fc2eafc1067b01207ed1d03, Data_science\MachineLearning\DeepLearning\Transformer\EncoderStack.vb"
+﻿' ---------------------------------------------------------------------------
+' EncoderStack —— 编码器堆叠（Nx 层）
+'
+' 编码器在一次前向翻译中只执行一次，因此各层的前向缓存可以直接保存在层对象上，
+' 反向传播时按层逆序回传即可。
+' ---------------------------------------------------------------------------
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 40
-    '    Code Lines: 30 (75.00%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 10 (25.00%)
-    '     File Size: 1.35 KB
-
-
-    '     Class EncoderStack
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Encode
-    ' 
-    '         Sub: MakeTrainingStep, SetDropoutNodes
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.AutomaticDifferentiation
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 
 Namespace Transformer
 
@@ -82,9 +31,26 @@ Namespace Transformer
             Return encoderOutput
         End Function
 
+        ''' <summary>反向传播：返回对编码器输入（词嵌入）的梯度。</summary>
+        Public Function Backward(dOut As Tensor) As Tensor
+            Dim d = dOut
+
+            For i = Nx - 1 To 0 Step -1
+                d = encoderLayers(i).Backward(d, encoderLayers(i).LastCache)
+            Next
+
+            Return d
+        End Function
+
         Public Sub SetDropoutNodes(dropout As Double)
             For i = 0 To Nx - 1
                 encoderLayers(i).SetDropoutNodes(dropout)
+            Next
+        End Sub
+
+        Public Sub ZeroGradients()
+            For i = 0 To Nx - 1
+                encoderLayers(i).ZeroGradients()
             Next
         End Sub
 

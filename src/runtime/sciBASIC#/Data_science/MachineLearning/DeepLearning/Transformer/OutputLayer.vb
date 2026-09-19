@@ -1,86 +1,79 @@
-﻿#Region "Microsoft.VisualBasic::f8fbb4b450830723ea616bdedee4cf86, Data_science\MachineLearning\DeepLearning\Transformer\OutputLayer.vb"
+﻿' ---------------------------------------------------------------------------
+' OutputLayer —— 输出层：把解码器输出投影到词表维度并做 softmax
+'
+' 迁移要点：前向需要缓存「压平后的输入」（用于计算 Wo 的梯度）与输入原始形状
+' （反向时把梯度还原回 [batch, seq, emb]）。softmax 的反向被交叉熵梯度吸收
+' （d(logits) = softmax − onehot），因此 Backward 直接接受对 logits 的梯度。
+' ---------------------------------------------------------------------------
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 32
-    '    Code Lines: 21 (65.62%)
-    ' Comment Lines: 3 (9.38%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 8 (25.00%)
-    '     File Size: 1.12 KB
-
-
-    '     Class OutputLayer
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Output
-    ' 
-    '         Sub: MakeTrainingStep
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.AutomaticDifferentiation
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 
 Namespace Transformer
+
     ''' <summary>
     ''' Produce a flat array with the same dimension as the number of words in the dictionary
     ''' </summary>
     Public Class OutputLayer
+
         Public Wo As Tensor
 
         Private WoOptimizer As Optimizer
 
+        ''' <summary>前向传播的中间量缓存，供反向传播使用。</summary>
+        Public Class Cache
+            Public FlatInput As Tensor
+            Public InputShape As Integer()
+            Public Logits As Tensor
+        End Class
+
+        Private _lastCache As Cache
+
+        ''' <summary>最近一次 <see cref="Output"/> 的中间量缓存。</summary>
+        Public ReadOnly Property LastCache As Cache
+            Get
+                Return _lastCache
+            End Get
+        End Property
+
         Public Sub New(sequenceLength As Integer, embeddingSize As Integer, dictionarySize As Integer)
-            Wo = New Tensor(embeddingSize * sequenceLength, dictionarySize)
-            Wo.GenerateNormalRandomValues()
+            Wo = TensorOps.HeNormalInit(New Integer() {embeddingSize * sequenceLength, dictionarySize})
 
             WoOptimizer = New Optimizer(Wo)
         End Sub
 
         Public Function Output(input As Tensor) As Tensor
-            Dim flatInput = input.Flatten()
-            Dim filteredOutput = Tensor.MatMul(flatInput, Wo)
-            Dim softmaxOutput = filteredOutput.Softmax()
+            Dim flatInput = TensorOps.FlattenLastTwo(input)
+            Dim filteredOutput = TensorOps.BatchedMatMul(flatInput, Wo)
+            Dim softmaxOutput = TensorOps.SoftmaxLastDim(filteredOutput)
+
+            _lastCache = New Cache With {
+                .FlatInput = flatInput,
+                .InputShape = CType(input.Shape.Clone(), Integer()),
+                .Logits = filteredOutput
+            }
 
             Return softmaxOutput
         End Function
+
+        ''' <summary>
+        ''' 反向传播：接受对 logits（softmax 之前）的梯度，返回对解码器输出的梯度。
+        ''' </summary>
+        Public Function Backward(dLogits As Tensor) As Tensor
+            Dim cache = _lastCache
+
+            If cache Is Nothing Then Throw New InvalidOperationException("必须先执行前向传播才能反向传播")
+
+            Dim dFlat As Tensor = Nothing, dWo As Tensor = Nothing
+            Call TensorOps.BatchedMatMulBackward(dLogits, cache.FlatInput, Wo, dFlat, dWo)
+            Call TensorOps.Accumulate(WoOptimizer.Gradient, dWo)
+
+            Return TensorOps.UnflattenLastTwo(dFlat, cache.InputShape)
+        End Function
+
+        ''' <summary>清零输出层的梯度累加器。</summary>
+        Public Sub ZeroGradients()
+            WoOptimizer.ZeroGrad()
+        End Sub
 
         Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)
             WoOptimizer.MakeTrainingStep(learningRate, [step], Wo)

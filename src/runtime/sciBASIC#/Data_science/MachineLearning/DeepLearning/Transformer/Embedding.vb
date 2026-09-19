@@ -1,65 +1,14 @@
-﻿#Region "Microsoft.VisualBasic::ee8aa68c9d679037ff90e4f264f009bb, Data_science\MachineLearning\DeepLearning\Transformer\Embedding.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 209
-    '    Code Lines: 129 (61.72%)
-    ' Comment Lines: 47 (22.49%)
-    '    - Xml Docs: 97.87%
-    ' 
-    '   Blank Lines: 33 (15.79%)
-    '     File Size: 8.18 KB
-
-
-    '     Class Embedding
-    ' 
-    '         Properties: DictionarySize, EmbeddingSize, SequenceLength
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: AllWordsInDictionary, Embed, GetWordIndex, GetWords
-    ' 
-    '         Sub: AddPositionalEncoding, CalculateLossFunction, MakeTrainingStep, OneHotEmbedding, SetDropoutNodes
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
+﻿' ---------------------------------------------------------------------------
+' Embedding —— 词嵌入层（迁移到 TensorFlow\Tensor.vb + 手写反向传播）
+'
+' 前向：按 one-hot 索引把 embeddingLayer 的对应行拷贝到 [batch, seq, emb]，
+'       再叠加正弦位置编码，训练时按最后一维做 dropout。
+' 反向：穿过 dropout 之后，把每个 (sentence, position) 的梯度散射累加回
+'       embeddingLayer 对应行（同一词出现多次会自然累加）。
+' ---------------------------------------------------------------------------
 
 Imports System.Runtime.InteropServices
-Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.AutomaticDifferentiation
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
 
@@ -108,6 +57,15 @@ Namespace Transformer
         End Property
 
         ''' <summary>
+        ''' 与 <see cref="embeddingLayer"/> 同形的梯度累加器。
+        ''' </summary>
+        Friend ReadOnly Property Parameters As Tensor
+            Get
+                Return embeddingLayer
+            End Get
+        End Property
+
+        ''' <summary>
         ''' Constructor
         ''' </summary>
         ''' <param name="embeddingSize"></param>
@@ -117,10 +75,9 @@ Namespace Transformer
             Me.EmbeddingSize = embeddingSize
             Me.SequenceLength = sequenceLength
 
-            OneHotEmbedding(sentences)
-            embeddingLayer = New Tensor(DictionarySize, Me.EmbeddingSize)
-            embeddingLayer.GenerateNormalRandomValues()
+            Call OneHotEmbedding(sentences)
 
+            embeddingLayer = TensorOps.HeNormalInit(New Integer() {DictionarySize, Me.EmbeddingSize})
             embeddingLayerOptimizer = New Optimizer(embeddingLayer)
 
             dropoutMask = New Boolean(embeddingSize - 1) {}
@@ -135,46 +92,114 @@ Namespace Transformer
         Public Function Embed(sentences As List(Of List(Of String)), isTraining As Boolean) As Tensor
             Dim batchSize = sentences.Count
             Dim wordEmbeddings As Tensor = New Tensor(batchSize, SequenceLength, EmbeddingSize)
-
+            Dim emb = wordEmbeddings.Data
+            Dim layer = embeddingLayer.Data
+            Dim n = EmbeddingSize
             Dim s = 0
+
             For Each sentence In sentences
                 Dim word_count = 0
+
                 For Each word In sentence
                     ' No need for matrix multiplication since only one element of vector is nonzero
                     Dim pos As Integer = one_hot(word.ToLower())
-                    For i = 0 To EmbeddingSize - 1
-                        wordEmbeddings(s, word_count, i) = embeddingLayer(pos, i)
-                    Next
+                    Array.Copy(layer, pos * n, emb, (s * SequenceLength + word_count) * n, n)
                     word_count += 1
                 Next
 
-                AddPositionalEncoding(wordEmbeddings, s, sentence.Count())
+                Call AddPositionalEncoding(wordEmbeddings, s, sentence.Count())
                 s += 1
             Next
 
-            If isTraining AndAlso dropoutRate > 0 Then wordEmbeddings = wordEmbeddings.Dropout(dropoutMask, dropoutRate)
+            Call wordEmbeddings.MarkHostModified()
+
+            If isTraining AndAlso dropoutRate > 0 Then wordEmbeddings = TensorOps.DropoutMask(wordEmbeddings, dropoutMask, dropoutRate)
 
             Return wordEmbeddings
         End Function
 
         ''' <summary>
-        ''' Cross entropy loss function between the correct word in a sentence and the decoder output word.
-        ''' For a batch of several sentences the loss is accumulated.
+        ''' 嵌入层的反向传播：把每个 (句, 位置) 的梯度散射累加回 embeddingLayer 的对应行。
         ''' </summary>
-        ''' <param name="filteredOutout"></param>
-        ''' <param name="correctSpanishSentences"></param>
-        ''' <param name="w"></param>
-        ''' <param name="loss"></param>
-        Public Sub CalculateLossFunction(filteredOutout As Tensor, correctSpanishSentences As List(Of List(Of String)), w As Integer, ByRef loss As Rev)
-            For s = 0 To correctSpanishSentences.Count() - 1
-                If w >= correctSpanishSentences(s).Count() Then Continue For
+        ''' <param name="dWordEmbeddings">对 <see cref="Embed"/> 输出的梯度，形状 [batch, seq, emb]</param>
+        ''' <param name="sentences">前向阶段使用的句子（用于还原词索引）</param>
+        ''' <param name="applyDropout">前向阶段是否应用过 dropout</param>
+        Public Sub Backward(dWordEmbeddings As Tensor, sentences As List(Of List(Of String)), applyDropout As Boolean)
+            Dim dOut = dWordEmbeddings
 
-                Dim correctWord = correctSpanishSentences(s)(w)
+            If applyDropout AndAlso dropoutRate > 0 Then
+                dOut = TensorOps.DropoutMaskBackward(dOut, dropoutMask, dropoutRate)
+            End If
 
-                Dim ind = GetWordIndex(correctWord)
-                loss -= filteredOutout(s, 0, ind).Log()
+            Dim grad = embeddingLayerOptimizer.Gradient.Data
+            Dim dIn = dOut.Data
+            Dim n = EmbeddingSize
+            Dim s = 0
+
+            For Each sentence In sentences
+                Dim word_count = 0
+
+                For Each word In sentence
+                    Dim pos As Integer = one_hot(word.ToLower())
+                    Dim src = (s * SequenceLength + word_count) * n
+                    Dim dst = pos * n
+
+                    For i As Integer = 0 To n - 1
+                        grad(dst + i) += dIn(src + i)
+                    Next
+
+                    word_count += 1
+                Next
+
+                s += 1
             Next
+
+            Call embeddingLayerOptimizer.Gradient.MarkHostModified()
         End Sub
+
+        ''' <summary>
+        ''' 交叉熵损失及其对输出层 logits 的梯度。
+        ''' </summary>
+        ''' <remarks>
+        ''' 对 softmax + 交叉熵，直接给出 <c>d(logits) = softmax − onehot</c>，
+        ''' 避免对 log / softmax 做链式求导，与仓库既有 GNN 训练器写法一致。
+        ''' 返回的是本步「未缩放」的损失贡献，最终由调用方统一除以 <c>sequenceLength * batchSize</c>。
+        ''' </remarks>
+        ''' <param name="filteredOutput">输出层 softmax 概率，形状 [batch, 1, dictSize]</param>
+        ''' <param name="correctSentences">正确译文（目标语言）</param>
+        ''' <param name="w">当前预测的词位置</param>
+        ''' <param name="dLogits">输出参数：对 logits 的梯度，形状同 <paramref name="filteredOutput"/></param>
+        Public Function CalculateLossAndGradient(filteredOutput As Tensor,
+                                                 correctSentences As List(Of List(Of String)),
+                                                 w As Integer,
+                                                 ByRef dLogits As Tensor) As Double
+            Dim dictSize = filteredOutput.Shape(filteredOutput.Rank - 1)
+            Dim batchSize = filteredOutput.Shape(0)
+
+            dLogits = New Tensor(filteredOutput.Shape)
+
+            Dim p = filteredOutput.Data
+            Dim g = dLogits.Data
+            Dim total As Double = 0.0
+
+            For s = 0 To correctSentences.Count() - 1
+                If w >= correctSentences(s).Count() Then Continue For
+
+                Dim ind = GetWordIndex(correctSentences(s)(w))
+                Dim baseIdx = s * dictSize
+
+                For j = 0 To dictSize - 1
+                    g(baseIdx + j) = p(baseIdx + j)
+                Next
+
+                g(baseIdx + ind) -= 1.0
+                total -= std.Log(std.Max(p(baseIdx + ind), 1.0E-12))
+            Next
+
+            Call dLogits.MarkHostModified()
+
+            Return total
+        End Function
 
         ''' <summary>
         ''' Get a word based on its index in the dictionary
@@ -224,7 +249,8 @@ Namespace Transformer
                 For Each word In sentence
                     If Not one_hot.ContainsKey(word.ToLower()) Then
                         allWords.Add(word.ToLower())
-                        one_hot.Add(word.ToLower(), std.Min(Threading.Interlocked.Increment(word_index), word_index - 1))
+                        one_hot.Add(word.ToLower(), word_index)
+                        word_index += 1
                     End If
                 Next
             Next
@@ -237,7 +263,13 @@ Namespace Transformer
         ''' <param name="s"></param>
         ''' <param name="sentenceLength"></param>
         Private Sub AddPositionalEncoding(wordEmbeddings As Tensor, s As Integer, sentenceLength As Integer)
+            Dim data = wordEmbeddings.Data
+            Dim n = EmbeddingSize
+            Dim baseIdx = s * SequenceLength * n
+
             For pos = 0 To sentenceLength - 1
+                Dim posBase = baseIdx + pos * n
+
                 For i = 0 To EmbeddingSize - 1
                     Dim pe As Double
                     If i Mod 2 = 0 Then
@@ -245,7 +277,7 @@ Namespace Transformer
                     Else
                         pe = std.Cos(pos / std.Pow(10000, (i - 1) / EmbeddingSize))
                     End If
-                    wordEmbeddings(s, pos, i) += pe
+                    data(posBase + i) += pe
                 Next
             Next
         End Sub
@@ -259,6 +291,11 @@ Namespace Transformer
                 dropoutMask(i) = False
                 If randf.NextDouble < dropoutRate Then dropoutMask(i) = True
             Next
+        End Sub
+
+        ''' <summary>清零嵌入层的梯度累加器。</summary>
+        Public Sub ZeroGradients()
+            embeddingLayerOptimizer.ZeroGrad()
         End Sub
 
         Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)
