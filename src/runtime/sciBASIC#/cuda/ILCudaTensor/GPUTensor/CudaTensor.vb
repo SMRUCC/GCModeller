@@ -141,15 +141,54 @@ Namespace GPUTensor
 
         Private ReadOnly _engine As ILCudaRuntime.CudaEngine
         Private ReadOnly _cache As DeviceCache(Of Double)
+        Private ReadOnly _fp32 As DeviceCache(Of Single)
         Private ReadOnly _csrCache As SparseCsrCache
+
+        ''' <summary>
+        ''' 是否让矩阵乘改走单精度（FP32）内核。
+        ''' </summary>
+        ''' <remarks>
+        ''' 消费级显卡（例如 8GB 的 RTX 30 / 40 系）的 FP64 吞吐只有 FP32 的 <b>1/64</b>，
+        ''' 而矩阵乘占语言模型全部浮点运算的 95% 以上，因此把 GEMM 放到 FP32 上
+        ''' 能拿到接近一个数量级的实际加速（主机侧数据仍是 Double，只在显存里降精度）。
+        ''' 设为 <c>False</c> 会退回 <c>tensorGemmDoubleKernel</c> 的全双精度路径，
+        ''' 用于"FP32 与 FP64 数值对照"这类诊断场景。
+        ''' </remarks>
+        Public Property UseFp32Gemm As Boolean = True
+
+        ''' <summary>
+        ''' 是否让矩阵乘使用常驻显存缓冲（跳过 LRU 缓存的版本失效重传）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 详见 <see cref="DeviceResidentStore"/>。默认关闭，开启后
+        ''' <see cref="DeviceF32"/> 会优先返回被钉住的常驻缓冲。
+        ''' </remarks>
+        Public Property UseResidentStore As Boolean = False
+
+        ''' <summary>设备常驻缓冲注册表（权重 / 梯度 / 优化器状态的长期落脚点）。</summary>
+        Private ReadOnly _resident As New DeviceResidentStore()
 
         Public Sub New(engine As ILCudaRuntime.CudaEngine, Optional cacheBytes As Long = DefaultCacheBytes)
             If engine Is Nothing Then Throw New ArgumentNullException(NameOf(engine))
 
             _engine = engine
             _cache = New DeviceCache(Of Double)(cacheBytes)
+            _fp32 = New DeviceCache(Of Single)(cacheBytes)
             _csrCache = New SparseCsrCache(cacheBytes)
         End Sub
+
+        ''' <summary>
+        ''' 设备常驻缓冲注册表。
+        ''' </summary>
+        ''' <remarks>
+        ''' 常驻缓冲由本注册表<b>独立持有</b>，不参与 <see cref="DeviceCache(Of T)"/> 的 LRU 淘汰，
+        ''' 因此权重可以在整个训练过程中一直留在显存里。
+        ''' </remarks>
+        Public ReadOnly Property Resident As DeviceResidentStore
+            Get
+                Return _resident
+            End Get
+        End Property
 
         Public Overrides ReadOnly Property Name As String = "CUDA"
 
@@ -218,6 +257,26 @@ Namespace GPUTensor
         ''' <summary>取张量底层数据对应的显存缓冲（驻留缓存，零精度损失）</summary>
         Private Function Device(t As tf.Tensor) As ILCudaRuntime.DeviceBuffer(Of Double)
             Return _cache.GetBuffer(_engine, t.Data, t.Version, Function(d) d)
+        End Function
+
+        ''' <summary>
+        ''' 取张量对应的<b>单精度</b>显存缓冲（用于 FP32 的矩阵乘内核）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 查找顺序：<b>常驻表 → LRU 缓存</b>。
+        '''   * 常驻表命中的是"权重 / 梯度 / 优化器状态"这类长期张量。
+        '''     它们一旦钉住就不再随版本号失效，因此训练时不会每步重传整个模型
+        '''     （200M 参数单精度下即 764 MB/步）；
+        '''   * 未钉住的张量（激活、临时结果）落到 LRU 缓存，行为与改造前一致。
+        ''' </remarks>
+        Private Function DeviceF32(t As tf.Tensor) As ILCudaRuntime.DeviceBuffer(Of Single)
+            If UseResidentStore Then
+                Dim pinned As ILCudaRuntime.DeviceBuffer(Of Single) = Nothing
+
+                If _resident.TryGet(t.Data, pinned) Then Return pinned
+            End If
+
+            Return _fp32.GetBuffer(_engine, t.Data, t.Version, AddressOf DeviceResidentStore.ToSingle)
         End Function
 
         ''' <summary>逐元素二元（纯标量内核：两个输入数组）</summary>
