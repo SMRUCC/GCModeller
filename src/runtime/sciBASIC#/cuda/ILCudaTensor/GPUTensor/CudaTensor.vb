@@ -177,14 +177,48 @@ Namespace GPUTensor
         ''' <summary>设备常驻缓冲注册表（权重 / 梯度 / 优化器状态的长期落脚点）。</summary>
         Private ReadOnly _resident As New DeviceResidentStore()
 
-        Public Sub New(engine As ILCudaRuntime.CudaEngine, Optional cacheBytes As Long = DefaultCacheBytes)
+        Public Sub New(engine As ILCudaRuntime.CudaEngine, Optional cacheBytes As Long = 0)
             If engine Is Nothing Then Throw New ArgumentNullException(NameOf(engine))
 
             _engine = engine
+
+            ' <= 0 表示按设备可用显存自适应
+            If cacheBytes <= 0 Then cacheBytes = AdaptiveCacheBytes()
+
             _cache = New DeviceCache(Of Double)(cacheBytes)
             _fp32 = New DeviceCache(Of Single)(cacheBytes)
             _csrCache = New SparseCsrCache(cacheBytes)
         End Sub
+
+        ''' <summary>自适应缓存容量的上限（4 GiB）。</summary>
+        Public Const MaxCacheBytes As Long = 4L * 1024L * 1024L * 1024L
+
+        ''' <summary>自适应缓存容量的下限（256 MiB），保证小显存设备上也有一份可用空间。</summary>
+        Public Const MinCacheBytes As Long = 256L * 1024L * 1024L
+
+        ''' <summary>
+        ''' 按设备可用显存推算合适的驻留缓存容量：取可用量的 1/4，上限 4 GiB。
+        ''' </summary>
+        ''' <remarks>
+        ''' 这里有两个缓存（单精度与双精度），各取可用量的 1/4，合计约占可用显存的一半，
+        ''' 余下的留给 CUDA 上下文本身与各式算子输出缓冲。
+        ''' <para>
+        ''' 取 1/4 而不是更大，是因为容量过小虽然会频繁淘汰，容量过大则会挤压
+        ''' 算子输出缓冲的分配空间；语言模型里单个张量可达数百 MB，
+        ''' 在 8 GB 卡上 1/4（约 1.7 GiB）已足够容纳整个工作集。
+        ''' </para>
+        ''' 查询失败（上下文尚未就绪）时退回 <see cref="DefaultCacheBytes"/>。
+        ''' </remarks>
+        Private Shared Function AdaptiveCacheBytes() As Long
+            Dim info As ILCudaRuntime.MemoryInfo = Nothing
+
+            If Not ILCudaRuntime.CudaMemory.TryQuery(info) Then Return DefaultCacheBytes
+
+            Dim quarter As Long = CLng(info.FreeBytes \ 4UL)
+            Dim capped As Long = System.Math.Min(quarter, MaxCacheBytes)
+
+            Return System.Math.Max(capped, MinCacheBytes)
+        End Function
 
         ''' <summary>
         ''' 设备常驻缓冲注册表。
@@ -224,15 +258,20 @@ Namespace GPUTensor
         ''' <param name="options">引擎选项（设备号 / NVRTC 路径等），<c>Nothing</c> 表示使用默认值</param>
         ''' <param name="cacheBytes">
         ''' 单精度与双精度两个驻留缓存各自的容量上限（字节）。
-        ''' 默认 1 GiB；设为 <c>0</c> 或负数表示不限制。
+        ''' <c>0</c>（默认）表示按设备可用显存自适应；传正数则显式指定。
         ''' </param>
+        ''' <remarks>
+        ''' 缓存容量不能太小：语言模型的张量本身就有数百 MB，容量不足会让算子之间
+        ''' 频繁互相淘汰，既拖慢速度也更容易触发淘汰相关的边界问题。
+        ''' 自适应策略取可用显存的一半、上限 4 GiB，在 8 GB 卡上约为 3.5 GiB。
+        ''' </remarks>
         ''' <param name="useFp32Gemm">
         ''' 是否让矩阵乘走单精度内核。默认 <c>True</c>。
         ''' 在消费级显卡（FP64 只有 FP32 的 1/64）上这是主要的加速来源；
         ''' 设为 <c>False</c> 可用于观察纯双精度路径的数值与耗时。
         ''' </param>
         Public Shared Function Register(Optional options As ILCudaRuntime.EngineOptions = Nothing,
-                                        Optional cacheBytes As Long = DefaultCacheBytes,
+                                        Optional cacheBytes As Long = 0,
                                         Optional useFp32Gemm As Boolean = True) As Boolean
             ' 必须在 CudaEngine.TryCreate 之前把内核源码注入编译单元
             DoubleKernelRegistry.EnsureRegistered()

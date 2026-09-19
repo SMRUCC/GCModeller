@@ -33,6 +33,12 @@
 //
 // 启动：grid = (min(ceil(n/256), 4096), 1)，block = (256, 1)
 // ---------------------------------------------------------------------------
+// 单精度最大值，用于手工判定 inf（不用 INFINITY 宏，与 tensor.cu 风格一致）
+#define TAW_FLOAT_MAX 3.402823466e+38F
+
+// 判定一个 float 是否"可用"（既不是 NaN 也不是 inf）
+#define TAW_FINITE(x) ((x) == (x) && (x) <= TAW_FLOAT_MAX && (x) >= -TAW_FLOAT_MAX)
+
 extern "C" __global__ void tensorAdamWFp32Kernel(float* __restrict__ p,
                                                  float* __restrict__ g,
                                                  float* __restrict__ m,
@@ -41,9 +47,24 @@ extern "C" __global__ void tensorAdamWFp32Kernel(float* __restrict__ p,
                                                  float lr, float b1, float b2, float eps,
                                                  float bc1, float bc2, float wd) {
     TAW_STRIDE_LOOP {
-        const float gi = g[i];
-        const float mi = b1 * m[i] + (1.0f - b1) * gi;
-        const float vi = b2 * v[i] + (1.0f - b2) * gi * gi;
+        // ----------------------------------------------------------------
+        // 数值自愈：一旦 inf / NaN 进入一阶或二阶矩，它会<b>永久粘住</b> ——
+        //   v = inf  ->  sqrt(v) = inf  ->  m/sqrt(v) = inf/inf = NaN
+        // 于是该元素所在的整个参数张量从此全是 NaN，训练再也不会恢复。
+        // 因此这里主动丢弃坏梯度，并把已被污染的状态就地重置。
+        // （实测触发场景：2 亿参数档在工具调用 SFT 阶段出现梯度尖峰，
+        //   global grad norm 从 1.8 突增到 1987，随后 loss 变 NaN。）
+        // ----------------------------------------------------------------
+        float gi = g[i];
+        if (!TAW_FINITE(gi)) gi = 0.0f;
+
+        float mi = b1 * m[i] + (1.0f - b1) * gi;
+        float vi = b2 * v[i] + (1.0f - b2) * gi * gi;
+
+        if (!TAW_FINITE(mi) || !TAW_FINITE(vi) || vi < 0.0f) {
+            mi = 0.0f;
+            vi = 0.0f;
+        }
 
         m[i] = mi;
         v[i] = vi;
@@ -56,6 +77,8 @@ extern "C" __global__ void tensorAdamWFp32Kernel(float* __restrict__ p,
 
         // 解耦权重衰减：与梯度统计完全无关的一项
         if (wd > 0.0f) delta += lr * wd * p[i];
+
+        if (!TAW_FINITE(delta)) delta = 0.0f;
 
         p[i] -= delta;
 
