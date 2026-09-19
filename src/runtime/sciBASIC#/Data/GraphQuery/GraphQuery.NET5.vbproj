@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.Data.GraphQuery</RootNamespace>
-    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <AssemblyName>Microsoft.VisualBasic.Data.GraphQuery</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;PlantMAT;mzkit;NPSearch;mzkit_win32;gcmodeller_desktop;nuget_release</Configurations>
@@ -29,7 +29,6 @@
     <AssemblyVersion>1.0.9753.4776</AssemblyVersion>
     <Title>Graph Query Language Engine for HTML and XML Documents</Title>
     <AssemblyTitle>Microsoft.VisualBasic.Data.GraphQuery</AssemblyTitle>
-    <PackageTags>scibasic;graph-query;html;css-selector;xpath;json</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

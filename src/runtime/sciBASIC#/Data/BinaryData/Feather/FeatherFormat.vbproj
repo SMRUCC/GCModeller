@@ -24,7 +24,6 @@
     <Title>Feather Columnar Data Frame File Format Reader and Writer</Title>
     <AssemblyTitle>Microsoft.VisualBasic.DataStorage.FeatherFormat</AssemblyTitle>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
-    <PackageTags>scibasic;feather;arrow;columnar;dataframe;flatbuffers</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageIcon>logo-knot.png</PackageIcon>
     <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>

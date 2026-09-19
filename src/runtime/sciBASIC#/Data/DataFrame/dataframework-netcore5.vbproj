@@ -13,7 +13,6 @@
     <Company>sciBASIC.NET Foundation</Company>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
-    <PackageReleaseNotes>Data Framework for sciBASIC# runtime, provides the library function for I/O of the csv 2D table, binary data format dataframe object.</PackageReleaseNotes>
     <OutputType>Library</OutputType>
     <StartupObject></StartupObject>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
