@@ -327,7 +327,7 @@ Namespace LLM
             ' 5. AdamW 更新（梯度失控时跳过，见 MaxTrustedGradientNorm 的说明）
             Dim trusted = Not Double.IsNaN(gradNorm) AndAlso
                           Not Double.IsInfinity(gradNorm) AndAlso
-                          gradNorm <= MaxTrustedGradientNorm
+                          gradNorm <= Config.MaxTrustedGradientNorm
 
             If trusted Then
                 _model.Parameters.ApplyUpdate(lr, _step)
