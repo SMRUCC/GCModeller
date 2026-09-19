@@ -169,6 +169,52 @@ Namespace Compute
 
 #End Region
 
+#Region "形状变换与选择"
+
+        ''' <summary>
+        ''' 沿指定轴截取 <c>[start, start + length)</c> 区间，返回独立的张量副本。
+        ''' </summary>
+        ''' <param name="t">输入张量（秩 &gt;= 1）</param>
+        ''' <param name="axis">切片轴，支持负数（-1 表示最后一维）</param>
+        ''' <param name="start">起始下标（含）</param>
+        ''' <param name="length">截取长度</param>
+        ''' <returns>与 <paramref name="t"/> 同秩、仅 <paramref name="axis"/> 维变为 <paramref name="length"/> 的新张量</returns>
+        ''' <remarks>
+        ''' 这是纯数据搬移算子，服务于 "只读取缓存前缀" 的场景（典型例子：KV Cache 按当前
+        ''' 序列长度取出 K/V）。它不参与梯度计算，反向由调用方用散射类算子完成。
+        ''' </remarks>
+        Function Slice(t As Tensor, axis As Integer, start As Integer, length As Integer) As Tensor
+
+        ''' <summary>
+        ''' 沿指定轴拼接若干张量（除 <paramref name="axis"/> 外其余维度必须一致）。
+        ''' </summary>
+        ''' <param name="parts">待拼接的张量序列（至少一个，且秩相同）</param>
+        ''' <param name="axis">拼接轴，支持负数</param>
+        ''' <returns>沿 <paramref name="axis"/> 维长度为各输入该维长度之和的新张量</returns>
+        ''' <remarks>
+        ''' 既有的 <c>Transformer.TensorOps.ConcatLastDim</c> 只支持最后一维；本算子支持任意轴，
+        ''' 是 KV Cache 沿 "序列维" 追加、以及多段 prompt 片段拼接的基础。
+        ''' </remarks>
+        Function Concat(parts As Tensor(), axis As Integer) As Tensor
+
+        ''' <summary>
+        ''' 沿最后一维取最大的 <paramref name="k"/> 个元素（按值降序）。
+        ''' </summary>
+        ''' <param name="t">输入张量（秩 &gt;= 1）</param>
+        ''' <param name="k">保留的元素个数，取值范围 <c>[1, t.Shape(t.Rank - 1)]</c></param>
+        ''' <param name="indices">
+        ''' 输出参数：与返回值同形，元素为被选中元素在原始最后一维中的下标。
+        ''' 与 <see cref="ArgMax"/> 保持一致，下标同样以 <c>Double</c> 存储。
+        ''' </param>
+        ''' <returns>形状与 <paramref name="t"/> 相同、仅最后一维变为 <paramref name="k"/> 的张量</returns>
+        ''' <remarks>
+        ''' MoE 路由器（专家打分 Top-K）与采样器（Top-k / Top-p）的共同前置步骤。
+        ''' 纯选择算子，同样不参与梯度计算。
+        ''' </remarks>
+        Function TopK(t As Tensor, k As Integer, ByRef indices As Tensor) As Tensor
+
+#End Region
+
 #Region "卷积与池化"
 
         ' ------------------------------------------------------------------

@@ -358,6 +358,211 @@ Namespace Compute
 
 #End Region
 
+#Region "形状变换与选择"
+
+        ' ------------------------------------------------------------------
+        ' Slice / Concat / TopK
+        '
+        ' 这三个算子都是「索引与搬移」语义而不是「算术」语义：
+        '   * Slice / Concat 的实现完全由 Array.Copy 的整块内存搬移构成，
+        '     已经是内存带宽受限的最优形态，因此不在 SIMDTensor 中重复覆写；
+        '   * TopK 是选择问题，没有可利用的向量指令收益。
+        ' 把实现统一放在这里，等价于同时为 SIMDTensor 与 CudaTensor 提供正确行为。
+        ' ------------------------------------------------------------------
+
+        ''' <summary>把可能为负的轴编号规范到 <c>[0, Rank)</c>，并做越界校验</summary>
+        Protected Shared Function NormalizeAxis(t As Tensor, axis As Integer, opName As String) As Integer
+            Dim a As Integer = axis
+            If a < 0 Then a = t.Rank + a
+
+            If a < 0 OrElse a >= t.Rank Then
+                Throw New ArgumentOutOfRangeException(
+                    NameOf(axis), $"{opName} 的轴编号 {axis} 超出张量秩 {t.Rank} 的合法范围")
+            End If
+
+            Return a
+        End Function
+
+        ''' <summary>
+        ''' 把某根轴上的索引分解成「外层个数 / 轴长度 / 内层连续长度」三元组。
+        ''' </summary>
+        ''' <remarks>
+        ''' 行主序下第 <paramref name="axis"/> 维的步长是 <c>innerSize = Π shape(axis+1..)</c>，
+        ''' 而 <c>outerSize = Π shape(0..axis-1)</c> 是前面各维的元素总数。
+        ''' 因此 "沿该轴取第 k 段" 就是一次长度为 <c>innerSize</c> 的连续块搬移。
+        ''' </remarks>
+        Protected Shared Sub AxisLayout(shape As Integer(), axis As Integer,
+                                        ByRef outerSize As Integer, ByRef axisSize As Integer, ByRef innerSize As Integer)
+            outerSize = 1
+            For i As Integer = 0 To axis - 1
+                outerSize *= shape(i)
+            Next
+
+            axisSize = shape(axis)
+
+            innerSize = 1
+            For i As Integer = axis + 1 To shape.Length - 1
+                innerSize *= shape(i)
+            Next
+        End Sub
+
+        Public Overridable Function Slice(t As Tensor, axis As Integer, start As Integer, length As Integer) As Tensor Implements ITensorCompute.Slice
+            If t Is Nothing Then Throw New ArgumentNullException(NameOf(t))
+
+            Dim a = NormalizeAxis(t, axis, "Slice")
+
+            If start < 0 OrElse length < 0 Then
+                Throw New ArgumentException($"Slice 的 start({start}) / length({length}) 不能为负数")
+            End If
+
+            Dim shape = t.Shape
+
+            If start + length > shape(a) Then
+                Throw New ArgumentException(
+                    $"Slice 区间 [{start}, {start + length}) 超出轴 {a} 的长度 {shape(a)}")
+            End If
+
+            Dim outerSize As Integer, axisSize As Integer, innerSize As Integer
+            Call AxisLayout(shape, a, outerSize, axisSize, innerSize)
+
+            Dim outShape = CType(shape.Clone(), Integer())
+            outShape(a) = length
+
+            Dim result = New Tensor(outShape)
+            Dim src = t.Data
+            Dim dst = result.Data
+            Dim blockSize = length * innerSize
+
+            If blockSize > 0 Then
+                For o As Integer = 0 To outerSize - 1
+                    Call Array.Copy(src, (o * axisSize + start) * innerSize, dst, o * blockSize, blockSize)
+                Next
+            End If
+
+            Return result
+        End Function
+
+        Public Overridable Function Concat(parts As Tensor(), axis As Integer) As Tensor Implements ITensorCompute.Concat
+            If parts Is Nothing OrElse parts.Length = 0 Then
+                Throw New ArgumentException("Concat 至少需要一个输入张量")
+            End If
+            If parts.Any(Function(p) p Is Nothing) Then
+                Throw New ArgumentException("Concat 的输入张量不能为 Nothing")
+            End If
+
+            Dim rank = parts(0).Rank
+            Dim a = NormalizeAxis(parts(0), axis, "Concat")
+            Dim refShape = parts(0).Shape
+            Dim totalAxis As Integer = 0
+
+            For i As Integer = 0 To parts.Length - 1
+                Dim p = parts(i)
+
+                If p.Rank <> rank Then
+                    Throw New ArgumentException($"Concat 要求所有输入张量秩一致: {rank} vs {p.Rank}")
+                End If
+
+                For d As Integer = 0 To rank - 1
+                    If d <> a AndAlso p.Shape(d) <> refShape(d) Then
+                        Throw New ArgumentException(
+                            $"Concat 要求除轴 {a} 外的所有维度一致，第 {d} 维出现 {refShape(d)} vs {p.Shape(d)}")
+                    End If
+                Next
+
+                totalAxis += p.Shape(a)
+            Next
+
+            Dim outShape = CType(refShape.Clone(), Integer())
+            outShape(a) = totalAxis
+
+            Dim outerSize As Integer, axisSize As Integer, innerSize As Integer
+            Call AxisLayout(refShape, a, outerSize, axisSize, innerSize)
+
+            Dim result = New Tensor(outShape)
+            Dim dst = result.Data
+
+            For o As Integer = 0 To outerSize - 1
+                Dim cursor As Integer = 0
+
+                For i As Integer = 0 To parts.Length - 1
+                    Dim partAxis = parts(i).Shape(a)
+                    Dim blockSize = partAxis * innerSize
+
+                    If blockSize > 0 Then
+                        Call Array.Copy(parts(i).Data, o * blockSize, dst,
+                                        (o * totalAxis + cursor) * innerSize, blockSize)
+                    End If
+
+                    cursor += partAxis
+                Next
+            Next
+
+            Return result
+        End Function
+
+        Public Overridable Function TopK(t As Tensor, k As Integer, ByRef indices As Tensor) As Tensor Implements ITensorCompute.TopK
+            If t Is Nothing Then Throw New ArgumentNullException(NameOf(t))
+            If t.Rank < 1 Then Throw New ArgumentException("TopK 需要秩 >= 1 的张量")
+
+            Dim n = t.Shape(t.Rank - 1)
+
+            If k < 1 OrElse k > n Then
+                Throw New ArgumentException($"TopK 的 k={k} 必须落在 [1, {n}] 范围内")
+            End If
+
+            Dim blocks = t.Length \ n
+            Dim outShape = CType(t.Shape.Clone(), Integer())
+            outShape(t.Rank - 1) = k
+
+            Dim values = New Tensor(outShape)
+            Dim indexTensor = New Tensor(outShape)
+            Dim src = t.Data
+            Dim dstValues = values.Data
+            Dim dstIndex = indexTensor.Data
+
+            ' 复用的临时缓冲区：避免每个 block 都重新分配
+            Dim cursor(n - 1) As Integer
+            Dim work(n - 1) As Double
+
+            For blk As Integer = 0 To blocks - 1
+                Dim offset = blk * n
+                Call Array.Copy(src, offset, work, 0, n)
+
+                For i As Integer = 0 To n - 1
+                    cursor(i) = i
+                Next
+
+                ' 部分选择排序：每轮在剩余区间内挑出最大者交换到区间首部，
+                ' 只做 k 轮即可，复杂度 O(n * k)，在 k << n 时远优于全排序。
+                For s As Integer = 0 To k - 1
+                    Dim best As Integer = s
+
+                    For j As Integer = s + 1 To n - 1
+                        If work(j) > work(best) Then best = j
+                    Next
+
+                    If best <> s Then
+                        Dim swapValue = work(s)
+                        work(s) = work(best)
+                        work(best) = swapValue
+
+                        Dim swapIndex = cursor(s)
+                        cursor(s) = cursor(best)
+                        cursor(best) = swapIndex
+                    End If
+
+                    dstValues(blk * k + s) = work(s)
+                    dstIndex(blk * k + s) = cursor(s)
+                Next
+            Next
+
+            indices = indexTensor
+
+            Return values
+        End Function
+
+#End Region
+
 #Region "卷积与池化"
 
         ' ------------------------------------------------------------------
