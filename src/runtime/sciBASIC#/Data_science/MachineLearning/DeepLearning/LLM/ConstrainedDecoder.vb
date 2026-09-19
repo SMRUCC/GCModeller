@@ -227,18 +227,6 @@ Namespace LLM
             _escaped = s.Escaped
         End Sub
 
-        ''' <summary>
-        ''' 尝试消费一个字符；成功则状态前进并返回 True，失败则状态不变并返回 False。
-        ''' </summary>
-        Private Function TryConsume(c As Char) As Boolean
-            Dim snapshot = Capture()
-
-            If ConsumeInPlace(c) Then Return True
-
-            Call Restore(snapshot)
-            Return False
-        End Function
-
         ''' <summary>原地推进状态机（不负责回滚）。</summary>
         Private Function ConsumeInPlace(c As Char) As Boolean
             Select Case _state
@@ -625,11 +613,20 @@ Namespace LLM
         ''' </remarks>
         Private Function IsFirstCharacterCandidate(c As Char) As Boolean
             If _state = JsonState.Done Then Return False
+
             If _state = JsonState.InStringValue AndAlso Not _escaped Then
                 Return c <> """"c AndAlso c <> "\"c AndAlso Not Char.IsControl(c)
             End If
 
-            Return TryConsume(c)
+            ' 这是"试探"，无论成功还是失败都必须把状态机还原 ——
+            ' 只回滚失败分支会让成功的试探永久推进状态，表现为"还没生成任何字符，
+            ' 状态机却已经跑到后面去了"。
+            Dim snapshot = Capture()
+            Dim accepted = ConsumeInPlace(c)
+
+            Call Restore(snapshot)
+
+            Return accepted
         End Function
 
         ''' <summary>
