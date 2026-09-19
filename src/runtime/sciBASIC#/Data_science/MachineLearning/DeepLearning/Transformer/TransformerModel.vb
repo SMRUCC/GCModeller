@@ -91,7 +91,12 @@ Namespace Transformer
                         Call SetDropoutNodes()
                         Dim __ As List(Of List(Of String)) = Nothing
                         Dim stepLoss = Me.Translate(batchSize, True, englishSentences, spanishSentences, __)
-                        Console.WriteLine("Step: " & [step].ToString() & ", loss: " & stepLoss.ToString())
+
+                        ' 只在每个 batch 的最后一个 step 打印 loss，避免长训练把控制台刷屏
+                        If [step] = nrTrainingSteps Then
+                            Console.WriteLine("Step: " & [step].ToString() & ", loss: " & stepLoss.ToString())
+                        End If
+
                         Call MakeTrainingStep(learningRate, [step])
                     Next
                 Next

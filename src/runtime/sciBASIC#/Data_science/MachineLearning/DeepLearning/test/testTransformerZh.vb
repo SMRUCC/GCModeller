@@ -75,6 +75,9 @@ Module testTransformerZh
         ' ---- 模型超参 ----
         ' 这是一个「玩具规模」的 demo：语料很小、模型很小，用若干轮训练让模型记住
         ' 训练集里的句对，从而验证迁移后的前向 / 反向传播链路是完整且可收敛的。
+        ' 固定随机种子，保证每次运行的初始化与训练结果完全一致。
+        TensorOps.Seed = 20260919
+
         Dim batchSize As Integer = 10
         Dim embeddingSize As Integer = 16
         Dim dk As Integer = 8
@@ -84,7 +87,7 @@ Module testTransformerZh
         Dim Nx As Integer = 2
         Dim dropoutRate As Double = 0.0
 
-        Dim nrEpochs As Integer = 100
+        Dim nrEpochs As Integer = 150
         Dim nrTrainingSteps As Integer = 8
         Dim learningRate As Double = 0.02
 

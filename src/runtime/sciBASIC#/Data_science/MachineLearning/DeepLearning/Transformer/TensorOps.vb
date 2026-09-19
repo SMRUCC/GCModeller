@@ -26,6 +26,25 @@ Namespace Transformer
         ''' <summary>AddNorm（残差 + LayerNorm）使用的数值稳定项，与旧实现保持一致。</summary>
         Public Const AddNormEps As Double = 0.001
 
+        ''' <summary>参数初始化使用的随机数发生器（全局共享，模型构建阶段单线程使用）。</summary>
+        Private _random As Random = New Random()
+
+        Private _seed As Integer? = Nothing
+
+        ''' <summary>
+        ''' 参数初始化的随机种子。设定后所有 <see cref="HeNormalInit"/> 都从同一个
+        ''' 确定性随机序列取值，从而让整次训练可复现。
+        ''' </summary>
+        Public Property Seed As Integer?
+            Get
+                Return _seed
+            End Get
+            Set(value As Integer?)
+                _seed = value
+                _random = If(value.HasValue, New Random(value.Value), New Random())
+            End Set
+        End Property
+
 #Region "通用工具"
 
         ''' <summary>创建与 <paramref name="tensor"/> 同形状的全零张量。</summary>
@@ -91,9 +110,27 @@ Namespace Transformer
         ''' 旧 AD 张量 <c>GenerateNormalRandomValues()</c> 的等价实现：
         ''' 以倒数第二维作为 fan-in 做 He 缩放的正态初始化。
         ''' </summary>
+        ''' <remarks>
+        ''' 初始化使用本模块内部的随机数发生器；通过 <see cref="Seed"/> 设定种子即可让
+        ''' 整个模型的初始化（进而整次训练）完全可复现。
+        ''' </remarks>
         Public Function HeNormalInit(shape As Integer()) As Tensor
             Dim fanIn As Integer = shape(shape.Length - 2)
-            Return Tensor.RandomNormal(shape, 0.0F, CSng(std.Sqrt(2.0 / fanIn)))
+            Dim stdDev = std.Sqrt(2.0 / fanIn)
+            Dim result = New Tensor(shape)
+            Dim data = result.Data
+
+            For idx As Integer = 0 To data.Length - 1
+                ' Box-Muller 变换，与 Tensor.RandomNormal 保持一致的分布
+                Dim u1 As Double = 1.0 - _random.NextDouble()
+                Dim u2 As Double = 1.0 - _random.NextDouble()
+                Dim randStdNormal = std.Sqrt(-2.0 * std.Log(u1)) * std.Sin(2.0 * std.PI * u2)
+                data(idx) = stdDev * randStdNormal
+            Next
+
+            Call result.MarkHostModified()
+
+            Return result
         End Function
 
         ''' <summary>
