@@ -68,9 +68,13 @@ Namespace Transformer
         ''' <summary>
         ''' 反向传播：返回对本层输入 G 的梯度，并累加 W1/W2/b1/b2 的梯度。
         ''' </summary>
+        ''' <param name="forwardCache">
+        ''' 与本次回传相对应的前向缓存。解码器按词逐步前向时该层的
+        ''' <see cref="LastCache"/> 会被后续步骤覆盖，因此必须显式传入当步的快照。
+        ''' </param>
         ''' <param name="dOut">对 <see cref="FeedForward"/> 输出的梯度</param>
-        Public Function Backward(dOut As Tensor) As Tensor
-            Dim cache = _lastCache
+        Public Function Backward(forwardCache As Cache, dOut As Tensor) As Tensor
+            Dim cache = forwardCache
 
             If cache Is Nothing Then Throw New InvalidOperationException("必须先执行前向传播才能反向传播")
 

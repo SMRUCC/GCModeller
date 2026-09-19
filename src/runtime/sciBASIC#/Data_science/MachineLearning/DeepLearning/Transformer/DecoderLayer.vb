@@ -42,6 +42,12 @@ Namespace Transformer
             Public Norm3Mean As Double()
             Public Norm3InvStd As Double()
             Public DropoutApplied As Boolean
+            ''' <summary>掩码自注意力子层的前向缓存快照</summary>
+            Public MaskedCache As MultiHeadAttention.Cache
+            ''' <summary>交叉注意力子层的前向缓存快照</summary>
+            Public CrossCache As MultiHeadAttention.Cache
+            ''' <summary>前馈子层的前向缓存快照</summary>
+            Public FfCache As FeedForwardNetwork.Cache
         End Class
 
         Private _lastCache As Cache
@@ -111,7 +117,10 @@ Namespace Transformer
                 .FeedForwardDropped = feedForwardDropped,
                 .Norm3Mean = mean3,
                 .Norm3InvStd = invStd3,
-                .DropoutApplied = dropoutApplied
+                .DropoutApplied = dropoutApplied,
+                .MaskedCache = mha_masked.LastCache,
+                .CrossCache = mha.LastCache,
+                .FfCache = ff.LastCache
             }
 
             Return output
@@ -121,7 +130,12 @@ Namespace Transformer
         ''' 反向传播：返回对 <c>decoderInput</c> 的梯度，
         ''' 并通过 <paramref name="dEncoderOutput"/> 累加对 encoder 输出的梯度。
         ''' </summary>
-        Public Function Backward(cache As Cache, dOut As Tensor, ByRef dEncoderOutput As Tensor) As Tensor
+        ''' <param name="forwardCache">与该解码步相对应的前向缓存快照</param>
+        ''' <param name="dOut">对该步解码输出的梯度</param>
+        ''' <param name="dEncoderOutput">对 encoder 输出的梯度累加器</param>
+        Public Function Backward(forwardCache As Cache, dOut As Tensor, ByRef dEncoderOutput As Tensor) As Tensor
+            Dim cache = forwardCache
+
             If cache Is Nothing Then Throw New InvalidOperationException("必须先执行前向传播才能反向传播")
 
             ' 第三个 AddNorm：output = AddNorm(normalized2, feedForwardDropped)
@@ -133,7 +147,7 @@ Namespace Transformer
 
             If cache.DropoutApplied Then dFeedForward = TensorOps.DropoutMaskBackward(dFeedForward, dropoutMask3, dropoutRate)
 
-            Call TensorOps.Accumulate(dNormalized2, ff.Backward(dFeedForward))
+            Call TensorOps.Accumulate(dNormalized2, ff.Backward(cache.FfCache, dFeedForward))
 
             ' 第二个 AddNorm：normalized2 = AddNorm(normalized1, attentionDropped)
             Dim dx2 = TensorOps.AddNormBackward(dNormalized2, cache.Normalized1, cache.CrossAttentionDropped, cache.Norm2Mean, cache.Norm2InvStd)
@@ -146,7 +160,7 @@ Namespace Transformer
 
             Dim dFromEncoder As Tensor = Nothing
 
-            Call TensorOps.Accumulate(dNormalized1, mha.Backward(dAttention, dFromEncoder))
+            Call TensorOps.Accumulate(dNormalized1, mha.Backward(cache.CrossCache, dAttention, dFromEncoder))
 
             If dFromEncoder IsNot Nothing Then
                 If dEncoderOutput Is Nothing Then
@@ -167,7 +181,7 @@ Namespace Transformer
 
             Dim unused As Tensor = Nothing
 
-            Call TensorOps.Accumulate(dDecoderInput, mha_masked.Backward(dMaskedAttention, unused))
+            Call TensorOps.Accumulate(dDecoderInput, mha_masked.Backward(cache.MaskedCache, dMaskedAttention, unused))
 
             Return dDecoderInput
         End Function

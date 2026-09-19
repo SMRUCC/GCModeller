@@ -58,8 +58,13 @@ Namespace Transformer
         ''' <summary>
         ''' 反向传播：接受对 logits（softmax 之前）的梯度，返回对解码器输出的梯度。
         ''' </summary>
-        Public Function Backward(dLogits As Tensor) As Tensor
-            Dim cache = _lastCache
+        ''' <param name="forwardCache">
+        ''' 与该解码步相对应的前向缓存。解码器按词逐步前向时 <see cref="LastCache"/>
+        ''' 会被后续步骤覆盖，因此必须显式传入当步的快照。
+        ''' </param>
+        ''' <param name="dLogits">对 logits 的梯度</param>
+        Public Function Backward(forwardCache As Cache, dLogits As Tensor) As Tensor
+            Dim cache = forwardCache
 
             If cache Is Nothing Then Throw New InvalidOperationException("必须先执行前向传播才能反向传播")
 

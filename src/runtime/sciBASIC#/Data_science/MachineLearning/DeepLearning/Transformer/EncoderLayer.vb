@@ -34,6 +34,10 @@ Namespace Transformer
             Public Norm2Mean As Double()
             Public Norm2InvStd As Double()
             Public DropoutApplied As Boolean
+            ''' <summary>自注意力子层的前向缓存快照</summary>
+            Public MhaCache As MultiHeadAttention.Cache
+            ''' <summary>前馈子层的前向缓存快照</summary>
+            Public FfCache As FeedForwardNetwork.Cache
         End Class
 
         Private _lastCache As Cache
@@ -87,14 +91,20 @@ Namespace Transformer
                 .FeedForwardDropped = feedForwardDropped,
                 .Norm2Mean = mean2,
                 .Norm2InvStd = invStd2,
-                .DropoutApplied = dropoutApplied
+                .DropoutApplied = dropoutApplied,
+                .MhaCache = mha.LastCache,
+                .FfCache = ff.LastCache
             }
 
             Return output
         End Function
 
         ''' <summary>反向传播：返回对本层输入 <c>encoderInput</c> 的梯度。</summary>
-        Public Function Backward(dOut As Tensor, cache As Cache) As Tensor
+        ''' <param name="dOut">对本层输出的梯度</param>
+        ''' <param name="forwardCache">与本次回传相对应的前向缓存快照</param>
+        Public Function Backward(dOut As Tensor, forwardCache As Cache) As Tensor
+            Dim cache = forwardCache
+
             If cache Is Nothing Then Throw New InvalidOperationException("必须先执行前向传播才能反向传播")
 
             ' 第二个 AddNorm：output = AddNorm(normalized1, feedForwardDropped)
@@ -106,7 +116,7 @@ Namespace Transformer
 
             If cache.DropoutApplied Then dFeedForward = TensorOps.DropoutMaskBackward(dFeedForward, dropoutMask2, dropoutRate)
 
-            Call TensorOps.Accumulate(dNormalized1, ff.Backward(dFeedForward))
+            Call TensorOps.Accumulate(dNormalized1, ff.Backward(cache.FfCache, dFeedForward))
 
             ' 第一个 AddNorm：normalized1 = AddNorm(encoderInput, attentionDropped)
             Dim dx1 = TensorOps.AddNormBackward(dNormalized1, cache.Input, cache.AttentionDropped, cache.Norm1Mean, cache.Norm1InvStd)
@@ -119,7 +129,7 @@ Namespace Transformer
 
             Dim unused As Tensor = Nothing
 
-            Call TensorOps.Accumulate(dInput, mha.Backward(dAttention, unused))
+            Call TensorOps.Accumulate(dInput, mha.Backward(cache.MhaCache, dAttention, unused))
 
             Return dInput
         End Function

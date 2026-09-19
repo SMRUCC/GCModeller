@@ -144,10 +144,14 @@ Namespace Transformer
         ''' <summary>
         ''' 反向传播：返回对 Query 侧输入的梯度，并累加全部线性层的参数梯度。
         ''' </summary>
+        ''' <param name="forwardCache">
+        ''' 与本次回传相对应的前向缓存。解码器按词逐步前向时该层的
+        ''' <see cref="LastCache"/> 会被后续步骤覆盖，因此必须显式传入当步的快照。
+        ''' </param>
         ''' <param name="dOut">对注意力输出（<c>Concat · Wo</c>）的梯度</param>
         ''' <param name="dEncoderOutput">交叉注意力场景下对 encoder 输出的梯度（自注意力时为 Nothing）</param>
-        Public Function Backward(dOut As Tensor, ByRef dEncoderOutput As Tensor) As Tensor
-            Dim cache = _lastCache
+        Public Function Backward(forwardCache As Cache, dOut As Tensor, ByRef dEncoderOutput As Tensor) As Tensor
+            Dim cache = forwardCache
 
             If cache Is Nothing Then Throw New InvalidOperationException("必须先执行前向传播才能反向传播")
 
