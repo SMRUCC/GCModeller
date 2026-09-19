@@ -81,6 +81,13 @@ Namespace ComponentModel.StoreProcedure
         ''' <returns></returns>
         Public Property names As String()
 
+        ''' <summary>
+        ''' Normalize a single property value by its property name.
+        ''' </summary>
+        ''' <param name="name">The property name, it should be one of the elements in the <see cref="names"/> list.</param>
+        ''' <param name="value">The raw property value that will be normalized.</param>
+        ''' <param name="method">The normalization method, the default value is <see cref="Normalizer.Methods.NormalScaler"/>.</param>
+        ''' <returns>The normalized value.</returns>
         Public Function DoNormalize(name$, value#, Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler) As Double
             Dim i As Integer = Array.IndexOf(names, name)
             Dim dist As SampleDistribution = matrix(i)
@@ -89,6 +96,13 @@ Namespace ComponentModel.StoreProcedure
             Return result
         End Function
 
+        ''' <summary>
+        ''' Normalize a single value with the given sample distribution and normalization method.
+        ''' </summary>
+        ''' <param name="dist">The <see cref="SampleDistribution"/> of the target property.</param>
+        ''' <param name="x">The raw value that will be normalized.</param>
+        ''' <param name="method">The normalization method, the default value is <see cref="Normalizer.Methods.NormalScaler"/>.</param>
+        ''' <returns>The normalized value.</returns>
         Public Shared Function doNormalInternal(dist As SampleDistribution, x#, Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler) As Double
             Select Case method
                 Case Normalizer.Methods.NormalScaler
@@ -126,6 +140,16 @@ Namespace ComponentModel.StoreProcedure
                 .ToArray
         End Function
 
+        ''' <summary>
+        ''' Create the normalization matrix from a <see cref="SampleList"/> object.
+        ''' </summary>
+        ''' <param name="sampleList">The training sample collection.</param>
+        ''' <param name="names">The property names, not sample id names.</param>
+        ''' <param name="estimateQuantile">
+        ''' Whether the quantile value of the sample distribution should be 
+        ''' estimated? The default value is ``True``.
+        ''' </param>
+        ''' <returns>A <see cref="NormalizeMatrix"/> object.</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function CreateFromSamples(sampleList As SampleList,
                                                  names As IEnumerable(Of String),
@@ -139,9 +163,12 @@ Namespace ComponentModel.StoreProcedure
         ''' 所以为了能够直接进行比较,
         ''' 在这里将sample的每一个属性都按列归一化为``[0,1]``之间的结果
         ''' </summary>
-        ''' <param name="samples"></param>
+        ''' <param name="samples">A collection of the training <see cref="Sample"/> data.</param>
         ''' <param name="names">The property names, not sample id names</param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' A <see cref="NormalizeMatrix"/> object which contains the distribution 
+        ''' of each property column of the given <paramref name="samples"/>.
+        ''' </returns>
         Public Shared Function CreateFromSamples(samples As IEnumerable(Of Sample),
                                                  names As IEnumerable(Of String),
                                                  Optional estimateQuantile As Boolean = True) As NormalizeMatrix

@@ -60,7 +60,7 @@ Imports std = System.Math
 Namespace ComponentModel.Activations
 
     ''' <summary>
-    ''' 
+    ''' The hyperbolic tangent activation function, its output range is <b>[-1, 1]</b>.
     ''' </summary>
     ''' <remarks>
     ''' ```
@@ -73,6 +73,13 @@ Namespace ComponentModel.Activations
     <Serializable>
     Public Class HyperbolicTangent : Inherits IActivationFunction
 
+        ''' <summary>
+        ''' Gets the XML serializable data model of this hyperbolic tangent function.
+        ''' </summary>
+        ''' <returns>
+        ''' A <see cref="ActiveFunction"/> data model which its function name is 
+        ''' <see cref="NameOf(HyperbolicTangent)"/> and no argument is required.
+        ''' </returns>
         Public Overrides ReadOnly Property Store As ActiveFunction
             Get
                 Return New ActiveFunction() With {
@@ -105,6 +112,10 @@ Namespace ComponentModel.Activations
             Return 1 / (std.Cosh(x) ^ 2)
         End Function
 
+        ''' <summary>
+        ''' Display this activation function as a text expression.
+        ''' </summary>
+        ''' <returns>The text expression of this hyperbolic tangent function.</returns>
         Public Overrides Function ToString() As String
             Return Store.ToString
         End Function

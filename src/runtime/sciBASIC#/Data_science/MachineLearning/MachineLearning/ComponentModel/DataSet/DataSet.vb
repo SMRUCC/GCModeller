@@ -108,6 +108,14 @@ Namespace ComponentModel.StoreProcedure
             End Get
         End Property
 
+        ''' <summary>
+        ''' 样本输入向量的长度，即属性维度的数量
+        ''' </summary>
+        ''' <returns>
+        ''' When the <see cref="NormalizeMatrix"/> is not defined, the length of the 
+        ''' <see cref="Sample.vector"/> of the first sample will be returned; 
+        ''' otherwise the size of the normalization matrix will be returned.
+        ''' </returns>
         Public ReadOnly Property width As Integer
             Get
                 If NormalizeMatrix Is Nothing Then
@@ -139,7 +147,11 @@ Namespace ComponentModel.StoreProcedure
         ''' <param name="dummyExtends">
         ''' This function will extends <see cref="Sample.target"/> when this parameter is greater than ZERO.
         ''' </param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' A sequence of the normalized <see cref="Sample"/> data; an 
+        ''' <see cref="InvalidProgramException"/> will be thrown when a ``NaN`` 
+        ''' value is detected in the normalized sample data.
+        ''' </returns>
         Public Iterator Function PopulateNormalizedSamples(Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler,
                                                            Optional dummyExtends% = 0) As IEnumerable(Of Sample)
             Dim input#()
@@ -173,6 +185,20 @@ Namespace ComponentModel.StoreProcedure
             Return extends
         End Function
 
+        ''' <summary>
+        ''' Merge a collection of the new samples into an exists dataset, and then 
+        ''' rebuild the normalization matrix of the merged dataset.
+        ''' </summary>
+        ''' <param name="dataset">The exists training dataset.</param>
+        ''' <param name="samples">A collection of the new <see cref="Sample"/> data that will be merged into the <paramref name="dataset"/>.</param>
+        ''' <param name="estimateQuantile">
+        ''' Whether the quantile value of the sample distribution should be 
+        ''' estimated? The default value is ``True``.
+        ''' </param>
+        ''' <returns>
+        ''' A new <see cref="DataSet"/> object which contains both the original 
+        ''' samples and the new <paramref name="samples"/>.
+        ''' </returns>
         Public Shared Function JoinSamples(dataset As DataSet, samples As IEnumerable(Of Sample), Optional estimateQuantile As Boolean = True) As DataSet
             Dim union As Sample() = dataset.DataSamples _
                 .AsEnumerable _
@@ -201,6 +227,12 @@ Namespace ComponentModel.StoreProcedure
             }
         End Function
 
+        ''' <summary>
+        ''' Display the brief summary information of this dataset.
+        ''' </summary>
+        ''' <returns>
+        ''' A string in format like ``DataSet with N samples and M properties in each sample.``
+        ''' </returns>
         Public Overrides Function ToString() As String
             Return $"DataSet with {Size.Height} samples and {Size.Width} properties in each sample."
         End Function
