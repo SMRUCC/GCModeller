@@ -1,119 +1,101 @@
-﻿#Region "Microsoft.VisualBasic::f7dc9f750cd50c9d14240ce221fa9018, annotations\GPR\ReactionContinuityChecker.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 62
-    '    Code Lines: 37 (59.68%)
-    ' Comment Lines: 14 (22.58%)
-    '    - Xml Docs: 71.43%
-    ' 
-    '   Blank Lines: 11 (17.74%)
-    '     File Size: 2.62 KB
-
-
-    ' Class ReactionContinuityChecker
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: LoadFromContext
-    ' 
-    '     Sub: CheckContinuity
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.MetabolicModel
 
 ''' <summary>
-''' 检查反应之间的化学相容性
-''' 如果一个反应的产物是下一个反应的底物，增强这些反应的分数
+''' 反应连续性检查。
+''' 
+''' 对于基因当前"已经支持"的反应集合，统计其中存在的"产物即下游底物"关系，
+''' 并据此对相关反应给出增益证据。
+''' 
+''' 注意：本类只对基因已经支持的反应给出增益，不会凭空创造新的关联，
+''' 因此它属于网络级的一致性证据，而不是猜测性证据。
 ''' </summary>
 Public Class ReactionContinuityChecker
 
-    ' 反应ID -> 底物/产物映射
-    Private reactionCompounds As Dictionary(Of String, MetabolicReaction)
+    ''' <summary>
+    ''' 反应编号 -&gt; 反应对象
+    ''' </summary>
+    ReadOnly reactionIndex As Dictionary(Of String, MetabolicReaction)
 
-    Public Sub New(reactionData As Dictionary(Of String, MetabolicReaction))
-        reactionCompounds = reactionData
+    Public Sub New(reactionIndex As Dictionary(Of String, MetabolicReaction))
+        Me.reactionIndex = If(reactionIndex, New Dictionary(Of String, MetabolicReaction)(StringComparer.OrdinalIgnoreCase))
     End Sub
 
     ''' <summary>
-    ''' 对通路中的每个反应对检查连续性
+    ''' 已经登记索引的反应数量
     ''' </summary>
-    ''' <param name="pathway"></param>
-    ''' <param name="geneScores"></param>
-    ''' <param name="genome"></param>
-    Public Sub CheckContinuity(pathway As Pathway, geneScores As Dictionary(Of String, Double), genome As Genome)
-        For i As Integer = 0 To pathway.metabolicNetwork.Length - 2
-            Dim currRxn = pathway.metabolicNetwork(i)
-            Dim nextRxn = pathway.metabolicNetwork(i + 1)
+    Public ReadOnly Property Size As Integer
+        Get
+            Return reactionIndex.Count
+        End Get
+    End Property
 
-            If Not reactionCompounds.ContainsKey(currRxn.id) Or
-               Not reactionCompounds.ContainsKey(nextRxn.id) Then Continue For
+    ''' <summary>
+    ''' 收集连续性证据。
+    ''' 
+    ''' 修复：原实现从未被任何调用方使用（死代码），且分数更新语句的语义混乱；
+    ''' 现在统一改造为"输入已支持反应集合、输出增益证据"的纯函数形式。
+    ''' </summary>
+    Public Function CollectEvidence(supported As IEnumerable(Of String),
+                                    context As ContextIndices,
+                                    opt As GPRParameters) As IEnumerable(Of ReactionEvidence)
 
-            Dim currProducts As String() = reactionCompounds(currRxn.id).right.Keys
-            Dim nextSubstrates As String() = reactionCompounds(nextRxn.id).left.Keys
+        Dim results As New List(Of ReactionEvidence)
 
-            ' 检查化学相容性
-            Dim overlap = currProducts.Intersect(nextSubstrates).Count()
-            If overlap > 0 Then
-                ' 增强这两个反应的关联分数
-                Dim continuityScore = 0.3 + (overlap / Math.Max(currProducts.Count, nextSubstrates.Count)) * 0.3
+        If supported Is Nothing OrElse context Is Nothing Then Return results
+        If opt Is Nothing Then opt = New GPRParameters
 
-                ' 如果基因已经被关联到这些反应，增强分数
-                For Each geneId As String In genome.GetGenesForReaction(currRxn.id).Keys
-                    If geneScores.ContainsKey(geneId) Then
-                        geneScores(geneId) = Math.Max(geneScores(geneId), continuityScore)
-                    End If
-                Next
-            End If
+        Dim scope As New HashSet(Of String)(
+            supported.Where(Function(id) Not String.IsNullOrEmpty(id)),
+            StringComparer.OrdinalIgnoreCase)
+
+        If scope.Count < 2 Then Return results
+
+        For Each upstream As String In scope
+            Dim links As List(Of ReactionLink) = Nothing
+            If Not context.ReactionNeighbours.TryGetValue(upstream, links) Then Continue For
+
+            For Each link As ReactionLink In links
+                If Not scope.Contains(link.ReactionID) Then Continue For
+                If Not reactionIndex.ContainsKey(upstream) Then Continue For
+                If Not reactionIndex.ContainsKey(link.ReactionID) Then Continue For
+
+                Dim source As String = $"{upstream} -> {link.ReactionID}"
+
+                results.Add(New ReactionEvidence(upstream, New AssociationEvidence With {
+                    .Kind = EvidenceKind.ReactionContinuity,
+                    .Weight = opt.ReactionContinuityWeight,
+                    .RawScore = link.Coverage,
+                    .Source = source
+                }))
+                results.Add(New ReactionEvidence(link.ReactionID, New AssociationEvidence With {
+                    .Kind = EvidenceKind.ReactionContinuity,
+                    .Weight = opt.ReactionContinuityWeight,
+                    .RawScore = link.Coverage,
+                    .Source = source
+                }))
+            Next
         Next
-    End Sub
 
+        Return results
+    End Function
+
+    ''' <summary>
+    ''' 从参考网络上下文构建索引。
+    ''' 
+    ''' 修复：改为索引 <see cref="ContextIndices.ReactionIndex"/> 中的"全部"反应，
+    ''' 原实现只索引带 EC 编号的反应，导致没有 EC 注释的反应永远无法参与连续性推断。
+    ''' </summary>
     Public Shared Function LoadFromContext(context As ContextIndices) As ReactionContinuityChecker
-        Dim rxnIndex = context.ECtoReactions.Values _
-            .SelectMany(Function(v) v) _
-            .GroupBy(Function(r) r.id) _
-            .ToDictionary(Function(r) r.Key,
-                          Function(r)
-                              Return r.First
-                          End Function)
+        Dim index As New Dictionary(Of String, MetabolicReaction)(StringComparer.OrdinalIgnoreCase)
 
-        Return New ReactionContinuityChecker(rxnIndex)
+        If context IsNot Nothing Then
+            For Each item As KeyValuePair(Of String, MetabolicReaction) In context.ReactionIndex
+                index(item.Key) = item.Value
+            Next
+        End If
+
+        Return New ReactionContinuityChecker(index)
     End Function
 
 End Class
