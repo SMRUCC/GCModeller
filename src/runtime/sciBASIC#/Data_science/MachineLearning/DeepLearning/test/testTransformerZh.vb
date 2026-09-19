@@ -66,7 +66,11 @@ Module testTransformerZh
             allChinese.Add(TokenizeChinese(tokenizer, chineseRaw(i)))
         Next
 
-        Console.WriteLine($"[transformer-zh] 英文例句数：{CountDistinctTokens(allEnglish)}，中文例句数：{CountDistinctTokens(allChinese)}")
+        Dim maxEnglishTokens As Integer = allEnglish.Max(Function(x) x.Count)
+        Dim maxChineseTokens As Integer = allChinese.Max(Function(x) x.Count) + 2   ' 加上 < 与 > 起止符
+
+        Console.WriteLine($"[transformer-zh] 英文词表：{CountDistinctTokens(allEnglish)}，中文词表：{CountDistinctTokens(allChinese)}")
+        Console.WriteLine($"[transformer-zh] 最长标题序列：英文 {maxEnglishTokens} token，中文 {maxChineseTokens} token，sequenceLength = {Math.Max(maxEnglishTokens, maxChineseTokens)}")
 
         ' ---- 模型超参 ----
         ' 这是一个「玩具规模」的 demo：语料很小、模型很小，用若干轮训练让模型记住
@@ -80,12 +84,12 @@ Module testTransformerZh
         Dim Nx As Integer = 2
         Dim dropoutRate As Double = 0.0
 
-        Dim nrEpochs As Integer = 6
+        Dim nrEpochs As Integer = 100
         Dim nrTrainingSteps As Integer = 8
-        Dim learningRate As Double = 0.01
+        Dim learningRate As Double = 0.02
 
         ' Train() 内部按 batchSize 整除取 batch，这里先把训练集裁剪到 batchSize 的整数倍
-        Dim nrSentences As Integer = Math.Min(allEnglish.Count, 100)
+        Dim nrSentences As Integer = Math.Min(allEnglish.Count, 20)
         nrSentences -= nrSentences Mod batchSize
 
         Dim trainEnglish = CloneSentences(allEnglish, nrSentences)
@@ -246,6 +250,23 @@ Module testTransformerZh
         Console.WriteLine(" 翻译测试（源句来自训练集，用于验证模型是否记住了训练数据）")
         Console.WriteLine("============================================================")
 
+        ' 1) 训练集整体完全匹配率：客观反映模型是否记住了训练句对
+        Dim exact As Integer = 0
+        Dim evaluated As Integer = 0
+
+        For idx As Integer = 0 To nrSentences - 1
+            Dim reference = ChineseSentence(allChinese(idx))
+            Dim translated = ChineseSentence(TranslateWithModel(model, allEnglish(idx)))
+
+            evaluated += 1
+
+            If translated = reference Then exact += 1
+        Next
+
+        Console.WriteLine($"  训练集完全匹配：{exact}/{evaluated} ({If(evaluated > 0, exact / evaluated, 0):P1})")
+        Console.WriteLine()
+
+        ' 2) 抽样明细
         Dim indices() As Integer = {0, 2, 5, 9, 14, 20, 26, 33, 41, 50, 58, 66, 75, 84, 93}
         Dim emptyCount As Integer = 0
         Dim testedCount As Integer = 0
