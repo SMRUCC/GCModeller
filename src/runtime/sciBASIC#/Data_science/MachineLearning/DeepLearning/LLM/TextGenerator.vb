@@ -197,6 +197,12 @@ Namespace LLM
 
             result.Context = context
 
+            ' 缓存占用要按<b>生成结束</b>时的长度统计 —— 在 prefill 之后立刻读只会得到
+            ' prompt 那么长的缓存，看不出"随序列线性增长"这件事。
+            If caches IsNot Nothing Then
+                result.CacheBytes = LLMModel.CacheBytes(caches)
+            End If
+
             Return result
         End Function
 
