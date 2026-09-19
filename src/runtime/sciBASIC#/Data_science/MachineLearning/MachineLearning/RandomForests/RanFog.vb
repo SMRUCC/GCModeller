@@ -108,7 +108,20 @@ Namespace RandomForests
         ''' </summary>
         ''' <returns></returns>
         Public Property LF_c As LF_c = LF_c.Mean_Squared_Error
+
+        ''' <summary>
+        ''' The cost of a false positive (an individual is incorrectly assigned 
+        ''' as ``y_hat = 1``), it is only used by the 
+        ''' <see cref="LF_c.Personalized_Cost_Function_for_categories"/> loss.
+        ''' </summary>
+        ''' <returns>A <see cref="Double"/> cost value, the default value is ``1``.</returns>
         Public Property false_positive_cost As Double = 1
+        ''' <summary>
+        ''' The cost of a false negative (an individual is incorrectly assigned 
+        ''' as ``y_hat = 0``), it is only used by the 
+        ''' <see cref="LF_c.Personalized_Cost_Function_for_categories"/> loss.
+        ''' </summary>
+        ''' <returns>A <see cref="Double"/> cost value, the default value is ``1``.</returns>
         Public Property false_negative_cost As Double = 1
 
         ''' <summary>
@@ -533,15 +546,35 @@ Namespace RandomForests
         End Function
     End Class
 
+    ''' <summary>
+    ''' The result object of the random forest training procedure.
+    ''' </summary>
     Public Class Result
 
         ''' <summary>
         ''' Predicted GBV in training set
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>An array of the predicted phenotype value of each training sample.</returns>
         Public Property outGEBV As Double()
+
+        ''' <summary>
+        ''' The trained random forest model.
+        ''' </summary>
+        ''' <returns>A <see cref="RanFog"/> model object.</returns>
         Public Property Model As RanFog
+        ''' <summary>
+        ''' The training dataset which was used for training the <see cref="Model"/>.
+        ''' </summary>
+        ''' <returns>A <see cref="Data"/> object.</returns>
         Public Property data As Data
+        ''' <summary>
+        ''' The out-of-bag mean squared error which was evaluated at each tree.
+        ''' </summary>
+        ''' <returns>
+        ''' An array of the tuples, in which the ``ave`` item is the averaged 
+        ''' out-of-bag error and the ``MSE_oob`` item is the out-of-bag error of 
+        ''' the current tree.
+        ''' </returns>
         Public Property MSE_oob As (ave As Double, MSE_oob As Double)()
 
     End Class
