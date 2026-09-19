@@ -7,6 +7,10 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RTF", "RTF.vbproj", "{062AF
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Core", "..\..\Microsoft.VisualBasic.Core\src\Core.vbproj", "{7C7D0129-8931-FDFF-7C5A-C8A634B419A7}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "markdown.NET5", "..\text%markdown\markdown.NET5.vbproj", "{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "JSON-netcore5", "..\application%json\JSON-netcore5.vbproj", "{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,54 @@ Global
 		{7C7D0129-8931-FDFF-7C5A-C8A634B419A7}.Release|x64.Build.0 = Release|x64
 		{7C7D0129-8931-FDFF-7C5A-C8A634B419A7}.Release|x86.ActiveCfg = Release|x86
 		{7C7D0129-8931-FDFF-7C5A-C8A634B419A7}.Release|x86.Build.0 = Release|x86
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Debug|x64.ActiveCfg = Debug|x64
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Debug|x64.Build.0 = Debug|x64
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.docs|Any CPU.ActiveCfg = Release|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.docs|Any CPU.Build.0 = Release|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.docs|x64.ActiveCfg = Release|x64
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.docs|x64.Build.0 = Release|x64
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.docs|x86.ActiveCfg = Release|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.docs|x86.Build.0 = Release|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Publish|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Publish|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Publish|x64.ActiveCfg = Rsharp_app_release|x64
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Publish|x64.Build.0 = Rsharp_app_release|x64
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Publish|x86.ActiveCfg = Rsharp_app_release|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Publish|x86.Build.0 = Rsharp_app_release|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Release|x64.ActiveCfg = Release|x64
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Release|x64.Build.0 = Release|x64
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{B2A09481-1C0B-CF13-494F-3B4D3FC559EE}.Release|x86.Build.0 = Release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Debug|x64.ActiveCfg = Debug|x64
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Debug|x64.Build.0 = Debug|x64
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Debug|x86.Build.0 = Debug|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.docs|Any CPU.ActiveCfg = Release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.docs|Any CPU.Build.0 = Release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.docs|x64.ActiveCfg = Release|x64
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.docs|x64.Build.0 = Release|x64
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.docs|x86.ActiveCfg = Release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.docs|x86.Build.0 = Release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Publish|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Publish|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Publish|x64.ActiveCfg = Rsharp_app_release|x64
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Publish|x64.Build.0 = Rsharp_app_release|x64
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Publish|x86.ActiveCfg = Rsharp_app_release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Publish|x86.Build.0 = Rsharp_app_release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Release|x64.ActiveCfg = Release|x64
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Release|x64.Build.0 = Release|x64
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Release|x86.ActiveCfg = Release|Any CPU
+		{224B0C8F-1EE7-56C8-D6AE-E3A06FFDB4E9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
