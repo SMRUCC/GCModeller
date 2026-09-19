@@ -112,6 +112,42 @@ Namespace LLM
         End Function
 
         ''' <summary>
+        ''' 渲染<b>紧凑</b>工具清单：只保留"签名 + 枚举取值 + 调用格式"。
+        ''' </summary>
+        ''' <remarks>
+        ''' 与 <see cref="RenderToolCatalog"/> 的关系：后者是给人看的完整说明书（含逐参数的
+        ''' 自然语言描述），前者是给模型看的、尽量省 token 的版本。小模型的上下文窗口很窄，
+        ''' 工具清单会占掉相当一部分预算，因此训练与推理都统一使用紧凑版，保证分布一致。
+        ''' </remarks>
+        Public Function RenderCompactCatalog() As String
+            Dim text As New StringBuilder()
+
+            Call text.AppendLine("tools:")
+
+            For Each t In _tools
+                Dim args = String.Join(", ", t.Schema.Properties.Select(Function(p) p.Name))
+
+                Call text.AppendLine($"- {t.Name}({args}): {t.Description}")
+
+                For Each p In t.Schema.Properties
+                    If p.EnumValues IsNot Nothing AndAlso p.EnumValues.Length > 0 Then
+                        Call text.AppendLine($"    {p.Name} one of: {String.Join(" | ", p.EnumValues)}")
+                    End If
+                Next
+            Next
+
+            Call text.AppendLine("to call a tool output:")
+            Call text.AppendLine(ToolCallProtocol.CallsBeginMarker & ToolCallProtocol.CallBeginMarker &
+                                 ToolCallProtocol.CallTypeFunction & ToolCallProtocol.SepMarker & "NAME")
+            Call text.AppendLine("```json")
+            Call text.AppendLine("{arguments}")
+            Call text.AppendLine("```")
+            Call text.AppendLine(ToolCallProtocol.CallEndMarker & ToolCallProtocol.CallsEndMarker)
+
+            Return text.ToString()
+        End Function
+
+        ''' <summary>
         ''' 执行一次工具调用。
         ''' </summary>
         ''' <param name="toolCall">解析出来的调用</param>

@@ -169,6 +169,64 @@ Namespace LLM
             Return text.ToString()
         End Function
 
+        ''' <summary>
+        ''' 按 schema 的键顺序和类型，把参数表渲染成<b>紧凑</b> JSON。
+        ''' </summary>
+        ''' <remarks>
+        ''' 它保证"训练时喂给模型的参数 JSON"与"约束解码能够生成出来的参数 JSON"
+        ''' 是同一种形态：键顺序一致、无多余空白、字符串带引号、数字不加引号。
+        ''' 少了这层保证，SFT 学到的格式与推理时的约束就会互相打架。
+        ''' </remarks>
+        Public Function BuildJson(values As Dictionary(Of String, String)) As String
+            Dim quote As String = Chr(34)
+            Dim text As New StringBuilder()
+
+            Call text.Append("{")
+
+            Dim first As Boolean = True
+
+            For Each item In Properties
+                Dim raw As String = Nothing
+
+                If values Is Nothing OrElse Not values.TryGetValue(item.Name, raw) Then
+                    raw = If(item.DefaultValue, "")
+                End If
+
+                If Not first Then Call text.Append(",")
+                first = False
+
+                Call text.Append(quote & item.Name & quote & ":")
+                Call text.Append(FormatValue(item, raw))
+            Next
+
+            Call text.Append("}")
+
+            Return text.ToString()
+        End Function
+
+        ''' <summary>按参数类型格式化一个取值。</summary>
+        Private Shared Function FormatValue(item As JsonSchemaProperty, raw As String) As String
+            Select Case item.Type
+
+                Case "integer", "number"
+                    If String.IsNullOrEmpty(raw) Then Return "0"
+                    Return raw
+
+                Case "boolean"
+                    If String.IsNullOrEmpty(raw) Then Return "false"
+                    Return raw.ToLower()
+
+                Case Else
+                    ' 字符串 / 枚举：转义反斜杠与引号后加引号
+                    Dim backslash As String = Chr(92)
+                    Dim quote As String = Chr(34)
+                    Dim escaped = raw.Replace(backslash, backslash & backslash).Replace(quote, backslash & quote)
+
+                    Return quote & escaped & quote
+
+            End Select
+        End Function
+
         ''' <summary>空对象的 schema（工具无参数时使用）。</summary>
         Public Shared Function Empty() As JsonSchema
             Return New JsonSchema("no arguments")
