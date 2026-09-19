@@ -23,7 +23,8 @@
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
-    <PackageTags>scibasic;tensor;numpy;automatic-differentiation;numerical</PackageTags>
+    <PackageTags>scibasic;tensor;numpy;automatic-differentiation;reverse-mode;numerical;computation-engine;activation-functions</PackageTags>
+    <PackageReleaseNotes>The pure VB.NET tensor library of sciBASIC# - it is a self contained numerical engine and explicitly not a binding to Google TensorFlow. The Tensor type is a managed multi dimensional array with slicing, broadcasting and the usual arithmetic; the NumPy namespace provides a NumPy style API over it, so code written against familiar array idioms ports easily. The Compute namespace implements the tensor computation engine, AutomaticDifferentiation adds reverse mode automatic differentiation (with a Parallel variant), so gradients are obtained from ordinary expressions instead of being written by hand, and Math together with nn provides the numerical operations, activations and loss functions. This package is the numerical foundation on which the deep learning, liquid neural network and CUDA tensor packages are built.</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

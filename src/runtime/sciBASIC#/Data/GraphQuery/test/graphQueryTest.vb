@@ -59,13 +59,11 @@
 Imports Microsoft.VisualBasic.Data.GraphQuery
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
-Imports Microsoft.VisualBasic.MIME.Html.Document
 
 Module graphQueryTest
 
     Sub Main()
         Call simpleParserTest()
-        Call complextest()
 
         Call simpleArrayTest()
 
@@ -74,7 +72,6 @@ Module graphQueryTest
         Call BookTest()
 
         Pause()
-
     End Sub
 
     Sub simpleParserTest()
@@ -87,27 +84,70 @@ Module graphQueryTest
 
     End Sub
 
-    Sub complextest()
-        Dim queryText As String = "E:\GCModeller\src\repository\graphquery\kegg\kegg_table.graphquery".ReadAllText
-        Dim query As Query = QueryParser.GetQuery(queryText)
-        Dim engine As New Engine
-        Dim doc As HtmlDocument = HtmlDocument.LoadDocument("E:\GCModeller\src\repository\graphquery\kegg\gene.html")
-        Dim data As JsonElement = engine.Execute(doc, query)
-
-        Call Console.WriteLine(data.BuildJsonString(New JSONSerializerOptions With {.indent = True}))
-
-        Pause()
-    End Sub
-
     Sub BookTest()
-        ' Dim queryTokens = New TokenIcer("E:\GCModeller\src\runtime\sciBASIC#\Data\data\query.ql".ReadAllText).GetTokens.ToArray
-        Dim queryText As String = "E:\GCModeller\src\runtime\sciBASIC#\Data\data\query.ql".ReadAllText
+
+        Dim queryText = "
+# https://www.codeproject.com/Articles/1264613/GraphQuery-Powerful-Text-Query-Language-3
+
+graphquery
+{
+    # parser function pipeline can be 
+    # in different line,
+    # this will let you write graphquery
+    # code in a more graceful style when
+    # you needs a lot of pipeline function
+    # for parse value data.
+    bookID    css('book') 
+            | attr('id')
+
+    title     css('title')
+    isbn      xpath('//isbn')
+    quote     css('quote')
+    language  css('title') | attr('lang')
+
+    # another sub query in current graph query
+    author css('author') {
+        name css('name')
+        born css('born')
+        dead css('dead')
+    }
+
+    # this is a array of type character
+    character xpath('//character') [{
+        name          css('name')
+        born          css('born')
+        qualification xpath('qualification')
+    }]
+}"
         Dim query As Query = QueryParser.GetQuery(queryText)
         Dim engine As New Engine
-        Dim doc As HtmlDocument = HtmlDocument.LoadDocument("E:\GCModeller\src\runtime\sciBASIC#\Data\data\query.html")
+        Dim doc = <library>
+                      <!-- Great book. -->
+                      <book id="b0836217462" available="true">
+                          <isbn>0836217462</isbn>
+                          <title lang="en">Being a Dog Is a Full-Time Job</title>
+                          <quote>I'd dog paddle the deepest ocean.</quote>
+                          <author id="CMS">
+                              <name>Charles M Schulz</name>
+                              <born>1922-11-26</born>
+                              <dead>2000-02-12</dead>
+                          </author>
+                          <character id="PP">
+                              <name>Peppermint Patty</name>
+                              <born>1966-08-22</born>
+                              <qualification>bold, brash and tomboyish</qualification>
+                          </character>
+                          <character id="Snoopy">
+                              <name>Snoopy</name>
+                              <born>1950-10-04</born>
+                              <qualification>extroverted beagle</qualification>
+                          </character>
+                      </book>
+                  </library>
         Dim data As JsonElement = engine.Execute(doc, query)
+        Dim json_str As String = data.BuildJsonString(New JSONSerializerOptions With {.indent = True})
 
-        Call Console.WriteLine(data.BuildJsonString(New JSONSerializerOptions With {.indent = True}))
+        Call Console.WriteLine(json_str)
     End Sub
 
     Sub SimpleTest()

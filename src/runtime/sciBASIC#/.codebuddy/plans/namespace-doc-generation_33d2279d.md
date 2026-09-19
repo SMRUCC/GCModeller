@@ -68,7 +68,6 @@ todos:
 
 产出为 XML 元数据文本与中文 Markdown 长文，无界面。README 以 Markdown 标题层级、要点列表、`vbnet` 代码块、表格组织，呈现为可读性强的技术博客文章。
 
-
 ## 技术栈
 
 - **目标载体**：VB.NET SDK 风格 `.vbproj`（MSBuild / NuGet 打包元数据），项目内已启用 `GeneratePackageOnBuild`。

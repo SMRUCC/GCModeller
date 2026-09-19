@@ -9,7 +9,7 @@
     <Version>1.0.9753.4776</Version>
     <AssemblyVersion>1.0.9753.4776</AssemblyVersion>
     <Title>Kaplan-Meier Survival Estimator for Two-Group Studies</Title>
-    <Description>Computes Kaplan-Meier survival curves for two patient cohorts, merges time events, tests group significance and batch-runs gene-expression split strategies in parallel. Part of sciBASIC#.</Description>
+    <Description>Computes Kaplan-Meier survival curves for two patient cohorts, merges their time-to-event observations onto a common time axis, tests group significance, and batch-runs gene-expression split strategies in parallel. Part of sciBASIC#.</Description>
     <AssemblyTitle>Microsoft.VisualBasic.Math.KaplanMeierEstimator</AssemblyTitle>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
