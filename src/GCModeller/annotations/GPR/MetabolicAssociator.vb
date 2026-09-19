@@ -182,7 +182,7 @@ Public Class MetabolicAssociator
 
             ' 参与网络一致性推断的"已支持"反应，只使用阶段 1~3 的证据，避免自我强化
             Dim supported As String() = bucket _
-                .Where(Function(kv) kv.Value.Combine(opt.ScoreCap) >= opt.ConfidenceThreshold) _
+                .Where(Function(kv) kv.Value.Combine(opt.ScoreCap, opt.CorroborationGain) >= opt.ConfidenceThreshold) _
                 .Select(Function(kv) kv.Key) _
                 .ToArray
 
@@ -481,7 +481,7 @@ Public Class MetabolicAssociator
         Dim accepted As New List(Of ScoredReaction)
 
         For Each item As KeyValuePair(Of String, List(Of AssociationEvidence)) In bucket
-            Dim score As Double = item.Value.Combine(opt.ScoreCap)
+            Dim score As Double = item.Value.Combine(opt.ScoreCap, opt.CorroborationGain)
 
             If score < opt.ConfidenceThreshold Then Continue For
 

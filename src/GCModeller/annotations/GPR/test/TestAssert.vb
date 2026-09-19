@@ -158,7 +158,7 @@ Public Class TestRunner
     ''' 用于验证历史上"能编译、运行时必崩"的缺陷确实已经被修复：真正的通过标准是
     ''' 操作能够正常完成并返回结果，而不是抛出异常。
     ''' </summary>
-    Public Function AssertNoThrow(Of TException As Exception)(name As String, action As Action) As Boolean
+    Public Function AssertNoThrow(name As String, action As Action) As Boolean
         Try
             action()
             Ok(name, "不抛出异常", "正常返回")

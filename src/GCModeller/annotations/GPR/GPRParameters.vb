@@ -95,7 +95,7 @@ Public Class GPRParameters
     ''' <summary>
     ''' 通路完整度证据权重
     ''' </summary>
-    Public Property PathwayCompletenessWeight As Double = 0.4
+    Public Property PathwayCompletenessWeight As Double = 0.45
     ''' <summary>
     ''' 通路中允许的最大反应间隔（用于融合基因的通路连续性判定）
     ''' </summary>
@@ -151,6 +151,14 @@ Public Class GPRParameters
     ''' 分数上限
     ''' </summary>
     Public Property ScoreCap As Double = 1.0
+    ''' <summary>
+    ''' 同类证据的旁证增益。
+    ''' 
+    ''' 同一种证据（例如"物理邻接上下文"）可能由多个邻居基因同时给出，
+    ''' 这些证据高度相关、彼此冗余。因此每多一条同类证据只给予一个有界的相对提升，
+    ''' 避免"邻居越多、分数越接近 1"的灌分退化。
+    ''' </summary>
+    Public Property CorroborationGain As Double = 0.1
     ''' <summary>
     ''' 未映射 EC 的占位分数（只用于标记，不进入关联表）
     ''' </summary>

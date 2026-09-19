@@ -56,13 +56,32 @@ Imports std = System.Math
 
 Namespace RandomForests
 
+    ''' <summary>
+    ''' One node (branch) of a random forest decision tree.
+    ''' </summary>
+    ''' <remarks>
+    ''' Each branch holds the sample indices which are falling into it, the 
+    ''' splitting feature with its splitting threshold, and the indices of its 
+    ''' two child branches. A branch with the <see cref="status"/> value ``F`` 
+    ''' is a final (leaf) branch.
+    ''' </remarks>
     Public Class Branch
 
         ''' <summary>
         ''' the cached mean phenotype of the samples falling into this branch.
         ''' For a leaf branch it is exactly the leaf value used for prediction.
         ''' </summary>
+        ''' <remarks>
+        ''' ``mean`` is the mean value of the phenotype of the samples in this 
+        ''' branch, and ``mean_snp`` is the splitting threshold value of the 
+        ''' <see cref="Feature"/> of this branch.
+        ''' </remarks>
         Public mean, mean_snp As Double
+
+        ''' <summary>
+        ''' The majority class value of the samples falling into this branch, 
+        ''' which is evaluated by the <see cref="getClass"/> method.
+        ''' </summary>
         Public class_val As Integer
         ''' <summary>
         ''' 'F' for final branch
@@ -82,10 +101,14 @@ Namespace RandomForests
         Public list As New List(Of Integer)()
 
         ''' <summary>
-        ''' This method returns the SNP for a given position.
-        '''  It needs as arguments:
-        '''  @arg position, the position of the SNP in the genomic combination
+        ''' Evaluate the mean phenotype value of the samples falling into this branch, 
+        ''' the result will be cached in the <see cref="mean"/> field.
         ''' </summary>
+        ''' <param name="phen">
+        ''' The phenotype (label) value of each sample in the whole training set, 
+        ''' the <see cref="list"/> of this branch holds the indices into this array.
+        ''' </param>
+        ''' <returns>The mean phenotype value of the samples of this branch.</returns>
         Public Overridable Function getMean(phen As Double()) As Double
 
             Dim i = 0
@@ -98,10 +121,17 @@ Namespace RandomForests
         End Function
 
         ''' <summary>
-        ''' This method returns the SNP for a given position.
-        '''  It needs as arguments:
-        '''  @arg position, the position of the SNP in the genomic combination
+        ''' Evaluate the majority class value of the samples falling into this 
+        ''' branch, the result will be cached in the <see cref="class_val"/> field.
         ''' </summary>
+        ''' <param name="phen">
+        ''' The class label value of each sample in the whole training set, the
+        ''' <see cref="list"/> of this branch holds the indices into this array.
+        ''' </param>
+        ''' <returns>
+        ''' The index of the class which owns the most samples in this branch, 
+        ''' the value is one of ``0``, ``1`` and ``2``.
+        ''' </returns>
         Public Overridable Function getClass(phen As Double()) As Integer
             Dim i = 0
             Dim temp = New Integer(2) {}
@@ -119,10 +149,16 @@ Namespace RandomForests
         End Function
 
         ''' <summary>
-        ''' This method returns the SNP for a given position.
-        '''  It needs as arguments:
-        '''  @arg position, the position of the SNP in the genomic combination
+        ''' Evaluate the sum of the squared error of the samples falling into 
+        ''' this branch, relative to the <see cref="mean"/> value of this branch.
         ''' </summary>
+        ''' <param name="phen">
+        ''' The phenotype (label) value of each sample in the whole training set.
+        ''' </param>
+        ''' <returns>
+        ''' The sum of the squared deviations, this value is used as the 
+        ''' regression loss of this branch.
+        ''' </returns>
         Public Overridable Function getMSE(phen As Double()) As Double
             Dim i = 0
             getMean(phen)
@@ -135,10 +171,17 @@ Namespace RandomForests
         End Function
 
         ''' <summary>
-        ''' This method returns the SNP for a given position.
-        '''  It needs as arguments:
-        '''  @arg position, the position of the SNP in the genomic combination
+        ''' Evaluate the number of the misclassified samples of this branch, 
+        ''' relative to the <see cref="class_val"/> value of this branch.
         ''' </summary>
+        ''' <param name="phen">
+        ''' The class label value of each sample in the whole training set.
+        ''' </param>
+        ''' <returns>
+        ''' The sum of the absolute deviations between the real class label and 
+        ''' the <see cref="class_val"/> value, this value is used as the 
+        ''' classification loss of this branch.
+        ''' </returns>
         Public Overridable Function getMissClass(phen As Double()) As Double
             Dim i = 0
             getClass(phen)

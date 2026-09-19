@@ -203,20 +203,44 @@ Namespace ComponentModel.StoreProcedure
             Me.features = data
         End Sub
 
+        ''' <summary>
+        ''' Create a new sample data object with a single label value, and no id is assigned.
+        ''' </summary>
+        ''' <param name="features">The sample features vector.</param>
+        ''' <param name="label">The single label value of this sample.</param>
         Sub New(features As Double(), label As Double)
             Me.features = features
             Me.labels = {label}
         End Sub
 
+        ''' <summary>
+        ''' Create a new sample data object with multiple label values, and no id is assigned.
+        ''' </summary>
+        ''' <param name="features">The sample features vector.</param>
+        ''' <param name="labels">The label values of this sample.</param>
         Sub New(features As Double(), labels As Double())
             Me.features = features
             Me.labels = labels
         End Sub
 
+        ''' <summary>
+        ''' Check whether an invalid ``NaN`` value is exists in the 
+        ''' <see cref="features"/> or the <see cref="labels"/> vector?
+        ''' </summary>
+        ''' <returns>
+        ''' ``True`` when a ``NaN`` value is detected, otherwise ``False``.
+        ''' </returns>
         Public Function CheckInvalidNaN() As Boolean
             Return features.Any(Function(d) d.IsNaNImaginary) OrElse labels.Any(Function(d) d.IsNaNImaginary)
         End Function
 
+        ''' <summary>
+        ''' Display the sample id in string format.
+        ''' </summary>
+        ''' <returns>
+        ''' The <see cref="id"/> value; a string in format like ``*(NaN!) id`` 
+        ''' will be returned when the sample data contains an invalid ``NaN`` value.
+        ''' </returns>
         Public Overrides Function ToString() As String
             If CheckInvalidNaN() Then
                 Return $"*(NaN!) {id}"
@@ -225,6 +249,15 @@ Namespace ComponentModel.StoreProcedure
             Return id
         End Function
 
+        ''' <summary>
+        ''' Create a training <see cref="DataSet"/> object from a collection of 
+        ''' the <see cref="SampleData"/> objects.
+        ''' </summary>
+        ''' <param name="ds">A collection of the <see cref="SampleData"/> objects.</param>
+        ''' <returns>
+        ''' A <see cref="DataSet"/> object, in which the feature names are generated 
+        ''' in format ``x%d`` and the output names are generated in format ``y%d``.
+        ''' </returns>
         Public Shared Function CreateDataSet(ds As IEnumerable(Of SampleData)) As DataSet
             Dim samples As New SampleList With {
                 .items = ds _
@@ -295,6 +328,17 @@ Namespace ComponentModel.StoreProcedure
             Next
         End Function
 
+        ''' <summary>
+        ''' Write the sample data collection into a binary <see cref="Stream"/>.
+        ''' </summary>
+        ''' <param name="data">A collection of the <see cref="SampleData"/> objects that will be written.</param>
+        ''' <param name="file">The target output <see cref="Stream"/>.</param>
+        ''' <remarks>
+        ''' The binary layout of the output stream is: the feature vector size 
+        ''' (int32), the label vector size (int32), and then each sample is 
+        ''' written as its id string buffer, the features vector and the labels 
+        ''' vector in network byte order.
+        ''' </remarks>
         Public Shared Sub Save(data As IEnumerable(Of SampleData), file As Stream)
             Dim wr As New BinaryWriter(file)
             Dim encode As New NetworkByteOrderBuffer
@@ -318,6 +362,12 @@ Namespace ComponentModel.StoreProcedure
             Call wr.Flush()
         End Sub
 
+        ''' <summary>
+        ''' Read the sample data collection back from a binary <see cref="Stream"/> 
+        ''' which was written by the <see cref="Save"/> method.
+        ''' </summary>
+        ''' <param name="file">The input <see cref="Stream"/> which contains the binary sample data.</param>
+        ''' <returns>A sequence of the <see cref="SampleData"/> objects.</returns>
         Public Shared Iterator Function Load(file As Stream) As IEnumerable(Of SampleData)
             Dim rd As New BinaryReader(file)
             Dim decode As New NetworkByteOrderBuffer
@@ -401,6 +451,10 @@ Namespace ComponentModel.StoreProcedure
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Create a new sample data object which only contains the input vector.
+        ''' </summary>
+        ''' <param name="samples">The neuron network input parameters.</param>
         Sub New(samples As IEnumerable(Of Double))
             Call Me.encodeVector(samples)
         End Sub
@@ -426,6 +480,10 @@ Namespace ComponentModel.StoreProcedure
             End Using
         End Sub
 
+        ''' <summary>
+        ''' Display this training sample as a mapping expression.
+        ''' </summary>
+        ''' <returns>A string in format like ``input vector => output vector``.</returns>
         Public Overrides Function ToString() As String
             Return $"{vector.AsVector.ToString} => {target.AsVector.ToString}"
         End Function

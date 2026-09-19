@@ -252,22 +252,71 @@ Public Module SyntheticData
 #Region "用例 5：融合基因与通路完整度"
 
     Public Function FusionAndCompleteness() As SyntheticCase
-        ' P1 主链 4 个反应，外加一个与主链不相连的诱饵反应
-        Dim decoy As MetabolicReaction = MakeReaction("P1_R_orphan", "P1_orphan.9.9.9", {"P1_X"}, {"P1_Y"})
-        Dim p1 As Pathway = MakeChain("P1", "synthetic pathway P1", 4, {decoy})
+        ' P1 主链 4 个反应；P2 只有 1 个反应，与 P1 之间没有任何化学联系
+        Dim p1 As Pathway = MakeChain("P1", "synthetic pathway P1", 4)
+        Dim p2 As Pathway = MakeChain("P2", "synthetic pathway P2", 1)
 
         Dim genes As GeneTable() = {
             ' 融合基因：3 个 EC 对应的反应在 P1 主链上连续
             MakeGene("g_fusion", 1000, PlusStrand, {EcOf("P1", 1), EcOf("P1", 2), EcOf("P1", 3)}),
-            ' 间隔过远/不相连的 EC 组合：不应产生融合酶证据
-            MakeGene("g_split", 100000, PlusStrand, {EcOf("P1", 1), "P1_orphan.9.9.9"})
+            ' 跨通路的 EC 组合：两个反应不在同一条通路上，不应产生融合酶证据
+            MakeGene("g_split", 100000, PlusStrand, {EcOf("P1", 1), EcOf("P2", 1)})
         }
 
         Return NewCase(
             "融合基因与通路完整度",
-            "g_fusion 携带 P1 主链前 3 个连续反应的 EC（覆盖率 3/4 = 0.75），"
-            & "g_split 携带主链第 1 个反应与一个与主链不相连的诱饵反应的 EC。",
-            genes, {p1})
+            "g_fusion 携带 P1 主链前 3 个连续反应的 EC（覆盖率 3/4 = 0.75，应当触发通路完整度补缺）；"
+            & "g_split 携带 P1 第 1 个反应与 P2 唯一反应的 EC（两个反应不在同一条通路上）。",
+            genes, {p1, p2})
+    End Function
+
+#End Region
+
+#Region "综合演示"
+
+    ''' <summary>
+    ''' 综合演示用例：把操纵子、酶复合体、融合基因、未映射 EC、无 EC 基因等各种情形
+    ''' 集中在一个中等规模的合成基因组中，用于生成最终的关联结果表与 CSV 导出。
+    ''' </summary>
+    Public Function Demo() As SyntheticCase
+        Dim p1 As Pathway = MakeChain("P1", "glycolysis (synthetic)", 5)
+        Dim p2 As Pathway = MakeChain("P2", "TCA cycle (synthetic)", 6)
+        Dim p3 As Pathway = MakeChain("P3", "amino acid biosynthesis (synthetic)", 4)
+        Dim p4 As Pathway = MakeChain("P4", "fatty acid metabolism (synthetic)", 3)
+
+        Dim genes As GeneTable() = {
+            ' P1：一个完整的操纵子 + 一个无 EC 的操纵子成员
+            MakeGene("GMP001", 1000, PlusStrand, {EcOf("P1", 1)}),
+            MakeGene("GMP002", 2000, PlusStrand, {EcOf("P1", 2)}),
+            MakeGene("GMP003", 3000, PlusStrand, {EcOf("P1", 3)}),
+            MakeGene("GMP004", 4000, PlusStrand, New String() {}),
+            ' P2：同一基因簇内散布、部分跨链
+            MakeGene("GMP005", 20000, PlusStrand, {EcOf("P2", 1)}),
+            MakeGene("GMP006", 22000, PlusStrand, {EcOf("P2", 2)}),
+            MakeGene("GMP007", 24000, MinusStrand, {EcOf("P2", 3)}),
+            MakeGene("GMP008", 26000, PlusStrand, {EcOf("P2", 4)}),
+            MakeGene("GMP009", 28000, PlusStrand, {EcOf("P2", 5)}),
+            ' P3：多结构域融合基因（3 个 EC）+ 补齐最后一个反应
+            MakeGene("GMP010", 50000, PlusStrand, {EcOf("P3", 1), EcOf("P3", 2), EcOf("P3", 3)}),
+            MakeGene("GMP011", 52000, PlusStrand, {EcOf("P3", 4)}),
+            ' P4：双结构域融合基因
+            MakeGene("GMP012", 80000, PlusStrand, {EcOf("P4", 1)}),
+            MakeGene("GMP013", 82000, PlusStrand, {EcOf("P4", 2), EcOf("P4", 3)}),
+            ' 潜在酶复合体：两个携带相同 EC 的基因
+            MakeGene("GMP014", 100000, PlusStrand, {EcOf("P1", 4)}),
+            MakeGene("GMP015", 101500, PlusStrand, {EcOf("P1", 4)}),
+            ' 未映射的 EC
+            MakeGene("GMP016", 120000, PlusStrand, {"9.9.9.9"}),
+            ' 完全没有 EC 注释的基因
+            MakeGene("GMP017", 140000, PlusStrand, New String() {}),
+            MakeGene("GMP018", 141500, PlusStrand, New String() {})
+        }
+
+        Return NewCase(
+            "综合演示",
+            "4 条合成通路（5 + 6 + 4 + 3 个反应）与 18 个基因，"
+            & "包含操纵子、酶复合体、融合基因、未映射 EC 以及无 EC 注释的基因。",
+            genes, {p1, p2, p3, p4})
     End Function
 
 #End Region

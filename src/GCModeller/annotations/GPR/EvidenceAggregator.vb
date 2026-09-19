@@ -18,20 +18,40 @@ Imports System.Runtime.CompilerServices
 Public Module EvidenceAggregator
 
     ''' <summary>
-    ''' 合并证据得到最终分数（默认上限为 1.0）
+    ''' 合并证据得到最终分数。
+    ''' 
+    ''' 两个步骤：
+    ''' 
+    ''' 1. **同类归并**：先按 <see cref="AssociationEvidence.Kind"/> 分组，每一组只取最强的一条证据，
+    '''    再按 <paramref name="corroborationGain"/> 给予有界的"旁证增益"。
+    '''    这一步是必要的：同一个基因周围有 5 个邻居基因时，它们提供的是高度相关的冗余信息，
+    '''    如果直接做 5 次 noisy-OR 会迅速把分数推到 1.0，重新退化成"灌分"。
+    ''' 2. **跨类聚合**：把各类证据的强度按 noisy-OR 合并，得到最终分数。
     ''' </summary>
+    ''' <param name="evidences">某个"基因 - 反应"对上的全部证据</param>
+    ''' <param name="scoreCap">分数上限</param>
+    ''' <param name="corroborationGain">同类旁证增益：同类证据每多一条带来的相对提升，取值范围 [0, 0.5]</param>
     <Extension>
-    Public Function Combine(evidences As IEnumerable(Of AssociationEvidence), Optional scoreCap As Double = 1.0) As Double
+    Public Function Combine(evidences As IEnumerable(Of AssociationEvidence),
+                           Optional scoreCap As Double = 1.0,
+                           Optional corroborationGain As Double = 0.0) As Double
+
         If evidences Is Nothing Then Return 0
 
+        Dim gain As Double = AssociationEvidence.Normalize(corroborationGain)
         Dim remain As Double = 1.0
 
-        For Each item As AssociationEvidence In evidences
-            Dim c As Double = item.Contribution
+        For Each group In evidences.GroupBy(Function(e) e.Kind)
+            Dim items As AssociationEvidence() = group.ToArray()
+            Dim strongest As Double = items.Select(Function(e) e.Contribution).Max()
 
-            If c >= 1.0 Then Return Clamp(1.0, scoreCap)
+            ' 同类证据的旁证增益必须有界，避免"邻居越多分数越接近 1"
+            Dim factor As Double = 1.0 + Math.Min(0.5, gain * (items.Length - 1))
+            Dim contribution As Double = Math.Min(1.0, strongest * factor)
 
-            remain *= (1.0 - c)
+            If contribution >= 1.0 Then Return Clamp(1.0, scoreCap)
+
+            remain *= (1.0 - contribution)
         Next
 
         Return Clamp(1.0 - remain, scoreCap)

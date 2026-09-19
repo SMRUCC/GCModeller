@@ -72,6 +72,25 @@ Namespace RandomForests
 
     Public Class LossFunction
 
+        ''' <summary>
+        ''' Evaluate the impurity (loss) of one node without splitting it.
+        ''' </summary>
+        ''' <param name="type">The <see cref="LF_c"/> loss function type.</param>
+        ''' <param name="a">The target <see cref="Branch"/> node.</param>
+        ''' <param name="phenotype">The phenotype (label) value of each sample in the whole training set.</param>
+        ''' <param name="Genotype">The feature matrix of the training set, in layout ``[sample, feature]``.</param>
+        ''' <param name="false_positive_cost">
+        ''' The cost of a false positive, it is only used by the 
+        ''' <see cref="LF_c.Personalized_Cost_Function_for_categories"/> loss.
+        ''' </param>
+        ''' <param name="false_negative_cost">
+        ''' The cost of a false negative, it is only used by the 
+        ''' <see cref="LF_c.Personalized_Cost_Function_for_categories"/> loss.
+        ''' </param>
+        ''' <returns>
+        ''' The loss value of the target node; an <see cref="InvalidProgramException"/> 
+        ''' will be thrown when the <paramref name="type"/> is not a valid loss type.
+        ''' </returns>
         Public Shared Function getLossFunctionNode(type As LF_c,
                                                    a As Branch,
                                                    phenotype As Double(),
@@ -160,6 +179,33 @@ Namespace RandomForests
             Return LF_val
         End Function
 
+        ''' <summary>
+        ''' Evaluate the loss value of one node after it has been split on a 
+        ''' specific feature, the split threshold is the mean value of that 
+        ''' feature over the samples of the node.
+        ''' </summary>
+        ''' <param name="type">The <see cref="LF_c"/> loss function type.</param>
+        ''' <param name="snp">The index of the target splitting feature.</param>
+        ''' <param name="a">The target <see cref="Branch"/> node that will be split.</param>
+        ''' <param name="phenotype">The phenotype (label) value of each sample in the whole training set.</param>
+        ''' <param name="Genotype">The feature matrix of the training set, in layout ``[sample, feature]``.</param>
+        ''' <param name="false_positive_cost">
+        ''' The cost of a false positive, it is only used by the 
+        ''' <see cref="LF_c.Personalized_Cost_Function_for_categories"/> loss.
+        ''' </param>
+        ''' <param name="false_negative_cost">
+        ''' The cost of a false negative, it is only used by the 
+        ''' <see cref="LF_c.Personalized_Cost_Function_for_categories"/> loss.
+        ''' </param>
+        ''' <returns>
+        ''' The loss value of the two child nodes after the split; an 
+        ''' <see cref="InvalidProgramException"/> will be thrown when the 
+        ''' <paramref name="type"/> is not a valid loss type.
+        ''' </returns>
+        ''' <remarks>
+        ''' The tree growing procedure selects the feature which produces the 
+        ''' smallest value of this function.
+        ''' </remarks>
         Public Shared Function getLossFunctionSplit(type As LF_c,
                                                     snp As Integer,
                                                     a As Branch,
