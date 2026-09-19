@@ -241,6 +241,20 @@ Namespace LLM
             Return minLr + 0.5 * (baseLr - minLr) * (1.0 + std.Cos(std.PI * progress))
         End Function
 
+        ''' <summary>
+        ''' 是否记录训练步内部各阶段的耗时。
+        ''' </summary>
+        ''' <remarks>
+        ''' 默认关闭（计时本身有少量开销，且会干扰逐 step 的 throughput）。
+        ''' 打开后 <see cref="LastStageMilliseconds"/> 会给出前向 / 损失 / 反向 /
+        ''' 裁剪 / 更新 / MoE 六段的实测耗时 —— 这是定位"瓶颈到底在哪"的唯一可靠手段，
+        ''' 比按公式估算算力更可信。
+        ''' </remarks>
+        Public Property ProfileStages As Boolean = False
+
+        ''' <summary>上一次训练步的各阶段耗时（毫秒），键为阶段名。</summary>
+        Public ReadOnly Property LastStageMilliseconds As New List(Of (Stage As String, Ms As Double))
+
         ''' <summary>执行一个完整的训练步。</summary>
         Public Function TrainStep(batch As LMBatch) As TrainingStepReport
             If batch Is Nothing Then Throw New ArgumentNullException(NameOf(batch))
@@ -250,28 +264,54 @@ Namespace LLM
             _step += 1
 
             Dim lr = LearningRateAt(_step)
+            Dim stages = LastStageMilliseconds
+            Dim mark = watch.Elapsed.TotalMilliseconds
+
+            If ProfileStages Then stages.Clear()
 
             ' 1. 清零梯度（上一步的 AdamW 已经清零过，这里是显式的安全网）
             _model.Parameters.ZeroGradients()
 
+            Dim tZero = watch.Elapsed.TotalMilliseconds
+
             ' 2. 前向 + 掩码交叉熵
             Dim logits = _model.Forward(batch.TokenIds, batch.BatchSize, batch.SeqLen)
+
+            Dim tForward = watch.Elapsed.TotalMilliseconds
             Dim dLogits As Tensor = Nothing
             Dim loss = LLMTensorOps.MaskedCrossEntropy(logits, batch.Targets, batch.LossMask, dLogits)
+
+            Dim tLoss = watch.Elapsed.TotalMilliseconds
 
             ' 3. 反向
             _model.Backward(dLogits)
 
+            Dim tBackward = watch.Elapsed.TotalMilliseconds
+
             ' 4. 全局梯度范数裁剪（必须在更新之前）
             Dim gradNorm = _model.Parameters.ClipGradients(Config.MaxGradNorm)
 
+            Dim tClip = watch.Elapsed.TotalMilliseconds
+
             ' 5. AdamW 更新
             _model.Parameters.ApplyUpdate(lr, _step)
+
+            Dim tUpdate = watch.Elapsed.TotalMilliseconds
 
             ' 6. MoE 负载均衡偏置（不是梯度更新）
             Dim loadRatio = _model.UpdateMoEBalancing()
 
             watch.Stop()
+
+            If ProfileStages Then
+                Call stages.Add(("zeroGrad", tZero - mark))
+                Call stages.Add(("forward", tForward - tZero))
+                Call stages.Add(("loss", tLoss - tForward))
+                Call stages.Add(("backward", tBackward - tLoss))
+                Call stages.Add(("clip", tClip - tBackward))
+                Call stages.Add(("adamw", tUpdate - tClip))
+                Call stages.Add(("moeBalance", watch.Elapsed.TotalMilliseconds - tUpdate))
+            End If
 
             Dim report As New TrainingStepReport With {
                 .[Step] = _step,

@@ -284,13 +284,36 @@ Namespace GPUTensor
             Return $"{bytes / 1024.0 / 1024.0:N1} MB"
         End Function
 
+        ''' <summary>
+        ''' 低于该元素数就串行转换：小数组上并行调度本身的开销更大。
+        ''' </summary>
+        Private Const ParallelConvertThreshold As Integer = 16384
+
         ''' <summary>主机 <c>Double()</c> → 显存 <c>Single()</c>（降精度上传）</summary>
+        ''' <remarks>
+        ''' 这一步是 O(元素数) 的纯类型转换，必须在主机上完成（<c>Double</c> 与 <c>Single</c>
+        ''' 的位模式不同，不能用 <c>Buffer.BlockCopy</c> 直接搬）。语言模型的 LM head
+        ''' 在 12.8 万词表下是 3300 万元素，串行 VB 循环会达到数百毫秒 ——
+        ''' 足以盖过内核本身的全部计算时间。因此大数组一律分块并行。
+        ''' </remarks>
         Friend Shared Function ToSingle(host As Double()) As Single()
             Dim buffer(host.Length - 1) As Single
+            Dim n = host.Length
 
-            For i As Integer = 0 To host.Length - 1
-                buffer(i) = CSng(host(i))
-            Next
+            If n < ParallelConvertThreshold Then
+                For i As Integer = 0 To n - 1
+                    buffer(i) = CSng(host(i))
+                Next
+
+                Return buffer
+            End If
+
+            Call RunChunked(n,
+                Sub(start As Integer, [end] As Integer)
+                    For i As Integer = start To [end] - 1
+                        buffer(i) = CSng(host(i))
+                    Next
+                End Sub)
 
             Return buffer
         End Function
@@ -298,13 +321,47 @@ Namespace GPUTensor
         ''' <summary>显存 <c>Single()</c> → 主机 <c>Double()</c>（升精度回读）</summary>
         Friend Shared Function ToDouble(deviceData As Single()) As Double()
             Dim buffer(deviceData.Length - 1) As Double
+            Dim n = deviceData.Length
 
-            For i As Integer = 0 To deviceData.Length - 1
-                buffer(i) = CDbl(deviceData(i))
-            Next
+            If n < ParallelConvertThreshold Then
+                For i As Integer = 0 To n - 1
+                    buffer(i) = CDbl(deviceData(i))
+                Next
+
+                Return buffer
+            End If
+
+            Call RunChunked(n,
+                Sub(start As Integer, [end] As Integer)
+                    For i As Integer = start To [end] - 1
+                        buffer(i) = CDbl(deviceData(i))
+                    Next
+                End Sub)
 
             Return buffer
         End Function
+
+        ''' <summary>
+        ''' 把 <c>[0, n)</c> 切成约 <c>4 × 处理器数</c> 块并行执行。
+        ''' </summary>
+        ''' <remarks>
+        ''' 块数取"处理器数的 4 倍"是为了让负载均衡足以吸收个别块偏慢的情况，
+        ''' 又不会因为块太小而让调度开销占主导。
+        ''' </remarks>
+        Private Shared Sub RunChunked(n As Integer, body As Action(Of Integer, Integer))
+            Dim workers = System.Math.Max(1, Environment.ProcessorCount)
+            Dim chunk As Integer = System.Math.Max(ParallelConvertThreshold, n \ (workers * 4))
+
+            Dim blocks = (n + chunk - 1) \ chunk
+
+            Call System.Threading.Tasks.Parallel.For(0, blocks,
+                Sub(block As Integer)
+                    Dim start = block * chunk
+                    Dim [end] = System.Math.Min(start + chunk, n)
+
+                    Call body(start, [end])
+                End Sub)
+        End Sub
 
     End Class
 

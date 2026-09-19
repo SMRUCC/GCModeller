@@ -1395,6 +1395,57 @@ Namespace GPUTensor
             End Get
         End Property
 
+        ''' <summary>
+        ''' 关键内核的可用性快照，用于诊断"训练步到底有没有走上 GPU"。
+        ''' </summary>
+        ''' <remarks>
+        ''' 内核不可用（NVRTC 编译失败 / 驱动不匹配）时全部算子都会<b>静默回退 CPU</b>。
+        ''' 如果没有这份诊断，性能不符预期时很难分清"算得慢"和"根本没上 GPU"。
+        ''' </remarks>
+        Public Function DescribeKernels() As String
+            ' 注意：循环变量不能叫 name —— VB 标识符大小写不敏感，
+            ' 会与基类的 Name 属性（ITensorCompute.Name）冲突
+            Dim kernelNames = {
+                ILCudaRuntime.KernelNames.Gemm,
+                TensorKernelNames.TrainMaskedCrossEntropy,
+                TensorKernelNames.TrainAdamW,
+                TensorKernelNames.TrainAccumulate,
+                TensorKernelNames.GemmDouble
+            }
+
+            Dim sb As New System.Text.StringBuilder()
+
+            For Each kernelName In kernelNames
+                Dim ok As Boolean = TryKernel(kernelName) IsNot Nothing
+
+                Call sb.Append(kernelName).Append("=").Append(If(ok, "OK", "缺失")).Append("  ")
+            Next
+
+            Dim failures = DoubleKernelRegistry.Failures
+
+            If failures.Count > 0 Then
+                Call sb.Append("| IL2Cuda 失败: ")
+
+                For Each pair In failures
+                    Call sb.Append(pair.Key).Append("(").Append(pair.Value).Append(") ")
+                Next
+            End If
+
+            Return sb.ToString().TrimEnd()
+        End Function
+
+        ''' <summary>
+        ''' 设备与显存概览（名称 / 计算能力 / 显存总量与可用量），供报告使用。
+        ''' </summary>
+        Public Function DescribeDevice() As String
+            Dim device = _engine.Device
+            Dim info = _engine.GetMemoryInfo()
+
+            Return $"{device.Name} (CC {device.ComputeCapability}, {device.MultiprocessorCount} SM)  " &
+                   $"显存 {info.TotalMB:N0} MB 总量 / {info.FreeMB:N0} MB 可用 / " &
+                   $"已用 {info.UsedMB:N0} MB ({info.UsedRatio:P1})"
+        End Function
+
 #End Region
 
 #Region "资源释放"
