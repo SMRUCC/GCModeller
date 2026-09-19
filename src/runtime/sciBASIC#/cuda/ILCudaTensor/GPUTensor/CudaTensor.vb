@@ -558,19 +558,50 @@ Namespace GPUTensor
             Dim k = a.Shape(1)
             Dim n = b.Shape(1)
 
-            If m * k * n < MinGemmElements Then Return MyBase.MatMul(a, b)
+            ' 规模必须用 Long 计算：语言模型的输出层是 [N, d_model] × [d_model, vocab]，
+            ' 在 10 万级词表下 m*k*n 轻松超过 Int32 上限（约 21.5 亿），
+            ' 用 Int32 会直接抛 OverflowException。写法与 SIMDTensor.MatMul 保持一致。
+            Dim totalOps As Long = CLng(m) * k * n
+
+            If totalOps < MinGemmElements Then Return MyBase.MatMul(a, b)
+
+            ' 内核缺失（NVRTC 编译失败 / 驱动不匹配）时回退 CPU，
+            ' 与 Transpose / Conv2D / SpMM 的回退策略保持一致
+            Dim kernel = TryKernel(TensorKernelNames.GemmDouble)
+            If kernel Is Nothing Then Return MyBase.MatMul(a, b)
+
+            Dim elements As Long = CLng(m) * n
+            Call EnsureDeviceCount(elements, "MatMul 的输出")
 
             Dim da = Device(a)
             Dim db = Device(b)
 
-            Using dC As New ILCudaRuntime.DeviceBuffer(Of Double)(m * n)
-                _engine.GetKernel(TensorKernelNames.GemmDouble).Launch(
+            Using dC As New ILCudaRuntime.DeviceBuffer(Of Double)(CInt(elements))
+                kernel.Launch(
                     ILCudaRuntime.LaunchPlanner.For2D(m, n, 16, 16),
                     da, db, dC, m, n, k)
 
                 Return Wrap(dC.Read(), New Integer() {m, n})
             End Using
         End Function
+
+        ''' <summary>
+        ''' 校验单次算子输出的元素数落在 <c>DeviceBuffer(Of T)</c> 的 <c>Int32</c> 计数契约内。
+        ''' </summary>
+        ''' <remarks>
+        ''' <c>ILCuda\Runtime\DeviceBuffer.vb</c> 的构造函数形参与 <c>Count</c> 属性都是
+        ''' <c>Integer</c>，因此单个算子能寻址的元素数上限是 <see cref="Integer.MaxValue"/>
+        ''' （约 21.5 亿）。张量形状本身也是 <c>Integer()</c>，所以这个分支在纯 CPU 语义下
+        ''' 不可达；显式写出来是为了让"越界"变成一条指出算子与规模的<b>可读诊断</b>，
+        ''' 而不是让底层算术静默溢出后抛出难以定位的异常。
+        ''' </remarks>
+        Private Shared Sub EnsureDeviceCount(elements As Long, opName As String)
+            If elements > Integer.MaxValue Then
+                Throw New NotSupportedException(
+                    $"{opName} 需要 {elements:N0} 个元素，超出显存缓冲的 Int32 计数上限 " &
+                    $"{Integer.MaxValue:N0}；请减小 batch / 序列长度或词表规模")
+            End If
+        End Sub
 
         ''' <summary>
         ''' 稀疏（CSR）× 稠密矩阵乘：dense[batch, Rows] · W[Rows, Columns] → [batch, Columns]。
@@ -605,7 +636,10 @@ Namespace GPUTensor
             Dim csrBuf = _csrCache.GetBuffers(_engine, csr)
             Dim ddense = Device(dense)
 
-            Using dOut As New ILCudaRuntime.DeviceBuffer(Of Double)(batch * columns)
+            Dim elements As Long = CLng(batch) * columns
+            Call EnsureDeviceCount(elements, "SpMM 的输出")
+
+            Using dOut As New ILCudaRuntime.DeviceBuffer(Of Double)(CInt(elements))
                 ' 内核用 atomicAdd 累加到输出，启动前必须清零
                 dOut.Fill(0.0)
 
@@ -633,10 +667,13 @@ Namespace GPUTensor
             Dim rows = t.Shape(0)
             Dim cols = t.Shape(1)
 
+            Dim elements As Long = CLng(rows) * cols
+            Call EnsureDeviceCount(elements, "Transpose 的输出")
+
             Dim dx = Device(t)
 
             ' 输出形状为 (cols, rows)
-            Using dOut As New ILCudaRuntime.DeviceBuffer(Of Double)(rows * cols)
+            Using dOut As New ILCudaRuntime.DeviceBuffer(Of Double)(CInt(elements))
                 _engine.GetKernel(DoubleKernelRegistry.Transpose).Launch(
                     ILCudaRuntime.LaunchPlanner.For2D(cols, rows, 16, 16),
                     dx, cols, dOut, cols, rows)
@@ -655,15 +692,24 @@ Namespace GPUTensor
             Return (inputSize + 2 * padding - kernelSize) \ stride + 1
         End Function
 
-        ''' <summary>形状的元素总数</summary>
+        ''' <summary>
+        ''' 形状的元素总数（以 <c>Long</c> 累乘后再收敛到 <c>Int32</c>）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 卷积 / 池化的输出元素数同样可能超过 Int32 —— 例如 <c>[batch, H, W, C]</c>
+        ''' 在大输入下累乘就会溢出。用 Long 累乘可以让溢出被<b>显式检测</b>，
+        ''' 而不是得到一个负数后传给 <c>DeviceBuffer</c> 抛出难以定位的异常。
+        ''' </remarks>
         Private Shared Function ElementCount(shape As Integer()) As Integer
-            Dim n As Integer = 1
+            Dim n As Long = 1
 
             For Each d As Integer In shape
                 n *= d
             Next
 
-            Return n
+            Call EnsureDeviceCount(n, $"形状 [{String.Join(",", shape)}] 的元素数")
+
+            Return CInt(n)
         End Function
 
         ''' <summary>
