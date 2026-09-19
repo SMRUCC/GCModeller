@@ -60,3 +60,54 @@ mHG / XL-mHG 检验目前主要应用于：
 | 检验统计量 | 最小超几何 p 值 | 合并的 χ² 统计量（服从 χ²(1) 分布） |
 | 典型应用 | 基因集富集、模体发现 | 流行病学关联分析、DIF 检测 |
 
+---
+
+# 附：项目代码结构、关键 API 与快速上手
+
+> 以上正文解释了 mHG / XL-mHG 的统计原理；本节从**代码实现**的角度说明 `Microsoft.VisualBasic.Math.Statistics.Hypothesis.mHG` 这个程序集的组织方式与调用入口。
+
+## 项目结构与模块地图
+
+程序集 `Microsoft.VisualBasic.Math.Statistics.Hypothesis.mHG`（根命名空间同名）只包含三个类型，刻意保持精简：
+
+| 类型 | 种类 | 职责 |
+|---|---|---|
+| `mHGtest` | `Module` | 检验入口：扫描排序列表、搜索最优截断点并计算统计量与精确 p 值 |
+| `htest` | `Class` | 单次超几何检验的结果对象 |
+| `mHGstatisticInfo` | `Class` | mHG 统计量信息：最优截断位置、观测计数与最终 p 值等 |
+
+依赖关系：`Microsoft.VisualBasic.Core`（基础库）与 `Math`（数值计算）。超几何分布的组合数在**对数空间**中求值，以保证长列表与较大基因集下的数值稳定性。
+
+## 快速上手
+
+```vbnet
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.mHG
+
+' 1. 把排序结果标注为二值列表：
+'    True 表示该元素属于目标集合（例如属于某个 GO term）
+Dim flags As Boolean() = rankedItems.Select(Function(item) belongs(item)).ToArray()
+
+' 2. 执行 mHG 检验
+Dim info As mHGstatisticInfo = mHGtest.Run(flags)
+
+' 3. 读取结果：最优截断位置、统计量与精确 p 值
+Console.WriteLine($"threshold={info.Threshold}, p={info.pvalue}")
+```
+
+## 与固定截断方法的差异
+
+| 方法 | 需要人工设定阈值 | 搜索最优截断点 | 方向性 |
+|---|---|---|---|
+| 传统超几何检验 | 需要（先二值化连续量） | 否 | 否 |
+| Kolmogorov–Smirnov 检验 | 不需要 | 否（比较整体分布） | 否 |
+| **mHG / XL-mHG** | **不需要** | **是（自动搜索全部前缀）** | **是（检测前端富集）** |
+
+由于 mHG 统计量本身是「在所有截断点上取最小 p 值」的结果，其置换 p 值需由**动态规划**精确计算；本实现已包含该步骤，因此返回的 p 值可直接使用，调用方仅需按需追加多重检验校正。`XL-mHG` 的两个控制参数（真阳性下界 `X` 与截断搜索上界 `L`）可用于抑制统计显著但生物学意义不足的「浅层富集」。
+
+## 包信息
+
+- Assembly：`Microsoft.VisualBasic.Math.Statistics.Hypothesis.mHG`
+- AssemblyTitle：`Minimum-hypergeometric test`
+- 目标框架：`net10.0`；平台：`AnyCPU;x64`
+- 许可：GPL-3.0-or-later
+

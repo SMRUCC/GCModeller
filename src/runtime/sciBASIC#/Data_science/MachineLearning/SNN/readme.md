@@ -439,3 +439,71 @@ SNN 内部已按此契约处理：`Network.ForwardSparse` 的计数累加与 `Sc
 | `SNN/test/test4.vb` | 同一稀疏网络的 CPU / GPU 端到端前向对拍（`LatencyCoding` 确定性编码保证输入一致），并在无 CUDA 时安全跳过 |
 
 两者均未破坏既有断言与演示（全连接训练、`SparseDemo` 等照常通过）。
+
+---
+
+# 附：项目代码结构、关键 API 与快速上手
+
+> 以上正文解释了 SNN 的数学原理与算法细节；本节从**代码实现**的角度说明 `Microsoft.VisualBasic.DeepLearning.SpikingNeuralNetwork` 这个程序集的组织方式与使用入口。
+
+## 项目结构与模块地图
+
+程序集 `Microsoft.VisualBasic.DeepLearning.SpikingNeuralNetwork`（根命名空间同名）由以下类型构成：
+
+| 分类 | 类型 | 职责 |
+|---|---|---|
+| 神经元层 | `LIFLayer` | 基础漏位积分—触发层（膜电位积分、阈值触发、复位与不应期） |
+| | `RecurrentLIFLayer` | 带递归连接的 LIF 层，用于循环 / 时序拓扑 |
+| | `SparseLIFLayer` | 稀疏连接 LIF 层，突触权重以 CSR（`SparseMatrix`）存储 |
+| 编解码 | `Encoder` | 把连续值编码为脉冲序列（群体编码 / 速率编码 / 延迟编码） |
+| | `Decoder` | 把脉冲序列还原为连续输出（速率读出等） |
+| 学习规则 | `STDP` | 脉冲时序依赖可塑性，用于无监督的局部学习 |
+| | `Surrogate` | 代理梯度（surrogate gradient），使离散脉冲发射可反向传播 |
+| | `RegressionLosses` | 面向回归任务的损失函数 |
+| 网络装配 | `Network` | 组装各层并驱动前向传播（含 `ForwardSparse`） |
+| | `LinearReadout` | 最终线性读出层 |
+| 基础设施 | `SparseMatrix` | CSR 稀疏矩阵容器（行指针 / 列索引 / 值） |
+| | `TensorHelper` | 张量形状变换与共享工具方法 |
+
+依赖关系：`Microsoft.VisualBasic.Core`（基础库）、`Math`（数值与统计）、`TensorFlow`（张量运行时）；稀疏路径在启用 GPU 时会走 `ILCudaTensor` 提供的 `spmm` 内核。
+
+## 快速上手
+
+```vbnet
+Imports Microsoft.VisualBasic.DeepLearning.SpikingNeuralNetwork
+
+' 1. 搭建网络：编码器 → LIF 层 → 线性读出
+Dim net As New Network()
+' ...（按需添加 LIFLayer / SparseLIFLayer / LinearReadout 等层）
+
+' 2. 把连续输入编码成脉冲序列
+'    Encoder 支持速率编码、群体编码与延迟编码等多种方案
+Dim spikes = Encoder.Rate(x, steps:=T)
+
+' 3. 前向传播（稀疏连接时走 ForwardSparse）
+Dim y = net.Forward(spikes)
+
+' 4. 训练：代理梯度负责反向传播，STDP 负责局部无监督学习
+```
+
+## 显存与缓存的正确用法
+
+本实现在「主机张量」与「设备张量」之间采用**显式失效**契约：
+
+| 场景 | 需要调用的方法 |
+|---|---|
+| 就地修改 `Tensor.Data` | `tensor.MarkHostModified()`（或全局 `Tensor.InvalidateAllDeviceCaches()`） |
+| 就地修改 `SparseCsr.Values` / `SparseMatrix.Normalize` | `SparseCsr.MarkModified()`（`Normalize` 内部已自动调用） |
+
+`Network.ForwardSparse` 的计数累加与 `ScatterInput` 的注入散射在写完后都会自动调用 `MarkHostModified()`，因此正常使用无需手工干预。
+
+## 何时启用 GPU
+
+脉冲输入天然高度稀疏，CPU 侧 SpMM 会跳过零源，因此在中低发放率下 CPU 往往更有竞争力；GPU 每次调用存在固定开销（内核启动 + 显存往返，约 0.6 ~ 1 ms/步）。经验结论是：需要足够大的「每步非零计算量」（**高发放率 × 大规模 nnz**）才能摊薄开销。建议按实际发放率实测后再决定是否启用。
+
+## 包信息
+
+- Assembly：`Microsoft.VisualBasic.DeepLearning.SpikingNeuralNetwork`
+- 目标框架：`net10.0`；平台：`AnyCPU;x64`
+- 关键属性：`OptionStrict=Off`、`OptionExplicit=On`、`ImplicitUsings=enable`
+- 许可：GPL-3.0-or-later

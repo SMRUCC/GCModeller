@@ -20,6 +20,7 @@
     <PackageTags>scibasic;ode-solver;cvode;adams-bdf;stiff-equations;numerics</PackageTags>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageReadmeFile>PROJECT_SUMMARY.md</PackageReadmeFile>
+    <PackageReleaseNotes>The managed CVODE solver re-implements the SUNDIALS CVODE integration API entirely in VB.NET, removing the native P/Invoke dependency so that stiff and non stiff ODE systems can be integrated on any .NET target without shipping a native binary. Capabilities: variable step, variable order integration with both the Adams-Moulton (non stiff) and BDF (stiff) method families; dense and banded linear solver options together with the classic Newton iteration control parameters (initial step size, minimum and maximum step size, maximum order, relative and absolute tolerances); the usual CVODE statistics and return code surface so ported code keeps working. The implementation is a clean room port written for the sciBASIC# numerics stack, so it integrates directly with the ODE solver and Dynamics models of the Math package and can be used for stiff kinetic models, chemical reaction networks and dynamic system simulation. The project targets net10.0 with OptionStrict enabled and ships an XML documentation file.</PackageReleaseNotes>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>

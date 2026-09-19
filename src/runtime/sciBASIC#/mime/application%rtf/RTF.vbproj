@@ -13,7 +13,7 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <Title>Rich Text Format and Office MathML Document Model</Title>
-    <Description>Builds rich text format documents in the sciBASIC# framework: a document object model that tracks styled text regions and fonts and emits RTF markup, plus serializable Office Math Markup Language models for equations.</Description>
+    <Description>Builds rich text format documents in the sciBASIC# framework: a document object model that tracks styled text regions and fonts and emits RTF 1.x markup, plus serializable Office Math Markup Language (OMML) models for equations and Word XML round-tripping.</Description>
     <AssemblyTitle>Microsoft.VisualBasic.MIME.RTF</AssemblyTitle>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
@@ -21,6 +21,16 @@
     <PackageProjectUrl>http://scibasic.net/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <!--
+      本项目为旧式（非 SDK）项目，没有导入 NuGet 打包目标。
+      因此同时提供两套属性名：PackageXxx 供将来迁移到 SDK 风格打包使用，
+      Tags / ReleaseNotes 则是 nuget.exe pack 在读取旧式项目时识别的属性名。
+    -->
+    <PackageTags>scibasic;rtf;rich-text-format;omml;office-math;document-model;word</PackageTags>
+    <Tags>scibasic;rtf;rich-text-format;omml;office-math;document-model;word</Tags>
+    <PackageReleaseNotes>RTF provides a compact Rich Text Format document model for the sciBASIC# framework together with serializable Office Math (OMML) models. Highlights: (1) incremental document construction through AppendText and AppendLine, where every call can carry its own font style; (2) styled region tracking over the text buffer, with SetFormat able to re-apply or split existing formats; (3) RTF 1.x emission through Save, writing the font table, the colour table and generator metadata; (4) an Office / OMML XML model set - document properties, Word document settings, math properties and an html head - so equations and document metadata can round-trip through Word XML. The class model is intentionally small: Rtf is the document, FormatedRegion records a styled span of text, and Font (plus Models.Font) describes typeface, size and style attributes. The project targets the .NET Framework, so it is consumed by the Windows desktop sciBASIC# tooling, while the OMML models are shared with the report generation pipeline.</PackageReleaseNotes>
+    <ReleaseNotes>RTF provides a compact Rich Text Format document model for the sciBASIC# framework together with serializable Office Math (OMML) models: incremental document building (AppendText / AppendLine) with per-call font styles, styled region tracking (SetFormat) over the text buffer, RTF 1.x emission through Save (font table, colour table, generator metadata), and an Office / OMML XML model set for Word XML round-tripping.</ReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

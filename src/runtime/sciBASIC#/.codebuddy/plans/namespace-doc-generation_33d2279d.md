@@ -44,123 +44,80 @@ todos:
 
 ## 需求概述
 
-扫描 `sciBASIC#` 工作区下全部 `.vbproj` 项目，筛选出 `RootNamespace` 以 `Microsoft.VisualBasic` 为前缀的 95 个项目；针对这些项目，依据其源码内容，为其中每一个独立命名空间新增或更新 `NamespaceDoc.vb` 文件，并在名为 `NamespaceDoc` 的类型上补充 `''' <summary>` XML 注释，用于概括该命名空间内代码的功能。
+对上一轮已筛选出的 **95 个** `RootNamespace` 以 `Microsoft.VisualBasic` 开头的 `.vbproj` 项目，依据其 VB 源码内容，更新并完善 NuGet 程序包描述性元数据：`Title`、`Description`、`PackageTags`、`PackageReleaseNotes`、`PackageReadmeFile`（及其配套 README 文件与打包项）。既有元数据一并评估、补全或改写。
 
 ## 核心功能
 
-- 项目筛选：递归扫描工作区 211 个 `.vbproj`，按 `RootNamespace` 前缀过滤，得到 95 个目标项目。
-- 命名空间枚举：以源码中实际的 `Namespace X` 声明为准（叠加项目 `RootNamespace` 得到全名），覆盖根命名空间与所有子命名空间；无声明的源码文件归属根命名空间。
-- 文件定位与新增：命名空间缺少文档时，在其主文件夹下创建 `NamespaceDoc.vb`（子命名空间用 `Namespace X` 块 + `Module NamespaceDoc`；根命名空间用无 `Namespace` 块的 `Friend Class NamespaceDoc`）。
-- 既有文件更新：`NamespaceDoc.vb` 已存在时，仅补充/改写 `<summary>` 文本；若已存在 `NamespaceDoc` 类型则更新其注释，若文件内容为工具类则在同一命名空间块内追加 `NamespaceDoc` 类型。
-- 注释内容：依据该命名空间下的类型、成员、既有 XML 注释以及项目 `Title`/`Description` 元数据，撰写简洁的英文总结描述。
-- 保真约束：既有文件头部的自动生成统计区块（`#Region` 版权与统计）原样保留；新建文件不含该区块。
+- **Title（英文）**：约 40–70 字符的项目短标题，概括项目核心用途；已存在的评估后保留或改写。
+- **Description（英文）**：约 **250 字符**摘要性描述，说明该代码库的定位与关键技术点。
+- **PackageTags（英文）**：分号分隔小写标签，以 `scibasic` 开头，补足 5–8 个技术关键词。
+- **PackageReleaseNotes（英文，内联）**：**500–1200 字符**的功能详述，逐项说明项目提供的核心能力、覆盖的算法/文件格式/模块，以及与 sciBASIC# 生态中其他包的关系。
+- **PackageReadmeFile 指向的 README.md（简体中文博客体）**：以博客文章形式详述项目代码内容，保留原有技术细节（关键类型、快速上手代码示例等），并补充背景、设计目标、架构与命名空间地图、用例、生态关系、性能要点、版本与许可证等章节。
 
-## 交付方式与边界
+## 补齐与修正项
 
-- 按顶层目录分批交付，由小到大推进，先以小批次确定模板风格再批量推广。
-- 排除 `bin`、`obj`、`My Project` 目录，以及嵌套的非匹配项目源码。
-- 不修改任何代码逻辑，仅新增/补充 XML 文档注释。
+- **新增 Title**：`ILCudaTensor`、`ML_SHAP`、`mHG`。
+- **新增 Description**：上述 3 个 + `SNN`。
+- **新增 PackageTags**：`ILCudaTensor`、`ML_SHAP`、`mHG`、`RTF`。
+- **新增 PackageReadmeFile**：`ILCudaTensor`、`ML_SHAP`、`SNN`、`mHG`、`RTF`。
+- **新增 README 打包项**（缺失则 README 不会进包）：`ILCudaTensor`、`ML_SHAP`、`SNN`、`mHG`、`RTF`、`Sundials.CVODE`。
+- **新建 README.md 文件**：`ILCudaTensor`、`ML_SHAP`、`Sundials.CVODE`（后者当前已声明 `PackageReadmeFile` 但文件不存在，打包会失败）。
+- **扩写已有 PackageReleaseNotes**：`FeatherFormat`、`dataframework-netcore5`、`GraphQuery.NET5`。
+
+## 视觉与文本效果
+
+产出为 XML 元数据文本与中文 Markdown 长文，无界面。README 以 Markdown 标题层级、要点列表、`vbnet` 代码块、表格组织，呈现为可读性强的技术博客文章。
+
 
 ## 技术栈
 
-- 目标代码库：VB.NET（SDK 风格 `.vbproj`，`GenerateDocumentationFile=True`），沿用既有 XML 文档注释约定与 NDoc 式 `NamespaceDoc` 约定。
-- 源码分析：PowerShell（`Select-String` 正则）做项目与命名空间索引；语义结构分析优先使用 LSP 能力，失败时回退到正则扫描。
-- 文件产出：纯文本 `.vb` 文件写入，新建文件使用 UTF-8；不引入任何新依赖、不改动构建配置。
-- 无需编译/打包；仅在确有必要时用 `Select-String` 做校验。
+- **目标载体**：VB.NET SDK 风格 `.vbproj`（MSBuild / NuGet 打包元数据），项目内已启用 `GeneratePackageOnBuild`。
+- **编辑方式**：对 `.vbproj` 采用**定向文本编辑**（就地替换/插入元数据元素），不使用 XML 反序列化后整体重写，避免破坏既有缩进、元素顺序、`<!-- 中文注释 -->` 与转义写法。
+- **分析手段**：PowerShell + `Select-String` 正则做项目/元数据盘点与校验（`Get-Content` 必须显式 `-Encoding`）；语义结构分析用 LSP 能力，失败回退正则。
+- **文本产出**：README.md 均以 **UTF-8** 写入（中文内容，不引入 GBK）；`vbproj` 内新增/改写文本中的 `&`、`<`、`>` 必须 XML 转义。
+- 不新增依赖、不改动构建配置（仅允许补齐 `PackageReadmeFile` 元素与 README 打包项）。
 
 ## 实现方案
 
-1. **建立索引**：遍历 95 个匹配项目，读取 `<RootNamespace>`、`<Title>`、`<Description>`；对每个项目枚举其源码文件（排除 `bin/obj/My Project` 及其他嵌套项目目录），提取 `Namespace X` 声明，构建「全名命名空间 → 主文件夹 → 是否已有 NamespaceDoc 类型」的映射清单。
-2. **命名空间归一化**：完整命名空间 = `RootNamespace` + "." + 声明的 `Namespace`（无声明即根命名空间）。注意文件夹名与命名空间段并非总是一致（如 `ApplicationServices/VBDev/XmlDoc/Serialization` 实为 `ApplicationServices.Development.XmlDoc.Serialization`），因此**必须以声明的命名空间段为准**，文件夹仅用于确定放置位置。
-3. **放置规则**：选择该命名空间下文件数量最多的目录作为 `NamespaceDoc.vb` 的目标目录；根命名空间放在项目根目录。
-4. **生成策略**：若目标位置无 `NamespaceDoc.vb` 则新建（模板见「关键代码结构」）；若已存在且含 `NamespaceDoc` 类型，则仅改写其 `<summary>`；若已存在但无 `NamespaceDoc` 类型（工具类），在不破坏原有代码的前提下，于同一 `Namespace` 块内追加 `NamespaceDoc` 类型。
-5. **描述文本生成**：汇总该命名空间范围内类型的名称、公开成员名与既有 XML 注释，并参考项目 `Title`/`Description`，产出 1-3 句英文功能概述。
-6. **校验**：每批次完成后，用 `Select-String` 检查目标命名空间是否均已存在 `NamespaceDoc` 类型，且文件可正常解析（无重复类型名）。
+1. **素材采集（每项目）**：读取 `<RootNamespace>`、`<AssemblyName>`、现有 `<Title>/<Description>/<PackageTags>`、`<TargetFrameworks>`、`<ProjectReference>`；复用上一轮产出的 **614 个 `NamespaceDoc.vb`**（命名空间→英文功能摘要）作为权威功能素材，并用 `[subagent:code-explorer]` 与 `[skill:lsp-code-analysis]` 补充关键类型/公共 API 结构，用于 README 的“关键类型”与“快速上手”章节。
+2. **文案撰写**：按统一模板产出 Title（40–70 字符）、Description（约 250 字符，建议 200–300）、PackageTags（`scibasic` 起头，5–8 个）、PackageReleaseNotes（500–1200 字符，纯文本、无 Markdown 语法、必要时转义）。四者信息层级递进且不重复：Title 定位 → Description 摘要 → ReleaseNotes 功能详述 → README 全貌长文。
+3. **元数据落位**：在首个 `<PropertyGroup>` 内按现有顺序就地替换或插入元素；缺失的 `<PackageReadmeFile>README.md</PackageReadmeFile>` 插入到 `<PackageLicenseExpression>` 之后；`<PackageReleaseNotes>` 紧随 `<Description>` 之后插入。
+4. **README 改造（保守扩写）**：保留原文全部技术内容（Key Types、Quick Start 代码块、Package/License 等），按中文博客体重排为：标题 → 引言（背景与要解决的问题）→ 设计目标 → 核心特性 → 架构与命名空间地图 → 关键类型与 API → 快速上手（`vbnet` 代码）→ 与 sciBASIC# 生态的关系（依赖/被依赖）→ 性能与实现要点 → 版本与许可证。对 5 个大文件（`netCDF` 35KB、`SNN` 32KB、`ILCuda` 19KB、`Gibbs` 14.6KB、`HMM` 8KB）**严禁删减原有内容**，仅重排结构、翻译/补充中文叙述章节。
+5. **打包配置修正**：确保 `<PackageReadmeFile>README.md</PackageReadmeFile>` 存在，且末尾 `<ItemGroup>` 中存在 `<None Include="README.md"><Pack>True</Pack><PackagePath>\</PackagePath></None>`，且 `README.md` 文件真实存在。
+6. **校验**：用 `[xml]` 解析每个 `vbproj` 确认合法；校验 Description 与 ReleaseNotes 长度区间；校验 `PackageReadmeFile` 指向的文件存在；确认 README 打包项覆盖 95/95。
 
-## 关键技术决策
+### 关键技术决策
 
-- **以声明而非目录推导命名空间**：避免 `VBDev`→`Development` 之类的路径/命名空间错配导致文档挂到错误命名空间。
-- **追加而非覆盖既有文件**：`NamespaceDoc.vb` 文件名不可靠（存在 `NamespaceDocExtensions` 工具类），整文件覆盖会破坏功能代码。
-- **保留既有头部区块**：头部为外部工具生成的统计信息，重新生成既无意义也可能引入不一致。
-- **按目录分批**：单批可验证、可回滚，降低数百文件规模的 blast radius。
+- **定向文本编辑而非 XML 重写**：`vbproj` 含大量手写注释、非常规缩进与 `<Configurations>` / `<Compile Remove>` / `<EmbeddedResource>` 等关键配置，序列化重写会引入大面积 diff 且可能清空注释。文本替换可把 blast radius 限制在 4–5 行内。
+- **保留 + 重排 + 中文扩写**：README 是包内唯一长文档，全量重写对大文件会丢信息；保留原有 API/示例、外层补博客式叙述章节，兼顾信息保全与风格要求。
+- **文案与上一轮 NamespaceDoc 复用**：避免重复解析源码，保证 Description/ReleaseNotes/README 与代码实际命名空间功能一致，降低幻觉风险。
+- **转义与编码前置约束**：`<Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>` 证明文件内含转义；中文 README 以 UTF-8 写入，避免 NuGet 打包后乱码。
 
-## 性能与可靠性
+### 性能与可靠性
 
-- 索引阶段按项目目录递归扫描（`Select-String` 单次遍历），复杂度约 O(文件数)；全仓库约 5380 个 `.vb` 文件，可接受。
-- 每批次独立完成，批次之间无共享状态，异常可局部重做。
-
-## 架构设计
-
-```mermaid
-graph LR
-    A[vbproj 扫描] --> B[RootNamespace 过滤]
-    B --> C[命名空间索引<br/>全名/主目录/既有文档]
-    C --> D{是否已有 NamespaceDoc}
-    D -->|是| E[更新 summary]
-    D -->|否| F[新建 NamespaceDoc.vb]
-    E --> G[批次校验]
-    F --> G
-```
-
-## 目录结构（影响范围）
-
-说明：本次不新增模块，改动分布在 95 个项目目录内，主要为新增/修改名为 `NamespaceDoc.vb` 的文件。代表性清单如下：
-
-sciBASIC#/
-├── nlp/, www/, cuda/                      # [MODIFY] 批次一：为各匹配项目新增/更新 NamespaceDoc.vb
-├── mime/                                  # [MODIFY] 批次三：10 个 MIME 项目的各命名空间文档
-├── vs_solutions/                          # [MODIFY] 批次二：VisualStudio / vs_PDB 项目文档
-├── Data/                                  # [MODIFY] 批次四：BinaryData、DataFrame、GraphQuery、Trinity 等 13 个项目
-├── gr/                                    # [MODIFY] 批次五：Imaging、network-visualization、physics 等 10 个项目
-├── Microsoft.VisualBasic.Core/src/        # [MODIFY] 批次六：约 141 个命名空间文档（体量最大）
-│   ├── NamespaceDoc.vb                    # [MODIFY] 根命名空间 summary
-│   └── <子目录>/NamespaceDoc.vb            # [NEW/MODIFY] 各子命名空间文档
-└── Data_science/                          # [MODIFY] 批次七：DataMining、MachineLearning、Mathematica、Visualization 等 53 个项目
-
-## 关键代码结构
-
-新建文件模板（子命名空间）：
-
-```
-Namespace X.Y
-
-    ''' <summary>
-    ''' <English summary describing the functionality of the code in this namespace>
-    ''' </summary>
-    Module NamespaceDoc
-    End Module
-End Namespace
-```
-
-新建文件模板（项目根命名空间）：
-
-```
-''' <summary>
-''' <English summary describing the functionality of this namespace>
-''' </summary>
-Friend Class NamespaceDoc
-End Class
-```
+- 盘点与校验为 O(项目数 × 文件数) 的单次遍历，全仓库约 5380 个 `.vb` 文件，可接受。
+- 按目录分批，批次间无共享状态，任一项目异常可局部重做，不影响其他批次。
 
 ## 实施注意事项
 
-- 既有 `NamespaceDoc.vb` 的 `#Region "Microsoft.VisualBasic::<hash>..."` 区块一律原样保留，只允许改动 `''' <summary>` 内容。
-- `Microsoft.VisualBasic.Core/src/ApplicationServices/VBDev/XmlDoc/Serialization/NamespaceDoc.vb` 为工具类（`NamespaceDocExtensions`），只能追加 `NamespaceDoc` 类型，禁止覆盖。
-- 同一命名空间内只允许存在一个名为 `NamespaceDoc` 的类型，避免 summary 被合并或类型重名冲突。
-- `Namespace X` 声明为「相对 RootNamespace」写法，切勿写成完整命名空间，否则会重复前缀。
-- 排除 `bin/obj/My Project` 与非匹配项目的源码，避免把不相关命名空间纳入统计。
-- 每批次完成后做一次校验；如发现描述不准确，仅调整 summary 文本，不影响其他文件。
+- **长度度量口径**：Description 与 PackageReleaseNotes 长度按元素内纯文本字符数（不含标签与转义实体展开差异）估算，Description 落在 200–300，ReleaseNotes 落在 500–1200。
+- **禁止改动项**：`<RootNamespace>`、`<TargetFrameworks>`、`<Configurations>`、`<Compile Remove>`、`<EmbeddedResource>`、`<ProjectReference>`、`<Version>` / `<AssemblyVersion>`、`<PackageIcon>` 等一律不动。
+- **ReleaseNotes 文本形态**：纯文本单行（与既有 3 个项目写法一致），不使用 Markdown 语法，避免在 NuGet 门户显示错乱。
+- **README 语言一致性**：正文中文，但代码块、类型全名、命令行、标签保持英文原样。
+- **编码安全**：写入前对目标文件确认 UTF-8；禁止用未指定 `-Encoding` 的 `Get-Content` 参与文本替换。
+- **范围界定**：仅修改本 95 个项目，`vs_solutions/dev/LicenseMgr` 等无 `RootNamespace` 前缀的项目不纳入。
+- **不新增依赖、不改动构建配置**（仅 README 打包项与 `PackageReadmeFile` 的补齐属例外）。
 
-## Agent Extensions
+## 目录结构（影响范围）
 
-### SubAgent
+改动分布在工作区 95 个项目目录内，每个项目预计修改 1 个 `.vbproj` + 1 个 `README.md`，另新建 3 个 `README.md`（约 193 个文件）。按批次汇总如下：
 
-- **code-explorer**
-- Purpose: 在单个批次内跨目录/跨模式快速定位目标项目的源码分布与命名空间构成。
-- Expected outcome: 产出每批次的「命名空间 → 主目录 → 既有 NamespaceDoc」清单，作为生成文档的可靠输入。
-
-### Skill
-
-- **lsp-code-analysis**
-- Purpose: 借助 LSP 获取文件/符号结构（类型、成员、概要），用于撰写准确的命名空间 summary。
-- Expected outcome: 为各命名空间输出可读的类型与成员摘要；若 LSP 不支持 VB.NET，则回退到源码正则与既有 XML 注释分析。
+sciBASIC#/
+├── cuda/
+│   ├── ILCuda/README.md                                  # [MODIFY] 中文博客化扩写；ILCuda.vbproj 元数据完善
+│   ├── ILCuda/ILCuda.vbproj                              # [MODIFY] Title/Description/Tags/ReleaseNotes 完善
+│   └── ILCudaTensor/                                     # [MODIFY] 缺口项目：新增 Title/Description/Tags/ReleaseNotes/PackageReadmeFile + README 打包项
+│       ├── ILCudaTensor.vbproj                           # [MODIFY] 补齐全部包元数据与打包项
+│       └── README.md                                     # [NEW] 首建中文博客体 README（项目原本无 README）
+├── Data/
+│   ├── BinaryData/{BinaryData,DataStorage
