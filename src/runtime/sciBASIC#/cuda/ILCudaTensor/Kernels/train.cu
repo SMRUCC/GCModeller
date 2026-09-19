@@ -81,6 +81,32 @@ extern "C" __global__ void tensorAccumulateFp32Kernel(float* __restrict__ accum,
 }
 
 // ---------------------------------------------------------------------------
+// 二维转置（单精度）
+//
+// 为什么需要单独一份：既有的 DoubleKernels.DTranspose 是双精度内核，
+// 走的是 DeviceCache(Of Double) —— 也就是从<b>主机数组</b>上传。
+// 而设备常驻的权重以设备为主副本、主机副本是陈旧的，经它转置会静默算错。
+// 训练的反向传播里恰好要用到转置后的权重（dA = dC · Bᵀ），因此必须有一份
+// 能从常驻表直读的单精度转置。
+//
+// 约定与 DTranspose 一致：输出形状 (cols, rows)，
+// grid = (ceil(cols/16), ceil(rows/16)), block = (16, 16)
+//   blockIdx.x -> 输入的列 j；blockIdx.y -> 输入的行 i
+//
+// 索引用 long long：LM head 的转置是 [rows, 128815] 级别，行偏移会超过 Int32。
+// ---------------------------------------------------------------------------
+extern "C" __global__ void tensorTransposeFp32Kernel(const float* __restrict__ x,
+                                                     float* __restrict__ y,
+                                                     int rows, int cols) {
+    const int j = blockIdx.x * blockDim.x + threadIdx.x;
+    const int i = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if (i < rows && j < cols) {
+        y[(long long)j * rows + i] = x[(long long)i * cols + j];
+    }
+}
+
+// ---------------------------------------------------------------------------
 // 融合掩码交叉熵：softmax + NLL + d(logits) = (softmax - onehot) / count
 //
 // 等价于主机端 LLMTensorOps.MaskedCrossEntropy 的三段循环

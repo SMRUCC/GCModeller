@@ -595,6 +595,51 @@ Namespace LLM
 
 #End Region
 
+#Region "设备常驻状态"
+
+        ''' <summary>
+        ''' 把全部被钉在显存里的参数回写到主机。
+        ''' </summary>
+        ''' <returns>实际被回写的参数个数</returns>
+        ''' <remarks>
+        ''' 平时<b>不需要</b>调用：前向/反向里的矩阵乘会通过设备常驻表直接读到最新权重，
+        ''' 刻意避免"每步把整个模型下载回主机"。只有在需要读主机内容的场合才必须同步 ——
+        ''' 检查点落盘、以及在主机循环里直接读权重的模块。
+        ''' </remarks>
+        Public Function SyncFromDevice() As Integer
+            Return _parameters.SyncFromDevice()
+        End Function
+
+        ''' <summary>当前钉在显存里的参数字节数。</summary>
+        Public ReadOnly Property PinnedDeviceBytes As Long
+            Get
+                Return _parameters.PinnedBytes
+            End Get
+        End Property
+
+        ''' <summary>登记的参数项个数（用于显存占用估算与报告）。</summary>
+        Public ReadOnly Property ParameterCount As Integer
+            Get
+                Return _parameters.Entries.Count
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 估算训练时的<b>设备侧</b>显存需求（字节）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 参数被钉住时占 <c>参数数 × 4</c>（单精度），AdamW 的一阶/二阶矩同样常驻，
+        ''' 因此稳定占用约为 <c>参数数 × 4 × 3</c>。梯度不常驻，但它每步都要上传一次，
+        ''' 会额外占用一份瞬时缓冲。
+        ''' </remarks>
+        Public ReadOnly Property EstimatedDeviceBytes As Long
+            Get
+                Return TotalParameters * 4L * 3L
+            End Get
+        End Property
+
+#End Region
+
 #Region "权重持久化"
 
         Private Const Magic As Integer = &H4C4D4D31   ' "LMM1"
@@ -607,8 +652,14 @@ Namespace LLM
         ''' 只保存参数值，不保存优化器状态 —— 因此加载后的模型可以直接推理，
         ''' 若要继续训练则 AdamW 会从零开始重新累积动量（这是刻意选择：优化器状态
         ''' 属于"训练过程"，不属于"模型"）。
+        ''' <para>
+        ''' 落盘前必须调用 <see cref="SyncFromDevice"/>：被钉在显存里的参数以设备为主副本，
+        ''' 主机 <c>Data</c> 是陈旧的，不先同步就会把旧的权重写进文件。
+        ''' </para>
         ''' </remarks>
         Public Sub Save(path As String)
+            Call SyncFromDevice()
+
             Using stream As New SysIO.FileStream(path, SysIO.FileMode.Create, SysIO.FileAccess.Write)
                 Using writer As New SysIO.BinaryWriter(stream)
 

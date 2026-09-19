@@ -99,6 +99,8 @@ Namespace GPUTensor
         Public Const MaxPool2DBackward As String = "tensorMaxPool2DBackwardKernel"
 
         ' ---- 训练内核（Kernels\train.cu，单精度 FP32）----
+        ''' <summary>二维转置（单精度，可直读设备常驻权重）</summary>
+        Public Const TrainTranspose As String = "tensorTransposeFp32Kernel"
         ''' <summary>AdamW 原地更新参数与一阶/二阶矩，并清零梯度累加器</summary>
         Public Const TrainAdamW As String = "tensorAdamWFp32Kernel"
         ''' <summary>梯度累加：<c>accum += alpha * src</c></summary>

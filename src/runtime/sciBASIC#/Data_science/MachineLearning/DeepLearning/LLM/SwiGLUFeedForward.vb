@@ -98,9 +98,11 @@ Namespace LLM
 
         ''' <summary>把本模块参数登记进参数集。</summary>
         Public Sub RegisterParameters(registry As ParameterSet, prefix As String, Optional weightDecay As Double = 0.0)
-            Call registry.Attach(prefix & ".Wg", Wg, _wgOpt, weightDecay)
-            Call registry.Attach(prefix & ".Wu", Wu, _wuOpt, weightDecay)
-            Call registry.Attach(prefix & ".Wd", Wd, _wdOpt, weightDecay)
+            ' 三个权重矩阵只被 BatchedMatMul 消费（最终走 MatMul → 设备常驻表），
+            ' 主机侧没有循环直接读它们的 Data
+            Call registry.Attach(prefix & ".Wg", Wg, _wgOpt, weightDecay, deviceResident:=True)
+            Call registry.Attach(prefix & ".Wu", Wu, _wuOpt, weightDecay, deviceResident:=True)
+            Call registry.Attach(prefix & ".Wd", Wd, _wdOpt, weightDecay, deviceResident:=True)
         End Sub
 
         ''' <summary>前向：<c>y = (SiLU(x·Wg) ⊙ (x·Wu)) · Wd</c>。</summary>

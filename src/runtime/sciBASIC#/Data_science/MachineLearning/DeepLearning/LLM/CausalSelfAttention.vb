@@ -177,10 +177,12 @@ Namespace LLM
         ''' <param name="prefix">参数名前缀，例如 <c>layer3.attn</c></param>
         ''' <param name="weightDecay">权重衰减系数（注意力投影均为权重矩阵，通常施加衰减）</param>
         Public Sub RegisterParameters(registry As ParameterSet, prefix As String, Optional weightDecay As Double = 0.0)
-            Call registry.Attach(prefix & ".Wq", Wq, _wqOpt, weightDecay)
-            Call registry.Attach(prefix & ".Wk", Wk, _wkOpt, weightDecay)
-            Call registry.Attach(prefix & ".Wv", Wv, _wvOpt, weightDecay)
-            Call registry.Attach(prefix & ".Wo", Wo, _woOpt, weightDecay)
+            ' 四个投影矩阵只被 BatchedMatMul 消费（最终走 MatMul → 设备常驻表），
+            ' 主机侧没有任何循环直接读它们的 Data，因此可以安全地钉到显存
+            Call registry.Attach(prefix & ".Wq", Wq, _wqOpt, weightDecay, deviceResident:=True)
+            Call registry.Attach(prefix & ".Wk", Wk, _wkOpt, weightDecay, deviceResident:=True)
+            Call registry.Attach(prefix & ".Wv", Wv, _wvOpt, weightDecay, deviceResident:=True)
+            Call registry.Attach(prefix & ".Wo", Wo, _woOpt, weightDecay, deviceResident:=True)
         End Sub
 
 #End Region

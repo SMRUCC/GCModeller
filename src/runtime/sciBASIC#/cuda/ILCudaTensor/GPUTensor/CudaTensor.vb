@@ -779,15 +779,39 @@ Namespace GPUTensor
                 Throw New ArgumentException("只支持二维张量转置")
             End If
 
-            If Not OnGpu(t) OrElse Not DoubleKernelRegistry.Available(DoubleKernelRegistry.Transpose) Then
-                Return MyBase.Transpose(t)
-            End If
+            If Not OnGpu(t) Then Return MyBase.Transpose(t)
 
             Dim rows = t.Shape(0)
             Dim cols = t.Shape(1)
 
             Dim elements As Long = CLng(rows) * cols
             Call EnsureDeviceCount(elements, "Transpose 的输出")
+
+            ' 优先走单精度。除了与 MatMul 的精度策略保持一致，这里还有一个
+            ' <b>正确性</b>理由：设备常驻的权重以设备为主副本、主机副本是陈旧的，
+            ' 而 KernelNames 里的双精度转置是从主机数组上传的 —— 经它转置会静默算错。
+            ' 反向传播恰好需要"转置后的权重"（dA = dC · Bᵀ），因此必须走这条能直读常驻表的路径。
+            If UseFp32Gemm Then
+                Dim fp32Kernel = TryKernel(TensorKernelNames.TrainTranspose)
+
+                If fp32Kernel IsNot Nothing Then
+                    Dim dx32 = DeviceF32(t)
+
+                    Using dOut32 As New ILCudaRuntime.DeviceBuffer(Of Single)(CInt(elements))
+                        ' 手写内核的形参顺序是 (x, y, rows, cols)，
+                        ' rows / cols 描述的是<b>输入</b>形状
+                        fp32Kernel.Launch(
+                            ILCudaRuntime.LaunchPlanner.For2D(cols, rows, 16, 16),
+                            dx32, dOut32, rows, cols)
+
+                        Return Wrap(DeviceResidentStore.ToDouble(dOut32.Read()), New Integer() {cols, rows})
+                    End Using
+                End If
+            End If
+
+            If Not DoubleKernelRegistry.Available(DoubleKernelRegistry.Transpose) Then
+                Return MyBase.Transpose(t)
+            End If
 
             Dim dx = Device(t)
 
@@ -1302,9 +1326,11 @@ Namespace GPUTensor
 
             Call EnsureDeviceCount(n, "AdamW 的参数")
 
-            ' 四个张量都必须在常驻表里，否则本次更新会被随后的重新上传覆盖
+            ' 参数与两个矩必须常驻：内核就地改写它们，若没钉住就会被随后的重新上传冲掉。
+            ' 梯度则<b>刻意不要求</b>常驻 —— 它由主机侧的反向传播逐层累加产生，
+            ' 每步都带着新的版本号，走 LRU 缓存重新上传正好是正确行为。
+            ' 内核写进梯度缓冲的"清零"由调用方在主机侧用 ZeroGrad 同步。
             If Not _resident.IsPinned(param.Data) Then Return False
-            If Not _resident.IsPinned(gradient.Data) Then Return False
             If Not _resident.IsPinned(momentum.Data) Then Return False
             If Not _resident.IsPinned(velocity.Data) Then Return False
 
@@ -1396,6 +1422,28 @@ Namespace GPUTensor
         End Property
 
         ''' <summary>
+        ''' 把设备常驻缓冲的内容回写到主机数组。
+        ''' </summary>
+        ''' <remarks>
+        ''' 回写之后主机版本号会递增，但<b>不会</b>触发重新上传 ——
+        ''' <see cref="DeviceF32"/> 优先命中常驻表并跳过版本校验，
+        ''' 因此设备仍然是主副本，刚回写的内容不会被覆盖。
+        ''' </remarks>
+        Public Overrides Function SyncFromDevice(t As tf.Tensor) As Boolean
+            If t Is Nothing Then Return False
+
+            Dim host = _resident.Download(t.Data)
+
+            If host Is Nothing Then Return False
+            If host.Length <> t.Data.Length Then Return False
+
+            Call Array.Copy(host, t.Data, host.Length)
+            Call t.MarkHostModified()
+
+            Return True
+        End Function
+
+        ''' <summary>
         ''' 关键内核的可用性快照，用于诊断"训练步到底有没有走上 GPU"。
         ''' </summary>
         ''' <remarks>
@@ -1407,10 +1455,10 @@ Namespace GPUTensor
             ' 会与基类的 Name 属性（ITensorCompute.Name）冲突
             Dim kernelNames = {
                 ILCudaRuntime.KernelNames.Gemm,
+                TensorKernelNames.TrainTranspose,
                 TensorKernelNames.TrainMaskedCrossEntropy,
                 TensorKernelNames.TrainAdamW,
-                TensorKernelNames.TrainAccumulate,
-                TensorKernelNames.GemmDouble
+                TensorKernelNames.TrainAccumulate
             }
 
             Dim sb As New System.Text.StringBuilder()

@@ -310,6 +310,17 @@ Namespace Compute
         ''' <summary>当前钉住的显存总字节数（供显存占用报告使用）。</summary>
         ReadOnly Property PinnedDeviceBytes As Long
 
+        ''' <summary>
+        ''' 把设备常驻缓冲的内容回写到主机数组。
+        ''' </summary>
+        ''' <returns>该张量未被钉住、或后端不支持常驻时返回 <c>False</c></returns>
+        ''' <remarks>
+        ''' 被钉住的张量以<b>设备为主副本</b>，主机 <c>Data</c> 会逐渐陈旧。
+        ''' 凡是需要"读主机内容"的场合（检查点落盘、主机侧统计、
+        ''' 以及那些在主机循环里直接读权重的模块）都必须先调用本方法同步。
+        ''' </remarks>
+        Function SyncFromDevice(t As Tensor) As Boolean
+
 #End Region
 
 #Region "卷积与池化"

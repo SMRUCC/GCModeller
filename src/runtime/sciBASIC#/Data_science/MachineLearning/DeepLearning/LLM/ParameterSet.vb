@@ -21,6 +21,17 @@ Namespace LLM
     ''' </summary>
     Public Class ParameterSet
 
+        ''' <summary>
+        ''' 设备常驻训练的全局总开关。
+        ''' </summary>
+        ''' <remarks>
+        ''' 关掉之后所有参数都走主机 AdamW 循环，与改造前的行为完全一致。
+        ''' 保留这个开关有两个用处：
+        '''   * 做"设备端 vs 主机端"的 A/B 耗时对比；
+        '''   * 当设备路径出现数值问题时，可以一键回退以快速缩小排查范围。
+        ''' </remarks>
+        Public Shared Property EnableDeviceResidency As Boolean = True
+
         ''' <summary>单个参数的登记项：名称 + 参数张量 + 它的 AdamW 状态。</summary>
         Public Class Entry
 
@@ -111,8 +122,10 @@ Namespace LLM
         ''' <param name="name">参数名称（同一名称重复登记会抛异常，避免静默覆盖）</param>
         ''' <param name="value">参数张量</param>
         ''' <param name="weightDecay">解耦权重衰减系数；γ / 偏置一类参数应传 0</param>
-        Public Function Add(name As String, value As Tensor, Optional weightDecay As Double = 0.0) As Entry
-            Return Attach(name, value, New AdamW(value), weightDecay)
+        ''' <param name="deviceResident">是否允许把该参数钉到显存、走设备端 AdamW 更新</param>
+        Public Function Add(name As String, value As Tensor, Optional weightDecay As Double = 0.0,
+                            Optional deviceResident As Boolean = False) As Entry
+            Return Attach(name, value, New AdamW(value), weightDecay, deviceResident)
         End Function
 
         ''' <summary>
@@ -127,8 +140,14 @@ Namespace LLM
         ''' <param name="value">参数张量</param>
         ''' <param name="optimizer">调用方持有的 AdamW 状态</param>
         ''' <param name="weightDecay">解耦权重衰减系数</param>
+        ''' <param name="deviceResident">
+        ''' 是否允许把该参数钉到显存、走设备端 AdamW 更新。
+        ''' <b>只有"主机侧不再直接读取该参数"的权重矩阵才应传 True</b> ——
+        ''' 详见 <see cref="AdamW.UseDeviceResidency"/> 的说明。
+        ''' </param>
         Public Function Attach(name As String, value As Tensor, optimizer As AdamW,
-                               Optional weightDecay As Double = 0.0) As Entry
+                               Optional weightDecay As Double = 0.0,
+                               Optional deviceResident As Boolean = False) As Entry
 
             If value Is Nothing Then Throw New ArgumentNullException(NameOf(value))
             If optimizer Is Nothing Then Throw New ArgumentNullException(NameOf(optimizer))
@@ -138,6 +157,7 @@ Namespace LLM
             End If
 
             optimizer.WeightDecay = weightDecay
+            optimizer.UseDeviceResidency = deviceResident AndAlso EnableDeviceResidency
 
             Dim entry As New Entry(name, value, optimizer)
 
@@ -170,13 +190,70 @@ Namespace LLM
             Return LLMTensorOps.ClipGlobalNorm(Gradients, maxNorm)
         End Function
 
-        ''' <summary>对全部参数执行一次 AdamW 更新。</summary>
+        ''' <summary>
+        ''' 对全部参数执行一次 AdamW 更新。
+        ''' </summary>
+        ''' <param name="learningRate">学习率</param>
         ''' <param name="step">训练步序号（从 1 开始，用于偏差校正）</param>
+        ''' <remarks>
+        ''' 逐参数"先试设备路径、失败再走主机"：这样一个参数上设备不可用
+        ''' （未开启常驻、后端不支持、内核缺失）不会影响其余参数，
+        ''' 也不会因为局部失败而让整步训练中断。
+        ''' </remarks>
         Public Sub ApplyUpdate(learningRate As Double, [step] As Integer)
+            Dim deviceSteps As Integer = 0
+
             For Each e In _entries
-                e.Optimizer.MakeTrainingStep(learningRate, [step], e.Value)
+                If e.Optimizer.TryDeviceStep(learningRate, [step], e.Value) Then
+                    deviceSteps += 1
+                Else
+                    e.Optimizer.MakeTrainingStep(learningRate, [step], e.Value)
+                End If
             Next
+
+            _deviceUpdatedCount = deviceSteps
         End Sub
+
+        Private _deviceUpdatedCount As Integer
+
+        ''' <summary>最近一次 <see cref="ApplyUpdate"/> 中真正走了设备路径的参数个数。</summary>
+        ''' <remarks>
+        ''' 这是"设备常驻训练到底生效了没有"的最直接证据：
+        ''' 如果恒为 0，说明所有参数都在走主机循环（未开启常驻、后端不支持、或内核缺失）。
+        ''' </remarks>
+        Public ReadOnly Property DeviceUpdatedCount As Integer
+            Get
+                Return _deviceUpdatedCount
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 把全部被钉住的参数的设备内容回写到主机。
+        ''' </summary>
+        ''' <returns>实际被回写的参数个数</returns>
+        ''' <remarks>
+        ''' 设备端 AdamW 会让主机副本变陈旧，因此在"读主机内容"的场合之前必须调用：
+        ''' 检查点落盘、CPU 推理、以及任何在主机循环里直接读权重的模块。
+        ''' </remarks>
+        Public Function SyncFromDevice() As Integer
+            Dim kernel = Tensor.computeKernel
+            Dim synced As Integer = 0
+
+            For Each e In _entries
+                If kernel.IsDevicePinned(e.Value) AndAlso kernel.SyncFromDevice(e.Value) Then
+                    synced += 1
+                End If
+            Next
+
+            Return synced
+        End Function
+
+        ''' <summary>当前被钉在显存里的参数字节数。</summary>
+        Public ReadOnly Property PinnedBytes As Long
+            Get
+                Return Tensor.computeKernel.PinnedDeviceBytes
+            End Get
+        End Property
 
         ''' <summary>
         ''' 输出一份按参数名聚合的参数量统计，便于核对模型规模。

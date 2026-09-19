@@ -683,6 +683,11 @@ Namespace Compute
             End Get
         End Property
 
+        ''' <summary>默认后端没有设备副本，因此无需同步。</summary>
+        Public Overridable Function SyncFromDevice(t As Tensor) As Boolean Implements ITensorCompute.SyncFromDevice
+            Return False
+        End Function
+
 #End Region
 
 #Region "卷积与池化"
