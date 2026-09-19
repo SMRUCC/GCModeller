@@ -44,5 +44,6 @@
   <Project Path="GPR/test/test.vbproj">
     <BuildType Solution="nuget_release|*" Project="Release" />
     <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+    <Platform Solution="Debug|x64" Project="x64" />
   </Project>
 </Solution>
