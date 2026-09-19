@@ -111,18 +111,30 @@ Namespace ComponentModel.StoreProcedure
         ''' <returns></returns>
         Public Property featureLabels As String()
 
+        ''' <summary>
+        ''' The number of the feature attributes in each sample.
+        ''' </summary>
+        ''' <returns>The length of the <see cref="featureNames"/> list.</returns>
         Public ReadOnly Property N_attributes As Integer
             Get
                 Return featureNames.Length
             End Get
         End Property
 
+        ''' <summary>
+        ''' The total number of the samples in this data frame.
+        ''' </summary>
+        ''' <returns>The length of the <see cref="samples"/> array.</returns>
         Public ReadOnly Property N_tot As Integer
             Get
                 Return samples.Length
             End Get
         End Property
 
+        ''' <summary>
+        ''' Display the feature names and the label names of this data frame.
+        ''' </summary>
+        ''' <returns>A string which is combined by the two json text of the names.</returns>
         Public Overrides Function ToString() As String
             Return featureNames.GetJson & " -> " & featureLabels.GetJson
         End Function
@@ -138,13 +150,34 @@ Namespace ComponentModel.StoreProcedure
         ''' the unique id
         ''' </summary>
         ''' <returns></returns>
+        ''' <summary>
+        ''' the unique id
+        ''' </summary>
+        ''' <returns>The unique reference id of this sample data.</returns>
         Public Property id As String Implements INamedValue.Key
+        ''' <summary>
+        ''' The sample features vector, which is the input of the machine learning model.
+        ''' </summary>
+        ''' <returns>An array of the feature values.</returns>
         Public Property features As Double()
+        ''' <summary>
+        ''' The sample label values, which is the expected output of the machine learning model.
+        ''' </summary>
+        ''' <returns>An array of the label values.</returns>
         Public Property labels As Double()
 
+        ''' <summary>
+        ''' Create a new empty sample data object.
+        ''' </summary>
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Create a new sample data object with a single label value.
+        ''' </summary>
+        ''' <param name="id">The unique reference id of this sample.</param>
+        ''' <param name="features">The sample features vector.</param>
+        ''' <param name="label">The single label value of this sample.</param>
         Sub New(id As String, features As Double(), label As Double)
             Me.id = id
             Me.features = features
