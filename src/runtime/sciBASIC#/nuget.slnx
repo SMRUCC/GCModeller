@@ -1312,7 +1312,6 @@
       <Platform Solution="Yilia-Release_x64|x64" Project="x64" />
     </Project>
     <Project Path="Data_science/MachineLearning/ML_SHAP/ML_SHAP.vbproj">
-      <BuildType Solution="nuget_release|x64" Project="Release" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="Data_science/MachineLearning/SNN/SNN.vbproj">
@@ -1664,7 +1663,6 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="Data_science/Mathematica/Math/mHG/mHG.vbproj">
-      <BuildType Solution="nuget_release|x64" Project="Release" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>

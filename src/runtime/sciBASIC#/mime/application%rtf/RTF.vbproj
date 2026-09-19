@@ -16,9 +16,8 @@
     <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <!--
-      本项目为旧式（非 SDK）项目，没有导入 NuGet 打包目标。
-      因此同时提供两套属性名：PackageXxx 供将来迁移到 SDK 风格打包使用，
-      Tags / ReleaseNotes 则是 nuget.exe pack 在读取旧式项目时识别的属性名。
+      本项目为 SDK 风格工程，使用 PackageXxx 属性打包。
+      同时保留旧式属性名 Tags / ReleaseNotes，以兼容 nuget.exe pack 等旧打包流程。
     -->
     <PackageTags>scibasic;rtf;rich-text-format;omml;office-math;document-model;word;document-generation;text-extraction;markdown;idocumentwriter</PackageTags>
     <Tags>scibasic;rtf;rich-text-format;omml;office-math;document-model;word;document-generation;text-extraction;markdown;idocumentwriter</Tags>

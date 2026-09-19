@@ -20,7 +20,8 @@
 Imports System.Text
 
 ''' <summary>
-''' RTF 所依赖的代码页访问：\ansicpg / \cpg / \'hh 的解码，以及非 ASCII 文本的编码。
+''' RTF 所依赖的代码页访问：写入侧用于把非 ASCII 文本（字体名、生成器）编码为 ``\'hh``，
+''' 读取侧用于按 \ansicpg / \cpg 解码 ``\'hh`` 与原始多字节字节序列。
 ''' </summary>
 ''' <remarks>
 ''' 优先使用 <c>CodePagesEncodingProvider</c> 注册系统代码页（如 cp936）；
