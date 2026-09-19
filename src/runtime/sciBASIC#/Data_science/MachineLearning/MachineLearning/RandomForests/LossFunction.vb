@@ -407,6 +407,31 @@ Namespace RandomForests
             Return LF_val
         End Function
 
+        ''' <summary>
+        ''' Evaluate the loss value of the out-of-bag (OOB) samples of one node, 
+        ''' relative to a given predicted value.
+        ''' </summary>
+        ''' <param name="type">The <see cref="LF_c"/> loss function type.</param>
+        ''' <param name="a">The out-of-bag <see cref="Branch"/> node.</param>
+        ''' <param name="phenotype">The phenotype (label) value of each sample in the whole training set.</param>
+        ''' <param name="yhat">The predicted phenotype value of the target node.</param>
+        ''' <param name="false_positive_cost">
+        ''' The cost of a false positive, it is only used by the 
+        ''' <see cref="LF_c.Personalized_Cost_Function_for_categories"/> loss.
+        ''' </param>
+        ''' <param name="false_negative_cost">
+        ''' The cost of a false negative, it is only used by the 
+        ''' <see cref="LF_c.Personalized_Cost_Function_for_categories"/> loss.
+        ''' </param>
+        ''' <returns>
+        ''' The loss value of the out-of-bag samples; an 
+        ''' <see cref="InvalidProgramException"/> will be thrown when the 
+        ''' <paramref name="type"/> is not a valid loss type.
+        ''' </returns>
+        ''' <remarks>
+        ''' The out-of-bag loss is the base of the variable importance 
+        ''' measurement: permuting an important feature will increase this value.
+        ''' </remarks>
         Public Shared Function getLossFunctionOOB(type As LF_c,
                                                   a As Branch,
                                                   phenotype As Double(),
