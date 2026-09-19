@@ -29,6 +29,8 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <UseApplicationFramework>True</UseApplicationFramework>
+    <Version>1.0.9758.20045</Version>
+    <AssemblyVersion>1.0.9758.20045</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
