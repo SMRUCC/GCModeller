@@ -54,6 +54,11 @@
     -->
     <EmbeddedResource Include="Kernels\conv.cu" />
     <EmbeddedResource Include="Kernels\pool.cu" />
+    <!--
+      手写训练内核（float）：AdamW 原地更新、梯度累加、融合掩码交叉熵。
+      IL2Cuda 无法表达"多输出数组"与"块内共享内存归约"，因此与 gemm.cu 一样手写。
+    -->
+    <EmbeddedResource Include="Kernels\train.cu" />
   </ItemGroup>
 
   <ItemGroup>

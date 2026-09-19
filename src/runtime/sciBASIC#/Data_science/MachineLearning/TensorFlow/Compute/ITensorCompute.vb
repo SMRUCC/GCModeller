@@ -215,6 +215,103 @@ Namespace Compute
 
 #End Region
 
+#Region "训练算子"
+
+        ' ------------------------------------------------------------------
+        ' 这一组算子存在的理由：语言模型训练步里有两处"逐元素主机循环"，
+        ' 在大词表 / 大参数下会成为绝对瓶颈 ——
+        '
+        '   * 掩码交叉熵：对 [rows, vocab] 做 softmax + NLL，
+        '     12.8 万词表下即 3300 万次 exp；
+        '   * AdamW：对每个参数的 4 个数组（param / grad / m / v）做逐元素更新。
+        '
+        ' 把这两个算子放进后端契约后，GPU 后端可以在设备端用融合内核完成，
+        ' CPU 后端保留原有实现，调用方（LLM 训练器）无需分支。
+        ' ------------------------------------------------------------------
+
+        ''' <summary>
+        ''' 带损失掩码的 softmax 交叉熵（语言模型训练的核心损失）。
+        ''' </summary>
+        ''' <param name="logits">形状 <c>[rows, vocab]</c> 的二维 logits</param>
+        ''' <param name="targets">长度 <c>&gt;= rows</c> 的目标 token 下标</param>
+        ''' <param name="mask">
+        ''' 长度 <c>&gt;= rows</c> 的损失掩码；<c>Nothing</c> 表示全部计入。
+        ''' <c>mask(r) = False</c> 的位置既不计入损失，梯度也保持 0。
+        ''' </param>
+        ''' <param name="dLogits">
+        ''' 输出参数：形状同 <paramref name="logits"/>，
+        ''' 内容为 <c>(softmax − onehot) / count</c>（未计入的位置为 0）。
+        ''' </param>
+        ''' <returns>平均到每个有效位置上的负对数似然；没有任何有效位置时返回 0</returns>
+        ''' <remarks>
+        ''' 这是 SFT 能成立的关键：只对 assistant 自己产出的 token 计损失，
+        ''' 用户消息与工具返回结果不计 —— 模型要学的是"该怎么回应"。
+        ''' </remarks>
+        Function MaskedCrossEntropy(logits As Tensor,
+                                    targets As Integer(),
+                                    mask As Boolean(),
+                                    ByRef dLogits As Tensor) As Double
+
+        ''' <summary>
+        ''' 试做一次 AdamW 参数更新。
+        ''' </summary>
+        ''' <param name="param">待更新的参数（可能被就地改写）</param>
+        ''' <param name="gradient">梯度累加器；成功后由实现负责清零</param>
+        ''' <param name="momentum">一阶矩估计（与参数同形）</param>
+        ''' <param name="velocity">二阶矩估计（与参数同形）</param>
+        ''' <param name="learningRate">学习率</param>
+        ''' <param name="beta1">一阶矩衰减率</param>
+        ''' <param name="beta2">二阶矩衰减率</param>
+        ''' <param name="eps">数值稳定项</param>
+        ''' <param name="biasCorrection1"><c>1 − beta1^step</c>（由调用方算好）</param>
+        ''' <param name="biasCorrection2"><c>1 − beta2^step</c>（由调用方算好）</param>
+        ''' <param name="weightDecay">解耦权重衰减系数；0 表示退化为纯 Adam</param>
+        ''' <returns>
+        ''' <c>True</c> 表示本轮更新已由本后端完成（调用方不得再走主机循环）；
+        ''' <c>False</c> 表示本后端不提供该能力，由调用方回退。
+        ''' </returns>
+        ''' <remarks>
+        ''' 之所以设计成"试做 + 返回布尔"而不是直接实现：主机侧的 AdamW 实现包含
+        ''' 参数张量的读写语义（<c>MarkHostModified</c> 等），把它整体搬进后端会
+        ''' 让契约承担超出"算子"的职责。让后端只负责"能不能替你做"，边界更清晰。
+        ''' </remarks>
+        Function TryAdamWStep(param As Tensor, gradient As Tensor,
+                              momentum As Tensor, velocity As Tensor,
+                              learningRate As Double, beta1 As Double, beta2 As Double, eps As Double,
+                              biasCorrection1 As Double, biasCorrection2 As Double,
+                              weightDecay As Double) As Boolean
+
+        ''' <summary>
+        ''' 是否支持把张量钉成设备常驻缓冲。
+        ''' </summary>
+        ''' <remarks>
+        ''' 默认实现返回 <c>False</c>（纯 CPU 后端自然不需要这个概念）。
+        ''' 只有 <c>True</c> 时调用方才应该去调用 <see cref="PinDevice"/>。
+        ''' </remarks>
+        ReadOnly Property SupportsDeviceResidency As Boolean
+
+        ''' <summary>
+        ''' 把张量钉成设备常驻缓冲，避免训练时每步重新上传。
+        ''' </summary>
+        ''' <param name="t">要被钉住的张量（其底层数组作为键）</param>
+        ''' <param name="label">诊断用标签，例如 <c>layer3.moe.expert5.Wg</c></param>
+        ''' <param name="zeroFill">
+        ''' 是否用 0 初始化（梯度累加器与优化器状态用 <c>True</c>）。
+        ''' </param>
+        ''' <returns>钉住成功返回 <c>True</c>；后端不支持时返回 <c>False</c></returns>
+        Function PinDevice(t As Tensor, label As String, zeroFill As Boolean) As Boolean
+
+        ''' <summary>解除钉住并立即释放对应的显存。</summary>
+        Function UnpinDevice(t As Tensor) As Boolean
+
+        ''' <summary>该张量当前是否已被钉住。</summary>
+        Function IsDevicePinned(t As Tensor) As Boolean
+
+        ''' <summary>当前钉住的显存总字节数（供显存占用报告使用）。</summary>
+        ReadOnly Property PinnedDeviceBytes As Long
+
+#End Region
+
 #Region "卷积与池化"
 
         ' ------------------------------------------------------------------

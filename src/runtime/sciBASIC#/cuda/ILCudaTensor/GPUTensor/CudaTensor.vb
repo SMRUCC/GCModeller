@@ -69,19 +69,28 @@
 #End Region
 
 ' ---------------------------------------------------------------------------
-' CudaTensor —— 基于 ILCuda 的 GPU 计算后端（全 double 精度）
+' CudaTensor —— 基于 ILCuda 的 GPU 计算后端（主机 Double / 设备可单精度）
 '
 ' 它继承 TensorFlow 提供的标量兜底实现 TensorComputeBase，
 ' 因此只需要重写“GPU 有对应内核”的算子；其余算子（比较、乘积归约、Apply 等）
 ' 自动继承 CPU 实现，保证任何后端切换都不会让某个算子失效。
 '
-' GPU 侧的算子全部是 **double**，不再有 Double<->Single 的降精度桥接：
-'   * 逐元素运算 / 转置          -> P2 IL2Cuda 生成内核（DoubleKernels.vb）
-'   * 末轴 softmax / 归约 / arg  -> P3 手写内核（tensor.cu）
-'   * 矩阵乘                     -> 手写分块 GEMM（gemm.cu）
-'   * 全局归约                   -> 复用末轴归约内核（整张量当作一行）
+' 精度策略：
+'   * **矩阵乘默认走 FP32**（Kernels\blas.cu 的 gemmKernel）。理由见 UseFp32Gemm 的注释：
+'     消费级显卡的 FP64 吞吐只有 FP32 的 1/64，而 GEMM 是语言模型里占绝对主导的浮点运算。
+'     主机侧数据始终是 Double，只在显存里降精度计算，结果升精度回写。
+'   * 其余算子保持 **double**，沿用既有内核：
+'       - 逐元素运算 / 转置          -> IL2Cuda 生成内核（DoubleKernels.vb）
+'       - 末轴 softmax / 归约 / arg  -> 手写内核（tensor.cu）
+'       - 全局归约                   -> 复用末轴归约内核（整张量当作一行）
 '
-' 所有显存缓冲都由 DeviceCache 显式管理，避免 ILCuda 无终结器导致的显存泄漏。
+' 显存管理有两层，职责不同：
+'   * DeviceCache（LRU）：算子输入的暂存区，以 (主机数组引用, 版本号) 为键，
+'     版本变化即失效重传 —— 这对推理正好，但对训练是灾难（权重每步都变）。
+'   * DeviceResidentStore：长期张量（权重 / 梯度 / 优化器状态）的落脚点，
+'     钉住后不随版本号失效，训练时只上传一次。由 UseResidentStore 控制启用。
+'
+' 所有显存缓冲都由这两者显式管理，避免 ILCuda 无终结器导致的显存泄漏。
 '
 ' 用法：
 '     If CudaTensor.Register() Then
@@ -212,7 +221,19 @@ Namespace GPUTensor
         ''' 尝试初始化 CUDA 并把 <see cref="tf.Tensor.computeKernel"/> 切换为 GPU 后端。
         ''' 设备不可用 / NVRTC 与驱动版本不匹配时返回 False，并且**不改变**当前后端。
         ''' </summary>
-        Public Shared Function Register(Optional options As ILCudaRuntime.EngineOptions = Nothing) As Boolean
+        ''' <param name="options">引擎选项（设备号 / NVRTC 路径等），<c>Nothing</c> 表示使用默认值</param>
+        ''' <param name="cacheBytes">
+        ''' 单精度与双精度两个驻留缓存各自的容量上限（字节）。
+        ''' 默认 1 GiB；设为 <c>0</c> 或负数表示不限制。
+        ''' </param>
+        ''' <param name="useFp32Gemm">
+        ''' 是否让矩阵乘走单精度内核。默认 <c>True</c>。
+        ''' 在消费级显卡（FP64 只有 FP32 的 1/64）上这是主要的加速来源；
+        ''' 设为 <c>False</c> 可用于观察纯双精度路径的数值与耗时。
+        ''' </param>
+        Public Shared Function Register(Optional options As ILCudaRuntime.EngineOptions = Nothing,
+                                        Optional cacheBytes As Long = DefaultCacheBytes,
+                                        Optional useFp32Gemm As Boolean = True) As Boolean
             ' 必须在 CudaEngine.TryCreate 之前把内核源码注入编译单元
             DoubleKernelRegistry.EnsureRegistered()
             ILCudaKernels.KernelSources.Register(GetType(CudaTensor).Assembly)
@@ -226,7 +247,9 @@ Namespace GPUTensor
                 Return False
             End If
 
-            Dim backend As New CudaTensor(engine)
+            Dim backend As New CudaTensor(engine, cacheBytes)
+
+            backend.UseFp32Gemm = useFp32Gemm
 
             SyncLock tf.Tensor.SyncRoot
                 tf.Tensor.computeKernel = backend
@@ -602,9 +625,15 @@ Namespace GPUTensor
 #Region "矩阵运算"
 
         ''' <summary>
-        ''' 双精度分块矩阵乘（gemm.cu）。
-        ''' 输出 (m, n) 的第 (i, j) 个元素 = Σ A(i, p) * B(p, j)。
+        ''' 分块矩阵乘：<c>C(m×n) = A(m×k) · B(k×n)</c>。
         ''' </summary>
+        ''' <remarks>
+        ''' 默认走<b>单精度</b>内核（Kernels\blas.cu 的 <c>gemmKernel</c>）：
+        ''' 消费级显卡的 FP64 吞吐只有 FP32 的 1/64，而 GEMM 是语言模型里
+        ''' 占绝对主导的浮点运算。主机侧数据始终是 <c>Double</c>，
+        ''' 只在显存里降精度计算，结果再升精度回写主机。
+        ''' <see cref="UseFp32Gemm"/> 设为 <c>False</c> 可退回纯双精度路径做数值对照。
+        ''' </remarks>
         Public Overrides Function MatMul(a As tf.Tensor, b As tf.Tensor) As tf.Tensor
             If a.Rank <> 2 OrElse b.Rank <> 2 Then
                 Throw New ArgumentException("矩阵乘法需要二维张量")
@@ -624,13 +653,21 @@ Namespace GPUTensor
 
             If totalOps < MinGemmElements Then Return MyBase.MatMul(a, b)
 
+            Dim elements As Long = CLng(m) * n
+            Call EnsureDeviceCount(elements, "MatMul 的输出")
+
+            If UseFp32Gemm Then
+                Dim fp32Kernel = TryKernel(ILCudaRuntime.KernelNames.Gemm)
+
+                If fp32Kernel IsNot Nothing Then
+                    Return MatMulFp32(a, b, m, k, n, CInt(elements), fp32Kernel)
+                End If
+            End If
+
             ' 内核缺失（NVRTC 编译失败 / 驱动不匹配）时回退 CPU，
             ' 与 Transpose / Conv2D / SpMM 的回退策略保持一致
             Dim kernel = TryKernel(TensorKernelNames.GemmDouble)
             If kernel Is Nothing Then Return MyBase.MatMul(a, b)
-
-            Dim elements As Long = CLng(m) * n
-            Call EnsureDeviceCount(elements, "MatMul 的输出")
 
             Dim da = Device(a)
             Dim db = Device(b)
@@ -641,6 +678,29 @@ Namespace GPUTensor
                     da, db, dC, m, n, k)
 
                 Return Wrap(dC.Read(), New Integer() {m, n})
+            End Using
+        End Function
+
+        ''' <summary>
+        ''' 单精度矩阵乘路径：输入从主机（或常驻表）取 FP32 缓冲，
+        ''' 结果回读后升精度为 <c>Double()</c>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 内核是 ILCuda 自带的 <c>gemmKernel</c>，其索引全程用 <c>size_t</c> 转换
+        ''' （见 Kernels\blas.cu），因此 12.8 万词表这类大矩阵在内核内部不会有 Int32 溢出。
+        ''' </remarks>
+        Private Function MatMulFp32(a As tf.Tensor, b As tf.Tensor, m As Integer, k As Integer,
+                                    n As Integer, elements As Integer,
+                                    kernel As ILCudaRuntime.CudaKernel) As tf.Tensor
+            Dim da = DeviceF32(a)
+            Dim db = DeviceF32(b)
+
+            Using dC As New ILCudaRuntime.DeviceBuffer(Of Single)(elements)
+                kernel.Launch(
+                    ILCudaRuntime.LaunchPlanner.For2D(m, n, 16, 16),
+                    da, db, dC, m, n, k)
+
+                Return Wrap(DeviceResidentStore.ToDouble(dC.Read()), New Integer() {m, n})
             End Using
         End Function
 
@@ -1041,10 +1101,310 @@ Namespace GPUTensor
 
 #End Region
 
+#Region "训练内核（Kernels\train.cu）"
+
+        ''' <summary>
+        ''' GPU 端融合掩码交叉熵：<c>softmax + 负对数似然 + d(logits) = (softmax − onehot) / count</c>。
+        ''' </summary>
+        ''' <param name="logits">形状 <c>[rows, vocab]</c> 的二维 logits（主机张量）</param>
+        ''' <param name="targets">长度 <c>&gt;= rows</c> 的目标 token；越界或负数视为"不计入"</param>
+        ''' <param name="mask">
+        ''' 长度 <c>&gt;= rows</c> 的 0/1 掩码；<c>Nothing</c> 表示全部计入。
+        ''' 之所以不用 <c>Boolean()</c>：内核按 <c>int</c> 读取，显式用 <c>Integer()</c>
+        ''' 可以避免 .NET 布尔数组的跨语言尺寸歧义。
+        ''' </param>
+        ''' <param name="inv"><c>1 / count</c>，其中 count 是真正计入损失的行数（由调用方统计）</param>
+        ''' <param name="dLogits">输出：形状同 <paramref name="logits"/> 的梯度</param>
+        ''' <param name="rowLoss">输出：逐行损失（未计入的行记 0），调用方求和即得总损失</param>
+        ''' <returns>内核不可用时返回 <c>False</c>，由调用方回退主机实现</returns>
+        ''' <remarks>
+        ''' 这是训练步里最重的一处主机循环：12.8 万词表下 <c>[rows, vocab]</c> 是
+        ''' 3300 万次 <c>exp</c>，搬到 GPU 后由"每行一个 block + 共享内存树形归约"完成。
+        ''' </remarks>
+        ''' <summary>
+        ''' 带损失掩码的 softmax 交叉熵（GPU 融合内核）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 只在计数完成后调用 <see cref="MaskedCrossEntropyFp32Core"/>。
+        ''' 内核不可用时回退 <see cref="tfCompute.TensorComputeBase.MaskedCrossEntropy"/>，
+        ''' 保证"任何后端切换都不会让某个算子失效"。
+        ''' </remarks>
+        Public Overrides Function MaskedCrossEntropy(logits As tf.Tensor,
+                                                     targets As Integer(),
+                                                     mask As Boolean(),
+                                                     ByRef dLogits As tf.Tensor) As Double
+            If logits Is Nothing OrElse logits.Rank <> 2 Then
+                Return MyBase.MaskedCrossEntropy(logits, targets, mask, dLogits)
+            End If
+
+            Dim rows = logits.Shape(0)
+            Dim vocab = logits.Shape(1)
+
+            ' 主机侧只做一次廉价的计数：GPU 需要 1/count 才能把损失与梯度归一化
+            Dim count As Integer = 0
+            Dim maskInt(rows - 1) As Integer
+
+            For r As Integer = 0 To rows - 1
+                Dim valid As Boolean = True
+
+                If mask IsNot Nothing AndAlso r < mask.Length AndAlso Not mask(r) Then valid = False
+                If targets Is Nothing OrElse r >= targets.Length Then valid = False
+                If valid AndAlso (targets(r) < 0 OrElse targets(r) >= vocab) Then valid = False
+
+                maskInt(r) = If(valid, 1, 0)
+
+                If valid Then count += 1
+            Next
+
+            If count = 0 Then
+                dLogits = New tf.Tensor(logits.Shape)
+                Call dLogits.MarkHostModified()
+
+                Return 0.0
+            End If
+
+            Dim rowLoss As Single() = Nothing
+            Dim grad As tf.Tensor = Nothing
+
+            If Not MaskedCrossEntropyFp32Core(logits, targets, maskInt, 1.0 / count, grad, rowLoss) Then
+                Return MyBase.MaskedCrossEntropy(logits, targets, mask, dLogits)
+            End If
+
+            dLogits = grad
+
+            Dim total As Double = 0.0
+
+            For r As Integer = 0 To rows - 1
+                total += rowLoss(r)
+            Next
+
+            Return total
+        End Function
+
+        ''' <summary>
+        ''' 融合掩码交叉熵内核的原始驱动。
+        ''' </summary>
+        ''' <param name="maskInt">已经判定好的 0/1 掩码（长度 <c>&gt;= rows</c>）</param>
+        ''' <param name="inv"><c>1 / count</c>，count 由调用方统计</param>
+        Private Function MaskedCrossEntropyFp32Core(logits As tf.Tensor,
+                                                    targets As Integer(),
+                                                    maskInt As Integer(),
+                                                    inv As Double,
+                                                    ByRef dLogits As tf.Tensor,
+                                                    ByRef rowLoss As Single()) As Boolean
+            dLogits = Nothing
+            rowLoss = Nothing
+
+            If logits Is Nothing OrElse logits.Rank <> 2 Then Return False
+
+            Dim kernel = TryKernel(TensorKernelNames.TrainMaskedCrossEntropy)
+            If kernel Is Nothing Then Return False
+
+            Dim rows = logits.Shape(0)
+            Dim vocab = logits.Shape(1)
+            Dim elements As Long = CLng(rows) * vocab
+
+            Call EnsureDeviceCount(elements, "掩码交叉熵的梯度")
+
+            ' 目标是长度必须与行数匹配的 int 数组；不足时补 -1（内核视为"不计入"）
+            Dim targetBuf(rows - 1) As Integer
+
+            For i As Integer = 0 To rows - 1
+                targetBuf(i) = If(targets IsNot Nothing AndAlso i < targets.Length, targets(i), -1)
+            Next
+
+            ' 掩码已经由调用方判定成 0/1，这里只做长度对齐。
+            ' 仍然上传一份实体数组而不是传 Nothing：Nothing 会被 WriteArgument
+            ' 写成空指针，内核侧就要多一次判空，不如在主机侧补齐长度。
+            Dim useMask As Integer = 1
+            Dim maskBuf(rows - 1) As Integer
+
+            For i As Integer = 0 To rows - 1
+                Dim flag As Integer = 1
+
+                If maskInt IsNot Nothing AndAlso i < maskInt.Length Then
+                    flag = If(maskInt(i) = 0, 0, 1)
+                End If
+
+                maskBuf(i) = flag
+            Next
+
+            Dim dTarget As ILCudaRuntime.DeviceBuffer(Of Integer) = Nothing
+            Dim dMask As ILCudaRuntime.DeviceBuffer(Of Integer) = Nothing
+            Dim dGrad As ILCudaRuntime.DeviceBuffer(Of Single) = Nothing
+            Dim dLoss As ILCudaRuntime.DeviceBuffer(Of Single) = Nothing
+
+            Try
+                dGrad = New ILCudaRuntime.DeviceBuffer(Of Single)(CInt(elements))
+                ' 未计入损失的行必须保持 0，因此先清零
+                dGrad.Fill(0.0F)
+
+                dLoss = New ILCudaRuntime.DeviceBuffer(Of Single)(rows)
+                dTarget = New ILCudaRuntime.DeviceBuffer(Of Integer)(rows)
+                dTarget.Write(targetBuf)
+
+                dMask = New ILCudaRuntime.DeviceBuffer(Of Integer)(rows)
+                dMask.Write(maskBuf)
+
+                ' 每个 block 负责一行，块内 256 线程做共享内存树形归约（与 tensor.cu 的约定一致）
+                Dim config As New ILCudaRuntime.LaunchConfig(rows, 1, RowBlockSize, 1, 0)
+
+                kernel.Launch(config, DeviceF32(logits), dTarget, dMask, dGrad, dLoss,
+                              rows, vocab, useMask, CSng(inv))
+
+                ' 反向阶段仍需要一份主机侧的 dLogits（BatchedMatMulBackward 在主机上组装），
+                ' 因此这里必须回读；回读量是 rows×vocab 个单精度数
+                Dim gradResult = New tf.Tensor(rows, vocab)
+                Dim hostGrad = dGrad.Read()
+
+                Call Array.Copy(DeviceResidentStore.ToDouble(hostGrad), gradResult.Data, gradResult.Data.Length)
+                Call gradResult.MarkHostModified()
+
+                dLogits = gradResult
+                rowLoss = dLoss.Read()
+
+                Return True
+            Finally
+                If dLoss IsNot Nothing Then dLoss.Dispose()
+                If dGrad IsNot Nothing Then dGrad.Dispose()
+                If dMask IsNot Nothing Then dMask.Dispose()
+                If dTarget IsNot Nothing Then dTarget.Dispose()
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' GPU 端 AdamW 单步更新：原地更新参数与一阶/二阶矩，并在更新后清零梯度累加器。
+        ''' </summary>
+        ''' <remarks>
+        ''' 四个张量都必须已被 <see cref="Resident"/> 钉住 —— 否则
+        ''' <c>MarkHostModified</c> 会让下一次 <see cref="DeviceF32"/> 从主机重新上传，
+        ''' 把内核刚写好的更新结果冲掉。钉住后 <see cref="DeviceF32"/> 直接命中常驻表、
+        ''' 跳过版本校验，更新结果才得以保留。
+        ''' </remarks>
+        Public Overrides Function TryAdamWStep(param As tf.Tensor, gradient As tf.Tensor,
+                                              momentum As tf.Tensor, velocity As tf.Tensor,
+                                              learningRate As Double, beta1 As Double, beta2 As Double,
+                                              eps As Double, biasCorrection1 As Double,
+                                              biasCorrection2 As Double,
+                                              weightDecay As Double) As Boolean
+            If Not UseResidentStore Then Return False
+            If param Is Nothing OrElse gradient Is Nothing OrElse momentum Is Nothing OrElse velocity Is Nothing Then
+                Return False
+            End If
+
+            Dim kernel = TryKernel(TensorKernelNames.TrainAdamW)
+            If kernel Is Nothing Then Return False
+
+            Dim n = param.Length
+
+            If n <= 0 Then Return False
+            If gradient.Length <> n OrElse momentum.Length <> n OrElse velocity.Length <> n Then Return False
+
+            Call EnsureDeviceCount(n, "AdamW 的参数")
+
+            ' 四个张量都必须在常驻表里，否则本次更新会被随后的重新上传覆盖
+            If Not _resident.IsPinned(param.Data) Then Return False
+            If Not _resident.IsPinned(gradient.Data) Then Return False
+            If Not _resident.IsPinned(momentum.Data) Then Return False
+            If Not _resident.IsPinned(velocity.Data) Then Return False
+
+            kernel.Launch(ILCudaRuntime.LaunchPlanner.For1D(n, 256),
+                          DeviceF32(param), DeviceF32(gradient),
+                          DeviceF32(momentum), DeviceF32(velocity),
+                          n,
+                          CSng(learningRate), CSng(beta1), CSng(beta2), CSng(eps),
+                          CSng(biasCorrection1), CSng(biasCorrection2), CSng(weightDecay))
+
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' 梯度累加：<c>accum += alpha * src</c>（GPU，单精度）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 独立内核而非复用 <c>ewAxpyKernel</c>：后者把输入与输出都标了
+        ''' <c>__restrict__</c>，在同一段缓冲上做累加会违反 restrict 契约。
+        ''' </remarks>
+        Public Function TryAccumulateFp32(accum As tf.Tensor, src As tf.Tensor,
+                                          Optional alpha As Double = 1.0) As Boolean
+            Dim kernel = TryKernel(TensorKernelNames.TrainAccumulate)
+            If kernel Is Nothing Then Return False
+
+            Dim n = accum.Length
+
+            If n <= 0 OrElse src.Length <> n Then Return False
+
+            Call EnsureDeviceCount(n, "梯度累加")
+
+            kernel.Launch(ILCudaRuntime.LaunchPlanner.For1D(n, 256),
+                          DeviceF32(accum), DeviceF32(src), CSng(alpha), n)
+
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' CUDA 后端支持设备常驻缓冲。
+        ''' </summary>
+        Public Overrides ReadOnly Property SupportsDeviceResidency As Boolean
+            Get
+                Return True
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 把张量钉成设备常驻缓冲。
+        ''' </summary>
+        ''' <remarks>
+        ''' 只应在"该张量的主机副本不再被任何主机循环读取"时使用 ——
+        ''' 钉住后设备成为主副本，主机侧的 <c>Data</c> 会变陈旧。
+        ''' 典型安全对象是只被 GEMM 消费的权重矩阵（<c>MatMul</c> 会通过
+        ''' <see cref="DeviceF32"/> 直接命中常驻表）。
+        ''' 反例：RMSNorm 的 γ（<c>RmsNorm</c> 在主机循环里读 <c>Gamma.Data</c>）、
+        ''' 词嵌入（<c>LLMModel.Embed</c> 在主机上查表）都不该被钉住。
+        ''' </remarks>
+        Public Overrides Function PinDevice(t As tf.Tensor, label As String, zeroFill As Boolean) As Boolean
+            If t Is Nothing Then Return False
+            If t.Length <= 0 Then Return False
+
+            Call _resident.Pin(_engine, t.Data, label, zeroFill)
+
+            ' 打开常驻表开关后，DeviceF32 才会优先查询它
+            UseResidentStore = True
+
+            Return True
+        End Function
+
+        ''' <summary>解除钉住并立即释放显存。</summary>
+        Public Overrides Function UnpinDevice(t As tf.Tensor) As Boolean
+            If t Is Nothing Then Return False
+
+            Return _resident.Unpin(t.Data)
+        End Function
+
+        ''' <summary>该张量当前是否已被钉住。</summary>
+        Public Overrides Function IsDevicePinned(t As tf.Tensor) As Boolean
+            If t Is Nothing Then Return False
+
+            Return _resident.IsPinned(t.Data)
+        End Function
+
+        ''' <summary>当前钉住的显存总字节数。</summary>
+        Public Overrides ReadOnly Property PinnedDeviceBytes As Long
+            Get
+                Return _resident.TotalBytes
+            End Get
+        End Property
+
+#End Region
+
 #Region "资源释放"
 
         Public Sub Dispose() Implements IDisposable.Dispose
+            ' 常驻缓冲由本类显式持有，必须先于引擎释放：
+            ' ILCuda 的显存没有终结器，漏掉这一步会让 cuMemAlloc 出来的显存永不归还
+            _resident.Dispose()
             _csrCache.Dispose()
+            _fp32.Dispose()
             _cache.Dispose()
             _engine.Dispose()
         End Sub

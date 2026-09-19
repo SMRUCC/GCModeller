@@ -159,10 +159,32 @@ Namespace LLM
         ''' 恰好是 <c>softmax − onehot</c>，这里直接给出该结果（未命中掩码的行全零）。
         ''' </param>
         ''' <returns>平均到每个有效位置上的负对数似然；没有任何有效位置时返回 0</returns>
+        ''' <remarks>
+        ''' 实现委托给<b>计算后端</b>（<c>Tensor.computeKernel</c>）：
+        '''   * CPU 后端走 <c>TensorComputeBase</c> 里逐行三趟循环的参考实现；
+        '''   * CUDA 后端走 <c>Kernels\train.cu</c> 的融合内核（每行一个 block +
+        '''     共享内存树形归约），把 12.8 万词表下的 3300 万次 <c>exp</c> 搬到设备上。
+        ''' 两条路径的损失与梯度定义严格一致，因此 CPU/GPU 结果可比。
+        ''' </remarks>
         Public Function MaskedCrossEntropy(logits As Tensor,
                                            targets As Integer(),
                                            mask As Boolean(),
                                            ByRef dLogits As Tensor) As Double
+
+            Return Tensor.computeKernel.MaskedCrossEntropy(logits, targets, mask, dLogits)
+        End Function
+
+        ''' <summary>
+        ''' 掩码交叉熵的<b>主机参考实现</b>（保留用于对照与调试）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 与后端实现等价，但完全在主机上执行。CUDA 后端可用时不必调用它；
+        ''' 需要逐位比对 GPU 结果时可以用它作为基准。
+        ''' </remarks>
+        Public Function MaskedCrossEntropyHost(logits As Tensor,
+                                               targets As Integer(),
+                                               mask As Boolean(),
+                                               ByRef dLogits As Tensor) As Double
 
             If logits.Rank <> 2 Then Throw New ArgumentException("掩码交叉熵要求 [rows, vocab] 的二维 logits")
 

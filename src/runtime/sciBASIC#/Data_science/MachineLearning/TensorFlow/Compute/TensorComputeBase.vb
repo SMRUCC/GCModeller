@@ -563,6 +563,128 @@ Namespace Compute
 
 #End Region
 
+#Region "训练算子"
+
+        ''' <summary>
+        ''' 带损失掩码的 softmax 交叉熵（CPU 参考实现）。
+        ''' </summary>
+        ''' <remarks>
+        ''' CPU 后端保持"逐行三趟循环"的朴素写法：求行最大值 → 求 exp 和 → 归一化。
+        ''' GPU 后端（<c>CudaTensor</c>）会用"每行一个 block + 共享内存树形归约"的
+        ''' 融合内核覆盖它，把 3300 万次 <c>exp</c> 从主机搬到设备。
+        ''' 两条路径的损失定义与梯度定义必须严格一致，否则 CPU/GPU 结果不可比。
+        ''' </remarks>
+        Public Overridable Function MaskedCrossEntropy(logits As Tensor,
+                                                       targets As Integer(),
+                                                       mask As Boolean(),
+                                                       ByRef dLogits As Tensor) As Double Implements ITensorCompute.MaskedCrossEntropy
+            If logits Is Nothing Then Throw New ArgumentNullException(NameOf(logits))
+            If logits.Rank <> 2 Then Throw New ArgumentException("掩码交叉熵要求 [rows, vocab] 的二维 logits")
+
+            Dim rows = logits.Shape(0)
+            Dim vocab = logits.Shape(1)
+
+            dLogits = New Tensor(logits.Shape)
+
+            Dim src = logits.Data
+            Dim grad = dLogits.Data
+            Dim total As Double = 0.0
+            Dim count As Integer = 0
+
+            For r As Integer = 0 To rows - 1
+                If mask IsNot Nothing AndAlso r < mask.Length AndAlso Not mask(r) Then Continue For
+                If targets Is Nothing OrElse r >= targets.Length Then Continue For
+
+                Dim t = targets(r)
+                If t < 0 OrElse t >= vocab Then Continue For
+
+                count += 1
+
+                Dim offset = r * vocab
+                Dim maxVal = Double.NegativeInfinity
+
+                For j As Integer = 0 To vocab - 1
+                    If src(offset + j) > maxVal Then maxVal = src(offset + j)
+                Next
+
+                Dim sumExp As Double = 0.0
+
+                For j As Integer = 0 To vocab - 1
+                    Dim e = std.Exp(src(offset + j) - maxVal)
+                    grad(offset + j) = e
+                    sumExp += e
+                Next
+
+                If sumExp <= 0 Then sumExp = 1.0
+
+                For j As Integer = 0 To vocab - 1
+                    grad(offset + j) /= sumExp
+                Next
+
+                total -= std.Log(std.Max(grad(offset + t), 1.0E-12))
+                grad(offset + t) -= 1.0
+            Next
+
+            If count = 0 Then
+                Call dLogits.MarkHostModified()
+                Return 0.0
+            End If
+
+            ' 归一化：损失与梯度都除以有效位置数，使不同 batch 的损失可比
+            Dim inv = 1.0 / count
+
+            For i As Integer = 0 To grad.Length - 1
+                grad(i) *= inv
+            Next
+
+            Call dLogits.MarkHostModified()
+
+            Return total * inv
+        End Function
+
+        ''' <summary>
+        ''' 默认后端不提供设备端 AdamW，返回 <c>False</c> 让调用方走主机循环。
+        ''' </summary>
+        Public Overridable Function TryAdamWStep(param As Tensor, gradient As Tensor,
+                                                 momentum As Tensor, velocity As Tensor,
+                                                 learningRate As Double, beta1 As Double, beta2 As Double,
+                                                 eps As Double, biasCorrection1 As Double,
+                                                 biasCorrection2 As Double,
+                                                 weightDecay As Double) As Boolean Implements ITensorCompute.TryAdamWStep
+            Return False
+        End Function
+
+        ''' <summary>默认后端没有"设备常驻"概念。</summary>
+        Public Overridable ReadOnly Property SupportsDeviceResidency As Boolean Implements ITensorCompute.SupportsDeviceResidency
+            Get
+                Return False
+            End Get
+        End Property
+
+        ''' <summary>默认后端不支持钉住，直接返回 <c>False</c>。</summary>
+        Public Overridable Function PinDevice(t As Tensor, label As String, zeroFill As Boolean) As Boolean Implements ITensorCompute.PinDevice
+            Return False
+        End Function
+
+        ''' <summary>默认后端没有常驻缓冲，返回 <c>False</c>。</summary>
+        Public Overridable Function UnpinDevice(t As Tensor) As Boolean Implements ITensorCompute.UnpinDevice
+            Return False
+        End Function
+
+        ''' <summary>默认后端没有任何张量被钉住。</summary>
+        Public Overridable Function IsDevicePinned(t As Tensor) As Boolean Implements ITensorCompute.IsDevicePinned
+            Return False
+        End Function
+
+        ''' <summary>默认后端不占用显存。</summary>
+        Public Overridable ReadOnly Property PinnedDeviceBytes As Long Implements ITensorCompute.PinnedDeviceBytes
+            Get
+                Return 0L
+            End Get
+        End Property
+
+#End Region
+
 #Region "卷积与池化"
 
         ' ------------------------------------------------------------------
