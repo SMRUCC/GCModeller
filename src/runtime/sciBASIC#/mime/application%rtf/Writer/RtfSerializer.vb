@@ -173,7 +173,7 @@ Public Class RtfSerializer
 
     Private Shared Function ToTwips(point As Double) As Integer
         If point <= 0 Then Return 0
-        Return CInt(Math.Round(point * TwipsPerPoint))
+        Return CInt(System.Math.Round(point * TwipsPerPoint))
     End Function
 
     ''' <summary>生成段落属性（\pard 及对齐、缩进、行距、段间距、底纹）。</summary>
@@ -196,9 +196,9 @@ Public Class RtfSerializer
         If hanging > 0 Then Call sb.Append("\fi-").Append(hanging)
 
         If style IsNot Nothing Then
-            If style.LineSpacing > 0 AndAlso Math.Abs(style.LineSpacing - 1.0) > 0.001 Then
+            If style.LineSpacing > 0 AndAlso System.Math.Abs(style.LineSpacing - 1.0) > 0.001 Then
                 ' \sl 以 1/240 行表示，\slmult1 表示按倍数解释
-                Call sb.Append("\sl").Append(CInt(Math.Round(style.LineSpacing * 240))).Append("\slmult1")
+                Call sb.Append("\sl").Append(CInt(System.Math.Round(style.LineSpacing * 240))).Append("\slmult1")
             End If
 
             Call sb.Append("\sb").Append(ToTwips(style.SpaceBefore))
@@ -232,7 +232,7 @@ Public Class RtfSerializer
         End If
 
         Dim fontSize As Double = If(size.HasValue, size.Value, If(style Is Nothing, 11, style.Size))
-        Call sb.Append("\fs").Append(CInt(Math.Round(fontSize * 2)))
+        Call sb.Append("\fs").Append(CInt(System.Math.Round(fontSize * 2)))
 
         If If(bold.HasValue, bold.Value, style IsNot Nothing AndAlso style.Bold) Then Call sb.Append("\b")
         If style IsNot Nothing AndAlso style.Italic Then Call sb.Append("\i")
@@ -241,6 +241,11 @@ Public Class RtfSerializer
         Dim hex As String = If(foreColor, If(style Is Nothing, WordColors.Black, style.ForeColor))
         Dim cf As Integer = colors.Lookup(hex)
         If cf > 0 Then Call sb.Append("\cf").Append(cf)
+
+        ' 控制字以空格作为分隔符（该空格会被 RTF 读取器吞掉）。
+        ' 若省略，末尾的数字参数会与紧随其后的文本粘连：
+        ' "\cf2" + "1" 会被解析成 \cf21，从而吞掉单元格文本的首个数字。
+        Call sb.Append(" ")
 
         Return sb.ToString()
     End Function
@@ -312,7 +317,7 @@ Public Class RtfSerializer
         For Each heading As RtfBlock In headings
             If heading.Level > level Then Continue For
 
-            Dim indent As Integer = Math.Max(0, heading.Level - 1) * ListIndent
+            Dim indent As Integer = System.Math.Max(0, heading.Level - 1) * ListIndent
 
             Call content.Append("\pard")
             If indent > 0 Then Call content.Append("\li").Append(indent)
@@ -338,7 +343,7 @@ Public Class RtfSerializer
         End If
         If ncols = 0 Then Return
 
-        Dim usable As Integer = Math.Max(1200, pageWidth - marginLeft - marginRight)
+        Dim usable As Integer = System.Math.Max(1200, pageWidth - marginLeft - marginRight)
         Dim widths As Integer() = ComputeColumnWidths(block, ncols, usable)
 
         Dim total As Integer = 0
@@ -380,13 +385,13 @@ Public Class RtfSerializer
                 Dim w As Integer = 1
 
                 If block.TableHeaders IsNot Nothing AndAlso j < block.TableHeaders.Length Then
-                    w = Math.Max(w, Measure(block.TableHeaders(j)))
+                    w = System.Math.Max(w, Measure(block.TableHeaders(j)))
                 End If
 
                 If block.TableRows IsNot Nothing Then
                     For Each row As String() In block.TableRows
                         If row IsNot Nothing AndAlso j < row.Length Then
-                            w = Math.Max(w, Measure(row(j)))
+                            w = System.Math.Max(w, Measure(row(j)))
                         End If
                     Next
                 End If
@@ -397,7 +402,7 @@ Public Class RtfSerializer
 
             Dim used As Integer = 0
             For j As Integer = 0 To ncols - 1
-                widths(j) = Math.Max(MinColumnWidth, CInt(usable * weights(j) / totalWeight))
+                widths(j) = System.Math.Max(MinColumnWidth, CInt(usable * weights(j) / totalWeight))
                 used += widths(j)
             Next
 
@@ -405,13 +410,13 @@ Public Class RtfSerializer
             Dim excess As Integer = used - usable
             Dim k As Integer = ncols - 1
             Do While excess > 0 AndAlso k >= 0
-                Dim cut As Integer = Math.Min(excess, Math.Max(0, widths(k) - MinColumnWidth))
+                Dim cut As Integer = System.Math.Min(excess, System.Math.Max(0, widths(k) - MinColumnWidth))
                 widths(k) -= cut
                 excess -= cut
                 k -= 1
             Loop
         Else
-            Dim eachWidth As Integer = Math.Max(MinColumnWidth, usable \ ncols)
+            Dim eachWidth As Integer = System.Math.Max(MinColumnWidth, usable \ ncols)
             For j As Integer = 0 To ncols - 1
                 widths(j) = eachWidth
             Next
@@ -422,12 +427,12 @@ Public Class RtfSerializer
 
     Private Shared Function Measure(text As String) As Integer
         If String.IsNullOrEmpty(text) Then Return 1
-        Return Math.Min(60, text.Length)
+        Return System.Math.Min(60, text.Length)
     End Function
 
     Private Sub WriteTableRow(cells As String(), widths As Integer(), alignments As String(), leftOffset As Integer,
                               isHeader As Boolean, threeLine As Boolean, altRow As Boolean, isLastRow As Boolean)
-        Dim borderWidth As Integer = Math.Max(5, CInt(tableStyle.BorderSize * 2.5))
+        Dim borderWidth As Integer = System.Math.Max(5, CInt(tableStyle.BorderSize * 2.5))
         Dim borderColor As Integer = colors.Lookup(tableStyle.BorderColor)
         Dim headerBack As Integer = colors.Lookup(tableStyle.HeaderBackColor)
         Dim altBack As Integer = colors.Lookup(tableStyle.AltRowBackColor)
@@ -439,7 +444,7 @@ Public Class RtfSerializer
         Dim showSide As Boolean = Not threeLine
 
         Call content.Append("\trowd")
-        Call content.Append("\trgaph").Append(Math.Max(0, tableStyle.CellPadding))
+        Call content.Append("\trgaph").Append(System.Math.Max(0, tableStyle.CellPadding))
         Call content.Append("\trleft").Append(leftOffset)
         Call content.Append("\trrh0")
         If isHeader Then Call content.Append("\trhdr")
@@ -520,26 +525,26 @@ Public Class RtfSerializer
 
         Dim pixelWidth As Integer = If(block.ImagePixelWidth > 0, block.ImagePixelWidth, 96)
         Dim pixelHeight As Integer = If(block.ImagePixelHeight > 0, block.ImagePixelHeight, 96)
-        Dim usable As Integer = Math.Max(1200, pageWidth - marginLeft - marginRight)
+        Dim usable As Integer = System.Math.Max(1200, pageWidth - marginLeft - marginRight)
         Dim goalWidth As Integer
         Dim goalHeight As Integer
 
         If block.ImageWidth > 0 Then
-            goalWidth = CInt(Math.Round(block.ImageWidth * TwipsPerPoint))
+            goalWidth = CInt(System.Math.Round(block.ImageWidth * TwipsPerPoint))
             goalHeight = If(block.ImageHeight > 0,
-                            CInt(Math.Round(block.ImageHeight * TwipsPerPoint)),
-                            CInt(Math.Round(goalWidth * pixelHeight / pixelWidth)))
+                            CInt(System.Math.Round(block.ImageHeight * TwipsPerPoint)),
+                            CInt(System.Math.Round(goalWidth * pixelHeight / pixelWidth)))
         ElseIf block.ImageHeight > 0 Then
-            goalHeight = CInt(Math.Round(block.ImageHeight * TwipsPerPoint))
-            goalWidth = CInt(Math.Round(goalHeight * pixelWidth / pixelHeight))
+            goalHeight = CInt(System.Math.Round(block.ImageHeight * TwipsPerPoint))
+            goalWidth = CInt(System.Math.Round(goalHeight * pixelWidth / pixelHeight))
         Else
-            goalWidth = CInt(Math.Round(pixelWidth * TwipsPerPixel))
-            goalHeight = CInt(Math.Round(pixelHeight * TwipsPerPixel))
+            goalWidth = CInt(System.Math.Round(pixelWidth * TwipsPerPixel))
+            goalHeight = CInt(System.Math.Round(pixelHeight * TwipsPerPixel))
         End If
 
         ' 超出可用正文宽度时等比缩放
         If goalWidth > usable Then
-            goalHeight = CInt(Math.Round(goalHeight * usable / goalWidth))
+            goalHeight = CInt(System.Math.Round(goalHeight * usable / goalWidth))
             goalWidth = usable
         End If
 

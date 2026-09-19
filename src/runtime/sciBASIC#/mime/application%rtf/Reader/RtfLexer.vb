@@ -259,6 +259,9 @@ Friend Class RtfLexer
                 i += 1
             ElseIf b = BSlash Then
                 i = ParseControl(i + 1, n)
+            ElseIf b = 13 OrElse b = 10 Then
+                ' RTF 流中的 CR/LF 只是排版换行（Word 会按 255 字符折行），不属于正文
+                i += 1
             Else
                 If skipDepth < 0 Then Call AddPending(b)
                 i += 1
@@ -271,11 +274,30 @@ Friend Class RtfLexer
 
     ''' <summary>解析一个控制字或控制符号，返回下一个待处理位置。</summary>
     Private Function ParseControl(i As Integer, n As Integer) As Integer
-        Call FlushText()
-
-        If i >= n Then Return i
+        If i >= n Then
+            Call FlushText()
+            Return i
+        End If
 
         Dim b As Byte = data(i)
+
+        ' \'hh 的字节与相邻文本同属一个代码页字节序列，多字节代码页下可能只是半个字符，
+        ' 因此必须在刷新缓冲区之前处理，否则会把双字节字符从中间截断
+        If b = BQuote Then
+            If i + 2 < n Then
+                Dim hi As Integer = HexValue(data(i + 1))
+                Dim lo As Integer = HexValue(data(i + 2))
+
+                If hi >= 0 AndAlso lo >= 0 Then
+                    If skipDepth < 0 Then Call AddPending(CByte(hi * 16 + lo))
+                    Return i + 3
+                End If
+            End If
+
+            Return n
+        End If
+
+        Call FlushText()
 
         If IsAlpha(b) Then
             Dim start As Integer = i
@@ -313,40 +335,24 @@ Friend Class RtfLexer
             Return HandleControlWord(word, number, hasNumber, i, n)
         End If
 
-        Select Case b
-            Case BQuote
-                ' \'hh：十六进制字节，属于文档代码页
-                If i + 3 < n Then
-                    Dim hi As Integer = HexValue(data(i + 1))
-                    Dim lo As Integer = HexValue(data(i + 2))
-
-                    If hi >= 0 AndAlso lo >= 0 Then
-                        If skipDepth < 0 Then Call AddPending(CByte(hi * 16 + lo))
-                        Return i + 3
-                    End If
-                End If
-
-                Return n
+        Select Case ChrW(b)
+            Case "*"c
+                starred = True
+            Case "~"c
+                Call EmitText(ChrW(&HA0))
+            Case "_"c
+                Call EmitText(ChrW(&H2011))
+            Case "{"c
+                Call EmitText("{")
+            Case "}"c
+                Call EmitText("}")
+            Case "\"c
+                Call EmitText("\")
             Case Else
-                Select Case ChrW(b)
-                    Case "*"c
-                        starred = True
-                    Case "~"c
-                        Call EmitText(ChrW(&HA0))
-                    Case "_"c
-                        Call EmitText(ChrW(&H2011))
-                    Case "{"c
-                        Call EmitText("{")
-                    Case "}"c
-                        Call EmitText("}")
-                    Case "\"c
-                        Call EmitText("\")
-                    Case Else
-                        ' 未知控制符号：忽略
-                End Select
-
-                Return i + 1
+                ' 未知控制符号：忽略
         End Select
+
+        Return i + 1
     End Function
 
     Private Function HandleControlWord(word As String, number As Integer, hasNumber As Boolean,
@@ -381,13 +387,13 @@ Friend Class RtfLexer
                 End If
 
             Case "uc"
-                If hasNumber Then ucSkip = Math.Max(0, number)
+                If hasNumber Then ucSkip = System.Math.Max(0, number)
 
             Case "ansicpg", "cpg"
                 If hasNumber AndAlso number > 0 Then charset = number
 
             Case "bin"
-                If hasNumber AndAlso number > 0 Then Return Math.Min(n, i + number)
+                If hasNumber AndAlso number > 0 Then Return System.Math.Min(n, i + number)
 
             Case "info"
                 inInfo = True

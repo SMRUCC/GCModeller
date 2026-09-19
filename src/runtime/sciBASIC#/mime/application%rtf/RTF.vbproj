@@ -6,9 +6,9 @@
     <AssemblyName>Microsoft.VisualBasic.MIME.RTF</AssemblyName>
 	  <Platforms>AnyCPU;x64;x86;ARM64;ARM32</Platforms>
 	  <Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;mzkit_win32;gcmodeller_desktop;Docker;CFD_win32;nuget_release;Desktop;MEMI-Desktop;CellaLAB-Desktop</Configurations>
-    <Title>Rich Text Format and Office MathML Document Model</Title>
-    <Description>Builds rich text format documents in the sciBASIC# framework: a document object model that tracks styled text regions and fonts and emits RTF 1.x markup, plus serializable Office Math Markup Language (OMML) models for equations and Word XML round-tripping.</Description>
-    <AssemblyTitle>RTF Document Writer</AssemblyTitle>
+    <Title>Rich Text Format Document Writer, Text Extractor and Office MathML Document Model</Title>
+    <Description>Reads and writes rich text format documents in the sciBASIC# framework: RtfDocument implements the shared IDocumentWriter contract to emit RTF 1.x files from fluent calls or from markdown JSONSchema content blocks (headings, paragraphs, code, lists, tables, embedded png/jpeg images, page setup and a static table of contents), RtfTextReader parses any .rtf back into plain text, a paragraph array and document metadata, and a document object model tracks styled text regions and fonts; serializable Office Math Markup Language (OMML) models cover equations and Word XML round-tripping.</Description>
+    <AssemblyTitle>RTF Document Writer and Text Extractor</AssemblyTitle>
     <Authors>xieguigang &lt;I@xieguigang.me&gt;</Authors>
     <Company>sciBASIC.NET Foundation</Company>
     <Copyright>Copyright (c) sciBASIC.NET Foundation</Copyright>
@@ -20,10 +20,10 @@
       因此同时提供两套属性名：PackageXxx 供将来迁移到 SDK 风格打包使用，
       Tags / ReleaseNotes 则是 nuget.exe pack 在读取旧式项目时识别的属性名。
     -->
-    <PackageTags>scibasic;rtf;rich-text-format;omml;office-math;document-model;word</PackageTags>
-    <Tags>scibasic;rtf;rich-text-format;omml;office-math;document-model;word</Tags>
-    <PackageReleaseNotes>RTF provides a compact Rich Text Format document model for the sciBASIC# framework together with serializable Office Math (OMML) models. Highlights: (1) incremental document construction through AppendText and AppendLine, where every call can carry its own font style; (2) styled region tracking over the text buffer, with SetFormat able to re-apply or split existing formats; (3) RTF 1.x emission through Save, writing the font table, the colour table and generator metadata; (4) an Office / OMML XML model set - document properties, Word document settings, math properties and an html head - so equations and document metadata can round-trip through Word XML. The class model is intentionally small: Rtf is the document, FormatedRegion records a styled span of text, and Font (plus Models.Font) describes typeface, size and style attributes. The project targets the .NET Framework, so it is consumed by the Windows desktop sciBASIC# tooling, while the OMML models are shared with the report generation pipeline.</PackageReleaseNotes>
-    <ReleaseNotes>RTF provides a compact Rich Text Format document model for the sciBASIC# framework together with serializable Office Math (OMML) models: incremental document building (AppendText / AppendLine) with per-call font styles, styled region tracking (SetFormat) over the text buffer, RTF 1.x emission through Save (font table, colour table, generator metadata), and an Office / OMML XML model set for Word XML round-tripping.</ReleaseNotes>
+    <PackageTags>scibasic;rtf;rich-text-format;omml;office-math;document-model;word;document-generation;text-extraction;markdown;idocumentwriter</PackageTags>
+    <Tags>scibasic;rtf;rich-text-format;omml;office-math;document-model;word;document-generation;text-extraction;markdown;idocumentwriter</Tags>
+    <PackageReleaseNotes>RTF provides Rich Text Format document generation and text extraction for the sciBASIC# framework together with serializable Office Math (OMML) models. Writing: RtfDocument implements the shared IDocumentWriter contract - the same fluent surface as the docx and pdf writers - covering document metadata (author, title, subject, description, tags, generator), heading levels 1-6 plus paragraph, code, blockquote and document-title styles, page setup in twips (A4 and Letter presets), paragraphs, code blocks, ordered / unordered / task / definition lists, horizontal rules, page breaks, a static table of contents, tables (equal width, auto-fit to window or to contents, centring, three-line style and per-column alignment) and png/jpeg images embedded as hexadecimal pict data. Markdown integration: WriteBlocks consumes the JSONSchema.Block content model directly (heading, paragraph, code, list, tasklist, deflist, table, blockquote, hr, image, link, math and footnote), so structured content such as large language model output renders without any intermediate format. Reading: RtfLexer is a single pass byte level lexer with an explicit group stack, per-group code page and uc handling, ignorable destination skipping, metadata capture and malformed input tolerance, while RtfTextReader exposes ExtractText, ExtractParagraphs, ExtractMetadata and a streaming GetText iterator. Model: the original document object model is preserved unchanged - Rtf is the document, FormatedRegion records a styled span of text and Font (plus Models.Font) describes typeface, size and style - and an Office / OMML XML model set (document properties, Word document settings, math properties, html head) keeps equations and document metadata round-tripping through Word XML.</PackageReleaseNotes>
+    <ReleaseNotes>RTF document generation, text extraction and Office Math (OMML) models for sciBASIC#. Generation: RtfDocument implements IDocumentWriter (metadata, heading levels 1-6 and other styles, page setup in twips with A4 / Letter presets, lists, task lists, definition lists, rules, page breaks, static table of contents, tables with auto-fit and three-line styles, embedded png/jpeg images) and WriteBlocks renders the JSONSchema.Block markdown content model directly. Extraction: RtfTextReader returns the whole text, a paragraph array and document metadata through a tolerant single pass lexer that handles unicode escapes, hexadecimal escapes and raw multi-byte code pages. Model: the original Rtf / FormatedRegion / Font document object model is unchanged, and a serializable Office / OMML XML model set remains available for Word XML round-tripping.</ReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <TargetFramework>net10.0</TargetFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -38,6 +38,13 @@
     <ProjectReference Include="..\application%json\JSON-netcore5.vbproj" />
     <ProjectReference Include="..\applicationvnd.openxmlformats-officedocument.wordprocessingml.document\docx\WordDocument.vbproj" />
     <ProjectReference Include="..\text%markdown\markdown.NET5.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- test 目录为独立的控制台示例工程（test\test.vbproj），不能编入本库 -->
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
   </ItemGroup>
 
   <ItemGroup>

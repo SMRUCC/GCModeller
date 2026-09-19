@@ -3,8 +3,7 @@
 	<PropertyGroup>
    
     <OutputType>Library</OutputType>
-    <StartupObject>
-    </StartupObject>
+   <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit;mzkit_win32;gcmodeller_desktop;nuget_release</Configurations>
     <RootNamespace>Microsoft.VisualBasic.Math.Statistics.Hypothesis.mHG</RootNamespace>
     <AssemblyName>Microsoft.VisualBasic.Math.Statistics.Hypothesis.mHG</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
