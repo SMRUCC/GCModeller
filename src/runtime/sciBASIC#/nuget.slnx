@@ -1311,6 +1311,12 @@
       <Platform Solution="Rsharp_app_release|x64" Project="x64" />
       <Platform Solution="Yilia-Release_x64|x64" Project="x64" />
     </Project>
+    <Project Path="Data_science/MachineLearning/ML_SHAP/ML_SHAP.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Data_science/MachineLearning/SNN/SNN.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
   <Folder Name="/packages/math.dll/">
     <Project Path="Data/MyersDiff/MyersDiff.vbproj">
@@ -1656,6 +1662,9 @@
     <Project Path="Data_science/Mathematica/SignalProcessing/MachineVision/MachineVision.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="Data_science/Mathematica/Math/mHG/mHG.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
   <Folder Name="/packages/mime/">
     <Project Path="mime/application%json/JSON-netcore5.vbproj">
@@ -1927,6 +1936,9 @@
       <BuildType Solution="Rsharp_app_release|*" Project="Release" />
       <Platform Solution="*|x64" Project="x64" />
       <Platform Solution="*|x86" Project="x86" />
+    </Project>
+    <Project Path="mime/application%rtf/RTF.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
   <Folder Name="/packages/network_graph/">
