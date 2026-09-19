@@ -43,6 +43,21 @@ Namespace LLM
         ''' <summary>是否启用 cosine 衰减（关闭则 warmup 之后保持恒定学习率）。</summary>
         Public Property UseCosineDecay As Boolean = True
 
+        ''' <summary>
+        ''' 可信梯度范数的上限；超过它就认为该步梯度已经失控，跳过参数更新。
+        ''' </summary>
+        ''' <remarks>
+        ''' 这是一个<b>安全网</b>而不是常规路径。实测场景：2 亿参数档在工具调用 SFT 阶段
+        ''' 出现全局梯度范数 7.8e36 的尖峰，下一步梯度变成 NaN。此时前向仍然是有限的
+        ''' （该步 loss 正常），坏的只有梯度 —— 因此"丢掉这一步的更新"就能让训练继续，
+        ''' 而强行更新会把参数一步推成 NaN。
+        ''' <para>
+        ''' 阈值取得很宽（默认 1e6），只拦明确的失控，不对正常的大梯度做任何干预。
+        ''' 被跳过的步数会记录在 <see cref="SkippedSteps"/> 里，不会被静默吞掉。
+        ''' </para>
+        ''' </remarks>
+        Public Property MaxTrustedGradientNorm As Double = 1000000.0
+
     End Class
 
     ''' <summary>一个训练步的结果报告。</summary>
@@ -58,11 +73,15 @@ Namespace LLM
         ''' <summary>本步结束时各 MoE 层中最差的最大负载比（1.0 = 完全均匀；无 MoE 时为 0）。</summary>
         Public Property MoEMaxLoadRatio As Double
 
+        ''' <summary>本步是否因为梯度失控而跳过了参数更新。</summary>
+        Public Property Skipped As Boolean
+
         Public Overrides Function ToString() As String
             Dim moe = If(MoEMaxLoadRatio > 0, $", moe_load={MoEMaxLoadRatio:F2}x", "")
+            Dim skip = If(Skipped, "  [已跳过更新：梯度失控]", "")
 
             Return $"step {[Step],4}  loss={Loss:F4}  ppl={Perplexity,8:F2}  lr={LearningRate:E3}  " &
-                   $"gnorm={GradientNorm,7:F3}  {ElapsedMilliseconds,7:F0}ms{moe}"
+                   $"gnorm={GradientNorm,7:F3}  {ElapsedMilliseconds,7:F0}ms{moe}{skip}"
         End Function
 
     End Class
@@ -185,6 +204,18 @@ Namespace LLM
         Private ReadOnly _model As LLMModel
         Private ReadOnly _history As New List(Of TrainingStepReport)
         Private _step As Integer
+        Private _skippedSteps As Integer
+
+        ''' <summary>因为梯度失控而被跳过参数更新的步数。</summary>
+        ''' <remarks>
+        ''' 显式暴露出来而不是静默处理：它是"训练过程真的遇到了数值问题"的证据，
+        ''' 报告中必须能看到，否则会变成被掩盖的失败。
+        ''' </remarks>
+        Public ReadOnly Property SkippedSteps As Integer
+            Get
+                Return _skippedSteps
+            End Get
+        End Property
 
         ''' <summary>被打分的模型。</summary>
         Public ReadOnly Property Model As LLMModel
@@ -293,8 +324,18 @@ Namespace LLM
 
             Dim tClip = watch.Elapsed.TotalMilliseconds
 
-            ' 5. AdamW 更新
-            _model.Parameters.ApplyUpdate(lr, _step)
+            ' 5. AdamW 更新（梯度失控时跳过，见 MaxTrustedGradientNorm 的说明）
+            Dim trusted = Not Double.IsNaN(gradNorm) AndAlso
+                          Not Double.IsInfinity(gradNorm) AndAlso
+                          gradNorm <= MaxTrustedGradientNorm
+
+            If trusted Then
+                _model.Parameters.ApplyUpdate(lr, _step)
+            Else
+                ' 丢弃这一步的梯度：前向与损失都还是有效的，坏的只是梯度方向
+                _model.Parameters.ZeroGradients()
+                _skippedSteps += 1
+            End If
 
             Dim tUpdate = watch.Elapsed.TotalMilliseconds
 
@@ -320,7 +361,8 @@ Namespace LLM
                 .LearningRate = lr,
                 .GradientNorm = gradNorm,
                 .ElapsedMilliseconds = watch.Elapsed.TotalMilliseconds,
-                .MoEMaxLoadRatio = loadRatio
+                .MoEMaxLoadRatio = loadRatio,
+                .Skipped = Not trusted
             }
 
             _history.Add(report)
