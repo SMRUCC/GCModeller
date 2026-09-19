@@ -41,16 +41,6 @@ Namespace LLM
         ''' <summary>RoPE 的旋转基数 θ。</summary>
         Public Property RopeTheta As Double = LLMTensorOps.DefaultRopeTheta
 
-        ''' <summary>
-        ''' 输出层与词嵌入是否共享权重。
-        ''' </summary>
-        ''' <remarks>
-        ''' 共享之后 <c>[VocabSize, DModel]</c> 只驻留一份，在词表很大时能省下可观的参数
-        ''' 与显存；同时因为同一份权重既负责"读入"又负责"读出"，两个方向的梯度会叠加。
-        ''' 现代 LLM 普遍采用该做法。
-        ''' </remarks>
-        Public Property TieEmbedding As Boolean = True
-
         ''' <summary>不使用 MoE 的层所用的稠密 SwiGLU 中间层宽度；&lt;= 0 表示自动取 4·dModel。</summary>
         Public Property DenseFfnHidden As Integer = 0
 
@@ -194,7 +184,7 @@ Namespace LLM
 
             Return $"d_model={DModel}, layers={NumLayers}, heads={NumHeads}/{EffectiveKvHeads}, " &
                    $"head_dim={EffectiveHeadDim}, seq={MaxSeqLen}, rope_theta={RopeTheta}, " &
-                   $"tie_embedding={TieEmbedding}, vocab={VocabSize}, ffn={moe}"
+                   $"tied_embedding=True, vocab={VocabSize}, ffn={moe}"
         End Function
 
 #End Region

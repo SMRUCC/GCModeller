@@ -417,17 +417,17 @@ Namespace LLM
             If tokenIds Is Nothing OrElse tokenIds.Length = 0 Then
                 Throw New ArgumentException("prefill 的 token 序列不能为空")
             End If
-            If caches Is Nothing OrElse caches.Length <> 1 Then
-                Throw New ArgumentException("prefill 需要恰好 1 份（每层一个）K/V 缓存")
+            If caches Is Nothing OrElse caches.Length <> _blocks.Length Then
+                Throw New ArgumentException(
+                    $"prefill 需要每层一个 K/V 缓存（应为 {_blocks.Length} 个），实际 {If(caches Is Nothing, 0, caches.Length)} 个")
             End If
-            If caches(0) Is Nothing Then Throw New ArgumentException("K/V 缓存尚未创建")
 
             Dim s = tokenIds.Length
-            Dim basePos = caches(0)(0).Length
+            Dim basePos = caches(0).Length
 
-            If basePos + s > caches(0)(0).Capacity Then
+            If basePos + s > caches(0).Capacity Then
                 Throw New InvalidOperationException(
-                    $"KV Cache 容量不足：已用 {basePos}，本次需要 {s}，容量 {caches(0)(0).Capacity}")
+                    $"KV Cache 容量不足：已用 {basePos}，本次需要 {s}，容量 {caches(0).Capacity}")
             End If
 
             Dim positions(s - 1) As Integer
@@ -439,7 +439,7 @@ Namespace LLM
             Dim h = Embed(tokenIds, 1, s)
 
             For i As Integer = 0 To _blocks.Length - 1
-                h = _blocks(i).Forward(h, positions, _rope, New KVCache() {caches(0)(i)})
+                h = _blocks(i).Forward(h, positions, _rope, New KVCache() {caches(i)})
             Next
 
             h = _finalNorm.Forward(h)
@@ -454,21 +454,22 @@ Namespace LLM
         ''' <param name="caches">由 <see cref="CreateCaches"/> 创建、并已 prefill 过的缓存组</param>
         ''' <returns>下一个位置在词表上的 logits（长度 <c>VocabSize</c>）</returns>
         Public Function DecodeStep(tokenId As Integer, caches As KVCache()) As Double()
-            If caches Is Nothing OrElse caches.Length <> 1 Then
-                Throw New ArgumentException("DecodeStep 需要恰好 1 份（每层一个）K/V 缓存")
+            If caches Is Nothing OrElse caches.Length <> _blocks.Length Then
+                Throw New ArgumentException(
+                    $"DecodeStep 需要每层一个 K/V 缓存（应为 {_blocks.Length} 个），实际 {If(caches Is Nothing, 0, caches.Length)} 个")
             End If
 
-            Dim pos = caches(0)(0).Length
+            Dim pos = caches(0).Length
 
-            If pos >= caches(0)(0).Capacity Then
-                Throw New InvalidOperationException($"KV Cache 已满（容量 {caches(0)(0).Capacity}），无法继续解码")
+            If pos >= caches(0).Capacity Then
+                Throw New InvalidOperationException($"KV Cache 已满（容量 {caches(0).Capacity}），无法继续解码")
             End If
 
             Dim positions As Integer() = {pos}
             Dim h = Embed(New Integer() {tokenId}, 1, 1)
 
             For i As Integer = 0 To _blocks.Length - 1
-                h = _blocks(i).Forward(h, positions, _rope, New KVCache() {caches(0)(i)})
+                h = _blocks(i).Forward(h, positions, _rope, New KVCache() {caches(i)})
             Next
 
             h = _finalNorm.Forward(h)
