@@ -104,7 +104,7 @@ Namespace LLM
             Dim src = x.Data
             Dim hat = xHat.Data
             Dim dst = result.Data
-            Dim gamma = Gamma.Data
+            Dim gammaData = Gamma.Data
 
             For blk As Integer = 0 To blocks - 1
                 Dim offset = blk * n
@@ -120,7 +120,7 @@ Namespace LLM
                 For i As Integer = 0 To n - 1
                     Dim h = src(offset + i) * inv
                     hat(offset + i) = h
-                    dst(offset + i) = h * gamma(i)
+                    dst(offset + i) = h * gammaData(i)
                 Next
             Next
 
@@ -158,7 +158,7 @@ Namespace LLM
             Dim hat = cache.XHat.Data
             Dim invRms = cache.InvRms
             Dim dOutData = dOut.Data
-            Dim gamma = Gamma.Data
+            Dim gammaData = Gamma.Data
             Dim dxData = dx.Data
             Dim dGamma = _gammaOptimizer.Gradient.Data
 
@@ -170,7 +170,7 @@ Namespace LLM
                 Dim inner As Double = 0.0
 
                 For i As Integer = 0 To n - 1
-                    Dim ai = dOutData(offset + i) * gamma(i)
+                    Dim ai = dOutData(offset + i) * gammaData(i)
                     a(i) = ai
                     inner += ai * hat(offset + i)
                 Next
