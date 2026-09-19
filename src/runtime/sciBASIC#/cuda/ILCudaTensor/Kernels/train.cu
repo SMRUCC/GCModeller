@@ -78,7 +78,25 @@ extern "C" __global__ void tensorAdamWFp32Kernel(float* __restrict__ p,
         // 解耦权重衰减：与梯度统计完全无关的一项
         if (wd > 0.0f) delta += lr * wd * p[i];
 
-        if (!TAW_FINITE(delta)) delta = 0.0f;
+        // ----------------------------------------------------------------
+        // 单元素更新幅度上限（以学习率为基准）。
+        //
+        // 这一条是为单精度量身加的：二阶矩 v 是"梯度的平方"的滑动平均，
+        // 当梯度本身很小时（例如 1e-20）v 会下溢到 0，此时
+        //     mHat / (sqrt(vHat) + eps) ≈ mHat / 1e-8
+        // 会把自适应项放大好几个数量级，一步就把参数推飞，随后 loss 变 NaN。
+        // 一致的梯度下该比值本应约为 ±1，因此用 10 倍学习率作为上限
+        // 既能挡住下溢导致的爆炸，又不会干预正常的自适应行为。
+        // ----------------------------------------------------------------
+        const float maxDelta = 10.0f * lr;
+
+        if (!TAW_FINITE(delta)) {
+            delta = 0.0f;
+        } else if (delta > maxDelta) {
+            delta = maxDelta;
+        } else if (delta < -maxDelta) {
+            delta = -maxDelta;
+        }
 
         p[i] -= delta;
 
