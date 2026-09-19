@@ -277,6 +277,32 @@ Namespace GPUTensor
             Return t IsNot Nothing AndAlso t.Length >= MinGpuElements
         End Function
 
+        ''' <summary>
+        ''' CPU 兜底之前，把被钉住的张量的最新内容同步回主机。
+        ''' </summary>
+        ''' <remarks>
+        ''' 这是"设备常驻"最容易踩的坑：被钉住的张量以<b>设备为主副本</b>，主机
+        ''' <c>Data</c> 会陈旧；而所有 CPU 实现读的都是主机数组。于是只要有一个算子
+        ''' 落了 CPU 兜底，就会用旧权重静默算出错误结果。
+        ''' <para>
+        ''' 真实踩到的例子：增量解码（KV Cache）时注意力的 GEMM 只有 <c>m = 1</c>，
+        ''' 规模 <c>1 × 128 × 128 = 16384</c> 低于 <see cref="MinGemmElements"/>（65536），
+        ''' 于是落到 CPU 兜底。全序列路径走 GPU 读常驻缓冲、解码路径走 CPU 读陈旧主机副本，
+        ''' 两条路径结果不一致 —— 表现为"KV Cache 逐 token 一致性"莫名失败。
+        ''' </para>
+        ''' <para>
+        ''' 因此凡是可能消费权重、又存在 CPU 兜底分支的算子，都必须在兜底前调用本方法。
+        ''' <see cref="UseResidentStore"/> 关闭时本方法几乎是空操作，不构成性能负担。
+        ''' </para>
+        ''' </remarks>
+        Private Sub SyncIfPinned(t As tf.Tensor)
+            If t Is Nothing Then Return
+            If Not UseResidentStore Then Return
+            If Not _resident.IsPinned(t.Data) Then Return
+
+            Call SyncFromDevice(t)
+        End Sub
+
         ''' <summary>取张量底层数据对应的显存缓冲（驻留缓存，零精度损失）</summary>
         Private Function Device(t As tf.Tensor) As ILCudaRuntime.DeviceBuffer(Of Double)
             Return _cache.GetBuffer(_engine, t.Data, t.Version, Function(d) d)
@@ -304,7 +330,13 @@ Namespace GPUTensor
 
         ''' <summary>逐元素二元（纯标量内核：两个输入数组）</summary>
         Private Function EwBinary(a As tf.Tensor, b As tf.Tensor, kernelName As String) As tf.Tensor
-            If Not OnGpu(a) OrElse Not DoubleKernelRegistry.Available(kernelName) Then Return Nothing
+            If Not OnGpu(a) OrElse Not DoubleKernelRegistry.Available(kernelName) Then
+                ' 即将落到 CPU 兜底：先保证主机副本是最新的（设备常驻张量的主机侧会陈旧）
+                Call SyncIfPinned(a)
+                Call SyncIfPinned(b)
+
+                Return Nothing
+            End If
 
             Dim da = Device(a)
             Dim db = Device(b)
