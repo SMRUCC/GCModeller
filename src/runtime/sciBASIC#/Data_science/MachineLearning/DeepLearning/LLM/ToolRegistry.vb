@@ -112,37 +112,32 @@ Namespace LLM
         End Function
 
         ''' <summary>
-        ''' 渲染<b>紧凑</b>工具清单：只保留"签名 + 枚举取值 + 调用格式"。
+        ''' 渲染<b>极简</b>工具清单：只列出"工具名 + 参数名"，一行搞定。
         ''' </summary>
         ''' <remarks>
-        ''' 与 <see cref="RenderToolCatalog"/> 的关系：后者是给人看的完整说明书（含逐参数的
-        ''' 自然语言描述），前者是给模型看的、尽量省 token 的版本。小模型的上下文窗口很窄，
-        ''' 工具清单会占掉相当一部分预算，因此训练与推理都统一使用紧凑版，保证分布一致。
+        ''' 与 <see cref="RenderToolCatalog"/> 的关系：后者是完整形态（含逐参数的 JSON Schema
+        ''' 与自然语言描述），用于展示"Schema 变成 token"这件事本身；本方法则是给模型实际
+        ''' 消费的版本。
+        '''
+        ''' 为什么不用完整版：小模型的上下文窗口很窄，而一份带描述的 Schema 清单要一百多个
+        ''' token，会把"用户问题 + 工具调用片段"整个挤出训练窗口。调用格式本身由训练样本
+        ''' 教会模型，清单只需要告诉它"有哪些工具、各要什么参数"就够了。
+        ''' 训练与推理统一使用这一版，避免分布不一致。
         ''' </remarks>
         Public Function RenderCompactCatalog() As String
             Dim text As New StringBuilder()
 
-            Call text.AppendLine("tools:")
+            Call text.Append("tools: ")
 
-            For Each t In _tools
-                Dim args = String.Join(", ", t.Schema.Properties.Select(Function(p) p.Name))
+            For i As Integer = 0 To _tools.Count - 1
+                If i > 0 Then Call text.Append(" | ")
 
-                Call text.AppendLine($"- {t.Name}({args}): {t.Description}")
+                Dim args = String.Join(", ", _tools(i).Schema.Properties.Select(Function(p) p.Name))
 
-                For Each p In t.Schema.Properties
-                    If p.EnumValues IsNot Nothing AndAlso p.EnumValues.Length > 0 Then
-                        Call text.AppendLine($"    {p.Name} one of: {String.Join(" | ", p.EnumValues)}")
-                    End If
-                Next
+                Call text.Append($"{_tools(i).Name}({args})")
             Next
 
-            Call text.AppendLine("to call a tool output:")
-            Call text.AppendLine(ToolCallProtocol.CallsBeginMarker & ToolCallProtocol.CallBeginMarker &
-                                 ToolCallProtocol.CallTypeFunction & ToolCallProtocol.SepMarker & "NAME")
-            Call text.AppendLine("```json")
-            Call text.AppendLine("{arguments}")
-            Call text.AppendLine("```")
-            Call text.AppendLine(ToolCallProtocol.CallEndMarker & ToolCallProtocol.CallsEndMarker)
+            Call text.AppendLine()
 
             Return text.ToString()
         End Function

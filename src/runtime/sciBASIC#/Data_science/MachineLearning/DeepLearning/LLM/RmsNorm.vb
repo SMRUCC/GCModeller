@@ -201,7 +201,7 @@ Namespace LLM
         ''' 惯例上不对它施加权重衰减，因此默认 0。
         ''' </param>
         Public Sub RegisterParameters(registry As ParameterSet, prefix As String, Optional weightDecay As Double = 0.0)
-            Call registry.Add(prefix & ".gamma", Gamma, weightDecay)
+            Call registry.Attach(prefix & ".gamma", Gamma, _gammaOptimizer, weightDecay)
         End Sub
 
         ''' <summary>清零 γ 的梯度累加器。</summary>

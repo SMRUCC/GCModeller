@@ -310,7 +310,7 @@ Namespace LLM
 
         ''' <summary>把本层参数登记进参数集。</summary>
         Public Sub RegisterParameters(registry As ParameterSet, prefix As String, Optional weightDecay As Double = 0.0)
-            Call registry.Add(prefix & ".Wr", Wr, weightDecay)
+            Call registry.Attach(prefix & ".Wr", Wr, _wrOpt, weightDecay)
 
             For i As Integer = 0 To _nRoutedExperts - 1
                 _experts(i).RegisterParameters(registry, $"{prefix}.expert{i}", weightDecay)

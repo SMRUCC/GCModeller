@@ -105,18 +105,41 @@ Namespace LLM
             End Get
         End Property
 
-        ''' <summary>登记一个参数张量。</summary>
+        ''' <summary>
+        ''' 登记一个参数张量，并为它新建一份 AdamW 状态。
+        ''' </summary>
         ''' <param name="name">参数名称（同一名称重复登记会抛异常，避免静默覆盖）</param>
         ''' <param name="value">参数张量</param>
         ''' <param name="weightDecay">解耦权重衰减系数；γ / 偏置一类参数应传 0</param>
         Public Function Add(name As String, value As Tensor, Optional weightDecay As Double = 0.0) As Entry
+            Return Attach(name, value, New AdamW(value), weightDecay)
+        End Function
+
+        ''' <summary>
+        ''' 登记一个参数张量，并<b>复用调用方已有的 AdamW 状态</b>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 这一点至关重要：各层在构造时就为自己的权重建好了 AdamW（反向传播要往它的
+        ''' 梯度累加器里原地累加），如果这里再新建一份，就会出现"梯度写进了 A、更新却读 B"
+        ''' 的情况 —— 表现为 loss 完全不下降、全局梯度范数恒为 0，而且不报任何错。
+        ''' </remarks>
+        ''' <param name="name">参数名称</param>
+        ''' <param name="value">参数张量</param>
+        ''' <param name="optimizer">调用方持有的 AdamW 状态</param>
+        ''' <param name="weightDecay">解耦权重衰减系数</param>
+        Public Function Attach(name As String, value As Tensor, optimizer As AdamW,
+                               Optional weightDecay As Double = 0.0) As Entry
+
             If value Is Nothing Then Throw New ArgumentNullException(NameOf(value))
+            If optimizer Is Nothing Then Throw New ArgumentNullException(NameOf(optimizer))
 
             If _index.ContainsKey(name) Then
                 Throw New ArgumentException($"参数 '{name}' 已经登记过，不能重复登记")
             End If
 
-            Dim entry As New Entry(name, value, New AdamW(value, weightDecay))
+            optimizer.WeightDecay = weightDecay
+
+            Dim entry As New Entry(name, value, optimizer)
 
             _entries.Add(entry)
             _index.Add(name, entry)

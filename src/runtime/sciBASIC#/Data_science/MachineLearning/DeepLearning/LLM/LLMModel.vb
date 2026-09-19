@@ -91,7 +91,9 @@ Namespace LLM
 
             TokenEmbedding = LLMTensorOps.HeNormalInit(New Integer() {config.VocabSize, config.DModel})
             _embeddingOptimizer = New AdamW(TokenEmbedding, weightDecay)
-            Call _parameters.Add("embedding.token", TokenEmbedding, weightDecay)
+            ' 用 Attach 而不是 Add：反向传播往 _embeddingOptimizer.Gradient 累加，
+            ' 参数集必须复用同一份优化器状态，否则梯度会被写进一块没人读的内存。
+            Call _parameters.Attach("embedding.token", TokenEmbedding, _embeddingOptimizer, weightDecay)
 
             _blocks = New LLMBlock(config.NumLayers - 1) {}
 

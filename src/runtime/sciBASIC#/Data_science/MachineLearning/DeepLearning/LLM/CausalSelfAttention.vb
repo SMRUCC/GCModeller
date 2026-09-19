@@ -177,10 +177,10 @@ Namespace LLM
         ''' <param name="prefix">参数名前缀，例如 <c>layer3.attn</c></param>
         ''' <param name="weightDecay">权重衰减系数（注意力投影均为权重矩阵，通常施加衰减）</param>
         Public Sub RegisterParameters(registry As ParameterSet, prefix As String, Optional weightDecay As Double = 0.0)
-            Call registry.Add(prefix & ".Wq", Wq, weightDecay)
-            Call registry.Add(prefix & ".Wk", Wk, weightDecay)
-            Call registry.Add(prefix & ".Wv", Wv, weightDecay)
-            Call registry.Add(prefix & ".Wo", Wo, weightDecay)
+            Call registry.Attach(prefix & ".Wq", Wq, _wqOpt, weightDecay)
+            Call registry.Attach(prefix & ".Wk", Wk, _wkOpt, weightDecay)
+            Call registry.Attach(prefix & ".Wv", Wv, _wvOpt, weightDecay)
+            Call registry.Attach(prefix & ".Wo", Wo, _woOpt, weightDecay)
         End Sub
 
 #End Region
