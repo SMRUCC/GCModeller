@@ -134,17 +134,14 @@ Namespace LLM
         ''' </remarks>
         Public ReadOnly Property ActiveParametersPerToken As Long
             Get
-                Dim total As Long = _config.DModel                 ' 词嵌入查表：一行
+                Dim total As Long = _config.DModel                 ' 词嵌入查表：只激活一行
                 total += SumLengths(_finalNorm.Parameters)          ' 末端 RMSNorm 的 γ
 
-                For Each b In _blocks
-                    total += b.ActiveParametersPerToken
+                For Each block In _blocks
+                    total += block.ActiveParametersPerToken
                 Next
 
-                If Not _config.TieEmbedding Then
-                    total += _config.VocabSize * _config.DModel
-                End If
-
+                ' 输出层与词嵌入共享权重，因此不额外贡献"激活参数"
                 Return total
             End Get
         End Property
@@ -596,7 +593,7 @@ Namespace LLM
                     Call writer.Write(_parameters.Entries.Count)
 
                     For Each e In _parameters.Entries
-                        Dim bytes = Text.Encoding.UTF8.GetBytes(e.Name)
+                        Dim bytes = System.Text.Encoding.UTF8.GetBytes(e.Name)
 
                         Call writer.Write(bytes.Length)
                         Call writer.Write(bytes)
@@ -623,7 +620,7 @@ Namespace LLM
                 Using reader As New SysIO.BinaryReader(stream)
 
                     If reader.ReadInt32() <> Magic Then
-                        Throw New InvalidDataException("文件头不匹配，不是本模型导出的权重文件")
+                        Throw New SysIO.InvalidDataException("文件头不匹配，不是本模型导出的权重文件")
                     End If
 
                     Dim count = reader.ReadInt32()
@@ -631,7 +628,7 @@ Namespace LLM
 
                     For i As Integer = 0 To count - 1
                         Dim nameLen = reader.ReadInt32()
-                        Dim name = Text.Encoding.UTF8.GetString(reader.ReadBytes(nameLen))
+                        Dim name = System.Text.Encoding.UTF8.GetString(reader.ReadBytes(nameLen))
                         Dim rank = reader.ReadInt32()
                         Dim shape(rank - 1) As Integer
 
@@ -656,7 +653,7 @@ Namespace LLM
                         If entry Is Nothing Then Continue For
 
                         If Not entry.Value.Shape.SequenceEqual(shape) Then
-                            Throw New InvalidDataException(
+                            Throw New SysIO.InvalidDataException(
                                 $"参数 '{name}' 的形状不匹配：文件 [{String.Join(",", shape)}] vs 模型 [{String.Join(",", entry.Value.Shape)}]")
                         End If
 
