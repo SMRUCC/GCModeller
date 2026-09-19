@@ -82,14 +82,19 @@ Namespace LLM
         ''' <param name="nHeads">注意力 Query 头数</param>
         ''' <param name="nKvHeads">注意力 K/V 头数（GQA / MQA）</param>
         ''' <param name="headDim">单头维度</param>
-        ''' <param name="moe">本层使用的 MoE 子层；传 <see langword="Nothing"/> 则使用稠密 SwiGLU</param>
+        ''' <param name="moeLayer">本层使用的 MoE 子层；传 <see langword="Nothing"/> 则使用稠密 SwiGLU</param>
         ''' <param name="denseHidden">稠密 SwiGLU 的中间层宽度；&lt;= 0 时按 4·dModel 向上对齐到 64 的倍数</param>
+        ''' <remarks>
+        ''' 参数刻意命名为 <c>moeLayer</c> 而不是 <c>moe</c>：VB 的标识符大小写不敏感，
+        ''' 若形参叫 <c>moe</c>，它会与字段 <see cref="MoE"/> 视为同一名字而被遮蔽，
+        ''' 于是 <c>MoE = moe</c> 退化成自赋值、字段永远是 Nothing。
+        ''' </remarks>
         Public Sub New(dModel As Integer, nHeads As Integer, nKvHeads As Integer, headDim As Integer,
-                       moe As MoELayer,
+                       moeLayer As MoELayer,
                        Optional denseHidden As Integer = 0)
 
             If dModel <= 0 Then Throw New ArgumentException($"dModel 必须为正数，实际 {dModel}")
-            If moe Is Nothing AndAlso denseHidden <= 0 Then
+            If moeLayer Is Nothing AndAlso denseHidden <= 0 Then
                 denseHidden = Align(4 * dModel, 64)
             End If
 
@@ -99,11 +104,11 @@ Namespace LLM
             Norm2 = New RmsNorm(dModel)
             Attn = New CausalSelfAttention(dModel, nHeads, nKvHeads, headDim)
 
-            If moe Is Nothing Then
+            If moeLayer Is Nothing Then
                 Dense = New SwiGLUFeedForward(dModel, denseHidden)
                 MoE = Nothing
             Else
-                MoE = moe
+                MoE = moeLayer
                 Dense = Nothing
             End If
         End Sub

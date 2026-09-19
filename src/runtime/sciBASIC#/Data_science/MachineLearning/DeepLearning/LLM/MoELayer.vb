@@ -396,7 +396,8 @@ Namespace LLM
             Call AccumulateLoad(N, selected)
 
             ' ---- 6. 共享专家：每个 token 无条件计算 ----
-            Dim output = New Tensor(shape)
+            ' 内部一律按 [N, dModel] 的展平形态运算，最后一次性地按输入形状包回去
+            Dim output = New Tensor(N, _dModel)
 
             For i As Integer = 0 To _nSharedExperts - 1
                 Dim sharedOut = _sharedExperts(i).Forward(flat)
@@ -459,7 +460,7 @@ Namespace LLM
 
             _lastRouteInfo = BuildRouteInfo(N, selected, nodesUsed)
 
-            Return output
+            Return Tensor.Wrap(output.Data, shape)
         End Function
 
         ''' <summary>把 <c>-inf</c> 写入"不在候选节点内"的专家，实现节点受限路由。</summary>
