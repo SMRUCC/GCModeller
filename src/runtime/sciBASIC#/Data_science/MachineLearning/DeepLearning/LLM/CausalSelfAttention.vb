@@ -323,7 +323,7 @@ Namespace LLM
 
                         If sumExp <= 0 Then sumExp = 1.0
 
-                        Dim probsBase = ((b * _nHeads + hq) * S + i) * totalLen
+                        Dim probsBase = ((bi * _nHeads + hq) * nSeq + i) * totalLen
 
                         For j As Integer = 0 To totalLen - 1
                             Dim p = scores(j) / sumExp
@@ -345,7 +345,7 @@ Namespace LLM
                             Next
                         Next
 
-                        Dim outBase = (b * S + i) * _dModel + hq * _headDim
+                        Dim outBase = (bi * nSeq + i) * _dModel + hq * _headDim
 
                         Call Array.Copy(outputs, 0, attnData, outBase, _headDim)
                     Next
@@ -366,8 +366,8 @@ Namespace LLM
                 .Probs = probs,
                 .AttnOut = attnOut,
                 .TotalLen = totalLen,
-                .BatchSize = B,
-                .SeqLen = S,
+                .BatchSize = nBatch,
+                .SeqLen = nSeq,
                 .CacheBase = cacheBase
             }
 
@@ -393,8 +393,8 @@ Namespace LLM
                     "带 KV Cache 的前向是纯推理路径，不保存反向所需的中间量；训练请使用 caches = Nothing")
             End If
 
-            Dim B = cache.BatchSize
-            Dim S = cache.SeqLen
+            Dim nBatch = cache.BatchSize
+            Dim nSeq = cache.SeqLen
             Dim totalLen = cache.TotalLen
 
             Dim qData = cache.Q.Data
@@ -412,9 +412,9 @@ Namespace LLM
             Call LLMTensorOps.Accumulate(_woOpt.Gradient, dWo)
 
             ' ---- 2. 注意力本身的反向 ----
-            Dim dQ = New Tensor(B, S, _dModel)
-            Dim dK = New Tensor(B, S, dKv)
-            Dim dV = New Tensor(B, S, dKv)
+            Dim dQ = New Tensor(nBatch, nSeq, _dModel)
+            Dim dK = New Tensor(nBatch, nSeq, dKv)
+            Dim dV = New Tensor(nBatch, nSeq, dKv)
 
             Dim dQData = dQ.Data
             Dim dKData = dK.Data
@@ -424,17 +424,16 @@ Namespace LLM
             Dim dScores(totalLen - 1) As Double
             Dim dHead(_headDim - 1) As Double
 
-            For b As Integer = 0 To B - 1
+            For bi As Integer = 0 To nBatch - 1
                 For hq As Integer = 0 To _nHeads - 1
                     Dim hk = hq \ _groupSize
                     Dim kvHeadBase = hk * _headDim
 
-                    For i As Integer = 0 To S - 1
-                        Dim qBase = (b * S + i) * _dModel + hq * _headDim
-                        Dim attBase = (b * S + i) * _dModel + hq * _headDim
-                        Dim probsBase = ((b * _nHeads + hq) * S + i) * totalLen
+                    For i As Integer = 0 To nSeq - 1
+                        Dim qBase = (bi * nSeq + i) * _dModel + hq * _headDim
+                        Dim probsBase = ((bi * _nHeads + hq) * nSeq + i) * totalLen
 
-                        Call Array.Copy(dAttnData, attBase, dHead, 0, _headDim)
+                        Call Array.Copy(dAttnData, qBase, dHead, 0, _headDim)
 
                         ' 2.1 head 输出 = probs · V 的对偶：dProbs 与 dV
                         Dim dotPV As Double = 0.0
@@ -445,13 +444,12 @@ Namespace LLM
                                 Continue For
                             End If
 
-                            Dim kBase = (b * S + j) * dKv + kvHeadBase
-                            Dim vBase = kBase
+                            Dim kBase = (bi * nSeq + j) * dKv + kvHeadBase
                             Dim ds As Double = 0.0
 
                             For d As Integer = 0 To _headDim - 1
-                                ds += dHead(d) * vData(vBase + d)
-                                dVData(vBase + d) += cache.Probs(probsBase + j) * dHead(d)
+                                ds += dHead(d) * vData(kBase + d)
+                                dVData(kBase + d) += cache.Probs(probsBase + j) * dHead(d)
                             Next
 
                             dScores(j) = ds
@@ -476,7 +474,7 @@ Namespace LLM
                             Dim ds = dScores(j)
                             If ds = 0.0 Then Continue For
 
-                            Dim kBase = (b * S + j) * dKv + kvHeadBase
+                            Dim kBase = (bi * nSeq + j) * dKv + kvHeadBase
 
                             For d As Integer = 0 To _headDim - 1
                                 dQData(qBase + d) += ds * kData(kBase + d)
@@ -492,8 +490,8 @@ Namespace LLM
             Call dV.MarkHostModified()
 
             ' ---- 3. RoPE 的反向 = 按同一位置做逆旋转 ----
-            Call rope.ApplyInverse(Tensor.Wrap(dQ.Data, B, S, _nHeads, _headDim), cache.Positions)
-            Call rope.ApplyInverse(Tensor.Wrap(dK.Data, B, S, _nKvHeads, _headDim), cache.Positions)
+            Call rope.ApplyInverse(Tensor.Wrap(dQ.Data, nBatch, nSeq, _nHeads, _headDim), cache.Positions)
+            Call rope.ApplyInverse(Tensor.Wrap(dK.Data, nBatch, nSeq, _nKvHeads, _headDim), cache.Positions)
 
             ' ---- 4. 三个输入投影的反向 ----
             Dim dXq As Tensor = Nothing
