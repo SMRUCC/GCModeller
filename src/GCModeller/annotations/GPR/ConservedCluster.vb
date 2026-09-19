@@ -1,68 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::c73ea6f14805270c50d3795db6a89f3a, annotations\GPR\ConservedCluster.vb"
+﻿Imports Microsoft.VisualBasic.Linq
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 14
-    '    Code Lines: 10 (71.43%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 4 (28.57%)
-    '     File Size: 313 B
-
-
-    ' Class ConservedCluster
-    ' 
-    '     Properties: ClusterID, functions, geneIDs, GeneSetSize
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
+''' <summary>
+''' 一个跨物种保守的基因邻接簇。
+''' 
+''' 注意：<see cref="geneIDs"/> 才是簇内基因的集合，<see cref="functions"/> 是该簇在其它
+''' 物种中所被赋予的功能（EC 编号 / 反应编号 / 通路编号）。
+''' </summary>
 Public Class ConservedCluster
 
     Public Property ClusterID As String
 
     Public Property geneIDs As String()
+
+    ''' <summary>
+    ''' 该保守簇所记录的功能，允许是 EC 编号、反应编号或者通路编号
+    ''' </summary>
     Public Property functions As String()
 
+    ''' <summary>
+    ''' 簇内基因数目（<see cref="geneIDs"/> 为空时返回 0）
+    ''' </summary>
     Public ReadOnly Property GeneSetSize As Integer
         Get
-            Return geneIDs.TryCount
+            If geneIDs Is Nothing Then Return 0
+            Return geneIDs.Length
         End Get
     End Property
 
-End Class
+    ''' <summary>
+    ''' 安全地获取簇内基因集合
+    ''' </summary>
+    Public Function GetGeneIDs() As String()
+        If geneIDs Is Nothing Then Return New String() {}
+        Return geneIDs.Where(Function(id) Not String.IsNullOrEmpty(id)).Distinct(StringComparer.OrdinalIgnoreCase).ToArray
+    End Function
 
+    ''' <summary>
+    ''' 安全地获取功能集合
+    ''' </summary>
+    Public Function GetFunctions() As String()
+        If functions Is Nothing Then Return New String() {}
+        Return functions.Where(Function(f) Not String.IsNullOrEmpty(f)).Distinct(StringComparer.OrdinalIgnoreCase).ToArray
+    End Function
+
+    Public Overrides Function ToString() As String
+        Return $"{ClusterID} [{GeneSetSize}]"
+    End Function
+
+End Class

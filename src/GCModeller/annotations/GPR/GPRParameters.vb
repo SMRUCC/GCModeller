@@ -1,117 +1,158 @@
-﻿#Region "Microsoft.VisualBasic::4821a69064eacf7a2be3e80bb3c9b0d5, annotations\GPR\GPRParameters.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 62
-    '    Code Lines: 16 (25.81%)
-    ' Comment Lines: 43 (69.35%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 3 (4.84%)
-    '     File Size: 1.96 KB
-
-
-    ' Class GPRParameters
-    ' 
-    '     Properties: BaseCoexpressionScore, BaseComplexScore, BaseContextScore, BaseSyntenyScore, CoexpressionThreshold
-    '                 DiffStrandWeight, DirectMatchScore, MaxGapInPathway, MaxOperonDistance, MaxPhysicalDistance
-    '                 MaxWindowSpan, PathwayCompletenessThreshold, SameOperonBonus, SameStrandWeight
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-''' <summary>
-''' 算法参数
+﻿''' <summary>
+''' GPR 关联算法的参数集合。
+''' 
+''' 约定：所有参与打分的数值都必须来自这里，算法实现中不允许出现硬编码的魔法数字。
+''' 每一项证据的贡献都是 ``Weight * RawScore``，其中 <c>Weight</c> 由本类提供，
+''' <c>RawScore</c> 由具体的证据分析器根据实际情况（距离、相关系数、完整度等）计算。
 ''' </summary>
 Public Class GPRParameters
 
+#Region "直接证据"
+
     ''' <summary>
-    ''' 操纵子内最大距离
+    ''' 基因 EC 编号与反应 EC 编号直接匹配时的证据权重（满分）
     ''' </summary>
-    ''' <returns></returns>
+    Public Property DirectMatchScore As Double = 1.0
+
+#End Region
+
+#Region "操纵子与上下文窗口"
+
+    ''' <summary>
+    ''' 操纵子内允许的最大基因间距
+    ''' </summary>
     Public Property MaxOperonDistance As Integer = 500
     ''' <summary>
-    ''' 同操纵子奖励
+    ''' 滑动窗口跨度（向上下游各看几个基因）
     ''' </summary>
-    ''' <returns></returns>
-    Public Property SameOperonBonus As Double = 0.3
-    ''' <summary>
-    ''' 通路完整度阈值
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property PathwayCompletenessThreshold As Double = 0.7
-    ''' <summary>
-    ''' 上下文窗口大小（向上下游各看几个基因）
-    ''' </summary>
-    ''' <returns></returns>
     Public Property MaxWindowSpan As Integer = 10
     ''' <summary>
-    ''' 最大物理距离阈值，超过此距离认为不在同一基因簇
+    ''' 最大物理距离阈值，超过此距离的基因不再视为处于同一基因簇
     ''' </summary>
-    ''' <returns></returns>
     Public Property MaxPhysicalDistance As Integer = 15000
-    ''' <summary>
-    ''' 基于上下文推断的基础分
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property BaseContextScore As Double = 0.5
-    ''' <summary>
-    ''' 直接EC匹配的满分
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property DirectMatchScore As Double = 1.0
     ''' <summary>
     ''' 同链权重
     ''' </summary>
-    ''' <returns></returns>
     Public Property SameStrandWeight As Double = 1.0
     ''' <summary>
     ''' 异链权重
     ''' </summary>
-    ''' <returns></returns>
     Public Property DiffStrandWeight As Double = 0.3
     ''' <summary>
-    ''' 通路中允许的最大反应间隔
+    ''' 同操纵子奖励系数，操纵子上下文的权重为 ``BaseContextScore * (1 + SameOperonBonus)``
     ''' </summary>
-    ''' <returns></returns>
-    Public Property MaxGapInPathway As Integer = 3
+    Public Property SameOperonBonus As Double = 0.3
+    ''' <summary>
+    ''' 基于基因物理邻接上下文推断的证据基础权重
+    ''' </summary>
+    Public Property BaseContextScore As Double = 0.5
 
-    Public Property CoexpressionThreshold As Double = 0.7
-    Public Property BaseCoexpressionScore As Double = 0.4
-    Public Property BaseSyntenyScore As Double = 0.6
+#End Region
+
+#Region "酶复合体"
+
+    ''' <summary>
+    ''' 复合体成员之间允许的最大物理距离
+    ''' </summary>
+    Public Property ComplexMaxDistance As Integer = 1000
+    ''' <summary>
+    ''' 构成复合体所需的最少基因数
+    ''' </summary>
+    Public Property MinComplexGenes As Integer = 2
+    ''' <summary>
+    ''' 酶复合体证据权重
+    ''' </summary>
     Public Property BaseComplexScore As Double = 0.4
+
+#End Region
+
+#Region "融合基因"
+
+    ''' <summary>
+    ''' 融合基因证据的基础权重
+    ''' </summary>
+    Public Property FusionBaseScore As Double = 0.3
+    ''' <summary>
+    ''' 融合基因证据随通路连续性的增长量
+    ''' </summary>
+    Public Property FusionContinuityGain As Double = 0.5
+    ''' <summary>
+    ''' 触发融合基因分析所需的最少 EC 数目
+    ''' </summary>
+    Public Property FusionMinECNumbers As Integer = 2
+
+#End Region
+
+#Region "通路"
+
+    ''' <summary>
+    ''' 通路完整度阈值，只有覆盖率不低于该阈值时才产生完整度证据
+    ''' </summary>
+    Public Property PathwayCompletenessThreshold As Double = 0.7
+    ''' <summary>
+    ''' 通路完整度证据权重
+    ''' </summary>
+    Public Property PathwayCompletenessWeight As Double = 0.4
+    ''' <summary>
+    ''' 通路中允许的最大反应间隔（用于融合基因的通路连续性判定）
+    ''' </summary>
+    Public Property MaxGapInPathway As Integer = 3
+    ''' <summary>
+    ''' 反应连续性证据权重
+    ''' </summary>
+    Public Property ReactionContinuityWeight As Double = 0.35
+
+#End Region
+
+#Region "共表达"
+
+    ''' <summary>
+    ''' 判定共表达所需的相关系数阈值
+    ''' </summary>
+    Public Property CoexpressionThreshold As Double = 0.7
+    ''' <summary>
+    ''' 共表达证据权重
+    ''' </summary>
+    Public Property BaseCoexpressionScore As Double = 0.4
+    ''' <summary>
+    ''' 参与共表达推断的最大共表达基因数量，防止单个基因被过度"传染"
+    ''' </summary>
+    Public Property MaxCoexpressionPartners As Integer = 10
+
+#End Region
+
+#Region "保守共线性"
+
+    ''' <summary>
+    ''' 保守共线性证据权重
+    ''' </summary>
+    Public Property BaseSyntenyScore As Double = 0.6
+    ''' <summary>
+    ''' 计算保守簇相似度时向两侧扩展的基因数目
+    ''' </summary>
+    Public Property SyntenyClusterSize As Integer = 5
+    ''' <summary>
+    ''' 保守簇匹配所需的相似度阈值
+    ''' </summary>
+    Public Property SyntenySimilarityThreshold As Double = 0.7
+
+#End Region
+
+#Region "输出"
+
+    ''' <summary>
+    ''' 关联结果的最低置信度阈值，低于该分数的关联不会出现在结果中
+    ''' </summary>
+    Public Property ConfidenceThreshold As Double = 0.3
+    ''' <summary>
+    ''' 分数上限
+    ''' </summary>
+    Public Property ScoreCap As Double = 1.0
+    ''' <summary>
+    ''' 未映射 EC 的占位分数（只用于标记，不进入关联表）
+    ''' </summary>
+    Public Property UnmappedScore As Double = 0.2
+
+#End Region
 
 End Class
