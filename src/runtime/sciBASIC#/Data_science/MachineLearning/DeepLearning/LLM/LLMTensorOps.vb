@@ -164,10 +164,10 @@ Namespace LLM
                                            mask As Boolean(),
                                            ByRef dLogits As Tensor) As Double
 
-            If logits.Rank <> 2 Then Throw New ArgumentException("掩码交叉熵要求 [N, V] 的二维 logits")
+            If logits.Rank <> 2 Then Throw New ArgumentException("掩码交叉熵要求 [rows, vocab] 的二维 logits")
 
-            Dim N = logits.Shape(0)
-            Dim V = logits.Shape(1)
+            Dim rows = logits.Shape(0)
+            Dim vocab = logits.Shape(1)
 
             dLogits = New Tensor(logits.Shape)
 
@@ -176,25 +176,25 @@ Namespace LLM
             Dim total As Double = 0.0
             Dim count As Integer = 0
 
-            For n As Integer = 0 To N - 1
-                If mask IsNot Nothing AndAlso n < mask.Length AndAlso Not mask(n) Then Continue For
-                If targets Is Nothing OrElse n >= targets.Length Then Continue For
+            For r As Integer = 0 To rows - 1
+                If mask IsNot Nothing AndAlso r < mask.Length AndAlso Not mask(r) Then Continue For
+                If targets Is Nothing OrElse r >= targets.Length Then Continue For
 
-                Dim t = targets(n)
-                If t < 0 OrElse t >= V Then Continue For
+                Dim t = targets(r)
+                If t < 0 OrElse t >= vocab Then Continue For
 
                 count += 1
 
-                Dim offset = n * V
+                Dim offset = r * vocab
                 Dim maxVal = Double.NegativeInfinity
 
-                For j As Integer = 0 To V - 1
+                For j As Integer = 0 To vocab - 1
                     If src(offset + j) > maxVal Then maxVal = src(offset + j)
                 Next
 
                 Dim sumExp As Double = 0.0
 
-                For j As Integer = 0 To V - 1
+                For j As Integer = 0 To vocab - 1
                     Dim e = std.Exp(src(offset + j) - maxVal)
                     grad(offset + j) = e
                     sumExp += e
@@ -202,7 +202,7 @@ Namespace LLM
 
                 If sumExp <= 0 Then sumExp = 1.0
 
-                For j As Integer = 0 To V - 1
+                For j As Integer = 0 To vocab - 1
                     grad(offset + j) /= sumExp
                 Next
 
@@ -237,17 +237,17 @@ Namespace LLM
         ''' 因此完全不需要构造 one-hot 向量，也不需要做矩阵乘法。
         ''' </remarks>
         Public Function GatherRows(table As Tensor, indices As Integer()) As Tensor
-            Dim D = table.Shape(table.Rank - 1)
-            Dim N = indices.Length
-            Dim result = New Tensor(N, D)
+            Dim width = table.Shape(table.Rank - 1)
+            Dim count = indices.Length
+            Dim result = New Tensor(count, width)
             Dim src = table.Data
             Dim dst = result.Data
 
-            For n As Integer = 0 To N - 1
-                Dim row = indices(n)
+            For r As Integer = 0 To count - 1
+                Dim row = indices(r)
                 If row < 0 Then row = 0
 
-                Call Array.Copy(src, row * D, dst, n * D, D)
+                Call Array.Copy(src, row * width, dst, r * width, width)
             Next
 
             Call result.MarkHostModified()
@@ -266,19 +266,19 @@ Namespace LLM
         ''' 共享嵌入导致"一个词从上下文中获得多份学习信号"的数学体现。
         ''' </remarks>
         Public Sub ScatterAddRows(tableGradient As Tensor, indices As Integer(), dOut As Tensor)
-            Dim D = tableGradient.Shape(tableGradient.Rank - 1)
-            Dim N = indices.Length
+            Dim width = tableGradient.Shape(tableGradient.Rank - 1)
+            Dim count = indices.Length
             Dim dst = tableGradient.Data
             Dim src = dOut.Data
 
-            For n As Integer = 0 To N - 1
-                Dim row = indices(n)
+            For r As Integer = 0 To count - 1
+                Dim row = indices(r)
                 If row < 0 Then Continue For
 
-                Dim srcBase = n * D
-                Dim dstBase = row * D
+                Dim srcBase = r * width
+                Dim dstBase = row * width
 
-                For i As Integer = 0 To D - 1
+                For i As Integer = 0 To width - 1
                     dst(dstBase + i) += src(srcBase + i)
                 Next
             Next

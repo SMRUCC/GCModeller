@@ -81,14 +81,14 @@ Namespace LLM
         ''' <param name="learningRate">学习率</param>
         ''' <param name="step">训练步序号（从 1 开始，用于偏差校正）</param>
         ''' <param name="param">待更新的参数张量</param>
-        Public Sub MakeTrainingStep(learningRate As Double, step As Integer, param As Tensor)
+        Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer, param As Tensor)
             Dim p = param.Data
             Dim g = _gradient.Data
             Dim m = _m.Data
             Dim v = _v.Data
 
-            Dim bc1 = 1.0 - std.Pow(Beta1, step)
-            Dim bc2 = 1.0 - std.Pow(Beta2, step)
+            Dim bc1 = 1.0 - std.Pow(Beta1, [step])
+            Dim bc2 = 1.0 - std.Pow(Beta2, [step])
             Dim wd = WeightDecay
 
             For i As Integer = 0 To p.Length - 1

@@ -173,14 +173,14 @@ Namespace LLM
 #Region "参数登记"
 
         ''' <summary>把本层参数登记进参数集。</summary>
-        ''' <param name="set">目标参数集</param>
+        ''' <param name="registry">目标参数集</param>
         ''' <param name="prefix">参数名前缀，例如 <c>layer3.attn</c></param>
         ''' <param name="weightDecay">权重衰减系数（注意力投影均为权重矩阵，通常施加衰减）</param>
-        Public Sub RegisterParameters(set As ParameterSet, prefix As String, Optional weightDecay As Double = 0.0)
-            Call set.Add(prefix & ".Wq", Wq, weightDecay)
-            Call set.Add(prefix & ".Wk", Wk, weightDecay)
-            Call set.Add(prefix & ".Wv", Wv, weightDecay)
-            Call set.Add(prefix & ".Wo", Wo, weightDecay)
+        Public Sub RegisterParameters(registry As ParameterSet, prefix As String, Optional weightDecay As Double = 0.0)
+            Call registry.Add(prefix & ".Wq", Wq, weightDecay)
+            Call registry.Add(prefix & ".Wk", Wk, weightDecay)
+            Call registry.Add(prefix & ".Wv", Wv, weightDecay)
+            Call registry.Add(prefix & ".Wo", Wo, weightDecay)
         End Sub
 
 #End Region
@@ -211,17 +211,17 @@ Namespace LLM
                     $"注意力层要求输入 [B, S, {_dModel}]，实际 [{String.Join(",", x.Shape)}]")
             End If
 
-            Dim B = x.Shape(0)
-            Dim S = x.Shape(1)
+            Dim nBatch = x.Shape(0)
+            Dim nSeq = x.Shape(1)
 
-            If positions Is Nothing OrElse positions.Length <> S Then
-                Throw New ArgumentException($"需要长度为 S={S} 的 positions 序列")
+            If positions Is Nothing OrElse positions.Length <> nSeq Then
+                Throw New ArgumentException($"需要长度为 S={nSeq} 的 positions 序列")
             End If
 
             Dim useCache = caches IsNot Nothing
 
-            If useCache AndAlso caches.Length <> B Then
-                Throw New ArgumentException($"需要 {B} 份 K/V 缓存，实际传入 {caches.Length} 份")
+            If useCache AndAlso caches.Length <> nBatch Then
+                Throw New ArgumentException($"需要 {nBatch} 份 K/V 缓存，实际传入 {caches.Length} 份")
             End If
 
             ' ---- 1. Q / K / V 投影 ----
@@ -232,35 +232,37 @@ Namespace LLM
             Dim V = Transformer.TensorOps.BatchedMatMul(x, Wv)
 
             ' ---- 2. RoPE ----
-            Call rope.Apply(Tensor.Wrap(Q.Data, B, S, _nHeads, _headDim), positions)
-            Call rope.Apply(Tensor.Wrap(K.Data, B, S, _nKvHeads, _headDim), positions)
+            Call rope.Apply(Tensor.Wrap(Q.Data, nBatch, nSeq, _nHeads, _headDim), positions)
+            Call rope.Apply(Tensor.Wrap(K.Data, nBatch, nSeq, _nKvHeads, _headDim), positions)
 
             ' ---- 3. 写入 KV 缓存并确定注意力区间 ----
             Dim cacheBase As Integer = 0
-            Dim totalLen As Integer = S
+            Dim totalLen As Integer = nSeq
 
             If useCache Then
                 cacheBase = caches(0).Length
 
                 ' 校验"位置序列必须紧接在缓存之后"，避免静默地产生错位的位置编码
-                For i As Integer = 0 To S - 1
+                For i As Integer = 0 To nSeq - 1
                     If positions(i) <> cacheBase + i Then
                         Throw New ArgumentException(
                             $"增量解码时 positions({i})={positions(i)}，但缓存要求 {cacheBase + i}")
                     End If
                 Next
 
-                For b As Integer = 0 To B - 1
-                    Call caches(b).Append(K.Data, b * S * _nKvHeads * _headDim,
-                                         V.Data, b * S * _nKvHeads * _headDim, S)
+                Dim kvStride = _nKvHeads * _headDim
+
+                For bi As Integer = 0 To nBatch - 1
+                    Call caches(bi).Append(K.Data, bi * nSeq * kvStride,
+                                           V.Data, bi * nSeq * kvStride, nSeq)
                 Next
 
-                totalLen = cacheBase + S
+                totalLen = cacheBase + nSeq
             End If
 
             ' ---- 4. 逐 (batch, query 头) 计算缩放点积注意力 ----
-            Dim attnOut = New Tensor(B, S, _dModel)
-            Dim probs = New Double(B * _nHeads * S * totalLen - 1) {}
+            Dim attnOut = New Tensor(nBatch, nSeq, _dModel)
+            Dim probs = New Double(nBatch * _nHeads * nSeq * totalLen - 1) {}
 
             Dim headStride = _nKvHeads * _headDim
             Dim dKv = headStride
@@ -273,20 +275,20 @@ Namespace LLM
             Dim scores(totalLen - 1) As Double
             Dim outputs(_headDim - 1) As Double
 
-            For b As Integer = 0 To B - 1
+            For bi As Integer = 0 To nBatch - 1
                 ' K/V 的来源：无缓存时来自本层现算的 K/V（含 batch 偏移），
                 ' 有缓存时来自缓存的底层数组（单个序列，无 batch 偏移）。
-                Dim kBuf = If(useCache, caches(b).KeysRaw, K.Data)
-                Dim vBuf = If(useCache, caches(b).ValuesRaw, V.Data)
-                Dim kvBatchBase = If(useCache, 0, b * S * headStride)
+                Dim kBuf = If(useCache, caches(bi).KeysRaw, K.Data)
+                Dim vBuf = If(useCache, caches(bi).ValuesRaw, V.Data)
+                Dim kvBatchBase = If(useCache, 0, bi * nSeq * headStride)
 
                 For hq As Integer = 0 To _nHeads - 1
                     Dim hk = hq \ _groupSize
                     Dim kvHeadBase = hk * _headDim
 
-                    For i As Integer = 0 To S - 1
+                    For i As Integer = 0 To nSeq - 1
                         Dim absPos = cacheBase + i
-                        Dim qBase = (b * S + i) * _dModel + hq * _headDim
+                        Dim qBase = (bi * nSeq + i) * _dModel + hq * _headDim
 
                         ' 4.1 打分 + 因果掩码
                         Dim maxScore = Double.NegativeInfinity

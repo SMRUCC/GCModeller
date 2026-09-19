@@ -97,10 +97,10 @@ Namespace LLM
         End Sub
 
         ''' <summary>把本模块参数登记进参数集。</summary>
-        Public Sub RegisterParameters(set As ParameterSet, prefix As String, Optional weightDecay As Double = 0.0)
-            Call set.Add(prefix & ".Wg", Wg, weightDecay)
-            Call set.Add(prefix & ".Wu", Wu, weightDecay)
-            Call set.Add(prefix & ".Wd", Wd, weightDecay)
+        Public Sub RegisterParameters(registry As ParameterSet, prefix As String, Optional weightDecay As Double = 0.0)
+            Call registry.Add(prefix & ".Wg", Wg, weightDecay)
+            Call registry.Add(prefix & ".Wu", Wu, weightDecay)
+            Call registry.Add(prefix & ".Wd", Wd, weightDecay)
         End Sub
 
         ''' <summary>前向：<c>y = (SiLU(x·Wg) ⊙ (x·Wu)) · Wd</c>。</summary>

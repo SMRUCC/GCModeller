@@ -144,19 +144,19 @@ Namespace LLM
                     $"RoPE 要求输入形状 [B, S, H, {_headDim}]，实际 [{String.Join(",", shape)}]")
             End If
 
-            Dim B = shape(0), S = shape(1), H = shape(2)
+            Dim nBatch = shape(0), nSeq = shape(1), nHeads = shape(2)
 
-            If positions Is Nothing OrElse positions.Length <> S Then
-                Throw New ArgumentException($"RoPE 需要长度为 S={S} 的 positions 序列")
+            If positions Is Nothing OrElse positions.Length <> nSeq Then
+                Throw New ArgumentException($"RoPE 需要长度为 S={nSeq} 的 positions 序列")
             End If
 
             Dim data = x.Data
             Dim half = _halfDim
             Dim headDim = _headDim
 
-            For b As Integer = 0 To B - 1
-                For s As Integer = 0 To S - 1
-                    Dim pos = positions(s)
+            For bi As Integer = 0 To nBatch - 1
+                For si As Integer = 0 To nSeq - 1
+                    Dim pos = positions(si)
 
                     If pos < 0 OrElse pos >= _maxSeqLen Then
                         Throw New ArgumentOutOfRangeException(
@@ -165,8 +165,8 @@ Namespace LLM
 
                     Dim tableBase = pos * half
 
-                    For h As Integer = 0 To H - 1
-                        Dim base = ((b * S + s) * H + h) * headDim
+                    For hi As Integer = 0 To nHeads - 1
+                        Dim base = ((bi * nSeq + si) * nHeads + hi) * headDim
 
                         For i As Integer = 0 To half - 1
                             Dim c = _cos(tableBase + i)

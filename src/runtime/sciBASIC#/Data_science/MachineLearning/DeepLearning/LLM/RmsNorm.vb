@@ -197,8 +197,8 @@ Namespace LLM
         End Sub
 
         ''' <summary>按 AdamW 规则更新 γ。</summary>
-        Public Sub MakeTrainingStep(learningRate As Double, step As Integer)
-            _gammaOptimizer.MakeTrainingStep(learningRate, step, Gamma)
+        Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)
+            _gammaOptimizer.MakeTrainingStep(learningRate, [step], Gamma)
         End Sub
 
     End Class

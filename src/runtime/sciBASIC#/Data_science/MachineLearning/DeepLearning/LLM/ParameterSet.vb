@@ -148,9 +148,10 @@ Namespace LLM
         End Function
 
         ''' <summary>对全部参数执行一次 AdamW 更新。</summary>
-        Public Sub Step(learningRate As Double, step As Integer)
+        ''' <param name="step">训练步序号（从 1 开始，用于偏差校正）</param>
+        Public Sub ApplyUpdate(learningRate As Double, [step] As Integer)
             For Each e In _entries
-                e.Optimizer.MakeTrainingStep(learningRate, step, e.Value)
+                e.Optimizer.MakeTrainingStep(learningRate, [step], e.Value)
             Next
         End Sub
 
