@@ -161,7 +161,7 @@ Namespace LLM
         Public Function Describe() As String
             Const pattern As String = "{0,-48}{1,-22}{2,14:N0}"
 
-            Dim sb As New Text.StringBuilder()
+            Dim sb As New System.Text.StringBuilder()
             Dim line As New String("-"c, 84)
 
             Call sb.AppendLine(String.Format(pattern, "parameter", "shape", "count"))
