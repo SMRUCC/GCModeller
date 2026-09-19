@@ -49,6 +49,8 @@ Namespace Transformer
             Public Delta As Tensor
             ''' <summary>该步解码器各层的前向缓存快照</summary>
             Public Caches As List(Of DecoderLayer.Cache)
+            ''' <summary>该步输出层的前向缓存快照</summary>
+            Public OutputCache As OutputLayer.Cache
         End Class
 
         Private _steps As List(Of DecoderStep)
@@ -194,7 +196,8 @@ Namespace Transformer
                         .SpanishEmbeddings = spanish_word_embeddings,
                         .Probs = output,
                         .Delta = dLogits,
-                        .Caches = decoder.LastCaches
+                        .Caches = decoder.LastCaches,
+                        .OutputCache = outputLayer.LastCache
                     })
                 End If
 
@@ -231,7 +234,7 @@ Namespace Transformer
                 ' 损失被除以 sequenceLength * batchSize，梯度同样需要按该系数缩放
                 Call TensorOps.ScaleInPlace(st.Delta, scale)
 
-                Dim dDecoderOutput = outputLayer.Backward(st.Delta)
+                Dim dDecoderOutput = outputLayer.Backward(st.OutputCache, st.Delta)
                 Dim dEncoderStep As Tensor = Nothing
                 Dim dSpanishEmbeddings = decoder.Backward(st.Caches, dDecoderOutput, dEncoderStep)
 
