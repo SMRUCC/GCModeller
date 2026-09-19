@@ -341,7 +341,8 @@ Namespace LLM
                     Return True
 
                 Case JsonState.AfterValue
-                    If c = ","c Then
+                    ' 逗号只有在"后面确实还有键"时才合法 —— 否则会生成尾随逗号这种非法 JSON
+                    If c = ","c AndAlso HasNextProperty() Then
                         _keyIndex += 1
                         _state = JsonState.ExpectKeyOrEnd
                         _buffer = String.Empty
@@ -407,6 +408,7 @@ Namespace LLM
             Dim type = _schema.Properties(_keyIndex).Type
 
             If c = ","c Then
+                If Not HasNextProperty() Then Return False
                 If Not IsCompleteNumber(_buffer, type) Then Return False
 
                 _buffer = String.Empty
@@ -436,6 +438,7 @@ Namespace LLM
         Private Function ConsumeBoolean(c As Char) As Boolean
             If c = ","c OrElse c = "}"c Then
                 If _buffer <> "true" AndAlso _buffer <> "false" Then Return False
+                If c = ","c AndAlso Not HasNextProperty() Then Return False
 
                 _buffer = String.Empty
 
@@ -458,6 +461,11 @@ Namespace LLM
             End If
 
             Return False
+        End Function
+
+        ''' <summary>当前键之后是否还有下一个键（决定逗号是否合法）。</summary>
+        Private Function HasNextProperty() As Boolean
+            Return _keyIndex + 1 < _schema.Properties.Count
         End Function
 
         ''' <summary>[start, Count) 区间内是否还有必填键。</summary>
@@ -741,11 +749,21 @@ Namespace LLM
                     Throw New InvalidOperationException($"采样到了无法在约束下使用的 token {token}")
                 End If
 
+                ' 推进状态机。ApplyMask 只做"试探"并回滚，真正的推进发生在这里 ——
+                ' 少了这一步，状态机永远停在初始状态，会无限重复生成同一个合法 token。
+                For k As Integer = 0 To text.Length - 1
+                    If Not ConsumeInPlace(text(k)) Then
+                        Throw New InvalidOperationException(
+                            $"内部不一致：被 ApplyMask 判定为合法的 token {token}（文本 '{text}'）" &
+                            $"却在字符 '{text(k)}' 处无法推进状态机")
+                    End If
+                Next
+
                 Call _text.Append(text)
 
                 If Trace.Count < TraceLimit Then
-                    Call Trace.Add($"#{i} token={token} +'{Escape(text)}' state={StateName} " &
-                                   $"legal={LastLegalTokenCount} masked={LastMaskedTokenCount}")
+                    Call Trace.Add($"#{i} token={token} +'{Escape(text)}' -> {StateName} " &
+                                   $"(legal={LastLegalTokenCount}, masked={LastMaskedTokenCount})")
                 End If
             Next
 

@@ -79,6 +79,16 @@ Namespace LLM
         ''' <summary>被调用的工具名。</summary>
         Public Property ToolName As String
 
+        ''' <summary>
+        ''' 工具名是否由模型自主决策得出。
+        ''' </summary>
+        ''' <remarks>
+        ''' <see langword="False"/> 表示本轮走了演示模式（<see cref="AgentLoopOptions.ForcedToolName"/>），
+        ''' 工具名是外部指定的。演示输出必须把这两种情况区分开，否则会让人误以为
+        ''' 模型真的学会了发起调用。
+        ''' </remarks>
+        Public Property ToolDecidedByModel As Boolean = True
+
         ''' <summary>完整的调用片段文本（头部 + 参数 + 尾部）。</summary>
         Public Property ToolCallText As String
 
@@ -248,6 +258,7 @@ Namespace LLM
 
                     toolName = opt.ForcedToolName
                     textAfterMarker = Nothing
+                    record.ToolDecidedByModel = False
                 End If
 
                 record.HasToolCall = True
