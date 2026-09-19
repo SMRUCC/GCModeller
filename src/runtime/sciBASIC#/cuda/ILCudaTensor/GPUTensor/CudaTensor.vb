@@ -352,7 +352,12 @@ Namespace GPUTensor
         ''' <summary>逐元素一元（可带 0 / 1 / 2 个运行时标量参数）</summary>
         Private Function EwUnary(t As tf.Tensor, kernelName As String,
                                  ParamArray scalars As Double()) As tf.Tensor
-            If Not OnGpu(t) OrElse Not DoubleKernelRegistry.Available(kernelName) Then Return Nothing
+            If Not OnGpu(t) OrElse Not DoubleKernelRegistry.Available(kernelName) Then
+                ' 即将落到 CPU 兜底：先保证主机副本是最新的
+                Call SyncIfPinned(t)
+
+                Return Nothing
+            End If
 
             Dim dx = Device(t)
 
@@ -683,7 +688,15 @@ Namespace GPUTensor
             ' 用 Int32 会直接抛 OverflowException。写法与 SIMDTensor.MatMul 保持一致。
             Dim totalOps As Long = CLng(m) * k * n
 
-            If totalOps < MinGemmElements Then Return MyBase.MatMul(a, b)
+            If totalOps < MinGemmElements Then
+                ' CPU 兜底读的是主机数组，必须先把常驻权重同步回来。
+                ' 增量解码（m = 1）恰好会落到这条分支上，漏掉这一步会让
+                ' "KV Cache 有/无缓存两条路径"给出不同结果。
+                Call SyncIfPinned(a)
+                Call SyncIfPinned(b)
+
+                Return MyBase.MatMul(a, b)
+            End If
 
             Dim elements As Long = CLng(m) * n
             Call EnsureDeviceCount(elements, "MatMul 的输出")
@@ -699,7 +712,12 @@ Namespace GPUTensor
             ' 内核缺失（NVRTC 编译失败 / 驱动不匹配）时回退 CPU，
             ' 与 Transpose / Conv2D / SpMM 的回退策略保持一致
             Dim kernel = TryKernel(TensorKernelNames.GemmDouble)
-            If kernel Is Nothing Then Return MyBase.MatMul(a, b)
+            If kernel Is Nothing Then
+                Call SyncIfPinned(a)
+                Call SyncIfPinned(b)
+
+                Return MyBase.MatMul(a, b)
+            End If
 
             Dim da = Device(a)
             Dim db = Device(b)
@@ -811,7 +829,11 @@ Namespace GPUTensor
                 Throw New ArgumentException("只支持二维张量转置")
             End If
 
-            If Not OnGpu(t) Then Return MyBase.Transpose(t)
+            If Not OnGpu(t) Then
+                Call SyncIfPinned(t)
+
+                Return MyBase.Transpose(t)
+            End If
 
             Dim rows = t.Shape(0)
             Dim cols = t.Shape(1)
