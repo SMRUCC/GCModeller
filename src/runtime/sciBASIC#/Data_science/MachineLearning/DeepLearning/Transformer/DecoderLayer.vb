@@ -13,34 +13,62 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Transformer
 
+    ''' <summary>
+    ''' One decoder layer: masked self attention, cross attention and a position wise feed forward network, each wrapped in
+    ''' a residual connection and layer normalization.
+    ''' </summary>
+    ''' <remarks>
+    ''' Every sub layer caches its AddNorm statistics and its forward output for the backward pass. Because decoding proceeds
+    ''' token by token, the forward cache of this layer is overwritten on every step, so callers
+    ''' (<see cref="DecoderStack"/>, <see cref="TransformerModel"/>) must keep a snapshot of the cache of each step.
+    ''' </remarks>
     Public Class DecoderLayer
 
         Private embeddingSize As Integer
 
         Private mha As MultiHeadAttention
         Private mha_masked As MultiHeadAttention
+        ''' <summary>The position wise feed forward sub layer of this decoder layer.</summary>
         Public ff As FeedForwardNetwork
 
         Private dropoutMask1, dropoutMask2, dropoutMask3 As Boolean()
         Private dropoutRate As Double = 0
 
-        ''' <summary>前向传播的中间量缓存，供反向传播使用。</summary>
+        ''' <summary>
+        ''' Forward intermediates of one decode step, required by the backward pass.
+        ''' </summary>
         Public Class Cache
+            ''' <summary>The input of this layer for the step.</summary>
             Public Input As Tensor
+            ''' <summary>Output of the masked self attention sub layer.</summary>
             Public MaskedAttention As Tensor
+            ''' <summary>Masked self attention output after dropout.</summary>
             Public MaskedAttentionDropped As Tensor
+            ''' <summary>Result of the first AddNorm.</summary>
             Public Normalized1 As Tensor
+            ''' <summary>Mean used by the first layer normalization.</summary>
             Public Norm1Mean As Double()
+            ''' <summary>Inverse standard deviation used by the first layer normalization.</summary>
             Public Norm1InvStd As Double()
+            ''' <summary>Output of the cross attention sub layer.</summary>
             Public CrossAttention As Tensor
+            ''' <summary>Cross attention output after dropout.</summary>
             Public CrossAttentionDropped As Tensor
+            ''' <summary>Result of the second AddNorm.</summary>
             Public Normalized2 As Tensor
+            ''' <summary>Mean used by the second layer normalization.</summary>
             Public Norm2Mean As Double()
+            ''' <summary>Inverse standard deviation used by the second layer normalization.</summary>
             Public Norm2InvStd As Double()
+            ''' <summary>Output of the feed forward sub layer.</summary>
             Public FeedForwardOutput As Tensor
+            ''' <summary>Feed forward output after dropout.</summary>
             Public FeedForwardDropped As Tensor
+            ''' <summary>Mean used by the third layer normalization.</summary>
             Public Norm3Mean As Double()
+            ''' <summary>Inverse standard deviation used by the third layer normalization.</summary>
             Public Norm3InvStd As Double()
+            ''' <summary>Indicates whether dropout was applied during this step.</summary>
             Public DropoutApplied As Boolean
             ''' <summary>掩码自注意力子层的前向缓存快照</summary>
             Public MaskedCache As MultiHeadAttention.Cache
@@ -59,6 +87,14 @@ Namespace Transformer
             End Get
         End Property
 
+        ''' <summary>
+        ''' Creates a decoder layer.
+        ''' </summary>
+        ''' <param name="embeddingSize">Width of the model, used for the residual stream.</param>
+        ''' <param name="dk">Dimension of the query and key projections per head.</param>
+        ''' <param name="dv">Dimension of the value projection per head.</param>
+        ''' <param name="h">Number of attention heads.</param>
+        ''' <param name="dff">Hidden width of the feed forward network.</param>
         Public Sub New(embeddingSize As Integer, dk As Integer, dv As Integer, h As Integer, dff As Integer)
             Me.embeddingSize = embeddingSize
 
@@ -71,6 +107,13 @@ Namespace Transformer
             dropoutMask3 = New Boolean(embeddingSize - 1) {}
         End Sub
 
+        ''' <summary>
+        ''' Runs one decoder step: masked self attention, cross attention over the encoder output and a feed forward network.
+        ''' </summary>
+        ''' <param name="encoderOutput">The output of the encoder stack used by the cross attention sub layer.</param>
+        ''' <param name="decoderInput">The embedded decoder input of this step.</param>
+        ''' <param name="isTraining">When <c>True</c> dropout is applied where configured.</param>
+        ''' <returns>The decoder output of this step.</returns>
         Public Function Decode(encoderOutput As Tensor, decoderInput As Tensor, isTraining As Boolean) As Tensor
             Dim dropoutApplied = isTraining AndAlso dropoutRate > 0
 
@@ -127,12 +170,13 @@ Namespace Transformer
         End Function
 
         ''' <summary>
-        ''' 反向传播：返回对 <c>decoderInput</c> 的梯度，
-        ''' 并通过 <paramref name="dEncoderOutput"/> 累加对 encoder 输出的梯度。
+        ''' Backpropagates through the three sub layers and returns the gradient with respect to the decoder input, while
+        ''' accumulating the gradient with respect to the encoder output.
         ''' </summary>
-        ''' <param name="forwardCache">与该解码步相对应的前向缓存快照</param>
-        ''' <param name="dOut">对该步解码输出的梯度</param>
-        ''' <param name="dEncoderOutput">对 encoder 输出的梯度累加器</param>
+        ''' <param name="forwardCache">The forward cache snapshot that belongs to this decode step.</param>
+        ''' <param name="dOut">Gradient with respect to the decoder output of this step.</param>
+        ''' <param name="dEncoderOutput">Accumulator for the gradient with respect to the encoder output.</param>
+        ''' <returns>The gradient with respect to the decoder input.</returns>
         Public Function Backward(forwardCache As Cache, dOut As Tensor, ByRef dEncoderOutput As Tensor) As Tensor
             Dim cache = forwardCache
 
@@ -186,6 +230,11 @@ Namespace Transformer
             Return dDecoderInput
         End Function
 
+        ''' <summary>
+        ''' Configures dropout and draws new dropout masks for the three sub layers.
+        ''' </summary>
+        ''' <param name="dropoutRate">Dropout rate in <c>[0, 1)</c>.</param>
+        ''' <exception cref="ArgumentException">Thrown when the rate is outside <c>[0, 1)</c>.</exception>
         Public Sub SetDropoutNodes(dropoutRate As Double)
             If dropoutRate < 0 OrElse dropoutRate >= 1 Then Throw New ArgumentException("Error: dropout rate must be >= 0 and < 1")
 
@@ -203,13 +252,18 @@ Namespace Transformer
             Next
         End Sub
 
-        ''' <summary>清零本层所有参数的梯度累加器。</summary>
+        ''' <summary>Clears the gradient accumulators of every parameter of this layer.</summary>
         Public Sub ZeroGradients()
             mha_masked.ZeroGradients()
             mha.ZeroGradients()
             ff.ZeroGradients()
         End Sub
 
+        ''' <summary>
+        ''' Applies one optimizer step to every parameter of this layer.
+        ''' </summary>
+        ''' <param name="learningRate">The learning rate for this step.</param>
+        ''' <param name="[step]">The current step index, used by the Adam bias correction.</param>
         Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)
             mha_masked.MakeTrainingStep(learningRate, [step])
             mha.MakeTrainingStep(learningRate, [step])
