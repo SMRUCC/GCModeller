@@ -102,6 +102,9 @@ Module SquiiffDemo
         Console.WriteLine()
         Console.WriteLine("[3/8] 构建并训练扩散自编码器")
 
+        ' README 把语义编码器描述为确定性的 Enc(x_0)（与 scGen / 扩散自编码器一致）。
+        ' 若启用 VAE 重参数化 + KL，z_sem 会被正则到 N(0, I)，
+        ' 隐空间里"细胞类型 / 扰动"这类高层结构会被抹平，Δz 向量算术随之失去分辨率。
         Dim config As New SquiiffConfig With {
             .DiffusionSteps = 500,
             .InferenceSteps = 40,
@@ -116,9 +119,10 @@ Module SquiiffDemo
             .LearningRate = 0.001,
             .BatchSize = 64,
             .Epochs = 60,
-            .BetaKL = 0.0001,
             .ClipNorm = 1.0,
-            .Seed = 20240920
+            .Seed = 20240920,
+            .UseReparameterization = False,
+            .BetaKL = 0.0
         }
 
         Dim configError = config.Validate()
