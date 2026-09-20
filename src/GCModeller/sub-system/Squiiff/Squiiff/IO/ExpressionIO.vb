@@ -69,8 +69,8 @@ Namespace IO
             Return Pack(cellNames.ToArray(), geneNames, rows)
         End Function
 
-        ''' <summary>按细胞名清单筛选列（细胞）与基因子集，返回 <c>[cell, gene]</c>。</summary>
-        Public Shared Function Transpose(geneNames As String(), cellNames As String(), geneBySample As Double(,)) As CellExpressionMatrix
+        ''' <summary>把 <c>[gene, sample]</c> 转置为 SquiDiff 使用的 <c>[cell, gene]</c>。</summary>
+        Public Function Transpose(geneNames As String(), cellNames As String(), geneBySample As Double(,)) As CellExpressionMatrix
             Dim rows = cellNames.Length
             Dim columns = geneNames.Length
             Dim values(rows - 1, columns - 1) As Double

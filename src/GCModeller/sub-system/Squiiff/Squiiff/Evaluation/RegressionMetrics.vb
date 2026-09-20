@@ -77,8 +77,8 @@ Namespace Evaluation
             Dim a = actual.Data
 
             result.Pcc = Pearson(p, a)
-            result.Rmse = Rmse(p, a)
-            result.Mae = Mae(p, a)
+            result.Rmse = RootMeanSquareError(p, a)
+            result.Mae = MeanAbsoluteError(p, a)
             result.R2 = R2Value(p, a)
 
             If predicted.Rank = 2 AndAlso predicted.Shape(1) >= 2 Then
@@ -107,7 +107,7 @@ Namespace Evaluation
                     Dim pv(rows - 1) As Double
                     Dim av(rows - 1) As Double
 
-                    For j Integer = 0 To columns - 1
+                    For j As Integer = 0 To columns - 1
                         For i As Integer = 0 To rows - 1
                             pv(i) = p(i * columns + j)
                             av(i) = a(i * columns + j)
@@ -172,7 +172,7 @@ Namespace Evaluation
 
             Dim pa(valid.Count - 1) As Double
             Dim pb(valid.Count - 1) As Double
-            For i Integer = 0 To valid.Count - 1
+            For i As Integer = 0 To valid.Count - 1
                 pa(i) = a(valid(i))
                 pb(i) = b(valid(i))
             Next
@@ -181,7 +181,7 @@ Namespace Evaluation
         End Function
 
         ''' <summary>均方根误差。</summary>
-        Public Shared Function Rmse(a As Double(), b As Double()) As Double
+        Public Shared Function RootMeanSquareError(a As Double(), b As Double()) As Double
             If a Is Nothing OrElse b Is Nothing OrElse a.Length <> b.Length OrElse a.Length = 0 Then Return Double.NaN
 
             Dim sum As Double = 0.0
@@ -194,7 +194,7 @@ Namespace Evaluation
         End Function
 
         ''' <summary>平均绝对误差。</summary>
-        Public Shared Function Mae(a As Double(), b As Double()) As Double
+        Public Shared Function MeanAbsoluteError(a As Double(), b As Double()) As Double
             If a Is Nothing OrElse b Is Nothing OrElse a.Length <> b.Length OrElse a.Length = 0 Then Return Double.NaN
 
             Dim sum As Double = 0.0

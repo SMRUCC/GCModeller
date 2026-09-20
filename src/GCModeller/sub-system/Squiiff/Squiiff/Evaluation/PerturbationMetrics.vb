@@ -89,7 +89,7 @@ Namespace Evaluation
                 Dim offset = i * columns
                 Dim pd(columns - 1) As Double
                 Dim td(columns - 1) As Double
-                For j Integer = 0 To columns - 1
+                For j As Integer = 0 To columns - 1
                     pd(j) = p(offset + j)
                     td(j) = t(offset + j)
                 Next
@@ -155,7 +155,7 @@ Namespace Evaluation
                 Dim normA As Double = 0.0
                 Dim normB As Double = 0.0
 
-                For j Integer = 0 To columns - 1
+                For j As Integer = 0 To columns - 1
                     dot += a(offset + j) * b(offset + j)
                     normA += a(offset + j) * a(offset + j)
                     normB += b(offset + j) * b(offset + j)
