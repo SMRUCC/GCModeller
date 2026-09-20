@@ -17,8 +17,16 @@ Namespace NN
     ''' 是**显式条件输入**（而非 classifier-free guidance 的分数混合），
     ''' 通过条件批归一化注入去噪网络。
     '''
-    ''' 投影层刻意零初始化权重（<c>Wγ=0, bγ=1</c>；<c>Wβ=0, bβ=0</c>），使条件批归一化在训练起点
-    ''' 退化为"标准化 + γ=1,β=0"，训练更稳定。
+    ''' ### 初始化策略（关键）
+    ''' β 投影零初始化（<c>Wβ=0, bβ=0</c>），γ 投影的偏置取 1（<c>bγ=1</c>），二者合起来让条件批归一化
+    ''' 在训练起点退化为"标准化 + γ=1, β=0"，保证训练稳定。
+    '''
+    ''' 但 γ 投影的**权重不能零初始化**：<see cref="Linear.Backward"/> 对输入的梯度是
+    ''' <c>dOut · Wᵀ</c>，一旦 <c>Wγ = 0</c>，条件向量 <c>[z_sem, tEmb]</c> 的梯度就恒为 0，
+    ''' 也就是说**语义编码器在整个训练初期收不到任何来自去噪损失的梯度**（实测条件敏感度
+    ''' <c>‖Δε̂‖/‖ε̂‖ ≈ 0.02</c>，语义条件事实上被去噪网络忽略）。
+    ''' 因此 γ 权重改用**小尺度随机初始化**（<see cref="DefaultGammaInitScale"/>），
+    ''' 让条件支路从起点就是"活的"，既保留 γ≈1 的近似恒等性，又打通了回传到编码器的梯度通路。
     '''
     ''' 反向传播需要同时回传两个方向：
     ''' 对输入的梯度 <c>dx</c>，以及对条件向量的梯度 <c>dCond</c>（经 <c>ByRef</c> 输出）。
@@ -49,14 +57,20 @@ Namespace NN
         ''' <summary>推理模式是否仍使用当前批统计量（默认 False = 使用滑动统计量）。</summary>
         Public Property UseBatchStatsAtInference As Boolean = False
 
-        Public Sub New(name As String, features As Integer, conditionDim As Integer)
+        ''' <summary>γ 投影权重的初始化尺度（<c>γ</c> 偏离 1 的标准差量级）。</summary>
+        Public Const DefaultGammaInitScale As Double = 0.1
+
+        Public Sub New(name As String, features As Integer, conditionDim As Integer,
+                       Optional gammaInitScale As Double = DefaultGammaInitScale)
             Me._name = name
             Me.GammaProjection = New Linear($"{name}.gammaProj", conditionDim, features)
             Me.BetaProjection = New Linear($"{name}.betaProj", conditionDim, features)
 
-            ' 零初始化投影权重，使条件调制从恒等（γ=1, β=0）出发
-            ZeroWeight(Me.GammaProjection.Weight.Value)
+            ' γ 支路：偏置取 1（恒等起点），权重取小尺度随机（保证条件梯度通路不死）
+            Call RescaleWeight(Me.GammaProjection.Weight.Value, gammaInitScale, conditionDim)
             SetConstant(Me.GammaProjection.Bias.Value, 1.0)
+
+            ' β 支路：全零（恒等起点）
             ZeroWeight(Me.BetaProjection.Weight.Value)
             SetConstant(Me.BetaProjection.Bias.Value, 0.0)
 
@@ -67,6 +81,19 @@ Namespace NN
 
         Private Shared Sub ZeroWeight(t As Tensor)
             Array.Clear(t.Data, 0, t.Data.Length)
+            Call t.MarkHostModified()
+        End Sub
+
+        ''' <summary>
+        ''' 把 He 初始化的权重重新缩放为 <c>N(0, (scale/√conditionDim)²)</c>。
+        ''' 这样 <c>γ = 1 + cond·Wγ</c> 在条件向量各分量近似标准正态时，偏离 1 的幅度约为
+        ''' <paramref name="scale"/>，既保持"近似恒等"又让 <c>dOut·Wᵀ</c> 从第一步起就非零。
+        ''' </summary>
+        Private Shared Sub RescaleWeight(t As Tensor, scale As Double, conditionDim As Integer)
+            Dim factor = scale / (std.Sqrt(2.0) * std.Sqrt(std.Max(1, conditionDim)))
+            Dim rescaled = TensorUtil.Scale(TensorUtil.HeNormal(t.Shape), factor)
+
+            Call Array.Copy(rescaled.Data, t.Data, t.Data.Length)
             Call t.MarkHostModified()
         End Sub
 

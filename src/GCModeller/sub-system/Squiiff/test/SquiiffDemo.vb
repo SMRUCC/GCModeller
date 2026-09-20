@@ -103,7 +103,7 @@ Module SquiiffDemo
         Console.WriteLine("[3/8] 构建并训练扩散自编码器")
 
         Dim config As New SquiiffConfig With {
-            .DiffusionSteps = 200,
+            .DiffusionSteps = 500,
             .InferenceSteps = 40,
             .BetaStart = 0.001,
             .BetaEnd = 0.01,
