@@ -169,23 +169,23 @@ Public Class TestRunner
         End Try
     End Function
 
-    Public Function AssertContains(name As String, set As IEnumerable(Of String), item As String) As Boolean
-        Dim contains As Boolean = set IsNot Nothing AndAlso set.Contains(item, StringComparer.OrdinalIgnoreCase)
+    Public Function AssertContains(name As String, values As IEnumerable(Of String), item As String) As Boolean
+        Dim contains As Boolean = values IsNot Nothing AndAlso values.Contains(item, StringComparer.OrdinalIgnoreCase)
 
         If contains Then
             Ok(name, $"包含 {item}", "包含")
         Else
-            Fail(name, $"包含 {item}", $"实际集合 = [{String.Join(", ", If(set, New String() {}))}]")
+            Fail(name, $"包含 {item}", $"实际集合 = [{String.Join(", ", If(values, New String() {}))}]")
         End If
 
         Return contains
     End Function
 
-    Public Function AssertNotContains(name As String, set As IEnumerable(Of String), item As String) As Boolean
-        Dim contains As Boolean = set IsNot Nothing AndAlso set.Contains(item, StringComparer.OrdinalIgnoreCase)
+    Public Function AssertNotContains(name As String, values As IEnumerable(Of String), item As String) As Boolean
+        Dim contains As Boolean = values IsNot Nothing AndAlso values.Contains(item, StringComparer.OrdinalIgnoreCase)
 
         If contains Then
-            Fail(name, $"不包含 {item}", $"实际集合 = [{String.Join(", ", If(set, New String() {}))}]")
+            Fail(name, $"不包含 {item}", $"实际集合 = [{String.Join(", ", If(values, New String() {}))}]")
         Else
             Ok(name, $"不包含 {item}", "不包含")
         End If

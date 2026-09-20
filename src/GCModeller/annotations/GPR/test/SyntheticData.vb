@@ -229,8 +229,8 @@ Public Module SyntheticData
 
         Return NewCase(
             "距离衰减与链方向",
-            "g_near / g_far / g_cross 都是无 EC 的目标基因，各自旁边有一个携带相同 EC 的邻居，"
-            & "区别仅在于距离与链方向。",
+            "g_near / g_far / g_cross 都是无 EC 的目标基因，各自旁边有一个携带相同 EC 的邻居，" &
+            "区别仅在于距离与链方向。",
             genes, New Pathway() {p1})
     End Function
 
@@ -276,8 +276,8 @@ Public Module SyntheticData
 
         Return NewCase(
             "融合基因与通路完整度",
-            "g_fusion 携带 P1 主链前 3 个连续反应的 EC（覆盖率 3/4 = 0.75，应当触发通路完整度补缺）；"
-            & "g_split 携带 P1 第 1 个反应与 P2 唯一反应的 EC（两个反应不在同一条通路上）。",
+            "g_fusion 携带 P1 主链前 3 个连续反应的 EC（覆盖率 3/4 = 0.75，应当触发通路完整度补缺）；" &
+            "g_split 携带 P1 第 1 个反应与 P2 唯一反应的 EC（两个反应不在同一条通路上）。",
             genes, New Pathway() {p1, p2})
     End Function
 
@@ -320,8 +320,8 @@ Public Module SyntheticData
 
         Return NewCase(
             "综合演示",
-            "4 条合成通路（5 + 6 + 4 + 3 个反应）与 18 个基因，"
-            & "包含操纵子、酶复合体、融合基因、未映射 EC 以及无 EC 注释的基因。",
+            "4 条合成通路（5 + 6 + 4 + 3 个反应）与 18 个基因，" &
+            "包含操纵子、酶复合体、融合基因、未映射 EC 以及无 EC 注释的基因。",
             genes, New Pathway() {p1, p2, p3, p4})
     End Function
 
@@ -359,8 +359,8 @@ Public Module SyntheticData
 
         Return NewCase(
             "上下文作用域收敛",
-            "g_context 紧邻 P1 主链的四个基因但没有自己的 EC；诱饵反应 P1_R_orphan 虽然属于 P1，"
-            & "却与这四个邻居的 EC 完全无关，其唯一的携带者 g_orphan 远在 500kbp 之外。",
+            "g_context 紧邻 P1 主链的四个基因但没有自己的 EC；诱饵反应 P1_R_orphan 虽然属于 P1，" &
+            "却与这四个邻居的 EC 完全无关，其唯一的携带者 g_orphan 远在 500kbp 之外。",
             genes, New Pathway() {p1})
     End Function
 
@@ -380,8 +380,8 @@ Public Module SyntheticData
 
         Return NewCase(
             "共表达",
-            "g_expr1 携带 P1 主链第 1 个反应的 EC；g_expr2 与 g_expr1 完全正相关，"
-            & "g_expr3 与 g_expr1 完全负相关；三者之间物理距离都超过阈值。",
+            "g_expr1 携带 P1 主链第 1 个反应的 EC；g_expr2 与 g_expr1 完全正相关，" &
+            "g_expr3 与 g_expr1 完全负相关；三者之间物理距离都超过阈值。",
             genes, New Pathway() {p1})
     End Function
 
