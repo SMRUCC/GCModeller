@@ -96,6 +96,7 @@ Namespace CNN.layers
         Private filters As DataBlock()
         Private biases As DataBlock
 
+        ''' <summary>Gets the weight and bias parameter blocks of this layer.</summary>
         Public Overridable ReadOnly Iterator Property BackPropagationResult As IEnumerable(Of BackPropResult) Implements Layer.BackPropagationResult
             Get
                 For i As Integer = 0 To out_depth - 1
