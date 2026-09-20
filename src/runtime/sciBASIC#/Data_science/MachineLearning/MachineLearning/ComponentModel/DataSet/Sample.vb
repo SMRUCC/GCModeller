@@ -149,10 +149,6 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' the unique id
         ''' </summary>
-        ''' <returns></returns>
-        ''' <summary>
-        ''' the unique id
-        ''' </summary>
         ''' <returns>The unique reference id of this sample data.</returns>
         Public Property id As String Implements INamedValue.Key
         ''' <summary>

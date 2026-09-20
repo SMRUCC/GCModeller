@@ -186,10 +186,22 @@ Namespace SVM
             weights = New Dictionary(Of Integer, Double)()
         End Sub
 
+        ''' <summary>
+        ''' Display this parameter set as a json string.
+        ''' </summary>
+        ''' <returns>A json text which describes all of the parameter values.</returns>
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
 
+        ''' <summary>
+        ''' Compares this parameter set with another object.
+        ''' </summary>
+        ''' <param name="obj">The object that will be compared with this parameter set.</param>
+        ''' <returns>
+        ''' ``True`` when the <paramref name="obj"/> is a <see cref="Parameter"/> 
+        ''' object which has the identical parameter values, otherwise ``False``.
+        ''' </returns>
         Public Overrides Function Equals(obj As Object) As Boolean
             Dim other As Parameter = TryCast(obj, Parameter)
 
@@ -212,6 +224,11 @@ Namespace SVM
                 other.weights.ToArray().IsEqual(weights.ToArray())
         End Function
 
+        ''' <summary>
+        ''' Gets the hash code of this parameter set, which is combined by the 
+        ''' hash code of all of its parameter values.
+        ''' </summary>
+        ''' <returns>An <see cref="Integer"/> hash code value.</returns>
         Public Overrides Function GetHashCode() As Integer
             Return c.GetHashCode() +
                 cacheSize.GetHashCode() +

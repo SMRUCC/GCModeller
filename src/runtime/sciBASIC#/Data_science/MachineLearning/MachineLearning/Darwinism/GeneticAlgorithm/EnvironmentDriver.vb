@@ -232,7 +232,8 @@ Namespace Darwinism.GAF
         End Sub
 
         ''' <summary>
-        ''' 
+        ''' Request the running evolution loop to be terminated gracefully at 
+        ''' the end of the current iteration.
         ''' </summary>
         ''' <example>
         ''' ' If fitness is satisfying - we can stop Genetic algorithm
@@ -241,10 +242,6 @@ Namespace Darwinism.GAF
         '''     Call ga.Terminate()
         ''' End If
         ''' </example>
-        ''' <summary>
-        ''' Request the running evolution loop to be terminated gracefully at 
-        ''' the end of the current iteration.
-        ''' </summary>
         Public Sub Terminate()
             Me.terminated = True
         End Sub

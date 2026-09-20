@@ -70,7 +70,7 @@ Namespace ComponentModel.Activations
         ''' </summary>
         ''' <returns>
         ''' A <see cref="ActiveFunction"/> data model which its function name is 
-        ''' <see cref="NameOf(Identical)"/> and no argument is required.
+        ''' ``Identical`` and no argument is required.
         ''' </returns>
         Public Overrides ReadOnly Property Store As ActiveFunction
             Get

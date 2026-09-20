@@ -114,7 +114,7 @@ Namespace ComponentModel.Activations
         ''' </summary>
         ''' <returns>
         ''' A <see cref="ActiveFunction"/> data model which its function name is 
-        ''' <see cref="NameOf(BipolarSigmoid)"/>, and the <see cref="Alpha"/> value 
+        ''' ``BipolarSigmoid``, and the <see cref="Alpha"/> value 
         ''' is stored as its only argument.
         ''' </returns>
         Public Overrides ReadOnly Property Store As ActiveFunction

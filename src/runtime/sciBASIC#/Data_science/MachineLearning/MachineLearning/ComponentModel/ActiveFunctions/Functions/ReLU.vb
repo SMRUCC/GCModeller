@@ -77,7 +77,7 @@ Namespace ComponentModel.Activations
         ''' </summary>
         ''' <returns>
         ''' A <see cref="ActiveFunction"/> data model which its function name is 
-        ''' <see cref="NameOf(ReLU)"/>, and the ``threshold`` value is stored as 
+        ''' ``ReLU``, and the ``threshold`` value is stored as 
         ''' its only argument.
         ''' </returns>
         Public Overrides ReadOnly Property Store As ActiveFunction

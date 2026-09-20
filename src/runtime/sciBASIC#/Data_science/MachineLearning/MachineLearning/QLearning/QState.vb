@@ -63,9 +63,6 @@
 Namespace QLearning
 
     ''' <summary>
-    ''' interface helper for write cdf model file
-    ''' </summary>
-    ''' <summary>
     ''' The feature set description of the Q-learning state objects, this 
     ''' interface is a helper for writing the cdf model file.
     ''' </summary>

@@ -97,7 +97,7 @@ Namespace Darwinism.Models
         ''' <summary>
         ''' The raw fitness calculation function which is wrapped by this cache pool.
         ''' </summary>
-        ''' <returns>A <see cref="Fitness(Of Individual)"/> object.</returns>
+        ''' <returns>The wrapped fitness calculation model object.</returns>
         Public ReadOnly Property evaluateFitness As Fitness(Of Individual)
 
         ''' <summary>
