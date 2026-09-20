@@ -51,6 +51,12 @@ Public Class SquiiffConfig
     ''' </summary>
     Public Property EncoderConditioned As Boolean = False
 
+    ''' <summary>
+    ''' 编码侧条件向量的维度（仅当 <see cref="EncoderConditioned"/> 为 True 时生效）。
+    ''' 调用方需以 <c>[B, EncoderConditionDim]</c> 的张量显式传入条件向量（如扰动标签嵌入）。
+    ''' </summary>
+    Public Property EncoderConditionDim As Integer = 8
+
     ''' <summary>是否启用 VAE 重参数化采样（推理阶段始终取均值 μ）。</summary>
     Public Property UseReparameterization As Boolean = True
 
@@ -132,6 +138,7 @@ Public Class SquiiffConfig
         If LearningRate <= 0.0 Then Return "LearningRate 必须 > 0"
         If InferenceSteps < 1 Then Return "InferenceSteps 必须 >= 1"
         If BetaKL < 0.0 Then Return "BetaKL 必须 >= 0"
+        If EncoderConditioned AndAlso EncoderConditionDim < 1 Then Return "EncoderConditioned 为 True 时 EncoderConditionDim 必须 >= 1"
 
         Return String.Empty
     End Function
@@ -142,7 +149,8 @@ Public Class SquiiffConfig
                $"编码器={EncoderHiddenDim}×{EncoderBlocks}块 去噪器={DenoiserHiddenDim}×{DenoiserBlocks}块 " &
                $"时间嵌入={TimeEmbeddingDim} 激活={Activation} " &
                $"lr={LearningRate} batch={BatchSize} epochs={Epochs} " &
-               $"KL权重={BetaKL} 重参数化={UseReparameterization} 梯度裁剪={ClipNorm} 推理步={InferenceSteps}"
+               $"KL权重={BetaKL} 重参数化={UseReparameterization} 梯度裁剪={ClipNorm} 推理步={InferenceSteps}" &
+               If(EncoderConditioned, $" 编码侧条件化(dim={EncoderConditionDim})", "")
     End Function
 
     ''' <summary>深拷贝。</summary>
@@ -157,6 +165,7 @@ Public Class SquiiffConfig
             .EncoderHiddenDim = Me.EncoderHiddenDim,
             .EncoderBlocks = Me.EncoderBlocks,
             .EncoderConditioned = Me.EncoderConditioned,
+            .EncoderConditionDim = Me.EncoderConditionDim,
             .UseReparameterization = Me.UseReparameterization,
             .BetaKL = Me.BetaKL,
             .DenoiserHiddenDim = Me.DenoiserHiddenDim,

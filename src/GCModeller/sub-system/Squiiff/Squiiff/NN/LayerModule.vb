@@ -59,4 +59,23 @@ Namespace NN
             End Get
         End Property
     End Class
+
+    ''' <summary>
+    ''' 带滑动统计量（running mean / running variance）的归一化层。
+    '''
+    ''' 批归一化系列层除了可训练参数 γ / β，还持有**不参与梯度下降**的滑动统计量。
+    ''' 推理阶段默认使用滑动统计量，因此模型存档必须把它们一并落盘，
+    ''' 否则 Save → Load 之后同一份输入会得到不同的输出。
+    ''' </summary>
+    Public Interface IRunningStatistics
+
+        ''' <summary>层名（存档时作为主键，必须全局唯一）。</summary>
+        ReadOnly Property Name As String
+
+        ''' <summary>滑动均值 <c>[1,H]</c>。</summary>
+        ReadOnly Property RunningMean As Tensor
+
+        ''' <summary>滑动方差 <c>[1,H]</c>。</summary>
+        ReadOnly Property RunningVariance As Tensor
+    End Interface
 End Namespace

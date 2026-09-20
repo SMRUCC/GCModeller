@@ -88,6 +88,19 @@ Namespace Model
             End Get
         End Property
 
+        ''' <summary>全部残差块内的条件批归一化层（存档滑动统计量用，层名全局唯一）。</summary>
+        Public ReadOnly Property Normalizations As IReadOnlyList(Of IRunningStatistics)
+            Get
+                Dim bag As New List(Of IRunningStatistics)
+                For Each block In _blocks
+                    For Each norm In block.Normalizations
+                        bag.Add(norm)
+                    Next
+                Next
+                Return bag
+            End Get
+        End Property
+
         ''' <summary>把 <see cref="SquiiffConfig.UseBatchStatsAtInference"/> 同步到所有条件批归一化层。</summary>
         Public Sub ApplyInferenceNormalizationMode()
             For Each block In _blocks

@@ -112,7 +112,7 @@ Namespace Perturbation
         End Function
 
         ''' <summary>把 <c>[1,D]</c> 的方向向量转为可读的数值摘要。</summary>
-        Public Function Describe(delta As Tensor, geneLabels As String(), Optional topN As Integer = 6) As String
+        Public Function Describe(delta As Tensor, Optional geneLabels As String() = Nothing, Optional topN As Integer = 6) As String
             Dim values = delta.Data
             Dim order = Enumerable.Range(0, values.Length).ToArray()
             Array.Sort(order, Function(x, y) std.Abs(values(y)).CompareTo(std.Abs(values(x))))

@@ -51,6 +51,11 @@ Module GradientCheck
         pass = CheckConditioned("ConditionalBatchNorm", New ConditionalBatchNorm("gc.cbn", 5, 3), {6, 5}, {6, 3}, rng, tolerance) And pass
         pass = CheckResidual("ResidualBlock", New ResidualBlock("gc.res", 5, 3), {6, 5}, {6, 3}, rng, tolerance) And pass
 
+        ' 语义编码器残差块：非条件版（默认）与升维版（含 1×1 跳跃投影）
+        pass = CheckLayer("EncoderResidualBlock", New EncoderResidualBlock("gc.encRes", 5, 5), {6, 5}, rng, tolerance) And pass
+        pass = CheckLayer("EncoderResidualBlock(升维)", New EncoderResidualBlock("gc.encResUp", 5, 8), {6, 5}, rng, tolerance) And pass
+        pass = CheckEncoderConditioned("EncoderResidualBlock(条件)", New EncoderResidualBlock("gc.encResCond", 5, 5, conditioned:=True, conditionDim:=3), {6, 5}, {6, 3}, rng, tolerance) And pass
+
         Console.WriteLine(New String("-"c, 78))
         Console.WriteLine($"  梯度校验总结果: {(If(pass, "全部通过", "存在失败项"))}")
         Console.WriteLine(New String("="c, 78))
@@ -89,6 +94,27 @@ Module GradientCheck
 
         Return NumericCheck(name, norm.Parameters, Function() norm.Forward(x, cond, training:=True),
                             {x, cond}, {dx, dCond}, w, rng, tolerance)
+    End Function
+
+    ''' <summary>
+    ''' 对条件批归一化版的 <see cref="EncoderResidualBlock"/> 做梯度校验（输入、条件向量与参数）。
+    ''' 注意条件投影是零初始化的：γ≡1、β≡0，因此前向输出与条件向量无关，
+    ''' 数值差分得到的 <c>dCond</c> 会恒为 0，解析值同样为 0 —— 该项只校验参数与输入梯度。
+    ''' </summary>
+    Private Function CheckEncoderConditioned(name As String, block As EncoderResidualBlock,
+                                             inputShape As Integer(), condShape As Integer(),
+                                             rng As Random, tolerance As Double) As Boolean
+        Dim x = TensorUtil.StandardNormal(inputShape, rng)
+        Dim cond = TensorUtil.StandardNormal(condShape, rng)
+
+        Dim out = block.Forward(x, cond, training:=True)
+        Dim w = TensorUtil.StandardNormal(out.Shape, rng)
+
+        Dim dCond As Tensor = Nothing
+        Dim dx = block.Backward(w, dCond)
+
+        Return NumericCheck(name, block.Parameters, Function() block.Forward(x, cond, training:=True),
+                            {x}, {dx}, w, rng, tolerance)
     End Function
 
     ''' <summary>对 <see cref="ResidualBlock"/> 做梯度校验（输入、条件向量与参数）。</summary>

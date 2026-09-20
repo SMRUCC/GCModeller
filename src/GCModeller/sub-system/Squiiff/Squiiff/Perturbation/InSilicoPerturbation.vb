@@ -79,6 +79,41 @@ Namespace Perturbation
             Return _model.DecodeFromLatent(zNew, subcode, snapshots)
         End Function
 
+        ''' <summary>
+        ''' 按扰动名预测：从 <see cref="PerturbationSpace"/> 取已登记的 <c>Δz_sem</c> 做向量加法。
+        ''' </summary>
+        Public Function Predict(controlCells As Tensor, space As PerturbationSpace, name As String,
+                                Optional mode As SubcodeMode = SubcodeMode.Fresh,
+                                Optional snapshots As List(Of SamplingSnapshot) = Nothing) As Tensor
+            If space Is Nothing Then Throw New ArgumentNullException(NameOf(space))
+
+            Return Predict(controlCells, space.DeltaOf(name), mode, snapshots)
+        End Function
+
+        ''' <summary>
+        ''' 组合扰动外推：把若干已登记方向向量相加（<c>Σ Δz</c>）后做向量加法。
+        '''
+        ''' 这是"隐空间可加性假设"下的预测。若真实组合扰动含有单扰动之外的相互作用项
+        ''' （README 第六节的非可加性场景），该预测会存在系统性偏差——偏差大小正是
+        ''' 模型对非可加性的刻画能力的度量。
+        ''' </summary>
+        Public Function PredictCombination(controlCells As Tensor, space As PerturbationSpace,
+                                           names As String(),
+                                           Optional mode As SubcodeMode = SubcodeMode.Fresh,
+                                           Optional snapshots As List(Of SamplingSnapshot) = Nothing) As Tensor
+            If space Is Nothing Then Throw New ArgumentNullException(NameOf(space))
+
+            Return Predict(controlCells, space.Combine(names), mode, snapshots)
+        End Function
+
+        ''' <summary>
+        ''' 估计一个扰动的方向向量并登记进扰动空间（一步完成 <c>编码 → 求组中心差 → 登记</c>）。
+        ''' </summary>
+        Public Function Estimate(space As PerturbationSpace, spec As PerturbationSpec,
+                                 controlCells As Tensor, perturbedCells As Tensor) As Tensor
+            Return space.Estimate(spec, _model, controlCells, perturbedCells)
+        End Function
+
         ''' <summary>直接用给定的语义隐变量做条件生成（Lerp 轨迹逐点解码时使用）。</summary>
         Public Function DecodeAt(zSem As Tensor, subcode As Tensor,
                                  Optional snapshots As List(Of SamplingSnapshot) = Nothing) As Tensor

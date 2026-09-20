@@ -129,9 +129,13 @@ Namespace Diffusion
         ''' 此处批量共享同一步 <paramref name="t"/>，可用标量算子直接逐元素缩放。
         ''' </summary>
         Public Function Recombine(x0Hat As Tensor, eps As Tensor, t As Integer) As Tensor
-            Dim sa = CSng(SqrtAlphaBar(t))
-            Dim sb = CSng(SqrtOneMinusAlphaBar(t))
-            Return x0Hat * sa + eps * sb
+            ' 必须走 Double 标量缩放路径：Tensor 的 Operator *(Tensor, Single) 会把系数降到单精度，
+            ' 截断误差在 100 步 DDIM 轨迹上累积后会破坏 Sample(Invert(x_0)) ≈ x_0 的往返可逆性，
+            ' 而扩散自编码器的"编码"一半正是建立在该可逆性之上。
+            Dim sa = SqrtAlphaBar(t)
+            Dim sb = SqrtOneMinusAlphaBar(t)
+
+            Return TensorUtil.Scale(x0Hat, sa) + TensorUtil.Scale(eps, sb)
         End Function
 
         ''' <summary>把逐样本时间步映射为 <c>[B,1]</c> 的系数列向量。</summary>

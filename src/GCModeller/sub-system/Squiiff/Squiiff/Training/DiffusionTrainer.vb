@@ -64,7 +64,8 @@ Namespace Training
             Dim totalEpochs = If(epochs.HasValue, epochs.Value, config.Epochs)
             Dim sampleCount = x0.Shape(0)
             Dim batchSize = std.Min(config.BatchSize, sampleCount)
-            Dim stepsPerEpoch = std.Max(1, sampleCount \ batchSize)
+            ' 向上取整：末尾不足一批的细胞也要参与训练，否则这部分样本永远见不到梯度
+            Dim stepsPerEpoch = std.Max(1, (sampleCount + batchSize - 1) \ batchSize)
             Dim totalSteps = std.Max(1, totalEpochs * stepsPerEpoch)
             Dim warmupSteps = std.Max(1, CInt(totalSteps * config.WarmupRatio))
 
@@ -181,15 +182,22 @@ Namespace Training
             Return order
         End Function
 
-        ''' <summary>按行索引取出一个小批量（行优先拷贝）。</summary>
+        ''' <summary>
+        ''' 按行索引取出一个小批量（行优先拷贝）。
+        '''
+        ''' 轮内最后一个批次可能凑不满 <paramref name="batchSize"/> 个尚未用过的样本，
+        ''' 此时下标对 <c>order.Length</c> 取模**循环回绕**：既保证批量恒定（批归一化在小批量上
+        ''' 统计量极不稳定），又保证每轮所有样本至少被覆盖一次。
+        ''' </summary>
         Private Shared Function TakeBatch(source As Tensor, order As Integer(), offset As Integer, batchSize As Integer) As Tensor
             Dim columns = source.Shape(1)
             Dim batch = New Tensor(New Integer() {batchSize, columns})
             Dim src = source.Data
             Dim dst = batch.Data
+            Dim n = order.Length
 
             For i As Integer = 0 To batchSize - 1
-                Dim row = order(offset + i)
+                Dim row = order((offset + i) Mod n)
                 Call Array.Copy(src, row * columns, dst, i * columns, columns)
             Next
 

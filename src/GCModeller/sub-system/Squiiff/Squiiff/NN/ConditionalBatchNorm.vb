@@ -24,7 +24,7 @@ Namespace NN
     ''' 对输入的梯度 <c>dx</c>，以及对条件向量的梯度 <c>dCond</c>（经 <c>ByRef</c> 输出）。
     ''' </summary>
     Public Class ConditionalBatchNorm
-        Implements IParameterized
+        Implements IParameterized, IRunningStatistics
 
         Private ReadOnly _name As String
         Private ReadOnly _params As Parameter()
@@ -78,7 +78,7 @@ Namespace NN
             Call t.MarkHostModified()
         End Sub
 
-        Public ReadOnly Property Name As String
+        Public ReadOnly Property Name As String Implements IRunningStatistics.Name
             Get
                 Return _name
             End Get
@@ -87,6 +87,20 @@ Namespace NN
         Public ReadOnly Property Parameters As IEnumerable(Of Parameter) Implements IParameterized.Parameters
             Get
                 Return _params
+            End Get
+        End Property
+
+        ''' <summary>滑动均值（<c>[1,H]</c>）。</summary>
+        Public ReadOnly Property RunningMean As Tensor Implements IRunningStatistics.RunningMean
+            Get
+                Return _runningMean
+            End Get
+        End Property
+
+        ''' <summary>滑动方差（<c>[1,H]</c>）。</summary>
+        Public ReadOnly Property RunningVariance As Tensor Implements IRunningStatistics.RunningVariance
+            Get
+                Return _runningVar
             End Get
         End Property
 

@@ -37,6 +37,7 @@ Public Class SquiDiff
         Me._geneNames = geneNames
         Me._model = New DiffusionAutoEncoder(config, geneNames.Length, config.Seed)
         Me.Perturbation = New InSilicoPerturbation(Me._model)
+        Me.Space = New PerturbationSpace()
     End Sub
 
     ''' <summary>超参数。</summary>
@@ -65,6 +66,11 @@ Public Class SquiDiff
 
     ''' <summary>虚拟扰动实验接口。</summary>
     Public ReadOnly Property Perturbation As InSilicoPerturbation
+
+    ''' <summary>
+    ''' 扰动空间：扰动名 / <see cref="PerturbationSpec"/> → 语义方向向量 <c>Δz_sem</c> 的登记表。
+    ''' </summary>
+    Public ReadOnly Property Space As PerturbationSpace
 
     ''' <summary>训练器（首次调用 <see cref="Train"/> 后可用）。</summary>
     Public ReadOnly Property Trainer As DiffusionTrainer
@@ -138,6 +144,57 @@ Public Class SquiDiff
         Return Me.Perturbation.Predict(controlCells, delta, mode, snapshots)
     End Function
 
+    ''' <summary>
+    ''' 估计一个扰动在语义隐空间中的方向向量 <c>Δz_sem</c> 并登记进 <see cref="Space"/>。
+    ''' </summary>
+    Public Function RegisterPerturbation(spec As PerturbationSpec,
+                                         controlCells As Tensor,
+                                         perturbedCells As Tensor) As Tensor
+        Return Me.Space.Estimate(spec, _model, controlCells, perturbedCells)
+    End Function
+
+    ''' <summary>按扰动名预测（需先用 <see cref="RegisterPerturbation"/> 登记）。</summary>
+    Public Function PredictByPerturbation(controlCells As Tensor, name As String,
+                                          Optional mode As SubcodeMode = SubcodeMode.Fresh,
+                                          Optional snapshots As List(Of SamplingSnapshot) = Nothing) As Tensor
+        Return Me.Perturbation.Predict(controlCells, Me.Space, name, mode, snapshots)
+    End Function
+
+    ''' <summary>
+    ''' 组合扰动外推：把若干已登记方向向量相加（<c>Σ Δz</c>）后条件生成。
+    ''' 用于检验非可加性——真实组合扰动含相互作用项时该预测会有系统性偏差。
+    ''' </summary>
+    Public Function PredictCombination(controlCells As Tensor, names As String(),
+                                       Optional mode As SubcodeMode = SubcodeMode.Fresh,
+                                       Optional snapshots As List(Of SamplingSnapshot) = Nothing) As Tensor
+        Return Me.Perturbation.PredictCombination(controlCells, Me.Space, names, mode, snapshots)
+    End Function
+
+    ''' <summary>
+    ''' 两个状态之间的插值生成轨迹：在 <c>z_sem</c> 空间做 Lerp 并逐点条件解码，
+    ''' 用于生成连续过渡态（分化中间态等）。
+    ''' </summary>
+    Public Function InterpolateBetween(cellsA As Tensor, cellsB As Tensor, steps As Integer,
+                                       Optional mode As SubcodeMode = SubcodeMode.Fresh) As List(Of Tensor)
+        Dim zA = LatentArithmetic.MeanVector(Me.Semantic(cellsA))
+        Dim zB = LatentArithmetic.MeanVector(Me.Semantic(cellsB))
+        Dim trajectory = LatentArithmetic.LerpTrajectory(zA, zB, steps)
+        Dim batch = cellsA.Shape(0)
+        Dim decoded As New List(Of Tensor)(trajectory.Count)
+
+        For Each z In trajectory
+            ' 把 [1,dz] 的插值点广播到 [B,dz]，使每个细胞都按同一插值位置生成
+            Dim zBatch = TensorUtil.BroadcastRow(z, batch)
+            Dim subcode = If(mode = SubcodeMode.InheritControl,
+                             _model.Sampler.Invert(_model.Denoiser, Me.Semantic(cellsA), cellsA),
+                             _model.Noise(cellsA.Shape))
+
+            decoded.Add(_model.DecodeFromLatent(zBatch, subcode))
+        Next
+
+        Return decoded
+    End Function
+
 #End Region
 
 #Region "存档"
@@ -151,8 +208,9 @@ Public Class SquiDiff
     Public Shared Function Load(path As String) As SquiDiff
         Dim archive = SquiiffStorage.Load(path)
         Dim instance = New SquiDiff(archive.Config, archive.GeneNames)
-        ' 用存档中的参数覆盖新构建模型的参数值
+        ' 用存档中的参数与批归一化滑动统计量覆盖新构建模型的对应状态
         Call CopyParameters(archive.Model, instance.Model)
+        Call CopyStatistics(archive.Model, instance.Model)
 
         Return instance
     End Function
@@ -166,6 +224,26 @@ Public Class SquiDiff
 
             Call Array.Copy(p.Value.Data, destination.Value.Data, p.Value.Data.Length)
             Call destination.Value.MarkHostModified()
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 复制批归一化的滑动均值 / 方差。推理默认使用滑动统计量，
+    ''' 若不复制，Load 回来的模型即使参数相同也会给出不同的生成结果。
+    ''' </summary>
+    Private Shared Sub CopyStatistics(source As DiffusionAutoEncoder, target As DiffusionAutoEncoder)
+        Dim map = target.Normalizations.ToDictionary(Function(n) n.Name, Function(n) n, StringComparer.Ordinal)
+
+        ' 循环变量名不能用 norm：Perturbation.LatentArithmetic.Norm(delta) 会被 VB 优先解析为函数
+        For Each state In source.Normalizations
+            Dim destination As IRunningStatistics = Nothing
+            If Not map.TryGetValue(state.Name, destination) Then Continue For
+
+            Call Array.Copy(state.RunningMean.Data, destination.RunningMean.Data, state.RunningMean.Data.Length)
+            Call Array.Copy(state.RunningVariance.Data, destination.RunningVariance.Data, state.RunningVariance.Data.Length)
+
+            Call destination.RunningMean.MarkHostModified()
+            Call destination.RunningVariance.MarkHostModified()
         Next
     End Sub
 
