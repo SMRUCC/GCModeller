@@ -324,7 +324,7 @@ Public Module GPRTestCases
 #Region "用例 10：退化输入与健壮性"
 
     Private Sub CaseDegenerateInputs(runner As TestRunner)
-        runner.BeginCase("11. 退化输入与健壮性")
+        runner.BeginCase("10. 退化输入与健壮性")
 
         ' 空基因组 + 空通路
         Dim empty As SyntheticCase = SyntheticData.EmptyGenome()
@@ -360,7 +360,7 @@ Public Module GPRTestCases
 #Region "用例 12：综合演示与结果完整性"
 
     Private Function CaseDemo(runner As TestRunner) As (Associator As MetabolicAssociator, Data As SyntheticCase)
-        runner.BeginCase("10. 综合演示与结果完整性")
+        runner.BeginCase("11. 综合演示与结果完整性")
 
         Dim data As SyntheticCase = SyntheticData.Demo()
         Dim assoc As MetabolicAssociator = Compute(data)
