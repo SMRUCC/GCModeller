@@ -9,6 +9,13 @@ Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 
 Namespace Transformer
 
+    ''' <summary>
+    ''' A stack of <see cref="DecoderLayer"/> instances, applied one after another.
+    ''' </summary>
+    ''' <remarks>
+    ''' Decoding proceeds token by token and every step overwrites the forward caches of the layers, so <see cref="Decode"/>
+    ''' stores a snapshot of each layer's cache in <see cref="LastCaches"/> for the following backward pass.
+    ''' </remarks>
     Public Class DecoderStack
 
         Private Nx As Integer
@@ -16,13 +23,22 @@ Namespace Transformer
 
         Private _lastCaches As List(Of DecoderLayer.Cache)
 
-        ''' <summary>最近一次 <see cref="Decode"/> 每一步各层的前向缓存快照。</summary>
+        ''' <summary>Gets the forward cache snapshot of every layer for the most recent <see cref="Decode"/> step.</summary>
         Public ReadOnly Property LastCaches As List(Of DecoderLayer.Cache)
             Get
                 Return _lastCaches
             End Get
         End Property
 
+        ''' <summary>
+        ''' Creates a decoder stack with the given number of identical layers.
+        ''' </summary>
+        ''' <param name="Nx">Number of decoder layers.</param>
+        ''' <param name="embeddingSize">Width of the model.</param>
+        ''' <param name="dk">Dimension of the query and key projections per head.</param>
+        ''' <param name="dv">Dimension of the value projection per head.</param>
+        ''' <param name="h">Number of attention heads.</param>
+        ''' <param name="dff">Hidden width of the feed forward network.</param>
         Public Sub New(Nx As Integer, embeddingSize As Integer, dk As Integer, dv As Integer, h As Integer, dff As Integer)
             Me.Nx = Nx
 
@@ -31,6 +47,13 @@ Namespace Transformer
             Next
         End Sub
 
+        ''' <summary>
+        ''' Runs the decoder input through all decoder layers and records the per layer forward cache snapshots.
+        ''' </summary>
+        ''' <param name="encoderOutput">The output of the encoder stack.</param>
+        ''' <param name="word_embeddings">The embedded decoder input.</param>
+        ''' <param name="isTraining">When <c>True</c> dropout is applied where configured.</param>
+        ''' <returns>The output of the last decoder layer.</returns>
         Public Function Decode(encoderOutput As Tensor, word_embeddings As Tensor, isTraining As Boolean) As Tensor
             _lastCaches = New List(Of DecoderLayer.Cache)()
 
@@ -46,12 +69,13 @@ Namespace Transformer
         End Function
 
         ''' <summary>
-        ''' 反向传播：返回对解码器输入（目标语言词嵌入）的梯度，
-        ''' 并通过 <paramref name="dEncoderOutput"/> 累加对 encoder 输出的梯度。
+        ''' Backpropagates through all decoder layers and returns the gradient with respect to the decoder input, while
+        ''' accumulating the gradient with respect to the encoder output.
         ''' </summary>
-        ''' <param name="caches">与该解码步对应的前向缓存快照</param>
-        ''' <param name="dOut">对该步解码输出的梯度</param>
-        ''' <param name="dEncoderOutput">对 encoder 输出的梯度累加器（跨解码步共享）</param>
+        ''' <param name="caches">The forward cache snapshots that belong to this decode step.</param>
+        ''' <param name="dOut">Gradient with respect to the decoder output of this step.</param>
+        ''' <param name="dEncoderOutput">Accumulator for the gradient with respect to the encoder output, shared across decode steps.</param>
+        ''' <returns>The gradient with respect to the decoder input.</returns>
         Public Function Backward(caches As List(Of DecoderLayer.Cache), dOut As Tensor, ByRef dEncoderOutput As Tensor) As Tensor
             Dim d = dOut
 
@@ -62,18 +86,28 @@ Namespace Transformer
             Return d
         End Function
 
+        ''' <summary>
+        ''' Configures dropout on every decoder layer.
+        ''' </summary>
+        ''' <param name="dropout">Dropout rate in <c>[0, 1)</c>.</param>
         Public Sub SetDropoutNodes(dropout As Double)
             For i = 0 To Nx - 1
                 decoderLayers(i).SetDropoutNodes(dropout)
             Next
         End Sub
 
+        ''' <summary>Clears the gradient accumulators of every decoder layer.</summary>
         Public Sub ZeroGradients()
             For i = 0 To Nx - 1
                 decoderLayers(i).ZeroGradients()
             Next
         End Sub
 
+        ''' <summary>
+        ''' Applies one optimizer step to every decoder layer.
+        ''' </summary>
+        ''' <param name="learningRate">The learning rate for this step.</param>
+        ''' <param name="[step]">The current step index, used by the Adam bias correction.</param>
         Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)
             For i = 0 To Nx - 1
                 decoderLayers(i).MakeTrainingStep(learningRate, [step])
