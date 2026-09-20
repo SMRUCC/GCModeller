@@ -11,6 +11,15 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Transformer
 
+    ''' <summary>
+    ''' One encoder layer: multi head self attention followed by a position wise feed forward network, each wrapped in a
+    ''' residual connection and layer normalization.
+    ''' </summary>
+    ''' <remarks>
+    ''' The forward pass caches the AddNorm statistics (mean and inverse standard deviation) of both sub layers and their
+    ''' outputs; the backward pass walks the layers in reverse order. Because AddNorm yields the same gradient for both
+    ''' branches, each branch keeps its own copy.
+    ''' </remarks>
     Public Class EncoderLayer
 
         Private embeddingSize As Integer
@@ -21,18 +30,31 @@ Namespace Transformer
         Private dropoutMask1, dropoutMask2 As Boolean()
         Private dropoutRate As Double = 0
 
-        ''' <summary>前向传播的中间量缓存，供反向传播使用。</summary>
+        ''' <summary>
+        ''' Forward intermediates of one encode pass, required by the backward pass.
+        ''' </summary>
         Public Class Cache
+            ''' <summary>The input of this layer.</summary>
             Public Input As Tensor
+            ''' <summary>Output of the self attention sub layer.</summary>
             Public AttentionOutput As Tensor
+            ''' <summary>Self attention output after dropout.</summary>
             Public AttentionDropped As Tensor
+            ''' <summary>Result of the first AddNorm.</summary>
             Public Normalized1 As Tensor
+            ''' <summary>Mean used by the first layer normalization.</summary>
             Public Norm1Mean As Double()
+            ''' <summary>Inverse standard deviation used by the first layer normalization.</summary>
             Public Norm1InvStd As Double()
+            ''' <summary>Output of the feed forward sub layer.</summary>
             Public FeedForwardOutput As Tensor
+            ''' <summary>Feed forward output after dropout.</summary>
             Public FeedForwardDropped As Tensor
+            ''' <summary>Mean used by the second layer normalization.</summary>
             Public Norm2Mean As Double()
+            ''' <summary>Inverse standard deviation used by the second layer normalization.</summary>
             Public Norm2InvStd As Double()
+            ''' <summary>Indicates whether dropout was applied during this pass.</summary>
             Public DropoutApplied As Boolean
             ''' <summary>自注意力子层的前向缓存快照</summary>
             Public MhaCache As MultiHeadAttention.Cache
@@ -49,6 +71,14 @@ Namespace Transformer
             End Get
         End Property
 
+        ''' <summary>
+        ''' Creates an encoder layer.
+        ''' </summary>
+        ''' <param name="embeddingSize">Width of the model, used for the residual stream.</param>
+        ''' <param name="dk">Dimension of the query and key projections per head.</param>
+        ''' <param name="dv">Dimension of the value projection per head.</param>
+        ''' <param name="h">Number of attention heads.</param>
+        ''' <param name="dff">Hidden width of the feed forward network.</param>
         Public Sub New(embeddingSize As Integer, dk As Integer, dv As Integer, h As Integer, dff As Integer)
             Me.embeddingSize = embeddingSize
 
@@ -59,6 +89,12 @@ Namespace Transformer
             dropoutMask2 = New Boolean(embeddingSize - 1) {}
         End Sub
 
+        ''' <summary>
+        ''' Runs the encoder input through self attention and the feed forward network.
+        ''' </summary>
+        ''' <param name="encoderInput">The embedded encoder input.</param>
+        ''' <param name="isTraining">When <c>True</c> dropout is applied where configured.</param>
+        ''' <returns>The output of this encoder layer.</returns>
         Public Function Encode(encoderInput As Tensor, isTraining As Boolean) As Tensor
             Dim dropoutApplied = isTraining AndAlso dropoutRate > 0
 
@@ -99,9 +135,12 @@ Namespace Transformer
             Return output
         End Function
 
-        ''' <summary>反向传播：返回对本层输入 <c>encoderInput</c> 的梯度。</summary>
-        ''' <param name="dOut">对本层输出的梯度</param>
-        ''' <param name="forwardCache">与本次回传相对应的前向缓存快照</param>
+        ''' <summary>
+        ''' Backpropagates through both sub layers.
+        ''' </summary>
+        ''' <param name="dOut">Gradient with respect to the output of this layer.</param>
+        ''' <param name="forwardCache">The forward cache snapshot that belongs to this pass.</param>
+        ''' <returns>The gradient with respect to the input of this layer.</returns>
         Public Function Backward(dOut As Tensor, forwardCache As Cache) As Tensor
             Dim cache = forwardCache
 
