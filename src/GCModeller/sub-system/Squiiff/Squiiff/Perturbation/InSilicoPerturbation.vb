@@ -1,6 +1,7 @@
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports SMRUCC.genomics.Analysis.Squiiff.Diffusion
 Imports SMRUCC.genomics.Analysis.Squiiff.Model
+Imports std = System.Math
 
 Namespace Perturbation
 
@@ -112,6 +113,74 @@ Namespace Perturbation
         Public Function Estimate(space As PerturbationSpace, spec As PerturbationSpec,
                                  controlCells As Tensor, perturbedCells As Tensor) As Tensor
             Return space.Estimate(spec, _model, controlCells, perturbedCells)
+        End Function
+
+        ''' <summary>
+        ''' 条件敏感度诊断：衡量 <c>z_sem</c> 是否真的在调制去噪网络 <c>ε_θ</c>。
+        '''
+        ''' 在若干时间步上比较同一 <c>x_t</c> 在 <c>z_sem</c> 与 <c>z_sem + Δz</c> 两个条件下的噪声预测：
+        ''' <code>
+        ''' rel(t) = ‖ ε̂(x_t, t, z + Δz) − ε̂(x_t, t, z) ‖ / ‖ ε̂(x_t, t, z) ‖
+        ''' </code>
+        ''' 若该比值接近 0，说明条件批归一化的 γ / β 投影尚未被训练开、
+        ''' 语义条件没有真正进入去噪轨迹，此时任何隐空间向量算术都不会产生可观测的效应。
+        ''' </summary>
+        ''' <param name="xt">加噪后的表达谱 <c>[B,G]</c>。</param>
+        ''' <param name="zSem">语义条件 <c>[B,dz]</c>。</param>
+        ''' <param name="delta">施加的语义偏移 <c>[1,dz]</c>。</param>
+        ''' <param name="timesteps">待检查的时间步；缺省取扩散轨迹上的若干代表点。</param>
+        ''' <returns>与 <paramref name="timesteps"/> 一一对应的相对变化量。</returns>
+        Public Function ConditioningSensitivity(xt As Tensor, zSem As Tensor, delta As Tensor,
+                                                Optional timesteps As Integer() = Nothing) As Double()
+            If delta Is Nothing Then Throw New ArgumentNullException(NameOf(delta))
+
+            If timesteps Is Nothing OrElse timesteps.Length = 0 Then
+                Dim total = _model.Schedule.T
+                timesteps = New Integer() {
+                    std.Max(1, CInt(total * 0.1)),
+                    std.Max(1, CInt(total * 0.5)),
+                    total
+                }
+            End If
+
+            Dim batch = xt.Shape(0)
+            Dim zShifted = LatentArithmetic.ApplyDelta(zSem, delta)
+            Dim result(timesteps.Length - 1) As Double
+
+            For i As Integer = 0 To timesteps.Length - 1
+                Dim tArr = Repeat(timesteps(i), batch)
+
+                Dim eps0 = _model.Denoiser.Predict(xt, tArr, zSem, training:=False)
+                Dim eps1 = _model.Denoiser.Predict(xt, tArr, zShifted, training:=False)
+
+                result(i) = RelativeDifference(eps0.Data, eps1.Data)
+            Next
+
+            Return result
+        End Function
+
+        Private Shared Function Repeat(value As Integer, count As Integer) As Integer()
+            Dim result(count - 1) As Integer
+            For i As Integer = 0 To count - 1
+                result(i) = value
+            Next
+            Return result
+        End Function
+
+        ''' <summary>两组数值的相对差异：<c>‖b − a‖ / ‖a‖</c>（分母为 0 时返回 NaN）。</summary>
+        Private Shared Function RelativeDifference(a As Double(), b As Double()) As Double
+            Dim diffNorm As Double = 0.0
+            Dim baseNorm As Double = 0.0
+
+            For i As Integer = 0 To a.Length - 1
+                Dim d = b(i) - a(i)
+                diffNorm += d * d
+                baseNorm += a(i) * a(i)
+            Next
+
+            If baseNorm <= 1.0E-300 Then Return Double.NaN
+
+            Return std.Sqrt(diffNorm) / std.Sqrt(baseNorm)
         End Function
 
         ''' <summary>直接用给定的语义隐变量做条件生成（Lerp 轨迹逐点解码时使用）。</summary>

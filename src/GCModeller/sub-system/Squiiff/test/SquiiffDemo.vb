@@ -115,7 +115,7 @@ Module SquiiffDemo
             .TimeEmbeddingDim = 32,
             .LearningRate = 0.001,
             .BatchSize = 64,
-            .Epochs = 100,
+            .Epochs = 60,
             .BetaKL = 0.0001,
             .ClipNorm = 1.0,
             .Seed = 20240920
@@ -162,7 +162,9 @@ Module SquiiffDemo
         Dim reconstructed = model.Reconstruct(ctrlAll)
 
         Console.WriteLine($"  z_sem 形状 = [{String.Join(",", zSem.Shape)}] ；x_T 形状 = [{String.Join(",", subcode.Shape)}]")
-        Console.WriteLine($"  x_T 的经验均值 = {MeanOf(subcode.Data):F4}（应接近 0）  标准差 = {StdOf(subcode.Data):F4}（应接近 1）")
+        Console.WriteLine($"  x_T 的经验均值 = {MeanOf(subcode.Data):F4}  标准差 = {StdOf(subcode.Data):F4}")
+        Console.WriteLine($"  （线性 β 调度下 ᾱ_T={model.Model.Schedule.AlphaBar(model.Model.Schedule.T):F3}，" &
+                          $"x_T = √ᾱ_T·x_0 + √(1−ᾱ_T)·ε 并非纯高斯，故标准差不必为 1）")
 
         Dim reconstruction = RegressionMetrics.Compute(reconstructed, ctrlAll)
         Console.WriteLine($"  自编码往返 x_0 → (z_sem, x_T) → x̂_0 : {reconstruction}")
@@ -228,6 +230,13 @@ Module SquiiffDemo
 
         Console.WriteLine($"  跨细胞类型方向一致性: {DemoData.KnockoutA} = {consistencyA:F3} ；{DemoData.KnockoutB} = {consistencyB:F3}")
         Console.WriteLine($"  扰动空间: {model.Space}")
+
+        ' 条件敏感度：z_sem 是否真的在调制去噪网络 ε_θ
+        Dim probeX = model.Model.Schedule.AddNoise(ctrlAll, Repeat(model.Model.Schedule.T, ctrlAll.Shape(0)), model.Model.Noise(ctrlAll.Shape))
+        Dim sensitivity = model.Perturbation.ConditioningSensitivity(probeX, model.Semantic(ctrlAll), deltaA)
+
+        Console.WriteLine($"  条件敏感度 ‖Δε̂‖/‖ε̂‖: t=20 → {sensitivity(0):F4} ；t=100 → {sensitivity(1):F4} ；t=200 → {sensitivity(2):F4}")
+        Console.WriteLine($"    （接近 0 表示语义条件未进入去噪轨迹，隐空间向量算术不会产生可观测效应）")
 
         ' ==================== [6/8] 单扰动预测与评估 ====================
         Console.WriteLine()

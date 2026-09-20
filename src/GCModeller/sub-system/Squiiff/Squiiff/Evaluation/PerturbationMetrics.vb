@@ -29,6 +29,22 @@ Namespace Evaluation
         ''' <summary>Top-K 差异表达基因的重叠率（逐细胞平均）。</summary>
         Public Property MeanTopKOverlap As Double = Double.NaN
 
+        ''' <summary>
+        ''' **群体平均**效应剖面的 PCC：<c>Pearson( mean(预测) − mean(对照), mean(真实) − mean(对照) )</c>。
+        '''
+        ''' 为什么需要这个指标：<see cref="DeltaProfilePcc"/> 是逐细胞配对相减，而预测侧与真实侧的
+        ''' 细胞是**两群不同的细胞**，"真实 − 对照"里混入了两个细胞的个体噪声差，
+        ''' 单细胞数据上该噪声通常远大于扰动效应本身，因此逐细胞 ΔPCC 的天花板很低。
+        ''' 先对群体取平均可以把个体噪声压掉 √N，得到真正衡量"扰动方向是否被预测正确"的指标
+        ''' （这也是 scGen / CPA 一类工作默认比较平均表达剖面的原因）。
+        ''' </summary>
+        Public Property MeanProfileDeltaPcc As Double = Double.NaN
+
+        ''' <summary>
+        ''' 群体平均效应剖面的 Top-K 差异表达基因重叠率（<c>交集 / K</c>）。
+        ''' </summary>
+        Public Property MeanProfileTopKOverlap As Double = Double.NaN
+
         ''' <summary>被预测细胞数。</summary>
         Public Property NCell As Integer
 
@@ -53,7 +69,8 @@ Namespace Evaluation
 
         Public Overrides Function ToString() As String
             Return $"PCC={Prediction?.Pcc:F4}(基线 {ControlBaseline?.Pcc:F4}, +{PccGain:F4}) " &
-                   $"ΔPCC={DeltaProfilePcc:F4} TopK重叠={MeanTopKOverlap:F3}"
+                   $"逐细胞ΔPCC={DeltaProfilePcc:F4} 群体ΔPCC={MeanProfileDeltaPcc:F4} " &
+                   $"群体TopK重叠={MeanProfileTopKOverlap:F3}"
         End Function
     End Class
 
@@ -100,6 +117,34 @@ Namespace Evaluation
 
             result.MeanCellDeltaPcc = RegressionMetrics.MeanOf(cellDeltaPcc)
             result.MeanTopKOverlap = RegressionMetrics.MeanOf(overlaps)
+
+            ' 群体平均口径：先按基因对细胞取平均，再比较效应剖面
+            result.MeanProfileDeltaPcc = RegressionMetrics.Pearson(
+                ColumnMean(predDelta.Data, rows, columns),
+                ColumnMean(trueDelta.Data, rows, columns))
+
+            Dim predProfile = ColumnMean(predDelta.Data, rows, columns)
+            Dim trueProfile = ColumnMean(trueDelta.Data, rows, columns)
+
+            result.MeanProfileTopKOverlap = TopKOverlap(predProfile, trueProfile, topK)
+
+            Return result
+        End Function
+
+        ''' <summary>把 <c>[rows, columns]</c> 的数据按列（基因）取平均，得到长度 <c>columns</c> 的群体平均剖面。</summary>
+        Private Function ColumnMean(data As Double(), rows As Integer, columns As Integer) As Double()
+            Dim result(columns - 1) As Double
+            If rows <= 0 OrElse columns <= 0 Then Return result
+
+            For i As Integer = 0 To rows - 1
+                Dim offset = i * columns
+                For j As Integer = 0 To columns - 1
+                    result(j) += data(offset + j)
+                Next
+            Next
+            For j As Integer = 0 To columns - 1
+                result(j) /= rows
+            Next
 
             Return result
         End Function
