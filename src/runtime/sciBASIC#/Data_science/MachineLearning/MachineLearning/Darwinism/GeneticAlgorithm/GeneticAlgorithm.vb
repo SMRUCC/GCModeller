@@ -145,16 +145,19 @@ Namespace Darwinism.GAF
         ''' Number of parental chromosomes, which survive (and move to new
         ''' population)
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' The maximum number of the parental chromosomes which will be copied 
+        ''' into the new population directly.
+        ''' </returns>
         Public Property ParentChromosomesSurviveCount As Integer = ALL_PARENTAL_CHROMOSOMES
 
         Shared ReadOnly randfSeeds As New [Default](Of IRandomSeeds)(Function() randf.seeds)
         Shared ReadOnly createList As New [Default](Of PopulationCollectionCreator(Of Chr))(Function() New PopulationList(Of Chr))
 
         ''' <summary>
-        ''' 
+        ''' Create the genetic algorithm engine from an initial population.
         ''' </summary>
-        ''' <param name="population"></param>
+        ''' <param name="population">The initial population of the genetic algorithm.</param>
         ''' <param name="fitnessFunc">
         ''' Calculates the fitness of the mutated chromesome in <paramref name="population"/>
         ''' </param>
@@ -243,7 +246,10 @@ Namespace Darwinism.GAF
         ''' 并行化过程之中的单个迭代
         ''' </summary>
         ''' <param name="i">种群之中的个体的序号,也就是即将发生的目标个体</param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' A sequence of the new chromosomes which are produced by the mutation 
+        ''' and the crossover operations.
+        ''' </returns>
         ''' <remarks>
         ''' 进化发生的契机是个体的突变,这体现在
         '''
@@ -272,7 +278,7 @@ Namespace Darwinism.GAF
         ''' <summary>
         ''' 调用这个函数的代码应该是非并行的
         ''' </summary>
-        ''' <param name="chromosome"></param>
+        ''' <param name="chromosome">The target chromosome which will be evaluated.</param>
         ''' <returns>
         ''' The fitness value of the given <paramref name="chromosome"/>; the 
         ''' parallel mode is always enabled as this function is designed to be 

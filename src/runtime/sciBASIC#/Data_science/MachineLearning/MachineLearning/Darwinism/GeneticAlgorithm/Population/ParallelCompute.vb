@@ -117,12 +117,31 @@ Namespace Darwinism.GAF.Population
             Return DirectCast(New ParallelTask(source.GetCollection().ToArray, comparator).Run, ParallelTask).fitness
         End Function
 
+        ''' <summary>
+        ''' The parallel task which evaluates the fitness value of the assigned 
+        ''' chromosome individuals on one cpu core.
+        ''' </summary>
         Private Class ParallelTask : Inherits VectorTask
 
+            ''' <summary>
+            ''' The fitness value of each chromosome, the name is the 
+            ''' <see cref="Chromosome(Of T).Identity"/> of the individual.
+            ''' </summary>
             Public fitness As NamedValue(Of Double)()
+            ''' <summary>
+            ''' The chromosome individuals which are assigned to this task.
+            ''' </summary>
             Public chrs As chr()
+            ''' <summary>
+            ''' The fitness evaluation function of the genetic algorithm.
+            ''' </summary>
             Public env As FitnessPool(Of chr)
 
+            ''' <summary>
+            ''' Create a parallel fitness evaluation task.
+            ''' </summary>
+            ''' <param name="pop">The chromosome individuals which are assigned to this task.</param>
+            ''' <param name="comparator">The fitness evaluation function of the genetic algorithm.</param>
             Public Sub New(pop As chr(), comparator As FitnessPool(Of chr))
                 MyBase.New(nsize:=pop.Length)
 

@@ -98,17 +98,17 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' a collection of the samples data.
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>An array of the <see cref="SampleData"/> objects.</returns>
         Public Property samples As SampleData()
         ''' <summary>
         ''' the column name of the <see cref="SampleData.features"/> 
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>An array of the feature column names.</returns>
         Public Property featureNames As String()
         ''' <summary>
         ''' the column name of the <see cref="SampleData.labels"/>
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>An array of the label column names.</returns>
         Public Property featureLabels As String()
 
         ''' <summary>
@@ -184,7 +184,7 @@ Namespace ComponentModel.StoreProcedure
         ''' make data copy from the given sample object, this constructor will assign the id, 
         ''' features and labels from the given sample data object.
         ''' </summary>
-        ''' <param name="sample"></param>
+        ''' <param name="sample">The source <see cref="Sample"/> object.</param>
         Sub New(sample As Sample)
             id = sample.ID
             features = sample.vector
@@ -194,7 +194,7 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' create the dataset for predictions, so no label data
         ''' </summary>
-        ''' <param name="data"></param>
+        ''' <param name="data">The input feature vector of this sample.</param>
         Sub New(data As Double())
             Me.features = data
         End Sub
@@ -277,10 +277,20 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' make dataset normalization
         ''' </summary>
-        ''' <param name="trainset"></param>
-        ''' <param name="is_generative"></param>
-        ''' <param name="is_training"></param>
-        ''' <returns></returns>
+        ''' <param name="trainset">The source sample data collection.</param>
+        ''' <param name="is_generative">
+        ''' Whether the label values should also be normalized? The label 
+        ''' normalization is only applied when both this flag and the 
+        ''' <paramref name="is_training"/> flag are enabled.
+        ''' </param>
+        ''' <param name="is_training">
+        ''' Whether the <paramref name="trainset"/> is the training data? When it 
+        ''' is ``False`` the label value will not be rescaled.
+        ''' </param>
+        ''' <returns>
+        ''' A sequence of the <see cref="SampleData"/> objects whose feature 
+        ''' values are divided by the maximum value of each feature column.
+        ''' </returns>
         Public Shared Iterator Function TransformDataset(trainset As SampleData(), is_generative As Boolean, is_training As Boolean) As IEnumerable(Of SampleData)
             Dim featureMax As Double() = New Double(trainset(0).features.Length - 1) {}
             Dim labelMax As Double() = Nothing
@@ -393,14 +403,17 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' 可选的数据集唯一标记信息
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>The optional unique reference id of this sample.</returns>
         <XmlAttribute("id")>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         ''' <summary>
         ''' Neuron network input parameters
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' The base64 encoded (and gzip compressed) text which represents the 
+        ''' input feature vector.
+        ''' </returns>
         ''' <remarks>
         ''' 属性值可能会很长,为了XML文件的美观,在这里使用element
         ''' 
@@ -415,14 +428,14 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' The network expected output values
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>An array of the expected output values of this sample.</returns>
         <XmlAttribute>
         Public Property target As Double()
 
         ''' <summary>
         ''' sample features data
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>An array of the input feature values of this sample.</returns>
         <XmlIgnore>
         Public ReadOnly Property vector As Double()
             Get

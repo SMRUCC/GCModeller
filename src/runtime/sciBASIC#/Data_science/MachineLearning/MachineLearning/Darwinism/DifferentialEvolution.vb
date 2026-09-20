@@ -284,18 +284,26 @@ Namespace Darwinism
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Evolve one sub population of the differential evolution for a single 
+        ''' iteration, this function is designed to be executed in parallel.
         ''' </summary>
-        ''' <typeparam name="Individual"></typeparam>
-        ''' <param name="population"></param>
-        ''' <param name="F#"></param>
-        ''' <param name="N%"></param>
-        ''' <param name="CR#"></param>
-        ''' <param name="bestFit#"></param>
-        ''' <param name="iterates%">i</param>
-        ''' <param name="iteratePrints"></param>
-        ''' <param name="fitnessFunction"></param>
-        ''' <returns></returns>
+        ''' <typeparam name="Individual">The individual type of the differential evolution.</typeparam>
+        ''' <param name="population">The sub population which will be evolved in place.</param>
+        ''' <param name="F#">The differential weight of the mutation.</param>
+        ''' <param name="N%">The dimensionality of the optimization problem.</param>
+        ''' <param name="CR#">The crossover probability of the mutation.</param>
+        ''' <param name="bestFit#">The best fitness value which was found so far.</param>
+        ''' <param name="iterates%">The current iteration number.</param>
+        ''' <param name="iteratePrints">
+        ''' The optional callback which is invoked whenever a better candidate 
+        ''' solution was found.
+        ''' </param>
+        ''' <param name="fitnessFunction">The fitness evaluation function of the candidate solutions.</param>
+        ''' <param name="random">The random number generator which is shared by the sub tasks.</param>
+        ''' <returns>
+        ''' A tagged sub population, in which the tag is the best fitness value 
+        ''' which was found by this sub population.
+        ''' </returns>
         <Extension>
         Private Function subPopulationEvolute(Of Individual As IIndividual)(
                                                    population As Individual(),

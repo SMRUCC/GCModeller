@@ -188,7 +188,7 @@ Namespace Darwinism.GAF.Population
         ''' <summary>
         ''' 这里是ODEs参数估计的限速步骤
         ''' </summary>
-        ''' <param name="comparator"></param>
+        ''' <param name="comparator">The fitness evaluation function of the current environment.</param>
         Friend Sub SortPopulationByFitness(comparator As FitnessPool(Of Chr))
             Dim fitness = Pcompute.ComputeFitness(comparator, chromosomes) _
                 .ToArray _
