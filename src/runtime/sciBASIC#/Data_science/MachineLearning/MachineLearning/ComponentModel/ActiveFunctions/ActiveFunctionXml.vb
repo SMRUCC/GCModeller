@@ -205,8 +205,8 @@ Namespace ComponentModel.Activations
         ''' <summary>
         ''' 将激活函数从数据模型转换为对象模型
         ''' </summary>
-        ''' <param name="af"></param>
-        ''' <returns></returns>
+        ''' <param name="af">The source activation function data model.</param>
+        ''' <returns>The activation function object which is created by the <see cref="CreateFunction"/> method.</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Narrowing Operator CType(af As ActiveFunction) As IActivationFunction
             Return af.Function

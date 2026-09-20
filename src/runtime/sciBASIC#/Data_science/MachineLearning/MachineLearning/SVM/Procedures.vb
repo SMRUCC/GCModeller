@@ -333,10 +333,13 @@ Namespace SVM
         ''' <summary>
         ''' Platt's binary SVM Probablistic Output: an improvement from Lin et al.
         ''' </summary>
-        ''' <param name="l"></param>
-        ''' <param name="dec_values"></param>
-        ''' <param name="labels"></param>
-        ''' <param name="probAB"></param>
+        ''' <param name="l">The number of the decision values.</param>
+        ''' <param name="dec_values">The decision value of each training sample.</param>
+        ''' <param name="labels">The class label of each training sample.</param>
+        ''' <param name="probAB">
+        ''' The output array which will receive the two parameters ``A`` and ``B`` 
+        ''' of the sigmoid function, its length should be 2 or more.
+        ''' </param>
         Private Sub sigmoid_train(l As Integer, dec_values As Double(), labels As ColorClass(), probAB As Double())
             Dim A, B As Double
             Dim prior1 As Double = 0, prior0 As Double = 0
@@ -477,9 +480,12 @@ Namespace SVM
         ''' <summary>
         ''' Method 2 from the multiclass_prob paper by Wu, Lin, and Weng
         ''' </summary>
-        ''' <param name="k"></param>
-        ''' <param name="r"></param>
-        ''' <param name="p"></param>
+        ''' <param name="k">The number of the classes.</param>
+        ''' <param name="r">
+        ''' The pairwise probability matrix, in which the element ``(i, j)`` is 
+        ''' the probability of the class ``i`` against the class ``j``.
+        ''' </param>
+        ''' <param name="p">The output array which will receive the probability value of each class.</param>
         Private Sub multiclass_probability(k As Integer, r As Double(,), p As Double())
             Dim t, j As Integer
             Dim iter = 0, max_iter = std.Max(100, k)
@@ -545,11 +551,14 @@ Namespace SVM
         ''' <summary>
         ''' Cross-validation decision values for probability estimates
         ''' </summary>
-        ''' <param name="prob"></param>
-        ''' <param name="param"></param>
-        ''' <param name="Cp"></param>
-        ''' <param name="Cn"></param>
-        ''' <param name="probAB"></param>
+        ''' <param name="prob">The training data of the binary sub-problem.</param>
+        ''' <param name="param">The training parameters.</param>
+        ''' <param name="Cp">The C value of the positive side samples.</param>
+        ''' <param name="Cn">The C value of the negative side samples.</param>
+        ''' <param name="probAB">
+        ''' The output array which will receive the two parameters ``A`` and ``B`` 
+        ''' of the sigmoid function, its length should be 2 or more.
+        ''' </param>
         Private Sub svm_binary_svc_probability(prob As Problem, param As Parameter, Cp As Double, Cn As Double, probAB As Double())
             Dim i As Integer
             Dim nr_fold = 5
@@ -646,9 +655,12 @@ Namespace SVM
         ''' <summary>
         ''' Return parameter of a Laplace distribution 
         ''' </summary>
-        ''' <param name="prob"></param>
-        ''' <param name="param"></param>
-        ''' <returns></returns>
+        ''' <param name="prob">The training data of the regression problem.</param>
+        ''' <param name="param">The training parameters.</param>
+        ''' <returns>
+        ''' The sigma value of the estimated Laplace distribution; a large value 
+        ''' is returned when the regression result is not reliable.
+        ''' </returns>
         Private Function svm_svr_probability(prob As Problem, param As Parameter) As Double
             Dim i As Integer
             Dim nr_fold = 5
@@ -688,8 +700,8 @@ Namespace SVM
         ''' <summary>
         ''' group training data of the same class
         ''' </summary>
-        ''' <param name="prob"></param>
-        ''' <param name="nr_class_ret"></param>
+        ''' <param name="prob">The source training data which will be grouped.</param>
+        ''' <param name="nr_class_ret">The output number of the classes.</param>
         ''' <param name="label_ret">label name</param>
         ''' <param name="start_ret">begin of each class</param>
         ''' <param name="count_ret">#data of classes</param>
@@ -789,9 +801,9 @@ Namespace SVM
         ''' <summary>
         ''' regression or one-class-svm
         ''' </summary>
-        ''' <param name="model"></param>
-        ''' <param name="prob"></param>
-        ''' <param name="param"></param>
+        ''' <param name="model">The model object which will be filled with the training result.</param>
+        ''' <param name="prob">The training data of the one-class or the regression problem.</param>
+        ''' <param name="param">The training parameters.</param>
         <Extension>
         Private Sub oneClassSvm(ByRef model As Model, prob As Problem, param As Parameter)
             Dim nSV = 0
@@ -841,9 +853,9 @@ Namespace SVM
         ''' <summary>
         ''' classification
         ''' </summary>
-        ''' <param name="model"></param>
-        ''' <param name="prob"></param>
-        ''' <param name="param"></param>
+        ''' <param name="model">The model object which will be filled with the training result.</param>
+        ''' <param name="prob">The training data of the multi-class classification problem.</param>
+        ''' <param name="param">The training parameters.</param>
         <Extension>
         Private Sub multipleClassification(ByRef model As Model, prob As Problem, param As Parameter)
             Dim l As Integer = prob.count
@@ -1085,10 +1097,10 @@ Namespace SVM
         ''' <summary>
         ''' Stratified cross validation
         ''' </summary>
-        ''' <param name="prob"></param>
-        ''' <param name="param"></param>
-        ''' <param name="nr_fold"></param>
-        ''' <param name="target"></param>
+        ''' <param name="prob">The training data which will be cross validated.</param>
+        ''' <param name="param">The training parameters.</param>
+        ''' <param name="nr_fold">The number of the folds of the cross validation.</param>
+        ''' <param name="target">The output array which will receive the prediction result of each sample.</param>
         Public Sub svm_cross_validation(prob As Problem, param As Parameter, nr_fold As Integer, target As SVMPrediction())
             Dim i As Integer
             Dim fold_start = New Integer(nr_fold + 1 - 1) {}
@@ -1428,10 +1440,10 @@ Namespace SVM
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Predict the label or the target value of a single input sample.
         ''' </summary>
-        ''' <param name="model"></param>
-        ''' <param name="x"></param>
+        ''' <param name="model">The target model.</param>
+        ''' <param name="x">The sparse feature vector of the input sample.</param>
         ''' <returns>
         ''' 兼容分类以及打分这两种工作模式
         ''' </returns>

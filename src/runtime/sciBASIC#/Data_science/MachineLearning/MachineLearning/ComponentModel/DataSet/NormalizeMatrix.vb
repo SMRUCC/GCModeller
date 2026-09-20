@@ -72,13 +72,13 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' 每一个属性都具有一个归一化区间
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>A list of the <see cref="SampleDistribution"/> objects, one for each property column.</returns>
         <XmlElement("matrix")>
         Public Property matrix As XmlList(Of SampleDistribution)
         ''' <summary>
         ''' 属性名称列表,这个序列的长度是和<see cref="matrix"/>的长度一致的,并且元素的顺序一一对应的
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>An array of the property names.</returns>
         Public Property names As String()
 
         ''' <summary>
@@ -119,8 +119,9 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' Normalize the <paramref name="sample"/> inputs <see cref="Sample.label"/> to value range ``[0, 1]``
         ''' </summary>
-        ''' <param name="sample"></param>
-        ''' <returns></returns>
+        ''' <param name="sample">The target sample whose input vector will be normalized.</param>
+        ''' <param name="method">The normalization method, the default value is <see cref="Normalizer.Methods.NormalScaler"/>.</param>
+        ''' <returns>An array of the normalized input values.</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function NormalizeInput(sample As Sample, Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler) As Double()
             Return NormalizeInput(sample.vector, method)
@@ -129,8 +130,9 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' Normalize the <paramref name="sample"/> inputs <see cref="Sample.label"/> to value range ``[0, 1]``
         ''' </summary>
-        ''' <param name="sample"></param>
-        ''' <returns></returns>
+        ''' <param name="sample">The target input vector which will be normalized, the element order should be identical with the <see cref="matrix"/> and the <see cref="names"/> list.</param>
+        ''' <param name="method">The normalization method, the default value is <see cref="Normalizer.Methods.NormalScaler"/>.</param>
+        ''' <returns>An array of the normalized input values.</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function NormalizeInput(sample As IEnumerable(Of Double), Optional method As Normalizer.Methods = Normalizer.Methods.NormalScaler) As Double()
             Return sample _

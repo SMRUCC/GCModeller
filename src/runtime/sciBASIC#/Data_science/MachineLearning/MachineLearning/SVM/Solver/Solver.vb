@@ -522,8 +522,11 @@ Namespace SVM
         ''' <summary>
         ''' return 1 if already optimal, return 0 otherwise
         ''' </summary>
-        ''' <param name="working_set"></param>
-        ''' <returns></returns>
+        ''' <param name="working_set">
+        ''' The output array which will receive the indices of the two selected 
+        ''' variables, its length should be 2 or more.
+        ''' </param>
+        ''' <returns>``1`` when the current solution is already optimal, otherwise ``0``.</returns>
         Protected Overridable Function select_working_set(working_set As Integer()) As Integer
             ' return i,j such that
             ' i: maximizes -y_i * grad(f)_i, i in I_up(\alpha)

@@ -71,7 +71,7 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' 样本列表
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>An array of the <see cref="Sample"/> objects.</returns>
         <XmlElement("sample")> Public Property items As Sample()
 
         ''' <summary>

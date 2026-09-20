@@ -252,7 +252,7 @@ Namespace QLearning
         ''' <summary>
         ''' This helper function is used for entering the map state into the
         ''' HashMap </summary>
-        ''' <param name="map"> </param>
+        ''' <param name="map">The map state which will be converted.</param>
         ''' <returns> String used as a key for the HashMap </returns>
         Protected MustOverride Function MapToString(map As T) As String
 

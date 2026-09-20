@@ -176,7 +176,10 @@ Namespace ComponentModel.Activations
         ''' <summary>
         ''' 必须要重写这个函数来将函数对象序列化为表达式字符串文本
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' The text expression of this activation function, which can be parsed 
+        ''' back by the <see cref="ActiveFunction.Parse"/> function.
+        ''' </returns>
         Public MustOverride Overrides Function ToString() As String
 
     End Class

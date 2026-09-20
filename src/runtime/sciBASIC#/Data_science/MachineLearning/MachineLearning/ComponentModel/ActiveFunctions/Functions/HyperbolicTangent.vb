@@ -92,8 +92,11 @@ Namespace ComponentModel.Activations
         ''' <summary>
         ''' 这个函数接受的参数应该是一个弧度值
         ''' </summary>
-        ''' <param name="x"></param>
-        ''' <returns></returns>
+        ''' <param name="x">Function input value, in radius.</param>
+        ''' <returns>
+        ''' The function output value <i>f(x) = (e^x - e^-x) / (e^x + e^-x)</i>, 
+        ''' which is limited in the interval ``[-1, 1]``.
+        ''' </returns>
         Public Overrides Function [Function](x As Double) As Double
             Dim a = std.E ^ x
             Dim b = std.E ^ (-x)
@@ -104,8 +107,8 @@ Namespace ComponentModel.Activations
         ''' <summary>
         ''' 这个函数所接受的参数也是一个弧度值
         ''' </summary>
-        ''' <param name="x"></param>
-        ''' <returns></returns>
+        ''' <param name="x">The function input value, in radius.</param>
+        ''' <returns>The derivative value <i>f'(x) = 1 / cosh(x) ^ 2</i>.</returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function Derivative(x As Double) As Double

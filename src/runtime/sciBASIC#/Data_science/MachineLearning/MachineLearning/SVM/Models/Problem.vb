@@ -111,7 +111,7 @@ Namespace SVM
         ''' <summary>
         ''' the width of each row in <see cref="X"/>
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>An array of the feature dimension names.</returns>
         Public Property dimensionNames As String()
 
         ''' <summary>

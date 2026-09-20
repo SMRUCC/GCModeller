@@ -1,62 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::45fc5ad21ef13e7b44fcdae02ca19a5e, sciBASIC#\Data_science\MachineLearning\SVMDemo\MainWindow.xaml.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 175
-    '    Code Lines: 148
-    ' Comment Lines: 3
-    '   Blank Lines: 24
-    '     File Size: 7.70 KB
+' Summaries:
 
 
-    '     Class MainWindow
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: samplePoint
-    ' 
-    '         Sub: addDataPoint, addPoints, classCB_SelectionChanged, classify, classifyB_Click
-    '              clearB_Click, plot_MouseLeftButtonDown, plot_MouseRightButtonDown
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 175
+'    Code Lines: 148
+' Comment Lines: 3
+'   Blank Lines: 24
+'     File Size: 7.70 KB
+
+
+'     Class MainWindow
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: samplePoint
+' 
+'         Sub: addDataPoint, addPoints, classCB_SelectionChanged, classify, classifyB_Click
+'              clearB_Click, plot_MouseLeftButtonDown, plot_MouseRightButtonDown
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System
 Imports System.Collections.Generic
+Imports System.Drawing
 Imports System.Linq
 Imports System.Threading
 Imports System.Windows
@@ -71,7 +72,7 @@ Namespace SVMDemo
     ''' <summary>
     ''' Interaction logic for MainWindow.xaml
     ''' </summary>
-    Public Partial Class MainWindow
+    Partial Public Class MainWindow
         Inherits Window
 
         Private Const CLUSTER_SIZE As Integer = 10
@@ -96,7 +97,7 @@ Namespace SVMDemo
             Dim train As Problem = New Problem With {
                 .X = _data.[Select](Function(o) New Node() {New Node(1, o.Position.X), New Node(2, o.Position.Y)}).ToArray(),
                 .Y = _data.[Select](Function(o) o.Label).ToArray(),
-                .MaxIndex = 2
+                .maxIndex = 2
             }
             Dim param As Parameter = TryCast(args, Parameter)
             Dim transform = RangeTransform.Compute(train)
@@ -171,9 +172,9 @@ Namespace SVMDemo
         Private Sub classifyB_Click(ByVal sender As Object, ByVal e As RoutedEventArgs)
             If _data.Count = 0 Then Return
             Dim param As Parameter = New Parameter()
-            param.Gamma = .5
-            param.SvmType = CType(Me.svmTypeCB.SelectedIndex, SvmType)
-            param.KernelType = CType(Me.kernelTypeCB.SelectedIndex, KernelType)
+            param.gamma = 0.5
+            param.svmType = CType(Me.svmTypeCB.SelectedIndex, SvmType)
+            param.kernelType = CType(Me.kernelTypeCB.SelectedIndex, KernelType)
             _classifyThread = New Thread(New ParameterizedThreadStart(AddressOf classify))
             _classifyThread.Start(param)
         End Sub

@@ -77,27 +77,27 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' the training data samples
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>The <see cref="SampleList"/> object which contains all of the training samples.</returns>
         <XmlElement("sample")>
         Public Property DataSamples As SampleList
 
         ''' <summary>
         ''' 主要是对<see cref="Sample.label"/>输入向量进行``[0, 1]``区间内的归一化操作
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>A <see cref="NormalizeMatrix"/> object which is built from the <see cref="DataSamples"/>.</returns>
         <XmlElement("normalization")>
         Public Property NormalizeMatrix As NormalizeMatrix
 
         ''' <summary>
         ''' The element names of output vector
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>An array of the output element names.</returns>
         Public Property output As String()
 
         ''' <summary>
         ''' 样本的矩阵大小：``[属性长度, 样本数量]``
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>A <see cref="Size"/> value whose width is the feature count and whose height is the sample count.</returns>
         Public ReadOnly Property Size As Size
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -129,7 +129,11 @@ Namespace ComponentModel.StoreProcedure
         ''' <summary>
         ''' 神经网络的输出节点的数量
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' The length of the <see cref="output"/> list, or the length of the 
+        ''' <see cref="Sample.target"/> vector when the <see cref="output"/> list 
+        ''' is not defined.
+        ''' </returns>
         Public ReadOnly Property OutputSize As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get

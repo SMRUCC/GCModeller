@@ -101,7 +101,7 @@ Namespace SVM.StorageProcedure
         ''' <summary>
         ''' the key collection of the support vector: <see cref="SupportVector.Properties"/> inputs.
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>An array of the feature dimension names.</returns>
         Public Property dimensionNames As String()
 
         ''' <summary>

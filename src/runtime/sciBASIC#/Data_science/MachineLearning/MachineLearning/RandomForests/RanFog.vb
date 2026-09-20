@@ -88,25 +88,28 @@ Namespace RandomForests
         ''' <summary>
         ''' [ForestSize]Max number of trees to be constructed
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>The number of the decision trees in the forest, the default value is ``500``.</returns>
         Public Property max_tree As Integer = 500
         ''' <summary>
         ''' Max number of branches allowed
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>The maximum number of the branch nodes of each tree, the default value is ``2000``.</returns>
         Public Property max_branch As Integer = 2000
         ''' <summary>
         ''' [mtry]
         ''' Number of Features randomly selected at each node,
         ''' Percentage of Features randomly selected at each node
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>The number of the features which are randomly tested at each node, the default value is ``100``.</returns>
         Public Property mtry As Integer = 100
         ''' <summary>
         ''' [LossFunction]
         ''' Loss function used for continuous features
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' A <see cref="LF_c"/> value, the default value is 
+        ''' <see cref="LF_c.Mean_Squared_Error"/>.
+        ''' </returns>
         Public Property LF_c As LF_c = LF_c.Mean_Squared_Error
 
         ''' <summary>
@@ -127,7 +130,11 @@ Namespace RandomForests
         ''' <summary>
         ''' variable importance
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' The averaged relative importance value of each feature, which is 
+        ''' measured by the increase of the out-of-bag error after the feature 
+        ''' value was permuted.
+        ''' </returns>
         ''' <remarks>
         ''' Write file with number of times each Feature was selected and its relative importance 
         ''' </remarks>
@@ -135,7 +142,7 @@ Namespace RandomForests
         ''' <summary>
         ''' number of times SNPs are selected
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>The number of the times which each feature was selected for splitting a branch.</returns>
         ''' <remarks>
         ''' Write file with number of times each Feature was selected and its relative importance 
         ''' </remarks>
@@ -151,7 +158,7 @@ Namespace RandomForests
         ''' analysis (for example TreeSHAP based model interpretation) can walk
         ''' the actual trees instead of treating the forest as a black box.
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>A list of the branch arrays, each element describes one decision tree.</returns>
         Public Property Trees As New List(Of Branch())
 
         Private Function Tree(n_tree As Integer, train As Data, GEBV As Double()(), ByRef MSE_oob_ave As Double) As (Double, Double)

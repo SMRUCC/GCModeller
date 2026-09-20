@@ -137,7 +137,10 @@ Namespace SVM
         ''' <summary>
         ''' <see cref="ColorClass.name"/>
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' A dictionary which maps the class name to its weight value, so that 
+        ''' different penalty can be applied on different classes.
+        ''' </returns>
         Public Property weights As Dictionary(Of Integer, Double)
             Get
                 Return m_Weights

@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<RootNamespace>test</RootNamespace>
-    <TargetFrameworks>net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows</TargetFrameworks>
 		<AssemblyName>test</AssemblyName>
 		<Authors>xie.guigang@live.com</Authors>
 		<Company>sciBASIC.NET</Company>
