@@ -114,12 +114,12 @@ Namespace IO
             Call WriteLines(path, lines)
         End Sub
 
-        ''' <summary>列出目录下的全部导出文件（相对路径 + 大小），用于报告末尾罗列结果。</summary>
-        Public Function ListFiles(directory As String) As String()
-            If Not Directory.Exists(directory) Then Return New String() {}
+        ''' <summary>列出目录下的全部导出文件（文件名 + 大小），用于报告末尾罗列结果。</summary>
+        Public Function ListFiles(outputDirectory As String) As String()
+            If Not System.IO.Directory.Exists(outputDirectory) Then Return New String() {}
 
             Dim result As New List(Of String)
-            For Each file In Directory.GetFiles(directory)
+            For Each file In System.IO.Directory.GetFiles(outputDirectory)
                 Dim info As New FileInfo(file)
                 result.Add($"{info.Name,-46} {info.Length,10:N0} bytes")
             Next
@@ -163,9 +163,9 @@ Namespace IO
         End Function
 
         Private Sub WriteLines(path As String, lines As IEnumerable(Of String))
-            Dim directory = Path.GetDirectoryName(Path.GetFullPath(path))
-            If Not String.IsNullOrEmpty(directory) AndAlso Not Directory.Exists(directory) Then
-                Call Directory.CreateDirectory(directory)
+            Dim parentDirectory = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(path))
+            If Not String.IsNullOrEmpty(parentDirectory) AndAlso Not System.IO.Directory.Exists(parentDirectory) Then
+                Call System.IO.Directory.CreateDirectory(parentDirectory)
             End If
 
             File.WriteAllLines(path, lines, New UTF8Encoding(encoderShouldEmitUTF8Identifier:=True))

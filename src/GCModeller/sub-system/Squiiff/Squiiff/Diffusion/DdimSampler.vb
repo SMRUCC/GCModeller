@@ -74,18 +74,18 @@ Namespace Diffusion
         ''' <summary>
         ''' 构造降序等距子轨迹：<c>t_k = T − k·(T−1)/(steps−1)</c>，四舍五入并保证严格递减。
         ''' </summary>
-        Private Shared Function BuildTrajectory(T As Integer, inferenceSteps As Integer) As Integer()
-            Dim steps = std.Min(std.Max(inferenceSteps, 1), T)
+        Private Shared Function BuildTrajectory(timesteps As Integer, inferenceSteps As Integer) As Integer()
+            Dim steps = std.Min(std.Max(inferenceSteps, 1), timesteps)
 
-            If steps = 1 Then Return New Integer() {T}
+            If steps = 1 Then Return New Integer() {timesteps}
 
             Dim sequence As New List(Of Integer)(steps)
             Dim previous As Integer = Integer.MaxValue
 
             For k As Integer = 0 To steps - 1
-                Dim raw = T - k * CDbl(T - 1) / (steps - 1)
+                Dim raw = timesteps - k * CDbl(timesteps - 1) / (steps - 1)
                 Dim t = CInt(std.Round(raw, MidpointRounding.AwayFromZero))
-                t = std.Min(std.Max(t, 1), T)
+                t = std.Min(std.Max(t, 1), timesteps)
 
                 ' 保证严格递减并去重（当 steps 接近 T 时可能出现重复）
                 If t >= previous Then t = previous - 1
