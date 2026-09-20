@@ -49,7 +49,7 @@ Namespace Script
         ' ==================================================================
 
         ''' <summary>
-        ''' 移除 #include 元数据行, 展开命令行参数语法、let 声明与元组分解语法, 并做向量化改写。
+        ''' 移除 #include 元数据行, 展开命令行参数语法、let 声明与元组分解语法、默认参数表达式, 并做向量化改写。
         ''' 预处理是纯文本变换, 因此可以被运行期与工程期两条发射路径共用。
         ''' </summary>
         ''' <param name="source">脚本源代码</param>
@@ -62,10 +62,12 @@ Namespace Script
         ''' 额外参与 <c>@</c> 元素类型解析的类型定义块(被 <c>#include</c> 引入脚本所贡献的
         ''' <see cref="IncludeSet.TypeBlocks"/>)
         ''' </param>
+        ''' <param name="defaultReport">可选的默认参数表达式改写报告</param>
         Public Shared Function PreprocessText(source As String,
                                               Optional vectorize As Boolean = True,
                                               Optional report As VectorizationReport = Nothing,
-                                              Optional extraTypeBlocks As IEnumerable(Of String) = Nothing) As String
+                                              Optional extraTypeBlocks As IEnumerable(Of String) = Nothing,
+                                              Optional defaultReport As DefaultParameterReport = Nothing) As String
 
             Dim code As String = Regex.Replace(source, "^\s*#include\s+""[^""]*""\s*$", "", RegexOptions.IgnoreCase Or RegexOptions.Multiline)
 
@@ -74,6 +76,9 @@ Namespace Script
             ' let x = ... => Dim x As Object = ... (不会改写 LINQ 查询之中的 Let 子句)
             code = LetStatement.Expand(code)
             code = TupleDestructuring.Expand(code)
+            ' 非常数默认参数表达式: 声明改 = Nothing, Function 生成桥接函数, Sub 调用点就地展开
+            ' (必须早于向量化, 好让生成出来的桥接函数体与临时变量行也能被 @ 投影与 SIMD 处理)
+            code = DefaultParameterExpression.Expand(code, defaultReport)
             ' @ 数组投影展开 + 数值向量的算术表达式 => 等价的逐元素 SIMD 调用
             code = Vectorization.Expand(code, enabled:=vectorize, report:=report, extraTypeBlocks:=extraTypeBlocks)
 

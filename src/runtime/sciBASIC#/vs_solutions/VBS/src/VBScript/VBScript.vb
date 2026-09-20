@@ -53,16 +53,19 @@ Namespace Script
             Dim magicRoots As String() = includes.MergeSearchRoots(searchRoots).ToArray()
             Dim magicSnippets As IEnumerable(Of String) = Magics.Build(fullScript, metadata, includes.Assemblies, magicRoots)
             Dim vectorReport As New VectorizationReport()
+            Dim defaultReport As New DefaultParameterReport()
             Dim preprocessed As String = ScriptRefactor.PreprocessText(source,
                                                                       vectorize:=vectorize,
                                                                       report:=vectorReport,
-                                                                      extraTypeBlocks:=includes.TypeBlocks)
+                                                                      extraTypeBlocks:=includes.TypeBlocks,
+                                                                      defaultReport:=defaultReport)
             Dim hasVectorCode As Boolean = vectorReport.Rewritten > 0
             Dim code As String = New ScriptRefactor(metadata, magicSnippets, includes) _
                 .RefactorPreprocessed(preprocessed, withSimd:=hasVectorCode)
 
             If verbose Then
                 Call PrintVectorization(vectorReport, vectorize)
+                Call PrintDefaultParameters(defaultReport)
                 Call Console.WriteLine("----- generated code -----")
                 Call Console.WriteLine(code)
             End If
@@ -111,6 +114,40 @@ Namespace Script
 
                 For Each line As String In report.Skipped.Distinct()
                     Call Console.WriteLine("      ! " & line)
+                Next
+            End If
+        End Sub
+
+        ''' <summary>在 verbose 模式下输出默认参数表达式的改写统计</summary>
+        Private Sub PrintDefaultParameters(report As DefaultParameterReport)
+            If report.Rewritten = 0 AndAlso report.Skipped.Count = 0 Then
+                Return
+            End If
+
+            Call Console.WriteLine($"----- default parameters: {report.Rewritten} 处调用点改写, " &
+                                   $"{report.Bridges.Count} 个桥接函数, {report.InlineSubs.Count} 个 Sub 就地展开 -----")
+
+            If report.InlineSubs.Count > 0 Then
+                Call Console.WriteLine("    inline subs: " & String.Join(", ", report.InlineSubs.Distinct()))
+            End If
+
+            If report.Bridges.Count > 0 Then
+                Call Console.WriteLine("    bridges: " & String.Join(", ", report.Bridges.Distinct()))
+            End If
+
+            If report.Required.Count > 0 Then
+                Call Console.WriteLine("    required (存在无法覆盖的调用点, 已退化为必填):")
+
+                For Each name As String In report.Required.Distinct()
+                    Call Console.WriteLine("      ! " & name)
+                Next
+            End If
+
+            If report.Skipped.Count > 0 Then
+                Call Console.WriteLine("    skipped:")
+
+                For Each name As String In report.Skipped.Distinct()
+                    Call Console.WriteLine("      ! " & name)
                 Next
             End If
         End Sub
