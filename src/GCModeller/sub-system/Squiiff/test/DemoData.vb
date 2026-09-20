@@ -96,12 +96,14 @@ Public Module DemoData
         Next
 
         ' 3) 扰动在程序空间的效应（方向固定、强度随细胞类型变化）
-        Dim knockOutA(programCount - 1) As Double
-        Dim knockOutB(programCount - 1) As Double
+        ' 注意：局部变量名不能与 DemoData 的公开常量 KnockoutA / KnockoutB 同名，
+        ' VB 标识符大小写不敏感，同名局部变量会遮蔽常量导致类型解析错误。
+        Dim effectKinA(programCount - 1) As Double
+        Dim effectKinB(programCount - 1) As Double
         Dim interaction(programCount - 1) As Double
 
-        Call SetProgramEffect(knockOutA, {2, 5, 9}, {1.2, -1.0, 0.8})
-        Call SetProgramEffect(knockOutB, {1, 6, 10}, {-1.1, 1.3, -0.7})
+        Call SetProgramEffect(effectKinA, {2, 5, 9}, {1.2, -1.0, 0.8})
+        Call SetProgramEffect(effectKinB, {1, 6, 10}, {-1.1, 1.3, -0.7})
         ' 非可加相互作用项：只在组合扰动中出现
         Call SetProgramEffect(interaction, {3, 11}, {1.6, -1.4})
 
@@ -133,13 +135,13 @@ Public Module DemoData
 
                     Select Case conditions(c)
                         Case KnockoutA
-                            AddScaled(activation, knockOutA, strengths(t))
+                            AddScaled(activation, effectKinA, strengths(t))
                         Case KnockoutB
-                            AddScaled(activation, knockOutB, strengths(t))
+                            AddScaled(activation, effectKinB, strengths(t))
                         Case CombinationName
                             ' 组合 = A + B + 相互作用（非可加）
-                            AddScaled(activation, knockOutA, strengths(t))
-                            AddScaled(activation, knockOutB, strengths(t))
+                            AddScaled(activation, effectKinA, strengths(t))
+                            AddScaled(activation, effectKinB, strengths(t))
                             AddScaled(activation, interaction, strengths(t))
                     End Select
 
@@ -300,8 +302,9 @@ Public Class SyntheticBenchmark
     ''' <item><c>cell_metadata.csv</c> —— 细胞 → 细胞类型 / 扰动条件的标签表。</item>
     ''' </list>
     ''' </summary>
-    Public Sub SaveCsv(directory As String)
-        Call Directory.CreateDirectory(directory)
+    Public Sub SaveCsv(outputDirectory As String)
+        ' 形参名不能叫 directory：VB 大小写不敏感，会遮蔽 System.IO.Directory 类型
+        Call System.IO.Directory.CreateDirectory(outputDirectory)
 
         ' 基因 × 细胞 宽表
         Dim rows As New List(Of Double())
@@ -313,7 +316,7 @@ Public Class SyntheticBenchmark
             rows.Add(values)
         Next
 
-        Call ResultWriter.WriteNumericTable(Path.Combine(directory, "single_cell_counts.csv"),
+        Call ResultWriter.WriteNumericTable(Path.Combine(outputDirectory, "single_cell_counts.csv"),
                                             CellNames, rows, GeneNames)
 
         ' 细胞元数据
