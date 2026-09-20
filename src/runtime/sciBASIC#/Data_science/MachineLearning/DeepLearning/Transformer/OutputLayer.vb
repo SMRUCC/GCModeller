@@ -15,32 +15,49 @@ Namespace Transformer
     ''' </summary>
     Public Class OutputLayer
 
+        ''' <summary>The output projection weight matrix, shaped <c>[embeddingSize * sequenceLength, dictionarySize]</c>.</summary>
         Public Wo As Tensor
 
         Private WoOptimizer As Optimizer
 
-        ''' <summary>前向传播的中间量缓存，供反向传播使用。</summary>
+        ''' <summary>
+        ''' Forward intermediates of the output projection, required by the backward pass.
+        ''' </summary>
         Public Class Cache
+            ''' <summary>The flattened decoder output that was projected.</summary>
             Public FlatInput As Tensor
+            ''' <summary>The original shape of the decoder output, used to unflatten the gradient.</summary>
             Public InputShape As Integer()
+            ''' <summary>The logits produced before the softmax.</summary>
             Public Logits As Tensor
         End Class
 
         Private _lastCache As Cache
 
-        ''' <summary>最近一次 <see cref="Output"/> 的中间量缓存。</summary>
+        ''' <summary>Gets the forward cache of the most recent <see cref="Output"/> call.</summary>
         Public ReadOnly Property LastCache As Cache
             Get
                 Return _lastCache
             End Get
         End Property
 
+        ''' <summary>
+        ''' Creates the output layer.
+        ''' </summary>
+        ''' <param name="sequenceLength">Sequence length of the decoder output.</param>
+        ''' <param name="embeddingSize">Width of the decoder output.</param>
+        ''' <param name="dictionarySize">Size of the target vocabulary.</param>
         Public Sub New(sequenceLength As Integer, embeddingSize As Integer, dictionarySize As Integer)
             Wo = TensorOps.HeNormalInit(New Integer() {embeddingSize * sequenceLength, dictionarySize})
 
             WoOptimizer = New Optimizer(Wo)
         End Sub
 
+        ''' <summary>
+        ''' Projects the decoder output onto the vocabulary and applies a softmax.
+        ''' </summary>
+        ''' <param name="input">The decoder output.</param>
+        ''' <returns>The softmax probabilities shaped <c>[batch, 1, dictionarySize]</c>.</returns>
         Public Function Output(input As Tensor) As Tensor
             Dim flatInput = TensorOps.FlattenLastTwo(input)
             Dim filteredOutput = TensorOps.BatchedMatMul(flatInput, Wo)
@@ -56,13 +73,15 @@ Namespace Transformer
         End Function
 
         ''' <summary>
-        ''' 反向传播：接受对 logits（softmax 之前）的梯度，返回对解码器输出的梯度。
+        ''' Backpropagates through the output projection; it accepts the gradient with respect to the logits (before the
+        ''' softmax) and returns the gradient with respect to the decoder output.
         ''' </summary>
         ''' <param name="forwardCache">
-        ''' 与该解码步相对应的前向缓存。解码器按词逐步前向时 <see cref="LastCache"/>
-        ''' 会被后续步骤覆盖，因此必须显式传入当步的快照。
+        ''' The forward cache of this step. When the decoder runs token by token the <see cref="LastCache"/> is overwritten by
+        ''' later steps, so the snapshot of the current step must be passed explicitly.
         ''' </param>
-        ''' <param name="dLogits">对 logits 的梯度</param>
+        ''' <param name="dLogits">Gradient with respect to the logits.</param>
+        ''' <returns>The gradient with respect to the decoder output.</returns>
         Public Function Backward(forwardCache As Cache, dLogits As Tensor) As Tensor
             Dim cache = forwardCache
 
@@ -75,11 +94,16 @@ Namespace Transformer
             Return TensorOps.UnflattenLastTwo(dFlat, cache.InputShape)
         End Function
 
-        ''' <summary>清零输出层的梯度累加器。</summary>
+        ''' <summary>Clears the gradient accumulator of the output projection.</summary>
         Public Sub ZeroGradients()
             WoOptimizer.ZeroGrad()
         End Sub
 
+        ''' <summary>
+        ''' Applies one optimizer step to the output projection.
+        ''' </summary>
+        ''' <param name="learningRate">The learning rate for this step.</param>
+        ''' <param name="[step]">The current step index, used by the Adam bias correction.</param>
         Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)
             WoOptimizer.MakeTrainingStep(learningRate, [step], Wo)
         End Sub

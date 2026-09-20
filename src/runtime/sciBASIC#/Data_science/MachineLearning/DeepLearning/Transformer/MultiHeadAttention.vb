@@ -12,6 +12,14 @@ Imports std = System.Math
 
 Namespace Transformer
 
+    ''' <summary>
+    ''' Scaled dot product multi head attention, implemented with the hand written operators of <see cref="TensorOps"/> and an
+    ''' explicit backward pass.
+    ''' </summary>
+    ''' <remarks>
+    ''' The forward pass caches the projected Q/K/V tensors, the per head softmax probabilities and the concatenated heads; the
+    ''' backward pass walks the attention computation in reverse order.
+    ''' </remarks>
     Public Class MultiHeadAttention
 
         Private mask As Boolean
@@ -29,34 +37,47 @@ Namespace Transformer
         Private QmOptimizer, KmOptimizer, VmOptimizer As Optimizer()
         Private WoOptimizer As Optimizer
 
-        ''' <summary>前向传播的中间量缓存，供反向传播使用。</summary>
+        ''' <summary>
+        ''' Forward intermediates of the attention computation, required by the backward pass.
+        ''' </summary>
         Public Class Cache
+            ''' <summary>The projected query tensors, one per head.</summary>
             Public Qf As Tensor()
+            ''' <summary>The projected key tensors, one per head.</summary>
             Public Kf As Tensor()
+            ''' <summary>The projected value tensors, one per head.</summary>
             Public Vf As Tensor()
-            ''' <summary>每个 head 的注意力概率（softmax 输出）</summary>
+            ''' <summary>The attention probabilities (softmax output) of every head.</summary>
             Public Probs As Tensor()
-            ''' <summary>各 head 沿最后一维拼接后的结果</summary>
+            ''' <summary>The heads after concatenation along the last dimension.</summary>
             Public Concat As Tensor
-            ''' <summary>Query 侧的输入（self-attention 时与 K/V 输入相同）</summary>
+            ''' <summary>The query side input (identical to the K/V input for self attention).</summary>
             Public QueriesInput As Tensor
-            ''' <summary>Key 侧的输入</summary>
+            ''' <summary>The key side input.</summary>
             Public KInput As Tensor
-            ''' <summary>Value 侧的输入</summary>
+            ''' <summary>The value side input.</summary>
             Public VInput As Tensor
-            ''' <summary>是否为交叉注意力（Q 与 K/V 来自不同输入）</summary>
+            ''' <summary>Whether this is cross attention, i.e. queries and keys/values come from different inputs.</summary>
             Public CrossAttention As Boolean
         End Class
 
         Private _lastCache As Cache
 
-        ''' <summary>最近一次 <see cref="Update"/> 的中间量缓存。</summary>
+        ''' <summary>Gets the forward cache of the most recent <see cref="Update"/> call.</summary>
         Public ReadOnly Property LastCache As Cache
             Get
                 Return _lastCache
             End Get
         End Property
 
+        ''' <summary>
+        ''' Creates a multi head attention sub layer.
+        ''' </summary>
+        ''' <param name="dk">Dimension of the query and key projections per head.</param>
+        ''' <param name="dv">Dimension of the value projection per head.</param>
+        ''' <param name="nr_heads">Number of attention heads.</param>
+        ''' <param name="embeddingSize">Width of the model, used by the output projection.</param>
+        ''' <param name="mask">When <c>True</c> the upper triangle of the attention scores is masked (causal attention).</param>
         Public Sub New(dk As Integer, dv As Integer, nr_heads As Integer, embeddingSize As Integer, mask As Boolean)
             Me.dk = dk
             Me.dv = dv
@@ -68,14 +89,23 @@ Namespace Transformer
             Call InitalizeOptimizers()
         End Sub
 
-        ''' <summary>自注意力：Q/K/V 均来自 <paramref name="inputData"/>。</summary>
+        ''' <summary>
+        ''' Self attention: queries, keys and values all come from <paramref name="inputData"/>.
+        ''' </summary>
+        ''' <param name="inputData">The input sequence.</param>
+        ''' <returns>The attention output.</returns>
         Public Function Update(inputData As Tensor) As Tensor
             Dim Qf As Tensor() = Nothing, Kf As Tensor() = Nothing, Vf As Tensor() = Nothing
             Call ApplyLinearInputFilters(inputData, Qf, Kf, Vf)
             Return CalculateScaledMultiHeadedAttention(Qf, Kf, Vf, inputData, inputData, inputData, False)
         End Function
 
-        ''' <summary>交叉注意力：Q 来自 <paramref name="queries"/>，K/V 来自 <paramref name="encoderOutput"/>。</summary>
+        ''' <summary>
+        ''' Cross attention: queries come from <paramref name="queries"/>, keys and values from <paramref name="encoderOutput"/>.
+        ''' </summary>
+        ''' <param name="encoderOutput">The encoder output used as keys and values.</param>
+        ''' <param name="queries">The decoder representation used as queries.</param>
+        ''' <returns>The attention output.</returns>
         Public Function Update(encoderOutput As Tensor, queries As Tensor) As Tensor
             Dim Qf As Tensor() = Nothing, Kf As Tensor() = Nothing, Vf As Tensor() = Nothing
             Call ApplyLinearInputFilters(encoderOutput, queries, Qf, Kf, Vf)
@@ -142,14 +172,16 @@ Namespace Transformer
         End Function
 
         ''' <summary>
-        ''' 反向传播：返回对 Query 侧输入的梯度，并累加全部线性层的参数梯度。
+        ''' Backpropagates through the attention computation, returning the gradient with respect to the query input and
+        ''' accumulating the parameter gradients of every linear projection.
         ''' </summary>
         ''' <param name="forwardCache">
-        ''' 与本次回传相对应的前向缓存。解码器按词逐步前向时该层的
-        ''' <see cref="LastCache"/> 会被后续步骤覆盖，因此必须显式传入当步的快照。
+        ''' The forward cache of this pass. When the decoder runs token by token the <see cref="LastCache"/> is overwritten by
+        ''' later steps, so the snapshot of the current step must be passed explicitly.
         ''' </param>
-        ''' <param name="dOut">对注意力输出（<c>Concat · Wo</c>）的梯度</param>
-        ''' <param name="dEncoderOutput">交叉注意力场景下对 encoder 输出的梯度（自注意力时为 Nothing）</param>
+        ''' <param name="dOut">Gradient with respect to the attention output (<c>Concat · Wo</c>).</param>
+        ''' <param name="dEncoderOutput">Receives the gradient with respect to the encoder output for cross attention; <c>Nothing</c> for self attention.</param>
+        ''' <returns>The gradient with respect to the query input.</returns>
         Public Function Backward(forwardCache As Cache, dOut As Tensor, ByRef dEncoderOutput As Tensor) As Tensor
             Dim cache = forwardCache
 
@@ -213,7 +245,7 @@ Namespace Transformer
             Return dQueries
         End Function
 
-        ''' <summary>清零本层所有参数的梯度累加器。</summary>
+        ''' <summary>Clears the gradient accumulators of every parameter of this layer.</summary>
         Public Sub ZeroGradients()
             For h = 0 To nr_heads - 1
                 QmOptimizer(h).ZeroGrad()
@@ -224,6 +256,11 @@ Namespace Transformer
             WoOptimizer.ZeroGrad()
         End Sub
 
+        ''' <summary>
+        ''' Applies one optimizer step to every projection of this layer.
+        ''' </summary>
+        ''' <param name="learningRate">The learning rate for this step.</param>
+        ''' <param name="[step]">The current step index, used by the Adam bias correction.</param>
         Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)
             For h = 0 To nr_heads - 1
                 KmOptimizer(h).MakeTrainingStep(learningRate, [step], Km(h))

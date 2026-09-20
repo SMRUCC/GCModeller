@@ -9,11 +9,27 @@ Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 
 Namespace Transformer
 
+    ''' <summary>
+    ''' A stack of <see cref="EncoderLayer"/> instances, applied one after another.
+    ''' </summary>
+    ''' <remarks>
+    ''' The encoder runs only once per translation, so the forward cache of every layer can be kept on the layer object and
+    ''' the backward pass simply walks the layers in reverse order.
+    ''' </remarks>
     Public Class EncoderStack
 
         Private Nx As Integer
         Private encoderLayers As New List(Of EncoderLayer)()
 
+        ''' <summary>
+        ''' Creates an encoder stack with the given number of identical layers.
+        ''' </summary>
+        ''' <param name="Nx">Number of encoder layers.</param>
+        ''' <param name="embeddingSize">Width of the model.</param>
+        ''' <param name="dk">Dimension of the query and key projections per head.</param>
+        ''' <param name="dv">Dimension of the value projection per head.</param>
+        ''' <param name="h">Number of attention heads.</param>
+        ''' <param name="dff">Hidden width of the feed forward network.</param>
         Public Sub New(Nx As Integer, embeddingSize As Integer, dk As Integer, dv As Integer, h As Integer, dff As Integer)
             Me.Nx = Nx
 
@@ -22,6 +38,12 @@ Namespace Transformer
             Next
         End Sub
 
+        ''' <summary>
+        ''' Runs the embedded input through all encoder layers.
+        ''' </summary>
+        ''' <param name="word_embeddings">The embedded input sequence.</param>
+        ''' <param name="isTraining">When <c>True</c> dropout is applied where configured.</param>
+        ''' <returns>The output of the last encoder layer.</returns>
         Public Function Encode(word_embeddings As Tensor, isTraining As Boolean) As Tensor
             Dim encoderOutput = encoderLayers(0).Encode(word_embeddings, isTraining)
             For i = 1 To Nx - 1
@@ -31,7 +53,11 @@ Namespace Transformer
             Return encoderOutput
         End Function
 
-        ''' <summary>反向传播：返回对编码器输入（词嵌入）的梯度。</summary>
+        ''' <summary>
+        ''' Backpropagates through all encoder layers.
+        ''' </summary>
+        ''' <param name="dOut">Gradient with respect to the encoder output.</param>
+        ''' <returns>The gradient with respect to the encoder input (the word embeddings).</returns>
         Public Function Backward(dOut As Tensor) As Tensor
             Dim d = dOut
 
@@ -42,18 +68,28 @@ Namespace Transformer
             Return d
         End Function
 
+        ''' <summary>
+        ''' Configures dropout on every encoder layer.
+        ''' </summary>
+        ''' <param name="dropout">Dropout rate in <c>[0, 1)</c>.</param>
         Public Sub SetDropoutNodes(dropout As Double)
             For i = 0 To Nx - 1
                 encoderLayers(i).SetDropoutNodes(dropout)
             Next
         End Sub
 
+        ''' <summary>Clears the gradient accumulators of every encoder layer.</summary>
         Public Sub ZeroGradients()
             For i = 0 To Nx - 1
                 encoderLayers(i).ZeroGradients()
             Next
         End Sub
 
+        ''' <summary>
+        ''' Applies one optimizer step to every encoder layer.
+        ''' </summary>
+        ''' <param name="learningRate">The learning rate for this step.</param>
+        ''' <param name="[step]">The current step index, used by the Adam bias correction.</param>
         Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)
             For i = 0 To Nx - 1
                 encoderLayers(i).MakeTrainingStep(learningRate, [step])

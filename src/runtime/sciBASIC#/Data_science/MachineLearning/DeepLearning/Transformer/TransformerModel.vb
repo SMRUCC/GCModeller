@@ -59,6 +59,19 @@ Namespace Transformer
         Private _englishSentences As List(Of List(Of String))
         Private _batchSize As Integer
 
+        ''' <summary>
+        ''' Creates a transformer translation model and prepares its embeddings from the provided training sentences.
+        ''' </summary>
+        ''' <param name="Nx">Number of encoder and decoder layers.</param>
+        ''' <param name="embeddingSize">Width of the model.</param>
+        ''' <param name="dk">Dimension of the query and key projections per head.</param>
+        ''' <param name="dv">Dimension of the value projection per head.</param>
+        ''' <param name="h">Number of attention heads.</param>
+        ''' <param name="dff">Hidden width of the feed forward networks.</param>
+        ''' <param name="batchSize">Number of sentences per training batch.</param>
+        ''' <param name="dropout">Dropout rate used during training.</param>
+        ''' <param name="allEnglishSentences">The source language sentences used to build the source vocabulary.</param>
+        ''' <param name="allSpanishSentences">The target language sentences used to build the target vocabulary.</param>
         Public Sub New(Nx As Integer, embeddingSize As Integer, dk As Integer, dv As Integer, h As Integer, dff As Integer, batchSize As Integer, dropout As Double,
                        allEnglishSentences As List(Of List(Of String)),
                        allSpanishSentences As List(Of List(Of String)))
@@ -75,6 +88,16 @@ Namespace Transformer
             outputLayer = New OutputLayer(sequenceLength, embeddingSize, spanishEmbedding.DictionarySize)
         End Sub
 
+        ''' <summary>
+        ''' Trains the model with explicit backpropagation through time over the decoder steps.
+        ''' </summary>
+        ''' <param name="nrEpochs">Number of passes over the data set.</param>
+        ''' <param name="nrTrainingSteps">Number of decoder steps per batch.</param>
+        ''' <param name="learningRate">The learning rate.</param>
+        ''' <param name="batchSize">Number of sentence pairs per batch.</param>
+        ''' <param name="allEnglishSentences">The source language sentences.</param>
+        ''' <param name="allSpanishSentences">The target language sentences.</param>
+        ''' <exception cref="ArgumentException">Thrown when the two sentence collections have different lengths.</exception>
         Public Sub Train(nrEpochs As Integer, nrTrainingSteps As Integer, learningRate As Double, batchSize As Integer, allEnglishSentences As List(Of List(Of String)), allSpanishSentences As List(Of List(Of String)))
             If allEnglishSentences.Count() <> allSpanishSentences.Count() Then Throw New ArgumentException("Number of sentence pairs must be equal")
 
@@ -139,6 +162,13 @@ Namespace Transformer
             End While
         End Sub
 
+        ''' <summary>
+        ''' Translates a single sentence token by token.
+        ''' </summary>
+        ''' <param name="words">The source sentence tokens.</param>
+        ''' <returns>
+        ''' The translated sentences, or <c>Nothing</c> when the source sentence contains a word that is not in the dictionary.
+        ''' </returns>
         Public Function Infer(words As IEnumerable(Of String)) As List(Of List(Of String))
             Dim from As New List(Of List(Of String)) From {New List(Of String)(words)}
             Dim wrongWord As String = Nothing

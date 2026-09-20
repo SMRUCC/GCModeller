@@ -32,12 +32,14 @@ Namespace Transformer
 
         Private embeddingLayerOptimizer As Optimizer
 
+        ''' <summary>Gets the number of distinct words in the dictionary.</summary>
         Public ReadOnly Property DictionarySize As Integer
             Get
                 Return one_hot.Count
             End Get
         End Property
 
+        ''' <summary>Gets the width of the embedding vectors.</summary>
         Public Property EmbeddingSize As Integer
             Get
                 Return _EmbeddingSize
@@ -47,6 +49,7 @@ Namespace Transformer
             End Set
         End Property
 
+        ''' <summary>Gets the fixed sequence length used by this embedding layer.</summary>
         Public Property SequenceLength As Integer
             Get
                 Return _SequenceLength
@@ -66,11 +69,11 @@ Namespace Transformer
         End Property
 
         ''' <summary>
-        ''' Constructor
+        ''' Creates the embedding layer and builds the one-hot dictionary from the given sentences.
         ''' </summary>
-        ''' <param name="embeddingSize"></param>
-        ''' <param name="sequenceLength"></param>
-        ''' <param name="sentences"></param>
+        ''' <param name="embeddingSize">Width of the embedding vectors.</param>
+        ''' <param name="sequenceLength">Fixed sequence length of the inputs.</param>
+        ''' <param name="sentences">The sentences used to build the word dictionary.</param>
         Public Sub New(embeddingSize As Integer, sequenceLength As Integer, sentences As List(Of List(Of String)))
             Me.EmbeddingSize = embeddingSize
             Me.SequenceLength = sequenceLength
@@ -84,11 +87,11 @@ Namespace Transformer
         End Sub
 
         ''' <summary>
-        ''' Multiply the one-hot embeddings with the embedding layer to project onto a smaller space
+        ''' Looks up the embedding of every word, adds the positional encoding and optionally applies dropout.
         ''' </summary>
-        ''' <param name="sentences"></param>
-        ''' <param name="isTraining"></param>
-        ''' <returns></returns>
+        ''' <param name="sentences">The batch of tokenized sentences.</param>
+        ''' <param name="isTraining">When <c>True</c> dropout is applied where configured.</param>
+        ''' <returns>The embedded sentences, shaped <c>[batch, seq, emb]</c>.</returns>
         Public Function Embed(sentences As List(Of List(Of String)), isTraining As Boolean) As Tensor
             Dim batchSize = sentences.Count
             Dim wordEmbeddings As Tensor = New Tensor(batchSize, SequenceLength, EmbeddingSize)
@@ -119,11 +122,12 @@ Namespace Transformer
         End Function
 
         ''' <summary>
-        ''' 嵌入层的反向传播：把每个 (句, 位置) 的梯度散射累加回 embeddingLayer 的对应行。
+        ''' Backpropagates through the embedding layer: the gradient of every (sentence, position) pair is scattered back into
+        ''' the row of the embedding matrix that belongs to the word.
         ''' </summary>
-        ''' <param name="dWordEmbeddings">对 <see cref="Embed"/> 输出的梯度，形状 [batch, seq, emb]</param>
-        ''' <param name="sentences">前向阶段使用的句子（用于还原词索引）</param>
-        ''' <param name="applyDropout">前向阶段是否应用过 dropout</param>
+        ''' <param name="dWordEmbeddings">Gradient with respect to the <see cref="Embed"/> output, shaped <c>[batch, seq, emb]</c>.</param>
+        ''' <param name="sentences">The sentences used during the forward pass, needed to recover the word indices.</param>
+        ''' <param name="applyDropout">Whether dropout was applied during the forward pass.</param>
         Public Sub Backward(dWordEmbeddings As Tensor, sentences As List(Of List(Of String)), applyDropout As Boolean)
             Dim dOut = dWordEmbeddings
 
@@ -158,17 +162,18 @@ Namespace Transformer
         End Sub
 
         ''' <summary>
-        ''' 交叉熵损失及其对输出层 logits 的梯度。
+        ''' Computes the cross entropy loss and its gradient with respect to the output layer logits.
         ''' </summary>
         ''' <remarks>
-        ''' 对 softmax + 交叉熵，直接给出 <c>d(logits) = softmax − onehot</c>，
-        ''' 避免对 log / softmax 做链式求导，与仓库既有 GNN 训练器写法一致。
-        ''' 返回的是本步「未缩放」的损失贡献，最终由调用方统一除以 <c>sequenceLength * batchSize</c>。
+        ''' For softmax followed by cross entropy the derivative is simply <c>d(logits) = softmax - onehot</c>, so the chain rule
+        ''' through log and softmax is skipped. The returned value is the unscaled loss contribution of this step; the caller
+        ''' divides it by <c>sequenceLength * batchSize</c>.
         ''' </remarks>
-        ''' <param name="filteredOutput">输出层 softmax 概率，形状 [batch, 1, dictSize]</param>
-        ''' <param name="correctSentences">正确译文（目标语言）</param>
-        ''' <param name="w">当前预测的词位置</param>
-        ''' <param name="dLogits">输出参数：对 logits 的梯度，形状同 <paramref name="filteredOutput"/></param>
+        ''' <param name="filteredOutput">Output layer softmax probabilities, shaped <c>[batch, 1, dictSize]</c>.</param>
+        ''' <param name="correctSentences">The correct target sentences.</param>
+        ''' <param name="w">Index of the word position that is currently being predicted.</param>
+        ''' <param name="dLogits">Receives the gradient with respect to the logits, with the same shape as <paramref name="filteredOutput"/>.</param>
+        ''' <returns>The unscaled cross entropy loss of this step.</returns>
         Public Function CalculateLossAndGradient(filteredOutput As Tensor,
                                                  correctSentences As List(Of List(Of String)),
                                                  w As Integer,
@@ -202,10 +207,10 @@ Namespace Transformer
         End Function
 
         ''' <summary>
-        ''' Get a word based on its index in the dictionary
+        ''' Gets the words that correspond to the given dictionary indices.
         ''' </summary>
-        ''' <param name="indexes"></param>
-        ''' <returns></returns>
+        ''' <param name="indexes">The dictionary indices.</param>
+        ''' <returns>The words stored at those indices.</returns>
         Public Function GetWords(indexes As Integer()) As String()
             Dim words = New String(indexes.Length - 1) {}
             For s = 0 To indexes.Length - 1
@@ -216,14 +221,20 @@ Namespace Transformer
         End Function
 
         ''' <summary>
-        ''' Get the index of a specific word in a dictionary
+        ''' Gets the dictionary index of a word.
         ''' </summary>
-        ''' <param name="word"></param>
-        ''' <returns></returns>
+        ''' <param name="word">The word to look up.</param>
+        ''' <returns>The dictionary index of <paramref name="word"/>.</returns>
         Public Function GetWordIndex(word As String) As Integer
             Return one_hot(word)
         End Function
 
+        ''' <summary>
+        ''' Checks whether every word of the given sentences exists in the dictionary.
+        ''' </summary>
+        ''' <param name="sentences">The sentences to check.</param>
+        ''' <param name="wordNotInDictionary">Receives the first word that is missing from the dictionary.</param>
+        ''' <returns><c>True</c> when all words are known; otherwise <c>False</c>.</returns>
         Public Function AllWordsInDictionary(sentences As List(Of List(Of String)), <Out> ByRef wordNotInDictionary As String) As Boolean
             wordNotInDictionary = ""
 
@@ -282,6 +293,11 @@ Namespace Transformer
             Next
         End Sub
 
+        ''' <summary>
+        ''' Configures dropout for the embedding output and draws a new dropout mask.
+        ''' </summary>
+        ''' <param name="dropoutRate">Dropout rate in <c>[0, 1)</c>.</param>
+        ''' <exception cref="ArgumentException">Thrown when the rate is outside <c>[0, 1)</c>.</exception>
         Public Sub SetDropoutNodes(dropoutRate As Double)
             If dropoutRate < 0 OrElse dropoutRate >= 1 Then Throw New ArgumentException("Error: dropout rate must be >= 0 and < 1")
 
@@ -293,11 +309,16 @@ Namespace Transformer
             Next
         End Sub
 
-        ''' <summary>清零嵌入层的梯度累加器。</summary>
+        ''' <summary>Clears the gradient accumulator of the embedding matrix.</summary>
         Public Sub ZeroGradients()
             embeddingLayerOptimizer.ZeroGrad()
         End Sub
 
+        ''' <summary>
+        ''' Applies one optimizer step to the embedding matrix.
+        ''' </summary>
+        ''' <param name="learningRate">The learning rate for this step.</param>
+        ''' <param name="[step]">The current step index, used by the Adam bias correction.</param>
         Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)
             embeddingLayerOptimizer.MakeTrainingStep(learningRate, [step], embeddingLayer)
         End Sub

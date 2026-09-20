@@ -10,6 +10,14 @@ Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 
 Namespace Transformer
 
+    ''' <summary>
+    ''' Position wise feed forward network: two fully connected layers with a ReLU activation in between.
+    ''' </summary>
+    ''' <remarks>
+    ''' Because the tensor runtime has no automatic differentiation, the forward pass caches the pre-activation (the source of
+    ''' the ReLU mask) and the activation (needed for the W2 gradient); the backward pass accumulates the W1, W2, b1 and b2
+    ''' gradients by hand.
+    ''' </remarks>
     Public Class FeedForwardNetwork
 
         Private W1, W2 As Tensor
@@ -29,13 +37,18 @@ Namespace Transformer
 
         Private _lastCache As Cache
 
-        ''' <summary>最近一次 <see cref="FeedForward"/> 的中间量缓存。</summary>
+        ''' <summary>Gets the forward cache of the most recent <see cref="FeedForward"/> call.</summary>
         Public ReadOnly Property LastCache As Cache
             Get
                 Return _lastCache
             End Get
         End Property
 
+        ''' <summary>
+        ''' Creates the feed forward network and initializes its weights with He normal initialization.
+        ''' </summary>
+        ''' <param name="dff">Hidden width of the inner layer.</param>
+        ''' <param name="embeddingSize">Width of the model input and output.</param>
         Public Sub New(dff As Integer, embeddingSize As Integer)
             W1 = TensorOps.HeNormalInit(New Integer() {embeddingSize, dff})
             W2 = TensorOps.HeNormalInit(New Integer() {dff, embeddingSize})
@@ -48,6 +61,11 @@ Namespace Transformer
             b2Optimizer = New Optimizer(b2)
         End Sub
 
+        ''' <summary>
+        ''' Runs the two layer transformation and caches its intermediates.
+        ''' </summary>
+        ''' <param name="G">The input tensor.</param>
+        ''' <returns>The output of the second layer.</returns>
         Public Function FeedForward(G As Tensor) As Tensor
             ' First layer
             Dim preActivation = TensorOps.VecAdd(TensorOps.BatchedMatMul(G, W1), b1)
@@ -66,13 +84,14 @@ Namespace Transformer
         End Function
 
         ''' <summary>
-        ''' 反向传播：返回对本层输入 G 的梯度，并累加 W1/W2/b1/b2 的梯度。
+        ''' Backpropagates through the network, accumulating the W1, W2, b1 and b2 gradients.
         ''' </summary>
         ''' <param name="forwardCache">
-        ''' 与本次回传相对应的前向缓存。解码器按词逐步前向时该层的
-        ''' <see cref="LastCache"/> 会被后续步骤覆盖，因此必须显式传入当步的快照。
+        ''' The forward cache of this pass. When the decoder runs token by token the <see cref="LastCache"/> of this layer is
+        ''' overwritten by later steps, so the snapshot of the current step must be passed explicitly.
         ''' </param>
-        ''' <param name="dOut">对 <see cref="FeedForward"/> 输出的梯度</param>
+        ''' <param name="dOut">Gradient with respect to the output of <see cref="FeedForward"/>.</param>
+        ''' <returns>The gradient with respect to the input.</returns>
         Public Function Backward(forwardCache As Cache, dOut As Tensor) As Tensor
             Dim cache = forwardCache
 
@@ -100,7 +119,7 @@ Namespace Transformer
             Return dInput
         End Function
 
-        ''' <summary>清零本层所有参数的梯度累加器。</summary>
+        ''' <summary>Clears the gradient accumulators of every parameter of this layer.</summary>
         Public Sub ZeroGradients()
             W1Optimizer.ZeroGrad()
             W2Optimizer.ZeroGrad()
@@ -108,6 +127,11 @@ Namespace Transformer
             b2Optimizer.ZeroGrad()
         End Sub
 
+        ''' <summary>
+        ''' Applies one optimizer step to every parameter of this layer.
+        ''' </summary>
+        ''' <param name="learningRate">The learning rate for this step.</param>
+        ''' <param name="[step]">The current step index, used by the Adam bias correction.</param>
         Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)
             W1Optimizer.MakeTrainingStep(learningRate, [step], W1)
             W2Optimizer.MakeTrainingStep(learningRate, [step], W2)

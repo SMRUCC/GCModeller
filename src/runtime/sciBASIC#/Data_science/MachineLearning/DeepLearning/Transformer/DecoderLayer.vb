@@ -70,17 +70,17 @@ Namespace Transformer
             Public Norm3InvStd As Double()
             ''' <summary>Indicates whether dropout was applied during this step.</summary>
             Public DropoutApplied As Boolean
-            ''' <summary>掩码自注意力子层的前向缓存快照</summary>
+            ''' <summary>Forward cache snapshot of the masked self attention sub layer.</summary>
             Public MaskedCache As MultiHeadAttention.Cache
-            ''' <summary>交叉注意力子层的前向缓存快照</summary>
+            ''' <summary>Forward cache snapshot of the cross attention sub layer.</summary>
             Public CrossCache As MultiHeadAttention.Cache
-            ''' <summary>前馈子层的前向缓存快照</summary>
+            ''' <summary>Forward cache snapshot of the feed forward sub layer.</summary>
             Public FfCache As FeedForwardNetwork.Cache
         End Class
 
         Private _lastCache As Cache
 
-        ''' <summary>最近一次 <see cref="Decode"/> 的中间量缓存。</summary>
+        ''' <summary>Gets the forward cache of the most recent <see cref="Decode"/> step.</summary>
         Public ReadOnly Property LastCache As Cache
             Get
                 Return _lastCache

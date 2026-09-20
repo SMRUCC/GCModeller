@@ -56,15 +56,15 @@ Namespace Transformer
             Public Norm2InvStd As Double()
             ''' <summary>Indicates whether dropout was applied during this pass.</summary>
             Public DropoutApplied As Boolean
-            ''' <summary>自注意力子层的前向缓存快照</summary>
+            ''' <summary>Forward cache snapshot of the self attention sub layer.</summary>
             Public MhaCache As MultiHeadAttention.Cache
-            ''' <summary>前馈子层的前向缓存快照</summary>
+            ''' <summary>Forward cache snapshot of the feed forward sub layer.</summary>
             Public FfCache As FeedForwardNetwork.Cache
         End Class
 
         Private _lastCache As Cache
 
-        ''' <summary>最近一次 <see cref="Encode"/> 的中间量缓存。</summary>
+        ''' <summary>Gets the forward cache of the most recent <see cref="Encode"/> pass.</summary>
         Public ReadOnly Property LastCache As Cache
             Get
                 Return _lastCache
@@ -187,12 +187,17 @@ Namespace Transformer
             Next
         End Sub
 
-        ''' <summary>清零本层所有参数的梯度累加器。</summary>
+        ''' <summary>Clears the gradient accumulators of every parameter of this layer.</summary>
         Public Sub ZeroGradients()
             mha.ZeroGradients()
             ff.ZeroGradients()
         End Sub
 
+        ''' <summary>
+        ''' Applies one optimizer step to every parameter of this layer.
+        ''' </summary>
+        ''' <param name="learningRate">The learning rate for this step.</param>
+        ''' <param name="[step]">The current step index, used by the Adam bias correction.</param>
         Public Sub MakeTrainingStep(learningRate As Double, [step] As Integer)
             mha.MakeTrainingStep(learningRate, [step])
             ff.MakeTrainingStep(learningRate, [step])

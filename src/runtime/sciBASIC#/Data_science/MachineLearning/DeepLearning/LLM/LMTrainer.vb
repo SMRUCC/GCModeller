@@ -44,16 +44,18 @@ Namespace LLM
         Public Property UseCosineDecay As Boolean = True
 
         ''' <summary>
-        ''' 可信梯度范数的上限；超过它就认为该步梯度已经失控，跳过参数更新。
+        ''' Upper bound for the trusted gradient norm; when it is exceeded the step is considered out of control and the
+        ''' parameter update is skipped.
         ''' </summary>
         ''' <remarks>
-        ''' 这是一个<b>安全网</b>而不是常规路径。实测场景：2 亿参数档在工具调用 SFT 阶段
-        ''' 出现全局梯度范数 7.8e36 的尖峰，下一步梯度变成 NaN。此时前向仍然是有限的
-        ''' （该步 loss 正常），坏的只有梯度 —— 因此"丢掉这一步的更新"就能让训练继续，
-        ''' 而强行更新会把参数一步推成 NaN。
+        ''' This is a <b>safety net</b> rather than the normal path. In practice a 200 million parameter model produced a global
+        ''' gradient norm spike of 7.8e36 during tool call SFT, and the gradient became NaN on the following step. The forward
+        ''' pass was still finite (the loss of that step was normal), only the gradient was broken, so dropping the update of
+        ''' that step lets training continue, whereas forcing the update would push the parameters to NaN in one step.
         ''' <para>
-        ''' 阈值取得很宽（默认 1e6），只拦明确的失控，不对正常的大梯度做任何干预。
-        ''' 被跳过的步数会记录在 <see cref="SkippedSteps"/> 里，不会被静默吞掉。
+        ''' The threshold is intentionally loose (1e6 by default) so that only clearly broken steps are intercepted and normal
+        ''' large gradients are left untouched. The number of skipped steps is recorded in <c>LMTrainer.SkippedSteps</c> instead
+        ''' of being silently swallowed.
         ''' </para>
         ''' </remarks>
         Public Property MaxTrustedGradientNorm As Double = 1000000.0
