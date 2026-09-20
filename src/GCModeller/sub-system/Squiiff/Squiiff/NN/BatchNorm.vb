@@ -113,21 +113,21 @@ Namespace NN
             Me._invStd = tfMath.pow(tfMath.add_scalar(variance, Me.Epsilon), -0.5)
             Me._xhat = xmu.ElementwiseMultiply(TensorUtil.BroadcastRow(Me._invStd, B))
 
-            Dim g = TensorUtil.BroadcastRow(Me.Gamma.Value, B)
-            Dim b = TensorUtil.BroadcastRow(Me.Beta.Value, B)
+            Dim gammaRow = TensorUtil.BroadcastRow(Me.Gamma.Value, B)
+            Dim betaRow = TensorUtil.BroadcastRow(Me.Beta.Value, B)
 
-            Return Me._xhat.ElementwiseMultiply(g) + b
+            Return Me._xhat.ElementwiseMultiply(gammaRow) + betaRow
         End Function
 
         Public Overrides Function Backward(dOut As Tensor) As Tensor
             Dim B = Me._batch
-            Dim g = TensorUtil.BroadcastRow(Me.Gamma.Value, B)
+            Dim gammaRow = TensorUtil.BroadcastRow(Me.Gamma.Value, B)
 
             ' dγ = Σ_batch (dOut ⊙ x̂) ；dβ = Σ_batch dOut
             TensorUtil.Accumulate(Me.Gamma.Gradient, dOut.ElementwiseMultiply(_xhat).Sum(axis:=0))
             TensorUtil.Accumulate(Me.Beta.Gradient, dOut.Sum(axis:=0))
 
-            Dim dxhat = dOut.ElementwiseMultiply(g)
+            Dim dxhat = dOut.ElementwiseMultiply(gammaRow)
 
             If Me._inference Then
                 ' 推理模式：μ / σ² 视为常量，dx = dx̂ ⊙ invStd

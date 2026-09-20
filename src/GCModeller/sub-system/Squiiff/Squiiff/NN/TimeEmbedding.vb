@@ -21,7 +21,7 @@ Namespace NN
         Implements IParameterized
 
         Private ReadOnly _name As String
-        Private ReadOnly _dim As Integer
+        Private ReadOnly _embedDim As Integer
         Private ReadOnly _maxSteps As Integer
         Private ReadOnly _table As Double()
         Private ReadOnly _lin1 As Linear
@@ -31,28 +31,29 @@ Namespace NN
 
         Private _preActivation As Tensor
 
-        Public Sub New(name As String, dim As Integer, Optional maxSteps As Integer = 1024,
+        ''' <param name="embedDim">时间嵌入维度，必须为偶数（按 sin/cos 成对构造）。</param>
+        ''' <param name="maxSteps">预计算的最大时间步。</param>
+        Public Sub New(name As String, embedDim As Integer, Optional maxSteps As Integer = 1024,
                        Optional activation As ActivationKind = ActivationKind.SiLU)
-            If dim <= 0 Then Throw New ArgumentOutOfRangeException(NameOf(dim))
-            If dim Mod 2 <> 0 Then
-                ' 正弦编码按成对的 sin/cos 构造，维度必须为偶数
-                Throw New ArgumentException("时间嵌入维度必须为偶数", NameOf(dim))
+            If embedDim <= 0 Then Throw New ArgumentOutOfRangeException(NameOf(embedDim))
+            If embedDim Mod 2 <> 0 Then
+                Throw New ArgumentException("时间嵌入维度必须为偶数", NameOf(embedDim))
             End If
 
             Me._name = name
-            Me._dim = dim
+            Me._embedDim = embedDim
             Me._maxSteps = maxSteps
             Me._activation = activation
-            Me._table = BuildSinusoidalTable(dim, maxSteps)
-            Me._lin1 = New Linear($"{name}.l1", dim, dim)
-            Me._lin2 = New Linear($"{name}.l2", dim, dim)
+            Me._table = BuildSinusoidalTable(embedDim, maxSteps)
+            Me._lin1 = New Linear($"{name}.l1", embedDim, embedDim)
+            Me._lin2 = New Linear($"{name}.l2", embedDim, embedDim)
             Me._params = ParameterGroups.Flatten(Me._lin1, Me._lin2)
         End Sub
 
         ''' <summary>嵌入维度（偶数）。</summary>
-        Public ReadOnly Property Dim As Integer
+        Public ReadOnly Property EmbedDim As Integer
             Get
-                Return _dim
+                Return _embedDim
             End Get
         End Property
 
@@ -75,16 +76,16 @@ Namespace NN
             End Get
         End Property
 
-        Private Shared Function BuildSinusoidalTable(dim As Integer, maxSteps As Integer) As Double()
-            Dim table((maxSteps + 1) * dim - 1) As Double
-            Dim half = dim \ 2
+        Private Shared Function BuildSinusoidalTable(embedDim As Integer, maxSteps As Integer) As Double()
+            Dim table((maxSteps + 1) * embedDim - 1) As Double
+            Dim half = embedDim \ 2
 
             For pos As Integer = 0 To maxSteps
-                Dim offset = pos * dim
+                Dim offset = pos * embedDim
                 For i As Integer = 0 To half - 1
                     Dim freq = std.Exp(-std.Log(10000.0) * i / half)
                     table(offset + 2 * i) = std.Sin(pos * freq)
-                    If 2 * i + 1 < dim Then
+                    If 2 * i + 1 < embedDim Then
                         table(offset + 2 * i + 1) = std.Cos(pos * freq)
                     End If
                 Next
@@ -95,21 +96,21 @@ Namespace NN
 
         ''' <summary>
         ''' 前向：<paramref name="t"/> 为整型时间步数组（长度 = 批量）。
-        ''' 返回 <c>[B, dim]</c> 的时间嵌入。
+        ''' 返回 <c>[B, embedDim]</c> 的时间嵌入。
         ''' </summary>
         Public Function Forward(t As Integer(), training As Boolean) As Tensor
-            Dim B = t.Length
-            Dim emb = New Tensor(New Integer() {B, _dim})
+            Dim batch = t.Length
+            Dim emb = New Tensor(New Integer() {batch, _embedDim})
             Dim data = emb.Data
 
-            For b As Integer = 0 To B - 1
-                Dim idx = t(b)
+            For bi As Integer = 0 To batch - 1
+                Dim idx = t(bi)
                 If idx < 0 Then idx = 0
                 If idx > _maxSteps Then idx = _maxSteps
 
-                Dim src = idx * _dim
-                Dim dst = b * _dim
-                For i As Integer = 0 To _dim - 1
+                Dim src = idx * _embedDim
+                Dim dst = bi * _embedDim
+                For i As Integer = 0 To _embedDim - 1
                     data(dst + i) = _table(src + i)
                 Next
             Next
