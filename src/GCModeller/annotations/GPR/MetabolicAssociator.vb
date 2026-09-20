@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+﻿Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.MetabolicModel
@@ -126,7 +127,7 @@ Public Class MetabolicAssociator
         ' ======================================================
         Call "phase 1/6: gene level direct evidence...".info
 
-        For Each gene As GeneTable In TqdmWrapper.Wrap(genes)
+        For Each gene As GeneTable In genes
             Dim bucket As New Dictionary(Of String, List(Of AssociationEvidence))(StringComparer.OrdinalIgnoreCase)
             evidences(gene.locus_id) = bucket
 

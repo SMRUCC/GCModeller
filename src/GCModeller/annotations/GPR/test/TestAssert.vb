@@ -64,7 +64,7 @@ Public Class TestRunner
         Console.ResetColor()
     End Sub
 
-    Public Sub Ok(name As String, expectation As String, actual As String)
+    Public Sub Pass(name As String, expectation As String, actual As String)
         items.Add(New AssertionResult With {
             .CaseName = currentCase,
             .Name = name,
@@ -87,7 +87,7 @@ Public Class TestRunner
 
     Public Function AssertTrue(name As String, condition As Boolean, Optional detail As String = Nothing) As Boolean
         If condition Then
-            Ok(name, "True", "True")
+            Pass(name, "True", "True")
         Else
             Fail(name, "True", "False", detail)
         End If
@@ -103,7 +103,7 @@ Public Class TestRunner
         Dim ok As Boolean = EqualityComparer(Of T).Default.Equals(expected, actual)
 
         If ok Then
-            Ok(name, FormatValue(expected), FormatValue(actual))
+            Pass(name, FormatValue(expected), FormatValue(actual))
         Else
             Fail(name, FormatValue(expected), FormatValue(actual))
         End If
@@ -132,7 +132,7 @@ Public Class TestRunner
         Dim ok As Boolean = Math.Abs(expected - actual) <= tolerance
 
         If ok Then
-            Ok(name, expected.ToString("F6"), actual.ToString("F6"))
+            Pass(name, expected.ToString("F6"), actual.ToString("F6"))
         Else
             Fail(name, expected.ToString("F6"), actual.ToString("F6"), $"偏差 {Math.Abs(expected - actual).ToString("F6")} 超过容差 {tolerance}")
         End If
@@ -144,7 +144,7 @@ Public Class TestRunner
         Dim ok As Boolean = value >= low AndAlso value <= high
 
         If ok Then
-            Ok(name, $"[{low}, {high}]", value.ToString("F6"))
+            Pass(name, $"[{low}, {high}]", value.ToString("F6"))
         Else
             Fail(name, $"[{low}, {high}]", value.ToString("F6"))
         End If
@@ -161,7 +161,7 @@ Public Class TestRunner
     Public Function AssertNoThrow(name As String, action As Action) As Boolean
         Try
             action()
-            Ok(name, "不抛出异常", "正常返回")
+            Pass(name, "不抛出异常", "正常返回")
             Return True
         Catch ex As Exception
             Fail(name, "不抛出异常", ex.GetType().Name, ex.Message)
@@ -173,7 +173,7 @@ Public Class TestRunner
         Dim contains As Boolean = values IsNot Nothing AndAlso values.Contains(item, StringComparer.OrdinalIgnoreCase)
 
         If contains Then
-            Ok(name, $"包含 {item}", "包含")
+            Pass(name, $"包含 {item}", "包含")
         Else
             Fail(name, $"包含 {item}", $"实际集合 = [{String.Join(", ", If(values, New String() {}))}]")
         End If
@@ -187,7 +187,7 @@ Public Class TestRunner
         If contains Then
             Fail(name, $"不包含 {item}", $"实际集合 = [{String.Join(", ", If(values, New String() {}))}]")
         Else
-            Ok(name, $"不包含 {item}", "不包含")
+            Pass(name, $"不包含 {item}", "不包含")
         End If
 
         Return Not contains

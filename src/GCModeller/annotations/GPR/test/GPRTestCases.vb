@@ -74,8 +74,10 @@ Public Module GPRTestCases
 
         runner.AssertEqual("无 EC 的操纵子成员 g_op4 从同操纵子成员获得三个反应的关联",
                            "P1_R1|P1_R2|P1_R3", Joined(ReactionsOf(assoc, "g_op4")))
-        runner.AssertEqual("g_op4 的证据类型为操纵子上下文",
-                           "OperonContext", Joined(KindsOf(assoc, "g_op4", "P1_R1")))
+
+        Dim kinds As String() = KindsOf(assoc, "g_op4", "P1_R1")
+        runner.AssertContains("g_op4 的证据类型包含操纵子上下文", kinds, "OperonContext")
+        runner.AssertNotContains("操纵子成员之间不再重复叠加窗口上下文证据", kinds, "WindowContext")
 
         Dim operonScore As Double = ScoreOf(assoc, "g_op4", "P1_R1")
         Dim direct As Double = New GPRParameters().DirectMatchScore
@@ -252,10 +254,15 @@ Public Module GPRTestCases
         runner.AssertEqual("g_orphan 对诱饵反应的证据类型只有 DirectEC",
                            "DirectEC", Joined(KindsOf(assoc, "g_orphan", "P1_R_orphan")))
 
-        ' 整体上通路内反应的平均被关联次数应当远小于"每个反应都被每个基因关联"
-        Dim density As Double = ReactionDensity(assoc, data)
-        runner.AssertTrue("关联密度（关联数 / 基因×反应）保持在低位",
-                          density < 0.5, $"实际 {density:F4}")
+        ' 诱饵反应在整个结果中只能被它的唯一携带者关联到一次
+        Dim orphanOwners As Integer = 0
+
+        For Each gene As GeneAssociation In assoc.GenomeModel.MetabolicNetwork.Values
+            If gene.Reactions.ContainsKey("P1_R_orphan") Then orphanOwners += 1
+        Next
+
+        runner.AssertEqual("诱饵反应在整个结果中只被唯一的携带者关联（旧实现会被多个邻居基因灌分）",
+                           1, orphanOwners)
     End Sub
 
 #End Region

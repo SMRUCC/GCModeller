@@ -225,10 +225,10 @@ Public Class GeneReactionReport
     ''' <summary>
     ''' 把完整明细表导出为 CSV（UTF-8 with BOM，便于 Excel 直接打开）
     ''' </summary>
-    Public Function ExportCsv(path As String) As String
-        Dim directory As String = Path.GetDirectoryName(path)
-        If Not String.IsNullOrEmpty(directory) AndAlso Not Directory.Exists(directory) Then
-            Call Directory.CreateDirectory(directory)
+    Public Function ExportCsv(csvPath As String) As String
+        Dim folder As String = System.IO.Path.GetDirectoryName(csvPath)
+        If Not String.IsNullOrEmpty(folder) AndAlso Not System.IO.Directory.Exists(folder) Then
+            Call System.IO.Directory.CreateDirectory(folder)
         End If
 
         Dim out As New StringBuilder
@@ -245,9 +245,9 @@ Public Class GeneReactionReport
                 Csv(row.Evidence)))
         Next
 
-        File.WriteAllText(path, out.ToString(), New UTF8Encoding(encoderShouldEmitUTF8Identifier:=True))
+        File.WriteAllText(csvPath, out.ToString(), New UTF8Encoding(encoderShouldEmitUTF8Identifier:=True))
 
-        Return path
+        Return csvPath
     End Function
 
     Private Shared Function Csv(value As String) As String

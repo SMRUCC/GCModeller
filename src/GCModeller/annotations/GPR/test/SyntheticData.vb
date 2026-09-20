@@ -348,13 +348,15 @@ Public Module SyntheticData
         p1 = MakePathway("P1", "synthetic pathway P1", reactions)
 
         ' g_context 紧邻主链的四个基因但没有自己的 EC；诱饵反应的唯一携带者 g_orphan 远在 500kbp 之外。
+        ' 这里使用长度 400bp 的基因并且彼此间隔 1000bp，使它们落在同一个滑动窗口内、
+        ' 但基因间距（600bp）超过操纵子阈值，从而把这段用例隔离在"窗口上下文"这一条代码路径上。
         Dim genes As GeneTable() = New GeneTable() {
-            MakeGene("g_ctx1", 1000, PlusStrand, OneEC(EcOf("P1", 1))),
-            MakeGene("g_ctx2", 3000, PlusStrand, OneEC(EcOf("P1", 2))),
-            MakeGene("g_ctx3", 5000, PlusStrand, OneEC(EcOf("P1", 3))),
-            MakeGene("g_ctx4", 7000, PlusStrand, OneEC(EcOf("P1", 4))),
-            MakeGene("g_context", 8000, PlusStrand, EmptyEC()),
-            MakeGene("g_orphan", 500000, PlusStrand, OneEC("P1_orphan.9.9.9"))
+            MakeGene("g_ctx1", 1000, 400, PlusStrand, OneEC(EcOf("P1", 1))),
+            MakeGene("g_ctx2", 2000, 400, PlusStrand, OneEC(EcOf("P1", 2))),
+            MakeGene("g_ctx3", 3000, 400, PlusStrand, OneEC(EcOf("P1", 3))),
+            MakeGene("g_ctx4", 4000, 400, PlusStrand, OneEC(EcOf("P1", 4))),
+            MakeGene("g_context", 5000, 400, PlusStrand, EmptyEC()),
+            MakeGene("g_orphan", 500000, 400, PlusStrand, OneEC("P1_orphan.9.9.9"))
         }
 
         Return NewCase(
@@ -449,7 +451,7 @@ Public Module SyntheticData
 
     Public Function Degenerate() As SyntheticCase
         ' 没有 EC、没有底物/产物的退化反应
-        Dim degenerate As New MetabolicReaction With {
+        Dim degenerateRxn As New MetabolicReaction With {
             .id = "P1_R_degenerate",
             .name = "degenerate reaction"
         }
@@ -458,7 +460,7 @@ Public Module SyntheticData
         Dim empty As Pathway = MakePathway("P0", "empty pathway", New MetabolicReaction() {})
 
         Dim chain As Pathway = MakeChain("P1", "synthetic pathway P1", 2)
-        Dim p1 As Pathway = MakePathway("P1", chain.name, chain.metabolicNetwork.Concat(New MetabolicReaction() {degenerate}).ToArray())
+        Dim p1 As Pathway = MakePathway("P1", chain.name, chain.metabolicNetwork.Concat(New MetabolicReaction() {degenerateRxn}).ToArray())
 
         ' 故意不按坐标顺序传入，验证基因组上下文能够自行排序
         Dim genes As GeneTable() = New GeneTable() {

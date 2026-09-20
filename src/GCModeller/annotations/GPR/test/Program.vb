@@ -26,6 +26,12 @@ Module Program
             ' 某些终端不支持修改输出编码，忽略即可
         End Try
 
+        ' 默认关闭 sciBASIC# 运行库的调试输出，保持 Demo 输出整洁；
+        ' 需要查看算法内部的阶段日志时传入 --verbose。
+        If args Is Nothing OrElse Not args.Any(Function(a) String.Equals(a, "--verbose", StringComparison.OrdinalIgnoreCase)) Then
+            Microsoft.VisualBasic.VBDebugger.Mute = True
+        End If
+
         RunDemo()
     End Sub
 
