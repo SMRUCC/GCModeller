@@ -18,8 +18,14 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<AssemblyTitle>test</AssemblyTitle>
 		<OutputType>Exe</OutputType>
+		<StartupObject>test.SVMDemo.SVMDemoProgram</StartupObject>
 		<AssemblyVersion>1.0.9753.4776</AssemblyVersion>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <!-- GDI+ drawing of the svm demo plot (a net10.0-windows console project needs the NuGet package) -->
+	  <PackageReference Include="System.Drawing.Common" Version="10.0.12" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\..\Data\DataFrame\dataframework-netcore5.vbproj" />
