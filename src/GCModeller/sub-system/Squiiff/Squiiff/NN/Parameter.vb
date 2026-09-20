@@ -74,5 +74,23 @@ Namespace NN
 
             Return bag.ToArray()
         End Function
+
+        ''' <summary>
+        ''' 把任意个 <see cref="IParameterized"/>（含数组、列表等可枚举容器）扁平化为参数数组。
+        ''' </summary>
+        Public Function FlattenMany(items As IEnumerable(Of IParameterized)) As Parameter()
+            Dim bag As New List(Of Parameter)
+            If items IsNot Nothing Then
+                For Each item In items
+                    If item Is Nothing Then Continue For
+
+                    For Each p In item.Parameters
+                        If p IsNot Nothing Then bag.Add(p)
+                    Next
+                Next
+            End If
+
+            Return bag.ToArray()
+        End Function
     End Module
 End Namespace

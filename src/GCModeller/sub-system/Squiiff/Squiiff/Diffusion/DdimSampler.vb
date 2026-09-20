@@ -123,7 +123,7 @@ Namespace Diffusion
 
                     Call Record(snapshots, k + 1, 0, "x_0", x)
                 Else
-                    x = Step(predictor, x, tFrom, _trajectory(k + 1), zSem)
+                    x = Advance(predictor, x, tFrom, _trajectory(k + 1), zSem)
 
                     Call Record(snapshots, k + 1, _trajectory(k + 1), $"x_{_trajectory(k + 1)}", x)
                 End If
@@ -153,7 +153,7 @@ Namespace Diffusion
 
             ' 沿子轨迹逐级升噪
             For k As Integer = _trajectory.Length - 2 To 0 Step -1
-                x = Step(predictor, x, _trajectory(k + 1), _trajectory(k), zSem)
+                x = Advance(predictor, x, _trajectory(k + 1), _trajectory(k), zSem)
 
                 Call Record(snapshots, _trajectory.Length - k, _trajectory(k), $"x_{_trajectory(k)}", x)
             Next
@@ -166,7 +166,7 @@ Namespace Diffusion
         ''' 再用同一份噪声预测重组合到时刻 <paramref name="tTo"/>。
         ''' 正向（<c>tTo &lt; tFrom</c>）即去噪；反向（<c>tTo &gt; tFrom</c>）即加噪，两者共用同一公式。
         ''' </summary>
-        Public Function Step(predictor As INoisePredictor, x As Tensor, tFrom As Integer, tTo As Integer, zSem As Tensor) As Tensor
+        Public Function Advance(predictor As INoisePredictor, x As Tensor, tFrom As Integer, tTo As Integer, zSem As Tensor) As Tensor
             Dim tArr = Repeat(tFrom, x.Shape(0))
             Dim eps = predictor.Predict(x, tArr, zSem, training:=False)
             Dim x0Hat = _schedule.PredictX0(x, eps, tArr)
