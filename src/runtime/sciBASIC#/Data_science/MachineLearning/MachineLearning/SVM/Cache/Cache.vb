@@ -84,6 +84,11 @@ Namespace SVM
         Dim head As head_t()
         Dim lru_head As head_t
 
+        ''' <summary>
+        ''' Create the LRU cache of the kernel matrix.
+        ''' </summary>
+        ''' <param name="count">The number of the rows of the kernel matrix.</param>
+        ''' <param name="size">The maximum size of the cache, in bytes.</param>
         Public Sub New(count As Integer, size As Long)
             m_count = count
             m_size = size
@@ -158,6 +163,11 @@ Namespace SVM
             Return len
         End Function
 
+        ''' <summary>
+        ''' Swap the content of two rows in the cached kernel matrix.
+        ''' </summary>
+        ''' <param name="i">The zero based index of the first row.</param>
+        ''' <param name="j">The zero based index of the second row.</param>
         Public Sub SwapIndex(i As Integer, j As Integer)
             If i = j Then
                 Return

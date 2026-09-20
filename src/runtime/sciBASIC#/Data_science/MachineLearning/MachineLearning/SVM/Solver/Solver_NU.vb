@@ -67,6 +67,20 @@ Namespace SVM
 
         Private si As SolutionInfo
 
+        ''' <summary>
+        ''' Solve the nu-svm quadratic programming sub-problem, the additional 
+        ''' constraint ``e^T * alpha = constant`` is handled by this solver.
+        ''' </summary>
+        ''' <param name="l">The number of the variables (the training samples).</param>
+        ''' <param name="Q">The kernel matrix of the current svm formulation.</param>
+        ''' <param name="p">The linear term of the objective function.</param>
+        ''' <param name="y">The signed label (+1/-1) of each variable.</param>
+        ''' <param name="alpha">The lagrange multiplier of each variable, the solution will be written into this array.</param>
+        ''' <param name="Cp">The upper bound of the lagrange multiplier of the positive side variables.</param>
+        ''' <param name="Cn">The upper bound of the lagrange multiplier of the negative side variables.</param>
+        ''' <param name="eps">The stopping tolerance of the iteration.</param>
+        ''' <param name="si">The <see cref="SolutionInfo"/> object which will be filled with the solution information.</param>
+        ''' <param name="shrinking">Whether the shrinking heuristic should be applied during the iteration?</param>
         Public Overrides Sub Solve(l As Integer, Q As IQMatrix, p As Double(), y As SByte(), alpha As Double(), Cp As Double, Cn As Double, eps As Double, si As SolutionInfo, shrinking As Boolean)
             Me.si = si
             MyBase.Solve(l, Q, p, y, alpha, Cp, Cn, eps, si, shrinking)

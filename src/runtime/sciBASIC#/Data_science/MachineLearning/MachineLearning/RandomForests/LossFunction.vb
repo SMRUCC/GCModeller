@@ -69,7 +69,6 @@ Namespace RandomForests
     '''  More Loss functions can be added in the future.
     ''' 
     ''' </summary>
-
     Public Class LossFunction
 
         ''' <summary>

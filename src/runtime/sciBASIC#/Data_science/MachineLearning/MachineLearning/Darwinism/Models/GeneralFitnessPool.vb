@@ -73,6 +73,10 @@ Namespace Darwinism.Models
     ''' </remarks>
     Public Class GeneralFitnessPool(Of Individual) : Implements Fitness(Of Individual)
 
+        ''' <summary>
+        ''' The maximum number of the cached fitness results, the oldest records 
+        ''' will be removed once this capacity is reached.
+        ''' </summary>
         Protected Friend maxCapacity%
         ''' <summary>
         ''' A fitness cache pool indexed via the unique id of target

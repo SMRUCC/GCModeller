@@ -80,6 +80,10 @@ Namespace SVM
 
         Dim rand As Random = randf.seeds
 
+        ''' <summary>
+        ''' Set the random seed value which is used by the LibSVM procedure.
+        ''' </summary>
+        ''' <param name="seed">The random seed value.</param>
         Public Sub setRandomSeed(seed As Integer)
             rand = New Random(seed)
         End Sub
@@ -252,13 +256,26 @@ Namespace SVM
         End Sub
 
         ''' <summary>
-        ''' decision_function
+        ''' The decision function of one binary sub-problem: it holds the lagrange 
+        ''' multipliers of the samples and the bias term.
         ''' </summary>
         Private Class decision_function
 
+            ''' <summary>
+            ''' The lagrange multiplier of each training sample.
+            ''' </summary>
+            ''' <returns>An array of the alpha values.</returns>
             Public Property alpha As Double()
+            ''' <summary>
+            ''' The bias term of the decision function.
+            ''' </summary>
+            ''' <returns>A <see cref="Double"/> value.</returns>
             Public Property rho As Double
 
+            ''' <summary>
+            ''' Display this decision function as a json string.
+            ''' </summary>
+            ''' <returns>A json text which describes this decision function.</returns>
             Public Overrides Function ToString() As String
                 Return Me.GetJson
             End Function
@@ -1038,6 +1055,13 @@ Namespace SVM
         '
         ' Interface functions
         '
+        ''' <summary>
+        ''' Train a support vector machine model from the given problem and 
+        ''' parameters, this is the entry point of the whole training procedure.
+        ''' </summary>
+        ''' <param name="prob">The training data.</param>
+        ''' <param name="param">The training parameters.</param>
+        ''' <returns>A trained <see cref="Model"/> object.</returns>
         Public Function svm_train(prob As Problem, param As Parameter) As Model
             Dim model As New Model() With {
                 .parameter = param,
@@ -1201,14 +1225,32 @@ Namespace SVM
             Next
         End Sub
 
+        ''' <summary>
+        ''' Gets the svm type of the given model.
+        ''' </summary>
+        ''' <param name="model">The target model.</param>
+        ''' <returns>A <see cref="SvmType"/> value.</returns>
         Public Function svm_get_svm_type(model As Model) As SvmType
             Return model.parameter.svmType
         End Function
 
+        ''' <summary>
+        ''' Gets the number of the classes of the given model.
+        ''' </summary>
+        ''' <param name="model">The target model.</param>
+        ''' <returns>An <see cref="Integer"/> value.</returns>
         Public Function svm_get_nr_class(model As Model) As Integer
             Return model.numberOfClasses
         End Function
 
+        ''' <summary>
+        ''' Copy the class label values of the given model into the target array.
+        ''' </summary>
+        ''' <param name="model">The target model.</param>
+        ''' <param name="label">
+        ''' The output array which will receive the class labels, its length 
+        ''' should be equals to <see cref="Model.numberOfClasses"/>.
+        ''' </param>
         Public Sub svm_get_labels(model As Model, label As Integer())
             If model.classLabels IsNot Nothing Then
                 For i = 0 To model.numberOfClasses - 1
@@ -1217,6 +1259,14 @@ Namespace SVM
             End If
         End Sub
 
+        ''' <summary>
+        ''' Copy the indices of the support vectors into the target array.
+        ''' </summary>
+        ''' <param name="model">The target model.</param>
+        ''' <param name="indices">
+        ''' The output array which will receive the support vector indices, its 
+        ''' length should be equals to <see cref="Model.supportVectorCount"/>.
+        ''' </param>
         Public Sub svm_get_sv_indices(model As Model, indices As Integer())
             If model.supportVectorIndices IsNot Nothing Then
                 For i As Integer = 0 To model.supportVectorCount - 1
@@ -1225,10 +1275,25 @@ Namespace SVM
             End If
         End Sub
 
+        ''' <summary>
+        ''' Gets the number of the support vectors of the given model.
+        ''' </summary>
+        ''' <param name="model">The target model.</param>
+        ''' <returns>An <see cref="Integer"/> value.</returns>
         Public Function svm_get_nr_sv(model As Model) As Integer
             Return model.supportVectorCount
         End Function
 
+        ''' <summary>
+        ''' Gets the sigma value of the laplace distribution which was estimated 
+        ''' for the support vector regression model.
+        ''' </summary>
+        ''' <param name="model">The target model.</param>
+        ''' <returns>
+        ''' The sigma value; a message will be written to the error console and 
+        ''' ``0`` will be returned when the target model does not contain the 
+        ''' information for the SVR probability inference.
+        ''' </returns>
         Public Function svm_get_svr_probability(model As Model) As Double
             If (model.parameter.svmType = SvmType.EPSILON_SVR OrElse model.parameter.svmType = SvmType.NU_SVR) AndAlso model.pairwiseProbabilityA IsNot Nothing Then
                 Return model.pairwiseProbabilityA(0)
@@ -1340,6 +1405,17 @@ Namespace SVM
             }
         End Function
 
+        ''' <summary>
+        ''' Evaluate the decision function values of the given input sample.
+        ''' </summary>
+        ''' <param name="model">The target model.</param>
+        ''' <param name="x">The sparse feature vector of the input sample.</param>
+        ''' <param name="dec_values">
+        ''' The output array which will receive the pairwise decision values; for 
+        ''' the one-class and the regression models its length should be 1, 
+        ''' otherwise it should be ``nr_class * (nr_class - 1) / 2``.
+        ''' </param>
+        ''' <returns>The <see cref="SVMPrediction"/> result of the given sample.</returns>
         Public Function svm_predict_values(model As Model, x As Node(), dec_values As Double()) As SVMPrediction
             If model.parameter.svmType = SvmType.ONE_CLASS OrElse
                 model.parameter.svmType = SvmType.EPSILON_SVR OrElse
@@ -1377,6 +1453,20 @@ Namespace SVM
             Return pred_result
         End Function
 
+        ''' <summary>
+        ''' Evaluate the class probability distribution of the given input sample.
+        ''' </summary>
+        ''' <param name="model">The target model, it should be trained with the probability estimation enabled.</param>
+        ''' <param name="x">The sparse feature vector of the input sample.</param>
+        ''' <param name="prob_estimates">
+        ''' The output array which will receive the probability value of each 
+        ''' class, its length should be equals to <see cref="Model.numberOfClasses"/>.
+        ''' </param>
+        ''' <returns>
+        ''' The <see cref="SVMPrediction"/> result of the given sample; when the 
+        ''' model does not provide the pairwise probability, this function falls 
+        ''' back to the <see cref="svm_predict"/> function.
+        ''' </returns>
         Public Function svm_predict_probability(model As Model, x As Node(), prob_estimates As Double()) As SVMPrediction
             If (model.parameter.svmType = SvmType.C_SVC OrElse model.parameter.svmType = SvmType.NU_SVC) AndAlso model.pairwiseProbabilityA IsNot Nothing AndAlso model.pairwiseProbabilityB IsNot Nothing Then
                 Dim i As Integer
@@ -1418,6 +1508,16 @@ Namespace SVM
             End If
         End Function
 
+        ''' <summary>
+        ''' Validate the training parameters against the given problem before 
+        ''' the training procedure starts.
+        ''' </summary>
+        ''' <param name="prob">The training data.</param>
+        ''' <param name="param">The training parameters that will be validated.</param>
+        ''' <returns>
+        ''' An error message which describes the first invalid parameter, or 
+        ''' ``Nothing`` when all of the parameters are valid.
+        ''' </returns>
         Public Function svm_check_parameter(prob As Problem, param As Parameter) As String
             ' svm_type
             Dim svm_type As SvmType = param.svmType
@@ -1503,6 +1603,12 @@ Namespace SVM
             Return Nothing
         End Function
 
+        ''' <summary>
+        ''' Check whether the given model contains the information which is 
+        ''' required by the probability inference.
+        ''' </summary>
+        ''' <param name="model">The target model.</param>
+        ''' <returns>``1`` when the probability information is available, otherwise ``0``.</returns>
         Public Function svm_check_probability_model(model As Model) As Integer
             If (model.parameter.svmType = SvmType.C_SVC OrElse model.parameter.svmType = SvmType.NU_SVC) AndAlso
                 model.pairwiseProbabilityA IsNot Nothing AndAlso
