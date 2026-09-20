@@ -625,3 +625,5 @@ src/interops/localblast/PanGenome/test/_shot_hist.png
 src/interops/localblast/PanGenome/test/_shot_stats.png
 src/runtime/sciBASIC\#/tutorials/VBS/.vscode/extensions.json
 /src/GCModeller/annotations/.vs/GPR.slnx/v18
+/src/GCModeller/sub-system/.vs
+/src/GCModeller/sub-system/Squiiff/.vs/Squiiff.slnx/v18
