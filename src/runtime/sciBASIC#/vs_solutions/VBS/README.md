@@ -46,7 +46,7 @@ End Using
 
 整个执行流水线分为四个阶段：
 
-1. **解析**(`VBScript.ParseScript`)：读取源码，解析 `#include` 引用的外部依赖（dll / 其它脚本 / nuget 包，含递归展开与 nuget 传递依赖解析），解析 `#package/#author/#title/#version` 程序集元数据指令，并进行文本预处理（移除 `#include` 行、展开命令行参数语法、展开 `let` 动态类型声明、展开元组分解语法、展开 `@` 数组投影、数值向量化改写）；
+1. **解析**(`VBScript.ParseScript`)：读取源码，解析 `#include` 引用的外部依赖（dll / 其它脚本 / nuget 包，含递归展开与 nuget 传递依赖解析），解析 `#package/#author/#title/#version` 程序集元数据指令，并进行文本预处理（移除 `#include` 行、展开命令行参数语法、展开 `let` 动态类型声明、展开元组分解语法、展开默认参数表达式、展开 `@` 数组投影、数值向量化改写）；
 2. **结构重构**(`ScriptRefactor.Refactor`)：逐行扫描代码，利用块栈分离出类型定义块、顶层函数、顶层控制流块与顶层语句，将顶层函数重写为匿名函数并求解其在 `Main` 中的落位，最终组装为固定容器结构；
 3. **内存编译**(`DynamicDll.CompileScript`)：基于 Roslyn 将生成的代码编译为 `DynamicallyLinkedLibrary`，IL 与 PDB 均直接发射到内存流中；
 4. **反射执行**(`ScriptRuntime.Run`)：在可回收的 `ScriptLoadContext`(自定义 `AssemblyLoadContext`) 中加载 assembly，通过反射调用 `DynamicDll.Program.Main(args As CommandLine)`，`Dispose` 时卸载整个加载上下文。
@@ -709,6 +709,143 @@ Dim text = Microsoft.VisualBasic.Printing.Print.ToText(New Double() {1, 2, 3})
   转发目标固定为 `Microsoft.VisualBasic.Printing.Print.print(data As Object, ...)`(全限定调用，
   因此生成代码里不需要再增加 Imports)。
 
+#### 14. 默认参数表达式
+
+VB.NET 只允许把**常数或常数表达式**作为可选参数(`Optional`)的默认值。脚本引擎放宽了这个限制：
+顶层 `Function`/`Sub` 的可选参数可以书写**任意可以产生值的表达式**，例如引用更靠前的参数、
+模块级变量、`New` 构造与函数调用：
+
+```vbnet
+' vbs ./test/test_default_expression.vb
+Class testdata
+    Public text As String
+
+    Sub New(text As String)
+        Me.text = text
+    End Sub
+End Class
+
+Dim prefix = "[vbs] "     ' 模块级变量也可以被默认值表达式引用
+
+Function test(a As String, Optional b As Boolean = True,
+              Optional c As testdata = If(b, New testdata(a), New testdata("default"))) As String
+    Return c.text
+End Function
+
+Call print(test(a:="xxxxx", b:=False))   ' => "default"
+Call print(test(a:="hello"))             ' => "hello"
+```
+
+引擎在**预处理阶段**把它改写成等价且可以被 Roslyn 编译的代码，脚本作者不需要做任何额外声明。
+
+##### 14.1 改写规则
+
+**① 声明**: 带默认值的参数一律去掉 `Optional` 与 `= 默认值`，变为必填参数：
+
+```vbnet
+Function test(a As String, Optional b As Boolean = True, Optional c As testdata = If(b, ...)) As String
+' =>
+Function test(a As String, b As Boolean, c As testdata) As String
+```
+
+> 之所以必须去掉 `Optional`：运行期发射路径会把顶层函数重写为 `Main` 之中的匿名函数
+> (见第 4 节)，而 VB 不允许 lambda 参数声明为 `Optional`(`BC33010`)。
+> 参数变成必填同时也保证了「绝不静默取到 `Nothing`」—— 任何**没有被改写到的**调用点
+> 都会在编译期报「未提供参数」，而不是静默地拿到 `Nothing`。
+
+**② `Function` 的调用点**: 按需生成一个**桥接函数**，调用点只把被调用名替换为桥接函数名、
+实参表原样保留：
+
+```vbnet
+Call print(test(a:="xxxxx", b:=False))
+' => Call print(test_defaults(__vbs_test_a:="xxxxx", __vbs_test_b:=False))
+
+' 脚本末尾(紧随原函数之后)生成的桥接函数:
+Function test_defaults(__vbs_test_a As String, __vbs_test_b As Boolean) As String
+    Dim __vbs_test_c = If(__vbs_test_b, New testdata(__vbs_test_a), New testdata("default"))
+    Return test(__vbs_test_a, __vbs_test_b, __vbs_test_c)
+End Function
+```
+
+由于只做名字替换，`While test(a, b)`、`If test(...) Then`、`print(test(...))` 这类
+**任意表达式位置**都能被改写，且不改变求值顺序与具名实参语义。桥接函数按「实际提供的参数子集」
+去重，因此同一函数的不同调用形态各生成一个(`test_defaults`、`test_defaults2` ...)。
+
+**③ `Sub` 的调用点**: VB 之中 Sub 调用只能是语句，因此直接**就地展开**为多行，
+不引入桥接函数(也就不会给 Sub 的热点调用增加一次函数调用)：
+
+```vbnet
+Call emit(a:="inline")
+' =>
+Dim __vbs_emit_a_2 = "inline"
+Dim __vbs_emit_c_3 = New testdata(__vbs_emit_a_2)
+Call emit(__vbs_emit_a_2, __vbs_emit_c_3)
+```
+
+展开次序固定为「被提供的实参(书写顺序) → 被省略的参数(声明顺序) → 完整调用」，
+与 VB 左到右求值以及「先算实参再算默认值」的语义一致。
+
+**④ 语句容器展开**: 当 Sub 调用所在的结构容不下多行语句时，先把它展开为块：
+
+```vbnet
+Dim handler = Sub() Call emit(a:="from-lambda")
+' =>
+Dim handler = Sub()
+                  Dim __vbs_emit_a_8 = "from-lambda"
+                  Dim __vbs_emit_c_9 = New testdata(__vbs_emit_a_8)
+                  Call emit(__vbs_emit_a_8, __vbs_emit_c_9)
+              End Sub
+
+If True Then Call emit(a:="from-ifthen")
+' =>
+If True Then
+    Dim __vbs_emit_a_10 = "from-ifthen"
+    ...
+End If
+```
+
+##### 14.2 不变的部分
+
+- **常量默认值**不参与改写：它们被原样搬到桥接函数里(`Dim __vbs_test_b = True`)，语义不变；
+- **提供了全部参数**的调用点保持原样；
+- 不含非常数默认值表达式的函数完全不受影响；
+- 生成的桥接函数名(`<函数名>_defaults`)与临时变量名(`__vbs_<函数名>_<参数名>_<序号>`)
+  都会对全文做符号冲突检查。
+
+##### 14.3 保守策略与已知局限
+
+改写器只做文本级分析(不建立 Roslyn 语义模型)，任何不确定都**放弃改写** —— 于是保持原有行为，
+而这类写法在本功能引入之前本来也无法编译，因此不存在行为回归。放弃改写的条件：
+
+| 情形 | 例子 |
+|------|------|
+| 含 `ParamArray` 或方法泛型参数表 | `Function f(Of T)(x As T, Optional y As T = ...)` |
+| 参数类型子句带括号(既有 `ToLambdaSignature` 同样不支持) | `Optional x As List(Of Integer) = ...` |
+| 参数表跨物理行 | 续行书写的签名 |
+| 类型块内部存在同名成员(名字遮蔽) | `Class A : Function test(...) : End Class` |
+| 同名顶层函数(重载) | 两个 `Function test(...)` |
+| 默认值引用了自身或更靠后的参数 | `Optional b As Integer = c + 1` |
+
+已知局限：
+
+- 只处理**主脚本顶层**的 `Function`/`Sub`，类型定义块(`Class`/`Module`/`Structure`/`Interface`/`Enum`)
+  内部的方法不处理；
+- 默认值表达式本身不能跨物理行续行；
+- Sub 的**无括号调用**(`test a, b`)、`Else`/`ElseIf` 分支内嵌的单行调用、冒号分隔的多语句行
+  会被退化为「参数必填」而在编译期报错(不会静默出错)；
+- 只含常量默认值的可选参数(即没有出现任何非常数默认值表达式的函数)不在本特性的处理范围内，
+  它们在运行期路径之中仍会受 `BC33010` 限制 —— 这与本功能引入之前的行为一致；
+- 顶层函数的参数名若与顶层变量同名，运行期路径会报 `BC36641`(VB 不允许 lambda 参数遮蔽外层变量)，
+  这也是既有行为；桥接函数内部一律使用 `__vbs_` 前缀的混淆名字，因此不会**新增**这类冲突。
+
+`--verbose` 会打印改写点数量、生成的桥接函数名、就地展开的 Sub 名与被退化为必填的参数：
+
+```text
+----- default parameters: 11 处调用点改写, 4 个桥接函数, 1 个 Sub 就地展开 -----
+    inline subs: emit
+    bridges: test_defaults2, test_defaults3, test_defaults4, greet_defaults
+```
+
 ## 转换为正式的 vbproj 工程(make-project)
 
 脚本调试完成之后，可以用 `make-project` 子命令把它**就地**转换为一个正式的 VB.NET 工程：
@@ -751,6 +888,7 @@ src/
 | 被顶层函数捕获的顶层变量 | 提升为模块级字段(否则函数无法访问)；脚本没有顶层函数时不做任何提升，全部保持为 `Main` 的局部变量 |
 | `let` 声明 | 保持为 `Private x = ...` 的动态类型(Object)语义 |
 | 元组分解语法 | 展开为多条独立的 `Dim` 语句 |
+| 默认参数表达式 | 声明去掉 `Optional`；`Function` 生成模块级 `Private Function` 桥接函数，`Sub` 的调用点就地展开为多行临时变量 |
 | 魔法方法 | 物化为 `src/VBScriptHostMagics.vb` 之中的普通方法，脱离脚本引擎也可以直接调用 |
 | 类型定义 | 位于工程命名空间 `DynamicDll` 之下的顶层类型 |
 | `#include "xxx.dll"` | `<Reference Include="xxx"><HintPath>...</HintPath></Reference>`(指向引擎自身程序集的引用会被自动跳过) |
@@ -813,6 +951,8 @@ End Using   ' Dispose后动态加载的assembly会被卸载
 | `src/VBScript/LetStatement.vb` | `let` 动态类型声明展开，并区分 LINQ 查询之中的 `Let` 子句 |
 | `src/VBScript/Magics.vb` | 脚本上下文魔法方法源码生成器(运行期注入 / 工程期物化为源码文件) |
 | `src/VBScript/TupleDestructuring.vb` | 元组分解语法展开 |
+| `src/VBScript/Syntax/DefaultParameterExpression.vb` | **默认参数表达式预处理阶段入口**：顶层声明收集、Function 桥接路径与 Sub 就地展开路径的调用点编排、声明改写、覆盖判定与改写报告 |
+| `src/VBScript/Syntax/DefaultParameterSignature.vb` | 顶层函数签名与参数的文本级解析模型(常量/非常数默认值分类)，桥接函数源码发射，参数名到混淆名/临时变量名的词元级替换 |
 | `src/VBScript/Syntax/Vectorization/Vectorization.vb` | **向量化预处理阶段入口**：`#no-vectorize` / `#vectorize` 指令处理、逐行驱动、改写报告 |
 | `src/VBScript/Syntax/Vectorization/VectorType.vb` | 数值类型模型与 VB 逐元素类型提升规则(`Promote` / `DivideKind` / `PowerKind` / `IntegerDivideKind` / `ModuloKind`) |
 | `src/VBScript/Syntax/Vectorization/ObjectMemberTable.vb` | 用 Roslyn 解析脚本类型定义块，得到「类型名 → 成员名 → 成员类型」的成员表，供 `@` 投影解析元素类型 |
