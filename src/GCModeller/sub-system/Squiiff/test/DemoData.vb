@@ -325,7 +325,7 @@ Public Class SyntheticBenchmark
             metadata.Add(New String() {CellTypeLabels(i), ConditionLabels(i)})
         Next
 
-        Call ResultWriter.WriteTextTable(Path.Combine(directory, "cell_metadata.csv"),
+        Call ResultWriter.WriteTextTable(Path.Combine(outputDirectory, "cell_metadata.csv"),
                                          New String() {"cell_type", "condition"},
                                          metadata, CellNames)
     End Sub
