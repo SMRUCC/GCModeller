@@ -69,6 +69,10 @@ Namespace Script
             Public Property ParamIndex As Integer
             Public Property IsNamed As Boolean
             Public Property Expression As String
+            ''' <summary>具名实参的名字在整行之中的起始下标(<see cref="IsNamed"/> 为 False 时为 -1)</summary>
+            Public Property NameStart As Integer = -1
+            ''' <summary>具名实参的名字长度</summary>
+            Public Property NameLength As Integer
         End Class
 
         ''' <summary>Sub 调用点所在的语句容器形态</summary>
@@ -85,8 +89,6 @@ Namespace Script
             Public ReadOnly Identifiers As HashSet(Of String)
             ''' <summary>临时变量的全局序号(保证同一作用域之内的临时变量互不重名)</summary>
             Public Property TempSeq As Integer
-            ''' <summary>生成的桥接函数源码块</summary>
-            Public ReadOnly Bridges As New List(Of String())
 
             Public Sub New(source As String)
                 Identifiers = New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
@@ -148,35 +150,50 @@ Namespace Script
                 declOf(fn.LineIndex) = fn
             Next
 
+            ' 桥接函数必须紧跟在原函数块之后插入: 既有的 ResolveFunctionSlots 会「保持函数之间的源码相对顺序」,
+            ' 若把桥接函数追加到脚本文末, 它会被排在它之前的函数的最小槽位拖到调用点之后而报 BC32000。
+            Dim bridgeAt As New Dictionary(Of Integer, List(Of String()))()
+
+            For Each fn As DefaultParameterFunction In targets
+                If fn.BridgeBlocks.Count = 0 Then
+                    Continue For
+                End If
+
+                Dim at As Integer = If(fn.EndLineIndex >= 0, fn.EndLineIndex, lines.Length - 1)
+                Dim blocks As List(Of String()) = Nothing
+
+                If Not bridgeAt.TryGetValue(at, blocks) Then
+                    blocks = New List(Of String())()
+                    bridgeAt(at) = blocks
+                End If
+
+                Call blocks.AddRange(fn.BridgeBlocks)
+            Next
+
             Dim output As New List(Of String)
 
             For i As Integer = 0 To lines.Length - 1
                 If declOf.ContainsKey(i) Then
                     Call output.Add(RewriteDeclaration(lines(i), declOf(i), report))
-                    Continue For
+                Else
+                    Dim edit As LineEdit = edits(i)
+
+                    If edit Is Nothing Then
+                        Call output.Add(lines(i))
+                    ElseIf edit.Expansion IsNot Nothing Then
+                        Call output.AddRange(edit.Expansion)
+                    Else
+                        Call output.Add(ApplyRenames(lines(i), edit.Renames))
+                    End If
                 End If
 
-                Dim edit As LineEdit = edits(i)
-
-                If edit Is Nothing Then
-                    Call output.Add(lines(i))
-                ElseIf edit.Expansion IsNot Nothing Then
-                    Call output.AddRange(edit.Expansion)
-                Else
-                    Call output.Add(ApplyRenames(lines(i), edit.Renames))
+                If bridgeAt.ContainsKey(i) Then
+                    For Each block As String() In bridgeAt(i)
+                        Call output.Add("")
+                        Call output.AddRange(block)
+                    Next
                 End If
             Next
-
-            ' ---- 4. 末尾追加桥接函数 ----
-            If ctx.Bridges.Count > 0 Then
-                Call output.Add("")
-                Call output.Add("' ---- 由脚本引擎生成: 默认参数表达式桥接函数 ----")
-
-                For Each block As String() In ctx.Bridges
-                    Call output.Add("")
-                    Call output.AddRange(block)
-                Next
-            End If
 
             Return String.Join(vbCrLf, output)
         End Function
@@ -194,6 +211,8 @@ Namespace Script
             Dim found As New List(Of DefaultParameterFunction)
             Dim nested As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
             Dim stack As New Stack(Of String)
+            ''' <summary>当前正在扫描的函数块(用于记录函数块的结束行)</summary>
+            Dim pending As DefaultParameterFunction = Nothing
 
             For i As Integer = 0 To lines.Length - 1
                 Dim t As String = ScriptStructure.StripComment(lines(i)).Trim()
@@ -210,6 +229,7 @@ Namespace Script
 
                         If DefaultParameterSignature.TryParseDeclaration(lines(i), i, fn, bailed) Then
                             If fn.Dynamic.Count > 0 Then
+                                pending = fn
                                 Call found.Add(fn)
                             End If
                         ElseIf bailed AndAlso report IsNot Nothing Then
@@ -230,6 +250,11 @@ Namespace Script
 
                     If ScriptStructure.IsBlockEnd(t, stack.Peek()) Then
                         Call stack.Pop()
+
+                        If stack.Count = 0 AndAlso pending IsNot Nothing Then
+                            pending.EndLineIndex = i
+                            pending = Nothing
+                        End If
                     ElseIf ScriptStructure.IsNestedBlockStart(t, stack.Peek(), blockType) Then
                         Call stack.Push(blockType.ToLower())
                     End If
@@ -321,7 +346,7 @@ Namespace Script
 
                         Dim bindings As List(Of ArgBinding) = Nothing
 
-                        If Not TryBindArguments(fn, line.Substring(openAt + 1, closeAt - openAt - 1), bindings) Then
+                        If Not TryBindArguments(fn, line.Substring(openAt + 1, closeAt - openAt - 1), openAt + 1, bindings) Then
                             fn.Uncovered = True
                             Continue Do
                         End If
@@ -342,13 +367,16 @@ Namespace Script
                             If Not fn.Parameters(k).HasDefault Then
                                 ' 必填参数被省略: 调用本身非法, 交给 Roslyn 报错
                                 invalid = True
-                            ElseIf fn.Parameters(k).IsDynamic Then
+                            Else
+                                ' 只要省略了任何一个带默认值的参数就需要改写:
+                                ' 声明改写会把 Optional 全部去掉(运行期顶层函数是匿名函数,
+                                ' 而 VB 不允许 lambda 参数声明为 Optional), 因此必须由改写后的调用点把值补齐。
                                 need = True
                             End If
                         Next
 
                         If invalid OrElse Not need Then
-                            ' 被省略的全都是常量默认值 => VB 自己就能处理, 不需要改写
+                            ' 没有省略任何参数 => 原样调用即可
                             Continue Do
                         End If
 
@@ -394,6 +422,19 @@ Namespace Script
                             .Length = fn.Name.Length,
                             .Text = bridge
                         })
+
+                        ' 具名实参的名字要一并改成桥接函数形参的混淆名字
+                        For Each b As ArgBinding In bindings
+                            If Not b.IsNamed Then
+                                Continue For
+                            End If
+
+                            Call edits(i).Renames.Add(New Rename With {
+                                .Start = b.NameStart,
+                                .Length = b.NameLength,
+                                .Text = fn.Mangled(b.ParamIndex)
+                            })
+                        Next
 
                         report.Rewritten += 1
                     Loop
@@ -441,6 +482,7 @@ Namespace Script
         ''' <summary>解析实参表, 把每个实参绑定到形参</summary>
         Private Function TryBindArguments(fn As DefaultParameterFunction,
                                           argsText As String,
+                                          argsBase As Integer,
                                           ByRef bindings As List(Of ArgBinding)) As Boolean
 
             bindings = New List(Of ArgBinding)()
@@ -470,7 +512,11 @@ Namespace Script
                     Call bindings.Add(New ArgBinding With {
                         .ParamIndex = idx,
                         .IsNamed = True,
-                        .Expression = m.Groups("expr").Value.Trim()
+                        .Expression = m.Groups("expr").Value.Trim(),
+                        .NameStart = argsBase + part(0) +
+                                     DefaultParameterSignature.LeadingSpaces(argsText.Substring(part(0), part(1))) +
+                                     m.Groups("name").Index,
+                        .NameLength = m.Groups("name").Length
                     })
                 ElseIf bindings.Any(Function(b) b.IsNamed) Then
                     ' 位置实参出现在具名实参之后
@@ -686,20 +732,44 @@ Namespace Script
             End If
 
             name = NextBridgeName(fn, ctx)
-            Dim code As String() = DefaultParameterSignature.EmitBridge(fn, supplied, name)
+            Dim code As String() = DefaultParameterSignature.EmitBridge(fn, supplied, name, EnsureMangled(fn, ctx))
 
             If code Is Nothing Then
                 Return Nothing
             End If
 
             Call fn.BridgeIndex.Add(key, name)
-            Call ctx.Bridges.Add(code)
+            Call fn.BridgeBlocks.Add(code)
 
             If report IsNot Nothing Then
                 Call report.Bridges.Add(name)
             End If
 
             Return name
+        End Function
+
+        ''' <summary>
+        ''' 生成(或取用)每个参数在桥接函数之中使用的混淆名字。
+        ''' </summary>
+        Private Function EnsureMangled(fn As DefaultParameterFunction, ctx As Context) As String()
+            If fn.Mangled.Count = fn.Parameters.Count Then
+                Return fn.Mangled.ToArray()
+            End If
+
+            For Each p As DefaultParameterItem In fn.Parameters
+                Dim name As String = "__vbs_" & fn.Name & "_" & p.Name
+                Dim n As Integer = 2
+
+                While ctx.Identifiers.Contains(name)
+                    name = "__vbs_" & fn.Name & "_" & p.Name & "_" & n.ToString()
+                    n += 1
+                End While
+
+                Call ctx.Identifiers.Add(name)
+                Call fn.Mangled.Add(name)
+            Next
+
+            Return fn.Mangled.ToArray()
         End Function
 
         Private Function SubsetKey(fn As DefaultParameterFunction, supplied As Boolean()) As String
@@ -748,42 +818,53 @@ Namespace Script
         ' ==================================================================
 
         ''' <summary>
-        ''' 改写声明行: 动态默认参数改为 <c>= Nothing</c>; 存在无法覆盖的调用点时退化为必填参数。
+        ''' 改写声明行: 去掉全部带默认值的参数上的 <c>Optional</c> 与 <c>= 默认值</c>, 使其成为必填参数。
         ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' <b>为什么必须去掉 <c>Optional</c></b>: 运行期发射路径会把顶层函数重写为 <c>Main</c> 之中的
+        ''' 匿名函数(<see cref="ScriptStructure.ToLambdaSignature"/>), 而 VB 不允许 lambda 参数声明为
+        ''' <c>Optional</c>(BC33010)。因此默认值只能由「桥接函数 / 就地展开的调用点」在调用处补齐。
+        ''' </para>
+        ''' <para>
+        ''' 这也顺带实现了「绝不静默取到 <c>Nothing</c>」: 参数变成必填之后,
+        ''' 任何**没有被改写到的**调用点都会在编译期报「未提供参数」, 而不会静默地拿到 <c>Nothing</c>。
+        ''' </para>
+        ''' </remarks>
         Private Function RewriteDeclaration(line As String,
                                             fn As DefaultParameterFunction,
                                             report As DefaultParameterReport) As String
 
             Dim spans As New List(Of Rename)
 
-            For Each idx As Integer In fn.Dynamic
-                Dim p As DefaultParameterItem = fn.Parameters(idx)
+            For Each p As DefaultParameterItem In fn.Parameters
+                If Not p.HasDefault Then
+                    Continue For
+                End If
 
-                If fn.Uncovered Then
-                    ' 退化为必填: 同时去掉 Optional 与 = 默认值
+                ' 去掉 = 默认值(连同等号前后的空白一起)
+                Dim start As Integer = p.EqualsStart
+
+                While start > 0 AndAlso Char.IsWhiteSpace(line(start - 1))
+                    start -= 1
+                End While
+
+                Call spans.Add(New Rename With {
+                    .Start = start,
+                    .Length = (p.ValueStart + p.ValueLength) - start,
+                    .Text = ""
+                })
+
+                If p.OptionalStart >= 0 Then
                     Call spans.Add(New Rename With {
-                        .Start = p.EqualsStart,
-                        .Length = (p.ValueStart + p.ValueLength) - p.EqualsStart,
+                        .Start = p.OptionalStart,
+                        .Length = p.OptionalLength,
                         .Text = ""
                     })
+                End If
 
-                    If p.OptionalStart >= 0 Then
-                        Call spans.Add(New Rename With {
-                            .Start = p.OptionalStart,
-                            .Length = p.OptionalLength,
-                            .Text = ""
-                        })
-                    End If
-
-                    If report IsNot Nothing Then
-                        Call report.Required.Add($"{fn.Name}.{p.Name}")
-                    End If
-                Else
-                    Call spans.Add(New Rename With {
-                        .Start = p.ValueStart,
-                        .Length = p.ValueLength,
-                        .Text = "Nothing"
-                    })
+                If p.IsDynamic AndAlso fn.Uncovered AndAlso report IsNot Nothing Then
+                    Call report.Required.Add($"{fn.Name}.{p.Name}")
                 End If
             Next
 

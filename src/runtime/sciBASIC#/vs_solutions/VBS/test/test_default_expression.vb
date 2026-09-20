@@ -53,9 +53,10 @@ Function greet(name As String, Optional msg As String = prefix & name) As String
     Return msg
 End Function
 
-' ---- 常量默认值: 保持原样, 交给 Roslyn 处理 ----
-Function withConst(a As String, Optional n As Integer = 42) As String
-    Return a & "/" & n
+' ---- 常量默认值(b)与非常数默认值(c)混用 ----
+' 改写之后 b 的常量默认值会被搬到桥接函数里(Dim b = True), 语义不变。
+Function withConst(a As String, Optional n As Integer = 42, Optional c As testdata = New testdata(a & "/" & n)) As String
+    Return c.text
 End Function
 
 ' ---- Sub 的非常数默认值: 调用点就地展开 ----
@@ -85,10 +86,10 @@ If test(a:="cond") = "cond" Then
 End If
 
 ' 出现在 While 条件之中
-Dim n = 0
+Dim count = 0
 
-While test(a:="loop").Length > 0 AndAlso n < 1
-    n += 1
+While test(a:="loop").Length > 0 AndAlso count < 1
+    count += 1
 End While
 Call Console.WriteLine("  while 条件中的调用 OK")
 
@@ -117,11 +118,11 @@ If True Then Call emit(a:="from-ifthen")
 ' =============================================================
 Call Console.WriteLine("---- 3. 模块级变量与常量默认值 ----")
 Call print(greet("world"))
-Call print(withConst("constant-default"))
+Call print(withConst("mixed"))
 
 Call Console.WriteLine()
 Call Console.WriteLine("expected:")
 Call Console.WriteLine("  [1] ""default"" / ""hello"" / ""given"" / ""explicit""")
 Call Console.WriteLine("  [5] ""nested: nested""")
 Call Console.WriteLine("  [6] ""[vbs] world""")
-Call Console.WriteLine("  [7] ""constant-default/42""")
+Call Console.WriteLine("  [7] ""mixed/42""")

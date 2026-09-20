@@ -30,8 +30,33 @@ Namespace Script
         ''' <summary>默认值表达式是否为常量表达式</summary>
         Public Property IsConstant As Boolean
 
-        ''' <summary>去掉 <c>Optional</c> 与 <c>= 默认值</c> 之后的形参文本(桥接函数的形参表使用)</summary>
-        Public Property Formal As String
+        ''' <summary>去掉 <c>Optional</c> 之后的修饰符文本(例如 <c>ByVal</c>/<c>ByRef</c>)</summary>
+        Public Property ModifierText As String
+
+        ''' <summary>数组标记(参数名之后的 <c>()</c>; 没有时为空串)</summary>
+        Public Property RankText As String
+
+        ''' <summary><c>As</c> 子句给出的类型文本(没有时为空串)</summary>
+        Public Property TypeText As String
+
+        ''' <summary>
+        ''' 用给定的形参名构造形参文本(去掉 <c>Optional</c> 与 <c>= 默认值</c>, 保留修饰符与类型子句)。
+        ''' </summary>
+        Friend Function FormalWith(name As String) As String
+            Dim sb As New StringBuilder()
+
+            If Not String.IsNullOrEmpty(ModifierText) Then
+                Call sb.Append(ModifierText).Append(" "c)
+            End If
+
+            Call sb.Append(name).Append(RankText)
+
+            If TypeText.Length > 0 Then
+                Call sb.Append(" As ").Append(TypeText)
+            End If
+
+            Return sb.ToString()
+        End Function
 
         ''' <summary><c>Optional</c> 关键字在声明行之中的起始下标(不存在时为 -1)</summary>
         Public Property OptionalStart As Integer = -1
@@ -79,8 +104,19 @@ Namespace Script
         ''' <summary>声明行在脚本文本之中的行号</summary>
         Public Property LineIndex As Integer
 
+        ''' <summary>函数块结束行(<c>End Function</c>/<c>End Sub</c>)的行号; 桥接函数紧随其后插入</summary>
+        Public Property EndLineIndex As Integer = -1
+
         ''' <summary>返回类型子句原文(形如 <c>As data</c>; 没有时为空串)</summary>
         Public Property ReturnType As String
+
+        ''' <summary>为该函数生成的桥接函数源码块</summary>
+        Public ReadOnly Property BridgeBlocks As New List(Of String())
+
+        ''' <summary>
+        ''' 每个参数在桥接函数之中使用的混淆名字(按声明顺序); 首次生成桥接函数时填充。
+        ''' </summary>
+        Public ReadOnly Property Mangled As New List(Of String)
 
         ''' <summary>全部参数(按声明顺序)</summary>
         Public ReadOnly Property Parameters As New List(Of DefaultParameterItem)
@@ -315,25 +351,10 @@ Namespace Script
                 Return Nothing
             End If
 
-            ' ---- 形参文本: 去掉 Optional 与 = 默认值, 其余原样保留 ----
-            Dim formal As New StringBuilder()
-            Dim kept As String = Regex.Replace(mods, "\boptional\b\s*", "", RegexOptions.IgnoreCase).Trim()
-
-            If kept.Length > 0 Then
-                Call formal.Append(kept).Append(" "c)
-            End If
-
-            Call formal.Append(item.Name)
-
-            If pm.Groups("rank").Success Then
-                Call formal.Append(pm.Groups("rank").Value)
-            End If
-
-            If typeText.Length > 0 Then
-                Call formal.Append(" As ").Append(typeText)
-            End If
-
-            item.Formal = formal.ToString()
+            ' ---- 形参文本的各组成部分(去掉 Optional 与 = 默认值, 其余原样保留) ----
+            item.ModifierText = Regex.Replace(mods, "\boptional\b\s*", "", RegexOptions.IgnoreCase).Trim()
+            item.RankText = If(pm.Groups("rank").Success, pm.Groups("rank").Value, "")
+            item.TypeText = typeText
 
             If Not pm.Groups("def").Success Then
                 Return item
@@ -452,28 +473,35 @@ Namespace Script
         ''' <param name="fn">原函数</param>
         ''' <param name="supplied">哪些参数由调用点提供(按声明顺序)</param>
         ''' <param name="bridgeName">桥接函数名</param>
+        ''' <param name="mangled">
+        ''' 每个参数在桥接函数之中使用的名字(按声明顺序)。运行期路径会把桥接函数重写为 <c>Main</c>
+        ''' 之中的匿名函数, 而 VB 不允许 lambda 的参数/局部变量遮蔽外层局部变量(BC36641 / BC30616),
+        ''' 因此桥接函数内部一律使用带 <c>__vbs_</c> 前缀的混淆名字。
+        ''' </param>
         ''' <returns>桥接函数的源码行; 被省略的参数没有默认值时返回 <c>Nothing</c></returns>
-        ''' <remarks>
-        ''' 形参名与被省略参数生成的局部量名**都与原参数同名**, 因此默认值表达式可以原样复制,
-        ''' 完全不需要做任何名字替换。
-        ''' </remarks>
         Friend Function EmitBridge(fn As DefaultParameterFunction,
                                    supplied As Boolean(),
-                                   bridgeName As String) As String()
+                                   bridgeName As String,
+                                   mangled As String()) As String()
 
             Dim formals As New List(Of String)
             Dim args As New List(Of String)
             Dim body As New List(Of String)
+            Dim map As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+            For i As Integer = 0 To fn.Parameters.Count - 1
+                map(fn.Parameters(i).Name) = mangled(i)
+            Next
 
             For i As Integer = 0 To fn.Parameters.Count - 1
                 Dim p As DefaultParameterItem = fn.Parameters(i)
 
-                Call args.Add(p.Name)
+                Call args.Add(mangled(i))
 
                 If supplied(i) Then
-                    Call formals.Add(p.Formal)
+                    Call formals.Add(p.FormalWith(mangled(i)))
                 ElseIf p.HasDefault Then
-                    Call body.Add($"    Dim {p.Name} = {p.DefaultValue}")
+                    Call body.Add($"    Dim {mangled(i)} = {SubstituteNames(p.DefaultValue, map)}")
                 Else
                     ' 必填参数被省略(调用本身非法) => 不生成猜测性代码
                     Return Nothing
@@ -649,7 +677,7 @@ Namespace Script
         End Function
 
         ''' <summary>统计一段文本的前导空白字符个数</summary>
-        Private Function LeadingSpaces(s As String) As Integer
+        Friend Function LeadingSpaces(s As String) As Integer
             Dim n As Integer = 0
 
             While n < s.Length AndAlso Char.IsWhiteSpace(s(n))
