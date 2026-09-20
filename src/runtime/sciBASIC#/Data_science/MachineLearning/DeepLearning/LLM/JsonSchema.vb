@@ -46,9 +46,18 @@ Namespace LLM
         ''' <summary>默认值（仅用于说明书文本）。</summary>
         Public Property DefaultValue As String
 
+        ''' <summary>Creates an empty property, used by the deserializer.</summary>
         Public Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Creates a schema property.
+        ''' </summary>
+        ''' <param name="name">Name of the property.</param>
+        ''' <param name="type">JSON type of the property, for example <c>string</c> or <c>integer</c>.</param>
+        ''' <param name="description">Human readable description shown to the model.</param>
+        ''' <param name="enumValues">Optional list of allowed values.</param>
+        ''' <param name="required">Whether the property must be present.</param>
         Public Sub New(name As String, type As String, description As String,
                        Optional enumValues As String() = Nothing,
                        Optional required As Boolean = True)
@@ -109,9 +118,15 @@ Namespace LLM
         ''' </remarks>
         Public Property Properties As New List(Of JsonSchemaProperty)
 
+        ''' <summary>Creates an empty schema, used by the deserializer.</summary>
         Public Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Creates a schema with the given properties.
+        ''' </summary>
+        ''' <param name="description">Human readable description of the schema.</param>
+        ''' <param name="properties">The properties of the schema, in their declared order.</param>
         Public Sub New(description As String, ParamArray properties As JsonSchemaProperty())
             Me.Description = description
 

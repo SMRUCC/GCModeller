@@ -63,6 +63,8 @@ Namespace LLM
             Return New SamplingConfig With {.TopP = p, .Temperature = temperature}
         End Function
 
+        ''' <summary>Returns a short description of the active sampling parameters.</summary>
+        ''' <returns>A text such as <c>greedy</c> or <c>T=0.8, top-k=40</c>.</returns>
         Public Overrides Function ToString() As String
             If Greedy Then Return "greedy"
 
@@ -110,6 +112,10 @@ Namespace LLM
             End Set
         End Property
 
+        ''' <summary>
+        ''' Creates a sampler.
+        ''' </summary>
+        ''' <param name="config">Optional sampling configuration; default values are used when omitted.</param>
         Public Sub New(Optional config As SamplingConfig = Nothing)
             Me.Config = If(config, New SamplingConfig())
             _random = If(Me.Config.Seed.HasValue, New Random(Me.Config.Seed.Value), New Random())

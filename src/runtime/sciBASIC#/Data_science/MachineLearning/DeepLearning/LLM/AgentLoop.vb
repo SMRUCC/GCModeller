@@ -68,6 +68,7 @@ Namespace LLM
     ''' <summary>工具循环中的一轮。</summary>
     Public Class AgentRound
 
+        ''' <summary>Zero based index of this round inside the run.</summary>
         Public Property Index As Integer
 
         ''' <summary>模型在本轮"自由生成"阶段产出的文本。</summary>
@@ -121,15 +122,24 @@ Namespace LLM
     ''' <summary>一次完整 Agent 会话的结果。</summary>
     Public Class AgentRunResult
 
+        ''' <summary>The original user message that started the run.</summary>
         Public Property UserMessage As String
+        ''' <summary>The system prompt used for the run.</summary>
         Public Property SystemPrompt As String
+        ''' <summary>All rounds executed by the loop, in order.</summary>
         Public Property Rounds As New List(Of AgentRound)
+        ''' <summary>The last text produced by the model.</summary>
         Public Property FinalText As String
+        ''' <summary>Total number of context tokens consumed by the run.</summary>
         Public Property TotalContextTokens As Integer
+        ''' <summary>Size, in bytes, of the key/value cache held during the run.</summary>
         Public Property CacheBytes As Long
+        ''' <summary>Wall clock duration of the run, in milliseconds.</summary>
         Public Property ElapsedMilliseconds As Double
+        ''' <summary>Indicates whether the loop stopped because the round limit was reached.</summary>
         Public Property HitRoundLimit As Boolean
 
+        ''' <summary>Number of rounds in which a tool call was issued.</summary>
         Public ReadOnly Property ToolCallCount As Integer
             Get
                 Return Rounds.Where(Function(r) r.HasToolCall).Count()
@@ -161,6 +171,12 @@ Namespace LLM
             End Get
         End Property
 
+        ''' <summary>
+        ''' Creates the agent loop.
+        ''' </summary>
+        ''' <param name="model">The language model that generates text and tool calls.</param>
+        ''' <param name="codec">The text codec used to encode prompts and decode outputs.</param>
+        ''' <param name="registry">The registry that resolves and executes the tools requested by the model.</param>
         Public Sub New(model As LLMModel, codec As ITextCodec, registry As ToolRegistry)
             If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
             If codec Is Nothing Then Throw New ArgumentNullException(NameOf(codec))

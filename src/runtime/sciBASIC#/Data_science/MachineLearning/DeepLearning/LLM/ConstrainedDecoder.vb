@@ -184,6 +184,11 @@ Namespace LLM
             End Get
         End Property
 
+        ''' <summary>
+        ''' Creates a constrained decoder.
+        ''' </summary>
+        ''' <param name="schema">The JSON schema that the generated arguments must satisfy.</param>
+        ''' <param name="vocabulary">The tokenizer vocabulary used to mask out invalid tokens.</param>
         Public Sub New(schema As JsonSchema, vocabulary As TokenizerVocabulary)
             If schema Is Nothing Then Throw New ArgumentNullException(NameOf(schema))
             If vocabulary Is Nothing Then Throw New ArgumentNullException(NameOf(vocabulary))

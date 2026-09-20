@@ -201,11 +201,17 @@ Namespace LLM
 
         ''' <summary>一次训练前向的中间量，供反向使用。</summary>
         Public Class ForwardCache
+            ''' <summary>Flattened token ids of the batch that was forwarded.</summary>
             Public Ids As Integer()
+            ''' <summary>Batch size of the forward pass.</summary>
             Public BatchSize As Integer
+            ''' <summary>Sequence length of the forward pass.</summary>
             Public SeqLen As Integer
+            ''' <summary>The token embeddings produced by the embedding lookup.</summary>
             Public Embeddings As Tensor
+            ''' <summary>Per block forward caches, consumed by the backward pass.</summary>
             Public BlockCaches As LLMBlock.Cache()
+            ''' <summary>Forward cache of the final RMSNorm.</summary>
             Public FinalNormCache As RmsNorm.Cache
             ''' <summary>末端 RMSNorm 的输出（也就是输出层的输入）</summary>
             Public NormOutput As Tensor

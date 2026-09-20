@@ -123,6 +123,11 @@ Namespace LLM
         ''' <summary>采样器。</summary>
         Public Property Sampler As Sampler
 
+        ''' <summary>
+        ''' Creates a text generator.
+        ''' </summary>
+        ''' <param name="model">The language model used for generation.</param>
+        ''' <param name="sampler">Optional sampler; a default sampler is created when omitted.</param>
         Public Sub New(model As LLMModel, Optional sampler As Sampler = Nothing)
             If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
 

@@ -48,6 +48,8 @@ Namespace LLM
         ''' <summary>第几个调用（0 基）。</summary>
         Public Property Index As Integer
 
+        ''' <summary>Returns the call rendered in the textual protocol form.</summary>
+        ''' <returns>A text of the form <c>name(arg=value, ...)</c>.</returns>
         Public Overrides Function ToString() As String
             Dim args = String.Join(", ", Arguments.Select(Function(kv) kv.Key & "=" & kv.Value))
 

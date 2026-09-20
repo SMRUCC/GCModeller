@@ -127,6 +127,8 @@ Namespace LLM
             Return BucketOf(c).Count
         End Function
 
+        ''' <summary>Returns a short summary of the vocabulary.</summary>
+        ''' <returns>A text that reports the total, usable and special token counts.</returns>
         Public Overrides Function ToString() As String
             Return $"vocab[{Size}] usable={UsableTokens}, special={SpecialTokens}, first_chars={_firstCharacters.Length}"
         End Function

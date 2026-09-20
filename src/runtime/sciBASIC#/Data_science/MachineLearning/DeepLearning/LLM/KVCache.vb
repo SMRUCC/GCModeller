@@ -185,6 +185,8 @@ Namespace LLM
             Array.Clear(_values, 0, _values.Length)
         End Sub
 
+        ''' <summary>Returns a short summary of the cache occupancy and size.</summary>
+        ''' <returns>A text that reports the used positions, the head layout and the memory footprint.</returns>
         Public Overrides Function ToString() As String
             Return $"[KV {_length}/{Capacity} pos, {NkvHeads} kv-heads x {HeadDim}] {UsedBytes / 1024.0 / 1024.0:F2} MB"
         End Function
