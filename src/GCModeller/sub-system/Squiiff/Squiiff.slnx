@@ -1,0 +1,40 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/cuda/">
+    <Project Path="../../../runtime/sciBASIC#/cuda/ILCuda/ILCuda.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../runtime/sciBASIC#/cuda/ILCudaTensor/ILCudaTensor.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/framework/">
+    <Project Path="../../../runtime/sciBASIC#/Data_science/DataMining/DataMining/DataMining.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/MachineLearning/DeepLearning/DeepLearning.NET6.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/MachineLearning/MachineLearning/machine_learning-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/MachineLearning/TensorFlow/TensorFlow.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Project Path="Squiiff/Squiiff.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="test/test.vbproj" Id="e26b690b-6027-431e-bd41-e4a90c3b4b17">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+</Solution>
