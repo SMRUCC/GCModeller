@@ -256,6 +256,8 @@ Namespace CNN.layers
             Call v.SetGradients(gradX.Data)
         End Sub
 
+        ''' <summary>Returns a short description of this layer.</summary>
+        ''' <returns>A text of the form <c>full_connected(N)</c>.</returns>
         Public Overrides Function ToString() As String
             Return $"full_connected({out_depth})"
         End Function
