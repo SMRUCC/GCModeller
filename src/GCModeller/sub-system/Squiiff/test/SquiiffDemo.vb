@@ -253,7 +253,8 @@ Module SquiiffDemo
                 Dim evaluation = PerturbationMetrics.Evaluate(predicted, actualT, ctrlT, topK:=20)
 
                 Console.WriteLine($"    {cellType,-8} {condition,-10} {evaluation}")
-                Console.WriteLine($"    {"",-8} 逐基因 PCC 增益 = {evaluation.MeanGenePccGain:F4} ；逐细胞 ΔPCC = {evaluation.MeanCellDeltaPcc:F4}")
+                Console.WriteLine($"    {"",-8} 群体效应剖面 Top{evaluation.TopK}重叠 = {evaluation.MeanProfileTopKOverlap:F3} ；" &
+                                  $"逐基因 PCC 增益 = {evaluation.MeanGenePccGain:F4} ；逐细胞 ΔPCC = {evaluation.MeanCellDeltaPcc:F4}")
 
                 evaluationRows.Add(New String() {
                     cellType, condition, "single",
@@ -261,6 +262,8 @@ Module SquiiffDemo
                     ResultWriter.Format(evaluation.ControlBaseline.Pcc),
                     ResultWriter.Format(evaluation.PccGain),
                     ResultWriter.Format(evaluation.DeltaProfilePcc),
+                    ResultWriter.Format(evaluation.MeanProfileDeltaPcc),
+                    ResultWriter.Format(evaluation.MeanProfileTopKOverlap),
                     ResultWriter.Format(evaluation.MeanCellDeltaPcc),
                     ResultWriter.Format(evaluation.MeanTopKOverlap),
                     ResultWriter.Format(evaluation.MeanGenePccGain)
@@ -298,6 +301,8 @@ Module SquiiffDemo
                 ResultWriter.Format(evaluation.ControlBaseline.Pcc),
                 ResultWriter.Format(evaluation.PccGain),
                 ResultWriter.Format(evaluation.DeltaProfilePcc),
+                ResultWriter.Format(evaluation.MeanProfileDeltaPcc),
+                ResultWriter.Format(evaluation.MeanProfileTopKOverlap),
                 ResultWriter.Format(evaluation.MeanCellDeltaPcc),
                 ResultWriter.Format(evaluation.MeanTopKOverlap),
                 ResultWriter.Format(evaluation.MeanGenePccGain)
@@ -322,18 +327,16 @@ Module SquiiffDemo
             failures.Add($"插值端点与组中心不一致（{endpointError0:E2} / {endpointError1:E2}）")
         End If
 
-        ' 8.2 逐点解码：观察从对照到扰动的连续过渡
+        ' 8.2 逐点解码：观察从对照到扰动的连续过渡（用群体平均剖面，压掉个体噪声）
         Dim decodedTrajectory = model.InterpolateBetween(ctrlAll, pertAAll, 5, SubcodeMode.InheritControl)
-        Dim trueDeltaProfile = MeanProfile(comboAll) ' 占位，下面用真实 A 扰动剖面
-        trueDeltaProfile = MeanProfile(pertAAll)
+        Dim trueProfile = SubtractMeanProfile(pertAAll, ctrlAll)
 
         For i As Integer = 0 To decodedTrajectory.Count - 1
             Dim alpha = CDbl(i) / (decodedTrajectory.Count - 1)
             Dim deltaProfile = SubtractMeanProfile(decodedTrajectory(i), ctrlAll)
-            Dim trueProfile = SubtractMeanProfile(pertAAll, ctrlAll)
             Dim pcc = RegressionMetrics.Pearson(deltaProfile, trueProfile)
 
-            Console.WriteLine($"    α={alpha:F2}  预测平均表达与对照的偏差 vs 真实偏差: PCC={pcc:F4}")
+            Console.WriteLine($"    α={alpha:F2}  群体平均效应剖面 vs 真实效应剖面: PCC={pcc:F4}")
         Next
 
         ' 8.3 存档往返一致性
@@ -343,8 +346,12 @@ Module SquiiffDemo
         Dim reloaded As SquiDiff = SquiDiff.Load(archivePath)
         Dim ctrlT0 = TakeRows(x0, RowsOf(standardized, labelOfCellType, labelOfCondition, benchmark.CellTypes(0), DemoData.ControlName))
 
-        Dim beforeSave = model.PredictByPerturbation(ctrlT0, DemoData.KnockoutA, SubcodeMode.InheritControl)
-        Dim afterLoad = reloaded.PredictByPerturbation(ctrlT0, DemoData.KnockoutA, SubcodeMode.InheritControl)
+        ' 扰动登记表（PerturbationSpace）属于实验侧的元数据，不随模型存档落盘，
+        ' 因此这里直接用原始 Δz 张量在存档前后各预测一次做逐位比对。
+        Dim deltaForArchive = model.Space.DeltaOf(DemoData.KnockoutA)
+
+        Dim beforeSave = model.PredictPerturbation(ctrlT0, deltaForArchive, SubcodeMode.InheritControl)
+        Dim afterLoad = reloaded.PredictPerturbation(ctrlT0, deltaForArchive, SubcodeMode.InheritControl)
 
         Dim archiveError = MaxAbsDifference(beforeSave.Data, afterLoad.Data)
         Console.WriteLine($"  存档往返: Save → Load 后预测的最大绝对偏差 = {archiveError:E3}")
@@ -356,7 +363,9 @@ Module SquiiffDemo
         ' 8.4 导出
         Call ResultWriter.WriteTextTable(
             Path.Combine(outputDir, "perturbation_evaluation.csv"),
-            New String() {"cell_type", "condition", "mode", "pcc", "baseline_pcc", "pcc_gain", "delta_pcc", "cell_delta_pcc", "top20_overlap", "gene_pcc_gain"},
+            New String() {"cell_type", "condition", "mode", "pcc", "baseline_pcc", "pcc_gain",
+                          "cell_delta_pcc", "mean_profile_delta_pcc", "mean_profile_top20_overlap",
+                          "cell_delta_pcc_mean", "cell_top20_overlap", "gene_pcc_gain"},
             evaluationRows)
 
         Dim zAll = model.Semantic(x0)
@@ -508,6 +517,15 @@ Module SquiiffDemo
 
         If values.Count = 0 Then Return Double.NaN
         Return MeanOf(values.ToArray())
+    End Function
+
+    ''' <summary>构造长度 <paramref name="count"/>、元素全为 <paramref name="value"/> 的时间步数组。</summary>
+    Private Function Repeat(value As Integer, count As Integer) As Integer()
+        Dim result(count - 1) As Integer
+        For i As Integer = 0 To count - 1
+            result(i) = value
+        Next
+        Return result
     End Function
 
     ''' <summary>某批细胞的平均表达谱（长度 = 基因数）。</summary>
