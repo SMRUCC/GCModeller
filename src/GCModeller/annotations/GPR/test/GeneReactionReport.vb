@@ -38,7 +38,7 @@ Public Class GeneReactionReport
     Public Property Title As String
     Public Property Source As String
 
-    Public ReadOnly Property Rows As List(Of ReportRow)
+    Public ReadOnly Property DetailRows As List(Of ReportRow)
         Get
             Return rows
         End Get
