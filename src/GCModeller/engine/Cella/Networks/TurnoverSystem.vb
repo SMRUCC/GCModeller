@@ -3,11 +3,19 @@
 ' ============================================================
 ' 负责 mRNA 降解、以及降解产物的回收与再投入：
 '
-'     d(mRNA_i)/dt = −k_degR,i · mRNA_i
+'     d(mRNA_i)/dt = −k_degR,i · mRNA_i                （解析求解）
 '     d(recycle)/dt = Σ_i ( ρ_R · k_degR,i · mRNA_i + ρ_P · k_degP,i · P_i )
-'                     − k_use · recycle
+'                     − k_use · recycle                 （CVODE BDF）
 '
-' 状态向量 = [mRNA_0 … mRNA_{n-1}, recycle]，共 n+1 维。
+' 性能考虑（重要）：mRNA 的降解是一阶线性衰减，有闭式解
+'
+'     mRNA_i(t+dt) = mRNA_i(t) · exp(−k_degR,i · dt)
+'
+' 因此 mRNA 走解析解，直接作用在状态池上；CVODE 只负责一维的回收池。
+' 早期版本把 mRNA 放进 ODE 状态向量里，而转录调控网络每个时间步都会改写
+' mRNA，导致每步都必须重新 Initialize 求解器（丢掉 BDF 的历史与阶数），
+' 单细胞单步开销高达数十毫秒。改成解析衰减 + 一维回收池之后，
+' 求解器可以跨步复用，开销下降两个数量级。
 '
 ' 说明：蛋白质的降解由翻译系统的方程负责（避免两个求解器同时写同一个
 ' 状态变量），本系统只*读取*蛋白质水平来计算回收当量的输入项。
@@ -31,7 +39,11 @@ Public Class TurnoverSystem : Inherits OdeSubNetwork
     ''' <summary>回收池被消耗时的去向：状态池中的代谢物槽位（-1 表示不注入）</summary>
     ReadOnly recycleTargetSlot As Integer
 
+    ''' <summary>本步内视为常量的蛋白水平（回收当量的输入项）</summary>
     Private proteinInput As Double()
+
+    ''' <summary>本步内视为常量的回收当量产生速率</summary>
+    Private productionRate As Double = 0.0
 
     ''' <summary>累计回收并重新投入代谢的物质当量（诊断用）</summary>
     Public ReadOnly Property RecycledTotal As Double
@@ -42,9 +54,18 @@ Public Class TurnoverSystem : Inherits OdeSubNetwork
 
     Private _recycledTotal As Double = 0.0
 
+    ''' <summary>累计解析降解掉的 mRNA 总量（诊断用）</summary>
+    Public ReadOnly Property DecayedTotal As Double
+        Get
+            Return _decayedTotal
+        End Get
+    End Property
+
+    Private _decayedTotal As Double = 0.0
+
     Public Sub New(cell As VirtualCella, blueprint As CellaBlueprint)
-        ' 状态 = mRNA(n) + 回收池(1)
-        Call MyBase.New(cell, cell.State.NGene + 1, NameOf(TurnoverSystem))
+        ' 状态向量只有一维：回收池
+        Call MyBase.New(cell, 1, NameOf(TurnoverSystem))
 
         Dim genes As String() = cell.State.GeneNames
 
@@ -70,86 +91,75 @@ Public Class TurnoverSystem : Inherits OdeSubNetwork
             recycleTargetSlot = -1
         End If
 
-        Dim initial As Double() = New Double(n - 1) {}
-
-        Call Array.Copy(cell.State.mRNA, initial, cell.State.NGene)
-
-        initial(n - 1) = cell.State.RecyclePool
-
-        Call InitializeFrom(initial)
+        Call InitializeFrom({cell.State.RecyclePool})
     End Sub
 
     Protected Overrides Function VectorFromState() As Double()
-        Dim v As Double() = New Double(n - 1) {}
-
-        Call Array.Copy(cell.State.mRNA, v, cell.State.NGene)
-
-        v(n - 1) = cell.State.RecyclePool
-
-        Return v
+        Return {cell.State.RecyclePool}
     End Function
 
     Protected Overrides Sub RHS(t As Double, y As NVector, ydot As NVector)
-        Dim produced As Double = 0.0
-
-        For i As Integer = 0 To n - 2
-            Dim decayFlux As Double = messengerDecay(i) * y(i)
-
-            ydot(i) = -decayFlux
-            produced += recycleYieldRNA * decayFlux + recycleYieldProtein * proteinDecay(i) * proteinInput(i)
-        Next
-
-        ydot(n - 1) = produced - recycleUseRate * y(n - 1)
+        ydot(0) = productionRate - recycleUseRate * y(0)
     End Sub
 
     Protected Overrides Sub Jacobian(t As Double, y As NVector, fy As NVector, J As DenseMatrix)
-        For i As Integer = 0 To n - 1
-            For col As Integer = 0 To n - 1
-                J(i, col) = 0.0
-            Next
-        Next
-
-        For i As Integer = 0 To n - 2
-            J(i, i) = -messengerDecay(i)
-            ' 回收池对 mRNA 的偏导
-            J(n - 1, i) = recycleYieldRNA * messengerDecay(i)
-        Next
-
-        J(n - 1, n - 1) = -recycleUseRate
+        J(0, 0) = -recycleUseRate
     End Sub
 
     Public Overrides Sub Tick(dt As Double)
-        Dim state As CellularState = cell.State
-
-        ' 蛋白质水平（只读，用于回收当量）
-        Call Array.Copy(state.Protein, proteinInput, state.NGene)
-
-        ' mRNA 会被转录调控网络修改，先把最新的 mRNA 同步进求解器
-        Dim sync As Double() = CurrentState()
-
-        Call Array.Copy(state.mRNA, sync, state.NGene)
-        sync(n - 1) = state.RecyclePool
-        Call ResetState(sync)
-
-        Dim recycleBefore As Double = state.RecyclePool
-
-        If Not Advance(dt) Then
-            Call ResetState(sync)
+        If dt <= 0 Then
             Return
         End If
 
-        Dim result As Double() = CurrentState()
+        Dim state As CellularState = cell.State
+        Dim nGenes As Integer = state.NGene
 
-        For i As Integer = 0 To state.NGene - 1
-            state.mRNA(i) = If(result(i) < 0.0, 0.0, result(i))
+        Call Array.Copy(state.Protein, proteinInput, nGenes)
+
+        ' ---- 1. mRNA 一阶衰减的闭式解 + 回收当量核算 ----
+        Dim produced As Double = 0.0
+        Dim decayed As Double = 0.0
+
+        For i As Integer = 0 To nGenes - 1
+            Dim level As Double = state.mRNA(i)
+
+            If level <= 0 Then
+                produced += recycleYieldProtein * proteinDecay(i) * proteinInput(i)
+                Continue For
+            End If
+
+            Dim k As Double = messengerDecay(i)
+            Dim remaining As Double = level * System.Math.Exp(-k * dt)
+            Dim decayFlux As Double = level - remaining
+
+            state.mRNA(i) = remaining
+            decayed += decayFlux
+            produced += recycleYieldRNA * decayFlux + recycleYieldProtein * proteinDecay(i) * proteinInput(i)
         Next
 
-        Dim pool As Double = If(result(n - 1) < 0.0, 0.0, result(n - 1))
+        _decayedTotal += decayed
+
+        ' ---- 2. 回收池：一维 CVODE BDF，输入按步首的值冻结 ----
+        productionRate = produced
+
+        Dim poolBefore As Double = state.RecyclePool
+        Dim rollback As Double() = CurrentState()
+
+        If Not Advance(dt) Then
+            Call ResetState(rollback)
+            Return
+        End If
+
+        Dim pool As Double = CurrentState()(0)
+
+        If Double.IsNaN(pool) OrElse pool < 0 Then
+            pool = 0.0
+        End If
 
         state.RecyclePool = pool
 
-        ' 质量守恒：回收池被消耗的部分注入到目标代谢物
-        Dim consumed As Double = recycleUseRate * recycleBefore * dt
+        ' ---- 3. 质量守恒：回收池被消耗的部分注入到目标代谢物 ----
+        Dim consumed As Double = recycleUseRate * poolBefore * dt
 
         If consumed > 0 AndAlso recycleTargetSlot >= 0 Then
             state.Metabolite(recycleTargetSlot) += consumed
@@ -162,15 +172,7 @@ Public Class TurnoverSystem : Inherits OdeSubNetwork
 
         stats("recycle_pool") = cell.State.RecyclePool
         stats("recycled_total") = _recycledTotal
-
-        Dim mrna As Double() = cell.State.mRNA
-        Dim sum As Double = 0.0
-
-        For i As Integer = 0 To mrna.Length - 1
-            sum += mrna(i)
-        Next
-
-        stats("mrna_decayed_basal") = sum
+        stats("mrna_decayed_total") = _decayedTotal
 
         Return stats
     End Function

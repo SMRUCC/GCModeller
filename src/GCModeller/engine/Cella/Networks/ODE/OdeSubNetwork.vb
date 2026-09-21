@@ -41,8 +41,8 @@ Public MustInherit Class OdeSubNetwork : Inherits SubNetwork
     Sub New(cell As VirtualCella,
             dimension As Integer,
             Optional name As String = Nothing,
-            Optional relTol As Double = 0.000001,
-            Optional absTol As Double = 0.000000001,
+            Optional relTol As Double = 0.0001,
+            Optional absTol As Double = 0.000001,
             Optional withJacobian As Boolean = True)
 
         Call MyBase.New(cell, name)
@@ -58,7 +58,7 @@ Public MustInherit Class OdeSubNetwork : Inherits SubNetwork
             .RelativeTolerance = relTol,
             .AbsoluteTolerance = absTol,
             .MaxOrder = 5,
-            .MaxNewtonIterations = 100
+            .MaxNewtonIterations = 30
         }
 
         solver = New CVODESolver(CVODEMethod.BDF, AddressOf RHS, n, options)

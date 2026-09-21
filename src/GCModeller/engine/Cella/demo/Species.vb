@@ -283,13 +283,14 @@ Public Module Species
                 .PrintEvery = 0,
                 .Seed = 2024
             },
+            .TransportVmax = 0.15,
+            .StarvationThreshold = 0.5,
             .DivisionBiomassThreshold = 1.6,
             .BiomassYieldPerFlux = 0.02,
             .BiomassYieldPerProtein = 0.012,
             .MinDivisionAge = 3.0,
             .DaughterStateFraction = 0.5,
-            .MaxCellAge = 400.0,
-            .StarvationThreshold = 0.05,
+            .MaxCellAge = 120.0,
             .StarvationDeathTicks = 30,
             .MaxCellsPerSpot = 5,
             .FlagellarGenes = If(def.MotilityFactor > 0, SyntheticData.FlagellarGenes, Nothing),
@@ -299,7 +300,7 @@ Public Module Species
             .MotilityGradientScale = 1.0,
             .NutrientMetabolites = def.Substrates,
             .DiffusionCoefficient = 0.08,
-            .BoundaryFeedRate = 0.01,
+            .BoundaryFeedRate = 0.02,
             .BoundaryFeedMetabolites = {"glc_e"},
             .BoundaryFeedLevel = 1.0
         }

@@ -91,7 +91,9 @@ Public Module CellLifecycle
             End If
 
             If cause IsNot Nothing Then
-                Call Kill(cella, cause, now_)
+                ' 必须把谱系登记簿传进去，否则死亡时间不会被回填，
+                ' 谱系树里所有个体都会显示为「存活」
+                Call Kill(cella, cause, now_, env.Lineage)
                 events.Deaths += 1
                 events.Casualties.Add(cella)
             End If

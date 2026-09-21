@@ -10,13 +10,14 @@
 ' ============================================================
 
 Imports Cella
+Imports System.Diagnostics
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.GEARS
 Imports SMRUCC.genomics.Analysis.Metaboliq
 
 Public Module Fermentation
 
-    Const N_TICKS As Integer = 150
+    Const N_TICKS As Integer = 200
     Const REPORT_EVERY As Integer = 15
     Const TOTAL_SEED_CELLS As Integer = 12
 
@@ -114,6 +115,7 @@ Public Module Fermentation
         ' ==================== 5. 群落演化 ====================
         Call Report.Section("阶段 5 / 6  群落演化")
 
+        Dim sw As Stopwatch = Stopwatch.StartNew()
         Dim crossFeeding As New CrossFeedingRecorder()
         Dim populationSamples As New List(Of PopulationSample)()
         Dim communitySeries As New List(Of Dictionary(Of String, Double))()
@@ -143,7 +145,17 @@ Public Module Fermentation
             End If
         Next
 
+        sw.Stop()
+
+        Dim failures = env.GetAllCells() _
+            .SelectMany(Function(c) c.SubNetworks()) _
+            .Where(Function(n) n IsNot Nothing) _
+            .GroupBy(Function(n) n.Name) _
+            .Select(Function(g) $"{g.Key}={g.Sum(Function(n) n.FailedSteps)}")
+
         Call Report.Line()
+        Call Report.KeyValue("演化耗时", $"{sw.Elapsed.TotalSeconds:F1} s（{sw.Elapsed.TotalMilliseconds / N_TICKS:F2} ms/step）")
+        Call Report.KeyValue("子系统推进失败计数", String.Join(", ", failures))
         Call Report.KeyValue("累计分裂次数", totalDivisions)
         Call Report.KeyValue("累计死亡次数", totalDeaths)
         Call Report.KeyValue("累计迁移次数", migrations.Count)
