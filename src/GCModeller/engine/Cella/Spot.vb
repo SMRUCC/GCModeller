@@ -53,7 +53,8 @@ Public Class Spot
     End Property
 
     ''' <summary>
-    ''' 该格点的营养指标：按蓝图指定的营养代谢物（未指定时取培养基全部成分）求和
+    ''' 该格点的营养指标：按蓝图指定的营养代谢物（未指定时取培养基全部成分）求和。
+    ''' 既用于饥饿判定（生长底物耗尽的信号），也用于趋化性的梯度计算。
     ''' </summary>
     Public Function NutrientLevel(blueprint As CellaBlueprint) As Double
         If Medium Is Nothing OrElse Medium.Count = 0 Then
@@ -73,6 +74,11 @@ Public Class Spot
         Next
 
         Return sum
+    End Function
+
+    ''' <summary>趋化性使用的配体池（与 <see cref="NutrientLevel"/> 同一套指标）</summary>
+    Public Function LigandLevel(blueprint As CellaBlueprint) As Double
+        Return NutrientLevel(blueprint)
     End Function
 
     ''' <summary>按物种统计该格点内的细胞数</summary>

@@ -21,9 +21,19 @@ Module Program
     Const PETRI_RADIUS As Integer = 3
     Const PETRI_HEIGHT As Integer = 1
 
+    ''' <summary>
+    ''' 默认运行「多物种发酵群落」演示；
+    ''' 传入 --single 则运行最初的单物种培养皿演示。
+    ''' </summary>
     Function Main(args As String()) As Integer
+        Dim singleSpecies As Boolean = args.SafeQuery.Any(Function(a) a.Equals("--single", StringComparison.OrdinalIgnoreCase))
+
         Try
-            Call Run()
+            If singleSpecies Then
+                Call RunSingleSpecies()
+            Else
+                Call Fermentation.Run()
+            End If
 
             Return 0
         Catch ex As Exception
@@ -35,8 +45,9 @@ Module Program
         End Try
     End Function
 
-    Private Sub Run()
-        Call Report.Section("GCModeller Cella - 虚拟细胞系统演示")
+    ''' <summary>单物种演示：培养皿 + 单一蓝图（保留作为最小可运行样例）</summary>
+    Private Sub RunSingleSpecies()
+        Call Report.Section("GCModeller Cella - 单物种虚拟细胞演示")
 
         ' ==================== 1. 合成数据 ====================
         Call Report.Section("阶段 1 / 6  合成演示数据")
@@ -59,8 +70,8 @@ Module Program
             .Reactions = reactions,
             .ExplicitBoundary = boundary,
             .ReactionGeneMap = SyntheticData.ReactionGeneMap(),
-            .Transporters = SyntheticData.TransporterMap(),
-            .Exporters = SyntheticData.ExporterMap(),
+            .Transporters = SyntheticData.DeriveTransporters(reactions),
+            .Exporters = SyntheticData.DeriveExporters(reactions),
             .Effectors = SyntheticData.EffectorMap(),
             .ExternalStimuli = SyntheticData.StimulusMap(),
             .TFGenes = SyntheticData.TranscriptionFactors,

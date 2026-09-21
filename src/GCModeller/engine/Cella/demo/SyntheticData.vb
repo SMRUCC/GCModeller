@@ -13,6 +13,7 @@
 ' ============================================================
 
 Imports Cella
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
@@ -29,7 +30,21 @@ Public Module SyntheticData
         End Get
     End Property
 
-    ''' <summary>全部基因 = 转录因子 + 代谢酶 + 转运蛋白</summary>
+    ''' <summary>鞭毛结构蛋白基因（决定运动能力）</summary>
+    Public ReadOnly Property FlagellarGenes As String()
+        Get
+            Return {"fliC", "motA", "motB", "flgE"}
+        End Get
+    End Property
+
+    ''' <summary>趋化受体 / 信号基因（决定营养梯度偏置强度）</summary>
+    Public ReadOnly Property ChemotaxisGenes As String()
+        Get
+            Return {"tsr", "tar", "cheA", "cheW"}
+        End Get
+    End Property
+
+    ''' <summary>全部基因 = 转录因子 + 代谢酶 + 转运蛋白 + 运动/趋化</summary>
     Public Function GeneSet() As String()
         Dim genes As New List(Of String)()
 
@@ -39,14 +54,19 @@ Public Module SyntheticData
         genes.AddRange({"ndh", "cytbo3", "atps4r"})
         genes.AddRange({"ldhA", "adhE", "ackA"})
         genes.AddRange({"cyoA", "lacY", "atoD", "pitA"})
-        genes.AddRange({"gdhA"})
+        genes.AddRange({"gdhA", "desA"})
+        ' 交叉喂养专用的转运蛋白 / 分泌系统
+        genes.AddRange({"nh4t", "aau", "aas", "paa", "bue", "hydA", "lacU", "acU", "co2t"})
+        ' 鞭毛与趋化
+        genes.AddRange(FlagellarGenes)
+        genes.AddRange(ChemotaxisGenes)
 
         Return genes.ToArray()
     End Function
 
     ''' <summary>胞外（边界）代谢物</summary>
     Public Function BoundaryMetabolites() As String()
-        Return {"glc_e", "o2_e", "pi_e", "lac_e", "etoh_e", "ac_e", "co2_e"}
+        Return {"glc_e", "o2_e", "pi_e", "lac_e", "etoh_e", "ac_e", "co2_e", "aa_e", "nh4_e", "ppa_e", "but_e", "h2_e"}
     End Function
 
     ' ==================== 代谢反应网络 ====================
@@ -84,6 +104,8 @@ Public Module SyntheticData
         list.Add(Rxn("NDH", "NADH dehydrogenase", {"nadh", "q8"}, {"nad", "q8h2"}))
         list.Add(Rxn("CYTBO3", "cytochrome bo3 terminal oxidase", {"q8h2", "o2_e"}, {"q8", "h2o"}))
         list.Add(Rxn("ATPS4R", "ATP synthase", {"adp", "pi"}, {"atp"}))
+        ' 维持性 ATP 水解：给 ATP 一个消耗端，否则 ATP 只有来源没有去向
+        list.Add(Rxn("MAINT", "ATP maintenance", {"atp"}, {"adp", "pi"}))
 
         ' ---- 副产物分泌 ----
         list.Add(Rxn("LDH", "lactate dehydrogenase", {"pyr", "nadh"}, {"lac", "nad"}, rev:=True))
@@ -99,6 +121,28 @@ Public Module SyntheticData
         list.Add(Rxn("ETOHtex", "ethanol export", {"etoh"}, {"etoh_e"}))
         list.Add(Rxn("ACtex", "acetate export", {"ac"}, {"ac_e"}))
         list.Add(Rxn("CO2tex", "carbon dioxide export", {"co2"}, {"co2_e"}))
+
+        ' ---- 交叉喂养专用：氨基酸分泌 / 铵转运 / 丙酸 / 丁酸 / 氢气 ----
+        ' 说明：这一组反应是为多物种交叉喂养网络准备的「物种特有反应」，
+        ' 各物种只取自己拥有的一部分，从而形成碳链分工与闭环氮循环。
+        list.Add(Rxn("AASec", "amino acid exporter", {"aa_pool"}, {"aa_e"}))
+        list.Add(Rxn("AAupt", "amino acid importer", {"aa_e"}, {"aa_pool"}))
+        list.Add(Rxn("DESAM", "amino acid deaminase", {"aa_pool"}, {"akg", "nh4"}))
+        list.Add(Rxn("NH4t", "ammonium uptake", {"nh4_e"}, {"nh4"}))
+        list.Add(Rxn("NH4out", "ammonium exporter", {"nh4"}, {"nh4_e"}))
+        list.Add(Rxn("LACupt", "lactate importer", {"lac_e"}, {"lac"}))
+        list.Add(Rxn("ACupt", "acetate importer", {"ac_e"}, {"ac"}))
+        list.Add(Rxn("CO2upt", "carbon dioxide importer", {"co2_e"}, {"co2"}))
+        list.Add(Rxn("PPM", "propionate synthase (lumped)", {"pyr", "nadh"}, {"ppa", "nad"}))
+        list.Add(Rxn("PPAtex", "propionate export", {"ppa"}, {"ppa_e"}))
+        list.Add(StoichiometricRxn("BUTsyn", "butyrate synthase (lumped, 2 acetyl-CoA)",
+            {Compound(2.0, "accoa"), Compound(2.0, "nadh")},
+            {Compound(1.0, "but"), Compound(2.0, "coa"), Compound(2.0, "nad")}))
+        list.Add(Rxn("BUTtex", "butyrate export", {"but"}, {"but_e"}))
+        list.Add(StoichiometricRxn("HYD", "hydrogenase (lumped)",
+            {Compound(2.0, "nadh")},
+            {Compound(2.0, "nad"), Compound(1.0, "h2")}))
+        list.Add(Rxn("H2tex", "hydrogen export", {"h2"}, {"h2_e"}))
 
         Return list.ToArray()
     End Function
@@ -121,6 +165,33 @@ Public Module SyntheticData
         }
     End Function
 
+    Private Function Compound(factor As Double, id As String) As CompoundSpecieReference
+        Return New CompoundSpecieReference(factor, id)
+    End Function
+
+    ''' <summary>带化学计量数的反应（用于丁酸 / 氢气这类需要配平的集总反应）</summary>
+    Private Function StoichiometricRxn(id As String, name As String,
+                                       left As CompoundSpecieReference(),
+                                       right As CompoundSpecieReference()) As MetabolicReaction
+        Return New MetabolicReaction With {
+            .id = id,
+            .name = name,
+            .description = name,
+            .left = left,
+            .right = right,
+            .is_reversible = False,
+            .is_spontaneous = False,
+            .ECNumbers = {}
+        }
+    End Function
+
+    ''' <summary>按反应 id 取子集（物种特有反应集合的来源）</summary>
+    Public Function SelectReactions(all As MetabolicReaction(), ids As String()) As MetabolicReaction()
+        Dim wanted As New HashSet(Of String)(ids, StringComparer.OrdinalIgnoreCase)
+
+        Return all.Where(Function(r) wanted.Contains(r.id)).ToArray()
+    End Function
+
     ' ==================== 耦合映射 ====================
 
     ''' <summary>反应 id → 催化该反应的基因 id</summary>
@@ -131,24 +202,104 @@ Public Module SyntheticData
             {"PGM", "pgm"}, {"ENO", "eno"}, {"PYK", "pykA"}, {"PDH", "aceE"},
             {"CS", "gltA"}, {"ACON", "acnA"}, {"ICD", "icd"}, {"AKGD", "sucA"},
             {"SUCOAS", "sucC"}, {"SDH", "sdhA"}, {"FUM", "fumA"}, {"MDH", "mdh"},
-            {"NDH", "ndh"}, {"CYTBO3", "cytbo3"}, {"ATPS4R", "atps4r"},
+            {"NDH", "ndh"}, {"CYTBO3", "cytbo3"}, {"ATPS4R", "atps4r"}, {"MAINT", "atps4r"},
             {"LDH", "ldhA"}, {"ADH", "adhE"}, {"PTAR", "ackA"}, {"GDH", "gdhA"},
-            {"PIT", "pitA"}, {"LACtex", "lacY"}, {"ETOHtex", "adhE"}, {"ACtex", "atoD"}
+            {"PIT", "pitA"}, {"LACtex", "lacY"}, {"ETOHtex", "adhE"}, {"ACtex", "atoD"},
+            {"AASec", "aas"}, {"AAupt", "aau"}, {"DESAM", "desA"},
+            {"NH4t", "nh4t"}, {"NH4out", "nh4t"}, {"LACupt", "lacU"}, {"ACupt", "acU"},
+            {"CO2upt", "co2t"}, {"PPM", "paa"}, {"PPAtex", "paa"},
+            {"BUTsyn", "bue"}, {"BUTtex", "bue"}, {"HYD", "hydA"}, {"H2tex", "hydA"},
+            {"FLIC", "fliC"}, {"MOTA", "motA"}, {"MOTB", "motB"}, {"FLGE", "flgE"},
+            {"TSR", "tsr"}, {"TAR", "tar"}, {"CHEA", "cheA"}, {"CHEW", "cheW"}
         }
+    End Function
+
+    ''' <summary>
+    ''' 由反应集合推导出「摄取能力」映射：胞外代谢物 → 负责把它运进胞内的反应的催化基因
+    ''' </summary>
+    ''' <remarks>
+    ''' 只有真正拥有摄取反应的物种才会被登记，这样跨膜转运系统就能用「蛋白水平
+    ''' → 转运容量」把没有该转运能力的物种彻底关掉（容量 = 0），避免出现
+    ''' 「谁都能吃任何东西」的伪交叉喂养。
+    ''' </remarks>
+    Public Function DeriveTransporters(reactions As MetabolicReaction()) As Dictionary(Of String, String)
+        Dim map As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+        Dim reactionGene As Dictionary(Of String, String) = ReactionGeneMap()
+
+        For Each rxn As MetabolicReaction In reactions.SafeQuery
+            Dim gene As String = Nothing
+
+            If Not reactionGene.TryGetValue(rxn.id, gene) OrElse gene Is Nothing Then
+                Continue For
+            End If
+
+            For Each reactant In rxn.left.SafeQuery
+                If reactant.ID.EndsWith("_e", StringComparison.OrdinalIgnoreCase) AndAlso
+                    Not map.ContainsKey(reactant.ID) Then
+
+                    map(reactant.ID) = gene
+                End If
+            Next
+        Next
+
+        Return map
+    End Function
+
+    ''' <summary>
+    ''' 由反应集合推导出「外排能力」映射：胞外代谢物 → 与之对应的胞内代谢物
+    ''' </summary>
+    ''' <remarks>
+    ''' 对每个产物里含 <c>_e</c> 的反应，取第一个非 <c>_e</c> 反应物作为胞内来源。
+    ''' 只有真正拥有该外排反应的物种才会被登记。
+    ''' </remarks>
+    Public Function DeriveExporters(reactions As MetabolicReaction()) As Dictionary(Of String, String)
+        Dim map As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+        For Each rxn As MetabolicReaction In reactions.SafeQuery
+            Dim external As String() = rxn.right.SafeQuery _
+                .Where(Function(s) s.ID.EndsWith("_e", StringComparison.OrdinalIgnoreCase)) _
+                .Select(Function(s) s.ID) _
+                .ToArray()
+
+            If external.Length = 0 Then
+                Continue For
+            End If
+
+            Dim source As String = rxn.left.SafeQuery _
+                .Where(Function(s) Not s.ID.EndsWith("_e", StringComparison.OrdinalIgnoreCase) AndAlso
+                                    Not String.Equals(s.ID, "h2o", StringComparison.OrdinalIgnoreCase)) _
+                .Select(Function(s) s.ID) _
+                .FirstOrDefault()
+
+            If source Is Nothing Then
+                Continue For
+            End If
+
+            For Each id As String In external
+                If Not map.ContainsKey(id) Then
+                    map(id) = source
+                End If
+            Next
+        Next
+
+        Return map
     End Function
 
     ''' <summary>边界代谢物 → 转运蛋白基因</summary>
     Public Function TransporterMap() As Dictionary(Of String, String)
         Return New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase) From {
             {"glc_e", "ptsG"}, {"o2_e", "cyoA"}, {"pi_e", "pitA"},
-            {"lac_e", "lacY"}, {"etoh_e", "adhE"}, {"ac_e", "atoD"}
+            {"lac_e", "lacY"}, {"etoh_e", "adhE"}, {"ac_e", "atoD"},
+            {"aa_e", "aau"}, {"nh4_e", "nh4t"}, {"co2_e", "co2t"}
         }
     End Function
 
     ''' <summary>边界代谢物 → 与之对应的胞内代谢物（产物外排的来源）</summary>
     Public Function ExporterMap() As Dictionary(Of String, String)
         Return New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase) From {
-            {"lac_e", "lac"}, {"etoh_e", "etoh"}, {"ac_e", "ac"}, {"co2_e", "co2"}
+            {"lac_e", "lac"}, {"etoh_e", "etoh"}, {"ac_e", "ac"}, {"co2_e", "co2"},
+            {"aa_e", "aa_pool"}, {"nh4_e", "nh4"}, {"ppa_e", "ppa"},
+            {"but_e", "but"}, {"h2_e", "h2"}
         }
     End Function
 
@@ -206,9 +357,44 @@ Public Module SyntheticData
             Call prior.AddEdge("codY", g, Effector.Inhibitor, 0.75, "synthetic:stringent response")
         Next
 
-        ' LuxR：群体感应，活化分泌途径
-        For Each g As String In {"ldhA", "adhE", "lacY"}
+        ' LuxR：群体感应，活化分泌途径与氨基酸输出
+        For Each g As String In {"ldhA", "adhE", "lacY", "aas"}
             Call prior.AddEdge("luxR", g, Effector.Activator, 0.65, "synthetic:quorum sensing")
+        Next
+
+        ' 鞭毛与趋化：受生长阶段与碳源信号调控
+        For Each g As String In {"fliC", "motA", "motB", "flgE"}
+            Call prior.AddEdge("crp", g, Effector.Activator, 0.7, "synthetic:motility activation")
+            Call prior.AddEdge("fis", g, Effector.Activator, 0.6, "synthetic:growth phase motility")
+            Call prior.AddEdge("arcA", g, Effector.Inhibitor, 0.55, "synthetic:anaerobic repression")
+        Next
+        For Each g As String In {"tsr", "tar", "cheA", "cheW"}
+            Call prior.AddEdge("crp", g, Effector.Activator, 0.65, "synthetic:chemotaxis activation")
+            Call prior.AddEdge("fnr", g, Effector.Inhibitor, 0.5, "synthetic:anaerobic repression")
+        Next
+
+        ' 交叉喂养相关转运与分泌系统
+        Call prior.AddEdge("codY", "aas", Effector.Inhibitor, 0.7, "synthetic:stringent response")
+        Call prior.AddEdge("codY", "nh4t", Effector.Activator, 0.6, "synthetic:nitrogen limitation")
+        Call prior.AddEdge("fnr", "hydA", Effector.Activator, 0.75, "synthetic:anaerobic hydrogenase")
+        Call prior.AddEdge("fnr", "paa", Effector.Activator, 0.7, "synthetic:anaerobic propionate")
+        Call prior.AddEdge("arcA", "bue", Effector.Activator, 0.7, "synthetic:anaerobic butyrate")
+
+        Return prior
+    End Function
+
+    ''' <summary>
+    ''' 为指定基因集裁剪先验调控网络（多物种使用时，各物种只保留自己拥有的基因）
+    ''' </summary>
+    Public Function BuildPriorFor(genes As String()) As PriorNetwork
+        Dim full As PriorNetwork = BuildPrior()
+        Dim index As New HashSet(Of String)(genes, StringComparer.OrdinalIgnoreCase)
+        Dim prior As New PriorNetwork()
+
+        For Each edge In full.Edges
+            If index.Contains(edge.TF) AndAlso index.Contains(edge.TargetGene) Then
+                Call prior.AddEdge(edge.TF, edge.TargetGene, edge.RegulationType, edge.Confidence, edge.Evidence)
+            End If
         Next
 
         Return prior
@@ -298,8 +484,19 @@ Public Module SyntheticData
                         raw = 2.0 * (1.0 - System.Math.Exp(-x / 20.0))
                     Case "co2_e"
                         raw = 6.0 * (1.0 - System.Math.Exp(-x / 10.0))
+                    Case "aa_e"
+                        raw = 1.2 * (1.0 - System.Math.Exp(-x / 15.0))
+                    Case "nh4_e"
+                        raw = 0.8 * (1.0 - System.Math.Exp(-x / 18.0)) + 0.2 * x / 40.0
+                    Case "ppa_e"
+                        raw = 0.9 * (1.0 - System.Math.Exp(-x / 17.0))
+                    Case "but_e"
+                        raw = 0.6 * (1.0 - System.Math.Exp(-x / 22.0))
+                    Case "h2_e"
+                        raw = 0.4 * (1.0 - System.Math.Exp(-x / 20.0))
                     Case Else
-                        raw = 1.0
+                        ' 兜底：给一条缓慢上升的曲线，避免常数序列被 z-score 归一化抹平
+                        raw = 1.0 + 0.5 * (1.0 - System.Math.Exp(-x / 12.0))
                 End Select
 
                 boundary(t, k) = raw

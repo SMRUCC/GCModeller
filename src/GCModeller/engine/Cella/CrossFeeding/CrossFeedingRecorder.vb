@@ -118,6 +118,19 @@ Public Class CrossFeedingRecorder
         End Get
     End Property
 
+    ''' <summary>物种级累计总通量（整个仿真过程，所有 Spot 之和）</summary>
+    Public ReadOnly Property TotalFlux As Double
+        Get
+            Dim sum As Double = 0.0
+
+            For Each edge In summary.Values
+                sum += edge.flux
+            Next
+
+            Return sum
+        End Get
+    End Property
+
     ''' <summary>
     ''' 采集一个时间步的交叉喂养通量
     ''' </summary>

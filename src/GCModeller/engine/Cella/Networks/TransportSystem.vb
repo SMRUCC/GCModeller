@@ -109,8 +109,10 @@ Public Class TransportSystem : Inherits SubNetwork
                 external = 0.0
             End If
 
-            ' 转运蛋白丰度 → 可用性 ∈ [0,1]
-            Dim capacity As Double = 1.0
+            ' ---- 摄取能力：只有真正拥有摄取反应的物种才有转运蛋白槽位 ----
+            ' 槽位为 -1 意味着该物种没有把这种物质运进胞内的能力，容量必须为 0，
+            ' 否则会出现「谁都能吃任何东西」的伪交叉喂养网络
+            Dim capacity As Double = 0.0
             Dim slot As Integer = transporterSlot(i)
 
             If slot >= 0 AndAlso slot < protein.Length Then
@@ -119,7 +121,7 @@ Public Class TransportSystem : Inherits SubNetwork
                 capacity = p / (p + capacityReference)
             End If
 
-            ' 有效边界浓度：转运蛋白被敲除时该物质无法进入代谢网络
+            ' 有效边界浓度：没有转运能力时该物质无法进入代谢网络
             state.Boundary(boundarySlot(i)) = external * capacity
 
             ' 环境侧消耗：米氏方程形式的摄取速率
@@ -138,9 +140,10 @@ Public Class TransportSystem : Inherits SubNetwork
             End If
 
             ' ---- 产物外排：把胞内代谢物的水平镜像到环境中 ----
-            ' 注意这里不扣减胞内浓度：外排反应本身已经包含在 Metaboliq 的
-            ' 反应网络里（如 LACtex / ETOHtex / ACtex / CO2tex），此处只是
-            ' 把它的效果同步到环境侧，避免与液态网络的积分重复记账。
+            ' 只要该物种拥有对应的外排反应（exportSlot >= 0）就开启；外排速率由
+            ' 胞内浓度决定，酶丰度的影响已经体现在 Metaboliq 的反应通量里。
+            ' 注意这里不扣减胞内浓度：外排反应本身已经包含在 Metaboliq 的反应
+            ' 网络里，此处只是把它的效果同步到环境侧，避免重复记账。
             Dim src As Integer = exportSlot(i)
 
             If src >= 0 Then
@@ -150,7 +153,7 @@ Public Class TransportSystem : Inherits SubNetwork
                     level = 0.0
                 End If
 
-                Dim exportRate As Double = vmax * capacity * level / (km + level)
+                Dim exportRate As Double = vmax * level / (km + level)
 
                 efflux(i) = exportRate
                 _effluxMass(i) = exportRate * dt
