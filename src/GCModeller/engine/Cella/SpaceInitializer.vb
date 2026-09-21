@@ -1,55 +1,16 @@
-﻿#Region "Microsoft.VisualBasic::83df390eafccd1a9b36a0c92dae16386, engine\Cella\SpaceInitializer.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 134
-    '    Code Lines: 82 (61.19%)
-    ' Comment Lines: 34 (25.37%)
-    '    - Xml Docs: 76.47%
-    ' 
-    '   Blank Lines: 18 (13.43%)
-    '     File Size: 5.40 KB
-
-
-    ' Module SpaceInitializer
-    ' 
-    '     Function: CreateCuboidSpace, CreateCylinderSpace, CreateFlaskSpace, CreatePetriDishSpace, CreateSpot
-    ' 
-    ' /********************************************************************************/
-
-#End Region
+﻿' ============================================================
+' SpaceInitializer.vb - 特定形状的培养空间初始化
+' ============================================================
+' 提供四种形状：
+'   1. 培养皿（扁平圆柱）
+'   2. 发酵罐（圆柱）
+'   3. 摇瓶（锥形瓶 = 圆锥过渡区 + 直筒颈部）
+'   4. 发酵池（长方体）
+'
+' 形状之外的格点为 Nothing，Environment.Tick 会跳过它们。
+' 每个格点持有一份**独立拷贝**的培养基，因此不同位置的细胞会看到不同的
+' 营养浓度，摄取消耗也是局部的。
+' ============================================================
 
 Imports Microsoft.VisualBasic.Imaging
 
@@ -60,9 +21,11 @@ Public Module SpaceInitializer
     ''' </summary>
     ''' <param name="radius">培养皿半径</param>
     ''' <param name="height">培养皿高度（通常较小，如2-5层）</param>
-    Public Function CreatePetriDishSpace(radius As Integer, height As Integer) As Environment
+    Public Function CreatePetriDishSpace(radius As Integer, height As Integer,
+                                         Optional medium As Dictionary(Of String, Double) = Nothing,
+                                         Optional timeStep As Double = 1.0) As Environment
         ' 培养皿本质上是高度较小的圆柱体，直接复用圆柱体生成逻辑
-        Return CreateCylinderSpace(radius, height)
+        Return CreateCylinderSpace(radius, height, medium, timeStep)
     End Function
 
     ''' <summary>
@@ -70,8 +33,10 @@ Public Module SpaceInitializer
     ''' </summary>
     ''' <param name="radius">圆柱半径</param>
     ''' <param name="height">圆柱总高度</param>
-    Public Function CreateCylinderSpace(radius As Integer, height As Integer) As Environment
-        Dim env As New Environment()
+    Public Function CreateCylinderSpace(radius As Integer, height As Integer,
+                                        Optional medium As Dictionary(Of String, Double) = Nothing,
+                                        Optional timeStep As Double = 1.0) As Environment
+        Dim env As Environment = NewEnvironment(timeStep)
         Dim sizeXY As Integer = 2 * radius + 1 ' 确保圆心在正中心，奇数边长
 
         ' 初始化3D交错数组边界框
@@ -85,9 +50,10 @@ Public Module SpaceInitializer
                     ' 计算当前点到圆心的距离的平方
                     Dim dx As Integer = x - radius
                     Dim dy As Integer = y - radius
+
                     If dx * dx + dy * dy <= radius * radius Then
                         ' 在圆柱体内，生成Spot
-                        env.Space(x)(y)(z) = CreateSpot(x, y, z)
+                        env.Space(x)(y)(z) = CreateSpot(x, y, z, medium)
                     Else
                         ' 在圆柱体外，设为Nothing
                         env.Space(x)(y)(z) = Nothing
@@ -106,8 +72,11 @@ Public Module SpaceInitializer
     ''' <param name="neckRadius">颈部半径</param>
     ''' <param name="coneHeight">锥形过渡区高度</param>
     ''' <param name="neckHeight">直筒颈部高度</param>
-    Public Function CreateFlaskSpace(bottomRadius As Integer, neckRadius As Integer, coneHeight As Integer, neckHeight As Integer) As Environment
-        Dim env As New Environment()
+    Public Function CreateFlaskSpace(bottomRadius As Integer, neckRadius As Integer,
+                                     coneHeight As Integer, neckHeight As Integer,
+                                     Optional medium As Dictionary(Of String, Double) = Nothing,
+                                     Optional timeStep As Double = 1.0) As Environment
+        Dim env As Environment = NewEnvironment(timeStep)
         Dim totalHeight As Integer = coneHeight + neckHeight
         Dim sizeXY As Integer = 2 * bottomRadius + 1
 
@@ -123,9 +92,11 @@ Public Module SpaceInitializer
                     Dim distSq As Integer = dx * dx + dy * dy
 
                     Dim currentRadius As Double
+
                     If z < coneHeight Then
                         ' 锥形部分：半径随高度线性递减
                         Dim ratio As Double = z / coneHeight
+
                         currentRadius = bottomRadius - (bottomRadius - neckRadius) * ratio
                     Else
                         ' 颈部直筒部分：半径固定
@@ -133,7 +104,7 @@ Public Module SpaceInitializer
                     End If
 
                     If distSq <= currentRadius * currentRadius Then
-                        env.Space(x)(y)(z) = CreateSpot(x, y, z)
+                        env.Space(x)(y)(z) = CreateSpot(x, y, z, medium)
                     Else
                         env.Space(x)(y)(z) = Nothing
                     End If
@@ -150,8 +121,10 @@ Public Module SpaceInitializer
     ''' <param name="width">X轴长度</param>
     ''' <param name="depth">Y轴深度</param>
     ''' <param name="height">Z轴高度</param>
-    Public Function CreateCuboidSpace(width As Integer, depth As Integer, height As Integer) As Environment
-        Dim env As New Environment()
+    Public Function CreateCuboidSpace(width As Integer, depth As Integer, height As Integer,
+                                      Optional medium As Dictionary(Of String, Double) = Nothing,
+                                      Optional timeStep As Double = 1.0) As Environment
+        Dim env As Environment = NewEnvironment(timeStep)
 
         env.Space = New Spot(width - 1)()() {}
 
@@ -161,7 +134,7 @@ Public Module SpaceInitializer
                 env.Space(x)(y) = New Spot(height - 1) {}
                 For z As Integer = 0 To height - 1
                     ' 长方体所有点都在范围内
-                    env.Space(x)(y)(z) = CreateSpot(x, y, z)
+                    env.Space(x)(y)(z) = CreateSpot(x, y, z, medium)
                 Next
             Next
         Next
@@ -170,9 +143,36 @@ Public Module SpaceInitializer
     End Function
 
     ''' <summary>
-    ''' 辅助方法：用于实例化一个Spot对象并赋予空间索引
+    ''' 构造一份培养基（每个格点会拿到一份独立拷贝）
     ''' </summary>
-    Private Function CreateSpot(x As Integer, y As Integer, z As Integer) As Spot
+    Public Function CreateMedium(ParamArray components As (id As String, level As Double)()) As Dictionary(Of String, Double)
+        Dim medium As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+        For Each c In components
+            medium(c.id) = c.level
+        Next
+
+        Return medium
+    End Function
+
+    Private Function NewEnvironment(timeStep As Double) As Environment
+        Return New Environment() With {
+            .TimeStep = If(timeStep > 0, timeStep, 1.0)
+        }
+    End Function
+
+    ''' <summary>
+    ''' 辅助方法：用于实例化一个Spot对象并赋予空间索引与培养基
+    ''' </summary>
+    Private Function CreateSpot(x As Integer, y As Integer, z As Integer,
+                                medium As Dictionary(Of String, Double)) As Spot
+        Dim local As Dictionary(Of String, Double) = Nothing
+
+        If medium IsNot Nothing Then
+            ' 每个格点一份独立拷贝，摄取消耗才是局部的
+            local = New Dictionary(Of String, Double)(medium, StringComparer.OrdinalIgnoreCase)
+        End If
+
         Return New Spot() With {
             .index = New SpatialIndex3D() With {
                 .X = x,
@@ -180,7 +180,7 @@ Public Module SpaceInitializer
                 .Z = z
             },
             .cells = New List(Of VirtualCella)(),
-            .external = Nothing ' 外部引用在生成时默认为空，后续业务逻辑中可自行绑定
+            .Medium = local
         }
     End Function
 

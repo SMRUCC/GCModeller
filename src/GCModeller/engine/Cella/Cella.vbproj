@@ -10,6 +10,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\GNN\GNN.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\LNN\LNN.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\CVODE_Solver\Sundials.CVODE.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFittings\linear-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
@@ -19,6 +23,8 @@
     <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\sub-system\BNLearn\BNLearn.vbproj" />
+    <ProjectReference Include="..\..\sub-system\GEARS\GEARS.vbproj" />
+    <ProjectReference Include="..\..\sub-system\Metaboliq\Metaboliq.vbproj" />
     <ProjectReference Include="..\BootstrapLoader\BootstrapLoader.NET5.vbproj" />
     <ProjectReference Include="..\CompilerServices\CompilerServices.NET5.vbproj" />
     <ProjectReference Include="..\Dynamics\Dynamics.NET5.vbproj" />
