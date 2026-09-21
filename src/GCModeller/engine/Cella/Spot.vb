@@ -22,6 +22,19 @@ Public Class Spot
     ''' <summary>三维空间索引</summary>
     Public Property index As SpatialIndex3D
 
+    ''' <summary>
+    ''' 归一化径向位置：0 = 类器官球心，1 = 最外层；非球形空间为 -1。
+    ''' 这是「空间极性 / 位置信号」的几何来源，驱动细胞命运的空间分带。
+    ''' </summary>
+    Public Property NormalizedRadius As Double = -1.0
+
+    ''' <summary>是否处于类器官表层（直接接触培养基的格点）</summary>
+    Public ReadOnly Property IsSurface As Boolean
+        Get
+            Return NormalizedRadius >= 0.72
+        End Get
+    End Property
+
     ''' <summary>pH</summary>
     Public Property ph As Double = 7.0
 

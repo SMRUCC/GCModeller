@@ -201,10 +201,15 @@ Public Module Fermentation
             System.IO.Path.Combine(dir, "migration.csv"), Report.MigrationCsv(migrations))
 
         ' ---- (5) 群落状态时间序列 ----
+        Dim communityColumns As String() = NutrientMetaboliteIds() _
+            .Concat(NutrientMetaboliteIds().Select(Function(id) id & "_int")) _
+            .Concat({"cell_count_total", "nutrient_mean"}) _
+            .Concat(definitions.Select(Function(d) "cell_count_" & d.id)) _
+            .ToArray()
+
         Call Report.SaveSeries(
             System.IO.Path.Combine(dir, "community.csv"),
-            "time", times, communitySeries,
-            NutrientMetaboliteIds().Concat({"cell_count_total", "cell_count_" & Species.GlcFermenter, "nutrient_mean"}).ToArray())
+            "time", times, communitySeries, communityColumns)
 
         ' ---- (6) 每个 Spot 的营养 / 占用快照 ----
         Call System.IO.File.WriteAllText(

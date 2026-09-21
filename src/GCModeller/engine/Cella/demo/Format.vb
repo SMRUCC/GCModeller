@@ -19,6 +19,85 @@ Public Module Fmt
             .Select(Function(x) $"{Brief(x.Key)}={x.Value}"))
     End Function
 
+    ''' <summary>细胞命运的缩写字母（类器官切片用）</summary>
+    Public Function FateLetter(fate As String) As Char
+        If fate Is Nothing Then
+            Return "?"c
+        End If
+
+        Select Case fate.ToLowerInvariant()
+            Case "npc" : Return "N"c
+            Case "podocyte" : Return "P"c
+            Case "endothelium" : Return "E"c
+            Case "proximal_tubule" : Return "T"c
+            Case "distal_tubule" : Return "D"c
+            Case "ureteric_bud" : Return "U"c
+            Case "collecting_duct" : Return "C"c
+            Case "interstitium" : Return "F"c
+            Case Else
+                Return If(fate.Length > 0, Char.ToUpperInvariant(fate(0)), "?"c)
+        End Select
+    End Function
+
+    ''' <summary>把细胞命运计数格式化为「字母=数量」的紧凑文本</summary>
+    Public Function BriefPopulation(table As IDictionary(Of String, Integer)) As String
+        If table Is Nothing OrElse table.Count = 0 Then
+            Return "(空)"
+        End If
+
+        Return String.Join(" ", table _
+            .OrderByDescending(Function(x) x.Value) _
+            .Select(Function(x) $"{FateLetter(x.Key)}={x.Value}"))
+    End Function
+
+    ''' <summary>
+    ''' 渲染类器官的二维横截面：每个格点显示主导细胞命运的字母与细胞数
+    ''' </summary>
+    Public Function OrganoidSlice(env As Cella.Environment, z As Integer) As String
+        If env Is Nothing OrElse env.Space Is Nothing Then
+            Return "(空环境)"
+        End If
+
+        Dim sb As New StringBuilder()
+
+        sb.AppendLine($"  -- 类器官横截面 z={z}（字母 = 主导细胞类型，数字 = 细胞数，" &
+                      $"'.' = 有培养基无细胞，'#' = 形状之外）--")
+        sb.AppendLine("       N=NPC  P=足细胞  E=内皮  T=近端小管  D=远端小管  U=输尿管芽  C=集合管  F=间质")
+        sb.AppendLine()
+
+        Dim sizeY As Integer = If(env.Space(0) Is Nothing, 0, env.Space(0).Length)
+
+        For y As Integer = 0 To sizeY - 1
+            sb.Append($"  y={y} ")
+
+            For x As Integer = 0 To env.Space.Length - 1
+                Dim spot As Cella.Spot = env.GetSpotAt(x, y, z)
+
+                If spot Is Nothing Then
+                    sb.Append(" #")
+                    Continue For
+                End If
+
+                If spot.cells.Count = 0 Then
+                    Dim hasMedium As Boolean = spot.Medium IsNot Nothing AndAlso spot.Medium.Values.Any(Function(v) v > 0.2)
+
+                    sb.Append(If(hasMedium, " .", " -"))
+                    Continue For
+                End If
+
+                Dim dominant As String = spot.PopulationBySpecies() _
+                    .OrderByDescending(Function(kv) kv.Value) _
+                    .First().Key
+
+                sb.Append(" ").Append(FateLetter(dominant))
+            Next
+
+            sb.AppendLine()
+        Next
+
+        Return sb.ToString()
+    End Function
+
     ''' <summary>把物种 id 缩短成便于对齐的标签</summary>
     Public Function Brief(species As String) As String
         If species Is Nothing Then

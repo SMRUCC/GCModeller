@@ -173,6 +173,11 @@ Public Class VirtualCella
     ''' <summary>
     ''' 是否满足二分裂条件（生物量阈值 + 最小年龄 + 格点承载上限）
     ''' </summary>
+    ''' <summary>
+    ''' 是否满足分裂的生物学条件（生物量、最小年龄、存活）。
+    ''' 格点承载上限由 <see cref="CellLifecycle"/> 在挑选子代落位时处理，
+    ''' 因为允许子代向外扩散时亲代格点即使已满也仍然可以分裂。
+    ''' </summary>
     Public Function CanDivide() As Boolean
         If Not IsAlive OrElse Blueprint Is Nothing Then
             Return False
@@ -186,12 +191,19 @@ Public Class VirtualCella
             Return False
         End If
 
-        If Spot IsNot Nothing AndAlso Spot.cells.Count >= Blueprint.MaxCellsPerSpot Then
-            Return False
-        End If
-
         Return True
     End Function
+
+    ''' <summary>亲代所在格点是否还有空位</summary>
+    Public ReadOnly Property HasRoom As Boolean
+        Get
+            If Spot Is Nothing OrElse Blueprint Is Nothing Then
+                Return False
+            End If
+
+            Return Spot.cells.Count < Blueprint.MaxCellsPerSpot
+        End Get
+    End Property
 
     ''' <summary>
     ''' 导出细胞快照

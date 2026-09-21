@@ -41,6 +41,12 @@ Public Class CrossFeedingEdge
     Public Property y As Integer
     Public Property z As Integer
 
+    ''' <summary>
+    ''' 分区名。为 Nothing 时表示按格点统计；类器官这类「整团混合」
+    ''' 的场景会传入一个分区名（例如 organoid），表示把整个环境当作一个池子
+    ''' </summary>
+    Public Property zone As String
+
     Public Function Key() As String
         Return $"{metabolite}|{producer}|{consumer}"
     End Function
@@ -134,10 +140,22 @@ Public Class CrossFeedingRecorder
     ''' <summary>
     ''' 采集一个时间步的交叉喂养通量
     ''' </summary>
-    Public Sub Collect(env As Environment, time As Double)
+    ''' <summary>
+    ''' 采集一个时间步的交叉喂养通量
+    ''' </summary>
+    ''' <param name="zone">
+    ''' 为 Nothing 时按格点分别统计；给出分区名时把所有格点并成一个池子，
+    ''' 适用于类器官这类依靠高扩散系数形成单一混合池、细胞又稀疏分布的场景
+    ''' </param>
+    Public Sub Collect(env As Environment, time As Double, Optional zone As String = Nothing)
         _lastStepFlux = 0.0
 
         If env Is Nothing Then
+            Return
+        End If
+
+        If zone IsNot Nothing Then
+            Call CollectPooled(env, time, zone)
             Return
         End If
 
@@ -248,6 +266,103 @@ Public Class CrossFeedingRecorder
         Next
     End Sub
 
+    ''' <summary>
+    ''' 把整个环境当作一个混合池来统计（细胞稀疏分布时的正确做法）
+    ''' </summary>
+    Private Sub CollectPooled(env As Environment, time As Double, zone As String)
+        Dim outPool As New Dictionary(Of String, Dictionary(Of String, Double))(StringComparer.OrdinalIgnoreCase)
+        Dim inPool As New Dictionary(Of String, Dictionary(Of String, Double))(StringComparer.OrdinalIgnoreCase)
+        Dim totalIn As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+        For Each cella As VirtualCella In env.GetAllCells()
+            Dim transport As TransportSystem = cella.transportation
+
+            If transport Is Nothing Then
+                Continue For
+            End If
+
+            Dim species As String = If(cella.Species, "(unknown)")
+            Dim names As String() = transport.BoundaryMetabolites
+
+            For i As Integer = 0 To names.Length - 1
+                Dim outMass As Double = transport.EffluxMass(i)
+                Dim inMass As Double = transport.UptakeMass(i)
+
+                If outMass > 0 Then
+                    Call Accumulate(outPool, names(i), species, outMass)
+                End If
+
+                If inMass > 0 Then
+                    Call Accumulate(inPool, names(i), species, inMass)
+
+                    Dim sum As Double = 0.0
+
+                    Call totalIn.TryGetValue(names(i), sum)
+                    totalIn(names(i)) = sum + inMass
+                End If
+            Next
+        Next
+
+        For Each metabolite As String In totalIn.Keys.ToArray()
+            Dim pool As Double = totalIn(metabolite)
+            Dim producers As Dictionary(Of String, Double) = Nothing
+            Dim consumers As Dictionary(Of String, Double) = Nothing
+
+            If pool <= 0 Then
+                Continue For
+            End If
+            If Not outPool.TryGetValue(metabolite, producers) Then
+                Continue For
+            End If
+            If Not inPool.TryGetValue(metabolite, consumers) Then
+                Continue For
+            End If
+
+            For Each producer In producers
+                For Each consumer In consumers
+                    If String.Equals(producer.Key, consumer.Key, StringComparison.OrdinalIgnoreCase) Then
+                        Continue For
+                    End If
+
+                    Dim flux As Double = producer.Value * consumer.Value / pool
+
+                    If flux <= 0 Then
+                        Continue For
+                    End If
+
+                    _lastStepFlux += flux
+
+                    Dim edge As CrossFeedingEdge = GetOrAdd(
+                        perSpot,
+                        $"{zone}|{metabolite}|{producer.Key}|{consumer.Key}",
+                        metabolite, producer.Key, consumer.Key, 0, 0, 0)
+
+                    edge.zone = zone
+                    edge.flux += flux
+                    edge.last_flux = flux
+
+                    Dim aggregate As CrossFeedingEdge = GetOrAdd(
+                        summary, edge.Key(), metabolite, producer.Key, consumer.Key, 0, 0, 0)
+
+                    aggregate.zone = zone
+                    aggregate.flux += flux
+                    aggregate.last_flux = flux
+
+                    timeline.Add(New CrossFeedingSample With {
+                        .time = time,
+                        .x = 0,
+                        .y = 0,
+                        .z = 0,
+                        .metabolite = metabolite,
+                        .producer = producer.Key,
+                        .consumer = consumer.Key,
+                        .flux = flux
+                    })
+                Next
+            Next
+        Next
+    End Sub
+
     Private Shared Function GetOrAdd(table As Dictionary(Of String, CrossFeedingEdge),
                                      key As String, metabolite As String,
                                      producer As String, consumer As String,
@@ -295,12 +410,13 @@ Public Class CrossFeedingRecorder
     Public Function ToSpotCsv() As String
         Dim sb As New StringBuilder()
 
-        sb.AppendLine("x,y,z,metabolite,producer,consumer,flux,last_flux")
+        sb.AppendLine("x,y,z,zone,metabolite,producer,consumer,flux,last_flux")
 
         For Each item In perSpot.Values.Where(Function(e) e.flux > 0).OrderByDescending(Function(e) e.flux)
             sb.Append(item.x).Append(",")
             sb.Append(item.y).Append(",")
             sb.Append(item.z).Append(",")
+            sb.Append(If(item.zone, "")).Append(",")
             sb.Append(item.metabolite).Append(",")
             sb.Append(item.producer).Append(",")
             sb.Append(item.consumer).Append(",")

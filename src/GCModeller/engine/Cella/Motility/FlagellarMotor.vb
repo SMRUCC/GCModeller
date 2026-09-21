@@ -95,13 +95,13 @@ Public Module FlagellarMotor
             End If
 
             Dim chemotaxis As Double = ChemotaxisOf(cella)
-            Dim nutrientBefore As Double = current.NutrientLevel(blueprint)
+            Dim nutrientBefore As Double = current.LigandLevel(blueprint)
             Dim scale As Double = System.Math.Max(blueprint.MotilityGradientScale, 0.000001)
             Dim weights As Double() = New Double(candidates.Length - 1) {}
             Dim total As Double = 0.0
 
             For i As Integer = 0 To candidates.Length - 1
-                Dim delta As Double = (candidates(i).NutrientLevel(blueprint) - nutrientBefore) / scale
+                Dim delta As Double = (candidates(i).LigandLevel(blueprint) - nutrientBefore) / scale
                 Dim bias As Double = 1.0 + blueprint.MotilityGradientBias * chemotaxis * System.Math.Tanh(delta)
 
                 If bias < MinBias Then
@@ -136,7 +136,7 @@ Public Module FlagellarMotor
                 .motility = motility,
                 .chemotaxis = chemotaxis,
                 .nutrient_before = nutrientBefore,
-                .nutrient_after = pick.NutrientLevel(blueprint)
+                .nutrient_after = pick.LigandLevel(blueprint)
             })
         Next
 

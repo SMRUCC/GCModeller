@@ -25,6 +25,11 @@ Public Enum StatePool
     Boundary
     ''' <summary>信号转导通路上的磷酸化水平 / 转录因子活性 [signal channel]</summary>
     Signal
+    ''' <summary>
+    ''' 生态位信号：由分化系统在每步写入的局部微环境读数
+    ''' （径向位置、局部密度、邻域各命运细胞数、诱导信号强度……）
+    ''' </summary>
+    Niche
 End Enum
 
 ''' <summary>
@@ -38,11 +43,13 @@ Public Class CellularState
     Public ReadOnly Property MetaboliteNames As String()
     Public ReadOnly Property BoundaryNames As String()
     Public ReadOnly Property SignalNames As String()
+    Public ReadOnly Property NicheNames As String()
 
     Public ReadOnly Property GeneIndex As Dictionary(Of String, Integer)
     Public ReadOnly Property MetaboliteIndex As Dictionary(Of String, Integer)
     Public ReadOnly Property BoundaryIndex As Dictionary(Of String, Integer)
     Public ReadOnly Property SignalIndex As Dictionary(Of String, Integer)
+    Public ReadOnly Property NicheIndex As Dictionary(Of String, Integer)
 
     ' ---------------- 状态池 ----------------
 
@@ -56,6 +63,8 @@ Public Class CellularState
     Public Property Boundary As Double()
     ''' <summary>信号转导通路状态 [signal]，即各转录因子的活化水平</summary>
     Public Property Signal As Double()
+    ''' <summary>生态位信号 [niche]，由分化系统每步更新（细胞自身不能改写）</summary>
+    Public Property Niche As Double()
 
     ''' <summary>细胞周期相位（弧度，0 ~ 2π）</summary>
     Public Property CyclePhase As Double
@@ -90,27 +99,38 @@ Public Class CellularState
         End Get
     End Property
 
+    ''' <summary>生态位信号通道数量</summary>
+    Public ReadOnly Property NNiche As Integer
+        Get
+            Return NicheNames.Length
+        End Get
+    End Property
+
     Sub New(genes As IEnumerable(Of String),
             metabolites As IEnumerable(Of String),
             boundaryMetabolites As IEnumerable(Of String),
             signals As IEnumerable(Of String),
-            Optional initialLevel As Double = 0.0)
+            Optional initialLevel As Double = 0.0,
+            Optional nicheChannels As IEnumerable(Of String) = Nothing)
 
         GeneNames = genes.SafeQuery.ToArray
         MetaboliteNames = metabolites.SafeQuery.ToArray
         BoundaryNames = boundaryMetabolites.SafeQuery.ToArray
         SignalNames = signals.SafeQuery.ToArray
+        NicheNames = nicheChannels.SafeQuery.ToArray
 
         GeneIndex = BuildIndex(GeneNames)
         MetaboliteIndex = BuildIndex(MetaboliteNames)
         BoundaryIndex = BuildIndex(BoundaryNames)
         SignalIndex = BuildIndex(SignalNames)
+        NicheIndex = BuildIndex(NicheNames)
 
         mRNA = Filled(GeneNames.Length, initialLevel)
         Protein = Filled(GeneNames.Length, initialLevel)
         Metabolite = Filled(MetaboliteNames.Length, initialLevel)
         Boundary = Filled(BoundaryNames.Length, initialLevel)
         Signal = Filled(SignalNames.Length, initialLevel)
+        Niche = Filled(NicheNames.Length, initialLevel)
     End Sub
 
     Private Shared Function BuildIndex(names As String()) As Dictionary(Of String, Integer)
@@ -147,6 +167,7 @@ Public Class CellularState
             Case StatePool.Metabolite : Return Metabolite
             Case StatePool.Boundary : Return Boundary
             Case StatePool.Signal : Return Signal
+            Case StatePool.Niche : Return Niche
             Case Else
                 Throw New ArgumentOutOfRangeException(NameOf(pool))
         End Select
@@ -158,6 +179,7 @@ Public Class CellularState
             Case StatePool.Metabolite : Return MetaboliteIndex
             Case StatePool.Boundary : Return BoundaryIndex
             Case StatePool.Signal : Return SignalIndex
+            Case StatePool.Niche : Return NicheIndex
             Case Else
                 Throw New ArgumentOutOfRangeException(NameOf(pool))
         End Select
@@ -169,6 +191,7 @@ Public Class CellularState
             Case StatePool.Metabolite : Return MetaboliteNames
             Case StatePool.Boundary : Return BoundaryNames
             Case StatePool.Signal : Return SignalNames
+            Case StatePool.Niche : Return NicheNames
             Case Else
                 Throw New ArgumentOutOfRangeException(NameOf(pool))
         End Select
@@ -286,7 +309,7 @@ Public Class CellularState
 
         For Each pool As StatePool In New StatePool() {
             StatePool.mRNA, StatePool.Protein,
-            StatePool.Metabolite, StatePool.Boundary, StatePool.Signal
+            StatePool.Metabolite, StatePool.Boundary, StatePool.Signal, StatePool.Niche
         }
             Dim v As Double() = Vector(pool)
 
@@ -316,7 +339,7 @@ Public Class CellularState
     End Function
 
     Public Overrides Function ToString() As String
-        Return $"genes={NGene}, metabolites={NMetabolite}, boundary={NBoundary}, signals={NSignal}, phase={CyclePhase:F3}"
+        Return $"genes={NGene}, metabolites={NMetabolite}, boundary={NBoundary}, signals={NSignal}, niche={NNiche}, phase={CyclePhase:F3}"
     End Function
 
 End Class

@@ -107,7 +107,13 @@ Public Module CellLifecycle
                 Continue For
             End If
 
-            Dim child As VirtualCella = CellaFactory.DivideCell(cella, now_)
+            Dim target As Spot = ChooseDaughterSpot(cella, env)
+
+            If target Is Nothing Then
+                Continue For
+            End If
+
+            Dim child As VirtualCella = CellaFactory.DivideCell(cella, now_, target)
 
             If child Is Nothing Then
                 Continue For
@@ -119,6 +125,56 @@ Public Module CellLifecycle
         Next
 
         Return events
+    End Function
+
+    ''' <summary>
+    ''' 为子代挑选落位格点
+    ''' </summary>
+    ''' <remarks>
+    '''   * 不允许扩散时：只有亲代格点还有空位才能分裂；
+    '''   * 允许扩散时：亲代格点满了就挑一个还有空位的相邻格点。
+    '''     在球形类器官里优先选择与亲代径向位置最接近的邻居，
+    '''     使增殖像真实器官一样一层层向外推进，而不是随机跳跃。
+    ''' </remarks>
+    Private Function ChooseDaughterSpot(cella As VirtualCella, env As Environment) As Spot
+        If cella.HasRoom Then
+            Return cella.Spot
+        End If
+
+        Dim blueprint As CellaBlueprint = cella.Blueprint
+
+        If blueprint Is Nothing OrElse Not blueprint.DaughterDispersal OrElse env Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim candidates As Spot() = env.GetNeighbors(cella.Spot) _
+            .Where(Function(s) s.cells.Count < blueprint.MaxCellsPerSpot) _
+            .ToArray()
+
+        If candidates.Length = 0 Then
+            Return Nothing
+        End If
+
+        Dim home As Double = cella.Spot.NormalizedRadius
+
+        If home < 0 Then
+            Return candidates(env.Rand.Next(candidates.Length))
+        End If
+
+        Dim best As Spot = candidates(0)
+        Dim bestDistance As Double = Double.MaxValue
+
+        For Each candidate As Spot In candidates
+            Dim radius As Double = If(candidate.NormalizedRadius >= 0, candidate.NormalizedRadius, home)
+            Dim d As Double = System.Math.Abs(radius - home)
+
+            If d < bestDistance Then
+                bestDistance = d
+                best = candidate
+            End If
+        Next
+
+        Return best
     End Function
 
     ''' <summary>

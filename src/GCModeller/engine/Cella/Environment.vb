@@ -86,6 +86,22 @@ Public Class Environment
     ''' <summary>默认时间步长</summary>
     Public Property TimeStep As Double = 1.0
 
+    ''' <summary>
+    ''' 分化系统（可选）。设置后 <see cref="Tick(Double)"/> 会在每步自动
+    ''' 刷新生态位信号、评估细胞命运、并做位置校正。
+    ''' 纯微生物发酵场景不需要它，保持 Nothing 即可。
+    ''' </summary>
+    Public Property Differentiation As DifferentiationSystem
+
+    ''' <summary>最近一步的分化 / 位置校正事件</summary>
+    Public ReadOnly Property LastFates As DifferentiationEvents
+        Get
+            Return _lastFates
+        End Get
+    End Property
+
+    Private _lastFates As New DifferentiationEvents()
+
     ''' <summary>相邻格点之间的物质扩散 / 补料配置</summary>
     Public Property Diffusion As New DiffusionConfig()
 
@@ -158,11 +174,24 @@ Public Class Environment
             Call spot.Tick(dt)
         Next
 
-        ' 3. 生命周期：分裂 / 死亡
+        ' 3. 生态位信号：把局部微环境读数写进每个细胞
+        If Differentiation IsNot Nothing Then
+            Call Differentiation.UpdateNiche(Me)
+        End If
+
+        ' 4. 生命周期：分裂 / 死亡
         _lastEvents = CellLifecycle.Run(Me, dt)
 
-        ' 4. 鞭毛运动：格点间迁移
+        ' 5. 鞭毛运动：格点间迁移（微生物场景）
         _lastMigrations = FlagellarMotor.Swim(Me, dt, Rand)
+
+        ' 6. 命运决定与位置校正（类器官场景）
+        If Differentiation IsNot Nothing Then
+            _lastFates = Differentiation.Run(Me, dt)
+            Call Differentiation.ApplyRadialSorting(Me, dt)
+        Else
+            _lastFates = New DifferentiationEvents()
+        End If
 
         clock += dt
         steps += 1

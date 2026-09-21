@@ -22,17 +22,21 @@ Module Program
     Const PETRI_HEIGHT As Integer = 1
 
     ''' <summary>
-    ''' 默认运行「多物种发酵群落」演示；
-    ''' 传入 --single 则运行最初的单物种培养皿演示。
+    ''' 演示入口。默认运行「人肾虚拟类器官」；
+    '''    --fermentation  多物种发酵群落
+    '''    --single        最初的单物种培养皿最小样例
     ''' </summary>
     Function Main(args As String()) As Integer
         Dim singleSpecies As Boolean = args.SafeQuery.Any(Function(a) a.Equals("--single", StringComparison.OrdinalIgnoreCase))
+        Dim fermentationMode As Boolean = args.SafeQuery.Any(Function(a) a.Equals("--fermentation", StringComparison.OrdinalIgnoreCase))
 
         Try
             If singleSpecies Then
                 Call RunSingleSpecies()
-            Else
+            ElseIf fermentationMode Then
                 Call Fermentation.Run()
+            Else
+                Call KidneyOrganoid.Run()
             End If
 
             Return 0

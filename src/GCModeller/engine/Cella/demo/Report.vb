@@ -54,17 +54,31 @@ Public Module Report
                           times As List(Of Double),
                           series As List(Of Dictionary(Of String, Double)),
                           Optional variables As String() = Nothing)
-        Dim names As String() = If(variables, series.FirstOrDefault()?.Keys?.OrderBy(Function(k) k).ToArray())
+
+        Call System.IO.File.WriteAllText(path, SaveSeriesText(timeHeader, times, series, variables), Encoding.UTF8)
+    End Sub
+
+    ''' <summary>
+    ''' 生成一张「时间 × 变量」宽表的 CSV 文本（调用方自行决定落盘位置）
+    ''' </summary>
+    Public Function SaveSeriesText(timeHeader As String,
+                                   times As List(Of Double),
+                                   series As List(Of Dictionary(Of String, Double)),
+                                   Optional variables As String() = Nothing) As String
+
+        Dim names As String() = variables
 
         If names.IsNullOrEmpty Then
-            names = {}
+            Dim probe As Dictionary(Of String, Double) = series.FirstOrDefault()
+
+            names = If(probe Is Nothing, {}, probe.Keys.OrderBy(Function(k) k).ToArray())
         End If
 
         Dim sb As New StringBuilder()
 
         sb.Append(timeHeader)
 
-        For Each name In names
+        For Each name As String In names
             sb.Append("," & CsvField(name))
         Next
 
@@ -73,11 +87,15 @@ Public Module Report
         For i As Integer = 0 To times.Count - 1
             sb.Append(times(i).ToString("F4"))
 
-            For Each name In names
+            For Each name As String In names
                 Dim v As Double = 0.0
 
-                If series(i) IsNot Nothing Then
+                If i < series.Count AndAlso series(i) IsNot Nothing Then
                     series(i).TryGetValue(name, v)
+                End If
+
+                If Double.IsNaN(v) OrElse Double.IsInfinity(v) Then
+                    v = 0.0
                 End If
 
                 sb.Append("," & v.ToString("F6"))
@@ -86,8 +104,85 @@ Public Module Report
             sb.AppendLine()
         Next
 
-        Call System.IO.File.WriteAllText(path, sb.ToString(), Encoding.UTF8)
-    End Sub
+        Return sb.ToString()
+    End Function
+
+    ''' <summary>径向分带的细胞类型组成</summary>
+    Public Function RadialBandCsv(samples As IEnumerable(Of RadialSample)) As String
+        Dim sb As New StringBuilder()
+
+        sb.AppendLine("time,band,band_label,fate,cell_count")
+
+        For Each s In samples.SafeQuery
+            sb.Append(s.time.ToString("F2")).Append(",")
+            sb.Append(s.band).Append(",")
+            sb.Append(s.band_label).Append(",")
+            sb.Append(s.fate).Append(",")
+            sb.AppendLine(s.count)
+        Next
+
+        Return sb.ToString()
+    End Function
+
+    ''' <summary>细胞命运转换事件</summary>
+    Public Function FateSwitchCsv(records As IEnumerable(Of FateSwitchRecord)) As String
+        Dim sb As New StringBuilder()
+
+        sb.AppendLine("time,cell_id,from_fate,to_fate,generation,radial_position,local_density,induction,inhibition")
+
+        For Each r In records.SafeQuery
+            sb.Append(r.time.ToString("F2")).Append(",")
+            sb.Append(r.cell_id).Append(",")
+            sb.Append(r.from_fate).Append(",")
+            sb.Append(r.to_fate).Append(",")
+            sb.Append(r.generation).Append(",")
+            sb.Append(r.radial_position.ToString("F4")).Append(",")
+            sb.Append(r.local_density.ToString("F4")).Append(",")
+            sb.Append(r.induction.ToString("F4")).Append(",")
+            sb.AppendLine(r.inhibition.ToString("F4"))
+        Next
+
+        Return sb.ToString()
+    End Function
+
+    ''' <summary>位置校正（细胞插入）事件</summary>
+    Public Function SortingCsv(records As IEnumerable(Of SortingRecord)) As String
+        Dim sb As New StringBuilder()
+
+        sb.AppendLine("time,cell_id,fate,from_radius,to_radius,from_x,from_y,from_z,to_x,to_y,to_z")
+
+        For Each r In records.SafeQuery
+            sb.Append(r.time.ToString("F2")).Append(",")
+            sb.Append(r.cell_id).Append(",")
+            sb.Append(r.fate).Append(",")
+            sb.Append(r.from_radius.ToString("F4")).Append(",")
+            sb.Append(r.to_radius.ToString("F4")).Append(",")
+            sb.Append(r.from_x).Append(",").Append(r.from_y).Append(",").Append(r.from_z).Append(",")
+            sb.Append(r.to_x).Append(",").Append(r.to_y).Append(",")
+            sb.AppendLine(r.to_z)
+        Next
+
+        Return sb.ToString()
+    End Function
+
+    ''' <summary>取细胞最多的 z 层，用于切片渲染</summary>
+    Public Function CenterSlice(env As Cella.Environment) As Integer
+        If env Is Nothing OrElse env.Space Is Nothing OrElse env.Space.Length = 0 Then
+            Return 0
+        End If
+
+        Dim best As Integer = 0
+        Dim bestCount As Integer = -1
+
+        For Each spot As Cella.Spot In env.GetAllSpots()
+            If spot.cells.Count > bestCount Then
+                bestCount = spot.cells.Count
+                best = spot.index.Z
+            End If
+        Next
+
+        Return best
+    End Function
 
     ''' <summary>
     ''' 导出一张通用的二维表

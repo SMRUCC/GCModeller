@@ -45,6 +45,8 @@ Public Class GeneRegulatoryNetwork : Inherits SubNetwork
     ReadOnly tfSignalLink As Couple()
     ''' <summary>代谢物效应物索引 → 受其调控的转录因子基因索引</summary>
     ReadOnly effectorLink As Couple()
+    ReadOnly nicheLink As CoupleWeight()
+    ReadOnly signalGeneLink As CoupleWeight()
 
     ReadOnly relaxationTau As Double
 
@@ -65,6 +67,12 @@ Public Class GeneRegulatoryNetwork : Inherits SubNetwork
     Private Structure Couple
         Public src As Integer
         Public dst As Integer
+    End Structure
+
+    Private Structure CoupleWeight
+        Public src As Integer
+        Public dst As Integer
+        Public weight As Double
     End Structure
 
     Sub New(cell As VirtualCella, blueprint As CellaBlueprint, Optional gearsModel As GEARS = Nothing)
@@ -95,9 +103,67 @@ Public Class GeneRegulatoryNetwork : Inherits SubNetwork
             blueprint.Gears = _gears
         End If
 
+        nicheLink = BuildNicheLink(blueprint)
+        signalGeneLink = BuildSignalGeneLink(blueprint)
         tfSignalLink = BuildTfSignalLink(blueprint)
         effectorLink = BuildEffectorLink(blueprint)
     End Sub
+
+    ''' <summary>信号通道 → 靶基因（生长因子通路的直接转录响应）</summary>
+    Private Function BuildSignalGeneLink(blueprint As CellaBlueprint) As CoupleWeight()
+        Dim state As CellularState = cell.State
+        Dim links As New List(Of CoupleWeight)
+
+        For Each channel In blueprint.SignalGeneCoupling.SafeQuery
+            Dim signalIdx As Integer = -1
+
+            If Not state.SignalIndex.TryGetValue(channel.Key, signalIdx) Then
+                Continue For
+            End If
+
+            For Each gene In channel.Value.SafeQuery
+                Dim geneIdx As Integer = -1
+
+                If state.GeneIndex.TryGetValue(gene.Key, geneIdx) Then
+                    links.Add(New CoupleWeight With {
+                        .src = signalIdx,
+                        .dst = geneIdx,
+                        .weight = gene.Value
+                    })
+                End If
+            Next
+        Next
+
+        Return links.ToArray()
+    End Function
+
+    ''' <summary>生态位通道 × 基因 ← 权重（把空间/群体信号变成转录设定点的调制量）</summary>
+    Private Function BuildNicheLink(blueprint As CellaBlueprint) As CoupleWeight()
+        Dim state As CellularState = cell.State
+        Dim links As New List(Of CoupleWeight)
+
+        For Each channel In blueprint.NicheGeneCoupling.SafeQuery
+            Dim nicheIdx As Integer = -1
+
+            If Not state.NicheIndex.TryGetValue(channel.Key, nicheIdx) Then
+                Continue For
+            End If
+
+            For Each gene In channel.Value.SafeQuery
+                Dim geneIdx As Integer = -1
+
+                If state.GeneIndex.TryGetValue(gene.Key, geneIdx) Then
+                    links.Add(New CoupleWeight With {
+                        .src = nicheIdx,
+                        .dst = geneIdx,
+                        .weight = gene.Value
+                    })
+                End If
+            Next
+        Next
+
+        Return links.ToArray()
+    End Function
 
     ''' <summary>TF 基因 ← 信号通道</summary>
     Private Function BuildTfSignalLink(blueprint As CellaBlueprint) As Couple()
@@ -199,6 +265,22 @@ Public Class GeneRegulatoryNetwork : Inherits SubNetwork
             flag(link.dst) = System.Math.Max(flag(link.dst), System.Math.Min(1.0, System.Math.Abs(z) / 2.0))
         Next
 
+        ' ---- 2.5 生长因子通路 → 靶基因 ----
+        For Each link As CoupleWeight In signalGeneLink
+            Dim activity As Double = Clamp(signal(link.src), 0.0, 1.0)
+            Dim z As Double = (activity - 0.5) * 4.0 * link.weight
+            Dim sum As Double = xNorm(link.dst) + z
+
+            If sum > 4.0 Then
+                sum = 4.0
+            ElseIf sum < -4.0 Then
+                sum = -4.0
+            End If
+
+            xNorm(link.dst) = sum
+            flag(link.dst) = System.Math.Max(flag(link.dst), System.Math.Min(1.0, System.Math.Abs(z) / 2.0))
+        Next
+
         ' ---- 3. 代谢物效应物 → 转录因子活性 ----
         For Each link As Couple In effectorLink
             Dim level As Double = metabolite(link.src)
@@ -225,6 +307,23 @@ Public Class GeneRegulatoryNetwork : Inherits SubNetwork
             Return
         End If
 
+        ' ---- 4.5 生态位调制：空间位置 / 群体接触强度按权重平移表达设定点 ----
+        Dim nicheGain As Double() = New Double(n - 1) {}
+
+        If nicheLink.Length > 0 Then
+            Dim niche As Double() = state.Niche
+
+            For Each link As CoupleWeight In nicheLink
+                Dim reading As Double = niche(link.src) - 0.5
+
+                If reading = 0 Then
+                    Continue For
+                End If
+
+                nicheGain(link.dst) += link.weight * reading
+            Next
+        End If
+
         Dim alpha As Double = 1.0 - System.Math.Exp(-dt / System.Math.Max(relaxationTau, 0.000001))
         Dim clipped As Boolean = False
 
@@ -245,6 +344,13 @@ Public Class GeneRegulatoryNetwork : Inherits SubNetwork
             ' 野生型基线为锚点，而不是在当前值上继续累加 —— 后者会让闭环仿真
             ' 单调漂移（实测会一路衰减到 0）。这里让 mRNA 松弛到预测目标。
             Dim target As Double = wildtypeMean(i) + delta
+
+            If nicheGain(i) <> 0.0 Then
+                ' 生态位增益限制在 [0.1, 3]，避免破坏闭环稳定性
+                Dim gain As Double = Clamp(1.0 + nicheGain(i), 0.1, 3.0)
+
+                target *= gain
+            End If
 
             If target < 0.0 Then
                 target = 0.0

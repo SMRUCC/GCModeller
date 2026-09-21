@@ -124,7 +124,8 @@ Public Module CellaFactory
                 genes:=genes,
                 metabolites:=graph.InternalIds,
                 boundaryMetabolites:=graph.BoundaryIds,
-                signals:=blueprint.GetSignalChannels()
+                signals:=blueprint.GetSignalChannels(),
+                nicheChannels:=blueprint.GetNicheChannels()
             )
         }
 
@@ -153,16 +154,122 @@ Public Module CellaFactory
             state.Signal(i) = 0.5
         Next
 
-        ' ---- 子网络 ----
+        Call AttachSubNetworks(cella, initialMetabolite)
+
+        Return cella
+    End Function
+
+    ''' <summary>
+    ''' 按细胞当前的蓝图装配（或重建）六个子网络
+    ''' </summary>
+    ''' <remarks>
+    ''' 蓝图切换（细胞分化）与常规构建共用这一段逻辑，保证两条路径完全一致。
+    ''' </remarks>
+    Public Sub AttachSubNetworks(cella As VirtualCella, Optional initialMetabolite As Double() = Nothing)
+        Dim blueprint As CellaBlueprint = cella.Blueprint
+        Dim graph As MetabolicNetworkGraph = GetMetabolicGraph(blueprint)
+
         cella.signaling = New SignalTransductionNetwork(cella, blueprint)
         cella.grn = New GeneRegulatoryNetwork(cella, blueprint, blueprint.Gears)
         cella.translation = New TranslationSystem(cella, blueprint)
         cella.transportation = New TransportSystem(cella, blueprint)
         cella.metabolic = New MetabolicNetwork(graph, cella, blueprint, blueprint.MetabolicTemplate, initialMetabolite)
         cella.turnover = New TurnoverSystem(cella, blueprint)
+    End Sub
 
-        Return cella
-    End Function
+    ' ==================== 细胞分化 ====================
+
+    ''' <summary>
+    ''' 把细胞切换到新的命运（换蓝图并重建子网络）
+    ''' </summary>
+    ''' <param name="fate">目标命运</param>
+    ''' <param name="biomassRetention">分化后代谢代价：保留的生物量比例</param>
+    ''' <remarks>
+    ''' 状态继承策略：
+    '''   * 转录程序**重置**到新命运的基线表达 —— 分化首先是转录组的重编程；
+    '''   * 蛋白 / 代谢物 / 边界浓度 / 信号活性 / 回收池**按名称继承**，
+    '''     所以细胞不会因为换了编程而瞬间失去物质基础；
+    '''   * 未在新命运里出现的名称直接丢弃（例如被关闭通路的中间产物）。
+    ''' </remarks>
+    Public Sub DifferentiateTo(cella As VirtualCella,
+                               fate As CellFateDefinition,
+                               Optional biomassRetention As Double = 0.7)
+
+        If cella Is Nothing OrElse fate Is Nothing OrElse fate.Blueprint Is Nothing Then
+            Return
+        End If
+
+        Dim oldState As CellularState = cella.State
+        Dim blueprint As CellaBlueprint = fate.Blueprint
+        Dim graph As MetabolicNetworkGraph = GetMetabolicGraph(blueprint)
+        Dim genes As String() = blueprint.Genes
+
+        Dim newState As New CellularState(
+            genes:=genes,
+            metabolites:=graph.InternalIds,
+            boundaryMetabolites:=graph.BoundaryIds,
+            signals:=blueprint.GetSignalChannels(),
+            nicheChannels:=blueprint.GetNicheChannels()
+        )
+
+        ' ---- 转录程序重编程：新命运的基线表达 ----
+        If blueprint.Expression IsNot Nothing Then
+            For i As Integer = 0 To genes.Length - 1
+                newState.mRNA(i) = RowMean(blueprint.Expression, i)
+            Next
+        End If
+
+        ' ---- 物质型状态按名称继承 ----
+        Call CopyByName(oldState.Protein, oldState.GeneIndex, newState.Protein, newState.GeneIndex, 1.0)
+        Call CopyByName(oldState.Metabolite, oldState.MetaboliteIndex, newState.Metabolite, newState.MetaboliteIndex, 1.0)
+        Call CopyByName(oldState.Boundary, oldState.BoundaryIndex, newState.Boundary, newState.BoundaryIndex, 1.0)
+        Call CopyByName(oldState.Signal, oldState.SignalIndex, newState.Signal, newState.SignalIndex, 1.0)
+
+        newState.RecyclePool = oldState.RecyclePool
+        newState.CyclePhase = oldState.CyclePhase
+
+        ' ---- 未继承到的信号通道给中性值 ----
+        For i As Integer = 0 To newState.Signal.Length - 1
+            If newState.Signal(i) <= 0 Then
+                newState.Signal(i) = 0.5
+            End If
+        Next
+
+        ' ---- 蛋白质补足：没有继承到的新基因按准稳态估计 ----
+        For i As Integer = 0 To genes.Length - 1
+            If newState.Protein(i) > 0 Then
+                Continue For
+            End If
+
+            Dim decay As Double = blueprint.ProteinDegradationOf(genes(i)) + blueprint.DilutionRate
+
+            If decay > 0 Then
+                newState.Protein(i) = blueprint.TranslationRateOf(genes(i)) * newState.mRNA(i) / decay
+            End If
+        Next
+
+        cella.State = newState
+        cella.Blueprint = blueprint
+        cella.Species = fate.Id
+        cella.Biomass *= System.Math.Max(0.0, System.Math.Min(1.0, biomassRetention))
+
+        Call AttachSubNetworks(cella)
+        Call cella.ResyncSubNetworks()
+    End Sub
+
+    ''' <summary>把源状态池中同名条目的值搬运到目标状态池</summary>
+    Private Sub CopyByName(src As Double(), srcIndex As Dictionary(Of String, Integer),
+                                  dst As Double(), dstIndex As Dictionary(Of String, Integer),
+                                  scale As Double)
+
+        For Each item In dstIndex
+            Dim i As Integer = -1
+
+            If srcIndex.TryGetValue(item.Key, i) AndAlso i >= 0 AndAlso i < src.Length Then
+                dst(item.Value) = src(i) * scale
+            End If
+        Next
+    End Sub
 
     ' ==================== 标识与播种 ====================
 

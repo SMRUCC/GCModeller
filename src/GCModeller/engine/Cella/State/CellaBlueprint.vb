@@ -90,6 +90,57 @@ Public Class CellaBlueprint
     ''' <summary>信号通道 → 触发它的环境代谢物 id（环境刺激）</summary>
     Public Property ExternalStimuli As Dictionary(Of String, String)
 
+    ''' <summary>
+    ''' 信号通道 → { 靶基因 id → 权重 }。
+    ''' 语义：外源生长因子通路的活性直接改写靶基因的输入 z 值与扰动标记，
+    ''' 使 GEARS 能预报「生长因子 → 转录响应」；权重用于区分直接靶点与弱响应基因。
+    ''' </summary>
+    Public Property SignalGeneCoupling As Dictionary(Of String, Dictionary(Of String, Double))
+
+    ' ==================== 生态位 / 分化 ====================
+
+    ''' <summary>
+    ''' 生态位信号通道名；为 Nothing 时使用 <see cref="DifferentiationSystem.StandardNicheChannels"/>
+    ''' </summary>
+    Public Property NicheChannels As String()
+
+    ''' <summary>
+    ''' 生态位 → 基因表达的调制表：生态位通道 → {基因 id → 权重}。
+    ''' 语义：<c>target_gene *= 1 + Σ_c w(c,gene) · (niche(c) − 0.5)</c>，
+    ''' 即生态位读数高于 / 低于中性值 0.5 时把该基因的表达设定点整体上移 / 下移。
+    ''' </summary>
+    Public Property NicheGeneCoupling As Dictionary(Of String, Dictionary(Of String, Double))
+
+    ''' <summary>该细胞命运偏好的归一化径向位置（0 = 核心，1 = 表层）；负数表示不偏好</summary>
+    Public Property PreferredRadius As Double = -1.0
+
+    ''' <summary>可容忍的径向偏离（超出即触发位置校正重排）</summary>
+    Public Property RadialTolerance As Double = 0.28
+
+    ''' <summary>该命运允许的位置校正重排速率（每步概率，0 = 完全不动）</summary>
+    Public Property RadialSortingRate As Double = 0.0
+
+    ''' <summary>
+    ''' 子代是否向外扩散。True 时若亲代所在格点已满，子代被放到还有空位的相邻格点，
+    ''' 类器官/菌落得以向外生长；False 时子代必须与亲代同格点，格点填满即停止增殖。
+    ''' </summary>
+    Public Property DaughterDispersal As Boolean = False
+
+    ''' <summary>显示名称（用于报告）</summary>
+    Public Property DisplayName As String
+
+    ''' <summary>该命运的分子标志基因</summary>
+    Public Property Markers As String()
+
+    ''' <summary>生态位信号通道列表</summary>
+    Public Function GetNicheChannels() As String()
+        If Not NicheChannels.IsNullOrEmpty Then
+            Return NicheChannels
+        End If
+
+        Return DifferentiationSystem.StandardNicheChannels
+    End Function
+
     ' ==================== 动力学参数 ====================
 
     ''' <summary>仿真时间步长</summary>
