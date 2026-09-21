@@ -94,8 +94,8 @@ Public Class TurnoverSystem : Inherits OdeSubNetwork
 
     Protected Overrides Sub Jacobian(t As Double, y As NVector, fy As NVector, J As DenseMatrix)
         For i As Integer = 0 To n - 1
-            For j As Integer = 0 To n - 1
-                J(i, j) = 0.0
+            For col As Integer = 0 To n - 1
+                J(i, col) = 0.0
             Next
         Next
 
