@@ -78,6 +78,18 @@ Public MustInherit Class OdeSubNetwork : Inherits SubNetwork
         ' 默认实现留空：不使用解析雅可比时不要调用 SetJacobianFunction
     End Sub
 
+    ''' <summary>
+    ''' 由 <see cref="CellularState"/> 重建本 ODE 的状态向量（子类必须实现）
+    ''' </summary>
+    Protected MustOverride Function VectorFromState() As Double()
+
+    ''' <summary>
+    ''' 重新对齐状态池：用于二分裂子代继承状态之后的重新起算
+    ''' </summary>
+    Public Overrides Sub Resync()
+        Call ResetState(VectorFromState())
+    End Sub
+
     ' ==================== 生命周期 ====================
 
     ''' <summary>

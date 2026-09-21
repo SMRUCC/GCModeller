@@ -36,7 +36,7 @@ Public Module SpaceInitializer
     Public Function CreateCylinderSpace(radius As Integer, height As Integer,
                                         Optional medium As Dictionary(Of String, Double) = Nothing,
                                         Optional timeStep As Double = 1.0) As Environment
-        Dim env As Environment = NewEnvironment(timeStep)
+        Dim env As Environment = NewEnvironment(medium, timeStep)
         Dim sizeXY As Integer = 2 * radius + 1 ' 确保圆心在正中心，奇数边长
 
         ' 初始化3D交错数组边界框
@@ -76,7 +76,7 @@ Public Module SpaceInitializer
                                      coneHeight As Integer, neckHeight As Integer,
                                      Optional medium As Dictionary(Of String, Double) = Nothing,
                                      Optional timeStep As Double = 1.0) As Environment
-        Dim env As Environment = NewEnvironment(timeStep)
+        Dim env As Environment = NewEnvironment(medium, timeStep)
         Dim totalHeight As Integer = coneHeight + neckHeight
         Dim sizeXY As Integer = 2 * bottomRadius + 1
 
@@ -124,7 +124,7 @@ Public Module SpaceInitializer
     Public Function CreateCuboidSpace(width As Integer, depth As Integer, height As Integer,
                                       Optional medium As Dictionary(Of String, Double) = Nothing,
                                       Optional timeStep As Double = 1.0) As Environment
-        Dim env As Environment = NewEnvironment(timeStep)
+        Dim env As Environment = NewEnvironment(medium, timeStep)
 
         env.Space = New Spot(width - 1)()() {}
 
@@ -155,10 +155,17 @@ Public Module SpaceInitializer
         Return medium
     End Function
 
-    Private Function NewEnvironment(timeStep As Double) As Environment
-        Return New Environment() With {
+    Private Function NewEnvironment(medium As Dictionary(Of String, Double), timeStep As Double) As Environment
+        Dim env As New Environment() With {
             .TimeStep = If(timeStep > 0, timeStep, 1.0)
         }
+
+        If medium IsNot Nothing Then
+            ' 记录培养基模板：贴壁补料按此模板回补
+            env.MediumTemplate = New Dictionary(Of String, Double)(medium, StringComparer.OrdinalIgnoreCase)
+        End If
+
+        Return env
     End Function
 
     ''' <summary>

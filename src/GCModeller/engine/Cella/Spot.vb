@@ -45,6 +45,53 @@ Public Class Spot
         End Get
     End Property
 
+    ''' <summary>该格点上的细胞数量</summary>
+    Public ReadOnly Property CellCount As Integer
+        Get
+            Return cells.Count
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 该格点的营养指标：按蓝图指定的营养代谢物（未指定时取培养基全部成分）求和
+    ''' </summary>
+    Public Function NutrientLevel(blueprint As CellaBlueprint) As Double
+        If Medium Is Nothing OrElse Medium.Count = 0 Then
+            Return 0.0
+        End If
+
+        Dim sum As Double = 0.0
+
+        For Each item In Medium
+            If blueprint Is Nothing OrElse blueprint.IsNutrient(item.Key) Then
+                Dim v As Double = item.Value
+
+                If v > 0 AndAlso Not Double.IsNaN(v) AndAlso Not Double.IsInfinity(v) Then
+                    sum += v
+                End If
+            End If
+        Next
+
+        Return sum
+    End Function
+
+    ''' <summary>按物种统计该格点内的细胞数</summary>
+    Public Function PopulationBySpecies() As Dictionary(Of String, Integer)
+        Dim out As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+        For Each cella As VirtualCella In cells
+            Dim key As String = If(cella.Species, "(unknown)")
+
+            If out.ContainsKey(key) Then
+                out(key) += 1
+            Else
+                out(key) = 1
+            End If
+        Next
+
+        Return out
+    End Function
+
     Public Overrides Function ToString() As String
         Return $"({index.X},{index.Y},{index.Z}) with {cells.Count} cells"
     End Function

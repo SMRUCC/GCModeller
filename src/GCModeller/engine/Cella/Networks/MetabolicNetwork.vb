@@ -265,6 +265,27 @@ Public Class MetabolicNetwork : Inherits SubNetwork
         Call Refresh()
     End Sub
 
+    ''' <summary>
+    ''' 重新对齐隐藏状态：用于二分裂子代继承亲代浓度之后的重新起算
+    ''' </summary>
+    Public Overrides Sub Resync()
+        Dim m As Integer = Graph.MetaboliteCount
+        Dim h As Tensor = New Tensor(m)
+        Dim source As Double() = cell.State.Metabolite
+
+        For i As Integer = 0 To m - 1
+            Dim slot As Integer = metaboliteSlot(i)
+
+            If slot >= 0 AndAlso slot < source.Length Then
+                h(i) = source(slot)
+            End If
+        Next
+
+        Call Model.Liquid.ResetState()
+        Call Model.Liquid.LiquidLayer.Cells(0).SetState(h)
+        Call Refresh()
+    End Sub
+
     ''' <summary>把液态网络的当前状态读回状态池与统计量</summary>
     Private Sub Refresh()
         Dim liquidCell As LiquidCell = Model.Liquid.LiquidLayer.Cells(0)

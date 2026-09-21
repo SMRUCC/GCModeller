@@ -96,6 +96,17 @@ Public MustInherit Class SubNetwork
     ''' </summary>
     Public MustOverride Function GetStats() As Dictionary(Of String, Double)
 
+    ''' <summary>
+    ''' 让本子系统的内部状态重新对齐 <see cref="CellularState"/>
+    ''' </summary>
+    ''' <remarks>
+    ''' 只在细胞状态被外部整体改写之后调用：二分裂产生的子代继承了亲代的一半
+    ''' 状态，需要让各子网络的积分器从新的状态重新起算。默认无内部状态需要同步。
+    ''' </remarks>
+    Public Overridable Sub Resync()
+        ' 默认实现：本子系统不持有跨步的内部状态
+    End Sub
+
     Protected Sub CountFailure()
         failedStepsCounter += 1
     End Sub

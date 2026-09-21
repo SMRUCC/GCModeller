@@ -151,6 +151,80 @@ Public Class CellaBlueprint
     ''' <summary>细胞周期相位推进速率</summary>
     Public Property CycleAngularVelocity As Double = 0.25
 
+    ' ==================== 细胞生命周期参数 ====================
+
+    ''' <summary>物种 / 细胞类型标识（用于种群统计与交叉喂养归因）</summary>
+    Public Property SpeciesName As String
+
+    ''' <summary>触发二分裂所需的生物量阈值</summary>
+    Public Property DivisionBiomassThreshold As Double = 2.0
+
+    ''' <summary>单位「平均比通量」贡献的生物量系数</summary>
+    Public Property BiomassYieldPerFlux As Double = 0.02
+
+    ''' <summary>单位「平均蛋白水平」贡献的生物量系数</summary>
+    Public Property BiomassYieldPerProtein As Double = 0.01
+
+    ''' <summary>分裂所需的最小年龄（避免刚出生就分裂）</summary>
+    Public Property MinDivisionAge As Double = 3.0
+
+    ''' <summary>子代继承亲代各状态池的比例（0.5 即各得一半）</summary>
+    Public Property DaughterStateFraction As Double = 0.5
+
+    ''' <summary>最大寿命；超过即老化死亡</summary>
+    Public Property MaxCellAge As Double = 200.0
+
+    ''' <summary>判定为「饥饿」的营养指标阈值</summary>
+    Public Property StarvationThreshold As Double = 0.05
+
+    ''' <summary>连续饥饿多少个时间步之后死亡</summary>
+    Public Property StarvationDeathTicks As Integer = 25
+
+    ''' <summary>单个 Spot 的承载上限（达到上限时分裂被抑制）</summary>
+    Public Property MaxCellsPerSpot As Integer = 8
+
+    ' ==================== 鞭毛运动参数 ====================
+
+    ''' <summary>鞭毛结构蛋白基因 id（决定运动能力）</summary>
+    Public Property FlagellarGenes As String()
+
+    ''' <summary>趋化受体基因 id（决定营养梯度偏置的强度）</summary>
+    Public Property ChemotaxisGenes As String()
+
+    ''' <summary>每个时间步的基础迁移概率（乘以运动能力之后生效）</summary>
+    Public Property MotilityBaseProbability As Double = 0.15
+
+    ''' <summary>营养梯度偏置强度（叠加在随机游走之上）</summary>
+    Public Property MotilityGradientBias As Double = 1.5
+
+    ''' <summary>营养梯度归一化尺度</summary>
+    Public Property MotilityGradientScale As Double = 1.0
+
+    ''' <summary>运动能力参考蛋白水平：motility = p / (p + reference) ∈ [0,1]</summary>
+    Public Property MotilityReference As Double = 1.0
+
+    ''' <summary>
+    ''' 用于计算 Spot 营养指标的代谢物 id 集合；为 Nothing 时取该 Spot 培养基全部键之和
+    ''' </summary>
+    Public Property NutrientMetabolites As String()
+
+    ' ==================== 环境扩散参数 ====================
+
+    ''' <summary>Spot 之间的 Fickian 扩散系数（0 = 不扩散）</summary>
+    Public Property DiffusionCoefficient As Double = 0.05
+
+    ''' <summary>按代谢物覆盖的扩散系数（未登记者用 <see cref="DiffusionCoefficient"/>）</summary>
+    Public Property DiffusionByMetabolite As Dictionary(Of String, Double)
+
+    ''' <summary>贴壁格点的补料速率（0 = 不补料），模拟恒化器 / 补料发酵</summary>
+    Public Property BoundaryFeedRate As Double = 0.0
+
+    ''' <summary>参与补料的代谢物 id 集合</summary>
+    Public Property BoundaryFeedMetabolites As String()
+
+    ''' <summary>补料将浓度拉回的增量比例（按营养指标的相对缺口计算）</summary>
+    Public Property BoundaryFeedLevel As Double = 1.0
+
     ' ==================== 派生属性 ====================
 
     ''' <summary>基因列表（取自基线表达矩阵的行名）</summary>
@@ -259,6 +333,69 @@ Public Class CellaBlueprint
         End If
 
         Return Nothing
+    End Function
+
+    ' ==================== 生命周期 / 运动 / 扩散 查询 ====================
+
+    ''' <summary>某个胞外代谢物的扩散系数（可被 <see cref="DiffusionByMetabolite"/> 覆盖）</summary>
+    Public Function DiffusionOf(metabolite As String) As Double
+        If DiffusionByMetabolite Is Nothing Then
+            Return DiffusionCoefficient
+        End If
+
+        Dim d As Double = DiffusionCoefficient
+
+        If DiffusionByMetabolite.TryGetValue(metabolite, d) Then
+            Return d
+        End If
+
+        Return DiffusionCoefficient
+    End Function
+
+    ''' <summary>该代谢物是否参与 Spot 营养指标的计算</summary>
+    Public Function IsNutrient(metabolite As String) As Boolean
+        If NutrientMetabolites.IsNullOrEmpty Then
+            ' 未指定时，培养基里的所有成分都算营养
+            Return True
+        End If
+
+        Return NutrientMetabolites.Contains(metabolite, StringComparer.OrdinalIgnoreCase)
+    End Function
+
+    ''' <summary>该代谢物是否参与贴壁格点的补料</summary>
+    Public Function IsFeedComponent(metabolite As String) As Boolean
+        If BoundaryFeedRate <= 0 OrElse BoundaryFeedMetabolites.IsNullOrEmpty Then
+            Return False
+        End If
+
+        Return BoundaryFeedMetabolites.Contains(metabolite, StringComparer.OrdinalIgnoreCase)
+    End Function
+
+    ''' <summary>
+    ''' 一组基因的平均蛋白水平（鞭毛 / 趋化能力的度量）
+    ''' </summary>
+    Public Shared Function MeanProteinOf(state As CellularState, genes As String()) As Double
+        If state Is Nothing OrElse genes.IsNullOrEmpty Then
+            Return 0.0
+        End If
+
+        Dim sum As Double = 0.0
+        Dim hits As Integer = 0
+
+        For Each gene As String In genes
+            Dim idx As Integer = -1
+
+            If state.GeneIndex.TryGetValue(gene, idx) Then
+                sum += state.Protein(idx)
+                hits += 1
+            End If
+        Next
+
+        If hits = 0 Then
+            Return 0.0
+        End If
+
+        Return sum / hits
     End Function
 
     ''' <summary>

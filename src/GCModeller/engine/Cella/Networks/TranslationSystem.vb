@@ -43,6 +43,14 @@ Public Class TranslationSystem : Inherits OdeSubNetwork
         Call InitializeFrom(cell.State.Protein)
     End Sub
 
+    Protected Overrides Function VectorFromState() As Double()
+        Dim v As Double() = New Double(n - 1) {}
+
+        Call Array.Copy(cell.State.Protein, v, n)
+
+        Return v
+    End Function
+
     Protected Overrides Sub RHS(t As Double, y As NVector, ydot As NVector)
         For i As Integer = 0 To n - 1
             ydot(i) = translationRate(i) * mrnaInput(i) - decayRate(i) * y(i)

@@ -54,6 +54,46 @@ Public Class VirtualCella
 
     Private _elapsed As Double = 0.0
 
+    ' ==================== 生命周期元数据 ====================
+
+    ''' <summary>细胞类型 / 物种标识（通常取自 <see cref="CellaBlueprint.SpeciesName"/>）</summary>
+    Public Property Species As String
+
+    ''' <summary>亲代细胞 id；初始接种的细胞为 Nothing</summary>
+    Public Property ParentId As String
+
+    ''' <summary>代数：初始接种的细胞为第 0 代</summary>
+    Public Property Generation As Integer = 0
+
+    ''' <summary>出生时间（环境时钟）</summary>
+    Public Property BirthTime As Double = 0.0
+
+    ''' <summary>死亡时间（环境时钟）；未死亡为 Nothing</summary>
+    Public Property DeathTime As Double?
+    ''' <summary>死亡原因；未死亡为 Nothing</summary>
+    Public Property DeathCause As String
+
+    ''' <summary>当前生物量；达到分裂阈值即二分裂</summary>
+    Public Property Biomass As Double = 0.0
+
+    ''' <summary>已存活时间</summary>
+    Public Property Age As Double = 0.0
+
+    ''' <summary>是否存活</summary>
+    Public Property IsAlive As Boolean = True
+
+    ''' <summary>连续处于饥饿状态的步数</summary>
+    Public Property StarvedTicks As Integer = 0
+
+    ''' <summary>该细胞产生的子代数量</summary>
+    Public ReadOnly Property Offspring As Integer
+        Get
+            Return offspringCounter
+        End Get
+    End Property
+
+    Friend offspringCounter As Integer = 0
+
     Sub New()
     End Sub
 
@@ -88,7 +128,70 @@ Public Class VirtualCella
         Call State.Sanitize()
 
         _elapsed += dt
+        Age += dt
+
+        ' 生物量累积：以「平均比通量」作为能量代理，叠加「平均蛋白水平」作为结构代理。
+        ' 分裂阈值与死亡判定都交给 Lifecycle 模块，这里只负责累积。
+        Me.Biomass += GrowthRatePerTick() * dt
     End Sub
+
+    ''' <summary>
+    ''' 单位时间新增的生物量
+    ''' </summary>
+    Public Function GrowthRatePerTick() As Double
+        If Blueprint Is Nothing Then
+            Return 0.0
+        End If
+
+        Dim fluxTerm As Double = 0.0
+
+        If metabolic IsNot Nothing AndAlso metabolic.Fluxes IsNot Nothing AndAlso metabolic.Fluxes.Length > 0 Then
+            Dim sum As Double = 0.0
+
+            For Each v As Double In metabolic.Fluxes
+                sum += System.Math.Abs(v)
+            Next
+
+            fluxTerm = sum / metabolic.Fluxes.Length
+        End If
+
+        Dim proteinTerm As Double = 0.0
+
+        If State IsNot Nothing AndAlso State.NGene > 0 Then
+            Dim sum As Double = 0.0
+
+            For Each p As Double In State.Protein
+                sum += p
+            Next
+
+            proteinTerm = sum / State.NGene
+        End If
+
+        Return Blueprint.BiomassYieldPerFlux * fluxTerm + Blueprint.BiomassYieldPerProtein * proteinTerm
+    End Function
+
+    ''' <summary>
+    ''' 是否满足二分裂条件（生物量阈值 + 最小年龄 + 格点承载上限）
+    ''' </summary>
+    Public Function CanDivide() As Boolean
+        If Not IsAlive OrElse Blueprint Is Nothing Then
+            Return False
+        End If
+
+        If Biomass < Blueprint.DivisionBiomassThreshold Then
+            Return False
+        End If
+
+        If Age < Blueprint.MinDivisionAge Then
+            Return False
+        End If
+
+        If Spot IsNot Nothing AndAlso Spot.cells.Count >= Blueprint.MaxCellsPerSpot Then
+            Return False
+        End If
+
+        Return True
+    End Function
 
     ''' <summary>
     ''' 导出细胞快照
@@ -96,19 +199,41 @@ Public Class VirtualCella
     Public Function Snapshot() As CellSnapshot
         Dim snap As New CellSnapshot With {
             .cell_id = Id,
+            .parent_id = ParentId,
             .taxonomy = If(taxonomy_info Is Nothing, Nothing, taxonomy_info.ToString()),
-            .is_alive = True,
+            .species = Species,
+            .generation = Generation,
+            .biomass = Biomass,
+            .age = Age,
+            .is_alive = IsAlive,
             .rna = State.AsDictionary(StatePool.mRNA),
             .protein = State.AsDictionary(StatePool.Protein),
             .metabolite = State.AsDictionary(StatePool.Metabolite)
         }
 
         If Spot IsNot Nothing Then
-            snap.parent_id = $"{Spot.index.X},{Spot.index.Y},{Spot.index.Z}"
+            snap.x = Spot.index.X
+            snap.y = Spot.index.Y
+            snap.z = Spot.index.Z
         End If
 
         Return snap
     End Function
+
+    ''' <summary>
+    ''' 让所有子网络的内部积分器重新对齐 <see cref="State"/>
+    ''' </summary>
+    ''' <remarks>
+    ''' 二分裂产生的子代直接继承了亲代的一半状态，如果不同步，子网络的内部
+    ''' 积分器仍然停留在自己的历史状态上，会导致子代的第一步出现跳变。
+    ''' </remarks>
+    Public Sub ResyncSubNetworks()
+        For Each net As SubNetwork In SubNetworks()
+            If net IsNot Nothing Then
+                Call net.Resync()
+            End If
+        Next
+    End Sub
 
     ''' <summary>
     ''' 汇总所有子网络的统计量
@@ -128,6 +253,9 @@ Public Class VirtualCella
 
         stats("time") = _elapsed
         stats("cycle_phase") = If(State Is Nothing, 0.0, State.CyclePhase)
+        stats("biomass") = Biomass
+        stats("age") = Age
+        stats("generation") = Generation
 
         Return stats
     End Function

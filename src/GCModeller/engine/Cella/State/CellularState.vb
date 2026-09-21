@@ -222,6 +222,59 @@ Public Class CellularState
         Return out
     End Function
 
+    ' ---------------- 二分裂状态继承 ----------------
+
+    ''' <summary>
+    ''' 从亲代状态按 <paramref name="fraction"/> 继承物质型状态池，
+    ''' 浓度型 / 信号型状态池直接复制（它们是强度量，不随细胞体积分割）
+    ''' </summary>
+    ''' <remarks>
+    ''' 物质型：mRNA / Protein / Metabolite / RecyclePool —— 二分裂时各得一半；
+    ''' 强度型：Boundary / Signal / CyclePhase —— 直接复制，否则子代会瞬间
+    ''' 感受到一个完全不存在的环境突变。
+    ''' </remarks>
+    Public Sub CopyFrom(parent As CellularState, Optional fraction As Double = 0.5)
+        If parent Is Nothing Then
+            Throw New ArgumentNullException(NameOf(parent))
+        End If
+
+        If parent.NGene <> NGene OrElse parent.NMetabolite <> NMetabolite Then
+            Throw New InvalidOperationException(
+                $"状态池维度不匹配：亲代 genes={parent.NGene}/metabolites={parent.NMetabolite}，" &
+                $"子代 genes={NGene}/metabolites={NMetabolite}")
+        End If
+
+        Dim f As Double = System.Math.Min(1.0, System.Math.Max(0.0, fraction))
+
+        ScaleInto(parent.mRNA, mRNA, f)
+        ScaleInto(parent.Protein, Protein, f)
+        ScaleInto(parent.Metabolite, Metabolite, f)
+
+        RecyclePool = parent.RecyclePool * f
+
+        ' 强度量：直接复制（维度可能因物种不同而不同，按较小者复制）
+        CopyInto(parent.Boundary, Boundary)
+        CopyInto(parent.Signal, Signal)
+
+        CyclePhase = parent.CyclePhase
+    End Sub
+
+    Private Shared Sub ScaleInto(src As Double(), dst As Double(), factor As Double)
+        Dim len As Integer = System.Math.Min(src.Length, dst.Length)
+
+        For i As Integer = 0 To len - 1
+            dst(i) = src(i) * factor
+        Next
+    End Sub
+
+    Private Shared Sub CopyInto(src As Double(), dst As Double())
+        Dim len As Integer = System.Math.Min(src.Length, dst.Length)
+
+        For i As Integer = 0 To len - 1
+            dst(i) = src(i)
+        Next
+    End Sub
+
     ' ---------------- 数值安全 ----------------
 
     ''' <summary>

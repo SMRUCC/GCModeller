@@ -46,227 +46,237 @@ todos:
 
 ## 产品概述
 
-对 `engine/Cella/Cella.vbproj` 虚拟细胞引擎做整体重构：把 `Networks/` 下各子网络从当前未实现的空壳（动态贝叶斯网络 + 未赋值的 `SolverIterator`）替换为仓库中已有的真实计算组件，形成一个可实际推进时间步的虚拟细胞系统；细胞分布在 `Environment.vb` 提供的特定形状空间（培养皿 / 圆柱 / 锥形瓶 / 长方体）的 `Spot` 格点中。
+在已完成重构的 `engine/Cella` 虚拟细胞引擎基础上，补充「细胞生命周期」与「运动」两块能力，并用它跑一个多物种发酵仿真，验证细胞通过跨膜转运与 Spot 环境交换物质而形成的交叉喂养网络。
 
 ## 核心功能
 
-1. **转录调控网络（GRN）**：先用转录因子 TF → 靶基因的调控关系构建先验网络，作为图神经网络的图结构；再用该 GNN 预测每个基因的转录响应，输出 mRNA 丰度。
-2. **代谢网络**：用液态神经网络（LTC）建模，内部代谢物浓度即液态神经元隐藏状态，代谢反应即网络连接与掩码约束，随 ODE 时间步演化，同时给出反应通量与液态时间常数。
-3. **翻译系统**：mRNA → 蛋白质，刚性常微分方程求解。
-4. **跨膜转运系统**：不单独建 ODE，而是把胞外营养/产物浓度与转运蛋白水平转换为代谢网络的边界驱动输入，实现细胞与所在 Spot 环境的物质交换。
-5. **周转系统**：mRNA / 蛋白质的降解与物质回收，刚性常微分方程求解。
-6. **信号转导与细胞周期（新增子网络）**：胞外信号 → 磷酸化级联 → 转录因子活性与细胞周期相位，刚性常微分方程求解；其输出作为转录调控网络的输入扰动信号。
-7. **统一时序与状态中枢**：所有子网络共享同一套转录组 / 蛋白组 / 代谢组 / 信号状态，按固定顺序逐步推进（`Tick(dt)`），避免各模块各说各话。
-8. **构建入口**：保留原 `FromModel`（全基因组 GCMarkup 模型）路径，新增轻量构建入口（TF 先验网络 + 代谢反应列表），新入口为演示默认路径。
-9. **命令行演示项目**：在 `engine/Cella` 下新建命令行项目，用自行合成的数据（合成 TF 调控网络、合成表达矩阵、合成代谢反应网络与时序数据）一键跑完：构建环境 → 训练转录网络 → 拟合代谢网络 → 推进若干时间步 → 控制台打印关键统计 → 导出结果 CSV。
+### 1. 细胞分裂规则
+- 细胞从代谢通量与蛋白池累积**生物量**；生物量达到阈值、且年龄与所在 Spot 容量允许时执行**二分裂**。
+- 子代继承亲代的**一半生物量与一半状态**（转录本、蛋白、代谢物、回收池减半；信号与细胞周期相位直接复制），并记录亲代 id 与代次。
+- **死亡**：所在 Spot 营养枯竭且持续若干步判定为饥饿死亡；年龄超过上限判定为老化死亡。死亡细胞从格点移除，但保留在谱系记录中。
 
-## 视觉/输出效果
+### 2. 鞭毛运动
+- 细胞依据鞭毛结构蛋白水平获得**运动能力**，依据趋化受体蛋白水平获得**趋化能力**。
+- 每步以基础迁移概率乘以运动能力决定是否移动；移动时在上下左右前后 6 个相邻 Spot 中，按「基础等概率 + 营养梯度偏置」加权抽样选址，向营养更高的格点游动。
+- 迁移事件被记录（时间、细胞、物种、起点、终点），可用于导出轨迹。
 
-控制台分阶段打印：环境形状与格点统计、先验网络规模与图谱边数、转录网络训练损失曲线摘要、代谢网络拟合损失与稳态残差、每个时间步的关键基因表达 / 关键代谢物浓度 / 关键通量 / 时间常数；最终在 `demo/result/` 下产出表达、代谢物、通量、快照等 CSV 文件。
+### 3. Spot 间物质扩散
+- 相邻 Spot 的胞外物质按浓度差进行 Fickian 扩散（可配置扩散系数、按代谢物覆盖），使分泌的产物能跨格点传播，交叉喂养网络得以在空间上展开。
+- 可选边界补料，模拟补料发酵，避免葡萄糖一步耗尽。
+
+### 4. 多物种发酵仿真
+- 构建 4 个代谢分工物种：葡萄糖发酵菌（初级生产者）、乳酸利用菌（次级消费者）、乙酸利用菌（三级消费者）、氨基酸营养缺陷型。
+- 碳链：葡萄糖发酵菌分泌乳酸与乙酸，供给后两级消费者；氮环：葡萄糖发酵菌分泌氨基酸供给缺陷型，缺陷型分泌铵回补前者的氮同化，形成闭环互养。
+- 各物种以各自比例播种到摇瓶形状的不同格点，通过转运系统与所在 Spot 交换物质。
+
+### 5. 结果导出
+- **每个 Spot 内的细胞数量分布**：按时间、格点坐标、物种三要素记录细胞计数，并在控制台打印格点占用平面示意。
+- **细胞的代际繁殖进化树**：记录每代细胞的父子关系、物种、代次、出生时间、死亡时间与死亡原因，导出为表格与 Newick 谱系树。
+- **Spot 内交叉喂养网络代谢流**：按「生产者物种 → 消费者物种」的方向统计每个格点内每种胞外代谢物的转移通量，导出逐格点明细与物种级汇总。
+- 迁移事件明细、以及原有的表达、代谢物、通量、信号、培养基与训练损失曲线一并导出。
+
+## 输出效果
+
+控制台分阶段打印：物种配置与网络规模、各物种训练损失、按时间推进的物种计数、Spot 占用示意、代次与死亡率统计、排名靠前的交叉喂养边。结果目录产出种群分布、谱系树（表格 + Newick）、交叉喂养通量、迁移事件等 CSV 文件。
+
 
 ## 技术栈选型
 
-沿用仓库现有技术栈，不引入新框架：
+沿用当前仓库既有技术栈，不引入任何新框架或新依赖：
 
 | 层次 | 选型 | 事实依据 |
 | --- | --- | --- |
-| 语言 / 框架 | VB.NET，`net10.0`，SDK 风格 `.vbproj` | `Cella.vbproj` 已是 `net10.0`；GEARS / Metaboliq / Sundials.CVODE 同为 `net10.0` |
-| 转录调控网络 | `SMRUCC.genomics.Analysis.GEARS`（`sub-system/GEARS/GEARS.vbproj`） | RootNamespace `SMRUCC.genomics.Analysis.GEARS`；先验网络类型 `PriorNetwork` / `RegulatoryEdge` 来自 BNLearn |
-| 代谢网络 | `SMRUCC.genomics.Analysis.Metaboliq`（`sub-system/Metaboliq/Metaboliq.vbproj`） | RootNamespace 提供命名空间（源码无 `Namespace` 声明，必须 `Imports`）；LTC 内核在 `runtime/sciBASIC#/Data_science/MachineLearning/LNN/` |
-| 翻译 / 周转 / 信号转导 | `Microsoft.VisualBasic.Math.Sundials.CVODE`（`runtime/sciBASIC#/Data_science/Mathematica/Math/CVODE_Solver/Sundials.CVODE.vbproj`） | 独立 vbproj、**零 ProjectReference 依赖**，BDF 支持刚性系统 |
-| 反应 / 代谢物类型 | `SMRUCC.genomics.MetabolicModel.MetabolicReaction`、`CompoundSpecieReference`（biocore） | Cella 已引用 biocore |
-| 快照 | 复用现有 `engine/Cella/Snapshots/`（`CellSnapshot` 已有 `rna`/`protein`/`metabolite` 字典） | 已实勘，正好承载状态中枢输出 |
-
+| 语言/框架 | VB.NET，`net10.0`，SDK 风格 `vbproj` | `Cella.vbproj` 与 `demo/CellaDemo.vbproj` 均已是 `net10.0` |
+| 转录调控 | `SMRUCC.genomics.Analysis.GEARS` | 已由 `Networks/GeneRegulatoryNetwork.vb` 使用 |
+| 代谢网络 | `SMRUCC.genomics.Analysis.Metaboliq`（LTC 液态网络） | 已由 `Networks/MetabolicNetwork.vb` 使用 |
+| 翻译/周转/信号 | `Microsoft.VisualBasic.Math.Sundials.CVODE`（BDF） | 已由 `Networks/ODE/OdeSubNetwork.vb` 封装使用 |
+| 扩散/分裂/运动 | 纯托管实现，确定性伪随机（`Random(seed)`） | 与现有 ODE 求解器无耦合，无需新依赖 |
+| 快照容器 | 复用 `Snapshots/CellSnapshot.vb`、`SpotSnapshot.vb`、`TimeFrameSnapshot.vb` | `CellSnapshot` 已有 `parent_id`；`TimeFrameSnapshot.cells` 已是 taxonomy 到计数的字典 |
+| 导出 | 复用 `demo/Report.vb` 的 `SaveSeries` / `SaveTable` / `SaveCurve` | 已有 UTF-8 CSV 写出与转义逻辑 |
 
 ## 实现方案
 
 ### 总体策略
 
-引入**状态中枢 + 统一时间步**两层抽象：
+在现有「状态中枢 + 统一时间步」之上，新增**生命周期层**、**运动层**、**环境层扩散**与**交换归因层**四块，全部通过既有接口接入，不改变六个子网络的职责。
 
-- `CellularState` 持有 `mRNA` / `Protein` / `Metabolite` / `Boundary` / `Signal` 五个以 `Double()` 向量 + 名称索引映射表示的状态池，是各子网络之间唯一的通信媒介（避免子网络互相直接引用导致的循环依赖）。
-- `SubNetwork` 抽象方法由 `RunStep()` 改为 `Tick(dt As Double)`，由 `VirtualCella` 按固定顺序调度，形成可解释的因果链。
-
-单个时间步的执行顺序（也是子系统耦合关系）：
+单个时间步的调度顺序（新增环节标注为新增）：
 
 ```mermaid
 flowchart TD
-    E[Spot 胞外营养场] --> S[SignalTransductionNetwork<br/>CVODE BDF 磷酸化级联 + 细胞周期相位]
-    S -->|TF 活性, 周期相位| G[GeneRegulatoryNetwork<br/>GEARS 图神经网络]
-    G -->|mRNA 丰度| T[TranslationSystem<br/>CVODE BDF]
-    T -->|蛋白/酶水平| M[MetabolicNetwork<br/>Metaboliq LTC]
-    E -->|胞外浓度| X[TransportSystem<br/>边界驱动]
-    X -->|boundary 输入| M
-    T -->|转运蛋白水平| X
-    M -->|代谢物浓度| U[TurnoverSystem<br/>CVODE BDF 降解回收]
-    U -->|回收物补充代谢物池| M
-    M -->|代谢物效应物| G
+    A[Environment.Tick dt] --> B[Diffuse dt 新增 Fickian 扩散]
+    B --> C[Spot.Tick dt 六子网络推进]
+    C --> D[Lifecycle.Step 新增 生物量累积/分裂/死亡]
+    D --> E[Motility.Swim 新增 鞭毛运动迁移]
+    E --> F[CrossFeeding.Collect 新增 交换通量归因]
+    F --> G[clock 与 steps 递增]
 ```
 
 ### 关键技术决策与取舍
 
-1. **转录网络调用层级**：细胞仿真循环使用 `GEARS.Model.PredictDelta(controlExpr As Double(), pertFlag As Double()) As Double()` 的低层连续推理，而不是 `Predict(specs)` 的离散敲除接口。理由：仿真需要**连续**的 TF 活性信号（来自信号转导模块的磷酸化水平），离散 `Knockout/Knockdown/Overexpression` 三档无法表达平滑的时间演化。`PredictDelta` 返回归一化空间的 Δ，需再乘 `WildtypeSDs` 还原为真实表达量（对齐 `GEARS.Predict` 内部 `delta = deltaNorm(i) * sd`、`mutant(i) = max(0, inputExpr(i) + delta)` 的还原约定）。
-2. **转运并入代谢网络边界驱动**：转运与代谢共享同一批边界代谢物，若各自建 ODE 会出现同一物质的双重记账与质量不守恒。改为 `TransportSystem` 只负责把"胞外浓度 × 转运蛋白水平"折算成 Metaboliq 的 `boundary` 向量（`model.BuildInput(enzymes, boundary)`），代谢物变化全部由 LTC 网络统一积分，天然满足 Metaboliq 自带的质量守恒软约束。
-3. **其余模块统一用 CVODE BDF**：翻译、周转、信号转导都是典型的刚性系统（速率常数跨越数个数量级），BDF（最高 5 阶）比显式 RK 稳定得多，且 `Sundials.CVODE.vbproj` 零依赖、可直接 `ProjectReference`。为三者抽一个 `OdeSubNetwork` 基类复用求解器生命周期管理，避免重复代码。
-4. **保留 `FromModel`，新增轻量入口**：`FromModel` 依赖 BootstrapLoader + GCMarkup 全基因组，是既有资产；新入口 `BuildFrom(blueprint)` 直接吃 `PriorNetwork` + `MetabolicReaction()`，依赖更浅、便于合成数据演示。二者共用同一个 `VirtualCella` 装配函数，只是蓝图来源不同。
-5. **不做生长与分裂**（按用户确认）：`Environment` / `Spot` / `SpaceInitializer` 只做形状与营养场支撑，不引入生物量与分裂逻辑，控制改动半径。
+1. **子网络必须支持状态重同步（Resync）**。这是本次最关键的正确性约束：`TranslationSystem` 与 `TurnoverSystem` 的权威状态在各自 CVODE 求解器内部，`MetabolicNetwork` 的权威状态在液态网络的隐藏层 `h`；直接修改 `CellularState` 的池**不会**传播进去（`TranslationSystem.Tick` 以 `CurrentState()` 为起点写回 `state.Protein`，外部写入会被覆盖）。因此必须在 `SubNetwork` 上新增 `Public Overridable Sub Resync()`（默认空实现），并在三个持有 ODE 状态的子网络上实现「从共享状态池重新播撒 + 重新 `Initialize`」。分裂后的状态减半依赖它才能生效。
+2. **分裂/死亡/迁移只能在格点遍历之外执行**。`Spot.Tick` 会 `cells.ToArray()` 快照后遍历，但生命周期与运动阶段仍需在 `Environment` 层面用 `GetAllCells()` 快照后再增删，避免边遍历边修改集合。
+3. **扩散采用增量缓冲而非就地更新**。若对每个相邻对就地做 `cA -= f; cB += f`，结果会依赖遍历顺序。改为先累加到 `spot 到 (代谢物到增量)` 的缓冲，最后统一应用，保证结果与顺序无关，且天然质量守恒。
+4. **交叉喂养归因采用「按摄取份额分摊」假设**。同一 Spot 内某代谢物的总分泌质量，按各消费者对该代谢物的摄取量占比分摊给每一对生产者与消费者。这是可解释且质量守恒的近似（分摊之和等于总分泌量）；跨 Spot 的传递由扩散项承接，不重复计入。该假设必须写入代码注释与导出说明。
+5. **不同物种的状态维度不同，归因必须按名称而非下标**。各物种 `CellularState` 的内部与边界代谢物集合不同，`Spot.Medium` 取所有物种边界代谢物的并集；归因与扩散全部按代谢物 id 字符串解析，不假设数组下标对齐。
+6. **不引入突变**。本次只做「代际谱系树」（父子关系与代次），不做可遗传变异；树结构用 Newick 表达森林，叶节点为存活细胞，内部节点携带代次与物种标签。
+7. **性能取舍**。新增热路径成本为扩散 O(格点数 × 胞外代谢物数)、运动 O(细胞数)、生命周期 O(细胞数)；细胞总数上限为 格点数 × `MaxCellsPerSpot`。为避免 `Environment.GetAllSpots()` 每次新建列表，新增惰性缓存的 `Spots` 属性并在 `Space` 赋值时失效。分裂会新建一个 `MetabolicNetwork`（内含一个液态网络与若干 CVODE 求解器），因此 demo 需把 `MaxCellsPerSpot` 控制在较小值（约 6）并限制总步数。
 
 ### 性能与可靠性
 
-- **热路径**：`Tick` 每步调用一次 GEARS 前向 + 一次 Metaboliq `StepInterval`（内部按 `MaxSubStep` 自动细分为若干 RK4 子步）+ 三次 CVODE `Integrate`。`N` 个细胞 × `T` 步的复杂度为 `O(N·T·(|E|·d + m² + n_sub·m²))`，主要瓶颈是 Metaboliq 的 RK4 子步积分与 CVODE 的 Newton 迭代。
-- **缓解措施**：① Metaboliq 侧 `SetTauBounds(2.0, 60.0)` + `MaxSubStep = 1.0`（`test/Program.vb:125-129` 的经验值），既保稳定又限制子步数；② CVODE 侧提供解析 Jacobian（三个 ODE 模块均可写出对角/带状 Jacobian），显著减少 Newton 迭代次数；③ 状态全部用 `Double()` + `Dictionary(Of String, Integer)` 索引，不在热路径上做字符串查找或反复分配；④ CVODE 求解器在细胞生命周期内**复用**（`Initialize` 一次，之后只 `Integrate`），不每步 new。
-- **数值安全**：所有状态更新后做 `NaN/Inf` 与非负钳制；CVODE 返回非 `Success` 时记录并回退到上一步状态（不静默继续），防止单点发散污染整个环境。
+- **扩散**：每个正方向相邻对只处理一次；缓冲用 `Dictionary(Of Spot, Dictionary(Of String, Double))`，每步重建，避免跨步残留。复杂度 O(格点数 × 代谢物种类)。
+- **归因**：每步对每个 Spot 的每个胞外代谢物聚合一次性完成，复杂度 O(细胞数 × 胞外代谢物数)，键为四元组，用字符串拼接的字典键并在导出时拆分。
+- **数值安全**：生物量、年龄、培养基增量全部做 NaN/负值钳制；分裂后的半量状态经 `Sanitize` 后再 `Resync`。
+- **可观测性**：每个阶段输出摘要（细胞数、平均代次、分裂次数、死亡次数与死因分布、迁移次数、扩散净通量），失败可定位到具体阶段。
 
 ## 实现要点（执行细节）
 
-1. **`Cella.vbproj` 必须新增的 `ProjectReference`**（相对路径从 `engine/Cella/` 起算）：
-
-- `..\..\sub-system\GEARS\GEARS.vbproj`
-- `..\..\sub-system\Metaboliq\Metaboliq.vbproj`
-- `..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\CVODE_Solver\Sundials.CVODE.vbproj`
-- `..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\GNN\GNN.vbproj`
-- `..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj`
-- `..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\LNN\LNN.vbproj`
-- 注意：`Sundials.CVODE.vbproj` 是独立项目，不要误引 `ODE/odes-netcore5.vbproj`（后者不含 CVODE）。
-
-2. **GEARS 使用铁律**：
-
-- 先验网络必须用 `prior.AddEdge(tf, target, Effector, confidence, evidence)` 构造，**不要**直接 `Edges.Add`，否则 `TFNames`/`TargetNames` 为空会让 `BuildPerturbationCandidates()` 退化。
-- 先验边的 `TF` 与 `TargetGene` 都必须是**基因级 id** 且必须出现在表达矩阵行名中；操纵子 id 会被静默丢弃（建图后应校验 `GraphData.NumPriorEdges` 与预期一致）。
-- `Train()` 前必须先 `GenerateTrainingSamples()`，否则抛 `InvalidOperationException`。
-- `GeneExpressionData` 是纯 POCO（`GeneNames`/`SampleNames`/`Matrix As Double(,)`/`TimePoints`），合成数据可在代码中直接构造，无需落 CSV。
-
-3. **Metaboliq 使用铁律**：
-
-- 必须 `Imports SMRUCC.genomics.Analysis.Metaboliq`（源码无 `Namespace` 声明）。
-- 状态在**归一化空间**，对外报告浓度必须走 `Liquid.ComputeOutputFrom(h)`，直接读 `cell.State` 会与训练监督目标不一致。
-- 酶序列必须 min-max 到 `[0,1]`；时间网格严格单调递增；`Simulate`/`StepInterval` 不满足则抛异常。
-- 仿真循环中读取状态：`Dim cell = model.Liquid.LiquidLayer.Cells(0)` → `cell.State`、`cell.GetSystemTau(h, u)`；推进用 `model.StepInterval(u, dt)`（不要直接 `Liquid.Forward`，大步长会越过显式 RK4 稳定域）。
-
-4. **CVODE 使用铁律**：`RHSFunction` 是 `Sub` 委托（无返回值，写 `ydot`）；三个模块都用 `CVODEMethod.BDF` 并尽量 `SetJacobianFunction`；求解器对象在子网络构造时创建、`Initialize(t0, y0)` 一次，实现 `IDisposable` 释放。
-5. **改动半径控制**：
-
-- `engine/Dynamics/test/test5.vbproj:120` 引用了 `Cella.vbproj`，改动后必须 `dotnet build` 验证其仍可编译。
-- 全仓搜索确认 `VirtualCella` / `SpaceInitializer` 仅在 Cella 项目内部使用，外部无调用点。
-- `Snapshots/` 下 4 个类型已存在且 `CellSnapshot` 已有 `rna`/`protein`/`metabolite` 字段，重构时**复用而非新建**快照结构。
-
-6. **命名空间**：`Cella`（RootNamespace 很浅）与 GEARS / Metaboliq / CVODE 命名空间无冲突；但 Cella 内已有 `MetabolicNetwork` 类，与 Metaboliq 的 `MetabolicNetworkGraph` 名称相近，Imports 时用完全限定名避免歧义。
+1. **`CellaBlueprint` 新增参数分组**（全部带默认值，`Validate()` 不因此变化）：
+   - 生命周期：`SpeciesName`、`DivisionBiomassThreshold`、`BiomassYieldPerFlux`、`BiomassYieldPerProtein`、`MinDivisionAge`、`MaxCellAge`、`StarvationNutrientThreshold`、`StarvationDeathTicks`、`MaxCellsPerSpot`
+   - 运动：`FlagellarGenes`、`ChemotaxisReceptorGenes`、`MotilityBaseProbability`、`MotilityGradientBias`、`GradientScale`、`NutrientMetabolites`
+   - 环境：`DiffusionCoefficient`、`DiffusionByMetabolite`、`BoundaryReservoir`
+2. **`SubNetwork` 增加 `Resync()`**；`OdeSubNetwork` 已有 `Protected Sub ResetState(values As Double())` 与 `CurrentState()`，直接复用。`MetabolicNetwork` 需新增公开方法把共享浓度写回液态网络隐藏层（`ResetState` 后 `Cells(0).SetState(h)`）。
+3. **`VirtualCella.Snapshot()` 修正**：把误写成 `"x,y,z"` 的 `parent_id` 改为真正的 `ParentId`；格点坐标改由 `SpotSnapshot` 承载（已存在该字段）。
+4. **GEARS 铁律**（沿用）：先验网络必须用 `prior.AddEdge(...)`；先验边两端必须是基因级 id 且出现在表达矩阵行名中；`Train()` 前必须先 `GenerateTrainingSamples()`。
+5. **Metaboliq 铁律**（沿用）：源码无 `Namespace` 声明，必须 `Imports SMRUCC.genomics.Analysis.Metaboliq`；浓度对外报告必须走 `Liquid.ComputeOutputFrom(h)`；酶序列取值于 [0,1]；时间网格严格递增；`SetTauBounds(2.0, 60.0)` 与 `MaxSubStep` 约 1.0。
+6. **CVODE 铁律**（沿用）：`RHSFunction` 是 `Sub` 委托；`Jacobian` 的矩阵参数名为 `J`，循环变量不能再用 `j`（VB 不区分大小写）。
+7. **VB 不区分大小写带来的命名陷阱**（上一轮已踩过，必须避免）：构造参数名不能与属性同名；`Public ReadOnly Property X` 与 `Private x` 不能同名；`Dim T` 不能与 `For t` 共存；`Environment` 内部字段用 `clock`、`steps`。
+8. **`Cella.vbproj` 必须保留 `<Compile Remove="demo\**" />` 等三条排除**，否则子目录源码会被库项目重复收录导致 AssemblyInfo 重复定义。新增的 `Lifecycle/`、`Motility/`、`CrossFeeding/` 目录会被 SDK 默认 glob 自动收录，无需改 vbproj。
+9. **改动半径**：`engine/Dynamics/test/test5.vbproj` 是外部唯一引用 `Cella.vbproj` 的项目，改动后必须验证其仍可编译。
+10. **demo 入口**：保留现有单物种流程作为 `--single` 模式，默认走发酵模式，避免丢失上一轮的验证路径。
 
 ## 架构设计
 
 ### 分层结构
 
 ```
-Engine 层   Environment(Space 三维格点 + 时钟) → Spot(营养场 + 细胞列表) → VirtualCella
-装配层      CellaBlueprint(蓝图) → CellaFactory → VirtualCella(含 CellularState)
-子网络层    SubNetwork.Tick(dt)
-            ├─ SignalTransductionNetwork (CVODE BDF)
-            ├─ GeneRegulatoryNetwork    (GEARS GNN)
-            ├─ TranslationSystem        (CVODE BDF)
-            ├─ TransportSystem          (Metaboliq 边界驱动)
-            ├─ MetabolicNetwork         (Metaboliq LTC)
-            └─ TurnoverSystem           (CVODE BDF)
-状态层      CellularState (mRNA/Protein/Metabolite/Boundary/Signal + 索引映射)
-输出层      Snapshots/CellSnapshot + CSV 导出
+环境层   Environment（时钟 + Space + 扩散 + 调度）/ Spot（培养基 + 细胞 + 营养指标）
+生命周期 Lifecycle/CellLifecycle（生物量累积、二分裂、饥饿/老化死亡）
+         Lifecycle/CellLineage（谱系记录、CSV 与 Newick 导出）
+运动层   Motility/FlagellarMotor（随机游走 + 梯度偏置、迁移事件）
+归因层   CrossFeeding/CrossFeedingRecorder（生产者到消费者的通量分摊）
+细胞层   VirtualCella（元数据：物种/亲代/代次/生物量/年龄/存活）+ 六个子网络
+状态层   CellularState（mRNA/Protein/Metabolite/Boundary/Signal/回收池）
+装配层   CellaFactory（BuildCell / DivideCell / StarterCulture 多物种播种）
+输出层   Snapshots（CellSnapshot/SpotSnapshot/TimeFrameSnapshot）+ demo/Report（CSV）
 ```
 
 ### 数据流
 
-`Environment.Tick()` 推进时钟 → 遍历有效 Spot → `Spot.Tick(dt)` 先刷新胞外营养场再驱动每个细胞 → `VirtualCella.Tick(dt)` 按「信号 → 转录 → 翻译 → 转运 → 代谢 → 周转」顺序调度六个子网络 → 每个子网络从 `CellularState` 读输入、写输出 → 每个采样步由 `VirtualCella.Snapshot()` 产出 `CellSnapshot`。
+`Environment.Tick(dt)` 先做 Spot 间扩散，再让每个 Spot 驱动其细胞跑完整六子网络，随后生命周期阶段读取代谢通量与蛋白池累积生物量并在达阈值时分裂、在饥饿或老化时死亡，接着运动阶段按鞭毛与趋化能力决定是否迁移到相邻 Spot，最后归因阶段把每个 Spot 内各细胞的摄取与分泌质量分摊成生产者到消费者的交叉喂养通量。
 
 ## 目录结构
 
 ```
 engine/Cella/
-├── Cella.vbproj                              # [MODIFY] 新增 GEARS / Metaboliq / Sundials.CVODE / GNN / TensorFlow / LNN 六个 ProjectReference
-├── VirtualCella.vb                           # [MODIFY] 持有 CellularState 与六个子网络；实现 Tick(dt) 顺序调度、Snapshot()；保留 FromModel，新增 BuildFrom
-├── Environment.vb                            # [MODIFY] 增加 TimeStep / CurrentTime 时钟；Spot 判空；Tick(dt) 传递时间步
-├── Spot.vb                                   # [MODIFY] external 改为胞外营养场(EnvironmentMedium)；Tick(dt) 刷新营养场并驱动细胞；external 为空时不再空引用
-├── SpaceInitializer.vb                       # [MODIFY] 四种形状(培养皿/圆柱/锥形瓶/长方体)生成逻辑保留；CreateSpot 同时初始化该格点的营养场
-├── Gene.vb                                   # [MODIFY] 扩展为基因蓝图：Id / Ontology / IsTF / 关联反应 id / 基础表达水平
-├── Metabolite.vb                             # [KEEP]   保持 Inherits Factor，不动
-├── Snapshots/                                # [MODIFY] 复用；CellSnapshot 由 CellularState 填充
-│   ├── CellSnapshot.vb  Metadata.vb  SpotSnapshot.vb  TimeFrameSnapshot.vb
+├── Cella.vbproj                     [MODIFY] 无需改（新增目录由默认 glob 收录）；确认保留 demo 排除项
+├── VirtualCella.vb                  [MODIFY] 新增物种/亲代/代次/生物量/年龄/存活/死因字段与累积逻辑；
+│                                             修正 Snapshot 的 parent_id；新增 ResyncSubNetworks()
+├── Environment.vb                   [MODIFY] 新增 Diffuse、生命周期与运动调度、GetSpotAt/GetNeighbors、
+│                                             Spots 惰性缓存、Lineage 与 CrossFeeding 记录器、补料
+├── Spot.vb                          [MODIFY] 新增 NutrientLevel、CellCount、IsFull、AddCell/RemoveCell
+├── SpaceInitializer.vb              [KEEP]   形状生成逻辑不变
+├── Gene.vb / Metabolite.vb          [KEEP]
+├── Snapshots/
+│   ├── CellSnapshot.vb              [MODIFY] 新增 species、generation、biomass、age、x、y、z
+│   ├── SpotSnapshot.vb / TimeFrameSnapshot.vb / Metadata.vb  [KEEP]
 ├── State/
-│   ├── CellularState.vb                      # [NEW] 状态中枢：mRNA/Protein/Metabolite/Boundary/Signal 的 Double() 向量 + name→index 映射，提供 Get/Set/AsDictionary、NaN 与非负钳制
-│   └── CellaBlueprint.vb                     # [NEW] 细胞蓝图：PriorNetwork + MetabolicReaction() + 基因列表 + 反应↔基因映射 + 边界代谢物 + 各子网络配置
+│   ├── CellularState.vb             [MODIFY] 新增 CopyScaled(factor) 便于分裂继承半量状态
+│   ├── CellaBlueprint.vb            [MODIFY] 新增生命周期/运动/扩散/培养基参数分组与查询方法
+│   └── MetabolicTrainingSet.vb      [KEEP]
+├── Lifecycle/
+│   ├── CellLifecycle.vb             [NEW] 生物量累积、二分裂、饥饿与老化死亡、阶段统计
+│   └── CellLineage.vb               [NEW] 谱系记录（父子/代次/出生/死亡/死因/格点）与 Newick 导出
+├── Motility/
+│   └── FlagellarMotor.vb            [NEW] 运动能力与趋化能力计算、迁移抽样、迁移事件记录
+├── CrossFeeding/
+│   └── CrossFeedingRecorder.vb      [NEW] 每 Spot 每代谢物的生产者到消费者通量分摊与导出
 ├── Networks/
-│   ├── SubNetwork.vb                         # [MODIFY] 抽象方法 RunStep() 改为 MustOverride Tick(dt)；保留 GetStats()
-│   ├── GeneRegulatoryNetwork.vb              # [MODIFY] 以 PriorNetwork 为先验构建 GEARS 图神经网络；Tick 内用信号/TF 活性构造 pertFlag，Model.PredictDelta 预测 Δ 并更新 mRNA
-│   ├── MetabolicNetwork.vb                   # [MODIFY] 以 MetabolicNetworkGraph + MetabolicLiquidNetwork(LTC/rk4) 建模；Tick 内 BuildInput(酶水平, 边界) → StepInterval(u, dt) → 回写代谢物与通量
-│   ├── TransportSystem.vb                    # [MODIFY] 不再继承 MetabolicNetwork；负责把 Spot 胞外浓度 × 转运蛋白水平折算为 Metaboliq boundary 向量并回写胞外消耗
-│   ├── TranslationSystem.vb                  # [MODIFY] CVODE BDF：dP/dt = k_tl·mRNA − k_deg·P（按基因维）
-│   ├── TurnoverSystem.vb                     # [MODIFY] CVODE BDF：mRNA/蛋白降解 + 回收物补充代谢物池
-│   ├── SignalTransductionNetwork.vb          # [NEW]   CVODE BDF：胞外信号→传感器激酶自磷酸化→响应调节因子磷酸化→TF 活性；含细胞周期相位振荡器，输出周期相位
-│   └── ODE/
-│       └── OdeSubNetwork.vb                  # [NEW]   CVODE 封装基类：求解器生命周期、Initialize 一次 + 逐步 Integrate、解析 Jacobian 注入、状态回写与失败回退、IDisposable
+│   ├── SubNetwork.vb                [MODIFY] 新增 Public Overridable Sub Resync()
+│   ├── MetabolicNetwork.vb          [MODIFY] 实现 Resync()（把共享浓度写回液态网络隐藏层）
+│   ├── TranslationSystem.vb         [MODIFY] 实现 Resync()（从 state.Protein 重新播撒并 Initialize）
+│   ├── TurnoverSystem.vb            [MODIFY] 实现 Resync()（从 state.mRNA 与 RecyclePool 重新播撒）
+│   ├── TransportSystem.vb           [MODIFY] 新增本步摄取与分泌质量（速率乘 dt）供归因使用
+│   └── GeneRegulatoryNetwork.vb / SignalTransductionNetwork.vb / ODE/OdeSubNetwork.vb  [KEEP]
 ├── Factory/
-│   └── CellaFactory.vb                       # [NEW] 由 CellaBlueprint 装配 VirtualCella 的六个子网络；FromModel 的内部装配也复用此处
+│   └── CellaFactory.vb              [MODIFY] 新增 DivideCell（子代继承半量状态）、StarterCulture（多物种播种）
 └── demo/
-    ├── CellaDemo.vbproj                      # [NEW] OutputType=Exe，RootNamespace=CellaDemo，net10.0，Platforms=AnyCPU;x64
-    ├── Program.vb                            # [NEW] 一键跑完主流程 + 控制台分阶段打印 + 退出码
-    ├── SyntheticData.vb                      # [NEW] 合成 TF 先验网络、合成表达矩阵 GeneExpressionData、合成代谢反应网络、合成时序代谢/酶/边界数据
-    └── Report.vb                             # [NEW] CSV 导出与关键统计打印
+    ├── CellaDemo.vbproj             [KEEP]
+    ├── Program.vb                   [MODIFY] 入口支持发酵模式（默认）与既有单物种模式
+    ├── SyntheticData.vb             [MODIFY] 新增胞外代谢物与物种特有反应、按 graph 生成训练集
+    ├── Species.vb                   [NEW]    4 物种定义：反应子集、先验网络、耦合映射、鞭毛/趋化基因、播种比例
+    ├── Fermentation.vb              [NEW]    发酵仿真主流程：建摇瓶、训练、播种、推进、采样
+    ├── Report.vb                    [MODIFY] 新增种群分布、谱系树、交叉喂养、迁移事件导出与打印
+    └── result/                      [OUTPUT] 导出目录
 ```
 
-另外需修改：`/Users/xieguigang/Documents/GitHub/GCModeller/src/GCModeller/engine/Cella.slnx` —— 把 `demo/CellaDemo.vbproj` 登记进解决方案。
+`engine/Cella.slnx` 无需修改（demo 项目与六个依赖项目均已登记）。
 
 ## 关键代码结构
 
-```
-' Networks/SubNetwork.vb —— 子网络统一契约
+```vb
+' Networks/SubNetwork.vb —— 新增：让持有 ODE 状态的子网络能够被外部重新播撒
 Public MustInherit Class SubNetwork
     Protected cell As VirtualCella
     Sub New(cell As VirtualCella)
-        Me.cell = cell
-    End Sub
     Public MustOverride Sub Tick(dt As Double)
     Public MustOverride Function GetStats() As Dictionary(Of String, Double)
+    ''' <summary>从共享状态池重新播撒内部状态（分裂后状态减半等外部跳变时调用）</summary>
+    Public Overridable Sub Resync()
+    End Sub
 End Class
 ```
 
+```vb
+' Lifecycle/CellLifecycle.vb —— 生命周期阶段
+Public Module CellLifecycle
+    ''' <summary>累积生物量、执行二分裂、判定饥饿与老化死亡</summary>
+    Public Sub [Step](env As Environment, dt As Double)
+
+    ''' <summary>单个细胞的生物量累积速率（由平均比通量与蛋白池折算）</summary>
+    Public Function BiomassRate(cella As VirtualCella) As Double
+
+    ''' <summary>判定并执行一次二分裂（失败时返回 Nothing，例如格点已达容量上限）</summary>
+    Public Function TryDivide(env As Environment, parent As VirtualCella) As VirtualCella
+End Module
 ```
-' State/CellularState.vb —— 子网络之间唯一的通信媒介
-Public Class CellularState
-    Public ReadOnly Property GeneIndex As Dictionary(Of String, Integer)
-    Public ReadOnly Property MetaboliteIndex As Dictionary(Of String, Integer)
-    Public ReadOnly Property BoundaryIndex As Dictionary(Of String, Integer)
-    Public ReadOnly Property SignalIndex As Dictionary(Of String, Integer)
 
-    Public Property mRNA As Double()          ' 转录本丰度 [gene]
-    Public Property Protein As Double()       ' 蛋白/酶水平 [gene]
-    Public Property Metabolite As Double()    ' 内部代谢物浓度（Metaboliq 归一化空间）[metabolite]
-    Public Property Boundary As Double()      ' 胞外/边界代谢物浓度 [boundary]
-    Public Property Signal As Double()        ' 磷酸化/TF 活性 [signal]
-    Public Property CyclePhase As Double      ' 细胞周期相位
+```vb
+' CrossFeeding/CrossFeedingRecorder.vb —— 交叉喂养通量归因
+Public Class CrossFeedingRecorder
+    ''' <summary>累加一个时间步内所有 Spot 的交换通量</summary>
+    Public Sub Collect(env As Environment, dt As Double)
 
-    Public Function Level(name As String, pool As StatePool) As Double
-    Public Sub SetLevel(name As String, pool As StatePool, value As Double)
-    Public Function Sanitize() As Boolean     ' NaN/Inf 检测与非负钳制，返回是否发生了钳制
+    ''' <summary>逐格点明细：格点坐标、代谢物、生产者物种、消费者物种、累计通量</summary>
+    Public Function DetailedFlux() As IEnumerable(Of CrossFeedingEdge)
+
+    ''' <summary>物种级汇总：生产者物种、消费者物种、代谢物、累计通量</summary>
+    Public Function SpeciesFlux() As IEnumerable(Of CrossFeedingEdge)
+
+    ''' <summary>导出逐格点明细 CSV 与物种级汇总 CSV</summary>
+    Public Sub Save(directory As String)
+End Class
+
+Public Class CrossFeedingEdge
+    Public Property x As Integer
+    Public Property y As Integer
+    Public Property z As Integer
+    Public Property metabolite As String
+    Public Property producer As String
+    Public Property consumer As String
+    Public Property flux As Double
 End Class
 ```
 
-```
-' State/CellaBlueprint.vb —— 轻量构建入口的输入契约
-Public Class CellaBlueprint
-    Public Property Prior As PriorNetwork                       ' TF → 靶基因 先验调控网络
-    Public Property Expression As GeneExpressionData            ' 基线表达矩阵（可为合成数据）
-    Public Property Reactions As MetabolicReaction()            ' 代谢反应网络
-    Public Property ExplicitBoundary As String()                ' 显式指定胞外代谢物
-    Public Property ReactionGeneMap As Dictionary(Of String, String)  ' 反应 id → 催化基因 id
-    Public Property Transporters As Dictionary(Of String, String)     ' 边界代谢物 → 转运蛋白基因 id
-    Public Property Effectors As Dictionary(Of String, String)        ' 代谢物效应物 → 受调控 TF 基因 id
-    Public Property TimeStep As Double = 1.0
-End Class
-```
 
 ## Agent Extensions
 
 ### SubAgent
-
 - **code-explorer**
-- 用途：实施第一步前用它精确定位 `engine/Dynamics/test/test5.vbproj` 对 Cella 的实际引用点、`Snapshots/` 四个类型的完整字段、以及 `MetabolicReaction` / `CompoundSpecieReference` 的构造约定，避免改名或删字段时破坏既有编译。
-- 预期结果：拿到受影响类型的完整清单与引用行号，改动前即可确认向后兼容策略。
+  - Purpose: 在动手改造前精确定位 `SubNetwork` 全部子类、`Spot.Tick` 与 `Environment.Tick` 的调用点、`demo/Report.vb` 的导出函数签名，以及 `engine/Dynamics/test/test5.vbproj` 对 Cella 的实际引用范围，确认新增 `Resync()` 与元数据字段不会破坏既有编译与调用约定。
+  - Expected outcome: 得到受影响类型的完整清单与原样引用的行号，据此确定向后兼容策略（新增成员全部带默认实现或默认值）。
+
+### Skill
 - **lsp-code-analysis**
-- 用途：重构完成、新增 demo 项目后，用语义级引用/定义分析快速定位编译错误（如 `MustOverride` 未实现、命名空间歧义、`MetabolicNetwork` 与 `MetabolicNetworkGraph` 冲突），替代反复全量 build。
-- 预期结果：在 `dotnet build` 之前先行消除符号级错误，缩短编译验证轮次。
+  - Purpose: 在新增 `Resync()`、`CellLifecycle`、`FlagellarMotor`、`CrossFeedingRecorder` 并改造 `Environment` 之后，用语义级定义与引用分析定位编译错误与遗漏的覆盖实现（例如某个 `MustInherit` 成员未实现、命名空间歧义、VB 大小写同名冲突）。
+  - Expected outcome: 在完整构建前先消除符号级错误，缩短编译验证轮次并避免重复全量构建。

@@ -116,6 +116,24 @@ Public Class SignalTransductionNetwork : Inherits OdeSubNetwork
         Next
     End Sub
 
+    Protected Overrides Function VectorFromState() As Double()
+        Dim v As Double() = New Double(n - 1) {}
+
+        ' 传感器激酶没有对应的状态池，用继承来的响应调节因子活化水平当作初值
+        For i As Integer = 0 To channels - 1
+            Dim level As Double = cell.State.Signal(i)
+            Dim clamped As Double = System.Math.Min(1.0, System.Math.Max(0.01, level))
+
+            v(i) = clamped
+            v(channels + i) = clamped
+        Next
+
+        v(2 * channels) = 0.01
+        v(2 * channels + 1) = cell.State.CyclePhase
+
+        Return v
+    End Function
+
     Protected Overrides Sub RHS(t As Double, y As NVector, ydot As NVector)
         Dim rpSum As Double = 0.0
 

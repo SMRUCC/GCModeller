@@ -79,6 +79,16 @@ Public Class TurnoverSystem : Inherits OdeSubNetwork
         Call InitializeFrom(initial)
     End Sub
 
+    Protected Overrides Function VectorFromState() As Double()
+        Dim v As Double() = New Double(n - 1) {}
+
+        Call Array.Copy(cell.State.mRNA, v, cell.State.NGene)
+
+        v(n - 1) = cell.State.RecyclePool
+
+        Return v
+    End Function
+
     Protected Overrides Sub RHS(t As Double, y As NVector, ydot As NVector)
         Dim produced As Double = 0.0
 

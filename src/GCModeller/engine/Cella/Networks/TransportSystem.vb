@@ -41,6 +41,8 @@ Public Class TransportSystem : Inherits SubNetwork
 
     ReadOnly uptake As Double()
     ReadOnly efflux As Double()
+    ReadOnly _uptakeMass As Double()
+    ReadOnly _effluxMass As Double()
 
     ''' <summary>累计从环境中摄取的物质量（诊断用）</summary>
     Public ReadOnly Property ConsumedTotal As Double
@@ -62,6 +64,8 @@ Public Class TransportSystem : Inherits SubNetwork
         exportSlot = New Integer(names.Length - 1) {}
         uptake = New Double(names.Length - 1) {}
         efflux = New Double(names.Length - 1) {}
+        _uptakeMass = New Double(names.Length - 1) {}
+        _effluxMass = New Double(names.Length - 1) {}
         capacityReference = System.Math.Max(blueprint.EnzymeReference, 0.000001)
         vmax = blueprint.TransportVmax
         km = System.Math.Max(blueprint.TransportKm, 0.000001)
@@ -127,6 +131,7 @@ Public Class TransportSystem : Inherits SubNetwork
             End If
 
             uptake(i) = rate
+            _uptakeMass(i) = rate * dt
 
             If medium IsNot Nothing Then
                 _consumedTotal += (external - remain)
@@ -148,6 +153,7 @@ Public Class TransportSystem : Inherits SubNetwork
                 Dim exportRate As Double = vmax * capacity * level / (km + level)
 
                 efflux(i) = exportRate
+                _effluxMass(i) = exportRate * dt
                 remain += exportRate * dt
             End If
 
@@ -161,6 +167,27 @@ Public Class TransportSystem : Inherits SubNetwork
     Public ReadOnly Property EffluxRates As Double()
         Get
             Return efflux
+        End Get
+    End Property
+
+    ''' <summary>边界代谢物名称，顺序与 <see cref="UptakeMass"/> / <see cref="EffluxMass"/> 一致</summary>
+    Public ReadOnly Property BoundaryMetabolites As String()
+        Get
+            Return boundaryNames
+        End Get
+    End Property
+
+    ''' <summary>本步从环境中摄取的物质质量（= 速率 × dt），交叉喂养归因的输入</summary>
+    Public ReadOnly Property UptakeMass As Double()
+        Get
+            Return _uptakeMass
+        End Get
+    End Property
+
+    ''' <summary>本步分泌到环境中的物质质量（= 速率 × dt），交叉喂养归因的输入</summary>
+    Public ReadOnly Property EffluxMass As Double()
+        Get
+            Return _effluxMass
         End Get
     End Property
 

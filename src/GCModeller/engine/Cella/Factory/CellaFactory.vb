@@ -116,9 +116,10 @@ Public Module CellaFactory
         Dim graph As MetabolicNetworkGraph = GetMetabolicGraph(blueprint)
         Dim genes As String() = blueprint.Genes
         Dim cella As New VirtualCella With {
-            .Id = If(id, "cell_" & Guid.NewGuid.ToString("N").Substring(0, 8)),
+            .Id = If(id, NextCellId(blueprint.SpeciesName)),
             .taxonomy_info = taxonomy,
             .Blueprint = blueprint,
+            .Species = blueprint.SpeciesName,
             .State = New CellularState(
                 genes:=genes,
                 metabolites:=graph.InternalIds,
@@ -163,45 +164,198 @@ Public Module CellaFactory
         Return cella
     End Function
 
+    ' ==================== 标识与播种 ====================
+
+    Private cellSerial As Integer = 0
+
+    ''' <summary>生成一个全局唯一的细胞 id（形如 species_0001）</summary>
+    Public Function NextCellId(species As String) As String
+        cellSerial += 1
+
+        Dim prefix As String = If(species, "cell")
+
+        Return $"{prefix}_{cellSerial.ToString("D4")}"
+    End Function
+
     ''' <summary>
     ''' 把细胞播种到环境的每一个有效格点上
     ''' </summary>
     Public Function SeedCells(env As Environment,
-                              blueprint As CellaBlueprint,
-                              Optional cellsPerSpot As Integer = 1,
-                              Optional taxonomy As Taxonomy = Nothing,
-                              Optional seed As Integer = 2024) As Integer
+                             blueprint As CellaBlueprint,
+                             Optional cellsPerSpot As Integer = 1,
+                             Optional taxonomy As Taxonomy = Nothing,
+                             Optional seed As Integer = 2024) As Integer
 
-        Dim rand As New Random(seed)
-        Dim graph As MetabolicNetworkGraph = GetMetabolicGraph(blueprint)
         Dim count As Integer = 0
 
         For Each spot As Spot In env.GetAllSpots()
             For k As Integer = 1 To cellsPerSpot
-                Dim cella As VirtualCella = BuildCell(
-                    blueprint:=blueprint,
-                    taxonomy:=taxonomy,
-                    id:=$"cell_{count + 1}"
-                )
+                Dim cella As VirtualCella = BuildCell(blueprint, taxonomy)
 
-                ' 边界初值取自该格点的培养基
-                If spot.Medium IsNot Nothing Then
-                    For i As Integer = 0 To cella.State.BoundaryNames.Length - 1
-                        Dim level As Double = 0.0
-
-                        If spot.Medium.TryGetValue(cella.State.BoundaryNames(i), level) Then
-                            cella.State.Boundary(i) = level
-                        End If
-                    Next
-                End If
-
-                cella.Spot = spot
-                spot.cells.Add(cella)
+                Call BindToSpot(cella, spot, env)
                 count += 1
             Next
         Next
 
         Return count
+    End Function
+
+    ''' <summary>
+    ''' 多物种混合接种：每个物种随机分配到若干不同的格点上
+    ''' </summary>
+    ''' <param name="blueprints">各物种的蓝图；<see cref="CellaBlueprint.SpeciesName"/> 必须唯一</param>
+    ''' <param name="perSpecies">每个物种接种的细胞数</param>
+    Public Function SeedMixedCulture(env As Environment,
+                                     blueprints As CellaBlueprint(),
+                                     Optional perSpecies As Integer = 2,
+                                     Optional taxonomy As Taxonomy = Nothing,
+                                     Optional seed As Integer = 2024) As Integer
+
+        If env Is Nothing OrElse blueprints.IsNullOrEmpty Then
+            Return 0
+        End If
+
+        Dim rand As New Random(seed)
+        Dim spots As Spot() = env.GetAllSpots().ToArray()
+        Dim count As Integer = 0
+
+        For Each blueprint As CellaBlueprint In blueprints
+            For k As Integer = 1 To perSpecies
+                Dim spot As Spot = spots(rand.Next(spots.Length))
+                Dim cella As VirtualCella = BuildCell(blueprint, taxonomy)
+
+                Call BindToSpot(cella, spot, env)
+                count += 1
+            Next
+        Next
+
+        Return count
+    End Function
+
+    ''' <summary>
+    ''' 把细胞放到指定格点：初始化边界浓度、登记谱系、加入格点细胞列表
+    ''' </summary>
+    Public Sub BindToSpot(cella As VirtualCella, spot As Spot, env As Environment)
+        If cella Is Nothing OrElse spot Is Nothing Then
+            Return
+        End If
+
+        cella.Spot = spot
+        cella.IsAlive = True
+
+        If env IsNot Nothing Then
+            cella.BirthTime = env.CurrentTime
+        End If
+
+        If spot.Medium IsNot Nothing Then
+            For i As Integer = 0 To cella.State.BoundaryNames.Length - 1
+                Dim level As Double = 0.0
+
+                If spot.Medium.TryGetValue(cella.State.BoundaryNames(i), level) Then
+                    cella.State.Boundary(i) = level
+                End If
+            Next
+        End If
+
+        spot.cells.Add(cella)
+
+        If env IsNot Nothing Then
+            Call env.Lineage.Register(cella, env.CurrentTime)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' 确保每个格点的培养基覆盖所有物种需要的胞外代谢物（缺失的补 0）
+    ''' </summary>
+    Public Sub EnsureMediumCoverage(env As Environment, blueprints As CellaBlueprint())
+        If env Is Nothing OrElse blueprints.IsNullOrEmpty Then
+            Return
+        End If
+
+        Dim ids As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+        For Each blueprint As CellaBlueprint In blueprints
+            Dim graph As MetabolicNetworkGraph = GetMetabolicGraph(blueprint)
+
+            For Each id As String In graph.BoundaryIds
+                Call ids.Add(id)
+            Next
+        Next
+
+        For Each spot As Spot In env.GetAllSpots()
+            If spot.Medium Is Nothing Then
+                spot.Medium = New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+            End If
+
+            For Each id As String In ids
+                If Not spot.Medium.ContainsKey(id) Then
+                    spot.Medium(id) = 0.0
+                End If
+            Next
+        Next
+
+        ' 培养基模板同步补齐，贴壁补料才能覆盖全部成分
+        If env.MediumTemplate IsNot Nothing Then
+            For Each id As String In ids
+                If Not env.MediumTemplate.ContainsKey(id) Then
+                    env.MediumTemplate(id) = 0.0
+                End If
+            Next
+        End If
+    End Sub
+
+    ' ==================== 二分裂 ====================
+
+    ''' <summary>
+    ''' 二分裂：创建一个继承亲代一半物质状态的子代，放入同一格点
+    ''' </summary>
+    ''' <returns>子代细胞；因格点承载上限等原因无法分裂时返回 Nothing</returns>
+    ''' <remarks>
+    ''' 子代的六个子网络是全新构建的（内部积分器从继承后的状态重新起算），
+    ''' 因此调用 ResyncSubNetworks 让积分器与状态池对齐。
+    ''' 谱系登记由 CellLifecycle 负责，这里只管创建。
+    ''' </remarks>
+    Public Function DivideCell(parent As VirtualCella, time As Double,
+                               Optional daughterSpot As Spot = Nothing) As VirtualCella
+
+        If parent Is Nothing OrElse parent.Blueprint Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim blueprint As CellaBlueprint = parent.Blueprint
+        Dim spot As Spot = If(daughterSpot, parent.Spot)
+
+        If spot Is Nothing Then
+            Return Nothing
+        End If
+
+        If spot.cells.Count >= blueprint.MaxCellsPerSpot Then
+            Return Nothing
+        End If
+
+        Dim fraction As Double = System.Math.Min(1.0, System.Math.Max(0.0, blueprint.DaughterStateFraction))
+        Dim child As VirtualCella = BuildCell(blueprint, parent.taxonomy_info)
+
+        child.ParentId = parent.Id
+        child.Species = If(parent.Species, blueprint.SpeciesName)
+        child.Generation = parent.Generation + 1
+        child.BirthTime = time
+
+        ' 继承一半物质型状态池，强度型状态池直接复制
+        Call child.State.CopyFrom(parent.State, fraction)
+        Call child.ResyncSubNetworks()
+
+        ' 生物量对半
+        child.Biomass = parent.Biomass * fraction
+        parent.Biomass *= (1.0 - fraction)
+        parent.offspringCounter += 1
+
+        ' 子代不再继承亲代的饥饿计数与年龄
+        child.StarvedTicks = 0
+
+        Call BindToSpot(child, spot, Nothing)
+
+        Return child
     End Function
 
     ' ==================== GCMarkup 全基因组模型 → 蓝图 ====================
