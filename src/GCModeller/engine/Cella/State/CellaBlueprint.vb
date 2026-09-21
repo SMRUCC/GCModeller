@@ -78,6 +78,9 @@ Public Class CellaBlueprint
     ''' <summary>边界代谢物 id → 负责转运它的转运蛋白基因 id</summary>
     Public Property Transporters As Dictionary(Of String, String)
 
+    ''' <summary>边界代谢物 id → 与之对应的胞内代谢物 id（用于把产物外排到环境中）</summary>
+    Public Property Exporters As Dictionary(Of String, String)
+
     ''' <summary>代谢物效应物 id → 受其调控的转录因子基因 id</summary>
     Public Property Effectors As Dictionary(Of String, String)
 
@@ -97,7 +100,7 @@ Public Class CellaBlueprint
 
     ''' <summary>翻译速率常数（按基因；缺失时用 <see cref="DefaultTranslationRate"/>）</summary>
     Public Property TranslationRate As Dictionary(Of String, Double)
-    Public Property DefaultTranslationRate As Double = 0.35
+    Public Property DefaultTranslationRate As Double = 0.05
 
     ''' <summary>蛋白质降解速率常数（按基因）</summary>
     Public Property ProteinDegradation As Dictionary(Of String, Double)
@@ -111,11 +114,11 @@ Public Class CellaBlueprint
     Public Property DefaultMessengerDegradation As Double = 0.12
 
     ''' <summary>单位 mRNA 降解可回收的物质当量</summary>
-    Public Property RecycleYieldRNA As Double = 0.4
+    Public Property RecycleYieldRNA As Double = 0.01
     ''' <summary>单位蛋白质降解可回收的物质当量</summary>
-    Public Property RecycleYieldProtein As Double = 0.8
+    Public Property RecycleYieldProtein As Double = 0.005
     ''' <summary>回收池的消耗速率常数</summary>
-    Public Property RecycleUseRate As Double = 0.25
+    Public Property RecycleUseRate As Double = 0.3
 
     ''' <summary>回收物质注入的目标代谢物 id；为 Nothing 时不注入</summary>
     Public Property RecycleTargetMetabolite As String
@@ -123,8 +126,11 @@ Public Class CellaBlueprint
     ''' <summary>酶水平归一化参考值：level = protein / (protein + reference) ∈ [0,1]</summary>
     Public Property EnzymeReference As Double = 1.0
 
-    ''' <summary>转运系统的最大转运速率</summary>
-    Public Property TransportVmax As Double = 2.0
+    ''' <summary>
+    ''' 转运系统的最大转运速率。
+    ''' 注意：该值决定环境被消耗的快慢，取值过大会让培养基在几个时间步内耗尽。
+    ''' </summary>
+    Public Property TransportVmax As Double = 0.05
     ''' <summary>转运系统的半饱和常数</summary>
     Public Property TransportKm As Double = 0.5
 
@@ -235,6 +241,21 @@ Public Class CellaBlueprint
 
         If Transporters.TryGetValue(boundaryMetabolite, gene) Then
             Return gene
+        End If
+
+        Return Nothing
+    End Function
+
+    ''' <summary>边界代谢物对应的胞内代谢物（外排来源）；未登记返回 Nothing</summary>
+    Public Function ExportSourceOf(boundaryMetabolite As String) As String
+        If Exporters Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim source As String = Nothing
+
+        If Exporters.TryGetValue(boundaryMetabolite, source) Then
+            Return source
         End If
 
         Return Nothing

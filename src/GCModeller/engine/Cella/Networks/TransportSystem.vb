@@ -23,6 +23,8 @@ Public Class TransportSystem : Inherits SubNetwork
     ReadOnly boundarySlot As Integer()
     ''' <summary>边界代谢物 → 转运蛋白基因在状态池中的槽位（-1 表示无对应转运蛋白）</summary>
     ReadOnly transporterSlot As Integer()
+    ''' <summary>边界代谢物 → 外排来源的胞内代谢物槽位（-1 表示不参与外排）</summary>
+    ReadOnly exportSlot As Integer()
     ''' <summary>边界代谢物名称</summary>
     ReadOnly boundaryNames As String()
 
@@ -38,6 +40,7 @@ Public Class TransportSystem : Inherits SubNetwork
     End Property
 
     ReadOnly uptake As Double()
+    ReadOnly efflux As Double()
 
     ''' <summary>累计从环境中摄取的物质量（诊断用）</summary>
     Public ReadOnly Property ConsumedTotal As Double
@@ -56,7 +59,9 @@ Public Class TransportSystem : Inherits SubNetwork
         boundaryNames = names
         boundarySlot = New Integer(names.Length - 1) {}
         transporterSlot = New Integer(names.Length - 1) {}
+        exportSlot = New Integer(names.Length - 1) {}
         uptake = New Double(names.Length - 1) {}
+        efflux = New Double(names.Length - 1) {}
         capacityReference = System.Math.Max(blueprint.EnzymeReference, 0.000001)
         vmax = blueprint.TransportVmax
         km = System.Math.Max(blueprint.TransportKm, 0.000001)
@@ -71,6 +76,15 @@ Public Class TransportSystem : Inherits SubNetwork
                 transporterSlot(i) = slot
             Else
                 transporterSlot(i) = -1
+            End If
+
+            Dim source As String = blueprint.ExportSourceOf(names(i))
+            Dim src As Integer = -1
+
+            If source IsNot Nothing AndAlso cell.State.MetaboliteIndex.TryGetValue(source, src) Then
+                exportSlot(i) = src
+            Else
+                exportSlot(i) = -1
             End If
         Next
     End Sub
@@ -106,32 +120,63 @@ Public Class TransportSystem : Inherits SubNetwork
 
             ' 环境侧消耗：米氏方程形式的摄取速率
             Dim rate As Double = vmax * capacity * external / (km + external)
+            Dim remain As Double = external - rate * dt
+
+            If remain < 0.0 Then
+                remain = 0.0
+            End If
 
             uptake(i) = rate
 
             If medium IsNot Nothing Then
-                Dim remain As Double = external - rate * dt
+                _consumedTotal += (external - remain)
+            End If
 
-                If remain < 0.0 Then
-                    remain = 0.0
+            ' ---- 产物外排：把胞内代谢物的水平镜像到环境中 ----
+            ' 注意这里不扣减胞内浓度：外排反应本身已经包含在 Metaboliq 的
+            ' 反应网络里（如 LACtex / ETOHtex / ACtex / CO2tex），此处只是
+            ' 把它的效果同步到环境侧，避免与液态网络的积分重复记账。
+            Dim src As Integer = exportSlot(i)
+
+            If src >= 0 Then
+                Dim level As Double = state.Metabolite(src)
+
+                If Double.IsNaN(level) OrElse level < 0.0 Then
+                    level = 0.0
                 End If
 
+                Dim exportRate As Double = vmax * capacity * level / (km + level)
+
+                efflux(i) = exportRate
+                remain += exportRate * dt
+            End If
+
+            If medium IsNot Nothing Then
                 medium(boundaryNames(i)) = remain
-                _consumedTotal += (external - remain)
             End If
         Next
     End Sub
 
+    ''' <summary>最近一次推进中各边界代谢物的外排速率</summary>
+    Public ReadOnly Property EffluxRates As Double()
+        Get
+            Return efflux
+        End Get
+    End Property
+
     Public Overrides Function GetStats() As Dictionary(Of String, Double)
         Dim sum As Double = 0.0
+        Dim out As Double = 0.0
 
         For i As Integer = 0 To uptake.Length - 1
             sum += uptake(i)
+            out += efflux(i)
         Next
 
         Return New Dictionary(Of String, Double) From {
             {"boundary_metabolites", uptake.Length},
             {"uptake_total", sum},
+            {"efflux_total", out},
             {"consumed_total", _consumedTotal}
         }
     End Function

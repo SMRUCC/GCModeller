@@ -241,9 +241,16 @@ Public Class GeneRegulatoryNetwork : Inherits SubNetwork
                 clipped = True
             End If
 
-            Dim next_ As Double = mrna(i) + delta * alpha
+            ' GEARS 的还原约定是「扰动后表达 = 基线 + Δ」，因此预测目标应当以
+            ' 野生型基线为锚点，而不是在当前值上继续累加 —— 后者会让闭环仿真
+            ' 单调漂移（实测会一路衰减到 0）。这里让 mRNA 松弛到预测目标。
+            Dim target As Double = wildtypeMean(i) + delta
 
-            mrna(i) = If(next_ < 0.0, 0.0, next_)
+            If target < 0.0 Then
+                target = 0.0
+            End If
+
+            mrna(i) = mrna(i) + (target - mrna(i)) * alpha
         Next
 
         If clipped Then

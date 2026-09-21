@@ -92,13 +92,13 @@ Public Class CellularState
 
     Sub New(genes As IEnumerable(Of String),
             metabolites As IEnumerable(Of String),
-            boundary As IEnumerable(Of String),
+            boundaryMetabolites As IEnumerable(Of String),
             signals As IEnumerable(Of String),
             Optional initialLevel As Double = 0.0)
 
         GeneNames = genes.SafeQuery.ToArray
         MetaboliteNames = metabolites.SafeQuery.ToArray
-        BoundaryNames = boundary.SafeQuery.ToArray
+        BoundaryNames = boundaryMetabolites.SafeQuery.ToArray
         SignalNames = signals.SafeQuery.ToArray
 
         GeneIndex = BuildIndex(GeneNames)

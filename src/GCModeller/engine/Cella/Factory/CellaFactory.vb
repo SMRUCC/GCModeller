@@ -122,7 +122,7 @@ Public Module CellaFactory
             .State = New CellularState(
                 genes:=genes,
                 metabolites:=graph.InternalIds,
-                boundary:=graph.BoundaryIds,
+                boundaryMetabolites:=graph.BoundaryIds,
                 signals:=blueprint.GetSignalChannels()
             )
         }

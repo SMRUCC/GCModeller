@@ -80,9 +80,14 @@ Public Class SignalTransductionNetwork : Inherits OdeSubNetwork
             signalSlot(i) = i
         Next
 
+        ' 传感器激酶与响应调节因子给一个小而非零的初值：
+        ' 全零初值会让 CVODE 的初始步长估计退化，起步时容易触发一次重启
         Dim initial As Double() = New Double(n - 1) {}
 
-        ' 传感器激酶与响应调节因子都从零开始，相位从零开始
+        For i As Integer = 0 To n - 1
+            initial(i) = 0.01
+        Next
+
         Call InitializeFrom(initial)
     End Sub
 

@@ -29,6 +29,15 @@ Public MustInherit Class OdeSubNetwork : Inherits SubNetwork
     ''' <summary>每累计这么多步就重启一次求解器，避免内部步数计数器溢出</summary>
     Protected Property RebaseThreshold As Integer = 5000
 
+    ''' <summary>最近一次推进的 CVODE 返回状态（诊断用）</summary>
+    Public ReadOnly Property LastStatus As CVODEStatus
+        Get
+            Return _lastStatus
+        End Get
+    End Property
+
+    Private _lastStatus As CVODEStatus = CVODEStatus.Success
+
     Sub New(cell As VirtualCella,
             dimension As Integer,
             Optional name As String = Nothing,
@@ -124,11 +133,27 @@ Public MustInherit Class OdeSubNetwork : Inherits SubNetwork
             status = solver.Initialize(t, y)
 
             If status <> CVODEStatus.Success Then
+                _lastStatus = status
                 Call CountFailure()
+
                 Return False
             End If
 
             status = solver.Integrate(target, y)
+        End If
+
+        _lastStatus = status
+
+        If status <> CVODEStatus.Success AndAlso status <> CVODEStatus.TStopReturn Then
+            ' 单次起步 / 步长失配是刚启动时常有的小故障：重启求解器重试一次，
+            ' 仍失败才判定为发散并交由调用方回退
+            status = solver.Initialize(t, y)
+
+            If status = CVODEStatus.Success Then
+                status = solver.Integrate(target, y)
+            End If
+
+            _lastStatus = status
         End If
 
         If status = CVODEStatus.Success OrElse status = CVODEStatus.TStopReturn Then
@@ -155,6 +180,7 @@ Public MustInherit Class OdeSubNetwork : Inherits SubNetwork
             {"time", t},
             {"ode_steps", solver.TotalSteps},
             {"ode_order", solver.CurrentOrder},
+            {"ode_status", CDbl(CInt(_lastStatus))},
             {"failed", CDbl(FailedSteps)}
         }
     End Function
