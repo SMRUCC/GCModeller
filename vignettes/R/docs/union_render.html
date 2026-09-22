@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Render KEGG Pathway Maps with Multi-Omics Highlighting</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>union_render {GCModeller}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Render KEGG Pathway Maps with Multi-Omics Highlighting</h2>
+
+        <h3>Description</h3>
+
+        <p>Generates interactive HTML and static PNG visualizations of KEGG pathway maps with customizable highlighting for compounds, genes, and proteins. Output files are saved to the specified directory.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>union_render</strong>(<i>union.data</i>,
+    <i>outputdir</i> = <span style='color: brown;'><strong>'./'</strong></span>,
+    <i>id</i> = <span style='color: brown;'><strong>'KEGG'</strong></span>,
+    <i>compound</i> = <span style='color: brown;'><strong>'compound'</strong></span>,
+    <i>gene</i> = <span style='color: brown;'><strong>'gene'</strong></span>,
+    <i>protein</i> = <span style='color: brown;'><strong>'protein'</strong></span>,
+    <i>text.color</i> = <span style='color: #FFFFFF;'><strong>'white'</strong></span>,
+    <i>kegg.maps</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>union.data</dt>
+<dd><p><p>A data frame or file path (CSV) containing KEGG pathway IDs and highlight information. Must include columns specified in <code>id</code>, <code>compound</code>, <code>gene</code>, and <code>protein</code> parameters. If a character string is provided, it is interpreted as a file path to a CSV file.</p></p></dd>
+
+
+<dt>outputdir</dt>
+<dd><p><p>Output directory path for rendered files (default: "./").</p></p></dd>
+
+
+<dt>id</dt>
+<dd><p><p>Column name in <code>union_data</code> containing KEGG pathway IDs (default: "KEGG").</p></p></dd>
+
+
+<dt>compound</dt>
+<dd><p><p>Column name in <code>union_data</code> containing compound highlight data (default: "compound"). See Details for formatting.</p></p></dd>
+
+
+<dt>gene</dt>
+<dd><p><p>Column name in <code>union_data</code> containing gene highlight data (default: "gene").</p></p></dd>
+
+
+<dt>protein</dt>
+<dd><p><p>Column name in <code>union_data</code> containing protein highlight data (default: "protein").</p></p></dd>
+
+
+<dt>text.color</dt>
+<dd><p><p>Color for node labels on pathway maps (default: "white").</p></p></dd>
+
+
+<dt>kegg.maps</dt>
+<dd><p><p>Directory path containing KEGG map XML files. If <code>NULL</code> (default), uses the package's internal XML resources.</p></p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p><strong>Highlight Data Format</strong>: The <code>compound</code>, <code>gene</code>, and <code>protein</code> columns should contain strings in one of two formats:</p>
+
+
+<ol>
+<li>Semicolon-separated key-value pairs: <code>"K00001:blue;K00002:red;C00001:green"</code></li>
+<li>Semicolon-separated IDs (default color: red): <code>"K00001;K00002;C00001"</code></li>
+</ol>
+
+
+<p>These are parsed by <a href="https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html"><code>parse.highlight_tuples()</code></a> into named lists (e.g., <code>list(K00001 = "blue", K00002 = "red")</code>). <strong>Output Files</strong>: For each KEGG ID, two files are generated:</p>
+
+
+<ul>
+<li><code>[KEGG_ID].html</code>: Interactive pathway visualization</li>
+<li><code>[KEGG_ID].png</code>: Static PNG image</li>
+</ul>
+
+
+<p><strong>Error Handling</strong>: Errors during rendering are caught and printed to the console without stopping execution.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        xieguigang
+
+        <h3>Value</h3>
+
+        <p>Invisibly returns <code>NULL</code>. Primary output is generated as files in <code>outputdir</code>.</p>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r">#\dontrun{
+
+# Minimal example with default column names
+data <- data.frame(
+KEGG = "map00010",
+compound = "C00031:green;C00022:blue",
+gene = "hsa:1234;hsa:5678:yellow",
+protein = "P12345"
+)
+union_render(data, outputdir = "~/kegg_output")
+# Custom column names and text color
+data <- data.frame(
+PathwayID = "map00020",
+Metabolites = "C00024; C00036:orange",
+Genes = "hsa:9012:purple",
+Proteins = "P67890:red"
+)
+union_render(data,
+id = "PathwayID",
+compound = "Metabolites",
+gene = "Genes",
+protein = "Proteins",
+text.color = "black"
+)
+#}</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>GCModeller</em> version 1.1.0-beta <a
+                href="../GCModeller.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

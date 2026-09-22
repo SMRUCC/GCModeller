@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.RetroPath.Chem.Rule</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Rule {SMRUCC.genomics.Analysis.RetroPath.Chem}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Rule</h2>
+
+        <h3>Description</h3>
+
+        <p>一条广义反应规则：(反应物模式, 产物模式, ΔG, 酶层级)。</p>
+
+<p>规则不绑定具体底物，只描述"反应中心发生了什么化学变换"——这正是它能组合出自然界 尚不存在的反应序列的原因。两侧模式通过原子类号（<code>:n</code>）建立原子映射。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.RetroPath.Chem
+export class Rule {
+   # 正向（反应物模式 → 产物模式）的预计算拓扑；构造期算一次，之后只读共享。
+   ForwardPlan: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/ApplyPlan.html">ApplyPlan</a>;
+   # 逆向（产物模式 → 反应物模式）的预计算拓扑；构造期算一次，之后只读共享。
+   ReversePlan: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/ApplyPlan.html">ApplyPlan</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>ForwardPlan</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/ApplyPlan.html">ApplyPlan</a></li>
+<li>use by <i>property</i> member <code>ReversePlan</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Chem/ApplyPlan.html">ApplyPlan</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
