@@ -48,6 +48,7 @@ Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' package module for create track plots or config track plots
@@ -76,7 +77,7 @@ Module TrackPlots
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("orientation")>
-    Public Function SetTrackOrientation(track As ITrackPlot, Optional orientation As orientations = orientations.in) As ITrackPlot
+    Public Function SetTrackOrientation(track As ITrackPlot, Optional orientation As Orientation = Orientation.in) As ITrackPlot
         track.orientation = orientation
         Return track
     End Function
@@ -168,7 +169,7 @@ Module TrackPlots
         }
 
         If labels.tracksData.GetEnumerator.Count = 0 Then
-            Return Internal.debug.stop("the text track data can not be empty!", env)
+            Return RInternal.debug.stop("the text track data can not be empty!", env)
         Else
             Return labels
         End If
@@ -180,7 +181,7 @@ Module TrackPlots
         Dim hTrack As New HighLight(highlights)
 
         If hTrack.tracksData.GetEnumerator.Count = 0 Then
-            Return Internal.debug.stop("the value points in the track data can not be empty!", env)
+            Return RInternal.debug.stop("the value points in the track data can not be empty!", env)
         Else
             Return hTrack
         End If
@@ -197,7 +198,7 @@ Module TrackPlots
         Dim hist As New Histogram(New NtProps.GCSkew(valuePoints.populates(Of ValueTrackData)(env)))
 
         If hist.tracksData.GetEnumerator.Count = 0 Then
-            Return Internal.debug.stop("the value points in the track data can not be empty!", env)
+            Return RInternal.debug.stop("the value points in the track data can not be empty!", env)
         Else
             Return hist
         End If
