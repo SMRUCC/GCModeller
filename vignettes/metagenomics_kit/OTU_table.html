@@ -1,0 +1,252 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>OTU_table</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; OTU_table; metagenomics_kit" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {OTU_table}">
+      <tbody>
+        <tr>
+          <td>{OTU_table}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>OTU_table</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "OTU_table"</span><span style="color: blue;"> from</span><span style="color: brown"> "metagenomics_kit"</span>;
+                           </code>
+    </p>
+    <p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: block">
+        <caption>.NET clr type export</caption>
+        <tbody><tr>
+  <td id="OTU_table">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/OTUTable.html">OTU_table: OTUTable</a>
+  </td>
+  <td><h3>OTU table (sequence count table)</h3>
+
+<p>A OTU table contains the number of sequences that are observed for each taxonomic unit (OTUs) in each samples. Columns usually represent samples and rows represent genera or species specific taxonomic units (OTUs). OTU tables are often saved as BIOM formatted files.</p>
+
+<h3>Limited taxonomic resolution</h3>
+
+<p>OTU resolution depends On the 16S approach which has some limits In distinguishing at the species level, For example,</p>
+
+<p>Escherichia coli And Shigella spp. share almost identical 16S rRNA gene sequences.</p>
+
+<p>Alternative approaches are developed To achieve higher resolution up To strain level by considering larger Or complete sets Of genes.</p></td>
+</tr></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="as.data.frame.otutable">
+    <a href="./OTU_table/as.data.frame.otutable.html">as.data.frame.otutable</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/OTUTable.html">OTUTable</a>: <h3>OTU table (sequence count table)</h3>
+
+<p>A OTU table contains the number of sequences that are observed for each taxonomic unit (OTUs) in each samples. Columns usually represent samples and rows represent genera or species specific taxonomic units (OTUs). OTU tables are often saved as BIOM formatted files.</p>
+
+<h3>Limited taxonomic resolution</h3>
+
+<p>OTU resolution depends On the 16S approach which has some limits In distinguishing at the species level, For example,</p>
+
+<p>Escherichia coli And Shigella spp. share almost identical 16S rRNA gene sequences.</p>
+
+<p>Alternative approaches are developed To achieve higher resolution up To strain level by considering larger Or complete sets Of genes.</p></td>
+</tr>
+<tr>
+  <td id="sample_id">
+    <a href="./OTU_table/sample_id.html">sample_id</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="relative_abundance">
+    <a href="./OTU_table/relative_abundance.html">relative_abundance</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="average">
+    <a href="./OTU_table/average.html">average</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="median_scale">
+    <a href="./OTU_table/median_scale.html">median_scale</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="filter">
+    <a href="./OTU_table/filter.html">filter</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read.OTUtable">
+    <a href="./OTU_table/read.OTUtable.html">read.OTUtable</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read.OTUdata">
+    <a href="./OTU_table/read.OTUdata.html">read.OTUdata</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="otu_from_matrix">
+    <a href="./OTU_table/otu_from_matrix.html">otu_from_matrix</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="as.hts_matrix">
+    <a href="./OTU_table/as.hts_matrix.html">as.hts_matrix</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read.rankdata">
+    <a href="./OTU_table/read.rankdata.html">read.rankdata</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="as.OTU_table">
+    <a href="./OTU_table/as.OTU_table.html">as.OTU_table</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="set_MAG_data">
+    <a href="./OTU_table/set_MAG_data.html">set_MAG_data</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="set_taxonomyName">
+    <a href="./OTU_table/set_taxonomyName.html">set_taxonomyName</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="core_microbiome">
+    <a href="./OTU_table/core_microbiome.html">core_microbiome</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="dominant_species">
+    <a href="./OTU_table/dominant_species.html">dominant_species</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="make_otu_table">
+    <a href="./OTU_table/make_otu_table.html">make_otu_table</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="makeTreeGraph">
+    <a href="./OTU_table/makeTreeGraph.html">makeTreeGraph</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="makeUPGMATree">
+    <a href="./OTU_table/makeUPGMATree.html">makeUPGMATree</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="drawUPGMATree">
+    <a href="./OTU_table/drawUPGMATree.html">drawUPGMATree</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="make_repseq_id">
+    <a href="./OTU_table/make_repseq_id.html">make_repseq_id</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="merge_phyloseq">
+    <a href="./OTU_table/merge_phyloseq.html">merge_phyloseq</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="batch_combine">
+    <a href="./OTU_table/batch_combine.html">batch_combine</a>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

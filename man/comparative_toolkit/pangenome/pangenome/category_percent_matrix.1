@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH PANGENOME 1 2000-1月 "category_percent_matrix" "category_percent_matrix"
+.SH NAME
+category_percent_matrix \- export the gene family distribution percent matrix
+.SH SYNOPSIS
+\fIcategory_percent_matrix(\fBresult\fR as <generic> PanGenomeResult, 
+\fBby\fR as string = "gene", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+export the gene family distribution percent matrix
+ (rows are genomes plus one average row, columns are the four family categories)
+.PP
+.SH OPTIONS
+.PP
+\fBresult\fB \fR\- -. 
+.PP
+.PP
+\fBby\fB \fR\- 
+ the statistics caliber: \fBgene\fR for the gene(copy number) based percent (default),
+ or \fBfamily\fR for the family count based percent.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+pangenome
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP

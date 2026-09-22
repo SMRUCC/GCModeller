@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH BNLEARN 1 2000-1月 "knockdown" "knockdown"
+.SH NAME
+knockdown \- run the in silico gene knockdown experiment on the given network model
+.SH SYNOPSIS
+\fIknockdown(\fBbnlearn\fR as any, 
+\fBgeneNames\fR as any);\fR
+.SH DESCRIPTION
+.PP
+run the in silico gene knockdown experiment on the given network model
+.PP
+.SH OPTIONS
+.PP
+\fBbnlearn\fB \fR\- 
+ the trained network model object, which could be created by the \fBbnlearn\fR 
+ api or the \fBGEARS::new\fR api.
+. 
+.PP
+.PP
+\fBgeneNames\fB \fR\- 
+ a character vector of the gene id for run the knockdown experiment, one 
+ [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object will be generated for each gene.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) perturbation result: the 
+ \fBWildtypeMeans\fR is the wildtype expression value of each gene, the 
+ \fBMutantMeans\fR is the expression value of each gene after the gene has been 
+ knocked down, and the \fBFoldChanges\fR, \fBPercentChanges\fR, \fBZScores\fR and 
+ \fBIsSignificant\fR data is the differential analysis result of the 
+ perturbation.
+.PP
+.SH SEE ALSO
+bnlearn
+.SH FILES
+.PP
+biosystem.dll
+.PP

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Microarray.EndogenousLatentVariable</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>EndogenousLatentVariable {SMRUCC.genomics.Analysis.Microarray}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>EndogenousLatentVariable</h2>
+
+        <h3>Description</h3>
+
+        <p>内生潜变量模型拟合优度表</p>
+
+<p>本表格展示了PLS-PM结构模型中所有内生潜变量（即被其他潜变量预测的变量）的模型拟合优度与解释力度指标。通过该表格，可以了解到上游组学变量对下游靶变量（如各类黄酮物质、淀粉表型等）变异的整体解释能力，以及测量模型中显变量对潜变量的代表程度，用于评估整体网络模型的可靠性与解释力。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Microarray
+export class EndogenousLatentVariable {
+   # communality表示共同度，代表该潜变量的显变量能解释该潜变量的方差比例（测量模型的效度）
+   communality: double;
+   # latentName表示内生潜变量的名称
+   latentName: string;
+   # r2表示决定系数，代表该潜变量的方差能被其上游预测变量解释的比例
+   r2: double;
+   # redundancy表示冗余度，代表显变量能被上游潜变量解释的方差比例。
+   redundancy: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

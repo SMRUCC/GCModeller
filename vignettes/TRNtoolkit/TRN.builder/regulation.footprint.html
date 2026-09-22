@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>create the regulation footprint(regulation network edges) from the regulator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>regulation.footprint {TRN.builder}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>create the regulation footprint(regulation network edges) from the regulator</h2>
+
+        <h3>Description</h3>
+
+        <p>mapping data, the motif site data and the regprecise regulon database</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>regulation.footprint</strong>(<i>regulators</i>, <i>motifLocis</i>, <i>regprecise</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>regulators</dt>
+<dd><p>the regulator mapping data, which can be a vector of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit">BestHit</a> object(the bbh best hit mapping result of the regulator protein to the target genome), or a pipeline object that produces a set of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit">BestHit</a> data.</p></dd>
+
+
+<dt>motifLocis</dt>
+<dd><p>a vector of the <a href="cref:T:SMRUCC.genomics.Data.Regprecise.FootprintSite">FootprintSite</a> motif site data, which could be loaded from a csv table file via the <code>read.footprints</code> api: the <code>src</code> property of the site data is the transcription factor family name set of the corresponding motif site and the <code>gene</code> property is the regulated target gene of the site. [as <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/FootprintSite.html">FootprintSite</a>]</p></dd>
+
+
+<dt>regprecise</dt>
+<dd><p>the regprecise regulon database object(<a href="cref:T:SMRUCC.genomics.Data.Regprecise.TranscriptionFactors">TranscriptionFactors</a>), which provides the regulator information(the effector, the regulation mode, the regulog, the biological process, etc) of each transcription factor family. [as <a href="/vignettes/clr/SMRUCC/genomics/Data/Regprecise/TranscriptionFactors.html">TranscriptionFactors</a>]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>only the regulator of the <code>TF</code> type in the regprecise database will be used for create the regulation network, and the transcription factor family name of the regulator is the first token of the family data which is splitted by the <code>/</code> or the <code>\</code> character.</p>
+
+<p>the regulator mapping is created by the bbh best hit: the <code>HitName</code> of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit">BestHit</a> data is mapped to the regprecise regulator via its locus id(the text after the last <code>:</code> character), and the <code>QueryName</code> is used as the regulator gene id in the target genome.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        TRNtoolkit
+
+        <h3>Value</h3>
+
+        <p>a pipeline object of the <a href="cref:T:SMRUCC.genomics.Data.Regprecise.RegulationFootprint">RegulationFootprint</a> regulation network edge data: each edge is a regulation of one regulator to one target gene, which is created by mapping the motif site to the regulator of the corresponding transcription factor family in the regprecise database, the duplicated edge(<code>{regulator}-&gt;{regulated}</code>) will be removed automatically;</p>
+
+<p>this function returns NULL if the given regulator mapping data is nothing, or a R# error message object if the given regulator data is not a collection of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit">BestHit</a> data.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>TRN.builder</em> version 1.0.0.0 <a
+                href="../TRN.builder.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

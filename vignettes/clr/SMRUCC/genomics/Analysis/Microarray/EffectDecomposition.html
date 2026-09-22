@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Microarray.EffectDecomposition</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>EffectDecomposition {SMRUCC.genomics.Analysis.Microarray}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>EffectDecomposition</h2>
+
+        <h3>Description</h3>
+
+        <p>效应分解总表</p>
+
+<p>本表格展示了PLS-PM模型中任意起始潜变量对目标潜变量的总效应及其分解结果。通过该表格，可以全面了解一个变量对另一个变量的综合影响，包括直接作用和通过中介网络传导的间接作用，有助于厘清复杂的基因-蛋白-代谢-表型多层级网络中的关键调控主线与次要旁路。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Microarray
+export class EffectDecomposition {
+   # direct表示直接效应系数
+   direct: double;
+   # fromName和toName分别表示作用路径的起始潜变量和目标潜变量
+   fromName: string;
+   # indirect表示间接效应系数（通过中介变量）
+   indirect: double;
+   # fromName和toName分别表示作用路径的起始潜变量和目标潜变量
+   toName: string;
+   # total表示总效应系数，即直接效应与间接效应的代数和，反映自变量对因变量的整体影响力。
+   total: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

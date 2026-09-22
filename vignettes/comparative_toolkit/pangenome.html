@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>pangenome</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; pangenome; comparative_toolkit" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="pan-genome analysis toolkit..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {pangenome}">
+      <tbody>
+        <tr>
+          <td>{pangenome}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>pangenome</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' pan-genome analysis toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "pangenome"</span><span style="color: blue;"> from</span><span style="color: brown"> "comparative_toolkit"</span>;
+                           </code>
+    </p>
+    <p><p>pan-genome analysis toolkit</p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: block">
+        <caption>.NET clr type export</caption>
+        <tbody><tr>
+  <td id="pangenome">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/PanGenomeResult.html">pangenome: PanGenomeResult</a>
+  </td>
+  <td><p>分析结果存储结构（修改为支持多基因组）</p></td>
+</tr>
+<tr>
+  <td id="ortho_groups">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/UnionFind.html">ortho_groups: UnionFind</a>
+  </td>
+  <td><p>并查集辅助类，用于高效处理基因家族的聚类</p></td>
+</tr></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="as.data.frame.svtable">
+    <a href="./pangenome/as.data.frame.svtable.html">as.data.frame.svtable</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVTable.html">SVTable</a>: </td>
+</tr>
+<tr>
+  <td id="as.data.frame.pavtable">
+    <a href="./pangenome/as.data.frame.pavtable.html">as.data.frame.pavtable</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/PAVTable.html">PAVTable</a>: </td>
+</tr>
+<tr>
+  <td id="as.data.frame.genomestatrow">
+    <a href="./pangenome/as.data.frame.genomestatrow.html">as.data.frame.genomestatrow</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/ReportJSON/GenomeStatRow.html">GenomeStatRow</a>: <p>泛基因组报告页面所使用的 JSON 数据模型。</p></td>
+</tr>
+<tr>
+  <td id="as.data.frame.pcascatterdataset">
+    <a href="./pangenome/as.data.frame.pcascatterdataset.html">as.data.frame.pcascatterdataset</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/ReportJSON/PCAScatterDataset.html">PCAScatterDataset</a>: <p>PAV矩阵的PCA分析结果数据（用于三维散点图）</p></td>
+</tr>
+<tr>
+  <td id="as.data.frame.genomeentropydataset">
+    <a href="./pangenome/as.data.frame.genomeentropydataset.html">as.data.frame.genomeentropydataset</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/ReportJSON/GenomeEntropyDataset.html">GenomeEntropyDataset</a>: <p>基因组级别的三维散点图数据（均衡度熵 / 特有基因占比 / 核心基因占比）</p></td>
+</tr>
+<tr>
+  <td id="as.data.frame.svdomainentropydataset">
+    <a href="./pangenome/as.data.frame.svdomainentropydataset.html">as.data.frame.svdomainentropydataset</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/ReportJSON/SVDomainEntropyDataset.html">SVDomainEntropyDataset</a>: <p>SV 结构变异的信息熵散点图与 KMeans 聚类结果</p></td>
+</tr>
+<tr>
+  <td id="build_context">
+    <a href="./pangenome/build_context.html">build_context</a>
+  </td>
+  <td><p>Load the pangenome analysis context</p></td>
+</tr>
+<tr>
+  <td id="multiple_genome_alignment">
+    <a href="./pangenome/multiple_genome_alignment.html">multiple_genome_alignment</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="family_groups">
+    <a href="./pangenome/family_groups.html">family_groups</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="analysis">
+    <a href="./pangenome/analysis.html">analysis</a>
+  </td>
+  <td><p>run pan-genome analysis</p></td>
+</tr>
+<tr>
+  <td id="set_ortho_group">
+    <a href="./pangenome/set_ortho_group.html">set_ortho_group</a>
+  </td>
+  <td><p>set orthology group for make gene family</p></td>
+</tr>
+<tr>
+  <td id="source_id">
+    <a href="./pangenome/source_id.html">source_id</a>
+  </td>
+  <td><p>set species name to the genome gff3 context model</p></td>
+</tr>
+<tr>
+  <td id="scatter_set">
+    <a href="./pangenome/scatter_set.html">scatter_set</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="report_html">
+    <a href="./pangenome/report_html.html">report_html</a>
+  </td>
+  <td><p>generates the html report text for the pan-genome analysis result</p></td>
+</tr>
+<tr>
+  <td id="genetic_distance">
+    <a href="./pangenome/genetic_distance.html">genetic_distance</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="pav_matrix">
+    <a href="./pangenome/pav_matrix.html">pav_matrix</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="sv_copy_number_matrix">
+    <a href="./pangenome/sv_copy_number_matrix.html">sv_copy_number_matrix</a>
+  </td>
+  <td><p>export the SV CopyNumber matrix of the structural variations (rows are gene families which have at least one SV event, columns are genomes)</p></td>
+</tr>
+<tr>
+  <td id="sv_median_matrix">
+    <a href="./pangenome/sv_median_matrix.html">sv_median_matrix</a>
+  </td>
+  <td><p>export the SV Median matrix of the structural variations (rows are gene families which have at least one SV event, columns are genomes)</p></td>
+</tr>
+<tr>
+  <td id="category_percent_matrix">
+    <a href="./pangenome/category_percent_matrix.html">category_percent_matrix</a>
+  </td>
+  <td><p>export the gene family distribution percent matrix (rows are genomes plus one average row, columns are the four family categories)</p></td>
+</tr>
+<tr>
+  <td id="sv_entropy">
+    <a href="./pangenome/sv_entropy.html">sv_entropy</a>
+  </td>
+  <td><p>get the SV structural variation information entropy scatter data and the kmeans clustering result</p></td>
+</tr>
+<tr>
+  <td id="curve_data">
+    <a href="./pangenome/curve_data.html">curve_data</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="sv_table">
+    <a href="./pangenome/sv_table.html">sv_table</a>
+  </td>
+  <td><p>export structure variant result table</p></td>
+</tr>
+<tr>
+  <td id="pav_table">
+    <a href="./pangenome/pav_table.html">pav_table</a>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

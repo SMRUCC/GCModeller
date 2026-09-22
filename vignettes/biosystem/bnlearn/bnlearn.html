@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>learn the gene regulatory bayesian network from the gene expression data</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>bnlearn {bnlearn}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>learn the gene regulatory bayesian network from the gene expression data</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>bnlearn</strong>(<i>exprData</i>,
+    <i>priorNet</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>modules</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>TF</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>max.itrs</i> = <span style='color: green;'>500</span>,
+    <i>cross.thres</i> = <span style='color: green;'>0.3</span>,
+    <i>opt</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>strict</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>exprData</dt>
+<dd><p>the gene expression matrix object, could be load from csv file via <code>geneExpression::load.expr</code> api, or the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.GeneExpressionData">GeneExpressionData</a> matrix</p></dd>
+
+
+<dt>priorNet</dt>
+<dd><p>a collection of the prior knowledge regulatory edge data (<a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge">RegulatoryEdge</a>), which is used as the whitelist of the network structure learning: only the regulation relation that is described in this prior network will be considered in the structure learning.</p>
+
+<p>this parameter is optional, the network structure will be learned from the expression data alone if the prior network is not provided.</p></dd>
+
+
+<dt>max.itrs</dt>
+<dd><p>the max iteration numbers of the network structure learning, by default is 500. [as integer]</p></dd>
+
+
+<dt>strict</dt>
+<dd><p>the strict option of the in silico perturbation experiment: if this parameter is TRUE, then an error will be thrown when the target gene of the perturbation is missing from the learned network; if this parameter is FALSE, then a warning message will be printed and the wildtype expression data will be returned as the perturbation result with the <code>Undefined</code> flag marked as TRUE.</p>
+
+<p>if this parameter is not specified, then the strict option of the R# runtime environment will be used. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>this function runs the network learning in two steps:</p>
+
+
+<ol>
+<li>the structure learning: the MMHC algorithm with the whitelist prior network;</li>
+<li>the parameter learning: the maximum likelihood estimation(MLE) of the Gaussian bayesian network.</li>
+</ol>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow">BNLearnWorkflow</a> object that contains the learned bayesian network model, which implements the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a> interface, so that it can be used by the <code>knockouts</code>, <code>overexpress</code> and <code>knockdown</code> api for run the in silico gene perturbation experiment;</p>
+
+<p>this function returns a R# error message object if the given prior network data can not be cast to a collection of the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge">RegulatoryEdge</a> data.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/BNLearnWorkflow.html">BNLearnWorkflow</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/ModularNetwork/BlockBayesianNetwork.html">BlockBayesianNetwork</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>bnlearn</em> version 1.0.0.0 <a
+                href="../bnlearn.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

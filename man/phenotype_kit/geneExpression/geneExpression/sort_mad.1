@@ -1,0 +1,31 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "sort_mad" "sort_mad"
+.SH NAME
+sort_mad \- take top n expression feature by rank expression MAD value desc
+.SH SYNOPSIS
+\fIsort_mad(\fBx\fR as <generic> Matrix, 
+\fBtop\fR as integer = 10000);\fR
+.SH DESCRIPTION
+.PP
+take top n expression feature by rank expression MAD value desc
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a gene expression matrix object. 
+.PP
+.PP
+\fBtop\fB \fR\- take top N gene features. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that only contains the top n gene feature 
+ rows which is sorted by the MAD value of each gene feature row in 
+ descending order, the tag of the generated matrix is formatted as 
+ \fBsort_mad({tag})\fR.
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

@@ -1,0 +1,61 @@
+.\" man page create by R# package system.
+.TH MIRNA 1 2000-1月 "intersect_targets" "intersect_targets"
+.SH NAME
+intersect_targets \- High-confidence intersection (psRNATarget ∩ TargetFinder)
+.SH SYNOPSIS
+\fIintersect_targets(\fBpsRNATarget\fR as any, 
+\fBTargetFinder\fR as any, 
+\fBsite_tolerance\fR as integer = 3, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+High-confidence intersection (psRNATarget ∩ TargetFinder)
+.PP
+.SH OPTIONS
+.PP
+\fBpsRNATarget\fB \fR\- 
+ the target site match result of the psRNATarget algorithm, which is a 
+ collection of the [siRNAHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit) data.
+. 
+.PP
+.PP
+\fBTargetFinder\fB \fR\- 
+ the target site match result of the TargetFinder algorithm, which is a 
+ collection of the [siRNAHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit) data.
+. 
+.PP
+.PP
+\fBsite_tolerance\fB \fR\- 
+ the coordinate alignment tolerance(in nt) of the target site location on the 
+ mRNA sequence: two match result will be treated as the same target site if 
+ their site interval is overlapped with each other in this tolerance range, by 
+ default is 3nt.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [siRNAHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit) high confidence target site data: the 
+ match result that is reported by both of the psRNATarget and the 
+ TargetFinder algorithm.
+ 
+ the merged site data of each target site: the \fBSource\fR property is marked 
+ as \fBIntersection(psRNATarget+TargetFinder)\fR, the \fBStartSite\fR/\fBEndSite\fR 
+ property is the union range of the two algorithm result, the 
+ \fBMismatchCount\fR/\fBWobbleCount\fR/\fBGapCount\fR property is the max value of 
+ the two algorithm result, the \fBTranslationInhibition\fR property is TRUE when 
+ any of the two algorithm result is a translation inhibition candidate, and 
+ the \fBAlignment\fR property contains the expectation value of the psRNATarget 
+ and the penalty score of the TargetFinder;
+ 
+ this function returns a R# error message object if the input data can not be 
+ cast to a collection of the [siRNAHit](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit) data.
+.PP
+.SH SEE ALSO
+miRNA
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

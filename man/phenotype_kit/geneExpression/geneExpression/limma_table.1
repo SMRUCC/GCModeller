@@ -1,0 +1,50 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "limma_table" "limma_table"
+.SH NAME
+limma_table \- build limma table model from the dataframe columns
+.SH SYNOPSIS
+\fIlimma_table(\fBid\fR as any, 
+\fBlogFC\fR as any, 
+\fBaveExpr\fR as any, 
+\fBt\fR as any, 
+\fBpval\fR as any, 
+\fBadj_pval\fR as any, 
+\fBb\fR as any);\fR
+.SH DESCRIPTION
+.PP
+build limma table model from the dataframe columns
+.PP
+.SH OPTIONS
+.PP
+\fBid\fB \fR\- a character vector of the gene id of each gene feature.. 
+.PP
+.PP
+\fBlogFC\fB \fR\- a numeric vector of the log2 fold change value.. 
+.PP
+.PP
+\fBaveExpr\fB \fR\- a numeric vector of the average expression value.. 
+.PP
+.PP
+\fBt\fB \fR\- a numeric vector of the moderated t-statistic value.. 
+.PP
+.PP
+\fBpval\fB \fR\- a numeric vector of the p-value.. 
+.PP
+.PP
+\fBadj_pval\fB \fR\- a numeric vector of the adjusted p-value.. 
+.PP
+.PP
+\fBb\fB \fR\- a numeric vector of the log-odds value(B statistic).. 
+.PP
+.SH VALUE
+.PP
+a vector of the [LimmaTable](cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable) object that is created from the 
+ given column data, all of the input column vectors should be in the same 
+ size as the input gene id vector.
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Read the sampleinfo data table from a given csv file</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>read.sampleinfo {sampleInfo}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Read the sampleinfo data table from a given csv file</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>read.sampleinfo</strong>(<i>file</i>,
+    <i>tsv</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>exclude.groups</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>id.makenames</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>file</dt>
+<dd><p>the file path of the sample information table file. [as string]</p></dd>
+
+
+<dt>tsv</dt>
+<dd><p>is the target table file a TSV format table file? by default is FALSE means that the target table file is a CSV format table file. [as boolean]</p></dd>
+
+
+<dt>exclude.groups</dt>
+<dd><p>a character vector of the sample group label for exclude from the loaded sample information data. [as string]</p></dd>
+
+
+<dt>id.makenames</dt>
+<dd><p>rename the sample id via the generic make names function? this parameter is helpful for make the sample id as a valid R# symbol name. [as boolean]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        phenotype_kit
+
+        <h3>Value</h3>
+
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> object that is loaded from the given table file.</p>
+
+<p>NOTE: the first column of the table file will be used as the <code>ID</code> property of the generated sample information data, and the sample data rows that the <code>ID</code> or the <code>sample_info</code> data is empty will be removed automatically with a warning message.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo[]</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>sampleInfo</em> version 1.0.0.0 <a
+                href="../sampleInfo.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

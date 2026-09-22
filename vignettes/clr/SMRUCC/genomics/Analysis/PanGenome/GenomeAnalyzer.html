@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.PanGenome.GenomeAnalyzer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GenomeAnalyzer {SMRUCC.genomics.Analysis.PanGenome}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GenomeAnalyzer</h2>
+
+        <h3>Description</h3>
+
+        <p>泛基因组分析器</p>
+
+<p>整个分析过程被重构为：</p>
+
+
+<ol>
+<li>索引化：在分析开始之前，一次性把所有的字符串主键（基因ID、基因组名、家族ID） 映射为连续的整数下标，后续的热循环全部在并行数组(<a href="cref:T:System.Int32">Int32</a>)上进行， 避免上百万次的字符串哈希查找；</li>
+<li>去二次化：直系同源分组（例如cd-hit的cluster）直接做 k-1 次并查集合并， 不再生成 O(k^2) 的两两配对中间对象；共线性分析不再对每个基因组对做全基因表扫描； 泛基因组曲线由 O(迭代数 x 基因组数 x 家族数) 的全表扫描改为 O(迭代数 x 基因数) 的增量计数；</li>
+<li>并行化：家族聚类之后相互独立的计算单元（基因家族、基因组对、蒙特卡洛迭代） 全部通过 <a href="cref:T:System.Threading.Tasks.Parallel">Parallel</a> 做数据并行。</li>
+</ol>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.PanGenome
+export class GenomeAnalyzer {
+   CNV_Gain_Factor: double;
+   CNV_Loss_Factor: double;
+   CoreThreshold: double;
+   # 泛基因组曲线的蒙特卡洛模拟迭代次数
+   CurveIterations: integer;
+   MinCollinearGenes: integer;
+   # 是否在共线性结果之中保留逐基因的同源配对数据？
+   RetainOrthologyLinks: boolean;
+   ShellThreshold: double;
+   SoftCoreThreshold: double;
+   # SV结构变异的信息熵散点图所使用的KMeans簇数（默认4，对应四类进化模式象限）
+   SVClusterCount: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

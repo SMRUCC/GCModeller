@@ -1,0 +1,29 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "filterZeroSamples" "filterZeroSamples"
+.SH NAME
+filterZeroSamples \- filter out all samples columns which its expression vector is ZERO!
+.SH SYNOPSIS
+\fIfilterZeroSamples(\fBmat\fR as <generic> Matrix, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+filter out all samples columns which its expression vector is ZERO!
+.PP
+.SH OPTIONS
+.PP
+\fBmat\fB \fR\- a gene expression matrix object. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that the sample columns which all of the 
+ expression value is ZERO have been removed.
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

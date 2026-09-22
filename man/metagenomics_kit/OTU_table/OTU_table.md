@@ -1,0 +1,26 @@
+﻿# OTU_table
+
+
+
++ [sample_id](OTU_table/sample_id.1) 
++ [relative_abundance](OTU_table/relative_abundance.1) 
++ [average](OTU_table/average.1) 
++ [median_scale](OTU_table/median_scale.1) 
++ [filter](OTU_table/filter.1) 
++ [read.OTUtable](OTU_table/read.OTUtable.1) 
++ [read.OTUdata](OTU_table/read.OTUdata.1) 
++ [otu_from_matrix](OTU_table/otu_from_matrix.1) 
++ [as.hts_matrix](OTU_table/as.hts_matrix.1) 
++ [read.rankdata](OTU_table/read.rankdata.1) 
++ [as.OTU_table](OTU_table/as.OTU_table.1) 
++ [set_MAG_data](OTU_table/set_MAG_data.1) 
++ [set_taxonomyName](OTU_table/set_taxonomyName.1) 
++ [core_microbiome](OTU_table/core_microbiome.1) 
++ [dominant_species](OTU_table/dominant_species.1) 
++ [make_otu_table](OTU_table/make_otu_table.1) 
++ [makeTreeGraph](OTU_table/makeTreeGraph.1) 
++ [makeUPGMATree](OTU_table/makeUPGMATree.1) 
++ [drawUPGMATree](OTU_table/drawUPGMATree.1) 
++ [make_repseq_id](OTU_table/make_repseq_id.1) 
++ [merge_phyloseq](OTU_table/merge_phyloseq.1) 
++ [batch_combine](OTU_table/batch_combine.1) 

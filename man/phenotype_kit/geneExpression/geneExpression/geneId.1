@@ -1,0 +1,52 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "geneId" "geneId"
+.SH NAME
+geneId \- get gene Id list or byref set of the gene id alias set.
+.SH SYNOPSIS
+\fIgeneId(\fBx\fR as any, 
+\fBset_id\fR as any = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get gene Id list or byref set of the gene id alias set.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ A collection of the deg/dep object or a raw HTS matrix object
+. 
+.PP
+.PP
+\fBset_id\fB \fR\- 
+ a character vector of the new gene id list for overwrite the gene id of the 
+ input matrix object, this parameter is not used if the input data is a 
+ collection of the deg/dep object.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+A collection of the gene id set: the row names of the input expression 
+ matrix object, or the \fBID\fR property of each deg/dep object in the input 
+ data collection;
+ 
+ this function returns a R# error message object if the input data can not 
+ be cast to a collection of the [DEP_iTraq](cref:T:SMRUCC.genomics.Analysis.HTS.Proteomics.DEP_iTraq) data.
+.PP
+.SH EXAMPLES
+.PP
+let rnaseqs = load.expr("rnaseq.csv");
+ let alias = readLines("gene_id.txt");
+ 
+ print(rnaseqs |> geneId());
+ 
+ geneId(rnaseqs) <- alias;
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

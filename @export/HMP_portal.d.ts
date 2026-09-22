@@ -1,0 +1,21 @@
+﻿// export R# package module type define for javascript/typescript language
+//
+//    imports "HMP_portal" from "metagenomics_kit";
+//
+// ref=metagenomics_kit.HMP@metagenomics_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+
+/**
+*/
+declare namespace HMP_portal {
+   /**
+     * @param aspera default value Is ``null``.
+     * @param env default value Is ``null``.
+   */
+   function fetch(files: any, outputdir: string, aspera?: object, env?: object): any;
+   module read {
+      /**
+        * @param env default value Is ``null``.
+      */
+      function manifest(file: string, env?: object): object;
+   }
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Set the training sample set</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>training_set {GEARS}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Set the training sample set</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>training_set</strong>(<i>gears</i>, <i>x</i>, <i>controls</i>, <i>perturbed</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>gears</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS">GEARS</a> model object that is created by the <code>GEARS::new</code> api. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a>]</p></dd>
+
+
+<dt>x</dt>
+<dd><p>the gene expression matrix object of the Perturb-seq experiment data, which should contains both of the control sample columns and the perturbed sample columns. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>controls</dt>
+<dd><p>a character vector of the control(wildtype) sample column names in the given expression matrix: the mean value and the standard deviation of these control sample columns will be used as the shared wildtype baseline of the model training, at least two control sample columns are required.</p></dd>
+
+
+<dt>perturbed</dt>
+<dd><p>a collection of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> sample information data of the perturbed samples: the <code>ID</code> property of the sample data should be matched with the sample column of the given expression matrix, the perturbed gene id set of each sample is stored as a json string array in the <code>metadata</code> property via the <code>perturbed_genes</code> key, and the intervention mode of each sample could be stored in the <code>metadata</code> property via the <code>intervention_mode</code> key(the value should be one of <code>Knockout</code>, <code>Knockdown</code>, <code>Overexpression</code> or <code>Custom</code>).</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>the wildtype baseline(the mean and the standard deviation of each gene) of the GEARS model will be recomputed from the given control sample columns, so that this api should be called before the <code>train</code> api.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>the input <a href="cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS">GEARS</a> model object that the training sample set has been set;</p>
+
+<p>this function returns a R# error message object if the given perturbed sample data can not be cast to a collection of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> data.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>GEARS</em> version 1.0.0.0 <a
+                href="../GEARS.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

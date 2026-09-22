@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create new analysis design sample info via formula</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>design {sampleInfo}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Create new analysis design sample info via formula</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>design</strong>(<i>sampleinfo</i>,
+    <i>...</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>sampleinfo</dt>
+<dd><p>the sample information data, which can be a vector of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> object or a pipeline object that produces a set of the sample information data.</p></dd>
+
+
+<dt>designs</dt>
+<dd><p>a tuple list of the experiment design formula: the slot key of the list is the label of the new sample group and the slot value is a formula expression that describes the merge of the original sample groups, example as <code>list(A = B + C + D)</code> means that the sample groups <code>B</code>, <code>C</code> and <code>D</code> will be merged into a new sample group <code>A</code>. [as list]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>the sample information data(the <code>ID</code>, <code>sample_name</code>, <code>color</code>, <code>shape</code>, <code>batch</code> and <code>injectionOrder</code> property) of the merged samples will be kept as is, only the <code>sample_info</code> group label will be replaced with the new group label.</p>
+
+<p>the design formula expression is a lazy expression, so that the sample group label in the formula is not required to be a R# symbol.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        phenotype_kit
+
+        <h3>Value</h3>
+
+        <p>a new vector of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> object: the sample groups that are described in the given design formula will be replaced with the new generated sample groups, and the other sample groups that are not referenced in the design formula will be kept as is;</p>
+
+<p>this function returns a R# error message object if the input data can not be cast to a collection of the sample information data, or the given design formula is invalid.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> imports "sampleInfo" from "phenotype_kit";
+ 
+ # merge the sample groups of "B", "C" and "D" into 
+ # a new sample group "A"
+ let samples = design(samples, list(A = B + C + D));</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>sampleInfo</em> version 1.0.0.0 <a
+                href="../sampleInfo.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

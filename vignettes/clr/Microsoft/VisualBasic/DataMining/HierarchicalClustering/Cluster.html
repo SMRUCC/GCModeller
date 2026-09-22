@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.DataMining.HierarchicalClustering.Cluster</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Cluster {Microsoft.VisualBasic.DataMining.HierarchicalClustering}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Cluster</h2>
+
+        <h3>Description</h3>
+
+        <p>Represents a node (cluster) in the hierarchical clustering tree (dendrogram). Each cluster can be a leaf node (containing a single data point) or an internal node (containing child clusters formed by merging). Implements the tree node data structure required for hierarchical clustering and provides named identification via <a href="cref:T:Microsoft.VisualBasic.ComponentModel.Collection.Generic.INamedValue">INamedValue</a> .</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.DataMining.HierarchicalClustering
+export class Cluster {
+   # Gets the read-only collection of child clusters directly under this node. An empty collection indicates that this node is a leaf cluster. Implements <a href="cref:P:Microsoft.VisualBasic.ComponentModel.DataStructures.Tree.ITreeNodeData%601.ChildNodes">ITreeNodeData.ChildNodes</a> .
+   Children: <a href="/vignettes/clr/System/Collections/Generic/IReadOnlyCollection`1.html">IReadOnlyCollection`1</a>;
+   # Gets or sets the <a href="cref:P:Microsoft.VisualBasic.DataMining.HierarchicalClustering.Cluster.Distance">Cluster.Distance</a>  object associated with this cluster, representing the distance at which this cluster was formed (for internal nodes) or the initial distance for leaf nodes.
+   Distance: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Hierarchy/Distance.html">Distance</a>;
+   # Gets the distance value of this cluster from the underlying <a href="cref:P:Microsoft.VisualBasic.DataMining.HierarchicalClustering.Cluster.Distance">Cluster.Distance</a>  object. For internal nodes, this represents the cophenetic distance at which child clusters were merged. For leaf nodes, this is typically zero or the initial distance.
+   DistanceValue: double;
+   # Gets a value indicating whether this cluster is a leaf node. A cluster is a leaf if it has no children. Implements <a href="cref:P:Microsoft.VisualBasic.ComponentModel.DataStructures.Tree.ITreeNodeData%601.IsLeaf">ITreeNodeData.IsLeaf</a> .
+   isLeaf: boolean;
+   # Gets a value indicating whether this cluster is the root node of the dendrogram. A cluster is considered the root if it has no parent or if its parent is itself. Implements <a href="cref:P:Microsoft.VisualBasic.ComponentModel.DataStructures.Tree.ITreeNodeData%601.IsRoot">ITreeNodeData.IsRoot</a> .
+   IsRoot: boolean;
+   # Gets the list of leaf names contained within this cluster's subtree. For leaf clusters, this list contains the cluster's own name. For internal clusters, it accumulates the names of all descendant leaf nodes.
+   LeafNames: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
+   # Gets the total number of leaf nodes in the subtree rooted at this cluster. Recursively counts all descendant leaf nodes, including direct children and their children.
+   Leafs: integer;
+   # Gets or sets the unique name identifier for this cluster. The name should be unique among all leaf clusters to ensure correct equality comparisons. Implements <a href="cref:P:Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository.IKeyedEntity%601.Key">IKeyedEntity.Key</a>  and <a href="cref:P:Microsoft.VisualBasic.ComponentModel.DataStructures.Tree.ITreeNodeData%601.FullyQualifiedName">ITreeNodeData.FullyQualifiedName</a> .
+   Name: string;
+   # Gets or sets the parent cluster of this node in the dendrogram. A <code>Nothing</code> value indicates this cluster is the root of the tree. Implements <a href="cref:P:Microsoft.VisualBasic.ComponentModel.DataStructures.Tree.ITreeNodeData%601.Parent">ITreeNodeData.Parent</a> .
+   Parent: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Cluster.html">Cluster</a>;
+   # Gets the total distance value accumulated along the left-most path from this node to its deepest descendant. This is the sum of distances from this node down through the first child at each level.
+   TotalDistance: double;
+   # Gets the weight of this cluster from the underlying <a href="cref:P:Microsoft.VisualBasic.DataMining.HierarchicalClustering.Cluster.Distance">Cluster.Distance</a>  object. The weight is used in weighted linkage strategies such as WPGMA.
+   WeightValue: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Children</code>: <a href="/vignettes/clr/System/Collections/Generic/IReadOnlyCollection`1.html">IReadOnlyCollection`1</a></li>
+<li>use by <i>property</i> member <code>Distance</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Hierarchy/Distance.html">Distance</a></li>
+<li>use by <i>property</i> member <code>LeafNames</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
+<li>use by <i>property</i> member <code>Parent</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Cluster.html">Cluster</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

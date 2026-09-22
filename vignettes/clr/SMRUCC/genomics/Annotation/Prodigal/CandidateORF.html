@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Annotation.Prodigal.CandidateORF</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>CandidateORF {SMRUCC.genomics.Annotation.Prodigal}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>CandidateORF</h2>
+
+        <h3>Description</h3>
+
+        <p>候选ORF（开放阅读框）</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Annotation.Prodigal
+export class CandidateORF {
+   # 氨基酸序列
+   AaSequence: string;
+   # 编码区得分（coding score）
+   CodingScore: double;
+   # DP累积得分
+   DpScore: double;
+   # 终止位置（1-based，基因组坐标）
+   End: integer;
+   # 阅读框编号（0, 1, 2）
+   Frame: integer;
+   # ORF长度（核苷酸数）
+   Length: integer;
+   # 核苷酸序列
+   NtSequence: string;
+   # 部分基因标记（5'端或3'端截断）
+   PartialType: string;
+   # DP前驱索引
+   PrevIndex: integer;
+   # 在原始序列上的终止位置（0-based，用于ORF查找内部）
+   RawEnd: integer;
+   # 在原始序列上的起始位置（0-based，用于ORF查找内部）
+   RawStart: integer;
+   # 检测到的RBS模体
+   RbsMotif: string;
+   # RBS得分
+   RbsScore: double;
+   # RBS与起始密码子的间距
+   RbsSpacing: integer;
+   # 是否被DP选中
+   Selected: boolean;
+   # 所属序列ID
+   SeqId: string;
+   # ORF在排序后的索引（DP用）
+   SortIndex: integer;
+   # 起始位置（1-based，基因组坐标）
+   Start: integer;
+   # 起始密码子（ATG/GTG/TTG）
+   StartCodon: string;
+   # 起始位点得分（start score）
+   StartScore: double;
+   # 终止密码子（TAA/TAG/TGA）
+   StopCodon: string;
+   # 链方向：'+' 正向，'-' 反向
+   Strand: string;
+   # 总得分 = CodingScore + StartScore
+   TotalScore: double;
+   # 起始密码子类型得分
+   TypeScore: double;
+   # 上游序列得分
+   UpstreamScore: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

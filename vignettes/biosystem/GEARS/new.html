@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>create a new GEARS model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>new {GEARS}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>create a new GEARS model</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>new</strong>(<i>x</i>, <i>prior</i>, <i>config</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>x</dt>
+<dd><p>the gene expression matrix object of the Perturb-seq experiment data, which could be loaded from a csv table file via the <code>geneExpression::load.expr</code> api. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>prior</dt>
+<dd><p>the prior knowledge regulatory network object, which could be created by the <code>bnlearn::as.prior_net</code> api: only the gene that is described in this prior network could be mapped into the gene regulatory graph of the GEARS model. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>]</p></dd>
+
+
+<dt>config</dt>
+<dd><p>the hyper parameter configuration of the GEARS model, which could be created via the <code>new("GEARS_opts")</code> syntax in R# environment: the embedding dimension, the hidden layer dimension, the graph convolution layer numbers, the activation function, the learning rate, the epochs, etc. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARSConfig.html">GEARSConfig</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p><a href="cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS">GEARS</a> implements of the interface <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a>, which could be used as the virtual perturbation experiment container for run knockouts/overexpress/knockdown experiments</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        biosystem
+
+        <h3>Value</h3>
+
+        <p>a new <a href="cref:T:SMRUCC.genomics.Analysis.GEARS.GEARS">GEARS</a> model object that the gene regulatory graph has been created from the given prior network and expression data, the training sample set should be set via the <code>training_set</code> api at first and then the model can be trained via the <code>train</code> api.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GEARS/GEARS.html">GEARS</a></li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> imports ["GEARS","bnlearn"] from "biosystem";
+ imports "geneExpression" from "phenotype_kit";
+ 
+ let exprData = load.expr("./dataset.csv");
+ let samples = read.sampleinfo("./experiment.csv");
+ let opts = new("GEARS_opts", Activation = "tanh");
+ let net = bnlearn::prior_network(
+     TF = c(), target_gene = c(), regulation_type = c(), confidence = c(), evidence = c()
+ ) |> as.prior_net();
+ 
+ net <- GEARS::new(exprData, net, opts)
+ |> training_set(exprData, controls = c(), perturbed = samples)
+ |> train()
+ ;
+ 
+ make_exports(c( 
+    net |> knockouts(c()), 
+    net |> overexpress(c()), 
+    net |> knockdown(c()) 
+ ), dir = "./GNN_result");</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>GEARS</em> version 1.0.0.0 <a
+                href="../GEARS.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

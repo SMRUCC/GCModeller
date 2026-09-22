@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.PanGenome.CollinearBlock</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>CollinearBlock {SMRUCC.genomics.Analysis.PanGenome}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>CollinearBlock</h2>
+
+        <h3>Description</h3>
+
+        <p>共线性区块定义</p>
+
+<p>区块除了记录参与共线性的两个基因组/染色体之外，还会记录区块在这两条染色体之上 所覆盖的起止坐标(<a href="cref:P:SMRUCC.genomics.Analysis.PanGenome.CollinearBlock.Start1">CollinearBlock.Start1</a> / <a href="cref:P:SMRUCC.genomics.Analysis.PanGenome.CollinearBlock.End1">CollinearBlock.End1</a> / <a href="cref:P:SMRUCC.genomics.Analysis.PanGenome.CollinearBlock.Start2">CollinearBlock.Start2</a> / <a href="cref:P:SMRUCC.genomics.Analysis.PanGenome.CollinearBlock.End2">CollinearBlock.End2</a>， 分别取区块内所有基因的最小起始位点与最大终止位点)，这样子就可以直接用于共线性绘图。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.PanGenome
+export class CollinearBlock {
+   Chr1: string;
+   Chr2: string;
+   # 区块在基因组1的 <a href="cref:P:SMRUCC.genomics.Analysis.PanGenome.CollinearBlock.Chr1">CollinearBlock.Chr1</a> 之上的终止位点（区块内所有基因的最大终止位点）
+   End1: integer;
+   # 区块在基因组2的 <a href="cref:P:SMRUCC.genomics.Analysis.PanGenome.CollinearBlock.Chr2">CollinearBlock.Chr2</a> 之上的终止位点（区块内所有基因的最大终止位点）
+   End2: integer;
+   # 区块内的同源基因对数量（自动兼容摘要模式）
+   GenePairCount: integer;
+   Genome1: string;
+   Genome2: string;
+   # 区块在基因组1之上的长度（bp），没有坐标信息的时候返回0
+   Length1: integer;
+   # 区块在基因组2之上的长度（bp），没有坐标信息的时候返回0
+   Length2: integer;
+   # 区块内的同源基因对数量，当 <a href="cref:P:SMRUCC.genomics.Analysis.PanGenome.CollinearBlock.OrthologyLinks">CollinearBlock.OrthologyLinks</a> 为 Nothing 的时候使用这个属性做统计
+   LinkCount: integer;
+   # 区块包含的基因对
+   OrthologyLinks: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/OrthologyLink.html">OrthologyLink[]</a>;
+   # TODO: 评估指标：得分或E-value
+   Score: double;
+   # 区块在基因组1的 <a href="cref:P:SMRUCC.genomics.Analysis.PanGenome.CollinearBlock.Chr1">CollinearBlock.Chr1</a> 之上的起始位点（区块内所有基因的最小起始位点）
+   Start1: integer;
+   # 区块在基因组2的 <a href="cref:P:SMRUCC.genomics.Analysis.PanGenome.CollinearBlock.Chr2">CollinearBlock.Chr2</a> 之上的起始位点（区块内所有基因的最小起始位点）
+   Start2: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>OrthologyLinks</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/OrthologyLink.html">OrthologyLink</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

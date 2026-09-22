@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Annotation.Prodigal.TrainingModel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>TrainingModel {SMRUCC.genomics.Annotation.Prodigal}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>TrainingModel</h2>
+
+        <h3>Description</h3>
+
+        <p>训练模型 - 包含编码区模型、RBS模型、起始密码子模型</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Annotation.Prodigal
+export class TrainingModel {
+   # 平均基因长度
+   AvgGeneLength: double;
+   # 编码区六聚体频率（4096个值，索引=HexamerToIndex）
+   CodingHexamerCount: double;
+   # 编码区六聚体总数
+   CodingHexamerTotal: double;
+   # GC含量
+   GcContent: double;
+   # 六聚体对数似然比得分
+   HexamerScores: double;
+   # 训练迭代次数
+   IterationCount: integer;
+   # 非编码区六聚体频率
+   NoncodingHexamerCount: double;
+   # 非编码区六聚体总数
+   NoncodingHexamerTotal: double;
+   # RBS模体列表
+   RbsMotifs: string;
+   # RBS模体得分表
+   RbsMotifScores: list;
+   # RBS位置权重矩阵（行=位置，列=A/C/G/T）
+   RbsPwm: <a href="/vignettes/clr/System/Double.html">Double[,]</a>;
+   # 起始密码子频率
+   StartCodonFreq: list;
+   # 模型是否已训练
+   Trained: boolean;
+   # 训练使用的基因数量
+   TrainingGeneCount: integer;
+   # 模型版本号
+   Version: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>RbsMotifScores</code>: list</li>
+<li>use by <i>property</i> member <code>RbsPwm</code>: <a href="/vignettes/clr/System/Double.html">Double</a></li>
+<li>use by <i>property</i> member <code>StartCodonFreq</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

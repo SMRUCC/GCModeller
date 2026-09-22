@@ -1,0 +1,27 @@
+﻿# GenBank
+
+
+
++ [read.genbank](GenBank/read.genbank.1) 
++ [taxon_id](GenBank/taxon_id.1) 
++ [taxonomy_lineage](GenBank/taxonomy_lineage.1) 
++ [as_tabular](GenBank/as_tabular.1) 
++ [read_genetable](GenBank/read_genetable.1) 
++ [accession_id](GenBank/accession_id.1) 
++ [is.plasmid](GenBank/is.plasmid.1) 
++ [moltype](GenBank/moltype.1) 
++ [assembly_level](GenBank/assembly_level.1) 
++ [load_genbanks](GenBank/load_genbanks.1) 
++ [write.genbank](GenBank/write.genbank.1) 
++ [as.genbank](GenBank/as.genbank.1) 
++ [feature](GenBank/feature.1) 
++ [add_feature](GenBank/add_feature.1) 
++ [enumerateFeatures](GenBank/enumerateFeatures.1) 
++ [featureKeys](GenBank/featureKeys.1) 
++ [featureMeta](GenBank/featureMeta.1) 
++ [addMeta](GenBank/addMeta.1) 
++ [origin_fasta](GenBank/origin_fasta.1) 
++ [getRNA.fasta](GenBank/getRNA.fasta.1) 
++ [export_geneNt_fasta](GenBank/export_geneNt_fasta.1) 
++ [protein_seqs](GenBank/protein_seqs.1) 
++ [add.RNA.gene](GenBank/add.RNA.gene.1) 

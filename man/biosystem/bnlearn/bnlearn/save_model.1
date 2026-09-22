@@ -1,0 +1,43 @@
+.\" man page create by R# package system.
+.TH BNLEARN 1 2000-1月 "save_model" "save_model"
+.SH NAME
+save_model \- save bnlearn model
+.SH SYNOPSIS
+\fIsave_model(\fBbnlearn\fR as <generic> BNLearnWorkflow, 
+\fBdir\fR as string);\fR
+.SH DESCRIPTION
+.PP
+save bnlearn model
+.PP
+.SH OPTIONS
+.PP
+\fBbnlearn\fB \fR\- 
+ the trained [BNLearnWorkflow](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.BNLearnWorkflow) network model object, which is the 
+ output of the \fBbnlearn\fR api.
+. 
+.PP
+.PP
+\fBdir\fB \fR\- 
+ the output directory for save the network model data, this directory will be 
+ created if it is not exists.
+. 
+.PP
+.SH VALUE
+.PP
+TRUE will be returns if the network model data has been saved into the given 
+ directory successfully.
+.PP
+.SH DETAILS
+.PP
+the learned bayesian network model will be saved as two tsv table files in 
+ the given output directory: the \fBnetwork_structure.tsv\fR file for the 
+ network structure data and the \fBnetwork_parameters.tsv\fR file for the 
+ conditional probability distribution(CPD) parameter data of each network 
+ node.
+.PP
+.SH SEE ALSO
+bnlearn
+.SH FILES
+.PP
+biosystem.dll
+.PP

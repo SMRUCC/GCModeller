@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>create the machine learning dataset from the gene expression matrix and the</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>make.MLdataset {sampleInfo}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>create the machine learning dataset from the gene expression matrix and the</h2>
+
+        <h3>Description</h3>
+
+        <p>sample group information</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>make.MLdataset</strong>(<i>x</i>, <i>sampleinfo</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>x</dt>
+<dd><p>a gene expression matrix object, the gene feature rows of this matrix will be used as the data features of the generated dataset. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>sampleinfo</dt>
+<dd><p>a vector of the <a href="cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo">SampleInfo</a> sample information data: the <code>ID</code> property of the sample data should be matched with the sample columns of the given expression matrix, and the <code>sample_info</code> property of the sample data will be used as the class label of the generated dataset entities. [as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>the sample data that its id is not exists in the expression matrix will be skipped with a warning message.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        phenotype_kit
+
+        <h3>Value</h3>
+
+        <p>a vector of the <a href="cref:T:Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels.EntityClusterModel">EntityClusterModel</a> data entity: the <code>ID</code> property is the sample id, the <code>Cluster</code> property is the sample group label and the <code>Properties</code> property is the expression value of each gene feature in the corresponding sample.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>sampleInfo</em> version 1.0.0.0 <a
+                href="../sampleInfo.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Microarray.IMMO.PreparedData</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PreparedData {SMRUCC.genomics.Analysis.Microarray.IMMO}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PreparedData</h2>
+
+        <h3>Description</h3>
+
+        <p>预处理后的多组学数据（统一样本集）</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Microarray.IMMO
+export class PreparedData {
+   # 组学数量
+   NumOmics: integer;
+   # 总样本数
+   NumSamples: integer;
+   # 所有组学数据列表（已对齐到统一样本集）
+   OmicsList: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/IMMO/OmicsData.html">iterates(OmicsData)</a>;
+   # 统一样本ID列表
+   UnifiedSampleIDs: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>OmicsList</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Microarray/IMMO/OmicsData.html">iterates(OmicsData)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

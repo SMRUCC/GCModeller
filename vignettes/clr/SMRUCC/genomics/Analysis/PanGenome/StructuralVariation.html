@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.PanGenome.StructuralVariation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>StructuralVariation {SMRUCC.genomics.Analysis.PanGenome}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>StructuralVariation</h2>
+
+        <h3>Description</h3>
+
+        <p>结构变异事件记录</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.PanGenome
+export class StructuralVariation extends <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVData.html">SVData</a> {
+   # 如果是共线性断裂，记录断点信息
+   Breakpoint_Chromosome: string;
+   Breakpoint_Position: integer;
+   CopyNumber: integer;
+   Description: string;
+   FamilyID: string;
+   GenomeName: string;
+   Median: double;
+   RelatedGenes: string;
+   SV_ID: string;
+   Type: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVData.html">SVData</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVData.html">SVData</a></li>
+<li>use by <i>property</i> member <code>Type</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

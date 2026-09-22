@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH SAMPLEINFO 2 2000-1月 "sampleinfo.text.groups" "sampleinfo.text.groups"
+.SH NAME
+sampleinfo.text.groups \- Create sampleInfo table from text files
+.SH SYNOPSIS
+\fIsampleinfo.text.groups(\fBdir\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Create sampleInfo table from text files
+.PP
+.SH OPTIONS
+.PP
+\fBdir\fB \fR\- 
+ a directory path that contains a set of the text files: each text file is a 
+ sample group and the file basename is used as the sample group label, each 
+ line in the text file is a sample id of the corresponding sample group.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) sample information data that is 
+ created from the text files in the given directory: the \fBID\fR and the 
+ \fBsample_name\fR property of the generated sample data is the sample id, the 
+ \fBsample_info\fR property is the file basename and the \fBinjectionOrder\fR 
+ property is the index order of the sample in the generated sample 
+ collection.
+.PP
+.SH DETAILS
+.PP
+only the \fB*.txt\fR files in the given directory will be scanned, an empty 
+ sample collection will be returned if there is no text file in the target 
+ directory.
+.PP
+.SH SEE ALSO
+sampleInfo
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

@@ -1,0 +1,65 @@
+﻿// export R# package module type define for javascript/typescript language
+//
+//    imports "regprecise" from "TRNtoolkit";
+//
+// ref=TRNtoolkit.RegPrecise@TRNtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+
+/**
+ * 
+*/
+declare namespace regprecise {
+   /**
+     * @param env default value Is ``null``.
+   */
+   function join(blast: any, regulators: any, env?: object): object;
+   /**
+    * 
+    * 
+     * @param ncbi -
+     * @param regprecise -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function match_taxonomy(ncbi: object, regprecise: any, env?: object): object|object;
+   module motif {
+      /**
+       * export the raw motif site sequence in fasta file format
+       * 
+       * 
+        * @param regprecise -
+      */
+      function raw(regprecise: object): object;
+   }
+   module read {
+      /**
+      */
+      function motifs(file: string): object;
+      /**
+      */
+      function operon(file: string): object;
+      /**
+       * load regprecise database from a given file.
+       * 
+       * 
+        * @param file -
+      */
+      function regprecise(file: string): object;
+      /**
+      */
+      function regulators(file: string): object;
+      /**
+      */
+      function regulome(xml: string): object;
+   }
+   /**
+     * @param env default value Is ``null``.
+   */
+   function regulators(regulome: object, info: object, env?: object): object;
+   module write {
+      /**
+        * @param env default value Is ``null``.
+      */
+      function regprecise(db: any, file: string, env?: object): any;
+   }
+}

@@ -1,0 +1,42 @@
+.\" man page create by R# package system.
+.TH TRN.BUILDER 1 2000-1月 "write.regulations" "write.regulations"
+.SH NAME
+write.regulations \- save the regulation network data file.
+.SH SYNOPSIS
+\fIwrite.regulations(\fBregulationFootprints\fR as any, 
+\fBfile\fR as string, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+save the regulation network data file.
+.PP
+.SH OPTIONS
+.PP
+\fBregulationFootprints\fB \fR\- 
+ the regulation network edge data for save, which can be a vector of the 
+ [RegulationFootprint](cref:T:SMRUCC.genomics.Data.Regprecise.RegulationFootprint) object, or 
+ a pipeline object that produces a set of the regulation footprint data.
+. 
+.PP
+.PP
+\fBfile\fB \fR\- the file path of the generated regulation footprint csv 
+ table file.. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a boolean value for indicates that the regulation network data has been 
+ saved into the target file successfully or not;
+ 
+ this function returns a R# error message object if the given data is nothing, 
+ the output file path is empty, or the given data is not a collection of the 
+ regulation footprint data.
+.PP
+.SH SEE ALSO
+TRN.builder
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

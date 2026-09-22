@@ -1,0 +1,124 @@
+﻿// export R# package module type define for javascript/typescript language
+//
+//    imports "FastQ" from "rnaseq";
+//
+// ref=rnaseq.FastQTools@rnaseq, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+
+/**
+ * FastQ toolkit
+ * 
+ * > FASTQ format Is a text-based format For storing both a biological sequence 
+ * >  (usually nucleotide sequence) And its corresponding quality scores. Both 
+ * >  the sequence letter And quality score are Each encoded With a Single ASCII 
+ * >  character For brevity. It was originally developed at the Wellcome Trust 
+ * >  Sanger Institute To bundle a FASTA formatted sequence And its quality data, 
+ * >  but has recently become the de facto standard For storing the output Of 
+ * >  high-throughput sequencing instruments such As the Illumina Genome 
+ * >  Analyzer.
+*/
+declare namespace FastQ {
+   /**
+    * Do short reads assembling
+    * 
+    * 
+     * @param reads should be a set of the sequence data, example as a collection of [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) data.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return the short reads assembling result
+   */
+   function assemble(reads: any, env?: object): object;
+   /**
+    * Parse the Illumina FastQ id from the reads title
+    * 
+    * 
+     * @param fq -
+   */
+   function illumina_fastQ_id(fq: object): object;
+   /**
+    * merge the raw fastq data
+    * 
+    * 
+     * @param file a character vector of the seperated fastq reads files.
+     * @param merge the file path for output the merged fastq reads file.
+     * @param make_unique try to make the fastq reads id unique?
+     * 
+     * + default value Is ``true``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function merge_raw(file: any, merge: any, make_unique?: boolean, env?: object): any;
+   /**
+    * In FASTQ files, quality scores are encoded into a compact form, 
+    *  which uses only 1 byte per quality value. In this encoding, the 
+    *  quality score is represented as the character with an ASCII 
+    *  code equal to its value + 33.
+    * 
+    * 
+     * @param q should be one or more [FastQ](cref:T:SMRUCC.genomics.SequenceModel.FQ.FastQ) sequence data
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return the quality score data of each [FastQ](cref:T:SMRUCC.genomics.SequenceModel.FQ.FastQ) sequence data.
+   */
+   function quality_score(q: any, env?: object): number;
+   /**
+    * generates the random expression weights for generates the simulated reads data
+    * 
+    * 
+     * @param names -
+   */
+   function random_expression_weights(names: any): number;
+   /**
+    * make reads data random sampling
+    * 
+    * 
+     * @param fq -
+     * @param n -
+     * @param lazy 
+     * + default value Is ``false``.
+   */
+   function random_sampling(fq: object, n: object, lazy?: boolean): object;
+   module read {
+      /**
+       * read the fastq file
+       * 
+       * 
+        * @param file the character vector of the fastq reads files
+      */
+      function fastq(file: any): object;
+   }
+   /**
+    * Mock a fastq reads file from a given set of the reference sequence.
+    * 
+    * 
+     * @param genomes A set of the reference genome fasta sequence.
+     * @param n number of total reads of this generated fastq file.
+     * 
+     * + default value Is ``100000``.
+     * @param len the reads length range
+     * 
+     * + default value Is ``[350,550]``.
+     * @param genome_weights abundance reference data
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return A generated fastq reads file
+   */
+   function simulate_reads(genomes: any, n?: object, len?: any, genome_weights?: object, env?: object): object;
+   module write {
+      /**
+       * 
+       * 
+        * @param reads a collection of the fastq reads data
+        * @param file -
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function fastq(reads: any, file: string, env?: object): boolean;
+   }
+}

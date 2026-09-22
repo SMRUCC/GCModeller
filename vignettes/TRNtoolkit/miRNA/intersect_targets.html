@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>--- High-confidence intersection (psRNATarget ∩ TargetFinder) ---</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>intersect_targets {miRNA}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>--- High-confidence intersection (psRNATarget ∩ TargetFinder) ---</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>intersect_targets</strong>(<i>psRNATarget</i>, <i>TargetFinder</i>,
+    <i>site.tolerance</i> = <span style='color: green;'>3</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>psRNATarget</dt>
+<dd><p>the target site match result of the psRNATarget algorithm, which is a collection of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit">siRNAHit</a> data.</p></dd>
+
+
+<dt>TargetFinder</dt>
+<dd><p>the target site match result of the TargetFinder algorithm, which is a collection of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit">siRNAHit</a> data.</p></dd>
+
+
+<dt>site.tolerance</dt>
+<dd><p>the coordinate alignment tolerance(in nt) of the target site location on the mRNA sequence: two match result will be treated as the same target site if their site interval is overlapped with each other in this tolerance range, by default is 3nt. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        TRNtoolkit
+
+        <h3>Value</h3>
+
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit">siRNAHit</a> high confidence target site data: the match result that is reported by both of the psRNATarget and the TargetFinder algorithm.</p>
+
+<p>the merged site data of each target site: the <code>Source</code> property is marked as <code>Intersection(psRNATarget+TargetFinder)</code>, the <code>StartSite</code>/<code>EndSite</code> property is the union range of the two algorithm result, the <code>MismatchCount</code>/<code>WobbleCount</code>/<code>GapCount</code> property is the max value of the two algorithm result, the <code>TranslationInhibition</code> property is TRUE when any of the two algorithm result is a translation inhibition candidate, and the <code>Alignment</code> property contains the expectation value of the psRNATarget and the penalty score of the TargetFinder;</p>
+
+<p>this function returns a R# error message object if the input data can not be cast to a collection of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.siRNAHit.siRNAHit">siRNAHit</a> data.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/siRNAHit/siRNAHit.html">siRNAHit</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>miRNA</em> version 1.0.0.0 <a
+                href="../miRNA.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

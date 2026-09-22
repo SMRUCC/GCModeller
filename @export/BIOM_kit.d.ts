@@ -1,0 +1,28 @@
+﻿// export R# package module type define for javascript/typescript language
+//
+//    imports "BIOM_kit" from "metagenomics_kit";
+//
+// ref=metagenomics_kit.BIOMkit@metagenomics_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+
+/**
+*/
+declare namespace BIOM_kit {
+   module biom {
+      /**
+        * @param env default value Is ``null``.
+      */
+      function taxonomy(biom: any, env?: object): object;
+      /**
+        * @param env default value Is ``null``.
+      */
+      function union(tables: any, env?: object): object;
+   }
+   module read {
+      /**
+        * @param denseMatrix default value Is ``true``.
+        * @param suppressErr default value Is ``false``.
+        * @param env default value Is ``null``.
+      */
+      function matrix(file: any, denseMatrix?: boolean, suppressErr?: boolean, env?: object): object;
+   }
+}

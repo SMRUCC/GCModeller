@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions.Definition</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Definition {SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Definition</h2>
+
+        <h3>Description</h3>
+
+        <p>The definition for the mass environment for run the simulation</p>
+
+<p>因为物质编号可能会来自于不同的数据库，所以会需要使用这个对象将一些关键的物质映射为计算引擎所能够被识别的对象</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
+export class Definition {
+   ADP: string;
+   # amino acid metabolite id mapping for construct of the polypeptide in translation process
+   AminoAcid: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/AminoAcid.html">AminoAcid</a>;
+   Ammonia: string;
+   ATP: string;
+   # the compartment id of the Culture medium
+   CultureMedium: string;
+   GDP: string;
+   # define the id mapping to some general compounds
+   GenericCompounds: list;
+   GTP: string;
+   # nucleotide metabolite id mapping for construct of the RNA molecule in the transcription process.
+   NucleicAcid: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/NucleicAcid.html">NucleicAcid</a>;
+   Oxygen: string;
+   PI: string;
+   PPI: string;
+   # define of the cell initial status.
+   status: list;
+   transmembrane: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/Transmembrane.html">Transmembrane</a>;
+   Water: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>AminoAcid</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/AminoAcid.html">AminoAcid</a></li>
+<li>use by <i>property</i> member <code>GenericCompounds</code>: list</li>
+<li>use by <i>property</i> member <code>NucleicAcid</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/NucleicAcid.html">NucleicAcid</a></li>
+<li>use by <i>property</i> member <code>status</code>: list</li>
+<li>use by <i>property</i> member <code>transmembrane</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/Transmembrane.html">Transmembrane</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

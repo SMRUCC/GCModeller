@@ -1,0 +1,49 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "sample_auc" "sample_auc"
+.SH NAME
+sample_auc \- Calculate the sum of the sample data with time-series information across all time points to obtain the area under the curve (AUC) of the time-series curve.
+.SH SYNOPSIS
+\fIsample_auc(\fBx\fR as <generic> Matrix, 
+\fBsampleinfo\fR as any, 
+\fBsample\fR as string = "sample", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Calculate the sum of the sample data with time-series information across all time points to obtain the area under the curve (AUC) of the time-series curve.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- a gene expression matrix object. 
+.PP
+.PP
+\fBsampleinfo\fB \fR\- 
+ the sample time-series information data, which can be a vector of the 
+ [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) object, a dataframe object or a pipeline object 
+ that produces a set of the [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) data.
+. 
+.PP
+.PP
+\fBsample\fB \fR\- 
+ the property name of the time point information in the given 
+ \fBsampleinfo\fR data, by default is the \fBsample\fR property.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix object that each sample column is the sum value(AUC) 
+ of the sample columns in the corresponding time point, the tag of the 
+ generated matrix is \fBAUC(time)\fR;
+ 
+ this function returns a R# error message object if the given sample 
+ information data can not be cast to a collection of the 
+ [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) data.
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP
