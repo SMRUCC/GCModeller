@@ -1,127 +1,114 @@
-﻿#Region "Microsoft.VisualBasic::55d50080a1897956c25999c86a523e3e, annotations\GPR\CoexpressionAnalyzer.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 70
-    '    Code Lines: 47 (67.14%)
-    ' Comment Lines: 10 (14.29%)
-    '    - Xml Docs: 40.00%
-    ' 
-    '   Blank Lines: 13 (18.57%)
-    '     File Size: 2.75 KB
-
-
-    ' Class CoexpressionAnalyzer
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: FindCoexpressedGenes
-    ' 
-    '     Sub: ApplyCoexpressionRules
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
+﻿Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.ComponentModel.Annotation
-Imports SMRUCC.genomics.MetabolicModel
 
 ''' <summary>
-''' 基于表达数据的共表达分析
-''' 共表达的基因很可能参与同一通路
+''' 共表达的基因伙伴及其相关系数
+''' </summary>
+Public Class CoexpressionPartner
+
+    Public Property GeneId As String
+    Public Property Correlation As Double
+
+    Public Overrides Function ToString() As String
+        Return $"{GeneId} (r={Correlation.ToString("F3")})"
+    End Function
+
+End Class
+
+''' <summary>
+''' 基于表达数据的共表达分析。
+''' 
+''' 共表达的基因很可能参与同一通路，因此可以把共表达伙伴的"直接证据反应"
+''' 作为当前基因的一条弱证据。
+''' 
+''' 修复要点：
+''' 
+''' + 原实现在 <see cref="Genome.MetabolicNetwork"/> 尚未物化时被调用，
+'''   导致共表达分析恒为空、完全失效；现在由 <see cref="MetabolicAssociator"/>
+'''   在阶段 1 物化种子反应之后调用；
+''' + 原实现未排除自身（相关矩阵对角线恒为 1.0）；
+''' + 原实现硬编码 0.7 / 0.4 两个魔法数字，现在全部来自 <see cref="GPRParameters"/>；
+''' + 原实现要求外部传入一个与算法内部不同的 <see cref="Genome"/> 实例，状态无法共享。
 ''' </summary>
 Public Class CoexpressionAnalyzer
 
-    ' 基因对 -> 相关系数
-    ReadOnly coexpressionMatrix As CorrelationMatrix
-    ReadOnly genome As Genome
+    ReadOnly correlation As CorrelationMatrix
 
-    Public Sub New(expressionData As Matrix, genome As Genome)
-        ' 从表达数据计算相关系数
-        Me.genome = genome
-        Me.coexpressionMatrix = expressionData.Correlation(Function(gene) gene.experiments)
-    End Sub
-
-    Public Sub ApplyCoexpressionRules(gene As GeneTable,
-                                      ByRef geneScores As Dictionary(Of String, Double),
-                                      context As ContextIndices)
-
-        ' 寻找与当前基因共表达的基因
-        Dim coexpressedGenes = FindCoexpressedGenes(gene.locus_id, threshold:=0.7).ToArray
-
-        For Each coGene As String In coexpressedGenes
-            ' 获取共表达基因的关联反应
-            Dim coGeneReactions As IEnumerable(Of MetabolicReaction) = genome.GetGeneReactions(coGene)
-
-            ' 对这些反应所在的通路进行增强
-            For Each reaction As MetabolicReaction In coGeneReactions
-                Dim pathways As Pathway() = context.GetPathwayForReaction(reaction).ToArray
-
-                If pathways.IsNullOrEmpty Then
-                    Continue For
-                End If
-
-                Dim coexpressionScore = 0.4
-
-                For Each pathway As Pathway In pathways
-                    ' 增强该通路中所有反应的分数
-                    For Each pwReaction In pathway.metabolicNetwork
-                        If Not geneScores.ContainsKey(pwReaction.id) OrElse
-                           geneScores(pwReaction.id) < coexpressionScore Then
-                            geneScores(pwReaction.id) = coexpressionScore
-                        End If
-                    Next
-                Next
-            Next
-        Next
-    End Sub
-
-    Private Iterator Function FindCoexpressedGenes(geneId As String, threshold As Double) As IEnumerable(Of String)
-        If Not coexpressionMatrix.HasObject(geneId) Then
-            Return
+    Public Sub New(expressionData As Matrix)
+        If expressionData Is Nothing Then
+            Throw New ArgumentNullException(NameOf(expressionData))
         End If
 
-        Dim vec As Double() = coexpressionMatrix.GetVector(geneId)
-        Dim geneIds As String() = coexpressionMatrix.GetLabels.ToArray
+        Me.correlation = expressionData.Correlation(Function(row) row.experiments)
+    End Sub
 
-        For i As Integer = 0 To vec.Length - 1
-            If vec(i) >= threshold Then
-                Yield geneIds(i)
-            End If
+    ''' <summary>
+    ''' 表达矩阵中参与共表达分析的基因数目
+    ''' </summary>
+    Public ReadOnly Property GeneCount As Integer
+        Get
+            If correlation Is Nothing Then Return 0
+            Return correlation.size
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 与目标基因共表达（相关系数不低于阈值）的其它基因，按相关系数降序
+    ''' </summary>
+    Public Function FindCoexpressedGenes(geneId As String,
+                                         threshold As Double,
+                                         Optional maxItems As Integer = Integer.MaxValue) As IEnumerable(Of CoexpressionPartner)
+
+        Dim results As New List(Of CoexpressionPartner)
+
+        If String.IsNullOrEmpty(geneId) Then Return results
+        If correlation Is Nothing OrElse Not correlation.HasObject(geneId) Then Return results
+
+        For Each label As String In correlation.GetLabels()
+            ' 修复：必须排除基因自身，相关矩阵的对角线恒为 1.0
+            If String.Equals(label, geneId, StringComparison.OrdinalIgnoreCase) Then Continue For
+
+            Dim r As Double = correlation.dist(geneId, label)
+            If Double.IsNaN(r) Then Continue For
+            If r < threshold Then Continue For
+
+            results.Add(New CoexpressionPartner With {
+                .GeneId = label,
+                .Correlation = r
+            })
         Next
+
+        ' 注意：本文件引入了 Microsoft.VisualBasic.Math 命名空间，
+        ' 因此这里的 Math 必须显式限定为 System.Math，否则会解析到命名空间上。
+        Return results _
+            .OrderByDescending(Function(p) p.Correlation) _
+            .Take(System.Math.Max(0, maxItems)) _
+            .ToArray
     End Function
+
+    ''' <summary>
+    ''' 收集某个基因的共表达证据
+    ''' </summary>
+    Public Function CollectEvidence(gene As GeneTable, genome As Genome, opt As GPRParameters) As IEnumerable(Of ReactionEvidence)
+        Dim results As New List(Of ReactionEvidence)
+
+        If gene Is Nothing OrElse genome Is Nothing Then Return results
+        If opt Is Nothing Then opt = New GPRParameters
+
+        For Each partner As CoexpressionPartner In FindCoexpressedGenes(gene.locus_id, opt.CoexpressionThreshold, opt.MaxCoexpressionPartners)
+            For Each reactionId As String In genome.GetSeedReactions(partner.GeneId)
+                results.Add(New ReactionEvidence(reactionId, New AssociationEvidence With {
+                    .Kind = EvidenceKind.Coexpression,
+                    .Weight = opt.BaseCoexpressionScore,
+                    .RawScore = partner.Correlation,
+                    .Source = partner.ToString
+                }))
+            Next
+        Next
+
+        Return results
+    End Function
+
 End Class

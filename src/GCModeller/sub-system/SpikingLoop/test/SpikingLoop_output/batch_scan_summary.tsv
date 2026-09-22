@@ -1,0 +1,13 @@
+﻿perturbed_gene	impact_score	top3_downstream
+bcatA	60.1053	sigH=-0.8887; sodB=-0.8315; pksB=-0.8309
+bkdR	58.333	sigH=-0.8750; pksB=-0.8388; sodB=-0.8315
+codY	58.0353	sigH=-0.8809; sodB=-0.8315; ldhA=0.8094
+ccpA	58.942	sigH=-0.8801; sodB=-0.8315; pksB=-0.8195
+fadR	58.6326	sigH=-0.8679; pksB=-0.8357; sodB=-0.8315
+atfA	58.7119	sigH=-0.8782; sodB=-0.8315; terR=-0.8056
+terR	58.2081	sigH=-0.8719; sodB=-0.8315; pksB=-0.8314
+sigB	60.0193	sigH=-0.8547; sodB=-0.8315; terR=-0.8171
+spo0A	60.3996	pksB=-0.8438; sigH=-0.8428; sodB=-0.8315
+paaX	56.2415	sigH=-0.8644; sodB=-0.8315; terR=-0.8171
+cysR	58.7629	sigH=-0.8746; pksB=-0.8325; sodB=-0.8315
+lldR	56.6783	sigH=-0.8658; pksB=-0.8551; sodB=-0.8315

@@ -1,0 +1,110 @@
+Imports System.Runtime.CompilerServices
+
+''' <summary>
+''' 证据聚合器：把多条相互独立的证据合并成一个 [0, 1] 区间内的置信分数。
+''' 
+''' 采用 noisy-OR 模型：
+''' <code>
+''' score = 1 - Π(1 - contribution_i)
+''' </code>
+''' 
+''' 该公式满足以下性质，这正是关联打分所需的基本要求：
+''' 
+''' + **单调性**：增加任意一条证据（contribution &gt; 0）只会让分数升高或不变；
+''' + **有界性**：结果永远落在 [0, 1] 区间内，不会因为证据堆叠而溢出；
+''' + **可交换性**：与证据的枚举顺序无关，保证结果可复现；
+''' + **可解释性**：每一条证据的贡献可以单独取出，用于结果表的"评分依据"列。
+''' </summary>
+Public Module EvidenceAggregator
+
+    ''' <summary>
+    ''' 合并证据得到最终分数。
+    ''' 
+    ''' 两个步骤：
+    ''' 
+    ''' 1. **同类归并**：先按 <see cref="AssociationEvidence.Kind"/> 分组，每一组只取最强的一条证据，
+    '''    再按 <paramref name="corroborationGain"/> 给予有界的"旁证增益"。
+    '''    这一步是必要的：同一个基因周围有 5 个邻居基因时，它们提供的是高度相关的冗余信息，
+    '''    如果直接做 5 次 noisy-OR 会迅速把分数推到 1.0，重新退化成"灌分"。
+    ''' 2. **跨类聚合**：把各类证据的强度按 noisy-OR 合并，得到最终分数。
+    ''' </summary>
+    ''' <param name="evidences">某个"基因 - 反应"对上的全部证据</param>
+    ''' <param name="scoreCap">分数上限</param>
+    ''' <param name="corroborationGain">同类旁证增益：同类证据每多一条带来的相对提升，取值范围 [0, 0.5]</param>
+    <Extension>
+    Public Function Combine(evidences As IEnumerable(Of AssociationEvidence),
+                           Optional scoreCap As Double = 1.0,
+                           Optional corroborationGain As Double = 0.0) As Double
+
+        If evidences Is Nothing Then Return 0
+
+        Dim gain As Double = AssociationEvidence.Normalize(corroborationGain)
+        Dim remain As Double = 1.0
+        Dim items As AssociationEvidence() = evidences.ToArray()
+
+        ' 注意：这里不使用 GroupBy，因为 VB 中的 Group By 属于上下文关键字，
+        ' 与本仓库 Microsoft.VisualBasic.Linq 里同名的 Group 扩展混用时容易产生歧义。
+        For Each kind As EvidenceKind In items.Select(Function(e) e.Kind).Distinct()
+            Dim group As AssociationEvidence() = items.Where(Function(e) e.Kind = kind).ToArray()
+            Dim strongest As Double = group.Select(Function(e) e.Contribution).Max()
+
+            ' 同类证据的旁证增益必须有界，避免"邻居越多分数越接近 1"
+            Dim factor As Double = 1.0 + Math.Min(0.5, gain * (group.Length - 1))
+            Dim contribution As Double = Math.Min(1.0, strongest * factor)
+
+            If contribution >= 1.0 Then Return Clamp(1.0, scoreCap)
+
+            remain *= (1.0 - contribution)
+        Next
+
+        Return Clamp(1.0 - remain, scoreCap)
+    End Function
+
+    ''' <summary>
+    ''' 把分数限制到 ``[0, scoreCap]``
+    ''' </summary>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function Clamp(score As Double, scoreCap As Double) As Double
+        If Double.IsNaN(score) Then Return 0
+
+        Dim top As Double = If(scoreCap <= 0, 1.0, scoreCap)
+
+        If score < 0 Then Return 0
+        If score > top Then Return top
+        Return score
+    End Function
+
+    ''' <summary>
+    ''' 生成证据来源的可读摘要，例如 ``DirectEC + OperonContext``，用于结果表的"评分依据"列
+    ''' </summary>
+    <Extension>
+    Public Function Summarize(evidences As IEnumerable(Of AssociationEvidence), Optional maxItems As Integer = 4) As String
+        If evidences Is Nothing Then Return ""
+
+        Dim kinds As String() = evidences _
+            .OrderByDescending(Function(e) e.Contribution) _
+            .Select(Function(e) e.Kind.ToString) _
+            .Distinct() _
+            .Take(maxItems) _
+            .ToArray
+
+        Return String.Join("+", kinds)
+    End Function
+
+    ''' <summary>
+    ''' 生成证据来源的详细描述（包含来源对象），用于调试与日志输出
+    ''' </summary>
+    <Extension>
+    Public Function Describe(evidences As IEnumerable(Of AssociationEvidence), Optional maxItems As Integer = 3) As String
+        If evidences Is Nothing Then Return ""
+
+        Dim top = evidences _
+            .OrderByDescending(Function(e) e.Contribution) _
+            .Take(maxItems) _
+            .Select(Function(e) e.ToString) _
+            .ToArray
+
+        Return String.Join("; ", top)
+    End Function
+
+End Module
