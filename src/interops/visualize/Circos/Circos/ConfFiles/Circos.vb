@@ -370,7 +370,7 @@ Namespace Configurations
 
         Public Overloads Overrides Function Save(directory$, encoding As Encoding) As Boolean
             Dim base As String = NormalizeDirectory(directory)
-            Dim dataDIR As String = $"{base}/data/"
+            Dim dataDir As String = $"{base}/data/"
             Dim confName As String = System.IO.Path.GetFileName(
                 trimRelative(If(String.IsNullOrEmpty(filePath), FileName, filePath)))
 
@@ -379,7 +379,7 @@ Namespace Configurations
             End If
 
             Call System.IO.Directory.CreateDirectory(base)
-            Call System.IO.Directory.CreateDirectory(dataDIR)
+            Call System.IO.Directory.CreateDirectory(dataDir)
 
             filePath = $"{base}/{confName}"
 
