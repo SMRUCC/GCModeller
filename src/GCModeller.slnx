@@ -5310,36 +5310,6 @@
   <Folder Name="/Solution Items/">
     <File Path="workbench/R#/.editorconfig" />
   </Folder>
-  <Project Path="GCModeller/engine/vcellkit/vcellkit.vbproj">
-    <BuildType Solution="BioDeep_database|*" Project="Debug" />
-    <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
-    <BuildType Solution="Biodeep|*" Project="Debug" />
-    <BuildType Solution="Biostack-Debug|*" Project="Debug" />
-    <BuildType Solution="Biostack|*" Project="Debug" />
-    <BuildType Solution="CFD_win32|*" Project="NPSearch" />
-    <BuildType Solution="DEMO|*" Project="Debug" />
-    <BuildType Solution="Desktop|*" Project="Debug" />
-    <BuildType Solution="Docker|*" Project="Debug" />
-    <BuildType Solution="docs|*" Project="Debug" />
-    <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
-    <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
-    <BuildType Solution="gcmodeller_desktop|*" Project="Rsharp_app_release" />
-    <BuildType Solution="installer_x64|*" Project="Debug" />
-    <BuildType Solution="MetaCardio|*" Project="mzkit" />
-    <BuildType Solution="mzkit_UnixDocker|*" Project="mzkit" />
-    <BuildType Solution="mzkit_win32|*" Project="mzkit" />
-    <BuildType Solution="node-debug|*" Project="NPSearch" />
-    <BuildType Solution="nuget_release|Any CPU" Project="NPSearch" />
-    <BuildType Solution="nuget_release|ARM32" Project="NPSearch" />
-    <BuildType Solution="nuget_release|x64" Project="Rsharp_app_release" />
-    <BuildType Solution="nuget_release|x86" Project="NPSearch" />
-    <BuildType Solution="PlantMAT|*" Project="Debug" />
-    <BuildType Solution="Publish|*" Project="Debug" />
-    <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
-    <BuildType Solution="vcellkit|*" Project="Debug" />
-    <BuildType Solution="Voyager1|*" Project="Debug" />
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
   <Project Path="workbench/R#/annotationKit/annotationKit.vbproj">
     <BuildType Solution="BioDeep_database|*" Project="Debug" />
     <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
@@ -5857,6 +5827,33 @@
     <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
     <BuildType Solution="vcellkit|*" Project="Debug" />
     <BuildType Solution="Voyager1|*" Project="Debug" />
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="workbench/R#/vcellkit/vcellkit.vbproj">
+    <BuildType Solution="BioDeep_database|*" Project="Rsharp_app_release" />
+    <BuildType Solution="Biodeep_UNIX_x64|*" Project="Rsharp_app_release" />
+    <BuildType Solution="Biodeep|*" Project="Release" />
+    <BuildType Solution="Biostack-Debug|*" Project="Rsharp_app_release" />
+    <BuildType Solution="Biostack|*" Project="Rsharp_app_release" />
+    <BuildType Solution="CFD_win32|*" Project="LipidSearch" />
+    <BuildType Solution="DEMO|*" Project="LipidSearch" />
+    <BuildType Solution="Desktop|*" Project="LipidSearch" />
+    <BuildType Solution="Docker|*" Project="Release" />
+    <BuildType Solution="docs|*" Project="Release" />
+    <BuildType Solution="GCModeller(Release_X64)|*" Project="Rsharp_app_release" />
+    <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Rsharp_app_release" />
+    <BuildType Solution="gcmodeller_desktop|*" Project="Rsharp_app_release" />
+    <BuildType Solution="installer_x64|*" Project="Rsharp_app_release" />
+    <BuildType Solution="MetaCardio|*" Project="LipidSearch" />
+    <BuildType Solution="mzkit_UnixDocker|*" Project="Rsharp_app_release" />
+    <BuildType Solution="mzkit_win32|*" Project="Rsharp_app_release" />
+    <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
+    <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+    <BuildType Solution="PlantMAT|*" Project="LipidSearch" />
+    <BuildType Solution="Publish|*" Project="NPSearch" />
+    <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
+    <BuildType Solution="vcellkit|*" Project="LipidSearch" />
+    <BuildType Solution="Voyager1|*" Project="LipidSearch" />
     <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="workbench/R#/visualkit/visualkit.vbproj">
