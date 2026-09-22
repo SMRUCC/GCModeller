@@ -26,8 +26,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;pdb;protein-structure;molecular</PackageTags>
     <PackageReleaseNotes>Reads and writes PDB and PDBML structure files with atoms, sequences, ligands and PDBQt export.</PackageReleaseNotes>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>1.0.9762.7562</Version>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">

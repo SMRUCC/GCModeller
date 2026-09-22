@@ -27,8 +27,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;sequence-alignment;smith-waterman;msa;diamond;blosum</PackageTags>
     <PackageReleaseNotes>Provides MSA, Smith-Waterman/Needleman-Wunsch, DIAMOND blastp and CD-HIT alignment capabilities in one toolkit.</PackageReleaseNotes>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>1.0.9762.7562</Version>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -24,8 +24,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;rna-seq;fastq;sam-bam;genome-assembly;gene-expression</PackageTags>
     <PackageReleaseNotes>Provides sequencing data parsing, assembly graph models and gene expression quantification for RNA-seq workflows.</PackageReleaseNotes>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>1.0.9762.7562</Version>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

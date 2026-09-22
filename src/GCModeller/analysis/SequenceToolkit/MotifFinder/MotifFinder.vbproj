@@ -25,8 +25,8 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;motif-discovery;gibbs-sampling;pwm;meme</PackageTags>
     <PackageReleaseNotes>Adds Gibbs sampling and EM-based de novo motif discovery with PWM consensus generation from sequence sets.</PackageReleaseNotes>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>1.0.9762.7562</Version>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
 

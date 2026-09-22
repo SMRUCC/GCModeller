@@ -24,8 +24,8 @@
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
     <PackageTags>gcmodeller;bioinformatics;genomics;enrichment-analysis;fisher-exact-test;gsea</PackageTags>
     <PackageReleaseNotes>Provides Fisher exact test enrichment and GSEA enrichment score computation with permutation-based p-value estimation.</PackageReleaseNotes>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>1.0.9762.7562</Version>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

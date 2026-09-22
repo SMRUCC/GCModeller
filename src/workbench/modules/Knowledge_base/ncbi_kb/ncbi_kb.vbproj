@@ -10,7 +10,7 @@
     <UseApplicationFramework>True</UseApplicationFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>3.0.9753.40023</Version>
+    <Version>3.0.9762.7562</Version>
     <Title>NCBI PubMed &amp; MeSH Knowledge Base Data Reader</Title>
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
     <Company>SMRUCC genomics institute</Company>
@@ -27,7 +27,7 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>gcmodeller;bioinformatics;genomics;pubmed;mesh;literature</PackageTags>
     <PackageReleaseNotes>Adds PubMed/MeSH parsing, NCBI E-utilities querying and multi-style citation formatting for literature knowledge bases.</PackageReleaseNotes>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|AnyCPU'">

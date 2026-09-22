@@ -24,8 +24,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;microarray;differential-expression;multi-omics;correlation</PackageTags>
     <PackageReleaseNotes>Expanded the microarray toolbox with SEM/PLS-PM causal modeling, SparCC/CCLasso correlation and DIABLO/MOFA/IMMO multi-omics integration.</PackageReleaseNotes>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>1.0.9762.7562</Version>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

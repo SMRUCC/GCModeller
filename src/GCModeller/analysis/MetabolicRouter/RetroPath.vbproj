@@ -11,7 +11,7 @@
     <OptionInfer>On</OptionInfer>
     <Nullable>Disable</Nullable>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <Version>1.0.9753.40023</Version>
+    <Version>1.0.9762.7562</Version>
     <Description>Retrosynthesis-style search engine that designs candidate biosynthetic pathways for a target molecule over a metabolic network. It combines generalized reaction rules with reaction-center SMARTS matching, atom mapping, beam search and multi-dimensional scoring (thermodynamics, enzyme availability, path length), emitting pathway results as JSON.</Description>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyTitle>Metabolic Pathway Router</AssemblyTitle>
@@ -32,7 +32,7 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;metabolic-pathway;retrosynthesis;smiles;pathway-design</PackageTags>
     <PackageReleaseNotes>Released a pure BCL retrosynthetic pathway router with generalized reaction rules, atom-mapped beam search and JSON pathway scoring output.</PackageReleaseNotes>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

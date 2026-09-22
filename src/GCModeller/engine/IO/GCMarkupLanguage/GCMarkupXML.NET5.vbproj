@@ -6,9 +6,9 @@
 		<AssemblyName>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage</AssemblyName>
 		<Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
 		<Company>SMRUCC genomics institute</Company>
-		<Version>5.0.9753.40023</Version>
+		<Version>5.0.9762.7562</Version>
 
-		<AssemblyVersion>5.33.9753.40023</AssemblyVersion>
+		<AssemblyVersion>5.33.9762.7562</AssemblyVersion>
 		<Deterministic>false</Deterministic>
 
 		<Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>

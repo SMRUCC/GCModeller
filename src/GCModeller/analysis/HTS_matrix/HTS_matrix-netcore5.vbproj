@@ -25,8 +25,8 @@
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
     <PackageTags>gcmodeller;bioinformatics;genomics;expression-matrix;normalization;rna-seq;deg</PackageTags>
     <PackageReleaseNotes>Added the HTS gene expression matrix model with TPM, edgeR TMM, DESeq2 and quantile normalization plus limma and DESeq2 differential expression table support.</PackageReleaseNotes>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>1.0.9762.7562</Version>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

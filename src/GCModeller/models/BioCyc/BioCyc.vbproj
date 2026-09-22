@@ -24,8 +24,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;biocyc;metacyc;pathway-database;flatfile-parser</PackageTags>
     <PackageReleaseNotes>Adds strongly typed BioCyc/MetaCyc PGDB flat-file parsing with lazy Workspace access to compounds, reactions, pathways, genes and proteins.</PackageReleaseNotes>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>1.0.9762.7562</Version>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

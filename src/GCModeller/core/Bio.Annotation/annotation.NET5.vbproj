@@ -25,8 +25,8 @@
     <PackageTags>gcmodeller;bioinformatics;genomics;annotation;gff;ptf;file-formats</PackageTags>
     <PackageReleaseNotes>Adds parsers and writers for GFF and PTF genome annotation files with feature models and gene annotation tables.</PackageReleaseNotes>
     <UseApplicationFramework>True</UseApplicationFramework>
-    <Version>1.0.9753.40023</Version>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <Version>1.0.9762.7562</Version>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

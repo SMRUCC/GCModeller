@@ -10,7 +10,7 @@
     <OptionExplicit>On</OptionExplicit>
     <OptionInfer>On</OptionInfer>
     <Description>A VB.NET implementation of the Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm) gene-finding tool. It combines ORF finding, coding-region scoring, RBS detection, start-codon and upstream models with unsupervised model training and dynamic-programming gene selection, writing GFF3, nucleotide/protein FASTA and score tables.</Description>
-    <Version>1.0.9753.40023</Version>
+    <Version>1.0.9762.7562</Version>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyTitle>Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)</AssemblyTitle>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -30,7 +30,7 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;gene-prediction;prokaryote;metagenomics</PackageTags>
     <PackageReleaseNotes>Implements the Prodigal prokaryotic gene-finding algorithm with unsupervised training and dynamic-programming gene selection.</PackageReleaseNotes>
-    <AssemblyVersion>1.0.9753.40023</AssemblyVersion>
+    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
