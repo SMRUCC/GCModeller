@@ -73,24 +73,6 @@ Public Class CellSnapshot
     ''' </summary>
     ''' <returns></returns>
     Public Property taxonomy As String
-
-    ''' <summary>细胞类型 / 物种标识（等于 <see cref="VirtualCella.Species"/>）</summary>
-    Public Property species As String
-
-    ''' <summary>代数：初始接种的细胞为第 0 代</summary>
-    Public Property generation As Integer
-
-    ''' <summary>当前生物量（达到分裂阈值即二分裂）</summary>
-    Public Property biomass As Double
-
-    ''' <summary>已存活的时间</summary>
-    Public Property age As Double
-
-    ''' <summary>所在格点坐标，便于快照直接落盘而无需反查环境</summary>
-    Public Property x As Integer
-    Public Property y As Integer
-    Public Property z As Integer
-
     Public Property rna As Dictionary(Of String, Double)
     Public Property protein As Dictionary(Of String, Double)
     Public Property metabolite As Dictionary(Of String, Double)

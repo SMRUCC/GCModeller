@@ -1,214 +1,66 @@
-﻿' ============================================================
-' TransportSystem.vb - 跨膜转运系统
-' ============================================================
-' 跨膜转运**不单独建一套 ODE**，而是并入 Metaboliq 代谢网络的边界驱动：
-'
-'   胞外浓度（Spot.Medium）× 转运蛋白丰度 ──▶ 有效边界浓度 ──▶ Metaboliq 的 u 输入
-'
-' 这么做的理由：转运与代谢共享同一批边界代谢物，若各自建一套方程，同一
-' 物质会被重复记账、质量不守恒。改为由液态网络统一积分，天然享受
-' Metaboliq 自带的质量守恒软约束（λ_mass·‖S·v‖²）。
-'
-' 本系统负责两件事：
-'   1. 折算有效边界浓度：boundary_b = 胞外浓度_b × 转运蛋白可用性_b
-'   2. 从所在格点的培养基中扣除被摄取的量（环境侧的消耗）
-' ============================================================
+﻿#Region "Microsoft.VisualBasic::c5bc77a9cb074741742844b7ae7501b8, engine\Cella\Networks\TransportSystem.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 6 (50.00%)
+    ' Comment Lines: 3 (25.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (25.00%)
+    '     File Size: 345 B
+
+
+    ' Class TransportSystem
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 ''' <summary>
-''' 跨膜转运系统（把胞外营养折算为代谢网络的边界驱动）
+''' 跨膜转运系统
 ''' </summary>
-Public Class TransportSystem : Inherits SubNetwork
+Public Class TransportSystem : Inherits MetabolicNetwork
 
-    ''' <summary>边界代谢物 → 状态池槽位</summary>
-    ReadOnly boundarySlot As Integer()
-    ''' <summary>边界代谢物 → 转运蛋白基因在状态池中的槽位（-1 表示无对应转运蛋白）</summary>
-    ReadOnly transporterSlot As Integer()
-    ''' <summary>边界代谢物 → 外排来源的胞内代谢物槽位（-1 表示不参与外排）</summary>
-    ReadOnly exportSlot As Integer()
-    ''' <summary>边界代谢物名称</summary>
-    ReadOnly boundaryNames As String()
-
-    ReadOnly capacityReference As Double
-    ReadOnly vmax As Double
-    ReadOnly km As Double
-
-    ''' <summary>最近一次推进中各边界代谢物的摄取速率（正数 = 摄入细胞）</summary>
-    Public ReadOnly Property UptakeRates As Double()
-        Get
-            Return uptake
-        End Get
-    End Property
-
-    ReadOnly uptake As Double()
-    ReadOnly efflux As Double()
-    ReadOnly _uptakeMass As Double()
-    ReadOnly _effluxMass As Double()
-
-    ''' <summary>累计从环境中摄取的物质量（诊断用）</summary>
-    Public ReadOnly Property ConsumedTotal As Double
-        Get
-            Return _consumedTotal
-        End Get
-    End Property
-
-    Private _consumedTotal As Double = 0.0
-
-    Sub New(cell As VirtualCella, blueprint As CellaBlueprint)
-        Call MyBase.New(cell, NameOf(TransportSystem))
-
-        Dim names As String() = cell.State.BoundaryNames
-
-        boundaryNames = names
-        boundarySlot = New Integer(names.Length - 1) {}
-        transporterSlot = New Integer(names.Length - 1) {}
-        exportSlot = New Integer(names.Length - 1) {}
-        uptake = New Double(names.Length - 1) {}
-        efflux = New Double(names.Length - 1) {}
-        _uptakeMass = New Double(names.Length - 1) {}
-        _effluxMass = New Double(names.Length - 1) {}
-        capacityReference = System.Math.Max(blueprint.EnzymeReference, 0.000001)
-        vmax = blueprint.TransportVmax
-        km = System.Math.Max(blueprint.TransportKm, 0.000001)
-
-        For i As Integer = 0 To names.Length - 1
-            boundarySlot(i) = i
-
-            Dim gene As String = blueprint.TransporterOf(names(i))
-            Dim slot As Integer = -1
-
-            If gene IsNot Nothing AndAlso cell.State.GeneIndex.TryGetValue(gene, slot) Then
-                transporterSlot(i) = slot
-            Else
-                transporterSlot(i) = -1
-            End If
-
-            Dim source As String = blueprint.ExportSourceOf(names(i))
-            Dim src As Integer = -1
-
-            If source IsNot Nothing AndAlso cell.State.MetaboliteIndex.TryGetValue(source, src) Then
-                exportSlot(i) = src
-            Else
-                exportSlot(i) = -1
-            End If
-        Next
+    Sub New(mass As MassTable, network As IEnumerable(Of Channel), cell As VirtualCella)
+        Call MyBase.New(mass, network, cell)
     End Sub
-
-    Public Overrides Sub Tick(dt As Double)
-        Dim state As CellularState = cell.State
-        Dim medium As Dictionary(Of String, Double) = If(cell.Spot Is Nothing, Nothing, cell.Spot.Medium)
-        Dim protein As Double() = state.Protein
-
-        For i As Integer = 0 To boundaryNames.Length - 1
-            Dim external As Double = 0.0
-
-            If medium IsNot Nothing Then
-                Call medium.TryGetValue(boundaryNames(i), external)
-            End If
-
-            If Double.IsNaN(external) OrElse external < 0.0 Then
-                external = 0.0
-            End If
-
-            ' ---- 摄取能力：只有真正拥有摄取反应的物种才有转运蛋白槽位 ----
-            ' 槽位为 -1 意味着该物种没有把这种物质运进胞内的能力，容量必须为 0，
-            ' 否则会出现「谁都能吃任何东西」的伪交叉喂养网络
-            Dim capacity As Double = 0.0
-            Dim slot As Integer = transporterSlot(i)
-
-            If slot >= 0 AndAlso slot < protein.Length Then
-                Dim p As Double = protein(slot)
-
-                capacity = p / (p + capacityReference)
-            End If
-
-            ' 有效边界浓度：没有转运能力时该物质无法进入代谢网络
-            state.Boundary(boundarySlot(i)) = external * capacity
-
-            ' 环境侧消耗：米氏方程形式的摄取速率
-            Dim rate As Double = vmax * capacity * external / (km + external)
-            Dim remain As Double = external - rate * dt
-
-            If remain < 0.0 Then
-                remain = 0.0
-            End If
-
-            uptake(i) = rate
-            _uptakeMass(i) = rate * dt
-
-            If medium IsNot Nothing Then
-                _consumedTotal += (external - remain)
-            End If
-
-            ' ---- 产物外排：把胞内代谢物的水平镜像到环境中 ----
-            ' 只要该物种拥有对应的外排反应（exportSlot >= 0）就开启；外排速率由
-            ' 胞内浓度决定，酶丰度的影响已经体现在 Metaboliq 的反应通量里。
-            ' 注意这里不扣减胞内浓度：外排反应本身已经包含在 Metaboliq 的反应
-            ' 网络里，此处只是把它的效果同步到环境侧，避免重复记账。
-            Dim src As Integer = exportSlot(i)
-
-            If src >= 0 Then
-                Dim level As Double = state.Metabolite(src)
-
-                If Double.IsNaN(level) OrElse level < 0.0 Then
-                    level = 0.0
-                End If
-
-                Dim exportRate As Double = vmax * level / (km + level)
-
-                efflux(i) = exportRate
-                _effluxMass(i) = exportRate * dt
-                remain += exportRate * dt
-            End If
-
-            If medium IsNot Nothing Then
-                medium(boundaryNames(i)) = remain
-            End If
-        Next
-    End Sub
-
-    ''' <summary>最近一次推进中各边界代谢物的外排速率</summary>
-    Public ReadOnly Property EffluxRates As Double()
-        Get
-            Return efflux
-        End Get
-    End Property
-
-    ''' <summary>边界代谢物名称，顺序与 <see cref="UptakeMass"/> / <see cref="EffluxMass"/> 一致</summary>
-    Public ReadOnly Property BoundaryMetabolites As String()
-        Get
-            Return boundaryNames
-        End Get
-    End Property
-
-    ''' <summary>本步从环境中摄取的物质质量（= 速率 × dt），交叉喂养归因的输入</summary>
-    Public ReadOnly Property UptakeMass As Double()
-        Get
-            Return _uptakeMass
-        End Get
-    End Property
-
-    ''' <summary>本步分泌到环境中的物质质量（= 速率 × dt），交叉喂养归因的输入</summary>
-    Public ReadOnly Property EffluxMass As Double()
-        Get
-            Return _effluxMass
-        End Get
-    End Property
-
-    Public Overrides Function GetStats() As Dictionary(Of String, Double)
-        Dim sum As Double = 0.0
-        Dim out As Double = 0.0
-
-        For i As Integer = 0 To uptake.Length - 1
-            sum += uptake(i)
-            out += efflux(i)
-        Next
-
-        Return New Dictionary(Of String, Double) From {
-            {"boundary_metabolites", uptake.Length},
-            {"uptake_total", sum},
-            {"efflux_total", out},
-            {"consumed_total", _consumedTotal}
-        }
-    End Function
 
 End Class
+
