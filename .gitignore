@@ -4,11 +4,14 @@
 
 *.suo
 *.sqlite
+*.nupkg
+*.snupkg
 
 obj
 bin
 App
 
+assembly/
 test/ncbi/GCF_000009985.1/
 
 node_modules
