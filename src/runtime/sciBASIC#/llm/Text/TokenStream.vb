@@ -14,7 +14,7 @@
 ' 这两件事都要求"采样"与"喂回"是解耦的两步。
 ' ---------------------------------------------------------------------------
 
-Namespace LLM
+Namespace Text
 
     ''' <summary>
     ''' 自回归 token 流：持有上下文与缓存，按需给出下一个位置的 logits。
@@ -98,7 +98,7 @@ Namespace LLM
         ''' <param name="promptIds">初始上下文；可为空</param>
         ''' <param name="useCache">是否启用 KV Cache</param>
         Public Shared Function Create(model As LLMModel, promptIds As Integer(),
-                                      Optional useCache As Boolean = True) As TokenStream
+                                  Optional useCache As Boolean = True) As TokenStream
             Return New TokenStream(model, promptIds, useCache)
         End Function
 

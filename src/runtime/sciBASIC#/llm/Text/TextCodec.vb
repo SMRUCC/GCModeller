@@ -10,9 +10,7 @@
 '     构建好后注入，算法层不必知道 BPE / WordPiece / byte-level 的差别。
 ' ---------------------------------------------------------------------------
 
-Imports System.Collections.Generic
-
-Namespace LLM
+Namespace Text
 
     ''' <summary>文本与 token 之间的编解码接口。</summary>
     Public Interface ITextCodec
