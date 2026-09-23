@@ -45,14 +45,16 @@
 
     ' Class SparseLIFLayer
     ' 
-    '     Properties: Beta, InputSize, Name, ResetMode, SHistory
-    '                 Synapses, Threshold, UHistory, Units
+    '     Properties: Beta, Counts, FallbackSteps, InputSize, KeepHistory
+    '                 LastStepPath, Membrane, Name, ResetMode
+    '                 ResidentPrecision, SHistory, Synapses, Threshold
+    '                 UHistory, Units, UseFusedStep
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: ForwardStep, ToString
+    '     Function: ForwardStep, SyncFromDevice, ToString
     ' 
-    '     Sub: ResetState
+    '     Sub: ReleaseDeviceBuffers, ResetState
     ' 
     ' /********************************************************************************/
 
@@ -239,7 +241,7 @@ Public Class SparseLIFLayer
     ''' </summary>
     ''' <remarks>
     ''' 该张量在 GPU 后端下<b>以设备为主副本</b>：读主机内容之前必须先调用
-    ''' <see cref="SyncFromDevice"/>（或者调用 <see cref="SyncState"/>）。
+    ''' <see cref="SyncFromDevice"/>。
     ''' </remarks>
     Public ReadOnly Property Counts As Tensor
         Get
@@ -400,6 +402,18 @@ Public Class SparseLIFLayer
 
         Return synced
     End Function
+
+    ''' <summary>
+    ''' 解除本层的设备常驻缓冲，立即归还显存。
+    ''' </summary>
+    ''' <remarks>
+    ''' 仿真结束后应当调用（或者在下一轮 <see cref="ResetState"/> 时自动发生）：
+    ''' 常驻缓冲不参与后端的 LRU 淘汰，一直挂着会白占显存。
+    ''' </remarks>
+    Public Sub ReleaseDeviceBuffers()
+        Call ReleaseDeviceState()
+        _fusedReady = False
+    End Sub
 
 #End Region
 
