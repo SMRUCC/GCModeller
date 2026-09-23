@@ -10,6 +10,18 @@
     <Project Path="../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/GNN/GNN.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/LNN/LNN.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/TensorFlow/TensorFlow.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/CVODE_Solver/Sundials.CVODE.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/DataFittings/linear-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
@@ -39,6 +51,12 @@
     <Project Path="../sub-system/BNLearn/BNLearn.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../sub-system/GEARS/GEARS.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../sub-system/Metaboliq/Metaboliq.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="BootstrapLoader/BootstrapLoader.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
@@ -56,6 +74,9 @@
     </Project>
   </Folder>
   <Project Path="Cella/Cella.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="Cella/demo/CellaDemo.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
 </Solution>
