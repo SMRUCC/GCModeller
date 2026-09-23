@@ -332,6 +332,92 @@ Namespace Graph
             Return selfWeights(nodeIndex)
         End Function
 
+        Private _inEdgeCsr As Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.SparseCsr
+        Private _selfWeightVector As Microsoft.VisualBasic.MachineLearning.TensorFlow.Tensor
+
+        ''' <summary>
+        ''' 入边邻接的 CSR 载体：行 = 目标基因、列 = 源基因、值 = 归一化权重 × 关系符号。
+        ''' </summary>
+        ''' <remarks>
+        ''' 供批量图卷积算子使用（<c>GraphLayerBatch</c>）：把"逐节点遍历入边数组"这种
+        ''' 主机侧写法交给 GPU 内核，同时因为拓扑与系数对全部细胞完全共享，
+        ''' 同一份 CSR 可以服务整个 batch（数千细胞）。
+        ''' <para>
+        ''' 同一条 <c>(目标 ← 源)</c> 上若有多条不同关系类型的边，系数在构建时先合并，
+        ''' 保证每个 <c>(i, src)</c> 对在 CSR 里只出现一次 —— 这与标量实现里
+        ''' "按入边顺序逐条累加"的加法结合次序一致（浮点加法可交换）。
+        ''' </para>
+        ''' </remarks>
+        Public ReadOnly Property InEdgeCsr As Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.SparseCsr
+            Get
+                If _inEdgeCsr Is Nothing Then
+                    _inEdgeCsr = BuildInEdgeCsr()
+                End If
+
+                Return _inEdgeCsr
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 逐节点自环保留权重的 <c>[numGenes]</c> 张量（批量算子按行取用）。
+        ''' </summary>
+        Public ReadOnly Property SelfWeightVector As Microsoft.VisualBasic.MachineLearning.TensorFlow.Tensor
+            Get
+                If _selfWeightVector Is Nothing Then
+                    Dim vector As New Microsoft.VisualBasic.MachineLearning.TensorFlow.Tensor(NumGenes)
+
+                    For i As Integer = 0 To NumGenes - 1
+                        vector(i) = SelfWeight(i)
+                    Next
+
+                    _selfWeightVector = vector
+                End If
+
+                Return _selfWeightVector
+            End Get
+        End Property
+
+        ''' <summary>把稀疏入边列表折叠成 CSR（每个 (目标, 源) 对只保留一条合并系数）。</summary>
+        Private Function BuildInEdgeCsr() As Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.SparseCsr
+            Dim n As Integer = NumGenes
+            Dim signs As Double() = EdgeRelationTypes.SignTable()
+            Dim rowPtr As Integer() = New Integer(n) {}
+            Dim colIdx As New List(Of Integer)
+            Dim values As New List(Of Double)
+
+            For i As Integer = 0 To n - 1
+                rowPtr(i) = colIdx.Count
+
+                Dim sources As Integer() = InEdgeSources(i)
+                Dim types As Integer() = InEdgeTypes(i)
+                Dim weights As Double() = InEdgeWeights(i)
+
+                For e As Integer = 0 To sources.Length - 1
+                    Dim coeff As Double = weights(e) * signs(types(e))
+                    Dim found As Integer = -1
+
+                    For k As Integer = rowPtr(i) To colIdx.Count - 1
+                        If colIdx(k) = sources(e) Then
+                            found = k
+                            Exit For
+                        End If
+                    Next
+
+                    If found >= 0 Then
+                        values(found) += coeff
+                    Else
+                        colIdx.Add(sources(e))
+                        values.Add(coeff)
+                    End If
+                Next
+            Next
+
+            rowPtr(n) = colIdx.Count
+
+            Return New Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.SparseCsr(
+                n, n, rowPtr, colIdx.ToArray(), values.ToArray())
+        End Function
+
         ''' <summary>
         ''' 尝试按照基因名称获取节点索引
         ''' </summary>

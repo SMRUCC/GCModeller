@@ -468,6 +468,118 @@ Public Class MetabolicLiquidNetwork
         Return n
     End Function
 
+#End Region
+
+#Region "批量细胞管线（同一步的全部细胞一起推进）"
+
+        ' ------------------------------------------------------------------
+        ' 为什么需要批量接口：
+        '   类器官仿真里每个细胞每步都要跑一次 StepInterval + ComputeFlux。
+        '   逐细胞调用时矩阵只有 1×122，低于 GPU 后端的小算子阈值，会整体回退 CPU；
+        '   即使强行上 GPU，逐算子写法也会为每细胞每子步产生十几次显存往返。
+        '   把「同一步的全部存活细胞」当作 batch 维（峰值数千）之后，
+        '   单次算子规模提升百倍、内核启动摊薄，并且状态可以常驻显存零往返。
+        '
+        ' 语义约定与逐样本 API 完全一致（同样的子步划分、同样的通量读取头、
+        '   同样的 ±30 夹断与可逆开关），因此调用方无需为两个路径写两套逻辑。
+        ' ------------------------------------------------------------------
+
+        Private _reversibleMask As Tensor
+
+        ''' <summary>
+        ''' 逐反应可逆标记的 <c>[r]</c> 张量（非 0 = 可逆），供融合内核选择 σ 或 2σ−1。
+        ''' </summary>
+        ''' <remarks>只依赖网络拓扑，构造后缓存复用；拓扑不可变，因此无需版本管理。</remarks>
+        Public ReadOnly Property ReversibleMask As Tensor
+            Get
+                If _reversibleMask Is Nothing Then
+                    Dim mask As Tensor = Tensor.Zeros({ReactionCount})
+
+                    For j As Integer = 0 To ReactionCount - 1
+                        If Graph.Reversible(j) Then
+                            mask(j) = 1.0
+                        End If
+                    Next
+
+                    _reversibleMask = mask
+                End If
+
+                Return _reversibleMask
+            End Get
+        End Property
+
+        ''' <summary>创建批量状态矩阵 <c>[B, m]</c>（零初值）。</summary>
+        Public Function NewBatchState(batchSize As Integer) As Tensor
+            Return Tensor.Zeros({batchSize, MetaboliteCount})
+        End Function
+
+        ''' <summary>创建批量输入矩阵 <c>[B, r+nB]</c>（零初值）。</summary>
+        Public Function NewBatchInput(batchSize As Integer) As Tensor
+            Return Tensor.Zeros({batchSize, InputSize})
+        End Function
+
+        ''' <summary>创建批量输出矩阵 <c>[B, cols]</c>（零初值）。</summary>
+        Public Function NewBatchBuffer(batchSize As Integer, cols As Integer) As Tensor
+            Return Tensor.Zeros({batchSize, cols})
+        End Function
+
+        ''' <summary>
+        ''' 批量步进：把 <c>[B, m]</c> 的状态矩阵就地推进 <paramref name="span"/>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 子步划分与逐样本 <see cref="StepInterval"/> 完全相同
+        ''' （<c>n = ceil(span / MaxSubStep)</c>，并受 <see cref="MaxSubStepsPerInterval"/> 限制），
+        ''' 且 n 只依赖 span 与 MaxSubStep，与细胞无关 —— 因此整个 batch 可以共用同一组子步，
+        ''' 不存在"批次被最慢细胞拖长"的长尾问题。
+        ''' </remarks>
+        ''' <param name="batchState">批量状态 <c>[B, m]</c>，就地更新</param>
+        ''' <param name="batchU">批量输入 <c>[B, r+nB]</c></param>
+        ''' <param name="span">推进时长</param>
+        ''' <returns>实际执行的子步数</returns>
+        Public Function StepIntervalBatch(batchState As Tensor, batchU As Tensor, span As Double) As Integer
+            If span <= 0 Then
+                Throw New ArgumentException($"时间区间长度必须为正，当前为 {span}")
+            End If
+
+            Dim n As Integer = CInt(std.Ceiling(span / std.Max(0.0000001, MaxSubStep)))
+
+            If n < 1 Then n = 1
+            If n > MaxSubStepsPerInterval Then n = MaxSubStepsPerInterval
+
+            Return Liquid.ForwardBatch(batchState, batchU, span, n)
+        End Function
+
+        ''' <summary>
+        ''' 批量浓度读出：<c>ĉ = h · OutputWeight + OutputBias</c>，就地写入 <paramref name="output"/>。
+        ''' </summary>
+        Public Sub ComputeOutputFromBatch(batchState As Tensor, output As Tensor)
+            Call Liquid.ComputeOutputFromBatch(batchState, output)
+        End Sub
+
+        ''' <summary>
+        ''' 批量通量读取头：<c>v = e ⊙ gsat([h ‖ u]·Wv + bv)</c>，就地写入 <paramref name="output"/>。
+        ''' </summary>
+        ''' <remarks>与 <see cref="ComputeFlux"/> 逐项对应（含可逆反应的 2σ−1 与预激活 ±30 夹断）。</remarks>
+        Public Sub ComputeFluxBatch(batchState As Tensor, batchU As Tensor, output As Tensor)
+            Call Tensor.computeKernel.FluxHeadBatch(batchState, batchU, _FluxWeight, _FluxBias,
+                                                   ReversibleMask, output)
+        End Sub
+
+        ''' <summary>
+        ''' 批量系统时间常数：<c>τ^sys = 1/(1/τ_eff + f)</c>，就地写入 <paramref name="output"/>。
+        ''' </summary>
+        Public Sub SystemTauBatch(batchState As Tensor, batchU As Tensor, output As Tensor)
+            Dim unit As LiquidCell = Liquid.LiquidLayer.Cells(0)
+
+            Call Tensor.computeKernel.SystemTauBatch(
+                batchState, batchU,
+                If(unit.HasGate, unit.WeightGate, Nothing),
+                If(unit.HasGate, unit.WeightGateInput, Nothing),
+                If(unit.HasGate, unit.BiasGate, Nothing),
+                unit.EffectiveTauVector,
+                output)
+        End Sub
+
     ''' <summary>
     ''' 单个观测区间内允许的最大子步数（防御性上限，避免极端时间尺度拖垮训练）
     ''' </summary>

@@ -190,6 +190,57 @@ Namespace Layers
         End Function
 
         ''' <summary>
+        ''' 批量前向：一次完成整批细胞的图卷积（自身分支 + CSR 邻居聚合 + 偏置 + 激活）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 行布局为 <c>[批][节点]</c>（第 b 个细胞的第 i 个节点 = 行 b·n+i），
+        ''' 邻接由 <see cref="GeneRegulatoryGraph.InEdgeCsr"/> 提供、对全部细胞共享，
+        ''' 因此 batch 只把"节点维"整体放大，聚合结构与单细胞完全一致。
+        ''' <para>
+        ''' 仅覆盖默认的稀疏 + 共享变换形态：逐关系类型独立变换与稠密邻接没有批量内核，
+        ''' 调用方捕获 <see cref="NotSupportedException"/> 后回退到逐样本 <see cref="Forward"/>。
+        ''' </para>
+        ''' </remarks>
+        ''' <param name="input">节点特征 <c>[B·n, inFeatures]</c></param>
+        ''' <param name="output">输出特征 <c>[B·n, outFeatures]</c>，由本方法写入</param>
+        ''' <param name="graphData">基因调控图（提供 CSR 入边与自环权重）</param>
+        Public Overloads Sub ForwardBatch(input As Tensor, output As Tensor, graphData As GeneRegulatoryGraph)
+            If UseDense Then
+                Throw New NotSupportedException("稠密邻接模式没有批量实现")
+            End If
+            If UsePerRelationTransform Then
+                Throw New NotSupportedException("逐关系类型独立变换没有批量实现")
+            End If
+            If input Is Nothing OrElse output Is Nothing OrElse graphData Is Nothing Then
+                Throw New ArgumentNullException(NameOf(input))
+            End If
+            If input.Rank <> 2 OrElse input.Shape(0) Mod graphData.NumGenes <> 0 Then
+                Throw New ArgumentException(
+                    $"ForwardBatch 的输入行数应为节点数的整数倍，实际 [{String.Join(",", input.Shape)}] / {graphData.NumGenes} 个节点")
+            End If
+
+            Call Tensor.computeKernel.GraphLayerBatch(
+                input, wSelf, relW(0), graphData.SelfWeightVector, bias,
+                graphData.InEdgeCsr, output, ActivationCode())
+        End Sub
+
+        ''' <summary>融合内核使用的激活函数编码；不支持的激活函数抛出，由调用方回退。</summary>
+        Private Function ActivationCode() As Integer
+            Select Case Activation
+                Case GNN.ActivationType.Tanh
+                    Return Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.CellActivation.Tanh
+                Case GNN.ActivationType.Sigmoid
+                    Return Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.CellActivation.Sigmoid
+                Case GNN.ActivationType.ReLU
+                    Return Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.CellActivation.ReLU
+                Case GNN.ActivationType.None
+                    Return Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.CellActivation.Linear
+                Case Else
+                    Throw New NotSupportedException($"激活函数 {Activation} 没有批量融合内核实现")
+            End Select
+        End Function
+
+        ''' <summary>
         ''' 按边关系类型对输入做线性变换；共享模式下所有类型复用同一个结果
         ''' </summary>
         ''' <param name="input">节点特征 [numGenes, inFeatures]</param>

@@ -328,6 +328,107 @@ Namespace Model
         End Function
 
         ''' <summary>
+        ''' 批量推理：一次对整批细胞（每个细胞一台调控网络实例）预测 Δ 表达。
+        ''' </summary>
+        ''' <remarks>
+        ''' 与逐样本 <see cref="PredictDelta"/> 的关系：<b>数学上等价</b>，逐项对应
+        ''' 「扰动集合编码（Deep Sets 均值池化） → 特征拼装 → 各图卷积层 → 解码器」，
+        ''' 但把「同一步的全部细胞」当作 batch 维，使所有算子都变成 <c>[B·n, ·]</c> 规模：
+        ''' 单细胞时矩阵只有 339×34，低于 GPU 后端的小算子阈值而整体回退 CPU；
+        ''' 批量化后由融合内核一次完成，实测该子网络的耗时下降一个量级。
+        ''' <para>
+        ''' 行布局为 <c>[批][节点]</c>：第 b 个细胞的第 i 个基因 = 行 <c>b·n+i</c>，
+        ''' 因此 <paramref name="delta"/> 的底层数组本身就是 <c>[B, n]</c> 的行优先排列。
+        ''' </para>
+        ''' </remarks>
+        ''' <param name="controlExprBatch">控制表达矩阵 <c>[B, n]</c>（已做 Z-score 标准化）</param>
+        ''' <param name="pertFlagBatch">扰动标记矩阵 <c>[B, n]</c></param>
+        ''' <param name="pertCounts">逐细胞的扰动基因个数 <c>[B]</c>（用于 Deep Sets 均值池化）</param>
+        ''' <param name="delta">输出 Δ 表达 <c>[B, n]</c>，由本方法写入</param>
+        ''' <param name="workspace">批量工作区（复用中间缓冲，避免每步分配）</param>
+        Public Sub PredictDeltaBatch(controlExprBatch As Tensor, pertFlagBatch As Tensor,
+                                     pertCounts As Integer(), delta As Tensor,
+                                     workspace As GearsBatchWorkspace)
+
+            Dim n As Integer = NumGenes
+            Dim d As Integer = EmbeddingDim
+            Dim batch As Integer = controlExprBatch.Shape(0)
+
+            If workspace Is Nothing Then
+                Throw New ArgumentNullException(NameOf(workspace))
+            End If
+            If pertFlagBatch.Shape(0) <> batch OrElse pertCounts.Length < batch Then
+                Throw New ArgumentException("PredictDeltaBatch 的批量输入尺寸不一致")
+            End If
+
+            ' ---- 1. 扰动集合编码：z_pert = (1/count) · Σ_i flag·e_i ----
+            ' 直接缩放 flag 再走一次 GEMM，避免为"逐行除以 count"再造一个广播算子；
+            ' count = 0（本步无扰动）时整行为 0，与逐样本实现一致。
+            Dim scaled As Tensor = workspace.ScaledFlag
+
+            For b As Integer = 0 To batch - 1
+                Dim count As Integer = pertCounts(b)
+                Dim off As Integer = b * n
+
+                If count <= 0 Then
+                    For i As Integer = 0 To n - 1
+                        scaled.Data(off + i) = 0.0
+                    Next
+                Else
+                    Dim inv As Double = 1.0 / count
+
+                    For i As Integer = 0 To n - 1
+                        scaled.Data(off + i) = pertFlagBatch.Data(off + i) * inv
+                    Next
+                End If
+            Next
+
+            Call scaled.MarkHostModified()
+
+            Call workspace.RefreshZPert(scaled.MatMul(embeddingLayer.Embeddings))
+
+            ' ---- 2. 特征拼装：[x̄ ‖ p ‖ e_i ‖ z_pert] ----
+            Call Tensor.computeKernel.GraphFeatureBatch(
+                controlExprBatch, pertFlagBatch, embeddingLayer.Embeddings, workspace.ZPert,
+                workspace.Features, n, d)
+
+            ' ---- 3. 逐层消息传递 ----
+            Dim hidden As Tensor = workspace.Features
+
+            For Each layer As GEARSConvLayer In convLayers
+                Dim nextHidden As Tensor = workspace.NextHidden(layer.OutFeatures)
+
+                Call layer.ForwardBatch(hidden, nextHidden, graphData)
+                hidden = nextHidden
+            Next
+
+            ' ---- 4. 解码器：[B·n, 1] ----
+            Call decoder.ForwardBatch(hidden, workspace.Decoded)
+
+            ' ---- 5. 写回 [B, n] ----
+            ' 解码器输出落在显存里（批量内核就地写入常驻缓冲），读主机数组前先同步
+            Call SyncFromDevice(workspace.Decoded)
+
+            Call Array.Copy(workspace.Decoded.Data, delta.Data, delta.Data.Length)
+            Call delta.MarkHostModified()
+        End Sub
+
+        ''' <summary>
+        ''' 若张量被钉在显存里，把设备端结果同步回主机数组；CPU 后端下是空操作。
+        ''' </summary>
+        Private Shared Sub SyncFromDevice(t As Tensor)
+            If t Is Nothing Then
+                Return
+            End If
+
+            Try
+                Call Tensor.computeKernel.SyncFromDevice(t)
+            Catch
+                ' 后端未实现该能力时主机数组即权威副本，无需同步
+            End Try
+        End Sub
+
+        ''' <summary>
         ''' 实现基类接口：使用内部缓存的调控图做前向传播
         ''' </summary>
         ''' <param name="nodeFeatures">初始节点特征 [numGenes, <see cref="FeatureDim"/>]</param>
