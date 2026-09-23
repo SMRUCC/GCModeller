@@ -67,7 +67,11 @@ Friend NotInheritable Class H264SliceHeader
                             picOrderCntLsb As Integer,
                             Optional idrPicId As Integer = 0,
                             Optional sliceQpDelta As Integer = 0,
-                            Optional cabacInitIdc As Integer = 0)
+                            Optional cabacInitIdc As Integer = 0,
+                            Optional numRefIdxOverride As Boolean = False,
+                            Optional numRefIdxL0Minus1 As Integer = 0,
+                            Optional numRefIdxL1Minus1 As Integer = 0,
+                            Optional isReference As Boolean = True)
 
         Call w.writeUe(0)                                               ' first_mb_in_slice
         Call w.writeUe(CInt(sliceType))                                 ' slice_type
@@ -89,19 +93,35 @@ Friend NotInheritable Class H264SliceHeader
         End If
 
         If sliceType <> H264SliceType.I Then
-            Call w.writeBit(0)                                          ' num_ref_idx_active_override_flag
+            ' B 切片需要「未来锚点 + 过去锚点」两条列表各自可见，而 PPS 的默认活动参考数是 1，
+            ' 故 B 切片用 override 把它抬到 2；P 切片保持默认（写 0），位流与既有已验证结果逐位一致。
+            Call w.writeBit(If(numRefIdxOverride, 1, 0))                ' num_ref_idx_active_override_flag
+
+            If numRefIdxOverride Then
+                Call w.writeUe(numRefIdxL0Minus1)                       ' num_ref_idx_l0_active_minus1
+                If sliceType = H264SliceType.B Then
+                    Call w.writeUe(numRefIdxL1Minus1)                   ' num_ref_idx_l1_active_minus1
+                End If
+            End If
+
+            ' 不做参考重排序：B 切片的列表 1 默认与列表 0 同序（8.2.4.2.4），
+            ' 即两者都是 [较新参考, 较旧参考]，用 ref_idx 0 / 1 即可分别取到未来与过去锚点。
             Call w.writeBit(0)                                          ' ref_pic_list_modification_flag_l0
             If sliceType = H264SliceType.B Then
                 Call w.writeBit(0)                                      ' ref_pic_list_modification_flag_l1
             End If
         End If
 
-        ' dec_ref_pic_marking（nal_ref_idc != 0 时存在）
-        If isIdr Then
-            Call w.writeBit(0)                                          ' no_output_of_prior_pics_flag
-            Call w.writeBit(0)                                          ' long_term_reference_flag
-        Else
-            Call w.writeBit(0)                                          ' adaptive_ref_pic_marking_mode_flag
+        ' dec_ref_pic_marking 只在 nal_ref_idc != 0（即参考图像）时存在。
+        ' B 帧是非参考图像，若仍写出这一位，解码器会把紧随其后的 cabac_init_idc 读错位
+        ' （表现为 "cabac_init_idc 3 overflow"）。
+        If isReference Then
+            If isIdr Then
+                Call w.writeBit(0)                                      ' no_output_of_prior_pics_flag
+                Call w.writeBit(0)                                      ' long_term_reference_flag
+            Else
+                Call w.writeBit(0)                                      ' adaptive_ref_pic_marking_mode_flag
+            End If
         End If
 
         If sliceType <> H264SliceType.I Then

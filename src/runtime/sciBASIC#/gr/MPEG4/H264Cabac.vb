@@ -103,6 +103,8 @@ Friend Class H264Cabac
     ''' 编码一个使用上下文模型的语法元素位（bin）
     ''' </summary>
     Friend Sub encodeBin(ctx As Integer, bin As Integer)
+        If H264Debug.Enabled Then H264Debug.Bins.Add($"c{ctx}={bin}")
+
         Dim s As Integer = states(ctx)
         Dim lps As Integer = H264CabacTables.lpsRange(2 * (rangeValue And &HC0) + s)
 
@@ -115,16 +117,23 @@ Friend Class H264Cabac
             ' LPS 分支：走上半个区间
             lowValue += rangeValue
             rangeValue = lps
-            states(ctx) = H264CabacTables.mlpsState(s Xor 1)
+            ' 解码器写的是 state = (mlps_state + 128)[s ^ -1]，即 *(mlps_state + 127 - s)，
+            ' 因此 LPS 的后继状态来自表的另一半（lpsState）并按 127 - s 反向索引。
+            ' 注意不能写成 mlpsState(s Xor 1)：MPS 概率不占优的位会立刻与解码器失去同步。
+            states(ctx) = H264CabacTables.lpsState(127 - s)
         End If
 
         Call renorm()
+
+        If H264Debug.Enabled Then H264Debug.Ranges.Add(rangeValue)
     End Sub
 
     ''' <summary>
     ''' 编码一个旁路（bypass）位：区间固定对半分，不使用上下文模型
     ''' </summary>
     Friend Sub encodeBypass(bit As Integer)
+        If H264Debug.Enabled Then H264Debug.Bins.Add($"b{bit}")
+
         lowValue += lowValue
 
         If bit <> 0 Then
@@ -145,20 +154,30 @@ Friend Class H264Cabac
     ''' <summary>
     ''' 编码一个旁路位表示的正负号：<paramref name="value"/> 的符号由 1 个旁路位承载
     ''' </summary>
+    ''' <remarks>
+    ''' 解码器写的是 <c>get_cabac_bypass_sign(CC, -coeff_abs)</c>，而该函数的实现是
+    ''' <c>mask = (low - range) &gt;&gt; 31; return (val ^ mask) - mask;</c>：
+    ''' 位为 0 时 <c>mask = -1</c>，返回 <c>-val</c>（即 <b>正</b>）；位为 1 时 <c>mask = 0</c>，
+    ''' 返回 <c>val</c>（即 <b>负</b>）。因此<b>位 0 表示正、位 1 表示负</b>。
+    ''' 写反会让整幅画面的系数符号全部颠倒（全零残差不受影响，因此只会在有系数时暴露）。
+    ''' </remarks>
     Friend Sub encodeBypassSign(value As Integer)
-        ' 解码侧为 get_cabac_bypass_sign(CC, -magnitude)：
-        ' 位为 0 → 负；位为 1 → 正
-        Call encodeBypass(If(value >= 0, 1, 0))
+        Call encodeBypass(If(value >= 0, 0, 1))
     End Sub
 
     ''' <summary>
     ''' 编码终止位（end_of_slice_flag）；<paramref name="bit"/> 为 1 时结束切片数据
     ''' </summary>
     Friend Sub encodeTerminate(bit As Integer)
+        If H264Debug.Enabled Then H264Debug.Bins.Add($"t{bit}")
+
         rangeValue -= 2
 
         If bit = 0 Then
             Call renorm()
+
+            If H264Debug.Enabled Then H264Debug.Ranges.Add(rangeValue)
+
             Return
         End If
 
