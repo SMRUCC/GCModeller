@@ -7,6 +7,9 @@
     <Project Path="../../runtime/sciBASIC#/Data/DataFrame/dataframework-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/DataMining/DataMining/DataMining.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/Graph/graph-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
@@ -16,6 +19,9 @@
     <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/LNN/LNN.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/MachineLearning/machine_learning-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/MachineLearning/TensorFlow/TensorFlow.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
@@ -23,6 +29,9 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/DataFittings/linear-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/DataFrame/dataframeUtils-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
     <Project Path="../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math.Statistics/stats-netcore5.vbproj">
