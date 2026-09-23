@@ -80,7 +80,49 @@
 ' ============================================================================
 
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
 Imports std = System.Math
+
+''' <summary>
+''' 融合 LIF 状态在设备上的精度档位。
+''' </summary>
+Public Enum LifResidentPrecision
+
+    ''' <summary>
+    ''' 双精度常驻（默认）：膜电位与计数累加器都以 Double 留在显存。
+    ''' </summary>
+    ''' <remarks>
+    ''' 递归状态是逐时间步累积的，单精度舍入会让个别神经元恰好跨过阈值，
+    ''' 从而在脉冲计数上产生整数差异 —— 需要「CPU / GPU 对拍逐位一致」时必须用本档位。
+    ''' </remarks>
+    Double64 = 0
+
+    ''' <summary>
+    ''' 单精度常驻（最快档）：膜电位与计数用 Single，脉冲仍用 Double。
+    ''' </summary>
+    ''' <remarks>
+    ''' 显存与带宽占用减半。脉冲保持双精度是有意的：下一步的稀疏乘法要复用它，
+    ''' 而 0/1 在两种精度下都是精确值，所以只有膜电位会引入舍入。
+    ''' </remarks>
+    Single32 = 1
+
+End Enum
+
+''' <summary>
+''' 某个时间步实际走的那条前向路径（诊断 / 报告用）。
+''' </summary>
+Public Enum LifStepPath
+
+    ''' <summary>尚未执行任何时间步</summary>
+    None = 0
+
+    ''' <summary>逐算子路径（SpMM + Add + MultiplyScalar + Heaviside + 复位）</summary>
+    OpByOp = 1
+
+    ''' <summary>融合算子路径（后端用一次调用完成整步，可配合设备常驻状态）</summary>
+    Fused = 2
+
+End Enum
 
 Public Class SparseLIFLayer
 
