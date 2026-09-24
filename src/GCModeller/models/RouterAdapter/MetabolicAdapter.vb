@@ -12,7 +12,6 @@
 ' 构造期一次性完成装配，之后每次 FindPathway 只是对已装配的 Netwalk 发起一次搜索。
 ' ============================================================================
 
-Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Analysis.RetroPath
 Imports SMRUCC.genomics.Analysis.RetroPath.Chem
