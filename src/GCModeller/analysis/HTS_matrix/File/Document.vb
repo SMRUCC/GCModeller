@@ -54,7 +54,9 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Public Module Document
 
@@ -95,6 +97,40 @@ Public Module Document
                 .ToArray
         End If
 
+        ' parse matrix data in stream model
+        Dim matrix As DataFrameRow() = file _
+            .LineIterators(strictFile:=True, tqdm:=tqdm) _
+            .Skip(1) _
+            .loadGeneMatrix(excludes, takeIndex) _
+            .ToArray
+
+        Return New Matrix With {
+            .expression = matrix,
+            .sampleID = takeIndex _
+                .Select(Function(i) sampleIds(i)) _
+                .ToArray,
+            .tag = file.FileName
+        }
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="samples">
+    ''' make matrix subset by the sample id
+    ''' </param>
+    ''' <param name="tqdm"></param>
+    ''' <returns></returns>
+    Public Function LoadMatrixDocument(file As String, samples As IEnumerable(Of SampleInfo), Optional tqdm As Boolean = False) As Matrix
+        Dim sampleIds As String() = file.ReadFirstLine.ParseHeaders
+        Dim subset As Index(Of String) = samples.Keys.Indexing
+        Dim takeIndex As Integer() = sampleIds _
+            .Select(Function(name, i) (i, flag:=name Like subset)) _
+            .Where(Function(a) a.flag = True) _
+            .Select(Function(a) a.i) _
+            .ToArray
+        Dim excludes As String() = sampleIds.Where(Function(id) Not id Like subset).ToArray
         ' parse matrix data in stream model
         Dim matrix As DataFrameRow() = file _
             .LineIterators(strictFile:=True, tqdm:=tqdm) _

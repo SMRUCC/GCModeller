@@ -64,6 +64,14 @@ Module Reader
 
     Const quot$ = """.+""[,\t]"
 
+    ''' <summary>
+    ''' parse csv/tsv line
+    ''' </summary>
+    ''' <param name="line"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 在这里假设基因表达矩阵是由基因id加表达值的向量构成的，不会有太复杂的基因id字符串（例如存在逗号的基因id字符串），所以在这里为了字符串的解析性能，直接通过Split(ASCII.TAB, ","c)来拆分csv/tsv文本行
+    ''' </remarks>
     Friend Function ParseGeneRowTokens(line As String) As NamedValue(Of Double())
         Dim quot As String = r.Match(line, Reader.quot).Value
 
@@ -89,6 +97,13 @@ Module Reader
         End If
     End Function
 
+    ''' <summary>
+    ''' Parse the matrix rows as expression data
+    ''' </summary>
+    ''' <param name="text"></param>
+    ''' <param name="excludes"></param>
+    ''' <param name="takeIndex"></param>
+    ''' <returns></returns>
     <Extension>
     Friend Iterator Function loadGeneMatrix(text As IEnumerable(Of String), excludes As Index(Of String), takeIndex As Integer()) As IEnumerable(Of DataFrameRow)
         For Each line As String In text

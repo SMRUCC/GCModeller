@@ -55,6 +55,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports std = System.Math
 Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
@@ -104,6 +105,10 @@ Public Module ExpressionScale
                         End Function) _
                 .ToArray
         }
+    End Function
+
+    Public Function ExpressionGroups(exp As Matrix, sampleinfo As IReadOnlyCollection(Of SampleInfo)) As Dictionary(Of String, String())
+
     End Function
 End Module
 
