@@ -40,6 +40,8 @@ export class GeneRegulatoryGraph {
    GeneNames: string;
    # GNN 图结构对象
    Graph: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/Graph.html">Graph</a>;
+   # 入边邻接的 CSR 载体：行 = 目标基因、列 = 源基因、值 = 归一化权重 × 关系符号。
+   InEdgeCsr: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Compute/SparseCsr.html">SparseCsr</a>;
    # 追加的共表达边数量
    NumCoExpressionEdges: integer;
    # 基因数量（图中的节点数量）
@@ -48,6 +50,8 @@ export class GeneRegulatoryGraph {
    NumPriorEdges: integer;
    # 图中每种关系类型的边数量统计
    RelationTypeCounts: integer;
+   # 逐节点自环保留权重的 <code>[numGenes]</code> 张量（批量算子按行取用）。
+   SelfWeightVector: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a>;
 }
 </code>
         </pre>
@@ -57,6 +61,8 @@ export class GeneRegulatoryGraph {
         <ol>
 <li>use by <i>property</i> member <code>GeneIndex</code>: list</li>
 <li>use by <i>property</i> member <code>Graph</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DeepLearning/GNN/Graph.html">Graph</a></li>
+<li>use by <i>property</i> member <code>InEdgeCsr</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Compute/SparseCsr.html">SparseCsr</a></li>
+<li>use by <i>property</i> member <code>SelfWeightVector</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a></li>
 </ol>
 
 
