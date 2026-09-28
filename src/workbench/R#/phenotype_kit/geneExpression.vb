@@ -865,6 +865,25 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="env"></param>
+    ''' <returns>a key-value tuple list of key name is the group or <see cref="SampleInfo.sample_info"/> and the value is the geneset of the corresponding group.</returns>
+    <ExportAPI("expression_groups")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function expressionGroups(x As Matrix, <RRawVectorArgument(GetType(SampleInfo))> sampleinfo As Object, Optional group As String = Nothing, Optional env As Environment = Nothing) As Object
+        Dim metadata As PipeIterator(Of SampleInfo) = pipeline.Stream(Of SampleInfo)(sampleinfo, env)
+
+        If metadata.isError Then
+            Return metadata.getError
+        End If
+
+        Return New list(x.ExpressionGroups(metadata.ToArray, group))
+    End Function
+
+    ''' <summary>
     ''' read the binary matrix data file
     ''' </summary>
     ''' <param name="file">

@@ -107,7 +107,13 @@ Public Module ExpressionScale
         }
     End Function
 
-    Public Function ExpressionGroups(exp As Matrix, sampleinfo As IReadOnlyCollection(Of SampleInfo)) As Dictionary(Of String, String())
+    <Extension>
+    Public Function ExpressionGroups(exp As Matrix, sampleinfo As IReadOnlyCollection(Of SampleInfo), Optional group As String = Nothing) As Dictionary(Of String, String())
+        Dim lines As IGrouping(Of String, SampleInfo)() = sampleinfo _
+            .GroupBy(Function(s)
+                         Return If(group Is Nothing, s.sample_info, s(group))
+                     End Function) _
+            .ToArray
 
     End Function
 End Module

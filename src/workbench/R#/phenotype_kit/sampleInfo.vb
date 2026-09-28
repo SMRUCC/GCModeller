@@ -60,6 +60,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
@@ -129,6 +130,7 @@ Module DEGSample
 
     Private Function sampleinfoTable(samples As SampleInfo(), args As list, env As Environment) As Rdataframe
         Dim data As New Rdataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim metaNames As String() = samples.PropertyNames
 
         ' data.columns(NameOf(SampleInfo.ID)) = samples.Select(Function(a) a.ID).ToArray
         data.columns(NameOf(SampleInfo.sample_name)) = samples.Select(Function(a) a.sample_name).ToArray
@@ -138,6 +140,10 @@ Module DEGSample
         data.columns(NameOf(SampleInfo.color)) = samples.Select(Function(a) a.color).ToArray
         data.columns(NameOf(SampleInfo.shape)) = samples.Select(Function(a) a.shape).ToArray
         data.rownames = samples.Select(Function(a) a.ID).ToArray
+
+        For Each name As String In metaNames
+            Call data.add(name, From si As SampleInfo In samples Select si(name))
+        Next
 
         Return data
     End Function
