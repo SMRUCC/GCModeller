@@ -29,8 +29,8 @@
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>expression_groups</strong>(<i>x</i>, <i>sampleinfo</i>,
     <i>group</i> = <span style='color: blue !important;'>NULL</span>,
-    <i>rawCounts</i> = <span style='color: blue !important;'>NULL</span>,
-    <i>presenceQuantile</i> = <span style='color: green;'>0.5</span>,
+    <i>raw.count</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>presence.quantile</i> = <span style='color: green;'>0.5</span>,
     <i>kMAD</i> = <span style='color: green;'>3</span>,
     <i>logBase</i> = <span style='color: green;'>2</span>,
     <i>minAbsentFraction</i> = <span style='color: green;'>0.01</span>,
@@ -55,11 +55,11 @@
 <dd><p>用于进行样本分组的元数据键名，例如"line". [as string]</p></dd>
 
 
-<dt>rawCounts</dt>
+<dt>raw.count</dt>
 <dd><p>输入的数据模式：TRUE表示原始count矩阵，FALSE表示已经归一化之后的矩阵， 默认为空值，即自动检测。</p></dd>
 
 
-<dt>presenceQuantile</dt>
+<dt>presence.quantile</dt>
 <dd><p>品种内部的生物学重复的汇总分位数，默认取中位数；0为最严格(所有的重复都要检出)， 1为最宽松(只要有一个重复检出即可)。. [as double]</p></dd>
 
 

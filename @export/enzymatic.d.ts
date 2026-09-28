@@ -5,6 +5,8 @@
 // ref=vcellkit.Enzymatic@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * enzymatic reaction network modeller
+ * 
 */
 declare namespace enzymatic {
    /**

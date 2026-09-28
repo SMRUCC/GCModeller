@@ -13,6 +13,7 @@
     <Title>VirtualCell toolkit: R# package for GCModeller VirtualCell analysis</Title>
     <UseApplicationFramework>True</UseApplicationFramework>
     <OutputPath>../../../../assembly/</OutputPath>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
 

@@ -6,8 +6,8 @@ expression_groups \- 从表达矩阵之中按照表达值的分布特征拆分�
 \fIexpression_groups(\fBx\fR as <generic> Matrix, 
 \fBsampleinfo\fR as any, 
 \fBgroup\fR as string = \fB<NULL>\fR, 
-\fBrawCounts\fR as any = \fB<NULL>\fR, 
-\fBpresenceQuantile\fR as double = 0.5, 
+\fBraw_count\fR as any = \fB<NULL>\fR, 
+\fBpresence_quantile\fR as double = 0.5, 
 \fBkMAD\fR as double = 3, 
 \fBlogBase\fR as double = 2, 
 \fBminAbsentFraction\fR as double = 0.01, 
@@ -30,13 +30,13 @@ expression_groups \- 从表达矩阵之中按照表达值的分布特征拆分�
 \fBgroup\fB \fR\- 用于进行样本分组的元数据键名，例如"line". 
 .PP
 .PP
-\fBrawCounts\fB \fR\- 
+\fBraw_count\fB \fR\- 
  输入的数据模式：TRUE表示原始count矩阵，FALSE表示已经归一化之后的矩阵，
  默认为空值，即自动检测。
 . 
 .PP
 .PP
-\fBpresenceQuantile\fB \fR\- 
+\fBpresence_quantile\fB \fR\- 
  品种内部的生物学重复的汇总分位数，默认取中位数；0为最严格(所有的重复都要检出)，
  1为最宽松(只要有一个重复检出即可)。
 . 

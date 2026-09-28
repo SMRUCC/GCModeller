@@ -870,11 +870,11 @@ Module geneExpression
     ''' <param name="x">基因在行，样本在列的表达矩阵</param>
     ''' <param name="sampleinfo">样本的元数据信息</param>
     ''' <param name="group">用于进行样本分组的元数据键名，例如"line"</param>
-    ''' <param name="rawCounts">
+    ''' <param name="raw_count">
     ''' 输入的数据模式：TRUE表示原始count矩阵，FALSE表示已经归一化之后的矩阵，
     ''' 默认为空值，即自动检测。
     ''' </param>
-    ''' <param name="presenceQuantile">
+    ''' <param name="presence_quantile">
     ''' 品种内部的生物学重复的汇总分位数，默认取中位数；0为最严格(所有的重复都要检出)，
     ''' 1为最宽松(只要有一个重复检出即可)。
     ''' </param>
@@ -891,8 +891,8 @@ Module geneExpression
     Public Function expressionGroups(x As Matrix,
                                      <RRawVectorArgument(GetType(SampleInfo))> sampleinfo As Object,
                                      Optional group As String = Nothing,
-                                     Optional rawCounts As Object = Nothing,
-                                     Optional presenceQuantile As Double = 0.5,
+                                     Optional raw_count As Object = Nothing,
+                                     Optional presence_quantile As Double = 0.5,
                                      Optional kMAD As Double = 3,
                                      Optional logBase As Double = 2,
                                      Optional minAbsentFraction As Double = 0.01,
@@ -909,8 +909,8 @@ Module geneExpression
 
         Dim counts As Boolean? = Nothing
 
-        If Not rawCounts Is Nothing Then
-            counts = CBool(rawCounts)
+        If Not raw_count Is Nothing Then
+            counts = CBool(raw_count)
         End If
 
         Return New list(x.ExpressionGroups(
@@ -919,7 +919,7 @@ Module geneExpression
             rawCounts:=counts,
             logBase:=logBase,
             kMAD:=kMAD,
-            presenceQuantile:=presenceQuantile,
+            presenceQuantile:=presence_quantile,
             minAbsentFraction:=minAbsentFraction,
             minGap:=minGap,
             absFloor:=absFloor,

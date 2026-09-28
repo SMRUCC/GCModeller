@@ -375,11 +375,11 @@ declare namespace geneExpression {
      * @param group 用于进行样本分组的元数据键名，例如"line"
      * 
      * + default value Is ``null``.
-     * @param rawCounts 输入的数据模式：TRUE表示原始count矩阵，FALSE表示已经归一化之后的矩阵，
+     * @param raw_count 输入的数据模式：TRUE表示原始count矩阵，FALSE表示已经归一化之后的矩阵，
      *  默认为空值，即自动检测。
      * 
      * + default value Is ``null``.
-     * @param presenceQuantile 品种内部的生物学重复的汇总分位数，默认取中位数；0为最严格(所有的重复都要检出)，
+     * @param presence_quantile 品种内部的生物学重复的汇总分位数，默认取中位数；0为最严格(所有的重复都要检出)，
      *  1为最宽松(只要有一个重复检出即可)。
      * 
      * + default value Is ``0.5``.
@@ -406,7 +406,7 @@ declare namespace geneExpression {
      * + default value Is ``null``.
      * @return a key-value tuple list of key name is the group or [SampleGroup.sample_info](cref:P:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleGroup.sample_info) and the value is the geneset of the corresponding group.
    */
-   function expression_groups(x: object, sampleinfo: any, group?: string, rawCounts?: any, presenceQuantile?: number, kMAD?: number, logBase?: number, minAbsentFraction?: number, minGap?: number, absFloor?: number, verbose?: boolean, env?: object): string;
+   function expression_groups(x: object, sampleinfo: any, group?: string, raw_count?: any, presence_quantile?: number, kMAD?: number, logBase?: number, minAbsentFraction?: number, minGap?: number, absFloor?: number, verbose?: boolean, env?: object): string;
    /**
     * get gene expression vector data
     * 

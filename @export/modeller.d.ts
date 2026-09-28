@@ -5,18 +5,30 @@
 // ref=vcellkit.vcellModeller@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * virtual cell network kinetics modeller
+ * 
 */
 declare namespace modeller {
    module apply {
       /**
-        * @param cache default value Is ``'./.cache'``.
+       * apply the kinetics parameters from the sabio-rk database.
+       * 
+       * 
+        * @param vcell -
+        * @param cache 
+        * + default value Is ``'./.cache'``.
       */
       function kinetics(vcell: object, cache?: string): object;
    }
    module cacheOf {
       /**
-        * @param export default value Is ``'./'``.
-        * @param ko01000 default value Is ``'ko01000'``.
+       * create data repository from the sabio-rk database
+       * 
+       * 
+        * @param export 
+        * + default value Is ``'./'``.
+        * @param ko01000 
+        * + default value Is ``'ko01000'``.
       */
       function enzyme_kinetics(export?: string, ko01000?: string): ;
    }
@@ -26,7 +38,14 @@ declare namespace modeller {
    */
    function eval_lambda(kinetics: object, args?: object, env?: object): number;
    /**
-     * @param env default value Is ``null``.
+    * create dynamics kinetics
+    * 
+    * 
+     * @param expr -
+     * @param parameters -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function kinetics(expr: string, parameters: object, env?: object): object;
    /**
@@ -37,18 +56,41 @@ declare namespace modeller {
       */
       function json_model(file: string): object;
       /**
+       * read the virtual cell model file
+       * 
+       * 
+        * @param path the model file extension could be:
+        *  
+        *  xml - small virtual cell model in a xml file
+        *  zip - large virtual cell model file save as multiple components in a zip file
+        *  json - large virtual cell model file save as json stream file
       */
       function vcell(path: string): object;
    }
    /**
+    * get taxonomy information of the virtual cell model, this information will be used for identify the model source, and also for the model annotation in the future.
+    * 
+    * 
+     * @param model -
    */
    function taxonomy_info(model: object): object;
    module write {
       /**
-        * @param indent default value Is ``true``.
+       * save the virtual cell model as a large json file
+       * 
+       * 
+        * @param vcell -
+        * @param file -
+        * @param indent 
+        * + default value Is ``true``.
       */
       function json_model(vcell: object, file: string, indent?: boolean): boolean;
       /**
+       * save the virtual cell model as zip archive file
+       * 
+       * 
+        * @param vcell -
+        * @param file -
       */
       function zip(vcell: object, file: string): boolean;
    }

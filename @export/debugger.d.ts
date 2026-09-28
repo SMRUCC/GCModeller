@@ -5,10 +5,19 @@
 // ref=vcellkit.Debugger@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * debug helper for the virtual cell model
+ * 
 */
 declare namespace debugger {
    /**
-     * @param env default value Is ``null``.
+    * dump core for debug
+    * 
+    * 
+     * @param core -
+     * @param file -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function dump_core(core: object, file: any, env?: object): any;
    module flux {
@@ -24,7 +33,14 @@ declare namespace debugger {
    }
    module map {
       /**
-        * @param init default value Is ``1000``.
+       * create dynamics model from a kegg pathway map
+       * 
+       * 
+        * @param map -
+        * @param reactions -
+        * @param init -
+        * 
+        * + default value Is ``1000``.
       */
       function flux(map: object, reactions: object, init?: number): object;
    }
@@ -32,7 +48,14 @@ declare namespace debugger {
    */
    function set_symbols(driver: object, vcell: object): ;
    /**
-     * @param env default value Is ``null``.
+    * run network dynamics
+    * 
+    * 
+     * @param network the target network graph model
+     * @param init0 the system initial conditions
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function test_network(network: any, init0: object, env?: object): object;
    module vcell {
