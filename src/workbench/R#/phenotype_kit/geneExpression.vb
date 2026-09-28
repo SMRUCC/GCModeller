@@ -865,22 +865,66 @@ Module geneExpression
     End Function
 
     ''' <summary>
-    ''' 
+    ''' 从表达矩阵之中按照表达值的分布特征拆分出每一个品种的基因组基因集合
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="sampleinfo"></param>
+    ''' <param name="x">基因在行，样本在列的表达矩阵</param>
+    ''' <param name="sampleinfo">样本的元数据信息</param>
+    ''' <param name="group">用于进行样本分组的元数据键名，例如"line"</param>
+    ''' <param name="rawCounts">
+    ''' 输入的数据模式：TRUE表示原始count矩阵，FALSE表示已经归一化之后的矩阵，
+    ''' 默认为空值，即自动检测。
+    ''' </param>
+    ''' <param name="presenceQuantile">
+    ''' 品种内部的生物学重复的汇总分位数，默认取中位数；0为最严格(所有的重复都要检出)，
+    ''' 1为最宽松(只要有一个重复检出即可)。
+    ''' </param>
+    ''' <param name="kMAD">判定阈值相对于低表达本底的MAD的倍数</param>
+    ''' <param name="logBase">表达值分布变换所使用的对数底数</param>
+    ''' <param name="minAbsentFraction">双峰检验之中的最小缺失组分占比</param>
+    ''' <param name="minGap">双峰检验之中的最小峰间分离度</param>
+    ''' <param name="absFloor">判定为存在所要求的原始表达量下限</param>
+    ''' <param name="verbose">是否输出阈值诊断信息？</param>
     ''' <param name="env"></param>
     ''' <returns>a key-value tuple list of key name is the group or <see cref="SampleInfo.sample_info"/> and the value is the geneset of the corresponding group.</returns>
     <ExportAPI("expression_groups")>
     <RApiReturn(TypeCodes.string)>
-    Public Function expressionGroups(x As Matrix, <RRawVectorArgument(GetType(SampleInfo))> sampleinfo As Object, Optional group As String = Nothing, Optional env As Environment = Nothing) As Object
+    Public Function expressionGroups(x As Matrix,
+                                     <RRawVectorArgument(GetType(SampleInfo))> sampleinfo As Object,
+                                     Optional group As String = Nothing,
+                                     Optional rawCounts As Object = Nothing,
+                                     Optional presenceQuantile As Double = 0.5,
+                                     Optional kMAD As Double = 3,
+                                     Optional logBase As Double = 2,
+                                     Optional minAbsentFraction As Double = 0.01,
+                                     Optional minGap As Double = 1.5,
+                                     Optional absFloor As Double = 0,
+                                     Optional verbose As Boolean = True,
+                                     Optional env As Environment = Nothing) As Object
+
         Dim metadata As PipeIterator(Of SampleInfo) = pipeline.Stream(Of SampleInfo)(sampleinfo, env)
 
         If metadata.isError Then
             Return metadata.getError
         End If
 
-        Return New list(x.ExpressionGroups(metadata.ToArray, group))
+        Dim counts As Boolean? = Nothing
+
+        If Not rawCounts Is Nothing Then
+            counts = CBool(rawCounts)
+        End If
+
+        Return New list(x.ExpressionGroups(
+            sampleinfo:=metadata.ToArray,
+            group:=group,
+            rawCounts:=counts,
+            logBase:=logBase,
+            kMAD:=kMAD,
+            presenceQuantile:=presenceQuantile,
+            minAbsentFraction:=minAbsentFraction,
+            minGap:=minGap,
+            absFloor:=absFloor,
+            verbose:=verbose
+        ))
     End Function
 
     ''' <summary>
