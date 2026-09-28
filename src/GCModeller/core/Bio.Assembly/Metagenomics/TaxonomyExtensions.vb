@@ -61,6 +61,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Language
@@ -180,6 +181,66 @@ Namespace Metagenomics
                 Case Else
                     Return TaxonomyRanks.NA
             End Select
+        End Function
+
+
+        ''' <summary>
+        ''' 从菌株名称中提取物种名称
+        ''' 处理常见例外情况
+        ''' </summary>
+        ''' <param name="strainName">输入的菌株名称</param>
+        ''' <returns>提取出的物种名称</returns>
+        Public Function ExtractSpeciesName(strainName As String) As String
+            ' 标准化：合并多余空格
+            Dim name As String = Regex.Replace(strainName.Trim(), "\s+", " ")
+
+            ' 处理 Candidatus（通常需要取前3-4个词）
+            If name.StartsWith("Candidatus") Then
+                ' Candidatus Genus species [strain...]
+                Dim words() As String = name.Split(" "c)
+                ' 取到种加词（跳过 Candidatus 后取 Genus + species）
+                If words.Length >= 3 Then
+                    Return words.Take(3).JoinBy(" ")
+                End If
+            End If
+
+            ' 处理 subsp./ser./pv./bv. 等种下分类
+            ' 这些标记后面的词仍属于分类学名称
+            Static infraspecificMarkers As New HashSet(Of String) From {
+                "subsp.", "subspecies", "ser.", "serovar",
+                "pv.", "pathovar", "bv.", "biovar", "var."
+            }
+
+            Dim allWords() As String = name.Split(" "c)
+            Dim speciesWords As New List(Of String)
+
+            For i As Integer = 0 To allWords.Length - 1
+                Dim word As String = allWords(i)
+
+                If infraspecificMarkers.Contains(word) Then
+                    ' 继续添加种下分类名
+                    speciesWords.Add(word)
+                    If i + 1 < allWords.Length Then
+                        speciesWords.Add(allWords(i + 1))
+                    End If
+                    Exit For
+                ElseIf i = 0 Then
+                    ' 属名
+                    Call speciesWords.Add(word)
+                ElseIf i = 1 Then
+                    ' 种加词
+                    If word = "sp." OrElse word = "sp" Then
+                        ' 只有属名，没有种名
+                        Return allWords(0)
+                    End If
+                    Call speciesWords.Add(word)
+                    Exit For
+                Else
+                    Exit For
+                End If
+            Next
+
+            Return speciesWords.JoinBy(" ")
         End Function
     End Module
 End Namespace
