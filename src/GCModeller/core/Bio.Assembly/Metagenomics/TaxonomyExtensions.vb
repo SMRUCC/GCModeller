@@ -183,13 +183,14 @@ Namespace Metagenomics
             End Select
         End Function
 
-
         ''' <summary>
         ''' 从菌株名称中提取物种名称
         ''' 处理常见例外情况
         ''' </summary>
         ''' <param name="strainName">输入的菌株名称</param>
         ''' <returns>提取出的物种名称</returns>
+        ''' 
+        <Extension>
         Public Function ExtractSpeciesName(strainName As String) As String
             ' 标准化：合并多余空格
             Dim name As String = Regex.Replace(strainName.Trim(), "\s+", " ")
