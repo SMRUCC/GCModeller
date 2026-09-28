@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>fasta.headers</title>
+    <title>get/set the fasta headers title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>fasta.headers</h2>
+        <h2>get/set the fasta headers title</h2>
 
         <h3>Description</h3>
 
-        fasta.headers
+        
 
         <h3>Usage</h3>
 
@@ -35,12 +35,22 @@
 
         <table>
             
+<dt>fa</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> sequence object for get or set the headers title data. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>]</p></dd>
+
+
+<dt>headers</dt>
+<dd><p>a character vector of the new fasta headers data for overwrite the headers data of the given sequence object. If this parameter is not specified(or is an empty vector), then the headers data of the given sequence object will not be modified, and the current headers data will be returned. [as string]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>this api can be used as a property setter in R# environment: the headers data of the given fasta sequence object can be overwritten via the value assign syntax:</p>
+
+
+<pre><code class="language-r"> fasta.headers(seq) &lt;- c("seq_id", "description");</code></pre>
 
         <h3 style="display: block">Authors</h3>
 
@@ -48,7 +58,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type string.<h4>clr value class</h4><ul><li>string</li></ul>
+        <p>a character vector of the fasta headers title data of the given sequence object.</p><h4>clr value class</h4><ul><li>string</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

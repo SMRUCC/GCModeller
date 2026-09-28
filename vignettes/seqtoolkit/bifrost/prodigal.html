@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>prodigal</title>
+    <title>Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>prodigal</h2>
+        <h2>Prodigal (PROkaryotic DYnamic programming Gene-finding ALgorithm)</h2>
 
         <h3>Description</h3>
 
-        prodigal
+        
 
         <h3>Usage</h3>
 
@@ -36,12 +36,27 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>the target MAGs contigs assembly sequence for run the gene prediction, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a file path of the fasta sequence file, or even a character vector of the raw sequence data.</p></dd>
+
+
+<dt>min.ORF.len</dt>
+<dd><p>the minimum ORF length in bp of the predicted gene, any of the candidate ORF that its length is less than this threshold value will be ignored in the gene prediction. [as integer]</p></dd>
+
+
+<dt>model</dt>
+<dd><p>the prodigal training model, which is the output of the <code>prodigal_training</code> function. If this parameter is nothing(the default value), then the model will be trained from the input contigs assembly sequence in an unsupervised manner automatically. [as <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/TrainingModel.html">TrainingModel</a>]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>The prodigal gene prediction pipeline is implemented in an ab-initio manner: a training model will be learned from the input contigs assembly sequence at first(when the <code>model</code> parameter is not specified), and then the gene finding algorithm is running based on the dynamic programming score of the coding/non-coding hexamer and the RBS motif of the trained model.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -49,11 +64,35 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/PredictionResult.html">PredictionResult</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/PredictionResult.html">PredictionResult</a></li></ul>
+        <p>a collection of the gene prediction result: each element in the collection(<a href="cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult">PredictionResult</a>) is the gene prediction result of the corresponding contigs sequence in the input fasta sequence data.</p>
 
-        <h3 style="display: none;">Examples</h3>
+<p>this function returns a R# error message object if the input sequence data is nothing or can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Prodigal/PredictionResult.html">PredictionResult</a></li></ul>
 
-        
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> imports "bioseq.fasta" from "seqtoolkit";
+ imports "bifrost" from "seqtoolkit";
+ imports "annotation.genomics" from "seqtoolkit";
+ 
+ # an example workflow script for run prodigal gene prediction on MAGs contigs assembly sequence, 
+ # and export the result to files. The input contigs assembly sequence is in FASTA format, 
+ # and the output gene prediction result is in PredictionResult format, which can be further 
+ # converted to GFF3 format, or gene/protein FASTA format. The example workflow script is 
+ # as follows:
+ 
+ # read the contigs assembly sequence from a FASTA file
+ let MAGs <- "MAGs_contigs.fasta";
+ let contigs <- read.fasta(MAGs);
+ # predict genes on the contigs assembly sequence 
+ let result <- prodigal(contigs, min.ORF.len = 90);
+ 
+ # export result to files
+ write.csv(as.data.frame(result), file = "gene_predicts.csv");
+ # export the gene prediction result to GFF3 format
+ write.gff3(as.gff3(result), file = "gene_predicts.gff3");
+ # export gene/protein fasta sequence to file
+ write.fasta(as.genes(result), file = "gene_predicts.fna");
+ write.fasta(as.proteins(result), file = "protein_predicts.faa");</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>bifrost</em> version 1.0.0.0 <a

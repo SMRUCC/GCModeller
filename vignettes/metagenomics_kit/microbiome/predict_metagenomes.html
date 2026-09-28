@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>predict_metagenomes</title>
+    <title>creates the final metagenome functional predictions. It</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>predict_metagenomes</h2>
+        <h2>creates the final metagenome functional predictions. It</h2>
 
         <h3>Description</h3>
 
-        predict_metagenomes
+        <p>multiplies each normalized OTU abundance by each predicted &lt;br /&gt; functional trait abundance to produce a table of functions &lt;br /&gt; (rows) by samples (columns).</p>
 
         <h3>Usage</h3>
 
@@ -34,6 +34,18 @@
 
         <table>
             
+<dt>table</dt>
+<dd><p>should be a merged OTU dataframe object, that should be in format like:</p>
+
+
+<ol>
+<li>the colnames should be the sample name, and the column field value is the relative abundance value of each otu in each sample</li>
+<li>the rows in this dataframe should be the otu expression value across samples</li>
+</ol>
+
+
+<p>the GCModeller internal <a href="cref:T:SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix">Matrix</a> is also avaiable for this parameter.</p></dd>
+
         </table>
 
 

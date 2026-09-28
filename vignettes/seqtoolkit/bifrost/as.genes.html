@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>as.genes</title>
+    <title>Extract the gene sequences from the gene prediction result, and return as FASTA format. The sequence ID is in the format of "seqid_geneindex". For example, "contig1_5" means the 5th predicted gene on contig1. The sequence description is in the format of "start-end(strand)". For example, "100-900(+)" means the gene starts at position 100, ends at position 900, and is on the forward strand.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>as.genes</h2>
+        <h2>Extract the gene sequences from the gene prediction result, and return as FASTA format. The sequence ID is in the format of "seqid_geneindex". For example, "contig1_5" means the 5th predicted gene on contig1. The sequence description is in the format of "start-end(strand)". For example, "100-900(+)" means the gene starts at position 100, ends at position 900, and is on the forward strand.</h2>
 
         <h3>Description</h3>
 
-        as.genes
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>the gene prediction result, which can be the output of the "prodigal" function, or a pipeline that produces <a href="cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult">PredictionResult</a> objects.</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +54,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
+        <p>a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> nucleotide sequence data, one sequence object for each of the predicted gene, the sequence data is the nucleotide sequence of the corresponding predicted gene region on the contigs assembly sequence, and the sequence title is formatted as: <code>{seq_id}_{gene_index} {start-end(strand)} ID=gene_{gene_index};partial={partial_type}</code>.</p>
+
+<p>this function returns a R# error message object if the input data can not be cast to a collection of the <a href="cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult">PredictionResult</a> object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

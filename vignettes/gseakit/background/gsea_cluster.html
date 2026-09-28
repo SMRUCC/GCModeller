@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>gsea_cluster</title>
+    <title>Create a cluster for gsea background</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>gsea_cluster</h2>
+        <h2>Create a cluster for gsea background</h2>
 
         <h3>Description</h3>
 
-        gsea_cluster
+        
 
         <h3>Usage</h3>
 
@@ -37,12 +37,45 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>id, name data fields should be exists in current dataframe object, other data fields will be used as the gene member terms. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
+
+
+<dt>clusterId</dt>
+<dd><p>id of the cluster. [as string]</p></dd>
+
+
+<dt>clusterName</dt>
+<dd><p>display name of the cluster model. [as string]</p></dd>
+
+
+<dt>desc</dt>
+<dd><p>the description of the cluster model. [as string]</p></dd>
+
+
+<dt>id</dt>
+<dd><p>the field column name for get gene members id. [as string]</p></dd>
+
+
+<dt>name</dt>
+<dd><p>the field column name for get gene members name. [as string]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the input dataframe could be a set of database xrefs, example as:</p>
+
+
+<table>
+<thead>
+<tr><th></th><th>xref</th><th>name</th><th>alias</th><th>KEGG</th><th>uniprot</th></tr>
+</thead>
+<tbody>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
 
         <h3 style="display: block">Authors</h3>
 

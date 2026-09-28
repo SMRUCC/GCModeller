@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>origin_fasta</title>
+    <title>get, add or replace the genome origin fasta sequence in the given genbank assembly file.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>origin_fasta</h2>
+        <h2>get, add or replace the genome origin fasta sequence in the given genbank assembly file.</h2>
 
         <h3>Description</h3>
 
-        origin_fasta
+        
 
         <h3>Usage</h3>
 
@@ -36,6 +36,17 @@
 
         <table>
             
+<dt>gb</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>]</p></dd>
+
+
+<dt>nt</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>]</p></dd>
+
+
+<dt>mol.type</dt>
+<dd><p>[as string]</p></dd>
+
         </table>
 
 
@@ -49,7 +60,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object in these one of the listed data types: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>, <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
+        <p>if the <code>**nt**</code> parameter is nothing, means get fasta sequence, otherwise is add/update fasta sequence in the genbank assembly, the returns type of the api will change from the getted fasta sequence to the modified genbank assembly object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

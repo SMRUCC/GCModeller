@@ -7,6 +7,8 @@
 // ref=kegg_kit.profiles@kegg_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * enrichment term statics helper
+ * 
  * annotation profiles tools
  * 
 */
@@ -30,8 +32,16 @@ declare namespace profiles {
    */
    function assemble_background(kegg: object, ko: object, multiple_omics?: boolean, tcode?: string, map_set?: any, env?: object): object;
    /**
-     * @param level default value Is ``1``.
-     * @param env default value Is ``null``.
+    * get category labels for a given id set
+    * 
+    * 
+     * @param category -
+     * @param idSet a character vector of the target id set
+     * @param level level1 or level2
+     * 
+     * + default value Is ``1``.
+     * @param env 
+     * + default value Is ``null``.
    */
    function category_labels(category: object, idSet: string, level?: object, env?: object): any;
    module compounds {
@@ -54,10 +64,23 @@ declare namespace profiles {
    */
    function cut_profiles(profile: object, valueCut: number): object;
    /**
-     * @param top default value Is ``10``.
-     * @param pvalue_cut default value Is ``1``.
-     * @param sort default value Is ``true``.
-     * @param env default value Is ``null``.
+    * 
+    * 
+     * @param enrichments -
+     * @param obo -
+     * @param root the root term id
+     * @param top -
+     * 
+     * + default value Is ``10``.
+     * @param pvalue_cut -
+     * 
+     * + default value Is ``1``.
+     * @param sort -
+     * 
+     * + default value Is ``true``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function dag_enrichment_profile(enrichments: any, obo: object, root: string, top?: object, pvalue_cut?: number, sort?: boolean, env?: object): any;
    module flux {
@@ -75,10 +98,21 @@ declare namespace profiles {
    module GO {
       module enrichment {
          /**
-           * @param top default value Is ``10``.
-           * @param pvalue_cut default value Is ``1``.
-           * @param sort default value Is ``true``.
-           * @param env default value Is ``null``.
+          * Create catalog profiles data for GO enrichment result its data visualization.
+          * 
+          * 
+           * @param enrichments the kobas [EnrichmentTerm](cref:T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm) or gcmodeller [EnrichmentResult](cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult).
+           * @param goDb -
+           * @param top display the top n enriched GO terms.
+           * 
+           * + default value Is ``10``.
+           * @param pvalue_cut 
+           * + default value Is ``1``.
+           * @param sort sort of the namespace
+           * 
+           * + default value Is ``true``.
+           * @param env 
+           * + default value Is ``null``.
          */
          function profile(enrichments: any, goDb: object, top?: object, pvalue_cut?: number, sort?: boolean, env?: object): object;
       }
@@ -95,13 +129,26 @@ declare namespace profiles {
    module KEGG {
       module enrichment {
          /**
-           * @param top default value Is ``10``.
-           * @param env default value Is ``null``.
+          * A method for cast the kegg enrichment result to the 
+          *  category profiles for run data visualization
+          * 
+          * 
+           * @param enrichments -
+           * @param top -
+           * 
+           * + default value Is ``10``.
+           * @param env -
+           * 
+           * + default value Is ``null``.
          */
          function profile(enrichments: any, top?: object, env?: object): object;
       }
    }
    /**
+    * create kegg category class model from a gsea background model
+    * 
+    * 
+     * @param background -
    */
    function kegg_category(background: object): object;
    module KO {

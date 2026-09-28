@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>fasta</title>
+    <title>Create a new fasta sequence objects</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>fasta</h2>
+        <h2>Create a new fasta sequence objects</h2>
 
         <h3>Description</h3>
 
-        fasta
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>seq</dt>
+<dd><p>the raw sequence data text of the target fasta sequence. [as string]</p></dd>
+
+
+<dt>attrs</dt>
+<dd><p>a character vector of the fasta headers data: the first element of this vector is the sequence id, and the other elements are the description information of the target sequence. [as string]</p></dd>
+
         </table>
 
 
@@ -47,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>a new <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> sequence object.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

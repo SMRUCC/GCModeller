@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>protein_seqs</title>
+    <title>get or set fasta sequence of all CDS feature in the given genbank assembly file.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>protein_seqs</h2>
+        <h2>get or set fasta sequence of all CDS feature in the given genbank assembly file.</h2>
 
         <h3>Description</h3>
 
-        protein_seqs
+        
 
         <h3>Usage</h3>
 
@@ -37,6 +37,21 @@
 
         <table>
             
+<dt>gb</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>]</p></dd>
+
+
+<dt>proteins</dt>
+<dd><p>set the genbank feature CDS protein sequence if this value is existsed.</p></dd>
+
+
+<dt>filter.empty</dt>
+<dd><p>Filter out the empty protein sequence when do export of the protein sequence data. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 

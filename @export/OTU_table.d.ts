@@ -5,18 +5,46 @@
 // ref=metagenomics_kit.OTUTableTools@metagenomics_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * Tools for handling OTU table data
+ * 
+ * > ### Operational taxonomic unit (OTU)
+ * >  
+ * >  OTU's are used to categorize bacteria based on sequence similarity.
+ * >  
+ * >  In 16S metagenomics approaches, OTUs are cluster of similar sequence variants of the 
+ * >  16S rDNA marker gene sequence. Each of these cluster is intended to represent a 
+ * >  taxonomic unit of a bacteria species or genus depending on the sequence similarity 
+ * >  threshold. Typically, OTU cluster are defined by a 97% identity threshold of the 16S 
+ * >  gene sequences to distinguish bacteria at the genus level.
+ * > 
+ * >  Species separation requires a higher threshold Of 98% Or 99% sequence identity, Or 
+ * >  even better the use Of exact amplicon sequence variants (ASV) instead Of OTU sequence 
+ * >  clusters.
 */
 declare namespace OTU_table {
    module as {
       /**
-        * @param taxon_as_id default value Is ``true``.
-        * @param env default value Is ``null``.
+       * Create expression matrix data from a given otu table
+       * 
+       * 
+        * @param otu_table a vector of the OTUTable clr object
+        * @param taxon_as_id 
+        * + default value Is ``true``.
+        * @param env 
+        * + default value Is ``null``.
       */
       function hts_matrix(otu_table: any, taxon_as_id?: boolean, env?: object): object;
       /**
-        * @param id default value Is ``'OTU_num'``.
-        * @param taxonomy default value Is ``'taxonomy'``.
-        * @param env default value Is ``null``.
+       * convert the mothur rank tree as the OTU table
+       * 
+       * 
+        * @param x -
+        * @param id 
+        * + default value Is ``'OTU_num'``.
+        * @param taxonomy 
+        * + default value Is ``'taxonomy'``.
+        * @param env 
+        * + default value Is ``null``.
       */
       function OTU_table(x: any, id?: string, taxonomy?: string, env?: object): object;
    }
@@ -25,22 +53,56 @@ declare namespace OTU_table {
    */
    function average(x: any, sampleinfo: any, env?: object): object;
    /**
+    * combine of two batch data directly via the taxonomy string group
+    * 
+    * 
+     * @param batch1 -
+     * @param batch2 -
    */
    function batch_combine(batch1: object, batch2: object): object;
    /**
-     * @param prevalence default value Is ``0.8``.
-     * @param abundance default value Is ``0.0001``.
-     * @param detectionLimit default value Is ``1E-05``.
-     * @param sampleinfo default value Is ``null``.
-     * @param top_n default value Is ``null``.
-     * @param env default value Is ``null``.
+    * evaluate the core microbiome species across all sample data
+    * 
+    * 
+     * @param x -
+     * @param prevalence -
+     * 
+     * + default value Is ``0.8``.
+     * @param abundance -
+     * 
+     * + default value Is ``0.0001``.
+     * @param detectionLimit -
+     * 
+     * + default value Is ``1E-05``.
+     * @param sampleinfo -
+     * 
+     * + default value Is ``null``.
+     * @param top_n -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function core_microbiome(x: any, prevalence?: number, abundance?: number, detectionLimit?: number, sampleinfo?: any, top_n?: object, env?: object): object;
    /**
-     * @param cutoff default value Is ``0.01``.
-     * @param k default value Is ``10``.
-     * @param sampleinfo default value Is ``null``.
-     * @param env default value Is ``null``.
+    * evaluate top dominant species for each sample data
+    * 
+    * 
+     * @param x a vector of the OTUTable clrr object
+     * @param cutoff -
+     * 
+     * + default value Is ``0.01``.
+     * @param k -
+     * 
+     * + default value Is ``10``.
+     * @param sampleinfo -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return A list of the top dominant species for each sample data
    */
    function dominant_species(x: any, cutoff?: number, k?: object, sampleinfo?: any, env?: object): object;
    /**
@@ -49,6 +111,11 @@ declare namespace OTU_table {
    */
    function drawUPGMATree(tree: object, args?: object, env?: object): any;
    /**
+    * filter the otu data which has relative abundance greater than the given threshold
+    * 
+    * 
+     * @param x -
+     * @param relative_abundance -
    */
    function filter(x: object, relative_abundance: number): object;
    /**
@@ -61,10 +128,21 @@ declare namespace OTU_table {
    */
    function make_repseq_id(otus: any, rep: any, env?: object): object;
    /**
-     * @param equals default value Is ``0.85``.
-     * @param gt default value Is ``0.6``.
-     * @param rank_colors default value Is ``null``.
-     * @param env default value Is ``null``.
+    * make OTU tree graph via JSD correlation method
+    * 
+    * 
+     * @param otus -
+     * @param equals -
+     * 
+     * + default value Is ``0.85``.
+     * @param gt -
+     * 
+     * + default value Is ``0.6``.
+     * @param rank_colors 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function makeTreeGraph(otus: any, equals?: number, gt?: number, rank_colors?: object, env?: object): object;
    /**
@@ -80,6 +158,10 @@ declare namespace OTU_table {
    */
    function merge_phyloseq(batch1: any, batch2: any, env?: object): object;
    /**
+    * cast the expression matrix to the otu data
+    * 
+    * 
+     * @param x an expression matrix which use the biom taxonomy string as feature unique id reference.
    */
    function otu_from_matrix(x: object): object;
    module read {
@@ -87,8 +169,15 @@ declare namespace OTU_table {
       */
       function OTUdata(file: string): object;
       /**
-        * @param sum_duplicated default value Is ``false``.
-        * @param OTUTaxonAnalysis default value Is ``false``.
+       * read 16s OTU table
+       * 
+       * 
+        * @param file -
+        * @param sum_duplicated sum all OTU data if theirs taxonomy information is the same
+        * 
+        * + default value Is ``false``.
+        * @param OTUTaxonAnalysis 
+        * + default value Is ``false``.
       */
       function OTUtable(file: string, sum_duplicated?: boolean, OTUTaxonAnalysis?: boolean): object;
       /**
@@ -96,10 +185,24 @@ declare namespace OTU_table {
       function rankdata(file: string): object;
    }
    /**
+    * Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
+    *  
+    *  Transform abundance data into relative abundance, i.e. proportional data. This is 
+    *  an alternative method of normalization and may not be appropriate for all datasets,
+    *  particularly if your sequencing depth varies between samples.
+    * 
+    * 
+     * @param x -
    */
    function relative_abundance(x: object): object;
    /**
-     * @param env default value Is ``null``.
+    * get sample id from the otu table
+    * 
+    * 
+     * @param x -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function sample_id(x: any, env?: object): any;
    /**

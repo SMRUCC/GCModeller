@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.PATTERNS 2 2000-1月 "find_motifs" "find_motifs"
 .SH NAME
-find_motifs \- 
+find_motifs \- find possible motifs of the given sequence collection
 .SH SYNOPSIS
 \fIfind_motifs(\fBfasta\fR as any, 
 \fBminw\fR as integer = 8, 
@@ -16,6 +16,31 @@ find_motifs \-
 \fBseeds\fR as any = \fB<NULL>\fR, 
 \fBdebug\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+find possible motifs of the given sequence collection
+.PP
+.SH OPTIONS
+.PP
+\fBfasta\fB \fR\- should contains multiple sequence. 
+.PP
+.PP
+\fBminw%\fB \fR\- -. 
+.PP
+.PP
+\fBmaxw%\fB \fR\- -. 
+.PP
+.PP
+\fBnmotifs\fB \fR\- 
+ A number for limit the number of motif outputs:
+ 
+ + negative integer/zero: no limits[default]
+ + positive value: top motifs with score desc
+. 
+.PP
+.PP
+\fBnoccurs%\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 bioseq.patterns
 .SH FILES

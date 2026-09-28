@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>dag.background</title>
+    <title>create gsea background from a given obo ontology file data.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>dag.background</h2>
+        <h2>create gsea background from a given obo ontology file data.</h2>
 
         <h3>Description</h3>
 
-        dag.background
+        
 
         <h3>Usage</h3>
 
@@ -36,6 +36,15 @@
 
         <table>
             
+<dt>dag</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/GO_OBO.html">GO_OBO</a>]</p></dd>
+
+
+<dt>flat</dt>
+<dd><p>Flat the ontology tree into cluster via the <code>is_a</code> relationship?</p>
+
+<p>default false, required of the <code>enrichment.go</code> function for run enrichment analysis value true, will flat the ontology tree into cluster, then the enrichment analysis could be applied via the <code>enrichment</code> function. [as boolean]</p></dd>
+
         </table>
 
 

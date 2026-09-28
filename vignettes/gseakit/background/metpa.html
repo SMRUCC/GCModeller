@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>metpa</title>
+    <title>Create the gsea background model for metabolism analysis</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>metpa</h2>
+        <h2>Create the gsea background model for metabolism analysis</h2>
 
         <h3>Description</h3>
 
-        metpa
+        
 
         <h3>Usage</h3>
 
@@ -37,6 +37,25 @@
 
         <table>
             
+<dt>kegg</dt>
+<dd><p>the kegg <a href="cref:T:SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway">Pathway</a> model collection of current organism or the KEGG <a href="cref:T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map">Map</a> data collection. andalso could be a tuple list of the idset.</p></dd>
+
+
+<dt>reactions</dt>
+<dd><p>A collection of the reference <a href="cref:T:SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork.ReactionTable">ReactionTable</a> model data for build the metabolism network</p></dd>
+
+
+<dt>org.name</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>is.ko.ref</dt>
+<dd><p>[as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 

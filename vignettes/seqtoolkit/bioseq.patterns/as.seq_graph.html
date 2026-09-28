@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>as.seq_graph</title>
+    <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>as.seq_graph</h2>
+        <h2></h2>
 
         <h3>Description</h3>
 
-        as.seq_graph
+        
 
         <h3>Usage</h3>
 
@@ -36,6 +36,21 @@
 
         <table>
             
+<dt>fasta</dt>
+<dd><p>-</p></dd>
+
+
+<dt>mol.type</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/SeqTypes.html">SeqTypes</a>]</p></dd>
+
+
+<dt>parallel</dt>
+<dd><p>[as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -49,7 +64,14 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/SequenceGraph.html">SequenceGraph</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/SequenceGraph.html">SequenceGraph</a></li></ul>
+        <p>the sequence graph embedding vector data is generates from different method based on the <strong>mol_type</strong> data:</p>
+
+
+<ul>
+<li><a href="cref:F:SMRUCC.genomics.SequenceModel.SeqTypes.DNA">SeqTypes.DNA</a>: <a href="cref:M:SMRUCC.genomics.Model.MotifGraph.Builder.DNAGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)">Builder.DNAGraph()</a></li>
+<li><a href="cref:F:SMRUCC.genomics.SequenceModel.SeqTypes.Protein">SeqTypes.Protein</a>: <a href="cref:M:SMRUCC.genomics.Model.MotifGraph.Builder.PolypeptideGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)">Builder.PolypeptideGraph()</a></li>
+<li><a href="cref:F:SMRUCC.genomics.SequenceModel.SeqTypes.RNA">SeqTypes.RNA</a>: <a href="cref:M:SMRUCC.genomics.Model.MotifGraph.Builder.RNAGraph(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq)">Builder.RNAGraph()</a></li>
+</ul><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/SequenceGraph.html">SequenceGraph</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

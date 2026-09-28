@@ -5,6 +5,7 @@
 // ref=seqtoolkit.genomics@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * 
 */
 declare namespace annotation.genomics {
    module as {
@@ -27,15 +28,31 @@ declare namespace annotation.genomics {
    */
    function extract_gff_seqs(gff3: object, seqs: any, env?: object): any;
    /**
-     * @param env default value Is ``null``.
+    * Extract all gene features from a given genomics context assembly data
+    * 
+    * 
+     * @param genome -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function genes_features(genome: any, env?: object): object;
    /**
-     * @param id default value Is ``null``.
+    * get gff features by id reference
+    * 
+    * 
+     * @param gff -
+     * @param id -
+     * 
+     * + default value Is ``null``.
    */
    function gff_features(gff: object, id?: any): any;
    module read {
       /**
+       * read the gff3 file
+       * 
+       * 
+        * @param file -
       */
       function gff(file: string): object;
       /**
@@ -52,8 +69,18 @@ declare namespace annotation.genomics {
    */
    function type_features(gff: object, type: string): object;
    /**
-     * @param length default value Is ``200``.
-     * @param is_relative_offset default value Is ``true``.
+    * Create the upstream location
+    * 
+    * 
+     * @param context th gene element location context data
+     * @param length bit length of the upstream location
+     * 
+     * + default value Is ``200``.
+     * @param is_relative_offset Does the generates context upstream location is relative to the 
+     *  given context start position or the enitre context region move
+     *  by upstream offset bits?
+     * 
+     * + default value Is ``true``.
    */
    function upstream(context: object, length?: object, is_relative_offset?: boolean): object;
    module write {

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>as.fasta</title>
+    <title>Create a fasta sequence collection object from any given sequence collection.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>as.fasta</h2>
+        <h2>Create a fasta sequence collection object from any given sequence collection.</h2>
 
         <h3>Description</h3>
 
-        as.fasta
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,23 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>any type of sequence collection, which can be:</p>
+
+
+<ol>
+<li>a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object or a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object;</li>
+<li>a multiple sequence alignment result(<a href="cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.MSA.MSAOutput">MSAOutput</a>);</li>
+<li>a set of the <a href="cref:T:SMRUCC.genomics.SequenceModel.NucleotideModels.SimpleSegment">SimpleSegment</a> sequence segment object;</li>
+<li>a sequence motif object(<a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif">SequenceMotif</a>);</li>
+<li>a ncbi genbank feature object(<code>Feature</code>) for extract the nucleotide sequence data of the target feature site;</li>
+<li>a fastq sequence collection or a character vector of the raw sequence data.</li>
+</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +64,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> sequence collection object that created from the given sequence data source;</p>
+
+<p>this function returns a R# error message object if the input data source can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

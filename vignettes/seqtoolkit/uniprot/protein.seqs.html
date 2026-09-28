@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>protein.seqs</title>
+    <title>populate all protein fasta sequence from the given uniprot database reader</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>protein.seqs</h2>
+        <h2>populate all protein fasta sequence from the given uniprot database reader</h2>
 
         <h3>Description</h3>
 
-        protein.seqs
+        
 
         <h3>Usage</h3>
 
@@ -36,6 +36,36 @@
 
         <table>
             
+<dt>uniprot</dt>
+<dd><p>a collection of the uniprot protein <a href="cref:T:SMRUCC.genomics.Assembly.Uniprot.XML.entry">entry</a> data.</p></dd>
+
+
+<dt>extractAll</dt>
+<dd><p>populate the sequence with all uniprot accession id. [as boolean]</p></dd>
+
+
+<dt>title</dt>
+<dd><p>the fasta title header template, data keys for template could be:</p>
+
+
+<ol>
+<li>uniprot_id</li>
+<li>fullname</li>
+<li>name</li>
+<li>ncbi_taxid</li>
+<li>organism</li>
+<li>ec_number</li>
+<li>go_id</li>
+<li>gene_name</li>
+<li>ORF</li>
+<li>subcellular_location</li>
+<li>db_xrefs...</li>
+. [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -49,7 +79,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a></li></ul>
+        <p>a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> that export from the given protein set.</p>
+
+<p>the generated fasta sequence header title in format: <code>uniprot_id|db_xref|protein function</code>. the db_xref is optional if the parameter "db_xref" is not be omited.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

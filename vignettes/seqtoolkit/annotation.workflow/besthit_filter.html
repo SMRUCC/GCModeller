@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>besthit_filter</title>
+    <title>make filter of the blast best hits via the given parameter combinations</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>besthit_filter</h2>
+        <h2>make filter of the blast best hits via the given parameter combinations</h2>
 
         <h3>Description</h3>
 
-        besthit_filter
+        
 
         <h3>Usage</h3>
 
@@ -38,6 +38,25 @@
 
         <table>
             
+<dt>besthits</dt>
+<dd><p>is a collection of the blastp/blastn parsed result: <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit">BestHit</a>. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a>]</p></dd>
+
+
+<dt>evalue</dt>
+<dd><p>new cutoff value of the evalue for make filter of the given hits collection. [as double]</p></dd>
+
+
+<dt>delNohits</dt>
+<dd><p>removes <code>HITS_NOT_FOUND</code>? default is yes. [as boolean]</p></dd>
+
+
+<dt>pickTop</dt>
+<dd><p>pick the top one hit for each query group?. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 

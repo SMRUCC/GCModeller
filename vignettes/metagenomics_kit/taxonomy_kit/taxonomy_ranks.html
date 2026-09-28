@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>taxonomy_ranks</title>
+    <title>get all taxonomy tree nodes of the specific taxonomy ranks</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>taxonomy_ranks</h2>
+        <h2>get all taxonomy tree nodes of the specific taxonomy ranks</h2>
 
         <h3>Description</h3>
 
-        taxonomy_ranks
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>tree</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/Ranks.html">Ranks</a>]</p></dd>
+
+
+<dt>rank</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/TaxonomyRanks.html">TaxonomyRanks</a>]</p></dd>
+
         </table>
 
 
@@ -49,9 +56,9 @@
 
         this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/TaxonomyNode.html">TaxonomyNode</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/TaxonomyNode.html">TaxonomyNode</a></li></ul>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r"> taxonomy_ranks(tree, rank = "class");</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>taxonomy_kit</em> version 1.0.0.0 <a

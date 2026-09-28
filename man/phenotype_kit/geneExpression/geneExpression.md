@@ -33,6 +33,7 @@ the gene expression matrix data toolkit
 + [impute_missing](geneExpression/impute_missing.1) set the zero value to the half of the min positive value
 + [is_empty](geneExpression/is_empty.1) check that the given expression matrix object is empty or not
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
++ [expression_groups](geneExpression/expression_groups.1) 从表达矩阵之中按照表达值的分布特征拆分出每一个品种的基因组基因集合
 + [load.expr0](geneExpression/load.expr0.1) read the binary matrix data file
 + [load.matrixView](geneExpression/load.matrixView.1) Load the HTS matrix into a lazy matrix viewer
 + [matrix_info](geneExpression/matrix_info.1) get matrix summary information

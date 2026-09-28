@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.WORKFLOW 2 2000-1月 "besthit_filter" "besthit_filter"
 .SH NAME
-besthit_filter \- 
+besthit_filter \- make filter of the blast best hits via the given parameter combinations
 .SH SYNOPSIS
 \fIbesthit_filter(\fBbesthits\fR as <generic> pipeline, 
 \fBevalue\fR as <generic> Double = \fB<NULL>\fR, 
@@ -9,6 +9,26 @@ besthit_filter \-
 \fBdelNohits\fR as boolean = TRUE, 
 \fBpickTop\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make filter of the blast best hits via the given parameter combinations
+.PP
+.SH OPTIONS
+.PP
+\fBbesthits\fB \fR\- is a collection of the blastp/blastn parsed result: [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit). 
+.PP
+.PP
+\fBevalue\fB \fR\- new cutoff value of the evalue for make filter of the given hits collection. 
+.PP
+.PP
+\fBdelNohits\fB \fR\- removes \fBHITS_NOT_FOUND\fR? default is yes.. 
+.PP
+.PP
+\fBpickTop\fB \fR\- pick the top one hit for each query group?. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 annotation.workflow
 .SH FILES

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>as.background</title>
+    <title>cast the cluster data as the enrichment background</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>as.background</h2>
+        <h2>cast the cluster data as the enrichment background</h2>
 
         <h3>Description</h3>
 
-        as.background
+        
 
         <h3>Usage</h3>
 
@@ -41,6 +41,41 @@
 
         <table>
             
+<dt>clusters</dt>
+<dd><p>a data cluster or a collection of kegg pathway model</p></dd>
+
+
+<dt>background.size</dt>
+<dd><p>default value -1 or zero means auto evaluated. [as integer]</p></dd>
+
+
+<dt>name</dt>
+<dd><p>the background model name. [as string]</p></dd>
+
+
+<dt>tax.id</dt>
+<dd><p>ncbi taxonomy id of the target organism. [as string]</p></dd>
+
+
+<dt>desc</dt>
+<dd><p>the model description. [as string]</p></dd>
+
+
+<dt>omics</dt>
+<dd><p>Create a enrichment background model for run multiple omics data analysis? this parameter is only works for the kegg pathway model where you are speicifc via the <strong>clusters</strong> parameter. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/OmicsData.html">OmicsData</a>]</p></dd>
+
+
+<dt>filter.compoundId</dt>
+<dd><p>do compound id filtering when target model is <strong>omics</strong>? (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model). [as boolean]</p></dd>
+
+
+<dt>kegg.code</dt>
+<dd><p>the kegg organism code when the given <strong>clusters</strong> collection is a collection of the pathway object. [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 

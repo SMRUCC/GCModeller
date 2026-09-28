@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>build.PICRUSt_db</title>
+    <title>build PICRUSt binary database file</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>build.PICRUSt_db</h2>
+        <h2>build PICRUSt binary database file</h2>
 
         <h3>Description</h3>
 
-        build.PICRUSt_db
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,27 @@
 
         <table>
             
+<dt>ggtax</dt>
+<dd><p>A helper table gg_13_8_99.gg.tax for make OTU id mapping to taxonomy information. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/greengenes/otu_taxonomy.html">otu_taxonomy</a>]</p></dd>
+
+
+<dt>ko.13.5.precalculated</dt>
+<dd><p>file connection to the <code>ko_13_5_precalculated.tab</code>. [as <a href="/vignettes/clr/System/IO/Stream.html">Stream</a>]</p></dd>
+
+
+<dt>save</dt>
+<dd><p>the file connection for save the compiled PICRUSt binary database file. [as <a href="/vignettes/clr/System/IO/Stream.html">Stream</a>]</p></dd>
+
+
+<dt>copyNumbers.16s</dt>
+<dd><p>a list of the 16s RNA copy number, [#OTU_IDs =&gt; 16S_rRNA_Count]. [as list]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>write the data matrix via <a href="cref:T:SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt.MetaBinaryWriter">MetaBinaryWriter</a></p>
 
         <h3 style="display: block">Authors</h3>
 

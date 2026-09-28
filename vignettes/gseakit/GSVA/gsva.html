@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>gsva</title>
+    <title>Gene Set Variation Analysis for microarray and RNA-seq data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>gsva</h2>
+        <h2>Gene Set Variation Analysis for microarray and RNA-seq data</h2>
 
         <h3>Description</h3>
 
-        gsva
+        <p>&lt;br /&gt; Gene Set Variation Analysis (GSVA) is a non-parametric, unsupervised &lt;br /&gt; method for estimating variation of gene set enrichment through the&lt;br /&gt; samples of a expression data set. GSVA performs a change in coordinate&lt;br /&gt; systems, transforming the data from a gene by sample matrix to a gene-set&lt;br /&gt; by sample matrix, thereby allowing the evaluation of pathway enrichment &lt;br /&gt; for each sample. This new matrix of GSVA enrichment scores facilitates&lt;br /&gt; applying standard analytical methods like functional enrichment, &lt;br /&gt; survival analysis, clustering, CNV-pathway analysis or cross-tissue &lt;br /&gt; pathway analysis, in a pathway-centric manner.&lt;br /&gt; &lt;br /&gt; main function of the package which estimates activity&lt;br /&gt; scores For Each given gene-Set</p>
 
         <h3>Usage</h3>
 
@@ -35,12 +35,27 @@
 
         <table>
             
+<dt>expr</dt>
+<dd><p>A raw gene expression data matrix object</p></dd>
+
+
+<dt>geneSet</dt>
+<dd><p>A gsea enrichment <a href="cref:T:SMRUCC.genomics.Analysis.HTS.GSEA.Background">Background</a> model</p></dd>
+
+
+<dt>name.suffix</dt>
+<dd><p>append the pathway name to the map id as suffix?. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>Hänzelmann S., Castelo R. and Guinney J. GSVA: gene set variation analysis for microarray and RNA-Seq data. BMC Bioinformatics, 14:7, 2013.</p>
 
         <h3 style="display: block">Authors</h3>
 

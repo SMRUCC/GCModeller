@@ -5,6 +5,7 @@
 // ref=seqtoolkit.hmmer@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * 
 */
 declare namespace hmmer {
    /**
@@ -21,7 +22,13 @@ declare namespace hmmer {
    */
    function parse_hmmer_model(x: string): object;
    /**
-     * @param env default value Is ``null``.
+    * Parse the kofamscan table output
+    * 
+    * 
+     * @param file -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function parse_kofamscan(file: any, env?: object): object;
 }

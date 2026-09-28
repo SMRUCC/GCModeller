@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>load_genbanks</title>
+    <title>populate a list of genbank data objects from a given list of files or stream.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>load_genbanks</h2>
+        <h2>populate a list of genbank data objects from a given list of files or stream.</h2>
 
         <h3>Description</h3>
 
-        load_genbanks
+        
 
         <h3>Usage</h3>
 
@@ -36,12 +36,27 @@
 
         <table>
             
+<dt>files</dt>
+<dd><p>a list of files or file stream</p></dd>
+
+
+<dt>extract.genomics</dt>
+<dd><p>only returns the genomics chromosome data? set this parameter value to TRUE will filter out the plasmid, mitochondrion, plastid type sequence data. set this parameter value to TRUE if use this data source for pan-genome analysis. [as boolean]</p></dd>
+
+
+<dt>autoClose</dt>
+<dd><p>auto close of the <a href="cref:T:System.IO.Stream">Stream</a> if the <strong>files</strong> contains stream object?. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>this function supports of read assembly data directly from *.gz genbank archive file.</p>
 
         <h3 style="display: block">Authors</h3>
 

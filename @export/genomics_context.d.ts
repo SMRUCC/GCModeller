@@ -5,11 +5,22 @@
 // ref=seqtoolkit.context@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * the tools for processing of the genomics context information
+ * 
 */
 declare namespace genomics_context {
    /**
-     * @param note default value Is ``null``.
-     * @param env default value Is ``null``.
+    * Create a new context model of a specific genomics feature site.
+    * 
+    * 
+     * @param loci -
+     * @param distance -
+     * @param note -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function context(loci: any, distance: object, note?: string, env?: object): object;
    /**
@@ -18,8 +29,16 @@ declare namespace genomics_context {
    */
    function context_location(blastn: any, eval_thres?: number, env?: object): object;
    /**
-     * @param strand default value Is ``'+'``.
-     * @param env default value Is ``null``.
+    * filter genes by given strand direction
+    * 
+    * 
+     * @param genes a collection of the gene model object which is subclass of [IGeneBrief](cref:T:SMRUCC.genomics.ComponentModel.Annotation.IGeneBrief)
+     * @param strand the nucleotide sequence strand direction, value could be +, -, forward, reverse.
+     * 
+     * + default value Is ``'+'``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function filter_strand(genes: any, strand?: any, env?: object): any;
    /**
@@ -30,32 +49,74 @@ declare namespace genomics_context {
    function genomics_context(gff: object, chr_name?: string, strict?: boolean, env?: object): object;
    module is {
       /**
+       * assert that does the given nucleotide location is in forward direction?
+       * 
+       * 
+        * @param loci a target nucleotide location
       */
       function forward(loci: object): boolean;
    }
    /**
-     * @param strand default value Is ``null``.
+    * create a new nucleotide location object
+    * 
+    * 
+     * @param left -
+     * @param right -
+     * @param strand -
+     * 
+     * + default value Is ``null``.
    */
    function location(left: object, right: object, strand?: any): object;
    /**
+    * do offset of the given location
+    * 
+    * 
+     * @param loci -
+     * @param offset -
    */
    function offset(loci: object, offset: object): object;
    /**
    */
    function primer_coverage(targetHits: object, chr: object, chr_seq: object): object;
    /**
-     * @param env default value Is ``null``.
+    * get the segment relationship of two location
+    * 
+    * 
+     * @param a -
+     * @param b -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function relationship(a: any, b: any, env?: object): object;
    /**
-     * @param env default value Is ``null``.
+    * set genomics context of the matched motif site
+    * 
+    * 
+     * @param sites a collection of the motif sites
+     * @param genomics the genomics feature information as the context for make location assignment.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function set_context(sites: any, genomics: object, env?: object): any;
    /**
-     * @param genes default value Is ``null``.
-     * @param upstream_len default value Is ``150``.
-     * @param simple_title default value Is ``true``.
-     * @param env default value Is ``null``.
+    * get TSS upstream site sequence data
+    * 
+    * 
+     * @param genome -
+     * @param genes gene list could be omit if the input genome data is a ncbi genbank model object. 
+     *  then all gene features inside the input genbank assembly will be used for export of 
+     *  the TSS upstream site.
+     * 
+     * + default value Is ``null``.
+     * @param upstream_len 
+     * + default value Is ``150``.
+     * @param simple_title 
+     * + default value Is ``true``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function TSS_upstream(genome: any, genes?: any, upstream_len?: object, simple_title?: boolean, env?: object): any;
 }

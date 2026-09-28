@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>as.gff3</title>
+    <title>cast the gene prediction result as GFF3 table format</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>as.gff3</h2>
+        <h2>cast the gene prediction result as GFF3 table format</h2>
 
         <h3>Description</h3>
 
-        as.gff3
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>the gene prediction result, which can be the output of "prodigal" function, or a pipeline that produces PredictionResult objects. The pipeline can be created by using the "pipeline" function in R#, and the final output of the pipeline should be PredictionResult objects. For example, if you have a pipeline that produces PredictionResult objects, you can pass it directly to this function to get the GFF3 table format output.</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +54,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/GFFTable.html">GFFTable</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/GFFTable.html">GFFTable</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable">GFFTable</a> object that contains all of the predicted genes as the <code>CDS</code> feature, the score of each feature is the total score of the corresponding predicted gene, and the score details are stored in the attributes of the feature, example as <code>start_codon</code>, <code>rbs_motif</code>, <code>cscore</code>, <code>sscore</code>, <code>rscore</code>, <code>tscore</code>, <code>uscore</code> and <code>partial</code>.</p>
+
+<p>this function returns a R# error message object if the input data can not be cast to a collection of the <a href="cref:T:SMRUCC.genomics.Annotation.Prodigal.PredictionResult">PredictionResult</a> object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/GFFTable.html">GFFTable</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -5,11 +5,21 @@
 // ref=metagenomics_kit.HMP@metagenomics_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * An internal ``HMP`` client for download data files from ``https://portal.hmpdacc.org/`` website
+ * 
 */
 declare namespace HMP_portal {
    /**
-     * @param aspera default value Is ``null``.
-     * @param env default value Is ``null``.
+    * run file downloads
+    * 
+    * 
+     * @param files -
+     * @param outputdir -
+     * @param aspera 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function fetch(files: any, outputdir: string, aspera?: object, env?: object): any;
    module read {

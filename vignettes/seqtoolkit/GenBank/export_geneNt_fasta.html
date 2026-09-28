@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>export_geneNt_fasta</title>
+    <title>export gene fasta from the given genbank assembly file</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>export_geneNt_fasta</h2>
+        <h2>export gene fasta from the given genbank assembly file</h2>
 
         <h3>Description</h3>
 
-        export_geneNt_fasta
+        
 
         <h3>Usage</h3>
 
@@ -38,12 +38,39 @@
 
         <table>
             
+<dt>gb</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>]</p></dd>
+
+
+<dt>title</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>unique.names</dt>
+<dd><p>processing the possible duplicated header as unique id, this option is usually when you use this function for build a sequence database for salmon tool. [as boolean]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>fasta title is build with a string template, there are some reserved template keyword for this function:</p>
+
+
+<ol>
+<li>ncbi_taxid - is the ncbi taxonomy id that extract from the genbank assembly</li>
+<li>lineage - taxonomy lineage in biom style string, which is extract from the genbank assembly its source information</li>
+<li>gb_asm_id - the ncbi accession id of the genbank assembly</li>
+<li>nucl_loc - the nucleotide sequence location on the genomics sequence</li>
+</ol>
+
+
+<h5>about the salmon duplicated id error</h5>
+
+<p>if you encounter this error while build sequence index by using salmon tool, please set the <code>unique.names</code> parameter to TRUE</p>
+
+
+<pre><code> counted k-mers for 110000 transcripts[2026-01-06 15:08:42.160] [puff::index::jointLog] [error] In FixFasta, two references with the same name but different sequences: AM295250.SCA_1840. We require that all input records have a unique name up to the first whitespace (or user-provided separator) character.</code></pre>
 
         <h3 style="display: block">Authors</h3>
 
