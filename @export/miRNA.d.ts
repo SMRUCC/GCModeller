@@ -99,11 +99,13 @@ declare namespace miRNA {
      * + default value Is ``null``.
      * @param n_threads 
      * + default value Is ``-1``.
+     * @param use_cache 
+     * + default value Is ``false``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function mirna_blastn(mirna: any, geneset: any, ncbi_blast?: string, name?: string, n_threads?: object, env?: object): object;
+   function mirna_blastn(mirna: any, geneset: any, ncbi_blast?: string, name?: string, n_threads?: object, use_cache?: boolean, env?: object): object;
    /**
     * make matches of the miRNA target genes
     * 
