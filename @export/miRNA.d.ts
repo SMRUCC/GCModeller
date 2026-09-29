@@ -95,11 +95,15 @@ declare namespace miRNA {
      * @param ncbi_blast folder dir path for the ncbi blast+
      * 
      * + default value Is ``null``.
+     * @param name 
+     * + default value Is ``null``.
+     * @param n_threads 
+     * + default value Is ``-1``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function mirna_blastn(mirna: any, geneset: any, ncbi_blast?: string, env?: object): object;
+   function mirna_blastn(mirna: any, geneset: any, ncbi_blast?: string, name?: string, n_threads?: object, env?: object): object;
    /**
     * make matches of the miRNA target genes
     * 
