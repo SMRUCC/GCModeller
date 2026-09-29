@@ -66,7 +66,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Public Module ArabidopsisThalianaTest
 
-    Dim base As String = "E:\GCModeller\src\workbench\R#\demo\HTS\GSVA"
+    Dim base As String = "G:\GCModeller\test\demo\HTS\GSVA"
 
     Sub Main()
         Dim expr As Matrix = Matrix.LoadData($"{base}/ath_norm.csv")

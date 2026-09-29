@@ -1,70 +1,71 @@
 ﻿#Region "Microsoft.VisualBasic::674b658089195503c4bf1100313d394c, annotations\GSEA\GSVA\test\Program.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 62
-    '    Code Lines: 54 (87.10%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 8 (12.90%)
-    '     File Size: 2.51 KB
+' Summaries:
 
 
-    ' Module Program22222
-    ' 
-    '     Function: createGene
-    ' 
-    '     Sub: Main2
-    ' 
-    ' Class metainfo
-    ' 
-    '     Properties: KEGG, name
-    ' 
-    ' Class enrichment
-    ' 
-    '     Properties: compounds, FDR, Hits, Holm_adjust, Impact
-    '                 links, logp, names, pathway, Rawp
-    '                 term, Total
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 62
+'    Code Lines: 54 (87.10%)
+' Comment Lines: 0 (0.00%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 8 (12.90%)
+'     File Size: 2.51 KB
+
+
+' Module Program22222
+' 
+'     Function: createGene
+' 
+'     Sub: Main2
+' 
+' Class metainfo
+' 
+'     Properties: KEGG, name
+' 
+' Class enrichment
+' 
+'     Properties: compounds, FDR, Hits, Holm_adjust, Impact
+'                 links, logp, names, pathway, Rawp
+'                 term, Total
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
@@ -73,7 +74,7 @@ Imports SMRUCC.genomics.Analysis.HTS.GSVA
 Module Program22222
     Sub Main2(args As String())
         Dim expr As Matrix = Matrix.LoadData("E:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\metabolome.csv")
-        Dim background = "E:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\kegg_enrichment.xls".LoadTsv(Of enrichment)().ToArray
+        Dim background = "E:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\kegg_enrichment.xls".LoadTsv(Of enrichment)(Encodings.UTF8).ToArray
         Dim maps = "E:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\metainfo.csv" _
             .LoadCsv(Of metainfo) _
             .GroupBy(Function(d) d.KEGG) _

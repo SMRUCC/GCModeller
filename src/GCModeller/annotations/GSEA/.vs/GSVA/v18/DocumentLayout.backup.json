@@ -1,0 +1,296 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E2B36C99-8E25-43A7-B8B5-5295F8D794B4}|GSVA\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2B36C99-8E25-43A7-B8B5-5295F8D794B4}|GSVA\\test\\test.vbproj|solutionrelative:gsva\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2CB0F907-4585-418B-89CA-EE597F04DBC7}|..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\core.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4EEA564-648F-4101-B57D-C3A0E8791BAD}|FisherCore\\Fisher.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\fisher.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{B4EEA564-648F-4101-B57D-C3A0E8791BAD}|FisherCore\\Fisher.NET5.vbproj|solutionrelative:fishercore\\fisher.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\gsva.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|solutionrelative:gsva\\gsva.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2B36C99-8E25-43A7-B8B5-5295F8D794B4}|GSVA\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\test\\test.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{E2B36C99-8E25-43A7-B8B5-5295F8D794B4}|GSVA\\test\\test.vbproj|solutionrelative:gsva\\test\\test.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2B36C99-8E25-43A7-B8B5-5295F8D794B4}|GSVA\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\test\\arabidopsisthaliana.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2B36C99-8E25-43A7-B8B5-5295F8D794B4}|GSVA\\test\\test.vbproj|solutionrelative:gsva\\test\\arabidopsisthaliana.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\flags\\kcdfs.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|solutionrelative:gsva\\flags\\kcdfs.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\flags\\methods.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|solutionrelative:gsva\\flags\\methods.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\gsva.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|solutionrelative:gsva\\gsva.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\zscore.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|solutionrelative:gsva\\zscore.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\utils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|solutionrelative:gsva\\utils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\ssgsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|solutionrelative:gsva\\ssgsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\plage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|solutionrelative:gsva\\plage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\c\\ks_test.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|solutionrelative:gsva\\c\\ks_test.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\c\\kernel_estimation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CFC56A67-4364-4346-8B0E-ABAD3270D16B}|GSVA\\GSVA.vbproj|solutionrelative:gsva\\c\\kernel_estimation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 12,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Core",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2026-09-29T23:34:15.504Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Fisher.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj",
+              "RelativeDocumentMoniker": "FisherCore\\Fisher.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj",
+              "RelativeToolTip": "FisherCore\\Fisher.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2026-09-29T23:34:12.753Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GSVA",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vbproj",
+              "RelativeDocumentMoniker": "GSVA\\GSVA.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vbproj",
+              "RelativeToolTip": "GSVA\\GSVA.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2026-09-29T23:34:11.406Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "test",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\test\\test.vbproj",
+              "RelativeDocumentMoniker": "GSVA\\test\\test.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\test\\test.vbproj",
+              "RelativeToolTip": "GSVA\\test\\test.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2026-09-29T23:34:03.962Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "KCDFs.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\Flags\\KCDFs.vb",
+              "RelativeDocumentMoniker": "GSVA\\Flags\\KCDFs.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\Flags\\KCDFs.vb",
+              "RelativeToolTip": "GSVA\\Flags\\KCDFs.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-29T23:18:47.608Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Methods.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\Flags\\Methods.vb",
+              "RelativeDocumentMoniker": "GSVA\\Flags\\Methods.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\Flags\\Methods.vb",
+              "RelativeToolTip": "GSVA\\Flags\\Methods.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-29T23:18:46.753Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GSVA.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vb",
+              "RelativeDocumentMoniker": "GSVA\\GSVA.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vb",
+              "RelativeToolTip": "GSVA\\GSVA.vb",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-29T23:18:41.546Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "zscore.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\zscore.vb",
+              "RelativeDocumentMoniker": "GSVA\\zscore.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\zscore.vb",
+              "RelativeToolTip": "GSVA\\zscore.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-29T23:18:39.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "utils.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\utils.vb",
+              "RelativeDocumentMoniker": "GSVA\\utils.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\utils.vb",
+              "RelativeToolTip": "GSVA\\utils.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-29T23:18:38.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\test\\Program.vb",
+              "RelativeDocumentMoniker": "GSVA\\test\\Program.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\test\\Program.vb",
+              "RelativeToolTip": "GSVA\\test\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFcAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-29T23:18:09.357Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ArabidopsisThaliana.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\test\\ArabidopsisThaliana.vb",
+              "RelativeDocumentMoniker": "GSVA\\test\\ArabidopsisThaliana.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\test\\ArabidopsisThaliana.vb",
+              "RelativeToolTip": "GSVA\\test\\ArabidopsisThaliana.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEQAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-29T23:17:56.887Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ssgsea.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\ssgsea.vb",
+              "RelativeDocumentMoniker": "GSVA\\ssgsea.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\ssgsea.vb",
+              "RelativeToolTip": "GSVA\\ssgsea.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-29T23:16:22.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "plage.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\plage.vb",
+              "RelativeDocumentMoniker": "GSVA\\plage.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\plage.vb",
+              "RelativeToolTip": "GSVA\\plage.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-29T23:16:21.749Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ks_test.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\C\\ks_test.vb",
+              "RelativeDocumentMoniker": "GSVA\\C\\ks_test.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\C\\ks_test.vb",
+              "RelativeToolTip": "GSVA\\C\\ks_test.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-29T23:16:19.622Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "kernel_estimation.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\C\\kernel_estimation.vb",
+              "RelativeDocumentMoniker": "GSVA\\C\\kernel_estimation.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\C\\kernel_estimation.vb",
+              "RelativeToolTip": "GSVA\\C\\kernel_estimation.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-09-29T23:16:18.224Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 378,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
