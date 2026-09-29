@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
@@ -140,6 +141,7 @@ Module miRNA
                                  Optional ncbi_blast As String = Nothing,
                                  Optional name As String = Nothing,
                                  Optional n_threads As Integer = -1,
+                                 Optional use_cache As Boolean = False,
                                  Optional env As Environment = Nothing) As Object
 
         Dim mirnaSeqs = GetFastaSeq(mirna, env, allowString:=True).SafeQuery.ToArray
@@ -185,13 +187,13 @@ Module miRNA
             n_threads = App.CPUCoreNumbers
         End If
 
-        Dim blast As New BLASTPlus(ncbi_blast) With {.NumThreads = n_threads}
+        If Not (use_cache AndAlso workTmp.FileLength > ByteSize.KB) Then
+            Dim blast As New BLASTPlus(ncbi_blast) With {.NumThreads = n_threads}
+            Dim parameters As String = $"-task blastn-short -evalue 10000 -word_size 7 -gapopen 4 -gapextend 2 -reward 1 -penalty -1 -outfmt ""6 qseqid sseqid sstart send qstart qend sstrand qseq sseq length evalue bitscore"" -num_threads {blast.NumThreads} -max_target_seqs 5000"
 
-        Call blast.FormatDb(targetFile, "nucl").Run()
-        Call blast.BlastnCustom(
-            mirnaFile, targetFile,
-            output:=workTmp,
-            args:=$"-task blastn-short -evalue 10000 -word_size 7 -gapopen 4 -gapextend 2 -reward 1 -penalty -1 -outfmt ""6 qseqid sseqid sstart send qstart qend sstrand qseq sseq length evalue bitscore"" -num_threads {blast.NumThreads} -max_target_seqs 5000").Run()
+            Call blast.FormatDb(targetFile, "nucl").Run()
+            Call blast.BlastnCustom(mirnaFile, targetFile, output:=workTmp, args:=parameters).Run()
+        End If
 
         If workTmp.FileExists Then
             Using s As Stream = workTmp.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
