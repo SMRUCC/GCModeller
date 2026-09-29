@@ -73,9 +73,9 @@ Imports SMRUCC.genomics.Analysis.HTS.GSVA
 
 Module Program22222
     Sub Main2(args As String())
-        Dim expr As Matrix = Matrix.LoadData("E:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\metabolome.csv")
-        Dim background = "E:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\kegg_enrichment.xls".LoadTsv(Of enrichment)(Encodings.UTF8).ToArray
-        Dim maps = "E:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\metainfo.csv" _
+        Dim expr As Matrix = Matrix.LoadData("G:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\metabolome.csv")
+        Dim background = "G:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\kegg_enrichment.xls".LoadTsv(Of enrichment)(Encodings.UTF8).ToArray
+        Dim maps = "G:\GCModeller\src\GCModeller\annotations\GSEA\data\HTS\metainfo.csv" _
             .LoadCsv(Of metainfo) _
             .GroupBy(Function(d) d.KEGG) _
             .Select(Function(l) l.First) _
