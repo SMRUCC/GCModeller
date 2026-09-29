@@ -136,7 +136,12 @@ Module miRNA
     ''' <returns></returns>
     <ExportAPI("mirna_blastn")>
     <RApiReturn(GetType(BlastnMapTable))>
-    Public Function mirna_blastn(<RRawVectorArgument(GetType(FastaSeq))> mirna As Object, <RRawVectorArgument> geneset As Object, Optional ncbi_blast As String = Nothing, Optional env As Environment = Nothing) As Object
+    Public Function mirna_blastn(<RRawVectorArgument(GetType(FastaSeq))> mirna As Object, <RRawVectorArgument> geneset As Object,
+                                 Optional ncbi_blast As String = Nothing,
+                                 Optional name As String = Nothing,
+                                 Optional n_threads As Integer = -1,
+                                 Optional env As Environment = Nothing) As Object
+
         Dim mirnaSeqs = GetFastaSeq(mirna, env, allowString:=True).SafeQuery.ToArray
         Dim geneSeqs = GetFastaSeq(geneset, env, allowString:=False)
         Dim mirnaFile As String
@@ -173,13 +178,20 @@ Module miRNA
             End If
         End If
 
-        Dim blast As New BLASTPlus(ncbi_blast) With {.NumThreads = 16}
+        If Not name.StringEmpty Then
+            workTmp = workTmp.ParentPath & $"/{name}.txt"
+        End If
+        If n_threads < 0 Then
+            n_threads = App.CPUCoreNumbers
+        End If
+
+        Dim blast As New BLASTPlus(ncbi_blast) With {.NumThreads = n_threads}
 
         Call blast.FormatDb(targetFile, "nucl").Run()
         Call blast.BlastnCustom(
             mirnaFile, targetFile,
             output:=workTmp,
-            args:=$"-task blastn-short -evalue 10000 -word_size 7 -gapopen 4 -gapextend 2 -reward 1 -penalty -1 -outfmt ""6 qseqid sseqid sstart send qstart qend sstrand qseq sseq length evalue bitscore"" -num_threads 32 -max_target_seqs 5000").Run()
+            args:=$"-task blastn-short -evalue 10000 -word_size 7 -gapopen 4 -gapextend 2 -reward 1 -penalty -1 -outfmt ""6 qseqid sseqid sstart send qstart qend sstrand qseq sseq length evalue bitscore"" -num_threads {blast.NumThreads} -max_target_seqs 5000").Run()
 
         If workTmp.FileExists Then
             Using s As Stream = workTmp.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
