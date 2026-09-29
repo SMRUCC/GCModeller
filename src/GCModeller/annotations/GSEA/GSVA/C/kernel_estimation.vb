@@ -110,6 +110,12 @@ Namespace C
             Dim bw As Double = If(rnaseq, 0.5, (sd1(x, size_density_n) / SIGMA_FACTOR))
             Dim left_tail As Double
 
+            ' 与官方 C 实现保持一致：带宽为 0 或者非数值时兜底为一个极小值，
+            ' 否则后续核估计会退化为阶跃函数或者产生除零
+            If Double.IsNaN(bw) OrElse bw = 0 Then
+                bw = 0.001
+            End If
+
             If Not rnaseq AndAlso is_precomputed = 0 Then
                 initCdfs()
                 is_precomputed = 1
@@ -148,8 +154,41 @@ Namespace C
             End If
         End Function
 
+        ''' <summary>
+        ''' 泊松分布的累积分布函数，对应 R 的 ``ppois(q, lambda, lower.tail, log.p)``
+        ''' </summary>
+        ''' <param name="y">观测计数 q</param>
+        ''' <param name="x">泊松分布的期望 lambda</param>
+        ''' <param name="f1">lower.tail，TRUE 时返回 P(X &lt;= q)</param>
+        ''' <param name="f2">log.p，TRUE 时返回概率的对数值</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 泊松分布的累积分布函数可以经由正则化的上不完全 Gamma 函数表示：
+        ''' 
+        '''   P(X &lt;= q) = Q(floor(q) + 1, lambda)
+        ''' 
+        ''' 其中 Q(a, x) = Γ(a, x) / Γ(a) 即为 <see cref="RegularizedGammaQ"/>。
+        ''' 这与 R 的 ``ppois()`` 内部实现（src/nmath/ppois.c）完全一致。
+        ''' </remarks>
         Private Function ppois(y As Double, x As Double, f1 As Boolean, f2 As Boolean) As Double
-            Throw New NotImplementedException
+            Dim p As Double
+
+            If y < 0 Then
+                p = 0.0
+            ElseIf x < 0 Then
+                p = Double.NaN
+            Else
+                p = RegularizedGammaQ(std.Floor(y) + 1.0, x)
+            End If
+
+            If Not f1 Then
+                p = 1 - p
+            End If
+            If f2 Then
+                p = std.Log(p)
+            End If
+
+            Return p
         End Function
 
         Private Sub initCdfs()
@@ -171,6 +210,12 @@ Namespace C
             Dim mean, sd As Double
             Dim sum As Double = 0.0
             Dim tmp As Double
+
+            ' 少于两个观测值时样本标准差没有定义，与 R 的 sd() 一致返回 NA，
+            ' 避免 n - 1 = 0 造成的除零
+            If n < 2 Then
+                Return Double.NaN
+            End If
 
             For i As Integer = 0 To n - 1
                 sum += x(i)

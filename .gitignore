@@ -6,6 +6,7 @@
 *.sqlite
 *.nupkg
 *.snupkg
+.vs/
 
 obj
 bin

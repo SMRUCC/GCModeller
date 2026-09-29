@@ -55,6 +55,7 @@ Imports System.Data
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Linq
 
 Public Module HTSDataFrame
@@ -70,6 +71,11 @@ Public Module HTSDataFrame
         Next
 
         Return data
+    End Function
+
+    <Extension>
+    Public Function as_dataframe(expr As Matrix) As NumericTable
+
     End Function
 
     ''' <summary>

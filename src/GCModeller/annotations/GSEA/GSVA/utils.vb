@@ -51,11 +51,14 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports std = System.Math
 
 Module utils
 
@@ -116,5 +119,188 @@ Module utils
         Else
             Return mapdgenesets
         End If
+    End Function
+
+    ''' <summary>
+    ''' 按 (取值升序, 下标升序) 对一列数据的下标做排序
+    ''' </summary>
+    ''' <param name="v">单个样本（列）上的取值向量</param>
+    ''' <returns>排序后的基因下标</returns>
+    ''' <remarks>
+    ''' 由于比较函数中同时比较了取值与下标，这是一个全序关系，
+    ''' 因此无论底层排序算法是否稳定，结果都是确定的：
+    ''' 并列的元素中下标靠后的会取得更大的秩，与 R 的 ``ties.method = "last"`` 一致。
+    ''' 非数值（NaN）被统一排到末尾，避免出现与 R 不一致的随机次序。
+    ''' </remarks>
+    Private Function ascendingOrder(v As Double()) As Integer()
+        Dim p As Integer = v.Length
+        Dim order As Integer() = New Integer(p - 1) {}
+
+        For i As Integer = 0 To p - 1
+            order(i) = i
+        Next
+
+        Array.Sort(order,
+            Function(a As Integer, b As Integer) As Integer
+                Dim x As Double = v(a)
+                Dim y As Double = v(b)
+                Dim nanX As Boolean = Double.IsNaN(x)
+                Dim nanY As Boolean = Double.IsNaN(y)
+
+                If nanX Then
+                    Return If(nanY, a.CompareTo(b), 1)
+                ElseIf nanY Then
+                    Return -1
+                End If
+
+                Dim c As Integer = x.CompareTo(y)
+
+                If c = 0 Then
+                    Return a.CompareTo(b)
+                Else
+                    Return c
+                End If
+            End Function)
+
+        Return order
+    End Function
+
+    ''' <summary>
+    ''' 逐列计算序数排名，等价于 R 的 ``colRanks(Z, ties.method = "last")``
+    ''' </summary>
+    ''' <param name="m">行是基因（特征）、列是样本的矩阵</param>
+    ''' <returns>
+    ''' 按样本组织的排名数组 ``ranks(样本)(基因)``，取值 1..p，其中 1 表示该样本中取值最小的基因。
+    ''' </returns>
+    Public Function colRanksLast(m As NumericMatrix) As Integer()()
+        Dim rows As Double()() = m.ArrayPack(deepcopy:=False)
+        Dim nGenes As Integer = m.RowDimension
+        Dim nSamples As Integer = m.ColumnDimension
+        Dim ranks As Integer()() = New Integer(nSamples - 1)() {}
+
+        For j As Integer = 0 To nSamples - 1
+            Dim v As Double() = New Double(nGenes - 1) {}
+
+            For i As Integer = 0 To nGenes - 1
+                v(i) = rows(i)(j)
+            Next
+
+            Dim order As Integer() = ascendingOrder(v)
+            Dim rank As Integer() = New Integer(nGenes - 1) {}
+
+            For k As Integer = 0 To nGenes - 1
+                rank(order(k)) = k + 1
+            Next
+
+            ranks(j) = rank
+        Next
+
+        Return ranks
+    End Function
+
+    ''' <summary>
+    ''' 逐列计算平均排名，等价于 R 的 ``colRanks(X, ties.method = "average")``
+    ''' </summary>
+    ''' <param name="m">行是基因（特征）、列是样本的矩阵</param>
+    ''' <returns>
+    ''' 按样本组织的排名数组 ``ranks(样本)(基因)``；并列的一组元素取得它们所占据秩的平均值。
+    ''' </returns>
+    Public Function colRanksAverage(m As NumericMatrix) As Double()()
+        Dim rows As Double()() = m.ArrayPack(deepcopy:=False)
+        Dim nGenes As Integer = m.RowDimension
+        Dim nSamples As Integer = m.ColumnDimension
+        Dim ranks As Double()() = New Double(nSamples - 1)() {}
+
+        For j As Integer = 0 To nSamples - 1
+            Dim v As Double() = New Double(nGenes - 1) {}
+
+            For i As Integer = 0 To nGenes - 1
+                v(i) = rows(i)(j)
+            Next
+
+            Dim order As Integer() = ascendingOrder(v)
+            Dim rank As Double() = New Double(nGenes - 1) {}
+            Dim i As Integer = 0
+
+            ' 排序后取值相同的元素必然相邻，逐个并列组计算平均秩即可
+            While i < nGenes
+                Dim k As Integer = i + 1
+
+                While k < nGenes AndAlso v(order(k)) = v(order(i))
+                    k += 1
+                End While
+
+                If k - i > 1 Then
+                    Dim avgRank As Double = (i + 1 + k) / 2.0
+
+                    For t As Integer = i To k - 1
+                        rank(order(t)) = avgRank
+                    Next
+                Else
+                    rank(order(i)) = i + 1
+                End If
+
+                i = k
+            End While
+
+            ranks(j) = rank
+        Next
+
+        Return ranks
+    End Function
+
+    ''' <summary>
+    ''' 逐行做标准化，等价于 R 的 ``t(scale(t(X)))``
+    ''' </summary>
+    ''' <param name="X">行是基因、列是样本的原始数据</param>
+    ''' <returns>每个基因在其样本维度上零均值、单位标准差的标准化矩阵</returns>
+    ''' <remarks>
+    ''' 标准差使用 n - 1 作为分母（样本标准差），与 R 的 ``sd()``、``rowSds()`` 一致。
+    ''' 标准差为零（恒定表达）的行在算法上游已经被过滤掉，此处仍做保护以免产生除零。
+    ''' </remarks>
+    Public Function rowZScore(X As Double()()) As Double()()
+        Dim nGenes As Integer = X.Length
+        Dim nSamples As Integer = X(0).Length
+        Dim Z As Double()() = New Double(nGenes - 1)() {}
+
+        For i As Integer = 0 To nGenes - 1
+            Dim x As Double() = X(i)
+            Dim mean As Double = 0
+            Dim sumSq As Double = 0
+            Dim sd As Double
+
+            For Each xi As Double In x
+                mean += xi
+            Next
+
+            mean /= nSamples
+
+            For Each xi As Double In x
+                sumSq += (xi - mean) ^ 2
+            Next
+
+            If nSamples < 2 Then
+                sd = Double.NaN
+            Else
+                sd = std.Sqrt(sumSq / (nSamples - 1))
+            End If
+
+            Dim z As Double() = New Double(nSamples - 1) {}
+
+            If sd = 0 OrElse Double.IsNaN(sd) Then
+                ' 恒定表达的行没有信息量，标准化后记为零向量
+                For j As Integer = 0 To nSamples - 1
+                    z(j) = 0
+                Next
+            Else
+                For j As Integer = 0 To nSamples - 1
+                    z(j) = (x(j) - mean) / sd
+                Next
+            End If
+
+            Z(i) = z
+        Next
+
+        Return Z
     End Function
 End Module
