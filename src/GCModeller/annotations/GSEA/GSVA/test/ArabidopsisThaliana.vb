@@ -192,6 +192,27 @@ Public Module ArabidopsisThalianaTest
 
         Call ecdfScores.SaveMatrix($"{dataDir}/gsva_ecdf_dotnet.csv", "kegg_pathways")
         Call compareOneReference("gsva-ecdf", ecdfScores, $"{dataDir}/gsva_ecdf_reference.csv", alignSign:=False)
+
+        ' 中间量诊断导出：便于与 R 端的 Z / rank 逐元素比对
+        If Environment.GetEnvironmentVariable("GSVA_DEBUG_DUMP") = "1" Then
+            Call dumpDensity(expr)
+        End If
+    End Sub
+
+    ''' <summary>导出第一个样本上的核密度与秩，供与 R 的中间量比对</summary>
+    Private Sub dumpDensity(expr As Matrix)
+        Dim density As Double()() = debugGeneDensity(expr, kernel:=True, rnaseq:=False)
+        Dim ranks As Integer()() = debugColRanks(density)
+
+        Using writer As New StreamWriter($"{dataDir}/_debug_dotnet_Z.csv", False, Encoding.UTF8)
+            Call writer.WriteLine("gene,z,rank")
+
+            For i As Integer = 0 To expr.size - 1
+                Call writer.WriteLine($"{expr.rownames(i)},{density(i)(0).ToString("R")},{ranks(0)(i)}")
+            Next
+        End Using
+
+        Call $"dumped density/rank for sample 1 -> {dataDir}/_debug_dotnet_Z.csv".println
     End Sub
 
     ''' <summary>

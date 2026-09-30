@@ -87,6 +87,11 @@ Namespace C
         Const PRECOMPUTE_RESOLUTION = 10000
         Const MAX_PRECOMPUTE = 10.0
 
+        ' 2 / sqrt(pi)，erf 幂级数所用的归一化常数
+        Const TWO_OVER_SQRTPI As Double = 1.1283791670955126
+        ' sqrt(2)
+        Const SQRT2 As Double = 1.4142135623730951
+
         Dim is_precomputed As Integer = 0
         Dim precomputed_cdf As Double() = New Double(PRECOMPUTE_RESOLUTION) {}
 
@@ -195,9 +200,131 @@ Namespace C
             Dim divisor = PRECOMPUTE_RESOLUTION * 1.0
 
             For i As Integer = 0 To PRECOMPUTE_RESOLUTION
-                precomputed_cdf(i) = pnorm.eval(MAX_PRECOMPUTE * i / divisor, 0.0, 1.0, lower_tail:=True, logP:=False)
+                precomputed_cdf(i) = pnorm5(MAX_PRECOMPUTE * i / divisor)
             Next
         End Sub
+
+        ''' <summary>
+        ''' 标准正态分布的累积分布函数，对应 R 的 ``pnorm(q, 0, 1, lower.tail = TRUE, log.p = FALSE)``
+        ''' </summary>
+        ''' <param name="q">分位数</param>
+        ''' <remarks>
+        ''' 经由误差函数实现：
+        ''' 
+        '''   Phi(q) = 0.5 * (1 + erf(q / sqrt(2)))    q &gt;= 0
+        '''   Phi(q) = 0.5 * erfc(-q / sqrt(2))        q &lt; 0
+        ''' 
+        ''' 下尾统一用互补误差函数计算，以保证小概率尾部的相对精度。
+        ''' 本实现自成一体，不依赖运行时库里的 <see cref="pnorm"/>（其基于梯形积分
+        ''' 并在 4.1 倍标准差处截断，存在约 2e-5 量级的系统性误差），
+        ''' 也不依赖不完全 Gamma 函数中的对数 Gamma 近似。
+        ''' 
+        ''' 之所以对精度如此敏感，是因为 GSVA 只使用密度值的秩：
+        ''' 当表达矩阵中存在大量取值并列的行时，密度值之间的间隔本身就在 1e-5 量级上，
+        ''' 任何超出 1e-12 的误差都会打乱秩，进而使富集分数产生显著偏差。
+        ''' </remarks>
+        Friend Function pnorm5(q As Double) As Double
+            If Double.IsNaN(q) Then
+                Return Double.NaN
+            End If
+            If q = 0 Then
+                Return 0.5
+            End If
+
+            ' erfc 的自变量取绝对值，保证落在 [0, +inf)
+            Dim u As Double = std.Abs(q) / SQRT2
+            Dim p As Double
+
+            If u < 1.0 Then
+                ' |q| < sqrt(2)：erfc(u) = 1 - erf(u)，用幂级数计算 erf
+                p = 0.5 + 0.5 * erfSeries(u)
+                Return If(q > 0, p, 1.0 - p)
+            Else
+                ' |q| >= sqrt(2)：尾部概率用连分式计算，保持相对精度
+                Dim tail As Double = 0.5 * erfcCF(u)
+                Return If(q > 0, 1.0 - tail, tail)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 误差函数 erf(x) 的幂级数实现，适用于 |x| &lt; 1
+        ''' </summary>
+        ''' <remarks>
+        ''' ``erf(x) = (2 / sqrt(pi)) * sum_{n&gt;=0} (-1)^n x^(2n+1) / (n! (2n+1))``
+        ''' </remarks>
+        Private Function erfSeries(x As Double) As Double
+            Dim term As Double = x
+            Dim sum As Double = x
+            Dim n As Integer = 0
+
+            Do While n < 1000
+                n += 1
+                term *= -x * x / n
+                Dim add As Double = term / (2 * n + 1)
+
+                sum += add
+
+                If std.Abs(add) <= std.Abs(sum) * 1.0E-18 Then
+                    Exit Do
+                End If
+            Loop
+
+            Return TWO_OVER_SQRTPI * sum
+        End Function
+
+        ''' <summary>
+        ''' 互补误差函数 erfc(x) 的连分式实现（修正 Lentz 算法），适用于 x &gt;= 1
+        ''' </summary>
+        ''' <remarks>
+        ''' ``erfc(x) = Q(1/2, x^2)``，即形状参数为 1/2 的正则化上不完全 Gamma 函数。
+        ''' 连分式部分与 ``RegularizedGammaQ`` 相同，但归一化常数直接使用解析值
+        ''' ``ln Gamma(1/2) = 0.5 * ln(pi)``，避免引入对数 Gamma 近似的误差。
+        ''' </remarks>
+        Private Function erfcCF(x As Double) As Double
+            Const a As Double = 0.5
+            Const tiny As Double = 1.0E-300
+
+            Dim u As Double = x * x
+            Dim b As Double = u + 1.0 - a
+            Dim c As Double = 1.0 / tiny
+            Dim d As Double = 1.0 / b
+            Dim h As Double = d
+            Dim i As Integer = 1
+
+            Do While i < 1000000
+                Dim an As Double = -i * (i - a)
+
+                b += 2.0
+                d = an * d + b
+
+                If std.Abs(d) < tiny Then
+                    d = tiny
+                End If
+
+                c = b + an / c
+
+                If std.Abs(c) < tiny Then
+                    c = tiny
+                End If
+
+                d = 1.0 / d
+
+                Dim del As Double = d * c
+
+                h *= del
+
+                If std.Abs(del - 1.0) < 1.0E-17 Then
+                    Exit Do
+                End If
+
+                i += 1
+            Loop
+
+            ' ln Gamma(1/2) = 0.5 * ln(pi)
+            Dim logNorm As Double = -u + a * std.Log(u) - 0.5 * std.Log(std.PI)
+
+            Return h * std.Exp(logNorm)
+        End Function
 
         ''' <summary>
         ''' calculates standard deviation, largely borrowed from C code in R's src/main/cov.c */

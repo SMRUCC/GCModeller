@@ -122,14 +122,17 @@ Module utils
     End Function
 
     ''' <summary>
-    ''' 按 (取值升序, 下标升序) 对一列数据的下标做排序
+    ''' 按 (取值升序, 下标降序) 对一列数据的下标做排序
     ''' </summary>
     ''' <param name="v">单个样本（列）上的取值向量</param>
     ''' <returns>排序后的基因下标</returns>
     ''' <remarks>
     ''' 由于比较函数中同时比较了取值与下标，这是一个全序关系，
-    ''' 因此无论底层排序算法是否稳定，结果都是确定的：
-    ''' 并列的元素中下标靠后的会取得更大的秩，与 R 的 ``ties.method = "last"`` 一致。
+    ''' 因此无论底层排序算法是否稳定，结果都是确定的。
+    ''' 并列的元素中<b>下标靠后的取得更小的秩</b>，与 R 的 ``ties.method = "last"`` 严格一致：
+    ''' 
+    '''   rank(c(10, 10, 10, 5, 5, 7), ties.method = "last")  # => 6 5 4 2 1 3
+    ''' 
     ''' 非数值（NaN）被统一排到末尾，避免出现与 R 不一致的随机次序。
     ''' </remarks>
     Private Function ascendingOrder(v As Double()) As Integer()
@@ -148,7 +151,7 @@ Module utils
                 Dim nanY As Boolean = Double.IsNaN(y)
 
                 If nanX Then
-                    Return If(nanY, a.CompareTo(b), 1)
+                    Return If(nanY, b.CompareTo(a), 1)
                 ElseIf nanY Then
                     Return -1
                 End If
@@ -156,7 +159,8 @@ Module utils
                 Dim c As Integer = x.CompareTo(y)
 
                 If c = 0 Then
-                    Return a.CompareTo(b)
+                    ' 并列时下标靠后的排前面，从而取得更小的秩
+                    Return b.CompareTo(a)
                 Else
                     Return c
                 End If
