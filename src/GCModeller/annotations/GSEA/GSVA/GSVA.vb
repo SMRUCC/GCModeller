@@ -133,7 +133,7 @@ Public Module GSVA
                 Call $"Estimating ssGSEA scores for {gsetIdxList.Count} gene sets.".debug
             End If
 
-            Return ssgsea(expr, gsetIdxList, alpha:=alpha, normalize:=normalize)
+            Return ssgseaScores(expr, gsetIdxList, alpha:=alpha, normalize:=normalize)
         ElseIf method = Methods.zscore Then
             If rnaseq Then
                 Throw New InvalidProgramException("rnaseq=TRUE does not work with method='zscore'.")
@@ -142,7 +142,7 @@ Public Module GSVA
                 Call $"Estimating combined z-scores for {gsetIdxList.Count} gene sets.".debug
             End If
 
-            Return zscore(expr, gsetIdxList)
+            Return zscoreScores(expr, gsetIdxList)
         ElseIf method = Methods.plage Then
             If rnaseq Then
                 Throw New InvalidProgramException("rnaseq=TRUE does not work with method='plage'.")
@@ -151,7 +151,7 @@ Public Module GSVA
                 Call $"Estimating PLAGE scores for {gsetIdxList.Count} gene sets.".debug
             End If
 
-            Return plage(expr, gsetIdxList)
+            Return plageScores(expr, gsetIdxList)
         Else
             If verbose Then
                 Call $"Estimating GSVA scores for {gsetIdxList.Count} gene sets.".debug

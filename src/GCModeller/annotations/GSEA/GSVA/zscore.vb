@@ -51,6 +51,61 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports std = System.Math
+
+''' <summary>
+''' Lee et al. (2008) 的 combined z-score 方法
+''' </summary>
+''' <remarks>
+''' 本模块是 R 包 GSVA 中 ``R/zscore.R`` 的 ``zscore()`` 的 VB 移植。
+''' </remarks>
 Module zscore
 
+    ''' <summary>
+    ''' 计算 combined z-score 富集分数
+    ''' </summary>
+    ''' <param name="expr">行是基因、列是样本的表达矩阵，行已经过滤过恒定表达</param>
+    ''' <param name="gsetIdxList">已经映射到表达矩阵行名上的基因集</param>
+    ''' <returns>通路 x 样本 的富集分数矩阵</returns>
+    Public Function zscoreScores(expr As Matrix,
+                                 gsetIdxList As Dictionary(Of String, String())) As Matrix
+
+        Dim rowIndex As Index(Of String) = expr.rownames.Indexing
+        Dim Z As Double()() = rowZScore(expr.ArrayPack)
+        Dim nSamples As Integer = expr.sampleID.Length
+
+        Return New Matrix With {
+            .sampleID = expr.sampleID,
+            .expression = gsetIdxList _
+                .Select(Function(gset)
+                            Dim idx As Integer() = gset.Value _
+                                .Select(Function(id) rowIndex.IndexOf(id)) _
+                                .ToArray
+                            ' 对应官方实现的 colSums(Z[gSetIdx, , drop=FALSE]) / sqrt(length(gSetIdx))
+                            Dim scale As Double = std.Sqrt(idx.Length)
+                            Dim score As Double() = New Double(nSamples - 1) {}
+
+                            For Each gene As Integer In idx
+                                Dim zrow As Double() = Z(gene)
+
+                                For j As Integer = 0 To nSamples - 1
+                                    score(j) += zrow(j)
+                                Next
+                            Next
+
+                            For j As Integer = 0 To nSamples - 1
+                                score(j) /= scale
+                            Next
+
+                            Return New DataFrameRow With {
+                                .geneID = gset.Key,
+                                .experiments = score
+                            }
+                        End Function) _
+                .ToArray
+        }
+    End Function
 End Module

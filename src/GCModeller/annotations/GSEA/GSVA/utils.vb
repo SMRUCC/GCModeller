@@ -214,33 +214,33 @@ Module utils
         For j As Integer = 0 To nSamples - 1
             Dim v As Double() = New Double(nGenes - 1) {}
 
-            For i As Integer = 0 To nGenes - 1
-                v(i) = rows(i)(j)
+            For g As Integer = 0 To nGenes - 1
+                v(g) = rows(g)(j)
             Next
 
             Dim order As Integer() = ascendingOrder(v)
             Dim rank As Double() = New Double(nGenes - 1) {}
-            Dim i As Integer = 0
+            Dim cursor As Integer = 0
 
             ' 排序后取值相同的元素必然相邻，逐个并列组计算平均秩即可
-            While i < nGenes
-                Dim k As Integer = i + 1
+            While cursor < nGenes
+                Dim k As Integer = cursor + 1
 
-                While k < nGenes AndAlso v(order(k)) = v(order(i))
+                While k < nGenes AndAlso v(order(k)) = v(order(cursor))
                     k += 1
                 End While
 
-                If k - i > 1 Then
-                    Dim avgRank As Double = (i + 1 + k) / 2.0
+                If k - cursor > 1 Then
+                    Dim avgRank As Double = (cursor + 1 + k) / 2.0
 
-                    For t As Integer = i To k - 1
+                    For t As Integer = cursor To k - 1
                         rank(order(t)) = avgRank
                     Next
                 Else
-                    rank(order(i)) = i + 1
+                    rank(order(cursor)) = cursor + 1
                 End If
 
-                i = k
+                cursor = k
             End While
 
             ranks(j) = rank
@@ -261,21 +261,21 @@ Module utils
     Public Function rowZScore(X As Double()()) As Double()()
         Dim nGenes As Integer = X.Length
         Dim nSamples As Integer = X(0).Length
-        Dim Z As Double()() = New Double(nGenes - 1)() {}
+        Dim out As Double()() = New Double(nGenes - 1)() {}
 
         For i As Integer = 0 To nGenes - 1
-            Dim x As Double() = X(i)
+            Dim row As Double() = X(i)
             Dim mean As Double = 0
             Dim sumSq As Double = 0
             Dim sd As Double
 
-            For Each xi As Double In x
+            For Each xi As Double In row
                 mean += xi
             Next
 
             mean /= nSamples
 
-            For Each xi As Double In x
+            For Each xi As Double In row
                 sumSq += (xi - mean) ^ 2
             Next
 
@@ -294,13 +294,13 @@ Module utils
                 Next
             Else
                 For j As Integer = 0 To nSamples - 1
-                    z(j) = (x(j) - mean) / sd
+                    z(j) = (row(j) - mean) / sd
                 Next
             End If
 
-            Z(i) = z
+            out(i) = z
         Next
 
-        Return Z
+        Return out
     End Function
 End Module

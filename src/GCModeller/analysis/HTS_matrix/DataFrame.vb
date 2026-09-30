@@ -73,9 +73,26 @@ Public Module HTSDataFrame
         Return data
     End Function
 
+    ''' <summary>
+    ''' cast the gene expression matrix as the dataframe
+    ''' </summary>
+    ''' <param name="expr"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function as_dataframe(expr As Matrix) As NumericTable
+        Dim samples As New List(Of Double())
 
+        For Each sample_id As String In expr.sampleID
+            Call samples.Add(expr.GetSampleArray(sample_id).ToArray)
+        Next
+
+        Return New NumericTable With {
+            .description = expr.tag,
+            .featureNames = expr.rownames,
+            .features = samples.ToArray,
+            .name = expr.tag,
+            .rowNames = expr.sampleID
+        }
     End Function
 
     ''' <summary>

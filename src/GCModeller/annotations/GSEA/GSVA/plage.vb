@@ -51,6 +51,69 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+
+''' <summary>
+''' Tomfohr et al. (2005) 的 PLAGE（Pathway Level Analysis of Gene Expression）方法
+''' </summary>
+''' <remarks>
+''' 本模块是 R 包 GSVA 中 ``R/plage.R`` 的 ``plage()`` 的 VB 移植。
+''' </remarks>
 Module plage
 
+    ''' <summary>
+    ''' 计算 PLAGE 富集分数
+    ''' </summary>
+    ''' <param name="expr">行是基因、列是样本的表达矩阵，行已经过滤过恒定表达</param>
+    ''' <param name="gsetIdxList">已经映射到表达矩阵行名上的基因集</param>
+    ''' <returns>通路 x 样本 的富集分数矩阵</returns>
+    ''' <remarks>
+    ''' 每一个基因集单独做奇异值分解，取第一右奇异向量作为该通路在各样本上的活性分数：
+    ''' 
+    '''   s &lt;- svd(Z[gSetIdx, ]) 
+    '''   score &lt;- s$v[, 1]
+    ''' 
+    ''' 其中 Z 是逐行标准化（每个基因在自己的样本维度上零均值、单位方差）后的表达矩阵。
+    ''' 奇异向量的符号在数学上是不确定的，不同的奇异值分解实现可能给出相差一个正负号的结果，
+    ''' 这不影响统计意义，但做数值比对时需要先统一符号。
+    ''' </remarks>
+    Public Function plageScores(expr As Matrix,
+                                gsetIdxList As Dictionary(Of String, String())) As Matrix
+
+        Dim rowIndex As Index(Of String) = expr.rownames.Indexing
+        Dim Z As Double()() = rowZScore(expr.ArrayPack)
+        Dim nSamples As Integer = expr.sampleID.Length
+
+        Return New Matrix With {
+            .sampleID = expr.sampleID,
+            .expression = gsetIdxList _
+                .Select(Function(gset)
+                            Dim idx As Integer() = gset.Value _
+                                .Select(Function(id) rowIndex.IndexOf(id)) _
+                                .ToArray
+                            ' 基因集子矩阵：基因数 x 样本数
+                            Dim submat As Double()() = idx _
+                                .Select(Function(gene) Z(gene)) _
+                                .ToArray
+                            Dim svd As New SingularValueDecomposition(New NumericMatrix(submat))
+                            ' A = U * S * V'，V 是 n x n（n 为样本数），
+                            ' 它的列即为右奇异向量，第 0 列就是第一右奇异向量
+                            Dim V As Double()() = svd.V.ArrayPack(deepcopy:=False)
+                            Dim score As Double() = New Double(nSamples - 1) {}
+
+                            For j As Integer = 0 To nSamples - 1
+                                score(j) = V(j)(0)
+                            Next
+
+                            Return New DataFrameRow With {
+                                .geneID = gset.Key,
+                                .experiments = score
+                            }
+                        End Function) _
+                .ToArray
+        }
+    End Function
 End Module
