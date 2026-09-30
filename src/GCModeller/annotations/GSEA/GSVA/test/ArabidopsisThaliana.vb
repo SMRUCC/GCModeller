@@ -207,9 +207,19 @@ Public Module ArabidopsisThalianaTest
         Using writer As New StreamWriter($"{dataDir}/_debug_dotnet_Z.csv", False, Encoding.UTF8)
             Call writer.WriteLine("gene,z,rank")
 
+            Dim bw As Double() = debugBandwidth(expr)
+
             For i As Integer = 0 To expr.size - 1
                 Call writer.WriteLine($"{expr.rownames(i)},{density(i)(0).ToString("R")},{ranks(0)(i)}")
             Next
+
+            Using bwWriter As New StreamWriter($"{dataDir}/_debug_dotnet_bw.csv", False, Encoding.UTF8)
+                Call bwWriter.WriteLine("gene,bw")
+
+                For i As Integer = 0 To expr.size - 1
+                    Call bwWriter.WriteLine($"{expr.rownames(i)},{bw(i).ToString("R")}")
+                Next
+            End Using
         End Using
 
         Call $"dumped density/rank for sample 1 -> {dataDir}/_debug_dotnet_Z.csv".println
