@@ -81,6 +81,41 @@ Namespace C
             Return precomputed_cdf
         End Function
 
+        ''' <summary>
+        ''' 临时诊断接口：导出某一行某一列的全部核估计项
+        ''' </summary>
+        Public Function debugRowTerms(rows As Double()(), geneIndex As Integer, column As Integer) As Double()()
+            Dim x As Double() = rows(geneIndex)
+            Dim bw As Double = sd1(x, x.Length) / SIGMA_FACTOR
+            Dim n As Integer = x.Length
+            Dim out As Double()() = New Double(n - 1)() {}
+
+            If is_precomputed = 0 Then
+                initCdfs()
+                is_precomputed = 1
+            End If
+
+            For i As Integer = 0 To n - 1
+                Dim v As Double = (x(column) - x(i)) / bw
+                Dim idx As Integer = CInt(std.Abs(v) / MAX_PRECOMPUTE * PRECOMPUTE_RESOLUTION)
+                Dim cdf As Double
+
+                If v < -1 * MAX_PRECOMPUTE Then
+                    cdf = 0
+                ElseIf v > MAX_PRECOMPUTE Then
+                    cdf = 1
+                ElseIf v < 0 Then
+                    cdf = 1 - precomputed_cdf(idx)
+                Else
+                    cdf = precomputed_cdf(idx)
+                End If
+
+                out(i) = New Double() {v, idx, cdf, bw}
+            Next
+
+            Return out
+        End Function
+
         Public Function matrix_density_R(X As Double()(),
                                          Y As Double()(),
                                          dims As (m%, n%),
@@ -167,7 +202,11 @@ Namespace C
             ElseIf v > MAX_PRECOMPUTE Then
                 Return 1
             Else
-                Dim i As Integer = std.Abs(v) / MAX_PRECOMPUTE * PRECOMPUTE_RESOLUTION
+                ' 注意：VB 里 Double 到 Integer 的隐式转换与 CInt 一样都是「四舍五入」，
+                ' 而 C 的 (int) 强制转换是「向零截断」。官方 C 实现用的是截断，
+                ' 这里必须显式 Floor，否则约有半数的查表会偏差一个格点，
+                ' 会使秩发生大规模错乱，进而让富集分数出现明显偏差。
+                Dim i As Integer = CInt(std.Floor(std.Abs(v) / MAX_PRECOMPUTE * PRECOMPUTE_RESOLUTION))
                 Dim cdf As Double = precomputed_cdf(i)
 
                 If v < 0 Then

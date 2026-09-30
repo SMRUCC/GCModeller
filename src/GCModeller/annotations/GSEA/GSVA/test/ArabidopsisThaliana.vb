@@ -226,6 +226,23 @@ Public Module ArabidopsisThalianaTest
                     Call tabWriter.WriteLine(p.ToString("R"))
                 Next
             End Using
+
+            ' 导出指定基因在第一个样本上的全部核估计项
+            Dim probe As String() = {"AT1G03993", "AT1G01050", "AT1G01030"}
+            Dim raw As Double()() = expr.ArrayPack
+
+            Using termWriter As New StreamWriter($"{dataDir}/_debug_dotnet_terms.csv", False, Encoding.UTF8)
+                Call termWriter.WriteLine("gene,term,v,idx,cdf,bw")
+
+                For Each geneId As String In probe
+                    Dim gi As Integer = Array.IndexOf(expr.rownames, geneId)
+                    Dim terms As Double()() = debugRowTerms(expr, gi, 0)
+
+                    For t As Integer = 0 To terms.Length - 1
+                        Call termWriter.WriteLine($"{geneId},{t},{terms(t)(0).ToString("R")},{terms(t)(1)},{terms(t)(2).ToString("R")},{terms(t)(3).ToString("R")}")
+                    Next
+                Next
+            End Using
         End Using
 
         Call $"dumped density/rank for sample 1 -> {dataDir}/_debug_dotnet_Z.csv".println

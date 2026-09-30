@@ -295,6 +295,13 @@ Public Module GSVA
     End Function
 
     ''' <summary>
+    ''' 临时诊断接口：导出某一行某一列的核估计项，仅用于与 R 参考实现比对
+    ''' </summary>
+    Public Function debugRowTerms(expr As Matrix, geneIndex As Integer, column As Integer) As Double()()
+        Return C.debugRowTerms(expr.ArrayPack, geneIndex, column)
+    End Function
+
+    ''' <summary>
     ''' 临时诊断接口：导出正态分布查表，仅用于与 R 参考实现做中间量比对
     ''' </summary>
     Public Function debugPnormTable() As Double()
