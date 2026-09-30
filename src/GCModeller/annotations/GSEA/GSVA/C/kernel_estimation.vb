@@ -69,6 +69,18 @@ Namespace C
             Return rows.Select(Function(r) sd1(r, r.Length) / SIGMA_FACTOR).ToArray
         End Function
 
+        ''' <summary>
+        ''' 临时诊断接口：确保查表已初始化并返回查表内容
+        ''' </summary>
+        Public Function debugPnormTable() As Double()
+            If is_precomputed = 0 Then
+                initCdfs()
+                is_precomputed = 1
+            End If
+
+            Return precomputed_cdf
+        End Function
+
         Public Function matrix_density_R(X As Double()(),
                                          Y As Double()(),
                                          dims As (m%, n%),

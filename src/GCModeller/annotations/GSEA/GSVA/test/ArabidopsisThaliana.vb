@@ -220,6 +220,12 @@ Public Module ArabidopsisThalianaTest
                     Call bwWriter.WriteLine($"{expr.rownames(i)},{bw(i).ToString("R")}")
                 Next
             End Using
+
+            Using tabWriter As New StreamWriter($"{dataDir}/_debug_dotnet_tab.csv", False, Encoding.UTF8)
+                For Each p As Double In debugPnormTable()
+                    Call tabWriter.WriteLine(p.ToString("R"))
+                Next
+            End Using
         End Using
 
         Call $"dumped density/rank for sample 1 -> {dataDir}/_debug_dotnet_Z.csv".println

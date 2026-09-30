@@ -295,6 +295,13 @@ Public Module GSVA
     End Function
 
     ''' <summary>
+    ''' 临时诊断接口：导出正态分布查表，仅用于与 R 参考实现做中间量比对
+    ''' </summary>
+    Public Function debugPnormTable() As Double()
+        Return C.debugPnormTable()
+    End Function
+
+    ''' <summary>
     ''' 临时诊断接口：导出逐列排名（ties.method = "last"），仅用于与 R 参考实现做中间量比对
     ''' </summary>
     Public Function debugColRanks(density As Double()()) As Integer()()
