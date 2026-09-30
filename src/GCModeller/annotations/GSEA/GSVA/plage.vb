@@ -98,15 +98,39 @@ Module plage
                             Dim submat As Double()() = idx _
                                 .Select(Function(gene) Z(gene)) _
                                 .ToArray
-                            Dim svd As New SingularValueDecomposition(New NumericMatrix(submat))
-                            ' A = U * S * V'，V 是 n x n（n 为样本数），
-                            ' 它的列即为右奇异向量，第 0 列就是第一右奇异向量
-                            Dim V As Double()() = svd.V.ArrayPack(deepcopy:=False)
                             Dim score As Double() = New Double(nSamples - 1) {}
 
-                            For j As Integer = 0 To nSamples - 1
-                                score(j) = V(j)(0)
-                            Next
+                            If idx.Length >= nSamples Then
+                                ' A = U * S * V'，V 是 n x n（n 为样本数），
+                                ' 它的列即为右奇异向量，第 0 列就是第一右奇异向量
+                                Dim svd As New SingularValueDecomposition(New NumericMatrix(submat))
+                                Dim V As Double()() = svd.V.ArrayPack(deepcopy:=False)
+
+                                For j As Integer = 0 To nSamples - 1
+                                    score(j) = V(j)(0)
+                                Next
+                            Else
+                                ' 基因数少于样本数时矩阵是「宽」的，而 JAMA 系的奇异值分解
+                                ' 只对行数不少于列数的矩阵有定义。利用 A 的转置与 A 共享奇异值、
+                                ' 且 A 的右奇异向量恰为 A' 的左奇异向量这一关系，
+                                ' 转置后分解再取第一左奇异向量即可。
+                                Dim transposed As Double()() = New Double(nSamples - 1)() {}
+
+                                For j As Integer = 0 To nSamples - 1
+                                    transposed(j) = New Double(idx.Length - 1) {}
+
+                                    For r As Integer = 0 To idx.Length - 1
+                                        transposed(j)(r) = submat(r)(j)
+                                    Next
+                                Next
+
+                                Dim svd As New SingularValueDecomposition(New NumericMatrix(transposed))
+                                Dim U As Double()() = svd.U.ArrayPack(deepcopy:=False)
+
+                                For j As Integer = 0 To nSamples - 1
+                                    score(j) = U(j)(0)
+                                Next
+                            End If
 
                             Return New DataFrameRow With {
                                 .geneID = gset.Key,

@@ -280,42 +280,6 @@ Public Module GSVA
     End Function
 
     ''' <summary>
-    ''' 临时诊断接口：导出行归一化（核密度）矩阵，仅用于与 R 参考实现做中间量比对
-    ''' </summary>
-    Public Function debugGeneDensity(expr As Matrix, kernel As Boolean, rnaseq As Boolean) As Double()()
-        Dim nsamples = expr.sampleID.Length
-        Return compute_gene_density(expr, Sequence(nsamples).ToArray, rnaseq, kernel).ArrayPack(deepcopy:=False)
-    End Function
-
-    ''' <summary>
-    ''' 临时诊断接口：导出核带宽 bw，仅用于与 R 参考实现做中间量比对
-    ''' </summary>
-    Public Function debugBandwidth(expr As Matrix) As Double()
-        Return C.debugBandwidth(expr.ArrayPack)
-    End Function
-
-    ''' <summary>
-    ''' 临时诊断接口：导出某一行某一列的核估计项，仅用于与 R 参考实现比对
-    ''' </summary>
-    Public Function debugRowTerms(expr As Matrix, geneIndex As Integer, column As Integer) As Double()()
-        Return C.debugRowTerms(expr.ArrayPack, geneIndex, column)
-    End Function
-
-    ''' <summary>
-    ''' 临时诊断接口：导出正态分布查表，仅用于与 R 参考实现做中间量比对
-    ''' </summary>
-    Public Function debugPnormTable() As Double()
-        Return C.debugPnormTable()
-    End Function
-
-    ''' <summary>
-    ''' 临时诊断接口：导出逐列排名（ties.method = "last"），仅用于与 R 参考实现做中间量比对
-    ''' </summary>
-    Public Function debugColRanks(density As Double()()) As Integer()()
-        Return colRanksLast(New NumericMatrix(density))
-    End Function
-
-    ''' <summary>
     ''' 不使用核函数时，直接用每一行自身的经验累积分布函数（ECDF）做行归一化
     ''' </summary>
     ''' <param name="rows">行是基因，行内是该基因在各样本上的表达量</param>

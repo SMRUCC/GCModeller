@@ -62,60 +62,6 @@ Namespace C
 
     Module kernel_estimation
 
-        ''' <summary>
-        ''' 临时诊断接口：导出每一行的核带宽 bw = sd(x) / SIGMA_FACTOR
-        ''' </summary>
-        Friend Function debugBandwidth(rows As Double()()) As Double()
-            Return rows.Select(Function(r) sd1(r, r.Length) / SIGMA_FACTOR).ToArray
-        End Function
-
-        ''' <summary>
-        ''' 临时诊断接口：确保查表已初始化并返回查表内容
-        ''' </summary>
-        Public Function debugPnormTable() As Double()
-            If is_precomputed = 0 Then
-                initCdfs()
-                is_precomputed = 1
-            End If
-
-            Return precomputed_cdf
-        End Function
-
-        ''' <summary>
-        ''' 临时诊断接口：导出某一行某一列的全部核估计项
-        ''' </summary>
-        Public Function debugRowTerms(rows As Double()(), geneIndex As Integer, column As Integer) As Double()()
-            Dim x As Double() = rows(geneIndex)
-            Dim bw As Double = sd1(x, x.Length) / SIGMA_FACTOR
-            Dim n As Integer = x.Length
-            Dim out As Double()() = New Double(n - 1)() {}
-
-            If is_precomputed = 0 Then
-                initCdfs()
-                is_precomputed = 1
-            End If
-
-            For i As Integer = 0 To n - 1
-                Dim v As Double = (x(column) - x(i)) / bw
-                Dim idx As Integer = CInt(std.Abs(v) / MAX_PRECOMPUTE * PRECOMPUTE_RESOLUTION)
-                Dim cdf As Double
-
-                If v < -1 * MAX_PRECOMPUTE Then
-                    cdf = 0
-                ElseIf v > MAX_PRECOMPUTE Then
-                    cdf = 1
-                ElseIf v < 0 Then
-                    cdf = 1 - precomputed_cdf(idx)
-                Else
-                    cdf = precomputed_cdf(idx)
-                End If
-
-                out(i) = New Double() {v, idx, cdf, bw}
-            Next
-
-            Return out
-        End Function
-
         Public Function matrix_density_R(X As Double()(),
                                          Y As Double()(),
                                          dims As (m%, n%),

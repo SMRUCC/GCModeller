@@ -192,60 +192,6 @@ Public Module ArabidopsisThalianaTest
 
         Call ecdfScores.SaveMatrix($"{dataDir}/gsva_ecdf_dotnet.csv", "kegg_pathways")
         Call compareOneReference("gsva-ecdf", ecdfScores, $"{dataDir}/gsva_ecdf_reference.csv", alignSign:=False)
-
-        ' 中间量诊断导出：便于与 R 端的 Z / rank 逐元素比对
-        If Environment.GetEnvironmentVariable("GSVA_DEBUG_DUMP") = "1" Then
-            Call dumpDensity(expr)
-        End If
-    End Sub
-
-    ''' <summary>导出第一个样本上的核密度与秩，供与 R 的中间量比对</summary>
-    Private Sub dumpDensity(expr As Matrix)
-        Dim density As Double()() = debugGeneDensity(expr, kernel:=True, rnaseq:=False)
-        Dim ranks As Integer()() = debugColRanks(density)
-
-        Using writer As New StreamWriter($"{dataDir}/_debug_dotnet_Z.csv", False, Encoding.UTF8)
-            Call writer.WriteLine("gene,z,rank")
-
-            Dim bw As Double() = debugBandwidth(expr)
-
-            For i As Integer = 0 To expr.size - 1
-                Call writer.WriteLine($"{expr.rownames(i)},{density(i)(0).ToString("R")},{ranks(0)(i)}")
-            Next
-
-            Using bwWriter As New StreamWriter($"{dataDir}/_debug_dotnet_bw.csv", False, Encoding.UTF8)
-                Call bwWriter.WriteLine("gene,bw")
-
-                For i As Integer = 0 To expr.size - 1
-                    Call bwWriter.WriteLine($"{expr.rownames(i)},{bw(i).ToString("R")}")
-                Next
-            End Using
-
-            Using tabWriter As New StreamWriter($"{dataDir}/_debug_dotnet_tab.csv", False, Encoding.UTF8)
-                For Each p As Double In debugPnormTable()
-                    Call tabWriter.WriteLine(p.ToString("R"))
-                Next
-            End Using
-
-            ' 导出指定基因在第一个样本上的全部核估计项
-            Dim probe As String() = {"AT1G03993", "AT1G01050", "AT1G01030"}
-            Dim raw As Double()() = expr.ArrayPack
-
-            Using termWriter As New StreamWriter($"{dataDir}/_debug_dotnet_terms.csv", False, Encoding.UTF8)
-                Call termWriter.WriteLine("gene,term,v,idx,cdf,bw")
-
-                For Each geneId As String In probe
-                    Dim gi As Integer = Array.IndexOf(expr.rownames, geneId)
-                    Dim terms As Double()() = debugRowTerms(expr, gi, 0)
-
-                    For t As Integer = 0 To terms.Length - 1
-                        Call termWriter.WriteLine($"{geneId},{t},{terms(t)(0).ToString("R")},{terms(t)(1)},{terms(t)(2).ToString("R")},{terms(t)(3).ToString("R")}")
-                    Next
-                Next
-            End Using
-        End Using
-
-        Call $"dumped density/rank for sample 1 -> {dataDir}/_debug_dotnet_Z.csv".println
     End Sub
 
     ''' <summary>
@@ -515,6 +461,8 @@ Public Module ArabidopsisThalianaTest
         Dim n As Integer = 0
         Dim maxPath As String = ""
         Dim sampleCount As Integer = -1
+        Dim worst As New List(Of Tuple(Of Double, String))
+        Dim badPathways As Integer = 0
 
         For Each pathway As String In reference.Keys
             If Not dotnet.ContainsKey(pathway) Then
@@ -539,17 +487,27 @@ Public Module ArabidopsisThalianaTest
                 vv = vv.Select(Function(x) x * sv).ToArray
             End If
 
+            Dim pathMax As Double = 0
+
             For j As Integer = 0 To rv.Length - 1
                 Dim d As Double = std.Abs(rv(j) - vv(j))
 
                 sumDiff += d
                 n += 1
 
-                If d > maxDiff Then
-                    maxDiff = d
-                    maxPath = pathway
+                If d > pathMax Then
+                    pathMax = d
                 End If
             Next
+
+            If pathMax > maxDiff Then
+                maxDiff = pathMax
+                maxPath = pathway
+            End If
+            If pathMax > REF_TOLERANCE Then
+                badPathways += 1
+                worst.Add(Tuple.Create(pathMax, pathway))
+            End If
         Next
 
         If n = 0 Then
@@ -558,10 +516,17 @@ Public Module ArabidopsisThalianaTest
         End If
 
         Dim meanDiff As Double = sumDiff / n
+        Dim detail As String = $"compared {n} values, max|diff| = {maxDiff:E3} ({maxPath}), mean|diff| = {meanDiff:E3}"
 
-        Call check($"{name} 与 R 金标准比对",
-                   maxDiff <= REF_TOLERANCE,
-                   $"compared {n} values, max|diff| = {maxDiff:E3} ({maxPath}), mean|diff| = {meanDiff:E3}")
+        If badPathways > 0 Then
+            Dim worstList As String = String.Join("; ",
+                worst.OrderByDescending(Function(t) t.Item1).Take(3) _
+                     .Select(Function(t) $"{t.Item2.Substring(0, std.Min(28, t.Item2.Length))}({t.Item1:E2})"))
+
+            detail &= $", {badPathways} pathways over tolerance: {worstList}"
+        End If
+
+        Call check($"{name} 与 R 金标准比对", badPathways = 0, detail)
     End Sub
 
     ''' <summary>

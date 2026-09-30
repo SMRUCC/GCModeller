@@ -86,8 +86,22 @@ Module ssgsea
         Dim rowIndex As Index(Of String) = expr.rownames.Indexing
         Dim nGenes As Integer = expr.size
         Dim nSamples As Integer = expr.sampleID.Length
-        ' 逐列平均秩：1 表示表达量最小，并列的一组取得平均秩，对应 R 的 ties.method = "average"
-        Dim rankData As Double()() = colRanksAverage(New NumericMatrix(expr.ArrayPack))
+        ' 逐列平均秩：1 表示表达量最小，并列的一组取得平均秩，对应 R 的 ties.method = "average"。
+        ' GSVA 2.2.1 在得到平均秩之后立即执行 mode(R) <- "integer"，
+        ' 该强制转换是「向零截断」，会把并列产生的 x.5 平均秩截掉，
+        ' 从而在整数秩上形成大量新的并列；后续的降序排序与幂加权都基于截断后的整数秩。
+        ' 必须复刻这一行为，否则结果会有细微但可观的偏差。
+        Dim rankData As Double()() = colRanksAverage(New NumericMatrix(expr.ArrayPack)) _
+            .Select(Function(r)
+                        Dim v As Double() = New Double(r.Length - 1) {}
+
+                        For i As Integer = 0 To r.Length - 1
+                            v(i) = std.Truncate(r(i))
+                        Next
+
+                        Return v
+                    End Function) _
+            .ToArray
         Dim Ra As Double()() = rankData
         Dim noAlpha As Boolean = (alpha = 1.0)
 
