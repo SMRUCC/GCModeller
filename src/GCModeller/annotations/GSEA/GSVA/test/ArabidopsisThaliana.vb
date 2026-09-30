@@ -311,14 +311,12 @@ Public Module ArabidopsisThalianaTest
     ''' 把「映射到给定基因全集上的通路成员」导出为长表 TSV，供 R 端读取
     ''' </summary>
     Private Sub exportGeneSets(features As String(), kegg As Background, path As String)
-        Dim mapped As Dictionary(Of String, String()) = mapGeneSetsToFeatures(kegg, features)
-
         Using writer As New StreamWriter(path, False, Encoding.UTF8)
             Call writer.WriteLine("pathway" & vbTab & "gene")
 
-            For Each entry As KeyValuePair(Of String, String()) In mapped
-                For Each gene As String In entry.Value
-                    Call writer.WriteLine(entry.Key & vbTab & gene)
+            For Each cl As Cluster In kegg.clusters
+                For Each gene As String In cl.Intersect(features)
+                    Call writer.WriteLine(cl.ID & vbTab & gene)
                 Next
             Next
         End Using
@@ -578,28 +576,28 @@ Public Module ArabidopsisThalianaTest
 
     Private Function loadKEGG() As Background
         Return New Background With {
-            .clusters = LoadKEGG.ToArray,
+            .clusters = loadKEGGClusters.ToArray,
             .name = "Arabidopsis Thaliana",
             .id = "ath"
         }
     End Function
 
-    Private Iterator Function LoadKEGG() As IEnumerable(Of Cluster)
+    Private Iterator Function loadKEGGClusters() As IEnumerable(Of Cluster)
         Using file = $"{dataDir}/ath.db".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             Using pack As New StreamPack(file, [readonly]:=True)
                 Dim pathways As StreamGroup = pack.GetObject("/pathways/")
 
-                For Each cl In LoadKEGG(pack, pathways)
+                For Each cl In loadKEGGClusters(pack, pathways)
                     Yield cl
                 Next
             End Using
         End Using
     End Function
 
-    Private Iterator Function LoadKEGG(pack As StreamPack, dir As StreamGroup) As IEnumerable(Of Cluster)
+    Private Iterator Function loadKEGGClusters(pack As StreamPack, dir As StreamGroup) As IEnumerable(Of Cluster)
         For Each file As StreamObject In dir.files
             If TypeOf file Is StreamGroup Then
-                For Each cl In LoadKEGG(pack, file)
+                For Each cl In loadKEGGClusters(pack, DirectCast(file, StreamGroup))
                     Yield cl
                 Next
             Else
