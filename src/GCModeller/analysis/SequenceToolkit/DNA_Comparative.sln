@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.9.12112.369 stable
+VisualStudioVersion = 18.9.12112.369
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DNA_Comparative.netcoreapp", "DNA_Comparative\DNA_Comparative.netcoreapp.vbproj", "{C0FEE9C4-0E5F-70B4-BEBA-B12E3AD0C5F2}"
 EndProject
@@ -111,8 +111,8 @@ Global
 		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{2F554A7A-0A39-41B5-A3AA-AADFC84CF5CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F554A7A-0A39-41B5-A3AA-AADFC84CF5CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F554A7A-0A39-41B5-A3AA-AADFC84CF5CA}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2F554A7A-0A39-41B5-A3AA-AADFC84CF5CA}.Debug|x64.Build.0 = Debug|Any CPU
+		{2F554A7A-0A39-41B5-A3AA-AADFC84CF5CA}.Debug|x64.ActiveCfg = Debug|x64
+		{2F554A7A-0A39-41B5-A3AA-AADFC84CF5CA}.Debug|x64.Build.0 = Debug|x64
 		{2F554A7A-0A39-41B5-A3AA-AADFC84CF5CA}.gcmodeller_desktop|Any CPU.ActiveCfg = Release|Any CPU
 		{2F554A7A-0A39-41B5-A3AA-AADFC84CF5CA}.gcmodeller_desktop|Any CPU.Build.0 = Release|Any CPU
 		{2F554A7A-0A39-41B5-A3AA-AADFC84CF5CA}.gcmodeller_desktop|x64.ActiveCfg = Release|Any CPU
