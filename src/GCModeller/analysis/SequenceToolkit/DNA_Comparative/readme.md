@@ -117,3 +117,67 @@ for 每个位置 i:
 | (C−G)/(C+G) | 链偏差曲线 | 复制起点在哪、几个起点 |
 **设计哲学**贯穿始终：用**比值（odds ratio）剥离碱基组成**、用**对称化适配双链**、用**50 kb 尺度保证统计稳定**、用**多重指标交叉验证**（签名 + 密码子偏好 + 空间成簇）来降低单一统计量的假阳性。这套方法在 1998 年是开创性的，其思想至今仍是基因组组成分析（如 HGT 检测、tetranucleotide binning）的直接源头。
 
+---
+
+## 2026 重构记录（按论文概念对齐）
+
+本项目已按上述算法讲解完成整体重构，包含**算法修正**、**缺失模块补全**、**性能优化**与**符号命名修正**四个部分。
+
+### 1. 算法错误修正
+
+| 旧实现 | 问题 | 修正后 |
+|---|---|---|
+| `DinucleotideBIAS` | 无双链对称化（论文要求序列与其反向互补拼接统计得 ρ*） | `NucleicAcid.RelativeAbundance`（对称化计数 `sym(X,Y) = f(X,Y) + f(comp(Y),comp(X))`，单趟扫描即可推出）+ 六级显著性分级 `SignatureLevels`（0.50/0.70/0.78/1.23/1.30/1.50 阈值） |
+| `GenomeSignatures.CodonSignature` | 错误地用基因组级二核苷酸 odds ratio 冒充位点特异密码子签名 | 新文件 `CodonSignature.vb`：基于基因集合统计 `ρXY(1,2) / ρYZ(2,3) / ρXZ(1,3) / ρZW(3,4)`（位点特异频率 `fXY(i,j)/[fX(i)fY(j)]`） |
+| `RelativeCodonBiases`（CAI） | 以单个 ORF 自身作参照集（CAI 恒≈1），并用三个 odds ratio 的欧氏范数冒充密码子使用频率 | 新文件 `CAI/CodonWeightTable.vb`：两步式实现——参照集 H 统计 `f^H(codon)`，`w(codon)=f^H(codon)/max_同义 f^H(·)`（XML 可持久化），`CAI(gene)=(∏wᵢ)^(1/L)` 对数几何平均 |
+| `DifferenceMeasurement.Sigma` | 5 个重复/冲突重载并存 | 合并为 `DeltaStarDistance.DeltaStar` 单一主路径（`δ*=(1/16)Σ|ρ*ᶠ−ρ*ᵍ|`） |
+
+### 2. 性能优化（面向大规模基因组数据）
+
+- **`NucleicAcid` 签名缓存重写**：旧实现为每个相邻位置创建一个 `SlideWindow(Of DNA)` 对象（5 Mb 基因组 ≈ 500 万个堆对象）+ 字符串键字典缓存。新实现为单趟 O(n) 整数计数（4 维单碱基计数 + 4×4 二核苷酸计数矩阵），零循环内堆分配；ρ* 按需从计数矩阵计算并缓存 16 维向量。
+- **滑窗 δ* 曲线增量更新**（`SlidingWindowDelta.vb`）：窗口滑动一次只 O(1) 更新进出各一个二核苷酸/单碱基，每采样点 O(16) 距离计算；旧 `GenomeSigmaDifference_p` 每窗 O(winSize) 重建缓存且比较序列被 O(n) 次重复构造，均已修复。
+- **两两比较矩阵**（`IdentityResult.DeltaStarMatrix`）：全部序列签名预构建一次复用，消除两两比较中的重复计数。
+- **并行化**：两两比较、B(F|C) 批量计算、滑窗剖面采样等均在基因/窗口级使用 PLINQ。
+
+### 3. SIMD 适用性分析结论
+
+基础库 `Microsoft.VisualBasic.Core\src\Math\SIMD`（`System.Numerics.Vector` / X86 Intrinsics，面向 Double/Single 向量）在本项目中的适用性评估：
+
+- **不适用**：本项目的热点是核酸序列的**单趟整数词频统计**（分支少、顺序内存访问的标量整数循环），Integer 计数矩阵无法从 Double 向量化模块获益；
+- **适用（已选择性应用）**：高维签名向量的平均绝对差计算（`DeltaStarDistance.MeanAbsoluteDifference`，用于密码子使用向量等 ≥64 维场景），通过 `SIMDEnvironment.IsEnabled` 运行时探测 + 向量规模阈值（64）自动回退标量路径；
+- 16 维 ρ*/δ* 距离计算保持标量（16 次迭代的循环比 SIMD 的临时数组分配更快）。
+
+### 4. 符号命名修正（论文概念对齐）
+
+| 旧名称 | 新名称 | 论文概念 |
+|---|---|---|
+| `DifferenceMeasurement.Sigma` | `DeltaStarDistance.DeltaStar` | δ*（二核苷酸相对丰度平均绝对差） |
+| `SimilarDiscriptions` | `DeltaStarLevels` | δ*×1000 六级相似度标尺 |
+| `DinucleotideBIAS` | `GenomeSignature` / `OddsRatio` | ρ*（对称化）/ ρ（原始）odds ratio |
+| `GenomeSigmaDifference_p` | `GenomeDeltaStarProfile` / `DeltaStarProfile` | 滑动窗口 δ* 曲线 |
+| `IdentityResult.SigmaMatrix` | `IdentityResult.DeltaStarMatrix` | 两两 δ* 距离矩阵 |
+| `RelativeCodonBiases` | `CodonWeightTable` | CAI 参照集 H 的 w 权重表 |
+
+### 5. 补全的 9 个算法模块与文件对照
+
+| 论文模块 | 实现 |
+|---|---|
+| 1. ρ* 基因组签名（对称化 + 显著性分级） | `NucleicAcid.vb` + `GenomeSignatures.vb` |
+| 2. δ* 距离 | `DeltaStarDistance.vb` + `DeltaStarLevels.vb` |
+| 3. 密码子位点签名 | `CodonSignature.vb`（`CodonSites.Site12/23/13/34`） |
+| 4. τ* 四核苷酸相对丰度 | `TetranucleotideBias.vb`（限制位点回避分析，如 CTAG） |
+| 5. r-scan 词空间分布检验 | `RScanWordDistribution.vb`（对接基础库 `Math.Statistics\RScan`，需 `stats-netcore5.vbproj` 引用） |
+| 6. CAI / B(F\|C) | `CAI/CodonWeightTable.vb` + `CodonBiasMeasure.vb`（`B(F|C)=Σₐpₐ(F)·Σ|f−c|`，非对称） |
+| 7. 外来基因二维阈值判别 | `AlienGeneDetection.vb`（B(g\|all)>0.42 且 B(g\|RP)>0.45 → alien；仅 B(g\|all)>0.42 → 高表达基因） |
+| 8. 滑动窗口 δ* 曲线 | `SlidingWindowDelta.vb`（增量计数，定位水平转移区/致病岛） |
+| 9. (C−G)/(C+G) 链偏差 | `ReplicationAsymmetry.vb`（`GcSkewProfile` + 复制起点符号翻转推断） |
+
+### 6. 正确性验证
+
+`test/Verify/`（独立 C# 控制台工程，不参与 NuGet 打包）包含 14 项自动化验证：ρ* 双链对称性、δ* 自比较为 0、CpG 上下文对比 δ* 放大、滑窗 δ* 外源岛峰值定位、位点特异密码子签名、CAI 高表达基因区分度、B(F|C) 自比 ≈0、τ* 限制位点回避、r-scan 成簇检验、GC 偏差符号翻转（复制起点推断）等，全部通过：
+
+```
+dotnet run --project test/Verify/Verify.csproj
+```
+
+
