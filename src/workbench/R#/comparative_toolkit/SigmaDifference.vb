@@ -76,7 +76,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.XML
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.Extensions
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -250,18 +250,6 @@ Module SigmaDifference
         Return InternalList.ToArray
     End Function
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="genes"></param>
-    ''' <returns></returns>
-    ''' <remarks>
-    ''' SpeciesID, CAI, CUBIAS_LIST
-    ''' src1
-    ''' src2
-    ''' src3
-    ''' ......
-    ''' </remarks>
     ''' <summary>
     ''' Compile the codon usage table of every species gene collection. 
     ''' The reference set of each species is its own gene collection 
@@ -625,12 +613,6 @@ Module SigmaDifference
         Return LQuery
     End Function
 
-    <ExportAPI("Compile.CAI")>
-    Public Function CompileCAIBIASCalculationThread(genes As FastaFile, Optional WorkTemp As String = "./CAI_Xml") As IO.File
-        Dim CompiledData = CompileCAIBIASCalculationThread_p(genes, WorkTemp, InternalID:=BaseName(genes.FilePath))
-        Return __compileCAI(CompiledData)
-    End Function
-
     ''' <summary>
     ''' 要求所有的文件都必须要为同一个基因组比对不同的基因组，不可以改动输出文件的文件名
     ''' </summary>
@@ -653,7 +635,7 @@ Module SigmaDifference
 
         Call CSV.Add(Head)
 
-        For Each item In data.First.Value.Table.GetCodonBiasList
+        For Each item In data.First.Table.GetCodonBiasList
             Call Head.Add(item.Value.CodonString)
         Next
 
@@ -1066,5 +1048,66 @@ Module SigmaDifference
                 "given: " & nt.GetType.FullName
             }, env)
         End If
+    End Function
+
+    <ExportAPI("Plasmid.Partitioning")>
+    Public Function PlasmidPartitioning(Besthits As SpeciesBesthit, CdsInfo As GeneTable(), Fasta As FastaSeq) As PartitioningData()
+        Dim ConservedRegions = Besthits.GetConservedRegions
+        Dim ORF = (From gene As GeneTable
+                   In CdsInfo
+                   Select gene
+                   Group By gene.locus_id Into Group) _
+                         .ToDictionary(Function(gene) gene.locus_id,
+                                       Function(gene)
+                                           Return gene.Group.First
+                                       End Function)
+        Dim Regions As List(Of String()) =
+            New List(Of String())(ConservedRegions) + From id As String
+                                                      In Besthits.GetUnConservedRegions(ConservedRegions)
+                                                      Select New String() {id}
+        Dim LQuery As PartitioningData() =
+            LinqAPI.Exec(Of PartitioningData) <= From ls As String()
+                                                 In Regions
+                                                 Let pos As Integer() = (From id As String
+                                                                         In ls
+                                                                         Let nn As GeneTable = ORF(id)
+                                                                         Select {nn.left, nn.right}).ToVector
+                                                 Let left As Integer = pos.Min
+                                                 Let right As Integer = pos.Max
+                                                 Select New PartitioningData With {
+                                                     .GenomeID = Fasta.Title,
+                                                     .ORFList = ls,
+                                                     .PartitioningTag = String.Join(", ", ls),
+                                                     .LociLeft = left,
+                                                     .LociRight = right,
+                                                     .SequenceData = Fasta.CutSequenceLinear(left, right).SequenceData
+                                                 }
+        Return LQuery.OrderBy(Function(x) x.PartitioningTag).ToArray
+    End Function
+
+    <ExportAPI("Plasmid.DeltaMatrix")>
+    Public Function CreateDeltaMatrix(partitions As IEnumerable(Of PartitioningData)) As File
+        Dim df As New IO.File
+        Dim cache = (From part As PartitioningData In partitions Select CacheData = New NucleicAcid(part.SequenceData), part).ToArray ' 因为要保持一一对应关系，所以这里不可以使用并行化拓展了
+        Dim y As NucleicAcid() = cache.Select(Function(x) x.CacheData).ToArray
+
+        df += ("X/Y" + (From part As PartitioningData In partitions Select part.PartitioningTag).AsList)
+        df += From x In cache
+              Let cols As List(Of String) =
+                  __generateCols(x.CacheData, y)
+              Select __row(x.part, cols) ' 因为要保持一一对应关系，所以这里不可以使用并行化拓展了
+        Return df
+    End Function
+
+    Private Function __generateCols(x As NucleicAcid, cache As IEnumerable(Of NucleicAcid)) As List(Of String)
+        Return LinqAPI.MakeList(Of String) <= From y As NucleicAcid
+                                              In cache
+                                              Let n As Double = 1000 * DeltaStarDistance.DeltaStar(x, y)
+                                              Select CStr(CInt(n))
+    End Function
+
+    Private Function __row(item As PartitioningData, cols As List(Of String)) As RowObject
+        Dim row As New RowObject(item.PartitioningTag + cols)
+        Return row
     End Function
 End Module
