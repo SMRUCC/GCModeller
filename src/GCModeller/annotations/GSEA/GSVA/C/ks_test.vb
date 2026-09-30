@@ -136,7 +136,7 @@ Namespace C
         '''    集内基因贡献 <paramref name="symrnkstat"/>`^tau 的步长，集外基因贡献步长 1
         ''' 2. 两条步长序列各自做前缀和并按末元素归一
         ''' 3. 游走统计量 = 集内归一前缀和 - 集外归一前缀和
-        ''' 4. 由最大正偏差 <paramref name="mx_pos"/> 与最大负偏差 <paramref name="mx_neg"/> 聚合出富集分数
+        ''' 4. 由最大正偏差 "mx_pos" 与最大负偏差 "mx_neg" 聚合出富集分数
         ''' </remarks>
         Private Function ks_sample(symrnkstat As Double(),
                                    decordstat As Integer(),
