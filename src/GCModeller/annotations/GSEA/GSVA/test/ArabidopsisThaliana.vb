@@ -585,7 +585,7 @@ Public Module ArabidopsisThalianaTest
     Private Iterator Function loadKEGGClusters() As IEnumerable(Of Cluster)
         Using file = $"{dataDir}/ath.db".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             Using pack As New StreamPack(file, [readonly]:=True)
-                Dim pathways As StreamGroup = pack.GetObject("/pathways/")
+                Dim pathways As StreamGroup = DirectCast(pack.GetObject("/pathways/"), StreamGroup)
 
                 For Each cl In loadKEGGClusters(pack, pathways)
                     Yield cl

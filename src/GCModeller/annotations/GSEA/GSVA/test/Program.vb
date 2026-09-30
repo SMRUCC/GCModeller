@@ -101,7 +101,7 @@ Module Program22222
             .name = name,
             .[alias] = {name},
             .locus_tag = New NamedValue With {.name = name, .text = name},
-            .term_id = BackgroundGene.UnknownTerms(name)
+            .term_id = BackgroundGene.UnknownTerms(name).ToArray
         }
 
     End Function
