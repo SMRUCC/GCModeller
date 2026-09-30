@@ -93,7 +93,7 @@ Partial Module Utilities
             .Select(AddressOf GBFF.File.Load) _
             .ToArray
         Dim matrix As IdentityResult() = IdentityResult _
-            .SigmaMatrix(genomes) _
+            .DeltaStarMatrix(genomes) _
             .ToArray
         Return matrix.SaveTo(out).CLICode
     End Function
@@ -121,7 +121,7 @@ Partial Module Utilities
                     writer.WriteLine("title=," & nt.Title)
 
                     For Each segment As DeltaSimilarity1998.NucleicAcid In ntModel.CreateFragments(winSize, [step]:=steps)
-                        dist = DifferenceMeasurement.Sigma(rulerModel, segment)
+                        dist = DeltaStarDistance.DeltaStar(rulerModel, segment)
                         writer.WriteLine(dist)
                     Next
                 End Using
@@ -149,14 +149,14 @@ Partial Module Utilities
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Sigma", Usage:="/Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
-    <Description("Create a distance similarity matrix for the input sequence.")>
+    <ExportAPI("/DeltaStar", Usage:="/DeltaStar /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
+    <Description("Create a delta* distance similarity matrix for the input sequence.")>
     <ArgumentAttribute("/simple", True, CLITypes.Boolean, AcceptTypes:={GetType(Boolean)},
               Description:="Just use a simple tag for generated data vector or the full fasta sequence title if this argument is not presented in cli input.")>
     <Group(CLIGrouping.DNA_ComparativeTools)>
-    Public Function Sigma(args As CommandLine) As Integer
+    Public Function DeltaStar(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim out As String = args("/out") Or ([in].TrimSuffix & ".Sigma.Csv")
+        Dim out As String = args("/out") Or ([in].TrimSuffix & ".DeltaStar.Csv")
         Dim fasta As New FastaFile([in])
         Dim simple As Boolean = args("/simple")
         Dim round As Integer = args("/round") Or -1
@@ -173,7 +173,7 @@ Partial Module Utilities
         Using writer As New WriteStream(Of IdentityResult)(out, metaKeys:=keys)
             ' 在这里是序列之间两两比较，创建一个相似度的矩阵
             ' 矩阵之中的值越小，距离越近
-            For Each seqVal As IdentityResult In IdentityResult.SigmaMatrix(fasta, round, simple)
+            For Each seqVal As IdentityResult In IdentityResult.DeltaStarMatrix(fasta, round, simple)
                 Call writer.Flush(seqVal)
             Next
 
@@ -182,35 +182,23 @@ Partial Module Utilities
     End Function
 
     ''' <summary>
-    ''' 基因组的密码子偏好性计算
+    ''' Build the CAI w weight table from the reference high-expression gene set H.
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/CAI", Usage:="/CAI /ORF <orf_nt.fasta> [/out <out.XML>]")>
-    <ArgumentAttribute("/ORF", False, CLITypes.File,
+    <ExportAPI("/CAI", Usage:="/CAI /reference <highly_expr_gene_set.fasta> [/out <out.XML>]")>
+    <ArgumentAttribute("/reference", False, CLITypes.File,
               PipelineTypes.std_in,
-              AcceptTypes:={GetType(FastaFile), GetType(FastaSeq)},
-              Description:="If the target fasta file contains multiple sequence, then the CAI table xml will output to a folder or just output to a xml file if only one sequence in thye fasta file.")>
+              AcceptTypes:={GetType(FastaFile)},
+              Description:="A fasta file of the reference high-expression gene set H (e.g. the ribosomal protein genes). The CAI w weight table will be calculated and exported as the xml document.")>
     <Group(CLIGrouping.DNA_ComparativeTools)>
     Public Function CAI(args As CommandLine) As Integer
-        Dim orf$ = args <= "/ORF"
+        Dim orf$ = args <= "/reference"
+        Dim out$ = args.GetValue("/out", orf.TrimSuffix & "_CodonAdaptationIndex.XML")
         Dim fasta As New FastaFile(orf)
+        Dim wTable As New CodonWeightTable(fasta, name:=orf.BaseName)
+        Dim table As New CodonAdaptationIndex(wTable)
 
-        If fasta.Count = 1 Then
-            Dim out$ = args.GetValue("/out", orf.TrimSuffix & "_CodonAdaptationIndex.XML")
-            Dim prot As FastaSeq = fasta.First
-            Dim table As New CodonAdaptationIndex(New RelativeCodonBiases(prot))
-            Return table.SaveAsXml(out).CLICode
-        Else
-            Dim out$ = args.GetValue("/out", orf.TrimSuffix & "_CodonAdaptationIndex/")
-
-            For Each prot As FastaSeq In fasta
-                Dim table As New CodonAdaptationIndex(New RelativeCodonBiases(prot))
-                Dim path$ = out & "/" & prot.Title.NormalizePathString & ".XML"
-                Call table.SaveAsXml(path)
-            Next
-
-            Return 0
-        End If
+        Return table.GetXml.SaveTo(out).CLICode
     End Function
 End Module

@@ -1,59 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d0a3d26f369f2a10c046e4557a399fa, analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 127
-    '    Code Lines: 89 (70.08%)
-    ' Comment Lines: 19 (14.96%)
-    '    - Xml Docs: 89.47%
-    ' 
-    '   Blank Lines: 19 (14.96%)
-    '     File Size: 4.75 KB
-
-
-    ' Class IdentityResult
-    ' 
-    '     Properties: Identities, SeqId
-    ' 
-    '     Function: (+2 Overloads) SigmaMatrix, SimpleTag, ToString
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -63,7 +8,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
-''' 核酸序列的一致性的计算结果
+''' The pairwise delta-difference calculation result of the nucleotide sequences.
 ''' </summary>
 Public Class IdentityResult : Implements INamedValue
 
@@ -80,12 +25,18 @@ Public Class IdentityResult : Implements INamedValue
 
     ''' <summary>
     ''' 直接使用整条序列来进行计算
+    ''' 
+    ''' (compatible rename of the legacy ``SigmaMatrix``: 
+    ''' ``Sigma`` follows the paper's ``delta*`` symbol)
     ''' </summary>
     ''' <param name="source"></param>
     ''' <param name="round"></param>
     ''' <param name="simple"></param>
     ''' <returns></returns>
-    Public Shared Iterator Function SigmaMatrix(source As FastaFile, Optional round% = -1, Optional simple As Boolean = True) As IEnumerable(Of IdentityResult)
+    Public Shared Function DeltaStarMatrix(source As FastaFile, Optional round% = -1, Optional simple As Boolean = True) As IdentityResult()
+        ' pre-build all of the signature caches once: every pairwise comparison 
+        ' then only costs a 16-dim vector distance (the legacy implementation 
+        ' re-counted the sequences for every pair)
         Dim nts As NucleicAcid() = source.Select(Function(seq) New NucleicAcid(seq)).ToArray
         Dim getTag As Func(Of NucleicAcid, String)
 
@@ -103,16 +54,18 @@ Public Class IdentityResult : Implements INamedValue
             getValue = Function(r) Math.Round(r, round)
         End If
 
+        Dim results As New List(Of IdentityResult)
+
         For Each nt As NucleicAcid In nts
             Dim result = LinqAPI.MakeList(Of NamedValue(Of Double)) <=
  _
                 From x As NucleicAcid
                 In nts.AsParallel
                 Where Not x Is nt  ' 由于是自己的全长序列与自己的全长序列进行比较，二者一致，故而距离为0，这里为了节省时间就不做计算了
-                Let sigma As Double = DifferenceMeasurement.Sigma(nt, x)
+                Let deltaStar As Double = DeltaStarDistance.DeltaStar(nt, x)
                 Select New NamedValue(Of Double) With {
                     .Name = getTag(x),
-                    .Value = getValue(sigma * 1000)
+                    .Value = getValue(deltaStar * 1000)
                 }
 
             ' 自己与自己相互进行比较肯定是0距离的
@@ -124,11 +77,13 @@ Public Class IdentityResult : Implements INamedValue
 
             Call nt.UserTag.debug
 
-            Yield New IdentityResult With {
+            results.Add(New IdentityResult With {
                 .Identities = result.ToDictionary(Function(x) x.Name, Function(x) x.Value),
                 .SeqId = nt.UserTag
-            }
+            })
         Next
+
+        Return results.ToArray
     End Function
 
     ''' <summary>
@@ -138,8 +93,9 @@ Public Class IdentityResult : Implements INamedValue
     ''' <param name="round%"></param>
     ''' <param name="simple"></param>
     ''' <returns></returns>
-    Public Shared Iterator Function SigmaMatrix(source As IEnumerable(Of GBFF.File), Optional round% = -1, Optional simple As Boolean = True) As IEnumerable(Of IdentityResult)
+    Public Shared Function DeltaStarMatrix(source As IEnumerable(Of GBFF.File), Optional round% = -1, Optional simple As Boolean = True) As IdentityResult()
         Dim data As GBFF.File() = source.ToArray
+        ' pre-build all of the genome signature caches once
         Dim nts As NucleicAcid() = data.Select(Function(x) New NucleicAcid(x.Origin.ToFasta)).ToArray
         Dim getTag As Func(Of NucleicAcid, String)
 
@@ -157,26 +113,31 @@ Public Class IdentityResult : Implements INamedValue
             getValue = Function(r) Math.Round(r, round)
         End If
 
-        For Each genome As GBFF.File In data
+        Dim results As New List(Of IdentityResult)
+
+        For i As Integer = 0 To data.Length - 1
+            Dim genome As GBFF.File = data(i)
             Dim rule As New NucleicAcid(genome.dnaA_gyrB)
             Dim result = LinqAPI.MakeList(Of NamedValue(Of Double)) <=
  _
               From x As NucleicAcid
               In nts.AsParallel
-              Let sigma As Double = DifferenceMeasurement.Sigma(rule, x)
+              Let deltaStar As Double = DeltaStarDistance.DeltaStar(rule, x)
               Select New NamedValue(Of Double) With {
                   .Name = getTag(x),
-                  .Value = getValue(sigma * 1000)
+                  .Value = getValue(deltaStar * 1000)
               }
 
             Call rule.UserTag.debug
 
-            Yield New IdentityResult With {
+            results.Add(New IdentityResult With {
                 .Identities = result _
                     .ToDictionary(Function(x) x.Name,
                                   Function(x) x.Value),
                 .SeqId = rule.UserTag
-            }
+            })
         Next
+
+        Return results.ToArray
     End Function
 End Class

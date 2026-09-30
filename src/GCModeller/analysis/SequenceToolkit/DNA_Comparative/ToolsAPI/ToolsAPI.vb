@@ -1,64 +1,5 @@
-﻿#Region "Microsoft.VisualBasic::7a55baba0cd52a76cb7e9e3159c0902a, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 233
-    '    Code Lines: 189 (81.12%)
-    ' Comment Lines: 21 (9.01%)
-    '    - Xml Docs: 85.71%
-    ' 
-    '   Blank Lines: 23 (9.87%)
-    '     File Size: 12.59 KB
-
-
-    ' Module ToolsAPI
-    ' 
-    '     Function: __compileCAIBIASCalculationThread, __createTable, __echo, __regionMetaParser, CAI
-    '               CompileCAIBIASCalculationThread_p, CreateSimplePartition, GenomeSigmaDifference_p, PartitioningDataFromFasta, SaveCAI
-    ' 
-    ' Structure Cache
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
@@ -67,21 +8,19 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.XML
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.genomics.SequenceModel.Slicer
 
-<Package("ComparativeGenomics.Sigma-Difference",
-                    Description:="Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.",
-                    Cites:="Karlin, S., et al. (1998). ""Comparative DNA analysis across diverse genomes."" Annu Rev Genet 32: 185-225.
-	We review concepts and methods for comparative analysis of complete genomes including assessments of genomic compositional contrasts based on dinucleotide and tetranucleotide relative abundance values, identifications of rare and frequent oligonucleotides, evaluations and interpretations of codon biases in several large prokaryotic genomes, and characterizations of compositional asymmetry between the two DNA strands in certain bacterial genomes. The discussion also covers means for identifying alien (e.g. laterally transferred) genes and detecting potential specialization islands in bacterial genomes.
-
-", Publisher:="xie.guigang@gcmodeller.org")>
+<Package("ComparativeGenomics.DeltaStar",
+                    Description:="Calculates the nucleotide sequence delta-similarity to measure how closed between the two sequence.",
+                    Cites:="Karlin, S., et al. (1998). ""Comparative DNA analysis across diverse genomes."" Annu Rev Genet 32: 185-225.",
+                    Publisher:="xie.guigang@gcmodeller.org")>
 <Cite(Title:="Comparative DNA analysis across diverse genomes",
       Journal:="Annu Rev Genet", PubMed:=9928479,
       Pages:="185-225",
@@ -160,7 +99,7 @@ Public Module ToolsAPI
     <ExportAPI("PartitioningData.From.Fasta")>
     Public Function PartitioningDataFromFasta(<Parameter("Path.Nt.Fasta")> Fasta As String) As PartitioningData()
         Dim FastaFile As FastaFile = FastaFile.Read(Fasta)
-        Dim LQuery = (From FastaObject In FastaFile.AsParallel Select __regionMetaParser(FastaObject)).ToArray
+        Dim LQuery = (From FastaObject In FastaFile.AsParallel Select regionMetaParser(FastaObject)).ToArray
         Return LQuery
     End Function
 
@@ -170,7 +109,8 @@ Public Module ToolsAPI
     ''' <param name="Fasta">>Region1(1492-6218)</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function __regionMetaParser(Fasta As FastaSeq) As PartitioningData
+    ''' 
+    Private Function regionMetaParser(Fasta As FastaSeq) As PartitioningData
         Dim Loci As Integer() = (From m As Match
                                  In Regex.Matches(Regex.Match(Fasta.Title, "\(\d+[-]\d+\)").Value, "\d+")
                                  Select CInt(Val(m.Value))).ToArray
@@ -185,106 +125,97 @@ Public Module ToolsAPI
         Return pData
     End Function
 
-    <ExportAPI("CAI")>
-    Public Function CAI(ORF As FastaSeq) As CodonAdaptationIndex
-        Return New CodonAdaptationIndex(New RelativeCodonBiases(ORF))
-    End Function
-
+    ''' <summary>
+    ''' Save the CAI w weight table as an xml document.
+    ''' </summary>
+    ''' <param name="dat"></param>
+    ''' <param name="saveXml"></param>
+    ''' <returns></returns>
     <ExportAPI("write.xml.cai")>
-    Public Function SaveCAI(dat As CodonAdaptationIndex, saveXml As String) As Boolean
+    Public Function SaveCAI(dat As CAI.XML.CodonAdaptationIndex, saveXml As String) As Boolean
         Return dat.GetXml.SaveTo(saveXml)
     End Function
 
-    Public Function __compileCAIBIASCalculationThread(gene_source As FastaFile, WorkTemp As String, InternalID As String) As KeyValuePair(Of String, CodonAdaptationIndex)()
-        Dim ResultList = New List(Of KeyValuePair(Of String, CodonAdaptationIndex))
-
-        For i As Integer = 0 To gene_source.Count - 1
-            Dim Sequence As FastaSeq = gene_source(i)
-            Dim Path As String = String.Format("({0}){1}", InternalID, Sequence.Headers.First.NormalizePathString)
-            Dim SeqID As String = Path
-            Dim CAIData As CodonAdaptationIndex
-
-            Path = WorkTemp & "/" & Path & ".xml"
-
-            If FileIO.FileSystem.FileExists(Path) Then
-                CAIData = Path.LoadXml(Of CodonAdaptationIndex)()
-            Else
-                CAIData = New CodonAdaptationIndex(New RelativeCodonBiases(Sequence))
-                Call CAIData.GetXml.SaveTo(Path)
-            End If
-
-            Call ResultList.Add(New KeyValuePair(Of String, CodonAdaptationIndex)(SeqID, CAIData))
-            Call Console.Write("{0}  ==>{1}%", SeqID, i / gene_source.Count * 100)
-        Next
-
-        Return ResultList.ToArray
-    End Function
-
-    Public Function CompileCAIBIASCalculationThread_p(gene_source As FastaFile, WorkTemp As String, InternalID As String) As KeyValuePair(Of String, CodonAdaptationIndex)()
-        Dim ResultList = (From Sequence As FastaSeq
-                          In gene_source.AsParallel
-                          Let Path As String = String.Format("({0}){1}", InternalID, Sequence.Headers.First.NormalizePathString)
-                          Let SeqID As String = Path
-                          Let CAIData As CodonAdaptationIndex = __createTable(WorkTemp, Path, Sequence, SeqID)
-                          Select New KeyValuePair(Of String, CodonAdaptationIndex)(SeqID, CAIData)).ToArray
-        Return ResultList.ToArray
-    End Function
-
-    Private Function __createTable(workTMP As String, path As String, Sequence As FastaSeq, seqId As String) As CodonAdaptationIndex
-        Dim XMLPath = workTMP & "/" & path & ".xml"
-        Dim da As CodonAdaptationIndex
-
-        If FileIO.FileSystem.FileExists(XMLPath) Then
-            da = XMLPath.LoadXml(Of CodonAdaptationIndex)()
-        Else
-            da = New CodonAdaptationIndex(New RelativeCodonBiases(Sequence))
-            Call da.GetXml.SaveTo(XMLPath)
-        End If
-
-        Call $"""{seqId}"" job done!!!".debug
-
-        Return da
+    ''' <summary>
+    ''' Load the CAI w weight table from the xml document.
+    ''' </summary>
+    ''' <param name="xmlPath"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.xml.cai")>
+    Public Function LoadCAI(xmlPath As String) As CAI.XML.CodonAdaptationIndex
+        Return xmlPath.LoadXml(Of CAI.XML.CodonAdaptationIndex)()
     End Function
 
     ''' <summary>
-    ''' 并行版本的计算函数
+    ''' Build the CAI w weight table from a reference gene set H 
+    ''' (highly expressed genes, e.g. the ribosomal protein genes).
+    ''' </summary>
+    ''' <param name="referenceGenes"></param>
+    ''' <param name="code"></param>
+    ''' <param name="name"></param>
+    ''' <returns></returns>
+    <ExportAPI("CAI.Reference.Build")>
+    Public Function BuildCAIReference(referenceGenes As FastaFile,
+                                      Optional code As GeneticCodes = GeneticCodes.StandardCode,
+                                      Optional name As String = Nothing) As CodonWeightTable
+        Return New CodonWeightTable(referenceGenes, code, name)
+    End Function
+
+    ''' <summary>
+    ''' Evaluate the codon adaptation index of the given gene against the 
+    ''' w weight table.
+    ''' </summary>
+    ''' <param name="gene"></param>
+    ''' <param name="reference">w weight table built from the reference gene set H</param>
+    ''' <returns></returns>
+    <ExportAPI("CAI.Evaluate")>
+    Public Function CAI(gene As FastaSeq, reference As CodonWeightTable) As Double
+        Return gene.CAI(reference)
+    End Function
+
+    ''' <summary>
+    ''' Sliding window delta* profile: the delta-difference between each local 
+    ''' window of the genome and the comparison sequence.
+    ''' 
+    ''' PERFORMANCE: implemented with the incremental window count matrix 
+    ''' (O(1) update per slide + O(16) distance per sample), and the comparison 
+    ''' sequence signature is built only once. This replaces the legacy 
+    ''' ``GenomeSigmaDifference_p`` which rebuilt the window and the comparison 
+    ''' sequence caches O(n) times.
     ''' </summary>
     ''' <param name="genome"></param>
-    ''' <param name="windowsSize">默认为1kb的长度</param>
-    ''' <returns></returns>
+    ''' <param name="compare"></param>
+    ''' <param name="windowsSize">default 1kb window size</param>
+    ''' <returns>profile rows ordered by the site position</returns>
     ''' <remarks></remarks>
     ''' 
-    <ExportAPI("genome.sigma_diff")>
-    Public Function GenomeSigmaDifference_p(genome As FastaSeq, compare As FastaSeq, Optional windowsSize As Integer = 1000) As SiteSigma()
-        Call Console.WriteLine("Start to create slide window for difference calculation.")
-        Dim Windows = New NucleotideModels.NucleicAcid(genome).ToArray.CreateSlideWindows(windowsSize)
-        Call Console.WriteLine("Creation job done!")
-        Call Console.WriteLine("Start to create the sigma data collection...")
+    <ExportAPI("genome.delta_star_profile")>
+    Public Function GenomeDeltaStarProfile(genome As FastaSeq, compare As FastaSeq, Optional windowsSize As Integer = 1000) As SiteSigma()
+        Call Console.WriteLine("Start the sliding window delta* profile calculation...")
 
-        Using pb As New CBusyIndicator(start:=True)
-            Dim LQuery = (From segment In Windows.AsParallel
-                          Let x = New NucleotideModels.NucleicAcid(segment.Items)
-                          Let y = New NucleotideModels.NucleicAcid(compare)
-                          Let Sigma = DifferenceMeasurement.Sigma(x, y)
-                          Let p = New SiteSigma With {
-                              .Site = __echo(segment, Windows.Count),
-                              .Sigma = Sigma,
-                              .Similarity = DifferenceMeasurement.SimilarDescription(Sigma)
-                          }
-                          Select p
-                          Order By p.Site Ascending).ToArray
-            Call Console.WriteLine("[JOB DONE!] Generating output document...")
-            Return LQuery
-        End Using
+        Dim reference As New DeltaSimilarity1998.NucleicAcid(compare)
+        Dim profile As WindowDelta() = New DeltaSimilarity1998.NucleicAcid(genome) _
+            .DeltaStarProfile(reference, windowSize:=windowsSize, stepSize:=1)
+        Dim rows As SiteSigma() = profile _
+            .Select(Function(w)
+                        Return New SiteSigma With {
+                            .Site = w.Site,
+                            .DeltaStar = w.DeltaStar,
+                            .Level = w.Level
+                        }
+                    End Function) _
+            .ToArray
+
+        Call Console.WriteLine("[JOB DONE!] delta* profile created.")
+
+        Return rows
     End Function
-
-    Private Function __echo(segment As SlideWindow(Of DNA), numWins As Integer) As Integer
-        Call $"{100 * segment.Index / numWins}%".debug
-        Return segment.Index
-    End Function
-
 End Module
 
+''' <summary>
+''' The sliding window calculation cache. 
+''' (kept for the legacy script compatibility)
+''' </summary>
 Public Structure Cache
     Dim SlideWindow As SlideWindow(Of DNA)
     Dim Cache As DeltaSimilarity1998.NucleicAcid

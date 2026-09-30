@@ -142,11 +142,11 @@ Module SigmaDifference
         Dim CompareCache = New DeltaSimilarity1998.NucleicAcid(compare)
         Call "Compare cache creating job done!".debug
         Dim LQuery = (From segment As Cache In cache
-                      Let Sigma = DifferenceMeasurement.Sigma(segment.Cache, CompareCache)
+                      Let DeltaStar = DeltaStarDistance.DeltaStar(segment.Cache, CompareCache)
                       Select New SiteSigma With {
                           .Site = segment.SlideWindow.Index,
-                          .Sigma = Sigma,
-                          .Similarity = DifferenceMeasurement.SimilarDescription(Sigma)}).ToArray
+                          .DeltaStar = DeltaStar,
+                          .Level = DeltaStarDistance.DeltaStarLevel(DeltaStar)}).ToArray
         Return LQuery
     End Function
 
@@ -192,7 +192,7 @@ Module SigmaDifference
         Dim InternalList As New List(Of KeyValuePair(Of String, String))
 
         For Each paired In pairedList
-            Dim sigma = GenomeSigmaDifference_p(paired.Item1, paired.Item2, windowsSize)
+            Dim sigma = GenomeDeltaStarProfile(paired.Item1, paired.Item2, windowsSize)
             Call Console.WriteLine("[DEBUG] Calculation job done, trying to export data to filesystem " & EXPORT)
             Dim f = paired.Item1.Title, g = paired.Item2.Title
             Dim dat = New KeyValuePair(Of String, String)(f.Split(CChar("|")).First, g.Split(CChar("|")).First)
@@ -239,7 +239,7 @@ Module SigmaDifference
         Dim InternalList As New List(Of KeyValuePair(Of String, String))
 
         For Each paired In paireds
-            Dim sigma = GenomeSigmaDifference_p(paired.Item1, paired.Item2, windowsSize)
+            Dim sigma = GenomeDeltaStarProfile(paired.Item1, paired.Item2, windowsSize)
             Call Console.WriteLine("[DEBUG] Calculation job done, trying to export data to filesystem " & EXPORT)
             Dim f = paired.Item1.Title, g = paired.Item2.Title
             Dim dat = New KeyValuePair(Of String, String)(f.Split(CChar("|")).First, g.Split(CChar("|")).First)
@@ -262,6 +262,22 @@ Module SigmaDifference
     ''' src3
     ''' ......
     ''' </remarks>
+    ''' <summary>
+    ''' Compile the codon usage table of every species gene collection. 
+    ''' The reference set of each species is its own gene collection 
+    ''' (for a real high-expression reference set use 
+    ''' <see cref="ToolsAPI.BuildCAIReference"/> with the ribosomal protein genes).
+    ''' </summary>
+    ''' <param name="genes"></param>
+    ''' <param name="workTEMP"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' SpeciesID, CAI, CUBIAS_LIST
+    ''' src1
+    ''' src2
+    ''' src3
+    ''' ......
+    ''' </remarks>
     <ExportAPI("compile.cai")>
     Public Function CompileCABIAS(genes As String, Optional workTEMP As String = "./CAI_Xml") As IO.File
         Dim LQueryLoadFasta = (From path As String
@@ -271,8 +287,15 @@ Module SigmaDifference
                                Select ID = BaseName(path),
                                    FASTA)
         Dim CAILQuery = (From item In LQueryLoadFasta.AsParallel
-                         Let InternalId As String = item.ID
-                         Select __compileCAIBIASCalculationThread(item.FASTA, workTEMP, InternalId)).ToVector
+                         Let wTable As CodonWeightTable = New CodonWeightTable(item.FASTA, name:=item.ID)
+                         Let meanCAI As Double = item.FASTA _
+                             .Select(Function(gene) gene.CAI(wTable)) _
+                             .Where(Function(x) x > 0) _
+                             .DefaultIfEmpty(-1) _
+                             .Average
+                         Select ID = item.ID,
+                             MeanCAI = meanCAI,
+                             Table = New CAI.XML.CodonAdaptationIndex(wTable)).ToVector
 
         Dim Csv = __compileCAI(data:=CAILQuery)
         Return Csv
@@ -344,8 +367,8 @@ Module SigmaDifference
             For Each item In Data
                 Dim Line = item(i)
                 Call Row.Add("")
-                Call Row.Add(Line.Sigma)
-                Call Row.Add(Line.Similarity)
+                Call Row.Add(Line.DeltaStar)
+                Call Row.Add(Line.Level)
             Next
 
             Call File.Add(Row)
@@ -423,7 +446,7 @@ Module SigmaDifference
                 For i As Integer = 0 To Ddf.Length - 2
                     Dim Partition As DynamicObjectLoader = Ddf(i)
                     Dim Sequence As New NucleotideModels.NucleicAcid(PartitionData(i).ToFasta)
-                    Dim Delta As Double = DifferenceMeasurement.Sigma(Sequence, RuleSegment) * 1000
+                    Dim Delta As Double = DeltaStarDistance.DeltaStar(Sequence, RuleSegment) * 1000
                     Call Partition.SetAttributeValue(locus.Name, Delta)
                 Next
 
@@ -508,8 +531,8 @@ Module SigmaDifference
             For Each item In LQuery
                 Dim Line = item.Value(i)
                 Call Row.Add("")
-                Call Row.Add(Line.Sigma)
-                Call Row.Add(Line.Similarity)
+                Call Row.Add(Line.DeltaStar)
+                Call Row.Add(Line.Level)
             Next
 
             Call File.Add(Row)
@@ -571,8 +594,8 @@ Module SigmaDifference
                 Dim cols = (From id As String In sitesData(i).Value Select LoadCRendering(QueryName:=id, HitSpecies:=item.Key)).ToArray
 
                 Call row.Add("")
-                Call row.Add(rData.Sigma)
-                Call row.Add(rData.Similarity.ToString)
+                Call row.Add(rData.DeltaStar)
+                Call row.Add(rData.Level.ToString)
 
                 Call row.Add(String.Join("; ", cols))
             Next
@@ -595,8 +618,8 @@ Module SigmaDifference
         Dim LQuery = (From site In delta Let querySite = querySites(site.Site)
                       Select New SegmentRenderData With {
                           .Site = site.Site,
-                          .Similarity = site.Similarity,
-                          .Sigma = site.Sigma,
+                          .Level = site.Level,
+                          .DeltaStar = site.DeltaStar,
                           .QueryId = querySite.Value,
                           .SubjectId = (From id As String In querySite.Value Select render(QueryName:=id, HitSpecies:=UID))}).ToArray
         Return LQuery
@@ -624,19 +647,19 @@ Module SigmaDifference
         Return __mergeDelta(LoadData, query, render_source, saveto, samples)
     End Function
 
-    Private Function __compileCAI(data As IEnumerable(Of KeyValuePair(Of String, CodonAdaptationIndex))) As IO.File
+    Private Function __compileCAI(data As IEnumerable(Of (ID As String, MeanCAI As Double, Table As CAI.XML.CodonAdaptationIndex))) As IO.File
         Dim CSV As IO.File = New IO.File
         Dim Head = New IO.RowObject From {"SpeciesID", "CAI"}
 
         Call CSV.Add(Head)
 
-        For Each item In data.First.Value.GetCodonBiasList
+        For Each item In data.First.Value.Table.GetCodonBiasList
             Call Head.Add(item.Value.CodonString)
         Next
 
         For Each item In data
-            Dim row As New IO.RowObject From {item.Key, item.Value.CAI}
-            Dim biasData = item.Value.GetCodonBiasList
+            Dim row As New IO.RowObject From {item.ID, item.MeanCAI}
+            Dim biasData = item.Table.GetCodonBiasList
 
             For i As Integer = 0 To biasData.Length - 1
                 Call row.Add(biasData(i).Value.Bias)
@@ -857,16 +880,17 @@ Module SigmaDifference
     End Function
 
     ''' <summary>
-    ''' 并行版本的计算函数
+    ''' Sliding window delta* profile: the delta-difference between each local 
+    ''' window of the genome and the comparison sequence.
     ''' </summary>
     ''' <param name="genome"></param>
     ''' <param name="windowsSize">默认为1kb的长度</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' 
-    <ExportAPI("genome.sigma_diff")>
-    Public Function GenomeSigmaDifference_p(genome As FastaSeq, compare As FastaSeq, Optional windowsSize As Integer = 1000) As SiteSigma()
-        Return ToolsAPI.GenomeSigmaDifference_p(genome, compare, windowsSize)
+    <ExportAPI("genome.delta_star_profile")>
+    Public Function GenomeDeltaStarProfile(genome As FastaSeq, compare As FastaSeq, Optional windowsSize As Integer = 1000) As SiteSigma()
+        Return ToolsAPI.GenomeDeltaStarProfile(genome, compare, windowsSize)
     End Function
 
     ''' <summary>
@@ -887,7 +911,7 @@ Module SigmaDifference
                                    In data.Sequence
                                    Let pInfo2 As PartitioningData = data(j)
                                    Let nt2 = New NucleotideModels.NucleicAcid(pInfo2)
-                                   Let Delta As String = (1000 * DeltaSimilarity1998.Sigma(nt1, nt2)).ToString
+                                   Let Delta As String = (1000 * DeltaStarDistance.DeltaStar(nt1, nt2)).ToString
                                    Select Idx = i, j, Delta)).Unlist '为了保证顺序，这里也不可以使用并行化
 
         For Each Row In DeltaLQuery
@@ -977,7 +1001,7 @@ Module SigmaDifference
 
         For Each Partition As DynamicObjectLoader In Df.CreateDataSource
             Dim Sequence = New NucleotideModels.NucleicAcid(partition_data(i).ToFasta)
-            Dim Delta As Double = DifferenceMeasurement.Sigma(Sequence, RuleSegment) * 1000
+            Dim Delta As Double = DeltaStarDistance.DeltaStar(Sequence, RuleSegment) * 1000
             Partition.SetAttributeValue(rule.Title, Delta)
             i += 1
         Next
@@ -1000,18 +1024,18 @@ Module SigmaDifference
     ''' is the average absolute dinucleotide relative abundance difference calculated as
     '''
     ''' ```
-    ''' sigma(f, g) = (1/16)*∑|pXY(f)-pXY(g)|
+    ''' delta*(f, g) = (1/16)*SUM|rho*XY(f) - rho*XY(g)|
     ''' ```
     ''' 
-    ''' where the sum extends over all dinucleotides (abbreviated sigma-differences).
+    ''' where the sum extends over all dinucleotides.
     ''' </summary>
     ''' <param name="f"></param>
     ''' <param name="g"></param>
     ''' <returns></returns>
-    <ExportAPI("sigma")>
-    Public Function Sigma(f As FastaSeq, g As FastaSeq) As vector
-        Dim dist As Double = DifferenceMeasurement.Sigma(f, g)
-        Dim desc As String = DifferenceMeasurement.SimilarDescription(dist).ToString
+    <ExportAPI("delta_star")>
+    Public Function DeltaStar(f As FastaSeq, g As FastaSeq) As vector
+        Dim dist As Double = DeltaStarDistance.DeltaStar(f, g)
+        Dim desc As String = DeltaStarDistance.DeltaStarLevel(dist).ToString
 
         Return vector.asVector({dist}, New unit(desc))
     End Function

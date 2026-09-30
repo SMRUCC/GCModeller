@@ -1526,15 +1526,15 @@ End Function
 
 ''' <summary>
 ''' ```bash
-''' /Sigma /in &lt;in.fasta&gt; [/out &lt;out.Csv&gt; /simple /round &lt;-1&gt;]
+''' /DeltaStar /in &lt;in.fasta&gt; [/out &lt;out.Csv&gt; /simple /round &lt;-1&gt;]
 ''' ```
-''' Create a distance similarity matrix for the input sequence.
+''' Create a delta* distance similarity matrix for the input sequence.
 ''' </summary>
 '''
 ''' <param name="simple"> Just use a simple tag for generated data vector or the full fasta sequence title if this argument is not presented in cli input.
 ''' </param>
-Public Function Sigma([in] As String, Optional out As String = "", Optional round As String = "", Optional simple As Boolean = False) As Integer
-    Dim CLI As New StringBuilder("/Sigma")
+Public Function DeltaStar([in] As String, Optional out As String = "", Optional round As String = "", Optional simple As Boolean = False) As Integer
+    Dim CLI As New StringBuilder("/DeltaStar")
     Call CLI.Append(" ")
     Call CLI.Append("/in " & """" & [in] & """ ")
     If Not out.StringEmpty Then

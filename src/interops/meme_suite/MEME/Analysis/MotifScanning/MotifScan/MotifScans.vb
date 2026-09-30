@@ -131,7 +131,7 @@ Namespace Analysis.MotifScans
                 Dim NtSequence = New NucleotideModels.NucleicAcid(NT)
                 Dim delta = (From site As SequenceModel.NucleotideModels.NucleicAcid
                              In Me.Sites
-                             Let deltaValue = DifferenceMeasurement.Sigma(NtSequence, site)
+                             Let deltaValue = DeltaStarDistance.DeltaStar(NtSequence, site)
                              Where deltaValue <= Me.Delta2
                              Select deltaValue, site).ToArray
 
