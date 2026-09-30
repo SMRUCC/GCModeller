@@ -62,6 +62,13 @@ Namespace C
 
     Module kernel_estimation
 
+        ''' <summary>
+        ''' 临时诊断接口：导出每一行的核带宽 bw = sd(x) / SIGMA_FACTOR
+        ''' </summary>
+        Friend Function debugBandwidth(rows As Double()()) As Double()
+            Return rows.Select(Function(r) sd1(r, r.Length) / SIGMA_FACTOR).ToArray
+        End Function
+
         Public Function matrix_density_R(X As Double()(),
                                          Y As Double()(),
                                          dims As (m%, n%),
