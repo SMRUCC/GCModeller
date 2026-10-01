@@ -20,6 +20,7 @@ Imports System.Diagnostics
 Imports System.Globalization
 Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.WGCNA
@@ -110,6 +111,29 @@ Module Program
             Case "blockwise"
                 result = Analysis.RunBlockwise(samples, config)
 
+            Case "hclust"
+                ' 诊断模式：直接对一份距离矩阵 CSV 做 average-linkage 层次聚类并导出 merge/height，
+                ' 用于把「层次聚类实现」与「树剪切实现」的差异分开验证
+                Dim dist As Double()() = ReadMatrixCsv(opt.file, dumpKeys)
+
+                sw.Restart()
+
+                Dim flatDist As Double() = TensorOps.Flatten(dist, dist.Length, dist(Scan0).Length)
+
+                sw.Restart()
+
+                Dim dendro As HclustResult = AverageLinkage.Hclust(flatDist, dist.Length)
+                Dim hc As Cluster = AverageLinkage.Cluster(dendro, dumpKeys)
+
+                sw.Stop()
+
+                result = New Result With {.hclust = hc, .dendrogram = dendro}
+                result.timing = New Dictionary(Of String, Double) From {{"hclust", sw.ElapsedMilliseconds}}
+
+                Call WriteDendrogram(result, dumpKeys, Path.Combine(opt.out, "dendro.csv"))
+                Call File.WriteAllText(Path.Combine(opt.out, "dendro_keys.csv"),
+                                       String.Join(vbLf, dumpKeys), New UTF8Encoding(False))
+
             Case "full", "validate"
                 ' 单块路径：基因数较大时必须先限制规模，否则 n^2 矩阵会直接 OOM
                 If opt.topN > 0 Then
@@ -127,7 +151,8 @@ Module Program
                 result = Analysis.Run(samples, config)
 
                 If opt.dump Then
-                    Call DumpMatrices(samples, result, dumpKeys, dumpCor, dumpAdj, dumpTom)
+                    Call DumpMatrices(samples, result, opt.adjacency, dumpKeys, dumpCor, dumpAdj, dumpTom)
+                    Call WriteDendrogram(result, dumpKeys, Path.Combine(opt.out, "dendro.csv"))
                 End If
 
             Case Else
@@ -162,7 +187,7 @@ Module Program
     ''' <summary>
     ''' 重新计算并导出 cor / adjacency / TOM 三个矩阵，用于与 GNU R 做逐元素对照
     ''' </summary>
-    Private Sub DumpMatrices(samples As Matrix, result As Result,
+    Private Sub DumpMatrices(samples As Matrix, result As Result, threshold As Double,
                              ByRef geneKeys As String(), ByRef corMat As Double()(),
                              ByRef adjMat As Double()(), ByRef tomMat As Double()())
 
@@ -172,7 +197,7 @@ Module Program
         Dim beta As Double = result.beta.Power
         Dim tcor As TensorCorrelation = TensorCorrelation.Create(samples)
         Dim absCor As Double() = WeightedNetwork.AbsCorrelation(tcor)
-        Dim adjacency As Double() = WeightedNetwork.BuildAdjacency(absCor, beta, 0.6)
+        Dim adjacency As Double() = WeightedNetwork.BuildAdjacency(absCor, beta, threshold)
         Dim k As Double() = WeightedNetwork.ConnectivityOf(adjacency, n)
         Dim tomBuf As Double() = TOM.Matrix(adjacency, k, n)
 
@@ -181,6 +206,59 @@ Module Program
         tomMat = TensorOps.ToJagged(tomBuf, n, n)
 
         Call Console.WriteLine($"dump: beta={beta}, n={n}")
+    End Sub
+
+    ''' <summary>
+    ''' 读取带行列名的稠密矩阵 CSV
+    ''' </summary>
+    Private Function ReadMatrixCsv(path As String, ByRef keys As String()) As Double()()
+        Dim rows As New List(Of Double())()
+        keys = Nothing
+        Dim names As New List(Of String)()
+
+        Using reader As New StreamReader(path)
+            Dim header As String() = reader.ReadLine().Split(","c)
+            Dim n As Integer = header.Length - 1
+
+            Do While Not reader.EndOfStream
+                Dim line As String = reader.ReadLine()
+
+                If line = "" Then Continue Do
+
+                Dim parts As String() = line.Split(","c)
+
+                names.Add(parts(0))
+
+                Dim row(n - 1) As Double
+
+                For i As Integer = 0 To n - 1
+                    row(i) = Double.Parse(parts(i + 1), CultureInfo.InvariantCulture)
+                Next
+
+                rows.Add(row)
+            Loop
+        End Using
+
+        keys = names.ToArray()
+
+        Return rows.ToArray()
+    End Function
+
+    ''' <summary>
+    ''' 以 R hclust 的 merge/height 格式导出聚类树，供 R 的 cutreeHybrid 在同一棵树上复算
+    ''' </summary>
+    Private Sub WriteDendrogram(result As Result, keys As String(), path As String)
+        If result.dendrogram Is Nothing Then Return
+
+        Dim dendro As HclustResult = result.dendrogram
+
+        Using writer As New StreamWriter(path, False, New UTF8Encoding(False))
+            Call writer.WriteLine("merge1,merge2,height")
+
+            For i As Integer = 0 To dendro.height.Length - 1
+                Call writer.WriteLine($"{dendro.merge(i)(0)},{dendro.merge(i)(1)},{dendro.height(i).ToString("G17", CultureInfo.InvariantCulture)}")
+            Next
+        End Using
     End Sub
 
     ''' <summary>
@@ -264,8 +342,11 @@ Module Program
         Call sb.AppendLine("=======================")
         Call sb.AppendLine($"file      : {opt.file}")
         Call sb.AppendLine($"mode      : {opt.mode}")
-        Call sb.AppendLine($"genes     : {samples.size}")
-        Call sb.AppendLine($"samples   : {samples.sample_count}")
+
+        If samples IsNot Nothing Then
+            Call sb.AppendLine($"genes     : {samples.size}")
+            Call sb.AppendLine($"samples   : {samples.sample_count}")
+        End If
         Call sb.AppendLine($"backend   : {Analysis.Backend}")
         Call sb.AppendLine($"treeCut   : {opt.cut}")
         Call sb.AppendLine($"maxBlock  : {opt.block}")

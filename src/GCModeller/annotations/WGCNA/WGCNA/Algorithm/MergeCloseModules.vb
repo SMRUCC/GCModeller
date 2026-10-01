@@ -98,8 +98,8 @@ Public Module MergeCloseModules
         Next
 
         ' 层次聚类 + 固定高度剪切
-        Dim alg As ClusteringAlgorithm = New DefaultClusteringAlgorithm()
-        Dim tree As Cluster = alg.performClustering(dissim, names, New AverageLinkageStrategy())
+        Dim flat As Double() = TensorOps.Flatten(dissim, K, K)
+        Dim tree As Cluster = AverageLinkage.Cluster(flat, K, names)
         Dim groups As Dictionary(Of String, String()) = CutByHeight(tree, cutHeight)
 
         ' 按分组合并基因

@@ -12,38 +12,37 @@ parallel  : 1
 seed      : 12345
 
 soft power: 6
-modules   : 45
+modules   : 19
 assigned  : 3000
-  M1: 266
-  M2: 261
-  M3: 184
-  M4: 168
-  M5: 130
-  M6: 111
-  M7: 80
-  M8: 79
-  M9: 75
-  M10: 70
-  M11: 67
-  M12: 66
-  M13: 63
-  M14: 61
-  M15: 61
-  M17: 60
-  M16: 60
-  M18: 59
-  M19: 56
-  M20: 54
+  M1: 732
+  M2: 489
+  M3: 265
+  M4: 228
+  M5: 174
+  M6: 145
+  M7: 112
+  M8: 110
+  M9: 97
+  M10: 95
+  M11: 93
+  M12: 84
+  M13: 74
+  M14: 71
+  M15: 54
+  M16: 51
+  M17: 47
+  M18: 43
+  M19: 36
 
 load       : 0.2 s
-wall clock : 18.0 s
-peak RSS   : 1952 MB
-managed heap: 356 MB
+wall clock : 11.0 s
+peak RSS   : 1042 MB
+managed heap: 381 MB
 
 stage timings (ms):
-  cor: 114
+  cor: 115
   beta: 0
-  adjacency: 45
-  tom: 4743
-  hclust: 7048
-  cut: 45
+  adjacency: 46
+  tom: 4614
+  hclust: 883
+  cut: 100

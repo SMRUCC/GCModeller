@@ -436,24 +436,21 @@ Public Module BlockwiseModules
 
         t("tom") = sw.ElapsedMilliseconds
 
-        ' --- 不相似度 + pdist
+        ' --- 不相似度（dist = 1 - TOM）
         sw.Restart()
 
         Call TensorOps.DissimilarityInPlace(tomBuf)
 
-        Dim pdist As Double() = TensorOps.ToPdist(tomBuf, n)
-
         sw.Stop()
 
-        t("pdist") = sw.ElapsedMilliseconds
+        t("dissim") = sw.ElapsedMilliseconds
 
-        ' --- 层次聚类
+        ' --- 层次聚类（UPGMA，与 R 的 hclust(method="average") 等价）
         sw.Restart()
 
-        Dim alg As ClusteringAlgorithm = New PDistClusteringAlgorithm()
-        Dim tree As Cluster = alg.performClustering(New Double()() {pdist}, keys, New AverageLinkageStrategy())
+        Dim dendro As HclustResult = AverageLinkage.Hclust(tomBuf, n)
+        Dim tree As Cluster = AverageLinkage.Cluster(dendro, keys)
 
-        pdist = Nothing
         sw.Stop()
 
         t("hclust") = sw.ElapsedMilliseconds
@@ -471,7 +468,7 @@ Public Module BlockwiseModules
                 .pamStage = config.pamStage,
                 .verbose = False
             }
-            Dim labels As Integer() = DynamicTreeCut.CutreeHybrid(tree, keys, tomBuf, options)
+            Dim labels As Integer() = DynamicTreeCut.CutreeHybrid(dendro, keys, tomBuf, options)
 
             modules = DynamicTreeCut.ToModules(labels, keys, prefix:="M")
         Else

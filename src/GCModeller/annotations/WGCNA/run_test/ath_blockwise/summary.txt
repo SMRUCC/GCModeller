@@ -1,0 +1,52 @@
+WGCNA benchmark summary
+=======================
+file      : G:\GCModeller\test\demo\HTS\GSVA\ath_norm.csv
+mode      : blockwise
+genes     : 34262
+samples   : 6
+backend   : SIMD
+treeCut   : dynamic
+maxBlock  : 5000
+topN      : 0
+parallel  : 1
+seed      : 54321
+
+soft power: 6
+modules   : 81
+assigned  : 26382
+  M1: 1769
+  M2: 1642
+  M3: 1641
+  M4: 1311
+  M5: 1251
+  M6: 1095
+  M7: 1039
+  M8: 986
+  M9: 936
+  M10: 862
+  M11: 680
+  M12: 666
+  M13: 572
+  M14: 557
+  M15: 554
+  M16: 541
+  M17: 516
+  M18: 503
+  M19: 458
+  M20: 424
+
+load       : 0.2 s
+wall clock : 187.5 s
+peak RSS   : 2036 MB
+managed heap: 1381 MB
+
+stage timings (ms):
+  backend: 0
+  filter: 1
+  precluster: 51
+  beta: 3
+  blocks: 187177
+  collect: 2
+  merge: 80
+  eigengene: 16
+  total: 187338

@@ -128,6 +128,25 @@ Public Module DynamicTreeCut
     ''' </returns>
     Public Function CutreeHybrid(tree As Cluster, keys As String(), dist As Double(),
                                  Optional options As CutOptions = Nothing) As Integer()
+        ' 先用后序遍历把 Cluster 树还原成 hclust 的 merge/height，再走主实现。
+        ' 注意后序顺序与 hclust 的「按合并先后」顺序并不一致，
+        ' 需要与 GNU R 逐位对齐时请直接传入 HclustResult。
+        Return CutreeHybrid(Dendrogram.FromTree(tree, keys).ToHclust(), keys, dist, options)
+    End Function
+
+    ''' <summary>
+    ''' 对 hclust 的合并结构做动态剪切（推荐入口）
+    ''' </summary>
+    ''' <param name="hc"><see cref="AverageLinkage.Hclust"/> 的输出，merge 行按合并先后排列</param>
+    ''' <param name="keys">基因 ID 列表，顺序必须与 <paramref name="dist"/> 的行列一致</param>
+    ''' <param name="dist">行优先的 n x n 不相似度矩阵（如 1 - TOM）</param>
+    ''' <param name="options">剪切参数，Nothing 时使用默认值</param>
+    ''' <returns>
+    ''' 长度为 n 的标签数组：<c>0</c> 表示未归入任何模块（对应 WGCNA 的灰色），
+    ''' <c>1..K</c> 为模块编号，按模块大小降序排列。
+    ''' </returns>
+    Public Function CutreeHybrid(hc As HclustResult, keys As String(), dist As Double(),
+                                 Optional options As CutOptions = Nothing) As Integer()
         If options Is Nothing Then options = New CutOptions()
 
         Dim n As Integer = keys.Length
@@ -136,7 +155,7 @@ Public Module DynamicTreeCut
             Return New Integer(n - 1) {}
         End If
 
-        Dim dendro As Dendrogram = Dendrogram.FromTree(tree, keys)
+        Dim dendro As Dendrogram = Dendrogram.FromHclust(hc)
         Dim nMerge As Integer = dendro.height.Length
 
         If nMerge < 1 Then
@@ -835,13 +854,55 @@ Public Module DynamicTreeCut
 #Region "内部数据结构"
 
     ''' <summary>
+    ''' 由层次聚类树还原出 R 的 hclust 结构（<c>merge</c> / <c>height</c>）
+    ''' </summary>
+    ''' <param name="tree">凝聚层次聚类得到的树</param>
+    ''' <param name="keys">叶子名称列表（决定叶子在原始数据中的下标）</param>
+    ''' <returns>hclust 风格的合并结构</returns>
+    ''' <remarks>
+    ''' 导出成 R 的 <c>hclust</c> 结构后，就可以用 R 的 <c>cutreeHybrid</c> 在
+    ''' <b>同一棵树</b>上复算一遍模块标签，从而把「层次聚类的差异」与
+    ''' 「树剪切实现的差异」区分开来 —— 这是验证本模块正确性的关键手段。
+    ''' </remarks>
+    Public Function GetDendrogram(tree As Cluster, keys As String()) As Dendrogram
+        Return Dendrogram.FromTree(tree, keys)
+    End Function
+
+    ''' <summary>
     ''' hclust 风格的合并矩阵（与 R 的 <c>dendro$merge</c> / <c>dendro$height</c> 同构）
     ''' </summary>
-    Private Class Dendrogram
+    Public Class Dendrogram
         ''' <summary>合并矩阵，负值表示叶子（-(下标+1)），正值表示第 k 次合并</summary>
         Public merge As Integer()()
         ''' <summary>每次合并的高度</summary>
         Public height As Double()
+        ''' <summary>叶子（基因）数量</summary>
+        Public n As Integer
+
+        ''' <summary>
+        ''' 直接包装已有的 hclust 合并结构（不做任何顺序调整）
+        ''' </summary>
+        ''' <param name="hc">合并结构与高度</param>
+        ''' <returns>本类型的实例</returns>
+        Public Shared Function FromHclust(hc As HclustResult) As Dendrogram
+            Return New Dendrogram With {
+                .merge = hc.merge,
+                .height = hc.height,
+                .n = hc.n
+            }
+        End Function
+
+        ''' <summary>
+        ''' 还原成 <see cref="HclustResult"/>
+        ''' </summary>
+        ''' <returns>hclust 风格的合并结构</returns>
+        Public Function ToHclust() As HclustResult
+            Return New HclustResult With {
+                .merge = merge,
+                .height = height,
+                .n = n
+            }
+        End Function
 
         ''' <summary>
         ''' 由 <see cref="Cluster"/> 树还原出 hclust 的 merge/height
@@ -906,7 +967,8 @@ Public Module DynamicTreeCut
 
             Return New Dendrogram With {
                 .merge = merge.ToArray(),
-                .height = height.ToArray()
+                .height = height.ToArray(),
+                .n = keys.Length
             }
         End Function
 

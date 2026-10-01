@@ -198,9 +198,6 @@ Public Module Analysis
 
         Call TensorOps.DissimilarityInPlace(distBuf)
 
-        ' pdist 压缩格式，相比交错距离矩阵省掉 n 个数组对象
-        Dim pdist As Double() = TensorOps.ToPdist(distBuf, n)
-
         sw.Stop()
 
         timing("tom") = sw.ElapsedMilliseconds
@@ -209,10 +206,10 @@ Public Module Analysis
 
         sw.Restart()
 
-        Dim alg As ClusteringAlgorithm = New PDistClusteringAlgorithm()
-        Dim cluster As Cluster = alg.performClustering(New Double()() {pdist}, geneIds, New AverageLinkageStrategy)
+        ' UPGMA，与 R 的 hclust(method = "average") 等价
+        Dim dendro As HclustResult = AverageLinkage.Hclust(distBuf, n)
+        Dim cluster As Cluster = AverageLinkage.Cluster(dendro, geneIds)
 
-        pdist = Nothing
         sw.Stop()
 
         timing("hclust") = sw.ElapsedMilliseconds
@@ -231,7 +228,7 @@ Public Module Analysis
                 .pamStage = config.pamStage,
                 .verbose = False
             }
-            Dim labels As Integer() = DynamicTreeCut.CutreeHybrid(cluster, geneIds, distBuf, options)
+            Dim labels As Integer() = DynamicTreeCut.CutreeHybrid(dendro, geneIds, distBuf, options)
 
             modules = DynamicTreeCut.ToModules(labels, geneIds)
         Else
@@ -268,7 +265,8 @@ Public Module Analysis
             .TOM = New NumericMatrix(TensorOps.ToJagged(tomMat, n, n)),
             .modules = modules,
             .softBeta = betaList,
-            .timing = timing
+            .timing = timing,
+            .dendrogram = dendro
         }
     End Function
 

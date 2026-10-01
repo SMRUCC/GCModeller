@@ -109,25 +109,25 @@ Public Class Result
     ''' 模块特征基因详细结果列表
     ''' 包含方差解释比例等信息
     ''' </summary>
-    Public Property moduleEigengeneResults As List(Of ModuleEigengeneResult)
+    Public Property moduleEigengeneResults As System.Collections.Generic.List(Of ModuleEigengeneResult)
 
     ''' <summary>
     ''' 模块与表型相关性结果列表
     ''' 存储每个模块与每个表型的相关性分析结果
     ''' </summary>
-    Public Property modulePhenotypeCorrelations As List(Of ModulePhenotypeCorrelation)
+    Public Property modulePhenotypeCorrelations As System.Collections.Generic.List(Of ModulePhenotypeCorrelation)
 
     ''' <summary>
     ''' 基因显著性结果列表
     ''' 存储每个基因与每个表型的相关性分析结果
     ''' </summary>
-    Public Property geneSignificance As List(Of GeneSignificanceResult)
+    Public Property geneSignificance As System.Collections.Generic.List(Of GeneSignificanceResult)
 
     ''' <summary>
     ''' 模块成员结果列表
     ''' 存储每个基因与每个模块特征基因的相关性
     ''' </summary>
-    Public Property moduleMembership As List(Of ModuleMembershipResult)
+    Public Property moduleMembership As System.Collections.Generic.List(Of ModuleMembershipResult)
 
     ''' <summary>
     ''' 分块分析时的块划分（每块的基因 ID 列表）
@@ -143,6 +143,12 @@ Public Class Result
     ''' </summary>
     ''' <returns>块结果数组；单块分析时为 Nothing</returns>
     Public Property blockResults As BlockResult()
+
+    ''' <summary>
+    ''' hclust 风格的层次聚类结果（merge / height，与 R 的 hclust 同构）
+    ''' </summary>
+    ''' <returns>合并结构；可用于在 R 侧用同一棵树复算模块标签</returns>
+    Public Property dendrogram As HclustResult
 
     ''' <summary>
     ''' 各阶段的耗时统计（毫秒）

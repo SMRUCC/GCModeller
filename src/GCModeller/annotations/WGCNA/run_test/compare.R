@@ -15,6 +15,7 @@
 
 suppressWarnings(suppressMessages({
   library(igraph)
+  library(dynamicTreeCut)
 }))
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -74,6 +75,51 @@ say("")
 say("目录: `", dir, "`")
 say("生成时间: ", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
 say("")
+
+## ---------------------------------------------------------------- 树剪切实现对照
+# 用 GCModeller 导出的 hclust（merge/height）在 R 里跑一次 cutreeHybrid，
+# 这样两棵树完全相同，差异只能来自树剪切实现本身。
+fd <- file.path(dir, "dendro.csv")
+ft <- file.path(dir, "tom.csv")
+
+if (file.exists(fd) && file.exists(ft)) {
+  dd <- read.csv(fd, stringsAsFactors = FALSE)
+  tom <- readMat(ft)
+  ids <- rownames(tom)
+
+  hc <- list(
+    merge  = as.matrix(dd[, c("merge1", "merge2")]),
+    height = dd$height,
+    labels = ids,
+    order  = seq_along(ids)
+  )
+  class(hc) <- "hclust"
+
+  distM <- 1 - tom
+  labR <- dynamicTreeCut::cutreeHybrid(hc,
+                       cutHeight      = 0.995,
+                       minClusterSize = 20,
+                       deepSplit      = 2,
+                       distM          = distM,
+                       verbose        = 0)$labels
+
+  g <- read.csv(file.path(dir, "gene_module.csv"), stringsAsFactors = FALSE, check.names = FALSE)
+  lg <- setNames(as.character(g$module), as.character(g$gene))
+  lr <- setNames(as.character(labR), ids)
+
+  say("### 树剪切实现对照（同一棵 hclust 树）")
+  say("")
+  say("| 指标 | GCModeller | GNU R cutreeHybrid |")
+  say("|---|---|---|")
+  say("| 模块数 | ", length(unique(lg[lg != "0"])), " | ", length(unique(lr[lr != 0])), " |")
+  say("| 已标注基因 | ", sum(lg != "0"), " | ", sum(lr != 0), " |")
+  say("")
+  say("adjusted Rand index = ", formatC(ari(lg, lr), format = "f", digits = 6))
+  say("")
+  say("> 该指标接近 1 即说明 DynamicTreeCut 与 R 的 cutreeHybrid 行为一致；")
+  say("> 若该指标高而「单块对照」的 ARI 低，则差异来自层次聚类的并列（tie）处理。")
+  say("")
+}
 
 ## ---------------------------------------------------------------- 矩阵数值对照
 matNames <- c(cor = "cor", adj = "adj", tom = "tom")

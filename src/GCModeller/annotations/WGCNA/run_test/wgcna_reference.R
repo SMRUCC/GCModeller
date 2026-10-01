@@ -32,6 +32,7 @@ outdir    <- args[2]
 topN      <- if (length(args) >= 3) as.integer(args[3]) else 3000
 power     <- if (length(args) >= 4) as.numeric(args[4]) else 6
 blockSize <- if (length(args) >= 5) as.integer(args[5]) else 5000
+stage     <- if (length(args) >= 6) args[6] else "both"   # both | a | b
 
 dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
 
@@ -58,6 +59,7 @@ varFilt <- function(M, n) {
 ## =========================================================================
 ## 阶段 A：单块数值对照
 ## =========================================================================
+if (stage %in% c("both", "a")) {
 cat("\n== stage A: single block numeric reference ==\n")
 
 t0 <- Sys.time()
@@ -71,6 +73,9 @@ geneA <- rownames(Xa)
 corA  <- cor(exprA, use = "p")               # 基因 x 基因 Pearson
 adjA  <- abs(corA) ^ power                   # unsigned 软阈值邻接（R 的 adjacency 会把对角线置 0）
 diag(adjA) <- 0
+# 注意：TOMsimilarity 会就地修改入参并把对角线改回 1，
+# 因此必须在此之前把纯粹的邻接矩阵写出来。
+write.csv(adjA, file.path(outdir, "R_adj.csv"))
 tomA  <- TOMsimilarity(adjA, TOMType = "unsigned", TOMDenom = "min")
 dimnames(tomA) <- list(geneA, geneA)
 diag(tomA) <- 1
@@ -92,10 +97,12 @@ write.csv(adjA, file.path(outdir, "R_adj.csv"))
 write.csv(tomA, file.path(outdir, "R_tom.csv"))
 write.csv(data.frame(gene = geneA, module = labA),
           file.path(outdir, "R_labels.csv"), row.names = FALSE)
+}
 
 ## =========================================================================
 ## 阶段 B：整表分块对照
 ## =========================================================================
+if (stage %in% c("both", "b")) {
 cat("\n== stage B: blockwiseModules on the full matrix ==\n")
 
 t0 <- Sys.time()
@@ -126,6 +133,7 @@ cat("  modules:", length(unique(labB[labB != 0])), "\n")
 
 write.csv(data.frame(gene = geneB, module = labB),
           file.path(outdir, "R_blocks_labels.csv"), row.names = FALSE)
+}
 
 write.csv(data.frame(stage = names(timing),
                      secs  = as.numeric(unlist(timing))),
