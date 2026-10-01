@@ -31,6 +31,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Math.Statistics
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports std = System.Math
@@ -99,7 +100,7 @@ Public Class TensorCorrelation
     ''' <param name="i">行索引（基因 i）</param>
     ''' <param name="j">列索引（基因 j）</param>
     ''' <returns>Pearson 相关系数，范围 [-1, 1]</returns>
-    Default Public ReadOnly Property Cor(i As Integer, j As Integer) As Double
+    Default Public ReadOnly Property Item(i As Integer, j As Integer) As Double
         Get
             Return cor(i * n + j)
         End Get

@@ -130,6 +130,31 @@ Public Class Result
     Public Property moduleMembership As List(Of ModuleMembershipResult)
 
     ''' <summary>
+    ''' 分块分析时的块划分（每块的基因 ID 列表）
+    ''' </summary>
+    ''' <returns>块数组；单块（非分块）分析时为长度为 1 的数组或 Nothing</returns>
+    ''' <remarks>
+    ''' 仅 <c>Analysis.RunBlockwise</c> 会填充此字段。
+    ''' </remarks>
+    Public Property blocks As String()()
+
+    ''' <summary>
+    ''' 分块分析时每个块的中间结果（含块内聚类树、连通度与块内模块）
+    ''' </summary>
+    ''' <returns>块结果数组；单块分析时为 Nothing</returns>
+    Public Property blockResults As BlockResult()
+
+    ''' <summary>
+    ''' 各阶段的耗时统计（毫秒）
+    ''' </summary>
+    ''' <returns>阶段名 → 毫秒 的字典</returns>
+    ''' <remarks>
+    ''' 典型键：<c>backend</c>、<c>filter</c>、<c>precluster</c>、<c>beta</c>、
+    ''' <c>blocks</c>、<c>collect</c>、<c>merge</c>、<c>eigengene</c>、<c>phenotype</c>、<c>total</c>。
+    ''' </remarks>
+    Public Property timing As Dictionary(Of String, Double)
+
+    ''' <summary>
     ''' 获取指定模块的特征基因
     ''' </summary>
     ''' <param name="moduleName">模块名称</param>

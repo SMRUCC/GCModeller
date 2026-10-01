@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports std = System.Math
 
@@ -113,7 +114,7 @@ Public Class BetaTest
     ''' 函数返回得分最高的beta值
     ''' </returns>
     Public Shared Function BetaTable(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double), adjacency As Double) As IEnumerable(Of BetaTest)
-        Dim mat As Double()() = DirectCast(cor, NumericMatrix).Array
+        Dim mat As Double()() = CType(cor, NumericMatrix).Array
         Dim n As Integer = mat.Length
         Dim flat As Double() = TensorOps.Flatten(mat, n, If(n = 0, 0, mat(Scan0).Length))
 

@@ -52,6 +52,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
@@ -145,18 +147,4 @@ Public Module TOM
         Return TensorOps.TomCombine(prod, adj, k, n)
     End Function
 
-    ''' <summary>
-    ''' 从层次聚类树创建模块（按树总距离百分比做静态剪切）
-    ''' </summary>
-    ''' <param name="tree">层次聚类树</param>
-    ''' <param name="distCut">a percentage threshold value in range ``[0,1]``</param>
-    ''' <returns>模块集合</returns>
-    ''' <remarks>
-    ''' 保留此方法仅为向后兼容；新的实现位于 <see cref="StaticCut"/>，
-    ''' 默认路径已改为 <see cref="DynamicTreeCut"/>。
-    ''' </remarks>
-    <Extension>
-    Friend Function CreateModules(tree As Cluster, Optional distCut As Double = 0.6) As IEnumerable(Of NamedCollection(Of String))
-        Return StaticCut.CreateModules(tree, distCut)
-    End Function
 End Module

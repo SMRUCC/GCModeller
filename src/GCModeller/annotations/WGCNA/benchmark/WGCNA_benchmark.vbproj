@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>WGCNA_benchmark</RootNamespace>
+    <AssemblyName>WGCNA_benchmark</AssemblyName>
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+    <Configurations>Debug;Release</Configurations>
+    <StartupObject>WGCNA_benchmark.Program</StartupObject>
+    <!-- 大型表达矩阵（6 万基因 x 1888 样本）下托管堆会达到 GB 级，
+         必须启用 Server GC 与 x64，否则会频繁 full GC 甚至 OOM -->
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+    <GarbageCollectionAdaptationMode>1</GarbageCollectionAdaptationMode>
+    <Nullable>disable</Nullable>
+    <OptionStrict>Off</OptionStrict>
+    <NoWarn>$(NoWarn);BC40000;BC42016;BC42304</NoWarn>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <TieredPGO>true</TieredPGO>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WGCNA\WGCNA.vbproj" />
+    <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\hctree.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+  </ItemGroup>
+
+</Project>
