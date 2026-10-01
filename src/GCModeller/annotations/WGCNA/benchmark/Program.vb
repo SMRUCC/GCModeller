@@ -119,7 +119,9 @@ Module Program
                     samples = GeneFilter.ByVariance(samples, opt.block, 0)
                 End If
 
-                result = Analysis.Run(samples, opt.adjacency, pcaLayout:=False, treeCut:=config.treeCut)
+                result = Analysis.Run(samples, opt.adjacency, pcaLayout:=False,
+                                      treeCut:=config.treeCut, buildGraph:=False,
+                                      power:=opt.power)
 
                 If opt.dump Then
                     Call DumpMatrices(samples, result, dumpKeys, dumpCor, dumpAdj, dumpTom)

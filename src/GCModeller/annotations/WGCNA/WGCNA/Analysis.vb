@@ -51,6 +51,7 @@
 
 #End Region
 
+Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -91,6 +92,14 @@ Public Module Analysis
     ''' 邻接矩阵是稠密的，n 较大时 n^2 条边会直接耗尽内存，建议设置上限或直接改用
     ''' <see cref="RunBlockwise"/>（默认不建图）。
     ''' </param>
+    ''' <param name="buildGraph">
+    ''' 是否构建网络图对象。邻接矩阵是稠密的，n 较大时 n^2 条边会耗尽内存，
+    ''' 只需要模块划分时可以设为 False。
+    ''' </param>
+    ''' <param name="power">
+    ''' 软阈值幂次。NaN（默认）时先做 beta 扫描自动估计；
+    ''' 与 GNU R 做对照时可以显式指定，保证两边使用同一个幂次。
+    ''' </param>
     ''' <returns>WGCNA 分析结果</returns>
     ''' <remarks>
     ''' 本函数一次性把全部基因放进一个块，因此相关矩阵与 TOM 都是 O(n^2) 内存。
@@ -100,33 +109,65 @@ Public Module Analysis
                         Optional adjacency As Double = 0.6,
                         Optional pcaLayout As Boolean = True,
                         Optional treeCut As TreeCutMethod = TreeCutMethod.Dynamic,
-                        Optional maxEdges As Integer = 0) As Result
+                        Optional maxEdges As Integer = 0,
+                        Optional buildGraph As Boolean = True,
+                        Optional power As Double = Double.NaN) As Result
 
         Dim n As Integer = samples.size
         Dim geneIds As String() = samples.expression _
             .Select(Function(gene) gene.geneID) _
             .ToArray()
+        Dim timing As New Dictionary(Of String, Double)
+        Dim sw As New Stopwatch()
 
         Call VBDebugger.EchoLine("do pearson correlation matrix evaluation...")
 
         ' GEMM 版相关矩阵：行标准化后一次 Z*Zᵀ，取代逐对 Pearson
+        sw.Start()
+
         Dim cor As TensorCorrelation = TensorCorrelation.Create(samples)
-        Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
+
+        sw.Stop()
+
+        timing("cor") = sw.ElapsedMilliseconds
 
         Call VBDebugger.EchoLine("do beta test...")
 
-        Dim betaList As BetaTest() = BetaTest.BetaTable(cor, betaSeq, adjacency).ToArray
-        Dim beta As BetaTest = betaList(BetaTest.Best(betaList))
+        sw.Restart()
+
+        Dim betaList As BetaTest()
+        Dim beta As BetaTest
+
+        If Double.IsNaN(power) Then
+            Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
+
+            betaList = BetaTest.BetaTable(cor, betaSeq, adjacency).ToArray
+            beta = betaList(BetaTest.Best(betaList))
+        Else
+            beta = New BetaTest With {.Power = power}
+            betaList = New BetaTest() {beta}
+        End If
+
+        sw.Stop()
+
+        timing("beta") = sw.ElapsedMilliseconds
 
         Call VBDebugger.EchoLine("build network graph!")
+
+        sw.Restart()
 
         Dim absCor As Double() = WeightedNetwork.AbsCorrelation(cor)
         Dim network As Double() = WeightedNetwork.BuildAdjacency(absCor, beta.Power, adjacency)
         Dim K As New Vector(WeightedNetwork.ConnectivityOf(network, n))
 
         absCor = Nothing
+        sw.Stop()
+
+        timing("adjacency") = sw.ElapsedMilliseconds
 
         Call VBDebugger.EchoLine("create TOM matrix...")
+
+        sw.Restart()
 
         Dim tomMat As Double() = TOM.Matrix(network, K.Array, n)
         Dim distBuf As Double() = CType(tomMat.Clone(), Double())
@@ -136,14 +177,25 @@ Public Module Analysis
         ' pdist 压缩格式，相比交错距离矩阵省掉 n 个数组对象
         Dim pdist As Double() = TensorOps.ToPdist(distBuf, n)
 
+        sw.Stop()
+
+        timing("tom") = sw.ElapsedMilliseconds
+
         Call VBDebugger.EchoLine("make tree clustering!")
+
+        sw.Restart()
 
         Dim alg As ClusteringAlgorithm = New PDistClusteringAlgorithm()
         Dim cluster As Cluster = alg.performClustering(New Double()() {pdist}, geneIds, New AverageLinkageStrategy)
 
         pdist = Nothing
+        sw.Stop()
+
+        timing("hclust") = sw.ElapsedMilliseconds
 
         Call VBDebugger.EchoLine("make metabolite cluster modules...")
+
+        sw.Restart()
 
         Dim modules As Dictionary(Of String, String())
 
@@ -160,20 +212,36 @@ Public Module Analysis
         End If
 
         distBuf = Nothing
+        sw.Stop()
 
-        Dim g As NetworkGraph = createGraph(network, n, samples, pcaLayout, cor, tomMat, maxEdges)
+        timing("cut") = sw.ElapsedMilliseconds
 
-        Call g.ApplyAnalysis
+        Dim g As NetworkGraph = Nothing
+
+        If buildGraph Then
+            sw.Restart()
+
+            g = createGraph(network, n, samples, pcaLayout, cor, tomMat, maxEdges)
+
+            Call g.ApplyAnalysis
+            Call g.setModules(modules)
+
+            sw.Stop()
+
+            timing("graph") = sw.ElapsedMilliseconds
+        End If
+
         Call VBDebugger.EchoLine(" ~ done!")
 
         Return New Result With {
             .beta = beta,
             .hclust = cluster,
             .K = K,
-            .network = g.setModules(modules),
+            .network = g,
             .TOM = New NumericMatrix(TensorOps.ToJagged(tomMat, n, n)),
             .modules = modules,
-            .softBeta = betaList
+            .softBeta = betaList,
+            .timing = timing
         }
     End Function
 
