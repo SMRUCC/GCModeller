@@ -109,22 +109,14 @@ Module Program
             Case "blockwise"
                 result = Analysis.RunBlockwise(samples, config)
 
-            Case "full"
+            Case "full", "validate"
                 ' 单块路径：基因数较大时必须先限制规模，否则 n^2 矩阵会直接 OOM
-                If samples.size > opt.block Then
-                    config.filterTopN = opt.block
-                    samples = GeneFilter.Filter(samples, config)
-                    config.filterTopN = opt.topN
+                If opt.topN > 0 Then
+                    samples = GeneFilter.ByVariance(samples, opt.topN, opt.minVar)
                 End If
 
-                result = Analysis.Run(samples, opt.adjacency, pcaLayout:=False, treeCut:=config.treeCut)
-
-            Case "validate"
-                ' 严格数值对照模式：单块 + 导出 cor/adjacency/TOM 矩阵
                 If samples.size > opt.block Then
-                    config.filterTopN = opt.block
-                    samples = GeneFilter.Filter(samples, config)
-                    config.filterTopN = opt.topN
+                    samples = GeneFilter.ByVariance(samples, opt.block, 0)
                 End If
 
                 result = Analysis.Run(samples, opt.adjacency, pcaLayout:=False, treeCut:=config.treeCut)
