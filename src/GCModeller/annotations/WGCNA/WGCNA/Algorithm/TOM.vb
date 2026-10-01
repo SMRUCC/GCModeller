@@ -52,9 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
-Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports std = System.Math
@@ -66,6 +64,15 @@ Imports std = System.Math
 '''
 ''' (TOM矩阵)
 ''' </summary>
+''' <remarks>
+''' TOM 是全流水线中计算量最大的一步：中间矩阵 <c>S = A·A</c> 是 O(n^3) 的。
+''' 原实现用三重循环 + 交错数组的间接寻址串行求值，在 n=5000 时就已经是小时级。
+''' 
+''' <para>
+''' 这里改为一次 GEMM（<see cref="Tensor.MatMul"/>），由 SIMD / CUDA 后端承担
+''' 向量化与并行。这也是切换到 CUDA 后端时收益最大的环节。
+''' </para>
+''' </remarks>
 Public Module TOM
 
     ''' <summary>
@@ -77,27 +84,12 @@ Public Module TOM
     ''' <param name="A">邻接矩阵</param>
     ''' <returns>中间矩阵</returns>
     Public Function Intermediate(A As NumericMatrix) As GeneralMatrix
-        Dim Iu As New NumericMatrix(A.RowDimension, A.ColumnDimension)
-        Dim x As Double()() = Iu.Array
         Dim m As Integer = A.RowDimension
-        Dim n As Integer = A.ColumnDimension
         Dim alpha As Double()() = A.Array
+        Dim flat As Double() = TensorOps.Flatten(alpha, m, A.ColumnDimension)
+        Dim prod As Double() = Intermediate(flat, m)
 
-        ' 计算中间矩阵: I(i,j) = sum_u(A(i,u) * A(j,u))
-        ' 这表示节点i和j的共同邻居的连接强度之和
-        For i As Integer = 0 To m - 1
-            For j As Integer = 0 To n - 1
-                Dim sum As Double = 0
-                For u As Integer = 0 To m - 1
-                    ' 【修正】使用正确的索引顺序
-                    ' alpha(i)(u) 和 alpha(j)(u) 都是访问第u列
-                    sum += alpha(i)(u) * alpha(j)(u)
-                Next
-                x(i)(j) = sum
-            Next
-        Next
-
-        Return Iu
+        Return New NumericMatrix(TensorOps.ToJagged(prod, m, m))
     End Function
 
     ''' <summary>
@@ -111,73 +103,60 @@ Public Module TOM
     ''' <param name="K">连接度向量</param>
     ''' <returns>TOM矩阵</returns>
     Public Function Matrix(A As NumericMatrix, K As Vector) As GeneralMatrix
-        Dim Imat As GeneralMatrix = Intermediate(A)
-        Dim W As New NumericMatrix(A.RowDimension, A.ColumnDimension)
-        Dim wmat As Double()() = W.Array
-        Dim amat As Double()() = A.Array
         Dim m As Integer = A.RowDimension
-        Dim n As Integer = A.ColumnDimension
+        Dim alpha As Double()() = A.Array
+        Dim flat As Double() = TensorOps.Flatten(alpha, m, A.ColumnDimension)
+        Dim tom As Double() = Matrix(flat, K.Array, m)
 
-        For i As Integer = 0 To m - 1
-            For j As Integer = 0 To n - 1
-                If i = j Then
-                    ' 对角线元素应为1（节点与自身的TOM值为1）
-                    wmat(i)(j) = 1.0
-                Else
-                    ' TOM公式: w_ij = (I(i,j) + A(i,j)) / (min(k_i, k_j) + 1 - A(i,j))
-                    ' 分母中的 +1 是为了处理节点间的直接连接
-                    Dim numerator As Double = Imat(i, j) + amat(i)(j)
-                    Dim denominator As Double = std.Min(K(i), K(j)) + 1 - amat(i)(j)
-
-                    ' 防止除零错误
-                    If denominator > 0 Then
-                        wmat(i)(j) = numerator / denominator
-                    Else
-                        wmat(i)(j) = 0
-                    End If
-                End If
-            Next
-        Next
-
-        Return W
+        Return New NumericMatrix(TensorOps.ToJagged(tom, m, m))
     End Function
 
     ''' <summary>
-    ''' 从层次聚类树创建模块
+    ''' 以 GEMM 计算中间矩阵 S = A·A（面向 Tensor 的高性能内核）
+    ''' </summary>
+    ''' <param name="adj">行优先 n x n 邻接矩阵（对称），只读</param>
+    ''' <param name="n">矩阵阶数</param>
+    ''' <returns>行优先的 n x n 中间矩阵</returns>
+    ''' <remarks>
+    ''' 中间项 <c>sum_u a(i,u)*a(u,j)</c> 就是矩阵乘积 <c>(A·A)(i,j)</c>；
+    ''' 邻接矩阵对称时 A·Aᵀ = A·A，因此一次 <see cref="Tensor.MatMul"/> 即可。
+    ''' </remarks>
+    Public Function Intermediate(adj As Double(), n As Integer) As Double()
+        Dim a As Tensor = TensorOps.Wrap(adj, n, n)
+        Dim prod As Tensor = a.MatMul(a)
+
+        Return prod.Data
+    End Function
+
+    ''' <summary>
+    ''' 计算 TOM 矩阵（面向 Tensor 的高性能内核）
+    ''' </summary>
+    ''' <param name="adj">行优先 n x n 邻接矩阵，只读</param>
+    ''' <param name="k">长度为 n 的连通度向量</param>
+    ''' <param name="n">矩阵阶数</param>
+    ''' <returns>行优先的 n x n TOM 矩阵，对角线恒为 1</returns>
+    ''' <remarks>
+    ''' 组合步骤融合成单次 O(n^2) 遍历并就地写回 GEMM 的结果缓冲区，
+    ''' 因此整条 TOM 流水线的额外内存占用为 0（只有 GEMM 结果这一份 n^2）。
+    ''' </remarks>
+    Public Function Matrix(adj As Double(), k As Double(), n As Integer) As Double()
+        Dim prod As Double() = Intermediate(adj, n)
+
+        Return TensorOps.TomCombine(prod, adj, k, n)
+    End Function
+
+    ''' <summary>
+    ''' 从层次聚类树创建模块（按树总距离百分比做静态剪切）
     ''' </summary>
     ''' <param name="tree">层次聚类树</param>
     ''' <param name="distCut">a percentage threshold value in range ``[0,1]``</param>
     ''' <returns>模块集合</returns>
+    ''' <remarks>
+    ''' 保留此方法仅为向后兼容；新的实现位于 <see cref="StaticCut"/>，
+    ''' 默认路径已改为 <see cref="DynamicTreeCut"/>。
+    ''' </remarks>
     <Extension>
     Friend Function CreateModules(tree As Cluster, Optional distCut As Double = 0.6) As IEnumerable(Of NamedCollection(Of String))
-        Return CreateModulesInternal(tree, distCut:=tree.TotalDistance * distCut)
-    End Function
-
-    <Extension>
-    Private Iterator Function CreateModulesInternal(tree As Cluster, distCut As Double) As IEnumerable(Of NamedCollection(Of String))
-        If tree.TotalDistance <= distCut Then
-            Dim items As New List(Of String)
-            Dim name As String = tree.Name
-
-            If tree.isLeaf Then
-                items.Add(tree.Name)
-            Else
-                For Each child As Cluster In tree.Children
-                    Call child _
-                        .CreateModulesInternal(distCut) _
-                        .Select(Function(m) m.value) _
-                        .IteratesALL _
-                        .DoCall(AddressOf items.AddRange)
-                Next
-            End If
-
-            Yield New NamedCollection(Of String)(name, items)
-        Else
-            For Each child As Cluster In tree.Children
-                For Each m As NamedCollection(Of String) In child.CreateModulesInternal(distCut)
-                    Yield m
-                Next
-            Next
-        End If
+        Return StaticCut.CreateModules(tree, distCut)
     End Function
 End Module

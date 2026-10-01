@@ -57,12 +57,23 @@
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.Matrix
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
+Imports std = System.Math
 
 ''' <summary>
 ''' test for best beta power value
 ''' </summary>
+''' <remarks>
+''' 原实现为每个候选 beta 都构造一份完整的 n^2 邻接矩阵（幂运算 + 拷贝 + 阈值化），
+''' 20 个候选值意味着 40 余次 n^2 级别的分配与 GC 压力。
+''' 
+''' <para>
+''' 现在改为复用同一份 <c>|cor|</c> 缓冲区，对每个 beta 只做一次<b>流式行和扫描</b>
+''' （见 <see cref="WeightedNetwork.Connectivity"/>），全程不再分配任何 n^2 临时矩阵；
+''' 候选 beta 之间再用 PLINQ 并行。
+''' </para>
+''' </remarks>
 Public Class BetaTest
 
     Public Property Power As Double
@@ -102,21 +113,53 @@ Public Class BetaTest
     ''' 函数返回得分最高的beta值
     ''' </returns>
     Public Shared Function BetaTable(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double), adjacency As Double) As IEnumerable(Of BetaTest)
-        Return BetaTableParallel(cor, betaRange, adjacency).OrderBy(Function(p) p.Power)
+        Dim mat As Double()() = DirectCast(cor, NumericMatrix).Array
+        Dim n As Integer = mat.Length
+        Dim flat As Double() = TensorOps.Flatten(mat, n, If(n = 0, 0, mat(Scan0).Length))
+
+        For i As Integer = 0 To flat.Length - 1
+            flat(i) = std.Abs(flat(i))
+        Next
+
+        Return BetaTable(flat, n, betaRange, adjacency)
     End Function
 
-    Private Shared Function BetaTableParallel(cor As CorrelationMatrix, betaRange As IEnumerable(Of Double), adjacency As Double) As IEnumerable(Of BetaTest)
+    ''' <summary>
+    ''' 基于 Tensor 相关矩阵做 beta 扫描（推荐入口）
+    ''' </summary>
+    ''' <param name="cor">GEMM 得到的相关矩阵</param>
+    ''' <param name="betaRange">候选软阈值幂次序列</param>
+    ''' <param name="adjacency">边截断阈值</param>
+    ''' <returns>按 power 升序排列的候选评估结果</returns>
+    Public Shared Function BetaTable(cor As TensorCorrelation, betaRange As IEnumerable(Of Double), adjacency As Double) As IEnumerable(Of BetaTest)
+        Return BetaTable(WeightedNetwork.AbsCorrelation(cor), cor.Size, betaRange, adjacency)
+    End Function
+
+    ''' <summary>
+    ''' 基于相似度矩阵 |cor| 做流式 beta 扫描（零 n^2 临时分配）
+    ''' </summary>
+    ''' <param name="absCor">行优先 n x n 相似度矩阵 |cor|</param>
+    ''' <param name="n">矩阵阶数</param>
+    ''' <param name="betaRange">候选软阈值幂次序列</param>
+    ''' <param name="adjacency">边截断阈值</param>
+    ''' <returns>按 power 升序排列的候选评估结果</returns>
+    Public Shared Function BetaTable(absCor As Double(), n As Integer, betaRange As IEnumerable(Of Double), adjacency As Double) As IEnumerable(Of BetaTest)
+        Return BetaTableParallel(absCor, n, betaRange, adjacency).OrderBy(Function(p) p.Power)
+    End Function
+
+    Private Shared Function BetaTableParallel(absCor As Double(), n As Integer, betaRange As IEnumerable(Of Double), adjacency As Double) As IEnumerable(Of BetaTest)
         Return betaRange _
             .AsParallel _
             .Select(Function(beta)
-                        Dim K = WeightedNetwork.Connectivity(cor, beta, adjacency)
+                        Dim K As Double() = WeightedNetwork.Connectivity(absCor, n, beta, adjacency)
+                        Dim Kv As New Vector(K)
                         ' 基于无尺度分布的假设，我们认为p(ki)与ki呈负相关关系
-                        Dim linear = SoftLinear.CreateLinear(K)
+                        Dim linear = SoftLinear.CreateLinear(Kv)
 
                         Return New BetaTest With {
-                            .meanK = K.Average,
-                            .maxK = K.Max,
-                            .medianK = K.Median,
+                            .meanK = Kv.Average,
+                            .maxK = Kv.Max,
+                            .medianK = Kv.Median,
                             .Power = beta,
                             .sftRsq = If(linear.R_square.IsNaNImaginary, 0, linear.R_square),
                             .slope = If(linear.Slope.IsNaNImaginary, 0, linear.Slope),
