@@ -1,10 +1,26 @@
 .\" man page create by R# package system.
 .TH SIGMA_DIFFERENCE 1 2000-1月 "Compile.CAI" "Compile.CAI"
 .SH NAME
-Compile.CAI \- 
+Compile.CAI \- Compile the CAI w weight table of one reference gene collection and export
 .SH SYNOPSIS
 \fICompile.CAI(\fBgenes\fR as <generic> FastaFile, 
 \fBWorkTemp\fR as string = "./CAI_Xml");\fR
+.SH DESCRIPTION
+.PP
+Compile the CAI w weight table of one reference gene collection and export
+ the codon usage csv table. (legacy batch compilation entry)
+.PP
+.SH OPTIONS
+.PP
+\fBgenes\fB \fR\- the reference gene collection of one species. 
+.PP
+.PP
+\fBWorkTemp\fB \fR\- the xml cache directory (reserved for the incremental compilation). 
+.PP
+.SH VALUE
+.PP
+the compiled codon usage csv document
+.PP
 .SH SEE ALSO
 sigma_difference
 .SH FILES

@@ -1,23 +1,29 @@
 .\" man page create by R# package system.
 .TH SIGMA_DIFFERENCE 1 2000-1月 "dnaA_gyrB" "dnaA_gyrB"
 .SH NAME
-dnaA_gyrB \- Using the DNA segment between the \fBdnaA\fR and \fBgyrB\fR as the reference rule.
+dnaA_gyrB \- Using the DNA segment between the \fBdnaA\fR and \fBgyrB\fR genes as the reference
 .SH SYNOPSIS
 \fIdnaA_gyrB(\fBnt\fR as any, 
 \fBcontext\fR as <generic> PTT = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-Using the DNA segment between the \fBdnaA\fR and \fBgyrB\fR as the reference rule.
+Using the DNA segment between the \fBdnaA\fR and \fBgyrB\fR genes as the reference
+ ruler for the genome homogeneity measurement.
 .PP
 .SH OPTIONS
 .PP
-\fBnt\fB \fR\- 
- a fasta sequence object or NCBI genbank database object.
-. 
+\fBnt\fB \fR\- a fasta sequence object or an NCBI genbank database object. 
 .PP
 .PP
-\fBcontext\fB \fR\- -. 
+\fBcontext\fB \fR\- the optional PTT gene table of the fasta sequence input. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+the \fBdnaA\fR-\fBgyrB\fR ruler segment sequence
 .PP
 .SH SEE ALSO
 sigma_difference

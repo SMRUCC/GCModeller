@@ -1,13 +1,38 @@
 .\" man page create by R# package system.
 .TH SIGMA_DIFFERENCE 1 2000-1月 "Partitions.Creates" "Partitions.Creates"
 .SH NAME
-Partitions.Creates \- 
+Partitions.Creates \- Create the partition data from a raw data frame: the start / stop columns
 .SH SYNOPSIS
 \fIPartitions.Creates(\fBPartitionRaw\fR as <generic> DataFrameResolver, 
 \fBTagCol\fR as string, 
 \fBStartTag\fR as string, 
 \fBStopTag\fR as string, 
 \fBNt\fR as <generic> FastaSeq);\fR
+.SH DESCRIPTION
+.PP
+Create the partition data from a raw data frame: the start / stop columns
+ define the segment loci on the given genome sequence.
+.PP
+.SH OPTIONS
+.PP
+\fBPartitionRaw\fB \fR\- the raw partition data frame. 
+.PP
+.PP
+\fBTagCol\fB \fR\- the column name of the partition tag. 
+.PP
+.PP
+\fBStartTag\fB \fR\- the column name of the segment start loci. 
+.PP
+.PP
+\fBStopTag\fB \fR\- the column name of the segment stop loci. 
+.PP
+.PP
+\fBNt\fB \fR\- the genome sequence. 
+.PP
+.SH VALUE
+.PP
+the created partition data collection
+.PP
 .SH SEE ALSO
 sigma_difference
 .SH FILES

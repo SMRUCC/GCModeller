@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; sigma_difference; comparative_toolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="Calculates the nucleotide sequence Delta similarity to measure h..." />
+    <meta name="description" content="Comparative genomics API module of the Karlin, Campbell &amp; Mr..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,10 +63,20 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">#' Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "sigma_difference"</span><span style="color: blue;"> from</span><span style="color: brown"> "comparative_toolkit"</span>;
+                               <br /><br /><span style="color: green;">#' Comparative genomics API module of the Karlin, Campbell &amp; Mrazek (1998) Comparative DNA Analysis Across Diverse Genomes algorithm suite.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "sigma_difference"</span><span style="color: blue;"> from</span><span style="color: brown"> "comparative_toolkit"</span>;
                            </code>
     </p>
-    <p><p>Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.</p></p>
+    <p><p>Comparative genomics API module of the Karlin, Campbell &amp; Mrazek (1998) <code>Comparative DNA Analysis Across Diverse Genomes</code> algorithm suite.</p>
+
+<p>This R# package exports:</p>
+
+
+<ol>
+<li>the pairwise / batch sliding window <code>delta*</code> difference calculations;</li>
+<li>the partition-based genome homogeneity measurements (<code>dnaA</code>-<code>gyrB</code> ruler);</li>
+<li>the codon usage / CAI compilation;</li>
+<li>the full set of the 1998 paper's analysis modules: the <code>rho*</code> genome signature, the <code>tau*</code> tetranucleotide relative abundance, the r-scan word distribution statistics, the site-specific codon signature, the <code>B(F|C)</code> codon bias difference, the 2D threshold alien gene detection, the sliding window <code>delta*</code> island profiling and the <code>(C-G)/(C+G)</code> strand composition asymmetry.</li>
+</ol></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
                            
@@ -85,7 +95,67 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="site_sigma">
     <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/SiteSigma.html">site_sigma: SiteSigma</a>
   </td>
-  <td><p>基因组两两比较所得到的位点距离数据</p></td>
+  <td><p>The sliding window delta* profile data row. (CSV column names kept compatible with the legacy <code>Site/Sigma/Similarity</code> schema)</p></td>
+</tr>
+<tr>
+  <td id="word_scan">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/WordScanResult.html">word_scan: WordScanResult</a>
+  </td>
+  <td><p>The word distribution r-scan result of one oligonucleotide word.</p></td>
+</tr>
+<tr>
+  <td id="window_delta">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/WindowDelta.html">window_delta: WindowDelta</a>
+  </td>
+  <td><p>One point of the sliding window delta* profile: the delta-difference between the genome signature of the local 50kb window and the global average genome signature.</p></td>
+</tr>
+<tr>
+  <td id="strand_skew">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/StrandSkew.html">strand_skew: StrandSkew</a>
+  </td>
+  <td><p>One point of the strand composition asymmetry profile: <code>(C - G) / (C + G)</code> of one sliding window.</p></td>
+</tr>
+<tr>
+  <td id="codon_signature_profile">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/CodonSignatureProfile.html">codon_signature_profile: CodonSignatureProfile</a>
+  </td>
+  <td><p>The codon signature profile of a gene collection: per-site nucleotide counts, site-specific dinucleotide counts, codon counts and the derived codon signature odds ratios {rhoXY(1,2)}, {rhoYZ(2,3)}, {rhoXZ(1,3)}, {rhoZW(3,4)}.</p></td>
+</tr>
+<tr>
+  <td id="codon_usage_profile">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/CodonUsageProfile.html">codon_usage_profile: CodonUsageProfile</a>
+  </td>
+  <td><p>The codon usage profile of a gene collection (the relative codon frequencies and amino acid frequencies). This is the <code>c(x, y, z)</code> reference class data used by the B(F|C) bias measure (see <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CodonBiasMeasure">CodonBiasMeasure</a>) and the <code>f^H(codon)</code> reference set of the CAI (see <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.CodonWeightTable">CodonWeightTable</a>).</p></td>
+</tr>
+<tr>
+  <td id="codon_weight_table">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/CAI/CodonWeightTable.html">codon_weight_table: CodonWeightTable</a>
+  </td>
+  <td><p>CODON ADAPTATION INDEX (CAI, Sharp &amp; Li) weight table.</p>
+
+<p>This specifies a reference set of genes, <code>H</code>, chosen from among "highly expressed genes". Defining</p>
+
+
+<pre><code>    w(codon) = f^H(codon) / max_{synonyms} f^H(.)</code></pre>
+
+
+<p>as the ratio of the frequency of the codon to the maximal codon frequency in <code>H</code> for the same amino acid, the CAI of a gene of length L is taken as</p>
+
+
+<pre><code>    CAI(gene) = (w1 * w2 * ... * wL)^(1/L)</code></pre>
+
+
+<p>(the geometric mean, computed numerically through the log-average).</p>
+
+<p>This is a two-step API: first build the w table from the reference gene set <code>H</code> (this class), then evaluate the target genes (see <a href="cref:M:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.CodonAdaptationIndexEvaluation.CAI(SMRUCC.genomics.SequenceModel.FASTA.FastaSeq,SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.CodonWeightTable)">CodonAdaptationIndexEvaluation.CAI()</a>).</p>
+
+<p>(compatible rename of the legacy <code>RelativeCodonBiases</code> class, which mistakenly used each single ORF as its own reference set and thus always produced CAI values close to 1)</p></td>
+</tr>
+<tr>
+  <td id="alien_gene_prediction">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/AlienGenePrediction.html">alien_gene_prediction: AlienGenePrediction</a>
+  </td>
+  <td><p>One gene prediction row of the alien gene 2D classification.</p></td>
 </tr></tbody>
       </table>
       <br />
@@ -93,114 +163,226 @@ table caption {font-size:14px;font-weight:bolder;}
       <table class="table-three-line">
         <caption>.NET clr function exports</caption>
         <tbody><tr>
-  <td id="compile.cai">
-    <a href="./sigma_difference/compile.cai.html">compile.cai</a>
-  </td>
-  <td></td>
-</tr>
-<tr>
   <td id="read.csv.site_delta">
     <a href="./sigma_difference/read.csv.site_delta.html">read.csv.site_delta</a>
   </td>
-  <td></td>
-</tr>
-<tr>
-  <td id="sigma_diff.query">
-    <a href="./sigma_difference/sigma_diff.query.html">sigma_diff.query</a>
-  </td>
-  <td></td>
+  <td><p>Load one sliding window <code>delta*</code> profile from its csv document.</p></td>
 </tr>
 <tr>
   <td id="compile.delta_query">
     <a href="./sigma_difference/compile.delta_query.html">compile.delta_query</a>
   </td>
-  <td></td>
+  <td><p>Compile a set of pairwise <code>delta*</code> profile csv files (all created from the same query genome against different subjects) into one merged matrix csv document. The output file names cannot be changed by this requirement.</p></td>
 </tr>
 <tr>
-  <td id="Compile.CAI">
-    <a href="./sigma_difference/Compile.CAI.html">Compile.CAI</a>
+  <td id="sigma_diff.query">
+    <a href="./sigma_difference/sigma_diff.query.html">sigma_diff.query</a>
   </td>
-  <td></td>
+  <td><p>Compare one query genome against a directory of subject genomes: calculate the sliding window <code>delta*</code> profile of the query against every subject and export each profile as a csv file, then compile all of the profiles into one merged matrix csv document.</p></td>
+</tr>
+<tr>
+  <td id="genome.delta_star_profile">
+    <a href="./sigma_difference/genome.delta_star_profile.html">genome.delta_star_profile</a>
+  </td>
+  <td><p>Sliding window <code>delta*</code> profile: the delta-difference between each local window of the genome and the comparison sequence.</p>
+
+<p>PERFORMANCE: implemented with the incremental window count matrix (O(1) update per slide + O(16) distance per sample), and the comparison sequence signature is built only once.</p></td>
 </tr>
 <tr>
   <td id="rendering_merge.delta_source">
     <a href="./sigma_difference/rendering_merge.delta_source.html">rendering_merge.delta_source</a>
   </td>
-  <td><p>要求所有的文件都必须要为同一个基因组比对不同的基因组，不可以改动输出文件的文件名</p></td>
+  <td><p>Merge the exported partition-level <code>delta*</code> profile csv files with the two-way BLAST best hit rendering data.</p></td>
 </tr>
 <tr>
-  <td id="write.csv.genome_partition_data">
-    <a href="./sigma_difference/write.csv.genome_partition_data.html">write.csv.genome_partition_data</a>
+  <td id="compile.cai">
+    <a href="./sigma_difference/compile.cai.html">compile.cai</a>
   </td>
-  <td></td>
+  <td><p>Compile the codon usage table of every species gene collection. The reference set of each species is its own gene collection (for a real high-expression reference set use <a href="cref:M:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.ToolsAPI.BuildCAIReference(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,SMRUCC.genomics.SequenceModel.NucleotideModels.Translation.GeneticCodes,System.String)">ToolsAPI.BuildCAIReference()</a> with the ribosomal protein genes).</p></td>
 </tr>
 <tr>
-  <td id="read.csv.genome_partition_data">
-    <a href="./sigma_difference/read.csv.genome_partition_data.html">read.csv.genome_partition_data</a>
+  <td id="Compile.CAI">
+    <a href="./sigma_difference/Compile.CAI.html">Compile.CAI</a>
   </td>
-  <td></td>
+  <td><p>Compile the CAI w weight table of one reference gene collection and export the codon usage csv table. (legacy batch compilation entry)</p></td>
 </tr>
 <tr>
   <td id="partition_data.create">
     <a href="./sigma_difference/partition_data.create.html">partition_data.create</a>
   </td>
-  <td></td>
+  <td><p>Create the chromosome partitioning data from the two-way BLAST best hit data: for every partition tag, locate the corresponding ORFs on every subject genome and cut the partition nucleotide segments.</p></td>
+</tr>
+<tr>
+  <td id="write.csv.genome_partition_data">
+    <a href="./sigma_difference/write.csv.genome_partition_data.html">write.csv.genome_partition_data</a>
+  </td>
+  <td><p>Save the partitioning data collection as a csv document.</p></td>
+</tr>
+<tr>
+  <td id="read.csv.genome_partition_data">
+    <a href="./sigma_difference/read.csv.genome_partition_data.html">read.csv.genome_partition_data</a>
+  </td>
+  <td><p>Load the partitioning data collection from its csv document.</p></td>
 </tr>
 <tr>
   <td id="Read.Csv.Chromsome_Partitioning">
     <a href="./sigma_difference/Read.Csv.Chromsome_Partitioning.html">Read.Csv.Chromsome_Partitioning</a>
   </td>
-  <td></td>
-</tr>
-<tr>
-  <td id="genome.sigma_diff">
-    <a href="./sigma_difference/genome.sigma_diff.html">genome.sigma_diff</a>
-  </td>
-  <td><p>并行版本的计算函数</p></td>
+  <td><p>Load the chromosome partitioning entries from their csv document.</p></td>
 </tr>
 <tr>
   <td id="Partition.Similarity.Calculates">
     <a href="./sigma_difference/Partition.Similarity.Calculates.html">Partition.Similarity.Calculates</a>
   </td>
-  <td><p>计算基因组之中的不同的功能分段之间的同质性</p></td>
+  <td><p>Calculate the pairwise <code>delta*</code> homogeneity matrix between all of the genome partition segments (the values are reported as <code>delta* x 1000</code>).</p></td>
 </tr>
 <tr>
   <td id="Partitions.Creates">
     <a href="./sigma_difference/Partitions.Creates.html">Partitions.Creates</a>
   </td>
-  <td></td>
+  <td><p>Create the partition data from a raw data frame: the start / stop columns define the segment loci on the given genome sequence.</p></td>
 </tr>
 <tr>
   <td id="measure_homogeneity">
     <a href="./sigma_difference/measure_homogeneity.html">measure_homogeneity</a>
   </td>
-  <td><p>measuring the homogeneity property using a specific rule sequence between the dnaA and gyrB gene in batch.</p>
-
-<p>(批量计算比较基因组序列之间的同质性)</p></td>
+  <td><p>Measure the homogeneity property of the genome partition segments against the <code>dnaA</code>-<code>gyrB</code> ruler segment of the reference genomes in batch.</p></td>
 </tr>
 <tr>
   <td id="seq.dist">
     <a href="./sigma_difference/seq.dist.html">seq.dist</a>
   </td>
-  <td><p>Create a distance matrix for a given sequence collection</p></td>
+  <td><p>Create a delta* distance matrix for a given sequence collection.</p></td>
 </tr>
 <tr>
-  <td id="sigma">
-    <a href="./sigma_difference/sigma.html">sigma</a>
+  <td id="delta_star">
+    <a href="./sigma_difference/delta_star.html">delta_star</a>
   </td>
-  <td><p>A measure of difference between two sequences f and g (from different organisms or from different regions of the same genome) is the average absolute dinucleotide relative abundance difference calculated as</p>
+  <td><p>The <code>delta*</code> measure of difference between two sequences f and g (from different organisms or from different regions of the same genome): the average absolute dinucleotide relative abundance difference</p>
 
 
-<pre><code> sigma(f, g) = (1/16)*∑|pXY(f)-pXY(g)|</code></pre>
+<pre><code> delta*(f, g) = (1/16) SUM |rho*XY(f) - rho*XY(g)|</code></pre>
 
 
-<p>where the sum extends over all dinucleotides (abbreviated sigma-differences).</p></td>
+<p>where the sum extends over all 16 dinucleotides.</p></td>
 </tr>
 <tr>
   <td id="dnaA_gyrB">
     <a href="./sigma_difference/dnaA_gyrB.html">dnaA_gyrB</a>
   </td>
-  <td><p>Using the DNA segment between the <code>dnaA</code> and <code>gyrB</code> as the reference rule.</p></td>
+  <td><p>Using the DNA segment between the <code>dnaA</code> and <code>gyrB</code> genes as the reference ruler for the genome homogeneity measurement.</p></td>
+</tr>
+<tr>
+  <td id="genome.signature_profile">
+    <a href="./sigma_difference/genome.signature_profile.html">genome.signature_profile</a>
+  </td>
+  <td><p>The <code>rho*</code> genome signature profile: the double-strand symmetrized dinucleotide relative abundance <code>rho*XY = fXY / (fX fY)</code> of all 16 dinucleotides, each reported with its six-level significance symbol (<code>---</code> / <code>--</code> / <code>-</code> / <code>+</code> / <code>++</code> / <code>+++</code>, thresholds 0.50 / 0.70 / 0.78 / 1.23 / 1.30 / 1.50).</p></td>
+</tr>
+<tr>
+  <td id="tau_star">
+    <a href="./sigma_difference/tau_star.html">tau_star</a>
+  </td>
+  <td><p>The symmetrized <code>tau*</code> generalized odds ratio of one tetranucleotide:</p>
+
+
+<pre><code> tau*(XYZW) = f(XYZW) f(YZ) / ( f(XYZ) f(YZW) )</code></pre>
+
+
+<p>A value far below 1 indicates a restriction site avoidance signal (e.g. the CTAG avoidance in <code>M. jannaschii</code>, tau* = 0.06).</p></td>
+</tr>
+<tr>
+  <td id="tau_star.profile">
+    <a href="./sigma_difference/tau_star.profile.html">tau_star.profile</a>
+  </td>
+  <td><p>The <code>tau*</code> tetranucleotide relative abundance profile of all 256 tetranucleotides.</p></td>
+</tr>
+<tr>
+  <td id="tau_star.rare_frequent">
+    <a href="./sigma_difference/tau_star.rare_frequent.html">tau_star.rare_frequent</a>
+  </td>
+  <td><p>List the rare and the frequent tetranucleotides of the <code>tau*</code> profile against the given thresholds (the restriction avoidance candidates).</p></td>
+</tr>
+<tr>
+  <td id="word.count">
+    <a href="./sigma_difference/word.count.html">word.count</a>
+  </td>
+  <td><p>Count the absolute occurrences of one oligonucleotide word in the genome sequence (e.g. the CTAG rarity report).</p></td>
+</tr>
+<tr>
+  <td id="word.locate">
+    <a href="./sigma_difference/word.locate.html">word.locate</a>
+  </td>
+  <td><p>Locate all occurrences of one oligonucleotide word in the genome sequence (exact match, 0-based start positions).</p></td>
+</tr>
+<tr>
+  <td id="word.rscan">
+    <a href="./sigma_difference/word.rscan.html">word.rscan</a>
+  </td>
+  <td><p>Run the r-scan significance test on the spatial distribution of one oligonucleotide word (Dembo-Karlin 1992): detect the clustering, the overdispersion or the even spacing patterns against the random (Poisson) spacing expectation.</p></td>
+</tr>
+<tr>
+  <td id="codon.signature_profile">
+    <a href="./sigma_difference/codon.signature_profile.html">codon.signature_profile</a>
+  </td>
+  <td><p>Build the site-specific codon signature profile of a gene collection: the odds ratios <code>rhoXY(1,2) / rhoYZ(2,3) / rhoXZ(1,3)</code> within the codons and <code>rhoZW(3,4)</code> at the codon junctions, distinguished from the global genome signature.</p></td>
+</tr>
+<tr>
+  <td id="codon.usage_profile">
+    <a href="./sigma_difference/codon.usage_profile.html">codon.usage_profile</a>
+  </td>
+  <td><p>Build the codon usage frequency profile c(x, y, z) of a gene collection (the reference class C of the <code>B(F|C)</code> codon bias measurement).</p></td>
+</tr>
+<tr>
+  <td id="codon.bias_B.FC">
+    <a href="./sigma_difference/codon.bias_B.FC.html">codon.bias_B.FC</a>
+  </td>
+  <td><p>The <code>B(F|C)</code> codon usage bias difference between two gene classes (the paper's formula [1]):</p>
+
+
+<pre><code> B(F|C) = SUM_a p_a(F) SUM_{(x,y,z)-&gt;a} | f(x,y,z) - c(x,y,z) |</code></pre>
+
+
+<p>the per-codon absolute difference weighted by the amino acid frequency of the query class F. Note that this measurement is asymmetric: F is the query object and C is the reference ruler.</p></td>
+</tr>
+<tr>
+  <td id="codon.bias_B.gC">
+    <a href="./sigma_difference/codon.bias_B.gC.html">codon.bias_B.gC</a>
+  </td>
+  <td><p>The <code>B(g|C)</code> codon usage bias difference of one single gene g against the reference class C.</p></td>
+</tr>
+<tr>
+  <td id="alien.genes.rp_reference">
+    <a href="./sigma_difference/alien.genes.rp_reference.html">alien.genes.rp_reference</a>
+  </td>
+  <td><p>Build the codon usage profile of the ribosomal protein gene set (the highly expressed reference set RP of the 2D threshold method).</p></td>
+</tr>
+<tr>
+  <td id="alien.genes.scan">
+    <a href="./sigma_difference/alien.genes.scan.html">alien.genes.scan</a>
+  </td>
+  <td><p>Identify the alien (laterally transferred) genes with the 2D threshold method (the paper's <code>B. subtilis</code> thresholds by default):</p>
+
+<p>B(g|all) &gt; 0.42 and B(g|RP) &gt; 0.45: alien gene - unlike both the average host gene and the host highly expressed genes;</p>
+
+<p>B(g|all) &gt; 0.42 but B(g|RP) &lt; 0.45: highly expressed host gene.</p></td>
+</tr>
+<tr>
+  <td id="genome.delta_star_islands">
+    <a href="./sigma_difference/genome.delta_star_islands.html">genome.delta_star_islands</a>
+  </td>
+  <td><p>The sliding window <code>delta*</code> profile of the genome against its own global average genome signature: the alien DNA that has not yet been ameliorated shows a signature deviating from the host average and therefore appears as peaks on the curve (e.g. the pathogenicity islands).</p></td>
+</tr>
+<tr>
+  <td id="genome.gc_skew">
+    <a href="./sigma_difference/genome.gc_skew.html">genome.gc_skew</a>
+  </td>
+  <td><p>The <code>(C - G) / (C + G)</code> sliding window profile of the genome strand composition asymmetry: the leading strand favors purines (G &gt; C), so the curve flips its sign at the replication origin oriC.</p></td>
+</tr>
+<tr>
+  <td id="replication_origin.predict">
+    <a href="./sigma_difference/replication_origin.predict.html">replication_origin.predict</a>
+  </td>
+  <td><p>Locate the candidate replication origin (oriC) and terminus positions from the GC skew profile: the sign-flip sites of the cumulative skew curve. A single bidirectional replication origin produces one sign flip at oriC; genomes with many origins (e.g. some archaea) show no significant asymmetry at all.</p></td>
 </tr></tbody>
       </table>
     </div>

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Compile.CAI</title>
+    <title>Compile the CAI w weight table of one reference gene collection and export</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>Compile.CAI</h2>
+        <h2>Compile the CAI w weight table of one reference gene collection and export</h2>
 
         <h3>Description</h3>
 
-        Compile.CAI
+        <p>the codon usage csv table. (legacy batch compilation entry)</p>
 
         <h3>Usage</h3>
 
@@ -35,6 +35,13 @@
 
         <table>
             
+<dt>genes</dt>
+<dd><p>the reference gene collection of one species. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a>]</p></dd>
+
+
+<dt>WorkTemp</dt>
+<dd><p>the xml cache directory (reserved for the incremental compilation). [as string]</p></dd>
+
         </table>
 
 
@@ -48,7 +55,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/File.html">File</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/File.html">File</a></li></ul>
+        <p>the compiled codon usage csv document</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/File.html">File</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

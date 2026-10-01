@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Identify the alien (laterally transferred) genes with the 2D threshold</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>alien.genes.scan {sigma_difference}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Identify the alien (laterally transferred) genes with the 2D threshold</h2>
+
+        <h3>Description</h3>
+
+        <p>method (the paper's <code>B. subtilis</code> thresholds by default):&lt;br /&gt;&lt;br /&gt; B(g|all) &gt; 0.42 and B(g|RP) &gt; 0.45: alien gene - unlike both the average&lt;br /&gt; host gene and the host highly expressed genes;&lt;br /&gt;&lt;br /&gt; B(g|all) &gt; 0.42 but B(g|RP) &lt; 0.45: highly expressed host gene.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>alien.genes.scan</strong>(<i>genes</i>,
+    <i>rpPattern</i> = <span style='color: brown;'><strong>"ribosomal protein"</strong></span>,
+    <i>biasAll</i> = <span style='color: green;'>0.42</span>,
+    <i>biasRP</i> = <span style='color: green;'>0.45</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>genes</dt>
+<dd><p>all CDS gene sequences of the genome under study. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a>]</p></dd>
+
+
+<dt>rpPattern</dt>
+<dd><p>the ribosomal protein product name matching pattern; pass an empty string to skip the B(g|RP) axis. [as string]</p></dd>
+
+
+<dt>biasAll</dt>
+<dd><p>the B(g|all) threshold, default = paper value 0.42. [as double]</p></dd>
+
+
+<dt>biasRP</dt>
+<dd><p>the B(g|RP) threshold, default = paper value 0.45. [as double]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        comparative_toolkit
+
+        <h3>Value</h3>
+
+        <p>the classification prediction of every long gene</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/AlienGenePrediction.html">AlienGenePrediction[]</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>sigma_difference</em> version 1.0.0.0 <a
+                href="../sigma_difference.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

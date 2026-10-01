@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>partition_data.create</title>
+    <title>Create the chromosome partitioning data from the two-way BLAST best hit</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>partition_data.create</h2>
+        <h2>Create the chromosome partitioning data from the two-way BLAST best hit</h2>
 
         <h3>Description</h3>
 
-        partition_data.create
+        <p>data: for every partition tag, locate the corresponding ORFs on every&lt;br /&gt; subject genome and cut the partition nucleotide segments.</p>
 
         <h3>Usage</h3>
 
@@ -34,6 +34,21 @@
 
         <table>
             
+<dt>besthit</dt>
+<dd><p>the two-way BLAST best hit data of the genome pairs. [as <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/Tasks/Models/SpeciesBesthit.html">SpeciesBesthit</a>]</p></dd>
+
+
+<dt>partitions</dt>
+<dd><p>the partition definitions of the query genome. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/ChromosomePartitioningEntry.html">iterates(ChromosomePartitioningEntry)</a>]</p></dd>
+
+
+<dt>allCDSInfo</dt>
+<dd><p>the CDS gene table of all of the genomes. [as <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/GeneTable.html">iterates(GeneTable)</a>]</p></dd>
+
+
+<dt>faDIR</dt>
+<dd><p>the directory of the subject genome fasta files. [as string]</p></dd>
+
         </table>
 
 
@@ -47,7 +62,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/PartitioningData.html">PartitioningData[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/PartitioningData.html">PartitioningData[]</a></li></ul>
+        <p>the partition nucleotide segments of every subject genome</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/PartitioningData.html">PartitioningData[]</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

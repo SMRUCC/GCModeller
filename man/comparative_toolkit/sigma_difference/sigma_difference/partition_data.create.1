@@ -1,12 +1,35 @@
 .\" man page create by R# package system.
 .TH SIGMA_DIFFERENCE 1 2000-1月 "partition_data.create" "partition_data.create"
 .SH NAME
-partition_data.create \- 
+partition_data.create \- Create the chromosome partitioning data from the two-way BLAST best hit
 .SH SYNOPSIS
 \fIpartition_data.create(\fBbesthit\fR as <generic> SpeciesBesthit, 
 \fBpartitions\fR as <generic> IEnumerable`1, 
 \fBallCDSInfo\fR as <generic> IEnumerable`1, 
 \fBfaDIR\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Create the chromosome partitioning data from the two-way BLAST best hit
+ data: for every partition tag, locate the corresponding ORFs on every
+ subject genome and cut the partition nucleotide segments.
+.PP
+.SH OPTIONS
+.PP
+\fBbesthit\fB \fR\- the two-way BLAST best hit data of the genome pairs. 
+.PP
+.PP
+\fBpartitions\fB \fR\- the partition definitions of the query genome. 
+.PP
+.PP
+\fBallCDSInfo\fB \fR\- the CDS gene table of all of the genomes. 
+.PP
+.PP
+\fBfaDIR\fB \fR\- the directory of the subject genome fasta files. 
+.PP
+.SH VALUE
+.PP
+the partition nucleotide segments of every subject genome
+.PP
 .SH SEE ALSO
 sigma_difference
 .SH FILES

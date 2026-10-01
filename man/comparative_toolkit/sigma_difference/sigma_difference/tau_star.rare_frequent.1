@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "tau_star.rare_frequent" "tau_star.rare_frequent"
+.SH NAME
+tau_star.rare_frequent \- List the rare and the frequent tetranucleotides of the \fBtau*\fR profile
+.SH SYNOPSIS
+\fItau_star.rare_frequent(\fBnt\fR as <generic> FastaSeq, 
+\fBrareBelow\fR as double = 0.78, 
+\fBfrequentAbove\fR as double = 1.23);\fR
+.SH DESCRIPTION
+.PP
+List the rare and the frequent tetranucleotides of the \fBtau*\fR profile
+ against the given thresholds (the restriction avoidance candidates).
+.PP
+.SH OPTIONS
+.PP
+\fBnt\fB \fR\- the genome nucleotide sequence. 
+.PP
+.PP
+\fBrareBelow\fB \fR\- words with \fBtau*\fR below this value are rare. 
+.PP
+.PP
+\fBfrequentAbove\fB \fR\- words with \fBtau*\fR above this value are frequent. 
+.PP
+.SH VALUE
+.PP
+a dictionary with the \fBrare\fR and \fBfrequent\fR word lists
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

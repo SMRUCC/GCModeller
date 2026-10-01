@@ -1,0 +1,38 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "delta_star" "delta_star"
+.SH NAME
+delta_star \- The \fBdelta*\fR measure of difference between two sequences f and g (from
+.SH SYNOPSIS
+\fIdelta_star(\fBf\fR as <generic> FastaSeq, 
+\fBg\fR as <generic> FastaSeq);\fR
+.SH DESCRIPTION
+.PP
+The \fBdelta*\fR measure of difference between two sequences f and g (from
+ different organisms or from different regions of the same genome): the
+ average absolute dinucleotide relative abundance difference
+
+\fB
+ delta*(f, g) = (1/16) SUM |rho*XY(f) - rho*XY(g)|
+ \fR`
+
+ where the sum extends over all 16 dinucleotides.
+.PP
+.SH OPTIONS
+.PP
+\fBf\fB \fR\- the query sequence. 
+.PP
+.PP
+\fBg\fB \fR\- the subject sequence. 
+.PP
+.SH VALUE
+.PP
+the delta* value with the similarity level description attached as its unit
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

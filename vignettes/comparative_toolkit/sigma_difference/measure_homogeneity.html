@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>measuring the homogeneity property using a specific rule</title>
+    <title>Measure the homogeneity property of the genome partition segments against</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,16 +18,16 @@
             </tr>
         </table>
 
-        <h2>measuring the homogeneity property using a specific rule</h2>
+        <h2>Measure the homogeneity property of the genome partition segments against</h2>
 
         <h3>Description</h3>
 
-        <p>sequence between the dnaA and gyrB gene in batch.&lt;br /&gt; &lt;br /&gt; (批量计算比较基因组序列之间的同质性)</p>
+        <p>the <code>dnaA</code>-<code>gyrB</code> ruler segment of the reference genomes in batch.</p>
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>measure_homogeneity</strong>(<i>partition.data</i>, <i>rule</i>, <i>st</i>, <i>sp</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>measure_homogeneity</strong>(<i>PartitionData</i>, <i>RuleSource</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -35,11 +35,11 @@
         <table>
             
 <dt>PartitionData</dt>
-<dd><p>-</p></dd>
+<dd><p>the partition segments of all of the genomes. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/PartitioningData.html">iterates(PartitioningData)</a>]</p></dd>
 
 
 <dt>RuleSource</dt>
-<dd><p>The original GenBank dowunload data directory which should contains the <em>.ptt file for parsing the rule sequence between dnaA and gyrB gene and the </em>.fna file for parsing the genome nt fasta sequence.</p></dd>
+<dd><p>The original GenBank download data directory which should contains the <code>*.ptt</code> file for parsing the ruler segment between the <code>dnaA</code> and <code>gyrB</code> genes and the <code>*.fna</code> file for parsing the genome nucleotide fasta sequence. [as string]</p></dd>
 
         </table>
 
@@ -54,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/StorageProvider/DataFrameResolver.html">DataFrameResolver</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/StorageProvider/DataFrameResolver.html">DataFrameResolver</a></li></ul>
+        <p>the data frame with one ruler distance column per reference genome</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/StorageProvider/DataFrameResolver.html">DataFrameResolver</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

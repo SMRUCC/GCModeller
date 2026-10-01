@@ -1,0 +1,31 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "word.locate" "word.locate"
+.SH NAME
+word.locate \- Locate all occurrences of one oligonucleotide word in the genome sequence
+.SH SYNOPSIS
+\fIword.locate(\fBgenome\fR as <generic> FastaSeq, 
+\fBword\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Locate all occurrences of one oligonucleotide word in the genome sequence
+ (exact match, 0-based start positions).
+.PP
+.SH OPTIONS
+.PP
+\fBgenome\fB \fR\- the genome nucleotide sequence. 
+.PP
+.PP
+\fBword\fB \fR\- the oligonucleotide word to be located. 
+.PP
+.SH VALUE
+.PP
+the 0-based start positions of the word occurrences
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

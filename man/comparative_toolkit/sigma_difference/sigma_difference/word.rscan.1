@@ -1,0 +1,38 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "word.rscan" "word.rscan"
+.SH NAME
+word.rscan \- Run the r-scan significance test on the spatial distribution of one
+.SH SYNOPSIS
+\fIword.rscan(\fBgenome\fR as <generic> FastaSeq, 
+\fBword\fR as string, 
+\fBRMax\fR as integer = 5);\fR
+.SH DESCRIPTION
+.PP
+Run the r-scan significance test on the spatial distribution of one
+ oligonucleotide word (Dembo-Karlin 1992): detect the clustering, the
+ overdispersion or the even spacing patterns against the random (Poisson)
+ spacing expectation.
+.PP
+.SH OPTIONS
+.PP
+\fBgenome\fB \fR\- the genome nucleotide sequence. 
+.PP
+.PP
+\fBword\fB \fR\- the oligonucleotide word under study. 
+.PP
+.PP
+\fBRMax\fB \fR\- the maximum r of the left-tail r-scan table; increase this
+ value when the word copy number is large (e.g. the USS / HIP1 elements). 
+.PP
+.SH VALUE
+.PP
+the r-scan result with the pattern interpretation
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

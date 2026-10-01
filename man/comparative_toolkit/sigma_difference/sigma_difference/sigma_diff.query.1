@@ -1,18 +1,35 @@
 .\" man page create by R# package system.
 .TH SIGMA_DIFFERENCE 1 2000-1月 "sigma_diff.query" "sigma_diff.query"
 .SH NAME
-sigma_diff.query \- 
+sigma_diff.query \- Compare one query genome against a directory of subject genomes: calculate
 .SH SYNOPSIS
 \fIsigma_diff.query(\fBquery\fR as string, 
 \fBsbjDIR\fR as string, 
 \fBEXPORT\fR as string, 
 \fBwindowsSize\fR as integer = 1000);\fR
+.SH DESCRIPTION
+.PP
+Compare one query genome against a directory of subject genomes: calculate
+ the sliding window \fBdelta*\fR profile of the query against every subject and
+ export each profile as a csv file, then compile all of the profiles into one
+ merged matrix csv document.
+.PP
 .SH OPTIONS
 .PP
-\fBquery\fB \fR\- Query基因组的fasta序列的文件路径. 
+\fBquery\fB \fR\- the query genome fasta file path. 
 .PP
 .PP
-\fBsbjDIR\fB \fR\- 将要进行比较的基因组的fasta序列文件的存放文件夹. 
+\fBsbjDIR\fB \fR\- the directory of the subject genome fasta files. 
+.PP
+.PP
+\fBEXPORT\fB \fR\- the csv output directory. 
+.PP
+.PP
+\fBwindowsSize\fB \fR\- the sliding window size in bp, default 1kb. 
+.PP
+.SH VALUE
+.PP
+true when the compiled matrix has been saved
 .PP
 .SH SEE ALSO
 sigma_difference

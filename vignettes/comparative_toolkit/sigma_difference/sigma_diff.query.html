@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title></title>
+    <title>Compare one query genome against a directory of subject genomes: calculate</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2></h2>
+        <h2>Compare one query genome against a directory of subject genomes: calculate</h2>
 
         <h3>Description</h3>
 
-        
+        <p>the sliding window <code>delta*</code> profile of the query against every subject and&lt;br /&gt; export each profile as a csv file, then compile all of the profiles into one&lt;br /&gt; merged matrix csv document.</p>
 
         <h3>Usage</h3>
 
@@ -36,11 +36,19 @@
         <table>
             
 <dt>query</dt>
-<dd><p>Query基因组的fasta序列的文件路径. [as string]</p></dd>
+<dd><p>the query genome fasta file path. [as string]</p></dd>
 
 
 <dt>sbjDIR</dt>
-<dd><p>将要进行比较的基因组的fasta序列文件的存放文件夹. [as string]</p></dd>
+<dd><p>the directory of the subject genome fasta files. [as string]</p></dd>
+
+
+<dt>EXPORT</dt>
+<dd><p>the csv output directory. [as string]</p></dd>
+
+
+<dt>windowsSize</dt>
+<dd><p>the sliding window size in bp, default 1kb. [as integer]</p></dd>
 
         </table>
 
@@ -55,7 +63,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type boolean.<h4>clr value class</h4><ul><li>boolean</li></ul>
+        <p>true when the compiled matrix has been saved</p><h4>clr value class</h4><ul><li>boolean</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

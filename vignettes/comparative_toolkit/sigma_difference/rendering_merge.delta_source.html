@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>要求所有的文件都必须要为同一个基因组比对不同的基因组，不可以改动输出文件的文件名</title>
+    <title>Merge the exported partition-level ``delta*`` profile csv files with the</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>要求所有的文件都必须要为同一个基因组比对不同的基因组，不可以改动输出文件的文件名</h2>
+        <h2>Merge the exported partition-level ``delta*`` profile csv files with the</h2>
 
         <h3>Description</h3>
 
-        
+        <p>two-way BLAST best hit rendering data.</p>
 
         <h3>Usage</h3>
 
@@ -36,7 +36,23 @@
         <table>
             
 <dt>source</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the source directory that contains the profile csv files. [as string]</p></dd>
+
+
+<dt>query</dt>
+<dd><p>the gene objects of the query genome. [as <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/IGeneBrief.html">iterates(IGeneBrief)</a>]</p></dd>
+
+
+<dt>render.source</dt>
+<dd><p>the xml file of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models.SpeciesBesthit">SpeciesBesthit</a> rendering data. [as string]</p></dd>
+
+
+<dt>saveto</dt>
+<dd><p>the merged csv output file path. [as string]</p></dd>
+
+
+<dt>samples</dt>
+<dd><p>the row sampling step (1 = keep every row). [as integer]</p></dd>
 
         </table>
 
@@ -51,7 +67,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type boolean.<h4>clr value class</h4><ul><li>boolean</li></ul>
+        <p>true when the merged csv document has been saved</p><h4>clr value class</h4><ul><li>boolean</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

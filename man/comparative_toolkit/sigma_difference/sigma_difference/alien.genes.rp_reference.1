@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH SIGMA_DIFFERENCE 1 2000-1月 "alien.genes.rp_reference" "alien.genes.rp_reference"
+.SH NAME
+alien.genes.rp_reference \- Build the codon usage profile of the ribosomal protein gene set (the
+.SH SYNOPSIS
+\fIalien.genes.rp_reference(\fBgenes\fR as <generic> FastaFile, 
+\fBpattern\fR as string = "ribosomal protein");\fR
+.SH DESCRIPTION
+.PP
+Build the codon usage profile of the ribosomal protein gene set (the
+ highly expressed reference set RP of the 2D threshold method).
+.PP
+.SH OPTIONS
+.PP
+\fBgenes\fB \fR\- all CDS gene sequences of the genome under study. 
+.PP
+.PP
+\fBpattern\fB \fR\- the ribosomal protein product name matching pattern in the fasta header. 
+.PP
+.SH VALUE
+.PP
+the ribosomal protein codon usage profile, or Nothing when no
+ ribosomal protein gene was matched
+.PP
+.SH SEE ALSO
+sigma_difference
+.SH FILES
+.PP
+comparative_toolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

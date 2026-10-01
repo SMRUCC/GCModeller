@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Run the r-scan significance test on the spatial distribution of one</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>word.rscan {sigma_difference}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Run the r-scan significance test on the spatial distribution of one</h2>
+
+        <h3>Description</h3>
+
+        <p>oligonucleotide word (Dembo-Karlin 1992): detect the clustering, the&lt;br /&gt; overdispersion or the even spacing patterns against the random (Poisson)&lt;br /&gt; spacing expectation.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>word.rscan</strong>(<i>genome</i>, <i>word</i>,
+    <i>RMax</i> = <span style='color: green;'>5</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>genome</dt>
+<dd><p>the genome nucleotide sequence. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>]</p></dd>
+
+
+<dt>word</dt>
+<dd><p>the oligonucleotide word under study. [as string]</p></dd>
+
+
+<dt>RMax</dt>
+<dd><p>the maximum r of the left-tail r-scan table; increase this value when the word copy number is large (e.g. the USS / HIP1 elements). [as integer]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        comparative_toolkit
+
+        <h3>Value</h3>
+
+        <p>the r-scan result with the pattern interpretation</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/WordScanResult.html">WordScanResult</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>sigma_difference</em> version 1.0.0.0 <a
+                href="../sigma_difference.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

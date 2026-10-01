@@ -1,29 +1,29 @@
 .\" man page create by R# package system.
 .TH SIGMA_DIFFERENCE 1 2000-1月 "measure_homogeneity" "measure_homogeneity"
 .SH NAME
-measure_homogeneity \- measuring the homogeneity property using a specific rule
+measure_homogeneity \- Measure the homogeneity property of the genome partition segments against
 .SH SYNOPSIS
-\fImeasure_homogeneity(\fBpartition_data\fR as <generic> IEnumerable`1, 
-\fBrule\fR as <generic> FastaSeq, 
-\fBst\fR as integer, 
-\fBsp\fR as integer);\fR
+\fImeasure_homogeneity(\fBPartitionData\fR as <generic> IEnumerable`1, 
+\fBRuleSource\fR as string);\fR
 .SH DESCRIPTION
 .PP
-measuring the homogeneity property using a specific rule 
- sequence between the dnaA and gyrB gene in batch.
- 
- (批量计算比较基因组序列之间的同质性)
+Measure the homogeneity property of the genome partition segments against
+ the \fBdnaA\fR-\fBgyrB\fR ruler segment of the reference genomes in batch.
 .PP
 .SH OPTIONS
 .PP
-\fBPartitionData\fB \fR\- -. 
+\fBPartitionData\fB \fR\- the partition segments of all of the genomes. 
 .PP
 .PP
 \fBRuleSource\fB \fR\- 
- The original GenBank dowunload data directory which should contains the *.ptt 
- file for parsing the rule sequence between dnaA and gyrB gene and the *.fna file for parsing the 
- genome nt fasta sequence.
+ The original GenBank download data directory which should contains the \fB*.ptt\fR
+ file for parsing the ruler segment between the \fBdnaA\fR and \fBgyrB\fR genes and
+ the \fB*.fna\fR file for parsing the genome nucleotide fasta sequence.
 . 
+.PP
+.SH VALUE
+.PP
+the data frame with one ruler distance column per reference genome
 .PP
 .SH SEE ALSO
 sigma_difference

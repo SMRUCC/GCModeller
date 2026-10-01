@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>compile.delta_query</title>
+    <title>Compile a set of pairwise ``delta*`` profile csv files (all created from the</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>compile.delta_query</h2>
+        <h2>Compile a set of pairwise ``delta*`` profile csv files (all created from the</h2>
 
         <h3>Description</h3>
 
-        compile.delta_query
+        <p>same query genome against different subjects) into one merged matrix csv&lt;br /&gt; document. The output file names cannot be changed by this requirement.</p>
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>source</dt>
+<dd><p>the source directory that contains the profile csv files. [as string]</p></dd>
+
+
+<dt>saveCsv</dt>
+<dd><p>the merged matrix csv output file path. [as string]</p></dd>
+
         </table>
 
 
@@ -47,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type boolean.<h4>clr value class</h4><ul><li>boolean</li></ul>
+        <p>true when the merged document has been saved</p><h4>clr value class</h4><ul><li>boolean</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Build the codon usage frequency profile c(x, y, z) of a gene collection</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>codon.usage_profile {sigma_difference}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Build the codon usage frequency profile c(x, y, z) of a gene collection</h2>
+
+        <h3>Description</h3>
+
+        <p>(the reference class C of the <code>B(F|C)</code> codon bias measurement).</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>codon.usage_profile</strong>(<i>genes</i>,
+    <i>name</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>excludeStopCodons</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>genes</dt>
+<dd><p>the CDS gene sequences of the gene collection. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a>]</p></dd>
+
+
+<dt>name</dt>
+<dd><p>the profile name. [as string]</p></dd>
+
+
+<dt>excludeStopCodons</dt>
+<dd><p>exclude the stop codons from the frequency total. [as boolean]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        comparative_toolkit
+
+        <h3>Value</h3>
+
+        <p>the codon usage profile</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/CodonUsageProfile.html">CodonUsageProfile</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>sigma_difference</em> version 1.0.0.0 <a
+                href="../sigma_difference.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

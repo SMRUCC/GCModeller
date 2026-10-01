@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH SIGMA_DIFFERENCE 1 2000-1月 "rendering_merge.delta_source" "rendering_merge.delta_source"
 .SH NAME
-rendering_merge.delta_source \- 要求所有的文件都必须要为同一个基因组比对不同的基因组，不可以改动输出文件的文件名
+rendering_merge.delta_source \- Merge the exported partition-level \fBdelta*\fR profile csv files with the
 .SH SYNOPSIS
 \fIrendering_merge.delta_source(\fBsource\fR as string, 
 \fBquery\fR as <generic> IEnumerable`1, 
@@ -10,11 +10,28 @@ rendering_merge.delta_source \- 要求所有的文件都必须要为同一个基
 \fBsamples\fR as integer = 1);\fR
 .SH DESCRIPTION
 .PP
-要求所有的文件都必须要为同一个基因组比对不同的基因组，不可以改动输出文件的文件名
+Merge the exported partition-level \fBdelta*\fR profile csv files with the
+ two-way BLAST best hit rendering data.
 .PP
 .SH OPTIONS
 .PP
-\fBsource\fB \fR\- -. 
+\fBsource\fB \fR\- the source directory that contains the profile csv files. 
+.PP
+.PP
+\fBquery\fB \fR\- the gene objects of the query genome. 
+.PP
+.PP
+\fBrender_source\fB \fR\- the xml file of the [SpeciesBesthit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models.SpeciesBesthit) rendering data. 
+.PP
+.PP
+\fBsaveto\fB \fR\- the merged csv output file path. 
+.PP
+.PP
+\fBsamples\fB \fR\- the row sampling step (1 = keep every row). 
+.PP
+.SH VALUE
+.PP
+true when the merged csv document has been saved
 .PP
 .SH SEE ALSO
 sigma_difference

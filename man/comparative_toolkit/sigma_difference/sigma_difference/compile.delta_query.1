@@ -1,10 +1,27 @@
 .\" man page create by R# package system.
 .TH SIGMA_DIFFERENCE 1 2000-1月 "compile.delta_query" "compile.delta_query"
 .SH NAME
-compile.delta_query \- 
+compile.delta_query \- Compile a set of pairwise \fBdelta*\fR profile csv files (all created from the
 .SH SYNOPSIS
 \fIcompile.delta_query(\fBsource\fR as string, 
 \fBsaveCsv\fR as string);\fR
+.SH DESCRIPTION
+.PP
+Compile a set of pairwise \fBdelta*\fR profile csv files (all created from the
+ same query genome against different subjects) into one merged matrix csv
+ document. The output file names cannot be changed by this requirement.
+.PP
+.SH OPTIONS
+.PP
+\fBsource\fB \fR\- the source directory that contains the profile csv files. 
+.PP
+.PP
+\fBsaveCsv\fB \fR\- the merged matrix csv output file path. 
+.PP
+.SH VALUE
+.PP
+true when the merged document has been saved
+.PP
 .SH SEE ALSO
 sigma_difference
 .SH FILES

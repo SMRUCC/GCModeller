@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>基因组两两比较所得到的位点距离数据</p>
+        <p>The sliding window delta* profile data row. (CSV column names kept compatible with the legacy <code>Site/Sigma/Similarity</code> schema)</p>
 
         <h3>Declare</h3>        
 
@@ -30,8 +30,10 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 export class SiteSigma {
-   Sigma: double;
-   Similarity: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/SimilarDiscriptions.html">SimilarDiscriptions</a>;
+   # the delta* value of the window (multiplied by 1000 when reported)
+   DeltaStar: double;
+   # the delta-difference similarity level (see <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.DeltaStarLevels">DeltaStarLevels</a>)
+   Level: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/DeltaStarLevels.html">DeltaStarLevels</a>;
    Site: integer;
 }
 </code>
@@ -40,7 +42,7 @@ export class SiteSigma {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>Similarity</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/SimilarDiscriptions.html">SimilarDiscriptions</a></li>
+<li>use by <i>property</i> member <code>Level</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/DeltaStarLevels.html">DeltaStarLevels</a></li>
 </ol>
 
 
