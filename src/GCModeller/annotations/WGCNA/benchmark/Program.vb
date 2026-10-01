@@ -41,6 +41,7 @@ Module Program
         Public deepSplit As Integer = 2
         Public power As Double = Double.NaN
         Public cut As String = "dynamic"
+        Public cutHeight As Double = Double.NaN
         Public adjacency As Double = 0.6
         Public mergeCut As Double = 0.15
         Public blocks As Integer = 1
@@ -119,9 +120,11 @@ Module Program
                     samples = GeneFilter.ByVariance(samples, opt.block, 0)
                 End If
 
-                result = Analysis.Run(samples, opt.adjacency, pcaLayout:=False,
-                                      treeCut:=config.treeCut, buildGraph:=False,
-                                      power:=opt.power)
+                config.pcaLayout = False
+                config.buildGraph = False
+                config.cutHeight = opt.cutHeight
+
+                result = Analysis.Run(samples, config)
 
                 If opt.dump Then
                     Call DumpMatrices(samples, result, dumpKeys, dumpCor, dumpAdj, dumpTom)
@@ -353,6 +356,7 @@ Module Program
                 Case "deepsplit" : opt.deepSplit = CInt(Val(argValue))
                 Case "power" : opt.power = Val(argValue)
                 Case "cut" : opt.cut = argValue
+                Case "cutheight" : opt.cutHeight = Val(argValue)
                 Case "adjacency" : opt.adjacency = Val(argValue)
                 Case "mergecut" : opt.mergeCut = Val(argValue)
                 Case "blocks" : opt.blocks = CInt(Val(argValue))

@@ -196,6 +196,12 @@ Public Class WGCNAConfig
     Public Property verbose As Boolean = True
 
     ''' <summary>
+    ''' 单块分析时是否用 PCA 前三主成分作为网络节点的初始坐标
+    ''' </summary>
+    ''' <returns>默认 True</returns>
+    Public Property pcaLayout As Boolean = True
+
+    ''' <summary>
     ''' 创建一个默认配置
     ''' </summary>
     ''' <returns>默认配置实例</returns>

@@ -113,6 +113,30 @@ Public Module Analysis
                         Optional buildGraph As Boolean = True,
                         Optional power As Double = Double.NaN) As Result
 
+        Dim config As New WGCNAConfig With {
+            .adjacency = adjacency,
+            .pcaLayout = pcaLayout,
+            .treeCut = treeCut,
+            .maxEdges = maxEdges,
+            .buildGraph = buildGraph,
+            .power = power
+        }
+
+        Return Run(samples, config)
+    End Function
+
+    ''' <summary>
+    ''' 单块 WGCNA 分析（配置驱动）
+    ''' </summary>
+    ''' <param name="samples">基因 x 样本的表达矩阵</param>
+    ''' <param name="config">分析配置</param>
+    ''' <returns>WGCNA 分析结果</returns>
+    ''' <remarks>
+    ''' 与 <see cref="RunBlockwise"/> 使用同一套配置对象，区别只在于是否分块。
+    ''' 基因数超过几千时请改用 <see cref="RunBlockwise"/>。
+    ''' </remarks>
+    Public Function Run(samples As Matrix, config As WGCNAConfig) As Result
+
         Dim n As Integer = samples.size
         Dim geneIds As String() = samples.expression _
             .Select(Function(gene) gene.geneID) _
@@ -138,13 +162,13 @@ Public Module Analysis
         Dim betaList As BetaTest()
         Dim beta As BetaTest
 
-        If Double.IsNaN(power) Then
-            Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
+        If Double.IsNaN(config.power) Then
+            Dim betaSeq As Double() = config.GetBetaSeq()
 
-            betaList = BetaTest.BetaTable(cor, betaSeq, adjacency).ToArray
+            betaList = BetaTest.BetaTable(cor, betaSeq, config.adjacency).ToArray
             beta = betaList(BetaTest.Best(betaList))
         Else
-            beta = New BetaTest With {.Power = power}
+            beta = New BetaTest With {.Power = config.power}
             betaList = New BetaTest() {beta}
         End If
 
@@ -157,7 +181,7 @@ Public Module Analysis
         sw.Restart()
 
         Dim absCor As Double() = WeightedNetwork.AbsCorrelation(cor)
-        Dim network As Double() = WeightedNetwork.BuildAdjacency(absCor, beta.Power, adjacency)
+        Dim network As Double() = WeightedNetwork.BuildAdjacency(absCor, beta.Power, config.adjacency)
         Dim K As New Vector(WeightedNetwork.ConnectivityOf(network, n))
 
         absCor = Nothing
@@ -199,16 +223,19 @@ Public Module Analysis
 
         Dim modules As Dictionary(Of String, String())
 
-        If treeCut = TreeCutMethod.Dynamic Then
+        If config.treeCut = TreeCutMethod.Dynamic Then
             Dim options As New DynamicTreeCut.CutOptions With {
-                .minClusterSize = 20,
-                .deepSplit = 2
+                .minClusterSize = config.minModuleSize,
+                .deepSplit = config.deepSplit,
+                .cutHeight = config.cutHeight,
+                .pamStage = config.pamStage,
+                .verbose = False
             }
             Dim labels As Integer() = DynamicTreeCut.CutreeHybrid(cluster, geneIds, distBuf, options)
 
             modules = DynamicTreeCut.ToModules(labels, geneIds)
         Else
-            modules = StaticCut.Cutree(cluster)
+            modules = StaticCut.Cutree(cluster, config.distCut)
         End If
 
         distBuf = Nothing
@@ -218,10 +245,10 @@ Public Module Analysis
 
         Dim g As NetworkGraph = Nothing
 
-        If buildGraph Then
+        If config.buildGraph Then
             sw.Restart()
 
-            g = createGraph(network, n, samples, pcaLayout, cor, tomMat, maxEdges)
+            g = createGraph(network, n, samples, config.pcaLayout, cor, tomMat, config.maxEdges)
 
             Call g.ApplyAnalysis
             Call g.setModules(modules)

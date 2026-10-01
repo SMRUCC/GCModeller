@@ -197,14 +197,20 @@ Public Module WeightedNetwork
     End Sub
 
     ''' <summary>
-    ''' 计算给定软阈值下的邻接矩阵：A = threshold(|cor|^beta)
+    ''' 计算给定软阈值下的邻接矩阵：A = threshold(|cor|^beta)，并把对角线置零
     ''' </summary>
     ''' <param name="absCor">相似度矩阵 |cor|（行优先 n x n），不会被修改</param>
     ''' <param name="beta">软阈值幂次</param>
-    ''' <param name="adjacency">边截断阈值</param>
-    ''' <returns>行优先的 n x n 邻接矩阵</returns>
+    ''' <param name="adjacency">边截断阈值；设为 0 可以关闭硬阈值，得到纯软阈值邻接矩阵</param>
+    ''' <returns>行优先的 n x n 邻接矩阵（对角线恒为 0）</returns>
     ''' <remarks>
     ''' 先做一次 n^2 的幂运算再就地阈值化，全程只有一份 n^2 缓冲区。
+    ''' 
+    ''' <para>
+    ''' 对角线置零是 GNU R WGCNA <c>adjacency()</c> 的约定（基因不与自身相连）。
+    ''' 这一步很重要：若保留对角线（值为 1），TOM 的中间矩阵
+    ''' <c>S = A·A</c> 会额外多出 <c>2·A(i,j)</c>，导致 TOM 与 R 系统性偏离。
+    ''' </para>
     ''' </remarks>
     Public Function BuildAdjacency(absCor As Double(), beta As Double, adjacency As Double) As Double()
         Dim a(absCor.Length - 1) As Double
@@ -212,6 +218,13 @@ Public Module WeightedNetwork
         Call Array.Copy(absCor, a, a.Length)
         Call SoftThresholdInPlace(a, beta)
         Call CutInPlace(a, adjacency)
+
+        ' 去掉自连接（与 R 的 adjacency() 一致）
+        Dim n As Integer = CInt(std.Sqrt(a.Length))
+
+        For i As Integer = 0 To n - 1
+            a(i * n + i) = 0
+        Next
 
         Return a
     End Function
