@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::71dc737daf3dc00c68335f993aa383de, R#\seqtoolkit\proteinKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 377
-    '    Code Lines: 193 (51.19%)
-    ' Comment Lines: 145 (38.46%)
-    '    - Xml Docs: 91.03%
-    ' 
-    '   Blank Lines: 39 (10.34%)
-    '     File Size: 16.67 KB
+' Summaries:
 
 
-    ' Module proteinKit
-    ' 
-    '     Function: analysis_domains, (+2 Overloads) ChouFasman, enzymeBuilder, kmer_fingerprint, kmer_graph
-    '               ligands, parsePdb, pdb_centroid, pdbModels, predict_sequence
-    '               readPdb
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 377
+'    Code Lines: 193 (51.19%)
+' Comment Lines: 145 (38.46%)
+'    - Xml Docs: 91.03%
+' 
+'   Blank Lines: 39 (10.34%)
+'     File Size: 16.67 KB
+
+
+' Module proteinKit
+' 
+'     Function: analysis_domains, (+2 Overloads) ChouFasman, enzymeBuilder, kmer_fingerprint, kmer_graph
+'               ligands, parsePdb, pdb_centroid, pdbModels, predict_sequence
+'               readPdb
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -415,14 +415,13 @@ Module proteinKit
         If TypeOf blastp Is v228 Then
             Throw New NotImplementedException
         Else
-            Dim pull As pipeline = pipeline.TryCreatePipeline(Of DiamondAnnotation)(blastp, env)
+            Dim pull As PipeIterator(Of DiamondAnnotation) = pipeline.Stream(Of DiamondAnnotation)(blastp, env)
 
             If pull.isError Then
                 Return pull.getError
             End If
 
-            Dim proteins = pull.populates(Of DiamondAnnotation)(env) _
-                .Parse _
+            Dim proteins As PfamString() = pull.Parse _
                 .GroupBy(Function(a) a.QueryName) _
                 .Select(Function(a) New NamedCollection(Of PfamHit)(a.Key, a)) _
                 .CreateAnnotations(evalue:=1, coverage:=0, identities:=30) _
@@ -432,6 +431,11 @@ Module proteinKit
         End If
     End Function
 
+    ''' <summary>
+    ''' read the table file of pfam protein domain annotation data, and return the <see cref="PfamString"/> object model
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read.pfam_string")>
     Public Function readPfamString(file As String) As Object
         Return file.LoadCsv(Of PfamString)(mute:=True).ToArray
