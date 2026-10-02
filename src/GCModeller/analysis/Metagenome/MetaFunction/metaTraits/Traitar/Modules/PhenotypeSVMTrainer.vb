@@ -148,6 +148,18 @@ Namespace metaTraits.Traitar.Modules
                 End If
 
                 Dim par As Parameter = trait.CreateParameter(dims, kernel)
+
+                If Not trait.IsRegression() Then
+                    ' 显式登记各个类别的惩罚权重（均为 1），避免 LibSVM 输出
+                    ' "class label x specified in weight is not found" 的警告
+                    For Each factor As Integer In problem.Y _
+                        .Select(Function(c) CInt(c.factor)) _
+                        .Distinct
+
+                        par.weights(factor) = 1.0
+                    Next
+                End If
+
                 Dim transform As RangeTransform = RangeTransform.Compute(problem)
                 Dim scaled As Problem = transform.Scale(problem)
                 Dim trained As Microsoft.VisualBasic.MachineLearning.SVM.Model = Training.Train(scaled, par)
