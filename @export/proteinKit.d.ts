@@ -30,10 +30,14 @@ declare namespace proteinKit {
     * analysis the functional domain on the protein sequence
     * 
     * 
-     * @param blastp -
-     * @param env -
+     * @param blastp the diamond blastp annotation result data for extract the protein 
+     *  domain information.
+     * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
+     * @return a vector of the [PfamString](cref:T:SMRUCC.genomics.Data.Xfam.Pfam.PfamString.PfamString) protein domain annotation 
+     *  result, one result element for each of the protein sequence in the 
+     *  input annotation result data.
    */
    function analysis_domains(blastp: any, env?: object): object;
    /**
@@ -76,14 +80,34 @@ declare namespace proteinKit {
      *  the string representitive of the chou-fasman structure information.
      * 
      * + default value Is ``false``.
-     * @param env -
+     * @param env the R# runtime environment object.
      * 
      * + default value Is ``null``.
+     * @return the chou-fasman secondary structure prediction result of the input 
+     *  protein sequence: a character value of the structure annotation string 
+     *  or a [StructuralAnnotation](cref:T:SMRUCC.genomics.ProteinModel.ChouFasmanRules.StructuralAnnotation) clr object when there is only 
+     *  one sequence in the input collection, or a named list of the 
+     *  prediction result of each sequence in the input collection.
    */
    function chou_fasman(prot: any, polyaa?: boolean, env?: object): string|object;
    /**
-     * @param kmer default value Is ``3``.
-     * @param env default value Is ``null``.
+    * build the enzyme protein sequence transformer model from a given enzyme 
+    *  protein sequence collection
+    * 
+    * 
+     * @param enzymes a protein fasta sequence collection for build the transformer model, 
+     *  which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+     *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw 
+     *  sequence data.
+     * @param kmer the k-mer size for tokenize the protein sequence data.
+     * 
+     * + default value Is ``3``.
+     * @param env the R# runtime environment object.
+     * 
+     * + default value Is ``null``.
+     * @return a [TransformerModel](cref:T:Microsoft.VisualBasic.MachineLearning.Transformer.TransformerModel) protein sequence model that trained 
+     *  from the given enzyme sequence collection, which can be used for 
+     *  generate the new protein sequence via the ``predict_sequence`` api.
    */
    function enzyme_builder(enzymes: any, kmer?: object, env?: object): object;
    /**
@@ -121,35 +145,83 @@ declare namespace proteinKit {
    */
    function kmer_graph(prot: any, k?: object, env?: object): object;
    /**
-     * @param key default value Is ``null``.
-     * @param number default value Is ``-1``.
+    * list the small molecule ligand compound data from the given protein 
+    *  structure object
+    * 
+    * 
+     * @param pdb a [PDB](cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB) protein structure object for list its ligand 
+     *  compound data.
+     * @param key the compound name for filter the ligand data.
+     * 
+     * + default value Is ``null``.
+     * @param number the sequence number of the target ligand for filter the ligand data, a 
+     *  negative value means no filter.
+     * 
+     * + default value Is ``-1``.
+     * @return a vector of the [HETRecord](cref:T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.Het.HETRecord) ligand compound object 
+     *  when no filter condition is specified, or the single ligand compound 
+     *  object that matches the given compound name and sequence number.
    */
    function ligands(pdb: object, key?: string, number?: object): object;
    /**
     * parse the pdb struct data from a given document text data
     * 
     * 
-     * @param pdb_txt -
-     * @param safe -
+     * @param pdb_txt the PDB document text data for parse as the protein structure object 
+     *  model.
+     * @param safe catch and ignore the exception when the parsing is failed? if this 
+     *  parameter is TRUE, then a NULL value will be returned instead of 
+     *  throwing an exception when the given document text data is invalid.
      * 
      * + default value Is ``false``.
-     * @param verbose 
+     * @param verbose print the verbose log message of the parsing progress?
+     * 
      * + default value Is ``false``.
+     * @return a [PDB](cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB) protein structure object model that parsed from 
+     *  the given PDB document text data; NULL will be returned when the 
+     *  parsing is failed and the ``safe`` parameter is TRUE.
    */
    function parse_pdb(pdb_txt: string, safe?: boolean, verbose?: boolean): object;
    /**
-     * @param as_vector default value Is ``false``.
+    * get the geometry center coordinates of the given protein structure 
+    *  object
+    * 
+    * 
+     * @param pdb a [PDB](cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB) protein structure object for evaluate its centroid 
+     *  coordinates.
+     * @param as_vector returns the centroid coordinates as a numeric vector? if this 
+     *  parameter is FALSE(the default value), then a [Point3D](cref:T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.Point3D) 
+     *  coordinates object will be returned.
+     * 
+     * + default value Is ``false``.
+     * @return the centroid coordinates of the given protein structure object.
    */
    function pdb_centroid(pdb: object, as_vector?: boolean): object|number;
    /**
     * get structure models inside the given pdb object
     * 
     * 
-     * @param pdb -
+     * @param pdb a [PDB](cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB) protein structure object for get its structure 
+     *  models, which is created by the ``parse_pdb`` or ``read.pdb`` api.
+     * @return a vector of the structure model data that inside the given pdb object, 
+     *  each structure model element is a collection of the 
+     *  [Atom](cref:T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.Atom) atom object.
    */
    function pdb_models(pdb: object): object;
    /**
-     * @param env default value Is ``null``.
+    * generate the protein sequence data from the given EC number via the 
+    *  enzyme transformer model
+    * 
+    * 
+     * @param model a [TransformerModel](cref:T:Microsoft.VisualBasic.MachineLearning.Transformer.TransformerModel) enzyme protein sequence model, which 
+     *  is created by the ``enzyme_builder`` api.
+     * @param ec_number a character vector of the enzyme commission(EC) number for generate 
+     *  the corresponding protein sequence data.
+     * @param env the R# runtime environment object.
+     * 
+     * + default value Is ``null``.
+     * @return a vector of the generated [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) protein sequence 
+     *  object, one sequence element for each of the given EC number.
    */
    function predict_sequence(model: object, ec_number: any, env?: object): object;
    module read {
@@ -167,5 +239,14 @@ declare namespace proteinKit {
         *  error object if file loading fails due to invalid path or format issues.
       */
       function pdb(file: any, safe?: boolean, env?: object): object;
+      /**
+       * read the table file of pfam protein domain annotation data, and return the [PfamString](cref:T:SMRUCC.genomics.Data.Xfam.Pfam.PfamString.PfamString) object model
+       * 
+       * 
+        * @param file the file path of the pfam protein domain annotation csv table file.
+        * @return a vector of the [PfamString](cref:T:SMRUCC.genomics.Data.Xfam.Pfam.PfamString.PfamString) protein domain annotation 
+        *  object that loaded from the given table file.
+      */
+      function pfam_string(file: string): any;
    }
 }
