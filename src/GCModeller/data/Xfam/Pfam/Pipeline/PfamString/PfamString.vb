@@ -1,61 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::647149809afaefa7cd57fc747115b1a4, data\Xfam\Pfam\Pipeline\PfamString\PfamString.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 150
-    '    Code Lines: 97 (64.67%)
-    ' Comment Lines: 33 (22.00%)
-    '    - Xml Docs: 96.97%
-    ' 
-    '   Blank Lines: 20 (13.33%)
-    '     File Size: 6.27 KB
+' Summaries:
 
 
-    '     Class PfamString
-    ' 
-    '         Properties: Description, Domains, HasChouFasmanData, Length, PfamString
-    '                     ProteinId
-    ' 
-    '         Function: get__PfamString, get_PlantTextOutput, GetChouFasmanData, GetDomainData, IsChouFasmanData
-    '                   ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 150
+'    Code Lines: 97 (64.67%)
+' Comment Lines: 33 (22.00%)
+'    - Xml Docs: 96.97%
+' 
+'   Blank Lines: 20 (13.33%)
+'     File Size: 6.27 KB
+
+
+'     Class PfamString
+' 
+'         Properties: Description, Domains, HasChouFasmanData, Length, PfamString
+'                     ProteinId
+' 
+'         Function: get__PfamString, get_PlantTextOutput, GetChouFasmanData, GetDomainData, IsChouFasmanData
+'                   ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
@@ -113,6 +114,7 @@ Namespace PfamString
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function IsChouFasmanData(strData As String) As Boolean
             Return Regex.Match(strData, "\[.+?\]").Success
         End Function
@@ -122,13 +124,12 @@ Namespace PfamString
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GetChouFasmanData() As DomainObject()
+        Public Iterator Function GetChouFasmanData() As IEnumerable(Of DomainObject)
             Dim ChunkBuffer = (From strData As String
                                In PfamString
                                Let DomainData = getDomainTrace(strData, 1)
                                Select DomainData
-                               Order By DomainData.Position.Left Ascending).ToArray
-            Dim ChunkList As List(Of DomainObject) = New List(Of DomainObject)
+                               Order By DomainData.Position.left Ascending).ToArray
             Dim i As Integer = 1
             Dim previous = ChunkBuffer(0)
 
@@ -141,18 +142,16 @@ Namespace PfamString
                 Dim [next] = ChunkBuffer(i + 1)
 
                 If IsChouFasmanData(current.Name) Then
-                    Dim Data = current.CopyTo(Of DomainObject)()
-                    Data.ProteinId = ProteinId
-                    Data.Id_Handle = String.Format("{0}_{1}*{2}_{3}", previous.Name, i - 1, [next].Name, i + 1)
+                    Dim domain = current.CopyTo(Of DomainObject)()
+                    domain.ProteinId = ProteinId
+                    domain.Id_Handle = String.Format("{0}_{1}*{2}_{3}", previous.Name, i - 1, [next].Name, i + 1)
 
-                    Call ChunkList.Add(Data)
+                    Yield domain
                 End If
 
                 previous = current
                 i += 1
             Loop
-
-            Return ChunkList.ToArray
         End Function
 
         ''' <summary>
@@ -180,7 +179,7 @@ Namespace PfamString
             Return LQuery
         End Function
 
-        Public Function get__PfamString(Optional nullDescribe As String = "") As String
+        Public Function GetPfamString(Optional nullDescribe As String = "") As String
             If PfamString.IsNullOrEmpty Then
                 Return nullDescribe
             Else
@@ -189,20 +188,20 @@ Namespace PfamString
         End Function
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}: {1}", ProteinId, get__PfamString)
+            Return String.Format("{0}: {1}", ProteinId, GetPfamString)
         End Function
 
-        Public Function get_PlantTextOutput() As String
-            Dim sBuilder As StringBuilder = New StringBuilder()
-            Call sBuilder.AppendLine("ProteinId:   " & ProteinId)
-            Call sBuilder.AppendLine("Length:      " & Length)
-            Call sBuilder.AppendLine("Description: " & Description)
-            Call sBuilder.AppendLine("Pfam-string: " & get__PfamString(nullDescribe:="NULL"))
-            Call sBuilder.AppendLine("Domain.Ids:  ")
-            Call sBuilder.Append(If(Domains.IsNullOrEmpty, "", String.Join("; ", Domains)))
-            Call sBuilder.AppendLine()
+        Public Function PlantTextOutput() As String
+            Dim sb As New StringBuilder()
+            Call sb.AppendLine("ProteinId:   " & ProteinId)
+            Call sb.AppendLine("Length:      " & Length)
+            Call sb.AppendLine("Description: " & Description)
+            Call sb.AppendLine("Pfam-string: " & GetPfamString(nullDescribe:="NULL"))
+            Call sb.AppendLine("Domain.Ids:  ")
+            Call sb.Append(If(Domains.IsNullOrEmpty, "", String.Join("; ", Domains)))
+            Call sb.AppendLine()
 
-            Return sBuilder.ToString
+            Return sb.ToString
         End Function
     End Class
 End Namespace

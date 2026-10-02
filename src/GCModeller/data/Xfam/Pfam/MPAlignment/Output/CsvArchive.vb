@@ -128,8 +128,8 @@ Namespace ProteinDomainArchitecture.MPAlignment
             Return New MPCsvArchive With {
                 .HitName = output.SubjectPfam.ProteinId,
                 .QueryName = output.QueryPfam.ProteinId,
-                .SubjectPfamString = output.SubjectPfam.get__PfamString,
-                .QueryPfamString = output.QueryPfam.get__PfamString,
+                .SubjectPfamString = output.SubjectPfam.GetPfamString,
+                .QueryPfamString = output.QueryPfam.GetPfamString,
                 .Score = output.Score * (1 - output.LengthDelta),
                 .Distance = output.Distance,
                 .LevMatch = output.Matches,
@@ -150,9 +150,9 @@ Namespace ProteinDomainArchitecture.MPAlignment
                 .Description = output.ProteinQuery.Description,
                 .QueryLength = output.ProteinQuery.Length,
                 .QueryName = output.ProteinQuery.ProteinId,
-                .QueryPfamString = output.ProteinQuery.get__PfamString,
+                .QueryPfamString = output.ProteinQuery.GetPfamString,
                 .Score = output.Score,
-                .SubjectPfamString = output.ProteinSbjct.get__PfamString
+                .SubjectPfamString = output.ProteinSbjct.GetPfamString
             }
         End Function
     End Class

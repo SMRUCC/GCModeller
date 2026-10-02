@@ -58,7 +58,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting
@@ -141,11 +140,6 @@ Public Module DomainAnalysis
 
         Dim Result = EnzymeClassification(data, Handle)
         Return Result
-    End Function
-
-    <ExportAPI("Write.Csv.Pfam-String")>
-    Public Function SavePfamString(data As IEnumerable(Of PfamString.PfamString), SaveTo As String) As Boolean
-        Return data.SaveTo(SaveTo)
     End Function
 
     ''' <summary>
