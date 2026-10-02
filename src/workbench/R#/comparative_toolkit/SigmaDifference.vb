@@ -813,7 +813,7 @@ Public Module SigmaDifference
     ''' <returns>the compiled codon usage csv document</returns>
     <ExportAPI("Compile.CAI")>
     Public Function CompileCAIBIASCalculationThread(genes As FastaFile, Optional WorkTemp As String = "./CAI_Xml") As IO.File
-        Dim wTable As New CodonWeightTable(genes, name:=BaseName(genes.FilePath))
+        Dim wTable As New CodonWeightTable(genes, name:=genes.FilePath.BaseName)
         Dim meanCAI As Double = genes _
             .Select(Function(gene) gene.CAI(wTable)) _
             .Where(Function(x) x > 0) _

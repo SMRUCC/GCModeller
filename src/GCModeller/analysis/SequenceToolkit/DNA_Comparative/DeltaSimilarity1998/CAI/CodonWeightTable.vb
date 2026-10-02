@@ -268,7 +268,6 @@ Namespace DeltaSimilarity1998.CAI
         ''' <param name="w">the w weight table built from the reference gene set H</param>
         ''' <returns>the CAI value in the range [0, 1]; -1 when the gene contains no valid codon</returns>
         <Extension>
-        <ExportAPI("CAI.Evaluate")>
         Public Function CAI(gene As FastaSeq, w As CodonWeightTable) As Double
             Dim nt As DNA() = New NucleotideModels.NucleicAcid(gene, strict:=False).ToArray
             Dim n As Integer = nt.Length - nt.Length Mod 3
@@ -310,17 +309,13 @@ Namespace DeltaSimilarity1998.CAI
         ''' <param name="w"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function CAIProfile(genes As FastaFile, w As CodonWeightTable) As NamedValue(Of Double)()
-            Dim profile As New List(Of NamedValue(Of Double))
-
-            For Each gene As FastaSeq In genes
-                profile.Add(New NamedValue(Of Double) With {
-                    .Name = gene.Title,
-                    .Value = gene.CAI(w)
-                })
-            Next
-
-            Return profile.ToArray
+        Public Function CAIProfile(genes As FastaFile, w As CodonWeightTable) As IEnumerable(Of NamedValue(Of Double))
+            Return From gene As FastaSeq
+                   In genes.AsParallel
+                   Select New NamedValue(Of Double) With {
+                       .Name = gene.Title,
+                       .Value = gene.CAI(w)
+                   }
         End Function
     End Module
 End Namespace

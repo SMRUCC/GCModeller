@@ -1,6 +1,4 @@
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace DeltaSimilarity1998
@@ -28,8 +26,6 @@ Namespace DeltaSimilarity1998
     ''' ``ToolsAPI.GenomeSigmaDifference_p`` rebuilt the window cache O(window) 
     ''' times per window and re-created the comparison sequence O(n) times.
     ''' </summary>
-    <Package("SlidingWindow.DeltaStar",
-             Description:="sliding window delta* profile for locating alien DNA islands (Karlin 1998)")>
     Public Module SlidingWindowDelta
 
         ''' <summary>
@@ -41,7 +37,6 @@ Namespace DeltaSimilarity1998
         ''' <param name="stepSize">sampling step in bp (default 5000)</param>
         ''' <param name="parallel">evaluate the sampled windows in parallel (PLINQ)</param>
         ''' <returns>profile points ordered by the site position</returns>
-        <ExportAPI("genome.delta_star_profile")>
         <Extension>
         Public Function DeltaStarProfile(genome As NucleicAcid,
                                          Optional windowSize As Integer = 50000,
@@ -79,13 +74,13 @@ Namespace DeltaSimilarity1998
             Dim profile As IEnumerable(Of WindowDelta) = If(parallel, samples.AsParallel, samples) _
                 .Select(Function(site)
                             Return New WindowDelta With {
-                                .Site = site,
-                                .DeltaStar = delta(site) * 1000,
-                                .Level = DeltaStarDistance.DeltaStarLevel(delta(site))
+                                .site = site,
+                                .deltaStar = delta(site) * 1000,
+                                .level = DeltaStarDistance.DeltaStarLevel(delta(site))
                             }
                         End Function)
 
-            Return profile.OrderBy(Function(w) w.Site).ToArray
+            Return profile.OrderBy(Function(w) w.site).ToArray
         End Function
 
         ''' <summary>
@@ -97,9 +92,8 @@ Namespace DeltaSimilarity1998
         ''' <param name="windowSize"></param>
         ''' <param name="stepSize"></param>
         ''' <returns></returns>
-        <ExportAPI("genome.delta_star_profile.vs")>
         <Extension>
-        Iterator Public Function DeltaStarProfile(genome As NucleicAcid,
+        Public Iterator Function DeltaStarProfile(genome As NucleicAcid,
                                                   reference As NucleicAcid,
                                                   Optional windowSize As Integer = 50000,
                                                   Optional stepSize As Integer = 5000) As IEnumerable(Of WindowDelta)
@@ -127,9 +121,9 @@ Namespace DeltaSimilarity1998
                     .WindowDeltaValue(globalSignature, windowSize)
 
                 Yield New WindowDelta With {
-                    .Site = start,
-                    .DeltaStar = d * 1000,
-                    .Level = DeltaStarDistance.DeltaStarLevel(d)
+                    .site = start,
+                    .deltaStar = d * 1000,
+                    .level = DeltaStarDistance.DeltaStarLevel(d)
                 }
             Next
         End Function
