@@ -191,9 +191,12 @@ Namespace metaTraits.Traitar.Modules
 
                 If folds >= 2 Then
                     Try
-                        result.CVScore = Training.PerformCrossValidation(scaled, par, folds)
+                        Dim cv As Double = Training.PerformCrossValidation(scaled, par, folds)
+
+                        ' NaN 不是合法的 json 数值（交叉验证得到退化的相关系数时会出现），
+                        ' 这里统一写为 0 表示无法给出有效的交叉验证得分
+                        result.CVScore = If(Double.IsNaN(cv), 0, cv)
                     Catch ex As Exception
-                        ' NaN 不是合法的 json 数值，这里统一写为 0 表示无法完成交叉验证
                         result.CVScore = 0
                     End Try
                 End If

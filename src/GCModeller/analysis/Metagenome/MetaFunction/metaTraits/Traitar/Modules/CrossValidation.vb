@@ -39,7 +39,10 @@ Namespace metaTraits.Traitar.Modules
                 Return Double.NaN
             End If
 
-            Return Training.PerformCrossValidation(problem, par, folds)
+            Dim score As Double = Training.PerformCrossValidation(problem, par, folds)
+
+            ' NaN 不是合法的 json 数值，交叉验证退化时统一返回 0
+            Return If(Double.IsNaN(score), 0, score)
         End Function
 
         ''' <summary>
