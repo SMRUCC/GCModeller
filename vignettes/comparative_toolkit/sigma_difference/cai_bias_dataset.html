@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Load one sliding window ``delta*`` profile from its csv document.</title>
+    <title>Compile the codon usage table of every species gene collection.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,36 +13,38 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>read.csv.site_delta {sigma_difference}</td>
+                <td>cai_bias_dataset {sigma_difference}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>Load one sliding window ``delta*`` profile from its csv document.</h2>
+        <h2>Compile the codon usage table of every species gene collection.</h2>
 
         <h3>Description</h3>
 
-        
+        <p>The reference set of each species is its own gene collection&lt;br /&gt; (for a real high-expression reference set use&lt;br /&gt; <a href="cref:M:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.ToolsAPI.BuildCAIReference(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,SMRUCC.genomics.SequenceModel.NucleotideModels.Translation.GeneticCodes,System.String)">ToolsAPI.BuildCAIReference()</a> with the ribosomal protein genes).</p>
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>read.csv.site_delta</strong>(<i>path</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>cai_bias_dataset</strong>(<i>genes</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>path</dt>
-<dd><p>the csv file path of one <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.SiteSigma">SiteSigma</a> profile. [as string]</p></dd>
+<dt>genes</dt>
+<dd><p>the directory of the <code>*.fasta</code> / <code>*.fsa</code> species gene collections. [as string]</p></dd>
 
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>Output layout:</p>
+
+<p>SpeciesID, CAI, CUBIAS_LIST src1 ... src2 ...</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -50,7 +52,7 @@
 
         <h3>Value</h3>
 
-        <p>the profile rows ordered by the site position</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/SiteSigma.html">SiteSigma[]</a></li></ul>
+        <p>the compiled codon usage csv document</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/CAIBiasTable.html">CAIBiasTable</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

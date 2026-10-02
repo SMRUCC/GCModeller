@@ -15,13 +15,13 @@ Comparative genomics API module of the Karlin, Campbell & Mrazek (1998)
     alien gene detection, the sliding window ``delta*`` island profiling and
     the ``(C-G)/(C+G)`` strand composition asymmetry.
 
-+ [read.csv.site_delta](sigma_difference/read.csv.site_delta.1) Load one sliding window ``delta*`` profile from its csv document.
++ [read.site_delta](sigma_difference/read.site_delta.1) Load one sliding window ``delta*`` profile from its csv document.
 + [compile.delta_query](sigma_difference/compile.delta_query.1) Compile a set of pairwise ``delta*`` profile csv files (all created from the
 + [sigma_diff.query](sigma_difference/sigma_diff.query.1) Compare one query genome against a directory of subject genomes: calculate
 + [genome.delta_star_profile](sigma_difference/genome.delta_star_profile.1) Sliding window ``delta*`` profile: the delta-difference between each local
 + [rendering_merge.delta_source](sigma_difference/rendering_merge.delta_source.1) Merge the exported partition-level ``delta*`` profile csv files with the
-+ [compile.cai](sigma_difference/compile.cai.1) Compile the codon usage table of every species gene collection.
-+ [Compile.CAI](sigma_difference/Compile.CAI.1) Compile the CAI w weight table of one reference gene collection and export
++ [cai_bias_dataset](sigma_difference/cai_bias_dataset.1) Compile the codon usage table of every species gene collection.
++ [cai_bias_table](sigma_difference/cai_bias_table.1) Compile the CAI w weight table of one reference gene collection and export
 + [partition_data.create](sigma_difference/partition_data.create.1) Create the chromosome partitioning data from the two-way BLAST best hit
 + [write.csv.genome_partition_data](sigma_difference/write.csv.genome_partition_data.1) Save the partitioning data collection as a csv document.
 + [read.csv.genome_partition_data](sigma_difference/read.csv.genome_partition_data.1) Load the partitioning data collection from its csv document.

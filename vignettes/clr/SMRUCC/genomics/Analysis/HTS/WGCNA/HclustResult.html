@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SMRUCC.genomics.Analysis.HTS.WGCNA.BetaTest</title>
+    <title>SMRUCC.genomics.Analysis.HTS.WGCNA.HclustResult</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,42 +13,38 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>BetaTest {SMRUCC.genomics.Analysis.HTS.WGCNA}</td>
+                <td>HclustResult {SMRUCC.genomics.Analysis.HTS.WGCNA}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>BetaTest</h2>
+        <h2>HclustResult</h2>
 
         <h3>Description</h3>
 
-        <p>test for best beta power value</p>
-
-<p>原实现为每个候选 beta 都构造一份完整的 n^2 邻接矩阵（幂运算 + 拷贝 + 阈值化）， 20 个候选值意味着 40 余次 n^2 级别的分配与 GC 压力。</p>
-
-<p>现在改为复用同一份 <code>|cor|</code> 缓冲区，对每个 beta 只做一次流式行和扫描 （见 <a href="cref:M:SMRUCC.genomics.Analysis.HTS.WGCNA.WeightedNetwork.Connectivity(Microsoft.VisualBasic.Math.Matrix.CorrelationMatrix,System.Double,System.Double,System.Boolean)">WeightedNetwork.Connectivity()</a>），全程不再分配任何 n^2 临时矩阵； 候选 beta 之间再用 PLINQ 并行。</p>
+        <p>R <code>hclust(method = "average")</code> 风格的层次聚类结果</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.HTS.WGCNA
-export class BetaTest {
-   maxK: double;
-   meanK: double;
-   medianK: double;
-   Power: double;
-   score: double;
-   sftRsq: double;
-   slope: double;
-   truncatedRsq: double;
+export class HclustResult {
+   # 每次合并的高度
+   height: double;
+   # 合并矩阵：负值表示叶子（-(下标+1)），正值表示第 k 次合并（1 基）
+   merge: <a href="/vignettes/clr/System/Int32[].html">Int32[][]</a>;
+   # 叶子（基因）数量
+   n: integer;
 }
 </code>
         </pre>
 
         <h3>.NET clr type reference tree</h3>
 
-        this clr type has no other .net clr type reference.
+        <ol>
+<li>use by <i>property</i> member <code>merge</code>: <a href="/vignettes/clr/System/Int32[].html">Int32[]</a></li>
+</ol>
 
 
         <hr />

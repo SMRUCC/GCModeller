@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Compile the CAI w weight table of one reference gene collection and export</title>
+    <title>Load one sliding window ``delta*`` profile from its csv document.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,34 +13,29 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>Compile.CAI {sigma_difference}</td>
+                <td>read.site_delta {sigma_difference}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>Compile the CAI w weight table of one reference gene collection and export</h2>
+        <h2>Load one sliding window ``delta*`` profile from its csv document.</h2>
 
         <h3>Description</h3>
 
-        <p>the codon usage csv table. (legacy batch compilation entry)</p>
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>Compile.CAI</strong>(<i>genes</i>,
-    <i>WorkTemp</i> = <span style='color: brown;'><strong>"./CAI_Xml"</strong></span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>read.site_delta</strong>(<i>path</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>genes</dt>
-<dd><p>the reference gene collection of one species. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a>]</p></dd>
-
-
-<dt>WorkTemp</dt>
-<dd><p>the xml cache directory (reserved for the incremental compilation). [as string]</p></dd>
+<dt>path</dt>
+<dd><p>the csv file path of one <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.WindowDelta">WindowDelta</a> profile. [as string]</p></dd>
 
         </table>
 
@@ -55,7 +50,7 @@
 
         <h3>Value</h3>
 
-        <p>the compiled codon usage csv document</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/File.html">File</a></li></ul>
+        <p>the profile rows ordered by the site position</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/WindowDelta.html">WindowDelta</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

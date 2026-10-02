@@ -32,6 +32,12 @@
 export class Result {
    # 最佳beta值测试结果
    beta: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BetaTest.html">BetaTest</a>;
+   # 分块分析时每个块的中间结果（含块内聚类树、连通度与块内模块）
+   blockResults: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BlockResult.html">BlockResult[]</a>;
+   # 分块分析时的块划分（每块的基因 ID 列表）
+   blocks: <a href="/vignettes/clr/System/String[].html">String[][]</a>;
+   # hclust 风格的层次聚类结果（merge / height，与 R 的 hclust 同构）
+   dendrogram: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/HclustResult.html">HclustResult</a>;
    # 基因显著性结果列表 存储每个基因与每个表型的相关性分析结果
    geneSignificance: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/GeneSignificanceResult.html">iterates(GeneSignificanceResult)</a>;
    # 层次聚类树
@@ -52,6 +58,8 @@ export class Result {
    network: <a href="/vignettes/clr/Microsoft/VisualBasic/Data/visualize/Network/Graph/NetworkGraph.html">NetworkGraph</a>;
    # 所有beta候选值的测试结果
    softBeta: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BetaTest.html">BetaTest[]</a>;
+   # 各阶段的耗时统计（毫秒）
+   timing: list;
    # TOM矩阵
    TOM: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Matrix/GeneralMatrix.html">GeneralMatrix</a>;
 }
@@ -62,6 +70,9 @@ export class Result {
 
         <ol>
 <li>use by <i>property</i> member <code>beta</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BetaTest.html">BetaTest</a></li>
+<li>use by <i>property</i> member <code>blockResults</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BlockResult.html">BlockResult</a></li>
+<li>use by <i>property</i> member <code>blocks</code>: <a href="/vignettes/clr/System/String[].html">String[]</a></li>
+<li>use by <i>property</i> member <code>dendrogram</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/HclustResult.html">HclustResult</a></li>
 <li>use by <i>property</i> member <code>geneSignificance</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/GeneSignificanceResult.html">iterates(GeneSignificanceResult)</a></li>
 <li>use by <i>property</i> member <code>hclust</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Cluster.html">Cluster</a></li>
 <li>use by <i>property</i> member <code>K</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Vector.html">Vector</a></li>
@@ -72,6 +83,7 @@ export class Result {
 <li>use by <i>property</i> member <code>modules</code>: list</li>
 <li>use by <i>property</i> member <code>network</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Data/visualize/Network/Graph/NetworkGraph.html">NetworkGraph</a></li>
 <li>use by <i>property</i> member <code>softBeta</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BetaTest.html">BetaTest</a></li>
+<li>use by <i>property</i> member <code>timing</code>: list</li>
 <li>use by <i>property</i> member <code>TOM</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Matrix/GeneralMatrix.html">GeneralMatrix</a></li>
 </ol>
 

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Plasmid.Partitioning</title>
+    <title>Compile the CAI w weight table of one reference gene collection and export</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,27 +13,30 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>Plasmid.Partitioning {Comparative.Plasmid}</td>
+                <td>cai_bias_table {sigma_difference}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>Plasmid.Partitioning</h2>
+        <h2>Compile the CAI w weight table of one reference gene collection and export</h2>
 
         <h3>Description</h3>
 
-        Plasmid.Partitioning
+        <p>the codon usage csv table. (legacy batch compilation entry)</p>
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>Plasmid.Partitioning</strong>(<i>Besthits</i>, <i>CdsInfo</i>, <i>Fasta</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>cai_bias_table</strong>(<i>genes</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>genes</dt>
+<dd><p>the reference gene collection of one species. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a>]</p></dd>
+
         </table>
 
 
@@ -43,19 +46,19 @@
 
         <h3 style="display: block">Authors</h3>
 
-        seqtoolkit
+        comparative_toolkit
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/PartitioningData.html">PartitioningData[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/PartitioningData.html">PartitioningData[]</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/CAIBiasTable.html">CAIBiasTable</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/CAIBiasTable.html">CAIBiasTable</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
         
 
         <hr />
-        <div style="text-align: center;">[Package <em>Comparative.Plasmid</em> version 1.0.0.0 <a
-                href="../Comparative.Plasmid.html">Index</a>]
+        <div style="text-align: center;">[Package <em>sigma_difference</em> version 1.0.0.0 <a
+                href="../sigma_difference.html">Index</a>]
         </div>
     </div>
 </body>

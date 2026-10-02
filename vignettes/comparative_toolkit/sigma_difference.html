@@ -92,8 +92,8 @@ table caption {font-size:14px;font-weight:bolder;}
   <td><p>The genome partitional data.(基因组分区数据)</p></td>
 </tr>
 <tr>
-  <td id="site_sigma">
-    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/SiteSigma.html">site_sigma: SiteSigma</a>
+  <td id="site_delta">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/WindowDelta.html">site_delta: WindowDelta</a>
   </td>
   <td><p>The sliding window delta* profile data row. (CSV column names kept compatible with the legacy <code>Site/Sigma/Similarity</code> schema)</p></td>
 </tr>
@@ -105,9 +105,9 @@ table caption {font-size:14px;font-weight:bolder;}
 </tr>
 <tr>
   <td id="window_delta">
-    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/WindowDelta.html">window_delta: WindowDelta</a>
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/WindowDelta.html">window_delta: WindowDelta</a>
   </td>
-  <td><p>One point of the sliding window delta* profile: the delta-difference between the genome signature of the local 50kb window and the global average genome signature.</p></td>
+  <td><p>The sliding window delta* profile data row. (CSV column names kept compatible with the legacy <code>Site/Sigma/Similarity</code> schema)</p></td>
 </tr>
 <tr>
   <td id="strand_skew">
@@ -163,8 +163,8 @@ table caption {font-size:14px;font-weight:bolder;}
       <table class="table-three-line">
         <caption>.NET clr function exports</caption>
         <tbody><tr>
-  <td id="read.csv.site_delta">
-    <a href="./sigma_difference/read.csv.site_delta.html">read.csv.site_delta</a>
+  <td id="read.site_delta">
+    <a href="./sigma_difference/read.site_delta.html">read.site_delta</a>
   </td>
   <td><p>Load one sliding window <code>delta*</code> profile from its csv document.</p></td>
 </tr>
@@ -195,14 +195,14 @@ table caption {font-size:14px;font-weight:bolder;}
   <td><p>Merge the exported partition-level <code>delta*</code> profile csv files with the two-way BLAST best hit rendering data.</p></td>
 </tr>
 <tr>
-  <td id="compile.cai">
-    <a href="./sigma_difference/compile.cai.html">compile.cai</a>
+  <td id="cai_bias_dataset">
+    <a href="./sigma_difference/cai_bias_dataset.html">cai_bias_dataset</a>
   </td>
   <td><p>Compile the codon usage table of every species gene collection. The reference set of each species is its own gene collection (for a real high-expression reference set use <a href="cref:M:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.ToolsAPI.BuildCAIReference(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,SMRUCC.genomics.SequenceModel.NucleotideModels.Translation.GeneticCodes,System.String)">ToolsAPI.BuildCAIReference()</a> with the ribosomal protein genes).</p></td>
 </tr>
 <tr>
-  <td id="Compile.CAI">
-    <a href="./sigma_difference/Compile.CAI.html">Compile.CAI</a>
+  <td id="cai_bias_table">
+    <a href="./sigma_difference/cai_bias_table.html">cai_bias_table</a>
   </td>
   <td><p>Compile the CAI w weight table of one reference gene collection and export the codon usage csv table. (legacy batch compilation entry)</p></td>
 </tr>

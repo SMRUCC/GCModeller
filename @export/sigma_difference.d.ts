@@ -63,6 +63,30 @@ declare namespace sigma_difference {
          function scan(genes: object, rpPattern?: string, biasAll?: number, biasRP?: number): object;
       }
    }
+   /**
+    * Compile the codon usage table of every species gene collection.
+    *  The reference set of each species is its own gene collection
+    *  (for a real high-expression reference set use
+    *  [ToolsAPI.BuildCAIReference()](cref:M:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.ToolsAPI.BuildCAIReference(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,SMRUCC.genomics.SequenceModel.NucleotideModels.Translation.GeneticCodes,System.String)) with the ribosomal protein genes).
+    * 
+    * > Output layout:
+    * > 
+    * >  SpeciesID, CAI, CUBIAS_LIST
+    * >  src1 ...
+    * >  src2 ...
+    * 
+     * @param genes the directory of the ``*.fasta`` / ``*.fsa`` species gene collections
+     * @return the compiled codon usage csv document
+   */
+   function cai_bias_dataset(genes: string): object;
+   /**
+    * Compile the CAI w weight table of one reference gene collection and export
+    *  the codon usage csv table. (legacy batch compilation entry)
+    * 
+    * 
+     * @param genes the reference gene collection of one species
+   */
+   function cai_bias_table(genes: object): object;
    module codon {
       module bias_B {
          /**
@@ -126,25 +150,6 @@ declare namespace sigma_difference {
    }
    module compile {
       /**
-       * Compile the codon usage table of every species gene collection.
-       *  The reference set of each species is its own gene collection
-       *  (for a real high-expression reference set use
-       *  [ToolsAPI.BuildCAIReference()](cref:M:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.ToolsAPI.BuildCAIReference(SMRUCC.genomics.SequenceModel.FASTA.FastaFile,SMRUCC.genomics.SequenceModel.NucleotideModels.Translation.GeneticCodes,System.String)) with the ribosomal protein genes).
-       * 
-       * > Output layout:
-       * > 
-       * >  SpeciesID, CAI, CUBIAS_LIST
-       * >  src1 ...
-       * >  src2 ...
-       * 
-        * @param genes the directory of the ``*.fasta`` / ``*.fsa`` species gene collections
-        * @param workTEMP the xml cache directory (reserved for the incremental compilation)
-        * 
-        * + default value Is ``'./CAI_Xml'``.
-        * @return the compiled codon usage csv document
-      */
-      function cai(genes: string, workTEMP?: string): object;
-      /**
        * Compile a set of pairwise ``delta*`` profile csv files (all created from the
        *  same query genome against different subjects) into one merged matrix csv
        *  document. The output file names cannot be changed by this requirement.
@@ -155,20 +160,6 @@ declare namespace sigma_difference {
         * @return true when the merged document has been saved
       */
       function delta_query(source: string, saveCsv: string): boolean;
-   }
-   module Compile {
-      /**
-       * Compile the CAI w weight table of one reference gene collection and export
-       *  the codon usage csv table. (legacy batch compilation entry)
-       * 
-       * 
-        * @param genes the reference gene collection of one species
-        * @param WorkTemp the xml cache directory (reserved for the incremental compilation)
-        * 
-        * + default value Is ``'./CAI_Xml'``.
-        * @return the compiled codon usage csv document
-      */
-      function CAI(genes: object, WorkTemp?: string): object;
    }
    /**
     * The ``delta*`` measure of difference between two sequences f and g (from
@@ -234,7 +225,7 @@ declare namespace sigma_difference {
         * @param windowsSize the sliding window size in bp, default 1kb
         * 
         * + default value Is ``1000``.
-        * @return profile rows ordered by the site position
+        * @return profile rows ordered by the site position, an array of [WindowDelta](cref:T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.WindowDelta)
       */
       function delta_star_profile(genome: object, compare: object, windowsSize?: object): object;
       /**
@@ -331,15 +322,15 @@ declare namespace sigma_difference {
            * @return the partitioning data collection
          */
          function genome_partition_data(path: string): object;
-         /**
-          * Load one sliding window ``delta*`` profile from its csv document.
-          * 
-          * 
-           * @param path the csv file path of one [SiteSigma](cref:T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.SiteSigma) profile
-           * @return the profile rows ordered by the site position
-         */
-         function site_delta(path: string): object;
       }
+      /**
+       * Load one sliding window ``delta*`` profile from its csv document.
+       * 
+       * 
+        * @param path the csv file path of one [WindowDelta](cref:T:SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.WindowDelta) profile
+        * @return the profile rows ordered by the site position
+      */
+      function site_delta(path: string): object;
    }
    module Read {
       module Csv {
