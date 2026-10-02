@@ -24,6 +24,7 @@ Module metaTraitsTest
     Sub Main()
         Call trainingTest()
         Call predicttest()
+        Call tuningTest()
     End Sub
 
     Sub readFiles()
@@ -58,11 +59,10 @@ Module metaTraitsTest
     End Function
 
     ''' <summary>
-    ''' 表型 SVM 模型训练：
-    ''' Pfam 结构域命中计数 -> per-genome 归一化嵌入 -> 逐表型训练 LibSVM 模型
+    ''' 装配训练数据集：解析表型定义表、表型标注数据与 Pfam 蛋白质组注释，
+    ''' 并做 per-genome 归一化的 Pfam 嵌入
     ''' </summary>
-    Sub trainingTest()
-        Dim clock As New Stopwatch
+    Private Function LoadDataSet() As TraitTrainingSet
         Dim traits As PhenotypeTrait() = PhenotypeTraits.LoadTable(TRAIT_TABLE)
         Dim trainingSet As TraitAnnotation() = TraitAnnotation _
             .ParseTable(GTDB_TRAITS) _
@@ -82,6 +82,18 @@ Module metaTraitsTest
         Dim dataset As TraitTrainingSet = TraitProblemBuilder.Build(trainingSet, pfams, traits, embedding)
 
         Console.WriteLine($"  {dataset}")
+
+        Return dataset
+    End Function
+
+    ''' <summary>
+    ''' 表型 SVM 模型训练：
+    ''' Pfam 结构域命中计数 -> per-genome 归一化嵌入 -> 逐表型训练 LibSVM 模型
+    ''' </summary>
+    Sub trainingTest()
+        Dim clock As New Stopwatch
+        Dim dataset As TraitTrainingSet = LoadDataSet()
+
         Console.WriteLine("training svm models...")
 
         Dim trainer As New PhenotypeSVMTrainer With {
@@ -92,7 +104,7 @@ Module metaTraitsTest
         Call clock.Start()
 
         Dim models As Dictionary(Of String, PhenotypeModel) = trainer.TrainAll(dataset)
-        Dim loader As ModelLoader = ModelLoader.SaveDirectory(models, embedding, MODEL_DIR, dataset.SampleCount())
+        Dim loader As ModelLoader = ModelLoader.SaveDirectory(models, dataset.embedding, MODEL_DIR, dataset.SampleCount())
 
         Call clock.Stop()
 
@@ -154,6 +166,46 @@ Module metaTraitsTest
         For Each pred As TraitPrediction In numerics
             Console.WriteLine($"  {pred.trait_name,-45} = {pred.predict}{pred.unit}")
         Next
+
+        Call Wait()
+    End Sub
+
+    ''' <summary>
+    ''' 超参数网格搜索测试：针对交叉验证得分偏低的数值型（回归）表型，
+    ''' 在 C 与 gamma 之上做 2 的幂网格搜索，对比调优前后的交叉验证得分
+    ''' </summary>
+    Sub tuningTest()
+        Dim dataset As TraitTrainingSet = LoadDataSet()
+        Dim loader As ModelLoader = ModelLoader.LoadDirectory(MODEL_DIR)
+        Dim clock As New Stopwatch
+        Dim targets As PhenotypeModel() = loader _
+            .GetTrainedModels() _
+            .Where(Function(m) m.IsRegression() AndAlso m.CVScore < 0.5) _
+            .ToArray
+
+        Console.WriteLine($"tune {targets.Length} numeric traits (cv < 0.5)...")
+
+        Call clock.Start()
+
+        For Each model As PhenotypeModel In targets
+            Dim tuned As ParameterSearchResult = ParameterSearch.SearchTrait(
+                dataset,
+                model.Trait,
+                kernel:=Microsoft.VisualBasic.MachineLearning.SVM.KernelType.RBF,
+                nrfold:=5,
+                minC:=-5, maxC:=7, stepC:=4,
+                minG:=-11, maxG:=1, stepG:=4)
+
+            If tuned Is Nothing Then
+                Continue For
+            End If
+
+            Console.WriteLine($"  {model.Trait.trait_name,-45} cv {model.CVScore.ToString("F4")} -> {tuned.Score.ToString("F4")}, {tuned}")
+        Next
+
+        Call clock.Stop()
+
+        Console.WriteLine($"tuning finish in {clock.Elapsed.TotalSeconds.ToString("F1")}s")
 
         Call Wait()
     End Sub

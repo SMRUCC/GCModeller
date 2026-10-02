@@ -33,6 +33,10 @@ Namespace metaTraits.Traitar
         Public Property sampleCount As Integer
         ''' <summary>交叉验证得分</summary>
         Public Property cvScore As Double
+        ''' <summary>模型所使用的惩罚系数 C</summary>
+        Public Property c As Double
+        ''' <summary>模型所使用的核参数 gamma</summary>
+        Public Property gamma As Double
         ''' <summary>被跳过（或失败）的原因</summary>
         Public Property errorMessage As String
         ''' <summary>该表型模型所对应的 json 文件名，skipped 时为空</summary>
@@ -161,6 +165,8 @@ Namespace metaTraits.Traitar
                         .status = model.Status,
                         .sampleCount = model.SampleCount,
                         .cvScore = model.CVScore,
+                        .c = model.C,
+                        .gamma = model.gamma,
                         .errorMessage = model.ErrorMessage,
                         .modelFile = modelFile
                     })
@@ -174,6 +180,8 @@ Namespace metaTraits.Traitar
                         .status = model.Status,
                         .sampleCount = model.SampleCount,
                         .cvScore = model.CVScore,
+                        .c = model.C,
+                        .gamma = model.gamma,
                         .errorMessage = model.ErrorMessage,
                         .modelFile = modelFile
                     })
@@ -242,6 +250,8 @@ Namespace metaTraits.Traitar
                     .Trait = trait,
                     .SampleCount = item.sampleCount,
                     .CVScore = item.cvScore,
+                    .C = item.c,
+                    .gamma = item.gamma,
                     .Status = item.status,
                     .ErrorMessage = item.errorMessage
                 }

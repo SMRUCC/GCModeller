@@ -32,6 +32,13 @@ Namespace metaTraits.Traitar.Modules
         Public Property nrfold As Integer = 5
         ''' <summary>核函数类型，默认为 RBF</summary>
         Public Property kernel As KernelType = KernelType.RBF
+        ''' <summary>
+        ''' 是否在训练每一个表型模型之前先做 C / gamma 的网格搜索（默认关闭）。
+        ''' 开启之后训练耗时会显著增加
+        ''' </summary>
+        Public Property autoTune As Boolean = False
+        ''' <summary>网格搜索内部使用的交叉验证折数</summary>
+        Public Property tuneFolds As Integer = 5
 
         ''' <summary>
         ''' 针对训练数据集之中的全部表型逐一训练模型
@@ -162,6 +169,19 @@ Namespace metaTraits.Traitar.Modules
 
                 Dim transform As RangeTransform = RangeTransform.Compute(problem)
                 Dim scaled As Problem = transform.Scale(problem)
+
+                If autoTune AndAlso kernel = KernelType.RBF Then
+                    ' 在缩放之后的数据之上做网格搜索，保证与正式训练的数据分布一致
+                    Dim tuned As ParameterSearchResult = ParameterSearch.Search(
+                        scaled, par,
+                        nrfold:=If(tuneFolds < rows.Length, tuneFolds, rows.Length))
+
+                    If tuned IsNot Nothing Then
+                        par.c = tuned.C
+                        par.gamma = tuned.Gamma
+                    End If
+                End If
+
                 Dim trained As Microsoft.VisualBasic.MachineLearning.SVM.Model = Training.Train(scaled, par)
                 Dim svm As SVMModel
 
@@ -181,6 +201,8 @@ Namespace metaTraits.Traitar.Modules
 
                 result.Model = svm
                 result.Status = "trained"
+                result.C = par.c
+                result.gamma = par.gamma
 
                 ' 交叉验证：分类返回准确率，回归返回相关系数
                 Dim folds As Integer = nrfold

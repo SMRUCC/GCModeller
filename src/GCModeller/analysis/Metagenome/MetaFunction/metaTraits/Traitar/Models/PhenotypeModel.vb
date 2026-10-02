@@ -31,6 +31,10 @@ Namespace metaTraits.Traitar.Models
         Public Property SampleCount As Integer
         ''' <summary>交叉验证得分（分类为准确率，回归为相关系数）</summary>
         Public Property CVScore As Double
+        ''' <summary>该模型所使用的惩罚系数 C</summary>
+        Public Property C As Double
+        ''' <summary>该模型所使用的核参数 gamma</summary>
+        Public Property gamma As Double
         ''' <summary>模型状态：``trained`` / ``skipped``</summary>
         Public Property Status As String
         ''' <summary>训练失败（或被跳过）的原因</summary>
