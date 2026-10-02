@@ -19,10 +19,6 @@ Public Class IdentityResult : Implements INamedValue
         Return Me.GetJson
     End Function
 
-    Public Shared Function SimpleTag(fa As FastaSeq) As String
-        Return fa.Title.Split.First
-    End Function
-
     ''' <summary>
     ''' 直接使用整条序列来进行计算
     ''' 
@@ -33,7 +29,7 @@ Public Class IdentityResult : Implements INamedValue
     ''' <param name="round"></param>
     ''' <param name="simple"></param>
     ''' <returns></returns>
-    Public Shared Function DeltaStarMatrix(source As FastaFile, Optional round% = -1, Optional simple As Boolean = True) As IdentityResult()
+    Public Shared Iterator Function DeltaStarMatrix(source As FastaFile, Optional round% = -1, Optional simple As Boolean = True) As IEnumerable(Of IdentityResult)
         ' pre-build all of the signature caches once: every pairwise comparison 
         ' then only costs a 16-dim vector distance (the legacy implementation 
         ' re-counted the sequences for every pair)
@@ -54,11 +50,9 @@ Public Class IdentityResult : Implements INamedValue
             getValue = Function(r) Math.Round(r, round)
         End If
 
-        Dim results As New List(Of IdentityResult)
-
         For Each nt As NucleicAcid In nts
             Dim result = LinqAPI.MakeList(Of NamedValue(Of Double)) <=
- _
+                                                                      _
                 From x As NucleicAcid
                 In nts.AsParallel
                 Where Not x Is nt  ' 由于是自己的全长序列与自己的全长序列进行比较，二者一致，故而距离为0，这里为了节省时间就不做计算了
@@ -77,13 +71,11 @@ Public Class IdentityResult : Implements INamedValue
 
             Call nt.tag.debug
 
-            results.Add(New IdentityResult With {
+            Yield New IdentityResult With {
                 .Identities = result.ToDictionary(Function(x) x.Name, Function(x) x.Value),
                 .SeqId = nt.tag
-            })
+            }
         Next
-
-        Return results.ToArray
     End Function
 
     ''' <summary>
@@ -93,7 +85,7 @@ Public Class IdentityResult : Implements INamedValue
     ''' <param name="round%"></param>
     ''' <param name="simple"></param>
     ''' <returns></returns>
-    Public Shared Function DeltaStarMatrix(source As IEnumerable(Of GBFF.File), Optional round% = -1, Optional simple As Boolean = True) As IdentityResult()
+    Public Shared Iterator Function DeltaStarMatrix(source As IEnumerable(Of GBFF.File), Optional round% = -1, Optional simple As Boolean = True) As IEnumerable(Of IdentityResult)
         Dim data As GBFF.File() = source.ToArray
         ' pre-build all of the genome signature caches once
         Dim nts As NucleicAcid() = data.Select(Function(x) New NucleicAcid(x.Origin.ToFasta)).ToArray
@@ -113,13 +105,11 @@ Public Class IdentityResult : Implements INamedValue
             getValue = Function(r) Math.Round(r, round)
         End If
 
-        Dim results As New List(Of IdentityResult)
-
         For i As Integer = 0 To data.Length - 1
             Dim genome As GBFF.File = data(i)
             Dim rule As New NucleicAcid(genome.dnaA_gyrB)
             Dim result = LinqAPI.MakeList(Of NamedValue(Of Double)) <=
- _
+                                                                      _
               From x As NucleicAcid
               In nts.AsParallel
               Let deltaStar As Double = DeltaStarDistance.DeltaStar(rule, x)
@@ -130,14 +120,12 @@ Public Class IdentityResult : Implements INamedValue
 
             Call rule.tag.debug
 
-            results.Add(New IdentityResult With {
+            Yield New IdentityResult With {
                 .Identities = result _
                     .ToDictionary(Function(x) x.Name,
                                   Function(x) x.Value),
                 .SeqId = rule.tag
-            })
+            }
         Next
-
-        Return results.ToArray
     End Function
 End Class
