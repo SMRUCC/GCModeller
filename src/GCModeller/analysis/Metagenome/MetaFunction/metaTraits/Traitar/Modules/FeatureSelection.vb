@@ -9,6 +9,7 @@
 '   2. 再对排名靠前的若干个特征做排列重要性（permutation importance）验证
 ' ============================================================================
 
+Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 
 Namespace metaTraits.Traitar.Modules
