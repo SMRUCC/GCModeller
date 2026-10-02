@@ -65,6 +65,8 @@
 ' ============================================================================
 
 Imports System.IO
+Imports System.IO.Compression
+Imports System.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -75,6 +77,30 @@ Public Class ProteinAnnotator
 
     ' 已加载的HMM模型字典
     ReadOnly _models As New Dictionary(Of String, ProfileHMM)()
+
+    ' 模型快照缓存：并行注释时以只读数组形式共享，避免直接遍历字典；模型增删后失效重建
+    Private _modelList As ProfileHMM()
+
+    ''' <summary>
+    ''' 获取当前模型集合的快照数组（惰性构建，供并行注释使用）
+    ''' </summary>
+    Private Function GetModelSnapshot() As ProfileHMM()
+        If _modelList Is Nothing Then
+            SyncLock _models
+                If _modelList Is Nothing Then
+                    _modelList = _models.Values.ToArray
+                End If
+            End SyncLock
+        End If
+
+        Return _modelList
+    End Function
+
+    Private Sub InvalidateModelSnapshot()
+        SyncLock _models
+            _modelList = Nothing
+        End SyncLock
+    End Sub
 
     ''' <summary>
     ''' 获取或设置E值阈值
@@ -121,6 +147,8 @@ Public Class ProteinAnnotator
                 End If
             Next
         End Using
+
+        Call InvalidateModelSnapshot()
     End Sub
 
     ''' <summary>
@@ -155,15 +183,109 @@ Public Class ProteinAnnotator
         If model IsNot Nothing AndAlso Not String.IsNullOrEmpty(model.Name) Then
             _models(model.Name) = model
         End If
+
+        Call InvalidateModelSnapshot()
     End Sub
 
-    Public Shared Function LoadModel(zipfile As Stream) As ProteinAnnotator
+    ' ---- 模型包（zip 压缩包）的保存与加载 ----
 
-    End Function
+    Private Const PackageVersion As Integer = 1
+    Private Const EntryManifest As String = "manifest.txt"
+    Private Const EntryModelPrefix As String = "models/"
 
+    ''' <summary>
+    ''' 将当前的HMM模型集合序列化为zip压缩包进行保存。
+    ''' 模型数据以二进制格式（<see cref="BinaryWriter"/>）直接写入，避免字符串序列化转换开销。
+    ''' </summary>
+    ''' <param name="zipfile">目标zip压缩包输出流</param>
     Public Sub Save(zipfile As Stream)
+        Dim models As ProfileHMM() = GetModelSnapshot()
 
+        Using zip As New ZipArchive(zipfile, ZipArchiveMode.Create, leaveOpen:=True)
+            ' 写入包描述清单
+            Using manifest As Stream = zip.CreateEntry(EntryManifest, CompressionLevel.Optimal).Open()
+                Using writer As New StreamWriter(manifest)
+                    writer.WriteLine($"version={PackageVersion}")
+                    writer.WriteLine($"models={models.Length}")
+                    writer.WriteLine($"evalue_threshold={Me.EValueThreshold.ToString(Globalization.CultureInfo.InvariantCulture)}")
+                    writer.WriteLine($"bitscore_threshold={Me.BitScoreThreshold.ToString(Globalization.CultureInfo.InvariantCulture)}")
+                    writer.WriteLine($"database_size={Me.DatabaseSize.ToString(Globalization.CultureInfo.InvariantCulture)}")
+                End Using
+            End Using
+
+            ' 每一个模型写入一个二进制条目
+            For i As Integer = 0 To models.Length - 1
+                Dim entryName As String = $"{EntryModelPrefix}{i}.bin"
+
+                Using entry As Stream = zip.CreateEntry(entryName, CompressionLevel.Optimal).Open()
+                    Using writer As New BinaryWriter(entry)
+                        Call models(i).WriteBinary(writer)
+                    End Using
+                End Using
+            Next
+        End Using
     End Sub
+
+    ''' <summary>
+    ''' 从zip压缩包中加载HMM模型数据，还原为 <see cref="ProteinAnnotator"/> 对象实例。
+    ''' </summary>
+    ''' <param name="zipfile">模型包zip压缩包输入流</param>
+    Public Shared Function LoadModel(zipfile As Stream) As ProteinAnnotator
+        Dim annotator As New ProteinAnnotator
+
+        Using zip As New ZipArchive(zipfile, ZipArchiveMode.Read, leaveOpen:=True)
+            Dim manifest As ZipArchiveEntry = zip.GetEntry(EntryManifest)
+
+            If manifest Is Nothing Then
+                Throw New InvalidDataException($"Missing '{EntryManifest}' entry in the hmmer model package!")
+            End If
+
+            ' 读取包描述清单
+            Using reader As New StreamReader(manifest.Open())
+                While Not reader.EndOfStream
+                    Dim line As String = reader.ReadLine
+                    Dim eq As Integer = line.IndexOf("="c)
+
+                    If eq > 0 Then
+                        Dim name As String = line.Substring(0, eq).Trim
+                        Dim value As String = line.Substring(eq + 1).Trim
+
+                        Select Case name
+                            Case "version"
+                                Dim v As Integer = Integer.Parse(value, Globalization.CultureInfo.InvariantCulture)
+
+                                If v > PackageVersion Then
+                                    Throw New InvalidDataException($"Unsupported hmmer model package version: {v}")
+                                End If
+                            Case "evalue_threshold"
+                                annotator.EValueThreshold = Double.Parse(value, Globalization.CultureInfo.InvariantCulture)
+                            Case "bitscore_threshold"
+                                annotator.BitScoreThreshold = Double.Parse(value, Globalization.CultureInfo.InvariantCulture)
+                            Case "database_size"
+                                annotator.DatabaseSize = Integer.Parse(value, Globalization.CultureInfo.InvariantCulture)
+                        End Select
+                    End If
+                End While
+            End Using
+
+            ' 逐条目反序列化模型数据
+            For Each entry As ZipArchiveEntry In zip.Entries
+                If entry.FullName.StartsWith(EntryModelPrefix) AndAlso entry.FullName.EndsWith(".bin") Then
+                    Using s As Stream = entry.Open()
+                        Using reader As New BinaryReader(s)
+                            Dim model As ProfileHMM = ProfileHMM.ReadBinary(reader)
+
+                            annotator._models(model.Name) = model
+                        End Using
+                    End Using
+                End If
+            Next
+        End Using
+
+        Call annotator.InvalidateModelSnapshot()
+
+        Return annotator
+    End Function
 
     ''' <summary>
     ''' 对单个蛋白质序列进行注释

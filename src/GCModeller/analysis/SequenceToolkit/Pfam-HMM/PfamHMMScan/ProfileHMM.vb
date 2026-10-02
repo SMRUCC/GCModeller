@@ -688,4 +688,141 @@ Public Class ProfileHMM
 
         Return eValue
     End Function
+
+    ' ============================================================================
+    ' 二进制序列化
+    '
+    ' 模型数据以 BinaryWriter/BinaryReader 直接写入原始数值，避免 JSON 等字符串
+    ' 序列化所带来的 Double <-> 字符串转换开销。写入与读取的字段顺序必须保持
+    ' 完全对称。派生字段（HMMStates/HMMObservables/HMMInitialProb）不持久化，
+    ' 加载后可通过 InitializeHMMParameters 按需重建。
+    ' ============================================================================
+
+    Private Const BinaryFormatVersion As Integer = 1
+
+    ''' <summary>
+    ''' 将模型参数以二进制格式写入 <see cref="BinaryWriter"/>
+    ''' </summary>
+    Public Sub WriteBinary(writer As BinaryWriter)
+        writer.Write(BinaryFormatVersion)
+        writer.Write(If(Version, ""))
+        writer.Write(If(Name, ""))
+        writer.Write(Length)
+        writer.Write(If(Alphabet, ""))
+        writer.Write(NumSequences)
+        writer.Write(EffectiveNum)
+        writer.Write(Checksum)
+
+        Call WriteStats(writer, StatsMSV)
+        Call WriteStats(writer, StatsViterbi)
+        Call WriteStats(writer, StatsForward)
+
+        Call WriteArray(writer, CompositionEmission)
+        Call WriteArray(writer, CompositionInsert)
+        Call WriteArray(writer, CompositionTransitions)
+
+        Call WriteJagged(writer, MatchEmissions)
+        Call WriteJagged(writer, InsertEmissions)
+        Call WriteJagged(writer, Transitions)
+    End Sub
+
+    ''' <summary>
+    ''' 从 <see cref="BinaryReader"/> 中按 <see cref="WriteBinary"/> 的布局读取并重建模型对象
+    ''' </summary>
+    Public Shared Function ReadBinary(reader As BinaryReader) As ProfileHMM
+        Dim version As Integer = reader.ReadInt32()
+
+        If version > BinaryFormatVersion Then
+            Throw New InvalidDataException($"Unsupported profile HMM binary format version: {version}")
+        End If
+
+        Dim model As New ProfileHMM With {
+            .Version = reader.ReadString(),
+            .Name = reader.ReadString(),
+            .Length = reader.ReadInt32(),
+            .Alphabet = reader.ReadString(),
+            .NumSequences = reader.ReadInt32(),
+            .EffectiveNum = reader.ReadDouble(),
+            .Checksum = reader.ReadInt64()
+        }
+
+        model.StatsMSV = ReadStats(reader)
+        model.StatsViterbi = ReadStats(reader)
+        model.StatsForward = ReadStats(reader)
+
+        model.CompositionEmission = ReadArray(reader)
+        model.CompositionInsert = ReadArray(reader)
+        model.CompositionTransitions = ReadArray(reader)
+
+        model.MatchEmissions = ReadJagged(reader)
+        model.InsertEmissions = ReadJagged(reader)
+        model.Transitions = ReadJagged(reader)
+
+        Return model
+    End Function
+
+    Private Shared Sub WriteStats(writer As BinaryWriter, stats As (mu As Double, lambda As Double))
+        writer.Write(stats.mu)
+        writer.Write(stats.lambda)
+    End Sub
+
+    Private Shared Function ReadStats(reader As BinaryReader) As (mu As Double, lambda As Double)
+        Return (reader.ReadDouble(), reader.ReadDouble())
+    End Function
+
+    Private Shared Sub WriteArray(writer As BinaryWriter, arr As Double())
+        If arr Is Nothing Then
+            writer.Write(-1)
+        Else
+            writer.Write(arr.Length)
+
+            For i As Integer = 0 To arr.Length - 1
+                writer.Write(arr(i))
+            Next
+        End If
+    End Sub
+
+    Private Shared Function ReadArray(reader As BinaryReader) As Double()
+        Dim n As Integer = reader.ReadInt32()
+
+        If n < 0 Then
+            Return Nothing
+        End If
+
+        Dim v(n - 1) As Double
+
+        For i As Integer = 0 To n - 1
+            v(i) = reader.ReadDouble()
+        Next
+
+        Return v
+    End Function
+
+    Private Shared Sub WriteJagged(writer As BinaryWriter, rows As Double()())
+        If rows Is Nothing Then
+            writer.Write(-1)
+        Else
+            writer.Write(rows.Length)
+
+            For i As Integer = 0 To rows.Length - 1
+                Call WriteArray(writer, rows(i))
+            Next
+        End If
+    End Sub
+
+    Private Shared Function ReadJagged(reader As BinaryReader) As Double()()
+        Dim n As Integer = reader.ReadInt32()
+
+        If n < 0 Then
+            Return Nothing
+        End If
+
+        Dim rows(n - 1)() As Double
+
+        For i As Integer = 0 To n - 1
+            rows(i) = ReadArray(reader)
+        Next
+
+        Return rows
+    End Function
 End Class
