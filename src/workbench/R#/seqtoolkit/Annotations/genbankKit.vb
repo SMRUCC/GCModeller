@@ -158,8 +158,14 @@ Module genbankKit
         End If
     End Function
 
+    ''' <summary>
+    ''' read gene table from the given csv tabular data file
+    ''' </summary>
+    ''' <param name="file">the file path of the target csv table file, which could be de-serialized as <see cref="GeneTable"/> array.</param>
+    ''' <returns></returns>
     <ExportAPI("read_genetable")>
-    Public Function read_genetable(file As String) As GeneTable()
+    <RApiReturn(GetType(GeneTable))>
+    Public Function read_genetable(file As String) As Object
         Return file.LoadCsv(Of GeneTable)(mute:=True).ToArray
     End Function
 
@@ -223,13 +229,25 @@ Module genbankKit
     <ExportAPI("moltype")>
     <RApiReturn(GetType(MolTypeEvidence))>
     Public Function moltype(<RRawVectorArgument(GetType(GBFF.File))> gb As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As PipeIterator(Of GBFF.File) = pipeline.Stream(Of GBFF.File)(gb, env)
 
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.Select(Function(g) g.GetMolTypeEvidence).ToArray
     End Function
 
     <ExportAPI("assembly_level")>
     <RApiReturn(GetType(AssemblyLevelEvidence))>
     Public Function assembly_level(<RRawVectorArgument(GetType(GBFF.File))> gb As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As PipeIterator(Of GBFF.File) = pipeline.Stream(Of GBFF.File)(gb, env)
 
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.Select(Function(g) g.GetAssemblyLevelEvidence).ToArray
     End Function
 
     ''' <summary>
