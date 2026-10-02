@@ -187,7 +187,12 @@ Module hmmer
             Return Nothing
         End If
 
-        Return pipeline.CreateFromPopulator(seqs.Select(Function(fa) hmmer.Annotate(fa)).IteratesALL)
+        Return seqs _
+            .Select(Function(fa)
+                        Return hmmer.Annotate(fa)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
     End Function
 
     ''' <summary>

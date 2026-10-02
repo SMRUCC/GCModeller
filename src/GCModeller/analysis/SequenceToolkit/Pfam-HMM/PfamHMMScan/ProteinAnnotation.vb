@@ -184,6 +184,7 @@ Public Class ProteinAnnotator
 
         Return From result As AnnotationResult
                In all
+               Where result.BitScore > 0
                Order By result.BitScore Descending
     End Function
 
