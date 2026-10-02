@@ -193,7 +193,8 @@ Namespace metaTraits.Traitar.Modules
                     Try
                         result.CVScore = Training.PerformCrossValidation(scaled, par, folds)
                     Catch ex As Exception
-                        result.CVScore = Double.NaN
+                        ' NaN 不是合法的 json 数值，这里统一写为 0 表示无法完成交叉验证
+                        result.CVScore = 0
                     End Try
                 End If
             Catch ex As Exception
