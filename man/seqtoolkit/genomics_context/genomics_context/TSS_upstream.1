@@ -14,7 +14,11 @@ get TSS upstream site sequence data
 .PP
 .SH OPTIONS
 .PP
-\fBgenome\fB \fR\- -. 
+\fBgenome\fB \fR\- 
+ the genome reference sequence data source, which can be a 
+ [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly object or a 
+ [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) nucleotide sequence object.
+. 
 .PP
 .PP
 \fBgenes\fB \fR\- 
@@ -23,7 +27,26 @@ get TSS upstream site sequence data
  the TSS upstream site.. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBupstream_len\fB \fR\- 
+ the length in nucleotide of the TSS upstream region.
+. 
+.PP
+.PP
+\fBsimple_title\fB \fR\- 
+ generate the fasta headers title of the output sequence in a simple 
+ format?
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) TSS upstream region nucleotide 
+ sequence data, one sequence element for each of the target gene;
+ 
+ this function returns NULL if the input genome data is nothing, or a R# 
+ error message object if the given genome data type is not supported.
 .PP
 .SH SEE ALSO
 genomics_context

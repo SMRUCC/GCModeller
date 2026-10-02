@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Create seeds</title>
+    <title>create all of the possible seed sequence fragments of the given</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>Create seeds</h2>
+        <h2>create all of the possible seed sequence fragments of the given</h2>
 
         <h3>Description</h3>
 
-        
+        <p>alphabet base letters</p>
 
         <h3>Usage</h3>
 
@@ -35,11 +35,11 @@
         <table>
             
 <dt>size</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the seed length in chars, i.e. the <code>k</code> value of the k-mer seeds. [as integer]</p></dd>
 
 
 <dt>base</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>a character value of the sequence alphabet letters, example as <code>ACGT</code> for the nucleotide sequence. [as string]</p></dd>
 
         </table>
 
@@ -54,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type string.<h4>clr value class</h4><ul><li>string</li></ul>
+        <p>a character vector of all of the possible combination of the seed sequence fragments, and the size of the generated seed collection is <code>len(base) ^ size</code>.</p><h4>clr value class</h4><ul><li>string</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

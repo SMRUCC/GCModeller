@@ -11,10 +11,21 @@ get gff features by id reference
 .PP
 .SH OPTIONS
 .PP
-\fBgff\fB \fR\- -. 
+\fBgff\fB \fR\- 
+ a [GFFTable](cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable) genomics feature annotation table object for 
+ query the feature data.
+. 
 .PP
 .PP
-\fBid\fB \fR\- -. 
+\fBid\fB \fR\- 
+ a character vector of the feature id for get the subset of the target 
+ features. If this parameter is not specified, then all of the features 
+ inside the given gff table will be returned.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [Feature](cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.Feature) genomics feature object.
 .PP
 .SH SEE ALSO
 annotation.genomics

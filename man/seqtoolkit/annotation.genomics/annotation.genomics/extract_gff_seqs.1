@@ -1,11 +1,42 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.GENOMICS 2 2000-1月 "extract_gff_seqs" "extract_gff_seqs"
 .SH NAME
-extract_gff_seqs \- 
+extract_gff_seqs \- extract the sequence region data of the genomics features in the given
 .SH SYNOPSIS
 \fIextract_gff_seqs(\fBgff3\fR as <generic> GFFTable, 
 \fBseqs\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+extract the sequence region data of the genomics features in the given 
+ gff3 table from the reference sequence data
+.PP
+.SH OPTIONS
+.PP
+\fBgff3\fB \fR\- 
+ a [GFFTable](cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable) genomics feature annotation table object, 
+ which provides the location region information of the target sequence 
+ extraction.
+. 
+.PP
+.PP
+\fBseqs\fB \fR\- 
+ the reference sequence data source for extract the feature region 
+ sequence, which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection 
+ of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw 
+ sequence data.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) feature region sequence object;
+ 
+ this function returns NULL if the given reference sequence data can 
+ not be cast to a fasta sequence collection.
+.PP
 .SH SEE ALSO
 annotation.genomics
 .SH FILES

@@ -1,11 +1,37 @@
 .\" man page create by R# package system.
 .TH PROTEINKIT 1 2000-1月 "predict_sequence" "predict_sequence"
 .SH NAME
-predict_sequence \- 
+predict_sequence \- generate the protein sequence data from the given EC number via the
 .SH SYNOPSIS
 \fIpredict_sequence(\fBmodel\fR as <generic> TransformerModel, 
 \fBec_number\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+generate the protein sequence data from the given EC number via the 
+ enzyme transformer model
+.PP
+.SH OPTIONS
+.PP
+\fBmodel\fB \fR\- 
+ a [TransformerModel](cref:T:Microsoft.VisualBasic.MachineLearning.Transformer.TransformerModel) enzyme protein sequence model, which 
+ is created by the \fBenzyme_builder\fR api.
+. 
+.PP
+.PP
+\fBec_number\fB \fR\- 
+ a character vector of the enzyme commission(EC) number for generate 
+ the corresponding protein sequence data.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the generated [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) protein sequence 
+ object, one sequence element for each of the given EC number.
+.PP
 .SH SEE ALSO
 proteinKit
 .SH FILES

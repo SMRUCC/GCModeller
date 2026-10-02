@@ -1,12 +1,48 @@
 .\" man page create by R# package system.
 .TH GENOMICS_CONTEXT 2 2000-1月 "genomics_context" "genomics_context"
 .SH NAME
-genomics_context \- 
+genomics_context \- build the genomics context model object from a given gff3 annotation
 .SH SYNOPSIS
 \fIgenomics_context(\fBgff\fR as <generic> GFFTable, 
 \fBchr_name\fR as string = \fB<NULL>\fR, 
 \fBstrict\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+build the genomics context model object from a given gff3 annotation 
+ table
+.PP
+.SH OPTIONS
+.PP
+\fBgff\fB \fR\- 
+ a [GFFTable](cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable) genomics feature annotation table object for 
+ build the genomics context model.
+. 
+.PP
+.PP
+\fBchr_name\fB \fR\- 
+ the chromosome name for build the context model of the specific 
+ chromosome. If this parameter is not specified, then context models of 
+ all chromosomes will be returned.
+. 
+.PP
+.PP
+\fBstrict\fB \fR\- 
+ throw an R# error message when the given chromosome name can not be 
+ found in the gff table? if this parameter is FALSE, then just a 
+ warning message will be pushed and a NULL value will be returned.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a [GenomeContext](cref:T:SMRUCC.genomics.ContextModel.GenomeContext%601) genomics context object when there is 
+ only one chromosome in the given gff table or the \fBchr_name\fR 
+ parameter is specified, or a named list of the context object of each 
+ chromosome.
+.PP
 .SH SEE ALSO
 genomics_context
 .SH FILES

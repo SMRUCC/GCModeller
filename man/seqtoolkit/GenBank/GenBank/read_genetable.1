@@ -1,9 +1,22 @@
 .\" man page create by R# package system.
 .TH GENBANK 4 2000-1月 "read_genetable" "read_genetable"
 .SH NAME
-read_genetable \- 
+read_genetable \- read gene table from the given csv tabular data file
 .SH SYNOPSIS
 \fIread_genetable(\fBfile\fR as string);\fR
+.SH DESCRIPTION
+.PP
+read gene table from the given csv tabular data file
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- the file path of the target csv table file, which could be de-serialized as [GeneTable](cref:T:SMRUCC.genomics.ComponentModel.Annotation.GeneTable) array.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [GeneTable](cref:T:SMRUCC.genomics.ComponentModel.Annotation.GeneTable) gene table record object that 
+ loaded from the given csv table file.
+.PP
 .SH SEE ALSO
 GenBank
 .SH FILES

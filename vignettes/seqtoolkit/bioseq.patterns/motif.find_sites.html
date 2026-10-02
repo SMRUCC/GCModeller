@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Find target loci site based on the given motif model</title>
+    <title>find the target loci match sites of the given sequence data based on</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>Find target loci site based on the given motif model</h2>
+        <h2>find the target loci match sites of the given sequence data based on</h2>
 
         <h3>Description</h3>
 
-        
+        <p>the motif PWM model</p>
 
         <h3>Usage</h3>
 
@@ -41,19 +41,39 @@
         <table>
             
 <dt>motif</dt>
-<dd><p>could be <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif">SequenceMotif</a> or <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif">MSAMotif</a></p></dd>
+<dd><p>the motif PWM model for make the site scan, which could be a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif">SequenceMotif</a> or a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif">MSAMotif</a> object.</p></dd>
 
 
 <dt>target</dt>
-<dd><p>a collection of fasta sequence</p></dd>
+<dd><p>a fasta sequence collection for make the motif site scan, which can be a single <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, or a character vector of the raw sequence data.</p></dd>
 
 
 <dt>cutoff#</dt>
-<dd><p>-</p></dd>
+<dd><p>the minimum similarity score threshold value between the candidate sequence region and the motif PWM model.</p></dd>
 
 
 <dt>minW#</dt>
-<dd><p>-</p></dd>
+<dd><p>the minimum width of the candidate match site region.</p></dd>
+
+
+<dt>identities</dt>
+<dd><p>the minimum identity threshold value of the accepted match sites. [as double]</p></dd>
+
+
+<dt>pvalue</dt>
+<dd><p>the maximum p-value threshold of the accepted match sites. [as double]</p></dd>
+
+
+<dt>parallel</dt>
+<dd><p>run the site scan task in parallel on multiple cpu cores?. [as boolean]</p></dd>
+
+
+<dt>motif.name</dt>
+<dd><p>the motif name that will be recorded in the <code>seeds</code> property of the match result. If this parameter is not specified, then the motif name of the given PWM model object will be used. [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -68,7 +88,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/MotifMatch.html">MotifMatch</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/MotifMatch.html">MotifMatch</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch">MotifMatch</a> motif match result;</p>
+
+<p>this function returns a R# error message object if the given motif model object or the target sequence data is not a supported data model.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/MotifMatch.html">MotifMatch</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

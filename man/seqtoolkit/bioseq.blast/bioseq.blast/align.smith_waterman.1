@@ -1,24 +1,40 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.BLAST 1 2000-1月 "align.smith_waterman" "align.smith_waterman"
 .SH NAME
-align.smith_waterman \- Do sequence pairwise alignment
+align.smith_waterman \- do the local pairwise sequence alignment via the smith-waterman
 .SH SYNOPSIS
 \fIalign.smith_waterman(\fBquery\fR as <generic> FastaSeq, 
 \fBref\fR as <generic> FastaSeq, 
 \fBblosum\fR as <generic> Blosum = \fB<NULL>\fR);\fR
 .SH DESCRIPTION
 .PP
-Do sequence pairwise alignment
+do the local pairwise sequence alignment via the smith-waterman 
+ algorithm
 .PP
 .SH OPTIONS
 .PP
-\fBquery\fB \fR\- -. 
+\fBquery\fB \fR\- 
+ a [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object of the query sequence.
+. 
 .PP
 .PP
-\fBref\fB \fR\- -. 
+\fBref\fB \fR\- 
+ a [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object of the reference subject 
+ sequence.
+. 
 .PP
 .PP
-\fBblosum\fB \fR\- -. 
+\fBblosum\fB \fR\- 
+ the amino acid substitution score matrix for the alignment, which can 
+ be created by the \fBblosum\fR api in this package module. If this 
+ parameter is nothing, then the default \fBBlosum-62\fR score matrix will 
+ be used.
+. 
+.PP
+.SH VALUE
+.PP
+a [SmithWaterman](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment.SmithWaterman) local alignment result object, from which 
+ the high score region details can be extracted via the \fBHSP\fR api.
 .PP
 .SH SEE ALSO
 bioseq.blast

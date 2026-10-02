@@ -18,19 +18,35 @@ Export single side besthit
 \fBquery\fB \fR\- the blast reader result from the \fBread.blast\fR iterator function.. 
 .PP
 .PP
-\fBidetities\fB \fR\- -. 
+\fBidetities\fB \fR\- 
+ the minimum identity threshold value of the accepted hits.
+. 
 .PP
 .PP
-\fBcoverage\fB \fR\- -. 
+\fBcoverage\fB \fR\- 
+ the minimum coverage threshold value of the accepted hits.
+. 
 .PP
 .PP
-\fBtopBest\fB \fR\- -. 
+\fBtopBest\fB \fR\- 
+ only export the top best hit for each query?
+. 
 .PP
 .PP
-\fBkeepsRawName\fB \fR\- -. 
+\fBkeepsRawName\fB \fR\- 
+ keep the raw query name text in the exported best hit data?
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a lazy pipeline collection of the [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit) single side 
+ best hit result;
+ 
+ this function returns a R# error message object if the input query 
+ pipeline data type is not the [Query](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query) object.
 .PP
 .SH SEE ALSO
 annotation.workflow

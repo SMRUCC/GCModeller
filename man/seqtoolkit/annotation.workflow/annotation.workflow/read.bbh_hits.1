@@ -1,10 +1,30 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.WORKFLOW 2 2000-1月 "read.bbh_hits" "read.bbh_hits"
 .SH NAME
-read.bbh_hits \- 
+read.bbh_hits \- read the bi-directional best hit data in pipeline stream style
 .SH SYNOPSIS
 \fIread.bbh_hits(\fBfile\fR as string, 
 \fBencoding\fR as <integer> Encodings = [ASCII]);\fR
+.SH DESCRIPTION
+.PP
+read the bi-directional best hit data in pipeline stream style
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the file path of the bbh bi-directional best hit data table file.
+. 
+.PP
+.PP
+\fBencoding\fB \fR\- 
+ the text encoding value of the target table file.
+. 
+.PP
+.SH VALUE
+.PP
+a lazy pipeline collection of the [BiDirectionalBesthit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit) 
+ bi-directional best hit object that loaded from the given table file.
+.PP
 .SH SEE ALSO
 annotation.workflow
 .SH FILES

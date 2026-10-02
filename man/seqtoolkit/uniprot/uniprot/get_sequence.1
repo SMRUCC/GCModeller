@@ -1,9 +1,25 @@
 .\" man page create by R# package system.
 .TH UNIPROT 4 2000-1月 "get_sequence" "get_sequence"
 .SH NAME
-get_sequence \- 
+get_sequence \- extract the protein sequence data from the given uniprot protein entry
 .SH SYNOPSIS
 \fIget_sequence(\fBprot\fR as <generic> entry);\fR
+.SH DESCRIPTION
+.PP
+extract the protein sequence data from the given uniprot protein entry 
+ object
+.PP
+.SH OPTIONS
+.PP
+\fBprot\fB \fR\- 
+ the uniprot protein [entry](cref:T:SMRUCC.genomics.Assembly.Uniprot.XML.entry) object for extract its 
+ sequence data.
+. 
+.PP
+.SH VALUE
+.PP
+a [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) protein sequence object.
+.PP
 .SH SEE ALSO
 uniprot
 .SH FILES

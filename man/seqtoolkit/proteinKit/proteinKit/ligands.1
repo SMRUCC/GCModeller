@@ -1,11 +1,40 @@
 .\" man page create by R# package system.
 .TH PROTEINKIT 1 2000-1月 "ligands" "ligands"
 .SH NAME
-ligands \- 
+ligands \- list the small molecule ligand compound data from the given protein
 .SH SYNOPSIS
 \fIligands(\fBpdb\fR as <generic> PDB, 
 \fBkey\fR as string = \fB<NULL>\fR, 
 \fBnumber\fR as integer = -1);\fR
+.SH DESCRIPTION
+.PP
+list the small molecule ligand compound data from the given protein 
+ structure object
+.PP
+.SH OPTIONS
+.PP
+\fBpdb\fB \fR\- 
+ a [PDB](cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB) protein structure object for list its ligand 
+ compound data.
+. 
+.PP
+.PP
+\fBkey\fB \fR\- 
+ the compound name for filter the ligand data.
+. 
+.PP
+.PP
+\fBnumber\fB \fR\- 
+ the sequence number of the target ligand for filter the ligand data, a 
+ negative value means no filter.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [HETRecord](cref:T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.Het.HETRecord) ligand compound object 
+ when no filter condition is specified, or the single ligand compound 
+ object that matches the given compound name and sequence number.
+.PP
 .SH SEE ALSO
 proteinKit
 .SH FILES

@@ -13,10 +13,27 @@ Drawing the sequence logo just simply modelling this motif site
 .PP
 .SH OPTIONS
 .PP
-\fBMSA\fB \fR\- -. 
+\fBMSA\fB \fR\- 
+ the multiple sequence alignment data for drawing the sequence logo, 
+ which can be a [MSAOutput](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.MSA.MSAOutput) alignment result object, a 
+ [SequenceMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif) motif object, a [MSAMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif) 
+ gibbs sampler result, a [Probability](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Probability) PWM model object, or 
+ a fasta sequence collection.
+. 
 .PP
 .PP
-\fBtitle\fB \fR\- -. 
+\fBtitle\fB \fR\- 
+ the title text of the generated sequence logo graphics.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a [GraphicsData](cref:T:Microsoft.VisualBasic.Imaging.Driver.GraphicsData) graphics data object of the sequence 
+ logo, which can be saved as a image file via the \fBbitmap\fR or 
+ \fBsvg\fR api.
 .PP
 .SH SEE ALSO
 bioseq.patterns

@@ -1,20 +1,32 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.BLAST 1 2000-1月 "align.needleman_wunsch" "align.needleman_wunsch"
 .SH NAME
-align.needleman_wunsch \- Do sequence global pairwise alignment
+align.needleman_wunsch \- do the global pairwise sequence alignment via the needleman-wunsch
 .SH SYNOPSIS
 \fIalign.needleman_wunsch(\fBquery\fR as <generic> FastaSeq, 
 \fBref\fR as <generic> FastaSeq);\fR
 .SH DESCRIPTION
 .PP
-Do sequence global pairwise alignment
+do the global pairwise sequence alignment via the needleman-wunsch 
+ algorithm
 .PP
 .SH OPTIONS
 .PP
-\fBquery\fB \fR\- -. 
+\fBquery\fB \fR\- 
+ a [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object of the query sequence.
+. 
 .PP
 .PP
-\fBref\fB \fR\- -. 
+\fBref\fB \fR\- 
+ a [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) sequence object of the reference subject 
+ sequence.
+. 
+.PP
+.SH VALUE
+.PP
+a factor value that contains the global alignment result: the score 
+ value is the global alignment score, and the value data is a vector of 
+ the aligned sequence fragment object.
 .PP
 .SH SEE ALSO
 bioseq.blast

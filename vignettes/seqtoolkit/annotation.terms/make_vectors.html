@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>make_vectors</title>
+    <title>make the genomics metabolic vector data from the given term annotation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>make_vectors</h2>
+        <h2>make the genomics metabolic vector data from the given term annotation</h2>
 
         <h3>Description</h3>
 
-        make_vectors
+        <p>result collection</p>
 
         <h3>Usage</h3>
 
@@ -35,6 +35,17 @@
 
         <table>
             
+<dt>terms</dt>
+<dd><p>a collection of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm">RankTerm</a> term annotation data for make the genomics metabolic vectors.</p></dd>
+
+
+<dt>stream</dt>
+<dd><p>returns the generated vector data in a lazy pipeline manner? if this parameter is FALSE(the default value), then a vector array will be returned instead. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -48,7 +59,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/Pipeline/GenomeVector.html">GenomeVector</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/Pipeline/GenomeVector.html">GenomeVector</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.GenomeVector">GenomeVector</a> genomics metabolic vector object, or a lazy pipeline collection of this vector data when the <code>stream</code> parameter is TRUE;</p>
+
+<p>this function returns a R# error message object if the input term annotation data can not be cast to a collection of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm">RankTerm</a> object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/Pipeline/GenomeVector.html">GenomeVector</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -14,10 +14,36 @@ read the diamond m8 annotation table file output
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the file path of the diamond m8 format annotation table file.
+. 
 .PP
 .PP
-\fBstream\fB \fR\- -. 
+\fBstream\fB \fR\- 
+ read the table data in a lazy stream manner?
+. 
+.PP
+.PP
+\fBfilter\fB \fR\- 
+ the keyword for filter the annotation result.
+. 
+.PP
+.PP
+\fBparseHitId\fB \fR\- 
+ the index number of the token in the hit id text for make the hit name 
+ parse, a negative value means no parse.
+. 
+.PP
+.PP
+\fBhitIdDeli\fB \fR\- 
+ the delimiter character for split the hit id text.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [DiamondAnnotation](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.DiamondAnnotation) diamond annotation 
+ object, or a lazy pipeline collection of this data when the \fBstream\fR 
+ parameter is TRUE.
 .PP
 .SH SEE ALSO
 annotation.workflow

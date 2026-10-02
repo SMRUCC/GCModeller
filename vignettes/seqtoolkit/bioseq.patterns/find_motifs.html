@@ -46,15 +46,15 @@
         <table>
             
 <dt>fasta</dt>
-<dd><p>should contains multiple sequence</p></dd>
+<dd><p>a fasta sequence collection for make the motif discovery, which should contains multiple sequence.</p></dd>
 
 
 <dt>minw%</dt>
-<dd><p>-</p></dd>
+<dd><p>the minimum motif width in chars.</p></dd>
 
 
 <dt>maxw%</dt>
-<dd><p>-</p></dd>
+<dd><p>the maximum motif width in chars.</p></dd>
 
 
 <dt>nmotifs</dt>
@@ -68,7 +68,39 @@
 
 
 <dt>noccurs%</dt>
-<dd><p>-</p></dd>
+<dd><p>the minimum occurrence number of the motif sites in the input sequence collection for keep a motif.</p></dd>
+
+
+<dt>seedingCutoff</dt>
+<dd><p>the similarity cutoff threshold value for build the seed clusters. [as double]</p></dd>
+
+
+<dt>scanMinW</dt>
+<dd><p>the minimum width of the seed scan region. [as integer]</p></dd>
+
+
+<dt>scanCutoff</dt>
+<dd><p>the similarity score cutoff threshold value of the seed scan. [as double]</p></dd>
+
+
+<dt>cleanMotif</dt>
+<dd><p>the motif cleaning threshold value for remove the low score motif sites from the generated motif model. [as double]</p></dd>
+
+
+<dt>significant.sites</dt>
+<dd><p>the minimum number of the significant sites for keep a seed. [as integer]</p></dd>
+
+
+<dt>seeds</dt>
+<dd><p>the pre-computed seed data for make the motifs, which can be a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.ScanFile">ScanFile</a> object that is created by the <code>create.seeds</code> api, or a collection of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment.HSP">HSP</a> seed object. If this parameter is not specified, then the seeds will be discovered from the input sequence data automatically.</p></dd>
+
+
+<dt>debug</dt>
+<dd><p>print the debug log message of the motif discovery progress?. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -83,7 +115,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/SequenceMotif.html">SequenceMotif</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/SequenceMotif.html">SequenceMotif</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif">SequenceMotif</a> motif object that discovered from the given sequence collection, which is sorted by the average motif site score in descending order.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/SequenceMotif.html">SequenceMotif</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

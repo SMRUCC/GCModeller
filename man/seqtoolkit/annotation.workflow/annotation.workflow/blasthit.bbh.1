@@ -1,12 +1,48 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.WORKFLOW 2 2000-1月 "blasthit.bbh" "blasthit.bbh"
 .SH NAME
-blasthit.bbh \- 
+blasthit.bbh \- export the bi-directional best hit(BBH) result from the given forward
 .SH SYNOPSIS
 \fIblasthit.bbh(\fBforward\fR as <generic> pipeline, 
 \fBreverse\fR as <generic> pipeline, 
 \fBalgorithm\fR as <integer> BBHAlgorithm = [Naive], 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+export the bi-directional best hit(BBH) result from the given forward 
+ and reverse best hit data streams
+.PP
+.SH OPTIONS
+.PP
+\fBforward\fB \fR\- 
+ a lazy pipeline collection of the forward direction hits data, which 
+ could be the raw query([Query](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query)) stream, the single side 
+ best hit([BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)) stream, or the diamond m8 annotation 
+ ([DiamondAnnotation](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.DiamondAnnotation)) stream.
+. 
+.PP
+.PP
+\fBreverse\fB \fR\- 
+ a lazy pipeline collection of the reverse direction hits data, which 
+ accepts the same data models as the \fBforward\fR parameter.
+. 
+.PP
+.PP
+\fBalgorithm\fB \fR\- 
+ the BBH match algorithm of the bi-directional best hit search.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a lazy pipeline collection of the [BiDirectionalBesthit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit) 
+ bi-directional best hit result;
+ 
+ this function returns a R# error message object if the input data 
+ streams are nothing or their element types are not supported.
+.PP
 .SH SEE ALSO
 annotation.workflow
 .SH FILES

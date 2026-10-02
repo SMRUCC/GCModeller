@@ -11,10 +11,21 @@ get current genbank assembly accession id
 .PP
 .SH OPTIONS
 .PP
-\fBgenbank\fB \fR\- -. 
+\fBgenbank\fB \fR\- 
+ a collection of the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly 
+ object for get its accession id.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a character vector of the ncbi accession id of each genbank assembly;
+ 
+ this function returns a R# error message object if the input genbank 
+ data can not be cast to a collection of the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) 
+ object.
 .PP
 .SH SEE ALSO
 GenBank

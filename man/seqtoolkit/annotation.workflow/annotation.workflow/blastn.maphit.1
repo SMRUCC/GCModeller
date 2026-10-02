@@ -12,10 +12,26 @@ export results of fastq reads mapping to genome sequence.
 .PP
 .SH OPTIONS
 .PP
-\fBquery\fB \fR\- -. 
+\fBquery\fB \fR\- 
+ a lazy pipeline collection of the blast query hits result 
+ ([Query](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query)), which is created by the \fBread.blast\fR api.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBtop_best\fB \fR\- 
+ only export the top best mapping for each query?
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a lazy pipeline collection of the [BlastnMapping](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping.BlastnMapping) reads 
+ mapping result;
+ 
+ this function returns a R# error message object if the input query 
+ pipeline data type is not the [Query](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query) object.
 .PP
 .SH SEE ALSO
 annotation.workflow

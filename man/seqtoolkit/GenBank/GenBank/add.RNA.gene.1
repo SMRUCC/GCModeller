@@ -1,11 +1,40 @@
 .\" man page create by R# package system.
 .TH GENBANK 4 2000-1月 "add.RNA.gene" "add.RNA.gene"
 .SH NAME
-add.RNA.gene \- 
+add.RNA.gene \- add the RNA gene feature data into the given genbank assembly by the
 .SH SYNOPSIS
 \fIadd.RNA.gene(\fBgb\fR as <generic> File, 
 \fBRNA\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+add the RNA gene feature data into the given genbank assembly by the 
+ blastn mapping result
+.PP
+.SH OPTIONS
+.PP
+\fBgb\fB \fR\- 
+ the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly object for add the 
+ RNA gene feature data.
+. 
+.PP
+.PP
+\fBRNA\fB \fR\- 
+ the blastn mapping result data of the RNA sequence, which can be a 
+ vector of the [BlastnMapping](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping.BlastnMapping) object or a pipeline object 
+ that produces this mapping data.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the modified [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly object;
+ 
+ this function returns a R# error message object if the input RNA 
+ mapping data is not a supported data model.
+.PP
 .SH SEE ALSO
 GenBank
 .SH FILES

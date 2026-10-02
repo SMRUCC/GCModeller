@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>write.PTT_tabular</title>
+    <title>write the genomics context annotation data as the PTT tabular format</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>write.PTT_tabular</h2>
+        <h2>write the genomics context annotation data as the PTT tabular format</h2>
 
         <h3>Description</h3>
 
-        write.PTT_tabular
+        <p>table file</p>
 
         <h3>Usage</h3>
 
@@ -36,6 +36,21 @@
 
         <table>
             
+<dt>genomics</dt>
+<dd><p>the genomics context annotation data for write, which can be a <a href="cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File">File</a> ncbi genbank database file object, a <a href="cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT">PTT</a> tabular table object, or a collection of the <a href="cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief">GeneBrief</a> gene annotation object.</p></dd>
+
+
+<dt>file</dt>
+<dd><p>the file path of the generated PTT tabular table file. If this parameter is not specified, then the table data will be written into the standard output console. [as string]</p></dd>
+
+
+<dt>encoding</dt>
+<dd><p>the text encoding value of the generated PTT tabular table file. [as <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a>]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -49,7 +64,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>a ZERO number value when the tabular table data has been written successfully;</p>
+
+<p>this function returns a R# error message object if the given genomics context data is nothing or can not be cast to a supported data model.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -1,10 +1,30 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.TERMS 2 2000-1月 "write.id_maps" "write.id_maps"
 .SH NAME
-write.id_maps \- 
+write.id_maps \- save the id mapping solver data into a text file
 .SH SYNOPSIS
 \fIwrite.id_maps(\fBmaps\fR as <generic> SecondaryIDSolver, 
 \fBfile\fR as string);\fR
+.SH DESCRIPTION
+.PP
+save the id mapping solver data into a text file
+.PP
+.SH OPTIONS
+.PP
+\fBmaps\fB \fR\- 
+ a [SecondaryIDSolver](cref:T:SMRUCC.genomics.ComponentModel.DBLinkBuilder.SecondaryIDSolver) id mapping solver object for save.
+. 
+.PP
+.PP
+\fBfile\fB \fR\- 
+ the file path of the generated id mapping data text file.
+. 
+.PP
+.SH VALUE
+.PP
+a boolean value of the file save result: TRUE means the id mapping 
+ data has been written into the target file successfully.
+.PP
 .SH SEE ALSO
 annotation.terms
 .SH FILES

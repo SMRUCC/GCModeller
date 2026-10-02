@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>primer_coverage</title>
+    <title>evaluate the primer hit coverage of the candidate primer regions on the</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>primer_coverage</h2>
+        <h2>evaluate the primer hit coverage of the candidate primer regions on the</h2>
 
         <h3>Description</h3>
 
-        primer_coverage
+        <p>given chromosome context</p>
 
         <h3>Usage</h3>
 
@@ -34,6 +34,17 @@
 
         <table>
             
+<dt>targetHits</dt>
+<dd><p>a vector of the <a href="cref:T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation">NucleotideLocation</a> primer hit location data on the target chromosome. [as <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>]</p></dd>
+
+
+<dt>chr</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.ContextModel.GenomeContext%601">GenomeContext</a> genomics context object of the target chromosome, which provides the gene context information of the candidate primer regions. [as <a href="/vignettes/clr/SMRUCC/genomics/ContextModel/GenomeContext`1.html">GenomeContext`1</a>]</p></dd>
+
+
+<dt>chr.seq</dt>
+<dd><p>the sequence data slicer object of the target chromosome for extract the sequence region data, which can be created by the <code>slicer</code> api. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/Slicer/ISlicer.html">ISlicer</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +58,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PrimerDesigner/PrimerCoverage.html">PrimerCoverage[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/PrimerDesigner/PrimerCoverage.html">PrimerCoverage[]</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.PrimerDesigner.PrimerCoverage">PrimerCoverage</a> primer hit coverage analysis result object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/PrimerDesigner/PrimerCoverage.html">PrimerCoverage[]</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

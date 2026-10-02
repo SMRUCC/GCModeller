@@ -1,10 +1,33 @@
 .\" man page create by R# package system.
 .TH PROTEINKIT 1 2000-1月 "pdb_centroid" "pdb_centroid"
 .SH NAME
-pdb_centroid \- 
+pdb_centroid \- get the geometry center coordinates of the given protein structure
 .SH SYNOPSIS
 \fIpdb_centroid(\fBpdb\fR as <generic> PDB, 
 \fBas_vector\fR as boolean = FALSE);\fR
+.SH DESCRIPTION
+.PP
+get the geometry center coordinates of the given protein structure 
+ object
+.PP
+.SH OPTIONS
+.PP
+\fBpdb\fB \fR\- 
+ a [PDB](cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB) protein structure object for evaluate its centroid 
+ coordinates.
+. 
+.PP
+.PP
+\fBas_vector\fB \fR\- 
+ returns the centroid coordinates as a numeric vector? if this 
+ parameter is FALSE(the default value), then a [Point3D](cref:T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.Point3D) 
+ coordinates object will be returned.
+. 
+.PP
+.SH VALUE
+.PP
+the centroid coordinates of the given protein structure object.
+.PP
 .SH SEE ALSO
 proteinKit
 .SH FILES

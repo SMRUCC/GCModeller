@@ -12,7 +12,12 @@ Save the annotation rawdata into the given stream file.
 .PP
 .SH OPTIONS
 .PP
-\fBdata\fB \fR\- -. 
+\fBdata\fB \fR\- 
+ a lazy pipeline collection of the annotation data for write into the 
+ target stream file, the supported data element types are: 
+ [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit), [BiDirectionalBesthit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit), 
+ [BlastnMapping](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping.BlastnMapping) and [RankTerm](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm).
+. 
 .PP
 .PP
 \fBstream\fB \fR\- 
@@ -20,7 +25,13 @@ Save the annotation rawdata into the given stream file.
 . 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+this function returns a R# error message object if the output stream 
+ device is nothing, the input data is nothing, or the stream device 
+ type is not matched with the incoming data type.
 .PP
 .SH SEE ALSO
 annotation.workflow

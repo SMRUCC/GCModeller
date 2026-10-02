@@ -10,7 +10,16 @@ read VFDB fasta sequence database
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the file path of the VFDB virulence factor fasta sequence database 
+ file, the fasta headers title of this file should be splitted by the 
+ \fB|\fR character.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [VFs](cref:T:SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB.VFs) virulence factor object that parsed 
+ from the given VFDB fasta sequence database file.
 .PP
 .SH SEE ALSO
 annotation.terms

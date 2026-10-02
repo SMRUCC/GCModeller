@@ -1,11 +1,37 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.TERMS 2 2000-1月 "synonym" "synonym"
 .SH NAME
-synonym \- 
+synonym \- query the id synonyms of the given id list from the id mapping solver
 .SH SYNOPSIS
 \fIsynonym(\fBidlist\fR as string, 
 \fBidmap\fR as <generic> SecondaryIDSolver, 
 \fBexcludeNull\fR as boolean = FALSE);\fR
+.SH DESCRIPTION
+.PP
+query the id synonyms of the given id list from the id mapping solver 
+ object
+.PP
+.SH OPTIONS
+.PP
+\fBidlist\fB \fR\- 
+ a character vector of the query id for get its synonyms.
+. 
+.PP
+.PP
+\fBidmap\fB \fR\- 
+ a [SecondaryIDSolver](cref:T:SMRUCC.genomics.ComponentModel.DBLinkBuilder.SecondaryIDSolver) id mapping solver object, which is 
+ created by the \fBread.id_maps\fR api.
+. 
+.PP
+.PP
+\fBexcludeNull\fB \fR\- 
+ remove the query id which has no synonym data from the result?
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [Synonym](cref:T:SMRUCC.genomics.ComponentModel.DBLinkBuilder.Synonym) id synonym query result object.
+.PP
 .SH SEE ALSO
 annotation.terms
 .SH FILES

@@ -1,10 +1,34 @@
 .\" man page create by R# package system.
 .TH GENBANK 4 2000-1月 "assembly_level" "assembly_level"
 .SH NAME
-assembly_level \- 
+assembly_level \- get the assembly level evidence annotation of the given genbank
 .SH SYNOPSIS
 \fIassembly_level(\fBgb\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get the assembly level evidence annotation of the given genbank 
+ assembly
+.PP
+.SH OPTIONS
+.PP
+\fBgb\fB \fR\- 
+ a collection of the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly 
+ object for get its assembly level evidence.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [AssemblyLevelEvidence](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.AssemblyLevelEvidence) assembly level 
+ evidence object;
+ 
+ this function returns a R# error message object if the input genbank 
+ data can not be cast to a collection of the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) 
+ object.
+.PP
 .SH SEE ALSO
 GenBank
 .SH FILES

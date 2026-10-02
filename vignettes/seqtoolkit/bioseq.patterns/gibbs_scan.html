@@ -37,19 +37,19 @@
         <table>
             
 <dt>seqs</dt>
-<dd><p>-</p></dd>
+<dd><p>a fasta sequence collection for run the gibbs sampler motif discovery, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a character vector of the raw sequence data.</p></dd>
 
 
 <dt>width</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the motif width of the gibbs sampler. If this parameter is not specified, then the motif width will be evaluated from the input sequence data automatically as the 60% of the average sequence length. [as integer]</p></dd>
 
 
 <dt>maxitr</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the maximum iteration number of the gibbs sampler. [as integer]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -64,7 +64,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Motif/MSAMotif.html">MSAMotif</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Motif/MSAMotif.html">MSAMotif</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif">MSAMotif</a> motif object that discovered from the given sequence collection by the gibbs sampler;</p>
+
+<p>this function returns NULL if the input sequence data can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Motif/MSAMotif.html">MSAMotif</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

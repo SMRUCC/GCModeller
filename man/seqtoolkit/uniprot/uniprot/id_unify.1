@@ -16,13 +16,23 @@ id unify mapping
 \fBuniprot\fB \fR\- a uniprot dataabse pipeline stream. 
 .PP
 .PP
-\fBid\fB \fR\- -. 
+\fBid\fB \fR\- 
+ a character vector of the raw id for map to the target database id.
+. 
 .PP
 .PP
 \fBtarget\fB \fR\- the database name for map to. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a character vector of the target database id of each given raw id;
+ 
+ this function returns a R# error message object if the input uniprot 
+ data can not be cast to a collection of the [entry](cref:T:SMRUCC.genomics.Assembly.Uniprot.XML.entry) 
+ object.
 .PP
 .SH SEE ALSO
 uniprot

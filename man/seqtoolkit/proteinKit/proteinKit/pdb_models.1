@@ -10,7 +10,16 @@ get structure models inside the given pdb object
 .PP
 .SH OPTIONS
 .PP
-\fBpdb\fB \fR\- -. 
+\fBpdb\fB \fR\- 
+ a [PDB](cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB) protein structure object for get its structure 
+ models, which is created by the \fBparse_pdb\fR or \fBread.pdb\fR api.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the structure model data that inside the given pdb object, 
+ each structure model element is a collection of the 
+ [Atom](cref:T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.Atom) atom object.
 .PP
 .SH SEE ALSO
 proteinKit

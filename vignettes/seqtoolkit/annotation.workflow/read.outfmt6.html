@@ -36,11 +36,15 @@
         <table>
             
 <dt>file</dt>
-<dd><p>-</p></dd>
+<dd><p>the input source: a file path of the blast output format 6 tabular table file, or a file stream object of the target table file.</p></dd>
+
+
+<dt>make.query.group</dt>
+<dd><p>group the hits result by the query id? if this parameter is TRUE, then a named list of the hits result group will be returned. [as boolean]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -55,7 +59,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/NCBIBlastResult/WebBlast/HitRecord.html">HitRecord</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/NCBIBlastResult/WebBlast/HitRecord.html">HitRecord</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast.HitRecord">HitRecord</a> blast hits result object, or a named list of the hits result group when the <code>make_query_group</code> parameter is TRUE;</p>
+
+<p>this function returns a R# error message object if the given file can not be opened for read.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/NCBIBlastResult/WebBlast/HitRecord.html">HitRecord</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

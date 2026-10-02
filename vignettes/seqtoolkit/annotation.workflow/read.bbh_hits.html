@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>read.bbh_hits</title>
+    <title>read the bi-directional best hit data in pipeline stream style</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>read.bbh_hits</h2>
+        <h2>read the bi-directional best hit data in pipeline stream style</h2>
 
         <h3>Description</h3>
 
-        read.bbh_hits
+        
 
         <h3>Usage</h3>
 
@@ -35,6 +35,13 @@
 
         <table>
             
+<dt>file</dt>
+<dd><p>the file path of the bbh bi-directional best hit data table file. [as string]</p></dd>
+
+
+<dt>encoding</dt>
+<dd><p>the text encoding value of the target table file. [as <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a>]</p></dd>
+
         </table>
 
 
@@ -48,7 +55,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BiDirectionalBesthit.html">BiDirectionalBesthit</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BiDirectionalBesthit.html">BiDirectionalBesthit</a></li></ul>
+        <p>a lazy pipeline collection of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit">BiDirectionalBesthit</a> bi-directional best hit object that loaded from the given table file.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BiDirectionalBesthit.html">BiDirectionalBesthit</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

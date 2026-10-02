@@ -1,9 +1,28 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.BLAST 1 2000-1月 "align.gwANI" "align.gwANI"
 .SH NAME
-align.gwANI \- 
+align.gwANI \- run the genome-wide average nucleotide identity(gwANI) calculation for
 .SH SYNOPSIS
 \fIalign.gwANI(\fBmultipleSeq\fR as <generic> FastaFile);\fR
+.SH DESCRIPTION
+.PP
+run the genome-wide average nucleotide identity(gwANI) calculation for 
+ a given nucleotide sequence collection
+.PP
+.SH OPTIONS
+.PP
+\fBmultipleSeq\fB \fR\- 
+ a nucleotide fasta sequence collection for run the gwANI calculation, 
+ which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object or a collection of the 
+ [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [DataSet](cref:T:Microsoft.VisualBasic.Data.Framework.IO.DataSet) gwANI calculation result: each 
+ element contains the genome-wide average nucleotide identity value and 
+ its details of one sequence pair in the input sequence collection.
+.PP
 .SH SEE ALSO
 bioseq.blast
 .SH FILES

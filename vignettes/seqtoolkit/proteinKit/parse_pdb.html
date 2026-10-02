@@ -37,11 +37,15 @@
         <table>
             
 <dt>pdb.txt</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the PDB document text data for parse as the protein structure object model. [as string]</p></dd>
 
 
 <dt>safe</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>catch and ignore the exception when the parsing is failed? if this parameter is TRUE, then a NULL value will be returned instead of throwing an exception when the given document text data is invalid. [as boolean]</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>print the verbose log message of the parsing progress?. [as boolean]</p></dd>
 
         </table>
 
@@ -56,7 +60,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/PDB.html">PDB</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/PDB.html">PDB</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB">PDB</a> protein structure object model that parsed from the given PDB document text data; NULL will be returned when the parsing is failed and the <code>safe</code> parameter is TRUE.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/PDB.html">PDB</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

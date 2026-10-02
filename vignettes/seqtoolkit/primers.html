@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; primers; seqtoolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="PCR primer design tools..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,18 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "primers"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
+                               <br /><br /><span style="color: green;">#' PCR primer design tools</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "primers"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>PCR primer design tools</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module provides the api for find the candidate PCR primer design regions from the blastn web search hits:</p>
+
+
+<ul>
+<li><code>primer_regions</code>: find the candidate PCR primer design regions from a given set of the blastn hit records, and then annotate the gene context information of each candidate region via a given genomics feature annotation table(GFF).</li>
+</ul>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -91,7 +96,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="primer_regions">
     <a href="./primers/primer_regions.html">primer_regions</a>
   </td>
-  <td></td>
+  <td><p>find the candidate PCR primer design regions from a set of the blastn hits</p></td>
 </tr></tbody>
       </table>
     </div>

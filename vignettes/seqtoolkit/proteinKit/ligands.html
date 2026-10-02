@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>ligands</title>
+    <title>list the small molecule ligand compound data from the given protein</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>ligands</h2>
+        <h2>list the small molecule ligand compound data from the given protein</h2>
 
         <h3>Description</h3>
 
-        ligands
+        <p>structure object</p>
 
         <h3>Usage</h3>
 
@@ -36,6 +36,17 @@
 
         <table>
             
+<dt>pdb</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB">PDB</a> protein structure object for list its ligand compound data. [as <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/PDB.html">PDB</a>]</p></dd>
+
+
+<dt>key</dt>
+<dd><p>the compound name for filter the ligand data. [as string]</p></dd>
+
+
+<dt>number</dt>
+<dd><p>the sequence number of the target ligand for filter the ligand data, a negative value means no filter. [as integer]</p></dd>
+
         </table>
 
 
@@ -49,7 +60,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/HETRecord.html">HETRecord</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/HETRecord.html">HETRecord</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.Het.HETRecord">HETRecord</a> ligand compound object when no filter condition is specified, or the single ligand compound object that matches the given compound name and sequence number.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/HETRecord.html">HETRecord</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

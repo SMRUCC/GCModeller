@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>context_location</title>
+    <title>make the chromosome mapping of the blastn hits result data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>context_location</h2>
+        <h2>make the chromosome mapping of the blastn hits result data</h2>
 
         <h3>Description</h3>
 
-        context_location
+        
 
         <h3>Usage</h3>
 
@@ -35,6 +35,17 @@
 
         <table>
             
+<dt>blastn</dt>
+<dd><p>a collection of the blastn tabular format hit record data (<a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast.HitRecord">HitRecord</a>) for make the chromosome mapping.</p></dd>
+
+
+<dt>eval.thres</dt>
+<dd><p>the maximum e-value threshold of the accepted blastn hits. [as double]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -48,7 +59,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a></li></ul>
+        <p>the chromosome mapping of the accepted blastn hits;</p>
+
+<p>this function returns a R# error message object if the input blastn hits data can not be cast to a collection of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast.HitRecord">HitRecord</a> object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -1,9 +1,25 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.GENOMICS 2 2000-1月 "read.gtf" "read.gtf"
 .SH NAME
-read.gtf \- 
+read.gtf \- read the gtf format genomics context annotation table file
 .SH SYNOPSIS
 \fIread.gtf(\fBfile\fR as string);\fR
+.SH DESCRIPTION
+.PP
+read the gtf format genomics context annotation table file
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the file path of the gtf format genomics context annotation table 
+ file.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [GeneBrief](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief) gene annotation object that 
+ loaded from the given gtf table file.
+.PP
 .SH SEE ALSO
 annotation.genomics
 .SH FILES

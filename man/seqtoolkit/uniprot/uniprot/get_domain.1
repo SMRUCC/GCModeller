@@ -1,9 +1,26 @@
 .\" man page create by R# package system.
 .TH UNIPROT 4 2000-1月 "get_domain" "get_domain"
 .SH NAME
-get_domain \- 
+get_domain \- get the protein domain region annotation data from the given uniprot
 .SH SYNOPSIS
 \fIget_domain(\fBprot\fR as <generic> entry);\fR
+.SH DESCRIPTION
+.PP
+get the protein domain region annotation data from the given uniprot 
+ protein entry object
+.PP
+.SH OPTIONS
+.PP
+\fBprot\fB \fR\- 
+ the uniprot protein [entry](cref:T:SMRUCC.genomics.Assembly.Uniprot.XML.entry) object for extract its domain 
+ region annotation data.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [DomainModel](cref:T:SMRUCC.genomics.ProteinModel.DomainModel) protein domain region 
+ annotation object.
+.PP
 .SH SEE ALSO
 uniprot
 .SH FILES

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>extract_gff_seqs</title>
+    <title>extract the sequence region data of the genomics features in the given</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>extract_gff_seqs</h2>
+        <h2>extract the sequence region data of the genomics features in the given</h2>
 
         <h3>Description</h3>
 
-        extract_gff_seqs
+        <p>gff3 table from the reference sequence data</p>
 
         <h3>Usage</h3>
 
@@ -34,6 +34,17 @@
 
         <table>
             
+<dt>gff3</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable">GFFTable</a> genomics feature annotation table object, which provides the location region information of the target sequence extraction. [as <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/GFFTable.html">GFFTable</a>]</p></dd>
+
+
+<dt>seqs</dt>
+<dd><p>the reference sequence data source for extract the feature region sequence, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a character vector of the raw sequence data.</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +58,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> feature region sequence object;</p>
+
+<p>this function returns NULL if the given reference sequence data can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

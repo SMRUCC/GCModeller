@@ -14,15 +14,38 @@ export gene fasta from the given genbank assembly file
 .PP
 .SH OPTIONS
 .PP
-\fBgb\fB \fR\- -. 
+\fBgb\fB \fR\- 
+ the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly object for export 
+ its gene nucleotide sequence data.
+. 
 .PP
 .PP
-\fBtitle\fB \fR\- -. 
+\fBtitle\fB \fR\- 
+ the fasta headers title template string for export of the gene 
+ sequence data.
+. 
+.PP
+.PP
+\fBkey\fB \fR\- 
+ the feature key name for extract the gene sequence data, example as 
+ \fBgene\fR or \fBCDS\fR.
+. 
+.PP
+.PP
+\fBrequired\fB \fR\- 
+ a character vector of the template keyword name for filter the gene 
+ export: the gene that its template data is missing any of the required 
+ keyword will be skipped.
+. 
 .PP
 .PP
 \fBunique_names\fB \fR\- 
  processing the possible duplicated header as unique id, this option is usually when you use this function for build a sequence database for salmon tool.
 . 
+.PP
+.SH VALUE
+.PP
+a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) gene nucleotide sequence collection object.
 .PP
 .SH DETAILS
 .PP

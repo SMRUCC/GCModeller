@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; annotation.genomics; seqtoolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="Genomics context data annotation toolkit..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,21 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "annotation.genomics"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
+                               <br /><br /><span style="color: green;">#' Genomics context data annotation toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "annotation.genomics"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>Genomics context data annotation toolkit</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module provides the api for read/write and manipulate the genomics context annotation data:</p>
+
+
+<ul>
+<li>read the genomics context annotation table file: <code>read.gff</code>, <code>read.gtf</code>, <code>read.nucmer</code>;</li>
+<li>export the genomics context annotation data: <code>write.gff3</code>, <code>as.tabular</code>, <code>write.PTT_tabular</code>;</li>
+<li>query the genomics context features: <code>gff_features</code>, <code>source_features</code>, <code>type_features</code>, <code>genes_features</code>, <code>upstream</code>;</li>
+<li>extract the sequence region data: <code>extract_gff_seqs</code>.</li>
+</ul>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -100,7 +108,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="read.gtf">
     <a href="./annotation.genomics/read.gtf.html">read.gtf</a>
   </td>
-  <td></td>
+  <td><p>read the gtf format genomics context annotation table file</p></td>
 </tr>
 <tr>
   <td id="read.gff">
@@ -112,19 +120,19 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="write.gff3">
     <a href="./annotation.genomics/write.gff3.html">write.gff3</a>
   </td>
-  <td></td>
+  <td><p>save the genomics feature annotation table object as a gff3 format table file</p></td>
 </tr>
 <tr>
   <td id="source_features">
     <a href="./annotation.genomics/source_features.html">source_features</a>
   </td>
-  <td></td>
+  <td><p>get the genomics features from the given gff table by its source name</p></td>
 </tr>
 <tr>
   <td id="type_features">
     <a href="./annotation.genomics/type_features.html">type_features</a>
   </td>
-  <td></td>
+  <td><p>get the genomics features from the given gff table by its feature type</p></td>
 </tr>
 <tr>
   <td id="gff_features">
@@ -136,19 +144,19 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="as.tabular">
     <a href="./annotation.genomics/as.tabular.html">as.tabular</a>
   </td>
-  <td></td>
+  <td><p>export the gene annotation data as the tabular format table object</p></td>
 </tr>
 <tr>
   <td id="as.geneTable">
     <a href="./annotation.genomics/as.geneTable.html">as.geneTable</a>
   </td>
-  <td></td>
+  <td><p>export the PTT tabular table object as a collection of the gene table records</p></td>
 </tr>
 <tr>
   <td id="as.PTT">
     <a href="./annotation.genomics/as.PTT.html">as.PTT</a>
   </td>
-  <td></td>
+  <td><p>export the genbank database file object as a PTT tabular table object</p></td>
 </tr>
 <tr>
   <td id="upstream">
@@ -166,19 +174,19 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="write.PTT_tabular">
     <a href="./annotation.genomics/write.PTT_tabular.html">write.PTT_tabular</a>
   </td>
-  <td></td>
+  <td><p>write the genomics context annotation data as the PTT tabular format table file</p></td>
 </tr>
 <tr>
   <td id="read.nucmer">
     <a href="./annotation.genomics/read.nucmer.html">read.nucmer</a>
   </td>
-  <td></td>
+  <td><p>read the nucmer alignment delta format file</p></td>
 </tr>
 <tr>
   <td id="extract_gff_seqs">
     <a href="./annotation.genomics/extract_gff_seqs.html">extract_gff_seqs</a>
   </td>
-  <td></td>
+  <td><p>extract the sequence region data of the genomics features in the given gff3 table from the reference sequence data</p></td>
 </tr></tbody>
       </table>
     </div>

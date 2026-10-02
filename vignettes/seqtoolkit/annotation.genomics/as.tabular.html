@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>as.tabular</title>
+    <title>export the gene annotation data as the tabular format table object</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>as.tabular</h2>
+        <h2>export the gene annotation data as the tabular format table object</h2>
 
         <h3>Description</h3>
 
-        as.tabular
+        
 
         <h3>Usage</h3>
 
@@ -37,6 +37,25 @@
 
         <table>
             
+<dt>genes</dt>
+<dd><p>a vector of the <a href="cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief">GeneBrief</a> gene annotation object for export as the tabular table. [as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief</a>]</p></dd>
+
+
+<dt>title</dt>
+<dd><p>the title text of the generated tabular table. [as string]</p></dd>
+
+
+<dt>size</dt>
+<dd><p>the genome size in bp of the generated tabular table. [as integer]</p></dd>
+
+
+<dt>format</dt>
+<dd><p>the tabular table format of the generated output. Only the <code>PTT</code> format is implemented at this moment. [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -50,7 +69,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/PTT.html">PTT</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/PTT.html">PTT</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT">PTT</a> tabular table object of the given gene annotation data;</p>
+
+<p>this function returns a R# error message object if the given table format is not supported.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/PTT.html">PTT</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

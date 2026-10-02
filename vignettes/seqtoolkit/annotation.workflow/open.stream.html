@@ -38,19 +38,23 @@
         <table>
             
 <dt>file</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the file path of the target result table stream file. [as string]</p></dd>
 
 
 <dt>type</dt>
-<dd><p>[as <a href="/vignettes/clr/seqtoolkit/TableTypes.html">TableTypes</a>]</p></dd>
+<dd><p>the table format type of the target stream data: <code>SBH</code>, <code>BBH</code>, <code>Mapping</code> or <code>Terms</code>. [as <a href="/vignettes/clr/seqtoolkit/TableTypes.html">TableTypes</a>]</p></dd>
 
 
 <dt>encoding</dt>
-<dd><p>[as <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a>]</p></dd>
+<dd><p>the text encoding value of the target stream file. [as <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a>]</p></dd>
+
+
+<dt>ioRead</dt>
+<dd><p>open the target file in read mode? if this parameter is TRUE, then a lazy pipeline collection of the table data will be returned instead of the stream writer object. [as boolean]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -65,7 +69,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>a stream writer object for save the annotation data in a stream manner via the <code>stream.flush</code> api, or a lazy pipeline collection of the table data when the <code>ioRead</code> parameter is TRUE.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

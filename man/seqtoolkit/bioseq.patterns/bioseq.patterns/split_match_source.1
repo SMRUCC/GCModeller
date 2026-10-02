@@ -12,13 +12,29 @@ split the motif matches result in parts by its gene source
 .PP
 .SH OPTIONS
 .PP
-\fBmatches\fB \fR\- -. 
+\fBmatches\fB \fR\- 
+ the motif match result data for split, which can be a vector of the 
+ [MotifMatch](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch) object or a file path of the csv format motif 
+ match result table.
+. 
 .PP
 .PP
-\fBgff\fB \fR\- -. 
+\fBgff\fB \fR\- 
+ a [GFFTable](cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable) genomics feature annotation table for map the 
+ match result to its source gene feature. If this parameter is not 
+ specified, then the match result will be grouped by the first token of 
+ the match title.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a named list of the [MotifMatch](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch) match result group: the 
+ name of each list element is the gene source id, and the element value 
+ is a vector of the [MotifMatch](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch) object that belongs to the 
+ corresponding gene source.
 .PP
 .SH SEE ALSO
 bioseq.patterns

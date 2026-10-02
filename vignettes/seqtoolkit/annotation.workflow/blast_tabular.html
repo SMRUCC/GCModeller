@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>blast_tabular</title>
+    <title>cast the blastn tabular format hits result as a data frame object</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>blast_tabular</h2>
+        <h2>cast the blastn tabular format hits result as a data frame object</h2>
 
         <h3>Description</h3>
 
-        blast_tabular
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,17 @@
 
         <table>
             
+<dt>hits</dt>
+<dd><p>a vector of the blastn tabular format hit record (<a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast.HitRecord">HitRecord</a>) for cast as the data frame. [as <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/NCBIBlastResult/WebBlast/HitRecord.html">HitRecord</a>]</p></dd>
+
+
+<dt>args</dt>
+<dd><p>the additional arguments for the data frame cast, this parameter is not used in this function. [as list]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +58,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>a data frame object of the blastn hits result: each row is one hit, and the columns are the hit details: <code>query_id</code>, <code>subject_id</code>, <code>identities</code>, <code>alignment_length</code>, <code>mis_matches</code>, <code>gap_opens</code>, <code>query_start</code>, <code>query_end</code>, <code>subject_start</code>, <code>subject_end</code>, <code>e_value</code> and <code>bit_score</code>.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

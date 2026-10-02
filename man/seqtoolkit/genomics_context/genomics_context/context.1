@@ -13,16 +13,32 @@ Create a new context model of a specific genomics feature site.
 .PP
 .SH OPTIONS
 .PP
-\fBloci\fB \fR\- -. 
+\fBloci\fB \fR\- 
+ the location of the target genomics feature site, which can be a gene 
+ model object([IGeneBrief](cref:T:SMRUCC.genomics.ComponentModel.Annotation.IGeneBrief)), a contig object([Contig](cref:T:SMRUCC.genomics.SequenceModel.NucleotideModels.Contig)), 
+ or a [NucleotideLocation](cref:T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation) nucleotide location object.
+. 
 .PP
 .PP
-\fBdistance\fB \fR\- -. 
+\fBdistance\fB \fR\- 
+ the distance value in nucleotide for the context model build.
+. 
 .PP
 .PP
-\fBnote\fB \fR\- -. 
+\fBnote\fB \fR\- 
+ the note text of the generated context model. If this parameter is not 
+ specified, then the text of the given loci object will be used.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a [Context](cref:T:SMRUCC.genomics.ContextModel.Context) genomics feature site context model object;
+ 
+ this function returns a R# error message object if the given location 
+ data can not be cast to a nucleotide location object.
 .PP
 .SH SEE ALSO
 genomics_context

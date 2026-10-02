@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>write.id_maps</title>
+    <title>save the id mapping solver data into a text file</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>write.id_maps</h2>
+        <h2>save the id mapping solver data into a text file</h2>
 
         <h3>Description</h3>
 
-        write.id_maps
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>maps</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.ComponentModel.DBLinkBuilder.SecondaryIDSolver">SecondaryIDSolver</a> id mapping solver object for save. [as <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/SecondaryIDSolver.html">SecondaryIDSolver</a>]</p></dd>
+
+
+<dt>file</dt>
+<dd><p>the file path of the generated id mapping data text file. [as string]</p></dd>
+
         </table>
 
 
@@ -47,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type boolean.<h4>clr value class</h4><ul><li>boolean</li></ul>
+        <p>a boolean value of the file save result: TRUE means the id mapping data has been written into the target file successfully.</p><h4>clr value class</h4><ul><li>boolean</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

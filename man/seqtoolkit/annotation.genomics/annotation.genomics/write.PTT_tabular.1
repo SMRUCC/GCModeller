@@ -1,12 +1,49 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.GENOMICS 2 2000-1月 "write.PTT_tabular" "write.PTT_tabular"
 .SH NAME
-write.PTT_tabular \- 
+write.PTT_tabular \- write the genomics context annotation data as the PTT tabular format
 .SH SYNOPSIS
 \fIwrite.PTT_tabular(\fBgenomics\fR as any, 
 \fBfile\fR as string = \fB<NULL>\fR, 
 \fBencoding\fR as <integer> Encodings = [ASCII], 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+write the genomics context annotation data as the PTT tabular format 
+ table file
+.PP
+.SH OPTIONS
+.PP
+\fBgenomics\fB \fR\- 
+ the genomics context annotation data for write, which can be a 
+ [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank database file object, a 
+ [PTT](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT) tabular table object, or a collection of the 
+ [GeneBrief](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief) gene annotation object.
+. 
+.PP
+.PP
+\fBfile\fB \fR\- 
+ the file path of the generated PTT tabular table file. If this 
+ parameter is not specified, then the table data will be written into 
+ the standard output console.
+. 
+.PP
+.PP
+\fBencoding\fB \fR\- 
+ the text encoding value of the generated PTT tabular table file.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a ZERO number value when the tabular table data has been written 
+ successfully;
+ 
+ this function returns a R# error message object if the given genomics 
+ context data is nothing or can not be cast to a supported data model.
+.PP
 .SH SEE ALSO
 annotation.genomics
 .SH FILES

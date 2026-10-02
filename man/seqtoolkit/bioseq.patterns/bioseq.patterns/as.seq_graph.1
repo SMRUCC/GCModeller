@@ -1,24 +1,38 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.PATTERNS 2 2000-1月 "as.seq_graph" "as.seq_graph"
 .SH NAME
-as.seq_graph \- 
+as.seq_graph \- make the sequence graph embedding data of the given sequence collection
 .SH SYNOPSIS
 \fIas.seq_graph(\fBfasta\fR as any, 
 \fBmol_type\fR as <integer> SeqTypes = [DNA], 
 \fBparallel\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make the sequence graph embedding data of the given sequence collection
+.PP
 .SH OPTIONS
 .PP
-\fBfasta\fB \fR\- -. 
+\fBfasta\fB \fR\- 
+ a fasta sequence collection for make the sequence graph embedding, 
+ which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+ [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw 
+ sequence data.
+. 
 .PP
 .PP
-\fBmol_type\fB \fR\- -. 
+\fBmol_type\fB \fR\- 
+ the molecule type of the input sequence data for select the graph 
+ embedding algorithm.
+. 
 .PP
 .PP
-\fBparallel\fB \fR\- -. 
+\fBparallel\fB \fR\- 
+ run the graph embedding task in parallel on multiple cpu cores?
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
 .PP
 .SH VALUE
 .PP

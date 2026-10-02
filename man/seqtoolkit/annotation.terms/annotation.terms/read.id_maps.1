@@ -1,18 +1,31 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.TERMS 2 2000-1月 "read.id_maps" "read.id_maps"
 .SH NAME
-read.id_maps \- 
+read.id_maps \- read the id mappings text data as the secondary id mapping solver
 .SH SYNOPSIS
 \fIread.id_maps(\fBfile\fR as string, 
 \fBskip2ndMaps\fR as boolean = FALSE);\fR
+.SH DESCRIPTION
+.PP
+read the id mappings text data as the secondary id mapping solver 
+ object
+.PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the file path of the id mappings text data file.
+. 
 .PP
 .PP
 \fBskip2ndMaps\fB \fR\- 
  set this parameter value to \fBtrue\fR for fixed for build the \fBkegg2go\fR mapping model.
 . 
+.PP
+.SH VALUE
+.PP
+a [SecondaryIDSolver](cref:T:SMRUCC.genomics.ComponentModel.DBLinkBuilder.SecondaryIDSolver) id mapping solver object, which can 
+ be used for make the gene id synonym query via the \fBsynonym\fR api, or 
+ be saved as a text file via the \fBwrite.id_maps\fR api.
 .PP
 .SH SEE ALSO
 annotation.terms

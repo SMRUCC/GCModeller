@@ -15,10 +15,20 @@ read the given genbank assembly file.
 \fBfile\fB \fR\- the file path of the given genbank assembly file.. 
 .PP
 .PP
-\fBrepliconTable\fB \fR\- -. 
+\fBrepliconTable\fB \fR\- 
+ read the replicon table data of the genbank assembly file?
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly object that read from 
+ the given genbank assembly file;
+ 
+ this function returns a R# error message object if the given file is 
+ not exists.
 .PP
 .SH SEE ALSO
 GenBank

@@ -1,11 +1,42 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.TERMS 2 2000-1月 "write_genomes_jsonl" "write_genomes_jsonl"
 .SH NAME
-write_genomes_jsonl \- 
+write_genomes_jsonl \- write the genomics metabolic vector data into a jsonl text file
 .SH SYNOPSIS
 \fIwrite_genomes_jsonl(\fBgenomes\fR as any, 
 \fBfile\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+write the genomics metabolic vector data into a jsonl text file
+.PP
+.SH OPTIONS
+.PP
+\fBgenomes\fB \fR\- 
+ a collection of the [GenomeVector](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.GenomeVector) genomics metabolic 
+ vector data for write.
+. 
+.PP
+.PP
+\fBfile\fB \fR\- 
+ the output target: a file path of the generated jsonl text file, or a 
+ file stream object for write the jsonl text data.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a boolean value of the file save result: TRUE means the genomics 
+ metabolic vector data has been written into the target file 
+ successfully;
+ 
+ this function returns a R# error message object if the input vector 
+ data can not be cast to a collection of the 
+ [GenomeVector](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.GenomeVector) object, or the target file can not be 
+ opened for write.
+.PP
 .SH SEE ALSO
 annotation.terms
 .SH FILES

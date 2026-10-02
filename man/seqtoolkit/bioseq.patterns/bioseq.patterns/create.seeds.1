@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.PATTERNS 2 2000-1月 "create.seeds" "create.seeds"
 .SH NAME
-create.seeds \- 
+create.seeds \- create the sequence seeds data from the given fasta sequence
 .SH SYNOPSIS
 \fIcreate.seeds(\fBfasta\fR as any, 
 \fBsaveto\fR as <generic> ScanFile, 
@@ -13,6 +13,70 @@ create.seeds \-
 \fBsignificant_sites\fR as integer = 4, 
 \fBdebug\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+create the sequence seeds data from the given fasta sequence 
+ collection, and then save the generated seed data into the target seed 
+ data file
+.PP
+.SH OPTIONS
+.PP
+\fBfasta\fB \fR\- 
+ a fasta sequence collection for make the sequence seeds, which can be 
+ a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+ [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw 
+ sequence data.
+. 
+.PP
+.PP
+\fBsaveto\fB \fR\- 
+ a [ScanFile](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.ScanFile) sequence seed data file object for save the 
+ generated seed data, which is created by the \fBopen.seedFile\fR api.
+. 
+.PP
+.PP
+\fBminw%\fB \fR\- 
+ the minimum seed width in chars.
+. 
+.PP
+.PP
+\fBmaxw%\fB \fR\- 
+ the maximum seed width in chars.
+. 
+.PP
+.PP
+\fBseedingCutoff\fB \fR\- 
+ the similarity cutoff threshold value for build the seed clusters.
+. 
+.PP
+.PP
+\fBscanMinW\fB \fR\- 
+ the minimum width of the seed scan region.
+. 
+.PP
+.PP
+\fBscanCutoff\fB \fR\- 
+ the similarity score cutoff threshold value of the seed scan.
+. 
+.PP
+.PP
+\fBsignificant_sites\fB \fR\- 
+ the minimum number of the significant sites for keep a seed.
+. 
+.PP
+.PP
+\fBdebug\fB \fR\- 
+ print the debug log message of the seed scan progress?
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the input [ScanFile](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.ScanFile) sequence seed data file object with 
+ the generated seed data has been written into it.
+.PP
 .SH SEE ALSO
 bioseq.patterns
 .SH FILES

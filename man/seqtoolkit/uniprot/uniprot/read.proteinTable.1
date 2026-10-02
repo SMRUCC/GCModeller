@@ -11,10 +11,21 @@ read uniprot protein export output tsv file
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the input source: a file path of the uniprot protein export tsv table 
+ file, or a file stream object of the target tsv table file.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [uniprotTools.proteinTable()](cref:M:seqtoolkit.uniprotTools.proteinTable(System.Object,SMRUCC.Rsharp.Runtime.Environment)) protein annotation record 
+ object that loaded from the given tsv table file;
+ 
+ this function returns a R# error message object if the given file can 
+ not be opened for read.
 .PP
 .SH SEE ALSO
 uniprot

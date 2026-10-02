@@ -2,8 +2,8 @@
 
 the tools for processing of the genomics context information
 
-+ [genomics_context](genomics_context/genomics_context.1) 
-+ [primer_coverage](genomics_context/primer_coverage.1) 
++ [genomics_context](genomics_context/genomics_context.1) build the genomics context model object from a given gff3 annotation 
++ [primer_coverage](genomics_context/primer_coverage.1) evaluate the primer hit coverage of the candidate primer regions on the 
 + [set_context](genomics_context/set_context.1) set genomics context of the matched motif site
 + [filter_strand](genomics_context/filter_strand.1) filter genes by given strand direction
 + [location](genomics_context/location.1) create a new nucleotide location object
@@ -11,5 +11,5 @@ the tools for processing of the genomics context information
 + [offset](genomics_context/offset.1) do offset of the given location
 + [context](genomics_context/context.1) Create a new context model of a specific genomics feature site.
 + [relationship](genomics_context/relationship.1) get the segment relationship of two location
-+ [context_location](genomics_context/context_location.1) 
++ [context_location](genomics_context/context_location.1) make the chromosome mapping of the blastn hits result data
 + [TSS_upstream](genomics_context/TSS_upstream.1) get TSS upstream site sequence data

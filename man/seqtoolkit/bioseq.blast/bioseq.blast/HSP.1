@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.BLAST 1 2000-1月 "HSP" "HSP"
 .SH NAME
-HSP \- get the high score region from the given alignment result
+HSP \- get the high score region(HSP) from the given alignment result
 .SH SYNOPSIS
 \fIHSP(\fBalign\fR as <generic> SmithWaterman, 
 \fBcutoff\fR as double, 
@@ -9,17 +9,42 @@ HSP \- get the high score region from the given alignment result
 \fBas_dataframe\fR as boolean = TRUE);\fR
 .SH DESCRIPTION
 .PP
-get the high score region from the given alignment result
+get the high score region(HSP) from the given alignment result
 .PP
 .SH OPTIONS
 .PP
-\fBalign\fB \fR\- -. 
+\fBalign\fB \fR\- 
+ a [SmithWaterman](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment.SmithWaterman) local alignment result object, which is 
+ the output of the \fBalign.smith_waterman\fR api.
+. 
 .PP
 .PP
-\fBcutoff\fB \fR\- [0,1] threshold. 
+\fBcutoff\fB \fR\- 
+ the similarity score cutoff threshold value in [0,1] for filter the 
+ candidate HSP regions.
+. 
 .PP
 .PP
-\fBminW\fB \fR\- -. 
+\fBminW\fB \fR\- 
+ the minimum region size in chars of the candidate HSP regions, the HSP 
+ region that its size is smaller than this threshold value will be 
+ ignored.
+. 
+.PP
+.PP
+\fBas_dataframe\fB \fR\- 
+ cast the HSP result as a data frame object? if this parameter is FALSE, 
+ then a vector of the [HSP](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment.HSP) object will be returned instead.
+. 
+.PP
+.SH VALUE
+.PP
+a data frame object of the HSP alignment details(the columns are: 
+ \fBquery\fR, \fBsubject\fR, \fBquery_length\fR, \fBsubject_length\fR, 
+ \fBlength_query\fR, \fBlength_hit\fR, \fBhsp_query\fR, \fBhsp_subject\fR, 
+ \fBscore\fR and \fBcoverage\fR) when the \fBas_dataframe\fR parameter is TRUE, 
+ or a vector of the [HSP](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment.HSP) object when this parameter is 
+ FALSE.
 .PP
 .SH SEE ALSO
 bioseq.blast

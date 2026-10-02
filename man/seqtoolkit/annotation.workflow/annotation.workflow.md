@@ -3,18 +3,18 @@
 A pipeline collection for proteins' biological function 
  annotation based on the sequence alignment.
 
-+ [blast_tabular](annotation.workflow/blast_tabular.1) 
++ [blast_tabular](annotation.workflow/blast_tabular.1) cast the blastn tabular format hits result as a data frame object
 + [read.blast](annotation.workflow/read.blast.1) Open the blast output text file for parse data result.
 + [blastn.maphit](annotation.workflow/blastn.maphit.1) export results of fastq reads mapping to genome sequence.
 + [blasthit.sbh](annotation.workflow/blasthit.sbh.1) Export single side besthit
-+ [blasthit.bbh](annotation.workflow/blasthit.bbh.1) 
++ [blasthit.bbh](annotation.workflow/blasthit.bbh.1) export the bi-directional best hit(BBH) result from the given forward 
 + [remove_protein_suffix](annotation.workflow/remove_protein_suffix.1) removes protein suffix id
-+ [grep.names](annotation.workflow/grep.names.1) 
++ [grep.names](annotation.workflow/grep.names.1) apply a text grep script on the query name or hit name of the blast 
 + [stream.flush](annotation.workflow/stream.flush.1) Save the annotation rawdata into the given stream file.
 + [besthit_filter](annotation.workflow/besthit_filter.1) make filter of the blast best hits via the given parameter combinations
-+ [filter_low_level](annotation.workflow/filter_low_level.1) 
++ [filter_low_level](annotation.workflow/filter_low_level.1) filter the bi-directional best hit data by removing the low level 
 + [read.besthits](annotation.workflow/read.besthits.1) read the hits data in pipeline stream style
-+ [read.bbh_hits](annotation.workflow/read.bbh_hits.1) 
++ [read.bbh_hits](annotation.workflow/read.bbh_hits.1) read the bi-directional best hit data in pipeline stream style
 + [read.outfmt6](annotation.workflow/read.outfmt6.1) read ncbi blast output format 6 (tabular) file for blastn result mapping to genome sequence
 + [open.stream](annotation.workflow/open.stream.1) Open result table stream writer
 + [read_m8](annotation.workflow/read_m8.1) read the diamond m8 annotation table file output

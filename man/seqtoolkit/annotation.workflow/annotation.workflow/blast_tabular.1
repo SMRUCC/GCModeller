@@ -1,11 +1,39 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.WORKFLOW 2 2000-1月 "blast_tabular" "blast_tabular"
 .SH NAME
-blast_tabular \- 
+blast_tabular \- cast the blastn tabular format hits result as a data frame object
 .SH SYNOPSIS
 \fIblast_tabular(\fBhits\fR as <generic> HitRecord[], 
 \fBargs\fR as list, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+cast the blastn tabular format hits result as a data frame object
+.PP
+.SH OPTIONS
+.PP
+\fBhits\fB \fR\- 
+ a vector of the blastn tabular format hit record 
+ ([HitRecord](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast.HitRecord)) for cast as the data frame.
+. 
+.PP
+.PP
+\fBargs\fB \fR\- 
+ the additional arguments for the data frame cast, this parameter is 
+ not used in this function.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a data frame object of the blastn hits result: each row is one hit, 
+ and the columns are the hit details: \fBquery_id\fR, \fBsubject_id\fR, 
+ \fBidentities\fR, \fBalignment_length\fR, \fBmis_matches\fR, \fBgap_opens\fR, 
+ \fBquery_start\fR, \fBquery_end\fR, \fBsubject_start\fR, \fBsubject_end\fR, 
+ \fBe_value\fR and \fBbit_score\fR.
+.PP
 .SH SEE ALSO
 annotation.workflow
 .SH FILES

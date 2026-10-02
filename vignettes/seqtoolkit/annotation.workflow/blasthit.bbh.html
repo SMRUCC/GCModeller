@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>blasthit.bbh</title>
+    <title>export the bi-directional best hit(BBH) result from the given forward</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>blasthit.bbh</h2>
+        <h2>export the bi-directional best hit(BBH) result from the given forward</h2>
 
         <h3>Description</h3>
 
-        blasthit.bbh
+        <p>and reverse best hit data streams</p>
 
         <h3>Usage</h3>
 
@@ -35,6 +35,21 @@
 
         <table>
             
+<dt>forward</dt>
+<dd><p>a lazy pipeline collection of the forward direction hits data, which could be the raw query(<a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query">Query</a>) stream, the single side best hit(<a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit">BestHit</a>) stream, or the diamond m8 annotation (<a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.DiamondAnnotation">DiamondAnnotation</a>) stream. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a>]</p></dd>
+
+
+<dt>reverse</dt>
+<dd><p>a lazy pipeline collection of the reverse direction hits data, which accepts the same data models as the <code>forward</code> parameter. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a>]</p></dd>
+
+
+<dt>algorithm</dt>
+<dd><p>the BBH match algorithm of the bi-directional best hit search. [as <a href="/vignettes/clr/seqtoolkit/BBHAlgorithm.html">BBHAlgorithm</a>]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -48,7 +63,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a></li></ul>
+        <p>a lazy pipeline collection of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit">BiDirectionalBesthit</a> bi-directional best hit result;</p>
+
+<p>this function returns a R# error message object if the input data streams are nothing or their element types are not supported.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

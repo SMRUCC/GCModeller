@@ -1,11 +1,43 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.TERMS 2 2000-1月 "make_vectors" "make_vectors"
 .SH NAME
-make_vectors \- 
+make_vectors \- make the genomics metabolic vector data from the given term annotation
 .SH SYNOPSIS
 \fImake_vectors(\fBterms\fR as any, 
 \fBstream\fR as boolean = FALSE, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make the genomics metabolic vector data from the given term annotation 
+ result collection
+.PP
+.SH OPTIONS
+.PP
+\fBterms\fB \fR\- 
+ a collection of the [RankTerm](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm) term annotation data for 
+ make the genomics metabolic vectors.
+. 
+.PP
+.PP
+\fBstream\fB \fR\- 
+ returns the generated vector data in a lazy pipeline manner? if this 
+ parameter is FALSE(the default value), then a vector array will be 
+ returned instead.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [GenomeVector](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.GenomeVector) genomics metabolic vector 
+ object, or a lazy pipeline collection of this vector data when the 
+ \fBstream\fR parameter is TRUE;
+ 
+ this function returns a R# error message object if the input term 
+ annotation data can not be cast to a collection of the 
+ [RankTerm](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm) object.
+.PP
 .SH SEE ALSO
 annotation.terms
 .SH FILES

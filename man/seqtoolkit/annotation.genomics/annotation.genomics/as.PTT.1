@@ -1,9 +1,25 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.GENOMICS 2 2000-1月 "as.PTT" "as.PTT"
 .SH NAME
-as.PTT \- 
+as.PTT \- export the genbank database file object as a PTT tabular table object
 .SH SYNOPSIS
 \fIas.PTT(\fBgb\fR as <generic> File);\fR
+.SH DESCRIPTION
+.PP
+export the genbank database file object as a PTT tabular table object
+.PP
+.SH OPTIONS
+.PP
+\fBgb\fB \fR\- 
+ a [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank database file object for export 
+ as the PTT tabular table.
+. 
+.PP
+.SH VALUE
+.PP
+a [PTT](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT) tabular table object of the gene annotation data 
+ in the given genbank database file.
+.PP
 .SH SEE ALSO
 annotation.genomics
 .SH FILES

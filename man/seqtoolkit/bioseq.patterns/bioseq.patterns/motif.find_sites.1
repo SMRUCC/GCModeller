@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.PATTERNS 2 2000-1月 "motif.find_sites" "motif.find_sites"
 .SH NAME
-motif.find_sites \- Find target loci site based on the given motif model
+motif.find_sites \- find the target loci match sites of the given sequence data based on
 .SH SYNOPSIS
 \fImotif.find_sites(\fBmotif\fR as any, 
 \fBtarget\fR as any, 
@@ -14,20 +14,66 @@ motif.find_sites \- Find target loci site based on the given motif model
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-Find target loci site based on the given motif model
+find the target loci match sites of the given sequence data based on 
+ the motif PWM model
 .PP
 .SH OPTIONS
 .PP
-\fBmotif\fB \fR\- could be [SequenceMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif) or [MSAMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif). 
+\fBmotif\fB \fR\- 
+ the motif PWM model for make the site scan, which could be a 
+ [SequenceMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif) or a [MSAMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif) object.
+. 
 .PP
 .PP
-\fBtarget\fB \fR\- a collection of fasta sequence. 
+\fBtarget\fB \fR\- 
+ a fasta sequence collection for make the motif site scan, which can be 
+ a single [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) 
+ object, or a character vector of the raw sequence data.
+. 
 .PP
 .PP
-\fBcutoff#\fB \fR\- -. 
+\fBcutoff#\fB \fR\- 
+ the minimum similarity score threshold value between the candidate 
+ sequence region and the motif PWM model.
+. 
 .PP
 .PP
-\fBminW#\fB \fR\- -. 
+\fBminW#\fB \fR\- 
+ the minimum width of the candidate match site region.
+. 
+.PP
+.PP
+\fBidentities\fB \fR\- 
+ the minimum identity threshold value of the accepted match sites.
+. 
+.PP
+.PP
+\fBpvalue\fB \fR\- 
+ the maximum p-value threshold of the accepted match sites.
+. 
+.PP
+.PP
+\fBparallel\fB \fR\- 
+ run the site scan task in parallel on multiple cpu cores?
+. 
+.PP
+.PP
+\fBmotif_name\fB \fR\- 
+ the motif name that will be recorded in the \fBseeds\fR property of the 
+ match result. If this parameter is not specified, then the motif name 
+ of the given PWM model object will be used.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [MotifMatch](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch) motif match result;
+ 
+ this function returns a R# error message object if the given motif 
+ model object or the target sequence data is not a supported data 
+ model.
 .PP
 .SH SEE ALSO
 bioseq.patterns

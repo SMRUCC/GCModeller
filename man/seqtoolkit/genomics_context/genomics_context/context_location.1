@@ -1,11 +1,38 @@
 .\" man page create by R# package system.
 .TH GENOMICS_CONTEXT 2 2000-1月 "context_location" "context_location"
 .SH NAME
-context_location \- 
+context_location \- make the chromosome mapping of the blastn hits result data
 .SH SYNOPSIS
 \fIcontext_location(\fBblastn\fR as any, 
 \fBeval_thres\fR as double = 1.7976931348623157E+308, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make the chromosome mapping of the blastn hits result data
+.PP
+.SH OPTIONS
+.PP
+\fBblastn\fB \fR\- 
+ a collection of the blastn tabular format hit record data 
+ ([HitRecord](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast.HitRecord)) for make the chromosome mapping.
+. 
+.PP
+.PP
+\fBeval_thres\fB \fR\- 
+ the maximum e-value threshold of the accepted blastn hits.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the chromosome mapping of the accepted blastn hits;
+ 
+ this function returns a R# error message object if the input blastn 
+ hits data can not be cast to a collection of the [HitRecord](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast.HitRecord) 
+ object.
+.PP
 .SH SEE ALSO
 genomics_context
 .SH FILES

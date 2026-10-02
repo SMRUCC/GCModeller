@@ -1,20 +1,32 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.PATTERNS 2 2000-1月 "seeds" "seeds"
 .SH NAME
-seeds \- Create seeds
+seeds \- create all of the possible seed sequence fragments of the given
 .SH SYNOPSIS
 \fIseeds(\fBsize\fR as integer, 
 \fBbase\fR as string);\fR
 .SH DESCRIPTION
 .PP
-Create seeds
+create all of the possible seed sequence fragments of the given 
+ alphabet base letters
 .PP
 .SH OPTIONS
 .PP
-\fBsize\fB \fR\- -. 
+\fBsize\fB \fR\- 
+ the seed length in chars, i.e. the \fBk\fR value of the k-mer seeds.
+. 
 .PP
 .PP
-\fBbase\fB \fR\- -. 
+\fBbase\fB \fR\- 
+ a character value of the sequence alphabet letters, example as 
+ \fBACGT\fR for the nucleotide sequence.
+. 
+.PP
+.SH VALUE
+.PP
+a character vector of all of the possible combination of the seed 
+ sequence fragments, and the size of the generated seed collection is 
+ \fBlen(base) ^ size\fR.
 .PP
 .SH SEE ALSO
 bioseq.patterns

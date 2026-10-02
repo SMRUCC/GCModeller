@@ -39,11 +39,19 @@
         <table>
             
 <dt>gb</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>]</p></dd>
+<dd><p>the <a href="cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File">File</a> ncbi genbank assembly object for export its gene nucleotide sequence data. [as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>]</p></dd>
 
 
 <dt>title</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the fasta headers title template string for export of the gene sequence data. [as string]</p></dd>
+
+
+<dt>key</dt>
+<dd><p>the feature key name for extract the gene sequence data, example as <code>gene</code> or <code>CDS</code>.</p></dd>
+
+
+<dt>required</dt>
+<dd><p>a character vector of the template keyword name for filter the gene export: the gene that its template data is missing any of the required keyword will be skipped. [as string]</p></dd>
 
 
 <dt>unique.names</dt>
@@ -78,7 +86,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> gene nucleotide sequence collection object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

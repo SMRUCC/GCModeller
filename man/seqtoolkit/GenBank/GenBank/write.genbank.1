@@ -12,13 +12,24 @@ save the modified genbank file
 .PP
 .SH OPTIONS
 .PP
-\fBgb\fB \fR\- -. 
+\fBgb\fB \fR\- 
+ the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly object for save to 
+ the target file.
+. 
 .PP
 .PP
 \fBfile\fB \fR\- the file path of the genbank assembly file to write data.. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a boolean value of the file save result: TRUE means the genbank 
+ assembly data has been written into the target file successfully;
+ 
+ this function returns a R# error message object if the input genbank 
+ assembly data is nothing.
 .PP
 .SH SEE ALSO
 GenBank

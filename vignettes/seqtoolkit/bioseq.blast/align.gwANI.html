@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>align.gwANI</title>
+    <title>run the genome-wide average nucleotide identity(gwANI) calculation for</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>align.gwANI</h2>
+        <h2>run the genome-wide average nucleotide identity(gwANI) calculation for</h2>
 
         <h3>Description</h3>
 
-        align.gwANI
+        <p>a given nucleotide sequence collection</p>
 
         <h3>Usage</h3>
 
@@ -34,6 +34,9 @@
 
         <table>
             
+<dt>multipleSeq</dt>
+<dd><p>a nucleotide fasta sequence collection for run the gwANI calculation, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object or a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +50,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/DataSet.html">DataSet[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/DataSet.html">DataSet[]</a></li></ul>
+        <p>a vector of the <a href="cref:T:Microsoft.VisualBasic.Data.Framework.IO.DataSet">DataSet</a> gwANI calculation result: each element contains the genome-wide average nucleotide identity value and its details of one sequence pair in the input sequence collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/DataSet.html">DataSet[]</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

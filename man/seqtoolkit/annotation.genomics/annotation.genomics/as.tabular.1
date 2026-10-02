@@ -1,13 +1,51 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.GENOMICS 2 2000-1月 "as.tabular" "as.tabular"
 .SH NAME
-as.tabular \- 
+as.tabular \- export the gene annotation data as the tabular format table object
 .SH SYNOPSIS
 \fIas.tabular(\fBgenes\fR as <generic> GeneBrief[], 
 \fBtitle\fR as string = "n/a", 
 \fBsize\fR as integer = 0, 
 \fBformat\fR as string = "PTT|GFF|GTF", 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+export the gene annotation data as the tabular format table object
+.PP
+.SH OPTIONS
+.PP
+\fBgenes\fB \fR\- 
+ a vector of the [GeneBrief](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief) gene annotation object for 
+ export as the tabular table.
+. 
+.PP
+.PP
+\fBtitle\fB \fR\- 
+ the title text of the generated tabular table.
+. 
+.PP
+.PP
+\fBsize\fB \fR\- 
+ the genome size in bp of the generated tabular table.
+. 
+.PP
+.PP
+\fBformat\fB \fR\- 
+ the tabular table format of the generated output. Only the \fBPTT\fR 
+ format is implemented at this moment.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a [PTT](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT) tabular table object of the given gene annotation 
+ data;
+ 
+ this function returns a R# error message object if the given table 
+ format is not supported.
+.PP
 .SH SEE ALSO
 annotation.genomics
 .SH FILES

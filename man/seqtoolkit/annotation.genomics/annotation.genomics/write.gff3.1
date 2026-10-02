@@ -1,10 +1,33 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.GENOMICS 2 2000-1月 "write.gff3" "write.gff3"
 .SH NAME
-write.gff3 \- 
+write.gff3 \- save the genomics feature annotation table object as a gff3 format
 .SH SYNOPSIS
 \fIwrite.gff3(\fBgff\fR as <generic> GFFTable, 
 \fBfile\fR as string);\fR
+.SH DESCRIPTION
+.PP
+save the genomics feature annotation table object as a gff3 format 
+ table file
+.PP
+.SH OPTIONS
+.PP
+\fBgff\fB \fR\- 
+ a [GFFTable](cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable) genomics feature annotation table object for 
+ save to the target file.
+. 
+.PP
+.PP
+\fBfile\fB \fR\- 
+ the file path of the generated gff3 format table file.
+. 
+.PP
+.SH VALUE
+.PP
+a boolean value of the file save result: TRUE means the genomics 
+ feature annotation data has been written into the target file 
+ successfully.
+.PP
 .SH SEE ALSO
 annotation.genomics
 .SH FILES

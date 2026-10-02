@@ -38,11 +38,15 @@
         <table>
             
 <dt>gb</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>]</p></dd>
+<dd><p>the <a href="cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File">File</a> ncbi genbank assembly object for get or set its CDS protein sequence data. [as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>]</p></dd>
 
 
 <dt>proteins</dt>
 <dd><p>set the genbank feature CDS protein sequence if this value is existsed.</p></dd>
+
+
+<dt>title</dt>
+<dd><p>the fasta headers title template string for export of the protein sequence data. [as string]</p></dd>
 
 
 <dt>filter.empty</dt>
@@ -50,7 +54,7 @@
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -65,7 +69,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a></li></ul>
+        <p>a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> protein sequence data or a lazy pipeline collection of this sequence data when the <code>proteins</code> parameter is not specified, or the modified <a href="cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File">File</a> ncbi genbank assembly object when the <code>proteins</code> parameter is specified;</p>
+
+<p>this function returns a R# error message object if the given protein sequence data can not be cast to a fasta sequence collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

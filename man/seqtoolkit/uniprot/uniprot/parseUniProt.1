@@ -1,9 +1,25 @@
 .\" man page create by R# package system.
 .TH UNIPROT 4 2000-1月 "parseUniProt" "parseUniProt"
 .SH NAME
-parseUniProt \- 
+parseUniProt \- parse the uniprot xml document text data as the protein entry object
 .SH SYNOPSIS
 \fIparseUniProt(\fBxml\fR as string);\fR
+.SH DESCRIPTION
+.PP
+parse the uniprot xml document text data as the protein entry object 
+ collection
+.PP
+.SH OPTIONS
+.PP
+\fBxml\fB \fR\- 
+ the uniprot xml format database document text data.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the uniprot protein [entry](cref:T:SMRUCC.genomics.Assembly.Uniprot.XML.entry) object that parsed 
+ from the given xml document text data.
+.PP
 .SH SEE ALSO
 uniprot
 .SH FILES

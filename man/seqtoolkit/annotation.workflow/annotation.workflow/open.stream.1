@@ -14,16 +14,36 @@ Open result table stream writer
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- 
+ the file path of the target result table stream file.
+. 
 .PP
 .PP
-\fBtype\fB \fR\- -. 
+\fBtype\fB \fR\- 
+ the table format type of the target stream data: \fBSBH\fR, \fBBBH\fR, 
+ \fBMapping\fR or \fBTerms\fR.
+. 
 .PP
 .PP
-\fBencoding\fB \fR\- -. 
+\fBencoding\fB \fR\- 
+ the text encoding value of the target stream file.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBioRead\fB \fR\- 
+ open the target file in read mode? if this parameter is TRUE, then a 
+ lazy pipeline collection of the table data will be returned instead of 
+ the stream writer object.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a stream writer object for save the annotation data in a stream manner 
+ via the \fBstream.flush\fR api, or a lazy pipeline collection of the 
+ table data when the \fBioRead\fR parameter is TRUE.
 .PP
 .SH SEE ALSO
 annotation.workflow

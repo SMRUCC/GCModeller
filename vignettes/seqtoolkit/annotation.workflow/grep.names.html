@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>grep.names</title>
+    <title>apply a text grep script on the query name or hit name of the blast</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>grep.names</h2>
+        <h2>apply a text grep script on the query name or hit name of the blast</h2>
 
         <h3>Description</h3>
 
-        grep.names
+        <p>query result data</p>
 
         <h3>Usage</h3>
 
@@ -35,6 +35,21 @@
 
         <table>
             
+<dt>query</dt>
+<dd><p>a lazy pipeline collection of the blast query hits result (<a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query">Query</a>), which is created by the <code>read.blast</code> api. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a>]</p></dd>
+
+
+<dt>operators</dt>
+<dd><p>the text grep script for do the name string replacement: a text grep script string, or a compiled text grep engine object.</p></dd>
+
+
+<dt>applyOnHits</dt>
+<dd><p>apply the text grep script on the hit name instead of the query name?. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -48,7 +63,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a></li></ul>
+        <p>a lazy pipeline collection of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.Query">Query</a> blast query result which its name data has been processed by the given text grep script;</p>
+
+<p>this function returns a R# error message object if the given text grep program is invalid.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

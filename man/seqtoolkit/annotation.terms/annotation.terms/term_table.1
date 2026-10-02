@@ -1,10 +1,37 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.TERMS 2 2000-1月 "term_table" "term_table"
 .SH NAME
-term_table \- 
+term_table \- make the term annotation table of each gene from a given set of the
 .SH SYNOPSIS
 \fIterm_table(\fBannotations\fR as list, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make the term annotation table of each gene from a given set of the 
+ term annotation result group
+.PP
+.SH OPTIONS
+.PP
+\fBannotations\fB \fR\- 
+ a R# list object of the term annotation result group: the name of each 
+ list element is the term name, and the element value is a collection 
+ of the [RankTerm](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm) term annotation data that belongs to the 
+ corresponding term.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [EntityObject](cref:T:Microsoft.VisualBasic.Data.Framework.IO.EntityObject) term annotation table 
+ record, one record element for each gene, and each record contains the 
+ term annotation value of the gene in each term group;
+ 
+ this function returns a R# error message object if any of the term 
+ annotation group data can not be cast to a collection of the 
+ [RankTerm](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm) object.
+.PP
 .SH SEE ALSO
 annotation.terms
 .SH FILES

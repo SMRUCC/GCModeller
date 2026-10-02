@@ -1,9 +1,25 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.GENOMICS 2 2000-1月 "as.geneTable" "as.geneTable"
 .SH NAME
-as.geneTable \- 
+as.geneTable \- export the PTT tabular table object as a collection of the gene table
 .SH SYNOPSIS
 \fIas.geneTable(\fBPTT\fR as <generic> PTT);\fR
+.SH DESCRIPTION
+.PP
+export the PTT tabular table object as a collection of the gene table 
+ records
+.PP
+.SH OPTIONS
+.PP
+\fBPTT\fB \fR\- 
+ a [PTT](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT) tabular table object for export as the gene table 
+ records.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [GeneTable](cref:T:SMRUCC.genomics.ComponentModel.Annotation.GeneTable) gene table record object.
+.PP
 .SH SEE ALSO
 annotation.genomics
 .SH FILES

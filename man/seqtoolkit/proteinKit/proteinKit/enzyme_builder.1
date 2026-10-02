@@ -1,11 +1,39 @@
 .\" man page create by R# package system.
 .TH PROTEINKIT 1 2000-1月 "enzyme_builder" "enzyme_builder"
 .SH NAME
-enzyme_builder \- 
+enzyme_builder \- build the enzyme protein sequence transformer model from a given enzyme
 .SH SYNOPSIS
 \fIenzyme_builder(\fBenzymes\fR as any, 
 \fBkmer\fR as integer = 3, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+build the enzyme protein sequence transformer model from a given enzyme 
+ protein sequence collection
+.PP
+.SH OPTIONS
+.PP
+\fBenzymes\fB \fR\- 
+ a protein fasta sequence collection for build the transformer model, 
+ which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object, a collection of the 
+ [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object, or a character vector of the raw 
+ sequence data.
+. 
+.PP
+.PP
+\fBkmer\fB \fR\- 
+ the k-mer size for tokenize the protein sequence data.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a [TransformerModel](cref:T:Microsoft.VisualBasic.MachineLearning.Transformer.TransformerModel) protein sequence model that trained 
+ from the given enzyme sequence collection, which can be used for 
+ generate the new protein sequence via the \fBpredict_sequence\fR api.
+.PP
 .SH SEE ALSO
 proteinKit
 .SH FILES

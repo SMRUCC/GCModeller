@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>snp_scan</title>
+    <title>scan the SNP variation sites from a given multiple sequence alignment</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>snp_scan</h2>
+        <h2>scan the SNP variation sites from a given multiple sequence alignment</h2>
 
         <h3>Description</h3>
 
-        snp_scan
+        <p>fasta sequence data</p>
 
         <h3>Usage</h3>
 
@@ -37,6 +37,25 @@
 
         <table>
             
+<dt>nt</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> multiple sequence alignment nucleotide sequence collection for scan the SNP variation sites. [as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaFile.html">FastaFile</a>]</p></dd>
+
+
+<dt>ref.index</dt>
+<dd><p>the index number of the reference sequence in the input multiple sequence alignment collection, which is used as the reference for make the SNP calling. [as string]</p></dd>
+
+
+<dt>pureMode</dt>
+<dd><p>only accept the pure SNP variations? if this parameter is TRUE, then the SNP sites that contains mixed variation information will be ignored. [as boolean]</p></dd>
+
+
+<dt>monomorphic</dt>
+<dd><p>include the monomorphic sites in the SNP scanning result?. [as boolean]</p></dd>
+
+
+<dt>vcf.output.filename</dt>
+<dd><p>a by-ref parameter for get the file path of the generated VCF format SNP variations output file. [as <a href="/vignettes/clr/System/String&.html">String&</a>]</p></dd>
+
         </table>
 
 
@@ -50,7 +69,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SNP/SangerSNPs/SNPsAln.html">SNPsAln</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SNP/SangerSNPs/SNPsAln.html">SNPsAln</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs.SNPsAln">SNPsAln</a> SNP variations analysis result object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SNP/SangerSNPs/SNPsAln.html">SNPsAln</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

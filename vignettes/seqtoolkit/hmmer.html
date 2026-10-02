@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; hmmer; seqtoolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="HMMER profile hidden markov model search tools..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,22 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "hmmer"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
+                               <br /><br /><span style="color: green;">#' HMMER profile hidden markov model search tools</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "hmmer"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>HMMER profile hidden markov model search tools</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module provides the api for run the HMMER3 profile HMM search based protein function annotation:</p>
+
+
+<ul>
+<li><code>load_interprodb</code>: load the InterPro database term entries;</li>
+<li><code>parse_hmmer_model</code>: parse the HMMER3 profile HMM model text data;</li>
+<li><code>load_hmmer</code>: load a collection of the HMMER3 profile HMM model files;</li>
+<li><code>hmmer_search</code>: run the HMMER profile HMM search for protein function annotation;</li>
+<li><code>parse_kofamscan</code>: parse the kofamscan annotation table output.</li>
+</ul>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -85,25 +94,25 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="load_interprodb">
     <a href="./hmmer/load_interprodb.html">load_interprodb</a>
   </td>
-  <td></td>
+  <td><p>load the InterPro database term entries from a given interpro database xml document file</p></td>
 </tr>
 <tr>
   <td id="parse_hmmer_model">
     <a href="./hmmer/parse_hmmer_model.html">parse_hmmer_model</a>
   </td>
-  <td></td>
+  <td><p>parse the HMMER3 profile HMM model text data</p></td>
 </tr>
 <tr>
   <td id="load_hmmer">
     <a href="./hmmer/load_hmmer.html">load_hmmer</a>
   </td>
-  <td></td>
+  <td><p>load a collection of the HMMER3 profile HMM model files for protein function annotation</p></td>
 </tr>
 <tr>
   <td id="hmmer_search">
     <a href="./hmmer/hmmer_search.html">hmmer_search</a>
   </td>
-  <td></td>
+  <td><p>run the HMMER profile HMM search for protein function annotation</p></td>
 </tr>
 <tr>
   <td id="parse_kofamscan">

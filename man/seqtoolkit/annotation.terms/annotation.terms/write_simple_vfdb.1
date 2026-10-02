@@ -1,10 +1,33 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.TERMS 2 2000-1月 "write_simple_vfdb" "write_simple_vfdb"
 .SH NAME
-write_simple_vfdb \- 
+write_simple_vfdb \- save the VFDB virulence factor sequence data as a simple fasta format
 .SH SYNOPSIS
 \fIwrite_simple_vfdb(\fBvfdb\fR as <generic> VFs[], 
 \fBfile\fR as string);\fR
+.SH DESCRIPTION
+.PP
+save the VFDB virulence factor sequence data as a simple fasta format 
+ sequence file
+.PP
+.SH OPTIONS
+.PP
+\fBvfdb\fB \fR\- 
+ a vector of the [VFs](cref:T:SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB.VFs) virulence factor object for save as 
+ the fasta sequence file.
+. 
+.PP
+.PP
+\fBfile\fB \fR\- 
+ the file path of the generated fasta sequence file.
+. 
+.PP
+.SH VALUE
+.PP
+a boolean value of the file save result: TRUE means the virulence 
+ factor sequence data has been written into the target file 
+ successfully.
+.PP
 .SH SEE ALSO
 annotation.terms
 .SH FILES

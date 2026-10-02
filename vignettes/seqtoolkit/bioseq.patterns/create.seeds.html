@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>create.seeds</title>
+    <title>create the sequence seeds data from the given fasta sequence</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>create.seeds</h2>
+        <h2>create the sequence seeds data from the given fasta sequence</h2>
 
         <h3>Description</h3>
 
-        create.seeds
+        <p>collection, and then save the generated seed data into the target seed &lt;br /&gt; data file</p>
 
         <h3>Usage</h3>
 
@@ -41,6 +41,45 @@
 
         <table>
             
+<dt>fasta</dt>
+<dd><p>a fasta sequence collection for make the sequence seeds, which can be a <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile">FastaFile</a> object, a collection of the <a href="cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq">FastaSeq</a> object, or a character vector of the raw sequence data.</p></dd>
+
+
+<dt>saveto</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.ScanFile">ScanFile</a> sequence seed data file object for save the generated seed data, which is created by the <code>open.seedFile</code> api. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Motif/ScanFile.html">ScanFile</a>]</p></dd>
+
+
+<dt>minw%</dt>
+<dd><p>the minimum seed width in chars.</p></dd>
+
+
+<dt>maxw%</dt>
+<dd><p>the maximum seed width in chars.</p></dd>
+
+
+<dt>seedingCutoff</dt>
+<dd><p>the similarity cutoff threshold value for build the seed clusters. [as double]</p></dd>
+
+
+<dt>scanMinW</dt>
+<dd><p>the minimum width of the seed scan region. [as integer]</p></dd>
+
+
+<dt>scanCutoff</dt>
+<dd><p>the similarity score cutoff threshold value of the seed scan. [as double]</p></dd>
+
+
+<dt>significant.sites</dt>
+<dd><p>the minimum number of the significant sites for keep a seed. [as integer]</p></dd>
+
+
+<dt>debug</dt>
+<dd><p>print the debug log message of the seed scan progress?. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -54,7 +93,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>the input <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.ScanFile">ScanFile</a> sequence seed data file object with the generated seed data has been written into it.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

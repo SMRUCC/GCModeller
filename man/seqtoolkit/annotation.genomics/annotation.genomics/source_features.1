@@ -1,10 +1,31 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.GENOMICS 2 2000-1月 "source_features" "source_features"
 .SH NAME
-source_features \- 
+source_features \- get the genomics features from the given gff table by its source name
 .SH SYNOPSIS
 \fIsource_features(\fBgff\fR as <generic> GFFTable, 
 \fBsource\fR as string);\fR
+.SH DESCRIPTION
+.PP
+get the genomics features from the given gff table by its source name
+.PP
+.SH OPTIONS
+.PP
+\fBgff\fB \fR\- 
+ a [GFFTable](cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable) genomics feature annotation table object for 
+ query the feature data.
+. 
+.PP
+.PP
+\fBsource\fB \fR\- 
+ the source name of the target features, example as \fBena\fR.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [Feature](cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.Feature) genomics feature object that its 
+ source name matches the given source name.
+.PP
 .SH SEE ALSO
 annotation.genomics
 .SH FILES

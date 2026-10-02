@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>The annotation data stream table type of the R# package module <code>annotation.workflow</code></p>
 
         <h3>Declare</h3>        
 
@@ -30,8 +30,10 @@
             <code id="clr_ts">
 # namespace seqtoolkit
 export class TableTypes extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # the single side best hit table(<a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit">BestHit</a>)
    SBH: <a href="/vignettes/clr/seqtoolkit/TableTypes.html">TableTypes</a> = 0;
 
+   # the bi-directional best hit table(<a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit">BiDirectionalBesthit</a>)
    BBH: <a href="/vignettes/clr/seqtoolkit/TableTypes.html">TableTypes</a> = 1;
 
    # blastn mapping of the short reads

@@ -12,10 +12,28 @@ parse the pdb struct data from a given document text data
 .PP
 .SH OPTIONS
 .PP
-\fBpdb_txt\fB \fR\- -. 
+\fBpdb_txt\fB \fR\- 
+ the PDB document text data for parse as the protein structure object 
+ model.
+. 
 .PP
 .PP
-\fBsafe\fB \fR\- -. 
+\fBsafe\fB \fR\- 
+ catch and ignore the exception when the parsing is failed? if this 
+ parameter is TRUE, then a NULL value will be returned instead of 
+ throwing an exception when the given document text data is invalid.
+. 
+.PP
+.PP
+\fBverbose\fB \fR\- 
+ print the verbose log message of the parsing progress?
+. 
+.PP
+.SH VALUE
+.PP
+a [PDB](cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB) protein structure object model that parsed from 
+ the given PDB document text data; NULL will be returned when the 
+ parsing is failed and the \fBsafe\fR parameter is TRUE.
 .PP
 .SH SEE ALSO
 proteinKit

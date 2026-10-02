@@ -18,7 +18,17 @@ set genomics context of the matched motif site
 \fBgenomics\fB \fR\- the genomics feature information as the context for make location assignment.. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [VirtualFootprint](cref:T:SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.VirtualFootprint) motif site object that 
+ its location region data has been assigned with the genomics context 
+ information;
+ 
+ this function returns a R# error message object if the input motif 
+ sites data can not be cast to a collection of the 
+ [VirtualFootprint](cref:T:SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat.VirtualFootprint) object.
 .PP
 .SH SEE ALSO
 genomics_context

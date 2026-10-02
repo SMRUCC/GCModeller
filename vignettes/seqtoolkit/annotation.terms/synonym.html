@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>synonym</title>
+    <title>query the id synonyms of the given id list from the id mapping solver</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>synonym</h2>
+        <h2>query the id synonyms of the given id list from the id mapping solver</h2>
 
         <h3>Description</h3>
 
-        synonym
+        <p>object</p>
 
         <h3>Usage</h3>
 
@@ -35,6 +35,17 @@
 
         <table>
             
+<dt>idlist</dt>
+<dd><p>a character vector of the query id for get its synonyms. [as string]</p></dd>
+
+
+<dt>idmap</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.ComponentModel.DBLinkBuilder.SecondaryIDSolver">SecondaryIDSolver</a> id mapping solver object, which is created by the <code>read.id_maps</code> api. [as <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/SecondaryIDSolver.html">SecondaryIDSolver</a>]</p></dd>
+
+
+<dt>excludeNull</dt>
+<dd><p>remove the query id which has no synonym data from the result?. [as boolean]</p></dd>
+
         </table>
 
 
@@ -48,7 +59,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/Synonym.html">Synonym[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/Synonym.html">Synonym[]</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.ComponentModel.DBLinkBuilder.Synonym">Synonym</a> id synonym query result object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/Synonym.html">Synonym[]</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

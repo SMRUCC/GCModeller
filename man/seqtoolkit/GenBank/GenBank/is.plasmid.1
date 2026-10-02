@@ -11,10 +11,24 @@ check of the given genbank assembly is the data source of a plasmid or not?
 .PP
 .SH OPTIONS
 .PP
-\fBgb\fB \fR\- -. 
+\fBgb\fB \fR\- 
+ the ncbi genbank assembly data for make the plasmid source check, 
+ which can be a vector of the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) object or a named 
+ list of this assembly object.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a boolean value of the plasmid source check result when the input is a 
+ vector of the genbank assembly object, or a named list of the check 
+ result when the input is a named list;
+ 
+ this function returns a R# error message object if the input genbank 
+ data can not be cast to a collection of the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) 
+ object.
 .PP
 .SH SEE ALSO
 GenBank

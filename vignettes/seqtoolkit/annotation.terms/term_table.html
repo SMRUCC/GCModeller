@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>term_table</title>
+    <title>make the term annotation table of each gene from a given set of the</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>term_table</h2>
+        <h2>make the term annotation table of each gene from a given set of the</h2>
 
         <h3>Description</h3>
 
-        term_table
+        <p>term annotation result group</p>
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>annotations</dt>
+<dd><p>a R# list object of the term annotation result group: the name of each list element is the term name, and the element value is a collection of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm">RankTerm</a> term annotation data that belongs to the corresponding term. [as list]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +54,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/EntityObject.html">EntityObject</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/EntityObject.html">EntityObject</a></li></ul>
+        <p>a vector of the <a href="cref:T:Microsoft.VisualBasic.Data.Framework.IO.EntityObject">EntityObject</a> term annotation table record, one record element for each gene, and each record contains the term annotation value of the gene in each term group;</p>
+
+<p>this function returns a R# error message object if any of the term annotation group data can not be cast to a collection of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm">RankTerm</a> object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/EntityObject.html">EntityObject</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

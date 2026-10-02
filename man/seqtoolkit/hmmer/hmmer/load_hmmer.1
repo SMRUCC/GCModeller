@@ -1,9 +1,33 @@
 .\" man page create by R# package system.
 .TH HMMER 1 2000-1月 "load_hmmer" "load_hmmer"
 .SH NAME
-load_hmmer \- 
+load_hmmer \- load a collection of the HMMER3 profile HMM model files for protein
 .SH SYNOPSIS
 \fIload_hmmer(\fBx\fR as any);\fR
+.SH DESCRIPTION
+.PP
+load a collection of the HMMER3 profile HMM model files for protein 
+ function annotation
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ a character vector of the HMMER3 profile model file paths(\fB*.hmm\fR) 
+ for load into the protein annotator. this parameter also can be a 
+ directory path that contains a set of the HMMER3 profile model files, 
+ then all of the profile model files inside the given directory will be 
+ loaded.
+. 
+.PP
+.SH VALUE
+.PP
+a [ProteinAnnotator](cref:T:SMRUCC.genomics.Analysis.SequenceTools.HMMER.ProteinAnnotator) object that contains the loaded HMMER3 
+ profile models, which can be used for run the protein function 
+ annotation via the \fBhmmer_search\fR api;
+ 
+ this function returns NULL if the given input is an empty character 
+ vector.
+.PP
 .SH SEE ALSO
 hmmer
 .SH FILES

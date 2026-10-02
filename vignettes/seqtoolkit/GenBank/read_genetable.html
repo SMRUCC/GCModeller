@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>read_genetable</title>
+    <title>read gene table from the given csv tabular data file</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>read_genetable</h2>
+        <h2>read gene table from the given csv tabular data file</h2>
 
         <h3>Description</h3>
 
-        read_genetable
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,9 @@
 
         <table>
             
+<dt>file</dt>
+<dd><p>the file path of the target csv table file, which could be de-serialized as <a href="cref:T:SMRUCC.genomics.ComponentModel.Annotation.GeneTable">GeneTable</a> array. [as string]</p></dd>
+
         </table>
 
 
@@ -47,7 +50,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/GeneTable.html">GeneTable[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/GeneTable.html">GeneTable[]</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.ComponentModel.Annotation.GeneTable">GeneTable</a> gene table record object that loaded from the given csv table file.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/GeneTable.html">GeneTable</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

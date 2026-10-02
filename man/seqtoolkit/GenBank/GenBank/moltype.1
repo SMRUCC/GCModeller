@@ -1,10 +1,34 @@
 .\" man page create by R# package system.
 .TH GENBANK 4 2000-1月 "moltype" "moltype"
 .SH NAME
-moltype \- 
+moltype \- get the molecule type evidence annotation of the given genbank
 .SH SYNOPSIS
 \fImoltype(\fBgb\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get the molecule type evidence annotation of the given genbank 
+ assembly
+.PP
+.SH OPTIONS
+.PP
+\fBgb\fB \fR\- 
+ a collection of the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) ncbi genbank assembly 
+ object for get its molecule type evidence.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [MolTypeEvidence](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.MolTypeEvidence) molecule type evidence 
+ object;
+ 
+ this function returns a R# error message object if the input genbank 
+ data can not be cast to a collection of the [File](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File) 
+ object.
+.PP
 .SH SEE ALSO
 GenBank
 .SH FILES

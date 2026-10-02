@@ -1,9 +1,25 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.PATTERNS 2 2000-1月 "pull.all_seeds" "pull.all_seeds"
 .SH NAME
-pull.all_seeds \- 
+pull.all_seeds \- pull all of the sequence seed data from the given seed scan data file
 .SH SYNOPSIS
 \fIpull.all_seeds(\fBseed\fR as <generic> ScanFile);\fR
+.SH DESCRIPTION
+.PP
+pull all of the sequence seed data from the given seed scan data file
+.PP
+.SH OPTIONS
+.PP
+\fBseed\fB \fR\- 
+ a [ScanFile](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.ScanFile) sequence seed data file object that is opened 
+ by the \fBopen.seedFile\fR api.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [HSP](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment.HSP) sequence seed object that loaded from 
+ the given seed data file.
+.PP
 .SH SEE ALSO
 bioseq.patterns
 .SH FILES

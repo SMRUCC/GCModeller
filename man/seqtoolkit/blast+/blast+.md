@@ -11,5 +11,5 @@ Basic Local Alignment Search Tool
 
 + [makeblastdb](blast+/makeblastdb.1) Application to create BLAST databases
 + [blastp](blast+/blastp.1) Protein-Protein BLAST
-+ [blastn](blast+/blastn.1) 
-+ [blastx](blast+/blastx.1) 
++ [blastn](blast+/blastn.1) Nucleotide-Nucleotide BLAST
++ [blastx](blast+/blastx.1) Translated Query Vs. Protein Database

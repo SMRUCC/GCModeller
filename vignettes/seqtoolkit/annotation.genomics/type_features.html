@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>type_features</title>
+    <title>get the genomics features from the given gff table by its feature type</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>type_features</h2>
+        <h2>get the genomics features from the given gff table by its feature type</h2>
 
         <h3>Description</h3>
 
-        type_features
+        
 
         <h3>Usage</h3>
 
@@ -34,6 +34,13 @@
 
         <table>
             
+<dt>gff</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable">GFFTable</a> genomics feature annotation table object for query the feature data. [as <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/GFFTable.html">GFFTable</a>]</p></dd>
+
+
+<dt>type</dt>
+<dd><p>the feature type of the target features, example as <code>gene</code>, <code>CDS</code> or <code>mRNA</code>. [as string]</p></dd>
+
         </table>
 
 
@@ -47,7 +54,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/Feature.html">Feature</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/Feature.html">Feature</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.Feature">Feature</a> genomics feature object that its feature type matches the given type name.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/Feature.html">Feature</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -1,9 +1,26 @@
 .\" man page create by R# package system.
 .TH HMMER 1 2000-1月 "load_interprodb" "load_interprodb"
 .SH NAME
-load_interprodb \- 
+load_interprodb \- load the InterPro database term entries from a given interpro database
 .SH SYNOPSIS
 \fIload_interprodb(\fBfile\fR as string);\fR
+.SH DESCRIPTION
+.PP
+load the InterPro database term entries from a given interpro database 
+ xml document file
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the file path of the InterPro database document file(\fBinterpro.xml\fR) 
+ for load the term entries.
+. 
+.PP
+.SH VALUE
+.PP
+a lazy pipeline collection of the [Interpro](cref:T:SMRUCC.genomics.Analysis.SequenceTools.HMMER.InterPro.Xml.Interpro) term entry 
+ object that loaded from the given InterPro database document file.
+.PP
 .SH SEE ALSO
 hmmer
 .SH FILES

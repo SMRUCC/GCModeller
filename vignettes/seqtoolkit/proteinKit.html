@@ -100,9 +100,14 @@ table caption {font-size:14px;font-weight:bolder;}
                            </p>
     </blockquote>
     <div id="main-wrapper">
-      <table class="table-three-line" style="display: none">
+      <table class="table-three-line" style="display: block">
         <caption>.NET clr type export</caption>
-        <tbody></tbody>
+        <tbody><tr>
+  <td id="pfam-string">
+    <a href="/vignettes/clr/SMRUCC/genomics/Data/Xfam/Pfam/PfamString/PfamString.html">pfam-string: PfamString</a>
+  </td>
+  <td><p>This data object specific for a protein function protein domain structure.</p></td>
+</tr></tbody>
       </table>
       <br />
       <br />
@@ -152,13 +157,13 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="pdb_centroid">
     <a href="./proteinKit/pdb_centroid.html">pdb_centroid</a>
   </td>
-  <td></td>
+  <td><p>get the geometry center coordinates of the given protein structure object</p></td>
 </tr>
 <tr>
   <td id="ligands">
     <a href="./proteinKit/ligands.html">ligands</a>
   </td>
-  <td></td>
+  <td><p>list the small molecule ligand compound data from the given protein structure object</p></td>
 </tr>
 <tr>
   <td id="kmer_graph">
@@ -178,19 +183,25 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="enzyme_builder">
     <a href="./proteinKit/enzyme_builder.html">enzyme_builder</a>
   </td>
-  <td></td>
+  <td><p>build the enzyme protein sequence transformer model from a given enzyme protein sequence collection</p></td>
 </tr>
 <tr>
   <td id="predict_sequence">
     <a href="./proteinKit/predict_sequence.html">predict_sequence</a>
   </td>
-  <td></td>
+  <td><p>generate the protein sequence data from the given EC number via the enzyme transformer model</p></td>
 </tr>
 <tr>
   <td id="analysis_domains">
     <a href="./proteinKit/analysis_domains.html">analysis_domains</a>
   </td>
   <td><p>analysis the functional domain on the protein sequence</p></td>
+</tr>
+<tr>
+  <td id="read.pfam_string">
+    <a href="./proteinKit/read.pfam_string.html">read.pfam_string</a>
+  </td>
+  <td><p>read the table file of pfam protein domain annotation data, and return the <a href="cref:T:SMRUCC.genomics.Data.Xfam.Pfam.PfamString.PfamString">PfamString</a> object model</p></td>
 </tr></tbody>
       </table>
     </div>

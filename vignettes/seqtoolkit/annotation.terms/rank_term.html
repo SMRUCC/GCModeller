@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>rank_term</title>
+    <title>create the rank term annotation objects from the given parallel data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>rank_term</h2>
+        <h2>create the rank term annotation objects from the given parallel data</h2>
 
         <h3>Description</h3>
 
-        rank_term
+        <p>vectors</p>
 
         <h3>Usage</h3>
 
@@ -34,6 +34,25 @@
 
         <table>
             
+<dt>id</dt>
+<dd><p>a character vector of the query gene id of the term annotation.</p></dd>
+
+
+<dt>term</dt>
+<dd><p>a character vector of the term name of the term annotation.</p></dd>
+
+
+<dt>score</dt>
+<dd><p>a numeric vector of the term annotation score value.</p></dd>
+
+
+<dt>source</dt>
+<dd><p>a character vector of the term data source name.</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -47,7 +66,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/Pipeline/RankTerm.html">RankTerm</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/Pipeline/RankTerm.html">RankTerm</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm">RankTerm</a> term annotation object, each element is created from the element-wise combination of the given data vectors.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/Pipeline/RankTerm.html">RankTerm</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

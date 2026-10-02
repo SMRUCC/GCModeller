@@ -1,16 +1,24 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.PATTERNS 2 2000-1月 "motifString" "motifString"
 .SH NAME
-motifString \- 
+motifString \- convert the given sequence motif object as a regexp liked format
 .SH SYNOPSIS
 \fImotifString(\fBmotif\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+convert the given sequence motif object as a regexp liked format 
+ pattern string for do motif matches
+.PP
 .SH OPTIONS
 .PP
-\fBmotif\fB \fR\- -. 
+\fBmotif\fB \fR\- 
+ a [SequenceMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif) motif object for convert as the pattern 
+ string text.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
 .PP
 .SH VALUE
 .PP

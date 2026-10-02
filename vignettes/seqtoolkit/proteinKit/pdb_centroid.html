@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>pdb_centroid</title>
+    <title>get the geometry center coordinates of the given protein structure</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>pdb_centroid</h2>
+        <h2>get the geometry center coordinates of the given protein structure</h2>
 
         <h3>Description</h3>
 
-        pdb_centroid
+        <p>object</p>
 
         <h3>Usage</h3>
 
@@ -35,6 +35,13 @@
 
         <table>
             
+<dt>pdb</dt>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.Data.RCSB.PDB.PDB">PDB</a> protein structure object for evaluate its centroid coordinates. [as <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/PDB.html">PDB</a>]</p></dd>
+
+
+<dt>as.vector</dt>
+<dd><p>returns the centroid coordinates as a numeric vector? if this parameter is FALSE(the default value), then a <a href="cref:T:SMRUCC.genomics.Data.RCSB.PDB.Keywords.Point3D">Point3D</a> coordinates object will be returned. [as boolean]</p></dd>
+
         </table>
 
 
@@ -48,7 +55,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object in these one of the listed data types: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a>, double.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a></li><li>double</li></ul>
+        <p>the centroid coordinates of the given protein structure object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a></li><li>double</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

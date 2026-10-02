@@ -36,11 +36,15 @@
         <table>
             
 <dt>MSA</dt>
-<dd><p>-</p></dd>
+<dd><p>the multiple sequence alignment data for drawing the sequence logo, which can be a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.MSA.MSAOutput">MSAOutput</a> alignment result object, a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif">SequenceMotif</a> motif object, a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif">MSAMotif</a> gibbs sampler result, a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Probability">Probability</a> PWM model object, or a fasta sequence collection.</p></dd>
 
 
 <dt>title</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the title text of the generated sequence logo graphics. [as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -55,7 +59,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/Microsoft/VisualBasic/Imaging/Driver/GraphicsData.html">GraphicsData</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Imaging/Driver/GraphicsData.html">GraphicsData</a></li></ul>
+        <p>a <a href="cref:T:Microsoft.VisualBasic.Imaging.Driver.GraphicsData">GraphicsData</a> graphics data object of the sequence logo, which can be saved as a image file via the <code>bitmap</code> or <code>svg</code> api.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Imaging/Driver/GraphicsData.html">GraphicsData</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

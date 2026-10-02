@@ -1,12 +1,47 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.PATTERNS 2 2000-1月 "top_sites" "top_sites"
 .SH NAME
-top_sites \- 
+top_sites \- takes the top motif match sites by a set of the given filter threshold
 .SH SYNOPSIS
 \fItop_sites(\fBsites\fR as <generic> MotifMatch[], 
 \fBidentities\fR as <generic> Double = \fB<NULL>\fR, 
 \fBpvalue\fR as <generic> Double = \fB<NULL>\fR, 
 \fBminW\fR as <generic> Int32 = \fB<NULL>\fR);\fR
+.SH DESCRIPTION
+.PP
+takes the top motif match sites by a set of the given filter threshold 
+ values
+.PP
+.SH OPTIONS
+.PP
+\fBsites\fB \fR\- 
+ a vector of the [MotifMatch](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch) motif match scan result for 
+ make the filter.
+. 
+.PP
+.PP
+\fBidentities\fB \fR\- 
+ the minimum identity threshold value of the accepted motif matches.
+. 
+.PP
+.PP
+\fBpvalue\fB \fR\- 
+ the maximum p-value threshold of the accepted motif matches.
+. 
+.PP
+.PP
+\fBminW\fB \fR\- 
+ the minimum motif width of the accepted motif matches.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [MotifMatch](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch) object that contains the 
+ accepted motif match sites: the input motif matches will be passed 
+ through each of the specified filter thresholds in turn, and only the 
+ matches that satisfies all of the specified threshold conditions will 
+ be kept in the returned result.
+.PP
 .SH SEE ALSO
 bioseq.patterns
 .SH FILES

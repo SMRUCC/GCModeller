@@ -1,7 +1,7 @@
 .\" man page create by R# package system.
 .TH PRIMERS 1 2000-1月 "primer_regions" "primer_regions"
 .SH NAME
-primer_regions \- 
+primer_regions \- find the candidate PCR primer design regions from a set of the blastn hits
 .SH SYNOPSIS
 \fIprimer_regions(\fBblastHits\fR as any, 
 \fBmaxCoreSpan\fR as integer = 1000000, 
@@ -9,6 +9,56 @@ primer_regions \-
 \fBprimerIds\fR as any = \fB<NULL>\fR, 
 \fBgenome\fR as <generic> GFFTable = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+find the candidate PCR primer design regions from a set of the blastn hits
+.PP
+.SH OPTIONS
+.PP
+\fBblastHits\fB \fR\- 
+ a collection of the blastn hit records for find the candidate primer 
+ design regions, which can be a pipeline object or a vector of the 
+ [HitRecord](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast.HitRecord) object.
+. 
+.PP
+.PP
+\fBmaxCoreSpan\fB \fR\- 
+ the maximum span size in nucleotide of the core primer region.
+. 
+.PP
+.PP
+\fBeval_cutoff\fB \fR\- 
+ the maximum e-value threshold of the accepted blastn hit records.
+. 
+.PP
+.PP
+\fBprimerIds\fB \fR\- 
+ a character vector of the primer id for filter the input blastn hits. 
+ If this parameter is not specified, then all of the input blastn hits 
+ will be used for find the candidate regions.
+. 
+.PP
+.PP
+\fBgenome\fB \fR\- 
+ a [GFFTable](cref:T:SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable) genomics feature annotation table, which is 
+ used for annotate the gene context information of the candidate primer 
+ regions. If this parameter is not specified, then no gene context 
+ information will be calculated.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [CandidateRegion](cref:T:SMRUCC.genomics.Analysis.PrimerDesigner.CandidateRegion) object, each element in 
+ the returned vector is one candidate PCR primer design region with its 
+ gene context information;
+ 
+ this function returns a R# error message object if the input blastn hits 
+ data can not be cast to a collection of the [HitRecord](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast.HitRecord) 
+ object.
+.PP
 .SH SEE ALSO
 primers
 .SH FILES

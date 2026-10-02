@@ -22,10 +22,21 @@ assign the top term by score ranking
 . 
 .PP
 .PP
-\fBterm_maps\fB \fR\- -. 
+\fBterm_maps\fB \fR\- 
+ a R# list object of the term id mapping data: the name of each list 
+ element is the term name, and the element value is a character vector 
+ of the hit name that belongs to the corresponding term.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [RankTerm](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm) term annotation result;
+ 
+ this function returns a R# error message object if the input alignment 
+ data can not be cast to a best hit or diamond annotation collection.
 .PP
 .SH SEE ALSO
 annotation.terms

@@ -1,9 +1,24 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.TERMS 2 2000-1月 "read.MyvaCOG" "read.MyvaCOG"
 .SH NAME
-read.MyvaCOG \- 
+read.MyvaCOG \- read the myva COG hits annotation data from a csv table file
 .SH SYNOPSIS
 \fIread.MyvaCOG(\fBfile\fR as string);\fR
+.SH DESCRIPTION
+.PP
+read the myva COG hits annotation data from a csv table file
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the file path of the csv format myva COG hits annotation table file.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [MyvaCOG](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG.MyvaCOG) COG hits object that loaded from 
+ the given csv table file.
+.PP
 .SH SEE ALSO
 annotation.terms
 .SH FILES

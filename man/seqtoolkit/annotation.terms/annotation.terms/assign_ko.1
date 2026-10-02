@@ -15,13 +15,27 @@ do KO number assign based on the bbh alignment result.
 .PP
 .SH OPTIONS
 .PP
-\fBforward\fB \fR\- -. 
+\fBforward\fB \fR\- 
+ a forward blastn best hit([BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)) result data pipeline.
+. 
 .PP
 .PP
-\fBreverse\fB \fR\- -. 
+\fBreverse\fB \fR\- 
+ a reverse blastn best hit([BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)) result data pipeline.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [KOAssignmentCandidate](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.KOAssignmentCandidate) KO assignment result 
+ when the \fBkaas_rank\fR parameter is TRUE, or a vector of the BHR result 
+ when this parameter is FALSE;
+ 
+ this function returns a R# error message object if the given forward or 
+ reverse data stream is nothing or its element type is not the 
+ [BestHit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit) object.
 .PP
 .SH SEE ALSO
 annotation.terms

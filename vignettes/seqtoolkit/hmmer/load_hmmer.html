@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>load_hmmer</title>
+    <title>load a collection of the HMMER3 profile HMM model files for protein</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>load_hmmer</h2>
+        <h2>load a collection of the HMMER3 profile HMM model files for protein</h2>
 
         <h3>Description</h3>
 
-        load_hmmer
+        <p>function annotation</p>
 
         <h3>Usage</h3>
 
@@ -34,6 +34,9 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>a character vector of the HMMER3 profile model file paths(<code>*.hmm</code>) for load into the protein annotator. this parameter also can be a directory path that contains a set of the HMMER3 profile model files, then all of the profile model files inside the given directory will be loaded.</p></dd>
+
         </table>
 
 
@@ -47,7 +50,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/HMMER/ProteinAnnotator.html">ProteinAnnotator</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/HMMER/ProteinAnnotator.html">ProteinAnnotator</a></li></ul>
+        <p>a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.HMMER.ProteinAnnotator">ProteinAnnotator</a> object that contains the loaded HMMER3 profile models, which can be used for run the protein function annotation via the <code>hmmer_search</code> api;</p>
+
+<p>this function returns NULL if the given input is an empty character vector.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/HMMER/ProteinAnnotator.html">ProteinAnnotator</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -1,11 +1,41 @@
 .\" man page create by R# package system.
 .TH GENOMICS_CONTEXT 2 2000-1月 "primer_coverage" "primer_coverage"
 .SH NAME
-primer_coverage \- 
+primer_coverage \- evaluate the primer hit coverage of the candidate primer regions on the
 .SH SYNOPSIS
 \fIprimer_coverage(\fBtargetHits\fR as <generic> NucleotideLocation[], 
 \fBchr\fR as <generic> GenomeContext`1, 
 \fBchr_seq\fR as <generic> ISlicer);\fR
+.SH DESCRIPTION
+.PP
+evaluate the primer hit coverage of the candidate primer regions on the 
+ given chromosome context
+.PP
+.SH OPTIONS
+.PP
+\fBtargetHits\fB \fR\- 
+ a vector of the [NucleotideLocation](cref:T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation) primer hit location 
+ data on the target chromosome.
+. 
+.PP
+.PP
+\fBchr\fB \fR\- 
+ a [GenomeContext](cref:T:SMRUCC.genomics.ContextModel.GenomeContext%601) genomics context object of the target 
+ chromosome, which provides the gene context information of the 
+ candidate primer regions.
+. 
+.PP
+.PP
+\fBchr_seq\fB \fR\- 
+ the sequence data slicer object of the target chromosome for extract 
+ the sequence region data, which can be created by the \fBslicer\fR api.
+. 
+.PP
+.SH VALUE
+.PP
+a vector of the [PrimerCoverage](cref:T:SMRUCC.genomics.Analysis.PrimerDesigner.PrimerCoverage) primer hit coverage 
+ analysis result object.
+.PP
 .SH SEE ALSO
 genomics_context
 .SH FILES

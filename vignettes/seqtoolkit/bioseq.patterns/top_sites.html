@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>top_sites</title>
+    <title>takes the top motif match sites by a set of the given filter threshold</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>top_sites</h2>
+        <h2>takes the top motif match sites by a set of the given filter threshold</h2>
 
         <h3>Description</h3>
 
-        top_sites
+        <p>values</p>
 
         <h3>Usage</h3>
 
@@ -37,6 +37,21 @@
 
         <table>
             
+<dt>sites</dt>
+<dd><p>a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch">MotifMatch</a> motif match scan result for make the filter. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/MotifMatch.html">MotifMatch</a>]</p></dd>
+
+
+<dt>identities</dt>
+<dd><p>the minimum identity threshold value of the accepted motif matches. [as double]</p></dd>
+
+
+<dt>pvalue</dt>
+<dd><p>the maximum p-value threshold of the accepted motif matches. [as double]</p></dd>
+
+
+<dt>minW</dt>
+<dd><p>the minimum motif width of the accepted motif matches. [as integer]</p></dd>
+
         </table>
 
 
@@ -50,7 +65,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/MotifMatch.html">MotifMatch[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/MotifMatch.html">MotifMatch[]</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch">MotifMatch</a> object that contains the accepted motif match sites: the input motif matches will be passed through each of the specified filter thresholds in turn, and only the matches that satisfies all of the specified threshold conditions will be kept in the returned result.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/MotifMatch.html">MotifMatch[]</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

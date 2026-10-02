@@ -1,24 +1,41 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.PATTERNS 2 2000-1月 "view.sites" "view.sites"
 .SH NAME
-view.sites \- 
+view.sites \- display the motif match sites on the given target sequence
 .SH SYNOPSIS
 \fIview.sites(\fBsites\fR as any, 
 \fBseq\fR as any, 
 \fBdeli\fR as string = ", ", 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+display the motif match sites on the given target sequence
+.PP
 .SH OPTIONS
 .PP
-\fBsites\fB \fR\- -. 
+\fBsites\fB \fR\- 
+ a collection of the motif match site data([Site](cref:T:SMRUCC.genomics.GCModeller.Workbench.SeqFeature.Site)) for 
+ display on the target sequence.
+. 
 .PP
 .PP
-\fBseq\fB \fR\- -. 
+\fBseq\fB \fR\- 
+ the target sequence data for display the motif match sites, which can 
+ be a raw sequence text or a fasta sequence object.
+. 
 .PP
 .PP
-\fBdeli\fB \fR\- -. 
+\fBdeli\fB \fR\- 
+ the delimiter string for display the sequence fragment of each match 
+ site.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a character value of the formatted motif match site display text.
 .PP
 .SH SEE ALSO
 bioseq.patterns

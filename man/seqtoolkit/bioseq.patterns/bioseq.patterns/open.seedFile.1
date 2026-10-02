@@ -1,10 +1,33 @@
 .\" man page create by R# package system.
 .TH BIOSEQ.PATTERNS 2 2000-1月 "open.seedFile" "open.seedFile"
 .SH NAME
-open.seedFile \- 
+open.seedFile \- open the sequence seed scan data file
 .SH SYNOPSIS
 \fIopen.seedFile(\fBfile\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+open the sequence seed scan data file
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ the file path of the seed scan data file, or a file stream object of 
+ the target seed scan data file.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a [ScanFile](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.ScanFile) sequence seed data file object for read or 
+ save the seed data in a stream manner, which can be used by the 
+ \fBpull.all_seeds\fR api or the \fBcreate.seeds\fR api;
+ 
+ this function returns a R# error message object if the given file can 
+ not be opened for read/write.
+.PP
 .SH SEE ALSO
 bioseq.patterns
 .SH FILES

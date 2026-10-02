@@ -44,11 +44,11 @@
 
 
 <dt>term.maps</dt>
-<dd><p>[as list]</p></dd>
+<dd><p>a R# list object of the term id mapping data: the name of each list element is the term name, and the element value is a character vector of the hit name that belongs to the corresponding term. [as list]</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -63,7 +63,9 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/Pipeline/RankTerm.html">RankTerm</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/Pipeline/RankTerm.html">RankTerm</a></li></ul>
+        <p>a vector of the <a href="cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm">RankTerm</a> term annotation result;</p>
+
+<p>this function returns a R# error message object if the input alignment data can not be cast to a best hit or diamond annotation collection.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/Pipeline/RankTerm.html">RankTerm</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

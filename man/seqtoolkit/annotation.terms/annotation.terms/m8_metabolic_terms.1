@@ -1,10 +1,35 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.TERMS 2 2000-1月 "m8_metabolic_terms" "m8_metabolic_terms"
 .SH NAME
-m8_metabolic_terms \- 
+m8_metabolic_terms \- extract the metabolic function term annotation from the diamond m8
 .SH SYNOPSIS
 \fIm8_metabolic_terms(\fBm8\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+extract the metabolic function term annotation from the diamond m8 
+ format alignment result data
+.PP
+.SH OPTIONS
+.PP
+\fBm8\fB \fR\- 
+ a collection of the diamond m8 tabular format alignment hits 
+ ([DiamondAnnotation](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.DiamondAnnotation)) for extract the metabolic function 
+ term annotation.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a lazy pipeline collection of the [RankTerm](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm) metabolic 
+ function term annotation result;
+ 
+ this function returns a R# error message object if the input m8 hits 
+ data can not be cast to a collection of the 
+ [DiamondAnnotation](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.DiamondAnnotation) object.
+.PP
 .SH SEE ALSO
 annotation.terms
 .SH FILES

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>get the high score region from the given alignment result</title>
+    <title>get the high score region(HSP) from the given alignment result</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>get the high score region from the given alignment result</h2>
+        <h2>get the high score region(HSP) from the given alignment result</h2>
 
         <h3>Description</h3>
 
@@ -36,15 +36,19 @@
         <table>
             
 <dt>align</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/BestLocalAlignment/SmithWaterman.html">SmithWaterman</a>]</p></dd>
+<dd><p>a <a href="cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment.SmithWaterman">SmithWaterman</a> local alignment result object, which is the output of the <code>align.smith_waterman</code> api. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/BestLocalAlignment/SmithWaterman.html">SmithWaterman</a>]</p></dd>
 
 
 <dt>cutoff</dt>
-<dd><p>[0,1] threshold. [as double]</p></dd>
+<dd><p>the similarity score cutoff threshold value in [0,1] for filter the candidate HSP regions. [as double]</p></dd>
 
 
 <dt>minW</dt>
-<dd><p>[as integer]</p></dd>
+<dd><p>the minimum region size in chars of the candidate HSP regions, the HSP region that its size is smaller than this threshold value will be ignored. [as integer]</p></dd>
+
+
+<dt>as.dataframe</dt>
+<dd><p>cast the HSP result as a data frame object? if this parameter is FALSE, then a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment.HSP">HSP</a> object will be returned instead. [as boolean]</p></dd>
 
         </table>
 
@@ -59,7 +63,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object in these one of the listed data types: <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>, <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/BestLocalAlignment/HSP.html">HSP</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/BestLocalAlignment/HSP.html">HSP</a></li></ul>
+        <p>a data frame object of the HSP alignment details(the columns are: <code>query</code>, <code>subject</code>, <code>query_length</code>, <code>subject_length</code>, <code>length_query</code>, <code>length_hit</code>, <code>hsp_query</code>, <code>hsp_subject</code>, <code>score</code> and <code>coverage</code>) when the <code>as_dataframe</code> parameter is TRUE, or a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment.HSP">HSP</a> object when this parameter is FALSE.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceAlignment/BestLocalAlignment/HSP.html">HSP</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -13,16 +13,28 @@ create new feature site
 .PP
 .SH OPTIONS
 .PP
-\fBkeyName\fB \fR\- -. 
+\fBkeyName\fB \fR\- 
+ the feature key name, example as \fBgene\fR, \fBCDS\fR or \fBtRNA\fR.
+. 
 .PP
 .PP
-\fBlocation\fB \fR\- -. 
+\fBlocation\fB \fR\- 
+ the location region of the target feature site.
+. 
 .PP
 .PP
-\fBdata\fB \fR\- -. 
+\fBdata\fB \fR\- 
+ a R# list object of the feature qualifiers data: the name of each list 
+ element is the qualifier name, and the element value is a character 
+ vector of the qualifier value.
+. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a new [Feature](cref:T:SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature) genbank feature site object.
 .PP
 .SH SEE ALSO
 GenBank

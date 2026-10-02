@@ -6,11 +6,11 @@ NCBI genbank assembly file I/O toolkit
 + [taxon_id](GenBank/taxon_id.1) get ncbi taxonomy id from the given genbank assembly file.
 + [taxonomy_lineage](GenBank/taxonomy_lineage.1) extract the taxonomy lineage information from the genbank file
 + [as_tabular](GenBank/as_tabular.1) extract all gene features from genbank and cast to tabular data
-+ [read_genetable](GenBank/read_genetable.1) 
++ [read_genetable](GenBank/read_genetable.1) read gene table from the given csv tabular data file
 + [accession_id](GenBank/accession_id.1) get current genbank assembly accession id
 + [is.plasmid](GenBank/is.plasmid.1) check of the given genbank assembly is the data source of a plasmid or not?
-+ [moltype](GenBank/moltype.1) 
-+ [assembly_level](GenBank/assembly_level.1) 
++ [moltype](GenBank/moltype.1) get the molecule type evidence annotation of the given genbank 
++ [assembly_level](GenBank/assembly_level.1) get the assembly level evidence annotation of the given genbank 
 + [load_genbanks](GenBank/load_genbanks.1) populate a list of genbank data objects from a given list of files or stream.
 + [write.genbank](GenBank/write.genbank.1) save the modified genbank file
 + [as.genbank](GenBank/as.genbank.1) converts tabular data file to genbank assembly object
@@ -24,4 +24,4 @@ NCBI genbank assembly file I/O toolkit
 + [getRNA.fasta](GenBank/getRNA.fasta.1) get all of the RNA gene its gene sequence in fasta sequence format.
 + [export_geneNt_fasta](GenBank/export_geneNt_fasta.1) export gene fasta from the given genbank assembly file
 + [protein_seqs](GenBank/protein_seqs.1) get or set fasta sequence of all CDS feature in the given genbank assembly file.
-+ [add.RNA.gene](GenBank/add.RNA.gene.1) 
++ [add.RNA.gene](GenBank/add.RNA.gene.1) add the RNA gene feature data into the given genbank assembly by the 

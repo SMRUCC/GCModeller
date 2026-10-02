@@ -1,10 +1,35 @@
 .\" man page create by R# package system.
 .TH UNIPROT 4 2000-1月 "metaboliteSet" "metaboliteSet"
 .SH NAME
-metaboliteSet \- 
+metaboliteSet \- build the metabolite set collection from the catalytic activity
 .SH SYNOPSIS
 \fImetaboliteSet(\fBuniprot\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+build the metabolite set collection from the catalytic activity 
+ reaction data of the given uniprot protein entries
+.PP
+.SH OPTIONS
+.PP
+\fBuniprot\fB \fR\- 
+ a collection of the uniprot protein [entry](cref:T:SMRUCC.genomics.Assembly.Uniprot.XML.entry) data for build 
+ the metabolite set collection.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a named list of the metabolite id set: the name of each list element 
+ is the uniprot accession id of the protein, and the element value is a 
+ character vector of the ChEBI metabolite id;
+ 
+ this function returns a R# error message object if the input uniprot 
+ data can not be cast to a collection of the [entry](cref:T:SMRUCC.genomics.Assembly.Uniprot.XML.entry) 
+ object.
+.PP
 .SH SEE ALSO
 uniprot
 .SH FILES

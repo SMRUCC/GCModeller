@@ -1,10 +1,34 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.WORKFLOW 2 2000-1月 "filter_low_level" "filter_low_level"
 .SH NAME
-filter_low_level \- 
+filter_low_level \- filter the bi-directional best hit data by removing the low level
 .SH SYNOPSIS
 \fIfilter_low_level(\fBbbh\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+filter the bi-directional best hit data by removing the low level 
+ hits(SBH and NA level)
+.PP
+.SH OPTIONS
+.PP
+\fBbbh\fB \fR\- 
+ a collection of the [BiDirectionalBesthit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit) bi-directional 
+ best hit data for make the level filter.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a lazy pipeline collection of the [BiDirectionalBesthit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit) 
+ object which its level value is neither \fBSBH\fR nor \fBNA\fR;
+ 
+ this function returns a R# error message object if the input bbh data 
+ can not be cast to a collection of the 
+ [BiDirectionalBesthit](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit) object.
+.PP
 .SH SEE ALSO
 annotation.workflow
 .SH FILES

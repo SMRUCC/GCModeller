@@ -1,9 +1,25 @@
 .\" man page create by R# package system.
 .TH HMMER 1 2000-1月 "parse_hmmer_model" "parse_hmmer_model"
 .SH NAME
-parse_hmmer_model \- 
+parse_hmmer_model \- parse the HMMER3 profile HMM model text data
 .SH SYNOPSIS
 \fIparse_hmmer_model(\fBx\fR as string);\fR
+.SH DESCRIPTION
+.PP
+parse the HMMER3 profile HMM model text data
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ the HMMER3 profile HMM model text data, or a file path of the HMMER3 
+ profile model document(\fB*.hmm\fR) for parse.
+. 
+.PP
+.SH VALUE
+.PP
+a [ProfileHMM](cref:T:SMRUCC.genomics.Analysis.SequenceTools.HMMER.ProfileHMM) profile hidden markov model object that 
+ parsed from the given HMMER3 profile model text data.
+.PP
 .SH SEE ALSO
 hmmer
 .SH FILES

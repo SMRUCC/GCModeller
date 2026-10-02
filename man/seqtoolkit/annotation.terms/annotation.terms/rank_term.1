@@ -1,13 +1,48 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.TERMS 2 2000-1月 "rank_term" "rank_term"
 .SH NAME
-rank_term \- 
+rank_term \- create the rank term annotation objects from the given parallel data
 .SH SYNOPSIS
 \fIrank_term(\fBid\fR as any, 
 \fBterm\fR as any, 
 \fBscore\fR as any, 
 \fBsource\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+create the rank term annotation objects from the given parallel data 
+ vectors
+.PP
+.SH OPTIONS
+.PP
+\fBid\fB \fR\- 
+ a character vector of the query gene id of the term annotation.
+. 
+.PP
+.PP
+\fBterm\fB \fR\- 
+ a character vector of the term name of the term annotation.
+. 
+.PP
+.PP
+\fBscore\fB \fR\- 
+ a numeric vector of the term annotation score value.
+. 
+.PP
+.PP
+\fBsource\fB \fR\- 
+ a character vector of the term data source name.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [RankTerm](cref:T:SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.RankTerm) term annotation object, each 
+ element is created from the element-wise combination of the given data 
+ vectors.
+.PP
 .SH SEE ALSO
 annotation.terms
 .SH FILES

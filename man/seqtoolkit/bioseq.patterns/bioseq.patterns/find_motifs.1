@@ -22,13 +22,20 @@ find possible motifs of the given sequence collection
 .PP
 .SH OPTIONS
 .PP
-\fBfasta\fB \fR\- should contains multiple sequence. 
+\fBfasta\fB \fR\- 
+ a fasta sequence collection for make the motif discovery, which should 
+ contains multiple sequence.
+. 
 .PP
 .PP
-\fBminw%\fB \fR\- -. 
+\fBminw%\fB \fR\- 
+ the minimum motif width in chars.
+. 
 .PP
 .PP
-\fBmaxw%\fB \fR\- -. 
+\fBmaxw%\fB \fR\- 
+ the maximum motif width in chars.
+. 
 .PP
 .PP
 \fBnmotifs\fB \fR\- 
@@ -39,7 +46,59 @@ find possible motifs of the given sequence collection
 . 
 .PP
 .PP
-\fBnoccurs%\fB \fR\- -. 
+\fBnoccurs%\fB \fR\- 
+ the minimum occurrence number of the motif sites in the input sequence 
+ collection for keep a motif.
+. 
+.PP
+.PP
+\fBseedingCutoff\fB \fR\- 
+ the similarity cutoff threshold value for build the seed clusters.
+. 
+.PP
+.PP
+\fBscanMinW\fB \fR\- 
+ the minimum width of the seed scan region.
+. 
+.PP
+.PP
+\fBscanCutoff\fB \fR\- 
+ the similarity score cutoff threshold value of the seed scan.
+. 
+.PP
+.PP
+\fBcleanMotif\fB \fR\- 
+ the motif cleaning threshold value for remove the low score motif 
+ sites from the generated motif model.
+. 
+.PP
+.PP
+\fBsignificant_sites\fB \fR\- 
+ the minimum number of the significant sites for keep a seed.
+. 
+.PP
+.PP
+\fBseeds\fB \fR\- 
+ the pre-computed seed data for make the motifs, which can be a 
+ [ScanFile](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.ScanFile) object that is created by the \fBcreate.seeds\fR 
+ api, or a collection of the [HSP](cref:T:SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment.HSP) seed object. If this 
+ parameter is not specified, then the seeds will be discovered from the 
+ input sequence data automatically.
+. 
+.PP
+.PP
+\fBdebug\fB \fR\- 
+ print the debug log message of the motif discovery progress?
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a vector of the [SequenceMotif](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif) motif object that 
+ discovered from the given sequence collection, which is sorted by the 
+ average motif site score in descending order.
 .PP
 .SH SEE ALSO
 bioseq.patterns

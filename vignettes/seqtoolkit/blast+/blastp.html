@@ -36,6 +36,29 @@
 
         <table>
             
+<dt>query</dt>
+<dd><p>the file path of the query protein fasta sequence file. [as string]</p></dd>
+
+
+<dt>subject</dt>
+<dd><p>the file path of the subject protein sequence database file. [as string]</p></dd>
+
+
+<dt>output</dt>
+<dd><p>the file path of the blastp alignment result output file. [as string]</p></dd>
+
+
+<dt>evalue</dt>
+<dd><p>the e-value threshold of the accepted blastp hits. [as double]</p></dd>
+
+
+<dt>n.threads</dt>
+<dd><p>the thread number for run the blastp program. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -49,7 +72,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>a character value of the standard output log message of the <code>blastp</code> program run, and the alignment result data will be saved into the given output file.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

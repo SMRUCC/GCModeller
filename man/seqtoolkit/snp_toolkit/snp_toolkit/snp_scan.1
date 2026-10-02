@@ -1,13 +1,54 @@
 .\" man page create by R# package system.
 .TH SNP_TOOLKIT 1 2000-1月 "snp_scan" "snp_scan"
 .SH NAME
-snp_scan \- 
+snp_scan \- scan the SNP variation sites from a given multiple sequence alignment
 .SH SYNOPSIS
 \fIsnp_scan(\fBnt\fR as <generic> FastaFile, 
 \fBref_index\fR as string, 
 \fBpureMode\fR as boolean = FALSE, 
 \fBmonomorphic\fR as boolean = FALSE, 
 \fBvcf_output_filename\fR as <generic> String& = \fB<NULL>\fR);\fR
+.SH DESCRIPTION
+.PP
+scan the SNP variation sites from a given multiple sequence alignment 
+ fasta sequence data
+.PP
+.SH OPTIONS
+.PP
+\fBnt\fB \fR\- 
+ a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) multiple sequence alignment nucleotide 
+ sequence collection for scan the SNP variation sites.
+. 
+.PP
+.PP
+\fBref_index\fB \fR\- 
+ the index number of the reference sequence in the input multiple 
+ sequence alignment collection, which is used as the reference for 
+ make the SNP calling.
+. 
+.PP
+.PP
+\fBpureMode\fB \fR\- 
+ only accept the pure SNP variations? if this parameter is TRUE, then 
+ the SNP sites that contains mixed variation information will be 
+ ignored.
+. 
+.PP
+.PP
+\fBmonomorphic\fB \fR\- 
+ include the monomorphic sites in the SNP scanning result?
+. 
+.PP
+.PP
+\fBvcf_output_filename\fB \fR\- 
+ a by-ref parameter for get the file path of the generated VCF format 
+ SNP variations output file.
+. 
+.PP
+.SH VALUE
+.PP
+a [SNPsAln](cref:T:SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs.SNPsAln) SNP variations analysis result object.
+.PP
 .SH SEE ALSO
 snp_toolkit
 .SH FILES

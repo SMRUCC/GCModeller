@@ -23,10 +23,11 @@ A computational biology toolkit for protein structural analysis and sequence-bas
 + [parse_pdb](proteinKit/parse_pdb.1) parse the pdb struct data from a given document text data
 + [read.pdb](proteinKit/read.pdb.1) Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.
 + [pdb_models](proteinKit/pdb_models.1) get structure models inside the given pdb object
-+ [pdb_centroid](proteinKit/pdb_centroid.1) 
-+ [ligands](proteinKit/ligands.1) 
++ [pdb_centroid](proteinKit/pdb_centroid.1) get the geometry center coordinates of the given protein structure 
++ [ligands](proteinKit/ligands.1) list the small molecule ligand compound data from the given protein 
 + [kmer_graph](proteinKit/kmer_graph.1) Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length 
 + [kmer_fingerprint](proteinKit/kmer_fingerprint.1) Calculate the morgan fingerprint based on the k-mer graph data 
-+ [enzyme_builder](proteinKit/enzyme_builder.1) 
-+ [predict_sequence](proteinKit/predict_sequence.1) 
++ [enzyme_builder](proteinKit/enzyme_builder.1) build the enzyme protein sequence transformer model from a given enzyme 
++ [predict_sequence](proteinKit/predict_sequence.1) generate the protein sequence data from the given EC number via the 
 + [analysis_domains](proteinKit/analysis_domains.1) analysis the functional domain on the protein sequence
++ [read.pfam_string](proteinKit/read.pfam_string.1) read the table file of pfam protein domain annotation data, and return the [PfamString](cref:T:SMRUCC.genomics.Data.Xfam.Pfam.PfamString.PfamString) object model

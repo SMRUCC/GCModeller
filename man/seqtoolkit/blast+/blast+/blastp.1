@@ -13,6 +13,41 @@ blastp \- Protein-Protein BLAST
 .PP
 Protein-Protein BLAST
 .PP
+.SH OPTIONS
+.PP
+\fBquery\fB \fR\- 
+ the file path of the query protein fasta sequence file.
+. 
+.PP
+.PP
+\fBsubject\fB \fR\- 
+ the file path of the subject protein sequence database file.
+. 
+.PP
+.PP
+\fBoutput\fB \fR\- 
+ the file path of the blastp alignment result output file.
+. 
+.PP
+.PP
+\fBevalue\fB \fR\- 
+ the e-value threshold of the accepted blastp hits.
+. 
+.PP
+.PP
+\fBn_threads\fB \fR\- 
+ the thread number for run the blastp program.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a character value of the standard output log message of the \fBblastp\fR 
+ program run, and the alignment result data will be saved into the 
+ given output file.
+.PP
 .SH SEE ALSO
 blast+
 .SH FILES
