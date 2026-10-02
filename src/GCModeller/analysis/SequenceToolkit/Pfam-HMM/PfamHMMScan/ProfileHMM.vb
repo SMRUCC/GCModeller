@@ -59,6 +59,7 @@
 
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
+Imports Microsoft.VisualBasic.Math.SIMD
 
 ' ============================================================================
 ' HMMER3蛋白质序列分类注释完整模块
@@ -134,6 +135,36 @@ Public Class ProfileHMM
         "A", "C", "D", "E", "F", "G", "H", "I", "K", "L",
         "M", "N", "P", "Q", "R", "S", "T", "V", "W", "Y"
     }
+
+    ''' <summary>
+    ''' 氨基酸单字符（大写）到字母表索引的静态查找表，-1 表示未知残基。
+    ''' 用于替代 CalculateBitScore 内层的逐字符线性扫描。
+    ''' </summary>
+    Public Shared ReadOnly AALookup As SByte() = CreateAALookup()
+
+    Private Shared Function CreateAALookup() As SByte()
+        Dim table(255) As SByte
+
+        For i As Integer = 0 To 255
+            table(i) = CSByte(-1)
+        Next
+        For i As Integer = 0 To AA_ALPHABET.Length - 1
+            table(AscW(AA_ALPHABET(i)(0))) = CSByte(i)
+        Next
+
+        Return table
+    End Function
+
+    ' ---- SIMD 加速所需的模型参数扁平化缓存（首次计算时惰性构建，构建后只读共享） ----
+    Private ReadOnly _planLock As New Object
+    Private _planBuilt As Boolean
+
+    ' 转移得分列：按候选位置 k = 1..Length 存储（索引 0 为占位），消除锯齿数组访问
+    Private _trMM, _trMI, _trMD, _trIM, _trII, _trDM, _trDD As Double()
+
+    ' 发射得分列：按氨基酸索引 0..19 存储，每列长度 Length + 1
+    Private _matchEmissionCols As Double()()
+    Private _insertEmissionCols As Double()()
 
     Public Overrides Function ToString() As String
         Return $"{Name} ({Length} positions, checksum:{Checksum})"
