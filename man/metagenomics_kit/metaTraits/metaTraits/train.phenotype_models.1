@@ -1,0 +1,43 @@
+.\" man page create by R# package system.
+.TH METATRAITS 2 2000-1月 "train.phenotype_models" "train.phenotype_models"
+.SH NAME
+train.phenotype_models \- 训练全部表型所对应的 SVM 模型
+.SH SYNOPSIS
+\fItrain.phenotype_models(\fBdataset\fR as <generic> TraitTrainingSet, 
+\fBkernel\fR as string = "rbf", 
+\fBnrfold\fR as integer = 5, 
+\fBtune\fR as string = "regression", 
+\fBverbose\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+训练全部表型所对应的 SVM 模型
+.PP
+.SH OPTIONS
+.PP
+\fBdataset\fB \fR\- 由 [metaTraitsTool.phenotype_problem()](cref:M:metagenomics_kit.metaTraitsTool.phenotype_problem(System.Object,System.Object,System.Object,SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.PfamEmbedding,SMRUCC.Rsharp.Runtime.Environment)) 装配出来的训练数据集. 
+.PP
+.PP
+\fBkernel\fB \fR\- 核函数类型：rbf（默认）/ linear / poly / sigmoid. 
+.PP
+.PP
+\fBnrfold\fB \fR\- 交叉验证的折数. 
+.PP
+.PP
+\fBtune\fB \fR\- 
+ 网格搜索的作用范围：\fBregression\fR 表示只对数值型表型做搜索（默认，开销很小），
+ \fBnone\fR 表示全部使用默认参数，\fBall\fR 表示对全部表型做搜索（分类型表型
+ 在部分网格点上收敛极慢，耗时可能达到分钟级）
+. 
+.PP
+.PP
+\fBverbose\fB \fR\- 是否输出训练日志. 
+.PP
+.SH SEE ALSO
+metaTraits
+.SH FILES
+.PP
+metagenomics_kit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

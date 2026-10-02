@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.TraitPrediction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>TraitPrediction {SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>TraitPrediction</h2>
+
+        <h3>Description</h3>
+
+        <p>某一种表型在某一个样本之上的预测结果</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar
+export class TraitPrediction {
+   # 预测的置信度，取值区间 [0,1]
+   confidence: double;
+   # 表型的数据类型（boolean / categorical / numeric (continuous)）
+   data_type: string;
+   # 主分类
+   group_1: string;
+   # 次分类
+   group_2: string;
+   # 预测结果：分类模型为预测的类别标签文本（如 <code>true</code> / <code>rod</code>）， 回归模型为预测数值的文本形式
+   predict: string;
+   # 决策函数的输出值（分类为边距，回归为回归值）
+   score: double;
+   # 该表型模型的状态：trained / skipped
+   status: string;
+   # 表型名称
+   trait_name: string;
+   # 计量单位
+   unit: string;
+   # 数值形式的结果：分类模型为类别的 factor 编码，回归模型为回归值
+   value: double;
+   # 每一个类别所获得的决策值（多分类投票）
+   votes: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

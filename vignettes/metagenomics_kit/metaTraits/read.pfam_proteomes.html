@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>读取表型标注数据并按物种组织为表型谱</title>
+    <title>读取一个目录之下的全部微生物基因组的蛋白质组 Pfam 结构域注释</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>load.meta_traits {metaTraits}</td>
+                <td>read.pfam_proteomes {metaTraits}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>读取表型标注数据并按物种组织为表型谱</h2>
+        <h2>读取一个目录之下的全部微生物基因组的蛋白质组 Pfam 结构域注释</h2>
 
         <h3>Description</h3>
 
@@ -27,15 +27,15 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>load.meta_traits</strong>(<i>file</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>read.pfam_proteomes</strong>(<i>dir</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>file</dt>
-<dd><p>ncbi/gtdb species summary tsv 表文件. [as string]</p></dd>
+<dt>dir</dt>
+<dd><p>每一个子目录是一个微生物基因组，目录名即物种名， 其中包含一个 Pfam.csv 文件. [as string]</p></dd>
 
         </table>
 
@@ -50,7 +50,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/metaTraitData.html">metaTraitData</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/metaTraitData.html">metaTraitData</a></li></ul>
+        <p>一个以基因组名为键的 list，每一个元素是该基因组的蛋白质组 Pfam 注释</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

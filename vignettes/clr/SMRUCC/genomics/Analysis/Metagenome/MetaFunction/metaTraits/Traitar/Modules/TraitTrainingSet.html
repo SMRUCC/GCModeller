@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Modules.TraitTrainingSet</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>TraitTrainingSet {SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Modules}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>TraitTrainingSet</h2>
+
+        <h3>Description</h3>
+
+        <p>一个完整的表型训练数据集：嵌入配置 + ProblemTable + 表型元数据</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Modules
+export class TraitTrainingSet {
+   # Pfam 词表与编码配置
+   embedding: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PfamEmbedding.html">PfamEmbedding</a>;
+   # 行=基因组样本，topic=表型名的训练数据集
+   problems: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/SVM/StorageProcedure/ProblemTable.html">ProblemTable</a>;
+   # 参与训练的表型元数据列表
+   traits: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PhenotypeTrait.html">PhenotypeTrait[]</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>embedding</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PfamEmbedding.html">PfamEmbedding</a></li>
+<li>use by <i>property</i> member <code>problems</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/SVM/StorageProcedure/ProblemTable.html">ProblemTable</a></li>
+<li>use by <i>property</i> member <code>traits</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PhenotypeTrait.html">PhenotypeTrait</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

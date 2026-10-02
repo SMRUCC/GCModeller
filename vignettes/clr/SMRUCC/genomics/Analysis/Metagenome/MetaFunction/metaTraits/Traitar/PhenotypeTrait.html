@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.ModelLoader</title>
+    <title>SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.PhenotypeTrait</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,43 +13,40 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>ModelLoader {SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar}</td>
+                <td>PhenotypeTrait {SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>ModelLoader</h2>
+        <h2>PhenotypeTrait</h2>
 
         <h3>Description</h3>
 
-        <p>表型 SVM 模型仓库：负责把训练得到的模型集落盘以及从磁盘还原</p>
+        <p>phenotype_traits_and_types.csv 之中的一行记录：定义了一种生物表型 及其数据类型。每一种表型在重构之后的 Traitar 模块之中可能会对应着 一个具体的 SVM 模型实例。</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar
-export class ModelLoader {
-   # 模型仓库所在的目录
-   Directory: string;
-   # Pfam 词表与编码配置
-   Embedding: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PfamEmbedding.html">PfamEmbedding</a>;
-   # 表型名 -&gt; 该表型所对应的 SVM 模型实例
-   Models: list;
-   # 表型模型总数
-   PhenotypeCount: integer;
-   # 已经训练成功的模型数量
-   TrainedCount: integer;
+export class PhenotypeTrait {
+   # 原始的数据类型字符串：<code>boolean</code> / <code>categorical</code> / <code>numeric (continuous)</code>
+   data_type: string;
+   # 主分类
+   group_1_category: string;
+   # 次分类
+   group_2_subcategory: string;
+   # 表型名称，同时是训练数据表之中的 trait_name 字段
+   trait_name: string;
+   # 计量单位，例如 <code>%</code>, <code>boolean</code>, <code>factor</code>
+   unit: string;
 }
 </code>
         </pre>
 
         <h3>.NET clr type reference tree</h3>
 
-        <ol>
-<li>use by <i>property</i> member <code>Embedding</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PfamEmbedding.html">PfamEmbedding</a></li>
-<li>use by <i>property</i> member <code>Models</code>: list</li>
-</ol>
+        this clr type has no other .net clr type reference.
 
 
         <hr />

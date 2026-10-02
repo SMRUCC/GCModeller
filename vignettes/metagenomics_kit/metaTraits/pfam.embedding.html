@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>构建 Pfam 结构域的嵌入配置（词表 + 编码方式）</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>pfam.embedding {metaTraits}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>构建 Pfam 结构域的嵌入配置（词表 + 编码方式）</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>pfam.embedding</strong>(<i>pfams</i>,
+    <i>minGenomes</i> = <span style='color: green;'>1</span>,
+    <i>encoding</i> = <span style='color: brown;'><strong>"normalized"</strong></span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>pfams</dt>
+<dd><p>可以是 R# 函数 <code>read.pfam_proteomes</code> 的输出，也可以直接是 一个包含各微生物基因组 Pfam.csv 的目录路径</p></dd>
+
+
+<dt>minGenomes</dt>
+<dd><p>词表剪枝阈值：Pfam 结构域至少要在这么多个基因组之中出现才会被保留，默认为 1（不剪枝）. [as integer]</p></dd>
+
+
+<dt>encoding</dt>
+<dd><p>编码方式：<code>normalized</code> 表示按基因组内的最大出现次数做归一化（默认）， <code>binary</code> 表示退化为 0/1 的 one-hot 编码. [as string]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        metagenomics_kit
+
+        <h3>Value</h3>
+
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PfamEmbedding.html">PfamEmbedding</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PfamEmbedding.html">PfamEmbedding</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>metaTraits</em> version 1.0.0.0 <a
+                href="../metaTraits.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

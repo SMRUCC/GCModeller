@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; metaTraits; metagenomics_kit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="toolkit for the microbial phenotype (Traitar) svm models..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,19 +63,68 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "metaTraits"</span><span style="color: blue;"> from</span><span style="color: brown"> "metagenomics_kit"</span>;
+                               <br /><br /><span style="color: green;">#' toolkit for the microbial phenotype (Traitar) svm models</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "metaTraits"</span><span style="color: blue;"> from</span><span style="color: brown"> "metagenomics_kit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>toolkit for the microbial phenotype (Traitar) svm models</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>该工具集把生物表型的 SVM 训练与预测管线暴露给 R# 环境：</p>
+
+
+<ol>
+<li>通过 R# 函数 <code>load.phenotype_traits</code> 读取表型定义表， 每一种表型按照其数据类型（boolean / categorical / numeric）对应一个 SVM 模型实例（C_SVC 或者 EPSILON_SVR）；</li>
+<li>通过 R# 函数 <code>pfam.embedding</code> 把各微生物基因组所预测的蛋白质组 Pfam 结构域组成嵌入为 per-genome 归一化的特征向量；</li>
+<li>通过 R# 函数 <code>train.phenotype_models</code> 训练出全部表型的模型， 并通过 <code>save.trait_models</code> 落盘为 json 模型仓库；</li>
+<li>通过 R# 函数 <code>make_predicts</code> 使用模型仓库预测新基因组的全部表型。</li>
+</ol>
                            </p>
     </blockquote>
     <div id="main-wrapper">
-      <table class="table-three-line" style="display: none">
+      <table class="table-three-line" style="display: block">
         <caption>.NET clr type export</caption>
-        <tbody></tbody>
+        <tbody><tr>
+  <td id="phenotype_trait">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PhenotypeTrait.html">phenotype_trait: PhenotypeTrait</a>
+  </td>
+  <td><p>phenotype_traits_and_types.csv 之中的一行记录：定义了一种生物表型 及其数据类型。每一种表型在重构之后的 Traitar 模块之中可能会对应着 一个具体的 SVM 模型实例。</p></td>
+</tr>
+<tr>
+  <td id="trait_annotation">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/TraitAnnotation.html">trait_annotation: TraitAnnotation</a>
+  </td>
+  <td><p>table parser model for ncbi_species_summary_no_predictions.tsv</p></td>
+</tr>
+<tr>
+  <td id="pfam_embedding">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PfamEmbedding.html">pfam_embedding: PfamEmbedding</a>
+  </td>
+  <td><p>Pfam 词表与嵌入配置（可 JSON 序列化，随模型一同落盘）</p></td>
+</tr>
+<tr>
+  <td id="trait_training_set">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/Modules/TraitTrainingSet.html">trait_training_set: TraitTrainingSet</a>
+  </td>
+  <td><p>一个完整的表型训练数据集：嵌入配置 + ProblemTable + 表型元数据</p></td>
+</tr>
+<tr>
+  <td id="trait_models">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/ModelLoader.html">trait_models: ModelLoader</a>
+  </td>
+  <td><p>表型 SVM 模型仓库：负责把训练得到的模型集落盘以及从磁盘还原</p></td>
+</tr>
+<tr>
+  <td id="trait_prediction">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/TraitPrediction.html">trait_prediction: TraitPrediction</a>
+  </td>
+  <td><p>某一种表型在某一个样本之上的预测结果</p></td>
+</tr>
+<tr>
+  <td id="trait_report">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/ReportJSON.html">trait_report: ReportJSON</a>
+  </td>
+  <td></td>
+</tr></tbody>
       </table>
       <br />
       <br />
@@ -88,28 +137,82 @@ table caption {font-size:14px;font-weight:bolder;}
   <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/ReportJSON.html">ReportJSON</a>: </td>
 </tr>
 <tr>
+  <td id="as.data.frame.traitprediction">
+    <a href="./metaTraits/as.data.frame.traitprediction.html">as.data.frame.traitprediction</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/TraitPrediction.html">TraitPrediction</a>: <p>某一种表型在某一个样本之上的预测结果</p></td>
+</tr>
+<tr>
   <td id="load.meta_traits">
     <a href="./metaTraits/load.meta_traits.html">load.meta_traits</a>
   </td>
-  <td></td>
+  <td><p>读取表型标注数据并按物种组织为表型谱</p></td>
+</tr>
+<tr>
+  <td id="load.trait_annotations">
+    <a href="./metaTraits/load.trait_annotations.html">load.trait_annotations</a>
+  </td>
+  <td><p>读取表型标注的原始表格（每一行是一个物种的一种表型标注）</p></td>
+</tr>
+<tr>
+  <td id="load.phenotype_traits">
+    <a href="./metaTraits/load.phenotype_traits.html">load.phenotype_traits</a>
+  </td>
+  <td><p>读取表型定义表，每一种表型对应一个 SVM 模型实例</p></td>
+</tr>
+<tr>
+  <td id="read.pfam_proteomes">
+    <a href="./metaTraits/read.pfam_proteomes.html">read.pfam_proteomes</a>
+  </td>
+  <td><p>读取一个目录之下的全部微生物基因组的蛋白质组 Pfam 结构域注释</p></td>
+</tr>
+<tr>
+  <td id="pfam.embedding">
+    <a href="./metaTraits/pfam.embedding.html">pfam.embedding</a>
+  </td>
+  <td><p>构建 Pfam 结构域的嵌入配置（词表 + 编码方式）</p></td>
+</tr>
+<tr>
+  <td id="phenotype.problem">
+    <a href="./metaTraits/phenotype.problem.html">phenotype.problem</a>
+  </td>
+  <td><p>装配表型的训练数据集</p></td>
+</tr>
+<tr>
+  <td id="train.phenotype_models">
+    <a href="./metaTraits/train.phenotype_models.html">train.phenotype_models</a>
+  </td>
+  <td><p>训练全部表型所对应的 SVM 模型</p></td>
+</tr>
+<tr>
+  <td id="save.trait_models">
+    <a href="./metaTraits/save.trait_models.html">save.trait_models</a>
+  </td>
+  <td><p>把训练得到的表型模型仓库保存到指定目录</p></td>
 </tr>
 <tr>
   <td id="load.trait_models">
     <a href="./metaTraits/load.trait_models.html">load.trait_models</a>
   </td>
-  <td></td>
+  <td><p>从 json 模型仓库目录之中加载全部表型的 SVM 模型</p></td>
 </tr>
 <tr>
   <td id="make_predicts">
     <a href="./metaTraits/make_predicts.html">make_predicts</a>
   </td>
-  <td></td>
+  <td><p>使用表型模型仓库预测基因组的全部表型</p></td>
 </tr>
 <tr>
   <td id="phenotype_result">
     <a href="./metaTraits/phenotype_result.html">phenotype_result</a>
   </td>
-  <td></td>
+  <td><p>把预测结果合并上模型的元数据，生成最终的表型预测报告</p></td>
+</tr>
+<tr>
+  <td id="tune.trait_model">
+    <a href="./metaTraits/tune.trait_model.html">tune.trait_model</a>
+  </td>
+  <td><p>对单个表型做超参数（C / gamma）的网格搜索</p></td>
 </tr></tbody>
       </table>
     </div>

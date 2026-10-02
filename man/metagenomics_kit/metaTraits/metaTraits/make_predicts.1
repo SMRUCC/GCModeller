@@ -1,16 +1,32 @@
 .\" man page create by R# package system.
-.TH METATRAITS 1 2000-1月 "make_predicts" "make_predicts"
+.TH METATRAITS 2 2000-1月 "make_predicts" "make_predicts"
 .SH NAME
-make_predicts \- 
+make_predicts \- 使用表型模型仓库预测基因组的全部表型
 .SH SYNOPSIS
 \fImake_predicts(\fBmodels\fR as <generic> ModelLoader, 
-\fBgenome\fR as any, 
-\fBbit_score\fR as double = 25, 
-\fBevalue\fR as double = 0.01, 
+\fBpfams\fR as any, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+使用表型模型仓库预测基因组的全部表型
+.PP
+.SH OPTIONS
+.PP
+\fBmodels\fB \fR\- 模型仓库. 
+.PP
+.PP
+\fBpfams\fB \fR\- 
+ 待预测基因组的蛋白质组 Pfam 注释：
+ 传入单个基因组的 PfamString 向量时返回该基因组的预测结果；
+ 传入 list（R# 函数 \fBread.pfam_proteomes\fR 的输出）或者目录路径时，
+ 返回以基因组名为键的预测结果列表
+. 
+.PP
 .SH SEE ALSO
 metaTraits
 .SH FILES
 .PP
 metagenomics_kit.dll
 .PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

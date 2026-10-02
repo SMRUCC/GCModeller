@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>phenotype_result</title>
+    <title>把预测结果合并上模型的元数据，生成最终的表型预测报告</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,22 +18,39 @@
             </tr>
         </table>
 
-        <h2>phenotype_result</h2>
+        <h2>把预测结果合并上模型的元数据，生成最终的表型预测报告</h2>
 
         <h3>Description</h3>
 
-        phenotype_result
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>phenotype_result</strong>(<i>predicts</i>, <i>models</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>phenotype_result</strong>(<i>predicts</i>, <i>models</i>,
+    <i>dataset</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>topN</i> = <span style='color: green;'>20</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>predicts</dt>
+<dd><p>预测结果</p></dd>
+
+
+<dt>models</dt>
+<dd><p>模型仓库. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/ModelLoader.html">ModelLoader</a>]</p></dd>
+
+
+<dt>dataset</dt>
+<dd><p>训练数据集，提供该参数时会额外计算每一个表型的关键 Pfam 结构域特征</p></dd>
+
+
+<dt>topN</dt>
+<dd><p>关键特征的数量上限. [as integer]</p></dd>
+
         </table>
 
 

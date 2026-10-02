@@ -30,16 +30,34 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar
 export class ReportJSON {
+   # 表型名称
    accession: string;
+   # 表型分类（主分类 / 次分类）
    category: string;
+   # 预测置信度，取值区间 [0,1]
    confidence: double;
+   # 该模型的交叉验证得分
+   cvScore: double;
+   # 表型的数据类型
+   data_type: string;
+   # 该表型的关键 Pfam 结构域特征
    KeyFeatures: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/Modules/KeyFeature.html">KeyFeature[]</a>;
-   labels: integer;
-   negative: integer;
+   # 表型标识（即表型名称）
    phenotypeId: string;
-   positive: integer;
-   predict: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PredictionResults.html">PredictionResults</a>;
-   scores: double;
+   # 预测结果：分类模型为类别标签文本，回归模型为预测数值文本
+   predict: string;
+   # boolean 型表型所对应的枚举结果
+   result: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PredictionResults.html">PredictionResults</a>;
+   # 参与训练的样本数量
+   sampleCount: integer;
+   # 决策函数的输出值
+   score: double;
+   # 模型的状态：trained / skipped
+   status: string;
+   # 计量单位
+   unit: string;
+   # 每一个类别所获得的决策值
+   votes: double;
 }
 </code>
         </pre>
@@ -48,7 +66,7 @@ export class ReportJSON {
 
         <ol>
 <li>use by <i>property</i> member <code>KeyFeatures</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/Modules/KeyFeature.html">KeyFeature</a></li>
-<li>use by <i>property</i> member <code>predict</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PredictionResults.html">PredictionResults</a></li>
+<li>use by <i>property</i> member <code>result</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PredictionResults.html">PredictionResults</a></li>
 </ol>
 
 

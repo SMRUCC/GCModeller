@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>读取表型标注数据并按物种组织为表型谱</title>
+    <title>装配表型的训练数据集</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>load.meta_traits {metaTraits}</td>
+                <td>phenotype.problem {metaTraits}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>读取表型标注数据并按物种组织为表型谱</h2>
+        <h2>装配表型的训练数据集</h2>
 
         <h3>Description</h3>
 
@@ -27,15 +27,27 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>load.meta_traits</strong>(<i>file</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>phenotype.problem</strong>(<i>traits</i>, <i>annotations</i>, <i>pfams</i>, <i>embedding</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>file</dt>
-<dd><p>ncbi/gtdb species summary tsv 表文件. [as string]</p></dd>
+<dt>traits</dt>
+<dd><p>表型定义表</p></dd>
+
+
+<dt>annotations</dt>
+<dd><p>表型标注数据</p></dd>
+
+
+<dt>pfams</dt>
+<dd><p>各微生物基因组的蛋白质组 Pfam 注释（list 或者目录路径）</p></dd>
+
+
+<dt>embedding</dt>
+<dd><p>Pfam 嵌入配置. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/PfamEmbedding.html">PfamEmbedding</a>]</p></dd>
 
         </table>
 
@@ -50,7 +62,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/metaTraitData.html">metaTraitData</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/metaTraitData.html">metaTraitData</a></li></ul>
+        <p>行 = 微生物基因组样本，topic = 表型名的训练数据集</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/metaTraits/Traitar/Modules/TraitTrainingSet.html">TraitTrainingSet</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

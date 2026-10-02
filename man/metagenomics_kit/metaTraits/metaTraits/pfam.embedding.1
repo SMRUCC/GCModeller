@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH METATRAITS 2 2000-1月 "pfam.embedding" "pfam.embedding"
+.SH NAME
+pfam.embedding \- 构建 Pfam 结构域的嵌入配置（词表 + 编码方式）
+.SH SYNOPSIS
+\fIpfam.embedding(\fBpfams\fR as any, 
+\fBminGenomes\fR as integer = 1, 
+\fBencoding\fR as string = "normalized", 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+构建 Pfam 结构域的嵌入配置（词表 + 编码方式）
+.PP
+.SH OPTIONS
+.PP
+\fBpfams\fB \fR\- 
+ 可以是 R# 函数 \fBread.pfam_proteomes\fR 的输出，也可以直接是
+ 一个包含各微生物基因组 Pfam.csv 的目录路径
+. 
+.PP
+.PP
+\fBminGenomes\fB \fR\- 
+ 词表剪枝阈值：Pfam 结构域至少要在这么多个基因组之中出现才会被保留，默认为 1（不剪枝）
+. 
+.PP
+.PP
+\fBencoding\fB \fR\- 
+ 编码方式：\fBnormalized\fR 表示按基因组内的最大出现次数做归一化（默认），
+ \fBbinary\fR 表示退化为 0/1 的 one-hot 编码
+. 
+.PP
+.SH SEE ALSO
+metaTraits
+.SH FILES
+.PP
+metagenomics_kit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR
