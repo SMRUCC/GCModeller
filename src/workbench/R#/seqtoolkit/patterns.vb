@@ -190,6 +190,22 @@ Module patterns
         End If
     End Function
 
+    ''' <summary>
+    ''' open the sequence seed scan data file
+    ''' </summary>
+    ''' <param name="file">
+    ''' the file path of the seed scan data file, or a file stream object of 
+    ''' the target seed scan data file.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="ScanFile"/> sequence seed data file object for read or 
+    ''' save the seed data in a stream manner, which can be used by the 
+    ''' ``pull.all_seeds`` api or the ``create.seeds`` api;
+    ''' 
+    ''' this function returns a R# error message object if the given file can 
+    ''' not be opened for read/write.
+    ''' </returns>
     <ExportAPI("open.seedFile")>
     Public Function openSeedFile(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
         Dim filesave = SMRUCC.Rsharp.GetFileStream(file, FileAccess.ReadWrite, env)
@@ -201,6 +217,17 @@ Module patterns
         Return New ScanFile(filesave.TryCast(Of Stream))
     End Function
 
+    ''' <summary>
+    ''' pull all of the sequence seed data from the given seed scan data file
+    ''' </summary>
+    ''' <param name="seed">
+    ''' a <see cref="ScanFile"/> sequence seed data file object that is opened 
+    ''' by the ``open.seedFile`` api.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="HSP"/> sequence seed object that loaded from 
+    ''' the given seed data file.
+    ''' </returns>
     <ExportAPI("pull.all_seeds")>
     Public Function pullAllSeeds(seed As ScanFile) As HSP()
         Return seed.LoadAllSeeds.ToArray
@@ -209,8 +236,14 @@ Module patterns
     ''' <summary>
     ''' read the xml motif data model output from the meme program
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the MEME suite xml format motif discovery output 
+    ''' document(``meme.xml``).
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="MEMEXml"/> meme document object model, which can be used 
+    ''' for extract the motif PWM model via the ``toPWM`` api.
+    ''' </returns>
     <ExportAPI("read.meme_xml")>
     Public Function read_memexml(file As String) As MEMEXml
         Return MEMEXml.LoadDocument(file)
@@ -219,7 +252,10 @@ Module patterns
     ''' <summary>
     ''' convert the meme document to motif PWM model object
     ''' </summary>
-    ''' <param name="meme"></param>
+    ''' <param name="meme">
+    ''' a <see cref="MEMEXml"/> meme document object that is read by the 
+    ''' ``read.meme_xml`` api.
+    ''' </param>
     ''' <returns>a vector of the PWM clr object.</returns>
     <ExportAPI("toPWM")>
     <RApiReturn(GetType(Probability))>
@@ -230,11 +266,28 @@ Module patterns
     ''' <summary>
     ''' make a motif scan from the given sequence collection
     ''' </summary>
-    ''' <param name="seqs"></param>
-    ''' <param name="width"></param>
-    ''' <param name="maxitr"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="seqs">
+    ''' a fasta sequence collection for run the gibbs sampler motif discovery, 
+    ''' which can be a <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a character vector of the raw 
+    ''' sequence data.
+    ''' </param>
+    ''' <param name="width">
+    ''' the motif width of the gibbs sampler. If this parameter is not 
+    ''' specified, then the motif width will be evaluated from the input 
+    ''' sequence data automatically as the 60% of the average sequence length.
+    ''' </param>
+    ''' <param name="maxitr">
+    ''' the maximum iteration number of the gibbs sampler.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="MSAMotif"/> motif object that discovered from the given 
+    ''' sequence collection by the gibbs sampler;
+    ''' 
+    ''' this function returns NULL if the input sequence data can not be cast 
+    ''' to a fasta sequence collection.
+    ''' </returns>
     <ExportAPI("gibbs_scan")>
     <RApiReturn(GetType(MSAMotif))>
     Public Function gibbs_scans(<RRawVectorArgument>
@@ -257,13 +310,24 @@ Module patterns
     End Function
 
     ''' <summary>
-    ''' 
+    ''' display the motif match sites on the given target sequence
     ''' </summary>
-    ''' <param name="sites"></param>
-    ''' <param name="seq"></param>
-    ''' <param name="deli"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="sites">
+    ''' a collection of the motif match site data(<see cref="Site"/>) for 
+    ''' display on the target sequence.
+    ''' </param>
+    ''' <param name="seq">
+    ''' the target sequence data for display the motif match sites, which can 
+    ''' be a raw sequence text or a fasta sequence object.
+    ''' </param>
+    ''' <param name="deli">
+    ''' the delimiter string for display the sequence fragment of each match 
+    ''' site.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a character value of the formatted motif match site display text.
+    ''' </returns>
     <ExportAPI("view.sites")>
     <RApiReturn(GetType(String))>
     Public Function viewSites(<RRawVectorArgument>
@@ -301,8 +365,13 @@ Module patterns
     ''' <summary>
     ''' read sequence motif json file.
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the sequence motif json data document.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="SequenceMotif"/> motif object that loaded 
+    ''' from the given json data file.
+    ''' </returns>
     ''' <remarks>
     ''' apply for search by <see cref="matchSites"/>
     ''' </remarks>
@@ -314,8 +383,21 @@ Module patterns
     ''' <summary>
     ''' read the motif match scan result table file
     ''' </summary>
-    ''' <param name="file">should be a file path to a csv table file.</param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' a file path to a csv format motif match scan result table file, which 
+    ''' is generated by the ``motif.find_sites`` api via the ``write.csv`` api.
+    ''' </param>
+    ''' <param name="tqdm">
+    ''' read the table data in a lazy stream mode? if this parameter is TRUE, 
+    ''' then a lazy pipeline collection will be returned, which is helpful for 
+    ''' read a huge csv table file without loading all of the data rows into 
+    ''' the memory at once.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="MotifMatch"/> motif match scan result, or a 
+    ''' lazy pipeline collection of the <see cref="MotifMatch"/> object when 
+    ''' the ``tqdm`` parameter is TRUE.
+    ''' </returns>
     <ExportAPI("read.scans")>
     <RApiReturn(GetType(MotifMatch))>
     Public Function readSites(file As String, Optional tqdm As Boolean = False) As Object
@@ -326,6 +408,30 @@ Module patterns
         End If
     End Function
 
+    ''' <summary>
+    ''' takes the top motif match sites by a set of the given filter threshold 
+    ''' values
+    ''' </summary>
+    ''' <param name="sites">
+    ''' a vector of the <see cref="MotifMatch"/> motif match scan result for 
+    ''' make the filter.
+    ''' </param>
+    ''' <param name="identities">
+    ''' the minimum identity threshold value of the accepted motif matches.
+    ''' </param>
+    ''' <param name="pvalue">
+    ''' the maximum p-value threshold of the accepted motif matches.
+    ''' </param>
+    ''' <param name="minW">
+    ''' the minimum motif width of the accepted motif matches.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="MotifMatch"/> object that contains the 
+    ''' accepted motif match sites: the input motif matches will be passed 
+    ''' through each of the specified filter thresholds in turn, and only the 
+    ''' matches that satisfies all of the specified threshold conditions will 
+    ''' be kept in the returned result.
+    ''' </returns>
     <ExportAPI("top_sites")>
     Public Function top_sites(sites As MotifMatch(),
                               Optional identities As Double? = Nothing,
@@ -358,12 +464,22 @@ Module patterns
     End Function
 
     ''' <summary>
-    ''' 
+    ''' make the sequence graph embedding data of the given sequence collection
     ''' </summary>
-    ''' <param name="fasta"></param>
-    ''' <param name="mol_type"></param>
-    ''' <param name="parallel"></param>
-    ''' <param name="env"></param>
+    ''' <param name="fasta">
+    ''' a fasta sequence collection for make the sequence graph embedding, 
+    ''' which can be a <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a character vector of the raw 
+    ''' sequence data.
+    ''' </param>
+    ''' <param name="mol_type">
+    ''' the molecule type of the input sequence data for select the graph 
+    ''' embedding algorithm.
+    ''' </param>
+    ''' <param name="parallel">
+    ''' run the graph embedding task in parallel on multiple cpu cores?
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>
     ''' the sequence graph embedding vector data is generates from different method 
     ''' based on the <paramref name="mol_type"/> data:
@@ -392,13 +508,47 @@ Module patterns
     End Function
 
     ''' <summary>
-    ''' Find target loci site based on the given motif model
+    ''' find the target loci match sites of the given sequence data based on 
+    ''' the motif PWM model
     ''' </summary>
-    ''' <param name="motif">could be <see cref="SequenceMotif"/> or <see cref="MSAMotif"/></param>
-    ''' <param name="target">a collection of fasta sequence</param>
-    ''' <param name="cutoff#"></param>
-    ''' <param name="minW#"></param>
-    ''' <returns></returns>
+    ''' <param name="motif">
+    ''' the motif PWM model for make the site scan, which could be a 
+    ''' <see cref="SequenceMotif"/> or a <see cref="MSAMotif"/> object.
+    ''' </param>
+    ''' <param name="target">
+    ''' a fasta sequence collection for make the motif site scan, which can be 
+    ''' a single <see cref="FastaSeq"/> object, a <see cref="FastaFile"/> 
+    ''' object, or a character vector of the raw sequence data.
+    ''' </param>
+    ''' <param name="cutoff#">
+    ''' the minimum similarity score threshold value between the candidate 
+    ''' sequence region and the motif PWM model.
+    ''' </param>
+    ''' <param name="minW#">
+    ''' the minimum width of the candidate match site region.
+    ''' </param>
+    ''' <param name="identities">
+    ''' the minimum identity threshold value of the accepted match sites.
+    ''' </param>
+    ''' <param name="pvalue">
+    ''' the maximum p-value threshold of the accepted match sites.
+    ''' </param>
+    ''' <param name="parallel">
+    ''' run the site scan task in parallel on multiple cpu cores?
+    ''' </param>
+    ''' <param name="motif_name">
+    ''' the motif name that will be recorded in the ``seeds`` property of the 
+    ''' match result. If this parameter is not specified, then the motif name 
+    ''' of the given PWM model object will be used.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="MotifMatch"/> motif match result;
+    ''' 
+    ''' this function returns a R# error message object if the given motif 
+    ''' model object or the target sequence data is not a supported data 
+    ''' model.
+    ''' </returns>
     <ExportAPI("motif.find_sites")>
     <RApiReturn(GetType(MotifMatch))>
     Public Function matchSites(motif As Object,
@@ -472,30 +622,52 @@ Module patterns
     ''' <summary>
     ''' Search mirror palindrome sites for a given seed sequence
     ''' </summary>
-    ''' <param name="sequence"></param>
-    ''' <param name="seed"></param>
-    ''' <returns></returns>
+    ''' <param name="sequence">
+    ''' the raw nucleotide sequence text for search the mirror palindrome 
+    ''' sites.
+    ''' </param>
+    ''' <param name="seed">
+    ''' the seed sequence fragment text for search its mirror palindrome sites.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="PalindromeLoci"/> mirror palindrome site 
+    ''' loci object that found in the given sequence data.
+    ''' </returns>
     <ExportAPI("palindrome.mirror")>
     Public Function FindMirrorPalindromes(sequence$, seed$) As PalindromeLoci()
         Return Palindrome.FindMirrorPalindromes(seed, sequence)
     End Function
 
     ''' <summary>
-    ''' Create seeds
+    ''' create all of the possible seed sequence fragments of the given 
+    ''' alphabet base letters
     ''' </summary>
-    ''' <param name="size"></param>
-    ''' <param name="base"></param>
-    ''' <returns></returns>
+    ''' <param name="size">
+    ''' the seed length in chars, i.e. the ``k`` value of the k-mer seeds.
+    ''' </param>
+    ''' <param name="base">
+    ''' a character value of the sequence alphabet letters, example as 
+    ''' ``ACGT`` for the nucleotide sequence.
+    ''' </param>
+    ''' <returns>
+    ''' a character vector of all of the possible combination of the seed 
+    ''' sequence fragments, and the size of the generated seed collection is 
+    ''' ``len(base) ^ size``.
+    ''' </returns>
     <ExportAPI("seeds")>
     Public Function GetSeeds(size As Integer, base As String) As String()
         Return Seeds.InitializeSeeds(base.ToArray, size)
     End Function
 
     ''' <summary>
-    ''' 
+    ''' convert the given sequence motif object as a regexp liked format 
+    ''' pattern string for do motif matches
     ''' </summary>
-    ''' <param name="motif"></param>
-    ''' <param name="env"></param>
+    ''' <param name="motif">
+    ''' a <see cref="SequenceMotif"/> motif object for convert as the pattern 
+    ''' string text.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>the regexp liked format string for do motif matches</returns>
     <ExportAPI("motifString")>
     <RApiReturn(GetType(String))>
@@ -503,6 +675,47 @@ Module patterns
         Return env.EvaluateFramework(Of SequenceMotif, String)(motif, Function(m) m.patternString())
     End Function
 
+    ''' <summary>
+    ''' create the sequence seeds data from the given fasta sequence 
+    ''' collection, and then save the generated seed data into the target seed 
+    ''' data file
+    ''' </summary>
+    ''' <param name="fasta">
+    ''' a fasta sequence collection for make the sequence seeds, which can be 
+    ''' a <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a character vector of the raw 
+    ''' sequence data.
+    ''' </param>
+    ''' <param name="saveto">
+    ''' a <see cref="ScanFile"/> sequence seed data file object for save the 
+    ''' generated seed data, which is created by the ``open.seedFile`` api.
+    ''' </param>
+    ''' <param name="minw%">
+    ''' the minimum seed width in chars.
+    ''' </param>
+    ''' <param name="maxw%">
+    ''' the maximum seed width in chars.
+    ''' </param>
+    ''' <param name="seedingCutoff">
+    ''' the similarity cutoff threshold value for build the seed clusters.
+    ''' </param>
+    ''' <param name="scanMinW">
+    ''' the minimum width of the seed scan region.
+    ''' </param>
+    ''' <param name="scanCutoff">
+    ''' the similarity score cutoff threshold value of the seed scan.
+    ''' </param>
+    ''' <param name="significant_sites">
+    ''' the minimum number of the significant sites for keep a seed.
+    ''' </param>
+    ''' <param name="debug">
+    ''' print the debug log message of the seed scan progress?
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the input <see cref="ScanFile"/> sequence seed data file object with 
+    ''' the generated seed data has been written into it.
+    ''' </returns>
     <ExportAPI("create.seeds")>
     Public Function createSeeds(<RRawVectorArgument> fasta As Object, saveto As ScanFile,
                                 Optional minw% = 8,

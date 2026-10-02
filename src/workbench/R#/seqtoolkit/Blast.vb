@@ -91,7 +91,12 @@ Module Blast
     ''' Parse blosum from the given file data
     ''' </summary>
     ''' <param name="file">The blosum text data or text file path.</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a <see cref="Blosum"/> amino acid substitution score matrix object that 
+    ''' parsed from the given blosum text data. When this function is called 
+    ''' with no arguments, then the built-in ``Blosum-62`` score matrix will be 
+    ''' returned.
+    ''' </returns>
     <ExportAPI("blosum")>
     Public Function ParseBlosumMatrix(Optional file$ = "Blosum-62") As Blosum
         If file = "Blosum-62" AndAlso Not file.FileExists Then
@@ -102,24 +107,59 @@ Module Blast
     End Function
 
     ''' <summary>
-    ''' Do sequence pairwise alignment
+    ''' do the local pairwise sequence alignment via the smith-waterman 
+    ''' algorithm
     ''' </summary>
-    ''' <param name="query"></param>
-    ''' <param name="ref"></param>
-    ''' <param name="blosum"></param>
-    ''' <returns></returns>
+    ''' <param name="query">
+    ''' a <see cref="FastaSeq"/> sequence object of the query sequence.
+    ''' </param>
+    ''' <param name="ref">
+    ''' a <see cref="FastaSeq"/> sequence object of the reference subject 
+    ''' sequence.
+    ''' </param>
+    ''' <param name="blosum">
+    ''' the amino acid substitution score matrix for the alignment, which can 
+    ''' be created by the ``blosum`` api in this package module. If this 
+    ''' parameter is nothing, then the default ``Blosum-62`` score matrix will 
+    ''' be used.
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="SmithWaterman"/> local alignment result object, from which 
+    ''' the high score region details can be extracted via the ``HSP`` api.
+    ''' </returns>
     <ExportAPI("align.smith_waterman")>
     Public Function doAlign(query As FastaSeq, ref As FastaSeq, Optional blosum As Blosum = Nothing) As SmithWaterman
         Return SmithWaterman.Align(query, ref, blosum)
     End Function
 
     ''' <summary>
-    ''' get the high score region from the given alignment result
+    ''' get the high score region(HSP) from the given alignment result
     ''' </summary>
-    ''' <param name="align"></param>
-    ''' <param name="cutoff">[0,1] threshold</param>
-    ''' <param name="minW"></param>
-    ''' <returns></returns>
+    ''' <param name="align">
+    ''' a <see cref="SmithWaterman"/> local alignment result object, which is 
+    ''' the output of the ``align.smith_waterman`` api.
+    ''' </param>
+    ''' <param name="cutoff">
+    ''' the similarity score cutoff threshold value in [0,1] for filter the 
+    ''' candidate HSP regions.
+    ''' </param>
+    ''' <param name="minW">
+    ''' the minimum region size in chars of the candidate HSP regions, the HSP 
+    ''' region that its size is smaller than this threshold value will be 
+    ''' ignored.
+    ''' </param>
+    ''' <param name="as_dataframe">
+    ''' cast the HSP result as a data frame object? if this parameter is FALSE, 
+    ''' then a vector of the <see cref="HSP"/> object will be returned instead.
+    ''' </param>
+    ''' <returns>
+    ''' a data frame object of the HSP alignment details(the columns are: 
+    ''' ``query``, ``subject``, ``query_length``, ``subject_length``, 
+    ''' ``length_query``, ``length_hit``, ``hsp_query``, ``hsp_subject``, 
+    ''' ``score`` and ``coverage``) when the ``as_dataframe`` parameter is TRUE, 
+    ''' or a vector of the <see cref="HSP"/> object when this parameter is 
+    ''' FALSE.
+    ''' </returns>
     <ExportAPI("HSP")>
     <RApiReturn(GetType(Rdataframe), GetType(HSP))>
     Public Function HSP_hits(align As SmithWaterman, cutoff As Double, minW As Integer, Optional as_dataframe As Boolean = True) As Object
@@ -157,11 +197,21 @@ Module Blast
     End Function
 
     ''' <summary>
-    ''' Do sequence global pairwise alignment
+    ''' do the global pairwise sequence alignment via the needleman-wunsch 
+    ''' algorithm
     ''' </summary>
-    ''' <param name="query"></param>
-    ''' <param name="ref"></param>
-    ''' <returns></returns>
+    ''' <param name="query">
+    ''' a <see cref="FastaSeq"/> sequence object of the query sequence.
+    ''' </param>
+    ''' <param name="ref">
+    ''' a <see cref="FastaSeq"/> sequence object of the reference subject 
+    ''' sequence.
+    ''' </param>
+    ''' <returns>
+    ''' a factor value that contains the global alignment result: the score 
+    ''' value is the global alignment score, and the value data is a vector of 
+    ''' the aligned sequence fragment object.
+    ''' </returns>
     <ExportAPI("align.needleman_wunsch")>
     Public Function RunGlobalNeedlemanWunsch(query As FastaSeq, ref As FastaSeq) As FactorValue(Of Double, GlobalAlign(Of Char)())
         Dim score As Double = 0
@@ -170,6 +220,20 @@ Module Blast
         Return FactorValue(Of Double, GlobalAlign(Of Char)()).Create(score, alignments)
     End Function
 
+    ''' <summary>
+    ''' run the genome-wide average nucleotide identity(gwANI) calculation for 
+    ''' a given nucleotide sequence collection
+    ''' </summary>
+    ''' <param name="multipleSeq">
+    ''' a nucleotide fasta sequence collection for run the gwANI calculation, 
+    ''' which can be a <see cref="FastaFile"/> object or a collection of the 
+    ''' <see cref="FastaSeq"/> object.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="DataSet"/> gwANI calculation result: each 
+    ''' element contains the genome-wide average nucleotide identity value and 
+    ''' its details of one sequence pair in the input sequence collection.
+    ''' </returns>
     <ExportAPI("align.gwANI")>
     Public Function gwANIMultipleAlignment(multipleSeq As FastaFile) As DataSet()
         Return gwANI.calculate_and_output_gwani(multipleSeq)
