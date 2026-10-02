@@ -39,6 +39,7 @@ Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -141,7 +142,7 @@ Public Module SigmaDifference
                         Return New WindowDelta With {
                             .site = window.SlideWindow.Index,
                             .deltaStar = deltaStar,
-                            .Level = DeltaStarDistance.DeltaStarLevel(deltaStar)
+                            .level = DeltaStarDistance.DeltaStarLevel(deltaStar)
                         }
                     End Function) _
             .ToArray
@@ -163,8 +164,8 @@ Public Module SigmaDifference
 
         For Each paired As Tuple(Of FastaSeq, FastaSeq) In pairedList
             Dim profile As WindowDelta() = GenomeDeltaStarProfile(paired.Item1, paired.Item2, windowsSize)
-            Dim queryId As String = paired.Item1.Title.Split(CChar("|")).First
-            Dim subjectId As String = paired.Item2.Title.Split(CChar("|")).First
+            Dim queryId As String = paired.Item1.locus_tag
+            Dim subjectId As String = paired.Item2.locus_tag
             Dim fileTag As New KeyValuePair(Of String, String)(queryId, subjectId)
 
             Call Console.WriteLine("[DEBUG] Calculation job done, trying to export data to filesystem " & EXPORT)
@@ -282,7 +283,7 @@ Public Module SigmaDifference
             For Each profile As WindowDelta() In data
                 Call row.Add("")
                 Call row.Add(profile(i).deltaStar)
-                Call row.Add(profile(i).Level)
+                Call row.Add(profile(i).level)
             Next
 
             Call file.Add(row)
@@ -326,9 +327,10 @@ Public Module SigmaDifference
     ''' </summary>
     ''' <param name="path">the csv file path of one <see cref="WindowDelta"/> profile</param>
     ''' <returns>the profile rows ordered by the site position</returns>
-    <ExportAPI("read.csv.site_delta")>
-    Public Function SiteDataLoad(path As String) As WindowDelta()
-        Return path.LoadCsv(Of WindowDelta)(False).ToArray
+    <ExportAPI("read.site_delta")>
+    <RApiReturn(GetType(WindowDelta))>
+    Public Function SiteDataLoad(path As String) As Object
+        Return path.LoadCsv(Of WindowDelta)(mute:=True).ToArray
     End Function
 
     ''' <summary>
@@ -468,7 +470,7 @@ Public Module SigmaDifference
 
                 Call row.Add("")
                 Call row.Add(line.deltaStar)
-                Call row.Add(line.Level)
+                Call row.Add(line.level)
             Next
 
             Call file.Add(row)
@@ -488,24 +490,27 @@ Public Module SigmaDifference
     ''' <param name="genome">the query genome sequence</param>
     ''' <param name="compare">the comparison genome sequence</param>
     ''' <param name="windowsSize">the sliding window size in bp, default 1kb</param>
-    ''' <returns>profile rows ordered by the site position</returns>
+    ''' <returns>profile rows ordered by the site position, an array of <see cref="WindowDelta"/></returns>
     <ExportAPI("genome.delta_star_profile")>
-    Public Function GenomeDeltaStarProfile(genome As FastaSeq, compare As FastaSeq, Optional windowsSize As Integer = 1000) As WindowDelta()
-        Call Console.WriteLine("Start the sliding window delta* profile calculation...")
-
+    <RApiReturn(GetType(WindowDelta))>
+    Public Function GenomeDeltaStarProfile(genome As FastaSeq, compare As FastaSeq, Optional windowsSize As Integer = 1000) As Object
         Dim reference As New DeltaSimilarity1998.NucleicAcid(compare)
-        Dim profile As WindowDelta() = New DeltaSimilarity1998.NucleicAcid(genome).DeltaStarProfile(reference, windowSize:=windowsSize, stepSize:=1)
+        Dim targetGenome As New DeltaSimilarity1998.NucleicAcid(genome)
+
+        Call "Start the sliding window delta* profile calculation...".info
+
+        Dim profile As WindowDelta() = targetGenome.DeltaStarProfile(reference, windowSize:=windowsSize, stepSize:=1).ToArray
         Dim rows As WindowDelta() = profile _
             .Select(Function(window)
                         Return New WindowDelta With {
-                            .site = window.Site,
-                            .DeltaStar = window.DeltaStar,
-                            .Level = window.Level
+                            .site = window.site,
+                            .deltaStar = window.deltaStar,
+                            .level = window.level
                         }
                     End Function) _
             .ToArray
 
-        Call Console.WriteLine("[JOB DONE!] delta* profile created.")
+        Call "[JOB DONE!] delta* profile created.".info
 
         Return rows
     End Function
@@ -674,7 +679,7 @@ Public Module SigmaDifference
 
                 Call row.Add("")
                 Call row.Add(site.deltaStar)
-                Call row.Add(site.Level.ToString)
+                Call row.Add(site.level.ToString)
                 Call row.Add(String.Join("; ", cols))
             Next
 
@@ -723,7 +728,7 @@ Public Module SigmaDifference
                           Let querySite = querySites(site.site)
                           Select New SegmentRenderData With {
                               .site = site.site,
-                              .level = site.Level,
+                              .level = site.level,
                               .deltaStar = site.deltaStar,
                               .QueryId = querySite.Value,
                               .SubjectId = (From id As String In querySite.Value Select render(QueryName:=id, HitSpecies:=UID))}).ToArray
@@ -753,8 +758,9 @@ Public Module SigmaDifference
     <ExportAPI("cai_bias_dataset")>
     <RApiReturn(GetType(CAIBiasTable))>
     Public Function CompileCABIAS(genes As String) As Object
+        Dim files As String() = (ls - l - r - {"*.fasta", "*.fsa", "*.fna"} <= genes).ToArray
         Dim fastaFiles = (From path As String
-                          In FileIO.FileSystem.GetFiles(genes, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel
+                          In files.AsParallel
                           Let fasta = FastaFile.LoadNucleotideData(path, True)
                           Where Not fasta.IsNullOrEmpty
                           Select ID = BaseName(path),
@@ -940,7 +946,7 @@ Public Module SigmaDifference
     ''' <returns>true when the csv document has been saved</returns>
     <ExportAPI("write.csv.genome_partition_data")>
     Public Function WritePartionalData(dat As IEnumerable(Of PartitioningData), saveto As String) As Boolean
-        Return dat.SaveTo(saveto, False)
+        Return dat.SaveTo(saveto, silent:=True)
     End Function
 
     ''' <summary>
@@ -950,7 +956,7 @@ Public Module SigmaDifference
     ''' <returns>the partitioning data collection</returns>
     <ExportAPI("read.csv.genome_partition_data")>
     Public Function ReadPartitioningData(path As String) As PartitioningData()
-        Return path.LoadCsv(Of PartitioningData)(False).ToArray
+        Return path.LoadCsv(Of PartitioningData)(mute:=True).ToArray
     End Function
 
     ''' <summary>
@@ -960,7 +966,7 @@ Public Module SigmaDifference
     ''' <returns>the chromosome partitioning entries</returns>
     <ExportAPI("Read.Csv.Chromsome_Partitioning")>
     Public Function ReadPartitionalData(path As String) As ChromosomePartitioningEntry()
-        Return path.LoadCsv(Of ChromosomePartitioningEntry)(False).ToArray
+        Return path.LoadCsv(Of ChromosomePartitioningEntry)(mute:=False).ToArray
     End Function
 
     ''' <summary>
