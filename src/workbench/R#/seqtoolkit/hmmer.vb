@@ -125,6 +125,9 @@ Module hmmer
     ''' directory path that contains a set of the HMMER3 profile model files, 
     ''' then all of the profile model files inside the given directory will be 
     ''' loaded.
+    ''' 
+    ''' this parameter also can be a file path of the hmmer model package 
+    ''' archive file(``*.zip``) which is created by the ``save_hmmer`` api.
     ''' </param>
     ''' <returns>
     ''' a <see cref="ProteinAnnotator"/> object that contains the loaded HMMER3 
@@ -142,6 +145,13 @@ Module hmmer
             Return Nothing
         End If
 
+        ' 加载由save_hmmer api所创建的模型zip压缩包
+        If list.Length = 1 AndAlso Path.GetExtension(list(0)).TextEquals(".zip") Then
+            Using s As Stream = list(0).Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Return ProteinAnnotator.LoadModel(s)
+            End Using
+        End If
+
         Dim hmmer As New ProteinAnnotator
 
         If list.Length = 1 AndAlso list(0).DirectoryExists Then
@@ -153,6 +163,34 @@ Module hmmer
         End If
 
         Return hmmer
+    End Function
+
+    ''' <summary>
+    ''' save the hmmer profile HMM model collection as a model package 
+    ''' archive file(``*.zip``)
+    ''' </summary>
+    ''' <param name="hmmer">
+    ''' a <see cref="ProteinAnnotator"/> object that contains the loaded HMMER3 
+    ''' profile models.
+    ''' </param>
+    ''' <param name="file">
+    ''' the file path of the target model package archive file(``*.zip``) for 
+    ''' save the model data. model data will be saved in binary format inside 
+    ''' the zip archive for get the maximum of the io performance.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the file path of the created model package archive file.
+    ''' </returns>
+    <ExportAPI("save_hmmer")>
+    Public Function save_hmmer(hmmer As ProteinAnnotator, file As String, Optional env As Environment = Nothing) As Object
+        Dim filepath As String = CStr(file)
+
+        Using s As Stream = filepath.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+            Call hmmer.Save(s)
+        End Using
+
+        Return filepath
     End Function
 
     ''' <summary>

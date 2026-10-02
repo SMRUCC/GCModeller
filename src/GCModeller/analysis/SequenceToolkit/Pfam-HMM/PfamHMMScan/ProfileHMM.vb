@@ -57,6 +57,7 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
 Imports Microsoft.VisualBasic.Math.SIMD

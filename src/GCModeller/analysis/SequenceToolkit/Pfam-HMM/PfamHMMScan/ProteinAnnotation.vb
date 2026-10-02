@@ -204,7 +204,7 @@ Public Class ProteinAnnotator
         Using zip As New ZipArchive(zipfile, ZipArchiveMode.Create, leaveOpen:=True)
             ' 写入包描述清单
             Using manifest As Stream = zip.CreateEntry(EntryManifest, CompressionLevel.Optimal).Open()
-                Using writer As New StreamWriter(manifest)
+                Using writer As New System.IO.StreamWriter(manifest)
                     writer.WriteLine($"version={PackageVersion}")
                     writer.WriteLine($"models={models.Length}")
                     writer.WriteLine($"evalue_threshold={Me.EValueThreshold.ToString(Globalization.CultureInfo.InvariantCulture)}")
@@ -241,7 +241,7 @@ Public Class ProteinAnnotator
             End If
 
             ' 读取包描述清单
-            Using reader As New StreamReader(manifest.Open())
+            Using reader As New System.IO.StreamReader(manifest.Open())
                 While Not reader.EndOfStream
                     Dim line As String = reader.ReadLine
                     Dim eq As Integer = line.IndexOf("="c)
@@ -292,25 +292,34 @@ Public Class ProteinAnnotator
     ''' </summary>
     ''' <param name="protein">蛋白质序列</param>
     ''' <returns>最佳注释结果</returns>
+    ''' <remarks>
+    ''' 各HMM模型之间的比对计算相互独立，模型集合以只读快照形式共享，
+    ''' 因此这里基于PLINQ对模型循环做并行计算以提升吞吐。
+    ''' </remarks>
     Public Function Annotate(protein As FastaSeq) As IEnumerable(Of AnnotationResult)
         If protein Is Nothing OrElse String.IsNullOrEmpty(protein.SequenceData) Then
             Return Nothing
         End If
 
-        Dim all As New List(Of AnnotationResult)
+        Dim seq As String = protein.SequenceData
+        Dim seqId As String = protein.Headers(0)
 
-        For Each kvp As KeyValuePair(Of String, ProfileHMM) In _models
-            Dim model As ProfileHMM = kvp.Value
-            Dim result As AnnotationResult = CompareSequence(protein.SequenceData, model)
+        Dim all As List(Of AnnotationResult) = GetModelSnapshot() _
+            .AsParallel() _
+            .Select(Function(model As ProfileHMM)
+                        Dim result As AnnotationResult = CompareSequence(seq, model)
 
-            If result IsNot Nothing Then
-                result.SeqId = protein.Headers(0)
-                result.IsSignificant = (result.EValue <= _eValueThreshold AndAlso
-                                         result.BitScore >= _bitScoreThreshold)
-                result.Confidence = CalculateConfidence(result.BitScore, result.EValue)
-                all.Add(result)
-            End If
-        Next
+                        If result IsNot Nothing Then
+                            result.SeqId = seqId
+                            result.IsSignificant = (result.EValue <= Me.EValueThreshold AndAlso
+                                                     result.BitScore >= Me.BitScoreThreshold)
+                            result.Confidence = CalculateConfidence(result.BitScore, result.EValue)
+                        End If
+
+                        Return result
+                    End Function) _
+            .Where(Function(r) r IsNot Nothing) _
+            .ToList()
 
         Return From result As AnnotationResult
                In all
@@ -323,28 +332,38 @@ Public Class ProteinAnnotator
     ''' </summary>
     ''' <param name="protein">蛋白质序列</param>
     ''' <returns>最佳注释结果</returns>
+    ''' <remarks>
+    ''' 模型循环基于PLINQ并行求值，最终归约出比特得分最高的注释结果。
+    ''' </remarks>
     Public Function AnnotateTop(protein As FastaSeq) As AnnotationResult
         If protein Is Nothing OrElse String.IsNullOrEmpty(protein.SequenceData) Then
             Return Nothing
         End If
 
-        Dim bestResult As AnnotationResult = Nothing
-        Dim bestScore As Double = Double.NegativeInfinity
+        Dim models As ProfileHMM() = GetModelSnapshot()
 
-        For Each kvp As KeyValuePair(Of String, ProfileHMM) In _models
-            Dim model As ProfileHMM = kvp.Value
-            Dim result As AnnotationResult = CompareSequence(protein.SequenceData, model)
+        If models.Length = 0 Then
+            Return Nothing
+        End If
 
-            If result IsNot Nothing AndAlso result.BitScore > bestScore Then
-                bestScore = result.BitScore
-                bestResult = result
-            End If
-        Next
+        Dim seq As String = protein.SequenceData
+        Dim bestResult As AnnotationResult = models _
+            .AsParallel() _
+            .Select(Function(model As ProfileHMM) CompareSequence(seq, model)) _
+            .Where(Function(r) r IsNot Nothing) _
+            .DefaultIfEmpty() _
+            .Aggregate(Function(best As AnnotationResult, current As AnnotationResult)
+                           If current.BitScore > best.BitScore Then
+                               best = current
+                           End If
+
+                           Return best
+                       End Function)
 
         ' 判断是否显著
         If bestResult IsNot Nothing Then
-            bestResult.IsSignificant = (bestResult.EValue <= _eValueThreshold AndAlso
-                                           bestResult.BitScore >= _bitScoreThreshold)
+            bestResult.IsSignificant = (bestResult.EValue <= Me.EValueThreshold AndAlso
+                                           bestResult.BitScore >= Me.BitScoreThreshold)
             bestResult.Confidence = CalculateConfidence(bestResult.BitScore, bestResult.EValue)
         End If
 
@@ -355,9 +374,19 @@ Public Class ProteinAnnotator
     ''' 对蛋白质序列列表进行批量注释
     ''' </summary>
     ''' <param name="proteins">蛋白质序列列表</param>
+    ''' <remarks>
+    ''' 蛋白质序列之间的注释计算相互独立，基于PLINQ按序列并行，
+    ''' 并以 AsOrdered 保持与输入序列一致的输出顺序。
+    ''' </remarks>
     Public Iterator Function AnnotateAll(proteins As IEnumerable(Of FastaSeq)) As IEnumerable(Of AnnotationResult)
-        For Each protein As FastaSeq In proteins
-            Yield AnnotateTop(protein)
+        If proteins Is Nothing Then
+            Return
+        End If
+
+        Dim buffer As FastaSeq() = proteins.ToArray
+
+        For Each result As AnnotationResult In buffer.AsParallel().AsOrdered().Select(Function(fa) AnnotateTop(fa))
+            Yield result
         Next
     End Function
 
