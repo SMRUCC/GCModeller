@@ -1,37 +1,9 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace DeltaSimilarity1998
-
-    ''' <summary>
-    ''' One point of the sliding window delta* profile: the delta-difference between 
-    ''' the genome signature of the local 50kb window and the global average 
-    ''' genome signature.
-    ''' </summary>
-    Public Class WindowDelta
-
-        ''' <summary>
-        ''' the 0-based start position of the window on the genome
-        ''' </summary>
-        <Column("Site")> Public Property Site As Integer
-
-        ''' <summary>
-        ''' ``delta*(window, genome)`` x 1000 (the paper reports values x1000)
-        ''' </summary>
-        <Column("DeltaStar")> Public Property DeltaStar As Double
-
-        ''' <summary>
-        ''' the similarity level of the window delta value
-        ''' </summary>
-        <Column("Level")> Public Property Level As DeltaStarLevels
-
-        Public Overrides Function ToString() As String
-            Return $"[{Site}] delta*={DeltaStar:F2} ({Level.Description})"
-        End Function
-    End Class
 
     ''' <summary>
     ''' SLIDING WINDOW GENOME SIGNATURE ANALYSIS - locating the alien DNA / 
@@ -127,10 +99,11 @@ Namespace DeltaSimilarity1998
         ''' <returns></returns>
         <ExportAPI("genome.delta_star_profile.vs")>
         <Extension>
-        Public Function DeltaStarProfile(genome As NucleicAcid,
-                                         reference As NucleicAcid,
-                                         Optional windowSize As Integer = 50000,
-                                         Optional stepSize As Integer = 5000) As WindowDelta()
+        Iterator Public Function DeltaStarProfile(genome As NucleicAcid,
+                                                  reference As NucleicAcid,
+                                                  Optional windowSize As Integer = 50000,
+                                                  Optional stepSize As Integer = 5000) As IEnumerable(Of WindowDelta)
+
             Dim globalSignature As Double() = reference.SignatureVector()
             Dim seq As DNA() = genome.nt
             Dim n As Integer = seq.Length
@@ -145,25 +118,24 @@ Namespace DeltaSimilarity1998
 
             Dim lastStart As Integer = n - windowSize
             Dim windowCounts As New WindowDimerCounts(seq, 0, windowSize)
-            Dim profile As New List(Of WindowDelta)
 
             ' the incremental window counters are strictly sequential: 
             ' each sample only costs O(stepSize) slide updates + O(16) distance
             For start As Integer = 0 To lastStart Step stepSize
-                Call windowCounts.Seek(start)
-                Dim d As Double = WindowDeltaValue(windowCounts, globalSignature, windowSize)
+                Dim d As Double = windowCounts _
+                    .Seek(start) _
+                    .WindowDeltaValue(globalSignature, windowSize)
 
-                profile.Add(New WindowDelta With {
+                Yield New WindowDelta With {
                     .Site = start,
                     .DeltaStar = d * 1000,
                     .Level = DeltaStarDistance.DeltaStarLevel(d)
-                })
+                }
             Next
-
-            Return profile.ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
         Friend Function WindowDeltaValue(window As WindowDimerCounts,
                                          globalSignature As Double(),
                                          windowSize As Integer) As Double
@@ -230,11 +202,13 @@ Namespace DeltaSimilarity1998
         ''' Slide the window until it starts at the given position.
         ''' </summary>
         ''' <param name="target"></param>
-        Public Sub Seek(target As Integer)
+        Public Function Seek(target As Integer) As WindowDimerCounts
             While position < target
                 Slide()
             End While
-        End Sub
+
+            Return Me
+        End Function
 
         ''' <summary>
         ''' Slide the window one base right (O(1) update).

@@ -81,13 +81,13 @@ Public Module RScanWordDistribution
         Dim result As Microsoft.VisualBasic.Math.Statistics.RScan.RScanResult =
             Microsoft.VisualBasic.Math.Statistics.RScan.RScanStatistics.Scan(
                 positions.Select(Function(p) CDbl(p)),
-                genome.Length,
+                genome.length,
                 options)
 
         Return New WordScanResult With {
             .Word = word,
             .Occurrences = positions.Length,
-            .GenomeLength = genome.Length,
+            .GenomeLength = genome.length,
             .Scan = result,
             .Pattern = InterpretScan(result)
         }

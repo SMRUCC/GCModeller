@@ -51,9 +51,9 @@
 
 #End Region
 
-Public Class SegmentRenderData : Inherits SiteSigma
+Public Class SegmentRenderData : Inherits WindowDelta
     ''' <summary>
-    ''' 当前位点<see cref="Site"></see>上面的Query的基因号
+    ''' 当前位点<see cref="site"></see>上面的Query的基因号
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>

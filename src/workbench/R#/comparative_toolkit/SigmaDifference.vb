@@ -109,7 +109,7 @@ Species Specificity",
       DOI:="10.1146/annurev.genet.32.1.185", ISSN:="0066-4197 (Print)
 0066-4197 (Linking)", Issue:="", Volume:=32, Year:=1998)>
 <RTypeExport("partitioning_data", GetType(PartitioningData))>
-<RTypeExport("site_sigma", GetType(SiteSigma))>
+<RTypeExport("site_delta", GetType(WindowDelta))>
 <RTypeExport("word_scan", GetType(WordScanResult))>
 <RTypeExport("window_delta", GetType(WindowDelta))>
 <RTypeExport("strand_skew", GetType(StrandSkew))>
@@ -129,7 +129,7 @@ Public Module SigmaDifference
     ''' <param name="cache">the pre-built sliding window caches of the query genome</param>
     ''' <param name="compare">the comparison genome sequence</param>
     ''' <returns>profile rows ordered by the site position</returns>
-    Private Function slidingWindowDeltaProfile(cache As Cache(), compare As FastaSeq) As SiteSigma()
+    Private Function slidingWindowDeltaProfile(cache As Cache(), compare As FastaSeq) As WindowDelta()
         Call "Creating compare cache..... ".debug
         Dim compareCache As New DeltaSimilarity1998.NucleicAcid(compare)
         Call "Compare cache creating job done!".debug
@@ -138,9 +138,9 @@ Public Module SigmaDifference
             .Select(Function(window)
                         Dim deltaStar As Double = DeltaStarDistance.DeltaStar(window.Cache, compareCache)
 
-                        Return New SiteSigma With {
-                            .Site = window.SlideWindow.Index,
-                            .DeltaStar = deltaStar,
+                        Return New WindowDelta With {
+                            .site = window.SlideWindow.Index,
+                            .deltaStar = deltaStar,
                             .Level = DeltaStarDistance.DeltaStarLevel(deltaStar)
                         }
                     End Function) _
@@ -158,20 +158,21 @@ Public Module SigmaDifference
     Private Function calculateBatchPairs(pairedList As Tuple(Of FastaSeq, FastaSeq)(),
                                          windowsSize As Integer,
                                          EXPORT As String) As KeyValuePair(Of String, String)()
-        Dim internalList As New List(Of KeyValuePair(Of String, String))
+
+        Dim tuples As New List(Of KeyValuePair(Of String, String))
 
         For Each paired As Tuple(Of FastaSeq, FastaSeq) In pairedList
-            Dim profile As SiteSigma() = GenomeDeltaStarProfile(paired.Item1, paired.Item2, windowsSize)
+            Dim profile As WindowDelta() = GenomeDeltaStarProfile(paired.Item1, paired.Item2, windowsSize)
             Dim queryId As String = paired.Item1.Title.Split(CChar("|")).First
             Dim subjectId As String = paired.Item2.Title.Split(CChar("|")).First
             Dim fileTag As New KeyValuePair(Of String, String)(queryId, subjectId)
 
             Call Console.WriteLine("[DEBUG] Calculation job done, trying to export data to filesystem " & EXPORT)
             Call profile.SaveTo($"{EXPORT}/{fileTag.Key}-{fileTag.Value}.csv", False)
-            Call internalList.Add(fileTag)
+            Call tuples.Add(fileTag)
         Next
 
-        Return internalList.ToArray
+        Return tuples.ToArray
     End Function
 
     ''' <summary>
@@ -258,8 +259,8 @@ Public Module SigmaDifference
         Dim fileName As String = $"{export}/Compiled/{dat.First.Key}.csv"
         Dim file As New IO.File
         ' keep the row order one-to-one: no parallelization here
-        Dim data As SiteSigma()() = dat _
-            .Select(Function(path) $"{export}/{path.Key}-{path.Value}.csv".LoadCsv(Of SiteSigma)(False).ToArray) _
+        Dim data As WindowDelta()() = dat _
+            .Select(Function(path) $"{export}/{path.Key}-{path.Value}.csv".LoadCsv(Of WindowDelta)(False).ToArray) _
             .ToArray
         Dim head As New IO.RowObject
 
@@ -278,9 +279,9 @@ Public Module SigmaDifference
 
             Call row.Add(i)
 
-            For Each profile As SiteSigma() In data
+            For Each profile As WindowDelta() In data
                 Call row.Add("")
-                Call row.Add(profile(i).DeltaStar)
+                Call row.Add(profile(i).deltaStar)
                 Call row.Add(profile(i).Level)
             Next
 
@@ -296,7 +297,7 @@ Public Module SigmaDifference
     ''' </summary>
     ''' <param name="source">the source directory of the delta query export directory</param>
     ''' <param name="partitions">the partition definitions of the query proteins</param>
-    ''' <param name="CDSInfo">the gene information on the <see cref="SiteSigma.Site"/> positions</param>
+    ''' <param name="CDSInfo">the gene information on the <see cref="WindowDelta.site"/> positions</param>
     ''' <returns>the report table (currently not implemented)</returns>
     ''' <remarks>
     ''' Expected output layout:
@@ -315,7 +316,7 @@ Public Module SigmaDifference
                               .Values _
                               .AsParallel
                           Select ID = path.Name,
-                              dat = path.Value.LoadCsv(Of SiteSigma)(False).ToArray).ToArray
+                              dat = path.Value.LoadCsv(Of WindowDelta)(False).ToArray).ToArray
 
         Throw New NotImplementedException
     End Function
@@ -323,11 +324,11 @@ Public Module SigmaDifference
     ''' <summary>
     ''' Load one sliding window ``delta*`` profile from its csv document.
     ''' </summary>
-    ''' <param name="path">the csv file path of one <see cref="SiteSigma"/> profile</param>
+    ''' <param name="path">the csv file path of one <see cref="WindowDelta"/> profile</param>
     ''' <returns>the profile rows ordered by the site position</returns>
     <ExportAPI("read.csv.site_delta")>
-    Public Function SiteDataLoad(path As String) As SiteSigma()
-        Return path.LoadCsv(Of SiteSigma)(False).ToArray
+    Public Function SiteDataLoad(path As String) As WindowDelta()
+        Return path.LoadCsv(Of WindowDelta)(False).ToArray
     End Function
 
     ''' <summary>
@@ -343,7 +344,7 @@ Public Module SigmaDifference
         Dim entry = gbExportService.LoadGbkSource(source)
         Dim profiles = (From item
                         In entry.Values.AsParallel
-                        Select New KeyValuePair(Of String, SiteSigma())(item.Name, item.Value.LoadCsv(Of SiteSigma)(False).ToArray)).ToArray
+                        Select New KeyValuePair(Of String, WindowDelta())(item.Name, item.Value.LoadCsv(Of WindowDelta)(False).ToArray)).ToArray
         Dim file As IO.File = compileSiteDeltaMatrix(profiles)
 
         Return file.Save(saveCsv, False)
@@ -421,10 +422,10 @@ Public Module SigmaDifference
     Private Function processSubject(subjectFasta As FastaSeq,
                                     queryFasta As FastaSeq,
                                     export As String,
-                                    windowCaches As Cache()) As KeyValuePair(Of String, SiteSigma())
+                                    windowCaches As Cache()) As KeyValuePair(Of String, WindowDelta())
         Call Console.WriteLine($"[DEBUG] Start the calculation threads ""{subjectFasta.Title}""... ")
 
-        Dim profile As SiteSigma() = slidingWindowDeltaProfile(windowCaches, subjectFasta)
+        Dim profile As WindowDelta() = slidingWindowDeltaProfile(windowCaches, subjectFasta)
         Dim queryId As String = queryFasta.Title.Split(CChar("|")).First.NormalizePathString
         Dim subjectId As String = subjectFasta.Title.Split(CChar("|")).First.NormalizePathString
         Dim path As String = $"{export}/{queryId}-{subjectId}.csv"
@@ -432,7 +433,7 @@ Public Module SigmaDifference
         Call Console.WriteLine("[DEBUG] Calculation job done, trying to export data to filesystem " & path)
         Call profile.SaveTo(path, False)
 
-        Return New KeyValuePair(Of String, SiteSigma())(subjectId, profile)
+        Return New KeyValuePair(Of String, WindowDelta())(subjectId, profile)
     End Function
 
     ''' <summary>
@@ -442,14 +443,14 @@ Public Module SigmaDifference
     ''' </summary>
     ''' <param name="profiles">the ``subject id -> profile`` pairs sharing the same query genome</param>
     ''' <returns>the merged matrix table</returns>
-    Private Function compileSiteDeltaMatrix(profiles As KeyValuePair(Of String, SiteSigma())()) As IO.File
+    Private Function compileSiteDeltaMatrix(profiles As KeyValuePair(Of String, WindowDelta())()) As IO.File
         Dim file As New IO.File
         Dim head As New IO.RowObject     ' keep the one-to-one row order: no parallelization here
 
         Call Console.WriteLine("Compiling data....")
         Call head.Add("Site")
 
-        For Each entry As KeyValuePair(Of String, SiteSigma()) In profiles
+        For Each entry As KeyValuePair(Of String, WindowDelta()) In profiles
             Call head.Add("")
             Call head.Add("DeltaStar")
             Call head.Add($"{entry.Key}->Level")
@@ -462,11 +463,11 @@ Public Module SigmaDifference
 
             Call row.Add(i)
 
-            For Each entry As KeyValuePair(Of String, SiteSigma()) In profiles
-                Dim line As SiteSigma = entry.Value(i)
+            For Each entry As KeyValuePair(Of String, WindowDelta()) In profiles
+                Dim line As WindowDelta = entry.Value(i)
 
                 Call row.Add("")
-                Call row.Add(line.DeltaStar)
+                Call row.Add(line.deltaStar)
                 Call row.Add(line.Level)
             Next
 
@@ -489,16 +490,15 @@ Public Module SigmaDifference
     ''' <param name="windowsSize">the sliding window size in bp, default 1kb</param>
     ''' <returns>profile rows ordered by the site position</returns>
     <ExportAPI("genome.delta_star_profile")>
-    Public Function GenomeDeltaStarProfile(genome As FastaSeq, compare As FastaSeq, Optional windowsSize As Integer = 1000) As SiteSigma()
+    Public Function GenomeDeltaStarProfile(genome As FastaSeq, compare As FastaSeq, Optional windowsSize As Integer = 1000) As WindowDelta()
         Call Console.WriteLine("Start the sliding window delta* profile calculation...")
 
         Dim reference As New DeltaSimilarity1998.NucleicAcid(compare)
-        Dim profile As WindowDelta() = New DeltaSimilarity1998.NucleicAcid(genome) _
-            .DeltaStarProfile(reference, windowSize:=windowsSize, stepSize:=1)
-        Dim rows As SiteSigma() = profile _
+        Dim profile As WindowDelta() = New DeltaSimilarity1998.NucleicAcid(genome).DeltaStarProfile(reference, windowSize:=windowsSize, stepSize:=1)
+        Dim rows As WindowDelta() = profile _
             .Select(Function(window)
-                        Return New SiteSigma With {
-                            .Site = window.Site,
+                        Return New WindowDelta With {
+                            .site = window.Site,
                             .DeltaStar = window.DeltaStar,
                             .Level = window.Level
                         }
@@ -572,10 +572,10 @@ Public Module SigmaDifference
 
         Call $"[INFO] query for the delta* difference calculation in length of {querySource.SequenceData.Length / 1000}KB...".debug
 
-        Dim emptyProfile As SiteSigma() = New SiteSigma() {}
+        Dim emptyProfile As WindowDelta() = New WindowDelta() {}
         Dim results = (From subjectData As KeyValuePair(Of String, PartitioningData) In subject
                        Let subjectFasta As FastaSeq = subjectData.Value.ToFasta
-                       Let procResult As KeyValuePair(Of String, SiteSigma()) =
+                       Let procResult As KeyValuePair(Of String, WindowDelta()) =
                            processPartitionSubject(subjectData, subjectFasta, emptyProfile, windowCaches, querySource, EXPORT)
                        Where Not procResult.Value.IsNullOrEmpty
                        Select procResult).ToArray
@@ -600,13 +600,13 @@ Public Module SigmaDifference
     ''' <returns>the subject genome id and its ``delta*`` profile</returns>
     Private Function processPartitionSubject(subjectData As KeyValuePair(Of String, PartitioningData),
                                              subjectFasta As FastaSeq,
-                                             emptyProfile As SiteSigma(),
+                                             emptyProfile As WindowDelta(),
                                              windowCaches As Cache(),
                                              querySource As PartitioningData,
-                                             EXPORT As String) As KeyValuePair(Of String, SiteSigma())
+                                             EXPORT As String) As KeyValuePair(Of String, WindowDelta())
         Call $"Start the calculation threads ""{subjectData.Key}""... ".debug
 
-        Dim profile As SiteSigma() = If(String.IsNullOrEmpty(subjectFasta.SequenceData) OrElse subjectFasta.SequenceData.Length = 1,
+        Dim profile As WindowDelta() = If(String.IsNullOrEmpty(subjectFasta.SequenceData) OrElse subjectFasta.SequenceData.Length = 1,
             emptyProfile,
             slidingWindowDeltaProfile(windowCaches, subjectFasta))
         Dim queryId As String = querySource.Title.Split(CChar("|")).First.NormalizePathString
@@ -616,7 +616,7 @@ Public Module SigmaDifference
         Call $"Calculation job done, trying to export data to filesystem {path}".debug
         Call profile.SaveTo(path, False)
 
-        Return New KeyValuePair(Of String, SiteSigma())(subjectId, profile)
+        Return New KeyValuePair(Of String, WindowDelta())(subjectId, profile)
     End Function
 
     ''' <summary>
@@ -630,7 +630,7 @@ Public Module SigmaDifference
     ''' <param name="saveto">the merged csv output file path</param>
     ''' <param name="Samples">the row sampling step (1 = keep every row)</param>
     ''' <returns>true when the merged csv document has been saved</returns>
-    Private Function mergeDeltaRendering(LoadData As KeyValuePair(Of String, SiteSigma())(),
+    Private Function mergeDeltaRendering(LoadData As KeyValuePair(Of String, WindowDelta())(),
                                          Query As IEnumerable(Of IGeneBrief),
                                          render_source As String,
                                          saveto As String,
@@ -639,13 +639,13 @@ Public Module SigmaDifference
             Samples = 1
         End If
 
-        LoadData = (From item In LoadData Select New KeyValuePair(Of String, SiteSigma())(item.Key, value:=item.Value.sampleEveryNth(Samples))).ToArray
+        LoadData = (From item In LoadData Select New KeyValuePair(Of String, WindowDelta())(item.Key, value:=item.Value.sampleEveryNth(Samples))).ToArray
 
         Dim sitesData = (From site In LoadData.First.Value.AsParallel
                          Let lstName As String() = (From item As IGeneBrief
-                                                    In Query.GetObjects(site.Site, direction:=Strands.Unknown)
+                                                    In Query.GetObjects(site.site, direction:=Strands.Unknown)
                                                     Select item.Key).ToArray
-                         Select New KeyValuePair(Of Integer, String())(site.Site, lstName)).ToArray
+                         Select New KeyValuePair(Of Integer, String())(site.site, lstName)).ToArray
         ' load the two-way BLAST best hit rendering data of the genome pairs
         Dim renderData As SpeciesBesthit = render_source.LoadXml(Of SpeciesBesthit)()
 
@@ -654,7 +654,7 @@ Public Module SigmaDifference
         Dim csvData As New IO.File
         Dim head As New IO.RowObject From {"Site", "QUERY_ID"}
 
-        For Each item As KeyValuePair(Of String, SiteSigma()) In LoadData
+        For Each item As KeyValuePair(Of String, WindowDelta()) In LoadData
             Call head.Add("")
             Call head.Add(item.Key)
             Call head.Add("Level")
@@ -668,12 +668,12 @@ Public Module SigmaDifference
 
             Call row.Add(String.Join("; ", sitesData(i).Value))
 
-            For Each item As KeyValuePair(Of String, SiteSigma()) In LoadData
-                Dim site As SiteSigma = item.Value(i)
+            For Each item As KeyValuePair(Of String, WindowDelta()) In LoadData
+                Dim site As WindowDelta = item.Value(i)
                 Dim cols = (From id As String In sitesData(i).Value Select renderData(QueryName:=id, HitSpecies:=item.Key)).ToArray
 
                 Call row.Add("")
-                Call row.Add(site.DeltaStar)
+                Call row.Add(site.deltaStar)
                 Call row.Add(site.Level.ToString)
                 Call row.Add(String.Join("; ", cols))
             Next
@@ -698,8 +698,8 @@ Public Module SigmaDifference
     Public Function MergeDelta(source As String, query As IEnumerable(Of IGeneBrief), render_source As String, saveto As String, Optional samples As Integer = 1) As Boolean
         Dim loadData = (From path As String
                         In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").AsParallel
-                        Select New KeyValuePair(Of String, SiteSigma())(BaseName(path).Split(CChar("_")).Last,
-                             value:=path.LoadCsv(Of SiteSigma)(False).ToArray)).ToArray
+                        Select New KeyValuePair(Of String, WindowDelta())(BaseName(path).Split(CChar("_")).Last,
+                             value:=path.LoadCsv(Of WindowDelta)(False).ToArray)).ToArray
 
         Return mergeDeltaRendering(loadData, query, render_source, saveto, samples)
     End Function
@@ -715,16 +715,16 @@ Public Module SigmaDifference
     ''' <param name="querySites">the query gene ids on every window site</param>
     ''' <returns>the rendering data rows</returns>
     Private Function colorRender(UID As String,
-                                 delta As SiteSigma(),
+                                 delta As WindowDelta(),
                                  PTT As PTT,
                                  render As SpeciesBesthit,
                                  querySites As KeyValuePair(Of Integer, String())()) As SegmentRenderData()
         Dim renderData = (From site In delta
-                          Let querySite = querySites(site.Site)
+                          Let querySite = querySites(site.site)
                           Select New SegmentRenderData With {
-                              .Site = site.Site,
-                              .Level = site.Level,
-                              .DeltaStar = site.DeltaStar,
+                              .site = site.site,
+                              .level = site.Level,
+                              .deltaStar = site.deltaStar,
                               .QueryId = querySite.Value,
                               .SubjectId = (From id As String In querySite.Value Select render(QueryName:=id, HitSpecies:=UID))}).ToArray
 

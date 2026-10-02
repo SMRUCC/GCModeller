@@ -41,9 +41,9 @@ Public Class IdentityResult : Implements INamedValue
         Dim getTag As Func(Of NucleicAcid, String)
 
         If simple Then
-            getTag = Function(x) x.UserTag.Split.First
+            getTag = Function(x) x.tag.Split.First
         Else
-            getTag = Function(x) x.UserTag
+            getTag = Function(x) x.tag
         End If
 
         Dim getValue As Func(Of Double, Double)
@@ -75,11 +75,11 @@ Public Class IdentityResult : Implements INamedValue
                 .Value = 0R
             }
 
-            Call nt.UserTag.debug
+            Call nt.tag.debug
 
             results.Add(New IdentityResult With {
                 .Identities = result.ToDictionary(Function(x) x.Name, Function(x) x.Value),
-                .SeqId = nt.UserTag
+                .SeqId = nt.tag
             })
         Next
 
@@ -100,9 +100,9 @@ Public Class IdentityResult : Implements INamedValue
         Dim getTag As Func(Of NucleicAcid, String)
 
         If simple Then
-            getTag = Function(x) x.UserTag.Split.First
+            getTag = Function(x) x.tag.Split.First
         Else
-            getTag = Function(x) x.UserTag
+            getTag = Function(x) x.tag
         End If
 
         Dim getValue As Func(Of Double, Double)
@@ -128,13 +128,13 @@ Public Class IdentityResult : Implements INamedValue
                   .Value = getValue(deltaStar * 1000)
               }
 
-            Call rule.UserTag.debug
+            Call rule.tag.debug
 
             results.Add(New IdentityResult With {
                 .Identities = result _
                     .ToDictionary(Function(x) x.Name,
                                   Function(x) x.Value),
-                .SeqId = rule.UserTag
+                .SeqId = rule.tag
             })
         Next
 

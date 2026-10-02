@@ -124,7 +124,7 @@ Public Class WGCNAConfig
     Public Property pamStage As Boolean = True
 
     ''' <summary>
-    ''' 静态剪切的树总距离百分比阈值（仅在 <see cref="TreeCutMethod.Static"/> 下生效）
+    ''' 静态剪切的树总距离百分比阈值（仅在 <see cref="TreeCutMethod.StaticCut"/> 下生效）
     ''' </summary>
     ''' <returns>默认 0.6</returns>
     Public Property distCut As Double = 0.6

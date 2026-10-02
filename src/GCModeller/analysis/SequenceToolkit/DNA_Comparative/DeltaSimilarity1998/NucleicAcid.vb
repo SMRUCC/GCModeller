@@ -45,12 +45,12 @@ Namespace DeltaSimilarity1998
         ''' <summary>
         ''' The fasta header title of the sequence (or user assigned tag).
         ''' </summary>
-        Public ReadOnly Property UserTag As String
+        Public ReadOnly Property tag As String
 
         ''' <summary>
         ''' the size of current nt sequence.
         ''' </summary>
-        Public ReadOnly Property Length As Integer
+        Public ReadOnly Property length As Integer
             Get
                 Return nt.Length
             End Get
@@ -70,15 +70,15 @@ Namespace DeltaSimilarity1998
         Sub New(nt As DNA())
             Me.nt = nt
             Me.validBaseCount = CountPass(Me)
-            Me.UserTag = ""
+            Me.tag = ""
         End Sub
 
         ''' <summary>
-        ''' Fasta序列会自动使用<see cref="FastaSeq.Title"/>来作为序列的<see cref="UserTag"/>
+        ''' Fasta序列会自动使用<see cref="FastaSeq.Title"/>来作为序列的<see cref="tag"/>
         ''' </summary>
         Sub New(nt As FastaSeq)
             Call Me.New(New NucleotideModels.NucleicAcid(nt, strict:=False).ToArray)
-            Me.UserTag = nt.Title
+            Me.tag = nt.Title
         End Sub
 
         Sub New(nt As String)
@@ -87,7 +87,7 @@ Namespace DeltaSimilarity1998
 
         Sub New(nt As NucleotideModels.NucleicAcid)
             Call Me.New(nt.ToArray)
-            Me.UserTag = nt.UserTag
+            Me.tag = nt.tag
         End Sub
 
         Sub New(nt As IEnumerable(Of DNA))
@@ -383,7 +383,7 @@ Namespace DeltaSimilarity1998
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{UserTag} [{Length} nt, {validBaseCount} valid bases]"
+            Return $"{tag} [{length} nt, {validBaseCount} valid bases]"
         End Function
     End Class
 End Namespace

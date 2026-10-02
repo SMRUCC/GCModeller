@@ -190,18 +190,18 @@ Public Module ToolsAPI
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("genome.delta_star_profile")>
-    Public Function GenomeDeltaStarProfile(genome As FastaSeq, compare As FastaSeq, Optional windowsSize As Integer = 1000) As SiteSigma()
+    Public Function GenomeDeltaStarProfile(genome As FastaSeq, compare As FastaSeq, Optional windowsSize As Integer = 1000) As WindowDelta()
         Call Console.WriteLine("Start the sliding window delta* profile calculation...")
 
         Dim reference As New DeltaSimilarity1998.NucleicAcid(compare)
         Dim profile As WindowDelta() = New DeltaSimilarity1998.NucleicAcid(genome) _
             .DeltaStarProfile(reference, windowSize:=windowsSize, stepSize:=1)
-        Dim rows As SiteSigma() = profile _
+        Dim rows As WindowDelta() = profile _
             .Select(Function(w)
-                        Return New SiteSigma With {
-                            .Site = w.Site,
-                            .DeltaStar = w.DeltaStar,
-                            .Level = w.Level
+                        Return New WindowDelta With {
+                            .site = w.Site,
+                            .deltaStar = w.DeltaStar,
+                            .level = w.Level
                         }
                     End Function) _
             .ToArray
