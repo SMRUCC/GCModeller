@@ -120,9 +120,9 @@ Public Class ProfileHMM
     Public Property CompositionTransitions As Double()
 
     ' 模型参数（对数几率比，单位：bits）
-    Public Property MatchEmissions As New List(Of Double())
-    Public Property InsertEmissions As New List(Of Double())
-    Public Property Transitions As New List(Of Double())
+    Public Property MatchEmissions As Double()()
+    Public Property InsertEmissions As Double()()
+    Public Property Transitions As Double()()
 
     ' 转换后的HMM参数（概率形式）
     Public Property HMMStates As StatesObject()
