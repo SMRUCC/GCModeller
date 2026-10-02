@@ -23,3 +23,7 @@ database file is:
                
                + reactions/
                + compounds/
+
+## download Pfam-A dataset
+
+> http://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/
