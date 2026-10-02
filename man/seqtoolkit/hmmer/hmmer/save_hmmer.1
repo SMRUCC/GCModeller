@@ -1,0 +1,40 @@
+.\" man page create by R# package system.
+.TH HMMER 1 2000-1月 "save_hmmer" "save_hmmer"
+.SH NAME
+save_hmmer \- save the hmmer profile HMM model collection as a model package
+.SH SYNOPSIS
+\fIsave_hmmer(\fBhmmer\fR as <generic> ProteinAnnotator, 
+\fBfile\fR as string, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+save the hmmer profile HMM model collection as a model package 
+ archive file(\fB*.zip\fR)
+.PP
+.SH OPTIONS
+.PP
+\fBhmmer\fB \fR\- 
+ a [ProteinAnnotator](cref:T:SMRUCC.genomics.Analysis.SequenceTools.HMMER.ProteinAnnotator) object that contains the loaded HMMER3 
+ profile models.
+. 
+.PP
+.PP
+\fBfile\fB \fR\- 
+ the file path of the target model package archive file(\fB*.zip\fR) for 
+ save the model data. model data will be saved in binary format inside 
+ the zip archive for get the maximum of the io performance.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the file path of the created model package archive file.
+.PP
+.SH SEE ALSO
+hmmer
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP

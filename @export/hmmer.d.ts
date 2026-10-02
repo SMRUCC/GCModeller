@@ -50,6 +50,9 @@ declare namespace hmmer {
      *  directory path that contains a set of the HMMER3 profile model files, 
      *  then all of the profile model files inside the given directory will be 
      *  loaded.
+     *  
+     *  this parameter also can be a file path of the hmmer model package 
+     *  archive file(``*.zip``) which is created by the ``save_hmmer`` api.
      * @return a [ProteinAnnotator](cref:T:SMRUCC.genomics.Analysis.SequenceTools.HMMER.ProteinAnnotator) object that contains the loaded HMMER3 
      *  profile models, which can be used for run the protein function 
      *  annotation via the ``hmmer_search`` api;
@@ -95,4 +98,20 @@ declare namespace hmmer {
      *  not be opened for read.
    */
    function parse_kofamscan(file: any, env?: object): object;
+   /**
+    * save the hmmer profile HMM model collection as a model package 
+    *  archive file(``*.zip``)
+    * 
+    * 
+     * @param hmmer a [ProteinAnnotator](cref:T:SMRUCC.genomics.Analysis.SequenceTools.HMMER.ProteinAnnotator) object that contains the loaded HMMER3 
+     *  profile models.
+     * @param file the file path of the target model package archive file(``*.zip``) for 
+     *  save the model data. model data will be saved in binary format inside 
+     *  the zip archive for get the maximum of the io performance.
+     * @param env the R# runtime environment object.
+     * 
+     * + default value Is ``null``.
+     * @return the file path of the created model package archive file.
+   */
+   function save_hmmer(hmmer: object, file: string, env?: object): any;
 }

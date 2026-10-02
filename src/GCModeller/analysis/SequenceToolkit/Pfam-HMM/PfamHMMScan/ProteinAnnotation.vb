@@ -299,6 +299,8 @@ Public Class ProteinAnnotator
     Public Function Annotate(protein As FastaSeq) As IEnumerable(Of AnnotationResult)
         If protein Is Nothing OrElse String.IsNullOrEmpty(protein.SequenceData) Then
             Return Nothing
+        Else
+            Call protein.Title.debug
         End If
 
         Dim seq As String = protein.SequenceData
