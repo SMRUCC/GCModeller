@@ -10,7 +10,7 @@ imports "bioseq.fasta" from "seqtoolkit";
 let src     = ?"--genbank" || stop("no genbank source was provided!");
 let result  = ?"--out"     || file.path(src, "result");
 let takes_n = ?"--takes"   || 10000;
-let gbff    = load_genbanks( list.files(src,"*.gbff" ), extract_genomics = TRUE);
+let gbff    = load_genbanks( list.files(src,"*.gbff",recursive=TRUE ), extract_genomics = TRUE);
 let table   = c();
 let targets = open.fasta(file.path(result,"proteins.faa"), read=  FALSE);
 
