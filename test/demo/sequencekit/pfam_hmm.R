@@ -15,7 +15,7 @@ write.csv(result, file = "Z:\aa.csv");
 # run the protein annotation again for result consistency checking.
 # ----------------------------------------------------------------
 
-let package = "Z:\pfam_model_package.zip";
+let package = "Z:/pfam_model_package.zip";
 let saved   = hmmer::save_hmmer(model, package);
 
 print(`hmmer model package saved at: ${saved}`);
@@ -23,6 +23,6 @@ print(`hmmer model package saved at: ${saved}`);
 let model2  = hmmer::load_hmmer(package);
 let result2 = hmmer::hmmer_search(model2, seqs);
 
-write.csv(result2, file = "Z:\aa_reload.csv");
+write.csv(result2, file = "Z:/aa_reload.csv");
 
 print("reload search test done.");
