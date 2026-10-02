@@ -1,63 +1,25 @@
-﻿#Region "Microsoft.VisualBasic::81ae166706be7cde2bd2f8c8263d5baf, analysis\Metagenome\MetaFunction\test\metaTraitsTest.vb"
-
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
-
-
-' Code Statistics:
-
-'   Total Lines: 14
-'    Code Lines: 10 (71.43%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 4 (28.57%)
-'     File Size: 531 B
-
-
-' Module metaTraitsTest
-' 
-'     Sub: readFiles
-' 
-' /********************************************************************************/
-
-#End Region
-
+﻿Imports System.Diagnostics
+Imports System.IO
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Models
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Modules
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 
 Module metaTraitsTest
+
+    ''' <summary>表型定义表</summary>
+    Const TRAIT_TABLE As String = "G:/GCModeller/src/GCModeller/analysis/Metagenome/MetaFunction/metaTraits/phenotype_traits_and_types.csv"
+    ''' <summary>训练用的表型标注数据（GTDB + NCBI）</summary>
+    Const GTDB_TRAITS As String = "C:\Users\Administrator\Downloads\gtdb_species_summary_filtered.tsv"
+    Const NCBI_TRAITS As String = "C:\Users\Administrator\Downloads\ncbi_species_summary_filtered.tsv"
+    ''' <summary>各微生物基因组所预测的蛋白质组 Pfam 结构域组成</summary>
+    Const PFAM_DIR As String = "C:\Users\Administrator\Downloads\pfam"
+    ''' <summary>训练得到的表型模型仓库的输出目录</summary>
+    Const MODEL_DIR As String = "C:\Users\Administrator\Downloads\traitar_svm"
 
     Sub Main()
         Call trainingTest()
@@ -73,15 +35,126 @@ Module metaTraitsTest
         Pause()
     End Sub
 
-    Sub trainingTest()
-        Dim trainingSet = TraitAnnotation.ParseTable("C:\Users\Administrator\Downloads\gtdb_species_summary_filtered.tsv").JoinIterates(TraitAnnotation.ParseTable("C:\Users\Administrator\Downloads\ncbi_species_summary_filtered.tsv")).ToArray
-        Dim pfams As Dictionary(Of String, PfamString()) = "C:\Users\Administrator\Downloads\pfam".ListDirectory.ToDictionary(Function(d) d.BaseName, Function(d) $"{d}/Pfam.csv".LoadCsv(Of PfamString)(mute:=True).ToArray)
-
-
+    ''' <summary>
+    ''' 在非交互式的控制台环境之下 Pause() 会抛出异常，这里做一层保护
+    ''' </summary>
+    Private Sub Wait()
+        Try
+            Call Pause()
+        Catch ex As Exception
+        End Try
     End Sub
 
-    Sub predicttest()
+    ''' <summary>
+    ''' 读取各微生物基因组蛋白质组的 Pfam 结构域组成
+    ''' </summary>
+    Private Function LoadPfamSets() As Dictionary(Of String, PfamString())
+        Return PFAM_DIR _
+            .ListDirectory _
+            .ToDictionary(Function(d) d.BaseName,
+                          Function(d)
+                              Return $"{d}/Pfam.csv".LoadCsv(Of PfamString)(mute:=True).ToArray
+                          End Function)
+    End Function
 
+    ''' <summary>
+    ''' 表型 SVM 模型训练：
+    ''' Pfam 结构域命中计数 -> per-genome 归一化嵌入 -> 逐表型训练 LibSVM 模型
+    ''' </summary>
+    Sub trainingTest()
+        Dim clock As New Stopwatch
+        Dim traits As PhenotypeTrait() = PhenotypeTraits.LoadTable(TRAIT_TABLE)
+        Dim trainingSet As TraitAnnotation() = TraitAnnotation _
+            .ParseTable(GTDB_TRAITS) _
+            .JoinIterates(TraitAnnotation.ParseTable(NCBI_TRAITS)) _
+            .ToArray
+        Dim pfams As Dictionary(Of String, PfamString()) = LoadPfamSets()
+
+        Console.WriteLine($"load {traits.Length} phenotype traits, {trainingSet.Length} annotations, {pfams.Count} genomes")
+        Console.WriteLine("build pfam vocabulary...")
+
+        ' 以该基因组内的最大出现次数做归一化，捕捉结构域的重复（拷贝数）信息
+        Dim embedding As PfamEmbedding = TraitProblemBuilder _
+            .CreateEmbedding(pfams, minGenomes:=1, encoding:=PfamEncoding.NormalizedCount)
+
+        Console.WriteLine($"  {embedding}")
+
+        Dim dataset As TraitTrainingSet = TraitProblemBuilder.Build(trainingSet, pfams, traits, embedding)
+
+        Console.WriteLine($"  {dataset}")
+        Console.WriteLine("training svm models...")
+
+        Dim trainer As New PhenotypeSVMTrainer With {
+            .verbose = True,
+            .nrfold = 5
+        }
+
+        Call clock.Start()
+
+        Dim models As Dictionary(Of String, PhenotypeModel) = trainer.TrainAll(dataset)
+        Dim loader As ModelLoader = ModelLoader.SaveDirectory(models, embedding, MODEL_DIR, dataset.SampleCount())
+
+        Call clock.Stop()
+
+        Dim trained As Integer = loader.TrainedCount
+        Dim skipped As Integer = loader.PhenotypeCount - trained
+
+        Console.WriteLine($"training finish in {clock.Elapsed.TotalSeconds.ToString("F1")}s: {trained} trained, {skipped} skipped")
+        Console.WriteLine($"model repository: {MODEL_DIR}")
+
+        Call Wait()
+    End Sub
+
+    ''' <summary>
+    ''' 表型预测测试：加载模型仓库，对样本基因组做全表型预测并输出报告
+    ''' </summary>
+    Sub predicttest()
+        Dim genome As String = "Carnobacterium_divergens"
+        Dim loader As ModelLoader = ModelLoader.LoadDirectory(MODEL_DIR)
+        Dim predictor As New PhenotypePredictor(loader)
+
+        Console.WriteLine($"loaded {loader}")
+
+        Dim proteins As PfamString() = $"{PFAM_DIR}/{genome}/Pfam.csv".LoadCsv(Of PfamString)(mute:=True).ToArray
+        Dim profile As Dictionary(Of String, Double) = loader.Embedding.EmbedProteins(proteins)
+        Dim predictions As TraitPrediction() = predictor.PredictSorted(profile)
+        Dim reports As ReportJSON() = predictions _
+            .ResultTable(loader) _
+            .ToArray
+        Dim file As String = Path.Combine(MODEL_DIR, $"{genome}.phenotypes.json")
+
+        Call System.IO.File.WriteAllText(file, reports.GetJson)
+
+        Console.WriteLine($"predict {reports.Length} phenotypes of {genome}")
+        Console.WriteLine($"report saved to: {file}")
+        Console.WriteLine()
+
+        ' 输出置信度最高的若干个布尔型表型预测
+        Dim booleans As TraitPrediction() = predictions _
+            .Where(Function(p) p IsNot Nothing AndAlso
+                       p.data_type IsNot Nothing AndAlso
+                       p.data_type.Equals("boolean", StringComparison.OrdinalIgnoreCase) AndAlso
+                       p.status = "trained") _
+            .Take(20) _
+            .ToArray
+
+        Console.WriteLine("[top boolean traits]")
+
+        For Each pred As TraitPrediction In booleans
+            Console.WriteLine($"  {pred.trait_name,-45} = {pred.predict,-6} (confidence {pred.confidence.ToString("F4")})")
+        Next
+
+        ' 输出数值型（回归）表型的预测结果
+        Dim numerics As TraitPrediction() = predictions _
+            .Where(Function(p) p IsNot Nothing AndAlso p.IsRegression() AndAlso p.status = "trained") _
+            .ToArray
+
+        Console.WriteLine($"[numeric traits: {numerics.Length}]")
+
+        For Each pred As TraitPrediction In numerics
+            Console.WriteLine($"  {pred.trait_name,-45} = {pred.predict}{pred.unit}")
+        Next
+
+        Call Wait()
     End Sub
 End Module
-
