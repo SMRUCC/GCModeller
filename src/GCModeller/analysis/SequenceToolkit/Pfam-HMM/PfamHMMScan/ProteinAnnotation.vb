@@ -65,7 +65,6 @@
 ' ============================================================================
 
 Imports System.IO
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>

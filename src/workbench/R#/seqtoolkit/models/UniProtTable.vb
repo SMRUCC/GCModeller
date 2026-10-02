@@ -89,6 +89,23 @@ Module UniProtTable
         Next
     End Function
 
+    ''' <summary>
+    ''' export the uniprot protein entry data collection as a protein 
+    ''' annotation table data frame
+    ''' </summary>
+    ''' <param name="prot">
+    ''' a collection of the uniprot protein <see cref="entry"/> data for 
+    ''' export as the annotation table.
+    ''' </param>
+    ''' <returns>
+    ''' a data frame object of the uniprot protein annotation data: each row 
+    ''' is one protein(the row name is the uniprot accession id), and the 
+    ''' columns are the protein annotation details, example as ``name``, 
+    ''' ``orf``, ``geneName``, ``fullName``, ``EC_number``, ``GeneID``, 
+    ''' ``GO``, the database cross reference id columns(``EMBL``, ``Ensembl``, 
+    ''' ``RefSeq``, ``KEGG``, etc.), the domain profile columns(``motif``, 
+    ''' ``Pfam``, ``InterPro``, ``SUPFAM``) and the feature annotation columns.
+    ''' </returns>
     <Extension>
     Public Function ProteinTable(prot As IEnumerable(Of entry)) As dataframe
         Dim all As entry() = prot.ToArray

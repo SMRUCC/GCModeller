@@ -192,9 +192,18 @@ Module hmmer
     ''' <summary>
     ''' Parse the kofamscan table output
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the input source: a file path of the kofamscan annotation table output 
+    ''' file, or a file stream object of the target table file.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="KOFamScan"/> KEGG orthology 
+    ''' annotation result record object;
+    ''' 
+    ''' this function returns a R# error message object if the given file can 
+    ''' not be opened for read.
+    ''' </returns>
     <ExportAPI("parse_kofamscan")>
     <RApiReturn(GetType(KOFamScan))>
     Public Function parse_kofamscan(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object

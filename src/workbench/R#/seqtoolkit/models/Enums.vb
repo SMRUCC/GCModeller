@@ -66,8 +66,18 @@
 Imports System.ComponentModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 
+''' <summary>
+''' The annotation data stream table type of the R# package module 
+''' ``annotation.workflow``
+''' </summary>
 Public Enum TableTypes
+    ''' <summary>
+    ''' the single side best hit table(<see cref="BestHit"/>)
+    ''' </summary>
     SBH
+    ''' <summary>
+    ''' the bi-directional best hit table(<see cref="BiDirectionalBesthit"/>)
+    ''' </summary>
     BBH
     ''' <summary>
     ''' blastn mapping of the short reads
@@ -79,10 +89,25 @@ Public Enum TableTypes
     Terms
 End Enum
 
+''' <summary>
+''' The bi-directional best hit(BBH) match algorithm types
+''' </summary>
 Public Enum BBHAlgorithm
+    ''' <summary>
+    ''' the naive BBH match algorithm
+    ''' </summary>
     Naive
+    ''' <summary>
+    ''' the BHR(bi-directional best hit rate) match algorithm
+    ''' </summary>
     BHR
+    ''' <summary>
+    ''' the hybrid BHR match algorithm
+    ''' </summary>
     <Description("Hybrid-BHR")>
     HybridBHR
+    ''' <summary>
+    ''' the taxonomy supports based match algorithm
+    ''' </summary>
     TaxonomySupports
 End Enum
