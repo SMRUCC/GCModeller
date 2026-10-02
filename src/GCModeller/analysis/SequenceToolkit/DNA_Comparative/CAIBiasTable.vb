@@ -6,6 +6,10 @@ Public Class CAIBiasTable
     Public Property CAI As Double
     Public Property BiasTable As Dictionary(Of String, Double)
 
+    Public Overrides Function ToString() As String
+        Return $"{SpeciesID}: CAI = {CAI}"
+    End Function
+
     ''' <summary>
     ''' Build the codon usage csv table: one row per species (mean CAI of its genes
     ''' plus one column per codon weight).
@@ -13,26 +17,20 @@ Public Class CAIBiasTable
     ''' <param name="data">the compiled codon weight tables of the species</param>
     ''' <returns>the csv document</returns>
     Public Shared Iterator Function compileCaiTable(data As IEnumerable(Of (ID As String, MeanCAI As Double, Table As CodonAdaptationIndex))) As IEnumerable(Of CAIBiasTable)
-        Dim csv As New IO.File
-        Dim head As New IO.RowObject From {"SpeciesID", "CAI"}
+        For Each row As (ID As String, MeanCAI As Double, Table As CodonAdaptationIndex) In data
+            Dim biasData As Dictionary(Of String, Double) = row.Table _
+                .GetCodonBiasList _
+                .ToDictionary(Function(a) CStr(a.Key),
+                              Function(a)
+                                  Return a.Value.Bias
+                              End Function)
+            Dim spec As New CAIBiasTable With {
+                .SpeciesID = row.ID,
+                .CAI = row.MeanCAI,
+                .BiasTable = biasData
+            }
 
-        Call csv.Add(head)
-
-        For Each bias In data.First.Table.GetCodonBiasList
-            Call head.Add(bias.Value.CodonString)
+            Yield spec
         Next
-
-        For Each item In data
-            Dim row As New IO.RowObject From {item.ID, item.MeanCAI}
-            Dim biasData = item.Table.GetCodonBiasList
-
-            For i As Integer = 0 To biasData.Length - 1
-                Call row.Add(biasData(i).Value.Bias)
-            Next
-
-            Call csv.Add(row)
-        Next
-
-        Return csv
     End Function
 End Class
