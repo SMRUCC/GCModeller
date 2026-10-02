@@ -148,7 +148,7 @@ Module hmmer
             Call hmmer.LoadModelsFromDirectory(list(0))
         Else
             For Each file As String In list
-                Call hmmer.LoadModel(file)
+                Call hmmer.ParseTextModel(file)
             Next
         End If
 

@@ -113,7 +113,7 @@ Public Class ProteinAnnotator
     ''' 加载单个HMMER3模型文件
     ''' </summary>
     ''' <param name="filePath">模型文件路径</param>
-    Public Sub LoadModel(filePath As String)
+    Public Sub ParseTextModel(filePath As String)
         Using s As Stream = filePath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             For Each model As ProfileHMM In HMMER3Parser.LoadDatabase(s)
                 If model IsNot Nothing AndAlso Not String.IsNullOrEmpty(model.Name) Then
@@ -136,7 +136,7 @@ Public Class ProteinAnnotator
         Dim files As String() = Directory.GetFiles(directoryPath, searchPattern)
         For Each file As String In files
             Try
-                LoadModel(file)
+                ParseTextModel(file)
             Catch ex As Exception
                 ' 记录错误但继续加载其他模型
                 Call App.LogException(ex)
@@ -155,6 +155,14 @@ Public Class ProteinAnnotator
         If model IsNot Nothing AndAlso Not String.IsNullOrEmpty(model.Name) Then
             _models(model.Name) = model
         End If
+    End Sub
+
+    Public Shared Function LoadModel(zipfile As Stream) As ProteinAnnotator
+
+    End Function
+
+    Public Sub Save(zipfile As Stream)
+
     End Sub
 
     ''' <summary>
