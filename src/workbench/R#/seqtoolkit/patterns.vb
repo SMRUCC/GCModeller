@@ -750,17 +750,58 @@ Module patterns
     ''' <summary>
     ''' find possible motifs of the given sequence collection
     ''' </summary>
-    ''' <param name="fasta">should contains multiple sequence</param>
-    ''' <param name="minw%"></param>
-    ''' <param name="maxw%"></param>
+    ''' <param name="fasta">
+    ''' a fasta sequence collection for make the motif discovery, which should 
+    ''' contains multiple sequence.
+    ''' </param>
+    ''' <param name="minw%">
+    ''' the minimum motif width in chars.
+    ''' </param>
+    ''' <param name="maxw%">
+    ''' the maximum motif width in chars.
+    ''' </param>
     ''' <param name="nmotifs">
     ''' A number for limit the number of motif outputs:
     ''' 
     ''' + negative integer/zero: no limits[default]
     ''' + positive value: top motifs with score desc
     ''' </param>
-    ''' <param name="noccurs%"></param>
-    ''' <returns></returns>
+    ''' <param name="noccurs%">
+    ''' the minimum occurrence number of the motif sites in the input sequence 
+    ''' collection for keep a motif.
+    ''' </param>
+    ''' <param name="seedingCutoff">
+    ''' the similarity cutoff threshold value for build the seed clusters.
+    ''' </param>
+    ''' <param name="scanMinW">
+    ''' the minimum width of the seed scan region.
+    ''' </param>
+    ''' <param name="scanCutoff">
+    ''' the similarity score cutoff threshold value of the seed scan.
+    ''' </param>
+    ''' <param name="cleanMotif">
+    ''' the motif cleaning threshold value for remove the low score motif 
+    ''' sites from the generated motif model.
+    ''' </param>
+    ''' <param name="significant_sites">
+    ''' the minimum number of the significant sites for keep a seed.
+    ''' </param>
+    ''' <param name="seeds">
+    ''' the pre-computed seed data for make the motifs, which can be a 
+    ''' <see cref="ScanFile"/> object that is created by the ``create.seeds`` 
+    ''' api, or a collection of the <see cref="HSP"/> seed object. If this 
+    ''' parameter is not specified, then the seeds will be discovered from the 
+    ''' input sequence data automatically.
+    ''' </param>
+    ''' <param name="debug">
+    ''' print the debug log message of the motif discovery progress?
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="SequenceMotif"/> motif object that 
+    ''' discovered from the given sequence collection, which is sorted by the 
+    ''' average motif site score in descending order.
+    ''' </returns>
     <ExportAPI("find_motifs")>
     <RApiReturn(GetType(SequenceMotif))>
     Public Function GetMotifs(<RRawVectorArgument> fasta As Object,
@@ -847,9 +888,22 @@ Module patterns
     ''' Drawing the sequence logo just simply modelling this motif site 
     ''' from the clustal multiple sequence alignment.
     ''' </summary>
-    ''' <param name="MSA"></param>
-    ''' <param name="title"></param>
-    ''' <returns></returns>
+    ''' <param name="MSA">
+    ''' the multiple sequence alignment data for drawing the sequence logo, 
+    ''' which can be a <see cref="MSAOutput"/> alignment result object, a 
+    ''' <see cref="SequenceMotif"/> motif object, a <see cref="MSAMotif"/> 
+    ''' gibbs sampler result, a <see cref="Probability"/> PWM model object, or 
+    ''' a fasta sequence collection.
+    ''' </param>
+    ''' <param name="title">
+    ''' the title text of the generated sequence logo graphics.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="GraphicsData"/> graphics data object of the sequence 
+    ''' logo, which can be saved as a image file via the ``bitmap`` or 
+    ''' ``svg`` api.
+    ''' </returns>
     <ExportAPI("plot.seqLogo")>
     <RApiReturn(GetType(GraphicsData))>
     Public Function DrawLogo(<RRawVectorArgument> MSA As Object,
@@ -893,12 +947,22 @@ Module patterns
     ''' Multiple criteria For orthogonality Of the two sequences can be specified
     ''' to determine the level of orthogonality.
     ''' </summary>
-    ''' <param name="scaffolds"></param>
+    ''' <param name="scaffolds">
+    ''' a collection of the DNA-Origami scaffold nucleotide sequences for 
+    ''' evaluate the pairwise orthogonality, which can be a 
+    ''' <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a character vector of the raw 
+    ''' sequence data.
+    ''' </param>
     ''' <param name="segment_len">segment length</param>
     ''' <param name="is_linear">scaffolds are not circular</param>
     ''' <param name="rev_compl">also count reverse complementary sequences</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="DNAOrigami.Output"/> orthogonality 
+    ''' evaluation result: one result element for each of the scaffold 
+    ''' sequence pair in the input sequence collection.
+    ''' </returns>
     <ExportAPI("scaffold.orthogonality")>
     <RApiReturn(GetType(DNAOrigami.Output))>
     Public Function ScaffoldOrthogonality(<RRawVectorArgument>
@@ -938,10 +1002,24 @@ Module patterns
     ''' <summary>
     ''' split the motif matches result in parts by its gene source
     ''' </summary>
-    ''' <param name="matches"></param>
-    ''' <param name="gff"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="matches">
+    ''' the motif match result data for split, which can be a vector of the 
+    ''' <see cref="MotifMatch"/> object or a file path of the csv format motif 
+    ''' match result table.
+    ''' </param>
+    ''' <param name="gff">
+    ''' a <see cref="GFFTable"/> genomics feature annotation table for map the 
+    ''' match result to its source gene feature. If this parameter is not 
+    ''' specified, then the match result will be grouped by the first token of 
+    ''' the match title.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a named list of the <see cref="MotifMatch"/> match result group: the 
+    ''' name of each list element is the gene source id, and the element value 
+    ''' is a vector of the <see cref="MotifMatch"/> object that belongs to the 
+    ''' corresponding gene source.
+    ''' </returns>
     <ExportAPI("split_match_source")>
     Public Function SplitMatchesSource(<RRawVectorArgument>
                                        matches As Object,

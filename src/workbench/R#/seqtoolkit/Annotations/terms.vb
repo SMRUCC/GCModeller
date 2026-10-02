@@ -247,13 +247,40 @@ Module terms
     ''' <summary>
     ''' read the given table file as rank term object
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the csv format rank term annotation table file.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="RankTerm"/> term annotation object that 
+    ''' loaded from the given csv table file.
+    ''' </returns>
     <ExportAPI("read_rankterms")>
     Public Function read_rankterms(file As String) As RankTerm()
         Return file.LoadCsv(Of RankTerm)(mute:=True).ToArray
     End Function
 
+    ''' <summary>
+    ''' create the rank term annotation objects from the given parallel data 
+    ''' vectors
+    ''' </summary>
+    ''' <param name="id">
+    ''' a character vector of the query gene id of the term annotation.
+    ''' </param>
+    ''' <param name="term">
+    ''' a character vector of the term name of the term annotation.
+    ''' </param>
+    ''' <param name="score">
+    ''' a numeric vector of the term annotation score value.
+    ''' </param>
+    ''' <param name="source">
+    ''' a character vector of the term data source name.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="RankTerm"/> term annotation object, each 
+    ''' element is created from the element-wise combination of the given data 
+    ''' vectors.
+    ''' </returns>
     <ExportAPI("rank_term")>
     <RApiReturn(GetType(RankTerm))>
     Public Function create_rankterms(<RRawVectorArgument(TypeCodes.string)> id As Object,
@@ -285,7 +312,10 @@ Module terms
     ''' <param name="descriptions">
     ''' the gene functional product description strings.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a vector of the parsed gene name string from each of the given product 
+    ''' description text.
+    ''' </returns>
     <ExportAPI("geneNames")>
     Public Function geneNames(<RRawVectorArgument> descriptions As Object) As vector
         Return CLRVector.asCharacter(descriptions) _
@@ -296,10 +326,22 @@ Module terms
     ''' <summary>
     ''' do KO number assign based on the bbh alignment result.
     ''' </summary>
-    ''' <param name="forward"></param>
-    ''' <param name="reverse"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="forward">
+    ''' a forward blastn best hit(<see cref="BestHit"/>) result data pipeline.
+    ''' </param>
+    ''' <param name="reverse">
+    ''' a reverse blastn best hit(<see cref="BestHit"/>) result data pipeline.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="KOAssignmentCandidate"/> KO assignment result 
+    ''' when the ``kaas_rank`` parameter is TRUE, or a vector of the BHR result 
+    ''' when this parameter is FALSE;
+    ''' 
+    ''' this function returns a R# error message object if the given forward or 
+    ''' reverse data stream is nothing or its element type is not the 
+    ''' <see cref="BestHit"/> object.
+    ''' </returns>
     <ExportAPI("assign_ko")>
     Public Function KOannotations(forward As pipeline, reverse As pipeline,
                                   Optional threshold As Double = 0.95,
@@ -352,6 +394,22 @@ Module terms
         End If
     End Function
 
+    ''' <summary>
+    ''' assign the COG functional category for each query gene by keeping the 
+    ''' best identity COG hit
+    ''' </summary>
+    ''' <param name="alignment">
+    ''' a vector of the COG hits(<see cref="MyvaCOG"/>) alignment result data 
+    ''' for make the COG category assignment.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="MyvaCOG"/> COG assignment result, one best 
+    ''' hit element for each query gene;
+    ''' 
+    ''' this function returns a R# error message object if the input alignment 
+    ''' data is not a collection of the <see cref="MyvaCOG"/> object.
+    ''' </returns>
     <ExportAPI("assign.COG")>
     Public Function COGannotations(<RRawVectorArgument> alignment As Object, Optional env As Environment = Nothing) As Object
         If TypeOf alignment Is MyvaCOG() Then
@@ -373,9 +431,18 @@ Module terms
     ''' the ncbi localblast alignment result, it can be the <see cref="BestHit"/> array or 
     ''' the <see cref="DiamondAnnotation"/> array.
     ''' </param>
-    ''' <param name="term_maps"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="term_maps">
+    ''' a R# list object of the term id mapping data: the name of each list 
+    ''' element is the term name, and the element value is a character vector 
+    ''' of the hit name that belongs to the corresponding term.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="RankTerm"/> term annotation result;
+    ''' 
+    ''' this function returns a R# error message object if the input alignment 
+    ''' data can not be cast to a best hit or diamond annotation collection.
+    ''' </returns>
     <ExportAPI("assign_terms")>
     <RApiReturn(GetType(RankTerm))>
     Public Function TermAnnotations(<RRawVectorArgument> alignment As Object,
@@ -437,6 +504,24 @@ Module terms
         Return terms
     End Function
 
+    ''' <summary>
+    ''' extract the metabolic function term annotation from the diamond m8 
+    ''' format alignment result data
+    ''' </summary>
+    ''' <param name="m8">
+    ''' a collection of the diamond m8 tabular format alignment hits 
+    ''' (<see cref="DiamondAnnotation"/>) for extract the metabolic function 
+    ''' term annotation.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="RankTerm"/> metabolic 
+    ''' function term annotation result;
+    ''' 
+    ''' this function returns a R# error message object if the input m8 hits 
+    ''' data can not be cast to a collection of the 
+    ''' <see cref="DiamondAnnotation"/> object.
+    ''' </returns>
     <ExportAPI("m8_metabolic_terms")>
     <RApiReturn(GetType(RankTerm))>
     Public Function m8_metabolic_terms(<RRawVectorArgument> m8 As Object, Optional env As Environment = Nothing) As Object
@@ -452,6 +537,26 @@ Module terms
         Return pipeline.CreateFromPopulator(terms)
     End Function
 
+    ''' <summary>
+    ''' make the term annotation table of each gene from a given set of the 
+    ''' term annotation result group
+    ''' </summary>
+    ''' <param name="annotations">
+    ''' a R# list object of the term annotation result group: the name of each 
+    ''' list element is the term name, and the element value is a collection 
+    ''' of the <see cref="RankTerm"/> term annotation data that belongs to the 
+    ''' corresponding term.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="EntityObject"/> term annotation table 
+    ''' record, one record element for each gene, and each record contains the 
+    ''' term annotation value of the gene in each term group;
+    ''' 
+    ''' this function returns a R# error message object if any of the term 
+    ''' annotation group data can not be cast to a collection of the 
+    ''' <see cref="RankTerm"/> object.
+    ''' </returns>
     <ExportAPI("term_table")>
     <RApiReturn(GetType(EntityObject))>
     Public Function term_table(<RRawVectorArgument> annotations As list, Optional env As Environment = Nothing) As Object
@@ -481,39 +586,99 @@ Module terms
         Return genes.Values.ToArray
     End Function
 
+    ''' <summary>
+    ''' assign the pfam protein domain annotation for the query protein 
+    ''' sequence
+    ''' </summary>
+    ''' <remarks>
+    ''' this api is not implemented at this moment.
+    ''' </remarks>
     <ExportAPI("assign.Pfam")>
     Public Function Pfamannotations()
         Throw New NotImplementedException
     End Function
 
+    ''' <summary>
+    ''' assign the gene ontology(GO) term annotation for the query gene
+    ''' </summary>
+    ''' <remarks>
+    ''' this api is not implemented at this moment.
+    ''' </remarks>
     <ExportAPI("assign.GO")>
     Public Function GOannotations()
         Throw New NotImplementedException
     End Function
 
+    ''' <summary>
+    ''' save the id mapping solver data into a text file
+    ''' </summary>
+    ''' <param name="maps">
+    ''' a <see cref="SecondaryIDSolver"/> id mapping solver object for save.
+    ''' </param>
+    ''' <param name="file">
+    ''' the file path of the generated id mapping data text file.
+    ''' </param>
+    ''' <returns>
+    ''' a boolean value of the file save result: TRUE means the id mapping 
+    ''' data has been written into the target file successfully.
+    ''' </returns>
     <ExportAPI("write.id_maps")>
     Public Function saveIdMappings(maps As SecondaryIDSolver, file As String) As Boolean
         Return maps.Save(path:=file)
     End Function
 
+    ''' <summary>
+    ''' read the myva COG hits annotation data from a csv table file
+    ''' </summary>
+    ''' <param name="file">
+    ''' the file path of the csv format myva COG hits annotation table file.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="MyvaCOG"/> COG hits object that loaded from 
+    ''' the given csv table file.
+    ''' </returns>
     <ExportAPI("read.MyvaCOG")>
     Public Function readMyvaCOG(file As String) As MyvaCOG()
         Return file.LoadCsv(Of MyvaCOG).ToArray
     End Function
 
     ''' <summary>
-    ''' 
+    ''' read the id mappings text data as the secondary id mapping solver 
+    ''' object
     ''' </summary>
-    ''' <param name="file"></param>
+    ''' <param name="file">
+    ''' the file path of the id mappings text data file.
+    ''' </param>
     ''' <param name="skip2ndMaps">
     ''' set this parameter value to ``true`` for fixed for build the ``kegg2go`` mapping model.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a <see cref="SecondaryIDSolver"/> id mapping solver object, which can 
+    ''' be used for make the gene id synonym query via the ``synonym`` api, or 
+    ''' be saved as a text file via the ``write.id_maps`` api.
+    ''' </returns>
     <ExportAPI("read.id_maps")>
     Public Function readIdMappings(file As String, Optional skip2ndMaps As Boolean = False) As SecondaryIDSolver
         Return DBLinkBuilder.LoadMappingText(file, skip2ndMaps)
     End Function
 
+    ''' <summary>
+    ''' query the id synonyms of the given id list from the id mapping solver 
+    ''' object
+    ''' </summary>
+    ''' <param name="idlist">
+    ''' a character vector of the query id for get its synonyms.
+    ''' </param>
+    ''' <param name="idmap">
+    ''' a <see cref="SecondaryIDSolver"/> id mapping solver object, which is 
+    ''' created by the ``read.id_maps`` api.
+    ''' </param>
+    ''' <param name="excludeNull">
+    ''' remove the query id which has no synonym data from the result?
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="Synonym"/> id synonym query result object.
+    ''' </returns>
     <ExportAPI("synonym")>
     Public Function Synonyms(idlist As String(), idmap As SecondaryIDSolver, Optional excludeNull As Boolean = False) As Synonym()
         Return idmap.PopulateSynonyms(idlist, excludeNull:=excludeNull).ToArray()
@@ -522,19 +687,65 @@ Module terms
     ''' <summary>
     ''' read VFDB fasta sequence database
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the VFDB virulence factor fasta sequence database 
+    ''' file, the fasta headers title of this file should be splitted by the 
+    ''' ``|`` character.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="VFs"/> virulence factor object that parsed 
+    ''' from the given VFDB fasta sequence database file.
+    ''' </returns>
     <ExportAPI("read_vfdb_seqs")>
     Public Function read_vfdb(file As String) As VFs()
         Return VFs.Parse(FastaFile.Read(file, strict:=False, deli:="|")).ToArray
     End Function
 
+    ''' <summary>
+    ''' save the VFDB virulence factor sequence data as a simple fasta format 
+    ''' sequence file
+    ''' </summary>
+    ''' <param name="vfdb">
+    ''' a vector of the <see cref="VFs"/> virulence factor object for save as 
+    ''' the fasta sequence file.
+    ''' </param>
+    ''' <param name="file">
+    ''' the file path of the generated fasta sequence file.
+    ''' </param>
+    ''' <returns>
+    ''' a boolean value of the file save result: TRUE means the virulence 
+    ''' factor sequence data has been written into the target file 
+    ''' successfully.
+    ''' </returns>
     <ExportAPI("write_simple_vfdb")>
     Public Function write_simple_vfdb(vfdb As VFs(), file As String) As Boolean
         Return New FastaFile(From vf As VFs In vfdb Select New FastaSeq(vf.sequence, title:=vf.VFID)) _
             .Save(-1, file, encoding:=Encodings.ASCII.CodePage)
     End Function
 
+    ''' <summary>
+    ''' make the genomics metabolic vector data from the given term annotation 
+    ''' result collection
+    ''' </summary>
+    ''' <param name="terms">
+    ''' a collection of the <see cref="RankTerm"/> term annotation data for 
+    ''' make the genomics metabolic vectors.
+    ''' </param>
+    ''' <param name="stream">
+    ''' returns the generated vector data in a lazy pipeline manner? if this 
+    ''' parameter is FALSE(the default value), then a vector array will be 
+    ''' returned instead.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="GenomeVector"/> genomics metabolic vector 
+    ''' object, or a lazy pipeline collection of this vector data when the 
+    ''' ``stream`` parameter is TRUE;
+    ''' 
+    ''' this function returns a R# error message object if the input term 
+    ''' annotation data can not be cast to a collection of the 
+    ''' <see cref="RankTerm"/> object.
+    ''' </returns>
     <ExportAPI("make_vectors")>
     <RApiReturn(GetType(GenomeVector))>
     Public Function make_vectors(<RRawVectorArgument> terms As Object,
@@ -557,6 +768,28 @@ Module terms
         End If
     End Function
 
+    ''' <summary>
+    ''' write the genomics metabolic vector data into a jsonl text file
+    ''' </summary>
+    ''' <param name="genomes">
+    ''' a collection of the <see cref="GenomeVector"/> genomics metabolic 
+    ''' vector data for write.
+    ''' </param>
+    ''' <param name="file">
+    ''' the output target: a file path of the generated jsonl text file, or a 
+    ''' file stream object for write the jsonl text data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a boolean value of the file save result: TRUE means the genomics 
+    ''' metabolic vector data has been written into the target file 
+    ''' successfully;
+    ''' 
+    ''' this function returns a R# error message object if the input vector 
+    ''' data can not be cast to a collection of the 
+    ''' <see cref="GenomeVector"/> object, or the target file can not be 
+    ''' opened for write.
+    ''' </returns>
     <ExportAPI("write_genomes_jsonl")>
     Public Function write_genomes(<RRawVectorArgument> genomes As Object, file As Object, Optional env As Environment = Nothing) As Object
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of GenomeVector)(genomes, env)
@@ -591,10 +824,31 @@ Module terms
     ''' <summary>
     ''' make embedding of the genomics metabolic model 
     ''' </summary>
-    ''' <param name="annotations"></param>
-    ''' <param name="L2_norm"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="annotations">
+    ''' a collection of the <see cref="GenomeVector"/> genomics metabolic 
+    ''' vector data for make the tf-idf embedding.
+    ''' </param>
+    ''' <param name="L2_norm">
+    ''' do L2 normalized of the generated embedding matrix data?
+    ''' </param>
+    ''' <param name="union_contigs">
+    ''' the minimum number of the contigs in one taxonomy group for merge the 
+    ''' genome vectors.
+    ''' </param>
+    ''' <param name="hierarchical">
+    ''' build the hierarchical taxonomy embedding model?
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a data frame object of the genomics metabolic model embedding result: 
+    ''' each row is one genome(the row name is the taxonomy name), and each 
+    ''' column is a metabolic function term, the cell value is the tf-idf 
+    ''' weight of the corresponding term in the corresponding genome;
+    ''' 
+    ''' this function returns a R# error message object if the input vector 
+    ''' data can not be cast to a collection of the 
+    ''' <see cref="GenomeVector"/> object.
+    ''' </returns>
     <ExportAPI("tfidf_vectorizer")>
     Public Function tfidf_vectorizer(<RRawVectorArgument>
                                      annotations As Object,

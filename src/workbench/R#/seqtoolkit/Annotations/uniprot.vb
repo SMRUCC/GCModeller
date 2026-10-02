@@ -175,6 +175,13 @@ Module uniprotTools
     ''' </summary>
     ''' <param name="files"></param>
     ''' <param name="isUniParc"></param>
+    ''' <param name="ignoreError">
+    ''' ignore the parse error message of the invalid uniprot xml entry data?
+    ''' </param>
+    ''' <param name="tqdm">
+    ''' show the progress bar of the entries parsing progress?
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>
     ''' this function returns a pipeline stream of the uniprot protein entries.
     ''' </returns>
@@ -217,6 +224,17 @@ Module uniprotTools
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
+    ''' <summary>
+    ''' parse the uniprot xml document text data as the protein entry object 
+    ''' collection
+    ''' </summary>
+    ''' <param name="xml">
+    ''' the uniprot xml format database document text data.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the uniprot protein <see cref="entry"/> object that parsed 
+    ''' from the given xml document text data.
+    ''' </returns>
     <ExportAPI("parseUniProt")>
     Public Function parseUniProt(xml As String) As entry()
         Dim uniprot As UniProtXML = UniProtXML.LoadXml(xml)
@@ -228,9 +246,14 @@ Module uniprotTools
     ''' <summary>
     ''' Parse the uniprot fasta header text 
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' a character vector of the uniprot fasta headers title text, or a 
+    ''' collection of the <see cref="FastaSeq"/> sequence object.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="FastaHeader"/> uniprot fasta headers object.
+    ''' </returns>
     <ExportAPI("parseHeader")>
     <RApiReturn(GetType(FastaHeader))>
     Public Function parseHeader(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
@@ -253,9 +276,18 @@ Module uniprotTools
     ''' <summary>
     ''' read uniprot protein export output tsv file
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the input source: a file path of the uniprot protein export tsv table 
+    ''' file, or a file stream object of the target tsv table file.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="proteinTable"/> protein annotation record 
+    ''' object that loaded from the given tsv table file;
+    ''' 
+    ''' this function returns a R# error message object if the given file can 
+    ''' not be opened for read.
+    ''' </returns>
     <ExportAPI("read.proteinTable")>
     <RApiReturn(GetType(proteinTable))>
     Public Function readProteinTable(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
@@ -274,9 +306,18 @@ Module uniprotTools
     ''' <summary>
     ''' export protein annotation data as data frame.
     ''' </summary>
-    ''' <param name="uniprot"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="uniprot">
+    ''' a collection of the uniprot protein <see cref="entry"/> data for make 
+    ''' the annotation table.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a data frame object of the protein annotation data;
+    ''' 
+    ''' this function returns a R# error message object if the input uniprot 
+    ''' data can not be cast to a collection of the <see cref="entry"/> 
+    ''' object.
+    ''' </returns>
     <ExportAPI("proteinTable")>
     Public Function proteinTable(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
         Dim source = getUniprotData(uniprot, env)
@@ -288,11 +329,34 @@ Module uniprotTools
         End If
     End Function
 
+    ''' <summary>
+    ''' get the protein domain region annotation data from the given uniprot 
+    ''' protein entry object
+    ''' </summary>
+    ''' <param name="prot">
+    ''' the uniprot protein <see cref="entry"/> object for extract its domain 
+    ''' region annotation data.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="DomainModel"/> protein domain region 
+    ''' annotation object.
+    ''' </returns>
     <ExportAPI("get_domain")>
     Public Function get_domains(prot As entry) As DomainModel()
         Return prot.GetDomainData.ToArray
     End Function
 
+    ''' <summary>
+    ''' extract the protein sequence data from the given uniprot protein entry 
+    ''' object
+    ''' </summary>
+    ''' <param name="prot">
+    ''' the uniprot protein <see cref="entry"/> object for extract its 
+    ''' sequence data.
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="FastaSeq"/> protein sequence object.
+    ''' </returns>
     <ExportAPI("get_sequence")>
     Public Function get_sequence(prot As entry) As FastaSeq
         Dim seq As String = DirectCast(prot, IPolymerSequenceModel).SequenceData
@@ -301,6 +365,18 @@ Module uniprotTools
         Return fa
     End Function
 
+    ''' <summary>
+    ''' get the protein full name and function description text from the given 
+    ''' uniprot protein entry object
+    ''' </summary>
+    ''' <param name="prot">
+    ''' the uniprot protein <see cref="entry"/> object for extract its 
+    ''' description text.
+    ''' </param>
+    ''' <returns>
+    ''' a character vector of the protein description text: the protein full 
+    ''' name and the function description text.
+    ''' </returns>
     <ExportAPI("get_description")>
     Public Function get_description(prot As entry) As String()
         Dim fullnames = prot.proteinFullName
@@ -311,8 +387,14 @@ Module uniprotTools
     ''' <summary>
     ''' get subcellular location of current protein
     ''' </summary>
-    ''' <param name="prot"></param>
-    ''' <returns></returns>
+    ''' <param name="prot">
+    ''' the uniprot protein <see cref="entry"/> object for extract its 
+    ''' subcellular location annotation data.
+    ''' </param>
+    ''' <returns>
+    ''' a data frame object of the subcellular location annotation data, the 
+    ''' columns are ``location`` and ``topology``.
+    ''' </returns>
     <ExportAPI("get_subcellularlocation")>
     Public Function get_subcellularlocation(prot As entry) As Object
         Dim locs = prot.CommentList.TryGetValue("subcellular location") _
@@ -332,8 +414,14 @@ Module uniprotTools
     ''' <summary>
     ''' get related pathway names of current protein
     ''' </summary>
-    ''' <param name="prot"></param>
-    ''' <returns></returns>
+    ''' <param name="prot">
+    ''' the uniprot protein <see cref="entry"/> object for extract its related 
+    ''' pathway names.
+    ''' </param>
+    ''' <returns>
+    ''' a character vector of the pathway name that related to the given 
+    ''' protein.
+    ''' </returns>
     <ExportAPI("get_pathways")>
     Public Function get_pathwayNames(prot As entry) As String()
         Dim pathways = prot.CommentList _
@@ -347,6 +435,19 @@ Module uniprotTools
         Return pathways
     End Function
 
+    ''' <summary>
+    ''' get the catalytic activity reaction data of the given uniprot protein 
+    ''' entry object
+    ''' </summary>
+    ''' <param name="prot">
+    ''' the uniprot protein <see cref="entry"/> object for extract its 
+    ''' catalytic activity reaction data.
+    ''' </param>
+    ''' <returns>
+    ''' a named list of the reaction data: the name of each list element is 
+    ''' the reaction text, and the element value is a list that contains the 
+    ''' ``equation``, ``ec_number`` and ``metabolites`` data slots.
+    ''' </returns>
     <ExportAPI("get_reactions")>
     Public Function get_reactions(prot As entry) As Object
         Dim catalytic = prot.CommentList.TryGetValue("catalytic activity")
@@ -381,6 +482,11 @@ Module uniprotTools
     ''' the uniprot database name will be named as: ``UniProtKB/Swiss-Prot`` for
     ''' make unify with the genebank feature xrefs.
     ''' </remarks>
+    ''' <returns>
+    ''' a named list of the external database cross reference id set when the 
+    ''' ``dbname`` parameter is not specified, or a character vector of the 
+    ''' cross reference id set of the specific database.
+    ''' </returns>
     <ExportAPI("get_xrefs")>
     <RApiReturn(GetType(dataframe), GetType(String))>
     Public Function get_xrefs(prot As entry, Optional dbname As String = Nothing) As Object
@@ -410,7 +516,10 @@ Module uniprotTools
     ''' <summary>
     ''' get keyword dataframe about the given protein data
     ''' </summary>
-    ''' <param name="prot"></param>
+    ''' <param name="prot">
+    ''' the uniprot protein <see cref="entry"/> object for extract its keyword 
+    ''' annotation data.
+    ''' </param>
     ''' <returns>
     ''' a dataframe object that with two data fields: `id` - the keyword id and `keyword` - the keyword name.
     ''' </returns>
@@ -458,6 +567,7 @@ Module uniprotTools
     ''' the generated fasta sequence header title in format: ``uniprot_id|db_xref|protein function``.
     ''' the db_xref is optional if the parameter "db_xref" is not be omited.
     ''' </returns>
+    ''' <param name="env">the R# runtime environment object.</param>
     <ExportAPI("protein.seqs")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function getProteinSeq(<RRawVectorArgument> uniprot As Object,
@@ -484,10 +594,18 @@ Module uniprotTools
     ''' id unify mapping
     ''' </summary>
     ''' <param name="uniprot">a uniprot dataabse pipeline stream</param>
-    ''' <param name="id"></param>
+    ''' <param name="id">
+    ''' a character vector of the raw id for map to the target database id.
+    ''' </param>
     ''' <param name="target">the database name for map to</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a character vector of the target database id of each given raw id;
+    ''' 
+    ''' this function returns a R# error message object if the input uniprot 
+    ''' data can not be cast to a collection of the <see cref="entry"/> 
+    ''' object.
+    ''' </returns>
     <ExportAPI("id_unify")>
     Public Function IdUnify(<RRawVectorArgument> uniprot As Object,
                             <RRawVectorArgument> id As Object,
@@ -508,6 +626,24 @@ Module uniprotTools
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' build the metabolite set collection from the catalytic activity 
+    ''' reaction data of the given uniprot protein entries
+    ''' </summary>
+    ''' <param name="uniprot">
+    ''' a collection of the uniprot protein <see cref="entry"/> data for build 
+    ''' the metabolite set collection.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a named list of the metabolite id set: the name of each list element 
+    ''' is the uniprot accession id of the protein, and the element value is a 
+    ''' character vector of the ChEBI metabolite id;
+    ''' 
+    ''' this function returns a R# error message object if the input uniprot 
+    ''' data can not be cast to a collection of the <see cref="entry"/> 
+    ''' object.
+    ''' </returns>
     <ExportAPI("metaboliteSet")>
     Public Function metaboliteSet(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
         Dim uniprotData As pipeline = pipeline.TryCreatePipeline(Of entry)(uniprot, env)

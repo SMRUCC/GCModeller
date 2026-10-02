@@ -138,6 +138,31 @@ Module context
         Return sb.ToString
     End Function
 
+    ''' <summary>
+    ''' build the genomics context model object from a given gff3 annotation 
+    ''' table
+    ''' </summary>
+    ''' <param name="gff">
+    ''' a <see cref="GFFTable"/> genomics feature annotation table object for 
+    ''' build the genomics context model.
+    ''' </param>
+    ''' <param name="chr_name">
+    ''' the chromosome name for build the context model of the specific 
+    ''' chromosome. If this parameter is not specified, then context models of 
+    ''' all chromosomes will be returned.
+    ''' </param>
+    ''' <param name="strict">
+    ''' throw an R# error message when the given chromosome name can not be 
+    ''' found in the gff table? if this parameter is FALSE, then just a 
+    ''' warning message will be pushed and a NULL value will be returned.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="GenomeContext"/> genomics context object when there is 
+    ''' only one chromosome in the given gff table or the ``chr_name`` 
+    ''' parameter is specified, or a named list of the context object of each 
+    ''' chromosome.
+    ''' </returns>
     <ExportAPI("genomics_context")>
     <RApiReturn(GetType(GenomeContext(Of GFF.Feature)))>
     Public Function genomics_context(gff As GFFTable,
@@ -177,6 +202,27 @@ Module context
         End If
     End Function
 
+    ''' <summary>
+    ''' evaluate the primer hit coverage of the candidate primer regions on the 
+    ''' given chromosome context
+    ''' </summary>
+    ''' <param name="targetHits">
+    ''' a vector of the <see cref="NucleotideLocation"/> primer hit location 
+    ''' data on the target chromosome.
+    ''' </param>
+    ''' <param name="chr">
+    ''' a <see cref="GenomeContext"/> genomics context object of the target 
+    ''' chromosome, which provides the gene context information of the 
+    ''' candidate primer regions.
+    ''' </param>
+    ''' <param name="chr_seq">
+    ''' the sequence data slicer object of the target chromosome for extract 
+    ''' the sequence region data, which can be created by the ``slicer`` api.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="PrimerCoverage"/> primer hit coverage 
+    ''' analysis result object.
+    ''' </returns>
     <ExportAPI("primer_coverage")>
     Public Function primer_coverage(targetHits As NucleotideLocation(), chr As GenomeContext(Of GFF.Feature), chr_seq As ISlicer) As PrimerCoverage()
         Return PrimerCoverage.GetCoverage(targetHits, chr, chr_seq).ToArray
@@ -187,8 +233,16 @@ Module context
     ''' </summary>
     ''' <param name="sites">a collection of the motif sites</param>
     ''' <param name="genomics">the genomics feature information as the context for make location assignment.</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="VirtualFootprint"/> motif site object that 
+    ''' its location region data has been assigned with the genomics context 
+    ''' information;
+    ''' 
+    ''' this function returns a R# error message object if the input motif 
+    ''' sites data can not be cast to a collection of the 
+    ''' <see cref="VirtualFootprint"/> object.
+    ''' </returns>
     <ExportAPI("set_context")>
     Public Function set_context(<RRawVectorArgument> sites As Object, genomics As GFFTable, Optional env As Environment = Nothing) As Object
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of VirtualFootprint)(sites, env)
@@ -226,8 +280,11 @@ Module context
     ''' </summary>
     ''' <param name="genes">a collection of the gene model object which is subclass of <see cref="IGeneBrief"/></param>
     ''' <param name="strand">the nucleotide sequence strand direction, value could be +, -, forward, reverse.</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the gene model object that its location strand direction 
+    ''' matches the given strand value.
+    ''' </returns>
     <ExportAPI("filter_strand")>
     Public Function strandFilter(<RRawVectorArgument> genes As Object,
                                  Optional strand As Object = "+",
@@ -271,10 +328,19 @@ Module context
     ''' <summary>
     ''' create a new nucleotide location object
     ''' </summary>
-    ''' <param name="left"></param>
-    ''' <param name="right"></param>
-    ''' <param name="strand"></param>
-    ''' <returns></returns>
+    ''' <param name="left">
+    ''' the left/start position of the location region.
+    ''' </param>
+    ''' <param name="right">
+    ''' the right/end position of the location region.
+    ''' </param>
+    ''' <param name="strand">
+    ''' the strand direction of the location region, value could be ``+``, 
+    ''' ``-``, ``forward`` or ``reverse``.
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="NucleotideLocation"/> nucleotide location object.
+    ''' </returns>
     <ExportAPI("location")>
     <RApiReturn(GetType(NucleotideLocation))>
     Public Function location(left As Integer, right As Integer, Optional strand As Object = Nothing) As Object
@@ -285,7 +351,10 @@ Module context
     ''' assert that does the given nucleotide location is in forward direction?
     ''' </summary>
     ''' <param name="loci">a target nucleotide location</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a boolean value: TRUE means the given nucleotide location is in the 
+    ''' forward strand direction, FALSE otherwise.
+    ''' </returns>
     <ExportAPI("is.forward")>
     Public Function isForward(loci As NucleotideLocation) As Boolean
         Return loci.Strand = Strands.Forward
@@ -294,9 +363,16 @@ Module context
     ''' <summary>
     ''' do offset of the given location
     ''' </summary>
-    ''' <param name="loci"></param>
-    ''' <param name="offset"></param>
-    ''' <returns></returns>
+    ''' <param name="loci">
+    ''' the target nucleotide location for make the offset.
+    ''' </param>
+    ''' <param name="offset">
+    ''' the offset value in nucleotide for move the given location region.
+    ''' </param>
+    ''' <returns>
+    ''' a new <see cref="NucleotideLocation"/> location object that has been 
+    ''' moved by the given offset value.
+    ''' </returns>
     <ExportAPI("offset")>
     Public Function offsetLocation(loci As NucleotideLocation, offset As Integer) As NucleotideLocation
         Return loci + offset
@@ -305,11 +381,25 @@ Module context
     ''' <summary>
     ''' Create a new context model of a specific genomics feature site.
     ''' </summary>
-    ''' <param name="loci"></param>
-    ''' <param name="distance"></param>
-    ''' <param name="note"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="loci">
+    ''' the location of the target genomics feature site, which can be a gene 
+    ''' model object(<see cref="IGeneBrief"/>), a contig object(<see cref="Contig"/>), 
+    ''' or a <see cref="NucleotideLocation"/> nucleotide location object.
+    ''' </param>
+    ''' <param name="distance">
+    ''' the distance value in nucleotide for the context model build.
+    ''' </param>
+    ''' <param name="note">
+    ''' the note text of the generated context model. If this parameter is not 
+    ''' specified, then the text of the given loci object will be used.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="IContext"/> genomics feature site context model object;
+    ''' 
+    ''' this function returns a R# error message object if the given location 
+    ''' data can not be cast to a nucleotide location object.
+    ''' </returns>
     <ExportAPI("context")>
     <RApiReturn(GetType(IContext))>
     Public Function context(loci As Object, distance As Integer, Optional note As String = Nothing, Optional env As Environment = Nothing) As Object
@@ -349,10 +439,24 @@ Module context
     ''' <summary>
     ''' get the segment relationship of two location
     ''' </summary>
-    ''' <param name="a"></param>
-    ''' <param name="b"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="a">
+    ''' the first location for evaluate the segment relationship, which can be 
+    ''' a gene model object(<see cref="IGeneBrief"/>), a contig 
+    ''' object(<see cref="Contig"/>), or a <see cref="NucleotideLocation"/> 
+    ''' nucleotide location object.
+    ''' </param>
+    ''' <param name="b">
+    ''' the second location for evaluate the segment relationship, which 
+    ''' accepts the same data models as the ``a`` parameter.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="SegmentRelationships"/> segment relationship enum value 
+    ''' of the given two location regions;
+    ''' 
+    ''' this function returns a R# error message object if the given location 
+    ''' data can not be cast to a nucleotide location object.
+    ''' </returns>
     <ExportAPI("relationship")>
     <RApiReturn(GetType(SegmentRelationships))>
     Public Function relationship(a As Object, b As Object, Optional env As Environment = Nothing) As Object
@@ -372,6 +476,24 @@ Module context
         End If
     End Function
 
+    ''' <summary>
+    ''' make the chromosome mapping of the blastn hits result data
+    ''' </summary>
+    ''' <param name="blastn">
+    ''' a collection of the blastn tabular format hit record data 
+    ''' (<see cref="HitRecord"/>) for make the chromosome mapping.
+    ''' </param>
+    ''' <param name="eval_thres">
+    ''' the maximum e-value threshold of the accepted blastn hits.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the chromosome mapping of the accepted blastn hits;
+    ''' 
+    ''' this function returns a R# error message object if the input blastn 
+    ''' hits data can not be cast to a collection of the <see cref="HitRecord"/> 
+    ''' object.
+    ''' </returns>
     <ExportAPI("context_location")>
     <RApiReturn(GetType(NucleotideLocation))>
     Public Function context_locations(<RRawVectorArgument>
@@ -398,8 +520,21 @@ Module context
     ''' gene list could be omit if the input genome data is a ncbi genbank model object. 
     ''' then all gene features inside the input genbank assembly will be used for export of 
     ''' the TSS upstream site.</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="upstream_len">
+    ''' the length in nucleotide of the TSS upstream region.
+    ''' </param>
+    ''' <param name="simple_title">
+    ''' generate the fasta headers title of the output sequence in a simple 
+    ''' format?
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="FastaSeq"/> TSS upstream region nucleotide 
+    ''' sequence data, one sequence element for each of the target gene;
+    ''' 
+    ''' this function returns NULL if the input genome data is nothing, or a R# 
+    ''' error message object if the given genome data type is not supported.
+    ''' </returns>
     <ExportAPI("TSS_upstream")>
     Public Function TSS_upstream(genome As Object,
                                  <RRawVectorArgument>

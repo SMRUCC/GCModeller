@@ -76,8 +76,11 @@ Module blastPlusInterop
     ''' </summary>
     ''' <param name="[in]">Input file/database name</param>
     ''' <param name="dbtype">Molecule type of target db</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a character value of the standard output log message of the 
+    ''' ``makeblastdb`` program run.
+    ''' </returns>
     <ExportAPI("makeblastdb")>
     Public Function makeblastdb([in] As String,
                                 <RRawVectorArgument(GetType(String))>
@@ -98,7 +101,27 @@ Module blastPlusInterop
     ''' <summary>
     ''' Protein-Protein BLAST
     ''' </summary>
-    ''' <returns></returns>
+    ''' <param name="query">
+    ''' the file path of the query protein fasta sequence file.
+    ''' </param>
+    ''' <param name="subject">
+    ''' the file path of the subject protein sequence database file.
+    ''' </param>
+    ''' <param name="output">
+    ''' the file path of the blastp alignment result output file.
+    ''' </param>
+    ''' <param name="evalue">
+    ''' the e-value threshold of the accepted blastp hits.
+    ''' </param>
+    ''' <param name="n_threads">
+    ''' the thread number for run the blastp program.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a character value of the standard output log message of the ``blastp`` 
+    ''' program run, and the alignment result data will be saved into the 
+    ''' given output file.
+    ''' </returns>
     <ExportAPI("blastp")>
     Public Function blastp(query As String, subject As String, output As String,
                            Optional evalue As Double = 0.001,
@@ -117,11 +140,23 @@ Module blastPlusInterop
         Return stdout
     End Function
 
+    ''' <summary>
+    ''' Nucleotide-Nucleotide BLAST
+    ''' </summary>
+    ''' <remarks>
+    ''' this api is not implemented at this moment.
+    ''' </remarks>
     <ExportAPI("blastn")>
     Public Function blastn()
 
     End Function
 
+    ''' <summary>
+    ''' Translated Query Vs. Protein Database
+    ''' </summary>
+    ''' <remarks>
+    ''' this api is not implemented at this moment.
+    ''' </remarks>
     <ExportAPI("blastx")>
     Public Function blastx()
 

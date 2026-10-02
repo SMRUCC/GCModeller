@@ -124,6 +124,25 @@ Module workflows
         Return tbl
     End Function
 
+    ''' <summary>
+    ''' cast the blastn tabular format hits result as a data frame object
+    ''' </summary>
+    ''' <param name="hits">
+    ''' a vector of the blastn tabular format hit record 
+    ''' (<see cref="HitRecord"/>) for cast as the data frame.
+    ''' </param>
+    ''' <param name="args">
+    ''' the additional arguments for the data frame cast, this parameter is 
+    ''' not used in this function.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a data frame object of the blastn hits result: each row is one hit, 
+    ''' and the columns are the hit details: ``query_id``, ``subject_id``, 
+    ''' ``identities``, ``alignment_length``, ``mis_matches``, ``gap_opens``, 
+    ''' ``query_start``, ``query_end``, ``subject_start``, ``subject_end``, 
+    ''' ``e_value`` and ``bit_score``.
+    ''' </returns>
     <RGenericOverloads("as.data.frame")>
     <ExportAPI("blast_tabular")>
     Public Function blast_tabular(hits As HitRecord(), args As list, env As Environment) As Object
@@ -151,9 +170,14 @@ Module workflows
     ''' <summary>
     ''' Open the blast output text file for parse data result.
     ''' </summary>
-    ''' <param name="file"></param>
+    ''' <param name="file">
+    ''' the file path of the blast output text file.
+    ''' </param>
     ''' <param name="type">``nucl`` or ``prot``</param>
-    ''' <param name="env"></param>
+    ''' <param name="fastMode">
+    ''' run the blastp output parser in the fast mode?
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>a collection of the query hits result details</returns>
     <ExportAPI("read.blast")>
     <RApiReturn(GetType(Query))>
@@ -178,9 +202,21 @@ Module workflows
     ''' <summary>
     ''' export results of fastq reads mapping to genome sequence. 
     ''' </summary>
-    ''' <param name="query"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="query">
+    ''' a lazy pipeline collection of the blast query hits result 
+    ''' (<see cref="Query"/>), which is created by the ``read.blast`` api.
+    ''' </param>
+    ''' <param name="top_best">
+    ''' only export the top best mapping for each query?
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="BlastnMapping"/> reads 
+    ''' mapping result;
+    ''' 
+    ''' this function returns a R# error message object if the input query 
+    ''' pipeline data type is not the <see cref="Query"/> object.
+    ''' </returns>
     <ExportAPI("blastn.maphit")>
     <RApiReturn(GetType(BlastnMapping))>
     Public Function parseBlastnMaps(query As pipeline,
@@ -201,12 +237,26 @@ Module workflows
     ''' Export single side besthit
     ''' </summary>
     ''' <param name="query">the blast reader result from the ``read.blast`` iterator function.</param>
-    ''' <param name="idetities"></param>
-    ''' <param name="coverage"></param>
-    ''' <param name="topBest"></param>
-    ''' <param name="keepsRawName"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="idetities">
+    ''' the minimum identity threshold value of the accepted hits.
+    ''' </param>
+    ''' <param name="coverage">
+    ''' the minimum coverage threshold value of the accepted hits.
+    ''' </param>
+    ''' <param name="topBest">
+    ''' only export the top best hit for each query?
+    ''' </param>
+    ''' <param name="keepsRawName">
+    ''' keep the raw query name text in the exported best hit data?
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="BestHit"/> single side 
+    ''' best hit result;
+    ''' 
+    ''' this function returns a R# error message object if the input query 
+    ''' pipeline data type is not the <see cref="Query"/> object.
+    ''' </returns>
     <ExportAPI("blasthit.sbh")>
     <Extension>
     <RApiReturn(GetType(BestHit))>
@@ -244,6 +294,31 @@ Module workflows
         Return hitsPopulator().IteratesALL.as_iterator
     End Function
 
+    ''' <summary>
+    ''' export the bi-directional best hit(BBH) result from the given forward 
+    ''' and reverse best hit data streams
+    ''' </summary>
+    ''' <param name="forward">
+    ''' a lazy pipeline collection of the forward direction hits data, which 
+    ''' could be the raw query(<see cref="Query"/>) stream, the single side 
+    ''' best hit(<see cref="BestHit"/>) stream, or the diamond m8 annotation 
+    ''' (<see cref="DiamondAnnotation"/>) stream.
+    ''' </param>
+    ''' <param name="reverse">
+    ''' a lazy pipeline collection of the reverse direction hits data, which 
+    ''' accepts the same data models as the ``forward`` parameter.
+    ''' </param>
+    ''' <param name="algorithm">
+    ''' the BBH match algorithm of the bi-directional best hit search.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="BiDirectionalBesthit"/> 
+    ''' bi-directional best hit result;
+    ''' 
+    ''' this function returns a R# error message object if the input data 
+    ''' streams are nothing or their element types are not supported.
+    ''' </returns>
     <ExportAPI("blasthit.bbh")>
     Public Function ExportBBHHits(forward As pipeline, reverse As pipeline,
                                   Optional algorithm As BBHAlgorithm = BBHAlgorithm.Naive,
@@ -305,8 +380,12 @@ Module workflows
     ''' removes protein suffix id
     ''' </summary>
     ''' <param name="hits">a collection of the blast hits result or a character vector of the protein id.</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the cleaned protein id or the blast hits result object 
+    ''' which its query name and hit name have been trimmed of the protein id 
+    ''' suffix.
+    ''' </returns>
     <ExportAPI("remove_protein_suffix")>
     <RApiReturn(GetType(String), GetType(I_BlastQueryHit))>
     Public Function removeProteinSufifx(<RRawVectorArgument> hits As Object, Optional env As Environment = Nothing) As Object
@@ -334,6 +413,30 @@ Module workflows
         Return New CLRIterator(cleanup, pull.elementType.GetRawElementType)
     End Function
 
+    ''' <summary>
+    ''' apply a text grep script on the query name or hit name of the blast 
+    ''' query result data
+    ''' </summary>
+    ''' <param name="query">
+    ''' a lazy pipeline collection of the blast query hits result 
+    ''' (<see cref="Query"/>), which is created by the ``read.blast`` api.
+    ''' </param>
+    ''' <param name="operators">
+    ''' the text grep script for do the name string replacement: a text grep 
+    ''' script string, or a compiled text grep engine object.
+    ''' </param>
+    ''' <param name="applyOnHits">
+    ''' apply the text grep script on the hit name instead of the query name?
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="Query"/> blast query 
+    ''' result which its name data has been processed by the given text grep 
+    ''' script;
+    ''' 
+    ''' this function returns a R# error message object if the given text grep 
+    ''' program is invalid.
+    ''' </returns>
     <ExportAPI("grep.names")>
     Public Function grepNames(query As pipeline, operators As Object,
                               Optional applyOnHits As Boolean = False,
@@ -386,8 +489,12 @@ Module workflows
     ''' <param name="stream">
     ''' a stream data handler that generated via the ``open.stream`` function.
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' this function returns a R# error message object if the output stream 
+    ''' device is nothing, the input data is nothing, or the stream device 
+    ''' type is not matched with the incoming data type.
+    ''' </returns>
     <ExportAPI("stream.flush")>
     Public Function flush(data As pipeline, stream As Object, Optional env As Environment = Nothing) As Object
         If stream Is Nothing Then
@@ -437,8 +544,11 @@ Module workflows
     ''' <param name="evalue">new cutoff value of the evalue for make filter of the given hits collection</param>
     ''' <param name="delNohits">removes ``HITS_NOT_FOUND``? default is yes.</param>
     ''' <param name="pickTop">pick the top one hit for each query group?</param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a filtered lazy pipeline collection of the <see cref="BestHit"/> best 
+    ''' hit data.
+    ''' </returns>
     <ExportAPI("besthit_filter")>
     Public Function FilterBesthitStream(besthits As pipeline,
                                         Optional evalue As Double? = Nothing,
@@ -486,6 +596,23 @@ Module workflows
         End If
     End Function
 
+    ''' <summary>
+    ''' filter the bi-directional best hit data by removing the low level 
+    ''' hits(SBH and NA level)
+    ''' </summary>
+    ''' <param name="bbh">
+    ''' a collection of the <see cref="BiDirectionalBesthit"/> bi-directional 
+    ''' best hit data for make the level filter.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="BiDirectionalBesthit"/> 
+    ''' object which its level value is neither ``SBH`` nor ``NA``;
+    ''' 
+    ''' this function returns a R# error message object if the input bbh data 
+    ''' can not be cast to a collection of the 
+    ''' <see cref="BiDirectionalBesthit"/> object.
+    ''' </returns>
     <ExportAPI("filter_low_level")>
     Public Function filter_low_level(<RRawVectorArgument> bbh As Object, Optional env As Environment = Nothing) As Object
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of BiDirectionalBesthit)(bbh, env)
@@ -502,9 +629,16 @@ Module workflows
     ''' <summary>
     ''' read the hits data in pipeline stream style
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="encoding"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the sbh best hit data table file.
+    ''' </param>
+    ''' <param name="encoding">
+    ''' the text encoding value of the target table file.
+    ''' </param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="BestHit"/> best hit 
+    ''' object that loaded from the given table file.
+    ''' </returns>
     <ExportAPI("read.besthits")>
     <RApiReturn(GetType(BestHit))>
     Public Function read_besthits(file As String, Optional encoding As Encodings = Encodings.ASCII) As Object
@@ -514,6 +648,19 @@ Module workflows
             .as_iterator
     End Function
 
+    ''' <summary>
+    ''' read the bi-directional best hit data in pipeline stream style
+    ''' </summary>
+    ''' <param name="file">
+    ''' the file path of the bbh bi-directional best hit data table file.
+    ''' </param>
+    ''' <param name="encoding">
+    ''' the text encoding value of the target table file.
+    ''' </param>
+    ''' <returns>
+    ''' a lazy pipeline collection of the <see cref="BiDirectionalBesthit"/> 
+    ''' bi-directional best hit object that loaded from the given table file.
+    ''' </returns>
     <ExportAPI("read.bbh_hits")>
     <RApiReturn(GetType(BiDirectionalBesthit))>
     Public Function read_bbhhits(file As String, Optional encoding As Encodings = Encodings.ASCII) As Object
@@ -526,9 +673,23 @@ Module workflows
     ''' <summary>
     ''' read ncbi blast output format 6 (tabular) file for blastn result mapping to genome sequence
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the input source: a file path of the blast output format 6 tabular 
+    ''' table file, or a file stream object of the target table file.
+    ''' </param>
+    ''' <param name="make_query_group">
+    ''' group the hits result by the query id? if this parameter is TRUE, then 
+    ''' a named list of the hits result group will be returned.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="HitRecord"/> blast hits result object, or a 
+    ''' named list of the hits result group when the ``make_query_group`` 
+    ''' parameter is TRUE;
+    ''' 
+    ''' this function returns a R# error message object if the given file can 
+    ''' not be opened for read.
+    ''' </returns>
     <ExportAPI("read.outfmt6")>
     <RApiReturn(GetType(HitRecord))>
     Public Function read_blast_tabular(<RRawVectorArgument>
@@ -571,11 +732,27 @@ Module workflows
     ''' <summary>
     ''' Open result table stream writer
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="type"></param>
-    ''' <param name="encoding"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the target result table stream file.
+    ''' </param>
+    ''' <param name="type">
+    ''' the table format type of the target stream data: ``SBH``, ``BBH``, 
+    ''' ``Mapping`` or ``Terms``.
+    ''' </param>
+    ''' <param name="encoding">
+    ''' the text encoding value of the target stream file.
+    ''' </param>
+    ''' <param name="ioRead">
+    ''' open the target file in read mode? if this parameter is TRUE, then a 
+    ''' lazy pipeline collection of the table data will be returned instead of 
+    ''' the stream writer object.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a stream writer object for save the annotation data in a stream manner 
+    ''' via the ``stream.flush`` api, or a lazy pipeline collection of the 
+    ''' table data when the ``ioRead`` parameter is TRUE.
+    ''' </returns>
     <ExportAPI("open.stream")>
     Public Function openWriter(file As String,
                                Optional type As TableTypes = TableTypes.SBH,
@@ -624,9 +801,27 @@ Module workflows
     ''' <summary>
     ''' read the diamond m8 annotation table file output
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="stream"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the diamond m8 format annotation table file.
+    ''' </param>
+    ''' <param name="stream">
+    ''' read the table data in a lazy stream manner?
+    ''' </param>
+    ''' <param name="filter">
+    ''' the keyword for filter the annotation result.
+    ''' </param>
+    ''' <param name="parseHitId">
+    ''' the index number of the token in the hit id text for make the hit name 
+    ''' parse, a negative value means no parse.
+    ''' </param>
+    ''' <param name="hitIdDeli">
+    ''' the delimiter character for split the hit id text.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="DiamondAnnotation"/> diamond annotation 
+    ''' object, or a lazy pipeline collection of this data when the ``stream`` 
+    ''' parameter is TRUE.
+    ''' </returns>
     <ExportAPI("read_m8")>
     <RApiReturn(GetType(DiamondAnnotation))>
     Public Function read_m8(file As String,
@@ -673,9 +868,15 @@ Module workflows
     ''' <summary>
     ''' Make query group and convert to alignment hit collection
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="x">
+    ''' a collection of the <see cref="DiamondAnnotation"/> diamond annotation 
+    ''' hits data for make the hit group.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="HitCollection"/> hit group object, one group 
+    ''' element for each query id.
+    ''' </returns>
     <ExportAPI("diamond_hitgroups")>
     <RApiReturn(GetType(HitCollection))>
     Public Function diamond_hitgroups(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object

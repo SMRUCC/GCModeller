@@ -58,10 +58,50 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' The nucleotide SNP variations analysis toolkit
+''' </summary>
+''' 
+''' <remarks>
+''' This R# package module provides the api for the SNP(simple nucleotide 
+''' polymorphism) variations analysis based on the multiple sequence 
+''' alignment of the nucleotide fasta sequence data:
+''' 
+''' + ``snp_scan``: scan the SNP variation sites from a given multiple 
+'''   sequence alignment fasta file.
+''' </remarks>
 <Package("snp_toolkit")>
 <RTypeExport("snp", GetType(SNP))>
 Module snpTools
 
+    ''' <summary>
+    ''' scan the SNP variation sites from a given multiple sequence alignment 
+    ''' fasta sequence data
+    ''' </summary>
+    ''' <param name="nt">
+    ''' a <see cref="FastaFile"/> multiple sequence alignment nucleotide 
+    ''' sequence collection for scan the SNP variation sites.
+    ''' </param>
+    ''' <param name="ref_index">
+    ''' the index number of the reference sequence in the input multiple 
+    ''' sequence alignment collection, which is used as the reference for 
+    ''' make the SNP calling.
+    ''' </param>
+    ''' <param name="pureMode">
+    ''' only accept the pure SNP variations? if this parameter is TRUE, then 
+    ''' the SNP sites that contains mixed variation information will be 
+    ''' ignored.
+    ''' </param>
+    ''' <param name="monomorphic">
+    ''' include the monomorphic sites in the SNP scanning result?
+    ''' </param>
+    ''' <param name="vcf_output_filename">
+    ''' a by-ref parameter for get the file path of the generated VCF format 
+    ''' SNP variations output file.
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="SNPsAln"/> SNP variations analysis result object.
+    ''' </returns>
     <ExportAPI("snp_scan")>
     Public Function snp_scan(nt As FastaFile,
                              ref_index$,

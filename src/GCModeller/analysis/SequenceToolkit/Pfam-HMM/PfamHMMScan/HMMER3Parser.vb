@@ -63,6 +63,7 @@
 ' ============================================================================
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 
 ''' <summary>
@@ -82,26 +83,32 @@ Imports System.Text.RegularExpressions
 '''     - 插入发射概率（20个氨基酸）
 '''     - 转移概率（7个：m->m, m->i, m->d, i->m, i->i, d->m, d->d）
 ''' </remarks>
-Public Class HMMER3Parser
+Public Module HMMER3Parser
 
     ' 氨基酸字母表顺序（HMMER3标准顺序）
-    Public Shared ReadOnly AA_ALPHABET As String() = {
-            "A", "C", "D", "E", "F", "G", "H", "I", "K", "L",
-            "M", "N", "P", "Q", "R", "S", "T", "V", "W", "Y"
-        }
+    Public ReadOnly AA_ALPHABET As String() = {
+        "A", "C", "D", "E", "F", "G", "H", "I", "K", "L",
+        "M", "N", "P", "Q", "R", "S", "T", "V", "W", "Y"
+    }
 
     ''' <summary>
     ''' 解析HMMER3模型文件
     ''' </summary>
     ''' <param name="filePath">HMMER3模型文件路径</param>
     ''' <returns>解析后的ProfileHMM对象</returns>
-    Public Shared Function Parse(filePath As String) As ProfileHMM
+    Public Function Parse(filePath As String) As ProfileHMM
         If Not File.Exists(filePath) Then
             Throw New FileNotFoundException($"HMMER3 model file not found: {filePath}")
+        Else
+            Return filePath.ReadAllLines.ParseLines
         End If
+    End Function
 
-        Dim lines As String() = File.ReadAllLines(filePath)
-        Return ParseLines(lines)
+    <Extension>
+    Public Iterator Function LoadDatabase(s As Stream) As IEnumerable(Of ProfileHMM)
+        For Each block As String() In s.IterateAllLines(tqdm_wrap:=True).Split("//")
+            Yield block.ParseLines
+        Next
     End Function
 
     ''' <summary>
@@ -109,18 +116,21 @@ Public Class HMMER3Parser
     ''' </summary>
     ''' <param name="content">HMMER3模型文本内容</param>
     ''' <returns>解析后的ProfileHMM对象</returns>
-    Public Shared Function ParseContent(content As String) As ProfileHMM
-        Dim lines As String() = content.Split({vbCr, vbLf}, StringSplitOptions.RemoveEmptyEntries)
-        Return ParseLines(lines)
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function ParseContent(content As String) As ProfileHMM
+        Return content.LineTokens.ParseLines()
     End Function
 
     ''' <summary>
     ''' 解析HMMER3模型行数据
     ''' </summary>
-    Private Shared Function ParseLines(lines As String()) As ProfileHMM
+    ''' 
+    <Extension>
+    Private Function ParseLines(lines As String()) As ProfileHMM
         Dim model As New ProfileHMM()
-
         Dim i As Integer = 0
+
         While i < lines.Length
             Dim line As String = lines(i).Trim()
 
@@ -192,7 +202,7 @@ Public Class HMMER3Parser
     ''' <summary>
     ''' 解析键值对行
     ''' </summary>
-    Private Shared Function ParseValue(line As String) As String
+    Private Function ParseValue(line As String) As String
         Dim parts As String() = line.Split({" "c, vbTab}, StringSplitOptions.RemoveEmptyEntries)
         If parts.Length >= 2 Then
             Return parts(1)
@@ -203,7 +213,7 @@ Public Class HMMER3Parser
     ''' <summary>
     ''' 解析统计信息行
     ''' </summary>
-    Private Shared Function ParseStatsLine(line As String) As (mu As Double, lambda As Double)
+    Private Function ParseStatsLine(line As String) As (mu As Double, lambda As Double)
         Dim parts As String() = line.Split({" "c, vbTab}, StringSplitOptions.RemoveEmptyEntries)
         If parts.Length >= 4 Then
             Return (Double.Parse(parts(3)), Double.Parse(parts(4)))
@@ -214,7 +224,7 @@ Public Class HMMER3Parser
     ''' <summary>
     ''' 解析COMPO行（背景发射概率）
     ''' </summary>
-    Private Shared Sub ParseCompoLine(line As String, model As ProfileHMM)
+    Private Sub ParseCompoLine(line As String, model As ProfileHMM)
         Dim parts As String() = line.Split({" "c, vbTab}, StringSplitOptions.RemoveEmptyEntries)
         ' 跳过"COMPO"标识符
         Dim startIndex As Integer = 1
@@ -228,7 +238,7 @@ Public Class HMMER3Parser
     ''' <summary>
     ''' 解析COMPO插入发射概率行
     ''' </summary>
-    Private Shared Sub ParseCompoInsertLine(line As String, model As ProfileHMM)
+    Private Sub ParseCompoInsertLine(line As String, model As ProfileHMM)
         Dim parts As String() = line.Split({" "c, vbTab}, StringSplitOptions.RemoveEmptyEntries)
         Dim probs As New List(Of Double)
         For i As Integer = 0 To Math.Min(19, parts.Length - 1)
@@ -240,7 +250,7 @@ Public Class HMMER3Parser
     ''' <summary>
     ''' 解析COMPO转移概率行
     ''' </summary>
-    Private Shared Sub ParseCompoTransLine(line As String, model As ProfileHMM)
+    Private Sub ParseCompoTransLine(line As String, model As ProfileHMM)
         Dim parts As String() = line.Split({" "c, vbTab}, StringSplitOptions.RemoveEmptyEntries)
         Dim probs As New List(Of Double)
         For i As Integer = 0 To Math.Min(6, parts.Length - 1)
@@ -259,7 +269,7 @@ Public Class HMMER3Parser
     ''' <summary>
     ''' 解析状态块（发射概率和转移概率）
     ''' </summary>
-    Private Shared Sub ParseStateBlock(lines As String(), startIndex As Integer, model As ProfileHMM, stateIndex As Integer)
+    Private Sub ParseStateBlock(lines As String(), startIndex As Integer, model As ProfileHMM, stateIndex As Integer)
         ' 第一行：匹配状态发射概率
         Dim matchLine As String = lines(startIndex).Trim()
         Dim matchParts As String() = matchLine.Split({" "c, vbTab}, StringSplitOptions.RemoveEmptyEntries)
@@ -300,4 +310,4 @@ Public Class HMMER3Parser
         model.Transitions.Add(transitions.ToArray())
     End Sub
 
-End Class
+End Module

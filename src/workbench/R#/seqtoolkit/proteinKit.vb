@@ -164,8 +164,14 @@ Module proteinKit
     ''' returns <see cref="StructuralAnnotation"/> clr object model if this parameter is set TRUE, otherwise returns 
     ''' the string representitive of the chou-fasman structure information.
     ''' </param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the chou-fasman secondary structure prediction result of the input 
+    ''' protein sequence: a character value of the structure annotation string 
+    ''' or a <see cref="StructuralAnnotation"/> clr object when there is only 
+    ''' one sequence in the input collection, or a named list of the 
+    ''' prediction result of each sequence in the input collection.
+    ''' </returns>
     ''' <example>
     ''' print(chou_fasman("AAABAAGKKKJLLMMMMMM"));
     ''' </example>
@@ -212,9 +218,23 @@ Module proteinKit
     ''' <summary>
     ''' parse the pdb struct data from a given document text data
     ''' </summary>
-    ''' <param name="pdb_txt"></param>
-    ''' <param name="safe"></param>
-    ''' <returns></returns>
+    ''' <param name="pdb_txt">
+    ''' the PDB document text data for parse as the protein structure object 
+    ''' model.
+    ''' </param>
+    ''' <param name="safe">
+    ''' catch and ignore the exception when the parsing is failed? if this 
+    ''' parameter is TRUE, then a NULL value will be returned instead of 
+    ''' throwing an exception when the given document text data is invalid.
+    ''' </param>
+    ''' <param name="verbose">
+    ''' print the verbose log message of the parsing progress?
+    ''' </param>
+    ''' <returns>
+    ''' a <see cref="PDB"/> protein structure object model that parsed from 
+    ''' the given PDB document text data; NULL will be returned when the 
+    ''' parsing is failed and the ``safe`` parameter is TRUE.
+    ''' </returns>
     <ExportAPI("parse_pdb")>
     <RApiReturn(GetType(PDB))>
     Public Function parsePdb(pdb_txt As String, Optional safe As Boolean = False, Optional verbose As Boolean = False) As Object
@@ -278,14 +298,37 @@ Module proteinKit
     ''' <summary>
     ''' get structure models inside the given pdb object
     ''' </summary>
-    ''' <param name="pdb"></param>
-    ''' <returns></returns>
+    ''' <param name="pdb">
+    ''' a <see cref="PDB"/> protein structure object for get its structure 
+    ''' models, which is created by the ``parse_pdb`` or ``read.pdb`` api.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the structure model data that inside the given pdb object, 
+    ''' each structure model element is a collection of the 
+    ''' <see cref="Atom"/> atom object.
+    ''' </returns>
     <ExportAPI("pdb_models")>
     <RApiReturn(GetType(Atom))>
     Public Function pdbModels(pdb As PDB) As Object
         Return pdb.AsEnumerable.ToArray
     End Function
 
+    ''' <summary>
+    ''' get the geometry center coordinates of the given protein structure 
+    ''' object
+    ''' </summary>
+    ''' <param name="pdb">
+    ''' a <see cref="PDB"/> protein structure object for evaluate its centroid 
+    ''' coordinates.
+    ''' </param>
+    ''' <param name="as_vector">
+    ''' returns the centroid coordinates as a numeric vector? if this 
+    ''' parameter is FALSE(the default value), then a <see cref="Point3D"/> 
+    ''' coordinates object will be returned.
+    ''' </param>
+    ''' <returns>
+    ''' the centroid coordinates of the given protein structure object.
+    ''' </returns>
     <ExportAPI("pdb_centroid")>
     <RApiReturn(GetType(Point3D), GetType(Double))>
     Public Function pdb_centroid(pdb As PDB, Optional as_vector As Boolean = False) As Object
@@ -298,6 +341,26 @@ Module proteinKit
         End If
     End Function
 
+    ''' <summary>
+    ''' list the small molecule ligand compound data from the given protein 
+    ''' structure object
+    ''' </summary>
+    ''' <param name="pdb">
+    ''' a <see cref="PDB"/> protein structure object for list its ligand 
+    ''' compound data.
+    ''' </param>
+    ''' <param name="key">
+    ''' the compound name for filter the ligand data.
+    ''' </param>
+    ''' <param name="number">
+    ''' the sequence number of the target ligand for filter the ligand data, a 
+    ''' negative value means no filter.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="Het.HETRecord"/> ligand compound object 
+    ''' when no filter condition is specified, or the single ligand compound 
+    ''' object that matches the given compound name and sequence number.
+    ''' </returns>
     <ExportAPI("ligands")>
     <RApiReturn(GetType(Het.HETRecord))>
     Public Function ligands(pdb As PDB, Optional key As String = Nothing, Optional number As Integer = -1)
@@ -382,6 +445,25 @@ Module proteinKit
         Return graph.GetFingerprint(radius, len)
     End Function
 
+    ''' <summary>
+    ''' build the enzyme protein sequence transformer model from a given enzyme 
+    ''' protein sequence collection
+    ''' </summary>
+    ''' <param name="enzymes">
+    ''' a protein fasta sequence collection for build the transformer model, 
+    ''' which can be a <see cref="FastaFile"/> object, a collection of the 
+    ''' <see cref="FastaSeq"/> object, or a character vector of the raw 
+    ''' sequence data.
+    ''' </param>
+    ''' <param name="kmer">
+    ''' the k-mer size for tokenize the protein sequence data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a <see cref="TransformerModel"/> protein sequence model that trained 
+    ''' from the given enzyme sequence collection, which can be used for 
+    ''' generate the new protein sequence via the ``predict_sequence`` api.
+    ''' </returns>
     <ExportAPI("enzyme_builder")>
     <RApiReturn(GetType(TransformerModel))>
     Public Function enzymeBuilder(<RRawVectorArgument> enzymes As Object,
@@ -397,6 +479,23 @@ Module proteinKit
         Return seq.MakeModel(kmer)
     End Function
 
+    ''' <summary>
+    ''' generate the protein sequence data from the given EC number via the 
+    ''' enzyme transformer model
+    ''' </summary>
+    ''' <param name="model">
+    ''' a <see cref="TransformerModel"/> enzyme protein sequence model, which 
+    ''' is created by the ``enzyme_builder`` api.
+    ''' </param>
+    ''' <param name="ec_number">
+    ''' a character vector of the enzyme commission(EC) number for generate 
+    ''' the corresponding protein sequence data.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the generated <see cref="FastaSeq"/> protein sequence 
+    ''' object, one sequence element for each of the given EC number.
+    ''' </returns>
     <ExportAPI("predict_sequence")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function predict_sequence(model As TransformerModel, <RRawVectorArgument> ec_number As Object, Optional env As Environment = Nothing) As Object
@@ -406,9 +505,16 @@ Module proteinKit
     ''' <summary>
     ''' analysis the functional domain on the protein sequence
     ''' </summary>
-    ''' <param name="blastp"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="blastp">
+    ''' the diamond blastp annotation result data for extract the protein 
+    ''' domain information.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a vector of the <see cref="PfamString"/> protein domain annotation 
+    ''' result, one result element for each of the protein sequence in the 
+    ''' input annotation result data.
+    ''' </returns>
     <ExportAPI("analysis_domains")>
     <RApiReturn(GetType(PfamString))>
     Public Function analysis_domains(<RRawVectorArgument> blastp As Object, Optional env As Environment = Nothing) As Object
@@ -434,8 +540,13 @@ Module proteinKit
     ''' <summary>
     ''' read the table file of pfam protein domain annotation data, and return the <see cref="PfamString"/> object model
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <param name="file">
+    ''' the file path of the pfam protein domain annotation csv table file.
+    ''' </param>
+    ''' <returns>
+    ''' a vector of the <see cref="PfamString"/> protein domain annotation 
+    ''' object that loaded from the given table file.
+    ''' </returns>
     <ExportAPI("read.pfam_string")>
     Public Function readPfamString(file As String) As Object
         Return file.LoadCsv(Of PfamString)(mute:=True).ToArray
