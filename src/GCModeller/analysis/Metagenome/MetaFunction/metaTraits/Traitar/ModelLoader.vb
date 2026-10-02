@@ -78,7 +78,7 @@ Namespace metaTraits.Traitar
         ''' <summary>已经训练成功的模型数量</summary>
         Public ReadOnly Property TrainedCount As Integer
             Get
-                Return Models.Values.Count(Function(m) m.IsTrained())
+                Return Models.Values.Where(Function(m) m.IsTrained()).Count()
             End Get
         End Property
 
@@ -99,7 +99,7 @@ Namespace metaTraits.Traitar
         Public Shared Function SafeFileName(trait_name As String, Optional index As Integer = 0) As String
             Dim name As String = If(trait_name, "")
 
-            For Each c As Char In Path.GetInvalidFileNameChars()
+            For Each c As Char In System.IO.Path.GetInvalidFileNameChars()
                 name = name.Replace(c, "_"c)
             Next
 
@@ -151,7 +151,7 @@ Namespace metaTraits.Traitar
 
                         Dim json As String = SvmModelJSON.CreateJSONModel(model.Model).GetJson
 
-                        Call System.IO.File.WriteAllText(Path.Combine(dir, modelFile), json)
+                        Call System.IO.File.WriteAllText(System.IO.System.IO.Path.Combine(dir, modelFile), json)
                     End If
                 End If
 
@@ -191,14 +191,14 @@ Namespace metaTraits.Traitar
                 .models = index.ToArray
             }
 
-            Call System.IO.File.WriteAllText(Path.Combine(dir, INDEX_FILE), store.GetJson)
+            Call System.IO.File.WriteAllText(System.IO.Path.Combine(dir, INDEX_FILE), store.GetJson)
 
             If embedding IsNot Nothing Then
-                Call embedding.Save(Path.Combine(dir, VOCABULARY_FILE))
+                Call embedding.Save(System.IO.Path.Combine(dir, VOCABULARY_FILE))
             End If
 
             If verbose Then
-                Console.WriteLine($"[ModelLoader] saved {index.Count(Function(m) m.modelFile.Length > 0)} models to '{dir}'")
+                Console.WriteLine($"[ModelLoader] saved {index.Where(Function(m) m.modelFile.Length > 0).Count()} models to '{dir}'")
             End If
 
             Return New ModelLoader With {
@@ -214,8 +214,8 @@ Namespace metaTraits.Traitar
         ''' <param name="dir">模型仓库目录</param>
         Public Shared Function LoadDirectory(dir As String, Optional verbose As Boolean = True) As ModelLoader
             Dim loader As New ModelLoader With {.Directory = dir}
-            Dim indexFile As String = Path.Combine(dir, INDEX_FILE)
-            Dim vocabularyFile As String = Path.Combine(dir, VOCABULARY_FILE)
+            Dim indexFile As String = System.IO.Path.Combine(dir, INDEX_FILE)
+            Dim vocabularyFile As String = System.IO.Path.Combine(dir, VOCABULARY_FILE)
 
             If System.IO.File.Exists(vocabularyFile) Then
                 loader.Embedding = PfamEmbedding.Load(vocabularyFile)
@@ -247,7 +247,7 @@ Namespace metaTraits.Traitar
                 }
 
                 If item.modelFile IsNot Nothing AndAlso item.modelFile.Length > 0 Then
-                    Dim path As String = Path.Combine(dir, item.modelFile)
+                    Dim path As String = System.IO.Path.Combine(dir, item.modelFile)
 
                     If System.IO.File.Exists(path) Then
                         model.Model = System.IO.File _

@@ -1,75 +1,50 @@
-﻿#Region "Microsoft.VisualBasic::ad78a62079c5ad58c5e39a7199adebef, analysis\Metagenome\MetaFunction\metaTraits\Traitar\ReportJSON.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 20
-    '    Code Lines: 15 (75.00%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 5 (25.00%)
-    '     File Size: 667 B
-
-
-    '     Class ReportJSON
-    ' 
-    '         Properties: accession, category, confidence, KeyFeatures, labels
-    '                     negative, phenotypeId, positive, predict, scores
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Modules
+﻿' ============================================================================
+' ReportJSON.vb
+'
+' 最终的 JSON 报告数据结构：既可以表达分类结果（boolean / categorical），
+' 也可以表达回归结果（numeric (continuous)）。
+' ============================================================================
 
 Namespace metaTraits.Traitar
 
     Public Class ReportJSON
 
+        ''' <summary>表型标识（即表型名称）</summary>
         Public Property phenotypeId As String
+        ''' <summary>表型名称</summary>
         Public Property accession As String
+        ''' <summary>表型分类（主分类 / 次分类）</summary>
         Public Property category As String
-        Public Property predict As PredictionResults
-        Public Property positive As Integer
-        Public Property negative As Integer
-        Public Property confidence As Double
-        Public Property scores As Double()
-        Public Property labels As Integer()
+        ''' <summary>计量单位</summary>
+        Public Property unit As String
+        ''' <summary>表型的数据类型</summary>
+        Public Property data_type As String
 
-        Public Property KeyFeatures As FeatureSelection.KeyFeature()
+        ''' <summary>
+        ''' 预测结果：分类模型为类别标签文本，回归模型为预测数值文本
+        ''' </summary>
+        Public Property predict As String
+        ''' <summary>boolean 型表型所对应的枚举结果</summary>
+        Public Property result As PredictionResults
+        ''' <summary>预测置信度，取值区间 [0,1]</summary>
+        Public Property confidence As Double
+        ''' <summary>决策函数的输出值</summary>
+        Public Property score As Double
+        ''' <summary>每一个类别所获得的决策值</summary>
+        Public Property votes As Double()
+        ''' <summary>模型的状态：trained / skipped</summary>
+        Public Property status As String
+        ''' <summary>该模型的交叉验证得分</summary>
+        Public Property cvScore As Double
+        ''' <summary>参与训练的样本数量</summary>
+        Public Property sampleCount As Integer
+
+        ''' <summary>该表型的关键 Pfam 结构域特征</summary>
+        Public Property KeyFeatures As Modules.KeyFeature()
+
+        Public Overrides Function ToString() As String
+            Return $"{accession} = {predict}{unit}"
+        End Function
 
     End Class
 End Namespace

@@ -38,8 +38,8 @@ Namespace metaTraits.Traitar.Modules
         ''' </summary>
         ''' <param name="dataset">由 TraitProblemBuilder 装配出来的训练数据集</param>
         ''' <returns>表型名 -> 该表型所对应的 SVM 模型实例</returns>
-        Public Function TrainAll(dataset As TraitTrainingSet) As Dictionary(Of String, PhenotypeModel)
-            Dim models As New Dictionary(Of String, PhenotypeModel)
+        Public Function TrainAll(dataset As TraitTrainingSet) As Dictionary(Of String, Models.PhenotypeModel)
+            Dim models As New Dictionary(Of String, Models.PhenotypeModel)
 
             If dataset Is Nothing OrElse dataset.traits Is Nothing Then
                 Return models
@@ -52,7 +52,7 @@ Namespace metaTraits.Traitar.Modules
             For Each trait As PhenotypeTrait In dataset.traits
                 i += 1
 
-                Dim model As PhenotypeModel = TrainOne(dataset, trait, dims)
+                Dim model As Models.PhenotypeModel = TrainOne(dataset, trait, dims)
 
                 models(trait.trait_name) = model
 
@@ -78,9 +78,9 @@ Namespace metaTraits.Traitar.Modules
         ''' 训练失败或者样本不足时返回 Status = ``skipped`` 的模型对象，
         ''' 不会抛出异常
         ''' </returns>
-        Public Function TrainOne(dataset As TraitTrainingSet, trait As PhenotypeTrait, Optional dims As Integer = 0) As PhenotypeModel
+        Public Function TrainOne(dataset As TraitTrainingSet, trait As PhenotypeTrait, Optional dims As Integer = 0) As Models.PhenotypeModel
             Dim topic As String = trait.trait_name
-            Dim result As New PhenotypeModel With {
+            Dim result As New Models.PhenotypeModel With {
                 .Trait = trait,
                 .Status = "skipped"
             }
@@ -150,7 +150,7 @@ Namespace metaTraits.Traitar.Modules
                 Dim par As Parameter = trait.CreateParameter(dims, kernel)
                 Dim transform As RangeTransform = RangeTransform.Compute(problem)
                 Dim scaled As Problem = transform.Scale(problem)
-                Dim trained As Model = Training.Train(scaled, par)
+                Dim trained As Microsoft.VisualBasic.MachineLearning.SVM.Model = Training.Train(scaled, par)
                 Dim svm As SVMModel
 
                 If trait.IsRegression() Then

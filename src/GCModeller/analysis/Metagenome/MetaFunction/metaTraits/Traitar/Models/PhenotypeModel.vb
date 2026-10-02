@@ -36,7 +36,7 @@ Namespace metaTraits.Traitar.Models
         ''' <summary>训练失败（或被跳过）的原因</summary>
         Public Property ErrorMessage As String
         ''' <summary>该表型的关键 Pfam 结构域特征</summary>
-        Public Property KeyFeatures As Modules.FeatureSelection.KeyFeature()
+        Public Property KeyFeatures As Modules.KeyFeature()
 
         ''' <summary>该模型是否已经训练成功</summary>
         Public Function IsTrained() As Boolean
