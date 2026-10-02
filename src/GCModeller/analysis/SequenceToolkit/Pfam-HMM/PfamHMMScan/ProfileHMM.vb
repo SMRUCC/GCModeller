@@ -135,6 +135,10 @@ Public Class ProfileHMM
         "M", "N", "P", "Q", "R", "S", "T", "V", "W", "Y"
     }
 
+    Public Overrides Function ToString() As String
+        Return $"{Name} ({Length} positions, checksum:{Checksum})"
+    End Function
+
     ''' <summary>
     ''' 初始化HMM参数，将HMMER3的对数几率比转换为概率
     ''' </summary>
