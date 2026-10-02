@@ -742,7 +742,6 @@ Public Module SigmaDifference
     ''' <see cref="ToolsAPI.BuildCAIReference"/> with the ribosomal protein genes).
     ''' </summary>
     ''' <param name="genes">the directory of the ``*.fasta`` / ``*.fsa`` species gene collections</param>
-    ''' <param name="workTEMP">the xml cache directory (reserved for the incremental compilation)</param>
     ''' <returns>the compiled codon usage csv document</returns>
     ''' <remarks>
     ''' Output layout:
@@ -751,8 +750,9 @@ Public Module SigmaDifference
     ''' src1 ...
     ''' src2 ...
     ''' </remarks>
-    <ExportAPI("compile.cai")>
-    Public Function CompileCABIAS(genes As String, Optional workTEMP As String = "./CAI_Xml") As IO.File
+    <ExportAPI("cai_bias_dataset")>
+    <RApiReturn(GetType(CAIBiasTable))>
+    Public Function CompileCABIAS(genes As String) As Object
         Dim fastaFiles = (From path As String
                           In FileIO.FileSystem.GetFiles(genes, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel
                           Let fasta = FastaFile.LoadNucleotideData(path, True)
@@ -769,39 +769,9 @@ Public Module SigmaDifference
                          Select ID = item.ID,
                              MeanCAI = meanCAI,
                              Table = New CodonAdaptationIndex(wTable)).ToArray
-        Dim csv As IO.File = compileCaiTable(caiTables)
+        Dim bias_table As CAIBiasTable() = CAIBiasTable.compileCaiTable(caiTables).ToArray
 
-        Return csv
-    End Function
-
-    ''' <summary>
-    ''' Build the codon usage csv table: one row per species (mean CAI of its genes
-    ''' plus one column per codon weight).
-    ''' </summary>
-    ''' <param name="data">the compiled codon weight tables of the species</param>
-    ''' <returns>the csv document</returns>
-    Private Function compileCaiTable(data As IEnumerable(Of (ID As String, MeanCAI As Double, Table As CodonAdaptationIndex))) As IO.File
-        Dim csv As New IO.File
-        Dim head As New IO.RowObject From {"SpeciesID", "CAI"}
-
-        Call csv.Add(head)
-
-        For Each bias In data.First.Table.GetCodonBiasList
-            Call head.Add(bias.Value.CodonString)
-        Next
-
-        For Each item In data
-            Dim row As New IO.RowObject From {item.ID, item.MeanCAI}
-            Dim biasData = item.Table.GetCodonBiasList
-
-            For i As Integer = 0 To biasData.Length - 1
-                Call row.Add(biasData(i).Value.Bias)
-            Next
-
-            Call csv.Add(row)
-        Next
-
-        Return csv
+        Return bias_table
     End Function
 
     ''' <summary>
@@ -809,10 +779,9 @@ Public Module SigmaDifference
     ''' the codon usage csv table. (legacy batch compilation entry)
     ''' </summary>
     ''' <param name="genes">the reference gene collection of one species</param>
-    ''' <param name="WorkTemp">the xml cache directory (reserved for the incremental compilation)</param>
-    ''' <returns>the compiled codon usage csv document</returns>
-    <ExportAPI("Compile.CAI")>
-    Public Function CompileCAIBIASCalculationThread(genes As FastaFile, Optional WorkTemp As String = "./CAI_Xml") As IO.File
+    <ExportAPI("cai_bias_table")>
+    <RApiReturn(GetType(CAIBiasTable))>
+    Public Function CompileCAIBIASCalculationThread(genes As FastaFile) As Object
         Dim wTable As New CodonWeightTable(genes, name:=genes.FilePath.BaseName)
         Dim meanCAI As Double = genes _
             .Select(Function(gene) gene.CAI(wTable)) _
@@ -823,7 +792,7 @@ Public Module SigmaDifference
         Dim compiledData As (ID As String, MeanCAI As Double, Table As CodonAdaptationIndex)() =
             {(BaseName(genes.FilePath), meanCAI, table)}
 
-        Return compileCaiTable(compiledData)
+        Return CAIBiasTable.compileCaiTable(compiledData).ToArray
     End Function
 
 #End Region
