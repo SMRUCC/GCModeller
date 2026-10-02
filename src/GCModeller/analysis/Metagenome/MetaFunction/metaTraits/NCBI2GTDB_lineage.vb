@@ -62,5 +62,9 @@ Namespace metaTraits
 
         <Column("taxonID GTDB")> Public Property taxonID_GTDB As UInteger
 
+        Public Overrides Function ToString() As String
+            Return $"ncbi_taxid:{taxonID_NCBI}, gtdb_taxid:{taxonID_GTDB}"
+        End Function
+
     End Class
 End Namespace
