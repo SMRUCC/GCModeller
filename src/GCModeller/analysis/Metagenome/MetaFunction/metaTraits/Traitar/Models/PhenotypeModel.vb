@@ -1,274 +1,144 @@
-﻿#Region "Microsoft.VisualBasic::3da84a76623922a661e06941f8259a61, analysis\Metagenome\MetaFunction\metaTraits\Traitar\Models\PhenotypeModel.vb"
-
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 206
-    '    Code Lines: 111 (53.88%)
-    ' Comment Lines: 63 (30.58%)
-    '    - Xml Docs: 82.54%
-    ' 
-    '   Blank Lines: 32 (15.53%)
-    '     File Size: 7.43 KB
-
-
-    '     Class SVMSubModel
-    ' 
-    '         Properties: Bias, C, IsActive, Weights
-    ' 
-    '         Function: PredictLabel, PredictScore
-    ' 
-    '     Class PhenotypeModel
-    ' 
-    '         Properties: Category, KeyFeatures, PhenotypeId, PhenotypeName, SubModels
-    ' 
-    '         Function: CompareByWeightMagnitude, GetConfidence, GetVotingCommittee, Predict
-    ' 
-    '     Class KeyFeatureInfo
-    ' 
-    '         Properties: Description, FeatureClass, IsMajorityPositive, PearsonCorrelation, PfamId
-    '                     WeightsByC
-    ' 
-    ' 
-    ' /********************************************************************************/
-
-#End Region
-
-' ============================================================================
-' PhenotypeModel.vb - 表型预测模型数据结构
+﻿' ============================================================================
+' PhenotypeModel.vb
 '
-' 对应论文中的：
-'   - L1正则化L2损失线性SVM模型
-'   - 投票委员会机制（5个最佳SVM模型）
-'   - 每个表型对应一组不同C参数的SVM模型
+' 表型预测模型数据结构：每一种生物表型对应着一个具体的 SVM 模型实例。
+'
+' 重构之后不再使用旧的「多个 C 参数的子模型投票委员会」机制，而是把整
+' 个 SVM 模型（支持向量 + 决策系数 + RangeTransform + 类别编码器）封装为
+' 一个 PhenotypeModel，全部训练与预测工作委托给底层的 LibSVM 算法库完成。
 ' ============================================================================
+
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.MachineLearning.SVM
+Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 
 Namespace metaTraits.Traitar.Models
 
     ''' <summary>
-    ''' 单个SVM子模型（对应一个C参数值）
-    ''' </summary>
-    Public Class SVMSubModel
-        ''' <summary>正则化参数C</summary>
-        Public Property C As Double
-
-        ''' <summary>偏置项 b</summary>
-        Public Property Bias As Double
-
-        ''' <summary>特征权重字典：PfamID -> 权重值</summary>
-        Public Property Weights As New Dictionary(Of String, Double)()
-
-        ''' <summary>
-        ''' 对样本进行预测，返回原始得分
-        ''' 公式：score = bias + Σ(weight_i × feature_i)
-        ''' </summary>
-        Public Function PredictScore(features As Dictionary(Of String, Integer)) As Double
-            Dim score As Double = Bias
-            For Each kvp As KeyValuePair(Of String, Double) In Weights
-                Dim featVal As Integer = 0
-                If features.ContainsKey(kvp.Key) Then
-                    featVal = features(kvp.Key)
-                End If
-                score += kvp.Value * CDbl(featVal)
-            Next
-            Return score
-        End Function
-
-        ''' <summary>
-        ''' 对样本进行预测，返回标签（1=正，-1=负）
-        ''' </summary>
-        Public Function PredictLabel(features As Dictionary(Of String, Integer)) As Integer
-            Dim score As Double = PredictScore(features)
-            If score > 0 Then
-                Return 1
-            Else
-                Return -1
-            End If
-        End Function
-
-        ''' <summary>
-        ''' 检查该模型是否有效（有非零权重或非零偏置）
-        ''' </summary>
-        Public ReadOnly Property IsActive As Boolean
-            Get
-                If Math.Abs(Bias) > 1e-12 Then Return True
-                For Each w As Double In Weights.Values
-                    If Math.Abs(w) > 1e-12 Then Return True
-                Next
-                Return False
-            End Get
-        End Property
-    End Class
-
-    ''' <summary>
-    ''' 表型预测模型（包含多个SVM子模型）
+    ''' 单一种生物表型所对应的 SVM 模型实例
     ''' </summary>
     Public Class PhenotypeModel
-        ''' <summary>表型ID</summary>
-        Public Property PhenotypeId As String
 
-        ''' <summary>表型名称</summary>
-        Public Property PhenotypeName As String
-
-        ''' <summary>表型类别</summary>
-        Public Property Category As String
-
-        ''' <summary>SVM子模型列表（每个对应一个C值）</summary>
-        Public Property SubModels As New List(Of SVMSubModel)()
-
-        ''' <summary>关键特征信息列表</summary>
-        Public Property KeyFeatures As New List(Of KeyFeatureInfo)()
-
-        ''' <summary>投票委员会大小</summary>
-        Public Const COMMITTEE_SIZE As Integer = 5
-
-        ''' <summary>多数表决阈值</summary>
-        Public Const MAJORITY_THRESHOLD As Integer = 3
-
+        ''' <summary>该模型所对应的表型元数据</summary>
+        Public Property Trait As PhenotypeTrait
         ''' <summary>
-        ''' 获取投票委员会
-        ''' 论文：选出交叉验证中准确率最高的5个SVM模型
-        ''' 由于模型文件中没有交叉验证准确率信息，这里使用所有活跃模型
-        ''' （有非零偏置或非零权重的模型）作为投票委员会
+        ''' 训练得到的 LibSVM 模型（含支持向量、决策系数、
+        ''' RangeTransform 以及类别编码器）
         ''' </summary>
-        Public Function GetVotingCommittee() As List(Of SVMSubModel)
-            ' 筛选活跃模型
-            Dim activeModels As New List(Of SVMSubModel)()
-            For Each m As SVMSubModel In SubModels
-                If m.IsActive Then
-                    activeModels.Add(m)
-                End If
-            Next
+        Public Property Model As SVMModel
 
-            ' 使用所有活跃模型作为投票委员会
-            Return activeModels
+        ''' <summary>参与该模型训练的样本数量</summary>
+        Public Property SampleCount As Integer
+        ''' <summary>交叉验证得分（分类为准确率，回归为相关系数）</summary>
+        Public Property CVScore As Double
+        ''' <summary>模型状态：``trained`` / ``skipped``</summary>
+        Public Property Status As String
+        ''' <summary>训练失败（或被跳过）的原因</summary>
+        Public Property ErrorMessage As String
+        ''' <summary>该表型的关键 Pfam 结构域特征</summary>
+        Public Property KeyFeatures As Modules.FeatureSelection.KeyFeature()
+
+        ''' <summary>该模型是否已经训练成功</summary>
+        Public Function IsTrained() As Boolean
+            Return Model IsNot Nothing
         End Function
 
-        ''' <summary>
-        ''' 比较两个模型的权重绝对值之和
-        ''' </summary>
-        Private Function CompareByWeightMagnitude(a As SVMSubModel, b As SVMSubModel) As Integer
-            Dim sumA As Double = Math.Abs(a.Bias)
-            For Each w As Double In a.Weights.Values
-                sumA += Math.Abs(w)
-            Next
-
-            Dim sumB As Double = Math.Abs(b.Bias)
-            For Each w As Double In b.Weights.Values
-                sumB += Math.Abs(w)
-            Next
-
-            Return sumA.CompareTo(sumB)
-        End Function
-
-        ''' <summary>
-        ''' 使用投票委员会进行预测
-        ''' 论文：5个模型中至少有3个预测为正，则最终判定为表型存在
-        ''' 由于使用所有活跃模型，多数表决阈值为半数以上
-        ''' </summary>
-        Public Function Predict(features As Dictionary(Of String, Integer)) As Integer
-            Dim committee As List(Of SVMSubModel) = GetVotingCommittee()
-            If committee.Count = 0 Then
-                Return 0  ' 无可用模型，默认预测为负
+        ''' <summary>该模型是否是一个回归模型（numeric 型表型）</summary>
+        Public Function IsRegression() As Boolean
+            If Trait Is Nothing Then
+                Return False
             End If
 
-            Dim positiveVotes As Integer = 0
-            For Each m As SVMSubModel In committee
-                If m.PredictLabel(features) = 1 Then
-                    positiveVotes += 1
-                End If
-            Next
+            Return Trait.IsRegression()
+        End Function
 
-            ' 多数表决：超过半数即为阳性
-            Dim threshold As Integer = committee.Count \ 2 + 1
-            If positiveVotes >= threshold Then
-                Return 1
+        ''' <summary>
+        ''' 使用已经归一化之后的 Pfam 特征向量进行表型预测
+        ''' </summary>
+        ''' <param name="profile">Pfam 编号 -> 归一化之后的丰度值</param>
+        ''' <param name="embedding">Pfam 嵌入配置（提供词表顺序）</param>
+        Public Function Predict(profile As IDictionary(Of String, Double), embedding As PfamEmbedding) As TraitPrediction
+            Return Predict(embedding.ToNodes(profile))
+        End Function
+
+        ''' <summary>
+        ''' 使用 1-based 的稠密特征向量进行表型预测
+        ''' </summary>
+        ''' <param name="features">未经缩放的原始特征向量</param>
+        Public Function Predict(features As Node()) As TraitPrediction
+            Dim result As New TraitPrediction With {
+                .trait_name = If(Trait Is Nothing, Nothing, Trait.trait_name),
+                .data_type = If(Trait Is Nothing, Nothing, Trait.data_type),
+                .unit = If(Trait Is Nothing, Nothing, Trait.unit),
+                .group_1 = If(Trait Is Nothing, Nothing, Trait.group_1_category),
+                .group_2 = If(Trait Is Nothing, Nothing, Trait.group_2_subcategory),
+                .status = Status
+            }
+
+            If Not IsTrained() Then
+                result.predict = Nothing
+                result.confidence = 0
+                Return result
+            End If
+
+            ' 预测之前必须应用与训练时完全相同的 range transform
+            Dim scaled As Node() = Model.transform.Transform(features)
+            Dim pred As SVMPrediction = Microsoft.VisualBasic.MachineLearning.SVM.Prediction.Predict(Model.model, scaled)
+
+            If Model.SVR Then
+                ' 回归模型：unifyValue 即为回归预测值
+                result.value = pred.unifyValue
+                result.score = pred.score
+                result.predict = pred.unifyValue.ToString("G6")
+                result.confidence = 1.0
             Else
+                Dim margin As Double = GetDecisionMargin(pred)
+
+                result.value = pred.class
+                result.score = pred.score
+                result.votes = pred.vote
+                result.confidence = 1.0 / (1.0 + System.Math.Exp(-System.Math.Abs(margin)))
+
+                Dim cls As Microsoft.VisualBasic.DataMining.ComponentModel.Encoder.ColorClass =
+                    Model.factors.GetColor(pred.class)
+
+                If cls Is Nothing Then
+                    result.predict = pred.class.ToString()
+                Else
+                    result.predict = cls.name
+                End If
+            End If
+
+            Return result
+        End Function
+
+        ''' <summary>
+        ''' 取出预测类别所对应的决策边距值，用于计算预测置信度
+        ''' </summary>
+        Private Function GetDecisionMargin(pred As SVMPrediction) As Double
+            If pred.vote Is Nothing OrElse pred.vote.Length = 0 Then
                 Return 0
             End If
-        End Function
-
-        ''' <summary>
-        ''' 获取预测置信度（正票比例）
-        ''' </summary>
-        Public Function GetConfidence(features As Dictionary(Of String, Integer)) As Double
-            Dim committee As List(Of SVMSubModel) = GetVotingCommittee()
-            If committee.Count = 0 Then
-                Return 0.0
+            If Model.model.classLabels Is Nothing Then
+                Return 0
             End If
 
-            Dim positiveVotes As Integer = 0
-            For Each m As SVMSubModel In committee
-                If m.PredictLabel(features) = 1 Then
-                    positiveVotes += 1
-                End If
-            Next
-            Return CDbl(positiveVotes) / CDbl(committee.Count)
+            Dim index As Integer = Array.IndexOf(Model.model.classLabels, pred.class)
+
+            If index < 0 OrElse index >= pred.vote.Length Then
+                Return 0
+            End If
+
+            Return pred.vote(index)
+        End Function
+
+        Public Overrides Function ToString() As String
+            If Trait Is Nothing Then
+                Return "n/a"
+            End If
+
+            Return $"[{Status}] {Trait.trait_name}, samples={SampleCount}, cv={CVScore:F4}"
         End Function
 
     End Class
-
-    ''' <summary>
-    ''' 关键特征信息（来自non-zero+weights.txt的每一行）
-    ''' </summary>
-    Public Class KeyFeatureInfo
-        ''' <summary>Pfam家族ID</summary>
-        Public Property PfamId As String
-
-        ''' <summary>类别（+或-）</summary>
-        Public Property FeatureClass As String
-
-        ''' <summary>各C值对应的权重</summary>
-        Public Property WeightsByC As New Dictionary(Of Double, Double)()
-
-        ''' <summary>Pfam描述</summary>
-        Public Property Description As String
-
-        ''' <summary>皮尔逊相关系数</summary>
-        Public Property PearsonCorrelation As Double
-
-        ''' <summary>该特征是否在多数模型（≥3）中拥有正权重</summary>
-        Public ReadOnly Property IsMajorityPositive As Boolean
-            Get
-                Dim positiveCount As Integer = 0
-                For Each w As Double In WeightsByC.Values
-                    If w > 0 Then positiveCount += 1
-                Next
-                Return positiveCount >= 3
-            End Get
-        End Property
-    End Class
-
 End Namespace
-
