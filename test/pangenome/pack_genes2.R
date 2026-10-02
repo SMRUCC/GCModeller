@@ -9,7 +9,7 @@ imports "bioseq.fasta" from "seqtoolkit";
 
 let src     = ?"--genbank" || stop("no genbank source was provided!");
 let result  = ?"--out"     || file.path(src, "result");
-let takes_n = ?"--takes"   || 800;
+let takes_n = ?"--takes"   || 500;
 let gbff    = load_genbanks( list.files(src,"*.gbff",recursive=TRUE ), extract_genomics = TRUE);
 let table   = c();
 let targets = open.fasta(file.path(result,"proteins.faa"), read=  FALSE);
@@ -19,7 +19,7 @@ for(let gb in gbff |> take(takes_n)) {
 
     # write protein sequence into the file stream
     table = c(table, as_tabular(gb));
-    write.fasta(protein_seqs(gb, title = "<locus_tag>.<gb_asm_id>"), 
+    write.fasta(protein_seqs(gb, title = "<locus_tag> <species_name>"), 
         file = targets, 
         filter.empty = TRUE);
 }
