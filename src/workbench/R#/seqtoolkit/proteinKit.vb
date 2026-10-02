@@ -58,6 +58,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -121,6 +122,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 ''' <author type="copyright">SMRUCC genomics Institute</author>
 ''' <version>1.6.0</version>
 <Package("proteinKit")>
+<RTypeExport("pfam-string", GetType(PfamString))>
 Module proteinKit
 
     ''' <summary>
@@ -409,7 +411,7 @@ Module proteinKit
     ''' <returns></returns>
     <ExportAPI("analysis_domains")>
     <RApiReturn(GetType(PfamString))>
-    Public Function analysis_domains(<RRawVectorArgument> blastp As Object, Optional env As Environment = Nothing)
+    Public Function analysis_domains(<RRawVectorArgument> blastp As Object, Optional env As Environment = Nothing) As Object
         If TypeOf blastp Is v228 Then
             Throw New NotImplementedException
         Else
@@ -428,5 +430,10 @@ Module proteinKit
 
             Return proteins
         End If
+    End Function
+
+    <ExportAPI("read.pfam_string")>
+    Public Function readPfamString(file As String) As Object
+        Return file.LoadCsv(Of PfamString)(mute:=True).ToArray
     End Function
 End Module
