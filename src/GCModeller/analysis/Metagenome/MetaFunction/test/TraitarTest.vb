@@ -1,63 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::2a3866c040071329742c34e5c021ae4a, analysis\Metagenome\MetaFunction\test\TraitarTest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 420
-    '    Code Lines: 281 (66.90%)
-    ' Comment Lines: 84 (20.00%)
-    '    - Xml Docs: 17.86%
-    ' 
-    '   Blank Lines: 55 (13.10%)
-    '     File Size: 20.00 KB
+' Summaries:
 
 
-    '     Class Program
-    ' 
-    '         Function: ParseArguments
-    ' 
-    '         Sub: Main2, OutputResults, PrintUsage, RunPrediction
-    '         Class RunConfig
-    ' 
-    '             Properties: BitScoreThreshold, DomtbloutPath, EValueThreshold, FastaPath, GffPath
-    '                         HmmsearchPath, ModelsDir, OutputDir, PfamDbPath, RunHmmsearch
-    '                         Verbose
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 420
+'    Code Lines: 281 (66.90%)
+' Comment Lines: 84 (20.00%)
+'    - Xml Docs: 17.86%
+' 
+'   Blank Lines: 55 (13.10%)
+'     File Size: 20.00 KB
+
+
+'     Class Program
+' 
+'         Function: ParseArguments
+' 
+'         Sub: Main2, OutputResults, PrintUsage, RunPrediction
+'         Class RunConfig
+' 
+'             Properties: BitScoreThreshold, DomtbloutPath, EValueThreshold, FastaPath, GffPath
+'                         HmmsearchPath, ModelsDir, OutputDir, PfamDbPath, RunHmmsearch
+'                         Verbose
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -82,7 +82,9 @@
 ' ============================================================================
 
 Imports System.IO
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.TraitarVB
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Models
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Modules
 
 Namespace TraitarVB
 
@@ -240,10 +242,10 @@ Namespace TraitarVB
             ' 步骤1: 基因组注释与特征化（模块1）
             ' ================================================================
             Console.WriteLine("--- 步骤1: 基因组注释与特征化 ---")
-            Dim annotator As New Modules.GenomeAnnotation(
+            Dim annotator As New GenomeAnnotation(
                 "prodigal", config.HmmsearchPath, config.PfamDbPath)
 
-            Dim sample As Models.GenomeSample
+            Dim sample As GenomeSample
 
             ' If config.DomtbloutPath <> "" Then
             ' 直接解析预计算的HMMER输出
@@ -293,7 +295,7 @@ Namespace TraitarVB
             Dim voting As New Modules.EnsembleVoting()
 
             ' 构建表型ID -> 模型列表的映射
-            Dim phenotypeModels As New Dictionary(Of String, List(Of Modules.SVMClassifier.SVMModel))
+            Dim phenotypeModels As New Dictionary(Of String, Modules.SVMClassifier.SVMModel())
             For Each kvp As KeyValuePair(Of String, Models.PhenotypeModel) In modelLoader.Phenotypes
                 Dim phenoId As String = kvp.Key
                 Dim phenoModel As Models.PhenotypeModel = kvp.Value
@@ -315,7 +317,7 @@ Namespace TraitarVB
                     svmModels.Add(svmModel)
                 Next
 
-                phenotypeModels(phenoId) = svmModels
+                phenotypeModels(phenoId) = svmModels.ToArray
             Next
 
             ' 执行预测
@@ -328,7 +330,7 @@ Namespace TraitarVB
             ' 步骤4: 特征选择与关联解释（模块7）
             ' ================================================================
             Console.WriteLine("--- 步骤4: 关键特征分析 ---")
-            Dim featSelector As New Modules.FeatureSelection()
+            Dim featSelector As New FeatureSelection(modelLoader)
 
             ' 为每个阳性表型提取关键特征
             Dim allKeyFeatures As New Dictionary(Of String, List(Of Modules.FeatureSelection.KeyFeature))
