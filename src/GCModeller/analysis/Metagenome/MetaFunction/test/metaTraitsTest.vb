@@ -98,7 +98,8 @@ Module metaTraitsTest
 
         Dim trainer As New PhenotypeSVMTrainer With {
             .verbose = True,
-            .nrfold = 5
+            .nrfold = 5,
+            .autoTune = TuneMode.RegressionOnly
         }
 
         Call clock.Start()
@@ -171,36 +172,36 @@ Module metaTraitsTest
     End Sub
 
     ''' <summary>
-    ''' 超参数网格搜索测试：针对交叉验证得分偏低的数值型（回归）表型，
-    ''' 在 C 与 gamma 之上做 2 的幂网格搜索，对比调优前后的交叉验证得分
+    ''' 超参数网格搜索测试：对数值型（回归）表型对比
+    ''' 「默认参数（C=1, gamma=1/dims）」与「自动网格搜索」的交叉验证得分
     ''' </summary>
     Sub tuningTest()
         Dim dataset As TraitTrainingSet = LoadDataSet()
         Dim loader As ModelLoader = ModelLoader.LoadDirectory(MODEL_DIR)
         Dim clock As New Stopwatch
-        Dim targets As PhenotypeModel() = loader _
+        Dim plain As New PhenotypeSVMTrainer With {
+            .verbose = False,
+            .autoTune = TuneMode.None
+        }
+        Dim tuned As New PhenotypeSVMTrainer With {
+            .verbose = False,
+            .autoTune = TuneMode.RegressionOnly
+        }
+        Dim targets As PhenotypeTrait() = loader _
             .GetTrainedModels() _
-            .Where(Function(m) m.IsRegression() AndAlso m.CVScore < 0.5) _
+            .Where(Function(m) m.IsRegression()) _
+            .Select(Function(m) m.Trait) _
             .ToArray
 
-        Console.WriteLine($"tune {targets.Length} numeric traits (cv < 0.5)...")
+        Console.WriteLine($"compare default params vs grid search on {targets.Length} numeric traits...")
 
         Call clock.Start()
 
-        For Each model As PhenotypeModel In targets
-            Dim tuned As ParameterSearchResult = ParameterSearch.SearchTrait(
-                dataset,
-                model.Trait,
-                kernel:=Microsoft.VisualBasic.MachineLearning.SVM.KernelType.RBF,
-                nrfold:=5,
-                minC:=-5, maxC:=7, stepC:=4,
-                minG:=-11, maxG:=1, stepG:=4)
+        For Each trait As PhenotypeTrait In targets
+            Dim before As PhenotypeModel = plain.TrainOne(dataset, trait)
+            Dim after As PhenotypeModel = tuned.TrainOne(dataset, trait)
 
-            If tuned Is Nothing Then
-                Continue For
-            End If
-
-            Console.WriteLine($"  {model.Trait.trait_name,-45} cv {model.CVScore.ToString("F4")} -> {tuned.Score.ToString("F4")}, {tuned}")
+            Console.WriteLine($"  {trait.trait_name,-45} cv {before.CVScore.ToString("F4")} -> {after.CVScore.ToString("F4")}  C={after.C.ToString("G4")}, gamma={after.gamma.ToString("G4")}")
         Next
 
         Call clock.Stop()

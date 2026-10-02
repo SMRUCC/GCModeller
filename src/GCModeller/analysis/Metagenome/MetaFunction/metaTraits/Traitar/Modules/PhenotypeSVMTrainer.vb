@@ -15,11 +15,28 @@
 '       SVMModel，并且 transform 必须是一个 RangeTransform 实例。
 ' ============================================================================
 
+Imports System.Diagnostics
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 
 Namespace metaTraits.Traitar.Modules
+
+    ''' <summary>
+    ''' 网格搜索的作用范围
+    ''' </summary>
+    Public Enum TuneMode
+        ''' <summary>不做网格搜索，全部使用默认参数</summary>
+        None
+        ''' <summary>
+        ''' 只对数值型（回归）表型做网格搜索。
+        ''' 分类型表型在部分网格点上 SMO 收敛极慢（实测单个表型可达数十秒），
+        ''' 因此默认不对其做搜索
+        ''' </summary>
+        RegressionOnly
+        ''' <summary>对全部表型做网格搜索，训练耗时会显著增加</summary>
+        All
+    End Enum
 
     ''' <summary>
     ''' 生物表型的 SVM 模型训练引擎
@@ -33,12 +50,24 @@ Namespace metaTraits.Traitar.Modules
         ''' <summary>核函数类型，默认为 RBF</summary>
         Public Property kernel As KernelType = KernelType.RBF
         ''' <summary>
-        ''' 是否在训练每一个表型模型之前先做 C / gamma 的网格搜索（默认关闭）。
-        ''' 开启之后训练耗时会显著增加
+        ''' 是否在训练每一个表型模型之前先做 C / gamma 的网格搜索。
+        ''' 默认为 <see cref="TuneMode.RegressionOnly"/>
         ''' </summary>
-        Public Property autoTune As Boolean = False
+        Public Property autoTune As TuneMode = TuneMode.RegressionOnly
         ''' <summary>网格搜索内部使用的交叉验证折数</summary>
         Public Property tuneFolds As Integer = 5
+        ''' <summary>网格搜索 C 的最小幂次（2^tuneMinC）</summary>
+        Public Property tuneMinC As Double = -5
+        ''' <summary>网格搜索 C 的最大幂次（2^tuneMaxC）</summary>
+        Public Property tuneMaxC As Double = 7
+        ''' <summary>网格搜索 C 的幂次步长</summary>
+        Public Property tuneStepC As Double = 1
+        ''' <summary>网格搜索 gamma 的最小幂次（2^tuneMinG）</summary>
+        Public Property tuneMinG As Double = -11
+        ''' <summary>网格搜索 gamma 的最大幂次（2^tuneMaxG）</summary>
+        Public Property tuneMaxG As Double = 1
+        ''' <summary>网格搜索 gamma 的幂次步长</summary>
+        Public Property tuneStepG As Double = 1
 
         ''' <summary>
         ''' 针对训练数据集之中的全部表型逐一训练模型
@@ -59,13 +88,16 @@ Namespace metaTraits.Traitar.Modules
             For Each trait As PhenotypeTrait In dataset.traits
                 i += 1
 
+                Dim clock As Stopwatch = Stopwatch.StartNew()
                 Dim model As Models.PhenotypeModel = TrainOne(dataset, trait, dims)
+
+                Call clock.Stop()
 
                 models(trait.trait_name) = model
 
                 If verbose Then
                     If model.IsTrained() Then
-                        Console.WriteLine($"[{i}/{total}] {model}")
+                        Console.WriteLine($"[{i}/{total}] {model} ({clock.ElapsedMilliseconds}ms)")
                     Else
                         Console.WriteLine($"[{i}/{total}] skip '{trait.trait_name}': {model.ErrorMessage}")
                     End If
@@ -170,11 +202,17 @@ Namespace metaTraits.Traitar.Modules
                 Dim transform As RangeTransform = RangeTransform.Compute(problem)
                 Dim scaled As Problem = transform.Scale(problem)
 
-                If autoTune AndAlso kernel = KernelType.RBF Then
+                Dim doTune As Boolean = kernel = KernelType.RBF AndAlso
+                    (autoTune = TuneMode.All OrElse
+                    (autoTune = TuneMode.RegressionOnly AndAlso trait.IsRegression()))
+
+                If doTune Then
                     ' 在缩放之后的数据之上做网格搜索，保证与正式训练的数据分布一致
                     Dim tuned As ParameterSearchResult = ParameterSearch.Search(
                         scaled, par,
-                        nrfold:=If(tuneFolds < rows.Length, tuneFolds, rows.Length))
+                        nrfold:=If(tuneFolds < rows.Length, tuneFolds, rows.Length),
+                        minC:=tuneMinC, maxC:=tuneMaxC, stepC:=tuneStepC,
+                        minG:=tuneMinG, maxG:=tuneMaxG, stepG:=tuneStepG)
 
                     If tuned IsNot Nothing Then
                         par.c = tuned.C

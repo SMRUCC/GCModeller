@@ -113,10 +113,11 @@ Namespace metaTraits.Traitar.Modules
                 End If
             Next
 
+            ' NaN 不是合法的 json 数值：全部网格点都退化（如标签方差为 0）时统一写 0
             Return New ParameterSearchResult With {
                 .C = bestC,
                 .Gamma = bestGamma,
-                .Score = score,
+                .Score = If(Double.IsNaN(score), 0, score),
                 .GridSize = squares.Count,
                 .Squares = squares.ToArray
             }
