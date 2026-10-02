@@ -360,14 +360,21 @@ Module genomics
     End Function
 
     ''' <summary>
-    ''' 
+    ''' build the upstream region location of the given gene
     ''' </summary>
-    ''' <param name="gene"></param>
-    ''' <param name="length"></param>
+    ''' <param name="gene">
+    ''' the target gene context data for build its upstream region location.
+    ''' </param>
+    ''' <param name="length">
+    ''' the length in nucleotide of the upstream region.
+    ''' </param>
     ''' <param name="isRelativeOffset">
     ''' the generated region location is relative to the given context its start position?
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' the <see cref="NucleotideLocation"/> upstream region location of the 
+    ''' given gene.
+    ''' </returns>
     <Extension>
     Private Function getUpStream(gene As GeneBrief, length As Integer, isRelativeOffset As Boolean) As NucleotideLocation
         Dim loci As NucleotideLocation = gene.Location

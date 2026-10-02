@@ -129,7 +129,10 @@ Module genbankKit
     ''' <summary>
     ''' get ncbi taxonomy id from the given genbank assembly file.
     ''' </summary>
-    ''' <param name="gb"></param>
+    ''' <param name="gb">
+    ''' the <see cref="GBFF.File"/> ncbi genbank assembly object for extract 
+    ''' its ncbi taxonomy id.
+    ''' </param>
     ''' <returns>the ncbi taxonomy id</returns>
     <ExportAPI("taxon_id")>
     <RApiReturn(TypeCodes.integer)>
@@ -536,8 +539,14 @@ Module genbankKit
     ''' <summary>
     ''' add feature into a given genbank object
     ''' </summary>
-    ''' <param name="gb"></param>
-    ''' <param name="feature"></param>
+    ''' <param name="gb">
+    ''' the <see cref="GBFF.File"/> ncbi genbank assembly object for add the 
+    ''' target feature site.
+    ''' </param>
+    ''' <param name="feature">
+    ''' the <see cref="Feature"/> genbank feature object for add, which is 
+    ''' created by the ``feature`` api.
+    ''' </param>
     ''' <returns>
     ''' the modified <see cref="GBFF.File"/> ncbi genbank assembly object.
     ''' </returns>

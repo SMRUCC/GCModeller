@@ -164,9 +164,10 @@ Module hmmer
     ''' </param>
     ''' <param name="x">
     ''' a protein fasta sequence collection for run the HMMER search, which can 
-    ''' be a <see cref="FastaFile"/> object, a collection of the 
-    ''' <see cref="FastaSeq"/> object, or a character vector of the raw sequence 
-    ''' data.
+    ''' be a <see cref="SMRUCC.genomics.SequenceModel.FASTA.FastaFile"/> object, 
+    ''' a collection of the 
+    ''' <see cref="SMRUCC.genomics.SequenceModel.FASTA.FastaSeq"/> object, or a 
+    ''' character vector of the raw sequence data.
     ''' </param>
     ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>

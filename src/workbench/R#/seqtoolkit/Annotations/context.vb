@@ -515,7 +515,11 @@ Module context
     ''' <summary>
     ''' get TSS upstream site sequence data
     ''' </summary>
-    ''' <param name="genome"></param>
+    ''' <param name="genome">
+    ''' the genome reference sequence data source, which can be a 
+    ''' <see cref="GBFF.File"/> ncbi genbank assembly object or a 
+    ''' <see cref="FastaSeq"/> nucleotide sequence object.
+    ''' </param>
     ''' <param name="genes">
     ''' gene list could be omit if the input genome data is a ncbi genbank model object. 
     ''' then all gene features inside the input genbank assembly will be used for export of 

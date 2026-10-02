@@ -74,95 +74,22 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Class ProteinAnnotator
 
     ' 已加载的HMM模型字典
-    Private _models As New Dictionary(Of String, ProfileHMM)()
-
-    ' E值阈值
-    Private _eValueThreshold As Double = 0.01
-
-    ' 比特得分阈值
-    Private _bitScoreThreshold As Double = 25.0
-
-    ' 数据库大小（用于E值计算）
-    Private _databaseSize As Integer = 10000
+    ReadOnly _models As New Dictionary(Of String, ProfileHMM)()
 
     ''' <summary>
     ''' 获取或设置E值阈值
     ''' </summary>
-    Public Property EValueThreshold As Double
-        Get
-            Return _eValueThreshold
-        End Get
-        Set(value As Double)
-            _eValueThreshold = value
-        End Set
-    End Property
+    Public Property EValueThreshold As Double = 0.01
 
     ''' <summary>
     ''' 获取或设置比特得分阈值
     ''' </summary>
-    Public Property BitScoreThreshold As Double
-        Get
-            Return _bitScoreThreshold
-        End Get
-        Set(value As Double)
-            _bitScoreThreshold = value
-        End Set
-    End Property
+    Public Property BitScoreThreshold As Double = 25
 
     ''' <summary>
     ''' 获取或设置数据库大小
     ''' </summary>
-    Public Property DatabaseSize As Integer
-        Get
-            Return _databaseSize
-        End Get
-        Set(value As Integer)
-            _databaseSize = value
-        End Set
-    End Property
-
-    ''' <summary>
-    ''' 加载单个HMMER3模型文件
-    ''' </summary>
-    ''' <param name="filePath">模型文件路径</param>
-    Public Sub LoadModel(filePath As String)
-        Dim model As ProfileHMM = HMMER3Parser.Parse(filePath)
-        If model IsNot Nothing AndAlso Not String.IsNullOrEmpty(model.Name) Then
-            _models(model.Name) = model
-        End If
-    End Sub
-
-    ''' <summary>
-    ''' 从目录加载所有HMMER3模型文件
-    ''' </summary>
-    ''' <param name="directoryPath">目录路径</param>
-    ''' <param name="searchPattern">文件搜索模式（默认*.hmm）</param>
-    Public Sub LoadModelsFromDirectory(directoryPath As String, Optional searchPattern As String = "*.hmm")
-        If Not Directory.Exists(directoryPath) Then
-            Throw New DirectoryNotFoundException($"Directory not found: {directoryPath}")
-        End If
-
-        Dim files As String() = Directory.GetFiles(directoryPath, searchPattern)
-        For Each file As String In files
-            Try
-                LoadModel(file)
-            Catch ex As Exception
-                ' 记录错误但继续加载其他模型
-                Console.WriteLine($"Error loading model {file}: {ex.Message}")
-            End Try
-        Next
-    End Sub
-
-    ''' <summary>
-    ''' 加载模型内容字符串
-    ''' </summary>
-    ''' <param name="modelContent">模型文本内容</param>
-    Public Sub LoadModelContent(modelContent As String)
-        Dim model As ProfileHMM = HMMER3Parser.ParseContent(modelContent)
-        If model IsNot Nothing AndAlso Not String.IsNullOrEmpty(model.Name) Then
-            _models(model.Name) = model
-        End If
-    End Sub
+    Public Property DatabaseSize As Integer = 10000
 
     ''' <summary>
     ''' 获取已加载的模型数量
@@ -181,6 +108,54 @@ Public Class ProteinAnnotator
             Return _models.Keys
         End Get
     End Property
+
+    ''' <summary>
+    ''' 加载单个HMMER3模型文件
+    ''' </summary>
+    ''' <param name="filePath">模型文件路径</param>
+    Public Sub LoadModel(filePath As String)
+        Using s As Stream = filePath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+            For Each model As ProfileHMM In HMMER3Parser.LoadDatabase(s)
+                If model IsNot Nothing AndAlso Not String.IsNullOrEmpty(model.Name) Then
+                    _models(model.Name) = model
+                End If
+            Next
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' 从目录加载所有HMMER3模型文件
+    ''' </summary>
+    ''' <param name="directoryPath">目录路径</param>
+    ''' <param name="searchPattern">文件搜索模式（默认*.hmm）</param>
+    Public Sub LoadModelsFromDirectory(directoryPath As String, Optional searchPattern As String = "*.hmm")
+        If Not Directory.Exists(directoryPath) Then
+            Throw New DirectoryNotFoundException($"Directory not found: {directoryPath}")
+        End If
+
+        Dim files As String() = Directory.GetFiles(directoryPath, searchPattern)
+        For Each file As String In files
+            Try
+                LoadModel(file)
+            Catch ex As Exception
+                ' 记录错误但继续加载其他模型
+                Call App.LogException(ex)
+                Call $"Error loading model {file}: {ex.Message}".error
+            End Try
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' 加载模型内容字符串
+    ''' </summary>
+    ''' <param name="modelContent">模型文本内容</param>
+    Public Sub LoadModelContent(modelContent As String)
+        Dim model As ProfileHMM = HMMER3Parser.ParseContent(modelContent)
+
+        If model IsNot Nothing AndAlso Not String.IsNullOrEmpty(model.Name) Then
+            _models(model.Name) = model
+        End If
+    End Sub
 
     ''' <summary>
     ''' 对单个蛋白质序列进行注释

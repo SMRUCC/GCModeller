@@ -72,11 +72,13 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 ''' </summary>
 Public Enum TableTypes
     ''' <summary>
-    ''' the single side best hit table(<see cref="BestHit"/>)
+    ''' the single side best hit 
+    ''' table(<see cref="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit"/>)
     ''' </summary>
     SBH
     ''' <summary>
-    ''' the bi-directional best hit table(<see cref="BiDirectionalBesthit"/>)
+    ''' the bi-directional best hit 
+    ''' table(<see cref="SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BiDirectionalBesthit"/>)
     ''' </summary>
     BBH
     ''' <summary>

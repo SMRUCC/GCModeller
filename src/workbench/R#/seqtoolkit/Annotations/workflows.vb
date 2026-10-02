@@ -485,7 +485,12 @@ Module workflows
     ''' <summary>
     ''' Save the annotation rawdata into the given stream file.
     ''' </summary>
-    ''' <param name="data"></param>
+    ''' <param name="data">
+    ''' a lazy pipeline collection of the annotation data for write into the 
+    ''' target stream file, the supported data element types are: 
+    ''' <see cref="BestHit"/>, <see cref="BiDirectionalBesthit"/>, 
+    ''' <see cref="BlastnMapping"/> and <see cref="RankTerm"/>.
+    ''' </param>
     ''' <param name="stream">
     ''' a stream data handler that generated via the ``open.stream`` function.
     ''' </param>

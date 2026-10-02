@@ -173,8 +173,13 @@ Module uniprotTools
     ''' <summary>
     ''' open a uniprot database file
     ''' </summary>
-    ''' <param name="files"></param>
-    ''' <param name="isUniParc"></param>
+    ''' <param name="files">
+    ''' a character vector of the uniprot xml format database document file 
+    ''' paths for load the protein entries.
+    ''' </param>
+    ''' <param name="isUniParc">
+    ''' the target uniprot database document is the UniParc database?
+    ''' </param>
     ''' <param name="ignoreError">
     ''' ignore the parse error message of the invalid uniprot xml entry data?
     ''' </param>
@@ -477,7 +482,6 @@ Module uniprotTools
     ''' <param name="dbname">
     ''' this function will returns a character vector of the db_xrefs for specific database if this db name is specificed.
     ''' </param>
-    ''' <returns></returns>
     ''' <remarks>
     ''' the uniprot database name will be named as: ``UniProtKB/Swiss-Prot`` for
     ''' make unify with the genebank feature xrefs.
@@ -560,7 +564,6 @@ Module uniprotTools
     ''' 10. subcellular_location
     ''' 11. db_xrefs...
     ''' </param>
-    ''' <param name="env"></param>
     ''' <returns>
     ''' a collection of the <see cref="FastaSeq"/> that export from the given protein set.
     ''' 
