@@ -151,7 +151,7 @@ Namespace metaTraits.Traitar
 
                         Dim json As String = SvmModelJSON.CreateJSONModel(model.Model).GetJson
 
-                        Call System.IO.File.WriteAllText(System.IO.System.IO.Path.Combine(dir, modelFile), json)
+                        Call System.IO.File.WriteAllText(System.IO.Path.Combine(dir, modelFile), json)
                     End If
                 End If
 
