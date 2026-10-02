@@ -457,10 +457,6 @@ Public Class ProfileHMM
 
             If aaIdx < 0 Then
                 Continue For ' 未知残基：整列保持负无穷
-            ElseIf idx = 1 Then
-                ' 与原始实现语义一致：idx = 1 列上不存在有效的转移候选
-                ' （原始实现中 M(1,1) 的特殊初始化会被主循环覆盖为负无穷）
-                Continue For
             End If
 
             Dim prev As Integer = idx - 1

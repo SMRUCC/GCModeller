@@ -664,3 +664,6 @@ src/runtime/sciBASIC\#/tutorials/VBS/.vscode/extensions.json
 .vs/Rpackages.slnx/v18/DocumentLayout.json
 src/GCModeller/engine/vcell.sln
 /src/GCModeller/analysis/SequenceToolkit/DNA_Comparative/test/Verify
+test/demo/sequencekit/local_test/proteins.faa
+test/demo/sequencekit/local_test/models/test_models.hmm
+test/demo/sequencekit/local_test/models.zip
