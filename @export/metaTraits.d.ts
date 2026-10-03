@@ -47,7 +47,7 @@ declare namespace metaTraits {
         * @param env 
         * + default value Is ``null``.
       */
-      function trait_annotations(file: string, env?: object): object;
+      function trait_annotations(file: any, env?: object): object;
       /**
        * 从 json 模型仓库目录之中加载全部表型的 SVM 模型
        * 
@@ -132,7 +132,7 @@ declare namespace metaTraits {
         * + default value Is ``null``.
         * @return 一个以基因组名为键的 list，每一个元素是该基因组的蛋白质组 Pfam 注释
       */
-      function pfam_proteomes(dir: string, env?: object): any;
+      function pfam_proteomes(dir: string, env?: object): object;
    }
    module save {
       /**
@@ -191,6 +191,6 @@ declare namespace metaTraits {
         * @param env 
         * + default value Is ``null``.
       */
-      function trait_model(dataset: object, trait: object, kernel?: string, nrfold?: object, env?: object): any;
+      function trait_model(dataset: object, trait: object, kernel?: string, nrfold?: object, env?: object): object;
    }
 }
