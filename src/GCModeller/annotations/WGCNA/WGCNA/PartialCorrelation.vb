@@ -1,5 +1,6 @@
-Option Strict On
-Option Explicit On
+Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Solvers
 
 ''' <summary>
 ''' Partial correlations: the correlation of two variables after the linear
@@ -29,7 +30,7 @@ Public NotInheritable Class PartialCorrelation
         Dim n = cov.GetLength(0)
         If cov.GetLength(1) <> n Then Throw New ArgumentException("matrix must be square")
 
-        Dim omega = MatrixOps.Invert(cov)
+        Dim omega = MatrixOps.Inverse(cov, strict:=True)
         Dim r(n - 1, n - 1) As Double
         For i = 0 To n - 1
             r(i, i) = 1.0
@@ -65,7 +66,7 @@ Public NotInheritable Class PartialCorrelation
         For i = 0 To g - 1
             For j = i To g - 1
                 Dim s = 0.0
-                For t = 0 To n - 1
+                For t As Integer = 0 To n - 1
                     s += (data(i, t) - means(i)) * (data(j, t) - means(j))
                 Next
                 s /= n
@@ -117,7 +118,7 @@ Public NotInheritable Class PartialCorrelation
         Dim ry = Residuals(design, yj)
 
         If robust Then Return Bicor.BiweightMidcorrelation(rx, ry)
-        Return Bicor.Pearson(rx, ry)
+        Return Correlations.GetPearson(rx, ry)
     End Function
 
     Private Shared Function Row(m As Double(,), i As Integer) As Double()
@@ -129,7 +130,7 @@ Public NotInheritable Class PartialCorrelation
     End Function
 
     Private Shared Function Residuals(design As Double(,), y As Double()) As Double()
-        Dim beta = MatrixOps.LeastSquares(design, y)
+        Dim beta = OLS.LeastSquares(design, y)
         Dim r(y.Length - 1) As Double
         For s = 0 To y.Length - 1
             Dim fit = 0.0

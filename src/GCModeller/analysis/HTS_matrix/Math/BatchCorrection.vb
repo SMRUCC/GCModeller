@@ -1,5 +1,5 @@
-Option Strict On
-Option Explicit On
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Solvers
+Imports std = System.Math
 
 ''' <summary>
 ''' Batch-effect correction for gene-expression matrices
@@ -100,7 +100,7 @@ Public NotInheritable Class BatchCorrection
         Dim result(genes - 1, n - 1) As Double
         For g = 0 To genes - 1
             Dim y = Row(expr, g)
-            Dim beta = MatrixOps.LeastSquares(design, y)
+            Dim beta = OLS.LeastSquares(design, y)
 
             For j = 0 To n - 1
                 ' fitted batch part (intercept + covariates + noise stay in y)
@@ -158,7 +158,7 @@ Public NotInheritable Class BatchCorrection
         ' ---------- per-gene OLS ----------
         Dim betaHat(genes - 1, p - 1) As Double
         For g = 0 To genes - 1
-            Dim beta = MatrixOps.LeastSquares(design, Row(expr, g))
+            Dim beta = OLS.LeastSquares(design, Row(expr, g))
             For c = 0 To p - 1
                 betaHat(g, c) = beta(c)
             Next
@@ -196,7 +196,7 @@ Public NotInheritable Class BatchCorrection
                 For a = 0 To nCov - 1
                     standMean += covariates(j, a) * betaHat(g, k + a)
                 Next
-                z(g, j) = (expr(g, j) - standMean) / Math.Sqrt(sigma2(g))
+                z(g, j) = (expr(g, j) - standMean) / std.Sqrt(sigma2(g))
             Next
         Next
 
@@ -266,7 +266,7 @@ Public NotInheritable Class BatchCorrection
             For g = 0 To genes - 1
                 If constant(g) Then Continue For
                 Dim gs = gammaHat(b, g)
-                Dim ds = Math.Max(deltaHat(b, g), 1.0E-12)
+                Dim ds = std.Max(deltaHat(b, g), 0.000000000001)
                 For iteration = 1 To 100
                     ' γ* = (τ²·n_b·γ̂ + δ*·γ̄) / (τ²·n_b + δ*)
                     Dim gsNew = (tau2(g) * nb * gammaHat(b, g) + ds * gammaBar(g)) / (tau2(g) * nb + ds)
@@ -277,9 +277,9 @@ Public NotInheritable Class BatchCorrection
                         sum2 += d * d
                     Next
                     Dim dsNew = (0.5 * sum2 + thetaPrior(b)) / (nb / 2.0 + lambdaPrior(b) - 1.0)
-                    If dsNew < 1.0E-12 Then dsNew = 1.0E-12
+                    If dsNew < 1.0E-12 Then dsNew = 0.000000000001
 
-                    Dim converged = Math.Abs(gsNew - gs) < 1.0E-6 AndAlso Math.Abs(dsNew - ds) < 1.0E-6
+                    Dim converged = std.Abs(gsNew - gs) < 0.000001 AndAlso std.Abs(dsNew - ds) < 0.000001
                     gs = gsNew
                     ds = dsNew
                     If converged Then Exit For
@@ -301,12 +301,12 @@ Public NotInheritable Class BatchCorrection
             End If
             For j = 0 To n - 1
                 Dim b = levels.IndexOf(batchLabels(j))
-                Dim zAdj = (z(g, j) - gammaStar(b, g)) / Math.Sqrt(deltaStar(b, g))
+                Dim zAdj = (z(g, j) - gammaStar(b, g)) / std.Sqrt(deltaStar(b, g))
                 Dim standMean = alpha(g)
                 For a = 0 To nCov - 1
                     standMean += covariates(j, a) * betaHat(g, k + a)
                 Next
-                result(g, j) = zAdj * Math.Sqrt(sigma2(g)) + standMean
+                result(g, j) = zAdj * std.Sqrt(sigma2(g)) + standMean
             Next
         Next
         Return result
