@@ -16,8 +16,6 @@
 '       的嵌入配置，否则预测结果无意义。
 ' ============================================================================
 
-Imports System.IO
-Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.MachineLearning.SVM

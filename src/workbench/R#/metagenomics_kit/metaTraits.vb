@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::f3c68c65e73bb125467a17377d2abb14, R#\metagenomics_kit\metaTraits.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 108
-    '    Code Lines: 89 (82.41%)
-    ' Comment Lines: 2 (1.85%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 17 (15.74%)
-    '     File Size: 5.44 KB
+' Summaries:
 
 
-    ' Module metaTraitsTool
-    ' 
-    '     Function: load_metatraits, load_traitModels, make_predicts, phenotype_features, result_table
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 108
+'    Code Lines: 89 (82.41%)
+' Comment Lines: 2 (1.85%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 17 (15.74%)
+'     File Size: 5.44 KB
+
+
+' Module metaTraitsTool
+' 
+'     Function: load_metatraits, load_traitModels, make_predicts, phenotype_features, result_table
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -57,6 +57,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar
@@ -198,6 +199,7 @@ Module metaTraitsTool
     ''' </param>
     ''' <returns>一个以基因组名为键的 list，每一个元素是该基因组的蛋白质组 Pfam 注释</returns>
     <ExportAPI("read.pfam_proteomes")>
+    <RApiReturn(GetType(PfamString))>
     Public Function read_pfam_proteomes(dir As String, Optional env As Environment = Nothing) As Object
         If Not Directory.Exists(dir) Then
             Return RInternal.debug.stop($"the pfam proteome directory '{dir}' is not exists!", env)
@@ -470,6 +472,7 @@ Module metaTraitsTool
     ''' <param name="trait">目标表型</param>
     ''' <param name="nrfold">交叉验证折数</param>
     <ExportAPI("tune.trait_model")>
+    <RApiReturn(GetType(ParameterSearchResult))>
     Public Function tune_trait_model(dataset As TraitTrainingSet,
                                      trait As PhenotypeTrait,
                                      Optional kernel As String = "rbf",
@@ -500,22 +503,22 @@ Module metaTraitsTool
         End Select
     End Function
 
-    Private Function getKernel(name As String, env As Environment) As Microsoft.VisualBasic.MachineLearning.SVM.KernelType
+    Private Function getKernel(name As String, env As Environment) As KernelType
         If name Is Nothing Then
-            Return Microsoft.VisualBasic.MachineLearning.SVM.KernelType.RBF
+            Return KernelType.RBF
         End If
 
         Select Case name.ToLower
-            Case "linear" : Return Microsoft.VisualBasic.MachineLearning.SVM.KernelType.LINEAR
-            Case "poly", "polynomial" : Return Microsoft.VisualBasic.MachineLearning.SVM.KernelType.POLY
-            Case "sigmoid" : Return Microsoft.VisualBasic.MachineLearning.SVM.KernelType.SIGMOID
-            Case "rbf", "radial" : Return Microsoft.VisualBasic.MachineLearning.SVM.KernelType.RBF
+            Case "linear" : Return KernelType.LINEAR
+            Case "poly", "polynomial" : Return KernelType.POLY
+            Case "sigmoid" : Return KernelType.SIGMOID
+            Case "rbf", "radial" : Return KernelType.RBF
             Case Else
                 If env IsNot Nothing Then
                     Call env.AddMessage($"unknown kernel type '{name}', use the RBF kernel as default.")
                 End If
 
-                Return Microsoft.VisualBasic.MachineLearning.SVM.KernelType.RBF
+                Return KernelType.RBF
         End Select
     End Function
 
