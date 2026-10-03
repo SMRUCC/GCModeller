@@ -65,8 +65,10 @@ Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Mode
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Modules
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
@@ -173,8 +175,14 @@ Module metaTraitsTool
     ''' <param name="file">ncbi/gtdb species summary tsv 表文件</param>
     <ExportAPI("load.trait_annotations")>
     <RApiReturn(GetType(TraitAnnotation))>
-    Public Function load_trait_annotations(file As String, Optional env As Environment = Nothing) As Object
-        Return TraitAnnotation.ParseTable(file).ToArray
+    Public Function load_trait_annotations(<RRawVectorArgument(TypeCodes.string)> file As Object, Optional env As Environment = Nothing) As Object
+        Dim list As New List(Of TraitAnnotation)
+
+        For Each path As String In CLRVector.asCharacter(file)
+            Call list.AddRange(TraitAnnotation.ParseTable(path))
+        Next
+
+        Return list.ToArray
     End Function
 
     ''' <summary>
