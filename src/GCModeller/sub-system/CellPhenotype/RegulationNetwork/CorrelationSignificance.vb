@@ -1,4 +1,3 @@
-Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
 
 Namespace RegulationNetwork
