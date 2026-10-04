@@ -12,6 +12,6 @@ let top_genes = geneExpression::dims(hsa)$feature_names;
 print("top variance gene features:");
 print(top_genes);
 
-hsa |> write_bicor(file = "Z:/hsa.mat");
+hsa |> write_bicor(file = "Z:/hsa_mat");
 
-hsa = open_bicor(file = "Z:/hsa.mat");
+hsa = open_bicor(file = "Z:/hsa_mat");
