@@ -668,7 +668,7 @@ Namespace RegulationNetwork
                 .Take(options.maxPartialEdgesPerModule) _
                 .ToList()
 
-            Dim removed As Integer = 0
+            Dim removedCount As Integer = 0
 
             Call Parallel.For(0, ordered.Count,
                 Sub(k)
@@ -696,9 +696,13 @@ Namespace RegulationNetwork
                     End If
                 End Sub)
 
-            removed = ordered.Count(Function(c) c.removedPartial)
+            For Each c As EdgeCand In ordered
+                If c.removedPartial Then
+                    removedCount += 1
+                End If
+            Next
 
-            Return removed
+            Return removedCount
         End Function
 
         ''' <summary>
