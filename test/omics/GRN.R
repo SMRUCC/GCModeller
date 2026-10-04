@@ -10,7 +10,7 @@ print(TF, max.print = 6);
 
 let hsa = geneExpression::load.expr("K:\hsa\Homo_sapiens_expr_advanced_all_conditions.csv") 
 |> batch_normalize() 
-|> top_variance(5000)
+|> top_variance(50000)
 ;
 let top_genes = geneExpression::dims(hsa)$feature_names;
 
