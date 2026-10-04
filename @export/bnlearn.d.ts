@@ -32,7 +32,11 @@ declare namespace bnlearn {
         * @param priorNet a collection of the regulatory edge data, which can be a vector of the 
         *  [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) object, the output of the ``prior_network`` 
         *  api, or a pipeline object that produces a set of the 
-        *  [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) data.
+        *  [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) data. or this parameter value also could be the
+        *  [GRNBuildResult](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildResult) object which is created via the WGCNA module detection and the TF enrichment analysis, the regulatory edges of the prior network will be extracted from the given GRNBuildResult object.
+        * @param cutoff the cutoff value for filtering the regulatory edges.
+        * 
+        * + default value Is ``0.6``.
         * @param env the R# runtime environment object.
         * 
         * + default value Is ``null``.
@@ -42,7 +46,7 @@ declare namespace bnlearn {
         *  this function returns a R# error message object if the given data can not 
         *  be cast to a collection of the [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) data.
       */
-      function prior_net(priorNet: any, env?: object): object;
+      function prior_net(priorNet: any, cutoff?: object, env?: object): object;
    }
    /**
     * learn the gene regulatory bayesian network from the gene expression data

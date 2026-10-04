@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.ModulePriorNetwork</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ModulePriorNetwork {SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ModulePriorNetwork</h2>
+
+        <h3>Description</h3>
+
+        <p>单个 WGCNA 模块的先验调控网络</p>
+
+<p><a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.ModulePriorNetwork.moduleNetwork">ModulePriorNetwork.moduleNetwork</a> 只含模块内部的调控边； <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.ModulePriorNetwork.crossModule">ModulePriorNetwork.crossModule</a> 含以本模块基因为上游（TF）、指向其他模块基因的跨模块边。 这样每条跨模块边只归属一个模块，合并时不会重复。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork
+export class ModulePriorNetwork {
+   # 本模块的全部调控边（模块内 + 跨模块）
+   allEdges: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">iterates(RegulatoryEdge)</a>;
+   # 以本模块基因为上游的跨模块先验调控网络
+   crossModule: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>;
+   # 该模块包含的基因 ID
+   genes: string;
+   # WGCNA 模块名称
+   moduleName: string;
+   # 模块内的先验调控网络
+   moduleNetwork: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a>;
+   # 构建过程统计
+   statistics: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/RegulationNetwork/ModuleStatistics.html">ModuleStatistics</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>allEdges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/RegulatoryEdge.html">iterates(RegulatoryEdge)</a></li>
+<li>use by <i>property</i> member <code>crossModule</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a></li>
+<li>use by <i>property</i> member <code>moduleNetwork</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/BNLearn/Core/PriorNetwork.html">PriorNetwork</a></li>
+<li>use by <i>property</i> member <code>statistics</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/RegulationNetwork/ModuleStatistics.html">ModuleStatistics</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

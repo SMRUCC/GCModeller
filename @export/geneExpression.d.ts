@@ -190,6 +190,40 @@ declare namespace geneExpression {
    */
    function average(matrix: object, sampleinfo?: object, strict?: boolean): object|number;
    /**
+    * remove the technical batch effects from a merged multi-dataset gene expression matrix.
+    * 
+    * > this function processes each gene row independently, so it does not change
+    * >  the relative relationships between genes. Run it before the co-expression /
+    * >  WGCNA analysis and after the multi-dataset merging.
+    * 
+     * @param x the merged gene expression matrix (genes in rows, samples in columns) that is
+     *  assembled from multiple public datasets. Different datasets usually carry
+     *  platform/library/pre-processing specific technical effects; without this step
+     *  the downstream co-expression analysis will produce many spurious correlations
+     *  between samples of the same batch.
+     * @param batch the batch grouping information. Accepts either a `list` object of
+     *  (dataset name => sample id vector) slots, or a stream of
+     *  [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) objects (the batch label is taken from the
+     *  `batch` slot of each sample info record). When Nothing, all samples
+     *  are treated as one single batch and a global z-score normalization is applied.
+     * 
+     * + default value Is ``null``.
+     * @param center_batch TRUE (default) -> per-gene, per-batch z-score: subtract the batch mean and
+     *  divide by the batch standard deviation, which removes both the additive and
+     *  the scale batch effects; FALSE -> per-gene, per-batch mean centering only
+     *  (subtract the batch mean, keep the between-batch amplitude differences).
+     * 
+     * + default value Is ``true``.
+     * @param env the R# runtime environment object.
+     * 
+     * + default value Is ``null``.
+     * @return a new batch-normalized gene expression matrix. The row order and the sample
+     *  order are identical to the input matrix; the input matrix object is not
+     *  modified in place. Missing values (NaN) are imputed with the corresponding
+     *  batch mean (which is zero after the centering).
+   */
+   function batch_normalize(x: object, batch?: any, center_batch?: boolean, env?: object): object;
+   /**
     * get cluster membership matrix
     * 
     * 
@@ -1098,6 +1132,24 @@ declare namespace geneExpression {
      * @return A character of the pattern label name
    */
    function time_pattern_label(expr_z: object): string;
+   /**
+    * keep only the top-N most variable gene feature rows of the expression matrix
+    * 
+    * > this is the standard quality filter step of the R WGCNA workflow, usually
+    * >  applied after the batch normalization and before the co-expression network
+    * >  construction (for example before `write_bicor` or `build_grn`).
+    * 
+     * @param x a gene expression matrix (genes in rows, samples in columns). Low variance
+     *  rows (constant or nearly constant expression) carry no information for the
+     *  downstream co-expression network analysis, but they do inflate the O(n^2)
+     *  correlation matrix computation and memory cost.
+     * @param n the number of the top variance genes to keep. The rows are ranked by the
+     *  sample variance (denominator n-1) of the expression values, and only the
+     *  `n` highest ranked rows are kept.
+     * @return a new expression matrix that contains only the top-N most variable gene
+     *  feature rows (the original row order is preserved among the kept rows).
+   */
+   function top_variance(x: object, n: object): object;
    /**
     * normalize data by sample column
     * 

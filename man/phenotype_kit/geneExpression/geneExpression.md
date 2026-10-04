@@ -31,6 +31,8 @@ the gene expression matrix data toolkit
 + [filterZeroGenes](geneExpression/filterZeroGenes.1) removes the rows which all gene expression result is ZERO
 + [filterNaNMissing](geneExpression/filterNaNMissing.1) set the NaN missing value to default value
 + [impute_missing](geneExpression/impute_missing.1) set the zero value to the half of the min positive value
++ [batch_normalize](geneExpression/batch_normalize.1) remove the technical batch effects from a merged multi-dataset gene expression matrix.
++ [top_variance](geneExpression/top_variance.1) keep only the top-N most variable gene feature rows of the expression matrix
 + [is_empty](geneExpression/is_empty.1) check that the given expression matrix object is empty or not
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
 + [expression_groups](geneExpression/expression_groups.1) 从表达矩阵之中按照表达值的分布特征拆分出每一个品种的基因组基因集合

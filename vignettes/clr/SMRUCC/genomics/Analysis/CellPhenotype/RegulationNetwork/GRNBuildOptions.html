@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GRNBuildOptions {SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GRNBuildOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>基因表达调控先验网络（PriorNetwork）构建流水线的配置对象</p>
+
+<p>所有字段均带有推荐默认值，因此无参构造即可跑通完整流程；需要调参时只修改关心的字段。</p>
+
+<p>流水线依次为：批次标准化 → 基因过滤 → WGCNA 模块划分 → 模块内 bicor 相关 → p 值 / BH FDR 过滤 → ARACNe DPI 去间接 → 偏相关筛选 → TF 定向 → STRING 补全/加权 → 跨模块边。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork
+export class GRNBuildOptions {
+   # 数据集分组（批次信息）：数据集名称 → 该数据集包含的 sampleID 列表。 为 Nothing 或空时视为单一批次，只做全局 z-score 标准化。
+   batches: list;
+   # bicor 的 Tukey 调节常数 c。
+   bicorConstant: double;
+   # 是否在组内 z-score 之后再减去批次内的基因均值（批次中心化），用于削弱多数据集合并带来的批次效应。
+   centerBatch: boolean;
+   # 跨模块边的置信度折扣系数（跨模块相关的可靠性低于模块内共表达）。
+   crossModuleConfidenceScale: double;
+   # 模块特征基因（eigengene）相关阈值：|cor| 超过该值的模块对之间才计算跨模块边。
+   crossModuleCorThreshold: double;
+   # 是否构建跨模块调控边。
+   crossModuleEnabled: boolean;
+   # 是否启用 DPI 三元组过滤（去除由共同上游调控造成的间接边）。
+   dpiEnabled: boolean;
+   # 参与 DPI 的最小的相关绝对值。该值高于 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions.minAbsCorrelation">GRNBuildOptions.minAbsCorrelation</a> 可以使 DPI 的邻接矩阵保持稀疏（DPI 是 O(n^3) 的三角形枚举，稠密邻接时代价极高）。 位于 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions.minAbsCorrelation">[GRNBuildOptions.minAbsCorrelation</a>, 本值) 之间的弱边不参与 DPI，直接保留。
+   dpiMinAbsCorrelation: double;
+   # ARACNe 的 ε 容差：最弱边必须比另外两条边低超过该比例才被判定为间接边，接近平局时保留。
+   dpiTolerance: double;
+   # 是否启用 CUDA GPU 加速（<a href="cref:M:SMRUCC.genomics.Analysis.HTS.WGCNA.TensorBackend.ApplyBackend(System.Boolean)">TensorBackend.ApplyBackend()</a>）。 WGCNA 模块划分（相关矩阵 GEMM + TOM）是流水线中唯一的 O(G^2) 全基因组计算， 是 GPU 加速的主要受益者；请求失败时自动回退 CPU 并记录告警日志。
+   enableGpu: boolean;
+   # BH 校正后 FDR（q 值）的过滤阈值。
+   fdrThreshold: double;
+   # 只保留方差最大的前 N 个基因（方差过滤，R WGCNA 流程的常规做法）。
+   filterTopN: integer;
+   # GPU 的矩阵乘是否走单精度（FP32）内核。 消费级显卡的 FP64 吞吐通常只有 FP32 的 1/32~1/64，FP32 是 GEMM 阶段的主要加速来源。
+   gpuFp32Gemm: boolean;
+   # 是否保留无法由 TF 注释定向的候选边（TF-TF 与非 TF-非 TF）。 保留时这些边会打折并标记 <code>undirected</code> 证据，供下游 DBN / GNN 作为软先验裁决； 关闭时行为与既有的 <code>GeneRegulatoryNetwork.BuildPriorNetwork</code> 一致（直接丢弃）。
+   keepUndirectedCandidates: boolean;
+   # 参与跨模块计算的模块对数量上限（按 eigengene 相关绝对值降序）。
+   maxCrossModulePairs: integer;
+   # 每个模块参与跨模块计算的靶基因数量上限（按 kME 降序）。 跨模块相关为逐对计算（O(TF 数 × 靶基因数)），该值控制总开销。
+   maxCrossModuleTargets: integer;
+   # 每个模块参与跨模块计算的 TF 数量上限（按 kME 降序）。
+   maxCrossModuleTfs: integer;
+   # 单模块内参与 DPI 的最大基因数，超出时只取 hub 基因（按 kME 排序）。
+   maxDpiGenes: integer;
+   # 允许的基因缺失（NaN）比例上限，超过则剔除该基因。
+   maxMissingRate: double;
+   # 单模块参与 bicor / DPI / 偏相关的最大基因数，超出时按 kME（模块成员资格）取 hub 子集。
+   maxModuleGenes: integer;
+   # 单模块内参与偏相关计算的候选边数量上限（按 |cor| 降序截断），控制 OLS 的总开销。
+   maxPartialEdgesPerModule: integer;
+   # 候选边的最小相关绝对值，低于该值的基因对不进入后续计算。
+   minAbsCorrelation: double;
+   # 基因方差下限，低于该值的基因被剔除。
+   minVariance: double;
+   # 偏相关衰减阈值：|pcor| / |cor| 低于该值但高于 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions.partialMinRetainRatio">GRNBuildOptions.partialMinRetainRatio</a> 时保留该边， 但置信度打折并标记 <code>partial:attenuated</code>。
+   partialAttenuatedRatio: double;
+   # 偏相关条件集大小：取模块内与该边两端相关最高的 K 个基因作为条件变量。
+   partialConditionTopK: integer;
+   # 是否启用偏相关二次筛选（控制模块内高相关基因后的残差相关）。
+   partialEnabled: boolean;
+   # 偏相关保留比例下限：|pcor| / |cor| 低于该值（或符号发生翻转）时判定为间接关系并剔除该边。
+   partialMinRetainRatio: double;
+   # 偏相关残差之间是否使用 bicor 而非 Pearson。
+   partialUseRobust: boolean;
+   # bicor 在 MAD = 0（近常数向量）时是否回退到 Pearson。
+   pearsonFallback: boolean;
+   # 是否使用分块模式（<code>Analysis.RunBlockwise</code>）做模块划分。基因数超过数千时应保持 True。
+   runBlockwise: boolean;
+   # 是否新增共表达网络中缺失、但 STRING 中存在的 PPI 边（拓扑补全）。
+   stringAddEdges: boolean;
+   # STRING 的 <code>9606.protein.aliases.vXX.txt</code> 文件路径。 当 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions.stringIdMap">GRNBuildOptions.stringIdMap</a> 为 Nothing 且本路径有效时， 自动从别名表中提取 Ensembl gene（ENSG*）→ STRING protein id 的映射。
+   stringAliases: string;
+   # 基因 ID → STRING protein id 的映射表（可由 <a href="cref:!:Tabular.Tsv.entrez_gene_id_vs_string.BuildMapsFromFile">BuildMapsFromFile</a> 构造）。 为 Nothing 时尝试用表达矩阵的基因 ID 与 STRING 的 protein id 直接匹配。
+   stringIdMap: list;
+   # STRING 的 <code>9606.protein.links.vXX.txt</code> 文件路径；为 Nothing 时不启用 STRING 证据。 可以用 <a href="cref:M:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.ExpressionGRNBuilder.FindStringLinks(System.String)">ExpressionGRNBuilder.FindStringLinks()</a> 从 STRING 数据文件夹自动发现。
+   stringLinks: string;
+   # STRING combined_score 的最低阈值（0-1000）。
+   stringMinScore: double;
+   # STRING 证据在置信度融合中的权重 w：conf = (1-w)·conf_expr + w·score_norm。
+   stringWeight: double;
+   # 无向候选边的置信度折扣系数。
+   undirectedConfidenceScale: double;
+   # 模块内相关是否使用稳健相关 bicor（biweight midcorrelation）；关闭时使用经典 Pearson。
+   useBicor: boolean;
+   # 是否输出各阶段进度日志。
+   verbose: boolean;
+   # WGCNA 分析配置；为 Nothing 时使用 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions.wgcnaConfig">GRNBuildOptions.wgcnaConfig</a> 默认值， 并强制 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.WGCNA.WGCNAConfig.buildGraph">WGCNAConfig.buildGraph</a> = False（大规模数据下物化 n^2 条边必然 OOM）。
+   wgcnaConfig: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/WGCNAConfig.html">WGCNAConfig</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>batches</code>: list</li>
+<li>use by <i>property</i> member <code>stringIdMap</code>: list</li>
+<li>use by <i>property</i> member <code>wgcnaConfig</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/WGCNAConfig.html">WGCNAConfig</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

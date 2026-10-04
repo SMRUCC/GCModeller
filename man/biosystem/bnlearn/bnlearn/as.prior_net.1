@@ -4,6 +4,7 @@
 as.prior_net \- build prior network object based on a given vector of the knowledge network edges data
 .SH SYNOPSIS
 \fIas.prior_net(\fBpriorNet\fR as any, 
+\fBcutoff\fR as <generic> Double = 0.6, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -15,8 +16,12 @@ build prior network object based on a given vector of the knowledge network edge
  a collection of the regulatory edge data, which can be a vector of the 
  [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) object, the output of the \fBprior_network\fR 
  api, or a pipeline object that produces a set of the 
- [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) data.
+ [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) data. or this parameter value also could be the
+ [GRNBuildResult](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildResult) object which is created via the WGCNA module detection and the TF enrichment analysis, the regulatory edges of the prior network will be extracted from the given GRNBuildResult object.
 . 
+.PP
+.PP
+\fBcutoff\fB \fR\- the cutoff value for filtering the regulatory edges.. 
 .PP
 .PP
 \fBenv\fB \fR\- the R# runtime environment object.. 

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.WGCNA.WGCNAConfig</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>WGCNAConfig {SMRUCC.genomics.Analysis.HTS.WGCNA}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>WGCNAConfig</h2>
+
+        <h3>Description</h3>
+
+        <p>WGCNA 分析配置</p>
+
+<p>这是新增的分块（blockwise）分析入口 <code>Analysis.RunBlockwise</code> 的统一参数对象。 既有的 <code>Analysis.Run</code> 重载内部使用一个默认实例，因此不改变原有调用方的行为。</p>
+
+<p>命名与默认值尽量对齐 GNU R WGCNA 的 <code>blockwiseModules</code>，便于两边做对照： <code>maxBlockSize</code>、<code>minModuleSize</code>(minClusterSize)、<code>deepSplit</code>、 <code>mergeCutHeight</code> 都可以在 R 侧找到同名（或语义相同）的参数。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.WGCNA
+export class WGCNAConfig {
+   # 邻接矩阵的边截断阈值
+   adjacency: double;
+   # 用于估计全局 beta 的抽样基因数（0 表示取 min(nGenes, 5000)）
+   betaSampleSize: integer;
+   # beta 扫描的候选序列。Nothing 时使用 <code>seq(1,10) 拼接 seq(11,30,by=2)</code>。
+   betaSeq: double;
+   # 分块模式下是否构建网络图对象
+   buildGraph: boolean;
+   # 是否物化 p 值矩阵。False 时 p 值按 (i,j) 现算，可以省掉一半的 n^2 内存。
+   computePvalue: boolean;
+   # 动态剪切的高度上限。NaN 时自动取 <code>0.99*(max(h)-refHeight)+refHeight</code>。
+   cutHeight: double;
+   # 动态剪切的拆分深度（0~4），越大切出的模块越多越小
+   deepSplit: integer;
+   # 静态剪切的树总距离百分比阈值（仅在 <a href="cref:F:SMRUCC.genomics.Analysis.HTS.WGCNA.TreeCutMethod.StaticCut">TreeCutMethod.StaticCut</a> 下生效）
+   distCut: double;
+   # 基因预过滤：只保留方差最大的前 N 个基因（0 表示不过滤）
+   filterTopN: integer;
+   # 单个块的最大基因数。超过该规模时先做预聚类分块。
+   maxBlockSize: integer;
+   # 同时处理的块数量上限（控制 n^2 内存峰值）
+   maxConcurrentBlocks: integer;
+   # 构建网络图时的最大边数（0 表示不限制）
+   maxEdges: integer;
+   # 基因预过滤：剔除缺失率高于该阈值的基因（0 表示不过滤）
+   maxMissingRate: double;
+   # 跨块模块合并的高度阈值（模块特征基因不相似度小于该值即合并）
+   mergeCutHeight: double;
+   # 模块的最小基因数（对应 R 的 minClusterSize / minModuleSize）
+   minModuleSize: integer;
+   # 基因预过滤：剔除方差小于该阈值的基因（0 表示不过滤）
+   minVariance: double;
+   # 动态剪切是否执行 PAM 阶段（把未标注基因分配到最近的模块）
+   pamStage: boolean;
+   # 单块分析时是否用 PCA 前三主成分作为网络节点的初始坐标
+   pcaLayout: boolean;
+   # 软阈值幂次。NaN 时先在抽样基因上自动做 beta 扫描估计。
+   power: double;
+   # 预聚类（projectiveKMeans）的随机种子
+   randomSeed: integer;
+   # 树剪切方式
+   treeCut: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/TreeCutMethod.html">TreeCutMethod</a>;
+   # 是否尝试启用 CUDA GPU 后端
+   useGpu: boolean;
+   # 是否输出各阶段的进度日志
+   verbose: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>treeCut</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/TreeCutMethod.html">TreeCutMethod</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

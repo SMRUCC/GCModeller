@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; WGCNA; TRNtoolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="Workflow for make TRN data model based on the WGCNA co-expressio..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,19 +63,24 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "WGCNA"</span><span style="color: blue;"> from</span><span style="color: brown"> "TRNtoolkit"</span>;
+                               <br /><br /><span style="color: green;">#' Workflow for make TRN data model based on the WGCNA co-expression network and TF id list.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "WGCNA"</span><span style="color: blue;"> from</span><span style="color: brown"> "TRNtoolkit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>Workflow for make TRN data model based on the WGCNA co-expression network and TF id list.</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
                            
                            </p>
     </blockquote>
     <div id="main-wrapper">
-      <table class="table-three-line" style="display: none">
+      <table class="table-three-line" style="display: block">
         <caption>.NET clr type export</caption>
-        <tbody></tbody>
+        <tbody><tr>
+  <td id="GRN_opts">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/RegulationNetwork/GRNBuildOptions.html">GRN_opts: GRNBuildOptions</a>
+  </td>
+  <td><p>基因表达调控先验网络（PriorNetwork）构建流水线的配置对象</p></td>
+</tr></tbody>
       </table>
       <br />
       <br />
@@ -97,7 +102,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="expr_cor">
     <a href="./WGCNA/expr_cor.html">expr_cor</a>
   </td>
-  <td></td>
+  <td><p>Get the correlation matrix of the given expression data matrix, and then calculate the correlation value and p-value of the given id1 and id2.</p></td>
 </tr>
 <tr>
   <td id="read_wgcna_edges">
@@ -110,6 +115,18 @@ table caption {font-size:14px;font-weight:bolder;}
     <a href="./WGCNA/prior_network.html">prior_network</a>
   </td>
   <td><p>Build bnlearn prior network based on the WGCNA co-expression network and TF id list.</p></td>
+</tr>
+<tr>
+  <td id="build_grn">
+    <a href="./WGCNA/build_grn.html">build_grn</a>
+  </td>
+  <td><p>build the GRN prior network from the expression matrix or the cached bicor correlation store.</p></td>
+</tr>
+<tr>
+  <td id="string_links">
+    <a href="./WGCNA/string_links.html">string_links</a>
+  </td>
+  <td><p>locate the STRING protein interaction data files inside a STRING database folder and attach them to the GRN pipeline options.</p></td>
 </tr></tbody>
       </table>
     </div>

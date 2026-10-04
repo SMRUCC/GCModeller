@@ -1,0 +1,44 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "top_variance" "top_variance"
+.SH NAME
+top_variance \- keep only the top-N most variable gene feature rows of the expression matrix
+.SH SYNOPSIS
+\fItop_variance(\fBx\fR as <generic> Matrix, 
+\fBn\fR as integer);\fR
+.SH DESCRIPTION
+.PP
+keep only the top-N most variable gene feature rows of the expression matrix
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ a gene expression matrix (genes in rows, samples in columns). Low variance
+ rows (constant or nearly constant expression) carry no information for the
+ downstream co-expression network analysis, but they do inflate the O(n^2)
+ correlation matrix computation and memory cost.
+. 
+.PP
+.PP
+\fBn\fB \fR\- 
+ the number of the top variance genes to keep. The rows are ranked by the
+ sample variance (denominator n-1) of the expression values, and only the
+ `n` highest ranked rows are kept.
+. 
+.PP
+.SH VALUE
+.PP
+a new expression matrix that contains only the top-N most variable gene
+ feature rows (the original row order is preserved among the kept rows).
+.PP
+.SH DETAILS
+.PP
+this is the standard quality filter step of the R WGCNA workflow, usually
+ applied after the batch normalization and before the co-expression network
+ construction (for example before `write_bicor` or `build_grn`).
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

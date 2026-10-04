@@ -1,0 +1,76 @@
+.\" man page create by R# package system.
+.TH WGCNA 1 2000-1月 "build_grn" "build_grn"
+.SH NAME
+build_grn \- build the GRN prior network from the expression matrix or the cached bicor correlation store.
+.SH SYNOPSIS
+\fIbuild_grn(\fBx\fR as <generic> Matrix, 
+\fBTF\fR as any, 
+\fBopts\fR as <generic> GRNBuildOptions, 
+\fBbicor\fR as <generic> CorrelationMatrixStore = \fB<NULL>\fR, 
+\fBmodules\fR as <generic> WGCNAModuleMap = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+build the GRN prior network from the expression matrix or the cached bicor correlation store.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- gene expression matrix (genes x samples). 
+.PP
+.PP
+\fBTF\fB \fR\- transcription factor gene id vector. 
+.PP
+.PP
+\fBopts\fB \fR\- pipeline options. 
+.PP
+.PP
+\fBbicor\fB \fR\- 
+ optional cached bicor correlation matrix store (from `open_bicor`).
+ When present, the candidate edges are read from the store instead of
+ re-computing the correlation matrix.
+. 
+.PP
+.PP
+\fBmodules\fB \fR\- 
+ optional cached WGCNA module map (from `open_modules`). When Nothing and
+ **bicor** is present, a sidecar cache `{store}.modules` is
+ tried automatically (with fingerprint validation); on cache miss the WGCNA
+ blockwise module detection runs once and the result is written back to the
+ sidecar file.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+the assembled [GRNBuildResult](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildResult): the prior regulatory network
+ split by the WGCNA modules (each module holds a
+ [PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork) of [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) edges
+ carrying TF, target gene, regulation type, confidence and evidence tags),
+ together with the build summary statistics. Use
+ `result.ToPriorNetwork()` / `result.ToPriorNetwork(minConfidence)`
+ to merge it into a single network for the downstream DBN or GNN modeling.
+.PP
+.SH DETAILS
+.PP
+performance notes: when the `bicor` store is present, the candidate
+ edges and p-values are read from the cached correlation matrix and the
+ WGCNA module map is resolved through a three-level cache (explicit
+ `modules` argument => `{storeFile}.modules` sidecar with
+ fingerprint validation => fresh blockwise run with automatic cache
+ write-back), so repeated calls with different thresholds do not re-run
+ either the correlation computation or the WGCNA module detection.
+.PP
+.SH EXAMPLES
+.PP
+let opts = new("GRN_opts", minAbsCorrelation = 0.3, enableGpu = TRUE)
+ |> string_links(string_db = "K:\hsa_grn\string-db");
+ let grn = WGCNA::build_grn(hsa, TF$Ensembl, opts, bicor = bicor);
+.PP
+.SH SEE ALSO
+WGCNA
+.SH FILES
+.PP
+TRNtoolkit.dll
+.PP

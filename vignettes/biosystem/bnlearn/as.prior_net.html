@@ -27,7 +27,8 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>as.prior_net</strong>(<i>priorNet</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>as.prior_net</strong>(<i>priorNet</i>,
+    <i>cutoff</i> = <span style='color: green;'>0.6</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -35,7 +36,11 @@
         <table>
             
 <dt>priorNet</dt>
-<dd><p>a collection of the regulatory edge data, which can be a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge">RegulatoryEdge</a> object, the output of the <code>prior_network</code> api, or a pipeline object that produces a set of the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge">RegulatoryEdge</a> data.</p></dd>
+<dd><p>a collection of the regulatory edge data, which can be a vector of the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge">RegulatoryEdge</a> object, the output of the <code>prior_network</code> api, or a pipeline object that produces a set of the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge">RegulatoryEdge</a> data. or this parameter value also could be the <a href="cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildResult">GRNBuildResult</a> object which is created via the WGCNA module detection and the TF enrichment analysis, the regulatory edges of the prior network will be extracted from the given GRNBuildResult object.</p></dd>
+
+
+<dt>cutoff</dt>
+<dd><p>the cutoff value for filtering the regulatory edges. [as double]</p></dd>
 
 
 <dt>env</dt>

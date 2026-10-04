@@ -1,0 +1,62 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "batch_normalize" "batch_normalize"
+.SH NAME
+batch_normalize \- remove the technical batch effects from a merged multi-dataset gene expression matrix.
+.SH SYNOPSIS
+\fIbatch_normalize(\fBx\fR as <generic> Matrix, 
+\fBbatch\fR as any = \fB<NULL>\fR, 
+\fBcenter_batch\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+remove the technical batch effects from a merged multi-dataset gene expression matrix.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ the merged gene expression matrix (genes in rows, samples in columns) that is
+ assembled from multiple public datasets. Different datasets usually carry
+ platform/library/pre-processing specific technical effects; without this step
+ the downstream co-expression analysis will produce many spurious correlations
+ between samples of the same batch.
+. 
+.PP
+.PP
+\fBbatch\fB \fR\- 
+ the batch grouping information. Accepts either a `list` object of
+ (dataset name => sample id vector) slots, or a stream of
+ [SampleInfo](cref:T:SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.SampleInfo) objects (the batch label is taken from the
+ `batch` slot of each sample info record). When Nothing, all samples
+ are treated as one single batch and a global z-score normalization is applied.
+. 
+.PP
+.PP
+\fBcenter_batch\fB \fR\- 
+ TRUE (default) -> per-gene, per-batch z-score: subtract the batch mean and
+ divide by the batch standard deviation, which removes both the additive and
+ the scale batch effects; FALSE -> per-gene, per-batch mean centering only
+ (subtract the batch mean, keep the between-batch amplitude differences).
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment object.. 
+.PP
+.SH VALUE
+.PP
+a new batch-normalized gene expression matrix. The row order and the sample
+ order are identical to the input matrix; the input matrix object is not
+ modified in place. Missing values (NaN) are imputed with the corresponding
+ batch mean (which is zero after the centering).
+.PP
+.SH DETAILS
+.PP
+this function processes each gene row independently, so it does not change
+ the relative relationships between genes. Run it before the co-expression /
+ WGCNA analysis and after the multi-dataset merging.
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

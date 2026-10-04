@@ -60,12 +60,51 @@
  *  WGCNA is a powerful tool for exploring gene co-expression patterns and has been widely used in genomics research to uncover 
  *  the underlying biology of complex traits and diseases.
  * 
+ * Workflow for make TRN data model based on the WGCNA co-expression network and TF id list.
  * 
 */
 declare namespace WGCNA {
    /**
    */
    function applyModuleColors(g: object, modules: object): any;
+   /**
+    * build the GRN prior network from the expression matrix or the cached bicor correlation store.
+    * 
+    * > performance notes: when the `bicor` store is present, the candidate
+    * >  edges and p-values are read from the cached correlation matrix and the
+    * >  WGCNA module map is resolved through a three-level cache (explicit
+    * >  `modules` argument => `{storeFile}.modules` sidecar with
+    * >  fingerprint validation => fresh blockwise run with automatic cache
+    * >  write-back), so repeated calls with different thresholds do not re-run
+    * >  either the correlation computation or the WGCNA module detection.
+    * 
+     * @param x gene expression matrix (genes x samples)
+     * @param TF transcription factor gene id vector
+     * @param opts pipeline options
+     * @param bicor optional cached bicor correlation matrix store (from `open_bicor`).
+     *  When present, the candidate edges are read from the store instead of
+     *  re-computing the correlation matrix.
+     * 
+     * + default value Is ``null``.
+     * @param modules optional cached WGCNA module map (from `open_modules`). When Nothing and
+     *  **bicor** is present, a sidecar cache `{store}.modules` is
+     *  tried automatically (with fingerprint validation); on cache miss the WGCNA
+     *  blockwise module detection runs once and the result is written back to the
+     *  sidecar file.
+     * 
+     * + default value Is ``null``.
+     * @param env the R# runtime environment object.
+     * 
+     * + default value Is ``null``.
+     * @return the assembled [GRNBuildResult](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildResult): the prior regulatory network
+     *  split by the WGCNA modules (each module holds a
+     *  [PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork) of [RegulatoryEdge](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.RegulatoryEdge) edges
+     *  carrying TF, target gene, regulation type, confidence and evidence tags),
+     *  together with the build summary statistics. Use
+     *  `result.ToPriorNetwork()` / `result.ToPriorNetwork(minConfidence)`
+     *  to merge it into a single network for the downstream DBN or GNN modeling.
+   */
+   function build_grn(x: object, TF: any, opts: object, bicor?: object, modules?: object, env?: object): object;
    /**
     * export a dataframe of the node information with connectivity value
     * 
@@ -92,9 +131,19 @@ declare namespace WGCNA {
    */
    function cor_network(x: any, adjacency?: number, pca_layout?: boolean, args?: object, env?: object): object|object;
    /**
-     * @param id1 default value Is ``null``.
-     * @param id2 default value Is ``null``.
-     * @param env default value Is ``null``.
+    * Get the correlation matrix of the given expression data matrix, and then calculate the correlation value and p-value of the given id1 and id2.
+    * 
+    * 
+     * @param expr -
+     * @param id1 -
+     * 
+     * + default value Is ``null``.
+     * @param id2 -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function expr_cor(expr: any, id1?: any, id2?: any, env?: object): object|object;
    /**
@@ -108,7 +157,7 @@ declare namespace WGCNA {
      * 
      * + default value Is ``0.3``.
    */
-   function interations(g: object, WGCNA: object, modules: object, threshold?: number): any;
+   function interations(g: object, WGCNA: object, modules: object, threshold?: number): object;
    /**
     * load network graph from the WGCNA exportNetworkToCytoscape function exports
     * 
@@ -214,5 +263,32 @@ declare namespace WGCNA {
      * 
      * + default value Is ``0.3``.
    */
-   function shapeTRN(g: object, WGCNA: object, threshold?: number): any;
+   function shapeTRN(g: object, WGCNA: object, threshold?: number): object;
+   /**
+    * locate the STRING protein interaction data files inside a STRING database
+    *  folder and attach them to the GRN pipeline options.
+    * 
+    * > STRING protein interactions are used by the GRN pipeline in two configurable
+    * >  ways: as a confidence re-weighting evidence for the existing co-expression
+    * >  edges, and/or as a topology completion source that adds the protein
+    * >  interaction pairs missing in the co-expression network (see
+    * >  `GRN_opts` fields `stringAddEdges`, `stringMinScore` and
+    * >  `stringWeight`).
+    * 
+     * @param opts the GRN pipeline options object (usually created via `new("GRN_opts", ...)`
+     *  and possibly piped through other option helpers). This function mutates and
+     *  returns the same options object.
+     * @param string_db the directory of the extracted STRING database files (for example
+     *  `K:\hsa_grn\string-db`). The links file is picked with the priority:
+     *  compact `9606.protein.links.v*.txt` (3 columns) > detailed version >
+     *  any other `*protein.links*.txt`; the `.gz` archives and the
+     *  physical-subset files are always skipped. The aliases file
+     *  (`*protein.aliases*.txt`) is located as well and used to build the
+     *  Ensembl gene id => STRING protein id mapping automatically.
+     * @return the same [GRNBuildOptions](cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions) object with the
+     *  `stringLinks` and `stringAliases` file paths filled in.
+     *  When no links file is found, the STRING protein interaction evidence is
+     *  disabled (a warning is printed).
+   */
+   function string_links(opts: object, string_db: string): object;
 }

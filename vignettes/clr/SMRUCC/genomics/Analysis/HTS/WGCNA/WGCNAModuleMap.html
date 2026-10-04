@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.WGCNA.WGCNAModuleMap</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>WGCNAModuleMap {SMRUCC.genomics.Analysis.HTS.WGCNA}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>WGCNAModuleMap</h2>
+
+        <h3>Description</h3>
+
+        <p>WGCNA 模块映射的持久化缓存（边车文件）</p>
+
+<p>bicor 相关矩阵存储（<a href="cref:!:CorrelationMatrixStore">CorrelationMatrixStore</a>）缓存了原始的 N×N 带符号 相关矩阵之后，先验调控网络构建（如 CellPhenote 的 <code>ExpressionGRNBuilder</code> 存储驱动重载）从 WGCNA 结果中只消费 <code>Result.modules</code> 模块映射表—— hub 截断用连接度现算、跨模块边不构建，因此 <code>TOM</code>（N=5 万时约 10GB）与 <code>network</code> 图等大对象不需要、也不应该被缓存。</p>
+
+<p>缓存的正确性依据：blockwise 预聚类的 <code>randomSeed</code> 默认固定（12345）， 同一份数据 + 同一套 WGCNA 配置 = 确定性的模块划分。 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.WGCNA.WGCNAModuleMap.fingerprint">WGCNAModuleMap.fingerprint</a> 携带基因 ID 行序与 WGCNA 关键配置的哈希， <a href="cref:M:SMRUCC.genomics.Analysis.HTS.WGCNA.WGCNAModuleMap.Validate(System.Collections.Generic.IEnumerable{System.String},System.String)">WGCNAModuleMap.Validate()</a> 不匹配时调用方应放弃缓存并重新计算。</p>
+
+<p>文件格式：Brotli 压缩的 JSON，原子写入（临时文件 + <a href="cref:M:System.IO.File.Replace(System.String,System.String,System.String)">File.Replace()</a>）。 推荐命名约定：与 bicor 相关矩阵存储配套，即 <code>{storeFile}.modules</code>； 或在 R# <code>write_bicor(repo)</code> 约定下为 <code>{repo}/modules.dat</code>。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.WGCNA
+export class WGCNAModuleMap {
+   # 缓存创建时间
+   createdAt: <a href="/vignettes/clr/System/DateTime.html">DateTime</a>;
+   # 缓存指纹（基因 ID 行序 + WGCNA 配置的哈希）
+   fingerprint: string;
+   # 基因 ID 表（行序与 bicor 相关矩阵存储的行序一致，指纹校验的依据之一）
+   genes: string;
+   # WGCNA 模块划分结果：模块名（颜色）→ 基因 ID 列表
+   modules: list;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>createdAt</code>: <a href="/vignettes/clr/System/DateTime.html">DateTime</a></li>
+<li>use by <i>property</i> member <code>modules</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

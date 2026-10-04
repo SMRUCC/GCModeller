@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>locate the STRING protein interaction data files inside a STRING database</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>string_links {WGCNA}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>locate the STRING protein interaction data files inside a STRING database</h2>
+
+        <h3>Description</h3>
+
+        <p>folder and attach them to the GRN pipeline options.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>string_links</strong>(<i>opts</i>, <i>string.db</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>opts</dt>
+<dd><p>the GRN pipeline options object (usually created via <code>new("GRN_opts", ...)</code> and possibly piped through other option helpers). This function mutates and returns the same options object. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/RegulationNetwork/GRNBuildOptions.html">GRNBuildOptions</a>]</p></dd>
+
+
+<dt>string.db</dt>
+<dd><p>the directory of the extracted STRING database files (for example <code>K:\hsa_grn\string-db</code>). The links file is picked with the priority: compact <code>9606.protein.links.v*.txt</code> (3 columns) &gt; detailed version &gt; any other <code>*protein.links*.txt</code>; the <code>.gz</code> archives and the physical-subset files are always skipped. The aliases file (<code>*protein.aliases*.txt</code>) is located as well and used to build the Ensembl gene id =&gt; STRING protein id mapping automatically. [as string]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>STRING protein interactions are used by the GRN pipeline in two configurable ways: as a confidence re-weighting evidence for the existing co-expression edges, and/or as a topology completion source that adds the protein interaction pairs missing in the co-expression network (see <code>GRN_opts</code> fields <code>stringAddEdges</code>, <code>stringMinScore</code> and <code>stringWeight</code>).</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        TRNtoolkit
+
+        <h3>Value</h3>
+
+        <p>the same <a href="cref:T:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions">GRNBuildOptions</a> object with the <code>stringLinks</code> and <code>stringAliases</code> file paths filled in. When no links file is found, the STRING protein interaction evidence is disabled (a warning is printed).</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/CellPhenotype/RegulationNetwork/GRNBuildOptions.html">GRNBuildOptions</a></li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> let opts = new("GRN_opts", minAbsCorrelation = 0.3, enableGpu = TRUE)
+ |> string_links(string_db = "K:\hsa_grn\string-db");</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>WGCNA</em> version 1.0.0.0 <a
+                href="../WGCNA.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>
