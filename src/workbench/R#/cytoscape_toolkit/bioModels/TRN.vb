@@ -54,14 +54,18 @@
 #End Region
 
 Imports System.IO
+Imports System.IO.Compression
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.WGCNA
 Imports SMRUCC.genomics.Model.Network.Regulons
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
@@ -95,19 +99,30 @@ Module TRN
     End Function
 
     <ExportAPI("write_bicor")>
-    Public Function write_bicor(x As matrix, file As Object, Optional type As CorrelationEncodings = CorrelationEncodings.Float32, Optional env As Environment = Nothing) As Object
+    Public Function write_bicor(x As Matrix, file As Object, Optional type As CorrelationEncodings = CorrelationEncodings.Float32, Optional env As Environment = Nothing) As Object
         Dim is_filepath As Boolean = False
         Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Write, env, is_filepath:=is_filepath)
 
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Dim zip As New ZipArchive(s, ZipArchiveMode.Update)
+        Dim matrix_item = zip.CreateEntry("bicor.dat", CompressionLevel.Fastest)
+        Dim index_item = zip.CreateEntry("index.dat", CompressionLevel.Fastest)
+        Dim matrix_s As Stream = matrix_item.Open
+        Dim index_s As Stream = index_item.Open
+        Dim geneIds As String() = x.rownames
+        Dim nSample As Integer = x.sample_count
+
         ' ② 逐行 bicor 计算（模拟耗时的一次性矩阵计算），边算边写 corstore
-        Using writer As New CorrelationMatrixWriter(StoreFile, geneIds, subset.sample_count,
-                                                    CorrelationEncodings.Float32)
+        Using writer As New CorrelationMatrixWriter(matrix_s, index_s, geneIds, nSample, type, CompressionLevel.NoCompression)
             For i As Integer = 0 To geneIds.Length - 1
                 Dim row(geneIds.Length - 1) As Single
-                Dim vi As Double() = subset.expression(i).experiments
+                Dim vi As Double() = x(i).experiments
 
                 For j As Integer = 0 To geneIds.Length - 1
-                    row(j) = If(j = i, 1.0F, CSng(Bicor.BiweightMidcorrelation(vi, subset.expression(j).experiments)))
+                    row(j) = If(j = i, 1.0F, CSng(Bicor.BiweightMidcorrelation(vi, x(j).experiments)))
                 Next
 
                 Call writer.WriteRow(geneIds(i), row)
@@ -115,6 +130,13 @@ Module TRN
 
             Call writer.Complete()
         End Using
+
+        Try
+            Call matrix_s.Dispose()
+            Call index_s.Dispose()
+        Catch ex As Exception
+
+        End Try
 
         If is_filepath Then
             Try
@@ -124,5 +146,27 @@ Module TRN
                 Call App.LogException(ex)
             End Try
         End If
+
+        Return True
+    End Function
+
+    <ExportAPI("open_bicor")>
+    <RApiReturn(GetType(CorrelationMatrixStore))>
+    Public Function open_bicor(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim is_filepath As Boolean = False
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env, is_filepath:=is_filepath)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Dim zip As New ZipArchive(s, ZipArchiveMode.Update)
+        Dim matrix_item = zip.CreateEntry("bicor.dat", CompressionLevel.Fastest)
+        Dim index_item = zip.CreateEntry("index.dat", CompressionLevel.Fastest)
+        Dim matrix_s As Stream = matrix_item.Open
+        Dim index_s As Stream = index_item.Open
+        Dim matrix = CorrelationMatrixStore.Open(matrix_s, index_s, cacheRows:=2048)
+
+        Return matrix
     End Function
 End Module
