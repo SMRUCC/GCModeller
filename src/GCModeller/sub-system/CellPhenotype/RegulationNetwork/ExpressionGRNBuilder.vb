@@ -81,6 +81,11 @@ Namespace RegulationNetwork
             Dim clock As Stopwatch = Stopwatch.StartNew()
             Dim log As Action(Of String) = MakeLog(options.verbose)
 
+            ' ⓪ GPU 后端：WGCNA 模块划分（相关矩阵 GEMM + TOM）是全流水线唯一的 O(G^2) 计算
+            If options.enableGpu Then
+                Call log("[0/6] enabling CUDA GPU backend for WGCNA GEMM/TOM...")
+            End If
+
             ' ① 预处理：批次标准化 + 基因质量过滤
             Call log($"[1/6] batch normalization + gene filtering on {samples.size} genes x {samples.sample_count} samples...")
             Dim filtered As Matrix = Preprocess(samples, options)
@@ -111,14 +116,25 @@ Namespace RegulationNetwork
             End If
 
             Dim kme As Dictionary(Of String, Double) = BuildKme(wgcna)
+            Dim backend As String = HTS.WGCNA.Analysis.Backend
+
+            Call log($"[2/6] WGCNA done, compute backend = {backend}.")
 
             ' ③ STRING 证据源（流式加载，只为网络内基因建索引）
             Dim stringEvidence As StringPriorEvidence = Nothing
 
             If Not String.IsNullOrEmpty(options.stringLinks) Then
+                ' ID 映射：优先使用显式提供的映射表，其次从 STRING 别名表自动提取 ENSG → STRING id
+                Dim idMap As Dictionary(Of String, String) = options.stringIdMap
+
+                If idMap Is Nothing AndAlso Not String.IsNullOrEmpty(options.stringAliases) Then
+                    Call log("[3/6] build gene id -> STRING protein id map from aliases file...")
+                    idMap = StringPriorEvidence.LoadEnsemblAliasMap(options.stringAliases, options.verbose)
+                End If
+
                 Call log("[3/6] loading STRING protein interactions...")
                 stringEvidence = StringPriorEvidence.Load(
-                    options.stringLinks, geneIndex.Keys, options.stringIdMap,
+                    options.stringLinks, geneIndex.Keys, idMap,
                     options.stringMinScore, options.verbose)
             Else
                 Call log("[3/6] STRING evidence disabled (no links file).")
@@ -245,6 +261,53 @@ Namespace RegulationNetwork
             Return entrez_gene_id_vs_string.BuildMapsFromFile(path, tsv)
         End Function
 
+        ''' <summary>
+        ''' 在 STRING 数据文件夹中自动发现 links 与 aliases 文件
+        ''' </summary>
+        ''' <param name="folder">STRING 解压后的数据文件夹（如 <c>K:\hsa_grn\string-db</c>）</param>
+        ''' <returns>(links 文件路径, aliases 文件路径)；未找到时对应元素为 Nothing</returns>
+        ''' <remarks>
+        ''' links 文件的选择优先级：精简版 <c>9606.protein.links.v*.txt</c>（3 列，体积最小）＞
+        ''' detailed 版 ＞ 其他任意 <c>*protein.links*.txt</c>；始终跳过 <c>.gz</c> 与 physical 子集。
+        ''' </remarks>
+        Public Function FindStringLinks(folder As String) As (links As String, aliases As String)
+            If String.IsNullOrEmpty(folder) OrElse Not System.IO.Directory.Exists(folder) Then
+                Return (Nothing, Nothing)
+            End If
+
+            Dim files As String() = System.IO.Directory.GetFiles(folder, "*.txt", System.IO.SearchOption.TopDirectoryOnly)
+            Dim links As String = Nothing
+            Dim aliases As String = Nothing
+
+            ' 优先级 1：精简版 links（protein1 / protein2 / combined_score 三列）
+            links = files.FirstOrDefault(Function(f)
+                                             Dim name = System.IO.Path.GetFileName(f)
+                                             Return name.StartsWith("9606.protein.links.", StringComparison.OrdinalIgnoreCase) _
+                                                 AndAlso Not name.Contains("detailed") AndAlso Not name.Contains("full")
+                                         End Function)
+
+            ' 优先级 2：detailed 版
+            If links Is Nothing Then
+                links = files.FirstOrDefault(Function(f) System.IO.Path.GetFileName(f).EndsWith("protein.links.detailed.v12.0.txt", StringComparison.OrdinalIgnoreCase))
+            End If
+
+            ' 优先级 3：任意 links 文件（排除 physical 子集）
+            If links Is Nothing Then
+                links = files.FirstOrDefault(Function(f)
+                                                 Dim name = System.IO.Path.GetFileName(f)
+                                                 Return name.IndexOf("protein.links", StringComparison.OrdinalIgnoreCase) >= 0 _
+                                                     AndAlso Not name.Contains("physical")
+                                             End Function)
+            End If
+
+            aliases = files.FirstOrDefault(Function(f)
+                                               Dim name = System.IO.Path.GetFileName(f)
+                                               Return name.IndexOf("protein.aliases", StringComparison.OrdinalIgnoreCase) >= 0
+                                           End Function)
+
+            Return (links, aliases)
+        End Function
+
         ' ============================================================
         ' 内部实现
         ' ============================================================
@@ -283,6 +346,7 @@ Namespace RegulationNetwork
             config.minVariance = 0
             config.maxMissingRate = 0
             config.buildGraph = False
+            config.useGpu = options.enableGpu
 
             If options.runBlockwise Then
                 Return HTS.WGCNA.Analysis.RunBlockwise(filtered, config)
@@ -533,42 +597,54 @@ Namespace RegulationNetwork
             Return data
         End Function
 
-        ''' <summary>模块内带符号相关矩阵（bicor 或 Pearson）</summary>
+        ''' <summary>
+        ''' 模块内带符号相关矩阵（bicor 或 Pearson），多线程并行计算
+        ''' </summary>
+        ''' <remarks>
+        ''' 模块内 bicor 是 O(g^2·S) 的逐对计算：g=1000、S=1888 时约 9.4 亿次浮点运算，
+        ''' 单线程需要数十秒，按基因行做 <see cref="Parallel"/> 并行可以充分利用多核。
+        ''' 每对 (i, j) 只由线程 i 写入 r(i, j) / r(j, i)，不同线程之间无写冲突。
+        ''' </remarks>
         Private Function ComputeCorrelationMatrix(data As Double(,), options As GRNBuildOptions) As Double(,)
-            If Not options.useBicor Then
-                Return Bicor.CorrelationMatrix(data, robust:=False)
-            End If
-
-            If System.Math.Abs(options.bicorConstant - Bicor.DefaultConstant) < Double.Epsilon Then
-                Return Bicor.CorrelationMatrix(data, robust:=True, pearsonFallback:=options.pearsonFallback)
-            End If
-
-            ' 自定义调节常数时逐对计算
             Dim g As Integer = data.GetLength(0)
             Dim s As Integer = data.GetLength(1)
             Dim r(g - 1, g - 1) As Double
             Dim cols(g - 1)() As Double
 
-            For i As Integer = 0 To g - 1
-                Dim v(s - 1) As Double
+            ' 行向量提取（PartialCorrelation.FromData 与跨模块计算都会复用同样的行顺序）
+            Call Parallel.For(0, g,
+                Sub(i)
+                    Dim v(s - 1) As Double
 
-                For j As Integer = 0 To s - 1
-                    v(j) = data(i, j)
-                Next
+                    For j As Integer = 0 To s - 1
+                        v(j) = data(i, j)
+                    Next
 
-                cols(i) = v
-                r(i, i) = 1.0
-            Next
+                    cols(i) = v
+                End Sub)
 
-            For i As Integer = 0 To g - 2
-                For j As Integer = i + 1 To g - 1
-                    Dim v As Double = Bicor.BiweightMidcorrelation(
-                        cols(i), cols(j), options.bicorConstant, options.pearsonFallback)
+            Dim useBicor As Boolean = options.useBicor
+            Dim constant As Double = options.bicorConstant
+            Dim fallback As Boolean = options.pearsonFallback
 
-                    r(i, j) = v
-                    r(j, i) = v
-                Next
-            Next
+            Call Parallel.For(0, g,
+                Sub(i)
+                    r(i, i) = 1.0
+                    Dim ci As Double() = cols(i)
+
+                    For j As Integer = i + 1 To g - 1
+                        Dim v As Double
+
+                        If useBicor Then
+                            v = Bicor.BiweightMidcorrelation(ci, cols(j), constant, fallback)
+                        Else
+                            v = Bicor.Pearson(ci, cols(j))
+                        End If
+
+                        r(i, j) = v
+                        r(j, i) = v
+                    Next
+                End Sub)
 
             Return r
         End Function
@@ -744,6 +820,10 @@ Namespace RegulationNetwork
         End Function
 
         ''' <summary>STRING 拓扑补全：为共表达网络缺失但 PPI 存在的基因对新增边</summary>
+        ''' <remarks>
+        ''' 通过 <see cref="StringPriorEvidence.LinksOf"/> 的按基因索引遍历模块内基因，
+        ''' 复杂度为 O(Σ deg)，避免了对全部边对的反复全表扫描。
+        ''' </remarks>
         ''' <returns>(新增边总数, 其中无向候选边数)</returns>
         Private Function AddStringOnlyEdges(net As PriorNetwork,
                                             geneSet As HashSet(Of String),
@@ -754,51 +834,56 @@ Namespace RegulationNetwork
             Dim added As Integer = 0
             Dim undirected As Integer = 0
 
-            For Each pair In stringEvidence.Pairs()
-                If Not geneSet.Contains(pair.a) OrElse Not geneSet.Contains(pair.b) Then
-                    Continue For
-                End If
-                If existing.Contains(StringPriorEvidence.PairKey(pair.a, pair.b)) Then
-                    Continue For
-                End If
-
-                Dim confidence As Double = CorrelationSignificance.StringOnlyConfidence(
-                    pair.score, options.stringMinScore)
-
-                If confidence <= 0 Then
-                    Continue For
-                End If
-
-                Dim tf As String = pair.a
-                Dim target As String = pair.b
-                Dim isTfA As Boolean = tfSet.Contains(pair.a)
-                Dim isTfB As Boolean = tfSet.Contains(pair.b)
-                Dim evidence As String = EvidenceTags.STRING_PPI_UNSIGNED
-                Dim isUndirectedEdge As Boolean = False
-
-                If isTfA AndAlso Not isTfB Then
-                    tf = pair.a : target = pair.b
-                ElseIf isTfB AndAlso Not isTfA Then
-                    tf = pair.b : target = pair.a
-                Else
-                    If Not options.keepUndirectedCandidates Then
+            For Each gene As String In geneSet
+                For Each link In stringEvidence.LinksOf(gene)
+                    If Not geneSet.Contains(link.other) Then
                         Continue For
                     End If
 
-                    isUndirectedEdge = True
-                    confidence *= options.undirectedConfidenceScale
-                    evidence = EvidenceTags.Append(evidence,
-                                                   If(isTfA, EvidenceTags.UNDIRECTED_TF_TF, EvidenceTags.UNDIRECTED_NON_TF))
-                End If
+                    Dim key As String = StringPriorEvidence.PairKey(gene, link.other)
 
-                ' 纯 PPI 边无符号信息，默认按激活处理并在 Evidence 中标记
-                net.AddEdge(tf, target, Effector.Activator, confidence, evidence)
-                Call existing.Add(StringPriorEvidence.PairKey(pair.a, pair.b))
-                added += 1
+                    If existing.Contains(key) Then
+                        Continue For
+                    End If
 
-                If isUndirectedEdge Then
-                    undirected += 1
-                End If
+                    Dim confidence As Double = CorrelationSignificance.StringOnlyConfidence(
+                        link.score, options.stringMinScore)
+
+                    If confidence <= 0 Then
+                        Continue For
+                    End If
+
+                    Dim isTfA As Boolean = tfSet.Contains(gene)
+                    Dim isTfB As Boolean = tfSet.Contains(link.other)
+                    Dim evidence As String = EvidenceTags.STRING_PPI_UNSIGNED
+                    Dim isUndirectedEdge As Boolean = False
+                    Dim tf As String = gene
+                    Dim target As String = link.other
+
+                    If isTfA AndAlso Not isTfB Then
+                        ' 方向保持 gene -> other
+                    ElseIf isTfB AndAlso Not isTfA Then
+                        tf = link.other : target = gene
+                    Else
+                        If Not options.keepUndirectedCandidates Then
+                            Continue For
+                        End If
+
+                        isUndirectedEdge = True
+                        confidence *= options.undirectedConfidenceScale
+                        evidence = EvidenceTags.Append(evidence,
+                                                       If(isTfA, EvidenceTags.UNDIRECTED_TF_TF, EvidenceTags.UNDIRECTED_NON_TF))
+                    End If
+
+                    ' 纯 PPI 边无符号信息，默认按激活处理并在 Evidence 中标记
+                    net.AddEdge(tf, target, Effector.Activator, confidence, evidence)
+                    Call existing.Add(key)
+                    added += 1
+
+                    If isUndirectedEdge Then
+                        undirected += 1
+                    End If
+                Next
             Next
 
             Return (added, undirected)

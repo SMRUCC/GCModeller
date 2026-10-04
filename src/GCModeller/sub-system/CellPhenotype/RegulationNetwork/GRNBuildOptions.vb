@@ -184,10 +184,34 @@ Namespace RegulationNetwork
         ' ==================== STRING 蛋白互作 ====================
 
         ''' <summary>
+        ''' 是否启用 CUDA GPU 加速（<see cref="TensorBackend.ApplyBackend"/>）。
+        ''' WGCNA 模块划分（相关矩阵 GEMM + TOM）是流水线中唯一的 O(G^2) 全基因组计算，
+        ''' 是 GPU 加速的主要受益者；请求失败时自动回退 CPU 并记录告警日志。
+        ''' </summary>
+        ''' <returns>默认 False（保持既有调用方行为不变）</returns>
+        Public Property enableGpu As Boolean = False
+
+        ''' <summary>
+        ''' GPU 的矩阵乘是否走单精度（FP32）内核。
+        ''' 消费级显卡的 FP64 吞吐通常只有 FP32 的 1/32~1/64，FP32 是 GEMM 阶段的主要加速来源。
+        ''' </summary>
+        ''' <returns>默认 True</returns>
+        Public Property gpuFp32Gemm As Boolean = True
+
+        ''' <summary>
         ''' STRING 的 <c>9606.protein.links.vXX.txt</c> 文件路径；为 Nothing 时不启用 STRING 证据。
+        ''' 可以用 <see cref="ExpressionGRNBuilder.FindStringLinks"/> 从 STRING 数据文件夹自动发现。
         ''' </summary>
         ''' <returns></returns>
         Public Property stringLinks As String = Nothing
+
+        ''' <summary>
+        ''' STRING 的 <c>9606.protein.aliases.vXX.txt</c> 文件路径。
+        ''' 当 <see cref="stringIdMap"/> 为 Nothing 且本路径有效时，
+        ''' 自动从别名表中提取 Ensembl gene（ENSG*）→ STRING protein id 的映射。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property stringAliases As String = Nothing
 
         ''' <summary>
         ''' 基因 ID → STRING protein id 的映射表（可由 <see cref="Tabular.Tsv.entrez_gene_id_vs_string.BuildMapsFromFile"/> 构造）。

@@ -2,8 +2,10 @@
 ' grn_prior_demo.vb
 '
 ' 基因表达调控先验网络构建（ExpressionGRNBuilder）的演示 / 冒烟入口：
-'   表达矩阵 + TF 注释 +（可选）STRING links
+'   表达矩阵 + TF 注释 + STRING-db（K:\hsa_grn\string-db）
 '       -> 按模块拆分的 PriorNetwork 集合（RegulatoryEdge）
+'
+' 本演示启用 CUDA GPU 加速并处理完整矩阵（不做方差截断）。
 '
 ' 运行方式（切换启动对象）：
 '   dotnet run --project test.vbproj -p:StartupObject=test.grn_prior_demo
@@ -14,33 +16,39 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Module grn_prior_demo
 
+    ' 数据文件路径（按实际存放位置调整）
+    Const ExprFile As String = "K:\hsa\Homo_sapiens_expr_advanced_all_conditions.csv"
+    Const TfFile As String = "K:\hsa_grn\Homo_sapiens_TF.txt"
+    Const StringDbFolder As String = "K:\hsa_grn\string-db"
+
     Sub Main()
-        ' 数据文件路径（按实际存放位置调整）
-        Dim exprFile As String = "K:\hsa\Homo_sapiens_expr_advanced_all_conditions.csv"
-        Dim tfFile As String = "K:\hsa_grn\Homo_sapiens_TF.txt"
+        Call $"load expression matrix from '{ExprFile}'...".info
 
-        ' 可选：STRING 9606.protein.links 文件路径；为空则不启用 STRING 证据
-        Dim stringLinks As String = Nothing
+        Dim data As Matrix = Matrix.LoadData(ExprFile, tqdm_wrap:=True)
+        Dim TFlist As String() = ExpressionGRNBuilder.ReadTfList(TfFile, "Ensembl", tsv:=True)
 
-        Dim args As String() = Environment.GetCommandLineArgs()
+        ' 自动发现 STRING 数据文件（优先精简版 links + aliases 别名表）
+        Dim str As (links As String, aliases As String) = ExpressionGRNBuilder.FindStringLinks(StringDbFolder)
 
-        If args.Length >= 2 Then
-            stringLinks = args(1)
+        If str.links IsNot Nothing Then
+            Call $"STRING links   = '{str.links}'".info
+        Else
+            Call VBDebugger.EchoLine("warning: STRING links not found, protein interaction evidence will be disabled.")
         End If
 
-        Call $"load expression matrix from '{exprFile}'...".info
+        If str.aliases IsNot Nothing Then
+            Call $"STRING aliases = '{str.aliases}'".info
+        End If
 
-        Dim data As Matrix = Matrix.LoadData(exprFile, tqdm_wrap:=True)
-        Dim TFlist As String() = ExpressionGRNBuilder.ReadTfList(tfFile, "Ensembl", tsv:=True)
-
-        ' 冒烟运行使用较小的规模参数；正式分析请改回默认值（直接 New GRNBuildOptions 即可）
+        ' GPU 加速 + 完整矩阵（不截断基因数）
         Dim options As New GRNBuildOptions With {
-            .filterTopN = 2000,
-            .maxModuleGenes = 300,
-            .maxDpiGenes = 200,
-            .maxCrossModulePairs = 10,
-            .maxCrossModuleTargets = 100,
-            .stringLinks = stringLinks
+            .enableGpu = True,
+            .gpuFp32Gemm = True,
+            .filterTopN = 0,
+            .maxMissingRate = 0.2,
+            .stringLinks = str.links,
+            .stringAliases = str.aliases,
+            .stringMinScore = 700
         }
 
         Dim result = ExpressionGRNBuilder.Build(data, TFlist, options)

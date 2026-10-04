@@ -19,6 +19,9 @@ Namespace RegulationNetwork
         ReadOnly scores As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
         ReadOnly minScoreValue As Double
 
+        Private pairCache As List(Of (a As String, b As String, score As Double))
+        Private geneIndex As Dictionary(Of String, List(Of (other As String, score As Double)))
+
         ''' <summary>
         ''' 已物化的互作对数
         ''' </summary>
@@ -72,7 +75,15 @@ Namespace RegulationNetwork
 
             Dim n As Integer = 0
 
-            For Each link As linksDetail In linksDetail.IteratesLinks(linksFile)
+            ' v12 的 links 文件使用空格分隔：
+            '   - 精简版（protein1, protein2, combined_score）→ IteratesLinks
+            '   - detailed / full 版（含 16 列分项分数）→ LoadFile（按表头解析列位置）
+            Dim firstLine As String = System.IO.File.ReadLines(linksFile).FirstOrDefault()
+            Dim columnCount As Integer = If(firstLine Is Nothing, 0, firstLine.Split(" "c).Length)
+            Dim links As IEnumerable(Of linksDetail) =
+                If(columnCount > 3, linksDetail.LoadFile(linksFile), linksDetail.IteratesLinks(linksFile))
+
+            For Each link As linksDetail In links
                 If link.combined_score < minScore Then
                     Continue For
                 End If
@@ -95,27 +106,115 @@ Namespace RegulationNetwork
             Next
 
             If verbose Then
-                Call $"STRING: {evidence.scores.Count} interactions kept for {geneSet.Count} genes ({n} raw hits).".info
+                Call $"STRING: {evidence.scores.Count} interactions kept for {geneSet.Count} genes ({n} raw hits, format = {If(columnCount > 3, "detailed", "plain")}).".info
             End If
 
             Return evidence
         End Function
 
         ''' <summary>
-        ''' 枚举已物化的互作对（基因 A, 基因 B, combined_score）
+        ''' 从 STRING 别名表（<c>9606.protein.aliases.vXX.txt</c>）提取
+        ''' Ensembl gene（<c>ENSG*</c>）→ STRING protein id 的映射
+        ''' </summary>
+        ''' <param name="aliasesFile">别名表文件路径</param>
+        ''' <param name="verbose">是否输出日志</param>
+        ''' <returns>Ensembl gene id → STRING protein id（含物种前缀）的映射</returns>
+        Public Shared Function LoadEnsemblAliasMap(aliasesFile As String, Optional verbose As Boolean = True) As Dictionary(Of String, String)
+            Dim map As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+            If String.IsNullOrEmpty(aliasesFile) Then
+                Return map
+            End If
+
+            If verbose Then
+                Call $"STRING: build ENSG -> protein id map from '{aliasesFile}'...".info
+            End If
+
+            For Each line As String In System.IO.File.ReadLines(aliasesFile)
+                If String.IsNullOrWhiteSpace(line) OrElse line.StartsWith("#"c) Then
+                    Continue For
+                End If
+
+                Dim tokens As String() = line.Split(" "c)
+
+                If tokens.Length < 2 Then
+                    Continue For
+                End If
+
+                ' 行格式: string_protein_id alias [alias...] source...
+                ' 源名称（如 Ensembl_gene）不以 ENSG 开头，不会误匹配
+                Dim pid As String = tokens(0)
+
+                For i As Integer = 1 To tokens.Length - 1
+                    Dim aliasId As String = tokens(i)
+
+                    If aliasId.Length > 4 AndAlso
+                        aliasId.StartsWith("ENSG", StringComparison.OrdinalIgnoreCase) AndAlso
+                        Not map.ContainsKey(aliasId) Then
+
+                        map(aliasId) = pid
+                    End If
+                Next
+            Next
+
+            If verbose Then
+                Call $"STRING: {map.Count} Ensembl gene id mappings extracted.".info
+            End If
+
+            Return map
+        End Function
+
+        ''' <summary>
+        ''' 枚举已物化的互作对（基因 A, 基因 B, combined_score）；结果会缓存
         ''' </summary>
         ''' <returns></returns>
         Public Function Pairs() As IEnumerable(Of (a As String, b As String, score As Double))
-            Dim buf As New List(Of (String, String, Double))(scores.Count)
+            If pairCache Is Nothing Then
+                BuildIndex()
+            End If
+
+            Return pairCache
+        End Function
+
+        ''' <summary>
+        ''' 枚举与指定基因存在互作的所有基因及其分数（按需构建索引后 O(1) 查询）
+        ''' </summary>
+        ''' <param name="gene">基因 ID</param>
+        ''' <returns>(对方基因, combined_score) 序列；无互作时返回空序列</returns>
+        Public Function LinksOf(gene As String) As IEnumerable(Of (other As String, score As Double))
+            If geneIndex Is Nothing Then
+                BuildIndex()
+            End If
+
+            Dim links As List(Of (other As String, score As Double)) = Nothing
+
+            If geneIndex.TryGetValue(gene, links) Then
+                Return links
+            End If
+
+            Return New (other As String, score As Double)() {}
+        End Function
+
+        ''' <summary>构建边对缓存与按基因索引（懒执行一次）</summary>
+        Private Sub BuildIndex()
+            pairCache = New List(Of (a As String, b As String, score As Double))(scores.Count)
+            geneIndex = New Dictionary(Of String, List(Of (other As String, score As Double)))(StringComparer.OrdinalIgnoreCase)
 
             For Each pair In scores
                 Dim tokens As String() = pair.Key.Split("|"c)
+                Dim a As String = tokens(0)
+                Dim b As String = tokens(1)
+                Dim v As Double = pair.Value
 
-                buf.Add((tokens(0), tokens(1), pair.Value))
+                pairCache.Add((a, b, v))
+
+                If Not geneIndex.TryGetValue(a, Nothing) Then geneIndex(a) = New List(Of (other As String, score As Double))
+                If Not geneIndex.TryGetValue(b, Nothing) Then geneIndex(b) = New List(Of (other As String, score As Double))
+
+                geneIndex(a).Add((b, v))
+                geneIndex(b).Add((a, v))
             Next
-
-            Return buf
-        End Function
+        End Sub
 
         ''' <summary>
         ''' 查询两个基因之间的 STRING combined_score
