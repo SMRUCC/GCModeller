@@ -3,6 +3,8 @@ Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.WGCNA
+Imports SMRUCC.genomics.Data.STRING.Tabular.Tsv
+Imports SMRUCC.genomics.InteractionModel
 
 Namespace RegulationNetwork
 
@@ -209,7 +211,7 @@ Namespace RegulationNetwork
                     Next
 
                     If columnIndex = -1 Then
-                        Throw New InvalidDataException($"TF 注释文件 '{path}' 中找不到列 '{column}'，表头为: {line}")
+                        Throw New System.IO.InvalidDataException($"TF 注释文件 '{path}' 中找不到列 '{column}'，表头为: {line}")
                     End If
 
                     Continue For
@@ -283,9 +285,9 @@ Namespace RegulationNetwork
             config.buildGraph = False
 
             If options.runBlockwise Then
-                Return Analysis.RunBlockwise(filtered, config)
+                Return HTS.WGCNA.Analysis.RunBlockwise(filtered, config)
             Else
-                Return Analysis.Run(filtered, config)
+                Return HTS.WGCNA.Analysis.Run(filtered, config)
             End If
         End Function
 
@@ -545,7 +547,7 @@ Namespace RegulationNetwork
             Dim g As Integer = data.GetLength(0)
             Dim s As Integer = data.GetLength(1)
             Dim r(g - 1, g - 1) As Double
-            Dim cols(g - 1) As Double()
+            Dim cols(g - 1)() As Double
 
             For i As Integer = 0 To g - 1
                 Dim v(s - 1) As Double

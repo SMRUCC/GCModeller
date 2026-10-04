@@ -40,7 +40,7 @@ Public Enum TreeCutMethod
     ''' <summary>
     ''' 静态剪切（<see cref="StaticCut"/>），按树总距离的百分比一刀切（WGCNA 项目原有的方式）
     ''' </summary>
-    <ComponentModel.Description("Static")>
+    <System.ComponentModel.Description("Static")>
     StaticCut = 1
 End Enum
 
