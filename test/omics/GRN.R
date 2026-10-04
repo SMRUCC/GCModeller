@@ -9,7 +9,7 @@ let hsa = geneExpression::load.expr("K:\hsa\Homo_sapiens_expr_advanced_all_condi
 |> top_variance(1000)
 ;
 let top_genes = geneExpression::dims(hsa)$feature_names;
-let TF = read.csv("K:\hsa_grn\Homo_sapiens_TF.txt")$Ensembl;
+let TF = read.table("K:\hsa_grn\Homo_sapiens_TF.txt")$Ensembl;
 
 print("top variance gene features:");
 print(top_genes);
