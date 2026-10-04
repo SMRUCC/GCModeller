@@ -29,6 +29,8 @@
 
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports std = System.Math
 
@@ -90,7 +92,7 @@ Public Module MergeCloseModules
                 If i = j Then
                     row(j) = 0
                 Else
-                    row(j) = 1 - ModuleEigengene.Pearson(eigengenes(i), eigengenes(j))
+                    row(j) = 1 - Correlations.GetPearson(eigengenes(i), eigengenes(j))
                 End If
             Next
 

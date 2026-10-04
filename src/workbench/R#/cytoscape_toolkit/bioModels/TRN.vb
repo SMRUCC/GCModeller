@@ -165,9 +165,14 @@ Module TRN
                 Dim row(geneIds.Length - 1) As Single
                 Dim vi As Double() = x(i).experiments
 
-                For j As Integer = 0 To geneIds.Length - 1
-                    row(j) = If(j = i, 1.0F, CSng(Bicor.BiweightMidcorrelation(vi, x(j).experiments)))
-                Next
+                Call Parallel.For(0, geneIds.Length,
+                     body:=Sub(j)
+                               If j = i Then
+                                   row(j) = 1.0F
+                               Else
+                                   row(j) = CSng(Bicor.BiweightMidcorrelation(vi, x(j).experiments))
+                               End If
+                           End Sub)
 
                 Call bar.SetLabel(geneIds(i))
                 Call writer.WriteRow(geneIds(i), row)

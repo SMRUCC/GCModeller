@@ -56,32 +56,6 @@ Public NotInheritable Class Bicor
         Return 1.4826 * Median(dev)
     End Function
 
-    ''' <summary>
-    ''' Classic Pearson correlation. Zero-variance inputs return 0
-    ''' (undefined correlation represented neutrally).
-    ''' </summary>
-    Public Shared Function Pearson(x As Double(), y As Double()) As Double
-        Dim n = x.Length
-        If y.Length <> n Then Throw New ArgumentException("length mismatch")
-        Dim mx = 0.0, my = 0.0
-        For i = 0 To n - 1
-            mx += x(i)
-            my += y(i)
-        Next
-        mx /= n
-        my /= n
-        Dim sxy = 0.0, sxx = 0.0, syy = 0.0
-        For i = 0 To n - 1
-            Dim dx = x(i) - mx
-            Dim dy = y(i) - my
-            sxy += dx * dy
-            sxx += dx * dx
-            syy += dy * dy
-        Next
-        If sxx <= 0.0 OrElse syy <= 0.0 Then Return 0.0
-        Return sxy / Math.Sqrt(sxx * syy)
-    End Function
-
     ''' <summary>Biweight midcorrelation — see the class remarks for the formula.</summary>
     ''' <param name="x">First sample.</param>
     ''' <param name="y">Second sample (same length).</param>

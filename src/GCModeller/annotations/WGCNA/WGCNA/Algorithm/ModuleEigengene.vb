@@ -1,34 +1,32 @@
 #Region "Microsoft.VisualBasic::ModuleEigengene, annotations\WGCNA\WGCNA\Algorithm\ModuleEigengene.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Threading.Tasks
-Imports Microsoft.VisualBasic.Linq
 Imports std = System.Math
 
 ''' <summary>
@@ -200,42 +198,5 @@ Public Module ModuleEigengene
         Next
 
         Return Compute(rows)
-    End Function
-
-    ''' <summary>
-    ''' 计算两个向量的 Pearson 相关系数
-    ''' </summary>
-    ''' <param name="x">向量 x</param>
-    ''' <param name="y">同长度向量 y</param>
-    ''' <returns>Pearson 相关系数；无法计算时返回 0</returns>
-    Public Function Pearson(x As Double(), y As Double()) As Double
-        Dim n As Integer = std.Min(x.Length, y.Length)
-
-        If n < 2 Then Return 0
-
-        Dim mx As Double = 0, my As Double = 0
-
-        For i As Integer = 0 To n - 1
-            mx += x(i)
-            my += y(i)
-        Next
-
-        mx /= n
-        my /= n
-
-        Dim sxy As Double = 0, sxx As Double = 0, syy As Double = 0
-
-        For i As Integer = 0 To n - 1
-            Dim dx As Double = x(i) - mx
-            Dim dy As Double = y(i) - my
-
-            sxy += dx * dy
-            sxx += dx * dx
-            syy += dy * dy
-        Next
-
-        If sxx <= 0 OrElse syy <= 0 Then Return 0
-
-        Return sxy / std.Sqrt(sxx * syy)
     End Function
 End Module
