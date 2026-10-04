@@ -100,24 +100,14 @@ Module TRN
     End Function
 
     <ExportAPI("write_bicor")>
-    Public Function write_bicor(x As Matrix, file As Object, Optional type As CorrelationEncodings = CorrelationEncodings.Float32, Optional env As Environment = Nothing) As Object
-        Dim is_filepath As Boolean = False
-        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Write, env, is_filepath:=is_filepath)
-
-        If s Like GetType(Message) Then
-            Return s.TryCast(Of Message)
-        End If
-
-        Dim zip As New ZipArchive(s, ZipArchiveMode.Update)
-        Dim matrix_item = zip.CreateEntry("bicor.dat", CompressionLevel.Fastest)
-        Dim index_item = zip.CreateEntry("index.dat", CompressionLevel.Fastest)
-        Dim matrix_s As Stream = matrix_item.Open
-        Dim index_s As Stream = index_item.Open
+    Public Function write_bicor(x As Matrix, repo As String, Optional type As CorrelationEncodings = CorrelationEncodings.Float32, Optional env As Environment = Nothing) As Object
+        Dim matrix = $"{repo}/bicor.dat".Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+        Dim index = $"{repo}/index.dat".Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
         Dim geneIds As String() = x.rownames
         Dim nSample As Integer = x.sample_count
 
         ' ② 逐行 bicor 计算（模拟耗时的一次性矩阵计算），边算边写 corstore
-        Using writer As New CorrelationMatrixWriter(matrix_s, index_s, geneIds, nSample, type, CompressionLevel.NoCompression)
+        Using writer As New CorrelationMatrixWriter(matrix, index, geneIds, nSample, type, CompressionLevel.NoCompression)
             Dim bar As ProgressBar = Nothing
 
             For Each i As Integer In TqdmWrapper.Range(0, geneIds.Length, bar:=bar)
@@ -136,41 +126,25 @@ Module TRN
         End Using
 
         Try
-            Call matrix_s.Dispose()
-            Call index_s.Dispose()
+            Call matrix.Flush()
+            Call index.Flush()
+            Call matrix.Dispose()
+            Call index.Dispose()
         Catch ex As Exception
-
+            Call ex.Message.warning
+            Call App.LogException(ex)
         End Try
-
-        If is_filepath Then
-            Try
-                Call s.TryCast(Of Stream).Dispose()
-            Catch ex As Exception
-                Call ex.Message.warning
-                Call App.LogException(ex)
-            End Try
-        End If
 
         Return True
     End Function
 
     <ExportAPI("open_bicor")>
     <RApiReturn(GetType(CorrelationMatrixStore))>
-    Public Function open_bicor(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
-        Dim is_filepath As Boolean = False
-        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env, is_filepath:=is_filepath)
+    Public Function open_bicor(repo As String, Optional cache As Integer = 2048, Optional env As Environment = Nothing) As Object
+        Dim matrix = $"{repo}/bicor.dat".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+        Dim index = $"{repo}/index.dat".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+        Dim cor = CorrelationMatrixStore.Open(matrix, index, cacheRows:=cache)
 
-        If s Like GetType(Message) Then
-            Return s.TryCast(Of Message)
-        End If
-
-        Dim zip As New ZipArchive(s, ZipArchiveMode.Read)
-        Dim matrix_item = zip.GetEntry("bicor.dat")
-        Dim index_item = zip.GetEntry("index.dat")
-        Dim matrix_s As Stream = matrix_item.Open
-        Dim index_s As Stream = index_item.Open
-        Dim matrix = CorrelationMatrixStore.Open(matrix_s, index_s, cacheRows:=2048)
-
-        Return matrix
+        Return cor
     End Function
 End Module
