@@ -105,6 +105,10 @@ Module TRN
         Dim index = $"{repo}/index.dat".Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
         Dim geneIds As String() = x.rownames
         Dim nSample As Integer = x.sample_count
+        Dim t0 = Now
+
+        ' 20261004 zip archive is not working as expected due to the reason
+        ' of zip stream can not be random access(can not be seek)
 
         ' ② 逐行 bicor 计算（模拟耗时的一次性矩阵计算），边算边写 corstore
         Using writer As New CorrelationMatrixWriter(matrix, index, geneIds, nSample, type, CompressionLevel.NoCompression)
@@ -124,6 +128,8 @@ Module TRN
 
             Call writer.Complete()
         End Using
+
+        Call $"correlation store written: {StringFormats.Lanudry(matrix.Length)} in {StringFormats.ReadableElapsedTime(Now - t0)}".info
 
         Try
             Call matrix.Flush()

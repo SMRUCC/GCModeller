@@ -57,10 +57,12 @@ Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.CellPhenotype
 Imports SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork
+Imports SMRUCC.genomics.Analysis.HTS.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.genomics.InteractionModel
 Imports SMRUCC.genomics.Model.Network.Regulons
@@ -259,15 +261,26 @@ Module WGCNA
                              <RRawVectorArgument(TypeCodes.string)>
                              TF As Object,
                              opts As GRNBuildOptions,
+                             Optional bicor As CorrelationMatrixStore = Nothing,
                              Optional env As Environment = Nothing) As Object
 
-        Dim result = ExpressionGRNBuilder.Build(x, CLRVector.asCharacter(TF), opts)
+        Dim result As GRNBuildResult
+
+        If bicor Is Nothing Then
+            result = ExpressionGRNBuilder.Build(x, CLRVector.asCharacter(TF), opts)
+        Else
+            ' ③ WGCNA 模块划分（GPU blockwise）
+            Dim config As New WGCNAConfig With {.useGpu = True, .buildGraph = False}
+            Dim wgcna As Result = Analysis.RunBlockwise(x, config)
+
+            result = ExpressionGRNBuilder.Build(bicor, CLRVector.asCharacter(TF), wgcna.modules, opts, expr:=x)
+        End If
 
         ' ① 各模块统计
         Call Console.WriteLine()
         Call Console.WriteLine("=== module statistics ===")
 
-        For Each m In result.modules
+        For Each m As ModulePriorNetwork In result.modules
             Call Console.WriteLine(m.statistics.ToString)
         Next
 
