@@ -1,10 +1,12 @@
+Imports SMRUCC.genomics.Analysis.BNLearn.Core
+
 Namespace RegulationNetwork
 
     ''' <summary>
-    ''' <see cref="Core.RegulatoryEdge.Evidence"/> 使用的受控词表
+    ''' <see cref="RegulatoryEdge.Evidence"/> 使用的受控词表
     ''' </summary>
     ''' <remarks>
-    ''' 由于 <see cref="Core.RegulatoryEdge"/> 不携带边类型字段，本模块用 Evidence 字符串
+    ''' 由于 <see cref="RegulatoryEdge"/> 不携带边类型字段，本模块用 Evidence 字符串
     ''' 承载证据来源与拓扑性质（有向 / 无向候选 / 跨模块 / 仅 PPI），
     ''' 多个标签用 <c>+</c> 拼接，便于下游按证据来源做加权与消融实验。
     ''' </remarks>

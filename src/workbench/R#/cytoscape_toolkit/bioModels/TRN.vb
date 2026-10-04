@@ -1,60 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::b2f70964df426442b5b3b097b8a396dc, R#\cytoscape_toolkit\bioModels\TRN.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 39
-    '    Code Lines: 29 (74.36%)
-    ' Comment Lines: 4 (10.26%)
-    '    - Xml Docs: 75.00%
-    ' 
-    '   Blank Lines: 6 (15.38%)
-    '     File Size: 1.62 KB
+' Summaries:
 
 
-    ' Module TRN
-    ' 
-    '     Function: edge_table, ExpressionConnections
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 39
+'    Code Lines: 29 (74.36%)
+' Comment Lines: 4 (10.26%)
+'    - Xml Docs: 75.00%
+' 
+'   Blank Lines: 6 (15.38%)
+'     File Size: 1.62 KB
+
+
+' Module TRN
+' 
+'     Function: edge_table, ExpressionConnections
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Model.Network.Regulons
 Imports SMRUCC.Rsharp.Runtime
@@ -90,5 +92,37 @@ Module TRN
     <ExportAPI("fpkm.connections")>
     Public Function ExpressionConnections(fpkm As DataSet(), Optional cutoff# = 0.65) As Connection()
         Return fpkm.CorrelationNetwork(cutoff).ToArray
+    End Function
+
+    <ExportAPI("write_bicor")>
+    Public Function write_bicor(x As matrix, file As Object, Optional type As CorrelationEncodings = CorrelationEncodings.Float32, Optional env As Environment = Nothing) As Object
+        Dim is_filepath As Boolean = False
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Write, env, is_filepath:=is_filepath)
+
+        ' ② 逐行 bicor 计算（模拟耗时的一次性矩阵计算），边算边写 corstore
+        Using writer As New CorrelationMatrixWriter(StoreFile, geneIds, subset.sample_count,
+                                                    CorrelationEncodings.Float32)
+            For i As Integer = 0 To geneIds.Length - 1
+                Dim row(geneIds.Length - 1) As Single
+                Dim vi As Double() = subset.expression(i).experiments
+
+                For j As Integer = 0 To geneIds.Length - 1
+                    row(j) = If(j = i, 1.0F, CSng(Bicor.BiweightMidcorrelation(vi, subset.expression(j).experiments)))
+                Next
+
+                Call writer.WriteRow(geneIds(i), row)
+            Next
+
+            Call writer.Complete()
+        End Using
+
+        If is_filepath Then
+            Try
+                Call s.TryCast(Of Stream).Dispose()
+            Catch ex As Exception
+                Call ex.Message.warning
+                Call App.LogException(ex)
+            End Try
+        End If
     End Function
 End Module

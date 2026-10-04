@@ -93,6 +93,9 @@ Module WGCNA
     Public Function FilterRegulation(g As NetworkGraph, WGCNA As WGCNAWeight, Optional threshold As Double = 0.3) As Object
         Dim w As Double
 
+        ' 20261004 due to the reason of needs RemoveEdge at the for loop
+        ' so we use the toarray for avoid the possible
+        ' internal collection modification error
         For Each edge As Edge In g.graphEdges.ToArray
             w = WGCNA.GetValue(edge.U.label, edge.V.label)
 
