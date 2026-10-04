@@ -102,6 +102,22 @@ Namespace RegulationNetwork
         End Function
 
         ''' <summary>
+        ''' 枚举已物化的互作对（基因 A, 基因 B, combined_score）
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function Pairs() As IEnumerable(Of (a As String, b As String, score As Double))
+            Dim buf As New List(Of (String, String, Double))(scores.Count)
+
+            For Each pair In scores
+                Dim tokens As String() = pair.Key.Split("|"c)
+
+                buf.Add((tokens(0), tokens(1), pair.Value))
+            Next
+
+            Return buf
+        End Function
+
+        ''' <summary>
         ''' 查询两个基因之间的 STRING combined_score
         ''' </summary>
         ''' <param name="a">基因 ID</param>

@@ -249,6 +249,13 @@ Namespace RegulationNetwork
         Public Property maxCrossModuleTfs As Integer = 30
 
         ''' <summary>
+        ''' 每个模块参与跨模块计算的靶基因数量上限（按 kME 降序）。
+        ''' 跨模块相关为逐对计算（O(TF 数 × 靶基因数)），该值控制总开销。
+        ''' </summary>
+        ''' <returns>默认 300</returns>
+        Public Property maxCrossModuleTargets As Integer = 300
+
+        ''' <summary>
         ''' 跨模块边的置信度折扣系数（跨模块相关的可靠性低于模块内共表达）。
         ''' </summary>
         ''' <returns>默认 0.8</returns>
