@@ -93,6 +93,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
+Imports SMRUCC.genomics.Analysis.HTS.WGCNA
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
@@ -781,6 +782,39 @@ Module geneExpression
         Return x
     End Function
 
+    <ExportAPI("batch_normalize")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function batch_normalize(x As Matrix,
+                                    <RRawVectorArgument>
+                                    Optional batch As Object = Nothing,
+                                    Optional center_batch As Boolean = True,
+                                    Optional env As Environment = Nothing) As Object
+
+        Dim batch_groups As Dictionary(Of String, String()) = Nothing
+
+        If TypeOf batch Is list Then
+            batch_groups = DirectCast(batch, list).asGeneric(Function(a) CLRVector.asCharacter(a))
+        Else
+            Dim pull As PipeIterator(Of SampleInfo) = pipeline.Stream(Of SampleInfo)(batch, env)
+
+            If Not pull.isError Then
+                batch_groups = pull _
+                    .GroupBy(Function(a) a.batch) _
+                    .ToDictionary(Function(a) $"batch_{a.Key}",
+                                  Function(a)
+                                      Return a.Select(Function(i) i.ID).ToArray
+                                  End Function)
+            End If
+        End If
+
+        Return BatchNormalizer.Normalize(x, batch_groups, centerBatch:=center_batch)
+    End Function
+
+    <ExportAPI("top_variance")>
+    Public Function top_variance(x As Matrix, n As Integer) As Matrix
+        Return GeneFilter.ByVariance(x, topN:=n)
+    End Function
+
     ''' <summary>
     ''' check that the given expression matrix object is empty or not
     ''' </summary>
@@ -1143,7 +1177,7 @@ Module geneExpression
                            Optional env As Environment = Nothing) As Object
 
         If geneId.IsNullOrEmpty AndAlso instr.StringEmpty Then
-            Call env.AddMessage("no gene content was filtered due to the reason of no gene id list or title search text was provided!", MSG_TYPES.WRN)
+            Call env.AddMessage("no gene content was filtered due to the reason of no gene id list Or title search text was provided!", MSG_TYPES.WRN)
             Return HTS
         End If
 
@@ -1464,7 +1498,7 @@ Module geneExpression
 
         If sampleinfo.IsNullOrEmpty Then
             If Not sampleinfo Is Nothing Then
-                Call "the provided sample information is not nothing, but collection is empty. numeric vector of average for each gene expression will be returns.".warning
+                Call "the provided sample information Is Not nothing, but collection Is empty. numeric vector of average for each gene expression will be returns.".warning
             End If
             Return matrix.expression.Select(Function(v) v.Average).ToArray
         Else
@@ -2045,7 +2079,7 @@ Module geneExpression
         Dim padStr As String = InteropArgumentHelper.getPadding(margin, default:="padding:100px 100px 300px 100px;", env:=env)
 
         If matrix.IsNullOrEmpty Then
-            Call env.AddMessage("The given expression matrix is empty!")
+            Call env.AddMessage("The given expression matrix Is empty!")
             Return Nothing
         End If
 
@@ -2082,7 +2116,7 @@ Module geneExpression
                        )
                    End Function
 
-        Call println($"membership cutoff for the cmeans patterns is: {memberCutoff}")
+        Call println($"membership cutoff for the cmeans patterns Is: {memberCutoff}")
         Call println(patterns.ToSummaryText(memberCutoff))
 
         Call output.add("image", plot(Drivers.GDI))
