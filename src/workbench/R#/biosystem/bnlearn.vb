@@ -63,6 +63,7 @@ Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
+Imports SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork
 Imports SMRUCC.genomics.MetabolicModel
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -368,8 +369,10 @@ Module bnlearn
     ''' a collection of the regulatory edge data, which can be a vector of the 
     ''' <see cref="RegulatoryEdge"/> object, the output of the ``prior_network`` 
     ''' api, or a pipeline object that produces a set of the 
-    ''' <see cref="RegulatoryEdge"/> data.
+    ''' <see cref="RegulatoryEdge"/> data. or this parameter value also could be the
+    ''' <see cref="GRNBuildResult"/> object which is created via the WGCNA module detection and the TF enrichment analysis, the regulatory edges of the prior network will be extracted from the given GRNBuildResult object.
     ''' </param>
+    ''' <param name="cutoff">the cutoff value for filtering the regulatory edges.</param>
     ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>
     ''' a <see cref="PriorNetwork"/> object that contains all of the given 
@@ -380,13 +383,24 @@ Module bnlearn
     ''' </returns>
     <ExportAPI("as.prior_net")>
     <RApiReturn(GetType(PriorNetwork))>
-    Public Function buildNetwork(<RRawVectorArgument(GetType(RegulatoryEdge))> priorNet As Object, Optional env As Environment = Nothing) As Object
-        Dim pull As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(priorNet, env, nullPipe:=True)
-
-        If pull IsNot Nothing AndAlso pull.isError Then
-            Return pull.getError
+    Public Function buildNetwork(<RRawVectorArgument(GetType(RegulatoryEdge))> priorNet As Object, Optional cutoff As Double? = 0.6, Optional env As Environment = Nothing) As Object
+        If TypeOf priorNet Is GRNBuildResult Then
+            With DirectCast(priorNet, GRNBuildResult)
+                If cutoff Is Nothing Then
+                    Return .ToPriorNetwork
+                Else
+                    ' make strict network by filtering the edges with the given cutoff value
+                    Return .ToPriorNetwork(cutoff)
+                End If
+            End With
         Else
-            Return BnIO.ReadPriorNetwork(pull)
+            Dim pull As PipeIterator(Of RegulatoryEdge) = pipeline.Stream(Of RegulatoryEdge)(priorNet, env, nullPipe:=True)
+
+            If pull IsNot Nothing AndAlso pull.isError Then
+                Return pull.getError
+            Else
+                Return BnIO.ReadPriorNetwork(pull)
+            End If
         End If
     End Function
 
