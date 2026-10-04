@@ -782,6 +782,41 @@ Module geneExpression
         Return x
     End Function
 
+    ''' <summary>
+    ''' remove the technical batch effects from a merged multi-dataset gene expression matrix.
+    ''' </summary>
+    ''' <param name="x">
+    ''' the merged gene expression matrix (genes in rows, samples in columns) that is
+    ''' assembled from multiple public datasets. Different datasets usually carry
+    ''' platform/library/pre-processing specific technical effects; without this step
+    ''' the downstream co-expression analysis will produce many spurious correlations
+    ''' between samples of the same batch.
+    ''' </param>
+    ''' <param name="batch">
+    ''' the batch grouping information. Accepts either a <c>list</c> object of
+    ''' (dataset name => sample id vector) slots, or a stream of
+    ''' <see cref="SampleInfo"/> objects (the batch label is taken from the
+    ''' <c>batch</c> slot of each sample info record). When Nothing, all samples
+    ''' are treated as one single batch and a global z-score normalization is applied.
+    ''' </param>
+    ''' <param name="center_batch">
+    ''' TRUE (default) -> per-gene, per-batch z-score: subtract the batch mean and
+    ''' divide by the batch standard deviation, which removes both the additive and
+    ''' the scale batch effects; FALSE -> per-gene, per-batch mean centering only
+    ''' (subtract the batch mean, keep the between-batch amplitude differences).
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' a new batch-normalized gene expression matrix. The row order and the sample
+    ''' order are identical to the input matrix; the input matrix object is not
+    ''' modified in place. Missing values (NaN) are imputed with the corresponding
+    ''' batch mean (which is zero after the centering).
+    ''' </returns>
+    ''' <remarks>
+    ''' this function processes each gene row independently, so it does not change
+    ''' the relative relationships between genes. Run it before the co-expression /
+    ''' WGCNA analysis and after the multi-dataset merging.
+    ''' </remarks>
     <ExportAPI("batch_normalize")>
     <RApiReturn(GetType(Matrix))>
     Public Function batch_normalize(x As Matrix,
@@ -810,6 +845,29 @@ Module geneExpression
         Return BatchNormalizer.Normalize(x, batch_groups, centerBatch:=center_batch)
     End Function
 
+    ''' <summary>
+    ''' keep only the top-N most variable gene feature rows of the expression matrix
+    ''' </summary>
+    ''' <param name="x">
+    ''' a gene expression matrix (genes in rows, samples in columns). Low variance
+    ''' rows (constant or nearly constant expression) carry no information for the
+    ''' downstream co-expression network analysis, but they do inflate the O(n^2)
+    ''' correlation matrix computation and memory cost.
+    ''' </param>
+    ''' <param name="n">
+    ''' the number of the top variance genes to keep. The rows are ranked by the
+    ''' sample variance (denominator n-1) of the expression values, and only the
+    ''' <c>n</c> highest ranked rows are kept.
+    ''' </param>
+    ''' <returns>
+    ''' a new expression matrix that contains only the top-N most variable gene
+    ''' feature rows (the original row order is preserved among the kept rows).
+    ''' </returns>
+    ''' <remarks>
+    ''' this is the standard quality filter step of the R WGCNA workflow, usually
+    ''' applied after the batch normalization and before the co-expression network
+    ''' construction (for example before <c>write_bicor</c> or <c>build_grn</c>).
+    ''' </remarks>
     <ExportAPI("top_variance")>
     Public Function top_variance(x As Matrix, n As Integer) As Matrix
         Return GeneFilter.ByVariance(x, topN:=n)

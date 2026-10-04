@@ -99,8 +99,55 @@ Module TRN
         Return fpkm.CorrelationNetwork(cutoff).ToArray
     End Function
 
+    ''' <summary>
+    ''' compute the signed bicor correlation matrix once and persist it into a
+    ''' random-access correlation store for repeated threshold filtering experiments.
+    ''' </summary>
+    ''' <param name="x">
+    ''' the gene expression matrix (genes in rows, samples in columns) that the
+    ''' robust biweight midcorrelation (bicor) is computed from. Should be
+    ''' batch-normalized and variance-filtered already (see
+    ''' <c>batch_normalize</c> and <c>top_variance</c>).
+    ''' </param>
+    ''' <param name="repo">
+    ''' the data repository directory. Two files are written into it:
+    ''' <c>{repo}/bicor.dat</c> (the row blocks of the correlation matrix) and
+    ''' <c>{repo}/index.dat</c> (the gene table + row directory). The WGCNA module
+    ''' map sidecar cache is written as <c>{repo}/modules.dat</c>.
+    ''' </param>
+    ''' <param name="type">
+    ''' the on-disk encoding of the correlation values:
+    ''' <see cref="CorrelationEncodings.Float32"/> (4 bytes per value, ~1e-7 precision,
+    ''' default) or <see cref="CorrelationEncodings.QuantizedInt16"/> (2 bytes per value,
+    ''' ~3e-5 precision, about half of the storage size).
+    ''' </param>
+    ''' <param name="wgcnaOpts">
+    ''' optional WGCNA blockwise configuration used by the module detection that
+    ''' runs in the same pass. Nothing (default) uses the default configuration with
+    ''' the GPU backend enabled and the network graph materialization disabled.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>TRUE when the correlation store (and the module map cache) is written successfully.</returns>
+    ''' <remarks>
+    ''' computing the full N×N correlation matrix of a large expression matrix is
+    ''' very expensive (hours for 50,000 genes), while all downstream network
+    ''' generations are just threshold filters over this matrix. So this function
+    ''' performs the expensive computation once and persists two artifacts:
+    ''' 1. the raw unfiltered signed correlation matrix (open it later via
+    ''' <c>open_bicor</c>);
+    ''' 2. the WGCNA module map sidecar cache <c>{repo}/modules.dat</c> (consumed by
+    ''' <c>build_grn</c>, so the WGCNA blockwise module detection is not re-run).
+    ''' After this one-time computation, every different correlation threshold
+    ''' experiment only costs a fast filtering over the cached matrix.
+    ''' </remarks>
+    ''' <example>
+    ''' write_bicor(hsa, repo = "Z:/hsa_mat");
+    ''' </example>
     <ExportAPI("write_bicor")>
-    Public Function write_bicor(x As Matrix, repo As String, Optional type As CorrelationEncodings = CorrelationEncodings.Float32, Optional env As Environment = Nothing) As Object
+    Public Function write_bicor(x As Matrix, repo As String,
+                                Optional type As CorrelationEncodings = CorrelationEncodings.Float32,
+                                Optional wgcnaOpts As WGCNAConfig = Nothing,
+                                Optional env As Environment = Nothing) As Object
         Dim matrix = $"{repo}/bicor.dat".Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
         Dim index = $"{repo}/index.dat".Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
         Dim geneIds As String() = x.rownames
@@ -141,16 +188,106 @@ Module TRN
             Call App.LogException(ex)
         End Try
 
+        ' 同一趟顺带缓存 WGCNA 模块映射（{repo}/modules.dat）：
+        ' 后续 build_grn(bicor=...) 直接消费该边车缓存，不再重复运行 WGCNA blockwise
+        Call WriteModuleMap(x, $"{repo}/modules.dat", wgcnaOpts)
+
         Return True
     End Function
 
+    ''' <summary>
+    ''' run the WGCNA blockwise module detection once and cache the module map
+    ''' into the sidecar file
+    ''' </summary>
+    ''' <param name="x">the gene expression matrix (the same dataset as the bicor store)</param>
+    ''' <param name="mapFile">the module map cache file path</param>
+    ''' <param name="config">
+    ''' the WGCNA blockwise configuration. Nothing (default) uses the default
+    ''' configuration with the GPU backend enabled and the network graph
+    ''' materialization disabled.
+    ''' </param>
+    ''' <returns>the module map object (the cache file has been written as well)</returns>
+    Public Function WriteModuleMap(x As Matrix, mapFile As String, config As WGCNAConfig) As WGCNAModuleMap
+        If config Is Nothing Then
+            config = New WGCNAConfig With {.useGpu = True, .buildGraph = False}
+        End If
+
+        Dim t0 As Date = Now
+        Dim wgcna As Result = Analysis.RunBlockwise(x, config)
+        Dim fingerprint As String = WGCNAModuleMap.ComputeFingerprint(x.rownames, config)
+        Dim map As WGCNAModuleMap = WGCNAModuleMap.FromWGCNA(wgcna, fingerprint)
+
+        Call map.Save(mapFile)
+        Call $"WGCNA module map cached in {StringFormats.ReadableElapsedTime(Now - t0)}".info
+
+        Return map
+    End Function
+
+    ''' <summary>
+    ''' re-open the persisted bicor correlation store that was written by <c>write_bicor</c>
+    ''' </summary>
+    ''' <param name="repo">
+    ''' the data repository directory that was passed to <c>write_bicor</c>
+    ''' (reads <c>{repo}/bicor.dat</c> and <c>{repo}/index.dat</c>).
+    ''' </param>
+    ''' <param name="cache">
+    ''' the hot-row LRU cache capacity in rows. Each cached row of a N = 50,000
+    ''' matrix costs about 200 KB of memory. The default value 2048 means at most
+    ''' about 400 MB of the hot row cache.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' an opened <see cref="CorrelationMatrixStore"/> object. Pass it to
+    ''' <c>build_grn</c> via the <c>bicor</c> parameter to skip the expensive
+    ''' correlation matrix re-computation.
+    ''' </returns>
+    ''' <remarks>
+    ''' the returned store supports fast point queries (gene1, gene2 -> correlation
+    ''' and p-value), neighborhood queries (gene + threshold -> all correlated genes)
+    ''' and full-library streaming edge filters, all without loading the matrix
+    ''' into memory.
+    ''' </remarks>
+    ''' <example>
+    ''' let bicor = open_bicor("Z:/hsa_mat");
+    ''' </example>
     <ExportAPI("open_bicor")>
     <RApiReturn(GetType(CorrelationMatrixStore))>
     Public Function open_bicor(repo As String, Optional cache As Integer = 2048, Optional env As Environment = Nothing) As Object
         Dim matrix = $"{repo}/bicor.dat".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
         Dim index = $"{repo}/index.dat".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
-        Dim cor = CorrelationMatrixStore.Open(matrix, index, cacheRows:=cache)
+
+        ' storePath 用于边车缓存（WGCNA 模块映射 {storeFile}.modules）的自动定位
+        Dim cor = CorrelationMatrixStore.Open(matrix, index, cacheRows:=cache, storePath:=$"{repo}/bicor.dat")
 
         Return cor
+    End Function
+
+    ''' <summary>
+    ''' read the WGCNA module map sidecar cache that was written by <c>write_bicor</c>
+    ''' </summary>
+    ''' <param name="repo">
+    ''' the same data repository directory that was passed to <c>write_bicor</c>
+    ''' (reads <c>{repo}/modules.dat</c>).
+    ''' </param>
+    ''' <param name="env">the R# runtime environment object.</param>
+    ''' <returns>
+    ''' the cached module map object, or Nothing when the cache file does not exist
+    ''' (in that case <c>build_grn</c> will fall back to running the WGCNA blockwise
+    ''' module detection and write the cache automatically).
+    ''' </returns>
+    ''' <remarks>
+    ''' pass the returned object to <c>build_grn</c> via the <c>modules</c> parameter
+    ''' to skip the WGCNA blockwise module detection. Note that the cache carries a
+    ''' fingerprint (gene id row order + WGCNA configuration); when it does not match
+    ''' the current data, <c>build_grn</c> will ignore it and rebuild automatically.
+    ''' </remarks>
+    ''' <example>
+    ''' let modules = open_modules("Z:/hsa_mat");
+    ''' let grn = WGCNA::build_grn(hsa, TF$Ensembl, opts, bicor = bicor, modules = modules);
+    ''' </example>
+    <ExportAPI("open_modules")>
+    <RApiReturn(GetType(WGCNAModuleMap))>
+    Public Function open_modules(repo As String, Optional env As Environment = Nothing) As Object
+        Return WGCNAModuleMap.Load($"{repo}/modules.dat")
     End Function
 End Module
