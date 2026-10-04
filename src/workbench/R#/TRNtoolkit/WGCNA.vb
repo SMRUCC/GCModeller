@@ -356,9 +356,11 @@ Module WGCNA
             Call "module map: caller-provided cache fingerprint mismatched, fallback to auto cache".warning
         End If
 
+        Dim dir As String = bicor.storeFile.ParentPath
+        Dim sidecar As String = $"{dir}/modules.dat"
+
         ' ② 自动定位边车缓存 {storeFile}.modules（文件模式才有路径）
         If bicor.storeFile IsNot Nothing Then
-            Dim sidecar As String = bicor.storeFile & ".modules"
             Dim cached As WGCNAModuleMap = WGCNAModuleMap.Load(sidecar)
 
             If cached IsNot Nothing AndAlso cached.Validate(bicor.genes, fingerprint) Then
@@ -378,7 +380,7 @@ Module WGCNA
         Dim map As WGCNAModuleMap = WGCNAModuleMap.FromWGCNA(wgcna, fingerprint)
 
         If bicor.storeFile IsNot Nothing Then
-            Call map.Save(bicor.storeFile & ".modules")
+            Call map.Save(sidecar)
         End If
 
         Return map
