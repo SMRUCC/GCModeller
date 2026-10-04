@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.CellPhenotype
+Imports SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.genomics.InteractionModel
 Imports SMRUCC.genomics.Model.Network.Regulons
@@ -73,7 +74,11 @@ Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
 
+''' <summary>
+''' Workflow for make TRN data model based on the WGCNA co-expression network and TF id list.
+''' </summary>
 <Package("WGCNA")>
+<RTypeExport("GRN_opts", GetType(GRNBuildOptions))>
 Module WGCNA
 
     ''' <summary>
@@ -139,6 +144,14 @@ Module WGCNA
         Return g
     End Function
 
+    ''' <summary>
+    ''' Get the correlation matrix of the given expression data matrix, and then calculate the correlation value and p-value of the given id1 and id2.
+    ''' </summary>
+    ''' <param name="expr"></param>
+    ''' <param name="id1"></param>
+    ''' <param name="id2"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("expr_cor")>
     <RApiReturn(GetType(LazyCorrelationMatrix), GetType(dataframe))>
     Public Function expr_cor(expr As Object,
@@ -235,5 +248,66 @@ Module WGCNA
         End If
 
         Return cor.BuildPriorNetwork(New HashSet(Of String)(tfids))
+    End Function
+
+    <ExportAPI("build_grn")>
+    <RApiReturn(GetType(GRNBuildResult))>
+    Public Function buildGRN(x As HTSMatrix,
+                             <RRawVectorArgument(TypeCodes.string)>
+                             TF As Object,
+                             opts As GRNBuildOptions,
+                             Optional env As Environment = Nothing) As Object
+
+        Dim result = ExpressionGRNBuilder.Build(x, CLRVector.asCharacter(TF), opts)
+
+        ' ① 各模块统计
+        Call Console.WriteLine()
+        Call Console.WriteLine("=== module statistics ===")
+
+        For Each m In result.modules
+            Call Console.WriteLine(m.statistics.ToString)
+        Next
+
+        ' ② 汇总
+        Call Console.WriteLine()
+        Call Console.WriteLine("=== summary ===")
+        Call Console.WriteLine(result.summary.ToString)
+
+        ' ③ Evidence 标签分布
+        Call Console.WriteLine()
+        Call Console.WriteLine("=== evidence tag distribution ===")
+
+        Dim tags = result.allEdges _
+            .SelectMany(Function(e) If(e.Evidence Is Nothing, {}, e.Evidence.Split("+"c))) _
+            .Where(Function(t) Not String.IsNullOrEmpty(t)) _
+            .GroupBy(Function(t) t) _
+            .OrderByDescending(Function(g) g.Count)
+
+        For Each tag In tags
+            Call Console.WriteLine($"{tag.Key}: {tag.Count}")
+        Next
+
+        Return result
+    End Function
+
+    <ExportAPI("string_links")>
+    Public Function stringLinks(opts As GRNBuildOptions, string_db As String) As GRNBuildOptions
+        ' 自动发现 STRING 数据文件（优先精简版 links + aliases 别名表）
+        Dim str As (links As String, aliases As String) = ExpressionGRNBuilder.FindStringLinks(string_db)
+
+        If str.links IsNot Nothing Then
+            Call $"STRING links   = '{str.links}'".info
+        Else
+            Call "STRING links not found, protein interaction evidence will be disabled.".warning
+        End If
+
+        If str.aliases IsNot Nothing Then
+            Call $"STRING aliases = '{str.aliases}'".info
+        End If
+
+        opts.stringLinks = str.links
+        opts.stringAliases = str.aliases
+
+        Return opts
     End Function
 End Module
