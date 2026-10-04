@@ -55,6 +55,7 @@
 
 Imports System.IO
 Imports System.IO.Compression
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Math.Matrix
@@ -117,7 +118,9 @@ Module TRN
 
         ' ② 逐行 bicor 计算（模拟耗时的一次性矩阵计算），边算边写 corstore
         Using writer As New CorrelationMatrixWriter(matrix_s, index_s, geneIds, nSample, type, CompressionLevel.NoCompression)
-            For i As Integer = 0 To geneIds.Length - 1
+            Dim bar As ProgressBar = Nothing
+
+            For Each i As Integer In TqdmWrapper.Range(0, geneIds.Length, bar:=bar)
                 Dim row(geneIds.Length - 1) As Single
                 Dim vi As Double() = x(i).experiments
 
@@ -125,6 +128,7 @@ Module TRN
                     row(j) = If(j = i, 1.0F, CSng(Bicor.BiweightMidcorrelation(vi, x(j).experiments)))
                 Next
 
+                Call bar.SetLabel(geneIds(i))
                 Call writer.WriteRow(geneIds(i), row)
             Next
 
@@ -160,9 +164,9 @@ Module TRN
             Return s.TryCast(Of Message)
         End If
 
-        Dim zip As New ZipArchive(s, ZipArchiveMode.Update)
-        Dim matrix_item = zip.CreateEntry("bicor.dat", CompressionLevel.Fastest)
-        Dim index_item = zip.CreateEntry("index.dat", CompressionLevel.Fastest)
+        Dim zip As New ZipArchive(s, ZipArchiveMode.Read)
+        Dim matrix_item = zip.GetEntry("bicor.dat")
+        Dim index_item = zip.GetEntry("index.dat")
         Dim matrix_s As Stream = matrix_item.Open
         Dim index_s As Stream = index_item.Open
         Dim matrix = CorrelationMatrixStore.Open(matrix_s, index_s, cacheRows:=2048)
