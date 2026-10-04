@@ -135,14 +135,15 @@ Namespace RegulationNetwork
                     Continue For
                 End If
 
-                Dim tokens As String() = line.Split(" "c)
+                ' STRING v12 别名表为 TAB 分隔（个别版本用空格），同时兼容两种分隔符
+                Dim tokens As String() = line.Split({ControlChars.Tab, " "c}, StringSplitOptions.RemoveEmptyEntries)
 
                 If tokens.Length < 2 Then
                     Continue For
                 End If
 
                 ' 行格式: string_protein_id alias [alias...] source...
-                ' 源名称（如 Ensembl_gene）不以 ENSG 开头，不会误匹配
+                ' 源名称（如 Ensembl_PDB）不以 ENSG 开头，不会误匹配
                 Dim pid As String = tokens(0)
 
                 For i As Integer = 1 To tokens.Length - 1
