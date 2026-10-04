@@ -84,6 +84,7 @@ Module WGCNA
     ''' <param name="threshold"></param>
     ''' <returns></returns>
     <ExportAPI("shapeTRN")>
+    <RApiReturn(GetType(NetworkGraph))>
     Public Function FilterRegulation(g As NetworkGraph, WGCNA As WGCNAWeight, Optional threshold As Double = 0.3) As Object
         Dim w As Double
 
@@ -109,6 +110,7 @@ Module WGCNA
     ''' <param name="threshold"></param>
     ''' <returns></returns>
     <ExportAPI("interations")>
+    <RApiReturn(GetType(NetworkGraph))>
     Public Function CorrelationNetwork(g As NetworkGraph, WGCNA As WGCNAWeight, modules As list, Optional threshold As Double = 0.3) As Object
         For Each conn As Weight In WGCNA.AsEnumerable.Where(Function(cn) cn.weight >= threshold)
             Dim u As Node = g.GetElementByID(conn.fromNode)
