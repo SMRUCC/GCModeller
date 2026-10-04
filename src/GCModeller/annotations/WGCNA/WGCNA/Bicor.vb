@@ -1,5 +1,6 @@
 Option Strict On
 Option Explicit On
+Imports Microsoft.VisualBasic.Math.Correlations
 
 ''' <summary>
 ''' Biweight midcorrelation (bicor) and classic Pearson correlation.
@@ -71,7 +72,7 @@ Public NotInheritable Class Bicor
         Dim madX = Mad(x)
         Dim madY = Mad(y)
         If madX <= 0.0 OrElse madY <= 0.0 Then
-            Return If(pearsonFallback, Pearson(x, y), Double.NaN)
+            Return If(pearsonFallback, Correlations.GetPearson(x, y), Double.NaN)
         End If
 
         Dim mx = Median(x)
@@ -96,7 +97,7 @@ Public NotInheritable Class Bicor
         Next
 
         If Not anyWeightX OrElse Not anyWeightY Then
-            Return If(pearsonFallback, Pearson(x, y), Double.NaN)
+            Return If(pearsonFallback, Correlations.GetPearson(x, y), Double.NaN)
         End If
 
         Dim num = 0.0, dx2 = 0.0, dy2 = 0.0
@@ -106,7 +107,7 @@ Public NotInheritable Class Bicor
             dy2 += wy(i) * wy(i) * yc(i) * yc(i)
         Next
         If dx2 <= 0.0 OrElse dy2 <= 0.0 Then
-            Return If(pearsonFallback, Pearson(x, y), Double.NaN)
+            Return If(pearsonFallback, Correlations.GetPearson(x, y), Double.NaN)
         End If
 
         Dim r = num / Math.Sqrt(dx2 * dy2)
@@ -144,7 +145,7 @@ Public NotInheritable Class Bicor
             For j = i + 1 To g - 1
                 Dim v = If(robust,
                            BiweightMidcorrelation(cols(i), cols(j), DefaultConstant, pearsonFallback),
-                           Pearson(cols(i), cols(j)))
+                           Correlations.GetPearson(cols(i), cols(j)))
                 r(i, j) = v
                 r(j, i) = v
             Next

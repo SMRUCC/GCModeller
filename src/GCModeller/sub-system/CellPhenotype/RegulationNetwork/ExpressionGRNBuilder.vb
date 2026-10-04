@@ -1,4 +1,5 @@
 Imports System.Diagnostics
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
@@ -926,7 +927,7 @@ Namespace RegulationNetwork
                         If useBicor Then
                             v = Bicor.BiweightMidcorrelation(ci, cols(j), constant, fallback)
                         Else
-                            v = Bicor.Pearson(ci, cols(j))
+                            v = Correlations.GetPearson(ci, cols(j))
                         End If
 
                         r(i, j) = v
@@ -1203,8 +1204,9 @@ Namespace RegulationNetwork
 
             For i As Integer = 0 To names.Length - 2
                 For j As Integer = i + 1 To names.Length - 1
-                    Dim r As Double = Bicor.Pearson(wgcna.moduleEigengenes(names(i)),
-                                                    wgcna.moduleEigengenes(names(j)))
+                    Dim r As Double = Correlations.GetPearson(
+                        wgcna.moduleEigengenes(names(i)),
+                        wgcna.moduleEigengenes(names(j)))
 
                     If Not Double.IsNaN(r) AndAlso System.Math.Abs(r) >= options.crossModuleCorThreshold Then
                         pairs.Add((names(i), names(j), r))
