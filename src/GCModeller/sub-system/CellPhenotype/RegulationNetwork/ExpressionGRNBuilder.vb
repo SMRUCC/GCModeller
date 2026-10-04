@@ -1,4 +1,5 @@
 Imports System.Diagnostics
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -121,24 +122,7 @@ Namespace RegulationNetwork
             Call log($"[2/6] WGCNA done, compute backend = {backend}.")
 
             ' ③ STRING 证据源（流式加载，只为网络内基因建索引）
-            Dim stringEvidence As StringPriorEvidence = Nothing
-
-            If Not String.IsNullOrEmpty(options.stringLinks) Then
-                ' ID 映射：优先使用显式提供的映射表，其次从 STRING 别名表自动提取 ENSG → STRING id
-                Dim idMap As Dictionary(Of String, String) = options.stringIdMap
-
-                If idMap Is Nothing AndAlso Not String.IsNullOrEmpty(options.stringAliases) Then
-                    Call log("[3/6] build gene id -> STRING protein id map from aliases file...")
-                    idMap = StringPriorEvidence.LoadEnsemblAliasMap(options.stringAliases, options.verbose)
-                End If
-
-                Call log("[3/6] loading STRING protein interactions...")
-                stringEvidence = StringPriorEvidence.Load(
-                    options.stringLinks, geneIndex.Keys, idMap,
-                    options.stringMinScore, options.verbose)
-            Else
-                Call log("[3/6] STRING evidence disabled (no links file).")
-            End If
+            Dim stringEvidence As StringPriorEvidence = LoadStringEvidence(options, geneIndex.Keys, log)
 
             ' ④ 逐模块构建先验网络
             Call log("[4/6] build module prior networks (bicor + FDR + DPI + partial correlation + TF orientation)...")
@@ -157,12 +141,144 @@ Namespace RegulationNetwork
             ' ⑥ 汇总
             clock.Stop()
 
+            Dim summary As BuildSummary = MakeSummary(moduleList, filtered.size, filtered.sample_count, clock.ElapsedMilliseconds)
+
+            Call log($"[6/6] done: {summary.ToString}")
+
+            Return New GRNBuildResult With {
+                .modules = moduleList,
+                .wgcna = wgcna,
+                .summary = summary
+            }
+        End Function
+
+        ''' <summary>
+        ''' 存储驱动入口：基于已持久化的相关矩阵存储（<see cref="CorrelationMatrixStore"/>）构建先验网络
+        ''' </summary>
+        ''' <param name="store">
+        ''' 已打开的相关矩阵存储（由 <see cref="CorrelationMatrixWriter"/> 对原始 NxN 相关矩阵
+        ''' 一次性计算并持久化得到）。候选边与 p 值直接来自存储，**跳过 bicor 重算**，
+        ''' 使得不同的阈值参数实验只需分钟级的存储查询。
+        ''' </param>
+        ''' <param name="TF">转录因子基因 ID 集合</param>
+        ''' <param name="modules">
+        ''' WGCNA 模块划分结果（模块名 → 基因列表），来自一次性的 WGCNA 模块划分运行；
+        ''' 存储中不存在的基因会被跳过
+        ''' </param>
+        ''' <param name="options">流水线配置；Nothing 时使用默认配置</param>
+        ''' <param name="expr">
+        ''' 可选的原始表达矩阵：提供时才执行偏相关二次筛选（偏相关需要原始表达数据）；
+        ''' 为 Nothing 时跳过偏相关，其余流程（FDR/DPI/TF 定向/STRING）不受影响
+        ''' </param>
+        ''' <returns>按模块拆分的先验网络集合；<see cref="GRNBuildResult.wgcna"/> 为 Nothing</returns>
+        ''' <remarks>
+        ''' 与表达矩阵路径的区别：本重载不运行 WGCNA（模块划分由调用方传入）、
+        ''' 不重算相关矩阵（候选边来自存储）、不构建跨模块边（跨模块边依赖模块特征基因，
+        ''' 需要完整 WGCNA Result；如需跨模块边请使用表达矩阵路径）。
+        ''' </remarks>
+        Public Function Build(store As CorrelationMatrixStore,
+                              TF As IEnumerable(Of String),
+                              modules As Dictionary(Of String, String()),
+                              options As GRNBuildOptions,
+                              Optional expr As Matrix = Nothing) As GRNBuildResult
+
+            If store Is Nothing Then
+                Throw New ArgumentNullException(NameOf(store), "相关矩阵存储不能为空")
+            End If
+            If TF Is Nothing Then
+                Throw New ArgumentNullException(NameOf(TF), "TF 注释列表不能为空，否则无法构建调控方向")
+            End If
+            If modules Is Nothing OrElse modules.Count = 0 Then
+                Throw New ArgumentNullException(NameOf(modules), "模块划分结果不能为空")
+            End If
+
+            Dim tfSet As New HashSet(Of String)(TF, StringComparer.OrdinalIgnoreCase)
+
+            If tfSet.Count = 0 Then
+                Throw New ArgumentException("TF 注释列表不能为空，否则无法构建调控方向", NameOf(TF))
+            End If
+
+            If options Is Nothing Then
+                options = New GRNBuildOptions()
+            End If
+
+            Dim clock As Stopwatch = Stopwatch.StartNew()
+            Dim log As Action(Of String) = MakeLog(options.verbose)
+
+            ' 基因行下标（仅当提供表达矩阵时需要，用于偏相关的子矩阵组装）
+            Dim geneIndex As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+            If expr IsNot Nothing Then
+                For i As Integer = 0 To expr.size - 1
+                    Dim gid As String = expr.expression(i).geneID
+
+                    If Not geneIndex.ContainsKey(gid) Then
+                        geneIndex(gid) = i
+                    End If
+                Next
+            End If
+
+            Call log($"[1/3] store-driven GRN build: {store.size} genes x {store.SampleN} samples (p-values from store), " &
+                     $"{modules.Count} modules, partial correlation = {If(expr IsNot Nothing, "enabled", "skipped (no expression matrix)")}...")
+
+            ' ② STRING 证据源
+            Dim stringEvidence As StringPriorEvidence = LoadStringEvidence(options, store.genes, log)
+
+            ' ③ 逐模块装配先验网络
+            Dim moduleList As ModulePriorNetwork() = modules _
+                .Select(Function(kv)
+                            Return BuildModuleNetworkFromStore(store, kv.Key, kv.Value,
+                                                               tfSet, options, stringEvidence,
+                                                               expr, geneIndex, log)
+                        End Function) _
+                .ToArray()
+
+            clock.Stop()
+
+            Dim summary As BuildSummary = MakeSummary(moduleList, store.size, store.SampleN, clock.ElapsedMilliseconds)
+
+            Call log($"done: {summary.ToString}")
+
+            Return New GRNBuildResult With {
+                .modules = moduleList,
+                .wgcna = Nothing,
+                .summary = summary
+            }
+        End Function
+
+        ''' <summary>加载 STRING 证据源（含 ID 映射的自动构建）</summary>
+        Private Function LoadStringEvidence(options As GRNBuildOptions,
+                                            geneIds As IEnumerable(Of String),
+                                            log As Action(Of String)) As StringPriorEvidence
+            If String.IsNullOrEmpty(options.stringLinks) Then
+                Call log("STRING evidence disabled (no links file).")
+                Return Nothing
+            End If
+
+            ' ID 映射：优先使用显式提供的映射表，其次从 STRING 别名表自动提取 ENSG → STRING id
+            Dim idMap As Dictionary(Of String, String) = options.stringIdMap
+
+            If idMap Is Nothing AndAlso Not String.IsNullOrEmpty(options.stringAliases) Then
+                Call log("build gene id -> STRING protein id map from aliases file...")
+                idMap = StringPriorEvidence.LoadEnsemblAliasMap(options.stringAliases, options.verbose)
+            End If
+
+            Call log("loading STRING protein interactions...")
+            Return StringPriorEvidence.Load(options.stringLinks, geneIds, idMap,
+                                            options.stringMinScore, options.verbose)
+        End Function
+
+        ''' <summary>汇总各模块统计</summary>
+        Private Function MakeSummary(moduleList As ModulePriorNetwork(),
+                                     geneCount As Integer,
+                                     sampleCount As Integer,
+                                     elapsedMs As Double) As BuildSummary
             Dim summary As New BuildSummary With {
-                .geneCount = filtered.size,
-                .sampleCount = filtered.sample_count,
+                .geneCount = geneCount,
+                .sampleCount = sampleCount,
                 .moduleCount = moduleList.Length,
                 .moduleStatistics = moduleList.Select(Function(m) m.statistics).ToArray,
-                .elapsedMilliseconds = clock.ElapsedMilliseconds
+                .elapsedMilliseconds = elapsedMs
             }
 
             For Each stat As ModuleStatistics In summary.moduleStatistics
@@ -183,13 +299,7 @@ Namespace RegulationNetwork
 
             summary.totalEdges += summary.crossModuleEdges
 
-            Call log($"[6/6] done: {summary.ToString}")
-
-            Return New GRNBuildResult With {
-                .modules = moduleList,
-                .wgcna = wgcna,
-                .summary = summary
-            }
+            Return summary
         End Function
 
         ''' <summary>
@@ -442,6 +552,46 @@ Namespace RegulationNetwork
             Dim n As Integer = data.GetLength(1)
             Dim cor As Double(,) = ComputeCorrelationMatrix(data, options)
 
+            ' ①-⑤ 候选边 → FDR → DPI → 偏相关 → TF 定向 → STRING 整合
+            '（与存储驱动路径 BuildModuleNetworkFromStore 共享同一套装配逻辑）
+            Call AssembleModuleEdges(cor, data, n, genes, tfSet, options, stringEvidence, kme, log, moduleName, net, stat)
+
+            clock.Stop()
+            stat.elapsedMilliseconds = clock.ElapsedMilliseconds
+
+            Call log($"  {stat.ToString}")
+
+            Return New ModulePriorNetwork With {
+                .moduleName = moduleName,
+                .genes = genes.ToArray,
+                .moduleNetwork = net,
+                .crossModule = New PriorNetwork(),
+                .statistics = stat
+            }
+        End Function
+
+        ''' <summary>
+        ''' 模块网络装配（两条路径共享）：候选边 → p 值/BH FDR → DPI 去间接 → 偏相关筛选 →
+        ''' TF 定向/符号/置信度 → STRING 加权与拓扑补全
+        ''' </summary>
+        ''' <param name="cor">模块内带符号相关矩阵（来自 bicor 计算，或来自 CorrelationMatrixStore）</param>
+        ''' <param name="data">
+        ''' 模块内表达子矩阵（偏相关需要）；为 Nothing 时跳过偏相关筛选（存储驱动且未提供表达矩阵的场景）
+        ''' </param>
+        ''' <param name="sampleN">p 值重算依据的样本数（表达矩阵路径为样本数，存储路径为 <c>store.SampleN</c>）</param>
+        Private Sub AssembleModuleEdges(cor As Double(,),
+                                        data As Double(,),
+                                        sampleN As Integer,
+                                        genes As List(Of String),
+                                        tfSet As HashSet(Of String),
+                                        options As GRNBuildOptions,
+                                        stringEvidence As StringPriorEvidence,
+                                        kme As Dictionary(Of String, Double),
+                                        log As Action(Of String),
+                                        moduleName As String,
+                                        net As PriorNetwork,
+                                        stat As ModuleStatistics)
+
             ' ① 候选边 + p 值 + BH FDR
             Dim candidates As New List(Of EdgeCand)
 
@@ -461,7 +611,7 @@ Namespace RegulationNetwork
 
             If candidates.Count > 0 Then
                 Dim pvalues As Double() = candidates _
-                    .Select(Function(c) CorrelationSignificance.PValue(c.cor, n)) _
+                    .Select(Function(c) CorrelationPValues.PValue(c.cor, sampleN)) _
                     .ToArray()
                 Dim qvalues As Double() = CorrelationSignificance.BH(pvalues)
 
@@ -482,9 +632,11 @@ Namespace RegulationNetwork
 
             candidates = candidates.Where(Function(c) Not c.removedDpi).ToList
 
-            ' ③ 偏相关二次筛选
-            If options.partialEnabled AndAlso candidates.Count > 0 Then
+            ' ③ 偏相关二次筛选（需要原始表达数据；存储驱动且未提供表达矩阵时跳过）
+            If options.partialEnabled AndAlso data IsNot Nothing AndAlso candidates.Count > 0 Then
                 stat.partialRemovedEdges = ApplyPartialCorrelation(candidates, data, cor, genes, tfSet, options, log, moduleName)
+            ElseIf options.partialEnabled AndAlso data Is Nothing Then
+                Call log($"  [{moduleName}] partial correlation skipped: no expression data available")
             End If
 
             candidates = candidates.Where(Function(c) Not c.removedPartial).ToList
@@ -565,6 +717,142 @@ Namespace RegulationNetwork
                 stat.undirectedEdges += addedPair.undirected
                 stat.directedEdges += addedPair.total - addedPair.undirected
             End If
+        End Sub
+
+        ''' <summary>
+        ''' 存储驱动路径：从 <see cref="CorrelationMatrixStore"/> 读取模块内相关矩阵，
+        ''' 装配单个模块的先验网络（跳过 bicor 重算）
+        ''' </summary>
+        ''' <param name="store">已打开的相关矩阵存储</param>
+        ''' <param name="moduleName">模块名</param>
+        ''' <param name="moduleGenes">模块基因列表（来自既有的 WGCNA 模块划分结果）</param>
+        ''' <param name="tfSet">TF 集合</param>
+        ''' <param name="options">配置</param>
+        ''' <param name="stringEvidence">STRING 证据源</param>
+        ''' <param name="expr">可选的原始表达矩阵（提供时才执行偏相关筛选）</param>
+        ''' <param name="log">日志</param>
+        Private Function BuildModuleNetworkFromStore(store As CorrelationMatrixStore,
+                                                     moduleName As String,
+                                                     moduleGenes As String(),
+                                                     tfSet As HashSet(Of String),
+                                                     options As GRNBuildOptions,
+                                                     stringEvidence As StringPriorEvidence,
+                                                     expr As Matrix,
+                                                     geneIndex As Dictionary(Of String, Integer),
+                                                     log As Action(Of String)) As ModulePriorNetwork
+
+            Dim clock As Stopwatch = Stopwatch.StartNew()
+            Dim stat As New ModuleStatistics With {.moduleName = moduleName}
+            Dim net As New PriorNetwork()
+
+            ' 基因对齐：只保留存在于存储中的基因（去重，防御同一基因出现在多模块）
+            Dim genes As New List(Of String)
+
+            For Each g As String In moduleGenes
+                If store.Contains(g) AndAlso Not genes.Contains(g, StringComparer.OrdinalIgnoreCase) Then
+                    genes.Add(g)
+                End If
+            Next
+
+            stat.geneCount = moduleGenes.Length
+
+            If genes.Count < 2 OrElse store.SampleN < 3 Then
+                stat.usedGenes = genes.Count
+                stat.elapsedMilliseconds = clock.ElapsedMilliseconds
+                Call log($"  [{moduleName}] skipped: {genes.Count} genes x {store.SampleN} samples is too small")
+
+                Return New ModulePriorNetwork With {
+                    .moduleName = moduleName,
+                    .genes = genes.ToArray,
+                    .moduleNetwork = net,
+                    .crossModule = New PriorNetwork(),
+                    .statistics = stat
+                }
+            End If
+
+            ' 逐行取回存储中的相关系数（并发），同时统计连接度作为 hub 排序依据
+            Dim rowNumbers As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+            For Each g As String In genes
+                rowNumbers(g) = store.IndexOf(g)
+            Next
+
+            ' 并发取行：按位置写入数组（数组不同下标的写入是线程安全的；
+            ' 不能用普通 Dictionary 并发写——内部结构会被并发写损坏）
+            Dim rowCache(genes.Count - 1)() As Single
+
+            Call Parallel.For(0, genes.Count,
+                Sub(k)
+                    rowCache(k) = store.ReadRow(rowNumbers(genes(k)), useCache:=False)
+                End Sub)
+
+            ' 规模控制：hub 子集按连接度（邻居数）排序截断
+            Dim degree As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
+
+            For k As Integer = 0 To genes.Count - 1
+                Dim g As String = genes(k)
+                Dim cnt As Integer = 0
+                Dim row As Single() = rowCache(k)
+
+                For Each other As String In genes
+                    If other <> g AndAlso Not Single.IsNaN(row(rowNumbers(other))) _
+                        AndAlso System.Math.Abs(row(rowNumbers(other))) >= options.minAbsCorrelation Then
+                        cnt += 1
+                    End If
+                Next
+
+                degree(g) = cnt
+            Next
+
+            ' hub 截断后保留 基因 → 行缓存下标 的映射（rowCache 按截断前的位置索引）
+            Dim cachePos As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+            For k As Integer = 0 To genes.Count - 1
+                cachePos(genes(k)) = k
+            Next
+
+            genes = TakeHubs(genes.ToArray, degree, options.maxModuleGenes).ToList
+            stat.usedGenes = genes.Count
+
+            ' 从取回的行组装模块内带符号相关子矩阵
+            Dim gCount As Integer = genes.Count
+            Dim cor(gCount - 1, gCount - 1) As Double
+
+            Call Parallel.For(0, gCount,
+                Sub(i)
+                    Dim row As Single() = rowCache(cachePos(genes(i)))
+
+                    cor(i, i) = 1.0
+
+                    For j As Integer = i + 1 To gCount - 1
+                        Dim v As Double = row(rowNumbers(genes(j)))
+
+                        cor(i, j) = v
+                        cor(j, i) = v
+                    Next
+                End Sub)
+
+            ' 表达子矩阵（偏相关可选）
+            Dim data As Double(,) = Nothing
+
+            If expr IsNot Nothing AndAlso expr.sample_count >= 3 Then
+                Dim exprRows As New List(Of Integer)
+
+                For Each g As String In genes
+                    Dim idx As Integer
+
+                    If geneIndex.TryGetValue(g, idx) Then
+                        exprRows.Add(idx)
+                    End If
+                Next
+
+                If exprRows.Count = gCount Then
+                    data = ToArray2D(expr, exprRows, genes)
+                End If
+            End If
+
+            Call AssembleModuleEdges(cor, data, store.SampleN, genes, tfSet, options,
+                                     stringEvidence, degree, log, moduleName, net, stat)
 
             clock.Stop()
             stat.elapsedMilliseconds = clock.ElapsedMilliseconds
