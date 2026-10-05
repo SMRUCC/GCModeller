@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::564b428f2f835ab1e5a94bed9e746782, visualize\DataVisualizationExtensions\CatalogProfiling\DAScorePlot.vb"
+#Region "Microsoft.VisualBasic::564b428f2f835ab1e5a94bed9e746782, visualize\DataVisualizationExtensions\CatalogProfiling\DAScorePlot.vb"
 
     ' Author:
     ' 
@@ -52,9 +52,7 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 

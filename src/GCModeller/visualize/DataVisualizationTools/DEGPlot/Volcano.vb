@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c115179ce7f99ddce0278412e200db20, visualize\DataVisualizationExtensions\DEGPlot\Volcano.vb"
+#Region "Microsoft.VisualBasic::c115179ce7f99ddce0278412e200db20, visualize\DataVisualizationExtensions\DEGPlot\Volcano.vb"
 
     ' Author:
     ' 
@@ -65,11 +65,9 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Plot3D.Legend
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js

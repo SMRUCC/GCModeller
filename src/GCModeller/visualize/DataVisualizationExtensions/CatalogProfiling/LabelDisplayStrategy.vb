@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57995449bab816d9aa7609068bdd944a, visualize\DataVisualizationExtensions\CatalogProfiling\LabelDisplayStrategy.vb"
+#Region "Microsoft.VisualBasic::57995449bab816d9aa7609068bdd944a, visualize\DataVisualizationExtensions\CatalogProfiling\LabelDisplayStrategy.vb"
 
     ' Author:
     ' 
@@ -55,7 +55,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
    
   
@@ -49,8 +49,8 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\hierarchical-clustering\HCTreePlot\HCTreePlot.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\hctree.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\plots-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Visualization\data_visualize-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\DataPlot\DataPlot.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />

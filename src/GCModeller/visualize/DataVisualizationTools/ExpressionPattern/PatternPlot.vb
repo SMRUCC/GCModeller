@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6fef5a1f98de32fafc63fd63c198dcc, visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
+#Region "Microsoft.VisualBasic::d6fef5a1f98de32fafc63fd63c198dcc, visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
 
     ' Author:
     ' 
@@ -61,10 +61,8 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -195,20 +193,19 @@ Namespace ExpressionPattern
                     Call g.DrawString(label, clusterTagFont, Brushes.Black, tagPos)
                     Call VBDebugger.WriteLine(label & "...")
 
-                    Call Scatter.Plot(
-                        c:=scatterData,
-                        g:=g,
-                        drawLine:=True,
+                    ' YtickFormat 等刻度格式参数经由 theme 传递给绘图框架
+                    Dim panelTheme As Theme = DirectCast(theme.Clone(), Theme)
+
+                    panelTheme.YaxisTickFormat = tickFormat
+                    panelTheme.drawLegend = False
+
+                    Call g.DrawPanel(
                         rect:=layout,
-                        Xlabel:=xlabel,
-                        Ylabel:=ylabel,
-                        tickFontStyle:=theme.axisTickCSS,
-                        axisLabelCSS:=theme.axisLabelCSS,
-                        showLegend:=False,
-                        YtickFormat:=tickFormat,
-                        xAxisLabelRotate:=theme.xAxisRotate,
-                        gridFill:=theme.gridFill,
-                        showGrid:=theme.drawGrid
+                        theme:=panelTheme,
+                        serials:=scatterData,
+                        xlabel:=xlabel,
+                        ylabel:=ylabel,
+                        drawLine:=True
                     )
                     Call g.ColorMapLegend(
                         layout:=legendLayout,

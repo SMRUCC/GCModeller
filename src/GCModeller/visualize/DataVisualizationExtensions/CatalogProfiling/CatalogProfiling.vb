@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c077f12078326b6b7df8ba56c0fb5348, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
+#Region "Microsoft.VisualBasic::c077f12078326b6b7df8ba56c0fb5348, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
 
     ' Author:
     ' 
@@ -58,8 +58,6 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler

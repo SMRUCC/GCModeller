@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19bb20c7ef9437cebcac66584f4d3803, visualize\DataVisualizationExtensions\CatalogProfiling\ColorProfileManager.vb"
+#Region "Microsoft.VisualBasic::19bb20c7ef9437cebcac66584f4d3803, visualize\DataVisualizationExtensions\CatalogProfiling\ColorProfileManager.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation

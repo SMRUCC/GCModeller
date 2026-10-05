@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::959d91e1bf7f1570adf06cb94c9a9462, visualize\DataVisualizationExtensions\DEGPlot\DEGPlot.vb"
+#Region "Microsoft.VisualBasic::959d91e1bf7f1570adf06cb94c9a9462, visualize\DataVisualizationExtensions\DEGPlot\DEGPlot.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.Html.CSS

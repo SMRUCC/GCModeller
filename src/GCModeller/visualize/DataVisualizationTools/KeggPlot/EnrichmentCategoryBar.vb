@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d3d78aabb7314205fe324ba1a560f36, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryBar.vb"
+#Region "Microsoft.VisualBasic::0d3d78aabb7314205fe324ba1a560f36, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryBar.vb"
 
     ' Author:
     ' 
@@ -51,9 +51,7 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 
 Public Class ClassEnrichmentCategoryBar : Inherits Plot
 

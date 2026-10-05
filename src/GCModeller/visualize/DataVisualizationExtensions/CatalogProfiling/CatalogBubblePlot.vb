@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a718e0b1f9aa9ad619a4c62100a200c3, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb"
+#Region "Microsoft.VisualBasic::a718e0b1f9aa9ad619a4c62100a200c3, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb"
 
     ' Author:
     ' 
@@ -62,10 +62,9 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Plot3D.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver

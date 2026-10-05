@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a51154287fe7676c19b51e8f4eafc90, visualize\DataVisualizationExtensions\ExpressionPattern\Extensions.vb"
+#Region "Microsoft.VisualBasic::2a51154287fe7676c19b51e8f4eafc90, visualize\DataVisualizationExtensions\ExpressionPattern\Extensions.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,8 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::643a94f43cc3fd5eb91387f2ed53ffdc, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryHeatmap.vb"
+#Region "Microsoft.VisualBasic::643a94f43cc3fd5eb91387f2ed53ffdc, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryHeatmap.vb"
 
 ' Author:
 ' 
@@ -60,9 +60,8 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels
@@ -80,7 +79,8 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports dataframe = Microsoft.VisualBasic.Data.Framework.DataFrame
 Imports std = System.Math
 
-Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
+Public Class EnrichmentCategoryHeatmap : Inherits Plot
+    Public Property mapLevels As Integer
 
     ReadOnly rawdata As dataframe
     ReadOnly data As dataframe

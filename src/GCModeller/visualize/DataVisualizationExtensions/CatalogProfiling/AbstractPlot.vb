@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd8b9e1946612db4214fbc0e54834517, visualize\DataVisualizationExtensions\CatalogProfiling\AbstractPlot.vb"
+#Region "Microsoft.VisualBasic::cd8b9e1946612db4214fbc0e54834517, visualize\DataVisualizationExtensions\CatalogProfiling\AbstractPlot.vb"
 
     ' Author:
     ' 
@@ -63,8 +63,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 
