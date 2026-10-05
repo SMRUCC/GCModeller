@@ -214,13 +214,23 @@ Namespace CatalogProfiling
                     If mapperValues.IsNullOrEmpty Then
                         ' just do nothing?
                     Else
-                        Dim mapper As New Scaling(mapperValues, horizontal:=True)
+                        ' 与旧 Scaling(values, horizontal:=True) 语义一致：
+                        ' x 值域为正数域时从 0 起，y 值域未使用（保持 0）
+                        Dim xmin As Double = mapperValues.Min
+
+                        If xmin > 0 Then
+                            xmin = 0
+                        End If
+
+                        Dim mapper As New Mapper(
+                            New DoubleRange(xmin, mapperValues.Max),
+                            New DoubleRange(0, 0))
 
                         Call g.internalPlotImpl(
                            region, profile, title,
                            colors,
                            titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
-                           New Mapper(mapper, ignoreAxis:=True),
+                           mapper,
                            tickFontStyle, tick,
                            axisTitle,
                            gray:=gray,
