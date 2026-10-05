@@ -26,6 +26,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 #If NET48 Then
 Imports Font = System.Drawing.Font
@@ -84,7 +85,7 @@ Namespace Plot3D.Impl
 
         Private Iterator Function populateModels(css As CSSEnvirnment) As IEnumerable(Of Element3D)
             Dim points As Point3D() = serials _
-                .Select(Function(s) s.Points.Values) _
+                .Select(Function(s) s.Points.Select(Function(pt) pt.Value)) _
                 .IteratesALL _
                 .ToArray
 
@@ -96,6 +97,7 @@ Namespace Plot3D.Impl
                 Y = DirectCast(.Y, IEnumerable(Of Double)).Range.CreateAxisTicks
                 Z = DirectCast(.Z, IEnumerable(Of Double)).Range.CreateAxisTicks
             End With
+
 
             ' 然后生成底部的网格
             For Each line As Element3D In Grids.Grid1(css, X, Y, (X(1) - X(0), Y(1) - Y(0)), Z.Min)

@@ -13,10 +13,12 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports std = System.Math
 
 #If NET48 Then
@@ -208,10 +210,10 @@ Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
 
             If partition.isLeaf Then
                 y = plotRegion.Top + i * unitWidth + unitWidth
-                labels += New NamedValue(Of PointF) With {
+                labels.Add(New NamedValue(Of PointF) With {
                     .Name = partition.Name,
                     .Value = New PointF(x, y)
-                }
+                })
             Else
                 ' 连接节点在中间？
                 y = plotRegion.Top + (i + 0.5) * unitWidth + (partition.Leafs * unitWidth) / 2

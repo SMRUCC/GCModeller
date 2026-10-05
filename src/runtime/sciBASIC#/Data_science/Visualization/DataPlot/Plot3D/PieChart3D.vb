@@ -19,6 +19,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D.Models
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Models.Isometric.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Matrix = Microsoft.VisualBasic.Imaging.Drawing3D.Math3D.Matrix
