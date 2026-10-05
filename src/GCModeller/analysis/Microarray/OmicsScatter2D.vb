@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10de43edaaeaf866f40fa8a77c3a31a9, analysis\Microarray\OmicsScatter2D.vb"
+#Region "Microsoft.VisualBasic::10de43edaaeaf866f40fa8a77c3a31a9, analysis\Microarray\OmicsScatter2D.vb"
 
     ' Author:
     ' 
@@ -56,9 +56,9 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data
-Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Plot3D.Legend
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -159,7 +159,7 @@ Public Module OmicsScatter2D
             .DataAnnotations = labels _
                 .SafeQuery _
                 .Select(Function(geneId)
-                            Return New ChartPlots.Annotation With {
+                            Return New Annotation With {
                                 .Legend = LegendStyles.Triangle,
                                 .Text = geneId.Value,
                                 .X = dataX.TryGetValue(geneId.Name),

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e8ef62eae6b3858725f4b6aa459d2cc, analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
+#Region "Microsoft.VisualBasic::7e8ef62eae6b3858725f4b6aa459d2cc, analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
 
     ' Author:
     ' 
@@ -58,8 +58,8 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Graphic
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver

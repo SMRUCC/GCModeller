@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60e2ccf533f9f76379293fc6ec82f630, annotations\Proteomics\Plots.vb"
+#Region "Microsoft.VisualBasic::60e2ccf533f9f76379293fc6ec82f630, annotations\Proteomics\Plots.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Histogram
+Imports Microsoft.VisualBasic.Data.Plots.BarPlot.Histogram
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math

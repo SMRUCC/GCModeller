@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7d7fa842cdfd145b1bc9ee912134249, annotations\GSEA\PFSNet\PFSNet_visual\BubblePlot.vb"
+#Region "Microsoft.VisualBasic::c7d7fa842cdfd145b1bc9ee912134249, annotations\GSEA\PFSNet\PFSNet_visual\BubblePlot.vb"
 
     ' Author:
     ' 
@@ -55,9 +55,9 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Plot3D.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language

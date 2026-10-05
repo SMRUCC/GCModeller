@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7cec6ed7bc0d6d0bd541ac1f0020d38a, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Logo.vb"
+#Region "Microsoft.VisualBasic::7cec6ed7bc0d6d0bd541ac1f0020d38a, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Logo.vb"
 
     ' Author:
     ' 
@@ -54,8 +54,8 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Graphic
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Linq

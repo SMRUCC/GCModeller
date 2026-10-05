@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5e4d9418d2d4283c59388ac0b8bf4bd, R#\visualkit\visualPlot.vb"
+#Region "Microsoft.VisualBasic::d5e4d9418d2d4283c59388ac0b8bf4bd, R#\visualkit\visualPlot.vb"
 
 ' Author:
 ' 
@@ -62,10 +62,10 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
-Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Data
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.BarPlot
+Imports Microsoft.VisualBasic.Data.Plots.BarPlot.Data
+Imports Microsoft.VisualBasic.Data.Plots.Graphic
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels
 Imports Microsoft.VisualBasic.DataMining.KMeans

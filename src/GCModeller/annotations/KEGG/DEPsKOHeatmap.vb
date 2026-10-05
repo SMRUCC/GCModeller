@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c54e3f523ee2d9ce4512d7ca3efdb992, annotations\KEGG\DEPsKOHeatmap.vb"
+#Region "Microsoft.VisualBasic::c54e3f523ee2d9ce4512d7ca3efdb992, annotations\KEGG\DEPsKOHeatmap.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
+Imports Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D

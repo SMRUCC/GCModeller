@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e6006ef3a90b07ef30cc5c41d19e0bc, CLI_tools\eggHTS\CLI\2. DEP.vb"
+#Region "Microsoft.VisualBasic::4e6006ef3a90b07ef30cc5c41d19e0bc, CLI_tools\eggHTS\CLI\2. DEP.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
+Imports Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize

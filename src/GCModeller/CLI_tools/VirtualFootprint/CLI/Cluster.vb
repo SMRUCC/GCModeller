@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::488e6354a534a4826312645c630fdb39, CLI_tools\VirtualFootprint\CLI\Cluster.vb"
+#Region "Microsoft.VisualBasic::488e6354a534a4826312645c630fdb39, CLI_tools\VirtualFootprint\CLI\Cluster.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Histogram
+Imports Microsoft.VisualBasic.Data.Plots.BarPlot.Histogram
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.Data.visualize.Network

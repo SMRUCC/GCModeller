@@ -58,6 +58,9 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
@@ -516,10 +519,10 @@ Namespace CatalogProfiling
             If tick <= 0 Then
                 ' 自动生成
                 Call "Ticks created from auto axis ticking...".info
-                Return AxisScalling.CreateAxisTicks({0, max}.AsEnumerable, ticks:=5)
+                Return CreateAxisTicks({0, max}.AsEnumerable, ticks:=5)
             Else
                 Call "Ticks created from tick sequence...".info
-                Return AxisScalling.GetAxisByTick(max, tick)
+                Return GetAxisByTick(max, tick).ToArray
             End If
         End Function
     End Module

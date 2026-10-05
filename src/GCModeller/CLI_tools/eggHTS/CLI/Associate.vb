@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71f0ef5d188a41b07b187967797f75f1, CLI_tools\eggHTS\CLI\Associate.vb"
+#Region "Microsoft.VisualBasic::71f0ef5d188a41b07b187967797f75f1, CLI_tools\eggHTS\CLI\Associate.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
+Imports Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize

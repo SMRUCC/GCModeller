@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11fb03982a0bcbd0326da5bc6cf12c0d, CLI_tools\eggHTS\CLI\0. Samples.vb"
+#Region "Microsoft.VisualBasic::11fb03982a0bcbd0326da5bc6cf12c0d, CLI_tools\eggHTS\CLI\0. Samples.vb"
 
     ' Author:
     ' 
@@ -48,8 +48,8 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.ChartPlots.csv
+Imports Microsoft.VisualBasic.Data.Plots
+Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Driver

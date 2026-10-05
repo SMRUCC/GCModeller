@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3e6635177ad865c2488ba5e49b409a0, visualize\ChromosomeMap\RegionMap.vb"
+#Region "Microsoft.VisualBasic::c3e6635177ad865c2488ba5e49b409a0, visualize\ChromosomeMap\RegionMap.vb"
 
     ' Author:
     ' 
@@ -56,8 +56,8 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Graphic
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver

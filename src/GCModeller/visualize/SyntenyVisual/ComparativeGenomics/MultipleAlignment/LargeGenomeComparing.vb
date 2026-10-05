@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::065fe1fb15444b260e053ed03f93110d, visualize\SyntenyVisual\ComparativeGenomics\MultipleAlignment\LargeGenomeComparing.vb"
+#Region "Microsoft.VisualBasic::065fe1fb15444b260e053ed03f93110d, visualize\SyntenyVisual\ComparativeGenomics\MultipleAlignment\LargeGenomeComparing.vb"
 
     ' Author:
     ' 
@@ -64,8 +64,8 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Graphic
+Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver

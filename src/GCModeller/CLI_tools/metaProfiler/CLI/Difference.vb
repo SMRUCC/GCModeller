@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9269e3cf6b5aa38b1ee52326849e658b, CLI_tools\metaProfiler\CLI\Difference.vb"
+#Region "Microsoft.VisualBasic::9269e3cf6b5aa38b1ee52326849e658b, CLI_tools\metaProfiler\CLI\Difference.vb"
 
     ' Author:
     ' 
@@ -44,10 +44,10 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
-Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Data
-Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics
-Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
+Imports Microsoft.VisualBasic.Data.Plots.BarPlot
+Imports Microsoft.VisualBasic.Data.Plots.BarPlot.Data
+Imports Microsoft.VisualBasic.Data.Plots.Statistics
+Imports Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
