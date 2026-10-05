@@ -263,13 +263,20 @@ Namespace CatalogProfiling
 
             theme.drawLegend = False
 
-            Dim bubbles As New Bubble(serials, False, True, theme) With {
-                .xlabel = xlabel,
-                .ylabel = ylabel,
-                .main = main
-            }
+            Dim css0 As CSSEnvirnment = g.LoadEnvironment
+            Dim bubblePen As Pen = If(
+                showBubbleBorder,
+                css0.GetPen(Stroke.TryParse(theme.shapeStroke)),
+                Nothing)
 
-            Call bubbles.Plot(g, region)
+            Call g.DrawBubbles(
+                rect:=region,
+                theme:=theme,
+                serials:=serials,
+                xlabel:=xlabel,
+                ylabel:=ylabel,
+                bubblePen:=bubblePen,
+                showGrid:=theme.drawGrid)
 
             Call DrawBubbleLegends(g, serials, region)
 
