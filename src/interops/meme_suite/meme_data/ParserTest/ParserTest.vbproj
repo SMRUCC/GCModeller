@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -188,10 +188,6 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Randomizer\randomizer-netcore5.vbproj">
       <Project>{047d87bc-0545-7ed1-ac97-98948c7c2b57}</Project>
       <Name>randomizer-netcore5</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\plots-netcore5.vbproj">
-      <Project>{180a8a74-e39e-a79f-d91a-2f3dc6915ab5}</Project>
-      <Name>plots-netcore5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Drawing-net4.8\Drawing-net4.8.vbproj">
       <Project>{57fdf5a2-4e50-dfeb-e4be-0945bdf3f6bb}</Project>

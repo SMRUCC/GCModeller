@@ -44,7 +44,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.Plots.BarPlot.Histogram
+Imports Microsoft.VisualBasic.Data.Plots.Legacy.BarPlot.Histogram
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.Data.visualize.Network

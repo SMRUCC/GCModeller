@@ -62,9 +62,8 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.Plots.BarPlot
-Imports Microsoft.VisualBasic.Data.Plots.BarPlot.Data
-Imports Microsoft.VisualBasic.Data.Plots.Graphic
+Imports Microsoft.VisualBasic.Data.Plots.Legacy.BarPlot
+Imports Microsoft.VisualBasic.Data.Plots.Legacy.BarPlot.Data
 Imports Microsoft.VisualBasic.Data.Plots.Canvas
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.EntityModels

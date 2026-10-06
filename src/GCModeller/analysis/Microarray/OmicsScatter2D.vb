@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Data.Plots.Canvas
+Imports Microsoft.VisualBasic.Data.Plots.Legacy.Plots
 Imports Microsoft.VisualBasic.Data.Plots.Plot3D.Legend
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
@@ -159,7 +160,7 @@ Public Module OmicsScatter2D
             .DataAnnotations = labels _
                 .SafeQuery _
                 .Select(Function(geneId)
-                            Return New Annotation With {
+                            Return New Global.Microsoft.VisualBasic.Data.Plots.Canvas.Annotation With {
                                 .Legend = LegendStyles.Triangle,
                                 .Text = geneId.Value,
                                 .X = dataX.TryGetValue(geneId.Name),

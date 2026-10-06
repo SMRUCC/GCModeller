@@ -53,8 +53,9 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Data.Plots.Canvas
-Imports Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
+Imports DensityCompat = Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
@@ -172,7 +173,7 @@ Public Module RSDPdensity
             }
 
             ' 做出来的图不从零开始可能会比较好一些
-            Return DensityPlot.Plot(
+            Return DensityCompat.DensityPlot.Plot(
                 .ByRef,
                 size, padding, bg, schema, levels:=100,
                 ptSize:=10,

@@ -53,7 +53,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
+Imports HeatmapCompat = Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -92,7 +92,7 @@ Public Module DEPsKOHeatmap
             Function(x) x.Key,
             Function(x) groupColors(x.Value).ToHtmlColor)
 
-        Return Heatmap.Plot(
+        Return HeatmapCompat.HeatMap.Plot(
             matrix, size:=size, padding:=padding, mapName:=schema, mainTitle:=title, bg:=bg,
             drawClass:=(KOInfo.ColorKO(KOcolor), groupClassColor))
     End Function

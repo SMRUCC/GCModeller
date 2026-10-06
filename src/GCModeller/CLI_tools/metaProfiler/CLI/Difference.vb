@@ -44,8 +44,8 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.Plots.BarPlot
-Imports Microsoft.VisualBasic.Data.Plots.BarPlot.Data
+Imports Microsoft.VisualBasic.Data.Plots.Legacy.BarPlot
+Imports Microsoft.VisualBasic.Data.Plots.Legacy.BarPlot.Data
 Imports Microsoft.VisualBasic.Data.Plots.Statistics
 Imports Microsoft.VisualBasic.Data.Plots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
