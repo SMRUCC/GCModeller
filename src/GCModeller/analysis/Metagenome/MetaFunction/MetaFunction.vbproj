@@ -88,4 +88,8 @@
     <ProjectReference Include="..\Metagenome\Metagenome.NET5.vbproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="metaTraits\" />
+  </ItemGroup>
+
 </Project>
