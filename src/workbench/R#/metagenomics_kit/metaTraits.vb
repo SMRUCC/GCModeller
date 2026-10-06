@@ -54,6 +54,7 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
@@ -422,7 +423,7 @@ Module metaTraitsTool
     Private Function predictAll(predictor As PhenotypePredictor, sets As Dictionary(Of String, PfamString())) As Object
         Dim out As New list With {.slots = New Dictionary(Of String, Object)}
 
-        For Each genome As KeyValuePair(Of String, PfamString()) In sets
+        For Each genome As KeyValuePair(Of String, PfamString()) In Tqdm.Wrap(sets)
             Call out.add(genome.Key, CObj(predictor.PredictGenome(genome.Value).ToArray))
         Next
 
