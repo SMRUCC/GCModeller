@@ -6,14 +6,19 @@
     <AssemblyName>SMRUCC.genomics.Analysis.metaTraits</AssemblyName>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\HMM\HMM.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\data\Xfam\Pfam\Pfam.vbproj" />
+    <ProjectReference Include="..\SequenceToolkit\Pfam-HMM\PfamHMMScan\HMMER3.vbproj" />
   </ItemGroup>
 
 </Project>
