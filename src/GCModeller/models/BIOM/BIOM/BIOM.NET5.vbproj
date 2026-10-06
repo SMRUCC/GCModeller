@@ -25,8 +25,8 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
     <PackageReleaseNotes>Supports reading BIOM v1.0 JSON and v2.0/v2.1 HDF5 files through a unified dataset model with automatic version detection.</PackageReleaseNotes>
-    <Version>1.0.9762.7562</Version>
-    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -96,6 +96,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">
@@ -228,18 +229,21 @@
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|x64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|x64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <Optimize>False</Optimize>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net8.0-windows|AnyCPU'">

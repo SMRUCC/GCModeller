@@ -24,8 +24,8 @@
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
     <PackageTags>gcmodeller;bioinformatics;genomics;gene-ontology;dag;annotation</PackageTags>
     <PackageReleaseNotes>Provides OBO/OWL/GAF parsing with a memoized GO DAG for ancestor, descendant and enrichment analysis.</PackageReleaseNotes>
-    <Version>1.0.9762.7562</Version>
-    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -86,6 +86,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">

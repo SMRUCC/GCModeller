@@ -24,8 +24,8 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>gcmodeller;bioinformatics;genomics;synteny;comparative-genomics;pan-genome;visualization</PackageTags>
     <PackageReleaseNotes>Plots high-resolution genome synteny and collinearity diagrams with configurable themes and colour palettes.</PackageReleaseNotes>
-    <Version>1.0.9762.7562</Version>
-    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
@@ -60,11 +60,13 @@
     <DefineTrace>True</DefineTrace>
     <DebugType>full</DebugType>
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|x64'">
     <DefineTrace>True</DefineTrace>
     <DebugType>full</DebugType>
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net48|AnyCPU'">
     <DefineTrace>True</DefineTrace>

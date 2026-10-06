@@ -27,8 +27,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;sequence-alignment;smith-waterman;msa;diamond;blosum</PackageTags>
     <PackageReleaseNotes>Provides MSA, Smith-Waterman/Needleman-Wunsch, DIAMOND blastp and CD-HIT alignment capabilities in one toolkit.</PackageReleaseNotes>
-    <Version>1.0.9762.7562</Version>
-    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -147,18 +147,21 @@
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|x64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|x64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net8.0-windows|AnyCPU'">

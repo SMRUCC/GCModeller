@@ -24,8 +24,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;gene-ontology;visualization;network</PackageTags>
     <PackageReleaseNotes>Generates GO DAG network graphs and enrichment visualizations from GO term collections.</PackageReleaseNotes>
-    <Version>1.0.9762.7562</Version>
-    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -54,6 +54,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>SMRUCC.genomics.Data.GeneOntology.obographs.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
+    <OutputPath>../../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">

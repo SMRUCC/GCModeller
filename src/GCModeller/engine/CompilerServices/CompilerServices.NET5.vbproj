@@ -26,8 +26,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;compiler-framework;model-serialization</PackageTags>
     <PackageReleaseNotes>Provided the abstract compiler and model base type library used by all GCModeller vcell model compilers.</PackageReleaseNotes>
-    <Version>1.0.9762.7562</Version>
-    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -69,6 +69,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
@@ -399,6 +400,7 @@
     <DefineTrace>True</DefineTrace>
     <Optimize>False</Optimize>
     <DefineDebug>False</DefineDebug>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net8.0-windows|x64'">
@@ -415,6 +417,7 @@
     <DefineTrace>True</DefineTrace>
     <Optimize>False</Optimize>
     <DefineDebug>False</DefineDebug>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net8.0|x64'">
@@ -431,6 +434,7 @@
     <DefineTrace>True</DefineTrace>
     <Optimize>False</Optimize>
     <DefineDebug>False</DefineDebug>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net48|x64'">
@@ -543,6 +547,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>False</DefineDebug>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net10.0|x64'">

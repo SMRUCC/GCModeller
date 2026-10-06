@@ -33,8 +33,8 @@
     <Product>GCModeller</Product>
     <PackageTags>gcmodeller;bioinformatics;genomics;reactome;pathway;owl;rdf</PackageTags>
     <PackageReleaseNotes>Loads Reactome OWL/RDF pathway data into object models with hierarchy and REST API support.</PackageReleaseNotes>
-		<Version>1.0.9762.7562</Version>
-		<AssemblyVersion>1.0.9762.7562</AssemblyVersion>
+		<Version>10.5.9775.36927</Version>
+		<AssemblyVersion>1.0.9775.36927</AssemblyVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
@@ -136,16 +136,19 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0-windows|x64'">
 	  <DebugType>full</DebugType>
 	  <DefineTrace>True</DefineTrace>
+	  <OutputPath>../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|x64'">
 	  <DebugType>full</DebugType>
 	  <DefineTrace>True</DefineTrace>
+	  <OutputPath>../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|x64'">
 	  <DebugType>full</DebugType>
 	  <DefineTrace>True</DefineTrace>
+	  <OutputPath>../../../../.nuget/</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0-windows|x86'">

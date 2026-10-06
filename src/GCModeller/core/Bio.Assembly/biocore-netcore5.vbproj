@@ -12,7 +12,7 @@
     <Product>GCModeller</Product>
     <Company>SMRUCC genomics institute</Company>
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
-    <Version>10.5.9762.7562</Version>
+    <Version>10.5.9775.36927</Version>
     <Copyright>Copyright © SMRUCC genomics, GuiLin China, 2026</Copyright>
     <PackageProjectUrl>https://gcmodeller.org/</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
@@ -27,7 +27,7 @@
     <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageReleaseNotes>Provides the core biological data models and assembly file I/O streams used by GCModeller genome annotation.</PackageReleaseNotes>
-    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -143,6 +143,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
@@ -564,6 +565,7 @@
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
     <DefineConstants>UNIX=1</DefineConstants>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|x64'">
@@ -571,6 +573,7 @@
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
     <DefineConstants>UNIX=1</DefineConstants>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|x64'">
@@ -579,6 +582,7 @@
     <DefineTrace>True</DefineTrace>
     <DefineConstants>UNIX=1</DefineConstants>
     <Optimize>False</Optimize>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net6.0-windows|AnyCPU'">
@@ -1063,6 +1067,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|x64'">
@@ -1070,6 +1075,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net10.0|x64'">
@@ -1078,6 +1084,7 @@
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
     <DefineConstants>UNIX=1</DefineConstants>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net10.0-windows|x64'">
@@ -1085,6 +1092,7 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net8.0-windows|AnyCPU'">

@@ -24,8 +24,8 @@
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
     <PackageTags>gcmodeller;bioinformatics;genomics;cytoscape;network-graph;file-format;graph-serialization</PackageTags>
     <PackageReleaseNotes>Implements Cytoscape network data models and serializers for XGMML, cyjs, SIF and session files.</PackageReleaseNotes>
-    <Version>1.0.9762.7562</Version>
-    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
+    <Version>10.5.9775.36927</Version>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -64,6 +64,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>SMRUCC.genomics.Visualize.Cytoscape.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">

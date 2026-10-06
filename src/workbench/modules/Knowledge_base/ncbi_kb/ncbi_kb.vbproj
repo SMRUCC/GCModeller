@@ -10,7 +10,7 @@
     <UseApplicationFramework>True</UseApplicationFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>3.0.9762.7562</Version>
+    <Version>10.5.9775.36927</Version>
     <Title>NCBI PubMed &amp; MeSH Knowledge Base Data Reader</Title>
     <Authors>xieguigang&lt;xie.guigang@gcmodeller.org&gt;</Authors>
     <Company>SMRUCC genomics institute</Company>
@@ -27,7 +27,7 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>gcmodeller;bioinformatics;genomics;pubmed;mesh;literature</PackageTags>
     <PackageReleaseNotes>Adds PubMed/MeSH parsing, NCBI E-utilities querying and multi-style citation formatting for literature knowledge bases.</PackageReleaseNotes>
-    <AssemblyVersion>1.0.9762.7562</AssemblyVersion>
+    <AssemblyVersion>1.0.9775.36927</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|AnyCPU'">
@@ -320,12 +320,14 @@
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|x64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|x64'">
@@ -333,6 +335,7 @@
     <DebugType>full</DebugType>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Desktop|net6.0-windows|AnyCPU'">
@@ -466,6 +469,7 @@
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Desktop|net8.0|AnyCPU'">
@@ -573,6 +577,7 @@
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DebugType>full</DebugType>
     <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Desktop|net8.0-windows|AnyCPU'">
