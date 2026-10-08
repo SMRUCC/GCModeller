@@ -757,7 +757,7 @@ Module KmersTool
                                           Optional env As Environment = Nothing) As Object
 
         Dim taxIndex As Index(Of Long) = CLRVector.asLong(taxids)
-        Dim kraken2 As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(kraken_output, env)
+        Dim kraken2 As PipeIterator(Of KrakenOutputRecord) = pipeline.Stream(Of KrakenOutputRecord)(kraken_output, env)
 
         If kraken2.isError Then
             Return kraken2.getError
@@ -777,7 +777,7 @@ Module KmersTool
         End If
 
         Dim filtered = From c As KrakenOutputRecord
-                       In kraken2.populates(Of KrakenOutputRecord)(env)
+                       In kraken2
                        Where c.TaxID Like taxIndex
 
         If Not ncbi_taxonomy Is Nothing Then

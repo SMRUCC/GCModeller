@@ -154,13 +154,13 @@ Module TrackPlots
                               Optional label_snuggle$ = "yes",
                               Optional env As Environment = Nothing) As Object
 
-        Dim textPoints As pipeline = pipeline.TryCreatePipeline(Of TextTrackData)(texts, env)
+        Dim textPoints As PipeIterator(Of TextTrackData) = pipeline.Stream(Of TextTrackData)(texts, env)
 
         If textPoints.isError Then
             Return textPoints.getError
         End If
 
-        Dim labelText As New HighlightLabel(textPoints.populates(Of TextTrackData)(env))
+        Dim labelText As New HighlightLabel(textPoints)
         Dim labels As New TextLabel(labelText) With {
             .r0 = r0,
             .r1 = r1,
@@ -189,13 +189,13 @@ Module TrackPlots
 
     <ExportAPI("track.histogram")>
     Public Function Histogram(<RRawVectorArgument> values As Object, Optional env As Environment = Nothing) As Object
-        Dim valuePoints As pipeline = pipeline.TryCreatePipeline(Of ValueTrackData)(values, env)
+        Dim valuePoints As PipeIterator(Of ValueTrackData) = pipeline.Stream(Of ValueTrackData)(values, env)
 
         If valuePoints.isError Then
             Return valuePoints.getError
         End If
 
-        Dim hist As New Histogram(New NtProps.GCSkew(valuePoints.populates(Of ValueTrackData)(env)))
+        Dim hist As New Histogram(New NtProps.GCSkew(valuePoints))
 
         If hist.tracksData.GetEnumerator.Count = 0 Then
             Return RInternal.debug.stop("the value points in the track data can not be empty!", env)

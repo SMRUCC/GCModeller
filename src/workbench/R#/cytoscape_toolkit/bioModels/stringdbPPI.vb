@@ -88,13 +88,13 @@ Module stringdbPPI
                                       Optional coordinates As Coordinates() = Nothing,
                                       Optional env As Environment = Nothing) As Object
 
-        Dim uniprotDb As pipeline = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
+        Dim uniprotDb As PipeIterator(Of entry) = pipeline.Stream(Of entry)(uniprot, env)
 
         If uniprotDb.isError Then
             Return uniprotDb.getError
         End If
 
-        Dim annotations = uniprotDb.populates(Of entry)(env).StringUniprot
+        Dim annotations = uniprotDb.StringUniprot
         Dim graph As NetworkGraph = stringNetwork.BuildModel(uniprot:=annotations, groupValues:=SimpleBuilder.KOGroupTable)
 
         If Not coordinates.IsNullOrEmpty Then

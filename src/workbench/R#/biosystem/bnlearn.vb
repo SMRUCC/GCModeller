@@ -628,7 +628,7 @@ Module bnlearn
                                  Optional top_n As Integer = 50,
                                  Optional env As Environment = Nothing) As Object
 
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of InterventionResult)(results, env)
+        Dim pull As PipeIterator(Of InterventionResult) = pipeline.Stream(Of InterventionResult)(results, env)
         Dim pathways As Dictionary(Of String, MetabolicPathway) = Nothing
 
         If pull.isError Then
@@ -638,7 +638,7 @@ Module bnlearn
             pathways = pathway_info.asGeneric(Of MetabolicPathway)(env)
         End If
 
-        Call New InterventionComparisonExporter(pull.populates(Of InterventionResult)(env)).ExportAll(dir, pathways, topN:=top_n)
+        Call New InterventionComparisonExporter(pull).ExportAll(dir, pathways, topN:=top_n)
 
         Return True
     End Function
