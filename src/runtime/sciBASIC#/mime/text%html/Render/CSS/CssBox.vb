@@ -92,18 +92,18 @@
 
 Imports System.ComponentModel
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports System.Reflection
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports rect = System.Drawing.Rectangle
+' the css property ``font-style`` of this class is a string value, so the
+' font style enum of the imaging namespace requires an alias at here
+Imports CssFontStyle = Microsoft.VisualBasic.Imaging.FontStyle
 Imports std = System.Math
 
 Namespace Render.CSS
-
-#If NET48 Then
 
     ''' <summary>
     ''' Represents a CSS Box of text or replaced elements.
@@ -1884,14 +1884,14 @@ Namespace Render.CSS
                         FontSize = CssDefaults.FontSize & "pt"
                     End If
 
-                    Dim st As FontStyle = Global.System.Drawing.FontStyle.Regular
+                    Dim st As CssFontStyle = CssFontStyle.Regular
 
                     If FontStyle = CssConstants.Italic OrElse FontStyle = CssConstants.Oblique Then
-                        st = st Or Global.System.Drawing.FontStyle.Italic
+                        st = st Or CssFontStyle.Italic
                     End If
 
                     If FontWeight <> CssConstants.Normal AndAlso FontWeight <> CssConstants.Lighter AndAlso Not String.IsNullOrEmpty(FontWeight) Then
-                        st = st Or Global.System.Drawing.FontStyle.Bold
+                        st = st Or CssFontStyle.Bold
                     End If
 
                     Dim fsize As Single = 0F
@@ -2430,7 +2430,7 @@ Namespace Render.CSS
         ''' Creates the <see cref="ListItemBox"/>
         ''' </summary>
         ''' <param name="g"></param>
-        Private Sub CreateListItemBox(g As Graphics)
+        Private Sub CreateListItemBox(g As IGraphics)
             If Display = CssConstants.ListItem Then
                 If _listItemBox Is Nothing Then
                     _listItemBox = New CssBox()
@@ -2633,7 +2633,7 @@ Namespace Render.CSS
         ''' Get the width of the box at full width (No line breaks)
         ''' </summary>
         ''' <returns></returns>
-        Friend Function GetFullWidth(g As Graphics) As Single
+        Friend Function GetFullWidth(g As IGraphics) As Single
             Dim sum As Single = 0F
             Dim paddingsum As Single = 0F
             GetFullWidth_WordsWith(Me, g, sum, paddingsum)
@@ -2645,7 +2645,7 @@ Namespace Render.CSS
         ''' Gets the longest word (in width) inside the box, deeply.
         ''' </summary>
         ''' <param name="b"></param>
-        Private Sub GetFullWidth_WordsWith(b As CssBox, g As Graphics, ByRef sum As Single, ByRef paddingsum As Single)
+        Private Sub GetFullWidth_WordsWith(b As CssBox, g As IGraphics, ByRef sum As Single, ByRef paddingsum As Single)
             If b.Display <> CssConstants.Inline Then
                 sum = 0
             End If
@@ -2744,7 +2744,7 @@ Namespace Render.CSS
         ''' Measures the bounds of box and children, recursively.
         ''' </summary>
         ''' <param name="g">Device context to draw</param>
-        Public Overridable Sub MeasureBounds(g As Graphics)
+        Public Overridable Sub MeasureBounds(g As IGraphics)
             If Display = CssConstants.None Then
                 Return
             End If
@@ -2825,7 +2825,7 @@ Namespace Render.CSS
         ''' Measures the word spacing
         ''' </summary>
         ''' <param name="g"></param>
-        Private Sub MeasureWordSpacing(g As Graphics)
+        Private Sub MeasureWordSpacing(g As IGraphics)
             _actualWordSpacing = CssLayoutEngine.WhiteSpace(g, Me)
 
             If WordSpacing <> CssConstants.Normal Then
@@ -2839,7 +2839,7 @@ Namespace Render.CSS
         ''' Assigns words its width and height
         ''' </summary>
         ''' <param name="g"></param>
-        Friend Sub MeasureWordsSize(g As Graphics)
+        Friend Sub MeasureWordsSize(g As IGraphics)
             If _wordsSizeMeasured Then
                 Return
             End If
@@ -2886,17 +2886,16 @@ Namespace Render.CSS
                     Else
                         Dim word As String = b.Text
 
-                        Dim measurable As CharacterRange() = {New CharacterRange(0, word.Length)}
-                        Dim sf As New StringFormat()
+                        ' the gdi+ only api ``MeasureCharacterRanges`` is not
+                        ' available on the cross platform runtime, the size of
+                        ' the given word is measured by the graphics driver of
+                        ' the current canvas instead.
+                        Dim s As SizeF = g.MeasureString(word, ActualFont)
 
-                        sf.SetMeasurableCharacterRanges(measurable)
-
-                        Dim regions As Region() = g.MeasureCharacterRanges(word, ActualFont, New RectangleF(0, 0, Single.MaxValue, Single.MaxValue), sf)
-
-                        Dim s As SizeF = regions(0).GetBounds(g).Size
-                        Dim p As PointF = regions(0).GetBounds(g).Location
-
-                        b.LastMeasureOffset = New PointF(p.X, p.Y)
+                        ' the offset of the first measure character is a gdi+
+                        ' only value, it is always zero on the cross platform
+                        ' runtime
+                        b.LastMeasureOffset = PointF.Empty
                         b.Width = s.Width
                         ' +p.X;
                         b.Height = s.Height
@@ -2954,7 +2953,7 @@ Namespace Render.CSS
         ''' Paints the fragment
         ''' </summary>
         ''' <param name="g"></param>
-        Public Sub Paint(g As Graphics)
+        Public Sub Paint(g As IGraphics)
             If Display = CssConstants.None Then
                 Return
             End If
@@ -3025,7 +3024,7 @@ Namespace Render.CSS
         ''' Paints the border of the box
         ''' </summary>
         ''' <param name="g"></param>
-        Private Sub PaintBorder(g As Graphics, rectangle As RectangleF, isFirst As Boolean, isLast As Boolean)
+        Private Sub PaintBorder(g As IGraphics, rectangle As RectangleF, isFirst As Boolean, isLast As Boolean)
 
             Dim smooth As SmoothingMode = g.SmoothingMode
 
@@ -3086,7 +3085,7 @@ Namespace Render.CSS
         ''' Paints the background of the box
         ''' </summary>
         ''' <param name="g"></param>
-        Private Sub PaintBackground(g As Graphics, rectangle As RectangleF)
+        Private Sub PaintBackground(g As IGraphics, rectangle As RectangleF)
             'HACK: Background rectangles are being deactivated when justifying text.
             If ContainingBlock.TextAlign = CssConstants.Justify Then
                 Return
@@ -3130,7 +3129,7 @@ Namespace Render.CSS
         ''' Paints the text decoration
         ''' </summary>
         ''' <param name="g"></param>
-        Private Sub PaintDecoration(g As Graphics, rectangle As RectangleF, isFirst As Boolean, isLast As Boolean)
+        Private Sub PaintDecoration(g As IGraphics, rectangle As RectangleF, isFirst As Boolean, isLast As Boolean)
             If String.IsNullOrEmpty(TextDecoration) OrElse TextDecoration = CssConstants.None OrElse IsImage Then
                 Return
             End If
@@ -3258,5 +3257,4 @@ Namespace Render.CSS
         End Function
 #End Region
     End Class
-#End If
 End Namespace
