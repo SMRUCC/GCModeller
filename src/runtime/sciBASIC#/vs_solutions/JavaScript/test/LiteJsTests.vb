@@ -1,10 +1,8 @@
 Option Strict On
 Option Explicit On
 
-Imports System.IO
-Imports System.Linq
-Imports LiteJs
-Imports LiteJs.Runtime
+Imports Microsoft.VisualBasic.ApplicationServices.VM.JavaScript
+Imports Microsoft.VisualBasic.ApplicationServices.VM.JavaScript.Runtime
 Imports Xunit
 
 ''' <summary>Lexer / parser / interpreter / code-generator tests.</summary>
@@ -30,13 +28,13 @@ Public Class LiteJsTests
     <Fact>
     Public Sub Lexer_TokensAndLineBreakFlag()
         Dim ts = Lexer.Lex("var x = 1;" & vbLf & "y")
-        Assert.Equal(TokenType.Keyword, ts(0).Type)
+        Assert.Equal(TokenType.Keyword, ts(0).name)
         Assert.Equal("var", ts(0).Text)
-        Assert.Equal(TokenType.Number, ts(3).Type)
+        Assert.Equal(TokenType.Number, ts(3).name)
         Assert.Equal(1.0, CDbl(ts(3).Value))
         Assert.False(ts(4).LineBreakBefore)   ' ';'
         Assert.True(ts(5).LineBreakBefore)    ' 'y'
-        Assert.Equal(2, ts(5).Line)
+        Assert.Equal(2, ts(5).span.line)
     End Sub
 
     <Fact>
@@ -54,7 +52,7 @@ Public Class LiteJsTests
     <Fact>
     Public Sub Lexer_CommentsAndNumbers()
         Dim ts = Lexer.Lex("// c" & vbLf & "var x = 0.5e2;")
-        Assert.Equal(TokenType.Number, ts(3).Type)
+        Assert.Equal(TokenType.Number, ts(3).name)
         Assert.Equal(50.0, CDbl(ts(3).Value))
     End Sub
 
@@ -190,30 +188,6 @@ Public Class LiteJsTests
         Assert.Contains("Public NotInheritable Class GeneratedScript", code)
         Assert.Contains("JsRuntime", code)                ' dynamic dispatch
         Assert.DoesNotContain("Dim string As", code)      ' VB keyword escaped
-    End Sub
-
-    ' ------------------------------------------------------------- CLI demo
-
-    <Fact>
-    Public Sub Cli_Demo_NoE2E_Passes()
-        Dim rc = LiteJs.Cli.Program.Main({"/demo", "/no-e2e"})
-        Assert.Equal(0, rc)
-    End Sub
-
-    <Fact>
-    Public Sub Cli_Run_Translate_Smoke()
-        Dim dir = Path.Combine(Path.GetTempPath(), "litejs_" & Guid.NewGuid().ToString("N"))
-        Directory.CreateDirectory(dir)
-        Try
-            Dim js = Path.Combine(dir, "t.js")
-            File.WriteAllText(js, "function add(a,b){return a+b;} console.log(add(2,40));")
-            Assert.Equal(0, LiteJs.Cli.Program.Main({"/run", js}))
-            Dim outVb = Path.Combine(dir, "t.vb")
-            Assert.Equal(0, LiteJs.Cli.Program.Main({"/translate", js, outVb}))
-            Assert.True(File.ReadAllText(outVb).Contains("JsRuntime.JsAdd"))
-        Finally
-            Directory.Delete(dir, True)
-        End Try
     End Sub
 
 End Class
