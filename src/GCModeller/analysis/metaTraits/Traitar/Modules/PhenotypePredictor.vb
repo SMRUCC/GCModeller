@@ -8,7 +8,7 @@
 
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 
-Namespace metaTraits.Traitar.Modules
+Namespace Traitar.Modules
 
     ''' <summary>
     ''' 基因组表型预测器

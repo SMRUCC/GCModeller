@@ -73,7 +73,7 @@
 
 Imports System.Runtime.InteropServices
 
-Namespace metaTraits.Traitar.Utils
+Namespace Traitar.Utils
 
     ''' <summary>
     ''' 数学工具类

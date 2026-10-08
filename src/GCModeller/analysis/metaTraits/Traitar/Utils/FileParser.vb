@@ -72,7 +72,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
 Imports SMRUCC.genomics.Data.Xfam.Pfam.Pipeline.Database
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 
-Namespace metaTraits.Traitar.Utils
+Namespace Traitar.Utils
 
     ''' <summary>
     ''' 文件解析工具类

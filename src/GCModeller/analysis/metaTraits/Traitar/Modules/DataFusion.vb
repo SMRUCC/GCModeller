@@ -72,7 +72,7 @@
 
 Imports System.Runtime.InteropServices
 
-Namespace metaTraits.Traitar.Modules
+Namespace Traitar.Modules
 
     ''' <summary>
     ''' 模块3：数据融合与扩展样本构建模块

@@ -6,7 +6,7 @@
 
 Imports System.Runtime.CompilerServices
 
-Namespace metaTraits.Traitar
+Namespace Traitar
 
     Public Module Export
 

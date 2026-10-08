@@ -1,69 +1,69 @@
 ﻿#Region "Microsoft.VisualBasic::058799e47bb56880b659b583cce2d9f2, analysis\Metagenome\MetaFunction\metaTraits\TraitAnnotation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 149
-    '    Code Lines: 106 (71.14%)
-    ' Comment Lines: 25 (16.78%)
-    '    - Xml Docs: 92.00%
-    ' 
-    '   Blank Lines: 18 (12.08%)
-    '     File Size: 5.97 KB
+' Summaries:
 
 
-    '     Class TraitData
-    ' 
-    '         Properties: consensus_count, consensus_percentage, consensus_value, database_count, databases
-    '                     discrete_values, group_1, group_2, maximum, mean
-    '                     median, minimum, ontology_ids, total_observations, trait_name
-    '                     unit
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ParseInnerTable, ToString
-    ' 
-    '     Class TraitAnnotation
-    ' 
-    '         Properties: consensus_count, consensus_percentage, consensus_value, database_count, databases
-    '                     discrete_values, group_1, group_2, maximum, mean
-    '                     median, minimum, ontology_ids, taxon_id, taxon_lineage
-    '                     taxon_name, total_observations, trait_name, unit
-    ' 
-    '         Function: CreateProfiles, ParseTable, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 149
+'    Code Lines: 106 (71.14%)
+' Comment Lines: 25 (16.78%)
+'    - Xml Docs: 92.00%
+' 
+'   Blank Lines: 18 (12.08%)
+'     File Size: 5.97 KB
+
+
+'     Class TraitData
+' 
+'         Properties: consensus_count, consensus_percentage, consensus_value, database_count, databases
+'                     discrete_values, group_1, group_2, maximum, mean
+'                     median, minimum, ontology_ids, total_observations, trait_name
+'                     unit
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: ParseInnerTable, ToString
+' 
+'     Class TraitAnnotation
+' 
+'         Properties: consensus_count, consensus_percentage, consensus_value, database_count, databases
+'                     discrete_values, group_1, group_2, maximum, mean
+'                     median, minimum, ontology_ids, taxon_id, taxon_lineage
+'                     taxon_name, total_observations, trait_name, unit
+' 
+'         Function: CreateProfiles, ParseTable, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -74,74 +74,72 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Metagenomics
 
-Namespace metaTraits
+
+''' <summary>
+''' table parser model for ncbi_species_summary_no_predictions.tsv
+''' </summary>
+Public Class TraitAnnotation
+
+    Public Property taxon_id As UInteger
+    Public Property taxon_name As String
+    Public Property trait_name As String
+    Public Property unit As String
+    Public Property database_count As Integer
+    Public Property total_observations As Integer
+    Public Property consensus_value As String
+    Public Property consensus_count As String
+    Public Property consensus_percentage As String
+    Public Property minimum As String
+    Public Property median As String
+    Public Property mean As String
+    Public Property maximum As String
+    <Collection("discrete_values", ";")> Public Property discrete_values As String()
+    <Collection("databases", ";")> Public Property databases As String()
 
     ''' <summary>
-    ''' table parser model for ncbi_species_summary_no_predictions.tsv
+    ''' main class of the <see cref="trait_name"/>
     ''' </summary>
-    Public Class TraitAnnotation
+    ''' <returns></returns>
+    Public Property group_1 As String
+    ''' <summary>
+    ''' sub class of the <see cref="trait_name"/>
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property group_2 As String
+    <Collection("ontology_ids", ";")> Public Property ontology_ids As String()
+    <Collection("taxon_lineage", "|")> Public Property taxon_lineage As String()
 
-        Public Property taxon_id As UInteger
-        Public Property taxon_name As String
-        Public Property trait_name As String
-        Public Property unit As String
-        Public Property database_count As Integer
-        Public Property total_observations As Integer
-        Public Property consensus_value As String
-        Public Property consensus_count As String
-        Public Property consensus_percentage As String
-        Public Property minimum As String
-        Public Property median As String
-        Public Property mean As String
-        Public Property maximum As String
-        <Collection("discrete_values", ";")> Public Property discrete_values As String()
-        <Collection("databases", ";")> Public Property databases As String()
+    Public Overrides Function ToString() As String
+        Return $"[{group_1}/{group_2}] {trait_name}({unit}) ~ {ontology_ids.GetJson}"
+    End Function
 
-        ''' <summary>
-        ''' main class of the <see cref="trait_name"/>
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property group_1 As String
-        ''' <summary>
-        ''' sub class of the <see cref="trait_name"/>
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property group_2 As String
-        <Collection("ontology_ids", ";")> Public Property ontology_ids As String()
-        <Collection("taxon_lineage", "|")> Public Property taxon_lineage As String()
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="file">the file path to the tsv table file</param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function ParseTable(file As String) As IEnumerable(Of TraitAnnotation)
+        Return file.LoadCsv(Of TraitAnnotation)(mute:=True, tsv:=True)
+    End Function
 
-        Public Overrides Function ToString() As String
-            Return $"[{group_1}/{group_2}] {trait_name}({unit}) ~ {ontology_ids.GetJson}"
-        End Function
+    Public Shared Iterator Function CreateProfiles(annos As IEnumerable(Of TraitAnnotation)) As IEnumerable(Of metaTraitData)
+        For Each tax In annos.GroupBy(Function(a) a.taxon_id)
+            Dim meta As TraitAnnotation = tax.First
+            Dim data As TraitData() = tax _
+                .Select(Function(t)
+                            Return New TraitData(t)
+                        End Function) _
+                .ToArray
 
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="file">the file path to the tsv table file</param>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function ParseTable(file As String) As IEnumerable(Of TraitAnnotation)
-            Return file.LoadCsv(Of TraitAnnotation)(mute:=True, tsv:=True)
-        End Function
+            Yield New metaTraitData With {
+                .taxon_id = tax.Key,
+                .taxon_name = meta.taxon_name,
+                .taxon_lineage = New Taxonomy(meta.taxon_lineage),
+                .traits = data
+            }
+        Next
+    End Function
 
-        Public Shared Iterator Function CreateProfiles(annos As IEnumerable(Of TraitAnnotation)) As IEnumerable(Of metaTraitData)
-            For Each tax In annos.GroupBy(Function(a) a.taxon_id)
-                Dim meta As TraitAnnotation = tax.First
-                Dim data As TraitData() = tax _
-                    .Select(Function(t)
-                                Return New TraitData(t)
-                            End Function) _
-                    .ToArray
-
-                Yield New metaTraitData With {
-                    .taxon_id = tax.Key,
-                    .taxon_name = meta.taxon_name,
-                    .taxon_lineage = New Taxonomy(meta.taxon_lineage),
-                    .traits = data
-                }
-            Next
-        End Function
-
-    End Class
-End Namespace
+End Class

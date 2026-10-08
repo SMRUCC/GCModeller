@@ -8,7 +8,7 @@
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 
-Namespace metaTraits.Traitar.Modules
+Namespace Traitar.Modules
 
     ''' <summary>
     ''' 交叉验证工具（LibSVM Training.PerformCrossValidation 的封装）

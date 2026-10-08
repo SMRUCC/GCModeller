@@ -12,7 +12,7 @@
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 
-Namespace metaTraits.Traitar.Modules
+Namespace Traitar.Modules
 
     ''' <summary>
     ''' 关键 Pfam 结构域特征

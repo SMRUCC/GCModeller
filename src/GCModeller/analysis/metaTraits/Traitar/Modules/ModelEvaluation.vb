@@ -8,7 +8,7 @@
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 
-Namespace metaTraits.Traitar.Modules
+Namespace Traitar.Modules
 
     ''' <summary>
     ''' 单个表型模型的评估结果

@@ -14,7 +14,7 @@
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 
-Namespace metaTraits.Traitar.Modules
+Namespace Traitar.Modules
 
     ''' <summary>
     ''' 一个完整的表型训练数据集：嵌入配置 + ProblemTable + 表型元数据

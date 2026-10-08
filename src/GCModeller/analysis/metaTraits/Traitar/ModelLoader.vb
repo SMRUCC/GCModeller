@@ -15,7 +15,7 @@ Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace metaTraits.Traitar
+Namespace Traitar
 
     ''' <summary>
     ''' index.json 之中的单条表型记录

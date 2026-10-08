@@ -116,6 +116,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\MetabolicRouter\RetroPath.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\metaTraits\metaTraits.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequenceAlignment\SequenceAlignment.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\FisherCore\Fisher.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj" />

@@ -62,7 +62,6 @@ Public NotInheritable Class zzz
         Call TaxonomyKit.Main()
         Call BIOMkit.Main()
         Call KmersTool.Main()
-        Call metaTraitsTool.Main()
         Call OTUTableTools.Main()
     End Sub
 End Class

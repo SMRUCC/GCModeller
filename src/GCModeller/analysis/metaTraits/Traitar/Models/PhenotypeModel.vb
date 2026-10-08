@@ -12,7 +12,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.MachineLearning.SVM.StorageProcedure
 
-Namespace metaTraits.Traitar.Models
+Namespace Traitar.Models
 
     ''' <summary>
     ''' 单一种生物表型所对应的 SVM 模型实例

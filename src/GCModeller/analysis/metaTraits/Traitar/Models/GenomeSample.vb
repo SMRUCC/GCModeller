@@ -74,7 +74,7 @@
 
 Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
 
-Namespace metaTraits.Traitar.Models
+Namespace Traitar.Models
 
     ''' <summary>
     ''' 基因组样本类

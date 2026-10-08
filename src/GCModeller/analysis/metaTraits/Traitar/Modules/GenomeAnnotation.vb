@@ -79,7 +79,7 @@ Imports System.IO
 Imports System.Runtime.InteropServices
 Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
 
-Namespace metaTraits.Traitar.Modules
+Namespace Traitar.Modules
 
     ''' <summary>
     ''' 模块1：基因组注释与特征化模块

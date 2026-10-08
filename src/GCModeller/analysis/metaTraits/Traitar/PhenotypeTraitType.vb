@@ -14,7 +14,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 
-Namespace metaTraits.Traitar
+Namespace Traitar
 
     ''' <summary>
     ''' 表型的数据类型，决定该表型所对应的 SVM 模型的种类

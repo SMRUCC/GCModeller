@@ -60,10 +60,10 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Models
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.Modules
+Imports SMRUCC.genomics.Analysis.metaTraits
+Imports SMRUCC.genomics.Analysis.metaTraits.Traitar
+Imports SMRUCC.genomics.Analysis.metaTraits.Traitar.Models
+Imports SMRUCC.genomics.Analysis.metaTraits.Traitar.Modules
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components

@@ -5,7 +5,7 @@
 ' 也可以表达回归结果（numeric (continuous)）。
 ' ============================================================================
 
-Namespace metaTraits.Traitar
+Namespace Traitar
 
     Public Class ReportJSON
 

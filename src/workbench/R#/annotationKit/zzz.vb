@@ -61,5 +61,6 @@ Public Class zzz
         Call OBO_DAG.Main()
         Call ReactomeTools.Main()
         Call PTFCache.Main()
+        Call metaTraitsTool.Main()
     End Sub
 End Class

@@ -22,7 +22,7 @@ Imports Microsoft.VisualBasic.MachineLearning.SVM
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 
-Namespace metaTraits.Traitar
+Namespace Traitar
 
     ''' <summary>
     ''' Pfam 结构域组成向量的编码方式
