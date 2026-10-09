@@ -25,11 +25,12 @@ Namespace v2
     ''' </summary>
     Public Class PhenotypeTrait
 
-        Public Property category As String
-        Public Property accession As String
+        <XmlAttribute> Public Property category As String
+        <XmlAttribute> Public Property accession As String
+        <XmlAttribute> Public Property data_type As String
+        <XmlAttribute> Public Property result As String
+
         Public Property unit As String
-        Public Property data_type As String
-        Public Property result As String
         Public Property confidence As Double
         Public Property score As Double
         Public Property cvScore As Double
