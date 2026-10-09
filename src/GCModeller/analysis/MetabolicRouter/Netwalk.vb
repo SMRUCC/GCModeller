@@ -7,7 +7,7 @@ Imports SMRUCC.genomics.Analysis.RetroPath.Search
 ''' </summary>
 ''' <remarks>
 ''' 一次典型调用：准备广义规则集与底盘汇集合 → 构造本对象 → 反复调用
-''' <see cref="Search(String)"/> 查询不同目标。构造期只做参数固化，规则与汇可被多个查询复用。
+''' <see cref="Search(String, String)"/> 查询不同目标。构造期只做参数固化，规则与汇可被多个查询复用。
 ''' </remarks>
 Public Class Netwalk
 
@@ -133,7 +133,11 @@ Public Class Netwalk
                 tk = Nothing
             End Try
 
-            If tk IsNot Nothing AndAlso Not sinkIdMap.TryGetValue(tk, targetMetabolite) Then
+            Dim foundId As String = Nothing
+
+            If tk IsNot Nothing AndAlso sinkIdMap.TryGetValue(tk, foundId) Then
+                targetMetabolite = foundId
+            Else
                 targetMetabolite = targetSmiles
             End If
         End If
@@ -230,7 +234,7 @@ Public Class Netwalk
     ''' 未找到满足起点约束的通路时 <c>Best</c> 为 Nothing、<c>Found</c> 为 False。
     ''' </returns>
     ''' <remarks>
-    ''' 与 <see cref="Search(String)"/> 的关键差异：A 会被注入本次查询的汇集合，因此逆向展开时
+    ''' 与 <see cref="Search(String, String)"/> 的关键差异：A 会被注入本次查询的汇集合，因此逆向展开时
     ''' A 一旦作为前体出现即判定为「已落地」，不会再被继续分解；同时把 A 的指纹作为导向键传给
     ''' <see cref="BeamSearch"/>，让通往 A 的分支在束剪枝中优先存活。这解决了「先枚举全部路径再
     ''' 事后筛选是否含 A」时命中率低的问题。
