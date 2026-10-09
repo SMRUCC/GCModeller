@@ -42,8 +42,12 @@ export class PathDto {
    LengthScore: double;
    # 反应步数。
    NumSteps: integer;
+   # 该通路正向生物合成的起始代谢物（最上游主前体，即逆合成最深一步的主前体）。 值为化合物 id（如 "ISOCHORISMATE"）；无法解析 id 时回退为其 SMILES。
+   StartMetabolite: string;
    # 正向生物合成顺序的步骤列表（汇前体 → 目标）。
    Steps: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/RetroPath/Model/ForwardStepDto.html">ForwardStepDto[]</a>;
+   # 该通路的最终目标化合物：值为化合物 id，无法解析 id 时回退为 SMILES。
+   TargetMetabolite: string;
    # 热力学可行性得分 (0,1)。
    ThermoScore: double;
 }
