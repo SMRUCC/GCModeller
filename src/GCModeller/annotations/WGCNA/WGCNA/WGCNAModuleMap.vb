@@ -2,6 +2,7 @@ Imports System.IO
 Imports System.IO.Compression
 Imports System.Security.Cryptography
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
