@@ -223,6 +223,14 @@ Public Class MetabolicAdapter : Implements IRouter
     ''' <param name="targetSmiles">目标分子的 SMILES。</param>
     ''' <returns>含参数快照、统计与候选通路的报告。</returns>
     Public Function FindPathway(targetSmiles As String) As PathReport Implements IRouter.FindPathway
+        Return FindPathwayImpl(targetSmiles, Nothing)
+    End Function
+
+    ''' <summary>
+    ''' <see cref="FindPathway"/> 的内部实现：<paramref name="targetId"/> 非空时，
+    ''' 结果报告中的目标代谢物标注会使用该 id（否则在汇集合中按分子指纹反查）。
+    ''' </summary>
+    Private Function FindPathwayImpl(targetSmiles As String, targetId As String) As PathReport
         Dim walker As Netwalk = netwalk
         Dim key As String = Nothing
 
@@ -238,9 +246,19 @@ Public Class MetabolicAdapter : Implements IRouter
                 If e.key <> key Then sink.Add((e.id, e.smiles))
             Next
             walker = New Netwalk(ruleList, sink, opts, w)
+
+            ' 目标 id 未显式给出时，在汇条目中按分子指纹反查化合物 id
+            If String.IsNullOrEmpty(targetId) Then
+                For Each e In sinkEntries
+                    If e.key = key Then
+                        targetId = e.id
+                        Exit For
+                    End If
+                Next
+            End If
         End If
 
-        Return walker.Search(targetSmiles)
+        Return walker.Search(targetSmiles, targetId)
     End Function
 
     ''' <summary>
@@ -321,6 +339,7 @@ Public Class MetabolicAdapter : Implements IRouter
     ''' <summary>以内部模型的化合物 id 为目标做搜索（如 "ENTEROBACTIN"）</summary>
     ''' <param name="compoundId">化合物 id（即 <see cref="MetabolicCompound.id"/>）。</param>
     ''' <exception cref="ArgumentException">该化合物没有可用结构（缺失 SMILES 或含不支持元素）。</exception>
+    ''' <returns>报告中的 <c>TargetMetabolite</c> 标注为 <paramref name="compoundId"/>。</returns>
     Public Function FindPathwayById(compoundId As String) As PathReport
         Dim st As CompoundStructure = GetCompound(compoundId)
 
@@ -328,7 +347,7 @@ Public Class MetabolicAdapter : Implements IRouter
             Throw New ArgumentException($"化合物 {compoundId} 在当前代谢模型中没有可用结构（缺失 SMILES 或含不支持的元素）")
         End If
 
-        Return FindPathway(st.Smiles)
+        Return FindPathwayImpl(st.Smiles, compoundId)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

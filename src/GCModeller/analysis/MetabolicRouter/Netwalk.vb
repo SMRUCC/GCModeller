@@ -58,6 +58,10 @@ Public Class Netwalk
     ''' <param name="targetSmiles">
     ''' 目标分子 B 的 SMILES（须为 <see cref="Chem.SmilesIO"/> 支持的子集）。
     ''' </param>
+    ''' <param name="targetId">
+    ''' 目标化合物的 id（如 BioCyc/Metabolic 模型中的化合物编号）；省略时尝试在汇集合
+    ''' 中反查，仍无法解析则回退为目标 SMILES。
+    ''' </param>
     ''' <returns>
     ''' 含参数快照、统计与候选通路的 <see cref="PathReport"/>；
     ''' 目标已属于汇集合或未找到通路时，<c>Paths</c> 为空列表。
@@ -66,14 +70,26 @@ Public Class Netwalk
     ''' 流程：解析目标与汇 → 束搜索展开 → 按全局分排序取前 maxPaths → 正向组装并评分。
     ''' 过程中会向 <see cref="Console.Error"/> 输出一行进度摘要。
     ''' </remarks>
-    Public Function Search(targetSmiles As String) As PathReport
+    Public Function Search(targetSmiles As String, Optional targetId As String = Nothing) As PathReport
         ' 解析目标与汇（汇与货币分子的指纹并行计算：它们互不依赖，且只与顺序有关）
         Dim parallelism As Int32 = opts.EffectiveParallelism()
         Dim target = SmilesIO.Parse(targetSmiles)
         Dim sinkKeys As New HashSet(Of String)()
+        ' 汇分子指纹 → 化合物 id（用于把路径标注回写成代谢物 id）
+        Dim sinkIdMap As New Dictionary(Of String, String)()
 
-        For Each k As String In ParseKeys(sink, parallelism)
-            If k IsNot Nothing Then sinkKeys.Add(k)
+        Dim sinkKeyArr As String() = ParseKeys(sink, parallelism)
+
+        For i As Int32 = 0 To sinkKeyArr.Length - 1
+            Dim k As String = sinkKeyArr(i)
+
+            If k IsNot Nothing Then
+                sinkKeys.Add(k)
+
+                If Not sinkIdMap.ContainsKey(k) Then
+                    sinkIdMap.Add(k, sink(i).Item1)
+                End If
+            End If
         Next
 
         Dim currencyList As New List(Of (String, String))()
@@ -103,14 +119,52 @@ Public Class Netwalk
             ThenBy(Function(t) t.Item2.NumSteps).
             Take(opts.MaxPaths).ToList()
 
+        ' 目标化合物的 id：显式传入优先，其次在汇映射中反查，均失败回退目标 SMILES
+        Dim targetMetabolite As String
+
+        If Not String.IsNullOrEmpty(targetId) Then
+            targetMetabolite = targetId
+        Else
+            Dim tk As String = Nothing
+
+            Try
+                tk = target.MolKey()
+            Catch ex As Exception
+                tk = Nothing
+            End Try
+
+            If tk IsNot Nothing AndAlso Not sinkIdMap.TryGetValue(tk, targetMetabolite) Then
+                targetMetabolite = targetSmiles
+            End If
+        End If
+
         ' 报告
         Dim pathDtos As New List(Of PathDto)()
         For pi = 0 To scored.Count - 1
             Dim st = scored(pi).Item1
             Dim ps = scored(pi).Item2
             Dim fwdSteps = Scoring.AssembleForward(st)
+            ' 起始代谢物 = 逆合成最深一步（正向第一步）的主前体，按指纹回写为化合物 id；
+            ' 无法解析 id 时回退为 SMILES
+            Dim startMetabolite As String = ""
+
+            If st.Steps.Count > 0 AndAlso st.Steps(st.Steps.Count - 1).Precursors.Count > 0 Then
+                Dim startKey As String = st.Steps(st.Steps.Count - 1).Precursors(0).key
+
+                If startKey IsNot Nothing Then
+                    sinkIdMap.TryGetValue(startKey, startMetabolite)
+                End If
+            End If
+
+            If String.IsNullOrEmpty(startMetabolite) AndAlso
+                fwdSteps.Count > 0 AndAlso fwdSteps(0).Substrates.Count > 0 Then
+                startMetabolite = fwdSteps(0).Substrates(0)
+            End If
+
             pathDtos.Add(New PathDto With {
                 .Id = $"path_{pi + 1}",
+                .StartMetabolite = startMetabolite,
+                .TargetMetabolite = targetMetabolite,
                 .GlobalScore = Math.Round(ps.GlobalScore, 5),
                 .ThermoScore = Math.Round(ps.ThermoScore, 5),
                 .EnzymeScore = Math.Round(ps.EnzymeScore, 5),
