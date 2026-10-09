@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.metaTraits.Traitar.ModelLoader</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ModelLoader {SMRUCC.genomics.Analysis.metaTraits.Traitar}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ModelLoader</h2>
+
+        <h3>Description</h3>
+
+        <p>表型 SVM 模型仓库：负责把训练得到的模型集落盘以及从磁盘还原</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.metaTraits.Traitar
+export class ModelLoader {
+   # 模型仓库所在的目录
+   Directory: string;
+   # Pfam 词表与编码配置
+   Embedding: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/metaTraits/Traitar/PfamEmbedding.html">PfamEmbedding</a>;
+   # 表型名 -&gt; 该表型所对应的 SVM 模型实例
+   Models: list;
+   # 表型模型总数
+   PhenotypeCount: integer;
+   # 已经训练成功的模型数量
+   TrainedCount: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Embedding</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/metaTraits/Traitar/PfamEmbedding.html">PfamEmbedding</a></li>
+<li>use by <i>property</i> member <code>Models</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

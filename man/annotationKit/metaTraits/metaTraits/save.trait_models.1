@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH METATRAITS 2 2000-1月 "save.trait_models" "save.trait_models"
+.SH NAME
+save.trait_models \- 把训练得到的表型模型仓库保存到指定目录
+.SH SYNOPSIS
+\fIsave.trait_models(\fBmodels\fR as <generic> ModelLoader, 
+\fBdir\fR as string, 
+\fBsampleCount\fR as integer = 0, 
+\fBverbose\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+把训练得到的表型模型仓库保存到指定目录
+.PP
+.SH OPTIONS
+.PP
+\fBmodels\fB \fR\- 模型仓库. 
+.PP
+.PP
+\fBdir\fB \fR\- 输出目录，每一种表型会被写为一个独立的 json 文件. 
+.PP
+.PP
+\fBsampleCount\fB \fR\- 训练集的样本数量. 
+.PP
+.SH SEE ALSO
+metaTraits
+.SH FILES
+.PP
+annotationKit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

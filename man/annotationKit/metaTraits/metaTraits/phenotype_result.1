@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH METATRAITS 2 2000-1月 "phenotype_result" "phenotype_result"
+.SH NAME
+phenotype_result \- 把预测结果合并上模型的元数据，生成最终的表型预测报告
+.SH SYNOPSIS
+\fIphenotype_result(\fBpredicts\fR as any, 
+\fBmodels\fR as <generic> ModelLoader, 
+\fBdataset\fR as any = \fB<NULL>\fR, 
+\fBtopN\fR as integer = 20, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+把预测结果合并上模型的元数据，生成最终的表型预测报告
+.PP
+.SH OPTIONS
+.PP
+\fBpredicts\fB \fR\- 预测结果. 
+.PP
+.PP
+\fBmodels\fB \fR\- 模型仓库. 
+.PP
+.PP
+\fBdataset\fB \fR\- 
+ 训练数据集，提供该参数时会额外计算每一个表型的关键 Pfam 结构域特征
+. 
+.PP
+.PP
+\fBtopN\fB \fR\- 关键特征的数量上限. 
+.PP
+.SH SEE ALSO
+metaTraits
+.SH FILES
+.PP
+annotationKit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

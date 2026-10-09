@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH METATRAITS 2 2000-1月 "tune.trait_model" "tune.trait_model"
+.SH NAME
+tune.trait_model \- 对单个表型做超参数（C / gamma）的网格搜索
+.SH SYNOPSIS
+\fItune.trait_model(\fBdataset\fR as <generic> TraitTrainingSet, 
+\fBtrait\fR as <generic> PhenotypeTrait, 
+\fBkernel\fR as string = "rbf", 
+\fBnrfold\fR as integer = 5, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+对单个表型做超参数（C / gamma）的网格搜索
+.PP
+.SH OPTIONS
+.PP
+\fBdataset\fB \fR\- 训练数据集. 
+.PP
+.PP
+\fBtrait\fB \fR\- 目标表型. 
+.PP
+.PP
+\fBnrfold\fB \fR\- 交叉验证折数. 
+.PP
+.SH SEE ALSO
+metaTraits
+.SH FILES
+.PP
+annotationKit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

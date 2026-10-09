@@ -1,8 +1,8 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "metaTraits" from "metagenomics_kit";
+//    imports "metaTraits" from "annotationKit";
 //
-// ref=metagenomics_kit.metaTraitsTool@metagenomics_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=annotationKit.metaTraitsTool@annotationKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * toolkit for the microbial phenotype (Traitar) svm models
@@ -156,7 +156,7 @@ declare namespace metaTraits {
        * 训练全部表型所对应的 SVM 模型
        * 
        * 
-        * @param dataset 由 [metaTraitsTool.phenotype_problem()](cref:M:metagenomics_kit.metaTraitsTool.phenotype_problem(System.Object,System.Object,System.Object,SMRUCC.genomics.Analysis.Metagenome.MetaFunction.metaTraits.Traitar.PfamEmbedding,SMRUCC.Rsharp.Runtime.Environment)) 装配出来的训练数据集
+        * @param dataset 由 [metaTraitsTool.phenotype_problem()](cref:M:annotationKit.metaTraitsTool.phenotype_problem(System.Object,System.Object,System.Object,SMRUCC.genomics.Analysis.metaTraits.Traitar.PfamEmbedding,SMRUCC.Rsharp.Runtime.Environment)) 装配出来的训练数据集
         * @param kernel 核函数类型：rbf（默认）/ linear / poly / sigmoid
         * 
         * + default value Is ``'rbf'``.

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.metaTraits.Traitar.ReportJSON</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ReportJSON {SMRUCC.genomics.Analysis.metaTraits.Traitar}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ReportJSON</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.metaTraits.Traitar
+export class ReportJSON {
+   # 表型名称
+   accession: string;
+   # 表型分类（主分类 / 次分类）
+   category: string;
+   # 预测置信度，取值区间 [0,1]
+   confidence: double;
+   # 该模型的交叉验证得分
+   cvScore: double;
+   # 表型的数据类型
+   data_type: string;
+   # 该表型的关键 Pfam 结构域特征
+   KeyFeatures: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/metaTraits/Traitar/Modules/KeyFeature.html">KeyFeature[]</a>;
+   # 表型标识（即表型名称）
+   phenotypeId: string;
+   # 预测结果：分类模型为类别标签文本，回归模型为预测数值文本
+   predict: string;
+   # boolean 型表型所对应的枚举结果
+   result: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/metaTraits/Traitar/PredictionResults.html">PredictionResults</a>;
+   # 参与训练的样本数量
+   sampleCount: integer;
+   # 决策函数的输出值
+   score: double;
+   # 模型的状态：trained / skipped
+   status: string;
+   # 计量单位
+   unit: string;
+   # 每一个类别所获得的决策值
+   votes: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>KeyFeatures</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/metaTraits/Traitar/Modules/KeyFeature.html">KeyFeature</a></li>
+<li>use by <i>property</i> member <code>result</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/metaTraits/Traitar/PredictionResults.html">PredictionResults</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

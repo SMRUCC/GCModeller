@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.metaTraits.Traitar.PfamEmbedding</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PfamEmbedding {SMRUCC.genomics.Analysis.metaTraits.Traitar}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PfamEmbedding</h2>
+
+        <h3>Description</h3>
+
+        <p>Pfam 词表与嵌入配置（可 JSON 序列化，随模型一同落盘）</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.metaTraits.Traitar
+export class PfamEmbedding {
+   # PF 结构域词表，排序之后作为固定顺序的特征维度
+   dimensionNames: string;
+   # 编码方式，默认为 per-genome 归一化计数
+   encoding: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/metaTraits/Traitar/PfamEncoding.html">PfamEncoding</a>;
+   # 词表剪枝阈值：PF 至少在 N 个基因组之中出现才会被保留， 1 表示不做任何剪枝
+   minGenomes: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>encoding</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/metaTraits/Traitar/PfamEncoding.html">PfamEncoding</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

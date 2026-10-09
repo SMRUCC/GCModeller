@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>训练全部表型所对应的 SVM 模型</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>train.phenotype_models {metaTraits}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>训练全部表型所对应的 SVM 模型</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>train.phenotype_models</strong>(<i>dataset</i>,
+    <i>kernel</i> = <span style='color: brown;'><strong>"rbf"</strong></span>,
+    <i>nrfold</i> = <span style='color: green;'>5</span>,
+    <i>tune</i> = <span style='color: brown;'><strong>"regression"</strong></span>,
+    <i>verbose</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>dataset</dt>
+<dd><p>由 <a href="cref:M:annotationKit.metaTraitsTool.phenotype_problem(System.Object,System.Object,System.Object,SMRUCC.genomics.Analysis.metaTraits.Traitar.PfamEmbedding,SMRUCC.Rsharp.Runtime.Environment)">metaTraitsTool.phenotype_problem()</a> 装配出来的训练数据集. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/metaTraits/Traitar/Modules/TraitTrainingSet.html">TraitTrainingSet</a>]</p></dd>
+
+
+<dt>kernel</dt>
+<dd><p>核函数类型：rbf（默认）/ linear / poly / sigmoid. [as string]</p></dd>
+
+
+<dt>nrfold</dt>
+<dd><p>交叉验证的折数. [as integer]</p></dd>
+
+
+<dt>tune</dt>
+<dd><p>网格搜索的作用范围：<code>regression</code> 表示只对数值型表型做搜索（默认，开销很小）， <code>none</code> 表示全部使用默认参数，<code>all</code> 表示对全部表型做搜索（分类型表型 在部分网格点上收敛极慢，耗时可能达到分钟级）. [as string]</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>是否输出训练日志. [as boolean]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        annotationKit
+
+        <h3>Value</h3>
+
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/metaTraits/Traitar/ModelLoader.html">ModelLoader</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/metaTraits/Traitar/ModelLoader.html">ModelLoader</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>metaTraits</em> version 1.0.0.0 <a
+                href="../metaTraits.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>
