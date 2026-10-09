@@ -24,7 +24,7 @@
 
         <p>WGCNA 模块映射的持久化缓存（边车文件）</p>
 
-<p>bicor 相关矩阵存储（<a href="cref:!:CorrelationMatrixStore">CorrelationMatrixStore</a>）缓存了原始的 N×N 带符号 相关矩阵之后，先验调控网络构建（如 CellPhenote 的 <code>ExpressionGRNBuilder</code> 存储驱动重载）从 WGCNA 结果中只消费 <code>Result.modules</code> 模块映射表—— hub 截断用连接度现算、跨模块边不构建，因此 <code>TOM</code>（N=5 万时约 10GB）与 <code>network</code> 图等大对象不需要、也不应该被缓存。</p>
+<p>bicor 相关矩阵存储（<a href="cref:T:Microsoft.VisualBasic.Math.Matrix.CorrelationMatrixStore">CorrelationMatrixStore</a>）缓存了原始的 N×N 带符号 相关矩阵之后，先验调控网络构建（如 CellPhenote 的 <code>ExpressionGRNBuilder</code> 存储驱动重载）从 WGCNA 结果中只消费 <code>Result.modules</code> 模块映射表—— hub 截断用连接度现算、跨模块边不构建，因此 <code>TOM</code>（N=5 万时约 10GB）与 <code>network</code> 图等大对象不需要、也不应该被缓存。</p>
 
 <p>缓存的正确性依据：blockwise 预聚类的 <code>randomSeed</code> 默认固定（12345）， 同一份数据 + 同一套 WGCNA 配置 = 确定性的模块划分。 <a href="cref:P:SMRUCC.genomics.Analysis.HTS.WGCNA.WGCNAModuleMap.fingerprint">WGCNAModuleMap.fingerprint</a> 携带基因 ID 行序与 WGCNA 关键配置的哈希， <a href="cref:M:SMRUCC.genomics.Analysis.HTS.WGCNA.WGCNAModuleMap.Validate(System.Collections.Generic.IEnumerable{System.String},System.String)">WGCNAModuleMap.Validate()</a> 不匹配时调用方应放弃缓存并重新计算。</p>
 
