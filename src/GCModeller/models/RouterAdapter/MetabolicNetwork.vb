@@ -9,6 +9,13 @@ Public Class MetabolicNetwork
     Public Property compounds As New Dictionary(Of String, MetabolicCompound)
     Public Property reactions As New Dictionary(Of String, MetabolicReaction)
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="rxn"></param>
+    ''' <param name="source">
+    ''' usually be the taxonomy organism source id
+    ''' </param>
     Public Sub Add(rxn As MetabolicReaction, source As String)
         If Not reactions.ContainsKey(rxn.id) Then
             Call reactions.Add(rxn.id, rxn)
@@ -20,6 +27,10 @@ Public Class MetabolicNetwork
             .ToArray
     End Sub
 
+    ''' <summary>
+    ''' add unique metabolic compound model
+    ''' </summary>
+    ''' <param name="compound"></param>
     Public Sub Add(compound As MetabolicCompound)
         If Not compounds.ContainsKey(compound.id) Then
             Call compounds.Add(compound.id, compound)

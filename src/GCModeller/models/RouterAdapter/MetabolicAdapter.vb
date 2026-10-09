@@ -115,8 +115,11 @@ Public Class MetabolicAdapter : Implements IRouter
         Dim seeds As New List(Of CompoundSeed)()
 
         For Each cpd As MetabolicCompound In compoundList
-            If cpd Is Nothing OrElse String.IsNullOrEmpty(cpd.id) Then Continue For
-            seeds.Add(CompoundSeed.Create(cpd.id, cpd.smiles, name:=cpd.name, synonyms:=cpd.synonym))
+            If cpd Is Nothing OrElse String.IsNullOrEmpty(cpd.id) Then
+                Continue For
+            End If
+
+            Call seeds.Add(CompoundSeed.Create(cpd.id, cpd.smiles, name:=cpd.name, synonyms:=cpd.synonym))
         Next
 
         Dim index As CompoundIndexResult = CompoundIndex.Build(seeds, maxMoleculeAtoms)
