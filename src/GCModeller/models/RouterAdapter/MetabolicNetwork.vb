@@ -4,6 +4,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.RetroPath.Search
 Imports SMRUCC.genomics.MetabolicModel
 
+''' <summary>
+''' A helper model for the pathway router
+''' </summary>
 Public Class MetabolicNetwork
 
     Public Property compounds As New Dictionary(Of String, MetabolicCompound)
@@ -16,15 +19,15 @@ Public Class MetabolicNetwork
     ''' <param name="source">
     ''' usually be the taxonomy organism source id
     ''' </param>
-    Public Sub Add(rxn As MetabolicReaction, source As String)
+    Public Sub Add(rxn As MetabolicReaction, ParamArray source As String())
         If Not reactions.ContainsKey(rxn.id) Then
             Call reactions.Add(rxn.id, rxn)
+        Else
+            reactions(rxn.id).sources = reactions(rxn.id).sources _
+                .JoinIterates(source) _
+                .Distinct _
+                .ToArray
         End If
-
-        reactions(rxn.id).sources = reactions(rxn.id).sources _
-            .JoinIterates({source}) _
-            .Distinct _
-            .ToArray
     End Sub
 
     ''' <summary>
@@ -74,5 +77,25 @@ Public Class MetabolicNetwork
 
         Return network
     End Function
+
+    ''' <summary>
+    ''' make union of a new global metabolic network
+    ''' </summary>
+    ''' <param name="a"></param>
+    ''' <param name="b"></param>
+    ''' <returns></returns>
+    Public Shared Operator &(a As MetabolicNetwork, b As MetabolicNetwork) As MetabolicNetwork
+        Dim globals As New MetabolicNetwork
+
+        For Each compound As MetabolicCompound In c(a.compounds, b.compounds)
+            Call globals.Add(compound)
+        Next
+
+        For Each reaction As MetabolicReaction In c(a.reactions, b.reactions)
+            Call globals.Add(reaction, reaction.sources)
+        Next
+
+        Return globals
+    End Operator
 
 End Class
