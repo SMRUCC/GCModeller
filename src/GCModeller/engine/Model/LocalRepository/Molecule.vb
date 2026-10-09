@@ -69,6 +69,10 @@ Namespace WebJSON
         Public Property symbol As String
         Public Property formula As String
         Public Property db_xrefs As DBXref()
+        ''' <summary>
+        ''' molecule structure data for the pathway router
+        ''' </summary>
+        ''' <returns></returns>
         Public Property smiles As String
 
         Public Overrides Function ToString() As String
