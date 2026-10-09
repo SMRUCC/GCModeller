@@ -20,6 +20,9 @@ Namespace v2
 
     End Class
 
+    ''' <summary>
+    ''' the metaTraits prediciton result
+    ''' </summary>
     Public Class PhenotypeTrait
 
         Public Property category As String
