@@ -21,7 +21,8 @@ Public Class MetabolicNetwork
     ''' </param>
     Public Sub Add(rxn As MetabolicReaction, ParamArray source As String())
         If Not reactions.ContainsKey(rxn.id) Then
-            Call reactions.Add(rxn.id, rxn)
+            rxn.sources = source
+            reactions.Add(rxn.id, rxn)
         Else
             reactions(rxn.id).sources = reactions(rxn.id).sources _
                 .JoinIterates(source) _
