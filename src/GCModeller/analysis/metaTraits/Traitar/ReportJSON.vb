@@ -1,4 +1,7 @@
-﻿' ============================================================================
+﻿Imports System.Runtime.CompilerServices
+Imports Trait = SMRUCC.genomics.ComponentModel.Annotation.PhenotypeTrait
+
+' ============================================================================
 ' ReportJSON.vb
 '
 ' 最终的 JSON 报告数据结构：既可以表达分类结果（boolean / categorical），
@@ -44,6 +47,20 @@ Namespace Traitar
 
         Public Overrides Function ToString() As String
             Return $"{accession} = {predict}{unit}"
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ToPhenotype() As Trait
+            Return New Trait With {
+                .accession = accession,
+                .category = category,
+                .confidence = confidence,
+                .cvScore = cvScore,
+                .data_type = data_type,
+                .result = predict,
+                .score = score,
+                .unit = unit
+            }
         End Function
 
     End Class

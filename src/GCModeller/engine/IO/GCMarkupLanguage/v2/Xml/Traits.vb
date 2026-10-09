@@ -1,5 +1,6 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace v2
 
@@ -17,23 +18,6 @@ Namespace v2
         Public Overrides Function ToString() As String
             Return phenotype.GetJson
         End Function
-
-    End Class
-
-    ''' <summary>
-    ''' the metaTraits prediciton result
-    ''' </summary>
-    Public Class PhenotypeTrait
-
-        <XmlAttribute> Public Property category As String
-        <XmlAttribute> Public Property accession As String
-        <XmlAttribute> Public Property data_type As String
-        <XmlAttribute> Public Property result As String
-
-        Public Property unit As String
-        Public Property confidence As Double
-        Public Property score As Double
-        Public Property cvScore As Double
 
     End Class
 End Namespace
