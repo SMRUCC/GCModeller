@@ -42,6 +42,11 @@ Public Class MetabolicNetwork
         Return New MetabolicAdapter(compounds.Values, reactions.Values, opts, w)
     End Function
 
+    ''' <summary>
+    ''' Make sub-network via a given set of the taxonomy organism tags
+    ''' </summary>
+    ''' <param name="sources"></param>
+    ''' <returns></returns>
     Public Function SubNetwork(sources As IEnumerable(Of String)) As MetabolicNetwork
         Dim check As Index(Of String) = sources.Indexing
         Dim subs As MetabolicReaction() = reactions.Values _

@@ -67,6 +67,9 @@ Namespace MetabolicModel
     ''' <summary>
     ''' A unify reaction model in the GCModeller system
     ''' </summary>
+    ''' <remarks>
+    ''' a simple json model
+    ''' </remarks>
     Public Class MetabolicReaction : Implements INamedValue
         Implements IEquation(Of CompoundSpecieReference)
 

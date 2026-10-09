@@ -66,6 +66,9 @@ Namespace MetabolicModel
     ''' <summary>
     ''' internal standard model of the metabolite object
     ''' </summary>
+    ''' <remarks>
+    ''' a simple json model
+    ''' </remarks>
     Public Class MetabolicCompound : Implements INamedValue, IMolecule
 
         Public Property id As String Implements IKeyedEntity(Of String).Key, IMolecule.EntryId
