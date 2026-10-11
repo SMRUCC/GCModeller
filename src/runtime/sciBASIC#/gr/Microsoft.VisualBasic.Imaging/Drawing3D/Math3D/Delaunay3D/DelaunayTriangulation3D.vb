@@ -45,11 +45,11 @@ Namespace Drawing3D.Math3D.Delaunay3D
         Const FaceMask As Long = &H1FFFFF
 
         ' 空腔收集的 InSphere 相对容差（坐标已归一化到单位盒）
-        Const InSphereEps As Double = 0.000000000001
+        Const InSphereEps As Double = 0.000000000000001
         ' 重复点判定阈值（归一化坐标空间）
         Const DuplicateEps As Double = 0.000000001
         ' 导出时体积退化阈值（6 倍有向体积，归一化空间）
-        Const VolumeEps As Double = 0.000000000000001
+        Const VolumeEps As Double = 0.00000000000001
 
         Dim _points As List(Of Point3D)
         Dim _wx As Double(), _wy As Double(), _wz As Double()
@@ -182,6 +182,7 @@ Namespace Drawing3D.Math3D.Delaunay3D
         ' ---------------------------------------------------------------------
 
         Private Sub Run()
+            LastDebugLog = New List(Of String)
             Dim n As Integer = _points.Count
 
             If n < 4 Then
@@ -261,8 +262,66 @@ Namespace Drawing3D.Math3D.Delaunay3D
             ' 逐点插入
             For Each q As Integer In order
                 Call insertPoint(q)
+
+                If DebugValidateEachStep Then
+                    Dim errs As List(Of String) = ValidateAdjacency()
+
+                    For Each e As String In errs
+                        LastDebugLog.Add($"[ADJ-ERR] after inserting #{q}: {e}")
+                    Next
+                End If
             Next
         End Sub
+
+        ''' <summary>调试开关：每步插入后校验邻接一致性。</summary>
+        Public Shared DebugValidateEachStep As Boolean = False
+
+        ''' <summary>调试：插入历史日志（空腔/删除/创建的四面体索引）。</summary>
+        Public Shared LastDebugLog As New List(Of String)
+
+        ''' <summary>调试：插入历史日志（空腔/删除/创建的四面体索引）。</summary>
+        Public ReadOnly DebugLog As New List(Of String)
+
+        ''' <summary>调试：校验全部存活四面体的面邻接一致性（每条内部面恰好两侧一致）。</summary>
+        Public Function ValidateAdjacency() As List(Of String)
+            Dim errors As New List(Of String)
+
+            For i As Integer = 0 To _tets.Count - 1
+                If Not _tets(i).Alive Then
+                    Continue For
+                End If
+
+                For slot As Integer = 0 To 3
+                    Dim key As Long = FaceKeyOf(i, slot)
+                    Dim nb As Integer = _tets(i).N(slot)
+
+                    If nb < 0 Then
+                        ' 全局边界面：面键应无人持有（或持有者就是自己）
+                        If _faceMap.ContainsKey(key) AndAlso _faceMap(key) <> i Then
+                            errors.Add($"tet#{i}.N({slot})=-1 but face held by tet#{_faceMap(key)}")
+                        End If
+                    Else
+                        If Not _tets(nb).Alive Then
+                            errors.Add($"tet#{i}.N({slot}) -> dead tet#{nb}")
+                        ElseIf FaceKeyOf(nb, matchingSlot(nb, key)) <> key Then
+                            errors.Add($"tet#{i}.N({slot}) -> tet#{nb} face mismatch")
+                        End If
+                    End If
+                Next
+            Next
+
+            Return errors
+        End Function
+
+        Private Function matchingSlot(tet As Integer, key As Long) As Integer
+            For slot As Integer = 0 To 3
+                If FaceKeyOf(tet, slot) = key Then
+                    Return slot
+                End If
+            Next
+
+            Return -1
+        End Function
 
         Private Sub normalizePoints()
             Dim n As Integer = _points.Count
@@ -301,23 +360,34 @@ Namespace Drawing3D.Math3D.Delaunay3D
             Dim qy As Double = _wy(q)
             Dim qz As Double = _wz(q)
 
-            ' --- 点定位：从最近邻点的关联四面体出发 ---
-            Dim seeds As New List(Of Integer)
+            ' --- 点定位：最近邻点（重复检测）+ 直线行走定位包含新点的四面体 ---
             Dim nearestDist As Double = 0
             Dim nearest As OctreePoint(Of Integer) = _octree.Nearest(qx, qy, qz, nearestDist)
 
+            If nearestDist <> Double.PositiveInfinity AndAlso nearestDist < DuplicateEps Then
+                ' 重复点：跳过
+                _skipped += 1
+                Return
+            End If
+
+            Dim seeds As New List(Of Integer)
+
             If nearestDist <> Double.PositiveInfinity Then
-                If nearestDist < DuplicateEps Then
-                    ' 重复点：跳过
-                    _skipped += 1
-                    Return
-                End If
+                Dim start As Integer = -1
 
                 For Each t As Integer In _pointTets(nearest.Value)
-                    If _tets(t).Alive AndAlso Not seeds.Contains(t) Then
-                        seeds.Add(t)
+                    If _tets(t).Alive Then
+                        start = t
+                        Exit For
                     End If
                 Next
+
+                Dim containing As Integer = LocateContainingTet(qx, qy, qz, start)
+
+                If containing >= 0 Then
+                    ' 包含新点的四面体必然在外接球空腔内 -> BFS 从它出发完备
+                    seeds.Add(containing)
+                End If
             End If
 
             ' --- 收集坏四面体空腔 ---
@@ -342,10 +412,11 @@ Namespace Drawing3D.Math3D.Delaunay3D
                 Return
             End If
 
-            ' --- 空腔边界面：面邻居为空（全局边界）或同样属于空腔 ---
-            ' 同一个面会被空腔两侧的坏四面体各报告一次，按面键去重
-            Dim boundary As New List(Of Integer())
-            Dim boundarySeen As New HashSet(Of Long)
+            ' --- 空腔边界面：面邻居为空/已死（全局或暴露边界）或同样属于空腔 ---
+            ' 空腔内部面会被两侧的坏四面体各报告一次（计数 2），必须排除；
+            ' 只有恰好被报告一次（计数 1）的面才是真正的空腔边界面
+            Dim boundaryRaw As New Dictionary(Of Long, Integer())
+            Dim boundaryCount As New Dictionary(Of Long, Integer)
 
             For Each t As Integer In bad
                 Dim v As Integer() = _tets(t).V
@@ -353,14 +424,26 @@ Namespace Drawing3D.Math3D.Delaunay3D
                 For slot As Integer = 0 To 3
                     Dim nb As Integer = _tets(t).N(slot)
 
-                    If nb < 0 OrElse badSet.Contains(nb) Then
+                    If nb < 0 OrElse Not _tets(nb).Alive OrElse badSet.Contains(nb) Then
                         Dim key As Long = FaceKeyOf(t, slot)
+                        Dim triple As Integer() = {v((slot + 1) Mod 4), v((slot + 2) Mod 4), v((slot + 3) Mod 4)}
 
-                        If boundarySeen.Add(key) Then
-                            boundary.Add({v((slot + 1) Mod 4), v((slot + 2) Mod 4), v((slot + 3) Mod 4)})
+                        If Not boundaryRaw.ContainsKey(key) Then
+                            boundaryRaw(key) = triple
+                            boundaryCount(key) = 1
+                        Else
+                            boundaryCount(key) += 1
                         End If
                     End If
                 Next
+            Next
+
+            Dim boundary As New List(Of Integer())
+
+            For Each pair In boundaryRaw
+                If boundaryCount(pair.Key) = 1 Then
+                    boundary.Add(pair.Value)
+                End If
             Next
 
             ' --- 删除坏四面体 ---
@@ -368,17 +451,23 @@ Namespace Drawing3D.Math3D.Delaunay3D
                 Call SetAlive(t, False)
             Next
 
+            ' 与空腔相邻的存活四面体（其 N 槽位可能指向被删除的四面体，需要修补）
+            Dim toPatch As New HashSet(Of Integer)
+
             For Each t As Integer In bad
                 For slot As Integer = 0 To 3
                     Dim key As Long = FaceKeyOf(t, slot)
                     Dim cur As Integer = -1
+                    Dim nb As Integer = _tets(t).N(slot)
+
+                    If nb >= 0 AndAlso _tets(nb).Alive Then
+                        toPatch.Add(nb)
+                    End If
 
                     If _faceMap.TryGetValue(key, cur) AndAlso cur = t Then
                         ' 面键当前由本（坏）四面体持有：转交给存活的邻居，
-                        ' 或者（邻居同样在空腔内 / 无邻居）直接移除，
+                        ' 或者（邻居同样在空腔内 / 无邻居 / 邻居已死）直接移除，
                         ' 保证面键始终指向存活四面体
-                        Dim nb As Integer = _tets(t).N(slot)
-
                         If nb >= 0 AndAlso _tets(nb).Alive Then
                             _faceMap(key) = nb
                         Else
@@ -411,12 +500,19 @@ Namespace Drawing3D.Math3D.Delaunay3D
                         Call SetNeighbor(idx, slot, other)
 
                         ' 修补对面（存活）四面体的邻接槽位
+                        Dim patched As Boolean = False
+
                         For otherSlot As Integer = 0 To 3
                             If FaceKeyOf(other, otherSlot) = key Then
                                 Call SetNeighbor(other, otherSlot, idx)
+                                patched = True
                                 Exit For
                             End If
                         Next
+
+                        If Not patched AndAlso DebugValidateEachStep Then
+                            LastDebugLog.Add($"[PATCH-MISS] tet#{idx} slot{slot} key={key} held by tet#{other}(alive={_tets(other).Alive})")
+                        End If
                     Else
                         _faceMap(key) = idx
                     End If
@@ -427,9 +523,96 @@ Namespace Drawing3D.Math3D.Delaunay3D
                 Next
             Next
 
+            ' --- 修补空腔邻域存活四面体的悬空邻接 ---
+            For Each g As Integer In toPatch
+                For slot As Integer = 0 To 3
+                    Dim nb As Integer = _tets(g).N(slot)
+
+                    If nb >= 0 AndAlso _tets(nb).Alive Then
+                        Continue For
+                    End If
+
+                    Dim key As Long = FaceKeyOf(g, slot)
+                    Dim holder As Integer = -1
+
+                    If _faceMap.TryGetValue(key, holder) AndAlso holder <> g AndAlso _tets(holder).Alive Then
+                        Call SetNeighbor(g, slot, holder)
+                    Else
+                        Call SetNeighbor(g, slot, -1)
+                    End If
+                Next
+            Next
+
             ' --- 登记新点到八叉树（新四面体与 q 的关联已在重构循环中写入 _pointTets(q)） ---
             Call _octree.Insert(qx, qy, qz, q)
+
+            If DebugValidateEachStep Then
+                Dim line As String = $"insert #{q}: bad=[{String.Join(",", bad)}] boundary={boundary.Count} created=[{_tets.Count - boundary.Count}..{_tets.Count - 1}]"
+                DebugLog.Add(line)
+                LastDebugLog.Add(line)
+
+                If q = 3 Then
+                    For Each t As Integer In bad
+                        LastDebugLog.Add($"  bad tet#{t}: V=[{String.Join(",", _tets(t).V)}]")
+                    Next
+
+                    For i As Integer = 0 To boundary.Count - 1
+                        LastDebugLog.Add($"  boundary[{i}]: [{String.Join(",", boundary(i))}]")
+                    Next
+
+                    For i As Integer = _tets.Count - boundary.Count To _tets.Count - 1
+                        LastDebugLog.Add($"  created tet#{i}: V=[{String.Join(",", _tets(i).V)}]")
+                    Next
+                End If
+            End If
         End Sub
+
+        ''' <summary>
+        ''' 可见性行走（visibility walk）：从 <paramref name="start"/> 四面体出发，
+        ''' 每步跨越"将新点隔在外面"的面，直到找到包含新点的四面体。
+        ''' 返回 -1 表示行走失败（调用方应退回全量扫描）。
+        ''' </summary>
+        Private Function LocateContainingTet(qx As Double, qy As Double, qz As Double, start As Integer) As Integer
+            Dim current As Integer = start
+            Dim guard As Integer = 0
+
+            While current >= 0 AndAlso _tets(current).Alive AndAlso guard < 100000
+                guard += 1
+                Dim v As Integer() = _tets(current).V
+                Dim inside As Boolean = True
+
+                For slot As Integer = 0 To 3
+                    Dim opp As Integer = v(slot)
+                    ' 新点与对面顶点在面（其余三顶点构成）同侧 -> 该面不阻挡
+                    Dim dOpp As Double = FaceSide(v, slot, _wx(opp), _wy(opp), _wz(opp))
+                    Dim dQ As Double = FaceSide(v, slot, qx, qy, qz)
+
+                    If dOpp * dQ < 0 Then
+                        ' 新点被该面隔在外面 -> 跨越到邻居
+                        current = _tets(current).N(slot)
+                        inside = False
+                        Exit For
+                    End If
+                Next
+
+                If inside Then
+                    Return current
+                End If
+            End While
+
+            Return -1
+        End Function
+
+        ''' <summary>点 (px,py,pz) 相对四面体第 slot 个面（其余三顶点构成）平面的有向侧。</summary>
+        Private Function FaceSide(v As Integer(), slot As Integer, px As Double, py As Double, pz As Double) As Double
+            Dim a As Integer = v((slot + 1) Mod 4)
+            Dim b As Integer = v((slot + 2) Mod 4)
+            Dim c As Integer = v((slot + 3) Mod 4)
+            Dim bx As Double = _wx(b) - _wx(a), by As Double = _wy(b) - _wy(a), bz As Double = _wz(b) - _wz(a)
+            Dim cx As Double = _wx(c) - _wx(a), cy As Double = _wy(c) - _wy(a), cz As Double = _wz(c) - _wz(a)
+            Dim dx As Double = px - _wx(a), dy As Double = py - _wy(a), dz As Double = pz - _wz(a)
+            Return bx * (cy * dz - cz * dy) + by * (cz * dx - cx * dz) + bz * (cx * dy - cy * dx)
+        End Function
 
         Private Sub collectCavity(qx As Double, qy As Double, qz As Double,
                                   seeds As IEnumerable(Of Integer),
@@ -572,6 +755,10 @@ Namespace Drawing3D.Math3D.Delaunay3D
         End Function
 
         Private Sub SetNeighbor(tet As Integer, slot As Integer, value As Integer)
+            If DebugValidateEachStep AndAlso (tet = 5 OrElse tet = 6) Then
+                LastDebugLog.Add($"[N] SetNeighbor(tet#{tet}.N({slot}) = {value})")
+            End If
+
             Dim t As Tetra = _tets(tet)
             t.N(slot) = value
             _tets(tet) = t
