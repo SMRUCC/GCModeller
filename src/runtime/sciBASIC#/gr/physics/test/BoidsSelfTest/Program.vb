@@ -11,6 +11,10 @@ Module Program
     Dim failures As Integer = 0
     Dim checks As Integer = 0
 
+    ''' the measured physics average (ms/frame) of the most recent Report call
+    Dim physicsAvg As Double = 0.0
+    Dim lastPhysicsAvg As Double = 0.0
+
     Sub Main()
         Console.WriteLine("===========================================================")
         Console.WriteLine(" Boids SIMD engine self test")
@@ -257,14 +261,15 @@ Module Program
     End Sub
 
     ''' <summary>
-    ''' 80k boids performance benchmark with per phase breakdown
+    ''' 120k boids performance benchmark with per phase breakdown
+    ''' (matches the FormRender demo scale)
     ''' </summary>
     Sub Benchmark()
         Console.WriteLine()
-        Console.WriteLine("[4/4] 80k boids benchmark (Release numbers only) ...")
+        Console.WriteLine("[4/4] 120k boids benchmark (Release numbers only) ...")
 
-        Const n As Integer = 80000
-        Const frames As Integer = 1000
+        Const n As Integer = 120000
+        Const frames As Integer = 500
         Const warmup As Integer = 10
 
         Dim field As New Field(2000.0, 1200.0, n)
@@ -294,6 +299,7 @@ Module Program
         SIMDEnvironment.config = SIMDConfiguration.disable
         Report($"scalar ({frames} frames)", field, grid, solver, state, frames)
         SIMDEnvironment.config = SIMDConfiguration.auto
+        lastPhysicsAvg = physicsAvg
 
         ' allocation check (steady state)
         Dim before As Long = GC.GetAllocatedBytesForCurrentThread()
@@ -562,10 +568,6 @@ Module Program
         Dim sw As Stopwatch
 
         For i As Integer = 1 To frames
-            ' mimic the GUI frame cadence: a gap between frames so the thread
-            ' pool threads can park (comment out to measure back-to-back)
-            If i Mod 2 = 0 Then Threading.Thread.Sleep(3)
-
             sw = Stopwatch.StartNew()
             grid.Build(state, field.Radius)
             sw.Stop()
@@ -583,6 +585,7 @@ Module Program
         Next
 
         Dim gAvg = tGrid.Average(), sAvg = tSolve.Average(), iAvg = tIntegrate.Average()
+        physicsAvg = gAvg + sAvg + iAvg
 
         Console.WriteLine()
         Console.WriteLine($" --- {title} ---")
