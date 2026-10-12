@@ -279,6 +279,11 @@ Public Class MetabolicAdapter : Implements IRouter
                                    Optional allowedExtra As IEnumerable(Of (String, String)) = Nothing,
                                    Optional maxRoutes As Integer = 0,
                                    Optional escalate As Boolean = True) As RouteReport Implements IRouter.SynthesisRoute
+
+        If sourceSmiles Is Nothing OrElse targetSmiles Is Nothing Then
+            Return Nothing
+        End If
+
         Return netwalk.SynthesisRoute(sourceSmiles, targetSmiles, role, strict, allowedExtra, maxRoutes, escalate)
     End Function
 
@@ -286,12 +291,16 @@ Public Class MetabolicAdapter : Implements IRouter
     ''' 以代谢模型的化合物 id 指定起点与目标（如 "CHORISMATE" → "ENTEROBACTIN"）。
     ''' </summary>
     ''' <param name="allowedExtraIds">strict 模式下额外放行的化合物 id（如 ATP / NADH）。</param>
+    ''' <remarks>
+    ''' may returns nothing if the smiles data is missing and running in non-strict mode
+    ''' </remarks>
     Public Function SynthesisRouteById(sourceId As String, targetId As String,
                                        Optional role As SourceRoles = SourceRoles.Source,
                                        Optional strict As Boolean = False,
                                        Optional allowedExtraIds As IEnumerable(Of String) = Nothing,
                                        Optional maxRoutes As Integer = 0,
                                        Optional escalate As Boolean = True) As RouteReport
+
         Dim extra As List(Of (String, String)) = Nothing
 
         If allowedExtraIds IsNot Nothing Then
@@ -308,7 +317,7 @@ Public Class MetabolicAdapter : Implements IRouter
             Next
         End If
 
-        Return SynthesisRoute(SmilesOf(sourceId), SmilesOf(targetId), role, strict, extra, maxRoutes, escalate)
+        Return SynthesisRoute(SmilesOf(sourceId, strict), SmilesOf(targetId, strict), role, strict, extra, maxRoutes, escalate)
     End Function
 
     ''' <summary>
@@ -326,14 +335,26 @@ Public Class MetabolicAdapter : Implements IRouter
     End Function
 
     ''' <summary>按 compound id 取净化后的 SMILES（无结构时抛异常）</summary>
-    Private Function SmilesOf(compoundId As String) As String
+    Private Function SmilesOf(compoundId As String, strict As Boolean) As String
         Dim st As CompoundStructure = GetCompound(compoundId)
 
         If st Is Nothing Then
-            Throw New ArgumentException($"化合物 {compoundId} 在当前代谢模型中没有可用结构（缺失 SMILES 或含不支持的元素）")
+            Dim msg As String = MissingSMILES(compoundId)
+
+            If strict Then
+                Throw New ArgumentException(msg)
+            Else
+                Call msg.warning
+                Return Nothing
+            End If
         End If
 
         Return st.Smiles
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Shared Function MissingSMILES(compoundId As String) As String
+        Return $"化合物 {compoundId} 在当前代谢模型中没有可用结构（缺失 SMILES 或含不支持的元素）"
     End Function
 
     ''' <summary>以内部模型的化合物 id 为目标做搜索（如 "ENTEROBACTIN"）</summary>
@@ -344,9 +365,12 @@ Public Class MetabolicAdapter : Implements IRouter
         Dim st As CompoundStructure = GetCompound(compoundId)
 
         If st Is Nothing Then
+            Dim msg As String = MissingSMILES(compoundId)
+
             If strict Then
-                Throw New ArgumentException($"化合物 {compoundId} 在当前代谢模型中没有可用结构（缺失 SMILES 或含不支持的元素）")
+                Throw New ArgumentException(msg)
             Else
+                Call msg.warning
                 Return Nothing
             End If
         End If
