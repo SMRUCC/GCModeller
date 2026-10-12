@@ -340,11 +340,15 @@ Public Class MetabolicAdapter : Implements IRouter
     ''' <param name="compoundId">化合物 id（即 <see cref="MetabolicCompound.id"/>）。</param>
     ''' <exception cref="ArgumentException">该化合物没有可用结构（缺失 SMILES 或含不支持元素）。</exception>
     ''' <returns>报告中的 <c>TargetMetabolite</c> 标注为 <paramref name="compoundId"/>。</returns>
-    Public Function FindPathwayById(compoundId As String) As PathReport
+    Public Function FindPathwayById(compoundId As String, Optional strict As Boolean = True) As PathReport
         Dim st As CompoundStructure = GetCompound(compoundId)
 
         If st Is Nothing Then
-            Throw New ArgumentException($"化合物 {compoundId} 在当前代谢模型中没有可用结构（缺失 SMILES 或含不支持的元素）")
+            If strict Then
+                Throw New ArgumentException($"化合物 {compoundId} 在当前代谢模型中没有可用结构（缺失 SMILES 或含不支持的元素）")
+            Else
+                Return Nothing
+            End If
         End If
 
         Return FindPathwayImpl(st.Smiles, compoundId)
