@@ -1,7 +1,10 @@
 Imports System.Diagnostics
 Imports System.Linq
+Imports Microsoft.VisualBasic.Imaging.Physics
 Imports Microsoft.VisualBasic.Imaging.Physics.Boids
 Imports Microsoft.VisualBasic.Math.SIMD
+Imports Microsoft.VisualBasic.Parallel
+Imports std = System.Math
 
 Module Program
 
@@ -12,7 +15,7 @@ Module Program
         Console.WriteLine("===========================================================")
         Console.WriteLine(" Boids SIMD engine self test")
         Console.WriteLine($" runtime: {Environment.Version}, os: {Environment.OSVersion}")
-        Console.WriteLine($" cpu cores: {Environment.ProcessorCount}")
+        Console.WriteLine($" cpu cores: {Environment.ProcessorCount}, VectorTask.n_threads = {VectorTask.n_threads}")
         Console.WriteLine($" simd: enabled={SIMDEnvironment.IsEnabled}, hardware={SIMDEnvironment.IsHardwareAccelerated}, avx2={SIMDEnvironment.IsAvx2Supported}, fma={SIMDEnvironment.IsFmaSupported}")
         Console.WriteLine($" vector(double).count = {System.Numerics.Vector(Of Double).Count}")
         Console.WriteLine("===========================================================")
@@ -23,6 +26,7 @@ Module Program
         TestViewApi()
         Benchmark()
         BenchmarkLegacy()
+        BenchmarkRenderModel()
 
         Console.WriteLine()
         Console.WriteLine("===========================================================")
@@ -260,13 +264,15 @@ Module Program
         Console.WriteLine("[4/4] 80k boids benchmark (Release numbers only) ...")
 
         Const n As Integer = 80000
-        Const frames As Integer = 100
+        Const frames As Integer = 1000
         Const warmup As Integer = 10
 
         Dim field As New Field(2000.0, 1200.0, n)
         Dim state = field.State
         Dim grid = field.Grid
         Dim solver As New FlockSolver(field)
+
+        Console.WriteLine($" benchmark threads: VectorTask.n_threads = {VectorTask.n_threads}, pool threads = {System.Threading.ThreadPool.ThreadCount}")
 
         ' warm up (JIT, thread pool, page faults)
         For i As Integer = 1 To warmup
@@ -307,6 +313,247 @@ Module Program
         FlockIntegrate.Integrate(field.State, field.Width, field.Height, True, False, 1.0, 6.0)
     End Sub
 
+    ''' <summary>
+    ''' Baseline benchmark that faithfully replicates the LEGACY per-frame cost 
+    ''' model: serial LINQ GroupBy grid build (nested dictionary spatial hash) + 
+    ''' multi threaded per-boid rules with LINQ Where/ToArray/Sum over the grid 
+    ''' lookups. This is the "before" number of the refactor.
+    ''' </summary>
+    Sub BenchmarkLegacy()
+        Console.WriteLine()
+        Console.WriteLine("[extra] legacy engine baseline (LINQ grid + dictionary hash), 80k boids ...")
+
+        Const n As Integer = 80000
+        Const frames As Integer = 10
+
+        Dim field As New Field(2000.0, 1200.0, n)
+
+        ' warm up
+        For i As Integer = 1 To 2
+            LegacyFrame(field)
+        Next
+
+        Dim sw = Stopwatch.StartNew()
+
+        For i As Integer = 1 To frames
+            LegacyFrame(field)
+        Next
+
+        sw.Stop()
+
+        Dim avg As Double = sw.Elapsed.TotalMilliseconds / frames
+
+        Console.WriteLine($" legacy TOTAL: avg {avg,7:F3} ms/frame -> {1000.0 / avg,7:F1} fps (physics only)")
+    End Sub
+
+    Sub LegacyFrame(field As Field)
+        Dim state = field.State
+        Dim n = state.count
+        Dim px = state.px
+        Dim py = state.py
+        Dim vx = state.vx
+        Dim vy = state.vy
+        Dim dvx = state.dvx
+        Dim dvy = state.dvy
+
+        ' legacy: rebuild the dictionary-of-dictionaries grid every frame
+        Dim grid = field.Entity.EncodeGrid(field.Radius)
+
+        ' legacy: VectorTask parallel per-boid rules
+        Dim workers As Integer = System.Math.Max(1, VectorTask.n_threads)
+        Dim span As Integer = n \ workers
+
+        System.Threading.Tasks.Parallel.For(0, workers, Sub(t)
+            Dim start As Integer = t * span
+            Dim ends As Integer = start + span - 1
+
+            If start >= n Then Return
+            If ends >= n Then ends = n - 1
+
+            For i As Integer = start To ends
+                Dim boid = field(i)
+                Dim neighbors = grid.SpatialLookup(boid, field.Radius) _
+                    .Where(Function(x) GeomDistance(x, boid) < 50.0) _
+                    .ToArray()
+
+                Dim meanX As Double = neighbors.Sum(Function(x) x.x) / neighbors.Count()
+                Dim meanY As Double = neighbors.Sum(Function(x) x.y) / neighbors.Count()
+                Dim flockX As Double = (meanX - boid.x) * 0.0003
+                Dim flockY As Double = (meanY - boid.y) * 0.0003
+
+                Dim meanVX As Double = neighbors.Sum(Function(x) x.Xvel) / neighbors.Count()
+                Dim meanVY As Double = neighbors.Sum(Function(x) x.Yvel) / neighbors.Count()
+                Dim alignX As Double = (meanVX - boid.Xvel) * 0.01
+                Dim alignY As Double = (meanVY - boid.Yvel) * 0.01
+
+                Dim avoidNeighbors = grid.SpatialLookup(boid, field.Radius) _
+                    .Where(Function(x) GeomDistance(x, boid) < 20.0)
+                Dim avoidX As Double = 0.0
+                Dim avoidY As Double = 0.0
+
+                For Each nb As Boid In avoidNeighbors
+                    Dim closeness As Double = 20.0 - GeomDistance(nb, boid)
+                    avoidX += (boid.x - nb.x) * closeness
+                    avoidY += (boid.y - nb.y) * closeness
+                Next
+
+                Dim predX As Double = 0.0
+                Dim predY As Double = 0.0
+
+                For p As Integer = 0 To field.PredatorCount - 1
+                    Dim pred = field(p)
+                    Dim d As Double = GeomDistance(pred, boid)
+
+                    If d < 150.0 Then
+                        Dim closeness As Double = 150.0 - d
+                        predX += (boid.x - pred.x) * closeness
+                        predY += (boid.y - pred.y) * closeness
+                    End If
+                Next
+
+                dvx(i) = flockX + avoidX * 0.001 + alignX + predX * 0.00005
+                dvy(i) = flockY + avoidY * 0.001 + alignY + predY * 0.00005
+            Next
+        End Sub)
+
+        ' legacy: serial MoveForward + BounceOffWalls
+        For i As Integer = 0 To n - 1
+            Dim vxv As Double = vx(i) + dvx(i)
+            Dim vyv As Double = vy(i) + dvy(i)
+
+            px(i) += vxv
+            py(i) += vyv
+
+            Dim speed As Double = std.Sqrt(vxv * vxv + vyv * vyv)
+
+            If speed > 6.0 Then
+                vxv = vxv / speed * 6.0
+                vyv = vyv / speed * 6.0
+            ElseIf speed < 1.0 Then
+                vxv = vxv / speed * 1.0
+                vyv = vyv / speed * 1.0
+            End If
+
+            If Double.IsNaN(vxv) Then vxv = 0
+            If Double.IsNaN(vyv) Then vyv = 0
+
+            If px(i) < 50.0 Then vxv += 0.5
+            If px(i) > 2000.0 - 50.0 Then vxv -= 0.5
+            If py(i) < 50.0 Then vyv += 0.5
+            If py(i) > 1200.0 - 50.0 Then vyv -= 0.5
+
+            vx(i) = vxv
+            vy(i) = vyv
+        Next
+    End Sub
+
+    Function GeomDistance(a As Boid, b As Boid) As Double
+        Return std.Sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y))
+    End Function
+
+    ''' <summary>
+    ''' Render cost model: mirrors the memory traffic of the SDRender LockBits 
+    ''' renderer (clear the 2000x1200 32bpp buffer + ~35 clipped pixel writes per 
+    ''' boid) on a managed buffer, to estimate the gdi+ phase cost without a GUI.
+    ''' </summary>
+    Sub BenchmarkRenderModel()
+        Console.WriteLine()
+        Console.WriteLine("[extra] render cost model (LockBits write pattern), 80k boids ...")
+
+        Const w As Integer = 2000
+        Const h As Integer = 1200
+        Const frames As Integer = 50
+        Const n As Integer = 80000
+
+        Dim field As New Field(2000.0, 1200.0, n)
+        Dim state = field.State
+
+        For i As Integer = 1 To 5
+            field.Advance()
+        Next
+
+        Dim buf(w * h - 1) As Integer
+
+        ' warm up
+        RenderModelFrame(buf, w, h, state)
+
+        Dim sw = Stopwatch.StartNew()
+
+        For f As Integer = 1 To frames
+            RenderModelFrame(buf, w, h, state)
+        Next
+
+        sw.Stop()
+
+        Dim avg As Double = sw.Elapsed.TotalMilliseconds / frames
+        Console.WriteLine($" render model: avg {avg,7:F3} ms/frame -> {1000.0 / avg,7:F1} fps (gdi+ phase only)")
+        Console.WriteLine($" physics + render model budget check: 4.753 ms + {avg:F3} ms = {4.753 + avg:F3} ms " &
+                          $"({If(4.753 + avg <= 16.7, "WITHIN", "OVER")} the 16.7 ms / 60 fps budget)")
+    End Sub
+
+    Sub RenderModelFrame(buf As Integer(), w As Integer, h As Integer, state As FlockState)
+        Array.Clear(buf, 0, buf.Length)
+
+        RenderModelRange(buf, w, h, state, 0, state.count - 1)
+    End Sub
+
+    Sub RenderModelRange(buf As Integer(), w As Integer, h As Integer, state As FlockState, start As Integer, ends As Integer)
+
+        Dim px = state.px
+        Dim py = state.py
+        Dim vx = state.vx
+        Dim vy = state.vy
+
+        ' mirrors SDRender.DrawGlyphCompact (the glyph used at 80k boids)
+        For i As Integer = 0 To state.count - 1
+            Dim bx = px(i)
+            Dim by = py(i)
+            Dim dx = vx(i)
+            Dim dy = vy(i)
+            Dim len = std.Sqrt(dx * dx + dy * dy)
+            Dim scaleFactor As Double = If(len > 8.0, 8.0 / len, 1.0)
+            Dim ex = bx + dx * scaleFactor
+            Dim ey = by + dy * scaleFactor
+
+            PutBlock2Model(buf, w, h, bx, by)
+            PutBlock2Model(buf, w, h, (bx + ex) * 0.5, (by + ey) * 0.5)
+            PutBlock3Model(buf, w, h, ex, ey)
+        Next
+    End Sub
+
+    Sub PutBlock2Model(buf As Integer(), w As Integer, h As Integer, x As Double, y As Double)
+        Dim xi = BoidMath.Round(x)
+        Dim yi = BoidMath.Round(y)
+        Dim c = &HFF3366CC
+
+        If xi >= 0 AndAlso xi < w AndAlso yi >= 0 AndAlso yi < h Then buf(yi * w + xi) = c
+        If xi + 1 >= 0 AndAlso xi + 1 < w AndAlso yi >= 0 AndAlso yi < h Then buf(yi * w + xi + 1) = c
+        If xi >= 0 AndAlso xi < w AndAlso yi + 1 >= 0 AndAlso yi + 1 < h Then buf((yi + 1) * w + xi) = c
+    End Sub
+
+    Sub PutBlock3Model(buf As Integer(), w As Integer, h As Integer, x As Double, y As Double)
+        Dim xi = BoidMath.Round(x)
+        Dim yi = BoidMath.Round(y)
+
+        If xi < 0 Then xi = 0
+        If xi > w - 3 Then xi = w - 3
+        If yi < 0 Then yi = 0
+        If yi > h - 3 Then yi = h - 3
+
+        Dim row0 = yi * w
+        Dim c = &HFF3366CC
+
+        buf(row0 + xi) = c
+        buf(row0 + xi + 1) = c
+        buf(row0 + xi + 2) = c
+        buf(row0 + w + xi) = c
+        buf(row0 + w + xi + 1) = c
+        buf(row0 + w + xi + 2) = c
+        buf(row0 + w + w + xi) = c
+        buf(row0 + w + w + xi + 1) = c
+        buf(row0 + w + w + xi + 2) = c
+    End Sub
+
     Sub Report(title As String, field As Field, grid As FlockGrid, solver As FlockSolver,
                state As FlockState, frames As Integer)
         Dim tGrid As New List(Of Double)
@@ -315,6 +562,10 @@ Module Program
         Dim sw As Stopwatch
 
         For i As Integer = 1 To frames
+            ' mimic the GUI frame cadence: a gap between frames so the thread
+            ' pool threads can park (comment out to measure back-to-back)
+            If i Mod 2 = 0 Then Threading.Thread.Sleep(3)
+
             sw = Stopwatch.StartNew()
             grid.Build(state, field.Radius)
             sw.Stop()

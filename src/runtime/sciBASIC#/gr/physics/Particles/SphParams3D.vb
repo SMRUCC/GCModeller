@@ -22,8 +22,6 @@
 '
 ' /********************************************************************************/
 
-Imports std = System.Math
-
 ''' <summary>
 ''' The flat parameter bundle of one 3D SPH sub step.
 ''' </summary>
@@ -91,9 +89,13 @@ Public Class SphParams3D
     ''' <summary>
     ''' build the parameter bundle from the smoothing kernels.
     ''' </summary>
-    ''' <param name="kernels">the (correctly normalized) 3D kernels</param>
+    ''' <param name="kernels">
+    ''' the (correctly normalized) kernels. the normalization constants are read
+    ''' straight out of this bundle, so a 3D caller must pass a 3D bundle
+    ''' (<c>FluidKernels.For3D</c>) and a 2D caller a 2D one.
+    ''' </param>
     ''' <param name="h">smoothing radius</param>
-    Public Shared Function FromKernels(kernels As FluidKernels3D, h As Single) As SphParams3D
+    Public Shared Function FromKernels(kernels As FluidKernels, h As Single) As SphParams3D
         Dim p As New SphParams3D With {
             .SmoothingRadius = h,
             .SqrRadius = h * h,
@@ -105,20 +107,18 @@ Public Class SphParams3D
             .MaxAccel = 0.0F
         }
 
-        ' 与 FluidKernels3D 完全一致的三维归一化常数
-        p.SpikyPow2 = CSng(15 / (2 * std.PI * std.Pow(h, 5)))
-        p.SpikyPow3 = CSng(15 / (std.PI * std.Pow(h, 6)))
-        p.GradSpikyPow2 = CSng(15 / (std.PI * std.Pow(h, 5)))
-        p.GradSpikyPow3 = CSng(45 / (std.PI * std.Pow(h, 6)))
-        p.Poly6 = CSng(315 / (64 * std.PI * std.Pow(h, 9)))
+        ' 归一化常数一律由 FluidKernels 提供（单一数据源）：这些常数此前在本文件里
+        ' 还有一份硬编码副本，与 FluidKernels/FluidKernels3D 构成三处重复，正是
+        ' "改了一处忘了另一处" 这类错误的温床。kernels 缺省时按三维构造一份默认核。
+        Dim k As FluidKernels = If(kernels, FluidKernels.For3D(h))
 
-        If kernels IsNot Nothing Then
-            p.SelfDensity = kernels.SelfDensityKernel()
-            p.SelfNearDensity = kernels.SelfNearDensityKernel()
-        Else
-            p.SelfDensity = p.SpikyPow2 * h * h
-            p.SelfNearDensity = p.SpikyPow3 * h * h * h
-        End If
+        p.SpikyPow2 = k.SpikyPow2Factor
+        p.SpikyPow3 = k.SpikyPow3Factor
+        p.GradSpikyPow2 = k.GradSpikyPow2Factor
+        p.GradSpikyPow3 = k.GradSpikyPow3Factor
+        p.Poly6 = k.Poly6Factor
+        p.SelfDensity = k.SelfDensityKernel()
+        p.SelfNearDensity = k.SelfNearDensityKernel()
 
         Return p
     End Function
