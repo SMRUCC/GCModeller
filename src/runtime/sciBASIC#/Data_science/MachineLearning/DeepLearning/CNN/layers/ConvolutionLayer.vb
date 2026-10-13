@@ -61,7 +61,9 @@
 Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.MachineLearning.CNN.data
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
 Imports Microsoft.VisualBasic.Parallel
+Imports tpl = System.Threading.Tasks
 Imports std = System.Math
 
 Namespace CNN.layers
@@ -190,7 +192,16 @@ Namespace CNN.layers
             ' 因此输入只需要一次零拷贝的形状重解释, 算完把结果整块拷回即可
             Dim x4 As Tensor = db.Value4D
             Dim packed As Tensor = PackFilters()
-            Dim y = Tensor.computeKernel.Conv2D(x4, packed, biases.Value, stride, padding)
+            Dim bias As Tensor = biases.Value
+
+            ' 卷积是典型的算力密集算子：规模达标时降到单精度计算再升回双精度。
+            ' MixedPrecisionOps 返回 Nothing 表示判据不成立（或数据里有非有限值），
+            ' 此时保持原来的双精度路径。
+            Dim y = MixedPrecisionOps.Conv2D(x4, packed, bias, stride, padding)
+
+            If y Is Nothing Then
+                y = Tensor.computeKernel.Conv2D(x4, packed, bias, stride, padding)
+            End If
 
             Call lA.SetValues(y.Data)
 
@@ -211,17 +222,22 @@ Namespace CNN.layers
             Dim dst As Tensor = Tensor.Zeros(New Integer() {sy, sx, inDepth, OutC})
             Dim w = dst.Data
 
-            For d As Integer = 0 To OutC - 1
-                Dim src = filters(d).w
+            ' 按输出通道并行：第 d 个通道只写 w 里"步长 OutC、偏移 d"的那一列，
+            ' 各通道写入位置互不相交，因此不需要锁。
+            ' 这是纯数据重排（带宽受限），搬 GPU 不会有收益，
+            ' 并行是这个四重循环唯一真实的加速来源。
+            tpl.Parallel.For(0, OutC,
+                Sub(d As Integer)
+                    Dim src = filters(d).w
 
-                For kh As Integer = 0 To sy - 1
-                    For kw As Integer = 0 To sx - 1
-                        For c As Integer = 0 To inDepth - 1
-                            w(((kh * sx + kw) * inDepth + c) * OutC + d) = src((sx * kh + kw) * inDepth + c)
+                    For kh As Integer = 0 To sy - 1
+                        For kw As Integer = 0 To sx - 1
+                            For c As Integer = 0 To inDepth - 1
+                                w(((kh * sx + kw) * inDepth + c) * OutC + d) = src((sx * kh + kw) * inDepth + c)
+                            Next
                         Next
                     Next
-                Next
-            Next
+                End Sub)
 
             Return dst
         End Function
@@ -240,19 +256,22 @@ Namespace CNN.layers
             Dim OutC = out_depth
             Dim src = packedGrad.Data
 
-            For d As Integer = 0 To OutC - 1
-                Dim dst = filters(d).dw
+            ' 同样按输出通道并行：每个通道只写自己的 filters(d).dw，互不重叠。
+            ' 循环体是**累加**而不是赋值（见上文说明），并行化不改变这一语义。
+            tpl.Parallel.For(0, OutC,
+                Sub(d As Integer)
+                    Dim dst = filters(d).dw
 
-                For kh As Integer = 0 To sy - 1
-                    For kw As Integer = 0 To sx - 1
-                        For c As Integer = 0 To inDepth - 1
-                            dst((sx * kh + kw) * inDepth + c) += src(((kh * sx + kw) * inDepth + c) * OutC + d)
+                    For kh As Integer = 0 To sy - 1
+                        For kw As Integer = 0 To sx - 1
+                            For c As Integer = 0 To inDepth - 1
+                                dst((sx * kh + kw) * inDepth + c) += src(((kh * sx + kw) * inDepth + c) * OutC + d)
+                            Next
                         Next
                     Next
-                Next
 
-                Call filters(d).MarkGradientModified()
-            Next
+                    Call filters(d).MarkGradientModified()
+                End Sub)
         End Sub
 
         ''' <summary>

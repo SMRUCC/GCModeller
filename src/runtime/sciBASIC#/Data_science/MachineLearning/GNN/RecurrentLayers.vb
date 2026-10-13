@@ -79,6 +79,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
 Imports std = System.Math
 
 ''' <summary>
@@ -362,8 +363,14 @@ Public Class GRULayer
             ' dx from hTilde
             Dim dx_hTilde = BackwardLinear(dhTildeRaw, _Wh)
 
+            ' 对 h̃ 的输入求梯度。
+            ' 前向里 h̃ = tanh(W_h x + U_h·(r⊙h_prev) + b_h)，
+            ' 记 dReset = ∂L/∂(r⊙h_prev) = dh̃_raw · U_h ，
+            ' 于是 ∂L/∂h_prev = dReset ⊙ r，∂L/∂r = dReset ⊙ h_prev。
+            Dim dResetHidden = BackwardLinear(dhTildeRaw, _Uh)
+
             ' dh_prev from hTilde (through reset gate)
-            Dim dh_prev_hTilde = BackwardLinearThroughReset(dhTildeRaw, _Uh, r)
+            Dim dh_prev_hTilde = dResetHidden.ElementwiseMultiply(r)
 
             ' 反向传播通过sigmoid (update gate)
             Dim dzRaw = dz.ElementwiseMultiply(SigmoidDerivative(z))
@@ -378,7 +385,19 @@ Public Class GRULayer
             Dim dh_prev_z = BackwardLinear(dzRaw, _Uz)
 
             ' 反向传播通过sigmoid (reset gate)
-            Dim drRaw = dh_prev_hTilde.ElementwiseMultiply(SigmoidDerivative(r))
+            '
+            ' 原实现这里写的是 dh_prev_hTilde ⊙ σ'(r)，也就是
+            '   (dh̃_raw·U_h) ⊙ r ⊙ σ'(r)
+            ' 而正确的 ∂L/∂r 应当是
+            '   (dh̃_raw·U_h) ⊙ h_prev ⊙ σ'(r)
+            ' —— 逐元素乘的因子被写成了 r 而不是 h_prev。
+            ' 这个错误本身只是"算错值"，真正致命的是它进入了 dhNext：
+            ' 每往回一个时间步，|dh| 会被放大好几倍（窗口 20 就是 20 次放大），
+            ' 于是 drRaw 一路涨到超出 Single 范围变成 ∞，
+            ' 再被 Adam 的 Inf/Inf 变成 NaN 污染全部参数。
+            ' 实测该 ∞ 恰好落在 _brGrad（重置门偏置梯度）上，与推导一致。
+            Dim dr = dResetHidden.ElementwiseMultiply(h_prev)
+            Dim drRaw = dr.ElementwiseMultiply(SigmoidDerivative(r))
             AccumulateGradient(_WrGrad, drRaw, x_t)
             AccumulateGradient(_UrGrad, drRaw, h_prev)
             AccumulateBiasGradient(_brGrad, drRaw)
@@ -414,10 +433,13 @@ Public Class GRULayer
         Dim result = New Tensor(batchSize, outputSize)
 
         ' W * x
-        Dim Wx = x.MatMul(W.Transpose())
+        ' GRU 每个时间步要做 3 组门控线性变换、每组 2 次 GEMM —— 这是本层的主力算力。
+        ' 规模达标时走单精度（MixedPrecisionOps 内部按 m·k·n 判定），
+        ' 不达标、或数据里出现非有限值时自动回退双精度。
+        Dim Wx = MixedPrecisionOps.MatMulOr(x, W.Transpose())
 
         ' U * h
-        Dim Uh = h.MatMul(U.Transpose())
+        Dim Uh = MixedPrecisionOps.MatMulOr(h, U.Transpose())
 
         ' 相加
         For i = 0 To batchSize - 1
@@ -435,7 +457,7 @@ Public Class GRULayer
     Private Sub AccumulateGradient(grad As Tensor, delta As Tensor, input As Tensor)
         ' grad += delta^T * input
         Dim deltaT = delta.Transpose()
-        Dim gradUpdate = deltaT.MatMul(input)
+        Dim gradUpdate = MixedPrecisionOps.MatMulOr(deltaT, input)
 
         For i = 0 To grad.Shape(0) - 1
             For j = 0 To grad.Shape(1) - 1
@@ -446,8 +468,11 @@ Public Class GRULayer
 
     Private Sub AccumulateBiasGradient(grad As Tensor, delta As Tensor)
         ' grad += sum(delta, axis=0)
+        ' 累加器用 Double：偏置梯度是跨 batch（以及跨时间步）求和的结果，
+        ' 用 Single 累加既会在 batch 较大时丢掉尾部贡献，
+        ' 也可能在 delta 量级偏大时直接溢出成 ∞。
         For j = 0 To grad.Shape(0) - 1
-            Dim sum As Single = 0
+            Dim sum As Double = 0
             For i = 0 To delta.Shape(0) - 1
                 sum += delta(i, j)
             Next
@@ -457,12 +482,12 @@ Public Class GRULayer
 
     Private Function BackwardLinear(delta As Tensor, W As Tensor) As Tensor
         ' dx = delta * W
-        Return delta.MatMul(W)
+        Return MixedPrecisionOps.MatMulOr(delta, W)
     End Function
 
     Private Function BackwardLinearThroughReset(delta As Tensor, U As Tensor, r As Tensor) As Tensor
         ' dh_prev = delta * U * r
-        Dim Uh = delta.MatMul(U)
+        Dim Uh = MixedPrecisionOps.MatMulOr(delta, U)
         Return Uh.ElementwiseMultiply(r)
     End Function
 
@@ -531,7 +556,7 @@ Public Class GRULayer
     ''' <summary>
     ''' 重置梯度
     ''' </summary>
-    Public Sub ResetGradients()
+    Public Overrides Sub ResetGradients()
         For Each grad In GetGradients()
             For i = 0 To grad.Length - 1
                 grad(i) = 0
@@ -617,8 +642,8 @@ Public Class SimpleRNNLayer
             _inputs.Add(x_t.Clone())
 
             ' 计算: h = tanh(W * x + U * h + b)
-            Dim Wx = x_t.MatMul(_W.Transpose())
-            Dim Uh = h.MatMul(_U.Transpose())
+            Dim Wx = MixedPrecisionOps.MatMulOr(x_t, _W.Transpose())
+            Dim Uh = MixedPrecisionOps.MatMulOr(h, _U.Transpose())
 
             h = New Tensor(batchSize, HiddenSize)
             For i = 0 To batchSize - 1
@@ -673,8 +698,8 @@ Public Class SimpleRNNLayer
 
             ' 计算梯度
             Dim dhRawT = dhRaw.Transpose()
-            Dim dW = dhRawT.MatMul(x_t)
-            Dim dU = dhRawT.MatMul(h_prev)
+            Dim dW = MixedPrecisionOps.MatMulOr(dhRawT, x_t)
+            Dim dU = MixedPrecisionOps.MatMulOr(dhRawT, h_prev)
 
             For i = 0 To HiddenSize - 1
                 For j = 0 To InputSize - 1
@@ -683,7 +708,10 @@ Public Class SimpleRNNLayer
                 For j = 0 To HiddenSize - 1
                     _UGrad(i, j) += dU(i, j)
                 Next
-                Dim sumBias As Single = 0
+                ' 累加器必须是 Double：_bGrad 本身是双精度，
+                ' 用 Single 累加 batchSize 项会在 batch 较大时丢掉尾部贡献
+                ' （这是本分支既有的精度债，与混合精度改造无关但顺手修正）。
+                Dim sumBias As Double = 0
                 For b = 0 To batchSize - 1
                     sumBias += dhRaw(b, i)
                 Next
@@ -691,7 +719,7 @@ Public Class SimpleRNNLayer
             Next
 
             ' 计算输入梯度
-            Dim dx = dhRaw.MatMul(_W)
+            Dim dx = MixedPrecisionOps.MatMulOr(dhRaw, _W)
             For b = 0 To batchSize - 1
                 For i = 0 To InputSize - 1
                     inputGradient(t, b, i) = dx(b, i)
@@ -699,7 +727,7 @@ Public Class SimpleRNNLayer
             Next
 
             ' 计算隐藏状态梯度
-            dhNext = dhRaw.MatMul(_U)
+            dhNext = MixedPrecisionOps.MatMulOr(dhRaw, _U)
         Next
 
         Return inputGradient
@@ -721,7 +749,7 @@ Public Class SimpleRNNLayer
         Return New List(Of Tensor) From {_WGrad, _UGrad, _bGrad}
     End Function
 
-    Public Sub ResetGradients()
+    Public Overrides Sub ResetGradients()
         For Each grad In GetGradients()
             For i = 0 To grad.Length - 1
                 grad(i) = 0

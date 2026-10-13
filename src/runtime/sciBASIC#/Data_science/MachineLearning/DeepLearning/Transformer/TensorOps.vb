@@ -75,6 +75,8 @@
 ' ---------------------------------------------------------------------------
 
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
+Imports tpl = System.Threading.Tasks
 Imports std = System.Math
 
 Namespace Transformer
@@ -267,7 +269,10 @@ Namespace Transformer
                 ' 快路径：[rows, K] × [K, J]，直接复用 2D SIMD 后端
                 Dim rows As Integer = a.Length \ kmax
                 Dim a2 = Tensor.Wrap(a.Data, rows, kmax)
-                Dim c2 = a2.MatMul(b)
+
+                ' 规模够大时走单精度 + 后端内核（见 MixedPrecisionOps 的说明）；
+                ' 判据不成立时它返回 Nothing，这里自然落回双精度路径。
+                Dim c2 = If(MixedPrecisionOps.MatMul(a2, b), a2.MatMul(b))
 
                 Return Tensor.Wrap(c2.Data, outShape)
             End If
@@ -276,16 +281,28 @@ Namespace Transformer
                 Throw New ArgumentException("批量矩阵乘的 block 数量不一致")
             End If
 
+            ' 多 block 路径：注意力里 b 是 (batch, k, j) 的三维张量，走批量 GEMM。
+            ' 这里同样允许降到单精度（逐 block 调用 2D GEMM）。
+            Dim batched = MixedPrecisionOps.BatchedMatMul(a, b)
+
+            If batched IsNot Nothing Then Return batched
+
             Dim result = New Tensor(outShape)
             Dim aData = a.Data, bData = b.Data, cData = result.Data
             Dim bsA As Integer = imax * kmax
             Dim bsB As Integer = kmax * jmax
             Dim bsC As Integer = imax * jmax
 
-            For blk As Integer = 0 To nrBlocks - 1
-                Dim offsetA = blk * bsA, offsetB = blk * bsB, offsetC = blk * bsC
+            ' 按"输出行"并行：第 (blk, bi) 行只写 cData 的 rowC 段，
+            ' 各行写入区间互不相交，因此不需要锁；
+            ' 每个输出元素内部的累加次序（bk 由小到大、且保留零值跳过）不变，
+            ' 结果与串行版本逐位一致。
+            tpl.Parallel.For(0, nrBlocks * imax,
+                Sub(task As Integer)
+                    Dim blk = task \ imax
+                    Dim bi = task - blk * imax
 
-                For bi As Integer = 0 To imax - 1
+                    Dim offsetA = blk * bsA, offsetB = blk * bsB, offsetC = blk * bsC
                     Dim rowA = offsetA + bi * kmax
                     Dim rowC = offsetC + bi * jmax
 
@@ -300,8 +317,7 @@ Namespace Transformer
                             Next
                         End If
                     Next
-                Next
-            Next
+                End Sub)
 
             Call result.MarkHostModified()
 
@@ -338,10 +354,12 @@ Namespace Transformer
                 Dim dc2 = Tensor.Wrap(dC.Data, rows, jmax)
 
                 ' dB = Aᵀ · dC（对全部 block 求和）
-                dB = a2.Transpose().MatMul(dc2)
+                Dim aT = a2.Transpose()
+                dB = If(MixedPrecisionOps.MatMul(aT, dc2), aT.MatMul(dc2))
 
                 ' dA = dC · Bᵀ
-                Dim da2 = dc2.MatMul(b.Transpose())
+                Dim bT = b.Transpose()
+                Dim da2 = If(MixedPrecisionOps.MatMul(dc2, bT), dc2.MatMul(bT))
                 Array.Copy(da2.Data, dA.Data, dA.Length)
                 Call dA.MarkHostModified()
 
@@ -356,22 +374,28 @@ Namespace Transformer
             Dim bsB As Integer = kmax * jmax
             Dim bsC As Integer = imax * jmax
 
-            For blk As Integer = 0 To nrBlocks - 1
-                Dim offsetA = blk * bsA, offsetB = blk * bsB, offsetC = blk * bsC
+            ' 只能按 block 并行，不能按 (blk, bi) 并行：
+            '   dA(blk, bi, ·) 的累加只依赖 bi            -> 按行并行安全
+            '   dB(blk, ·, bj) 的累加要跨 bi 求和         -> 按行并行会写冲突
+            ' 因此取"按 block 并行"这个两者都安全的粒度：
+            ' 不同 block 的 dA / dB 切片互不相交。
+            tpl.Parallel.For(0, nrBlocks,
+                Sub(blk As Integer)
+                    Dim offsetA = blk * bsA, offsetB = blk * bsB, offsetC = blk * bsC
 
-                For bi As Integer = 0 To imax - 1
-                    For bj As Integer = 0 To jmax - 1
-                        Dim gval = cData(offsetC + bi * jmax + bj)
+                    For bi As Integer = 0 To imax - 1
+                        For bj As Integer = 0 To jmax - 1
+                            Dim gval = cData(offsetC + bi * jmax + bj)
 
-                        If gval <> 0.0 Then
-                            For bk As Integer = 0 To kmax - 1
-                                daData(offsetA + bi * kmax + bk) += gval * bData(offsetB + bk * jmax + bj)
-                                dbData(offsetB + bk * jmax + bj) += aData(offsetA + bi * kmax + bk) * gval
-                            Next
-                        End If
+                            If gval <> 0.0 Then
+                                For bk As Integer = 0 To kmax - 1
+                                    daData(offsetA + bi * kmax + bk) += gval * bData(offsetB + bk * jmax + bj)
+                                    dbData(offsetB + bk * jmax + bj) += aData(offsetA + bi * kmax + bk) * gval
+                                Next
+                            End If
+                        Next
                     Next
-                Next
-            Next
+                End Sub)
 
             Call dA.MarkHostModified()
             Call dB.MarkHostModified()
