@@ -214,7 +214,7 @@ Namespace RegulationNetwork
         Public Property stringAliases As String = Nothing
 
         ''' <summary>
-        ''' 基因 ID → STRING protein id 的映射表（可由 <see cref="Tabular.Tsv.entrez_gene_id_vs_string.BuildMapsFromFile"/> 构造）。
+        ''' 基因 ID → STRING protein id 的映射表（可由 "Tabular.Tsv.entrez_gene_id_vs_string.BuildMapsFromFile" 构造）。
         ''' 为 Nothing 时尝试用表达矩阵的基因 ID 与 STRING 的 protein id 直接匹配。
         ''' </summary>
         ''' <returns></returns>
