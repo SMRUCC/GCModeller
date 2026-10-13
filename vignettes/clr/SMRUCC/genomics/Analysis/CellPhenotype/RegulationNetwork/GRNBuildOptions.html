@@ -98,7 +98,7 @@ export class GRNBuildOptions {
    stringAddEdges: boolean;
    # STRING 的 <code>9606.protein.aliases.vXX.txt</code> 文件路径。 当 <a href="cref:P:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.GRNBuildOptions.stringIdMap">GRNBuildOptions.stringIdMap</a> 为 Nothing 且本路径有效时， 自动从别名表中提取 Ensembl gene（ENSG*）→ STRING protein id 的映射。
    stringAliases: string;
-   # 基因 ID → STRING protein id 的映射表（可由 <a href="cref:!:Tabular.Tsv.entrez_gene_id_vs_string.BuildMapsFromFile">BuildMapsFromFile</a> 构造）。 为 Nothing 时尝试用表达矩阵的基因 ID 与 STRING 的 protein id 直接匹配。
+   # 基因 ID → STRING protein id 的映射表（可由 "Tabular.Tsv.entrez_gene_id_vs_string.BuildMapsFromFile" 构造）。 为 Nothing 时尝试用表达矩阵的基因 ID 与 STRING 的 protein id 直接匹配。
    stringIdMap: list;
    # STRING 的 <code>9606.protein.links.vXX.txt</code> 文件路径；为 Nothing 时不启用 STRING 证据。 可以用 <a href="cref:M:SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork.ExpressionGRNBuilder.FindStringLinks(System.String)">ExpressionGRNBuilder.FindStringLinks()</a> 从 STRING 数据文件夹自动发现。
    stringLinks: string;
