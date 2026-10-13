@@ -465,42 +465,43 @@ Public NotInheritable Class Interpreter
     ''' <summary>Bind parameters and run a function body (shared by sync and async paths).</summary>
     Private Function InvokeBody(f As FuncExpr, closure As Environment, args As Object()) As Object
         Dim fenv As New Environment(closure, isFunctionScope:=True)
-                   For i = 0 To f.Parameters.Length - 1
-                       Dim v As JsValue
-                       ' a missing or explicitly-undefined argument triggers the default
-                       If i >= args.Length OrElse args(i) Is JsRuntime.Undef Then
-                           If i < f.Defaults.Length AndAlso f.Defaults(i) IsNot Nothing Then
-                               v = Eval(f.Defaults(i), fenv)
-                           Else
-                               v = JsValue.Undef
-                           End If
-                       Else
-                           v = JsRuntime.JsUnbox(args(i))
-                       End If
-                       fenv.Define(f.Parameters(i), v, False)
-                   Next
-                   If f.RestParam IsNot Nothing Then
-                       Dim rest As New List(Of Object)
-                       For i = f.Parameters.Length To args.Length - 1
-                           rest.Add(args(i))
-                       Next
-                       fenv.Define(f.RestParam, JsValue.OfObject(rest), False)
-                   End If
-                   If Not f.IsArrow Then
-                       ' arrow functions inherit 'this' and 'arguments' lexically
-                       fenv.Define("this", JsRuntime.JsUnbox(JsRuntime.CurrentThis), False)
-                       fenv.Define("arguments", New List(Of Object)(args), False)
-                   End If
-                   HoistFunctions(f.Body, fenv)
-                   Try
-                       For Each st In f.Body
-                           Execute(st, fenv)
-                       Next
-                   Catch r As ReturnSignal
-                       Return JsRuntime.JsBox(r.Value)
-                   End Try
-                   Return JsRuntime.Undef
-               End Function
+
+        For i = 0 To f.Parameters.Length - 1
+            Dim v As JsValue
+            ' a missing or explicitly-undefined argument triggers the default
+            If i >= args.Length OrElse args(i) Is JsRuntime.Undef Then
+                If i < f.Defaults.Length AndAlso f.Defaults(i) IsNot Nothing Then
+                    v = Eval(f.Defaults(i), fenv)
+                Else
+                    v = JsValue.Undef
+                End If
+            Else
+                v = JsRuntime.JsUnbox(args(i))
+            End If
+            fenv.Define(f.Parameters(i), v, False)
+        Next
+        If f.RestParam IsNot Nothing Then
+            Dim rest As New List(Of Object)
+            For i = f.Parameters.Length To args.Length - 1
+                rest.Add(args(i))
+            Next
+            fenv.Define(f.RestParam, JsValue.OfObject(rest), False)
+        End If
+        If Not f.IsArrow Then
+            ' arrow functions inherit 'this' and 'arguments' lexically
+            fenv.Define("this", JsRuntime.JsUnbox(JsRuntime.CurrentThis), False)
+            fenv.Define("arguments", New List(Of Object)(args), False)
+        End If
+
+        HoistFunctions(f.Body, fenv)
+        Try
+            For Each st In f.Body
+                Execute(st, fenv)
+            Next
+        Catch r As ReturnSignal
+            Return JsRuntime.JsBox(r.Value)
+        End Try
+        Return JsRuntime.Undef
     End Function
 
     Private Function Eval(e As Expression, env As Environment) As JsValue
@@ -537,6 +538,11 @@ Public NotInheritable Class Interpreter
                 ' each evaluation yields a fresh RegExp object, like JS
                 Dim rx = DirectCast(e, RegexExpr)
                 Return JsValue.OfObject(New JsRegExp(rx.Source, rx.Flags))
+
+            Case TypeOf e Is AwaitExpr
+                ' await unwraps a promise, draining the microtask queue first
+                Dim av = DirectCast(e, AwaitExpr)
+                Return JsRuntime.JsUnbox(JsRuntime.JsAwait(JsRuntime.JsBox(Eval(av.Operand, env))))
 
             Case TypeOf e Is UnaryExpr
                 Dim u = DirectCast(e, UnaryExpr)
