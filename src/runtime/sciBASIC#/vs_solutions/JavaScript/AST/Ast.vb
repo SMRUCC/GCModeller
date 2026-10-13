@@ -191,18 +191,46 @@ Public NotInheritable Class FuncExpr
     ''' bindings — both resolve lexically through the enclosing scope.
     ''' </summary>
     Public ReadOnly IsArrow As Boolean
+    ''' <summary>async function — calling it yields a Promise.</summary>
+    Public ReadOnly IsAsync As Boolean
     Public ReadOnly Body As List(Of Statement)
 
     Public Sub New(name As String, parameters As String(), body As List(Of Statement),
                    Optional isArrow As Boolean = False,
                    Optional defaults As Expression() = Nothing,
-                   Optional restParam As String = Nothing)
+                   Optional restParam As String = Nothing,
+                   Optional isAsync As Boolean = False)
         Me.Name = name
         Me.Parameters = parameters
         Me.Defaults = If(defaults, New Expression(System.Math.Max(0, parameters.Length - 1)) {})
         Me.RestParam = restParam
         Me.IsArrow = isArrow
+        Me.IsAsync = isAsync
         Me.Body = body
+    End Sub
+End Class
+
+''' <summary>await expr — unwrap a promise (drains the microtask queue).</summary>
+Public NotInheritable Class AwaitExpr
+    Inherits Expression
+
+    Public ReadOnly Operand As Expression
+
+    Public Sub New(operand As Expression)
+        Me.Operand = operand
+    End Sub
+End Class
+
+''' <summary>Regular-expression literal: each evaluation yields a fresh RegExp object.</summary>
+Public NotInheritable Class RegexExpr
+    Inherits Expression
+
+    Public ReadOnly Source As String
+    Public ReadOnly Flags As String
+
+    Public Sub New(source As String, flags As String)
+        Me.Source = source
+        Me.Flags = flags
     End Sub
 End Class
 
@@ -385,14 +413,18 @@ Public NotInheritable Class FuncDeclStmt
     Public ReadOnly Defaults As Expression()
     ''' <summary>Rest parameter name (<c>...args</c>), or Nothing.</summary>
     Public ReadOnly RestParam As String
+    ''' <summary>async function — calling it yields a Promise.</summary>
+    Public ReadOnly IsAsync As Boolean
     Public ReadOnly Body As List(Of Statement)
 
     Public Sub New(name As String, parameters As String(), body As List(Of Statement),
-                   Optional defaults As Expression() = Nothing, Optional restParam As String = Nothing)
+                   Optional defaults As Expression() = Nothing, Optional restParam As String = Nothing,
+                   Optional isAsync As Boolean = False)
         Me.Name = name
         Me.Parameters = parameters
         Me.Defaults = If(defaults, New Expression(System.Math.Max(0, parameters.Length - 1)) {})
         Me.RestParam = restParam
+        Me.IsAsync = isAsync
         Me.Body = body
     End Sub
 End Class
@@ -511,6 +543,83 @@ Public NotInheritable Class ForOfStmt
         Me.Target = target
         Me.Iterable = iterable
         Me.Body = body
+    End Sub
+End Class
+
+''' <summary>class Foo extends Bar { ... } — a class definition statement (not hoisted).</summary>
+Public NotInheritable Class ClassDeclStmt
+    Inherits Statement
+
+    Public ReadOnly Spec As ClassSpec
+
+    Public Sub New(spec As ClassSpec)
+        Me.Spec = spec
+    End Sub
+End Class
+
+''' <summary>Class expression: <c>var C = class { ... }</c>.</summary>
+Public NotInheritable Class ClassExpr
+    Inherits Expression
+
+    Public ReadOnly Spec As ClassSpec
+
+    Public Sub New(spec As ClassSpec)
+        Me.Spec = spec
+    End Sub
+End Class
+
+''' <summary>Structural description shared by class declarations and expressions.</summary>
+Public NotInheritable Class ClassSpec
+
+    Public ReadOnly Name As String
+    ''' <summary>Superclass expression, or Nothing for a base class.</summary>
+    Public ReadOnly SuperClass As Expression
+    ''' <summary>Constructor body, or Nothing (implicit empty constructor).</summary>
+    Public ReadOnly Constructor As FuncExpr
+    Public ReadOnly Members As List(Of ClassMember)
+
+    Public Sub New(name As String, superClass As Expression, ctor As FuncExpr, members As List(Of ClassMember))
+        Me.Name = name
+        Me.SuperClass = superClass
+        Me.Constructor = ctor
+        Me.Members = members
+    End Sub
+End Class
+
+Public Enum ClassMemberKind
+    ''' <summary>Regular method (instance unless <see cref="ClassMember.IsStatic"/>).</summary>
+    Method
+    Getter
+    Setter
+    ''' <summary>Field with an initialiser expression (instance or static).</summary>
+    Field
+End Enum
+
+Public NotInheritable Class ClassMember
+
+    Public ReadOnly Kind As ClassMemberKind
+    Public ReadOnly Name As String
+    ''' <summary>FuncExpr for methods/accessors; initialiser expression for fields.</summary>
+    Public ReadOnly Value As Expression
+    Public ReadOnly IsStatic As Boolean
+
+    Public Sub New(kind As ClassMemberKind, name As String, value As Expression, isStatic As Boolean)
+        Me.Kind = kind
+        Me.Name = name
+        Me.Value = value
+        Me.IsStatic = isStatic
+    End Sub
+End Class
+
+''' <summary>super / super.member inside a derived class.</summary>
+Public NotInheritable Class SuperExpr
+    Inherits Expression
+
+    ''' <summary>Member name, or Nothing for a bare <c>super(...)</c> constructor call.</summary>
+    Public ReadOnly Member As String
+
+    Public Sub New(member As String)
+        Me.Member = member
     End Sub
 End Class
 
