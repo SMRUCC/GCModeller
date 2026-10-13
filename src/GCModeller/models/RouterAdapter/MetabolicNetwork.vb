@@ -84,7 +84,9 @@ Public Class MetabolicNetwork
     ''' </summary>
     ''' <param name="a"></param>
     ''' <param name="b"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' 请注意，这个拓展操作符需要确保数据源有自己的source标记信息
+    ''' </returns>
     Public Shared Operator &(a As MetabolicNetwork, b As MetabolicNetwork) As MetabolicNetwork
         Dim globals As New MetabolicNetwork
 
