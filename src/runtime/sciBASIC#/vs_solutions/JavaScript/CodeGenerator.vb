@@ -26,6 +26,8 @@ Public NotInheritable Class CodeGenerator
     Private ReadOnly _labeledTargets As New Dictionary(Of String, LabelInfo)
     ' promise variable of the innermost async function being generated ('return' fulfils it)
     Private ReadOnly _asyncPromise As New Stack(Of String)
+    ' yield collector of the innermost generator being generated
+    Private ReadOnly _yieldCollector As New Stack(Of String)
 
     Public Function Generate(program As Program, Optional className As String = "GeneratedScript") As String
         _temp = 0
@@ -55,6 +57,8 @@ Public NotInheritable Class CodeGenerator
         ' the top (VB Dim is block-scoped, JS var is function-scoped)
         EmitHoistedVars(program.Body, w, top)
         GenBlock(program.Body, w, top)
+        ' promise reactions queued by the body are microtasks — run them now
+        w.Line("JsRuntime.DrainMicrotasks()")
         w.UnIndent()
         w.Line("End Sub")
         w.UnIndent()
@@ -441,7 +445,8 @@ Public NotInheritable Class CodeGenerator
         w.Line($"Dim {vbName} As Func(Of Object(), Object) = Function({argsName} As JsValue())")
         w.Indent()
         w.Paste(LambdaBody(New FuncExpr(f.Name, f.Parameters, f.Body, defaults:=f.Defaults,
-                                        restParam:=f.RestParam, isAsync:=f.IsAsync),
+                                        restParam:=f.RestParam, isAsync:=f.IsAsync,
+                                        isGenerator:=f.IsGenerator),
                            scope, argsName))
         w.UnIndent()
         w.Line("End Function")
@@ -679,6 +684,18 @@ Public NotInheritable Class CodeGenerator
         ElseIf TypeOf e Is RegexExpr Then
             Dim rx = DirectCast(e, RegexExpr)
             Return $"New LiteJs.Runtime.JsRegExp({VbString(rx.Source)}, {VbString(rx.Flags)})"
+
+        ElseIf TypeOf e Is AwaitExpr Then
+            Return $"JsRuntime.JsAwait({GenExpr(DirectCast(e, AwaitExpr).Operand, scope)})"
+
+        ElseIf TypeOf e Is YieldExpr Then
+            Dim yy = DirectCast(e, YieldExpr)
+            Dim yvalue = If(yy.Operand IsNot Nothing, GenExpr(yy.Operand, scope), "JsRuntime.Undef")
+            If _yieldCollector.Count = 0 Then
+                Throw New NotSupportedException("'yield' is only valid inside a generator function")
+            End If
+            ' AddValue records the value and evaluates to it (yield is an expression)
+            Return $"{_yieldCollector.Peek()}.AddValue({yvalue})"
 
         ElseIf TypeOf e Is OptionalChainExpr Then
             ' the chain root turns the short-circuit signal into undefined
@@ -990,10 +1007,30 @@ Public NotInheritable Class CodeGenerator
         Dim saveExit = _loopExit.ToArray()
         Dim saveCont = _loopCont.ToArray()
         Dim saveLabels = _labeledTargets.ToArray()
-        _loopExit.Clear() : _loopCont.Clear() : _labeledTargets.Clear()
+        Dim saveAsync = _asyncPromise.ToArray()
+        Dim saveGen = _yieldCollector.ToArray()
+        _loopExit.Clear() : _loopCont.Clear() : _labeledTargets.Clear() : _asyncPromise.Clear() : _yieldCollector.Clear()
 
         Dim w As New IndentWriter()
         Dim fscope = parent.Push()
+
+        ' generators collect their yield values eagerly and hand back an iterator
+        Dim generatorVar As String = Nothing
+        If f.IsGenerator Then
+            generatorVar = UniqueName("gen")
+            w.Line($"Dim {generatorVar} As New LiteJs.Runtime.JsYieldCollector()")
+        End If
+
+        ' async functions hand back a promise settled by their return value
+        Dim promiseVar As String = Nothing
+        Dim catchVar As String = Nothing
+        If f.IsAsync Then
+            promiseVar = UniqueName("promise")
+            catchVar = UniqueName("ax")
+            w.Line($"Dim {promiseVar} As New LiteJs.Runtime.JsPromise()")
+            w.Line("Try")
+            w.Indent()
+        End If
         For i = 0 To f.Parameters.Length - 1
             Dim vbParam = fscope.DefineLocal(f.Parameters(i))
             If i < f.Defaults.Length AndAlso f.Defaults(i) IsNot Nothing Then
@@ -1017,13 +1054,44 @@ Public NotInheritable Class CodeGenerator
         End If
         ' JS var hoisting: declare every 'var' of this function once at the top
         EmitHoistedVars(f.Body, w, fscope)
-        GenBlockInScope(f.Body, w, fscope)
-        w.Line("Return JsRuntime.Undef")
+
+        If generatorVar IsNot Nothing Then
+            _yieldCollector.Push(generatorVar)
+            Try
+                GenBlockInScope(f.Body, w, fscope)
+            Finally
+                _yieldCollector.Pop()
+            End Try
+            w.Line($"Return JsRuntime.JsGeneratorFrom({generatorVar})")
+        ElseIf promiseVar Is Nothing Then
+            GenBlockInScope(f.Body, w, fscope)
+            w.Line("Return JsRuntime.Undef")
+        Else
+            _asyncPromise.Push(promiseVar)
+            Try
+                GenBlockInScope(f.Body, w, fscope)
+            Finally
+                _asyncPromise.Pop()
+            End Try
+            ' falling off the end fulfils with undefined
+            w.Line($"{promiseVar}.Fulfill(JsRuntime.Undef)")
+            w.Line($"Return {promiseVar}")
+            w.UnIndent()
+            w.Line($"Catch {catchVar} As LiteJs.Runtime.JsRuntimeException")
+            w.Indent()
+            w.Line($"{promiseVar}.Reject({catchVar}.Payload)")
+            w.Line($"Return {promiseVar}")
+            w.UnIndent()
+            w.Line("End Try")
+        End If
 
         _loopExit.Clear() : _loopCont.Clear() : _labeledTargets.Clear()
+        _asyncPromise.Clear() : _yieldCollector.Clear()
         For Each e In saveExit : _loopExit.Push(e) : Next
         For Each c In saveCont : _loopCont.Push(c) : Next
         For Each kv In saveLabels : _labeledTargets(kv.Key) = kv.Value : Next
+        For Each a In saveAsync : _asyncPromise.Push(a) : Next
+        For Each g In saveGen : _yieldCollector.Push(g) : Next
         Return w.ToString()
     End Function
 
@@ -1184,6 +1252,7 @@ Public NotInheritable Class CodeGenerator
             Case "Date" : Return "JsRuntime.DateBuiltin"
             Case "RegExp" : Return "JsRuntime.RegExpBuiltin"
             Case "Error" : Return "JsRuntime.ErrorBuiltin"
+            Case "Promise" : Return "JsRuntime.PromiseBuiltin"
             Case "TypeError", "RangeError", "SyntaxError", "ReferenceError"
                 Return $"JsRuntime.JsGet(JsRuntime.GlobalObj, {VbString(name)})"
             Case "undefined" : Return "JsRuntime.Undef"

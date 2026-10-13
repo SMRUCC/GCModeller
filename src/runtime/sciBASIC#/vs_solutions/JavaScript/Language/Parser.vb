@@ -99,6 +99,19 @@ Public NotInheritable Class Parser
         Return name
     End Function
 
+    ''' <summary>
+    ''' A property name after '.' — reserved words are legal member names in JS
+    ''' (<c>promise.catch(...)</c>, <c>x.delete</c>, ...).
+    ''' </summary>
+    Private Function ExpectMemberName() As String
+        If Cur.name <> TokenType.Identifier AndAlso Cur.name <> TokenType.Keyword Then
+            Throw New ParseException($"expected property name but found '{Cur.text}' at {Cur.Location}")
+        End If
+        Dim name = Cur.Text
+        _pos += 1
+        Return name
+    End Function
+
     ''' <summary>Consume ';' or accept ASI (line break / '}' / EOF before current token).</summary>
     Private Sub ConsumeStatementEnd()
         If Match(";") Then Return
@@ -259,13 +272,16 @@ Public NotInheritable Class Parser
 
     Private Function ParseFunctionDecl() As Statement
         EatKeyword("function")
+        Dim isGenerator = Match("*")
         Dim name = ExpectIdentifier()
-        Dim f = ParseFunctionRest(name)
-        Return New FuncDeclStmt(name, f.Parameters, f.Body, f.Defaults, f.RestParam)
+        Dim f = ParseFunctionRest(name, isGenerator:=isGenerator)
+        Return New FuncDeclStmt(name, f.Parameters, f.Body, f.Defaults, f.RestParam,
+                                f.IsAsync, f.IsGenerator)
     End Function
 
     ''' <summary>Parse "(params) { body }" (function keyword already consumed).</summary>
-    Private Function ParseFunctionRest(name As String, Optional isAsync As Boolean = False) As FuncExpr
+    Private Function ParseFunctionRest(name As String, Optional isAsync As Boolean = False,
+                                       Optional isGenerator As Boolean = False) As FuncExpr
         Dim spec = ParseParameterList()
         Dim outerFunc = _funcDepth
         Dim outerLoop = _loopDepth
@@ -275,7 +291,8 @@ Public NotInheritable Class Parser
         _funcDepth = outerFunc
         _loopDepth = outerLoop
         Return New FuncExpr(name, spec.Parameters.ToArray(), body,
-                            defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest, isAsync:=isAsync)
+                            defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest,
+                            isAsync:=isAsync, isGenerator:=isGenerator)
     End Function
 
     ''' <summary>Parameter list with default values and a trailing rest parameter.</summary>
@@ -352,6 +369,13 @@ Public NotInheritable Class Parser
                 _pos += 1
             End If
 
+            ' generator method: *m() {}
+            Dim isGeneratorMember = False
+            If At("*") Then
+                isGeneratorMember = True
+                _pos += 1
+            End If
+
             If Cur.name = TokenType.Identifier AndAlso (Cur.text = "get" OrElse Cur.text = "set") AndAlso
                IsAccessorHeader() Then
                 Dim isGetter = Cur.text = "get"
@@ -370,7 +394,7 @@ Public NotInheritable Class Parser
             ElseIf IsMethodHeader() Then
                 Dim mname = ParsePropertyName()
                 Dim spec = ParseParameterList()
-                Dim fn = ParseMethodBody(spec, isAsyncMember)
+                Dim fn = ParseMethodBody(spec, isAsyncMember, isGeneratorMember)
                 If Not isStatic AndAlso mname = "constructor" Then
                     If ctor IsNot Nothing Then Throw New ParseException("class may only have one constructor")
                     ctor = fn
@@ -392,7 +416,8 @@ Public NotInheritable Class Parser
     End Function
 
     ''' <summary>Method body with its own function scope (like a function declaration).</summary>
-    Private Function ParseMethodBody(spec As ParamSpec, Optional isAsync As Boolean = False) As FuncExpr
+    Private Function ParseMethodBody(spec As ParamSpec, Optional isAsync As Boolean = False,
+                                     Optional isGenerator As Boolean = False) As FuncExpr
         Dim outerFunc = _funcDepth, outerLoop = _loopDepth
         _funcDepth += 1
         _loopDepth = 0
@@ -400,7 +425,8 @@ Public NotInheritable Class Parser
         _funcDepth = outerFunc
         _loopDepth = outerLoop
         Return New FuncExpr(Nothing, spec.Parameters.ToArray(), body,
-                            defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest, isAsync:=isAsync)
+                            defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest,
+                            isAsync:=isAsync, isGenerator:=isGenerator)
     End Function
 
     ''' <summary>True when 'async' is followed by a method header (async m() {}).</summary>
@@ -912,11 +938,34 @@ Public NotInheritable Class Parser
         Return left
     End Function
 
+    ''' <summary>True when 'yield' should be read as the generator operator.</summary>
+    Private Function YieldIsOperator() As Boolean
+        If Cur.name <> TokenType.Identifier OrElse Cur.text <> "yield" Then Return False
+        If AwaitOperandFollows() Then Return True
+        If _pos + 1 >= _tokens.Count Then Return True
+        Dim nxt = _tokens(_pos + 1)
+        If nxt.name = TokenType.Eof Then Return True
+        If nxt.name = TokenType.Punct Then
+            Select Case nxt.text
+                Case ";", ")", ",", "]", "}", ":"
+                    Return True
+            End Select
+        End If
+        Return False
+    End Function
+
     Private Function ParseUnary() As Expression
         ' await (contextual keyword: only when an operand follows)
         If Cur.name = TokenType.Identifier AndAlso Cur.text = "await" AndAlso AwaitOperandFollows() Then
             _pos += 1
             Return New AwaitExpr(ParseUnary())
+        End If
+        ' yield / yield expr
+        If YieldIsOperator() Then
+            _pos += 1
+            Dim yoperand As Expression = Nothing
+            If AwaitOperandFollows() Then yoperand = ParseUnary()
+            Return New YieldExpr(yoperand)
         End If
         If Cur.name = TokenType.Keyword AndAlso Cur.text = "typeof" Then
             _pos += 1
@@ -963,7 +1012,7 @@ Public NotInheritable Class Parser
         While True
             If At(".") Then
                 _pos += 1
-                Dim name = ExpectIdentifier()
+                Dim name = ExpectMemberName()
                 e = New MemberExpr(e, name, False)
             ElseIf At("?.") Then
                 _pos += 1
@@ -978,7 +1027,7 @@ Public NotInheritable Class Parser
                     Eat("]")
                     e = New MemberExpr(e, idx, True, isOptional:=True)
                 Else
-                    Dim name = ExpectIdentifier()
+                    Dim name = ExpectMemberName()
                     e = New MemberExpr(e, name, False, isOptional:=True)
                 End If
             ElseIf At("(") Then
@@ -1070,12 +1119,13 @@ Public NotInheritable Class Parser
                 Case "undefined" : _pos += 1 : Return New LiteralExpr(JsValue.Undef)
                 Case "function"
                     _pos += 1
+                    Dim isGen = Match("*")
                     Dim name As String = Nothing
                     If Cur.name = TokenType.Identifier Then
                         name = Cur.text
                         _pos += 1
                     End If
-                    Return ParseFunctionRest(name)
+                    Return ParseFunctionRest(name, isGenerator:=isGen)
                 Case "class"
                     Return ParseClassExpression()
                 Case "this"
@@ -1088,7 +1138,7 @@ Public NotInheritable Class Parser
                     While At(".") OrElse At("[")
                         If At(".") Then
                             _pos += 1
-                            callee = New MemberExpr(callee, ExpectIdentifier(), False)
+                            callee = New MemberExpr(callee, ExpectMemberName(), False)
                         Else
                             _pos += 1
                             Dim idx = ParseExpression()
@@ -1103,7 +1153,7 @@ Public NotInheritable Class Parser
                     _pos += 1
                     If At(".") Then
                         _pos += 1
-                        Return New SuperExpr(ExpectIdentifier())
+                        Return New SuperExpr(ExpectMemberName())
                     End If
                     If At("[") Then
                         ' super[expr] — evaluated as a member name
@@ -1204,6 +1254,15 @@ Public NotInheritable Class Parser
             Dim akey = ParsePropertyName()
             Dim aspec = ParseParameterList()
             Return New ObjectProperty(akey, Nothing, ParseMethodBody(aspec, isAsync:=True),
+                                      ObjectPropertyKind.Normal)
+        End If
+
+        ' generator method: { *m() {} }
+        If At("*") Then
+            _pos += 1
+            Dim gkey = ParsePropertyName()
+            Dim gspec = ParseParameterList()
+            Return New ObjectProperty(gkey, Nothing, ParseMethodBody(gspec, isGenerator:=True),
                                       ObjectPropertyKind.Normal)
         End If
 
