@@ -24,6 +24,8 @@ Public NotInheritable Class CodeGenerator
     Private ReadOnly _loopCont As New Stack(Of String)
     ' GoTo targets of labeled statements currently in scope (labeled break/continue)
     Private ReadOnly _labeledTargets As New Dictionary(Of String, LabelInfo)
+    ' promise variable of the innermost async function being generated ('return' fulfils it)
+    Private ReadOnly _asyncPromise As New Stack(Of String)
 
     Public Function Generate(program As Program, Optional className As String = "GeneratedScript") As String
         _temp = 0
@@ -150,7 +152,15 @@ Public NotInheritable Class CodeGenerator
 
         ElseIf TypeOf s Is ReturnStmt Then
             Dim r = DirectCast(s, ReturnStmt)
-            w.Line($"Return {If(r.Value IsNot Nothing, GenExpr(r.Value, scope), "JsRuntime.Undef")}")
+            Dim valueTxt = If(r.Value IsNot Nothing, GenExpr(r.Value, scope), "JsRuntime.Undef")
+            If _asyncPromise.Count > 0 Then
+                ' inside an async function 'return x' settles the promise
+                Dim promise = _asyncPromise.Peek()
+                w.Line($"{promise}.Fulfill({valueTxt})")
+                w.Line($"Return {promise}")
+            Else
+                w.Line($"Return {valueTxt}")
+            End If
 
         ElseIf TypeOf s Is ThrowStmt Then
             w.Line($"Throw New LiteJs.Runtime.JsRuntimeException({GenExpr(DirectCast(s, ThrowStmt).Value, scope)})")
@@ -430,7 +440,8 @@ Public NotInheritable Class CodeGenerator
         w.WriteLine()
         w.Line($"Dim {vbName} As Func(Of Object(), Object) = Function({argsName} As JsValue())")
         w.Indent()
-        w.Paste(LambdaBody(New FuncExpr(f.Name, f.Parameters, f.Body, defaults:=f.Defaults, restParam:=f.RestParam),
+        w.Paste(LambdaBody(New FuncExpr(f.Name, f.Parameters, f.Body, defaults:=f.Defaults,
+                                        restParam:=f.RestParam, isAsync:=f.IsAsync),
                            scope, argsName))
         w.UnIndent()
         w.Line("End Function")
