@@ -91,6 +91,12 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Public NotInheritable Class Parser
 
     Private ReadOnly _tokens As List(Of Token)
+
+    ''' <summary>Original source text; function bodies are sliced out of it on demand.</summary>
+    Private ReadOnly _source As String
+    ''' <summary>Offset of every source line start, for the (line, column) → offset mapping.</summary>
+    Private ReadOnly _lineStarts As Integer()
+
     Private _pos As Integer
     Private _loopDepth As Integer
     Private _funcDepth As Integer
@@ -100,12 +106,22 @@ Public NotInheritable Class Parser
     ''' <summary>Labels in scope: (name, isLoopLabel) — targets of labeled break/continue.</summary>
     Private ReadOnly _labels As New List(Of KeyValuePair(Of String, Boolean))
 
-    Private Sub New(tokens As List(Of Token))
+    Private Sub New(tokens As List(Of Token), source As String)
         _tokens = tokens
+        _source = If(source, "")
+        _lineStarts = LineStartsOf(_source)
     End Sub
 
     Public Shared Function Parse(source As String) As Program
-        Return New Parser(Lexer.Lex(source)).ParseProgram()
+        Dim parser As New Parser(Lexer.Lex(source), source)
+
+        Try
+            Return parser.ParseProgram()
+        Catch ex As ParseException
+            ' the parser stopped at the offending token: attach its location, so hosts can
+            ' render a position frame even for throw sites whose message carries no position
+            Throw ex.WithPosition(parser.CurrentTokenOrLast)
+        End Try
     End Function
 
     ' ---------------- token helpers ----------------
@@ -115,6 +131,71 @@ Public NotInheritable Class Parser
             Return _tokens(_pos)
         End Get
     End Property
+
+    ''' <summary>
+    ''' <see cref="Cur"/> clamped to the token list — safe to read from an exception
+    ''' handler, where <c>_pos</c> may already sit past the last token.
+    ''' </summary>
+    Private ReadOnly Property CurrentTokenOrLast As Token
+        Get
+            If _tokens Is Nothing OrElse _tokens.Count = 0 Then Return Nothing
+            If _pos >= 0 AndAlso _pos < _tokens.Count Then Return _tokens(_pos)
+
+            Return _tokens(_tokens.Count - 1)
+        End Get
+    End Property
+
+    ''' <summary>Source position of a token (the parser stamps it onto AST nodes).</summary>
+    Private Shared Function PositionOf(token As Token) As SourcePosition
+        If token Is Nothing Then Return SourcePosition.None
+
+        Return New SourcePosition(token.span.line, token.span.start)
+    End Function
+
+    ''' <summary>Offset of every source line start (index = line number - 1).</summary>
+    Private Shared Function LineStartsOf(source As String) As Integer()
+        Dim starts As New List(Of Integer) From {0}
+
+        For i = 0 To source.Length - 1
+            If source(i) = ChrW(10) Then starts.Add(i + 1)
+        Next
+
+        Return starts.ToArray()
+    End Function
+
+    ''' <summary>Absolute source offset of a token, from its 1 based (line, column).</summary>
+    Private Function OffsetOf(token As Token) As Integer
+        Dim line = token.span.line
+        Dim column = token.span.start
+
+        If line < 1 OrElse line > _lineStarts.Length Then Return -1
+        If column < 1 Then column = 1
+
+        Return _lineStarts(line - 1) + column - 1
+    End Function
+
+    ''' <summary>
+    ''' Source text of the token span <c>[startIndex, nextIndex)</c>: the end is the start of
+    ''' the token that FOLLOWS the construct, so the raw length of string / template tokens
+    ''' (whose <c>text</c> is not the source text) never matters.
+    ''' </summary>
+    Private Function SourceSlice(startIndex As Integer, nextIndex As Integer) As String
+        If _source.Length = 0 Then Return Nothing
+        If startIndex < 0 OrElse startIndex >= _tokens.Count Then Return Nothing
+
+        Dim start As Integer = OffsetOf(_tokens(startIndex))
+
+        If start < 0 OrElse start > _source.Length Then Return Nothing
+
+        Dim [end] As Integer = If(nextIndex >= 0 AndAlso nextIndex < _tokens.Count,
+                                  OffsetOf(_tokens(nextIndex)),
+                                  _source.Length)
+
+        If [end] > _source.Length Then [end] = _source.Length
+        If [end] <= start Then Return Nothing
+
+        Return _source.Substring(start, [end] - start).TrimEnd()
+    End Function
 
     Private ReadOnly Property Prev As Token
         Get
@@ -206,7 +287,20 @@ Public NotInheritable Class Parser
         Return New Program(body)
     End Function
 
+    ''' <summary>
+    ''' Parse one statement and stamp its source position: the interpreter copies it onto
+    ''' the current stack frame, which is what gives frames a real line number.
+    ''' </summary>
     Private Function ParseStatement() As Statement
+        Dim start = Cur
+        Dim s = ParseStatementCore()
+
+        If s IsNot Nothing AndAlso Not s.Position.HasValue Then s.Position = PositionOf(start)
+
+        Return s
+    End Function
+
+    Private Function ParseStatementCore() As Statement
         If At(";") Then
             _pos += 1
             Return New EmptyStmt()
@@ -241,7 +335,11 @@ Public NotInheritable Class Parser
             EatKeyword("function")
             Dim aname = ExpectIdentifier()
             Dim af = ParseFunctionRest(aname, isAsync:=True)
-            Return New FuncDeclStmt(aname, af.Parameters, af.Body, af.Defaults, af.RestParam, isAsync:=True)
+
+            Return New FuncDeclStmt(aname, af.Parameters, af.Body, af.Defaults, af.RestParam, isAsync:=True) With {
+                .Position = af.Position,
+                .BodySource = af.BodySource
+            }
         End If
         If Cur.name = TokenType.Keyword Then
             Select Case Cur.text
@@ -329,6 +427,10 @@ Public NotInheritable Class Parser
             Dim target = ParseBindingTarget()
             Dim init As Expression = Nothing
             If Match("=") Then init = ParseAssignment()
+            ' `var f = function () {}` → the frame name is the declared variable (V8 inference)
+            If TypeOf target Is String AndAlso TypeOf init Is FuncExpr Then
+                DirectCast(init, FuncExpr).InferredName = CStr(target)
+            End If
             decls.Add(New VarDeclarant(target, init))
         Loop While Match(",")
         Return New VarStmt(kind, decls)
@@ -352,8 +454,14 @@ Public NotInheritable Class Parser
         Dim isGenerator = Match("*")
         Dim name = ExpectIdentifier()
         Dim f = ParseFunctionRest(name, isGenerator:=isGenerator)
+
+        ' the declaration is hoisted into a fresh FuncExpr, so the source and the position
+        ' have to travel with it
         Return New FuncDeclStmt(name, f.Parameters, f.Body, f.Defaults, f.RestParam,
-                                f.IsAsync, f.IsGenerator)
+                                f.IsAsync, f.IsGenerator) With {
+            .Position = f.Position,
+            .BodySource = f.BodySource
+        }
     End Function
 
     ''' <summary>Parse "(params) { body }" (function keyword already consumed).</summary>
@@ -362,6 +470,7 @@ Public NotInheritable Class Parser
         Dim spec = ParseParameterList()
         Dim outerFunc = _funcDepth
         Dim outerLoop = _loopDepth
+        Dim bodyStart = _pos                ' the '{' of the body
         _funcDepth += 1
         _loopDepth = 0
         Dim body = ParseBlock()
@@ -369,7 +478,10 @@ Public NotInheritable Class Parser
         _loopDepth = outerLoop
         Return New FuncExpr(name, spec.Parameters.ToArray(), body,
                             defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest,
-                            isAsync:=isAsync, isGenerator:=isGenerator)
+                            isAsync:=isAsync, isGenerator:=isGenerator) With {
+            .Position = PositionOf(Prev),      ' the declared name (or the 'function' keyword)
+            .BodySource = SourceSlice(bodyStart, _pos)
+        }
     End Function
 
     ''' <summary>Parameter list with default values and a trailing rest parameter.</summary>
@@ -466,12 +578,16 @@ Public NotInheritable Class Parser
                     Throw New ParseException("class setter must take exactly one parameter")
                 End If
                 Dim fn = ParseMethodBody(spec)
+
+                fn.InferredName = mname
                 members.Add(New ClassMember(If(isGetter, ClassMemberKind.Getter, ClassMemberKind.Setter),
                                             mname, fn, isStatic))
             ElseIf IsMethodHeader() Then
                 Dim mname = ParsePropertyName()
                 Dim spec = ParseParameterList()
                 Dim fn = ParseMethodBody(spec, isAsyncMember, isGeneratorMember)
+
+                fn.InferredName = mname
                 If Not isStatic AndAlso mname = "constructor" Then
                     If ctor IsNot Nothing Then Throw New ParseException("class may only have one constructor")
                     ctor = fn
@@ -496,6 +612,7 @@ Public NotInheritable Class Parser
     Private Function ParseMethodBody(spec As ParamSpec, Optional isAsync As Boolean = False,
                                      Optional isGenerator As Boolean = False) As FuncExpr
         Dim outerFunc = _funcDepth, outerLoop = _loopDepth
+        Dim bodyStart = _pos                ' the '{' of the body
         _funcDepth += 1
         _loopDepth = 0
         Dim body = ParseBlock()
@@ -503,7 +620,10 @@ Public NotInheritable Class Parser
         _loopDepth = outerLoop
         Return New FuncExpr(Nothing, spec.Parameters.ToArray(), body,
                             defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest,
-                            isAsync:=isAsync, isGenerator:=isGenerator)
+                            isAsync:=isAsync, isGenerator:=isGenerator) With {
+            .Position = PositionOf(Prev),      ' the ')' of the parameter list
+            .BodySource = SourceSlice(bodyStart, _pos)
+        }
     End Function
 
     ''' <summary>True when 'async' is followed by a method header (async m() {}).</summary>
@@ -862,27 +982,43 @@ Public NotInheritable Class Parser
             If Not (TypeOf left Is IdentExpr OrElse TypeOf left Is MemberExpr) Then
                 Throw New ParseException("invalid assignment target")
             End If
+            ' `f = function () {}` → frame name from the assignment target (V8 inference)
+            If op = "=" AndAlso TypeOf right Is FuncExpr Then
+                Dim target = TryCast(left, IdentExpr)
+
+                If target IsNot Nothing Then DirectCast(right, FuncExpr).InferredName = target.Name
+            End If
             Return New AssignExpr(op, left, right)
         End If
         Return left
     End Function
 
     Private Function ParseArrowBody(spec As ParamSpec, Optional isAsync As Boolean = False) As FuncExpr
+        Dim start = Cur
+
         If At("{") Then
             Dim outerFunc = _funcDepth, outerLoop = _loopDepth
+            Dim bodyStart = _pos            ' the '{' of the block body
             _funcDepth += 1
             _loopDepth = 0
             Dim body = ParseBlock()
             _funcDepth = outerFunc
             _loopDepth = outerLoop
             Return New FuncExpr(Nothing, spec.Parameters.ToArray(), body, isArrow:=True,
-                                defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest, isAsync:=isAsync)
+                                defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest, isAsync:=isAsync) With {
+                .Position = PositionOf(start),
+                .BodySource = SourceSlice(bodyStart, _pos)
+            }
         End If
         ' expression body → { return expr; }
+        Dim exprStart = _pos
         Dim expr = ParseAssignment()
         Dim body2 As New List(Of Statement) From {New ReturnStmt(expr)}
         Return New FuncExpr(Nothing, spec.Parameters.ToArray(), body2, isArrow:=True,
-                            defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest, isAsync:=isAsync)
+                            defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest, isAsync:=isAsync) With {
+            .Position = PositionOf(start),
+            .BodySource = SourceSlice(exprStart, _pos)
+        }
     End Function
 
     Private Function ParseConditional() As Expression
@@ -1093,6 +1229,9 @@ Public NotInheritable Class Parser
     End Function
 
     Private Function ParseCallOrMember() As Expression
+        ' the call site of every call in this chain is the start of its callee, which is
+        ' where V8 reports the frame of the call (see the position stamped on CallExpr)
+        Dim start = Cur
         Dim e = ParsePrimary()
         Dim anyOptional = False
         While True
@@ -1106,7 +1245,10 @@ Public NotInheritable Class Parser
                 If At("(") Then
                     ' optional call: a?.(args)
                     Dim args2 = ParseArguments()
-                    e = New CallExpr(e, args2, isOptional:=True)
+                    Dim optionalCall As New CallExpr(e, args2, isOptional:=True)
+
+                    optionalCall.Position = PositionOf(start)
+                    e = optionalCall
                 ElseIf At("[") Then
                     _pos += 1
                     Dim idx = ParseExpression()
@@ -1117,7 +1259,10 @@ Public NotInheritable Class Parser
                     e = New MemberExpr(e, name, False, isOptional:=True)
                 End If
             ElseIf At("(") Then
-                e = New CallExpr(e, ParseArguments(), isOptional:=False)
+                Dim callExpr As New CallExpr(e, ParseArguments(), isOptional:=False)
+
+                callExpr.Position = PositionOf(start)
+                e = callExpr
             ElseIf At("[") Then
                 _pos += 1
                 Dim idx = ParseExpression()
@@ -1339,8 +1484,10 @@ Public NotInheritable Class Parser
             _pos += 1
             Dim akey = ParsePropertyName()
             Dim aspec = ParseParameterList()
-            Return New ObjectProperty(akey, Nothing, ParseMethodBody(aspec, isAsync:=True),
-                                      ObjectPropertyKind.Normal)
+            Dim afn = ParseMethodBody(aspec, isAsync:=True)
+
+            afn.InferredName = akey
+            Return New ObjectProperty(akey, Nothing, afn, ObjectPropertyKind.Normal)
         End If
 
         ' generator method: { *m() {} }
@@ -1348,8 +1495,10 @@ Public NotInheritable Class Parser
             _pos += 1
             Dim gkey = ParsePropertyName()
             Dim gspec = ParseParameterList()
-            Return New ObjectProperty(gkey, Nothing, ParseMethodBody(gspec, isGenerator:=True),
-                                      ObjectPropertyKind.Normal)
+            Dim gfn = ParseMethodBody(gspec, isGenerator:=True)
+
+            gfn.InferredName = gkey
+            Return New ObjectProperty(gkey, Nothing, gfn, ObjectPropertyKind.Normal)
         End If
 
         ' get/set accessors — contextual keywords: they only count when a key
@@ -1367,12 +1516,16 @@ Public NotInheritable Class Parser
                 Throw New ParseException("setter must take exactly one parameter")
             End If
             Dim outerFunc = _funcDepth, outerLoop = _loopDepth
+            Dim bodyStart = _pos            ' the '{' of the body
             _funcDepth += 1
             _loopDepth = 0
             Dim body = ParseBlock()
             _funcDepth = outerFunc
             _loopDepth = outerLoop
-            Dim fn = New FuncExpr(Nothing, spec.Parameters.ToArray(), body)
+            Dim fn = New FuncExpr(Nothing, spec.Parameters.ToArray(), body) With {
+                .InferredName = key,
+                .BodySource = SourceSlice(bodyStart, _pos)
+            }
             Return New ObjectProperty(key, Nothing, fn,
                                       If(isGetter, ObjectPropertyKind.Getter, ObjectPropertyKind.Setter))
         End If
@@ -1391,13 +1544,17 @@ Public NotInheritable Class Parser
             Dim key = ParsePropertyName()
             Dim spec = ParseParameterList()
             Dim outerFunc = _funcDepth, outerLoop = _loopDepth
+            Dim bodyStart = _pos            ' the '{' of the body
             _funcDepth += 1
             _loopDepth = 0
             Dim body = ParseBlock()
             _funcDepth = outerFunc
             _loopDepth = outerLoop
             Dim fn = New FuncExpr(Nothing, spec.Parameters.ToArray(), body,
-                                  defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest)
+                                  defaults:=spec.Defaults.ToArray(), restParam:=spec.Rest) With {
+                .InferredName = key,
+                .BodySource = SourceSlice(bodyStart, _pos)
+            }
             Return New ObjectProperty(key, Nothing, fn, ObjectPropertyKind.Normal)
         End If
 

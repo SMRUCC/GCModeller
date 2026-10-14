@@ -112,10 +112,18 @@ Namespace Runtime
             End Get
             Set(value As ScriptIO)
                 _io = value
+                ' a fresh sink means a fresh script run: console counters / timers /
+                ' group indentation are per-thread state of the console singleton, and any
+                ' frames left over from an interrupted run must not leak into this one
+                ' (Interpreter.Run resets the stack too — this is the belt and braces path
+                ' that also covers generated code, which only assigns the sink)
+                Call ConsoleModule.Reset()
+                Call JsStackTrace.Reset()
             End Set
         End Property
 
-        Public ReadOnly ConsoleBuiltin As New NativeObject("console")
+        ''' <summary>The <c>console</c> builtin object (see <see cref="ConsoleModule"/>).</summary>
+        Public ReadOnly ConsoleBuiltin As NativeObject = ConsoleModule.MakeConsole()
         Public ReadOnly MathBuiltin As New NativeObject("Math")
         Public ReadOnly Json As New NativeObject("JSON")
         Public ReadOnly ObjectBuiltin As New NativeObject("Object")
@@ -127,6 +135,14 @@ Namespace Runtime
         Public ReadOnly PromiseBuiltin As New NativeObject("Promise")
         Public ReadOnly GlobalObj As New NativeObject("global")
 
+        ' Node.js-compatible modules (fs / Buffer / path / process). Rebuilt by
+        ' GlobalIdentifiers so each fresh interpreter picks up the current host context
+        ' (cwd / argv injected by the runner). CodeGenerator references these same fields.
+        Public FsBuiltin As JsModule
+        Public PathBuiltin As JsModule
+        Public ProcessBuiltin As JsModule
+        Public BufferBuiltin As JsModule
+
         ' math constants exposed as properties (System.Math qualified — the
         ' field above shadows the type name inside this module)
         Private ReadOnly _mathProps As New Dictionary(Of String, Object) From {
@@ -136,11 +152,21 @@ Namespace Runtime
 
         ''' <summary>Global identifiers installed into every fresh interpreter environment.</summary>
         Public Function GlobalIdentifiers() As IDictionary(Of String, Object)
+            ' (re)build the Node-compatible modules so each engine sees the current host
+            ' context (cwd / argv injected by the runner before this engine is created)
+            FsBuiltin = FsModule.MakeModule()
+            PathBuiltin = PathModule.MakeModule()
+            ProcessBuiltin = ProcessModule.MakeModule()
+            BufferBuiltin = BufferModule.MakeModule()
+
             Dim g As New Dictionary(Of String, Object) From {
                 {"console", ConsoleBuiltin}, {"Math", MathBuiltin}, {"JSON", Json},
                 {"Object", ObjectBuiltin}, {"Array", ArrayBuiltin}, {"Function", FunctionBuiltin},
                 {"Date", DateBuiltin}, {"RegExp", RegExpBuiltin}, {"Error", ErrorBuiltin},
                 {"Promise", PromiseBuiltin},
+                {"fs", FsBuiltin}, {"path", PathBuiltin}, {"process", ProcessBuiltin},
+                {"Buffer", BufferBuiltin},
+                {"__dirname", ProcessModule.ScriptDir}, {"__filename", ProcessModule.ScriptFile},
                 {"undefined", Undef}, {"NaN", Double.NaN}, {"Infinity", Double.PositiveInfinity}
             }
             For Each name In {"parseInt", "parseFloat", "isNaN", "isFinite",
@@ -236,18 +262,40 @@ Namespace Runtime
             If TypeOf x Is String Then Return CStr(x)
             If TypeOf x Is List(Of Object) Then Return JoinArray(DirectCast(x, List(Of Object)), ",")
             If TypeOf x Is Dictionary(Of String, Object) Then Return "[object Object]"
-            If TypeOf x Is BuiltinMethod Then Return "[function: " & DirectCast(x, BuiltinMethod).Name & "]"
+            ' native (host) functions render like node: function name() { [native code] }
+            If TypeOf x Is BuiltinMethod Then Return JsFunctions.NativeSource(DirectCast(x, BuiltinMethod).Name)
             If TypeOf x Is NativeObject Then Return "[object " & DirectCast(x, NativeObject).Name & "]"
             If TypeOf x Is JsClass Then Return "class " & DirectCast(x, JsClass).Name & " { ... }"
             If TypeOf x Is JsError Then Return DirectCast(x, JsError).ToString()
             If TypeOf x Is JsGenerator Then Return "[object Generator]"
             If TypeOf x Is JsDate Then Return DirectCast(x, JsDate).ToString()
             If TypeOf x Is JsRegExp Then Return DirectCast(x, JsRegExp).ToString()
+            If TypeOf x Is BufferInstance Then Return DirectCast(x, BufferInstance).ToString()
             ' ---- CLR reflection bridge ----
             If TypeOf x Is ClrObject Then Return "[object Object]"
             If TypeOf x Is ClrType Then Return "class " & DirectCast(x, ClrType).UnderlyingType.Name
-            If TypeOf x Is ClrBoundMethod Then Return "[function: " & DirectCast(x, ClrBoundMethod).Name & "]"
-            Return CStr(x)
+            If TypeOf x Is ClrBoundMethod Then Return JsFunctions.NativeSource(DirectCast(x, ClrBoundMethod).Name)
+            ' ---- interpreter function values: JS String(fn) is the function source ----
+            If TypeOf x Is Func(Of Object(), Object) Then Return JsFunctions.SourceOf(x)
+            ' ---- the remaining primitives keep their plain text form ----
+            If TypeOf x Is Single OrElse TypeOf x Is Integer OrElse TypeOf x Is Long OrElse
+               TypeOf x Is Decimal OrElse TypeOf x Is Char Then
+                Return Convert.ToString(x, CultureInfo.InvariantCulture)
+            End If
+            ' ---- never throw here: any other runtime value (a promise, an accessor, ...) ----
+            Return "[object " & OpaqueTypeName(x) & "]"
+        End Function
+
+        ''' <summary>
+        ''' JS-ish type name of a runtime value that has no dedicated display branch, so an
+        ''' unknown value renders as <c>[object Promise]</c> instead of crashing the script
+        ''' (the previous <c>CStr(x)</c> fallback threw for every plain class).
+        ''' </summary>
+        Private Function OpaqueTypeName(x As Object) As String
+            If TypeOf x Is JsPromise Then Return "Promise"
+            If TypeOf x Is AccessorProperty Then Return "Object"
+
+            Return x.GetType().Name
         End Function
 
         Private Function NumToString(d As Double) As String
@@ -280,10 +328,16 @@ Namespace Runtime
                     Return "[Circular]"
                 End Try
             End If
+            ' functions are inspected the way node does: console.log(fn) → [Function: name]
+            If TypeOf x Is Func(Of Object(), Object) OrElse TypeOf x Is BuiltinMethod OrElse
+               TypeOf x Is ClrBoundMethod Then
+                Return JsFunctions.Inspect(x)
+            End If
             ' ---- CLR reflection bridge: show the wrapped CLR type ----
             If TypeOf x Is ClrObject Then
                 Return "[object " & DirectCast(x, ClrObject).TargetType.ToString() & "]"
             End If
+            If TypeOf x Is BufferInstance Then Return DirectCast(x, BufferInstance).ToString()
             Return JsStr(x)
         End Function
 
@@ -496,9 +550,57 @@ Namespace Runtime
                 End While
                 Return Undef
             End If
+            If TypeOf obj Is BufferInstance Then
+                Dim b = DirectCast(obj, BufferInstance)
+                If name = "length" Then Return CDbl(b.Data.Length)
+                If name = "toString" OrElse name = "slice" OrElse name = "subarray" OrElse name = "equals" OrElse
+                   name = "fill" OrElse name = "write" OrElse name = "copy" OrElse name = "includes" OrElse
+                   name = "indexOf" OrElse name = "toJSON" Then
+                    Return New BuiltinMethod(obj, name)
+                End If
+                Return Undef
+            End If
+            If TypeOf obj Is FsStats Then
+                Dim st = DirectCast(obj, FsStats)
+                Select Case name
+                    Case "size" : Return CDbl(st.Size)
+                    Case "mtimeMs" : Return st.MtimeMs
+                    Case "ctimeMs" : Return st.CtimeMs
+                    Case "atimeMs" : Return st.AtimeMs
+                    Case "birthtimeMs" : Return st.BirthtimeMs
+                    Case "dev" : Return CDbl(st.Dev)
+                    Case "mode" : Return CDbl(st.Mode)
+                    Case "isFile", "isDirectory", "isBlockDevice", "isCharacterDevice",
+                         "isSymbolicLink", "isFIFO", "isSocket"
+                        Return New BuiltinMethod(obj, name)
+                End Select
+                Return Undef
+            End If
+            If TypeOf obj Is JsFsError Then
+                Dim fe = DirectCast(obj, JsFsError)
+                Select Case name
+                    Case "name" : Return fe.Name
+                    Case "message" : Return fe.Message
+                    Case "code" : Return fe.Code
+                    Case "syscall" : Return fe.Syscall
+                    Case "path" : Return fe.Path
+                    Case "stack" : Return fe.Stack
+                    Case "toString" : Return New BuiltinMethod(obj, name)
+                End Select
+                Return Undef
+            End If
+            If TypeOf obj Is JsModule Then
+                Dim jm = DirectCast(obj, JsModule)
+                Dim pv As Object = Nothing
+                If jm.PropertyTable.TryGetValue(name, pv) Then Return pv
+            End If
             If TypeOf obj Is NativeObject Then
                 Dim n = DirectCast(obj, NativeObject)
                 If n.Name = "Math" AndAlso _mathProps.TryGetValue(name, Nothing) Then Return _mathProps(name)
+                ' Error.stackTraceLimit is the one writable static property of the Error family
+                If n.Name = "Error" AndAlso name = "stackTraceLimit" Then
+                    Return CDbl(JsStackTrace.StackTraceLimit)
+                End If
                 ' the global object has no builtin methods beyond the registered globals
                 If n.Name = "global" Then Return Undef
                 Return New BuiltinMethod(obj, name)
@@ -546,9 +648,18 @@ Namespace Runtime
                 Select Case name
                     Case "name" : Return err.Name
                     Case "message" : Return err.Message
-                    Case "stack" : Return err.ToString()
+                    Case "stack" : Return err.Stack
                     ' the .NET exception a CLR bridge call raised (Nothing for engine errors)
                     Case "clrException" : Return err.Original
+                    Case "toString" : Return New BuiltinMethod(obj, name)
+                End Select
+                Return Undef
+            End If
+            ' interpreter function values: fn.name / fn.length / fn.toString() (node semantics)
+            If TypeOf obj Is Func(Of Object(), Object) Then
+                Select Case name
+                    Case "name" : Return JsFunctions.DisplayName(obj)
+                    Case "length" : Return CDbl(JsFunctions.Arity(obj))
                     Case "toString" : Return New BuiltinMethod(obj, name)
                 End Select
                 Return Undef
@@ -556,6 +667,8 @@ Namespace Runtime
             ' static helpers live on the builtin function objects (Number.isInteger, ...)
             If TypeOf obj Is BuiltinMethod Then
                 Dim bm = DirectCast(obj, BuiltinMethod)
+
+                If name = "name" Then Return bm.Name
                 If bm.Name = "Number" Then
                     ' numeric constants are values, not methods
                     Select Case name
@@ -588,6 +701,14 @@ Namespace Runtime
             ' ---- CLR reflection bridge: array elements and indexers ----
             Dim clrObj = TryCast(obj, ClrObject)
             If clrObj IsNot Nothing Then Return ClrInterop.GetIndex(clrObj, index)
+
+            If TypeOf obj Is BufferInstance Then
+                Dim b = DirectCast(obj, BufferInstance)
+                Dim i = CInt(System.Math.Floor(JsNum(index)))
+                If Double.IsNaN(JsNum(index)) Then Return Undef
+                If i < 0 OrElse i >= b.Data.Length Then Return Undef
+                Return CDbl(b.Data(i))
+            End If
 
             If IsJsArray(obj) Then
                 Dim a = DirectCast(obj, List(Of Object))
@@ -646,6 +767,13 @@ Namespace Runtime
                     If TryWriteAccessor(existingStatic, value, obj, c) Then Return
                 End If
                 c.Statics(name) = value
+            ElseIf TypeOf obj Is NativeObject Then
+                ' Error.stackTraceLimit = n (the only writable static of the builtin objects)
+                Dim n = DirectCast(obj, NativeObject)
+
+                If n.Name = "Error" AndAlso name = "stackTraceLimit" Then
+                    JsStackTrace.StackTraceLimit = CInt(System.Math.Max(0, System.Math.Truncate(JsNum(value))))
+                End If
             End If
             ' other targets: silently ignored (non-strict JS)
         End Sub
@@ -902,7 +1030,8 @@ Namespace Runtime
                     Dim parsed = JsDate.Parse(JsStr(args(0)))
                     Return If(parsed IsNot Nothing, parsed, JsDate.FromEpochMs(Double.NaN))
                 Case "Error", "TypeError", "RangeError", "SyntaxError", "ReferenceError"
-                    Return New JsError(name, If(args.Length > 0 AndAlso args(0) IsNot Undef, JsStr(args(0)), ""))
+                    ' freeze the JS stack of the construction site (Node semantics)
+                    Return JsError.Capture(name, If(args.Length > 0 AndAlso args(0) IsNot Undef, JsStr(args(0)), ""))
                 Case "Promise" : Return ConstructPromise(args)
             End Select
             Throw JsRuntimeException.TypeError("'" & name & "' is not a constructor")
@@ -1162,6 +1291,19 @@ Namespace Runtime
         End Function
 
         Private Function DispatchBuiltin(target As Object, name As String, args As Object()) As Object
+            ' methods of an interpreter function value: fn.toString() is the function source (node)
+            If TypeOf target Is Func(Of Object(), Object) Then
+                Select Case name
+                    Case "toString" : Return JsStr(target)
+                End Select
+            End If
+            ' instance methods on Buffer / fs.Stats objects
+            If TypeOf target Is BufferInstance Then
+                Return BufferModule.DispatchInstance(DirectCast(target, BufferInstance), name, args)
+            End If
+            If TypeOf target Is FsStats Then
+                Return FsModule.DispatchStats(DirectCast(target, FsStats), name, args)
+            End If
             If TypeOf target Is NativeObject Then
                 Select Case DirectCast(target, NativeObject).Name
                     Case "console" : Return BuiltinConsole(name, args)
@@ -1174,6 +1316,11 @@ Namespace Runtime
                     Case "RegExp" : Return New JsRegExp(JsStr(Arg(args, 0)), If(args.Length > 1, JsStr(args(1)), ""))
                     Case "Promise" : Return BuiltinPromiseStatic(name, args)
                     Case "global" : Return BuiltinGlobalFn(name, args)
+                    Case "fs" : Return FsModule.Dispatch(name, args)
+                    Case "fs.promises" : Return FsModule.DispatchPromises(name, args)
+                    Case "Buffer" : Return BufferModule.Dispatch(name, args)
+                    Case "path" : Return PathModule.Dispatch(name, args)
+                    Case "process" : Return ProcessModule.Dispatch(name, args)
                 End Select
             End If
             ' static helpers on the Number / String / Boolean function objects
@@ -1251,14 +1398,12 @@ Namespace Runtime
             Return NumToString(d)
         End Function
 
+        ''' <summary>
+        ''' Dispatch a call on the <c>console</c> object; the whole console API lives in
+        ''' <see cref="ConsoleModule"/> (mirroring how <c>fs</c> lives in <see cref="FsModule"/>).
+        ''' </summary>
         Private Function BuiltinConsole(name As String, args As Object()) As Object
-            Dim parts(args.Length - 1) As String
-            For i = 0 To args.Length - 1
-                parts(i) = JsDisplay(args(i))
-            Next
-            Dim prefix = If(name = "error", "[error] ", If(name = "warn", "[warn] ", ""))
-            Io.WriteLine(prefix & String.Join(" ", parts))
-            Return Undef
+            Return ConsoleModule.Dispatch(name, args)
         End Function
 
         Private Function BuiltinMath(name As String, args As Object()) As Object
@@ -2402,8 +2547,30 @@ Namespace Runtime
             Return list
         End Function
 
+        ''' <summary>
+        ''' The <c>Error</c> family (constructible with and without <c>new</c>) plus the
+        ''' Node extension <c>Error.captureStackTrace(targetObject)</c>.
+        ''' </summary>
         Private Function BuiltinErrorCtor(name As String, args As Object()) As Object
-            Return New JsError(name, If(args.Length > 0 AndAlso Not (args(0) Is Undef), JsStr(args(0)), ""))
+            If name = "captureStackTrace" Then Return CaptureStackTrace(args)
+
+            ' the JS stack is frozen here, exactly like `new Error(message)` in Node
+            Return JsError.Capture(name, If(args.Length > 0 AndAlso Not (args(0) Is Undef), JsStr(args(0)), ""))
+        End Function
+
+        ''' <summary>
+        ''' Node's <c>Error.captureStackTrace(targetObject)</c>: install the current JS stack
+        ''' as the <c>stack</c> property of the target object. The optional second argument
+        ''' (constructorOpt) is ignored — the engine cannot skip host frames.
+        ''' </summary>
+        Private Function CaptureStackTrace(args As Object()) As Object
+            Dim target = Arg(args, 0)
+
+            If IsJsObject(target) Then
+                DirectCast(target, Dictionary(Of String, Object))("stack") = JsStackTrace.Format(JsStackTrace.Capture())
+            End If
+
+            Return Undef
         End Function
 
         Private Function BuiltinDateStatic(name As String, args As Object()) As Object

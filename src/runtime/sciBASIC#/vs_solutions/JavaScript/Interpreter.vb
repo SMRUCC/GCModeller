@@ -45,6 +45,8 @@
 
     ' Class Interpreter
     ' 
+    '     Properties: Io, SourceFile
+    ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
     '     Function: BuildClass, Eval, EvalArguments, EvalArrayLiteral, EvalCall
@@ -86,6 +88,14 @@ Public NotInheritable Class Interpreter
     Private ReadOnly _globals As Environment
     Public ReadOnly Io As ScriptIO
 
+    ''' <summary>
+    ''' File name reported in JS stack frames (<c>at fn (file:line:col)</c>). It defaults
+    ''' to the script the host published through <c>process</c>
+    ''' (<see cref="ProcessModule.ScriptFile"/>); sources without a file (parsed
+    ''' strings, tests) render as <c>&lt;anonymous&gt;</c>.
+    ''' </summary>
+    Public Property SourceFile As String = ProcessModule.ScriptFile
+
     ''' <summary>Label of the statement currently being entered (see labeled break/continue).</summary>
     Private _pendingLabel As String
 
@@ -106,12 +116,76 @@ Public NotInheritable Class Interpreter
 
     ''' <summary>Run a parsed program; output goes to <see cref="Io"/>.</summary>
     Public Sub Run(program As Program)
-        HoistFunctions(program.Body, _globals)
-        ExecuteBlock(program.Body, _globals)
-        ' promise reactions queued while the body ran are microtasks — drain them
-        ' now, mirroring a JS job queue that has no other pending work
-        JsRuntime.DrainMicrotasks()
+        Call RunInRootFrame(Function() As Object
+                                HoistFunctions(program.Body, _globals)
+                                ExecuteBlock(program.Body, _globals)
+                                ' promise reactions queued while the body ran are microtasks —
+                                ' drain them now, mirroring a JS job queue with no other work
+                                JsRuntime.DrainMicrotasks()
+
+                                Return Nothing
+                            End Function)
     End Sub
+
+    ''' <summary>
+    ''' Evaluate a parsed program for an interactive session (REPL) and return the completion
+    ''' value of its trailing expression statement (<see cref="JsRuntime.Undef"/> when the
+    ''' program ends with a non expression statement).
+    ''' <para>
+    ''' Unlike <see cref="Run"/>, the top level statements execute directly in the global
+    ''' function scope instead of a throwaway block scope, so <c>var</c>, <c>let</c>,
+    ''' <c>const</c>, function and class declarations survive from one call to the next —
+    ''' which is exactly what a REPL needs. Script semantics are untouched (<see cref="Run"/>
+    ''' still uses <see cref="ExecuteBlock"/>).
+    ''' </para>
+    ''' </summary>
+    Public Function Evaluate(program As Program) As Object
+        Return RunInRootFrame(Function() As Object
+                                  HoistFunctions(program.Body, _globals)
+
+                                  Dim body = program.Body
+                                  Dim completion As Object = JsRuntime.Undef
+
+                                  For i = 0 To body.Count - 1
+                                      Dim expr = TryCast(body(i), ExprStmt)
+
+                                      If expr Is Nothing Then
+                                          Execute(body(i), _globals)
+                                          completion = JsRuntime.Undef
+                                      ElseIf i = body.Count - 1 Then
+                                          ' the trailing expression is the value of the input:
+                                          ' evaluate it in place of Execute so it can be returned
+                                          Dim location = expr.Position
+
+                                          If location.HasValue Then JsStackTrace.UpdatePosition(location.Line, location.Column)
+
+                                          completion = JsRuntime.JsBox(Eval(expr.Expr, _globals))
+                                      Else
+                                          Execute(expr, _globals)
+                                      End If
+                                  Next
+
+                                  JsRuntime.DrainMicrotasks()
+
+                                  Return completion
+                              End Function)
+    End Function
+
+    ''' <summary>
+    ''' Run <paramref name="run"/> with the top level script as the root stack frame; the JS
+    ''' stack is emptied before and after, so a generator or async body left half way can
+    ''' never leak frames into the next run on this thread.
+    ''' </summary>
+    Private Function RunInRootFrame(run As Func(Of Object)) As Object
+        JsStackTrace.Reset()
+        Call JsStackTrace.PushFrame(JsStackFrame.AnonymousFunction, SourceFile)
+
+        Try
+            Return run()
+        Finally
+            JsStackTrace.Reset()
+        End Try
+    End Function
 
     ''' <summary>
     ''' Register a host-side value as a global identifier visible to scripts.
@@ -190,11 +264,16 @@ Public NotInheritable Class Interpreter
         For Each s In body
             If TypeOf s Is FuncDeclStmt Then
                 Dim f = DirectCast(s, FuncDeclStmt)
-                env.Define(f.Name,
-                           MakeFunction(New FuncExpr(f.Name, f.Parameters, f.Body,
-                                                     defaults:=f.Defaults, restParam:=f.RestParam,
-                                                     isAsync:=f.IsAsync, isGenerator:=f.IsGenerator), env),
-                           False)
+                ' the declaration is hoisted into a fresh FuncExpr: carry the source position and
+                ' the body source along, so String(fn) / fn.name / stack frames keep working
+                Dim hoisted As New FuncExpr(f.Name, f.Parameters, f.Body,
+                                            defaults:=f.Defaults, restParam:=f.RestParam,
+                                            isAsync:=f.IsAsync, isGenerator:=f.IsGenerator) With {
+                    .Position = f.Position,
+                    .BodySource = f.BodySource
+                }
+
+                env.Define(f.Name, MakeFunction(hoisted, env), False)
             End If
         Next
     End Sub
@@ -208,6 +287,13 @@ Public NotInheritable Class Interpreter
     End Sub
 
     Private Sub Execute(s As Statement, env As Environment)
+        ' stamp the position of the statement being executed on the innermost frame: two
+        ' integer writes, no allocation — this is what makes a stack frame point at the
+        ' real offending source line instead of the function declaration
+        Dim location = s.Position
+
+        If location.HasValue Then JsStackTrace.UpdatePosition(location.Line, location.Column)
+
         Select Case True
             Case TypeOf s Is ExprStmt
                 Eval(DirectCast(s, ExprStmt).Expr, env)
@@ -546,21 +632,30 @@ Public NotInheritable Class Interpreter
 
     Private Function MakeFunction(f As FuncExpr, env As Environment) As Func(Of Object(), Object)
         Dim closure = env
+        Dim fn As Func(Of Object(), Object)
+
         If f.IsGenerator Then
             ' eager generator: the body runs to completion, collecting yield values
-            Return Function(args As Object())
-                       Return JsRuntime.JsRunGenerator(Function() InvokeBody(f, closure, args))
-                   End Function
-        End If
-        If f.IsAsync Then
+            fn = Function(args As Object())
+                     Return JsRuntime.JsRunGenerator(Function() InvokeBody(f, closure, args))
+                 End Function
+        ElseIf f.IsAsync Then
             ' async: the body runs synchronously, its completion settles the promise
-            Return Function(args As Object())
-                       Return JsRuntime.JsAsyncWrapper(Function() InvokeBody(f, closure, args))
-                   End Function
+            fn = Function(args As Object())
+                     Return JsRuntime.JsAsyncWrapper(Function() InvokeBody(f, closure, args))
+                 End Function
+        Else
+            fn = Function(args As Object())
+                     Return InvokeBody(f, closure, args)
+                 End Function
         End If
-        Return Function(args As Object())
-                   Return InvokeBody(f, closure, args)
-               End Function
+
+        ' link the value to its AST node: this is what lets String(fn) show the source and
+        ' fn.name / fn.length answer like node (the wrapper delegates are the values that
+        ' scripts actually hold, so register the one returned here)
+        Call JsFunctions.Register(fn, f)
+
+        Return fn
     End Function
 
     ''' <summary>Bind parameters and run a function body (shared by sync and async paths).</summary>
@@ -595,12 +690,23 @@ Public NotInheritable Class Interpreter
         End If
 
         HoistFunctions(f.Body, fenv)
+
+        ' one frame per invoked body: every interpreter call becomes visible to
+        ' console.trace / e.stack; named functions use their declared name, anonymous ones
+        ' the name inferred from their syntactic position (V8 inference), and only a truly
+        ' unnamed callback renders as <anonymous>
+        Dim frameName = If(Not String.IsNullOrEmpty(f.Name), f.Name, f.InferredName)
+
+        Call JsStackTrace.PushFrame(frameName, SourceFile, f.Position.Line, f.Position.Column)
+
         Try
             For Each st In f.Body
                 Execute(st, fenv)
             Next
         Catch r As ReturnSignal
             Return JsRuntime.JsBox(r.Value)
+        Finally
+            JsStackTrace.PopFrame()
         End Try
         Return JsRuntime.Undef
     End Function
@@ -895,6 +1001,12 @@ Public NotInheritable Class Interpreter
     ''' object for <c>this</c>) and plain calls.
     ''' </summary>
     Private Function EvalCall(c As CallExpr, env As Environment) As Object
+        ' narrow the innermost frame to the call site itself (the statement start would point
+        ' at 'var' in `var x = f()`, while a stack trace should point at the call)
+        Dim callSite = c.Position
+
+        If callSite.HasValue Then JsStackTrace.UpdatePosition(callSite.Line, callSite.Column)
+
         ' super(...) / super.m(...)
         Dim sup = TryCast(c.Callee, SuperExpr)
         If sup IsNot Nothing Then

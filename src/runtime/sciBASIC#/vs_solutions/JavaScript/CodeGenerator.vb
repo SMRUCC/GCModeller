@@ -136,6 +136,9 @@ Public NotInheritable Class CodeGenerator
         w.Line("Public Shared Sub Run(io As LiteJsRuntime.ScriptIO, Optional host As LiteJsRuntime.ClrHost = Nothing)")
         w.Indent()
         w.Line("JsRuntime.Io = io")
+        ' (re)build the Node-compatible modules (fs / Buffer / path / process) so the
+        ' generated code, which references JsRuntime.FsBuiltin etc. directly, sees them.
+        w.Line("JsRuntime.GlobalIdentifiers()")
         ' host CLR objects (reflection bridge): publish them before the body runs
         w.Line("If host IsNot Nothing Then host.Install()")
         ' JS var hoisting: every 'var' of this function body is declared once at
@@ -1346,6 +1349,12 @@ Public NotInheritable Class CodeGenerator
             Case "RegExp" : Return "JsRuntime.RegExpBuiltin"
             Case "Error" : Return "JsRuntime.ErrorBuiltin"
             Case "Promise" : Return "JsRuntime.PromiseBuiltin"
+            Case "fs" : Return "JsRuntime.FsBuiltin"
+            Case "path" : Return "JsRuntime.PathBuiltin"
+            Case "process" : Return "JsRuntime.ProcessBuiltin"
+            Case "Buffer" : Return "JsRuntime.BufferBuiltin"
+            Case "__dirname" : Return "ProcessModule.ScriptDir"
+            Case "__filename" : Return "ProcessModule.ScriptFile"
             Case "TypeError", "RangeError", "SyntaxError", "ReferenceError"
                 Return $"JsRuntime.JsGet(JsRuntime.GlobalObj, {VbString(name)})"
             Case "undefined" : Return "JsRuntime.Undef"

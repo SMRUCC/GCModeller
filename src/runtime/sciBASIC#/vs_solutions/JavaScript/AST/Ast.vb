@@ -308,6 +308,14 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 ''' <see cref="CodeGenerator"/> operate on this object model.</para>
 ''' </summary>
 Public MustInherit Class Expression
+
+    ''' <summary>
+    ''' Source location of this node, stamped by the parser
+    ''' (<see cref="SourcePosition.None"/> when unknown). It is what makes a JS stack
+    ''' frame point at the real source line of a call.
+    ''' </summary>
+    Public Property Position As SourcePosition
+
 End Class
 
 ''' <summary>number / string / true / false / null / undefined literal.</summary>
@@ -494,6 +502,23 @@ Public NotInheritable Class FuncExpr
     Public ReadOnly IsGenerator As Boolean
     Public ReadOnly Body As List(Of Statement)
 
+    ''' <summary>
+    ''' Name inferred from the syntactic position when the function itself is anonymous:
+    ''' <c>{ m() {} }</c> → <c>m</c>, <c>var f = function () {}</c> → <c>f</c>,
+    ''' <c>class C { m() {} }</c> → <c>m</c>. It mirrors the name inference of V8 and is
+    ''' used for JS stack frame names (<c>at m (file:line:col)</c>); it never affects the
+    ''' script visible <c>name</c> property nor the generated code.
+    ''' </summary>
+    Public Property InferredName As String
+
+    ''' <summary>
+    ''' Source text of the function body as it was written (<c>{ throw ... }</c>, or the
+    ''' expression of an arrow body), sliced by the parser. It is what lets
+    ''' <c>String(fn)</c> and the REPL echo show real source; <c>Nothing</c> for functions
+    ''' the engine built itself (generated code, host delegates).
+    ''' </summary>
+    Public Property BodySource As String
+
     Public Sub New(name As String, parameters As String(), body As List(Of Statement),
                    Optional isArrow As Boolean = False,
                    Optional defaults As Expression() = Nothing,
@@ -671,6 +696,13 @@ End Class
 ' ============================ statements ============================
 
 Public MustInherit Class Statement
+
+    ''' <summary>
+    ''' Source location of this statement, stamped by the parser; the interpreter copies
+    ''' it onto the innermost stack frame while the statement executes.
+    ''' </summary>
+    Public Property Position As SourcePosition
+
 End Class
 
 ''' <summary>Root node: top-level statement list.</summary>
@@ -731,6 +763,12 @@ Public NotInheritable Class FuncDeclStmt
     ''' <summary>generator function (function*) — calling it yields an iterator.</summary>
     Public ReadOnly IsGenerator As Boolean
     Public ReadOnly Body As List(Of Statement)
+
+    ''' <summary>
+    ''' Source text of the declared function body, sliced by the parser
+    ''' (see <see cref="FuncExpr.BodySource"/>); carries over to the hoisted function value.
+    ''' </summary>
+    Public Property BodySource As String
 
     Public Sub New(name As String, parameters As String(), body As List(Of Statement),
                    Optional defaults As Expression() = Nothing, Optional restParam As String = Nothing,
