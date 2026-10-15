@@ -22,7 +22,32 @@
 
         <h3>Description</h3>
 
-        
+        <p>带符号相关矩阵的磁盘持久化存储（读端）</p>
+
+<p>由 <a href="cref:T:Microsoft.VisualBasic.Math.Matrix.CorrelationMatrixWriter">CorrelationMatrixWriter</a> 写入、本类负责读取。针对 N = 5 万级别的 稠密相关矩阵（10 GB 级原始数据）设计，支持三类查询，全部不需要把矩阵载入内存：</p>
+
+
+<ul>
+<li>点查 ：(gene1, gene2) → (cor, pvalue)，一次块读，毫秒级；</li>
+<li>邻域查询 ：基因 + 阈值 → |cor| ≥ 阈值的邻居列表，一次块读 + 行内线性扫描；</li>
+<li>全库流式筛选 ：按阈值遍历全部行块，Iterator 流式产出边表，</li>
+</ul>
+
+
+<p>供阈值过滤实验直接生成网络，不物化中间结果。</p>
+
+<p>p 值不持久化，由相关系数与样本数 n 按需重算（<a href="cref:M:Microsoft.VisualBasic.Math.Matrix.CorrelationPValues.PValue(System.Double,System.Int32)">CorrelationPValues.PValue()</a>）。 热行缓存为小容量 LRU（默认 64 行），多线程并发读通过 <code>RandomAccess.Read</code> 显式偏移实现，无需加锁（缓存链表本身有锁保护）。</p>
+
+<p>支持两种打开方式：</p>
+
+
+<ul>
+<li>：文件路径模式（数据文件 + {path}.index 索引文件）；</li>
+<li>：外部 Stream 模式——矩阵数据与索引分别从</li>
+</ul>
+
+
+<p>调用方提供的两个自定义流读取（与  的流模式构造配套）， 数据流要求可读且可查找；若实际是  会自动走无锁句柄读路径， 其他流走 Seek + Read + 锁。</p>
 
         <h3>Declare</h3>        
 
@@ -30,9 +55,13 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.Math.Matrix
 export class CorrelationMatrixStore {
+   # 基因 ID 表（行序与写入时的声明顺序一致）
    genes: string;
+   # 计算相关系数时使用的样本数（p 值重算依据）
    SampleN: integer;
+   # 矩阵规模 N（基因数量）
    size: integer;
+   # 数据文件路径（文件模式）；外部 Stream 模式返回 Nothing
    storeFile: string;
 }
 </code>
