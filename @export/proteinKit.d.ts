@@ -247,6 +247,6 @@ declare namespace proteinKit {
         * @return a vector of the [PfamString](cref:T:SMRUCC.genomics.Data.Xfam.Pfam.PfamString.PfamString) protein domain annotation 
         *  object that loaded from the given table file.
       */
-      function pfam_string(file: string): any;
+      function pfam_string(file: string): object;
    }
 }
