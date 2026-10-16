@@ -548,6 +548,7 @@ Module proteinKit
     ''' object that loaded from the given table file.
     ''' </returns>
     <ExportAPI("read.pfam_string")>
+    <RApiReturn(GetType(PfamString))>
     Public Function readPfamString(file As String) As Object
         Return file.LoadCsv(Of PfamString)(mute:=True).ToArray
     End Function
