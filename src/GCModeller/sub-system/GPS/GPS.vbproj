@@ -6,6 +6,7 @@
     <AssemblyName>SMRUCC.genomics.Analysis.GPS</AssemblyName>
     <AssemblyTitle>GNN+Transformer For Gene Expression Predition</AssemblyTitle>
     <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
