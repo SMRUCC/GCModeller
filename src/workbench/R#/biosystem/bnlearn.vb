@@ -469,7 +469,7 @@ Module bnlearn
             priorNet(i) = New RegulatoryEdge With {
                 .Confidence = confs(i),
                 .Evidence = evidences(i),
-                .RegulationType = reg_types(i),
+                .RegulationType = RegulatoryEdge.ParseEffector(reg_types(i)),
                 .TargetGene = targets(i),
                 .TF = tfs(i)
             }

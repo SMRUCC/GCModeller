@@ -102,6 +102,15 @@ Namespace Core
             Return String.Format("{0} → {1} ({2}, conf={3:F2})", TF, TargetGene, RegulationType.Description, Confidence)
         End Function
 
+        Public Shared Function ParseEffector(type As String) As Effector
+            Select Case type
+                Case NameOf(Effector.Activator), "activation" : Return Effector.Activator
+                Case NameOf(Effector.Inhibitor), "repression", "inhibit", "suppress" : Return Effector.Inhibitor
+                Case Else
+                    Return Effector.Unknown
+            End Select
+        End Function
+
     End Class
 
     ''' <summary>
