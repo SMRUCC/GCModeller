@@ -515,6 +515,12 @@ Module bnlearn
         Else
             Dim result As New List(Of InterventionResult)
 
+            If TypeOf bnlearn Is vbObject Then
+                bnlearn = DirectCast(bnlearn, vbObject).target
+            ElseIf bnlearn Is Nothing Then
+                Return Nothing
+            End If
+
             For Each geneName As String In CLRVector.asCharacter(geneNames)
                 Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).KnockoutGene(geneName))
             Next
@@ -551,6 +557,12 @@ Module bnlearn
         Else
             Dim result As New List(Of InterventionResult)
 
+            If TypeOf bnlearn Is vbObject Then
+                bnlearn = DirectCast(bnlearn, vbObject).target
+            ElseIf bnlearn Is Nothing Then
+                Return Nothing
+            End If
+
             For Each geneName As String In CLRVector.asCharacter(geneNames)
                 Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).OverexpressGene(geneName))
             Next
@@ -585,6 +597,12 @@ Module bnlearn
             Return DirectCast(bnlearn, ModularNetworkPipeline).InsilicoPerturbation(CLRVector.asCharacter(geneNames), InterventionMode.Knockdown).ToArray
         Else
             Dim result As New List(Of InterventionResult)
+
+            If TypeOf bnlearn Is vbObject Then
+                bnlearn = DirectCast(bnlearn, vbObject).target
+            ElseIf bnlearn Is Nothing Then
+                Return Nothing
+            End If
 
             For Each geneName As String In CLRVector.asCharacter(geneNames)
                 Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).KnockDownGene(geneName))
