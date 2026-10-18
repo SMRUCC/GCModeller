@@ -69,6 +69,10 @@
 ' 作为 bnlearn 结构学习的白名单先验知识
 ' ============================================================
 
+Imports System.Globalization
+Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.MIME.application.json.Javascript
+
 Namespace Core
 
     ''' <summary>
@@ -113,6 +117,169 @@ Namespace Core
 
         ''' <summary>所有靶基因名称</summary>
         Public Property TargetNames As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+        ''' <summary>
+        ''' 将当前的先验调控网络序列化为JSON文本，用于持久化存储。
+        ''' </summary>
+        ''' <param name="indent">
+        ''' 是否输出带缩进格式的JSON文本，默认为 <see langword="True"/>，
+        ''' 便于人工查阅与版本控制系统做diff。
+        ''' </param>
+        ''' <returns>JSON文本，可由 <see cref="ParseJson"/> 原样解析还原。</returns>
+        Public Function ToJson(Optional indent As Boolean = True) As String
+            ' 注意：VB 大小写不敏感，局部变量不能叫 edges（会遮蔽 Edges 属性，
+            ' 导致 For Each e In Edges 迭代到这个空数组上）
+            Dim edgeArray As New JsonArray
+
+            For Each e In Edges
+                Dim edge As New JsonObject
+
+                ' 字段名与 RegulatoryEdge 的CLR属性名以及 CSV 先验文件格式保持一致
+                edge.Add(NameOf(RegulatoryEdge.TF), OrEmpty(e.TF))
+                edge.Add(NameOf(RegulatoryEdge.TargetGene), OrEmpty(e.TargetGene))
+                ' 枚举以名字符串持久化（"Activator"/"Inhibitor"/"Unknown"），
+                ' 而不是数字：对人可读，且不受枚举成员顺序调整的影响
+                edge.Add(NameOf(RegulatoryEdge.RegulationType), e.RegulationType.ToString())
+                edge.Add(NameOf(RegulatoryEdge.Confidence), e.Confidence)
+                edge.Add(NameOf(RegulatoryEdge.Evidence), OrEmpty(e.Evidence))
+
+                Call edgeArray.Add(edge)
+            Next
+
+            Dim root As New JsonObject
+
+            root.Add(NameOf(Edges), edgeArray)
+            ' 节点名称集合单独序列化：孤立节点（没有边的TF/靶基因）也能完整round-trip
+            root.Add(NameOf(TFNames), New JsonArray(TFNames))
+            root.Add(NameOf(TargetNames), New JsonArray(TargetNames))
+
+            Return root.BuildJsonString(indent)
+        End Function
+
+        ''' <summary>
+        ''' 从JSON文本之中解析还原先验调控网络对象。
+        ''' </summary>
+        ''' <param name="json">由 <see cref="ToJson"/> 生成的JSON文本。</param>
+        ''' <returns>
+        ''' 还原后的先验调控网络。输入为空白或 ``null`` 时返回空网络，
+        ''' 而不是抛出异常，方便调用方对空文件容错。
+        ''' </returns>
+        Public Shared Function ParseJson(json As String) As PriorNetwork
+            Dim net As New PriorNetwork()
+            Dim root As JsonObject = TryCast(JsonElement.ParseJSON(json), JsonObject)
+
+            If root Is Nothing Then
+                Return net
+            End If
+
+            Dim edgeList As JsonArray = TryCast(root(NameOf(PriorNetwork.Edges)), JsonArray)
+
+            If edgeList IsNot Nothing Then
+                For Each item As JsonElement In edgeList
+                    Dim edge As JsonObject = TryCast(item, JsonObject)
+
+                    If edge Is Nothing Then
+                        Continue For
+                    End If
+
+                    ' 走 AddEdge 而不是直接操作 Edges，保证 TFNames/TargetNames 与边同步
+                    Call net.AddEdge(
+                        tf:=OrEmpty(edge.GetString(NameOf(RegulatoryEdge.TF))),
+                        target:=OrEmpty(edge.GetString(NameOf(RegulatoryEdge.TargetGene))),
+                        regType:=ParseEffector(edge.GetString(NameOf(RegulatoryEdge.RegulationType))),
+                        confidence:=GetDoubleOr(edge, NameOf(RegulatoryEdge.Confidence), 1.0R),
+                        evidence:=OrEmpty(edge.GetString(NameOf(RegulatoryEdge.Evidence))))
+                Next
+            End If
+
+            ' 合并序列化时单独保存的孤立节点名称
+            For Each name In StringArray(root(NameOf(PriorNetwork.TFNames)))
+                Call net.TFNames.Add(name)
+            Next
+            For Each name In StringArray(root(NameOf(PriorNetwork.TargetNames)))
+                Call net.TargetNames.Add(name)
+            Next
+
+            Return net
+        End Function
+
+        ''' <summary>
+        ''' 将JSON之中的字符串值转换为枚举，名字与数字形式均可识别；
+        ''' 缺失或无法识别时回退到 <see cref="Effector.Activator"/>
+        ''' （与 <see cref="RegulatoryEdge.RegulationType"/> 的默认值一致）。
+        ''' </summary>
+        Private Shared Function ParseEffector(text As String) As Effector
+            If String.IsNullOrEmpty(text) Then
+                Return Effector.Activator
+            End If
+
+            Dim role As Effector
+
+            If [Enum].TryParse(Of Effector)(value:=text, ignoreCase:=True, result:=role) Then
+                Return role
+            End If
+
+            ' 兼容数字形式的枚举值（0=Unknown, 1=Activator, 2=Inhibitor），
+            ' 例如由 sciBASIC GetJson(enumToStr:=False) 生成的文件
+            Dim numeric As Integer
+
+            If Integer.TryParse(s:=text, style:=NumberStyles.Integer, provider:=CultureInfo.InvariantCulture, result:=numeric) Then
+                Return CType(numeric, Effector)
+            Else
+                Return Effector.Activator
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 读取JSON数值属性，缺失或无法解析时返回 <paramref name="fallback"/>。
+        ''' （不能用 <see cref="JsonObject.GetDouble"/>：键缺失时它返回0，
+        '''  而缺失的置信度应当回退到默认值1.0）
+        ''' </summary>
+        Private Shared Function GetDoubleOr(obj As JsonObject, key As String, fallback As Double) As Double
+            Dim text As String = obj.GetString(key)
+
+            If String.IsNullOrEmpty(text) Then
+                Return fallback
+            End If
+
+            Dim value As Double
+
+            If Double.TryParse(s:=text, style:=NumberStyles.Float Or NumberStyles.AllowThousands, provider:=CultureInfo.InvariantCulture, result:=value) Then
+                Return value
+            Else
+                Return fallback
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 将JSON数组元素转换为字符串数组，输入不是数组时返回空数组。
+        ''' </summary>
+        Private Shared Function StringArray(element As JsonElement) As String()
+            Dim array As JsonArray = TryCast(element, JsonArray)
+
+            If array Is Nothing Then
+                Return New String() {}
+            End If
+
+            Dim names As New List(Of String)
+
+            For Each item As JsonElement In array
+                Dim val As JsonValue = TryCast(item, JsonValue)
+
+                If val IsNot Nothing AndAlso Not val.IsLiteralNull Then
+                    names.Add(Convert.ToString(val.Literal, CultureInfo.InvariantCulture))
+                End If
+            Next
+
+            Return names.ToArray()
+        End Function
+
+        ''' <summary>
+        ''' 将JSON读取到的字符串统一为非Nothing值，避免把 ``null`` 写进名称集合。
+        ''' </summary>
+        Private Shared Function OrEmpty(text As String) As String
+            Return If(text, "")
+        End Function
 
         ''' <summary>添加调控关系</summary>
         Public Sub AddEdge(tf As String, target As String, regType As Effector, confidence As Double, evidence As String)

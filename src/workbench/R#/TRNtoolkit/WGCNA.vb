@@ -312,9 +312,10 @@ Module WGCNA
         If bicor Is Nothing Then
             result = ExpressionGRNBuilder.Build(x, CLRVector.asCharacter(TF), opts)
         Else
-            Dim map As WGCNAModuleMap = ResolveModuleMap(x, bicor, modules, opts)
+            Dim map As WGCNAModuleMap = If(modules Is Nothing, ResolveModuleMap(x, bicor, Nothing, opts), modules)
+            Dim TFlist = CLRVector.asCharacter(TF)
 
-            result = ExpressionGRNBuilder.Build(bicor, CLRVector.asCharacter(TF), map.modules, opts, expr:=x)
+            result = ExpressionGRNBuilder.Build(bicor, TFlist, map.modules, opts, expr:=x)
         End If
 
         Return result

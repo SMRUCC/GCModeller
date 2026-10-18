@@ -404,6 +404,16 @@ Module bnlearn
         End If
     End Function
 
+    <ExportAPI("save_prior")>
+    Public Function save_network(prior_net As PriorNetwork, file As String)
+        Return prior_net.ToJson.SaveTo(file)
+    End Function
+
+    <ExportAPI("load_prior")>
+    Public Function load_prior(data As String) As PriorNetwork
+        Return PriorNetwork.ParseJson(data.SolveStream)
+    End Function
+
     ''' <summary>
     ''' create prior knowledge netwoek edges from the given vector data
     ''' </summary>
