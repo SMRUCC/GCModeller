@@ -23,8 +23,18 @@ Module Program
     Private passed As Integer
     Private failed As Integer
 
-    ''' <summary>自测入口</summary>
+    ''' <summary>自测入口；带 <c>--demo</c> 时改跑 TestData1 端到端 DEMO。</summary>
     Function Main(args As String()) As Integer
+        ' ---- DEMO 分发：不带 --demo 时行为与既有自测完全一致 ----
+        If args IsNot Nothing AndAlso args.Any(Function(a) String.Equals(a, "--demo", StringComparison.OrdinalIgnoreCase)) Then
+            Return DemoTestData1.Run(args)
+        End If
+
+        If args IsNot Nothing AndAlso args.Any(Function(a) String.Equals(a, "--help", StringComparison.OrdinalIgnoreCase)) Then
+            Call DemoTestData1.PrintUsage()
+            Return 0
+        End If
+
         Console.WriteLine("== GPS 数据管线与图编码自测 ==")
 
         Call TestPreprocess()

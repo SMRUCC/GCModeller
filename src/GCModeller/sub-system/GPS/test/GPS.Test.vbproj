@@ -16,6 +16,12 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\BNLearn\BNLearn.vbproj" />
     <ProjectReference Include="..\..\GEARS\GEARS.vbproj" />
+    <!-- DEMO：Limma 差异分析 -->
+    <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
+    <!-- DEMO：SampleInfo / DataAnalysis 实验设计 -->
+    <ProjectReference Include="..\..\..\..\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj" />
+    <!-- DEMO：Fisher 精确检验通路富集 -->
+    <ProjectReference Include="..\..\..\annotations\GSEA\FisherCore\Fisher.NET5.vbproj" />
   </ItemGroup>
 
 </Project>
