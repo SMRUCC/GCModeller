@@ -25,8 +25,11 @@
     <ProjectReference Include="..\..\..\GCModeller\sub-system\CellPhenotype\CellPhenotype.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\FBA\FBA.Core\FBA.Core.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\GEARS\GEARS.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\GPS\GPS.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\Metaboliq\Metaboliq.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\sub-system\PLAS.NET\SSystem\SSystem.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\SpikingLoop\SpikingLoop.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\sub-system\Squiiff\Squiiff\Squiiff.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\GNN\GNN.vbproj" />

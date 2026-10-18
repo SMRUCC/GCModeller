@@ -60,5 +60,6 @@ Public Class zzz
     Public Shared Sub onLoad()
         Call bnlearn.Main()
         Call FBA.Main()
+        Call gpsTools.Main()
     End Sub
 End Class

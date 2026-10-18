@@ -2,8 +2,10 @@
 Imports System.IO
 Imports System.IO.Compression
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.Json
+Imports Microsoft.VisualBasic.FileIO.Path
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Model
@@ -118,6 +120,8 @@ Public Module GPSFile
     ''' 先写入同目录的临时文件，成功后再原子替换目标文件，
     ''' 避免写入中途失败留下半截的包。
     ''' </remarks>
+    ''' 
+    <Extension>
     Public Sub Save(model As GPSModel, filePath As String)
         If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
         If String.IsNullOrWhiteSpace(filePath) Then
@@ -137,14 +141,7 @@ Public Module GPSFile
         End If
 
         Using stream As New FileStream(tempFile, FileMode.CreateNew, FileAccess.Write)
-            Using archive As New ZipArchive(stream, ZipArchiveMode.Create)
-                Call WriteTextEntry(archive, EntryManifest, BuildManifestJson(model))
-                Call WriteTextEntry(archive, EntryConfig, ConfigToJson(model.Config))
-                Call WriteTextEntry(archive, EntryExpression, ExpressionToJson(model.Expression))
-                Call WriteTextEntry(archive, EntryPrior, model.Prior.ToJson(indent:=False))
-                Call WriteTextEntry(archive, EntryParameters, ParametersToTsv(model.Model.Parameters))
-                Call WriteTextEntry(archive, EntryTraining, TrainingToJson(model.LastTrainingResult))
-            End Using
+            Call model.Save(stream)
         End Using
 
         If System.IO.File.Exists(filePath) Then
@@ -154,29 +151,30 @@ Public Module GPSFile
         Call System.IO.File.Move(tempFile, filePath)
     End Sub
 
-    ''' <summary>
-    ''' 从 zip 压缩包重建模型对象。
-    ''' </summary>
-    ''' <param name="filePath">包路径</param>
-    ''' <returns>重建的模型（已恢复全部参数与训练状态）</returns>
-    ''' <remarks>
-    ''' 重建过程：读取表达矩阵与先验网络 → 用保存的超参数重新走一遍
-    ''' 预处理 / 建图 / 图编码 / 滑窗切分 → 把包内参数逐项写回模型。
-    ''' 因此返回对象的派生结构（图编码、数据集、扰动引擎）都是现成可用的。
-    ''' </remarks>
-    Public Function Load(filePath As String) As GPSModel
-        If String.IsNullOrWhiteSpace(filePath) Then
-            Throw New ArgumentException("包路径不能为空", NameOf(filePath))
-        End If
-        If Not System.IO.File.Exists(filePath) Then
-            Throw New FileNotFoundException($"GPS 模型包不存在：{filePath}", filePath)
+    <Extension>
+    Public Sub Save(model As GPSModel, stream As Stream)
+        Using archive As New ZipArchive(stream, ZipArchiveMode.Create)
+            Call WriteTextEntry(archive, EntryManifest, BuildManifestJson(model))
+            Call WriteTextEntry(archive, EntryConfig, ConfigToJson(model.Config))
+            Call WriteTextEntry(archive, EntryExpression, ExpressionToJson(model.Expression))
+            Call WriteTextEntry(archive, EntryPrior, model.Prior.ToJson(indent:=False))
+            Call WriteTextEntry(archive, EntryParameters, ParametersToTsv(model.Model.Parameters))
+            Call WriteTextEntry(archive, EntryTraining, TrainingToJson(model.LastTrainingResult))
+        End Using
+    End Sub
+
+    Public Function Load(zip As Stream) As GPSModel
+        Dim filePath As String = zip.ToString
+
+        If TypeOf zip Is FileStream Then
+            filePath = DirectCast(zip, FileStream).Name
         End If
 
-        Using archive As ZipArchive = ZipFile.OpenRead(filePath)
+        Using archive As New ZipArchive(zip, ZipArchiveMode.Read)
             Dim manifestText As String = ReadTextEntry(archive, EntryManifest)
 
             If manifestText Is Nothing Then
-                Throw New InvalidDataException($"不是有效的 GPS 模型包（缺少 {EntryManifest}）：{filePath}")
+                Throw New InvalidDataException($"不是有效的 GPS 模型包（缺少 {EntryManifest}）：{FilePath}")
             End If
 
             Dim manifest As GPSPackageManifest = ParseManifest(manifestText)
@@ -206,6 +204,29 @@ Public Module GPSFile
             End If
 
             Return model
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' 从 zip 压缩包重建模型对象。
+    ''' </summary>
+    ''' <param name="filePath">包路径</param>
+    ''' <returns>重建的模型（已恢复全部参数与训练状态）</returns>
+    ''' <remarks>
+    ''' 重建过程：读取表达矩阵与先验网络 → 用保存的超参数重新走一遍
+    ''' 预处理 / 建图 / 图编码 / 滑窗切分 → 把包内参数逐项写回模型。
+    ''' 因此返回对象的派生结构（图编码、数据集、扰动引擎）都是现成可用的。
+    ''' </remarks>
+    Public Function Load(filePath As String) As GPSModel
+        If String.IsNullOrWhiteSpace(filePath) Then
+            Throw New ArgumentException("包路径不能为空", NameOf(filePath))
+        End If
+        If Not System.IO.File.Exists(filePath) Then
+            Throw New FileNotFoundException($"GPS 模型包不存在：{filePath}", filePath)
+        End If
+
+        Using archive As Stream = filePath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+            Return Load(archive)
         End Using
     End Function
 
