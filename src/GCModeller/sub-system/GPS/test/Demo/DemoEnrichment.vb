@@ -1,5 +1,6 @@
 Imports System.Globalization
 Imports System.IO
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Statistics
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports EnrichBackground = SMRUCC.genomics.Analysis.HTS.GSEA.Background
@@ -89,7 +90,7 @@ Namespace Demo
                 ToArray()
 
             Dim significant As EnrichmentResult() = ranked.
-                Where(Function(r) Not r.FDR.IsNaNImaginary AndAlso r.FDR <= fdrCutoff).
+                Where(Function(r) Not Double.IsNaN(r.FDR) AndAlso r.FDR <= fdrCutoff).
                 ToArray()
 
             Dim note As String = $"FDR ≤ {fdrCutoff:G2}（BH 校正），背景规模 N = {background.size}"
@@ -112,7 +113,7 @@ Namespace Demo
         ''' </summary>
         ''' <param name="file">输出路径</param>
         ''' <param name="rows">富集结果</param>
-        Public Sub SaveTable(file As String, rows As IEnumerable(Of EnrichmentResult))
+        Public Sub SaveTable(outputFile As String, rows As IEnumerable(Of EnrichmentResult))
             Dim builder As New Text.StringBuilder()
 
             Call builder.AppendLine("term	name	score	enriched	cluster	pvalue	FDR	IDs")
@@ -129,13 +130,13 @@ Namespace Demo
                     String.Join(";", If(row.IDs, New String() {}))))
             Next
 
-            Dim directory As String = Path.GetDirectoryName(file)
+            Dim directory As String = System.IO.Path.GetDirectoryName(outputFile)
 
-            If Not String.IsNullOrEmpty(directory) AndAlso Not Directory.Exists(directory) Then
-                Call Directory.CreateDirectory(directory)
+            If Not String.IsNullOrEmpty(directory) AndAlso Not System.IO.Directory.Exists(directory) Then
+                Call System.IO.Directory.CreateDirectory(directory)
             End If
 
-            Call File.WriteAllText(file, builder.ToString())
+            Call System.IO.File.WriteAllText(outputFile, builder.ToString())
         End Sub
 
         ''' <summary>

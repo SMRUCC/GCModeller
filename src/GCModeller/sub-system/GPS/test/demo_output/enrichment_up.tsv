@@ -1,0 +1,21 @@
+term	name	score	enriched	cluster	pvalue	FDR	IDs
+P20	蛋白水解系统 (Proteolytic System)	0.111111	2	18	0.0117318	0.234636	pepF;nprE
+P17	丙酮酸代谢枢纽 (Pyruvate Metabolism Hub)	0.62069	18	29	0.0171759	0.171759	pdhC;pdhD;aceE;alsD;lpd;pykA;pdhR;pdhB;pykF;pgk;tpiA;alsS;ptsH;pfkA;atpA;ptsG;aceF;ilvN
+P14	铁载体合成通路 (Siderophore Biosynthesis)	0.142857	2	14	0.0519307	0.296747	sidG;sidH
+P19	细胞壁降解通路 (Cell Wall Degradation)	0.142857	2	14	0.0519307	0.296747	lytE;walR
+P01	支链氨基酸降解通路 (Branched-Chain Amino Acid Degradation)	0.611111	11	18	0.0842314	0.336926	bkdA2;brnQ;ilvE;mmsA;leuB;leuC;bkdR;ivdA;bkdA1;lpdA;bcatB
+P08	聚酮合酶通路 (Polyketide Synthase Pathway)	0.25	6	24	0.134516	0.448387	pksL;dfnA;pksK;dfnB;pksE;pksN
+P16	氨基酸生物合成通路 (Amino Acid Biosynthesis)	0.555556	10	18	0.219314	0.626611	thrB;ilvB;thrC;argG;glyA;argB;lysA;argC;thrA;argH
+P07	乳酸代谢通路 (Lactate Metabolism)	0.583333	7	12	0.236716	0.591789	lctP;ldhB;dld;lldD;pta;pflB;ackA
+P13	嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Metabolism)	0.533333	8	15	0.298319	0.66293	pyrR;purD;pyrF;purR;pyrC;pyrB;pyrA;pyrE
+P11	群体感应通路 (Quorum Sensing)	0.529412	9	17	0.316345	0.63269	sinR;spo0A;luxI;spo0F;codY;yydA;luxR;rapA;phrA
+P12	全局调控网络 (Global Regulatory Network)	0.32	8	25	0.408212	0.742204	glnR;ytkD;fur;rpoA;sigH;sigL;perR;sigW
+P05	苯丙氨酸代谢通路 (Phenylalanine Metabolism)	0.285714	4	14	0.418104	0.69684	pheA;feaB;tyrB;pal
+P06	硫代谢通路 (Sulfur Metabolism)	0.47619	10	21	0.499537	0.768518	metA;metK;cysD;mgl;metB;metC;mglB;cysE;tst;cysK
+P02	脂肪酸β-氧化通路 (Fatty Acid β-Oxidation)	0.464286	13	28	0.549739	0.785342	acnA;fadR;fadI;atoB;cls;pgsA;sucA;fadD;fadA;yqeA;plsB;gltA;sdhA
+P10	细菌素合成通路 (Bacteriocin Biosynthesis)	0.5	7	14	0.580131	0.773507	bacK;nisR;nisT;nisC;bacA;bacR;nisA
+P03	酯类合成通路 (Ester Biosynthesis)	0.3125	5	16	0.604291	0.732474	atfA;estB;aldB;acsL;aldA
+P04	萜类合成通路 (Terpenoid Biosynthesis)	0.3125	5	16	0.604291	0.732474	idi;ispF;ispD;limS;gerA
+P18	维生素/辅因子合成通路 (Vitamin/Cofactor Biosynthesis)	0.4375	7	16	0.798723	0.88747	ribB;panC;bioD;bioB;thiA;thiC;panD
+P09	非核糖体肽合成通路 (NRPS Pathway)	0.368421	7	19	0.814586	0.835473	bacilysinA;nrpE;bacilysinB;nrpL;srfAB;nrpC;bacilysinC
+P15	氧化应激响应通路 (Oxidative Stress Response)	0.368421	7	19	0.814586	0.835473	gshA;katA;ahpC;groES;trxB;gshB;gor

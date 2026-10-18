@@ -43,7 +43,7 @@ Namespace Demo
     ''' <para>
     ''' <b>in-silico 重复</b>：虚拟扰动是确定性点估计，而 Limma 需要 <c>n − 2</c> 的残差自由度。
     ''' 这里为对照组与处理组各生成 <c>nSamples</c> 个样本，噪声加在 log2 空间
-    ''' （<c>σ = noiseRatio × 基因SD</c>），再逐样本线性化。
+    ''' （<c>σ = noiseRatio × 实测同时间点重复间 SD</c>），再逐样本线性化。
     ''' 这些重复只用于给出方差估计，不是实测生物学重复，报告中必须显式标注。
     ''' </para>
     ''' <para>
@@ -60,18 +60,20 @@ Namespace Demo
         ''' 执行 Limma 差异分析。
         ''' </summary>
         ''' <param name="geneNames">基因名（与对照/扰动向量顺序一致）</param>
-        ''' <param name="geneSDs">每个基因的标准差（log2 尺度，用于缩放 in-silico 噪声）</param>
+        ''' <param name="replicateSD">
+        ''' 每个基因的测量噪声（log2 尺度，由实测同时间点重复间 SD 估计）
+        ''' </param>
         ''' <param name="control">对照预测（log2 尺度）</param>
         ''' <param name="perturbed">扰动预测（log2 尺度）</param>
         ''' <param name="nSamples">每组样本数（≥2）</param>
-        ''' <param name="noiseRatio">噪声强度（基因 SD 的倍数）</param>
+        ''' <param name="noiseRatio">噪声强度（测量噪声的倍数）</param>
         ''' <param name="seed">随机种子</param>
         ''' <param name="logFCCutoff">logFC 阈值</param>
         ''' <param name="fdrCutoff">校正 P 值阈值</param>
         ''' <param name="topN">阈值不满足时的回退数量</param>
         ''' <returns>差异分析结果</returns>
         Public Function Run(geneNames As String(),
-                            geneSDs As Double(),
+                            replicateSD As Double(),
                             control As Double(),
                             perturbed As Double(),
                             Optional nSamples As Integer = 6,
@@ -93,7 +95,7 @@ Namespace Demo
 
             If nSamples < 2 Then nSamples = 2
 
-            Dim matrix As HTSMatrix = BuildMatrix(geneNames, geneSDs, control, perturbed,
+            Dim matrix As HTSMatrix = BuildMatrix(geneNames, replicateSD, control, perturbed,
                                                   nSamples, noiseRatio, seed)
 
             Dim samples As New List(Of SampleInfo)()
@@ -134,15 +136,15 @@ Namespace Demo
         ''' 构造 Limma 输入矩阵：处理组列在前、对照组列在后，数值为线性尺度。
         ''' </summary>
         ''' <param name="geneNames">基因名</param>
-        ''' <param name="geneSDs">基因标准差（log2 尺度）</param>
+        ''' <param name="replicateSD">每个基因的测量噪声（log2 尺度）</param>
         ''' <param name="control">对照预测（log2 尺度）</param>
         ''' <param name="perturbed">扰动预测（log2 尺度）</param>
         ''' <param name="nSamples">每组样本数</param>
-        ''' <param name="noiseRatio">噪声强度</param>
+        ''' <param name="noiseRatio">噪声强度（测量噪声的倍数）</param>
         ''' <param name="seed">随机种子</param>
         ''' <returns>HTS_matrix 表达矩阵</returns>
         Public Function BuildMatrix(geneNames As String(),
-                                    geneSDs As Double(),
+                                    replicateSD As Double(),
                                     control As Double(),
                                     perturbed As Double(),
                                     nSamples As Integer,
@@ -164,7 +166,7 @@ Namespace Demo
             For i As Integer = 0 To n - 1
                 Dim values As Double() = New Double(total - 1) {}
                 Dim sigma As Double = System.Math.Max(0.0, noiseRatio) *
-                                      System.Math.Max(1.0E-06, System.Math.Abs(If(geneSDs Is Nothing, 1.0, geneSDs(i))))
+                                      System.Math.Max(1.0E-04, If(replicateSD Is Nothing, 0.1, replicateSD(i)))
 
                 For k As Integer = 0 To nSamples - 1
                     ' 处理组：扰动预测 + 对数正态噪声
@@ -237,7 +239,7 @@ Namespace Demo
         ''' </summary>
         ''' <param name="file">输出路径</param>
         ''' <param name="rows">表格行</param>
-        Public Sub SaveTable(file As String, rows As IEnumerable(Of LimmaTable))
+        Public Sub SaveTable(outputFile As String, rows As IEnumerable(Of LimmaTable))
             Dim builder As New Text.StringBuilder()
 
             Call builder.AppendLine("id	logFC	AveExpr	t	P.Value	adj.P.Val	B")
@@ -253,13 +255,13 @@ Namespace Demo
                     row.B.ToString("G6", CultureInfo.InvariantCulture)))
             Next
 
-            Dim directory As String = Path.GetDirectoryName(file)
+            Dim directory As String = System.IO.Path.GetDirectoryName(outputFile)
 
-            If Not String.IsNullOrEmpty(directory) AndAlso Not Directory.Exists(directory) Then
-                Call Directory.CreateDirectory(directory)
+            If Not String.IsNullOrEmpty(directory) AndAlso Not System.IO.Directory.Exists(directory) Then
+                Call System.IO.Directory.CreateDirectory(directory)
             End If
 
-            Call File.WriteAllText(file, builder.ToString())
+            Call System.IO.File.WriteAllText(outputFile, builder.ToString())
         End Sub
 
         ''' <summary>把一个 log2 尺度的值线性化，并做溢出夹断。</summary>

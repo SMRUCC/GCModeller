@@ -1,0 +1,6 @@
+term	name	score	enriched	cluster	pvalue	FDR	IDs
+P04	萜类合成通路 (Terpenoid Biosynthesis)	0.6875	11	16	0.00513272	0.102654	idi;ispF;ispD;limS;gerA;terR;crtE;linalS;pinS;ispA;dxr
+P06	硫代谢通路 (Sulfur Metabolism)	0.761905	16	21	0.0179642	0.179642	metA;metK;cysD;mgl;metB;metC;mglB;cysE;tst;cysK;tauA;mdeA;dmdA;cysH;cysP;ssuA
+P03	酯类合成通路 (Ester Biosynthesis)	0.8125	13	16	0.123445	0.822965	atfA;estB;aldB;acsL;aldA;adhB;atfB;estA;eatB;adhE;eeb1;adhA;acsA
+P05	苯丙氨酸代谢通路 (Phenylalanine Metabolism)	0.857143	12	14	0.304879	1.5244	pheA;feaB;tyrB;pal;feaD;pdcA;aroG;aroB;hpaC;aroC;hpaB;phhA
+P01	支链氨基酸降解通路 (Branched-Chain Amino Acid Degradation)	1	18	18	0.380645	1.26882	bkdA2;brnQ;ilvE;mmsA;leuB;leuC;bkdR;ivdA;bkdA1;lpdA;bcatB;bcatA;leuA;hmgL;leuD;bkdB;aroP;hmgA

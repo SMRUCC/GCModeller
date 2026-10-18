@@ -36,7 +36,7 @@ Public Module DemoTestData1
         Public Property FinetuneEpochs As Integer = 8
         Public Property PretrainEpochs As Integer = 3
         Public Property SamplesPerGroup As Integer = 6
-        Public Property NoiseRatio As Double = 0.05
+        Public Property NoiseRatio As Double = 1.0
         Public Property TopN As Integer = 20
         Public Property LearningRate As Double = 0.003
         Public Property Seed As Integer = 2024
@@ -119,9 +119,17 @@ Public Module DemoTestData1
                 Path.Combine(dataDirectory, DemoDataLoader.PathwayFile),
                 gps.GeneNames.Length)
 
+            ' 从实测重复估计测量噪声（log2 单位），作为 in-silico 重复的噪声尺度
+            Dim replicateNoise As Double() = DemoDataLoader.EstimateReplicateNoise(expression)
+            Dim noiseMedian As Double = replicateNoise.OrderBy(Function(v) v).
+                Skip(replicateNoise.Length \ 2).
+                First()
+
             Dim summary As DemoDataSummary = DemoDataLoader.Summarize(expression, prior, pathways)
 
             Write(report, Console.Out, $"[数据] {summary}")
+            Write(report, Console.Out,
+                  $"[数据] 测量噪声（同时间点重复间 SD 中位数）= {noiseMedian:G3} log2 单位")
             Write(report, Console.Out, $"[数据] 建模基因 {gps.GeneNames.Length}；" &
                                        $"滑窗 训练/验证/测试 = {gps.Dataset.Train().Count}/{gps.Dataset.Validation().Count}/{gps.Dataset.Test().Count}" &
                                        $"（窗口长度 {gps.Dataset.WindowSize}）")
@@ -206,7 +214,7 @@ Public Module DemoTestData1
             Section(report, "Limma")
             Dim limma As DemoLimmaResult = DemoLimma.Run(
                 gps.GeneNames,
-                gps.Preprocessed.GeneSDs,
+                replicateNoise,
                 knockout.WildtypeMeans,
                 knockout.MutantMeans,
                 nSamples:=options.SamplesPerGroup,
@@ -221,7 +229,8 @@ Public Module DemoTestData1
 
             Write(report, Console.Out,
                   $"[Limma] {limma.NGenes} 基因 × {limma.NSamplesPerGroup * 2} 样本" &
-                  $"（每组 {limma.NSamplesPerGroup} 个 in-silico 技术重复，噪声 σ = {options.NoiseRatio:G2}×基因SD）")
+                  $"（每组 {limma.NSamplesPerGroup} 个 in-silico 技术重复，" &
+                  $"噪声 σ = {options.NoiseRatio:G2}×实测重复SD，中位 {noiseMedian:G3}）")
             Write(report, Console.Out, $"[Limma] {limma.ThresholdNote}")
             Write(report, Console.Out, $"[Limma] 上调 {limma.Up.Count} / 下调 {limma.Down.Count}")
 
@@ -276,13 +285,14 @@ Public Module DemoTestData1
             Call DemoEnrichment.SaveTable(enrichDownFile, enrichDown.All)
             Call DemoEnrichment.SaveTable(enrichSigFile, enrichAll.Significant)
 
-            For Each file As String In New String() {
+            For Each outputFile As String In New String() {
                 limmaAllFile, limmaUpFile, limmaDownFile,
                 enrichAllFile, enrichUpFile, enrichDownFile, enrichSigFile}
 
-                Ensure(File.Exists(file) AndAlso New FileInfo(file).Length > 0, $"输出文件为空：{file}")
+                Ensure(System.IO.File.Exists(outputFile) AndAlso New FileInfo(outputFile).Length > 0,
+                       $"输出文件为空：{outputFile}")
 
-                Write(report, Console.Out, $"  {file}")
+                Write(report, Console.Out, $"  {outputFile}")
             Next
 
             ' ==================== 8. 汇总报告 ====================
@@ -468,7 +478,7 @@ Public Module DemoTestData1
         Console.WriteLine("  --epochs N      微调轮数（默认 8）")
         Console.WriteLine("  --pretrain N    预训练轮数（默认 3）")
         Console.WriteLine("  --samples N     每组 in-silico 重复数（默认 6）")
-        Console.WriteLine("  --noise R       噪声强度（基因 SD 的倍数，默认 0.05）")
+        Console.WriteLine("  --noise R       噪声强度（实测重复 SD 的倍数，默认 1.0）")
         Console.WriteLine("  --topn N        报告展示的 Top 基因/通路数（默认 20）")
         Console.WriteLine("  --lr R          Adam 学习率（默认 0.003）")
         Console.WriteLine("  --logfc R       Limma logFC 阈值（默认 0.5）")

@@ -131,13 +131,13 @@ Namespace Demo
         ''' <param name="directory">候选目录</param>
         ''' <returns>三个文件都存在时返回 True</returns>
         Public Function IsDataDirectory(directory As String) As Boolean
-            If String.IsNullOrWhiteSpace(directory) OrElse Not Directory.Exists(directory) Then
+            If String.IsNullOrWhiteSpace(directory) OrElse Not System.IO.Directory.Exists(directory) Then
                 Return False
             End If
 
-            Return File.Exists(Path.Combine(directory, ExpressionFile)) AndAlso
-                   File.Exists(Path.Combine(directory, PriorFile)) AndAlso
-                   File.Exists(Path.Combine(directory, PathwayFile))
+            Return System.IO.File.Exists(System.IO.Path.Combine(directory, ExpressionFile)) AndAlso
+                   System.IO.File.Exists(System.IO.Path.Combine(directory, PriorFile)) AndAlso
+                   System.IO.File.Exists(System.IO.Path.Combine(directory, PathwayFile))
         End Function
 
         ''' <summary>
@@ -145,15 +145,15 @@ Namespace Demo
         ''' </summary>
         ''' <param name="file">CSV 路径（首列基因名，其余列 <c>T{h}h_Rep{k}</c>）</param>
         ''' <returns>基因×样本的表达矩阵对象</returns>
-        Public Function LoadExpressionMatrix(file As String) As GeneExpressionData
-            If Not File.Exists(file) Then
-                Throw New FileNotFoundException($"表达矩阵文件不存在：{file}", file)
+        Public Function LoadExpressionMatrix(filePath As String) As GeneExpressionData
+            If Not System.IO.File.Exists(filePath) Then
+                Throw New FileNotFoundException($"表达矩阵文件不存在：{filePath}", filePath)
             End If
 
-            Dim lines As String() = File.ReadAllLines(file)
+            Dim lines As String() = System.IO.File.ReadAllLines(filePath)
 
             If lines.Length < 2 Then
-                Throw New InvalidDataException($"表达矩阵至少需要表头与一行数据：{file}")
+                Throw New InvalidDataException($"表达矩阵至少需要表头与一行数据：{filePath}")
             End If
 
             Dim header As String() = SplitCsv(lines(0))
@@ -213,12 +213,12 @@ Namespace Demo
         ''' </summary>
         ''' <param name="file">CSV 路径（TF,TargetGene,RegulationType,Confidence,Evidence）</param>
         ''' <returns>先验调控网络</returns>
-        Public Function LoadPriorNetwork(file As String) As PriorNetwork
-            If Not File.Exists(file) Then
-                Throw New FileNotFoundException($"先验网络文件不存在：{file}", file)
+        Public Function LoadPriorNetwork(filePath As String) As PriorNetwork
+            If Not System.IO.File.Exists(filePath) Then
+                Throw New FileNotFoundException($"先验网络文件不存在：{filePath}", filePath)
             End If
 
-            Dim lines As String() = File.ReadAllLines(file)
+            Dim lines As String() = System.IO.File.ReadAllLines(filePath)
             Dim network As New PriorNetwork()
 
             If lines.Length = 0 Then Return network
@@ -264,16 +264,17 @@ Namespace Demo
         ''' 否则富集会回退为"通路成员并集大小"并系统性高估显著性。
         ''' </param>
         ''' <returns>富集背景模型</returns>
-        Public Function LoadPathways(file As String, universeSize As Integer) As EnrichBackground
-            If Not File.Exists(file) Then
-                Throw New FileNotFoundException($"通路定义文件不存在：{file}", file)
+        Public Function LoadPathways(filePath As String, universeSize As Integer) As EnrichBackground
+            If Not System.IO.File.Exists(filePath) Then
+                Throw New FileNotFoundException($"通路定义文件不存在：{filePath}", filePath)
             End If
 
             If universeSize <= 0 Then
                 Throw New ArgumentOutOfRangeException(NameOf(universeSize), "背景基因组规模必须为正数")
             End If
 
-            Using document As System.Text.Json.JsonDocument = System.Text.Json.JsonDocument.Parse(File.ReadAllText(file))
+            Using document As System.Text.Json.JsonDocument = System.Text.Json.JsonDocument.Parse(
+                System.IO.File.ReadAllText(filePath))
                 Dim root As System.Text.Json.JsonElement = document.RootElement
 
                 If root.ValueKind <> System.Text.Json.JsonValueKind.Object Then
@@ -328,6 +329,93 @@ Namespace Demo
                     .clusters = clusters.ToArray()
                 }
             End Using
+        End Function
+
+        ''' <summary>
+        ''' 估计每个基因的测量噪声（同时间点生物学重复之间的标准差中位数，log2 尺度）。
+        ''' </summary>
+        ''' <remarks>
+        ''' 这是 DEMO 构造 in-silico 重复时最可辩护的噪声尺度：它直接来自实测重复的离散程度，
+        ''' 而不是"某个比例的基因 SD"这种任意约定。没有重复的时间点会被跳过；
+        ''' 所有重复完全一致的基因回退为全局中位数，并设 1e-3 的下限避免零噪声。
+        ''' </remarks>
+        ''' <param name="expression">表达矩阵（需带 TimePoints）</param>
+        ''' <returns>每个基因的测量噪声（log2 单位）</returns>
+        Public Function EstimateReplicateNoise(expression As GeneExpressionData) As Double()
+            If expression Is Nothing Then Throw New ArgumentNullException(NameOf(expression))
+
+            Dim n As Integer = expression.NGene
+            Dim groups As New Dictionary(Of Double, List(Of Integer))()
+
+            For s As Integer = 0 To expression.NSample - 1
+                Dim time As Double = expression.TimePoints(s)
+
+                If Not groups.ContainsKey(time) Then groups(time) = New List(Of Integer)()
+
+                groups(time).Add(s)
+            Next
+
+            Dim replicateGroups As List(Of Integer)() = groups.Values.
+                Where(Function(g) g.Count >= 2).
+                ToArray()
+
+            If replicateGroups.Length = 0 Then
+                ' 没有重复：返回全 1（退化情形，调用方仍可运行）
+                Dim fallback As Double() = New Double(n - 1) {}
+
+                For i As Integer = 0 To n - 1
+                    fallback(i) = 1.0
+                Next
+
+                Return fallback
+            End If
+
+            Dim values As Double() = New Double(n - 1) {}
+            Dim observed As New List(Of Double)()
+
+            For g As Integer = 0 To n - 1
+                Dim sds As New List(Of Double)()
+                Dim geneIndex As Integer = g   ' 复制到局部变量，避免闭包捕获循环变量
+
+                For Each group As List(Of Integer) In replicateGroups
+                    Dim samples As Double() = group.Select(Function(s) expression.Matrix(geneIndex, s)).ToArray()
+                    Dim mean As Double = samples.Average()
+                    Dim variance As Double = samples.Sum(Function(v) (v - mean) * (v - mean)) / (samples.Length - 1)
+
+                    Call sds.Add(System.Math.Sqrt(variance))
+                Next
+
+                values(g) = Median(sds)
+
+                If values(g) > 0.0 Then
+                    Call observed.Add(values(g))
+                End If
+            Next
+
+            Dim globalNoise As Double = If(observed.Count > 0, Median(observed), 1.0)
+
+            For g As Integer = 0 To n - 1
+                If values(g) <= 0.0 OrElse Double.IsNaN(values(g)) Then values(g) = globalNoise
+                values(g) = System.Math.Max(1.0E-03, values(g))
+            Next
+
+            Return values
+        End Function
+
+        ''' <summary>中位数。</summary>
+        ''' <param name="values">样本</param>
+        ''' <returns>中位数；空集合返回 0</returns>
+        Private Function Median(values As IEnumerable(Of Double)) As Double
+            Dim array As Double() = If(values, Enumerable.Empty(Of Double)()).
+                Where(Function(v) Not Double.IsNaN(v)).
+                OrderBy(Function(v) v).
+                ToArray()
+
+            If array.Length = 0 Then Return 0.0
+
+            If array.Length Mod 2 = 1 Then Return array(array.Length \ 2)
+
+            Return (array(array.Length \ 2 - 1) + array(array.Length \ 2)) / 2.0
         End Function
 
         ''' <summary>
