@@ -667,3 +667,5 @@ src/GCModeller/engine/vcell.sln
 test/demo/sequencekit/local_test/proteins.faa
 test/demo/sequencekit/local_test/models/test_models.hmm
 test/demo/sequencekit/local_test/models.zip
+src/GCModeller/annotations/WGCNA/run_test/store_smoke/store_pearson/index.dat
+src/GCModeller/annotations/WGCNA/run_test/store_smoke/store_pearson/pearson.dat
