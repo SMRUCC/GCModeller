@@ -36,7 +36,7 @@ Public Class GPSModel
     Implements InsilicoPerturbationExperiment
 
     Private ReadOnly rawExpression As GeneExpressionData
-    Private ReadOnly prior As PriorNetwork
+    Private ReadOnly priorNetwork As PriorNetwork
     Private ReadOnly cfg As GPSConfig
 
     Private ReadOnly preprocessedExpression As PreprocessedExpression
@@ -60,6 +60,21 @@ Public Class GPSModel
     Public ReadOnly Property Model As GRNModel
         Get
             Return grn
+        End Get
+    End Property
+
+    ''' <summary>输入的时间序列表达矩阵（原始值，未标准化）</summary>
+    ''' <remarks>持久化时需要保存该输入以在加载端重建预处理与滑窗数据集。</remarks>
+    Public ReadOnly Property Expression As GeneExpressionData
+        Get
+            Return rawExpression
+        End Get
+    End Property
+
+    ''' <summary>输入的先验调控网络</summary>
+    Public ReadOnly Property Prior As PriorNetwork
+        Get
+            Return priorNetwork
         End Get
     End Property
 
@@ -125,7 +140,7 @@ Public Class GPSModel
         If expression Is Nothing Then Throw New ArgumentNullException(NameOf(expression))
 
         Me.rawExpression = expression
-        Me.prior = If(prior, New PriorNetwork())
+        Me.priorNetwork = If(prior, New PriorNetwork())
         Me.cfg = If(config, New GPSConfig())
 
         If Not Me.cfg.Validate() Then
@@ -133,12 +148,12 @@ Public Class GPSModel
         End If
 
         ' ---- 1. 预处理（高变异过滤时保留先验网络中的 TF） ----
-        Me.preprocessedExpression = ExpressionPreprocess.Preprocess(Me.rawExpression, Me.cfg, Me.prior.TFNames)
+        Me.preprocessedExpression = ExpressionPreprocess.Preprocess(Me.rawExpression, Me.cfg, Me.priorNetwork.TFNames)
 
         ' ---- 2. 图构建与静态编码 ----
         Me.regulatoryGraph = New GEARSGraph.GeneRegulatoryGraph(
             Me.preprocessedExpression.GeneNames,
-            Me.prior,
+            Me.priorNetwork,
             Me.preprocessedExpression.Matrix,
             Me.cfg.CoexpressionTopK,
             Me.cfg.MinCoexpression)
@@ -178,6 +193,18 @@ Public Class GPSModel
 
         Return result
     End Function
+
+    ''' <summary>
+    ''' 回填训练结果，用于从持久化包恢复模型时标记"已训练"状态。
+    ''' </summary>
+    ''' <param name="result">训练结果；传入 Nothing 会清除已训练标记</param>
+    ''' <remarks>
+    ''' 参数由 <see cref="GPSFile.Load"/> 在重建模型后写入；
+    ''' 常规训练路径仍然通过 <see cref="Train"/> 自动设置。
+    ''' </remarks>
+    Public Sub AttachTrainingResult(result As GPSTrainingResult)
+        _lastResult = result
+    End Sub
 
     ''' <summary>
     ''' 在测试集（时间上最晚的一段）上评估；测试集为空时回退到验证集。
