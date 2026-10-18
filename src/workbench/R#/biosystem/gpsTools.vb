@@ -102,7 +102,7 @@ Module gpsTools
         Call model.setAttribute("training", training)
         Call model.setAttribute("metrics", metrics)
         Call model.setAttribute("baseline", baseline)
-        Call model.setAttribute("report", report)
+        Call model.setAttribute("report", report.ToString)
 
         Return model
     End Function
