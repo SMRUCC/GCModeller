@@ -195,7 +195,8 @@ Public Class WGCNAModuleMap
             $"power={config.power};minModuleSize={config.minModuleSize};deepSplit={config.deepSplit};" &
             $"mergeCutHeight={config.mergeCutHeight};maxBlockSize={config.maxBlockSize};randomSeed={config.randomSeed};" &
             $"treeCut={config.treeCut};adjacency={config.adjacency};cutHeight={config.cutHeight};" &
-            $"pamStage={config.pamStage};distCut={config.distCut}"
+            $"pamStage={config.pamStage};distCut={config.distCut};" &
+            $"correlationStore={config.correlationStore}"
 
         Dim sb As New System.Text.StringBuilder
 

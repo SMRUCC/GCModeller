@@ -345,6 +345,12 @@ Module WGCNA
 
         config.useGpu = If(opts Is Nothing, True, opts.enableGpu)
 
+        ' 让缓存未命中时的 WGCNA blockwise 直接复用 bicor 存储中的相关矩阵；
+        ' 取值与 write_bicor 侧保持同一规范化形式（数据文件的 ParentPath），保证指纹一致
+        If bicor.storeFile IsNot Nothing Then
+            config.correlationStore = bicor.storeFile.ParentPath
+        End If
+
         Dim fingerprint As String = WGCNAModuleMap.ComputeFingerprint(bicor.genes, config)
 
         ' ① 显式传入的模块缓存

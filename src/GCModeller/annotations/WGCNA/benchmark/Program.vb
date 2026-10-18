@@ -7,12 +7,20 @@
 '                    [--seed 12345] [--deepSplit 2] [--power <beta>]
 '                    [--cut dynamic|static] [--adjacency 0.6] [--mergeCut 0.15]
 '                    [--blocks 1] [--dump] [--out <输出目录>]
+'                    [--store <repo>] [--writestore <repo>] [--corkind bicor|pearson]
+'                    [--compare] [--dumpcor]
+'
+'  相关矩阵存储（bicor/pearson）：
+'    --writestore <repo>  存储缺失时从（与运行期一致的）过滤后矩阵创建，随后自动复用
+'    --store <repo>       复用已存在的存储目录（基因/样本校验失败会自动回退重算）
+'    --compare            先按现状重算跑一轮，再用 store 跑一轮，输出模块划分 ARI
+'    --dumpcor            输出首块相关子矩阵：store 切片 vs GEMM 重算的最大绝对差
 '
 '  输出（写入 --out 目录）：
 '    gene_module.csv   基因 -> 模块 分配表
 '    modules.csv       模块名 -> 基因数
-'    timing.csv        各阶段耗时（毫秒）
-'    summary.txt       汇总信息（基因数、样本数、后端、模块数、峰值内存）
+'    timing.csv        各阶段耗时（毫秒，含 correlationStore 与各块 cor 分段）
+'    summary.txt       汇总信息（基因数、样本数、后端、相关系数来源、模块数、峰值内存）
 '    cor.csv/adj.csv/tom.csv   （仅 --dump）用于与 GNU R 做逐元素数值对照
 ' ---------------------------------------------------------------------------
 
@@ -49,6 +57,16 @@ Module Program
         Public dump As Boolean = False
         Public out As String = ""
         Public verbose As Boolean = True
+        ''' 预先计算相关矩阵存储目录（复用）
+        Public store As String = ""
+        ''' 相关矩阵存储目录（缺失时从过滤后矩阵创建，随后自动复用）
+        Public writestore As String = ""
+        ''' 写入存储时使用的相关系数类型：bicor（默认）或 pearson
+        Public corkind As String = "bicor"
+        ''' 对照模式：重算一轮 + store 一轮，输出模块划分 ARI
+        Public compare As Boolean = False
+        ''' 输出首块相关子矩阵的 store 切片 vs GEMM 重算最大绝对差
+        Public dumpcor As Boolean = False
     End Class
 
     Function Main(args As String()) As Integer
@@ -109,7 +127,47 @@ Module Program
         ' ------------------------------------------------------------ 运行
         Select Case opt.mode.ToLower()
             Case "blockwise"
-                result = Analysis.RunBlockwise(samples, config)
+                Dim kind As CorrelationKind = If(opt.corkind.ToLower() = "pearson",
+                                                 CorrelationKind.Pearson,
+                                                 CorrelationKind.Bicor)
+
+                ' 可选：先写存储（缺失才写），随后自动复用
+                If opt.writestore <> "" Then
+                    Call WriteStore(samples, opt.writestore, config, kind)
+                    opt.store = opt.writestore
+                End If
+
+                If opt.compare AndAlso opt.store <> "" Then
+                    ' ① 基线：不配置 store，按现状从表达矩阵重算
+                    Call Console.WriteLine("[compare] run 1/2: recompute correlation from expression matrix...")
+                    Dim baseline As Result = Analysis.RunBlockwise(samples, config)
+
+                    ' ② 对照：复用预计算相关矩阵存储
+                    Dim storeConfig As WGCNAConfig = config.Clone()
+                    storeConfig.correlationStore = opt.store
+
+                    Call Console.WriteLine($"[compare] run 2/2: reuse correlation store '{opt.store}'...")
+                    Dim storeRun As Result = Analysis.RunBlockwise(samples, storeConfig)
+
+                    Dim nBase As Integer = If(baseline.modules Is Nothing, 0, baseline.modules.Count)
+                    Dim nStore As Integer = If(storeRun.modules Is Nothing, 0, storeRun.modules.Count)
+                    Dim ari As Double = AdjustedRandIndex(ToLabels(baseline), ToLabels(storeRun))
+
+                    Call Console.WriteLine($"[compare] modules: expr={nBase}, store={nStore}, " &
+                                           $"corSource={storeRun.correlationSource}, ARI={ari:F4}")
+
+                    result = storeRun
+                Else
+                    If opt.store <> "" Then
+                        config.correlationStore = opt.store
+                    End If
+
+                    result = Analysis.RunBlockwise(samples, config)
+                End If
+
+                If opt.dumpcor AndAlso opt.store <> "" Then
+                    Call DumpCorDiff(samples, result, opt.store)
+                End If
 
             Case "hclust"
                 ' 诊断模式：直接对一份距离矩阵 CSV 做 average-linkage 层次聚类并导出 merge/height，
@@ -353,6 +411,14 @@ Module Program
         Call sb.AppendLine($"topN      : {opt.topN}")
         Call sb.AppendLine($"parallel  : {opt.blocks}")
         Call sb.AppendLine($"seed      : {opt.seed}")
+
+        If opt.store <> "" Then
+            Call sb.AppendLine($"cor store : {opt.store}")
+        End If
+
+        If result IsNot Nothing AndAlso Not String.IsNullOrEmpty(result.correlationSource) Then
+            Call sb.AppendLine($"cor source: {result.correlationSource}")
+        End If
         Call sb.AppendLine()
 
         If result.beta IsNot Nothing Then
@@ -442,6 +508,11 @@ Module Program
                 Case "mergecut" : opt.mergeCut = Val(argValue)
                 Case "blocks" : opt.blocks = CInt(Val(argValue))
                 Case "dump" : opt.dump = True
+                Case "store" : opt.store = argValue
+                Case "writestore" : opt.writestore = argValue
+                Case "corkind" : opt.corkind = argValue
+                Case "compare" : opt.compare = True
+                Case "dumpcor" : opt.dumpcor = True
                 Case "out" : opt.out = argValue
                 Case "quiet" : opt.verbose = False
             End Select
@@ -461,7 +532,183 @@ Module Program
         Call sb.AppendLine("                [--seed 12345] [--deepSplit 2] [--power <beta>]")
         Call sb.AppendLine("                [--cut dynamic|static] [--adjacency 0.6] [--mergeCut 0.15]")
         Call sb.AppendLine("                [--blocks 1] [--dump] [--out <dir>]")
+        Call sb.AppendLine("                [--store <repo>] [--writestore <repo>] [--corkind bicor|pearson]")
+        Call sb.AppendLine("                [--compare] [--dumpcor]")
 
         Return sb.ToString()
+    End Function
+
+    ''' <summary>
+    ''' 从（与运行期一致的）过滤后矩阵创建相关矩阵存储；已存在则跳过直接复用
+    ''' </summary>
+    Private Sub WriteStore(samples As Matrix, repo As String, config As WGCNAConfig, kind As CorrelationKind)
+        Dim dataFile As String = $"{repo}/{CorrelationStoreFiles.DataFileOf(kind)}"
+        Dim indexFile As String = $"{repo}/{CorrelationStoreFiles.IndexFile}"
+
+        If IO.File.Exists(dataFile) AndAlso IO.File.Exists(indexFile) Then
+            Call Console.WriteLine($"correlation store already exists: '{repo}' (reuse)")
+            Return
+        End If
+
+        Call IO.Directory.CreateDirectory(repo)
+
+        Dim sw As New Stopwatch()
+        Call sw.Start()
+
+        ' 与 RunBlockwise 内部一致的过滤：保证 store 基因集 = 运行期输入基因集
+        Dim filtered As Matrix = GeneFilter.Filter(samples, config)
+
+        Call filtered.CreateMatrixStore(repo, CorrelationEncodings.Float32, kind)
+
+        Call sw.Stop()
+
+        Call Console.WriteLine($"correlation store({kind}) written: {filtered.size} genes x {filtered.sample_count} samples " &
+                               $"in {sw.ElapsedMilliseconds / 1000:F1}s -> '{repo}'")
+    End Sub
+
+    ''' <summary>
+    ''' 首块相关子矩阵对拍：store 切片 vs 表达矩阵 GEMM 重算
+    ''' </summary>
+    Private Sub DumpCor(samples As Matrix, result As Result, repo As String)
+        If result.blocks Is Nothing OrElse result.blocks.Length = 0 Then
+            Call Console.WriteLine("dumpcor: 结果中没有块信息，跳过")
+            Return
+        End If
+
+        Dim keys As String() = result.blocks(0)
+        Dim allIds As String() = samples.expression.Select(Function(g) g.geneID).ToArray()
+        Dim indexOf As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+
+        For i As Integer = 0 To allIds.Length - 1
+            indexOf(allIds(i)) = i
+        Next
+
+        Dim rows As Integer() = keys.Select(Function(g) indexOf(g)).ToArray()
+
+        Using handle As CorrelationStoreHandle = CorrelationStoreHandle.Open(repo)
+            Dim storeRows As Integer() = StoreCorrelation.MapGenes(handle.Store, allIds)
+
+            If storeRows Is Nothing Then
+                Call Console.WriteLine("dumpcor: 输入基因未被 store 完整覆盖，跳过")
+                Return
+            End If
+
+            Dim blockRows As Integer() = rows.Select(Function(i) storeRows(i)).ToArray()
+            Dim fromStore As TensorCorrelation = StoreCorrelation.Correlation(handle.Store, blockRows)
+            Dim expr As Double()() = rows.Select(Function(i) samples.expression(i).experiments).ToArray()
+            Dim fromGemm As TensorCorrelation = TensorCorrelation.Create(expr)
+            Dim n As Integer = rows.Length
+            Dim maxDiff As Double = 0.0
+
+            For i As Integer = 0 To n - 1
+                For j As Integer = 0 To n - 1
+                    Dim d As Double = stdNum.Abs(fromStore(i, j) - fromGemm(i, j))
+
+                    If d > maxDiff Then
+                        maxDiff = d
+                    End If
+                Next
+            Next
+
+            Call Console.WriteLine($"dumpcor: block0 n={n}, store({handle.Kind}) vs GEMM(pearson) max|diff| = {maxDiff:E3}")
+            Call Console.WriteLine("dumpcor: 说明 -- bicor 与 GEMM(pearson) 是不同估计量，差值大为预期；" &
+                                   "pearson 存储应与 GEMM 在 float32 精度（约 1e-7）内一致")
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' 模块划分结果 → 基因 → 模块标签 字典（ARI 输入）
+    ''' </summary>
+    Private Function ToLabels(result As Result) As Dictionary(Of String, String)
+        Dim labels As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+        If result Is Nothing OrElse result.modules Is Nothing Then
+            Return labels
+        End If
+
+        For Each kv In result.modules
+            For Each g As String In kv.Value
+                labels(g) = kv.Key
+            Next
+        Next
+
+        Return labels
+    End Function
+
+    ''' <summary>
+    ''' 调整兰德指数（ARI）：比较两组「基因 → 模块标签」划分的一致性（1 = 完全一致）
+    ''' </summary>
+    Private Function AdjustedRandIndex(a As Dictionary(Of String, String), b As Dictionary(Of String, String)) As Double
+        If a Is Nothing OrElse b Is Nothing Then
+            Return Double.NaN
+        End If
+
+        Dim genes As New List(Of String)
+
+        For Each g As String In a.Keys
+            If b.ContainsKey(g) Then
+                genes.Add(g)
+            End If
+        Next
+
+        Dim n As Long = genes.Count
+
+        If n < 2 Then
+            Return Double.NaN
+        End If
+
+        Dim groupA As New Dictionary(Of String, Long)
+        Dim groupB As New Dictionary(Of String, Long)
+        Dim cross As New Dictionary(Of String, Long)
+
+        For Each g As String In genes
+            Dim la As String = a(g)
+            Dim lb As String = b(g)
+
+            If groupA.ContainsKey(la) Then
+                groupA(la) += 1
+            Else
+                groupA(la) = 1
+            End If
+
+            If groupB.ContainsKey(lb) Then
+                groupB(lb) += 1
+            Else
+                groupB(lb) = 1
+            End If
+
+            Dim key As String = la & vbTab & lb
+
+            If cross.ContainsKey(key) Then
+                cross(key) += 1
+            Else
+                cross(key) = 1
+            End If
+        Next
+
+        Dim sumCross As Long = 0
+        Dim sumA As Long = 0
+        Dim sumB As Long = 0
+
+        For Each v As Long In cross.Values
+            sumCross += v * (v - 1) \ 2
+        Next
+        For Each v As Long In groupA.Values
+            sumA += v * (v - 1) \ 2
+        Next
+        For Each v As Long In groupB.Values
+            sumB += v * (v - 1) \ 2
+        Next
+
+        Dim totalPairs As Long = n * (n - 1) \ 2
+        Dim expected As Double = CDbl(sumA) * CDbl(sumB) / CDbl(totalPairs)
+        Dim maxIndex As Double = 0.5 * (sumA + sumB)
+        Dim denom As Double = maxIndex - expected
+
+        If stdNum.Abs(denom) < 1.0E-12 Then
+            Return 1.0
+        End If
+
+        Return (sumCross - expected) / denom
     End Function
 End Module

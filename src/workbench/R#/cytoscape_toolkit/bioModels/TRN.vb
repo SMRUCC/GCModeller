@@ -110,9 +110,10 @@ Module TRN
     ''' </param>
     ''' <param name="repo">
     ''' the data repository directory. Two files are written into it:
-    ''' <c>{repo}/bicor.dat</c> (the row blocks of the correlation matrix) and
-    ''' <c>{repo}/index.dat</c> (the gene table + row directory). The WGCNA module
-    ''' map sidecar cache is written as <c>{repo}/modules.dat</c>.
+    ''' <c>{repo}/{corKind}.dat</c> (the row blocks of the correlation matrix,
+    ''' named <c>bicor.dat</c> or <c>pearson.dat</c> after the correlation kind)
+    ''' and <c>{repo}/index.dat</c> (the gene table + row directory). The WGCNA
+    ''' module map sidecar cache is written as <c>{repo}/modules.dat</c>.
     ''' </param>
     ''' <param name="type">
     ''' the on-disk encoding of the correlation values:
@@ -124,6 +125,12 @@ Module TRN
     ''' optional WGCNA blockwise configuration used by the module detection that
     ''' runs in the same pass. Nothing (default) uses the default configuration with
     ''' the GPU backend enabled and the network graph materialization disabled.
+    ''' </param>
+    ''' <param name="corKind">
+    ''' the correlation estimator used for the matrix computation:
+    ''' <see cref="CorrelationKind.Bicor"/> (robust biweight midcorrelation,
+    ''' default) or <see cref="CorrelationKind.Pearson"/>. The kind is not stored
+    ''' in the index but implied by the data file name.
     ''' </param>
     ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>TRUE when the correlation store (and the module map cache) is written successfully.</returns>
@@ -146,12 +153,21 @@ Module TRN
     Public Function write_bicor(x As Matrix, repo As String,
                                 Optional type As CorrelationEncodings = CorrelationEncodings.Float32,
                                 Optional wgcnaOpts As WGCNAConfig = Nothing,
-                                Optional env As Environment = Nothing) As Object
+                                Optional env As Environment = Nothing,
+                                Optional corKind As CorrelationKind = CorrelationKind.Bicor) As Object
 
-        Call x.CreateMatrixStore(repo, type)
+        Call x.CreateMatrixStore(repo, type, corKind)
         ' 同一趟顺带缓存 WGCNA 模块映射（{repo}/modules.dat）：
         ' 后续 build_grn(bicor=...) 直接消费该边车缓存，不再重复运行 WGCNA blockwise
-        Call WriteModuleMap(x, $"{repo}/modules.dat", wgcnaOpts)
+        Dim opts As WGCNAConfig = If(wgcnaOpts Is Nothing,
+                                     New WGCNAConfig With {.useGpu = True, .buildGraph = False},
+                                     wgcnaOpts.Clone())
+        ' 让紧随其后的 WGCNA blockwise 直接复用刚写入的相关矩阵存储，避免相关矩阵被完整重算；
+        ' 取值与 build_grn 的 ResolveModuleMap 侧保持同一规范化形式（数据文件的 ParentPath），
+        ' 以保证模块映射边车缓存的指纹一致（克隆配置，不改写调用方对象）
+        opts.correlationStore = $"{repo}/{CorrelationStoreFiles.DataFileOf(corKind)}".ParentPath
+
+        Call WriteModuleMap(x, $"{repo}/modules.dat", opts)
 
         Return True
     End Function
@@ -189,7 +205,9 @@ Module TRN
     ''' </summary>
     ''' <param name="repo">
     ''' the data repository directory that was passed to <c>write_bicor</c>
-    ''' (reads <c>{repo}/bicor.dat</c> and <c>{repo}/index.dat</c>).
+    ''' (reads <c>{repo}/bicor.dat</c>, or <c>{repo}/pearson.dat</c> when the
+    ''' store was written with <c>corKind = "pearson"</c>, and
+    ''' <c>{repo}/index.dat</c>).
     ''' </param>
     ''' <param name="cache">
     ''' the hot-row LRU cache capacity in rows. Each cached row of a N = 50,000
@@ -214,11 +232,20 @@ Module TRN
     <ExportAPI("open_bicor")>
     <RApiReturn(GetType(CorrelationMatrixStore))>
     Public Function open_bicor(repo As String, Optional cache As Integer = 2048, Optional env As Environment = Nothing) As Object
-        Dim matrix = $"{repo}/bicor.dat".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+        ' 数据文件按相关类型命名（bicor.dat / pearson.dat）：优先 bicor，
+        ' 仅当 bicor.dat 不存在而 pearson.dat 存在时才回退 pearson
+        Dim dataFile As String = CorrelationStoreFiles.BicorDataFile
+
+        If Not IO.File.Exists($"{repo}/{CorrelationStoreFiles.BicorDataFile}") AndAlso
+           IO.File.Exists($"{repo}/{CorrelationStoreFiles.PearsonDataFile}") Then
+            dataFile = CorrelationStoreFiles.PearsonDataFile
+        End If
+
+        Dim matrix = $"{repo}/{dataFile}".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
         Dim index = $"{repo}/index.dat".Open(FileMode.Open, doClear:=False, [readOnly]:=True)
 
         ' storePath 用于边车缓存（WGCNA 模块映射 {storeFile}.modules）的自动定位
-        Dim cor = CorrelationMatrixStore.Open(matrix, index, cacheRows:=cache, storePath:=$"{repo}/bicor.dat")
+        Dim cor = CorrelationMatrixStore.Open(matrix, index, cacheRows:=cache, storePath:=$"{repo}/{dataFile}")
 
         Return cor
     End Function

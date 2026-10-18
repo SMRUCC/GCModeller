@@ -151,6 +151,16 @@ Public Class Result
     Public Property dendrogram As HclustResult
 
     ''' <summary>
+    ''' 相关系数的计算来源（诊断信息）
+    ''' </summary>
+    ''' <returns>
+    ''' <c>expression</c>：从表达矩阵重算（默认）；
+    ''' <c>Bicor-store</c> / <c>Pearson-store</c>：复用预计算相关矩阵存储。
+    ''' 配置了存储但校验失败时回退，值仍为 <c>expression</c>。
+    ''' </returns>
+    Public Property correlationSource As String = "expression"
+
+    ''' <summary>
     ''' 各阶段的耗时统计（毫秒）
     ''' </summary>
     ''' <returns>阶段名 → 毫秒 的字典</returns>

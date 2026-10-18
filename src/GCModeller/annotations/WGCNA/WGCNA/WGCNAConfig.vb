@@ -190,6 +190,17 @@ Public Class WGCNAConfig
     Public Property randomSeed As Integer = 12345
 
     ''' <summary>
+    ''' 预先计算的相关矩阵存储目录（repo）。
+    ''' </summary>
+    ''' <returns>
+    ''' 默认 Nothing：按现状从表达矩阵重算相关矩阵。
+    ''' 非空时尝试复用 <c>BicorMatrix.CreateMatrixStore</c> 写入的存储
+    ''' （bicor.dat / pearson.dat + index.dat）；基因覆盖或样本数校验失败时
+    ''' 自动回退到表达矩阵重算，不影响分析可用性。
+    ''' </returns>
+    Public Property correlationStore As String = Nothing
+
+    ''' <summary>
     ''' 是否输出各阶段的进度日志
     ''' </summary>
     ''' <returns>默认 True</returns>
@@ -207,6 +218,25 @@ Public Class WGCNAConfig
     ''' <returns>默认配置实例</returns>
     Public Shared Function [Default]() As WGCNAConfig
         Return New WGCNAConfig()
+    End Function
+
+    ''' <summary>
+    ''' 创建当前配置的浅拷贝（所有属性均为值类型；betaSeq 数组为共享引用，但不会被就地修改）
+    ''' </summary>
+    ''' <returns>配置副本</returns>
+    ''' <remarks>
+    ''' 采用反射逐属性拷贝：后续新增配置字段时无需维护本方法，避免克隆遗漏。
+    ''' </remarks>
+    Public Function Clone() As WGCNAConfig
+        Dim copy As New WGCNAConfig()
+
+        For Each p As System.Reflection.PropertyInfo In GetType(WGCNAConfig).GetProperties()
+            If p.CanRead AndAlso p.CanWrite AndAlso p.GetIndexParameters().Length = 0 Then
+                Call p.SetValue(copy, p.GetValue(Me))
+            End If
+        Next
+
+        Return copy
     End Function
 
     ''' <summary>
