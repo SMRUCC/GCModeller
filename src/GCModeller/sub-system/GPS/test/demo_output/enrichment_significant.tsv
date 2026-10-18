@@ -1,6 +1,6 @@
 term	name	score	enriched	cluster	pvalue	FDR	IDs
-P04	萜类合成通路 (Terpenoid Biosynthesis)	0.6875	11	16	0.00513272	0.102654	idi;ispF;ispD;limS;gerA;terR;crtE;linalS;pinS;ispA;dxr
-P06	硫代谢通路 (Sulfur Metabolism)	0.761905	16	21	0.0179642	0.179642	metA;metK;cysD;mgl;metB;metC;mglB;cysE;tst;cysK;tauA;mdeA;dmdA;cysH;cysP;ssuA
-P03	酯类合成通路 (Ester Biosynthesis)	0.8125	13	16	0.123445	0.822965	atfA;estB;aldB;acsL;aldA;adhB;atfB;estA;eatB;adhE;eeb1;adhA;acsA
-P05	苯丙氨酸代谢通路 (Phenylalanine Metabolism)	0.857143	12	14	0.304879	1.5244	pheA;feaB;tyrB;pal;feaD;pdcA;aroG;aroB;hpaC;aroC;hpaB;phhA
-P01	支链氨基酸降解通路 (Branched-Chain Amino Acid Degradation)	1	18	18	0.380645	1.26882	bkdA2;brnQ;ilvE;mmsA;leuB;leuC;bkdR;ivdA;bkdA1;lpdA;bcatB;bcatA;leuA;hmgL;leuD;bkdB;aroP;hmgA
+P15	氧化应激响应通路 (Oxidative Stress Response)	0.210526	4	19	0.0958049	1.9161	oxyR;ahpD;sodC;sodA
+P13	嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Metabolism)	0.6	9	15	0.115777	1.15777	pyrC;purC;purD;purH;pyrF;purB;purA;pyrA;pyrD
+P06	硫代谢通路 (Sulfur Metabolism)	0.238095	5	21	0.167919	1.11946	mglB;cysI;cysR;dmdA;mdeA
+P07	乳酸代谢通路 (Lactate Metabolism)	0.583333	7	12	0.234631	1.17316	lldR;lctP;ldhB;ldhA;poxB;pflD;pta
+P05	苯丙氨酸代谢通路 (Phenylalanine Metabolism)	0.571429	8	14	0.265316	1.06126	tyrB;pal;feaD;pheA;hpaC;hpaB;aroB;feaB

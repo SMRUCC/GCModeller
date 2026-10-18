@@ -143,7 +143,7 @@ Namespace Demo
         ''' <summary>
         ''' 加载时序表达矩阵。
         ''' </summary>
-        ''' <param name="file">CSV 路径（首列基因名，其余列 <c>T{h}h_Rep{k}</c>）</param>
+        ''' <param name="filePath">CSV 路径（首列基因名，其余列 <c>T{h}h_Rep{k}</c>）</param>
         ''' <returns>基因×样本的表达矩阵对象</returns>
         Public Function LoadExpressionMatrix(filePath As String) As GeneExpressionData
             If Not System.IO.File.Exists(filePath) Then
@@ -211,7 +211,7 @@ Namespace Demo
         ''' <summary>
         ''' 加载先验调控网络。
         ''' </summary>
-        ''' <param name="file">CSV 路径（TF,TargetGene,RegulationType,Confidence,Evidence）</param>
+        ''' <param name="filePath">CSV 路径（TF,TargetGene,RegulationType,Confidence,Evidence）</param>
         ''' <returns>先验调控网络</returns>
         Public Function LoadPriorNetwork(filePath As String) As PriorNetwork
             If Not System.IO.File.Exists(filePath) Then
@@ -258,7 +258,7 @@ Namespace Demo
         ''' <summary>
         ''' 加载通路定义并构造 Fisher 富集分析所需的背景模型。
         ''' </summary>
-        ''' <param name="file">pathway_info.json 路径</param>
+        ''' <param name="filePath">pathway_info.json 路径</param>
         ''' <param name="universeSize">
         ''' 背景基因组规模（超几何检验的 N）。必须显式给定参与检验的基因总数，
         ''' 否则富集会回退为"通路成员并集大小"并系统性高估显著性。

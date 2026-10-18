@@ -122,6 +122,27 @@ CudaTensor.Register(engine)      ' 双精度栈：Tensor.computeKernel
 | 不确定性 | 已实现 softplus 方差头与高斯 NLL | 校准与置信区间报告 |
 | 梯度检查点 | 反向按时间步重算前向（多一次前向） | 显式 stateful 层 API 以缓存全部时间步 |
 
+## DEMO（TestData1 真实数据）
+
+`test` 工程内置了基于 `sub-system/demo/TestData1` 的端到端 DEMO：
+训练 → 虚拟敲除 → Limma 差异分析 → Fisher 通路富集。
+
+```text
+cd test
+dotnet run --project GPS.Test.vbproj -c Debug -p:Platform=x64 -- --demo
+```
+
+可用参数：`--epochs`、`--pretrain`、`--tf`、`--samples`、`--noise`、`--topn`、`--lr`、
+`--logfc`、`--fdr`、`--seed`、`--data`、`--out`（`--help` 查看完整说明）。
+结果写入 `test/demo_output/`：`limma_all.tsv`、`limma_up.tsv`、`limma_down.tsv`、
+`enrichment_all.tsv`、`enrichment_up.tsv`、`enrichment_down.tsv`、
+`enrichment_significant.tsv`、`report.txt`。
+
+说明：虚拟扰动本身是确定性点估计，DEMO 为满足 Limma 的方差估计需要，
+用**实测同时间点重复间 SD** 作为噪声尺度构造 in-silico 技术重复；
+logFC 处于模型处理后的 log2 表达尺度。DEMO 默认训练轮数较少（约 260 步），
+主要用于验证分析链路，不代表模型在真实数据上的最终精度。
+
 ## 自测
 
 ```text

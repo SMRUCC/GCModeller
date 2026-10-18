@@ -1,21 +1,20 @@
 term	name	score	enriched	cluster	pvalue	FDR	IDs
-P20	蛋白水解系统 (Proteolytic System)	0.888889	16	18	0.00113749	0.0227498	degS;oppB;epr;nprB;oppA;mpr;vpr;pepA;pepC;pepX;degU;pepQ;pepN;bpr;pepB;aprE
-P19	细胞壁降解通路 (Cell Wall Degradation)	0.857143	12	14	0.0120625	0.120625	tagO;atlB;lytB;cwlO;lytR;lytD;lytS;lytF;walK;atlA;lytA;lytC
-P06	硫代谢通路 (Sulfur Metabolism)	0.285714	6	21	0.0410174	0.273449	tauA;mdeA;dmdA;cysH;cysP;ssuA
-P14	铁载体合成通路 (Siderophore Biosynthesis)	0.785714	11	14	0.0548568	0.274284	sidA;entA;sidI;sidL;sidF;entB;sidK;sidJ;sidD;sidC;sidE
-P17	丙酮酸代谢枢纽 (Pyruvate Metabolism Hub)	0.344828	10	29	0.0555743	0.222297	budB;budA;ptsI;fbaA;gapA;glcP;atpD;eno;pdhA;atpB
-P08	聚酮合酶通路 (Polyketide Synthase Pathway)	0.666667	16	24	0.144327	0.481089	pksR;pksF;pksG;baeA;pksC;fabD;pksD;macA;fabH;acpA;pksI;pksH;pksM;pksJ;baeB;baeC
-P11	群体感应通路 (Quorum Sensing)	0.352941	6	17	0.215102	0.614578	comP;spo0B;comA;sinI;spaR;luxS
-P04	萜类合成通路 (Terpenoid Biosynthesis)	0.375	6	16	0.308948	0.772369	terR;crtE;linalS;pinS;ispA;dxr
-P01	支链氨基酸降解通路 (Branched-Chain Amino Acid Degradation)	0.388889	7	18	0.335224	0.744943	bcatA;leuA;hmgL;leuD;bkdB;aroP;hmgA
-P09	非核糖体肽合成通路 (NRPS Pathway)	0.631579	12	19	0.352438	0.704877	srfAA;nrpK;nrpH;nrpF;nrpA;nrpJ;nrpI;nrpG;nrpB;nrpD;comS;nrpM
-P07	乳酸代谢通路 (Lactate Metabolism)	0.416667	5	12	0.563719	1.02494	lldR;acs;poxB;pflD;ldhA
-P10	细菌素合成通路 (Bacteriocin Biosynthesis)	0.428571	6	14	0.590163	0.983606	nisK;bacB;bacT;nisI;nisP;nisB
-P16	氨基酸生物合成通路 (Amino Acid Biosynthesis)	0.444444	8	18	0.630879	0.970583	ilvD;dapB;ilvC;ilvA;lysC;argR;argA;dapA
-P12	全局调控网络 (Global Regulatory Network)	0.56	14	25	0.684491	0.977844	ccpA;yvfA;ccpB;ccpC;resE;lexA;rpoB;hrcA;sigB;tenA;sigM;tcrA;tcrB;resD
-P05	苯丙氨酸代谢通路 (Phenylalanine Metabolism)	0.571429	8	14	0.788352	1.05114	feaD;pdcA;aroG;aroB;hpaC;aroC;hpaB;phhA
-P13	嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Metabolism)	0.466667	7	15	0.794272	0.99284	purA;purF;purC;purB;pyrD;recA;purH
-P02	脂肪酸β-氧化通路 (Fatty Acid β-Oxidation)	0.5	14	28	0.84718	0.996682	paaG;fumA;atoA;mdh;paaH;atoD;echA;fadK;paaJ;paaF;fadJ;fadE;fadB;acdh
-P03	酯类合成通路 (Ester Biosynthesis)	0.5	8	16	1	1.05263	adhB;atfB;estA;eatB;adhE;eeb1;adhA;acsA
-P15	氧化应激响应通路 (Oxidative Stress Response)	0.526316	10	19	1	1.05263	clpP;ahpD;dnaK;sodB;sodA;katE;osrR;trxA;clpX;oxyR
-P18	维生素/辅因子合成通路 (Vitamin/Cofactor Biosynthesis)	0.5	8	16	1	1.05263	thiB;ribD;bioA;ribR;ribC;panB;ribA;bioF
+P08	聚酮合酶通路 (Polyketide Synthase Pathway)	0.458333	11	24	0.00798581	0.15173	pksJ;pksE;baeB;pksM;baeC;pksK;baeA;pksC;fabD;pksD;pksI
+P09	非核糖体肽合成通路 (NRPS Pathway)	0.421053	8	19	0.041875	0.397813	nrpF;srfAA;nrpH;nrpM;nrpJ;nrpE;bacilysinC;nrpG
+P10	细菌素合成通路 (Bacteriocin Biosynthesis)	0.428571	6	14	0.0897576	0.487256	nisP;nisT;nisC;bacT;nisK;nisR
+P19	细胞壁降解通路 (Cell Wall Degradation)	0.428571	6	14	0.0897576	0.487256	lytE;lytD;tagO;lytC;lytS;lytB
+P04	萜类合成通路 (Terpenoid Biosynthesis)	0.375	6	16	0.127642	0.48504	ispG;ispF;dxr;limS;linalS;ispH
+P12	全局调控网络 (Global Regulatory Network)	0.08	2	25	0.128442	0.406733	ccpA;resE
+P16	氨基酸生物合成通路 (Amino Acid Biosynthesis)	0.0555556	1	18	0.138684	0.376429	ilvD
+P06	硫代谢通路 (Sulfur Metabolism)	0.0952381	2	21	0.27296	0.648279	dmdA;mdeA
+P03	酯类合成通路 (Ester Biosynthesis)	0.3125	5	16	0.35672	0.753075	eeb1;estA;adhA;eatB;aldB
+P15	氧化应激响应通路 (Oxidative Stress Response)	0.105263	2	19	0.38939	0.739841	sodC;sodA
+P02	脂肪酸β-氧化通路 (Fatty Acid β-Oxidation)	0.142857	4	28	0.474206	0.819082	acnA;paaJ;yqeA;fadA
+P05	苯丙氨酸代谢通路 (Phenylalanine Metabolism)	0.285714	4	14	0.515513	0.78358	hpaC;hpaB;aroB;feaB
+P14	铁载体合成通路 (Siderophore Biosynthesis)	0.285714	4	14	0.515513	0.78358	entA;sidH;entB;sidC
+P18	维生素/辅因子合成通路 (Vitamin/Cofactor Biosynthesis)	0.125	2	16	0.538572	0.73092	thiB;panB
+P20	蛋白水解系统 (Proteolytic System)	0.277778	5	18	0.558947	0.707999	pepA;degS;vpr;oppB;pepC
+P07	乳酸代谢通路 (Lactate Metabolism)	0.25	3	12	0.728882	0.865547	poxB;pflD;pta
+P01	支链氨基酸降解通路 (Branched-Chain Amino Acid Degradation)	0.166667	3	18	0.77329	0.864266	hmgA;leuA;leuB
+P11	群体感应通路 (Quorum Sensing)	0.176471	3	17	1	1.02703	sinI;luxS;luxI
+P13	嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Metabolism)	0.2	3	15	1	1.02703	purA;pyrA;pyrD

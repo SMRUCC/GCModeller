@@ -181,6 +181,12 @@ Public Module DemoTestData1
 
             Ensure(Not Double.IsNaN(metrics.MSE), "评估未返回有效 MSE")
 
+            If metrics.R2 < baseline.R2 Then
+                Write(report, Console.Out,
+                      $"  说明：本次仅训练 {training.FinetuneEpochs} 轮（{plannedSteps} 步），" &
+                      "模型尚未超过历史持续性基线；增大 --epochs 可继续改善。")
+            End If
+
             ' ==================== 4. 虚拟敲除 ====================
             Section(report, "扰动")
             Dim targetTF As String = If(options.TargetTF, SelectTargetTF(prior, gps.GeneNames))

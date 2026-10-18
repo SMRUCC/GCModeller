@@ -1,57 +1,59 @@
 
 ---- 数据 ----
 [数据] 367 基因 × 180 样本（60 时间点 × 3 重复）；先验 352 条边 / 49 个 TF；20 条通路覆盖 367 个基因
+[数据] 测量噪声（同时间点重复间 SD 中位数）= 0.166 log2 单位
 [数据] 建模基因 367；滑窗 训练/验证/测试 = 33/11/12（窗口长度 4）
-[训练] 结构 d_model=32 layers=2 heads=4 ffn=64 gru=24；预计 33 个训练步
+[训练] 结构 d_model=32 layers=2 heads=4 ffn=64 gru=24；预计 264 个训练步
 
 ---- 训练 ----
-[训练] 完成，用时 27.3s；预训练 0 轮，微调 1 轮
-  微调损失 2.03424 → 2.03424；验证 0.991292 → 0.991292（最优 epoch 1，0.991292）
+[训练] 完成，用时 294.3s；预训练 3 轮，微调 8 轮
+  预训练损失 2.0006 → 1.3727
+  微调损失 1.47492 → 0.783655；验证 1.29025 → 0.845786（最优 epoch 8，0.845786）
 
 ---- 评估 ----
-[评估] 模型 N=12×367  MSE=1.078  R²=-0.0222  r=0.1164  topK_MSE=1.662  dir=56.0%
+[评估] 模型 N=12×367  MSE=1.007  R²=0.0450  r=0.2815  topK_MSE=1.928  dir=57.7%
 [评估] 基线 N=12×367  MSE=0.3444  R²=0.6734  r=0.8357  topK_MSE=NaN  dir=0.0%
-[评估] 图外基因：模型 MSE=1.002 R²=-0.0834；基线 MSE=0.6431 R²=0.3050
+[评估] 图外基因：模型 MSE=0.8848 R²=0.0438；基线 MSE=0.6431 R²=0.3050
 
 ---- 扰动 ----
 [扰动] 目标 TF = ccpA（自动选取出度最大的 TF）
-  显著变化基因 65/367
-  上调 Top：idi(+0.207), pksL(+0.184), nrpE(+0.181), bacilysinA(+0.169), lytE(+0.161), bkdA2(+0.158)
-  下调 Top：ccpA(-11.384), sidA(-0.389), feaD(-0.351), atlB(-0.325), entA(-0.303), atoA(-0.258)
+  显著变化基因 192/367
+  上调 Top：fbaA(+0.46), pykF(+0.382), pykA(+0.359), mglB(+0.337), pdhC(+0.31), panD(+0.303)
+  下调 Top：ccpA(-11.215), eeb1(-0.389), vpr(-0.383), entA(-0.337), baeB(-0.335), nisT(-0.328)
 
 ---- Limma ----
-[Limma] 367 基因 × 8 样本（每组 4 个 in-silico 技术重复，噪声 σ = 0.05×基因SD）
+[Limma] 367 基因 × 12 样本（每组 6 个 in-silico 技术重复，噪声 σ = 1×实测重复SD，中位 0.166）
 [Limma] 阈值 |logFC| ≥ 0.5 且 adj.P ≤ 0.05
-[Limma] 上调 148 / 下调 190
-  ccpA         logFC=-11.377  P=6.18E-09  adj.P=2.27E-06
-  degS         logFC= -6.377  P=1.26E-07  adj.P=2.32E-05
-  tagO         logFC= -6.206  P=8.47E-07  adj.P=3.11E-05
-  sinR         logFC=  5.821  P=7.71E-07  adj.P=3.14E-05
-  spo0B        logFC= -5.862  P=7.25E-07  adj.P=3.33E-05
-  ilvD         logFC= -5.572  P=5.46E-07  adj.P=3.34E-05
-  comP         logFC= -6.114  P=6.71E-07  adj.P=3.52E-05
-  adhB         logFC= -5.114  P=2.08E-06  adj.P=3.81E-05
+[Limma] 上调 67 / 下调 80
+  ccpA         logFC=-10.997  P=3.84E-09  adj.P=1.41E-06
+  fbaA         logFC=  4.392  P=2.2E-05  adj.P=0.00403
+  pyrC         logFC=  3.897  P=8.88E-05  adj.P=0.0109
+  ispG         logFC= -3.547  P=0.000174  adj.P=0.0128
+  pksJ         logFC= -3.788  P=0.000221  adj.P=0.0135
+  purC         logFC=  3.657  P=0.000152  adj.P=0.014
+  hmgA         logFC= -3.725  P=0.000268  adj.P=0.0141
+  lpd          logFC=  2.918  P=0.000933  adj.P=0.0149
 
 ---- 富集 ----
 [富集] 差异基因全集（上调 + 下调）
-  输入基因 338 个；FDR ≤ 0.05（BH 校正），背景规模 N = 367（无通路通过阈值，已回退展示 P 值最小的 Top-5）
-  P04   萜类合成通路 (Terpenoid Biosynthesis)      score=0.688  11/16  P=0.00513  FDR=0.103
-  P06   硫代谢通路 (Sulfur Metabolism)            score=0.762  16/21  P=0.018  FDR=0.18
-  P03   酯类合成通路 (Ester Biosynthesis)          score=0.812  13/16  P=0.123  FDR=0.823
-  P05   苯丙氨酸代谢通路 (Phenylalanine Metabolis…   score=0.857  12/14  P=0.305  FDR=1.52
-  P01   支链氨基酸降解通路 (Branched-Chain Amino A…   score=1.000  18/18  P=0.381  FDR=1.27
+  输入基因 147 个；FDR ≤ 0.05（BH 校正），背景规模 N = 367（无通路通过阈值，已回退展示 P 值最小的 Top-5）
+  P15   氧化应激响应通路 (Oxidative Stress Respon…   score=0.211  4/19  P=0.0958  FDR=1.92
+  P13   嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Meta…   score=0.600  9/15  P=0.116  FDR=1.16
+  P06   硫代谢通路 (Sulfur Metabolism)            score=0.238  5/21  P=0.168  FDR=1.12
+  P07   乳酸代谢通路 (Lactate Metabolism)          score=0.583  7/12  P=0.235  FDR=1.17
+  P05   苯丙氨酸代谢通路 (Phenylalanine Metabolis…   score=0.571  8/14  P=0.265  FDR=1.06
 
 [富集] 仅上调基因
-  输入基因 148 个；FDR ≤ 0.05（BH 校正），背景规模 N = 367（无通路通过阈值，已回退展示 P 值最小的 Top-5）
-  P20   蛋白水解系统 (Proteolytic System)          score=0.111  2/18  P=0.0117  FDR=0.235
-  P17   丙酮酸代谢枢纽 (Pyruvate Metabolism Hub)    score=0.621  18/29  P=0.0172  FDR=0.172
-  P14   铁载体合成通路 (Siderophore Biosynthesis)   score=0.143  2/14  P=0.0519  FDR=0.297
-  P19   细胞壁降解通路 (Cell Wall Degradation)      score=0.143  2/14  P=0.0519  FDR=0.297
-  P01   支链氨基酸降解通路 (Branched-Chain Amino A…   score=0.611  11/18  P=0.0842  FDR=0.337
+  输入基因 67 个；FDR ≤ 0.05（BH 校正），背景规模 N = 367
+  P17   丙酮酸代谢枢纽 (Pyruvate Metabolism Hub)    score=0.414  12/29  P=0.0021  FDR=0.0357
 
 [富集] 仅下调基因
-  输入基因 190 个；FDR ≤ 0.05（BH 校正），背景规模 N = 367
-  P20   蛋白水解系统 (Proteolytic System)          score=0.889  16/18  P=0.00114  FDR=0.0227
+  输入基因 80 个；FDR ≤ 0.05（BH 校正），背景规模 N = 367（无通路通过阈值，已回退展示 P 值最小的 Top-5）
+  P08   聚酮合酶通路 (Polyketide Synthase Pathw…   score=0.458  11/24  P=0.00799  FDR=0.152
+  P09   非核糖体肽合成通路 (NRPS Pathway)             score=0.421  8/19  P=0.0419  FDR=0.398
+  P10   细菌素合成通路 (Bacteriocin Biosynthesis)   score=0.429  6/14  P=0.0898  FDR=0.487
+  P19   细胞壁降解通路 (Cell Wall Degradation)      score=0.429  6/14  P=0.0898  FDR=0.487
+  P04   萜类合成通路 (Terpenoid Biosynthesis)      score=0.375  6/16  P=0.128  FDR=0.485
 
 
 ---- 输出 ----
