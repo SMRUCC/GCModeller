@@ -1,9 +1,288 @@
 .\" man page create by R# package system.
 .TH GPS 1 2000-1月 "gps_config" "gps_config"
 .SH NAME
-gps_config \- 
+gps_config \- Create a GPS model hyper-parameter configuration object.
 .SH SYNOPSIS
-\fIgps_config();\fR
+\fIgps_config(\fBmaxGenes\fR as integer = 2000, 
+\fBcpmNormalize\fR as boolean = TRUE, 
+\fBlogTransform\fR as boolean = TRUE, 
+\fBzScore\fR as boolean = TRUE, 
+\fBpeDim\fR as integer = 16, 
+\fBspdMaxDist\fR as integer = 5, 
+\fBcoexpressionTopK\fR as integer = 0, 
+\fBminCoexpression\fR as double = 0.7, 
+\fBdModel\fR as integer = 128, 
+\fBnLayers\fR as integer = 3, 
+\fBnHeads\fR as integer = 8, 
+\fBffnDim\fR as integer = 256, 
+\fBdropout\fR as double = 0.1, 
+\fBgeneEmbedDim\fR as integer = 32, 
+\fBuseSpdBias\fR as boolean = TRUE, 
+\fBuseGlobalAttention\fR as boolean = TRUE, 
+\fBuseLocalMpnn\fR as boolean = TRUE, 
+\fBwindow\fR as integer = 5, 
+\fBgruHidden\fR as integer = 128, 
+\fBuseUncertainty\fR as boolean = FALSE, 
+\fBpretrainEpochs\fR as integer = 30, 
+\fBfinetuneEpochs\fR as integer = 100, 
+\fBlearningRate\fR as double = 0.0001, 
+\fBautofocusGamma\fR as double = 1, 
+\fBlambdaDir\fR as double = 0.5, 
+\fBlambdaL1\fR as double = 0.0001, 
+\fBlambdaPrior\fR as double = 0, 
+\fBgradientClip\fR as double = 1, 
+\fBearlyStopPatience\fR as integer = 15, 
+\fBmaskRatio\fR as double = 0.15, 
+\fBprintEvery\fR as integer = 5, 
+\fBtrainRatio\fR as double = 0.7, 
+\fBvalidationRatio\fR as double = 0.15, 
+\fBseed\fR as integer = 2024, 
+\fBsignificanceZScore\fR as double = 0.5, 
+\fBcascadeSteps\fR as integer = 5, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Create a GPS model hyper-parameter configuration object.
+.PP
+.SH OPTIONS
+.PP
+\fBmaxGenes\fB \fR\- 
+ maximum number of genes used for modelling; \fB0\fR disables the high variance filter and
+ keeps every gene of the input matrix. When the limit is exceeded the most variable genes
+ are kept, together with all transcription factors of the prior network. Default 2000,
+ because the global attention layer scales as O(N^2).
+. 
+.PP
+.PP
+\fBcpmNormalize\fB \fR\- 
+ apply a CPM library size normalization to every sample column before modelling.
+ Default \fBTrue\fR.
+. 
+.PP
+.PP
+\fBlogTransform\fB \fR\- 
+ apply the \fBlog2(x + 1)\fR variance stabilizing transformation after the CPM normalization.
+ Default \fBTrue\fR.
+. 
+.PP
+.PP
+\fBzScore\fB \fR\- 
+ standardize every gene across the samples (per gene z-score) so that genes with very
+ different expression levels share a comparable scale. Default \fBTrue\fR.
+. 
+.PP
+.PP
+\fBpeDim\fB \fR\- 
+ dimension of the Laplacian positional encoding, that is, the number of the smallest
+ non-trivial Laplacian eigenvectors that are projected into the node embedding. \fB0\fR
+ disables the positional encoding. Default 16.
+. 
+.PP
+.PP
+\fBspdMaxDist\fB \fR\- 
+ maximum shortest path distance that receives its own attention bias bucket; longer and
+ disconnected gene pairs are merged into dedicated buckets. The bucket count is
+ \fBspdMaxDist + 2\fR. Default 5.
+. 
+.PP
+.PP
+\fBcoexpressionTopK\fB \fR\- 
+ number of co-expression edges that are added for every gene (the GEARS style covariance
+ graph); \fB0\fR keeps the prior regulatory edges only. Default 0.
+. 
+.PP
+.PP
+\fBminCoexpression\fB \fR\- 
+ minimum absolute Pearson correlation required for a co-expression edge. Only used when
+ \fBcoexpressionTopK\fR is greater than zero. Default 0.7.
+. 
+.PP
+.PP
+\fBdModel\fB \fR\- 
+ hidden dimension of the model (\fBd_model\fR). Must be divisible by \fBnHeads\fR. Default 128.
+. 
+.PP
+.PP
+\fBnLayers\fB \fR\- 
+ number of stacked GPS fusion layers, that is, the number of message passing hops that can
+ be captured. Default 3.
+. 
+.PP
+.PP
+\fBnHeads\fB \fR\- 
+ number of attention heads of the global attention branch. Must divide \fBdModel\fR.
+ Default 8.
+. 
+.PP
+.PP
+\fBffnDim\fB \fR\- 
+ hidden dimension of the feed forward network inside every GPS layer. Default 256.
+. 
+.PP
+.PP
+\fBdropout\fB \fR\- 
+ dropout rate applied to the GRU output representation; must be in \fB[0, 1)\fR.
+ Default 0.1.
+. 
+.PP
+.PP
+\fBgeneEmbedDim\fB \fR\- 
+ dimension of the learnable gene identity embedding. Default 32.
+. 
+.PP
+.PP
+\fBuseSpdBias\fB \fR\- 
+ enable the Graphormer style shortest path attention bias. Switching it off is the
+ ablation setting for "global attention without topology awareness". Default \fBTrue\fR.
+. 
+.PP
+.PP
+\fBuseGlobalAttention\fB \fR\- 
+ enable the global attention branch; \fBFalse\fR degenerates the model into a pure GNN.
+ Default \fBTrue\fR.
+. 
+.PP
+.PP
+\fBuseLocalMpnn\fB \fR\- 
+ enable the local message passing branch; \fBFalse\fR degenerates the model into a pure
+ Transformer. Default \fBTrue\fR.
+. 
+.PP
+.PP
+\fBwindow\fB \fR\- 
+ length of the input time window (\fBw\fR); at least 2 and at most the number of distinct
+ time points minus one. Default 5.
+. 
+.PP
+.PP
+\fBgruHidden\fB \fR\- 
+ hidden dimension of the GRU time encoder. Default 128.
+. 
+.PP
+.PP
+\fBuseUncertainty\fB \fR\- 
+ add a softplus variance head and switch the main loss to the Gaussian negative log
+ likelihood, so the model reports a per-gene uncertainty together with the prediction.
+ Default \fBFalse\fR.
+. 
+.PP
+.PP
+\fBpretrainEpochs\fB \fR\- 
+ number of epochs of the masked reconstruction pre-training stage; \fB0\fR skips it.
+ Default 30.
+. 
+.PP
+.PP
+\fBfinetuneEpochs\fB \fR\- 
+ maximum number of epochs of the next-step prediction fine-tuning stage. Default 100.
+. 
+.PP
+.PP
+\fBlearningRate\fB \fR\- 
+ Adam learning rate used by both training stages. Default 0.0001.
+. 
+.PP
+.PP
+\fBautofocusGamma\fB \fR\- 
+ exponent increment of the autofocus loss, the total exponent is \fB2 + autofocusGamma\fR;
+ larger values put more weight on strongly changed genes. Default 1.0.
+. 
+.PP
+.PP
+\fBlambdaDir\fB \fR\- 
+ weight of the direction aware loss term. Default 0.5.
+. 
+.PP
+.PP
+\fBlambdaL1\fB \fR\- 
+ weight of the L1 sparse regularization term. Default 0.0001.
+. 
+.PP
+.PP
+\fBlambdaPrior\fB \fR\- 
+ weight of the prior distance regularization term; it is only meaningful for a learnable
+ adjacency matrix and therefore defaults to 0 in the current fixed \fBA_prior\fR version.
+ Default 0.
+. 
+.PP
+.PP
+\fBgradientClip\fB \fR\- 
+ global L2 norm clip threshold applied to the gradients before every Adam step;
+ \fB0\fR disables the clipping. Default 1.0.
+. 
+.PP
+.PP
+\fBearlyStopPatience\fB \fR\- 
+ number of consecutive epochs without validation improvement before the fine-tuning stage
+ stops and rolls back to the best parameters; \fB0\fR disables early stopping. Default 15.
+. 
+.PP
+.PP
+\fBmaskRatio\fB \fR\- 
+ fraction of genes whose last time frame is masked during the pre-training stage; must be
+ in \fB[0, 1)\fR. Default 0.15.
+. 
+.PP
+.PP
+\fBprintEvery\fB \fR\- 
+ print the loss every \fBprintEvery\fR epochs; \fB0\fR keeps the training silent. Default 5.
+. 
+.PP
+.PP
+\fBtrainRatio\fB \fR\- 
+ fraction of the sliding windows used for training; the split is always performed in time
+ order, never randomly. Default 0.7.
+. 
+.PP
+.PP
+\fBvalidationRatio\fB \fR\- 
+ fraction of the sliding windows used for validation (early stopping).
+ \fBtrainRatio + validationRatio\fR must be smaller than 1. Default 0.15.
+. 
+.PP
+.PP
+\fBseed\fB \fR\- 
+ random seed of the parameter initialization, the dropout masks and the pre-training masks;
+ a fixed seed makes the whole run reproducible. Default 2024.
+. 
+.PP
+.PP
+\fBsignificanceZScore\fB \fR\- 
+ a gene is flagged as significantly changed when the absolute Z-score of its perturbation
+ effect exceeds this threshold. Default 0.5.
+. 
+.PP
+.PP
+\fBcascadeSteps\fB \fR\- 
+ default number of recursive steps used by the temporal cascade simulation of a virtual
+ perturbation. Default 5.
+. 
+.PP
+.SH VALUE
+.PP
+a validated [GPSConfig](cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig) object
+.PP
+.SH DETAILS
+.PP
+The returned [GPSConfig](cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig) object (registered as the \fBgps_config\fR R# type)
+ is accepted by the \fBconfig\fR argument of the \fBgps::build_gps\fR api and controls the
+ whole pipeline: data preprocessing, graph encoding, the GPS fusion backbone, the GRU
+ time encoder, the training schedule and the default behaviour of the virtual
+ perturbation analysis.
+ 
+
+
+ 
+
+
+ Every argument is optional and carries exactly the same default value as the
+ corresponding property of [GPSConfig](cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig), so calling \fBgps_config()\fR without
+ any argument is equivalent to \fBnew("gps_config")\fR. The assembled object is validated
+ by [GPSConfig.Validate()](cref:M:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig.Validate) before it is returned: an invalid combination (for
+ example \fBnHeads\fR not dividing \fBdModel\fR, \fBwindow\fR smaller than 2, or
+ \fBtrainRatio + validationRatio\fR greater than or equal to 1) raises an
+ [ArgumentException](cref:T:System.ArgumentException) instead of failing later during training.
+.PP
 .SH SEE ALSO
 GPS
 .SH FILES

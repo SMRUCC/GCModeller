@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>train</title>
+    <title>Train the GPS model and return it together with the training diagnostics.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>train</h2>
+        <h2>Train the GPS model and return it together with the training diagnostics.</h2>
 
         <h3>Description</h3>
 
-        train
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,23 @@
 
         <table>
             
+<dt>gps</dt>
+<dd><p>the untrained model created by <code>gps::build_gps</code>. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/GPSModel.html">GPSModel</a>]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>the R# runtime environment used to report errors. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>Training runs in two stages: the masked reconstruction pre-training stage, in which the last time frame of a random subset of genes is masked, followed by the next-step prediction fine-tuning stage, which uses the autofocus loss plus the direction aware loss. The best validation parameters are restored when early stopping triggers.</p>
+
+<p>The evaluation metrics are computed on the time ordered test windows, and the "persistence" baseline (the last observed frame is used as the prediction) is reported side by side, so the contribution of the graph and the attention can be judged. When the model has not surpassed that baseline yet, an explanatory note is appended to the report; increasing <code>finetune_epochs</code> usually helps.</p>
+
+<p>The returned object carries four attributes: <code>training</code> (<a href="cref:T:SMRUCC.genomics.Analysis.GPS.Training.GPSTrainingResult">GPSTrainingResult</a> with the loss curves), <code>metrics</code> (<a href="cref:T:SMRUCC.genomics.Analysis.GPS.Training.EvaluationMetrics">EvaluationMetrics</a> of the model), <code>baseline</code> (<a href="cref:T:SMRUCC.genomics.Analysis.GPS.Training.EvaluationMetrics">EvaluationMetrics</a> of the persistence baseline) and <code>report</code> (the formatted multi line text).</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +58,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/GPSModel.html">GPSModel</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/GPSModel.html">GPSModel</a></li></ul>
+        <p>the trained model object with the <code>training</code>, <code>metrics</code>, <code>baseline</code> and <code>report</code> attributes attached; an R# error object is returned instead when the training fails or when the produced loss curve is not finite.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/GPSModel.html">GPSModel</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

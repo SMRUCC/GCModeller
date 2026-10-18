@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>gps_config</title>
+    <title>Create a GPS model hyper-parameter configuration object.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,28 +18,209 @@
             </tr>
         </table>
 
-        <h2>gps_config</h2>
+        <h2>Create a GPS model hyper-parameter configuration object.</h2>
 
         <h3>Description</h3>
 
-        gps_config
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>gps_config</strong>();</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>gps_config</strong>(
+    <i>maxGenes</i> = <span style='color: green;'>2000</span>,
+    <i>cpmNormalize</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>logTransform</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>zScore</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>peDim</i> = <span style='color: green;'>16</span>,
+    <i>spdMaxDist</i> = <span style='color: green;'>5</span>,
+    <i>coexpressionTopK</i> = <span style='color: green;'>0</span>,
+    <i>minCoexpression</i> = <span style='color: green;'>0.7</span>,
+    <i>dModel</i> = <span style='color: green;'>128</span>,
+    <i>nLayers</i> = <span style='color: green;'>3</span>,
+    <i>nHeads</i> = <span style='color: green;'>8</span>,
+    <i>ffnDim</i> = <span style='color: green;'>256</span>,
+    <i>dropout</i> = <span style='color: green;'>0.1</span>,
+    <i>geneEmbedDim</i> = <span style='color: green;'>32</span>,
+    <i>useSpdBias</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>useGlobalAttention</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>useLocalMpnn</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>window</i> = <span style='color: green;'>5</span>,
+    <i>gruHidden</i> = <span style='color: green;'>128</span>,
+    <i>useUncertainty</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>pretrainEpochs</i> = <span style='color: green;'>30</span>,
+    <i>finetuneEpochs</i> = <span style='color: green;'>100</span>,
+    <i>learningRate</i> = <span style='color: green;'>0.0001</span>,
+    <i>autofocusGamma</i> = <span style='color: green;'>1</span>,
+    <i>lambdaDir</i> = <span style='color: green;'>0.5</span>,
+    <i>lambdaL1</i> = <span style='color: green;'>0.0001</span>,
+    <i>lambdaPrior</i> = <span style='color: green;'>0</span>,
+    <i>gradientClip</i> = <span style='color: green;'>1</span>,
+    <i>earlyStopPatience</i> = <span style='color: green;'>15</span>,
+    <i>maskRatio</i> = <span style='color: green;'>0.15</span>,
+    <i>printEvery</i> = <span style='color: green;'>5</span>,
+    <i>trainRatio</i> = <span style='color: green;'>0.7</span>,
+    <i>validationRatio</i> = <span style='color: green;'>0.15</span>,
+    <i>seed</i> = <span style='color: green;'>2024</span>,
+    <i>significanceZScore</i> = <span style='color: green;'>0.5</span>,
+    <i>cascadeSteps</i> = <span style='color: green;'>5</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>maxGenes</dt>
+<dd><p>maximum number of genes used for modelling; <code>0</code> disables the high variance filter and keeps every gene of the input matrix. When the limit is exceeded the most variable genes are kept, together with all transcription factors of the prior network. Default 2000, because the global attention layer scales as O(N^2). [as integer]</p></dd>
+
+
+<dt>cpmNormalize</dt>
+<dd><p>apply a CPM library size normalization to every sample column before modelling. Default <code>True</code>. [as boolean]</p></dd>
+
+
+<dt>logTransform</dt>
+<dd><p>apply the <code>log2(x + 1)</code> variance stabilizing transformation after the CPM normalization. Default <code>True</code>. [as boolean]</p></dd>
+
+
+<dt>zScore</dt>
+<dd><p>standardize every gene across the samples (per gene z-score) so that genes with very different expression levels share a comparable scale. Default <code>True</code>. [as boolean]</p></dd>
+
+
+<dt>peDim</dt>
+<dd><p>dimension of the Laplacian positional encoding, that is, the number of the smallest non-trivial Laplacian eigenvectors that are projected into the node embedding. <code>0</code> disables the positional encoding. Default 16. [as integer]</p></dd>
+
+
+<dt>spdMaxDist</dt>
+<dd><p>maximum shortest path distance that receives its own attention bias bucket; longer and disconnected gene pairs are merged into dedicated buckets. The bucket count is <code>spdMaxDist + 2</code>. Default 5. [as integer]</p></dd>
+
+
+<dt>coexpressionTopK</dt>
+<dd><p>number of co-expression edges that are added for every gene (the GEARS style covariance graph); <code>0</code> keeps the prior regulatory edges only. Default 0. [as integer]</p></dd>
+
+
+<dt>minCoexpression</dt>
+<dd><p>minimum absolute Pearson correlation required for a co-expression edge. Only used when <code>coexpressionTopK</code> is greater than zero. Default 0.7. [as double]</p></dd>
+
+
+<dt>dModel</dt>
+<dd><p>hidden dimension of the model (<code>d_model</code>). Must be divisible by <code>nHeads</code>. Default 128. [as integer]</p></dd>
+
+
+<dt>nLayers</dt>
+<dd><p>number of stacked GPS fusion layers, that is, the number of message passing hops that can be captured. Default 3. [as integer]</p></dd>
+
+
+<dt>nHeads</dt>
+<dd><p>number of attention heads of the global attention branch. Must divide <code>dModel</code>. Default 8. [as integer]</p></dd>
+
+
+<dt>ffnDim</dt>
+<dd><p>hidden dimension of the feed forward network inside every GPS layer. Default 256. [as integer]</p></dd>
+
+
+<dt>dropout</dt>
+<dd><p>dropout rate applied to the GRU output representation; must be in <code>[0, 1)</code>. Default 0.1. [as double]</p></dd>
+
+
+<dt>geneEmbedDim</dt>
+<dd><p>dimension of the learnable gene identity embedding. Default 32. [as integer]</p></dd>
+
+
+<dt>useSpdBias</dt>
+<dd><p>enable the Graphormer style shortest path attention bias. Switching it off is the ablation setting for "global attention without topology awareness". Default <code>True</code>. [as boolean]</p></dd>
+
+
+<dt>useGlobalAttention</dt>
+<dd><p>enable the global attention branch; <code>False</code> degenerates the model into a pure GNN. Default <code>True</code>. [as boolean]</p></dd>
+
+
+<dt>useLocalMpnn</dt>
+<dd><p>enable the local message passing branch; <code>False</code> degenerates the model into a pure Transformer. Default <code>True</code>. [as boolean]</p></dd>
+
+
+<dt>window</dt>
+<dd><p>length of the input time window (<code>w</code>); at least 2 and at most the number of distinct time points minus one. Default 5. [as integer]</p></dd>
+
+
+<dt>gruHidden</dt>
+<dd><p>hidden dimension of the GRU time encoder. Default 128. [as integer]</p></dd>
+
+
+<dt>useUncertainty</dt>
+<dd><p>add a softplus variance head and switch the main loss to the Gaussian negative log likelihood, so the model reports a per-gene uncertainty together with the prediction. Default <code>False</code>. [as boolean]</p></dd>
+
+
+<dt>pretrainEpochs</dt>
+<dd><p>number of epochs of the masked reconstruction pre-training stage; <code>0</code> skips it. Default 30. [as integer]</p></dd>
+
+
+<dt>finetuneEpochs</dt>
+<dd><p>maximum number of epochs of the next-step prediction fine-tuning stage. Default 100. [as integer]</p></dd>
+
+
+<dt>learningRate</dt>
+<dd><p>Adam learning rate used by both training stages. Default 0.0001. [as double]</p></dd>
+
+
+<dt>autofocusGamma</dt>
+<dd><p>exponent increment of the autofocus loss, the total exponent is <code>2 + autofocusGamma</code>; larger values put more weight on strongly changed genes. Default 1.0. [as double]</p></dd>
+
+
+<dt>lambdaDir</dt>
+<dd><p>weight of the direction aware loss term. Default 0.5. [as double]</p></dd>
+
+
+<dt>lambdaL1</dt>
+<dd><p>weight of the L1 sparse regularization term. Default 0.0001. [as double]</p></dd>
+
+
+<dt>lambdaPrior</dt>
+<dd><p>weight of the prior distance regularization term; it is only meaningful for a learnable adjacency matrix and therefore defaults to 0 in the current fixed <code>A_prior</code> version. Default 0. [as double]</p></dd>
+
+
+<dt>gradientClip</dt>
+<dd><p>global L2 norm clip threshold applied to the gradients before every Adam step; <code>0</code> disables the clipping. Default 1.0. [as double]</p></dd>
+
+
+<dt>earlyStopPatience</dt>
+<dd><p>number of consecutive epochs without validation improvement before the fine-tuning stage stops and rolls back to the best parameters; <code>0</code> disables early stopping. Default 15. [as integer]</p></dd>
+
+
+<dt>maskRatio</dt>
+<dd><p>fraction of genes whose last time frame is masked during the pre-training stage; must be in <code>[0, 1)</code>. Default 0.15. [as double]</p></dd>
+
+
+<dt>printEvery</dt>
+<dd><p>print the loss every <code>printEvery</code> epochs; <code>0</code> keeps the training silent. Default 5. [as integer]</p></dd>
+
+
+<dt>trainRatio</dt>
+<dd><p>fraction of the sliding windows used for training; the split is always performed in time order, never randomly. Default 0.7. [as double]</p></dd>
+
+
+<dt>validationRatio</dt>
+<dd><p>fraction of the sliding windows used for validation (early stopping). <code>trainRatio + validationRatio</code> must be smaller than 1. Default 0.15. [as double]</p></dd>
+
+
+<dt>seed</dt>
+<dd><p>random seed of the parameter initialization, the dropout masks and the pre-training masks; a fixed seed makes the whole run reproducible. Default 2024. [as integer]</p></dd>
+
+
+<dt>significanceZScore</dt>
+<dd><p>a gene is flagged as significantly changed when the absolute Z-score of its perturbation effect exceeds this threshold. Default 0.5. [as double]</p></dd>
+
+
+<dt>cascadeSteps</dt>
+<dd><p>default number of recursive steps used by the temporal cascade simulation of a virtual perturbation. Default 5. [as integer]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>The returned <a href="cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig">GPSConfig</a> object (registered as the <code>gps_config</code> R# type) is accepted by the <code>config</code> argument of the <code>gps::build_gps</code> api and controls the whole pipeline: data preprocessing, graph encoding, the GPS fusion backbone, the GRU time encoder, the training schedule and the default behaviour of the virtual perturbation analysis.</p>
+
+<p>Every argument is optional and carries exactly the same default value as the corresponding property of <a href="cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig">GPSConfig</a>, so calling <code>gps_config()</code> without any argument is equivalent to <code>new("gps_config")</code>. The assembled object is validated by <a href="cref:M:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig.Validate">GPSConfig.Validate()</a> before it is returned: an invalid combination (for example <code>nHeads</code> not dividing <code>dModel</code>, <code>window</code> smaller than 2, or <code>trainRatio + validationRatio</code> greater than or equal to 1) raises an <a href="cref:T:System.ArgumentException">ArgumentException</a> instead of failing later during training.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,7 +228,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Config/GPSConfig.html">GPSConfig</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Config/GPSConfig.html">GPSConfig</a></li></ul>
+        <p>a validated <a href="cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig">GPSConfig</a> object</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/GPS/Config/GPSConfig.html">GPSConfig</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

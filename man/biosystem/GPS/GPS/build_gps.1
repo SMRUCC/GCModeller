@@ -1,12 +1,69 @@
 .\" man page create by R# package system.
 .TH GPS 1 2000-1月 "build_gps" "build_gps"
 .SH NAME
-build_gps \- 
+build_gps \- Build a GPS (GNN + Transformer) gene regulatory network model.
 .SH SYNOPSIS
 \fIbuild_gps(\fBx\fR as <generic> GeneExpressionData, 
 \fBprior\fR as <generic> PriorNetwork, 
 \fBconfig\fR as <generic> GPSConfig = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Build a GPS (GNN + Transformer) gene regulatory network model.
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ the time series gene expression matrix object: rows are genes and columns are samples,
+ and every sample must carry a time point label (for example the matrix loaded by
+ \fBgeneExpression::load.expr\fR). At least three distinct time points are required.
+. 
+.PP
+.PP
+\fBprior\fB \fR\- 
+ the prior regulatory network object (for example created by
+ \fBbnlearn::as.prior_net\fR). Gene pairs that are not described by this network are kept as
+ isolated nodes and still participate in the global attention branch.
+. 
+.PP
+.PP
+\fBconfig\fB \fR\- 
+ the hyper-parameter configuration created by \fBgps::gps_config\fR; when \fBNothing\fR the
+ default [GPSConfig](cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig) values are used. Note that the window length may be
+ clipped when the input has too few time points.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment. 
+.PP
+.SH VALUE
+.PP
+an untrained [GPSModel](cref:T:SMRUCC.genomics.Analysis.GPS.GPSModel) object
+.PP
+.SH DETAILS
+.PP
+The constructor performs the following preparation steps once and keeps the results,
+ so they are reused by every training epoch and by the virtual perturbation analysis:
+ 
+
+
+ 
+1. preprocessing: CPM normalization, \fBlog2(x + 1)\fR transformation, per gene z-score and
+ the optional high variance gene filter;
+2. graph construction: the prior \fBTF -> target\fR edges are mapped onto the modelled genes,
+ optionally extended with co-expression edges;
+3. static graph encoding: shortest path distance buckets, Laplacian positional encoding and
+ the in/out degree buckets;
+4. the strictly time ordered train / validation / test split of the sliding windows.
+
+
+ 
+
+
+ The returned object is untrained; call \fBgps::train\fR before any prediction or
+ perturbation analysis. It can also be persisted with the \fBwriteBin\fR handler and
+ restored with \fBreadBin.modular_bayesian\fR.
+.PP
 .SH SEE ALSO
 GPS
 .SH FILES

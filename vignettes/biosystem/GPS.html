@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; GPS; biosystem" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="GNN+Transformer as GRN model..." />
+    <meta name="description" content="GPS: the GNN + Transformer based gene regulatory network modelli..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,41 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">#' GNN+Transformer as GRN model</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "GPS"</span><span style="color: blue;"> from</span><span style="color: brown"> "biosystem"</span>;
+                               <br /><br /><span style="color: green;">#' GPS: the GNN + Transformer based gene regulatory network modelling toolkit.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "GPS"</span><span style="color: blue;"> from</span><span style="color: brown"> "biosystem"</span>;
                            </code>
     </p>
-    <p><p>GNN+Transformer as GRN model</p></p>
+    <p><p>GPS: the GNN + Transformer based gene regulatory network modelling toolkit.</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This R# package module wraps the <a href="cref:T:SMRUCC.genomics.Analysis.GPS.GPSModel">GPSModel</a> of the <code>GPS</code> sub-system. The model fuses a local message passing branch (edge type aware aggregation over the prior regulatory network) with a global multi head attention branch (Graphormer style shortest path bias), encodes the obtained gene representations over time with a GRU and finally decodes the expression of every single gene with its own linear readout.</p>
+
+<p>The workflow exposed by this module is:</p>
+
+
+<ul>
+<li><code>gps_config</code>: create the hyper-parameter configuration object</li>
+</ul>
+
+
+<p>(<a href="cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig">GPSConfig</a>, registered as the <code>gps_config</code> R# type);</p>
+
+
+<ul>
+<li><code>build_gps</code>: build a model object from a time series gene expression matrix and a</li>
+</ul>
+
+
+<p>prior regulatory network object;</p>
+
+
+<ul>
+<li><code>train</code>: run the masked reconstruction pre-training followed by the next-step</li>
+</ul>
+
+
+<p>prediction fine-tuning, and attach the training diagnostics to the returned object.</p>
+
+<p>A trained <a href="cref:T:SMRUCC.genomics.Analysis.GPS.GPSModel">GPSModel</a> implements the <a href="cref:T:SMRUCC.genomics.Analysis.BNLearn.InsilicoPerturbationExperiment">InsilicoPerturbationExperiment</a> interface, so the <code>knockouts</code>, <code>knockdown</code> and <code>overexpress</code> api of the <code>bnlearn</code> package can be applied to it directly for in silico perturbation experiments. The generic <code>writeBin</code> handler of this module persists a model into a zip based binary stream, and <code>readBin.modular_bayesian</code> restores it back to a fully usable model object.</p>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -96,19 +124,19 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="gps_config">
     <a href="./GPS/gps_config.html">gps_config</a>
   </td>
-  <td></td>
+  <td><p>Create a GPS model hyper-parameter configuration object.</p></td>
 </tr>
 <tr>
   <td id="build_gps">
     <a href="./GPS/build_gps.html">build_gps</a>
   </td>
-  <td></td>
+  <td><p>Build a GPS (GNN + Transformer) gene regulatory network model.</p></td>
 </tr>
 <tr>
   <td id="train">
     <a href="./GPS/train.html">train</a>
   </td>
-  <td></td>
+  <td><p>Train the GPS model and return it together with the training diagnostics.</p></td>
 </tr></tbody>
       </table>
     </div>

@@ -1,10 +1,56 @@
 .\" man page create by R# package system.
 .TH GPS 1 2000-1月 "train" "train"
 .SH NAME
-train \- 
+train \- Train the GPS model and return it together with the training diagnostics.
 .SH SYNOPSIS
 \fItrain(\fBgps\fR as <generic> GPSModel, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Train the GPS model and return it together with the training diagnostics.
+.PP
+.SH OPTIONS
+.PP
+\fBgps\fB \fR\- the untrained model created by \fBgps::build_gps\fR. 
+.PP
+.PP
+\fBenv\fB \fR\- the R# runtime environment used to report errors. 
+.PP
+.SH VALUE
+.PP
+the trained model object with the \fBtraining\fR, \fBmetrics\fR, \fBbaseline\fR and \fBreport\fR
+ attributes attached; an R# error object is returned instead when the training fails or
+ when the produced loss curve is not finite.
+.PP
+.SH DETAILS
+.PP
+Training runs in two stages: the masked reconstruction pre-training stage, in which the
+ last time frame of a random subset of genes is masked, followed by the next-step
+ prediction fine-tuning stage, which uses the autofocus loss plus the direction aware
+ loss. The best validation parameters are restored when early stopping triggers.
+ 
+
+
+ 
+
+
+ The evaluation metrics are computed on the time ordered test windows, and the
+ "persistence" baseline (the last observed frame is used as the prediction) is reported
+ side by side, so the contribution of the graph and the attention can be judged. When the
+ model has not surpassed that baseline yet, an explanatory note is appended to the report;
+ increasing \fBfinetune_epochs\fR usually helps.
+ 
+
+
+ 
+
+
+ The returned object carries four attributes: \fBtraining\fR
+ ([GPSTrainingResult](cref:T:SMRUCC.genomics.Analysis.GPS.Training.GPSTrainingResult) with the loss curves), \fBmetrics\fR
+ ([EvaluationMetrics](cref:T:SMRUCC.genomics.Analysis.GPS.Training.EvaluationMetrics) of the model), \fBbaseline\fR
+ ([EvaluationMetrics](cref:T:SMRUCC.genomics.Analysis.GPS.Training.EvaluationMetrics) of the persistence baseline) and \fBreport\fR
+ (the formatted multi line text).
+.PP
 .SH SEE ALSO
 GPS
 .SH FILES
