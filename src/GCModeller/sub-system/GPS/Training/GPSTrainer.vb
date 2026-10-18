@@ -11,13 +11,13 @@ Namespace Training
     Public Class GPSTrainingResult
 
         ''' <summary>掩码重建预训练每个 epoch 的平均损失</summary>
-        Public Property PretrainLoss As New List(Of Double)()
+        Public Property PretrainLoss As Double()
 
         ''' <summary>微调阶段每个 epoch 的训练损失</summary>
-        Public Property TrainLoss As New List(Of Double)()
+        Public Property TrainLoss As Double()
 
         ''' <summary>微调阶段每个 epoch 的验证损失（无验证集时为空）</summary>
-        Public Property ValidationLoss As New List(Of Double)()
+        Public Property ValidationLoss As Double()
 
         ''' <summary>最优验证损失对应的 epoch（从 1 开始；无验证集时为 0）</summary>
         Public Property BestEpoch As Integer
@@ -28,7 +28,7 @@ Namespace Training
         ''' <summary>实际执行的微调轮数</summary>
         Public ReadOnly Property FinetuneEpochs As Integer
             Get
-                Return TrainLoss.Count
+                Return TrainLoss.Length
             End Get
         End Property
 
@@ -157,6 +157,8 @@ Namespace Training
             End If
 
             Dim patience As Integer = 0
+            Dim trainLoss As New List(Of Double)
+            Dim validationLosses As New List(Of Double)
 
             For epoch As Integer = 1 To total
                 Dim lossSum As Double = 0.0
@@ -171,14 +173,14 @@ Namespace Training
 
                 Dim epochLoss As Double = If(count > 0, lossSum / count, 0.0)
 
-                Call result.TrainLoss.Add(epochLoss)
+                Call trainLoss.Add(epochLoss)
 
                 Dim validationLoss As Double = 0.0
 
                 If hasValidation Then
                     validationLoss = EvaluateLoss(validationWindows)
 
-                    Call result.ValidationLoss.Add(validationLoss)
+                    Call validationLosses.Add(validationLoss)
 
                     If validationLoss < result.BestValidationLoss Then
                         result.BestValidationLoss = validationLoss
@@ -208,6 +210,9 @@ Namespace Training
             If hasValidation AndAlso result.BestEpoch > 0 Then
                 Call Restore()
             End If
+
+            result.TrainLoss = trainLoss.ToArray
+            result.ValidationLoss = validationLosses.ToArray
 
             Return result
         End Function

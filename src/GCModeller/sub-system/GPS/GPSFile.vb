@@ -634,15 +634,15 @@ Public Module GPSFile
             Dim value As JsonElement
 
             If root.TryGetProperty("pretrainLoss", value) Then
-                Call result.PretrainLoss.AddRange(ReadDoubleArray(value))
+                result.PretrainLoss = ReadDoubleArray(value)
             End If
 
             If root.TryGetProperty("trainLoss", value) Then
-                Call result.TrainLoss.AddRange(ReadDoubleArray(value))
+                result.TrainLoss = ReadDoubleArray(value)
             End If
 
             If root.TryGetProperty("validationLoss", value) Then
-                Call result.ValidationLoss.AddRange(ReadDoubleArray(value))
+                result.ValidationLoss = ReadDoubleArray(value)
             End If
 
             If root.TryGetProperty("bestEpoch", value) Then result.BestEpoch = value.GetInt32()

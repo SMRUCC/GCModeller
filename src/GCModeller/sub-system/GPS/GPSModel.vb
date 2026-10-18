@@ -185,7 +185,7 @@ Public Class GPSModel
     ''' <param name="printEvery">打印间隔；0 表示静默，-1 表示使用配置值</param>
     ''' <returns>训练结果</returns>
     Public Function Train(Optional printEvery As Integer = -1) As GPSTrainingResult
-        Dim pretrain As List(Of Double) = trainer.Pretrain(windowDataset.Train(), -1, printEvery)
+        Dim pretrain As Double() = trainer.Pretrain(windowDataset.Train(), -1, printEvery).ToArray
         Dim result As GPSTrainingResult = trainer.Finetune(windowDataset.Train(), windowDataset.Validation(), -1, printEvery)
 
         result.PretrainLoss = pretrain
