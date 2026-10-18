@@ -166,6 +166,12 @@ declare namespace geneExpression {
         * @return A scibasic generic dataset object collection.
       */
       function generic(matrix: object): object;
+      /**
+        * @param sampleinfo default value Is ``null``.
+        * @param time_label default value Is ``'time'``.
+        * @param env default value Is ``null``.
+      */
+      function time_serials(x: object, sampleinfo?: any, time_label?: string, env?: object): object;
    }
    /**
     * calculate average value of the gene expression for

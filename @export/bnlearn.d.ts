@@ -247,6 +247,9 @@ declare namespace bnlearn {
    */
    function read_module_assignment(file: string): object;
    /**
+   */
+   function read_pathway_knowledge(kb: string): object;
+   /**
     * save bnlearn model
     * 
     * > the learned bayesian network model will be saved as two tsv table files in 

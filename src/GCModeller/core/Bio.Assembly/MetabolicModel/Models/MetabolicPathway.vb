@@ -69,6 +69,9 @@ Namespace MetabolicModel
 
         ''' <summary>通路名称</summary>
         Public Property name As String
+
+        Public Property description As String
+
         ''' <summary>通路包含的基因ID列表</summary>
         Public Property genes As String()
         Public Property metabolites As MetabolicCompound()

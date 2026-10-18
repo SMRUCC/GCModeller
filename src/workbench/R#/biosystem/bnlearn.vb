@@ -56,6 +56,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
@@ -153,6 +154,12 @@ Module bnlearn
 
     Private Function LoadModelZip2(s As Stream, args As list, env As Environment) As Object
         Return ModularNetworkPipeline.LoadModel(s)
+    End Function
+
+    <ExportAPI("read_pathway_knowledge")>
+    <RApiReturn(GetType(MetabolicPathway))>
+    Public Function read_pathways(kb As String) As Object
+        Return New list(kb.SolveStream.LoadJSON(Of Dictionary(Of String, MetabolicPathway)))
     End Function
 
     ''' <summary>

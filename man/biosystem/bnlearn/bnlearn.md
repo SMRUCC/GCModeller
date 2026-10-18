@@ -17,6 +17,7 @@ Bayesian network learning and the in silico gene perturbation toolkit
 >  + ``save_model``: save the learned bayesian network model as the tsv table 
 >    files.
 
++ [read_pathway_knowledge](bnlearn/read_pathway_knowledge.1) 
 + [bnlearn](bnlearn/bnlearn.1) learn the gene regulatory bayesian network from the gene expression data
 + [read_module_assignment](bnlearn/read_module_assignment.1) read WGCNA module color assignment result table
 + [wildtype_baseline](bnlearn/wildtype_baseline.1) set wildtype baseline
