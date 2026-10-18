@@ -558,7 +558,8 @@ Module Program
         ' 与 RunBlockwise 内部一致的过滤：保证 store 基因集 = 运行期输入基因集
         Dim filtered As Matrix = GeneFilter.Filter(samples, config)
 
-        Call filtered.CreateMatrixStore(repo, CorrelationEncodings.Float32, kind)
+        ' 编码用默认值 Float32，仅按类型参数写入
+        Call filtered.CreateMatrixStore(repo, corKind:=kind)
 
         Call sw.Stop()
 
@@ -569,7 +570,7 @@ Module Program
     ''' <summary>
     ''' 首块相关子矩阵对拍：store 切片 vs 表达矩阵 GEMM 重算
     ''' </summary>
-    Private Sub DumpCor(samples As Matrix, result As Result, repo As String)
+    Private Sub DumpCorDiff(samples As Matrix, result As Result, repo As String)
         If result.blocks Is Nothing OrElse result.blocks.Length = 0 Then
             Call Console.WriteLine("dumpcor: 结果中没有块信息，跳过")
             Return

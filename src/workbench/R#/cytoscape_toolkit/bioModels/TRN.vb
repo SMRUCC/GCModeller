@@ -153,8 +153,8 @@ Module TRN
     Public Function write_bicor(x As Matrix, repo As String,
                                 Optional type As CorrelationEncodings = CorrelationEncodings.Float32,
                                 Optional wgcnaOpts As WGCNAConfig = Nothing,
-                                Optional env As Environment = Nothing,
-                                Optional corKind As CorrelationKind = CorrelationKind.Bicor) As Object
+                                Optional corKind As CorrelationKind = CorrelationKind.Bicor,
+                                Optional env As Environment = Nothing) As Object
 
         Call x.CreateMatrixStore(repo, type, corKind)
         ' 同一趟顺带缓存 WGCNA 模块映射（{repo}/modules.dat）：
