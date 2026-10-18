@@ -6,8 +6,8 @@ imports "bnlearn" from "biosystem";
 imports "geneExpression" from "phenotype_kit";
 imports "sampleInfo" from "phenotype_kit";
 
-CUDA::register_cuda_tensor("fp64");
-CUDA::register_cuda_tensor("fp32");
+# CUDA::register_cuda_tensor("fp64");
+# CUDA::register_cuda_tensor("fp32");
 
 let x = geneExpression::load.expr("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\gene_expression_matrix.csv");
 let samples = read.sampleinfo("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\samplesinfo.csv");
@@ -45,8 +45,8 @@ let gps = x
     window = 4,
     gruHidden = 128,
     useUncertainty = FALSE,
-    pretrainEpochs = 30,
-    finetuneEpochs = 100,
+    pretrainEpochs = 10,
+    finetuneEpochs = 30,
     learningRate = 0.01,
     autofocusGamma = 1,
     lambdaDir = 0.5,
