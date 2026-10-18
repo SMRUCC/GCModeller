@@ -151,6 +151,14 @@ Public Module GPSFile
         Call System.IO.File.Move(tempFile, filePath)
     End Sub
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="stream"></param>
+    ''' <remarks>
+    ''' this function will close the zip file stream after all model data has been save in to the zip archive 
+    ''' </remarks>
     <Extension>
     Public Sub Save(model As GPSModel, stream As Stream)
         Using archive As New ZipArchive(stream, ZipArchiveMode.Create)

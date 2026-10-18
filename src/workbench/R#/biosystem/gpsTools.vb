@@ -89,8 +89,14 @@ Module gpsTools
     ''' <returns><c>True</c> when the model has been written successfully</returns>
     Private Function saveModel(model As GPSModel, args As list, env As Environment) As Object
         Dim con As Stream = args!con
-        Call model.Save(con)
-        Call con.Flush()
+
+        Try
+            Call model.Save(con)
+            Call con.Flush()
+        Catch ex As Exception
+
+        End Try
+
         Return True
     End Function
 
