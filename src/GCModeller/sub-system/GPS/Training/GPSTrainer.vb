@@ -1,3 +1,4 @@
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Data
@@ -111,7 +112,9 @@ Namespace Training
                 Return result
             End If
 
-            For epoch As Integer = 1 To total
+            Dim bar As ProgressBar = Nothing
+
+            For Each epoch As Integer In TqdmWrapper.Range(0, total, bar:=bar)
                 Dim lossSum As Double = 0.0
                 Dim count As Integer = 0
 
@@ -125,10 +128,7 @@ Namespace Training
                 Dim epochLoss As Double = If(count > 0, lossSum / count, 0.0)
 
                 Call result.Add(epochLoss)
-
-                If print > 0 AndAlso (epoch = 1 OrElse epoch Mod print = 0 OrElse epoch = total) Then
-                    Console.WriteLine($"  [GPS] 预训练 epoch {epoch,4} / {total}  loss = {epochLoss:F6}")
-                End If
+                Call bar.SetLabel($"  [GPS] 预训练 epoch {epoch,4} / {total}  loss = {epochLoss:F6}")
             Next
 
             Return result
@@ -159,8 +159,9 @@ Namespace Training
             Dim patience As Integer = 0
             Dim trainLoss As New List(Of Double)
             Dim validationLosses As New List(Of Double)
+            Dim bar As ProgressBar = Nothing
 
-            For epoch As Integer = 1 To total
+            For Each epoch As Integer In TqdmWrapper.Range(0, total, bar:=bar)
                 Dim lossSum As Double = 0.0
                 Dim count As Integer = 0
 
@@ -192,12 +193,10 @@ Namespace Training
                     End If
                 End If
 
-                If print > 0 AndAlso (epoch = 1 OrElse epoch Mod print = 0 OrElse epoch = total) Then
-                    If hasValidation Then
-                        Console.WriteLine($"  [GPS] 微调 epoch {epoch,4} / {total}  train = {epochLoss:F6}  val = {validationLoss:F6}")
-                    Else
-                        Console.WriteLine($"  [GPS] 微调 epoch {epoch,4} / {total}  train = {epochLoss:F6}")
-                    End If
+                If hasValidation Then
+                    Call bar.SetLabel($"  [GPS] 微调 epoch {epoch,4} / {total}  train = {epochLoss:F6}  val = {validationLoss:F6}")
+                Else
+                    Call bar.SetLabel($"  [GPS] 微调 epoch {epoch,4} / {total}  train = {epochLoss:F6}")
                 End If
 
                 If hasValidation AndAlso cfg.EarlyStopPatience > 0 AndAlso patience >= cfg.EarlyStopPatience Then
