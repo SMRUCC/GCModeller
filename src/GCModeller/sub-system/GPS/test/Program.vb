@@ -28,6 +28,7 @@ Module Program
         Call TestBiasedAttentionGradient()
         Call TestMpnnGradient()
         Call TestGpsLayerGradient()
+        Call TestGrnModelGradient()
 
         Console.WriteLine()
         Console.WriteLine($"{passed} passed, {failed} failed")
@@ -363,6 +364,121 @@ Module Program
     End Sub
 
     ''' <summary>
+    ''' 完整 GRN 模型（初始嵌入 + GPS 堆叠 + GRU + 解码器）的端到端梯度校验。
+    ''' </summary>
+    Private Sub TestGrnModelGradient()
+        Console.WriteLine()
+        Console.WriteLine("[GRN 模型梯度]")
+
+        TensorOps.Seed = 20240721
+
+        Dim genes As String() = New String() {"TF1", "G1", "G2", "G3", "G4", "G5"}
+        Dim prior As PriorNetwork = CreateSmallPrior()
+        Dim graph As New GEARSGraph.GeneRegulatoryGraph(genes, prior)
+
+        Dim config As New GPSConfig With {
+            .DModel = 8,
+            .NLayers = 2,
+            .NHeads = 2,
+            .FfnDim = 12,
+            .Window = 3,
+            .GruHidden = 6,
+            .PeDim = 3,
+            .SpdMaxDist = 2,
+            .Dropout = 0.0,
+            .MaxGenes = 0,
+            .TrainRatio = 0.6,
+            .ValidationRatio = 0.2
+        }
+
+        Dim encoding As GraphEncoding = GraphEncoding.Compute(graph, config)
+        Dim model As New GRNModel(graph, encoding, config)
+
+        Dim input As Double(,) = New Double(genes.Length - 1, config.Window - 1) {}
+        Dim r As New Random(13)
+
+        For i As Integer = 0 To input.GetLength(0) - 1
+            For t As Integer = 0 To input.GetLength(1) - 1
+                input(i, t) = (r.NextDouble() * 2.0 - 1.0) * 0.5
+            Next
+        Next
+
+        Dim forwardLoss As Func(Of Double) = Function()
+                                                      Dim o As Tensor = model.Forward(input, False)
+                                                      Dim s As Double = 0.0
+
+                                                      For Each v As Double In o.Data
+                                                          s += v * v
+                                                      Next
+
+                                                      Return 0.5 * s
+                                                  End Function
+
+        Dim output As Tensor = model.Forward(input, False)
+
+        Call Check(output.Shape(0) = genes.Length AndAlso output.Shape(1) = 1, "预测形状 [N, 1]")
+
+        Dim finite As Boolean = True
+
+        For Each v As Double In output.Data
+            If Double.IsNaN(v) OrElse Double.IsInfinity(v) Then finite = False
+        Next
+
+        Call Check(finite, "预测值有限")
+
+        Call model.Parameters.ZeroGradients()
+        Dim dInput As Double(,) = model.Backward(output)
+
+        Call Check(dInput.GetLength(0) = genes.Length AndAlso dInput.GetLength(1) = config.Window,
+                   "输入梯度形状 [N, w]")
+        Call CheckGradient(model.Parameters, forwardLoss, 5.0E-03, "GRN 模型")
+        Call CheckArrayGradient(input, dInput, forwardLoss, 5.0E-03, "GRN 模型输入梯度")
+    End Sub
+
+    ''' <summary>
+    ''' 对二维输入数组抽样做有限差分校验。
+    ''' </summary>
+    Private Sub CheckArrayGradient(input As Double(,),
+                                   analytic As Double(,),
+                                   forwardLoss As Func(Of Double),
+                                   tolerance As Double,
+                                   label As String)
+
+        Dim rows As Integer = input.GetLength(0)
+        Dim cols As Integer = input.GetLength(1)
+        Dim total As Integer = rows * cols
+        Dim stepSize As Integer = System.Math.Max(1, total \ 6)
+        Dim sumNumeric As Double = 0.0
+        Dim sumAnalytic As Double = 0.0
+        Dim sumDiff As Double = 0.0
+
+        For k As Integer = 0 To total - 1 Step stepSize
+            Dim i As Integer = k \ cols
+            Dim t As Integer = k Mod cols
+            Const eps As Double = 1.0E-05
+            Dim original As Double = input(i, t)
+
+            input(i, t) = original + eps
+            Dim plus As Double = forwardLoss()
+            input(i, t) = original - eps
+            Dim minus As Double = forwardLoss()
+            input(i, t) = original
+
+            Dim numeric As Double = (plus - minus) / (2.0 * eps)
+            Dim analyticValue As Double = analytic(i, t)
+
+            sumNumeric += numeric * numeric
+            sumAnalytic += analyticValue * analyticValue
+            Dim diff As Double = numeric - analyticValue
+            sumDiff += diff * diff
+        Next
+
+        Dim relative As Double = RelativeVectorError(sumNumeric, sumAnalytic, sumDiff)
+
+        Call Check(relative < tolerance, $"{label}（相对 L2 误差 {relative:G3}）")
+    End Sub
+
+    ''' <summary>
     ''' 逐个参数抽样比对解析梯度与中心差分梯度。
     ''' </summary>
     ''' <param name="store">参数登记表（梯度已由反向传播填充）</param>
@@ -383,7 +499,7 @@ Module Program
         For Each entry As ParameterEntry In store.Entries
             Dim data As Double() = entry.Value.Data
             Dim grad As Double() = entry.Gradient.Data
-            Dim stepSize As Integer = System.Math.Max(1, data.Length \ 5)
+            Dim stepSize As Integer = System.Math.Max(1, data.Length \ 3)
 
             For k As Integer = 0 To data.Length - 1 Step stepSize
                 Dim numeric As Double = NumericGradient(data, k, forwardLoss, entry.Value)

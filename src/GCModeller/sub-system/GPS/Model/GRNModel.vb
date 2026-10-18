@@ -36,8 +36,8 @@ Namespace Model
     Public Class GRNModel
 
         Private ReadOnly cfg As GPSConfig
-        Private ReadOnly graphData As GEARSGraph.GeneRegulatoryGraph
-        Private ReadOnly encoding As GraphEncoding
+        Private ReadOnly regulatoryGraph As GEARSGraph.GeneRegulatoryGraph
+        Private ReadOnly graphEncoding As GraphEncoding
         Private ReadOnly store As ParameterStore
 
         Private ReadOnly n As Integer
@@ -110,14 +110,14 @@ Namespace Model
         ''' <summary>静态图编码</summary>
         Public ReadOnly Property Encoding As GraphEncoding
             Get
-                Return encoding
+                Return graphEncoding
             End Get
         End Property
 
         ''' <summary>基因调控图</summary>
         Public ReadOnly Property GraphData As GEARSGraph.GeneRegulatoryGraph
             Get
-                Return graphData
+                Return regulatoryGraph
             End Get
         End Property
 
@@ -134,11 +134,11 @@ Namespace Model
         ''' <param name="graphData">基因调控图（节点顺序须与表达矩阵一致）</param>
         ''' <param name="encoding">静态图编码（SPD/LapPE/度）</param>
         ''' <param name="config">超参数</param>
-        ''' <param name="store">外部参数登记表；为 Nothing 时内部新建</param>
+        ''' <param name="parameterStore">外部参数登记表；为 Nothing 时内部新建</param>
         Public Sub New(graphData As GEARSGraph.GeneRegulatoryGraph,
                        encoding As GraphEncoding,
                        config As GPSConfig,
-                       Optional store As ParameterStore = Nothing)
+                       Optional parameterStore As ParameterStore = Nothing)
 
             If graphData Is Nothing Then Throw New ArgumentNullException(NameOf(graphData))
             If encoding Is Nothing Then Throw New ArgumentNullException(NameOf(encoding))
@@ -146,24 +146,24 @@ Namespace Model
             If Not config.Validate() Then Throw New ArgumentException("GPSConfig 参数组合非法", NameOf(config))
 
             Me.cfg = config
-            Me.graphData = graphData
-            Me.encoding = encoding
-            Me.store = If(store, New ParameterStore())
+            Me.regulatoryGraph = graphData
+            Me.graphEncoding = encoding
+            Me.store = If(parameterStore, New ParameterStore())
             Me.n = graphData.NumGenes
             Me.d = config.DModel
             Me.windowSize = config.Window
-            Me.peDim = encoding.LapPeDim
+            Me.peDim = graphEncoding.LapPeDim
             Me.dropoutRate = config.Dropout
             Me.rand = New Random(config.Seed)
 
-            If encoding.NGene <> n Then
-                Throw New ArgumentException($"图编码节点数 {encoding.NGene} 与调控图节点数 {n} 不一致")
+            If graphEncoding.NGene <> n Then
+                Throw New ArgumentException($"图编码节点数 {graphEncoding.NGene} 与调控图节点数 {n} 不一致")
             End If
 
             ' ---- 初始嵌入分量 ----
             geneEmbedding = New Tensor(n, d)
-            degInEmbedding = New Tensor(encoding.DegreeBucketCount, d)
-            degOutEmbedding = New Tensor(encoding.DegreeBucketCount, d)
+            degInEmbedding = New Tensor(graphEncoding.DegreeBucketCount, d)
+            degOutEmbedding = New Tensor(graphEncoding.DegreeBucketCount, d)
 
             geneEntry = store.Register("input.geneEmbedding", geneEmbedding)
             degInEntry = store.Register("input.degIn", degInEmbedding)
@@ -183,7 +183,7 @@ Namespace Model
                     dModel:=d,
                     ffnDim:=config.FfnDim,
                     nHeads:=config.NHeads,
-                    spdBucketCount:=encoding.SpdBucketCount,
+                    spdBucketCount:=graphEncoding.SpdBucketCount,
                     store:=store,
                     useMpnn:=config.UseLocalMpnn,
                     useAttn:=config.UseGlobalAttention,
@@ -223,7 +223,7 @@ Namespace Model
                 Dim h As Tensor = BuildInitialEmbedding(_lastInput, t)
 
                 For Each layer As GPSLayer In layers
-                    h = layer.Forward(h, graphData, encoding.SpdBuckets, False)
+                    h = layer.Forward(h, regulatoryGraph, graphEncoding.SpdBuckets, False)
                 Next
 
                 Call WriteTimeStep(sequence, t, h)
@@ -290,19 +290,19 @@ Namespace Model
 
             ' ---- 逐时间步回传 GPS 主干（重算前向 + 立即反向） ----
             Dim dInput As Double(,) = New Double(n - 1, windowSize - 1) {}
-            Dim spd As Integer(,) = encoding.SpdBuckets
+            Dim spd As Integer(,) = graphEncoding.SpdBuckets
 
             For t As Integer = windowSize - 1 To 0 Step -1
                 Dim h As Tensor = BuildInitialEmbedding(_lastInput, t)
 
                 For Each layer As GPSLayer In layers
-                    h = layer.Forward(h, graphData, spd, False)
+                    h = layer.Forward(h, regulatoryGraph, spd, False)
                 Next
 
                 Dim dH As Tensor = SliceTimeStep(dSequence, t)
 
                 For l As Integer = layers.Count - 1 To 0 Step -1
-                    dH = layers(l).Backward(dH, graphData)
+                    dH = layers(l).Backward(dH, regulatoryGraph)
                 Next
 
                 Call AccumulateInitialGradient(dH, t, dInput)
@@ -324,10 +324,16 @@ Namespace Model
             Dim din As Double() = degInEmbedding.Data
             Dim dout As Double() = degOutEmbedding.Data
             Dim exd As Double() = exprProj.Data
-            Dim peData As Double() = If(peProj IsNot Nothing, encoding.LapPe, Nothing)
-            Dim peW As Double() = If(peProj IsNot Nothing, peProj.Data, Nothing)
-            Dim bucketIn As Integer() = encoding.InDegreeBucket
-            Dim bucketOut As Integer() = encoding.OutDegreeBucket
+            Dim peData As Double(,) = Nothing
+            Dim peW As Double() = Nothing
+
+            If peProj IsNot Nothing Then
+                peData = graphEncoding.LapPe
+                peW = peProj.Data
+            End If
+
+            Dim bucketIn As Integer() = graphEncoding.InDegreeBucket
+            Dim bucketOut As Integer() = graphEncoding.OutDegreeBucket
 
             For i As Integer = 0 To n - 1
                 Dim offset As Integer = i * d
@@ -339,10 +345,8 @@ Namespace Model
                     Dim value As Double = x * exd(k) + ed(offset + k) + din(inBase + k) + dout(outBase + k)
 
                     If peData IsNot Nothing Then
-                        Dim peRow As Integer = i * peDim
-
                         For p As Integer = 0 To peDim - 1
-                            value += peData(peRow + p) * peW(p * d + k)
+                            value += peData(i, p) * peW(p * d + k)
                         Next
                     End If
 
@@ -368,10 +372,16 @@ Namespace Model
             Dim doutGrad As Double() = degOutEntry.Gradient.Data
             Dim exprGrad As Double() = exprEntry.Gradient.Data
             Dim exd As Double() = exprProj.Data
-            Dim peData As Double() = If(peProj IsNot Nothing, encoding.LapPe, Nothing)
-            Dim peGrad As Double() = If(peProj IsNot Nothing, peEntry.Gradient.Data, Nothing)
-            Dim bucketIn As Integer() = encoding.InDegreeBucket
-            Dim bucketOut As Integer() = encoding.OutDegreeBucket
+            Dim peData As Double(,) = Nothing
+            Dim peGrad As Double() = Nothing
+
+            If peProj IsNot Nothing Then
+                peData = graphEncoding.LapPe
+                peGrad = peEntry.Gradient.Data
+            End If
+
+            Dim bucketIn As Integer() = graphEncoding.InDegreeBucket
+            Dim bucketOut As Integer() = graphEncoding.OutDegreeBucket
 
             For i As Integer = 0 To n - 1
                 Dim offset As Integer = i * d
@@ -390,10 +400,8 @@ Namespace Model
                     dx += g * exd(k)
 
                     If peData IsNot Nothing Then
-                        Dim peRow As Integer = i * peDim
-
                         For p As Integer = 0 To peDim - 1
-                            peGrad(p * d + k) += g * peData(peRow + p)
+                            peGrad(p * d + k) += g * peData(i, p)
                         Next
                     End If
                 Next
