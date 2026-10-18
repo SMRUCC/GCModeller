@@ -18,18 +18,18 @@ modules   : 0
 assigned  : 0
 
 load       : 0.1 s
-wall clock : 0.3 s
-peak RSS   : 62 MB
-managed heap: 11 MB
+wall clock : 0.2 s
+peak RSS   : 60 MB
+managed heap: 16 MB
 
 stage timings (ms):
   backend: 0
   filter: 0
   correlationStore: 2
-  precluster: 1
-  beta: 5
-  blocks: 36
+  precluster: 0
+  beta: 8
+  blocks: 11
   collect: 0
   merge: 0
   eigengene: 0
-  total: 47
+  total: 22

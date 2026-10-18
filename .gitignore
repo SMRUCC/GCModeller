@@ -669,3 +669,7 @@ test/demo/sequencekit/local_test/models/test_models.hmm
 test/demo/sequencekit/local_test/models.zip
 src/GCModeller/annotations/WGCNA/run_test/store_smoke/store_pearson/index.dat
 src/GCModeller/annotations/WGCNA/run_test/store_smoke/store_pearson/pearson.dat
+src/GCModeller/annotations/WGCNA/run_test/store_smoke/store_bicor/index.dat
+src/GCModeller/annotations/WGCNA/run_test/store_smoke/store_bicor/bicor.dat
+src/GCModeller/annotations/WGCNA/run_test/store_smoke/store_partial/pearson.dat
+src/GCModeller/annotations/WGCNA/run_test/store_smoke/store_partial/index.dat
