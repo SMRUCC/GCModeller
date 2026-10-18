@@ -1,6 +1,6 @@
 term	name	score	enriched	cluster	pvalue	FDR	IDs
-P15	氧化应激响应通路 (Oxidative Stress Response)	0.210526	4	19	0.0958049	1.9161	oxyR;ahpD;sodC;sodA
-P13	嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Metabolism)	0.6	9	15	0.115777	1.15777	pyrC;purC;purD;purH;pyrF;purB;purA;pyrA;pyrD
-P06	硫代谢通路 (Sulfur Metabolism)	0.238095	5	21	0.167919	1.11946	mglB;cysI;cysR;dmdA;mdeA
-P07	乳酸代谢通路 (Lactate Metabolism)	0.583333	7	12	0.234631	1.17316	lldR;lctP;ldhB;ldhA;poxB;pflD;pta
-P05	苯丙氨酸代谢通路 (Phenylalanine Metabolism)	0.571429	8	14	0.265316	1.06126	tyrB;pal;feaD;pheA;hpaC;hpaB;aroB;feaB
+P15	氧化应激响应通路 (Oxidative Stress Response)	0.105263	2	19	0.00688811	0.137762	groES;sodC
+P04	萜类合成通路 (Terpenoid Biosynthesis)	0.6875	11	16	0.0336744	0.336744	pinS;idi;ispB;ispG;ispF;gerA;linalS;ispH;dxr;ispE;crtE
+P13	嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Metabolism)	0.666667	10	15	0.0563263	0.375508	purC;pyrC;purD;purH;pyrB;purF;pyrR;purR;purB;purA
+P02	脂肪酸β-氧化通路 (Fatty Acid β-Oxidation)	0.571429	16	28	0.0714912	0.357456	sucA;cls;fadE;paaG;paaH;echA;sdhA;icd;paaF;fadB;atoD;fadA;paaJ;atoA;yqeA;acdh
+P20	蛋白水解系统 (Proteolytic System)	0.611111	11	18	0.0842314	0.336926	mpr;bpr;oppB;pepC;pepA;pepQ;pepB;nprB;pepX;pepF;degS

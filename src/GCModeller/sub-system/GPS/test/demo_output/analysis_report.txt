@@ -1,0 +1,53 @@
+
+---- 分析阶段 ----
+[模型] 已加载 G:\GCModeller\src\GCModeller\sub-system\GPS\test\demo_output\gps_model.gps.zip（0.29s）
+[模型] GPS v1 · 367 基因 × 180 样本 · window=4 d=32 L=2 · trained=True
+[模型] 重建完成：367 基因，window=4，训练轮数=7
+[数据] 通路 20 条；测量噪声（同时间点重复间 SD 中位数）= 0.166 log2 单位
+
+---- 扰动 ----
+[扰动] 目标 TF = ccpA（自动选取出度最大的 TF）
+  显著变化基因 162/367
+  上调 Top：ldhB(+0.431), fbaA(+0.384), rocR(+0.333), glcP(+0.317), pykF(+0.305), argC(+0.292)
+  下调 Top：ccpA(-11.233), bpr(-0.524), sidH(-0.373), eeb1(-0.371), sidF(-0.364), sidD(-0.363)
+
+---- Limma ----
+[Limma] 367 基因 × 12 样本（每组 6 个 in-silico 技术重复，噪声 σ = 1×实测重复SD，中位 0.166）
+[Limma] 阈值 |logFC| ≥ 0.5 且 adj.P ≤ 0.05
+[Limma] 上调 68 / 下调 80
+  ccpA         logFC=-11.016  P=3.84E-09  adj.P=1.41E-06
+  pdhR         logFC= -3.824  P=6.52E-05  adj.P=0.00479
+  purC         logFC=  3.987  P=6.31E-05  adj.P=0.00579
+  bpr          logFC= -3.733  P=0.000118  adj.P=0.00619
+  sucA         logFC=  3.763  P=0.00011  adj.P=0.00672
+  fbaA         logFC=  4.140  P=3.86E-05  adj.P=0.00708
+  ispG         logFC= -3.925  P=5.86E-05  adj.P=0.00716
+  rocR         logFC=  3.663  P=0.000329  adj.P=0.00929
+
+---- 富集 ----
+[富集] 差异基因全集（上调 + 下调）
+  输入基因 148 个；FDR ≤ 0.05（BH 校正），背景规模 N = 367（无通路通过阈值，已回退展示 P 值最小的 Top-5）
+  P15   氧化应激响应通路 (Oxidative Stress Respon…   score=0.105  2/19  P=0.00689  FDR=0.138
+  P04   萜类合成通路 (Terpenoid Biosynthesis)      score=0.688  11/16  P=0.0337  FDR=0.337
+  P13   嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Meta…   score=0.667  10/15  P=0.0563  FDR=0.376
+  P02   脂肪酸β-氧化通路 (Fatty Acid β-Oxidation)   score=0.571  16/28  P=0.0715  FDR=0.357
+  P20   蛋白水解系统 (Proteolytic System)          score=0.611  11/18  P=0.0842  FDR=0.337
+
+[富集] 仅上调基因
+  输入基因 68 个；FDR ≤ 0.05（BH 校正），背景规模 N = 367
+  P13   嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Meta…   score=0.600  9/15  P=0.000312  FDR=0.00592
+  P17   丙酮酸代谢枢纽 (Pyruvate Metabolism Hub)    score=0.448  13/29  P=0.0006  FDR=0.0057
+
+[富集] 仅下调基因
+  输入基因 80 个；FDR ≤ 0.05（BH 校正），背景规模 N = 367
+  P20   蛋白水解系统 (Proteolytic System)          score=0.556  10/18  P=0.00138  FDR=0.0263
+
+
+---- 输出 ----
+  G:\GCModeller\src\GCModeller\sub-system\GPS\test\demo_output\limma_all.tsv
+  G:\GCModeller\src\GCModeller\sub-system\GPS\test\demo_output\limma_up.tsv
+  G:\GCModeller\src\GCModeller\sub-system\GPS\test\demo_output\limma_down.tsv
+  G:\GCModeller\src\GCModeller\sub-system\GPS\test\demo_output\enrichment_all.tsv
+  G:\GCModeller\src\GCModeller\sub-system\GPS\test\demo_output\enrichment_up.tsv
+  G:\GCModeller\src\GCModeller\sub-system\GPS\test\demo_output\enrichment_down.tsv
+  G:\GCModeller\src\GCModeller\sub-system\GPS\test\demo_output\enrichment_significant.tsv

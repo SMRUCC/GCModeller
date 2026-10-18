@@ -42,6 +42,7 @@
 | 评估 | `Training.Evaluator` | MSE / R² / Pearson / top-K 困难基因 MSE / 方向准确率 / **图外基因子集** R²；含历史持续性基线 |
 | 虚拟扰动 | `Perturbation.VirtualPerturbationEngine` | 单基因 / 组合（Bliss 加性对照 + 协同效应）/ 多步级联 |
 | 门面 | `GPSModel` | 实现 `BNLearn.InsilicoPerturbationExperiment`，与贝叶斯网络、GEARS 实现可互换 |
+| 持久化 | `GPSFile` | 保存/加载 `*.gps.zip`：配置 + 表达矩阵 + 先验网络 + 参数 + 训练曲线 |
 
 ## 快速开始
 
@@ -122,21 +123,55 @@ CudaTensor.Register(engine)      ' 双精度栈：Tensor.computeKernel
 | 不确定性 | 已实现 softplus 方差头与高斯 NLL | 校准与置信区间报告 |
 | 梯度检查点 | 反向按时间步重算前向（多一次前向） | 显式 stateful 层 API 以缓存全部时间步 |
 
+## 模型持久化
+
+```vb
+' 保存（训练完成后）
+Call GPSFile.Save(model, "model.gps.zip")
+
+' 加载（重建预处理、调控图、图编码、滑窗数据集与全部参数）
+Dim loaded As GPSModel = GPSFile.Load("model.gps.zip")
+
+' 只读清单（不加载参数）
+Dim manifest As GPSPackageManifest = GPSFile.ReadManifest("model.gps.zip")
+```
+
+包内条目与设计要点：
+
+| 条目 | 内容 |
+|---|---|
+| `manifest.json` | 格式/版本/规模/训练概要 |
+| `config.json` | 全部超参数（按属性名反射） |
+| `expression.json` | 基因名、样本名、时间点、表达矩阵 |
+| `prior.json` | 先验调控网络 |
+| `parameters.tsv` | 参数名 + 形状 + 数值（`G17`，double 往返无损） |
+| `training.json` | 训练损失曲线与最优 epoch |
+
+只保存**输入与参数**，派生结构（预处理、调控图、SPD/LapPE 编码、滑窗切分）在加载端用同一套代码
+确定性重算，因此不会出现"包里的图编码与训练时不一致"的隐患；加载时会逐个校验参数名与长度，
+不匹配立即报错。保存采用"临时文件 + 原子替换"，避免写坏已有包。
+
 ## DEMO（TestData1 真实数据）
 
-`test` 工程内置了基于 `sub-system/demo/TestData1` 的端到端 DEMO：
-训练 → 虚拟敲除 → Limma 差异分析 → Fisher 通路富集。
+`test` 工程内置了基于 `sub-system/demo/TestData1` 的两阶段 DEMO：
 
 ```text
 cd test
-dotnet run --project GPS.Test.vbproj -c Debug -p:Platform=x64 -- --demo
+dotnet run --project GPS.Test.vbproj -c Debug -p:Platform=x64 -- --demo               ' 训练+保存，然后加载+分析
+dotnet run --project GPS.Test.vbproj -c Debug -p:Platform=x64 -- --demo --train-only   ' 只训练并保存
+dotnet run --project GPS.Test.vbproj -c Debug -p:Platform=x64 -- --demo --analyze-only ' 只加载并分析
 ```
 
+- 训练阶段：加载数据 → 训练 → 评估 → `GPSFile.Save` → **往返校验**（重新加载并比对敲除预测，最大差异 0）。
+- 分析阶段：`GPSFile.Load` → 虚拟敲除 → Limma 差异分析 → Fisher 通路富集。
+
 可用参数：`--epochs`、`--pretrain`、`--tf`、`--samples`、`--noise`、`--topn`、`--lr`、
-`--logfc`、`--fdr`、`--seed`、`--data`、`--out`（`--help` 查看完整说明）。
-结果写入 `test/demo_output/`：`limma_all.tsv`、`limma_up.tsv`、`limma_down.tsv`、
-`enrichment_all.tsv`、`enrichment_up.tsv`、`enrichment_down.tsv`、
-`enrichment_significant.tsv`、`report.txt`。
+`--logfc`、`--fdr`、`--seed`、`--data`、`--out`、`--model`、`--train-only`、`--analyze-only`
+（`--help` 查看完整说明）。
+
+结果写入 `test/demo_output/`：`gps_model.gps.zip`、`train_report.txt`、`analysis_report.txt`、
+`limma_all/up/down.tsv`、`enrichment_all/up/down/significant.tsv`。
+注意：通路注释（`pathway_info.json`）不属于模型状态，`--analyze-only` 仍需 `--data` 指向数据目录。
 
 说明：虚拟扰动本身是确定性点估计，DEMO 为满足 Limma 的方差估计需要，
 用**实测同时间点重复间 SD** 作为噪声尺度构造 in-silico 技术重复；

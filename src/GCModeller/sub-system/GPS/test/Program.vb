@@ -1,3 +1,4 @@
+Imports System.IO
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
@@ -47,6 +48,7 @@ Module Program
         Call TestGrnModelGradient()
         Call TestTrainingSmoke()
         Call TestPerturbationFacade()
+        Call TestModelPersistence()
         Call TestMixedPrecisionParity()
 
         Console.WriteLine()
@@ -380,6 +382,72 @@ Module Program
 
         Call Check(output2.Shape(0) = 6 AndAlso output2.Shape(1) = 8, "纯 FFN 消融可运行")
         Call Check(store2.Entries.Count = 4, $"纯 FFN 参数项（{store2.Entries.Count}）")
+    End Sub
+
+    ''' <summary>
+    ''' 模型持久化往返：保存为 zip 包、重新加载后预测必须与原模型一致。
+    ''' </summary>
+    Private Sub TestModelPersistence()
+        Console.WriteLine()
+        Console.WriteLine("[模型持久化]")
+
+        TensorOps.Seed = 20240726
+
+        Dim data As GeneExpressionData = CreateExpression()
+        Dim prior As PriorNetwork = CreatePrior()
+        Dim config As New GPSConfig With {
+            .MaxGenes = 0,
+            .Window = 3,
+            .DModel = 16,
+            .NLayers = 1,
+            .NHeads = 2,
+            .FfnDim = 24,
+            .GruHidden = 12,
+            .PeDim = 4,
+            .SpdMaxDist = 2,
+            .Dropout = 0.0,
+            .PretrainEpochs = 0,
+            .FinetuneEpochs = 1,
+            .LearningRate = 0.01,
+            .PrintEvery = 0
+        }
+
+        Dim gps As New GPSModel(data, prior, config)
+        Call gps.Train(0)
+
+        Dim tempFile As String = Path.Combine(Path.GetTempPath(), $"gps_selftest_{Guid.NewGuid():N}{GPSFile.FileExtension}")
+
+        Try
+            Call GPSFile.Save(gps, tempFile)
+
+            Call Check(GPSFile.IsPackage(tempFile), "模型包可识别")
+            Call Check(New FileInfo(tempFile).Length > 0, "模型包非空")
+
+            Dim manifest As GPSPackageManifest = GPSFile.ReadManifest(tempFile)
+
+            Call Check(manifest.NGenes = gps.GeneNames.Length, $"清单基因数（{manifest.NGenes}）")
+            Call Check(manifest.Window = gps.Dataset.WindowSize, $"清单窗口长度（{manifest.Window}）")
+
+            Dim loaded As GPSModel = GPSFile.Load(tempFile)
+
+            Call Check(loaded.IsTrained, "加载后保持已训练标记")
+            Call Check(loaded.GeneNames.Length = gps.GeneNames.Length, "加载后基因数一致")
+            Call Check(loaded.Dataset.WindowSize = gps.Dataset.WindowSize, "加载后窗口长度一致")
+
+            Dim expected As InterventionResult = gps.KnockoutGene("TF1")
+            Dim actual As InterventionResult = loaded.KnockoutGene("TF1")
+            Dim maxDifference As Double = 0.0
+
+            For i As Integer = 0 To expected.FoldChanges.Length - 1
+                maxDifference = System.Math.Max(maxDifference,
+                                                System.Math.Abs(expected.FoldChanges(i) - actual.FoldChanges(i)))
+            Next
+
+            Call Check(maxDifference <= 1.0E-12, $"往返预测一致（最大差异 {maxDifference:G3}）")
+
+        Finally
+            If File.Exists(tempFile) Then Call File.Delete(tempFile)
+        End Try
     End Sub
 
     ''' <summary>

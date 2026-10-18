@@ -1,18 +1,20 @@
 term	name	score	enriched	cluster	pvalue	FDR	IDs
-P17	丙酮酸代谢枢纽 (Pyruvate Metabolism Hub)	0.413793	12	29	0.00210162	0.0357275	fbaA;alsS;pdhR;lpd;atpD;pdhC;pykF;aceE;ptsG;ilvN;pgk;ptsI
-P13	嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Metabolism)	0.4	6	15	0.0378599	0.321809	pyrC;purC;purD;purH;pyrF;purB
-P01	支链氨基酸降解通路 (Branched-Chain Amino Acid Degradation)	0.333333	6	18	0.112786	0.547819	bcatB;bkdR;brnQ;aroP;ilvE;bcatA
-P16	氨基酸生物合成通路 (Amino Acid Biosynthesis)	0.333333	6	18	0.112786	0.547819	thrC;argG;thrA;thrB;argC;lysC
-P18	维生素/辅因子合成通路 (Vitamin/Cofactor Biosynthesis)	0.3125	5	16	0.184632	0.627747	panC;ribD;panD;ribE;bioB
-P07	乳酸代谢通路 (Lactate Metabolism)	0.333333	4	12	0.24335	0.689493	lldR;lctP;ldhB;ldhA
-P05	苯丙氨酸代谢通路 (Phenylalanine Metabolism)	0.285714	4	14	0.296715	0.720594	tyrB;pal;feaD;pheA
-P03	酯类合成通路 (Ester Biosynthesis)	0.0625	1	16	0.323272	0.646544	adhB
-P04	萜类合成通路 (Terpenoid Biosynthesis)	0.0625	1	16	0.323272	0.646544	ispB
-P14	铁载体合成通路 (Siderophore Biosynthesis)	0.0714286	1	14	0.480355	0.777718	sidB
-P19	细胞壁降解通路 (Cell Wall Degradation)	0.0714286	1	14	0.480355	0.777718	lytR
-P15	氧化应激响应通路 (Oxidative Stress Response)	0.105263	2	19	0.545486	0.772771	oxyR;ahpD
-P20	蛋白水解系统 (Proteolytic System)	0.111111	2	18	0.545889	0.713855	mpr;aprE
-P06	硫代谢通路 (Sulfur Metabolism)	0.142857	3	21	0.7774	0.943986	mglB;cysI;cysR
-P12	全局调控网络 (Global Regulatory Network)	0.2	5	25	0.790249	0.895616	glnR;fur;ccpB;sigA;rpoC
-P02	脂肪酸β-氧化通路 (Fatty Acid β-Oxidation)	0.178571	5	28	1	1.0303	cls;sucA;fadR;fadE;icd
-P11	群体感应通路 (Quorum Sensing)	0.176471	3	17	1	1.0303	phrA;luxR;codY
+P13	嘌呤/嘧啶代谢通路 (Purine/Pyrimidine Metabolism)	0.6	9	15	0.000311659	0.00592152	purC;pyrC;purD;purH;pyrB;purF;pyrR;purR;purB
+P17	丙酮酸代谢枢纽 (Pyruvate Metabolism Hub)	0.448276	13	29	0.000599828	0.00569836	fbaA;gapA;lpd;aceE;atpD;pykF;glcP;pdhC;pdhA;ilvN;budA;aceF;ptsG
+P01	支链氨基酸降解通路 (Branched-Chain Amino Acid Degradation)	0.333333	6	18	0.116858	0.7401	bkdR;lpdA;brnQ;ivdA;bkdA2;bcatA
+P02	脂肪酸β-氧化通路 (Fatty Acid β-Oxidation)	0.285714	8	28	0.20153	0.957266	sucA;cls;fadE;paaG;paaH;echA;sdhA;icd
+P20	蛋白水解系统 (Proteolytic System)	0.0555556	1	18	0.215243	0.817924	mpr
+P09	非核糖体肽合成通路 (NRPS Pathway)	0.0526316	1	19	0.220094	0.643351	nrpB
+P15	氧化应激响应通路 (Oxidative Stress Response)	0.0526316	1	19	0.220094	0.643351	groES
+P08	聚酮合酶通路 (Polyketide Synthase Pathway)	0.0833333	2	24	0.276352	0.656337	pksF;dfnB
+P07	乳酸代谢通路 (Lactate Metabolism)	0.25	3	12	0.471347	0.995067	ldhB;lldR;lctP
+P05	苯丙氨酸代谢通路 (Phenylalanine Metabolism)	0.0714286	1	14	0.481421	0.831546	pdcA
+P10	细菌素合成通路 (Bacteriocin Biosynthesis)	0.0714286	1	14	0.481421	0.831546	bacA
+P14	铁载体合成通路 (Siderophore Biosynthesis)	0.0714286	1	14	0.481421	0.831546	sidK
+P18	维生素/辅因子合成通路 (Vitamin/Cofactor Biosynthesis)	0.25	4	16	0.510493	0.746105	panD;ribC;panC;bioB
+P12	全局调控网络 (Global Regulatory Network)	0.12	3	25	0.593057	0.804863	rocR;glnR;sigA
+P03	酯类合成通路 (Ester Biosynthesis)	0.125	2	16	0.746181	0.945163	adhB;estB
+P11	群体感应通路 (Quorum Sensing)	0.117647	2	17	0.748867	0.88928	phrA;luxR
+P04	萜类合成通路 (Terpenoid Biosynthesis)	0.1875	3	16	1	1.05556	pinS;idi;ispB
+P06	硫代谢通路 (Sulfur Metabolism)	0.190476	4	21	1	1.05556	cysI;cysD;mglB;cysR
+P16	氨基酸生物合成通路 (Amino Acid Biosynthesis)	0.166667	3	18	1	1.05556	thrA;argC;argH
