@@ -13,9 +13,7 @@
 ' ============================================================================
 
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
-Imports std = System.Math
 
 Namespace Graph
 

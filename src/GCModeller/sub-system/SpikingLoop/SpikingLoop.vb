@@ -32,7 +32,6 @@ Imports SMRUCC.genomics.Analysis.SpikingLoop.Graph
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Model
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Perturbation
 Imports SMRUCC.genomics.Analysis.SpikingLoop.Training
-Imports std = System.Math
 
 ' 说明：本文件不使用 Namespace 语句——编译后自动落在工程 RootNamespace
 ' SMRUCC.genomics.Analysis.SpikingLoop 之下（与 BNLearn 的既有文件风格一致）。

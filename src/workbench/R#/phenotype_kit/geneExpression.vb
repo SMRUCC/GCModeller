@@ -91,6 +91,8 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.Analysis.BNLearn.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.HTS.WGCNA
@@ -2987,5 +2989,17 @@ Module geneExpression
         End If
 
         Return MatrixBuilder.BuildAndNormalizeAbundanceMatrix(sampleList.ToArray, normalized)
+    End Function
+
+    <ExportAPI("as.time_serials")>
+    <RApiReturn(GetType(GeneExpressionData))>
+    Public Function as_timeMatrix(x As Matrix, <RRawVectorArgument(GetType(SampleInfo))> Optional sampleinfo As Object = Nothing, Optional time_label As String = "time", Optional env As Environment = Nothing) As Object
+        Dim samples As PipeIterator(Of SampleInfo) = pipeline.Stream(Of SampleInfo)(sampleinfo, env)
+
+        If samples.isError Then
+            Return samples.getError
+        Else
+            Return x.ReadGeneExpressionMatrix(samples.getData, time_label)
+        End If
     End Function
 End Module
