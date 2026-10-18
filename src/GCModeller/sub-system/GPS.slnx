@@ -64,7 +64,7 @@
       <Platform Solution="Debug|x64" Project="x64" />
     </Project>
   </Folder>
-  <Project Path="GPS/test/GPS.Test.vbproj">
+  <Project Path="GPS/test/test.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
 </Solution>
