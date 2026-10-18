@@ -1,0 +1,319 @@
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.BNLearn
+Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports SMRUCC.genomics.Analysis.GPS.Config
+Imports SMRUCC.genomics.Analysis.GPS.Data
+Imports SMRUCC.genomics.Analysis.GPS.Graph
+Imports SMRUCC.genomics.Analysis.GPS.Model
+Imports SMRUCC.genomics.Analysis.GPS.Perturbation
+Imports SMRUCC.genomics.Analysis.GPS.Training
+Imports GEARSGraph = SMRUCC.genomics.Analysis.GEARS.Graph
+
+''' <summary>
+''' GPS（GNN + Transformer）基因表达调控网络模型的门面。
+''' </summary>
+''' <remarks>
+''' <para>
+''' 一个实例完整封装"先验网络 + 时序表达矩阵 → 预处理 → 图编码 → 模型 → 训练 →
+''' 虚拟扰动"的全流程，并实现 <see cref="InsilicoPerturbationExperiment"/>，
+''' 因此可以与 BNLearn 的贝叶斯网络实现、GEARS 实现互换使用。
+''' </para>
+''' <para>
+''' 典型用法：
+''' <code>
+''' Dim gps As New GPSModel(expression, prior)
+''' gps.Train()
+''' Dim ko As InterventionResult = gps.KnockoutGene("TF1")
+''' </code>
+''' </para>
+''' <para>
+''' 规模约束：全局注意力的复杂度是 O(N²)，第一期建议 <see cref="GPSConfig.MaxGenes"/>
+''' 不超过 2000。超过 <see cref="GraphEncoding.LapPeMaxNodes"/> 时位置编码会自动置零。
+''' </para>
+''' </remarks>
+Public Class GPSModel
+    Implements InsilicoPerturbationExperiment
+
+    Private ReadOnly rawExpression As GeneExpressionData
+    Private ReadOnly prior As PriorNetwork
+    Private ReadOnly cfg As GPSConfig
+
+    Private ReadOnly preprocessedExpression As PreprocessedExpression
+    Private ReadOnly windowDataset As TimeSeriesWindowDataset
+    Private ReadOnly regulatoryGraph As GEARSGraph.GeneRegulatoryGraph
+    Private ReadOnly graphEncoding As GraphEncoding
+    Private ReadOnly grn As GRNModel
+    Private ReadOnly trainer As GPSTrainer
+    Private ReadOnly engine As VirtualPerturbationEngine
+
+    Private _lastResult As GPSTrainingResult
+
+    ''' <summary>实际生效的配置（窗口长度可能因时间点不足而被裁剪）</summary>
+    Public ReadOnly Property Config As GPSConfig
+        Get
+            Return cfg
+        End Get
+    End Property
+
+    ''' <summary>底层 GRN 模型</summary>
+    Public ReadOnly Property Model As GRNModel
+        Get
+            Return grn
+        End Get
+    End Property
+
+    ''' <summary>预处理后的表达数据</summary>
+    Public ReadOnly Property Preprocessed As PreprocessedExpression
+        Get
+            Return preprocessedExpression
+        End Get
+    End Property
+
+    ''' <summary>滑窗数据集（含严格时间切分）</summary>
+    Public ReadOnly Property Dataset As TimeSeriesWindowDataset
+        Get
+            Return windowDataset
+        End Get
+    End Property
+
+    ''' <summary>基因调控图</summary>
+    Public ReadOnly Property GraphData As GEARSGraph.GeneRegulatoryGraph
+        Get
+            Return regulatoryGraph
+        End Get
+    End Property
+
+    ''' <summary>静态图编码</summary>
+    Public ReadOnly Property Encoding As GraphEncoding
+        Get
+            Return graphEncoding
+        End Get
+    End Property
+
+    ''' <summary>基因名称（建模顺序）</summary>
+    Public ReadOnly Property GeneNames As String()
+        Get
+            Return preprocessedExpression.GeneNames
+        End Get
+    End Property
+
+    ''' <summary>是否已执行过训练</summary>
+    Public ReadOnly Property IsTrained As Boolean
+        Get
+            Return _lastResult IsNot Nothing
+        End Get
+    End Property
+
+    ''' <summary>最近一次训练结果</summary>
+    Public ReadOnly Property LastTrainingResult As GPSTrainingResult
+        Get
+            Return _lastResult
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 由时序表达矩阵与先验调控网络构建模型。
+    ''' </summary>
+    ''' <param name="expression">时序基因表达矩阵（行=基因，列=样本，需带 TimePoints）</param>
+    ''' <param name="prior">先验调控网络（TF + motif 扫描结果）</param>
+    ''' <param name="config">超参数；Nothing 时使用默认配置</param>
+    Public Sub New(expression As GeneExpressionData,
+                   prior As PriorNetwork,
+                   Optional config As GPSConfig = Nothing)
+
+        If expression Is Nothing Then Throw New ArgumentNullException(NameOf(expression))
+
+        Me.rawExpression = expression
+        Me.prior = If(prior, New PriorNetwork())
+        Me.cfg = If(config, New GPSConfig())
+
+        If Not Me.cfg.Validate() Then
+            Throw New ArgumentException("GPSConfig 参数组合非法", NameOf(config))
+        End If
+
+        ' ---- 1. 预处理（高变异过滤时保留先验网络中的 TF） ----
+        Me.preprocessedExpression = ExpressionPreprocess.Preprocess(Me.rawExpression, Me.cfg, Me.prior.TFNames)
+
+        ' ---- 2. 图构建与静态编码 ----
+        Me.regulatoryGraph = New GEARSGraph.GeneRegulatoryGraph(
+            Me.preprocessedExpression.GeneNames,
+            Me.prior,
+            Me.preprocessedExpression.Matrix,
+            Me.cfg.CoexpressionTopK,
+            Me.cfg.MinCoexpression)
+
+        Me.graphEncoding = GraphEncoding.Compute(Me.regulatoryGraph, Me.cfg)
+
+        ' ---- 3. 滑窗数据集（按时间严格切分） ----
+        Me.windowDataset = TimeSeriesWindowDataset.Create(Me.preprocessedExpression, Me.cfg)
+
+        If Me.windowDataset.WindowSize < 2 Then
+            Throw New ArgumentException($"时序表达至少需要 3 个不同时间点，实际 {Me.windowDataset.NTimePoint} 个")
+        End If
+
+        ' 时间点不足时窗口会被裁剪，模型必须使用裁剪后的窗口长度
+        Dim effective As GPSConfig = Me.cfg.Clone()
+        effective.Window = Me.windowDataset.WindowSize
+        Me.cfg = effective
+
+        ' ---- 4. 模型与训练器 ----
+        Me.grn = New GRNModel(Me.regulatoryGraph, Me.graphEncoding, Me.cfg)
+        Me.trainer = New GPSTrainer(Me.grn, Me.cfg)
+        Me.engine = New VirtualPerturbationEngine(
+            Me.grn, Me.preprocessed, BuildBaselineWindow(), Me.cfg.SignificanceZScore)
+    End Sub
+
+    ''' <summary>
+    ''' 训练模型：掩码重建预训练 + 下一时刻预测微调。
+    ''' </summary>
+    ''' <param name="printEvery">打印间隔；0 表示静默，-1 表示使用配置值</param>
+    ''' <returns>训练结果</returns>
+    Public Function Train(Optional printEvery As Integer = -1) As GPSTrainingResult
+        Dim pretrain As List(Of Double) = trainer.Pretrain(windowDataset.Train(), -1, printEvery)
+        Dim result As GPSTrainingResult = trainer.Finetune(windowDataset.Train(), windowDataset.Validation(), -1, printEvery)
+
+        result.PretrainLoss = pretrain
+        _lastResult = result
+
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' 在测试集（时间上最晚的一段）上评估；测试集为空时回退到验证集。
+    ''' </summary>
+    ''' <returns>评估指标</returns>
+    Public Function Evaluate() As EvaluationMetrics
+        Dim windows As List(Of TimeSeriesWindow) = windowDataset.Test()
+
+        If windows.Count = 0 Then windows = windowDataset.Validation()
+
+        Return Evaluator.Evaluate(grn, windows, 20, Evaluator.IsolatedGeneMask(grn))
+    End Function
+
+    ''' <summary>
+    ''' 历史持续性基线（同一测试集）。
+    ''' </summary>
+    ''' <returns>基线指标</returns>
+    Public Function EvaluateBaseline() As EvaluationMetrics
+        Dim windows As List(Of TimeSeriesWindow) = windowDataset.Test()
+
+        If windows.Count = 0 Then windows = windowDataset.Validation()
+
+        Return Evaluator.EvaluatePersistence(windows, Evaluator.IsolatedGeneMask(grn))
+    End Function
+
+    ' ==================== InsilicoPerturbationExperiment ====================
+
+    ''' <summary>
+    ''' 虚拟敲除：把目标基因的表达置零后预测全基因组响应。
+    ''' </summary>
+    ''' <param name="geneName">目标基因名</param>
+    ''' <param name="nSamples">采样数（当前实现为确定性推理，该参数仅为接口兼容保留）</param>
+    ''' <returns>干预结果</returns>
+    Public Function KnockoutGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockoutGene
+        Return Predict(New InterventionSpec() {CreateSpec(geneName, InterventionMode.Knockout)})
+    End Function
+
+    ''' <summary>
+    ''' 虚拟过表达：把目标基因提升到 <c>均值 + 3σ</c> 后预测全基因组响应。
+    ''' </summary>
+    ''' <param name="geneName">目标基因名</param>
+    ''' <param name="nSamples">采样数（保留参数，见 <see cref="KnockoutGene"/>）</param>
+    ''' <returns>干预结果</returns>
+    Public Function OverexpressGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.OverexpressGene
+        Return Predict(New InterventionSpec() {CreateSpec(geneName, InterventionMode.Overexpression)})
+    End Function
+
+    ''' <summary>
+    ''' 虚拟敲低：把目标基因下调到 <c>均值 − 2σ</c> 后预测全基因组响应。
+    ''' </summary>
+    ''' <param name="geneName">目标基因名</param>
+    ''' <param name="nSamples">采样数（保留参数，见 <see cref="KnockoutGene"/>）</param>
+    ''' <returns>干预结果</returns>
+    Public Function KnockDownGene(geneName As String, Optional nSamples As Integer = 0) As InterventionResult Implements InsilicoPerturbationExperiment.KnockDownGene
+        Return Predict(New InterventionSpec() {CreateSpec(geneName, InterventionMode.Knockdown)})
+    End Function
+
+    ''' <summary>
+    ''' 预测任意（组合）干预。
+    ''' </summary>
+    ''' <param name="specs">干预定义集合</param>
+    ''' <returns>干预结果</returns>
+    Public Function Predict(specs As IEnumerable(Of InterventionSpec)) As InterventionResult
+        Return engine.Predict(specs)
+    End Function
+
+    ''' <summary>
+    ''' 多基因组合扰动：返回联合结果与协同/拮抗分析。
+    ''' </summary>
+    ''' <param name="geneNames">目标基因名集合（至少两个）</param>
+    ''' <param name="mode">干预模式</param>
+    ''' <returns>组合扰动分析结果</returns>
+    Public Function PredictCombination(geneNames As IEnumerable(Of String),
+                                       Optional mode As InterventionMode = InterventionMode.Knockout) As CombinationResult
+        Dim specs As List(Of InterventionSpec) =
+            geneNames.SafeQuery.Select(Function(g) CreateSpec(g, mode)).ToList()
+
+        If specs.Count < 2 Then
+            Throw New ArgumentException("组合扰动至少需要两个基因", NameOf(geneNames))
+        End If
+
+        Return engine.PredictCombination(specs)
+    End Function
+
+    ''' <summary>
+    ''' 多步递归级联模拟：把扰动效应沿时间向前推进，结果写入
+    ''' <see cref="InterventionResult.DynamicTrajectory"/>。
+    ''' </summary>
+    ''' <param name="geneName">目标基因</param>
+    ''' <param name="mode">干预模式</param>
+    ''' <param name="steps">推进步数；&lt;= 0 时取配置值</param>
+    ''' <returns>首步干预结果，附带完整动态轨迹</returns>
+    Public Function SimulateCascade(geneName As String,
+                                     Optional mode As InterventionMode = InterventionMode.Knockout,
+                                     Optional steps As Integer = 0) As InterventionResult
+        Dim spec As InterventionSpec = CreateSpec(geneName, mode)
+        Dim count As Integer = If(steps > 0, steps, cfg.CascadeSteps)
+
+        Dim result As InterventionResult = engine.Predict(New InterventionSpec() {spec})
+
+        result.DynamicTrajectory = engine.SimulateCascade(New InterventionSpec() {spec}, count)
+
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' 构造干预定义（基因索引留待引擎解析，大小写不敏感）。
+    ''' </summary>
+    ''' <param name="geneName">基因名</param>
+    ''' <param name="mode">干预模式</param>
+    ''' <returns>干预定义</returns>
+    Private Shared Function CreateSpec(geneName As String, mode As InterventionMode) As InterventionSpec
+        Return New InterventionSpec With {
+            .GeneName = geneName,
+            .GeneIndex = -1,
+            .Mode = mode
+        }
+    End Function
+
+    ''' <summary>
+    ''' 取时序数据最后 <c>w</c> 个时间点的标准化表达作为对照窗口。
+    ''' </summary>
+    ''' <returns>对照窗口 <c>[基因, w]</c></returns>
+    Private Function BuildBaselineWindow() As Double(,)
+        Dim n As Integer = preprocessedExpression.NGene
+        Dim w As Integer = windowDataset.WindowSize
+        Dim nTime As Integer = windowDataset.NTimePoint
+        Dim window As Double(,) = New Double(n - 1, w - 1) {}
+
+        For i As Integer = 0 To n - 1
+            For t As Integer = 0 To w - 1
+                window(i, t) = windowDataset.Profiles(i, nTime - w + t)
+            Next
+        Next
+
+        Return window
+    End Function
+
+End Class

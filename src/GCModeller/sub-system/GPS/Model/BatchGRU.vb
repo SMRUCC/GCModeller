@@ -232,9 +232,11 @@ Namespace Model
                     Tensor.computeKernel.Multiply(dPr, step_.R), oneMinusR)
 
                 ' ---- 隐藏状态梯度：三条门控路径 ----
+                ' 更新门与重置门直接以 h 为输入；候选状态经由 resetH = r ⊙ h 间接依赖 h，
+                ' 因此它对 h 的贡献是 dResetH ⊙ r（而不是 dResetH 本身）
                 Call TensorOps.Accumulate(dhPrev, TensorOps.BatchedMatMul(daz, Uz))
                 Call TensorOps.Accumulate(dhPrev, TensorOps.BatchedMatMul(dar, Ur))
-                Call TensorOps.Accumulate(dhPrev, TensorOps.BatchedMatMul(dah, Uh))
+                Call TensorOps.Accumulate(dhPrev, Tensor.computeKernel.Multiply(dResetHidden, step_.R))
 
                 ' ---- 参数梯度 ----
                 Call AccumulateGateGradients(daz, dah, dar, step_)

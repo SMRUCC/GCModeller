@@ -1,11 +1,16 @@
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
+Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
 Imports SMRUCC.genomics.Analysis.BNLearn
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
+Imports SMRUCC.genomics.Analysis.GPS
+Imports SMRUCC.genomics.Analysis.GPS.Perturbation
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Data
 Imports SMRUCC.genomics.Analysis.GPS.Graph
 Imports SMRUCC.genomics.Analysis.GPS.Model
+Imports SMRUCC.genomics.Analysis.GPS.Training
 Imports SMRUCC.genomics.Analysis.GEARS.Layers
 Imports GEARSGraph = SMRUCC.genomics.Analysis.GEARS.Graph
 Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
@@ -28,7 +33,11 @@ Module Program
         Call TestBiasedAttentionGradient()
         Call TestMpnnGradient()
         Call TestGpsLayerGradient()
+        Call TestGruGradient()
         Call TestGrnModelGradient()
+        Call TestTrainingSmoke()
+        Call TestPerturbationFacade()
+        Call TestMixedPrecisionParity()
 
         Console.WriteLine()
         Console.WriteLine($"{passed} passed, {failed} failed")
@@ -361,6 +370,297 @@ Module Program
 
         Call Check(output2.Shape(0) = 6 AndAlso output2.Shape(1) = 8, "纯 FFN 消融可运行")
         Call Check(store2.Entries.Count = 4, $"纯 FFN 参数项（{store2.Entries.Count}）")
+    End Sub
+
+    ''' <summary>
+    ''' 混合精度对拍：热点 GEMM 走单精度与整体走双精度的前向结果应一致，
+    ''' 且诊断计数应证明单精度路径确实被命中。
+    ''' </summary>
+    Private Sub TestMixedPrecisionParity()
+        Console.WriteLine()
+        Console.WriteLine("[混合精度对拍]")
+
+        TensorOps.Seed = 20240725
+
+        ' 64 个基因 × d_model=128 使 FFN 的 GEMM 超过策略阈值（262144）
+        Const nGenes As Integer = 64
+
+        Dim genes As String() = Enumerable.Range(0, nGenes).
+            Select(Function(i) $"G{i}").
+            ToArray()
+
+        Dim prior As New PriorNetwork()
+
+        For i As Integer = 1 To 20
+            Call prior.AddEdge("G0", $"G{i}", Effector.Activator, 1.0, "")
+        Next
+
+        Call prior.AddEdge("G1", "G21", Effector.Activator, 1.0, "")
+        Call prior.AddEdge("G21", "G22", Effector.Inhibitor, 1.0, "")
+
+        Dim config As New GPSConfig With {
+            .MaxGenes = 0,
+            .Window = 2,
+            .DModel = 128,
+            .NLayers = 1,
+            .NHeads = 4,
+            .FfnDim = 128,
+            .GruHidden = 32,
+            .PeDim = 0,
+            .SpdMaxDist = 2,
+            .Dropout = 0.0,
+            .TrainRatio = 0.6,
+            .ValidationRatio = 0.2
+        }
+
+        Dim graph As New GEARSGraph.GeneRegulatoryGraph(genes, prior)
+        Dim encoding As GraphEncoding = GraphEncoding.Compute(graph, config)
+        Dim model As New GRNModel(graph, encoding, config)
+
+        Dim input As Double(,) = New Double(nGenes - 1, config.Window - 1) {}
+        Dim r As New Random(31)
+
+        For i As Integer = 0 To nGenes - 1
+            For t As Integer = 0 To config.Window - 1
+                input(i, t) = (r.NextDouble() * 2.0 - 1.0) * 0.5
+            Next
+        Next
+
+        ' ---- 纯双精度 ----
+        MixedPrecisionPolicy.Enabled = False
+        MixedPrecisionDiagnostics.Reset()
+
+        Dim reference As Tensor = model.Forward(input, False)
+        Dim referenceAccelerated As Long = MixedPrecisionDiagnostics.[Of]("MatMul").Accelerated
+
+        ' ---- 热点单精度 ----
+        MixedPrecisionPolicy.Enabled = True
+        MixedPrecisionDiagnostics.Reset()
+
+        Dim mixed As Tensor = model.Forward(input, False)
+        Dim mixedAccelerated As Long = MixedPrecisionDiagnostics.[Of]("MatMul").Accelerated
+
+        Dim referenceNorm As Double = 0.0
+        Dim mixedNorm As Double = 0.0
+        Dim diffNorm As Double = 0.0
+
+        For i As Integer = 0 To reference.Data.Length - 1
+            referenceNorm += reference.Data(i) * reference.Data(i)
+            mixedNorm += mixed.Data(i) * mixed.Data(i)
+
+            Dim d As Double = mixed.Data(i) - reference.Data(i)
+            diffNorm += d * d
+        Next
+
+        Dim relative As Double = System.Math.Sqrt(diffNorm) /
+                                 System.Math.Max(1.0E-12, System.Math.Max(referenceNorm, mixedNorm))
+
+        Call Check(referenceAccelerated = 0, "关闭混合精度后没有单精度 GEMM")
+        Call Check(mixedAccelerated > 0, $"热点 GEMM 命中单精度（{mixedAccelerated} 次）")
+        Call Check(relative <= 1.0E-04, $"单精度与双精度前向一致（相对 L2 差 {relative:G3}）")
+
+        MixPrecisionRestore()
+    End Sub
+
+    ''' <summary>恢复混合精度默认设置，避免影响后续用例。</summary>
+    Private Sub MixPrecisionRestore()
+        MixedPrecisionPolicy.Enabled = True
+        MixedPrecisionDiagnostics.Reset()
+    End Sub
+
+    ''' <summary>
+    ''' 门面与 InsilicoPerturbationExperiment 接口：敲除/敲低/过表达、组合扰动与级联。
+    ''' </summary>
+    Private Sub TestPerturbationFacade()
+        Console.WriteLine()
+        Console.WriteLine("[虚拟扰动接口]")
+
+        TensorOps.Seed = 20240724
+
+        Dim data As GeneExpressionData = CreateExpression()
+        Dim prior As PriorNetwork = CreatePrior()
+        Dim config As New GPSConfig With {
+            .MaxGenes = 0,
+            .Window = 3,
+            .DModel = 16,
+            .NLayers = 2,
+            .NHeads = 2,
+            .FfnDim = 24,
+            .GruHidden = 12,
+            .PeDim = 4,
+            .SpdMaxDist = 2,
+            .Dropout = 0.0,
+            .PretrainEpochs = 2,
+            .FinetuneEpochs = 6,
+            .LearningRate = 0.005,
+            .PrintEvery = 0
+        }
+
+        Dim gps As New GPSModel(data, prior, config)
+        Dim result As GPSTrainingResult = gps.Train(0)
+
+        Call Check(gps.IsTrained, "训练完成标记")
+        Call Check(result.FinetuneEpochs > 0, "门面训练轮数")
+
+        ' ---- 敲除 ----
+        Dim ko As InterventionResult = gps.KnockoutGene("TF1")
+
+        Call Check(Not ko.Undefined, "敲除结果已定义")
+        Call Check(ko.GeneNames.Length = gps.GeneNames.Length, "结果基因数与模型一致")
+        Call Check(ko.FoldChanges.Length = gps.GeneNames.Length, "FoldChanges 长度")
+        Call Check(ko.IsSignificant(Array.IndexOf(gps.GeneNames, "TF1")), "被扰动基因标记为显著")
+        Call Check(ko.GetTopChangedGenes(5).Count = 5, "Top 变化基因可输出")
+
+        ' ---- 敲低 / 过表达 ----
+        Dim kd As InterventionResult = gps.KnockDownGene("TF1")
+        Dim oe As InterventionResult = gps.OverexpressGene("TF1")
+
+        Call Check(Not kd.Undefined AndAlso Not oe.Undefined, "敲低与过表达结果已定义")
+        Call Check(kd.FoldChanges(Array.IndexOf(gps.GeneNames, "TF1")) <= 0.0, "敲低使目标基因下调")
+        Call Check(oe.FoldChanges(Array.IndexOf(gps.GeneNames, "TF1")) >= 0.0, "过表达使目标基因上调")
+
+        ' ---- 组合扰动 ----
+        Dim combo As CombinationResult = gps.PredictCombination(New String() {"TF1", "TF2"}, InterventionMode.Knockout)
+
+        Call Check(combo.Joint.FoldChanges.Length = gps.GeneNames.Length, "组合扰动联合结果")
+        Call Check(combo.Additive.Length = gps.GeneNames.Length, "加性期望长度")
+        Call Check(combo.Synergy.Length = gps.GeneNames.Length, "非加性效应长度")
+        Call Check(Not Double.IsNaN(combo.SynergyScore), "协同分数可计算")
+
+        ' ---- 多步级联 ----
+        Dim cascade As InterventionResult = gps.SimulateCascade("TF1", InterventionMode.Knockout, 3)
+
+        Call Check(cascade.DynamicTrajectory IsNot Nothing, "级联轨迹已生成")
+        Call Check(cascade.DynamicTrajectory.GetLength(0) = 4, "轨迹时间步数（1 + steps）")
+        Call Check(cascade.DynamicTrajectory.GetLength(1) = gps.GeneNames.Length, "轨迹基因数")
+
+        ' ---- 未知基因降级 ----
+        Dim unknown As InterventionResult = gps.KnockoutGene("NOT_A_GENE")
+
+        Call Check(unknown.Undefined, "未知基因返回 Undefined")
+    End Sub
+
+    ''' <summary>
+    ''' 端到端训练冒烟：两阶段训练、损失下降、评估指标与持续性基线。
+    ''' </summary>
+    Private Sub TestTrainingSmoke()
+        Console.WriteLine()
+        Console.WriteLine("[训练冒烟]")
+
+        TensorOps.Seed = 20240723
+
+        Dim data As GeneExpressionData = CreateExpression()
+        Dim config As New GPSConfig With {
+            .MaxGenes = 0,
+            .Window = 3,
+            .DModel = 16,
+            .NLayers = 2,
+            .NHeads = 2,
+            .FfnDim = 24,
+            .GruHidden = 12,
+            .PeDim = 4,
+            .SpdMaxDist = 2,
+            .Dropout = 0.0,
+            .TrainRatio = 0.6,
+            .ValidationRatio = 0.2,
+            .PretrainEpochs = 3,
+            .FinetuneEpochs = 12,
+            .LearningRate = 0.005,
+            .PrintEvery = 0
+        }
+
+        Dim pre As PreprocessedExpression = ExpressionPreprocess.Preprocess(data, config, New String() {"TF1", "TF2"})
+        Dim prior As PriorNetwork = CreatePrior()
+        Dim graph As New GEARSGraph.GeneRegulatoryGraph(pre.GeneNames, prior)
+        Dim encoding As GraphEncoding = GraphEncoding.Compute(graph, config)
+        Dim dataset As TimeSeriesWindowDataset = TimeSeriesWindowDataset.Create(pre, config)
+
+        Dim model As New GRNModel(graph, encoding, config)
+
+        ' 记录训练前的参数快照，用于确认确实发生了学习
+        Dim before As Double() = CType(model.Parameters.Entries(0).Value.Data.Clone(), Double())
+
+        Dim trainer As New GPSTrainer(model, config)
+        Dim pretrainLoss As List(Of Double) = trainer.Pretrain(dataset.Train())
+        Dim result As GPSTrainingResult = trainer.Finetune(dataset.Train(), dataset.Validation())
+
+        Call Check(pretrainLoss.Count = config.PretrainEpochs, "预训练轮数")
+        Call Check(result.FinetuneEpochs > 0, "微调轮数")
+        Call Check(result.TrainLoss.All(Function(v) Not Double.IsNaN(v) AndAlso Not Double.IsInfinity(v)), "训练损失有限")
+
+        Dim changed As Boolean = False
+
+        For i As Integer = 0 To before.Length - 1
+            If System.Math.Abs(before(i) - model.Parameters.Entries(0).Value.Data(i)) > 1.0E-12 Then changed = True
+        Next
+
+        Call Check(changed, "训练后参数发生变化")
+
+        ' 学习应当降低训练损失（允许少量噪声）
+        Call Check(result.TrainLoss.Last() <= result.TrainLoss.First() * 1.05,
+                   $"训练损失下降（{result.TrainLoss.First():G4} → {result.TrainLoss.Last():G4}）")
+
+        ' ---- 评估：模型 vs 历史持续性基线 ----
+        Dim testWindows As List(Of TimeSeriesWindow) = dataset.Test()
+
+        If testWindows.Count = 0 Then testWindows = dataset.Validation()
+
+        Dim isolated As Boolean() = Evaluator.IsolatedGeneMask(model)
+        Dim metrics As EvaluationMetrics = Evaluator.Evaluate(model, testWindows, 5, isolated)
+        Dim baseline As EvaluationMetrics = Evaluator.EvaluatePersistence(testWindows, isolated)
+
+        Call Check(metrics.NWindows = testWindows.Count, "评估窗口数")
+        Call Check(Not Double.IsNaN(metrics.R2), "R² 可计算")
+        Call Check(metrics.DirectionAccuracy >= 0.0 AndAlso metrics.DirectionAccuracy <= 1.0, "方向准确率范围")
+        Call Check(Not Double.IsNaN(baseline.MSE), "持续性基线可计算")
+        Call Check(isolated.Where(Function(v) v).Count() > 0, "存在先验图外基因")
+
+        Console.WriteLine($"  模型: {metrics}")
+        Console.WriteLine($"  基线: {baseline}")
+    End Sub
+
+    ''' <summary>
+    ''' 批量 GRU 的 BPTT 梯度校验（参数 + 输入序列）。
+    ''' </summary>
+    Private Sub TestGruGradient()
+        Console.WriteLine()
+        Console.WriteLine("[GRU 梯度]")
+
+        TensorOps.Seed = 20240722
+
+        Const steps As Integer = 3
+        Const batch As Integer = 6
+        Const inputSize As Integer = 4
+        Const hidden As Integer = 5
+
+        Dim store As New ParameterStore()
+        Dim gru As New BatchGRU(inputSize, hidden, store, "testGru")
+        Dim sequence As Tensor = RandomTensor(New Integer() {steps, batch, inputSize}, 0.4)
+
+        Dim forwardLoss As Func(Of Double) = Function()
+                                                      Dim r As (AllHidden As Tensor, FinalHidden As Tensor) = gru.ForwardSequence(sequence)
+                                                      Dim s As Double = 0.0
+
+                                                      For Each v As Double In r.FinalHidden.Data
+                                                          s += v * v
+                                                      Next
+
+                                                      Return 0.5 * s
+                                                  End Function
+
+        Dim result As (AllHidden As Tensor, FinalHidden As Tensor) = gru.ForwardSequence(sequence)
+        Dim dAll As Tensor = New Tensor(steps, batch, hidden)
+
+        ' 只有最后一步的隐藏状态进入下游
+        Call System.Array.Copy(result.FinalHidden.Data, 0,
+                               dAll.Data, (steps - 1) * batch * hidden, batch * hidden)
+        Call dAll.MarkHostModified()
+
+        Call store.ZeroGradients()
+        Dim dSequence As Tensor = gru.BackwardSequence(dAll)
+
+        Call CheckGradient(store, forwardLoss, 5.0E-05, "GRU")
+        Call CheckInputGradient(sequence, dSequence, forwardLoss, 5.0E-05, "GRU 输入梯度")
     End Sub
 
     ''' <summary>
