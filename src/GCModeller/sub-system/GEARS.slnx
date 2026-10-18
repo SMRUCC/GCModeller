@@ -52,4 +52,7 @@
   <Project Path="GEARS/test/test.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="GPS/GPS.vbproj" Id="a8dd4477-2382-4b68-826b-8c5ff91c0676">
+    <Platform Solution="Debug|x64" Project="x64" />
+  </Project>
 </Solution>
