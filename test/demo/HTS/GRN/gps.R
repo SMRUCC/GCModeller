@@ -6,6 +6,7 @@ imports "bnlearn" from "biosystem";
 imports "geneExpression" from "phenotype_kit";
 imports "sampleInfo" from "phenotype_kit";
 
+CUDA::register_cuda_tensor("fp64");
 CUDA::register_cuda_tensor("fp32");
 
 let x = geneExpression::load.expr("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\gene_expression_matrix.csv");
