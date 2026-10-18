@@ -1,9 +1,12 @@
 require(GCModeller);
 
+imports "CUDA" from "MLkit";
 imports "GPS" from "biosystem";
 imports "bnlearn" from "biosystem";
 imports "geneExpression" from "phenotype_kit";
 imports "sampleInfo" from "phenotype_kit";
+
+CUDA::register_cuda_tensor("fp32");
 
 let x = geneExpression::load.expr("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\gene_expression_matrix.csv");
 let samples = read.sampleinfo("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\samplesinfo.csv");
@@ -17,8 +20,8 @@ let net = prior_network(
     regulation_type = GRN$RegulationType,
     confidence = GRN$Confidence,
     evidence = GRN$Evidence
-) |> as.prior_net();
-
+) |> as.prior_net()
+;
 let gps = x 
 |> build_gps(net, config = gps_config())
 |> train();
