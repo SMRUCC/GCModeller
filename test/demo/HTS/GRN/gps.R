@@ -17,7 +17,7 @@ let net = prior_network(
     regulation_type = GRN$RegulationType,
     confidence = GRN$Confidence,
     evidence = GRN$Evidence
-);
+) |> as.prior_net();
 
 let gps = x 
 |> build_gps(net, config = gps_config())
