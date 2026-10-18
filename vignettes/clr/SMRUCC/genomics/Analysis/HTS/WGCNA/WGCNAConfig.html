@@ -44,6 +44,8 @@ export class WGCNAConfig {
    buildGraph: boolean;
    # 是否物化 p 值矩阵。False 时 p 值按 (i,j) 现算，可以省掉一半的 n^2 内存。
    computePvalue: boolean;
+   # 预先计算的相关矩阵存储目录（repo）。
+   correlationStore: string;
    # 动态剪切的高度上限。NaN 时自动取 <code>0.99*(max(h)-refHeight)+refHeight</code>。
    cutHeight: double;
    # 动态剪切的拆分深度（0~4），越大切出的模块越多越小

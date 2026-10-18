@@ -36,6 +36,8 @@ export class Result {
    blockResults: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BlockResult.html">BlockResult[]</a>;
    # 分块分析时的块划分（每块的基因 ID 列表）
    blocks: <a href="/vignettes/clr/System/String[].html">String[][]</a>;
+   # 相关系数的计算来源（诊断信息）
+   correlationSource: string;
    # hclust 风格的层次聚类结果（merge / height，与 R 的 hclust 同构）
    dendrogram: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/HclustResult.html">HclustResult</a>;
    # 基因显著性结果列表 存储每个基因与每个表型的相关性分析结果

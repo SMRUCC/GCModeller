@@ -154,6 +154,9 @@ declare namespace bnlearn {
    */
    function knockouts(bnlearn: any, geneNames: any): object|object;
    /**
+   */
+   function load_prior(data: string): object;
+   /**
     * export the virtual permutation result as csv table files
     * 
     * > the generated csv table files in the given output directory:
@@ -260,6 +263,9 @@ declare namespace bnlearn {
      *  directory successfully.
    */
    function save_model(bnlearn: object, dir: string): any;
+   /**
+   */
+   function save_prior(prior_net: object, file: string): any;
    /**
     * set wildtype baseline
     * 

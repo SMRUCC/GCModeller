@@ -25,7 +25,8 @@ declare namespace TRN {
    /**
      * @param type default value Is ``null``.
      * @param wgcnaOpts default value Is ``null``.
+     * @param corKind default value Is ``null``.
      * @param env default value Is ``null``.
    */
-   function write_bicor(x: object, repo: string, type?: object, wgcnaOpts?: object, env?: object): any;
+   function write_bicor(x: object, repo: string, type?: object, wgcnaOpts?: object, corKind?: object, env?: object): any;
 }
