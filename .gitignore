@@ -674,3 +674,4 @@ src/GCModeller/annotations/WGCNA/run_test/store_smoke/store_bicor/bicor.dat
 src/GCModeller/annotations/WGCNA/run_test/store_smoke/store_partial/pearson.dat
 src/GCModeller/annotations/WGCNA/run_test/store_smoke/store_partial/index.dat
 src/GCModeller/sub-system/GPS/test/demo_output/gps_model.gps.zip
+/test/demo/HTS/GRN/demo_gps.zip
