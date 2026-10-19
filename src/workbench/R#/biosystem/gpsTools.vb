@@ -313,6 +313,7 @@ Module gpsTools
                                Optional seed As Integer = 2024,
                                Optional significanceZScore As Double = 0.5,
                                Optional cascadeSteps As Integer = 5,
+                               Optional CheckpointIntervalEpochs As Integer = 1,
                                Optional env As Environment = Nothing) As Object
 
         Dim config As New GPSConfig With {
@@ -351,7 +352,8 @@ Module gpsTools
             .ValidationRatio = validationRatio,
             .Seed = seed,
             .SignificanceZScore = significanceZScore,
-            .CascadeSteps = cascadeSteps
+            .CascadeSteps = cascadeSteps,
+            .CheckpointIntervalEpochs = CheckpointIntervalEpochs
         }
 
         If Not config.Validate() Then
@@ -452,9 +454,12 @@ Module gpsTools
     ''' </returns>
     <ExportAPI("train")>
     <RApiReturn(GetType(GPSModel))>
-    Public Function train(gps As GPSModel, Optional env As Environment = Nothing) As Object
+    Public Function train(gps As GPSModel, Optional checkpoint As String = Nothing, Optional env As Environment = Nothing) As Object
         ' ---- 3. 训练 ----
         Dim sw As Stopwatch = Stopwatch.StartNew()
+
+        gps.CheckpointPath = checkpoint
+
         Dim training As GPSTrainingResult = gps.Train(gps.Config.PrintEvery)
         Dim report As New StringBuilder
         Dim plannedSteps As Integer = gps.Dataset.Train().Count * gps.Config.FinetuneEpochs

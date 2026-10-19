@@ -30,8 +30,12 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.MachineLearning.Transformer
 export class Optimizer {
+   # 一阶矩估计张量（与参数同形）。仅供 checkpoint 持久化读取，请勿直接改写其内容。
+   FirstMoment: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a>;
    # 与参数同形的梯度累加器；反向传播阶段由调用方往里原地累加。
    Gradient: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a>;
+   # 二阶矩估计张量（与参数同形）。仅供 checkpoint 持久化读取，请勿直接改写其内容。
+   SecondMoment: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a>;
 }
 </code>
         </pre>
@@ -39,7 +43,9 @@ export class Optimizer {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>FirstMoment</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a></li>
 <li>use by <i>property</i> member <code>Gradient</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a></li>
+<li>use by <i>property</i> member <code>SecondMoment</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/MachineLearning/TensorFlow/Tensor.html">Tensor</a></li>
 </ol>
 
 
