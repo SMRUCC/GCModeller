@@ -9,6 +9,7 @@ Imports SMRUCC.genomics.Analysis.GPS
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Training
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
@@ -560,4 +561,316 @@ Module gpsTools
 
         Return model
     End Function
+
+    ' ==================== 模型元信息：供 R# 脚本做基因对齐与反标准化 ====================
+
+    ''' <summary>
+    ''' Get the gene ids of the trained GPS model, in the modelling order.
+    ''' </summary>
+    ''' <param name="gps">the trained model object created by ``GPS::build_gps`` or restored by ``readBin``.</param>
+    ''' <returns>
+    ''' a character vector of the gene id (Ensembl gene id for the human model), the order of
+    ''' this vector is the row order of every expression profile produced by the model.
+    ''' </returns>
+    ''' <remarks>
+    ''' The gene order of the model is <b>not</b> necessarily the same as the order of the input
+    ''' expression matrix, so any external profile must be aligned against this vector instead of
+    ''' against the raw input file.
+    ''' </remarks>
+    <ExportAPI("gene_names")>
+    <RApiReturn(GetType(String))>
+    Public Function gene_names(gps As GPSModel) As Object
+        Return CType(gps.GeneNames.Clone(), String())
+    End Function
+
+    ''' <summary>
+    ''' Get the per gene mean of the preprocessed expression data (log-CPM scale).
+    ''' </summary>
+    ''' <param name="gps">the trained model object.</param>
+    ''' <returns>a numeric vector, one value per modelled gene.</returns>
+    ''' <remarks>
+    ''' Together with ``GPS::gene_sds`` this vector defines the z-score normalization of the
+    ''' model: <c>z = (log2(cpm + 1) - mean) / sd</c>. External context profiles must be
+    ''' normalized with exactly these two vectors before they are injected via ``GPS::set_context``.
+    ''' </remarks>
+    <ExportAPI("gene_means")>
+    <RApiReturn(GetType(Double))>
+    Public Function gene_means(gps As GPSModel) As Object
+        Return CType(gps.GeneMeans.Clone(), Double())
+    End Function
+
+    ''' <summary>
+    ''' Get the per gene standard deviation of the preprocessed expression data (log-CPM scale).
+    ''' </summary>
+    ''' <param name="gps">the trained model object.</param>
+    ''' <returns>a numeric vector, one value per modelled gene.</returns>
+    <ExportAPI("gene_sds")>
+    <RApiReturn(GetType(Double))>
+    Public Function gene_sds(gps As GPSModel) As Object
+        Return CType(gps.GeneSDs.Clone(), Double())
+    End Function
+
+    ''' <summary>
+    ''' Get the raw library size of every training sample (the denominator of the CPM normalization).
+    ''' </summary>
+    ''' <param name="gps">the trained model object.</param>
+    ''' <returns>
+    ''' a numeric vector of the library sizes, one value per training sample; it is exported so
+    ''' that the caller can reason about the count scale of the model output.
+    ''' </returns>
+    <ExportAPI("library_sizes")>
+    <RApiReturn(GetType(Double))>
+    Public Function library_sizes(gps As GPSModel) As Object
+        If gps.LibrarySizes Is Nothing Then
+            Return New Double() {}
+        End If
+
+        Return CType(gps.LibrarySizes.Clone(), Double())
+    End Function
+
+    ''' <summary>
+    ''' Get the gene alignment and the de-normalization parameters of the model as a tuple list.
+    ''' </summary>
+    ''' <param name="gps">the trained model object.</param>
+    ''' <returns>
+    ''' a list with the slots ``gene_names``, ``means``, ``sds`` and ``library_sizes``.
+    ''' </returns>
+    <ExportAPI("gene_stats")>
+    <RApiReturn(GetType(Double))>
+    Public Function gene_stats(gps As GPSModel) As Object
+        Dim slots As New Dictionary(Of String, Object) From {
+            {"gene_names", CType(gps.GeneNames.Clone(), String())},
+            {"means", CType(gps.GeneMeans.Clone(), Double())},
+            {"sds", CType(gps.GeneSDs.Clone(), Double())},
+            {"library_sizes", If(gps.LibrarySizes Is Nothing, New Double() {}, CType(gps.LibrarySizes.Clone(), Double()))}
+        }
+
+        Return New list(slots)
+    End Function
+
+    ' ==================== 上下文条件化 ====================
+
+    ''' <summary>
+    ''' Inject an external cell context into the model as the control baseline of the following
+    ''' in silico perturbation experiments.
+    ''' </summary>
+    ''' <param name="gps">the trained model object.</param>
+    ''' <param name="genes">
+    ''' a character vector of the gene id of the context profile; the ids must live in the same
+    ''' identifier space as the model (Ensembl gene id for the human model).
+    ''' </param>
+    ''' <param name="logcpm">
+    ''' a numeric vector of the <c>log2(CPM + 1)</c> expression value of the context, in the same
+    ''' order as <paramref name="genes"/>. The caller is responsible for the library size
+    ''' normalization and for the log transform; the model only applies its own z-score.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' TRUE when the context has been applied; an R# error message object is returned when the
+    ''' gene ids do not overlap the modelled genes at all.
+    ''' </returns>
+    ''' <remarks>
+    ''' Genes of the model that are missing from <paramref name="genes"/> keep their own mean
+    ''' (that is a z-score of zero), so a context is allowed to cover only the genes of the
+    ''' sequencing panel.
+    ''' </remarks>
+    <ExportAPI("set_context")>
+    Public Function set_context(gps As GPSModel,
+                                <RRawVectorArgument(TypeCodes.string)> genes As Object,
+                                <RRawVectorArgument(TypeCodes.double)> logcpm As Object,
+                                Optional env As Environment = Nothing) As Object
+        Dim geneIds As String() = CLRVector.asCharacter(genes)
+        Dim values As Double() = CLRVector.asNumeric(logcpm)
+
+        If geneIds.Length <> values.Length Then
+            Return RInternal.debug.stop(
+                $"the size of the genes vector ({geneIds.Length}) does not match the size of the logcpm vector ({values.Length})", env)
+        End If
+
+        Try
+            Call gps.SetContext(geneIds, values)
+        Catch ex As Exception
+            Return RInternal.debug.stop(ex.Message, env)
+        End Try
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Restore the control baseline of the model back to the training derived one.
+    ''' </summary>
+    ''' <param name="gps">the trained model object.</param>
+    ''' <returns>TRUE</returns>
+    <ExportAPI("reset_context")>
+    Public Function reset_context(gps As GPSModel) As Object
+        Call gps.ResetContext()
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Get or set the fraction of the wild type expression that is kept by an in silico knockdown.
+    ''' </summary>
+    ''' <param name="gps">the trained model object.</param>
+    ''' <param name="residual">
+    ''' the residual fraction in the range ``[0,1)``; a negative value (the default) means "only
+    ''' read the current value without modifying it".
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' the currently effective residual fraction; ``0`` makes a knockdown identical to a knockout
+    ''' and ``0.2`` is the CRISPRi setting used by the Virtual Cell Challenge.
+    ''' </returns>
+    <ExportAPI("knockdown_residual")>
+    Public Function knockdown_residual(gps As GPSModel,
+                                      Optional residual As Double = -1,
+                                      Optional env As Environment = Nothing) As Object
+        If residual >= 0 Then
+            Try
+                gps.KnockdownResidual = residual
+            Catch ex As Exception
+                Return RInternal.debug.stop(ex.Message, env)
+            End Try
+        End If
+
+        Return gps.KnockdownResidual
+    End Function
+
+    ' ==================== 精简结果导出 ====================
+
+    ''' <summary>
+    ''' Write the mutant (and the control) expression profiles of a set of in silico perturbation
+    ''' results as csv matrix files.
+    ''' </summary>
+    ''' <param name="results">
+    ''' a collection of the <see cref="InterventionResult"/> object, for example the value returned
+    ''' by the ``knockouts`` / ``knockdown`` / ``overexpress`` api of the ``bnlearn`` package.
+    ''' </param>
+    ''' <param name="file">
+    ''' the output file path of the mutant matrix (``mutant_means_matrix.csv``), rows are genes and
+    ''' columns are the intervention conditions.
+    ''' </param>
+    ''' <param name="controlFile">
+    ''' the output file path of the control matrix; when it is nothing the file
+    ''' ``wildtype_means_matrix.csv`` is written next to <paramref name="file"/>.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' TRUE when both matrix files have been written; an R# error message object is returned when
+    ''' the input can not be treated as a collection of <see cref="InterventionResult"/>.
+    ''' </returns>
+    ''' <remarks>
+    ''' The generated csv files use exactly the same layout as the ones produced by the
+    ''' ``make_exports`` api (four comment lines followed by a ``Gene,&lt;condition&gt;...`` header),
+    ''' but only the two matrices that are needed by the downstream submission builder are written;
+    ''' ``make_exports`` writes about eight tables per run which is several gigabytes for a few
+    ''' hundred conditions.
+    ''' </remarks>
+    <ExportAPI("export_profiles")>
+    Public Function export_profiles(<RRawVectorArgument(GetType(InterventionResult))> results As Object,
+                                    file As String,
+                                    Optional controlFile As String = Nothing,
+                                    Optional env As Environment = Nothing) As Object
+
+        Dim pull As PipeIterator(Of InterventionResult) = pipeline.Stream(Of InterventionResult)(results, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim res As InterventionResult() = pull.ToArray()
+        Dim m As Integer = res.Length
+
+        If m = 0 Then
+            Return RInternal.debug.stop("the intervention result collection is empty", env)
+        End If
+
+        Dim geneNames As String() = res(0).GeneNames
+        Dim n As Integer = geneNames.Length
+
+        If String.IsNullOrEmpty(controlFile) Then
+            controlFile = Path.Combine(Path.GetDirectoryName(file), "wildtype_means_matrix.csv")
+        End If
+
+        Dim folder As String = Path.GetDirectoryName(file)
+
+        If Not String.IsNullOrEmpty(folder) AndAlso Not Directory.Exists(folder) Then
+            Call Directory.CreateDirectory(folder)
+        End If
+
+        ' ---- 1. mutant 矩阵 ----
+        Call WriteMatrix(file, res, geneNames, n, m, mutant:=True)
+        ' ---- 2. control 矩阵 ----
+        Call WriteMatrix(controlFile, res, geneNames, n, m, mutant:=False)
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Write one ``[genes x conditions]`` expression matrix as a csv file.
+    ''' </summary>
+    ''' <param name="file">the output csv file path</param>
+    ''' <param name="res">the intervention results, one column per element</param>
+    ''' <param name="geneNames">the modelled gene names (row names)</param>
+    ''' <param name="n">the number of the genes</param>
+    ''' <param name="m">the number of the conditions</param>
+    ''' <param name="mutant">
+    ''' TRUE writes <see cref="InterventionResult.MutantMeans"/>, FALSE writes
+    ''' <see cref="InterventionResult.WildtypeMeans"/> (the control prediction is shared by every
+    ''' condition, so only a single ``control`` column is written).
+    ''' </param>
+    Private Sub WriteMatrix(file As String, res As InterventionResult(),
+                            geneNames As String(), n As Integer, m As Integer, mutant As Boolean)
+
+        Dim columns As String()
+
+        If mutant Then
+            columns = res.Select(Function(r) $"{r.Spec.GeneName}_{r.Spec.Mode}").ToArray()
+        Else
+            columns = New String() {"control"}
+            m = 1
+        End If
+
+        Using writer As New StreamWriter(file, False, New UTF8Encoding(False))
+            If mutant Then
+                Call writer.WriteLine("# Mutant expression means: rows=genes, columns=intervention conditions")
+                Call writer.WriteLine("#")
+                Call writer.WriteLine("# Metric: MutantMean")
+            Else
+                Call writer.WriteLine("# Wildtype expression means: rows=genes, columns=intervention conditions")
+                Call writer.WriteLine("#")
+                Call writer.WriteLine("# Metric: WildtypeMean")
+            End If
+
+            Call writer.WriteLine($"# Genes: {n}, Conditions: {m}")
+
+            Dim line As New StringBuilder()
+            Dim ci As CultureInfo = CultureInfo.InvariantCulture
+
+            Call line.Append("Gene")
+
+            For Each name As String In columns
+                Call line.Append(","c).Append(name)
+            Next
+
+            Call writer.WriteLine(line.ToString())
+
+            For i As Integer = 0 To n - 1
+                Call line.Clear()
+                Call line.Append(geneNames(i))
+
+                If mutant Then
+                    For k As Integer = 0 To m - 1
+                        Call line.Append(","c).Append(res(k).MutantMeans(i).ToString("G9", ci))
+                    Next
+                Else
+                    Call line.Append(","c).Append(res(0).WildtypeMeans(i).ToString("G9", ci))
+                End If
+
+                Call writer.WriteLine(line.ToString())
+            Next
+
+            Call writer.Flush()
+        End Using
+    End Sub
 End Module
