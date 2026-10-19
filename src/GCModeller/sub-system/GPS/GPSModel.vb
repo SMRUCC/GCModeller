@@ -156,7 +156,7 @@ Public Class GPSModel
     ''' <param name="prior">先验调控网络（TF + motif 扫描结果）</param>
     ''' <param name="config">超参数；Nothing 时使用默认配置</param>
     Public Sub New(expression As GeneExpressionData,
-                   prior As PriorNetwork,
+                   Optional prior As PriorNetwork = Nothing,
                    Optional config As GPSConfig = Nothing)
 
         If expression Is Nothing Then Throw New ArgumentNullException(NameOf(expression))
@@ -198,7 +198,7 @@ Public Class GPSModel
         Me.grn = New GRNModel(Me.regulatoryGraph, Me.graphEncoding, Me.cfg)
         Me.trainer = New GPSTrainer(Me.grn, Me.cfg)
         Me.engine = New VirtualPerturbationEngine(
-            Me.grn, Me.preprocessed, BuildBaselineWindow(), Me.cfg.SignificanceZScore)
+            Me.grn, Me.Preprocessed, BuildBaselineWindow(), Me.cfg.SignificanceZScore)
     End Sub
 
     ''' <summary>
