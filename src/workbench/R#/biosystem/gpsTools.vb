@@ -1,14 +1,17 @@
-﻿Imports System.IO
+﻿Imports System.Globalization
+Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.GPS
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Training
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
@@ -293,6 +296,12 @@ Module gpsTools
     ''' number of high degree genes included as global hubs in every candidate set of the sparse
     ''' mode. Default 8.
     ''' </param>
+    ''' <param name="knockdownResidual">
+    ''' the fraction of the wild type expression level that is kept for the target gene of an in
+    ''' silico knockdown experiment: the intervention value is <c>gene mean * knockdownResidual</c>.
+    ''' <c>0.2</c> corresponds to the CRISPRi setting of the Virtual Cell Challenge (more than 80
+    ''' percent on target knockdown). Default 0.2.
+    ''' </param>
     ''' <returns>a validated <see cref="GPSConfig"/> object</returns>
     ''' <exception cref="ArgumentException">the assembled configuration is not valid</exception>
     <ExportAPI("gps_config")>
@@ -338,6 +347,7 @@ Module gpsTools
                                Optional attentionNeighbors As Integer = 32,
                                Optional attentionRandomLinks As Integer = 8,
                                Optional attentionHubGenes As Integer = 8,
+                               Optional knockdownResidual As Double = 0.2,
                                Optional env As Environment = Nothing) As Object
 
         Dim config As New GPSConfig With {
@@ -381,7 +391,8 @@ Module gpsTools
             .DenseAttentionMaxNodes = denseAttentionMaxNodes,
             .AttentionNeighbors = attentionNeighbors,
             .AttentionRandomLinks = attentionRandomLinks,
-            .AttentionHubGenes = attentionHubGenes
+            .AttentionHubGenes = attentionHubGenes,
+            .KnockdownResidual = knockdownResidual
         }
 
         If Not config.Validate() Then
