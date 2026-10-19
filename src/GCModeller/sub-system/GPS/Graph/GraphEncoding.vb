@@ -163,9 +163,9 @@ Namespace Graph
                 Console.WriteLine(
                     $"[GPS] 基因数 {n} 超过稠密注意力上限 {denseLimit}，改用稀疏注意力：每基因 " &
                     $"{encoding.Pattern.CandidateCount} 个候选" &
-                    $"（邻域<={encoding.Pattern.GraphNeighborBudget}、" &
-                    $"枢纽<={encoding.Pattern.HubGeneBudget}、" &
-                    $"随机<={encoding.Pattern.RandomLinkBudget}），" &
+                    $"（图邻域<={encoding.Pattern.GraphNeighborBudget}、" &
+                    $"枢纽<={encoding.Pattern.HubGeneBudget}，" &
+                    $"其余槽位用固定种子的随机长程链接补齐），" &
                     $"注意力权重缓存约 {AttentionCacheMegabytes(n, encoding.Pattern.CandidateCount, config):F1} MB")
             Else
                 encoding.SpdBuckets = ComputeSpdBuckets(adjacency, n, spdMax, bucketCount)

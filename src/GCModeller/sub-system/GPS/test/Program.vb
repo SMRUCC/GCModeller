@@ -751,6 +751,13 @@ Module Program
             Call Check(GPSFile.IsPackage(tempFile), "模型包可识别")
             Call Check(New FileInfo(tempFile).Length > 0, "模型包非空")
 
+            Using archive As ZipArchive = ZipFile.OpenRead(tempFile)
+                Call Check(archive.GetEntry("expression.matrix.bin") IsNot Nothing,
+                           "v3 包携带二进制表达矩阵条目")
+                Call Check(archive.GetEntry("expression.json") IsNot Nothing,
+                           "v3 包保留表达矩阵元数据")
+            End Using
+
             Dim manifest As GPSPackageManifest = GPSFile.ReadManifest(tempFile)
 
             Call Check(manifest.NGenes = gps.GeneNames.Length, $"清单基因数（{manifest.NGenes}）")
@@ -761,6 +768,16 @@ Module Program
             Call Check(loaded.IsTrained, "加载后保持已训练标记")
             Call Check(loaded.GeneNames.Length = gps.GeneNames.Length, "加载后基因数一致")
             Call Check(loaded.Dataset.WindowSize = gps.Dataset.WindowSize, "加载后窗口长度一致")
+
+            Dim matrixSame As Boolean = True
+
+            For g As Integer = 0 To gps.Expression.Matrix.GetLength(0) - 1
+                For s As Integer = 0 To gps.Expression.Matrix.GetLength(1) - 1
+                    If loaded.Expression.Matrix(g, s) <> gps.Expression.Matrix(g, s) Then matrixSame = False
+                Next
+            Next
+
+            Call Check(matrixSame, "二进制矩阵逐元素往返一致")
 
             Dim expected As InterventionResult = gps.KnockoutGene("TF1")
             Dim actual As InterventionResult = loaded.KnockoutGene("TF1")
@@ -815,7 +832,8 @@ Module Program
 
             Dim manifest As GPSPackageManifest = GPSFile.ReadManifest(fullPath)
 
-            Call Check(manifest.Version = 2, $"包版本升级为 2（实际 {manifest.Version}）")
+            Call Check(manifest.Version = GPSFile.PackageVersion,
+                       $"包版本为当前版本 {GPSFile.PackageVersion}（实际 {manifest.Version}）")
             Call Check(manifest.StepIndex > 0, $"清单记录步计数（{manifest.StepIndex}）")
             Call Check(manifest.PretrainEpochsDone = 3 AndAlso manifest.FinetuneEpochsDone = 3,
                        $"清单记录阶段进度（{manifest.PretrainEpochsDone}/{manifest.FinetuneEpochsDone}）")

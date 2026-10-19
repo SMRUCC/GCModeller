@@ -247,24 +247,44 @@ Namespace Model
         ''' 数值以 <c>G17</c> 格式保存，double 往返无损。
         ''' </remarks>
         Public Function SaveMomenta() As String
-            Dim builder As New StringBuilder()
+            Using writer As New StringWriter()
+                Call WriteMomenta(writer)
 
-            Call builder.Append("# gps-optimizer v1").AppendLine()
-            Call builder.AppendLine("# name<TAB>shape<TAB>m<TAB>v")
+                Return writer.ToString()
+            End Using
+        End Function
+
+        ''' <summary>
+        ''' 把全部参数的 Adam 一阶/二阶矩逐行写入 <see cref="TextWriter"/>。
+        ''' </summary>
+        ''' <param name="writer">目标写入器（通常是 zip 条目流）</param>
+        ''' <remarks>
+        ''' 全基因组模型（6 万基因 × 128 维解码器）的动量文本约 300 MB；
+        ''' 若像旧实现那样先在内存里拼出整段字符串再写盘，单个 epoch 的 checkpoint
+        ''' 就会因为"字符串 + StringBuilder + UTF8 字节数组"三份副本同时存在而 OOM。
+        ''' 因此这里改为逐参数、逐数值流式写出，峰值内存只有一行文本的量级。
+        ''' </remarks>
+        Public Sub WriteMomenta(writer As TextWriter)
+            If writer Is Nothing Then Throw New ArgumentNullException(NameOf(writer))
+
+            Call writer.WriteLine("# gps-optimizer v1")
+            Call writer.WriteLine("# name<TAB>shape<TAB>m<TAB>v")
 
             For Each entry As ParameterEntry In _entries
                 Dim m As Double() = Nothing
                 Dim v As Double() = Nothing
                 Call ReadMomenta(entry, m, v)
 
-                Call builder.Append(entry.Name).Append(vbTab).
-                    Append(String.Join(",", entry.Value.Shape)).Append(vbTab).
-                    Append(JoinValues(m)).Append(vbTab).
-                    Append(JoinValues(v)).AppendLine()
+                Call writer.Write(entry.Name)
+                Call writer.Write(vbTab)
+                Call writer.Write(String.Join(",", entry.Value.Shape))
+                Call writer.Write(vbTab)
+                Call WriteValues(writer, m)
+                Call writer.Write(vbTab)
+                Call WriteValues(writer, v)
+                Call writer.WriteLine()
             Next
-
-            Return builder.ToString()
-        End Function
+        End Sub
 
         ''' <summary>
         ''' 从 TSV 恢复全部参数的 Adam 一阶/二阶矩，并校验名称与元素个数。
@@ -277,56 +297,75 @@ Namespace Model
         Public Sub RestoreMomenta(tsv As String)
             If String.IsNullOrWhiteSpace(tsv) Then Return
 
-            Dim persistedM As New Dictionary(Of String, Double())(StringComparer.Ordinal)
-            Dim persistedV As New Dictionary(Of String, Double())(StringComparer.Ordinal)
-            Dim lines As String() = tsv.Split({vbCrLf, vbLf}, StringSplitOptions.RemoveEmptyEntries)
+            Using reader As New StringReader(tsv)
+                Call RestoreMomentaFrom(reader)
+            End Using
+        End Sub
 
-            For Each line As String In lines
-                Dim text As String = line.Trim()
+        ''' <summary>
+        ''' 从文本读取器逐行恢复 Adam 一阶/二阶矩，并校验名称与元素个数。
+        ''' </summary>
+        ''' <param name="reader">文本读取器（通常是 zip 条目流）</param>
+        ''' <remarks>
+        ''' 与 <see cref="WriteMomenta"/> 对称的流式实现：一次只在内存中保留一行，
+        ''' 避免全基因组模型的动量文本（约 300 MB）被整段读入后再 <c>Split</c>
+        ''' 成上千万个子串。
+        ''' </remarks>
+        Public Sub RestoreMomentaFrom(reader As TextReader)
+            If reader Is Nothing Then Throw New ArgumentNullException(NameOf(reader))
 
-                If text.Length = 0 OrElse text.StartsWith("#", StringComparison.Ordinal) Then Continue For
-
-                Dim fields As String() = text.Split(vbTab)
-
-                If fields.Length < 4 Then
-                    Throw New InvalidDataException($"动量行格式错误（应有 4 列）：{text}")
-                End If
-
-                persistedM(fields(0)) = ParseValues(fields(2))
-                persistedV(fields(0)) = ParseValues(fields(3))
-            Next
-
-            Dim missing As New List(Of String)()
+            Dim seen As New HashSet(Of String)(StringComparer.Ordinal)
             Dim mismatched As New List(Of String)()
 
+            Dim line As String = reader.ReadLine()
+
+            While line IsNot Nothing
+                Dim text As String = line.Trim()
+
+                If text.Length > 0 AndAlso Not text.StartsWith("#", StringComparison.Ordinal) Then
+                    Dim fields As String() = text.Split(vbTab)
+
+                    If fields.Length < 4 Then
+                        Throw New InvalidDataException($"动量行格式错误（应有 4 列）：{Shorten(text)}")
+                    End If
+
+                    Dim entry As ParameterEntry = Find(fields(0))
+
+                    If entry Is Nothing Then
+                        Throw New InvalidDataException($"包内动量参数 {fields(0)} 在当前模型中不存在")
+                    End If
+
+                    Dim packageM As Double() = ParseValues(fields(2))
+                    Dim packageV As Double() = ParseValues(fields(3))
+                    Dim m As Double() = Nothing
+                    Dim v As Double() = Nothing
+
+                    Call ReadMomenta(entry, m, v)
+
+                    If packageM.Length <> m.Length OrElse packageV.Length <> v.Length Then
+                        Call mismatched.Add(
+                            $"{entry.Name}（包内 {packageM.Length}/{packageV.Length} / 模型 {m.Length}）")
+                    Else
+                        If entry.State IsNot Nothing Then
+                            Call entry.State.RestoreMomenta(packageM, packageV)
+                        Else
+                            Call System.Array.Copy(packageM, m, m.Length)
+                            Call System.Array.Copy(packageV, v, v.Length)
+                            Call _externalM(entry.Name).MarkHostModified()
+                            Call _externalV(entry.Name).MarkHostModified()
+                        End If
+
+                        Call seen.Add(entry.Name)
+                    End If
+                End If
+
+                line = reader.ReadLine()
+            End While
+
+            Dim missing As New List(Of String)()
+
             For Each entry As ParameterEntry In _entries
-                Dim packageM As Double() = Nothing
-                Dim packageV As Double() = Nothing
-
-                If Not persistedM.TryGetValue(entry.Name, packageM) OrElse
-                   Not persistedV.TryGetValue(entry.Name, packageV) Then
-
-                    Call missing.Add(entry.Name)
-                    Continue For
-                End If
-
-                Dim m As Double() = Nothing
-                Dim v As Double() = Nothing
-                Call ReadMomenta(entry, m, v)
-
-                If packageM.Length <> m.Length OrElse packageV.Length <> v.Length Then
-                    Call mismatched.Add($"{entry.Name}（包内 {packageM.Length}/{packageV.Length} / 模型 {m.Length}）")
-                    Continue For
-                End If
-
-                If entry.State IsNot Nothing Then
-                    Call entry.State.RestoreMomenta(packageM, packageV)
-                Else
-                    Call System.Array.Copy(packageM, m, m.Length)
-                    Call System.Array.Copy(packageV, v, v.Length)
-                    Call _externalM(entry.Name).MarkHostModified()
-                    Call _externalV(entry.Name).MarkHostModified()
-                End If
+                If Not seen.Contains(entry.Name) Then Call missing.Add(entry.Name)
             Next
 
             If missing.Count > 0 OrElse mismatched.Count > 0 Then
@@ -336,6 +375,16 @@ Namespace Model
                     If(mismatched.Count > 0, $"长度不一致 [{String.Join("; ", mismatched.Take(8))}]", ""))
             End If
         End Sub
+
+        ''' <summary>截断过长的错误消息片段。</summary>
+        ''' <param name="text">原始文本</param>
+        ''' <returns>最多 96 个字符的片段</returns>
+        Private Shared Function Shorten(text As String) As String
+            If text Is Nothing Then Return ""
+            If text.Length <= 96 Then Return text
+
+            Return text.Substring(0, 96) & "..."
+        End Function
 
         ''' <summary>读取登记项当前的一阶/二阶矩（内部参数走 Optimizer，外部参数走自有字典）。</summary>
         ''' <param name="entry">登记项</param>
@@ -351,23 +400,58 @@ Namespace Model
             End If
         End Sub
 
-        Private Shared Function JoinValues(values As Double()) As String
-            Dim parts As String() = New String(values.Length - 1) {}
-
+        ''' <summary>逐个数值写出一行逗号分隔的 <c>G17</c> 文本（不构造中间大字符串）。</summary>
+        ''' <param name="writer">目标写入器</param>
+        ''' <param name="values">数值数组</param>
+        Private Shared Sub WriteValues(writer As TextWriter, values As Double())
             For i As Integer = 0 To values.Length - 1
-                parts(i) = values(i).ToString("G17", CultureInfo.InvariantCulture)
+                If i > 0 Then Call writer.Write(","c)
+
+                Call writer.Write(values(i).ToString("G17", CultureInfo.InvariantCulture))
             Next
+        End Sub
 
-            Return String.Join(",", parts)
-        End Function
-
+        ''' <summary>
+        ''' 解析一行逗号分隔的数值文本。
+        ''' </summary>
+        ''' <param name="text">数值文本</param>
+        ''' <returns>数值数组</returns>
+        ''' <remarks>
+        ''' 旧实现用 <c>text.Split(","c)</c>：全基因组规模的解码器权重一行有 770 万个数值，
+        ''' 会在瞬间产生 770 万个字符串对象（数百 MB）。这里先数分隔符确定长度，
+        ''' 再用 <see cref="Double.Parse(ReadOnlySpan(Of Char), NumberStyles, IFormatProvider)"/>
+        ''' 直接在原字符串的切片上解析，不产生任何子串。
+        ''' </remarks>
         Private Shared Function ParseValues(text As String) As Double()
-            Dim values As String() = text.Split(","c)
-            Dim parsed As Double() = New Double(values.Length - 1) {}
+            If text Is Nothing Then Return New Double() {}
+            If text.Length = 0 Then Return New Double() {}
 
-            For i As Integer = 0 To values.Length - 1
-                parsed(i) = Double.Parse(values(i), NumberStyles.Float, CultureInfo.InvariantCulture)
+            Dim count As Integer = 1
+
+            For i As Integer = 0 To text.Length - 1
+                If text(i) = ","c Then count += 1
             Next
+
+            Dim parsed As Double() = New Double(count - 1) {}
+            Dim start As Integer = 0
+            Dim index As Integer = 0
+
+            For i As Integer = 0 To text.Length
+                If i = text.Length OrElse text(i) = ","c Then
+                    If i > start Then
+                        parsed(index) = Double.Parse(
+                            text.AsSpan(start, i - start), NumberStyles.Float, CultureInfo.InvariantCulture)
+                    End If
+
+                    index += 1
+                    start = i + 1
+                End If
+            Next
+
+            If index <> count Then
+                ' 末尾逗号等边界情况：按实际解析个数收缩
+                System.Array.Resize(parsed, System.Math.Max(0, index))
+            End If
 
             Return parsed
         End Function

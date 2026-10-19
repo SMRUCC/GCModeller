@@ -87,9 +87,11 @@ End Class
 ''' <code>
 ''' manifest.json      包格式/版本/规模/训练概要
 ''' config.json        全部超参数（按属性名反射写出）
-''' expression.json    输入时序表达矩阵（基因名、样本名、时间点、矩阵）
+''' expression.json    表达矩阵元数据（基因名、样本名、时间点、尺寸）
+''' expression.matrix.bin  表达矩阵本体（v3 起；行优先 Double，流式压缩）
 ''' prior.json         先验调控网络（PriorNetwork 的 JSON 形式）
-''' parameters.tsv     全部可训练参数（名称 + 形状 + 数值）
+''' parameters.tsv     全部可训练参数（名称 + 形状 + 数值，流式写出）
+''' optimizer.tsv      Adam 一阶/二阶矩（v2 起，流式写出）
 ''' training.json      训练损失曲线与最优 epoch
 ''' </code>
 ''' </para>
@@ -118,7 +120,7 @@ Public Module GPSFile
     ''' <c>training.json</c> 内嵌的 <c>state</c> 对象（步计数/阶段进度/早停/最优快照/曲线前缀）。
     ''' 读取端对缺失条目按 v1 降级处理，v1 包仍可正常加载。
     ''' </remarks>
-    Public Const PackageVersion As Integer = 2
+    Public Const PackageVersion As Integer = 3
 
     ' 包内条目名
     Private Const EntryManifest As String = "manifest.json"
@@ -128,6 +130,22 @@ Public Module GPSFile
     Private Const EntryParameters As String = "parameters.tsv"
     Private Const EntryTraining As String = "training.json"
     Private Const EntryOptimizer As String = "optimizer.tsv"
+
+    ''' <summary>
+    ''' v3 起表达矩阵改为独立的二进制条目（行优先 <c>Double</c>，小端）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 全基因组规模下 JSON 文本形式的矩阵会有上亿个数值：既让 <c>writeBin</c>
+    ''' 需要数 GB 的临时字符串/字节数组，也让加载端必须先把整段文本读进内存。
+    ''' 二进制条目配合流式读写，峰值内存只与分块缓冲区有关。
+    ''' </remarks>
+    Private Const EntryMatrix As String = "expression.matrix.bin"
+
+    ''' <summary>
+    ''' v3 起最优参数快照单独存为流式 TSV（<c>名称 \t 数值列表</c>），
+    ''' 不再内嵌进 <c>training.json</c>。
+    ''' </summary>
+    Private Const EntryBestParameters As String = "state.best.tsv"
 
     ''' <summary>
     ''' 把训练好的模型保存为 zip 压缩包。
@@ -215,15 +233,21 @@ Public Module GPSFile
         Using archive As New ZipArchive(stream, ZipArchiveMode.Create)
             Call WriteTextEntry(archive, EntryManifest, BuildManifestJson(model, state))
             Call WriteTextEntry(archive, EntryConfig, ConfigToJson(model.Config))
-            Call WriteTextEntry(archive, EntryExpression, ExpressionToJson(model.Expression))
+            Call WriteExpressionEntry(archive, model.Expression)
             Call WriteTextEntry(archive, EntryPrior, model.Prior.ToJson(indent:=False))
-            Call WriteTextEntry(archive, EntryParameters, ParametersToTsv(model.Model.Parameters))
+            Call WriteParametersEntry(archive, model.Model.Parameters)
 
             If state IsNot Nothing Then
-                Call WriteTextEntry(archive, EntryOptimizer, model.Model.Parameters.SaveMomenta())
+                Call WriteMomentaEntry(archive, model.Model.Parameters)
             End If
 
             Call WriteTextEntry(archive, EntryTraining, TrainingToJson(model.LastTrainingResult, state))
+
+            If state IsNot Nothing AndAlso state.BestParameters IsNot Nothing AndAlso
+               state.BestParameters.Count > 0 Then
+
+                Call WriteBestParametersEntry(archive, state)
+            End If
         End Using
     End Sub
 
@@ -253,18 +277,32 @@ Public Module GPSFile
             End If
 
             Dim config As GPSConfig = ConfigFromJson(ReadRequiredEntry(archive, EntryConfig))
-            Dim expression As GeneExpressionData = ExpressionFromJson(ReadRequiredEntry(archive, EntryExpression))
+            Dim expressionText As String = ReadRequiredEntry(archive, EntryExpression)
+            Dim matrixEntry As ZipArchiveEntry = archive.GetEntry(EntryMatrix)
+            Dim expression As GeneExpressionData
+
+            If matrixEntry Is Nothing Then
+                ' v1/v2 包：矩阵内嵌在 expression.json 里（旧格式，仅用于向后兼容）
+                expression = ExpressionFromJson(expressionText)
+            Else
+                expression = ExpressionFromJsonMeta(expressionText, matrixEntry)
+            End If
+
             Dim prior As PriorNetwork = PriorNetwork.ParseJson(ReadRequiredEntry(archive, EntryPrior))
             Dim model As New GPSModel(expression, prior, config)
 
-            Call ApplyParameters(model.Model.Parameters, ReadRequiredEntry(archive, EntryParameters))
+            Call ApplyParametersEntry(archive, model.Model.Parameters)
 
             ' v2 起携带 Adam 动量；条目缺失（v1 包）时按零动量降级，
             ' 表现为"权重热启动、优化器冷启动"的旧语义
-            Dim optimizerText As String = ReadTextEntry(archive, EntryOptimizer)
+            Dim optimizerEntry As ZipArchiveEntry = archive.GetEntry(EntryOptimizer)
 
-            If Not String.IsNullOrWhiteSpace(optimizerText) Then
-                Call model.Model.Parameters.RestoreMomenta(optimizerText)
+            If optimizerEntry IsNot Nothing Then
+                Using stream As Stream = optimizerEntry.Open()
+                    Using reader As New StreamReader(stream, Encoding.UTF8)
+                        Call model.Model.Parameters.RestoreMomentaFrom(reader)
+                    End Using
+                End Using
             End If
 
             Dim trainingText As String = ReadTextEntry(archive, EntryTraining)
@@ -272,6 +310,12 @@ Public Module GPSFile
             If Not String.IsNullOrWhiteSpace(trainingText) Then
                 Dim result As GPSTrainingResult = TrainingFromJson(trainingText)
                 Dim state As GPSTrainingState = StateFromTrainingJson(trainingText)
+                Dim bestEntry As ZipArchiveEntry = archive.GetEntry(EntryBestParameters)
+
+                ' v3 起最优参数快照是独立条目；旧包仍从 training.json 内嵌对象读取
+                If bestEntry IsNot Nothing Then
+                    Call ReadBestParametersEntry(bestEntry, state)
+                End If
 
                 Call model.AttachTrainingResult(result, state)
             End If
@@ -511,10 +555,21 @@ Public Module GPSFile
 
     ' ==================== 表达矩阵 ====================
 
-    ''' <summary>把表达矩阵写成 JSON（矩阵按行优先展开）。</summary>
+    ''' <summary>写出表达矩阵：元数据（JSON）+ 矩阵（二进制条目）。</summary>
+    ''' <param name="archive">zip 归档</param>
+    ''' <param name="expression">表达矩阵</param>
+    Private Sub WriteExpressionEntry(archive As ZipArchive, expression As GeneExpressionData)
+        Call WriteTextEntry(archive, EntryExpression, ExpressionMetaToJson(expression))
+
+        If expression.Matrix IsNot Nothing Then
+            Call WriteMatrixEntry(archive, expression.Matrix)
+        End If
+    End Sub
+
+    ''' <summary>把表达矩阵的元数据写成 JSON（不含矩阵本体）。</summary>
     ''' <param name="expression">表达矩阵</param>
     ''' <returns>JSON 文本</returns>
-    Private Function ExpressionToJson(expression As GeneExpressionData) As String
+    Private Function ExpressionMetaToJson(expression As GeneExpressionData) As String
         Return Serialize(
             Sub(writer)
                 writer.WriteStartObject()
@@ -542,22 +597,125 @@ Public Module GPSFile
                 Next
 
                 writer.WriteEndArray()
-                writer.WriteStartArray("matrix")
-
-                For g As Integer = 0 To expression.NGene - 1
-                    For s As Integer = 0 To expression.NSample - 1
-                        writer.WriteNumberValue(expression.Matrix(g, s))
-                    Next
-                Next
-
-                writer.WriteEndArray()
                 writer.WriteEndObject()
             End Sub)
     End Function
 
-    ''' <summary>从 JSON 还原表达矩阵。</summary>
+    ''' <summary>把表达矩阵以行优先的 <c>Double</c> 二进制块写入 zip 条目。</summary>
+    ''' <param name="archive">zip 归档</param>
+    ''' <param name="matrix">表达矩阵</param>
+    ''' <remarks>
+    ''' 以 1 MB 为一块搬运：<c>Buffer.BlockCopy</c> 直接按字节偏移作用于二维数组
+    ''' （.NET 的多维数组按行优先连续存放），因此不需要把整个矩阵展开成一维副本。
+    ''' </remarks>
+    Private Sub WriteMatrixEntry(archive As ZipArchive, matrix As Double(,))
+        Dim rows As Integer = matrix.GetLength(0)
+        Dim cols As Integer = matrix.GetLength(1)
+
+        If rows <= 0 OrElse cols <= 0 Then Return
+
+        Dim entry As ZipArchiveEntry = archive.CreateEntry(EntryMatrix, CompressionLevel.Optimal)
+        Dim rowBytes As Integer = cols * 8
+        Dim rowsPerChunk As Integer = System.Math.Max(1, (1024 * 1024) \ rowBytes)
+        Dim buffer As Byte() = New Byte(rowsPerChunk * rowBytes - 1) {}
+
+        Using stream As Stream = entry.Open()
+            Dim row As Integer = 0
+
+            While row < rows
+                Dim count As Integer = System.Math.Min(rowsPerChunk, rows - row)
+                Dim bytes As Integer = count * rowBytes
+
+                Call System.Buffer.BlockCopy(matrix, row * rowBytes, buffer, 0, bytes)
+                Call stream.Write(buffer, 0, bytes)
+
+                row += count
+            End While
+        End Using
+    End Sub
+
+    ''' <summary>从二进制条目读取表达矩阵（必须与元数据声明的尺寸一致）。</summary>
+    ''' <param name="entry">矩阵条目</param>
+    ''' <param name="matrix">目标矩阵（尺寸由调用方按元数据分配）</param>
+    Private Sub ReadMatrixEntry(entry As ZipArchiveEntry, matrix As Double(,))
+        Dim rows As Integer = matrix.GetLength(0)
+        Dim cols As Integer = matrix.GetLength(1)
+
+        If rows <= 0 OrElse cols <= 0 Then Return
+
+        Dim rowBytes As Integer = cols * 8
+        Dim rowsPerChunk As Integer = System.Math.Max(1, (1024 * 1024) \ rowBytes)
+        Dim buffer As Byte() = New Byte(rowsPerChunk * rowBytes - 1) {}
+
+        Using stream As Stream = entry.Open()
+            Dim row As Integer = 0
+
+            While row < rows
+                Dim count As Integer = System.Math.Min(rowsPerChunk, rows - row)
+                Dim bytes As Integer = count * rowBytes
+                Dim filled As Integer = 0
+
+                While filled < bytes
+                    Dim read As Integer = stream.Read(buffer, filled, bytes - filled)
+
+                    If read <= 0 Then
+                        Throw New InvalidDataException(
+                            $"表达矩阵二进制条目不完整：期望 {rows}×{cols}，在第 {row} 行中断")
+                    End If
+
+                    filled += read
+                End While
+
+                Call System.Buffer.BlockCopy(buffer, 0, matrix, row * rowBytes, bytes)
+
+                row += count
+            End While
+        End Using
+    End Sub
+
+    ''' <summary>由元数据 JSON + 二进制矩阵条目重建表达矩阵（v3 包）。</summary>
+    ''' <param name="json">元数据 JSON</param>
+    ''' <param name="matrixEntry">矩阵条目</param>
+    ''' <returns>表达矩阵</returns>
+    Private Function ExpressionFromJsonMeta(json As String, matrixEntry As ZipArchiveEntry) As GeneExpressionData
+        Using document As JsonDocument = JsonDocument.Parse(json)
+            Dim root As JsonElement = document.RootElement
+            Dim nGenes As Integer = root.GetProperty("nGenes").GetInt32()
+            Dim nSamples As Integer = root.GetProperty("nSamples").GetInt32()
+
+            Dim geneNames As String() = ReadStringArray(root.GetProperty("geneNames"))
+            Dim sampleNames As String() = ReadStringArray(root.GetProperty("sampleNames"))
+            Dim timeElement As JsonElement
+            Dim timePoints As Double() = If(root.TryGetProperty("timePoints", timeElement),
+                                            ReadDoubleArray(timeElement),
+                                            New Double() {})
+
+            If geneNames.Length <> nGenes OrElse sampleNames.Length <> nSamples Then
+                Throw New InvalidDataException("表达矩阵的基因/样本数量与声明不一致")
+            End If
+
+            Dim matrix As Double(,) = New Double(nGenes - 1, nSamples - 1) {}
+
+            Call ReadMatrixEntry(matrixEntry, matrix)
+
+            Return New GeneExpressionData With {
+                .GeneNames = geneNames,
+                .SampleNames = sampleNames,
+                .TimePoints = timePoints,
+                .Matrix = matrix
+            }
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' 从 JSON 还原表达矩阵（v1/v2 包：矩阵内嵌在 <c>expression.json</c> 中）。
+    ''' </summary>
     ''' <param name="json">JSON 文本</param>
     ''' <returns>表达矩阵</returns>
+    ''' <remarks>
+    ''' 仅为向后兼容保留：整段文本 + 一维副本 + 二维矩阵三份同时存在，
+    ''' 全基因组规模下内存开销很大，新包一律走二进制条目。
+    ''' </remarks>
     Private Function ExpressionFromJson(json As String) As GeneExpressionData
         Using document As JsonDocument = JsonDocument.Parse(json)
             Dim root As JsonElement = document.RootElement
@@ -599,79 +757,194 @@ Public Module GPSFile
 
     ' ==================== 参数 ====================
 
-    ''' <summary>把参数表写成 TSV（<c>名称 \t 形状 \t 数值列表</c>）。</summary>
+    ''' <summary>把参数表逐行写入 zip 条目（<c>名称 \t 形状 \t 数值列表</c>）。</summary>
+    ''' <param name="archive">zip 归档</param>
     ''' <param name="store">参数登记表</param>
-    ''' <returns>TSV 文本</returns>
-    Private Function ParametersToTsv(store As ParameterStore) As String
-        Dim builder As New StringBuilder()
+    ''' <remarks>
+    ''' 全基因组模型的单个参数（解码器权重）就有 770 万个数。旧实现先在内存里拼出
+    ''' 整个 TSV 字符串（约 300 MB），再转成 UTF8 字节数组压缩，加上 StringBuilder
+    ''' 的扩容副本，峰值轻松超过数 GB —— 实测 6 万基因训练时 checkpoint 直接抛
+    ''' <c>Insufficient memory</c>。改为逐数值流式写出后，峰值只与一行的长度有关。
+    ''' </remarks>
+    Private Sub WriteParametersEntry(archive As ZipArchive, store As ParameterStore)
+        Dim entry As ZipArchiveEntry = archive.CreateEntry(EntryParameters, CompressionLevel.Optimal)
 
-        Call builder.Append("# gps-parameters v").Append(PackageVersion).AppendLine()
-        Call builder.AppendLine("# name<TAB>shape<TAB>values")
+        Using stream As Stream = entry.Open()
+            Using writer As New StreamWriter(stream, New UTF8Encoding(False))
+                Call writer.WriteLine($"# gps-parameters v{PackageVersion}")
+                Call writer.WriteLine("# name<TAB>shape<TAB>values")
 
-        For Each entry As ParameterEntry In store.Entries
-            Dim values As Double() = entry.Value.Data
-            Dim parts As String() = New String(values.Length - 1) {}
+                For Each parameter As ParameterEntry In store.Entries
+                    Call writer.Write(parameter.Name)
+                    Call writer.Write(vbTab)
+                    Call writer.Write(String.Join(",", parameter.Value.Shape))
+                    Call writer.Write(vbTab)
+                    Call WriteValues(writer, parameter.Value.Data)
+                    Call writer.WriteLine()
+                Next
+            End Using
+        End Using
+    End Sub
 
-            For i As Integer = 0 To values.Length - 1
-                parts(i) = values(i).ToString("G17", CultureInfo.InvariantCulture)
-            Next
+    ''' <summary>把优化器动量逐行写入 zip 条目（与参数表同样流式）。</summary>
+    ''' <param name="archive">zip 归档</param>
+    ''' <param name="store">参数登记表</param>
+    Private Sub WriteMomentaEntry(archive As ZipArchive, store As ParameterStore)
+        Dim entry As ZipArchiveEntry = archive.CreateEntry(EntryOptimizer, CompressionLevel.Optimal)
 
-            Call builder.Append(entry.Name).Append(vbTab).
-                Append(String.Join(",", entry.Value.Shape)).Append(vbTab).
-                Append(String.Join(",", parts)).AppendLine()
+        Using stream As Stream = entry.Open()
+            Using writer As New StreamWriter(stream, New UTF8Encoding(False))
+                Call store.WriteMomenta(writer)
+            End Using
+        End Using
+    End Sub
+
+    ''' <summary>把"验证集最优参数快照"逐行写入 zip 条目（<c>名称 \t 数值列表</c>）。</summary>
+    ''' <param name="archive">zip 归档</param>
+    ''' <param name="state">训练状态（提供 <see cref="GPSTrainingState.BestParameters"/>）</param>
+    Private Sub WriteBestParametersEntry(archive As ZipArchive, state As GPSTrainingState)
+        Dim entry As ZipArchiveEntry = archive.CreateEntry(EntryBestParameters, CompressionLevel.Optimal)
+
+        Using stream As Stream = entry.Open()
+            Using writer As New StreamWriter(stream, New UTF8Encoding(False))
+                For Each parameter As KeyValuePair(Of String, Double()) In state.BestParameters
+                    Call writer.Write(parameter.Key)
+                    Call writer.Write(vbTab)
+                    Call WriteValues(writer, parameter.Value)
+                    Call writer.WriteLine()
+                Next
+            End Using
+        End Using
+    End Sub
+
+    ''' <summary>流式读回最优参数快照。</summary>
+    ''' <param name="entry">快照条目</param>
+    ''' <param name="state">目标训练状态</param>
+    Private Sub ReadBestParametersEntry(entry As ZipArchiveEntry, state As GPSTrainingState)
+        Using stream As Stream = entry.Open()
+            Using reader As New StreamReader(stream, Encoding.UTF8)
+                Dim line As String = reader.ReadLine()
+
+                While line IsNot Nothing
+                    Dim text As String = line.Trim()
+
+                    If text.Length > 0 Then
+                        Dim fields As String() = text.Split(vbTab)
+
+                        If fields.Length >= 2 Then
+                            state.BestParameters(fields(0)) = ParseValuesText(fields(1))
+                        End If
+                    End If
+
+                    line = reader.ReadLine()
+                End While
+            End Using
+        End Using
+    End Sub
+
+    ''' <summary>写出逗号分隔的 <c>G17</c> 数值（不构造中间字符串）。</summary>
+    ''' <param name="writer">目标写入器</param>
+    ''' <param name="values">数值数组</param>
+    Private Sub WriteValues(writer As TextWriter, values As Double())
+        For i As Integer = 0 To values.Length - 1
+            If i > 0 Then Call writer.Write(","c)
+
+            Call writer.Write(values(i).ToString("G17", CultureInfo.InvariantCulture))
+        Next
+    End Sub
+
+    ''' <summary>解析一行逗号分隔的数值文本（span 切片，不产生子串）。</summary>
+    ''' <param name="text">数值文本</param>
+    ''' <returns>数值数组</returns>
+    Private Function ParseValuesText(text As String) As Double()
+        If String.IsNullOrEmpty(text) Then Return New Double() {}
+
+        Dim count As Integer = 1
+
+        For i As Integer = 0 To text.Length - 1
+            If text(i) = ","c Then count += 1
         Next
 
-        Return builder.ToString()
+        Dim parsed As Double() = New Double(count - 1) {}
+        Dim start As Integer = 0
+        Dim index As Integer = 0
+
+        For i As Integer = 0 To text.Length
+            If i = text.Length OrElse text(i) = ","c Then
+                If i > start Then
+                    parsed(index) = Double.Parse(
+                        text.AsSpan(start, i - start), NumberStyles.Float, CultureInfo.InvariantCulture)
+                End If
+
+                index += 1
+                start = i + 1
+            End If
+        Next
+
+        Return parsed
     End Function
 
     ''' <summary>
-    ''' 把包内参数写回模型，并校验名称与元素个数。
+    ''' 逐行读取参数条目并写回模型，同时校验名称与元素个数。
     ''' </summary>
+    ''' <param name="archive">zip 归档</param>
     ''' <param name="store">模型参数登记表（结构已由配置重建）</param>
-    ''' <param name="tsv">TSV 文本</param>
-    Private Sub ApplyParameters(store As ParameterStore, tsv As String)
-        Dim persisted As New Dictionary(Of String, Double())(StringComparer.Ordinal)
-        Dim lines As String() = tsv.Split({vbCrLf, vbLf}, StringSplitOptions.RemoveEmptyEntries)
+    ''' <remarks>
+    ''' 流式版本的 <c>parameters.tsv</c> 读取：一次只在内存中保留一行，
+    ''' 避免把 300 MB 的 TSV 整段读入再 <c>Split</c> 成上千万个子串
+    ''' （全基因组模型下这是必然 OOM 的写法）。
+    ''' </remarks>
+    Private Sub ApplyParametersEntry(archive As ZipArchive, store As ParameterStore)
+        Dim entry As ZipArchiveEntry = archive.GetEntry(EntryParameters)
 
-        For Each line As String In lines
-            Dim text As String = line.Trim()
+        If entry Is Nothing Then
+            Throw New InvalidDataException($"GPS 模型包缺少必需条目：{EntryParameters}")
+        End If
 
-            If text.Length = 0 OrElse text.StartsWith("#", StringComparison.Ordinal) Then Continue For
-
-            Dim fields As String() = text.Split(vbTab)
-
-            If fields.Length < 3 Then
-                Throw New InvalidDataException($"参数行格式错误（应有 3 列）：{Shorten(text)}")
-            End If
-
-            Dim values As String() = fields(2).Split(","c)
-            Dim parsed As Double() = New Double(values.Length - 1) {}
-
-            For i As Integer = 0 To values.Length - 1
-                parsed(i) = Double.Parse(values(i), NumberStyles.Float, CultureInfo.InvariantCulture)
-            Next
-
-            persisted(fields(0)) = parsed
-        Next
-
-        Dim missing As New List(Of String)()
+        Dim seen As New HashSet(Of String)(StringComparer.Ordinal)
         Dim mismatched As New List(Of String)()
 
-        For Each entry As ParameterEntry In store.Entries
-            Dim values As Double() = Nothing
+        Using stream As Stream = entry.Open()
+            Using reader As New StreamReader(stream, Encoding.UTF8)
+                Dim line As String = reader.ReadLine()
 
-            If Not persisted.TryGetValue(entry.Name, values) Then
-                Call missing.Add(entry.Name)
-                Continue For
-            End If
+                While line IsNot Nothing
+                    Dim text As String = line.Trim()
 
-            If values.Length <> entry.Value.Data.Length Then
-                Call mismatched.Add($"{entry.Name}（包内 {values.Length} / 模型 {entry.Value.Data.Length}）")
-                Continue For
-            End If
+                    If text.Length > 0 AndAlso Not text.StartsWith("#", StringComparison.Ordinal) Then
+                        Dim fields As String() = text.Split(vbTab)
 
-            Call Array.Copy(values, entry.Value.Data, values.Length)
-            Call entry.Value.MarkHostModified()
+                        If fields.Length < 3 Then
+                            Throw New InvalidDataException($"参数行格式错误（应有 3 列）：{Shorten(text)}")
+                        End If
+
+                        Dim parameter As ParameterEntry = store.Find(fields(0))
+
+                        If parameter Is Nothing Then
+                            Throw New InvalidDataException($"包内参数 {fields(0)} 在当前模型中不存在")
+                        End If
+
+                        Dim values As Double() = ParseValuesText(fields(2))
+
+                        If values.Length <> parameter.Value.Data.Length Then
+                            Call mismatched.Add(
+                                $"{parameter.Name}（包内 {values.Length} / 模型 {parameter.Value.Data.Length}）")
+                        Else
+                            Call Array.Copy(values, parameter.Value.Data, values.Length)
+                            Call parameter.Value.MarkHostModified()
+                            Call seen.Add(parameter.Name)
+                        End If
+                    End If
+
+                    line = reader.ReadLine()
+                End While
+            End Using
+        End Using
+
+        Dim missing As New List(Of String)()
+
+        For Each parameter As ParameterEntry In store.Entries
+            If Not seen.Contains(parameter.Name) Then Call missing.Add(parameter.Name)
         Next
 
         If missing.Count > 0 OrElse mismatched.Count > 0 Then
@@ -713,7 +986,11 @@ Public Module GPSFile
                 If state IsNot Nothing Then
                     writer.WritePropertyName("state")
 
-                    Using stateDocument As JsonDocument = JsonDocument.Parse(state.ToJson())
+                    ' 最优参数快照不内嵌：全基因组规模下它是上千万个数值，
+                    ' 由 WriteBestParametersEntry 单独流式写入 state.best.tsv
+                    Using stateDocument As JsonDocument = JsonDocument.Parse(
+                        state.ToJson(includeBestParameters:=False))
+
                         Call stateDocument.RootElement.WriteTo(writer)
                     End Using
                 End If

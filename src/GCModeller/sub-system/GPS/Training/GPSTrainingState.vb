@@ -60,18 +60,23 @@ Namespace Training
         Public Property ValidationLoss As Double()
 
         ''' <summary>序列化为 JSON 文本。</summary>
+        ''' <param name="includeBestParameters">
+        ''' 是否把最优参数快照内嵌到 JSON。全基因组模型的最优快照有上千万个数值，
+        ''' 内嵌会生成数 GB 的字符串；此时调用方应传 <c>False</c> 并把快照单独流式落盘
+        ''' （见 <c>GPSFile</c> 的 <c>state.best.tsv</c>）。
+        ''' </param>
         ''' <returns>JSON 文本</returns>
-        Public Function ToJson() As String
+        Public Function ToJson(Optional includeBestParameters As Boolean = True) As String
             Using stream As New MemoryStream()
                 Using writer As New Utf8JsonWriter(stream, New JsonWriterOptions With {.Indented = True})
-                    Call Write(writer)
+                    Call Write(writer, includeBestParameters)
                 End Using
 
                 Return Encoding.UTF8.GetString(stream.ToArray())
             End Using
         End Function
 
-        Private Sub Write(writer As Utf8JsonWriter)
+        Private Sub Write(writer As Utf8JsonWriter, includeBestParameters As Boolean)
             writer.WriteStartObject()
             writer.WriteNumber(NameOf(GPSTrainingState.Phase), Phase)
             writer.WriteNumber(NameOf(GPSTrainingState.PretrainEpochsDone), PretrainEpochsDone)
@@ -107,19 +112,23 @@ Namespace Training
             Next
 
             writer.WriteEndArray()
-            writer.WriteStartObject(NameOf(GPSTrainingState.BestParameters))
 
-            For Each kv As KeyValuePair(Of String, Double()) In BestParameters
-                writer.WriteStartArray(kv.Key)
+            If includeBestParameters Then
+                writer.WriteStartObject(NameOf(GPSTrainingState.BestParameters))
 
-                For Each value As Double In kv.Value
-                    Call WriteNumber(writer, value)
+                For Each kv As KeyValuePair(Of String, Double()) In BestParameters
+                    writer.WriteStartArray(kv.Key)
+
+                    For Each value As Double In kv.Value
+                        Call WriteNumber(writer, value)
+                    Next
+
+                    writer.WriteEndArray()
                 Next
 
-                writer.WriteEndArray()
-            Next
+                writer.WriteEndObject()
+            End If
 
-            writer.WriteEndObject()
             writer.WriteEndObject()
         End Sub
 
