@@ -416,7 +416,11 @@ Module gpsTools
     ''' <returns>an untrained <see cref="GPSModel"/> object</returns>
     <ExportAPI("build_gps")>
     <RApiReturn(GetType(GPSModel))>
-    Public Function build_gps(x As GeneExpressionData, prior As PriorNetwork, Optional config As GPSConfig = Nothing, Optional env As Environment = Nothing) As GPSModel
+    Public Function build_gps(x As GeneExpressionData,
+                              Optional prior As PriorNetwork = Nothing,
+                              Optional config As GPSConfig = Nothing,
+                              Optional env As Environment = Nothing) As GPSModel
+
         Return New GPSModel(x, prior, config)
     End Function
 
