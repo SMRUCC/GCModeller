@@ -47,8 +47,26 @@ Namespace Graph
         ''' <summary>最短路径桶的总数 = SpdMaxDist + 3</summary>
         Public Property SpdBucketCount As Integer
 
-        ''' <summary>SPD 桶索引矩阵 <c>[N, N]</c></summary>
+        ''' <summary>SPD 桶索引矩阵 <c>[N, N]</c>；稀疏模式下为 <c>Nothing</c>（不会分配 N² 内存）</summary>
         Public Property SpdBuckets As Integer(,)
+
+        ''' <summary>
+        ''' 大图稀疏注意力的候选模式；稠密模式下为 <c>Nothing</c>。
+        ''' </summary>
+        ''' <remarks>
+        ''' 当基因数超过 <see cref="GPSConfig.DenseAttentionMaxNodes"/> 时不再构造
+        ''' <see cref="SpdBuckets"/>（N=6 万时是 14.5 GB 的 <c>Integer(N,N)</c>），
+        ''' 改由本属性给出"每节点固定候选集"的压缩表示。
+        ''' </remarks>
+        Public Property Pattern As SparseAttentionPattern
+
+        ''' <summary>当前是否使用稀疏注意力模式</summary>
+        ''' <returns><see cref="Pattern"/> 非空时为 True</returns>
+        Public ReadOnly Property IsSparse As Boolean
+            Get
+                Return Pattern IsNot Nothing
+            End Get
+        End Property
 
         ''' <summary>拉普拉斯位置编码 <c>[N, PeDim]</c>；跳过计算时列数为 0</summary>
         Public Property LapPe As Double(,)
@@ -124,15 +142,90 @@ Namespace Graph
             encoding.InDegreeBucket = Bucketize(inDegree, DefaultDegreeBucketCount)
             encoding.OutDegreeBucket = Bucketize(outDegree, DefaultDegreeBucketCount)
 
-            ' ---- 最短路径桶（逐节点 BFS） ----
-            encoding.SpdBuckets = ComputeSpdBuckets(adjacency, n, spdMax, bucketCount)
+            ' ---- 注意力模式的规模分派 ----
+            ' 稠密路径需要 [N,N] 的桶矩阵与分数矩阵，N 一旦达到万级就无法分配；
+            ' 超过阈值时改用"每节点固定候选集"的稀疏模式（O(N·c) 内存与计算）
+            Dim denseLimit As Integer = System.Math.Max(1, config.DenseAttentionMaxNodes)
 
-            ' ---- 拉普拉斯位置编码 ----
-            Dim lapPe As (Matrix As Double(,), PeDim As Integer) = ComputeLapPe(adjacency, n, config.PeDim)
+            If n > denseLimit Then
+                Dim hubs As Integer() = SelectHubGenes(inDegree, outDegree, config.AttentionHubGenes)
+
+                encoding.Pattern = SparseAttentionPattern.Build(
+                    adjacency:=adjacency,
+                    n:=n,
+                    spdMax:=spdMax,
+                    bucketCount:=bucketCount,
+                    neighbors:=config.AttentionNeighbors,
+                    randomLinks:=config.AttentionRandomLinks,
+                    hubs:=hubs,
+                    seed:=config.Seed)
+
+                Console.WriteLine(
+                    $"[GPS] 基因数 {n} 超过稠密注意力上限 {denseLimit}，改用稀疏注意力：每基因 " &
+                    $"{encoding.Pattern.CandidateCount} 个候选" &
+                    $"（邻域<={encoding.Pattern.GraphNeighborBudget}、" &
+                    $"枢纽<={encoding.Pattern.HubGeneBudget}、" &
+                    $"随机<={encoding.Pattern.RandomLinkBudget}），" &
+                    $"注意力权重缓存约 {AttentionCacheMegabytes(n, encoding.Pattern.CandidateCount, config):F1} MB")
+            Else
+                encoding.SpdBuckets = ComputeSpdBuckets(adjacency, n, spdMax, bucketCount)
+
+                Console.WriteLine($"[GPS] 基因数 {n} ≤ 稠密注意力上限 {denseLimit}，使用稠密注意力（{n}×{n} 分数矩阵）")
+            End If
+
+            ' ---- 拉普拉斯位置编码（小图精确分解 / 大图随机游走近似） ----
+            Dim lapPe As (Matrix As Double(,), PeDim As Integer) = ComputeLapPe(
+                adjacency, n, config.PeDim, spdMax, config.Seed)
+
             encoding.LapPe = lapPe.Matrix
             encoding.LapPeDim = lapPe.PeDim
 
             Return encoding
+        End Function
+
+        ''' <summary>
+        ''' 按（入度 + 出度）降序选取全局枢纽基因；无任何连边时返回空数组。
+        ''' </summary>
+        ''' <param name="inDegree">入度数组</param>
+        ''' <param name="outDegree">出度数组</param>
+        ''' <param name="count">期望数量</param>
+        ''' <returns>枢纽基因下标（降序、同分按下标升序，保证确定性）</returns>
+        Private Shared Function SelectHubGenes(inDegree As Integer(),
+                                               outDegree As Integer(),
+                                               count As Integer) As Integer()
+
+            If count <= 0 Then Return New Integer() {}
+
+            Dim eligible As New List(Of Integer)(inDegree.Length)
+
+            For i As Integer = 0 To inDegree.Length - 1
+                ' 无连边的基因不是枢纽：空图时全局混合由随机长程链接承担
+                If inDegree(i) + outDegree(i) > 0 Then Call eligible.Add(i)
+            Next
+
+            If eligible.Count = 0 Then Return New Integer() {}
+
+            Return eligible.
+                OrderByDescending(Function(i) inDegree(i) + outDegree(i)).
+                ThenBy(Function(i) i).
+                Take(System.Math.Min(count, eligible.Count)).
+                ToArray()
+        End Function
+
+        ''' <summary>
+        ''' 估算稀疏注意力权重缓存的字节规模（每个头每层一份 <c>[N, c]</c> 双精度权重）。
+        ''' </summary>
+        ''' <param name="n">基因数</param>
+        ''' <param name="candidates">每节点候选数</param>
+        ''' <param name="config">配置（取头数与层数）</param>
+        ''' <returns>估算的 MB 数</returns>
+        Private Shared Function AttentionCacheMegabytes(n As Integer,
+                                                        candidates As Integer,
+                                                        config As GPSConfig) As Double
+
+            Dim bytes As Double = CDbl(n) * candidates * 8.0 * config.NHeads * config.NLayers
+
+            Return bytes / (1024.0 * 1024.0)
         End Function
 
         ''' <summary>
@@ -212,16 +305,33 @@ Namespace Graph
         ''' <returns>位置编码矩阵与有效维度</returns>
         Private Shared Function ComputeLapPe(adjacency As List(Of Integer)(),
                                              n As Integer,
-                                             peDim As Integer) As (Matrix As Double(,), PeDim As Integer)
+                                             peDim As Integer,
+                                             spdMax As Integer,
+                                             seed As Integer) As (Matrix As Double(,), PeDim As Integer)
 
             If peDim <= 0 OrElse n <= 2 Then
                 Return (New Double(n - 1, -1) {}, 0)
             End If
 
-            If n > LapPeMaxNodes Then
-                Console.WriteLine($"[GPS] 基因数 {n} 超过 LapPE 稠密分解上限 {LapPeMaxNodes}，位置编码置零")
-                Return (New Double(n - 1, -1) {}, 0)
+            ' 小图保持精确的特征分解（结果与既有实现逐位一致）；
+            ' 大图换用 O(K·T·|E|) 的随机游走近似，避免 O(N³) 与 N² 内存
+            If n <= LapPeMaxNodes Then
+                Return ComputeDenseLapPe(adjacency, n, peDim)
             End If
+
+            Return ComputeRandomWalkPe(adjacency, n, peDim, spdMax, seed)
+        End Function
+
+        ''' <summary>
+        ''' 精确的拉普拉斯位置编码：对称归一化拉普拉斯的前 K 个非平凡特征向量。
+        ''' </summary>
+        ''' <param name="adjacency">无向邻接表</param>
+        ''' <param name="n">节点数（不超过 <see cref="LapPeMaxNodes"/>）</param>
+        ''' <param name="peDim">期望维度</param>
+        ''' <returns>位置编码矩阵与有效维度</returns>
+        Private Shared Function ComputeDenseLapPe(adjacency As List(Of Integer)(),
+                                                  n As Integer,
+                                                  peDim As Integer) As (Matrix As Double(,), PeDim As Integer)
 
             ' ---- 对称归一化拉普拉斯 L = I - D^(-1/2)·A·D^(-1/2) ----
             Dim degree As Double() = New Double(n - 1) {}
@@ -291,6 +401,194 @@ Namespace Graph
 
             Return (pe, peDimUsed)
         End Function
+
+        ''' <summary>
+        ''' 大图的可扩展位置编码：随机游走（扩散）近似。
+        ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' 稠密拉普拉斯特征分解是 O(N³)，N=6 万时不可行。这里用"随机投影 + 懒惰随机游走"
+        ''' 近似同一条低频子空间：
+        ''' <code>
+        ''' v ← (v + D⁻¹·A·v) / 2      （重复 T 步）
+        ''' </code>
+        ''' 初始向量取固定种子的 Rademacher 随机向量（±1），每步之后按平稳分布
+        ''' π = deg / Σdeg 去掉平稳分量，最后做 Gram-Schmidt 正交化并逐列单位化。
+        ''' 代价为 O(K·T·|E| + K²·N)，与 N² 无关。
+        ''' </para>
+        ''' <para>
+        ''' 位置编码只由"图结构 + 种子"决定，因此与稠密 LapPE 一样是可复现的一次性预计算。
+        ''' 先验图没有任何连边时扩散算子无定义，此时置零并给出说明。
+        ''' </para>
+        ''' </remarks>
+        ''' <param name="adjacency">无向邻接表</param>
+        ''' <param name="n">节点数（超过 <see cref="LapPeMaxNodes"/>）</param>
+        ''' <param name="peDim">期望维度</param>
+        ''' <param name="spdMax">最大编码距离（决定扩散步数）</param>
+        ''' <param name="seed">随机投影种子</param>
+        ''' <returns>位置编码矩阵与有效维度</returns>
+        Private Shared Function ComputeRandomWalkPe(adjacency As List(Of Integer)(),
+                                                    n As Integer,
+                                                    peDim As Integer,
+                                                    spdMax As Integer,
+                                                    seed As Integer) As (Matrix As Double(,), PeDim As Integer)
+
+            Dim degree As Double() = New Double(n - 1) {}
+            Dim totalDegree As Double = 0.0
+
+            For i As Integer = 0 To n - 1
+                degree(i) = adjacency(i).Count
+                totalDegree += degree(i)
+            Next
+
+            If totalDegree <= 0.0 Then
+                Console.WriteLine(
+                    $"[GPS] 基因数 {n} 超过 LapPE 稠密分解上限 {LapPeMaxNodes}，" &
+                    $"且先验图没有任何连边，随机游走位置编码无定义，位置编码置零" &
+                    $"（度编码与基因嵌入仍然生效）")
+
+                Return (New Double(n - 1, -1) {}, 0)
+            End If
+
+            Dim used As Integer = System.Math.Min(System.Math.Max(1, peDim), System.Math.Max(1, n - 1))
+            Dim steps As Integer = System.Math.Max(1, System.Math.Min(8, 2 * spdMax))
+            Dim rand As New Random(seed Xor &H5EED)
+
+            Dim invDegree As Double() = New Double(n - 1) {}
+            Dim stationary As Double() = New Double(n - 1) {}
+
+            For i As Integer = 0 To n - 1
+                If degree(i) > 0.0 Then invDegree(i) = 1.0 / degree(i)
+
+                stationary(i) = degree(i) / totalDegree
+            Next
+
+            ' ---- 随机初始向量（Rademacher 分布，固定种子） ----
+            Dim vectors As Double()() = New Double(used - 1)() {}
+            Dim work As Double() = New Double(n - 1) {}
+
+            For c As Integer = 0 To used - 1
+                Dim v As Double() = New Double(n - 1) {}
+
+                For i As Integer = 0 To n - 1
+                    v(i) = If(rand.Next(2) = 0, 1.0, -1.0)
+                Next
+
+                Call RemoveStationaryComponent(v, stationary)
+
+                vectors(c) = v
+            Next
+
+            ' ---- 懒惰随机游走扩散 ----
+            For step As Integer = 0 To steps - 1
+                For c As Integer = 0 To used - 1
+                    Dim v As Double() = vectors(c)
+
+                    Call RandomWalkStep(v, adjacency, invDegree, work)
+                    Call RemoveStationaryComponent(v, stationary)
+                Next
+            Next
+
+            ' ---- Gram-Schmidt 正交化 + 单位化，丢弃退化分量 ----
+            Dim basis As New List(Of Double())(used)
+
+            For c As Integer = 0 To used - 1
+                Dim v As Double() = vectors(c)
+
+                For Each previous As Double() In basis
+                    Dim dot As Double = 0.0
+
+                    For i As Integer = 0 To n - 1
+                        dot += v(i) * previous(i)
+                    Next
+
+                    For i As Integer = 0 To n - 1
+                        v(i) -= dot * previous(i)
+                    Next
+                Next
+
+                Dim sumSquare As Double = 0.0
+
+                For i As Integer = 0 To n - 1
+                    sumSquare += v(i) * v(i)
+                Next
+
+                Dim norm As Double = System.Math.Sqrt(sumSquare)
+
+                If norm <= 1.0E-09 Then Continue For
+
+                For i As Integer = 0 To n - 1
+                    v(i) /= norm
+                Next
+
+                Call basis.Add(v)
+            Next
+
+            If basis.Count = 0 Then
+                Console.WriteLine(
+                    $"[GPS] 基因数 {n} 的随机游走位置编码在正交化后没有有效分量，位置编码置零")
+
+                Return (New Double(n - 1, -1) {}, 0)
+            End If
+
+            Dim pe As Double(,) = New Double(n - 1, basis.Count - 1) {}
+
+            For c As Integer = 0 To basis.Count - 1
+                Dim v As Double() = basis(c)
+
+                For i As Integer = 0 To n - 1
+                    pe(i, c) = v(i)
+                Next
+            Next
+
+            Console.WriteLine(
+                $"[GPS] 基因数 {n} 超过 LapPE 稠密分解上限 {LapPeMaxNodes}，" &
+                $"改用随机游走位置编码（K={basis.Count}，T={steps} 步）")
+
+            Return (pe, basis.Count)
+        End Function
+
+        ''' <summary>
+        ''' 去掉向量在平稳分布方向上的分量：<c>v ← v − (Σ π_i·v_i)·1</c>。
+        ''' </summary>
+        ''' <param name="v">待处理的向量（原地修改）</param>
+        ''' <param name="stationary">平稳分布 π（各行和为 1）</param>
+        Private Shared Sub RemoveStationaryComponent(v As Double(), stationary As Double())
+            Dim mean As Double = 0.0
+
+            For i As Integer = 0 To v.Length - 1
+                mean += stationary(i) * v(i)
+            Next
+
+            For i As Integer = 0 To v.Length - 1
+                v(i) -= mean
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 一步懒惰随机游走：<c>work ← (v + D⁻¹·A·v) / 2</c>，随后回写到 <paramref name="v"/>。
+        ''' </summary>
+        ''' <param name="v">当前向量（原地更新）</param>
+        ''' <param name="adjacency">无向邻接表</param>
+        ''' <param name="invDegree">度数倒数（孤立节点为 0）</param>
+        ''' <param name="work">长度为 N 的临时缓冲区（复用，避免每步分配）</param>
+        Private Shared Sub RandomWalkStep(v As Double(),
+                                          adjacency As List(Of Integer)(),
+                                          invDegree As Double(),
+                                          work As Double())
+
+            For i As Integer = 0 To v.Length - 1
+                Dim sum As Double = 0.0
+
+                For Each j As Integer In adjacency(i)
+                    sum += v(j)
+                Next
+
+                work(i) = 0.5 * (v(i) + sum * invDegree(i))
+            Next
+
+            Call System.Array.Copy(work, v, v.Length)
+        End Sub
 
         ''' <summary>
         ''' 把非负整数数组映射为桶编号，超过上限的值统一归入最后一桶。

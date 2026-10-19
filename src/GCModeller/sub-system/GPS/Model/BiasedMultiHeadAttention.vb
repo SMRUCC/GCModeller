@@ -1,5 +1,6 @@
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
+Imports SMRUCC.genomics.Analysis.GPS.Graph
 Imports std = System.Math
 
 Namespace Model
@@ -69,12 +70,17 @@ Namespace Model
             Public Vf As Tensor()
             ''' <summary>各头键投影的转置 [dk, N]（反向复用）</summary>
             Public KfT As Tensor()
-            ''' <summary>各头的 softmax 注意力权重 [N, N]</summary>
+            ''' <summary>
+            ''' 各头的 softmax 注意力权重：稠密模式为 <c>[N, N]</c>，
+            ''' 稀疏模式为扁平的 <c>[N, c]</c>（按行存放候选权重）。
+            ''' </summary>
             Public Probs As Tensor()
             ''' <summary>各头输出按最后一维拼接后的结果 [N, dv*heads]</summary>
             Public Concat As Tensor
-            ''' <summary>本次前向使用的 SPD 桶索引矩阵 [N, N]</summary>
+            ''' <summary>本次前向使用的 SPD 桶索引矩阵 [N, N]（稀疏模式下为 Nothing）</summary>
             Public SpdBuckets As Integer(,)
+            ''' <summary>本次前向使用的稀疏候选模式（稠密模式下为 Nothing）</summary>
+            Public Pattern As SparseAttentionPattern
         End Class
 
         Private _lastCache As Cache
@@ -169,14 +175,50 @@ Namespace Model
         ''' <param name="spdBuckets">SPD 桶索引矩阵 [N, N]</param>
         ''' <returns>注意力输出 [N, d]</returns>
         Public Function Forward(input As Tensor, spdBuckets As Integer(,)) As Tensor
+            Return ForwardCore(input, spdBuckets, Nothing)
+        End Function
+
+        ''' <summary>
+        ''' 前向传播（稀疏候选模式）：每个基因只在固定候选集上做 softmax 注意力。
+        ''' </summary>
+        ''' <param name="input">节点嵌入 [N, d]</param>
+        ''' <param name="pattern">稀疏候选模式（N 超过稠密上限时使用）</param>
+        ''' <returns>注意力输出 [N, d]</returns>
+        ''' <remarks>
+        ''' 与稠密重载共享同一组投影参数与空间偏置表，只是把注意力范围从"N 个节点"
+        ''' 换成"每行 c 个候选"，因此权重缓存是 <c>[N, c]</c> 而不是 <c>[N, N]</c>。
+        ''' </remarks>
+        Public Function Forward(input As Tensor, pattern As SparseAttentionPattern) As Tensor
+            Return ForwardCore(input, Nothing, pattern)
+        End Function
+
+        ''' <summary>前向传播的公共实现：按传入的桶矩阵 / 候选模式选择稠密或稀疏路径。</summary>
+        ''' <param name="input">节点嵌入 [N, d]</param>
+        ''' <param name="spdBuckets">稠密 SPD 桶矩阵；稀疏模式下传 Nothing</param>
+        ''' <param name="pattern">稀疏候选模式；稠密模式下传 Nothing</param>
+        ''' <returns>注意力输出 [N, d]</returns>
+        Private Function ForwardCore(input As Tensor,
+                                     spdBuckets As Integer(,),
+                                     pattern As SparseAttentionPattern) As Tensor
+
             If input Is Nothing Then Throw New ArgumentNullException(NameOf(input))
-            If spdBuckets Is Nothing Then Throw New ArgumentNullException(NameOf(spdBuckets))
+
+            If spdBuckets Is Nothing AndAlso pattern Is Nothing Then
+                Throw New ArgumentException("必须提供稠密 SPD 桶矩阵或稀疏候选模式")
+            End If
 
             Dim n As Integer = input.Shape(0)
 
-            If spdBuckets.GetLength(0) <> n OrElse spdBuckets.GetLength(1) <> n Then
-                Throw New ArgumentException(
-                    $"SPD 桶矩阵尺寸应为 [{n},{n}]，实际 [{spdBuckets.GetLength(0)},{spdBuckets.GetLength(1)}]")
+            If pattern IsNot Nothing Then
+                If pattern.NGene <> n Then
+                    Throw New ArgumentException(
+                        $"稀疏候选模式的节点数 {pattern.NGene} 与输入 {n} 不一致")
+                End If
+            Else
+                If spdBuckets.GetLength(0) <> n OrElse spdBuckets.GetLength(1) <> n Then
+                    Throw New ArgumentException(
+                        $"SPD 桶矩阵尺寸应为 [{n},{n}]，实际 [{spdBuckets.GetLength(0)},{spdBuckets.GetLength(1)}]")
+                End If
             End If
 
             Dim Qf As Tensor() = New Tensor(nrHeads - 1) {}
@@ -191,14 +233,25 @@ Namespace Model
                 Qf(h) = TensorOps.BatchedMatMul(input, Qm(h))
                 Kf(h) = TensorOps.BatchedMatMul(input, Km(h))
                 Vf(h) = TensorOps.BatchedMatMul(input, Vm(h))
-                KfT(h) = TensorOps.TransposeLastTwo(Kf(h))
 
-                Dim scores As Tensor = TensorOps.Scale(TensorOps.BatchedMatMul(Qf(h), KfT(h)), scale)
+                If pattern Is Nothing Then
+                    KfT(h) = TensorOps.TransposeLastTwo(Kf(h))
 
-                Call AddBias(scores, spdBuckets, h)
+                    Dim scores As Tensor = TensorOps.Scale(TensorOps.BatchedMatMul(Qf(h), KfT(h)), scale)
 
-                probs(h) = TensorOps.SoftmaxLastDim(scores)
-                heads(h) = TensorOps.BatchedMatMul(probs(h), Vf(h))
+                    Call AddBias(scores, spdBuckets, h)
+
+                    probs(h) = TensorOps.SoftmaxLastDim(scores)
+                    heads(h) = TensorOps.BatchedMatMul(probs(h), Vf(h))
+                Else
+                    Dim weights As Tensor = New Tensor(n, pattern.CandidateCount)
+                    Dim headOutput As Tensor = New Tensor(n, dv)
+
+                    Call SparseAttentionForward(Qf(h), Kf(h), Vf(h), pattern, h, weights, headOutput)
+
+                    probs(h) = weights
+                    heads(h) = headOutput
+                End If
             Next
 
             Dim concat As Tensor = TensorOps.ConcatLastDim(heads)
@@ -211,7 +264,8 @@ Namespace Model
                 .KfT = KfT,
                 .Probs = probs,
                 .Concat = concat,
-                .SpdBuckets = spdBuckets
+                .SpdBuckets = spdBuckets,
+                .Pattern = pattern
             }
 
             Return TensorOps.BatchedMatMul(concat, Wo)

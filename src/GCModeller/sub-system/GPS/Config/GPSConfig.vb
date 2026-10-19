@@ -59,6 +59,46 @@ Namespace Config
         ''' <returns>默认 0.7</returns>
         Public Property MinCoexpression As Double = 0.7
 
+        ' ==================== 注意力规模（稠密 / 稀疏分派） ====================
+
+        ''' <summary>
+        ''' 稠密注意力的基因数上限；超过该值时自动改用稀疏候选注意力。
+        ''' </summary>
+        ''' <returns>默认 1024</returns>
+        ''' <remarks>
+        ''' 稠密路径的分数矩阵与权重矩阵均为 <c>[N, N]</c>：N=1024 时单头约 8 MB，
+        ''' 4 头 3 层（含反向缓存）约 100 MB；N 再大就不可接受。
+        ''' 全基因组规模（N≈6 万）必须走稀疏路径。
+        ''' </remarks>
+        Public Property DenseAttentionMaxNodes As Integer = 1024
+
+        ''' <summary>
+        ''' 稀疏模式下每个基因的候选预算（含自身）。
+        ''' </summary>
+        ''' <returns>默认 32</returns>
+        ''' <remarks>
+        ''' 候选由"自身 + 图邻域（预算截断 BFS）+ 高连接枢纽 + 随机长程链接"组成，
+        ''' 注意力复杂度为 <c>O(N·c·d)</c>；<c>c</c> 越大越接近稠密注意力，但代价线性增长。
+        ''' </remarks>
+        Public Property AttentionNeighbors As Integer = 32
+
+        ''' <summary>
+        ''' 稀疏模式下每个基因期望的随机长程链接数（用于跨连通分量的全局混合）。
+        ''' </summary>
+        ''' <returns>默认 8</returns>
+        ''' <remarks>
+        ''' 当图邻域不足预算时，剩余槽位会并入随机链接；因此空图（无先验网络）下
+        ''' 每个基因仍会获得 <c>c − 1</c> 个确定性随机候选，注意力不会退化为恒等。
+        ''' </remarks>
+        Public Property AttentionRandomLinks As Integer = 8
+
+        ''' <summary>
+        ''' 稀疏模式下作为全局枢纽纳入候选集的高连接基因数（按入度 + 出度排序）。
+        ''' </summary>
+        ''' <returns>默认 8</returns>
+        ''' <remarks>没有枢纽基因的连通分量通过随机链接触达全图。</remarks>
+        Public Property AttentionHubGenes As Integer = 8
+
         ' ==================== 融合主干 ====================
 
         ''' <summary>隐藏维度 d_model</summary>
@@ -218,6 +258,11 @@ Namespace Config
             If CoexpressionTopK < 0 Then Return False
             If MinCoexpression < -1.0 OrElse MinCoexpression > 1.0 Then Return False
             If CheckpointIntervalEpochs < 0 Then Return False
+            If DenseAttentionMaxNodes < 1 Then Return False
+            If AttentionNeighbors < 2 Then Return False
+            If AttentionRandomLinks < 0 OrElse AttentionHubGenes < 0 Then Return False
+            ' 枢纽与随机链接之外的槽位必须留给图邻域，否则先验图结构完全失效
+            If AttentionRandomLinks + AttentionHubGenes >= AttentionNeighbors Then Return False
 
             Return True
         End Function
@@ -236,6 +281,10 @@ Namespace Config
                 .SpdMaxDist = SpdMaxDist,
                 .CoexpressionTopK = CoexpressionTopK,
                 .MinCoexpression = MinCoexpression,
+                .DenseAttentionMaxNodes = DenseAttentionMaxNodes,
+                .AttentionNeighbors = AttentionNeighbors,
+                .AttentionRandomLinks = AttentionRandomLinks,
+                .AttentionHubGenes = AttentionHubGenes,
                 .DModel = DModel,
                 .NLayers = NLayers,
                 .NHeads = NHeads,
@@ -273,6 +322,7 @@ Namespace Config
         Public Overrides Function ToString() As String
             Return $"GPSConfig(d_model={DModel}, layers={NLayers}, heads={NHeads}, ffn={FfnDim}, " &
                    $"window={Window}, gru={GruHidden}, pe={PeDim}, spd_max={SpdMaxDist}, " &
+                   $"dense_attn<={DenseAttentionMaxNodes}, attn_c={AttentionNeighbors}, " &
                    $"lr={LearningRate}, pretrain={PretrainEpochs}, finetune={FinetuneEpochs})"
         End Function
 
