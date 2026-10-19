@@ -480,7 +480,7 @@ Namespace Graph
             Next
 
             ' ---- 懒惰随机游走扩散 ----
-            For step As Integer = 0 To steps - 1
+            For iteration As Integer = 0 To steps - 1
                 For c As Integer = 0 To used - 1
                     Dim v As Double() = vectors(c)
 
