@@ -55,6 +55,9 @@ Module Program
         Call TestModelPersistence()
         Call TestCheckpointResume()
         Call TestMixedPrecisionParity()
+        Call TestSparseAttentionEquivalence()
+        Call TestSparseGraphEncoding()
+        Call TestRandomWalkLapPe()
 
         Console.WriteLine()
         Console.WriteLine($"{passed} passed, {failed} failed")
@@ -289,6 +292,326 @@ Module Program
         Call Check(dInput IsNot Nothing AndAlso dInput.Shape(0) = 6 AndAlso dInput.Shape(1) = 8, "输入梯度形状 [N, d]")
         Call CheckGradient(store, forwardLoss, 5.0E-04, "偏置注意力")
         Call CheckInputGradient(input, dInput, forwardLoss, 5.0E-04, "偏置注意力输入梯度")
+    End Sub
+
+    ''' <summary>
+    ''' 稀疏注意力与稠密注意力在同一组 SPD 桶下的数值等价性（前向 + 反向 + 梯度校验）。
+    ''' </summary>
+    ''' <remarks>
+    ''' 把候选预算设为"全部节点"（c = N）并按候选反推稠密桶矩阵后，两条路径的数学定义
+    ''' 完全相同，因此输出、输入梯度与全部参数梯度都必须逐元素一致；
+    ''' 这保证了大图切换路径不会改变已有模型的语义。
+    ''' </remarks>
+    Private Sub TestSparseAttentionEquivalence()
+        Console.WriteLine()
+        Console.WriteLine("[稀疏/稠密注意力等价]")
+
+        Dim n As Integer = 6
+        Dim bucketCount As Integer = 5
+        Dim adjacency As List(Of Integer)() = New List(Of Integer)(n - 1) {}
+
+        For i As Integer = 0 To n - 1
+            adjacency(i) = New List(Of Integer)()
+        Next
+
+        Dim pattern As SparseAttentionPattern = SparseAttentionPattern.Build(
+            adjacency, n, 2, bucketCount, n, 0, New Integer() {}, 20240730)
+
+        Call Check(pattern.CandidateCount = n, $"候选数覆盖全节点（{pattern.CandidateCount}）")
+
+        ' 由候选模式反推稠密桶矩阵：相同节点对必须取到相同的桶编号
+        Dim spd As Integer(,) = New Integer(n - 1, n - 1) {}
+
+        For i As Integer = 0 To n - 1
+            For j As Integer = 0 To n - 1
+                spd(i, j) = bucketCount - 1
+            Next
+
+            For slot As Integer = 0 To pattern.CandidateCount - 1
+                spd(i, pattern.Targets(i, slot)) = pattern.Buckets(i, slot)
+            Next
+        Next
+
+        TensorOps.Seed = 20240731
+        Dim storeDense As New ParameterStore()
+        Dim dense As New BiasedMultiHeadAttention(4, 4, 2, 8, bucketCount, storeDense, "attn")
+
+        TensorOps.Seed = 20240731
+        Dim storeSparse As New ParameterStore()
+        Dim sparse As New BiasedMultiHeadAttention(4, 4, 2, 8, bucketCount, storeSparse, "attn")
+
+        Dim input As Tensor = RandomTensor(New Integer() {n, 8}, 0.3)
+        Dim expected As Tensor = dense.Forward(input, spd)
+        Dim actual As Tensor = sparse.Forward(input, pattern)
+
+        Call CheckNearTensor(expected, actual, 1.0E-09, "稀疏前向与稠密一致")
+
+        ' 以 L = 0.5·Σo² 为损失，比较输入梯度与全部参数梯度
+        Call storeDense.ZeroGradients()
+        Call storeSparse.ZeroGradients()
+
+        Dim denseGradient As Tensor = dense.Backward(TensorOps.CloneTensor(expected))
+        Dim sparseGradient As Tensor = sparse.Backward(TensorOps.CloneTensor(actual))
+
+        Call CheckNearTensor(denseGradient, sparseGradient, 1.0E-09, "稀疏输入梯度与稠密一致")
+
+        Dim worstParameter As Double = 0.0
+        Dim worstName As String = ""
+
+        For Each entry As ParameterEntry In storeDense.Entries
+            Dim other As ParameterEntry = storeSparse.Find(entry.Name)
+
+            If other Is Nothing Then
+                worstParameter = Double.PositiveInfinity
+                worstName = entry.Name & "(missing)"
+                Continue For
+            End If
+
+            For k As Integer = 0 To entry.Value.Data.Length - 1
+                Dim diff As Double = System.Math.Abs(entry.Gradient.Data(k) - other.Gradient.Data(k))
+
+                If diff > worstParameter Then
+                    worstParameter = diff
+                    worstName = entry.Name
+                End If
+            Next
+        Next
+
+        Call Check(worstParameter < 1.0E-09,
+                   $"稀疏参数梯度与稠密一致（最大差 {worstParameter:G3} @ {worstName}）")
+
+        ' ---- 部分候选（c < N）的有限差分校验 ----
+        TensorOps.Seed = 20240732
+
+        Dim storePartial As New ParameterStore()
+        Dim attentionPartial As New BiasedMultiHeadAttention(4, 4, 2, 8, bucketCount, storePartial, "partial")
+        Dim patternPartial As SparseAttentionPattern = SparseAttentionPattern.Build(
+            adjacency, n, 2, bucketCount, 3, 1, New Integer() {}, 20240733)
+
+        Dim lossPartial As Func(Of Double) = Function()
+                                                 Dim o As Tensor = attentionPartial.Forward(input, patternPartial)
+                                                 Dim sum As Double = 0.0
+
+                                                 For Each value As Double In o.Data
+                                                     sum += value * value
+                                                 Next
+
+                                                 Return 0.5 * sum
+                                             End Function
+
+        Dim outputPartial As Tensor = attentionPartial.Forward(input, patternPartial)
+
+        Call storePartial.ZeroGradients()
+
+        Dim gradientPartial As Tensor = attentionPartial.Backward(TensorOps.CloneTensor(outputPartial))
+
+        Call CheckInputGradient(input, gradientPartial, lossPartial, 5.0E-04, "稀疏注意力输入梯度")
+        Call CheckGradient(storePartial, lossPartial, 5.0E-04, "稀疏注意力")
+    End Sub
+
+    ''' <summary>
+    ''' 大图稀疏图编码：候选集结构、桶范围、反向索引与不分配 N×N 桶矩阵。
+    ''' </summary>
+    Private Sub TestSparseGraphEncoding()
+        Console.WriteLine()
+        Console.WriteLine("[大图稀疏编码]")
+
+        Dim data As GeneExpressionData = CreateExpression()
+        Dim prior As PriorNetwork = CreatePrior()
+        Dim config As New GPSConfig With {
+            .MaxGenes = 0,
+            .PeDim = 4,
+            .SpdMaxDist = 2,
+            .DenseAttentionMaxNodes = 4,
+            .AttentionNeighbors = 8,
+            .AttentionRandomLinks = 2,
+            .AttentionHubGenes = 2
+        }
+
+        Dim pre As PreprocessedExpression = ExpressionPreprocess.Preprocess(data, config)
+        Dim graph As New GEARSGraph.GeneRegulatoryGraph(pre.GeneNames, prior)
+        Dim encoding As GraphEncoding = GraphEncoding.Compute(graph, config)
+
+        Call Check(encoding.IsSparse, "超过稠密上限后标记为稀疏模式")
+        Call Check(encoding.SpdBuckets Is Nothing, "稀疏模式不再分配 N×N 桶矩阵")
+        Call Check(encoding.Pattern IsNot Nothing AndAlso encoding.Pattern.NGene = pre.NGene,
+                   "候选模式节点数一致")
+        Call Check(encoding.Pattern.CandidateCount = 8,
+                   $"候选预算（{If(encoding.Pattern Is Nothing, -1, encoding.Pattern.CandidateCount)}）")
+
+        Dim pattern As SparseAttentionPattern = encoding.Pattern
+        Dim structureOk As Boolean = True
+        Dim neighborOk As Boolean = True
+
+        For i As Integer = 0 To pattern.NGene - 1
+            Dim seen As New HashSet(Of Integer)()
+            Dim hasNeighbor As Boolean = False
+
+            If pattern.Targets(i, 0) <> i OrElse pattern.Buckets(i, 0) <> GraphEncoding.SelfBucket Then
+                structureOk = False
+            End If
+
+            For slot As Integer = 0 To pattern.CandidateCount - 1
+                Dim target As Integer = pattern.Targets(i, slot)
+                Dim bucket As Integer = pattern.Buckets(i, slot)
+
+                If target < 0 OrElse target >= pattern.NGene Then structureOk = False
+                If bucket < 0 OrElse bucket >= encoding.SpdBucketCount Then structureOk = False
+                If Not seen.Add(target) Then structureOk = False
+                If bucket >= 1 AndAlso bucket <= config.SpdMaxDist Then hasNeighbor = True
+            Next
+
+            ' 有连边的基因至少要看到 1 个真实邻居（图邻域预算 >= 1）
+            If encoding.InDegree(i) + encoding.OutDegree(i) > 0 AndAlso Not hasNeighbor Then
+                neighborOk = False
+            End If
+        Next
+
+        Call Check(structureOk, "候选自环 / 范围 / 去重检查")
+        Call Check(neighborOk, "有连边基因至少包含 1 个图邻居")
+
+        ' ---- 反向索引：每个 (source, slot) 恰好出现一次且指向正确的目标 ----
+        Dim reverseOk As Boolean = True
+        Dim reverseCount As Integer = pattern.ReverseSources.Length
+
+        If reverseCount <> pattern.NGene * pattern.CandidateCount Then reverseOk = False
+
+        For target As Integer = 0 To pattern.NGene - 1
+            If pattern.ReverseOffsets(target + 1) < pattern.ReverseOffsets(target) Then reverseOk = False
+
+            For s As Integer = pattern.ReverseOffsets(target) To pattern.ReverseOffsets(target + 1) - 1
+                Dim encoded As Integer = pattern.ReverseSources(s)
+                Dim source As Integer = encoded \ pattern.CandidateCount
+                Dim slot As Integer = encoded - source * pattern.CandidateCount
+
+                If pattern.Targets(source, slot) <> target Then reverseOk = False
+            Next
+        Next
+
+        Call Check(reverseOk, "反向索引与候选集一致")
+
+        ' ---- 确定性：同一图 + 同一种子得到完全相同的候选集 ----
+        Dim again As GraphEncoding = GraphEncoding.Compute(graph, config)
+        Dim reproducible As Boolean = again.Pattern IsNot Nothing
+
+        If reproducible Then
+            For i As Integer = 0 To pattern.NGene - 1
+                For slot As Integer = 0 To pattern.CandidateCount - 1
+                    If again.Pattern.Targets(i, slot) <> pattern.Targets(i, slot) OrElse
+                       again.Pattern.Buckets(i, slot) <> pattern.Buckets(i, slot) Then
+                        reproducible = False
+                    End If
+                Next
+            Next
+        End If
+
+        Call Check(reproducible, "候选集构建可复现")
+    End Sub
+
+    ''' <summary>
+    ''' 大图随机游走位置编码：形状、单位范数、正交性、可复现与空图分支。
+    ''' </summary>
+    Private Sub TestRandomWalkLapPe()
+        Console.WriteLine()
+        Console.WriteLine("[大图随机游走位置编码]")
+
+        Dim n As Integer = 1600
+        Dim genes As String() = New String(n - 1) {}
+        Dim prior As New PriorNetwork()
+
+        For i As Integer = 0 To n - 1
+            genes(i) = $"RWG{i}"
+        Next
+
+        ' 链式图：连通但度数很小，足以触发"超过 LapPE 稠密分解上限"的分支
+        For i As Integer = 0 To n - 2
+            Call prior.AddEdge(genes(i), genes(i + 1), Effector.Activator, 1.0, "")
+        Next
+
+        Dim config As New GPSConfig With {
+            .MaxGenes = 0,
+            .PeDim = 4,
+            .SpdMaxDist = 2
+        }
+
+        Dim graph As New GEARSGraph.GeneRegulatoryGraph(genes, prior)
+        Dim encoding As GraphEncoding = GraphEncoding.Compute(graph, config)
+
+        Call Check(encoding.IsSparse, "1600 个基因默认走稀疏注意力")
+        Call Check(encoding.LapPeDim >= 2, $"随机游走位置编码维度（{encoding.LapPeDim}）")
+        Call Check(encoding.LapPe.GetLength(0) = n AndAlso encoding.LapPe.GetLength(1) = encoding.LapPeDim,
+                   "位置编码形状 [N, K]")
+
+        Dim normOk As Boolean = True
+        Dim finiteOk As Boolean = True
+
+        For c As Integer = 0 To encoding.LapPeDim - 1
+            Dim sumSquare As Double = 0.0
+
+            For i As Integer = 0 To n - 1
+                Dim value As Double = encoding.LapPe(i, c)
+
+                If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then finiteOk = False
+
+                sumSquare += value * value
+            Next
+
+            If System.Math.Abs(sumSquare - 1.0) > 1.0E-06 Then normOk = False
+        Next
+
+        Call Check(finiteOk, "位置编码取值有限")
+        Call Check(normOk, "位置编码各列单位范数")
+
+        Dim orthogonal As Boolean = True
+
+        For a As Integer = 0 To encoding.LapPeDim - 1
+            For b As Integer = a + 1 To encoding.LapPeDim - 1
+                Dim dot As Double = 0.0
+
+                For i As Integer = 0 To n - 1
+                    dot += encoding.LapPe(i, a) * encoding.LapPe(i, b)
+                Next
+
+                If System.Math.Abs(dot) > 1.0E-06 Then orthogonal = False
+            Next
+        Next
+
+        Call Check(orthogonal, "位置编码各列正交")
+
+        ' 可复现：固定种子下两次结果逐元素一致
+        Dim again As GraphEncoding = GraphEncoding.Compute(graph, config)
+        Dim reproducible As Boolean = again.LapPeDim = encoding.LapPeDim
+
+        If reproducible Then
+            For c As Integer = 0 To encoding.LapPeDim - 1
+                For i As Integer = 0 To n - 1
+                    If System.Math.Abs(again.LapPe(i, c) - encoding.LapPe(i, c)) > 1.0E-12 Then
+                        reproducible = False
+                    End If
+                Next
+            Next
+        End If
+
+        Call Check(reproducible, "位置编码可复现")
+
+        ' 空图：扩散算子无定义，位置编码必须置零并给出说明
+        Dim emptyGraph As New GEARSGraph.GeneRegulatoryGraph(genes, New PriorNetwork())
+        Dim emptyEncoding As GraphEncoding = GraphEncoding.Compute(emptyGraph, config)
+
+        Call Check(emptyEncoding.LapPeDim = 0, "无连边大图的位置编码置零")
+
+        ' 溢出防护：超大形状必须给出可读异常，而不是整数溢出
+        Dim guarded As Boolean = False
+
+        Try
+            Dim oversized As New Tensor(60273, 60273)
+
+            Call Check(oversized Is Nothing, "超大张量不应构造成功")
+        Catch ex As ArgumentOutOfRangeException
+            guarded = True
+        End Try
+
+        Call Check(guarded, "超大张量形状抛出可读异常")
     End Sub
 
     ''' <summary>
@@ -1409,6 +1732,27 @@ Module Program
     Private Sub CheckNear(actual As Double, expected As Double, tolerance As Double, name As String)
         Call Check(System.Math.Abs(actual - expected) <= tolerance,
                    $"{name}（actual={actual:G6}, expected={expected:G6}）")
+    End Sub
+
+    ''' <summary>逐元素比较两个张量（形状必须一致）。</summary>
+    Private Sub CheckNearTensor(expected As Tensor, actual As Tensor, tolerance As Double, name As String)
+        If expected Is Nothing OrElse actual Is Nothing Then
+            Call Check(False, $"{name}（存在空张量）")
+            Return
+        End If
+
+        If expected.Data.Length <> actual.Data.Length Then
+            Call Check(False, $"{name}（长度 {expected.Data.Length} != {actual.Data.Length}）")
+            Return
+        End If
+
+        Dim worst As Double = 0.0
+
+        For i As Integer = 0 To expected.Data.Length - 1
+            worst = System.Math.Max(worst, System.Math.Abs(expected.Data(i) - actual.Data(i)))
+        Next
+
+        Call Check(worst <= tolerance, $"{name}（最大差 {worst:G3}）")
     End Sub
 
     ''' <summary>校验子集数组在原数组中的出现顺序是否保持升序</summary>
