@@ -73,6 +73,8 @@ declare namespace GPS {
      * @param prior the prior regulatory network object (for example created by
      *  ``bnlearn::as.prior_net``). Gene pairs that are not described by this network are kept as
      *  isolated nodes and still participate in the global attention branch.
+     * 
+     * + default value Is ``null``.
      * @param config the hyper-parameter configuration created by ``gps::gps_config``; when ``Nothing`` the
      *  default [GPSConfig](cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig) values are used. Note that the window length may be
      *  clipped when the input has too few time points.
@@ -83,7 +85,7 @@ declare namespace GPS {
      * + default value Is ``null``.
      * @return an untrained [GPSModel](cref:T:SMRUCC.genomics.Analysis.GPS.GPSModel) object
    */
-   function build_gps(x: object, prior: object, config?: object, env?: object): object;
+   function build_gps(x: object, prior?: object, config?: object, env?: object): object;
    /**
     * Create a GPS model hyper-parameter configuration object.
     * 
