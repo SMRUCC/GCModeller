@@ -52,11 +52,24 @@ Namespace Perturbation
     ''' </remarks>
     Public Class VirtualPerturbationEngine
 
+        ''' <summary>
+        ''' 敲低后目标基因保留的表达比例的默认取值（对应 CRISPRi 的 80% 敲低）。
+        ''' </summary>
+        Public Const DefaultKnockdownResidual As Double = 0.2
+
         Private ReadOnly model As GRNModel
         Private ReadOnly expression As PreprocessedExpression
-        Private ReadOnly baselineWindow As Double(,)
+
+        ''' <summary>
+        ''' 当前生效的对照窗口 <c>[基因, w]</c>；构造时取训练集尾部时间窗，
+        ''' 之后可由 <see cref="SetBaselineWindow"/> 替换为外部传入的细胞上下文。
+        ''' </summary>
+        Private baselineWindow As Double(,)
         Private ReadOnly geneIndex As Dictionary(Of String, Integer)
         Private ReadOnly significanceZ As Double
+
+        ''' <summary>敲低后目标基因保留的表达比例（0 表示与敲除等价）</summary>
+        Private _knockdownResidual As Double = DefaultKnockdownResidual
 
         Private _control As Double()
 
@@ -75,16 +88,41 @@ Namespace Perturbation
         End Property
 
         ''' <summary>
+        ''' 敲低后目标基因保留的表达比例。
+        ''' </summary>
+        ''' <returns>取值区间 <c>[0,1]</c>；0 表示敲低与敲除等价，默认 0.2（CRISPRi 的 80% 敲低）</returns>
+        ''' <remarks>
+        ''' 干预值按 <c>GeneMeans(i) × residual</c> 计算，而不是 BNLearn 的
+        ''' <c>mean − 2σ</c>：后者对大多数基因为负，被非负钳位后恒等于 0，
+        ''' 使敲低与敲除完全等价。
+        ''' </remarks>
+        Public Property KnockdownResidual As Double
+            Get
+                Return _knockdownResidual
+            End Get
+            Set(value As Double)
+                If value < 0.0 OrElse value >= 1.0 Then
+                    Throw New ArgumentOutOfRangeException(NameOf(KnockdownResidual), $"敲低残余比例必须落在 [0,1) 区间内，实际为 {value}")
+                End If
+
+                _knockdownResidual = value
+                _control = Nothing
+            End Set
+        End Property
+
+        ''' <summary>
         ''' 创建扰动引擎。
         ''' </summary>
         ''' <param name="model">已训练的模型</param>
         ''' <param name="expression">预处理后的表达数据（提供均值/标准差用于反标准化）</param>
         ''' <param name="baselineWindow">对照窗口 <c>[基因, w]</c>（标准化空间）</param>
         ''' <param name="significanceZ">显著性判据阈值</param>
+        ''' <param name="knockdownResidual">敲低后目标基因保留的表达比例</param>
         Public Sub New(model As GRNModel,
                        expression As PreprocessedExpression,
                        baselineWindow As Double(,),
-                       Optional significanceZ As Double = 0.5)
+                       Optional significanceZ As Double = 0.5,
+                       Optional knockdownResidual As Double = DefaultKnockdownResidual)
 
             If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
             If expression Is Nothing Then Throw New ArgumentNullException(NameOf(expression))
@@ -94,6 +132,7 @@ Namespace Perturbation
             Me.expression = expression
             Me.baselineWindow = CType(baselineWindow.Clone(), Double(,))
             Me.significanceZ = significanceZ
+            Me._knockdownResidual = knockdownResidual
 
             Me.geneIndex = New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
 
@@ -101,6 +140,81 @@ Namespace Perturbation
                 Me.geneIndex(expression.GeneNames(i)) = i
             Next
         End Sub
+
+        ''' <summary>
+        ''' 把一条静态表达谱（长度 N 的标准化向量）铺成 <c>[N, w]</c> 的对照窗口。
+        ''' </summary>
+        ''' <param name="z">标准化空间下的逐基因表达向量，长度必须等于 <see cref="NumGenes"/></param>
+        ''' <returns>窗口 <c>[基因, w]</c>，每一列都是同一条谱（与扰动改写写法一致）</returns>
+        ''' <remarks>
+        ''' 单细胞/伪 bulk 上下文没有时间维度，因此用"同一条谱重复 w 列"喂给滑窗模型。
+        ''' </remarks>
+        Public Function BuildStaticWindow(z As Double()) As Double(,)
+            If z Is Nothing Then Throw New ArgumentNullException(NameOf(z))
+            If z.Length <> NumGenes Then
+                Throw New ArgumentException($"静态上下文谱的长度 {z.Length} 与建模基因数 {NumGenes} 不一致", NameOf(z))
+            End If
+
+            Dim w As Integer = baselineWindow.GetLength(1)
+            Dim window As Double(,) = New Double(NumGenes - 1, w - 1) {}
+
+            For i As Integer = 0 To NumGenes - 1
+                For t As Integer = 0 To w - 1
+                    window(i, t) = z(i)
+                Next
+            Next
+
+            Return window
+        End Function
+
+        ''' <summary>
+        ''' 替换当前生效的对照窗口（用于把外部细胞上下文注入模型）。
+        ''' </summary>
+        ''' <param name="window">新的对照窗口 <c>[基因, w]</c>（标准化空间）</param>
+        ''' <remarks>
+        ''' 对照预测 <c>_control</c> 是懒缓存：替换基线后必须清空它，
+        ''' 否则扰动效应 <c>Δ = mutant − control</c> 会继续用旧基线的对照而恒为 0。
+        ''' </remarks>
+        Public Sub SetBaselineWindow(window As Double(,))
+            If window Is Nothing Then Throw New ArgumentNullException(NameOf(window))
+            If window.GetLength(0) <> NumGenes Then
+                Throw New ArgumentException($"对照窗口的基因数 {window.GetLength(0)} 与建模基因数 {NumGenes} 不一致", NameOf(window))
+            End If
+            If window.GetLength(1) <> baselineWindow.GetLength(1) Then
+                Throw New ArgumentException(
+                    $"对照窗口的列数 {window.GetLength(1)} 与滑窗长度 {baselineWindow.GetLength(1)} 不一致", NameOf(window))
+            End If
+
+            Me.baselineWindow = CType(window.Clone(), Double(,))
+            Me._control = Nothing
+        End Sub
+
+        ''' <summary>
+        ''' 按干预模式求目标基因的干预值（raw log-CPM 尺度）。
+        ''' </summary>
+        ''' <param name="spec">干预定义</param>
+        ''' <param name="idx">目标基因在建模基因中的行号</param>
+        ''' <returns>干预后该基因应取的原始尺度表达值</returns>
+        ''' <remarks>
+        ''' 这里不使用 <see cref="InterventionSpec.GetInterventionValue"/>：该实现把敲低
+        ''' 定义为 <c>mean − 2σ</c>，对大多数基因为负，随后被非负钳位压成 0，
+        ''' 导致敲低与敲除逐位相同。此处把敲低改为按比例保留
+        ''' <see cref="KnockdownResidual"/>，敲除仍为 0。
+        ''' </remarks>
+        Private Function InterventionValueOf(spec As InterventionSpec, idx As Integer) As Double
+            Dim mean As Double = expression.GeneMeans(idx)
+
+            Select Case spec.Mode
+                Case InterventionMode.Knockout
+                    Return 0.0
+                Case InterventionMode.Knockdown
+                    Return mean * _knockdownResidual
+                Case InterventionMode.Overexpression
+                    Return mean + 3.0 * std.Max(expression.GeneSDs(idx), 1.0E-08)
+                Case Else
+                    Return spec.Value
+            End Select
+        End Function
 
         ''' <summary>对照（未扰动）预测，raw log-CPM 尺度。</summary>
         ''' <returns>每个基因的对照预测</returns>
@@ -162,7 +276,7 @@ Namespace Perturbation
             For k As Integer = 0 To indices.Count - 1
                 Dim i As Integer = indices(k)
                 Dim sd As Double = std.Max(expression.GeneSDs(i), 1.0E-08)
-                Dim raw As Double = list(k).GetInterventionValue(expression.GeneMeans(i), expression.GeneSDs(i))
+                Dim raw As Double = std.Max(0.0, InterventionValueOf(list(k), i))
                 Dim normalized As Double = (raw - expression.GeneMeans(i)) / sd
 
                 interventionRaw(k) = raw
@@ -178,7 +292,7 @@ Namespace Perturbation
             ' 被扰动基因的表达由干预值直接决定，不叠加网络预测
             ' （与 GEARS 的处理一致：敲除/敲低的表型是实验施加的结果，不是模型的推断）
             For k As Integer = 0 To indices.Count - 1
-                mutant(indices(k)) = std.Max(0.0, interventionRaw(k))
+                mutant(indices(k)) = interventionRaw(k)
             Next
             Dim result As New InterventionResult With {
                 .Spec = If(list.Count = 1, list(0), CombineSpec(list, names, indices)),
@@ -283,7 +397,7 @@ Namespace Perturbation
                 If Not geneIndex.TryGetValue(spec.GeneName, idx) Then Continue For
 
                 Dim sd As Double = std.Max(expression.GeneSDs(idx), 1.0E-08)
-                Dim raw As Double = spec.GetInterventionValue(expression.GeneMeans(idx), expression.GeneSDs(idx))
+                Dim raw As Double = std.Max(0.0, InterventionValueOf(spec, idx))
                 Dim normalized As Double = (raw - expression.GeneMeans(idx)) / sd
 
                 For t As Integer = 0 To window.GetLength(1) - 1

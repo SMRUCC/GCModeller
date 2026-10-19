@@ -231,6 +231,17 @@ Namespace Config
         Public Property CascadeSteps As Integer = 5
 
         ''' <summary>
+        ''' 虚拟敲低（CRISPRi）后目标基因保留的表达比例。
+        ''' </summary>
+        ''' <returns>默认 0.2，即敲低后保留 20% 表达（对应赛事描述的 &gt;80% on-target knockdown）</returns>
+        ''' <remarks>
+        ''' 干预值按 <c>基因均值 × KnockdownResidual</c> 计算。之所以不使用
+        ''' <c>均值 − 2σ</c>：后者对大多数基因为负，非负钳位后恒为 0，
+        ''' 使敲低与敲除完全等价，敲低实验因此失去意义。
+        ''' </remarks>
+        Public Property KnockdownResidual As Double = 0.2
+
+        ''' <summary>
         ''' 校验参数组合是否合法。
         ''' </summary>
         ''' <returns>合法返回 True；否则返回 False</returns>
@@ -257,6 +268,7 @@ Namespace Config
             If TrainRatio + ValidationRatio >= 1.0 Then Return False
             If CoexpressionTopK < 0 Then Return False
             If MinCoexpression < -1.0 OrElse MinCoexpression > 1.0 Then Return False
+            If KnockdownResidual < 0.0 OrElse KnockdownResidual >= 1.0 Then Return False
             If CheckpointIntervalEpochs < 0 Then Return False
             If DenseAttentionMaxNodes < 1 Then Return False
             If AttentionNeighbors < 2 Then Return False
@@ -313,7 +325,8 @@ Namespace Config
                 .Seed = Seed,
                 .SignificanceZScore = SignificanceZScore,
                 .CascadeSteps = CascadeSteps,
-                .CheckpointIntervalEpochs = CheckpointIntervalEpochs
+                .CheckpointIntervalEpochs = CheckpointIntervalEpochs,
+                .KnockdownResidual = KnockdownResidual
             }
         End Function
 

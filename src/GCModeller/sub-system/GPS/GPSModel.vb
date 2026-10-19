@@ -47,6 +47,11 @@ Public Class GPSModel
     Private ReadOnly trainer As GPSTrainer
     Private ReadOnly engine As VirtualPerturbationEngine
 
+    ''' <summary>
+    ''' 训练数据推导出的对照窗口；<see cref="ResetContext"/> 用它把上下文条件恢复到训练基线。
+    ''' </summary>
+    Private ReadOnly trainingBaseline As Double(,)
+
     Private _lastResult As GPSTrainingResult
     Private _trainerState As GPSTrainingState
 
@@ -197,8 +202,10 @@ Public Class GPSModel
         ' ---- 4. 模型与训练器 ----
         Me.grn = New GRNModel(Me.regulatoryGraph, Me.graphEncoding, Me.cfg)
         Me.trainer = New GPSTrainer(Me.grn, Me.cfg)
+        Me.trainingBaseline = BuildBaselineWindow()
         Me.engine = New VirtualPerturbationEngine(
-            Me.grn, Me.Preprocessed, BuildBaselineWindow(), Me.cfg.SignificanceZScore)
+            Me.grn, Me.Preprocessed, Me.trainingBaseline,
+            Me.cfg.SignificanceZScore, Me.cfg.KnockdownResidual)
     End Sub
 
     ''' <summary>
@@ -317,6 +324,112 @@ Public Class GPSModel
 
         Return Evaluator.EvaluatePersistence(windows, Evaluator.IsolatedGeneMask(grn))
     End Function
+
+    ' ==================== 上下文条件化 ====================
+
+    ''' <summary>
+    ''' 敲低（CRISPRi）后目标基因保留的表达比例。
+    ''' </summary>
+    ''' <returns>取值区间 <c>[0,1)</c>，默认 0.2</returns>
+    ''' <remarks>
+    ''' 修改该值会清空扰动引擎的对照预测缓存，下一次调用会按新比例重新推理。
+    ''' </remarks>
+    Public Property KnockdownResidual As Double
+        Get
+            Return engine.KnockdownResidual
+        End Get
+        Set(value As Double)
+            engine.KnockdownResidual = value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' 逐基因的 log-CPM 均值（预处理时统计得到，反标准化用）。
+    ''' </summary>
+    ''' <returns>长度等于 <see cref="GeneNames"/> 的均值向量</returns>
+    Public ReadOnly Property GeneMeans As Double()
+        Get
+            Return preprocessedExpression.GeneMeans
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 逐基因的 log-CPM 标准差（预处理时统计得到，反标准化用）。
+    ''' </summary>
+    ''' <returns>长度等于 <see cref="GeneNames"/> 的标准差向量</returns>
+    Public ReadOnly Property GeneSDs As Double()
+        Get
+            Return preprocessedExpression.GeneSDs
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 每个训练样本的原始文库大小（CPM 归一化的分母）。
+    ''' </summary>
+    ''' <returns>长度等于样本数的文库大小向量</returns>
+    Public ReadOnly Property LibrarySizes As Double()
+        Get
+            Return preprocessedExpression.LibrarySizes
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 把外部细胞上下文注入模型，作为后续虚拟扰动的对照基线。
+    ''' </summary>
+    ''' <param name="genes">上下文表达谱的基因名（大小写不敏感；可只给出一部分基因）</param>
+    ''' <param name="logCpm">
+    ''' 与 <paramref name="genes"/> 一一对应的 <b>log2(CPM + 1)</b> 表达值；
+    ''' 由调用方完成文库归一化与 log 变换，模型只负责 z-score。
+    ''' </param>
+    ''' <remarks>
+    ''' 未出现在 <paramref name="genes"/> 中的建模基因会填入该基因的
+    ''' <see cref="GeneMeans"/>（标准化后为 0，即"等同对照均值"），
+    ''' 因此上下文可以只覆盖测序面板内的基因。
+    ''' </remarks>
+    Public Sub SetContext(genes As String(), logCpm As Double())
+        If genes Is Nothing Then Throw New ArgumentNullException(NameOf(genes))
+        If logCpm Is Nothing Then Throw New ArgumentNullException(NameOf(logCpm))
+        If genes.Length <> logCpm.Length Then
+            Throw New ArgumentException($"基因名数量 {genes.Length} 与表达值数量 {logCpm.Length} 不一致", NameOf(logCpm))
+        End If
+
+        Dim index As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+        Dim n As Integer = Me.GeneNames.Length
+        Dim z As Double() = New Double(n - 1) {}
+
+        For i As Integer = 0 To n - 1
+            index(Me.GeneNames(i)) = i
+        Next
+
+        ' 数组默认全 0：缺失基因填自身均值 ⇒ 标准化后为 0，等效于"该基因取对照水平"
+        Dim hit As Integer = 0
+
+        For k As Integer = 0 To genes.Length - 1
+            Dim name As String = genes(k)
+            Dim i As Integer
+
+            If String.IsNullOrEmpty(name) Then Continue For
+            If Not index.TryGetValue(name, i) Then Continue For
+
+            Dim sd As Double = System.Math.Max(Me.GeneSDs(i), 1.0E-08)
+
+            z(i) = (logCpm(k) - Me.GeneMeans(i)) / sd
+            hit += 1
+        Next
+
+        If hit = 0 Then
+            Throw New ArgumentException("上下文中没有任何基因与建模基因匹配，请检查基因标识空间（模型使用 Ensembl ID）", NameOf(genes))
+        End If
+
+        Call engine.SetBaselineWindow(engine.BuildStaticWindow(z))
+    End Sub
+
+    ''' <summary>
+    ''' 撤销 <see cref="SetContext"/>，把对照基线恢复为训练数据推导出的尾部时间窗。
+    ''' </summary>
+    Public Sub ResetContext()
+        Call engine.SetBaselineWindow(trainingBaseline)
+    End Sub
 
     ' ==================== InsilicoPerturbationExperiment ====================
 
