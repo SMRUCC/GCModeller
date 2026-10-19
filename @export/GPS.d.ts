@@ -247,11 +247,13 @@ declare namespace GPS {
      *  perturbation. Default 5.
      * 
      * + default value Is ``5``.
+     * @param CheckpointIntervalEpochs 
+     * + default value Is ``1``.
      * @param env 
      * + default value Is ``null``.
      * @return a validated [GPSConfig](cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig) object
    */
-   function gps_config(maxGenes?: object, cpmNormalize?: boolean, logTransform?: boolean, zScore?: boolean, peDim?: object, spdMaxDist?: object, coexpressionTopK?: object, minCoexpression?: number, dModel?: object, nLayers?: object, nHeads?: object, ffnDim?: object, dropout?: number, geneEmbedDim?: object, useSpdBias?: boolean, useGlobalAttention?: boolean, useLocalMpnn?: boolean, window?: object, gruHidden?: object, useUncertainty?: boolean, pretrainEpochs?: object, finetuneEpochs?: object, learningRate?: number, autofocusGamma?: number, lambdaDir?: number, lambdaL1?: number, lambdaPrior?: number, gradientClip?: number, earlyStopPatience?: object, maskRatio?: number, printEvery?: object, trainRatio?: number, validationRatio?: number, seed?: object, significanceZScore?: number, cascadeSteps?: object, env?: object): object;
+   function gps_config(maxGenes?: object, cpmNormalize?: boolean, logTransform?: boolean, zScore?: boolean, peDim?: object, spdMaxDist?: object, coexpressionTopK?: object, minCoexpression?: number, dModel?: object, nLayers?: object, nHeads?: object, ffnDim?: object, dropout?: number, geneEmbedDim?: object, useSpdBias?: boolean, useGlobalAttention?: boolean, useLocalMpnn?: boolean, window?: object, gruHidden?: object, useUncertainty?: boolean, pretrainEpochs?: object, finetuneEpochs?: object, learningRate?: number, autofocusGamma?: number, lambdaDir?: number, lambdaL1?: number, lambdaPrior?: number, gradientClip?: number, earlyStopPatience?: object, maskRatio?: number, printEvery?: object, trainRatio?: number, validationRatio?: number, seed?: object, significanceZScore?: number, cascadeSteps?: object, CheckpointIntervalEpochs?: object, env?: object): object;
    /**
     * Train the GPS model and return it together with the training diagnostics.
     * 
@@ -283,6 +285,8 @@ declare namespace GPS {
     * >  (the formatted multi line text).
     * 
      * @param gps the untrained model created by ``gps::build_gps``
+     * @param checkpoint 
+     * + default value Is ``null``.
      * @param env the R# runtime environment used to report errors
      * 
      * + default value Is ``null``.
@@ -290,5 +294,5 @@ declare namespace GPS {
      *  attributes attached; an R# error object is returned instead when the training fails or
      *  when the produced loss curve is not finite.
    */
-   function train(gps: object, env?: object): object;
+   function train(gps: object, checkpoint?: string, env?: object): object;
 }
