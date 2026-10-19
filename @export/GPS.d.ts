@@ -251,11 +251,31 @@ declare namespace GPS {
      * + default value Is ``5``.
      * @param CheckpointIntervalEpochs 
      * + default value Is ``1``.
+     * @param denseAttentionMaxNodes gene count up to which the exact dense attention (an ``N×N`` score matrix) and the exact
+     *  Laplacian positional encoding are used. Above this threshold the model switches to the
+     *  sparse candidate attention (``O(N·c·d)``) and to the random walk positional encoding, which
+     *  is what makes the whole genome scale (``N`` around 60 thousand) trainable. Default 1024.
+     * 
+     * + default value Is ``1024``.
+     * @param attentionNeighbors number of attention candidates per gene in the sparse mode (including the gene itself):
+     *  self + graph neighbourhood (budget truncated BFS) + hub genes + random long range links.
+     *  Default 32.
+     * 
+     * + default value Is ``32``.
+     * @param attentionRandomLinks number of random long range links per gene in the sparse mode; the slots left over by a
+     *  small graph neighbourhood are filled with additional random links, so even a prior network
+     *  without any edge still keeps a global receptive field. Default 8.
+     * 
+     * + default value Is ``8``.
+     * @param attentionHubGenes number of high degree genes included as global hubs in every candidate set of the sparse
+     *  mode. Default 8.
+     * 
+     * + default value Is ``8``.
      * @param env 
      * + default value Is ``null``.
      * @return a validated [GPSConfig](cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig) object
    */
-   function gps_config(maxGenes?: object, cpmNormalize?: boolean, logTransform?: boolean, zScore?: boolean, peDim?: object, spdMaxDist?: object, coexpressionTopK?: object, minCoexpression?: number, dModel?: object, nLayers?: object, nHeads?: object, ffnDim?: object, dropout?: number, geneEmbedDim?: object, useSpdBias?: boolean, useGlobalAttention?: boolean, useLocalMpnn?: boolean, window?: object, gruHidden?: object, useUncertainty?: boolean, pretrainEpochs?: object, finetuneEpochs?: object, learningRate?: number, autofocusGamma?: number, lambdaDir?: number, lambdaL1?: number, lambdaPrior?: number, gradientClip?: number, earlyStopPatience?: object, maskRatio?: number, printEvery?: object, trainRatio?: number, validationRatio?: number, seed?: object, significanceZScore?: number, cascadeSteps?: object, CheckpointIntervalEpochs?: object, env?: object): object;
+   function gps_config(maxGenes?: object, cpmNormalize?: boolean, logTransform?: boolean, zScore?: boolean, peDim?: object, spdMaxDist?: object, coexpressionTopK?: object, minCoexpression?: number, dModel?: object, nLayers?: object, nHeads?: object, ffnDim?: object, dropout?: number, geneEmbedDim?: object, useSpdBias?: boolean, useGlobalAttention?: boolean, useLocalMpnn?: boolean, window?: object, gruHidden?: object, useUncertainty?: boolean, pretrainEpochs?: object, finetuneEpochs?: object, learningRate?: number, autofocusGamma?: number, lambdaDir?: number, lambdaL1?: number, lambdaPrior?: number, gradientClip?: number, earlyStopPatience?: object, maskRatio?: number, printEvery?: object, trainRatio?: number, validationRatio?: number, seed?: object, significanceZScore?: number, cascadeSteps?: object, CheckpointIntervalEpochs?: object, denseAttentionMaxNodes?: object, attentionNeighbors?: object, attentionRandomLinks?: object, attentionHubGenes?: object, env?: object): object;
    /**
     * Train the GPS model and return it together with the training diagnostics.
     * 

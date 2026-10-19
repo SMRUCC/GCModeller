@@ -64,7 +64,11 @@
     <i>seed</i> = <span style='color: green;'>2024</span>,
     <i>significanceZScore</i> = <span style='color: green;'>0.5</span>,
     <i>cascadeSteps</i> = <span style='color: green;'>5</span>,
-    <i>CheckpointIntervalEpochs</i> = <span style='color: green;'>1</span>);</code></pre>
+    <i>CheckpointIntervalEpochs</i> = <span style='color: green;'>1</span>,
+    <i>denseAttentionMaxNodes</i> = <span style='color: green;'>1024</span>,
+    <i>attentionNeighbors</i> = <span style='color: green;'>32</span>,
+    <i>attentionRandomLinks</i> = <span style='color: green;'>8</span>,
+    <i>attentionHubGenes</i> = <span style='color: green;'>8</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -213,6 +217,22 @@
 
 <dt>cascadeSteps</dt>
 <dd><p>default number of recursive steps used by the temporal cascade simulation of a virtual perturbation. Default 5. [as integer]</p></dd>
+
+
+<dt>denseAttentionMaxNodes</dt>
+<dd><p>gene count up to which the exact dense attention (an <code>N×N</code> score matrix) and the exact Laplacian positional encoding are used. Above this threshold the model switches to the sparse candidate attention (<code>O(N·c·d)</code>) and to the random walk positional encoding, which is what makes the whole genome scale (<code>N</code> around 60 thousand) trainable. Default 1024. [as integer]</p></dd>
+
+
+<dt>attentionNeighbors</dt>
+<dd><p>number of attention candidates per gene in the sparse mode (including the gene itself): self + graph neighbourhood (budget truncated BFS) + hub genes + random long range links. Default 32. [as integer]</p></dd>
+
+
+<dt>attentionRandomLinks</dt>
+<dd><p>number of random long range links per gene in the sparse mode; the slots left over by a small graph neighbourhood are filled with additional random links, so even a prior network without any edge still keeps a global receptive field. Default 8. [as integer]</p></dd>
+
+
+<dt>attentionHubGenes</dt>
+<dd><p>number of high degree genes included as global hubs in every candidate set of the sparse mode. Default 8. [as integer]</p></dd>
 
         </table>
 

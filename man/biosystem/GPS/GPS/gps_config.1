@@ -40,6 +40,10 @@ gps_config \- Create a GPS model hyper-parameter configuration object.
 \fBsignificanceZScore\fR as double = 0.5, 
 \fBcascadeSteps\fR as integer = 5, 
 \fBCheckpointIntervalEpochs\fR as integer = 1, 
+\fBdenseAttentionMaxNodes\fR as integer = 1024, 
+\fBattentionNeighbors\fR as integer = 32, 
+\fBattentionRandomLinks\fR as integer = 8, 
+\fBattentionHubGenes\fR as integer = 8, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -257,6 +261,34 @@ Create a GPS model hyper-parameter configuration object.
 \fBcascadeSteps\fB \fR\- 
  default number of recursive steps used by the temporal cascade simulation of a virtual
  perturbation. Default 5.
+. 
+.PP
+.PP
+\fBdenseAttentionMaxNodes\fB \fR\- 
+ gene count up to which the exact dense attention (an \fBN×N\fR score matrix) and the exact
+ Laplacian positional encoding are used. Above this threshold the model switches to the
+ sparse candidate attention (\fBO(N·c·d)\fR) and to the random walk positional encoding, which
+ is what makes the whole genome scale (\fBN\fR around 60 thousand) trainable. Default 1024.
+. 
+.PP
+.PP
+\fBattentionNeighbors\fB \fR\- 
+ number of attention candidates per gene in the sparse mode (including the gene itself):
+ self + graph neighbourhood (budget truncated BFS) + hub genes + random long range links.
+ Default 32.
+. 
+.PP
+.PP
+\fBattentionRandomLinks\fB \fR\- 
+ number of random long range links per gene in the sparse mode; the slots left over by a
+ small graph neighbourhood are filled with additional random links, so even a prior network
+ without any edge still keeps a global receptive field. Default 8.
+. 
+.PP
+.PP
+\fBattentionHubGenes\fB \fR\- 
+ number of high degree genes included as global hubs in every candidate set of the sparse
+ mode. Default 8.
 . 
 .PP
 .SH VALUE

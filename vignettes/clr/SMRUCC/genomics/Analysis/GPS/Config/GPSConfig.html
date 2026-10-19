@@ -30,11 +30,15 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.GPS.Config
 export class GPSConfig {
+   AttentionHubGenes: integer;
+   AttentionNeighbors: integer;
+   AttentionRandomLinks: integer;
    AutofocusGamma: double;
    CascadeSteps: integer;
    CheckpointIntervalEpochs: integer;
    CoexpressionTopK: integer;
    CpmNormalize: boolean;
+   DenseAttentionMaxNodes: integer;
    DModel: integer;
    Dropout: double;
    EarlyStopPatience: integer;
