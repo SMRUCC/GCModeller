@@ -421,6 +421,14 @@ Module bnlearn
         Return PriorNetwork.ParseJson(data.SolveStream)
     End Function
 
+    <ExportAPI("read.prior_net")>
+    Public Function read_prior_net(file As String) As PriorNetwork
+        Dim edges As RegulatoryEdge() = file.LoadCsv(Of RegulatoryEdge)(mute:=True)
+        Dim net As New PriorNetwork(edges)
+
+        Return net
+    End Function
+
     ''' <summary>
     ''' create prior knowledge netwoek edges from the given vector data
     ''' </summary>

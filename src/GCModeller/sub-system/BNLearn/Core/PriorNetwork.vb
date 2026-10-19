@@ -70,6 +70,8 @@
 ' ============================================================
 
 Imports System.Globalization
+Imports System.Security.Policy
+Imports Microsoft.VisualBasic.ApplicationServices.Development.NetCoreApp
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 
@@ -126,6 +128,17 @@ Namespace Core
 
         ''' <summary>所有靶基因名称</summary>
         Public Property TargetNames As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+        Sub New()
+        End Sub
+
+        Sub New(edges As IEnumerable(Of RegulatoryEdge))
+            For Each edge As RegulatoryEdge In edges
+                Call _Edges.Add(edge)
+                Call TFNames.Add(edge.TF)
+                Call TargetNames.Add(edge.TargetGene)
+            Next
+        End Sub
 
         ''' <summary>
         ''' 将当前的先验调控网络序列化为JSON文本，用于持久化存储。
