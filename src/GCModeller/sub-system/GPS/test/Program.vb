@@ -527,12 +527,50 @@ Module Program
 
             ' 只跑预训练前 2 轮，模拟"意外中断"
             Call partialTrainer.Pretrain(interrupted.Dataset.Train(), epochs:=2, printEvery:=0)
+
+            ' 隔离断言 A：同配置全新实例跑同样 2 轮，应与 interrupted 逐位一致
+            ' （验证初始化与训练路径的确定性——续训轨迹一致的前提）
+            Dim probeModel As GPSModel = NewCheckpointTestModel(data, prior, pretrainEpochs:=2, finetuneEpochs:=2, checkpointInterval:=0)
+            Dim probeTrainer As New GPSTrainer(probeModel.Model, probeModel.Config)
+            Call probeTrainer.Pretrain(probeModel.Dataset.Train(), epochs:=2, printEvery:=0)
+
+            Dim dbgProbeDiff As Double = 0.0
+
+            For Each entry As ParameterEntry In probeModel.Model.Parameters.Entries
+                Dim twin As ParameterEntry = interrupted.Model.Parameters.Find(entry.Name)
+                Dim a As Double() = entry.Value.Data
+                Dim b As Double() = twin.Value.Data
+
+                For i As Integer = 0 To a.Length - 1
+                    dbgProbeDiff = System.Math.Max(dbgProbeDiff, System.Math.Abs(a(i) - b(i)))
+                Next
+            Next
+
+            Call Check(dbgProbeDiff <= 1.0E-12, $"两实例同训 2 轮参数一致（最大差异 {dbgProbeDiff:G3}）")
+
             Call GPSFile.SaveCheckpoint(interrupted, ckptPath, partialTrainer.CaptureState())
 
             Call Check(File.Exists(ckptPath), "中断现场已存为 checkpoint")
 
             ' 模拟进程重启：从 checkpoint 恢复并续跑剩余轮次
             Dim resumed As GPSModel = GPSFile.Load(ckptPath)
+
+            ' 隔离断言 B：加载后、续训前的参数应与 interrupted 逐位一致
+            ' （验证参数与动量的存取往返无损）
+            Dim dbgLoadDiff As Double = 0.0
+
+            For Each entry As ParameterEntry In interrupted.Model.Parameters.Entries
+                Dim twin As ParameterEntry = resumed.Model.Parameters.Find(entry.Name)
+                Dim a As Double() = entry.Value.Data
+                Dim b As Double() = twin.Value.Data
+
+                For i As Integer = 0 To a.Length - 1
+                    dbgLoadDiff = System.Math.Max(dbgLoadDiff, System.Math.Abs(a(i) - b(i)))
+                Next
+            Next
+
+            Call Check(dbgLoadDiff <= 1.0E-12, $"存取往返参数一致（最大差异 {dbgLoadDiff:G3}）")
+
             resumed.CheckpointPath = ckptPath
             Dim resumedResult As GPSTrainingResult = resumed.Train(resumeFromCheckpoint:=True, printEvery:=0)
 
@@ -591,15 +629,24 @@ Module Program
             Call Check(degraded.KnockoutGene("TF1") IsNot Nothing, "v1 包加载后可正常推理")
 
             ' ---- 6. 最优 epoch=0 的回滚修复 ----
-            ' 大学习率下第 0 轮即验证最优、后续变差：修复前不会回滚，
-            ' 修复后终值应等于只跑 1 轮微调的模型参数
-            Dim oneEpoch As GPSModel = NewCheckpointTestModel(data, prior, pretrainEpochs:=1, finetuneEpochs:=1, checkpointInterval:=0, learningRate:=0.5)
+            ' 大学习率 + 早停耐心 1：第 0 轮验证最优、第 1 轮变差即停。
+            ' 修复前（BestEpoch > 0 条件）不会回滚，终值停留在第 1 轮；
+            ' 修复后终值应回到第 0 轮快照，即等于只跑 1 轮微调的模型参数。
+            ' 切分比例压低训练集占比，保证小数据集也有验证窗口
+            Dim oneEpoch As GPSModel = NewCheckpointTestModel(data, prior, pretrainEpochs:=0, finetuneEpochs:=1,
+                                                              checkpointInterval:=0, learningRate:=6.0,
+                                                              trainRatio:=0.4, validationRatio:=0.4,
+                                                              earlyStopPatience:=1)
             Call oneEpoch.Train(0)
 
-            Dim rollback As GPSModel = NewCheckpointTestModel(data, prior, pretrainEpochs:=1, finetuneEpochs:=4, checkpointInterval:=0, learningRate:=0.5)
+            Dim rollback As GPSModel = NewCheckpointTestModel(data, prior, pretrainEpochs:=0, finetuneEpochs:=4,
+                                                              checkpointInterval:=0, learningRate:=6.0,
+                                                              trainRatio:=0.4, validationRatio:=0.4,
+                                                              earlyStopPatience:=1)
             Dim rollbackResult As GPSTrainingResult = rollback.Train(0)
 
-            Call Check(rollbackResult.BestEpoch = 0, $"大学习率下第 0 轮即最优（BestEpoch={rollbackResult.BestEpoch}）")
+            Call Check(rollbackResult.BestEpoch = 0, $"第 0 轮即验证最优（BestEpoch={rollbackResult.BestEpoch}）")
+            Call Check(rollbackResult.TrainLoss.Length = 2, $"耐心 1 触发早停（{rollbackResult.TrainLoss.Length} 轮）")
 
             Dim maxRollbackDiff As Double = 0.0
 
@@ -627,12 +674,18 @@ Module Program
     ''' <param name="finetuneEpochs">微调轮数</param>
     ''' <param name="checkpointInterval">checkpoint 间隔（epoch）</param>
     ''' <param name="learningRate">学习率</param>
+    ''' <param name="trainRatio">训练集时间点占比</param>
+    ''' <param name="validationRatio">验证集时间点占比</param>
+    ''' <param name="earlyStopPatience">早停耐心值</param>
     Private Function NewCheckpointTestModel(data As GeneExpressionData,
                                             prior As PriorNetwork,
                                             pretrainEpochs As Integer,
                                             finetuneEpochs As Integer,
                                             checkpointInterval As Integer,
-                                            Optional learningRate As Double = 0.01) As GPSModel
+                                            Optional learningRate As Double = 0.01,
+                                            Optional trainRatio As Double = 0.7,
+                                            Optional validationRatio As Double = 0.15,
+                                            Optional earlyStopPatience As Integer = 15) As GPSModel
 
         Dim config As New GPSConfig With {
             .MaxGenes = 0,
@@ -649,10 +702,16 @@ Module Program
             .FinetuneEpochs = finetuneEpochs,
             .LearningRate = learningRate,
             .PrintEvery = 0,
-            .EarlyStopPatience = 15,
+            .EarlyStopPatience = earlyStopPatience,
             .Seed = 77,
+            .TrainRatio = trainRatio,
+            .ValidationRatio = validationRatio,
             .CheckpointIntervalEpochs = checkpointInterval
         }
+
+        ' HeNormalInit 消费 TensorOps 的全局随机流：每次构造前重设种子，
+        ' 保证"连续训练"与"中断-恢复"两个模型的初始权重完全一致
+        TensorOps.Seed = 20240725
 
         Return New GPSModel(data, prior, config)
     End Function

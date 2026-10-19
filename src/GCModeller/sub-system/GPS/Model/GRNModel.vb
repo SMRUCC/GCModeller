@@ -195,7 +195,7 @@ Namespace Model
             Next
 
             ' ---- 时序编码与解码 ----
-            gru = New BatchGRU(d, config.GruHidden, store, "gru")
+            gru = New BatchGRU(d, config.GruHidden, store, "gru", seed:=config.Seed + 900)
             decoder = New PerGeneDecoder(n, config.GruHidden, store, "decoder")
 
             If config.UseUncertainty Then

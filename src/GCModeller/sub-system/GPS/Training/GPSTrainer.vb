@@ -29,7 +29,7 @@ Namespace Training
         ''' <summary>实际执行的微调轮数</summary>
         Public ReadOnly Property FinetuneEpochs As Integer
             Get
-                Return TrainLoss.Length
+                Return If(TrainLoss Is Nothing, 0, TrainLoss.Length)
             End Get
         End Property
 

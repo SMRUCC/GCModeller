@@ -264,7 +264,7 @@ Public Class GPSModel
         Try
             Call GPSFile.SaveCheckpoint(Me, CheckpointPath, _trainerState)
         Catch ex As Exception
-            Console.WriteLine($"  [GPS] checkpoint 写入失败（训练继续）：{ex.ToString()}")
+            Console.WriteLine($"  [GPS] checkpoint 写入失败（训练继续）：{ex.Message}")
         End Try
     End Sub
 

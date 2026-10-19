@@ -48,6 +48,10 @@ Namespace Model
         Private ReadOnly uhEntry As ParameterEntry
         Private ReadOnly bhEntry As ParameterEntry
 
+        ' 权重初始化随机源：种子由调用方（GRNModel 传配置种子）注入，
+        ' 保证同一配置下初始化可复现——这是 checkpoint 续训轨迹一致的前提之一
+        Private ReadOnly _rand As Random
+
         ''' <summary>单个时间步的前向中间量。</summary>
         Private Class StepCache
             Public X As Tensor
@@ -82,11 +86,14 @@ Namespace Model
         ''' <param name="hiddenSize">隐藏状态维度</param>
         ''' <param name="store">参数登记表</param>
         ''' <param name="name">参数名前缀</param>
-        Public Sub New(inputSize As Integer, hiddenSize As Integer, store As ParameterStore, Optional name As String = "gru")
+        ''' <param name="seed">初始化随机种子；Nothing 时退化为时间相关种子（不可复现）</param>
+        Public Sub New(inputSize As Integer, hiddenSize As Integer, store As ParameterStore,
+                       Optional name As String = "gru", Optional seed As Integer? = Nothing)
             If store Is Nothing Then Throw New ArgumentNullException(NameOf(store))
 
             Me.inputSize = inputSize
             Me.hiddenSize = hiddenSize
+            Me._rand = New Random(If(seed.HasValue, seed.Value, Environment.TickCount))
 
             Dim stdDev As Double = System.Math.Sqrt(2.0 / (inputSize + hiddenSize))
 
@@ -314,9 +321,19 @@ Namespace Model
             Call target.MarkHostModified()
         End Sub
 
-        ''' <summary>按正态分布初始化权重矩阵。</summary>
-        Private Shared Function RandomMatrix(rows As Integer, cols As Integer, stdDev As Double) As Tensor
-            Dim t As Tensor = Tensor.RandomNormal(New Integer() {rows, cols}, 0.0, CSng(stdDev))
+        ''' <summary>按正态分布初始化权重矩阵（使用构造时注入的随机源）。</summary>
+        Private Function RandomMatrix(rows As Integer, cols As Integer, stdDev As Double) As Tensor
+            Dim t As Tensor = New Tensor(rows, cols)
+            Dim data As Double() = t.Data
+
+            ' Box-Muller 变换，与 Tensor.RandomNormal 同分布
+            For i As Integer = 0 To data.Length - 1
+                Dim u1 As Double = 1.0 - _rand.NextDouble()
+                Dim u2 As Double = 1.0 - _rand.NextDouble()
+
+                data(i) = stdDev * System.Math.Sqrt(-2.0 * System.Math.Log(u1)) * System.Math.Sin(2.0 * System.Math.PI * u2)
+            Next
+
             Call t.MarkHostModified()
 
             Return t

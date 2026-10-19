@@ -748,7 +748,13 @@ Public Module GPSFile
     Private Function TrainingFromJson(json As String) As GPSTrainingResult
         If String.IsNullOrWhiteSpace(json) Then Return Nothing
 
-        Dim result As New GPSTrainingResult()
+        ' 曲线字段缺失时保留空数组而不是 Nothing：中断在训练早期保存的包
+        ' 可能只含 state 而没有曲线，调用方读取 FinetuneEpochs 等派生属性不应踩空
+        Dim result As New GPSTrainingResult With {
+            .PretrainLoss = New Double(-1) {},
+            .TrainLoss = New Double(-1) {},
+            .ValidationLoss = New Double(-1) {}
+        }
 
         Using document As JsonDocument = JsonDocument.Parse(json)
             Dim root As JsonElement = document.RootElement
