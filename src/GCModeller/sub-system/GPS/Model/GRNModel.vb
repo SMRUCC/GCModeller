@@ -220,11 +220,7 @@ Namespace Model
             Dim sequence As Tensor = New Tensor(windowSize, n, d)
 
             For t As Integer = 0 To windowSize - 1
-                Dim h As Tensor = BuildInitialEmbedding(_lastInput, t)
-
-                For Each layer As GPSLayer In layers
-                    h = layer.Forward(h, regulatoryGraph, graphEncoding.SpdBuckets, False)
-                Next
+                Dim h As Tensor = ForwardLayers(BuildInitialEmbedding(_lastInput, t), isTraining:=False)
 
                 Call WriteTimeStep(sequence, t, h)
             Next
@@ -290,14 +286,9 @@ Namespace Model
 
             ' ---- 逐时间步回传 GPS 主干（重算前向 + 立即反向） ----
             Dim dInput As Double(,) = New Double(n - 1, windowSize - 1) {}
-            Dim spd As Integer(,) = graphEncoding.SpdBuckets
 
             For t As Integer = windowSize - 1 To 0 Step -1
-                Dim h As Tensor = BuildInitialEmbedding(_lastInput, t)
-
-                For Each layer As GPSLayer In layers
-                    h = layer.Forward(h, regulatoryGraph, spd, False)
-                Next
+                Dim h As Tensor = ForwardLayers(BuildInitialEmbedding(_lastInput, t), isTraining:=False)
 
                 Dim dH As Tensor = SliceTimeStep(dSequence, t)
 
@@ -309,6 +300,33 @@ Namespace Model
             Next
 
             Return dInput
+        End Function
+
+        ''' <summary>
+        ''' 依次通过全部 GPS 融合层；按图编码的规模自动分派稠密 / 稀疏注意力。
+        ''' </summary>
+        ''' <param name="input">第一层的输入 [N, d]</param>
+        ''' <param name="isTraining">是否训练模式（决定层内 dropout）</param>
+        ''' <returns>主干输出 [N, d]</returns>
+        ''' <remarks>
+        ''' 两个重载的 <see cref="GPSLayer.Forward(Tensor, GEARSGraph.GeneRegulatoryGraph, Integer(,), Boolean)"/>
+        ''' 参数类型不同，因此这里必须先按 <see cref="GraphEncoding.IsSparse"/> 分支，
+        ''' 不能把 <c>Nothing</c> 直接传给重载（会导致重载解析歧义）。
+        ''' </remarks>
+        Private Function ForwardLayers(input As Tensor, isTraining As Boolean) As Tensor
+            Dim result As Tensor = input
+            Dim pattern As SparseAttentionPattern = graphEncoding.Pattern
+            Dim spd As Integer(,) = graphEncoding.SpdBuckets
+
+            For Each layer As GPSLayer In layers
+                If pattern IsNot Nothing Then
+                    result = layer.Forward(result, regulatoryGraph, pattern, isTraining)
+                Else
+                    result = layer.Forward(result, regulatoryGraph, spd, isTraining)
+                End If
+            Next
+
+            Return result
         End Function
 
         ''' <summary>

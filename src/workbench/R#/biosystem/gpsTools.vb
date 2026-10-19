@@ -273,6 +273,26 @@ Module gpsTools
     ''' default number of recursive steps used by the temporal cascade simulation of a virtual
     ''' perturbation. Default 5.
     ''' </param>
+    ''' <param name="denseAttentionMaxNodes">
+    ''' gene count up to which the exact dense attention (an ``N×N`` score matrix) and the exact
+    ''' Laplacian positional encoding are used. Above this threshold the model switches to the
+    ''' sparse candidate attention (``O(N·c·d)``) and to the random walk positional encoding, which
+    ''' is what makes the whole genome scale (``N`` around 60 thousand) trainable. Default 1024.
+    ''' </param>
+    ''' <param name="attentionNeighbors">
+    ''' number of attention candidates per gene in the sparse mode (including the gene itself):
+    ''' self + graph neighbourhood (budget truncated BFS) + hub genes + random long range links.
+    ''' Default 32.
+    ''' </param>
+    ''' <param name="attentionRandomLinks">
+    ''' number of random long range links per gene in the sparse mode; the slots left over by a
+    ''' small graph neighbourhood are filled with additional random links, so even a prior network
+    ''' without any edge still keeps a global receptive field. Default 8.
+    ''' </param>
+    ''' <param name="attentionHubGenes">
+    ''' number of high degree genes included as global hubs in every candidate set of the sparse
+    ''' mode. Default 8.
+    ''' </param>
     ''' <returns>a validated <see cref="GPSConfig"/> object</returns>
     ''' <exception cref="ArgumentException">the assembled configuration is not valid</exception>
     <ExportAPI("gps_config")>
@@ -314,6 +334,10 @@ Module gpsTools
                                Optional significanceZScore As Double = 0.5,
                                Optional cascadeSteps As Integer = 5,
                                Optional CheckpointIntervalEpochs As Integer = 1,
+                               Optional denseAttentionMaxNodes As Integer = 1024,
+                               Optional attentionNeighbors As Integer = 32,
+                               Optional attentionRandomLinks As Integer = 8,
+                               Optional attentionHubGenes As Integer = 8,
                                Optional env As Environment = Nothing) As Object
 
         Dim config As New GPSConfig With {
@@ -353,14 +377,20 @@ Module gpsTools
             .Seed = seed,
             .SignificanceZScore = significanceZScore,
             .CascadeSteps = cascadeSteps,
-            .CheckpointIntervalEpochs = CheckpointIntervalEpochs
+            .CheckpointIntervalEpochs = CheckpointIntervalEpochs,
+            .DenseAttentionMaxNodes = denseAttentionMaxNodes,
+            .AttentionNeighbors = attentionNeighbors,
+            .AttentionRandomLinks = attentionRandomLinks,
+            .AttentionHubGenes = attentionHubGenes
         }
 
         If Not config.Validate() Then
             Return RInternal.debug.stop(
                 "invalid GPS configuration: please check that nHeads divides dModel, " &
                 "window is at least 2, dropout is in [0, 1), maskRatio is in [0, 1), " &
-                "trainRatio + validationRatio is smaller than 1, and every dimension is positive.", env)
+                "trainRatio + validationRatio is smaller than 1, every dimension is positive, " &
+                "denseAttentionMaxNodes is at least 1, attentionNeighbors is at least 2 and " &
+                "attentionRandomLinks + attentionHubGenes is smaller than attentionNeighbors.", env)
         End If
 
         Return config

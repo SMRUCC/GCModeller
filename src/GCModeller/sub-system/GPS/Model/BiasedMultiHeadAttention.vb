@@ -294,59 +294,363 @@ Namespace Model
             Dim scale As Double = 1.0 / std.Sqrt(dk)
             Dim dInput As Tensor = Nothing
 
-            For h As Integer = 0 To nrHeads - 1
-                ' ---- 头输出：head = probs · Vf ----
-                Dim dProbs As Tensor = Nothing
-                Dim dVf As Tensor = Nothing
+            If cache.Pattern Is Nothing Then
+                ' ==================== 稠密路径（N×N 注意力权重） ====================
+                For h As Integer = 0 To nrHeads - 1
+                    ' ---- 头输出：head = probs · Vf ----
+                    Dim dProbs As Tensor = Nothing
+                    Dim dVf As Tensor = Nothing
 
-                Call TensorOps.BatchedMatMulBackward(dHeads(h), cache.Probs(h), cache.Vf(h), dProbs, dVf)
+                    Call TensorOps.BatchedMatMulBackward(dHeads(h), cache.Probs(h), cache.Vf(h), dProbs, dVf)
 
-                ' ---- softmax 反向 ----
-                ' 注意：偏置是在缩放之后加到分数上的，因此偏置表的梯度必须使用
-                ' 缩放前的 dScore；若先缩放再累积，偏置梯度会被缩小 1/sqrt(dk) 倍
-                Dim dScore As Tensor = TensorOps.SoftmaxBackward(cache.Probs(h), dProbs)
+                    ' ---- softmax 反向 ----
+                    ' 注意：偏置是在缩放之后加到分数上的，因此偏置表的梯度必须使用
+                    ' 缩放前的 dScore；若先缩放再累积，偏置梯度会被缩小 1/sqrt(dk) 倍
+                    Dim dScore As Tensor = TensorOps.SoftmaxBackward(cache.Probs(h), dProbs)
 
-                ' ---- 偏置表梯度：按 SPD 桶聚合（缩放前） ----
-                Call AccumulateBiasGradient(dScore, cache.SpdBuckets, h)
+                    ' ---- 偏置表梯度：按 SPD 桶聚合（缩放前） ----
+                    Call AccumulateBiasGradient(dScore, cache.SpdBuckets, h)
 
-                ' ---- 缩放，得到对 Qf·Kfᵀ 的梯度 ----
-                Call TensorOps.ScaleInPlace(dScore, scale)
+                    ' ---- 缩放，得到对 Qf·Kfᵀ 的梯度 ----
+                    Call TensorOps.ScaleInPlace(dScore, scale)
 
-                ' ---- 分数 = Qf · Kfᵀ ----
-                Dim dQf As Tensor = Nothing
-                Dim dKfT As Tensor = Nothing
+                    ' ---- 分数 = Qf · Kfᵀ ----
+                    Dim dQf As Tensor = Nothing
+                    Dim dKfT As Tensor = Nothing
 
-                Call TensorOps.BatchedMatMulBackward(dScore, cache.Qf(h), cache.KfT(h), dQf, dKfT)
-                Dim dKf As Tensor = TensorOps.TransposeLastTwo(dKfT)
+                    Call TensorOps.BatchedMatMulBackward(dScore, cache.Qf(h), cache.KfT(h), dQf, dKfT)
+                    Dim dKf As Tensor = TensorOps.TransposeLastTwo(dKfT)
 
-                ' ---- 输入投影 ----
-                Dim dQInput As Tensor = Nothing
-                Dim dQm As Tensor = Nothing
+                    Call AccumulateProjectionGradients(h, dQf, dKf, dVf, dInput)
+                Next
+            Else
+                ' ==================== 稀疏路径（N×c 注意力权重） ====================
+                Dim n As Integer = cache.Pattern.NGene
 
-                Call TensorOps.BatchedMatMulBackward(dQf, cache.Input, Qm(h), dQInput, dQm)
-                Call TensorOps.Accumulate(qEntry(h).Gradient, dQm)
+                For h As Integer = 0 To nrHeads - 1
+                    Dim dQf As Tensor = New Tensor(n, dk)
+                    Dim dKf As Tensor = New Tensor(n, dk)
+                    Dim dVf As Tensor = New Tensor(n, dv)
 
-                Dim dKInput As Tensor = Nothing
-                Dim dKm As Tensor = Nothing
-
-                Call TensorOps.BatchedMatMulBackward(dKf, cache.Input, Km(h), dKInput, dKm)
-                Call TensorOps.Accumulate(kEntry(h).Gradient, dKm)
-
-                Dim dVInput As Tensor = Nothing
-                Dim dVm As Tensor = Nothing
-
-                Call TensorOps.BatchedMatMulBackward(dVf, cache.Input, Vm(h), dVInput, dVm)
-                Call TensorOps.Accumulate(vEntry(h).Gradient, dVm)
-
-                If dInput Is Nothing Then dInput = TensorOps.ZerosLike(dQInput)
-
-                Call TensorOps.Accumulate(dInput, dQInput)
-                Call TensorOps.Accumulate(dInput, dKInput)
-                Call TensorOps.Accumulate(dInput, dVInput)
-            Next
+                    Call SparseAttentionBackward(cache, h, dHeads(h), dQf, dKf, dVf)
+                    Call AccumulateProjectionGradients(h, dQf, dKf, dVf, dInput)
+                Next
+            End If
 
             Return dInput
         End Function
+
+        ''' <summary>
+        ''' 输入投影的反向：把 Qf/Kf/Vf 的梯度回传到输入并累积三组投影权重梯度。
+        ''' </summary>
+        ''' <param name="head">头编号</param>
+        ''' <param name="dQf">查询投影梯度 [N, dk]</param>
+        ''' <param name="dKf">键投影梯度 [N, dk]</param>
+        ''' <param name="dVf">值投影梯度 [N, dv]</param>
+        ''' <param name="dInput">输入梯度累加目标（首次调用时为 Nothing，内部初始化）</param>
+        Private Sub AccumulateProjectionGradients(head As Integer,
+                                                  dQf As Tensor,
+                                                  dKf As Tensor,
+                                                  dVf As Tensor,
+                                                  ByRef dInput As Tensor)
+
+            Dim cache As Cache = _lastCache
+
+            Dim dQInput As Tensor = Nothing
+            Dim dQm As Tensor = Nothing
+
+            Call TensorOps.BatchedMatMulBackward(dQf, cache.Input, Qm(head), dQInput, dQm)
+            Call TensorOps.Accumulate(qEntry(head).Gradient, dQm)
+
+            Dim dKInput As Tensor = Nothing
+            Dim dKm As Tensor = Nothing
+
+            Call TensorOps.BatchedMatMulBackward(dKf, cache.Input, Km(head), dKInput, dKm)
+            Call TensorOps.Accumulate(kEntry(head).Gradient, dKm)
+
+            Dim dVInput As Tensor = Nothing
+            Dim dVm As Tensor = Nothing
+
+            Call TensorOps.BatchedMatMulBackward(dVf, cache.Input, Vm(head), dVInput, dVm)
+            Call TensorOps.Accumulate(vEntry(head).Gradient, dVm)
+
+            If dInput Is Nothing Then dInput = TensorOps.ZerosLike(dQInput)
+
+            Call TensorOps.Accumulate(dInput, dQInput)
+            Call TensorOps.Accumulate(dInput, dKInput)
+            Call TensorOps.Accumulate(dInput, dVInput)
+        End Sub
+
+        ''' <summary>
+        ''' 稀疏注意力前向：每行只在 <c>c</c> 个候选上做 softmax，输出按加权和写回。
+        ''' </summary>
+        ''' <param name="qf">查询投影 [N, dk]</param>
+        ''' <param name="kf">键投影 [N, dk]</param>
+        ''' <param name="vf">值投影 [N, dv]</param>
+        ''' <param name="pattern">稀疏候选模式</param>
+        ''' <param name="head">头编号</param>
+        ''' <param name="weights">输出：注意力权重 [N, c]</param>
+        ''' <param name="output">输出：头输出 [N, dv]</param>
+        ''' <remarks>
+        ''' 直接按候选下标读取 <c>K/V</c>，不构造 <c>[N, c, dk]</c> 的中间张量，
+        ''' 因此额外内存只有 <c>O(N·c)</c> 的权重缓存与每线程 <c>O(c + dv)</c> 的 scratch。
+        ''' </remarks>
+        Private Sub SparseAttentionForward(qf As Tensor,
+                                           kf As Tensor,
+                                           vf As Tensor,
+                                           pattern As SparseAttentionPattern,
+                                           head As Integer,
+                                           weights As Tensor,
+                                           output As Tensor)
+
+            Dim n As Integer = pattern.NGene
+            Dim c As Integer = pattern.CandidateCount
+            Dim dk As Integer = Me.dk
+            Dim dv As Integer = Me.dv
+            Dim scale As Double = 1.0 / std.Sqrt(dk)
+
+            Dim targets As Integer(,) = pattern.Targets
+            Dim buckets As Integer(,) = pattern.Buckets
+            Dim q As Double() = qf.Data
+            Dim k As Double() = kf.Data
+            Dim v As Double() = vf.Data
+            Dim bias As Double() = spdBiasTable.Data
+            Dim w As Double() = weights.Data
+            Dim o As Double() = output.Data
+            Dim heads As Integer = nrHeads
+
+            Call ParallelChunks(n,
+                Sub(first As Integer, last As Integer)
+                    Dim scores As Double() = New Double(c - 1) {}
+                    Dim acc As Double() = New Double(dv - 1) {}
+
+                    For i As Integer = first To last
+                        Dim qBase As Integer = i * dk
+                        Dim maxScore As Double = Double.NegativeInfinity
+
+                        For j As Integer = 0 To c - 1
+                            Dim kBase As Integer = targets(i, j) * dk
+                            Dim score As Double = 0.0
+
+                            For x As Integer = 0 To dk - 1
+                                score += q(qBase + x) * k(kBase + x)
+                            Next
+
+                            score = score * scale + bias(buckets(i, j) * heads + head)
+                            scores(j) = score
+
+                            If score > maxScore Then maxScore = score
+                        Next
+
+                        Dim sum As Double = 0.0
+
+                        For j As Integer = 0 To c - 1
+                            Dim e As Double = std.Exp(scores(j) - maxScore)
+
+                            scores(j) = e
+                            sum += e
+                        Next
+
+                        Dim inv As Double = If(sum > 0.0, 1.0 / sum, 0.0)
+                        Dim row As Integer = i * c
+
+                        For x As Integer = 0 To dv - 1
+                            acc(x) = 0.0
+                        Next
+
+                        For j As Integer = 0 To c - 1
+                            Dim p As Double = scores(j) * inv
+
+                            w(row + j) = p
+
+                            Dim vBase As Integer = targets(i, j) * dv
+
+                            For x As Integer = 0 To dv - 1
+                                acc(x) += p * v(vBase + x)
+                            Next
+                        Next
+
+                        Dim oBase As Integer = i * dv
+
+                        For x As Integer = 0 To dv - 1
+                            o(oBase + x) = acc(x)
+                        Next
+                    Next
+                End Sub)
+
+            Call weights.MarkHostModified()
+            Call output.MarkHostModified()
+        End Sub
+
+        ''' <summary>
+        ''' 稀疏注意力反向：softmax、偏置表与 Q/K/V 的梯度。
+        ''' </summary>
+        ''' <param name="cache">前向缓存（必须来自稀疏模式）</param>
+        ''' <param name="head">头编号</param>
+        ''' <param name="dOut">头输出梯度 [N, dv]</param>
+        ''' <param name="dQf">输出：查询投影梯度 [N, dk]</param>
+        ''' <param name="dKf">输出：键投影梯度 [N, dk]</param>
+        ''' <param name="dVf">输出：值投影梯度 [N, dv]</param>
+        ''' <remarks>
+        ''' 写竞争处理：
+        ''' <list type="bullet">
+        ''' <item><description><c>dQ</c> 按行并行，每行只写自己的 <c>dk</c> 段；</description></item>
+        ''' <item><description><c>dK/dV</c> 按<b>目标节点</b>并行，通过反向索引把"谁关注了我"聚合起来，
+        ''' 每个目标行只被一个线程写；</description></item>
+        ''' <item><description>偏置表梯度按桶聚合，同一桶会被多行写入，因此串行执行（O(N·c)，
+        ''' 相对注意力本身可忽略）。</description></item>
+        ''' </list>
+        ''' </remarks>
+        Private Sub SparseAttentionBackward(cache As Cache,
+                                            head As Integer,
+                                            dOut As Tensor,
+                                            dQf As Tensor,
+                                            dKf As Tensor,
+                                            dVf As Tensor)
+
+            Dim pattern As SparseAttentionPattern = cache.Pattern
+            Dim n As Integer = pattern.NGene
+            Dim c As Integer = pattern.CandidateCount
+            Dim dk As Integer = Me.dk
+            Dim dv As Integer = Me.dv
+            Dim scale As Double = 1.0 / std.Sqrt(dk)
+
+            Dim targets As Integer(,) = pattern.Targets
+            Dim buckets As Integer(,) = pattern.Buckets
+            Dim reverseOffsets As Integer() = pattern.ReverseOffsets
+            Dim reverseSources As Integer() = pattern.ReverseSources
+
+            Dim q As Double() = cache.Qf(head).Data
+            Dim k As Double() = cache.Kf(head).Data
+            Dim v As Double() = cache.Vf(head).Data
+            Dim w As Double() = cache.Probs(head).Data
+            Dim go As Double() = dOut.Data
+            Dim heads As Integer = nrHeads
+
+            Dim dScore As Double() = New Double(n * c - 1) {}
+
+            ' ---- 1. softmax 反向：dScore_ij = p_ij·(dp_ij − Σ_k p_ik·dp_ik) ----
+            Call ParallelChunks(n,
+                Sub(first As Integer, last As Integer)
+                    Dim dProbs As Double() = New Double(c - 1) {}
+
+                    For i As Integer = first To last
+                        Dim oBase As Integer = i * dv
+                        Dim dot As Double = 0.0
+
+                        For j As Integer = 0 To c - 1
+                            Dim vBase As Integer = targets(i, j) * dv
+                            Dim dp As Double = 0.0
+
+                            For x As Integer = 0 To dv - 1
+                                dp += go(oBase + x) * v(vBase + x)
+                            Next
+
+                            dProbs(j) = dp
+                            dot += w(i * c + j) * dp
+                        Next
+
+                        For j As Integer = 0 To c - 1
+                            Dim p As Double = w(i * c + j)
+
+                            dScore(i * c + j) = p * (dProbs(j) - dot)
+                        Next
+                    Next
+                End Sub)
+
+            ' ---- 2. 偏置表梯度（缩放前聚合，与稠密路径口径一致） ----
+            Dim biasGrad As Double() = biasEntry.Gradient.Data
+
+            For i As Integer = 0 To n - 1
+                Dim row As Integer = i * c
+
+                For j As Integer = 0 To c - 1
+                    biasGrad(buckets(i, j) * heads + head) += dScore(row + j)
+                Next
+            Next
+
+            Call biasEntry.Gradient.MarkHostModified()
+
+            ' ---- 3. dQ：每行独立 ----
+            Dim dq As Double() = dQf.Data
+
+            Call ParallelChunks(n,
+                Sub(first As Integer, last As Integer)
+                    For i As Integer = first To last
+                        Dim qBase As Integer = i * dk
+                        Dim row As Integer = i * c
+
+                        For j As Integer = 0 To c - 1
+                            Dim weight As Double = dScore(row + j) * scale
+
+                            If weight = 0.0 Then Continue For
+
+                            Dim kBase As Integer = targets(i, j) * dk
+
+                            For x As Integer = 0 To dk - 1
+                                dq(qBase + x) += weight * k(kBase + x)
+                            Next
+                        Next
+                    Next
+                End Sub)
+
+            Call dQf.MarkHostModified()
+
+            ' ---- 4. dK/dV：按目标节点并行（反向索引，单写者） ----
+            Dim dkData As Double() = dKf.Data
+            Dim dvData As Double() = dVf.Data
+
+            Call ParallelChunks(n,
+                Sub(first As Integer, last As Integer)
+                    For target As Integer = first To last
+                        Dim dkBase As Integer = target * dk
+                        Dim dvBase As Integer = target * dv
+
+                        For s As Integer = reverseOffsets(target) To reverseOffsets(target + 1) - 1
+                            Dim encoded As Integer = reverseSources(s)
+                            Dim i As Integer = encoded \ c
+                            Dim slot As Integer = encoded - i * c
+                            Dim weight As Double = dScore(i * c + slot) * scale
+                            Dim qBase As Integer = i * dk
+
+                            For x As Integer = 0 To dk - 1
+                                dkData(dkBase + x) += weight * q(qBase + x)
+                            Next
+
+                            Dim p As Double = w(i * c + slot)
+                            Dim oBase As Integer = i * dv
+
+                            For x As Integer = 0 To dv - 1
+                                dvData(dvBase + x) += p * go(oBase + x)
+                            Next
+                        Next
+                    Next
+                End Sub)
+
+            Call dKf.MarkHostModified()
+            Call dVf.MarkHostModified()
+        End Sub
+
+        ''' <summary>
+        ''' 把 <c>[0, n)</c> 切成若干块并并行执行；每块调用一次委托，
+        ''' 便于委托内部创建"每线程一份"的 scratch 数组。
+        ''' </summary>
+        ''' <param name="n">元素总数</param>
+        ''' <param name="body">块执行体，参数为 <c>(first, last)</c>（闭区间）</param>
+        Private Shared Sub ParallelChunks(n As Integer, body As System.Action(Of Integer, Integer))
+            If n <= 0 Then Return
+
+            Dim chunk As Integer = System.Math.Max(1, n \ System.Math.Max(1, Environment.ProcessorCount * 4))
+            Dim chunks As Integer = (n + chunk - 1) \ chunk
+
+            Call System.Threading.Tasks.Parallel.For(0, chunks,
+                Sub(ci As Integer)
+                    Dim first As Integer = ci * chunk
+                    Dim last As Integer = System.Math.Min(n, first + chunk) - 1
+
+                    Call body(first, last)
+                End Sub)
+        End Sub
 
         ''' <summary>
         ''' 把第 <paramref name="head"/> 个头的空间偏置加到注意力分数上（原地）。

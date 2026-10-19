@@ -1,6 +1,7 @@
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
 Imports SMRUCC.genomics.Analysis.GEARS.Layers
+Imports SMRUCC.genomics.Analysis.GPS.Graph
 Imports GEARSGraph = SMRUCC.genomics.Analysis.GEARS.Graph
 Imports GNN = Microsoft.VisualBasic.DeepLearning.GNN
 
@@ -224,6 +225,38 @@ Namespace Model
                                 spdBuckets As Integer(,),
                                 isTraining As Boolean) As Tensor
 
+            Return ForwardCore(input, graphData, spdBuckets, Nothing, isTraining)
+        End Function
+
+        ''' <summary>
+        ''' 前向传播（稀疏注意力）：注意力支路只在每基因的候选集上计算。
+        ''' </summary>
+        ''' <param name="input">节点嵌入 [N, d]</param>
+        ''' <param name="graphData">基因调控图（MPNN 支路使用）</param>
+        ''' <param name="pattern">稀疏候选模式（注意力支路使用）</param>
+        ''' <param name="isTraining">是否处于训练模式（决定是否应用 dropout）</param>
+        ''' <returns>更新后的节点嵌入 [N, d]</returns>
+        Public Function Forward(input As Tensor,
+                                graphData As GEARSGraph.GeneRegulatoryGraph,
+                                pattern As SparseAttentionPattern,
+                                isTraining As Boolean) As Tensor
+
+            Return ForwardCore(input, graphData, Nothing, pattern, isTraining)
+        End Function
+
+        ''' <summary>前向传播的公共实现：按传入的桶矩阵 / 候选模式选择稠密或稀疏注意力。</summary>
+        ''' <param name="input">节点嵌入 [N, d]</param>
+        ''' <param name="graphData">基因调控图（MPNN 支路使用）</param>
+        ''' <param name="spdBuckets">稠密 SPD 桶矩阵；稀疏模式下传 Nothing</param>
+        ''' <param name="pattern">稀疏候选模式；稠密模式下传 Nothing</param>
+        ''' <param name="isTraining">是否处于训练模式（决定是否应用 dropout）</param>
+        ''' <returns>更新后的节点嵌入 [N, d]</returns>
+        Private Function ForwardCore(input As Tensor,
+                                     graphData As GEARSGraph.GeneRegulatoryGraph,
+                                     spdBuckets As Integer(,),
+                                     pattern As SparseAttentionPattern,
+                                     isTraining As Boolean) As Tensor
+
             If input Is Nothing Then Throw New ArgumentNullException(NameOf(input))
 
             Dim dropoutApplied As Boolean = isTraining AndAlso dropoutRate > 0.0
@@ -231,8 +264,18 @@ Namespace Model
             ' ---- 支路 1：局部消息传递（线性聚合后在本层做双精度 tanh） ----
             Dim local As Tensor = If(useMpnn, Tensor.computeKernel.Tanh(mpnnLayer.Forward(input, graphData)), input)
 
-            ' ---- 支路 2：全局注意力 ----
-            Dim global_ As Tensor = If(useAttn, attn.Forward(input, spdBuckets), input)
+            ' ---- 支路 2：全局注意力（显式类型化，避免重载歧义） ----
+            Dim global_ As Tensor
+
+            If useAttn Then
+                If pattern Is Nothing Then
+                    global_ = attn.Forward(input, spdBuckets)
+                Else
+                    global_ = attn.Forward(input, pattern)
+                End If
+            Else
+                global_ = input
+            End If
 
             Dim localDropped As Tensor = local
             Dim globalDropped As Tensor = global_
