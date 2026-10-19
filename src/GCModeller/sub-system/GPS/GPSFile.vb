@@ -56,6 +56,18 @@ Public Class GPSPackageManifest
     ''' <summary>最优验证损失（无验证集时为 +∞）</summary>
     Public Property BestValidationLoss As Double
 
+    ''' <summary>全局参数更新步数（Adam 偏置校正依据；无训练状态时为 0）</summary>
+    Public Property StepIndex As Integer
+
+    ''' <summary>中断时所处阶段（0=预训练, 1=微调；无训练状态时为 0）</summary>
+    Public Property Phase As Integer
+
+    ''' <summary>预训练已完成的 epoch 数</summary>
+    Public Property PretrainEpochsDone As Integer
+
+    ''' <summary>微调已完成的 epoch 数</summary>
+    Public Property FinetuneEpochsDone As Integer
+
     ''' <summary>备注（自由文本）</summary>
     Public Property Notes As String
 
@@ -101,7 +113,12 @@ Public Module GPSFile
     Public Const PackageFormat As String = "GCModeller.GPS"
 
     ''' <summary>当前包格式版本</summary>
-    Public Const PackageVersion As Integer = 1
+    ''' <remarks>
+    ''' v2 起包内可携带训练状态：<c>optimizer.tsv</c>（Adam 一阶/二阶矩）与
+    ''' <c>training.json</c> 内嵌的 <c>state</c> 对象（步计数/阶段进度/早停/最优快照/曲线前缀）。
+    ''' 读取端对缺失条目按 v1 降级处理，v1 包仍可正常加载。
+    ''' </remarks>
+    Public Const PackageVersion As Integer = 2
 
     ' 包内条目名
     Private Const EntryManifest As String = "manifest.json"
@@ -110,6 +127,7 @@ Public Module GPSFile
     Private Const EntryPrior As String = "prior.json"
     Private Const EntryParameters As String = "parameters.tsv"
     Private Const EntryTraining As String = "training.json"
+    Private Const EntryOptimizer As String = "optimizer.tsv"
 
     ''' <summary>
     ''' 把训练好的模型保存为 zip 压缩包。
@@ -119,8 +137,10 @@ Public Module GPSFile
     ''' <remarks>
     ''' 先写入同目录的临时文件，成功后再原子替换目标文件，
     ''' 避免写入中途失败留下半截的包。
+    ''' 模型此前训练过（<see cref="GPSModel.TrainerState"/> 非空）时，
+    ''' 包内会附带优化器动量与训练状态，可直接用于续训。
     ''' </remarks>
-    ''' 
+    '''
     <Extension>
     Public Sub Save(model As GPSModel, filePath As String)
         If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
@@ -128,6 +148,36 @@ Public Module GPSFile
             Throw New ArgumentException("输出路径不能为空", NameOf(filePath))
         End If
 
+        Call SaveAtomic(filePath,
+                        Sub(stream) Call Save(model, stream, model.TrainerState))
+    End Sub
+
+    ''' <summary>
+    ''' 把模型与训练状态一起保存为 checkpoint 包（原子写入，覆盖式滚动更新）。
+    ''' </summary>
+    ''' <param name="model">模型</param>
+    ''' <param name="filePath">输出路径</param>
+    ''' <param name="state">训练器状态；Nothing 时退化为普通 <see cref="Save(GPSModel, String)"/></param>
+    ''' <remarks>
+    ''' 与 <see cref="Save(GPSModel, String)"/> 的差别仅在于：即使模型尚未标记
+    ''' "已训练"（例如中断在第一个 epoch 的 checkpoint 回调里），也会写入
+    ''' <paramref name="state"/> 与优化器动量，保证中断现场完整。
+    ''' </remarks>
+    <Extension>
+    Public Sub SaveCheckpoint(model As GPSModel, filePath As String, state As GPSTrainingState)
+        If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
+        If String.IsNullOrWhiteSpace(filePath) Then
+            Throw New ArgumentException("输出路径不能为空", NameOf(filePath))
+        End If
+
+        Call SaveAtomic(filePath,
+                        Sub(stream) Call Save(model, stream, state))
+    End Sub
+
+    ''' <summary>原子写辅助：临时文件 + 替换，失败不留半截包。</summary>
+    ''' <param name="filePath">目标路径</param>
+    ''' <param name="write">写包体委托（在临时文件的流上执行）</param>
+    Private Sub SaveAtomic(filePath As String, write As Action(Of Stream))
         Dim directory As String = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(filePath))
 
         If Not String.IsNullOrEmpty(directory) AndAlso Not System.IO.Directory.Exists(directory) Then
@@ -141,7 +191,7 @@ Public Module GPSFile
         End If
 
         Using stream As New FileStream(tempFile, FileMode.CreateNew, FileAccess.Write)
-            Call model.Save(stream)
+            Call write(stream)
         End Using
 
         If System.IO.File.Exists(filePath) Then
@@ -152,22 +202,28 @@ Public Module GPSFile
     End Sub
 
     ''' <summary>
-    ''' 
+    ''' 把模型（可选附带训练状态）写入 zip 流。
     ''' </summary>
-    ''' <param name="model"></param>
-    ''' <param name="stream"></param>
+    ''' <param name="model">模型</param>
+    ''' <param name="stream">输出流</param>
+    ''' <param name="state">训练器状态；Nothing 时只写权重与曲线（v1 等价内容）</param>
     ''' <remarks>
     ''' this function will close the zip file stream after all model data has been save in to the zip archive 
     ''' </remarks>
     <Extension>
-    Public Sub Save(model As GPSModel, stream As Stream)
+    Public Sub Save(model As GPSModel, stream As Stream, Optional state As GPSTrainingState = Nothing)
         Using archive As New ZipArchive(stream, ZipArchiveMode.Create)
-            Call WriteTextEntry(archive, EntryManifest, BuildManifestJson(model))
+            Call WriteTextEntry(archive, EntryManifest, BuildManifestJson(model, state))
             Call WriteTextEntry(archive, EntryConfig, ConfigToJson(model.Config))
             Call WriteTextEntry(archive, EntryExpression, ExpressionToJson(model.Expression))
             Call WriteTextEntry(archive, EntryPrior, model.Prior.ToJson(indent:=False))
             Call WriteTextEntry(archive, EntryParameters, ParametersToTsv(model.Model.Parameters))
-            Call WriteTextEntry(archive, EntryTraining, TrainingToJson(model.LastTrainingResult))
+
+            If state IsNot Nothing Then
+                Call WriteTextEntry(archive, EntryOptimizer, model.Model.Parameters.SaveMomenta())
+            End If
+
+            Call WriteTextEntry(archive, EntryTraining, TrainingToJson(model.LastTrainingResult, state))
         End Using
     End Sub
 
@@ -203,12 +259,21 @@ Public Module GPSFile
 
             Call ApplyParameters(model.Model.Parameters, ReadRequiredEntry(archive, EntryParameters))
 
+            ' v2 起携带 Adam 动量；条目缺失（v1 包）时按零动量降级，
+            ' 表现为"权重热启动、优化器冷启动"的旧语义
+            Dim optimizerText As String = ReadTextEntry(archive, EntryOptimizer)
+
+            If Not String.IsNullOrWhiteSpace(optimizerText) Then
+                Call model.Model.Parameters.RestoreMomenta(optimizerText)
+            End If
+
             Dim trainingText As String = ReadTextEntry(archive, EntryTraining)
 
             If Not String.IsNullOrWhiteSpace(trainingText) Then
                 Dim result As GPSTrainingResult = TrainingFromJson(trainingText)
+                Dim state As GPSTrainingState = StateFromTrainingJson(trainingText)
 
-                If result IsNot Nothing Then Call model.AttachTrainingResult(result)
+                Call model.AttachTrainingResult(result, state)
             End If
 
             Return model
@@ -277,7 +342,7 @@ Public Module GPSFile
     ''' <summary>构造清单 JSON。</summary>
     ''' <param name="model">模型</param>
     ''' <returns>JSON 文本</returns>
-    Private Function BuildManifestJson(model As GPSModel) As String
+    Private Function BuildManifestJson(model As GPSModel, state As GPSTrainingState) As String
         Dim manifest As New GPSPackageManifest With {
             .Format = PackageFormat,
             .Version = PackageVersion,
@@ -293,6 +358,10 @@ Public Module GPSFile
             .BestValidationLoss = If(model.LastTrainingResult Is Nothing,
                                      Double.PositiveInfinity,
                                      model.LastTrainingResult.BestValidationLoss),
+            .StepIndex = If(state Is Nothing, 0, state.StepIndex),
+            .Phase = If(state Is Nothing, 0, state.Phase),
+            .PretrainEpochsDone = If(state Is Nothing, 0, state.PretrainEpochsDone),
+            .FinetuneEpochsDone = If(state Is Nothing, 0, state.FinetuneEpochsDone),
             .Notes = "generated by SMRUCC.genomics.Analysis.GPS.GPSFile"
         }
 
@@ -318,6 +387,10 @@ Public Module GPSFile
                     writer.WriteNumber(NameOf(GPSPackageManifest.BestValidationLoss), manifest.BestValidationLoss)
                 End If
 
+                writer.WriteNumber(NameOf(GPSPackageManifest.StepIndex), manifest.StepIndex)
+                writer.WriteNumber(NameOf(GPSPackageManifest.Phase), manifest.Phase)
+                writer.WriteNumber(NameOf(GPSPackageManifest.PretrainEpochsDone), manifest.PretrainEpochsDone)
+                writer.WriteNumber(NameOf(GPSPackageManifest.FinetuneEpochsDone), manifest.FinetuneEpochsDone)
                 writer.WriteString(NameOf(GPSPackageManifest.Notes), manifest.Notes)
                 writer.WriteEndObject()
             End Sub)
@@ -350,6 +423,12 @@ Public Module GPSFile
                                                  Double.PositiveInfinity,
                                                  value.GetDouble())
             End If
+
+            ' v2 起的 checkpoint 元信息；v1 包缺失时保留默认值
+            If root.TryGetProperty(NameOf(GPSPackageManifest.StepIndex), value) Then manifest.StepIndex = value.GetInt32()
+            If root.TryGetProperty(NameOf(GPSPackageManifest.Phase), value) Then manifest.Phase = value.GetInt32()
+            If root.TryGetProperty(NameOf(GPSPackageManifest.PretrainEpochsDone), value) Then manifest.PretrainEpochsDone = value.GetInt32()
+            If root.TryGetProperty(NameOf(GPSPackageManifest.FinetuneEpochsDone), value) Then manifest.FinetuneEpochsDone = value.GetInt32()
 
             If root.TryGetProperty(NameOf(GPSPackageManifest.Notes), value) Then manifest.Notes = value.GetString()
         End Using
@@ -605,28 +684,62 @@ Public Module GPSFile
 
     ' ==================== 训练结果 ====================
 
-    ''' <summary>把训练结果写成 JSON；未训练时返回空字符串。</summary>
+    ''' <summary>
+    ''' 把训练结果（与可选的训练状态）写成 JSON；两者都为空时返回空字符串。
+    ''' </summary>
     ''' <param name="result">训练结果</param>
+    ''' <param name="state">训练器状态；非空时以 <c>state</c> 子对象内嵌</param>
     ''' <returns>JSON 文本或空字符串</returns>
-    Private Function TrainingToJson(result As GPSTrainingResult) As String
-        If result Is Nothing Then Return ""
+    Private Function TrainingToJson(result As GPSTrainingResult, state As GPSTrainingState) As String
+        If result Is Nothing AndAlso state Is Nothing Then Return ""
 
         Return Serialize(
             Sub(writer)
                 writer.WriteStartObject()
-                WriteNumberArray(writer, "pretrainLoss", result.PretrainLoss)
-                WriteNumberArray(writer, "trainLoss", result.TrainLoss)
-                WriteNumberArray(writer, "validationLoss", result.ValidationLoss)
-                writer.WriteNumber("bestEpoch", result.BestEpoch)
 
-                If Double.IsNaN(result.BestValidationLoss) OrElse Double.IsInfinity(result.BestValidationLoss) Then
-                    writer.WriteNull("bestValidationLoss")
-                Else
-                    writer.WriteNumber("bestValidationLoss", result.BestValidationLoss)
+                If result IsNot Nothing Then
+                    WriteNumberArray(writer, "pretrainLoss", result.PretrainLoss)
+                    WriteNumberArray(writer, "trainLoss", result.TrainLoss)
+                    WriteNumberArray(writer, "validationLoss", result.ValidationLoss)
+                    writer.WriteNumber("bestEpoch", result.BestEpoch)
+
+                    If Double.IsNaN(result.BestValidationLoss) OrElse Double.IsInfinity(result.BestValidationLoss) Then
+                        writer.WriteNull("bestValidationLoss")
+                    Else
+                        writer.WriteNumber("bestValidationLoss", result.BestValidationLoss)
+                    End If
+                End If
+
+                If state IsNot Nothing Then
+                    writer.WritePropertyName("state")
+
+                    Using stateDocument As JsonDocument = JsonDocument.Parse(state.ToJson())
+                        Call stateDocument.RootElement.WriteTo(writer)
+                    End Using
                 End If
 
                 writer.WriteEndObject()
             End Sub)
+    End Function
+
+    ''' <summary>
+    ''' 从 training.json 中解析内嵌的训练状态；不存在（v1 包）时返回 Nothing。
+    ''' </summary>
+    ''' <param name="json">training.json 文本</param>
+    ''' <returns>训练状态或 Nothing</returns>
+    Private Function StateFromTrainingJson(json As String) As GPSTrainingState
+        If String.IsNullOrWhiteSpace(json) Then Return Nothing
+
+        Using document As JsonDocument = JsonDocument.Parse(json)
+            Dim root As JsonElement = document.RootElement
+            Dim value As JsonElement
+
+            If root.TryGetProperty("state", value) Then
+                Return GPSTrainingState.FromJson(value.GetRawText())
+            End If
+        End Using
+
+        Return Nothing
     End Function
 
     ''' <summary>从 JSON 还原训练结果。</summary>

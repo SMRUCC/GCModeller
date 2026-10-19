@@ -1,5 +1,8 @@
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
+Imports System.Globalization
+Imports System.IO
+Imports System.Text
 
 Namespace Model
 
@@ -232,6 +235,142 @@ Namespace Model
                 Throw New ArgumentException($"参数名重复：{name}", NameOf(name))
             End If
         End Sub
+
+        ' ==================== 优化器动量持久化 ====================
+
+        ''' <summary>
+        ''' 把全部参数的 Adam 一阶/二阶矩写成 TSV（<c>名称 \t 形状 \t m值 \t v值</c>）。
+        ''' </summary>
+        ''' <returns>TSV 文本</returns>
+        ''' <remarks>
+        ''' 行序与 <see cref="Entries"/> 一致，便于与 <c>parameters.tsv</c> 逐行对拍；
+        ''' 数值以 <c>G17</c> 格式保存，double 往返无损。
+        ''' </remarks>
+        Public Function SaveMomenta() As String
+            Dim builder As New StringBuilder()
+
+            Call builder.Append("# gps-optimizer v1").AppendLine()
+            Call builder.AppendLine("# name<TAB>shape<TAB>m<TAB>v")
+
+            For Each entry As ParameterEntry In _entries
+                Dim m As Double() = Nothing
+                Dim v As Double() = Nothing
+                Call ReadMomenta(entry, m, v)
+
+                Call builder.Append(entry.Name).Append(vbTab).
+                    Append(String.Join(",", entry.Value.Shape)).Append(vbTab).
+                    Append(JoinValues(m)).Append(vbTab).
+                    Append(JoinValues(v)).AppendLine()
+            Next
+
+            Return builder.ToString()
+        End Function
+
+        ''' <summary>
+        ''' 从 TSV 恢复全部参数的 Adam 一阶/二阶矩，并校验名称与元素个数。
+        ''' </summary>
+        ''' <param name="tsv">TSV 文本</param>
+        ''' <remarks>
+        ''' 与参数回填同一风格：名称或长度不匹配立即报错，不会静默错位。
+        ''' 传入空文本时视为"无优化器状态"（v1 包降级路径），直接返回。
+        ''' </remarks>
+        Public Sub RestoreMomenta(tsv As String)
+            If String.IsNullOrWhiteSpace(tsv) Then Return
+
+            Dim persistedM As New Dictionary(Of String, Double())(StringComparer.Ordinal)
+            Dim persistedV As New Dictionary(Of String, Double())(StringComparer.Ordinal)
+            Dim lines As String() = tsv.Split({vbCrLf, vbLf}, StringSplitOptions.RemoveEmptyEntries)
+
+            For Each line As String In lines
+                Dim text As String = line.Trim()
+
+                If text.Length = 0 OrElse text.StartsWith("#", StringComparison.Ordinal) Then Continue For
+
+                Dim fields As String() = text.Split(vbTab)
+
+                If fields.Length < 4 Then
+                    Throw New InvalidDataException($"动量行格式错误（应有 4 列）：{text}")
+                End If
+
+                persistedM(fields(0)) = ParseValues(fields(2))
+                persistedV(fields(0)) = ParseValues(fields(3))
+            Next
+
+            Dim missing As New List(Of String)()
+            Dim mismatched As New List(Of String)()
+
+            For Each entry As ParameterEntry In _entries
+                Dim packageM As Double() = Nothing
+                Dim packageV As Double() = Nothing
+
+                If Not persistedM.TryGetValue(entry.Name, packageM) OrElse
+                   Not persistedV.TryGetValue(entry.Name, packageV) Then
+
+                    Call missing.Add(entry.Name)
+                    Continue For
+                End If
+
+                Dim m As Double() = Nothing
+                Dim v As Double() = Nothing
+                Call ReadMomenta(entry, m, v)
+
+                If packageM.Length <> m.Length OrElse packageV.Length <> v.Length Then
+                    Call mismatched.Add($"{entry.Name}（包内 {packageM.Length}/{packageV.Length} / 模型 {m.Length}）")
+                    Continue For
+                End If
+
+                If entry.State IsNot Nothing Then
+                    Call entry.State.RestoreMomenta(packageM, packageV)
+                Else
+                    Call System.Array.Copy(packageM, m, m.Length)
+                    Call System.Array.Copy(packageV, v, v.Length)
+                    Call _externalM(entry.Name).MarkHostModified()
+                    Call _externalV(entry.Name).MarkHostModified()
+                End If
+            Next
+
+            If missing.Count > 0 OrElse mismatched.Count > 0 Then
+                Throw New InvalidDataException(
+                    "优化器动量与当前模型结构不匹配：" &
+                    If(missing.Count > 0, $"缺少 [{String.Join(", ", missing.Take(8))}]；", "") &
+                    If(mismatched.Count > 0, $"长度不一致 [{String.Join("; ", mismatched.Take(8))}]", ""))
+            End If
+        End Sub
+
+        ''' <summary>读取登记项当前的一阶/二阶矩（内部参数走 Optimizer，外部参数走自有字典）。</summary>
+        ''' <param name="entry">登记项</param>
+        ''' <param name="m">输出：一阶矩数据</param>
+        ''' <param name="v">输出：二阶矩数据</param>
+        Private Sub ReadMomenta(entry As ParameterEntry, ByRef m As Double(), ByRef v As Double())
+            If entry.State IsNot Nothing Then
+                m = entry.State.FirstMoment.Data
+                v = entry.State.SecondMoment.Data
+            Else
+                m = _externalM(entry.Name).Data
+                v = _externalV(entry.Name).Data
+            End If
+        End Sub
+
+        Private Shared Function JoinValues(values As Double()) As String
+            Dim parts As String() = New String(values.Length - 1) {}
+
+            For i As Integer = 0 To values.Length - 1
+                parts(i) = values(i).ToString("G17", CultureInfo.InvariantCulture)
+            Next
+
+            Return String.Join(",", parts)
+        End Function
+
+        Private Shared Function ParseValues(text As String) As Double()
+            Dim values As String() = text.Split(","c)
+            Dim parsed As Double() = New Double(values.Length - 1) {}
+
+            For i As Integer = 0 To values.Length - 1
+                parsed(i) = Double.Parse(values(i), NumberStyles.Float, CultureInfo.InvariantCulture)
+            Next
+
+            Return parsed
+        End Function
 
     End Class
 

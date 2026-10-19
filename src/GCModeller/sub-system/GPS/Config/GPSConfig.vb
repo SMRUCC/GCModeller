@@ -169,6 +169,17 @@ Namespace Config
         ''' <returns>默认 2024</returns>
         Public Property Seed As Integer = 2024
 
+        ''' <summary>
+        ''' checkpoint 间隔（单位：epoch）；0 表示关闭周期性 checkpoint。
+        ''' </summary>
+        ''' <returns>默认 0（关闭）。间隔在 epoch 边界生效，粒度不可能更细</returns>
+        ''' <remarks>
+        ''' 开启后训练循环每到间隔 epoch 就把模型包（含权重、Adam 动量、
+        ''' 训练步计数、早停状态与损失曲线）原子写入
+        ''' <see cref="GPSModel.CheckpointPath"/>；进程意外中止后可从中断点精确续训。
+        ''' </remarks>
+        Public Property CheckpointIntervalEpochs As Integer = 0
+
         ' ==================== 推理与扰动 ====================
 
         ''' <summary>显著性判据：|Z-score| 大于该阈值才标记为显著变化</summary>
@@ -206,6 +217,7 @@ Namespace Config
             If TrainRatio + ValidationRatio >= 1.0 Then Return False
             If CoexpressionTopK < 0 Then Return False
             If MinCoexpression < -1.0 OrElse MinCoexpression > 1.0 Then Return False
+            If CheckpointIntervalEpochs < 0 Then Return False
 
             Return True
         End Function
@@ -251,7 +263,8 @@ Namespace Config
                 .ValidationRatio = ValidationRatio,
                 .Seed = Seed,
                 .SignificanceZScore = SignificanceZScore,
-                .CascadeSteps = CascadeSteps
+                .CascadeSteps = CascadeSteps,
+                .CheckpointIntervalEpochs = CheckpointIntervalEpochs
             }
         End Function
 

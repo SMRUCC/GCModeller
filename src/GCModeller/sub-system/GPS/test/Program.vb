@@ -1,4 +1,8 @@
 Imports System.IO
+Imports System.IO.Compression
+Imports System.Text
+Imports System.Text.Json
+Imports System.Text.Json.Nodes
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
@@ -49,6 +53,7 @@ Module Program
         Call TestTrainingSmoke()
         Call TestPerturbationFacade()
         Call TestModelPersistence()
+        Call TestCheckpointResume()
         Call TestMixedPrecisionParity()
 
         Console.WriteLine()
@@ -448,6 +453,248 @@ Module Program
         Finally
             If File.Exists(tempFile) Then Call File.Delete(tempFile)
         End Try
+    End Sub
+
+    ''' <summary>
+    ''' checkpoint 与中断恢复续训：
+    ''' ① 默认关闭不落盘；② v2 包清单元信息；③ Adam 动量 TSV 往返；
+    ''' ④ 中断-恢复轨迹与连续训练逐位一致（参数 + 损失曲线）；
+    ''' ⑤ v1 包（缺 optimizer.tsv / state 字段）降级加载；⑥ 最优 epoch=0 的回滚修复。
+    ''' </summary>
+    Private Sub TestCheckpointResume()
+        Console.WriteLine()
+        Console.WriteLine("[checkpoint 与续训]")
+
+        TensorOps.Seed = 20240725
+
+        Dim data As GeneExpressionData = CreateExpression()
+        Dim prior As PriorNetwork = CreatePrior()
+
+        Dim folder As String = Path.Combine(Path.GetTempPath(), $"gps_ckpt_{Guid.NewGuid():N}")
+        Dim fullPath As String = Path.Combine(folder, "continuous" & GPSFile.FileExtension)
+        Dim ckptPath As String = Path.Combine(folder, "ckpt" & GPSFile.FileExtension)
+        Dim v1Path As String = Path.Combine(folder, "v1compat" & GPSFile.FileExtension)
+
+        Try
+            ' ---- 1. 默认关闭：interval=0 时即使设置了 CheckpointPath 也不落盘 ----
+            Dim plain As GPSModel = NewCheckpointTestModel(data, prior, pretrainEpochs:=2, finetuneEpochs:=2, checkpointInterval:=0)
+            plain.CheckpointPath = ckptPath
+            Call plain.Train(0)
+
+            Call Check(Not File.Exists(ckptPath), "interval=0 不产生 checkpoint 文件")
+
+            ' ---- 2. 连续训练基准（间隔 1 epoch，滚动覆盖同一文件） ----
+            Dim continuous As GPSModel = NewCheckpointTestModel(data, prior, pretrainEpochs:=3, finetuneEpochs:=3, checkpointInterval:=1)
+            continuous.CheckpointPath = fullPath
+            Dim continuousResult As GPSTrainingResult = continuous.Train(0)
+
+            Call Check(File.Exists(fullPath), "interval=1 每 epoch 落盘")
+
+            Dim manifest As GPSPackageManifest = GPSFile.ReadManifest(fullPath)
+
+            Call Check(manifest.Version = 2, $"包版本升级为 2（实际 {manifest.Version}）")
+            Call Check(manifest.StepIndex > 0, $"清单记录步计数（{manifest.StepIndex}）")
+            Call Check(manifest.PretrainEpochsDone = 3 AndAlso manifest.FinetuneEpochsDone = 3,
+                       $"清单记录阶段进度（{manifest.PretrainEpochsDone}/{manifest.FinetuneEpochsDone}）")
+            Call Check(continuous.TrainerState IsNot Nothing AndAlso
+                       continuous.TrainerState.StepIndex = manifest.StepIndex,
+                       "TrainerState 与清单一致")
+
+            ' ---- 3. Adam 动量 TSV 往返 ----
+            Dim store As ParameterStore = continuous.Model.Parameters
+            Dim momentaTsv As String = store.SaveMomenta()
+            Dim probe As ParameterEntry = store.Entries(0)
+            Dim beforeM As Double() = CType(probe.State.FirstMoment.Data.Clone(), Double())
+
+            For i As Integer = 0 To probe.State.FirstMoment.Data.Length - 1
+                probe.State.FirstMoment.Data(i) = 0.0
+            Next
+
+            Call store.RestoreMomenta(momentaTsv)
+
+            Dim maxMomentDiff As Double = 0.0
+
+            For i As Integer = 0 To beforeM.Length - 1
+                maxMomentDiff = System.Math.Max(maxMomentDiff,
+                                                System.Math.Abs(beforeM(i) - probe.State.FirstMoment.Data(i)))
+            Next
+
+            Call Check(maxMomentDiff <= 1.0E-12, $"动量 TSV 往返无损（最大差异 {maxMomentDiff:G3}）")
+
+            ' ---- 4. 中断-恢复：前半段 + checkpoint，加载后续跑，与连续训练对拍 ----
+            Dim interrupted As GPSModel = NewCheckpointTestModel(data, prior, pretrainEpochs:=3, finetuneEpochs:=3, checkpointInterval:=1)
+            Dim partialTrainer As New GPSTrainer(interrupted.Model, interrupted.Config)
+
+            ' 只跑预训练前 2 轮，模拟"意外中断"
+            Call partialTrainer.Pretrain(interrupted.Dataset.Train(), epochs:=2, printEvery:=0)
+            Call GPSFile.SaveCheckpoint(interrupted, ckptPath, partialTrainer.CaptureState())
+
+            Call Check(File.Exists(ckptPath), "中断现场已存为 checkpoint")
+
+            ' 模拟进程重启：从 checkpoint 恢复并续跑剩余轮次
+            Dim resumed As GPSModel = GPSFile.Load(ckptPath)
+            resumed.CheckpointPath = ckptPath
+            Dim resumedResult As GPSTrainingResult = resumed.Train(resumeFromCheckpoint:=True, printEvery:=0)
+
+            Call Check(resumed.TrainerState IsNot Nothing AndAlso
+                       resumed.TrainerState.PretrainEpochsDone = 3 AndAlso
+                       resumed.TrainerState.FinetuneEpochsDone = 3,
+                       "续训后 TrainerState 反映完成进度")
+            Call Check(resumedResult.PretrainLoss.Length = 3,
+                       $"预训练曲线前缀拼接（{resumedResult.PretrainLoss.Length} 段）")
+            Call Check(resumedResult.TrainLoss.Length = 3,
+                       $"微调曲线长度（{resumedResult.TrainLoss.Length} 段）")
+
+            ' 4a. 全部参数逐位对拍
+            Dim maxParamDiff As Double = 0.0
+
+            For Each entry As ParameterEntry In continuous.Model.Parameters.Entries
+                Dim twin As ParameterEntry = resumed.Model.Parameters.Find(entry.Name)
+
+                If twin Is Nothing Then
+                    Call Check(False, $"续训模型缺少参数 {entry.Name}")
+                    Continue For
+                End If
+
+                Dim a As Double() = entry.Value.Data
+                Dim b As Double() = twin.Value.Data
+
+                For i As Integer = 0 To a.Length - 1
+                    maxParamDiff = System.Math.Max(maxParamDiff, System.Math.Abs(a(i) - b(i)))
+                Next
+            Next
+
+            Call Check(maxParamDiff <= 1.0E-12, $"续训轨迹与连续训练一致（参数最大差异 {maxParamDiff:G3}）")
+
+            ' 4b. 损失曲线逐位对拍
+            Dim maxLossDiff As Double = 0.0
+
+            For i As Integer = 0 To continuousResult.TrainLoss.Length - 1
+                maxLossDiff = System.Math.Max(maxLossDiff,
+                                              System.Math.Abs(continuousResult.TrainLoss(i) - resumedResult.TrainLoss(i)))
+            Next
+
+            For i As Integer = 0 To continuousResult.PretrainLoss.Length - 1
+                maxLossDiff = System.Math.Max(maxLossDiff,
+                                              System.Math.Abs(continuousResult.PretrainLoss(i) - resumedResult.PretrainLoss(i)))
+            Next
+
+            Call Check(maxLossDiff <= 1.0E-12, $"损失曲线一致（最大差异 {maxLossDiff:G3}）")
+
+            ' ---- 5. v1 包降级：去掉 optimizer.tsv 与 training.json 内的 state 字段 ----
+            Call WriteV1CompatiblePackage(ckptPath, v1Path)
+
+            Dim degraded As GPSModel = GPSFile.Load(v1Path)
+
+            Call Check(degraded.IsTrained, "v1 包仍标记已训练")
+            Call Check(degraded.TrainerState Is Nothing, "v1 包无训练状态（降级）")
+            Call Check(degraded.KnockoutGene("TF1") IsNot Nothing, "v1 包加载后可正常推理")
+
+            ' ---- 6. 最优 epoch=0 的回滚修复 ----
+            ' 大学习率下第 0 轮即验证最优、后续变差：修复前不会回滚，
+            ' 修复后终值应等于只跑 1 轮微调的模型参数
+            Dim oneEpoch As GPSModel = NewCheckpointTestModel(data, prior, pretrainEpochs:=1, finetuneEpochs:=1, checkpointInterval:=0, learningRate:=0.5)
+            Call oneEpoch.Train(0)
+
+            Dim rollback As GPSModel = NewCheckpointTestModel(data, prior, pretrainEpochs:=1, finetuneEpochs:=4, checkpointInterval:=0, learningRate:=0.5)
+            Dim rollbackResult As GPSTrainingResult = rollback.Train(0)
+
+            Call Check(rollbackResult.BestEpoch = 0, $"大学习率下第 0 轮即最优（BestEpoch={rollbackResult.BestEpoch}）")
+
+            Dim maxRollbackDiff As Double = 0.0
+
+            For Each entry As ParameterEntry In oneEpoch.Model.Parameters.Entries
+                Dim twin As ParameterEntry = rollback.Model.Parameters.Find(entry.Name)
+                Dim a As Double() = entry.Value.Data
+                Dim b As Double() = twin.Value.Data
+
+                For i As Integer = 0 To a.Length - 1
+                    maxRollbackDiff = System.Math.Max(maxRollbackDiff, System.Math.Abs(a(i) - b(i)))
+                Next
+            Next
+
+            Call Check(maxRollbackDiff <= 1.0E-12, $"最优 epoch=0 正确回滚（最大差异 {maxRollbackDiff:G3}）")
+
+        Finally
+            If Directory.Exists(folder) Then Call Directory.Delete(folder, recursive:=True)
+        End Try
+    End Sub
+
+    ''' <summary>构造 checkpoint 测试用的小模型（数据/先验由调用方给定）。</summary>
+    ''' <param name="data">表达矩阵</param>
+    ''' <param name="prior">先验网络</param>
+    ''' <param name="pretrainEpochs">预训练轮数</param>
+    ''' <param name="finetuneEpochs">微调轮数</param>
+    ''' <param name="checkpointInterval">checkpoint 间隔（epoch）</param>
+    ''' <param name="learningRate">学习率</param>
+    Private Function NewCheckpointTestModel(data As GeneExpressionData,
+                                            prior As PriorNetwork,
+                                            pretrainEpochs As Integer,
+                                            finetuneEpochs As Integer,
+                                            checkpointInterval As Integer,
+                                            Optional learningRate As Double = 0.01) As GPSModel
+
+        Dim config As New GPSConfig With {
+            .MaxGenes = 0,
+            .Window = 3,
+            .DModel = 16,
+            .NLayers = 1,
+            .NHeads = 2,
+            .FfnDim = 24,
+            .GruHidden = 12,
+            .PeDim = 4,
+            .SpdMaxDist = 2,
+            .Dropout = 0.0,
+            .PretrainEpochs = pretrainEpochs,
+            .FinetuneEpochs = finetuneEpochs,
+            .LearningRate = learningRate,
+            .PrintEvery = 0,
+            .EarlyStopPatience = 15,
+            .Seed = 77,
+            .CheckpointIntervalEpochs = checkpointInterval
+        }
+
+        Return New GPSModel(data, prior, config)
+    End Function
+
+    ''' <summary>
+    ''' 由 v2 包派生一个 v1 兼容包：剔除 <c>optimizer.tsv</c> 条目并去掉
+    ''' <c>training.json</c> 中的 <c>state</c> 字段（旧格式没有这两样东西）。
+    ''' </summary>
+    ''' <param name="source">v2 包路径</param>
+    ''' <param name="target">输出路径</param>
+    Private Sub WriteV1CompatiblePackage(source As String, target As String)
+        Using sourceArchive As ZipArchive = ZipFile.OpenRead(source)
+            Using targetStream As New FileStream(target, FileMode.CreateNew, FileAccess.Write)
+                Using targetArchive As New ZipArchive(targetStream, ZipArchiveMode.Create)
+
+                    For Each entry As ZipArchiveEntry In sourceArchive.Entries
+                        If String.Equals(entry.Name, "optimizer.tsv", StringComparison.Ordinal) Then Continue For
+
+                        Dim content As String
+
+                        Using reader As New StreamReader(entry.Open(), Encoding.UTF8)
+                            content = reader.ReadToEnd()
+                        End Using
+
+                        If String.Equals(entry.Name, "training.json", StringComparison.Ordinal) Then
+                            Dim node As JsonNode = JsonNode.Parse(content)
+                            Dim obj As JsonObject = CType(node, JsonObject)
+
+                            Call obj.Remove("state")
+                            content = obj.ToJsonString(New JsonSerializerOptions With {.WriteIndented = True})
+                        End If
+
+                        Dim newEntry As ZipArchiveEntry = targetArchive.CreateEntry(entry.Name, CompressionLevel.Optimal)
+
+                        Using writer As New StreamWriter(newEntry.Open(), New UTF8Encoding(False))
+                            Call writer.Write(content)
+                        End Using
+                    Next
+
+                End Using
+            End Using
+        End Using
     End Sub
 
     ''' <summary>

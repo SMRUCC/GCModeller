@@ -60,10 +60,27 @@ Namespace Training
 
         Private ReadOnly targetModel As GRNModel
         Private ReadOnly cfg As GPSConfig
-        Private ReadOnly rand As Random
 
         Private stepIndex As Integer
         Private ReadOnly bestParameters As New Dictionary(Of String, Double())()
+
+        ' ---- 早停状态（全新训练为默认值；RestoreState 从 checkpoint 回填） ----
+        Private _bestValidationLoss As Double = Double.PositiveInfinity
+        Private _bestEpoch As Integer = -1
+        Private _hasSnapshot As Boolean = False
+        Private _patience As Integer = 0
+
+        ' ---- 阶段进度与损失曲线前缀（续训时与新段拼接） ----
+        Private _phase As Integer = GPSTrainingState.PhasePretrain
+        Private _pretrainCurve As New List(Of Double)()
+        Private _trainCurve As New List(Of Double)()
+        Private _validationCurve As New List(Of Double)()
+        Private _pretrainStart As Integer = 0
+        Private _finetuneStart As Integer = 0
+
+        ' ---- 周期性 checkpoint ----
+        Private _checkpointInterval As Integer = 0
+        Private _onCheckpoint As Action(Of GPSTrainingState)
 
         ''' <summary>被训练的模型</summary>
         Public ReadOnly Property Model As GRNModel
@@ -80,6 +97,32 @@ Namespace Training
         End Property
 
         ''' <summary>
+        ''' checkpoint 间隔（单位：epoch）；0 表示关闭。仅在 epoch 边界生效。
+        ''' </summary>
+        Public Property CheckpointInterval As Integer
+            Get
+                Return _checkpointInterval
+            End Get
+            Set(value As Integer)
+                _checkpointInterval = System.Math.Max(0, value)
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' checkpoint 委托：每个间隔 epoch 结束时触发，参数为当前完整训练状态。
+        ''' 由 <see cref="GPSModel"/> 挂接（负责落盘）；委托内部异常会被捕获并降级为警告，
+        ''' 不会中断训练。
+        ''' </summary>
+        Public Property OnCheckpoint As Action(Of GPSTrainingState)
+            Get
+                Return _onCheckpoint
+            End Get
+            Set(value As Action(Of GPSTrainingState))
+                _onCheckpoint = value
+            End Set
+        End Property
+
+        ''' <summary>
         ''' 创建训练器。
         ''' </summary>
         ''' <param name="model">待训练模型</param>
@@ -90,7 +133,6 @@ Namespace Training
 
             Me.targetModel = model
             Me.cfg = config
-            Me.rand = New Random(config.Seed + 7919)
         End Sub
 
         ''' <summary>
@@ -104,22 +146,25 @@ Namespace Training
                                  Optional epochs As Integer = -1,
                                  Optional printEvery As Integer = -1) As List(Of Double)
 
-            Dim result As New List(Of Double)()
             Dim total As Integer = If(epochs >= 0, epochs, cfg.PretrainEpochs)
             Dim print As Integer = If(printEvery >= 0, printEvery, cfg.PrintEvery)
 
             If total = 0 OrElse windows Is Nothing OrElse windows.Count = 0 Then
-                Return result
+                Return New List(Of Double)(_pretrainCurve)
             End If
 
+            _phase = GPSTrainingState.PhasePretrain
             Dim bar As ProgressBar = Nothing
 
-            For Each epoch As Integer In TqdmWrapper.Range(0, total, bar:=bar)
+            ' 每个 epoch 使用由 (种子, epoch) 决定的独立随机源：洗牌顺序与掩码采样
+            ' 只依赖 epoch 序号，与"从头跑"还是"从 checkpoint 续跑"无关，保证轨迹可复现。
+            For Each epoch As Integer In TqdmWrapper.Range(_pretrainStart, total - _pretrainStart, bar:=bar)
+                Dim epochRand As New Random(cfg.Seed + 7919 + epoch * 1000003)
                 Dim lossSum As Double = 0.0
                 Dim count As Integer = 0
 
-                For Each window As TimeSeriesWindow In Shuffle(windows)
-                    Dim loss As Double = TrainMaskedSample(window)
+                For Each window As TimeSeriesWindow In Shuffle(windows, epochRand)
+                    Dim loss As Double = TrainMaskedSample(window, epochRand)
 
                     lossSum += loss
                     count += 1
@@ -127,11 +172,12 @@ Namespace Training
 
                 Dim epochLoss As Double = If(count > 0, lossSum / count, 0.0)
 
-                Call result.Add(epochLoss)
+                Call _pretrainCurve.Add(epochLoss)
                 Call bar.SetLabel($"  [GPS] 预训练 epoch {epoch,4} / {total}  loss = {epochLoss:F6}")
+                Call MaybeCheckpoint()
             Next
 
-            Return result
+            Return New List(Of Double)(_pretrainCurve)
         End Function
 
         ''' <summary>
@@ -153,19 +199,23 @@ Namespace Training
             Dim hasValidation As Boolean = validationWindows IsNot Nothing AndAlso validationWindows.Count > 0
 
             If trainWindows Is Nothing OrElse trainWindows.Count = 0 Then
+                result.TrainLoss = _trainCurve.ToArray()
+                result.ValidationLoss = _validationCurve.ToArray()
+                result.BestEpoch = _bestEpoch
+                result.BestValidationLoss = _bestValidationLoss
                 Return result
             End If
 
-            Dim patience As Integer = 0
-            Dim trainLoss As New List(Of Double)
-            Dim validationLosses As New List(Of Double)
+            _phase = GPSTrainingState.PhaseFinetune
             Dim bar As ProgressBar = Nothing
 
-            For Each epoch As Integer In TqdmWrapper.Range(0, total, bar:=bar)
+            ' 与 Pretrain 相同：每 epoch 独立随机源，保证续跑轨迹与连续训练一致
+            For Each epoch As Integer In TqdmWrapper.Range(_finetuneStart, total - _finetuneStart, bar:=bar)
+                Dim epochRand As New Random(cfg.Seed + 7919 + epoch * 1000003)
                 Dim lossSum As Double = 0.0
                 Dim count As Integer = 0
 
-                For Each window As TimeSeriesWindow In Shuffle(trainWindows)
+                For Each window As TimeSeriesWindow In Shuffle(trainWindows, epochRand)
                     Dim loss As Double = TrainPredictionSample(window)
 
                     lossSum += loss
@@ -174,22 +224,23 @@ Namespace Training
 
                 Dim epochLoss As Double = If(count > 0, lossSum / count, 0.0)
 
-                Call trainLoss.Add(epochLoss)
+                Call _trainCurve.Add(epochLoss)
 
                 Dim validationLoss As Double = 0.0
 
                 If hasValidation Then
                     validationLoss = EvaluateLoss(validationWindows)
 
-                    Call validationLosses.Add(validationLoss)
+                    Call _validationCurve.Add(validationLoss)
 
-                    If validationLoss < result.BestValidationLoss Then
-                        result.BestValidationLoss = validationLoss
-                        result.BestEpoch = epoch
+                    If validationLoss < _bestValidationLoss Then
+                        _bestValidationLoss = validationLoss
+                        _bestEpoch = epoch
                         Call Snapshot()
-                        patience = 0
+                        _hasSnapshot = True
+                        _patience = 0
                     Else
-                        patience += 1
+                        _patience += 1
                     End If
                 End If
 
@@ -199,19 +250,25 @@ Namespace Training
                     Call bar.SetLabel($"  [GPS] 微调 epoch {epoch,4} / {total}  train = {epochLoss:F6}")
                 End If
 
-                If hasValidation AndAlso cfg.EarlyStopPatience > 0 AndAlso patience >= cfg.EarlyStopPatience Then
-                    Console.WriteLine($"  [GPS] 验证集连续 {patience} 轮未改善，提前停止")
+                If hasValidation AndAlso cfg.EarlyStopPatience > 0 AndAlso _patience >= cfg.EarlyStopPatience Then
+                    Console.WriteLine($"  [GPS] 验证集连续 {_patience} 轮未改善，提前停止")
                     Exit For
                 End If
+
+                Call MaybeCheckpoint()
             Next
 
-            ' 回滚到验证集最优参数
-            If hasValidation AndAlso result.BestEpoch > 0 Then
+            ' 回滚到验证集最优参数。
+            ' 注意 epoch 为 0 基：最优恰为第 0 轮时同样需要回滚（旧实现用
+            ' BestEpoch > 0 判断，会漏掉这种情况），故以"是否发生过快照"为准。
+            If hasValidation AndAlso _hasSnapshot Then
                 Call Restore()
             End If
 
-            result.TrainLoss = trainLoss.ToArray
-            result.ValidationLoss = validationLosses.ToArray
+            result.TrainLoss = _trainCurve.ToArray()
+            result.ValidationLoss = _validationCurve.ToArray()
+            result.BestEpoch = _bestEpoch
+            result.BestValidationLoss = _bestValidationLoss
 
             Return result
         End Function
@@ -220,8 +277,10 @@ Namespace Training
         ''' 在一个窗口上执行一次掩码重建训练步。
         ''' </summary>
         ''' <param name="window">训练窗口</param>
+        ''' <param name="window">训练窗口</param>
+        ''' <param name="rand">本 epoch 的随机源（掩码采样）</param>
         ''' <returns>该样本的损失</returns>
-        Private Function TrainMaskedSample(window As TimeSeriesWindow) As Double
+        Private Function TrainMaskedSample(window As TimeSeriesWindow, rand As Random) As Double
             Dim n As Integer = window.NGene
             Dim mask As Boolean() = New Boolean(n - 1) {}
             Dim input As Double(,) = CType(window.Input.Clone(), Double(,))
@@ -349,8 +408,9 @@ Namespace Training
 
         ''' <summary>训练集内部随机重排（不跨时间切分边界）。</summary>
         ''' <param name="windows">窗口列表</param>
+        ''' <param name="rand">随机源（由调用方按 epoch 播种）</param>
         ''' <returns>打乱后的副本</returns>
-        Private Function Shuffle(windows As List(Of TimeSeriesWindow)) As List(Of TimeSeriesWindow)
+        Private Shared Function Shuffle(windows As List(Of TimeSeriesWindow), rand As Random) As List(Of TimeSeriesWindow)
             Dim copy As New List(Of TimeSeriesWindow)(windows)
 
             For i As Integer = copy.Count - 1 To 1 Step -1
@@ -383,6 +443,112 @@ Namespace Training
                     Call entry.Value.MarkHostModified()
                 End If
             Next
+        End Sub
+
+        ' ==================== 中断恢复 ====================
+
+        ''' <summary>
+        ''' 从 checkpoint 状态恢复 trainer 内部状态：步计数、早停计数、最优 epoch 快照、
+        ''' 曲线前缀与阶段进度。恢复后 <see cref="Pretrain"/>/<see cref="Finetune"/>
+        ''' 自动从下一 epoch 续跑。
+        ''' </summary>
+        ''' <param name="state">持久化的训练状态；Nothing 时等价于 <see cref="ResetTrainingState"/></param>
+        Public Sub RestoreState(state As GPSTrainingState)
+            If state Is Nothing Then
+                Call ResetTrainingState()
+                Return
+            End If
+
+            stepIndex = System.Math.Max(0, state.StepIndex)
+            _patience = System.Math.Max(0, state.Patience)
+            _bestEpoch = state.BestEpoch
+            _bestValidationLoss = state.BestValidationLoss
+            _hasSnapshot = state.BestEpoch >= 0
+
+            bestParameters.Clear()
+
+            For Each kv As KeyValuePair(Of String, Double()) In state.BestParameters
+                bestParameters(kv.Key) = CType(kv.Value.Clone(), Double())
+            Next
+
+            Call ReplaceCurve(_pretrainCurve, state.PretrainLoss)
+            Call ReplaceCurve(_trainCurve, state.TrainLoss)
+            Call ReplaceCurve(_validationCurve, state.ValidationLoss)
+
+            _pretrainStart = _pretrainCurve.Count
+            _finetuneStart = _trainCurve.Count
+            _phase = state.Phase
+        End Sub
+
+        ''' <summary>
+        ''' 清空全部训练状态（步计数、早停、曲线、阶段进度），
+        ''' 使下一次 <see cref="Pretrain"/>/<see cref="Finetune"/> 从第 0 epoch 全新开始。
+        ''' </summary>
+        Public Sub ResetTrainingState()
+            stepIndex = 0
+            _patience = 0
+            _bestEpoch = -1
+            _bestValidationLoss = Double.PositiveInfinity
+            _hasSnapshot = False
+            bestParameters.Clear()
+            _pretrainCurve.Clear()
+            _trainCurve.Clear()
+            _validationCurve.Clear()
+            _pretrainStart = 0
+            _finetuneStart = 0
+            _phase = GPSTrainingState.PhasePretrain
+        End Sub
+
+        ''' <summary>
+        ''' 捕获当前完整训练状态（供 checkpoint 落盘）。
+        ''' </summary>
+        ''' <returns>训练状态快照</returns>
+        Public Function CaptureState() As GPSTrainingState
+            Dim best As New Dictionary(Of String, Double())(StringComparer.Ordinal)
+
+            For Each kv As KeyValuePair(Of String, Double()) In bestParameters
+                best(kv.Key) = CType(kv.Value.Clone(), Double())
+            Next
+
+            Return New GPSTrainingState With {
+                .Phase = _phase,
+                .PretrainEpochsDone = _pretrainCurve.Count,
+                .FinetuneEpochsDone = _trainCurve.Count,
+                .StepIndex = stepIndex,
+                .Patience = _patience,
+                .BestEpoch = _bestEpoch,
+                .BestValidationLoss = _bestValidationLoss,
+                .BestParameters = best,
+                .PretrainLoss = _pretrainCurve.ToArray(),
+                .TrainLoss = _trainCurve.ToArray(),
+                .ValidationLoss = _validationCurve.ToArray()
+            }
+        End Function
+
+        ''' <summary>到达 checkpoint 间隔时触发委托；失败仅警告，不中断训练。</summary>
+        Private Sub MaybeCheckpoint()
+            If _checkpointInterval <= 0 OrElse _onCheckpoint Is Nothing Then Return
+
+            Dim state As GPSTrainingState = CaptureState()
+            Dim done As Integer = If(state.Phase = GPSTrainingState.PhasePretrain,
+                                     state.PretrainEpochsDone,
+                                     state.FinetuneEpochsDone)
+
+            If done Mod _checkpointInterval <> 0 Then Return
+
+            Try
+                Call _onCheckpoint(state)
+            Catch ex As Exception
+                Console.WriteLine($"  [GPS] checkpoint 写入失败（训练继续）：{ex.Message}")
+            End Try
+        End Sub
+
+        Private Shared Sub ReplaceCurve(target As List(Of Double), values As Double())
+            target.Clear()
+
+            If values Is Nothing Then Return
+
+            Call target.AddRange(values)
         End Sub
 
     End Class

@@ -48,11 +48,33 @@ Public Class GPSModel
     Private ReadOnly engine As VirtualPerturbationEngine
 
     Private _lastResult As GPSTrainingResult
+    Private _trainerState As GPSTrainingState
 
     ''' <summary>实际生效的配置（窗口长度可能因时间点不足而被裁剪）</summary>
     Public ReadOnly Property Config As GPSConfig
         Get
             Return cfg
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 周期性 checkpoint 的输出路径；Nothing 或空表示不落盘。
+    ''' </summary>
+    ''' <remarks>
+    ''' 与 <see cref="GPSConfig.CheckpointIntervalEpochs"/> 配合使用：间隔 &gt; 0 且路径非空时，
+    ''' 训练循环每到间隔 epoch 就把模型包原子写入该路径（覆盖式滚动更新）。
+    ''' 进程意外中止后，可对该文件执行 <see cref="GPSFile.Load"/> 再以
+    ''' <see cref="Train(Boolean, Integer)"/> 的 <c>resumeFromCheckpoint:=True</c> 续训。
+    ''' </remarks>
+    Public Property CheckpointPath As String
+
+    ''' <summary>
+    ''' 最近一次 checkpoint（或训练收尾）时捕获的 trainer 侧状态；
+    ''' 未经训练/未加载含状态的包时为 Nothing。
+    ''' </summary>
+    Public ReadOnly Property TrainerState As GPSTrainingState
+        Get
+            Return _trainerState
         End Get
     End Property
 
@@ -184,15 +206,67 @@ Public Class GPSModel
     ''' </summary>
     ''' <param name="printEvery">打印间隔；0 表示静默，-1 表示使用配置值</param>
     ''' <returns>训练结果</returns>
+    ''' <remarks>
+    ''' 每次都从第 0 epoch 全新开始（内部先重置 trainer 状态），
+    ''' 与启用 checkpoint 之前的行为逐位一致。
+    ''' </remarks>
     Public Function Train(Optional printEvery As Integer = -1) As GPSTrainingResult
-        Dim pretrain As Double() = trainer.Pretrain(windowDataset.Train(), -1, printEvery).ToArray
+        Return Train(resumeFromCheckpoint:=False, printEvery:=printEvery)
+    End Function
+
+    ''' <summary>
+    ''' 训练模型（可从中断的 checkpoint 续训）。
+    ''' </summary>
+    ''' <param name="resumeFromCheckpoint">为 True 时从 <see cref="TrainerState"/> 记录的进度续跑：
+    ''' 跳过已完成的阶段与 epoch，恢复早停状态与损失曲线前缀；为 False 时全新训练</param>
+    ''' <param name="printEvery">打印间隔；0 表示静默，-1 表示使用配置值</param>
+    ''' <returns>训练结果（损失曲线为历史前缀与新段拼接后的完整曲线）</returns>
+    ''' <remarks>
+    ''' <paramref name="resumeFromCheckpoint"/> 为 True 但没有任何已持久化的训练状态时，
+    ''' 退化为全新训练（与 <see cref="Train(Integer)"/> 等价）。
+    ''' </remarks>
+    Public Function Train(resumeFromCheckpoint As Boolean, Optional printEvery As Integer = -1) As GPSTrainingResult
+        If resumeFromCheckpoint Then
+            Call trainer.RestoreState(_trainerState)
+        Else
+            Call trainer.ResetTrainingState()
+        End If
+
+        trainer.CheckpointInterval = cfg.CheckpointIntervalEpochs
+
+        If cfg.CheckpointIntervalEpochs > 0 AndAlso Not String.IsNullOrWhiteSpace(CheckpointPath) Then
+            trainer.OnCheckpoint =
+                Sub(state)
+                    _trainerState = state
+                    Call SaveCheckpoint()
+                End Sub
+        Else
+            trainer.OnCheckpoint = Nothing
+        End If
+
+        Dim pretrain As Double() = trainer.Pretrain(windowDataset.Train(), -1, printEvery).ToArray()
         Dim result As GPSTrainingResult = trainer.Finetune(windowDataset.Train(), windowDataset.Validation(), -1, printEvery)
 
         result.PretrainLoss = pretrain
         _lastResult = result
 
+        ' 训练收尾时刷新一次 trainer 状态，使收尾后的 Save 同样携带完整现场
+        _trainerState = trainer.CaptureState()
+
         Return result
     End Function
+
+    ''' <summary>
+    ''' 把当前模型与 trainer 状态写入 <see cref="CheckpointPath"/>（原子替换）。
+    ''' 写盘失败仅打印警告，不会中断训练。
+    ''' </summary>
+    Private Sub SaveCheckpoint()
+        Try
+            Call GPSFile.SaveCheckpoint(Me, CheckpointPath, _trainerState)
+        Catch ex As Exception
+            Console.WriteLine($"  [GPS] checkpoint 写入失败（训练继续）：{ex.ToString()}")
+        End Try
+    End Sub
 
     ''' <summary>
     ''' 回填训练结果，用于从持久化包恢复模型时标记"已训练"状态。
@@ -204,6 +278,20 @@ Public Class GPSModel
     ''' </remarks>
     Public Sub AttachTrainingResult(result As GPSTrainingResult)
         _lastResult = result
+    End Sub
+
+    ''' <summary>
+    ''' 回填训练结果与 trainer 侧状态（从 checkpoint 恢复续训用）。
+    ''' </summary>
+    ''' <param name="result">训练结果（损失曲线与最优 epoch 元信息）</param>
+    ''' <param name="state">训练器状态（步计数/阶段进度/早停/最优快照）；可为 Nothing</param>
+    ''' <remarks>
+    ''' 由 <see cref="GPSFile.Load"/> 调用；之后即可用
+    ''' <see cref="Train(Boolean, Integer)"/> 的 <c>resume:=True</c> 续训。
+    ''' </remarks>
+    Public Sub AttachTrainingResult(result As GPSTrainingResult, state As GPSTrainingState)
+        _lastResult = result
+        _trainerState = state
     End Sub
 
     ''' <summary>
