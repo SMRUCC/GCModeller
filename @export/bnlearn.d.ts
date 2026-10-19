@@ -239,6 +239,11 @@ declare namespace bnlearn {
      *  [PriorNetwork](cref:T:SMRUCC.genomics.Analysis.BNLearn.Core.PriorNetwork) object via the ``as.prior_net`` api.
    */
    function prior_network(TF: any, target_gene: any, regulation_type: any, confidence: any, evidence: any): object;
+   module read {
+      /**
+      */
+      function prior_net(file: string): object;
+   }
    /**
     * read WGCNA module color assignment result table
     * 

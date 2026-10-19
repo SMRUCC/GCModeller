@@ -26,6 +26,7 @@ Bayesian network learning and the in silico gene perturbation toolkit
 + [as.prior_net](bnlearn/as.prior_net.1) build prior network object based on a given vector of the knowledge network edges data
 + [save_prior](bnlearn/save_prior.1) 
 + [load_prior](bnlearn/load_prior.1) 
++ [read.prior_net](bnlearn/read.prior_net.1) 
 + [prior_network](bnlearn/prior_network.1) create prior knowledge netwoek edges from the given vector data
 + [knockouts](bnlearn/knockouts.1) run the in silico gene knockout experiment on the given network model
 + [overexpress](bnlearn/overexpress.1) run the in silico gene overexpression experiment on the given network model
