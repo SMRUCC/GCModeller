@@ -74,6 +74,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.Quantile
 
 ''' <summary>
 ''' 结构方程模型 (SEM) 模块 - 基于路径分析 (Path Analysis) 的实现
@@ -585,8 +586,8 @@ Public Module SEM
             Dim samples = pathBootSamples(k).ToArray()
             If samples.Length > 0 Then
                 result.PathBootSE(k) = samples.SD
-                Dim lo = Statistics.Quantile(samples, 0.025)
-                Dim hi = Statistics.Quantile(samples, 0.975)
+                Dim lo = samples.LinearQuantile(0.025)
+                Dim hi = samples.LinearQuantile(0.975)
                 result.PathBootCI(k) = (lo, hi)
             End If
         Next
@@ -597,8 +598,8 @@ Public Module SEM
             Dim samples = indirectBootSamples(k).ToArray()
             If samples.Length > 0 Then
                 result.IndirectBootSE(k) = samples.SD
-                Dim lo = Statistics.Quantile(samples, 0.025)
-                Dim hi = Statistics.Quantile(samples, 0.975)
+                Dim lo = samples.LinearQuantile(0.025)
+                Dim hi = samples.LinearQuantile(0.975)
                 result.IndirectBootCI(k) = (lo, hi)
             End If
         Next
