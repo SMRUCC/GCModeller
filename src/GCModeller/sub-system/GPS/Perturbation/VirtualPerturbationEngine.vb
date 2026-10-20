@@ -3,6 +3,7 @@ Imports SMRUCC.genomics.Analysis.BNLearn.Intervention
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Data
 Imports SMRUCC.genomics.Analysis.GPS.Model
+Imports GEARSGraph = SMRUCC.genomics.Analysis.GEARS.Graph
 Imports std = System.Math
 
 Namespace Perturbation
@@ -71,6 +72,24 @@ Namespace Perturbation
         ''' <summary>敲低后目标基因保留的表达比例（0 表示与敲除等价）</summary>
         Private _knockdownResidual As Double = DefaultKnockdownResidual
 
+        ''' <summary>单次注入的 z 变化上限，避免把 tanh / LayerNorm 推到饱和</summary>
+        Private Const MaxInjectedZ As Double = 8.0
+
+        ''' <summary>是否启用扰动通道</summary>
+        Private _perturbationChannel As Boolean = True
+
+        ''' <summary>扰动通道的注入增益</summary>
+        Private _perturbationChannelGain As Double = 1.0
+
+        ''' <summary>被扰动基因没有出边时，是否退化到"共调控"先验继续传播</summary>
+        Private _perturbationChannelCoRegulation As Boolean = False
+
+        ''' <summary>共调控退化路径参与计算的上游调节因子上限</summary>
+        Private Const MaxCoRegulationSources As Integer = 8
+
+        ''' <summary>共调控退化路径中每个上游因子展开的靶基因上限</summary>
+        Private Const MaxCoRegulationTargets As Integer = 256
+
         Private _control As Double()
 
         ''' <summary>基因名称</summary>
@@ -113,6 +132,50 @@ Namespace Perturbation
         End Property
 
         ''' <summary>
+        ''' 是否把被扰动基因的输入变化沿先验调控边一阶注入它的靶基因。
+        ''' </summary>
+        ''' <returns>默认 True；关闭后退化为"只改被扰动基因自身输入"的旧行为</returns>
+        Public Property PerturbationChannel As Boolean
+            Get
+                Return _perturbationChannel
+            End Get
+            Set(value As Boolean)
+                _perturbationChannel = value
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 扰动通道的注入增益；0 等价于关闭通道。
+        ''' </summary>
+        ''' <returns>非负实数</returns>
+        Public Property PerturbationChannelGain As Double
+            Get
+                Return _perturbationChannelGain
+            End Get
+            Set(value As Double)
+                If value < 0.0 Then
+                    Throw New ArgumentOutOfRangeException(
+                        NameOf(PerturbationChannelGain), $"扰动通道增益不能为负，实际为 {value}")
+                End If
+
+                _perturbationChannelGain = value
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 被扰动基因没有出边（例如非 TF 基因）时，是否退化到"共调控"先验继续传播。
+        ''' </summary>
+        ''' <returns>默认 False（启发式路径，需要显式开启）</returns>
+        Public Property PerturbationChannelCoRegulation As Boolean
+            Get
+                Return _perturbationChannelCoRegulation
+            End Get
+            Set(value As Boolean)
+                _perturbationChannelCoRegulation = value
+            End Set
+        End Property
+
+        ''' <summary>
         ''' 创建扰动引擎。
         ''' </summary>
         ''' <param name="model">已训练的模型</param>
@@ -120,11 +183,17 @@ Namespace Perturbation
         ''' <param name="baselineWindow">对照窗口 <c>[基因, w]</c>（标准化空间）</param>
         ''' <param name="significanceZ">显著性判据阈值</param>
         ''' <param name="knockdownResidual">敲低后目标基因保留的表达比例</param>
+        ''' <param name="perturbationChannel">是否启用扰动通道（沿出边一阶注入靶基因）</param>
+        ''' <param name="perturbationChannelGain">扰动通道的注入增益</param>
+        ''' <param name="perturbationChannelCoRegulation">无出边时是否退化到共调控先验</param>
         Public Sub New(model As GRNModel,
                        expression As PreprocessedExpression,
                        baselineWindow As Double(,),
                        Optional significanceZ As Double = 0.5,
-                       Optional knockdownResidual As Double = DefaultKnockdownResidual)
+                       Optional knockdownResidual As Double = DefaultKnockdownResidual,
+                       Optional perturbationChannel As Boolean = True,
+                       Optional perturbationChannelGain As Double = 1.0,
+                       Optional perturbationChannelCoRegulation As Boolean = False)
 
             If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
             If expression Is Nothing Then Throw New ArgumentNullException(NameOf(expression))
@@ -135,6 +204,9 @@ Namespace Perturbation
             Me.baselineWindow = CType(baselineWindow.Clone(), Double(,))
             Me.significanceZ = significanceZ
             Me._knockdownResidual = knockdownResidual
+            Me._perturbationChannel = perturbationChannel
+            Me._perturbationChannelGain = perturbationChannelGain
+            Me._perturbationChannelCoRegulation = perturbationChannelCoRegulation
 
             Me.geneIndex = New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
 
@@ -279,6 +351,9 @@ Namespace Perturbation
             Dim n As Integer = NumGenes
             Dim indices As New List(Of Integer)()
             Dim names As New List(Of String)()
+            ' 与 indices 一一对应的已解析干预定义：index 会跳过无法解析的基因，
+            ' 因此不能再用 list(k) 去取第 k 个干预值，否则会错位
+            Dim resolvedSpecs As New List(Of InterventionSpec)()
 
             For Each spec As InterventionSpec In list
                 Dim idx As Integer = -1
@@ -299,6 +374,7 @@ Namespace Perturbation
                 If idx >= 0 AndAlso Not indices.Contains(idx) Then
                     Call indices.Add(idx)
                     Call names.Add(expression.GeneNames(idx))
+                    Call resolvedSpecs.Add(spec)
                 End If
             Next
 
@@ -310,21 +386,27 @@ Namespace Perturbation
             Dim window As Double(,) = CType(baselineWindow.Clone(), Double(,))
             Dim perturbedSet As New HashSet(Of Integer)(indices)
             Dim interventionRaw As Double() = New Double(indices.Count - 1) {}
+            Dim perturbedDelta As Double() = New Double(indices.Count - 1) {}
 
             For k As Integer = 0 To indices.Count - 1
                 Dim i As Integer = indices(k)
                 Dim sd As Double = std.Max(expression.GeneSDs(i), 1.0E-08)
                 ' 干预值的基线取自当前注入的 context（baselineWindow），
                 ' 而不是训练集全局均值，否则残余比例会随表达水平漂移
-                Dim raw As Double = std.Max(0.0, InterventionValueOf(list(k), i, BaselineRawValue(i)))
+                Dim raw As Double = std.Max(0.0, InterventionValueOf(resolvedSpecs(k), i, BaselineRawValue(i)))
                 Dim normalized As Double = (raw - expression.GeneMeans(i)) / sd
 
                 interventionRaw(k) = raw
+                ' z 空间的变化量：输入由"未扰动水平"改为"敲低后水平"，这个差值就是要下传的信号
+                perturbedDelta(k) = normalized - baselineWindow(i, window.GetLength(1) - 1)
 
                 For t As Integer = 0 To window.GetLength(1) - 1
                     window(i, t) = normalized
                 Next
             Next
+
+            ' 沿先验调控边把该变化一阶注入靶基因（只改输入，模型仍然做完整前向）
+            Call ApplyPerturbationChannel(window, indices, perturbedDelta)
 
             Dim control As Double() = ControlPrediction()
             Dim mutant As Double() = PredictRaw(window)
@@ -431,6 +513,9 @@ Namespace Perturbation
             Dim window As Double(,) = CType(baselineWindow.Clone(), Double(,))
 
             ' 施加扰动
+            Dim cascadeIndices As New List(Of Integer)()
+            Dim cascadeDelta As New List(Of Double)()
+
             For Each spec As InterventionSpec In list
                 Dim idx As Integer
 
@@ -440,10 +525,15 @@ Namespace Perturbation
                 Dim raw As Double = std.Max(0.0, InterventionValueOf(spec, idx, BaselineRawValue(idx)))
                 Dim normalized As Double = (raw - expression.GeneMeans(idx)) / sd
 
+                Call cascadeIndices.Add(idx)
+                Call cascadeDelta.Add(normalized - baselineWindow(idx, window.GetLength(1) - 1))
+
                 For t As Integer = 0 To window.GetLength(1) - 1
                     window(idx, t) = normalized
                 Next
             Next
+
+            Call ApplyPerturbationChannel(window, cascadeIndices, cascadeDelta.ToArray())
 
             Dim trajectory As Double(,)() = New Double(steps, n - 1)() {}
             Dim control As Double() = ControlPrediction()
@@ -476,6 +566,182 @@ Namespace Perturbation
 
             Return trajectory
         End Function
+
+        ''' <summary>
+        ''' 把被扰动基因在 z 空间的输入变化沿先验调控边一阶注入其靶基因。
+        ''' </summary>
+        ''' <param name="window">已写入扰动的输入窗口 <c>[基因, w]</c>（原地修改）</param>
+        ''' <param name="perturbed">被扰动的基因行号</param>
+        ''' <param name="delta">与 <paramref name="perturbed"/> 一一对应的 z 空间变化量</param>
+        ''' <remarks>
+        ''' <para>
+        ''' 注入量 = 增益 × 出边归一化权重 × 调控方向（激活 +1 / 抑制 −1）× 该基因的 z 变化。
+        ''' 靶基因的全部时间列加上同一增量，与 <see cref="BuildStaticWindow"/>
+        ''' "同一条谱铺满窗口"的约定一致。
+        ''' </para>
+        ''' <para>
+        ''' 这里只改模型的输入，不直接改写预测结果，因此下游变化仍由网络前向给出；
+        ''' 关闭通道（<see cref="PerturbationChannel"/>=False）即退化为旧行为。
+        ''' </para>
+        ''' </remarks>
+        Private Sub ApplyPerturbationChannel(window As Double(,),
+                                             perturbed As List(Of Integer),
+                                             delta As Double())
+            If Not _perturbationChannel OrElse _perturbationChannelGain <= 0.0 Then
+                Return
+            End If
+
+            Dim graph As GEARSGraph.GeneRegulatoryGraph = model.GraphData
+
+            If graph Is Nothing Then
+                Return
+            End If
+
+            Dim signs As Double() = GEARSGraph.EdgeRelationTypes.SignTable()
+            Dim last As Integer = window.GetLength(1) - 1
+
+            For k As Integer = 0 To perturbed.Count - 1
+                If std.Abs(delta(k)) < 1.0E-12 Then
+                    Continue For
+                End If
+
+                Dim source As Integer = perturbed(k)
+                Dim targets As Integer() = graph.OutEdgeTargets(source)
+                Dim types As Integer() = graph.OutEdgeTypes(source)
+                Dim weights As Double() = graph.OutEdgeWeights(source)
+
+                If targets.Length = 0 Then
+                    ' 先验图只有 TF -> target 的边，非 TF 基因没有出边；退化到共调控先验
+                    If _perturbationChannelCoRegulation Then
+                        Call ApplyCoRegulationChannel(window, source, delta(k), last)
+                    End If
+
+                    Continue For
+                End If
+
+                For e As Integer = 0 To targets.Length - 1
+                    Dim injected As Double = _perturbationChannelGain * weights(e) * signs(types(e)) * delta(k)
+
+                    If std.Abs(injected) > MaxInjectedZ Then
+                        injected = std.Sign(injected) * MaxInjectedZ
+                    End If
+
+                    Dim target As Integer = targets(e)
+
+                    For c As Integer = 0 To last
+                        window(target, c) += injected
+                    Next
+                Next
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 共调控退化路径：被扰动基因没有出边时，按"共享上游 TF"把变化摊给它的共调控基因。
+        ''' </summary>
+        ''' <param name="window">输入窗口（原地修改）</param>
+        ''' <param name="source">被扰动基因行号</param>
+        ''' <param name="delta">该基因在 z 空间的变化量</param>
+        ''' <param name="last">窗口最后一列下标</param>
+        ''' <remarks>
+        ''' <para>
+        ''' 先验图只有 TF → target 的边，本任务 300 个扰动里 232 个基因不是 TF、没有出边，
+        ''' 一阶注入对它们为空操作。这里用"共享上游 TF"作为替代先验：
+        ''' 对每个上游 TF 展开它的其它靶基因，按 <c>w(p←TF) × w(t←TF)</c> 累积权重，
+        ''' 符号取两条边调控方向的乘积。
+        ''' </para>
+        ''' <para>
+        ''' 这是启发式（方向不代表真实的因果方向），因此默认关闭；开启后每个扰动最多展开
+        ''' <see cref="MaxCoRegulationSources"/> 个上游因子 × <see cref="MaxCoRegulationTargets"/> 个靶点，
+        ''' 注入的绝对量之和约等于 增益 × |Δz|。
+        ''' </para>
+        ''' </remarks>
+        Private Sub ApplyCoRegulationChannel(window As Double(,),
+                                             source As Integer,
+                                             delta As Double,
+                                             last As Integer)
+            Dim graph As GEARSGraph.GeneRegulatoryGraph = model.GraphData
+
+            If graph Is Nothing Then
+                Return
+            End If
+
+            Dim regulators As Integer() = graph.InEdgeSources(source)
+            Dim regTypes As Integer() = graph.InEdgeTypes(source)
+            Dim regWeights As Double() = graph.InEdgeWeights(source)
+
+            If regulators.Length = 0 Then
+                Return
+            End If
+
+            Dim signs As Double() = GEARSGraph.EdgeRelationTypes.SignTable()
+            ' 只取调控强度最高的若干上游因子，避免枢纽 TF 造成组合爆炸
+            Dim order As Integer() = Enumerable.Range(0, regulators.Length).
+                OrderByDescending(Function(i) std.Abs(regWeights(i))).
+                Take(MaxCoRegulationSources).
+                ToArray()
+
+            Dim acc As New Dictionary(Of Integer, Double)()
+
+            For Each r As Integer In order
+                Dim tf As Integer = regulators(r)
+                Dim wSource As Double = regWeights(r) * signs(regTypes(r))
+
+                If std.Abs(wSource) < 1.0E-12 Then
+                    Continue For
+                End If
+
+                Dim targets As Integer() = graph.OutEdgeTargets(tf)
+                Dim types As Integer() = graph.OutEdgeTypes(tf)
+                Dim weights As Double() = graph.OutEdgeWeights(tf)
+                Dim take As Integer = std.Min(targets.Length, MaxCoRegulationTargets)
+
+                For e As Integer = 0 To take - 1
+                    Dim t As Integer = targets(e)
+
+                    If t = source Then
+                        Continue For
+                    End If
+
+                    Dim contribution As Double = wSource * weights(e) * signs(types(e))
+                    Dim old As Double
+
+                    If acc.TryGetValue(t, old) Then
+                        acc(t) = old + contribution
+                    Else
+                        acc(t) = contribution
+                    End If
+                Next
+            Next
+
+            If acc.Count = 0 Then
+                Return
+            End If
+
+            Dim norm As Double = 0.0
+
+            For Each value As Double In acc.Values
+                norm += std.Abs(value)
+            Next
+
+            If norm <= 0.0 Then
+                Return
+            End If
+
+            Dim mass As Double = _perturbationChannelGain * std.Abs(delta)
+            Dim direction As Double = std.Sign(delta)
+
+            For Each pair As KeyValuePair(Of Integer, Double) In acc
+                Dim injected As Double = pair.Value / norm * mass * direction
+
+                If std.Abs(injected) > MaxInjectedZ Then
+                    injected = std.Sign(injected) * MaxInjectedZ
+                End If
+
+                For c As Integer = 0 To last
+                    window(pair.Key, c) += injected
+                Next
+            Next
+        End Sub
 
         ''' <summary>对输入窗口做前向并反标准化为 raw log-CPM。</summary>
         ''' <param name="window">标准化窗口</param>

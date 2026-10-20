@@ -732,6 +732,92 @@ Module gpsTools
         Return gps.KnockdownResidual
     End Function
 
+    ''' <summary>
+    ''' Get or set whether the perturbation channel is enabled.
+    ''' </summary>
+    ''' <param name="gps">the trained model object.</param>
+    ''' <param name="enabled">
+    ''' ``1`` enables, ``0`` disables; a negative value (the default) only reads the current state.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' the currently effective flag. When enabled, the change of the perturbed gene is injected
+    ''' into the input window of its downstream targets along the prior regulatory edges, so a
+    ''' single gene knockdown does not have to survive several rounds of degree normalisation.
+    ''' </returns>
+    <ExportAPI("perturbation_channel")>
+    Public Function perturbation_channel(gps As GPSModel,
+                                         Optional enabled As Integer = -1,
+                                         Optional env As Environment = Nothing) As Object
+        If enabled >= 0 Then
+            gps.PerturbationChannel = enabled > 0
+        End If
+
+        Return gps.PerturbationChannel
+    End Function
+
+    ''' <summary>
+    ''' Get or set the injection gain of the perturbation channel.
+    ''' </summary>
+    ''' <param name="gps">the trained model object.</param>
+    ''' <param name="gain">
+    ''' the non negative gain; a negative value (the default) only reads the current value.
+    ''' ``0`` is equivalent to disabling the channel.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>the currently effective gain.</returns>
+    <ExportAPI("perturbation_channel_gain")>
+    Public Function perturbation_channel_gain(gps As GPSModel,
+                                              Optional gain As Double = -1,
+                                              Optional env As Environment = Nothing) As Object
+        If gain >= 0 Then
+            Try
+                gps.PerturbationChannelGain = gain
+            Catch ex As Exception
+                Return RInternal.debug.stop(ex.Message, env)
+            End Try
+        End If
+
+        Return gps.PerturbationChannelGain
+    End Function
+
+    ''' <summary>
+    ''' Get or set the co-regulation fallback of the perturbation channel.
+    ''' </summary>
+    ''' <param name="gps">the trained model object.</param>
+    ''' <param name="enabled">
+    ''' ``1`` enables, ``0`` disables; a negative value (the default) only reads the current state.
+    ''' </param>
+    ''' <param name="env">the R# runtime environment.</param>
+    ''' <returns>
+    ''' the currently effective flag. When enabled, perturbed genes without outgoing edges
+    ''' (all non transcription factors in a TF to target prior) spread their change to the genes
+    ''' that share the same upstream regulators.
+    ''' </returns>
+    <ExportAPI("perturbation_channel_coregulation")>
+    Public Function perturbation_channel_coregulation(gps As GPSModel,
+                                                      Optional enabled As Integer = -1,
+                                                      Optional env As Environment = Nothing) As Object
+        If enabled >= 0 Then
+            gps.PerturbationChannelCoRegulation = enabled > 0
+        End If
+
+        Return gps.PerturbationChannelCoRegulation
+    End Function
+
+    ''' <summary>
+    ''' The edge normalisation mode that the graph convolution actually uses.
+    ''' </summary>
+    ''' <param name="gps">the trained model object.</param>
+    ''' <returns>
+    ''' ``mean`` (convex averaging, the legacy behaviour), ``sqrt`` (the default, keeps more of the
+    ''' perturbation magnitude across hops) or ``sum`` (no normalisation).
+    ''' </returns>
+    <ExportAPI("graph_normalization")>
+    Public Function graph_normalization(gps As GPSModel) As Object
+        Return gps.GraphNormalization.ToString().ToLowerInvariant()
+    End Function
+
     ' ==================== 精简结果导出 ====================
 
     ''' <summary>

@@ -238,6 +238,54 @@ Namespace Config
         Public Property KnockdownResidual As Double = 0.2
 
         ''' <summary>
+        ''' 图卷积的边权重归一化方式：<c>"mean"</c> / <c>"sqrt"</c> / <c>"sum"</c>。
+        ''' </summary>
+        ''' <returns>默认 <c>"sqrt"</c></returns>
+        ''' <remarks>
+        ''' <para>
+        ''' <c>mean</c> 是 GCN 的行归一化（GEARS 与旧模型的行为）：每跳聚合为凸组合平均，
+        ''' 单点扰动经过 3 层后幅度只剩约 <c>1e-4</c>，在全基因组预测里表现为
+        ''' "除被敲低基因外几乎没有变化"。
+        ''' </para>
+        ''' <para>
+        ''' <c>sqrt</c> 改为平方根归一化，在入度中位数 22 ~ 均值 70 的真实先验图上
+        ''' 每跳可放大约 5~8 倍；<c>sum</c> 完全不归一化，幅度最强但容易饱和。
+        ''' 这里用字符串而不是枚举，是因为 config.json 的反射序列化只支持
+        ''' Integer/Double/Boolean/String 四种类型。
+        ''' </para>
+        ''' </remarks>
+        Public Property EdgeNormalization As String = "sqrt"
+
+        ''' <summary>
+        ''' 是否启用扰动通道：把被扰动基因的输入变化沿先验调控边一阶传播到它的靶基因。
+        ''' </summary>
+        ''' <returns>默认 True</returns>
+        ''' <remarks>
+        ''' 没有这条通道时，扰动只能靠 3 层消息传递间接传播，而先验图里每个靶基因
+        ''' 从上千条入边中只分到 <c>1/入度</c> 的权重；另有 4,062 个基因根本没有入边。
+        ''' 结果是单基因扰动的下游响应被压到 1e-4 甚至精确 0。通道把"该基因的 z 变化"
+        ''' 按出边权重与调控方向（激活/抑制）直接注入靶基因的输入窗口。
+        ''' </remarks>
+        Public Property PerturbationChannel As Boolean = True
+
+        ''' <summary>
+        ''' 扰动通道的注入增益：注入量 = 增益 × 出边归一化权重 × 被扰动基因的 z 变化。
+        ''' </summary>
+        ''' <returns>默认 1.0；0 等价于关闭通道</returns>
+        Public Property PerturbationChannelGain As Double = 1.0
+
+        ''' <summary>
+        ''' 被扰动基因没有出边（非 TF 基因）时，是否退化到"共调控"先验继续传播。
+        ''' </summary>
+        ''' <returns>默认 False</returns>
+        ''' <remarks>
+        ''' 先验图只有 TF → target 的边：本任务 300 个扰动里有 232 个基因不是 TF，
+        ''' 一阶通道对它们本来是空操作。开启后按"共享上游 TF"把变化摊给共调控基因，
+        ''' 属于启发式（方向不代表真实因果），建议先做对照实验再决定生产配置。
+        ''' </remarks>
+        Public Property PerturbationChannelCoRegulation As Boolean = False
+
+        ''' <summary>
         ''' 校验参数组合是否合法。
         ''' </summary>
         ''' <returns>合法返回 True；否则返回 False</returns>
@@ -265,6 +313,8 @@ Namespace Config
             If CoexpressionTopK < 0 Then Return False
             If MinCoexpression < -1.0 OrElse MinCoexpression > 1.0 Then Return False
             If KnockdownResidual < 0.0 OrElse KnockdownResidual >= 1.0 Then Return False
+            If Not IsKnownEdgeNormalization(EdgeNormalization) Then Return False
+            If PerturbationChannelGain < 0.0 Then Return False
             If CheckpointIntervalEpochs < 0 Then Return False
             If DenseAttentionMaxNodes < 1 Then Return False
             If AttentionNeighbors < 2 Then Return False
@@ -273,6 +323,20 @@ Namespace Config
             If AttentionRandomLinks + AttentionHubGenes >= AttentionNeighbors Then Return False
 
             Return True
+        End Function
+
+        ''' <summary>
+        ''' <see cref="EdgeNormalization"/> 的合法取值判断（大小写不敏感）。
+        ''' </summary>
+        ''' <param name="mode">配置中的字符串</param>
+        ''' <returns>属于 mean / sqrt / sum 时返回 True</returns>
+        Public Shared Function IsKnownEdgeNormalization(mode As String) As Boolean
+            Select Case If(mode, "").Trim().ToLowerInvariant()
+                Case "mean", "sqrt", "sum"
+                    Return True
+                Case Else
+                    Return False
+            End Select
         End Function
 
         ''' <summary>
@@ -321,7 +385,11 @@ Namespace Config
                 .SignificanceZScore = SignificanceZScore,
                 .CascadeSteps = CascadeSteps,
                 .CheckpointIntervalEpochs = CheckpointIntervalEpochs,
-                .KnockdownResidual = KnockdownResidual
+                .KnockdownResidual = KnockdownResidual,
+                .EdgeNormalization = EdgeNormalization,
+                .PerturbationChannel = PerturbationChannel,
+                .PerturbationChannelGain = PerturbationChannelGain,
+                .PerturbationChannelCoRegulation = PerturbationChannelCoRegulation
             }
         End Function
 

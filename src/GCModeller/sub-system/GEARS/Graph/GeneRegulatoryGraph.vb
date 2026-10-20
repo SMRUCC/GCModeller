@@ -7,6 +7,28 @@ Imports std = System.Math
 Namespace Graph
 
     ''' <summary>
+    ''' 图卷积的边权重归一化方式。
+    ''' </summary>
+    ''' <remarks>
+    ''' 三种方式只改变"每跳聚合的幅度"，边与边之间的相对强弱完全一致：
+    ''' <list type="bullet">
+    ''' <item><description><see cref="Mean"/>：除以自环与入边权重之和，得到凸组合平均；梯度最稳，
+    ''' 但单点扰动经过 L 跳后幅度大致按 <c>(1/度)^L</c> 衰减。</description></item>
+    ''' <item><description><see cref="Sqrt"/>：除以平方根的同样总和，幅度按 <c>(1/√度)^L</c> 衰减；
+    ''' 在入度 20~70 的真实先验图上相当于每跳放大 5~8 倍。</description></item>
+    ''' <item><description><see cref="Sum"/>：完全不归一化，幅度不减，但高度数节点的激活更容易饱和。</description></item>
+    ''' </list>
+    ''' </remarks>
+    Public Enum GraphEdgeNormalization
+        ''' <summary>凸组合平均（GCN 行归一化；GEARS 与旧模型的默认行为）</summary>
+        Mean = 0
+        ''' <summary>平方根归一化（GPS 默认，保留更多跨基因传播幅度）</summary>
+        Sqrt = 1
+        ''' <summary>求和聚合（GIN 式，传播幅度最强）</summary>
+        Sum = 2
+    End Enum
+
+    ''' <summary>
     ''' 基因调控图：由先验调控网络构建用于 GNN 消息传递的异质有向图
     ''' </summary>
     ''' <remarks>
@@ -38,6 +60,10 @@ Namespace Graph
         ''' <returns><see cref="GNN.Graph"/> 实例</returns>
         Public ReadOnly Property Graph As GNN.Graph
 
+        ''' <summary>本图实际采用的边权重归一化方式</summary>
+        ''' <returns>构造时指定的 <see cref="GraphEdgeNormalization"/></returns>
+        Public ReadOnly Property Normalization As GraphEdgeNormalization
+
         ''' <summary>基因名称到节点索引的映射（大小写不敏感）</summary>
         ''' <returns>基因名 → 节点索引 的字典</returns>
         Public ReadOnly Property GeneIndex As Dictionary(Of String, Integer)
@@ -59,6 +85,12 @@ Namespace Graph
         ReadOnly inWeights As Double()()
         ReadOnly selfWeights As Double()
 
+        ' 反向（出边）缓存：扰动通道沿"被扰动基因 -> 其调控靶基因"的一阶传播需要它。
+        ' 入边缓存回答"谁调控我"，出边缓存回答"我调控谁"。
+        ReadOnly outTargets As Integer()()
+        ReadOnly outTypes As Integer()()
+        ReadOnly outWeights As Double()()
+
         ''' <summary>
         ''' 构建基因调控图
         ''' </summary>
@@ -78,11 +110,13 @@ Namespace Graph
                        prior As PriorNetwork,
                        Optional controlExpr As Double(,) = Nothing,
                        Optional coexpressionTopK As Integer = 0,
-                       Optional minCoexpression As Double = 0.7)
+                       Optional minCoexpression As Double = 0.7,
+                       Optional normalization As GraphEdgeNormalization = GraphEdgeNormalization.Mean)
 
             Me.GeneNames = geneNames
             Me.GeneIndex = BuildGeneIndex(geneNames)
             Me.RelationTypeCounts = New Integer(EdgeRelationTypes.NumRelationTypes - 1) {}
+            Me.Normalization = normalization
 
             Dim n As Integer = geneNames.Length
             Dim sources As New List(Of List(Of Integer))()
@@ -167,15 +201,76 @@ Namespace Graph
 
                 Dim norm As Double() = New Double(weights(i).Count - 1) {}
                 Dim total As Double = If(degrees(i) > 0, degrees(i), 1.0)
+                Dim scale As Double = NormalizationScale(total)
 
                 For k As Integer = 0 To norm.Length - 1
-                    norm(k) = weights(i)(k) / total
+                    norm(k) = weights(i)(k) * scale
                 Next
 
                 inWeights(i) = norm
-                selfWeights(i) = 1.0 / total
+                selfWeights(i) = scale
+            Next
+
+            ' ---------- 4. 反向（出边）缓存：供扰动通道做一阶下游传播 ----------
+            Dim outIdx As New List(Of List(Of Integer))()
+            Dim outTypeLists As New List(Of List(Of Integer))()
+            Dim outWeightLists As New List(Of List(Of Double))()
+            Dim outDegrees As Double() = New Double(n - 1) {}
+
+            For i As Integer = 0 To n - 1
+                outIdx.Add(New List(Of Integer)())
+                outTypeLists.Add(New List(Of Integer)())
+                outWeightLists.Add(New List(Of Double)())
+                ' 与入边口径一致：自环也占 1 个权重单位
+                outDegrees(i) = 1.0
+            Next
+
+            For Each e In edgeList
+                outIdx(e.src).Add(e.dst)
+                outTypeLists(e.src).Add(e.type)
+                outWeightLists(e.src).Add(e.w)
+                outDegrees(e.src) += e.w
+            Next
+
+            Me.outTargets = New Integer(n - 1)() {}
+            Me.outTypes = New Integer(n - 1)() {}
+            Me.outWeights = New Double(n - 1)() {}
+
+            For i As Integer = 0 To n - 1
+                outTargets(i) = outIdx(i).ToArray()
+                outTypes(i) = outTypeLists(i).ToArray()
+
+                Dim total As Double = If(outDegrees(i) > 0, outDegrees(i), 1.0)
+                Dim scale As Double = NormalizationScale(total)
+                Dim norm As Double() = New Double(outWeightLists(i).Count - 1) {}
+
+                For k As Integer = 0 To norm.Length - 1
+                    norm(k) = outWeightLists(i)(k) * scale
+                Next
+
+                outWeights(i) = norm
             Next
         End Sub
+
+        ''' <summary>
+        ''' 按归一化方式把"自环 + 邻居权重之和"折算成聚合系数。
+        ''' </summary>
+        ''' <param name="total">自环与全部邻居权重之和（恒 &gt; 0）</param>
+        ''' <returns>乘到每条边权重上的系数</returns>
+        Private Function NormalizationScale(total As Double) As Double
+            If total <= 0.0 Then
+                Return 1.0
+            End If
+
+            Select Case Normalization
+                Case GraphEdgeNormalization.Sum
+                    Return 1.0
+                Case GraphEdgeNormalization.Sqrt
+                    Return 1.0 / std.Sqrt(total)
+                Case Else
+                    Return 1.0 / total
+            End Select
+        End Function
 
         ''' <summary>
         ''' 建立基因名称到节点索引的映射
@@ -330,6 +425,40 @@ Namespace Graph
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function SelfWeight(nodeIndex As Integer) As Double
             Return selfWeights(nodeIndex)
+        End Function
+
+        ''' <summary>
+        ''' 获取指定节点调用的下游靶基因（出边目标）。
+        ''' </summary>
+        ''' <param name="nodeIndex">源节点索引</param>
+        ''' <returns>靶基因节点索引数组；无出边时为空数组</returns>
+        ''' <remarks>
+        ''' 入边缓存回答"谁调控我"，本方法回答"我调控谁"，用于扰动通道把被扰动基因
+        ''' 的变化沿调控方向一阶传播到它的靶基因。
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function OutEdgeTargets(nodeIndex As Integer) As Integer()
+            Return outTargets(nodeIndex)
+        End Function
+
+        ''' <summary>
+        ''' 获取指定节点出边的关系类型（与 <see cref="OutEdgeTargets"/> 一一对应）。
+        ''' </summary>
+        ''' <param name="nodeIndex">源节点索引</param>
+        ''' <returns>关系类型索引数组</returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function OutEdgeTypes(nodeIndex As Integer) As Integer()
+            Return outTypes(nodeIndex)
+        End Function
+
+        ''' <summary>
+        ''' 获取指定节点出边的归一化权重（与 <see cref="OutEdgeTargets"/> 一一对应）。
+        ''' </summary>
+        ''' <param name="nodeIndex">源节点索引</param>
+        ''' <returns>归一化权重数组（口径与入边一致，受 <see cref="Normalization"/> 控制）</returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function OutEdgeWeights(nodeIndex As Integer) As Double()
+            Return outWeights(nodeIndex)
         End Function
 
         Private _inEdgeCsr As Microsoft.VisualBasic.MachineLearning.TensorFlow.Compute.SparseCsr

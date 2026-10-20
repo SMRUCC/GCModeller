@@ -179,12 +179,15 @@ Public Class GPSModel
         Me.preprocessedExpression = ExpressionPreprocess.Preprocess(Me.rawExpression, Me.cfg, Me.priorNetwork.TFNames)
 
         ' ---- 2. 图构建与静态编码 ----
+        ' 归一化方式决定每跳聚合的幅度：mean 是凸组合平均（旧行为，衰减到 1e-4），
+        ' sqrt 保留更多跨基因传播幅度（默认），sum 最强但容易饱和
         Me.regulatoryGraph = New GEARSGraph.GeneRegulatoryGraph(
             Me.preprocessedExpression.GeneNames,
             Me.priorNetwork,
             Me.preprocessedExpression.Matrix,
             Me.cfg.CoexpressionTopK,
-            Me.cfg.MinCoexpression)
+            Me.cfg.MinCoexpression,
+            ResolveEdgeNormalization(Me.cfg.EdgeNormalization))
 
         Me.graphEncoding = GraphEncoding.Compute(Me.regulatoryGraph, Me.cfg)
 
@@ -206,8 +209,26 @@ Public Class GPSModel
         Me.trainingBaseline = BuildBaselineWindow()
         Me.engine = New VirtualPerturbationEngine(
             Me.grn, Me.Preprocessed, Me.trainingBaseline,
-            Me.cfg.SignificanceZScore, Me.cfg.KnockdownResidual)
+            Me.cfg.SignificanceZScore, Me.cfg.KnockdownResidual,
+            Me.cfg.PerturbationChannel, Me.cfg.PerturbationChannelGain,
+            Me.cfg.PerturbationChannelCoRegulation)
     End Sub
+
+    ''' <summary>
+    ''' 把配置中的字符串解析为图卷积边归一化枚举；非法值退回 <c>Mean</c>（旧行为）。
+    ''' </summary>
+    ''' <param name="mode">配置项 <see cref="GPSConfig.EdgeNormalization"/></param>
+    ''' <returns>对应的 <see cref="GEARSGraph.GraphEdgeNormalization"/></returns>
+    Private Shared Function ResolveEdgeNormalization(mode As String) As GEARSGraph.GraphEdgeNormalization
+        Select Case If(mode, "").Trim().ToLowerInvariant()
+            Case "sqrt"
+                Return GEARSGraph.GraphEdgeNormalization.Sqrt
+            Case "sum"
+                Return GEARSGraph.GraphEdgeNormalization.Sum
+            Case Else
+                Return GEARSGraph.GraphEdgeNormalization.Mean
+        End Select
+    End Function
 
     ''' <summary>
     ''' 训练模型：掩码重建预训练 + 下一时刻预测微调。（可从中断的 checkpoint 续训）。
@@ -328,6 +349,60 @@ Public Class GPSModel
         Set(value As Double)
             engine.KnockdownResidual = value
         End Set
+    End Property
+
+    ''' <summary>
+    ''' 是否启用扰动通道：把被扰动基因的输入变化沿先验调控边一阶注入其靶基因。
+    ''' </summary>
+    ''' <returns>默认取配置项 <see cref="GPSConfig.PerturbationChannel"/></returns>
+    ''' <remarks>
+    ''' 关闭后扰动只能靠消息传递间接传播，在先验图的入度归一化下会被压到 1e-4 甚至精确 0。
+    ''' </remarks>
+    Public Property PerturbationChannel As Boolean
+        Get
+            Return engine.PerturbationChannel
+        End Get
+        Set(value As Boolean)
+            engine.PerturbationChannel = value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' 扰动通道的注入增益（0 等价于关闭通道）。
+    ''' </summary>
+    ''' <returns>非负实数，默认取配置项 <see cref="GPSConfig.PerturbationChannelGain"/></returns>
+    Public Property PerturbationChannelGain As Double
+        Get
+            Return engine.PerturbationChannelGain
+        End Get
+        Set(value As Double)
+            engine.PerturbationChannelGain = value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' 被扰动基因没有出边（非 TF）时，扰动通道是否退化到"共调控"先验。
+    ''' </summary>
+    ''' <returns>默认取配置项 <see cref="GPSConfig.PerturbationChannelCoRegulation"/></returns>
+    Public Property PerturbationChannelCoRegulation As Boolean
+        Get
+            Return engine.PerturbationChannelCoRegulation
+        End Get
+        Set(value As Boolean)
+            engine.PerturbationChannelCoRegulation = value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' 图卷积实际采用的边权重归一化方式（配置项 <see cref="GPSConfig.EdgeNormalization"/> 的解析结果）。
+    ''' </summary>
+    ''' <returns><c>mean</c> / <c>sqrt</c> / <c>sum</c> 三者之一对应的枚举</returns>
+    Public ReadOnly Property GraphNormalization As GEARSGraph.GraphEdgeNormalization
+        Get
+            Return If(regulatoryGraph Is Nothing,
+                      GEARSGraph.GraphEdgeNormalization.Mean,
+                      regulatoryGraph.Normalization)
+        End Get
     End Property
 
     ''' <summary>
