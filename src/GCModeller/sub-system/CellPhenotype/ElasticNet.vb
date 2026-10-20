@@ -114,13 +114,17 @@ Public Class ElasticNetPerturbationOptions
     Public Property SignificanceZ As Double = 0.5R
 
     ''' <summary>
-    ''' 是否记录级联过程之中每一步的表达量轨迹(仅在确定性模式下有效)。
+    ''' 是否记录级联过程之中每一步的表达量轨迹(仅在确定性模式下有效)，默认关闭。
     ''' 
-    ''' 关闭之后 <see cref="InterventionResult.DynamicTrajectory"/> 为空，可以省下
-    ''' ``步数 * 基因数量`` 的内存。
+    ''' <see cref="InterventionResult.DynamicTrajectory"/> 之中第 0 行是干预之前的基线，
+    ''' 之后每一行是一次迭代的结果。轨迹的每个元素都是一个长度为 1 的数组，
+    ''' 因此内存占用约为 ``(步数 + 1) * 基因数量 * 40`` 字节：在大网络之上
+    ''' 逐基因地做批量扰动的时候建议保持关闭。
+    ''' 
+    ''' <see cref="ElasticNet.SimulateCascade"/> 会自动开启轨迹记录。
     ''' </summary>
     ''' <returns></returns>
-    Public Property RecordTrajectory As Boolean = True
+    Public Property RecordTrajectory As Boolean = False
 
     ''' <summary>
     ''' 蒙特卡洛抽样的随机数种子，默认 42。
@@ -167,6 +171,10 @@ End Class
 ''' 级联过程的诊断信息(是否收敛、是否发散、系数矩阵的谱半径、被裁剪的基因等)，
 ''' 便于判断预测结果是否可信。
 ''' </summary>
+''' <remarks>
+''' <see cref="InterventionResult.DynamicTrajectory"/> 的第 0 行是干预之前的基线状态，
+''' 因此轨迹长度等于实际迭代步数加一；只有确定性模式并且开启了轨迹记录的时候才有值。
+''' </remarks>
 Public Class ElasticNetInterventionResult : Inherits InterventionResult
 
     ''' <summary>
@@ -729,7 +737,7 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
         Dim diverged As Boolean = False
         Dim trajectory As List(Of Double()) = Nothing
 
-        If opt.RecordTrajectory AndAlso nSamples <= 0 Then
+        If (opt.RecordTrajectory OrElse stepsOverride > 0) AndAlso nSamples <= 0 Then
             trajectory = New List(Of Double())
         End If
 
