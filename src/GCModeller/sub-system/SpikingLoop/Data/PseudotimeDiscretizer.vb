@@ -22,7 +22,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.MachineLearning.TensorFlow
-Imports SMRUCC.genomics.Analysis.BNLearn.Core
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports std = System.Math
 
 Namespace Data
