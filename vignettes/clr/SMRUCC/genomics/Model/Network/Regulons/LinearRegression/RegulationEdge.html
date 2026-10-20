@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.LinearRegression.RegulationEdge</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>RegulationEdge {SMRUCC.genomics.Model.Network.Regulons.LinearRegression}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>RegulationEdge</h2>
+
+        <h3>Description</h3>
+
+        <p>一条基因表达调控关系：<code>regulator -&gt; target</code>，边的权重为线性模型的回归系数。</p>
+
+<p>这个类同时实现了 <a href="cref:T:Microsoft.VisualBasic.Data.GraphTheory.SparseGraph.IInteraction">IInteraction</a> 与 <a href="cref:T:Microsoft.VisualBasic.Data.GraphTheory.Network.INetworkEdge">INetworkEdge</a> 接口， 因此可以直接被生成为网络图数据。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+export class RegulationEdge {
+   # 回归系数的绝对值
+   absWeight: double;
+   # 产生这条边的弹性网络模型所使用的总正则化强度， 非弹性网络的求解方法之下这个数值为零。
+   alpha: double;
+   # 调控关系的类型描述，一般为求解方法的名称。
+   interaction: string;
+   # 产生这条边的模型之中的常数项
+   intercept: double;
+   # 产生这条边的弹性网络模型所使用的 L1 混合比例， 非弹性网络的求解方法之下这个数值为零。
+   l1Ratio: double;
+   # 回归系数的显著性 p 值，LASSO 模型之下恒为 1。
+   pvalue: double;
+   # 目标基因的模型解释度(R^2)
+   r2: double;
+   # 调控因子基因编号(上游基因)
+   regulator: string;
+   # 被调控的目标基因编号(下游基因)
+   target: string;
+   # 边的唯一编号，形如 <code>regulator-&gt;target</code>
+   UID: string;
+   # 线性模型之中调控因子对目标基因的回归系数， 正数表示激活型的调控关系，负数表示抑制型的调控关系。
+   weight: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.LinearRegression.ElasticNetMode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ElasticNetMode {SMRUCC.genomics.Model.Network.Regulons.LinearRegression}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ElasticNetMode</h2>
+
+        <h3>Description</h3>
+
+        <p>弹性网络超参数的确定方式</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+export class ElasticNetMode extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # 固定 l1_ratio，求解整条正则化路径之后，在「非零系数数量不超过每基因上限」 的步骤之中挑选 R^2 最高的那一步。
+   # 
+   # 这是最快的模式，单个基因的成本与 LASSO 的正则化路径求解相当。
+   RegularizationPath: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetMode.html">ElasticNetMode</a> = 0;
+
+   # 每一个目标基因都单独做一次 K 折交叉验证，自动选择 (alpha, l1_ratio)。
+   # 
+   # 这是最准确的模式，但是单个基因的成本大约是路径模式的 <code>l1_ratio 网格数量 × alpha 步数 × 折数</code> 倍，只适合基因数量很少的数据。
+   PerGeneCrossValidation: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetMode.html">ElasticNetMode</a> = 1;
+
+   # 先挑选若干代表性基因(表达方差最大的那些)做一次交叉验证， 取超参数的中位数供全部基因复用，然后逐基因做单点拟合。
+   # 
+   # 精度与成本之间的折中方案，推荐在基因数量很多的数据上面使用。
+   GlobalCrossValidation: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetMode.html">ElasticNetMode</a> = 2;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>RegularizationPath</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetMode.html">ElasticNetMode</a></li>
+<li>use by <i>field</i> member <code>PerGeneCrossValidation</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetMode.html">ElasticNetMode</a></li>
+<li>use by <i>field</i> member <code>GlobalCrossValidation</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetMode.html">ElasticNetMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

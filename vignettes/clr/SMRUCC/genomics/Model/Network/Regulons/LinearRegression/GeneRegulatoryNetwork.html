@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GeneRegulatoryNetwork {SMRUCC.genomics.Model.Network.Regulons.LinearRegression}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GeneRegulatoryNetwork</h2>
+
+        <h3>Description</h3>
+
+        <p>基于线性拟合的基因表达调控网络推断</p>
+
+<p>对于表达矩阵之中的每一个基因 <code>g</code>，都会建立如下的线性模型：</p>
+
+
+<pre><code> expr(g) = const + beta_1 * expr(r1) + beta_2 * expr(r2) + ...</code></pre>
+
+
+<p>其中 <code>r1, r2, ...</code> 为候选调控因子(默认从与 <code>g</code> 相关性最高的若干个基因之中选出， 并且总是排除 <code>g</code> 自身)。把所有基因的模型汇总之后，就得到了一个 <code>调控因子 -&gt; 目标基因</code> 的有向加权网络：边的权重即为回归系数。</p>
+
+<p>需要注意前置条件：参与拟合的自变量个数(候选调控因子数量 + 截距项)必须显著小于样本数量。</p>
+
+
+<ul>
+<li>对于 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.FittingMethod.MultipleLinear">FittingMethod.MultipleLinear</a>，DataFittings 底层使用 QR 分解， 秩不足的时候会直接抛出 <code>Matrix is rank deficient</code> 异常；</li>
+<li>对于 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.FittingMethod.Lasso">FittingMethod.Lasso</a>，DataFittings 的 <code>LassoFitGenerator</code> 在初始化内部观测数组的时候使用了错误的维度上限，自变量个数大于样本数量的时候会越界。</li>
+</ul>
+
+
+<p>因此这里会通过 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.maxCandidates">GrnFittingOptions.maxCandidates</a> 与 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.candidateSampleRatio">GrnFittingOptions.candidateSampleRatio</a> 强制限制候选因子的数量。 基因数量远大于样本数量的时候(转录组数据的常态)，请先进行表达量过滤、 差异基因筛选或者PCA/模块降维。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+export class GeneRegulatoryNetwork {
+   # 表达矩阵之中的基因编号列表
+   Genes: string;
+   # 所有已经拟合成功的基因模型
+   Models: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegressionModel.html">iterates(GeneRegressionModel)</a>;
+   # 当前分析所使用的参数配置
+   Options: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GrnFittingOptions.html">GrnFittingOptions</a>;
+   # 基因的数量
+   Size: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Models</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GeneRegressionModel.html">iterates(GeneRegressionModel)</a></li>
+<li>use by <i>property</i> member <code>Options</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/GrnFittingOptions.html">GrnFittingOptions</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

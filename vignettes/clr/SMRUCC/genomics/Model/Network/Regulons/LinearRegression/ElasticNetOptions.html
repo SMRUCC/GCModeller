@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.LinearRegression.ElasticNetOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ElasticNetOptions {SMRUCC.genomics.Model.Network.Regulons.LinearRegression}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ElasticNetOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>弹性网络(Elastic Net)拟合基因调控网络的参数</p>
+
+<p>弹性网络在最小二乘的损失之上同时加入了 L1 与 L2 惩罚：</p>
+
+
+<pre><code> beta = argmin { ||y - X*beta||^2 / (2n) + alpha * [ l1_ratio * ||beta||_1 + (1 - l1_ratio) * ||beta||_2^2 / 2 ] }</code></pre>
+
+
+<p>其中 L1 项给出稀疏的调控关系，L2 项则在基因高度共线的时候给出分组效应 (相关的基因要么一起被保留、要么一起被剔除)，并且允许自变量个数大于样本数量。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+export class ElasticNetOptions {
+   # 正则化路径的终止比例，即最小的 alpha 等于最大的 alpha 乘以这个比例
+   alphaRatio: double;
+   # 交叉验证之中每一个 L1 比例下的 alpha 路径步数
+   cvAlphaSteps: integer;
+   # 交叉验证的折数。样本数量更少的时候会自动收缩到样本数量。
+   cvFolds: integer;
+   # 交叉验证所搜索的 L1 混合比例网格。 为空的时候使用 ElasticNet 库的默认值(0.1, 0.5, 0.7, 0.9, 0.95, 0.99, 1.0)。
+   cvL1Ratios: double;
+   # 全局交叉验证模式之下用于估计超参数的代表性基因的数量 (按照表达方差从大到小挑选)
+   globalCVReplicates: integer;
+   # L1 惩罚所占的混合比例，取值 [0, 1]。
+   # 
+   # 0 表示纯 Ridge(不会产生稀疏解)，1 表示纯 LASSO。 基因表达数据之中存在大量共调控的基因，一般建议取 0.7 附近； 特征数量远大于样本数量的时候可以提高到 0.7~0.9。
+   l1Ratio: double;
+   # 每一个目标基因允许纳入的最大候选调控因子数量。
+   # 
+   # 弹性网络本身没有「自变量个数必须小于样本数量」的限制， 因此这里是一个纯粹用于控制内存与计算量的预算： 求解器每一次都会复制一份 <code>n x p</code> 的设计矩阵。
+   maxCandidates: integer;
+   # 坐标下降每一步的最大迭代轮数
+   maxIterations: integer;
+   # 超参数的确定方式，默认为正则化路径选步。
+   mode: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetMode.html">ElasticNetMode</a>;
+   # 正则化路径上面的 alpha 步数(alpha 由大到小排列)
+   numberOfAlphas: integer;
+   # 坐标下降的收敛容差(系数更新的最大变化量)
+   tolerance: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>mode</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetMode.html">ElasticNetMode</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

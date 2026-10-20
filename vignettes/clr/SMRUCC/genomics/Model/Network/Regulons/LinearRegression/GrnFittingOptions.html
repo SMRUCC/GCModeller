@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GrnFittingOptions {SMRUCC.genomics.Model.Network.Regulons.LinearRegression}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GrnFittingOptions</h2>
+
+        <h3>Description</h3>
+
+        <p>基因调控网络的线性拟合参数</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Model.Network.Regulons.LinearRegression
+export class GrnFittingOptions {
+   # 自动模式下，候选调控因子数量占样本数量的最大比例(默认为 1/3)。
+   # 
+   # 这个上限是必须的：参与拟合的自变量个数应当显著小于样本数量，否则 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.FittingMethod.MultipleLinear">FittingMethod.MultipleLinear</a> 的 QR 分解会因为秩不足而失效， 而 DataFittings 的 LASSO 求解器也会因为内部数组的维度缺陷而越界崩溃。
+   candidateSampleRatio: double;
+   # 是否计算回归系数的 t 值与显著性 p 值(仅对 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.FittingMethod.MultipleLinear">FittingMethod.MultipleLinear</a> 有效)。
+   computeStatistics: boolean;
+   # 弹性网络的超参数配置，只在 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.FittingMethod.ElasticNet">FittingMethod.ElasticNet</a> 模式下生效。
+   elasticNet: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetOptions.html">ElasticNetOptions</a>;
+   # 每一个目标基因最多纳入多少个候选调控因子。
+   # 
+   # 小于或者等于零的时候按照 <a href="cref:P:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GrnFittingOptions.candidateSampleRatio">GrnFittingOptions.candidateSampleRatio</a> 自动推算。
+   maxCandidates: integer;
+   # 并行拟合的最大并发度，小于或者等于零的时候由运行时自行决定。
+   maxDegreeOfParallelism: integer;
+   # 使用 LASSO 求解的时候，每一个目标基因最多允许保留多少个非零的调控关系。 小于或者等于零的时候不做限制。
+   maxRegulatorsPerGene: integer;
+   # 线性拟合的求解方法，默认为普通最小二乘(OLS)。
+   method: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/FittingMethod.html">FittingMethod</a>;
+   # 候选调控因子与目标基因的 pearson 相关性的绝对值下限， 低于这个阈值的基因不会被纳入设计矩阵(默认为 0，即不施加相关性过滤)。
+   minAbsCorrelation: double;
+   # 导出调控边的时候的回归系数绝对值阈值，小于这个阈值的边会被丢弃(默认为 0，即保留全部)。
+   minAbsWeight: double;
+   # 是否只保留互为因果(|权重|在两个方向上都显著且符号一致)的调控关系。
+   # 
+   # 开启之后，只有在 <code>A -&gt; B</code> 与 <code>B -&gt; A</code> 两个方向都被拟合出来、 并且回归系数同号的时候才会保留这条边，边的权重取两个方向的均值。
+   mutualOnly: boolean;
+   # p 值计算的容差：小于这个数值的 p 值会被修正为零。
+   pvalueTolerance: double;
+   # 可选的调控因子集合(例如转录因子列表)。
+   # 
+   # 为空的时候，所有的基因都可以作为候选调控因子； 非空的时候，只有这个集合之内的基因才会被作为自变量参与拟合， 而目标基因仍然可以是表达矩阵之中的任意一行。
+   regulators: string;
+   # 是否关闭拟合过程之中的进度提示输出。
+   silent: boolean;
+   # 是否在进行拟合之前把每一个基因的表达向量标准化(z-score)。
+   # 
+   # 开启之后回归系数可以在不同基因之间横向比较，代价是丢失了原始的表达量尺度， 同时模型的截距项在理论上会退化为零。
+   standardize: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>elasticNet</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetOptions.html">ElasticNetOptions</a></li>
+<li>use by <i>property</i> member <code>method</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/FittingMethod.html">FittingMethod</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
