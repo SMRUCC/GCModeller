@@ -28,7 +28,7 @@ Namespace Ridge
     ''' ### 尺度约定
     ''' 
     ''' 惩罚项写作 ``n * lambda * ||b||^2`` 而不是 ``lambda * ||b||^2``，
-    ''' 是为了让 <paramref name="lambda"/> 与相关矩阵 ``R = X'X/n`` 的特征值
+    ''' 是为了让 lambda 与相关矩阵 ``R = X'X/n`` 的特征值
     ''' （取值范围 ``[0, p]``）同尺度，从而**与样本量 n 无关**，
     ''' 同一组 lambda 网格在不同样本量的数据上具有相同的含义。
     ''' </summary>
@@ -210,13 +210,13 @@ Namespace Ridge
                 Dim err As Double = 0.0
 
                 For i As Integer = 0 To n - 1
-                    Dim fit As Double = 0.0
+                    Dim yhat As Double = 0.0
 
                     For j As Integer = 0 To p - 1
-                        fit += xc(i)(j) * beta(j)
+                        yhat += xc(i)(j) * beta(j)
                     Next
 
-                    Dim d As Double = yc(i) - fit
+                    Dim d As Double = yc(i) - yhat
 
                     err += d * d
                 Next
@@ -313,15 +313,15 @@ Namespace Ridge
             Dim bestIcept As Double = intercepts(best)
 
             For i As Integer = 0 To n - 1
-                Dim fit As Double = bestIcept
+                Dim yhat As Double = bestIcept
 
                 For j As Integer = 0 To p - 1
-                    fit += bestCoef(j) * x(i)(j)
+                    yhat += bestCoef(j) * x(i)(j)
                 Next
 
                 tests(i) = New TestPoint With {
                     .Y = y(i),
-                    .Yfit = fit
+                    .Yfit = yhat
                 }
             Next
 
