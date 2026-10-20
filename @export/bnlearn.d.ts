@@ -124,6 +124,8 @@ declare namespace bnlearn {
      *  api or the ``GEARS::new`` api.
      * @param geneNames a character vector of the gene id for run the knockdown experiment, one 
      *  [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object will be generated for each gene.
+     * @param verbose 
+     * + default value Is ``false``.
      * @return a vector of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) perturbation result: the 
      *  ``WildtypeMeans`` is the wildtype expression value of each gene, the 
      *  ``MutantMeans`` is the expression value of each gene after the gene has been 
@@ -131,7 +133,7 @@ declare namespace bnlearn {
      *  ``IsSignificant`` data is the differential analysis result of the 
      *  perturbation.
    */
-   function knockdown(bnlearn: any, geneNames: any): object|object;
+   function knockdown(bnlearn: any, geneNames: any, verbose?: boolean): object|object;
    /**
     * run the in silico gene knockout experiment on the given network model
     * 
@@ -145,6 +147,8 @@ declare namespace bnlearn {
      *  api or the ``GEARS::new`` api.
      * @param geneNames a character vector of the gene id for run the knockout experiment, one 
      *  [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object will be generated for each gene.
+     * @param verbose 
+     * + default value Is ``false``.
      * @return a vector of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) perturbation result: the 
      *  ``WildtypeMeans`` is the wildtype expression value of each gene, the 
      *  ``MutantMeans`` is the expression value of each gene after the gene has been 
@@ -152,7 +156,7 @@ declare namespace bnlearn {
      *  ``IsSignificant`` data is the differential analysis result of the 
      *  perturbation.
    */
-   function knockouts(bnlearn: any, geneNames: any): object|object;
+   function knockouts(bnlearn: any, geneNames: any, verbose?: boolean): object|object;
    /**
    */
    function load_prior(data: string): object;
@@ -208,9 +212,8 @@ declare namespace bnlearn {
      *  api or the ``GEARS::new`` api.
      * @param geneNames a character vector of the gene id for run the overexpression experiment, 
      *  one [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object will be generated for each gene.
-     * @param env the R# runtime environment object.
-     * 
-     * + default value Is ``null``.
+     * @param verbose 
+     * + default value Is ``false``.
      * @return a vector of the [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) perturbation result: the 
      *  ``WildtypeMeans`` is the wildtype expression value of each gene, the 
      *  ``MutantMeans`` is the expression value of each gene after the gene has been 
@@ -218,7 +221,7 @@ declare namespace bnlearn {
      *  ``IsSignificant`` data is the differential analysis result of the 
      *  perturbation.
    */
-   function overexpress(bnlearn: any, geneNames: any, env?: object): object|object;
+   function overexpress(bnlearn: any, geneNames: any, verbose?: boolean): object|object;
    /**
     * create prior knowledge netwoek edges from the given vector data
     * 

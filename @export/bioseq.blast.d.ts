@@ -18,11 +18,13 @@ declare namespace bioseq.blast {
         * @param multipleSeq a nucleotide fasta sequence collection for run the gwANI calculation, 
         *  which can be a [FastaFile](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaFile) object or a collection of the 
         *  [FastaSeq](cref:T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq) object.
+        * @param fast 
+        * + default value Is ``false``.
         * @return a vector of the [DataSet](cref:T:Microsoft.VisualBasic.Data.Framework.IO.DataSet) gwANI calculation result: each 
         *  element contains the genome-wide average nucleotide identity value and 
         *  its details of one sequence pair in the input sequence collection.
       */
-      function gwANI(multipleSeq: object): object;
+      function gwANI(multipleSeq: object, fast?: boolean): object;
       /**
        * do the global pairwise sequence alignment via the needleman-wunsch 
        *  algorithm

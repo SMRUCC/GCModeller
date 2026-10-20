@@ -5,7 +5,7 @@ overexpress \- run the in silico gene overexpression experiment on the given net
 .SH SYNOPSIS
 \fIoverexpress(\fBbnlearn\fR as any, 
 \fBgeneNames\fR as any, 
-[\fB<Environment>\fR]);\fR
+\fBverbose\fR as boolean = FALSE);\fR
 .SH DESCRIPTION
 .PP
 run the in silico gene overexpression experiment on the given network model
@@ -22,9 +22,6 @@ run the in silico gene overexpression experiment on the given network model
  a character vector of the gene id for run the overexpression experiment, 
  one [InterventionResult](cref:T:SMRUCC.genomics.Analysis.BNLearn.Intervention.InterventionResult) object will be generated for each gene.
 . 
-.PP
-.PP
-\fBenv\fB \fR\- the R# runtime environment object.. 
 .PP
 .SH VALUE
 .PP
