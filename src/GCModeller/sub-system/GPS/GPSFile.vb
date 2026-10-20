@@ -5,11 +5,11 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.Json
-Imports Microsoft.VisualBasic.FileIO.Path
 Imports SMRUCC.genomics.Analysis.BNLearn.Core
 Imports SMRUCC.genomics.Analysis.GPS.Config
 Imports SMRUCC.genomics.Analysis.GPS.Model
 Imports SMRUCC.genomics.Analysis.GPS.Training
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 ''' <summary>
 ''' GPS 模型持久化包的清单信息（<c>manifest.json</c>）。
@@ -262,7 +262,7 @@ Public Module GPSFile
             Dim manifestText As String = ReadTextEntry(archive, EntryManifest)
 
             If manifestText Is Nothing Then
-                Throw New InvalidDataException($"不是有效的 GPS 模型包（缺少 {EntryManifest}）：{FilePath}")
+                Throw New InvalidDataException($"不是有效的 GPS 模型包（缺少 {EntryManifest}）：{filePath}")
             End If
 
             Dim manifest As GPSPackageManifest = ParseManifest(manifestText)

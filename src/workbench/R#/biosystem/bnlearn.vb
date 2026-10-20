@@ -65,6 +65,7 @@ Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
 Imports SMRUCC.genomics.Analysis.BNLearn.StructureLearning
 Imports SMRUCC.genomics.Analysis.CellPhenotype.RegulationNetwork
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.MetabolicModel
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components

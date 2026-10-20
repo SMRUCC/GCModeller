@@ -62,6 +62,8 @@ Imports SMRUCC.genomics.Analysis.BNLearn.DBN
 Imports SMRUCC.genomics.Analysis.BNLearn.Inference
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork
 Imports SMRUCC.genomics.Analysis.BNLearn.ModularNetwork.WGCNA
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports std = System.Math
 
 ''' <summary>
 ''' WGCNA 共表达网络与 BNLearn 动态贝叶斯网络（DBN）之间的桥接模块。
@@ -138,10 +140,10 @@ Public Module GeneRegulatoryNetwork
             Dim b As String = e.target
 
             If TF.Contains(a) AndAlso Not TF.Contains(b) Then
-                prior.AddEdge(a, b, InferEffector(e.value), Math.Abs(e.value), EVIDENCE)
+                prior.AddEdge(a, b, InferEffector(e.value), std.Abs(e.value), EVIDENCE)
                 directed += 1
             ElseIf TF.Contains(b) AndAlso Not TF.Contains(a) Then
-                prior.AddEdge(b, a, InferEffector(e.value), Math.Abs(e.value), EVIDENCE)
+                prior.AddEdge(b, a, InferEffector(e.value), std.Abs(e.value), EVIDENCE)
                 directed += 1
             Else
                 ' 两端同为 TF 或同为非 TF：方向无法由共表达确定，跳过
@@ -227,7 +229,7 @@ Public Module GeneRegulatoryNetwork
     ''' <returns>已完成拓扑构建与参数学习的动态贝叶斯网络。</returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function BuildDBN(wgcna As NetworkGraph, expr As Core.GeneExpressionData, TF As String()) As DynamicBayesianNetwork
+    Public Function BuildDBN(wgcna As NetworkGraph, expr As GeneExpressionData, TF As String()) As DynamicBayesianNetwork
         Return BuildDBN(wgcna.graphEdges, expr, TF)
     End Function
 
@@ -239,7 +241,7 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="expr">时间序列表达矩阵。</param>
     ''' <param name="TF">转录因子基因名称数组。</param>
     ''' <returns>已完成拓扑构建与参数学习的动态贝叶斯网络。</returns>
-    Public Function BuildDBN(Of IE As INetworkEdge)(wgcna As IEnumerable(Of IE), expr As Core.GeneExpressionData, TF As String()) As DynamicBayesianNetwork
+    Public Function BuildDBN(Of IE As INetworkEdge)(wgcna As IEnumerable(Of IE), expr As GeneExpressionData, TF As String()) As DynamicBayesianNetwork
         Dim tfSet As New HashSet(Of String)(TF, StringComparer.OrdinalIgnoreCase)
         Dim links As IEnumerable(Of RegulatoryLink) = BuildRegulatoryLinks(wgcna, tfSet)
 
@@ -348,7 +350,7 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="TF">转录因子基因名称数组。</param>
     ''' <param name="nSteps">虚拟敲降级联推演步数，默认 10。</param>
     ''' <returns>目标基因被敲降后，各基因随时间的表达状态轨迹。</returns>
-    Public Function RunPipeline(wgcna As NetworkGraph, expr As Core.GeneExpressionData, knockGene As String, TF As String(), Optional nSteps As Integer = 10) As Dictionary(Of String, Double())
+    Public Function RunPipeline(wgcna As NetworkGraph, expr As GeneExpressionData, knockGene As String, TF As String(), Optional nSteps As Integer = 10) As Dictionary(Of String, Double())
         Dim dbn As DynamicBayesianNetwork = BuildDBN(wgcna, expr, TF)
         Return VirtualKnockdown(dbn, knockGene, nSteps)
     End Function
@@ -356,7 +358,7 @@ Public Module GeneRegulatoryNetwork
     ' ==================== 基于 DBN 时间序列（GeneExpressionData）的 BNLearn 工作流桥接 ====================
 
     ''' <summary>
-    ''' 将 SingleGRN 流程产出的 DBN 时间序列（已是 <see cref="Core.GeneExpressionData"/>）装配为
+    ''' 将 SingleGRN 流程产出的 DBN 时间序列（已是 <see cref="GeneExpressionData"/>）装配为
     ''' BNLearn 工作流，并可选地融合由伪速率趋势构造的方向先验（<see cref="Core.PriorNetwork"/>）。
     '''
     ''' 与 <see cref="BuildBNNetwork"/>（基于 WGCNA 共表达网络）不同，本函数直接消费已经完成
@@ -366,7 +368,7 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="expr">DBN 时间序列表达矩阵（基因 × 伪时间 bin）。</param>
     ''' <param name="prior">可选的因果方向先验（如由 PseudoVelo 趋势符号构造）。为 Nothing 时退化为纯数据驱动 MMHC 结构学习。</param>
     ''' <returns>已注入表达数据与先验网络的 BNLearn 工作流实例。</returns>
-    Public Function BuildExpressionGRN(expr As Core.GeneExpressionData, Optional prior As Core.PriorNetwork = Nothing) As Core.BNLearnWorkflow
+    Public Function BuildExpressionGRN(expr As GeneExpressionData, Optional prior As Core.PriorNetwork = Nothing) As Core.BNLearnWorkflow
         Dim usePrior As Core.PriorNetwork = If(prior, New Core.PriorNetwork())
         Dim workflow As New Core.BNLearnWorkflow With {
             .ExpressionData = expr,
@@ -392,7 +394,7 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="dynamicSteps">动态级联敲除推演的时间步数，默认 10。</param>
     ''' <param name="outputDir">结果导出目录；为空则不导出。</param>
     ''' <returns>训练好的工作流 + 各类扰动结果（供调用方进一步分析或二次导出）。</returns>
-    Public Function TrainAndIntervene(expr As Core.GeneExpressionData,
+    Public Function TrainAndIntervene(expr As GeneExpressionData,
                                        prior As Core.PriorNetwork,
                                        knockGenes As String(),
                                        Optional overExpr As (Gene As String, Fold As Double)() = Nothing,
@@ -467,7 +469,7 @@ Public Module GeneRegulatoryNetwork
     ''' <param name="dynamicSteps">级联推演的时间步数，默认 10。</param>
     ''' <param name="crossModuleCorThreshold">模块 eigengene 相关阈值：|cor| 超过才建立模块间关联，默认 0.3。</param>
     ''' <returns>每个扰动基因的全局最终响应向量（按全部模块基因顺序排列）与训练好的模块子网络字典。</returns>
-    Public Function TrainModularDBNIntervene(timeSeries As Core.GeneExpressionData,
+    Public Function TrainModularDBNIntervene(timeSeries As GeneExpressionData,
                                              modules As GeneModuleColor(),
                                              prior As Core.PriorNetwork,
                                              TF As String(),
