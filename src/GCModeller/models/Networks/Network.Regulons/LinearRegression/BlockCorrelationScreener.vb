@@ -23,8 +23,14 @@ Namespace LinearRegression
     ''' ```
     ''' 
     ''' 因此不需要额外复制一份标准化之后的矩阵，直接使用原始向量即可。
-    ''' 与 <see cref="GeneRegulatoryNetwork"/> 内置的逐基因扫描相比，
-    ''' 浮点归约顺序不同会带来末位差异，候选集合可能有极少数边界抖动。
+    ''' 
+    ''' <para>
+    ''' <b>实测说明</b>：两者都做 ``O(基因数^2 * 样本数)`` 次乘加，在这台机器上
+    ''' （3000 基因 x 1888 样本）逐基因扫描约 6.8s、本实现约 8.3s —— 即筛选阶段是
+    ''' <b>计算受限</b>而不是内存受限，分块复用的收益要等到规模更大（内存流量
+    ''' 远大于 L2）时才会体现。当前它的主要价值是给 GPU 后端提供一个集合完全一致、
+    ''' 可逐位对照的 CPU 参考实现；追求筛选阶段的绝对速度请优先使用 GPU 后端。
+    ''' </para>
     ''' </remarks>
     Public Class BlockCorrelationScreener : Implements ICorrelationScreener
 
