@@ -26,6 +26,7 @@ Module Program
         Run("case 4: restrict the regulator pool to the transcription factors", AddressOf CaseRegulatorPool)
         Run("case 5: export the coefficient matrix and the edge table", AddressOf CaseExport)
         Run("case 6: input validation", AddressOf CaseValidation)
+        Run("case 7: lasso solver regression tests", AddressOf CaseLassoSolver)
 
         Console.WriteLine()
         Console.WriteLine(If(failures = 0, "PASS", "FAIL") & $": {failures} failure(s)")
@@ -75,6 +76,20 @@ Module Program
         Check(model.GetPvalue("gene2") < 0.001, $"pvalue(gene2) = {model.GetPvalue("gene2").ToString("G3")} < 0.001")
 
         Console.WriteLine($"     >> {model.ToString}")
+
+        ' 标准化之后回归系数可以被换算到同一个量纲之上进行比较，但是符号不会改变
+        Dim scaled As GeneRegulatoryNetwork = expr.InferRegulatoryNetwork(
+            New GrnFittingOptions With {
+                .silent = True,
+                .standardize = True
+            }
+        )
+        Dim zmodel As GeneRegressionModel = scaled.GetModel("gene3")
+
+        Check(zmodel.nonZeroWeights = 2, "the standardized model also keeps the two regulators")
+        Check(std.Sign(zmodel.GetWeight("gene1")) <> std.Sign(zmodel.GetWeight("gene2")),
+            "the standardized model gives the same regulation directions")
+        Check(std.Abs(zmodel.r2 - model.r2) < 0.001, $"R2 is not affected by the standardization: {zmodel.r2.ToString("F6")}")
     End Sub
 
     ''' <summary>
@@ -99,8 +114,13 @@ Module Program
         Dim score = Evaluate(synth.truth, edges)
         Dim sign As Double = SignAccuracy(synth.truth, edges)
 
+        Dim significant As RegulationEdge() = grn.Regulations(pvalueCutoff:=0.01).ToArray
+
         Console.WriteLine($"     >> {synth.matrix.size} genes x {synth.matrix.sample_count} samples, " &
                           $"{synth.truth.Length} true edges, {edges.Length} predicted edges, cost {seconds.ToString("F2")}s")
+
+        Check(significant.Length < edges.Length AndAlso significant.Length > 0,
+            $"{significant.Length} of {edges.Length} edges are significant at pvalue < 0.01")
 
         Check(edges.Length > 0, $"{edges.Length} regulation edges inferred")
         Check(score.recall > 0.7, $"top-{synth.truth.Length} recall = {score.recall.ToString("F3")}")
@@ -281,6 +301,154 @@ Module Program
                      End Sub),
             "too few samples is rejected")
     End Sub
+
+    ''' <summary>
+    ''' 用例 7：LASSO 求解器的回归测试
+    ''' 
+    ''' 覆盖两个已经被修复的缺陷：
+    ''' 
+    ''' 1. ``LassoFitGenerator.init`` 按照观测数量分配特征数组，自变量个数大于样本数量的时候会越界；
+    ''' 2. ``maxAllowedFeaturesPerModel`` 受限的时候，``denseActiveSet`` 与协方差行向量的长度不匹配，
+    '''    内部点积会抛出 ``the length of the two vectors not agree``。
+    ''' </summary>
+    Private Sub CaseLassoSolver()
+        ' ---------------------------------------------------------------
+        ' 缺陷 1：特征数量 > 样本数量
+        ' ---------------------------------------------------------------
+        Dim rng As New Random(23)
+        Dim nFeature As Integer = 19
+        Dim nSample As Integer = 10
+        Dim wide As Double()() = RectangularArray(nSample, nFeature, rng)
+        Dim wideY As Double() = Enumerable.Range(0, nSample).Select(Function(i) Gauss(rng)).ToArray
+        Dim widePath As LassoFit = Nothing
+        Dim wideThrow As Boolean = Throws(Sub()
+                                              widePath = LassoPath(wide, wideY, maxFeatures:=-1)
+                                          End Sub)
+
+        Check(Not wideThrow, $"the lasso solver accepts {nFeature} features with only {nSample} samples")
+        Check(widePath IsNot Nothing AndAlso widePath.numberOfLambdas > 0,
+            $"the lasso path contains {If(widePath Is Nothing, 0, widePath.numberOfLambdas)} lambda steps")
+        Check(widePath IsNot Nothing AndAlso widePath.numFeatures = nFeature,
+            $"the lasso solver keeps all of the {nFeature} features")
+
+        ' ---------------------------------------------------------------
+        ' 缺陷 2：maxAllowedFeaturesPerModel 受限
+        ' ---------------------------------------------------------------
+        Dim synth As (matrix As Matrix, truth As TruthEdge()) = BuildNetwork(
+            nTf:=4, nTarget:=16, nSample:=60, noise:=0.15, seed:=7
+        )
+        Dim target As String = "G_1"
+        Dim features As String() = synth.matrix.rownames.Where(Function(id) id <> target).ToArray
+        Dim X As Double()() = New Double(synth.matrix.sample_count - 1)() {}
+
+        For s As Integer = 0 To X.Length - 1
+            Dim sample As Integer = s
+
+            X(s) = features.Select(Function(id) synth.matrix(id).experiments(sample)).ToArray
+        Next
+
+        Dim y As Double() = synth.matrix(target).experiments
+        Dim fullPath As LassoFit = LassoPath(X, y, maxFeatures:=-1)
+        Dim limitedPath As LassoFit = Nothing
+        Dim limitedThrow As Boolean = Throws(Sub()
+                                                 limitedPath = LassoPath(X, y, maxFeatures:=4)
+                                             End Sub)
+
+        Check(Not limitedThrow, "the lasso solver accepts a limited maxAllowedFeaturesPerModel")
+        Check(limitedPath IsNot Nothing AndAlso limitedPath.numberOfLambdas > 0,
+            $"the limited lasso path contains {If(limitedPath Is Nothing, 0, limitedPath.numberOfLambdas)} lambda steps")
+
+        If limitedPath Is Nothing Then
+            Return
+        End If
+
+        Dim capacity As Integer = CInt(4 * 1.2)
+        Dim maxNonZero As Integer = limitedPath _
+            .nonZeroWeights _
+            .Take(limitedPath.numberOfLambdas) _
+            .Max()
+
+        Console.WriteLine($"     >> full path: {fullPath.numberOfLambdas} steps, " &
+                          $"max non-zero = {fullPath.nonZeroWeights.Take(fullPath.numberOfLambdas).Max()}, " &
+                          $"best R2 = {fullPath.rsquared.Take(fullPath.numberOfLambdas).Max().ToString("F4")}")
+        Console.WriteLine($"     >> limited path: {limitedPath.numberOfLambdas} steps (capacity {capacity}), " &
+                          $"max non-zero = {maxNonZero}, " &
+                          $"best R2 = {limitedPath.rsquared.Take(limitedPath.numberOfLambdas).Max().ToString("F4")}")
+
+        Check(maxNonZero <= capacity, $"the limited path never exceeds {capacity} non-zero weights")
+        Check(limitedPath.numberOfLambdas <= fullPath.numberOfLambdas,
+            "the limited path is not longer than the full path")
+
+        ' 受限路径的最后一步应当给出不超过 4 个有效的调控因子，并且解释度接近完整路径
+        Dim lastStep As Integer = limitedPath.numberOfLambdas - 1
+        Dim weights As Double() = limitedPath.getWeights(lastStep)
+        Dim nonZero As Integer = weights.Count(Function(w) w <> 0.0R)
+        Dim fullBest As Double = fullPath _
+            .rsquared _
+            .Take(fullPath.numberOfLambdas) _
+            .Max()
+
+        Check(nonZero > 0 AndAlso nonZero <= 4, $"{nonZero} non-zero weights are reported at the last step")
+        Check(limitedPath.rsquared(lastStep) > 0.5,
+            $"the limited path still explains the target gene: R2 = {limitedPath.rsquared(lastStep).ToString("F4")}")
+        Check(limitedPath.rsquared(lastStep) <= fullBest + 0.0001,
+            "the limited path could not explain more than the full path")
+
+        ' 修复之后不能改变原有(不受限)行为：完整路径的非零权重数量应当达到全部特征
+        Check(fullPath.nonZeroWeights.Take(fullPath.numberOfLambdas).Max() >= 5,
+            $"the full path still grows to many non-zero weights: {fullPath.nonZeroWeights.Take(fullPath.numberOfLambdas).Max()}")
+    End Sub
+
+    ''' <summary>
+    ''' 直接驱动 LASSO 求解器跑出一条正则化路径
+    ''' </summary>
+    ''' <param name="X">行主序的设计矩阵</param>
+    ''' <param name="y">观测值向量</param>
+    ''' <param name="maxFeatures">每一个模型允许的最大非零特征数量，负数表示不做限制</param>
+    ''' <returns></returns>
+    Private Function LassoPath(X As Double()(), y As Double(), maxFeatures As Integer) As LassoFit
+        Dim nS As Integer = y.Length
+        Dim p As Integer = X(0).Length
+        Dim names As String() = Enumerable.Range(1, p).Select(Function(i) $"x{i}").ToArray
+        Dim generator As New LassoFitGenerator()
+
+        LassoFitGenerator.tqdm_verbose = False
+        Call generator.init(names, nS)
+
+        For j As Integer = 0 To p - 1
+            Dim column As Double() = New Double(nS - 1) {}
+
+            For i As Integer = 0 To nS - 1
+                column(i) = X(i)(j)
+            Next
+
+            Call generator.setFeatureValues(j, column)
+        Next
+        For i As Integer = 0 To nS - 1
+            Call generator.setTarget(i, y(i))
+        Next
+
+        Return generator.fit(maxFeatures)
+    End Function
+
+    ''' <summary>
+    ''' 生成一个指定行列数量、元素为随机数的矩阵
+    ''' </summary>
+    Private Function RectangularArray(rows As Integer, cols As Integer, rng As Random) As Double()()
+        Dim mat As Double()() = New Double(rows - 1)() {}
+
+        For i As Integer = 0 To rows - 1
+            Dim row As Double() = New Double(cols - 1) {}
+
+            For j As Integer = 0 To cols - 1
+                row(j) = Gauss(rng)
+            Next
+
+            mat(i) = row
+        Next
+
+        Return mat
+    End Function
 
 #Region "helpers"
 

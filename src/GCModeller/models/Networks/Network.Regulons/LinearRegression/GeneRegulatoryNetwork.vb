@@ -644,18 +644,21 @@ Namespace LinearRegression
                 Call generator.setTarget(i, y(i))
             Next
 
-            ' DataFittings 之中的 LassoFitGenerator 存在两个既有的实现缺陷，
-            ' 这里通过调用约定绕开它们：
+            ' 求解器的这个参数只是控制正则化路径在多少个活跃变量之后提前结束，
+            ' 与最终保留下来的调控因子数量(由 PickLambdaStep 严格限制)并不是一回事：
+            ' 这里取两倍的余量，保证所有非零权重数量不超过 maxRegulatorsPerGene 的
+            ' lambda 步长都还在路径之上，从而让最终的挑选结果与跑完整路径时完全一致，
+            ' 但又可以在特征数量很大、允许的调控因子很少的时候省下大量计算。
             ' 
-            ' 1. init 过程内部按照样本数量分配观测数组的维度，自变量个数大于样本数量的时候会越界，
-            '    因此候选调控因子的数量已经被 maxCandidates 参数限制在样本数量之下；
-            ' 2. 求解器在 maxAllowedFeaturesPerModel 大于零的时候，协程下降过程之中的
-            '    denseActiveSet(长度为特征数量)与 feature2featureCorrelations(长度为允许特征数量)
-            '    维度不一致，会抛出向量长度不匹配异常。
+            ' 注意：DataFittings 之中的 LassoFitGenerator 曾经存在两个会导致崩溃的缺陷，
+            ' 它们已经在求解器内部修复：
             ' 
-            ' 因此这里总是让求解器跑出完整的正则化路径，稀疏程度则通过后面的
-            ' <see cref="PickLambdaStep"/> 挑选合适的 lambda 步长来控制。
-            Dim path As LassoFit = generator.fit(-1)
+            ' 1. init 过程按照观测数量分配特征数组的外层维度，自变量个数大于样本数量的时候会越界；
+            ' 2. maxAllowedFeaturesPerModel 受限的时候，denseActiveSet 与协方差行向量的长度不一致。
+            ' 
+            ' 另外，候选调控因子的数量必须小于样本数量，这一点由 maxCandidates 参数保证。
+            Dim capacity As Integer = If(opt.maxRegulatorsPerGene > 0, opt.maxRegulatorsPerGene * 2, -1)
+            Dim path As LassoFit = generator.fit(capacity)
             Dim stepId As Integer = PickLambdaStep(path, opt.maxRegulatorsPerGene)
             Dim model As New GeneRegressionModel With {
                 .target = name,
