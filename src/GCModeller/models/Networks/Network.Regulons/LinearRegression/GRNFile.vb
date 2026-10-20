@@ -198,7 +198,9 @@ Namespace LinearRegression
 
             Using stream As Stream = entry.Open()
                 Using writer As New StreamWriter(stream, New UTF8Encoding(encoderShouldEmitUTF8Identifier:=False))
-                    Call writer.Write(GetObjectJson(data, indent:=True))
+                    ' 与工程内部的其它模型文件保持一致，使用统一的 json 序列化配置
+                    ' (ScriptIgnore / IgnoreDataMember 会被自动跳过)
+                    Call writer.Write(GetObjectJson(data))
                 End Using
             End Using
         End Sub
