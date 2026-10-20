@@ -168,6 +168,63 @@ Module SynthData
     End Function
 
     ''' <summary>
+    ''' 生成一个包含两个高度共线的转录因子的合成网络
+    ''' 
+    ''' ```
+    ''' TF_A = z + e1
+    ''' TF_B = z + e2
+    ''' G_1  = w * z + noise
+    ''' ```
+    ''' 
+    ''' 其中 ``z`` 是共享的潜在因子、``e1``/``e2`` 是极小的扰动(由
+    ''' <paramref name="collinearNoise"/> 控制)，因此两个转录因子几乎完全共线，
+    ''' 并且都对靶基因有真实的调控作用。这组数据用于验证弹性网络的分组效应。
+    ''' </summary>
+    ''' <param name="nSample">样本数量</param>
+    ''' <param name="noise">靶基因的观测噪声</param>
+    ''' <param name="collinearNoise">两个转录因子之间的扰动强度</param>
+    ''' <param name="seed">随机数种子，相同的种子会生成完全相同的数据</param>
+    ''' <param name="weight">真实的调控系数</param>
+    ''' <returns>表达矩阵以及真实的调控关系(两条共线边)</returns>
+    Public Function BuildCollinearNetwork(nSample As Integer,
+                                          Optional noise As Double = 0.05,
+                                          Optional collinearNoise As Double = 0.01,
+                                          Optional seed As Integer = 91,
+                                          Optional weight As Double = 0.8) As (matrix As Matrix, truth As TruthEdge())
+
+        Dim rng As New Random(seed)
+        Dim samples As String() = Enumerable.Range(1, nSample).Select(Function(i) $"S{i}").ToArray
+        Dim tfA As Double() = New Double(nSample - 1) {}
+        Dim tfB As Double() = New Double(nSample - 1) {}
+        Dim target As Double() = New Double(nSample - 1) {}
+
+        For s As Integer = 0 To nSample - 1
+            Dim latent As Double = Gauss(rng)
+
+            tfA(s) = latent + collinearNoise * Gauss(rng)
+            tfB(s) = latent + collinearNoise * Gauss(rng)
+            target(s) = weight * latent + noise * Gauss(rng)
+        Next
+
+        Dim rows As DataFrameRow() = {
+            New DataFrameRow With {.geneID = "TF_A", .experiments = tfA},
+            New DataFrameRow With {.geneID = "TF_B", .experiments = tfB},
+            New DataFrameRow With {.geneID = "G_1", .experiments = target}
+        }
+        Dim truth As TruthEdge() = {
+            New TruthEdge With {.regulator = "TF_A", .target = "G_1", .weight = weight},
+            New TruthEdge With {.regulator = "TF_B", .target = "G_1", .weight = weight}
+        }
+        Dim matrix As New Matrix With {
+            .tag = "collinear",
+            .sampleID = samples,
+            .expression = rows
+        }
+
+        Return (matrix, truth)
+    End Function
+
+    ''' <summary>
     ''' 评估推断出来的调控网络：按照回归系数绝对值取最强的若干条边，
     ''' 然后与真实的调控关系做比对，计算 precision / recall / F1。
     ''' </summary>
