@@ -108,6 +108,18 @@ Namespace LinearRegression
         Public Property regulators As String() = Nothing
 
         ''' <summary>
+        ''' 需要<b>优先</b>纳入候选调控因子池的基因集合(例如转录因子列表)。
+        ''' 
+        ''' 与 <see cref="regulators"/> 的"限定"语义不同：这里列出的基因不受
+        ''' <see cref="maxCandidates"/> 与 <see cref="minAbsCorrelation"/> 的截断影响，
+        ''' 总是会被追加进每一个目标基因的候选集(目标基因自身除外)。
+        ''' 
+        ''' 为空的时候不产生任何影响。大小写不敏感，表达矩阵之中不存在的基因会被忽略。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property priorityRegulators As String() = Nothing
+
+        ''' <summary>
         ''' 使用 LASSO 求解的时候，每一个目标基因最多允许保留多少个非零的调控关系。
         ''' 小于或者等于零的时候不做限制。
         ''' </summary>
@@ -176,6 +188,10 @@ Namespace LinearRegression
         ''' <returns></returns>
         Public Overrides Function ToString() As String
             Dim regs As String = If(regulators Is Nothing, "(all genes)", $"{regulators.Length} regulator genes")
+
+            If priorityRegulators IsNot Nothing AndAlso priorityRegulators.Length > 0 Then
+                regs &= $", {priorityRegulators.Length} priority regulators"
+            End If
             Dim summary As String = $"[{method}] candidates={If(maxCandidates > 0, maxCandidates.ToString, $"auto({candidateSampleRatio})")}, " &
                    $"|r|>={minAbsCorrelation}, regulators={regs}, standardize={standardize}"
 

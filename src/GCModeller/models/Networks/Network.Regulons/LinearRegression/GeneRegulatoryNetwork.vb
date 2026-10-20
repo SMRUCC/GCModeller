@@ -63,6 +63,14 @@ Namespace LinearRegression
         ReadOnly regulatorPool As Integer()
 
         ''' <summary>
+        ''' 需要优先纳入候选池的基因在表达矩阵之中的行下标
+        ''' (来自 <see cref="GrnFittingOptions.priorityRegulators"/>)。
+        ''' 
+        ''' 这些基因不受候选池截断的影响，总是会被追加进每一个目标基因的候选集。
+        ''' </summary>
+        ReadOnly priorityPool As Integer()
+
+        ''' <summary>
         ''' 拟合好的模型，键名是目标基因的编号
         ''' </summary>
         ReadOnly modelTable As New Dictionary(Of String, GeneRegressionModel)
@@ -138,6 +146,29 @@ Namespace LinearRegression
                 End If
 
                 Me.regulatorPool = pool.ToArray
+            End If
+
+            If Me.opt.priorityRegulators Is Nothing OrElse Me.opt.priorityRegulators.Length = 0 Then
+                Me.priorityPool = New Integer() {}
+            Else
+                ' 大小写不敏感匹配，表达矩阵之中不存在的基因会被静默忽略
+                Dim wanted As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+                For Each name As String In Me.opt.priorityRegulators
+                    If Not String.IsNullOrEmpty(name) Then
+                        Call wanted.Add(name)
+                    End If
+                Next
+
+                Dim priority As New List(Of Integer)
+
+                For i As Integer = 0 To geneNames.Length - 1
+                    If wanted.Contains(geneNames(i)) Then
+                        Call priority.Add(i)
+                    End If
+                Next
+
+                Me.priorityPool = priority.ToArray
             End If
         End Sub
 
@@ -646,6 +677,8 @@ Namespace LinearRegression
                     candidates = TopCorrelated(target, candidates, maxCand)
                 End If
 
+                candidates = InjectPriorityRegulators(target, candidates)
+
                 Select Case opt.method
                     Case FittingMethod.Lasso
                         Return FitLasso(name, y, candidates)
@@ -665,6 +698,44 @@ Namespace LinearRegression
                     .errorMessage = ex.Message
                 }
             End Try
+        End Function
+
+        ''' <summary>
+        ''' 把 <see cref="priorityPool"/> 之中的基因追加进候选集。
+        ''' 
+        ''' 这些基因(例如转录因子)不受 <see cref="GrnFittingOptions.maxCandidates"/>
+        ''' 与 <see cref="GrnFittingOptions.minAbsCorrelation"/> 截断的影响，
+        ''' 从而不会因为相关性排名靠后被挤出模型；目标基因自身始终被排除。
+        ''' </summary>
+        ''' <param name="target">目标基因的行下标</param>
+        ''' <param name="candidates">已经按照相关性挑选过的候选集</param>
+        ''' <returns>合并之后的候选集(保持原有顺序，新基因追加在末尾)</returns>
+        Private Function InjectPriorityRegulators(target As Integer, candidates As Integer()) As Integer()
+            If priorityPool.Length = 0 Then
+                Return candidates
+            End If
+
+            Dim present As New HashSet(Of Integer)(candidates)
+            Dim merged As New List(Of Integer)
+            Dim added As Integer = 0
+
+            Call merged.AddRange(candidates)
+
+            For Each idx As Integer In priorityPool
+                If idx = target Then
+                    Continue For
+                End If
+                If present.Add(idx) Then
+                    Call merged.Add(idx)
+                    added += 1
+                End If
+            Next
+
+            If added > 0 AndAlso Not opt.silent Then
+                Call Console.WriteLine($"[GRN] {added} priority regulator(s) injected into the candidate pool of '{geneNames(target)}'")
+            End If
+
+            Return merged.ToArray
         End Function
 
         ''' <summary>
