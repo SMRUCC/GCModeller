@@ -23,4 +23,11 @@
   <Project Path="gwANI/gwANI.NET5.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="gwANI/test/test.vbproj" Id="ce298bce-11df-4a70-baf6-96cd4c03909c">
+    <BuildType Solution="gcmodeller_desktop|*" Project="Release" />
+    <BuildType Solution="mzkit_win32|*" Project="Release" />
+    <BuildType Solution="nuget_release|*" Project="Release" />
+    <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+    <Platform Solution="Debug|x64" Project="x64" />
+  </Project>
 </Solution>
