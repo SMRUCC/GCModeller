@@ -222,4 +222,8 @@
     <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ElasticNet\" />
+  </ItemGroup>
+
 </Project>

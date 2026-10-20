@@ -24,6 +24,16 @@
       <BuildType Solution="NPSearch|*" Project="LipidSearch" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/ElasticNet/ElasticNet.vbproj">
+      <BuildType Solution="gcmodeller_desktop|*" Project="Release" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Release" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="Release" />
+      <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
