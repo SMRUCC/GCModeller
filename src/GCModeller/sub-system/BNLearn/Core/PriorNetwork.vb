@@ -103,9 +103,15 @@ Namespace Core
         End Function
 
         Public Shared Function ParseEffector(type As String) As Effector
+            If type.StringEmpty(, True) Then
+                Return Effector.Activator
+            End If
+
             Select Case type
-                Case NameOf(Effector.Activator), "activation" : Return Effector.Activator
-                Case NameOf(Effector.Inhibitor), "repression", "inhibit", "suppress" : Return Effector.Inhibitor
+                Case NameOf(Effector.Activator), "activation", "+", "↑" : Return Effector.Activator
+                Case NameOf(Effector.Inhibitor), "repression", "inhibit", "suppress", "-", "↓" : Return Effector.Inhibitor
+                Case "1" : Return Effector.Activator
+                Case "2" : Return Effector.Inhibitor
                 Case Else
                     Return Effector.Unknown
             End Select
@@ -206,7 +212,7 @@ Namespace Core
                     Call net.AddEdge(
                         tf:=OrEmpty(edge.GetString(NameOf(RegulatoryEdge.TF))),
                         target:=OrEmpty(edge.GetString(NameOf(RegulatoryEdge.TargetGene))),
-                        regType:=ParseEffector(edge.GetString(NameOf(RegulatoryEdge.RegulationType))),
+                        regType:=RegulatoryEdge.ParseEffector(edge.GetString(NameOf(RegulatoryEdge.RegulationType))),
                         confidence:=GetDoubleOr(edge, NameOf(RegulatoryEdge.Confidence), 1.0R),
                         evidence:=OrEmpty(edge.GetString(NameOf(RegulatoryEdge.Evidence))))
                 Next
@@ -221,33 +227,6 @@ Namespace Core
             Next
 
             Return net
-        End Function
-
-        ''' <summary>
-        ''' 将JSON之中的字符串值转换为枚举，名字与数字形式均可识别；
-        ''' 缺失或无法识别时回退到 <see cref="Effector.Activator"/>
-        ''' （与 <see cref="RegulatoryEdge.RegulationType"/> 的默认值一致）。
-        ''' </summary>
-        Private Shared Function ParseEffector(text As String) As Effector
-            If String.IsNullOrEmpty(text) Then
-                Return Effector.Activator
-            End If
-
-            Dim role As Effector
-
-            If [Enum].TryParse(Of Effector)(value:=text, ignoreCase:=True, result:=role) Then
-                Return role
-            End If
-
-            ' 兼容数字形式的枚举值（0=Unknown, 1=Activator, 2=Inhibitor），
-            ' 例如由 sciBASIC GetJson(enumToStr:=False) 生成的文件
-            Dim numeric As Integer
-
-            If Integer.TryParse(s:=text, style:=NumberStyles.Integer, provider:=CultureInfo.InvariantCulture, result:=numeric) Then
-                Return CType(numeric, Effector)
-            Else
-                Return Effector.Activator
-            End If
         End Function
 
         ''' <summary>

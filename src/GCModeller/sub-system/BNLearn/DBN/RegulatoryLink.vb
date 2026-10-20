@@ -123,8 +123,8 @@ End Class
 ''' effects of the effector to the TF protein
 ''' </summary>
 Public Enum Effector
-    Unknown
-    Activator
-    Inhibitor
+    Unknown = 0
+    Activator = 1
+    Inhibitor = 2
 End Enum
 
