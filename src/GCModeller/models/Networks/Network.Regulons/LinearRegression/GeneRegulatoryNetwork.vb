@@ -50,11 +50,6 @@ Namespace LinearRegression
         ReadOnly geneNames As String()
         ReadOnly sampleNames As String()
 
-        ''' <summary>
-        ''' 每一个基因的表达向量，下标与 <see cref="geneNames"/> 一致。
-        ''' 开启了 <see cref="GrnFittingOptions.standardize"/> 之后这里保存的是 z-score 标准化之后的数据。
-        ''' </summary>
-        ReadOnly vectors As Double()()
 
         ''' <summary>
         ''' 每一个基因的居中且 L2 归一化之后的表达向量，
@@ -202,11 +197,6 @@ Namespace LinearRegression
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Vectors As Double()()
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return vectors
-            End Get
-        End Property
 
         ''' <summary>
         ''' 每一个基因的基线表达量，即 <see cref="Vectors"/> 之中的样本均值。
