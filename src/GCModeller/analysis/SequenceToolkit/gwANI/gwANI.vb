@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::ef170bbd0125d1a8b740f193311e4ae2, analysis\SequenceToolkit\gwANI\gwANI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 284
-    '    Code Lines: 140 (49.30%)
-    ' Comment Lines: 108 (38.03%)
-    '    - Xml Docs: 65.74%
-    ' 
-    '   Blank Lines: 36 (12.68%)
-    '     File Size: 11.25 KB
+' Summaries:
 
 
-    ' Class gwANI
-    ' 
-    '     Function: __calculate_and_output_gwani, __fast_calculate_gwani
-    ' 
-    '     Sub: calc_gwani_between_a_sample_and_everything_afterwards, calc_gwani_between_a_sample_and_everything_afterwards_memory, check_input_file_and_calc_dimensions, Evaluate
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 284
+'    Code Lines: 140 (49.30%)
+' Comment Lines: 108 (38.03%)
+'    - Xml Docs: 65.74%
+' 
+'   Blank Lines: 36 (12.68%)
+'     File Size: 11.25 KB
+
+
+' Class gwANI
+' 
+'     Function: __calculate_and_output_gwani, __fast_calculate_gwani
+' 
+'     Sub: calc_gwani_between_a_sample_and_everything_afterwards, calc_gwani_between_a_sample_and_everything_afterwards_memory, check_input_file_and_calc_dimensions, Evaluate
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -164,9 +164,13 @@ Public NotInheritable Class gwANI
     Dim sequence_names As String()
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Sub Evaluate(in$, out$, fast As Boolean)
-        Call gwANIExtensions.Evaluate([in], out, fast)
-    End Sub
+    Public Shared Function Evaluate(msa As FastaFile, Optional fast As Boolean = False) As DataSet()
+        If fast Then
+            Return gwANIExtensions.fast_calculate_gwani(msa)
+        Else
+            Return gwANIExtensions.calculate_and_output_gwani(msa)
+        End If
+    End Function
 
     Private Sub check_input_file_and_calc_dimensions(ByRef multipleSeq As FastaFile)
         number_of_samples = 0
@@ -334,6 +338,8 @@ Public NotInheritable Class gwANI
             For j = 0 To number_of_samples - 1
                 Call seqRow.Add(sequence_names(j), similarity_percentage(j))
             Next
+
+            Yield seqRow
         Next
     End Function
 End Class
