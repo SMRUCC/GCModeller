@@ -103,14 +103,16 @@ Module Linear
     <ExportAPI("elastic_net")>
     <RApiReturn(GetType(LinearRegression.GeneRegulatoryNetwork), GetType(RegulationEdge))>
     Public Function elastic_net(x As Matrix,
-                                Optional candidates As Integer = 1000,
+                                Optional candidates As Integer = 300,
                                 Optional maxreg As Integer = 10,
                                 Optional l1_ratio As Double = 0.7,
-                                Optional alphas As Double = 40,
+                                Optional alphas As Double = 20,
                                 Optional mutual As Boolean = False,
                                 <RRawVectorArgument(TypeCodes.string)> Optional TF As Object = Nothing,
                                 Optional standardize As Boolean = False,
-                                Optional min_abs_r As Double = 0) As Object
+                                Optional min_abs_r As Double = 0,
+                                Optional gpu As Boolean = False,
+                                Optional block_screener As Boolean = False) As Object
 
         Dim priority As String() = Nothing
 
@@ -138,6 +140,20 @@ Module Linear
             }
         }
         Dim t0 = Now
+
+        If gpu Then
+            Dim backend As ICorrelationScreener = SMRUCC.genomics.Model.Network.Regulons.Cuda.CudaCorrelationScreener.TryCreate()
+
+            If backend Is Nothing Then
+                Console.WriteLine("     >> [warn] no available cuda device was found, the correlation screening falls back to the cpu")
+            Else
+                Console.WriteLine("     >> the correlation screening is running on the gpu (float32 gemm)")
+                options.correlationBackend = backend
+            End If
+        ElseIf block_screener Then
+            Console.WriteLine("     >> the correlation screening is running on the cpu (blocked gemm)")
+            options.correlationBackend = New BlockCorrelationScreener()
+        End If
 
         If mutual Then
             Console.WriteLine("     >> only the mutual (reversible) regulation pairs are kept")
