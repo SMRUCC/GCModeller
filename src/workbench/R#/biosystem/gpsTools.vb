@@ -297,9 +297,29 @@ Module gpsTools
     ''' </param>
     ''' <param name="knockdownResidual">
     ''' the fraction of the wild type expression level that is kept for the target gene of an in
-    ''' silico knockdown experiment: the intervention value is <c>gene mean * knockdownResidual</c>.
-    ''' <c>0.2</c> corresponds to the CRISPRi setting of the Virtual Cell Challenge (more than 80
-    ''' percent on target knockdown). Default 0.2.
+    ''' silico knockdown experiment, applied in <b>linear CPM space</b> on the baseline of the
+    ''' current cell context: <c>cpm_mut = knockdownResidual * cpm_ctrl</c>, then transformed back
+    ''' to <c>log2(CPM + 1)</c>. <c>0.2</c> corresponds to the CRISPRi setting of the Virtual Cell
+    ''' Challenge (more than 80 percent on target knockdown). Default 0.2.
+    ''' </param>
+    ''' <param name="edgeNormalization">
+    ''' how the graph convolution normalises the aggregated edge weights: ``"mean"`` (the legacy
+    ''' convex averaging, attenuates a single gene perturbation by about 1e-4 after three hops),
+    ''' ``"sqrt"`` (default, keeps about 5 to 8 times more magnitude per hop) or ``"sum"`` (no
+    ''' normalisation, strongest but easiest to saturate).
+    ''' </param>
+    ''' <param name="perturbationChannel">
+    ''' inject the change of the perturbed gene into the input window of its downstream targets
+    ''' along the prior edges, so a knockdown does not have to survive several rounds of degree
+    ''' normalisation. Default TRUE.
+    ''' </param>
+    ''' <param name="perturbationChannelGain">
+    ''' injection gain of the perturbation channel; ``0`` disables it. Default 1.
+    ''' </param>
+    ''' <param name="perturbationChannelCoRegulation">
+    ''' when the perturbed gene has no outgoing edge (every non transcription factor in a
+    ''' TF to target prior), spread its change to the genes sharing the same upstream regulators.
+    ''' Heuristic, therefore FALSE by default.
     ''' </param>
     ''' <returns>a validated <see cref="GPSConfig"/> object</returns>
     ''' <exception cref="ArgumentException">the assembled configuration is not valid</exception>
@@ -346,6 +366,10 @@ Module gpsTools
                                Optional attentionRandomLinks As Integer = 8,
                                Optional attentionHubGenes As Integer = 8,
                                Optional knockdownResidual As Double = 0.2,
+                               Optional edgeNormalization As String = "sqrt",
+                               Optional perturbationChannel As Boolean = True,
+                               Optional perturbationChannelGain As Double = 1.0,
+                               Optional perturbationChannelCoRegulation As Boolean = False,
                                Optional env As Environment = Nothing) As Object
 
         Dim config As New GPSConfig With {
@@ -389,7 +413,11 @@ Module gpsTools
             .AttentionNeighbors = attentionNeighbors,
             .AttentionRandomLinks = attentionRandomLinks,
             .AttentionHubGenes = attentionHubGenes,
-            .KnockdownResidual = knockdownResidual
+            .KnockdownResidual = knockdownResidual,
+            .EdgeNormalization = edgeNormalization,
+            .PerturbationChannel = perturbationChannel,
+            .PerturbationChannelGain = perturbationChannelGain,
+            .PerturbationChannelCoRegulation = perturbationChannelCoRegulation
         }
 
         If Not config.Validate() Then
