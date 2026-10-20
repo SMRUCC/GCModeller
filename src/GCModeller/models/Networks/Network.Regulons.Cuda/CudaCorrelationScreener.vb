@@ -21,7 +21,7 @@ Namespace Cuda
     ''' 
     ''' 只在 float32 上计算：float 的 7 位有效数字足以稳定地区分 top-k 候选，
     ''' 而且在消费级显卡上 float64 的吞吐只有 float32 的 1/64。
-    ''' </remarks>
+    ''' </summary>
     Public Class CudaCorrelationScreener : Implements ICorrelationScreener
 
         ''' <summary>
