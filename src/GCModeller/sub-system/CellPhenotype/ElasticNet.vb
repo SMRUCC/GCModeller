@@ -55,7 +55,7 @@ End Enum
 ''' <summary>
 ''' 模型输入表达量的数值空间。
 ''' </summary>
-Public Enum ExpressionScale
+Public Enum PerturbationScale
 
     ''' <summary>
     ''' 模型输入就是线性表达量(默认值，保持与既有行为完全一致)。
@@ -85,7 +85,7 @@ End Enum
 ''' Custom          : target = spec.Value   (模型空间之中的绝对值)
 ''' ```
 ''' 
-''' 当 <see cref="Scale"/> 为 <see cref="ExpressionScale.Log2Plus1"/> 的时候，
+''' 当 <see cref="Scale"/> 为 <see cref="PerturbationScale.Log2Plus1"/> 的时候，
 ''' 上面的比例会先反变换到线性空间、按比例施加、再变换回 log 空间(见该枚举的说明)。
 ''' 
 ''' 这个约定与 <see cref="InterventionSpec.GetInterventionValue"/> 的
@@ -101,16 +101,16 @@ Public Class ElasticNetPerturbationOptions
     Public Property Propagation As PropagationMode = PropagationMode.Cascade
 
     ''' <summary>
-    ''' 模型输入表达量的数值空间，默认为 <see cref="ExpressionScale.Linear"/>。
+    ''' 模型输入表达量的数值空间，默认为 <see cref="PerturbationScale.Linear"/>。
     ''' 
     ''' 如果拟合网络所用的表达矩阵是取过对数的(例如 ``log2(CPM+1)``)，必须设置为
-    ''' <see cref="ExpressionScale.Log2Plus1"/>，否则敲降/过表达的幅度会偏大 2~3 倍。
+    ''' <see cref="PerturbationScale.Log2Plus1"/>，否则敲降/过表达的幅度会偏大 2~3 倍。
     ''' </summary>
     ''' <returns></returns>
-    Public Property Scale As ExpressionScale = ExpressionScale.Linear
+    Public Property Scale As PerturbationScale = PerturbationScale.Linear
 
     ''' <summary>
-    ''' <see cref="ExpressionScale.Log2Plus1"/> 空间之中的伪计数偏移，默认 1。
+    ''' <see cref="PerturbationScale.Log2Plus1"/> 空间之中的伪计数偏移，默认 1。
     ''' 
     ''' 它必须与拟合网络时所用的变换保持一致(例如 ``log2(x + 1)`` 对应 1)。
     ''' </summary>
@@ -215,6 +215,30 @@ Public Class ElasticNetPerturbationOptions
             Throw New ArgumentException($"the pseudo count offset of the log scale must be a positive number, but {LogPseudoCount} was given!", NameOf(LogPseudoCount))
         End If
     End Sub
+
+    ''' <summary>
+    ''' 创建一份参数配置的副本。
+    ''' 
+    ''' 在 R# 之类的脚本环境之中，调用方经常需要在默认配置之上覆盖少量字段，
+    ''' 复制一份可以避免修改调用方传入的对象。
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function Clone() As ElasticNetPerturbationOptions
+        Return New ElasticNetPerturbationOptions With {
+            .Propagation = Propagation,
+            .Scale = Scale,
+            .LogPseudoCount = LogPseudoCount,
+            .Steps = Steps,
+            .Damping = Damping,
+            .Tolerance = Tolerance,
+            .KnockdownResidual = KnockdownResidual,
+            .OverexpressionFold = OverexpressionFold,
+            .ClampToObserved = ClampToObserved,
+            .SignificanceZ = SignificanceZ,
+            .RecordTrajectory = RecordTrajectory,
+            .RandomSeed = RandomSeed
+        }
+    End Function
 
     ''' <summary>
     ''' 参数摘要，便于在日志之中追溯分析结果。
@@ -630,6 +654,36 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
         Me.Baseline = aligned
 
         Return hits
+    End Function
+
+    ''' <summary>
+    ''' 计算训练矩阵每一个样本在"反 log 变换"之后的表达量总和。
+    ''' 
+    ''' 对于 ``x = log2(y + pseudo)`` 的训练矩阵，这个值等于逐样本的 ``sum(2^x - pseudo)``，
+    ''' 也就是该矩阵隐含的文库规模。把外部的 count 数据(例如单细胞伪 bulk)映射到
+    ''' 模型空间的时候，应当用这个中位数作为归一化目标：
+    ''' 
+    ''' ```
+    ''' y = counts / sum(counts) * median(library_sizes)
+    ''' x = log2(y + pseudo)
+    ''' ```
+    ''' </summary>
+    ''' <param name="pseudoCount">训练变换所用的伪计数偏移，默认 1</param>
+    ''' <returns>与样本数量等长的数组</returns>
+    Public Function ImpliedLibrarySizes(Optional pseudoCount As Double = 1.0R) As Double()
+        Dim rows As DataFrameRow() = net.Expression.expression
+        Dim nSamples As Integer = If(rows.Length = 0, 0, rows(0).experiments.Length)
+        Dim sums As Double() = New Double(nSamples - 1) {}
+
+        For i As Integer = 0 To rows.Length - 1
+            Dim v As Double() = rows(i).experiments
+
+            For s As Integer = 0 To v.Length - 1
+                sums(s) += std.Pow(2.0R, v(s)) - pseudoCount
+            Next
+        Next
+
+        Return sums
     End Function
 
     ''' <summary>
@@ -1416,7 +1470,7 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
     ''' <summary>
     ''' 按照乘性比例语义解析扰动之后的表达量目标值(模型空间)。
     ''' 
-    ''' <see cref="ExpressionScale.Log2Plus1"/> 之下先在反变换后的线性空间之中施加
+    ''' <see cref="PerturbationScale.Log2Plus1"/> 之下先在反变换后的线性空间之中施加
     ''' 比例，再变换回 log 空间；<see cref="InterventionMode.Custom"/> 则直接使用调用方
     ''' 给出的模型空间绝对值，不做任何变换。
     ''' </summary>
@@ -1433,7 +1487,7 @@ Public Class ElasticNet : Implements InsilicoPerturbationExperiment
             Return std.Max(0.0R, spec.Value)
         End If
 
-        Dim isLog As Boolean = opt.Scale = ExpressionScale.Log2Plus1
+        Dim isLog As Boolean = opt.Scale = PerturbationScale.Log2Plus1
         Dim value As Double = baselineValue
 
         If isLog Then

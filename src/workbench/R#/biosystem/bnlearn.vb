@@ -298,17 +298,31 @@ Module bnlearn
     ''' <summary>
     ''' set wildtype baseline
     ''' </summary>
-    ''' <param name="model"><see cref="BNLearnWorkflow"/> or <see cref="BlockBayesianNetwork"/></param>
+    ''' <param name="model">
+    ''' <see cref="BNLearnWorkflow"/>, <see cref="BlockBayesianNetwork"/>, or the elastic net
+    ''' perturbation engine that is created via ``linear::elastic_model``.
+    ''' </param>
     ''' <param name="baseline">a value list tuple of the baseline expression value, example as list(gene1=xxx,gene2=xxx,...)</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' For the elastic net engine the given values are interpreted in the model space
+    ''' (i.e. the same numeric space as the expression matrix that was used to fit the network),
+    ''' and the genes that are not modelled are simply ignored.
+    ''' </remarks>
     <ExportAPI("wildtype_baseline")>
-    <RApiReturn(GetType(BNLearnWorkflow), GetType(BlockBayesianNetwork))>
+    <RApiReturn(GetType(BNLearnWorkflow), GetType(BlockBayesianNetwork), GetType(SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet))>
     Public Function setBaseline(model As Object, baseline As list, Optional env As Environment = Nothing) As Object
         If TypeOf model Is BNLearnWorkflow Then
             Call DirectCast(model, BNLearnWorkflow).SetExternalExpression(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
         ElseIf TypeOf model Is BlockBayesianNetwork Then
             Call DirectCast(model, BlockBayesianNetwork).SetWildtypeBaseline(baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x)))
+        ElseIf TypeOf model Is SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet Then
+            Dim values As Dictionary(Of String, Double) = baseline.asGeneric(Function(x) CLRVector.asScalarNumber(x))
+            Dim engine As SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet =
+                DirectCast(model, SMRUCC.genomics.Analysis.CellPhenotype.ElasticNet)
+
+            Call engine.SetBaseline(values.Keys.ToArray, values.Values.ToArray)
         Else
             Return Message.InCompatibleType(GetType(BNLearnWorkflow), model.GetType, env)
         End If
