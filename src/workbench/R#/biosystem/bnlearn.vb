@@ -53,6 +53,7 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -518,7 +519,7 @@ Module bnlearn
     ''' </remarks>
     <ExportAPI("knockouts")>
     <RApiReturn(GetType(InterventionResult), GetType(GlobalPerturbationResult))>
-    Public Function KnockoutGene(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
+    Public Function KnockoutGene(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional verbose As Boolean = False) As Object
         If TypeOf bnlearn Is ModularNetworkPipeline Then
             Return DirectCast(bnlearn, ModularNetworkPipeline).InsilicoPerturbation(CLRVector.asCharacter(geneNames), InterventionMode.Knockout).ToArray
         Else
@@ -530,7 +531,7 @@ Module bnlearn
                 Return Nothing
             End If
 
-            For Each geneName As String In CLRVector.asCharacter(geneNames)
+            For Each geneName As String In TqdmWrapper.Wrap(CLRVector.asCharacter(geneNames), wrap_console:=verbose)
                 Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).KnockoutGene(geneName))
             Next
 
@@ -549,7 +550,6 @@ Module bnlearn
     ''' a character vector of the gene id for run the overexpression experiment, 
     ''' one <see cref="InterventionResult"/> object will be generated for each gene.
     ''' </param>
-    ''' <param name="env">the R# runtime environment object.</param>
     ''' <returns>
     ''' a vector of the <see cref="InterventionResult"/> perturbation result: the 
     ''' ``WildtypeMeans`` is the wildtype expression value of each gene, the 
@@ -560,7 +560,7 @@ Module bnlearn
     ''' </returns>
     <ExportAPI("overexpress")>
     <RApiReturn(GetType(InterventionResult), GetType(GlobalPerturbationResult))>
-    Public Function overexpress(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional env As Environment = Nothing) As Object
+    Public Function overexpress(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional verbose As Boolean = False) As Object
         If TypeOf bnlearn Is ModularNetworkPipeline Then
             Return DirectCast(bnlearn, ModularNetworkPipeline).InsilicoPerturbation(CLRVector.asCharacter(geneNames), InterventionMode.Overexpression).ToArray
         Else
@@ -572,7 +572,7 @@ Module bnlearn
                 Return Nothing
             End If
 
-            For Each geneName As String In CLRVector.asCharacter(geneNames)
+            For Each geneName As String In TqdmWrapper.Wrap(CLRVector.asCharacter(geneNames), wrap_console:=verbose)
                 Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).OverexpressGene(geneName))
             Next
 
@@ -601,7 +601,7 @@ Module bnlearn
     ''' </returns>
     <ExportAPI("knockdown")>
     <RApiReturn(GetType(InterventionResult), GetType(GlobalPerturbationResult))>
-    Public Function knockdownGene(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object) As Object
+    Public Function knockdownGene(bnlearn As Object, <RRawVectorArgument(TypeCodes.string)> geneNames As Object, Optional verbose As Boolean = False) As Object
         If TypeOf bnlearn Is ModularNetworkPipeline Then
             Return DirectCast(bnlearn, ModularNetworkPipeline).InsilicoPerturbation(CLRVector.asCharacter(geneNames), InterventionMode.Knockdown).ToArray
         Else
@@ -613,7 +613,7 @@ Module bnlearn
                 Return Nothing
             End If
 
-            For Each geneName As String In CLRVector.asCharacter(geneNames)
+            For Each geneName As String In TqdmWrapper.Wrap(CLRVector.asCharacter(geneNames), wrap_console:=verbose)
                 Call result.Add(DirectCast(bnlearn, InsilicoPerturbationExperiment).KnockDownGene(geneName))
             Next
 
