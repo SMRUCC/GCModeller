@@ -72,10 +72,9 @@ Namespace LinearRegression
         ''' <summary>
         ''' 自动模式下，候选调控因子数量占样本数量的最大比例(默认为 1/3)。
         ''' 
-        ''' 这个比例参数用于保证满足了的内在要求：参与拟合的自变量个数必须显著小于样本数量，
-        ''' 否则 <see cref="FittingMethod.MultipleLinear"/> 的 QR 分解会失效，
-        ''' 而 DataFittings 的 LASSO 求解器也会因为内部数组越界而崩溃。
-        ''' </remarks>
+        ''' 这个上限是必须的：参与拟合的自变量个数应当显著小于样本数量，否则
+        ''' <see cref="FittingMethod.MultipleLinear"/> 的 QR 分解会因为秩不足而失效，
+        ''' 而 DataFittings 的 LASSO 求解器也会因为内部数组的维度缺陷而越界崩溃。
         ''' </summary>
         ''' <returns></returns>
         Public Property candidateSampleRatio As Double = 1.0 / 3.0
