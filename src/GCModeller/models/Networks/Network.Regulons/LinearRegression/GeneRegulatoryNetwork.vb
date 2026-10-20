@@ -644,9 +644,18 @@ Namespace LinearRegression
                 Call generator.setTarget(i, y(i))
             Next
 
-            ' LASSO 求解器的内部实现要求自变量个数不能大于样本数量，
-            ' 这里已经通过 maxCandidates 参数保证了这一点
-            Dim path As LassoFit = generator.fit(opt.maxRegulatorsPerGene)
+            ' DataFittings 之中的 LassoFitGenerator 存在两个既有的实现缺陷，
+            ' 这里通过调用约定绕开它们：
+            ' 
+            ' 1. init 过程内部按照样本数量分配观测数组的维度，自变量个数大于样本数量的时候会越界，
+            '    因此候选调控因子的数量已经被 maxCandidates 参数限制在样本数量之下；
+            ' 2. 求解器在 maxAllowedFeaturesPerModel 大于零的时候，协程下降过程之中的
+            '    denseActiveSet(长度为特征数量)与 feature2featureCorrelations(长度为允许特征数量)
+            '    维度不一致，会抛出向量长度不匹配异常。
+            ' 
+            ' 因此这里总是让求解器跑出完整的正则化路径，稀疏程度则通过后面的
+            ' <see cref="PickLambdaStep"/> 挑选合适的 lambda 步长来控制。
+            Dim path As LassoFit = generator.fit(-1)
             Dim stepId As Integer = PickLambdaStep(path, opt.maxRegulatorsPerGene)
             Dim model As New GeneRegressionModel With {
                 .target = name,

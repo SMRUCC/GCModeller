@@ -128,43 +128,6 @@ Module Program
     ''' <summary>
     ''' 用例 3：使用 LASSO 稀疏重建同一个网络
     ''' </summary>
-    Private Sub DebugLasso(expr As Matrix)
-        Dim target As String = "G_1"
-        Dim names As New List(Of String)()
-        Dim cols As New List(Of Double())()
-        Dim nS As Integer = expr.sample_count
-
-        For Each id As String In expr.rownames
-            If id <> target Then
-                names.Add(id)
-                cols.Add(expr(id).experiments)
-            End If
-        Next
-
-        Dim generator As New LassoFitGenerator()
-
-        LassoFitGenerator.tqdm_verbose = False
-        generator.init(names.ToArray, nS)
-
-        For j As Integer = 0 To names.Count - 1
-            Call generator.setFeatureValues(j, cols(j))
-        Next
-
-        Dim y As Double() = expr(target).experiments
-
-        For i As Integer = 0 To nS - 1
-            Call generator.setTarget(i, y(i))
-        Next
-
-        Dim fit As LassoFit = generator.fit(-1)
-
-        Console.WriteLine($"     DEBUG numberOfLambdas={fit.numberOfLambdas}, numFeatures={fit.numFeatures}, passes={fit.numberOfPasses}")
-        Console.WriteLine($"     DEBUG nonZero=[{String.Join(", ", fit.nonZeroWeights.Take(8))}]")
-        Console.WriteLine($"     DEBUG rsquared=[{String.Join(", ", fit.rsquared.Take(8).Select(Function(x) x.ToString("F4")))}]")
-        Console.WriteLine($"     DEBUG lambdas=[{String.Join(", ", fit.lambdas.Take(8).Select(Function(x) x.ToString("F4")))}]")
-        Console.WriteLine($"     DEBUG last weights=[{String.Join(", ", fit.getWeights(std.Max(fit.numberOfLambdas - 1, 0)).Select(Function(x) x.ToString("F3")))}]")
-    End Sub
-
     Private Sub CaseLassoNetwork()
         Dim synth As (matrix As Matrix, truth As TruthEdge()) = BuildNetwork(
             nTf:=4,
@@ -174,19 +137,13 @@ Module Program
             seed:=7
         )
 
-        Call DebugLasso(synth.matrix)
         Dim options As New GrnFittingOptions With {
             .silent = True,
             .method = FittingMethod.Lasso,
             .maxCandidates = 18,
-            .maxRegulatorsPerGene = 4
+            .maxRegulatorsPerGene = 8
         }
         Dim grn As GeneRegulatoryNetwork = synth.matrix.InferRegulatoryNetwork(options)
-
-        For Each failed As GeneRegressionModel In grn.Models.Where(Function(m) Not m.IsValid).Take(3)
-            Console.WriteLine($"     ERR {failed.target}: {failed.errorMessage}")
-        Next
-
         Dim edges As RegulationEdge() = grn.Regulations().ToArray
         Dim score = Evaluate(synth.truth, edges)
         Dim maxNonZero As Integer = grn.Models.Max(Function(m) m.nonZeroWeights)

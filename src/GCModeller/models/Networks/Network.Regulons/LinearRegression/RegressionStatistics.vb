@@ -14,6 +14,11 @@ Namespace LinearRegression
     Friend Module RegressionStatistics
 
         ''' <summary>
+        ''' t 分布累积概率的数值积分在这个数量级之上已经不再可靠
+        ''' </summary>
+        Const MaxTabulatedT As Double = 100.0
+
+        ''' <summary>
         ''' 计算总平方和 ``SST = sum((y - mean(y))^2)``
         ''' </summary>
         ''' <param name="y"></param>
@@ -111,16 +116,35 @@ Namespace LinearRegression
             For j As Integer = 0 To width - 1
                 Dim var As Double = mse * inv(j, j)
 
-                If var <= 0 OrElse Not IsFinite(var) Then
-                    tstat(j) = 0
-                    pvalue(j) = 1
+                If Not IsFinite(var) OrElse var <= 0 Then
+                    ' 残差为零(完美拟合)的时候标准误退化为零，t 值趋于无穷大，
+                    ' 此时直接把 p 值写成零；回归系数本身为零的变量则保持不显著
+                    If beta(j) = 0 Then
+                        tstat(j) = 0
+                        pvalue(j) = 1
+                    Else
+                        tstat(j) = If(beta(j) > 0, Double.PositiveInfinity, Double.NegativeInfinity)
+                        pvalue(j) = 0
+                    End If
+
                     Continue For
                 End If
 
                 Dim t As Double = beta(j) / std.Sqrt(var)
-                Dim p As Double = 2 * (1 - dist.cdf(std.Abs(t), resolution:=4000))
+                Dim tAbs As Double = std.Abs(t)
+                Dim p As Double
 
-                If Double.IsNaN(p) OrElse p < pvalueTolerance Then
+                If Not IsFinite(tAbs) OrElse tAbs >= MaxTabulatedT Then
+                    ' t 值非常大的时候(例如没有观测噪声的完美拟合)，
+                    ' 数值积分求出来的累积概率已经完全不可靠，这里直接给出极小值
+                    p = 0
+                Else
+                    p = 2 * (1 - dist.cdf(tAbs, resolution:=4000))
+                End If
+
+                If Double.IsNaN(p) Then
+                    p = 1
+                ElseIf p < pvalueTolerance Then
                     p = 0
                 ElseIf p > 1 Then
                     p = 1
