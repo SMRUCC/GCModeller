@@ -293,6 +293,7 @@ Namespace LinearRegression
                 LassoFitGenerator.tqdm_verbose = False
             End If
 
+            Call "run parallel for fit elastic network".debug
             Call Parallel.For(0, nG, popt, Sub(i As Integer)
                                                buffer(i) = FitGene(i, maxCand)
                                            End Sub)

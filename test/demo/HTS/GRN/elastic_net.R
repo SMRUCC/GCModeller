@@ -7,7 +7,7 @@ imports "linear" from "TRNtoolkit";
 let opts = new("elastic_net.options");
 let mat = load.expr("G:\GCModeller\src\GCModeller\sub-system\demo\TestData1\gene_expression_matrix.csv");
 let grn = elastic_net(mat);
-let model = elastic_model(grn, opts);
+let model = elastic_model(grn$grn, opts);
 
 c(model |> knockouts(c("bkdR", "fadR")),
   model |> overexpress(c("ccpA","metK")),
