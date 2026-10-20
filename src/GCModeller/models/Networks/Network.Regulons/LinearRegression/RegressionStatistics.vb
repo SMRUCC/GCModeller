@@ -14,30 +14,6 @@ Namespace LinearRegression
     Friend Module RegressionStatistics
 
         ''' <summary>
-        ''' 计算残差平方和 ``SSE = sum((y - yhat)^2)``
-        ''' </summary>
-        ''' <param name="X">行主序的设计矩阵，每一个行向量是一个样本点的自变量向量</param>
-        ''' <param name="y">观测值向量</param>
-        ''' <param name="beta">完整的回归系数向量(第 0 个元素为截距)，长度等于设计矩阵的列数</param>
-        ''' <returns></returns>
-        Public Function SumOfSquaredErrors(X As Double()(), y As Double(), beta As Double()) As Double
-            Dim sse As Double = 0
-
-            For i As Integer = 0 To X.Length - 1
-                Dim row As Double() = X(i)
-                Dim yfit As Double = 0
-
-                For j As Integer = 0 To beta.Length - 1
-                    yfit += row(j) * beta(j)
-                Next
-
-                sse += (y(i) - yfit) ^ 2
-            Next
-
-            Return sse
-        End Function
-
-        ''' <summary>
         ''' 计算总平方和 ``SST = sum((y - mean(y))^2)``
         ''' </summary>
         ''' <param name="y"></param>
@@ -72,18 +48,18 @@ Namespace LinearRegression
         ''' <summary>
         ''' 计算设计矩阵的交叉乘积矩阵 ``X'X``
         ''' </summary>
-        ''' <param name="X">行主序的设计矩阵</param>
+        ''' <param name="X">设计矩阵，每一个行向量是一个样本点的自变量向量</param>
         ''' <param name="width">设计矩阵的列数(自变量个数)</param>
         ''' <returns></returns>
-        Public Function NormalMatrix(X As Double()(), width As Integer) As Double(,)
+        Public Function NormalMatrix(X As Double(,), width As Integer) As Double(,)
             Dim xtx As Double(,) = New Double(width - 1, width - 1) {}
 
             For i As Integer = 0 To width - 1
                 For j As Integer = i To width - 1
                     Dim sum As Double = 0
 
-                    For k As Integer = 0 To X.Length - 1
-                        sum += X(k)(i) * X(k)(j)
+                    For k As Integer = 0 To X.GetLength(0) - 1
+                        sum += X(k, i) * X(k, j)
                     Next
 
                     xtx(i, j) = sum
@@ -103,18 +79,18 @@ Namespace LinearRegression
         ''' MSE        = SSE / (n - p)
         ''' ```
         ''' </summary>
-        ''' <param name="X">行主序的设计矩阵</param>
+        ''' <param name="X">设计矩阵，每一个行向量是一个样本点的自变量向量</param>
         ''' <param name="beta">完整的回归系数向量(第 0 个元素为截距)</param>
         ''' <param name="sse">模型的残差平方和</param>
         ''' <param name="pvalueTolerance">p 值的数值容差，小于这个阈值的 p 值会被修正为零</param>
         ''' <returns>
         ''' t 值与双尾 p 值；当 ``X'X`` 不可逆或者没有残差自由度的时候返回空引用。
         ''' </returns>
-        Public Function TTest(X As Double()(), beta As Double(), sse As Double,
+        Public Function TTest(X As Double(,), beta As Double(), sse As Double,
                               Optional pvalueTolerance As Double = 0.0000000001) As (tstat As Double(), pvalue As Double())
 
-            Dim n As Integer = X.Length
-            Dim width As Integer = X(0).Length
+            Dim n As Integer = X.GetLength(0)
+            Dim width As Integer = X.GetLength(1)
             Dim df As Integer = n - width
 
             If beta.Length <> width OrElse df <= 0 Then

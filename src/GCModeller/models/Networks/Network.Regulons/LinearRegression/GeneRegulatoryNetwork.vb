@@ -75,14 +75,14 @@ Namespace LinearRegression
         ''' 从表达矩阵构造一个待拟合的调控网络推断模型
         ''' </summary>
         ''' <param name="expr">行基因为、列样本的表达矩阵</param>
-        ''' <param name="options">线性拟合的参数配置，为空的时候使用默认参数</param>
-        Public Sub New(expr As Matrix, Optional options As GrnFittingOptions = Nothing)
+        ''' <param name="fittingOptions">线性拟合的参数配置，为空的时候使用默认参数</param>
+        Public Sub New(expr As Matrix, Optional fittingOptions As GrnFittingOptions = Nothing)
             If expr Is Nothing Then
                 Throw New ArgumentNullException(NameOf(expr))
             End If
 
             Me.raw = expr
-            Me.options = If(options, New GrnFittingOptions())
+            Me.opt = If(fittingOptions, New GrnFittingOptions())
             Me.geneNames = expr.rownames
             Me.sampleNames = expr.sampleID
 
@@ -117,7 +117,7 @@ Namespace LinearRegression
                 If pool.Count = 0 Then
                     Throw New ArgumentException(
                         "none of the given regulator genes could be found in the expression matrix rows!",
-                        NameOf(options)
+                        NameOf(fittingOptions)
                     )
                 End If
 
@@ -154,7 +154,7 @@ Namespace LinearRegression
         Public ReadOnly Property Options As GrnFittingOptions
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return options
+                Return opt
             End Get
         End Property
 
@@ -194,10 +194,10 @@ Namespace LinearRegression
                                            End Sub)
 
             For i As Integer = 0 To nG - 1
-                models(buffer(i).target) = buffer(i)
+                modelTable(buffer(i).target) = buffer(i)
             Next
 
-            Dim failed As Integer = modelTable.Values.Count(Function(m) Not m.IsValid)
+            Dim failed As Integer = modelTable.Values.Where(Function(m) Not m.IsValid).Count()
 
             If failed > 0 AndAlso Not opt.silent Then
                 Call Console.WriteLine($"[GRN] {failed} of {nG} gene models are failed to fit")
@@ -213,7 +213,7 @@ Namespace LinearRegression
         ''' <returns>不存在对应模型的时候返回空引用</returns>
         Public Function GetModel(targetGene As String) As GeneRegressionModel
             If modelTable.ContainsKey(targetGene) Then
-                Return models(targetGene)
+                Return modelTable(targetGene)
             Else
                 Return Nothing
             End If
@@ -341,7 +341,7 @@ Namespace LinearRegression
                                     $"{edge.intercept},{edge.r2},{edge.pvalue},""{edge.interaction}""")
             Next
 
-            Dim dir As String = Path.GetDirectoryName(Path.GetFullPath(path))
+            Dim dir As String = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(path))
 
             If Not String.IsNullOrEmpty(dir) AndAlso Not Directory.Exists(dir) Then
                 Call Directory.CreateDirectory(dir)
@@ -357,7 +357,7 @@ Namespace LinearRegression
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Dim n As Integer = modelTable.Values.Count(Function(m) m.IsValid)
+            Dim n As Integer = modelTable.Values.Where(Function(m) m.IsValid).Count()
 
             Return $"GRN: {n} gene models, {opt.ToString}"
         End Function
@@ -427,7 +427,7 @@ Namespace LinearRegression
                     $"the linear regression model requires more samples: there are {nS} samples only, " &
                     $"but the candidate budget is zero after truncate, please increase the sample size " &
                     $"or reduce the gene size of the expression matrix!",
-                    NameOf(options))
+                    NameOf(opt))
             End If
 
             If poolSize - 1 > k AndAlso Not opt.silent Then
@@ -521,15 +521,24 @@ Namespace LinearRegression
         End Function
 
         ''' <summary>
-        ''' 构造设计矩阵，第一列是常数项，其余的列是各个候选调控因子的表达向量
+        ''' 构造设计矩阵
+        ''' 
+        ''' 普通最小二乘模型没有内建的截距项，设计矩阵的第一列必须是常数项 1；
+        ''' LASSO 求解器自身会给出截距，因此不需要添加常数项列。
         ''' </summary>
-        Private Function DesignMatrix(candidates As Integer(), y As Double(), ByRef featureNames As String()) As Double()()
+        ''' <param name="candidates">候选调控因子在表达矩阵之中的行下标</param>
+        ''' <param name="withIntercept">是否需要添加常数项列</param>
+        ''' <param name="featureNames">返回设计矩阵的列名称</param>
+        ''' <param name="columns">返回按列组织的表达矩阵，用于 LASSO 求解器的输入</param>
+        ''' <returns>行是样本、列是自变量的矩形设计矩阵</returns>
+        Private Function BuildDesign(candidates As Integer(), withIntercept As Boolean,
+                                     ByRef featureNames As String(), ByRef columns As Double()()) As Double(,)
             Dim nS As Integer = sampleNames.Length
-            Dim withIntercept As Boolean = opt.method = FittingMethod.MultipleLinear
             Dim offset As Integer = If(withIntercept, 1, 0)
             Dim width As Integer = candidates.Length + offset
-            Dim X As Double()() = New Double(nS - 1)() {}
+            Dim X As Double(,) = New Double(nS - 1, width - 1) {}
             Dim names As String() = New String(width - 1) {}
+            Dim cols As Double()() = New Double(width - 1)() {}
 
             If withIntercept Then
                 names(0) = "(Intercept)"
@@ -539,21 +548,26 @@ Namespace LinearRegression
                 names(i + offset) = geneNames(candidates(i))
             Next
 
-            For s As Integer = 0 To nS - 1
-                Dim row As Double() = New Double(width - 1) {}
+            For j As Integer = 0 To width - 1
+                cols(j) = New Double(nS - 1) {}
+            Next
 
+            For s As Integer = 0 To nS - 1
                 If withIntercept Then
-                    row(0) = 1.0R
+                    X(s, 0) = 1.0R
+                    cols(0)(s) = 1.0R
                 End If
 
                 For i As Integer = 0 To candidates.Length - 1
-                    row(i + offset) = vectors(candidates(i))(s)
-                Next
+                    Dim v As Double = vectors(candidates(i))(s)
 
-                X(s) = row
+                    X(s, i + offset) = v
+                    cols(i + offset)(s) = v
+                Next
             Next
 
             featureNames = names
+            columns = cols
 
             Return X
         End Function
@@ -563,29 +577,25 @@ Namespace LinearRegression
         ''' </summary>
         Private Function FitOls(name As String, y As Double(), candidates As Integer()) As GeneRegressionModel
             Dim featureNames As String() = Nothing
-            Dim X As Double()() = DesignMatrix(candidates, y, featureNames)
-            Dim table As New NumericTable(X, sampleNames, featureNames)
-
-            Call table.SetLabel("target", y)
-
-            Dim fit As MLRFit = table.MultipleLinearRegression()
+            Dim columns As Double()() = Nothing
+            Dim X As Double(,) = BuildDesign(candidates, True, featureNames, columns)
+            Dim fit As MLRFit = LinearFittingAlgorithm.LinearFitting(X, y)
             Dim beta As Double() = fit.beta
-            Dim offset As Integer = 1
             Dim model As New GeneRegressionModel With {
                 .target = name,
                 .method = FittingMethod.MultipleLinear,
                 .N = sampleNames.Length,
                 .intercept = beta(0),
                 .regulators = featureNames _
-                    .Skip(offset) _
+                    .Skip(1) _
                     .ToArray,
                 .weights = beta _
-                    .Skip(offset) _
+                    .Skip(1) _
                     .ToArray,
                 .r2 = fit.R2,
                 .sse = fit.SSE,
                 .sst = fit.SST,
-                .df = sampleNames.Length - X(0).Length
+                .df = sampleNames.Length - beta.Length
             }
 
             If Not opt.silent Then
@@ -598,8 +608,8 @@ Namespace LinearRegression
                 If test.tstat IsNot Nothing Then
                     model.interceptT = test.tstat(0)
                     model.interceptPvalue = test.pvalue(0)
-                    model.tvalues = test.tstat.Skip(offset).ToArray
-                    model.pvalues = test.pvalue.Skip(offset).ToArray
+                    model.tvalues = test.tstat.Skip(1).ToArray
+                    model.pvalues = test.pvalue.Skip(1).ToArray
                 End If
             End If
 
@@ -615,22 +625,30 @@ Namespace LinearRegression
             End If
 
             Dim featureNames As String() = Nothing
-            Dim X As Double()() = DesignMatrix(candidates, y, featureNames)
-            Dim table As New NumericTable(X, sampleNames, featureNames)
+            Dim columns As Double()() = Nothing
+            Dim nS As Integer = sampleNames.Length
 
-            Call table.SetLabel("target", y)
+            Call BuildDesign(candidates, False, featureNames, columns)
+
+            Dim generator As New LassoFitGenerator()
+
+            Call generator.init(featureNames, nS)
+
+            For j As Integer = 0 To featureNames.Length - 1
+                Call generator.setFeatureValues(j, columns(j))
+            Next
+            For i As Integer = 0 To nS - 1
+                Call generator.setTarget(i, y(i))
+            Next
 
             ' LASSO 求解器的内部实现要求自变量个数不能大于样本数量，
             ' 这里已经通过 maxCandidates 参数保证了这一点
-            Dim path As LassoFit = table.LassoRegression(
-                maxAllowedFeaturesPerModel:=opt.maxRegulatorsPerGene,
-                Silent:=True
-            )
+            Dim path As LassoFit = generator.fit(opt.maxRegulatorsPerGene)
             Dim stepId As Integer = PickLambdaStep(path, opt.maxRegulatorsPerGene)
             Dim model As New GeneRegressionModel With {
                 .target = name,
                 .method = FittingMethod.Lasso,
-                .N = sampleNames.Length,
+                .N = nS,
                 .intercept = path.intercepts(stepId),
                 .regulators = featureNames,
                 .weights = path.getWeights(stepId),
@@ -649,42 +667,6 @@ Namespace LinearRegression
 
             If Not opt.silent Then
                 Call Console.WriteLine($"  [LASSO] {model.ToString}")
-            End If
-
-            Return model
-        End Function
-
-        ''' <summary>
-        ''' 使用非负最小二乘(NNLS)拟合单个目标基因
-        ''' </summary>
-        Private Function FitNnls(name As String, y As Double(), candidates As Integer()) As GeneRegressionModel
-            If candidates.Length = 0 Then
-                Return Failed(name, "there is no candidate regulator for the nnls fit")
-            End If
-
-            Dim featureNames As String() = Nothing
-            Dim X As Double()() = DesignMatrix(candidates, y, featureNames)
-            Dim table As New NumericTable(X, sampleNames, featureNames)
-
-            Call table.SetLabel("target", y)
-
-            Dim beta As Double() = table.Nnls()
-            Dim model As New GeneRegressionModel With {
-                .target = name,
-                .method = FittingMethod.NonNegative,
-                .N = sampleNames.Length,
-                .intercept = 0,
-                .regulators = featureNames,
-                .weights = beta,
-                .df = -1
-            }
-
-            model.sst = RegressionStatistics.TotalSumOfSquares(y)
-            model.sse = RegressionStatistics.SumOfSquaredErrors(X, y, beta)
-            model.r2 = RegressionStatistics.Rsquared(model.sse, model.sst)
-
-            If Not opt.silent Then
-                Call Console.WriteLine($"  [NNLS] {model.ToString}")
             End If
 
             Return model
