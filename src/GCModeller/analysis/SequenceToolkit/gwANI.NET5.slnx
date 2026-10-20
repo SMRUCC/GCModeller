@@ -13,6 +13,12 @@
     <Project Path="../../../runtime/sciBASIC#/Data/DataFrame/dataframework-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/DataMining/DynamicProgramming/DynamicProgramming.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../../runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
@@ -29,5 +35,8 @@
     <BuildType Solution="nuget_release|*" Project="Release" />
     <BuildType Solution="Rsharp_app_release|*" Project="Release" />
     <Platform Solution="Debug|x64" Project="x64" />
+  </Project>
+  <Project Path="SequenceAlignment/SequenceAlignment.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
   </Project>
 </Solution>
