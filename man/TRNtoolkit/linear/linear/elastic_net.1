@@ -4,14 +4,16 @@
 elastic_net \- Fit a linear (elastic net) gene regulatory network from the expression matrix.
 .SH SYNOPSIS
 \fIelastic_net(\fBx\fR as <generic> Matrix, 
-\fBcandidates\fR as integer = 1000, 
+\fBcandidates\fR as integer = 300, 
 \fBmaxreg\fR as integer = 10, 
 \fBl1_ratio\fR as double = 0.7, 
-\fBalphas\fR as double = 40, 
+\fBalphas\fR as double = 20, 
 \fBmutual\fR as boolean = FALSE, 
 \fBTF\fR as any = \fB<NULL>\fR, 
 \fBstandardize\fR as boolean = FALSE, 
-\fBmin_abs_r\fR as double = 0);\fR
+\fBmin_abs_r\fR as double = 0, 
+\fBgpu\fR as boolean = FALSE, 
+\fBblock_screener\fR as boolean = FALSE);\fR
 .SH DESCRIPTION
 .PP
 Fit a linear (elastic net) gene regulatory network from the expression matrix.

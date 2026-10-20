@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.Bootstrapping.ElasticNet
 Imports Microsoft.VisualBasic.Data.Bootstrapping.LASSO
 Imports Microsoft.VisualBasic.Data.Bootstrapping.Multivariate
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports std = System.Math
@@ -120,18 +121,18 @@ Namespace LinearRegression
 
             Call ValidateInput()
 
-            Me.vectors = expr _
+            Me.Vectors = expr _
                 .expression _
                 .Select(Function(r) DirectCast(r.experiments.Clone(), Double())) _
                 .ToArray
 
             If Me.opt.standardize Then
-                For i As Integer = 0 To vectors.Length - 1
-                    vectors(i) = Standardize(vectors(i))
+                For i As Integer = 0 To Vectors.Length - 1
+                    Vectors(i) = Standardize(Vectors(i))
                 Next
             End If
 
-            Me.unitVectors = vectors _
+            Me.unitVectors = Vectors _
                 .Select(AddressOf UnitVector) _
                 .ToArray
 
@@ -250,7 +251,7 @@ Namespace LinearRegression
         Public ReadOnly Property Baseline As Double()
             Get
                 If baselineCache Is Nothing Then
-                    baselineCache = vectors _
+                    baselineCache = Vectors _
                         .Select(Function(v) If(v Is Nothing OrElse v.Length = 0, 0.0R, v.Average)) _
                         .ToArray
                 End If
@@ -270,7 +271,7 @@ Namespace LinearRegression
         Public ReadOnly Property BaselineSD As Double()
             Get
                 If baselineSdCache Is Nothing Then
-                    baselineSdCache = vectors _
+                    baselineSdCache = Vectors _
                         .Select(AddressOf SampleStandardDeviation) _
                         .ToArray
                 End If
@@ -397,13 +398,19 @@ Namespace LinearRegression
 
             If backend IsNot Nothing Then
                 Call "run parallel for the correlation screening".debug
-                Call backend.Initialize(regulatorPool, vectors, maxCand, opt.minAbsCorrelation)
+                Call backend.Initialize(regulatorPool, Vectors, maxCand, opt.minAbsCorrelation)
                 activeScreener = backend
             End If
+
+            Dim count As i32 = 1
 
             Try
                 Call Parallel.For(0, nG, popt, Sub(i As Integer)
                                                    buffer(i) = FitGene(i, maxCand)
+
+                                                   SyncLock count
+                                                       Call $"[finished {++count}/{nG}] {buffer(i)}".debug
+                                                   End SyncLock
                                                End Sub)
             Finally
                 activeScreener = Nothing

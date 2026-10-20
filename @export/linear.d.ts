@@ -84,7 +84,7 @@ declare namespace linear {
      * @param candidates the max number of the candidate regulators for each target gene, the candidates
      *  are picked by the absolute pearson correlation with the target gene.
      * 
-     * + default value Is ``1000``.
+     * + default value Is ``300``.
      * @param maxreg the max number of the non-zero regulation edges that each target gene can keep
      * 
      * + default value Is ``10``.
@@ -93,7 +93,7 @@ declare namespace linear {
      * + default value Is ``0.7``.
      * @param alphas the number of the alpha steps in the regularization path
      * 
-     * + default value Is ``40``.
+     * + default value Is ``20``.
      * @param mutual only keep the reversible (mutual) regulation pairs
      * 
      * + default value Is ``false``.
@@ -109,10 +109,14 @@ declare namespace linear {
      * @param min_abs_r the minimal absolute pearson correlation for a gene to be a candidate regulator
      * 
      * + default value Is ``0``.
+     * @param gpu 
+     * + default value Is ``false``.
+     * @param block_screener 
+     * + default value Is ``false``.
      * @return a list object with two slots: ``grn`` (the fitted [GeneRegulatoryNetwork](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork))
      *  and ``edges`` (the [RegulationEdge](cref:T:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.RegulationEdge) collection).
    */
-   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, standardize?: boolean, min_abs_r?: number): object|object;
+   function elastic_net(x: object, candidates?: object, maxreg?: object, l1_ratio?: number, alphas?: number, mutual?: boolean, TF?: any, standardize?: boolean, min_abs_r?: number, gpu?: boolean, block_screener?: boolean): object|object;
    /**
     * Run the perturbation experiment for a set of genes and save the profiles as a csv file.
     * 

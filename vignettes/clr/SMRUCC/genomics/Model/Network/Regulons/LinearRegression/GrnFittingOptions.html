@@ -36,6 +36,12 @@ export class GrnFittingOptions {
    candidateSampleRatio: double;
    # 是否计算回归系数的 t 值与显著性 p 值(仅对 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.FittingMethod.MultipleLinear">FittingMethod.MultipleLinear</a> 有效)。
    computeStatistics: boolean;
+   # 候选调控因子的相关性筛选后端。
+   # 
+   # 为空(默认)的时候使用内置的逐基因扫描(行为与原实现逐位一致)； 非空的时候由后端一次性算出每个目标基因的候选集， 从而把 "每个基因各扫一遍全表" 降为一次分块矩阵乘法。
+   # 
+   # 后端的 <code>Initialize</code> 会在 <a href="cref:M:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.GeneRegulatoryNetwork.Fit">GeneRegulatoryNetwork.Fit()</a> 开始时 被调用一次，<code>Query</code> 会被并行拟合过程并发调用，因此实现必须是线程安全的只读。
+   correlationBackend: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ICorrelationScreener.html">ICorrelationScreener</a>;
    # 弹性网络的超参数配置，只在 <a href="cref:F:SMRUCC.genomics.Model.Network.Regulons.LinearRegression.FittingMethod.ElasticNet">FittingMethod.ElasticNet</a> 模式下生效。
    elasticNet: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetOptions.html">ElasticNetOptions</a>;
    # 每一个目标基因最多纳入多少个候选调控因子。
@@ -81,6 +87,7 @@ export class GrnFittingOptions {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>use by <i>property</i> member <code>correlationBackend</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ICorrelationScreener.html">ICorrelationScreener</a></li>
 <li>use by <i>property</i> member <code>elasticNet</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/ElasticNetOptions.html">ElasticNetOptions</a></li>
 <li>use by <i>property</i> member <code>method</code>: <a href="/vignettes/clr/SMRUCC/genomics/Model/Network/Regulons/LinearRegression/FittingMethod.html">FittingMethod</a></li>
 </ol>
