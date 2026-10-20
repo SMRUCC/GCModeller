@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.CellPhenotype
+Imports SMRUCC.genomics.Model.Network.Regulons
 Imports SMRUCC.genomics.Model.Network.Regulons.LinearRegression
 Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -22,7 +23,7 @@ Module Linear
     ''' <param name="mutual"></param>
     ''' <returns></returns>
     <ExportAPI("elastic_net")>
-    <RApiReturn(GetType(GeneRegulatoryNetwork), GetType(RegulationEdge))>
+    <RApiReturn(GetType(LinearRegression.GeneRegulatoryNetwork), GetType(RegulationEdge))>
     Public Function elastic_net(x As Matrix, Optional top As Integer = 1000,
                                 Optional candidates As Integer = 1000,
                                 Optional maxreg As Integer = 10,
@@ -47,7 +48,7 @@ Module Linear
             Console.WriteLine("     >> only the mutual (reversible) regulation pairs are kept")
         End If
 
-        Dim grn As GeneRegulatoryNetwork = x.InferRegulatoryNetwork(options)
+        Dim grn As LinearRegression.GeneRegulatoryNetwork = x.InferRegulatoryNetwork(options)
         Dim edges As RegulationEdge() = grn.Regulations().ToArray
         Dim failed As Integer = grn.Models.Where(Function(m) Not m.IsValid).Count()
 
@@ -75,12 +76,12 @@ Module Linear
     End Function
 
     <ExportAPI("coef")>
-    Public Function coef(grn As GeneRegulatoryNetwork) As Matrix
+    Public Function coef(grn As LinearRegression.GeneRegulatoryNetwork) As Matrix
         Return grn.CoefMatrix
     End Function
 
     <ExportAPI("elastic_model")>
-    Public Function elastic_model(grn As GeneRegulatoryNetwork) As ElasticNet
+    Public Function elastic_model(grn As LinearRegression.GeneRegulatoryNetwork) As ElasticNet
         Return New ElasticNet
     End Function
 

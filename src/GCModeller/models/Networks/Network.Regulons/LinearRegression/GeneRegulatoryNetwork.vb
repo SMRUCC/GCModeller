@@ -83,6 +83,16 @@ Namespace LinearRegression
         Private cvL1Ratio As Double = -1
 
         ''' <summary>
+        ''' <see cref="Baseline"/> 的惰性计算结果缓存
+        ''' </summary>
+        Private baselineCache As Double() = Nothing
+
+        ''' <summary>
+        ''' <see cref="BaselineSD"/> 的惰性计算结果缓存
+        ''' </summary>
+        Private baselineSdCache As Double() = Nothing
+
+        ''' <summary>
         ''' 从表达矩阵构造一个待拟合的调控网络推断模型
         ''' </summary>
         ''' <param name="expr">行基因为、列样本的表达矩阵</param>
@@ -166,6 +176,77 @@ Namespace LinearRegression
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return opt
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 构造当前网络对象时所使用的表达矩阵(行是基因、列是样本)。
+        ''' 
+        ''' 返回的就是构造函数的入参引用，本模块不会对它做任何修改，但调用方
+        ''' 也不应该在拿到引用之后修改其中的数据，否则会破坏已经拟合好的模型。
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Expression As Matrix
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return raw
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 每一个基因在拟合过程之中真正参与计算所使用的表达向量，下标与
+        ''' <see cref="Genes"/> 一致。
+        ''' 
+        ''' 开启了 <see cref="GrnFittingOptions.standardize"/> 之后，这里保存的是
+        ''' z-score 标准化之后的数据；否则就是原始表达量的一份副本。
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Vectors As Double()()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return vectors
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 每一个基因的基线表达量，即 <see cref="Vectors"/> 之中的样本均值。
+        ''' 
+        ''' 开启了 <see cref="GrnFittingOptions.standardize"/> 之后基线位于 z-score
+        ''' 空间，理论上恒为零；否则就是原始表达量尺度之上的均值。
+        ''' 
+        ''' 这个数组是虚拟扰动计算的起点：敲除(target=0)、敲降(target=residual*基线)
+        ''' 与过表达(target=fold*基线)都是以它为参照定义的。
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Baseline As Double()
+            Get
+                If baselineCache Is Nothing Then
+                    baselineCache = vectors _
+                        .Select(Function(v) If(v Is Nothing OrElse v.Length = 0, 0.0R, v.Average)) _
+                        .ToArray
+                End If
+
+                Return baselineCache
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 每一个基因在 <see cref="Vectors"/> 之上的样本标准差(ddof = n - 1)。
+        ''' 
+        ''' 这个自由度约定与 <see cref="GrnFittingOptions.standardize"/> 的算法一致，
+        ''' 因此开启了标准化之后该数组恒为 1。样本数量不足 2 或者表达量为常数的
+        ''' 基因返回零，调用方需要自行守卫除零。
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property BaselineSD As Double()
+            Get
+                If baselineSdCache Is Nothing Then
+                    baselineSdCache = vectors _
+                        .Select(AddressOf SampleStandardDeviation) _
+                        .ToArray
+                End If
+
+                Return baselineSdCache
             End Get
         End Property
 
@@ -880,6 +961,30 @@ Namespace LinearRegression
             Next
 
             Return rows
+        End Function
+
+        ''' <summary>
+        ''' 计算表达向量的样本标准差(ddof = n - 1)。
+        ''' 
+        ''' 这里刻意使用与 <see cref="Standardize"/> 相同的自由度约定：
+        ''' z-score 标准化之后的标准差恰好为 1，因此 <see cref="Baseline"/> 与
+        ''' <see cref="BaselineSD"/> 可以互相校验。
+        ''' </summary>
+        ''' <param name="v">表达向量</param>
+        ''' <returns>样本数量不足 2 的时候返回零</returns>
+        Private Shared Function SampleStandardDeviation(v As Double()) As Double
+            If v Is Nothing OrElse v.Length < 2 Then
+                Return 0
+            End If
+
+            Dim mean As Double = v.Average
+            Dim sum As Double = 0
+
+            For i As Integer = 0 To v.Length - 1
+                sum += (v(i) - mean) ^ 2
+            Next
+
+            Return std.Sqrt(sum / (v.Length - 1))
         End Function
 
         ''' <summary>
