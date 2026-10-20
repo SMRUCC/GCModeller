@@ -290,9 +290,6 @@ declare namespace GPS {
      *  in ``[0, 1)``. Default 0.15.
      * 
      * + default value Is ``0.15``.
-     * @param printEvery print the loss every ``printEvery`` epochs; ``0`` keeps the training silent. Default 5.
-     * 
-     * + default value Is ``5``.
      * @param trainRatio fraction of the sliding windows used for training; the split is always performed in time
      *  order, never randomly. Default 0.7.
      * 
@@ -345,7 +342,7 @@ declare namespace GPS {
      * + default value Is ``null``.
      * @return a validated [GPSConfig](cref:T:SMRUCC.genomics.Analysis.GPS.Config.GPSConfig) object
    */
-   function gps_config(maxGenes?: object, cpmNormalize?: boolean, logTransform?: boolean, zScore?: boolean, peDim?: object, spdMaxDist?: object, coexpressionTopK?: object, minCoexpression?: number, dModel?: object, nLayers?: object, nHeads?: object, ffnDim?: object, dropout?: number, geneEmbedDim?: object, useSpdBias?: boolean, useGlobalAttention?: boolean, useLocalMpnn?: boolean, window?: object, gruHidden?: object, useUncertainty?: boolean, pretrainEpochs?: object, finetuneEpochs?: object, learningRate?: number, autofocusGamma?: number, lambdaDir?: number, lambdaL1?: number, lambdaPrior?: number, gradientClip?: number, earlyStopPatience?: object, maskRatio?: number, printEvery?: object, trainRatio?: number, validationRatio?: number, seed?: object, significanceZScore?: number, cascadeSteps?: object, CheckpointIntervalEpochs?: object, denseAttentionMaxNodes?: object, attentionNeighbors?: object, attentionRandomLinks?: object, attentionHubGenes?: object, knockdownResidual?: number, env?: object): object;
+   function gps_config(maxGenes?: object, cpmNormalize?: boolean, logTransform?: boolean, zScore?: boolean, peDim?: object, spdMaxDist?: object, coexpressionTopK?: object, minCoexpression?: number, dModel?: object, nLayers?: object, nHeads?: object, ffnDim?: object, dropout?: number, geneEmbedDim?: object, useSpdBias?: boolean, useGlobalAttention?: boolean, useLocalMpnn?: boolean, window?: object, gruHidden?: object, useUncertainty?: boolean, pretrainEpochs?: object, finetuneEpochs?: object, learningRate?: number, autofocusGamma?: number, lambdaDir?: number, lambdaL1?: number, lambdaPrior?: number, gradientClip?: number, earlyStopPatience?: object, maskRatio?: number, trainRatio?: number, validationRatio?: number, seed?: object, significanceZScore?: number, cascadeSteps?: object, CheckpointIntervalEpochs?: object, denseAttentionMaxNodes?: object, attentionNeighbors?: object, attentionRandomLinks?: object, attentionHubGenes?: object, knockdownResidual?: number, env?: object): object;
    /**
     * Get or set the fraction of the wild type expression that is kept by an in silico knockdown.
     * 

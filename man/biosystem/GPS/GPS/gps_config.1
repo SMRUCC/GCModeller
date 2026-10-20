@@ -33,7 +33,6 @@ gps_config \- Create a GPS model hyper-parameter configuration object.
 \fBgradientClip\fR as double = 1, 
 \fBearlyStopPatience\fR as integer = 15, 
 \fBmaskRatio\fR as double = 0.15, 
-\fBprintEvery\fR as integer = 5, 
 \fBtrainRatio\fR as double = 0.7, 
 \fBvalidationRatio\fR as double = 0.15, 
 \fBseed\fR as integer = 2024, 
@@ -227,11 +226,6 @@ Create a GPS model hyper-parameter configuration object.
 \fBmaskRatio\fB \fR\- 
  fraction of genes whose last time frame is masked during the pre-training stage; must be
  in \fB[0, 1)\fR. Default 0.15.
-. 
-.PP
-.PP
-\fBprintEvery\fB \fR\- 
- print the loss every \fBprintEvery\fR epochs; \fB0\fR keeps the training silent. Default 5.
 . 
 .PP
 .PP
