@@ -58,6 +58,20 @@ Namespace LinearRegression
         Public Property intercept As Double
 
         ''' <summary>
+        ''' 产生这条边的弹性网络模型所使用的总正则化强度，
+        ''' 非弹性网络的求解方法之下这个数值为零。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property alpha As Double
+
+        ''' <summary>
+        ''' 产生这条边的弹性网络模型所使用的 L1 混合比例，
+        ''' 非弹性网络的求解方法之下这个数值为零。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property l1Ratio As Double
+
+        ''' <summary>
         ''' 回归系数的绝对值
         ''' </summary>
         ''' <returns></returns>

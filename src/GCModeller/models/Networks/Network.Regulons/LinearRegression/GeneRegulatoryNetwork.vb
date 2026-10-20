@@ -4,6 +4,7 @@ Imports System.Text
 Imports System.Threading.Tasks
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data
+Imports Microsoft.VisualBasic.Data.Bootstrapping.ElasticNet
 Imports Microsoft.VisualBasic.Data.Bootstrapping.LASSO
 Imports Microsoft.VisualBasic.Data.Bootstrapping.Multivariate
 Imports Microsoft.VisualBasic.Linq
@@ -70,6 +71,16 @@ Namespace LinearRegression
         ''' 拟合好的模型，键名是目标基因的编号
         ''' </summary>
         ReadOnly modelTable As New Dictionary(Of String, GeneRegressionModel)
+
+        ''' <summary>
+        ''' 全局交叉验证模式之下解析出来的共享 alpha，小于等于零表示没有启用该模式
+        ''' </summary>
+        Private cvAlpha As Double = -1
+
+        ''' <summary>
+        ''' 全局交叉验证模式之下解析出来的共享 L1 混合比例
+        ''' </summary>
+        Private cvL1Ratio As Double = -1
 
         ''' <summary>
         ''' 从表达矩阵构造一个待拟合的调控网络推断模型
@@ -181,10 +192,26 @@ Namespace LinearRegression
                 .MaxDegreeOfParallelism = opt.maxDegreeOfParallelism
             }
 
+            If opt.method = FittingMethod.ElasticNet Then
+                Call opt.elasticNet.Validate()
+
+                If opt.elasticNet.mode = ElasticNetMode.GlobalCrossValidation Then
+                    ' 全局交叉验证需要在逐基因拟合之前先解析出共享的超参数
+                    Dim hyper = ResolveElasticNetHyperparameters(maxCand)
+
+                    cvAlpha = hyper.alpha
+                    cvL1Ratio = hyper.l1Ratio
+                End If
+            End If
+
             If Not opt.silent Then
                 Call Console.WriteLine($"[GRN] {opt.ToString}")
                 Call Console.WriteLine($"[GRN] {geneNames.Length} genes x {sampleNames.Length} samples, " &
                                        $"<= {maxCand} candidate regulators for each target gene")
+
+                If opt.method = FittingMethod.ElasticNet AndAlso opt.elasticNet.mode = ElasticNetMode.GlobalCrossValidation Then
+                    Call Console.WriteLine($"[GRN] elastic net global cv: alpha={cvAlpha.ToString("G4")}, l1_ratio={cvL1Ratio.ToString("G4")}")
+                End If
             End If
 
             modelTable.Clear()
@@ -266,6 +293,8 @@ Namespace LinearRegression
                         .weight = w,
                         .intercept = model.intercept,
                         .r2 = model.r2,
+                        .alpha = model.alpha,
+                        .l1Ratio = model.l1Ratio,
                         .interaction = opt.method.ToString(),
                         .pvalue = If(model.pvalues Is Nothing, 1, model.pvalues(i))
                     }
@@ -317,8 +346,17 @@ Namespace LinearRegression
                 })
             Next
 
+            Dim tag As String = $"GRN.{opt.method}"
+
+            If opt.method = FittingMethod.ElasticNet Then
+                ' 全局交叉验证模式下真正生效的是解析出来的 l1_ratio
+                Dim ratio As Double = If(cvL1Ratio > 0, cvL1Ratio, opt.elasticNet.l1Ratio)
+
+                tag = $"GRN.ElasticNet(l1_ratio={ratio.ToString("G4")}, mode={opt.elasticNet.mode})"
+            End If
+
             Return New Matrix With {
-                .tag = $"GRN.{opt.method}",
+                .tag = tag,
                 .sampleID = regulators,
                 .expression = rows.ToArray
             }
@@ -340,11 +378,11 @@ Namespace LinearRegression
                 .ToArray
             Dim csv As New StringBuilder()
 
-            Call csv.AppendLine("regulator,target,weight,abs_weight,intercept,r2,pvalue,interaction")
+            Call csv.AppendLine("regulator,target,weight,abs_weight,intercept,r2,pvalue,alpha,l1_ratio,interaction")
 
             For Each edge As RegulationEdge In edges
                 Call csv.AppendLine($"{edge.regulator},{edge.target},{edge.weight},{edge.absWeight}," &
-                                    $"{edge.intercept},{edge.r2},{edge.pvalue},""{edge.interaction}""")
+                                    $"{edge.intercept},{edge.r2},{edge.pvalue},{edge.alpha},{edge.l1Ratio},""{edge.interaction}""")
             Next
 
             Dim dir As String = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(path))
@@ -415,18 +453,33 @@ Namespace LinearRegression
         Private Function CandidateBudget() As Integer
             Dim nS As Integer = sampleNames.Length
             Dim poolSize As Integer = regulatorPool.Length
-            Dim hard As Integer = nS - 2
             Dim k As Integer
 
-            If opt.maxCandidates > 0 Then
-                k = opt.maxCandidates
-            Else
-                k = CInt(std.Floor(nS * opt.candidateSampleRatio))
-            End If
+            If opt.method = FittingMethod.ElasticNet Then
+                ' 弹性网络没有「自变量个数必须小于样本数量」的限制，候选数量只受
+                ' 计算预算约束(每一次求解都会在内部复制一份 n x p 的设计矩阵)
+                Dim budget As Integer = If(opt.elasticNet.maxCandidates > 0, opt.elasticNet.maxCandidates, poolSize - 1)
 
-            ' 目标基因自身不会被作为候选调控因子，因此候选池的上限需要先扣除掉自身
-            k = std.Min(k, poolSize - 1)
-            k = std.Min(k, hard)
+                If opt.maxCandidates > 0 Then
+                    k = std.Min(opt.maxCandidates, budget)
+                Else
+                    k = budget
+                End If
+
+                k = std.Min(k, poolSize - 1)
+            Else
+                Dim hard As Integer = nS - 2
+
+                If opt.maxCandidates > 0 Then
+                    k = opt.maxCandidates
+                Else
+                    k = CInt(std.Floor(nS * opt.candidateSampleRatio))
+                End If
+
+                ' 目标基因自身不会被作为候选调控因子，因此候选池的上限需要先扣除掉自身
+                k = std.Min(k, poolSize - 1)
+                k = std.Min(k, hard)
+            End If
 
             If k < 1 Then
                 Throw New ArgumentException(
@@ -438,7 +491,7 @@ Namespace LinearRegression
 
             If poolSize - 1 > k AndAlso Not opt.silent Then
                 Call Console.WriteLine($"[GRN] the candidate regulator size is truncated " &
-                                       $"from {poolSize - 1} to {k} for the sample size {nS}")
+                                       $"from {poolSize - 1} to {k}")
             End If
 
             Return k
@@ -463,11 +516,14 @@ Namespace LinearRegression
                     candidates = TopCorrelated(target, candidates, maxCand)
                 End If
 
-                If opt.method = FittingMethod.Lasso Then
-                    Return FitLasso(name, y, candidates)
-                Else
-                    Return FitOls(name, y, candidates)
-                End If
+                Select Case opt.method
+                    Case FittingMethod.Lasso
+                        Return FitLasso(name, y, candidates)
+                    Case FittingMethod.ElasticNet
+                        Return FitElasticNet(name, y, candidates)
+                    Case Else
+                        Return FitOls(name, y, candidates)
+                End Select
             Catch ex As Exception
                 Return New GeneRegressionModel With {
                     .target = name,
@@ -687,6 +743,165 @@ Namespace LinearRegression
             Return model
         End Function
 
+        ''' <summary>
+        ''' 使用弹性网络(Elastic Net)拟合单个目标基因
+        ''' </summary>
+        ''' <param name="name">目标基因的编号</param>
+        ''' <param name="y">目标基因的表达向量</param>
+        ''' <param name="candidates">候选调控因子在表达矩阵之中的行下标</param>
+        ''' <returns></returns>
+        Private Function FitElasticNet(name As String, y As Double(), candidates As Integer()) As GeneRegressionModel
+            If candidates.Length = 0 Then
+                Return Failed(name, "there is no candidate regulator for the elastic net fit")
+            End If
+
+            Dim featureNames As String() = Nothing
+            Dim columns As Double()() = Nothing
+            ' 弹性网络的截距不会被惩罚，因此设计矩阵不需要常数项列
+            Call BuildDesign(candidates, withIntercept:=False, featureNames:=featureNames, columns:=columns)
+
+            Dim X As Double()() = ToRows(columns, sampleNames.Length)
+            Dim result As ElasticNetFitResult
+
+            Select Case opt.elasticNet.mode
+                Case ElasticNetMode.PerGeneCrossValidation
+                    result = ElasticNetRegressor.FitByCrossValidation(
+                        X, y, featureNames, opt.elasticNet, opt.maxRegulatorsPerGene)
+                Case ElasticNetMode.GlobalCrossValidation
+                    result = ElasticNetRegressor.FitFixed(
+                        X, y, featureNames, opt.elasticNet, cvAlpha, cvL1Ratio, opt.maxRegulatorsPerGene)
+                Case Else
+                    result = ElasticNetRegressor.FitByPath(
+                        X, y, featureNames, opt.elasticNet, opt.maxRegulatorsPerGene)
+            End Select
+
+            If result Is Nothing Then
+                Return Failed(name, "the elastic net solver returns no solution")
+            End If
+
+            Dim model As New GeneRegressionModel With {
+                .target = name,
+                .method = FittingMethod.ElasticNet,
+                .N = sampleNames.Length,
+                .intercept = result.Intercept,
+                .regulators = featureNames,
+                .weights = result.Weights,
+                .r2 = result.R2,
+                .sse = result.SSE,
+                .sst = result.SST,
+                .alpha = result.Alpha,
+                .l1Ratio = result.L1Ratio,
+                .df = -1
+            }
+
+            ' 弹性网络不提供显著性检验(与 LASSO 一致)
+            model.pvalues = Enumerable.Repeat(1.0R, featureNames.Length).ToArray
+
+            If Not opt.silent Then
+                Call Console.WriteLine($"  [EN] {model.ToString}")
+            End If
+
+            Return model
+        End Function
+
+        ''' <summary>
+        ''' 解析全局交叉验证模式之下的共享超参数
+        ''' 
+        ''' 按照表达方差从大到小挑选若干代表性基因(与其它基因相比，
+        ''' 表达变化剧烈的基因更容易给出稳定的模型)，对它们逐一做交叉验证，
+        ''' 然后取超参数的中位数。单个基因失败不会影响整体。
+        ''' </summary>
+        ''' <param name="maxCand">允许的候选调控因子数量的上限</param>
+        ''' <returns>共享的 (alpha, l1_ratio)；解析失败的时候 alpha 为 -1</returns>
+        Private Function ResolveElasticNetHyperparameters(maxCand As Integer) As (alpha As Double, l1Ratio As Double)
+            Dim replicates As Integer() = Enumerable _
+                .Range(0, geneNames.Length) _
+                .OrderByDescending(Function(i) Variance(vectors(i))) _
+                .Take(opt.elasticNet.globalCVReplicates) _
+                .ToArray
+            Dim results As New List(Of ElasticNetCVResult)
+
+            For Each target As Integer In replicates
+                Try
+                    Dim candidates As Integer() = regulatorPool _
+                        .Where(Function(j) j <> target) _
+                        .ToArray
+
+                    If candidates.Length > maxCand OrElse opt.minAbsCorrelation > 0 Then
+                        candidates = TopCorrelated(target, candidates, maxCand)
+                    End If
+                    If candidates.Length = 0 Then
+                        Continue For
+                    End If
+
+                    Dim featureNames As String() = Nothing
+                    Dim columns As Double()() = Nothing
+
+                    Call BuildDesign(candidates, withIntercept:=False, featureNames:=featureNames, columns:=columns)
+
+                    Dim X As Double()() = ToRows(columns, sampleNames.Length)
+                    Dim cv As ElasticNetCVResult = ElasticNetRegressor.CrossValidateOnce(X, vectors(target), featureNames, opt.elasticNet)
+
+                    If cv IsNot Nothing AndAlso cv.Fit IsNot Nothing Then
+                        Call results.Add(cv)
+                    End If
+                Catch ex As Exception
+                    ' 单个基因的交叉验证失败不影响整体的超参数估计
+                    If Not opt.silent Then
+                        Call Console.WriteLine($"[GRN] the elastic net cv of gene '{geneNames(target)}' is failed: {ex.Message}")
+                    End If
+                End Try
+            Next
+
+            Return ElasticNetRegressor.MedianHyperparameters(results)
+        End Function
+
+        ''' <summary>
+        ''' 把按列组织的设计矩阵转换为按行组织的设计矩阵
+        ''' 
+        ''' 弹性网络的求解器使用的是 ``x(样本)(特征)`` 的锯齿数组，而
+        ''' <see cref="BuildDesign"/> 返回的是按列组织的矩阵。
+        ''' </summary>
+        ''' <param name="columns">按列组织的设计矩阵</param>
+        ''' <param name="nSamples">样本数量</param>
+        ''' <returns></returns>
+        Private Shared Function ToRows(columns As Double()(), nSamples As Integer) As Double()()
+            Dim p As Integer = columns.Length
+            Dim rows As Double()() = New Double(nSamples - 1)() {}
+
+            For s As Integer = 0 To nSamples - 1
+                Dim row As Double() = New Double(p - 1) {}
+
+                For j As Integer = 0 To p - 1
+                    row(j) = columns(j)(s)
+                Next
+
+                rows(s) = row
+            Next
+
+            Return rows
+        End Function
+
+        ''' <summary>
+        ''' 计算表达向量的方差，用于挑选全局交叉验证的代表性基因
+        ''' </summary>
+        ''' <param name="v">表达向量</param>
+        ''' <returns></returns>
+        Private Shared Function Variance(v As Double()) As Double
+            If v Is Nothing OrElse v.Length = 0 Then
+                Return 0
+            End If
+
+            Dim mean As Double = v.Average
+            Dim sum As Double = 0
+
+            For i As Integer = 0 To v.Length - 1
+                sum += (v(i) - mean) ^ 2
+            Next
+
+            Return sum / v.Length
+        End Function
+
         Private Function Failed(name As String, message As String) As GeneRegressionModel
             Return New GeneRegressionModel With {
                 .target = name,
@@ -770,6 +985,8 @@ Namespace LinearRegression
                     .weight = (edge.weight + reversed.weight) / 2,
                     .intercept = edge.intercept,
                     .r2 = std.Max(edge.r2, reversed.r2),
+                    .alpha = edge.alpha,
+                    .l1Ratio = edge.l1Ratio,
                     .pvalue = std.Max(edge.pvalue, reversed.pvalue),
                     .interaction = "mutual"
                 }

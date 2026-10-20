@@ -110,6 +110,18 @@ Namespace LinearRegression
         Public Property lambda As Double
 
         ''' <summary>
+        ''' 弹性网络所选用的总正则化强度，其它求解方法之下这个数值为零。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property alpha As Double
+
+        ''' <summary>
+        ''' 弹性网络所选用的 L1 混合比例，其它求解方法之下这个数值为零。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property l1Ratio As Double
+
+        ''' <summary>
         ''' 拟合失败的时候的异常信息，求解成功的时候为空字符串
         ''' </summary>
         ''' <returns></returns>
@@ -247,7 +259,16 @@ Namespace LinearRegression
                 Call formula.Append("*" & coef.Name)
             Next
 
-            Call formula.Append($"   [R2={r2.ToString("F4")}]")
+            Call formula.Append($"   [R2={r2.ToString("F4")}")
+
+            Select Case method
+                Case FittingMethod.ElasticNet
+                    Call formula.Append($", alpha={alpha.ToString("G4")}, l1_ratio={l1Ratio.ToString("G4")}")
+                Case FittingMethod.Lasso
+                    Call formula.Append($", lambda={lambda.ToString("G4")}")
+            End Select
+
+            Call formula.Append("]")
 
             Return formula.ToString
         End Function

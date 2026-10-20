@@ -39,6 +39,20 @@ Namespace LinearRegression
         ''' LASSO 不提供显著性检验，其 ``pvalue`` 统一写为 ``1``。
         ''' </remarks>
         Lasso = 1
+
+        ''' <summary>
+        ''' 弹性网络(L1 + L2 正则化)，兼具 LASSO 的稀疏性与 Ridge 的稳定性。
+        ''' </summary>
+        ''' <remarks>
+        ''' L2 惩罚项在基因高度共线的时候给出分组效应(一组相关的基因要么一起被保留、
+        ''' 要么一起被剔除)，并且允许自变量个数大于样本数量，因此特别适合
+        ''' 基因表达数据之上的调控网络推断。
+        ''' 
+        ''' 具体的超参数(``l1_ratio``、alpha 的确定方式)由
+        ''' <see cref="GrnFittingOptions.elasticNet"/> 控制；该方法同样不提供
+        ''' 显著性检验，其 ``pvalue`` 统一写为 ``1``。
+        ''' </remarks>
+        ElasticNet = 2
     End Enum
 
     ''' <summary>
@@ -51,6 +65,12 @@ Namespace LinearRegression
         ''' </summary>
         ''' <returns></returns>
         Public Property method As FittingMethod = FittingMethod.MultipleLinear
+
+        ''' <summary>
+        ''' 弹性网络的超参数配置，只在 <see cref="FittingMethod.ElasticNet"/> 模式下生效。
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property elasticNet As New ElasticNetOptions()
 
         ''' <summary>
         ''' 每一个目标基因最多纳入多少个候选调控因子。
@@ -156,9 +176,14 @@ Namespace LinearRegression
         ''' <returns></returns>
         Public Overrides Function ToString() As String
             Dim regs As String = If(regulators Is Nothing, "(all genes)", $"{regulators.Length} regulator genes")
-
-            Return $"[{method}] candidates={If(maxCandidates > 0, maxCandidates.ToString, $"auto({candidateSampleRatio})")}, " &
+            Dim summary As String = $"[{method}] candidates={If(maxCandidates > 0, maxCandidates.ToString, $"auto({candidateSampleRatio})")}, " &
                    $"|r|>={minAbsCorrelation}, regulators={regs}, standardize={standardize}"
+
+            If method = FittingMethod.ElasticNet Then
+                summary &= ", " & elasticNet.ToString
+            End If
+
+            Return summary
         End Function
     End Class
 End Namespace
