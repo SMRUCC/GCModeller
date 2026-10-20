@@ -66,6 +66,9 @@
   <Project Path="Network.Regulons/Network.Regulons.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="Network.Regulons.Cuda/Network.Regulons.Cuda.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
   <Project Path="Network.Regulons/test/test.vbproj">
     <BuildType Solution="gcmodeller_desktop|*" Project="Release" />
     <BuildType Solution="LipidSearch|*" Project="Debug" />

@@ -3904,6 +3904,9 @@
       <Platform Solution="*|x64" Project="x64" />
       <Platform Solution="*|x86" Project="x86" />
     </Project>
+    <Project Path="GCModeller/models/Networks/Network.Regulons.Cuda/Network.Regulons.Cuda.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="GCModeller/models/RouterAdapter/RouterAdapter.vbproj">
       <BuildType Solution="BioDeep_database|*" Project="Release" />
       <BuildType Solution="Biodeep_UNIX_x64|*" Project="Release" />
